@@ -18,7 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
 require('./services/jwtStrategy');
-require('./services/facebookStrategy');
 require('./services/googleStrategy');
 require('./services/localStrategy');
 
@@ -37,7 +36,7 @@ mongoose
   })
   .then(() => {
     console.log('MongoDB Connected...');
-    seedDb();
+    // seedDb();
   })
   .catch((err) => console.log(err));
 

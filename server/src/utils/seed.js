@@ -11,7 +11,6 @@ export const seedDb = async () => {
   await User.deleteMany({});
   await Message.deleteMany({});
   await deleteAllAvatars(join(__dirname, '../..', process.env.IMAGES_FOLDER_PATH));
-
   // create 3 users
   const usersPromises = [...Array(3).keys()].map((index, i) => {
     const user = new User({
@@ -34,6 +33,7 @@ export const seedDb = async () => {
   });
 
   await Promise.all(
+
     usersPromises.map(async (user) => {
       await user.save();
     }),
