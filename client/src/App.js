@@ -21,7 +21,6 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
     loadMe();
   }, [loadMe]);
 
-  //redosled hookova
   useEffect(() => {
     if (window.location.hash === '#_=_') window.location.hash = '';
 

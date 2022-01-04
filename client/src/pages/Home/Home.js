@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 import MessageList from '../../components/MessageList/MessageList';
 import MessageForm from '../../components/MessageForm/MessageForm';
+import Video from '../../components/Video/Video';
+
 import { reseedDatabase } from '../../store/actions/authActions';
 
 import './styles.css';
@@ -31,6 +33,7 @@ const Home = ({ auth, reseedDatabase }) => {
   return (
     <Layout>
       <div className="home-page">
+        <Video/>
         <h1>Home page</h1>
         {!auth.isAuthenticated ? (
           <div>
