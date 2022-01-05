@@ -35,15 +35,6 @@ Live demo is available here: **[Demo](https://mern-boilerplate-demo.herokuapp.co
   - Loading states with Loader component
   - Single config file within `/constants` folder
 
-## Installation
-
-Read on on how to set up this for development. Clone the repo.
-
-```
-$ git clone https://github.com/nemanjam/mern-boilerplate.git
-$ cd mern-boilerplate
-```
-
 ### Server
 
 #### .env file
@@ -66,9 +57,9 @@ JWT_SECRET_PROD=
 
 #site urls
 CLIENT_URL_DEV=http://localhost:3000
-CLIENT_URL_PROD=http://mern-boilerplate-demo.herokuapp.com
+CLIENT_URL_PROD=http://homemadearcade.herokuapp.com
 SERVER_URL_DEV=https://localhost:5000
-SERVER_URL_PROD=https://mern-boilerplate-demo.herokuapp.com
+SERVER_URL_PROD=https://homemadearcade.herokuapp.com
 
 #img folder path
 IMAGES_FOLDER_PATH=/public/images/
@@ -76,7 +67,7 @@ IMAGES_FOLDER_PATH=/public/images/
 
 #### Generate certificates
 
-Facebook OAuth requires that your server runs on `https` in development as well, so you need to generate certificates. Go to `/server/security` folder and run this.
+OAuth requires that your server runs on `https` in development as well, so you need to generate certificates. Go to `/server/security` folder and run this.
 
 ```
 $ cd server/security
@@ -109,20 +100,6 @@ $ npm start
 ```
 
 That's it as far for development setup. For production check the `Deployment on Heroku` section.
-
-## Screenshots
-
-![Screenshot1](/screenshots/Screenshot_1.png)
-
-![Screenshot2](/screenshots/Screenshot_2.png)
-
-![Screenshot3](/screenshots/Screenshot_3.png)
-
-![Screenshot4](/screenshots/Screenshot_4.png)
-
-![Screenshot5](/screenshots/Screenshot_5.png)
-
-![Screenshot6](/screenshots/Screenshot_6.png)
 
 ## Deployment on Heroku
 
@@ -213,22 +190,5 @@ Before all this happens Heroku needs to install the dependencies for both server
 Before you push to production you'll need to set your URLs in `client/constants`. That's it.
 
 ```javascript
-export const FACEBOOK_AUTH_LINK =
-  "https://my-own-app.herokuapp.com/auth/facebook";
 export const GOOGLE_AUTH_LINK = "https://my-own-app.herokuapp.com/auth/google";
 ```
-
-## References
-
-- Brad Traversy [Dev connector 2.0](https://github.com/bradtraversy/devconnector_2.0)
-- Brad Traversy [Learn The MERN Stack Youtube playlist](https://www.youtube.com/watch?v=PBTYxXADG_k&list=PLillGF-RfqbbiTGgA77tGO426V3hRF9iE)
-- Thinkster [react-redux-realworld-example-app](https://github.com/gothinkster/react-redux-realworld-example-app)
-- Thinkster [
-  node-express-realworld-example-app ](https://github.com/gothinkster/node-express-realworld-example-app)
-- Quinston Pimenta [Deploy React with Node (Express, configured for ES6, Babel) to Heroku (without babel-node)](https://www.youtube.com/watch?v=mvI25HLDfR4)
-
-- Kim Nguyen [How to Deploy ES6 Node.js & Express back-end to Heroku](https://medium.com/@kimtnguyen/how-to-deploy-es6-node-js-express-back-end-to-heroku-7e6743e8d2ff)
-
-## Licence
-
-### MIT
