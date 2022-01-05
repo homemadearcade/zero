@@ -9,6 +9,8 @@ import { useFormik } from 'formik';
 
 import { registerUserWithEmail } from '../../store/actions/registerActions';
 import { registerSchema } from './validation';
+import { GOOGLE_AUTH_LINK } from '../../constants';
+
 import './styles.css';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail }) => {
@@ -37,8 +39,13 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
             Home page
           </Link>
         </p>
+        <a className="google btn" href={GOOGLE_AUTH_LINK}>
+            <i className="fa fa-google fa-fw" />
+            Register with Google
+        </a>
+        <h2>Register</h2>
         <form onSubmit={formik.handleSubmit} noValidate>
-          <h2>Create new account</h2>
+
           <div>
             <input
               placeholder="Name"

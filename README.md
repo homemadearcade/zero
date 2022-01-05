@@ -4,7 +4,7 @@ This is fullstack boilerplate with React, Redux, Express, Mongoose and Passport.
 
 ## Demo
 
-Live demo is available here: **[Demo](https://mern-boilerplate-demo.herokuapp.com/)**
+Live demo is available here: **[Demo](https://homemadearcade.herokuapp.com/)**
 
 ## Features
 

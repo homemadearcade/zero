@@ -67,7 +67,7 @@ const Profile = ({
     validationSchema: profileSchema,
     onSubmit: (values) => {
       const formData = new FormData();
-      formData.append('avatar', avatar);
+      // formData.append('avatar', avatar);
       formData.append('name', values.name);
       formData.append('username', values.username);
       if (profile.provider === 'email') {
@@ -81,16 +81,15 @@ const Profile = ({
   return (
     <Layout>
       <div className="profile">
-        <h1>Profile page</h1>
+        <h1>Me</h1>
         <p>
-          This is the profile page. User can edit his own profile and Admin can edit any user's
-          profile. Only authenticated users can see this page.
+          This is all your profile information. You can edit your profile here.
         </p>
         {isLoading ? (
           <Loader />
         ) : (
           <div className="profile-info">
-            <img src={image ? image : profile.avatar} className="avatar" />
+            {null && <img src={image ? image : profile.avatar} className="avatar" />}
             <div className="info-container">
               <div>
                 <span className="label">Provider: </span>
@@ -138,8 +137,10 @@ const Profile = ({
           <div className="form">
             <form onSubmit={formik.handleSubmit}>
               <div>
-                <label>Avatar:</label>
-                <input name="image" type="file" onChange={onChange} />
+                {null && <>
+                  <label>Avatar:</label>
+                  <input name="image" type="file" onChange={onChange} />
+                </>}
                 {image && (
                   <button
                     className="btn"

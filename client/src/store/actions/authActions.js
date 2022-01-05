@@ -48,7 +48,7 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
 
     dispatch(loadMe());
     history.push('/');
-  } catch (err) {
+  } catch (err) {    
     dispatch({
       type: LOGIN_WITH_EMAIL_FAIL,
       payload: { error: err.response.data.message },

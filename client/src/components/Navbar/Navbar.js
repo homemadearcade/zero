@@ -14,7 +14,6 @@ const Navbar = ({ auth, logOutUser, history }) => {
 
   return (
     <nav className="navbar">
-      <h2 className="logo">MERN Boilerplate</h2>
       <ul className="nav-links flex-1">
         <li className="nav-item">
           <Link to="/">Home</Link>
@@ -22,10 +21,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
         {auth.isAuthenticated ? (
           <>
             <li className="nav-item">
-              <Link to="/users">Users</Link>
-            </li>
-            <li className="nav-item">
-              <Link to={`/${auth.me.username}`}>Profile</Link>
+              <Link to={`/${auth.me.username}`}>Me</Link>
             </li>
             {auth.me?.role === 'ADMIN' && (
               <li className="nav-item">
@@ -33,7 +29,6 @@ const Navbar = ({ auth, logOutUser, history }) => {
               </li>
             )}
             <li className="flex-1" />
-            <img className="avatar" src={auth.me.avatar} />
             <li className="nav-item" onClick={onLogOut}>
               <a href="#">Log out</a>
             </li>

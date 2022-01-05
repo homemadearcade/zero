@@ -8,6 +8,12 @@
   flex: 1;
 }
 
+.register .google {
+  background-color: #dd4b39;
+  color: white;
+  display: block;
+}
+
 .register .submit {
   background-color: gray;
   color: white;

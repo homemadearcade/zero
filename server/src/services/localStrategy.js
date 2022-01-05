@@ -24,6 +24,10 @@ const passportLogin = new PassportLocalStrategy(
         return done(null, false, { message: 'Email does not exists.' });
       }
 
+      if (!user.password) {
+        return done(null, false, { message: 'Try Login with Google' });
+      }
+
       user.comparePassword(password, function (err, isMatch) {
         if (err) {
           return done(err);

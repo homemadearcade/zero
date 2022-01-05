@@ -37,12 +37,11 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
           </Link>
         </p>
         <form onSubmit={formik.handleSubmit}>
-          <h2>Log in with social media</h2>
           <a className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Login with Google
           </a>
-          <h2>Login with email address</h2>
+          <h2>Login</h2>
           <p className="logins">Admin: email0@email.com 123456789</p>
           <p className="logins">User: email1@email.com 123456789</p>
           <div>
