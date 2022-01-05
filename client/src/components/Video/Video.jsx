@@ -9,6 +9,8 @@ import {
   IMicrophoneAudioTrack,
 } from "agora-rtc-react";
 
+import './styles.scss'
+
 const config = { 
   mode: "rtc", codec: "vp8",
 };
@@ -48,7 +50,7 @@ const VideoCall = (props) => {
 
   useEffect(() => {
     // function to initialise the SDK
-    let init = async (name) => {
+    let init = async (channelName) => {
       client.on("user-published", async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         console.log("subscribe success");
@@ -58,14 +60,14 @@ const VideoCall = (props) => {
           });
         }
         if (mediaType === "audio") {
-          user.audioTrack.play();
+          if(user.audioTrack) user.audioTrack.play();
         }
       });
 
       client.on("user-unpublished", (user, type) => {
         console.log("unpublished", user, type);
         if (type === "audio") {
-          user.audioTrack.stop();
+          if(user.audioTrack) user.audioTrack.stop();
         }
         if (type === "video") {
           setUsers((prevUsers) => {
@@ -81,11 +83,9 @@ const VideoCall = (props) => {
         });
       });
 
-      await client.join(appId, name, token, null);
+      await client.join(appId, channelName, token, 100);
       if (tracks) await client.publish([tracks[0], tracks[1]]);
-      console.log('XX')
       setStart(true);
-
     };
 
     if (ready && tracks) {
