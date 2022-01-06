@@ -18,7 +18,7 @@ export const seedDb = async () => {
       username: `user${index}`,
       email: `email${index}@email.com`,
       password: '123456789',
-      name: faker.name.findName(),
+      // name: faker.name.findName(),
       // avatar: faker.image.avatar(),
       avatar: `avatar${index}.jpg`,
       bio: faker.lorem.sentences(3),

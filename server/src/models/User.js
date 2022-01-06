@@ -36,7 +36,6 @@ const userSchema = new Schema(
       minlength: 6,
       maxlength: 60,
     },
-    name: String,
     avatar: String,
     role: { type: String, default: 'USER' },
     bio: String,
@@ -74,7 +73,7 @@ userSchema.methods.toJSON = function () {
     email: this.email,
     username: this.username,
     avatar: avatar,
-    name: this.name,
+    // name: this.name,
     role: this.role,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
@@ -135,7 +134,7 @@ export async function hashPassword(password) {
 export const validateUser = (user) => {
   const schema = {
     avatar: Joi.any(),
-    name: Joi.string().min(2).max(30).required(),
+    // name: Joi.string().min(2).max(30).required(),
     username: Joi.string()
       .min(2)
       .max(20)

@@ -29,9 +29,8 @@ const googleLogin = new GoogleStrategy(
       const newUser = await new User({
         provider: 'google',
         googleId: profile.id,
-        username: `user${profile.id}`,
+        username: profile.displayName,
         email: profile.email,
-        name: profile.displayName,
         avatar: profile.picture,
       }).save();
       done(null, newUser);

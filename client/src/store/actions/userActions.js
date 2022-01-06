@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import { attachTokenToHeaders } from './authActions';
 import {
-  GET_PROFILE_LOADING,
-  GET_PROFILE_SUCCESS,
-  GET_PROFILE_FAIL,
+  GET_USER_LOADING,
+  GET_USER_SUCCESS,
+  GET_USER_FAIL,
   EDIT_USER_LOADING,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAIL,
@@ -38,24 +38,24 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
   }
 };
 
-export const getProfile = (username, history) => async (dispatch, getState) => {
+export const getUser = (username, history) => async (dispatch, getState) => {
   dispatch({
-    type: GET_PROFILE_LOADING,
+    type: GET_USER_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get(`/api/users/${username}`, options);
 
     dispatch({
-      type: GET_PROFILE_SUCCESS,
-      payload: { profile: response.data.user },
+      type: GET_USER_SUCCESS,
+      payload: { user: response.data.user },
     });
   } catch (err) {
     if (err?.response.status === 404) {
       history.push('/notfound');
     }
     dispatch({
-      type: GET_PROFILE_FAIL,
+      type: GET_USER_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }

@@ -6,7 +6,6 @@ export const loginSchema = Joi.object().keys({
 });
 
 export const registerSchema = Joi.object().keys({
-  name: Joi.string().trim().min(2).max(30).required(),
   username: Joi.string()
     .trim()
     .min(2)

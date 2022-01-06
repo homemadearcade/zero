@@ -1,10 +1,6 @@
 import * as Yup from 'yup';
 
-export const profileSchema = Yup.object({
-  name: Yup.string()
-    .min(2, 'Must be 2 characters at minimum')
-    .max(30, 'Must be 30 characters or less')
-    .required(),
+export const userSchema = Yup.object({
   username: Yup.string()
     .min(2, 'Must be 2 characters at minimum')
     .max(20, 'Must be 20 characters or less')

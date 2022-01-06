@@ -20,10 +20,15 @@ const Navbar = ({ auth, logOutUser, history }) => {
         </li>
         {auth.isAuthenticated ? (
           <>
-            <li className="nav-item">
-              <Link to={`/${auth.me.username}`}>Me</Link>
-            </li>
             {auth.me?.role === 'ADMIN' && (
+              <li className="nav-item">
+                <Link to="/users">Users</Link>
+              </li>
+            )}
+            <li className="nav-item">
+              <Link to={`/${auth.me.username}`}>My Account</Link>
+            </li>
+            {null && auth.me?.role === 'ADMIN' && (
               <li className="nav-item">
                 <Link to="/admin">Admin</Link>
               </li>

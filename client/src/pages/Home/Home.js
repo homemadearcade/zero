@@ -30,7 +30,7 @@ const Home = ({ auth, reseedDatabase }) => {
         ) : (
           <>
             <p>
-              Welcome <span className="name">{auth.me.name}</span>!
+              Welcome <span className="name">{auth.me.username}</span>!
             </p>
           </>
         )}

@@ -57,7 +57,7 @@ const Message = ({ message, auth, deleteMessage, editMessage, clearMessageError 
         </Link>
         <div>
           <Link to={`/${message.user.username}`} className="name">
-            {message.user.name}
+            {message.user.username}
           </Link>
           <span className="username">@{message.user.username}</span>
           <span className="time text-light">{moment(message.createdAt).fromNow()}</span>

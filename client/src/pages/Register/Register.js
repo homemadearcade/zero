@@ -16,7 +16,6 @@ import './styles.css';
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail }) => {
   const formik = useFormik({
     initialValues: {
-      name: '',
       username: '',
       email: '',
       password: '',
@@ -47,18 +46,6 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
         <form onSubmit={formik.handleSubmit} noValidate>
 
           <div>
-            <input
-              placeholder="Name"
-              name="name"
-              className=""
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-            />
-            {formik.touched.name && formik.errors.name ? (
-              <p className="error">{formik.errors.name}</p>
-            ) : null}
             <input
               placeholder="Username"
               name="username"

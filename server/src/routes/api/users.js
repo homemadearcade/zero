@@ -49,7 +49,7 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       avatarPath = req.file.filename;
     }
 
-    // if fb or google user provider dont update password
+    // if google user provider dont update password
     let password = null;
     if (req.user.provider === 'email' && req.body.password && req.body.password !== '') {
       password = await hashPassword(req.body.password);
@@ -60,7 +60,7 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       return res.status(400).json({ message: 'Username alredy taken.' });
     }
 
-    const updatedUser = { avatar: avatarPath, name: req.body.name, username: req.body.username, password };
+    const updatedUser = { avatar: avatarPath, username: req.body.username, password };
     // remove '', null, undefined
     Object.keys(updatedUser).forEach((k) => !updatedUser[k] && updatedUser[k] !== undefined && delete updatedUser[k]);
     // console.log(req.body, updatedUser);

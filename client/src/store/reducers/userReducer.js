@@ -1,7 +1,7 @@
 import {
-  GET_PROFILE_LOADING,
-  GET_PROFILE_SUCCESS,
-  GET_PROFILE_FAIL,
+  GET_USER_LOADING,
+  GET_USER_SUCCESS,
+  GET_USER_FAIL,
   EDIT_USER_LOADING,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAIL,
@@ -11,14 +11,14 @@ import {
 } from '../types';
 
 const initialState = {
-  profile: {},
+  user: {},
   isLoading: false,
   error: null,
 };
 
 export default function (state = initialState, { type, payload }) {
   switch (type) {
-    case GET_PROFILE_LOADING:
+    case GET_USER_LOADING:
     case EDIT_USER_LOADING:
     case DELETE_USER_LOADING:
       return {
@@ -26,31 +26,31 @@ export default function (state = initialState, { type, payload }) {
         isLoading: true,
         error: null,
       };
-    case GET_PROFILE_SUCCESS:
+    case GET_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        profile: payload.profile,
+        user: payload.user,
       };
     case EDIT_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        profile: payload.user,
+        user: payload.user,
       };
     case DELETE_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        profile: {},
+        user: {},
       };
-    case GET_PROFILE_FAIL:
+    case GET_USER_FAIL:
     case EDIT_USER_FAIL:
     case DELETE_USER_FAIL:
       return {
         ...state,
         isLoading: false,
-        profile: {},
+        user: {},
         error: payload.error,
       };
     default:

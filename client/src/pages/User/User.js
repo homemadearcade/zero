@@ -5,18 +5,18 @@ import { useFormik } from 'formik';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
-import { getProfile, editUser, deleteUser } from '../../store/actions/userActions';
+import { getUser, editUser, deleteUser } from '../../store/actions/userActions';
 import { loadMe } from '../../store/actions/authActions';
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
-import { profileSchema } from './validation';
+import { userSchema } from './validation';
 
 import './styles.css';
 
-const Profile = ({
-  getProfile,
-  user: { profile, isLoading, error },
+const User = ({
+  getUser,
+  user: { user, isLoading, error },
   auth: { me },
   editUser,
   deleteUser,
@@ -31,7 +31,7 @@ const Profile = ({
   const matchUsername = match.params.username;
 
   useEffect(() => {
-    getProfile(matchUsername, history);
+    getUser(matchUsername, history);
   }, [matchUsername]);
 
   // if changed his own username reload me, done in userActions
@@ -47,9 +47,9 @@ const Profile = ({
     setIsEdit((oldIsEdit) => !oldIsEdit);
     setImage(null);
     setAvatar(null);
-    formik.setFieldValue('id', profile.id);
-    formik.setFieldValue('name', profile.name);
-    formik.setFieldValue('username', profile.username);
+    formik.setFieldValue('id', user.id);
+    formik.setFieldValue('name', user.name);
+    formik.setFieldValue('username', user.username);
   };
 
   const handleDeleteUser = (id, history) => {
@@ -60,17 +60,15 @@ const Profile = ({
     enableReinitialize: true,
     initialValues: {
       id: '',
-      name: '',
       username: '',
       password: '',
     },
-    validationSchema: profileSchema,
+    validationSchema: userSchema,
     onSubmit: (values) => {
       const formData = new FormData();
       // formData.append('avatar', avatar);
-      formData.append('name', values.name);
       formData.append('username', values.username);
-      if (profile.provider === 'email') {
+      if (user.provider === 'email') {
         formData.append('password', values.password);
       }
       editUser(values.id, formData, history);
@@ -80,41 +78,36 @@ const Profile = ({
 
   return (
     <Layout>
-      <div className="profile">
+      <div className="UserPage">
         <h1>Me</h1>
         <p>
-          This is all your profile information. You can edit your profile here.
+          This is all your account information. You can edit your account here.
         </p>
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="profile-info">
-            {null && <img src={image ? image : profile.avatar} className="avatar" />}
+          <div className="user-info">
             <div className="info-container">
               <div>
                 <span className="label">Provider: </span>
-                <span className="info">{profile.provider}</span>
+                <span className="info">{user.provider}</span>
               </div>
               <div>
                 <span className="label">Role: </span>
-                <span className="info">{profile.role}</span>
-              </div>
-              <div>
-                <span className="label">Name: </span>
-                <span className="info">{profile.name}</span>
+                <span className="info">{user.role}</span>
               </div>
               <div>
                 <span className="label">Username: </span>
-                <span className="info">{profile.username}</span>
+                <span className="info">{user.username}</span>
               </div>
               <div>
                 <span className="label">Email: </span>
-                <span className="info">{profile.email}</span>
+                <span className="info">{user.email}</span>
               </div>
               <div>
                 <span className="label">Joined: </span>
                 <span className="info">
-                  {moment(profile.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
+                  {moment(user.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
                 </span>
               </div>
               <div>
@@ -122,7 +115,7 @@ const Profile = ({
                   className="btn"
                   type="button"
                   onClick={handleClickEdit}
-                  disabled={!(me?.username === profile.username || me?.role === 'ADMIN')}
+                  disabled={!(me?.username === user.username || me?.role === 'ADMIN')}
                 >
                   {isEdit ? 'Cancel' : 'Edit'}
                 </button>
@@ -156,21 +149,6 @@ const Profile = ({
               </div>
               <input name="id" type="hidden" value={formik.values.id} />
               <div className="input-div">
-                <label>Name:</label>
-                <input
-                  placeholder="Name"
-                  name="name"
-                  className=""
-                  type="text"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                />
-                {formik.touched.name && formik.errors.name ? (
-                  <p className="error">{formik.errors.name}</p>
-                ) : null}
-              </div>
-              <div className="input-div">
                 <label>Username:</label>
                 <input
                   placeholder="Username"
@@ -185,7 +163,7 @@ const Profile = ({
                   <p className="error">{formik.errors.username}</p>
                 ) : null}
               </div>
-              {profile.provider === 'email' && (
+              {user.provider === 'email' && (
                 <div className="input-div">
                   <label>Password:</label>
                   <input
@@ -206,11 +184,11 @@ const Profile = ({
                 Save
               </button>
               <button
-                onClick={() => handleDeleteUser(profile.id, history)}
+                onClick={() => handleDeleteUser(user.id, history)}
                 type="button"
                 className="btn"
               >
-                Delete profile
+                Delete user
               </button>
             </form>
           </div>
@@ -228,5 +206,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getProfile, editUser, deleteUser, loadMe }),
-)(Profile);
+  connect(mapStateToProps, { getUser, editUser, deleteUser, loadMe }),
+)(User);

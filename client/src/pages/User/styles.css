@@ -1,9 +1,9 @@
-.profile .profile-info {
+.UserPage .user-info {
   display: flex;
   padding-bottom: 20px;
 }
 
-.profile .avatar {
+.UserPage .avatar {
   width: 220px;
   height: 220px;
   align-self: center;
@@ -11,36 +11,36 @@
   object-fit: cover;
 }
 
-.profile .label,
-.profile label {
+.UserPage .label,
+.UserPage label {
   font-size: 18px;
   font-weight: bold;
   margin-right: 10px;
 }
 
-.profile .info {
+.UserPage .info {
   font-size: 18px;
 }
 
-.profile .info-container {
+.UserPage .info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.profile .btn {
+.UserPage .btn {
   width: auto;
   margin-right: 10px;
 }
 
-.profile input {
+.UserPage input {
   width: 40%;
   display: block;
 }
 
-.profile .input-div {
+.UserPage .input-div {
   /* white-space: nowrap; */
 }
-.profile .form {
+.UserPage .form {
   margin-bottom: 30px;
 }

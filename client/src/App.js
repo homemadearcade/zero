@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Home from './pages/Home/Home';
-import Profile from './pages/Profile/Profile';
+import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import NotFound from './pages/NotFound/NotFound';
@@ -46,7 +46,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/users" component={Users} />
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
-          <Route exact path="/:username" component={Profile} />
+          <Route exact path="/:username" component={Account} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>

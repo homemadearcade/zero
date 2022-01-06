@@ -8,6 +8,7 @@ import { getUsers } from '../../store/actions/usersActions';
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
+import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.css';
 
@@ -22,7 +23,7 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
         <h1>Users page</h1>
         <p>
           This is the Users page. Here are listed all of the users of the app. Click the avatar or
-          the username link to go to user's profile. Only authenticated users can see this page.
+          the username link to go to user's profile. Only admin users can see this page.
         </p>
         <div className="list">
           {isLoading ? (
@@ -43,10 +44,6 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
                       <div>
                         <span className="label">Role: </span>
                         <span className="info">{user.role}</span>
-                      </div>
-                      <div>
-                        <span className="label">Name: </span>
-                        <span className="info">{user.name}</span>
                       </div>
                       <div>
                         <span className="label">Username: </span>
@@ -80,4 +77,4 @@ const mapStateToProps = (state) => ({
   users: state.users,
 });
 
-export default compose(requireAuth, connect(mapStateToProps, { getUsers }))(Users);
+export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { getUsers }))(Users);
