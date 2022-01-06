@@ -42,8 +42,6 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
             Login with Google
           </a>
           <h2>Login</h2>
-          <p className="logins">Admin: email0@email.com 123456789</p>
-          <p className="logins">User: email1@email.com 123456789</p>
           <div>
             <input
               placeholder="Email address"

@@ -68,7 +68,6 @@ export default function (state = initialState, { type, payload }) {
       };
     case LOGOUT_SUCCESS:
       localStorage.removeItem('token');
-      console.log('XXX', payload)
       return {
         ...state,
         token: null,
