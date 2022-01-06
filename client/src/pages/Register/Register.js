@@ -29,7 +29,7 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
   if (auth.isAuthenticated) return <Redirect to="/" />;
 
   return (
-    <div className="register">
+    <div className="RegisterPage">
       <div className="container">
         <h1>Register page</h1>
         <p>

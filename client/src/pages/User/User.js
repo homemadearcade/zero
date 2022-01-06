@@ -34,8 +34,6 @@ const User = ({
     getUser(matchUsername, history);
   }, [matchUsername]);
 
-  // if changed his own username reload me, done in userActions
-
   const onChange = (event) => {
     formik.setFieldValue('image', event.currentTarget.files[0]);
     setImage(URL.createObjectURL(event.target.files[0]));
