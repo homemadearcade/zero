@@ -67,6 +67,16 @@ export default function (state = initialState, { type, payload }) {
         appLoaded: true,
       };
     case LOGOUT_SUCCESS:
+      localStorage.removeItem('token');
+      console.log('XXX', payload)
+      return {
+        ...state,
+        token: null,
+        me: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: false
+      };
     case LOGIN_WITH_EMAIL_FAIL:
       localStorage.removeItem('token');
       return {

@@ -49,7 +49,7 @@ MONGO_URI_PROD=
 #google
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-GOOGLE_CALLBACK_URL=/auth/google/callback
+GOOGLE_CALLBACK_URL=auth/google/callback
 
 #jwt
 JWT_SECRET_DEV=secret
