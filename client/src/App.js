@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import Play from './pages/Play/Play';
 import Home from './pages/Home/Home';
 import Account from './pages/User/User';
 import Users from './pages/Users/Users';
@@ -41,6 +42,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
     <>
       {auth.appLoaded ? (
         <Switch>
+          <Route exact path="/play" component={Play} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/users" component={Users} />
@@ -48,6 +50,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/admin" component={Admin} />
           <Route exact path="/:username" component={Account} />
           <Route exact path="/" component={Home} />
+
           <Route component={NotFound} />
         </Switch>
       ) : (
