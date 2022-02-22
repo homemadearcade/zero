@@ -28,6 +28,11 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 <Link to="/users">Users</Link>
               </li>
             )}
+            {auth.me?.role === 'ADMIN' && (
+              <li className="nav-item">
+                <Link to="/lobbys">Lobbies</Link>
+              </li>
+            )}
             <li className="nav-item">
               <Link to={`/${auth.me.username}`}>My Account</Link>
             </li>

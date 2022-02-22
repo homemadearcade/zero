@@ -9,4 +9,5 @@ export const userSchema = Yup.object({
   password: Yup.string()
     .min(6, 'Must be 6 characters at minimum')
     .max(20, 'Must be 20 characters or less'),
+  role: Yup.string()
 });

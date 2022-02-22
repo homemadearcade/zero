@@ -141,6 +141,7 @@ export const validateUser = (user) => {
       .regex(/^[a-zA-Z0-9_]+$/)
       .required(),
     password: Joi.string().min(6).max(20).allow('').allow(null),
+    role: Joi.string()
   };
 
   return Joi.validate(user, schema);

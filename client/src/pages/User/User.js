@@ -12,7 +12,7 @@ import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import { userSchema } from './validation';
 
-import './styles.css';
+import './styles.scss';
 
 const User = ({
   getUser,
@@ -48,6 +48,7 @@ const User = ({
     formik.setFieldValue('id', user.id);
     formik.setFieldValue('name', user.name);
     formik.setFieldValue('username', user.username);
+    formik.setFieldValue('role', user.role);
   };
 
   const handleDeleteUser = (id, history) => {
@@ -60,12 +61,18 @@ const User = ({
       id: '',
       username: '',
       password: '',
+      role: '',
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
       const formData = new FormData();
       // formData.append('avatar', avatar);
       formData.append('username', values.username);
+      
+      if(me?.role === 'ADMIN') {
+        formData.append('role', values.role);
+      }
+
       if (user.provider === 'email') {
         formData.append('password', values.password);
       }
@@ -161,6 +168,24 @@ const User = ({
                   <p className="error">{formik.errors.username}</p>
                 ) : null}
               </div>
+              {me?.role === 'ADMIN' && <div className="input-div">
+                <label>Role:</label>
+                <select
+                  placeholder="Role"
+                  name="role"
+                  className=""
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.role}
+                >
+                  <option value="USER" selected={formik.values.role === "USER"}>USER</option>
+                  <option value="ADMIN" selected={formik.values.role === "ADMIN"}>ADMIN</option>
+                </select>
+                {formik.touched.role && formik.errors.role ? (
+                  <p className="error">{formik.errors.role}</p>
+                ) : null}
+              </div>}
               {user.provider === 'email' && (
                 <div className="input-div">
                   <label>Password:</label>

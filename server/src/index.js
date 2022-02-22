@@ -36,7 +36,7 @@ mongoose
   })
   .then(() => {
     console.log('MongoDB Connected...');
-    // seedDb();
+    // isProduction ? null : seedDb();
   })
   .catch((err) => console.log(err));
 

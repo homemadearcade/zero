@@ -1,0 +1,43 @@
+.LobbysPage {
+  min-height: 100%;
+}
+.LobbysPage .profile {
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid black;
+}
+.LobbysPage .profile:last-child {
+  border-bottom: 0;
+}
+
+.LobbysPage .avatar {
+  width: 150px;
+  height: 150px;
+  align-self: center;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+.LobbysPage .label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.LobbysPage .info {
+  font-size: 18px;
+}
+
+.LobbysPage .info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.LobbysPage__list {
+  min-height: 100%;
+}
+
+.LobbysPage .profile-link {
+  color: rgb(0, 0, 238);
+}

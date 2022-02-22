@@ -11,7 +11,10 @@ import Home from './pages/Home/Home';
 import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
+import Lobbys from './pages/Lobbys/Lobbys';
 import NotFound from './pages/NotFound/NotFound';
+
+import io from "socket.io-client";
 
 import Loader from './components/Loader/Loader';
 
@@ -48,9 +51,9 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/users" component={Users} />
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
+          <Route path="/lobbys" component={Lobbys} />
           <Route exact path="/:username" component={Account} />
           <Route exact path="/" component={Home} />
-
           <Route component={NotFound} />
         </Switch>
       ) : (

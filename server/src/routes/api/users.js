@@ -55,12 +55,17 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       password = await hashPassword(req.body.password);
     }
 
-    const existingUser = await User.findOne({ username: req.body.username });
+    let existingUser = await User.findOne({ username: req.body.username });
     if (existingUser && existingUser.id !== tempUser.id) {
       return res.status(400).json({ message: 'Username alredy taken.' });
     }
 
-    const updatedUser = { avatar: avatarPath, username: req.body.username, password };
+    existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser && existingUser.id !== tempUser.id) {
+      return res.status(400).json({ message: 'Email already taken.' });
+    }
+
+    const updatedUser = { avatar: avatarPath, username: req.body.username, password, role: req.body.role };
     // remove '', null, undefined
     Object.keys(updatedUser).forEach((k) => !updatedUser[k] && updatedUser[k] !== undefined && delete updatedUser[k]);
     // console.log(req.body, updatedUser);
@@ -72,10 +77,10 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
   }
 });
 
-router.get('/reseed', async (req, res) => {
-  await seedDb();
-  res.json({ message: 'Database reseeded successfully.' });
-});
+// router.get('/reseed', async (req, res) => {
+//   await seedDb();
+//   res.json({ message: 'Database reseeded successfully.' });
+// });
 
 router.get('/me', requireJwtAuth, (req, res) => {
   const me = req.user.toJSON();

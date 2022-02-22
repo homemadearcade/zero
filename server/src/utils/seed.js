@@ -1,7 +1,7 @@
 import faker from 'faker';
 import { join } from 'path';
 
-import User from '../models/User';
+import User, { hashPassword } from '../models/User';
 import Message from '../models/Message';
 import { deleteAllAvatars } from './utils';
 
@@ -27,15 +27,13 @@ export const seedDb = async () => {
     if (index === 0) {
       user.role = 'ADMIN';
     }
-    user.registerUser(user, () => {});
-
+    
     return user;
   });
 
   await Promise.all(
-
     usersPromises.map(async (user) => {
-      await user.save();
+      user.registerUser(user, () => {});
     }),
   );
 
@@ -66,6 +64,7 @@ export const seedDb = async () => {
   messages.map(async (message, index) => {
     const j = Math.floor(index / 3);
     const user = users[j];
+    console.log(user, users.length, j)
     await Message.updateOne(
       { _id: message.id },
       {
