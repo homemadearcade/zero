@@ -56,7 +56,7 @@ if (isProduction) {
 
   const port = process.env.PORT || 80;
 
-  const server = https.createServer(app)
+  const server = https.createServer({}, app)
 
   const io = new Server(server, { /* options */ });
 
