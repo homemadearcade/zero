@@ -47,7 +47,8 @@ const Lobbys = ({ getLobbys, lobbys: { lobbys, isLoading } }) => {
                         <span className="LobbysPage__info">{lobby.startTime}</span>
                       </div>
                       <button
-                        className="submit btn"
+                        className="LobbysPage__button"
+                        type="button"
                       >
                         Join
                       </button>

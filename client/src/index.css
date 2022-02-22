@@ -19,7 +19,7 @@ body {
 
 input,
 textarea,
-.btn {
+button {
   width: 100%;
   padding: 12px;
   border: none;
@@ -31,6 +31,10 @@ textarea,
   line-height: 20px;
   text-decoration: none;
   box-sizing: border-box;
+  background-color: lightgrey;
+}
+
+button {
   background-color: gray;
   color: white;
   cursor: pointer;

@@ -13,25 +13,33 @@ import { loginUserWithEmail } from '../../store/actions/authActions';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
 import './styles.css';
-import { getUrlParameter } from '../../utils/utils';
-import Loader from '../../components/Loader/Loader';
+// import { getUrlParameter } from '../../utils/utils';
+// import Loader from '../../components/Loader/Loader';
+import SceneFull from '../../components/SceneFull/SceneFull.jsx';
 
 const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user, isLoading, error } }) => {
 
-  const participantEmail = getUrlParameter('participantEmail')
-  let [preface, setPreface] = useState([])
+  let [prefaces, setPrefaces] = useState([
+    { text: 'Who is joining us?'},
+  ])
 
-  useEffect(() => {
-    if(participantEmail) {
-      getUserByEmail(participantEmail, history)
-      
-      const newPreface = preface.slice()
-      
-      newPreface.push([])
+  // const participantEmail = getUrlParameter('participantEmail')
+  // useEffect(() => {
+  //   async function getUser() {
+  //     const newPrefaces = prefaces.slice()
+  //     newPrefaces.push(
+  //       { text: 'Welcome, ' + user.username }
+  //     )
+  //     setPrefaces(newPrefaces)
+  //   }
+  //   if(participantEmail) {
+  //     getUser()
+  //   }
+  // }, [participantEmail])
 
-      setPreface(newPreface)
-    }
-  }, [participantEmail])
+  // if (isLoading) {
+  //   return <Loader/>;
+  // }
 
   const formik = useFormik({
     initialValues: {
@@ -44,24 +52,27 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
     },
   });
 
-  if (isLoading) {
-    return <Loader/>;
+  if (auth.isAuthenticated) {
+    return <Redirect to="/lobby/find" />;
   }
 
-  if (auth.isAuthenticated) {
-
-    return <Redirect to="/" />;
+  if(prefaces.length) {
+    return <SceneFull onClick={() => {
+      const newPrefaces = prefaces.slice()
+      newPrefaces.shift()
+      setPrefaces(newPrefaces)
+    }} text={prefaces[0].text}/>
   }
 
   return (
     <div className="login">
       <div className="container">
-        <h1>Log in with Google</h1>
+        {false && <h1>Log in with Google</h1>}
         <form onSubmit={formik.handleSubmit}>
-          <a className="google btn" href={GOOGLE_AUTH_LINK}>
+          {false && <a className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Login with Google
-          </a>
+          </a>}
           <h1>Log in with Email</h1>
           <div>
             <input

@@ -36,11 +36,10 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
           </Link>
         </p>
         <form onSubmit={formik.handleSubmit}>
-          <a className="google btn" href={GOOGLE_AUTH_LINK}>
+          {false && <a className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Login with Google
-          </a>
-          <h2>Login</h2>
+          </a>}
           <div>
             <input
               placeholder="Email address"
