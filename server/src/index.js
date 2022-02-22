@@ -5,6 +5,7 @@ import https from 'https';
 import { readFileSync } from 'fs';
 import { resolve, join } from 'path';
 import passport from 'passport';
+import http from 'http';
 import { Server } from "socket.io"
 import all_routes from 'express-list-endpoints';
 
@@ -56,16 +57,16 @@ if (isProduction) {
 
   const port = process.env.PORT || 80;
 
-  // const server = https.createServer(app)
+  const server = http.Server(app)
 
-  // const io = new Server(server, { /* options */ });
+  const io = new Server(server, { /* options */ });
 
-  // io.on("connection", (socket) => {
-  //   // ...
-  //   console.log('socket listening...')
-  // });
+  io.on("connection", (socket) => {
+    // ...
+    console.log('socket listening...')
+  });
 
-  app.listen(port, () => console.log(`Server started on port ${port}`));
+  server.listen(port, () => console.log(`Server started on port ${port}`));
 } else {
   const port = process.env.PORT || 5000;
 
