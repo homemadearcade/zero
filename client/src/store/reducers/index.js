@@ -6,6 +6,7 @@ import userReducer from './userReducer';
 import usersReducer from './usersReducer';
 import messageReducer from './messageReducer';
 import lobbysReducer from './lobbysReducer';
+import lobbyReducer from './lobbyReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   message: messageReducer,
   user: userReducer,
   users: usersReducer,
-  lobbys: lobbysReducer
+  lobbys: lobbysReducer,
+  lobby: lobbyReducer
 });
