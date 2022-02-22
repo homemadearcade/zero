@@ -1,7 +1,7 @@
 import {
   LOGIN_WITH_OAUTH_LOADING,
   LOGIN_WITH_OAUTH_SUCCESS,
-  LOGIN_WITH_OAUTH_FAIL,
+  // LOGIN_WITH_OAUTH_FAIL,
   LOGOUT_SUCCESS,
   LOGIN_WITH_EMAIL_LOADING,
   LOGIN_WITH_EMAIL_SUCCESS,
@@ -20,7 +20,7 @@ const initialState = {
   appLoaded: false,
 };
 
-export default function (state = initialState, { type, payload }) {
+export default function authReducer(state = initialState, { type, payload }) {
   switch (type) {
     case ME_LOADING:
       return {

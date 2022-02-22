@@ -67,6 +67,7 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
 
     const updatedUser = { avatar: avatarPath, username: req.body.username, password, role: req.body.role };
     // remove '', null, undefined
+
     Object.keys(updatedUser).forEach((k) => !updatedUser[k] && updatedUser[k] !== undefined && delete updatedUser[k]);
     // console.log(req.body, updatedUser);
     const user = await User.findByIdAndUpdate(tempUser.id, { $set: updatedUser }, { new: true });

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -59,9 +60,9 @@ const User = ({
     enableReinitialize: true,
     initialValues: {
       id: '',
-      username: '',
+      username: user.username,
       password: '',
-      role: '',
+      role: user.role,
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
@@ -179,8 +180,8 @@ const User = ({
                   onBlur={formik.handleBlur}
                   value={formik.values.role}
                 >
-                  <option value="USER" selected={formik.values.role === "USER"}>USER</option>
-                  <option value="ADMIN" selected={formik.values.role === "ADMIN"}>ADMIN</option>
+                  <option value="USER">USER</option>
+                  <option value="ADMIN">ADMIN</option>
                 </select>
                 {formik.touched.role && formik.errors.role ? (
                   <p className="error">{formik.errors.role}</p>

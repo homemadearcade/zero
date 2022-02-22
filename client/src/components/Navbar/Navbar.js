@@ -18,9 +18,6 @@ const Navbar = ({ auth, logOutUser, history }) => {
         <li className="nav-item">
           <Link to="/">Home</Link>
         </li>
-        <li className="nav-item">
-          <Link to="/play">Play</Link>
-        </li>
         {auth.isAuthenticated ? (
           <>
             {auth.me?.role === 'ADMIN' && (
@@ -41,6 +38,9 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 <Link to="/admin">Admin</Link>
               </li>
             )}
+            <li className="nav-item">
+              <Link to="/play">Phaser</Link>
+             </li>
             <li className="flex-1" />
             <li className="nav-item" onClick={onLogOut}>
               <a href="#">Log out</a>

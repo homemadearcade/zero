@@ -6,7 +6,7 @@ const initialState = {
   error: null,
 };
 
-export default function (state = initialState, { type, payload }) {
+export default function lobbysReducer(state = initialState, { type, payload }) {
   switch (type) {
     case GET_LOBBYS_LOADING:
       return {
