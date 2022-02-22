@@ -98,6 +98,16 @@ router.get('/:username', requireJwtAuth, async (req, res) => {
   }
 });
 
+router.get('/email/:email', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) return res.status(404).json({ message: 'No user found.' });
+    res.json({ user: user.toJSON() });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.get('/', requireJwtAuth, async (req, res) => {
   try {
     const users = await User.find().sort({ createdAt: 'desc' });

@@ -31,18 +31,15 @@ textarea,
   line-height: 20px;
   text-decoration: none;
   box-sizing: border-box;
-  background-color: lightgray;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
 }
 
 input:hover,
 textarea:hover,
 .btn:hover {
   opacity: 1;
-}
-
-.submit {
-  background-color: gray;
-  color: white;
 }
 
 .bold {

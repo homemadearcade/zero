@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
-import { getUser, editUser, deleteUser } from '../../store/actions/userActions';
+import { getUserByUsername, editUser, deleteUser } from '../../store/actions/userActions';
 import { loadMe } from '../../store/actions/authActions';
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
@@ -16,7 +16,7 @@ import { userSchema } from './validation';
 import './styles.scss';
 
 const User = ({
-  getUser,
+  getUserByUsername,
   user: { user, isLoading, error },
   auth: { me },
   editUser,
@@ -32,7 +32,7 @@ const User = ({
   const matchUsername = match.params.username;
 
   useEffect(() => {
-    getUser(matchUsername, history);
+    getUserByUsername(matchUsername, history);
   }, [matchUsername]);
 
   const onChange = (event) => {
@@ -230,5 +230,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getUser, editUser, deleteUser, loadMe }),
+  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, loadMe }),
 )(User);

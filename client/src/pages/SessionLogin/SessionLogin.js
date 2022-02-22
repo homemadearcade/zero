@@ -1,17 +1,38 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
+import { getUserByEmail } from '../../store/actions/userActions';
 import { loginUserWithEmail } from '../../store/actions/authActions';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
 import './styles.css';
+import { getUrlParameter } from '../../utils/utils';
+import Loader from '../../components/Loader/Loader';
 
-const Login = ({ auth, history, loginUserWithEmail }) => {
+const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user, isLoading, error } }) => {
+
+  const participantEmail = getUrlParameter('participantEmail')
+  let [preface, setPreface] = useState([])
+
+  useEffect(() => {
+    if(participantEmail) {
+      getUserByEmail(participantEmail, history)
+      
+      const newPreface = preface.slice()
+      
+      newPreface.push([])
+
+      setPreface(newPreface)
+    }
+  }, [participantEmail])
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -23,24 +44,25 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
     },
   });
 
-  if (auth.isAuthenticated) return <Redirect to="/" />;
+  if (isLoading) {
+    return <Loader/>;
+  }
+
+  if (auth.isAuthenticated) {
+
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="login">
       <div className="container">
-        <h1>Log in page</h1>
-        <p>
-          back to{' '}
-          <Link className="bold" to="/">
-            Home page
-          </Link>
-        </p>
+        <h1>Log in with Google</h1>
         <form onSubmit={formik.handleSubmit}>
           <a className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Login with Google
           </a>
-          <h2>Login</h2>
+          <h1>Log in with Email</h1>
           <div>
             <input
               placeholder="Email address"
@@ -77,12 +99,6 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
               Log in now
             </button>
           </div>
-          <div>
-            Don't have an account?{' '}
-            <Link className="bold" to="/register">
-              Register
-            </Link>
-          </div>
         </form>
       </div>
     </div>
@@ -91,7 +107,8 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  user: state.user,
   errors: state.errors,
 });
 
-export default compose(withRouter, connect(mapStateToProps, { loginUserWithEmail }))(Login);
+export default compose(withRouter, connect(mapStateToProps, { loginUserWithEmail, getUserByEmail }))(Login);

@@ -46,6 +46,11 @@ const Lobbys = ({ getLobbys, lobbys: { lobbys, isLoading } }) => {
                         <span className="LobbysPage__label">Start Time: </span>
                         <span className="LobbysPage__info">{lobby.startTime}</span>
                       </div>
+                      <button
+                        className="submit btn"
+                      >
+                        Join
+                      </button>
                     </div>
                   </div>
                 );

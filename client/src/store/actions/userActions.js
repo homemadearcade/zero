@@ -38,7 +38,7 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
   }
 };
 
-export const getUser = (username, history) => async (dispatch, getState) => {
+export const getUserByUsername = (username, history) => async (dispatch, getState) => {
   dispatch({
     type: GET_USER_LOADING,
   });
@@ -54,6 +54,26 @@ export const getUser = (username, history) => async (dispatch, getState) => {
     if (err?.response.status === 404) {
       history.push('/notfound');
     }
+    dispatch({
+      type: GET_USER_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const getUserByEmail = (email) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_USER_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`/api/users/email/${email}`, options);
+
+    dispatch({
+      type: GET_USER_SUCCESS,
+      payload: { user: response.data.user },
+    });
+  } catch (err) {
     dispatch({
       type: GET_USER_FAIL,
       payload: { error: err?.response?.data.message || err.message },

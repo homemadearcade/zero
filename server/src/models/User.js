@@ -46,11 +46,11 @@ const userSchema = new Schema(
       sparse: true,
     },
     // fb
-    facebookId: {
-      type: String,
-      unique: true,
-      sparse: true,
-    },
+    // facebookId: {
+    //   type: String,
+    //   unique: true,
+    //   sparse: true,
+    // },
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
   },
   { timestamps: true },

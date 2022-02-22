@@ -14,6 +14,7 @@ import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import Lobbys from './pages/Lobbys/Lobbys';
 import NotFound from './pages/NotFound/NotFound';
+import SessionLogin from './pages/SessionLogin/SessionLogin';
 
 import io from "socket.io-client";
 
@@ -50,6 +51,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
         <Switch>
           <Route exact path="/play" component={Play} />
           <Route path="/login" component={Login} />
+          <Route path="/sessionlogin" component={SessionLogin} />
           <Route path="/register" component={Register} />
           <Route path="/users" component={Users} />
           <Route path="/notfound" component={NotFound} />
