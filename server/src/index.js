@@ -46,6 +46,8 @@ mongoose
 app.use('/', routes);
 app.use('/public', express.static(join(__dirname, '../public')));
 
+let server;
+let port;
 // Serve static assets if in production
 if (isProduction) {
   // Set static folder
@@ -55,37 +57,25 @@ if (isProduction) {
     res.sendFile(resolve(__dirname, '../..', 'client', 'build', 'index.html')); // index is in /server/src so 2 folders up
   });
 
-  const port = process.env.PORT || 80;
+  port = process.env.PORT || 80;
 
-  const server = http.Server(app)
-
-  const io = new Server(server, { /* options */ });
-
-  io.on("connection", (socket) => {
-    // ...
-    console.log('socket listening...')
-  });
-
-  server.listen(port, () => console.log(`Server started on port ${port}`));
+  server = http.Server(app)
 } else {
-  const port = process.env.PORT || 5000;
+  port = process.env.PORT || 5000;
 
   const httpsOptions = {
     key: readFileSync(resolve(__dirname, '../security/cert.key')),
     cert: readFileSync(resolve(__dirname, '../security/cert.pem')),
   };
 
-  const server = https.createServer(httpsOptions, app)
-
-  const io = new Server(server, { /* options */ });
-
-  io.on("connection", (socket) => {
-    // ...
-    console.log('socket listening...')
-  });
-
-  server.listen(port, () => {
-    console.log('https server running at ' + port);
-    // console.log(all_routes(app));
-  });
+  server = https.createServer(httpsOptions, app)
 }
+
+const io = new Server(server, { /* options */ });
+
+io.on("connection", (socket) => {
+  // ...
+  console.log('socket listening...')
+});
+
+server.listen(port, () => console.log(`Server started on port ${port}`));
