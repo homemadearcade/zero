@@ -21,6 +21,8 @@ import Loader from './components/Loader/Loader';
 
 import { logInUserWithOauth, loadMe } from './store/actions/authActions';
 
+window.socket = io();
+
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   useEffect(() => {
     loadMe();

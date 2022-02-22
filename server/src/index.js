@@ -5,6 +5,7 @@ import https from 'https';
 import { readFileSync } from 'fs';
 import { resolve, join } from 'path';
 import passport from 'passport';
+import { Server } from "socket.io"
 import all_routes from 'express-list-endpoints';
 
 import routes from './routes';
@@ -54,7 +55,17 @@ if (isProduction) {
   });
 
   const port = process.env.PORT || 80;
-  app.listen(port, () => console.log(`Server started on port ${port}`));
+
+  const server = https.createServer(app)
+
+  const io = new Server(server, { /* options */ });
+
+  io.on("connection", (socket) => {
+    // ...
+    console.log('socket listening...')
+  });
+
+  server.listen(port, () => console.log(`Server started on port ${port}`));
 } else {
   const port = process.env.PORT || 5000;
 
@@ -63,7 +74,16 @@ if (isProduction) {
     cert: readFileSync(resolve(__dirname, '../security/cert.pem')),
   };
 
-  const server = https.createServer(httpsOptions, app).listen(port, () => {
+  const server = https.createServer(httpsOptions, app)
+
+  const io = new Server(server, { /* options */ });
+
+  io.on("connection", (socket) => {
+    // ...
+    console.log('socket listening...')
+  });
+
+  server.listen(port, () => {
     console.log('https server running at ' + port);
     // console.log(all_routes(app));
   });
