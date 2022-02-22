@@ -56,16 +56,16 @@ if (isProduction) {
 
   const port = process.env.PORT || 80;
 
-  const server = https.createServer({}, app)
+  // const server = https.createServer(app)
 
-  const io = new Server(server, { /* options */ });
+  // const io = new Server(server, { /* options */ });
 
-  io.on("connection", (socket) => {
-    // ...
-    console.log('socket listening...')
-  });
+  // io.on("connection", (socket) => {
+  //   // ...
+  //   console.log('socket listening...')
+  // });
 
-  server.listen(port, () => console.log(`Server started on port ${port}`));
+  app.listen(port, () => console.log(`Server started on port ${port}`));
 } else {
   const port = process.env.PORT || 5000;
 
