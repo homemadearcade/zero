@@ -71,11 +71,12 @@ if (isProduction) {
   server = https.createServer(httpsOptions, app)
 }
 
+// Listen for requests
 const io = new Server(server, { /* options */ });
-
 io.on("connection", (socket) => {
-  // ...
   console.log('socket listening...')
 });
-
 server.listen(port, () => console.log(`Server started on port ${port}`));
+
+app.set('socketio', io);
+// var io = req.app.get('socketio')

@@ -20,7 +20,7 @@ const Lobbys = ({ getLobbys, lobbys: { lobbys, isLoading } }) => {
   return (
     <Layout>
       <div className="LobbysPage">
-        <h1>Lobbies</h1>
+        <h1>Lobbies Page</h1>
         <p>
           This is the lobbies page where all active lobbies are listed. Only admin users can see this page.
         </p>
@@ -29,9 +29,24 @@ const Lobbys = ({ getLobbys, lobbys: { lobbys, isLoading } }) => {
             <Loader />
           ) : (
             <>
-              {lobbys.map((user, index) => {
+              {lobbys.map((lobby, index) => {
                 return (
                   <div key={index} className="LobbysPage__lobby">
+
+                    <div className="LobbysPage__info-container">
+                      <div>
+                        <span className="LobbysPage__label">Lobby ID: </span>
+                        <span className="LobbysPage__info">{lobby.id}</span>
+                      </div>
+                      <div>
+                        <span className="LobbysPage__label">Participants Email: </span>
+                        <span className="LobbysPage__info">{lobby.participantEmail}</span>
+                      </div>
+                      <div>
+                        <span className="LobbysPage__label">Start Time: </span>
+                        <span className="LobbysPage__info">{lobby.startTime}</span>
+                      </div>
+                    </div>
                   </div>
                 );
               })}

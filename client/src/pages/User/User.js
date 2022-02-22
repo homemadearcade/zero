@@ -85,7 +85,7 @@ const User = ({
   return (
     <Layout>
       <div className="UserPage">
-        <h1>Me</h1>
+        <h1>{user.username + "'s account"}</h1>
         <p>
           This is all your account information. You can edit your account here.
         </p>

@@ -11,7 +11,7 @@ const Home = ({ auth }) => {
   return (
     <Layout>
       <div className="home-page">
-        <h1>Play</h1>
+        <h1>Phaser Tests</h1>
         <GameView/>
       </div>
     </Layout>

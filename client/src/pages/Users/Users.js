@@ -22,8 +22,7 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
       <div className="UsersPage">
         <h1>Users page</h1>
         <p>
-          This is the Users page. Here are listed all of the users of the app. Click the avatar or
-          the username link to go to user's profile. Only admin users can see this page.
+          This is the Users page. Here are listed all of the users of the app. Click the username link to go to user's profile. Only admin users can see this page.
         </p>
         <div className="list">
           {isLoading ? (
@@ -33,9 +32,9 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
               {users.map((user, index) => {
                 return (
                   <div key={index} className="profile">
-                    <Link to={`/${user.username}`}>
+                    {null && <Link to={`/${user.username}`}>
                       <img src={user.avatar} className="avatar" />
-                    </Link>
+                    </Link>}
                     <div className="info-container">
                       <div>
                         <span className="label">Provider: </span>

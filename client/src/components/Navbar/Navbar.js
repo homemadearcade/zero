@@ -39,7 +39,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
               </li>
             )}
             <li className="nav-item">
-              <Link to="/play">Phaser</Link>
+              <Link to="/play">Phaser Tests</Link>
              </li>
             <li className="flex-1" />
             <li className="nav-item" onClick={onLogOut}>

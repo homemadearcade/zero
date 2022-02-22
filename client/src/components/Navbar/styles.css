@@ -1,5 +1,5 @@
 nav {
-  background-color: darkblue;
+  background-color: #1a1a1a;
   padding-left: 30px;
   padding-right: 10px;
   height: 60px;
@@ -41,7 +41,7 @@ nav {
 }
 
 .nav-item:hover a {
-  color: darkblue;
+  color: #1a1a1a;
 }
 
 .flex-1 {
