@@ -54,7 +54,7 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
 
   if (auth.isAuthenticated) {
     // return <Redirect to="/lobby/find" />;
-    return <Redirect to="/lobby/sample" />;
+    return <Redirect to="/lobby/1000" />;
   }
 
   if(prefaces.length) {

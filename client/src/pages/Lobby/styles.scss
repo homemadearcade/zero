@@ -1,0 +1,43 @@
+.UserPage .user-info {
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.UserPage .avatar {
+  width: 220px;
+  height: 220px;
+  align-self: center;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+.UserPage .label,
+.UserPage label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.UserPage .info {
+  font-size: 18px;
+}
+
+.UserPage .info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.UserPage .btn {
+  width: auto;
+  margin-right: 10px;
+}
+
+.UserPage input {
+  width: 40%;
+  display: block;
+}
+
+.UserPage .form {
+  margin-bottom: 30px;
+}

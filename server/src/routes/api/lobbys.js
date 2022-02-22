@@ -7,7 +7,7 @@ const lobbys = [
   {
     participantEmail: 'email0@mail.com',
     startTime: '8:00 PM',
-    id: 'email0@mail.com' + (Math.random() * 1000)
+    id: '1000'
   }
 ];
 

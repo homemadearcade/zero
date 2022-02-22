@@ -13,8 +13,9 @@ import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import Lobbys from './pages/Lobbys/Lobbys';
+import Lobby from './pages/Lobby/Lobby';
 import NotFound from './pages/NotFound/NotFound';
-import SessionLogin from './pages/SessionLogin/SessionLogin';
+import SessionLogin from './pages/LoginSession/LoginSession';
 
 import io from "socket.io-client";
 
@@ -57,6 +58,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
           <Route path="/lobbys" component={Lobbys} />
+          <Route path="/lobby/:id" component={Lobby} />
           <Route exact path="/:username" component={Account} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
