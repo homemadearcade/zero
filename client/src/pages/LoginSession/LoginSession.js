@@ -13,7 +13,7 @@ import { loginUserWithEmail } from '../../store/actions/authActions';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
 import './styles.css';
-// import { getUrlParameter } from '../../utils/utils';
+import { getUrlParameter } from '../../utils/utils';
 // import Loader from '../../components/Loader/Loader';
 import SceneFull from '../../components/SceneFull/SceneFull.jsx';
 
@@ -23,7 +23,7 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
     { text: 'Who is joining us?'},
   ])
 
-  // const participantEmail = getUrlParameter('participantEmail')
+  const participantEmail = getUrlParameter('participantEmail')
   // useEffect(() => {
   //   async function getUser() {
   //     const newPrefaces = prefaces.slice()
@@ -43,7 +43,7 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: participantEmail,
       password: '',
     },
     validationSchema: loginSchema,
@@ -52,17 +52,17 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
     },
   });
 
-  if (auth.isAuthenticated) {
-    // return <Redirect to="/lobby/find" />;
-    return <Redirect to="/lobby/1000" />;
-  }
-
   if(prefaces.length) {
     return <SceneFull onClick={() => {
       const newPrefaces = prefaces.slice()
       newPrefaces.shift()
       setPrefaces(newPrefaces)
     }} text={prefaces[0].text}/>
+  }
+
+  if (auth.isAuthenticated) {
+    return <Redirect to="/lobby/find" />;
+    // return <Redirect to="/lobby/1000" />;
   }
 
   return (

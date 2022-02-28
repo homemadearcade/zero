@@ -16,6 +16,7 @@ import Lobbys from './pages/Lobbys/Lobbys';
 import Lobby from './pages/Lobby/Lobby';
 import NotFound from './pages/NotFound/NotFound';
 import SessionLogin from './pages/LoginSession/LoginSession';
+import LobbyFind from './pages/LobbyFind/LobbyFind';
 
 import io from "socket.io-client";
 
@@ -58,6 +59,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
           <Route path="/notfound" component={NotFound} />
           <Route path="/admin" component={Admin} />
           <Route path="/lobbys" component={Lobbys} />
+          <Route path="/lobby/find" component={LobbyFind} />
           <Route path="/lobby/:id" component={Lobby} />
           <Route exact path="/:username" component={Account} />
           <Route exact path="/" component={Home} />

@@ -41,10 +41,6 @@ const Navbar = ({ auth, logOutUser, history }) => {
             <li className="nav-item">
               <Link to="/play">Phaser Tests</Link>
              </li>
-            <li className="flex-1" />
-            <li className="nav-item" onClick={onLogOut}>
-              <a href="#">Log out</a>
-            </li>
           </>
         ) : (
           <>

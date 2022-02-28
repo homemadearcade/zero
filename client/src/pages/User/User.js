@@ -7,7 +7,8 @@ import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
 import { getUserByUsername, editUser, deleteUser } from '../../store/actions/userActions';
-import { loadMe } from '../../store/actions/authActions';
+import { loadMe, logOutUser } from '../../store/actions/authActions';
+
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
@@ -22,9 +23,15 @@ const User = ({
   editUser,
   deleteUser,
   loadMe,
+  logOutUser,
   history,
   match,
 }) => {
+  const onLogOut = (event) => {
+    event.preventDefault();
+    logOutUser(history);
+  };
+
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(null);
   const [avatar, setAvatar] = useState(null);
@@ -125,6 +132,13 @@ const User = ({
                 >
                   {isEdit ? 'Cancel' : 'Edit'}
                 </button>
+                {me?.id === user.id && <button
+                  onClick={onLogOut}
+                  type="button"
+                  className="btn"
+                >
+                  Logout
+                </button>}
               </div>
             </div>
           </div>
@@ -207,13 +221,13 @@ const User = ({
               <button type="submit" className="btn">
                 Save
               </button>
-              <button
+              {null && <button
                 onClick={() => handleDeleteUser(user.id, history)}
                 type="button"
                 className="btn"
               >
                 Delete user
-              </button>
+              </button>}
             </form>
           </div>
         )}
@@ -230,5 +244,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, loadMe }),
+  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, loadMe, logOutUser }),
 )(User);

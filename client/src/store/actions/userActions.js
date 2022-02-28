@@ -67,7 +67,7 @@ export const getUserByEmail = (email) => async (dispatch, getState) => {
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get(`/api/users/email/${email}`, options);
+    const response = await axios.get(`/api/users/byEmail/${email}`, options);
 
     dispatch({
       type: GET_USER_SUCCESS,

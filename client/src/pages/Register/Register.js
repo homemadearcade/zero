@@ -10,14 +10,17 @@ import { useFormik } from 'formik';
 import { registerUserWithEmail } from '../../store/actions/registerActions';
 import { registerSchema } from './validation';
 import { GOOGLE_AUTH_LINK } from '../../constants';
+import { getUrlParameter } from '../../utils/utils';
 
 import './styles.css';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail }) => {
+  const participantEmail = getUrlParameter('participantEmail')
+
   const formik = useFormik({
     initialValues: {
       username: '',
-      email: '',
+      email: participantEmail,
       password: '',
     },
     validationSchema: registerSchema,
@@ -46,18 +49,6 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
 
           <div>
             <input
-              placeholder="Username"
-              name="username"
-              className=""
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.username}
-            />
-            {formik.touched.username && formik.errors.username ? (
-              <p className="error">{formik.errors.username}</p>
-            ) : null}
-            <input
               placeholder="Email address"
               name="email"
               className=""
@@ -68,6 +59,18 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
             />
             {formik.touched.email && formik.errors.email ? (
               <p className="error">{formik.errors.email}</p>
+            ) : null}
+            <input
+              placeholder="Username"
+              name="username"
+              className=""
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+            />
+            {formik.touched.username && formik.errors.username ? (
+              <p className="error">{formik.errors.username}</p>
             ) : null}
             <input
               placeholder="Password"

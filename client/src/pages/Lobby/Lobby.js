@@ -14,7 +14,7 @@ import './styles.scss';
 
 const Lobby = ({
   getLobbyById,
-  lobby: { lobby, isLoading },
+  lobby: { lobby, isLoading, error },
   auth: { me },
   history,
   match,
@@ -28,9 +28,15 @@ const Lobby = ({
   if(isLoading) {
     return <Loader/>
   }
+  
+  if(error) {
+    return <div className="LobbyPage">
+      {error}. Please check the assigned time for your session or contact team@homemadearcade.net
+    </div>
+  }
 
   return (
-      <div className="UserPage">
+      <div className="LobbyPage">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
         <p>
           Hello {me.username}

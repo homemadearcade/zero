@@ -2,6 +2,9 @@ import axios from 'axios';
 
 import { attachTokenToHeaders } from './authActions';
 import {
+  ADD_LOBBY_LOADING,
+  ADD_LOBBY_SUCCESS,
+  ADD_LOBBY_FAIL,
   GET_LOBBY_LOADING,
   GET_LOBBY_SUCCESS,
   GET_LOBBY_FAIL,
@@ -12,6 +15,27 @@ import {
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
 } from '../types';
+
+export const addLobby = (formData) => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_LOBBY_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/lobbys', formData, options);
+
+    dispatch({
+      type: ADD_LOBBY_SUCCESS,
+      payload: { lobby: response.data.lobby },
+    });
+  } catch (err) {
+    dispatch({
+      type: ADD_LOBBY_FAIL,
+      payload: { error: err?.response?.data.lobby || err.lobby },
+    });
+  }
+};
 
 export const editLobby = (id, formData, history) => async (dispatch, getState) => {
   dispatch({
@@ -58,25 +82,25 @@ export const getLobbyById = (id, history) => async (dispatch, getState) => {
   }
 };
 
-// export const getUserByEmail = (email) => async (dispatch, getState) => {
-//   dispatch({
-//     type: GET_LOBBY_LOADING,
-//   });
-//   try {
-//     const options = attachTokenToHeaders(getState);
-//     const response = await axios.get(`/api/lobbys/email/${email}`, options);
+export const getLobbyByEmail = (email) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_LOBBY_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`/api/lobbys/byEmail/${email}`, options);
 
-//     dispatch({
-//       type: GET_LOBBY_SUCCESS,
-//       payload: { lobby: response.data.lobby },
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: GET_LOBBY_FAIL,
-//       payload: { error: err?.response?.data.message || err.message },
-//     });
-//   }
-// };
+    dispatch({
+      type: GET_LOBBY_SUCCESS,
+      payload: { lobby: response.data.lobby },
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_LOBBY_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
 
 export const deleteLobby = (id, history) => async (dispatch, getState) => {
   dispatch({

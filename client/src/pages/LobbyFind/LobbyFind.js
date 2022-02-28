@@ -3,34 +3,38 @@ import { Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { joinMatchingLobby } from '../../store/actions/lobbysActions';
-import Layout from '../../layout/Layout';
+import { getLobbyByEmail } from '../../store/actions/lobbyActions';
 import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
-import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.scss';
 
-const LobbyFind = ({ joinMatchingLobby }, auth) => {
+const LobbyFind = ({ getLobbyByEmail, lobby: { lobby, error }, auth: { me }}) => {
   useEffect(() => {
-    joinMatchingLobby();
+    getLobbyByEmail(me.email);
   }, []);
 
-  if(auth.lobbyId) {
-    return <Redirect to={"/lobby/" + auth.lobbyId} />;
+  if(error) {
+    return <div className="LobbyPage">
+      <h1>{error}</h1>
+      Please double check the assigned time for your session or contact team@homemadearcade.net
+    </div>
+  }
+
+  if(lobby?.id) {
+    return <Redirect to={"/lobby/" + lobby.id} />;
   }
 
   return (
-    <Layout>
       <div className="LobbyFind">
-
+        <Loader/>
       </div>
-    </Layout>
   );
 };
 
 const mapStateToProps = (state) => ({
-  lobbys: state.lobbys,
+  lobby: state.lobby,
+  auth: state.auth,
 });
 
-export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { joinMatchingLobby  }))(LobbyFind);
+export default compose(requireAuth, connect(mapStateToProps, { getLobbyByEmail  }))(LobbyFind);
