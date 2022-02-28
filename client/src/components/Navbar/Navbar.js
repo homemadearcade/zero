@@ -30,9 +30,6 @@ const Navbar = ({ auth, logOutUser, history }) => {
                 <Link to="/lobbys">Lobbies</Link>
               </li>
             )}
-            <li className="nav-item">
-              <Link to={`/${auth.me.username}`}>My Account</Link>
-            </li>
             {null && auth.me?.role === 'ADMIN' && (
               <li className="nav-item">
                 <Link to="/admin">Admin</Link>
@@ -41,6 +38,10 @@ const Navbar = ({ auth, logOutUser, history }) => {
             <li className="nav-item">
               <Link to="/play">Phaser Tests</Link>
              </li>
+            <li className="flex-1" />
+            <li className="nav-item">
+              <Link to={`/${auth.me.username}`}>My Account</Link>
+            </li>
           </>
         ) : (
           <>

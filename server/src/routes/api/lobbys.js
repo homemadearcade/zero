@@ -78,6 +78,10 @@ router.post('/', requireJwtAuth, async (req, res) => {
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
 
+    if (req.user.role !== 'ADMIN') {
+      return res.status(400).json({ message: 'You do not have privilegies to delete that lobby.' });
+    }
+
     let index
     const lobbyFound = lobbys.filter((l, i) => {
       if(l.id === req.params.id) {
@@ -90,9 +94,7 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
 
     lobbys.splice(index, 1);
 
-    res.json({ lobby: lobbyFound });
-
-    res.status(200).json({ lobby: lobby });
+    res.status(200).json({ lobby: lobbyFound });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.' });
   }

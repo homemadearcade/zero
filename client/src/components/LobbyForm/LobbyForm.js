@@ -2,24 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { addLobby } from '../../store/actions/lobbyActions';
+import { addLobby } from '../../store/actions/lobbysActions';
 import { lobbyFormSchema } from './validation';
 
 import './styles.css';
 
-const MessageForm = ({ addLobby, lobby: { lobbys } }) => {
+const LobbyForm = ({ addLobby, onSubmit }) => {
   const formik = useFormik({
     initialValues: {
       participantEmail: '',
+      startTime: ''
     },
     validationSchema: lobbyFormSchema,
-    onSubmit: (values, { resetForm }) => {
-      addLobby({ text: values.text });
+    onSubmit: async (values, { resetForm }) => {
       resetForm();
+      await addLobby({ participantEmail: values.participantEmail, startTime: values.startTime });
+      onSubmit()
     },
   });
-
-  const isSubmiting = lobbys.some((m) => m.id === 0);
 
   return (
     <div className="LobbyForm">
@@ -40,8 +40,22 @@ const MessageForm = ({ addLobby, lobby: { lobbys } }) => {
             <p className="error">{formik.errors.participantEmail}</p>
           ) : null}
         </div>
-        
-        <input type="submit" className="btn" value="Add Lobby" disabled={isSubmiting} />
+        <div className="input-div">
+          <label>Start Time:</label>
+          <input
+            placeholder="Start Time"
+            name="startTime"
+            className=""
+            type="text"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.startTime}
+          />
+          {formik.touched.startTime && formik.errors.startTime ? (
+            <p className="error">{formik.errors.startTime}</p>
+          ) : null}
+        </div>
+        <input type="submit" className="btn" value="Add Lobby" />
       </form>
     </div>
   );
@@ -51,4 +65,4 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
 });
 
-export default connect(mapStateToProps, { addLobby })(MessageForm);
+export default connect(mapStateToProps, { addLobby })(LobbyForm);

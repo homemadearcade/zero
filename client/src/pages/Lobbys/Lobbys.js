@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import moment from 'moment';
 
 import { getLobbys } from '../../store/actions/lobbysActions';
+import { deleteLobby, joinLobby } from '../../store/actions/lobbyActions';
+
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
+import LobbyForm from '../../components/LobbyForm/LobbyForm';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.scss';
 
-const Lobbys = ({ getLobbys, lobbys: { lobbys, isLoading } }) => {
+const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {
     getLobbys();
   }, []);
@@ -49,13 +52,29 @@ const Lobbys = ({ getLobbys, lobbys: { lobbys, isLoading } }) => {
                       <button
                         className="LobbysPage__button"
                         type="button"
+                        onClick={() => {
+                          joinLobby(lobby.id, history)
+                        }}
                       >
                         Join
+                      </button>
+                      <button
+                        className="LobbysPage__button"
+                        type="button"
+                        onClick={async () => {
+                          await deleteLobby(lobby.id, history)
+                          getLobbys()
+                        }}
+                      >
+                        Delete
                       </button>
                     </div>
                   </div>
                 );
-              })}
+              })} 
+              <LobbyForm onSubmit={() => {
+                getLobbys()
+              }}/>
             </>
           )}
         </div>
@@ -68,4 +87,8 @@ const mapStateToProps = (state) => ({
   lobbys: state.lobbys,
 });
 
-export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { getLobbys  }))(Lobbys);
+export default compose(
+  requireAuth,
+  requireAdmin,  
+  withRouter,
+  connect(mapStateToProps, { getLobbys, deleteLobby, joinLobby }))(Lobbys);

@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import { attachTokenToHeaders } from './authActions';
 import {
-  ADD_LOBBY_LOADING,
-  ADD_LOBBY_SUCCESS,
-  ADD_LOBBY_FAIL,
+  JOIN_LOBBY_LOADING,
+  JOIN_LOBBY_SUCCESS,
+  JOIN_LOBBY_FAIL,
   GET_LOBBY_LOADING,
   GET_LOBBY_SUCCESS,
   GET_LOBBY_FAIL,
@@ -15,27 +15,6 @@ import {
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
 } from '../types';
-
-export const addLobby = (formData) => async (dispatch, getState) => {
-  dispatch({
-    type: ADD_LOBBY_LOADING,
-  });
-  
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbys', formData, options);
-
-    dispatch({
-      type: ADD_LOBBY_SUCCESS,
-      payload: { lobby: response.data.lobby },
-    });
-  } catch (err) {
-    dispatch({
-      type: ADD_LOBBY_FAIL,
-      payload: { error: err?.response?.data.lobby || err.lobby },
-    });
-  }
-};
 
 export const editLobby = (id, formData, history) => async (dispatch, getState) => {
   dispatch({
@@ -102,7 +81,7 @@ export const getLobbyByEmail = (email) => async (dispatch, getState) => {
   }
 };
 
-export const deleteLobby = (id, history) => async (dispatch, getState) => {
+export const deleteLobby = (id) => async (dispatch, getState) => {
   dispatch({
     type: DELETE_LOBBY_LOADING,
     payload: { id },
@@ -111,11 +90,6 @@ export const deleteLobby = (id, history) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.delete(`/api/lobbys/${id}`, options);
 
-    // //logout only if he deleted himself
-    // if (getState().auth.me.id === response.data.lobby.id) {
-    //   dispatch(logOutUser(id, history));
-    // }
-    history.push('/lobbys');
     dispatch({
       type: DELETE_LOBBY_SUCCESS,
       payload: { message: response.data.lobby },
@@ -123,6 +97,28 @@ export const deleteLobby = (id, history) => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: DELETE_LOBBY_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const joinLobby = (id, history) => async (dispatch, getState) => {
+  dispatch({
+    type: JOIN_LOBBY_LOADING,
+    payload: { id },
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post(`/api/lobbys/join/${id}`, options);
+
+    history.push('/lobby/'+id);
+    dispatch({
+      type: JOIN_LOBBY_SUCCESS,
+      payload: { message: response.data.lobby },
+    });
+  } catch (err) {
+    dispatch({
+      type: JOIN_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
