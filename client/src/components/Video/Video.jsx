@@ -18,12 +18,12 @@ const config = {
 const appId = "0716694847e34448b71f311437be319f"; //ENTER APP ID HERE
 const token = null;
 
-const App = ({channelId}) => {
+const App = ({channelId, userId}) => {
   const [inCall, setInCall] = useState(true);
 
   return (
     <div>
-        {inCall && <VideoCall setInCall={setInCall} channelName={channelId} />}
+        {inCall && <VideoCall setInCall={setInCall} userId={userId} channelName={channelId} />}
     </div>
   );
 };
@@ -78,7 +78,7 @@ const VideoCall = (props) => {
         });
       });
 
-      await client.join(appId, channelName, token, 100);
+      await client.join(appId, channelName, token, props.userId);
       if (tracks) await client.publish([tracks[0], tracks[1]]);
       setStart(true);
     };

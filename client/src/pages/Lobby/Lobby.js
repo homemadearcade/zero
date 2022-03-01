@@ -80,7 +80,7 @@ const Lobby = ({
         <button onClick={() => {
           setShowVideo(true)
         }}>Join Video</button>
-        {showVideo && <Video channelId={lobby.id}/>}
+        {showVideo && <Video channelId={lobby.id} userId={me.id} />}
       </div>
     );
   } else {
