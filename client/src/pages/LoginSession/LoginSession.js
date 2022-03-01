@@ -47,8 +47,9 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
       password: '',
     },
     validationSchema: loginSchema,
-    onSubmit: (values) => {
-      loginUserWithEmail(values, history);
+    onSubmit: async (values) => {
+      await loginUserWithEmail(values, history);
+      history.push("/lobby/find")
     },
   });
 
@@ -60,34 +61,16 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
     }} text={prefaces[0].text}/>
   }
 
-  if (auth.isAuthenticated) {
-    return <Redirect to="/lobby/find" />;
-    // return <Redirect to="/lobby/1000" />;
+  if(auth.isAuthenticated && auth.me.email === participantEmail) {
+    return <Redirect to="/lobby/find"/>
   }
 
   return (
     <div className="login">
       <div className="container">
-        {false && <h1>Log in with Google</h1>}
         <form onSubmit={formik.handleSubmit}>
-          {false && <a className="google btn" href={GOOGLE_AUTH_LINK}>
-            <i className="fa fa-google fa-fw" />
-            Login with Google
-          </a>}
-          <h1>Log in with Email</h1>
+          <h1>Logging in as {formik.values.email}</h1>
           <div>
-            <input
-              placeholder="Email address"
-              name="email"
-              className="text"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email ? (
-              <p className="error">{formik.errors.email}</p>
-            ) : null}
             <input
               placeholder="Password"
               name="password"

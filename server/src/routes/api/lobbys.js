@@ -1,13 +1,32 @@
 import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
+import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
+
+function findLobbyById(id, res) {
+  const lobbyFound = lobbys.filter((l) => {
+    if(l.id === id) {
+      return true
+    } else {
+      return false
+    }
+  })[0]
+
+  if(!lobbyFound) {
+    res.status(500).json({ message: 'No lobby found for id: ' + id});
+    return null
+  }
+
+  return lobbyFound
+}
+
 
 const lobbys = [
   {
     participantEmail: 'email0@email.com',
     startTime: '8:00 PM',
-    id: '1000'
+    id: uuidv4()
   }
 ];
 
@@ -23,14 +42,8 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-
-    const lobbyFound = lobbys.filter((l) => {
-      if(l.id === req.params.id) {
-        return true
-      } else {
-        return false
-      }
-    })[0]
+    const lobbyFound = findLobbyById(req.params.id, res)
+    if(!lobbyFound) return
 
     res.json({ lobby: lobbyFound });
   } catch (err) {
@@ -40,18 +53,8 @@ router.get('/:id', async (req, res) => {
 
 router.get('/byEmail/:email', async (req, res) => {
   try {
-    const lobbysFound = lobbys.filter((l) => {
-      if(l.participantEmail === req.params.email) {
-        return true
-      } else {
-        return false
-      }
-    })
-
-    if(lobbysFound.length == 0) {
-      res.status(500).json({ message: 'No lobby found for ' + req.params.email});
-      return
-    }
+    const lobbyFound = findLobbyById(req.params.id, res)
+    if(!lobbyFound) return
 
     res.json({ lobby: lobbysFound[0] });
   } catch (err) {
@@ -64,7 +67,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
     let lobby = {
       participantEmail: req.body.participantEmail,
       startTime: req.body.startTime,
-      id: Math.ceil(Math.random() * 1000)
+      id: uuidv4()
     };
 
     lobbys.push(lobby)
@@ -75,11 +78,41 @@ router.post('/', requireJwtAuth, async (req, res) => {
   }
 });
 
+router.get('/leave/:id', requireJwtAuth, async (req, res) => {
+  try {
+    const lobbyFound = findLobbyById(req.params.id, res)
+    if(!lobbyFound) return
+
+
+
+
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
+router.get('/join/:id', requireJwtAuth, async (req, res) => {
+  try {
+    const lobbyFound = findLobbyById(req.params.id, res)
+    if(!lobbyFound) return
+
+    if (req.user.role === 'ADMIN') {
+      return res.status(200)
+    } else if(lobbyFound.participantEmail === req.user.email){
+      return res.status(200)
+    } else {
+      return res.status(400).json({ message: 'You do not have permission to join that lobby.' });
+    }
+
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
-
     if (req.user.role !== 'ADMIN') {
-      return res.status(400).json({ message: 'You do not have privilegies to delete that lobby.' });
+      return res.status(400).json({ message: 'You do not have privileges to delete that lobby.' });
     }
 
     let index
@@ -103,13 +136,8 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
 router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
 
-    const lobbyFound = lobbys.filter((l) => {
-      if(l.id === req.params.id) {
-        return true
-      } else {
-        return false
-      }
-    })[0]
+    const lobbyFound = findLobbyById(req.params.id, res)
+    if(!lobbyFound) return
 
     lobbyFound.participantEmail = req.body.participantEmail
     lobbyFound.startTime = req.body.startTime

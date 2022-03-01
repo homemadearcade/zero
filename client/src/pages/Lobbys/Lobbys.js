@@ -53,7 +53,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                         className="LobbysPage__button"
                         type="button"
                         onClick={() => {
-                          joinLobby(lobby.id, history)
+                          history.push('/lobby/'+lobby.id)
                         }}
                       >
                         Join

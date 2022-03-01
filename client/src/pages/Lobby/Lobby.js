@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
-import { getLobbyById } from '../../store/actions/lobbyActions';
+import { getLobbyById, joinLobby, leaveLobby } from '../../store/actions/lobbyActions';
 import { loadMe } from '../../store/actions/authActions';
 import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
@@ -14,25 +14,36 @@ import './styles.scss';
 
 const Lobby = ({
   getLobbyById,
+  leaveLobby,
+  joinLobby,
   lobby: { lobby, isLoading, error },
   auth: { me },
-  history,
   match,
 }) => {
+  console.log(me)
+
   const matchId = match.params.id;
 
   useEffect(() => {
-    getLobbyById(matchId, history);
-  }, [matchId]);
+    async function getLobbyAndJoinLobby() {
+      await getLobbyById(matchId);
+      await joinLobby(matchId);
+      window.addEventListener('beforeunload', function (e) {
+        e.preventDefault();
+        e.returnValue = '';
+        leaveLobby(matchId)
+      });
+    }
+
+    getLobbyAndJoinLobby()
+
+    return () => {
+      leaveLobby(matchId)
+    }
+  }, []);
 
   if(isLoading) {
     return <Loader/>
-  }
-  
-  if(error) {
-    return <div className="LobbyPage">
-      {error}. Please check the assigned time for your session or contact team@homemadearcade.net
-    </div>
   }
 
   return (
@@ -68,5 +79,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getLobbyById, loadMe }),
+  connect(mapStateToProps, { getLobbyById, joinLobby, leaveLobby, loadMe }),
 )(Lobby);
