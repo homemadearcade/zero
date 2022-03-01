@@ -61,9 +61,9 @@ const Login = ({ auth, history, loginUserWithEmail, getUserByEmail, user: { user
     }} text={prefaces[0].text}/>
   }
 
-  if(auth.isAuthenticated && auth.me.email === participantEmail) {
-    return <Redirect to="/lobby/find"/>
-  }
+  // if(auth.isAuthenticated && auth.me.email === participantEmail) {
+  //   return <Redirect to="/lobby/find"/>
+  // }
 
   return (
     <div className="login">

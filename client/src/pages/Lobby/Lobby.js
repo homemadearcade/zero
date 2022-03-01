@@ -20,24 +20,25 @@ const Lobby = ({
   auth: { me },
   match,
 }) => {
-  console.log(me)
-
   const matchId = match.params.id;
 
   useEffect(() => {
+    function askBeforeClosing(e) {
+      e.preventDefault();
+      e.returnValue = '';
+      leaveLobby(matchId)
+    }
+
     async function getLobbyAndJoinLobby() {
       await getLobbyById(matchId);
       await joinLobby(matchId);
-      window.addEventListener('beforeunload', function (e) {
-        e.preventDefault();
-        e.returnValue = '';
-        leaveLobby(matchId)
-      });
+      window.addEventListener('beforeunload', askBeforeClosing);
     }
 
     getLobbyAndJoinLobby()
 
     return () => {
+      window.removeEventListener('beforeunload', askBeforeClosing)
       leaveLobby(matchId)
     }
   }, []);
