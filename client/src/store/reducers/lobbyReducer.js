@@ -60,18 +60,25 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         isLoading: false,
         lobby: {},
       };
-    case GET_LOBBY_FAIL:
-    case EDIT_LOBBY_FAIL:
-    case DELETE_LOBBY_FAIL:
-    case LEAVE_LOBBY_FAIL:
     case JOIN_LOBBY_FAIL:
       return {
         ...state,
         isLoading: false,
         isJoining: false,
         lobby: {},
-        error: payload.error,
+        joinError: payload.error,
       };
+    case GET_LOBBY_FAIL:
+    case EDIT_LOBBY_FAIL:
+    case DELETE_LOBBY_FAIL:
+    case LEAVE_LOBBY_FAIL:
+        return {
+          ...state,
+          isLoading: false,
+          isJoining: false,
+          lobby: {},
+          error: payload.error,
+        };
     default:
       return state;
   }

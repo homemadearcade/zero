@@ -18,16 +18,12 @@ const config = {
 const appId = "0716694847e34448b71f311437be319f"; //ENTER APP ID HERE
 const token = null;
 
-const App = () => {
-  const [inCall, setInCall] = useState(false);
-  const [channelName, setChannelName] = useState("");
+const App = ({channelId}) => {
+  const [inCall, setInCall] = useState(true);
+
   return (
     <div>
-      {inCall ? (
-        <VideoCall setInCall={setInCall} channelName={channelName} />
-      ) : (
-        <ChannelForm setInCall={setInCall} setChannelName={setChannelName} />
-      )}
+        {inCall && <VideoCall setInCall={setInCall} channelName={channelId} />}
     </div>
   );
 };
@@ -96,7 +92,7 @@ const VideoCall = (props) => {
 
   return (
     <div className="App">
-      {ready && tracks && (
+      {ready && tracks && false && (
         <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
       )}
       {start && tracks && <Videos users={users} tracks={tracks} />}
@@ -107,17 +103,19 @@ const VideoCall = (props) => {
 const Videos = (props) => {
   const { users, tracks } = props;
 
+  console.log(users, tracks)
+
   return (
     <div>
       <div id="videos">
         {/* AgoraVideoPlayer component takes in the video track to render the stream,
             you can pass in other props that get passed to the rendered div */}
-        <AgoraVideoPlayer style={{height: '95%', width: '95%'}} className='vid' videoTrack={tracks[1]} />
+        <AgoraVideoPlayer style={{height: '200px', width: '200px'}} className='vid' videoTrack={tracks[1]} />
         {users.length > 0 &&
           users.map((user) => {
             if (user.videoTrack) {
               return (
-                <AgoraVideoPlayer style={{height: '95%', width: '95%'}} className='vid' videoTrack={user.videoTrack} key={user.uid} />
+                <AgoraVideoPlayer style={{height: '200px', width: '200px'}} className='vid' videoTrack={user.videoTrack} key={user.uid} />
               );
             } else return null;
           })}
@@ -167,26 +165,6 @@ export const Controls = (props) => {
       </p>
       {<p onClick={() => leaveChannel()}>Leave</p>}
     </div>
-  );
-};
-
-const ChannelForm = (props) => {
-  const { setInCall, setChannelName } = props;
-
-  return (
-    <form className="join">
-      {appId === '' && <p style={{color: 'red'}}>Please enter your Agora App ID in App.tsx and refresh the page</p>}
-      <input type="text"
-        placeholder="Enter Channel Name"
-        onChange={(e) => setChannelName(e.target.value)}
-      />
-      <button onClick={(e) => {
-        e.preventDefault();
-        setInCall(true);
-      }}>
-        Join
-      </button>
-    </form>
   );
 };
 

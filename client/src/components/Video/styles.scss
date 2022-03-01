@@ -10,12 +10,12 @@ body {
 }
 
 .App{
-  position: relative;
-  display: grid;
-  grid-template-columns: 100%;
-  justify-items: center;
-  align-items: center;
-  height: 90vh;
+  // position: relative;
+  // display: grid;
+  // grid-template-columns: 100%;
+  // justify-items: center;
+  // align-items: center;
+  // height: 90vh;
 }
 
 .heading {
@@ -25,15 +25,15 @@ body {
 }
 
 #videos{
-  position: relative;
-  height: 85vh;
-  width: 100vw;
-  margin: auto;
-  align-self: flex-start;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
-  justify-items: center;
-  align-items: center;
+  // position: relative;
+  // height: 85vh;
+  // width: 100vw;
+  // margin: auto;
+  // align-self: flex-start;
+  // display: grid;
+  // grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+  // justify-items: center;
+  // align-items: center;
 }
 
 .vid{

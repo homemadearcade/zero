@@ -15,7 +15,7 @@ const LobbyFind = ({ getLobbyByEmail, lobby: { lobby, error }, auth: { me }}) =>
   }, []);
 
   if(error) {
-    return <div className="LobbyPage">
+    return <div className="LobbyFind">
       <h1>{error}</h1>
       Please double check the assigned time for your session or contact team@homemadearcade.net
     </div>

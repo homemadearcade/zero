@@ -55,7 +55,7 @@ const LobbyForm = ({ addLobby, onSubmit }) => {
             <p className="error">{formik.errors.startTime}</p>
           ) : null}
         </div>
-        <input type="submit" className="btn" value="Add Lobby" />
+        <button type="submit" className="btn">Add Lobby</button>
       </form>
     </div>
   );
