@@ -16,7 +16,7 @@ const Lobby = ({
   getLobbyById,
   leaveLobby,
   joinLobby,
-  lobby: { lobby, isLoading, error },
+  lobby: { lobby, isLoading, isJoining, error },
   auth: { me },
   match,
 }) => {
@@ -32,13 +32,13 @@ const Lobby = ({
     async function getLobbyAndJoinLobby() {
       await getLobbyById(matchId);
       await joinLobby(matchId);
-      window.addEventListener('beforeunload', askBeforeClosing);
+      // window.addEventListener('beforeunload', askBeforeClosing);
     }
 
     getLobbyAndJoinLobby()
 
     return () => {
-      window.removeEventListener('beforeunload', askBeforeClosing)
+      // window.removeEventListener('beforeunload', askBeforeClosing)
       leaveLobby(matchId)
     }
   }, []);
@@ -47,29 +47,20 @@ const Lobby = ({
     return <Loader/>
   }
 
-  return (
+  if(isJoining) {
+    return <Loader text="Joining lobby..."/>
+  }
+
+  if(lobby) {
+    return (
       <div className="LobbyPage">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
         <p>
           Hello {me.username}
         </p>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div className="user-info">
-            <div className="info-container">
-              {false && 
-              <div>
-                <span className="label">Joined: </span>
-                <span className="info">
-                  {moment(0).format('dddd, MMMM Do YYYY, H:mm:ss')}
-                </span>
-              </div>}
-            </div>
-          </div>
-        )}
       </div>
-  );
+    );
+  }
 };
 
 const mapStateToProps = (state) => ({

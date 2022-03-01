@@ -1,4 +1,10 @@
 import {
+  LEAVE_LOBBY_LOADING,
+  LEAVE_LOBBY_SUCCESS,
+  LEAVE_LOBBY_FAIL,
+  JOIN_LOBBY_LOADING,
+  JOIN_LOBBY_SUCCESS,
+  JOIN_LOBBY_FAIL,
   GET_LOBBY_LOADING,
   GET_LOBBY_SUCCESS,
   GET_LOBBY_FAIL,
@@ -26,11 +32,21 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         isLoading: true,
         error: null,
       };
+    case JOIN_LOBBY_LOADING:
+      return {
+        ...state,
+        isJoining: true,
+      };
     case GET_LOBBY_SUCCESS:
       return {
         ...state,
         isLoading: false,
         lobby: payload.lobby,
+      };
+    case JOIN_LOBBY_SUCCESS:
+      return {
+        ...state,
+        isJoining: false,
       };
     case EDIT_LOBBY_SUCCESS:
       return {
@@ -47,9 +63,12 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     case GET_LOBBY_FAIL:
     case EDIT_LOBBY_FAIL:
     case DELETE_LOBBY_FAIL:
+    case LEAVE_LOBBY_FAIL:
+    case JOIN_LOBBY_FAIL:
       return {
         ...state,
         isLoading: false,
+        isJoining: false,
         lobby: {},
         error: payload.error,
       };

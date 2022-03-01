@@ -2,6 +2,9 @@ import axios from 'axios';
 import { attachTokenToHeaders } from './authActions';
 
 import {
+  ADD_LOBBY_LOADING,
+  ADD_LOBBY_SUCCESS,
+  ADD_LOBBY_FAIL,
   LEAVE_LOBBY_LOADING,
   LEAVE_LOBBY_SUCCESS,
   LEAVE_LOBBY_FAIL,
@@ -18,6 +21,29 @@ import {
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
 } from '../types';
+
+
+export const addLobby = (formData) => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_LOBBY_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/lobbys', formData, options);
+
+    dispatch({
+      type: ADD_LOBBY_SUCCESS,
+      payload: { lobby: response.data.lobby },
+    });
+  } catch (err) {
+    dispatch({
+      type: ADD_LOBBY_FAIL,
+      payload: { error: err?.response?.data.lobby || err.lobby },
+    });
+  }
+};
+
 
 export const editLobby = (id, formData, history) => async (dispatch, getState) => {
   dispatch({
@@ -95,7 +121,7 @@ export const deleteLobby = (id) => async (dispatch, getState) => {
 
     dispatch({
       type: DELETE_LOBBY_SUCCESS,
-      payload: { message: response.data.lobby },
+      payload: { lobby: response.data.lobby },
     });
   } catch (err) {
     dispatch({
@@ -113,10 +139,10 @@ export const joinLobby = (id) => async (dispatch, getState) => {
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get(`/api/lobbys/join/${id}`, options);
-
+    
     dispatch({
       type: JOIN_LOBBY_SUCCESS,
-      payload: { message: response.data.lobby },
+      payload: { lobby: response.data.lobby },
     });
   } catch (err) {
     dispatch({
@@ -138,7 +164,7 @@ export const leaveLobby = (id, history) => async (dispatch, getState) => {
     history.push('/lobby/'+id);
     dispatch({
       type: LEAVE_LOBBY_SUCCESS,
-      payload: { message: response.data.lobby },
+      payload: { lobby: response.data.lobby },
     });
   } catch (err) {
     dispatch({

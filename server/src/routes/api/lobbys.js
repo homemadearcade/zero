@@ -4,6 +4,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
 
+const lobbys = [
+  {
+    participantEmail: 'email0@email.com',
+    startTime: '8:00 PM',
+    id: 'c5ee5f1e-fe16-4296-9f26-162e21e922eb',
+    users: []
+  }
+];
+
 function requireLobbyId(req, res, next) {
   let index
 
@@ -26,15 +35,6 @@ function requireLobbyId(req, res, next) {
 
   next()
 }
-
-const lobbys = [
-  {
-    participantEmail: 'email0@email.com',
-    startTime: '8:00 PM',
-    id: 'c5ee5f1e-fe16-4296-9f26-162e21e922eb',
-    users: []
-  }
-];
 
 router.get('/', async (req, res) => {
   try {    
@@ -86,14 +86,18 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
     lobbys.push(lobby)
 
-    res.status(200).json({ lobby: lobby });
+    res.status(200).json({ lobbys: lobbys });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
 
-router.get('/leave/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
+router.get('/remove/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
   try {
+    if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
+      return res.status(400).json({ message: 'You do not have privileges to remove user from that lobby.' });
+    }
+
     let index;
 
     const userFound = req.lobby.users.filter((u, i) => {
@@ -124,18 +128,17 @@ router.get('/join/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
         return false
       }
     })[0]
-
-    if(userFound) {
-      res.status(400).json({ message: 'User with id ' + req.params.id + ' alread found in lobby ' + req.params.id });
-      return
-    }
-
-    req.lobby.users.push(req.user)
-
+    
     if (req.user.role === 'ADMIN') {
-      return res.status(200)
+      if(!userFound) {
+        req.lobby.users.push(req.user)
+      }
+      return res.status(200).send()
     } else if(req.lobby.participantEmail === req.user.email){
-      return res.status(200)
+      if(!userFound) {
+        req.lobby.users.push(req.user)
+      }
+      return res.status(200).send()
     } else {
       return res.status(400).json({ message: 'You do not have permission to join that lobby.' });
     }

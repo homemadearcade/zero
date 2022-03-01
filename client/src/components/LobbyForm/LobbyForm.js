@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { addLobby } from '../../store/actions/lobbysActions';
+import { addLobby } from '../../store/actions/lobbyActions';
 import { lobbyFormSchema } from './validation';
 
 import './styles.css';
