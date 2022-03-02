@@ -7,10 +7,14 @@ import { resolve, join } from 'path';
 import passport from 'passport';
 import http from 'http';
 import { Server } from "socket.io"
-import all_routes from 'express-list-endpoints';
+// import all_routes from 'express-list-endpoints';
+import jsonwebtoken from 'jsonwebtoken';
 
 import routes from './routes';
-import { seedDb } from './utils/seed';
+// import { seedDb } from './utils/seed';
+
+import User from './models/User';
+
 
 const app = express();
 
@@ -73,29 +77,38 @@ if (isProduction) {
 
 // Listen for requests
 const io = new Server(server, { /* options */ });
-io.on("connection", (socket) => {
-  socket.on('login', (values) => {
-    passport.authenticate('local', (err, user, info) => {
-      if (err) {
-        return socket.emit('login_error', err)
-      }
-      if (!user) {
-        return socket.emit('login_error', err)
-      }
 
-      socket.emit('login_success')
-      socket.user = user
-    })({body: values}, {})
+io.on("connection", (socket) => {  
+  socket.on('login', async ({token}) => {
+    if (token) {
+      const isProduction = process.env.NODE_ENV === 'production';
+      const secretOrKey = isProduction ? process.env.JWT_SECRET_PROD : process.env.JWT_SECRET_DEV;
+  
+      const decoded = jsonwebtoken.verify(token, secretOrKey)
+      const email = decoded.email
+      const user = await User.findOne({ email: email.trim() });
+  
+      if (user) {
+        socket.user = {
+          email: user.email,
+          id: user.id,
+          username: user.username,
+        }
+  
+        socket.emit('login_success')
+      } else {
+        socket.emit('login_fail', { error: 'no such user'})
+      }
+    } else {
+      socket.emit('login_fail', { error: 'no token for socket'})
+    }
   })
 
-  socket.on("connect", () => {
-
-  });
-  
-  socket.on("disconnect", () => {
-
+  socket.on("disconnect", async () => {
+    console.log('disconnected', socket.user)
   });
 });
+
 server.listen(port, () => console.log(`Server started on port ${port}`));
 
 app.set('socketio', io);

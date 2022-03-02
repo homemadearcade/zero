@@ -21,14 +21,16 @@ import LobbyFind from './pages/LobbyFind/LobbyFind';
 
 import Loader from './components/Loader/Loader';
 
-import { logInUserWithOauth, loadMe } from './store/actions/authActions';
+import { logInUserWithOauth, loadMe, loginSocket } from './store/actions/authActions';
 
 import io from 'socket.io-client'
+// window.socket = io(window.location.host, { autoConnect: false })
 window.socket = io()
 
-const App = ({ logInUserWithOauth, auth, loadMe }) => {
+const App = ({ logInUserWithOauth, loginSocket, auth, loadMe }) => {
   useEffect(() => {
     loadMe();
+    loginSocket();
   }, [loadMe]);
 
   useEffect(() => {
@@ -44,6 +46,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
   useEffect(() => {
     if (!auth.appLoaded && !auth.isLoading && auth.token && !auth.isAuthenticated) {
       loadMe();
+      loginSocket();
     }
   }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded]);
 
@@ -76,4 +79,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(connect(mapStateToProps, { logInUserWithOauth, loadMe }))(App);
+export default compose(connect(mapStateToProps, { loginSocket, logInUserWithOauth, loadMe }))(App);

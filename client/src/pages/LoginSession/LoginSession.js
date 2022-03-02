@@ -48,8 +48,8 @@ const Login = ({ auth, history, loginUserWithEmail, loginSocket }) => {
     },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      await loginSocket(values)
       await loginUserWithEmail(values);
+      await loginSocket()
       history.push("/lobby/find")
     },
   });

@@ -23,7 +23,10 @@ import {
 export const loginSocket = (values) => async (dispatch, getState) => {
   dispatch({ type: LOGIN_SOCKET_LOADING });
   return new Promise((resolve, reject) => {
-    window.socket.emit('login', values)
+    const token = getState().auth.token;
+
+    window.socket.emit('login', { token })
+
     window.socket.on('login_success', () => {
       dispatch({
         type: LOGIN_SOCKET_SUCCESS,
