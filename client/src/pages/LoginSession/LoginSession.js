@@ -18,10 +18,12 @@ import { getUrlParameter } from '../../utils/utils';
 import Loader from '../../components/Loader/Loader';
 import SceneFull from '../../components/SceneFull/SceneFull.jsx';
 
-const Login = ({ auth, history, loginUserWithEmail, loginSocket }) => {
+const LoginSession = ({ auth, history, loginUserWithEmail, loginSocket }) => {
   let [prefaces, setPrefaces] = useState([
     { text: 'Who is joining us?'},
   ])
+  
+  let [isLoggingIn, setIsLoggingIn] = useState(false)
 
   const participantEmail = getUrlParameter('participantEmail')
   // useEffect(() => {
@@ -48,13 +50,14 @@ const Login = ({ auth, history, loginUserWithEmail, loginSocket }) => {
     },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
+      setIsLoggingIn(true)
       await loginUserWithEmail(values);
       await loginSocket()
       history.push("/lobby/find")
     },
   });
 
-  if(auth.isLoading) {
+  if(auth.isLoading || isLoggingIn) {
     return <Loader text="Logging in..."/>
   }
 
@@ -109,4 +112,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(withRouter, connect(mapStateToProps, { loginUserWithEmail, loginSocket, getUserByEmail }))(Login);
+export default compose(withRouter, connect(mapStateToProps, { loginUserWithEmail, loginSocket, getUserByEmail }))(LoginSession);

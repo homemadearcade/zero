@@ -52,7 +52,7 @@ const App = ({ logInUserWithOauth, loginSocket, auth, loadMe }) => {
 
   return (
     <>
-      {auth.appLoaded ? (
+        {!auth.appLoaded && <Loader/>}
         <Switch>
           <Route exact path="/play" component={Play} />
           <Route path="/login" component={Login} />
@@ -68,9 +68,6 @@ const App = ({ logInUserWithOauth, loginSocket, auth, loadMe }) => {
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
-      ) : (
-        <Loader />
-      )}
     </>
   );
 };

@@ -79,7 +79,7 @@ if (isProduction) {
 const io = new Server(server, { /* options */ });
 
 io.on("connection", (socket) => {  
-  socket.on('login', async ({token}) => {
+  socket.on('authenticate', async ({token}) => {
     if (token) {
       const isProduction = process.env.NODE_ENV === 'production';
       const secretOrKey = isProduction ? process.env.JWT_SECRET_PROD : process.env.JWT_SECRET_DEV;
@@ -95,12 +95,12 @@ io.on("connection", (socket) => {
           username: user.username,
         }
   
-        socket.emit('login_success')
+        socket.emit('authenticate_success')
       } else {
-        socket.emit('login_fail', { error: 'no such user'})
+        socket.emit('authenticate_fail', { error: 'no such user'})
       }
     } else {
-      socket.emit('login_fail', { error: 'no token for socket'})
+      socket.emit('authenticate_fail', { error: 'no token for socket'})
     }
   })
 
