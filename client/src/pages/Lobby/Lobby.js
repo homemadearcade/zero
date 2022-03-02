@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import classnames from 'classnames';
+
 // import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
@@ -11,7 +13,7 @@ import Loader from '../../components/Loader/Loader';
 import VideoHA from '../../components/VideoHA/VideoHA';
 import requireAuth from '../../hoc/requireAuth';
 
-import './styles.scss';
+import './Lobby.scss';
 
 const Lobby = ({
   getLobbyById,
@@ -76,8 +78,9 @@ const Lobby = ({
       <div className="Lobby">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
         {lobby.users.map((user) => {
-          return <div className="Lobby__user">
+          return <div className={classnames("Lobby__user", {'Lobby__user--left' : !user.joined})}>
             {user.username}
+            {user.connected && <span className="Lobby__user-connection"/>}
           </div>
         })}
         <button onClick={() => {

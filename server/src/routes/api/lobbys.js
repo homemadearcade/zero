@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // If you aren’t a required role, then you are a witness role
 
-// var room = io.
+// var room = io.sockets.adapter.rooms['my_room’]
 
 // If a required role has disconnected, throw an alarm on the front end
 
@@ -135,11 +135,11 @@ router.get('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
       return res.status(400).json({ message: 'You do not have privileges to remove user from that lobby.' });
     }
 
-    let index;
+    // let index;
 
     const userFound = req.lobby.users.filter((u, i) => {
       if(u.id === req.user.id) {
-        index = i
+        // index = i
         return true
       } else {
         return false
@@ -152,7 +152,7 @@ router.get('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 
     userFound.joined = false
 
-    req.lobby.users.splice(index, 1)
+    // req.lobby.users.splice(index, 1)
     req.io.to(req.params.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     req.socket.leave(req.params.id)
     res.status(200).json({ lobby: req.lobby });
@@ -183,13 +183,21 @@ router.get('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
       return res.status(400).json({ message: 'You do not have permission to join that lobby.' });
     }
 
+    const newLobbyUser = { 
+      email: req.user.email,
+      id: req.user.id,
+      username: req.user.username,
+      role: req.user.role,
+      joined: true,
+      connected: true
+    }
+
     req.socket.join(req.params.id);
-    req.user.joined = true;
-    req.lobby.users.push(req.user)
+    req.lobby.users.push(newLobbyUser)
     req.io.to(req.params.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     return res.status(200).json({ lobby: req.lobby });
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: 'Something went wrong' });
   }
 });
 

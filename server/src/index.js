@@ -82,6 +82,9 @@ const socketSessions = new InMemorySessionStore()
 
 app.set('socketio', io);
 app.set('socketSessions', socketSessions);
+
+const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
+
 const lobbys = [
   {
     participantEmail: 'email0@email.com',
@@ -96,8 +99,6 @@ const lobbys = [
 app.set('lobbys', lobbys);
 
 io.on("connection", (socket) => {  
-  socket.connected = true
-  
   socket.on('authenticate', async ({token}) => {
     if (token) {
       const isProduction = process.env.NODE_ENV === 'production';
@@ -113,6 +114,17 @@ io.on("connection", (socket) => {
           id: user.id,
           username: user.username,
         }
+
+        const lobbys = app.get('lobbys')
+        lobbys.forEach((lobby) => {
+          lobby.users.forEach((user) => {
+            if(user.id === socket.user.id) {
+              user.connected = true
+              socket.join(lobby.id);
+              io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
+            }
+          })
+        })
   
         socket.emit('authenticate_success')
 
@@ -126,8 +138,17 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", async () => {
-    console.log('disconnected', socket.user?.id)
-    socket.connected = false
+    if(socket.user?.id) {
+      const lobbys = app.get('lobbys')
+      lobbys.forEach((lobby) => {
+        lobby.users.forEach((user) => {
+          if(user.id === socket.user.id) {
+            user.connected = false
+            io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
+          }
+        })
+      })
+    }
   });
 });
 
