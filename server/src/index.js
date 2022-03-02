@@ -74,9 +74,31 @@ if (isProduction) {
 // Listen for requests
 const io = new Server(server, { /* options */ });
 io.on("connection", (socket) => {
-  console.log('socket listening...')
+  socket.on('login', (values) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) {
+        return socket.emit('login_error', err)
+      }
+      if (!user) {
+        return socket.emit('login_error', err)
+      }
+
+      socket.emit('login_success')
+      socket.user = user
+    })({body: values}, {})
+  })
+
+  socket.on("connect", () => {
+
+  });
+  
+  socket.on("disconnect", () => {
+
+  });
 });
 server.listen(port, () => console.log(`Server started on port ${port}`));
 
 app.set('socketio', io);
+
+
 // var io = req.app.get('socketio')

@@ -92,26 +92,30 @@ router.post('/', requireJwtAuth, async (req, res) => {
   }
 });
 
-router.get('/remove/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
+router.get('/leave/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
   try {
     if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privileges to remove user from that lobby.' });
     }
 
-    let index;
+    // let index;
 
     const userFound = req.lobby.users.filter((u, i) => {
       if(u.id === req.user.id) {
-        index = i
+        // index = i
         return true
       } else {
         return false
       }
     })[0]
 
-    if(!userFound) return
+    if(!userFound) {
+      return res.status(400).json({ message: 'No user with id ' + req.params.id + ' found' });
+    }
 
-    req.lobby.users.splice(index, 1)
+    userFound.connected = false
+
+    // req.lobby.users.splice(index, 1)
 
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
@@ -128,6 +132,13 @@ router.get('/join/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
         return false
       }
     })[0]
+
+    if(userFound) {
+      userFound.connected = true;
+      return res.status(200).send()
+    }
+
+    req.user.connected = true;
     
     if (req.user.role === 'ADMIN') {
       if(!userFound) {

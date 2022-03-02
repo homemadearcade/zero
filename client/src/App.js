@@ -18,13 +18,13 @@ import NotFound from './pages/NotFound/NotFound';
 import SessionLogin from './pages/LoginSession/LoginSession';
 import LobbyFind from './pages/LobbyFind/LobbyFind';
 
-import io from "socket.io-client";
 
 import Loader from './components/Loader/Loader';
 
 import { logInUserWithOauth, loadMe } from './store/actions/authActions';
 
-window.socket = io();
+import io from 'socket.io-client'
+window.socket = io()
 
 const App = ({ logInUserWithOauth, auth, loadMe }) => {
   useEffect(() => {
@@ -53,7 +53,7 @@ const App = ({ logInUserWithOauth, auth, loadMe }) => {
         <Switch>
           <Route exact path="/play" component={Play} />
           <Route path="/login" component={Login} />
-          <Route path="/sessionlogin" component={SessionLogin} />
+          <Route path="/loginsession" component={SessionLogin} />
           <Route path="/register" component={Register} />
           <Route path="/users" component={Users} />
           <Route path="/notfound" component={NotFound} />

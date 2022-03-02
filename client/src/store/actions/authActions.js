@@ -9,6 +9,9 @@ import {
   LOGIN_WITH_EMAIL_LOADING,
   LOGIN_WITH_EMAIL_SUCCESS,
   LOGIN_WITH_EMAIL_FAIL,
+  LOGIN_SOCKET_LOADING,
+  LOGIN_SOCKET_SUCCESS,
+  LOGIN_SOCKET_FAIL,
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
@@ -16,6 +19,27 @@ import {
   RESEED_DATABASE_SUCCESS,
   RESEED_DATABASE_FAIL,
 } from '../types';
+
+export const loginSocket = (values) => async (dispatch, getState) => {
+  dispatch({ type: LOGIN_SOCKET_LOADING });
+  return new Promise((resolve, reject) => {
+    window.socket.emit('login', values)
+    window.socket.on('login_success', () => {
+      dispatch({
+        type: LOGIN_SOCKET_SUCCESS,
+        payload: { },
+      });
+      resolve()
+    })
+    window.socket.on('login_error', (err) => {
+      dispatch({
+        type: LOGIN_SOCKET_FAIL,
+        payload: { error: err},
+      });
+      reject()
+    })
+  })
+}
 
 export const loadMe = () => async (dispatch, getState) => {
   dispatch({ type: ME_LOADING });

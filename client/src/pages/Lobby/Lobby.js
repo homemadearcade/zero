@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
+// import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
 import { getLobbyById, joinLobby, leaveLobby } from '../../store/actions/lobbyActions';
 import { loadMe } from '../../store/actions/authActions';
 import Loader from '../../components/Loader/Loader';
-import Video from '../../components/Video/Video';
+import VideoHA from '../../components/VideoHA/VideoHA';
 import requireAuth from '../../hoc/requireAuth';
 
 import './styles.scss';
@@ -80,7 +80,7 @@ const Lobby = ({
         <button onClick={() => {
           setShowVideo(true)
         }}>Join Video</button>
-        {showVideo && <Video channelId={lobby.id} userId={me.id} />}
+        {showVideo && <VideoHA channelId={lobby.id} user={me} />}
       </div>
     );
   } else {

@@ -6,6 +6,9 @@ import {
   LOGIN_WITH_EMAIL_LOADING,
   LOGIN_WITH_EMAIL_SUCCESS,
   LOGIN_WITH_EMAIL_FAIL,
+  LOGIN_SOCKET_LOADING,
+  LOGIN_SOCKET_SUCCESS,
+  LOGIN_SOCKET_FAIL,
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
@@ -14,6 +17,7 @@ import {
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
+  isSocketAuthenticated: false,
   isLoading: false,
   me: null,
   error: null,
@@ -30,6 +34,7 @@ export default function authReducer(state = initialState, { type, payload }) {
         error: null,
       };
     case LOGIN_WITH_EMAIL_LOADING:
+    case LOGIN_SOCKET_LOADING:
     case LOGIN_WITH_OAUTH_LOADING:
       return {
         ...state,
@@ -45,6 +50,13 @@ export default function authReducer(state = initialState, { type, payload }) {
         isLoading: false,
         token: payload.token,
         me: payload.me,
+        error: null,
+      };
+    case LOGIN_SOCKET_SUCCESS:
+      return {
+        ...state,
+        isSocketAuthenticated: true,
+        isLoading: false,
         error: null,
       };
     case ME_SUCCESS:
@@ -83,6 +95,13 @@ export default function authReducer(state = initialState, { type, payload }) {
         token: null,
         me: null,
         isAuthenticated: false,
+        isLoading: false,
+        error: payload.error
+      };
+    case LOGIN_SOCKET_FAIL:
+      return {
+        ...state,
+        isSocketAuthenticated: false,
         isLoading: false,
         error: payload.error
       };
