@@ -82,6 +82,18 @@ const socketSessions = new InMemorySessionStore()
 
 app.set('socketio', io);
 app.set('socketSessions', socketSessions);
+const lobbys = [
+  {
+    participantEmail: 'email0@email.com',
+    startTime: '8:00 PM',
+    id: 'c5ee5f1e-fe16-4296-9f26-162e21e922eb',
+    users: [],
+    hostId: null,
+    participantId: null,
+    guideId: null
+  }
+];
+app.set('lobbys', lobbys);
 
 io.on("connection", (socket) => {  
   socket.connected = true

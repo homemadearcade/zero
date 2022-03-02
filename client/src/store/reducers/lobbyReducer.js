@@ -1,6 +1,6 @@
 import {
-  LEAVE_LOBBY_LOADING,
-  LEAVE_LOBBY_SUCCESS,
+  // LEAVE_LOBBY_LOADING,
+  // LEAVE_LOBBY_SUCCESS,
   LEAVE_LOBBY_FAIL,
   JOIN_LOBBY_LOADING,
   JOIN_LOBBY_SUCCESS,
@@ -14,10 +14,13 @@ import {
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
+  ON_LOBBY_UPDATE
 } from '../types';
 
 const initialState = {
-  lobby: {},
+  lobby: {
+    users: []
+  },
   isLoading: false,
   error: null,
 };
@@ -47,25 +50,30 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isJoining: false,
+        lobby: {...payload.lobby, users: payload.lobby.users.slice()}
       };
     case EDIT_LOBBY_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        lobby: payload.lobby,
+        lobby: {...payload.lobby, users: payload.lobby.users.slice()}
       };
     case DELETE_LOBBY_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        lobby: {},
+        lobby: {
+          users: []
+        },
       };
     case JOIN_LOBBY_FAIL:
       return {
         ...state,
         isLoading: false,
         isJoining: false,
-        lobby: {},
+        lobby: {
+          users: []
+        },
         joinError: payload.error,
       };
     case GET_LOBBY_FAIL:
@@ -76,9 +84,16 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
           ...state,
           isLoading: false,
           isJoining: false,
-          lobby: {},
+          lobby: {
+            users: []
+          },
           error: payload.error,
         };
+     case ON_LOBBY_UPDATE:
+      return {
+        ...state,
+        lobby: {...payload.lobby, users: payload.lobby.users.slice()}
+      };
     default:
       return state;
   }

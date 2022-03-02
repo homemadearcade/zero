@@ -20,6 +20,8 @@ import {
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
+  LOBBY_USERS_UPDATE,
+  ON_LOBBY_UPDATE,
 } from '../types';
 
 
@@ -139,6 +141,13 @@ export const joinLobby = (id) => async (dispatch, getState) => {
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get(`/api/lobbys/join/${id}`, options);
+
+    window.socket.on(ON_LOBBY_UPDATE, ({lobby}) => {
+      dispatch({
+        type: ON_LOBBY_UPDATE,
+        payload: { lobby },
+      });
+    });
     
     dispatch({
       type: JOIN_LOBBY_SUCCESS,
@@ -160,6 +169,8 @@ export const leaveLobby = (id, history) => async (dispatch, getState) => {
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get(`/api/lobbys/leave/${id}`, options);
+
+    window.socket.off(ON_LOBBY_UPDATE);
 
     if(history) history.push('/');
 

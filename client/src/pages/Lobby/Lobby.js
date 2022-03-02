@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 // import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
@@ -29,20 +29,20 @@ const Lobby = ({
   useEffect(() => {
     function askBeforeClosing(e) {
       e.preventDefault();
-      e.returnValue = '';
+      if(window.location.host.indexOf('localhost') === -1) e.returnValue = '';
       leaveLobby(matchId)
     }
 
     async function getLobbyAndJoinLobby() {
       await joinLobby(matchId);
       await getLobbyById(matchId);
-      // window.addEventListener('beforeunload', askBeforeClosing);
+      window.addEventListener('beforeunload', askBeforeClosing);
     }
 
     getLobbyAndJoinLobby()
 
     return () => {
-      // window.removeEventListener('beforeunload', askBeforeClosing)
+      window.removeEventListener('beforeunload', askBeforeClosing)
       leaveLobby(matchId)
     }
   }, []);
@@ -75,9 +75,11 @@ const Lobby = ({
     return (
       <div className="Lobby">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
-        <p>
-          Hello {me.username}
-        </p>
+        {lobby.users.map((user) => {
+          return <div className="Lobby__user">
+            {user.username}
+          </div>
+        })}
         <button onClick={() => {
           setShowVideo(true)
         }}>Join Video</button>
