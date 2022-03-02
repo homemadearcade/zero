@@ -27,6 +27,10 @@ import io from 'socket.io-client'
 // window.socket = io(window.location.host, { autoConnect: false })
 window.socket = io()
 
+window.socket.onAny((event, ...args) => {
+  console.log(event, args);
+});
+
 const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
   useEffect(() => {
     loadMe();

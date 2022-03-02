@@ -14,7 +14,7 @@ import routes from './routes';
 // import { seedDb } from './utils/seed';
 
 import User from './models/User';
-
+import { InMemorySessionStore } from './utils/sessionStore';
 
 const app = express();
 
@@ -78,7 +78,14 @@ if (isProduction) {
 // Listen for requests
 const io = new Server(server, { /* options */ });
 
+const socketSessions = new InMemorySessionStore()
+
+app.set('socketio', io);
+app.set('socketSessions', socketSessions);
+
 io.on("connection", (socket) => {  
+  socket.connected = true
+  
   socket.on('authenticate', async ({token}) => {
     if (token) {
       const isProduction = process.env.NODE_ENV === 'production';
@@ -96,6 +103,8 @@ io.on("connection", (socket) => {
         }
   
         socket.emit('authenticate_success')
+
+        socketSessions.saveSession(user.id, socket);
       } else {
         socket.emit('authenticate_fail', { error: 'no such user'})
       }
@@ -105,13 +114,9 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", async () => {
-    console.log('disconnected', socket.user)
+    console.log('disconnected', socket.user?.id)
+    socket.connected = false
   });
 });
 
 server.listen(port, () => console.log(`Server started on port ${port}`));
-
-app.set('socketio', io);
-
-
-// var io = req.app.get('socketio')

@@ -13,6 +13,21 @@ const lobbys = [
   }
 ];
 
+function requireSocketAuth(req, res, next) {
+
+  const socketSessions= req.app.get('socketSessions');
+  const socket = socketSessions.findSession(req.user.id);
+  req.socket = socket;
+  req.io = req.app.get('socketio');
+
+  next()
+}
+
+function requireSocket(req, res, next) {
+  req.io = req.app.get('socketio');
+  next()
+}
+
 function requireLobbyId(req, res, next) {
   let index
 
@@ -92,7 +107,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   }
 });
 
-router.get('/leave/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
+router.get('/leave/:id', requireJwtAuth, requireLobbyId, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privileges to remove user from that lobby.' });
@@ -113,7 +128,10 @@ router.get('/leave/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
       return res.status(400).json({ message: 'No user with id ' + req.params.id + ' found' });
     }
 
-    userFound.connected = false
+    userFound.joined = false
+
+    req.io.to(req.params.id).emit('leave_room', req.user.id);
+    req.socket.leave(req.params.id)
 
     // req.lobby.users.splice(index, 1)
 
@@ -123,7 +141,7 @@ router.get('/leave/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
   }
 });
 
-router.get('/join/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
+router.get('/join/:id', requireJwtAuth, requireLobbyId, requireSocketAuth, async (req, res) => {
   try {
     const userFound = req.lobby.users.filter((u, i) => {
       if(u.id === req.user.id) {
@@ -132,13 +150,18 @@ router.get('/join/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
         return false
       }
     })[0]
-
+    
     if(userFound) {
-      userFound.connected = true;
+      req.socket.join(req.params.id);
+      req.io.to(req.params.id).emit('join_room', req.user.id);
+
+      userFound.joined = true;
       return res.status(200).send()
     }
 
-    req.user.connected = true;
+    req.socket.join(req.params.id);
+    req.io.to(req.params.id).emit('join_room', req.user.id);
+    req.user.joined = true;
     
     if (req.user.role === 'ADMIN') {
       if(!userFound) {
@@ -155,7 +178,7 @@ router.get('/join/:id', requireJwtAuth, requireLobbyId, async (req, res) => {
     }
 
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: err });
   }
 });
 
