@@ -9,9 +9,9 @@ import {
   LOGIN_WITH_EMAIL_LOADING,
   LOGIN_WITH_EMAIL_SUCCESS,
   LOGIN_WITH_EMAIL_FAIL,
-  LOGIN_SOCKET_LOADING,
-  LOGIN_SOCKET_SUCCESS,
-  LOGIN_SOCKET_FAIL,
+  AUTHENTICATE_SOCKET_LOADING,
+  AUTHENTICATE_SOCKET_SUCCESS,
+  AUTHENTICATE_SOCKET_FAIL,
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
@@ -20,23 +20,23 @@ import {
   RESEED_DATABASE_FAIL,
 } from '../types';
 
-export const loginSocket = (values) => async (dispatch, getState) => {
-  dispatch({ type: LOGIN_SOCKET_LOADING });
+export const authenticateSocket = (values) => async (dispatch, getState) => {
+  dispatch({ type: AUTHENTICATE_SOCKET_LOADING });
   return new Promise((resolve, reject) => {
     const token = getState().auth.token;
 
-    window.socket.emit('login', { token })
+    window.socket.emit('authenticate', { token })
 
-    window.socket.on('login_success', () => {
+    window.socket.on('authenticate_success', () => {
       dispatch({
-        type: LOGIN_SOCKET_SUCCESS,
-        payload: { },
+        type: AUTHENTICATE_SOCKET_SUCCESS,
+        payload: {},
       });
       resolve()
     })
-    window.socket.on('login_error', (err) => {
+    window.socket.on('authenticate_error', (err) => {
       dispatch({
-        type: LOGIN_SOCKET_FAIL,
+        type: AUTHENTICATE_SOCKET_FAIL,
         payload: { error: err},
       });
       reject()

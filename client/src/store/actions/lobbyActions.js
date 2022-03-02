@@ -161,7 +161,8 @@ export const leaveLobby = (id, history) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get(`/api/lobbys/leave/${id}`, options);
 
-    history.push('/lobby/'+id);
+    if(history) history.push('/');
+
     dispatch({
       type: LEAVE_LOBBY_SUCCESS,
       payload: { lobby: response.data.lobby },

@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 // import _ from 'lodash';
 
 import { getUserByEmail } from '../../store/actions/userActions';
-import { loginUserWithEmail, loginSocket } from '../../store/actions/authActions';
+import { loginUserWithEmail, authenticateSocket } from '../../store/actions/authActions';
 
 // import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
@@ -18,7 +18,7 @@ import { getUrlParameter } from '../../utils/utils';
 import Loader from '../../components/Loader/Loader';
 import SceneFull from '../../components/SceneFull/SceneFull.jsx';
 
-const LoginSession = ({ auth, history, loginUserWithEmail, loginSocket }) => {
+const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket }) => {
   let [prefaces, setPrefaces] = useState([
     { text: 'Who is joining us?'},
   ])
@@ -52,7 +52,7 @@ const LoginSession = ({ auth, history, loginUserWithEmail, loginSocket }) => {
     onSubmit: async (values) => {
       setIsLoggingIn(true)
       await loginUserWithEmail(values);
-      await loginSocket()
+      await authenticateSocket()
       history.push("/lobby/find")
     },
   });
@@ -112,4 +112,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(withRouter, connect(mapStateToProps, { loginUserWithEmail, loginSocket, getUserByEmail }))(LoginSession);
+export default compose(withRouter, connect(mapStateToProps, { loginUserWithEmail, authenticateSocket, getUserByEmail }))(LoginSession);

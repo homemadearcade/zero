@@ -20,6 +20,7 @@ const Lobby = ({
   lobby: { lobby, isLoading, isJoining, error, joinError },
   auth: { me },
   match,
+  history,
 }) => {
   const matchId = match.params.id;
 

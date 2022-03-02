@@ -21,16 +21,16 @@ import LobbyFind from './pages/LobbyFind/LobbyFind';
 
 import Loader from './components/Loader/Loader';
 
-import { logInUserWithOauth, loadMe, loginSocket } from './store/actions/authActions';
+import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
 import io from 'socket.io-client'
 // window.socket = io(window.location.host, { autoConnect: false })
 window.socket = io()
 
-const App = ({ logInUserWithOauth, loginSocket, auth, loadMe }) => {
+const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
   useEffect(() => {
     loadMe();
-    loginSocket();
+    authenticateSocket();
   }, [loadMe]);
 
   useEffect(() => {
@@ -46,14 +46,14 @@ const App = ({ logInUserWithOauth, loginSocket, auth, loadMe }) => {
   useEffect(() => {
     if (!auth.appLoaded && !auth.isLoading && auth.token && !auth.isAuthenticated) {
       loadMe();
-      loginSocket();
+      authenticateSocket();
     }
   }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded]);
 
   return (
     <>
         {!auth.appLoaded && <Loader/>}
-        <Switch>
+        {auth.appLoaded && <Switch>
           <Route exact path="/play" component={Play} />
           <Route path="/login" component={Login} />
           <Route path="/loginsession" component={SessionLogin} />
@@ -67,7 +67,7 @@ const App = ({ logInUserWithOauth, loginSocket, auth, loadMe }) => {
           <Route exact path="/:username" component={Account} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
-        </Switch>
+        </Switch>}
     </>
   );
 };
@@ -76,4 +76,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(connect(mapStateToProps, { loginSocket, logInUserWithOauth, loadMe }))(App);
+export default compose(connect(mapStateToProps, { authenticateSocket, logInUserWithOauth, loadMe }))(App);

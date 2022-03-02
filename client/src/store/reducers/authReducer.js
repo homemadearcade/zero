@@ -6,9 +6,9 @@ import {
   LOGIN_WITH_EMAIL_LOADING,
   LOGIN_WITH_EMAIL_SUCCESS,
   LOGIN_WITH_EMAIL_FAIL,
-  LOGIN_SOCKET_LOADING,
-  LOGIN_SOCKET_SUCCESS,
-  LOGIN_SOCKET_FAIL,
+  AUTHENTICATE_SOCKET_LOADING,
+  AUTHENTICATE_SOCKET_SUCCESS,
+  AUTHENTICATE_SOCKET_FAIL,
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
@@ -30,11 +30,11 @@ export default function authReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLoading: true,
-        appLoaded: false,
+        // appLoaded: false,
         error: null,
       };
     case LOGIN_WITH_EMAIL_LOADING:
-    case LOGIN_SOCKET_LOADING:
+    case AUTHENTICATE_SOCKET_LOADING:
     case LOGIN_WITH_OAUTH_LOADING:
       return {
         ...state,
@@ -52,7 +52,7 @@ export default function authReducer(state = initialState, { type, payload }) {
         me: payload.me,
         error: null,
       };
-    case LOGIN_SOCKET_SUCCESS:
+    case AUTHENTICATE_SOCKET_SUCCESS:
       return {
         ...state,
         isSocketAuthenticated: true,
@@ -98,7 +98,7 @@ export default function authReducer(state = initialState, { type, payload }) {
         isLoading: false,
         error: payload.error
       };
-    case LOGIN_SOCKET_FAIL:
+    case AUTHENTICATE_SOCKET_FAIL:
       return {
         ...state,
         isSocketAuthenticated: false,
