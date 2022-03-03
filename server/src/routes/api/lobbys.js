@@ -69,8 +69,6 @@ function requireLobby(req, res, next) {
 
   req.lobby = lobbyFound
   req.lobbyIndex = index
-  // req.lobbySockets = req.app.get('socketio').sockets.adapter.rooms[req.params.id];
-
   next()
 }
 
@@ -167,20 +165,33 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     return res.status(400).json({ message: 'You do not have privileges to assign that role.' });
   }
 
-  if(req.body.role === 'host') {
-    req.lobby.hostId = req.body.userId
+  if(req.body.role === 'gameHost') {
+    if(req.body.userId === 'unassigned') {
+      req.lobby.gameHostId = null
+    } else {
+      req.lobby.gameHostId = req.body.userId
+    }
+
   }
 
   if(req.body.role === 'participant') {
-    req.lobby.participantId = req.body.userId
+    if(req.body.userId === 'unassigned') {
+      req.lobby.participantId = null
+    } else {
+      req.lobby.participantId = req.body.userId
+    }
   }
 
   if(req.body.role === 'guide') {
-    const user = await User.findById(req.body.userId)
-    if(user.role == 'ADMIN') {
-      req.lobby.guideId = req.body.userId
+    if(req.body.userId === 'unassigned') {
+      req.lobby.guideId = null
     } else {
-      return res.status(400).json({ message: 'Guide must be admin role' });
+      const user = await User.findById(req.body.userId)
+      if(user.role == 'ADMIN') {
+        req.lobby.guideId = req.body.userId
+      } else {
+        return res.status(400).json({ message: 'Guide must be admin role' });
+      }
     }
   }
 

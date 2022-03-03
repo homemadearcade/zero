@@ -91,7 +91,7 @@ const lobbys = [
     startTime: '8:00 PM',
     id: 'c5ee5f1e-fe16-4296-9f26-162e21e922eb',
     users: [],
-    hostId: null,
+    gameHostId: null,
     participantId: null,
     guideId: null
   }

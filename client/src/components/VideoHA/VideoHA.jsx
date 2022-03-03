@@ -18,18 +18,12 @@ const config = {
 const appId = "0716694847e34448b71f311437be319f"; //ENTER APP ID HERE
 const token = null;
 
-const App = ({channelId, user}) => {
+const App = ({channelId, user, lobby}) => {
   const [inCall, setInCall] = useState(true);
-
-  let userId = user.id
-
-  if(user.role === 'ADMIN') {
-
-  }
 
   return (
     <div>
-        {inCall && <VideoCall setInCall={setInCall} userId={userId} channelName={channelId} />}
+        {inCall && <VideoCall setInCall={setInCall} userId={user.id} channelName={channelId} />}
     </div>
   );
 };
@@ -108,8 +102,6 @@ const VideoCall = (props) => {
 
 const Videos = (props) => {
   const { users, tracks } = props;
-
-  console.log(users, tracks)
 
   return (
     <div>

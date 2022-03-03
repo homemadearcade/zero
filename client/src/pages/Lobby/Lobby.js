@@ -15,6 +15,8 @@ import requireAuth from '../../hoc/requireAuth';
 
 import './Lobby.scss';
 
+const UNASSIGNED_ROLE = 'unassigned'
+
 const Lobby = ({
   getLobbyById,
   leaveLobby,
@@ -23,7 +25,6 @@ const Lobby = ({
   lobby: { lobby, isLoading, isJoining, error, joinError },
   auth: { me },
   match,
-  history,
 }) => {
   const matchId = match.params.id;
 
@@ -43,7 +44,7 @@ const Lobby = ({
       if(me.role !== 'ADMIN') {
         await assignLobbyRole(matchId, {
           userId: me.id, 
-          role: 'host'
+          role: 'gameHost'
         });
         await assignLobbyRole(matchId, {
           userId: me.id, 
@@ -61,6 +62,17 @@ const Lobby = ({
       leaveLobby(matchId)
     }
   }, []);
+
+  // useEffect(() => {
+  //   if(lobby.id) {
+  //     if(me.role === 'ADMIN' && (!lobby.guideId)) {
+  //       assignLobbyRole(matchId, {
+  //         userId: me.id, 
+  //         role: 'guide'
+  //       });
+  //     }
+  //   }
+  // }, [lobby?.id])
 
   if(isLoading) {
     return <div className="Lobby">
@@ -104,22 +116,67 @@ const Lobby = ({
         <h3>Roles: </h3>
         <div className="Lobby__roles">
           <div className="Lobby__role">
-            Host: 
-            {lobby.hostId && <UserStatus user={usersById[lobby.hostId]}/>}
+            <strong>Game Host</strong>
+            {lobby.gameHostId && <UserStatus user={usersById[lobby.gameHostId]}/>}
+            <div className="Lobby__role-assign">
+              Assign:
+              <select onChange={(e) => {
+                assignLobbyRole(matchId, {
+                  userId: e.target.value, 
+                  role: 'gameHost'
+                });
+              }}>
+                <option/>
+                <option value={UNASSIGNED_ROLE}>unassign</option>
+                {lobby.users.map((user) => {
+                  return <option value={user.id}>{user.username}</option>
+                })}
+              </select>
+            </div>
           </div>
           <div className="Lobby__role">
-            Participant: 
+            <strong>Participant</strong>
             {lobby.participantId && <UserStatus user={usersById[lobby.participantId]}/>}
+            <div className="Lobby__role-assign">
+              Assign:
+              <select onChange={(e) => {
+                assignLobbyRole(matchId, {
+                  userId: e.target.value, 
+                  role: 'participant'
+                });
+              }}>
+                <option/>
+                <option value={UNASSIGNED_ROLE}>unassign</option>
+                {lobby.users.map((user) => {
+                  return <option value={user.id}>{user.username}</option>
+                })}
+              </select>
+            </div>
           </div>
           <div className="Lobby__role">
-            Guide: 
+            <strong>Guide</strong>
             {lobby.guideId && <UserStatus user={usersById[lobby.guideId]}/>}
+            <div className="Lobby__role-assign">
+            Assign:
+              <select onChange={(e) => {
+                assignLobbyRole(matchId, {
+                  userId: e.target.value, 
+                  role: 'guide'
+                });
+              }}>
+                <option/>
+                <option value={UNASSIGNED_ROLE}>unassign</option>
+                {lobby.users.map((user) => {
+                  return <option value={user.id}>{user.username}</option>
+                })}
+              </select>
+            </div>
           </div>
         </div>
         <button onClick={() => {
           setShowVideo(true)
         }}>Join Video</button>
-        {showVideo && <VideoHA channelId={lobby.id} user={me} />}
+        {showVideo && <VideoHA lobby={lobby} channelId={lobby.id} user={me} />}
       </div>
     );
   } else {
