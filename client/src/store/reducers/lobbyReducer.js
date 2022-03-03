@@ -14,7 +14,8 @@ import {
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
-  ON_LOBBY_UPDATE
+  ON_LOBBY_UPDATE,
+  ASSIGN_LOBBY_ROLE_FAIL
 } from '../types';
 
 const initialState = {
@@ -80,6 +81,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     case EDIT_LOBBY_FAIL:
     case DELETE_LOBBY_FAIL:
     case LEAVE_LOBBY_FAIL:
+    case ASSIGN_LOBBY_ROLE_FAIL:
         return {
           ...state,
           isLoading: false,

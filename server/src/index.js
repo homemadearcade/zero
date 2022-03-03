@@ -99,6 +99,8 @@ const lobbys = [
 app.set('lobbys', lobbys);
 
 io.on("connection", (socket) => {  
+
+  // this event is called after a user is logged in and also after a socket is reconnected
   socket.on('authenticate', async ({token}) => {
     if (token) {
       const isProduction = process.env.NODE_ENV === 'production';

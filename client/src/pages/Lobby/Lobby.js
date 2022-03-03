@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 
 // import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
-import { getLobbyById, joinLobby, leaveLobby } from '../../store/actions/lobbyActions';
+import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole } from '../../store/actions/lobbyActions';
 import { loadMe } from '../../store/actions/authActions';
 import Loader from '../../components/Loader/Loader';
+import UserStatus from '../../components/UserStatus/UserStatus';
 import VideoHA from '../../components/VideoHA/VideoHA';
 import requireAuth from '../../hoc/requireAuth';
 
@@ -19,6 +19,7 @@ const Lobby = ({
   getLobbyById,
   leaveLobby,
   joinLobby,
+  assignLobbyRole,
   lobby: { lobby, isLoading, isJoining, error, joinError },
   auth: { me },
   match,
@@ -38,6 +39,18 @@ const Lobby = ({
     async function getLobbyAndJoinLobby() {
       await joinLobby(matchId);
       await getLobbyById(matchId);
+
+      if(me.role !== 'ADMIN') {
+        await assignLobbyRole(matchId, {
+          userId: me.id, 
+          role: 'host'
+        });
+        await assignLobbyRole(matchId, {
+          userId: me.id, 
+          role: 'participant'
+        });
+      }
+
       window.addEventListener('beforeunload', askBeforeClosing);
     }
 
@@ -73,16 +86,36 @@ const Lobby = ({
     </div>
   }
 
+  const usersById = lobby.users.reduce((prev, next) => {
+    prev[next.id] = next
+    return prev
+  }, {})
+
   if(lobby?.id) {
     return (
       <div className="Lobby">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
+        <p>
+        <h3>In Room: </h3>
         {lobby.users.map((user) => {
-          return <div className={classnames("Lobby__user", {'Lobby__user--left' : !user.joined})}>
-            {user.username}
-            {user.connected && <span className="Lobby__user-connection"/>}
-          </div>
+          return <UserStatus user={user}/>
         })}
+        </p>
+        <h3>Roles: </h3>
+        <div className="Lobby__roles">
+          <div className="Lobby__role">
+            Host: 
+            {lobby.hostId && <UserStatus user={usersById[lobby.hostId]}/>}
+          </div>
+          <div className="Lobby__role">
+            Participant: 
+            {lobby.participantId && <UserStatus user={usersById[lobby.participantId]}/>}
+          </div>
+          <div className="Lobby__role">
+            Guide: 
+            {lobby.guideId && <UserStatus user={usersById[lobby.guideId]}/>}
+          </div>
+        </div>
         <button onClick={() => {
           setShowVideo(true)
         }}>Join Video</button>
@@ -102,5 +135,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getLobbyById, joinLobby, leaveLobby, loadMe }),
+  connect(mapStateToProps, { getLobbyById, joinLobby, leaveLobby, assignLobbyRole, loadMe }),
 )(Lobby);

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { v4 as uuidv4 } from 'uuid';
 
+import User from '../../models/User';
 
 // Ok so requires roles within the experience include
 
@@ -121,9 +122,9 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       users: [],
     };
 
-    lobbys.push(lobby)
+    req.lobbys.push(lobby)
 
-    res.status(200).json({ lobbys: lobbys });
+    res.status(200).json({ lobbys: req.lobbys });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
@@ -131,7 +132,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
 
 router.get('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.lobby.id === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privileges to remove user from that lobby.' });
     }
 
@@ -147,19 +148,45 @@ router.get('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     })[0]
 
     if(!userFound) {
-      return res.status(400).json({ message: 'No user with id ' + req.params.id + ' found' });
+      return res.status(400).json({ message: 'No user with id ' + req.lobby.id + ' found' });
     }
 
     userFound.joined = false
 
     // req.lobby.users.splice(index, 1)
-    req.io.to(req.params.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
-    req.socket.leave(req.params.id)
+    req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
+    req.socket.leave(req.lobby.id)
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
+
+router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userId)) {
+    return res.status(400).json({ message: 'You do not have privileges to assign that role.' });
+  }
+
+  if(req.body.role === 'host') {
+    req.lobby.hostId = req.body.userId
+  }
+
+  if(req.body.role === 'participant') {
+    req.lobby.participantId = req.body.userId
+  }
+
+  if(req.body.role === 'guide') {
+    const user = await User.findById(req.body.userId)
+    if(user.role == 'ADMIN') {
+      req.lobby.guideId = req.body.userId
+    } else {
+      return res.status(400).json({ message: 'Guide must be admin role' });
+    }
+  }
+
+  req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
+  return res.status(200).json({ lobby: req.lobby });
+})
 
 router.get('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
@@ -173,9 +200,9 @@ router.get('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
     })[0]
     
     if(userFound) {
-      req.socket.join(req.params.id);
+      req.socket.join(req.lobby.id);
       userFound.joined = true;
-      req.io.to(req.params.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
+      req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
       return res.status(200).json({ lobby: req.lobby });
     }
 
@@ -183,6 +210,7 @@ router.get('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
       return res.status(400).json({ message: 'You do not have permission to join that lobby.' });
     }
 
+    // generate a lobby formatted user
     const newLobbyUser = { 
       email: req.user.email,
       id: req.user.id,
@@ -192,9 +220,29 @@ router.get('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
       connected: true
     }
 
-    req.socket.join(req.params.id);
+    // listen for all of this lobbies events
+    req.socket.join(req.lobby.id);
+
+    // remove from all other lobbies
+    req.lobbys.forEach((lobby) => {
+      let index;
+      lobby.users.forEach((user, i) => {
+        if(newLobbyUser.id === user.id) {
+          index = i
+        }
+      })
+      if(index >= -1) {
+        lobby.users.splice(index, 1)
+        req.socket.leave(lobby.id);
+        req.io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby: lobby});
+      }
+    })
+
+    // add to new lobby
     req.lobby.users.push(newLobbyUser)
-    req.io.to(req.params.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
+
+    // update the lobbies with this information
+    req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     return res.status(200).json({ lobby: req.lobby });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong' });
@@ -207,7 +255,7 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
       return res.status(400).json({ message: 'You do not have privileges to delete that lobby.' });
     }
 
-    lobbys.splice(req.lobbyIndex, 1);
+    req.lobbys.splice(req.lobbyIndex, 1);
 
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {

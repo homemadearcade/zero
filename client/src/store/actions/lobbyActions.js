@@ -2,6 +2,9 @@ import axios from 'axios';
 import { attachTokenToHeaders } from './authActions';
 
 import {
+  ASSIGN_LOBBY_ROLE_LOADING,
+  ASSIGN_LOBBY_ROLE_SUCCESS,
+  ASSIGN_LOBBY_ROLE_FAIL,
   ADD_LOBBY_LOADING,
   ADD_LOBBY_SUCCESS,
   ADD_LOBBY_FAIL,
@@ -22,6 +25,28 @@ import {
   DELETE_LOBBY_FAIL,
   ON_LOBBY_UPDATE,
 } from '../types';
+
+
+export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState) => {
+  dispatch({
+    type: ASSIGN_LOBBY_ROLE_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/lobbys/assign/' + lobbyId, formData, options);
+
+    dispatch({
+      type: ASSIGN_LOBBY_ROLE_SUCCESS,
+      payload: { lobby: response.data.lobby },
+    });
+  } catch (err) {
+    dispatch({
+      type: ASSIGN_LOBBY_ROLE_FAIL,
+      payload: { error: err?.response?.data.lobby || err.lobby },
+    });
+  }
+};
 
 
 export const addLobby = (formData) => async (dispatch, getState) => {
