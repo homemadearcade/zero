@@ -301,7 +301,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     return res.status(200).json({ lobby: req.lobby });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ message: 'Something went wrong: ' + err });
   }
 });
 

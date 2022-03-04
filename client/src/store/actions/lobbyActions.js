@@ -30,10 +30,15 @@ import {
   UNREGISTER_LOBBY_COBROWSING_SUCCESS,
   UNREGISTER_LOBBY_COBROWSING_FAIL,
   ON_LOBBY_UPDATE,
+  ON_LOBBY_UPDATE_PING,
   ON_LOBBY_COBROWSING_REGISTERED,
   ON_LOBBY_COBROWSING_UPDATE,
-  ON_LOBBY_COBROWSING_MOUSE_UPDATE
+  ON_LOBBY_COBROWSING_MOUSE_UPDATE,
 } from '../types';
+
+import ping from 'web-pingjs';
+
+let pingInterval;
 
 function sendMouseState(e) {
   window.socket.emit(ON_LOBBY_COBROWSING_MOUSE_UPDATE, {
@@ -226,11 +231,24 @@ export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.post(`/api/lobbys/join/${id}`, { userId }, options);
 
+    pingInterval = window.setInterval(async () => {
+      const pingDelta = await ping(window.location.origin)
+      window.socket.emit(ON_LOBBY_UPDATE_PING, { pingDelta, userId, lobbyId: id })
+    }, 3000);
+
     // event is triggered to all users in this lobby when lobby is updated
     window.socket.on(ON_LOBBY_UPDATE, ({lobby}) => {
       dispatch({
         type: ON_LOBBY_UPDATE,
         payload: { lobby },
+      });
+    });
+
+    // event is triggered to all users in this lobby when lobby is updated
+    window.socket.on(ON_LOBBY_UPDATE_PING, ({ lobbyId, userId, pingDelta }) => {
+      dispatch({
+        type: ON_LOBBY_UPDATE_PING,
+        payload: { lobbyId, userId, pingDelta },
       });
     });
 
@@ -252,7 +270,7 @@ export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
 
     // event that is triggered if another user has registered cobrowsing targeted at you, sends the initial state out
     window.socket.on(ON_LOBBY_COBROWSING_REGISTERED, ({cobrowsingState}) => {
-      window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, { userId, cobrowsingState})
+      // window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, { userId, cobrowsingState})
     });
 
     // if someone has registered cobrowsing on you then this event will send them your mouse state
@@ -280,10 +298,12 @@ export const leaveLobby = (id, { userId }, history) => async (dispatch, getState
     const response = await axios.post(`/api/lobbys/leave/${id}`, { userId }, options);
 
     window.socket.off(ON_LOBBY_UPDATE);
+    window.socket.off(ON_LOBBY_UPDATE_PING);
     window.socket.off(ON_LOBBY_COBROWSING_UPDATE);
     window.socket.off(ON_LOBBY_COBROWSING_REGISTERED);
-    window.socket.off(ON_LOBBY_COBROWSING_MOUSE_UPDATE)
-    window.removeEventListener('mousemove', sendMouseState)
+    window.socket.off(ON_LOBBY_COBROWSING_MOUSE_UPDATE);
+    window.clearInterval(pingInterval);
+    window.removeEventListener('mousemove', sendMouseState);
 
     if(history) history.push('/');
 

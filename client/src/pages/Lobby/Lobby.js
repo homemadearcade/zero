@@ -31,14 +31,19 @@ const Lobby = ({
   let [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
+    function leaveLobbyCleanup() {
+      leaveLobby(matchId, {userId: me?.id})
+      window.removeEventListener('beforeunload', askBeforeClosing)
+    }
+
     function askBeforeClosing(e) {
       e.preventDefault();
       if(window.location.host.indexOf('localhost') === -1) e.returnValue = '';
-      leaveLobby(matchId, {userId: me.id})
+      leaveLobbyCleanup()
     }
 
     async function getLobbyAndJoinLobby() {
-      await joinLobby(matchId, {userId: me.id});
+      await joinLobby(matchId, {userId: me?.id});
       await getLobbyById(matchId);
 
       if(me.role !== 'ADMIN') {
@@ -58,8 +63,7 @@ const Lobby = ({
     getLobbyAndJoinLobby()
 
     return () => {
-      window.removeEventListener('beforeunload', askBeforeClosing)
-      leaveLobby(matchId, {userId: me.id})
+      leaveLobbyCleanup()
     }
   }, []);
 
@@ -98,10 +102,17 @@ const Lobby = ({
     </div>
   }
 
+  if(me?.role !== 'ADMIN') {
+    return <div className="Lobby">
+    <Loader text="Waiting for game to start..."/>
+  </div>
+  }
+
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
+
 
   if(lobby?.id) {
     return (
