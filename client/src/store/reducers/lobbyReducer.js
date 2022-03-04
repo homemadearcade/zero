@@ -21,7 +21,7 @@ import {
   UNREGISTER_LOBBY_COBROWSING_SUCCESS,
   UNREGISTER_LOBBY_COBROWSING_FAIL,
   ON_LOBBY_UPDATE,
-  ON_LOBBY_UPDATE_PING,
+  ON_LOBBY_UPDATE_USER_STATUS,
   ON_LOBBY_COBROWSING_UPDATE,
   ON_LOBBY_COBROWSING_MOUSE_UPDATE,
 } from '../types';
@@ -30,7 +30,7 @@ const initialState = {
   lobby: {
     users: []
   },
-  lobbyUserPings: {},
+  lobbyUserStatus: {},
   isLoading: false,
   error: null,
   isJoining: false,
@@ -142,10 +142,10 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       ...state,
       lobby: {...payload.lobby, users: payload.lobby.users.slice()}
     };
-    case ON_LOBBY_UPDATE_PING:
+    case ON_LOBBY_UPDATE_USER_STATUS:
       return {
         ...state,
-        lobbyUserPings: {...state.lobbyUserPings, [payload.userId]: payload.pingDelta }
+        lobbyUserStatus: {...state.lobbyUserStatus, [payload.userId]: payload.status }
       };
     case ON_LOBBY_COBROWSING_UPDATE:
       return {

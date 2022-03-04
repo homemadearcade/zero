@@ -4,14 +4,15 @@ import classnames from 'classnames';
 
 import './UserStatus.scss';
 
-const UserStatus = ({ user, key, lobby: { lobbyUserPings} }) => {
-  const ping = lobbyUserPings[user.id];
+const UserStatus = ({ user, key, lobby: { lobbyUserStatus} }) => {
+  const userStatus = lobbyUserStatus[user.id];
 
   return <div key={key} className={classnames("UserStatus", {'UserStatus--left' : !user.joined})}>
     {user.username}
-    <i className="UserStatus__admin fa-solid fa-crown"/>
-    {user.connected && <span className={classnames("UserStatus__connection", {'UserStatus__connection--bad' : ping && ping > 60})}/>}
-    {ping > -1 && <span className="UserStatus__ping">{ping}</span>}
+    {user.role === 'ADMIN' && <i className="UserStatus__admin fa-solid fa-crown"/>}
+    <div className="UserStatus__focus">{(!userStatus || userStatus?.isFocused) ? 'F' : 'NF'}</div>
+    {user.connected && <span className={classnames("UserStatus__connection", {'UserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 60})}/>}
+    {userStatus?.pingDelta > -1 && <span className="UserStatus__ping">{userStatus?.pingDelta}</span>}
   </div>
 };
 

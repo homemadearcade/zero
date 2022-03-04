@@ -23,8 +23,6 @@ const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket })
     { text: 'Who is joining us?'},
   ])
   
-  let [isLoggingIn, setIsLoggingIn] = useState(false)
-
   const participantEmail = getUrlParameter('participantEmail')
   // useEffect(() => {
   //   async function getUser() {
@@ -50,13 +48,15 @@ const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket })
     },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
-      setIsLoggingIn(true)
-      await loginUserWithEmail(values);
-      history.push("/lobby/find")
+      loginUserWithEmail(values);
+      window.socket.on('authenticate_success', () => {
+        history.push("/lobby/find")
+        window.socket.off('authenticate_success');
+      })
     },
   });
 
-  if(auth.isLoading || isLoggingIn) {
+  if(auth.isLoading) {
     return <Loader text="Logging in..."/>
   }
 

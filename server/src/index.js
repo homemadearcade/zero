@@ -84,7 +84,7 @@ app.set('socketio', io);
 app.set('socketSessions', socketSessions);
 
 const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
-const ON_LOBBY_UPDATE_PING = 'ON_LOBBY_UPDATE_PING'
+const ON_LOBBY_UPDATE_USER_STATUS = 'ON_LOBBY_UPDATE_USER_STATUS'
 const ON_LOBBY_COBROWSING_MOUSE_UPDATE = 'ON_LOBBY_COBROWSING_MOUSE_UPDATE'
 
 const lobbys = [
@@ -141,13 +141,13 @@ io.on("connection", (socket) => {
   })
 
   // this server will recieve mouse updates regularly, it will emit these updates to anyone who has registered cobrowsing for this user
-  socket.on(ON_LOBBY_COBROWSING_MOUSE_UPDATE, ({ cobrowsingMouse }) => {
+  socket.on(ON_LOBBY_COBROWSING_MOUSE_UPDATE, (payload) => {
     if(!socket.user) return
-    io.to('lobby://'+socket.user.id).emit(ON_LOBBY_COBROWSING_MOUSE_UPDATE, { userId: socket.user.id, cobrowsingMouse })
+    io.to('lobby://'+socket.user.id).emit(ON_LOBBY_COBROWSING_MOUSE_UPDATE, payload)
   })
 
-  socket.on(ON_LOBBY_UPDATE_PING, ({ lobbyId, userId, pingDelta }) => {
-    io.to(lobbyId).emit(ON_LOBBY_UPDATE_PING, { lobbyId, userId, pingDelta })
+  socket.on(ON_LOBBY_UPDATE_USER_STATUS, (payload) => {
+    io.to(payload.lobbyId).emit(ON_LOBBY_UPDATE_USER_STATUS, payload)
   })
 
   socket.on("disconnect", async () => {

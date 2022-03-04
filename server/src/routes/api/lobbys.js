@@ -79,7 +79,7 @@ router.get('/', requireLobbys, async (req, res) => {
       lobbys: req.lobbys
     });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -87,14 +87,14 @@ router.get('/:id', requireLobby, async (req, res) => {
   try {
     res.json({ lobby: req.lobby });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
 router.get('/byEmail/:participantEmail', requireLobbys, async (req, res) => {
   try {
 
-    const lobbyFound = lobbys.filter((l, i) => {
+    const lobbyFound = req.lobbys.filter((l, i) => {
       if(l.participantEmail === req.params.participantEmail) {
         return true
       } else {
@@ -108,7 +108,7 @@ router.get('/byEmail/:participantEmail', requireLobbys, async (req, res) => {
       
     res.json({ lobby: lobbyFound });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -125,7 +125,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
 
     res.status(200).json({ lobbys: req.lobbys });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -141,7 +141,7 @@ router.post('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, as
     const user = await User.findById(req.body.userId)
     res.status(200).json({ cobrowsingUser: user });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -154,7 +154,7 @@ router.delete('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, 
     req.socket.leave('lobby://'+req.body.userId);    
     res.status(200).send()
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -171,7 +171,7 @@ router.put('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, asy
 
     res.status(200).send();
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -202,7 +202,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async
     req.socket.leave(req.lobby.id)
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -315,7 +315,7 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
 
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
@@ -327,7 +327,7 @@ router.put('/:id', requireJwtAuth, requireLobby, async (req, res) => {
 
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 

@@ -30,7 +30,7 @@ import {
   UNREGISTER_LOBBY_COBROWSING_SUCCESS,
   UNREGISTER_LOBBY_COBROWSING_FAIL,
   ON_LOBBY_UPDATE,
-  ON_LOBBY_UPDATE_PING,
+  ON_LOBBY_UPDATE_USER_STATUS,
   ON_LOBBY_COBROWSING_REGISTERED,
   ON_LOBBY_COBROWSING_UPDATE,
   ON_LOBBY_COBROWSING_MOUSE_UPDATE,
@@ -231,9 +231,19 @@ export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.post(`/api/lobbys/join/${id}`, { userId }, options);
 
+    let isFocused = true
+    window.onfocus = () => {
+      isFocused = true
+    }
+    window.onblur = () => {
+      isFocused = false
+    }
+    
     pingInterval = window.setInterval(async () => {
       const pingDelta = await ping(window.location.origin)
-      window.socket.emit(ON_LOBBY_UPDATE_PING, { pingDelta, userId, lobbyId: id })
+      window.socket.emit(ON_LOBBY_UPDATE_USER_STATUS, { status: {
+        pingDelta, isFocused, 
+      }, userId, lobbyId: id })
     }, 3000);
 
     // event is triggered to all users in this lobby when lobby is updated
@@ -245,10 +255,10 @@ export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
     });
 
     // event is triggered to all users in this lobby when lobby is updated
-    window.socket.on(ON_LOBBY_UPDATE_PING, ({ lobbyId, userId, pingDelta }) => {
+    window.socket.on(ON_LOBBY_UPDATE_USER_STATUS, (payload) => {
       dispatch({
-        type: ON_LOBBY_UPDATE_PING,
-        payload: { lobbyId, userId, pingDelta },
+        type: ON_LOBBY_UPDATE_USER_STATUS,
+        payload: payload,
       });
     });
 
@@ -298,7 +308,7 @@ export const leaveLobby = (id, { userId }, history) => async (dispatch, getState
     const response = await axios.post(`/api/lobbys/leave/${id}`, { userId }, options);
 
     window.socket.off(ON_LOBBY_UPDATE);
-    window.socket.off(ON_LOBBY_UPDATE_PING);
+    window.socket.off(ON_LOBBY_UPDATE_USER_STATUS);
     window.socket.off(ON_LOBBY_COBROWSING_UPDATE);
     window.socket.off(ON_LOBBY_COBROWSING_REGISTERED);
     window.socket.off(ON_LOBBY_COBROWSING_MOUSE_UPDATE);
