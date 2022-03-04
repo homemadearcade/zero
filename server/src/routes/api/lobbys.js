@@ -23,7 +23,8 @@ import User from '../../models/User';
 // Disconnect doesnt throw an alarm, it just something you can check
 
 const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
-
+const ON_LOBBY_COBROWSING_UPDATE = 'ON_LOBBY_COBROWSING_UPDATE'
+const ON_LOBBY_COBROWSING_REGISTERED = 'ON_LOBBY_COBROWSING_REGISTERED'
 
 const router = Router();
 
@@ -128,16 +129,61 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
   }
 });
 
-router.get('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+router.post('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.lobby.id === req.user.id || req.user.role === 'ADMIN')) {
+    if(req.user.role !== 'ADMIN') {
+      return res.status(400).json({ message: 'You do not have privileges to register cobrowse.' });
+    }
+
+    req.socket.join('lobby://'+req.body.userId);
+    req.app.get('socketSessions').findById(req.body.userId).emit(ON_LOBBY_COBROWSING_REGISTERED);
+    
+    const user = await User.findById(req.body.userId)
+    res.status(200).json({ cobrowsingUser: user });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
+router.delete('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  try {
+    if(req.user.role !== 'ADMIN') {
+      return res.status(400).json({ message: 'You do not have privileges to unregister this cobrowse.' });
+    }
+
+    req.socket.leave('lobby://'+req.body.userId);    
+    res.status(200).send()
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
+router.put('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  try {
+    if (!(req.body.userId === req.user.id)) {
+      return res.status(400).json({ message: 'You do not have privileges to update this users cobrowse state.' });
+    }
+
+    req.io.to('lobby://'+req.body.userId).emit(ON_LOBBY_COBROWSING_UPDATE, {
+      userId: req.body.userId,
+      cobrowsingState: req.body.cobrowsingState
+    });
+
+    res.status(200).send();
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
+router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  try {
+    if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privileges to remove user from that lobby.' });
     }
 
     // let index;
-
     const userFound = req.lobby.users.filter((u, i) => {
-      if(u.id === req.user.id) {
+      if(u.id === req.body.userId) {
         // index = i
         return true
       } else {
@@ -146,7 +192,7 @@ router.get('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     })[0]
 
     if(!userFound) {
-      return res.status(400).json({ message: 'No user with id ' + req.lobby.id + ' found' });
+      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in lobby' });
     }
 
     userFound.joined = false
@@ -199,9 +245,8 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
   return res.status(200).json({ lobby: req.lobby });
 })
 
-router.get('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
-
     const userFound = req.lobby.users.filter((u, i) => {
       if(u.id === req.user.id) {
         return true

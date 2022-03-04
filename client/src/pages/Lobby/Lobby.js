@@ -34,11 +34,11 @@ const Lobby = ({
     function askBeforeClosing(e) {
       e.preventDefault();
       if(window.location.host.indexOf('localhost') === -1) e.returnValue = '';
-      leaveLobby(matchId)
+      leaveLobby(matchId, {userId: me.id})
     }
 
     async function getLobbyAndJoinLobby() {
-      await joinLobby(matchId);
+      await joinLobby(matchId, {userId: me.id});
       await getLobbyById(matchId);
 
       if(me.role !== 'ADMIN') {
@@ -59,7 +59,7 @@ const Lobby = ({
 
     return () => {
       window.removeEventListener('beforeunload', askBeforeClosing)
-      leaveLobby(matchId)
+      leaveLobby(matchId, {userId: me.id})
     }
   }, []);
 
@@ -107,12 +107,10 @@ const Lobby = ({
     return (
       <div className="Lobby">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
-        <p>
         <h3>In Room: </h3>
         {lobby.users.map((user) => {
-          return <UserStatus user={user}/>
+          return <UserStatus key={user.id} user={user}/>
         })}
-        </p>
         <h3>Roles: </h3>
         <div className="Lobby__roles">
           <div className="Lobby__role">
@@ -129,7 +127,7 @@ const Lobby = ({
                 <option/>
                 <option value={UNASSIGNED_ROLE}>unassign</option>
                 {lobby.users.map((user) => {
-                  return <option value={user.id}>{user.username}</option>
+                  return <option key={user.id} value={user.id}>{user.username}</option>
                 })}
               </select>
             </div>
@@ -148,7 +146,7 @@ const Lobby = ({
                 <option/>
                 <option value={UNASSIGNED_ROLE}>unassign</option>
                 {lobby.users.map((user) => {
-                  return <option value={user.id}>{user.username}</option>
+                  return <option key={user.id} value={user.id}>{user.username}</option>
                 })}
               </select>
             </div>
@@ -167,7 +165,7 @@ const Lobby = ({
                 <option/>
                 <option value={UNASSIGNED_ROLE}>unassign</option>
                 {lobby.users.map((user) => {
-                  return <option value={user.id}>{user.username}</option>
+                  return <option key={user.id} value={user.id}>{user.username}</option>
                 })}
               </select>
             </div>

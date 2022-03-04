@@ -14,8 +14,15 @@ import {
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
+  ASSIGN_LOBBY_ROLE_FAIL,
+  REGISTER_LOBBY_COBROWSING_FAIL,
+  REGISTER_LOBBY_COBROWSING_SUCCESS,
+  REGISTER_LOBBY_COBROWSING_LOADING,
+  UNREGISTER_LOBBY_COBROWSING_SUCCESS,
+  UNREGISTER_LOBBY_COBROWSING_FAIL,
   ON_LOBBY_UPDATE,
-  ASSIGN_LOBBY_ROLE_FAIL
+  ON_LOBBY_COBROWSING_UPDATE,
+  ON_LOBBY_COBROWSING_MOUSE_UPDATE,
 } from '../types';
 
 const initialState = {
@@ -24,6 +31,18 @@ const initialState = {
   },
   isLoading: false,
   error: null,
+  isJoining: false,
+  joinError: null,
+  isRegisteringCobrowsing: false,
+  cobrowsingError: null,
+  cobrowsingUser: false,
+  cobrowsingState: {
+    step: '',
+  },
+  cobrowsingMouse: {
+    x: 0,
+    y: 0,
+  }
 };
 
 export default function lobbyReducer(state = initialState, { type, payload }) {
@@ -41,11 +60,28 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         isJoining: true,
       };
+    case REGISTER_LOBBY_COBROWSING_LOADING:
+      return {
+        ...state,
+        isRegisteringCobrowsing: true,
+      };
     case GET_LOBBY_SUCCESS:
       return {
         ...state,
         isLoading: false,
         lobby: payload.lobby,
+      };
+    case REGISTER_LOBBY_COBROWSING_SUCCESS:
+      return {
+        ...state,
+        isRegisteringCobrowsing: false,
+        cobrowsingUser: payload.cobrowsingUser,
+      };
+    case UNREGISTER_LOBBY_COBROWSING_SUCCESS:
+      return {
+        ...state,
+        isRegisteringCobrowsing: false,
+        cobrowsingUser: null,
       };
     case JOIN_LOBBY_SUCCESS:
       return {
@@ -77,6 +113,14 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         },
         joinError: payload.error,
       };
+    case REGISTER_LOBBY_COBROWSING_FAIL:
+    case UNREGISTER_LOBBY_COBROWSING_FAIL:
+      return {
+        ...state,
+        isRegisteringCobrowsing: false,
+        cobrowsingUser: null,
+        cobrowsingError: payload.error,
+      };
     case GET_LOBBY_FAIL:
     case EDIT_LOBBY_FAIL:
     case DELETE_LOBBY_FAIL:
@@ -95,6 +139,16 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         lobby: {...payload.lobby, users: payload.lobby.users.slice()}
+      };
+    case ON_LOBBY_COBROWSING_UPDATE:
+      return {
+        ...state,
+        cobrowsingState: {...payload.cobrowsingState }
+      };
+    case ON_LOBBY_COBROWSING_MOUSE_UPDATE:
+      return {
+        ...state,
+        cobrowsingMouse: {...payload.cobrowsingMouse }
       };
     default:
       return state;

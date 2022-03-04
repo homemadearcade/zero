@@ -23,6 +23,8 @@ import Loader from './components/Loader/Loader';
 
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
+import '@fortawesome/fontawesome-free/js/all.js';
+
 import io from 'socket.io-client'
 // window.socket = io(window.location.host, { autoConnect: false })
 window.socket = io()
@@ -34,7 +36,6 @@ window.socket.onAny((event, ...args) => {
 const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
   useEffect(() => {
     loadMe();
-    authenticateSocket();
   }, [loadMe]);
 
   useEffect(() => {

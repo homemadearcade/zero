@@ -27,17 +27,16 @@ export const authenticateSocket = (values) => async (dispatch, getState) => {
 
     window.socket.emit('authenticate', { token })
 
-    // client-side
-    window.socket.on("connect", () => {
-      console.log('connect'); // x8WIv7-mJelg7on_ALbx
-      window.socket.emit('authenticate', { token })
-    });
-
     window.socket.on("disconnect", () => {
-      console.log('disconnect'); // undefined
+      console.log('disconnected'); // undefined
     });
 
     window.socket.on('authenticate_success', () => {
+      window.socket.on("connect", () => {
+        console.log('connecting again');
+        window.socket.emit('authenticate', { token })
+      });
+
       dispatch({
         type: AUTHENTICATE_SOCKET_SUCCESS,
         payload: {},

@@ -4,9 +4,10 @@ import classnames from 'classnames';
 
 import './UserStatus.scss';
 
-const UserStatus = ({ user }) => {
-  return <div className={classnames("UserStatus", {'UserStatus--left' : !user.joined})}>
+const UserStatus = ({ user, key }) => {
+  return <div key={key} className={classnames("UserStatus", {'UserStatus--left' : !user.joined})}>
     {user.username}
+    <i className="UserStatus__admin fa-solid fa-crown"/>
     {user.connected && <span className="UserStatus__connection"/>}
   </div>
 };

@@ -84,6 +84,7 @@ app.set('socketio', io);
 app.set('socketSessions', socketSessions);
 
 const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
+const ON_LOBBY_MOUSE_UPDATE = 'ON_LOBBY_MOUSE_UPDATE'
 
 const lobbys = [
   {
@@ -129,7 +130,6 @@ io.on("connection", (socket) => {
         })
   
         socket.emit('authenticate_success')
-
         socketSessions.saveSession(user.id, socket);
       } else {
         socket.emit('authenticate_fail', { error: 'no such user'})
@@ -137,6 +137,11 @@ io.on("connection", (socket) => {
     } else {
       socket.emit('authenticate_fail', { error: 'no token for socket'})
     }
+  })
+
+  // this server will recieve mouse updates regularly, it will emit these updates to anyone who has registered cobrowsing for this user
+  socket.on(ON_LOBBY_MOUSE_UPDATE, ({ cobrowsingMouse }) => {
+    io.to('lobby://'+socket.user.id).emit(ON_LOBBY_MOUSE_UPDATE, { userId: socket.user.id, cobrowsingMouse })
   })
 
   socket.on("disconnect", async () => {

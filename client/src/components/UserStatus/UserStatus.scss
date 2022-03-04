@@ -10,6 +10,15 @@
     opacity: 0.4;
   }
 
+  &__admin {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
+
   &__connection {
     width: 5px;
     height: 5px;
