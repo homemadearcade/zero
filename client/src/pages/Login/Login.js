@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { loginUserWithEmail } from '../../store/actions/authActions';
+import { authenticateSocket, loginUserWithEmail } from '../../store/actions/authActions';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
 import './styles.css';
@@ -20,6 +20,7 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
     validationSchema: loginSchema,
     onSubmit: (values) => {
       loginUserWithEmail(values, history);
+      authenticateSocket()
     },
   });
 

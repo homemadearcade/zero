@@ -7,7 +7,7 @@ import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
 import { getUserByUsername, editUser, deleteUser } from '../../store/actions/userActions';
-import { loadMe, logOutUser } from '../../store/actions/authActions';
+import { logOutUser } from '../../store/actions/authActions';
 
 import Layout from '../../layout/Layout';
 import Loader from '../../components/Loader/Loader';
@@ -22,7 +22,6 @@ const User = ({
   auth: { me },
   editUser,
   deleteUser,
-  loadMe,
   logOutUser,
   history,
   match,
@@ -244,5 +243,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, loadMe, logOutUser }),
+  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, logOutUser }),
 )(User);

@@ -60,6 +60,8 @@ export const loadMe = () => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/users/me', options);
 
+    dispatch(authenticateSocket())
+
     dispatch({
       type: ME_SUCCESS,
       payload: { me: response.data.me },

@@ -55,6 +55,7 @@ export default function authReducer(state = initialState, { type, payload }) {
     case AUTHENTICATE_SOCKET_SUCCESS:
       return {
         ...state,
+        appLoaded: true,
         isSocketAuthenticated: true,
         isLoading: false,
         error: null,
@@ -66,7 +67,6 @@ export default function authReducer(state = initialState, { type, payload }) {
         isLoading: false,
         me: payload.me,
         error: null,
-        appLoaded: true,
       };
     case ME_FAIL:
       localStorage.removeItem('token');

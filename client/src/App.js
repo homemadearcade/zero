@@ -13,7 +13,7 @@ import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import Lobbys from './pages/Lobbys/Lobbys';
-import Lobby from './pages/Lobby/Lobby';
+import Lobby from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
 import SessionLogin from './pages/LoginSession/LoginSession';
 import LobbyFind from './pages/LobbyFind/LobbyFind';
@@ -38,22 +38,22 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
     loadMe();
   }, [loadMe]);
 
-  useEffect(() => {
-    if (window.location.hash === '#_=_') window.location.hash = '';
+  // useEffect(() => {
+  //   if (window.location.hash === '#_=_') window.location.hash = '';
 
-    const cookieJwt = Cookies.get('x-auth-cookie');
-    if (cookieJwt) {
-      Cookies.remove('x-auth-cookie');
-      logInUserWithOauth(cookieJwt);
-    }
-  }, []);
+  //   const cookieJwt = Cookies.get('x-auth-cookie');
+  //   if (cookieJwt) {
+  //     Cookies.remove('x-auth-cookie');
+  //     logInUserWithOauth(cookieJwt);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (!auth.appLoaded && !auth.isLoading && auth.token && !auth.isAuthenticated) {
-      loadMe();
-      authenticateSocket();
-    }
-  }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded]);
+  // useEffect(() => {
+  //   if (!auth.appLoaded && !auth.isLoading && auth.token && !auth.isAuthenticated && !auth.isSocketAuthenticated) {
+  //     loadMe();
+  //     authenticateSocket();
+  //   }
+  // }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded, auth.isSocketAuthenticated]);
 
   return (
     <>

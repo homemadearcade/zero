@@ -52,7 +52,6 @@ const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket })
     onSubmit: async (values) => {
       setIsLoggingIn(true)
       await loginUserWithEmail(values);
-      await authenticateSocket()
       history.push("/lobby/find")
     },
   });

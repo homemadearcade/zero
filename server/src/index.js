@@ -142,6 +142,7 @@ io.on("connection", (socket) => {
 
   // this server will recieve mouse updates regularly, it will emit these updates to anyone who has registered cobrowsing for this user
   socket.on(ON_LOBBY_COBROWSING_MOUSE_UPDATE, ({ cobrowsingMouse }) => {
+    if(!socket.user) return
     io.to('lobby://'+socket.user.id).emit(ON_LOBBY_COBROWSING_MOUSE_UPDATE, { userId: socket.user.id, cobrowsingMouse })
   })
 

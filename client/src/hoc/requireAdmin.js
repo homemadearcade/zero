@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
 
 export default (ChildComponent) => {
   class ComposedComponent extends Component {
-    // Our component just got rendered
-    componentDidMount() {
-      this.shouldNavigateAway();
-    }
+    // // Our component just got rendered
+    // componentDidMount() {
+    //   this.shouldNavigateAway();
+    // }
 
-    // Our component just got updated
-    componentDidUpdate() {
-      this.shouldNavigateAway();
-    }
+    // // Our component just got updated
+    // componentDidUpdate() {
+    //   this.shouldNavigateAway();
+    // }
 
-    shouldNavigateAway() {
-      if (!(this.props.auth.isAuthenticated && this.props.auth.me?.role === 'ADMIN')) {
-        this.props.history.push('/');
-      }
-    }
+    // shouldNavigateAway() {
+    //     this.props.history.push('/');
+    //   }
+    // }
 
     render() {
-      return <ChildComponent {...this.props} />;
+      if (this.props.auth.isAuthenticated && this.props.auth.me?.role === 'ADMIN') {
+        return <ChildComponent {...this.props} />;
+      } else {
+        return <UnauthorizedPage/>
+      }
     }
   }
 
