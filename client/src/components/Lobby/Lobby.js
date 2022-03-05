@@ -26,13 +26,13 @@ const LobbyPage = ({
         <h1>{"You are in Lobby: " + lobby.id}</h1>
         <h3>In Room: </h3>
         {lobby.users.map((user) => {
-          return <UserStatus key={user.id} onClick={onClickUser} user={user}/>
+          return <UserStatus key={user.id} onClick={onClickUser} userId={user.id}/>
         })}
         <h3>Roles: </h3>
         <div className="Lobby__roles">
           <div className="Lobby__role">
             <strong>Game Host</strong>
-            {lobby.gameHostId && <UserStatus user={usersById[lobby.gameHostId]}/>}
+            {lobby.gameHostId && <UserStatus userId={usersById[lobby.gameHostId]?.id}/>}
             <div className="Lobby__role-assign">
               Assign:
               <select onChange={(e) => {
@@ -51,7 +51,7 @@ const LobbyPage = ({
           </div>
           <div className="Lobby__role">
             <strong>Participant</strong>
-            {lobby.participantId && <UserStatus user={usersById[lobby.participantId]}/>}
+            {lobby.participantId && <UserStatus userId={usersById[lobby.participantId]?.id}/>}
             <div className="Lobby__role-assign">
               Assign:
               <select onChange={(e) => {
@@ -70,7 +70,7 @@ const LobbyPage = ({
           </div>
           <div className="Lobby__role">
             <strong>Guide</strong>
-            {lobby.guideId && <UserStatus user={usersById[lobby.guideId]}/>}
+            {lobby.guideId && <UserStatus userId={usersById[lobby.guideId]?.id}/>}
             <div className="Lobby__role-assign">
             Assign:
               <select onChange={(e) => {

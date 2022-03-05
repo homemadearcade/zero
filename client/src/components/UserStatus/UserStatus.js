@@ -4,9 +4,15 @@ import classnames from 'classnames';
 
 import './UserStatus.scss';
 
-const UserStatus = ({ onClick, user, key, lobby: { lobbyUserStatus, cobrowsingMouse } }) => {
-  const userStatus = lobbyUserStatus[user.id];
-  const userCobrowsingStatus = cobrowsingMouse[user.id]
+const UserStatus = ({ onClick, userId, key, lobby: { lobby, lobbyUserStatus, cobrowsingMouse } }) => {
+  const userStatus = lobbyUserStatus[userId];
+  const userCobrowsingStatus = cobrowsingMouse[userId]
+  const user = lobby.users.filter(({id}) => {
+    if(userId === id) {
+      return true
+    }
+    return false;
+  })[0]
 
   return <div key={key} onClick={() => {
     onClick(user)

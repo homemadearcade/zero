@@ -4,24 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import User from '../../models/User';
 
-// Ok so requires roles within the experience include
-
-// Host, Participant, Guide
-
-// If you aren’t a required role, then you are a witness role
-
-// var room = io.sockets.adapter.rooms['my_room’]
-
-// If a required role has disconnected, throw an alarm on the front end
-
-// remove user array
-
-// If you navigate away, you automatically forget your role and the alarm sounds. 
-// Disconnect is different than leave. Disconnect means internet went out or computer crashed. Technical difficulty
-// Leave room is done by an action
-
-// Disconnect doesnt throw an alarm, it just something you can check
-
 const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
 const ON_LOBBY_COBROWSING_UPDATE = 'ON_LOBBY_COBROWSING_UPDATE'
 const ON_LOBBY_COBROWSING_REGISTERED = 'ON_LOBBY_COBROWSING_REGISTERED'
@@ -135,7 +117,7 @@ router.post('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, as
       return res.status(400).json({ message: 'You do not have privileges to register cobrowse.' });
     }
 
-    req.socket.join('lobby://'+req.body.userId);
+    req.socket.join('cobrowsing@'+req.body.userId);
     req.app.get('socketSessions').findSession(req.body.userId).emit(ON_LOBBY_COBROWSING_REGISTERED);
     
     const user = await User.findById(req.body.userId)
@@ -151,7 +133,7 @@ router.post('/uncobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, 
       return res.status(400).json({ message: 'You do not have privileges to unregister this cobrowse.' });
     }
 
-    req.socket.leave('lobby://'+req.body.userId);    
+    req.socket.leave('cobrowsing@'+req.body.userId);    
     res.status(200).send()
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
@@ -164,7 +146,7 @@ router.put('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, asy
       return res.status(400).json({ message: 'You do not have privileges to update this users cobrowse state.' });
     }
 
-    req.io.to('lobby://'+req.body.userId).emit(ON_LOBBY_COBROWSING_UPDATE, {
+    req.io.to('cobrowsing@'+req.body.userId).emit(ON_LOBBY_COBROWSING_UPDATE, {
       userId: req.body.userId,
       cobrowsingState: req.body.cobrowsingState
     });
@@ -197,10 +179,9 @@ router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async
 
     userFound.joined = false
 
-    // req.lobby.users.splice(index, 1)
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     req.socket.leave(req.lobby.id)
-    if(req.user.role === 'ADMIN') req.socket.leave('admins://'+req.lobby.id);
+    if(req.user.role === 'ADMIN') req.socket.leave('admins@'+req.lobby.id);
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
@@ -258,7 +239,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     
     if(userFound) {
       req.socket.join(req.lobby.id);
-      if(req.user.role === 'ADMIN') req.socket.join('admins://'+req.lobby.id);
+      if(req.user.role === 'ADMIN') req.socket.join('admins@'+req.lobby.id);
       userFound.joined = true;
       req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
       return res.status(200).json({ lobby: req.lobby });
@@ -280,7 +261,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 
     // listen for all of this lobbies events
     req.socket.join(req.lobby.id);
-    if(req.user.role === 'ADMIN') req.socket.join('admins://'+req.lobby.id);
+    if(req.user.role === 'ADMIN') req.socket.join('admins@'+req.lobby.id);
 
     // remove from all other lobbies
     req.lobbys.forEach((lobby) => {

@@ -41,11 +41,13 @@ const LobbyPage = ({
       leaveLobbyCleanup()
     }
 
-    async function getLobbyAndJoinLobby() {
+    async function getLobbyAndJoinLobby() {      
       await joinLobby({lobbyId: matchId, userId: me?.id});
       await getLobbyById(matchId);
 
       if(me.role !== 'ADMIN') {
+        startLobbyCobrowsing({lobbyId: matchId})
+
         await assignLobbyRole(matchId, {
           userId: me.id, 
           role: 'gameHost'
@@ -107,15 +109,15 @@ const LobbyPage = ({
     </div>
   }
 
-  if(me?.role !== 'ADMIN') {
-    return <div className="LobbyPage">
-      <Loader text="Waiting for game to start..."/>
-    </div>
-  }
-
   if(cobrowsingUser) {
     return <div className="LobbyPage">
       <Onboarding/>
+    </div>
+  }
+
+  if(me?.role !== 'ADMIN') {
+    return <div className="LobbyPage">
+      <Loader text="Waiting for game to start..."/>
     </div>
   }
 

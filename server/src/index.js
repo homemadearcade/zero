@@ -141,7 +141,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on(ON_LOBBY_COBROWSING_STATUS_UPDATE, (payload) => {
-    io.to('admins://'+payload.lobbyId).emit(ON_LOBBY_COBROWSING_STATUS_UPDATE, payload)
+    io.to('admins@'+payload.lobbyId).emit(ON_LOBBY_COBROWSING_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {

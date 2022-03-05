@@ -3,10 +3,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './CobrowsingStatus.scss';
+import UserStatus from '../../UserStatus/UserStatus';
 
-const CobrowsingStatus = ({ onClose, auth: { me }, lobby: { cobrowsingUser, cobrowsingMouse } }) => {
-  const mouseData = cobrowsingMouse[cobrowsingUser.id];
-
+const CobrowsingStatus = ({ onClose, auth: { me }, lobby: { cobrowsingUser } }) => {
   if(cobrowsingUser.id === me.id) {
     return (
       <div className="CobrowsingStatus">
@@ -17,8 +16,7 @@ const CobrowsingStatus = ({ onClose, auth: { me }, lobby: { cobrowsingUser, cobr
 
   return (
     <div className="CobrowsingStatus">
-      <span className="CobrowsingStatus__username">{cobrowsingUser.username}</span>
-      <span className="CobrowsingStatus__ping">{mouseData?.lastPing ? <span>{((Date.now() - mouseData?.lastPing)/1000).toFixed(0)}s</span> : 'never'}</span>
+      <UserStatus userId={cobrowsingUser.id}/>
       <span className="CobrowsingStatus__close" onClick={onClose}>close</span>
     </div>
   );
