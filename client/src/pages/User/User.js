@@ -33,7 +33,7 @@ const User = ({
 
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(null);
-  const [avatar, setAvatar] = useState(null);
+  // const [avatar, setAvatar] = useState(null);
   const retryCount = useRef(0);
   const matchUsername = match.params.username;
 
@@ -44,14 +44,14 @@ const User = ({
   const onChange = (event) => {
     formik.setFieldValue('image', event.currentTarget.files[0]);
     setImage(URL.createObjectURL(event.target.files[0]));
-    setAvatar(event.target.files[0]);
+    // setAvatar(event.target.files[0]);
   };
 
   const handleClickEdit = () => {
     retryCount.current = 0;
     setIsEdit((oldIsEdit) => !oldIsEdit);
     setImage(null);
-    setAvatar(null);
+    // setAvatar(null);
     formik.setFieldValue('id', user.id);
     formik.setFieldValue('name', user.name);
     formik.setFieldValue('username', user.username);
@@ -158,7 +158,7 @@ const User = ({
                     className="btn"
                     onClick={() => {
                       setImage(null);
-                      setAvatar(null);
+                      // setAvatar(null);
                     }}
                     type="button"
                   >

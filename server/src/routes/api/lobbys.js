@@ -136,7 +136,7 @@ router.post('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, as
     }
 
     req.socket.join('lobby://'+req.body.userId);
-    req.app.get('socketSessions').findById(req.body.userId).emit(ON_LOBBY_COBROWSING_REGISTERED);
+    req.app.get('socketSessions').findSession(req.body.userId).emit(ON_LOBBY_COBROWSING_REGISTERED);
     
     const user = await User.findById(req.body.userId)
     res.status(200).json({ cobrowsingUser: user });
@@ -145,7 +145,7 @@ router.post('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, as
   }
 });
 
-router.delete('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+router.post('/uncobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
     if(req.user.role !== 'ADMIN') {
       return res.status(400).json({ message: 'You do not have privileges to unregister this cobrowse.' });
@@ -200,6 +200,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async
     // req.lobby.users.splice(index, 1)
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     req.socket.leave(req.lobby.id)
+    if(req.user.role === 'ADMIN') req.socket.leave('admins://'+req.lobby.id);
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
@@ -257,6 +258,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     
     if(userFound) {
       req.socket.join(req.lobby.id);
+      if(req.user.role === 'ADMIN') req.socket.join('admins://'+req.lobby.id);
       userFound.joined = true;
       req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
       return res.status(200).json({ lobby: req.lobby });
@@ -278,6 +280,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 
     // listen for all of this lobbies events
     req.socket.join(req.lobby.id);
+    if(req.user.role === 'ADMIN') req.socket.join('admins://'+req.lobby.id);
 
     // remove from all other lobbies
     req.lobbys.forEach((lobby) => {

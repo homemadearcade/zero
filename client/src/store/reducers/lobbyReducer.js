@@ -1,6 +1,6 @@
 import {
   // LEAVE_LOBBY_LOADING,
-  // LEAVE_LOBBY_SUCCESS,
+  LEAVE_LOBBY_SUCCESS,
   LEAVE_LOBBY_FAIL,
   JOIN_LOBBY_LOADING,
   JOIN_LOBBY_SUCCESS,
@@ -15,15 +15,19 @@ import {
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
   ASSIGN_LOBBY_ROLE_FAIL,
-  REGISTER_LOBBY_COBROWSING_FAIL,
-  REGISTER_LOBBY_COBROWSING_SUCCESS,
-  REGISTER_LOBBY_COBROWSING_LOADING,
-  UNREGISTER_LOBBY_COBROWSING_SUCCESS,
-  UNREGISTER_LOBBY_COBROWSING_FAIL,
+  START_LOBBY_COBROWSING_FAIL,
+  START_LOBBY_COBROWSING_SUCCESS,
+  END_LOBBY_COBROWSING_FAIL,
+  END_LOBBY_COBROWSING_SUCCESS,
+  SUBSCRIBE_LOBBY_COBROWSING_FAIL,
+  SUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
+  SUBSCRIBE_LOBBY_COBROWSING_LOADING,
+  UNSUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
+  UNSUBSCRIBE_LOBBY_COBROWSING_FAIL,
   ON_LOBBY_UPDATE,
-  ON_LOBBY_UPDATE_USER_STATUS,
+  ON_LOBBY_USER_STATUS_UPDATE,
   ON_LOBBY_COBROWSING_UPDATE,
-  ON_LOBBY_COBROWSING_MOUSE_UPDATE,
+  ON_LOBBY_COBROWSING_STATUS_UPDATE,
 } from '../types';
 
 const initialState = {
@@ -35,15 +39,16 @@ const initialState = {
   error: null,
   isJoining: false,
   joinError: null,
-  isRegisteringCobrowsing: false,
+  isSubscribingCobrowsing: false,
   cobrowsingError: null,
   cobrowsingUser: false,
   cobrowsingState: {
     step: '',
   },
   cobrowsingMouse: {
-    x: 0,
-    y: 0,
+    xPercent: 0,
+    yPercent: 0,
+    lastPing: null,
   }
 };
 
@@ -62,10 +67,10 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         isJoining: true,
       };
-    case REGISTER_LOBBY_COBROWSING_LOADING:
+    case SUBSCRIBE_LOBBY_COBROWSING_LOADING:
       return {
         ...state,
-        isRegisteringCobrowsing: true,
+        isSubscribingCobrowsing: true,
       };
     case GET_LOBBY_SUCCESS:
       return {
@@ -73,16 +78,26 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         isLoading: false,
         lobby: payload.lobby,
       };
-    case REGISTER_LOBBY_COBROWSING_SUCCESS:
+    case START_LOBBY_COBROWSING_SUCCESS:
       return {
         ...state,
-        isRegisteringCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
       };
-    case UNREGISTER_LOBBY_COBROWSING_SUCCESS:
+    case END_LOBBY_COBROWSING_SUCCESS:
       return {
         ...state,
-        isRegisteringCobrowsing: false,
+        cobrowsingUser: null,
+      };
+    case SUBSCRIBE_LOBBY_COBROWSING_SUCCESS:
+      return {
+        ...state,
+        isSubscribingCobrowsing: false,
+        cobrowsingUser: payload.cobrowsingUser,
+      };
+    case UNSUBSCRIBE_LOBBY_COBROWSING_SUCCESS:
+      return {
+        ...state,
+        isSubscribingCobrowsing: false,
         cobrowsingUser: null,
       };
     case JOIN_LOBBY_SUCCESS:
@@ -91,6 +106,13 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         isJoining: false,
         lobby: {...payload.lobby, users: payload.lobby.users.slice()}
       };
+    case LEAVE_LOBBY_SUCCESS:
+    return {
+      ...state,
+      isJoining: false,
+      cobrowsingUser: initialState.cobrowsingUser,
+      lobby: initialState.lobby
+    };
     case EDIT_LOBBY_SUCCESS:
       return {
         ...state,
@@ -101,25 +123,21 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLoading: false,
-        lobby: {
-          users: []
-        },
+        lobby: initialState.lobby,
       };
     case JOIN_LOBBY_FAIL:
       return {
         ...state,
         isLoading: false,
         isJoining: false,
-        lobby: {
-          users: []
-        },
+        lobby: initialState.lobby,
         joinError: payload.error,
       };
-    case REGISTER_LOBBY_COBROWSING_FAIL:
-    case UNREGISTER_LOBBY_COBROWSING_FAIL:
+    case SUBSCRIBE_LOBBY_COBROWSING_FAIL:
+    case UNSUBSCRIBE_LOBBY_COBROWSING_FAIL:
       return {
         ...state,
-        isRegisteringCobrowsing: false,
+        isSubscribingCobrowsing: false,
         cobrowsingUser: null,
         cobrowsingError: payload.error,
       };
@@ -132,17 +150,22 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         isJoining: false,
-        lobby: {
-          users: []
-        },
+        lobby: initialState.lobby,
         error: payload.error,
       };
+    case START_LOBBY_COBROWSING_FAIL:
+    case END_LOBBY_COBROWSING_FAIL:
+      return {
+        ...state,
+        cobrowsingUser: null,
+        cobrowsingError: payload.error,
+      };
     case ON_LOBBY_UPDATE:
-    return {
-      ...state,
-      lobby: {...payload.lobby, users: payload.lobby.users.slice()}
-    };
-    case ON_LOBBY_UPDATE_USER_STATUS:
+      return {
+        ...state,
+        lobby: {...payload.lobby, users: payload.lobby.users.slice()}
+      };
+    case ON_LOBBY_USER_STATUS_UPDATE:
       return {
         ...state,
         lobbyUserStatus: {...state.lobbyUserStatus, [payload.userId]: payload.status }
@@ -152,10 +175,10 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         cobrowsingState: {...payload.cobrowsingState }
       };
-    case ON_LOBBY_COBROWSING_MOUSE_UPDATE:
+    case ON_LOBBY_COBROWSING_STATUS_UPDATE:
       return {
         ...state,
-        cobrowsingMouse: {...payload.cobrowsingMouse }
+        cobrowsingMouse: {...state.cobrowsingMouse, [payload.userId]: payload.cobrowsingMouse }
       };
     default:
       return state;

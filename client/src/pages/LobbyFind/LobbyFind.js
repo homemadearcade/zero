@@ -12,7 +12,7 @@ import './styles.scss';
 const LobbyFind = ({ getLobbyByEmail, lobby: { lobby, error }, auth: { me }}) => {
   useEffect(() => {
     getLobbyByEmail(me.email);
-  }, []);
+  }, [me.email, getLobbyByEmail]);
 
   if(error) {
     return <div className="LobbyFind">
@@ -26,9 +26,9 @@ const LobbyFind = ({ getLobbyByEmail, lobby: { lobby, error }, auth: { me }}) =>
   }
 
   return (
-      <div className="LobbyFind">
-        <Loader text="Finding lobby..."/>
-      </div>
+    <div className="LobbyFind">
+      <Loader text="Finding lobby..."/>
+    </div>
   );
 };
 

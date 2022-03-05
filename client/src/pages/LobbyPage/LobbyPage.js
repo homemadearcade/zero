@@ -5,20 +5,23 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router-dom';
 
-import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole } from '../../store/actions/lobbyActions';
+import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole, subscribeLobbyCobrowsing, startLobbyCobrowsing } from '../../store/actions/lobbyActions';
 import Loader from '../../components/Loader/Loader';
 import VideoHA from '../../components/VideoHA/VideoHA';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
+import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
 
 const LobbyPage = ({
   getLobbyById,
   leaveLobby,
   joinLobby,
   assignLobbyRole,
-  lobby: { isLoading, isJoining, error, joinError },
+  startLobbyCobrowsing,
+  subscribeLobbyCobrowsing,
+  lobby: { lobby, isLoading, isJoining, error, joinError, cobrowsingError, cobrowsingUser },
   auth: { me },
   match,
 }) => {
@@ -28,7 +31,7 @@ const LobbyPage = ({
 
   useEffect(() => {
     function leaveLobbyCleanup() {
-      leaveLobby(matchId, {userId: me?.id})
+      leaveLobby({lobbyId: matchId, userId: me?.id})
       window.removeEventListener('beforeunload', askBeforeClosing)
     }
 
@@ -39,7 +42,7 @@ const LobbyPage = ({
     }
 
     async function getLobbyAndJoinLobby() {
-      await joinLobby(matchId, {userId: me?.id});
+      await joinLobby({lobbyId: matchId, userId: me?.id});
       await getLobbyById(matchId);
 
       if(me.role !== 'ADMIN') {
@@ -98,19 +101,37 @@ const LobbyPage = ({
     </div>
   }
 
-  if(me?.role !== 'ADMIN') {
+  if(cobrowsingError) {
     return <div className="LobbyPage">
-    <Loader text="Waiting for game to start..."/>
-  </div>
+      <h1>{cobrowsingError}</h1>
+    </div>
   }
 
-  return <>
-    <Lobby/>
+  if(me?.role !== 'ADMIN') {
+    return <div className="LobbyPage">
+      <Loader text="Waiting for game to start..."/>
+    </div>
+  }
+
+  if(cobrowsingUser) {
+    return <div className="LobbyPage">
+      <Onboarding/>
+    </div>
+  }
+
+  return <div className="LobbyPage">
+    <Lobby onClickUser={(user) => {
+      subscribeLobbyCobrowsing({lobbyId: lobby.id, userId: user.id})
+    }}/>
+    <button onClick={() => {
+      startLobbyCobrowsing({lobbyId: lobby.id})
+    }}>Start Onboarding</button>
+    {showVideo && <VideoHA channelId={matchId} user={me} />}
     <button onClick={() => {
       setShowVideo(true)
     }}>Join Video</button>
     {showVideo && <VideoHA channelId={matchId} user={me} />}
-  </>
+  </div>
 };
 
 const mapStateToProps = (state) => ({
@@ -121,5 +142,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getLobbyById, joinLobby, leaveLobby, assignLobbyRole }),
+  connect(mapStateToProps, { getLobbyById, joinLobby, leaveLobby, assignLobbyRole, startLobbyCobrowsing, subscribeLobbyCobrowsing }),
 )(LobbyPage);

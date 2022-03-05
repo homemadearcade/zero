@@ -11,6 +11,10 @@
     opacity: 0.4;
   }
 
+  &--clickable {
+    cursor: pointer;
+  }
+
   &__ping {
     font-size: 7px;
     display: inline-block;
@@ -34,6 +38,14 @@
     position: absolute;
     bottom: 2px;
     right: 2px;
+  }
+
+  &__cobrowsing {
+    font-size: 8px;
+    display: inline-block;
+    position: absolute;
+    bottom: 2px;
+    right: 12px;
   }
 
   &__connection {

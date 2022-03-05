@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { attachTokenToHeaders } from './authActions';
+import _ from 'lodash';
 
 import {
   ASSIGN_LOBBY_ROLE_LOADING,
@@ -23,70 +24,134 @@ import {
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
-  REGISTER_LOBBY_COBROWSING_LOADING,
-  REGISTER_LOBBY_COBROWSING_SUCCESS,
-  REGISTER_LOBBY_COBROWSING_FAIL,
-  UNREGISTER_LOBBY_COBROWSING_LOADING,
-  UNREGISTER_LOBBY_COBROWSING_SUCCESS,
-  UNREGISTER_LOBBY_COBROWSING_FAIL,
+  START_LOBBY_COBROWSING_SUCCESS,
+  START_LOBBY_COBROWSING_FAIL,
+  END_LOBBY_COBROWSING_SUCCESS,
+  END_LOBBY_COBROWSING_FAIL,
+  SUBSCRIBE_LOBBY_COBROWSING_LOADING,
+  SUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
+  SUBSCRIBE_LOBBY_COBROWSING_FAIL,
+  UNSUBSCRIBE_LOBBY_COBROWSING_LOADING,
+  UNSUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
+  UNSUBSCRIBE_LOBBY_COBROWSING_FAIL,
   ON_LOBBY_UPDATE,
-  ON_LOBBY_UPDATE_USER_STATUS,
-  ON_LOBBY_COBROWSING_REGISTERED,
+  ON_LOBBY_USER_STATUS_UPDATE,
+  ON_LOBBY_COBROWSING_SUBSCRIBED,
   ON_LOBBY_COBROWSING_UPDATE,
-  ON_LOBBY_COBROWSING_MOUSE_UPDATE,
+  ON_LOBBY_COBROWSING_STATUS_UPDATE,
 } from '../types';
 
 import ping from 'web-pingjs';
 
 let pingInterval;
+let mouseLobbyId;
+let mouseUserId;
 
-function sendMouseState(e) {
-  window.socket.emit(ON_LOBBY_COBROWSING_MOUSE_UPDATE, {
-    x: e.clientX,
-    y: e.clientY,
-    windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight
+const sendMouseState = _.debounce((e) =>  {
+  window.socket.emit(ON_LOBBY_COBROWSING_STATUS_UPDATE, {
+    lobbyId: mouseLobbyId,
+    userId: mouseUserId,
+    cobrowsingMouse: {
+      xPercent: e.clientX/window.innerWidth,
+      pageY: e.pageY,
+      lastPing: Date.now(),
+    }
   })
-}
+}, 7)
 
-export const registerLobbyCobrowsing = (lobbyId, {userId}) => async (dispatch, getState) => {
-  dispatch({
-    type: REGISTER_LOBBY_COBROWSING_LOADING,
-  });
-  
+export const startLobbyCobrowsing = ({lobbyId}) => async (dispatch, getState) => {
   try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbys/cobrowse/' + lobbyId, {userId}, options);
+    const user = getState().auth.me
+
+    // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
+    window.socket.on(ON_LOBBY_COBROWSING_SUBSCRIBED, () => {
+      window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, {cobrowsingState: getState().lobby.cobrowsingState})
+    });
+
+    window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, {cobrowsingState: getState().lobby.cobrowsingState})
+
+    mouseLobbyId = lobbyId;
+    mouseUserId = user.id;
+  
+    // this event will send admins your mouse state to let them know you can be browsed
+    window.addEventListener('mousemove', sendMouseState)
 
     dispatch({
-      type: REGISTER_LOBBY_COBROWSING_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      type: START_LOBBY_COBROWSING_SUCCESS,
+      payload: { cobrowsingUser: user }
     });
   } catch (err) {
     dispatch({
-      type: REGISTER_LOBBY_COBROWSING_FAIL,
-      payload: { error: err?.response?.data.lobby || err.lobby },
+      type: START_LOBBY_COBROWSING_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
 
-export const unregisterLobbyCobrowsing = (lobbyId, {userId}) => async (dispatch, getState) => {
+export const endLobbyCobrowsing = () => async (dispatch, getState) => {
+  try {
+    window.socket.off(ON_LOBBY_COBROWSING_SUBSCRIBED);
+    window.removeEventListener('mousemove', sendMouseState);
+    dispatch({
+      type: END_LOBBY_COBROWSING_SUCCESS,
+      payload: {}
+    });
+  } catch (err) {
+    dispatch({
+      type: END_LOBBY_COBROWSING_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const subscribeLobbyCobrowsing = ({lobbyId, userId}) => async (dispatch, getState) => {
   dispatch({
-    type: UNREGISTER_LOBBY_COBROWSING_LOADING,
+    type: SUBSCRIBE_LOBBY_COBROWSING_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.delete('/api/lobbys/cobrowse/' + lobbyId, {userId}, options);
+    const response = await axios.post('/api/lobbys/cobrowse/' + lobbyId, { userId }, options);
+
+    // event that is triggered if cobrowsing has been registered
+    window.socket.on(ON_LOBBY_COBROWSING_UPDATE, ({cobrowsingState}) => {
+      dispatch({
+        type: ON_LOBBY_COBROWSING_UPDATE,
+        payload: { cobrowsingState },
+      });
+    });
 
     dispatch({
-      type: UNREGISTER_LOBBY_COBROWSING_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      type: SUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
+      payload: { cobrowsingUser: response.data.cobrowsingUser },
     });
   } catch (err) {
     dispatch({
-      type: UNREGISTER_LOBBY_COBROWSING_FAIL,
-      payload: { error: err?.response?.data.lobby || err.lobby },
+      type: SUBSCRIBE_LOBBY_COBROWSING_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const unsubscribeLobbyCobrowsing = ({lobbyId, userId}) => async (dispatch, getState) => {
+  dispatch({
+    type: UNSUBSCRIBE_LOBBY_COBROWSING_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    await axios.post('/api/lobbys/uncobrowse/' + lobbyId, {userId}, options);
+
+    window.socket.off(ON_LOBBY_COBROWSING_UPDATE);
+
+    dispatch({
+      type: UNSUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
+      payload: { },
+    });
+  } catch (err) {
+    dispatch({
+      type: UNSUBSCRIBE_LOBBY_COBROWSING_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
@@ -107,7 +172,7 @@ export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState)
   } catch (err) {
     dispatch({
       type: ASSIGN_LOBBY_ROLE_FAIL,
-      payload: { error: err?.response?.data.lobby || err.lobby },
+      payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
@@ -129,7 +194,7 @@ export const addLobby = (formData) => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: ADD_LOBBY_FAIL,
-      payload: { error: err?.response?.data.lobby || err.lobby },
+      payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
@@ -221,15 +286,15 @@ export const deleteLobby = (id) => async (dispatch, getState) => {
   }
 };
 
-export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
+export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => {
   dispatch({
     type: JOIN_LOBBY_LOADING,
-    payload: { id },
+    payload: { id: lobbyId },
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/lobbys/join/${id}`, { userId }, options);
+    const response = await axios.post(`/api/lobbys/join/${lobbyId}`, { userId }, options);
 
     let isFocused = true
     window.onfocus = () => {
@@ -241,9 +306,9 @@ export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
     
     pingInterval = window.setInterval(async () => {
       const pingDelta = await ping(window.location.origin)
-      window.socket.emit(ON_LOBBY_UPDATE_USER_STATUS, { status: {
+      window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
         pingDelta, isFocused, 
-      }, userId, lobbyId: id })
+      }, userId, lobbyId })
     }, 3000);
 
     // event is triggered to all users in this lobby when lobby is updated
@@ -255,36 +320,20 @@ export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
     });
 
     // event is triggered to all users in this lobby when lobby is updated
-    window.socket.on(ON_LOBBY_UPDATE_USER_STATUS, (payload) => {
+    window.socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
       dispatch({
-        type: ON_LOBBY_UPDATE_USER_STATUS,
+        type: ON_LOBBY_USER_STATUS_UPDATE,
         payload: payload,
       });
     });
 
     // event that is triggered if cobrowsing has been registered
-    window.socket.on(ON_LOBBY_COBROWSING_UPDATE, ({cobrowsingState}) => {
+    window.socket.on(ON_LOBBY_COBROWSING_STATUS_UPDATE, (payload) => {
       dispatch({
-        type: ON_LOBBY_COBROWSING_UPDATE,
-        payload: { cobrowsingState },
+        type: ON_LOBBY_COBROWSING_STATUS_UPDATE,
+        payload: payload,
       });
     });
-
-    // event that is triggered if cobrowsing has been registered
-    window.socket.on(ON_LOBBY_COBROWSING_MOUSE_UPDATE, ({cobrowsingMouse}) => {
-      dispatch({
-        type: ON_LOBBY_COBROWSING_MOUSE_UPDATE,
-        payload: { cobrowsingMouse },
-      });
-    });
-
-    // event that is triggered if another user has registered cobrowsing targeted at you, sends the initial state out
-    window.socket.on(ON_LOBBY_COBROWSING_REGISTERED, ({cobrowsingState}) => {
-      // window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, { userId, cobrowsingState})
-    });
-
-    // if someone has registered cobrowsing on you then this event will send them your mouse state
-    window.addEventListener('mousemove', sendMouseState)
 
     dispatch({
       type: JOIN_LOBBY_SUCCESS,
@@ -298,22 +347,20 @@ export const joinLobby = (id, { userId }) => async (dispatch, getState) => {
   }
 };
 
-export const leaveLobby = (id, { userId }, history) => async (dispatch, getState) => {
+export const leaveLobby = ({ lobbyId, userId }, history) => async (dispatch, getState) => {
   dispatch({
     type: LEAVE_LOBBY_LOADING,
-    payload: { id },
+    payload: { id: lobbyId },
   });
+
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/lobbys/leave/${id}`, { userId }, options);
+    const response = await axios.post(`/api/lobbys/leave/${lobbyId}`, { userId }, options);
 
     window.socket.off(ON_LOBBY_UPDATE);
-    window.socket.off(ON_LOBBY_UPDATE_USER_STATUS);
-    window.socket.off(ON_LOBBY_COBROWSING_UPDATE);
-    window.socket.off(ON_LOBBY_COBROWSING_REGISTERED);
-    window.socket.off(ON_LOBBY_COBROWSING_MOUSE_UPDATE);
+    window.socket.off(ON_LOBBY_USER_STATUS_UPDATE);
+    window.socket.off(ON_LOBBY_COBROWSING_STATUS_UPDATE);
     window.clearInterval(pingInterval);
-    window.removeEventListener('mousemove', sendMouseState);
 
     if(history) history.push('/');
 

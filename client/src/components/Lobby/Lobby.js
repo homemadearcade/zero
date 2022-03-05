@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { withRouter } from 'react-router-dom';
-
-import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole } from '../../store/actions/lobbyActions';
+import { assignLobbyRole } from '../../store/actions/lobbyActions';
 import UserStatus from '../UserStatus/UserStatus';
-import requireAuth from '../../hoc/requireAuth';
 
 import './Lobby.scss';
 
@@ -15,6 +12,7 @@ const UNASSIGNED_ROLE = 'unassigned'
 
 const LobbyPage = ({
   assignLobbyRole,
+  onClickUser,
   lobby: { lobby },
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
@@ -28,7 +26,7 @@ const LobbyPage = ({
         <h1>{"You are in Lobby: " + lobby.id}</h1>
         <h3>In Room: </h3>
         {lobby.users.map((user) => {
-          return <UserStatus key={user.id} user={user}/>
+          return <UserStatus key={user.id} onClick={onClickUser} user={user}/>
         })}
         <h3>Roles: </h3>
         <div className="Lobby__roles">
@@ -103,7 +101,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  requireAuth,
-  withRouter,
   connect(mapStateToProps, { assignLobbyRole }),
 )(LobbyPage);
