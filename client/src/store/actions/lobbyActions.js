@@ -307,7 +307,7 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
     pingInterval = window.setInterval(async () => {
       const pingDelta = await ping(window.location.origin)
       window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
-        pingDelta, isFocused, 
+        pingDelta, isFocused, isFullscreen: !window.screenTop && !window.screenY
       }, userId, lobbyId })
     }, 3000);
 

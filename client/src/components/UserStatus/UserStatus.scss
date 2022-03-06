@@ -15,6 +15,14 @@
     cursor: pointer;
   }
 
+  &__fullscreen {
+    font-size: 8px;
+    display: inline-block;
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+  }
+
   &__ping {
     font-size: 7px;
     display: inline-block;
@@ -45,7 +53,7 @@
     display: inline-block;
     position: absolute;
     bottom: 2px;
-    right: 12px;
+    right: 28px;
   }
 
   &__connection {

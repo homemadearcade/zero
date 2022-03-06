@@ -4,4 +4,20 @@
     border: 1px solid #333;
     width: 200px;
   }
+
+  &__checklist-item {
+    &--required {
+      font-weight: 700;
+    }
+  }
+
+  &__checklist-check {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    display: inline-block;
+    border: 1px solid #333;
+    color: green;
+    margin-right: 5px;
+  }
 }

@@ -7,6 +7,7 @@ import { assignLobbyRole } from '../../store/actions/lobbyActions';
 import UserStatus from '../UserStatus/UserStatus';
 
 import './Lobby.scss';
+import classNames from 'classnames';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
@@ -20,9 +21,75 @@ const LobbyPage = ({
     return prev
   }, {})
 
+  const checklist = [
+    {
+      text: 'Participant role is set',
+      test: () => {
+        return !!lobby.participantId 
+      },
+      required: true,
+    },
+    {
+      text: 'Guide role is set',
+      test: () => {
+        return !!lobby.guideId 
+      },
+      required: true,
+    },
+    {
+      text: 'Participant role is set to different user than guide',
+      test: () => {
+        return lobby.participantId !== lobby.guideId
+      },
+      required: true,
+    },
+    {
+      text: 'Game Host role is set',
+      test: () => {
+        return !!lobby.gameHostId
+      },
+      required: true,
+    },
+    {
+      text: 'Participant has connected camera',
+      test: () => {
+        return !!lobby.gameHostId
+      },
+      required: false,
+    },
+    {
+      text: 'Guide has connected camera',
+      test: () => {
+        return lobby.gameHostId
+      },
+      required: false,
+    },
+    {
+      text: 'Participant is fullscreen',
+      test: () => {
+        return lobby.gameHostId
+      },
+      required: false,
+    },
+    {
+      text: 'Participant has passed internet speed test',
+      test: () => {
+        return lobby.gameHostId
+      },
+      required: false,
+    },
+    {
+      text: 'Guide has passed internet speed test',
+      test: () => {
+        return lobby.gameHostId
+      },
+      required: false,
+    },
+  ]
+
   if(lobby?.id) {
     return (
-      <div className="LobbyPage">
+      <div className="Lobby">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
         <h3>In Room: </h3>
         {lobby.users.map((user) => {
@@ -87,6 +154,18 @@ const LobbyPage = ({
               </select>
             </div>
           </div>
+        </div>
+        <h3>Checklist: </h3>
+        <div className="Lobby__checklist">
+          {checklist.map((item, i) => {
+            const isPassing = item.test();
+            return <div  key={i} className={classNames("Lobby__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
+              {isPassing && <span className="Lobby__checklist-check"><i className="fa-solid fa-check"></i></span>}
+              {!isPassing && <span className="Lobby__checklist-check" />}
+              {item.text}
+              {item.required && ' (required)'}
+            </div>
+          })}
         </div>
       </div>
     );

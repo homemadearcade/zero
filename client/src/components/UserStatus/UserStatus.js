@@ -20,10 +20,12 @@ const UserStatus = ({ onClick, userId, key, lobby: { lobby, lobbyUserStatus, cob
     {user.username}
     {user.role === 'ADMIN' && <i className="UserStatus__admin fa-solid fa-crown"/>}
 
+    <div className="UserStatus__fullscreen">{(userStatus?.isFullscreen) ? 'FS' : 'W'}</div>
+
     {user.connected && <span className={classnames("UserStatus__connection", {'UserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 60})}/>}
     {userStatus?.pingDelta > -1 && <span className="UserStatus__ping">{userStatus?.pingDelta}</span>}
 
-    <div className="UserStatus__focus">{(!userStatus || userStatus?.isFocused) ? 'F' : 'NF'}</div>
+    <div className="UserStatus__focus">{(!userStatus || userStatus?.isFocused) ? 'HERE' : 'AWAY'}</div>
     <div className="UserStatus__cobrowsing">{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s</span> : 'never'}</div>
   </div>
 };
