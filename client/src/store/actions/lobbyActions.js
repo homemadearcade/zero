@@ -206,7 +206,6 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_STATUS_UPDATE, (payload) => {
-      console.log('cobrowsingstateupdate',payload )
       dispatch({
         type: ON_COBROWSING_STATUS_UPDATE,
         payload: payload,

@@ -38,7 +38,7 @@ window.socket.onAny((event, ...args) => {
   console.log(event, args);
 });
 
-const App = ({ logInUserWithOauth, authenticateSocket, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, auth, video, loadMe }) => {
+const App = ({ logInUserWithOauth, authenticateSocket, auth, video: { videoState, isConnected }, loadMe }) => {
   useEffect(() => {
     loadMe();
   }, [loadMe]);
@@ -79,7 +79,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, onStartAgoraVideoCallFail
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
-        {(video.isStarting || video.isConnected) && <AgoraVideoCall
+        {(videoState.isStarting || isConnected) && <AgoraVideoCall
             render={(props) => <VideoLayoutHA {...props}/>}
           />}
       </>}

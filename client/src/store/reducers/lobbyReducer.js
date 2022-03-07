@@ -15,6 +15,7 @@ import {
   DELETE_LOBBY_FAIL,
   ASSIGN_LOBBY_ROLE_FAIL,
   ON_LOBBY_UPDATE,
+  START_VIDEO_CALL_SUCCESS
 } from '../types';
 
 const initialState = {
@@ -26,6 +27,9 @@ const initialState = {
   error: null,
   isJoining: false,
   joinError: null,
+  lobbyState: {
+    step: 'video_connection'
+  }
 };
 
 export default function lobbyReducer(state = initialState, { type, payload }) {
@@ -73,6 +77,14 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         lobby: initialState.lobby,
+      };
+    case START_VIDEO_CALL_SUCCESS:
+      return {
+        ...state,
+        lobbyState: {
+          ...state.lobbyState,
+          step: 'internet_speed_test'
+        }
       };
     case JOIN_LOBBY_FAIL:
       return {

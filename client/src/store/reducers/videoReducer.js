@@ -5,10 +5,11 @@ import {
 } from '../types';
 
 const initialState = {
-  isStarting: false,
   isConnected: false,
-  lobbyId: false,
-  error: null
+  videoState: {
+    isStarting: false,
+    error: null,
+  }
 };
 
 export default function videoReducer(state = initialState, { type, payload }) {
@@ -16,19 +17,27 @@ export default function videoReducer(state = initialState, { type, payload }) {
     case START_VIDEO_CALL_LOADING:
       return {
         ...state,
-        isStarting: true,
+        videoState: {
+          ...state.videoState,
+          isStarting: true,
+        },
       };
     case START_VIDEO_CALL_SUCCESS:
       return {
         ...state,
-        isStarting: false,
+        videoState: {
+          ...state.videoState,
+          isStarting: false,
+        },
         isConnected: true,
-        lobbyId: payload.lobbyId
       };
     case START_VIDEO_CALL_FAIL:
       return {
         ...state,
-        isStarting: false,
+        videoState: {
+          ...state.videoState,
+          isStarting: false,
+        },
         isConnected: false,
         error: payload.error
       };

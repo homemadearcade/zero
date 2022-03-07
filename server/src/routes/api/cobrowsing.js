@@ -5,7 +5,7 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 import User from '../../models/User';
 
 const ON_COBROWSING_UPDATE = 'ON_COBROWSING_UPDATE'
-const ON_COBROWSING_REGISTERED = 'ON_COBROWSING_REGISTERED'
+const ON_COBROWSING_SUBSCRIBED = 'ON_COBROWSING_SUBSCRIBED'
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
     }
 
     req.socket.join('cobrowsing@'+req.params.id);
-    req.app.get('socketSessions').findSession(req.params.id).emit(ON_COBROWSING_REGISTERED);
+    req.app.get('socketSessions').findSession(req.params.id).emit(ON_COBROWSING_SUBSCRIBED);
     
     const user = await User.findById(req.params.id)
     res.status(200).json({ cobrowsingUser: user });

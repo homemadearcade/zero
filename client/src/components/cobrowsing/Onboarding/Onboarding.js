@@ -3,13 +3,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './Onboarding.scss';
-import { endCobrowsing, unsubscribeCobrowsing, updateCobrowsing } from '../../../store/actions/cobrowsingActions';
+import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
 import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import Loader from '../../Loader/Loader';
 
-const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing, updateCobrowsing, video, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
+const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
   const isSubscribed = cobrowsingUser.id !== me.id;
   
   function onClose() {
@@ -27,19 +27,19 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
   }, [])
 
   function renderBody() {
-    if(video.error) {
-      return <h1>{video.error}</h1>
+    if(cobrowsingState.video.error) {
+      return <h1>{cobrowsingState.video.error}</h1>
     }
 
-    if(cobrowsingState.error) {
-      return <h1>{cobrowsingState.error}</h1>
+    if(cobrowsingState.lobby.error) {
+      return <h1>{cobrowsingState.lobby.error}</h1>
     }
 
-    if(cobrowsingState.isStartingVideo) {
+    if(cobrowsingState.video.isStarting) {
       return <Loader text="Connecting to video.."/>
     }
 
-    if(cobrowsingState.step === 'video_connection') {
+    if(cobrowsingState.lobby.step === 'video_connection') {
       return <div>
         Step 1
         <button onClick={() => {
@@ -48,12 +48,12 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
       </div>
     }
 
-    if(cobrowsingState.step === 'internet_speed_test') {
+    if(cobrowsingState.lobby.step === 'internet_speed_test') {
       return <div>
         Step 2
         <button onClick={() => {
-          updateCobrowsing({
-            ...cobrowsingState,
+          updateLobbyCobrowsing({
+            ...cobrowsingState.lobby,
             step: 'computer_environment'
           })
         }}>Test your internet</button>
@@ -61,7 +61,7 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
     }
 
 
-    if(cobrowsingState.step === 'computer_environment') {
+    if(cobrowsingState.lobby.step === 'computer_environment') {
       return <div>
         Step 3
         <button onClick={() => {
@@ -76,8 +76,8 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
           }
           requestFullScreen()
 
-          updateCobrowsing({
-            ...cobrowsingState,
+          updateLobbyCobrowsing({
+            ...cobrowsingState.lobby,
             step: 'waiting'
           })
         }}>Enter fullscreen mode</button>
@@ -87,8 +87,6 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
     if(cobrowsingState.step === 'waiting') {
       return <Loader text="Waiting for game to start.."/>
     }
-
-
   }
 
   return (
@@ -108,6 +106,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { endCobrowsing, startAgoraVideoCall, updateCobrowsing, unsubscribeCobrowsing }),
+  connect(mapStateToProps, { endCobrowsing, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
 )(Onboarding);
 

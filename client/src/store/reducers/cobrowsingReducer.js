@@ -17,7 +17,13 @@ const initialState = {
   cobrowsingError: null,
   cobrowsingUser: false,
   cobrowsingState: {
-    step: 'video_connection',
+    lobby: {
+      step: 'video_connection',
+    },
+    video: {
+      isStarting: false,
+      error: null,
+    }
   },
 };
 
@@ -32,7 +38,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         cobrowsingUser: payload.cobrowsingUser,
-        cobrowsingState: initialState.cobrowsingState
+        cobrowsingState: payload.cobrowsingState
       };
     case END_COBROWSING_SUCCESS:
       return {
@@ -44,7 +50,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         isSubscribingCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
-        cobrowsingState: initialState.cobrowsingState
+        cobrowsingState: null,
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
       return {

@@ -22,7 +22,7 @@ const LobbyPage = ({
   assignLobbyRole,
   startCobrowsing,
   subscribeCobrowsing,
-  cobrowsing: { cobrowsingError, cobrowsingUser },
+  cobrowsing: { cobrowsingError, cobrowsingUser, cobrowsingState },
   lobby: { lobby, isLoading, isJoining, error, joinError },
   auth: { me },
   match,
@@ -100,7 +100,7 @@ const LobbyPage = ({
       return <Loader text="Joining lobby..."/>
     }
   
-    if(cobrowsingUser) {
+    if(cobrowsingUser && cobrowsingState) {
       return <Onboarding/>
     }
   
