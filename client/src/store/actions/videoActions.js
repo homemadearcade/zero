@@ -76,10 +76,10 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
         // }
 
         // if(updated) window.events.emit('ON_NETWORK_QUALITY_CHANGED')
-        setMyNetworkQuality({
-          downlinkNetworkQuality,
-          uplinkNetworkQuality
-        })
+        // setMyNetworkQuality({
+        //   downlinkNetworkQuality,
+        //   uplinkNetworkQuality
+        // })
       })
     
       client.on("user-left", (user) => {
@@ -108,9 +108,9 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
           }
         })
 
-        if(updated) {
-          setRemoteNetworkQuality(updatedQuality)
-        }
+        // if(updated) {
+        //   setRemoteNetworkQuality(updatedQuality)
+        // }
       }, 1000)
     }
 

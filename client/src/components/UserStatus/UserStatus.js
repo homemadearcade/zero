@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import './UserStatus.scss';
 
-const UserStatus = ({ onClick, userId, key, lobby: { lobby, lobbyUserStatus, cobrowsingMouse }, auth: {me} }) => {
+const UserStatus = ({ onClick, userId, key, lobby: { lobby }, status : { lobbyUserStatus, cobrowsingMouse },  auth: {me} }) => {
   const userStatus = lobbyUserStatus[userId];
   const userCobrowsingStatus = cobrowsingMouse[userId]
   const user = lobby.users.filter(({id}) => {
@@ -36,6 +36,7 @@ const UserStatus = ({ onClick, userId, key, lobby: { lobby, lobbyUserStatus, cob
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
+  status: state.status,
   auth: state.auth
 });
 

@@ -165,20 +165,10 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         lobby: {...payload.lobby, users: payload.lobby.users.slice()}
       };
-    case ON_LOBBY_USER_STATUS_UPDATE:
-      return {
-        ...state,
-        lobbyUserStatus: {...state.lobbyUserStatus, [payload.userId]: payload.status }
-      };
     case ON_LOBBY_COBROWSING_UPDATE:
       return {
         ...state,
         cobrowsingState: {...payload.cobrowsingState }
-      };
-    case ON_LOBBY_COBROWSING_STATUS_UPDATE:
-      return {
-        ...state,
-        cobrowsingMouse: {...state.cobrowsingMouse, [payload.userId]: payload.cobrowsingMouse }
       };
     default:
       return state;
