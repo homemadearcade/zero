@@ -13,22 +13,22 @@ const AgoraVideoCall = ({userId, lobbyId, render}) => {
   let [ tracks, users ] = useAgoraVideoCall({userId, lobbyId})
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
-  console.log(userId, lobbyId)
-
-  const muteVideo = async (type) => {
+  const muteVideo = async () => {
     await tracks[1].setEnabled(!trackState.video);
     setTrackState((ps) => {
       return { ...ps, video: !ps.video };
     });
   };
 
-  const muteAudio = async (type) => {
-    if (type === "audio") {
-      await tracks[0].setEnabled(!trackState.audio);
-      setTrackState((ps) => {
-        return { ...ps, audio: !ps.audio };
-      });
-    }
+  console.log(trackState.audio)
+
+
+  const muteAudio = async () => {
+    console.log('XXX')
+    await tracks[0].setEnabled(!trackState.audio);
+    setTrackState((ps) => {
+      return { ...ps, audio: !ps.audio };
+    });
   };
 
   return (

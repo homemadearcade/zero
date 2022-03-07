@@ -29,6 +29,24 @@
     font-size: 8px;
   }
 
+  &__controls {
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+    left: 0;
+    color: white;
+    background-color: black;
+    z-index: 1;
+    font-size: 20px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  &__controls-mic, &__controls-cam {
+    cursor: pointer;
+  }
+
   &__guide {
     width: 200px;
     height: 200px;
