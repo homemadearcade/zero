@@ -19,28 +19,39 @@
     // }
   }
 
-  &__label {
+  &__info {
+    // display: flex;
+    // flex-direction: column;
     position: absolute;
     top: 0px;
     right: 0px;
     color: white;
-    background-color: black;
-    z-index: 1;
+    background-color: rgba(0,0,0,0.7);    z-index: 1;
     font-size: 8px;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    // justify-content: space-between;
+    
+  }
+
+  &__network-stats {
+    text-align: center;
+    display: flex;
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
   }
 
   &__controls {
+    display: flex;
+    padding: 5px;
+    justify-content: space-evenly;
     position: absolute;
     bottom: 0px;
-    right: 0;
-    left: 0;
-    color: white;
-    background-color: black;
-    z-index: 1;
+    left: 0px;
+    width: 100%;
     font-size: 20px;
-    padding: 5px;
-    display: flex;
-    justify-content: space-evenly;
   }
 
   &__controls-mic, &__controls-cam {

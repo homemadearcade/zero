@@ -2,6 +2,7 @@
   display: inline-block;
 
   padding: 15px;
+  
 
   border: 1px solid #333;
 
@@ -15,12 +16,10 @@
     cursor: pointer;
   }
 
-  &__fullscreen {
-    font-size: 8px;
-    display: inline-block;
-    position: absolute;
-    bottom: 2px;
-    left: 2px;
+  &__icons {
+    font-size: 12px;
+    margin-top: 5px;
+    color: white;
   }
 
   &__ping {
@@ -40,20 +39,16 @@
     left: 2px;
   }
 
-  &__focus {
-    font-size: 8px;
+  &__icon {
+    text-align: center;
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
     display: inline-block;
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-  }
 
-  &__cobrowsing {
-    font-size: 8px;
-    display: inline-block;
-    position: absolute;
-    bottom: 2px;
-    right: 28px;
+    &--wide {
+      width: 26px;
+    }
   }
 
   &__connection {

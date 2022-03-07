@@ -98,7 +98,7 @@ const LobbyPage = ({
         <h3>Roles: </h3>
         <div className="Lobby__roles">
           <div className="Lobby__role">
-            <strong>Game Host</strong>
+            <strong>Game Host</strong><br/>
             {lobby.gameHostId && <UserStatus userId={usersById[lobby.gameHostId]?.id}/>}
             <div className="Lobby__role-assign">
               Assign:
@@ -117,7 +117,7 @@ const LobbyPage = ({
             </div>
           </div>
           <div className="Lobby__role">
-            <strong>Participant</strong>
+            <strong>Participant</strong><br/>
             {lobby.participantId && <UserStatus userId={usersById[lobby.participantId]?.id}/>}
             <div className="Lobby__role-assign">
               Assign:
@@ -136,7 +136,7 @@ const LobbyPage = ({
             </div>
           </div>
           <div className="Lobby__role">
-            <strong>Guide</strong>
+            <strong>Guide</strong><br/>
             {lobby.guideId && <UserStatus userId={usersById[lobby.guideId]?.id}/>}
             <div className="Lobby__role-assign">
             Assign:

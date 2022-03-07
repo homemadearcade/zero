@@ -8,24 +8,67 @@ import {
 import './VideoLayoutHA.scss'
 
 const VideoLayoutHA = ({ lobby: {lobby}, auth: {me}, myTracks, userTracks, isAudioMuted, isVideoMuted, muteVideo, muteAudio }) => {
-  let [showControls, setShowControls] = useState(false)
-
+  let [showInfo, setShowInfo] = useState(false)
+  
   function Video({className, label, videoTrack, userId, controls}) {
+
+    let cameraStatus = ['Disconnected', 'Disconnected'];
+
+    function getCameraStatus({uplinkNetworkQuality, downlinkNetworkQuality}) {
+      let uplink
+      if(uplinkNetworkQuality === 0 || !uplinkNetworkQuality) {
+        uplink = 'Disconnected'
+      }
+      if(uplinkNetworkQuality === 1 || uplinkNetworkQuality === 2) {
+        uplink = 'Good'
+      }
+      if(uplinkNetworkQuality === 3 || uplinkNetworkQuality === 4) {
+        uplink = 'Poor'
+      } 
+      if(uplinkNetworkQuality === 5 || uplinkNetworkQuality === 6) {
+        uplink = 'Terrible'
+      } 
+  
+      let downlink
+      if(downlinkNetworkQuality === 0 || !downlinkNetworkQuality) {
+        downlink = 'Disconnected'
+      }
+      if(downlinkNetworkQuality === 1 || downlinkNetworkQuality === 2) {
+        downlink = 'Good'
+      }
+      if(downlinkNetworkQuality === 3 || downlinkNetworkQuality === 4) {
+        downlink = 'Poor'
+      } 
+      if(downlinkNetworkQuality === 5 || downlinkNetworkQuality === 6) {
+        downlink = 'Terrible'
+      } 
+  
+      return [uplink, downlink]
+    }
+  
+    if(userId === me.id) {
+      cameraStatus = getCameraStatus(window)
+    } else if(window.remoteNetworkQuality && window.remoteNetworkQuality[userId]) {
+      cameraStatus = getCameraStatus(window.remoteNetworkQuality[userId])
+    }
+
     return <div className={"VideoLayoutHA__video-container " + className} onMouseEnter={() => {
-      setShowControls(true)
+      setShowInfo(true)
     }} onMouseLeave={() => {
-      setShowControls(false)
+      setShowInfo(false)
     }}>
-      {label && me.role === 'ADMIN' && <div className="VideoLayoutHA__label">
-        {label}
-        {me.id === userId && ' - me'}
+      {showInfo && <div className="VideoLayoutHA__info">
+        {me.role === 'ADMIN' && <>
+          {label ? label : null}
+          {me.id === userId && ' - me'}
+          <div className="VideoLayoutHA__network-stats"><i className="fa-solid fa-arrow-up"/>{cameraStatus[0]}</div>
+          <div className="VideoLayoutHA__network-stats"><i className="fa-solid fa-arrow-down"/>{cameraStatus[1]}</div>
+        </>}
+        {controls && <Controls/>}
       </div>}
-      {controls && showControls && <Controls/>}
       <AgoraVideoPlayer className="VideoLayoutHA__video" videoTrack={videoTrack}/>
     </div>
   }
-
-  console.log(isAudioMuted)
 
   function Controls() {
     return <div className="VideoLayoutHA__controls">

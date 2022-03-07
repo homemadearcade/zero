@@ -57,6 +57,20 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
           });
         }
       });
+
+      client.on('network-quality', ({downlinkNetworkQuality, uplinkNetworkQuality}) => {
+        let updated;
+        if(window.downlinkNetworkQuality !== downlinkNetworkQuality) {
+          window.downlinkNetworkQuality = downlinkNetworkQuality
+          updated = true
+        }
+        if(window.uplinkNetworkQuality !== uplinkNetworkQuality) {
+          window.uplinkNetworkQuality = uplinkNetworkQuality
+          updated = true
+        }
+
+        if(updated) window.events.emit('ON_NETWORK_QUALITY_CHANGED')
+      })
     
       client.on("user-left", (user) => {
         console.log("leaving", user);
@@ -66,8 +80,30 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
       });
     
       await client.join(appId, lobbyId, token, userId);
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      await client.publish([tracks[0], tracks[1]]);
+
+      window.remoteNetworkQuality = {}
+      setInterval(() => {
+        const updatedQuality = client.getRemoteNetworkQuality();
+
+        let updated = false
+        Object.keys(updatedQuality).forEach((id) => {
+          if(updatedQuality[id].uplinkNetworkQuality !== window.remoteNetworkQuality[id]?.uplinkNetworkQuality) {
+            updated = true
+          }
+          if(updatedQuality[id].downlinkkQuality !== window.remoteNetworkQuality[id]?.downlinkkQuality) {
+            updated = true
+          }
+        })
+
+        if(updated) {
+          window.events.emit('ON_NETWORK_QUALITY_CHANGED')
+        }
+
+        window.remoteNetworkQuality = updatedQuality
+      }, 1000)
     }
+
 
     if (ready && tracks) {
       console.log("init ready");
@@ -75,6 +111,10 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
     }
 
   }, [lobbyId, userId, client, ready, tracks]);
+
+  function getVideoConnections() {
+
+  }
 
   return [tracks, users]
 }

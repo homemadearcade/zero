@@ -17,7 +17,7 @@ import Lobby from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
 import SessionLogin from './pages/LoginSession/LoginSession';
 import LobbyFind from './pages/LobbyFind/LobbyFind';
-
+import './events.js'
 
 import Loader from './components/Loader/Loader';
 

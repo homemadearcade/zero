@@ -102,7 +102,9 @@ const LobbyPage = ({
     }
   
     if(cobrowsingUser) {
-      return <Onboarding/>
+      return <Onboarding onClickJoinVideo={() => {
+        setShowVideo(true)
+      }}/>
     }
   
     if(me?.role !== 'ADMIN') {

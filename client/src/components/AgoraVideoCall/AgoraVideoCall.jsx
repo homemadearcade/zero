@@ -20,11 +20,7 @@ const AgoraVideoCall = ({userId, lobbyId, render}) => {
     });
   };
 
-  console.log(trackState.audio)
-
-
   const muteAudio = async () => {
-    console.log('XXX')
     await tracks[0].setEnabled(!trackState.audio);
     setTrackState((ps) => {
       return { ...ps, audio: !ps.audio };
