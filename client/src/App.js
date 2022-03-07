@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -21,6 +21,9 @@ import './events.js'
 
 import Loader from './components/Loader/Loader';
 
+import AgoraVideoCall from './components/AgoraVideoCall/AgoraVideoCall';
+import VideoLayoutHA from './components/VideoLayoutHA/VideoLayoutHA';
+
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
 import '@fortawesome/fontawesome-free/js/all.js';
@@ -33,7 +36,7 @@ window.socket.onAny((event, ...args) => {
   console.log(event, args);
 });
 
-const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
+const App = ({ logInUserWithOauth, authenticateSocket, auth, video, loadMe }) => {
   useEffect(() => {
     loadMe();
   }, [loadMe]);
@@ -55,10 +58,14 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
   //   }
   // }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded, auth.isSocketAuthenticated]);
 
+
+  console.log(video)
+
   return (
     <>
         {!auth.appLoaded && <Loader/>}
-        {auth.appLoaded && <Switch>
+        {auth.appLoaded && <>
+        <Switch>
           <Route exact path="/play" component={Play} />
           <Route path="/login" component={Login} />
           <Route path="/loginsession" component={SessionLogin} />
@@ -72,13 +79,18 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
           <Route exact path="/:username" component={Account} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
-        </Switch>}
+        </Switch>
+        {video.isStarted && <AgoraVideoCall lobbyId={video.lobbyId} userId={auth.me.id} 
+            render={(props) => <VideoLayoutHA {...props}/>}
+          />}
+      </>}
     </>
   );
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  video: state.video
 });
 
 export default compose(connect(mapStateToProps, { authenticateSocket, logInUserWithOauth, loadMe }))(App);

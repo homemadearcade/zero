@@ -7,7 +7,7 @@ import { endLobbyCobrowsing, unsubscribeLobbyCobrowsing } from '../../../store/a
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 
-const Onboarding = ({ endLobbyCobrowsing, unsubscribeLobbyCobrowsing, auth: { me }, lobby: { lobby, cobrowsingState, cobrowsingUser, cobrowsingMouse } }) => {
+const Onboarding = ({ endLobbyCobrowsing, unsubscribeLobbyCobrowsing, auth: { me }, lobby: { lobby, cobrowsingState, cobrowsingUser}}) => {
   const isSubscribed = cobrowsingUser.id !== me.id;
   
   function onClose() {

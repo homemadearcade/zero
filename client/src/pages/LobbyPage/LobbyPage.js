@@ -14,6 +14,7 @@ import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
 import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
 import VideoLayoutHA from '../../components/VideoLayoutHA/VideoLayoutHA';
+import { startAgoraVideoCall } from '../../store/actions/videoActions';
 
 const LobbyPage = ({
   getLobbyById,
@@ -22,13 +23,12 @@ const LobbyPage = ({
   assignLobbyRole,
   startLobbyCobrowsing,
   subscribeLobbyCobrowsing,
+  startAgoraVideoCall,
   lobby: { lobby, isLoading, isJoining, error, joinError, cobrowsingError, cobrowsingUser },
   auth: { me },
   match,
 }) => {
   const matchId = match.params.id;
-
-  let [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
     function leaveLobbyCleanup() {
@@ -102,9 +102,7 @@ const LobbyPage = ({
     }
   
     if(cobrowsingUser) {
-      return <Onboarding onClickJoinVideo={() => {
-        setShowVideo(true)
-      }}/>
+      return <Onboarding/>
     }
   
     if(me?.role !== 'ADMIN') {
@@ -119,17 +117,13 @@ const LobbyPage = ({
         startLobbyCobrowsing({lobbyId: lobby.id})
       }}>Start Onboarding</button>
       <button onClick={() => {
-        setShowVideo(true)
+        startAgoraVideoCall({lobbyId: lobby.id})
       }}>Join Video</button>
     </>
   }
-
  
   return <div className="LobbyPage">
     {renderPageContents()}
-    {showVideo && <AgoraVideoCall lobbyId={matchId} userId={me.id} 
-      render={(props) => <VideoLayoutHA {...props}/>}
-    />}
   </div>
 };
 
@@ -141,5 +135,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getLobbyById, joinLobby, leaveLobby, assignLobbyRole, startLobbyCobrowsing, subscribeLobbyCobrowsing }),
+  connect(mapStateToProps, { startAgoraVideoCall, getLobbyById, joinLobby, leaveLobby, assignLobbyRole, startLobbyCobrowsing, subscribeLobbyCobrowsing }),
 )(LobbyPage);

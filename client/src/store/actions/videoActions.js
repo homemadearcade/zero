@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react';
 
 import {
-
+  START_VIDEO_CALL
 } from '../types';
 
 import {
@@ -23,11 +23,17 @@ const token = null;
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
+export const startAgoraVideoCall = ({lobbyId}) => (dispatch, getState) => {
+  dispatch({
+    type: START_VIDEO_CALL,
+    payload: {
+      lobbyId
+    }
+  });
+} 
+
 export const useAgoraVideoCall = ({userId, lobbyId}) => {  
   const [users, setUsers] = useState([]);
-  const [remoteNetworkQuality, setRemoteNetworkQuality] = useState({})
-  const [myNetworkQuality, setMyNetworkQuality] = useState({})
-
   // using the hook to get access to the client object
   const client = useClient();
   // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
@@ -63,23 +69,13 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
           });
         }
       });
+      
 
       client.on('network-quality', ({downlinkNetworkQuality, uplinkNetworkQuality}) => {
-        // let updated;
-        // if(window.downlinkNetworkQuality !== downlinkNetworkQuality) {
-        //   window.downlinkNetworkQuality = downlinkNetworkQuality
-        //   updated = true
-        // }
-        // if(window.uplinkNetworkQuality !== uplinkNetworkQuality) {
-        //   window.uplinkNetworkQuality = uplinkNetworkQuality
-        //   updated = true
-        // }
-
-        // if(updated) window.events.emit('ON_NETWORK_QUALITY_CHANGED')
-        // setMyNetworkQuality({
-        //   downlinkNetworkQuality,
-        //   uplinkNetworkQuality
-        // })
+        window.events.emit('ON_MY_VIDEO_QUALITY_STATUS_UPDATE', {
+          downlinkNetworkQuality,
+          uplinkNetworkQuality
+        })
       })
     
       client.on("user-left", (user) => {
@@ -93,28 +89,13 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
       await client.publish([tracks[0], tracks[1]]);
 
       setInterval(() => {
-        const updatedQuality = client.getRemoteNetworkQuality();
-
-        let updated = false
-        Object.keys(updatedQuality).forEach((id) => {
-          if(!remoteNetworkQuality[id]) {
-            updated = true
-          }
-          if(updatedQuality[id].uplinkNetworkQuality !== remoteNetworkQuality[id]?.uplinkNetworkQuality) {
-            updated = true
-          }
-          if(updatedQuality[id].downlinkkQuality !== remoteNetworkQuality[id]?.downlinkkQuality) {
-            updated = true
-          }
-        })
-
-        // if(updated) {
-        //   setRemoteNetworkQuality(updatedQuality)
-        // }
+        const remoteNetworkQuality = client.getRemoteNetworkQuality();
+        window.events.emit('ON_REMOTE_VIDEO_QUALITY_STATUS_UPDATE', remoteNetworkQuality)
       }, 1000)
     }
 
 
+    console.log(ready, tracks)
     if (ready && tracks) {
       console.log("init ready");
       init(lobbyId);
@@ -122,5 +103,5 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
 
   }, [lobbyId, userId, client, ready, tracks]);
 
-  return [tracks, users, myNetworkQuality, remoteNetworkQuality]
+  return [tracks, users]
 }
