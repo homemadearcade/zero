@@ -1,101 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+
 import {
   AgoraVideoPlayer,
-  createClient,
-  createMicrophoneAndCameraTracks,
-  // ClientConfig,
-  // IAgoraRTCRemoteUser,
-  // ICameraVideoTrack,
-  // IMicrophoneAudioTrack,
 } from "agora-rtc-react";
 
 import './styles.scss'
+import { useVideo } from "../../store/actions/videoActions";
 
-const config = { 
-  mode: "rtc", codec: "vp8",
-};
-
-const appId = "0716694847e34448b71f311437be319f"; //ENTER APP ID HERE
-const token = null;
-
-const App = ({channelId, user, lobby}) => {
-  const [inCall, setInCall] = useState(true);
-
+const VideoHA = ({channelId, user}) => {
   return (
     <div>
-        {inCall && <VideoCall setInCall={setInCall} userId={user.id} channelName={channelId} />}
+      <VideoCall userId={user.id} channelName={channelId} />
     </div>
   );
 };
 
-// the create methods in the wrapper return a hook
-// the create method should be called outside the parent component
-// this hook can be used the get the client/stream in any component
-const useClient = createClient(config);
-const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
-
 const VideoCall = (props) => {
-  const { setInCall, channelName } = props;
-  const [users, setUsers] = useState([]);
-  const [start, setStart] = useState(false);
-  // using the hook to get access to the client object
-  const client = useClient();
-  // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
-
-  useEffect(() => {
-    // function to initialise the SDK
-    let init = async (channelName) => {
-      client.on("user-published", async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        console.log("subscribe success");
-        if (mediaType === "video") {
-          setUsers((prevUsers) => {
-            return [...prevUsers, user];
-          });
-        }
-        if (mediaType === "audio") {
-          if(user.audioTrack) user.audioTrack.play();
-        }
-      });
-
-      client.on("user-unpublished", (user, type) => {
-        console.log("unpublished", user, type);
-        if (type === "audio") {
-          if(user.audioTrack) user.audioTrack.stop();
-        }
-        if (type === "video") {
-          setUsers((prevUsers) => {
-            return prevUsers.filter((User) => User.uid !== user.uid);
-          });
-        }
-      });
-
-      client.on("user-left", (user) => {
-        console.log("leaving", user);
-        setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
-        });
-      });
-
-      await client.join(appId, channelName, token, props.userId);
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
-      setStart(true);
-    };
-
-    if (ready && tracks) {
-      console.log("init ready");
-      init(channelName);
-    }
-
-  }, [channelName, client, ready, tracks]);
+  let [ tracks, users ] = useVideo()
 
   return (
     <div className="App">
-      {ready && tracks && false && (
-        <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
+      {tracks && false && (
+        <Controls tracks={tracks}/>
       )}
-      {start && tracks && <Videos users={users} tracks={tracks} />}
+      {tracks && <Videos users={users} tracks={tracks} />}
     </div>
   );
 };
@@ -123,8 +53,7 @@ const Videos = (props) => {
 };
 
 export const Controls = (props) => {
-  const client = useClient();
-  const { tracks, setStart, setInCall } = props;
+  const { tracks } = props;
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const mute = async (type) => {
@@ -141,16 +70,6 @@ export const Controls = (props) => {
     }
   };
 
-  const leaveChannel = async () => {
-    await client.leave();
-    client.removeAllListeners();
-    // we close the tracks to perform cleanup
-    tracks[0].close();
-    tracks[1].close();
-    setStart(false);
-    setInCall(false);
-  };
-
   return (
     <div className="controls">
       <p className={trackState.audio ? "on" : ""}
@@ -161,9 +80,14 @@ export const Controls = (props) => {
         onClick={() => mute("video")}>
         {trackState.video ? "MuteVideo" : "UnmuteVideo"}
       </p>
-      {<p onClick={() => leaveChannel()}>Leave</p>}
     </div>
   );
 };
 
-export default App;
+function mapStateToProps(state) {
+  return { auth: state.auth };
+}
+
+export default compose(
+  connect(mapStateToProps),
+)(VideoHA);
