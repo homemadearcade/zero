@@ -13,6 +13,8 @@ const AgoraVideoCall = ({userId, lobbyId, render}) => {
   let [ tracks, users ] = useAgoraVideoCall({userId, lobbyId})
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
+  console.log(userId, lobbyId)
+
   const muteVideo = async (type) => {
     await tracks[1].setEnabled(!trackState.video);
     setTrackState((ps) => {
@@ -28,8 +30,6 @@ const AgoraVideoCall = ({userId, lobbyId, render}) => {
       });
     }
   };
-
-  console.log(render)
 
   return (
     <div className="AgoraVideoCall">

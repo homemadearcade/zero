@@ -80,58 +80,51 @@ const LobbyPage = ({
   //   }
   // }, [lobby?.id])
 
-  if(isLoading) {
-    return <div className="LobbyPage">
-      <Loader/>
-    </div>
+  function renderPageContents() {
+    if(isLoading) {
+      return <Loader/>
+    }
+  
+    if(isJoining) {
+      return <Loader text="Joining lobby..."/>
+    }
+  
+    if(error) {
+      return <h1>{error}</h1>
+    }
+  
+    if(joinError) {
+      return <h1>{joinError}</h1>
+    }
+  
+    if(cobrowsingError) {
+      return <h1>{cobrowsingError}</h1>
+    }
+  
+    if(cobrowsingUser) {
+      return <Onboarding/>
+    }
+  
+    if(me?.role !== 'ADMIN') {
+      return <Loader text="Waiting for game to start..."/>
+    }
+  
+    return <>
+      <Lobby onClickUser={(user) => {
+        subscribeLobbyCobrowsing({lobbyId: lobby.id, userId: user.id})
+      }}/>
+      <button onClick={() => {
+        startLobbyCobrowsing({lobbyId: lobby.id})
+      }}>Start Onboarding</button>
+      <button onClick={() => {
+        setShowVideo(true)
+      }}>Join Video</button>
+    </>
   }
 
-  if(isJoining) {
-    return <div className="LobbyPage">
-      <Loader text="Joining lobby..."/>
-    </div>
-  }
-
-  if(error) {
-    return <div className="LobbyPage">
-      <h1>{error}</h1>
-    </div>
-  }
-
-  if(joinError) {
-    return <div className="LobbyPage">
-      <h1>{joinError}</h1>
-    </div>
-  }
-
-  if(cobrowsingError) {
-    return <div className="LobbyPage">
-      <h1>{cobrowsingError}</h1>
-    </div>
-  }
-
-  if(cobrowsingUser) {
-    return <div className="LobbyPage">
-      <Onboarding/>
-    </div>
-  }
-
-  if(me?.role !== 'ADMIN') {
-    return <div className="LobbyPage">
-      <Loader text="Waiting for game to start..."/>
-    </div>
-  }
-
+ 
   return <div className="LobbyPage">
-    <Lobby onClickUser={(user) => {
-      subscribeLobbyCobrowsing({lobbyId: lobby.id, userId: user.id})
-    }}/>
-    <button onClick={() => {
-      startLobbyCobrowsing({lobbyId: lobby.id})
-    }}>Start Onboarding</button>
-    <button onClick={() => {
-      setShowVideo(true)
-    }}>Join Video</button>
+    {renderPageContents()}
     {showVideo && <AgoraVideoCall lobbyId={matchId} userId={me.id} 
       render={(props) => <VideoLayoutHA {...props}/>}
     />}
