@@ -100,7 +100,7 @@ const LobbyPage = ({
       return <Loader text="Joining lobby..."/>
     }
   
-    if(cobrowsingUser && cobrowsingState) {
+    if(cobrowsingUser) {
       return <Onboarding/>
     }
   
@@ -109,6 +109,9 @@ const LobbyPage = ({
     }
   
     return <>
+      <button onClick={() => {
+        startCobrowsing({lobbyId: lobby.id})
+      }}>Start Onboarding</button>
       <Lobby onClickUser={(user) => {
         if(user.id === me.id) {
           startCobrowsing({lobbyId: lobby.id})
@@ -116,9 +119,6 @@ const LobbyPage = ({
           subscribeCobrowsing({lobbyId: lobby.id, userId: user.id})
         }
       }}/>
-      <button onClick={() => {
-        startCobrowsing({lobbyId: lobby.id})
-      }}>Start Onboarding</button>
     </>
   }
  

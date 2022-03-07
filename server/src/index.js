@@ -18,6 +18,29 @@ import { InMemorySessionStore } from './utils/sessionStore';
 
 const app = express();
 
+app.post('/uploadtest', (req, res) => {
+  let startTime = new Date().getTime();
+  let dataSize = 0;
+
+  // Each time data is received, report the number of bits each second
+  req.on('data', (data) => {
+    dataSize += data.length;
+  });
+
+  // When all data is received, log it and close the connection;
+  req.on('end', () => {
+    let currentTime = new Date().getTime();
+    console.log('Received ' + (dataSize * 8) + ' bits');
+    let duration =  (currentTime - startTime)/1000;
+    console.log('it took', duration)
+    var bitsLoaded = dataSize * 8;
+    var speedMbps = ((bitsLoaded / duration) / 1024 / 1024).toFixed(2);
+    console.log(speedMbps)
+    res.status(200).send({ duration });
+  })
+})
+
+
 // Bodyparser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

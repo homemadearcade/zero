@@ -17,6 +17,8 @@ import {
   ON_COBROWSING_SUBSCRIBED,
   ON_COBROWSING_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
+  LOBBY_STATE_UPDATE,
+  VIDEO_STATE_UPDATE
 } from '../types';
 
 let mouseLobbyId;
@@ -39,7 +41,6 @@ export const startCobrowsing = () => async (dispatch, getState) => {
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
-      console.log('sending my state')
       dispatch(updateCobrowsing(getState().cobrowsing.cobrowsingState))
     });
 
@@ -87,12 +88,20 @@ export const endCobrowsing = () => async (dispatch, getState) => {
 export const updateVideoCobrowsing = (cobrowsingVideoState) => async (dispatch, getState) => {
   const cobrowsingState = getState().cobrowsing.cobrowsingState
   cobrowsingState.video = cobrowsingVideoState
+  dispatch({
+    type: VIDEO_STATE_UPDATE,
+    payload: { videoState: cobrowsingVideoState },
+  });
   dispatch(updateCobrowsing(cobrowsingState))
 };
 
 export const updateLobbyCobrowsing = (cobrowsingLobbyState) => async (dispatch, getState) => {
   const cobrowsingState = getState().cobrowsing.cobrowsingState
   cobrowsingState.lobby = cobrowsingLobbyState
+  dispatch({
+    type: LOBBY_STATE_UPDATE,
+    payload: { lobbyState: cobrowsingLobbyState },
+  });
   dispatch(updateCobrowsing(cobrowsingState))
 };
 
@@ -103,14 +112,9 @@ export const updateCobrowsing = (cobrowsingState) => async (dispatch, getState) 
     const options = attachTokenToHeaders(getState);
     await axios.put('/api/cobrowsing/' + userId, { cobrowsingState }, options);
 
-    console.trace('updating local', cobrowsingState)
-
     dispatch({
       type: ON_COBROWSING_UPDATE,
-      payload: { cobrowsingState: {
-        ...getState().cobrowsing.cobrowsingState,
-        ...cobrowsingState
-      }},
+      payload: { cobrowsingState },
     });
   } catch (err) {
     dispatch({
@@ -131,7 +135,6 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_UPDATE, ({userId, cobrowsingState}) => {
-      console.log('cobrowsing update for ', userId, cobrowsingState)
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 

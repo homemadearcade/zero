@@ -15,6 +15,8 @@ const LobbyPage = ({
   assignLobbyRole,
   onClickUser,
   lobby: { lobby },
+  auth: { me },
+  status: { lobbyUserStatus }
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -25,14 +27,14 @@ const LobbyPage = ({
     {
       text: 'Participant role is set',
       test: () => {
-        return !!lobby.participantId 
+        return lobby.participantId 
       },
       required: true,
     },
     {
       text: 'Guide role is set',
       test: () => {
-        return !!lobby.guideId 
+        return lobby.guideId 
       },
       required: true,
     },
@@ -46,42 +48,50 @@ const LobbyPage = ({
     {
       text: 'Game Host role is set',
       test: () => {
-        return !!lobby.gameHostId
+        return lobby.gameHostId
       },
       required: true,
     },
     {
       text: 'Participant has connected camera',
       test: () => {
-        return !!lobby.gameHostId
+        if(me.id === lobby.participantId) {
+          return window.uplinkNetworkQuality
+        } else if(window.videoClient) {
+          return window.videoClient.getRemoteNetworkQuality()[lobby.participantId];
+        }
       },
       required: false,
     },
     {
       text: 'Guide has connected camera',
       test: () => {
-        return lobby.gameHostId
+        if(me.id === lobby.guideId) {
+          return window.uplinkNetworkQuality
+        } else if(window.videoClient) {
+          return window.videoClient.getRemoteNetworkQuality()[lobby.guideId];
+        }
       },
       required: false,
     },
     {
       text: 'Participant is fullscreen',
       test: () => {
-        return lobby.gameHostId
+        return lobbyUserStatus[lobby.participantId]?.isFullscreen
       },
       required: false,
     },
     {
       text: 'Participant has passed internet speed test',
       test: () => {
-        return lobby.gameHostId
+        return usersById[lobby.participantId]?.downloadSpeed > 10 && usersById[lobby.participantId]?.uploadSpeed > 10
       },
       required: false,
     },
     {
       text: 'Guide has passed internet speed test',
       test: () => {
-        return lobby.gameHostId
+        return usersById[lobby.guideId]?.downloadSpeed > 10 && usersById[lobby.guideId]?.uploadSpeed > 10
       },
       required: false,
     },
@@ -158,7 +168,7 @@ const LobbyPage = ({
         <h3>Checklist: </h3>
         <div className="Lobby__checklist">
           {checklist.map((item, i) => {
-            const isPassing = item.test();
+            const isPassing = !!item.test();
             return <div  key={i} className={classNames("Lobby__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
               {isPassing && <span className="Lobby__checklist-check"><i className="fa-solid fa-check"></i></span>}
               {!isPassing && <span className="Lobby__checklist-check" />}
@@ -176,7 +186,8 @@ const LobbyPage = ({
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  lobby: state.lobby
+  lobby: state.lobby,
+  status: state.status
 });
 
 export default compose(

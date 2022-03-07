@@ -2,6 +2,7 @@ import {
   START_VIDEO_CALL_LOADING,
   START_VIDEO_CALL_SUCCESS,
   START_VIDEO_CALL_FAIL,
+  VIDEO_STATE_UPDATE
 } from '../types';
 
 const initialState = {
@@ -40,6 +41,11 @@ export default function videoReducer(state = initialState, { type, payload }) {
         },
         isConnected: false,
         error: payload.error
+      };
+    case VIDEO_STATE_UPDATE: 
+      return {
+        ...state,
+        videoState: payload.videoState
       };
     default:
       return state;

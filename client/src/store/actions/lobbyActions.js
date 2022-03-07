@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { attachTokenToHeaders } from './authActions';
-import _ from 'lodash';
 
 import {
   ASSIGN_LOBBY_ROLE_LOADING,

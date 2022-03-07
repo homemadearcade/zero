@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react';
 
 import {
@@ -12,7 +11,6 @@ import {
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
 import { updateVideoCobrowsing, updateLobbyCobrowsing } from './cobrowsingActions';
-import { get } from 'lodash';
 
 const config = { 
   mode: "rtc", codec: "vp8",
@@ -60,6 +58,8 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
   const [users, setUsers] = useState([]);
   // using the hook to get access to the client object
   const client = useClient();
+  window.videoClient = client;
+
   // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
@@ -97,6 +97,8 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
         
   
         client.on('network-quality', ({downlinkNetworkQuality, uplinkNetworkQuality}) => {
+          window.uplinkNetworkQuality = uplinkNetworkQuality
+          window.downlinkNetworkQuality = downlinkNetworkQuality
           window.events.emit('ON_MY_VIDEO_QUALITY_STATUS_UPDATE', {
             downlinkNetworkQuality,
             uplinkNetworkQuality

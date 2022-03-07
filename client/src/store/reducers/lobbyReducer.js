@@ -15,7 +15,8 @@ import {
   DELETE_LOBBY_FAIL,
   ASSIGN_LOBBY_ROLE_FAIL,
   ON_LOBBY_UPDATE,
-  START_VIDEO_CALL_SUCCESS
+  START_VIDEO_CALL_SUCCESS,
+  LOBBY_STATE_UPDATE
 } from '../types';
 
 const initialState = {
@@ -110,6 +111,11 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         lobby: {...payload.lobby, users: payload.lobby.users.slice()}
+      };
+    case LOBBY_STATE_UPDATE: 
+      return {
+        ...state,
+        lobbyState: payload.lobbyState
       };
     default:
       return state;

@@ -15,14 +15,13 @@ const UserStatus = ({ onClick, userId, key, lobby: { lobby }, status : { lobbyUs
   })[0]
 
   return <div key={key} onClick={() => {
-    onClick(user)
+    if(onClick) onClick(user)
   }} className={classnames("UserStatus", {'UserStatus--left' : !user.joined, 'UserStatus--clickable' : onClick})}>
     {user.username}
     {user.role === 'ADMIN' && <i className="UserStatus__admin fa-solid fa-crown"/>}
     
     {user.connected && <span className={classnames("UserStatus__connection", {'UserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 60})}/>}
     {userStatus?.pingDelta > -1 && <span className="UserStatus__ping">{userStatus?.pingDelta}</span>}
-
 
     <div className="UserStatus__icons">
       <div className="UserStatus__fullscreen"><div className="UserStatus__icon"><i className="fa-solid fa-window-maximize"/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
