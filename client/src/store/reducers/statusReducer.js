@@ -1,7 +1,7 @@
 import {
   // LEAVE_LOBBY_LOADING,
   ON_LOBBY_USER_STATUS_UPDATE,
-  ON_LOBBY_COBROWSING_STATUS_UPDATE,
+  ON_COBROWSING_STATUS_UPDATE,
 } from '../types';
 
 const initialState = {
@@ -20,7 +20,7 @@ export default function statusReducer(state = initialState, { type, payload }) {
         ...state,
         lobbyUserStatus: {...state.lobbyUserStatus, [payload.userId]: payload.status }
       };
-    case ON_LOBBY_COBROWSING_STATUS_UPDATE:
+    case ON_COBROWSING_STATUS_UPDATE:
       return {
         ...state,
         cobrowsingMouse: {...state.cobrowsingMouse, [payload.userId]: payload.cobrowsingMouse }

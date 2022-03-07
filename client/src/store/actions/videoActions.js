@@ -11,7 +11,7 @@ import {
   createClient,
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
-import { updateLobbyCobrowsing } from './lobbyActions';
+import { updateCobrowsing } from './cobrowsingActions';
 import { get } from 'lodash';
 
 const config = { 
@@ -28,9 +28,9 @@ const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 export const startAgoraVideoCall = () => (dispatch, getState) => {
-  const cobrowsingState = getState().lobby.cobrowsingState
+  const cobrowsingState = getState().cobrowsing.cobrowsingState
   cobrowsingState.isStartingVideo = true
-  dispatch(updateLobbyCobrowsing(cobrowsingState))
+  dispatch(updateCobrowsing(cobrowsingState))
 
   dispatch({
     type: START_VIDEO_CALL_LOADING,
@@ -39,10 +39,10 @@ export const startAgoraVideoCall = () => (dispatch, getState) => {
 
 export const onStartAgoraVideoCallSuccess = () => (dispatch, getState) => {
 
-  const cobrowsingState = getState().lobby.cobrowsingState
+  const cobrowsingState = getState().cobrowsing.cobrowsingState
   cobrowsingState.step = 'internet_speed_test'
   cobrowsingState.isStartingVideo = false
-  dispatch(updateLobbyCobrowsing(cobrowsingState))
+  dispatch(updateCobrowsing(cobrowsingState))
 
   dispatch({
     type: START_VIDEO_CALL_SUCCESS,
@@ -51,10 +51,10 @@ export const onStartAgoraVideoCallSuccess = () => (dispatch, getState) => {
 } 
 
 export const onStartAgoraVideoCallFail = (error) => (dispatch, getState) => {
-  const cobrowsingState = getState().lobby.cobrowsingState
+  const cobrowsingState = getState().cobrowsingState.cobrowsingState
   cobrowsingState.error = error
   cobrowsingState.isStartingVideo = false
-  dispatch(updateLobbyCobrowsing(cobrowsingState))
+  dispatch(updateCobrowsing(cobrowsingState))
 
   dispatch({
     type: START_VIDEO_CALL_FAIL,

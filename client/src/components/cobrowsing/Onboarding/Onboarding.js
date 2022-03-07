@@ -3,20 +3,20 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './Onboarding.scss';
-import { endLobbyCobrowsing, unsubscribeLobbyCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/lobbyActions';
+import { endCobrowsing, unsubscribeCobrowsing, updateCobrowsing } from '../../../store/actions/cobrowsingActions';
 import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import Loader from '../../Loader/Loader';
 
-const Onboarding = ({ startAgoraVideoCall, endLobbyCobrowsing, unsubscribeLobbyCobrowsing, updateLobbyCobrowsing, video, auth: { me }, lobby: { lobby, cobrowsingState, cobrowsingUser}}) => {
+const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing, updateCobrowsing, video, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
   const isSubscribed = cobrowsingUser.id !== me.id;
   
   function onClose() {
     if(isSubscribed) {
-      unsubscribeLobbyCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
+      unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
     } else {
-      endLobbyCobrowsing({lobbyId: lobby.id})
+      endCobrowsing({lobbyId: lobby.id})
     }
   }
 
@@ -27,16 +27,16 @@ const Onboarding = ({ startAgoraVideoCall, endLobbyCobrowsing, unsubscribeLobbyC
   }, [])
 
   function renderBody() {
-    if(cobrowsingState.isStartingVideo) {
-      return <Loader text="Connecting to video.."/>
-    }
-    
     if(video.error) {
       return <h1>{video.error}</h1>
     }
 
     if(cobrowsingState.error) {
       return <h1>{cobrowsingState.error}</h1>
+    }
+
+    if(cobrowsingState.isStartingVideo) {
+      return <Loader text="Connecting to video.."/>
     }
 
     if(cobrowsingState.step === 'video_connection') {
@@ -52,7 +52,7 @@ const Onboarding = ({ startAgoraVideoCall, endLobbyCobrowsing, unsubscribeLobbyC
       return <div>
         Step 2
         <button onClick={() => {
-          updateLobbyCobrowsing({
+          updateCobrowsing({
             ...cobrowsingState,
             step: 'computer_environment'
           })
@@ -76,7 +76,7 @@ const Onboarding = ({ startAgoraVideoCall, endLobbyCobrowsing, unsubscribeLobbyC
           }
           requestFullScreen()
 
-          updateLobbyCobrowsing({
+          updateCobrowsing({
             ...cobrowsingState,
             step: 'waiting'
           })
@@ -103,10 +103,11 @@ const Onboarding = ({ startAgoraVideoCall, endLobbyCobrowsing, unsubscribeLobbyC
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
   auth: state.auth,
-  video: state.video
+  video: state.video,
+  cobrowsing: state.cobrowsing
 });
 
 export default compose(
-  connect(mapStateToProps, { endLobbyCobrowsing, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeLobbyCobrowsing }),
+  connect(mapStateToProps, { endCobrowsing, startAgoraVideoCall, updateCobrowsing, unsubscribeCobrowsing }),
 )(Onboarding);
 

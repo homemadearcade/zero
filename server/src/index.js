@@ -85,7 +85,7 @@ app.set('socketSessions', socketSessions);
 
 const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
 const ON_LOBBY_USER_STATUS_UPDATE = 'ON_LOBBY_USER_STATUS_UPDATE'
-const ON_LOBBY_COBROWSING_STATUS_UPDATE = 'ON_LOBBY_COBROWSING_STATUS_UPDATE'
+const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE'
 
 const lobbys = [
   {
@@ -140,8 +140,8 @@ io.on("connection", (socket) => {
     }
   })
 
-  socket.on(ON_LOBBY_COBROWSING_STATUS_UPDATE, (payload) => {
-    io.to('admins@'+payload.lobbyId).emit(ON_LOBBY_COBROWSING_STATUS_UPDATE, payload)
+  socket.on(ON_COBROWSING_STATUS_UPDATE, (payload) => {
+    io.to('admins@'+payload.lobbyId).emit(ON_COBROWSING_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {

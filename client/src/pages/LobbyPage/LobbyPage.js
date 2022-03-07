@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router-dom';
 
-import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole, subscribeLobbyCobrowsing, startLobbyCobrowsing } from '../../store/actions/lobbyActions';
+import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole} from '../../store/actions/lobbyActions';
+import { subscribeCobrowsing, startCobrowsing } from '../../store/actions/cobrowsingActions';
 import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 
@@ -19,10 +20,10 @@ const LobbyPage = ({
   leaveLobby,
   joinLobby,
   assignLobbyRole,
-  startLobbyCobrowsing,
-  subscribeLobbyCobrowsing,
-  startAgoraVideoCall,
-  lobby: { lobby, isLoading, isJoining, error, joinError, cobrowsingError, cobrowsingUser },
+  startCobrowsing,
+  subscribeCobrowsing,
+  cobrowsing: { cobrowsingError, cobrowsingUser },
+  lobby: { lobby, isLoading, isJoining, error, joinError },
   auth: { me },
   match,
 }) => {
@@ -45,7 +46,7 @@ const LobbyPage = ({
       await getLobbyById(matchId);
 
       if(me.role !== 'ADMIN') {
-        startLobbyCobrowsing({lobbyId: matchId})
+        startCobrowsing({lobbyId: matchId})
 
         await assignLobbyRole(matchId, {
           userId: me.id, 
@@ -90,7 +91,7 @@ const LobbyPage = ({
     if(cobrowsingError) {
       return <h1>{cobrowsingError}</h1>
     }
-    
+
     if(isLoading) {
       return <Loader/>
     }
@@ -110,13 +111,13 @@ const LobbyPage = ({
     return <>
       <Lobby onClickUser={(user) => {
         if(user.id === me.id) {
-          startLobbyCobrowsing({lobbyId: lobby.id})
+          startCobrowsing({lobbyId: lobby.id})
         } else {
-          subscribeLobbyCobrowsing({lobbyId: lobby.id, userId: user.id})
+          subscribeCobrowsing({lobbyId: lobby.id, userId: user.id})
         }
       }}/>
       <button onClick={() => {
-        startLobbyCobrowsing({lobbyId: lobby.id})
+        startCobrowsing({lobbyId: lobby.id})
       }}>Start Onboarding</button>
     </>
   }
@@ -128,11 +129,12 @@ const LobbyPage = ({
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  lobby: state.lobby
+  lobby: state.lobby,
+  cobrowsing: state.cobrowsing
 });
 
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { startAgoraVideoCall, getLobbyById, joinLobby, leaveLobby, assignLobbyRole, startLobbyCobrowsing, subscribeLobbyCobrowsing }),
+  connect(mapStateToProps, { startAgoraVideoCall, getLobbyById, joinLobby, leaveLobby, assignLobbyRole, startCobrowsing, subscribeCobrowsing }),
 )(LobbyPage);

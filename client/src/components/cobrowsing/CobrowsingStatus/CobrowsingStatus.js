@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 
 import './CobrowsingStatus.scss';
 import UserStatus from '../../UserStatus/UserStatus';
-import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 
-const CobrowsingStatus = ({ startAgoraVideoCall, onClose, auth: {me}, cobrowsingUser }) => {
+const CobrowsingStatus = ({ onClose, auth: {me}, cobrowsingUser }) => {
   if(cobrowsingUser.id === me.id) {
     return (
       <div className="CobrowsingStatus">
@@ -24,10 +23,10 @@ const CobrowsingStatus = ({ startAgoraVideoCall, onClose, auth: {me}, cobrowsing
 };
 
 const mapStateToProps = (state) => ({
-  cobrowsingUser: state.lobby.cobrowsingUser,
+  cobrowsingUser: state.cobrowsing.cobrowsingUser,
   auth: state.auth
 });
 
 export default compose(
-  connect(mapStateToProps, { startAgoraVideoCall }),
+  connect(mapStateToProps, {}),
 )(CobrowsingStatus);
