@@ -20,6 +20,9 @@ import {
   EDIT_LOBBY_LOADING,
   EDIT_LOBBY_SUCCESS,
   EDIT_LOBBY_FAIL,
+  UPDATE_LOBBY_USER_LOADING,
+  UPDATE_LOBBY_USER_SUCCESS,
+  UPDATE_LOBBY_USER_FAIL,
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
@@ -97,6 +100,27 @@ export const editLobby = (id, formData, history) => async (dispatch, getState) =
     });
   }
 };
+
+export const updateLobbyUser = ({userId, lobbyId, user}) => async (dispatch, getState) => {
+  dispatch({
+    type: UPDATE_LOBBY_USER_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(`/api/lobbys/user/${lobbyId}`, {userId, user}, options);
+
+    dispatch({
+      type: UPDATE_LOBBY_USER_SUCCESS,
+      payload: { lobby: response.data.lobby },
+    });
+  } catch (err) {
+    dispatch({
+      type: UPDATE_LOBBY_USER_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 
 export const getLobbyById = (id, history) => async (dispatch, getState) => {
   dispatch({

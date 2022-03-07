@@ -30,13 +30,11 @@ app.post('/uploadtest', (req, res) => {
   // When all data is received, log it and close the connection;
   req.on('end', () => {
     let currentTime = new Date().getTime();
-    console.log('Received ' + (dataSize * 8) + ' bits');
     let duration =  (currentTime - startTime)/1000;
-    console.log('it took', duration)
     var bitsLoaded = dataSize * 8;
     var speedMbps = ((bitsLoaded / duration) / 1024 / 1024).toFixed(2);
-    console.log(speedMbps)
-    res.status(200).send({ duration });
+    console.log('uploadSpeed', speedMbps)
+    res.status(200).send({ });
   })
 })
 

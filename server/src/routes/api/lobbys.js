@@ -242,16 +242,45 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
   }
 });
 
-router.put('/:id', requireJwtAuth, requireLobby, async (req, res) => {
+
+router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
+    if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+      return res.status(400).json({ message: 'You do not have privileges to update that user in that lobby.' });
+    }
 
-    req.lobby.participantEmail = req.body.participantEmail
-    req.lobby.startTime = req.body.startTime
+    let index;
+    const userFound = req.lobby.users.filter((u, i) => {
+      if(u.id === req.body.userId) {
+        index = i
+        return true
+      } else {
+        return false
+      }
+    })[0]
 
+    if(!userFound) {
+      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in lobby' });
+    }
+
+    req.lobby.users[index] = { ...req.lobby.users[index], ...req.body.user}
+    req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
+
+// router.put('/:id', requireJwtAuth, requireLobby, async (req, res) => {
+//   try {
+
+//     req.lobby.participantEmail = req.body.participantEmail
+//     req.lobby.startTime = req.body.startTime
+
+//     res.status(200).json({ lobby: req.lobby });
+//   } catch (err) {
+//     res.status(500).json({ message: 'Something went wrong. ' + err });
+//   }
+// });
 
 export default router;

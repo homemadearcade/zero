@@ -27,8 +27,8 @@ const UserStatus = ({ onClick, userId, key, lobby: { lobby }, status : { lobbyUs
       <div className="UserStatus__fullscreen"><div className="UserStatus__icon"><i className="fa-solid fa-window-maximize"/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
       <div className="UserStatus__focus"><div className="UserStatus__icon"><i className="fa-solid fa-eye"/></div>{(!userStatus || userStatus?.isFocused) ? 'Focused' : 'Away'}</div>
       <div className="UserStatus__cobrowsing"><div className="UserStatus__icon"><i className="fa-solid fa-arrow-pointer"/></div>{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</span> : 'Never'}</div>
-      <div className="UserStatus__upload"><div className="UserStatus__icon"><i className="fa-solid fa-upload"/></div>{(user.uploadSpeed) ? user.uploadSpeed : 'Not Tested'}</div>
-      <div className="UserStatus__download"><div className="UserStatus__icon"><i className="fa-solid fa-download"/></div>{(user.downloadSpeed) ? user.downloadSpeed : 'Not Tested'}</div>
+      <div className="UserStatus__upload"><div className="UserStatus__icon"><i className="fa-solid fa-upload"/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
+      <div className="UserStatus__download"><div className="UserStatus__icon"><i className="fa-solid fa-download"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
     </div>
   </div>
 };

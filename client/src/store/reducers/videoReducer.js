@@ -38,9 +38,9 @@ export default function videoReducer(state = initialState, { type, payload }) {
         videoState: {
           ...state.videoState,
           isStarting: false,
+          error: payload.error
         },
         isConnected: false,
-        error: payload.error
       };
     case VIDEO_STATE_UPDATE: 
       return {

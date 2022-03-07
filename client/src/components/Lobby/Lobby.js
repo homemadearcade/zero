@@ -27,14 +27,42 @@ const LobbyPage = ({
     {
       text: 'Participant role is set',
       test: () => {
-        return lobby.participantId 
+        return lobby.participantId
       },
       required: true,
     },
     {
-      text: 'Guide role is set',
+      text: 'Participant is present',
       test: () => {
-        return lobby.guideId 
+        return usersById[lobby.participantId]?.joined && usersById[lobby.participantId]?.connected
+      },
+      required: true,
+    },
+    {
+      text: 'Guide role is set and user is present ',
+      test: () => {
+        return lobby.guideId && usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
+      },
+      required: true,
+    },
+    {
+      text: 'Guide is present ',
+      test: () => {
+        return usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
+      },
+      required: true,
+    },
+    {
+      text: 'Game Host role is set and user is present',
+      test: () => {
+        return lobby.gameHostId
+      },
+      required: true,
+    },
+    {
+      text: 'Game Host is present',
+      test: () => {
+        return usersById[lobby.gameHostId]?.joined && usersById[lobby.gameHostId]?.connected
       },
       required: true,
     },
@@ -46,19 +74,12 @@ const LobbyPage = ({
       required: true,
     },
     {
-      text: 'Game Host role is set',
-      test: () => {
-        return lobby.gameHostId
-      },
-      required: true,
-    },
-    {
       text: 'Participant has connected camera',
       test: () => {
         if(me.id === lobby.participantId) {
           return window.uplinkNetworkQuality
         } else if(window.videoClient) {
-          return window.videoClient.getRemoteNetworkQuality()[lobby.participantId];
+          return window.videoClient.getRemoteNetworkQuality()[lobby.participantId]?.uplinkNetworkQuality;
         }
       },
       required: false,
@@ -69,7 +90,7 @@ const LobbyPage = ({
         if(me.id === lobby.guideId) {
           return window.uplinkNetworkQuality
         } else if(window.videoClient) {
-          return window.videoClient.getRemoteNetworkQuality()[lobby.guideId];
+          return window.videoClient.getRemoteNetworkQuality()[lobby.guideId]?.uplinkNetworkQuality;
         }
       },
       required: false,
@@ -84,18 +105,28 @@ const LobbyPage = ({
     {
       text: 'Participant has passed internet speed test',
       test: () => {
-        return usersById[lobby.participantId]?.downloadSpeed > 10 && usersById[lobby.participantId]?.uploadSpeed > 10
+        return usersById[lobby.participantId]?.internetSpeedTestResults?.downloadSpeed > 50 && usersById[lobby.participantId]?.internetSpeedTestResults?.uploadSpeed > 1
       },
       required: false,
     },
     {
       text: 'Guide has passed internet speed test',
       test: () => {
-        return usersById[lobby.guideId]?.downloadSpeed > 10 && usersById[lobby.guideId]?.uploadSpeed > 10
+        return usersById[lobby.guideId]?.internetSpeedTestResults?.downloadSpeed > 50 && usersById[lobby.guideId]?.internetSpeedTestResults?.uploadSpeed > 1
       },
       required: false,
     },
   ]
+
+  const isAllRequiredPassing = checklist.every((item, i) => {
+    if(!item.required) return true
+    return !!item.test();
+  })
+
+  const isAllPassing = checklist.every((item, i) => {
+    return !!item.test();
+  })
+
 
   if(lobby?.id) {
     return (
@@ -177,6 +208,14 @@ const LobbyPage = ({
             </div>
           })}
         </div>
+        <button
+          type="button"
+          onClick={() => {}}
+          disabled={!isAllRequiredPassing}
+        >
+          Start game
+          {!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
+        </button>
       </div>
     );
   } else {

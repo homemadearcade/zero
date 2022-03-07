@@ -10,6 +10,9 @@ import {
   EDIT_LOBBY_LOADING,
   EDIT_LOBBY_SUCCESS,
   EDIT_LOBBY_FAIL,
+  // UPDATE_LOBBY_USER_LOADING,
+  // UPDATE_LOBBY_USER_SUCCESS,
+  UPDATE_LOBBY_USER_FAIL,
   DELETE_LOBBY_LOADING,
   DELETE_LOBBY_SUCCESS,
   DELETE_LOBBY_FAIL,
@@ -100,6 +103,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     case DELETE_LOBBY_FAIL:
     case LEAVE_LOBBY_FAIL:
     case ASSIGN_LOBBY_ROLE_FAIL:
+    case UPDATE_LOBBY_USER_FAIL:
       return {
         ...state,
         isLoading: false,

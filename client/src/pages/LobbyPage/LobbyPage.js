@@ -80,6 +80,10 @@ const LobbyPage = ({
   // }, [lobby?.id])
 
   function renderPageContents() {
+    if(!window.chrome) {
+      return <h1>Please use a Chromium browser to participant in the Homemade Arcade experience</h1>
+    }
+
     if(error) {
       return <h1>{error}</h1>
     }

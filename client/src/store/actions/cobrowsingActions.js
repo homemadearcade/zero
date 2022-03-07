@@ -108,14 +108,14 @@ export const updateLobbyCobrowsing = (cobrowsingLobbyState) => async (dispatch, 
 export const updateCobrowsing = (cobrowsingState) => async (dispatch, getState) => {
   try {
     const userId = getState().cobrowsing.cobrowsingUser.id
-    
-    const options = attachTokenToHeaders(getState);
-    await axios.put('/api/cobrowsing/' + userId, { cobrowsingState }, options);
 
     dispatch({
       type: ON_COBROWSING_UPDATE,
       payload: { cobrowsingState },
     });
+    
+    const options = attachTokenToHeaders(getState);
+    await axios.put('/api/cobrowsing/' + userId, { cobrowsingState }, options);
   } catch (err) {
     dispatch({
       type: UPDATE_COBROWSING_FAIL,
