@@ -7,7 +7,6 @@ import usersReducer from './usersReducer';
 import messageReducer from './messageReducer';
 import lobbysReducer from './lobbysReducer';
 import lobbyReducer from './lobbyReducer';
-import videoReducer from './videoReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -17,5 +16,4 @@ export default combineReducers({
   users: usersReducer,
   lobbys: lobbysReducer,
   lobby: lobbyReducer,
-  video: videoReducer
 });

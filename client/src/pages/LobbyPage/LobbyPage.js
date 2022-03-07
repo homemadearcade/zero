@@ -7,12 +7,13 @@ import { withRouter } from 'react-router-dom';
 
 import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole, subscribeLobbyCobrowsing, startLobbyCobrowsing } from '../../store/actions/lobbyActions';
 import Loader from '../../components/Loader/Loader';
-import VideoHA from '../../components/VideoHA/VideoHA';
+import AgoraVideoCall from '../../components/AgoraVideoCall/AgoraVideoCall';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
 import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
+import VideoLayoutHA from '../../components/VideoLayoutHA/VideoLayoutHA';
 
 const LobbyPage = ({
   getLobbyById,
@@ -128,11 +129,12 @@ const LobbyPage = ({
     <button onClick={() => {
       startLobbyCobrowsing({lobbyId: lobby.id})
     }}>Start Onboarding</button>
-    {showVideo && <VideoHA channelId={matchId} user={me} />}
     <button onClick={() => {
       setShowVideo(true)
     }}>Join Video</button>
-    {showVideo && <VideoHA channelId={matchId} user={me} />}
+    {showVideo && <AgoraVideoCall lobbyId={matchId} userId={me.id} 
+      render={(props) => <VideoLayoutHA {...props}/>}
+    />}
   </div>
 };
 

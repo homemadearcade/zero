@@ -1,10 +1,8 @@
 import axios from 'axios'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
-  VIDEO_USER_JOINED,
-  VIDEO_USER_LEFT,
-  VIDEO_JOINED,
+
 } from '../types';
 
 import {
@@ -25,7 +23,9 @@ const token = null;
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
-export const useVideo = async ({userId, lobbyId}) => {  
+export const useAgoraVideoCall = ({userId, lobbyId}) => {  
+  const [users, setUsers] = useState([]);
+
   // using the hook to get access to the client object
   const client = useClient();
   // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
@@ -37,7 +37,9 @@ export const useVideo = async ({userId, lobbyId}) => {
         await client.subscribe(user, mediaType);
         console.log("subscribe success");
         if (mediaType === "video") {
-          addUser(user)
+          setUsers((prevUsers) => {
+            return [...prevUsers, user];
+          });
         }
         if (mediaType === "audio") {
           if(user.audioTrack) user.audioTrack.play();
@@ -50,42 +52,29 @@ export const useVideo = async ({userId, lobbyId}) => {
           if(user.audioTrack) user.audioTrack.stop();
         }
         if (type === "video") {
-          removeUser(user)
+          setUsers((prevUsers) => {
+            return prevUsers.filter((User) => User.uid !== user.uid);
+          });
         }
       });
     
       client.on("user-left", (user) => {
         console.log("leaving", user);
-        removeUser(user)
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => User.uid !== user.uid);
+        });
       });
     
       await client.join(appId, lobbyId, token, userId);
       if (tracks) await client.publish([tracks[0], tracks[1]]);
     }
-    
-    init(lobbyId);
+
+    if (ready && tracks) {
+      console.log("init ready");
+      init(lobbyId);
+    }
 
   }, [lobbyId, userId, client, ready, tracks]);
 
-  const video = tracks;
-  return [video]
-}
-
-export const addUser = (user) => async (dispatch, getState) => {
-  dispatch({
-    type: VIDEO_USER_JOINED,
-    payload : {
-      user: user
-    }
-  });
-}
-
-
-export const removeUser = (user) => async (dispatch, getState) => {
-  dispatch({
-    type: VIDEO_USER_LEFT,
-    payload : {
-      user: user
-    }
-  });
+  return [tracks, users]
 }

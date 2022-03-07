@@ -103,8 +103,6 @@ const VideoCall = (props) => {
 const Videos = (props) => {
   const { users, tracks } = props;
 
-  console.log(users, tracks)
-
   return (
     <div>
       <div id="videos">
