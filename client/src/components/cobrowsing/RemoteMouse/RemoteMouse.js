@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './RemoteMouse.scss';
 
-const RemoteMouse = ({userId, lobby: { cobrowsingMouse} }) => {
+const RemoteMouse = ({userId, status: { cobrowsingMouse} }) => {
   const mouseData = cobrowsingMouse[userId];
 
   if(!mouseData) {
@@ -21,7 +21,7 @@ const RemoteMouse = ({userId, lobby: { cobrowsingMouse} }) => {
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby
+  status: state.status
 });
 
 export default compose(

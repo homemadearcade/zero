@@ -2,13 +2,17 @@ import axios from 'axios'
 import { useEffect, useState } from 'react';
 
 import {
-  START_VIDEO_CALL
+  START_VIDEO_CALL_LOADING,
+  START_VIDEO_CALL_SUCCESS,
+  START_VIDEO_CALL_FAIL,
 } from '../types';
 
 import {
   createClient,
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
+import { updateLobbyCobrowsing } from './lobbyActions';
+import { get } from 'lodash';
 
 const config = { 
   mode: "rtc", codec: "vp8",
@@ -23,16 +27,44 @@ const token = null;
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
-export const startAgoraVideoCall = ({lobbyId}) => (dispatch, getState) => {
+export const startAgoraVideoCall = () => (dispatch, getState) => {
+  const cobrowsingState = getState().lobby.cobrowsingState
+  cobrowsingState.isStartingVideo = true
+  dispatch(updateLobbyCobrowsing(cobrowsingState))
+
   dispatch({
-    type: START_VIDEO_CALL,
-    payload: {
-      lobbyId
+    type: START_VIDEO_CALL_LOADING,
+  });
+} 
+
+export const onStartAgoraVideoCallSuccess = () => (dispatch, getState) => {
+
+  const cobrowsingState = getState().lobby.cobrowsingState
+  cobrowsingState.step = 'internet_speed_test'
+  cobrowsingState.isStartingVideo = false
+  dispatch(updateLobbyCobrowsing(cobrowsingState))
+
+  dispatch({
+    type: START_VIDEO_CALL_SUCCESS,
+    payload:{}
+  });
+} 
+
+export const onStartAgoraVideoCallFail = (error) => (dispatch, getState) => {
+  const cobrowsingState = getState().lobby.cobrowsingState
+  cobrowsingState.error = error
+  cobrowsingState.isStartingVideo = false
+  dispatch(updateLobbyCobrowsing(cobrowsingState))
+
+  dispatch({
+    type: START_VIDEO_CALL_FAIL,
+    payload:{
+      error
     }
   });
 } 
 
-export const useAgoraVideoCall = ({userId, lobbyId}) => {  
+export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, userId, lobbyId, }) => {  
   const [users, setUsers] = useState([]);
   // using the hook to get access to the client object
   const client = useClient();
@@ -41,61 +73,66 @@ export const useAgoraVideoCall = ({userId, lobbyId}) => {
 
   useEffect(() => {
     async function init() {
-      client.on("user-published", async (user, mediaType) => {
-        await client.subscribe(user, mediaType);
-        console.log("subscribe success");
-        if (mediaType === "video") {
-          setUsers((prevUsers) => {
-            return [...prevUsers, user];
-          });
-        }
-        if (mediaType === "audio") {
-          if(user.audioTrack) user.audioTrack.play();
-        }
-      });
-
-      client.on("connection-state-changee", (curState, revState, reason) => {
-        console.log('CONNECTION CHANGE', curState, revState, reason)
-      })
-    
-      client.on("user-unpublished", (user, type) => {
-        console.log("unpublished", user, type);
-        if (type === "audio") {
-          if(user.audioTrack) user.audioTrack.stop();
-        }
-        if (type === "video") {
+      try {
+        client.on("user-published", async (user, mediaType) => {
+          await client.subscribe(user, mediaType);
+          console.log("subscribe success");
+          if (mediaType === "video") {
+            setUsers((prevUsers) => {
+              return [...prevUsers, user];
+            });
+          }
+          if (mediaType === "audio") {
+            if(user.audioTrack) user.audioTrack.play();
+          }
+        });
+  
+        client.on("connection-state-changee", (curState, revState, reason) => {
+          console.log('CONNECTION CHANGE', curState, revState, reason)
+        })
+      
+        client.on("user-unpublished", (user, type) => {
+          console.log("unpublished", user, type);
+          if (type === "audio") {
+            if(user.audioTrack) user.audioTrack.stop();
+          }
+          if (type === "video") {
+            setUsers((prevUsers) => {
+              return prevUsers.filter((User) => User.uid !== user.uid);
+            });
+          }
+        });
+        
+  
+        client.on('network-quality', ({downlinkNetworkQuality, uplinkNetworkQuality}) => {
+          window.events.emit('ON_MY_VIDEO_QUALITY_STATUS_UPDATE', {
+            downlinkNetworkQuality,
+            uplinkNetworkQuality
+          })
+        })
+      
+        client.on("user-left", (user) => {
+          console.log("leaving", user);
           setUsers((prevUsers) => {
             return prevUsers.filter((User) => User.uid !== user.uid);
           });
-        }
-      });
-      
-
-      client.on('network-quality', ({downlinkNetworkQuality, uplinkNetworkQuality}) => {
-        window.events.emit('ON_MY_VIDEO_QUALITY_STATUS_UPDATE', {
-          downlinkNetworkQuality,
-          uplinkNetworkQuality
-        })
-      })
-    
-      client.on("user-left", (user) => {
-        console.log("leaving", user);
-        setUsers((prevUsers) => {
-          return prevUsers.filter((User) => User.uid !== user.uid);
         });
-      });
-    
-      await client.join(appId, lobbyId, token, userId);
-      await client.publish([tracks[0], tracks[1]]);
-
-      setInterval(() => {
-        const remoteNetworkQuality = client.getRemoteNetworkQuality();
-        window.events.emit('ON_REMOTE_VIDEO_QUALITY_STATUS_UPDATE', remoteNetworkQuality)
-      }, 1000)
+      
+        await client.join(appId, lobbyId, token, userId);
+        await client.publish([tracks[0], tracks[1]]);
+  
+        onStartAgoraVideoCallSuccess()
+  
+        setInterval(() => {
+          const remoteNetworkQuality = client.getRemoteNetworkQuality();
+          window.events.emit('ON_REMOTE_VIDEO_QUALITY_STATUS_UPDATE', remoteNetworkQuality)
+        }, 1000)
+      } catch(err) {
+        onStartAgoraVideoCallFail(err)
+      }
+   
     }
 
-
-    console.log(ready, tracks)
     if (ready && tracks) {
       console.log("init ready");
       init(lobbyId);

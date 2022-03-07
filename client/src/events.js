@@ -64,7 +64,7 @@ EventEmitter.prototype.removeListener = function (event, listener) {
 EventEmitter.prototype.emit = function (event) {
     var i, listeners, length, args = [].slice.call(arguments, 1);
 
-    console.log(event)
+    if(event.indexOf('STATUS') === -1) console.log(event)
 
     if (typeof this.events[event] === 'object') {
         listeners = this.events[event].slice();

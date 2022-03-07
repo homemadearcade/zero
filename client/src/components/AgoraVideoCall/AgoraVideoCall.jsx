@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-
-import {
-  AgoraVideoPlayer,
-} from "agora-rtc-react";
 
 import './AgoraVideoCall.scss'
 import { useAgoraVideoCall } from "../../store/actions/videoActions";
 
-const AgoraVideoCall = ({lobbyId, auth: { me }, render}) => {
-  let [ tracks, users, myNetworkQuality, remoteNetworkQuality ] = useAgoraVideoCall({userId: me.id, lobbyId})
+import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess } from '../../store/actions/videoActions';
+
+const AgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, render}) => {
+  let [ tracks, users, myNetworkQuality, remoteNetworkQuality ] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess })
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const muteVideo = async () => {
@@ -35,10 +33,11 @@ const AgoraVideoCall = ({lobbyId, auth: { me }, render}) => {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
+  lobbyId: state.lobby.lobby.id
 });
 
 export default compose(
-  connect(mapStateToProps, {}),
+  connect(mapStateToProps, { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess }),
 )(AgoraVideoCall);
 

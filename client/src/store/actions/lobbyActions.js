@@ -28,6 +28,7 @@ import {
   START_LOBBY_COBROWSING_FAIL,
   END_LOBBY_COBROWSING_SUCCESS,
   END_LOBBY_COBROWSING_FAIL,
+  UPDATE_LOBBY_COBROWSING_FAIL,
   SUBSCRIBE_LOBBY_COBROWSING_LOADING,
   SUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
   SUBSCRIBE_LOBBY_COBROWSING_FAIL,
@@ -65,10 +66,9 @@ export const startLobbyCobrowsing = ({lobbyId}) => async (dispatch, getState) =>
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_LOBBY_COBROWSING_SUBSCRIBED, () => {
-      window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, {cobrowsingState: getState().lobby.cobrowsingState})
+      dispatch(updateLobbyCobrowsing(getState().lobby.cobrowsingState))
+      // window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, {cobrowsingState: getState().lobby.cobrowsingState})
     });
-
-    window.socket.emit(ON_LOBBY_COBROWSING_UPDATE, {cobrowsingState: getState().lobby.cobrowsingState})
 
     mouseLobbyId = lobbyId;
     mouseUserId = user.id;
@@ -80,6 +80,8 @@ export const startLobbyCobrowsing = ({lobbyId}) => async (dispatch, getState) =>
       type: START_LOBBY_COBROWSING_SUCCESS,
       payload: { cobrowsingUser: user }
     });
+
+    dispatch(updateLobbyCobrowsing(getState().lobby.cobrowsingState))
   } catch (err) {
     dispatch({
       type: START_LOBBY_COBROWSING_FAIL,
@@ -104,6 +106,27 @@ export const endLobbyCobrowsing = () => async (dispatch, getState) => {
   }
 };
 
+export const updateLobbyCobrowsing = (cobrowsingState) => async (dispatch, getState) => {
+  try {
+    const lobbyId = getState().lobby.lobby.id
+    const userId = getState().lobby.cobrowsingUser.id
+
+    const options = attachTokenToHeaders(getState);
+    await axios.put('/api/lobbys/cobrowse/' + lobbyId, { userId, cobrowsingState }, options);
+//const response = 
+
+    dispatch({
+      type: ON_LOBBY_COBROWSING_UPDATE,
+      payload: { cobrowsingState },
+    });
+  } catch (err) {
+    dispatch({
+      type: UPDATE_LOBBY_COBROWSING_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 export const subscribeLobbyCobrowsing = ({lobbyId, userId}) => async (dispatch, getState) => {
   dispatch({
     type: SUBSCRIBE_LOBBY_COBROWSING_LOADING,
@@ -114,7 +137,8 @@ export const subscribeLobbyCobrowsing = ({lobbyId, userId}) => async (dispatch, 
     const response = await axios.post('/api/lobbys/cobrowse/' + lobbyId, { userId }, options);
 
     // event that is triggered if cobrowsing has been registered
-    window.socket.on(ON_LOBBY_COBROWSING_UPDATE, ({cobrowsingState}) => {
+    window.socket.on(ON_LOBBY_COBROWSING_UPDATE, ({userId, cobrowsingState}) => {
+      console.log('cobrowsing update for ', userId)
       dispatch({
         type: ON_LOBBY_COBROWSING_UPDATE,
         payload: { cobrowsingState },

@@ -142,7 +142,7 @@ router.post('/uncobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, 
 
 router.put('/cobrowse/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.body.userId === req.user.id)) {
+    if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privileges to update this users cobrowse state.' });
     }
 

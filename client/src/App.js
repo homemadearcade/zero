@@ -28,15 +28,17 @@ import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/
 
 import '@fortawesome/fontawesome-free/js/all.js';
 
+
 import io from 'socket.io-client'
 // window.socket = io(window.location.host, { autoConnect: false })
 window.socket = io()
 
 window.socket.onAny((event, ...args) => {
+  if(event.indexOf('STATUS')) return 
   console.log(event, args);
 });
 
-const App = ({ logInUserWithOauth, authenticateSocket, auth, video, loadMe }) => {
+const App = ({ logInUserWithOauth, authenticateSocket, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, auth, video, loadMe }) => {
   useEffect(() => {
     loadMe();
   }, [loadMe]);
@@ -58,9 +60,6 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, video, loadMe }) =>
   //   }
   // }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded, auth.isSocketAuthenticated]);
 
-
-  console.log(video)
-
   return (
     <>
         {!auth.appLoaded && <Loader/>}
@@ -80,7 +79,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, video, loadMe }) =>
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
-        {video.isStarted && <AgoraVideoCall lobbyId={video.lobbyId} userId={auth.me.id} 
+        {(video.isStarting || video.isConnected) && <AgoraVideoCall
             render={(props) => <VideoLayoutHA {...props}/>}
           />}
       </>}

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -7,13 +7,11 @@ import { withRouter } from 'react-router-dom';
 
 import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole, subscribeLobbyCobrowsing, startLobbyCobrowsing } from '../../store/actions/lobbyActions';
 import Loader from '../../components/Loader/Loader';
-import AgoraVideoCall from '../../components/AgoraVideoCall/AgoraVideoCall';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
 import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
-import VideoLayoutHA from '../../components/VideoLayoutHA/VideoLayoutHA';
 import { startAgoraVideoCall } from '../../store/actions/videoActions';
 
 const LobbyPage = ({
@@ -81,14 +79,6 @@ const LobbyPage = ({
   // }, [lobby?.id])
 
   function renderPageContents() {
-    if(isLoading) {
-      return <Loader/>
-    }
-  
-    if(isJoining) {
-      return <Loader text="Joining lobby..."/>
-    }
-  
     if(error) {
       return <h1>{error}</h1>
     }
@@ -99,6 +89,14 @@ const LobbyPage = ({
   
     if(cobrowsingError) {
       return <h1>{cobrowsingError}</h1>
+    }
+    
+    if(isLoading) {
+      return <Loader/>
+    }
+  
+    if(isJoining) {
+      return <Loader text="Joining lobby..."/>
     }
   
     if(cobrowsingUser) {
@@ -111,14 +109,15 @@ const LobbyPage = ({
   
     return <>
       <Lobby onClickUser={(user) => {
-        subscribeLobbyCobrowsing({lobbyId: lobby.id, userId: user.id})
+        if(user.id === me.id) {
+          startLobbyCobrowsing({lobbyId: lobby.id})
+        } else {
+          subscribeLobbyCobrowsing({lobbyId: lobby.id, userId: user.id})
+        }
       }}/>
       <button onClick={() => {
         startLobbyCobrowsing({lobbyId: lobby.id})
       }}>Start Onboarding</button>
-      <button onClick={() => {
-        startAgoraVideoCall({lobbyId: lobby.id})
-      }}>Join Video</button>
     </>
   }
  

@@ -19,15 +19,14 @@ import {
   START_LOBBY_COBROWSING_SUCCESS,
   END_LOBBY_COBROWSING_FAIL,
   END_LOBBY_COBROWSING_SUCCESS,
+  UPDATE_LOBBY_COBROWSING_FAIL,
   SUBSCRIBE_LOBBY_COBROWSING_FAIL,
   SUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
   SUBSCRIBE_LOBBY_COBROWSING_LOADING,
   UNSUBSCRIBE_LOBBY_COBROWSING_SUCCESS,
   UNSUBSCRIBE_LOBBY_COBROWSING_FAIL,
   ON_LOBBY_UPDATE,
-  ON_LOBBY_USER_STATUS_UPDATE,
   ON_LOBBY_COBROWSING_UPDATE,
-  ON_LOBBY_COBROWSING_STATUS_UPDATE,
 } from '../types';
 
 const initialState = {
@@ -43,7 +42,7 @@ const initialState = {
   cobrowsingError: null,
   cobrowsingUser: false,
   cobrowsingState: {
-    step: '',
+    step: 'video_connection',
   },
   cobrowsingMouse: {
     xPercent: 0,
@@ -82,6 +81,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         cobrowsingUser: payload.cobrowsingUser,
+        cobrowsingState: initialState.cobrowsingState
       };
     case END_LOBBY_COBROWSING_SUCCESS:
       return {
@@ -93,6 +93,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         isSubscribingCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
+        cobrowsingState: initialState.cobrowsingState
       };
     case UNSUBSCRIBE_LOBBY_COBROWSING_SUCCESS:
       return {
@@ -153,6 +154,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         lobby: initialState.lobby,
         error: payload.error,
       };
+    case UPDATE_LOBBY_COBROWSING_FAIL:
     case START_LOBBY_COBROWSING_FAIL:
     case END_LOBBY_COBROWSING_FAIL:
       return {
