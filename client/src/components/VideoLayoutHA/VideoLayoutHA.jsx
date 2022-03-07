@@ -7,7 +7,7 @@ import {
 
 import './VideoLayoutHA.scss'
 
-const VideoLayoutHA = ({ lobby: {lobby}, auth: {me}, myTracks, userTracks, isAudioMuted, isVideoMuted, muteVideo, muteAudio }) => {
+const VideoLayoutHA = ({ lobby: {lobby}, auth: {me}, myTracks, userTracks, isAudioMuted, isVideoMuted, muteVideo, muteAudio, myNetworkQuality, remoteNetworkQuality }) => {
   let [showInfo, setShowInfo] = useState(false)
   
   function Video({className, label, videoTrack, userId, controls}) {
@@ -47,9 +47,9 @@ const VideoLayoutHA = ({ lobby: {lobby}, auth: {me}, myTracks, userTracks, isAud
     }
   
     if(userId === me.id) {
-      cameraStatus = getCameraStatus(window)
-    } else if(window.remoteNetworkQuality && window.remoteNetworkQuality[userId]) {
-      cameraStatus = getCameraStatus(window.remoteNetworkQuality[userId])
+      cameraStatus = getCameraStatus(myNetworkQuality)
+    } else if(remoteNetworkQuality && remoteNetworkQuality[userId]) {
+      cameraStatus = getCameraStatus(remoteNetworkQuality[userId])
     }
 
     return <div className={"VideoLayoutHA__video-container " + className} onMouseEnter={() => {

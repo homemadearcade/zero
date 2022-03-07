@@ -304,12 +304,12 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       isFocused = false
     }
     
-    pingInterval = window.setInterval(async () => {
-      const pingDelta = await ping(window.location.origin)
-      window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
-        pingDelta, isFocused, isFullscreen: !window.screenTop && !window.screenY
-      }, userId, lobbyId })
-    }, 3000);
+    // pingInterval = window.setInterval(async () => {
+    //   const pingDelta = await ping(window.location.origin)
+    //   window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
+    //     pingDelta, isFocused, isFullscreen: !window.screenTop && !window.screenY
+    //   }, userId, lobbyId })
+    // }, 3000);
 
     // event is triggered to all users in this lobby when lobby is updated
     window.socket.on(ON_LOBBY_UPDATE, ({lobby}) => {
@@ -319,13 +319,13 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       });
     });
 
-    // event is triggered to all users in this lobby when lobby is updated
-    window.socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
-      dispatch({
-        type: ON_LOBBY_USER_STATUS_UPDATE,
-        payload: payload,
-      });
-    });
+    // // event is triggered to all users in this lobby when lobby is updated
+    // window.socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
+    //   dispatch({
+    //     type: ON_LOBBY_USER_STATUS_UPDATE,
+    //     payload: payload,
+    //   });
+    // });
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_LOBBY_COBROWSING_STATUS_UPDATE, (payload) => {

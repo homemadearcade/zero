@@ -10,7 +10,7 @@ import './AgoraVideoCall.scss'
 import { useAgoraVideoCall } from "../../store/actions/videoActions";
 
 const AgoraVideoCall = ({userId, lobbyId, render}) => {
-  let [ tracks, users ] = useAgoraVideoCall({userId, lobbyId})
+  let [ tracks, users, myNetworkQuality, remoteNetworkQuality ] = useAgoraVideoCall({userId, lobbyId})
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const muteVideo = async () => {
@@ -29,7 +29,7 @@ const AgoraVideoCall = ({userId, lobbyId, render}) => {
 
   return (
     <div className="AgoraVideoCall">
-      {tracks && render({ myTracks: tracks, userTracks: users, isAudioMuted: !trackState.audio, isVideoMuted: !trackState.video, muteVideo, muteAudio })}
+      {tracks && render({ myTracks: tracks, userTracks: users, isAudioMuted: !trackState.audio, isVideoMuted: !trackState.video, muteVideo, muteAudio, myNetworkQuality, remoteNetworkQuality })}
     </div>
   );
 };
