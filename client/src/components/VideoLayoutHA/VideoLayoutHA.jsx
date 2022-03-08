@@ -14,8 +14,6 @@ const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTra
   let [showChangeInput, setShowChangeInput] = useState(false)
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
-  console.log(trackState)
-
   const muteVideo = async () => {
     try {
       await myTracks[1].setEnabled(!trackState.video);

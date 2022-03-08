@@ -23,6 +23,8 @@ const config = {
 const appId = "0716694847e34448b71f311437be319f"; //ENTER APP ID HERE
 const token = null;
 
+AgoraRTC.setLogLevel(2)
+
 // the create methods in the wrapper return a hook
 // the create method should be called outside the parent component
 // this hook can be used the get the client/stream in any component
