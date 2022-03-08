@@ -21,6 +21,7 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
   
   const isSubscribed = cobrowsingUser.id !== me.id;
    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function onClose() {
     if(isSubscribed) {
       unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
@@ -33,7 +34,7 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
     return () => {
       onClose()
     }
-  }, [])
+  }, [onClose])
 
   async function onTestInternetSpeedClick() {
     updateLobbyCobrowsing({

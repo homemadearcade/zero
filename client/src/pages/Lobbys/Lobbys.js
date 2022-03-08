@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import moment from 'moment';
+import { withRouter } from 'react-router-dom';
 
 import { getLobbys } from '../../store/actions/lobbysActions';
 import { deleteLobby, joinLobby } from '../../store/actions/lobbyActions';
@@ -18,7 +17,7 @@ import './styles.scss';
 const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {
     getLobbys();
-  }, []);
+  }, [getLobbys]);
 
   return (
     <Layout>

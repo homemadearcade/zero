@@ -158,6 +158,7 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
     if (ready && tracks) {
       init();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, ready, tracks]);
 
   return [tracks, users]
