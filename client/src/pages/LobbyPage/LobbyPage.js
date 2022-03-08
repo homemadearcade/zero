@@ -81,7 +81,7 @@ const LobbyPage = ({
 
   function renderPageContents() {
     if(!window.chrome) {
-      return <h1>Please use a Chromium browser to participant in the Homemade Arcade experience</h1>
+      return <h1>Please use a Chromium browser such as Chrome or Brave to participate in the Homemade Arcade experience</h1>
     }
 
     if(error) {

@@ -64,24 +64,24 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, video: { videoState
     <>
         {!auth.appLoaded && <Loader/>}
         {auth.appLoaded && <>
-        <Switch>
-          <Route exact path="/play" component={Play} />
-          <Route path="/login" component={Login} />
-          <Route path="/loginsession" component={SessionLogin} />
-          <Route path="/register" component={Register} />
-          <Route path="/users" component={Users} />
-          <Route path="/notfound" component={NotFound} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/lobbys" component={Lobbys} />
-          <Route path="/lobby/find" component={LobbyFind} />
-          <Route path="/lobby/:id" component={Lobby} />
-          <Route exact path="/:username" component={Account} />
-          <Route exact path="/" component={Home} />
-          <Route component={NotFound} />
-        </Switch>
-        {(videoState.isStarting || isConnected) && <AgoraVideoCall
+          {(videoState.isStarting || isConnected) && <AgoraVideoCall
             render={(props) => <VideoLayoutHA {...props}/>}
           />}
+          <Switch>
+            <Route exact path="/play" component={Play} />
+            <Route path="/login" component={Login} />
+            <Route path="/loginsession" component={SessionLogin} />
+            <Route path="/register" component={Register} />
+            <Route path="/users" component={Users} />
+            <Route path="/notfound" component={NotFound} />
+            <Route path="/admin" component={Admin} />
+            <Route path="/lobbys" component={Lobbys} />
+            <Route path="/lobby/find" component={LobbyFind} />
+            <Route path="/lobby/:id" component={Lobby} />
+            <Route exact path="/:username" component={Account} />
+            <Route exact path="/" component={Home} />
+            <Route component={NotFound} />
+          </Switch>
       </>}
     </>
   );

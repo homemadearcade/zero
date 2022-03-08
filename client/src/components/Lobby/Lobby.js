@@ -105,14 +105,14 @@ const LobbyPage = ({
     {
       text: 'Participant has passed internet speed test',
       test: () => {
-        return usersById[lobby.participantId]?.internetSpeedTestResults?.downloadSpeed > 50 && usersById[lobby.participantId]?.internetSpeedTestResults?.uploadSpeed > 1
+        return usersById[lobby.participantId]?.internetSpeedTestResults?.downloadSpeed >= 10 && usersById[lobby.participantId]?.internetSpeedTestResults?.uploadSpeed >= 1
       },
       required: false,
     },
     {
       text: 'Guide has passed internet speed test',
       test: () => {
-        return usersById[lobby.guideId]?.internetSpeedTestResults?.downloadSpeed > 50 && usersById[lobby.guideId]?.internetSpeedTestResults?.uploadSpeed > 1
+        return usersById[lobby.guideId]?.internetSpeedTestResults?.downloadSpeed >= 10 && usersById[lobby.guideId]?.internetSpeedTestResults?.uploadSpeed >= 1
       },
       required: false,
     },
