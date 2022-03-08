@@ -23,6 +23,8 @@ const token = null;
 // the create method should be called outside the parent component
 // this hook can be used the get the client/stream in any component
 const useClient = createClient(config);
+window.useClient = useClient
+
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 export const startAgoraVideoCall = () => (dispatch, getState) => {
@@ -61,7 +63,8 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
   window.videoClient = client;
 
   // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
-  const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const mct = useMicrophoneAndCameraTracks();
+  const { tracks, ready } = mct;
 
   useEffect(() => {
     async function init() {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import AgoraRTC from "agora-rtc-react";
 
 import './AgoraVideoCall.scss'
 import { useAgoraVideoCall } from "../../store/actions/videoActions";

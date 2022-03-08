@@ -12,7 +12,7 @@ function Video({setShowInfo, showInfo, className, label, me, videoTrack, userId,
   return <div className={"VideoLayoutHA__video-container " + className} onMouseEnter={() => {
     setShowInfo(userId)
   }} onMouseLeave={() => {
-    setShowInfo(userId)
+    setShowInfo(null)
   }}>
     {showInfo === userId && <div className="VideoLayoutHA__info">
       {me.role === 'ADMIN' && <>

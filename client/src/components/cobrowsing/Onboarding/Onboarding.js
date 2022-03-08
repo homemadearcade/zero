@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import AgoraRTC from 'agora-rtc-react';
 
 import './Onboarding.scss';
 import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
@@ -12,12 +13,58 @@ import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import Loader from '../../Loader/Loader';
 
 const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
+  const [videoDevices, setVideoDevices] = useState([])
+  const [audioDevices, setAudioDevices] = useState([])
+
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
   
   const isSubscribed = cobrowsingUser.id !== me.id;
+
+  const client = window.useClient()
+
+  const setVideoDevice = (deviceId) => {
+    client.localTracks[0].setDevice(deviceId)
+  }
+
+  const setAudioDevice = (deviceId) => {
+    client.localTracks[1].setDevice(deviceId)
+  }
+
+   
+  function onClose() {
+    if(isSubscribed) {
+      unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
+    } else {
+      endCobrowsing({lobbyId: lobby.id})
+    }
+  }
+
+  useEffect(() => {
+    const getVideoDevices = async () => {
+      const devices = await AgoraRTC.getDevices()
+      setVideoDevices(devices.filter(({kind}) => {
+        return kind === "videoinput"
+      }))
+    };
+  
+    const getAudioDevices = async () => {
+      const devices = await AgoraRTC.getDevices()
+      setAudioDevices(devices.filter(({kind}) => {
+        return kind === "audioinput"
+      }))
+    };
+    
+    getVideoDevices()
+    getAudioDevices()
+    
+    return () => {
+      onClose()
+    }
+  }, [])
+
 
   async function testInternetSpeed() {
     updateLobbyCobrowsing({
@@ -105,21 +152,6 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
       isTestingSpeed: false
     })
   }
-  
-  function onClose() {
-    if(isSubscribed) {
-      unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
-    } else {
-      endCobrowsing({lobbyId: lobby.id})
-    }
-  }
-
-  useEffect(() => {
-    return () => {
-      onClose()
-    }
-  }, [])
-
 
   function renderSpeedTest() {
     const user = usersById[cobrowsingUser.id]
@@ -171,6 +203,45 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
         <button onClick={() => {
           startAgoraVideoCall({lobbyId: lobby.id})
         }}>Connect your video</button>
+      </div>
+    }
+
+    if(cobrowsingState.lobby.step === 'video_connection_confirmation') {
+      return <div>
+        Step 1
+        <div>
+          Confirm you are using the correct video and audio devices
+        </div>
+        <div>
+          Video:
+          <select onChange={(e) => {
+            setVideoDevice(e.target.value)
+          }}>
+            {videoDevices && videoDevices.map(({label, deviceId}) => {
+              return <option value={deviceId} key={deviceId}>
+                {label}
+              </option>
+            })}
+          </select>
+        </div>
+        <div>
+          Audio:
+          <select onChange={(e) => {
+            setAudioDevice(e.target.value)
+          }}>
+            {audioDevices && audioDevices.map(({label, deviceId}) => {
+              return <option value={deviceId} key={deviceId}>
+                {label}
+              </option>
+            })}
+          </select>
+        </div>
+        <button onClick={() => {
+          updateLobbyCobrowsing({
+            ...cobrowsingState.lobby,
+            step: 'internet_speed_test'
+          })
+        }}>Next Step</button>
       </div>
     }
 
