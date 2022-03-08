@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Layout from '../../layout/Layout';
-import MessageForm from '../../components/MessageForm/MessageForm';
-import Video from '../../components/Video/Video';
 
 import './styles.css';
 

@@ -4,6 +4,7 @@ import {
   START_VIDEO_CALL_LOADING,
   START_VIDEO_CALL_SUCCESS,
   START_VIDEO_CALL_FAIL,
+  LEAVE_VIDEO_CALL_SUCCESS
 } from '../types';
 
 import {
@@ -57,6 +58,13 @@ export const onStartAgoraVideoCallFail = (error) => (dispatch, getState) => {
   dispatch(updateVideoCobrowsing(getState().video.videoState))
 } 
 
+export const leaveAgoraVideoCall = () => (dispatch, getState) => {
+  dispatch({
+    type: LEAVE_VIDEO_CALL_SUCCESS,
+    payload:{}
+  });
+}
+
 export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, userId, lobbyId, }) => {  
   const [users, setUsers] = useState([]);
   // using the hook to get access to the client object
@@ -64,10 +72,10 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
   window.videoClient = client;
 
   // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
-  const mct = useMicrophoneAndCameraTracks();
-  const { tracks, ready } = mct;
+  const { tracks, ready } = useMicrophoneAndCameraTracks();
 
   useEffect(() => {
+
     async function init() {
       try {
         client.on("user-published", async (user, mediaType) => {
@@ -121,7 +129,7 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
   
         onStartAgoraVideoCallSuccess()
   
-        setInterval(() => {
+        window.updateQualityInterval = setInterval(() => {
           const remoteNetworkQuality = client.getRemoteNetworkQuality();
           window.events.emit('ON_REMOTE_VIDEO_QUALITY_STATUS_UPDATE', remoteNetworkQuality)
         }, 1000)
@@ -132,11 +140,25 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
     }
 
     if (ready && tracks) {
-      console.log("init ready");
-      init(lobbyId);
+      init();
     }
+  }, [client, ready, tracks]);
 
-  }, [lobbyId, userId, client, ready, tracks]);
+  useEffect(() => {
+    // unmounting this video call component
+    return () => {
+      if(tracks) {
+        tracks[0].close();
+        tracks[1].close();
+      }
+      if(client) {
+        client.leave();
+        client.removeAllListeners();
+      }
+
+      clearInterval(window.updateQualityInterval)
+    }
+  }, [])
 
   return [tracks, users]
 }
@@ -154,6 +176,7 @@ export const useChangeAgoraVideoAudio = () => {
   const setAudioDevice = (deviceId) => {
     client.localTracks[1].setDevice(deviceId)
   }
+  
 
   useEffect(() => {
     const getVideoDevices = async () => {
@@ -172,7 +195,7 @@ export const useChangeAgoraVideoAudio = () => {
     
     getVideoDevices()
     getAudioDevices()
-  })
+  }, [])
 
   return [videoDevices, audioDevices, setVideoDevice, setAudioDevice]
 }

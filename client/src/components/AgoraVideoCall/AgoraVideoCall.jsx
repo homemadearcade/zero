@@ -8,6 +8,7 @@ import { useAgoraVideoCall } from "../../store/actions/videoActions";
 import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess } from '../../store/actions/videoActions';
 
 const AgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, render}) => {
+  console.log('rerender')
   let [ tracks, users, myNetworkQuality, remoteNetworkQuality ] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess })
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 

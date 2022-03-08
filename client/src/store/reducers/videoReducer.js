@@ -2,6 +2,7 @@ import {
   START_VIDEO_CALL_LOADING,
   START_VIDEO_CALL_SUCCESS,
   START_VIDEO_CALL_FAIL,
+  LEAVE_VIDEO_CALL_SUCCESS,
   VIDEO_STATE_UPDATE
 } from '../types';
 
@@ -31,6 +32,16 @@ export default function videoReducer(state = initialState, { type, payload }) {
           isStarting: false,
         },
         isConnected: true,
+      };
+    case LEAVE_VIDEO_CALL_SUCCESS:
+      console.log('LEAVE_VIDEO_CALL_SUCCESS')
+      return {
+        ...state,
+        videoState: {
+          ...state.videoState,
+          isStarting: false,
+        },
+        isConnected: false,
       };
     case START_VIDEO_CALL_FAIL:
       return {

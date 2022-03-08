@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux';
 
 import {
@@ -7,17 +7,44 @@ import {
 
 import './VideoLayoutHA.scss'
 import VideoStatus from "../VideoStatus/VideoStatus";
-import { useChangeAgoraVideoAudio } from "../../store/actions/videoActions";
+import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 
 const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTracks, isAudioMuted, isVideoMuted, muteVideo, muteAudio }) => {
   let [showInfo, setShowInfo] = useState(false)
- 
-  const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio()
-  
+  let [showChangeInput, setShowChangeInput] = useState(false)
+
   const userTracksById = [{ uid: me.id, videoTrack: myTracks[1] }, ...userTracks].reduce((prev, next) => {
     prev[next.uid] = next
     return prev
   }, {})
+
+  function Controls() {    
+    if(showChangeInput) {
+      return <AgoraInputSelect/>
+    }
+
+     return <div className="VideoLayoutHA__controls">
+      {isAudioMuted ? <div className="VideoLayoutHA__control" onClick={muteAudio}>
+          <i className="fas fa-microphone-slash"/>
+        </div> : 
+        <div className="VideoLayoutHA__control" onClick={muteAudio}>
+          <i className="fas fa-microphone"/>
+        </div>
+      }
+      {isVideoMuted ? <div className="VideoLayoutHA__control" onClick={muteVideo}>
+          <i className="fas fa-video-slash"/>
+        </div> : 
+        <div className="VideoLayoutHA__control" onClick={muteVideo}>
+          <i className="fas fa-video"/>
+        </div>
+      }
+      <div className="VideoLayoutHA__control" onClick={() => {
+        setShowChangeInput(true)
+      }}>
+        <i className="fas fa-gear" />
+      </div>
+    </div>
+  }  
 
   return <div className="VideoLayoutHA">
     {userTracksById[participantId] && <Video 
@@ -26,37 +53,24 @@ const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTra
       videoTrack={userTracksById[participantId].videoTrack} 
       key={userTracksById[participantId].uid} 
       userId={userTracksById[participantId].uid} 
-      muteAudio={muteAudio} 
-      muteVideo={muteVideo} 
-      isVideoMuted={isVideoMuted} 
-      isAudioMuted={isAudioMuted} 
       setShowInfo={setShowInfo} 
+      setShowChangeInput={setShowChangeInput}
       showInfo={showInfo} 
       me={me}
-      videoDevices={videoDevices}
-      audioDevices={audioDevices} 
-      setVideoDevice={setVideoDevice}
-      setAudioDevice={setAudioDevice}
+      controls={<Controls/>}
     />}
     {!userTracksById[participantId] && <div className="VideoLayoutHA__video-container VideoLayoutHA__participant"/>}
-
     {userTracksById[guideId] && <Video 
       className="VideoLayoutHA__guide" 
       label="Guide" 
       videoTrack={userTracksById[guideId].videoTrack} 
       key={userTracksById[guideId].uid}
       userId={userTracksById[guideId].uid} 
-      muteAudio={muteAudio} 
-      muteVideo={muteVideo} 
-      isVideoMuted={isVideoMuted} 
-      isAudioMuted={isAudioMuted} 
       setShowInfo={setShowInfo} 
+      setShowChangeInput={setShowChangeInput}
       showInfo={showInfo} 
       me={me}
-      videoDevices={videoDevices}
-      audioDevices={audioDevices} 
-      setVideoDevice={setVideoDevice}
-      setAudioDevice={setAudioDevice}
+      controls={<Controls/>}
      />}
     {!userTracksById[guideId] && <div className="VideoLayoutHA__video-container VideoLayoutHA__guide"/>}
   </div>
@@ -70,12 +84,13 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, { })(VideoLayoutHA);
 
-function Video({setShowInfo, showInfo, className, label, me, videoTrack, userId, muteAudio, muteVideo, isAudioMuted, isVideoMuted, videoDevices, audioDevices, setVideoDevice, setAudioDevice}) {
+function Video({setShowInfo, setShowChangeInput, showInfo, className, label, me, videoTrack, userId, controls}) {
   const isMe = me.id === userId
   return <div className={"VideoLayoutHA__video-container " + className} onMouseEnter={() => {
     setShowInfo(userId)
   }} onMouseLeave={() => {
     setShowInfo(null)
+    setShowChangeInput(false)
   }}>
     {showInfo === userId && <div className="VideoLayoutHA__info">
       {me.role === 'ADMIN' && <>
@@ -83,36 +98,8 @@ function Video({setShowInfo, showInfo, className, label, me, videoTrack, userId,
         {isMe && ' - me'}
         <VideoStatus userId={userId} me={me}/>
       </>}
-      {isMe && <Controls 
-        muteAudio={muteAudio}
-        muteVideo={muteVideo}
-        isVideoMuted={isVideoMuted}
-        isAudioMuted={isAudioMuted}
-        videoDevices={videoDevices}
-        audioDevices={audioDevices} 
-        setVideoDevice={setVideoDevice}
-        setAudioDevice={setAudioDevice}
-      />}
+      {isMe && controls}
     </div>}
     <AgoraVideoPlayer className="VideoLayoutHA__video" videoTrack={videoTrack}/>
-  </div>
-}
-
-function Controls({muteAudio, isAudioMuted, isVideoMuted, muteVideo, videoDevices, audioDevices, setVideoDevice, setAudioDevice}) {
-  return <div className="VideoLayoutHA__controls">
-    {isAudioMuted ? <div className="VideoLayoutHA__controls-mic" onClick={muteAudio}>
-      <i className="fas fa-microphone-slash"/>
-    </div> : 
-    <div className="VideoLayoutHA__controls-mic" onClick={muteAudio}>
-      <i className="fas fa-microphone"/>
-    </div>
-    }
-    {isVideoMuted ? <div className="VideoLayoutHA__controls-cam" onClick={muteVideo}>
-      <i className="fas fa-video-slash"/>
-    </div> : 
-    <div className="VideoLayoutHA__controls-mic" onClick={muteVideo}>
-      <i className="fas fa-video"/>
-    </div>
-    }
   </div>
 }

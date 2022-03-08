@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router-dom';
 
-import { getLobbyById, joinLobby, leaveLobby, assignLobbyRole} from '../../store/actions/lobbyActions';
+import { joinLobby, leaveLobby, assignLobbyRole} from '../../store/actions/lobbyActions';
 import { subscribeCobrowsing, startCobrowsing } from '../../store/actions/cobrowsingActions';
 import Loader from '../../components/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
@@ -13,15 +13,15 @@ import requireAuth from '../../hoc/requireAuth';
 import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
 import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
-import { startAgoraVideoCall } from '../../store/actions/videoActions';
+import { leaveAgoraVideoCall } from '../../store/actions/videoActions';
 
 const LobbyPage = ({
-  getLobbyById,
   leaveLobby,
   joinLobby,
   assignLobbyRole,
   startCobrowsing,
   subscribeCobrowsing,
+  leaveAgoraVideoCall,
   cobrowsing: { cobrowsingError, cobrowsingUser, cobrowsingState },
   lobby: { lobby, isLoading, isJoining, error, joinError },
   auth: { me },
@@ -31,6 +31,7 @@ const LobbyPage = ({
 
   useEffect(() => {
     function leaveLobbyCleanup() {
+      leaveAgoraVideoCall()
       leaveLobby({lobbyId: matchId, userId: me?.id})
       window.removeEventListener('beforeunload', askBeforeClosing)
     }
@@ -41,9 +42,8 @@ const LobbyPage = ({
       leaveLobbyCleanup()
     }
 
-    async function getLobbyAndJoinLobby() {      
+    async function joinLobbyAndAssignRoles() {      
       await joinLobby({lobbyId: matchId, userId: me?.id});
-      await getLobbyById(matchId);
 
       if(me.role !== 'ADMIN') {
         startCobrowsing({lobbyId: matchId})
@@ -61,7 +61,7 @@ const LobbyPage = ({
       window.addEventListener('beforeunload', askBeforeClosing);
     }
 
-    getLobbyAndJoinLobby()
+    joinLobbyAndAssignRoles()
 
     return () => {
       leaveLobbyCleanup()
@@ -140,5 +140,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { startAgoraVideoCall, getLobbyById, joinLobby, leaveLobby, assignLobbyRole, startCobrowsing, subscribeCobrowsing }),
+  connect(mapStateToProps, { leaveAgoraVideoCall, joinLobby, leaveLobby, assignLobbyRole, startCobrowsing, subscribeCobrowsing }),
 )(LobbyPage);

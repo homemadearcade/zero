@@ -67,8 +67,8 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     return {
       ...state,
       isJoining: false,
-      cobrowsingUser: initialState.cobrowsingUser,
-      lobby: initialState.lobby
+      lobby: initialState.lobby,
+      lobbyState: initialState.lobbyState
     };
     case EDIT_LOBBY_SUCCESS:
       return {
@@ -109,6 +109,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         isLoading: false,
         isJoining: false,
         lobby: initialState.lobby,
+        lobbyState: initialState.lobbyState,
         error: payload.error,
       };
     case ON_LOBBY_UPDATE:
