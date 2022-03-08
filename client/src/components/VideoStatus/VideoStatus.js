@@ -12,13 +12,13 @@ const VideoStatus = ({ userId, me }) => {
       setMyNetworkQuality(networkQuality)
     })
 
-    const clearEvent2 = window.events.on('ON_REMOTE_VIDEO_QUALITY_STATUS_UPDATE', (remoteNetworkQuality) => {
-      setRemoteNetworkQuality(remoteNetworkQuality)
-    })
+    let updateQualityInterval = setInterval(() => {
+      setRemoteNetworkQuality(window.videoClient.getRemoteNetworkQuality())
+    }, 1000)
 
     return () => {
       clearEvent1()
-      clearEvent2()
+      clearInterval(updateQualityInterval)
     }
   })
 

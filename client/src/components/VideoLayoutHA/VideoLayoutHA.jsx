@@ -9,9 +9,34 @@ import './VideoLayoutHA.scss'
 import VideoStatus from "../VideoStatus/VideoStatus";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 
-const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTracks, isAudioMuted, isVideoMuted, muteVideo, muteAudio }) => {
+const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTracks }) => {
   let [showInfo, setShowInfo] = useState(false)
   let [showChangeInput, setShowChangeInput] = useState(false)
+  const [trackState, setTrackState] = useState({ video: true, audio: true });
+
+  console.log(trackState)
+
+  const muteVideo = async () => {
+    try {
+      await myTracks[1].setEnabled(!trackState.video);
+      setTrackState((ps) => {
+        return { ...ps, video: !ps.video };
+      });
+    } catch(e) {
+      console.error(e)
+    }
+  };
+
+  const muteAudio = async () => {
+    try{
+      await myTracks[0].setEnabled(!trackState.audio);
+      setTrackState((ps) => {
+        return { ...ps, audio: !ps.audio };
+      });
+    } catch(e) {
+      console.error(e)
+    }
+  };
 
   const userTracksById = [{ uid: me.id, videoTrack: myTracks[1] }, ...userTracks].reduce((prev, next) => {
     prev[next.uid] = next
@@ -24,18 +49,18 @@ const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTra
     }
 
      return <div className="VideoLayoutHA__controls">
-      {isAudioMuted ? <div className="VideoLayoutHA__control" onClick={muteAudio}>
-          <i className="fas fa-microphone-slash"/>
+      {trackState.audio ? <div className="VideoLayoutHA__control" onClick={muteAudio}>
+          <i className="fas fa-microphone"/>
         </div> : 
         <div className="VideoLayoutHA__control" onClick={muteAudio}>
-          <i className="fas fa-microphone"/>
+           <i className="fas fa-microphone-slash"/>
         </div>
       }
-      {isVideoMuted ? <div className="VideoLayoutHA__control" onClick={muteVideo}>
-          <i className="fas fa-video-slash"/>
+      {trackState.video ? <div className="VideoLayoutHA__control" onClick={muteVideo}>
+          <i className="fas fa-video"/>
         </div> : 
         <div className="VideoLayoutHA__control" onClick={muteVideo}>
-          <i className="fas fa-video"/>
+          <i className="fas fa-video-slash"/>
         </div>
       }
       <div className="VideoLayoutHA__control" onClick={() => {

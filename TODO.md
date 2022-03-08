@@ -1,7 +1,15 @@
 #cobrowsing
 
-the thing I need to fix is that I need to maintain a copy of the UI state while also being able to switch to new ones, right now theres no saved copy of the cobrowsing state!
+Where is video? More thought needs to happen
 
-redux local storage?
+Cobrowsing Click event
 
-How do i maintain my UI state if looking at others replaces mine?
+Basic phaser stuff
+
+Popup for connection errors
+
+Better error handling in cobrowsing
+
+Unauthenticate socket when logging out
+
+Perhaps use something called withLobby so that I can have different url states during onboard and for the game. And you can use back button to go to the lobby 

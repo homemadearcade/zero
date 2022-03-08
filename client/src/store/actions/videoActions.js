@@ -4,7 +4,8 @@ import {
   START_VIDEO_CALL_LOADING,
   START_VIDEO_CALL_SUCCESS,
   START_VIDEO_CALL_FAIL,
-  LEAVE_VIDEO_CALL_SUCCESS
+  LEAVE_VIDEO_CALL_SUCCESS,
+  LEAVE_VIDEO_CALL_FAIL,
 } from '../types';
 
 import {
@@ -58,11 +59,30 @@ export const onStartAgoraVideoCallFail = (error) => (dispatch, getState) => {
   dispatch(updateVideoCobrowsing(getState().video.videoState))
 } 
 
-export const leaveAgoraVideoCall = () => (dispatch, getState) => {
-  dispatch({
-    type: LEAVE_VIDEO_CALL_SUCCESS,
-    payload:{}
-  });
+export const leaveAgoraVideoCall = () => (dispatch) => {
+  try {
+    const client = window.videoClient
+    const tracks = client.localTracks
+  
+    if(tracks) {
+      tracks[0].close();
+      tracks[1].close();
+    }
+    if(client) {
+      client.leave();
+      client.removeAllListeners();
+    }
+    
+    dispatch({
+      type: LEAVE_VIDEO_CALL_SUCCESS,
+      payload:{}
+    });
+  } catch(error) {
+    dispatch({
+      type: LEAVE_VIDEO_CALL_FAIL,
+      payload:{ error }
+    });
+  }
 }
 
 export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, userId, lobbyId, }) => {  
@@ -106,7 +126,6 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
             });
           }
         });
-        
   
         client.on('network-quality', ({downlinkNetworkQuality, uplinkNetworkQuality}) => {
           window.uplinkNetworkQuality = uplinkNetworkQuality
@@ -128,11 +147,6 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
         await client.publish([tracks[0], tracks[1]]);
   
         onStartAgoraVideoCallSuccess()
-  
-        window.updateQualityInterval = setInterval(() => {
-          const remoteNetworkQuality = client.getRemoteNetworkQuality();
-          window.events.emit('ON_REMOTE_VIDEO_QUALITY_STATUS_UPDATE', remoteNetworkQuality)
-        }, 1000)
       } catch(err) {
         onStartAgoraVideoCallFail(err)
       }
@@ -143,22 +157,6 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
       init();
     }
   }, [client, ready, tracks]);
-
-  useEffect(() => {
-    // unmounting this video call component
-    return () => {
-      if(tracks) {
-        tracks[0].close();
-        tracks[1].close();
-      }
-      if(client) {
-        client.leave();
-        client.removeAllListeners();
-      }
-
-      clearInterval(window.updateQualityInterval)
-    }
-  }, [])
 
   return [tracks, users]
 }
