@@ -10,6 +10,8 @@ import {
   createClient,
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
+import AgoraRTC from 'agora-rtc-react';
+
 import { updateVideoCobrowsing, updateLobbyCobrowsing } from './cobrowsingActions';
 
 const config = { 
@@ -23,7 +25,6 @@ const token = null;
 // the create method should be called outside the parent component
 // this hook can be used the get the client/stream in any component
 const useClient = createClient(config);
-window.useClient = useClient
 
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
@@ -138,4 +139,40 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
   }, [lobbyId, userId, client, ready, tracks]);
 
   return [tracks, users]
+}
+
+
+export const useChangeAgoraVideoAudio = () => {
+  const client = useClient()
+
+  const [videoDevices, setVideoDevices] = useState([])
+  const [audioDevices, setAudioDevices] = useState([])
+  const setVideoDevice = (deviceId) => {
+    client.localTracks[0].setDevice(deviceId)
+  }
+  
+  const setAudioDevice = (deviceId) => {
+    client.localTracks[1].setDevice(deviceId)
+  }
+
+  useEffect(() => {
+    const getVideoDevices = async () => {
+      const devices = await AgoraRTC.getDevices()
+      setVideoDevices(devices.filter(({kind}) => {
+        return kind === "videoinput"
+      }))
+    };
+  
+    const getAudioDevices = async () => {
+      const devices = await AgoraRTC.getDevices()
+      setAudioDevices(devices.filter(({kind}) => {
+        return kind === "audioinput"
+      }))
+    };
+    
+    getVideoDevices()
+    getAudioDevices()
+  })
+
+  return [videoDevices, audioDevices, setVideoDevice, setAudioDevice]
 }

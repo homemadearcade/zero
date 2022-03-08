@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AgoraRTC from 'agora-rtc-react';
 
 import './Onboarding.scss';
 import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
@@ -11,28 +10,16 @@ import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import Loader from '../../Loader/Loader';
+import { testInternetSpeed } from '../../../store/actions/browserActions';
+import AgoraInputSelect from '../../AgoraInputSelect/AgoraInputSelect';
 
 const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
-  const [videoDevices, setVideoDevices] = useState([])
-  const [audioDevices, setAudioDevices] = useState([])
-
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
   
   const isSubscribed = cobrowsingUser.id !== me.id;
-
-  const client = window.useClient()
-
-  const setVideoDevice = (deviceId) => {
-    client.localTracks[0].setDevice(deviceId)
-  }
-
-  const setAudioDevice = (deviceId) => {
-    client.localTracks[1].setDevice(deviceId)
-  }
-
    
   function onClose() {
     if(isSubscribed) {
@@ -43,99 +30,19 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
   }
 
   useEffect(() => {
-    const getVideoDevices = async () => {
-      const devices = await AgoraRTC.getDevices()
-      setVideoDevices(devices.filter(({kind}) => {
-        return kind === "videoinput"
-      }))
-    };
-  
-    const getAudioDevices = async () => {
-      const devices = await AgoraRTC.getDevices()
-      setAudioDevices(devices.filter(({kind}) => {
-        return kind === "audioinput"
-      }))
-    };
-    
-    getVideoDevices()
-    getAudioDevices()
-    
     return () => {
       onClose()
     }
   }, [])
 
-
-  async function testInternetSpeed() {
+  async function onTestInternetSpeedClick() {
     updateLobbyCobrowsing({
       ...cobrowsingState.lobby,
       isTestingSpeed: true
     })
+
+    const [downloadSpeed, uploadSpeed] = await testInternetSpeed()
     
-    var downloadSize = 4995374; //bytes
-    function detectDownloadSpeed() {
-      var imageAddr = "https://i.imgur.com/92LVI9S.jpg"; 
-
-      return new Promise((resolve, reject) => {
-        var startTime, endTime;
-        var download = new Image();
-        download.onload = function (e) {
-          endTime = (new Date()).getTime();
-          // detectUploadSpeed(e.path[0])
-          showResults();
-        }
-        
-        download.onerror = function (err, msg) {
-          // ShowProgressMessage("Invalid image, or error downloading");
-        }
-        
-        startTime = (new Date()).getTime();
-        var cacheBuster = "?nnn=" + startTime;
-        download.src = imageAddr + cacheBuster;
-        
-        function showResults() {
-          var duration = (endTime - startTime) / 1000;
-          var bitsLoaded = downloadSize * 8;
-          var speedBps = (bitsLoaded / duration).toFixed(2);
-          var speedKbps = (speedBps / 1024).toFixed(2);
-          var speedMbps = (speedKbps / 1024).toFixed(2);
-          resolve(speedMbps)
-        }
-      })
-    }
-
-    function detectUploadSpeed() {
-      return new Promise((resolve, reject) => {
-        var http = new XMLHttpRequest();
-        var startTime, endTime;
-        var url = "/uploadtest";
-        var myData = ""; // the raw data you will send
-        for(var i = 0 ; i < downloadSize ; i++) //if you want to send 1 kb (2 + 1022 bytes = 1024b = 1kb). change it the way you want
-        {
-            myData += "k"; // add one byte of data;
-        }
-
-        http.open("POST", url, true);
-
-        http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-
-        http.onreadystatechange = function() {
-          if(http.readyState === 4 && http.status === 200) {
-              endTime = (new Date()).getTime();
-              var duration = (endTime - startTime) / 1000;
-              var bitsLoaded = downloadSize * 8;
-              var speedMbps = ((bitsLoaded / duration) / 1024 / 1024).toFixed(2);
-              resolve(speedMbps)
-            }
-        }
-        startTime = (new Date()).getTime();
-        http.send(JSON.stringify({value: myData}));
-      })
-    }
-
-    const downloadSpeed = await detectDownloadSpeed()
-    const uploadSpeed = await detectUploadSpeed()
-
     updateLobbyUser({
       lobbyId: lobby.id,
       userId: cobrowsingUser.id, 
@@ -159,9 +66,7 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
       return <div>
         <div>Upload Speed: {user.internetSpeedTestResults.uploadSpeed}</div>
         <div>Download Speed: {user.internetSpeedTestResults.downloadSpeed}</div>
-        <button onClick={async () => {
-          testInternetSpeed()
-        }}>Test your internet again</button>
+        <button onClick={onTestInternetSpeedClick}>Test your internet again</button>
         <button onClick={async () => {
           updateLobbyCobrowsing({
             ...cobrowsingState.lobby,
@@ -171,9 +76,7 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
       </div>
     }
 
-   return  <button onClick={async () => {
-      testInternetSpeed()
-    }}>Test your internet</button>
+   return  <button onClick={onTestInternetSpeedClick}>Test your internet</button>
   }
 
   function renderBody() {
@@ -207,42 +110,19 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
     }
 
     if(cobrowsingState.lobby.step === 'video_connection_confirmation') {
-      return <div>
+      return <>
         Step 1
         <div>
           Confirm you are using the correct video and audio devices
         </div>
-        <div>
-          Video:
-          <select onChange={(e) => {
-            setVideoDevice(e.target.value)
-          }}>
-            {videoDevices && videoDevices.map(({label, deviceId}) => {
-              return <option value={deviceId} key={deviceId}>
-                {label}
-              </option>
-            })}
-          </select>
-        </div>
-        <div>
-          Audio:
-          <select onChange={(e) => {
-            setAudioDevice(e.target.value)
-          }}>
-            {audioDevices && audioDevices.map(({label, deviceId}) => {
-              return <option value={deviceId} key={deviceId}>
-                {label}
-              </option>
-            })}
-          </select>
-        </div>
+        <AgoraInputSelect/>
         <button onClick={() => {
           updateLobbyCobrowsing({
             ...cobrowsingState.lobby,
             step: 'internet_speed_test'
           })
         }}>Next Step</button>
-      </div>
+      </>
     }
 
     if(cobrowsingState.lobby.step === 'internet_speed_test') {

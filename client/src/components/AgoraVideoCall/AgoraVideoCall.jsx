@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AgoraRTC from "agora-rtc-react";
 
 import './AgoraVideoCall.scss'
 import { useAgoraVideoCall } from "../../store/actions/videoActions";
@@ -13,17 +12,26 @@ const AgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess
   const [trackState, setTrackState] = useState({ video: true, audio: true });
 
   const muteVideo = async () => {
-    await tracks[1].setEnabled(!trackState.video);
-    setTrackState((ps) => {
-      return { ...ps, video: !ps.video };
-    });
+    try {
+      await tracks[1].setEnabled(!trackState.video);
+      setTrackState((ps) => {
+        return { ...ps, video: !ps.video };
+      });
+    } catch(e) {
+      console.error(e)
+    }
+
   };
 
   const muteAudio = async () => {
-    await tracks[0].setEnabled(!trackState.audio);
-    setTrackState((ps) => {
-      return { ...ps, audio: !ps.audio };
-    });
+    try{
+      await tracks[0].setEnabled(!trackState.audio);
+      setTrackState((ps) => {
+        return { ...ps, audio: !ps.audio };
+      });
+    } catch(e) {
+      console.error(e)
+    }
   };
 
   return (
