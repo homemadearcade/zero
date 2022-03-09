@@ -8,7 +8,7 @@ const initialState = {
   lobbyUserStatus: {},
   cobrowsingMouse: {
     xPercent: 0,
-    screenY: 0,
+    yPercent: 0,
     lastPing: null,
   }
 };

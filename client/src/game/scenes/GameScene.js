@@ -3,10 +3,10 @@ import Phaser from 'phaser';
 import {
   GAME_SCENE,
   PRELOADER_SCENE,
-} from '../constants';
+} from '../../constants';
 
 export class GameScene extends Phaser.Scene {
-  constructor() {
+  constructor(props) {
     super({
       key: GAME_SCENE,
     });

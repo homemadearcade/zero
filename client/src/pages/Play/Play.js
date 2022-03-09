@@ -2,24 +2,30 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Layout from '../../layout/Layout';
-import GameView from '../../components/GameView/GameView';
+import GameView from '../../game/GameView/GameView';
 
-import './styles.css';
+import './Play.scss';
 
-const Home = ({ auth }) => {
+import { requestFullscreen } from '../../store/actions/browserActions';
+
+const Play = ({ requestFullscreen }) => {
   return (
-    <Layout>
-      <div className="home-page">
-        <h1>Phaser Tests</h1>
-        <GameView/>
-      </div>
-    </Layout>
+    <div className="Play">
+      <GameView 
+        leftColumn={<div>
+          {!window.isFullscreen && <div onClick={() => {
+            requestFullscreen()
+          }}>
+            <i className="fas fa-expand Play__fullscreen"/>
+          </div>}
+        </div>}
+      />
+    </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  // auth: state.auth,
 });
 
-export default compose(connect(mapStateToProps, { }))(Home);
+export default compose(connect(mapStateToProps, { requestFullscreen }))(Play);

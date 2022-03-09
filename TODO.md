@@ -25,3 +25,43 @@ How does a user join a game?
 How are inputs handled for a game?
 
 How is the game view brought up from the lobby? is it still in the lobby?
+
+---
+
+3 Nice to haves
+
+Mobile
+Blockchain NFT editing thing
+Post-Session Editor
+
+--
+
+Game Instance
+Game Model
+UI State
+
+--
+
+https://16patsle.github.io/phaser3-weapon-plugin/
+
+https://github.com/netgfx/Phaser-tooltip
+
+https://github.com/jorbascrumps/phaser-plugin-water-body
+
+https://github.com/englercj/phaser-debug
+
+https://github.com/netgfx/Phaser-FloatingText
+
+https://github.com/SaFrMo/phaser-percent-bar
+
+https://github.com/mikewesthad/phaser-matter-collision-plugin
+
+https://github.com/anthony-mills/procedural_dungeon
+
+https://github.com/jdotrjs/phaser3-nineslice
+
+https://github.com/koreezgames/phaser3-particle-editor
+
+https://github.com/samme/phaser-component-health
+
+https://github.com/GaryStanton/phaser3-merged-input

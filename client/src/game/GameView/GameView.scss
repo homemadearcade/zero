@@ -1,0 +1,10 @@
+.GameView {
+  display: flex;
+  justify-content: center;
+  height: calc(80vh - 4px);
+  canvas {
+    border: 1px solid yellow;
+
+  }
+  border: 1px solid white;
+}

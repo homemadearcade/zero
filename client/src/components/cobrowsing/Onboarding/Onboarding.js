@@ -10,10 +10,10 @@ import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import Loader from '../../Loader/Loader';
-import { testInternetSpeed } from '../../../store/actions/browserActions';
+import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
 import AgoraInputSelect from '../../AgoraInputSelect/AgoraInputSelect';
 
-const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
+const Onboarding = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -34,7 +34,7 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
     return () => {
       onClose()
     }
-  }, [onClose])
+  }, [])
 
   async function onTestInternetSpeedClick() {
     updateLobbyCobrowsing({
@@ -140,17 +140,7 @@ const Onboarding = ({ startAgoraVideoCall, endCobrowsing, unsubscribeCobrowsing,
           Please close out all other tabs on this browser and close other intensive programs like editing software, spotify, other browsers, games, etc.
         </div>
         <button onClick={() => {
-          function requestFullScreen() {
-            const element = document.body
-            // Supports most browsers and their versions.
-            var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-        
-            if (requestMethod) { // Native full screen.
-                requestMethod.call(element);
-            }
-          }
-          
-          requestFullScreen()
+          requestFullscreen(document.body)
 
           updateLobbyCobrowsing({
             ...cobrowsingState.lobby,
@@ -188,6 +178,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { updateLobbyUser, endCobrowsing, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
+  connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
 )(Onboarding);
 

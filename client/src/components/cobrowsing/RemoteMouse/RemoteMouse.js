@@ -11,7 +11,7 @@ const RemoteMouse = ({userId, status: { cobrowsingMouse} }) => {
     return null
   }
 
-  const top = mouseData.pageY;
+  const top = window.innerHeight * mouseData.yPercent;
   const left =  window.innerWidth * mouseData.xPercent;
 
   return (

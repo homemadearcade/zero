@@ -12,8 +12,8 @@ import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTracks }) => {
   let [showInfo, setShowInfo] = useState(false)
   let [showChangeInput, setShowChangeInput] = useState(false)
+  
   const [trackState, setTrackState] = useState({ video: true, audio: true });
-
   const muteVideo = async () => {
     try {
       await myTracks[1].setEnabled(!trackState.video);
@@ -24,7 +24,6 @@ const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTra
       console.error(e)
     }
   };
-
   const muteAudio = async () => {
     try{
       await myTracks[0].setEnabled(!trackState.audio);

@@ -65,3 +65,12 @@ export const testInternetSpeed = async () => {
 
   return [downloadSpeed, uploadSpeed]
 }
+
+
+export const requestFullscreen = (element = document.body) => (dispatch, getState) => {
+  var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+  if (requestMethod) { // Native full screen.
+      requestMethod.call(element);
+  }
+}

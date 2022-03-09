@@ -33,6 +33,10 @@ import {
 
 import ping from 'web-pingjs';
 
+setInterval(() => {
+  window.isFullscreen = !window.screenTop && !window.screenY
+}, 3000)
+
 let pingInterval;
 
 export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState) => {
@@ -207,7 +211,7 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
     pingInterval = window.setInterval(async () => {
       const pingDelta = await ping(window.location.origin)
       window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
-        pingDelta, isFocused, isFullscreen: !window.screenTop && !window.screenY
+        pingDelta, isFocused, isFullscreen: window.isFullscreen,
       }, userId, lobbyId })
     }, 3000);
 
