@@ -7,4 +7,14 @@
 
   }
   border: 1px solid white;
+
+  &__left-column {
+    width: 10vh;
+    background: red;
+  }
+
+  &__right-column {
+    width: 10vh;
+    background: red;
+  }
 }

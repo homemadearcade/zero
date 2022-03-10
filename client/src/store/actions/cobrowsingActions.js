@@ -30,6 +30,8 @@ const sendMouseState = _.debounce((e) =>  {
     cobrowsingMouse: {
       xPercent: e.clientX/window.innerWidth,
       yPercent: e.clientY/window.innerHeight,
+      windowHeight: window.innerHeight,
+      windowWidth: window.innerWidth,
       lastPing: Date.now(),
     }
   })

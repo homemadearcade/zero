@@ -1,6 +1,13 @@
 #LIST
 
-Where is video? More thought needs to happen
+TODO
+
+BETTER MOUSE SHARING
+ For the game view we need to send over the size of the view 
+You would
+1) Send over the mouse percent within the game view, not the extra parts. Need to calculate mouse position WITHIN element. Could be (extra = 100vw - 100vw). Mouse pos = clientX + or - (extra/2)
+2) The remote user would put the mouse percent within its own game view width/height
+3) clientY percent is always the same since all elements are based on their height
 
 Cobrowsing Click event
 
@@ -14,7 +21,13 @@ Unauthenticate socket when logging out
 
 Perhaps use something called withLobby so that I can have different url states during onboard and for the game. And you can use back button to go to the lobby 
 
+
+---
+
 #THOUGHTS
+
+Where is video? More thought needs to happen
+
 
 How does the game update? Is it FLUX? one way updates?
 

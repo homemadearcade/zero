@@ -161,6 +161,8 @@ const Onboarding = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, uns
     }
   }
 
+
+
   return (
     <div className="Onboarding">
       {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}

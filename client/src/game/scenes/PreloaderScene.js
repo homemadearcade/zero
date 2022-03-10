@@ -6,6 +6,7 @@ import {
   GAME_SCENE,
 } from '../../constants';
 
+
 export class PreloaderScene extends Phaser.Scene {
   constructor({gameModel}) {
     super({
@@ -21,8 +22,6 @@ export class PreloaderScene extends Phaser.Scene {
     const x = this.scale.gameSize.width / 2;
     const y = this.scale.gameSize.height / 2;
 
-    console.log(this.game)
-
     this.preloaderBg = this.add.rectangle(x, y, width, height, 0xff0000);
     this.preloaderBar = this.add.rectangle(x, y, width, height, 0x0000ff);
     this.preloaderBar.setSize(0, this.preloaderBar.displayHeight);
@@ -31,9 +30,13 @@ export class PreloaderScene extends Phaser.Scene {
   create() {
     this.createLoaderGraphic();
     this.load.setCORS('anonymous');
-    this.load.atlas('atlas', 'https://media.istockphoto.com/photos/cars-on-production-line-in-factory-picture-id1320950393?s=612x612&cache=' + Math.random(), 'images/assets.json');
+
+    this.load.script('WeaponPlugin', '/assets/js/WeaponPlugin.js');
+    this.load.image('bullet','/assets/images/bullet.png');
+    this.load.image('ship', "/assets/images/ship.png");
     this.load.on('progress', this.updateLoaderGraphic);
     this.load.on('complete', this.checkOrientation);
+    
     this.load.start();
   }
 
