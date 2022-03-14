@@ -82,7 +82,7 @@ export const leaveAgoraVideoCall = () => (dispatch) => {
   } catch(error) {
     dispatch({
       type: LEAVE_VIDEO_CALL_FAIL,
-      payload:{ error }
+      payload: { error }
     });
   }
 }
