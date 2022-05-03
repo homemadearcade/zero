@@ -38,7 +38,7 @@ export const startAgoraVideoCall = () => (dispatch, getState) => {
   });
 
   dispatch(updateVideoCobrowsing(getState().video.videoState))
-} 
+}
 
 export const onStartAgoraVideoCallSuccess = () => (dispatch, getState) => {
   dispatch({
@@ -63,13 +63,18 @@ export const onStartAgoraVideoCallFail = (error) => (dispatch, getState) => {
 
 export const leaveAgoraVideoCall = () => (dispatch) => {
   try {
-    const client = window.videoClient
+    const client = useClient()
     const tracks = client.localTracks
   
     if(tracks) {
-      tracks[0].close();
-      tracks[1].close();
+      if(tracks[0]) {
+        tracks[0].close();
+      }
+      if(tracks[1]) {
+        tracks[1].close();
+      }
     }
+
     if(client) {
       client.leave();
       client.removeAllListeners();
@@ -82,16 +87,19 @@ export const leaveAgoraVideoCall = () => (dispatch) => {
   } catch(error) {
     dispatch({
       type: LEAVE_VIDEO_CALL_FAIL,
-      payload:{ error }
+      payload: { error }
     });
   }
+}
+
+export const useAgoraVideoCallClient = () => {
+  return useClient()
 }
 
 export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, userId, lobbyId, }) => {  
   const [users, setUsers] = useState([]);
   // using the hook to get access to the client object
   const client = useClient();
-  window.videoClient = client;
 
   // ready is a state variable, which returns true when the local tracks are initialized, untill then tracks variable is null
   const { tracks, ready } = useMicrophoneAndCameraTracks();

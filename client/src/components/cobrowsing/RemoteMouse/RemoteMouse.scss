@@ -1,7 +1,8 @@
 .RemoteMouse {
-  position: fixed;
+  position: absolute;
   width: 16px;
   height: 16px;
   border-radius: 16px;
   background-color: yellow;
+  z-index: 1;
 }

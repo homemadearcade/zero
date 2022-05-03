@@ -21,8 +21,8 @@ import './events.js'
 
 import Loader from './components/Loader/Loader';
 
-import AgoraVideoCall from './components/AgoraVideoCall/AgoraVideoCall';
-import VideoLayoutHA from './components/VideoLayoutHA/VideoLayoutHA';
+// import AgoraVideoCall from './components/AgoraVideoCall/AgoraVideoCall';
+// import VideoLayoutHA from './components/VideoLayoutHA/VideoLayoutHA';
 
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
@@ -38,7 +38,7 @@ window.socket.onAny((event, ...args) => {
   console.log(event, args);
 });
 
-const App = ({ logInUserWithOauth, authenticateSocket, auth, video: { videoState, isConnected }, loadMe }) => {
+const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
   useEffect(() => {
     loadMe();
   }, [loadMe]);
@@ -64,9 +64,6 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, video: { videoState
     <>
         {!auth.appLoaded && <Loader/>}
         {auth.appLoaded && <>
-          {(videoState.isStarting || isConnected) && <AgoraVideoCall
-            render={(props) => <VideoLayoutHA {...props}/>}
-          />}
           <Switch>
             <Route exact path="/play" component={Play} />
             <Route path="/login" component={Login} />
@@ -89,7 +86,6 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, video: { videoState
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  video: state.video
 });
 
 export default compose(connect(mapStateToProps, { authenticateSocket, logInUserWithOauth, loadMe }))(App);

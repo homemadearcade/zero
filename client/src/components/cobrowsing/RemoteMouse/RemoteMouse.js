@@ -11,28 +11,8 @@ const RemoteMouse = ({userId, status: { cobrowsingMouse} }) => {
     return null
   }
 
-  const top = window.innerHeight * mouseData.yPercent;
-  let left =  mouseData.xPercent * window.innerWidth//window.innerWidth;
-
-  // let left;
-
-  // const percentFromCenter = Math.abs(mouseData.xPercent - .5)
-  // const pixelsFromCenter = (window.innerWidth * percentFromCenter) * (window.innerHeight/mouseData.windowHeight)
-
-  // if(mouseData.xPercent >= .5) {
-  //   left = (window.innerWidth/2) + pixelsFromCenter
-  // } else {
-  //   left = (window.innerWidth/2) - pixelsFromCenter
-  // }
-
-  // console.log(mouseData.xPercent, mouseData.windowHeight/window.innerHeight, mouseData.xPercent * (mouseData.windowHeight/window.innerHeight))
-  // console.log(mouseData.clientX, (mouseData.windowHeight/window.innerHeight))  
-  // if(mouseData.xPercent >= window.innerWidth/2) {
-  //   left = left * (window.innerHeight/mouseData.windowHeight)
-  // } else {
-  //   left = left * window.innerWidth * mouseData.xPercent
-  // }
-  //* ;
+  const top = (Number(mouseData.yPercent) * 100).toString() + '%';
+  const left =  (Number(mouseData.xPercent) * 100).toString() + "%"//window.innerWidth;
 
   return (
     <div className="RemoteMouse" style={{top, left}}>

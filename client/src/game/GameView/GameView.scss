@@ -1,20 +1,28 @@
 .GameView {
   display: flex;
   justify-content: center;
-  height: calc(80vh - 4px);
+  position: relative;
+  height: calc(100vh - 4px);
+  width: calc(100vh - 4px + 40vh);
+  margin: 0 auto;
   canvas {
     border: 1px solid yellow;
-
   }
   border: 1px solid white;
 
   &__left-column {
-    width: 10vh;
+    width: 20vh;
     background: red;
   }
 
   &__right-column {
-    width: 10vh;
+    width: 20vh;
     background: red;
+  }
+
+  &__overlay {
+    position: absolute;
+    left: 20vh;
+    width: calc(100vh);
   }
 }

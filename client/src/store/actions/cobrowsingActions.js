@@ -24,11 +24,16 @@ import {
 let mouseLobbyId;
 let mouseUserId;
 const sendMouseState = _.debounce((e) =>  {
+  const gameViewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
+  const gameViewPadding = (window.innerWidth - gameViewWidth)/2
+  const xPercent = (e.clientX - gameViewPadding)/gameViewWidth
+
   window.socket.emit(ON_COBROWSING_STATUS_UPDATE, {
     lobbyId: mouseLobbyId,
     userId: mouseUserId,
     cobrowsingMouse: {
-      xPercent: e.clientX/window.innerWidth,
+      xPercent,
+      // xPercent: e.clientX/window.innerWidth,
       yPercent: e.clientY/window.innerHeight,
       windowHeight: window.innerHeight,
       windowWidth: window.innerWidth,

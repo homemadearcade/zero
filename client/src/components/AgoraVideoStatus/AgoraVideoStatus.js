@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
 
-import './VideoStatus.scss';
+import './AgoraVideoStatus.scss';
 
-const VideoStatus = ({ userId, me }) => {
+const AgoraVideoStatus = ({ userId, me }) => {
+  const client = useAgoraVideoCallClient()
+
   const [remoteNetworkQuality, setRemoteNetworkQuality] = useState({})
   const [myNetworkQuality, setMyNetworkQuality] = useState({})
 
@@ -12,7 +15,7 @@ const VideoStatus = ({ userId, me }) => {
     })
 
     let updateQualityInterval = setInterval(() => {
-      setRemoteNetworkQuality(window.videoClient.getRemoteNetworkQuality())
+      setRemoteNetworkQuality(client.getRemoteNetworkQuality())
     }, 1000)
 
     return () => {
@@ -68,10 +71,10 @@ const VideoStatus = ({ userId, me }) => {
     cameraStatus = getCameraStatus(remoteNetworkQuality[userId])
   }
 
-  return <div className="VideoStatus">
-    <div className="VideoStatus__stat"><i className="fa-solid fa-arrow-up"/>{cameraStatus[0]}</div>
-    <div className="VideoStatus__stat"><i className="fa-solid fa-arrow-down"/>{cameraStatus[1]}</div>
+  return <div className="AgoraVideoStatus">
+    <div className="AgoraVideoStatus__stat"><i className="fa-solid fa-arrow-up"/>{cameraStatus[0]}</div>
+    <div className="AgoraVideoStatus__stat"><i className="fa-solid fa-arrow-down"/>{cameraStatus[1]}</div>
   </div>
 };
 
-export default VideoStatus
+export default AgoraVideoStatus

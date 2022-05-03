@@ -1,6 +1,7 @@
 .VideoLayoutHA {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   // position: fixed;
   // top: 0px;
   // margin: 0 auto;
@@ -23,8 +24,8 @@
     // position: fixed;
     // bottom: 210px;
     // right: 60px;
-    width: 150px;
-    height: 150px;
+    width: 20vh;
+    height: 20vh;
     // video {
     //   border-radius: 5% 5% 0% 0%;
     // }
@@ -62,8 +63,8 @@
   }
 
   &__guide {
-    width: 150px;
-    height: 150px;
+    width: 20vh;
+    height: 20vh;
     // position: fixed;
     // bottom: 10px;
     // right: 10px;

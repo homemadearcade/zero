@@ -7,12 +7,7 @@ import { PreloaderScene } from '../scenes/PreloaderScene';
 import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
-
 import WaterBodyPlugin from 'phaser-plugin-water-body';
-
-new Phaser.Game({
-
-});
 
 const config= {
   type: Phaser.CANVAS,
@@ -35,16 +30,16 @@ const config= {
   },
   plugins: {
     global: [
-        {
-            key: 'WaterBodyPlugin',
-            plugin: WaterBodyPlugin,
-            start: true,
-        }
+      {
+        key: 'WaterBodyPlugin',
+        plugin: WaterBodyPlugin,
+        start: true,
+      }
     ]
   }
 };
 
-const GameView = ({gameModel, leftColumn, rightColumn}) => {
+const GameView = ({gameModel, leftColumn, rightColumn, children, overlay}) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
 
@@ -55,6 +50,10 @@ const GameView = ({gameModel, leftColumn, rightColumn}) => {
       <div className="GameView__left-column">{leftColumn}</div>
       <div id="PhaserGame"/>
       <div className="GameView__right-column">{rightColumn}</div>
+      {children}
+      <div className="GameView__overlay">
+        {overlay}
+      </div>
     </div>);
 };
 

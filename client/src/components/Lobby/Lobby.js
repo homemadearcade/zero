@@ -8,6 +8,7 @@ import UserStatus from '../UserStatus/UserStatus';
 
 import './Lobby.scss';
 import classNames from 'classnames';
+import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
@@ -22,6 +23,8 @@ const LobbyPage = ({
     prev[next.id] = next
     return prev
   }, {})
+
+  const client = useAgoraVideoCallClient()
 
   const checklist = [
     {
@@ -78,8 +81,8 @@ const LobbyPage = ({
       test: () => {
         if(me.id === lobby.participantId) {
           return window.uplinkNetworkQuality
-        } else if(window.videoClient) {
-          return window.videoClient.getRemoteNetworkQuality()[lobby.participantId]?.uplinkNetworkQuality;
+        } else if(client) {
+          return client.getRemoteNetworkQuality()[lobby.participantId]?.uplinkNetworkQuality;
         }
       },
       required: false,
@@ -89,8 +92,8 @@ const LobbyPage = ({
       test: () => {
         if(me.id === lobby.guideId) {
           return window.uplinkNetworkQuality
-        } else if(window.videoClient) {
-          return window.videoClient.getRemoteNetworkQuality()[lobby.guideId]?.uplinkNetworkQuality;
+        } else if(client) {
+          return client.getRemoteNetworkQuality()[lobby.guideId]?.uplinkNetworkQuality;
         }
       },
       required: false,

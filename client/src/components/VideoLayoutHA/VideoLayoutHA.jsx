@@ -6,7 +6,7 @@ import {
 } from "agora-rtc-react";
 
 import './VideoLayoutHA.scss'
-import VideoStatus from "../VideoStatus/VideoStatus";
+import AgoraVideoStatus from "../AgoraVideoStatus/AgoraVideoStatus";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 
 const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTracks }) => {
@@ -66,7 +66,7 @@ const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTra
         <i className="fas fa-gear" />
       </div>
     </div>
-  }  
+  }
 
   return <div className="VideoLayoutHA">
     {userTracksById[participantId] && <Video 
@@ -118,7 +118,7 @@ function Video({setShowInfo, setShowChangeInput, showInfo, className, label, me,
       {me.role === 'ADMIN' && <>
         {label ? label : null}
         {isMe && ' - me'}
-        <VideoStatus userId={userId} me={me}/>
+        <AgoraVideoStatus userId={userId} me={me}/>
       </>}
       {isMe && controls}
     </div>}

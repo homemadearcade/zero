@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './Onboarding.scss';
+import './Root.scss';
 import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
 import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 import { updateLobbyUser } from '../../../store/actions/lobbyActions';
@@ -10,10 +10,13 @@ import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import Loader from '../../Loader/Loader';
+import GameView from '../../../game/GameView/GameView';
 import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
 import AgoraInputSelect from '../../AgoraInputSelect/AgoraInputSelect';
+import AgoraVideoCall from '../../AgoraVideoCall/AgoraVideoCall';
+import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 
-const Onboarding = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
+const Root = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }, video: { videoState, isConnected }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -86,7 +89,7 @@ const Onboarding = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, uns
     }
 
     if(cobrowsingState.video.error) {
-      return <h1>{cobrowsingState.video.error}</h1>
+      return <h1>{cobrowsingState.video.error.toString()}</h1>
     }
 
     if(cobrowsingState.lobby.error) {
@@ -161,15 +164,19 @@ const Onboarding = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, uns
     }
   }
 
-
-
-  return (
-    <div className="Onboarding">
+  return <GameView 
+    leftColumn={<>
+      {(videoState.isStarting || isConnected) && <AgoraVideoCall
+        render={(props) => <VideoLayoutHA {...props}/>}
+      />}
+    </>}
+    overlay={<div className="Root">
       {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
       {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
       {renderBody()}
-    </div>
-  );
+    </div>}
+  >
+  </GameView>
 };
 
 const mapStateToProps = (state) => ({
@@ -181,5 +188,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
-)(Onboarding);
+)(Root);
 

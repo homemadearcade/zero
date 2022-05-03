@@ -12,7 +12,7 @@ import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
-import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
+import Root from '../../components/cobrowsing/Root/Root';
 import { leaveAgoraVideoCall } from '../../store/actions/videoActions';
 
 const LobbyPage = ({
@@ -105,7 +105,7 @@ const LobbyPage = ({
     }
   
     if(cobrowsingUser) {
-      return <Onboarding/>
+      return <Root/>
     }
   
     if(me?.role !== 'ADMIN') {

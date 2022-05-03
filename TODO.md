@@ -2,13 +2,6 @@
 
 TODO
 
-BETTER MOUSE SHARING
- For the game view we need to send over the size of the view 
-You would
-1) Send over the mouse percent within the game view, not the extra parts. Need to calculate mouse position WITHIN element. Could be (extra = 100vw - 100vw). Mouse pos = clientX + or - (extra/2)
-2) The remote user would put the mouse percent within its own game view width/height
-3) clientY percent is always the same since all elements are based on their height
-
 Cobrowsing Click event
 
 Basic phaser stuff
