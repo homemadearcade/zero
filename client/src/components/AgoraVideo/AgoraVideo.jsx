@@ -8,9 +8,11 @@ import {
 import './AgoraVideo.scss'
 import AgoraVideoStatus from "../AgoraVideoStatus/AgoraVideoStatus";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
+import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
 
-function Video({setShowInfo, setShowChangeInput, showInfo, hideOverlay, className, label, me, videoTrack, userId, controls}) {
+function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userId, controls}) {
   const isMe = me.id === userId
+  console.log(tracks)
   return <div className={"AgoraVideo__video-container " + className} 
     onMouseEnter={() => {
       setShowInfo(userId)
@@ -20,14 +22,19 @@ function Video({setShowInfo, setShowChangeInput, showInfo, hideOverlay, classNam
       setShowChangeInput(false)
     }}>
     {!hideOverlay && showInfo === userId && <div className="AgoraVideo__info">
-      {me.role === 'ADMIN' && <>
-        {label ? label : null}
-        {isMe && ' - me'}
-        <AgoraVideoStatus userId={userId} me={me}/>
-      </>}
+      {!showChangeInput && me.role === 'ADMIN' && <div className="AgoraVideo__details">
+        <div>
+          {label ? label : null}
+          {isMe && ' - me'}
+        </div>
+        <div>
+          Connection Speed:
+          <AgoraVideoStatus userId={userId} me={me}/>
+        </div>
+      </div>}
       {isMe && controls}
     </div>}
-    <AgoraVideoPlayer className="AgoraVideo__video" videoTrack={videoTrack}/>
+    <AgoraVideoPlayer className="AgoraVideo__video" videoTrack={tracks.videoTrack}/>
   </div>
 }
 
@@ -59,7 +66,13 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
 
   function Controls() {    
     if(showChangeInput) {
-      return <AgoraInputSelect/>
+      return <>
+        <AgoraInputSelect/>
+        <div>
+          Microphone Volume:
+          <AgoraVolumeMeter audioTrack={tracks.audioTrack}/>
+        </div>
+      </>
     }
 
      return <div className="AgoraVideo__controls">
@@ -89,12 +102,13 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
     {tracks && <Video 
       className={className} 
       label={label}
-      videoTrack={tracks.videoTrack} 
+      tracks={tracks} 
       key={tracks.uid}
       userId={tracks.uid} 
       hideOverlay={hideOverlay}
       setShowInfo={setShowInfo} 
       setShowChangeInput={setShowChangeInput}
+      showChangeInput={showChangeInput}
       showInfo={showInfo} 
       me={me}
       controls={<Controls/>}

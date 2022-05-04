@@ -45,6 +45,13 @@
     
   }
 
+  &__details {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    height: 100%;
+  }
+
   &__controls {
     display: flex;
     padding: 5px;

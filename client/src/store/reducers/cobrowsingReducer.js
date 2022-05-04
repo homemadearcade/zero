@@ -18,7 +18,7 @@ const initialState = {
   cobrowsingUser: false,
   cobrowsingState: {
     lobby: {
-      step: 'video_connection',
+      step: 'internet_speed_test', //'video_connection',
     },
     video: {
       isStarting: false,

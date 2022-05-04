@@ -100,33 +100,33 @@ const CobrowsingRoot = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing,
     }
 
     if(cobrowsingState.video.isStarting) {
-      return <Loader text="Connecting to video.."/>
+      return <Loader text="Connecting you to the other users..."/>
     }
 
-    if(cobrowsingState.lobby.step === 'video_connection') {
-      return <div>
-        Step 1
-        <button onClick={() => {
-          startAgoraVideoCall({lobbyId: lobby.id})
-        }}>Connect your video</button>
-      </div>
-    }
+    // if(cobrowsingState.lobby.step === 'video_connection') {
+    //   return <div>
+    //     Step 1
+    //     <button onClick={() => {
+    //       startAgoraVideoCall({lobbyId: lobby.id})
+    //     }}>Connect your video</button>
+    //   </div>
+    // }
 
-    if(cobrowsingState.lobby.step === 'video_connection_confirmation') {
-      return <>
-        Step 1
-        <div>
-          Confirm you are using the correct video and audio devices
-        </div>
-        <AgoraInputSelect/>
-        <button onClick={() => {
-          updateLobbyCobrowsing({
-            ...cobrowsingState.lobby,
-            step: 'internet_speed_test'
-          })
-        }}>Next Step</button>
-      </>
-    }
+    // if(cobrowsingState.lobby.step === 'video_connection_confirmation') {
+    //   return <>
+    //     Step 1
+    //     <div>
+    //       Confirm you are using the correct video and audio devices
+    //     </div>
+    //     <AgoraInputSelect/>
+    //     <button onClick={() => {
+    //       updateLobbyCobrowsing({
+    //         ...cobrowsingState.lobby,
+    //         step: 'internet_speed_test'
+    //       })
+    //     }}>Next Step</button>
+    //   </>
+    // }
 
     if(cobrowsingState.lobby.step === 'internet_speed_test') {
       return <div>

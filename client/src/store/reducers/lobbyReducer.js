@@ -32,7 +32,7 @@ const initialState = {
   isJoining: false,
   joinError: null,
   lobbyState: {
-    step: 'video_connection',
+    step: 'internet_speed_test',//'video_connection',
   }
 };
 
@@ -87,7 +87,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         lobbyState: {
           ...state.lobbyState,
-          step: 'video_connection_confirmation'
+          // step: 'video_connection_confirmation'
         }
       };
     case JOIN_LOBBY_FAIL:
