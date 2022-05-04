@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './Root.scss';
+import './CobrowsingRoot.scss';
 import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
 import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 import { updateLobbyUser } from '../../../store/actions/lobbyActions';
@@ -13,10 +13,9 @@ import Loader from '../../Loader/Loader';
 import GameView from '../../../game/GameView/GameView';
 import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
 import AgoraInputSelect from '../../AgoraInputSelect/AgoraInputSelect';
-import AgoraVideoCall from '../../AgoraVideoCall/AgoraVideoCall';
 import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 
-const Root = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }, video: { videoState, isConnected }}) => {
+const CobrowsingRoot = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing, updateLobbyUser, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingState, cobrowsingUser }, video: { isConnected }, myTracks, userTracks}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -165,12 +164,8 @@ const Root = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing, unsubscri
   }
 
   return <GameView 
-    leftColumn={<>
-      {(videoState.isStarting || isConnected) && <AgoraVideoCall
-        render={(props) => <VideoLayoutHA {...props}/>}
-      />}
-    </>}
-    overlay={<div className="Root">
+    leftColumn={isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+    overlay={<div className="CobrowsingRoot">
       {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
       {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
       {renderBody()}
@@ -188,5 +183,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
-)(Root);
+)(CobrowsingRoot);
 

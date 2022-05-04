@@ -173,19 +173,28 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
 }
 
 
-export const useChangeAgoraVideoAudio = () => {
+export const useChangeAgoraVideoAudio = (tracks) => {
   const client = useClient()
 
   const [videoDevices, setVideoDevices] = useState([])
   const [audioDevices, setAudioDevices] = useState([])
+
   const setVideoDevice = (deviceId) => {
-    client.localTracks[0].setDevice(deviceId)
+
+    if(tracks) {
+      tracks.videoTrack.setDevice(deviceId)
+    } else {
+      client.localTracks[0].setDevice(deviceId)
+    }
   }
   
   const setAudioDevice = (deviceId) => {
-    client.localTracks[1].setDevice(deviceId)
+    if(tracks) {
+      tracks.audioTrack.setDevice(deviceId)
+    } else {
+      client.localTracks[1].setDevice(deviceId)
+    }
   }
-  
 
   useEffect(() => {
     const getVideoDevices = async () => {

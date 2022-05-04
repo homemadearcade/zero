@@ -12,8 +12,9 @@ import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
-import Root from '../../components/cobrowsing/Root/Root';
+import CobrowsingRoot from '../../components/cobrowsing/CobrowsingRoot/CobrowsingRoot';
 import { leaveAgoraVideoCall } from '../../store/actions/videoActions';
+import AgoraVideoCall from '../../components/AgoraVideoCall/AgoraVideoCall';
 
 const LobbyPage = ({
   leaveLobby,
@@ -22,7 +23,7 @@ const LobbyPage = ({
   startCobrowsing,
   subscribeCobrowsing,
   leaveAgoraVideoCall,
-  cobrowsing: { cobrowsingError, cobrowsingUser, cobrowsingState },
+  cobrowsing: { cobrowsingError, cobrowsingUser },
   lobby: { lobby, isLoading, isJoining, error, joinError },
   auth: { me },
   match,
@@ -45,9 +46,9 @@ const LobbyPage = ({
     async function joinLobbyAndAssignRoles() {      
       await joinLobby({lobbyId: matchId, userId: me?.id});
 
-      if(me.role !== 'ADMIN') {
-        startCobrowsing({lobbyId: matchId})
+      startCobrowsing({lobbyId: matchId})
 
+      if(me.role !== 'ADMIN') {
         await assignLobbyRole(matchId, {
           userId: me.id, 
           role: 'gameHost'
@@ -103,13 +104,15 @@ const LobbyPage = ({
     if(isJoining) {
       return <Loader text="Joining lobby..."/>
     }
-  
+
+    return <AgoraVideoCall render={(props) => <div className="LobbyPage">
+      {renderLobbyBody(props)}
+    </div>}></AgoraVideoCall>
+  }
+
+  function renderLobbyBody(props) {
     if(cobrowsingUser) {
-      return <Root/>
-    }
-  
-    if(me?.role !== 'ADMIN') {
-      return <Loader text="Waiting for game to start..."/>
+      return <CobrowsingRoot {...props} />
     }
   
     return <>
@@ -125,7 +128,7 @@ const LobbyPage = ({
       }}/>
     </>
   }
- 
+
   return <div className="LobbyPage">
     {renderPageContents()}
   </div>
@@ -134,7 +137,8 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
-  cobrowsing: state.cobrowsing
+  cobrowsing: state.cobrowsing,
+  video: state.video
 });
 
 export default compose(

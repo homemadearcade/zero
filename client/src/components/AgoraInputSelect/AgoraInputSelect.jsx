@@ -1,8 +1,8 @@
 import React from "react";
 import { useChangeAgoraVideoAudio} from '../../store/actions/videoActions';
 
-const AgoraInputSelect = () => {
-  const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio()
+const AgoraInputSelect = ({ tracks = null }) => {
+  const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio(tracks)
 
   return <div>
     <div>
