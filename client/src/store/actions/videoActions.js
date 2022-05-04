@@ -6,6 +6,8 @@ import {
   START_VIDEO_CALL_FAIL,
   LEAVE_VIDEO_CALL_SUCCESS,
   LEAVE_VIDEO_CALL_FAIL,
+  SET_VIDEO_TRACK_ID,
+  SET_AUDIO_TRACK_ID
 } from '../types';
 
 import {
@@ -31,6 +33,25 @@ AgoraRTC.setLogLevel(2)
 const useClient = createClient(config);
 
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+
+export const setVideoTrackId = (trackId) => (dispatch, getState) => {
+  dispatch({
+    type: SET_VIDEO_TRACK_ID,
+    payload : {
+      videoTrackId: trackId
+    }
+  });
+}
+
+export const setAudioTrackId = (trackId) => (dispatch, getState) => {
+  dispatch({
+    type: SET_AUDIO_TRACK_ID,
+    payload : {
+      audioTrackId: trackId
+    }
+  });
+}
+
 
 export const startAgoraVideoCall = () => (dispatch, getState) => {
   dispatch({
@@ -96,7 +117,7 @@ export const useAgoraVideoCallClient = () => {
   return useClient()
 }
 
-export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, userId, lobbyId, }) => {  
+export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId, userId, lobbyId}) => {  
   const [users, setUsers] = useState([]);
   // using the hook to get access to the client object
   const client = useClient();
@@ -152,7 +173,15 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
             return prevUsers.filter((User) => User.uid !== user.uid);
           });
         });
-      
+
+        if(videoTrackId) {
+          tracks[1].setDevice(videoTrackId)
+        }
+
+        if(audioTrackId) {
+          tracks[0].setDevice(audioTrackId)
+        }
+
         await client.join(appId, lobbyId, token, userId);
         await client.publish([tracks[0], tracks[1]]);
   
@@ -172,7 +201,6 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
   return [tracks, users]
 }
 
-
 export const useChangeAgoraVideoAudio = (tracks) => {
   const client = useClient()
 
@@ -180,7 +208,6 @@ export const useChangeAgoraVideoAudio = (tracks) => {
   const [audioDevices, setAudioDevices] = useState([])
 
   const setVideoDevice = (deviceId) => {
-
     if(tracks) {
       tracks.videoTrack.setDevice(deviceId)
     } else {

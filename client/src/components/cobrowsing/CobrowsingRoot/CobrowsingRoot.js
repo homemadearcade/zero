@@ -143,7 +143,6 @@ const CobrowsingRoot = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing,
         </div>
         <button onClick={() => {
           requestFullscreen(document.body)
-
           updateLobbyCobrowsing({
             ...cobrowsingState.lobby,
             step: 'waiting'
@@ -166,11 +165,11 @@ const CobrowsingRoot = ({ startAgoraVideoCall, requestFullscreen, endCobrowsing,
   return <GameView 
     leftColumn={isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
     overlay={<div className="CobrowsingRoot">
-      {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
-      {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
       {renderBody()}
     </div>}
   >
+      {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
+      {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
   </GameView>
 };
 

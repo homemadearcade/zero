@@ -4,21 +4,27 @@
   left: 0;
   background-color: rgba(0,0,0,0.3);
   color: white;
-  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
+  width: 100%;
 
   &__body {
-    width: 50vh;
+    overflow-y: scroll;
+    border: 1px solid white;
+    margin: 0 auto;
+    height: calc(100vh - 4px);
+    width: calc(100vh - 4px + 40vh);
+    &--popup {
+      padding-top: 30vh;
+    }
   }
 
   &__demo {
-    width: 20vw;
+    width: 40%;
   }
 
   &__volume-checker {
-    width: 100%;
+    width: 40%;
   }
 }

@@ -6,6 +6,7 @@ import './AgoraVideoCall.scss'
 import { useAgoraVideoCall } from "../../store/actions/videoActions";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 
+import { startCobrowsing } from "../../store/actions/cobrowsingActions";
 import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from '../../store/actions/videoActions';
 import {
   createMicrophoneAndCameraTracks,
@@ -23,13 +24,13 @@ const AgoraVideoCall = (props) => {
   }   
 };
 
-const AgoraVideoCallPreview = ({startAgoraVideoCall, auth: { me }}) => {
+const AgoraVideoCallPreview = ({startCobrowsing, startAgoraVideoCall, lobbyId, auth: { me }}) => {
   const { tracks, ready } = useMicrophoneAndCameraTracks();
 
   const userTracks = { uid: me.id, videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
 
   return <div className="AgoraVideoCallPreview">
-    {!ready && <div className="AgoraVideoCallPreview__body">
+    {!ready && <div className="AgoraVideoCallPreview__body AgoraVideoCallPreview__body--popup">
       <h3>A window should popup in your browser that looks similar to the image below. Please click 'Allow'.</h3>
       <img className="AgoraVideoCallPreview__demo" src="/assets/images/camera-permission.png" alt="cam"/>
     </div>}
@@ -38,16 +39,17 @@ const AgoraVideoCallPreview = ({startAgoraVideoCall, auth: { me }}) => {
       <AgoraInputSelect tracks={userTracks}/>
       <h3>Please check that your preferred camera is visible below</h3>
       <AgoraVideo 
-      className="AgoraVideo__preview"
-      label="Preview"
-      hideOverlay
-      tracks={userTracks} />
+        className="AgoraVideo__preview"
+        label="Preview"
+        hideOverlay
+        tracks={userTracks} />
       <div className="AgoraVideoCallPreview__volume-checker">
         <h3>Please check that your microphone is picking up sound with the meter below</h3>
         <AgoraVolumeMeter audioTrack={userTracks.audioTrack}/>
       </div>
       <button onClick={() => {
         startAgoraVideoCall(tracks)
+        startCobrowsing({lobbyId})
       }}>
         Join with Video
       </button>
@@ -56,8 +58,8 @@ const AgoraVideoCallPreview = ({startAgoraVideoCall, auth: { me }}) => {
   </div>
 }
 
-const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, render}) => {
-  let [tracks, users] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess })
+const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, video: { videoTrackId, audioTrackId }, render}) => {
+  let [tracks, users] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
 
   return (
     <div className="AgoraVideoCall">
@@ -66,7 +68,6 @@ const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCall
   );
 };
 
-
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobbyId: state.lobby.lobby.id,
@@ -74,6 +75,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { startAgoraVideoCall, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess }),
+  connect(mapStateToProps, { startCobrowsing, startAgoraVideoCall, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess }),
 )(AgoraVideoCall);
 

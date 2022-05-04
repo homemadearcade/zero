@@ -12,7 +12,6 @@ import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
 
 function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userId, controls}) {
   const isMe = me.id === userId
-  console.log(tracks)
   return <div className={"AgoraVideo__video-container " + className} 
     onMouseEnter={() => {
       setShowInfo(userId)

@@ -46,8 +46,6 @@ const LobbyPage = ({
     async function joinLobbyAndAssignRoles() {      
       await joinLobby({lobbyId: matchId, userId: me?.id});
 
-      startCobrowsing({lobbyId: matchId})
-
       if(me.role !== 'ADMIN') {
         await assignLobbyRole(matchId, {
           userId: me.id, 
