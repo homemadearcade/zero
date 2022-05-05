@@ -42,7 +42,7 @@ const LobbyPage = ({
       required: true,
     },
     {
-      text: 'Guide role is set and user is present ',
+      text: 'Guide role is set and Guide is present ',
       test: () => {
         return lobby.guideId && usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
       },
@@ -56,7 +56,7 @@ const LobbyPage = ({
       required: true,
     },
     {
-      text: 'Game Host role is set and user is present',
+      text: 'Game Host role is set and Game Host is present',
       test: () => {
         return lobby.gameHostId
       },

@@ -1,9 +1,11 @@
 import Phaser from 'phaser';
 
+import { CoreObject } from '../objects/CoreObject'
+
 import {
   GAME_SCENE,
-  PRELOADER_SCENE,
 } from '../../constants';
+import { PlayerObject } from '../objects/PlayerObject';
 
 export class GameScene extends Phaser.Scene {
   constructor(props) {
@@ -13,70 +15,25 @@ export class GameScene extends Phaser.Scene {
   }
 
   create() {
-        // Install the plugin
-    this.plugins.installScenePlugin(
-      'WeaponPlugin',
-      WeaponPlugin.WeaponPlugin,
-      'weapons',
-      this
-    );
+    const ship = new CoreObject(this, 'ship', 100, 100)
 
-    this.game.scene.remove(PRELOADER_SCENE);
+    const player = new PlayerObject(this, 'ship2', 300, 300)
 
-    //  Creates 30 bullets, using the 'bullet' graphic
-    this.weapon = this.add.weapon(30, "bullet");
-    //  Alternatively:
-    //  this.weapon = this.make.weapon({bulletLimit: 30, key: 'bullet'});
+    this.matter.world.setBounds(0, 0, 800, 600);
 
-    // Enable physics debugging for the bullets
-    this.weapon.debugPhysics = true;
+    this.input.on('pointerover', (pointer, gameObjects) => {
+      gameObjects[0].outline.setVisible(true)
+      gameObjects[0].outline.setPosition(gameObjects[0].x, gameObjects[0].y)
+      gameObjects[0].outline.setRotation(gameObjects[0].rotation)
+    });
 
-    //  The bullet will be automatically killed when it leaves the world bounds
-    // this.weapon.bulletKillType = WeaponPlugin.consts.KillType.KILL_WORLD_BOUNDS;
-    this.weapon.bulletLifespan = 500;
-
-    //  The speed at which the bullet is fired
-    this.weapon.bulletSpeed = 600;
-
-    //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
-    this.weapon.fireRate = 100;
-
-    this.sprite = this.add.sprite(400, 300, "ship");
-
-    this.physics.add.existing(this.sprite);
-
-    this.sprite.body.setDrag(70);
-    this.sprite.body.maxVelocity.set(200);
-
-    //  Tell the Weapon to track the 'player' Sprite
-    //  With no offsets from the position
-    //  But the 'true' argument tells the weapon to track sprite rotation
-    this.weapon.trackSprite(this.sprite, 0, 0, true);
-
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.input.on('pointerout', (pointer, gameObjects) => {
+      gameObjects[0].outline.setVisible(false)
+    });
   }
   
   update() {
-    if (this.cursors.up.isDown) {
-      this.sprite.body.acceleration.setToPolar(this.sprite.rotation, 300);
-    } else {
-      this.sprite.body.acceleration.set(0);
-    }
 
-    if (this.cursors.left.isDown) {
-      this.sprite.body.angularVelocity = -300;
-    } else if (this.cursors.right.isDown) {
-      this.sprite.body.angularVelocity = 300;
-    } else {
-      this.sprite.body.angularVelocity = 0;
-    }
-
-    if (this.cursors.space.isDown) {
-      console.log("weapon fire");
-      this.weapon.fire();
-    }
-
-    this.physics.world.wrap(this.sprite, 16);
   }
 
   destroy() {

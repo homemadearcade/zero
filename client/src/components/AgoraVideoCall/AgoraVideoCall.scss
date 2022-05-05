@@ -9,19 +9,24 @@
   flex-direction: column;
   width: 100%;
 
+  &__popup {
+    width: 300px;
+    align-self: flex-end;
+    text-align: center;
+    margin-right: 5%;
+    margin-top: 5%;
+  }
+
   &__body {
     overflow-y: scroll;
     border: 1px solid white;
     margin: 0 auto;
     height: calc(100vh - 4px);
     width: calc(100vh - 4px + 40vh);
-    &--popup {
-      padding-top: 30vh;
-    }
   }
 
   &__demo {
-    width: 40%;
+    width: 300px;
   }
 
   &__volume-checker {

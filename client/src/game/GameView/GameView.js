@@ -10,7 +10,8 @@ import { PRELOADER_SCENE } from '../../constants';
 import WaterBodyPlugin from 'phaser-plugin-water-body';
 
 const config= {
-  type: Phaser.CANVAS,
+  type: Phaser.WEBGL,
+  pixelArt: true,
   parent: 'game',
   scale: {
     mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
@@ -20,13 +21,17 @@ const config= {
     height: 1000
   },
   physics: {
-    default: 'arcade',
-    arcade: {
-      debug: true,
-    },
-  },
-  scene: {
-    'physics': 'matter',
+    default: 'matter',
+    matter: {
+      enableSleeping: true,
+      gravity: {
+        y: 0
+      },
+      debug: {
+        showBody: true,
+        showStaticBody: true
+      }
+    }
   },
   plugins: {
     global: [

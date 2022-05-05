@@ -16,7 +16,7 @@ const UserStatus = ({ onClick, userId, key, lobby: { lobby }, status : { lobbyUs
 
   return <div key={key} onClick={() => {
     if(onClick) onClick(user)
-  }} className={classnames("UserStatus", {'UserStatus--left' : !user.joined, 'UserStatus--clickable' : onClick})}>
+  }} className={classnames("UserStatus", {'UserStatus--left' : !user.joined, 'UserStatus--clickable' : onClick, 'UserStatus--me': me?.id === userId})}>
     {user.username}
     {user.role === 'ADMIN' && <i className="UserStatus__admin fa-solid fa-crown"/>}
     

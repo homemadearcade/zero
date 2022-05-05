@@ -16,6 +16,10 @@
     cursor: pointer;
   }
 
+  &--me {
+    border: 2px solid white;
+  }
+
   &__icons {
     font-size: 12px;
     margin-top: 5px;

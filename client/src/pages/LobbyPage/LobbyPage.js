@@ -103,9 +103,17 @@ const LobbyPage = ({
       return <Loader text="Joining lobby..."/>
     }
 
-    return <AgoraVideoCall render={(props) => <div className="LobbyPage">
-      {renderLobbyBody(props)}
-    </div>}></AgoraVideoCall>
+    return <AgoraVideoCall 
+      render={(props) => <div className="LobbyPage">
+        {renderLobbyBody(props)}
+      </div>}
+      onClickJoin={() => {
+        if(me.role !== 'ADMIN') {
+          startCobrowsing({lobbyId: lobby.id})
+        }
+      }}
+    >
+    </AgoraVideoCall>
   }
 
   function renderLobbyBody(props) {
@@ -114,9 +122,6 @@ const LobbyPage = ({
     }
   
     return <>
-      <button onClick={() => {
-        startCobrowsing({lobbyId: lobby.id})
-      }}>Start Onboarding</button>
       <Lobby onClickUser={(user) => {
         if(user.id === me.id) {
           startCobrowsing({lobbyId: lobby.id})

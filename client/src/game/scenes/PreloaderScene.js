@@ -34,6 +34,8 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.script('WeaponPlugin', '/assets/js/WeaponPlugin.js');
     this.load.image('bullet','/assets/images/bullet.png');
     this.load.image('ship', "/assets/images/ship.png");
+    this.load.image('ship2', '/assets/images/x2kship.png');
+    this.load.image('blue', '/assets/images/blue.png');
     this.load.on('progress', this.updateLoaderGraphic);
     this.load.on('complete', this.checkOrientation);
     
@@ -56,8 +58,8 @@ export class PreloaderScene extends Phaser.Scene {
     this.tweens.add({
       targets: this.preloaderBg,
       alpha: 0,
-      delay: 500,
-      duration: 1500,
+      delay: 100,
+      duration: 200,
       onComplete: () => {
         this.playGame();
       },
@@ -66,13 +68,14 @@ export class PreloaderScene extends Phaser.Scene {
     this.tweens.add({
       targets: this.preloaderBar,
       alpha: 0,
-      delay: 500,
-      duration: 1500,
+      delay: 100,
+      duration: 200,
     });
   };
 
   playGame = () => {
     this.game.scene.add(GAME_SCENE, new GameScene({ gameModel: this.gameModel }), true);
+    this.game.scene.remove(PRELOADER_SCENE);
     this.destroy();
   };
 
