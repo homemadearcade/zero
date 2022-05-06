@@ -1,0 +1,14 @@
+.ContextMenu {
+  position: fixed;
+  background-color: #333;
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+
+  &__option {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+
+  }
+}

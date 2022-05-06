@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 // import Cookies from 'js-cookie';
@@ -23,6 +24,7 @@ import './events.js'
 
 import Loader from './components/Loader/Loader';
 
+
 // import AgoraVideoCall from './components/AgoraVideoCall/AgoraVideoCall';
 // import VideoLayoutHA from './components/VideoLayoutHA/VideoLayoutHA';
 
@@ -31,6 +33,16 @@ import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/
 import '@fortawesome/fontawesome-free/js/all.js';
 
 import io from 'socket.io-client'
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+
 // window.socket = io(window.location.host, { autoConnect: false })
 window.socket = io()
 
@@ -62,9 +74,9 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
   // }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded, auth.isSocketAuthenticated]);
 
   return (
-    <>
+    <ThemeProvider theme={darkTheme}>
         {!auth.appLoaded && <Loader text="App Loading..."/>}
-        {auth.appLoaded && <>
+        {auth.appLoaded && <Router>
           <Switch>
             <Route path="/arcade" component={ArcadePage} />
             <Route path="/play/:id" component={PlayGamePage} />
@@ -81,8 +93,8 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
             <Route exact path="/" component={Home} />
             <Route component={NotFound} />
           </Switch>
-      </>}
-    </>
+      </Router>}
+    </ThemeProvider>
   );
 };
 

@@ -8,6 +8,8 @@ import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
 import { addGame } from '../../store/actions/gameActions';
+import { openContextMenu, closeContextMenu } from '../../store/actions/interfaceActions';
+import ContextMenu from '../../components/ContextMenu/ContextMenu';
 
 import WaterBodyPlugin from 'phaser-plugin-water-body';
 import SaveGameButton from '../SaveGameButton/SaveGameButton';
@@ -26,7 +28,6 @@ const config= {
   physics: {
     default: 'matter',
     matter: {
-      enableSleeping: true,
       gravity: {
         y: 0
       },
@@ -47,12 +48,16 @@ const config= {
   }
 };
 
-const GameView = ({model, leftColumn, rightColumn, children, overlay}) => {
+const GameView = ({model, leftColumn, rightColumn, children, overlay, openContextMenu, closeContextMenu}) => {
   const [game, setGame] = useState()
 
   useEffect(() => {
+    // document.getElementById('PhaserGame__container').addEventListener('contextmenu', (e) => {
+    //   e.preventDefault()
+    // })
+
     const game = new Phaser.Game(config);
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({model}), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ model, openContextMenu, closeContextMenu }), true);
     setGame(game)
   }, []);
 
@@ -62,13 +67,12 @@ const GameView = ({model, leftColumn, rightColumn, children, overlay}) => {
 
   return (
   <div className="GameView">
+    <ContextMenu/>
     <div className="GameView__left-column">
       {leftColumn}
       <SaveGameButton/>
     </div>
-    <div id="PhaserGame" onContextMenu={(e) => {
-      e.preventDefault()
-    }}/>
+    <div id="PhaserGame"/>
     <div className="GameView__right-column">{rightColumn}</div>
     {children}
     <div className="GameView__overlay">
@@ -81,4 +85,4 @@ const mapStateToProps = (state) => ({
 
 });
 
-export default connect(mapStateToProps, { addGame })(GameView);
+export default connect(mapStateToProps, { addGame, openContextMenu, closeContextMenu })(GameView);

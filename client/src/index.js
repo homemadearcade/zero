@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -22,13 +21,13 @@ const store = createStore(
   ),
 );
 
-ReactDOM.render(
+const container = document.getElementById('root');
+
+// Create a root.
+const root = ReactDOM.createRoot(container);
+
+root.render(
   <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
-    </Router>
-  </Provider>,
-  document.getElementById('root'),
+      <App/>
+  </Provider>
 );

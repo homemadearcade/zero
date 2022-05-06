@@ -8,15 +8,18 @@ import {
 import { PlayerObject } from '../objects/PlayerObject';
 
 export class GameScene extends Phaser.Scene {
-  constructor({model}) {
+  constructor({model, closeContextMenu, openContextMenu}) {
     super({
       key: GAME_SCENE,
     });
 
     this.model = model
+    this.closeContextMenu = closeContextMenu
+    this.openContextMenu = openContextMenu
   }
 
   create() {
+
     const objects = this.model.objects.map((object) => {
       return new CoreObject(this, 'ship', object.spawnX, object.spawnY)
     });
@@ -35,10 +38,21 @@ export class GameScene extends Phaser.Scene {
       gameObjects[0].outline.setVisible(false)
     });
 
-    this.input.on('pointerdown', (pointer) => {
+    this.input.on('pointerdown', (pointer, gameObjects) => {
       if (pointer.rightButtonDown()) {
+        function disableContextMenue(e) {
+          e.preventDefault()
+          return false
+        }
 
-        
+        document.body.addEventListener('contextmenu', disableContextMenue)
+        setTimeout(() => {
+          document.body.removeEventListener('contextmenu', disableContextMenue)
+        })
+
+        if(gameObjects.length) {
+          this.openContextMenu(gameObjects, pointer)
+        }
       }
     }, this);
   }
