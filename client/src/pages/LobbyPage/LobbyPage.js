@@ -96,11 +96,11 @@ const LobbyPage = ({
     }
 
     if(isLoading) {
-      return <Loader/>
+      return <Loader text="Loading Lobby..."/>
     }
   
     if(isJoining) {
-      return <Loader text="Joining lobby..."/>
+      return <Loader text="Joining Lobby..."/>
     }
 
     return <AgoraVideoCall 

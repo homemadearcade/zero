@@ -28,7 +28,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
         </p>
         <div className="LobbysPage__list">
           {isLoading ? (
-            <Loader />
+            <Loader text="Lobbys Loading..."/>
           ) : (
             <>
               {lobbys.map((lobby, index) => {

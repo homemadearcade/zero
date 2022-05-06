@@ -26,7 +26,7 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
         </p>
         <div className="list">
           {isLoading ? (
-            <Loader />
+            <Loader text="Loading Users..."/>
           ) : (
             <>
               {users.map((user, index) => {

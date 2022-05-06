@@ -36,7 +36,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
               </li>
             )}
             <li className="nav-item">
-              <Link to="/play">Phaser Tests</Link>
+              <Link to="/arcade">Arcade</Link>
              </li>
             <li className="flex-1" />
             <li className="nav-item">

@@ -27,7 +27,7 @@ const LobbyFind = ({ getLobbyByEmail, lobby: { lobby, error }, auth: { me }}) =>
 
   return (
     <div className="LobbyFind">
-      <Loader text="Finding lobby..."/>
+      <Loader text="Finding Lobby..."/>
     </div>
   );
 };

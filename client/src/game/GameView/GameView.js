@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Phaser from 'phaser';
@@ -7,7 +7,10 @@ import { PreloaderScene } from '../scenes/PreloaderScene';
 import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
+import { addGame } from '../../store/actions/gameActions';
+
 import WaterBodyPlugin from 'phaser-plugin-water-body';
+import SaveGameButton from '../SaveGameButton/SaveGameButton';
 
 const config= {
   type: Phaser.WEBGL,
@@ -44,26 +47,38 @@ const config= {
   }
 };
 
-const GameView = ({gameModel, leftColumn, rightColumn, children, overlay}) => {
+const GameView = ({model, leftColumn, rightColumn, children, overlay}) => {
+  const [game, setGame] = useState()
+
   useEffect(() => {
     const game = new Phaser.Game(config);
-
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({gameModel}), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({model}), true);
+    setGame(game)
   }, []);
 
-  return (<div className="GameView">
-      <div className="GameView__left-column">{leftColumn}</div>
-      <div id="PhaserGame"/>
-      <div className="GameView__right-column">{rightColumn}</div>
-      {children}
-      <div className="GameView__overlay">
-        {overlay}
-      </div>
-    </div>);
+  useEffect(() => {
+    if(game) game.scene?.scenes[0]?.reloadModel(model)
+  }, [model])
+
+  return (
+  <div className="GameView">
+    <div className="GameView__left-column">
+      {leftColumn}
+      <SaveGameButton/>
+    </div>
+    <div id="PhaserGame" onContextMenu={(e) => {
+      e.preventDefault()
+    }}/>
+    <div className="GameView__right-column">{rightColumn}</div>
+    {children}
+    <div className="GameView__overlay">
+      {overlay}
+    </div>
+  </div>);
 };
 
 const mapStateToProps = (state) => ({
 
 });
 
-export default connect(mapStateToProps)(GameView);
+export default connect(mapStateToProps, { addGame })(GameView);

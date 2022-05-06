@@ -10,6 +10,7 @@ import lobbysReducer from './lobbysReducer';
 import lobbyReducer from './lobbyReducer';
 import statusReducer from './statusReducer';
 import videoReducer from './videoReducer';
+import gameReducer from './gameReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -21,5 +22,6 @@ export default combineReducers({
   lobbys: lobbysReducer,
   lobby: lobbyReducer,
   status: statusReducer,
-  video: videoReducer
+  video: videoReducer,
+  game: gameReducer
 });

@@ -96,7 +96,7 @@ const User = ({
           This is all your account information. You can edit your account here.
         </p>
         {isLoading ? (
-          <Loader />
+          <Loader text="Loading User..."/>
         ) : (
           <div className="user-info">
             <div className="info-container">

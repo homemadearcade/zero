@@ -8,12 +8,12 @@ import {
 
 
 export class PreloaderScene extends Phaser.Scene {
-  constructor({gameModel}) {
+  constructor({model}) {
     super({
       key: PRELOADER_SCENE,
     });
 
-    this.gameModel = gameModel
+    this.model = model
   }
 
   createLoaderGraphic = () => {
@@ -74,7 +74,7 @@ export class PreloaderScene extends Phaser.Scene {
   };
 
   playGame = () => {
-    this.game.scene.add(GAME_SCENE, new GameScene({ gameModel: this.gameModel }), true);
+    this.game.scene.add(GAME_SCENE, new GameScene({ model: this.model }), true);
     this.game.scene.remove(PRELOADER_SCENE);
     this.destroy();
   };

@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import Play from './pages/Play/Play';
+import ArcadePage from './pages/ArcadePage/ArcadePage';
+import PlayGamePage from './pages/PlayGamePage/PlayGamePage';
+
 import Home from './pages/Home/Home';
 import Account from './pages/User/User';
 import Users from './pages/Users/Users';
@@ -27,7 +29,6 @@ import Loader from './components/Loader/Loader';
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
 import '@fortawesome/fontawesome-free/js/all.js';
-
 
 import io from 'socket.io-client'
 // window.socket = io(window.location.host, { autoConnect: false })
@@ -62,10 +63,11 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
 
   return (
     <>
-        {!auth.appLoaded && <Loader/>}
+        {!auth.appLoaded && <Loader text="App Loading..."/>}
         {auth.appLoaded && <>
           <Switch>
-            <Route exact path="/play" component={Play} />
+            <Route path="/arcade" component={ArcadePage} />
+            <Route path="/play/:id" component={PlayGamePage} />
             <Route path="/login" component={Login} />
             <Route path="/loginsession" component={SessionLogin} />
             <Route path="/register" component={Register} />

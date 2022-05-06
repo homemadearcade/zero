@@ -18,7 +18,7 @@ const MessageList = ({ getMessages, message: { messages, isLoading, error } }) =
       {error && <div className="error-center">{error}</div>}
       <div className="list">
         {isLoading ? (
-          <Loader />
+          <Loader text="Loading Messages..." />
         ) : (
           <>
             {messages.map((message, index) => {

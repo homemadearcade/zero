@@ -6,11 +6,9 @@ export class CoreObject extends Phaser.Physics.Matter.Sprite {
    
     this.ship = scene.matter.add.sprite(this);
 
-    console.log(spriteTexture, x, y)
-
     this.outline = scene.add.image(x, y, spriteTexture)
       .setTintFill(0xffffff)
-      .setDisplaySize(this.width + 4, this.height + 4)
+      .setDisplaySize(this.width + 8, this.height + 8)
       .setVisible(false)
 
     scene.add.existing(this)

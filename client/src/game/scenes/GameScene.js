@@ -8,18 +8,22 @@ import {
 import { PlayerObject } from '../objects/PlayerObject';
 
 export class GameScene extends Phaser.Scene {
-  constructor(props) {
+  constructor({model}) {
     super({
       key: GAME_SCENE,
     });
+
+    this.model = model
   }
 
   create() {
-    const ship = new CoreObject(this, 'ship', 100, 100)
+    const objects = this.model.objects.map((object) => {
+      return new CoreObject(this, 'ship', object.spawnX, object.spawnY)
+    });
 
     const player = new PlayerObject(this, 'ship2', 300, 300)
 
-    this.matter.world.setBounds(0, 0, 800, 600);
+    this.matter.world.setBounds(0, 0, 1000, 1000);
 
     this.input.on('pointerover', (pointer, gameObjects) => {
       gameObjects[0].outline.setVisible(true)
@@ -30,6 +34,17 @@ export class GameScene extends Phaser.Scene {
     this.input.on('pointerout', (pointer, gameObjects) => {
       gameObjects[0].outline.setVisible(false)
     });
+
+    this.input.on('pointerdown', (pointer) => {
+      if (pointer.rightButtonDown()) {
+
+        
+      }
+    }, this);
+  }
+
+  reloadModel = (model) => {
+    console.log('reloading game based on model change', model)
   }
   
   update() {
