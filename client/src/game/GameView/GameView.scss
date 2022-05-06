@@ -25,4 +25,8 @@
     left: 20vh;
     width: calc(100vh);
   }
+
+  &__game {
+    overflow: hidden;
+  }
 }

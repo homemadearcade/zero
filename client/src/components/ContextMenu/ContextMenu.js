@@ -24,10 +24,7 @@ const ContextMenu = ({ closeContextMenu, interface: { contextMenuX, contextMenuY
           : undefined
       }
     >
-      <MenuItem onClick={handleClose}>Copy</MenuItem>
-      <MenuItem onClick={handleClose}>Print</MenuItem>
-      <MenuItem onClick={handleClose}>Highlight</MenuItem>
-      <MenuItem onClick={handleClose}>Email</MenuItem>
+      <MenuItem onClick={handleClose}>Edit Physics</MenuItem>
     </Menu>
   );
 }

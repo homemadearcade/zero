@@ -37,6 +37,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       objects: req.body.objects, 
       metadata: req.body.metadata, 
       hero: req.body.hero, 
+      classes: req.body.classes,
       world: req.body.world, 
       user: req.user.id,
     });
@@ -79,6 +80,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
         objects: req.body.objects, 
         metadata: req.body.metadata, 
         hero: req.body.hero, 
+        classes: req.body.classes,
         world: req.body.world, 
         user: tempGame.user.id 
       },

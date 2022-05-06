@@ -12,14 +12,22 @@ const gameSchema = new Schema(
     metadata: {
       type: Object,
       required: true,
+      default: {}
     },
     hero: {
       type: Object,
       required: true,
+      default: {}
     },
     world: {
       type: Object,
       required: true,
+      default: {}
+    },
+    classes: {
+      type: Object,
+      required: true,
+      default: {}
     },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
@@ -41,6 +49,7 @@ gameSchema.methods.toJSON = function () {
     metadata: this.metadata,
     objects: this.objects,
     hero: this.hero,
+    classes: this.classes,
     world: this.world,
     user: this.user.toJSON(),
   };

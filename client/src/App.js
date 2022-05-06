@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import ArcadePage from './pages/ArcadePage/ArcadePage';
+import GamesPage from './pages/GamesPage/GamesPage';
 import PlayGamePage from './pages/PlayGamePage/PlayGamePage';
 
 import Home from './pages/Home/Home';
@@ -78,7 +78,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
         {!auth.appLoaded && <Loader text="App Loading..."/>}
         {auth.appLoaded && <Router>
           <Switch>
-            <Route path="/arcade" component={ArcadePage} />
+            <Route path="/games" component={GamesPage} />
             <Route path="/play/:id" component={PlayGamePage} />
             <Route path="/login" component={Login} />
             <Route path="/loginsession" component={SessionLogin} />

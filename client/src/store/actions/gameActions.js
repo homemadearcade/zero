@@ -18,7 +18,18 @@ import {
   EDIT_GAME_SUCCESS,
   EDIT_GAME_FAIL,
   CLEAR_GAME_ERROR,
+  CLEAR_GAME_MODEL,
+  UPDATE_GAME_MODEL
 } from '../types';
+
+export const updateGameModel  = (gameModel) => async (dispatch, getState) => {
+  dispatch({
+    type: UPDATE_GAME_MODEL,
+    payload: {
+      gameModel
+    }
+  });
+}
 
 export const getGames = () => async (dispatch, getState) => {
   dispatch({
@@ -124,7 +135,13 @@ export const editGame = (id, gameData) => async (dispatch, getState) => {
   }
 };
 
-export const clearMessageError = (id) => ({
+export const clearGameError = (id) => ({
   type: CLEAR_GAME_ERROR,
   payload: { id },
 });
+
+export const clearGameModel = () => (dispatch, getState) => {
+  dispatch({
+    type: CLEAR_GAME_MODEL,
+  })
+};

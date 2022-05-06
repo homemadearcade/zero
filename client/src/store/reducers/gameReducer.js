@@ -12,14 +12,15 @@ import {
   EDIT_GAME_SUCCESS,
   EDIT_GAME_FAIL,
   CLEAR_GAME_ERROR,
+  CLEAR_GAME_MODEL
 } from '../types';
 
 const initialState = {
   games: [],
   isLoading: false,
-  isModelLoading: false,
+  isGameModelLoading: false,
   error: null,
-  model: null
+  gameModel: null
 };
 
 export default function gameReducer(state = initialState, { type, payload }) {
@@ -27,7 +28,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
     case GET_GAME_LOADING:
       return {
         ...state,
-        isModelLoading: true,
+        isGameModelLoading: true,
       };
     case GET_GAMES_LOADING:
       return {
@@ -51,13 +52,13 @@ export default function gameReducer(state = initialState, { type, payload }) {
     case EDIT_GAME_LOADING:
       return {
         ...state,
-        isModelLoading: true,
+        isGameModelLoading: true,
       };
     case GET_GAME_SUCCESS:
       return {
         ...state,
-        isModelLoading: false,
-        model: payload.game,
+        isGameModelLoading: false,
+        gameModel: payload.game,
       };
     case GET_GAMES_SUCCESS:
       return {
@@ -76,19 +77,19 @@ export default function gameReducer(state = initialState, { type, payload }) {
     case EDIT_GAME_SUCCESS:
       return {
         ...state,
-        isModelLoading: false,
-        model: payload.game,
+        isGameModelLoading: false,
+        gameModel: payload.game,
       };
     case EDIT_GAME_FAIL:
       return {
         ...state,
-        isModelLoading: false,
+        isGameModelLoading: false,
         error: payload.error,
       };
     case GET_GAME_FAIL:
       return {
         ...state,
-        isModelLoading: false,
+        isGameModelLoading: false,
         error: payload.error,
       };
     case GET_GAMES_FAIL:
@@ -96,6 +97,12 @@ export default function gameReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         error: payload.error,
+      };
+    case CLEAR_GAME_MODEL: 
+      return {
+        ...state,
+        isGameModelLoading: false,
+        gameModel: null
       };
     case ADD_GAME_FAIL:
       return {

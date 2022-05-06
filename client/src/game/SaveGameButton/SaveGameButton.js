@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import './SaveGameButton.scss';
 import { editGame } from '../../store/actions/gameActions';
 
-const GameView = ({editGame, game: { model }}) => {
+const GameView = ({editGame, game: { gameModel }}) => {
   function saveGame() {
-    editGame(model.id, model)
+    editGame(gameModel.id, gameModel)
   }
 
   return <button onClick={saveGame}

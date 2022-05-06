@@ -7,23 +7,27 @@ import GameView from '../../game/GameView/GameView';
 import './PlayGamePage.scss';
 
 import { requestFullscreen } from '../../store/actions/browserActions';
-import { getGame } from '../../store/actions/gameActions';
+import { getGame, clearGameModel } from '../../store/actions/gameActions';
 import Loader from '../../components/Loader/Loader';
 
-const PlayGamePage = ({ getGame, game: { model, isModelLoading },  requestFullscreen, match}) => {
+const PlayGamePage = ({ getGame, clearGameModel, game: { gameModel, isGameModelLoading },  requestFullscreen, match}) => {
   useEffect(() => {
     getGame(match.params.id);
+
+    return () => {
+      clearGameModel()
+    }
   }, []);
 
-  if(!model) {
+  if(!gameModel) {
     return <Loader text="Loading Game Data..."></Loader>
   }
 
   return (
     <div className="PlayGamePage">
       <GameView 
-        overlay={isModelLoading && <Loader text="Reloading Game Data..."></Loader>}
-        model={model}
+        overlay={isGameModelLoading && <Loader text="Reloading Game Data..."></Loader>}
+        gameModel={gameModel}
         leftColumn={<div>
           {!window.isFullscreen && <div onClick={() => {
             requestFullscreen()
@@ -40,4 +44,4 @@ const mapStateToProps = (state) => ({
   game: state.game
 });
 
-export default compose(connect(mapStateToProps, { requestFullscreen, getGame }))(PlayGamePage);
+export default compose(connect(mapStateToProps, { requestFullscreen, clearGameModel, getGame }))(PlayGamePage);

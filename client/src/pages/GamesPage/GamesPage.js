@@ -3,24 +3,28 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import './ArcadePage.scss';
+import './GamesPage.scss';
+
+import requireAdmin from '../../hoc/requireAdmin';
+import requireAuth from '../../hoc/requireAuth';
 
 import Layout from '../../layout/Layout';
 import { getGames } from '../../store/actions/gameActions';
 import Loader from '../../components/Loader/Loader';
 import { Link } from 'react-router-dom';
+import GameForm from '../../components/GameForm/GameForm';
 
-const ArcadePage = ({ getGames, game: { games, isLoading }}) => {
+const GamesPage = ({ getGames, game: { games, isLoading }}) => {
   useEffect(() => {
     getGames();
   }, []);
 
   return (
     <Layout>
-      <div className="ArcadePage">
-        <h1>Arcade page</h1>
+      <div className="GamesPage">
+        <h1>Games page</h1>
         <p>
-          This is the Arcade page. Here are listed all of the games of the app. Click the game link to play the game.
+          This is the Games page. Here are listed all of the games of the app. Click the game link to play the game.
         </p>
         <div className="list">
           {isLoading ? (
@@ -54,6 +58,9 @@ const ArcadePage = ({ getGames, game: { games, isLoading }}) => {
                   </div>
                 );
               })}
+               <GameForm onSubmit={() => {
+                getGames()
+              }}/>
             </>
           )}
         </div>
@@ -66,4 +73,7 @@ const mapStateToProps = (state) => ({
   game: state.game,
 });
 
-export default compose(connect(mapStateToProps, { getGames }))(ArcadePage);
+export default compose(
+  requireAuth,
+  requireAdmin,
+  connect(mapStateToProps, { getGames }))(GamesPage);
