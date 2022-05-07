@@ -33,6 +33,10 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
+  getPhaserGameObjectById(id) {
+    return this.objectsById[id]
+  }
+
   create() {
     // this.gameModel.objects = this.gameModel.objects.filter((object) => {
     //   return !!object.id
@@ -91,11 +95,13 @@ export class GameScene extends Phaser.Scene {
 
     this.input.on('pointerup', (pointer, gameObjects) => {
       if(pointer.leftButtonReleased() && !this.dragging) {
+
         const gameModelObject = {
           id: uuidv4(),
           spawnX: pointer.x,
           spawnY: pointer.y
         }
+
         this.gameModel.objects.push(gameModelObject)
 
         this.objects.push(new CoreObject(this, gameModelObject))

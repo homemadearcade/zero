@@ -24,37 +24,37 @@ const GamesPage = ({ getGames, game: { games, isLoading }}) => {
       <div className="GamesPage">
         <h1>Games page</h1>
         <p>
-          This is the Games page. Here are listed all of the games of the app. Click the game link to play the game.
+          This is the Games page. Here are listed all of the games. Click the play link to play the game.
         </p>
-        <div className="list">
+        <div className="GamesPage__list">
           {isLoading ? (
             <Loader />
           ) : (
             <>
               {games.map((game, index) => {
                 const { user } = game
+
+                console.log(game.createdAt)
                 
                 return (
-                  <div key={index} className="profile">
-                    <div className="info-container">
+                  <div key={index} className="GamesPage__game">
                       <div>
-                        <span className="label">Created by: </span>
-                        <span className="info">{user.username}</span>
+                        <span className="GamesPage__label">Created by: </span>
+                        <span className="GamesPage__info">{user.username}</span>
                       </div>
                       <div>
-                        <span className="label">Created by (email): </span>
-                        <span className="info">{user.email}</span>
+                        <span className="GamesPage__label">Created by (email): </span>
+                        <span className="GamesPage__info">{user.email}</span>
+                      </div>
+                      <div>
+                        <span className="GamesPage__label">Created at: </span>
+                        <span className="GamesPage__info">
+                          {moment(game.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
+                        </span>
                       </div>
                       <Link to={`/play/${game.id}`} className="info bold profile-link">
                         Play!
                       </Link>
-                      <div>
-                        <span className="label">Created: </span>
-                        <span className="info">
-                          {moment(game.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
-                        </span>
-                      </div>
-                    </div>
                   </div>
                 );
               })}

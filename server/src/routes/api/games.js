@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const games = await Game.find().sort({ createdAt: 'desc' }).select('user metadata').populate('user');
+    const games = await Game.find().sort({ createdAt: 'desc' }).select('user createdAt updatedAt metadata').populate('user');
 
     res.json({
       games: games.map((m) => {

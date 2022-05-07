@@ -52,6 +52,8 @@ gameSchema.methods.toJSON = function () {
     classes: this.classes,
     world: this.world,
     user: this.user.toJSON(),
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt,
   };
 };
 

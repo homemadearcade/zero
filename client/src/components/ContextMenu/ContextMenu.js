@@ -6,7 +6,7 @@ import { closeContextMenu } from '../../store/actions/interfaceActions';
 import './ContextMenu.scss';
 
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import CoreObjectContextMenu from '../../game/CoreObjectContextMenu/CoreObjectContextMenu';
 
 const ContextMenu = ({ closeContextMenu, interface: { contextMenuX, contextMenuY, interfaceState: { isContextMenuOpen } }}) => {  
   function handleClose() {
@@ -24,7 +24,7 @@ const ContextMenu = ({ closeContextMenu, interface: { contextMenuX, contextMenuY
           : undefined
       }
     >
-      <MenuItem onClick={handleClose}>Edit Physics</MenuItem>
+      <CoreObjectContextMenu onMenuItemClick={handleClose}/>
     </Menu>
   );
 }

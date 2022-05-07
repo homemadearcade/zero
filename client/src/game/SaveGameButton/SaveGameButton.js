@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import './SaveGameButton.scss';
 import { editGame } from '../../store/actions/gameActions';
 
-const GameView = ({editGame, game: { gameModel }}) => {
+const SaveGameButton = ({editGame, game: { gameModel }}) => {
   function saveGame() {
     editGame(gameModel.id, gameModel)
   }
@@ -18,4 +18,4 @@ const mapStateToProps = (state) => ({
   game: state.game
 });
 
-export default connect(mapStateToProps, { editGame })(GameView);
+export default connect(mapStateToProps, { editGame })(SaveGameButton);

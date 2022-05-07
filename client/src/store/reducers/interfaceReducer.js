@@ -1,15 +1,18 @@
 import {
   OPEN_CONTEXT_MENU,
-  CLOSE_CONTEXT_MENU
+  CLOSE_CONTEXT_MENU,
+  OPEN_LIVE_EDITOR,
+  CLOSE_LIVE_EDITOR
 } from '../types';
 
 const initialState = {
   contextMenuX: null,
   contextMenuY: null,
   interfaceState: {
-    contextMenuObjectSelected: null,
+    objectSelected: null,
     contextMenuSelectableObjects: null,
     isContextMenuOpen: false,
+    isLiveEditorOpen: false
   }
 };
 
@@ -23,7 +26,7 @@ export default function interfaceReducer(state = initialState, { type, payload }
         interfaceState: {
           ...state.interfaceState,
           isContextMenuOpen: true,
-          contextMenuObjectSelected: payload.contextMenuObjectSelected,
+          objectSelected: payload.objectSelected,
           contextMenuSelectableObjects: payload.contextMenuSelectableObjects
         },
       };
@@ -34,9 +37,27 @@ export default function interfaceReducer(state = initialState, { type, payload }
         contextMenuY: null,
         interfaceState: {
           ...state.interfaceState,
-          contextMenuObjectSelected: null,
+          objectSelected: null,
           contextMenuSelectableObjects: null,
           isContextMenuOpen: false
+        },
+      };
+    case OPEN_LIVE_EDITOR:
+      return {
+        ...state,
+        interfaceState: {
+          ...state.interfaceState,
+          isLiveEditorOpen: true,
+          objectSelected: payload.objectSelected,
+        },
+      };
+    case CLOSE_LIVE_EDITOR:
+      return {
+        ...state,
+        interfaceState: {
+          ...state.interfaceState,
+          objectSelected: null,
+          isLiveEditorOpen: false
         },
       };
     default:
