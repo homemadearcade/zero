@@ -7,7 +7,7 @@ import { gameFormSchema } from './validation';
 
 import './styles.css';
 
-const GameForm = ({ addGame, onSubmit }) => {
+const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
     initialValues: {
       objects: [],
@@ -15,6 +15,7 @@ const GameForm = ({ addGame, onSubmit }) => {
       world: {},
       metadata: {},
       classes: {},
+      userId: me.id
     },
     validationSchema: gameFormSchema,
     onSubmit: async (values, { resetForm }) => {
@@ -66,7 +67,7 @@ const GameForm = ({ addGame, onSubmit }) => {
 };
 
 const mapStateToProps = (state) => ({
-
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { addGame })(GameForm);

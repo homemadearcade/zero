@@ -83,7 +83,7 @@ export const addLobby = (formData) => async (dispatch, getState) => {
 };
 
 
-export const editLobby = (id, formData, history) => async (dispatch, getState) => {
+export const editLobby = (id, formData) => async (dispatch, getState) => {
   dispatch({
     type: EDIT_LOBBY_LOADING,
   });
@@ -95,8 +95,6 @@ export const editLobby = (id, formData, history) => async (dispatch, getState) =
       type: EDIT_LOBBY_SUCCESS,
       payload: { lobby: response.data.lobby },
     });
-
-    history.push(`/${response.data.lobby.id}`);
   } catch (err) {
     dispatch({
       type: EDIT_LOBBY_FAIL,

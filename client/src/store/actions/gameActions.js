@@ -85,6 +85,8 @@ export const addGame = (gameData) => async (dispatch, getState) => {
       type: ADD_GAME_SUCCESS,
       payload: { game: response.data.game },
     });
+
+    return response
   } catch (err) {
     dispatch({
       type: ADD_GAME_FAIL,

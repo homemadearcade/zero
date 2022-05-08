@@ -44,6 +44,8 @@ export class PlayerObject extends CoreObject {
   }
 
   update() {  
+    super.update()
+
     if (this.cursors.left.isDown)
     {
         this.setAngularVelocity(-0.1);

@@ -32,6 +32,10 @@ router.post('/', requireJwtAuth, async (req, res) => {
   const { error } = validateGame(req.body);
   if (error) return res.status(400).json({ game: error.details[0].message });
 
+  if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+    return res.status(400).json({ game: 'Not created by the game owner or admin.' });
+  }
+
   try {
     let game = await Game.create({
       objects: req.body.objects, 
@@ -39,7 +43,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       hero: req.body.hero, 
       classes: req.body.classes,
       world: req.body.world, 
-      user: req.user.id,
+      user: req.body.userId,
     });
 
     game = await game.populate('user').execPopulate();
@@ -72,7 +76,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempGame = await Game.findById(req.params.id).populate('user');
     if (!(tempGame.user.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ game: 'Not the game owner or admin.' });
+      return res.status(400).json({ game: 'Not updated by the game owner or admin.' });
 
     let game = await Game.findByIdAndUpdate(
       req.params.id,

@@ -9,8 +9,11 @@ import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 
 import Loader from '../../Loader/Loader';
 import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
+import SelectGame from '../../SelectGame/SelectGame';
+import Button from '@mui/material/Button';
+import { addGame } from '../../../store/actions/gameActions';
 
-const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser, lobby: { lobby }, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
+const Onboarding = ({ addGame, requestFullscreen, updateLobbyCobrowsing, updateLobbyUser, lobby: { lobby }, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -122,20 +125,26 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
         requestFullscreen(document.body)
         updateLobbyCobrowsing({
           ...cobrowsingState.lobby,
-          step: 'waiting'
+          step: 'choose_game'
         })
       }}>Enter fullscreen mode</button>
       {cobrowsingUser.role === 'ADMIN' && <button onClick={() => {
         updateLobbyCobrowsing({
           ...cobrowsingState.lobby,
-          step: 'waiting'
+          step: 'choose_game'
         })
       }}>Skip</button>}
     </div>
   }
 
-  if(cobrowsingState.lobby.step === 'waiting') {
-    return <Loader text="Waiting for game to start.."/>
+  if(cobrowsingState.lobby.step === 'choose_game') {
+    if(cobrowsingUser.role === 'ADMIN') {
+      return <div>
+        Return to the lobby page - assign all roles, select game, review checklist, start game
+      </div>
+    } else {
+      return <Loader text="Waiting for game to start.."/>
+    }
   }
 };
 
@@ -145,6 +154,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
+  connect(mapStateToProps, { addGame, updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
 )(Onboarding);
 

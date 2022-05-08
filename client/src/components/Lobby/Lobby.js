@@ -3,16 +3,26 @@ import React, {} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { assignLobbyRole } from '../../store/actions/lobbyActions';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
+import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 import UserStatus from '../UserStatus/UserStatus';
 
 import './Lobby.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
+import { addGame } from '../../store/actions/gameActions';
+import SelectGame from '../SelectGame/SelectGame';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
 const LobbyPage = ({
+  addGame,
+  editLobby,
   assignLobbyRole,
   onClickUser,
   lobby: { lobby },
@@ -199,6 +209,40 @@ const LobbyPage = ({
             </div>
           </div>
         </div>
+
+        <h3>Select Game: </h3>
+        {lobby?.game?.id && <Card sx={{ maxWidth: 345 }}>
+          <CardMedia
+            component="img"
+            height="140"
+            image="/static/images/cards/contemplative-reptile.jpg"
+            alt="green iguana"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {lobby?.game?.user.username + 's game'}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+                Description of game
+            </Typography>
+          </CardContent>
+        </Card>}
+        <SelectGame onSelect={(game) => {
+          editLobby(lobby.id, {
+            game
+          })
+        }}/>
+        <Button disabled={!lobby.participantId} variant="contained" onClick={async () => {
+          const response = await addGame({
+            userId: lobby.participantId
+          })
+          editLobby(lobby.id, {
+            game: response.data.game
+          })
+        }} startIcon={<i className="fas fa-plus"/>}>
+          New Game
+        </Button>
+
         <h3>Checklist: </h3>
         <div className="Lobby__checklist">
           {checklist.map((item, i) => {
@@ -211,14 +255,15 @@ const LobbyPage = ({
             </div>
           })}
         </div>
-        <button
+        <Button
           type="button"
+          variant="contained"
           onClick={() => {}}
           disabled={!isAllRequiredPassing}
+          startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
         >
           Start game
-          {!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
-        </button>
+        </Button>
       </div>
     );
   } else {
@@ -233,5 +278,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { assignLobbyRole }),
+  connect(mapStateToProps, { editLobby, addGame, assignLobbyRole }),
 )(LobbyPage);

@@ -271,16 +271,15 @@ router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
   }
 });
 
-// router.put('/:id', requireJwtAuth, requireLobby, async (req, res) => {
-//   try {
+router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  try {
 
-//     req.lobby.participantEmail = req.body.participantEmail
-//     req.lobby.startTime = req.body.startTime
-
-//     res.status(200).json({ lobby: req.lobby });
-//   } catch (err) {
-//     res.status(500).json({ message: 'Something went wrong. ' + err });
-//   }
-// });
+    req.lobby = { ...req.lobby, ...req.body }
+    req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
+    res.status(200).json({ lobby: req.lobby });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong. ' + err });
+  }
+});
 
 export default router;

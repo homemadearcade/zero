@@ -2,7 +2,7 @@ import React, { useEffect} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import GameView from '../../game/GameView/GameView';
+import GameEditor from '../../game/GameEditor/GameEditor';
 
 import './PlayGamePage.scss';
 
@@ -25,7 +25,7 @@ const PlayGamePage = ({ getGame, clearGameModel, game: { gameModel, isGameModelL
 
   return (
     <div className="PlayGamePage">
-      <GameView 
+      <GameEditor 
         overlay={isGameModelLoading && <Loader text="Reloading Game Data..."></Loader>}
         gameModel={gameModel}
         leftColumn={<div>

@@ -33,8 +33,6 @@ const GamesPage = ({ getGames, game: { games, isLoading }}) => {
             <>
               {games.map((game, index) => {
                 const { user } = game
-
-                console.log(game.createdAt)
                 
                 return (
                   <div key={index} className="GamesPage__game">

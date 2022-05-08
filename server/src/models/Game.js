@@ -12,12 +12,17 @@ const gameSchema = new Schema(
     metadata: {
       type: Object,
       required: true,
-      default: {}
+      default: {
+        title: 'game'
+      }
     },
     hero: {
       type: Object,
       required: true,
-      default: {}
+      default: {
+        spawnX: 0,
+        spawnY: 0
+      }
     },
     world: {
       type: Object,

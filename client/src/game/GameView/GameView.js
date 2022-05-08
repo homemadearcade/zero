@@ -7,12 +7,10 @@ import { PreloaderScene } from '../scenes/PreloaderScene';
 import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
-import { addGame, updateGameModel } from '../../store/actions/gameActions';
+import { updateGameModel } from '../../store/actions/gameActions';
 import { openContextMenu, closeContextMenu } from '../../store/actions/interfaceActions';
-import ContextMenu from '../../components/ContextMenu/ContextMenu';
 
 import WaterBodyPlugin from 'phaser-plugin-water-body';
-import SaveGameButton from '../SaveGameButton/SaveGameButton';
 
 const config= {
   type: Phaser.WEBGL,
@@ -48,45 +46,34 @@ const config= {
   }
 };
 
-const GameView = ({gameModel, leftColumn, rightColumn, children, overlay, openContextMenu, closeContextMenu, updateGameModel}) => {
-  const [game, setGame] = useState()
+const GameView = ({gameModel, openContextMenu, closeContextMenu, updateGameModel}) => {
+  const [loadedGame, setLoadedGame] = useState()
 
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ gameModel, openContextMenu, closeContextMenu, updateGameModel }), true);
-    setGame(game)
+    setLoadedGame(game)
 
     return () => {
       game.destroy()
     }
   }, []);
 
-  useEffect(() => {
-    if(game) {
-      game.scene?.scenes[0]?.reloadGameModel(gameModel) 
-    }
-  }, [gameModel])
+  // useEffect(() => {
+  //   if(game) {
+  //     game.scene?.scenes[0]?.reloadGameModel(gameModel) 
+  //   }
+  // }, [game])
 
   return (
-  <div className="GameView">
-    <ContextMenu/>
-    <div className="GameView__left-column">
-      {leftColumn}
-      <SaveGameButton/>
-    </div>
-    <div className="GameView__game">
+    <div className="GameView">
       <div id="PhaserGame"/>
     </div>
-    <div className="GameView__right-column">{rightColumn}</div>
-    {children}
-    <div className="GameView__overlay">
-      {overlay}
-    </div>
-  </div>);
+    );
 };
 
 const mapStateToProps = (state) => ({
 
 });
 
-export default connect(mapStateToProps, { addGame, openContextMenu, closeContextMenu, updateGameModel })(GameView);
+export default connect(mapStateToProps, { openContextMenu, closeContextMenu, updateGameModel })(GameView);

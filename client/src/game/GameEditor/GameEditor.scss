@@ -1,0 +1,31 @@
+.GameEditor {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: calc(100vh - 4px);
+  width: calc(100vh - 4px + 40vh);
+  margin: 0 auto;
+
+  border: 1px solid white;
+
+  &__empty-game {
+    height: calc(100vh - 4px);
+    width: calc(100vh - 4px);
+  }
+
+  &__left-column {
+    width: 20vh;
+    background: red;
+  }
+
+  &__right-column {
+    width: 20vh;
+    background: red;
+  }
+
+  &__overlay {
+    position: absolute;
+    left: 20vh;
+    width: calc(100vh);
+  }
+}

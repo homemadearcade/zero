@@ -7,7 +7,6 @@ import {
   GET_LOBBY_LOADING,
   GET_LOBBY_SUCCESS,
   GET_LOBBY_FAIL,
-  EDIT_LOBBY_LOADING,
   EDIT_LOBBY_SUCCESS,
   EDIT_LOBBY_FAIL,
   // UPDATE_LOBBY_USER_LOADING,
@@ -39,7 +38,6 @@ const initialState = {
 export default function lobbyReducer(state = initialState, { type, payload }) {
   switch (type) {
     case GET_LOBBY_LOADING:
-    case EDIT_LOBBY_LOADING:
     case DELETE_LOBBY_LOADING:
       return {
         ...state,

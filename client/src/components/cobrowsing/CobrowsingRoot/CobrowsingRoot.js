@@ -6,7 +6,7 @@ import './CobrowsingRoot.scss';
 import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
-import GameView from '../../../game/GameView/GameView';
+import GameEditor from '../../../game/GameEditor/GameEditor';
 import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 import Onboarding from '../Onboarding/Onboarding';
 
@@ -28,13 +28,13 @@ const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, auth: { me }, lo
     }
   }, [])
 
-  return <GameView 
+  return <GameEditor 
     leftColumn={isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
     overlay={<Onboarding/>}
   >
-      {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
-      {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
-  </GameView>
+    {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
+    {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
+  </GameEditor>
 };
 
 const mapStateToProps = (state) => ({
