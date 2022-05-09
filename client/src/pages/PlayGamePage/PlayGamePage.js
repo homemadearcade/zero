@@ -7,12 +7,12 @@ import GameEditor from '../../game/GameEditor/GameEditor';
 import './PlayGamePage.scss';
 
 import { requestFullscreen } from '../../store/actions/browserActions';
-import { getGame, clearGameModel } from '../../store/actions/gameActions';
+import { loadGame, clearGameModel } from '../../store/actions/gameActions';
 import Loader from '../../components/Loader/Loader';
 
-const PlayGamePage = ({ getGame, clearGameModel, game: { gameModel, isGameModelLoading },  requestFullscreen, match}) => {
+const PlayGamePage = ({ loadGame, clearGameModel, game: { gameModel, isGameModelLoading },  requestFullscreen, match}) => {
   useEffect(() => {
-    getGame(match.params.id);
+    loadGame(match.params.id);
 
     return () => {
       clearGameModel()
@@ -26,6 +26,8 @@ const PlayGamePage = ({ getGame, clearGameModel, game: { gameModel, isGameModelL
   return (
     <div className="PlayGamePage">
       <GameEditor 
+        isHost
+        isNetworked={false}
         overlay={isGameModelLoading && <Loader text="Reloading Game Data..."></Loader>}
         gameModel={gameModel}
         leftColumn={<div>
@@ -44,4 +46,4 @@ const mapStateToProps = (state) => ({
   game: state.game
 });
 
-export default compose(connect(mapStateToProps, { requestFullscreen, clearGameModel, getGame }))(PlayGamePage);
+export default compose(connect(mapStateToProps, { requestFullscreen, clearGameModel, loadGame }))(PlayGamePage);

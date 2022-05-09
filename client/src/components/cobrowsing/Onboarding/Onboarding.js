@@ -137,7 +137,7 @@ const Onboarding = ({ addGame, requestFullscreen, updateLobbyCobrowsing, updateL
     </div>
   }
 
-  if(cobrowsingState.lobby.step === 'choose_game') {
+  if(cobrowsingState.lobby.step === 'choose_game' && !lobby.isGameStarted) {
     if(cobrowsingUser.role === 'ADMIN') {
       return <div>
         Return to the lobby page - assign all roles, select game, review checklist, start game

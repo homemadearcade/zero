@@ -5,9 +5,9 @@ import {
   GET_GAMES_LOADING,
   GET_GAMES_SUCCESS,
   GET_GAMES_FAIL,
-  GET_GAME_LOADING,
-  GET_GAME_SUCCESS,
-  GET_GAME_FAIL,
+  LOAD_GAME_LOADING,
+  LOAD_GAME_SUCCESS,
+  LOAD_GAME_FAIL,
   ADD_GAME_LOADING,
   ADD_GAME_SUCCESS,
   ADD_GAME_FAIL,
@@ -51,9 +51,9 @@ export const getGames = () => async (dispatch, getState) => {
   }
 };
 
-export const getGame = (gameId) => async (dispatch, getState) => {
+export const loadGame = (gameId) => async (dispatch, getState) => {
   dispatch({
-    type: GET_GAME_LOADING,
+    type: LOAD_GAME_LOADING,
   });
 
   try {
@@ -61,12 +61,12 @@ export const getGame = (gameId) => async (dispatch, getState) => {
     const response = await axios.get('/api/games/' + gameId, options);
 
     dispatch({
-      type: GET_GAME_SUCCESS,
+      type: LOAD_GAME_SUCCESS,
       payload: { game: response.data.game },
     });
   } catch (err) {
     dispatch({
-      type: GET_GAME_FAIL,
+      type: LOAD_GAME_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }

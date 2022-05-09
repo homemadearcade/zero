@@ -47,6 +47,7 @@ const darkTheme = createTheme({
 window.socket = io()
 
 window.socket.onAny((event, ...args) => {
+  console.log(event)
   if(event.indexOf('STATUS')) return 
   console.log(event, args);
 });

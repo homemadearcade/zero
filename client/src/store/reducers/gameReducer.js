@@ -2,9 +2,9 @@ import {
   GET_GAMES_LOADING,
   GET_GAMES_SUCCESS,
   GET_GAMES_FAIL,
-  GET_GAME_LOADING,
-  GET_GAME_SUCCESS,
-  GET_GAME_FAIL,
+  LOAD_GAME_LOADING,
+  LOAD_GAME_SUCCESS,
+  LOAD_GAME_FAIL,
   ADD_GAME_LOADING,
   ADD_GAME_SUCCESS,
   ADD_GAME_FAIL,
@@ -25,7 +25,7 @@ const initialState = {
 
 export default function gameReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case GET_GAME_LOADING:
+    case LOAD_GAME_LOADING:
       return {
         ...state,
         isGameModelLoading: true,
@@ -54,7 +54,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
         ...state,
         isGameModelLoading: true,
       };
-    case GET_GAME_SUCCESS:
+    case LOAD_GAME_SUCCESS:
       return {
         ...state,
         isGameModelLoading: false,
@@ -86,7 +86,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
         isGameModelLoading: false,
         error: payload.error,
       };
-    case GET_GAME_FAIL:
+    case LOAD_GAME_FAIL:
       return {
         ...state,
         isGameModelLoading: false,

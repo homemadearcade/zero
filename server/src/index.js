@@ -106,6 +106,7 @@ app.set('socketSessions', socketSessions);
 
 const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
 const ON_LOBBY_USER_STATUS_UPDATE = 'ON_LOBBY_USER_STATUS_UPDATE'
+const ON_GAME_INSTANCE_UPDATE = 'ON_GAME_INSTANCE_UPDATE'
 const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE'
 
 const lobbys = [
@@ -116,9 +117,12 @@ const lobbys = [
     users: [],
     gameHostId: null,
     participantId: null,
-    guideId: null
+    guideId: null,
+    game: null,
+    isGameStarted: false
   }
 ];
+
 app.set('lobbys', lobbys);
 
 io.on("connection", (socket) => {  
@@ -167,6 +171,11 @@ io.on("connection", (socket) => {
 
   socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
     io.to(payload.lobbyId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
+  })
+
+  socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
+    console.log(payload.lobbyId)
+    io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 
   socket.on("disconnect", async () => {

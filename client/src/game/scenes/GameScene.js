@@ -8,8 +8,33 @@ import {
 import { PlayerObject } from '../entities/PlayerObject';
 import { v4 as uuidv4 } from 'uuid';
 
+let updateInterval = 1000/24
+let startTime
+function startRemoteClientUpdateLoop(scene) {
+  startTime = Date.now();
+
+  setInterval(() => {
+    const objects = scene.objects.map(({id, x, y, rotation}) => {
+      return {
+        id,
+        x,
+        y,
+        rotation
+      }
+    })
+  
+    const player = {
+      x: scene.player.x,
+      y: scene.player.y,
+      rotation: scene.player.rotation
+    }
+    
+    window.socket.emit('ON_GAME_INSTANCE_UPDATE', { lobbyId: scene.lobbyId, objects, player})
+  }, updateInterval)
+}
+
 export class GameScene extends Phaser.Scene {
-  constructor({gameModel, closeContextMenu, openContextMenu, updateGameModel}) {
+  constructor({lobbyId, isHost, isNetworked, gameModel, closeContextMenu, openContextMenu, updateGameModel}) {
     super({
       key: GAME_SCENE,
     });
@@ -18,6 +43,9 @@ export class GameScene extends Phaser.Scene {
     this.closeContextMenu = closeContextMenu
     this.openContextMenu = openContextMenu
     this.updateGameModel = updateGameModel
+    this.isHost = isHost
+    this.lobbyId = lobbyId
+    this.isNetworked = isNetworked
   }
 
   getGameModelObjectById(id) {
@@ -128,6 +156,30 @@ export class GameScene extends Phaser.Scene {
       gameModelObject.spawnY = gameObject.y;
       this.updateGameModel(this.gameModel)
     });
+
+    if(!this.isHost) {
+      this.matter.pause()
+      if(this.isNetworked) {
+        window.socket.on('ON_GAME_INSTANCE_UPDATE', ({objects, player}) => {
+          objects.forEach(({x, y, id, rotation}) => {
+            const gameInstanceObject = this.getPhaserGameObjectById(id)
+            gameInstanceObject.x = x;
+            gameInstanceObject.y = y;
+            gameInstanceObject.rotation = rotation;
+          })
+
+          this.player.x = player.x 
+          this.player.y = player.y
+          this.player.rotation = player.rotation
+        })
+      }
+    }
+
+    if(this.isHost && this.isNetworked) {
+      startRemoteClientUpdateLoop(this)
+    }
+
+    //game.loop.actualFps
   }
 
   respawn() {

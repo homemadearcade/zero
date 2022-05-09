@@ -1,13 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {} from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 import UserStatus from '../UserStatus/UserStatus';
@@ -15,20 +11,29 @@ import UserStatus from '../UserStatus/UserStatus';
 import './Lobby.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
-import { addGame } from '../../store/actions/gameActions';
+import { addGame, loadGame } from '../../store/actions/gameActions';
 import SelectGame from '../SelectGame/SelectGame';
+import GameCard from '../GameCard/GameCard';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
 const LobbyPage = ({
   addGame,
   editLobby,
+  loadGame,
   assignLobbyRole,
   onClickUser,
   lobby: { lobby },
   auth: { me },
   status: { lobbyUserStatus }
 }) => {
+  useEffect(() => {
+    if(lobby.isGameStarted && lobby.game?.id) {
+      loadGame(lobby.game.id)
+    }
+  }, [lobby.isGameStarted])
+
+
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -145,6 +150,12 @@ const LobbyPage = ({
     return (
       <div className="Lobby">
         <h1>{"You are in Lobby: " + lobby.id}</h1>
+
+        {lobby.isGameStarted && <>
+          <h2>Game Started!</h2>
+          <GameCard game={lobby.game}/>
+        </>}
+
         <h3>In Room: </h3>
         {lobby.users.map((user) => {
           return <UserStatus key={user.id} onClick={onClickUser} userId={user.id}/>
@@ -154,7 +165,7 @@ const LobbyPage = ({
           <div className="Lobby__role">
             <strong>Game Host</strong><br/>
             {lobby.gameHostId && <UserStatus userId={usersById[lobby.gameHostId]?.id}/>}
-            <div className="Lobby__role-assign">
+            {!lobby.isGameStarted && <div className="Lobby__role-assign">
               Assign:
               <select onChange={(e) => {
                 assignLobbyRole(lobby.id, {
@@ -168,12 +179,12 @@ const LobbyPage = ({
                   return <option key={user.id} value={user.id}>{user.username}</option>
                 })}
               </select>
-            </div>
+            </div>}
           </div>
           <div className="Lobby__role">
             <strong>Participant</strong><br/>
             {lobby.participantId && <UserStatus userId={usersById[lobby.participantId]?.id}/>}
-            <div className="Lobby__role-assign">
+            {!lobby.isGameStarted && <div className="Lobby__role-assign">
               Assign:
               <select onChange={(e) => {
                 assignLobbyRole(lobby.id, {
@@ -187,12 +198,12 @@ const LobbyPage = ({
                   return <option key={user.id} value={user.id}>{user.username}</option>
                 })}
               </select>
-            </div>
+            </div>}
           </div>
           <div className="Lobby__role">
             <strong>Guide</strong><br/>
             {lobby.guideId && <UserStatus userId={usersById[lobby.guideId]?.id}/>}
-            <div className="Lobby__role-assign">
+            {!lobby.isGameStarted && <div className="Lobby__role-assign">
             Assign:
               <select onChange={(e) => {
                 assignLobbyRole(lobby.id, {
@@ -206,42 +217,29 @@ const LobbyPage = ({
                   return <option key={user.id} value={user.id}>{user.username}</option>
                 })}
               </select>
-            </div>
+            </div>}
           </div>
         </div>
 
-        <h3>Select Game: </h3>
-        {lobby?.game?.id && <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            component="img"
-            height="140"
-            image="/static/images/cards/contemplative-reptile.jpg"
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {lobby?.game?.user.username + 's game'}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                Description of game
-            </Typography>
-          </CardContent>
-        </Card>}
-        <SelectGame onSelect={(game) => {
-          editLobby(lobby.id, {
-            game
-          })
-        }}/>
-        <Button disabled={!lobby.participantId} variant="contained" onClick={async () => {
-          const response = await addGame({
-            userId: lobby.participantId
-          })
-          editLobby(lobby.id, {
-            game: response.data.game
-          })
-        }} startIcon={<i className="fas fa-plus"/>}>
-          New Game
-        </Button>
+        {!lobby.isGameStarted && <>
+          <h3>Select Game: </h3>
+          {lobby?.game?.id && <GameCard game={lobby.game}/>}
+          <SelectGame onSelect={(game) => {
+            editLobby(lobby.id, {
+              game
+            })
+          }}/>
+          <Button disabled={!lobby.participantId} variant="contained" onClick={async () => {
+            const response = await addGame({
+              userId: lobby.participantId
+            })
+            editLobby(lobby.id, {
+              game: response.data.game
+            })
+          }} startIcon={<i className="fas fa-plus"/>}>
+            New Game
+          </Button>
+        </>}
 
         <h3>Checklist: </h3>
         <div className="Lobby__checklist">
@@ -255,15 +253,19 @@ const LobbyPage = ({
             </div>
           })}
         </div>
-        <Button
+        {!lobby.isGameStarted && <Button
           type="button"
           variant="contained"
-          onClick={() => {}}
+          onClick={() => {
+            editLobby(lobby.id, {
+              isGameStarted: true
+            })
+          }}
           disabled={!isAllRequiredPassing}
           startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
         >
           Start game
-        </Button>
+        </Button>}
       </div>
     );
   } else {
@@ -278,5 +280,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby, addGame, assignLobbyRole }),
+  connect(mapStateToProps, { editLobby, loadGame, addGame, assignLobbyRole }),
 )(LobbyPage);

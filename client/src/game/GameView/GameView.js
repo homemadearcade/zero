@@ -46,12 +46,12 @@ const config= {
   }
 };
 
-const GameView = ({gameModel, openContextMenu, closeContextMenu, updateGameModel}) => {
+const GameView = ({gameModel, lobbyId, isHost, isNetworked, openContextMenu, closeContextMenu, updateGameModel}) => {
   const [loadedGame, setLoadedGame] = useState()
 
   useEffect(() => {
     const game = new Phaser.Game(config);
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ gameModel, openContextMenu, closeContextMenu, updateGameModel }), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ lobbyId, isHost, isNetworked, gameModel, openContextMenu, closeContextMenu, updateGameModel }), true);
     setLoadedGame(game)
 
     return () => {

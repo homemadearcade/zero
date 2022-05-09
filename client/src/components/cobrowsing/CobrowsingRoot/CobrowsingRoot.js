@@ -10,7 +10,7 @@ import GameEditor from '../../../game/GameEditor/GameEditor';
 import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 import Onboarding from '../Onboarding/Onboarding';
 
-const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser }, video: { isConnected }, myTracks, userTracks}) => {  
+const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser }, video: { isConnected }, myTracks, userTracks}) => {  
   const isSubscribed = cobrowsingUser.id !== me.id;
   
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,6 +29,10 @@ const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, auth: { me }, lo
   }, [])
 
   return <GameEditor 
+    isHost={lobby.gameHostId === me.id}
+    isNetworked
+    lobbyId={lobby.id}
+    gameModel={gameModel}
     leftColumn={isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
     overlay={<Onboarding/>}
   >
@@ -41,6 +45,7 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
   auth: state.auth,
   video: state.video,
+  game: state.game,
   cobrowsing: state.cobrowsing
 });
 

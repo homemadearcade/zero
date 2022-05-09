@@ -132,6 +132,11 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     return res.status(400).json({ message: 'You do not have privileges to assign that role.' });
   }
 
+
+  if(req.lobby.isGameStarted) {
+    return res.status(400).json({ message: 'You cannot assign a role when the lobby game is started' });
+  }
+
   if(req.body.role === 'gameHost') {
     if(req.body.userId === 'unassigned') {
       req.lobby.gameHostId = null
@@ -274,7 +279,15 @@ router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
 router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
 
-    req.lobby = { ...req.lobby, ...req.body }
+    if(req.lobby.isGameStarted) {
+      return res.status(400).json({ message: 'You cannot edit a lobby when game is started' });
+    }
+
+    if(req.body.isGameStarted && req.user.role !== 'ADMIN') {
+      return res.status(400).json({ message: 'You do not have privelages to start a game.' });
+    }
+
+    Object.assign(req.lobby,req.body)
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {

@@ -8,7 +8,7 @@ import ContextMenu from '../../components/ContextMenu/ContextMenu';
 import SaveGameButton from '../SaveGameButton/SaveGameButton';
 import GameView from '../GameView/GameView';
 
-const GameEditor = ({gameModel, leftColumn, rightColumn, children, overlay}) => {
+const GameEditor = ({lobbyId, gameModel, isHost, isNetworked, leftColumn, rightColumn, children, overlay}) => {
   return (
     <div className="GameEditor">
       <ContextMenu/>
@@ -16,7 +16,7 @@ const GameEditor = ({gameModel, leftColumn, rightColumn, children, overlay}) => 
         {leftColumn}
         <SaveGameButton/>
       </div>
-      {gameModel && <GameView gameModel={gameModel}/>}
+      {gameModel && <GameView lobbyId={lobbyId} isHost={isHost} isNetworked={isNetworked} gameModel={gameModel}/>}
       {!gameModel && <div className="GameEditor__empty-game"></div>}
       <div className="GameEditor__right-column">{rightColumn}</div>
       {children}
