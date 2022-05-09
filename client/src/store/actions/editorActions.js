@@ -10,16 +10,12 @@ export const openContextMenu = (gameObjects, pointer) => (dispatch, getState) =>
     type: OPEN_CONTEXT_MENU,
     payload: {
       objectSelectedId: gameObjects[0].id, 
-      // objectSelected: gameObjects.length === 1 ? gameObjects[0] : null, 
+      // objectSelectedId: gameObjects.length === 1 ? gameObjects[0].id : null, 
       selectableObjectIds: gameObjects.length > 1 ? gameObjects.map(({id}) => id) : null, 
       contextMenuX: pointer.event.pageX,
       contextMenuY: pointer.event.pageY
     }
   });
-
-  document.body.addEventListener('click', () => {
-    dispatch(closeContextMenu())
-  })
 }
 
 export const closeContextMenu = () => (dispatch, getState) => {
@@ -35,10 +31,6 @@ export const openLiveEditor = (gameObjectId, pointer) => (dispatch, getState) =>
       objectSelectedId: gameObjectId, 
     }
   });
-
-  document.body.addEventListener('click', () => {
-    dispatch(closeContextMenu())
-  })
 }
 
 export const closeLiveEditor = () => (dispatch, getState) => {

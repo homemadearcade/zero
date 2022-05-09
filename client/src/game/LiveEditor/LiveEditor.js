@@ -1,35 +1,65 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-
 import { editGameModel } from '../../store/actions/gameActions';
+import { closeLiveEditor } from '../../store/actions/editorActions';
 
-const LiveEditor = ({ editor: { editorState: { objectSelectedId } }}) => {
-  const [alignment, setAlignment] = React.useState('normal');
+import './LiveEditor.scss'
+import ButtonGroup from '../ButtonGroup/ButtonGroup';
 
-  const handleChange = (
-    event,
-    newAlignment,
-  ) => {
-
-    setAlignment(newAlignment);
-  };
-
+const LiveEditor = ({ closeLiveEditor, editor: { editorState: { objectSelectedId } }}) => {
   return (
-    <ToggleButtonGroup
-      color="primary"
-      value={alignment}
-      exclusive
-      onChange={handleChange}
-    >
-      <ToggleButton value="laggard">Snail</ToggleButton>
-      <ToggleButton value="slow">Slow</ToggleButton>
-      <ToggleButton value="normal">Normal</ToggleButton>
-      <ToggleButton value="fast">Fast</ToggleButton>
-      <ToggleButton value="cheetah">Cheetah</ToggleButton>
-    </ToggleButtonGroup>
+    <div className="LiveEditor">
+      <button className="LiveEditor__close" onClick={closeLiveEditor}><i className="fas fa-close"/></button>
+      <ButtonGroup
+        title="Speed"
+        options={['snail', 'slow', 'normal', 'fast', 'cheetah']}
+        onSelectOption={() => {
+
+        }}
+        initialOption="normal"
+      />
+      <ButtonGroup
+        title="Mass"
+        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
+        onSelectOption={() => {
+
+        }}
+        initialOption="normal"
+      />
+      <ButtonGroup
+        title="Bounce"
+        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
+        onSelectOption={() => {
+
+        }}
+        initialOption="normal"
+      />
+      <ButtonGroup
+        title="Friction"
+        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
+        onSelectOption={() => {
+
+        }}
+        initialOption="normal"
+      />
+      <ButtonGroup
+        title="Friction (Air)"
+        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
+        onSelectOption={() => {
+
+        }}
+        initialOption="normal"
+      />
+      <ButtonGroup
+        title="Density"
+        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
+        onSelectOption={() => {
+
+        }}
+        initialOption="normal"
+      />
+    </div>
   );
 };
 
@@ -37,4 +67,4 @@ const mapStateToProps = (state) => ({
   editor: state.editor
 });
 
-export default connect(mapStateToProps, { editGameModel  })(LiveEditor);
+export default connect(mapStateToProps, { editGameModel, closeLiveEditor })(LiveEditor);

@@ -8,7 +8,7 @@ import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
 import { editGameModel } from '../../store/actions/gameActions';
-import { openContextMenu, closeContextMenu } from '../../store/actions/interfaceActions';
+import { openContextMenu, closeContextMenu } from '../../store/actions/editorActions';
 
 import WaterBodyPlugin from 'phaser-plugin-water-body';
 

@@ -7,8 +7,10 @@ import ContextMenu from '../../components/ContextMenu/ContextMenu';
 
 import SaveGameButton from '../SaveGameButton/SaveGameButton';
 import GameView from '../GameView/GameView';
+import LiveEditor from '../LiveEditor/LiveEditor';
 
-const GameEditor = ({lobbyId, gameModel, isHost, isNetworked, leftColumn, rightColumn, children, overlay}) => {
+const GameEditor = ({lobbyId, gameModel, editor: { editorState: { isLiveEditorOpen } }, isHost, isNetworked, leftColumn, rightColumn, children, overlay}) => {
+
   return (
     <div className="GameEditor">
       <ContextMenu/>
@@ -22,13 +24,14 @@ const GameEditor = ({lobbyId, gameModel, isHost, isNetworked, leftColumn, rightC
       {children}
       <div className="GameEditor__overlay">
         {overlay}
+        {isLiveEditorOpen && <LiveEditor/>}
       </div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-
+  editor: state.editor
 });
 
 export default connect(mapStateToProps, {  })(GameEditor);

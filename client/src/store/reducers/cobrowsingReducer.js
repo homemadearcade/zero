@@ -23,6 +23,12 @@ const initialState = {
     video: {
       isStarting: false,
       error: null,
+    },
+    editor: {
+      objectSelectedId: null,
+      selectableObjectIds: null,
+      isContextMenuOpen: false,
+      isLiveEditorOpen: false
     }
   },
 };

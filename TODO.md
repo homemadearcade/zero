@@ -4,8 +4,6 @@ TODO
 
 Cobrowsing Click event
 
-Basic phaser stuff
-
 Popup for connection errors
 
 Better error handling in cobrowsing
@@ -14,23 +12,18 @@ Unauthenticate socket when logging out
 
 Perhaps use something called withLobby so that I can have different url states during onboard and for the game. And you can use back button to go to the lobby 
 
+also with AgoraVideo?
+
+put all errors into a popup where I can clear them and return to the view
+
 
 ---
 
 #THOUGHTS
 
-Where is video? More thought needs to happen
-
-
 How does the game update? Is it FLUX? one way updates?
 
 Whats the different between the game model and the game instance? How do those play out?
-
-How does a user join a game?
-
-How are inputs handled for a game?
-
-How is the game view brought up from the lobby? is it still in the lobby?
 
 ---
 
@@ -38,8 +31,7 @@ How is the game view brought up from the lobby? is it still in the lobby?
 
 Mobile
 Blockchain NFT editing thing
-Post-Session Editor
-
+At home Editor
 --
 
 Game Instance
@@ -47,6 +39,8 @@ Game Model
 UI State
 
 --
+
+https://github.com/saintedlama/mongoose-version#:~:text=Mongoose%20Version%20is%20a%20mongoose,and%20kept%20for%20later%20use.
 
 XX https://16patsle.github.io/phaser3-weapon-plugin/
 
