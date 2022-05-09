@@ -8,26 +8,26 @@ import {
 const initialState = {
   contextMenuX: null,
   contextMenuY: null,
-  interfaceState: {
-    objectSelected: null,
-    contextMenuSelectableObjects: null,
+  editorState: {
+    objectSelectedId: null,
+    selectableObjectIds: null,
     isContextMenuOpen: false,
     isLiveEditorOpen: false
   }
 };
 
-export default function interfaceReducer(state = initialState, { type, payload }) {
+export default function editorReducer(state = initialState, { type, payload }) {
   switch (type) {
     case OPEN_CONTEXT_MENU:
       return {
         ...state,
         contextMenuX: payload.contextMenuX,
         contextMenuY: payload.contextMenuY,
-        interfaceState: {
-          ...state.interfaceState,
+        editorState: {
+          ...state.editorState,
           isContextMenuOpen: true,
-          objectSelected: payload.objectSelected,
-          contextMenuSelectableObjects: payload.contextMenuSelectableObjects
+          objectSelectedId: payload.objectSelectedId,
+          selectableObjectIds: payload.selectableObjectIds
         },
       };
     case CLOSE_CONTEXT_MENU:
@@ -35,28 +35,28 @@ export default function interfaceReducer(state = initialState, { type, payload }
         ...state,
         contextMenuX: null,
         contextMenuY: null,
-        interfaceState: {
-          ...state.interfaceState,
-          objectSelected: null,
-          contextMenuSelectableObjects: null,
+        editorState: {
+          ...state.editorState,
+          objectSelectedId: null,
+          selectableObjectIds: null,
           isContextMenuOpen: false
         },
       };
     case OPEN_LIVE_EDITOR:
       return {
         ...state,
-        interfaceState: {
-          ...state.interfaceState,
+        editorState: {
+          ...state.editorState,
           isLiveEditorOpen: true,
-          objectSelected: payload.objectSelected,
+          objectSelectedId: payload.objectSelectedId,
         },
       };
     case CLOSE_LIVE_EDITOR:
       return {
         ...state,
-        interfaceState: {
-          ...state.interfaceState,
-          objectSelected: null,
+        editorState: {
+          ...state.editorState,
+          objectSelectedId: null,
           isLiveEditorOpen: false
         },
       };

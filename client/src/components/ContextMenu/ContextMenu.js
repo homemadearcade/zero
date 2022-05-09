@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { closeContextMenu } from '../../store/actions/interfaceActions';
+import { closeContextMenu } from '../../store/actions/editorActions';
 
 import './ContextMenu.scss';
 
 import Menu from '@mui/material/Menu';
 import CoreObjectContextMenu from '../../game/CoreObjectContextMenu/CoreObjectContextMenu';
 
-const ContextMenu = ({ closeContextMenu, interface: { contextMenuX, contextMenuY, interfaceState: { isContextMenuOpen } }}) => {  
+const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen } }}) => {  
   function handleClose() {
     closeContextMenu()
   }
@@ -30,7 +30,7 @@ const ContextMenu = ({ closeContextMenu, interface: { contextMenuX, contextMenuY
 }
 
 const mapStateToProps = (state) => ({
-  interface: state.interface
+  editor: state.editor
 });
 
 export default connect(mapStateToProps, { closeContextMenu })(ContextMenu);

@@ -34,7 +34,7 @@ const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameMode
     lobbyId={lobby.id}
     gameModel={gameModel}
     leftColumn={isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
-    overlay={<Onboarding/>}
+    overlay={!lobby.isGameStarted && <Onboarding/>}
   >
     {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
     {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}

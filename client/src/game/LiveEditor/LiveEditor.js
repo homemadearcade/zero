@@ -4,13 +4,16 @@ import { connect } from 'react-redux';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-const LiveEditor = ({ onMenuItemClick, interface: { interfaceState: { contextMenuObjectSelected } }}) => {
-  const [alignment, setAlignment] = React.useState('web');
+import { editGameModel } from '../../store/actions/gameActions';
+
+const LiveEditor = ({ editor: { editorState: { objectSelectedId } }}) => {
+  const [alignment, setAlignment] = React.useState('normal');
 
   const handleChange = (
     event,
     newAlignment,
   ) => {
+
     setAlignment(newAlignment);
   };
 
@@ -21,15 +24,17 @@ const LiveEditor = ({ onMenuItemClick, interface: { interfaceState: { contextMen
       exclusive
       onChange={handleChange}
     >
-      <ToggleButton value="web">Web</ToggleButton>
-      <ToggleButton value="android">Android</ToggleButton>
-      <ToggleButton value="ios">iOS</ToggleButton>
+      <ToggleButton value="laggard">Snail</ToggleButton>
+      <ToggleButton value="slow">Slow</ToggleButton>
+      <ToggleButton value="normal">Normal</ToggleButton>
+      <ToggleButton value="fast">Fast</ToggleButton>
+      <ToggleButton value="cheetah">Cheetah</ToggleButton>
     </ToggleButtonGroup>
   );
 };
 
 const mapStateToProps = (state) => ({
-  interface: state.interface
+  editor: state.editor
 });
 
-export default connect(mapStateToProps, { })(LiveEditor);
+export default connect(mapStateToProps, { editGameModel  })(LiveEditor);

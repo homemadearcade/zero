@@ -1,6 +1,9 @@
 import Phaser from 'phaser';
 
-import { GameScene } from './GameScene';
+import { GameClientScene } from './GameClientScene';
+import { GameHostScene } from './GameHostScene';
+import { GameLocalScene } from './GameLocalScene';
+
 import {
   PRELOADER_SCENE,
   GAME_SCENE,
@@ -14,6 +17,9 @@ export class PreloaderScene extends Phaser.Scene {
     });
 
     this.props = props
+
+    this.isHost = props.isHost 
+    this.isNetworked = props.isNetworked
   }
 
   createLoaderGraphic = () => {
@@ -74,8 +80,20 @@ export class PreloaderScene extends Phaser.Scene {
   };
 
   playGame = () => {
+    let gameScene;
+
+    if(this.isNetworked) {
+      if(this.isHost) {
+        gameScene = new GameHostScene(this.props)
+      } else {
+        gameScene = new GameClientScene(this.props)
+      }
+    } else {
+      gameScene = new GameLocalScene(this.props)
+    }
+
     this.game.scene.add(GAME_SCENE, 
-      new GameScene(this.props)
+      gameScene
     , true);
     this.game.scene.remove(PRELOADER_SCENE);
     this.destroy();

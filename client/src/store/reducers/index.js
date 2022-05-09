@@ -11,7 +11,7 @@ import lobbyReducer from './lobbyReducer';
 import statusReducer from './statusReducer';
 import videoReducer from './videoReducer';
 import gameReducer from './gameReducer';
-import interfaceReducer from './interfaceReducer';
+import editorReducer from './editorReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -25,5 +25,5 @@ export default combineReducers({
   status: statusReducer,
   video: videoReducer,
   game: gameReducer,
-  interface: interfaceReducer
+  editor: editorReducer
 });

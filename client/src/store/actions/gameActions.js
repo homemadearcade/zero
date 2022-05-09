@@ -19,12 +19,12 @@ import {
   EDIT_GAME_FAIL,
   CLEAR_GAME_ERROR,
   CLEAR_GAME_MODEL,
-  UPDATE_GAME_MODEL
+  EDIT_GAME_MODEL
 } from '../types';
 
-export const updateGameModel  = (gameModel) => async (dispatch, getState) => {
+export const editGameModel  = (gameModel) => async (dispatch, getState) => {
   dispatch({
-    type: UPDATE_GAME_MODEL,
+    type: EDIT_GAME_MODEL,
     payload: {
       gameModel
     }

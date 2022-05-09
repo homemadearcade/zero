@@ -47,8 +47,7 @@ const darkTheme = createTheme({
 window.socket = io()
 
 window.socket.onAny((event, ...args) => {
-  console.log(event)
-  if(event.indexOf('STATUS')) return 
+  if(event.indexOf('STATUS') || event.indexOf('ON_GAME_INSTANCE_UPDATE') >= 0) return 
   console.log(event, args);
 });
 
