@@ -16,6 +16,8 @@ export const getUsers = () => async (dispatch, getState) => {
       payload: { users: response.data.users },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: GET_USERS_FAIL,
       payload: err.message,

@@ -9,6 +9,7 @@ const initialState = {
   contextMenuX: null,
   contextMenuY: null,
   editorState: {
+    error: null,
     objectSelectedId: null,
     selectableObjectIds: null,
     isContextMenuOpen: false,

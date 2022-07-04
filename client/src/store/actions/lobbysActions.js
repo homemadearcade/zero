@@ -20,6 +20,8 @@ export const getLobbys = () => async (dispatch, getState) => {
       payload: { lobbys: response.data.lobbys },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: GET_LOBBYS_FAIL,
       payload: err.message,

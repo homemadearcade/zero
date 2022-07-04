@@ -67,14 +67,6 @@ const Onboarding = ({ addGame, requestFullscreen, updateLobbyCobrowsing, updateL
     return <Loader text="Waiting for the other user to join..."/>
   }
 
-  if(cobrowsingState.video.error) {
-    return <h1>{cobrowsingState.video.error.toString()}</h1>
-  }
-
-  if(cobrowsingState.lobby.error) {
-    return <h1>{cobrowsingState.lobby.error}</h1>
-  }
-
   if(cobrowsingState.lobby.isTestingSpeed) {
     return <Loader text="Testing your internet upload and download speed.."/>
   }

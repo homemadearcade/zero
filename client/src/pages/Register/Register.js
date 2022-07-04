@@ -14,7 +14,7 @@ import { getUrlParameter } from '../../utils/utils';
 
 import './styles.css';
 
-const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail }) => {
+const Register = ({ auth, register: { isLoading }, history, registerUserWithEmail }) => {
   const participantEmail = getUrlParameter('participantEmail')
 
   const formik = useFormik({
@@ -85,7 +85,6 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
               <p className="error">{formik.errors.password}</p>
             ) : null}
           </div>
-          {error && <p className="error">{error}</p>}
           <div>
             <button className="btn submit" type="submit" disabled={isLoading || !formik.isValid}>
               Sign up now

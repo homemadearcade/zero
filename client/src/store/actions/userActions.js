@@ -31,6 +31,8 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
     if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
     history.push(`/${response.data.user.username}`);
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: EDIT_USER_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -51,6 +53,8 @@ export const getUserByUsername = (username, history) => async (dispatch, getStat
       payload: { user: response.data.user },
     });
   } catch (err) {
+    console.error(err)
+
     if (err?.response.status === 404) {
       history.push('/notfound');
     }
@@ -74,6 +78,8 @@ export const getUserByEmail = (email) => async (dispatch, getState) => {
       payload: { user: response.data.user },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: GET_USER_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -100,6 +106,8 @@ export const deleteUser = (id, history) => async (dispatch, getState) => {
       payload: { message: response.data.user },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: DELETE_USER_FAIL,
       payload: { error: err?.response?.data.message || err.message },

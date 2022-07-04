@@ -83,18 +83,6 @@ const LobbyPage = ({
       return <h1>Please use a Chromium browser such as Chrome or Brave to participate in the Homemade Arcade experience</h1>
     }
 
-    if(error) {
-      return <h1>{error}</h1>
-    }
-  
-    if(joinError) {
-      return <h1>{joinError}</h1>
-    }
-  
-    if(cobrowsingError) {
-      return <h1>{cobrowsingError}</h1>
-    }
-
     if(isLoading) {
       return <Loader text="Loading Lobby..."/>
     }

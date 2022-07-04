@@ -18,7 +18,7 @@ import './styles.scss';
 
 const User = ({
   getUserByUsername,
-  user: { user, isLoading, error },
+  user: { user, isLoading },
   auth: { me },
   editUser,
   deleteUser,
@@ -142,8 +142,6 @@ const User = ({
             </div>
           </div>
         )}
-
-        {error && <p className="error">{error}</p>}
 
         {isEdit && (
           <div className="form">

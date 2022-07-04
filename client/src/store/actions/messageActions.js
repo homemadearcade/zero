@@ -30,6 +30,8 @@ export const getMessages = () => async (dispatch, getState) => {
       payload: { messages: response.data.messages },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: GET_MESSAGES_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -51,6 +53,8 @@ export const addMessage = (formData) => async (dispatch, getState) => {
       payload: { message: response.data.message },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: ADD_MESSAGE_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -72,6 +76,8 @@ export const deleteMessage = (id) => async (dispatch, getState) => {
       payload: { message: response.data.message },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: DELETE_MESSAGE_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -93,6 +99,8 @@ export const editMessage = (id, formData) => async (dispatch, getState) => {
       payload: { message: response.data.message },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: EDIT_MESSAGE_FAIL,
       payload: { error: err?.response?.data.message || err.message, id },

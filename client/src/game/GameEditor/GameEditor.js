@@ -28,6 +28,7 @@ const GameEditor = ({lobbyId, gameModel, editor: { editorState: { isLiveEditorOp
       </div>
     </div>
   );
+  
 };
 
 const mapStateToProps = (state) => ({

@@ -106,6 +106,8 @@ export const leaveAgoraVideoCall = () => (dispatch) => {
       payload:{}
     });
   } catch(error) {
+    console.error(error)
+
     dispatch({
       type: LEAVE_VIDEO_CALL_FAIL,
       payload: { error }
@@ -187,6 +189,8 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
   
         onStartAgoraVideoCallSuccess()
       } catch(err) {
+        console.error(err)
+
         onStartAgoraVideoCallFail(err)
       }
    

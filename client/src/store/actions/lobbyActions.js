@@ -53,6 +53,8 @@ export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState)
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: ASSIGN_LOBBY_ROLE_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -75,6 +77,8 @@ export const addLobby = (formData) => async (dispatch, getState) => {
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: ADD_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -96,6 +100,8 @@ export const editLobby = (id, formData) => async (dispatch, getState) => {
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: EDIT_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -116,6 +122,8 @@ export const updateLobbyUser = ({userId, lobbyId, user}) => async (dispatch, get
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: UPDATE_LOBBY_USER_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -137,6 +145,8 @@ export const getLobbyById = (id, history) => async (dispatch, getState) => {
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     if (err?.response.status === 404) {
       history.push('/notfound');
     }
@@ -160,6 +170,8 @@ export const getLobbyByEmail = (email) => async (dispatch, getState) => {
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: GET_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -181,6 +193,8 @@ export const deleteLobby = (id) => async (dispatch, getState) => {
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: DELETE_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -242,6 +256,8 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: JOIN_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -271,6 +287,8 @@ export const leaveLobby = ({ lobbyId, userId }, history) => async (dispatch, get
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: LEAVE_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },

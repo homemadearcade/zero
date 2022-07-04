@@ -24,10 +24,6 @@ import './events.js'
 
 import Loader from './components/Loader/Loader';
 
-
-// import AgoraVideoCall from './components/AgoraVideoCall/AgoraVideoCall';
-// import VideoLayoutHA from './components/VideoLayoutHA/VideoLayoutHA';
-
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
 import '@fortawesome/fontawesome-free/js/all.js';
@@ -35,13 +31,13 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import io from 'socket.io-client'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
-
 
 // window.socket = io(window.location.host, { autoConnect: false })
 window.socket = io()
@@ -75,6 +71,8 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <>
+        <ErrorHandler/>
         {!auth.appLoaded && <Loader text="App Loading..."/>}
         {auth.appLoaded && <Router>
           <Switch>
@@ -93,7 +91,8 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
             <Route exact path="/" component={Home} />
             <Route component={NotFound} />
           </Switch>
-      </Router>}
+        </Router>}
+      </>
     </ThemeProvider>
   );
 };

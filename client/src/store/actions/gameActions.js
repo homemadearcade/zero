@@ -44,6 +44,8 @@ export const getGames = () => async (dispatch, getState) => {
       payload: { games: response.data.games },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: GET_GAMES_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -65,6 +67,8 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
       payload: { game: response.data.game },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: LOAD_GAME_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -88,6 +92,8 @@ export const addGame = (gameData) => async (dispatch, getState) => {
 
     return response
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: ADD_GAME_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -109,6 +115,8 @@ export const addGame = (gameData) => async (dispatch, getState) => {
 //       payload: { game: response.data.game },
 //     });
 //   } catch (err) {
+ //    console.error(err)
+
 //     dispatch({
 //       type: DELETE_GAME_FAIL,
 //       payload: { error: err?.response?.data.message || err.message },
@@ -130,6 +138,8 @@ export const editGame = (id, gameData) => async (dispatch, getState) => {
       payload: { game: response.data.game },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: EDIT_GAME_FAIL,
       payload: { error: err?.response?.data.message || err.message, id },

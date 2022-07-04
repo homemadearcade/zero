@@ -67,6 +67,7 @@ export const loadMe = () => async (dispatch, getState) => {
       payload: { me: response.data.me },
     });
   } catch (err) {
+    console.error(err)
     dispatch({
       type: ME_FAIL,
       payload: { error: err.response.data.message },
@@ -86,7 +87,8 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
 
     dispatch(loadMe());
     // history.push('/');
-  } catch (err) {    
+  } catch (err) {   
+    console.error(err) 
     dispatch({
       type: LOGIN_WITH_EMAIL_FAIL,
       payload: { error: err.response.data.message },
@@ -110,6 +112,8 @@ export const logInUserWithOauth = (token) => async (dispatch, getState) => {
       payload: { me: response.data.me, token },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: LOGIN_WITH_OAUTH_FAIL,
       payload: { error: err.response.data.message },
@@ -128,7 +132,10 @@ export const logOutUser = (history) => async (dispatch) => {
       type: LOGOUT_SUCCESS,
     });
     if (history) history.push('/');
-  } catch (err) {}
+  } catch (err) {
+    console.error(err)
+
+  }
 };
 
 export const reseedDatabase = () => async (dispatch, getState) => {
@@ -144,6 +151,8 @@ export const reseedDatabase = () => async (dispatch, getState) => {
     dispatch(logOutUser());
     dispatch(getMessages());
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: RESEED_DATABASE_FAIL,
       payload: { error: err?.response?.data.message || err.message },

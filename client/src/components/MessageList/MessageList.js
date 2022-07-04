@@ -7,7 +7,7 @@ import Loader from '../Loader/Loader';
 import { getMessages } from '../../store/actions/messageActions';
 import './styles.css';
 
-const MessageList = ({ getMessages, message: { messages, isLoading, error } }) => {
+const MessageList = ({ getMessages, message: { messages, isLoading } }) => {
   useEffect(() => {
     getMessages();
   }, []);
@@ -15,7 +15,6 @@ const MessageList = ({ getMessages, message: { messages, isLoading, error } }) =
   return (
     <div className="message-list">
       <h2>Messages:</h2>
-      {error && <div className="error-center">{error}</div>}
       <div className="list">
         {isLoading ? (
           <Loader text="Loading Messages..." />

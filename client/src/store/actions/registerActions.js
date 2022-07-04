@@ -15,6 +15,8 @@ export const registerUserWithEmail = (formData, history) => async (dispatch, get
     });
     history.push('/login');
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: REGISTER_WITH_EMAIL_FAIL,
       payload: { error: err?.response?.data.message || err.message },

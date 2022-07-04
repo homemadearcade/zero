@@ -63,12 +63,15 @@ export const startCobrowsing = () => async (dispatch, getState) => {
         cobrowsingUser: user, 
         cobrowsingState: {
           video: getState().video.videoState,
-          lobby: getState().lobby.lobbyState
+          lobby: getState().lobby.lobbyState,
+          editor: getState().editor.editorState
         }}
     });
 
     dispatch(updateCobrowsing(getState().cobrowsing.cobrowsingState))
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: START_COBROWSING_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -85,6 +88,8 @@ export const endCobrowsing = () => async (dispatch, getState) => {
       payload: {}
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: END_COBROWSING_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -124,6 +129,8 @@ export const updateCobrowsing = (cobrowsingState) => async (dispatch, getState) 
     const options = attachTokenToHeaders(getState);
     await axios.put('/api/cobrowsing/' + userId, { cobrowsingState }, options);
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: UPDATE_COBROWSING_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -158,6 +165,8 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
       payload: { cobrowsingUser: response.data.cobrowsingUser },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: SUBSCRIBE_COBROWSING_FAIL,
       payload: { error: err?.response?.data.message || err.message },
@@ -181,6 +190,8 @@ export const unsubscribeCobrowsing = ({userId}) => async (dispatch, getState) =>
       payload: { },
     });
   } catch (err) {
+    console.error(err)
+
     dispatch({
       type: UNSUBSCRIBE_COBROWSING_FAIL,
       payload: { error: err?.response?.data.message || err.message },
