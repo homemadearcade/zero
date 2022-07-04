@@ -15,6 +15,7 @@ const ErrorHandler = ({
   editorError,
   gameError, 
   lobbyError, 
+  lobbyJoinError,
   lobbysError,
   statusError, 
   registerError, 
@@ -38,7 +39,6 @@ const ErrorHandler = ({
   // )
 
   return <div className="ErrorHandler">
-    {authError && renderError('Auth Error', authError)}
     {editorError && renderError('Editor Error', editorError)}
     {cobrowsingError && renderError('Cobrowsing Error', cobrowsingError)}
     {cobrowsingLobbyError && renderError('Cobrowsing Lobby Error', cobrowsingLobbyError)}
@@ -46,6 +46,7 @@ const ErrorHandler = ({
     {cobrowsingEditorError && renderError('Cobrowsing Editor Error', cobrowsingEditorError)}
     {gameError && renderError('Game Error', gameError)}
     {lobbyError && renderError('Lobby Error', lobbyError)}
+    {lobbyJoinError && renderError('Lobby Join Error', lobbyJoinError)}
     {lobbysError && renderError('Lobbys Error', lobbysError)}
     {statusError && renderError('Status Error', statusError)}
     {registerError && renderError('Register Error', registerError)}
@@ -64,6 +65,7 @@ const mapStateToProps = (state) => ({
   editorError: state.editor.error,
   gameError: state.game.error,
   lobbyError: state.lobby.error,
+  lobbyJoinError: state.lobby.joinError,
   lobbysError: state.lobbys.error,
   statusError: state.status.error,
   registerError: state.register.error,

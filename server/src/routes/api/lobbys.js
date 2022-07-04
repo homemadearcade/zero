@@ -132,6 +132,18 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     return res.status(400).json({ message: 'You do not have privileges to assign that role.' });
   }
 
+  const userFound = req.lobby.users.filter((u, i) => {
+    if(u.id === req.body.userId) {
+      return true
+    } else {
+      return false
+    }
+  })[0]
+
+  if(!userFound) {
+    return res.status(400).json({ message: 'You are not a member of this lobby' });
+  }
+
 
   if(req.lobby.isGameStarted) {
     return res.status(400).json({ message: 'You cannot assign a role when the lobby game is started' });

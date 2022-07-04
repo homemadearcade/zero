@@ -145,6 +145,7 @@ const LobbyPage = ({
     return !!item.test();
   })
 
+  console.log(usersById, lobby.participantId, lobby.gameHostId, lobby.guideId)
 
   if(lobby?.id) {
     return (

@@ -66,6 +66,7 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
               <p className="error">{formik.errors.password}</p>
             ) : null}
           </div>
+          {auth.error && <p className="error">{auth.error}</p>}
           <div>
             <button
               className="btn submit"

@@ -23,8 +23,8 @@ const LobbyPage = ({
   startCobrowsing,
   subscribeCobrowsing,
   leaveAgoraVideoCall,
-  cobrowsing: { cobrowsingError, cobrowsingUser },
-  lobby: { lobby, isLoading, isJoining, error, joinError },
+  cobrowsing: { cobrowsingUser },
+  lobby: { lobby, isLoading, isJoining },
   auth: { me },
   match,
 }) => {
@@ -43,40 +43,45 @@ const LobbyPage = ({
       leaveLobbyCleanup()
     }
 
-    async function joinLobbyAndAssignRoles() {      
-      await joinLobby({lobbyId: matchId, userId: me?.id});
-
-      if(me.role !== 'ADMIN') {
-        await assignLobbyRole(matchId, {
-          userId: me.id, 
-          role: 'gameHost'
-        });
-        await assignLobbyRole(matchId, {
-          userId: me.id, 
-          role: 'participant'
-        });
+    async function doJoinLobby() {   
+      try {
+        await joinLobby({lobbyId: matchId, userId: me?.id});
+  
+        window.addEventListener('beforeunload', askBeforeClosing);
+      } catch(error) {
+        console.log(error)
       }
 
-      window.addEventListener('beforeunload', askBeforeClosing);
     }
 
-    joinLobbyAndAssignRoles()
+    doJoinLobby()
 
     return () => {
       leaveLobbyCleanup()
     }
   }, []);
 
-  // useEffect(() => {
-  //   if(lobby.id) {
-  //     if(me.role === 'ADMIN' && (!lobby.guideId)) {
-  //       assignLobbyRole(matchId, {
-  //         userId: me.id, 
-  //         role: 'guide'
-  //       });
-  //     }
-  //   }
-  // }, [lobby?.id])
+  useEffect(() => {
+    if(lobby.id) {
+      if(me.role === 'ADMIN' && (!lobby.guideId)) {
+        assignLobbyRole(matchId, {
+          userId: me.id, 
+          role: 'guide'
+        });
+      }
+      
+      if(me.role !== 'ADMIN' && (!lobby.gameHostId || lobby.participantId)) {
+        assignLobbyRole(matchId, {
+          userId: me.id, 
+          role: 'gameHost'
+        });
+        assignLobbyRole(matchId, {
+          userId: me.id, 
+          role: 'participant'
+        });
+      }
+    }
+  }, [lobby?.id])
 
   function renderPageContents() {
     if(!window.chrome) {
@@ -91,17 +96,19 @@ const LobbyPage = ({
       return <Loader text="Joining Lobby..."/>
     }
 
-    return <AgoraVideoCall 
-      render={(props) => <div className="LobbyPage">
-        {renderLobbyBody(props)}
-      </div>}
-      onClickJoin={() => {
-        if(me.role !== 'ADMIN') {
-          startCobrowsing({lobbyId: lobby.id})
-        }
-      }}
-    >
-    </AgoraVideoCall>
+    if(lobby?.id) {
+      return <AgoraVideoCall 
+        render={(props) => <div className="LobbyPage">
+          {renderLobbyBody(props)}
+        </div>}
+        onClickJoin={() => {
+          if(me.role !== 'ADMIN') {
+            startCobrowsing({lobbyId: lobby.id})
+          }
+        }}
+      >
+      </AgoraVideoCall>
+    }
   }
 
   function renderLobbyBody(props) {

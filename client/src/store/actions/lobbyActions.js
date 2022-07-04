@@ -256,8 +256,6 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       payload: { lobby: response.data.lobby },
     });
   } catch (err) {
-    console.error(err)
-
     dispatch({
       type: JOIN_LOBBY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
