@@ -92,6 +92,13 @@ const LobbyPage = ({
       required: true,
     },
     {
+      text: 'Game has been selected',
+      test: () => {
+        return !!lobby.game
+      },
+      required: true
+    },
+    {
       text: 'Participant has connected camera',
       test: () => {
         if(me.id === lobby.participantId) {
