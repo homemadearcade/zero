@@ -19,16 +19,30 @@ import {
   EDIT_GAME_FAIL,
   CLEAR_GAME_ERROR,
   CLEAR_GAME_MODEL,
-  EDIT_GAME_MODEL
 } from '../types';
 
-export const editGameModel  = (gameModel) => async (dispatch, getState) => {
+export const editGameModel  = (gameData) => async (dispatch, getState) => {
+  const lobbyId = getState().lobby.lobby.id
+
   dispatch({
-    type: EDIT_GAME_MODEL,
-    payload: {
-      gameModel
-    }
+    type: EDIT_GAME_LOADING,
   });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(`/api/games/${gameData.id}`, { lobbyId: lobbyId, game: gameData }, options);
+
+    dispatch({
+      type: EDIT_GAME_SUCCESS,
+      payload: { game: response.data.game },
+    });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: EDIT_GAME_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
 }
 
 export const getGames = () => async (dispatch, getState) => {
@@ -131,7 +145,7 @@ export const editGame = (id, gameData) => async (dispatch, getState) => {
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/games/${id}`, gameData, options);
+    const response = await axios.put(`/api/games/${id}`, { game : gameData }, options);
 
     dispatch({
       type: EDIT_GAME_SUCCESS,

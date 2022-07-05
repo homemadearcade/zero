@@ -174,7 +174,6 @@ io.on("connection", (socket) => {
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
-    console.log(payload.lobbyId)
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 

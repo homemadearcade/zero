@@ -28,7 +28,7 @@ export class EditorScene extends CoreScene {
   onDragEnd = (pointer, gameObject) => {
     gameObject.spawnX = gameObject.x;
     gameObject.spawnY = gameObject.y;
-    const gameModelObject = this.getGameModelObjectById(gameObject.id)
+    const gameModelObject = this.getModelObjectById(gameObject.id)
     gameModelObject.spawnX = gameObject.x;
     gameModelObject.spawnY = gameObject.y;
     this.editGameModel(this.gameModel)

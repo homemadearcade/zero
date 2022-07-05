@@ -38,4 +38,9 @@ export class GameClientScene extends EditorScene {
     this.matter.pause()
     window.socket.on('ON_GAME_INSTANCE_UPDATE', this.onGameInstanceUpdate)
   }
+
+  destroy() {
+    super.destroy();
+    window.socket.off('ON_GAME_INSTANCE_UPDATE')
+  }
 }

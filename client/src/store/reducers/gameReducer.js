@@ -8,11 +8,12 @@ import {
   ADD_GAME_LOADING,
   ADD_GAME_SUCCESS,
   ADD_GAME_FAIL,
-  EDIT_GAME_LOADING,
-  EDIT_GAME_SUCCESS,
+  // EDIT_GAME_LOADING,
+  // EDIT_GAME_SUCCESS,
   EDIT_GAME_FAIL,
   CLEAR_GAME_ERROR,
-  CLEAR_GAME_MODEL
+  CLEAR_GAME_MODEL,
+  ON_GAME_MODEL_UPDATE,
 } from '../types';
 
 const initialState = {
@@ -49,11 +50,6 @@ export default function gameReducer(state = initialState, { type, payload }) {
           ...state.games,
         ],
       };
-    case EDIT_GAME_LOADING:
-      return {
-        ...state,
-        isGameModelLoading: true,
-      };
     case LOAD_GAME_SUCCESS:
       return {
         ...state,
@@ -74,16 +70,23 @@ export default function gameReducer(state = initialState, { type, payload }) {
           return m;
         }),
       };
-    case EDIT_GAME_SUCCESS:
+    case ON_GAME_MODEL_UPDATE: 
       return {
         ...state,
-        isGameModelLoading: false,
         gameModel: payload.game,
       };
+    // case EDIT_GAME_LOADING:
+    //   return {
+    //     ...state,
+    //   };
+    // case EDIT_GAME_SUCCESS:
+    //   return {
+    //     ...state,
+    //     gameModel: payload.game,
+    //   };
     case EDIT_GAME_FAIL:
       return {
         ...state,
-        isGameModelLoading: false,
         error: payload.error,
       };
     case LOAD_GAME_FAIL:

@@ -5,7 +5,7 @@ import './GameEditor.scss';
 
 import ContextMenu from '../../components/ContextMenu/ContextMenu';
 
-import SaveGameButton from '../SaveGameButton/SaveGameButton';
+// import SaveGameButton from '../SaveGameButton/SaveGameButton';
 import GameView from '../GameView/GameView';
 import LiveEditor from '../LiveEditor/LiveEditor';
 
@@ -16,7 +16,6 @@ const GameEditor = ({lobbyId, gameModel, editor: { editorState: { isLiveEditorOp
       <ContextMenu/>
       <div className="GameEditor__left-column">
         {leftColumn}
-        <SaveGameButton/>
       </div>
       {gameModel && <GameView lobbyId={lobbyId} isHost={isHost} isNetworked={isNetworked} gameModel={gameModel}/>}
       {!gameModel && <div className="GameEditor__empty-game"></div>}
@@ -28,7 +27,7 @@ const GameEditor = ({lobbyId, gameModel, editor: { editorState: { isLiveEditorOp
       </div>
     </div>
   );
-  
+
 };
 
 const mapStateToProps = (state) => ({
