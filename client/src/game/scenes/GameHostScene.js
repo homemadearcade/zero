@@ -42,10 +42,21 @@ export class GameHostScene extends EditorScene {
     }, updateInterval)
   }
 
+  onGameModelUpdate(payload) {
+
+  }
+
   create() {
     super.create()
     this.matter.world.setBounds(0, 0, 1000, 1000);
     this.startRemoteClientUpdateLoop()
+    window.socket.on('ON_GAME_MODEL_UPDATE', this.onGameModelUpdate)
+
     //game.loop.actualFps
+  }
+
+  destroy() {
+    super.destroy();
+    window.socket.off('ON_GAME_MODEL_UPDATE')
   }
 }

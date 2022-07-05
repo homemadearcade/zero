@@ -32,15 +32,21 @@ export class GameClientScene extends EditorScene {
     this.player.rotation = player.rotation
   }
 
+  onGameModelUpdate(payload) {
+
+  }
+
   create() {
     super.create()
     this.matter.world.setBounds(0, 0, 1000, 1000);
     this.matter.pause()
     window.socket.on('ON_GAME_INSTANCE_UPDATE', this.onGameInstanceUpdate)
+    window.socket.on('ON_GAME_MODEL_UPDATE', this.onGameModelUpdate)
   }
 
   destroy() {
     super.destroy();
     window.socket.off('ON_GAME_INSTANCE_UPDATE')
+    window.socket.off('ON_GAME_MODEL_UPDATE')
   }
 }

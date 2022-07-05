@@ -27,6 +27,7 @@ export const editGameModel  = (gameData) => async (dispatch, getState) => {
   dispatch({
     type: EDIT_GAME_LOADING,
   });
+  
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/games/${gameData.id}`, { lobbyId: lobbyId, game: gameData }, options);

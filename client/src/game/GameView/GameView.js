@@ -69,7 +69,7 @@ const GameView = ({gameModel, lobbyId, isHost, isNetworked, openContextMenu, clo
     <div className="GameView">
       <div id="PhaserGame"/>
     </div>
-    );
+  );
 };
 
 const mapStateToProps = (state) => ({

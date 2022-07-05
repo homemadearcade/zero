@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
+import requireSocketAuth from '../../middleware/requireSocketAuth';
 import Game, { validateGame } from '../../models/Game';
 
 const router = Router();
@@ -71,7 +72,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
 // });
 
-router.put('/:id', requireJwtAuth, async (req, res) => {
+router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   const { error } = validateGame(req.body.game);
   if (error) return res.status(400).json({ game: error.details[0].message });
 
@@ -93,7 +94,9 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
       { new: true },
     );
 
-    if(req.body.lobbyId) io.to(req.body.lobbyId).emit(ON_GAME_MODEL_UPDATE, game)
+    if(req.body.lobbyId) {
+      req.io.to(req.body.lobbyId).emit(ON_GAME_MODEL_UPDATE, game)
+    }
     
     if (!game) return res.status(404).json({ game: 'No game found.' });
     game = await game.populate('user').execPopulate();
