@@ -54,11 +54,18 @@ export class CoreScene extends Phaser.Scene {
   }
 
   create() {
-    // this.gameModel.objects = this.gameModel.objects.filter((object) => {
-    //   return !!object.id
-    // });
+    this.gameModel.objects = this.gameModel.objects.filter((object) => {
+      return !!object
+    });
+
+    this.gameModel.objects = this.gameModel.objects.filter((object) => {
+      return !!object.classId
+    });
 
     this.objects = this.gameModel.objects.map((object) => {
+      if(!object) {
+        return console.error('Object missing!')
+      } 
       return new CoreObject(this, object)
     });
 

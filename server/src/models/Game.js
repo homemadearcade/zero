@@ -40,12 +40,10 @@ const gameSchema = new Schema(
 );
 
 export const validateGame = (game) => {
-  // const schema = {
-  //   // text: Joi.string().min(5).max(300).required(),
-  // };
-  // return Joi.validate(game, schema);
-
-  return true
+  const schema = {
+    objects: Joi.array().items(Joi.object()),
+  };
+  return Joi.validate(game, schema, { allowUnknown: true });
 };
 
 gameSchema.methods.toJSON = function () {

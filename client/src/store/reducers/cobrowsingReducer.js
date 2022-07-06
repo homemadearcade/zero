@@ -27,7 +27,9 @@ const initialState = {
     },
     editor: {
       error: null,
-      objectSelectedId: null,
+      classSelectedId: null,
+      objectSelectedIdContextMenu: null,
+      objectSelectedIdLiveEditor: null,
       selectableObjectIds: null,
       isContextMenuOpen: false,
       isLiveEditorOpen: false

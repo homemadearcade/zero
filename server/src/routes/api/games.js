@@ -76,6 +76,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   const { error } = validateGame(req.body.game);
   if (error) return res.status(400).json({ game: error.details[0].message });
 
+
   try {
     const tempGame = await Game.findById(req.params.id).populate('user');
     if (!(tempGame.user.id === req.user.id || req.user.role === 'ADMIN'))

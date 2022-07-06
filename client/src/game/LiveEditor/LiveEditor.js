@@ -7,15 +7,25 @@ import { closeLiveEditor } from '../../store/actions/editorActions';
 import './LiveEditor.scss'
 import ButtonGroup from '../ButtonGroup/ButtonGroup';
 
-const LiveEditor = ({ closeLiveEditor, editor: { editorState: { objectSelectedId } }}) => {
+const LiveEditor = ({ closeLiveEditor, game: { gameModel }, editor: { editorState: { objectSelectedIdLiveEditor } },  editGameModel }) => {
   return (
     <div className="LiveEditor">
       <button className="LiveEditor__close" onClick={closeLiveEditor}><i className="fas fa-close"/></button>
       <ButtonGroup
         title="Speed"
         options={['snail', 'slow', 'normal', 'fast', 'cheetah']}
-        onSelectOption={() => {
+        onSelectOption={(value) => {
+          console.log('selected value', value);
 
+          gameModel.objects = gameModel.objects.map((object) => {
+            if(object.id === objectSelectedIdLiveEditor) {
+              object.angularVelocity = object.angularVelocity += 100
+            }
+
+            return object
+          })
+
+          editGameModel(gameModel)
         }}
         initialOption="normal"
       />
@@ -30,8 +40,15 @@ const LiveEditor = ({ closeLiveEditor, editor: { editorState: { objectSelectedId
       <ButtonGroup
         title="Bounce"
         options={['bricks', 'heavy', 'normal', 'light', 'feather']}
-        onSelectOption={() => {
+        onSelectOption={(value) => {
+          gameModel.objects = gameModel.objects.map((object) => {
+            if(object.id === objectSelectedIdLiveEditor) {
+              object.bounciness = 1
+            }
+            return object
+          })
 
+          editGameModel(gameModel)
         }}
         initialOption="normal"
       />
@@ -64,7 +81,8 @@ const LiveEditor = ({ closeLiveEditor, editor: { editorState: { objectSelectedId
 };
 
 const mapStateToProps = (state) => ({
-  editor: state.editor
+  editor: state.editor,
+  game: state.game,
 });
 
 export default connect(mapStateToProps, { editGameModel, closeLiveEditor })(LiveEditor);

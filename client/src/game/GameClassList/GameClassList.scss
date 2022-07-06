@@ -1,0 +1,10 @@
+.GameClassList {
+  &__class {
+    cursor: pointer;
+
+
+    &--selected {
+      border: 1px solid;
+    }
+  }
+}

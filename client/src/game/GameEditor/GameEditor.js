@@ -19,7 +19,9 @@ const GameEditor = ({lobbyId, gameModel, editor: { editorState: { isLiveEditorOp
       </div>
       {gameModel && <GameView lobbyId={lobbyId} isHost={isHost} isNetworked={isNetworked} gameModel={gameModel}/>}
       {!gameModel && <div className="GameEditor__empty-game"></div>}
-      <div className="GameEditor__right-column">{rightColumn}</div>
+      <div className="GameEditor__right-column">
+        {rightColumn}
+      </div>
       {children}
       <div className="GameEditor__overlay">
         {overlay}
@@ -27,7 +29,6 @@ const GameEditor = ({lobbyId, gameModel, editor: { editorState: { isLiveEditorOp
       </div>
     </div>
   );
-
 };
 
 const mapStateToProps = (state) => ({

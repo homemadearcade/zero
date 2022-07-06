@@ -9,8 +9,6 @@ import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 
 import Loader from '../../Loader/Loader';
 import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
-import SelectGame from '../../SelectGame/SelectGame';
-import Button from '@mui/material/Button';
 import { addGame } from '../../../store/actions/gameActions';
 
 const Onboarding = ({ addGame, requestFullscreen, updateLobbyCobrowsing, updateLobbyUser, lobby: { lobby }, cobrowsing: { cobrowsingState, cobrowsingUser }}) => {

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { CoreScene } from './CoreScene';
+import store from '../../store';
 
 export class EditorScene extends CoreScene {
   constructor({key, lobbyId, isNetworked, gameModel, closeContextMenu, openContextMenu, editGameModel}) {
@@ -17,6 +18,7 @@ export class EditorScene extends CoreScene {
     this.openContextMenu = openContextMenu
     this.editGameModel = editGameModel
     this.lobbyId = lobbyId
+    this.isNetworked = isNetworked
   }
   
   onDragStart = (pointer, gameObject, dragX, dragY) => {
@@ -41,12 +43,17 @@ export class EditorScene extends CoreScene {
   }
 
   onPointerUp = (pointer, gameObjects) => {
-    if(pointer.leftButtonReleased() && !this.draggingObjectId) {
+    const classId = store.getState().editor.editorState.classSelectedId
+
+    if(classId && pointer.leftButtonReleased() && !this.draggingObjectId) {
       const gameModelObject = {
+        classId,
         id: uuidv4(),
         spawnX: pointer.x,
         spawnY: pointer.y
       }
+
+      console.log(gameModelObject)
 
       this.addInstanceObject(gameModelObject)
       this.editGameModel(this.gameModel)

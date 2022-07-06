@@ -2,14 +2,31 @@ import {
   OPEN_CONTEXT_MENU,
   CLOSE_CONTEXT_MENU,
   OPEN_LIVE_EDITOR,
-  CLOSE_LIVE_EDITOR
+  CLOSE_LIVE_EDITOR,
+  SELECT_CLASS,
+  CLEAR_CLASS
 } from '../types';
+
+export const selectClass = (classId) => (dispatch, getState) => {
+  dispatch({
+    type: SELECT_CLASS,
+    payload: {
+      classSelectedId: classId, 
+    }
+  });
+}
+
+export const clearClass = (classId) => (dispatch, getState) => {
+  dispatch({
+    type: CLEAR_CLASS,
+  });
+}
 
 export const openContextMenu = (gameObjects, pointer) => (dispatch, getState) => {
   dispatch({
     type: OPEN_CONTEXT_MENU,
     payload: {
-      objectSelectedId: gameObjects[0].id, 
+      objectSelectedIdContextMenu: gameObjects[0].id, 
       // objectSelectedId: gameObjects.length === 1 ? gameObjects[0].id : null, 
       selectableObjectIds: gameObjects.length > 1 ? gameObjects.map(({id}) => id) : null, 
       contextMenuX: pointer.event.pageX,
@@ -28,7 +45,7 @@ export const openLiveEditor = (gameObjectId, pointer) => (dispatch, getState) =>
   dispatch({
     type: OPEN_LIVE_EDITOR,
     payload: {
-      objectSelectedId: gameObjectId, 
+      objectSelectedIdLiveEditor: gameObjectId, 
     }
   });
 }

@@ -7,15 +7,16 @@ import GameEditor from '../../game/GameEditor/GameEditor';
 import './PlayGamePage.scss';
 
 import { requestFullscreen } from '../../store/actions/browserActions';
-import { loadGame, clearGameModel } from '../../store/actions/gameActions';
+import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import Loader from '../../components/Loader/Loader';
+import GameClassList from '../../game/GameClassList/GameClassList';
 
-const PlayGamePage = ({ loadGame, clearGameModel, game: { gameModel, isGameModelLoading },  requestFullscreen, match}) => {
+const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isGameModelLoading },  requestFullscreen, match}) => {
   useEffect(() => {
     loadGame(match.params.id);
 
     return () => {
-      clearGameModel()
+      unloadGame()
     }
   }, []);
 
@@ -37,6 +38,7 @@ const PlayGamePage = ({ loadGame, clearGameModel, game: { gameModel, isGameModel
             <i className="fas fa-expand PlayGamePage__fullscreen"/>
           </div>}
         </div>}
+        rightColumn={<GameClassList/>}
       />
     </div>
   );
@@ -46,4 +48,4 @@ const mapStateToProps = (state) => ({
   game: state.game
 });
 
-export default compose(connect(mapStateToProps, { requestFullscreen, clearGameModel, loadGame }))(PlayGamePage);
+export default compose(connect(mapStateToProps, { requestFullscreen, unloadGame, loadGame }))(PlayGamePage);

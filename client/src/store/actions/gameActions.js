@@ -18,7 +18,9 @@ import {
   EDIT_GAME_SUCCESS,
   EDIT_GAME_FAIL,
   CLEAR_GAME_ERROR,
-  CLEAR_GAME_MODEL,
+  UNLOAD_GAME,
+  ON_GAME_MODEL_UPDATE,
+  ON_GAME_INSTANCE_UPDATE,
 } from '../types';
 
 export const editGameModel  = (gameData) => async (dispatch, getState) => {
@@ -27,15 +29,18 @@ export const editGameModel  = (gameData) => async (dispatch, getState) => {
   dispatch({
     type: EDIT_GAME_LOADING,
   });
-  
+
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/games/${gameData.id}`, { lobbyId: lobbyId, game: gameData }, options);
 
-    dispatch({
-      type: EDIT_GAME_SUCCESS,
-      payload: { game: response.data.game },
-    });
+    // for local editing mode, there will be no ON_GAME_MODEL_UPDATED event so we need a local EDIT_GAME_SUCCESS
+    if(!lobbyId) {
+      dispatch({
+        type: EDIT_GAME_SUCCESS,
+        payload: { game: response.data.game },
+      });
+    }
   } catch (err) {
     console.error(err)
 
@@ -77,6 +82,13 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/games/' + gameId, options);
 
+    window.socket.on(ON_GAME_MODEL_UPDATE, (game) => {
+      dispatch({
+        type: ON_GAME_INSTANCE_UPDATE,
+        payload: { game },
+      });
+    })
+
     dispatch({
       type: LOAD_GAME_SUCCESS,
       payload: { game: response.data.game },
@@ -90,6 +102,15 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     });
   }
 };
+
+export const unloadGame = () => (dispatch, getState) => {
+  window.socket.off(ON_GAME_MODEL_UPDATE)
+
+  dispatch({
+    type: UNLOAD_GAME,
+  })
+};
+
 
 export const addGame = (gameData) => async (dispatch, getState) => {
   dispatch({
@@ -166,9 +187,3 @@ export const clearGameError = (id) => ({
   type: CLEAR_GAME_ERROR,
   payload: { id },
 });
-
-export const clearGameModel = () => (dispatch, getState) => {
-  dispatch({
-    type: CLEAR_GAME_MODEL,
-  })
-};

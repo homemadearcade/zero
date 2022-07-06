@@ -2,7 +2,9 @@ import {
   OPEN_CONTEXT_MENU,
   CLOSE_CONTEXT_MENU,
   OPEN_LIVE_EDITOR,
-  CLOSE_LIVE_EDITOR
+  CLOSE_LIVE_EDITOR,
+  SELECT_CLASS,
+  CLEAR_CLASS
 } from '../types';
 
 const initialState = {
@@ -10,7 +12,9 @@ const initialState = {
   contextMenuY: null,
   editorState: {
     error: null,
-    objectSelectedId: null,
+    classSelectedId: null,
+    objectSelectedIdContextMenu: null,
+    objectSelectedIdLiveEditor: null,
     selectableObjectIds: null,
     isContextMenuOpen: false,
     isLiveEditorOpen: false
@@ -19,6 +23,22 @@ const initialState = {
 
 export default function editorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case SELECT_CLASS: 
+      return {
+        ...state,
+        editorState: {
+          ...state.editorState,
+          classSelectedId: payload.classSelectedId
+        }
+      }
+    case CLEAR_CLASS:
+       return {
+         ...state,
+         editorState: {
+           ...state.editorState,
+           classSelectedId: null
+         }
+       }
     case OPEN_CONTEXT_MENU:
       return {
         ...state,
@@ -27,7 +47,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         editorState: {
           ...state.editorState,
           isContextMenuOpen: true,
-          objectSelectedId: payload.objectSelectedId,
+          objectSelectedIdContextMenu: payload.objectSelectedIdContextMenu,
           selectableObjectIds: payload.selectableObjectIds
         },
       };
@@ -38,7 +58,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         contextMenuY: null,
         editorState: {
           ...state.editorState,
-          objectSelectedId: null,
+          objectSelectedIdContextMenu: null,
           selectableObjectIds: null,
           isContextMenuOpen: false
         },
@@ -49,7 +69,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         editorState: {
           ...state.editorState,
           isLiveEditorOpen: true,
-          objectSelectedId: payload.objectSelectedId,
+          objectSelectedIdLiveEditor: payload.objectSelectedIdLiveEditor,
         },
       };
     case CLOSE_LIVE_EDITOR:
@@ -57,7 +77,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         editorState: {
           ...state.editorState,
-          objectSelectedId: null,
+          objectSelectedIdLiveEditor: null,
           isLiveEditorOpen: false
         },
       };
