@@ -1,6 +1,7 @@
 import {
   GAME_SCENE,
 } from '../../constants';
+import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 
 export class GameClientScene extends EditorScene {
@@ -28,13 +29,13 @@ export class GameClientScene extends EditorScene {
     super.create()
     this.matter.world.setBounds(0, 0, 1000, 1000);
     this.matter.pause()
-    window.socket.on('ON_GAME_INSTANCE_UPDATE', this.onGameInstanceUpdate)
-    window.socket.on('ON_GAME_MODEL_UPDATE', this.onGameModelUpdate)
+    window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
+    window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
 
   unload() {
     super.unload();
-    window.socket.off('ON_GAME_INSTANCE_UPDATE')
-    window.socket.off('ON_GAME_MODEL_UPDATE')
+    window.socket.off(ON_GAME_INSTANCE_UPDATE)
+    window.socket.off(ON_GAME_MODEL_UPDATE)
   }
 }

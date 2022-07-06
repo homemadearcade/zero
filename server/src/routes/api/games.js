@@ -3,10 +3,9 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 import Game, { validateGame } from '../../models/Game';
 import { mergeDeep } from '../../utils/utils';
+import { ON_GAME_MODEL_UPDATE} from '../../constants';
 
 const router = Router();
-
-const ON_GAME_MODEL_UPDATE = 'ON_GAME_MODEL_UPDATE'
 
 router.get('/', async (req, res) => {
   try {

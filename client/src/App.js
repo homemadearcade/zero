@@ -32,6 +32,7 @@ import io from 'socket.io-client'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorHandler from './components/ui/ErrorHandler/ErrorHandler';
+import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
 const darkTheme = createTheme({
   palette: {
@@ -43,7 +44,7 @@ const darkTheme = createTheme({
 window.socket = io()
 
 window.socket.onAny((event, ...args) => {
-  if(event.indexOf('STATUS') || event.indexOf('ON_GAME_INSTANCE_UPDATE') >= 0) return 
+  if(event.indexOf('STATUS') || event.indexOf(ON_GAME_INSTANCE_UPDATE) >= 0) return 
   console.log(event, args);
 });
 

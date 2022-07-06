@@ -15,6 +15,7 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE } from './constants';
 
 const app = express();
 
@@ -104,11 +105,6 @@ const socketSessions = new InMemorySessionStore()
 app.set('socketio', io);
 app.set('socketSessions', socketSessions);
 
-const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
-const ON_LOBBY_USER_STATUS_UPDATE = 'ON_LOBBY_USER_STATUS_UPDATE'
-const ON_GAME_INSTANCE_UPDATE = 'ON_GAME_INSTANCE_UPDATE'
-const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE'
-
 const lobbys = [
   {
     participantEmail: 'email0@email.com',
@@ -155,13 +151,13 @@ io.on("connection", (socket) => {
           })
         })
   
-        socket.emit('authenticate_success')
+        socket.emit(ON_AUTHENTICATE_SOCKET_SUCCESS)
         socketSessions.saveSession(user.id, socket);
       } else {
-        socket.emit('authenticate_fail', { error: 'no such user'})
+        socket.emit(ON_AUTHENTICATE_SOCKET_FAIL, { error: 'no such user'})
       }
     } else {
-      socket.emit('authenticate_fail', { error: 'no token for socket'})
+      socket.emit(ON_AUTHENTICATE_SOCKET_FAIL, { error: 'no token for socket'})
     }
   })
 

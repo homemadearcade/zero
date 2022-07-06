@@ -4,8 +4,7 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-const ON_COBROWSING_UPDATE = 'ON_COBROWSING_UPDATE'
-const ON_COBROWSING_SUBSCRIBED = 'ON_COBROWSING_SUBSCRIBED'
+import { ON_COBROWSING_UPDATE, ON_COBROWSING_SUBSCRIBED } from '../../constants';
 
 const router = Router();
 

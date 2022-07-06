@@ -17,6 +17,7 @@ import './styles.css';
 import { getUrlParameter } from '../../utils/utils';
 import Loader from '../../components/ui/Loader/Loader';
 import SceneFull from '../../components/SceneFull/SceneFull.jsx';
+import { ON_AUTHENTICATE_SOCKET_SUCCESS } from '../../store/types';
 
 const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket }) => {
   let [prefaces, setPrefaces] = useState([
@@ -49,9 +50,9 @@ const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket })
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       loginUserWithEmail(values);
-      window.socket.on('authenticate_success', () => {
+      window.socket.on(ON_AUTHENTICATE_SOCKET_SUCCESS, () => {
         history.push("/lobby/find")
-        window.socket.off('authenticate_success');
+        window.socket.off(ON_AUTHENTICATE_SOCKET_SUCCESS);
       })
     },
   });

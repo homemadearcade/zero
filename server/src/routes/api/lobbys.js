@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import User from '../../models/User';
 
-const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE'
+import { ON_LOBBY_UPDATE } from '../../constants';
 
 const router = Router();
 

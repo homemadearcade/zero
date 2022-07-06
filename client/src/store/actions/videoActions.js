@@ -17,6 +17,7 @@ import {
 import AgoraRTC from 'agora-rtc-react';
 
 import { updateVideoCobrowsing, updateLobbyCobrowsing } from './cobrowsingActions';
+import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../constants';
 
 const config = { 
   mode: "rtc", codec: "vp8",
@@ -163,7 +164,7 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
         client.on('network-quality', ({downlinkNetworkQuality, uplinkNetworkQuality}) => {
           window.uplinkNetworkQuality = uplinkNetworkQuality
           window.downlinkNetworkQuality = downlinkNetworkQuality
-          window.events.emit('ON_MY_VIDEO_QUALITY_STATUS_UPDATE', {
+          window.events.emit(ON_MY_VIDEO_QUALITY_STATUS_UPDATE, {
             downlinkNetworkQuality,
             uplinkNetworkQuality
           })

@@ -18,6 +18,10 @@ import {
   RESEED_DATABASE_LOADING,
   RESEED_DATABASE_SUCCESS,
   RESEED_DATABASE_FAIL,
+  ON_AUTHENTICATE_SOCKET_SUCCESS,
+  ON_AUTHENTICATE_SOCKET_FAIL,
+  ON_SOCKET_DISCONNECT,
+  ON_SOCKET_CONNECT,
 } from '../types';
 
 export const authenticateSocket = (values) => async (dispatch, getState) => {
@@ -27,12 +31,12 @@ export const authenticateSocket = (values) => async (dispatch, getState) => {
 
     window.socket.emit('authenticate', { token })
 
-    window.socket.on("disconnect", () => {
+    window.socket.on(ON_SOCKET_DISCONNECT, () => {
       console.log('disconnected'); // undefined
     });
 
-    window.socket.on('authenticate_success', () => {
-      window.socket.on("connect", () => {
+    window.socket.on(ON_AUTHENTICATE_SOCKET_SUCCESS, () => {
+      window.socket.on(ON_SOCKET_CONNECT, () => {
         console.log('connecting again');
         window.socket.emit('authenticate', { token })
       });
@@ -43,7 +47,7 @@ export const authenticateSocket = (values) => async (dispatch, getState) => {
       });
       resolve()
     })
-    window.socket.on('authenticate_error', (err) => {
+    window.socket.on(ON_AUTHENTICATE_SOCKET_FAIL, (err) => {
       dispatch({
         type: AUTHENTICATE_SOCKET_FAIL,
         payload: { error: err},

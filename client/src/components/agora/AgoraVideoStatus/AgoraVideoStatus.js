@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../../constants';
 import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
 
 import './AgoraVideoStatus.scss';
@@ -10,7 +11,7 @@ const AgoraVideoStatus = ({ userId, me }) => {
   const [myNetworkQuality, setMyNetworkQuality] = useState({})
 
   useEffect(() => {
-    const clearEvent1 = window.events.on('ON_MY_VIDEO_QUALITY_STATUS_UPDATE', (networkQuality) => {
+    const clearEvent1 = window.events.on(ON_MY_VIDEO_QUALITY_STATUS_UPDATE, (networkQuality) => {
       setMyNetworkQuality(networkQuality)
     })
 
