@@ -10,7 +10,7 @@ import './styles.css';
 const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
     initialValues: {
-      objects: [],
+      objects: {},
       hero: {},
       world: {},
       metadata: {},

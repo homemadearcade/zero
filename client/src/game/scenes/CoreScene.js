@@ -2,32 +2,22 @@ import Phaser from 'phaser';
 
 import { CoreObject } from '../entities/CoreObject'
 import { PlayerObject } from '../entities/PlayerObject';
-import { v4 as uuidv4 } from 'uuid';
+import store from '../../store';
 
 export class CoreScene extends Phaser.Scene {
-  constructor({key, lobbyId, gameModel, closeContextMenu, openContextMenu, editGameModel}) {
+  constructor({key }) {
     super({
       key: key,
     });
-
-    this.gameModel = gameModel
-    this.closeContextMenu = closeContextMenu
-    this.openContextMenu = openContextMenu
-    this.editGameModel = editGameModel
-    this.lobbyId = lobbyId
   }
 
   getModelObjectById(id) {
-    if(id === 'player') {
-      return this.gameModel.hero
-    }
+    const gameModel = store.getState().game.gameModel
 
-    for(let i = 0; i < this.gameModel.objects.length; i++) {
-      const gameModelObject = this.gameModel.objects[i]
-      if(gameModelObject.id === id) {
-        return gameModelObject
-      }
+    if(id === 'player') {
+      return gameModel.hero
     }
+    return gameModel.objects[id]
   }
 
   getInstanceObjectById(id) {
@@ -35,50 +25,35 @@ export class CoreScene extends Phaser.Scene {
   }
 
   addInstanceObject(object) {
-    this.gameModel.objects.push(object)
     const newPhaserObject = new CoreObject(this, object)
     this.objects.push(newPhaserObject)
     this.objectsById[object.id] = newPhaserObject
   }
 
-  updateInstanceObject(instanceObject, {spawnX, spawnY, x, y, rotation}) {
+  updateInstanceObject(instanceObject, {spawnX, spawnY, x, y, rotation, bounciness}) {
     if(x) instanceObject.x = x;
     if(y) instanceObject.y = y;
     if(rotation) instanceObject.rotation = rotation;
-  }
-  
-  onDragStart (pointer, gameObject, dragX, dragY) {
-    gameObject.x = dragX;
-    gameObject.y = dragY;
-    this.draggingObjectId = gameObject.id
+    if(bounciness) instanceObject.setBounce(bounciness)
   }
 
   create() {
-    this.gameModel.objects = this.gameModel.objects.filter((object) => {
-      return !!object
+    const gameModel = store.getState().game.gameModel
+
+    this.objects = Object.keys(gameModel.objects).map((objectId) => {
+      // if(!object) {
+      //   return console.error('Object missing!')
+      // } 
+      return new CoreObject(this, gameModel.objects[objectId])
     });
 
-    this.gameModel.objects = this.gameModel.objects.filter((object) => {
-      return !!object.classId
-    });
-
-    this.objects = this.gameModel.objects.map((object) => {
-      if(!object) {
-        return console.error('Object missing!')
-      } 
-      return new CoreObject(this, object)
-    });
-
-    this.objectsById = this.objects.reduce((prev, next) => {
-      prev[next.id] = next 
-      return prev
-    }, {})
+    this.objectsById = {...gameModel.objects}
 
     this.player = new PlayerObject(this, {
       id: 'player',
       spriteId: 'ship2',
-      spawnX: this.gameModel.hero.spawnX,
-      spawnY: this.gameModel.hero.spawnY
+      spawnX: gameModel.hero.spawnX,
+      spawnY: gameModel.hero.spawnY
     });
   }
 

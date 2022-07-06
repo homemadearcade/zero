@@ -42,10 +42,12 @@ export const closeContextMenu = () => (dispatch, getState) => {
 }
 
 export const openLiveEditor = (gameObjectId, pointer) => (dispatch, getState) => {
+  const gameObject = getState().game.gameModel.objects[gameObjectId]
+
   dispatch({
     type: OPEN_LIVE_EDITOR,
     payload: {
-      objectSelectedIdLiveEditor: gameObjectId, 
+      classSelectedIdLiveEditor: gameObject.classId, 
     }
   });
 }

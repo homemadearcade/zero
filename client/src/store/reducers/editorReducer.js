@@ -13,8 +13,8 @@ const initialState = {
   editorState: {
     error: null,
     classSelectedId: null,
+    classSelectedIdLiveEditor: null,
     objectSelectedIdContextMenu: null,
-    objectSelectedIdLiveEditor: null,
     selectableObjectIds: null,
     isContextMenuOpen: false,
     isLiveEditorOpen: false
@@ -69,7 +69,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         editorState: {
           ...state.editorState,
           isLiveEditorOpen: true,
-          objectSelectedIdLiveEditor: payload.objectSelectedIdLiveEditor,
+          classSelectedIdLiveEditor: payload.classSelectedIdLiveEditor,
         },
       };
     case CLOSE_LIVE_EDITOR:
@@ -77,7 +77,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         editorState: {
           ...state.editorState,
-          objectSelectedIdLiveEditor: null,
+          classSelectedIdLiveEditor: null,
           isLiveEditorOpen: false
         },
       };

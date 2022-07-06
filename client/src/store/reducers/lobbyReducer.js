@@ -31,7 +31,7 @@ const initialState = {
   isJoining: false,
   joinError: null,
   lobbyState: {
-    step: 'internet_speed_test',//'video_connection',
+    onboardingStep: 'internet_speed_test',//'video_connection',
   }
 };
 

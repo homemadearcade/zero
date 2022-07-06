@@ -59,9 +59,9 @@ const ErrorHandler = ({
 const mapStateToProps = (state) => ({
   authError: state.auth.error,
   cobrowsingError: state.cobrowsing.error,
-  cobrowsingVideoError: state.cobrowsing.cobrowsingState.video.error,
-  cobrowsingLobbyError: state.cobrowsing.cobrowsingState.lobby.error,
-  cobrowsingEditorError: state.cobrowsing.cobrowsingState.editor.error,
+  cobrowsingVideoError: state.cobrowsing.remoteState.video.error,
+  cobrowsingLobbyError: state.cobrowsing.remoteState.lobby.error,
+  cobrowsingEditorError: state.cobrowsing.remoteState.editor.error,
   editorError: state.editor.error,
   gameError: state.game.error,
   lobbyError: state.lobby.error,

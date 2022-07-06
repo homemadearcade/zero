@@ -48,7 +48,7 @@ export const startCobrowsing = () => async (dispatch, getState) => {
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
-      dispatch(updateCobrowsing(getState().cobrowsing.cobrowsingState))
+      dispatch(updateCobrowsing(getState().cobrowsing.remoteState))
     });
 
     mouseUserId = user.id;
@@ -61,14 +61,14 @@ export const startCobrowsing = () => async (dispatch, getState) => {
       type: START_COBROWSING_SUCCESS,
       payload: { 
         cobrowsingUser: user, 
-        cobrowsingState: {
+        remoteState: {
           video: getState().video.videoState,
           lobby: getState().lobby.lobbyState,
           editor: getState().editor.editorState
         }}
     });
 
-    dispatch(updateCobrowsing(getState().cobrowsing.cobrowsingState))
+    dispatch(updateCobrowsing(getState().cobrowsing.remoteState))
   } catch (err) {
     console.error(err)
 
@@ -98,36 +98,36 @@ export const endCobrowsing = () => async (dispatch, getState) => {
 };
 
 export const updateVideoCobrowsing = (cobrowsingVideoState) => async (dispatch, getState) => {
-  const cobrowsingState = getState().cobrowsing.cobrowsingState
-  cobrowsingState.video = cobrowsingVideoState
+  const remoteState = getState().cobrowsing.remoteState
+  remoteState.video = cobrowsingVideoState
   dispatch({
     type: VIDEO_STATE_UPDATE,
     payload: { videoState: cobrowsingVideoState },
   });
-  dispatch(updateCobrowsing(cobrowsingState))
+  dispatch(updateCobrowsing(remoteState))
 };
 
 export const updateLobbyCobrowsing = (cobrowsingLobbyState) => async (dispatch, getState) => {
-  const cobrowsingState = getState().cobrowsing.cobrowsingState
-  cobrowsingState.lobby = cobrowsingLobbyState
+  const remoteState = getState().cobrowsing.remoteState
+  remoteState.lobby = cobrowsingLobbyState
   dispatch({
     type: LOBBY_STATE_UPDATE,
     payload: { lobbyState: cobrowsingLobbyState },
   });
-  dispatch(updateCobrowsing(cobrowsingState))
+  dispatch(updateCobrowsing(remoteState))
 };
 
-export const updateCobrowsing = (cobrowsingState) => async (dispatch, getState) => {
+export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
   try {
     const userId = getState().cobrowsing.cobrowsingUser.id
 
     dispatch({
       type: ON_COBROWSING_UPDATE,
-      payload: { cobrowsingState },
+      payload: { remoteState },
     });
     
     const options = attachTokenToHeaders(getState);
-    await axios.put('/api/cobrowsing/' + userId, { cobrowsingState }, options);
+    await axios.put('/api/cobrowsing/' + userId, { remoteState }, options);
   } catch (err) {
     console.error(err)
 
@@ -148,13 +148,13 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
     const response = await axios.post('/api/cobrowsing/' + userId, {}, options);
 
     // event that is triggered if cobrowsing has been registered
-    window.socket.on(ON_COBROWSING_UPDATE, ({userId, cobrowsingState}) => {
+    window.socket.on(ON_COBROWSING_UPDATE, ({userId, remoteState}) => {
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 
-          cobrowsingState: {
-            ...getState().cobrowsing.cobrowsingState,
-            ...cobrowsingState
+          remoteState: {
+            ...getState().cobrowsing.remoteState,
+            ...remoteState
           }
         },
       });

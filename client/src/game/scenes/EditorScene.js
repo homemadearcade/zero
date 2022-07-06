@@ -1,24 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 import { CoreScene } from './CoreScene';
 import store from '../../store';
+import { getDiff } from '../../utils/utils';
+import { editGameModel } from '../../store/actions/gameActions';
 
 export class EditorScene extends CoreScene {
-  constructor({key, lobbyId, isNetworked, gameModel, closeContextMenu, openContextMenu, editGameModel}) {
+  constructor({key, lobbyId, closeContextMenu, openContextMenu}) {
     super({
       key: key,
-      gameModel : gameModel,
-      closeContextMenu : closeContextMenu,
-      openContextMenu : openContextMenu,
-      editGameModel : editGameModel,
-      lobbyId : lobbyId,
     });
 
-    this.gameModel = gameModel
     this.closeContextMenu = closeContextMenu
     this.openContextMenu = openContextMenu
-    this.editGameModel = editGameModel
     this.lobbyId = lobbyId
-    this.isNetworked = isNetworked
   }
   
   onDragStart = (pointer, gameObject, dragX, dragY) => {
@@ -33,7 +27,11 @@ export class EditorScene extends CoreScene {
     const gameModelObject = this.getModelObjectById(gameObject.id)
     gameModelObject.spawnX = gameObject.x;
     gameModelObject.spawnY = gameObject.y;
-    this.editGameModel(this.gameModel)
+    store.dispatch(editGameModel({ 
+      objects: {
+        [gameObject.id]: gameModelObject
+      }
+    }))
   }
 
   onPointerOver = (pointer, gameObjects) => {
@@ -53,10 +51,13 @@ export class EditorScene extends CoreScene {
         spawnY: pointer.y
       }
 
-      console.log(gameModelObject)
+      store.dispatch(editGameModel({
+        objects: {
+          [gameModelObject.id]: gameModelObject
+        }
+      }))
 
       this.addInstanceObject(gameModelObject)
-      this.editGameModel(this.gameModel)
     }
 
     this.draggingObjectId = null
@@ -87,6 +88,14 @@ export class EditorScene extends CoreScene {
   onPointerOut = (pointer, gameObjects) => {
     gameObjects[0].outline.setVisible(false)
     gameObjects[0].outline2.setVisible(false)
+  }
+
+  onGameModelUpdate = (gameUpdate) => {
+    // const gameModel = store.getState().game.gameModel
+    // console.log(gameModel.classes['9ab805a5-141e-4b54-91d6-b4901770d966'], gameUpdate.classes['9ab805a5-141e-4b54-91d6-b4901770d966'])
+    // const diff = getDiff(gameModel, gameUpdate)
+    // console.log('XX', diff)
+    console.log(gameUpdate)
   }
 
   create() {

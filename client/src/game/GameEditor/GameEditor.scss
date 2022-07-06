@@ -21,6 +21,7 @@
   &__right-column {
     width: 20vh;
     background: red;
+    overflow-y: scroll;
   }
 
   &__overlay {

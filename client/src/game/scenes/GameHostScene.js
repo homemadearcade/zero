@@ -4,19 +4,17 @@ import {
 import { EditorScene } from './EditorScene';
 
 export class GameHostScene extends EditorScene {
-  constructor({lobbyId, gameModel, closeContextMenu, openContextMenu, editGameModel}) {
+  constructor({lobbyId, gameModel, closeContextMenu, openContextMenu}) {
     super({
       key: GAME_SCENE,
       gameModel : gameModel,
       closeContextMenu : closeContextMenu,
       openContextMenu : openContextMenu,
-      editGameModel : editGameModel,
     });
 
     this.gameModel = gameModel
     this.closeContextMenu = closeContextMenu
     this.openContextMenu = openContextMenu
-    this.editGameModel = editGameModel
     this.lobbyId = lobbyId
   }
 
@@ -40,10 +38,6 @@ export class GameHostScene extends EditorScene {
       
       window.socket.emit('ON_GAME_INSTANCE_UPDATE', { lobbyId: this.lobbyId, objects, player})
     }, updateInterval)
-  }
-
-  onGameModelUpdate(payload) {
-
   }
 
   create() {

@@ -7,7 +7,9 @@ import { closeLiveEditor } from '../../store/actions/editorActions';
 import './LiveEditor.scss'
 import ButtonGroup from '../ButtonGroup/ButtonGroup';
 
-const LiveEditor = ({ closeLiveEditor, game: { gameModel }, editor: { editorState: { objectSelectedIdLiveEditor } },  editGameModel }) => {
+const LiveEditor = ({ closeLiveEditor, game: { gameModel }, editor: { editorState: { classSelectedIdLiveEditor } },  editGameModel }) => {
+  const classSelected = gameModel.classes[classSelectedIdLiveEditor]
+
   return (
     <div className="LiveEditor">
       <button className="LiveEditor__close" onClick={closeLiveEditor}><i className="fas fa-close"/></button>
@@ -15,42 +17,25 @@ const LiveEditor = ({ closeLiveEditor, game: { gameModel }, editor: { editorStat
         title="Speed"
         options={['snail', 'slow', 'normal', 'fast', 'cheetah']}
         onSelectOption={(value) => {
-          console.log('selected value', value);
-
-          gameModel.objects = gameModel.objects.map((object) => {
-            if(object.id === objectSelectedIdLiveEditor) {
-              object.angularVelocity = object.angularVelocity += 100
-            }
-
-            return object
-          })
-
-          editGameModel(gameModel)
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { speed: 100 }}})        
         }}
         initialOption="normal"
       />
       <ButtonGroup
         title="Mass"
         options={['bricks', 'heavy', 'normal', 'light', 'feather']}
-        onSelectOption={() => {
-
+        onSelectOption={(value) => {
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { mass: 100 }}})       
         }}
         initialOption="normal"
       />
       <ButtonGroup
         title="Bounce"
-        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
+        options={[0, .25, .5, .75, 1]}
         onSelectOption={(value) => {
-          gameModel.objects = gameModel.objects.map((object) => {
-            if(object.id === objectSelectedIdLiveEditor) {
-              object.bounciness = 1
-            }
-            return object
-          })
-
-          editGameModel(gameModel)
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { bounciness: value }}})        
         }}
-        initialOption="normal"
+        initialOption={classSelected.bounciness}
       />
       <ButtonGroup
         title="Friction"

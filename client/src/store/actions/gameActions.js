@@ -20,11 +20,13 @@ import {
   CLEAR_GAME_ERROR,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
-  ON_GAME_INSTANCE_UPDATE,
 } from '../types';
+import { mergeDeep } from '../../utils/utils';
+import _ from 'lodash';
 
-export const editGameModel  = (gameData) => async (dispatch, getState) => {
+export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const lobbyId = getState().lobby.lobby.id
+  const gameId = getState().game.gameModel.id
 
   dispatch({
     type: EDIT_GAME_LOADING,
@@ -32,15 +34,16 @@ export const editGameModel  = (gameData) => async (dispatch, getState) => {
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/games/${gameData.id}`, { lobbyId: lobbyId, game: gameData }, options);
+    const response = await axios.put(`/api/games/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate }, options);
 
-    // for local editing mode, there will be no ON_GAME_MODEL_UPDATED event so we need a local EDIT_GAME_SUCCESS
-    if(!lobbyId) {
-      dispatch({
-        type: EDIT_GAME_SUCCESS,
-        payload: { game: response.data.game },
-      });
-    }
+    // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event so we need a local EDIT_GAME_SUCCESS
+    // if(!lobbyId) {
+    //   dispatch({
+    //     type: EDIT_GAME_SUCCESS,
+    //     payload: { game: response.data.game },
+    //   });
+    // }
+
   } catch (err) {
     console.error(err)
 
@@ -82,10 +85,13 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/games/' + gameId, options);
 
-    window.socket.on(ON_GAME_MODEL_UPDATE, (game) => {
+    window.socket.on(ON_GAME_MODEL_UPDATE, (gameUpdate) => {
+      const oldGameData = _.cloneDeep(getState().game.gameModel)
+      const gameData = mergeDeep(oldGameData, gameUpdate)
+     
       dispatch({
-        type: ON_GAME_INSTANCE_UPDATE,
-        payload: { game },
+        type: ON_GAME_MODEL_UPDATE,
+        payload: { game: gameData },
       });
     })
 

@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-import { editGameModel } from '../../store/actions/gameActions';
-
 import './ButtonGroup.scss'
 
 const ButtonGroup = ({ onSelectOption, title, options, initialOption = 'normal' }) => {
@@ -29,7 +27,7 @@ const ButtonGroup = ({ onSelectOption, title, options, initialOption = 'normal' 
         onChange={handleChange}
       >
         {options.map((option) => {
-          return <ToggleButton size="small" value={option}>{option}</ToggleButton>
+          return <ToggleButton key={option} size="small" value={option}>{option}</ToggleButton>
         })}
       </ToggleButtonGroup>
     </div>
@@ -40,4 +38,4 @@ const mapStateToProps = (state) => ({
   editor: state.editor
 });
 
-export default connect(mapStateToProps, { editGameModel  })(ButtonGroup);
+export default connect(mapStateToProps, { })(ButtonGroup);

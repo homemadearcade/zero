@@ -46,7 +46,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 
     req.io.to('cobrowsing@'+req.params.id).emit(ON_COBROWSING_UPDATE, {
       userId: req.params.id,
-      cobrowsingState: req.body.cobrowsingState
+      remoteState: req.body.remoteState
     });
 
     res.status(200).send();

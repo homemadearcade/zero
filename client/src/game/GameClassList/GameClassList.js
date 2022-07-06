@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
-
 import './GameClassList.scss';
 import classNames from 'classnames';
 import { Button } from '@mui/material';

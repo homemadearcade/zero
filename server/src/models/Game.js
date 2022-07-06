@@ -6,8 +6,11 @@ const { Schema } = mongoose;
 const gameSchema = new Schema(
   {
     objects: {
-      type: [Object],
+      type: Object,
       required: true,
+      default: {
+
+      }
     },
     metadata: {
       type: Object,
@@ -41,7 +44,18 @@ const gameSchema = new Schema(
 
 export const validateGame = (game) => {
   const schema = {
-    objects: Joi.array().items(Joi.object()),
+    hero: Joi.object({
+      // spawnX: Joi.number().required(),
+      // spawnY: Joi.number().required()
+    }),
+    world: Joi.object({
+
+    }),
+    metadata: Joi.object({
+
+    }),
+    objects: Joi.object(),
+    classes: Joi.object(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };

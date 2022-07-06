@@ -16,9 +16,9 @@ const initialState = {
   isSubscribingCobrowsing: false,
   error: null,
   cobrowsingUser: false,
-  cobrowsingState: {
+  remoteState: {
     lobby: {
-      step: 'internet_speed_test', //'video_connection',
+      onboardingStep: 'internet_speed_test', //'video_connection',
       error: null,
     },
     video: {
@@ -29,7 +29,7 @@ const initialState = {
       error: null,
       classSelectedId: null,
       objectSelectedIdContextMenu: null,
-      objectSelectedIdLiveEditor: null,
+      classSelectedIdLiveEditor: null,
       selectableObjectIds: null,
       isContextMenuOpen: false,
       isLiveEditorOpen: false
@@ -48,7 +48,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         cobrowsingUser: payload.cobrowsingUser,
-        cobrowsingState: payload.cobrowsingState
+        remoteState: payload.remoteState
       };
     case END_COBROWSING_SUCCESS:
       return {
@@ -60,7 +60,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         isSubscribingCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
-        cobrowsingState: null,
+        remoteState: null,
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
       return {
@@ -87,7 +87,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case ON_COBROWSING_UPDATE:
       return {
         ...state,
-        cobrowsingState: {...payload.cobrowsingState }
+        remoteState: {...payload.remoteState }
       };
     default:
       return state;
