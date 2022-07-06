@@ -4,17 +4,10 @@ import {
 import { EditorScene } from './EditorScene';
 
 export class GameLocalScene extends EditorScene {
-  constructor({gameModel, closeContextMenu, openContextMenu}) {
+  constructor() {
     super({
       key: GAME_SCENE,
-      gameModel : gameModel,
-      closeContextMenu : closeContextMenu,
-      openContextMenu : openContextMenu,
     });
-
-    this.gameModel = gameModel
-    this.closeContextMenu = closeContextMenu
-    this.openContextMenu = openContextMenu
   }
 
   create() {
@@ -24,8 +17,8 @@ export class GameLocalScene extends EditorScene {
     //game.loop.actualFps
   }
 
-  destroy() {
-    super.destroy();
+  unload() {
+    super.unload();
     window.socket.off('ON_GAME_MODEL_UPDATE')
   }
 }

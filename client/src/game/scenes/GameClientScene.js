@@ -4,17 +4,10 @@ import {
 import { EditorScene } from './EditorScene';
 
 export class GameClientScene extends EditorScene {
-  constructor({lobbyId, gameModel, closeContextMenu, openContextMenu}) {
+  constructor() {
     super({
       key: GAME_SCENE,
-      gameModel : gameModel,
-      closeContextMenu : closeContextMenu,
-      openContextMenu : openContextMenu,
     });
-
-    this.gameModel = gameModel
-    this.closeContextMenu = closeContextMenu
-    this.openContextMenu = openContextMenu
   }
 
   onGameInstanceUpdate = ({objects, player}) => {
@@ -36,12 +29,12 @@ export class GameClientScene extends EditorScene {
     this.matter.world.setBounds(0, 0, 1000, 1000);
     this.matter.pause()
     window.socket.on('ON_GAME_INSTANCE_UPDATE', this.onGameInstanceUpdate)
-    // window.socket.on('ON_GAME_MODEL_UPDATE', this.onGameModelUpdate)
+    window.socket.on('ON_GAME_MODEL_UPDATE', this.onGameModelUpdate)
   }
 
-  destroy() {
-    super.destroy();
+  unload() {
+    super.unload();
     window.socket.off('ON_GAME_INSTANCE_UPDATE')
-    // window.socket.off('ON_GAME_MODEL_UPDATE')
+    window.socket.off('ON_GAME_MODEL_UPDATE')
   }
 }

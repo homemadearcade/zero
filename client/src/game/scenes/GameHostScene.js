@@ -1,26 +1,19 @@
 import {
   GAME_SCENE,
 } from '../../constants';
+import store from '../../store';
 import { EditorScene } from './EditorScene';
 
 export class GameHostScene extends EditorScene {
-  constructor({lobbyId, gameModel, closeContextMenu, openContextMenu}) {
+  constructor() {
     super({
       key: GAME_SCENE,
-      gameModel : gameModel,
-      closeContextMenu : closeContextMenu,
-      openContextMenu : openContextMenu,
     });
-
-    this.gameModel = gameModel
-    this.closeContextMenu = closeContextMenu
-    this.openContextMenu = openContextMenu
-    this.lobbyId = lobbyId
   }
 
   startRemoteClientUpdateLoop = () => {
     let updateInterval = 1000/12
-    setInterval(() => {
+    this.remoteClientUpdateInterval = setInterval(() => {
       const objects = this.objects.map(({id, x, y, rotation}) => {
         return {
           id,
@@ -36,7 +29,7 @@ export class GameHostScene extends EditorScene {
         rotation: this.player.rotation
       }
       
-      window.socket.emit('ON_GAME_INSTANCE_UPDATE', { lobbyId: this.lobbyId, objects, player})
+      window.socket.emit('ON_GAME_INSTANCE_UPDATE', { lobbyId: store.getState().lobby.lobby.id, objects, player})
     }, updateInterval)
   }
 
@@ -49,8 +42,9 @@ export class GameHostScene extends EditorScene {
     //game.loop.actualFps
   }
 
-  destroy() {
-    super.destroy();
+  unload() {
+    super.unload();
     window.socket.off('ON_GAME_MODEL_UPDATE')
+    window.clearInterval(this.remoteClientUpdateInterval)
   }
 }

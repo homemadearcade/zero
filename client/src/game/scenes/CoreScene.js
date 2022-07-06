@@ -30,11 +30,10 @@ export class CoreScene extends Phaser.Scene {
     this.objectsById[object.id] = newPhaserObject
   }
 
-  updateInstanceObject(instanceObject, {spawnX, spawnY, x, y, rotation, bounciness}) {
+  updateInstanceObject(instanceObject, {x, y, rotation}) {
     if(x) instanceObject.x = x;
     if(y) instanceObject.y = y;
     if(rotation) instanceObject.rotation = rotation;
-    if(bounciness) instanceObject.setBounce(bounciness)
   }
 
   create() {
@@ -47,7 +46,10 @@ export class CoreScene extends Phaser.Scene {
       return new CoreObject(this, gameModel.objects[objectId])
     });
 
-    this.objectsById = {...gameModel.objects}
+    this.objectsById = this.objects.reduce((prev, next) => {
+      prev[next.id] = next 
+      return prev
+    }, {})
 
     this.player = new PlayerObject(this, {
       id: 'player',
@@ -82,7 +84,7 @@ export class CoreScene extends Phaser.Scene {
     this.player.update(time, delta)
   }
 
-  destroy() {
+  unload() {
     // We want to keep the assets in the cache and leave the renderer for reuse.
     this.game.destroy(true);
   }

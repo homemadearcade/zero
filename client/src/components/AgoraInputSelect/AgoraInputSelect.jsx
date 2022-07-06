@@ -12,7 +12,7 @@ const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, vid
     <div>
       Camera:
       <select 
-        value={videoTrackId}
+        value={videoTrackId || ""}
         onChange={(e) => {
         setVideoDevice(e.target.value)
         setVideoTrackId(e.target.value)
@@ -28,7 +28,7 @@ const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, vid
     <div>
       Microphone:
       <select 
-        value={audioTrackId}
+        value={audioTrackId || ""}
         onChange={(e) => {
           setAudioDevice(e.target.value)
           setAudioTrackId(e.target.value)

@@ -7,8 +7,6 @@ import { PreloaderScene } from '../scenes/PreloaderScene';
 import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
-import { openContextMenu, closeContextMenu } from '../../store/actions/editorActions';
-
 import WaterBodyPlugin from 'phaser-plugin-water-body';
 
 const config= {
@@ -45,15 +43,16 @@ const config= {
   }
 };
 
-const GameView = ({gameModel, lobbyId, isHost, isNetworked, openContextMenu, closeContextMenu}) => {
+const GameView = ({isHost, isNetworked}) => {
   const [loadedGame, setLoadedGame] = useState()
 
   useEffect(() => {
     const game = new Phaser.Game(config);
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ lobbyId, isHost, isNetworked, gameModel, openContextMenu, closeContextMenu }), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isHost, isNetworked}), true);
     setLoadedGame(game)
 
     return () => {
+      game.scene.scenes[0].unload()
       game.destroy()
     }
   }, []);
@@ -75,4 +74,4 @@ const mapStateToProps = (state) => ({
 
 });
 
-export default connect(mapStateToProps, { openContextMenu, closeContextMenu })(GameView);
+export default connect(mapStateToProps, { })(GameView);

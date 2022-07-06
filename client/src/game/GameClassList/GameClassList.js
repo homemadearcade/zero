@@ -20,20 +20,23 @@ const GameClassList = ({
   return <div className="GameClassList">
     {Object.keys(classes).map((currentClassId, i) => {
       const currentClass = classes[currentClassId]
-      
       return <div key={i} onClick={() => {
         if(currentClassId === classSelectedId) {
           clearClass()
+        } else {
+          selectClass(currentClassId)
         }
-        selectClass(currentClassId)
       }} className={classNames("GameClassList__class", { 'GameClassList__class--selected': classSelectedId === currentClassId})}>
         {currentClassId}
       </div>
     })}
     <Button className="GameClassList__add" onClick={() => {
       const classId = uuidv4()
-      gameModel.classes[classId] = {}
-      editGameModel(gameModel)
+      editGameModel({
+        classes: {
+          [classId] : {}
+        }
+      })
     }}>
       Add New Class
     </Button>

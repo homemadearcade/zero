@@ -50,8 +50,6 @@ router.post('/', requireJwtAuth, async (req, res) => {
       user: req.body.userId,
     });
 
-    console.log(game)
-
     game = await game.populate('user').execPopulate();
 
     res.status(200).json({ game: game.toJSON() });

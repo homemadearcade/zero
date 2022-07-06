@@ -1,18 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 import { CoreScene } from './CoreScene';
 import store from '../../store';
-import { getDiff } from '../../utils/utils';
 import { editGameModel } from '../../store/actions/gameActions';
+import { openContextMenu } from '../../store/actions/editorActions';
 
 export class EditorScene extends CoreScene {
-  constructor({key, lobbyId, closeContextMenu, openContextMenu}) {
+  constructor({key}) {
     super({
       key: key,
     });
-
-    this.closeContextMenu = closeContextMenu
-    this.openContextMenu = openContextMenu
-    this.lobbyId = lobbyId
   }
   
   onDragStart = (pointer, gameObject, dragX, dragY) => {
@@ -24,12 +20,12 @@ export class EditorScene extends CoreScene {
   onDragEnd = (pointer, gameObject) => {
     gameObject.spawnX = gameObject.x;
     gameObject.spawnY = gameObject.y;
-    const gameModelObject = this.getModelObjectById(gameObject.id)
-    gameModelObject.spawnX = gameObject.x;
-    gameModelObject.spawnY = gameObject.y;
     store.dispatch(editGameModel({ 
       objects: {
-        [gameObject.id]: gameModelObject
+        [gameObject.id]: {
+          spawnX: gameObject.x,
+          spawnY: gameObject.y
+        }
       }
     }))
   }
@@ -80,7 +76,7 @@ export class EditorScene extends CoreScene {
       })
 
       if(gameObjects.length) {
-        this.openContextMenu(gameObjects, pointer)
+        store.dispatch(openContextMenu(gameObjects, pointer))
       }
     }
   }
@@ -91,11 +87,23 @@ export class EditorScene extends CoreScene {
   }
 
   onGameModelUpdate = (gameUpdate) => {
-    // const gameModel = store.getState().game.gameModel
-    // console.log(gameModel.classes['9ab805a5-141e-4b54-91d6-b4901770d966'], gameUpdate.classes['9ab805a5-141e-4b54-91d6-b4901770d966'])
-    // const diff = getDiff(gameModel, gameUpdate)
-    // console.log('XX', diff)
-    console.log(gameUpdate)
+    if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
+      const objectUpdate = gameUpdate.objects[id]
+      if(!this.objectsById[id]) {
+        this.addInstanceObject(objectUpdate)
+      }
+    })
+
+    if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
+      const classUpdate = gameUpdate.classes[id]
+      if(classUpdate.bounciness) {
+        this.objects.forEach((object) => {
+          if(object.classId === id) {
+            object.setBounce(classUpdate.bounciness)
+          }
+        })
+      }
+    })
   }
 
   create() {
@@ -110,5 +118,9 @@ export class EditorScene extends CoreScene {
     this.input.dragDistanceThreshold = 16;
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
+  }
+
+  unload() {
+    super.unload()
   }
 }
