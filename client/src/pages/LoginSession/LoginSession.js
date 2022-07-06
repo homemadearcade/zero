@@ -15,7 +15,7 @@ import { loginUserWithEmail, authenticateSocket } from '../../store/actions/auth
 import { loginSchema } from './validation';
 import './styles.css';
 import { getUrlParameter } from '../../utils/utils';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/ui/Loader/Loader';
 import SceneFull from '../../components/SceneFull/SceneFull.jsx';
 
 const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket }) => {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './GameEditor.scss';
 
-import ContextMenu from '../../components/ContextMenu/ContextMenu';
+import ContextMenu from '../../components/ui/ContextMenu/ContextMenu';
 
 // import SaveGameButton from '../SaveGameButton/SaveGameButton';
 import GameView from '../GameView/GameView';

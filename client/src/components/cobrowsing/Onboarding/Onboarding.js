@@ -7,7 +7,7 @@ import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../
 import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 
-import Loader from '../../Loader/Loader';
+import Loader from '../../ui/Loader/Loader';
 import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
 
 const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser, lobby: { lobby }, cobrowsing: { remoteState, cobrowsingUser }}) => {

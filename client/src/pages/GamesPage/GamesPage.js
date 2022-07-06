@@ -10,7 +10,7 @@ import requireAuth from '../../hoc/requireAuth';
 
 import Layout from '../../layout/Layout';
 import { getGames } from '../../store/actions/gameActions';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/ui/Loader/Loader';
 import { Link } from 'react-router-dom';
 import GameForm from '../../components/GameForm/GameForm';
 

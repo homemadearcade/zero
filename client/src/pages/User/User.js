@@ -10,7 +10,7 @@ import { getUserByUsername, editUser, deleteUser } from '../../store/actions/use
 import { logOutUser } from '../../store/actions/authActions';
 
 import Layout from '../../layout/Layout';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import { userSchema } from './validation';
 

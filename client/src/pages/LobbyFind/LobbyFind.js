@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { getLobbyByEmail } from '../../store/actions/lobbyActions';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 
 import './styles.scss';

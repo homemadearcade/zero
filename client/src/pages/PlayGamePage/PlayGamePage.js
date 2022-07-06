@@ -8,7 +8,7 @@ import './PlayGamePage.scss';
 
 import { requestFullscreen } from '../../store/actions/browserActions';
 import { loadGame, unloadGame } from '../../store/actions/gameActions';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/ui/Loader/Loader';
 import GameClassList from '../../game/GameClassList/GameClassList';
 
 const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isGameModelLoading },  requestFullscreen, match}) => {

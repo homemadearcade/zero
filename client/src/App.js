@@ -22,7 +22,7 @@ import SessionLogin from './pages/LoginSession/LoginSession';
 import LobbyFind from './pages/LobbyFind/LobbyFind';
 import './events.js'
 
-import Loader from './components/Loader/Loader';
+import Loader from './components/ui/Loader/Loader';
 
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 

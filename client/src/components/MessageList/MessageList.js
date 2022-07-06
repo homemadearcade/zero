@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Message from '../Message/Message';
-import Loader from '../Loader/Loader';
+import Loader from '../ui/Loader/Loader';
 
 import { getMessages } from '../../store/actions/messageActions';
 import './styles.css';

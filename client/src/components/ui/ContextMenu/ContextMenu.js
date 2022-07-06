@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { closeContextMenu } from '../../store/actions/editorActions';
+import { closeContextMenu } from '../../../store/actions/editorActions';
 
 import './ContextMenu.scss';
 
 import Menu from '@mui/material/Menu';
-import CoreObjectContextMenu from '../../game/CoreObjectContextMenu/CoreObjectContextMenu';
+import CoreObjectContextMenu from '../../../game/CoreObjectContextMenu/CoreObjectContextMenu';
 
 const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen } }}) => {  
   function handleClose() {

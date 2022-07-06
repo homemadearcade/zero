@@ -7,7 +7,7 @@ import { getLobbys } from '../../store/actions/lobbysActions';
 import { deleteLobby, joinLobby } from '../../store/actions/lobbyActions';
 
 import Layout from '../../layout/Layout';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/ui/Loader/Loader';
 import LobbyForm from '../../components/LobbyForm/LobbyForm';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';

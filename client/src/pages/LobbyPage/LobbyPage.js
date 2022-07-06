@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 
 import { joinLobby, leaveLobby, assignLobbyRole} from '../../store/actions/lobbyActions';
 import { subscribeCobrowsing, startCobrowsing } from '../../store/actions/cobrowsingActions';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';

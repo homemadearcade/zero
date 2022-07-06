@@ -5,7 +5,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import { closeLiveEditor } from '../../store/actions/editorActions';
 
 import './LiveEditor.scss'
-import ButtonGroup from '../ButtonGroup/ButtonGroup';
+import ButtonGroup from '../../components/ui/ButtonGroup/ButtonGroup';
 import { Button } from '@mui/material';
 
 const LiveEditor = ({ closeLiveEditor, game: { gameModel }, editor: { editorState: { classSelectedIdLiveEditor } },  editGameModel }) => {

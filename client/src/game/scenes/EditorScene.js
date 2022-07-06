@@ -18,8 +18,6 @@ export class EditorScene extends CoreScene {
   }
 
   onDragEnd = (pointer, gameObject) => {
-    gameObject.spawnX = gameObject.x;
-    gameObject.spawnY = gameObject.y;
     store.dispatch(editGameModel({ 
       objects: {
         [gameObject.id]: {
@@ -114,7 +112,6 @@ export class EditorScene extends CoreScene {
       }
       if(classUpdate.friction >= 0) {
         this.forAllObjectsMatchingClassId(id, (object) => {
-          console.log('Yo!', classUpdate.friction)
           object.setFriction(classUpdate.friction)
         })
       }
