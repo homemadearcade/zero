@@ -4,4 +4,9 @@
   top: 1em;
   background-color: #222;
   padding: 1em;
+  &__close {
+    position:absolute;
+    right: .2em; 
+    top: .2em;
+  }
 }

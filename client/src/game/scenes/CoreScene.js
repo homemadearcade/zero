@@ -11,6 +11,14 @@ export class CoreScene extends Phaser.Scene {
     });
   }
 
+  forAllObjectsMatchingClassId(classId, fx) {
+    this.objects.forEach((object) => {
+      if(object.classId === classId) {
+        fx(object)
+      }
+    })
+  }
+
   getModelObjectById(id) {
     const gameModel = store.getState().game.gameModel
 

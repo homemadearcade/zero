@@ -6,28 +6,31 @@ import { closeLiveEditor } from '../../store/actions/editorActions';
 
 import './LiveEditor.scss'
 import ButtonGroup from '../ButtonGroup/ButtonGroup';
+import { Button } from '@mui/material';
 
 const LiveEditor = ({ closeLiveEditor, game: { gameModel }, editor: { editorState: { classSelectedIdLiveEditor } },  editGameModel }) => {
   const classSelected = gameModel.classes[classSelectedIdLiveEditor]
 
   return (
     <div className="LiveEditor">
-      <button className="LiveEditor__close" onClick={closeLiveEditor}><i className="fas fa-close"/></button>
+      Editing Class:<br/> 
+      {classSelectedIdLiveEditor}
+      <div className="LiveEditor__close"><Button onClick={closeLiveEditor}><i className="fas fa-close"/></Button></div>
       <ButtonGroup
         title="Speed"
-        options={['snail', 'slow', 'normal', 'fast', 'cheetah']}
+        options={[.01, 0.5, 1, 5, 20, 100, 500]}
         onSelectOption={(value) => {
-          editGameModel({ classes: { [classSelectedIdLiveEditor]: { speed: 100 }}})        
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { speed: value }}})        
         }}
         initialOption="normal"
       />
       <ButtonGroup
         title="Mass"
-        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
+        options={[.01, 0.5, 1, 5, 20, 100, 500]}
         onSelectOption={(value) => {
-          editGameModel({ classes: { [classSelectedIdLiveEditor]: { mass: 100 }}})       
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { mass: value }}})       
         }}
-        initialOption="normal"
+        initialOption={classSelected.mass}
       />
       <ButtonGroup
         title="Bounce"
@@ -39,27 +42,35 @@ const LiveEditor = ({ closeLiveEditor, game: { gameModel }, editor: { editorStat
       />
       <ButtonGroup
         title="Friction"
-        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
-        onSelectOption={() => {
-
+        options={[0, .25, .5, .75, 1]}
+        onSelectOption={(value) => {
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { friction: value }}})        
         }}
-        initialOption="normal"
+        initialOption={classSelected.friction}
       />
       <ButtonGroup
         title="Friction (Air)"
-        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
-        onSelectOption={() => {
-
+        options={[0, .25, .5, .75, 1]}
+        onSelectOption={(value) => {
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { frictionAir: value }}})        
         }}
-        initialOption="normal"
+        initialOption={classSelected.frictionAir}
+      />
+       <ButtonGroup
+        title="Friction (Static)"
+        options={[0, 10, 100, 1000]}
+        onSelectOption={(value) => {
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { frictionStatic: value }}})        
+        }}
+        initialOption={classSelected.frictionStatic}
       />
       <ButtonGroup
         title="Density"
-        options={['bricks', 'heavy', 'normal', 'light', 'feather']}
-        onSelectOption={() => {
-
+        options={[.01, 0.5, 1, 5, 20, 100, 500]}
+        onSelectOption={(value) => {
+          editGameModel({ classes: { [classSelectedIdLiveEditor]: { density: value }}})        
         }}
-        initialOption="normal"
+        initialOption={classSelected.density}
       />
     </div>
   );

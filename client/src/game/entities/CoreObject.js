@@ -21,6 +21,11 @@ export class CoreObject extends Phaser.Physics.Matter.Sprite {
     scene.input.setDraggable(this)
 
     if(objectClass?.bounciness) this.setBounce(objectClass.bounciness)
+    if(objectClass?.mass) this.setMass(objectClass.mass)
+    if(objectClass?.density) this.setDensity(objectClass.density)
+    if(objectClass?.friction) this.setFriction(objectClass.friction)
+    if(objectClass?.frictionAir) this.setFrictionAir(objectClass.frictionAir)
+    if(objectClass?.frictionStatic) this.setFrictionStatic(objectClass.frictionStatic)
 
     this.outline = scene.add.graphics();
     this.outline.lineStyle(3, 0xffffff, 1);

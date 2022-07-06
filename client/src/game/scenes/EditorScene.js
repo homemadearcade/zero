@@ -96,11 +96,36 @@ export class EditorScene extends CoreScene {
 
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
       const classUpdate = gameUpdate.classes[id]
-      if(classUpdate.bounciness) {
-        this.objects.forEach((object) => {
-          if(object.classId === id) {
-            object.setBounce(classUpdate.bounciness)
-          }
+      
+      if(classUpdate.bounciness >= 0) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          object.setBounce(classUpdate.bounciness)
+        })
+      }
+      if(classUpdate.mass >= 0) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          object.setMass(classUpdate.mass)
+        })
+      }
+      if(classUpdate.density >= 0) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          object.setDensity(classUpdate.density)
+        })
+      }
+      if(classUpdate.friction >= 0) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          console.log('Yo!', classUpdate.friction)
+          object.setFriction(classUpdate.friction)
+        })
+      }
+      if(classUpdate.frictionAir >= 0) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          object.setFrictionAir(classUpdate.frictionAir)
+        })
+      }
+      if(classUpdate.frictionStatic >= 0) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          object.setFrictionStatic(classUpdate.frictionStatic)
         })
       }
     })

@@ -31,8 +31,8 @@ const GameEditor = ({gameModel, editor: { editorState: { isLiveEditorOpen } }, i
       {children}
       <div className="GameEditor__overlay">
         {overlay}
-        {isLiveEditorOpen && <LiveEditor/>}
       </div>
+      {isLiveEditorOpen && <LiveEditor/>}
     </div>
   );
 };
