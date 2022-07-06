@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { logOutUser } from '../../store/actions/authActions';
+import { logOutUser } from '../../../store/actions/authActions';
 import './styles.css';
 
 const Navbar = ({ auth, logOutUser, history }) => {

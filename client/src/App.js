@@ -31,7 +31,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import io from 'socket.io-client'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ErrorHandler from './components/ErrorHandler/ErrorHandler';
+import ErrorHandler from './components/ui/ErrorHandler/ErrorHandler';
 
 const darkTheme = createTheme({
   palette: {

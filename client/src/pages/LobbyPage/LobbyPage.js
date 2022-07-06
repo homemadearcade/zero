@@ -14,7 +14,7 @@ import './LobbyPage.scss';
 import Lobby from '../../components/Lobby/Lobby';
 import CobrowsingRoot from '../../components/cobrowsing/CobrowsingRoot/CobrowsingRoot';
 import { leaveAgoraVideoCall } from '../../store/actions/videoActions';
-import AgoraVideoCall from '../../components/AgoraVideoCall/AgoraVideoCall';
+import AgoraVideoCall from '../../components/agora/AgoraVideoCall/AgoraVideoCall';
 
 const LobbyPage = ({
   leaveLobby,

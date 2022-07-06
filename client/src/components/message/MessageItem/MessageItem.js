@@ -9,7 +9,7 @@ import { messageFormSchema } from './validation';
 
 import './styles.css';
 
-const Message = ({ message, auth, deleteMessage, editMessage, clearMessageError }) => {
+const MessageItem = ({ message, auth, deleteMessage, editMessage, clearMessageError }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const handleDelete = (e, id) => {
@@ -126,4 +126,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deleteMessage, editMessage, clearMessageError })(Message);
+export default connect(mapStateToProps, { deleteMessage, editMessage, clearMessageError })(MessageItem);

@@ -3,14 +3,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import './SelectGame.scss';
+import './GameSelect.scss';
 
 import { getGames } from '../../store/actions/gameActions';
 import Loader from '../ui/Loader/Loader';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-const SelectGame = ({ onSelect, getGames, game: { games, isLoading }}) => {
+const GameSelect = ({ onSelect, getGames, game: { games, isLoading }}) => {
   const [options, setOptions] = useState()
 
   useEffect(() => {
@@ -32,8 +32,8 @@ const SelectGame = ({ onSelect, getGames, game: { games, isLoading }}) => {
   }, [games])
 
   return (
-    <div className="SelectGame">
-      <div className="SelectGame__list">
+    <div className="GameSelect">
+      <div className="GameSelect__list">
         {isLoading ? (
           <Loader />
         ) : (options && <Autocomplete
@@ -57,4 +57,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { getGames }))(SelectGame);
+  connect(mapStateToProps, { getGames }))(GameSelect);

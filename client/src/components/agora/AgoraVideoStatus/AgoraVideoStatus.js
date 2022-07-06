@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
+import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
 
 import './AgoraVideoStatus.scss';
 

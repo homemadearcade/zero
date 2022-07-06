@@ -12,7 +12,7 @@ import './Lobby.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
 import { addGame, loadGame } from '../../store/actions/gameActions';
-import SelectGame from '../SelectGame/SelectGame';
+import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
 
 const UNASSIGNED_ROLE = 'unassigned'
@@ -230,7 +230,7 @@ const LobbyPage = ({
         {!lobby.isGameStarted && <>
           <h3>Select Game: </h3>
           {lobby?.game?.id && <GameCard game={lobby.game}/>}
-          <SelectGame onSelect={(game) => {
+          <GameSelect onSelect={(game) => {
             editLobby(lobby.id, {
               game
             })

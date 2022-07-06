@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Navbar from '../components/Navbar/Navbar';
-import Footer from '../components/Footer/Footer';
+import Navbar from '../components/ui/Navbar/Navbar';
+import Footer from '../components/ui/Footer/Footer';
 import './styles.css';
 
 const Layout = ({ children }) => {

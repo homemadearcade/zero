@@ -3,10 +3,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoCall.scss'
-import { useAgoraVideoCall } from "../../store/actions/videoActions";
+import { useAgoraVideoCall } from "../../../store/actions/videoActions";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
-
-import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from '../../store/actions/videoActions';
+import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from '../../../store/actions/videoActions';
 import {
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";

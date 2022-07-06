@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './VideoLayoutHA.scss'
 
-import AgoraVideo from "../AgoraVideo/AgoraVideo";
+import AgoraVideo from "../agora/AgoraVideo/AgoraVideo";
 
 const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTracks }) => {
   const userTracksById = [{ uid: me.id, videoTrack: myTracks[1], audioTrack: myTracks[0] }, ...userTracks].reduce((prev, next) => {
