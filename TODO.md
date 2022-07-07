@@ -2,6 +2,14 @@
 
 TODO
 
+Cobrowing using redux state connect thing.
+Basically just check if cobrowsing user or not, if there is a cobrowing user then swap the editor, video, etc state for the cobrowsing remote state
+
+in the Game model change objects -> objectInstances and classes -> objectModels
+
+default physics class with defaults for friction, mass, etc
+default hero class of course too....
+
 Cobrowsing Click event
 
 Popup for connection errors
@@ -14,16 +22,6 @@ Perhaps use something called withLobby so that I can have different url states d
 
 also with AgoraVideo?
 
-put all errors into a popup where I can clear them and return to the view
-
-
----
-
-#THOUGHTS
-
-How does the game update? Is it FLUX? one way updates?
-
-Whats the different between the game model and the game instance? How do those play out?
 
 ---
 
@@ -31,12 +29,6 @@ Whats the different between the game model and the game instance? How do those p
 
 Mobile
 Blockchain NFT editing thing
-At home Editor
---
-
-Game Instance
-Game Model
-UI State
 
 --
 
