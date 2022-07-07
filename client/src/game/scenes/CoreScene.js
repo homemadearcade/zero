@@ -38,6 +38,13 @@ export class CoreScene extends Phaser.Scene {
     this.objectsById[object.id] = newPhaserObject
   }
 
+  removeInstanceObject(id) {
+    this.objects = this.objects.filter((object) => {
+      return id !== object.id
+    })
+    this.objectsById[id].destroy()
+  }
+
   updateInstanceObject(instanceObject, {x, y, rotation}) {
     if(x) instanceObject.x = x;
     if(y) instanceObject.y = y;
@@ -48,11 +55,15 @@ export class CoreScene extends Phaser.Scene {
     const gameModel = store.getState().game.gameModel
 
     this.objects = Object.keys(gameModel.objects).map((objectId) => {
-      // if(!object) {
-      //   return console.error('Object missing!')
-      // } 
+      if(!gameModel.objects[objectId]) {
+        return console.error('Object missing!')
+      } 
       return new CoreObject(this, gameModel.objects[objectId])
     });
+
+    this.objects = this.objects.filter((object) => {
+      return !!object
+    })
 
     this.objectsById = this.objects.reduce((prev, next) => {
       prev[next.id] = next 

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { CoreScene } from './CoreScene';
 import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
-import { openContextMenu } from '../../store/actions/editorActions';
+import { openContextMenuFromGameObject } from '../../store/actions/editorActions';
 
 export class EditorScene extends CoreScene {
   constructor({key}) {
@@ -35,7 +35,7 @@ export class EditorScene extends CoreScene {
   }
 
   onPointerUp = (pointer, gameObjects) => {
-    const classId = store.getState().editor.editorState.classSelectedId
+    const classId = store.getState().editor.editorState.classSelectedIdClassList
 
     if(classId && pointer.leftButtonReleased() && !this.draggingObjectId) {
       const gameModelObject = {
@@ -74,7 +74,7 @@ export class EditorScene extends CoreScene {
       })
 
       if(gameObjects.length) {
-        store.dispatch(openContextMenu(gameObjects, pointer))
+        store.dispatch(openContextMenuFromGameObject(gameObjects, pointer.event))
       }
     }
   }
@@ -89,6 +89,9 @@ export class EditorScene extends CoreScene {
       const objectUpdate = gameUpdate.objects[id]
       if(!this.objectsById[id]) {
         this.addInstanceObject(objectUpdate)
+      }
+      if(objectUpdate === null) {
+        this.removeInstanceObject(id)
       }
     })
 

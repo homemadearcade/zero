@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 
 import { openLiveEditor } from '../../store/actions/editorActions';
+import { editGameModel } from '../../store/actions/gameActions';
+import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 
-const CoreObjectContextMenu = ({ openLiveEditor, onMenuItemClick, editor: { editorState: { objectSelectedIdContextMenu } }}) => {
-  
-  return <div>
+const CoreObjectContextMenu = ({ editGameModel, onMenuItemClick, editor: { editorState: { objectSelectedIdContextMenu } }}) => {
+  return <>
     <MenuItem onClick={() => {
-      openLiveEditor(objectSelectedIdContextMenu)
+      editGameModel({ objects: { [objectSelectedIdContextMenu]: null } })
       onMenuItemClick()
-    }}>Edit Physics</MenuItem>
-  </div>
+    }}>Delete</MenuItem>
+    <ClassContextMenu/>
+  </>
 };
 
 const mapStateToProps = (state) => ({
-  editor: state.editor
+  editor: state.editor,
 });
 
-export default connect(mapStateToProps, {openLiveEditor })(CoreObjectContextMenu);
+export default connect(mapStateToProps, { openLiveEditor, editGameModel })(CoreObjectContextMenu);

@@ -11,7 +11,7 @@ export const selectClass = (classId) => (dispatch, getState) => {
   dispatch({
     type: SELECT_CLASS,
     payload: {
-      classSelectedId: classId, 
+      classSelectedIdClassList: classId, 
     }
   });
 }
@@ -22,15 +22,27 @@ export const clearClass = (classId) => (dispatch, getState) => {
   });
 }
 
-export const openContextMenu = (gameObjects, pointer) => (dispatch, getState) => {
+export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
   dispatch({
     type: OPEN_CONTEXT_MENU,
     payload: {
-      objectSelectedIdContextMenu: gameObjects[0].id, 
+      classSelectedIdContextMenu: gameObjects[0].classId, 
+      objectSelectedIdContextMenu: gameObjects[0].id,
       // objectSelectedId: gameObjects.length === 1 ? gameObjects[0].id : null, 
       selectableObjectIds: gameObjects.length > 1 ? gameObjects.map(({id}) => id) : null, 
-      contextMenuX: pointer.event.pageX,
-      contextMenuY: pointer.event.pageY
+      contextMenuX: event.pageX,
+      contextMenuY: event.pageY
+    }
+  });
+}
+
+export const openContextMenuFromClassId= (classId, event) => (dispatch, getState) => {
+  dispatch({
+    type: OPEN_CONTEXT_MENU,
+    payload: {
+      classSelectedIdContextMenu: classId, 
+      contextMenuX: event.pageX,
+      contextMenuY: event.pageY
     }
   });
 }
@@ -41,13 +53,11 @@ export const closeContextMenu = () => (dispatch, getState) => {
   });
 }
 
-export const openLiveEditor = (gameObjectId, pointer) => (dispatch, getState) => {
-  const gameObject = getState().game.gameModel.objects[gameObjectId]
-
+export const openLiveEditor = (classId, pointer) => (dispatch, getState) => {
   dispatch({
     type: OPEN_LIVE_EDITOR,
     payload: {
-      classSelectedIdLiveEditor: gameObject.classId, 
+      classSelectedIdLiveEditor: classId, 
     }
   });
 }

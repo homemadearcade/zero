@@ -8,25 +8,34 @@ import './GameClassList.scss';
 import classNames from 'classnames';
 import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
-import { clearClass, selectClass } from '../../store/actions/editorActions';
+import { clearClass, selectClass, openContextMenuFromClassId } from '../../store/actions/editorActions';
 
 const GameClassList = ({
   game: { gameModel, gameModel : { classes }},
-  editor: { editorState: { classSelectedId }},
+  editor: { editorState: { classSelectedIdClassList }},
   editGameModel,
   selectClass,
-  clearClass
+  clearClass,
+  openContextMenuFromClassId
 }) => {
   return <div className="GameClassList">
     {Object.keys(classes).map((currentClassId, i) => {
       const currentClass = classes[currentClassId]
-      return <div key={i} onClick={() => {
-        if(currentClassId === classSelectedId) {
-          clearClass()
-        } else {
-          selectClass(currentClassId)
-        }
-      }} className={classNames("GameClassList__class", { 'GameClassList__class--selected': classSelectedId === currentClassId})}>
+      return <div
+        key={i} 
+        onClick={() => {
+          if(currentClassId === classSelectedIdClassList) {
+            clearClass()
+          } else {
+            selectClass(currentClassId)
+          }
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          openContextMenuFromClassId(currentClassId, e)
+        }}
+        className={classNames("GameClassList__class", { 'GameClassList__class--selected': classSelectedIdClassList === currentClassId})}
+      >
         {currentClassId}
       </div>
     })}
@@ -49,5 +58,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameModel, selectClass, clearClass }),
+  connect(mapStateToProps, { openContextMenuFromClassId, editGameModel, selectClass, clearClass }),
 )(GameClassList);

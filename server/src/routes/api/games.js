@@ -17,26 +17,26 @@ router.get('/', async (req, res) => {
       }),
     });
   } catch (err) {
-    res.status(500).json({ game: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong.' });
   }
 });
 
 router.get('/:id', async (req, res) => {
   try {
     const game = await Game.findById(req.params.id).populate('user');
-    if (!game) return res.status(404).json({ game: 'No game found.' });
+    if (!game) return res.status(404).json({ message: 'No game found.' });
     res.json({ game: game.toJSON() });
   } catch (err) {
-    res.status(500).json({ game: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong.' });
   }
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
   const { error } = validateGame(req.body);
-  if (error) return res.status(400).json({ game: error.details[0].message });
+  if (error) return res.status(400).json({ message: error.details[0].message });
 
   if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
-    return res.status(400).json({ game: 'Not created by the game owner or admin.' });
+    return res.status(400).json({ message: 'Not created by the game owner or admin.' });
   }
 
   try {
@@ -53,7 +53,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
     res.status(200).json({ game: game.toJSON() });
   } catch (err) {
-    res.status(500).json({ game: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong.' });
   }
 });
 
@@ -69,21 +69,35 @@ router.post('/', requireJwtAuth, async (req, res) => {
 //   } catch (err) {
 //     res.status(500).json({ game: 'Something went wrong.' });
 //   }
-
 // });
 
 router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     const tempGame = await Game.findById(req.params.id).populate('user');
+    if (!tempGame) return res.status(404).json({ message: 'No game found.' });
     if (!(tempGame.user.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ game: 'Not updated by the game owner or admin.' });
+      return res.status(400).json({ message: 'Not updated by the game owner or admin.' });
 
     const updatedGame = mergeDeep(tempGame, req.body.gameUpdate)
 
+    Object.keys(updatedGame.objects).forEach(key => {
+      if (updatedGame.objects[key] === null || updatedGame.objects[key] === undefined) {
+        console.log('deleting object', key)
+        delete updatedGame.objects[key];
+      }
+    });
+
+    Object.keys(updatedGame.classes).forEach(key => {
+      if (updatedGame.classes[key] === null || updatedGame.classes[key] === undefined) {
+        console.log('deleting class', key)
+        delete updatedGame.classes[key];
+      }
+    });
+
     const { error } = validateGame(updatedGame);
-    if (error) return res.status(400).json({ game: error.details[0].message });
+    if (error) return res.status(400).json({ message: error.details[0].message });
   
-    let game = await Game.findByIdAndUpdate(
+    await Game.findByIdAndUpdate(
       req.params.id,
       { 
         objects: updatedGame.objects, 
@@ -103,12 +117,9 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       req.socket.emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
     }
     
-    if (!game) return res.status(404).json({ game: 'No game found.' });
-    game = await game.populate('user').execPopulate();
-
-    res.status(200).json({ game });
+    res.status(200).json({ game: updatedGame });
   } catch (err) {
-    res.status(500).json({ game: 'Something went wrong.' });
+    res.status(500).json({ message: 'Something went wrong.' });
   }
 });
 

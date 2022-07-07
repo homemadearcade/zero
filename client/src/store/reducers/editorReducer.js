@@ -12,9 +12,10 @@ const initialState = {
   contextMenuY: null,
   editorState: {
     error: null,
-    classSelectedId: null,
-    classSelectedIdLiveEditor: null,
     objectSelectedIdContextMenu: null,
+    classSelectedIdClassList: null,
+    classSelectedIdLiveEditor: null,
+    classSelectedIdContextMenu: null,
     selectableObjectIds: null,
     isContextMenuOpen: false,
     isLiveEditorOpen: false
@@ -28,7 +29,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         editorState: {
           ...state.editorState,
-          classSelectedId: payload.classSelectedId
+          classSelectedIdClassList: payload.classSelectedIdClassList
         }
       }
     case CLEAR_CLASS:
@@ -36,7 +37,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
          ...state,
          editorState: {
            ...state.editorState,
-           classSelectedId: null
+           classSelectedIdClassList: null
          }
        }
     case OPEN_CONTEXT_MENU:
@@ -47,6 +48,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         editorState: {
           ...state.editorState,
           isContextMenuOpen: true,
+          classSelectedIdContextMenu: payload.classSelectedIdContextMenu,
           objectSelectedIdContextMenu: payload.objectSelectedIdContextMenu,
           selectableObjectIds: payload.selectableObjectIds
         },
@@ -58,6 +60,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         contextMenuY: null,
         editorState: {
           ...state.editorState,
+          classSelectedIdContextMenu: null,
           objectSelectedIdContextMenu: null,
           selectableObjectIds: null,
           isContextMenuOpen: false

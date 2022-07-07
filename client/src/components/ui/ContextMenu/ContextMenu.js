@@ -7,10 +7,19 @@ import './ContextMenu.scss';
 
 import Menu from '@mui/material/Menu';
 import CoreObjectContextMenu from '../../../game/CoreObjectContextMenu/CoreObjectContextMenu';
+import ClassContextMenu from '../../../game/ClassContextMenu/ClassContextMenu';
 
-const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen } }}) => {  
+const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen, objectSelectedIdContextMenu } }}) => {  
   function handleClose() {
     closeContextMenu()
+  }
+
+  function _renderBody() {
+    if(objectSelectedIdContextMenu) {
+      return <CoreObjectContextMenu onMenuItemClick={handleClose}/>
+    } 
+
+    return <ClassContextMenu onMenuItemClick={handleClose}/>
   }
 
   return (
@@ -24,7 +33,7 @@ const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, e
           : undefined
       }
     >
-      <CoreObjectContextMenu onMenuItemClick={handleClose}/>
+      {_renderBody()}
     </Menu>
   );
 }

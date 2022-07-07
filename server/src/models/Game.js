@@ -8,9 +8,7 @@ const gameSchema = new Schema(
     objects: {
       type: Object,
       required: true,
-      default: {
-
-      }
+      default: {}
     },
     metadata: {
       type: Object,
