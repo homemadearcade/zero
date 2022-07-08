@@ -2,13 +2,16 @@
 
 TODO
 
+Basic static objects please, basic paintbrush v1?....
+and also maybe just squares with colors please
+
+implement my own physics properties - speed, controls, jump, dash etc
+camera and game boundary work
+
 Cobrowing using redux state connect thing.
-Basically just check if cobrowsing user or not, if there is a cobrowing user then swap the editor, video, etc state for the cobrowsing remote state
+Basically just check if cobrowsing user or not, if there is a cobrowsing user then swap the editor, video, etc state for the cobrowsing remote state
 
 in the Game model change objects -> objectInstances and classes -> objectModels
-
-default physics class with defaults for friction, mass, etc
-default hero class of course too....
 
 Cobrowsing Click event
 
@@ -20,8 +23,18 @@ Unauthenticate socket when logging out
 
 Perhaps use something called withLobby so that I can have different url states during onboard and for the game. And you can use back button to go to the lobby 
 
-also with AgoraVideo?
+also withAgoraVideo?
 
+--
+
+ANSWER
+Everything is the same class
+Camera, Controls are all on the class object, not based on the hero object
+... In the future I want everything to be able to be controlled. We need data for that. 
+
+Finish everything and just add more and more behaviors, and controls, and customization
+
+then perhaps find the right way to do custom coding - collision, events? paths? etc
 
 ---
 

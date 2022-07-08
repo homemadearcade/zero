@@ -11,8 +11,6 @@ export class CoreObject extends Phaser.Physics.Matter.Sprite {
     }
     super(scene.matter.world, spawnX, spawnY, objectClass.spriteId, 0)
 
-    console.log(spawnX, spawnY, id, classId, objectClass)
-
     this.id = id
     this.classId = classId
     
