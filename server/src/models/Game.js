@@ -35,6 +35,11 @@ const gameSchema = new Schema(
       required: true,
       default: {}
     },
+    brushes: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -55,6 +60,7 @@ export const validateGame = (game) => {
     }),
     objects: Joi.object(),
     classes: Joi.object(),
+    brushes: Joi.object(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };
@@ -66,6 +72,7 @@ gameSchema.methods.toJSON = function () {
     objects: this.objects,
     hero: this.hero,
     classes: this.classes,
+    brushes: this.brushes,
     world: this.world,
     user: this.user.toJSON(),
     createdAt: this.createdAt,

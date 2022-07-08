@@ -12,15 +12,15 @@ export class CoreScene extends Phaser.Scene {
     });
   }
 
-  forAllObjectsMatchingClassId(classId, fx) {
-    this.objects.forEach((object) => {
+  forAllObjectInstancesMatchingClassId(classId, fx) {
+    this.objectInstances.forEach((object) => {
       if(object.classId === classId) {
         fx(object)
       }
     })
   }
 
-  getModelObjectById(id) {
+  getObjectById(id) {
     const gameModel = store.getState().game.gameModel
 
     if(id === 'player') {
@@ -29,44 +29,44 @@ export class CoreScene extends Phaser.Scene {
     return gameModel.objects[id]
   }
 
-  getInstanceObjectById(id) {
-    return this.objectsById[id]
+  getObjectInstancetById(id) {
+    return this.objectInstancesById[id]
   }
 
-  addInstanceObject(object) {
+  addObjectInstance(object) {
     const newPhaserObject = new CoreObject(this, object)
-    this.objects.push(newPhaserObject)
-    this.objectsById[object.id] = newPhaserObject
+    this.objectInstances.push(newPhaserObject)
+    this.objectInstancesById[object.id] = newPhaserObject
   }
 
-  removeInstanceObject(id) {
-    this.objects = this.objects.filter((object) => {
+  removeObjectInstance(id) {
+    this.objectInstances = this.objectInstances.filter((object) => {
       return id !== object.id
     })
-    this.objectsById[id].destroy()
+    this.objectInstancesById[id].destroy()
   }
 
-  updateInstanceObject(instanceObject, {x, y, rotation}) {
-    if(x) instanceObject.x = x;
-    if(y) instanceObject.y = y;
-    if(rotation) instanceObject.rotation = rotation;
+  updateObjectInstance(objectInstance, {x, y, rotation}) {
+    if(x) objectInstance.x = x;
+    if(y) objectInstance.y = y;
+    if(rotation) objectInstance.rotation = rotation;
   }
 
   create() {
     const gameModel = store.getState().game.gameModel
 
-    this.objects = Object.keys(gameModel.objects).map((objectId) => {
+    this.objectInstances = Object.keys(gameModel.objects).map((objectId) => {
       if(!gameModel.objects[objectId]) {
         return console.error('Object missing!')
       } 
       return new CoreObject(this, objectId, gameModel.objects[objectId])
     });
 
-    this.objects = this.objects.filter((object) => {
+    this.objectInstances = this.objectInstances.filter((object) => {
       return !!object
     })
 
-    this.objectsById = this.objects.reduce((prev, next) => {
+    this.objectInstancesById = this.objectInstances.reduce((prev, next) => {
       prev[next.id] = next 
       return prev
     }, {})
@@ -86,11 +86,22 @@ export class CoreScene extends Phaser.Scene {
         spawnY: gameModel.hero.spawnY
       });
     }
+  }
 
+  createLayerZeroCollisions() {
+    this.bufferCanvas = document.createElement('canvas');
+    this.bufferCanvas.width = 40;
+    this.bufferCanvas.height =  40;
+    this.bufferCanvasContext = this.bufferCanvas.getContext('2d');
+    this.bufferCanvasContext.fillStyle = 'rgba(0,0,0,255)'; //Setup alpha colour for cutting out terrain
+    this.bufferCanvasContext.drawImage(this.textures.get('key').getSourceImage(), 0,  0, this.bufferCanvas.width, this.bufferCanvas.height);
+    this.terrainData = this.bufferCanvasContext.getImageData(0, 0, this.bufferCanvas.width, this.bufferCanvas.height);
+
+    console.log(this.terrainData.data)
   }
 
   respawn() {
-    this.objects.forEach((object) => {
+    this.objectInstances.forEach((object) => {
       object.x = object.spawnX
       object.y = object.spawnY
     })
@@ -107,7 +118,7 @@ export class CoreScene extends Phaser.Scene {
   }
   
   update(time, delta) {
-    this.objects.forEach((object) => {
+    this.objectInstances.forEach((object) => {
       object.update(time, delta);
     })
 

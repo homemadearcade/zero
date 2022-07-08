@@ -1,0 +1,9 @@
+.GameBrushList {
+  &__brush {
+    cursor: pointer;
+
+    &--selected {
+      border: 1px solid;
+    }
+  }
+}

@@ -45,6 +45,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       metadata: req.body.metadata, 
       hero: req.body.hero, 
       classes: req.body.classes,
+      brushes: req.body.brushes,
       world: req.body.world, 
       user: req.body.userId,
     });
@@ -104,6 +105,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         metadata: updatedGame.metadata, 
         hero: updatedGame.hero, 
         classes: updatedGame.classes,
+        brushes: updatedGame.brushes,
         world: updatedGame.world, 
         user: tempGame.user.id 
       },

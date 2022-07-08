@@ -7,7 +7,15 @@ export const defaultGame = {
   "world": {
     "boundaries": {
       "width": 1000,
-      "height": 1000
+      "height": 1000,
+      "layerImageUrls": {
+        "-1": "aws.asdkalsdas.com",
+        "0": "aws.asdkalsdas.com",
+        "1": "aws.asdkalsdas.com"
+      },
+      "layer0strokes": {
+        
+      }
     },
     "gravity": {
       "y": 0,

@@ -4,7 +4,9 @@ import {
   OPEN_LIVE_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
-  CLEAR_CLASS
+  CLEAR_CLASS,
+  SELECT_BRUSH,
+  CLEAR_BRUSH
 } from '../types';
 
 export const selectClass = (classId) => (dispatch, getState) => {
@@ -19,6 +21,21 @@ export const selectClass = (classId) => (dispatch, getState) => {
 export const clearClass = (classId) => (dispatch, getState) => {
   dispatch({
     type: CLEAR_CLASS,
+  });
+}
+
+export const selectBrush = (brushId) => (dispatch, getState) => {
+  dispatch({
+    type: SELECT_BRUSH,
+    payload: {
+      brushSelectedIdBrushList: brushId, 
+    }
+  });
+}
+
+export const clearBrush = (brushId) => (dispatch, getState) => {
+  dispatch({
+    type: CLEAR_BRUSH,
   });
 }
 

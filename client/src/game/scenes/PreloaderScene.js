@@ -52,7 +52,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.preloaderBar.setSize((progress * this.preloaderBg.displayWidth), this.preloaderBar.displayHeight);
   };
 
-  checkOrientation = () => {
+  checkOrientation = () => {    
     this.handleLevelLoaded()
   }
 

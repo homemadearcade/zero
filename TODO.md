@@ -11,7 +11,7 @@ camera and game boundary work
 Cobrowing using redux state connect thing.
 Basically just check if cobrowsing user or not, if there is a cobrowsing user then swap the editor, video, etc state for the cobrowsing remote state
 
-in the Game model change objects -> objectInstances and classes -> objectModels
+--
 
 Cobrowsing Click event
 
@@ -27,7 +27,7 @@ also withAgoraVideo?
 
 --
 
-ANSWER
+ANSWERS
 Everything is the same class
 Camera, Controls are all on the class object, not based on the hero object
 ... In the future I want everything to be able to be controlled. We need data for that. 
@@ -70,3 +70,5 @@ https://github.com/koreezgames/phaser3-particle-editor
 https://github.com/samme/phaser-component-health
 
 https://github.com/GaryStanton/phaser3-merged-input
+
+https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/

@@ -38,20 +38,10 @@ export class EditorScene extends CoreScene {
     const classId = store.getState().editor.editorState.classSelectedIdClassList
 
     if(classId && pointer.leftButtonReleased() && !this.draggingObjectId) {
-      const gameModelObject = {
-        classId,
-        id: uuidv4(),
-        spawnX: pointer.x,
+      this.addObject(classId, {
+        spawnX: pointer.x, 
         spawnY: pointer.y
-      }
-
-      store.dispatch(editGameModel({
-        objects: {
-          [gameModelObject.id]: gameModelObject
-        }
-      }))
-
-      this.addInstanceObject(gameModelObject)
+      })
     }
 
     this.draggingObjectId = null
@@ -59,6 +49,23 @@ export class EditorScene extends CoreScene {
 
   onPointerUpOutside = (pointer, gameObjects)  => {
     this.draggingObjectId = null
+  }
+
+  addObject(classId, {spawnX, spawnY}) {
+    const gameObject = {
+      classId,
+      id: uuidv4(),
+      spawnX,
+      spawnY,
+    }
+
+    store.dispatch(editGameModel({
+      objects: {
+        [gameObject.id]: gameObject
+      }
+    }))
+
+    this.addObjectInstance(gameObject)
   }
 
   onPointerDown = (pointer, gameObjects) => {
@@ -87,11 +94,11 @@ export class EditorScene extends CoreScene {
   onGameModelUpdate = (gameUpdate) => {
     if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
       const objectUpdate = gameUpdate.objects[id]
-      if(!this.objectsById[id]) {
-        this.addInstanceObject(objectUpdate)
+      if(!this.objectInstancesById[id]) {
+        this.addObjectInstance(objectUpdate)
       }
       if(objectUpdate === null) {
-        this.removeInstanceObject(id)
+        this.removeObjectInstance(id)
       }
     })
 
@@ -99,37 +106,37 @@ export class EditorScene extends CoreScene {
       const classUpdate = gameUpdate.classes[id]
       
       if(classUpdate.bounciness >= 0) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setBounce(classUpdate.bounciness)
         })
       }
       if(classUpdate.density >= 0) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setDensity(classUpdate.density)
         })
       }
       if(classUpdate.friction >= 0) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setFriction(classUpdate.friction)
         })
       }
       if(classUpdate.frictionAir >= 0) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setFrictionAir(classUpdate.frictionAir)
         })
       }
       if(classUpdate.frictionStatic >= 0) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setFrictionStatic(classUpdate.frictionStatic)
         })
       }
       if(classUpdate.ignoreGravity !== undefined) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setIgnoreGravity(classUpdate.ignoreGravity)
         })
       }
       if(classUpdate.fixedRotation !== undefined) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setFixedRotation(classUpdate.fixedRotation)
         })
       }

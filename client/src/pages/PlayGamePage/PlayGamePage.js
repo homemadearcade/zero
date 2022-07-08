@@ -10,6 +10,7 @@ import { requestFullscreen } from '../../store/actions/browserActions';
 import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import Loader from '../../components/ui/Loader/Loader';
 import GameClassList from '../../game/GameClassList/GameClassList';
+import GameBrushList from '../../game/GameBrushList/GameBrushList';
 
 const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isGameModelLoading },  requestFullscreen, match}) => {
   useEffect(() => {
@@ -24,6 +25,14 @@ const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isGameModelLoad
     return <Loader text="Loading Game Data..."></Loader>
   }
 
+  // <div>{!window.isFullscreen && <div onClick={() => {
+  //   requestFullscreen()
+  //    }}>
+  //   <i className="fas fa-expand PlayGamePage__fullscreen"/>
+  //  </div>
+  // </div>
+
+
   return (
     <div className="PlayGamePage">
       <GameEditor 
@@ -31,13 +40,7 @@ const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isGameModelLoad
         isNetworked={false}
         overlay={isGameModelLoading && <Loader text="Reloading Game Data..."></Loader>}
         gameModel={gameModel}
-        leftColumn={<div>
-          {!window.isFullscreen && <div onClick={() => {
-            requestFullscreen()
-          }}>
-            <i className="fas fa-expand PlayGamePage__fullscreen"/>
-          </div>}
-        </div>}
+        leftColumn={<GameBrushList/>}
         rightColumn={<GameClassList/>}
       />
     </div>

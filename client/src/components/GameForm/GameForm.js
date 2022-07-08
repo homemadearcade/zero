@@ -15,6 +15,7 @@ const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
       world: {},
       metadata: {},
       classes: {},
+      brushes: {},
       userId: me.id
     },
     validationSchema: gameFormSchema,

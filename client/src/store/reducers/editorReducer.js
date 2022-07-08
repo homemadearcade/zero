@@ -4,7 +4,9 @@ import {
   OPEN_LIVE_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
-  CLEAR_CLASS
+  CLEAR_CLASS,
+  SELECT_BRUSH,
+  CLEAR_BRUSH
 } from '../types';
 
 const initialState = {
@@ -13,6 +15,7 @@ const initialState = {
   editorState: {
     error: null,
     objectSelectedIdContextMenu: null,
+    brushSelectedIdBrushList: null,
     classSelectedIdClassList: null,
     classSelectedIdLiveEditor: null,
     classSelectedIdContextMenu: null,
@@ -40,6 +43,22 @@ export default function editorReducer(state = initialState, { type, payload }) {
            classSelectedIdClassList: null
          }
        }
+    case SELECT_BRUSH: 
+      return {
+        ...state,
+        editorState: {
+          ...state.editorState,
+          brushSelectedIdBrushList: payload.brushSelectedIdBrushList
+        }
+      }
+    case CLEAR_BRUSH:
+      return {
+        ...state,
+        editorState: {
+          ...state.editorState,
+         brushSelectedIdBrushList: null
+        }
+      }
     case OPEN_CONTEXT_MENU:
       return {
         ...state,
