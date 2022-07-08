@@ -5,6 +5,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 
 import './PhysicsEditor.scss'
 import ButtonGroup from '../../components/ui/ButtonGroup/ButtonGroup';
+import Switch from '@mui/material/Switch';
 
 const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
@@ -19,15 +20,15 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         onSelectOption={(value) => {
           editGameModel({ classes: { [classId]: { speed: value }}})        
         }}
-        initialOption="normal"
+        initialOption={classSelected.speed}
       />
       <ButtonGroup
-        title="Mass"
+        title="Density"
         options={[.01, 0.5, 1, 5, 20, 100, 500]}
         onSelectOption={(value) => {
-          editGameModel({ classes: { [classId]: { mass: value }}})       
+          editGameModel({ classes: { [classId]: { density: value }}})        
         }}
-        initialOption={classSelected.mass}
+        initialOption={classSelected.density}
       />
       <ButtonGroup
         title="Bounce"
@@ -61,14 +62,24 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         }}
         initialOption={classSelected.frictionStatic}
       />
-      <ButtonGroup
-        title="Density"
-        options={[.01, 0.5, 1, 5, 20, 100, 500]}
-        onSelectOption={(value) => {
-          editGameModel({ classes: { [classId]: { density: value }}})        
-        }}
-        initialOption={classSelected.density}
-      />
+      <div>
+        Ignore Gravity
+        <Switch
+          onChange={(e) => {
+            editGameModel({ classes: { [classId]: { ignoreGravity: e.target.checked }}})        
+          }}
+          defaultChecked={classSelected.ignoreGravity}
+         />
+      </div>
+      <div>
+        Controlled Rotation
+        <Switch
+          onChange={(e) => {
+            editGameModel({ classes: { [classId]: { fixedRotation: e.target.checked }}})        
+          }}
+          defaultChecked={classSelected.fixedRotation}
+         />
+      </div>
     </div>
   );
 };

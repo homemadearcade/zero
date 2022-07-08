@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import { CoreObject } from '../entities/CoreObject'
 import { PlayerObject } from '../entities/PlayerObject';
 import store from '../../store';
+import { spaceshipClass } from '../../defaultData/heros';
 
 export class CoreScene extends Phaser.Scene {
   constructor({key }) {
@@ -58,7 +59,7 @@ export class CoreScene extends Phaser.Scene {
       if(!gameModel.objects[objectId]) {
         return console.error('Object missing!')
       } 
-      return new CoreObject(this, gameModel.objects[objectId])
+      return new CoreObject(this, objectId, gameModel.objects[objectId])
     });
 
     this.objects = this.objects.filter((object) => {
@@ -70,12 +71,22 @@ export class CoreScene extends Phaser.Scene {
       return prev
     }, {})
 
-    this.player = new PlayerObject(this, {
-      id: 'player',
-      spriteId: 'ship2',
-      spawnX: gameModel.hero.spawnX,
-      spawnY: gameModel.hero.spawnY
-    });
+    if(gameModel.hero.initialCassId) {
+      this.player = new PlayerObject(this, 'player', {
+        classId: gameModel.hero.initialClassId,
+        spriteId: 'ship2',
+        spawnX: gameModel.hero.spawnX,
+        spawnY: gameModel.hero.spawnY
+      });
+    } else {
+      this.player = new PlayerObject(this, 'player', {
+        classDataOverride: {...spaceshipClass},
+        spriteId: 'ship2',
+        spawnX: gameModel.hero.spawnX,
+        spawnY: gameModel.hero.spawnY
+      });
+    }
+
   }
 
   respawn() {

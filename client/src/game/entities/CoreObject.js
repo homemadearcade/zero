@@ -2,30 +2,39 @@ import Phaser from "phaser";
 import store from "../../store";
 
 export class CoreObject extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, {spriteId = 'ship', spawnX, spawnY, id, bounciness, classId}){
-    super(scene.matter.world, spawnX, spawnY, spriteId, 0)
+  constructor(scene, id, {spawnX, spawnY, classId, classDataOverride}){
+    let objectClass
+    if(classDataOverride) {
+      objectClass = classDataOverride
+    } else {
+      objectClass = store.getState().game.gameModel.classes[classId]
+    }
+    super(scene.matter.world, spawnX, spawnY, objectClass.spriteId, 0)
+
+    console.log(spawnX, spawnY, id, classId, objectClass)
 
     this.id = id
     this.classId = classId
-
-    const objectClass = store.getState().game.gameModel.classes[this.classId]
-
-    this.outline2 = scene.add.image(spawnX, spawnY, spriteId)
+    
+    this.outline2 = scene.add.image(spawnX, spawnY, objectClass.spriteId)
     .setTintFill(0xffffff)
     .setDisplaySize(this.width + 8, this.height + 8)
     .setVisible(false)
    
     this.ship = scene.matter.add.sprite(this);
     scene.add.existing(this)
+
+    // for EDITOR
     this.setInteractive();
     scene.input.setDraggable(this)
 
-    if(objectClass?.bounciness) this.setBounce(objectClass.bounciness)
-    if(objectClass?.mass) this.setMass(objectClass.mass)
-    if(objectClass?.density) this.setDensity(objectClass.density)
-    if(objectClass?.friction) this.setFriction(objectClass.friction)
-    if(objectClass?.frictionAir) this.setFrictionAir(objectClass.frictionAir)
-    if(objectClass?.frictionStatic) this.setFrictionStatic(objectClass.frictionStatic)
+    this.setBounce(objectClass.bounciness)
+    this.setDensity(objectClass.density)
+    this.setFriction(objectClass.friction)
+    this.setFrictionAir(objectClass.frictionAir)
+    this.setFrictionStatic(objectClass.frictionStatic)
+    this.setFixedRotation(objectClass.fixedRotation)
+    this.setIgnoreGravity(objectClass.ignoreGravity)
 
     this.outline = scene.add.graphics();
     this.outline.lineStyle(3, 0xffffff, 1);

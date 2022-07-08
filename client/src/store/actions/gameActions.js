@@ -23,6 +23,9 @@ import {
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
+import { defaultGame } from '../../defaultData/game';
+import { defaultObjectInstance } from '../../defaultData/object';
+import { defaultObjectClass } from '../../defaultData/class';
 
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const lobbyId = getState().lobby.lobby.id
@@ -87,6 +90,14 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
 
     window.socket.on(ON_GAME_MODEL_UPDATE, (gameUpdate) => {
       const oldGameData = _.cloneDeep(getState().game.gameModel)
+
+      if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
+        if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep({...defaultObjectInstance}, gameUpdate.objects[id])
+      })
+      if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
+        if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep({...defaultObjectClass}, gameUpdate.classes[id])
+      })
+
       const gameData = mergeDeep(oldGameData, gameUpdate)
      
       dispatch({
@@ -95,9 +106,17 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
       });
     })
 
+    const gameData = mergeDeep(defaultGame, response.data.game)
+    Object.keys(gameData.objects).forEach((id) => {
+      gameData.objects[id] = mergeDeep({...defaultObjectInstance}, gameData.objects[id])
+    })
+    Object.keys(gameData.classes).forEach((id) => {
+      gameData.classes[id] = mergeDeep({...defaultObjectClass}, gameData.classes[id])
+    })
+
     dispatch({
       type: LOAD_GAME_SUCCESS,
-      payload: { game: response.data.game },
+      payload: { game: gameData },
     });
   } catch (err) {
     console.error(err)
@@ -116,7 +135,6 @@ export const unloadGame = () => (dispatch, getState) => {
     type: UNLOAD_GAME,
   })
 };
-
 
 export const addGame = (gameData) => async (dispatch, getState) => {
   dispatch({

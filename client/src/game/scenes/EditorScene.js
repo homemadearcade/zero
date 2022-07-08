@@ -103,11 +103,6 @@ export class EditorScene extends CoreScene {
           object.setBounce(classUpdate.bounciness)
         })
       }
-      if(classUpdate.mass >= 0) {
-        this.forAllObjectsMatchingClassId(id, (object) => {
-          object.setMass(classUpdate.mass)
-        })
-      }
       if(classUpdate.density >= 0) {
         this.forAllObjectsMatchingClassId(id, (object) => {
           object.setDensity(classUpdate.density)
@@ -126,6 +121,16 @@ export class EditorScene extends CoreScene {
       if(classUpdate.frictionStatic >= 0) {
         this.forAllObjectsMatchingClassId(id, (object) => {
           object.setFrictionStatic(classUpdate.frictionStatic)
+        })
+      }
+      if(classUpdate.ignoreGravity !== undefined) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          object.setIgnoreGravity(classUpdate.ignoreGravity)
+        })
+      }
+      if(classUpdate.fixedRotation !== undefined) {
+        this.forAllObjectsMatchingClassId(id, (object) => {
+          object.setFixedRotation(classUpdate.fixedRotation)
         })
       }
     })

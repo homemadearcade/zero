@@ -3,15 +3,11 @@ import Phaser from "phaser";
 import { CoreObject } from "./CoreObject";
 
 export class PlayerObject extends CoreObject {
-  constructor(scene, spriteTexture, x, y){
-    super(scene, spriteTexture, x, y)
+  constructor(scene, id, instanceData){
+    super(scene, id, instanceData)
 
     var particles = scene.add.particles('blue');
     particles.setDepth(this.depth - 1)
-
-    this.setFrictionAir(0.1);
-    this.setMass(30);
-    this.setFixedRotation();
 
     var emitter = particles.createEmitter({
       speed: {

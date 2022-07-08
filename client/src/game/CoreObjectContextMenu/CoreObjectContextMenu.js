@@ -12,7 +12,7 @@ const CoreObjectContextMenu = ({ editGameModel, onMenuItemClick, editor: { edito
       editGameModel({ objects: { [objectSelectedIdContextMenu]: null } })
       onMenuItemClick()
     }}>Delete</MenuItem>
-    <ClassContextMenu/>
+    <ClassContextMenu onMenuItemClick={onMenuItemClick}/>
   </>
 };
 

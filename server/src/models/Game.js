@@ -14,7 +14,7 @@ const gameSchema = new Schema(
       type: Object,
       required: true,
       default: {
-        title: 'game'
+        title: 'Unknown',
       }
     },
     hero: {
@@ -41,6 +41,7 @@ const gameSchema = new Schema(
 );
 
 export const validateGame = (game) => {
+  //Joi.object().pattern(/^/, Joi.date().iso())
   const schema = {
     hero: Joi.object({
       // spawnX: Joi.number().required(),

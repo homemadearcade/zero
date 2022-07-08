@@ -11,7 +11,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import { clearClass, selectClass, openContextMenuFromClassId } from '../../store/actions/editorActions';
 
 const GameClassList = ({
-  game: { gameModel, gameModel : { classes }},
+  game: { gameModel : { classes }},
   editor: { editorState: { classSelectedIdClassList }},
   editGameModel,
   selectClass,
