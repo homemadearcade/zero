@@ -9,6 +9,7 @@ export class CoreObject extends Phaser.Physics.Matter.Sprite {
     } else {
       objectClass = store.getState().game.gameModel.classes[classId]
     }
+    console.log(spawnX, spawnY, id, classId, objectClass, classDataOverride)
     super(scene.matter.world, spawnX, spawnY, objectClass.spriteId, 0)
 
     this.id = id

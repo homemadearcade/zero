@@ -8,6 +8,7 @@ import {
   PRELOADER_SCENE,
   GAME_SCENE,
 } from '../../constants';
+import { tilemap } from '../../defaultData/tilesetSample';
 
 
 export class PreloaderScene extends Phaser.Scene {
@@ -42,6 +43,10 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image('ship', "/assets/images/ship.png");
     this.load.image('ship2', '/assets/images/x2kship.png');
     this.load.image('blue', '/assets/images/blue.png');
+    this.load.image('brush', '/assets/images/brush.png')
+    this.load.image('square', '/assets/images/square.png')
+    // this.load.image('kenny_platformer_64x64', 'https://labs.phaser.io/assets/tilemaps/tiles/kenny_platformer_64x64.png')
+
     this.load.on('progress', this.updateLoaderGraphic);
     this.load.on('complete', this.checkOrientation);
     

@@ -8,7 +8,7 @@ import './GameClassList.scss';
 import classNames from 'classnames';
 import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
-import { clearClass, selectClass, openContextMenuFromClassId } from '../../store/actions/editorActions';
+import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 
 const GameClassList = ({
   game: { gameModel : { classes }},
@@ -16,6 +16,7 @@ const GameClassList = ({
   editGameModel,
   selectClass,
   clearClass,
+  clearBrush,
   openContextMenuFromClassId
 }) => {
   return <div className="GameClassList">
@@ -27,6 +28,7 @@ const GameClassList = ({
           if(currentClassId === classSelectedIdClassList) {
             clearClass()
           } else {
+            clearBrush()
             selectClass(currentClassId)
           }
         }}
@@ -58,5 +60,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, editGameModel, selectClass, clearClass }),
+  connect(mapStateToProps, { openContextMenuFromClassId, editGameModel, selectClass, clearClass, clearBrush }),
 )(GameClassList);

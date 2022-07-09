@@ -15,7 +15,7 @@ export class GameHostScene extends EditorScene {
   startRemoteClientUpdateLoop = () => {
     let updateInterval = 1000/12
     this.remoteClientUpdateInterval = setInterval(() => {
-      const objects = this.objects.map(({id, x, y, rotation}) => {
+      const objects = this.objectInstances.map(({id, x, y, rotation}) => {
         return {
           id,
           x,
@@ -36,7 +36,10 @@ export class GameHostScene extends EditorScene {
 
   create() {
     super.create()
-    this.matter.world.setBounds(0, 0, 1000, 1000);
+
+    const gameWorld = store.getState().game.gameModel.world
+    this.matter.world.setBounds(0, 0, gameWorld.boundaries.width, gameWorld.boundaries.height);
+    
     this.startRemoteClientUpdateLoop()
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
 

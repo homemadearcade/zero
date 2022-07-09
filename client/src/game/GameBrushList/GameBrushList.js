@@ -16,6 +16,7 @@ const GameBrushList = ({
   editGameModel,
   selectBrush,
   clearClass,
+  clearBrush,
 }) => {
   return <div className="GameBrushList">
     {Object.keys(brushes).map((brushId, i) => {
@@ -54,5 +55,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, editGameModel, selectBrush, clearClass }),
+  connect(mapStateToProps, { openContextMenuFromClassId, editGameModel, selectBrush, clearBrush, clearClass }),
 )(GameBrushList);

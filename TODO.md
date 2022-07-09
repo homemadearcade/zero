@@ -1,6 +1,15 @@
 #LIST
 
-TODO
+CONVERSATION
+
+We gotta make some choices on canvas size, grids, painting possibilities
+
+Right now the canvas is 1000 x 1000 which is pretty good size
+
+For LAYERS - Do we want them to be able to draw whatever they want? What level of detail?
+For Layer0 the collision layer - How does that convert into collision grids? How finite is our collision grids? Pixel by Pixel collision?? I wonder
+
+TODO NEXT
 
 Basic static objects please, basic paintbrush v1?....
 and also maybe just squares with colors please
@@ -11,7 +20,11 @@ camera and game boundary work
 Cobrowing using redux state connect thing.
 Basically just check if cobrowsing user or not, if there is a cobrowsing user then swap the editor, video, etc state for the cobrowsing remote state
 
---
+CORE OBJECT -> ACTIVE OBJECT
+
+--------
+
+TODO LATER
 
 Cobrowsing Click event
 
@@ -25,25 +38,27 @@ Perhaps use something called withLobby so that I can have different url states d
 
 also withAgoraVideo?
 
---
-
-ANSWERS
-Everything is the same class
-Camera, Controls are all on the class object, not based on the hero object
-... In the future I want everything to be able to be controlled. We need data for that. 
-
 Finish everything and just add more and more behaviors, and controls, and customization
 
 then perhaps find the right way to do custom coding - collision, events? paths? etc
 
----
+BEHAVIORS
 
-3 Nice to haves
+Remove top layer
+
+Soccerball ( attach to hero on collide and allow hero to shoot out again )
+
+--------
+
+TODO TIME PERMITTING
 
 Mobile
+
 Blockchain NFT editing thing
 
---
+--------
+
+TO RESEARCH
 
 https://github.com/saintedlama/mongoose-version#:~:text=Mongoose%20Version%20is%20a%20mongoose,and%20kept%20for%20later%20use.
 
@@ -72,3 +87,4 @@ https://github.com/samme/phaser-component-health
 https://github.com/GaryStanton/phaser3-merged-input
 
 https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/
+

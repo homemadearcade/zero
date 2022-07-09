@@ -11,61 +11,83 @@ export class EditorScene extends CoreScene {
     });
   }
   
-  onDragStart = (pointer, gameObject, dragX, dragY) => {
-    gameObject.x = dragX;
-    gameObject.y = dragY;
-    this.draggingObjectId = gameObject.id
+  onDragStart = (pointer, objectInstance, dragX, dragY) => {
+    objectInstance.x = dragX;
+    objectInstance.y = dragY;
+    this.draggingObjectInstanceId = objectInstance.id
   }
 
-  onDragEnd = (pointer, gameObject) => {
-    store.dispatch(editGameModel({ 
-      objects: {
-        [gameObject.id]: {
-          spawnX: gameObject.x,
-          spawnY: gameObject.y
+  onDragEnd = (pointer, objectInstance) => {
+
+    if(objectInstance.id === 'player') {
+      store.dispatch(editGameModel({ 
+        hero: {
+          spawnX: objectInstance.x,
+          spawnY: objectInstance.y
         }
-      }
-    }))
+      }))
+    } else {
+      store.dispatch(editGameModel({ 
+        objects: {
+          [objectInstance.id]: {
+            spawnX: objectInstance.x,
+            spawnY: objectInstance.y
+          }
+        }
+      }))
+    }
+
   }
 
-  onPointerOver = (pointer, gameObjects) => {
-    if(this.draggingObjectId) return
-    gameObjects[0].outline.setVisible(true)
-    gameObjects[0].outline2.setVisible(true)
+  onPointerOver = (pointer, objectInstances) => {
+    if(this.draggingObjectInstanceId) return
+    objectInstances[0].outline.setVisible(true)
+    objectInstances[0].outline2.setVisible(true)
   }
 
-  onPointerUp = (pointer, gameObjects) => {
+  onPointerUp = (pointer) => {
     const classId = store.getState().editor.editorState.classSelectedIdClassList
 
-    if(classId && pointer.leftButtonReleased() && !this.draggingObjectId) {
-      this.addObject(classId, {
+    if(classId && pointer.leftButtonReleased() && !this.draggingObjectInstanceId) {
+      this.addGameObject(classId, {
         spawnX: pointer.x, 
         spawnY: pointer.y
       })
     }
 
-    this.draggingObjectId = null
-  }
+    this.draggingObjectInstanceId = null
 
-  onPointerUpOutside = (pointer, gameObjects)  => {
-    this.draggingObjectId = null
-  }
-
-  addObject(classId, {spawnX, spawnY}) {
-    const gameObject = {
-      classId,
-      id: uuidv4(),
-      spawnX,
-      spawnY,
+    if(this.paintingBrushId) {
+      this.onBrushStrokeComplete()
     }
+  }
 
-    store.dispatch(editGameModel({
-      objects: {
-        [gameObject.id]: gameObject
-      }
-    }))
+  onPointerUpOutside = (pointer, objectInstances)  => {
+    this.draggingObjectInstanceId = null
 
-    this.addObjectInstance(gameObject)
+    if(this.paintingBrushId) {
+      this.onBrushStrokeComplete()
+    }
+  }
+
+  onBrushPickup = () => {
+    this.add.rectangle(0,0,)
+  }
+
+  onBrushDrop = () => {
+
+  }
+
+  onBrushStrokeComplete = () => {
+    this.paintingBrushId = null
+    this.createLayerZeroCollisions()
+    this.onBrushDrop()
+  }
+
+  onPointerMove = (pointer)  => {
+    if(this.paintingBrushId && pointer.isDown) {
+      this.layer0.draw('brush', pointer.x-16, pointer.y-16);
+    }
   }
 
   onPointerDown = (pointer, gameObjects) => {
@@ -84,6 +106,11 @@ export class EditorScene extends CoreScene {
         store.dispatch(openContextMenuFromGameObject(gameObjects, pointer.event))
       }
     }
+
+    if(pointer.leftButtonDown()) {
+      const brushId = store.getState().editor.editorState.brushSelectedIdBrushList
+      this.paintingBrushId = brushId
+    }
   }
 
   onPointerOut = (pointer, gameObjects) => {
@@ -91,11 +118,29 @@ export class EditorScene extends CoreScene {
     gameObjects[0].outline2.setVisible(false)
   }
 
+  addGameObject(classId, {spawnX, spawnY}) {
+    const id = uuidv4();
+
+    const gameObject = {
+      classId,
+      spawnX,
+      spawnY,
+    }
+
+    store.dispatch(editGameModel({
+      objects: {
+        [id]: gameObject
+      }
+    }))
+
+    this.addObjectInstance(id, gameObject)
+  }
+
   onGameModelUpdate = (gameUpdate) => {
     if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
       const objectUpdate = gameUpdate.objects[id]
       if(!this.objectInstancesById[id]) {
-        this.addObjectInstance(objectUpdate)
+        this.addObjectInstance(id, objectUpdate)
       }
       if(objectUpdate === null) {
         this.removeObjectInstance(id)
@@ -151,7 +196,7 @@ export class EditorScene extends CoreScene {
     this.input.on('pointerdown', this.onPointerDown, this);
     this.input.on('pointerup', this.onPointerUp);
     this.input.on('pointerupoutside', this.onPointerUpOutside);
-
+    this.input.on('pointermove', this.onPointerMove, this)
     this.input.dragDistanceThreshold = 16;
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);

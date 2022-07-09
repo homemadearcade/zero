@@ -4,6 +4,7 @@ import { CoreObject } from '../entities/CoreObject'
 import { PlayerObject } from '../entities/PlayerObject';
 import store from '../../store';
 import { spaceshipClass } from '../../defaultData/heros';
+import { StaticObject } from '../entities/StaticObject';
 
 export class CoreScene extends Phaser.Scene {
   constructor({key }) {
@@ -20,7 +21,7 @@ export class CoreScene extends Phaser.Scene {
     })
   }
 
-  getObjectById(id) {
+  getGameObjectById(id) {
     const gameModel = store.getState().game.gameModel
 
     if(id === 'player') {
@@ -29,14 +30,10 @@ export class CoreScene extends Phaser.Scene {
     return gameModel.objects[id]
   }
 
-  getObjectInstancetById(id) {
-    return this.objectInstancesById[id]
-  }
-
-  addObjectInstance(object) {
-    const newPhaserObject = new CoreObject(this, object)
+  addObjectInstance(id, gameObject) {
+    const newPhaserObject = new CoreObject(this, id, gameObject)
     this.objectInstances.push(newPhaserObject)
-    this.objectInstancesById[object.id] = newPhaserObject
+    this.objectInstancesById[id] = newPhaserObject
   }
 
   removeObjectInstance(id) {
@@ -55,15 +52,21 @@ export class CoreScene extends Phaser.Scene {
   create() {
     const gameModel = store.getState().game.gameModel
 
-    this.objectInstances = Object.keys(gameModel.objects).map((objectId) => {
-      if(!gameModel.objects[objectId]) {
+    this.layer_1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+    this.layer0 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+
+    this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
+      if(!gameModel.objects[gameObjectId]) {
         return console.error('Object missing!')
       } 
-      return new CoreObject(this, objectId, gameModel.objects[objectId])
+      if(gameObjectId === 'player') {
+        return console.error('Player got in?!')
+      }
+      return new CoreObject(this, gameObjectId, gameModel.objects[gameObjectId])
     });
 
-    this.objectInstances = this.objectInstances.filter((object) => {
-      return !!object
+    this.objectInstances = this.objectInstances.filter((objectInstance) => {
+      return !!objectInstance
     })
 
     this.objectInstancesById = this.objectInstances.reduce((prev, next) => {
@@ -86,19 +89,47 @@ export class CoreScene extends Phaser.Scene {
         spawnY: gameModel.hero.spawnY
       });
     }
+
+    this.layer1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
   }
 
-  createLayerZeroCollisions() {
-    this.bufferCanvas = document.createElement('canvas');
-    this.bufferCanvas.width = 40;
-    this.bufferCanvas.height =  40;
-    this.bufferCanvasContext = this.bufferCanvas.getContext('2d');
-    this.bufferCanvasContext.fillStyle = 'rgba(0,0,0,255)'; //Setup alpha colour for cutting out terrain
-    this.bufferCanvasContext.drawImage(this.textures.get('key').getSourceImage(), 0,  0, this.bufferCanvas.width, this.bufferCanvas.height);
-    this.terrainData = this.bufferCanvasContext.getImageData(0, 0, this.bufferCanvas.width, this.bufferCanvas.height);
+  createLayerZeroCollisions = () => {
+    const gridSize = 10
+    this.layer0.snapshot((imageData) => {
+      const gameModel = store.getState().game.gameModel 
+      this.bufferCanvas = document.createElement('canvas');
+      this.bufferCanvas.width = gameModel.world.boundaries.width/gridSize;
+      this.bufferCanvas.height = gameModel.world.boundaries.height/gridSize;
+      this.bufferCanvasContext = this.bufferCanvas.getContext('2d');
+      // console.log(imageData.width, imageData.height, this.bufferCanvas.width, this.bufferCanvas.height)
+      this.bufferCanvasContext.drawImage(imageData, 0,  0, this.bufferCanvas.width, this.bufferCanvas.height);
+      this.terrainData = this.bufferCanvasContext.getImageData(0, 0, this.bufferCanvas.width, this.bufferCanvas.height);
+  
+      const data = this.terrainData.data
 
-    console.log(this.terrainData.data)
+      const grid = []
+
+      const rowLength = (4 * (gameModel.world.boundaries.width))/gridSize;
+      for(let i = 0; i < data.length/rowLength; i += 1) {
+        grid.push([])
+        for(let i2 = (i * rowLength); i2 < (i * rowLength) + rowLength; i2+= 4) {
+          grid[i].push(data[i2])
+        }
+      }
+
+      grid.forEach((row, y) => {
+        row.forEach((node, x) => {
+          if(node) {
+            console.log(x * gridSize,  y * gridSize,)
+            console.log()
+            new StaticObject(this, { x: x * gridSize, y: y * gridSize, width: gridSize, height: gridSize, spriteId: 'square'})
+          }
+        })
+      })
+    })
   }
+
+
 
   respawn() {
     this.objectInstances.forEach((object) => {
