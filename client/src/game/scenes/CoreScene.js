@@ -101,7 +101,6 @@ export class CoreScene extends Phaser.Scene {
       this.bufferCanvas.width = gameModel.world.boundaries.width/gridSize;
       this.bufferCanvas.height = gameModel.world.boundaries.height/gridSize;
       this.bufferCanvasContext = this.bufferCanvas.getContext('2d');
-      // console.log(imageData.width, imageData.height, this.bufferCanvas.width, this.bufferCanvas.height)
       this.bufferCanvasContext.drawImage(imageData, 0,  0, this.bufferCanvas.width, this.bufferCanvas.height);
       this.terrainData = this.bufferCanvasContext.getImageData(0, 0, this.bufferCanvas.width, this.bufferCanvas.height);
   
@@ -120,8 +119,6 @@ export class CoreScene extends Phaser.Scene {
       grid.forEach((row, y) => {
         row.forEach((node, x) => {
           if(node) {
-            console.log(x * gridSize,  y * gridSize,)
-            console.log()
             new StaticObject(this, { x: x * gridSize, y: y * gridSize, width: gridSize, height: gridSize, spriteId: 'square'})
           }
         })
