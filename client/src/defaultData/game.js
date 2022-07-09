@@ -14,11 +14,11 @@ export const defaultGame = {
       "y": 0,
       "x": 0
     },
-    "layerImageUrls": {
-      "-1": "aws.asdkalsdas.com",
-      "0": "aws.asdkalsdas.com",
-      "1": "aws.asdkalsdas.com"
-    },
+  },
+  "awsImages": {
+    // "url": "xxx",
+    // "name": 'name'
+    // "type": "layer"
   },
   "hero": {
     "lives": 1,

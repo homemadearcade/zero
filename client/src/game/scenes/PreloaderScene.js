@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import { GameClientScene } from './GameClientScene';
 import { GameHostScene } from './GameHostScene';
 import { GameLocalScene } from './GameLocalScene';
+import store from '../../store';
 
 import {
   PRELOADER_SCENE,
@@ -45,6 +46,14 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image('blue', '/assets/images/blue.png');
     this.load.image('brush', '/assets/images/brush.png')
     this.load.image('square10x10', '/assets/images/square10x10.png')
+
+    const gameModel = store.getState().game.gameModel
+    Object.keys(gameModel.awsImages).forEach((awsImageId) => {
+      console.log('uploading', awsImageId)
+      const awsImageData = gameModel.awsImages[awsImageId]
+      this.load.image(awsImageId, window.awsUrl + awsImageData.url)
+    })
+
     // this.load.image('kenny_platformer_64x64', 'https://labs.phaser.io/assets/tilemaps/tiles/kenny_platformer_64x64.png')
 
     this.load.on('progress', this.updateLoaderGraphic);

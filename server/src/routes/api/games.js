@@ -46,6 +46,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       hero: req.body.hero, 
       classes: req.body.classes,
       brushes: req.body.brushes,
+      awsImages: req.body.awsImages,
       world: req.body.world, 
       user: req.body.userId,
     });
@@ -106,6 +107,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         hero: updatedGame.hero, 
         classes: updatedGame.classes,
         brushes: updatedGame.brushes,
+        awsImages: updatedGame.awsImages,
         world: updatedGame.world, 
         user: tempGame.user.id 
       },

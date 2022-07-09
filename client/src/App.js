@@ -34,6 +34,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorHandler from './components/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
+window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',

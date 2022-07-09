@@ -26,7 +26,36 @@ import _ from 'lodash';
 import { defaultGame } from '../../defaultData/game';
 import { defaultObjectInstance } from '../../defaultData/object';
 import { defaultObjectClass } from '../../defaultData/class';
+import { uploadToAws } from './browserActions';
 
+export const addAwsImage  = (file, fileId, imageData) => async(dispatch, getState) => {
+  dispatch({
+    type: EDIT_GAME_LOADING,
+  });
+
+  try {
+    const response = await uploadToAws(fileId, file)
+    
+    dispatch(editGameModel({
+      awsImages: { 
+        [fileId] : {
+          name: imageData.name,
+          url: fileId,
+          type: imageData.type
+        }
+      }
+    }))
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: EDIT_GAME_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+
+}
+ 
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const lobbyId = getState().lobby.lobby.id
   const gameId = getState().game.gameModel.id
@@ -39,7 +68,7 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/games/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate }, options);
 
-    // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event so we need a local EDIT_GAME_SUCCESS
+    // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event in this scenario so we need a local EDIT_GAME_SUCCESS
     // if(!lobbyId) {
     //   dispatch({
     //     type: EDIT_GAME_SUCCESS,

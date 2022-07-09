@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const testInternetSpeed = async () => {
   var downloadSize = 4995374; //bytes
   function detectDownloadSpeed() {
@@ -74,3 +76,30 @@ export const requestFullscreen = (element = document.body) => (dispatch, getStat
       requestMethod.call(element);
   }
 }
+
+export const uploadToAws = async (id, file) => {
+  const contentType = file.type; // eg. image/jpeg or image/svg+xml
+
+  const options = {
+    params: {
+      Key: id,
+      ContentType: contentType || 'image/png'
+    }
+  };
+
+  try {
+    const generatedPutUrl = await axios.get('/api/aws/generate-put-url', options);
+    return await axios.put('https://immense-fjord-18543.herokuapp.com/' + generatedPutUrl.data.url, file, {
+      ...options,
+      headers: {
+        'Content-Type': contentType || 'image/png',
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      }
+    })
+  } catch(e) {
+    console.error(e)
+  }
+
+
+};

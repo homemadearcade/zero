@@ -6,6 +6,7 @@ import { readFileSync } from 'fs';
 import { resolve, join } from 'path';
 import passport from 'passport';
 import http from 'http';
+import morgan from 'morgan'
 import { Server } from "socket.io"
 // import all_routes from 'express-list-endpoints';
 import jsonwebtoken from 'jsonwebtoken';
@@ -43,6 +44,7 @@ app.post('/uploadtest', (req, res) => {
 // Bodyparser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('combined'))
 
 app.use(passport.initialize());
 require('./services/jwtStrategy');
