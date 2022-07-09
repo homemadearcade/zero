@@ -5,6 +5,7 @@ export const defaultGame = {
     "authorPseudonym": ""
   },
   "world": {
+    "nodeSize": 10,
     "boundaries": {
       "width": 1000,
       "height": 1000,

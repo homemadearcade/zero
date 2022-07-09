@@ -4,7 +4,7 @@ import { CoreObject } from '../entities/CoreObject'
 import { PlayerObject } from '../entities/PlayerObject';
 import store from '../../store';
 import { spaceshipClass } from '../../defaultData/heros';
-import { StaticObject } from '../entities/StaticObject';
+import { WorldCollisionBody } from '../entities/WorldCollisionBody';
 
 export class CoreScene extends Phaser.Scene {
   constructor({key }) {
@@ -54,6 +54,7 @@ export class CoreScene extends Phaser.Scene {
 
     this.layer_1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
     this.layer0 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+    this.collisionGridNodes = []
 
     this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
       if(!gameModel.objects[gameObjectId]) {
@@ -94,12 +95,12 @@ export class CoreScene extends Phaser.Scene {
   }
 
   createLayerZeroCollisions = () => {
-    const gridSize = 10
     this.layer0.snapshot((imageData) => {
       const gameModel = store.getState().game.gameModel 
+      const nodeSize = gameModel.world.nodeSize
       this.bufferCanvas = document.createElement('canvas');
-      this.bufferCanvas.width = gameModel.world.boundaries.width/gridSize;
-      this.bufferCanvas.height = gameModel.world.boundaries.height/gridSize;
+      this.bufferCanvas.width = gameModel.world.boundaries.width
+      this.bufferCanvas.height = gameModel.world.boundaries.height
       this.bufferCanvasContext = this.bufferCanvas.getContext('2d');
       this.bufferCanvasContext.drawImage(imageData, 0,  0, this.bufferCanvas.width, this.bufferCanvas.height);
       this.terrainData = this.bufferCanvasContext.getImageData(0, 0, this.bufferCanvas.width, this.bufferCanvas.height);
@@ -108,21 +109,54 @@ export class CoreScene extends Phaser.Scene {
 
       const grid = []
 
-      const rowLength = (4 * (gameModel.world.boundaries.width))/gridSize;
-      for(let i = 0; i < data.length/rowLength; i += 1) {
+      const rowLength = (4 * (gameModel.world.boundaries.width))
+      const halfNodeSize = nodeSize/2
+      let x = 0;
+      let y = 0;
+      for(let i = halfNodeSize; i < data.length/rowLength; i += nodeSize) {
         grid.push([])
-        for(let i2 = (i * rowLength); i2 < (i * rowLength) + rowLength; i2+= 4) {
-          grid[i].push(data[i2])
+        y = 0
+        for(let i2 = (i * rowLength) + (halfNodeSize * 4); i2 < (i * rowLength) + rowLength; i2 += (4 * nodeSize)) {
+          y = i2/4
+          // console.log(i2)
+          grid[x].push({ alpha: data[i2], touched: false})
         }
+        x++ 
       }
+
+      this.collisionGridNodes = []
+      this.worldCollisionBody?.destroy()
 
       grid.forEach((row, y) => {
         row.forEach((node, x) => {
-          if(node) {
-            new StaticObject(this, { x: x * gridSize, y: y * gridSize, width: gridSize, height: gridSize, spriteId: 'square'})
+          if(node.alpha && ! node.touched) {
+            let rowNodes = []
+            let searchX = x
+            while(row[searchX].alpha) {
+              row[searchX].touched = true
+              searchX++
+              console.log(searchX)
+              rowNodes.push(row[searchX])
+            }
+
+            if(rowNodes.length) {
+              console.log(rowNodes.length)
+              this.collisionGridNodes.push({ x: x * nodeSize, y: y * nodeSize, width: rowNodes.length})
+            } else {
+              this.collisionGridNodes.push({ x: x * nodeSize, y: y * nodeSize, width: 1})
+            }
           }
         })
       })
+
+      this.worldCollisionBody = new WorldCollisionBody(this, 
+        { 
+          parts: this.collisionGridNodes,
+          width: gameModel.world.boundaries.width, 
+          height: gameModel.world.boundaries.height, 
+          nodeWidth: nodeSize, 
+          nodeHeight: nodeSize
+        })
     })
   }
 

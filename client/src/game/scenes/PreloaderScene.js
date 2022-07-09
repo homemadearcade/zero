@@ -44,7 +44,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image('ship2', '/assets/images/x2kship.png');
     this.load.image('blue', '/assets/images/blue.png');
     this.load.image('brush', '/assets/images/brush.png')
-    this.load.image('square', '/assets/images/square.png')
+    this.load.image('square10x10', '/assets/images/square10x10.png')
     // this.load.image('kenny_platformer_64x64', 'https://labs.phaser.io/assets/tilemaps/tiles/kenny_platformer_64x64.png')
 
     this.load.on('progress', this.updateLoaderGraphic);

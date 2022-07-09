@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { v4 as uuidv4 } from 'uuid';
 import { CoreScene } from './CoreScene';
 import store from '../../store';
@@ -18,7 +19,6 @@ export class EditorScene extends CoreScene {
   }
 
   onDragEnd = (pointer, objectInstance) => {
-
     if(objectInstance.id === 'player') {
       store.dispatch(editGameModel({ 
         hero: {
@@ -86,8 +86,16 @@ export class EditorScene extends CoreScene {
 
   onPointerMove = (pointer)  => {
     if(this.paintingBrushId && pointer.isDown) {
-      this.layer0.draw('brush', pointer.x-16, pointer.y-16);
+      this.drawNodeAt(pointer)
     }
+  }
+
+  drawNodeAt({x, y}) {
+    const nodeSize = store.getState().game.gameModel.world.nodeSize
+    this.layer0.draw('brush',
+      Phaser.Math.Snap.To(x - 10, nodeSize),
+      Phaser.Math.Snap.To(y - 10, nodeSize)
+    );
   }
 
   onPointerDown = (pointer, gameObjects) => {
@@ -110,6 +118,9 @@ export class EditorScene extends CoreScene {
     if(pointer.leftButtonDown()) {
       const brushId = store.getState().editor.editorState.brushSelectedIdBrushList
       this.paintingBrushId = brushId
+      if(this.paintingBrushId) {
+        this.drawNodeAt(pointer)
+      }
     }
   }
 
