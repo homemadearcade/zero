@@ -11,9 +11,6 @@ For Layer0 the collision layer - How does that convert into collision grids? How
 
 TODO NEXT
 
-Basic static objects please, basic paintbrush v1?....
-and also maybe just squares with colors please
-
 implement my own physics properties - speed, controls, jump, dash etc
 camera and game boundary work
 

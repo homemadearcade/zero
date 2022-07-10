@@ -83,7 +83,7 @@ export class EditorScene extends GameInstance {
 
   drawNodeAt({x, y}) {
     const nodeSize = store.getState().game.gameModel.world.nodeSize
-    this.layerZero.draw('brush',
+    this.layerZero.draw('square10x10',
       Phaser.Math.Snap.To(x - 10, nodeSize),
       Phaser.Math.Snap.To(y - 10, nodeSize)
     );
