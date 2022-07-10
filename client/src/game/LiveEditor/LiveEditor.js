@@ -9,7 +9,7 @@ import { Button } from '@mui/material';
 import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
 import WorldEditor from '../WorldEditor/WorldEditor';
 
-const LiveEditor = ({ closeLiveEditor, editor: { editorState: { classSelectedIdLiveEditor, liveEditingCategory } }}) => {
+const LiveEditor = ({ closeLiveEditor, editorState: { classSelectedIdLiveEditor, liveEditingCategory } }) => {
   return (
     <div className="LiveEditor">
       <div className="LiveEditor__close"><Button onClick={closeLiveEditor}><i className="fas fa-close"/></Button></div>
@@ -19,9 +19,12 @@ const LiveEditor = ({ closeLiveEditor, editor: { editorState: { classSelectedIdL
   );
 };
 
-const mapStateToProps = (state) => ({
-  editor: state.editor,
-  game: state.game,
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.cobrowsingUser && state.auth.me.id && (state.cobrowsing.cobrowsingUser.id !== state.auth.me.id)
+  return {
+    game: state.game,
+    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
+  }
+};
 
 export default connect(mapStateToProps, { editGameModel, closeLiveEditor })(LiveEditor);

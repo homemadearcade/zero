@@ -13,6 +13,7 @@ import {
 } from '../types';
 
 const initialState = {
+  isSubscribedCobrowsing: false,
   isSubscribingCobrowsing: false,
   error: null,
   cobrowsingUser: false,
@@ -59,12 +60,14 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case SUBSCRIBE_COBROWSING_SUCCESS:
       return {
         ...state,
+        isSubscribedCobrowsing: true,
         isSubscribingCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
       return {
         ...state,
+        isSubscribedCobrowsing: false,
         isSubscribingCobrowsing: false,
         cobrowsingUser: false,
         remoteState: initialState.remoteState

@@ -16,7 +16,6 @@ import {
 } from "agora-rtc-react";
 import AgoraRTC from 'agora-rtc-react';
 
-import { updateVideoCobrowsing, updateLobbyCobrowsing } from './cobrowsingActions';
 import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../constants';
 
 const config = { 
@@ -56,31 +55,27 @@ export const setAudioTrackId = (trackId) => (dispatch, getState) => {
 
 export const startAgoraVideoCall = () => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: START_VIDEO_CALL_LOADING,
   });
-
-  dispatch(updateVideoCobrowsing(getState().video.videoState))
 }
 
 export const onStartAgoraVideoCallSuccess = () => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: START_VIDEO_CALL_SUCCESS,
     payload:{}
   });
-
-  dispatch(updateVideoCobrowsing(getState().video.videoState))
-  dispatch(updateLobbyCobrowsing(getState().lobby.lobbyState))
 }
 
 export const onStartAgoraVideoCallFail = (error) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: START_VIDEO_CALL_FAIL,
     payload:{
       error
     }
   });
-
-  dispatch(updateVideoCobrowsing(getState().video.videoState))
 } 
 
 export const leaveAgoraVideoCall = () => (dispatch) => {

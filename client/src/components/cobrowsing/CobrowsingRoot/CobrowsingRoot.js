@@ -12,12 +12,10 @@ import Onboarding from '../Onboarding/Onboarding';
 import GameClassList from '../../../game/GameClassList/GameClassList';
 import GameBrushList from '../../../game/GameBrushList/GameBrushList';
 
-const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser }, video: { isConnected }, myTracks, userTracks}) => {  
-  const isSubscribed = cobrowsingUser.id !== me.id;
-  
+const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isConnected }, myTracks, userTracks}) => {    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function onClose() {
-    if(isSubscribed) {
+    if(isSubscribedCobrowsing) {
       unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
     } else {
       endCobrowsing({lobbyId: lobby.id})
@@ -44,7 +42,7 @@ const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameMode
     }
     overlay={!lobby.isGameStarted && <Onboarding/>}
   >
-    {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}
+    {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
     {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
   </GameEditor>
 };

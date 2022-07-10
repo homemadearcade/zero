@@ -3,24 +3,21 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './Onboarding.scss';
-import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
+import { endCobrowsing, unsubscribeCobrowsing } from '../../../store/actions/cobrowsingActions';
 import { startAgoraVideoCall } from '../../../store/actions/videoActions';
-import { updateLobbyUser } from '../../../store/actions/lobbyActions';
+import { updateLobbyUser, updateOnboardingStep } from '../../../store/actions/lobbyActions';
 
 import Loader from '../../ui/Loader/Loader';
 import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
 
-const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser, lobby: { lobby }, cobrowsing: { remoteState, cobrowsingUser }}) => {
+const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, videoState, lobbyState, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
 
   async function onTestInternetSpeedClick() {
-    updateLobbyCobrowsing({
-      ...remoteState.lobby,
-      isTestingSpeed: true
-    })
+    updateOnboardingStep('testing_speed')
 
     const [downloadSpeed, uploadSpeed] = await testInternetSpeed()
     
@@ -35,10 +32,7 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
       }
     })
 
-    updateLobbyCobrowsing({
-      ...remoteState.lobby,
-      isTestingSpeed: false
-    })
+    updateOnboardingStep('internet_speed_test')
   }
 
   function renderSpeedTest() {
@@ -49,10 +43,7 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
         <div>Download Speed: {user.internetSpeedTestResults.downloadSpeed}</div>
         <button onClick={onTestInternetSpeedClick}>Test your internet again</button>
         <button onClick={async () => {
-          updateLobbyCobrowsing({
-            ...remoteState.lobby,
-            onboardingStep: 'computer_environment'
-          })
+          updateOnboardingStep('computer_environment')
         }}>Next Step</button>
       </div>
     }
@@ -60,19 +51,16 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
    return  <button onClick={onTestInternetSpeedClick}>Test your internet</button>
   }
 
-  if(!remoteState) {
-    return <Loader text="Waiting for the other user to join..."/>
-  }
 
-  if(remoteState.lobby.isTestingSpeed) {
+  if(lobbyState.onboardingStep === 'testing_speed') {
     return <Loader text="Testing your internet upload and download speed.."/>
   }
 
-  if(remoteState.video.isStarting) {
+  if(videoState.isStarting) {
     return <Loader text="Connecting you to the other users..."/>
   }
 
-  // if(remoteState.lobby.onboardingStep === 'video_connection') {
+  // if(lobbyState.onboardingStep === 'video_connection') {
   //   return <div>
   //     Step 1
   //     <button onClick={() => {
@@ -81,7 +69,7 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
   //   </div>
   // }
 
-  // if(remoteState.lobby.onboardingStep === 'video_connection_confirmation') {
+  // if(lobbyState.onboardingStep === 'video_connection_confirmation') {
   //   return <>
   //     Step 1
   //     <div>
@@ -89,22 +77,22 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
   //     </div>
   //     <AgoraInputSelect/>
   //     <button onClick={() => {
-  //       updateLobbyCobrowsing({
-  //         ...remoteState.lobby,
+  //       updateOnboardingStep({
+  //         ...lobbyState,
   //         onboardingStep: 'internet_speed_test'
   //       })
   //     }}>Next Step</button>
   //   </>
   // }
 
-  if(remoteState.lobby.onboardingStep === 'internet_speed_test') {
+  if(lobbyState.onboardingStep === 'internet_speed_test') {
     return <div>
       Step 2
       {renderSpeedTest()}
     </div>
   }
 
-  if(remoteState.lobby.onboardingStep === 'computer_environment') {
+  if(lobbyState.onboardingStep === 'computer_environment') {
     return <div>
       Step 3
       <div>
@@ -112,21 +100,15 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
       </div>
       <button onClick={() => {
         requestFullscreen(document.body)
-        updateLobbyCobrowsing({
-          ...remoteState.lobby,
-          onboardingStep: 'choose_game'
-        })
+        updateOnboardingStep('choose_game')
       }}>Enter fullscreen mode</button>
       {cobrowsingUser.role === 'ADMIN' && <button onClick={() => {
-        updateLobbyCobrowsing({
-          ...remoteState.lobby,
-          onboardingStep: 'choose_game'
-        })
+        updateOnboardingStep('choose_game')
       }}>Skip</button>}
     </div>
   }
 
-  if(remoteState.lobby.onboardingStep === 'choose_game' && !lobby.isGameStarted) {
+  if(lobbyState.onboardingStep === 'choose_game' && !lobby.isGameStarted) {
     if(cobrowsingUser.role === 'ADMIN') {
       return <div>
         Return to the lobby page - assign all roles, select game, review checklist, start game
@@ -137,12 +119,18 @@ const Onboarding = ({ requestFullscreen, updateLobbyCobrowsing, updateLobbyUser,
   }
 };
 
-const mapStateToProps = (state) => ({
-  lobby: state.lobby,
-  cobrowsing: state.cobrowsing
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+
+  return {
+    lobbyState: isCobrowsing ? state.cobrowsing.remoteState.lobby : state.lobby.lobbyState,
+    videoState: isCobrowsing ? state.cobrowsing.remoteState.video : state.video.videoState,
+    lobby: state.lobby,
+    cobrowsing: state.cobrowsing
+  }
+};
 
 export default compose(
-  connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateLobbyCobrowsing, unsubscribeCobrowsing }),
+  connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateOnboardingStep, unsubscribeCobrowsing }),
 )(Onboarding);
 

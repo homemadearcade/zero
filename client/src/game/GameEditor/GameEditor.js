@@ -10,12 +10,14 @@ import GameView from '../GameView/GameView';
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { closeLiveEditor } from '../../store/actions/editorActions';
 
-const GameEditor = ({gameModel, editor: { editorState: { isLiveEditorOpen } }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, closeLiveEditor}) => {
+const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, closeLiveEditor}) => {
   useEffect(() => {
     return () => {
       closeLiveEditor()
     }
   }, [])
+
+  console.log(isLiveEditorOpen)
 
   return (
     <div className="GameEditor">
@@ -37,8 +39,13 @@ const GameEditor = ({gameModel, editor: { editorState: { isLiveEditorOpen } }, i
   );
 };
 
-const mapStateToProps = (state) => ({
-  editor: state.editor
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+
+  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
+  return {
+    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
+  }
+};
 
 export default connect(mapStateToProps, { closeLiveEditor  })(GameEditor);

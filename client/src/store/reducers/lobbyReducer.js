@@ -18,7 +18,8 @@ import {
   ASSIGN_LOBBY_ROLE_FAIL,
   ON_LOBBY_UPDATE,
   START_VIDEO_CALL_SUCCESS,
-  LOBBY_STATE_UPDATE
+  LOBBY_STATE_UPDATE,
+  UPDATE_ONBOARDING_STEP
 } from '../types';
 
 const initialState = {
@@ -119,6 +120,14 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         lobbyState: payload.lobbyState
+      };
+    case UPDATE_ONBOARDING_STEP: 
+      return {
+        ...state,
+        lobbyState: {
+          ...state.lobbyState,
+          onboardingStep: payload.onboardingStep
+        }
       };
     default:
       return state;

@@ -29,6 +29,7 @@ import {
   ON_LOBBY_UPDATE,
   ON_LOBBY_USER_STATUS_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
+  UPDATE_ONBOARDING_STEP
 } from '../types';
 
 import ping from 'web-pingjs';
@@ -38,6 +39,15 @@ setInterval(() => {
 }, 3000)
 
 let pingInterval;
+
+export const updateOnboardingStep = (step) => async (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_ONBOARDING_STEP,
+    payload: { onboardingStep: step },
+  });
+};
+
 
 export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState) => {
   dispatch({

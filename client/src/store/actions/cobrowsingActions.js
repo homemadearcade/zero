@@ -18,7 +18,8 @@ import {
   ON_COBROWSING_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
   LOBBY_STATE_UPDATE,
-  VIDEO_STATE_UPDATE
+  VIDEO_STATE_UPDATE,
+  EDITOR_STATE_UPDATE
 } from '../types';
 
 let mouseLobbyId;
@@ -117,6 +118,16 @@ export const updateLobbyCobrowsing = (cobrowsingLobbyState) => async (dispatch, 
   dispatch(updateCobrowsing(remoteState))
 };
 
+export const updateEditorCobrowsing = (cobrowsingEditorState) => async (dispatch, getState) => {
+  const remoteState = getState().cobrowsing.remoteState
+  remoteState.editor = cobrowsingEditorState
+  dispatch({
+    type: EDITOR_STATE_UPDATE,
+    payload: { editorState: cobrowsingEditorState },
+  });
+  dispatch(updateCobrowsing(remoteState))
+};
+
 export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
   try {
     const userId = getState().cobrowsing.cobrowsingUser.id
@@ -149,6 +160,7 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_UPDATE, ({userId, remoteState}) => {
+      console.log('happened', remoteState)
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 

@@ -11,13 +11,12 @@ For Layer0 the collision layer - How does that convert into collision grids? How
 
 TODO NEXT
 
-implement my own physics properties - speed, controls, jump, dash etc
-camera and game boundary work
-
 Cobrowing using redux state connect thing.
 Basically just check if cobrowsing user or not, if there is a cobrowsing user then swap the editor, video, etc state for the cobrowsing remote state
 
-CORE OBJECT -> ACTIVE OBJECT
+CONTROLS - speed, other phaser examples, etc
+CAMERA
+GAME BOUNDARY
 
 --------
 

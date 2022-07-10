@@ -7,7 +7,8 @@ import {
   SELECT_CLASS,
   CLEAR_CLASS,
   SELECT_BRUSH,
-  CLEAR_BRUSH
+  CLEAR_BRUSH,
+  EDITOR_STATE_UPDATE
 } from '../types';
 
 const initialState = {
@@ -116,6 +117,11 @@ export default function editorReducer(state = initialState, { type, payload }) {
           liveEditingCategory: null
         },
       };
+    case EDITOR_STATE_UPDATE: 
+    return {
+      ...state,
+      editorState: payload.editorState
+    };
     default:
       return state;
   }

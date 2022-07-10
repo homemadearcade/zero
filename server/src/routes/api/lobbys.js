@@ -140,11 +140,6 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     }
   })[0]
 
-  if(!userFound) {
-    return res.status(400).json({ message: 'You are not a member of this lobby' });
-  }
-
-
   if(req.lobby.isGameStarted) {
     return res.status(400).json({ message: 'You cannot assign a role when the lobby game is started' });
   }
@@ -178,6 +173,10 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
       }
     }
   }
+
+  // if(!userFound) {
+  //   return res.status(400).json({ message: 'You are not a member of this lobby' });
+  // }
 
   req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
   return res.status(200).json({ lobby: req.lobby });

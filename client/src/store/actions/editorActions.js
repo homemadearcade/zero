@@ -12,6 +12,7 @@ import {
 
 export const selectClass = (classId) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: SELECT_CLASS,
     payload: {
       classSelectedIdClassList: classId, 
@@ -21,12 +22,14 @@ export const selectClass = (classId) => (dispatch, getState) => {
 
 export const clearClass = (classId) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: CLEAR_CLASS,
   });
 }
 
 export const selectBrush = (brushId) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: SELECT_BRUSH,
     payload: {
       brushSelectedIdBrushList: brushId, 
@@ -36,12 +39,14 @@ export const selectBrush = (brushId) => (dispatch, getState) => {
 
 export const clearBrush = (brushId) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: CLEAR_BRUSH,
   });
 }
 
 export const openWorldContextMenu = (event) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       contextMenuX: event.pageX,
@@ -52,6 +57,7 @@ export const openWorldContextMenu = (event) => (dispatch, getState) => {
 
 export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       classSelectedIdContextMenu: gameObjects[0].classId, 
@@ -66,6 +72,7 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
 
 export const openContextMenuFromClassId= (classId, event) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       classSelectedIdContextMenu: classId, 
@@ -77,12 +84,14 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
 
 export const closeContextMenu = () => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: CLOSE_CONTEXT_MENU
   });
 }
 
 export const openLivePhysicsEditor = (classId) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: OPEN_LIVE_PHYSICS_EDITOR,
     payload: {
       classSelectedIdLiveEditor: classId, 
@@ -92,6 +101,7 @@ export const openLivePhysicsEditor = (classId) => (dispatch, getState) => {
 
 export const openLiveWorldEditor = (classId) => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: OPEN_LIVE_WORLD_EDITOR,
     payload: {}
   });
@@ -99,6 +109,7 @@ export const openLiveWorldEditor = (classId) => (dispatch, getState) => {
 
 export const closeLiveEditor = () => (dispatch, getState) => {
   dispatch({
+    updateCobrowsing: true,
     type: CLOSE_LIVE_EDITOR
   });
 }
