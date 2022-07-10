@@ -70,18 +70,9 @@ export class EditorScene extends CoreScene {
     }
   }
 
-  onBrushPickup = () => {
-    this.add.rectangle(0,0,)
-  }
-
-  onBrushDrop = () => {
-
-  }
-
-  onBrushStrokeComplete = () => {
+  onBrushStrokeComplete = async () => {
     this.paintingBrushId = null
-    this.createLayerZeroCollisions()
-    this.onBrushDrop()
+    this.layerZero.save()
   }
 
   onPointerMove = (pointer)  => {
@@ -92,7 +83,7 @@ export class EditorScene extends CoreScene {
 
   drawNodeAt({x, y}) {
     const nodeSize = store.getState().game.gameModel.world.nodeSize
-    this.layer0.draw('brush',
+    this.layerZero.draw('brush',
       Phaser.Math.Snap.To(x - 10, nodeSize),
       Phaser.Math.Snap.To(y - 10, nodeSize)
     );
@@ -148,6 +139,12 @@ export class EditorScene extends CoreScene {
   }
 
   onGameModelUpdate = (gameUpdate) => {
+    if(gameUpdate.awsImages) {
+      if(gameUpdate.awsImages[this.layerZero.textureId]) {
+        this.layerZero.updateTexture()
+      }
+    }
+
     if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
       const objectUpdate = gameUpdate.objects[id]
       if(!this.objectInstancesById[id]) {

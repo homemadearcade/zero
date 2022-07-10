@@ -49,7 +49,7 @@ export class PreloaderScene extends Phaser.Scene {
 
     const gameModel = store.getState().game.gameModel
     Object.keys(gameModel.awsImages).forEach((awsImageId) => {
-      console.log('uploading', awsImageId)
+      console.log('downloading', awsImageId)
       const awsImageData = gameModel.awsImages[awsImageId]
       this.load.image(awsImageId, window.awsUrl + awsImageData.url)
     })
