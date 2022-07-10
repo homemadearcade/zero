@@ -11,7 +11,7 @@ export const defaultGame = {
       "height": 1000,
     },
     "gravity": {
-      "y": 0,
+      "y": 1,
       "x": 0
     },
   },

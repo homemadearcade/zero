@@ -46,8 +46,6 @@ export class GameInstance extends Phaser.Scene {
     this.layer_1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
     this.layerZero = new LayerZero(this)
 
-    this.collisionGridNodes = []
-
     this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
       if(!gameModel.objects[gameObjectId]) {
         return console.error('Object missing!')
@@ -82,6 +80,8 @@ export class GameInstance extends Phaser.Scene {
         spawnY: gameModel.hero.spawnY
       });
     }
+
+    this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
 
     this.layer1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
   }

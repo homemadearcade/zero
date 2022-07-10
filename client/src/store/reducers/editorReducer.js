@@ -1,7 +1,8 @@
 import {
   OPEN_CONTEXT_MENU,
   CLOSE_CONTEXT_MENU,
-  OPEN_LIVE_EDITOR,
+  OPEN_LIVE_PHYSICS_EDITOR,
+  OPEN_LIVE_WORLD_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
   CLEAR_CLASS,
@@ -21,7 +22,8 @@ const initialState = {
     classSelectedIdContextMenu: null,
     selectableObjectIds: null,
     isContextMenuOpen: false,
-    isLiveEditorOpen: false
+    isLiveEditorOpen: false,
+    liveEditingCategory: null
   }
 };
 
@@ -85,13 +87,23 @@ export default function editorReducer(state = initialState, { type, payload }) {
           isContextMenuOpen: false
         },
       };
-    case OPEN_LIVE_EDITOR:
+    case OPEN_LIVE_PHYSICS_EDITOR:
       return {
         ...state,
         editorState: {
           ...state.editorState,
           isLiveEditorOpen: true,
+          liveEditingCategory: 'physics',
           classSelectedIdLiveEditor: payload.classSelectedIdLiveEditor,
+        },
+      };
+    case OPEN_LIVE_WORLD_EDITOR:
+      return {
+        ...state,
+        editorState: {
+          ...state.editorState,
+          isLiveEditorOpen: true,
+          liveEditingCategory: 'world',
         },
       };
     case CLOSE_LIVE_EDITOR:
@@ -100,7 +112,8 @@ export default function editorReducer(state = initialState, { type, payload }) {
         editorState: {
           ...state.editorState,
           classSelectedIdLiveEditor: null,
-          isLiveEditorOpen: false
+          isLiveEditorOpen: false,
+          liveEditingCategory: null
         },
       };
     default:

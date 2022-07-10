@@ -1,7 +1,8 @@
 import { 
   OPEN_CONTEXT_MENU,
   CLOSE_CONTEXT_MENU,
-  OPEN_LIVE_EDITOR,
+  OPEN_LIVE_PHYSICS_EDITOR,
+  OPEN_LIVE_WORLD_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
   CLEAR_CLASS,
@@ -39,6 +40,16 @@ export const clearBrush = (brushId) => (dispatch, getState) => {
   });
 }
 
+export const openWorldContextMenu = (event) => (dispatch, getState) => {
+  dispatch({
+    type: OPEN_CONTEXT_MENU,
+    payload: {
+      contextMenuX: event.pageX,
+      contextMenuY: event.pageY
+    }
+  });
+}
+
 export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
   dispatch({
     type: OPEN_CONTEXT_MENU,
@@ -70,12 +81,19 @@ export const closeContextMenu = () => (dispatch, getState) => {
   });
 }
 
-export const openLiveEditor = (classId, pointer) => (dispatch, getState) => {
+export const openLivePhysicsEditor = (classId) => (dispatch, getState) => {
   dispatch({
-    type: OPEN_LIVE_EDITOR,
+    type: OPEN_LIVE_PHYSICS_EDITOR,
     payload: {
       classSelectedIdLiveEditor: classId, 
     }
+  });
+}
+
+export const openLiveWorldEditor = (classId) => (dispatch, getState) => {
+  dispatch({
+    type: OPEN_LIVE_WORLD_EDITOR,
+    payload: {}
   });
 }
 

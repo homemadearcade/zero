@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
-import { openContextMenuFromGameObject } from '../../store/actions/editorActions';
+import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -103,6 +103,8 @@ export class EditorScene extends GameInstance {
 
       if(gameObjects.length) {
         store.dispatch(openContextMenuFromGameObject(gameObjects, pointer.event))
+      } else {
+        store.dispatch(openWorldContextMenu(pointer.event))
       }
     }
 
@@ -119,7 +121,6 @@ export class EditorScene extends GameInstance {
     gameObjects[0].outline.setVisible(false)
     gameObjects[0].outline2.setVisible(false)
   }
-
 
   getGameObjectById(id) {
     const gameModel = store.getState().game.gameModel
@@ -149,6 +150,21 @@ export class EditorScene extends GameInstance {
   }
 
   onGameModelUpdate = (gameUpdate) => {
+
+    if(gameUpdate.world?.gravity) {
+      const gravity = gameUpdate.world.gravity
+      const currentGravity = store.getState().game.gameModel.world.gravity
+
+      if(gravity?.x && gravity?.y) {
+        this.matter.world.setGravity(gravity.x, gravity.y)
+      } else if(gravity?.x) {
+        this.matter.world.setGravity(gravity.x, currentGravity.y)
+      } else if(gravity?.y) {
+        this.matter.world.setGravity(currentGravity.x, gravity.y)
+      }
+    }
+
+
     if(gameUpdate.awsImages) {
       if(gameUpdate.awsImages[this.layerZero.textureId]) {
         this.layerZero.updateTexture()

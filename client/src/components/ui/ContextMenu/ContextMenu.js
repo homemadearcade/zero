@@ -8,8 +8,9 @@ import './ContextMenu.scss';
 import Menu from '@mui/material/Menu';
 import CoreObjectContextMenu from '../../../game/CoreObjectContextMenu/CoreObjectContextMenu';
 import ClassContextMenu from '../../../game/ClassContextMenu/ClassContextMenu';
+import WorldContextMenu from '../../../game/WorldContextMenu/WorldContextMenu';
 
-const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen, objectSelectedIdContextMenu } }}) => {  
+const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen, objectSelectedIdContextMenu, classSelectedIdContextMenu } }}) => {  
   function handleClose() {
     closeContextMenu()
   }
@@ -17,9 +18,12 @@ const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, e
   function _renderBody() {
     if(objectSelectedIdContextMenu) {
       return <CoreObjectContextMenu onMenuItemClick={handleClose}/>
-    } 
+    } else if(classSelectedIdContextMenu) {
+      return <ClassContextMenu onMenuItemClick={handleClose}/>
+    } else {
+      return <WorldContextMenu onMenuItemClick={handleClose}/>
+    }
 
-    return <ClassContextMenu onMenuItemClick={handleClose}/>
   }
 
   return (
