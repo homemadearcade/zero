@@ -10,6 +10,7 @@ import GameEditor from '../../../game/GameEditor/GameEditor';
 import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 import Onboarding from '../Onboarding/Onboarding';
 import GameClassList from '../../../game/GameClassList/GameClassList';
+import GameBrushList from '../../../game/GameBrushList/GameBrushList';
 
 const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser }, video: { isConnected }, myTracks, userTracks}) => {  
   const isSubscribed = cobrowsingUser.id !== me.id;
@@ -34,8 +35,13 @@ const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameMode
     isNetworked
     lobbyId={lobby.id}
     gameModel={gameModel}
-    leftColumn={isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
-    rightColumn={<GameClassList/>}
+    leftColumn={<>
+      {isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+      <GameBrushList/>
+    </>}
+    rightColumn={
+      <GameClassList/>
+    }
     overlay={!lobby.isGameStarted && <Onboarding/>}
   >
     {isSubscribed && <RemoteMouse userId={cobrowsingUser.id}/>}

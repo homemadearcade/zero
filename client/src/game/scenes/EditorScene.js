@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 import { v4 as uuidv4 } from 'uuid';
-import { CoreScene } from './CoreScene';
+import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject } from '../../store/actions/editorActions';
 
-export class EditorScene extends CoreScene {
+export class EditorScene extends GameInstance {
   constructor({key}) {
     super({
       key: key,
@@ -118,6 +118,16 @@ export class EditorScene extends CoreScene {
   onPointerOut = (pointer, gameObjects) => {
     gameObjects[0].outline.setVisible(false)
     gameObjects[0].outline2.setVisible(false)
+  }
+
+
+  getGameObjectById(id) {
+    const gameModel = store.getState().game.gameModel
+
+    if(id === 'player') {
+      return gameModel.hero
+    }
+    return gameModel.objects[id]
   }
 
   addGameObject(classId, {spawnX, spawnY}) {

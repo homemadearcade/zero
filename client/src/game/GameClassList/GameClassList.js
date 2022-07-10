@@ -9,9 +9,10 @@ import classNames from 'classnames';
 import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
+import Loader from '../../components/ui/Loader/Loader';
 
 const GameClassList = ({
-  game: { gameModel : { classes }},
+  game: { gameModel },
   editor: { editorState: { classSelectedIdClassList }},
   editGameModel,
   selectClass,
@@ -19,6 +20,12 @@ const GameClassList = ({
   clearBrush,
   openContextMenuFromClassId
 }) => {
+  const classes = gameModel?.classes
+
+  if(!classes) {
+    return <Loader text="No Game Loaded"/>
+  }
+
   return <div className="GameClassList">
     {Object.keys(classes).map((currentClassId, i) => {
       const currentClass = classes[currentClassId]

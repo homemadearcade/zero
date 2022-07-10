@@ -1,8 +1,8 @@
 import Phaser from "phaser";
 
-import { CoreObject } from "./CoreObject";
+import { ObjectInstance } from "./ObjectInstance";
 
-export class PlayerObject extends CoreObject {
+export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
     super(scene, id, instanceData)
 

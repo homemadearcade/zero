@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export class WorldCollisionBody extends Phaser.Physics.Matter.Sprite {
+export class CompoundStaticBody extends Phaser.Physics.Matter.Sprite {
   constructor(scene, {parts, width, height, nodeWidth, nodeHeight}){
     super(scene.matter.world, 0 + width/2, 0 + width/2, null, { isStatic: true })
     

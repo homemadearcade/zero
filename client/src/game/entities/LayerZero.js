@@ -1,70 +1,20 @@
-import Phaser from "phaser";
 import store from "../../store";
-import { WorldCollisionBody } from "./WorldCollisionBody";
-import { addAwsImage } from "../../store/actions/gameActions";
-import { urlToFile } from "../../utils/utils";
+import { CompoundStaticBody } from "./CompoundStaticBody";
+import { LayerCanvas } from "./LayerCanvas";
 
-export class LayerZero extends Phaser.GameObjects.RenderTexture {
+export class LayerZero extends LayerCanvas {
   constructor(scene){
-    const gameModel = store.getState().game.gameModel
-    super(scene, 0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height)
+    super(scene, { layerId: 'layer0'})
 
-    this.scene = scene
-    this.scene.add.existing(this)
+    //for some reasion the initial draw in the super is the LayerCanvas version
+    this.createCollisionBody()
 
-    this.textureId = gameModel.id+'/layer0'
-
-    this.initialDraw()
+    this.collisionBody = null
 
     return this
   }
 
-  save = async ()  => {
-    const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
-
-    const fileId = this.textureId
-    const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
-   
-    store.dispatch(addAwsImage(file, fileId, {
-      name: 'layer0',
-      type: 'layer'
-    }))
-  }
-
-  updateTexture = () => {
-    this.scene.textures.remove(this.textureId)
-    this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
-    this.scene.load.once('complete', () => {
-      this.clear()
-      this.initialDraw()
-    });
-    this.scene.load.start();
-  }
-
-  getBufferCanvasFromRenderTexture = (renderTexture) => {
-    return new Promise((resolve, reject) => {
-      renderTexture.snapshot(async (imageData) => {
-
-        try {
-          const gameModel = store.getState().game.gameModel 
-  
-          const bufferCanvas = document.createElement('canvas');
-          bufferCanvas.width = gameModel.world.boundaries.width
-          bufferCanvas.height = gameModel.world.boundaries.height
-          const bufferCanvasContext = bufferCanvas.getContext('2d');
-          bufferCanvasContext.drawImage(imageData, 0,  0, bufferCanvas.width, bufferCanvas.height);
-    
-          resolve({ bufferCanvas, bufferCanvasContext })
-        } catch(e) {
-          console.log(e)
-          reject(e)
-        }
-      })
-    })
-  }
-
-  initialDraw() {
-    const gameModel = store.getState().game.gameModel
+  initialDraw = () => {
     if(this.scene.textures.exists(this.textureId)) {
       this.draw(this.textureId, 0, 0)
       this.createCollisionBody()
@@ -116,8 +66,8 @@ export class LayerZero extends Phaser.GameObjects.RenderTexture {
         }
       })
     })
-
-    this.collisionBody = new WorldCollisionBody(this.scene, 
+    
+    this.collisionBody = new CompoundStaticBody(this.scene, 
       { 
         parts: collisionGridNodes,
         width: gameModel.world.boundaries.width, 

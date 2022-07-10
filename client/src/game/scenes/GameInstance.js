@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
 
-import { CoreObject } from '../entities/CoreObject'
-import { PlayerObject } from '../entities/PlayerObject';
+import { ObjectInstance } from '../entities/ObjectInstance'
+import { PlayerInstance } from '../entities/PlayerInstance';
 import store from '../../store';
 import { spaceshipClass } from '../../defaultData/heros';
 import { LayerZero } from '../entities/LayerZero';
 
-export class CoreScene extends Phaser.Scene {
+export class GameInstance extends Phaser.Scene {
   constructor({key }) {
     super({
       key: key,
@@ -21,17 +21,8 @@ export class CoreScene extends Phaser.Scene {
     })
   }
 
-  getGameObjectById(id) {
-    const gameModel = store.getState().game.gameModel
-
-    if(id === 'player') {
-      return gameModel.hero
-    }
-    return gameModel.objects[id]
-  }
-
   addObjectInstance(id, gameObject) {
-    const newPhaserObject = new CoreObject(this, id, gameObject)
+    const newPhaserObject = new ObjectInstance(this, id, gameObject)
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[id] = newPhaserObject
   }
@@ -64,7 +55,7 @@ export class CoreScene extends Phaser.Scene {
       if(gameObjectId === 'player') {
         return console.error('Player got in?!')
       }
-      return new CoreObject(this, gameObjectId, gameModel.objects[gameObjectId])
+      return new ObjectInstance(this, gameObjectId, gameModel.objects[gameObjectId])
     });
 
     this.objectInstances = this.objectInstances.filter((objectInstance) => {
@@ -77,14 +68,14 @@ export class CoreScene extends Phaser.Scene {
     }, {})
 
     if(gameModel.hero.initialCassId) {
-      this.player = new PlayerObject(this, 'player', {
+      this.player = new PlayerInstance(this, 'player', {
         classId: gameModel.hero.initialClassId,
         spriteId: 'ship2',
         spawnX: gameModel.hero.spawnX,
         spawnY: gameModel.hero.spawnY
       });
     } else {
-      this.player = new PlayerObject(this, 'player', {
+      this.player = new PlayerInstance(this, 'player', {
         classDataOverride: {...spaceshipClass},
         spriteId: 'ship2',
         spawnX: gameModel.hero.spawnX,
@@ -105,7 +96,7 @@ export class CoreScene extends Phaser.Scene {
     this.player.y = this.player.spawnY
   }
 
-  reloadGameModel = (gameModel) => {
+  reloadGameInstanceWithNewModel = (gameModel) => {
     console.log('reloading game based on model change', gameModel)
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events

@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import store from "../../store";
 
-export class CoreObject extends Phaser.Physics.Matter.Sprite {
+export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, classDataOverride}){
     let objectClass
     if(classDataOverride) {

@@ -9,15 +9,22 @@ import classNames from 'classnames';
 import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import { clearClass, clearBrush, selectBrush, openContextMenuFromClassId } from '../../store/actions/editorActions';
+import Loader from '../../components/ui/Loader/Loader';
 
 const GameBrushList = ({
-  game: { gameModel: { brushes }},
+  game: { gameModel },
   editor: { editorState: { brushSelectedIdBrushList }},
   editGameModel,
   selectBrush,
   clearClass,
   clearBrush,
 }) => {
+  const brushes = gameModel?.brushes
+
+  if(!brushes) {
+    return <Loader text="No Game Loaded"/>
+  }
+
   return <div className="GameBrushList">
     {Object.keys(brushes).map((brushId, i) => {
       const currentBrush = brushes[brushId]
