@@ -5,6 +5,7 @@ TODO NEXT
 
 Reset Button
 Pause Button
+Exit Game
 Hero New Class Stacks on the right and icon on the left
 
 Add New Class

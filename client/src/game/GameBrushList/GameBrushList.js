@@ -5,19 +5,14 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import './GameBrushList.scss';
-import classNames from 'classnames';
 import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
-import { clearClass, clearBrush, selectBrush, openContextMenuFromClassId } from '../../store/actions/editorActions';
 import Loader from '../../components/ui/Loader/Loader';
+import BrushItem from '../BrushItem/BrushItem';
 
 const GameBrushList = ({
   game: { gameModel },
-  editor: { editorState: { brushSelectedIdBrushList }},
   editGameModel,
-  selectBrush,
-  clearClass,
-  clearBrush,
 }) => {
   const brushes = gameModel?.brushes
 
@@ -27,21 +22,7 @@ const GameBrushList = ({
 
   return <div className="GameBrushList">
     {Object.keys(brushes).map((brushId, i) => {
-      const currentBrush = brushes[brushId]
-      return <div
-        key={i} 
-        onClick={() => {
-          if(brushId === brushSelectedIdBrushList) {
-            clearBrush()
-          } else {
-            clearClass()
-            selectBrush(brushId)
-          }
-        }}
-        className={classNames("GameBrushList__brush", { 'GameBrushList__brush--selected': brushSelectedIdBrushList === brushId})}
-      >
-        {brushId}
-      </div>
+      return <BrushItem brushId={brushId}/>
     })}
     <Button className="GameBrushList__add" onClick={() => {
       const brushId = uuidv4()
@@ -58,9 +39,8 @@ const GameBrushList = ({
 
 const mapStateToProps = (state) => ({
   game: state.game,
-  editor: state.editor
 });
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, editGameModel, selectBrush, clearBrush, clearClass }),
+  connect(mapStateToProps, { editGameModel }),
 )(GameBrushList);
