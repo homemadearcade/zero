@@ -12,8 +12,11 @@ export class GameClientScene extends EditorScene {
   }
 
   onGameInstanceUpdate = ({objects, player}) => {
-    Object.keys(objects).forEach((objectId) => {
-      const instanceUpdate = objects[objectId]
+    objects.forEach((instanceUpdate) => {
+      const objectId = instanceUpdate.id
+      if(objectId === this.draggingObjectInstanceId) {
+        return
+      }
       const objectInstance = this.objectInstancesById[instanceUpdate.id]
       if(!objectInstance) return;
       this.updateObjectInstance(objectInstance, instanceUpdate)

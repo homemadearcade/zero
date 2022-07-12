@@ -17,8 +17,6 @@ const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNet
     }
   }, [])
 
-  console.log(isLiveEditorOpen)
-
   return (
     <div className="GameEditor">
       <ContextMenu/>

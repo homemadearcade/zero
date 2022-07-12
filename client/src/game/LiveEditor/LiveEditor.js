@@ -20,7 +20,7 @@ const LiveEditor = ({ closeLiveEditor, editorState: { classSelectedIdLiveEditor,
 };
 
 const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.cobrowsingUser && state.auth.me.id && (state.cobrowsing.cobrowsingUser.id !== state.auth.me.id)
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   return {
     game: state.game,
     editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,

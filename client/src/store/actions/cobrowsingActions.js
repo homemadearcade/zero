@@ -160,7 +160,6 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_UPDATE, ({userId, remoteState}) => {
-      console.log('happened', remoteState)
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 

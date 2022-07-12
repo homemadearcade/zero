@@ -1,18 +1,14 @@
 #LIST
 
-CONVERSATION
-
-We gotta make some choices on canvas size, grids, painting possibilities
-
-Right now the canvas is 1000 x 1000 which is pretty good size
-
-For LAYERS - Do we want them to be able to draw whatever they want? What level of detail?
-For Layer0 the collision layer - How does that convert into collision grids? How finite is our collision grids? Pixel by Pixel collision?? I wonder
 
 TODO NEXT
 
-Cobrowing using redux state connect thing.
-Basically just check if cobrowsing user or not, if there is a cobrowsing user then swap the editor, video, etc state for the cobrowsing remote state
+Reset Button
+Pause Button
+Hero New Class Stacks on the right and icon on the left
+
+Add New Class
+Start with a description!
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA
@@ -21,6 +17,12 @@ GAME BOUNDARY
 --------
 
 TODO LATER
+
+1200 PIXEL GRID, 120 COLLISION GRID
+
+Theres two problems with cobrowsing to think about
+1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user
+2) When clicking on a button while cobrowsing, how do we dispatch the remote event?
 
 Cobrowsing Click event
 
@@ -51,6 +53,8 @@ TODO TIME PERMITTING
 Mobile
 
 Blockchain NFT editing thing
+
+TAB + for moving through the UI
 
 --------
 

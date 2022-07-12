@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './CobrowsingRoot.scss';
-import { endCobrowsing, unsubscribeCobrowsing, updateLobbyCobrowsing } from '../../../store/actions/cobrowsingActions';
+import { endCobrowsing, unsubscribeCobrowsing } from '../../../store/actions/cobrowsingActions';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import GameEditor from '../../../game/GameEditor/GameEditor';
@@ -56,6 +56,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { endCobrowsing, updateLobbyCobrowsing, unsubscribeCobrowsing }),
+  connect(mapStateToProps, { endCobrowsing, unsubscribeCobrowsing }),
 )(CobrowsingRoot);
 

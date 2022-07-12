@@ -55,7 +55,7 @@ export class EditorScene extends GameInstance {
       })
     }
 
-    this.draggingObjectInstanceId = null
+    // this.draggingObjectInstanceId = null
 
     if(this.paintingBrushId) {
       this.onBrushStrokeComplete()
@@ -63,7 +63,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerUpOutside = (pointer, objectInstances)  => {
-    this.draggingObjectInstanceId = null
+    // this.draggingObjectInstanceId = null
 
     if(this.paintingBrushId) {
       this.onBrushStrokeComplete()
@@ -155,15 +155,14 @@ export class EditorScene extends GameInstance {
       const gravity = gameUpdate.world.gravity
       const currentGravity = store.getState().game.gameModel.world.gravity
 
-      if(gravity?.x && gravity?.y) {
+      if(typeof gravity?.x === 'number' && typeof gravity?.y === 'number') {
         this.matter.world.setGravity(gravity.x, gravity.y)
-      } else if(gravity?.x) {
+      } else if(typeof gravity?.x === 'number') {
         this.matter.world.setGravity(gravity.x, currentGravity.y)
-      } else if(gravity?.y) {
+      } else if(typeof gravity?.y === 'number') {
         this.matter.world.setGravity(currentGravity.x, gravity.y)
       }
     }
-
 
     if(gameUpdate.awsImages) {
       if(gameUpdate.awsImages[this.layerZero.textureId]) {
@@ -173,11 +172,16 @@ export class EditorScene extends GameInstance {
 
     if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
       const objectUpdate = gameUpdate.objects[id]
-      if(!this.objectInstancesById[id]) {
+      const objectInstance = this.objectInstancesById[id]
+      if(!objectInstance) {
         this.addObjectInstance(id, objectUpdate)
       }
       if(objectUpdate === null) {
         this.removeObjectInstance(id)
+      }
+      if(typeof objectUpdate.spawnX === 'number' || typeof objectUpdate.spawnY === 'number') {
+        objectInstance.x = objectUpdate.spawnX
+        objectInstance.y = objectUpdate.spawnY
       }
     })
 

@@ -12,18 +12,18 @@ const VideoLayoutHA = ({ participantId, guideId, auth: { me }, myTracks, userTra
   }, {})
 
   return <div className="VideoLayoutHA">
+     {userTracksById[guideId] && <AgoraVideo
+        tracks={userTracksById[guideId] }
+        className="AgoraVideo__guide"
+        label="Guide"
+     />}
+    {!userTracksById[guideId] && <div className="VideoLayoutHA__video-container AgoraVideo__guide"/>}
     {userTracksById[participantId] && <AgoraVideo 
         tracks={userTracksById[participantId]}
         className="AgoraVideo__participant"
         label="Participant"
     />}
     {!userTracksById[participantId] && <div className="VideoLayoutHA__video-container AgoraVideo__participant"/>}
-    {userTracksById[guideId] && <AgoraVideo
-        tracks={userTracksById[guideId] }
-        className="AgoraVideo__guide"
-        label="Guide"
-     />}
-    {!userTracksById[guideId] && <div className="VideoLayoutHA__video-container AgoraVideo__guide"/>}
   </div>
 }
 

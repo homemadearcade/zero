@@ -11,7 +11,7 @@ import UserStatus from '../UserStatus/UserStatus';
 import './Lobby.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
-import { addGame, loadGame } from '../../store/actions/gameActions';
+import { addGame, loadGame, unloadGame } from '../../store/actions/gameActions';
 import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
 
@@ -21,6 +21,7 @@ const LobbyPage = ({
   addGame,
   editLobby,
   loadGame,
+  unloadGame,
   assignLobbyRole,
   onClickUser,
   lobby: { lobby },
@@ -286,5 +287,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby, loadGame, addGame, assignLobbyRole }),
+  connect(mapStateToProps, { editLobby, loadGame, unloadGame, addGame, assignLobbyRole }),
 )(LobbyPage);
