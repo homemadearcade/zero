@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
 
-export default function SliderNotched({title, initialValue, options, onChangeCommitted}) {
+export default function SliderNotched({title, initialValue, step, options, onChangeCommitted}) {
   const [defaultValue, setDefaultValue] = useState()
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function SliderNotched({title, initialValue, options, onChangeCom
     onChangeCommitted(value)
   }
 
-  if(!defaultValue) {
+  if(defaultValue === undefined) {
     return null
   }
 
@@ -34,9 +34,12 @@ export default function SliderNotched({title, initialValue, options, onChangeCom
       <Slider
         aria-label={title}
         defaultValue={defaultValue}
-        valueLabelDisplay="auto"
-        onChangeCommitted={handleChangeCommited}
+        min={marks[0].value}
+        max={marks[marks.length-1].value}
         marks={marks}
+        step={step}
+        onChangeCommitted={handleChangeCommited}
+        valueLabelDisplay="auto"
       />
     </div>
   );

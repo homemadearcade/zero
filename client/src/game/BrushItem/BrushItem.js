@@ -17,7 +17,6 @@ const BrushItem = ({
 }) => {
   const brush = brushes[brushId]
   return <div
-    key={brushId} 
     onClick={() => {
       if(brushId === brushSelectedIdBrushList) {
         clearBrush()

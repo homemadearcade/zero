@@ -7,7 +7,9 @@ export class LayerZero extends LayerCanvas {
     super(scene, { layerId: 'layer0'})
 
     //for some reasion the initial draw in the super is the LayerCanvas version
-    this.createCollisionBody()
+    if(this.scene.textures.exists(this.textureId)) {
+      this.createCollisionBody()
+    }
 
     this.collisionBody = null
 

@@ -16,7 +16,8 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       {classId}
       <SliderNotched
         title="Speed"
-        options={[.01, 0.5, 1, 5, 20, 100, 500]}
+        options={[.01, 0.5, 1, 5, 20, 100]}
+        step={0.1}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { speed: value }}})        
         }}
@@ -24,7 +25,8 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       />
       <SliderNotched
         title="Density"
-        options={[.01, 0.5, 1, 5, 20, 100, 500]}
+        step={0.1}
+        options={[.01, 0.5, 1, 5, 20, 100]}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { density: value }}})        
         }}
@@ -32,6 +34,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       />
       <SliderNotched
         title="Bounce"
+        step={0.05}
         options={[0, .25, .5, .75, 1]}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { bounciness: value }}})        
@@ -40,6 +43,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       />
       <SliderNotched
         title="Friction"
+        step={0.05}
         options={[0, .25, .5, .75, 1]}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { friction: value }}})        
@@ -48,6 +52,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       />
       <SliderNotched
         title="Friction (Air)"
+        step={0.05}
         options={[0, .25, .5, .75, 1]}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { frictionAir: value }}})        
@@ -56,7 +61,8 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       />
        <SliderNotched
         title="Friction (Static)"
-        options={[0, 10, 100, 1000]}
+        step={1}
+        options={[0, 10, 100]}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { frictionStatic: value }}})        
         }}

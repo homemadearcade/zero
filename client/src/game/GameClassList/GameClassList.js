@@ -24,7 +24,7 @@ const GameClassList = ({
     {Object.keys(classes).map((currentClassId, i) => {
       const currentClass = classes[currentClassId]
       if(currentClass.type === 'hero') return null
-      return <ClassItem classId={currentClassId} />
+      return <ClassItem key={i} classId={currentClassId} />
     })}
     <Button className="GameClassList__add" onClick={() => {
       const classId = uuidv4()
@@ -42,7 +42,7 @@ const GameClassList = ({
     {Object.keys(classes).map((currentClassId, i) => {
       const currentClass = classes[currentClassId]
       if(currentClass.type !== 'hero') return null
-      return <ClassItem classId={currentClassId} hero/>
+      return <ClassItem key={i} classId={currentClassId} hero/>
     })}
     <Button className="GameClassList__add" onClick={() => {
       const classId = uuidv4()

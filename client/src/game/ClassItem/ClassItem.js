@@ -19,7 +19,6 @@ const ClassItem = ({
   const classItem = classes[classId]
   
   return <div
-    key={classId} 
     onClick={() => {
       if(classItem.type === 'hero') return
 

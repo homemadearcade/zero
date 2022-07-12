@@ -22,7 +22,7 @@ const GameBrushList = ({
 
   return <div className="GameBrushList">
     {Object.keys(brushes).map((brushId, i) => {
-      return <BrushItem brushId={brushId}/>
+      return <BrushItem key={i} brushId={brushId}/>
     })}
     <Button className="GameBrushList__add" onClick={() => {
       const brushId = uuidv4()
