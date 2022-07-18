@@ -41,9 +41,16 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
   try {
     const spritesByDescriptor = await getSpritesByDescriptor()
 
+    const descriptorOptions = Object.keys(spritesByDescriptor).map((descriptor) => {
+      return {
+        title: descriptor,
+        value: descriptor
+      }
+    })
+
     dispatch({
       type: GET_SPRITESHEET_DATA_SUCCESS,
-      payload: { spritesByDescriptor },
+      payload: { spritesByDescriptor, descriptorOptions },
     });
 
   } catch (err) {
@@ -63,7 +70,7 @@ export const addAwsImage  = (file, fileId, imageData) => async(dispatch, getStat
   });
 
   try {
-    const response = await uploadToAws(fileId, file)
+    await uploadToAws(fileId, file)
     
     dispatch(editGameModel({
       awsImages: { 
@@ -143,6 +150,10 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
   });
 
   try {
+    if(!getState().game.spritesByDescriptor) {
+      dispatch(getSpritesheetData())
+    }
+
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/games/' + gameId, options);
 

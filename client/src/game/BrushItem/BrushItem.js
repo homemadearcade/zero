@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { clearClass, selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 
 const BrushItem = ({
-  game: { gameModel: brushes },
+  game: { gameModel: { brushes } },
   brushId,
   editor: { editorState: { brushSelectedIdBrushList }},
   selectBrush,
@@ -16,6 +16,7 @@ const BrushItem = ({
   clearBrush,
 }) => {
   const brush = brushes[brushId]
+  
   return <div
     onClick={() => {
       if(brushId === brushSelectedIdBrushList) {
@@ -27,7 +28,7 @@ const BrushItem = ({
     }}
     className={classNames("GameBrushList__brush", { 'GameBrushList__brush--selected': brushSelectedIdBrushList === brushId})}
   >
-    {brushId}
+    {brush.name || brush.descriptors ? brush.descriptors[0] : brushId}
   </div>
 };
 

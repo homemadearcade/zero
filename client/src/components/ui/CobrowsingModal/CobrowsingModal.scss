@@ -1,0 +1,16 @@
+.CobrowsingModal {
+  &__safe-area {
+    overflow-y: scroll;
+    margin: 0 auto;
+    height: calc(100vh);
+    width: calc(100vh + 40vh);
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    right: 1%;
+    top: 1%;
+    cursor: pointer;
+  }
+}

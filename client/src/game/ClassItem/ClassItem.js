@@ -16,11 +16,11 @@ const ClassItem = ({
   clearBrush,
   openContextMenuFromClassId
 }) => {
-  const classItem = classes[classId]
+  const objectClass = classes[classId]
 
   return <div
     onClick={() => {
-      if(classItem.type === 'hero') return
+      if(objectClass.type === 'hero') return
 
       if(classId === classSelectedIdClassList) {
         clearClass()
@@ -35,7 +35,7 @@ const ClassItem = ({
     }}
     className={classNames("ClassItem", { 'ClassItem--selected': classSelectedIdClassList === classId})}
   >
-    {classId}
+    {objectClass.name || objectClass.descriptors ? objectClass.descriptors[0] : classId}
   </div>
 };
 

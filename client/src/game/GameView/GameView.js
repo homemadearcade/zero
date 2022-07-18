@@ -8,6 +8,7 @@ import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
 import WaterBodyPlugin from 'phaser-plugin-water-body';
+import Loader from '../../components/ui/Loader/Loader';
 
 const config= {
   type: Phaser.WEBGL,
@@ -40,7 +41,7 @@ const config= {
   }
 };
 
-const GameView = ({isHost, isNetworked}) => {
+const GameView = ({isHost, isNetworked, isSpriteSheetDataLoading}) => {
   const [loadedGame, setLoadedGame] = useState()
 
   useEffect(() => {
@@ -60,6 +61,11 @@ const GameView = ({isHost, isNetworked}) => {
   //   }
   // }, [game])
 
+
+  if(isSpriteSheetDataLoading) {
+    return <Loader text="Loading Sprites..."/>
+  }
+
   return (
     <div className="GameView">
       <div id="PhaserGame"/>
@@ -68,7 +74,7 @@ const GameView = ({isHost, isNetworked}) => {
 };
 
 const mapStateToProps = (state) => ({
-
+  isSpriteSheetDataLoading: state.game.isSpriteSheetDataLoading
 });
 
 export default connect(mapStateToProps, { })(GameView);

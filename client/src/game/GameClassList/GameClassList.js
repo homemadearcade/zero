@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,11 +9,14 @@ import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../components/ui/Loader/Loader';
 import ClassItem from '../ClassItem/ClassItem';
+import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 
 const GameClassList = ({
   game: { gameModel },
   editGameModel,
 }) => {
+  const [isCreateClassFlowOpen, setIsCreateClassFlowOpen] = useState(false)
+
   const classes = gameModel?.classes
 
   if(!classes) {
@@ -27,14 +30,7 @@ const GameClassList = ({
       return <ClassItem key={i} classId={currentClassId} />
     })}
     <Button className="GameClassList__add" onClick={() => {
-      const classId = uuidv4()
-      editGameModel({
-        classes: {
-          [classId] : {
-            type: 'object'
-          }
-        }
-      })
+      setIsCreateClassFlowOpen(true)
     }}>
       Add New Class
     </Button>
@@ -56,6 +52,26 @@ const GameClassList = ({
     }}>
       Add New Hero Class
     </Button>
+
+
+    {isCreateClassFlowOpen && <CreateClassFlow 
+      onClose={() => {
+        setIsCreateClassFlowOpen(false)
+      }}
+      onComplete={(objectClass) => {
+        const classId = uuidv4()
+        editGameModel({
+          classes: {
+            [classId] : {
+              type: 'object',
+              ...objectClass
+            }
+          }
+        })
+
+        setIsCreateClassFlowOpen(false)
+      }}
+    />}
   </div>
 };
 

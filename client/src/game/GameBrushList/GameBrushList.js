@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,32 +9,48 @@ import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../components/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
+import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 
 const GameBrushList = ({
   game: { gameModel },
   editGameModel,
 }) => {
+  const [isCreateBrushFlowOpen, setIsCreateBrushFlowOpen] = useState(false)
+
   const brushes = gameModel?.brushes
 
   if(!brushes) {
     return <Loader text="No Game Loaded"/>
   }
 
-  return <div className="GameBrushList">
-    {Object.keys(brushes).map((brushId, i) => {
-      return <BrushItem key={i} brushId={brushId}/>
-    })}
-    <Button className="GameBrushList__add" onClick={() => {
-      const brushId = uuidv4()
-      editGameModel({
-        brushes: {
-          [brushId] : {}
-        }
-      })
-    }}>
-      Add New Brush
-    </Button>
-  </div>
+  return <>
+    <div className="GameBrushList">
+      {Object.keys(brushes).map((brushId, i) => {
+        return <BrushItem key={i} brushId={brushId}/>
+      })}
+      <Button className="GameBrushList__add" onClick={() => {
+        setIsCreateBrushFlowOpen(true)
+      }}>
+        Add New Brush
+      </Button>
+    </div>
+    {isCreateBrushFlowOpen && <CreateBrushFlow 
+      onClose={() => {
+        setIsCreateBrushFlowOpen(false)
+      }}
+      onComplete={(brush) => {
+        const brushId = uuidv4()
+        
+        editGameModel({
+          brushes: {
+            [brushId] : brush
+          }
+        })
+
+        setIsCreateBrushFlowOpen(false)
+      }}
+    />}
+  </>
 };
 
 const mapStateToProps = (state) => ({
