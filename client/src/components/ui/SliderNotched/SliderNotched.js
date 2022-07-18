@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
 
-export default function SliderNotched({title, initialValue, step, options, onChangeCommitted}) {
-  const [defaultValue, setDefaultValue] = useState()
+export default function SliderNotched({title, value, step, options, onChangeCommitted}) {
+  const [sliderValue, setSliderValue] = useState()
 
   useEffect(() => {
-    setDefaultValue(initialValue)
+    setSliderValue(value)
   }, [])
+
+  useEffect(() => {
+    if(value !== sliderValue) {
+      setSliderValue(value)
+    }
+  }, [value])
 
   let marks = []
   if(typeof options[0] === 'number' || typeof options[0] === 'string') {
@@ -20,11 +26,7 @@ export default function SliderNotched({title, initialValue, step, options, onCha
     marks = options
   }
 
-  function handleChangeCommited(event, value) {
-    onChangeCommitted(value)
-  }
-
-  if(defaultValue === undefined) {
+  if(sliderValue === undefined) {
     return null
   }
 
@@ -33,12 +35,17 @@ export default function SliderNotched({title, initialValue, step, options, onCha
       <div>{title}</div>
       <Slider
         aria-label={title}
-        defaultValue={defaultValue}
+        value={sliderValue}
         min={marks[0].value}
         max={marks[marks.length-1].value}
         marks={marks}
         step={step}
-        onChangeCommitted={handleChangeCommited}
+        onChange={(event, value) => {
+          setSliderValue(value)
+        }}
+        onChangeCommitted={(event, value) => {
+          onChangeCommitted(value)
+        }}
         valueLabelDisplay="auto"
       />
     </div>

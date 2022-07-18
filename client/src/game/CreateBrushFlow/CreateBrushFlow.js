@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
@@ -7,12 +7,13 @@ import CobrowsingModal from '../../components/ui/CobrowsingModal/CobrowsingModal
 import SelectChipsAuto from '../../components/ui/SelectChipsAuto/SelectChipsAuto';
 import { Button } from '@mui/material';
 import RadioGroupColumn from '../../components/ui/RadioGroupColumn/RadioGroupColumn';
+import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
 
-const CreateBrushFlow = ({ onComplete, onClose, game: { descriptorOptions } }) => {
-  const [brush, setBrush] = useState({
-    layer: null,
-    descriptors: [],
-  })
+const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, game: { descriptorOptions }, editorFormsState: { brush } }) => {
+  function handleClose() {
+    onClose()
+    clearEditorForms()
+  }
 
   return <CobrowsingModal open={true} onClose={onClose}>
     <div className="CreateBrushFlow__body">
@@ -20,9 +21,7 @@ const CreateBrushFlow = ({ onComplete, onClose, game: { descriptorOptions } }) =
         value={brush.layer}
         title="Layer"
         onChange={(event, value) => {
-          setBrush((brush) => {
-            return {...brush, layer: value}
-          })
+          updateCreateBrush({ layer: value})
         }}
         options={[{
           label: 'Background',
@@ -38,20 +37,19 @@ const CreateBrushFlow = ({ onComplete, onClose, game: { descriptorOptions } }) =
       />
       <SelectChipsAuto 
         onChange={(event, descriptors) => {
-          setBrush((brush) => {
-            return {...brush, descriptors: descriptors.map(({value}) => value)}
-          })
+          updateCreateBrush({ descriptors: descriptors.map(({value}) => value) })
         }}
         title="Descriptors"
-        initialValue={brush.descriptors}
+        value={brush.descriptors}
         options={descriptorOptions}
       />
       <Button onClick={() => {
         onComplete(brush)
+        handleClose()
       }}>
         Create Brush
       </Button>
-      <Button onClick={onClose}>
+      <Button onClick={handleClose}>
         Cancel
       </Button>
     </div>
@@ -59,10 +57,15 @@ const CreateBrushFlow = ({ onComplete, onClose, game: { descriptorOptions } }) =
   </CobrowsingModal>
 }
 
-const mapStateToProps = (state) => ({
-  game: state.game,
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+
+  return {
+    game: state.game,
+    editorFormsState: isCobrowsing ? state.cobrowsing.remoteState.editorForms : state.editorForms.editorFormsState,
+  }
+};
 
 export default compose(
-  connect(mapStateToProps, { }),
+  connect(mapStateToProps, { updateCreateBrush, clearEditorForms }),
 )(CreateBrushFlow);

@@ -6,13 +6,15 @@ Considering only allowing buttons for Density
   Light Heavy qualities
   Do the same for other physics things?
 
+What sort of STEPS to use?
+
+--
+
 TODO NEXT
 
 Reset Button
 Pause Button
 Exit Game
-
-Add New Class Popup - Start with a description!
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA

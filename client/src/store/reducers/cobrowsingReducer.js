@@ -35,6 +35,21 @@ const initialState = {
       selectableObjectIds: null,
       isContextMenuOpen: false,
       isLiveEditorOpen: false
+    },
+    editorForms: {
+      isCreateBrushFlowOpen: false,
+      isCreateClassFlowOpen: false,
+      // isCreateHeroFlowOpen: false,
+      // isCreateWorldFlowOpen: false,
+      brush: {
+        step: 'layer',
+        layer: null,
+        descriptors: []
+      },
+      class: {
+        step: 'descriptors',
+        descriptors: []
+      }
     }
   },
 };

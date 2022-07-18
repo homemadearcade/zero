@@ -10,13 +10,15 @@ import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../components/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
+import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
 
 const GameBrushList = ({
   game: { gameModel },
+  editorFormsState: { isCreateBrushFlowOpen },
   editGameModel,
+  closeCreateBrushFlow,
+  openCreateBrushFlow
 }) => {
-  const [isCreateBrushFlowOpen, setIsCreateBrushFlowOpen] = useState(false)
-
   const brushes = gameModel?.brushes
 
   if(!brushes) {
@@ -29,14 +31,14 @@ const GameBrushList = ({
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Button className="GameBrushList__add" onClick={() => {
-        setIsCreateBrushFlowOpen(true)
+        openCreateBrushFlow()
       }}>
         Add New Brush
       </Button>
     </div>
     {isCreateBrushFlowOpen && <CreateBrushFlow 
       onClose={() => {
-        setIsCreateBrushFlowOpen(false)
+        closeCreateBrushFlow()
       }}
       onComplete={(brush) => {
         const brushId = uuidv4()
@@ -47,16 +49,22 @@ const GameBrushList = ({
           }
         })
 
-        setIsCreateBrushFlowOpen(false)
+        closeCreateBrushFlow()
       }}
     />}
   </>
 };
 
-const mapStateToProps = (state) => ({
-  game: state.game,
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+
+  return {
+    game: state.game,
+    editorFormsState: isCobrowsing ? state.cobrowsing.remoteState.editorForms : state.editorForms.editorFormsState,
+  }
+};
+
 
 export default compose(
-  connect(mapStateToProps, { editGameModel }),
+  connect(mapStateToProps, { editGameModel, openCreateBrushFlow, closeCreateBrushFlow }),
 )(GameBrushList);

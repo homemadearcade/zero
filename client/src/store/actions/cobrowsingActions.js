@@ -45,15 +45,17 @@ const sendMouseState = _.debounce((e) =>  {
 
 export const startCobrowsing = () => async (dispatch, getState) => {
   try {
-    const user = getState().auth.me
+    const state = getState()
+
+    const user = state.auth.me
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
-      dispatch(updateCobrowsing(getState().cobrowsing.remoteState))
+      dispatch(updateCobrowsing(state.cobrowsing.remoteState))
     });
 
     mouseUserId = user.id;
-    mouseLobbyId = getState().lobby.lobby.id
+    mouseLobbyId = state.lobby.lobby.id
 
     // this event will send admins your mouse state to let them know you can be browsed
     window.addEventListener('mousemove', sendMouseState)
@@ -63,13 +65,14 @@ export const startCobrowsing = () => async (dispatch, getState) => {
       payload: { 
         cobrowsingUser: user, 
         remoteState: {
-          video: getState().video.videoState,
-          lobby: getState().lobby.lobbyState,
-          editor: getState().editor.editorState
+          video: state.video.videoState,
+          lobby: state.lobby.lobbyState,
+          editor: state.editor.editorState,
+          editorForms: state.editor.editorForms
         }}
     });
 
-    dispatch(updateCobrowsing(getState().cobrowsing.remoteState))
+    dispatch(updateCobrowsing(state.cobrowsing.remoteState))
   } catch (err) {
     console.error(err)
 

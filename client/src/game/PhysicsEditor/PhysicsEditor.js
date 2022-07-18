@@ -22,7 +22,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { speed: value }}})        
           }}
-          initialValue={classSelected.speed}
+          value={classSelected.speed}
         />
         <SliderNotched
           title="Density"
@@ -31,7 +31,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { density: value }}})        
           }}
-          initialValue={classSelected.density}
+          value={classSelected.density}
         />
         <SliderNotched
           title="Bounce"
@@ -40,7 +40,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { bounciness: value }}})        
           }}
-          initialValue={classSelected.bounciness}
+          value={classSelected.bounciness}
         />
         <SliderNotched
           title="Friction"
@@ -49,7 +49,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { friction: value }}})        
           }}
-          initialValue={classSelected.friction}
+          value={classSelected.friction}
         />
         <SliderNotched
           title="Friction (Air)"
@@ -58,7 +58,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { frictionAir: value }}})        
           }}
-          initialValue={classSelected.frictionAir}
+          value={classSelected.frictionAir}
         />
         <SliderNotched
           title="Friction (Static)"
@@ -67,7 +67,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { frictionStatic: value }}})        
           }}
-          initialValue={classSelected.frictionStatic}
+          value={classSelected.frictionStatic}
         />
       </div>
       <div>
@@ -76,7 +76,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { ignoreGravity: e.target.checked }}})        
           }}
-          defaultChecked={classSelected.ignoreGravity}
+          checked={classSelected.ignoreGravity}
          />
       </div>
       <div>
@@ -85,7 +85,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { fixedRotation: e.target.checked }}})        
           }}
-          defaultChecked={classSelected.fixedRotation}
+          checked={classSelected.fixedRotation}
          />
       </div>
     </div>
@@ -93,7 +93,6 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 };
 
 const mapStateToProps = (state) => ({
-  editor: state.editor,
   game: state.game,
 });
 

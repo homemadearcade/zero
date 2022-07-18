@@ -157,19 +157,26 @@ const Listbox = styled('ul')(
 `,
 );
 
-export default function SelectChipsAuto({onChange, initialValue, options, title}) {
-  const [defaultValue, setDefaultValue] = useState(initialValue)
+export default function SelectChipsAuto({onChange, value, options, title}) {
+  const [inheritedValue, setInheritedValue] = useState(value)
 
   useEffect(() => {
-    setDefaultValue(initialValue)
-  }, [])
+    if(value !== inheritedValue) {
+      setInheritedValue(value.map((val) => {
+        return options.filter((option) => {
+          if(option.value === val) return option
+          else return null
+        })[0]
+      }))
+    }
+  }, [value])
 
-  if(!defaultValue) return null
+  if(!inheritedValue === undefined) return null
 
-  return <SelectChipsAutoForm onChange={onChange} defaultValue={defaultValue} options={options} title={title}/>
+  return <SelectChipsAutoForm onChange={onChange} inheritedValue={inheritedValue} options={options} title={title}/>
 }
 
-function SelectChipsAutoForm({onChange, defaultValue, options, title}) {
+function SelectChipsAutoForm({onChange, inheritedValue, options, title}) {
   const {
     getRootProps,
     getInputLabelProps,
@@ -178,12 +185,11 @@ function SelectChipsAutoForm({onChange, defaultValue, options, title}) {
     getListboxProps,
     getOptionProps,
     groupedOptions,
-    value,
     focused,
     setAnchorEl,
   } = useAutocomplete({
     id: title,
-    defaultValue,
+    value: inheritedValue,
     multiple: true,
     options,
     getOptionLabel: (option) => option.label,
@@ -196,10 +202,9 @@ function SelectChipsAutoForm({onChange, defaultValue, options, title}) {
       <div {...getRootProps()}>
         <Label {...getInputLabelProps()}>{title}</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-          {value.map((option, index) => (
+          {inheritedValue.map((option, index) => (
             <StyledTag label={option.label} {...getTagProps({ index })} />
           ))}
-
           <input {...getInputProps()} />
         </InputWrapper>
       </div>
