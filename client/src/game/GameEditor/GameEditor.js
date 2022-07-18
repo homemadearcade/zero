@@ -11,7 +11,7 @@ import LiveEditor from '../LiveEditor/LiveEditor';
 import { closeLiveEditor } from '../../store/actions/editorActions';
 import { getSpritesheetData } from '../../store/actions/gameActions';
 
-const GameEditor = ({gameModel, getSpritesheetData, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, closeLiveEditor}) => {
+const GameEditor = ({gameModel, spritesByDescriptor, getSpritesheetData, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, closeLiveEditor}) => {
   useEffect(() => {
     getSpritesheetData()
 
@@ -19,6 +19,8 @@ const GameEditor = ({gameModel, getSpritesheetData, editorState: { isLiveEditorO
       closeLiveEditor()
     }
   }, [])
+
+  if(!spritesByDescriptor) return null
 
   return (
     <div className="GameEditor">
@@ -45,6 +47,7 @@ const mapStateToProps = (state) => {
 
   // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
   return {
+    spritesByDescriptor: state.game.spritesByDescriptor,
     editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
   }
 };

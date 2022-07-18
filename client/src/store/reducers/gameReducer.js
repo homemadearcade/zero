@@ -24,7 +24,7 @@ const initialState = {
   isGameModelLoading: false,
   error: null,
   gameModel: null,
-  textureIds: null
+  spritesByDescriptor: null
 };
 
 export default function gameReducer(state = initialState, { type, payload }) {
@@ -77,7 +77,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
     case GET_SPRITESHEET_DATA_SUCCESS:
       return {
         ...state,
-        textureIds: payload.textureIds
+        spritesByDescriptor: payload.spritesByDescriptor
       };
     case EDIT_GAME_SUCCESS:
     case ON_GAME_MODEL_UPDATE: 

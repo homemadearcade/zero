@@ -54,6 +54,13 @@ export class PreloaderScene extends Phaser.Scene {
       this.load.image(awsImageId, window.awsUrl + awsImageData.url)
     })
 
+    Object.keys(window.spriteSheets).forEach((spriteSheetId) => {
+      const spriteSheet = window.spriteSheets[spriteSheetId]
+      if(spriteSheet.serverImageUrl) {
+        this.load.image(spriteSheet.id, window.location.origin + '/' +  spriteSheet.serverImageUrl)
+      }
+    })
+
     // this.load.image('kenny_platformer_64x64', 'https://labs.phaser.io/assets/tilemaps/tiles/kenny_platformer_64x64.png')
 
     this.load.on('progress', this.updateLoaderGraphic);
@@ -75,6 +82,15 @@ export class PreloaderScene extends Phaser.Scene {
   }
 
   handleLevelLoaded = () => {
+    Object.keys(window.spriteSheets).forEach((spriteSheetId) => {
+      const ss = window.spriteSheets[spriteSheetId]
+      if(!ss.serverImageUrl) return
+      
+      ss.sprites.forEach((tile) => {
+        this.textures.get(ss.id).add(ss.id + '-' + tile.name, 0, tile.x, tile.y, tile.width, tile.height)
+      })
+    })
+
     this.tweens.add({
       targets: this.preloaderBg,
       alpha: 0,

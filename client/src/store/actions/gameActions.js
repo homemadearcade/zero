@@ -30,7 +30,7 @@ import { defaultGame } from '../../defaultData/game';
 import { defaultObjectInstance } from '../../defaultData/object';
 import { defaultObjectClass } from '../../defaultData/class';
 import { uploadToAws } from './browserActions';
-import { getTextureIds } from '../../defaultData/descriptors';
+import { getSpritesByDescriptor } from '../../defaultData/descriptors';
 
  
 export const getSpritesheetData  = () => async (dispatch, getState) => {
@@ -39,11 +39,11 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
   });
 
   try {
-    const textureIds = await getTextureIds()
+    const spritesByDescriptor = await getSpritesByDescriptor()
 
     dispatch({
       type: GET_SPRITESHEET_DATA_SUCCESS,
-      payload: { textureIds },
+      payload: { spritesByDescriptor },
     });
 
   } catch (err) {

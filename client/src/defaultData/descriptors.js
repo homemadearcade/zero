@@ -1,7 +1,7 @@
 import { spriteSheetIds } from "./spritesheets";
 import axios from "axios";
 
-export async function getTextureIds() {
+export async function getSpritesByDescriptor() {
   const global = getDescriptors()
 
   const spritesheetsRequested = Object.keys({...spriteSheetIds}).filter((name) => {
@@ -18,6 +18,8 @@ export async function getTextureIds() {
 
   const spriteSheets = response.data.spriteSheets
   global.spriteSheets = spriteSheets
+  window.spriteSheets = spriteSheets
+  window.spriteSheetIds = spriteSheetIds
 
   global.textureIdsByDescriptor = {}
   global.missingComplexDescriptors = {}
