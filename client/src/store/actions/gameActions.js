@@ -17,6 +17,9 @@ import {
   EDIT_GAME_LOADING,
   EDIT_GAME_SUCCESS,
   EDIT_GAME_FAIL,
+  GET_SPRITESHEET_DATA_LOADING,
+  GET_SPRITESHEET_DATA_SUCCESS,
+  GET_SPRITESHEET_DATA_FAIL,
   CLEAR_GAME_ERROR,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
@@ -27,6 +30,32 @@ import { defaultGame } from '../../defaultData/game';
 import { defaultObjectInstance } from '../../defaultData/object';
 import { defaultObjectClass } from '../../defaultData/class';
 import { uploadToAws } from './browserActions';
+import { getTextureIds } from '../../defaultData/descriptors';
+
+ 
+export const getSpritesheetData  = () => async (dispatch, getState) => {
+  dispatch({
+    type: GET_SPRITESHEET_DATA_LOADING,
+  });
+
+  try {
+    const textureIds = await getTextureIds()
+
+    dispatch({
+      type: GET_SPRITESHEET_DATA_SUCCESS,
+      payload: { textureIds },
+    });
+
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_SPRITESHEET_DATA_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+}
+
 
 export const addAwsImage  = (file, fileId, imageData) => async(dispatch, getState) => {
   dispatch({

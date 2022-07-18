@@ -35,9 +35,21 @@ app.post('/uploadtest', (req, res) => {
     let duration =  (currentTime - startTime)/1000;
     var bitsLoaded = dataSize * 8;
     var speedMbps = ((bitsLoaded / duration) / 1024 / 1024).toFixed(2);
-    console.log('uploadSpeed', speedMbps)
     res.status(200).send({ });
   })
+})
+
+app.get('/spriteSheets', (req,res)=>{
+  const { spriteSheetIds } =  req.query;
+
+  const sss = []
+  spriteSheetIds.forEach((id) => {
+    const data = readFileSync(resolve(__dirname, '../data/sprite/' +id+'.json'), 'utf8')
+    const parsedData = JSON.parse(data)
+    sss.push(parsedData)
+  })
+
+  res.send({spriteSheets: sss})
 })
 
 

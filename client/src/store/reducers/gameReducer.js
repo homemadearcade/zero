@@ -14,6 +14,8 @@ import {
   CLEAR_GAME_ERROR,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
+  GET_SPRITESHEET_DATA_FAIL,
+  GET_SPRITESHEET_DATA_SUCCESS
 } from '../types';
 
 const initialState = {
@@ -21,7 +23,8 @@ const initialState = {
   isLoading: false,
   isGameModelLoading: false,
   error: null,
-  gameModel: null
+  gameModel: null,
+  textureIds: null
 };
 
 export default function gameReducer(state = initialState, { type, payload }) {
@@ -71,6 +74,11 @@ export default function gameReducer(state = initialState, { type, payload }) {
           return m;
         }),
       };
+    case GET_SPRITESHEET_DATA_SUCCESS:
+      return {
+        ...state,
+        textureIds: payload.textureIds
+      };
     case EDIT_GAME_SUCCESS:
     case ON_GAME_MODEL_UPDATE: 
       return {
@@ -82,6 +90,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
     //     ...state,
     //   };
     case EDIT_GAME_FAIL:
+    case GET_SPRITESHEET_DATA_FAIL:
       return {
         ...state,
         error: payload.error,
