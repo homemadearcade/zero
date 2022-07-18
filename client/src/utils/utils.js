@@ -177,3 +177,8 @@ export function urlToFile(url, filename, mimeType){
       .then(function(buf){return new File([buf], filename,{type:mimeType});})
   );
 }
+
+export function getSpritesheetName(spriteId) {
+  const endOfSpritesheetNameIndex = spriteId.indexOf('-sprite');
+  return spriteId.slice(0, endOfSpritesheetNameIndex)
+}

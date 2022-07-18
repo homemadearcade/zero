@@ -91,6 +91,8 @@ export class PreloaderScene extends Phaser.Scene {
       })
     })
 
+    window.phaserTextures = this.textures
+
     this.tweens.add({
       targets: this.preloaderBg,
       alpha: 0,

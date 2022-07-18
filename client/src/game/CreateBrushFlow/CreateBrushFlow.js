@@ -4,12 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../components/ui/CobrowsingModal/CobrowsingModal';
-import SelectChipsAuto from '../../components/ui/SelectChipsAuto/SelectChipsAuto';
+import SelectDescriptors from '../../components/ui/SelectDescriptors/SelectDescriptors';
 import { Button } from '@mui/material';
 import RadioGroupColumn from '../../components/ui/RadioGroupColumn/RadioGroupColumn';
 import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
+import DescriptorSprites from '../DescriptorSprites/DescriptorSprites';
 
-const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, game: { descriptorOptions }, editorFormsState: { brush } }) => {
+const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush } }) => {
   function handleClose() {
     onClose()
     clearEditorForms()
@@ -35,14 +36,14 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
           value: 1,
         }]}
       />
-      <SelectChipsAuto 
+      <SelectDescriptors 
         onChange={(event, descriptors) => {
-          updateCreateBrush({ descriptors: descriptors.map(({value}) => value) })
+          updateCreateBrush({ descriptors })
         }}
         title="Descriptors"
         value={brush.descriptors}
-        options={descriptorOptions}
       />
+      <DescriptorSprites descriptors={brush.descriptors}/>
       <Button onClick={() => {
         onComplete(brush)
         handleClose()
@@ -61,7 +62,6 @@ const mapStateToProps = (state) => {
   const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
 
   return {
-    game: state.game,
     editorFormsState: isCobrowsing ? state.cobrowsing.remoteState.editorForms : state.editorForms.editorFormsState,
   }
 };

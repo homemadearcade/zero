@@ -84,6 +84,8 @@ export class GameInstance extends Phaser.Scene {
       });
     }
 
+    console.log('actual', this.textures)
+
     //overheard layer
     this.layer1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
 

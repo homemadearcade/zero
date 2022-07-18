@@ -18,7 +18,10 @@ export async function getSpritesByDescriptor() {
 
   const spriteSheets = response.data.spriteSheets
   global.spriteSheets = spriteSheets
-  window.spriteSheets = spriteSheets
+  window.spriteSheets = spriteSheets.reduce((prev, next) => {
+    prev[next.id] = next 
+    return prev
+  }, {})
   window.spriteSheetIds = spriteSheetIds
 
   global.textureIdsByDescriptor = {}
@@ -27,7 +30,8 @@ export async function getSpritesByDescriptor() {
   function generateTextureIdsByDescriptors() {
     global.textureIdsByDescriptor = {}
   
-    global.spriteSheets.forEach((ss) => {
+    Object.keys(window.spriteSheets).forEach((spriteSheetId) => {
+      const ss = window.spriteSheets[spriteSheetId]
       ss.sprites.forEach((s, i) => {
         if(!s.descriptors) return
   

@@ -1,0 +1,75 @@
+import React from 'react'
+import tinycolor from 'tinycolor2'
+import { getSpritesheetName } from '../../utils/utils'
+import './Sprite.scss'
+
+export default class Sprite extends React.Component {
+  render() {
+    const spriteSheetName = getSpritesheetName(this.props.textureId)
+    const texture = window.phaserTextures.getFrame(spriteSheetName, this.props.textureId)
+
+    let desiredWidth = this.props.width
+    let desiredHeight = this.props.height
+
+    if(!desiredWidth) {
+      if(texture) {
+        desiredWidth = (texture.data.cut.w * 4)
+      } else desiredWidth = 40
+    }
+
+    if(!desiredHeight) {
+      if(texture) {
+        desiredHeight = (texture.data.cut.h * 4)
+      } else desiredHeight = 40
+    }
+
+    if(!texture) {
+      return <div style={{width: desiredWidth, height: desiredHeight}}></div>
+    }
+
+    const backgroundImage = "url('/"+window.spriteSheets[spriteSheetName].serverImageUrl+"')"
+
+    let backgroundColor = ""
+    if(this.props.tint && this.props.tint != 'white' && this.props.tint != '#FFFFFF') {
+      const alpha = tinycolor(this.props.tint).getAlpha()
+      backgroundColor = tinycolor(this.props.tint).setAlpha(alpha - .1).toRgbString()
+    }
+
+    const backgroundPositionX = -texture.data.cut.x
+    const backgroundPositionY = -texture.data.cut.y
+    const width = texture.data.cut.w
+    const height = texture.data.cut.h
+
+    const scale = desiredWidth/width
+    const translate = (desiredWidth - width)/2 + 'px'
+    const translateY = (desiredHeight - height)/2 + 'px'
+
+    const transform = `scale(${scale})`;
+
+    const transformContainer = `translateX(${translate}) translateY(${translateY})`
+    return <div 
+      className={'SpriteContainer ' + this.props.className} 
+      onClick={this.props.onClick} 
+      style={{transform: transformContainer, width: desiredWidth, height: desiredHeight, ...this.props.style}}
+    >
+      <div className="Sprite" style = {{
+          backgroundImage,
+          backgroundPositionY,
+          backgroundPositionX,
+          width,
+          height,
+          transform,
+          position:"relative"
+        }}>
+          {backgroundColor && <div style={{
+               backgroundColor,
+               position: "absolute",
+               top: 0,
+               left: 0,
+               width: "100%",
+               height: "100%",
+             }}></div>}
+      </div>
+    </div>
+  }
+}
