@@ -22,7 +22,8 @@ const initialState = {
     isCreateClassFlowOpen: false,
     createClassStep: '',
     class: {
-      descriptors: []
+      descriptors: [],
+      textureId: null,
     },
     // isCreateHeroFlowOpen: false,
     // isCreateWorldFlowOpen: false,

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import store from "../../store";
+import { getTextureMetadata } from "../../utils/utils";
 
 export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, classDataOverride}){
@@ -10,12 +11,25 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       objectClass = store.getState().game.gameModel.classes[classId]
     }
     // console.log(spawnX, spawnY, id, classId, objectClass, classDataOverride)
-    super(scene.matter.world, spawnX, spawnY, objectClass.textureId, 0)
+    const { spriteSheetName, spriteIndex } = getTextureMetadata(objectClass.textureId)
+    
+    if(!spriteSheetName) {
+      console.log('missing spritesheet', objectClass.textureId)
+      super(scene.matter.world, spawnX, spawnY, objectClass.textureId, 0)
+      this.outline2 = scene.add.image(spawnX, spawnY, objectClass.textureId)
+    } else {
+      super(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex)
+      this.outline2 = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
+    }
+
+    this.outline2.setTintFill(0xffffff)
+    .setDisplaySize(this.width + 8, this.height + 8)
+    .setVisible(false)
 
     this.id = id
     this.classId = classId
     
-    this.outline2 = scene.add.image(spawnX, spawnY, objectClass.textureId)
+    this.outline2 = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
     .setTintFill(0xffffff)
     .setDisplaySize(this.width + 8, this.height + 8)
     .setVisible(false)

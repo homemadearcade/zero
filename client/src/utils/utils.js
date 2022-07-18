@@ -181,16 +181,20 @@ export function urlToFile(url, filename, mimeType){
 export function getTextureMetadata(textureId) {
   const spriteIndexIdentifier = '-sprite'
   const endOfSpritesheetNameIndex = textureId.indexOf(spriteIndexIdentifier);
+
+  if(endOfSpritesheetNameIndex === -1) {
+    return {}
+  }
+
   return {
     spriteSheetName: textureId.slice(0, endOfSpritesheetNameIndex),
     spriteIndex: textureId.slice(endOfSpritesheetNameIndex + spriteIndexIdentifier.length)
   }
 }
 
-export function getSpriteTexture(textureId) {
+export function getSpriteData(textureId) {
   const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
   return window.spriteSheets[spriteSheetName].sprites[spriteIndex-1]
 }
-
 
 

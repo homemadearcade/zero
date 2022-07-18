@@ -5,6 +5,7 @@ import { PlayerInstance } from '../entities/PlayerInstance';
 import store from '../../store';
 import { spaceshipClass } from '../../defaultData/heros';
 import { LayerZero } from '../entities/LayerZero';
+import { getTextureMetadata } from '../../utils/utils';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
@@ -38,6 +39,11 @@ export class GameInstance extends Phaser.Scene {
     if(x) objectInstance.x = x;
     if(y) objectInstance.y = y;
     if(rotation) objectInstance.rotation = rotation;
+  }
+
+  getSpriteTexture(textureId) {
+    const { spriteSheetName } = getTextureMetadata(textureId)
+    return this.textures.getFrame(spriteSheetName, textureId)
   }
 
   create() {
@@ -83,8 +89,6 @@ export class GameInstance extends Phaser.Scene {
         spawnY: gameModel.hero.spawnY
       });
     }
-
-    console.log('actual', this.textures)
 
     //overheard layer
     this.layer1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);

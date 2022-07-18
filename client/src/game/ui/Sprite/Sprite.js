@@ -1,12 +1,12 @@
 import React from 'react'
 import tinycolor from 'tinycolor2'
-import { getTextureMetadata, getSpriteTexture } from '../../../utils/utils'
+import { getTextureMetadata, getSpriteData } from '../../../utils/utils'
 import './Sprite.scss'
 
 export default class Sprite extends React.Component {
   render() {
     const { spriteSheetName } = getTextureMetadata(this.props.textureId)
-    const texture = getSpriteTexture(this.props.textureId)
+    const texture = getSpriteData(this.props.textureId)
 
     let desiredWidth = this.props.width
     let desiredHeight = this.props.height
