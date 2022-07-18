@@ -43,9 +43,11 @@ export class GameInstance extends Phaser.Scene {
   create() {
     const gameModel = store.getState().game.gameModel
 
+    // background layer && layer zero
     this.layer_1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
     this.layerZero = new LayerZero(this)
 
+    // objects
     this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
       if(!gameModel.objects[gameObjectId]) {
         return console.error('Object missing!')
@@ -65,6 +67,7 @@ export class GameInstance extends Phaser.Scene {
       return prev
     }, {})
 
+    // hero 
     if(gameModel.hero.initialCassId) {
       this.player = new PlayerInstance(this, 'player', {
         classId: gameModel.hero.initialClassId,
@@ -81,9 +84,13 @@ export class GameInstance extends Phaser.Scene {
       });
     }
 
-    this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
-
+    //overheard layer
     this.layer1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+
+    //world
+    this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
+    this.matter.world.setBounds(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+
   }
 
   respawn() {

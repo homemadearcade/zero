@@ -19,10 +19,9 @@
 
   &__body {
     overflow-y: scroll;
-    border: 1px solid white;
     margin: 0 auto;
-    height: calc(100vh - 4px);
-    width: calc(100vh - 4px + 40vh);
+    height: calc(100vh);
+    width: calc(100vh + 40vh);
   }
 
   &__demo {

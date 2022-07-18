@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 
 const ClassItem = ({
-  game: { gameModel: classes },
+  game: { gameModel: { classes } },
   classId,
   editor: { editorState: { classSelectedIdClassList }},
   selectClass,
@@ -17,7 +17,7 @@ const ClassItem = ({
   openContextMenuFromClassId
 }) => {
   const classItem = classes[classId]
-  
+
   return <div
     onClick={() => {
       if(classItem.type === 'hero') return

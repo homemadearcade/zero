@@ -36,9 +36,6 @@ export class GameHostScene extends EditorScene {
 
   create() {
     super.create()
-
-    const gameWorld = store.getState().game.gameModel.world
-    this.matter.world.setBounds(0, 0, gameWorld.boundaries.width, gameWorld.boundaries.height);
     
     this.startRemoteClientUpdateLoop()
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)

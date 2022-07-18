@@ -1,15 +1,18 @@
 #LIST
 
+CONVERSATION
+
+Considering only allowing buttons for Density
+  Light Heavy qualities
+  Do the same for other physics things?
 
 TODO NEXT
 
 Reset Button
 Pause Button
 Exit Game
-Hero New Class Stacks on the right and icon on the left
 
-Add New Class
-Start with a description!
+Add New Class Popup - Start with a description!
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA
@@ -96,3 +99,5 @@ https://gist.github.com/mikewesthad/a1170f06d3da27bc923ea280b2f89545#file-create
 
 DOPE!
 https://github.com/mikewesthad/dungeon
+
+https://github.com/psych0der/pngquantjs

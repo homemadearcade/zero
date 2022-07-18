@@ -27,7 +27,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <SliderNotched
           title="Density"
           step={0.1}
-          options={[.01, 0.5, 1, 2, 5]}
+          options={[.001, .01, 0.1, 0.25, 0.5, 0.75, 1]}
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { density: value }}})        
           }}
@@ -45,7 +45,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <SliderNotched
           title="Friction"
           step={0.05}
-          options={[0, .25, .5, .75, 1]}
+          options={[0, 0.1, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { friction: value }}})        
           }}
@@ -54,7 +54,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <SliderNotched
           title="Friction (Air)"
           step={0.05}
-          options={[0, .25, .5, .75, 1]}
+          options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { frictionAir: value }}})        
           }}
@@ -63,7 +63,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <SliderNotched
           title="Friction (Static)"
           step={1}
-          options={[1, 5, 20, 100]}
+          options={[0.5, 1, 5, 20]}
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { frictionStatic: value }}})        
           }}

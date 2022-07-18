@@ -2,25 +2,23 @@
   display: flex;
   justify-content: center;
   position: relative;
-  height: calc(100vh - 4px);
-  width: calc(100vh - 4px + 40vh);
+  height: calc(100vh);
+  width: calc(100vh + 40vh);
   margin: 0 auto;
 
-  border: 1px solid white;
-
   &__empty-game {
-    height: calc(100vh - 4px);
-    width: calc(100vh - 4px);
+    height: calc(100vh);
+    width: calc(100vh);
   }
 
   &__left-column {
     width: 20vh;
-    background: red;
+    background-color: #111;
   }
 
   &__right-column {
     width: 20vh;
-    background: red;
+    background-color: #111;
     overflow-y: scroll;
   }
 

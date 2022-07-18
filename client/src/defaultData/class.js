@@ -1,8 +1,8 @@
 import { defaultPhaserPhysicsProperties } from "./general";
 
 export const defaultObjectClass = {
-  "speed": 100,
-  "jumpVelocity": 100,
+  "speed": 1,
+  "jumpVelocity": 1,
   ...defaultPhaserPhysicsProperties,
   "tint": null,
   "spriteId": "ship",
