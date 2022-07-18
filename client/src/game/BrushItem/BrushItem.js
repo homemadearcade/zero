@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './BrushItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
-import Sprite from '../Sprite/Sprite';
+import Sprite from '../ui/Sprite/Sprite';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },

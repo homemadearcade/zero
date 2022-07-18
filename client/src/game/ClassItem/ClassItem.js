@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './ClassItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
-import Sprite from '../Sprite/Sprite';
+import Sprite from '../ui/Sprite/Sprite';
 
 const ClassItem = ({
   game: { gameModel: { classes } },

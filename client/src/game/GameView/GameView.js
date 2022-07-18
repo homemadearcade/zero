@@ -8,7 +8,7 @@ import './GameView.scss';
 import { PRELOADER_SCENE } from '../../constants';
 
 import WaterBodyPlugin from 'phaser-plugin-water-body';
-import Loader from '../../components/ui/Loader/Loader';
+import Loader from '../../app/ui/Loader/Loader';
 
 const config= {
   type: Phaser.WEBGL,

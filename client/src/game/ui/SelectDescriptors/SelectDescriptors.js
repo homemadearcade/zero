@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectDescriptors.scss';
-import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
+import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
 
 const SelectDescriptors = ({ onChange, value, title, descriptorOptions}) => {
   return <SelectChipsAuto 

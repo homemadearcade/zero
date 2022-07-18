@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import './SaveGameButton.scss';
-import { editGame } from '../../store/actions/gameActions';
+import { editGame } from '../../../store/actions/gameActions';
 
 const SaveGameButton = ({editGame, game: { gameModel }}) => {
   function saveGame() {

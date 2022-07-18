@@ -7,14 +7,14 @@ import { withRouter } from 'react-router-dom';
 
 import { joinLobby, leaveLobby, assignLobbyRole} from '../../store/actions/lobbyActions';
 import { subscribeCobrowsing, startCobrowsing } from '../../store/actions/cobrowsingActions';
-import Loader from '../../components/ui/Loader/Loader';
+import Loader from '../../app/ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
-import Lobby from '../../components/Lobby/Lobby';
-import CobrowsingRoot from '../../components/cobrowsing/CobrowsingRoot/CobrowsingRoot';
+import Lobby from '../../app/Lobby/Lobby';
+import CobrowsingRoot from '../../app/cobrowsing/CobrowsingRoot/CobrowsingRoot';
 import { leaveAgoraVideoCall } from '../../store/actions/videoActions';
-import AgoraVideoCall from '../../components/agora/AgoraVideoCall/AgoraVideoCall';
+import AgoraVideoCall from '../../app/agora/AgoraVideoCall/AgoraVideoCall';
 
 const LobbyPage = ({
   leaveLobby,

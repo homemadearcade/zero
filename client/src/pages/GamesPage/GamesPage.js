@@ -10,9 +10,9 @@ import requireAuth from '../../hoc/requireAuth';
 
 import Layout from '../../layout/Layout';
 import { getGames } from '../../store/actions/gameActions';
-import Loader from '../../components/ui/Loader/Loader';
+import Loader from '../../app/ui/Loader/Loader';
 import { Link } from 'react-router-dom';
-import GameForm from '../../components/GameForm/GameForm';
+import GameForm from '../../app/GameForm/GameForm';
 
 const GamesPage = ({ getGames, game: { games, isLoading }}) => {
   useEffect(() => {

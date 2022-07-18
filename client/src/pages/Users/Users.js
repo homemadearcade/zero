@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { getUsers } from '../../store/actions/usersActions';
 import Layout from '../../layout/Layout';
-import Loader from '../../components/ui/Loader/Loader';
+import Loader from '../../app/ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 

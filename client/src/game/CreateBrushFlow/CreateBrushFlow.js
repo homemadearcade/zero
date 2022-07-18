@@ -3,12 +3,12 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
-import CobrowsingModal from '../../components/ui/CobrowsingModal/CobrowsingModal';
-import SelectDescriptors from '../../components/ui/SelectDescriptors/SelectDescriptors';
+import CobrowsingModal from '../../app/ui/CobrowsingModal/CobrowsingModal';
+import SelectDescriptors from '../ui/SelectDescriptors/SelectDescriptors';
 import { Button } from '@mui/material';
-import RadioGroupColumn from '../../components/ui/RadioGroupColumn/RadioGroupColumn';
+import RadioGroupColumn from '../../app/ui/RadioGroupColumn/RadioGroupColumn';
 import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
-import SelectSpriteInline from '../SelectSpriteInline/SelectSpriteInline';
+import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush } }) => {
   function handleClose() {

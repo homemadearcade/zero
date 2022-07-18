@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { editGameModel } from '../../store/actions/gameActions';
 
 import './WorldEditor.scss'
-import ButtonGroup from '../../components/ui/ButtonGroup/ButtonGroup';
+import ButtonGroup from '../../app/ui/ButtonGroup/ButtonGroup';
 
 const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
   const world = gameModel.world

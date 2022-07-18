@@ -3,11 +3,11 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
-import CobrowsingModal from '../../components/ui/CobrowsingModal/CobrowsingModal';
-import SelectDescriptors from '../../components/ui/SelectDescriptors/SelectDescriptors';
+import CobrowsingModal from '../../app/ui/CobrowsingModal/CobrowsingModal';
+import SelectDescriptors from '..//ui/SelectDescriptors/SelectDescriptors';
 import { Button } from '@mui/material';
 import { clearEditorForms, updateCreateClass } from '../../store/actions/editorFormsActions';
-import SelectSpriteInline from '../SelectSpriteInline/SelectSpriteInline';
+import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onClose, editorFormsState: { class: objectClass } }) => {
   function handleClose() {

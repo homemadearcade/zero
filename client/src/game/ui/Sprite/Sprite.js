@@ -1,6 +1,6 @@
 import React from 'react'
 import tinycolor from 'tinycolor2'
-import { getTextureMetadata, getSpriteTexture } from '../../utils/utils'
+import { getTextureMetadata, getSpriteTexture } from '../../../utils/utils'
 import './Sprite.scss'
 
 export default class Sprite extends React.Component {

@@ -22,7 +22,7 @@ import SessionLogin from './pages/LoginSession/LoginSession';
 import LobbyFind from './pages/LobbyFind/LobbyFind';
 import './events.js'
 
-import Loader from './components/ui/Loader/Loader';
+import Loader from './app/ui/Loader/Loader';
 
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
@@ -31,7 +31,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import io from 'socket.io-client'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ErrorHandler from './components/ui/ErrorHandler/ErrorHandler';
+import ErrorHandler from './app/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'

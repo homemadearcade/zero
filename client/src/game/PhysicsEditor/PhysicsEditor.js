@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { editGameModel } from '../../store/actions/gameActions';
 
 import './PhysicsEditor.scss'
-import SliderNotched from '../../components/ui/SliderNotched/SliderNotched';
+import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import Switch from '@mui/material/Switch';
 
 const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
