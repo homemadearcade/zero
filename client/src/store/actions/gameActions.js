@@ -43,7 +43,7 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
 
     const descriptorOptions = Object.keys(spritesByDescriptor).map((descriptor) => {
       return {
-        title: descriptor,
+        label: descriptor,
         value: descriptor
       }
     })

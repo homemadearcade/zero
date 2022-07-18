@@ -157,7 +157,7 @@ const Listbox = styled('ul')(
 `,
 );
 
-export default function SelectChipsAuto({onChange, initialValue, options, label}) {
+export default function SelectChipsAuto({onChange, initialValue, options, title}) {
   const [defaultValue, setDefaultValue] = useState(initialValue)
 
   useEffect(() => {
@@ -166,10 +166,10 @@ export default function SelectChipsAuto({onChange, initialValue, options, label}
 
   if(!defaultValue) return null
 
-  return <SelectChipsAutoForm onChange={onChange} defaultValue={defaultValue} options={options} label={label}/>
+  return <SelectChipsAutoForm onChange={onChange} defaultValue={defaultValue} options={options} title={title}/>
 }
 
-function SelectChipsAutoForm({onChange, defaultValue, options, label}) {
+function SelectChipsAutoForm({onChange, defaultValue, options, title}) {
   const {
     getRootProps,
     getInputLabelProps,
@@ -182,11 +182,11 @@ function SelectChipsAutoForm({onChange, defaultValue, options, label}) {
     focused,
     setAnchorEl,
   } = useAutocomplete({
-    id: label,
+    id: title,
     defaultValue,
     multiple: true,
     options,
-    getOptionLabel: (option) => option.title,
+    getOptionLabel: (option) => option.label,
     onChange
   });
 
@@ -194,10 +194,10 @@ function SelectChipsAutoForm({onChange, defaultValue, options, label}) {
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label {...getInputLabelProps()}>{label}</Label>
+        <Label {...getInputLabelProps()}>{title}</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {value.map((option, index) => (
-            <StyledTag label={option.title} {...getTagProps({ index })} />
+            <StyledTag label={option.label} {...getTagProps({ index })} />
           ))}
 
           <input {...getInputProps()} />
@@ -207,7 +207,7 @@ function SelectChipsAutoForm({onChange, defaultValue, options, label}) {
         <Listbox {...getListboxProps()}>
           {groupedOptions.map((option, index) => (
             <li {...getOptionProps({ option, index })}>
-              <span>{option.title}</span>
+              <span>{option.label}</span>
               <CheckIcon fontSize="small" />
             </li>
           ))}

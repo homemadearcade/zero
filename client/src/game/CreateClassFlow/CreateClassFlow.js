@@ -20,7 +20,7 @@ const CreateClassFlow = ({ onComplete, onClose, game: { descriptorOptions } }) =
             return {...objectClass, descriptors: descriptors.map(({value}) => value)}
           })
         }}
-        label="Descriptors"
+        title="Descriptors"
         initialValue={objectClass.descriptors}
         options={descriptorOptions}
       />
