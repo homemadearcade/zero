@@ -87,14 +87,8 @@ export class PreloaderScene extends Phaser.Scene {
       if(!ss.serverImageUrl) return
       
       ss.sprites.forEach((tile) => {
-        let id = tile.name
-        if(!id) id = tile.id
         const tileNamePrefix = 'sprite'
-        if(id) {
-          this.textures.get(ss.id).add(id.slice(tileNamePrefix.length), 0, tile.x, tile.y, tile.width, tile.height)
-        } else {
-          console.error('missing id', tile)
-        }
+        this.textures.get(ss.id).add(tile.id.slice(tileNamePrefix.length), 0, tile.x, tile.y, tile.width, tile.height)
       })
     })
 

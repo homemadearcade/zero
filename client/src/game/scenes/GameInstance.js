@@ -42,8 +42,8 @@ export class GameInstance extends Phaser.Scene {
   }
 
   getSpriteTexture(textureId) {
-    const { spriteSheetName } = getTextureMetadata(textureId)
-    return this.textures.getFrame(spriteSheetName, textureId)
+    const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
+    return this.textures.getFrame(spriteSheetName, spriteIndex)
   }
 
   create() {

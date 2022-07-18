@@ -194,7 +194,7 @@ export function getTextureMetadata(textureId) {
 
 export function getSpriteData(textureId) {
   const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
-  return window.spriteSheets[spriteSheetName].sprites[spriteIndex-1]
+  return window.spriteSheets[spriteSheetName].sprites[spriteIndex]
 }
 
 

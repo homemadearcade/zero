@@ -16,9 +16,9 @@ router.use('/games', gameRoutes);
 router.use('/aws', awsRoutes);
 
 'routes register', router.stack.map((router) => {
-  console.log(router.regexp)
+  // console.log(router.regexp)
   return router.handle.stack.map((route) => {
-    console.log(route.route.path)
+    // console.log(route.route.path)
   })
 })
 

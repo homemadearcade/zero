@@ -82,8 +82,16 @@ export class EditorScene extends GameInstance {
   }
 
   drawNodeAt({x, y}) {
-    const nodeSize = store.getState().game.gameModel.world.nodeSize
-    this.layerZero.draw('square10x10',
+    const gameModel = store.getState().game.gameModel
+    const nodeSize = gameModel.world.nodeSize
+    
+    const brushId = store.getState().editor.editorState.brushSelectedIdBrushList
+    const brush = gameModel.brushes[brushId]
+    //'square10x10'
+
+    console.log(brush.textureId, this.getSpriteTexture(brush.textureId))
+
+    this.layerZero.draw(this.getSpriteTexture(brush.textureId),
       Phaser.Math.Snap.To(x - 10, nodeSize),
       Phaser.Math.Snap.To(y - 10, nodeSize)
     );

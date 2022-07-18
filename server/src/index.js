@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import https from 'https';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFile } from 'fs';
 import { resolve, join } from 'path';
 import passport from 'passport';
 import http from 'http';
@@ -39,12 +39,30 @@ app.post('/uploadtest', (req, res) => {
   })
 })
 
+// function saveSpriteSheet(id, json) {
+//   writeFile(resolve(__dirname, '../../data/sprite/' + id + '.json'), JSON.stringify(json), 'utf8', (e) => {
+//     if(e) return console.log(e)
+//     else console.log('spritesheet: ' + id + ' saved')
+//   });
+// }
+
+// parsedData.sprites  = parsedData.sprites.map((sprite, index) => {
+//   return {
+//     ...sprite,
+//     name: null,
+//     id: 'sprite'+index,
+//     textureId: id + '-' + 'sprite' +index,
+//   }
+// })
+
+// saveSpriteSheet(id, parsedData)
+
 app.get('/spriteSheets', (req,res)=>{
   const { spriteSheetIds } =  req.query;
 
   const sss = []
   spriteSheetIds.forEach((id) => {
-    const data = readFileSync(resolve(__dirname, '../data/sprite/' +id+'.json'), 'utf8')
+    const data = readFileSync(resolve(__dirname, '../../data/sprite/' +id+'.json'), 'utf8')
     const parsedData = JSON.parse(data)
     sss.push(parsedData)
   })

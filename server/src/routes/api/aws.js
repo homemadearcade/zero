@@ -7,7 +7,7 @@ router.get('/generate-put-url', (req,res)=>{
   // Key refers to the remote name of the file.
   // ContentType refers to the MIME content type, in this case image/jpeg
   const { Key, ContentType } =  req.query;
-  console.log(Key, ContentType)
+  // console.log(Key, ContentType)
   aws.generatePutUrl(Key, ContentType).then(url => {
     res.send({url});
   })
