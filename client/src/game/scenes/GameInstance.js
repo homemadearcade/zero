@@ -71,14 +71,14 @@ export class GameInstance extends Phaser.Scene {
     if(gameModel.hero.initialCassId) {
       this.player = new PlayerInstance(this, 'player', {
         classId: gameModel.hero.initialClassId,
-        spriteId: 'ship2',
+        textureId: 'ship2',
         spawnX: gameModel.hero.spawnX,
         spawnY: gameModel.hero.spawnY
       });
     } else {
       this.player = new PlayerInstance(this, 'player', {
         classDataOverride: {...spaceshipClass},
-        spriteId: 'ship2',
+        textureId: 'ship2',
         spawnX: gameModel.hero.spawnX,
         spawnY: gameModel.hero.spawnY
       });

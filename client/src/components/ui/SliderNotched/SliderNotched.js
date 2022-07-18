@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
+import { FormLabel } from '@mui/material';
 
 export default function SliderNotched({title, value, step, options, onChangeCommitted}) {
   const [sliderValue, setSliderValue] = useState()
@@ -32,7 +33,7 @@ export default function SliderNotched({title, value, step, options, onChangeComm
 
   return (
     <div className="SliderNotched">
-      <div>{title}</div>
+      {title && <FormLabel>{title}</FormLabel>}
       <Slider
         aria-label={title}
         value={sliderValue}

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import './BrushItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
+import Sprite from '../Sprite/Sprite';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },
@@ -28,6 +29,7 @@ const BrushItem = ({
     }}
     className={classNames("GameBrushList__brush", { 'GameBrushList__brush--selected': brushSelectedIdBrushList === brushId})}
   >
+    {brush.textureId && <Sprite textureId={brush.textureId} width={50} height={50}/>}
     {brush.name || brush.descriptors ? brush.descriptors[0] : brushId}
   </div>
 };

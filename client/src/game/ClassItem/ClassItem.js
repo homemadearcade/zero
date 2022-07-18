@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import './ClassItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
+import Sprite from '../Sprite/Sprite';
 
 const ClassItem = ({
   game: { gameModel: { classes } },
@@ -35,6 +36,7 @@ const ClassItem = ({
     }}
     className={classNames("ClassItem", { 'ClassItem--selected': classSelectedIdClassList === classId})}
   >
+    {objectClass.textureId && <Sprite textureId={objectClass.textureId} width={50} height={50}/>}
     {objectClass.name || objectClass.descriptors ? objectClass.descriptors[0] : classId}
   </div>
 };

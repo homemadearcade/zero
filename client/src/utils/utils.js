@@ -178,7 +178,19 @@ export function urlToFile(url, filename, mimeType){
   );
 }
 
-export function getSpritesheetName(spriteId) {
-  const endOfSpritesheetNameIndex = spriteId.indexOf('-sprite');
-  return spriteId.slice(0, endOfSpritesheetNameIndex)
+export function getTextureMetadata(textureId) {
+  const spriteIndexIdentifier = '-sprite'
+  const endOfSpritesheetNameIndex = textureId.indexOf(spriteIndexIdentifier);
+  return {
+    spriteSheetName: textureId.slice(0, endOfSpritesheetNameIndex),
+    spriteIndex: textureId.slice(endOfSpritesheetNameIndex + spriteIndexIdentifier.length)
+  }
 }
+
+export function getSpriteTexture(textureId) {
+  const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
+  return window.spriteSheets[spriteSheetName].sprites[spriteIndex-1]
+}
+
+
+

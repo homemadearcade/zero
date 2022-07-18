@@ -6,6 +6,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
+import { FormLabel } from '@mui/material';
 
 const Root = styled('div')(
   ({ theme }) => `
@@ -15,12 +16,6 @@ const Root = styled('div')(
   font-size: 14px;
 `,
 );
-
-const Label = styled('label')`
-  padding: 0 0 4px;
-  line-height: 1.5;
-  display: block;
-`;
 
 const InputWrapper = styled('div')(
   ({ theme }) => `
@@ -200,7 +195,7 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, title}) {
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label {...getInputLabelProps()}>{title}</Label>
+        {title && <FormLabel {...getInputLabelProps()}>{title}</FormLabel>}
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {inheritedValue.map((option, index) => (
             <StyledTag label={option.label} {...getTagProps({ index })} />

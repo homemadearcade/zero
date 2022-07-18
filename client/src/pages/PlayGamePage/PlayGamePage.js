@@ -12,7 +12,7 @@ import Loader from '../../components/ui/Loader/Loader';
 import GameClassList from '../../game/GameClassList/GameClassList';
 import GameBrushList from '../../game/GameBrushList/GameBrushList';
 
-const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isSpriteSheetDataLoading, isGameModelLoading },  requestFullscreen, match}) => {
+const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isSpriteSheetDataLoading, isPhaserLoadingSpriteSheets, isGameModelLoading },  requestFullscreen, match}) => {
   useEffect(() => {
     loadGame(match.params.id);
 

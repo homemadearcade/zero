@@ -5,6 +5,6 @@ export const defaultObjectClass = {
   "jumpVelocity": 1,
   ...defaultPhaserPhysicsProperties,
   "tint": null,
-  "spriteId": "ship",
+  "textureId": null,
   "controls": null
 }

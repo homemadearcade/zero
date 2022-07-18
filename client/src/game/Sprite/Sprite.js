@@ -1,25 +1,25 @@
 import React from 'react'
 import tinycolor from 'tinycolor2'
-import { getSpritesheetName } from '../../utils/utils'
+import { getTextureMetadata, getSpriteTexture } from '../../utils/utils'
 import './Sprite.scss'
 
 export default class Sprite extends React.Component {
   render() {
-    const spriteSheetName = getSpritesheetName(this.props.textureId)
-    const texture = window.phaserTextures.getFrame(spriteSheetName, this.props.textureId)
+    const { spriteSheetName } = getTextureMetadata(this.props.textureId)
+    const texture = getSpriteTexture(this.props.textureId)
 
     let desiredWidth = this.props.width
     let desiredHeight = this.props.height
 
     if(!desiredWidth) {
       if(texture) {
-        desiredWidth = (texture.data.cut.w * 4)
+        desiredWidth = (texture.width * 4)
       } else desiredWidth = 40
     }
 
     if(!desiredHeight) {
       if(texture) {
-        desiredHeight = (texture.data.cut.h * 4)
+        desiredHeight = (texture.height * 4)
       } else desiredHeight = 40
     }
 
@@ -35,10 +35,10 @@ export default class Sprite extends React.Component {
       backgroundColor = tinycolor(this.props.tint).setAlpha(alpha - .1).toRgbString()
     }
 
-    const backgroundPositionX = -texture.data.cut.x
-    const backgroundPositionY = -texture.data.cut.y
-    const width = texture.data.cut.w
-    const height = texture.data.cut.h
+    const backgroundPositionX = -texture.x
+    const backgroundPositionY = -texture.y
+    const width = texture.width
+    const height = texture.height
 
     const scale = desiredWidth/width
     const translate = (desiredWidth - width)/2 + 'px'
@@ -49,7 +49,9 @@ export default class Sprite extends React.Component {
     const transformContainer = `translateX(${translate}) translateY(${translateY})`
     return <div 
       className={'SpriteContainer ' + this.props.className} 
-      onClick={this.props.onClick} 
+      onClick={() => {
+        if(this.props.onClick) this.props.onClick(this.props.textureId)
+      }}
       style={{transform: transformContainer, width: desiredWidth, height: desiredHeight, ...this.props.style}}
     >
       <div className="Sprite" style = {{

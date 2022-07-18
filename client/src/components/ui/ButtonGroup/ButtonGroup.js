@@ -19,7 +19,7 @@ const ButtonGroup = ({ onSelectOption, title, options, initialOption = 'normal' 
 
   return (
     <div className="ButtonGroup">
-      <div>{title}</div>
+      {title && <div>{title}</div>}
       <ToggleButtonGroup
         color="primary"
         value={alignment}

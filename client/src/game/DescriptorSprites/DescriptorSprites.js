@@ -8,7 +8,8 @@ import Sprite from '../Sprite/Sprite';
 
 const DescriptorSprites = ({
   descriptors,
-  spritesByDescriptor
+  spritesByDescriptor,
+  onClickSprite
 }) => {
 
   const sprites = descriptors.reduce((prev, descriptor) => {
@@ -17,9 +18,9 @@ const DescriptorSprites = ({
     return prev
   }, [])
 
-  return <div>
+  return <div className="DescriptorSprites">
     {sprites.map((sprite) => {
-      return <Sprite key={sprite.textureId} textureId={sprite.textureId} width={30} height={30}/>
+      return <Sprite onClick={onClickSprite} key={sprite.textureId} textureId={sprite.textureId} width={32} height={32}/>
     })}
   </div>
 };

@@ -8,7 +8,7 @@ import SelectDescriptors from '../../components/ui/SelectDescriptors/SelectDescr
 import { Button } from '@mui/material';
 import RadioGroupColumn from '../../components/ui/RadioGroupColumn/RadioGroupColumn';
 import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
-import DescriptorSprites from '../DescriptorSprites/DescriptorSprites';
+import SelectSpriteInline from '../SelectSpriteInline/SelectSpriteInline';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush } }) => {
   function handleClose() {
@@ -17,10 +17,26 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
   }
 
   return <CobrowsingModal open={true} onClose={onClose}>
-    <div className="CreateBrushFlow__body">
+    <div className="CreateBrushFlow">
+      <h2>Create Brush</h2>
+      <SelectDescriptors 
+        onChange={(event, descriptors) => {
+          updateCreateBrush({ descriptors })
+        }}
+        title="Describe it"
+        value={brush.descriptors}
+      />
+      <SelectSpriteInline
+        onSelect={(textureId) => {
+          updateCreateBrush({ textureId })
+        }}
+        title="Select a sprite"
+        descriptors={brush.descriptors}
+        textureIdSelected={brush.textureId}
+      />
       <RadioGroupColumn
         value={brush.layer}
-        title="Layer"
+        title="Pick a layer"
         onChange={(event, value) => {
           updateCreateBrush({ layer: value})
         }}
@@ -36,23 +52,17 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
           value: 1,
         }]}
       />
-      <SelectDescriptors 
-        onChange={(event, descriptors) => {
-          updateCreateBrush({ descriptors })
-        }}
-        title="Descriptors"
-        value={brush.descriptors}
-      />
-      <DescriptorSprites descriptors={brush.descriptors}/>
-      <Button onClick={() => {
-        onComplete(brush)
-        handleClose()
-      }}>
-        Create Brush
-      </Button>
-      <Button onClick={handleClose}>
-        Cancel
-      </Button>
+      <div className="CreateBrushFlow__buttons">
+        <Button onClick={() => {
+          onComplete(brush)
+          handleClose()
+        }}>
+          Create Brush
+        </Button>
+        <Button onClick={handleClose}>
+          Cancel
+        </Button>
+      </div>
     </div>
 
   </CobrowsingModal>

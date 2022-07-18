@@ -7,6 +7,7 @@ import CobrowsingModal from '../../components/ui/CobrowsingModal/CobrowsingModal
 import SelectDescriptors from '../../components/ui/SelectDescriptors/SelectDescriptors';
 import { Button } from '@mui/material';
 import { clearEditorForms, updateCreateClass } from '../../store/actions/editorFormsActions';
+import SelectSpriteInline from '../SelectSpriteInline/SelectSpriteInline';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onClose, editorFormsState: { class: objectClass } }) => {
   function handleClose() {
@@ -15,13 +16,22 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onCl
   }
 
   return <CobrowsingModal open={true} onClose={onClose}>
-    <div className="CreateClassFlow__body">
+    <div className="CreateClassFlow">
+      <h2>Create Class</h2>
       <SelectDescriptors 
         onChange={(event, descriptors) => {
           updateCreateClass({ descriptors })
         }}
         title="Descriptors"
         value={objectClass.descriptors}
+      />
+      <SelectSpriteInline
+        onSelect={(textureId) => {
+          updateCreateClass({ textureId })
+        }}
+        title="Select a sprite"
+        descriptors={objectClass.descriptors}
+        textureIdSelected={objectClass.textureId}
       />
       <Button onClick={() => {
         onComplete(objectClass)

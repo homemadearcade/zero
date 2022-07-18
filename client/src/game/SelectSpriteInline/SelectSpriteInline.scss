@@ -1,0 +1,21 @@
+.SelectSpriteInline {
+  &__sprite-missing {
+    background-color: #111;
+  }
+
+  &__sprite {
+    width: 150px;
+    height: 150px;
+    border: 1px solid white;
+  }
+
+  &__sprite-list {
+    .SpriteContainer {
+      cursor: pointer;
+      opacity: 0.5;
+      &:hover{
+        opacity: 1;
+      }
+    }
+  }
+}

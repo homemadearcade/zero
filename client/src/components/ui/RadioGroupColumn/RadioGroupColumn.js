@@ -8,11 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 export default function RadioGroupColumn({title, options, value, onChange}) {
   return (
     <FormControl>
-      <FormLabel id="demo-row-radio-buttons-group-label">{title}</FormLabel>
+      {title && <FormLabel>{title}</FormLabel>}
       <RadioGroup
         row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
         value={value}
         onChange={onChange}
       >

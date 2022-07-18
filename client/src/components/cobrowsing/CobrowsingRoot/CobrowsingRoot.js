@@ -12,7 +12,7 @@ import Onboarding from '../Onboarding/Onboarding';
 import GameClassList from '../../../game/GameClassList/GameClassList';
 import GameBrushList from '../../../game/GameBrushList/GameBrushList';
 
-const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel, isSpriteSheetDataLoading }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isConnected }, myTracks, userTracks}) => {    
+const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isConnected }, myTracks, userTracks}) => {    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function onClose() {
     if(isSubscribedCobrowsing) {

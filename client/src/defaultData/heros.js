@@ -6,7 +6,7 @@ export const defaulHeroClass = {
   ...defaultPhaserPhysicsProperties,
   "mass": 30,
   "tint": null,
-  "spriteId": null,
+  "textureId": null,
   "controls": "zelda"
 }
 
@@ -18,6 +18,6 @@ export const spaceshipClass = {
   "density": .01,
   "tint": null,
   "fixedRotation": true,
-  "spriteId": "ship2",
+  "textureId": "ship2",
   "controls": "spaceship"
 }

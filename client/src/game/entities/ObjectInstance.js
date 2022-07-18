@@ -10,12 +10,12 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       objectClass = store.getState().game.gameModel.classes[classId]
     }
     // console.log(spawnX, spawnY, id, classId, objectClass, classDataOverride)
-    super(scene.matter.world, spawnX, spawnY, objectClass.spriteId, 0)
+    super(scene.matter.world, spawnX, spawnY, objectClass.textureId, 0)
 
     this.id = id
     this.classId = classId
     
-    this.outline2 = scene.add.image(spawnX, spawnY, objectClass.spriteId)
+    this.outline2 = scene.add.image(spawnX, spawnY, objectClass.textureId)
     .setTintFill(0xffffff)
     .setDisplaySize(this.width + 8, this.height + 8)
     .setVisible(false)
