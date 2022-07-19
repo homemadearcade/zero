@@ -67,7 +67,7 @@ export class EditorScene extends GameInstance {
       })
     }
 
-    // this.draggingObjectInstanceId = null
+    this.draggingObjectInstanceId = null
 
     if(this.paintingBrushId) {
       this.onBrushStrokeComplete()
@@ -75,7 +75,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerUpOutside = (pointer, objectInstances)  => {
-    // this.draggingObjectInstanceId = null
+    this.draggingObjectInstanceId = null
 
     if(this.paintingBrushId) {
       this.onBrushStrokeComplete()

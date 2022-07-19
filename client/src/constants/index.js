@@ -11,3 +11,4 @@ export const PLAYAREA_LAYER_DEPTH = 1;
 export const OBJECT_INSTANCE_LAYER_DEPTH = 2;
 export const HERO_INSTANCE_LAYER_DEPTH = 3;
 export const OVERHEAD_LAYER_DEPTH = 4;
+export const UI_LAYER_DEPTH = 10;
