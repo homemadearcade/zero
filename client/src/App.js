@@ -44,7 +44,13 @@ const theme = createTheme({
     borderRadius: 0
   },
   components: {
-    // Name of the component
+    // MuiRadio: {
+    //   styleOverrides: {
+    //     root: {
+    //       borderRadius: 0
+    //     }
+    //   }
+    // },
     MuiSlider: {
       styleOverrides: {
         root: {

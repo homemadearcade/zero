@@ -10,6 +10,7 @@ import { loginUserWithEmail } from '../../store/actions/authActions';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
 import './styles.css';
+import { Button, Typography } from '@mui/material';
 
 const Login = ({ auth, history, loginUserWithEmail }) => {
   const formik = useFormik({
@@ -28,7 +29,7 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
   return (
     <div className="login">
       <div className="container">
-        <h1>Log in page</h1>
+        <Typography component="h1" variant="h1">Log in page</Typography>
         <p>
           back to{' '}
           <Link className="bold" to="/">
@@ -68,13 +69,13 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
           </div>
           {auth.error && <p className="error">{auth.error}</p>}
           <div>
-            <button
+            <Button
               className="btn submit"
               disabled={auth.isLoading || !formik.isValid}
               type="submit"
             >
               Log in now
-            </button>
+            </Button>
           </div>
           <div>
             Don't have an account?{' '}

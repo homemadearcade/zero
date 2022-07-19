@@ -6,6 +6,7 @@ import { addMessage } from '../../store/actions/messageActions';
 import { messageFormSchema } from './validation';
 
 import './styles.css';
+import Typography from '../../ui/Typography/Typography';
 
 const MessageForm = ({ addMessage, message: { messages } }) => {
   const formik = useFormik({
@@ -23,7 +24,7 @@ const MessageForm = ({ addMessage, message: { messages } }) => {
 
   return (
     <div className="message-form">
-      <h2>Write a message</h2>
+      <Typography variant="h2" component="h2">Write a message</Typography>
       <form onSubmit={formik.handleSubmit}>
         <textarea
           name="text"

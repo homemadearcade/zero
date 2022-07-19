@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '..//ui/SelectDescriptors/SelectDescriptors';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { clearEditorForms, updateCreateClass } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 
@@ -17,7 +17,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onCl
 
   return <CobrowsingModal open={true} onClose={onClose}>
     <div className="CreateClassFlow">
-      <h2>Create Class</h2>
+      <Typography component="h2" variant="h2">Create Class</Typography>
       <SelectDescriptors 
         onChange={(event, descriptors) => {
           updateCreateClass({ descriptors })

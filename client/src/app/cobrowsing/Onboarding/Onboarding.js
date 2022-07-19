@@ -9,6 +9,7 @@ import { updateLobbyUser, updateOnboardingStep } from '../../../store/actions/lo
 
 import Loader from '../../ui/Loader/Loader';
 import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
+import Button from '../../ui/Button/Button';
 
 const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, videoState, lobbyState, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
@@ -41,14 +42,14 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
       return <div>
         <div>Upload Speed: {user.internetSpeedTestResults.uploadSpeed}</div>
         <div>Download Speed: {user.internetSpeedTestResults.downloadSpeed}</div>
-        <button onClick={onTestInternetSpeedClick}>Test your internet again</button>
-        <button onClick={async () => {
+        <Button onClick={onTestInternetSpeedClick}>Test your internet again</Button>
+        <Button onClick={async () => {
           updateOnboardingStep('computer_environment')
-        }}>Next Step</button>
+        }}>Next Step</Button>
       </div>
     }
 
-   return  <button onClick={onTestInternetSpeedClick}>Test your internet</button>
+   return  <Button onClick={onTestInternetSpeedClick}>Test your internet</Button>
   }
 
 
@@ -63,9 +64,9 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
   // if(lobbyState.onboardingStep === 'video_connection') {
   //   return <div>
   //     Step 1
-  //     <button onClick={() => {
+  //     <Button onClick={() => {
   //       startAgoraVideoCall({lobbyId: lobby.id})
-  //     }}>Connect your video</button>
+  //     }}>Connect your video</Button>
   //   </div>
   // }
 
@@ -76,12 +77,12 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
   //       Confirm you are using the correct video and audio devices
   //     </div>
   //     <AgoraInputSelect/>
-  //     <button onClick={() => {
+  //     <Button onClick={() => {
   //       updateOnboardingStep({
   //         ...lobbyState,
   //         onboardingStep: 'internet_speed_test'
   //       })
-  //     }}>Next Step</button>
+  //     }}>Next Step</Button>
   //   </>
   // }
 
@@ -98,13 +99,13 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
       <div>
         Please close out all other tabs on this browser and close other intensive programs like editing software, spotify, other browsers, games, etc.
       </div>
-      <button onClick={() => {
+      <Button onClick={() => {
         requestFullscreen(document.body)
         updateOnboardingStep('choose_game')
-      }}>Enter fullscreen mode</button>
-      {cobrowsingUser.role === 'ADMIN' && <button onClick={() => {
+      }}>Enter fullscreen mode</Button>
+      {cobrowsingUser.role === 'ADMIN' && <Button onClick={() => {
         updateOnboardingStep('choose_game')
-      }}>Skip</button>}
+      }}>Skip</Button>}
     </div>
   }
 

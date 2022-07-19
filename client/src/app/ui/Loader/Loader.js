@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 
 import './styles.css';
@@ -5,7 +6,7 @@ import './styles.css';
 const Loader = (props) => {
   return (
     <div className="loader-container loader" {...props}>
-      <h3 className="loader-content">{props.text || 'Loading..'}</h3>
+      <Typography component="h3" variant="h3">{props.text || 'Loading..'}</Typography>
     </div>
   );
 };

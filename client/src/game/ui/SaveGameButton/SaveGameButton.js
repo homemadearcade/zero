@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 
 import './SaveGameButton.scss';
 import { editGame } from '../../../store/actions/gameActions';
+import { Button } from '@mui/material';
 
 const SaveGameButton = ({editGame, game: { gameModel }}) => {
   function saveGame() {
     editGame(gameModel.id, gameModel)
   }
 
-  return <button onClick={saveGame}
+  return <Button> onClick={saveGame}
   
-  >Save Game</button>
+  >Save Game</Button>>
 };
 
 const mapStateToProps = (state) => ({

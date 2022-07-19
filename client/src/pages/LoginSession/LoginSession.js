@@ -18,6 +18,7 @@ import { getUrlParameter } from '../../utils/utils';
 import Loader from '../../app/ui/Loader/Loader';
 import SceneFull from '../../app/SceneFull/SceneFull.jsx';
 import { ON_AUTHENTICATE_SOCKET_SUCCESS } from '../../store/types';
+import { Button, Typography } from '@mui/material';
 
 const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket }) => {
   let [prefaces, setPrefaces] = useState([
@@ -77,7 +78,7 @@ const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket })
     <div className="login">
       <div className="container">
         <form onSubmit={formik.handleSubmit}>
-          <h1>Logging in as {formik.values.email}</h1>
+          <Typography component="h1" variant="h1">Logging in as {formik.values.email}</Typography>
           <div>
             <input
               placeholder="Password"
@@ -94,13 +95,13 @@ const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket })
           </div>
           {auth.error && <p className="error">{auth.error}</p>}
           <div>
-            <button
+            <Button
               className="btn submit"
               disabled={auth.isLoading || !formik.isValid}
               type="submit"
             >
               Log in now
-            </button>
+            </Button>
           </div>
         </form>
       </div>

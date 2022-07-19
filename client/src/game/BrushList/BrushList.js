@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import './BrushList.scss';
-import { Button, FormLabel } from '@mui/material';
+import { Button, FormLabel, Typography } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
@@ -50,15 +50,15 @@ const BrushList = ({
           value={brushSize}
         />
       </div>
-      <h4>Background</h4>
+      <Typography component="h5" variant="h5">Background</Typography>
       {brushesByLayer[BACKGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
-      <h4>Playground</h4>
+      <Typography component="h5" variant="h5">Playground</Typography>
       {brushesByLayer[PLAYGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
-      <h4>Overhead</h4>
+      <Typography component="h5" variant="h5">Overhead</Typography>
       {brushesByLayer[OVERHEAD_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}

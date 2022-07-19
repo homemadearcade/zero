@@ -19,20 +19,18 @@ const Root = styled('div')(
 
 const InputWrapper = styled('div')(
   ({ theme }) => `
-  width: 100%;
-  border: 1px solid ${theme.palette.mode === 'dark' ? '#434343' : '#d9d9d9'};
+  width: calc(100% -2px);
+  border: 1px solid ${theme.palette.mode === 'dark' ? '#FFF' : '#d9d9d9'};
   background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
-  border-radius: 4px;
-  padding: 1px;
   display: flex;
   flex-wrap: wrap;
 
   &:hover {
-    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+    border-color: ${theme.palette.mode === 'dark' ? theme.palette.primary.main : '#40a9ff'};
   }
 
   &.focused {
-    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+    border-color: ${theme.palette.mode === 'dark' ? theme.palette.primary.main : '#40a9ff'};
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
   }
 
@@ -80,7 +78,6 @@ const StyledTag = styled(Tag)(
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#fafafa'
   };
   border: 1px solid ${theme.palette.mode === 'dark' ? '#303030' : '#e8e8e8'};
-  border-radius: 2px;
   box-sizing: content-box;
   padding: 0 4px 0 10px;
   outline: 0;
@@ -115,7 +112,6 @@ const Listbox = styled('ul')(
   background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
   overflow: auto;
   max-height: 250px;
-  border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 1;
 

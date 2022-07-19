@@ -6,6 +6,8 @@ import { addGame } from '../../store/actions/gameActions';
 import { gameFormSchema } from './validation';
 
 import './styles.css';
+import Button from '../ui/Button/Button';
+import Typography from '../ui/Typography/Typography';
 
 const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
@@ -60,9 +62,9 @@ const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
 
   return (
     <div className="GameForm">
-      <h2>Add a game</h2>
+      <Typography variant="h2" component="h2">Add a game</Typography> 
       <form onSubmit={formik.handleSubmit}>
-        <button type="submit" className="btn">Add Game</button>
+        <Button type="submit" className="btn">Add Game</Button>
       </form>
     </div>
   );

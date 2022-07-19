@@ -13,6 +13,7 @@ import { GOOGLE_AUTH_LINK } from '../../constants';
 import { getUrlParameter } from '../../utils/utils';
 
 import './styles.css';
+import { Button, Typography } from '@mui/material';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail }) => {
   const participantEmail = getUrlParameter('participantEmail')
@@ -34,7 +35,7 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
   return (
     <div className="RegisterPage">
       <div className="container">
-        <h1>Register page</h1>
+        <Typography component="h1" variant="h1">Register page</Typography>
         <p>
           back to{' '}
           <Link className="bold" to="/">
@@ -87,9 +88,9 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
           </div>
           {error && <p className="error">{error}</p>}
           <div>
-            <button className="btn submit" type="submit" disabled={isLoading || !formik.isValid}>
+            <Button className="btn submit" type="submit" disabled={isLoading || !formik.isValid}>
               Sign up now
-            </button>
+            </Button>
           </div>
           <div>
             Have an account?{' '}

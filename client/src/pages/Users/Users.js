@@ -11,6 +11,7 @@ import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.css';
+import { Typography } from '@mui/material';
 
 const Users = ({ getUsers, users: { users, isLoading } }) => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
   return (
     <Layout>
       <div className="UsersPage">
-        <h1>Users page</h1>
+        <Typography component="h1" variant="h1">Users page</Typography>
         <p>
           This is the Users page. Here are listed all of the users of the app. Click the username link to go to user's profile. Only admin users can see this page.
         </p>

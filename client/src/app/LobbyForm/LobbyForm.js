@@ -6,6 +6,8 @@ import { addLobby } from '../../store/actions/lobbyActions';
 import { lobbyFormSchema } from './validation';
 
 import './styles.css';
+import Button from '../ui/Button/Button';
+import Typography from '../ui/Typography/Typography';
 
 const LobbyForm = ({ addLobby, onSubmit }) => {
   const formik = useFormik({
@@ -23,7 +25,7 @@ const LobbyForm = ({ addLobby, onSubmit }) => {
 
   return (
     <div className="LobbyForm">
-      <h2>Add a lobby</h2>
+      <Typography variant="h2" component="h2">Add a lobby</Typography>
       <form onSubmit={formik.handleSubmit}>
         <div className="input-div">
           <label>Participant Email:</label>
@@ -55,7 +57,7 @@ const LobbyForm = ({ addLobby, onSubmit }) => {
             <p className="error">{formik.errors.startTime}</p>
           ) : null}
         </div>
-        <button type="submit" className="btn">Add Lobby</button>
+        <Button type="submit" className="btn">Add Lobby</Button>
       </form>
     </div>
   );

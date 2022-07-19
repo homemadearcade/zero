@@ -6,6 +6,7 @@ import Loader from '../ui/Loader/Loader';
 
 import { getMessages } from '../../store/actions/messageActions';
 import './styles.css';
+import Typography from '../../ui/Typography/Typography';
 
 const MessageList = ({ getMessages, message: { messages, isLoading } }) => {
   useEffect(() => {
@@ -14,7 +15,7 @@ const MessageList = ({ getMessages, message: { messages, isLoading } }) => {
 
   return (
     <div className="message-list">
-      <h2>Messages:</h2>
+      <Typography variant="h2" component="h2">>Messages:</Typography>
       <div className="list">
         {isLoading ? (
           <Loader text="Loading Messages..." />

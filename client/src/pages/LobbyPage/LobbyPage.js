@@ -15,6 +15,7 @@ import Lobby from '../../app/Lobby/Lobby';
 import CobrowsingRoot from '../../app/cobrowsing/CobrowsingRoot/CobrowsingRoot';
 import { leaveAgoraVideoCall } from '../../store/actions/videoActions';
 import AgoraVideoCall from '../../app/agora/AgoraVideoCall/AgoraVideoCall';
+import { Typography } from '@mui/material';
 
 const LobbyPage = ({
   leaveLobby,
@@ -85,7 +86,7 @@ const LobbyPage = ({
 
   function renderPageContents() {
     if(!window.chrome) {
-      return <h1>Please use a Chromium browser such as Chrome or Brave to participate in the Homemade Arcade experience</h1>
+      return <Typography component="h1" variant="h1">Please use a Chromium browser such as Chrome or Brave to participate in the Homemade Arcade experience</Typography>
     }
 
     if(isLoading) {

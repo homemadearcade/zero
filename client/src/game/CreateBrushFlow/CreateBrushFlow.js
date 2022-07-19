@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../ui/SelectDescriptors/SelectDescriptors';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import RadioGroupColumn from '../../app/ui/RadioGroupColumn/RadioGroupColumn';
 import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
@@ -19,7 +19,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
 
   return <CobrowsingModal open={true} onClose={onClose}>
     <div className="CreateBrushFlow">
-      <h2>Create Brush</h2>
+      <Typography component="h2" variant="h2">Create Brush</Typography>
       <SelectDescriptors 
         onChange={(event, descriptors) => {
           updateCreateBrush({ descriptors })

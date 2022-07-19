@@ -13,6 +13,7 @@ import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.scss';
+import { Button, Typography } from '@mui/material';
 
 const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {
@@ -22,7 +23,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
   return (
     <Layout>
       <div className="LobbysPage">
-        <h1>Lobbies Page</h1>
+        <Typography component="h1" variant="h1">Lobbies Page</Typography>
         <p>
           This is the lobbies page where all active lobbies are listed. Only admin users can see this page.
         </p>
@@ -48,7 +49,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                         <span className="LobbysPage__label">Start Time: </span>
                         <span className="LobbysPage__info">{lobby.startTime}</span>
                       </div>
-                      <button
+                      <Button
                         className="LobbysPage__button"
                         type="button"
                         onClick={() => {
@@ -56,8 +57,8 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                         }}
                       >
                         Join
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         className="LobbysPage__button"
                         type="button"
                         onClick={async () => {
@@ -66,7 +67,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                         }}
                       >
                         Delete
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 );

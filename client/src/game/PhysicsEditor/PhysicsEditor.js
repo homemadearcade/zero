@@ -6,14 +6,14 @@ import { editGameModel } from '../../store/actions/gameActions';
 import './PhysicsEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import Switch from '@mui/material/Switch';
-import { FormLabel } from '@mui/material';
+import { FormLabel, Typography } from '@mui/material';
 
 const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
   return (
     <div className="PhysicsEditor">
-      <h3>Editing Class {classId}</h3>
+      <Typography component="h1" variant="h1">Editing Class {classId}</Typography>
       <div className="PhysicsEditor__sliders">
         <SliderNotched
           title="Speed"

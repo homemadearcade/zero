@@ -5,13 +5,14 @@ import { editGameModel } from '../../store/actions/gameActions';
 
 import './WorldEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
+import { Typography } from '@mui/material';
 
 const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
   const world = gameModel.world
 
   return (
     <div className="WorldEditor">
-      <h3>Editing World</h3>
+      <Typography component="h1" variant="h1">Editing World</Typography>
       <SliderNotched
         title="Gravity X"
         step={0.5}

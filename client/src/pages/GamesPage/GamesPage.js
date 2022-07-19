@@ -13,6 +13,7 @@ import { getGames } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import { Link } from 'react-router-dom';
 import GameForm from '../../app/GameForm/GameForm';
+import { Typography } from '@mui/material';
 
 const GamesPage = ({ getGames, game: { games, isLoading }}) => {
   useEffect(() => {
@@ -22,7 +23,7 @@ const GamesPage = ({ getGames, game: { games, isLoading }}) => {
   return (
     <Layout>
       <div className="GamesPage">
-        <h1>Games page</h1>
+        <Typography component="h1" variant="h1">Games page</Typography>
         <p>
           This is the Games page. Here are listed all of the games. Click the play link to play the game.
         </p>

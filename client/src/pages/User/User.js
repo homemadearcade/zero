@@ -15,6 +15,7 @@ import requireAuth from '../../hoc/requireAuth';
 import { userSchema } from './validation';
 
 import './styles.scss';
+import { Button, Typography } from '@mui/material';
 
 const User = ({
   getUserByUsername,
@@ -91,7 +92,7 @@ const User = ({
   return (
     <Layout>
       <div className="UserPage">
-        <h1>{user.username + "'s account"}</h1>
+        <Typography component="h1" variant="h1">{user.username + "'s account"}</Typography>
         <p>
           This is all your account information. You can edit your account here.
         </p>
@@ -123,21 +124,21 @@ const User = ({
                 </span>
               </div>
               <div>
-                <button
+                <Button
                   className="btn"
                   type="button"
                   onClick={handleClickEdit}
                   disabled={!(me?.username === user.username || me?.role === 'ADMIN')}
                 >
                   {isEdit ? 'Cancel' : 'Edit'}
-                </button>
-                {me?.id === user.id && <button
+                </Button>
+                {me?.id === user.id && <Button
                   onClick={onLogOut}
                   type="button"
                   className="btn"
                 >
                   Logout
-                </button>}
+                </Button>}
               </div>
             </div>
           </div>
@@ -152,7 +153,7 @@ const User = ({
                   <input name="image" type="file" onChange={onChange} />
                 </>}
                 {image && (
-                  <button
+                  <Button
                     className="btn"
                     onClick={() => {
                       setImage(null);
@@ -161,7 +162,7 @@ const User = ({
                     type="button"
                   >
                     Remove Image
-                  </button>
+                  </Button>
                 )}
               </div>
               <input name="id" type="hidden" value={formik.values.id} />
@@ -215,16 +216,16 @@ const User = ({
                   ) : null}
                 </div>
               )}
-              <button type="submit" className="btn">
+              <Button type="submit" className="btn">
                 Save
-              </button>
-              {null && <button
+              </Button>
+              {null && <Button
                 onClick={() => handleDeleteUser(user.id, history)}
                 type="button"
                 className="btn"
               >
                 Delete user
-              </button>}
+              </Button>}
             </form>
           </div>
         )}

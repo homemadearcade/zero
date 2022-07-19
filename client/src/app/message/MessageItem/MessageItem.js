@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 
 import { deleteMessage, editMessage, clearMessageError } from '../../store/actions/messageActions';
 import { messageFormSchema } from './validation';
+import Button from '../../ui/Button/Button';
 
 import './styles.css';
 
@@ -91,28 +92,28 @@ const MessageItem = ({ message, auth, deleteMessage, editMessage, clearMessageEr
           <>
             {!isEdit ? (
               <>
-                <button onClick={handleClickEdit} type="button" className="btn">
+                <Button onClick={handleClickEdit} type="Button" className="btn">
                   Edit
-                </button>
-                <button onClick={(e) => handleDelete(e, message.id)} type="button" className="btn">
+                </Button>
+                <Button onClick={(e) => handleDelete(e, message.id)} type="Button" className="btn">
                   Delete
-                </button>
+                </Button>
               </>
             ) : (
               <>
-                <button type="submit" className="btn" disabled={message.isLoading}>
+                <Button type="submit" className="btn" disabled={message.isLoading}>
                   Submit
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => {
                     setIsEdit((oldIsEdit) => !oldIsEdit);
                     clearMessageError(message.id);
                   }}
-                  type="button"
+                  type="Button"
                   className="btn"
                 >
                   Cancel
-                </button>
+                </Button>
               </>
             )}
           </>

@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Button from '@mui/material/Button';
-
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 import UserStatus from '../UserStatus/UserStatus';
 
@@ -14,6 +12,8 @@ import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
 import { addGame, loadGame, unloadGame } from '../../store/actions/gameActions';
 import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
+import Typography from '../ui/Typography/Typography';
+import Button from '../ui/Button/Button';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
@@ -156,18 +156,18 @@ const LobbyPage = ({
   if(lobby?.id) {
     return (
       <div className="Lobby">
-        <h1>{"You are in Lobby: " + lobby.id}</h1>
+        <Typography component="h1" variant="h1">{"You are in Lobby: " + lobby.id}</Typography>
 
         {lobby.isGameStarted && <>
-          <h2>Game Started!</h2>
+          <Typography variant="h2" component="h2">Game Started!</Typography>
           <GameCard game={lobby.game}/>
         </>}
 
-        <h3>In Room: </h3>
+        <Typography component="h1" variant="h1">In Room: </Typography>
         {lobby.users.map((user) => {
           return <UserStatus key={user.id} onClick={onClickUser} userId={user.id}/>
         })}
-        <h3>Roles: </h3>
+        <Typography component="h1" variant="h1">Roles: </Typography>
         <div className="Lobby__roles">
           <div className="Lobby__role">
             <strong>Game Host</strong><br/>
@@ -229,7 +229,7 @@ const LobbyPage = ({
         </div>
 
         {!lobby.isGameStarted && <>
-          <h3>Select Game: </h3>
+          <Typography component="h1" variant="h1">Select Game: </Typography>
           {lobby?.game?.id && <GameCard game={lobby.game}/>}
           <GameSelect onSelect={(game) => {
             editLobby(lobby.id, {
@@ -248,7 +248,7 @@ const LobbyPage = ({
           </Button>
         </>}
 
-        <h3>Checklist: </h3>
+        <Typography component="h1" variant="h1">Checklist: </Typography>
         <div className="Lobby__checklist">
           {checklist.map((item, i) => {
             const isPassing = !!item.test();

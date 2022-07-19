@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 
 import './styles.css';
+import { Typography } from '@mui/material';
 
 const Home = ({ auth, reseedDatabase }) => {
   return (
     <Layout>
       <div className="home-page">
-        <h1>Home page</h1>
+        <Typography component="h1" variant="h1">Home page</Typography>
         {!auth.isAuthenticated ? (
           <div>
             <p>
