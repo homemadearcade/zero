@@ -25,7 +25,7 @@ export class LayerCanvas extends Phaser.GameObjects.RenderTexture {
     const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
    
     store.dispatch(addAwsImage(file, fileId, {
-      name: 'layer0',
+      name: this.textureId,
       type: 'layer'
     }))
   }

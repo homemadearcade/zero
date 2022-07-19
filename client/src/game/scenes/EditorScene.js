@@ -10,6 +10,10 @@ export class EditorScene extends GameInstance {
     super({
       key: key,
     });
+
+    this.draggingObjectInstanceId = null
+    this.currentDrawingLayer = null
+    this.paintingBrushId = null
   }
   
   onDragStart = (pointer, objectInstance, dragX, dragY) => {
@@ -72,7 +76,8 @@ export class EditorScene extends GameInstance {
 
   onBrushStrokeComplete = async () => {
     this.paintingBrushId = null
-    this.layerZero.save()
+    this.currentDrawingLayer.save()
+    this.currentDrawingLayer = null;
   }
 
   onPointerMove = (pointer)  => {
@@ -89,11 +94,13 @@ export class EditorScene extends GameInstance {
     const brush = gameModel.brushes[brushId]
     //'square10x10'
 
-    console.log(brush.textureId, this.getSpriteTexture(brush.textureId))
+    const snappedX = Phaser.Math.Snap.To(x - 10, nodeSize)
+    const snappedY = Phaser.Math.Snap.To(y - 10, nodeSize)
 
-    this.layerZero.draw(this.getSpriteTexture(brush.textureId),
-      Phaser.Math.Snap.To(x - 10, nodeSize),
-      Phaser.Math.Snap.To(y - 10, nodeSize)
+    this.currentDrawingLayer.draw(
+      this.getSpriteTexture(brush.textureId),
+      snappedX,
+      snappedY
     );
   }
 
@@ -118,7 +125,20 @@ export class EditorScene extends GameInstance {
 
     if(pointer.leftButtonDown()) {
       const brushId = store.getState().editor.editorState.brushSelectedIdBrushList
+      const brush = store.getState().game.gameModel.brushes[brushId]
+
+      if(brush.layer === '-1') {
+        this.currentDrawingLayer = this.layer_1
+      }
+      if(brush.layer === '0') {
+        this.currentDrawingLayer = this.layerZero
+      }
+      if(brush.layer === '1') {
+        this.currentDrawingLayer = this.layer1
+      }
+
       this.paintingBrushId = brushId
+
       if(this.paintingBrushId) {
         this.drawNodeAt(pointer)
       }

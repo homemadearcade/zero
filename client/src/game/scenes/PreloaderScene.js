@@ -9,8 +9,6 @@ import {
   PRELOADER_SCENE,
   GAME_SCENE,
 } from '../../constants';
-import { tilemap } from '../../defaultData/tilesetSample';
-
 
 export class PreloaderScene extends Phaser.Scene {
   constructor(props) {

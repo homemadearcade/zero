@@ -6,12 +6,20 @@ import store from '../../store';
 import { spaceshipClass } from '../../defaultData/heros';
 import { LayerZero } from '../entities/LayerZero';
 import { getTextureMetadata } from '../../utils/utils';
+import { LayerCanvas } from '../entities/LayerCanvas';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
     super({
       key: key,
     });
+
+    this.player = null 
+    this.layer_1 = null
+    this.layerZero = null
+    this.layer1 = null
+    this.objectInstances = []
+    this.objectInstancesById = {}
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
@@ -50,7 +58,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().game.gameModel
 
     // background layer && layer zero
-    this.layer_1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+    this.layer_1 = new LayerCanvas(this, {layerId: 'layer-1'})
     this.layerZero = new LayerZero(this)
 
     // objects
@@ -90,8 +98,8 @@ export class GameInstance extends Phaser.Scene {
       });
     }
 
-    //overheard layer
-    this.layer1 = this.add.renderTexture(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+    //overhead layer
+    this.layer1 = new LayerCanvas(this, {layerId: 'layer1'})
 
     //world
     this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)

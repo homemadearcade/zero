@@ -11,6 +11,9 @@ import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
+import OverheadIcon from '../../icons/overhead.svg'
+import BelowIcon from '../../icons/below.svg'
+import PlayAreaIcon from '../../icons/playarea.svg'
 
 const GameBrushList = ({
   game: { gameModel },
@@ -25,9 +28,25 @@ const GameBrushList = ({
     return <Loader text="No Game Loaded"/>
   }
 
+  const brushesByLayer = Object.keys(brushes).reduce((prev, brushId) => {
+    const brush = brushes[brushId]
+    if(!prev[brush.layer]) prev[brush.layer] = []
+    prev[brush.layer].push({ brushId, brush })
+    return prev
+  }, {})
+
   return <>
     <div className="GameBrushList">
-      {Object.keys(brushes).map((brushId, i) => {
+      <h4>Background <img src={BelowIcon.src}/></h4>
+      {brushesByLayer[-1].map(({brushId}, i) => {
+        return <BrushItem key={i} brushId={brushId}/>
+      })}
+      <h4>Play Area <img src={PlayAreaIcon.src}/></h4>
+      {brushesByLayer[0].map(({brushId}, i) => {
+        return <BrushItem key={i} brushId={brushId}/>
+      })}
+      <h4>Overhead <img src={OverheadIcon.src}/></h4>
+      {brushesByLayer[1].map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Button className="GameBrushList__add" onClick={() => {
