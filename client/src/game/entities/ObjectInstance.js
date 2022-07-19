@@ -23,6 +23,8 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       this.outline2 = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
     }
 
+    this.setDisplaySize(objectClass.width, objectClass.height)
+
     this.outline2.setTintFill(0xffffff)
     .setDisplaySize(this.width + 8, this.height + 8)
     .setVisible(false)
@@ -46,6 +48,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.setFrictionStatic(objectClass.frictionStatic)
     this.setFixedRotation(objectClass.fixedRotation)
     this.setIgnoreGravity(objectClass.ignoreGravity)
+
 
     this.outline = scene.add.graphics();
     this.outline.lineStyle(3, 0xffffff, 1);
