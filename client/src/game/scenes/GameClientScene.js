@@ -30,7 +30,6 @@ export class GameClientScene extends EditorScene {
 
   create() {
     super.create()
-    this.matter.world.setBounds(0, 0, 1000, 1000);
     this.matter.pause()
     window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)

@@ -97,16 +97,15 @@ export class EditorScene extends GameInstance {
   onPointerMove = (pointer)  => {
 
     // BRUSH STROKE
-    const editorState =store.getState().editor.editorState
+    const editorState = store.getState().editor.editorState
     const brushId = editorState.brushSelectedIdBrushList
     const classId = editorState.classSelectedIdClassList
+    const gameModel = store.getState().game.gameModel
 
     if((!brushId && this.brushPointSprite) || (this.brushPointSprite && (this.brushPointSprite.brushId !== brushId))) {
-      this.brushPointSprite.destroy()
-      this.brushPointSprite = null
+      this.destroyBrush()
     }
     if(brushId && !this.brushPointSprite) {
-      const gameModel = store.getState().game.gameModel
       const brush = gameModel.brushes[brushId]
   
       const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
@@ -124,11 +123,9 @@ export class EditorScene extends GameInstance {
 
     // CLASS STAMP
     if((!classId && this.classStampSprite) || (this.classStampSprite && (this.classStampSprite.classId !== classId))) {
-      this.classStampSprite.destroy()
-      this.classStampSprite = null
+      this.destroyStamp()
     }
     if(classId && !this.classStampSprite) {
-      const gameModel = store.getState().game.gameModel
       const objectClass = gameModel.classes[classId]
   
       const { spriteSheetName, spriteIndex } = getTextureMetadata(objectClass.textureId)
@@ -140,6 +137,16 @@ export class EditorScene extends GameInstance {
     if(this.classStampSprite) {
       this.updateClassStamp(pointer)
     }
+  }
+
+  destroyStamp() {
+    this.classStampSprite.destroy()
+    this.classStampSprite = null
+  }
+
+  destroyBrush() {
+    this.brushPointSprite.destroy()
+    this.brushPointSprite = null
   }
 
   updateClassStamp(pointer) {
@@ -250,6 +257,11 @@ export class EditorScene extends GameInstance {
         this.drawNodeAt(pointer)
       }
     }
+  }
+
+  onPointerLeaveGame = () => {
+    if(this.brushPointSprite) this.destroyBrush()
+    if(this.classStampSprite) this.destroyStamp()
   }
 
   onPointerOut = (pointer, gameObjects) => {
@@ -376,6 +388,7 @@ export class EditorScene extends GameInstance {
     this.input.on('pointerup', this.onPointerUp);
     this.input.on('pointerupoutside', this.onPointerUpOutside);
     this.input.on('pointermove', this.onPointerMove, this)
+    this.input.on('gameout', this.onPointerLeaveGame, this)
     this.input.dragDistanceThreshold = 16;
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);

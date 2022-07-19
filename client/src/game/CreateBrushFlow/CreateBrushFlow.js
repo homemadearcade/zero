@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
-import CobrowsingModal from '../../app/ui/CobrowsingModal/CobrowsingModal';
+import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../ui/SelectDescriptors/SelectDescriptors';
 import { Button } from '@mui/material';
 import RadioGroupColumn from '../../app/ui/RadioGroupColumn/RadioGroupColumn';

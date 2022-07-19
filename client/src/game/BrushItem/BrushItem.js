@@ -27,7 +27,7 @@ const BrushItem = ({
         selectBrush(brushId)
       }
     }}
-    className={classNames("GameBrushList__brush", { 'GameBrushList__brush--selected': brushSelectedIdBrushList === brushId})}
+    className={classNames("BrushItem", { 'BrushItem--selected': brushSelectedIdBrushList === brushId})}
   >
     {brush.textureId && <Sprite textureId={brush.textureId} width={50} height={50}/>}
     {brush.name || brush.descriptors ? brush.descriptors[0] : brushId}

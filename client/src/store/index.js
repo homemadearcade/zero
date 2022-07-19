@@ -23,6 +23,7 @@ const cobrowsingUpdate = store => next => action => {
         editor: state.editor.editorState,
         video: state.video.videoState,
         lobby: state.lobby.lobbyState,
+        editorForms: state.editorForms.editorFormsState
       })
     )
   }
