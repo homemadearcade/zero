@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
-import './GameBrushList.scss';
+import './BrushList.scss';
 import { Button, FormLabel } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
@@ -13,9 +13,9 @@ import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../store/actions/editorActions';
-import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH } from '../../constants';
 
-const GameBrushList = ({
+const BrushList = ({
   game: { gameModel },
   updateBrushSize,
   editorState: { brushSize },
@@ -38,8 +38,8 @@ const GameBrushList = ({
   }, {})
 
   return <>
-    <div className="GameBrushList">
-      <div className="GameBrushList__size">
+    <div className="BrushList">
+      <div className="BrushList__size">
         <FormLabel>Brush Size</FormLabel>
         <SliderNotched
           step={null}
@@ -54,15 +54,15 @@ const GameBrushList = ({
       {brushesByLayer[BACKGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
-      <h4>Play Area</h4>
-      {brushesByLayer[PLAYAREA_LAYER_DEPTH]?.map(({brushId}, i) => {
+      <h4>Playground</h4>
+      {brushesByLayer[PLAYGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <h4>Overhead</h4>
       {brushesByLayer[OVERHEAD_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
-      <Button className="GameBrushList__add" onClick={() => {
+      <Button className="BrushList__add" onClick={() => {
         openCreateBrushFlow()
       }}>
         Add New Brush
@@ -100,4 +100,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { editGameModel, openCreateBrushFlow, updateBrushSize, closeCreateBrushFlow }),
-)(GameBrushList);
+)(BrushList);

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
-import './GameClassList.scss';
+import './ClassList.scss';
 import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
@@ -12,7 +12,7 @@ import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 import { closeCreateClassFlow, openCreateClassFlow } from '../../store/actions/editorFormsActions';
 
-const GameClassList = ({
+const ClassList = ({
   game: { gameModel },
   editorFormsState: { isCreateClassFlowOpen },
   editGameModel,
@@ -25,13 +25,13 @@ const GameClassList = ({
     return <Loader text="No Game Loaded"/>
   }
 
-  return <div className="GameClassList">
+  return <div className="ClassList">
     {Object.keys(classes).map((currentClassId, i) => {
       const currentClass = classes[currentClassId]
       if(currentClass.type === 'hero') return null
       return <ClassItem key={i} classId={currentClassId} />
     })}
-    <Button className="GameClassList__add" onClick={() => {
+    <Button className="ClassList__add" onClick={() => {
       openCreateClassFlow()
     }}>
       Add New Class
@@ -42,7 +42,7 @@ const GameClassList = ({
       if(currentClass.type !== 'hero') return null
       return <ClassItem key={i} classId={currentClassId} hero/>
     })}
-    <Button className="GameClassList__add" onClick={() => {
+    <Button className="ClassList__add" onClick={() => {
       const classId = uuidv4()
       editGameModel({
         classes: {
@@ -85,4 +85,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { editGameModel, openCreateClassFlow, closeCreateClassFlow }),
-)(GameClassList);
+)(ClassList);

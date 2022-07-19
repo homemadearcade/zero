@@ -6,7 +6,7 @@ import { openLivePhysicsEditor } from '../../store/actions/editorActions';
 import { editGameModel } from '../../store/actions/gameActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 
-const CoreObjectContextMenu = ({ editGameModel, onMenuItemClick, editor: { editorState: { objectSelectedIdContextMenu } }}) => {
+const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editor: { editorState: { objectSelectedIdContextMenu } }}) => {
   return <>
     <MenuItem onClick={() => {
       editGameModel({ objects: { [objectSelectedIdContextMenu]: null } })
@@ -20,4 +20,4 @@ const mapStateToProps = (state) => ({
   editor: state.editor,
 });
 
-export default connect(mapStateToProps, { openLivePhysicsEditor, editGameModel })(CoreObjectContextMenu);
+export default connect(mapStateToProps, { openLivePhysicsEditor, editGameModel })(ObjectInstanceContextMenu);

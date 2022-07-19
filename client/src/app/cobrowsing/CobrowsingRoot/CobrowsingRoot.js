@@ -9,8 +9,8 @@ import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import GameEditor from '../../../game/GameEditor/GameEditor';
 import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 import Onboarding from '../Onboarding/Onboarding';
-import GameClassList from '../../../game/GameClassList/GameClassList';
-import GameBrushList from '../../../game/GameBrushList/GameBrushList';
+import GameClassList from '../../../game/ClassList/ClassList';
+import GameBrushList from '../../../game/BrushList/BrushList';
 
 const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isConnected }, myTracks, userTracks}) => {    
   // eslint-disable-next-line react-hooks/exhaustive-deps

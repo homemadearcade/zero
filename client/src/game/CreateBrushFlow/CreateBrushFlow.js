@@ -9,7 +9,7 @@ import { Button } from '@mui/material';
 import RadioGroupColumn from '../../app/ui/RadioGroupColumn/RadioGroupColumn';
 import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
-import { BACKGROUND_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH } from '../../constants';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush } }) => {
   function handleClose() {
@@ -45,8 +45,8 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
           label: 'Background',
           value: BACKGROUND_LAYER_DEPTH,
         },{
-          label: 'Play Area',
-          value: PLAYAREA_LAYER_DEPTH,
+          label: 'Playground',
+          value: PLAYGROUND_LAYER_DEPTH,
         },
         {
           label: 'Overhead',

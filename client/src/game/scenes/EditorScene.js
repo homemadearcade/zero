@@ -5,7 +5,7 @@ import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
 import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_LAYER_DEPTH, HERO_INSTANCE_ID, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, HERO_INSTANCE_ID, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH } from '../../constants';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -237,8 +237,8 @@ export class EditorScene extends GameInstance {
       if(brush.layer === BACKGROUND_LAYER_DEPTH) {
         this.currentDrawingLayer = this.backgroundLayer
       }
-      if(brush.layer === PLAYAREA_LAYER_DEPTH) {
-        this.currentDrawingLayer = this.layerZero
+      if(brush.layer === PLAYGROUND_LAYER_DEPTH) {
+        this.currentDrawingLayer = this.playgroundLayer
       }
       if(brush.layer === OVERHEAD_LAYER_DEPTH) {
         this.currentDrawingLayer = this.overheadLayer
@@ -303,8 +303,8 @@ export class EditorScene extends GameInstance {
       if(gameUpdate.awsImages[this.backgroundLayer.textureId]) {
         this.backgroundLayer.updateTexture()
       }
-      if(gameUpdate.awsImages[this.layerZero.textureId]) {
-        this.layerZero.updateTexture()
+      if(gameUpdate.awsImages[this.playgroundLayer.textureId]) {
+        this.playgroundLayer.updateTexture()
       }
       if(gameUpdate.awsImages[this.overheadLayer.textureId]) {
         this.overheadLayer.updateTexture()

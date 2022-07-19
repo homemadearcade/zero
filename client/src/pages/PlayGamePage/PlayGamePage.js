@@ -9,8 +9,8 @@ import './PlayGamePage.scss';
 import { requestFullscreen } from '../../store/actions/browserActions';
 import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
-import GameClassList from '../../game/GameClassList/GameClassList';
-import GameBrushList from '../../game/GameBrushList/GameBrushList';
+import GameClassList from '../../game/ClassList/ClassList';
+import GameBrushList from '../../game/BrushList/BrushList';
 
 const PlayGamePage = ({ loadGame, unloadGame, game: { gameModel, isSpriteSheetDataLoading, isPhaserLoadingSpriteSheets, isGameModelLoading },  requestFullscreen, match}) => {
   useEffect(() => {

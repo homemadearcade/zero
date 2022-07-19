@@ -11,7 +11,7 @@ What sort of STEPS to use?
 Do we have little sections that fold and unfold in the columns?
   Brush Options
   Background
-  Play Area
+  Playground
   Overhead
 
   Hero
@@ -36,7 +36,7 @@ DRAWING
   Tinting
   Stamp?, Brush, Pencil, Spray Can, Eraser
   Unlock snap to grid?
-  BUG - Sometimes a play area sprite is not picked up because it doesnt have alpha in the center
+  BUG - Sometimes a Playground sprite is not picked up because it doesnt have alpha in the center
   BUG - brushing a ton sucks because the new image comes in and overwrites what you have
   Sync network drawing?
 

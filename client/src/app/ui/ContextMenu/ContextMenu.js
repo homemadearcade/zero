@@ -6,9 +6,10 @@ import { closeContextMenu } from '../../../store/actions/editorActions';
 import './ContextMenu.scss';
 
 import Menu from '@mui/material/Menu';
-import CoreObjectContextMenu from '../../../game/CoreObjectContextMenu/CoreObjectContextMenu';
+import ObjectInstanceContextMenu from '../../../game/ObjectInstanceContextMenu/ObjectInstanceContextMenu';
 import ClassContextMenu from '../../../game/ClassContextMenu/ClassContextMenu';
 import WorldContextMenu from '../../../game/WorldContextMenu/WorldContextMenu';
+import { HERO_INSTANCE_ID } from '../../../constants';
 
 const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen, objectSelectedIdContextMenu, classSelectedIdContextMenu } }}) => {  
   function handleClose() {
@@ -16,10 +17,10 @@ const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, e
   }
 
   function _renderBody() {
-    if(objectSelectedIdContextMenu) {
-      return <CoreObjectContextMenu onMenuItemClick={handleClose}/>
-    } else if(classSelectedIdContextMenu) {
+    if(classSelectedIdContextMenu | objectSelectedIdContextMenu === HERO_INSTANCE_ID) {
       return <ClassContextMenu onMenuItemClick={handleClose}/>
+    } else if(objectSelectedIdContextMenu) {
+        return <ObjectInstanceContextMenu onMenuItemClick={handleClose}/>
     } else {
       return <WorldContextMenu onMenuItemClick={handleClose}/>
     }
