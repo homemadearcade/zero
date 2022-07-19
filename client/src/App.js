@@ -36,9 +36,58 @@ import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
-const darkTheme = createTheme({
+const theme = createTheme({
   palette: {
     mode: 'dark',
+  },
+  shape: {
+    borderRadius: 0
+  },
+  components: {
+    // Name of the component
+    MuiSlider: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0
+        },
+        thumb: {
+          borderRadius: 0
+        },
+        valueLabel: {
+          borderRadius: 0
+        },
+        track: {
+          border: 'none'
+        },
+        mark: {
+          height: '4px',
+          borderRadius: 0
+        },
+        markActive: {
+          height: '6px',
+        }
+      },
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        thumb: {
+          borderRadius: 0
+        },
+        track: {
+          borderRadius: 0
+        },
+        switchBase: {
+          borderRadius: 0
+        }
+      },
+    },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0
+        }
+      },
+    },
   },
 });
 
@@ -73,7 +122,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
   // }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded, auth.isSocketAuthenticated]);
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <>
         <ErrorHandler/>
         {!auth.appLoaded && <Loader text="App Loading..."/>}

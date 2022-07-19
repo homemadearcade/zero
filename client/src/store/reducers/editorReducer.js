@@ -9,7 +9,8 @@ import {
   SELECT_BRUSH,
   CLEAR_BRUSH,
   EDITOR_STATE_UPDATE,
-  UPDATE_BRUSH_SIZE
+  UPDATE_BRUSH_SIZE,
+  CLEAR_EDITOR
 } from '../types';
 
 const initialState = {
@@ -133,6 +134,8 @@ export default function editorReducer(state = initialState, { type, payload }) {
       ...state,
       editorState: payload.editorState
     };
+    case CLEAR_EDITOR:
+      return initialState
     default:
       return state;
   }

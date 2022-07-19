@@ -168,8 +168,8 @@ export class EditorScene extends GameInstance {
     const gameModel = store.getState().game.gameModel
     const nodeSize = gameModel.world.nodeSize
 
-    const snappedX = Phaser.Math.Snap.To(pointer.x, nodeSize)
-    const snappedY = Phaser.Math.Snap.To(pointer.y, nodeSize)
+    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.x, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2))
+    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.y, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2))
 
     return {
       snappedX,
@@ -184,8 +184,8 @@ export class EditorScene extends GameInstance {
     const brushSize = editorState.brushSize
     const blockSize = nodeSize * brushSize
 
-    const snappedX = Phaser.Math.Snap.To(pointer.x - (blockSize/2), blockSize)
-    const snappedY = Phaser.Math.Snap.To(pointer.y - (blockSize/2), blockSize)
+    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)
+    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.y - (blockSize/2), blockSize), 0, gameModel.world.boundaries.height)
 
     return {
       snappedX,

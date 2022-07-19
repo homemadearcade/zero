@@ -48,10 +48,9 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.setFixedRotation(objectClass.fixedRotation)
     this.setIgnoreGravity(objectClass.ignoreGravity)
 
-
     this.outline = scene.add.graphics();
     this.outline.lineStyle(3, 0xffffff, 1);
-    this.outline.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+    this.outline.strokeRect(-objectClass.width/2, -objectClass.height/2, objectClass.width, objectClass.height);
     this.outline.setVisible(false)
     this.outline.setDepth(UI_LAYER_DEPTH)
 

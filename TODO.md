@@ -22,8 +22,10 @@ Do we have little sections that fold and unfold in the columns?
 
 TODO NEXT
 
+Eraser
 Reset Button
 Pause Button
+Stop Game
 Exit Game
 
 CONTROLS - speed, other phaser examples, etc
@@ -31,7 +33,6 @@ CAMERA
 GAME BOUNDARY
 
 DRAWING
-  Object drawing preview 
   Tinting
   Stamp?, Brush, Pencil, Spray Can, Eraser
   Unlock snap to grid?

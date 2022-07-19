@@ -97,14 +97,7 @@ export default function editorFormsReducer(state = initialState, { type, payload
         }
       }
     case CLEAR_EDITOR_FORMS:
-      return {
-        ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          brush: initialState.editorFormsState.brush,
-          class: initialState.editorFormsState.class
-        }
-      }
+      return initialState
     default:
       return state;
   }

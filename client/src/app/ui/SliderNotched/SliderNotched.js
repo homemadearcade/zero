@@ -20,7 +20,7 @@ export default function SliderNotched({title, restricted, value, step, options, 
     marks = options.map((value) => {
       return {
         value,
-        label: value
+        // label: value
       }
     })
   } else {

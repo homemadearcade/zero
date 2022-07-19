@@ -8,7 +8,8 @@ import {
   CLEAR_CLASS,
   SELECT_BRUSH,
   CLEAR_BRUSH,
-  UPDATE_BRUSH_SIZE
+  UPDATE_BRUSH_SIZE,
+  CLEAR_EDITOR
 } from '../types';
 
 export const selectClass = (classId) => (dispatch, getState) => {
@@ -122,5 +123,12 @@ export const closeLiveEditor = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_LIVE_EDITOR
+  });
+}
+
+export const clearEditor = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLEAR_EDITOR
   });
 }
