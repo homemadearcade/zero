@@ -11,9 +11,6 @@ import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
-import OverheadIcon from '../../icons/overhead.svg'
-import BelowIcon from '../../icons/below.svg'
-import PlayAreaIcon from '../../icons/playarea.svg'
 
 const GameBrushList = ({
   game: { gameModel },
@@ -37,15 +34,15 @@ const GameBrushList = ({
 
   return <>
     <div className="GameBrushList">
-      <h4>Background <img src={BelowIcon.src}/></h4>
+      <h4>Background</h4>
       {brushesByLayer[-1].map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
-      <h4>Play Area <img src={PlayAreaIcon.src}/></h4>
+      <h4>Play Area</h4>
       {brushesByLayer[0].map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
-      <h4>Overhead <img src={OverheadIcon.src}/></h4>
+      <h4>Overhead</h4>
       {brushesByLayer[1].map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
