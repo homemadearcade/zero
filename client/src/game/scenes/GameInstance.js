@@ -7,6 +7,7 @@ import { spaceshipClass } from '../../defaultData/heros';
 import { LayerZero } from '../entities/LayerZero';
 import { getTextureMetadata } from '../../utils/utils';
 import { LayerCanvas } from '../entities/LayerCanvas';
+import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
@@ -57,9 +58,15 @@ export class GameInstance extends Phaser.Scene {
   create() {
     const gameModel = store.getState().game.gameModel
 
-    // background layer && layer zero
+    // background layer
     this.layer_1 = new LayerCanvas(this, {layerId: 'layer-1'})
+    this.layer_1.setDepth(BACKGROUND_LAYER_DEPTH)
+    // layer zero
     this.layerZero = new LayerZero(this)
+    this.layerZero.setDepth(PLAYAREA_LAYER_DEPTH)
+    // overhead layer
+    this.layer1 = new LayerCanvas(this, {layerId: 'layer1'})
+    this.layer1.setDepth(OVERHEAD_LAYER_DEPTH)
 
     // objects
     this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
@@ -97,9 +104,6 @@ export class GameInstance extends Phaser.Scene {
         spawnY: gameModel.hero.spawnY
       });
     }
-
-    //overhead layer
-    this.layer1 = new LayerCanvas(this, {layerId: 'layer1'})
 
     //world
     this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)

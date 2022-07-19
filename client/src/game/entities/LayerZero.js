@@ -54,7 +54,7 @@ export class LayerZero extends LayerCanvas {
         if(node.alpha && ! node.touched) {
           let rowNodes = []
           let searchX = x
-          while(row[searchX].alpha) {
+          while(row[searchX]?.alpha) {
             row[searchX].touched = true
             searchX++
             rowNodes.push(row[searchX])

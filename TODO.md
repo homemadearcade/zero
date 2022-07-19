@@ -8,6 +8,16 @@ Considering only allowing buttons for Density
 
 What sort of STEPS to use?
 
+Do we have little sections that fold and unfold in the columns?
+  Brush Options
+  Background
+  Play Area
+  Overhead
+
+  Hero
+  Objects
+  etc
+
 --
 
 TODO NEXT
@@ -20,11 +30,19 @@ CONTROLS - speed, other phaser examples, etc
 CAMERA
 GAME BOUNDARY
 
+DRAWING
+  Object drawing preview 
+  Tinting
+  Stamp?, Brush, Pencil, Spray Can, Eraser
+  Unlock snap to grid?
+  BUG - Sometimes a play area sprite is not picked up because it doesnt have alpha in the center
+  BUG - brushing a ton sucks because the new image comes in and overwrites what you have
+  Sync network drawing?
+
 --------
 
 TODO LATER
 
-1200 PIXEL GRID, 120 COLLISION GRID
 
 Theres two problems with cobrowsing to think about
 1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user

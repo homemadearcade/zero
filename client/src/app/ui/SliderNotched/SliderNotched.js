@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
 import { FormLabel } from '@mui/material';
 
-export default function SliderNotched({title, value, step, options, onChangeCommitted}) {
+export default function SliderNotched({title, restricted, value, step, options, onChangeCommitted}) {
   const [sliderValue, setSliderValue] = useState()
 
   useEffect(() => {
@@ -30,6 +30,7 @@ export default function SliderNotched({title, value, step, options, onChangeComm
   if(sliderValue === undefined) {
     return null
   }
+
 
   return (
     <div className="SliderNotched">

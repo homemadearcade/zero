@@ -4,29 +4,31 @@ import { connect } from 'react-redux';
 import { editGameModel } from '../../store/actions/gameActions';
 
 import './WorldEditor.scss'
-import ButtonGroup from '../../app/ui/ButtonGroup/ButtonGroup';
+import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 
 const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
   const world = gameModel.world
 
   return (
     <div className="WorldEditor">
-      Editing World
-      <ButtonGroup
+      <h3>Editing World</h3>
+      <SliderNotched
         title="Gravity X"
+        step={0.5}
         options={[-5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5]}
-        onSelectOption={(value) => {
+        onChangeCommitted={(value) => {
           editGameModel({ world: { gravity: { x: value }}})        
         }}
-        initialOption={world.gravity.x}
+        value={world.gravity.x}
       />
-      <ButtonGroup
+      <SliderNotched
         title="Gravity Y"
+        step={0.5}
         options={[-5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5]}
-        onSelectOption={(value) => {
+        onChangeCommitted={(value) => {
           editGameModel({ world: { gravity: { y: value }}})        
         }}
-        initialOption={world.gravity.y}
+        value={world.gravity.y}
       />
     </div>
   );

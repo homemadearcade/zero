@@ -8,7 +8,8 @@ import {
   CLEAR_CLASS,
   SELECT_BRUSH,
   CLEAR_BRUSH,
-  EDITOR_STATE_UPDATE
+  EDITOR_STATE_UPDATE,
+  UPDATE_BRUSH_SIZE
 } from '../types';
 
 const initialState = {
@@ -24,12 +25,22 @@ const initialState = {
     selectableObjectIds: null,
     isContextMenuOpen: false,
     isLiveEditorOpen: false,
-    liveEditingCategory: null
+    liveEditingCategory: null,
+    brushSize: 1
   }
 };
 
 export default function editorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case UPDATE_BRUSH_SIZE: {
+      return {
+        ...state,
+        editorState: {
+          ...state.editorState,
+          brushSize: payload.brushSize
+        }
+      }
+    }
     case SELECT_CLASS: 
       return {
         ...state,

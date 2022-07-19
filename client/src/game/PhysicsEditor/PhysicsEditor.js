@@ -6,14 +6,14 @@ import { editGameModel } from '../../store/actions/gameActions';
 import './PhysicsEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import Switch from '@mui/material/Switch';
+import { FormLabel } from '@mui/material';
 
 const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
   return (
     <div className="PhysicsEditor">
-      Editing Class:<br/> 
-      {classId}
+      <h3>Editing Class {classId}</h3>
       <div className="PhysicsEditor__sliders">
         <SliderNotched
           title="Speed"
@@ -71,7 +71,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         />
       </div>
       <div>
-        Ignore Gravity
+        <FormLabel>Ignore Gravity</FormLabel>
         <Switch
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { ignoreGravity: e.target.checked }}})        
@@ -80,7 +80,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
          />
       </div>
       <div>
-        Controlled Rotation
+        <FormLabel>Controlled Rotation</FormLabel>
         <Switch
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { fixedRotation: e.target.checked }}})        

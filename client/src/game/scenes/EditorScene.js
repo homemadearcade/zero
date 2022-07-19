@@ -4,6 +4,8 @@ import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
+import { getTextureMetadata } from '../../utils/utils';
+import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -81,24 +83,73 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerMove = (pointer)  => {
+    const editorState =store.getState().editor.editorState
+    const brushId = editorState.brushSelectedIdBrushList
+
+    if((!brushId && this.brushPointSprite) || (this.brushPointSprite && (this.brushPointSprite.brushId !== brushId))) {
+      this.brushPointSprite.destroy()
+      this.brushPointSprite = null
+    }
+
+    if(brushId && !this.brushPointSprite) {
+      const gameModel = store.getState().game.gameModel
+      const brush = gameModel.brushes[brushId]
+  
+      const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
+      this.brushPointSprite = new Phaser.GameObjects.Image(this, 0,0, spriteSheetName, spriteIndex)
+      this.brushPointSprite.setOrigin(0, 0)
+      this.brushPointSprite.brushId = brushId
+      this.add.existing(this.brushPointSprite)
+    }
+
+
+
+    if(this.brushPointSprite) {
+      this.updateBrushSprite(pointer)
+    }
+
     if(this.paintingBrushId && pointer.isDown) {
       this.drawNodeAt(pointer)
     }
   }
 
-  drawNodeAt({x, y}) {
+  updateBrushSprite(pointer) {
+    const editorState =store.getState().editor.editorState
     const gameModel = store.getState().game.gameModel
+    const brushSize = editorState.brushSize
     const nodeSize = gameModel.world.nodeSize
-    
-    const brushId = store.getState().editor.editorState.brushSelectedIdBrushList
+    const brushId = editorState.brushSelectedIdBrushList
     const brush = gameModel.brushes[brushId]
-    //'square10x10'
 
-    const snappedX = Phaser.Math.Snap.To(x - 10, nodeSize)
-    const snappedY = Phaser.Math.Snap.To(y - 10, nodeSize)
+    const { snappedX, snappedY } = this.getSnapXY(pointer.x, pointer.y)
+    this.brushPointSprite.setPosition(snappedX, snappedY)
+    this.brushPointSprite.setDisplaySize(nodeSize * brushSize, nodeSize * brushSize)
+    this.brushPointSprite.setDepth(brush.layer)
+  }
+
+  getSnapXY(x, y) {
+    const gameModel = store.getState().game.gameModel
+    const editorState =store.getState().editor.editorState
+    const nodeSize = gameModel.world.nodeSize
+    const brushSize = editorState.brushSize
+    const blockSize = nodeSize * brushSize
+    
+
+    const snappedX = Phaser.Math.Snap.To(x - (blockSize/2), blockSize)
+    const snappedY = Phaser.Math.Snap.To(y - (blockSize/2), blockSize)
+
+    return {
+      snappedX,
+      snappedY
+    }
+  }
+
+  drawNodeAt({x, y}) {
+    //'square10x10'
+    const { snappedX, snappedY } = this.getSnapXY(x, y)
 
     this.currentDrawingLayer.draw(
-      this.getSpriteTexture(brush.textureId),
+      this.brushPointSprite,
       snappedX,
       snappedY
     );
@@ -124,16 +175,18 @@ export class EditorScene extends GameInstance {
     }
 
     if(pointer.leftButtonDown()) {
-      const brushId = store.getState().editor.editorState.brushSelectedIdBrushList
-      const brush = store.getState().game.gameModel.brushes[brushId]
+      const gameModel = store.getState().game.gameModel
+      const editorState =store.getState().editor.editorState
+      const brushId = editorState.brushSelectedIdBrushList
+      const brush = gameModel.brushes[brushId]
 
-      if(brush.layer === '-1') {
+      if(brush.layer === BACKGROUND_LAYER_DEPTH) {
         this.currentDrawingLayer = this.layer_1
       }
-      if(brush.layer === '0') {
+      if(brush.layer === PLAYAREA_LAYER_DEPTH) {
         this.currentDrawingLayer = this.layerZero
       }
-      if(brush.layer === '1') {
+      if(brush.layer === OVERHEAD_LAYER_DEPTH) {
         this.currentDrawingLayer = this.layer1
       }
 
@@ -193,8 +246,14 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.awsImages) {
+      if(gameUpdate.awsImages[this.layer_1.textureId]) {
+        this.layer_1.updateTexture()
+      }
       if(gameUpdate.awsImages[this.layerZero.textureId]) {
         this.layerZero.updateTexture()
+      }
+      if(gameUpdate.awsImages[this.layer1.textureId]) {
+        this.layer1.updateTexture()
       }
     }
 

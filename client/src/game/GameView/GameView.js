@@ -18,8 +18,8 @@ const config= {
     mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
     parent: 'PhaserGame',
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 1000,
-    height: 1000
+    width: 1200,
+    height: 1200
   },
   physics: {
     default: 'matter',

@@ -13,7 +13,6 @@ export class GameLocalScene extends EditorScene {
 
   create() {
     super.create()
-    this.matter.world.setBounds(0, 0, 1000, 1000);
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     //game.loop.actualFps
   }

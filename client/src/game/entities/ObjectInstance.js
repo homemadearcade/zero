@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { OBJECT_INSTANCE_LAYER_DEPTH } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 
@@ -26,13 +27,10 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     .setDisplaySize(this.width + 8, this.height + 8)
     .setVisible(false)
 
+    this.setDepth(OBJECT_INSTANCE_LAYER_DEPTH)
+
     this.id = id
     this.classId = classId
-    
-    this.outline2 = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
-    .setTintFill(0xffffff)
-    .setDisplaySize(this.width + 8, this.height + 8)
-    .setVisible(false)
    
     this.ship = scene.matter.add.sprite(this);
     scene.add.existing(this)

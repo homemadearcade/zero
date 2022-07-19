@@ -7,7 +7,8 @@ import {
   SELECT_CLASS,
   CLEAR_CLASS,
   SELECT_BRUSH,
-  CLEAR_BRUSH
+  CLEAR_BRUSH,
+  UPDATE_BRUSH_SIZE
 } from '../types';
 
 export const selectClass = (classId) => (dispatch, getState) => {
@@ -16,6 +17,16 @@ export const selectClass = (classId) => (dispatch, getState) => {
     type: SELECT_CLASS,
     payload: {
       classSelectedIdClassList: classId, 
+    }
+  });
+}
+
+export const updateBrushSize = (brushSize) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_BRUSH_SIZE,
+    payload: {
+      brushSize
     }
   });
 }
