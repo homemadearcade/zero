@@ -1,16 +1,16 @@
-import { defaultPhaserPhysicsProperties } from "./general"
-import { defaultGame } from "./game"
+import { defaultPhaserPhysicsProperties, nodeSize } from "./general"
+
 export const defaulHeroClass = {
   "speed": 100,
   "jumpVelocity": 100,
   ...defaultPhaserPhysicsProperties,
   "mass": 30,
   "tint": null,
-  width: defaultGame.world.nodeSize * 5,
-  height: defaultGame.world.nodeSize * 5,
+  width: nodeSize * 5,
+  height: nodeSize * 5,
   "textureId": null,
   "controls": "zelda",
-  
+  type: 'hero'
 }
 
 export const spaceshipClass = {
@@ -21,5 +21,6 @@ export const spaceshipClass = {
   "density": .01,
   "fixedRotation": true,
   "textureId": "ship2",
-  "controls": "spaceship"
+  "controls": "spaceship",
+  type: 'hero'
 }

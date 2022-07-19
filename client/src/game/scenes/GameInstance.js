@@ -3,11 +3,10 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import store from '../../store';
-import { spaceshipClass } from '../../defaultData/heros';
 import { LayerZero } from '../entities/LayerZero';
 import { getTextureMetadata } from '../../utils/utils';
 import { LayerCanvas } from '../entities/LayerCanvas';
-import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, HERO_INSTANCE_ID, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
@@ -16,9 +15,9 @@ export class GameInstance extends Phaser.Scene {
     });
 
     this.player = null 
-    this.layer_1 = null
+    this.backgroundLayer = null
     this.layerZero = null
-    this.layer1 = null
+    this.overheadLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
   }
@@ -31,6 +30,14 @@ export class GameInstance extends Phaser.Scene {
     })
   }
 
+  getObjectInstance(id) {
+    if(id === HERO_INSTANCE_ID) {
+      return this.player
+    }
+    
+    return this.objectInstancesById[id]
+  }
+
   addObjectInstance(id, gameObject) {
     const newPhaserObject = new ObjectInstance(this, id, gameObject)
     this.objectInstances.push(newPhaserObject)
@@ -41,7 +48,7 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstances = this.objectInstances.filter((object) => {
       return id !== object.id
     })
-    this.objectInstancesById[id].destroy()
+    this.getObjectInstance(id).destroy()
   }
 
   updateObjectInstance(objectInstance, {x, y, rotation}) {
@@ -59,22 +66,22 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().game.gameModel
 
     // background layer
-    this.layer_1 = new LayerCanvas(this, {layerId: 'layer-1'})
-    this.layer_1.setDepth(BACKGROUND_LAYER_DEPTH)
+    this.backgroundLayer = new LayerCanvas(this, {layerId: 'layer-1'})
+    this.backgroundLayer.setDepth(BACKGROUND_LAYER_DEPTH)
     // layer zero
     this.layerZero = new LayerZero(this)
     this.layerZero.setDepth(PLAYAREA_LAYER_DEPTH)
     // overhead layer
-    this.layer1 = new LayerCanvas(this, {layerId: 'layer1'})
-    this.layer1.setDepth(OVERHEAD_LAYER_DEPTH)
+    this.overheadLayer = new LayerCanvas(this, {layerId: 'overheadLayer'})
+    this.overheadLayer.setDepth(OVERHEAD_LAYER_DEPTH)
 
     // objects
     this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
       if(!gameModel.objects[gameObjectId]) {
         return console.error('Object missing!')
       } 
-      if(gameObjectId === 'player') {
-        return console.error('Player got in?!')
+      if(gameObjectId === HERO_INSTANCE_ID) {
+        return console.error('hero got in?!')
       }
       return new ObjectInstance(this, gameObjectId, gameModel.objects[gameObjectId])
     });
@@ -89,21 +96,12 @@ export class GameInstance extends Phaser.Scene {
     }, {})
 
     // hero 
-    if(gameModel.hero.initialCassId) {
-      this.player = new PlayerInstance(this, 'player', {
-        classId: gameModel.hero.initialClassId,
-        textureId: 'ship2',
-        spawnX: gameModel.hero.spawnX,
-        spawnY: gameModel.hero.spawnY
-      });
-    } else {
-      this.player = new PlayerInstance(this, 'player', {
-        classDataOverride: {...spaceshipClass},
-        textureId: 'ship2',
-        spawnX: gameModel.hero.spawnX,
-        spawnY: gameModel.hero.spawnY
-      });
-    }
+    this.player = new PlayerInstance(this, HERO_INSTANCE_ID, {
+      classId: gameModel.hero.initialClassId,
+      textureId: 'ship2',
+      spawnX: gameModel.hero.spawnX,
+      spawnY: gameModel.hero.spawnY
+    });
 
     //world
     this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)

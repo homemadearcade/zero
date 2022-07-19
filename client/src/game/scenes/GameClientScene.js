@@ -1,5 +1,5 @@
 import {
-  GAME_SCENE,
+  GAME_SCENE, HERO_INSTANCE_ID,
 } from '../../constants';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
@@ -22,7 +22,7 @@ export class GameClientScene extends EditorScene {
       this.updateObjectInstance(objectInstance, instanceUpdate)
     })
 
-    if(this.draggingObjectInstanceId === 'player') return
+    if(this.draggingObjectInstanceId === HERO_INSTANCE_ID) return
     this.player.x = player.x 
     this.player.y = player.y
     this.player.rotation = player.rotation

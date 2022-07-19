@@ -5,7 +5,7 @@ import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
 import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_LAYER_DEPTH, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, HERO_INSTANCE_ID, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYAREA_LAYER_DEPTH } from '../../constants';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -21,13 +21,19 @@ export class EditorScene extends GameInstance {
   }
   
   onDragStart = (pointer, objectInstance, dragX, dragY) => {
-    objectInstance.x = dragX;
-    objectInstance.y = dragY;
-    this.draggingObjectInstanceId = objectInstance.id
+    if(this.draggingObjectInstanceId) {
+      const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
+      const objectClass= store.getState().game.gameModel.classes[classId]
+      const { snappedX, snappedY } = this.getClassSnapXY({x: dragX, y: dragY}, objectClass)
+      objectInstance.x = snappedX;
+      objectInstance.y = snappedY;
+    } else {
+      this.draggingObjectInstanceId = objectInstance.id
+    }
   }
 
   onDragEnd = (pointer, objectInstance) => {
-    if(objectInstance.id === 'player') {
+    if(objectInstance.id === HERO_INSTANCE_ID) {
       store.dispatch(editGameModel({ 
         hero: {
           spawnX: objectInstance.x,
@@ -116,7 +122,6 @@ export class EditorScene extends GameInstance {
       this.drawNodeAt(pointer)
     }
 
-
     // CLASS STAMP
     if((!classId && this.classStampSprite) || (this.classStampSprite && (this.classStampSprite.classId !== classId))) {
       this.classStampSprite.destroy()
@@ -164,12 +169,12 @@ export class EditorScene extends GameInstance {
     this.brushPointSprite.setDepth(brush.layer)
   }
 
-  getClassSnapXY(pointer, objectClass) {
+  getClassSnapXY({x, y}, objectClass) {
     const gameModel = store.getState().game.gameModel
     const nodeSize = gameModel.world.nodeSize
 
-    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.x, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2))
-    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.y, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2))
+    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2))
+    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2))
 
     return {
       snappedX,
@@ -177,15 +182,15 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  getBrushSnapXY(pointer) {
+  getBrushSnapXY({x, y}) {
     const gameModel = store.getState().game.gameModel
     const editorState =store.getState().editor.editorState
     const nodeSize = gameModel.world.nodeSize
     const brushSize = editorState.brushSize
     const blockSize = nodeSize * brushSize
 
-    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)
-    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(pointer.y - (blockSize/2), blockSize), 0, gameModel.world.boundaries.height)
+    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)
+    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), blockSize), 0, gameModel.world.boundaries.height)
 
     return {
       snappedX,
@@ -230,13 +235,13 @@ export class EditorScene extends GameInstance {
       const brush = gameModel.brushes[brushId]
 
       if(brush.layer === BACKGROUND_LAYER_DEPTH) {
-        this.currentDrawingLayer = this.layer_1
+        this.currentDrawingLayer = this.backgroundLayer
       }
       if(brush.layer === PLAYAREA_LAYER_DEPTH) {
         this.currentDrawingLayer = this.layerZero
       }
       if(brush.layer === OVERHEAD_LAYER_DEPTH) {
-        this.currentDrawingLayer = this.layer1
+        this.currentDrawingLayer = this.overheadLayer
       }
 
       this.paintingBrushId = brushId
@@ -255,7 +260,7 @@ export class EditorScene extends GameInstance {
   getGameObjectById(id) {
     const gameModel = store.getState().game.gameModel
 
-    if(id === 'player') {
+    if(id === HERO_INSTANCE_ID) {
       return gameModel.hero
     }
     return gameModel.objects[id]
@@ -295,20 +300,20 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.awsImages) {
-      if(gameUpdate.awsImages[this.layer_1.textureId]) {
-        this.layer_1.updateTexture()
+      if(gameUpdate.awsImages[this.backgroundLayer.textureId]) {
+        this.backgroundLayer.updateTexture()
       }
       if(gameUpdate.awsImages[this.layerZero.textureId]) {
         this.layerZero.updateTexture()
       }
-      if(gameUpdate.awsImages[this.layer1.textureId]) {
-        this.layer1.updateTexture()
+      if(gameUpdate.awsImages[this.overheadLayer.textureId]) {
+        this.overheadLayer.updateTexture()
       }
     }
 
     if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
       const objectUpdate = gameUpdate.objects[id]
-      const objectInstance = this.objectInstancesById[id]
+      const objectInstance = this.getObjectInstance(id)
       if(!objectInstance) {
         this.addObjectInstance(id, objectUpdate)
       }

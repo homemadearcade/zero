@@ -5,27 +5,27 @@ import './Sprite.scss'
 
 export default class Sprite extends React.Component {
   render() {
-    const { spriteSheetName } = getTextureMetadata(this.props.textureId)
-    const texture = getSpriteData(this.props.textureId)
-
     let desiredWidth = this.props.width
     let desiredHeight = this.props.height
 
-    if(!desiredWidth) {
-      if(texture) {
-        desiredWidth = (texture.width * 4)
-      } else desiredWidth = 40
-    }
+    const emptySprite = <div style={{width: desiredWidth, height: desiredHeight}}></div>
 
-    if(!desiredHeight) {
-      if(texture) {
-        desiredHeight = (texture.height * 4)
-      } else desiredHeight = 40
-    }
+    const { spriteSheetName } = getTextureMetadata(this.props.textureId)
+    if(!spriteSheetName) return emptySprite
+    const texture = getSpriteData(this.props.textureId)
+    if(!texture)  return emptySprite
 
-    if(!texture) {
-      return <div style={{width: desiredWidth, height: desiredHeight}}></div>
-    }
+    // if(!desiredWidth) {
+    //   if(texture) {
+    //     desiredWidth = (texture.width * 4)
+    //   } else desiredWidth = 40
+    // }
+
+    // if(!desiredHeight) {
+    //   if(texture) {
+    //     desiredHeight = (texture.height * 4)
+    //   } else desiredHeight = 40
+    // }
 
     const backgroundImage = "url('/"+window.spriteSheets[spriteSheetName].serverImageUrl+"')"
 

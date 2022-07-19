@@ -175,7 +175,8 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
       });
     })
 
-    const gameData = mergeDeep(defaultGame, response.data.game)
+    const gameData = mergeDeep({...defaultGame}, response.data.game)
+
     Object.keys(gameData.objects).forEach((id) => {
       gameData.objects[id] = mergeDeep({...defaultObjectInstance}, gameData.objects[id])
     })
@@ -188,7 +189,6 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
         layer: Number(gameData.brushes[id].layer)
       }
     })
-
 
     dispatch({
       type: LOAD_GAME_SUCCESS,

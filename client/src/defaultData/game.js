@@ -1,3 +1,6 @@
+import { nodeSize } from "./general";
+import { spaceshipClass } from "./heros";
+
 export const defaultGame = {
   "metadata": {
     "title": "",
@@ -5,7 +8,7 @@ export const defaultGame = {
     "authorPseudonym": ""
   },
   "world": {
-    "nodeSize": 12,
+    "nodeSize": nodeSize,
     "boundaries": {
       "width": 1200,
       "height": 1200
@@ -23,9 +26,11 @@ export const defaultGame = {
   "hero": {
     "lives": 1,
     "spawnX": 500,
-    "spawnY": 500
+    "spawnY": 500,
+    'initialClassId': 'spaceship'
   },
   "classes": {
+    "spaceship": spaceshipClass
   },
   "objects": {
   }

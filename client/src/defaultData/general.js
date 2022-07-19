@@ -7,3 +7,5 @@ export const defaultPhaserPhysicsProperties = {
   "ignoreGravity": false,
   "fixedRotation": false,
 }
+
+export const nodeSize = 12
