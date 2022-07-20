@@ -50,6 +50,8 @@ TODO LATER
 
 Lobby Steps?
 
+Get rid of this editorState, videoState thing, thats total bs just make it editor, video, lobby... etc. Remove the lobby steps to editorForms. Also add a reducer called cobrowsingLocal. maybe just add it to the cobrowsing reducer
+
 Theres two problems with cobrowsing to think about
 1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user
 2) When clicking on a button while cobrowsing, how do we dispatch the remote event?
