@@ -8,6 +8,8 @@ Considering only allowing buttons for Density
 
 What sort of STEPS to use?
 
+Check if switching game lobbies works
+
 Do we have little sections that fold and unfold in the columns?
   Brush Options
   Background

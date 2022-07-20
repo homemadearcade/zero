@@ -5,22 +5,19 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import './BrushList.scss';
-import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
-import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
-import { updateBrushSize } from '../../store/actions/editorActions';
 import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH } from '../../constants';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
+import BrushControl from '../BrushControl/BrushControl';
+import Eraser from '../ui/Eraser/Eraser';
 
 const BrushList = ({
   game: { gameModel },
-  updateBrushSize,
-  editorState: { brushSize },
   editorFormsState: { isCreateBrushFlowOpen },
   editGameModel,
   closeCreateBrushFlow,
@@ -41,26 +38,19 @@ const BrushList = ({
 
   return <>
     <div className="BrushList">
-      <div className="BrushList__size">
-        <FormLabel>Brush Size</FormLabel>
-        <SliderNotched
-          step={null}
-          options={[1, 2, 5, 10, 20]}
-          onChangeCommitted={(value) => {
-            updateBrushSize(value)        
-          }}
-          value={brushSize}
-        />
-      </div>
+      <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
+      <Eraser depth={BACKGROUND_LAYER_DEPTH}/>
       {brushesByLayer[BACKGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Playground</Typography>
+      <Eraser depth={PLAYGROUND_LAYER_DEPTH}/>
       {brushesByLayer[PLAYGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Overhead</Typography>
+      <Eraser depth={OVERHEAD_LAYER_DEPTH}/>
       {brushesByLayer[OVERHEAD_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
@@ -95,11 +85,10 @@ const mapStateToProps = (state) => {
   return {
     game: state.game,
     editorFormsState: isCobrowsing ? state.cobrowsing.remoteState.editorForms : state.editorForms.editorFormsState,
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
   }
 };
 
 
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateBrushFlow, updateBrushSize, closeCreateBrushFlow }),
+  connect(mapStateToProps, { editGameModel, openCreateBrushFlow, closeCreateBrushFlow }),
 )(BrushList);

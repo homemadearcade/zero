@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import Phaser, { BlendModes } from 'phaser';
 import { v4 as uuidv4 } from 'uuid';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
@@ -6,6 +6,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
 import { getTextureMetadata } from '../../utils/utils';
 import { BACKGROUND_LAYER_DEPTH, HERO_INSTANCE_ID, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH } from '../../constants';
+import { getDepthFromEraserId, isBrushIdEraser } from '../../utils/editor';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -18,6 +19,8 @@ export class EditorScene extends GameInstance {
     this.paintingBrushId = null
     this.brushPointSprite = null 
     this.classStampSprite = null
+    this.isErasing = false
+    this.lowerLayerPreviews = []
   }
   
   onDragStart = (pointer, objectInstance, dragX, dragY) => {
@@ -95,7 +98,6 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerMove = (pointer)  => {
-
     // BRUSH STROKE
     const editorState = store.getState().editor.editorState
     const brushId = editorState.brushSelectedIdBrushList
@@ -106,10 +108,18 @@ export class EditorScene extends GameInstance {
       this.destroyBrush()
     }
     if(brushId && !this.brushPointSprite) {
-      const brush = gameModel.brushes[brushId]
-  
-      const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
-      this.brushPointSprite = new Phaser.GameObjects.Image(this, 0,0, spriteSheetName, spriteIndex)
+      if(isBrushIdEraser(brushId)) {
+        this.brushPointSprite = new Phaser.GameObjects.Image(this, 0,0, 'square10x10')
+        this.createPreviewLayers()
+        this.brushPointSprite.setBlendMode(BlendModes.ERASE)
+        this.isErasing = true
+      } else {
+        const brush = gameModel.brushes[brushId]
+        const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
+        this.brushPointSprite = new Phaser.GameObjects.Image(this, 0,0, spriteSheetName, spriteIndex)
+        this.isErasing = false
+      }
+
       this.brushPointSprite.setOrigin(0, 0)
       this.brushPointSprite.brushId = brushId
       this.add.existing(this.brushPointSprite)
@@ -118,7 +128,7 @@ export class EditorScene extends GameInstance {
       this.updateBrushSprite(pointer)
     }
     if(this.paintingBrushId && pointer.isDown) {
-      this.drawNodeAt(pointer)
+      this.brush(pointer)
     }
 
     // CLASS STAMP
@@ -139,6 +149,30 @@ export class EditorScene extends GameInstance {
     }
   }
 
+  createPreviewLayers() {
+    const editorState = store.getState().editor.editorState
+    const brushId = editorState.brushSelectedIdBrushList
+    const gameModel = store.getState().game.gameModel
+    const eraserDepth = getDepthFromEraserId(brushId)
+    const previewWidth = gameModel.world.boundaries.width
+    const previewHeight = gameModel.world.boundaries.height
+
+    if(eraserDepth === PLAYGROUND_LAYER_DEPTH) {
+      this.lowerLayerPreviews.push(
+        new Phaser.GameObjects.RenderTexture(this, 0, 0, previewWidth, previewHeight).draw(this.backgroundLayer, 0, 0).setDepth(PLAYGROUND_LAYER_DEPTH + 5)
+      )
+    } else if(eraserDepth === OVERHEAD_LAYER_DEPTH) {
+      this.lowerLayerPreviews.push(
+        new Phaser.GameObjects.RenderTexture(this, 0, 0, previewWidth, previewHeight).draw(this.backgroundLayer, 0, 0).setDepth(PLAYGROUND_LAYER_DEPTH + 5),
+        new Phaser.GameObjects.RenderTexture(this, 0, 0, previewWidth, previewHeight).draw(this.playgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH+ 5)
+      )
+    }
+
+    this.lowerLayerPreviews.map((preview) => {
+      this.add.existing(preview)
+    })
+  }
+
   destroyStamp() {
     this.classStampSprite.destroy()
     this.classStampSprite = null
@@ -147,6 +181,12 @@ export class EditorScene extends GameInstance {
   destroyBrush() {
     this.brushPointSprite.destroy()
     this.brushPointSprite = null
+    if(this.lowerLayerPreviews) {
+      this.lowerLayerPreviews.forEach((preview) => {
+        preview.destroy()
+      })
+      this.lowerLayerPreviews = []
+    }
   }
 
   updateClassStamp(pointer) {
@@ -168,12 +208,20 @@ export class EditorScene extends GameInstance {
     const brushSize = editorState.brushSize
     const nodeSize = gameModel.world.nodeSize
     const brushId = editorState.brushSelectedIdBrushList
-    const brush = gameModel.brushes[brushId]
 
     const { snappedX, snappedY } = this.getBrushSnapXY(pointer)
+    const newWidth = nodeSize * brushSize
+    const newHeight = nodeSize * brushSize
     this.brushPointSprite.setPosition(snappedX, snappedY)
-    this.brushPointSprite.setDisplaySize(nodeSize * brushSize, nodeSize * brushSize)
-    this.brushPointSprite.setDepth(brush.layer)
+    this.brushPointSprite.setDisplaySize(newWidth, newHeight)
+    
+    if(isBrushIdEraser(brushId)) {
+      const eraserDepth = getDepthFromEraserId(brushId)
+      this.brushPointSprite.setDepth(eraserDepth)
+    } else {
+      const brush = gameModel.brushes[brushId]
+      this.brushPointSprite.setDepth(brush.layer)
+    }
   }
 
   getClassSnapXY({x, y}, objectClass) {
@@ -205,15 +253,20 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  drawNodeAt(pointer) {
-    //'square10x10'
+  brush(pointer) {
     const { snappedX, snappedY } = this.getBrushSnapXY(pointer)
 
-    this.currentDrawingLayer.draw(
+    const args = [
       this.brushPointSprite,
       snappedX,
       snappedY
-    );
+    ]
+
+    if(this.isErasing) {
+      this.currentDrawingLayer.erase(...args);
+    } else {
+      this.currentDrawingLayer.draw(...args);
+    }
   }
 
   onPointerDown = (pointer, gameObjects) => {
@@ -239,24 +292,34 @@ export class EditorScene extends GameInstance {
     const brushId = editorState.brushSelectedIdBrushList
     if(pointer.leftButtonDown() && brushId) {
       const gameModel = store.getState().game.gameModel
-      const brush = gameModel.brushes[brushId]
 
-      if(brush.layer === BACKGROUND_LAYER_DEPTH) {
-        this.currentDrawingLayer = this.backgroundLayer
-      }
-      if(brush.layer === PLAYGROUND_LAYER_DEPTH) {
-        this.currentDrawingLayer = this.playgroundLayer
-      }
-      if(brush.layer === OVERHEAD_LAYER_DEPTH) {
-        this.currentDrawingLayer = this.overheadLayer
+      if(isBrushIdEraser(brushId)) {
+        this.currentDrawingLayer = this.getLayerById(getDepthFromEraserId(brushId))
+      } else {
+        const brush = gameModel.brushes[brushId]
+        this.currentDrawingLayer = this.getLayerById(brush.layer)
       }
 
       this.paintingBrushId = brushId
 
       if(this.paintingBrushId) {
-        this.drawNodeAt(pointer)
+        this.brush(pointer)
       }
     }
+  }
+
+  getLayerById(layerId) {
+    if(layerId === BACKGROUND_LAYER_DEPTH) {
+      return this.backgroundLayer
+    }
+    if(layerId === PLAYGROUND_LAYER_DEPTH) {
+      return this.playgroundLayer
+    }
+    if(layerId === OVERHEAD_LAYER_DEPTH) {
+      return this.overheadLayer
+    }
+
+    console.error('didnt find layer with id', layerId, typeof layerId)
   }
 
   onPointerLeaveGame = () => {

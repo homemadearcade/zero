@@ -113,15 +113,13 @@ const LobbyPage = ({
       return <CobrowsingRoot {...props} />
     }
   
-    return <>
-      <Lobby onClickUser={(user) => {
-        if(user.id === me.id) {
-          startCobrowsing({lobbyId: lobby.id})
-        } else {
-          subscribeCobrowsing({lobbyId: lobby.id, userId: user.id})
-        }
-      }}/>
-    </>
+    return <Lobby onClickUser={(user) => {
+      if(user.id === me.id) {
+        startCobrowsing({lobbyId: lobby.id})
+      } else {
+        subscribeCobrowsing({lobbyId: lobby.id, userId: user.id})
+      }
+    }}/>
   }
 
   return <div className="LobbyPage">

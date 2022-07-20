@@ -34,7 +34,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorHandler from './app/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
-import { checkIfIncognito, checkIfTabAlreadyOpen } from './utils/browser';
+import { checkIfTabAlreadyOpen } from './utils/browser';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 

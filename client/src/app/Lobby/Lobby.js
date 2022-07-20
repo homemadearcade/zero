@@ -34,15 +34,7 @@ const LobbyPage = ({
       loadGame(lobby.game.id)
     }
   }, [lobby.isGameStarted])
-
-  useEffect(() => {
-    return () => {
-      if(lobby.game?.id) {
-        unloadGame()
-      }
-    }
-  }, [])
-
+  
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev

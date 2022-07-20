@@ -44,6 +44,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image('blue', '/assets/images/blue.png');
     this.load.image('brush', '/assets/images/brush.png')
     this.load.image('square10x10', '/assets/images/square10x10.png')
+    this.load.image('eraser10x10', '/assets/images/eraser10x10.png')
 
     const gameModel = store.getState().game.gameModel
     Object.keys(gameModel.awsImages).forEach((awsImageId) => {

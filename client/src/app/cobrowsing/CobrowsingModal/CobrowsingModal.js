@@ -4,7 +4,7 @@ import Button from '../../ui/Button/Button';
 import { Backdrop } from '@mui/material';
 
 import './CobrowsingModal.scss';
-import { stopPropagation } from '../../../utils/utils';
+import { stopPropagation } from '../../../utils/browser';
 
 const CobrowsingModal = ({ onClose, children, open }) => {
   return <Backdrop
