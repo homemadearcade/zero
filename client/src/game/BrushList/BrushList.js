@@ -16,7 +16,7 @@ import Typography from '../../app/ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
 import EraserSelect from '../ui/EraserSelect/EraserSelect';
 import LayerVisibility from '../ui/LayerVisibility/LayerVisibility';
-import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
+import { withCobrowsingState } from '../../utils/cobrowsing';
 
 const BrushList = ({
   game: { gameModel },
@@ -84,7 +84,7 @@ const BrushList = ({
   </>
 };
 
-const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+const mapStateToProps = (state) => withCobrowsingState(state, {
   game: state.game,
   editorFormsState: state.editorForms.editorFormsState,
 })

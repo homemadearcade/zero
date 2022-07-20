@@ -15,11 +15,12 @@ import {
 } from "../constants";
 import Phaser from 'phaser'
 import store from "../store";
+import { getCobrowsingState } from "./cobrowsing";
 
 export function snapBrushXY({x, y}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
-  const brushSize = store.getState().editor.editorState.brushSize
+  const brushSize = getCobrowsingState().editorState.brushSize
   const blockSize = nodeSize * brushSize
 
   const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)

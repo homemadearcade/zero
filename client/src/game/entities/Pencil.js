@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
 import store from "../../store";
 import { getDepthFromLayerId, snapBrushXY } from "../../utils/editor";
+import { getCobrowsingState } from "../../utils/cobrowsing";
 
 export class Pencil extends Phaser.GameObjects.Image {
   constructor(scene, brushId, brush){
@@ -15,7 +16,7 @@ export class Pencil extends Phaser.GameObjects.Image {
     this.lastSnapY = null
     scene.add.existing(this)
 
-    const brushSize = store.getState().editor.editorState.brushSize
+    const brushSize = getCobrowsingState().editorState.brushSize
     const nodeSize = store.getState().game.gameModel.world.nodeSize
     const newWidth = nodeSize * brushSize
     const newHeight = nodeSize * brushSize

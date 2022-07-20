@@ -5,18 +5,19 @@ import './GameEditor.scss';
 
 import ContextMenu from '../../app/ui/ContextMenu/ContextMenu';
 
-// import SaveGameButton from '../SaveGameButton/SaveGameButton';
 import GameView from '../GameView/GameView';
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/editorActions';
 import { clearEditorForms } from '../../store/actions/editorFormsActions';
-import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
+import { withCobrowsingState } from '../../utils/cobrowsing';
+import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 
-const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, clearEditor, clearEditorForms}) => {
+const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     return () => {
       clearEditor()
       clearEditorForms()
+      clearEditorInstance()
     }
   }, [])
 
@@ -40,8 +41,8 @@ const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNet
   );
 };
 
-const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+const mapStateToProps = (state) => withCobrowsingState(state, {
   editorState: state.editor.editorState,
 })
 
-export default connect(mapStateToProps, { clearEditor, clearEditorForms })(GameEditor);
+export default connect(mapStateToProps, { clearEditor, clearEditorForms, clearEditorInstance })(GameEditor);

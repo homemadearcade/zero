@@ -1,4 +1,4 @@
-import { BACKGROUND_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
+import { BACKGROUND_LAYER_ID, HERO_INSTANCE_LAYER_ID, OBJECT_INSTANCE_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
 import {
   CLEAR_EDITOR_INSTANCE,
   TOGGLE_LAYER_VISIBILITY
@@ -9,8 +9,12 @@ const initialState = {
     layerVisibility: {
       [BACKGROUND_LAYER_ID]: true,
       [PLAYGROUND_LAYER_ID]: true,
+      [OBJECT_INSTANCE_LAYER_ID]: true,
+      [HERO_INSTANCE_LAYER_ID]: true,
       [OVERHEAD_LAYER_ID]: true
-    }
+    },
+    resetGameIndex: 0,
+    isPaused: false,
   }
 };
 

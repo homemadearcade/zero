@@ -43,25 +43,15 @@ const config= {
 };
 
 const GameView = ({isHost, isNetworked, isSpriteSheetDataLoading}) => {
-  const [loadedGame, setLoadedGame] = useState()
-
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isHost, isNetworked}), true);
-    setLoadedGame(game)
 
     return () => {
-      game.scene.scenes[0].unload()
+      game.scene.scenes[0]?.unload()
       game.destroy()
     }
   }, []);
-
-  // useEffect(() => {
-  //   if(game) {
-  //     game.scene?.scenes[0]?.reloadGameModel(gameModel) 
-  //   }
-  // }, [game])
-
 
   if(isSpriteSheetDataLoading) {
     return <Loader text="Loading Sprites..."/>

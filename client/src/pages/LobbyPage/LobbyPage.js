@@ -24,7 +24,7 @@ const LobbyPage = ({
   unloadGame,
   assignLobbyRole
 }) => {
-  let { path} = useRouteMatch();
+  let { path } = useRouteMatch();
 
   useEffect(() => {
     if(lobby.isGameStarted && lobby.game?.id) {
@@ -55,10 +55,6 @@ const LobbyPage = ({
         userId: me.id, 
         role: 'participant'
       });
-    }
-  
-    if(me.role !== 'ADMIN') {
-      // startCobrowsing({lobbyId: lobby.id})
     }
   }, [])
 

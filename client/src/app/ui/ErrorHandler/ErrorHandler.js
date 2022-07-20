@@ -12,6 +12,8 @@ const ErrorHandler = ({
   cobrowsingLobbyError,
   cobrowsingVideoError,
   cobrowsingEditorError,
+  cobrowsingEditorInstanceError,
+  cobrowsingEditorFormsError,
   editorError,
   gameError, 
   lobbyError, 
@@ -44,6 +46,8 @@ const ErrorHandler = ({
     {cobrowsingLobbyError && renderError('Cobrowsing Lobby Error', cobrowsingLobbyError)}
     {cobrowsingVideoError && renderError('Cobrowsing Video Error', cobrowsingVideoError)}
     {cobrowsingEditorError && renderError('Cobrowsing Editor Error', cobrowsingEditorError)}
+    {cobrowsingEditorFormsError && renderError('Cobrowsing Editor Error', cobrowsingEditorFormsError)}
+    {cobrowsingEditorInstanceError && renderError('Cobrowsing Editor Error', cobrowsingEditorInstanceError)}
     {gameError && renderError('Game Error', gameError)}
     {lobbyError && renderError('Lobby Error', lobbyError)}
     {lobbyJoinError && renderError('Lobby Join Error', lobbyJoinError)}
@@ -62,6 +66,8 @@ const mapStateToProps = (state) => ({
   cobrowsingVideoError: state.cobrowsing.remoteState.video.error,
   cobrowsingLobbyError: state.cobrowsing.remoteState.lobby.error,
   cobrowsingEditorError: state.cobrowsing.remoteState.editor.error,
+  cobrowsingEditorFormsError: state.cobrowsing.remoteState.editorForms.error,
+  cobrowsingEditorInstanceError: state.cobrowsing.remoteState.editorInstance.error,
   editorError: state.editor.error,
   gameError: state.game.error,
   lobbyError: state.lobby.error,

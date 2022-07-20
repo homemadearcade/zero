@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 
 import { openLivePhysicsEditor } from '../../store/actions/editorActions';
-import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
+import { withCobrowsingState } from '../../utils/cobrowsing';
 
 const ClassContextMenu = ({ openLivePhysicsEditor, onMenuItemClick,  editorState: { classSelectedIdContextMenu }}) => {
   return <>
@@ -14,7 +14,7 @@ const ClassContextMenu = ({ openLivePhysicsEditor, onMenuItemClick,  editorState
   </>
 };
 
-const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+const mapStateToProps = (state) => withCobrowsingState(state, {
   editorState: state.editor.editorState,
 })
 

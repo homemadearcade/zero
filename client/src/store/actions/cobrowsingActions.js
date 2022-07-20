@@ -22,6 +22,8 @@ import {
   EDITOR_STATE_UPDATE
 } from '../types';
 
+import { getRemoteStatePackage } from '../../utils/cobrowsing';
+
 let mouseLobbyId;
 let mouseUserId;
 const sendMouseState = _.debounce((e) =>  {
@@ -43,16 +45,31 @@ const sendMouseState = _.debounce((e) =>  {
   })
 }, 7)
 
+export const handleCobrowsingUpdates = store => next => action => {
+  // console.log('dispatching', action)
+  // let result = next(action)
+  // console.log('next state', store.getState())
+  // return result
+
+  let result = next(action)
+
+  const state = store.getState()
+
+  if(action.updateCobrowsing && state.lobby.lobby?.id) {
+    store.dispatch(
+      updateCobrowsing(getRemoteStatePackage(state))
+    )
+  }
+
+  return result
+}
+
+
 export const startCobrowsing = () => async (dispatch, getState) => {
   try {
     const state = getState()
 
     const user = state.auth.me
-
-    // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
-    window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
-      dispatch(updateCobrowsing(state.cobrowsing.remoteState))
-    });
 
     mouseUserId = user.id;
     mouseLobbyId = state.lobby.lobby.id
@@ -63,16 +80,15 @@ export const startCobrowsing = () => async (dispatch, getState) => {
     dispatch({
       type: START_COBROWSING_SUCCESS,
       payload: { 
-        cobrowsingUser: user, 
-        remoteState: {
-          video: state.video.videoState,
-          lobby: state.lobby.lobbyState,
-          editor: state.editor.editorState,
-          editorForms: state.editorForms.editorFormsState,
-          editorInstance: state.editorInstance.editorInstanceState
-        }}
+        cobrowsingUser: user
+      }
     });
 
+    // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
+    window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
+      dispatch(updateCobrowsing(state.cobrowsing.remoteState))
+    });
+    
     dispatch(updateCobrowsing(state.cobrowsing.remoteState))
   } catch (err) {
     console.error(err)

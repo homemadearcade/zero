@@ -7,7 +7,7 @@ import './ClassItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 import Sprite from '../ui/Sprite/Sprite';
-import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
+import { withCobrowsingState } from '../../utils/cobrowsing';
 
 const ClassItem = ({
   game: { gameModel: { classes } },
@@ -42,7 +42,7 @@ const ClassItem = ({
   </div>
 };
 
-const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+const mapStateToProps = (state) => withCobrowsingState(state, {
   game: state.game,
   editorState: state.editor.editorState,
 })

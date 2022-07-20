@@ -89,7 +89,6 @@ export const addAwsImage  = (file, fileId, imageData) => async(dispatch, getStat
       payload: { error: err?.response?.data.message || err.message },
     });
   }
-
 }
  
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {

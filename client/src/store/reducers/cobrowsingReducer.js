@@ -50,6 +50,11 @@ const initialState = {
         step: 'descriptors',
         descriptors: []
       }
+    },
+    editorInstance: {
+      layerVisibility: {},
+      resetGameIndex: 0,
+      isPaused: false,
     }
   },
 };
@@ -65,7 +70,6 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         cobrowsingUser: payload.cobrowsingUser,
-        remoteState: payload.remoteState
       };
     case END_COBROWSING_SUCCESS:
       return {

@@ -2,11 +2,12 @@ import Phaser from 'phaser';
 
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
-import store from '../../store';
 import { CollisionCanvas } from '../entities/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
 import { Canvas } from '../entities/Canvas';
 import { BACKGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, HERO_INSTANCE_ID, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID } from '../../constants';
+import { getCobrowsingState } from '../../utils/cobrowsing';
+import store from '../../store';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
@@ -20,6 +21,7 @@ export class GameInstance extends Phaser.Scene {
     this.overheadLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
+    this.resetGameId = null
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
@@ -79,6 +81,20 @@ export class GameInstance extends Phaser.Scene {
   create() {
     const gameModel = store.getState().game.gameModel
 
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // WORLD
+    ////////////////////////////////////////////////////////////
+    this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
+    this.matter.world.setBounds(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
+
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // LAYERS
+    ////////////////////////////////////////////////////////////
     // background layer
     this.backgroundLayer = new Canvas(this, {layerId: BACKGROUND_LAYER_ID})
     this.backgroundLayer.setDepth(BACKGROUND_LAYER_DEPTH)
@@ -89,7 +105,12 @@ export class GameInstance extends Phaser.Scene {
     this.overheadLayer = new Canvas(this, {layerId: OVERHEAD_LAYER_ID})
     this.overheadLayer.setDepth(OVERHEAD_LAYER_DEPTH)
 
-    // objects
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // OBJECTS
+    ////////////////////////////////////////////////////////////
     this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
       if(!gameModel.objects[gameObjectId]) {
         return console.error('Object missing!')
@@ -109,7 +130,12 @@ export class GameInstance extends Phaser.Scene {
       return prev
     }, {})
 
-    // hero 
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // HERO
+    ////////////////////////////////////////////////////////////
     this.player = new PlayerInstance(this, HERO_INSTANCE_ID, {
       classId: gameModel.hero.initialClassId,
       textureId: 'ship2',
@@ -117,10 +143,13 @@ export class GameInstance extends Phaser.Scene {
       spawnY: gameModel.hero.spawnY
     });
 
-    //world
-    this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
-    this.matter.world.setBounds(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
-
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // EDITOR INSTANCE STATE
+    ////////////////////////////////////////////////////////////
+    const editorInstanceState = getCobrowsingState().editorInstanceState
+    this.resetGameId =  editorInstanceState.resetGameId
   }
 
   respawn() {
@@ -133,15 +162,14 @@ export class GameInstance extends Phaser.Scene {
     this.player.y = this.player.spawnY
   }
 
-  reloadGameInstanceWithNewModel = (gameModel) => {
-    console.log('reloading game based on model change', gameModel)
+  reload = () => {
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events
     this.scene.restart(); // restart current scene
   }
   
   update(time, delta) {
-    const editorInstanceState = store.getState().editorInstance.editorInstanceState
+    const editorInstanceState = getCobrowsingState().editorInstanceState
     const layerVisibility = editorInstanceState.layerVisibility
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_LAYER_ID])

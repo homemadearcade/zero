@@ -1,6 +1,7 @@
 import Phaser, { BlendModes } from "phaser";
 import { OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from "../../constants";
 import store from "../../store";
+import { getCobrowsingState } from "../../utils/cobrowsing";
 import { getLayerIdFromEraserId, getDepthFromEraserId, snapBrushXY } from "../../utils/editor";
 
 export class Eraser extends Phaser.GameObjects.Image {
@@ -15,7 +16,7 @@ export class Eraser extends Phaser.GameObjects.Image {
     this.scene.add.existing(this)
 
     const nodeSize = store.getState().game.gameModel.world.nodeSize
-    const brushSize = store.getState().editor.editorState.brushSize
+    const brushSize = getCobrowsingState().editorState.brushSize
     this.width = nodeSize * brushSize
     this.height = nodeSize * brushSize
     this.setDisplaySize(this.width, this.height)

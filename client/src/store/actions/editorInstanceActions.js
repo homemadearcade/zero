@@ -3,7 +3,7 @@ import {
   CLEAR_EDITOR_INSTANCE
 } from '../types';
 
-export const clearEditorIntance = () => (dispatch, getState) => {
+export const clearEditorInstance = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLEAR_EDITOR_INSTANCE,

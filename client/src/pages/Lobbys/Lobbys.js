@@ -55,7 +55,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                           history.push('/lobby/'+lobby.id)
                         }}
                       >
-                        Join
+                        Enter
                       </Button>
                       <Button
                         className="LobbysPage__button"

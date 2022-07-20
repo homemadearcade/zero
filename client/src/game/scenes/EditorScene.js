@@ -8,6 +8,7 @@ import { isBrushIdEraser, snapObjectXY } from '../../utils/editor';
 import { Pencil } from '../entities/Pencil';
 import { Eraser } from '../entities/Eraser';
 import { Stamper } from '../entities/Stamper';
+import { getCobrowsingState } from '../../utils/cobrowsing';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -66,7 +67,7 @@ export class EditorScene extends GameInstance {
   // POINTER
   ////////////////////////////////////////////////////////////
   onPointerMove = (pointer)  => {
-    const editorState = store.getState().editor.editorState
+    const editorState = getCobrowsingState().editorState
     const brushId = editorState.brushSelectedIdBrushList
     const classId = editorState.classSelectedIdClassList
     const gameModel = store.getState().game.gameModel

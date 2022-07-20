@@ -11,7 +11,7 @@ import Loader from '../../ui/Loader/Loader';
 import { testInternetSpeed } from '../../../utils/network';
 import { requestFullscreen } from '../../../utils/browser';
 import Button from '../../ui/Button/Button';
-import { getRemoteCobrowsingState } from '../../../utils/cobrowsing';
+import { withCobrowsingState } from '../../../utils/cobrowsing';
 
 const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, videoState, lobbyState, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
@@ -122,7 +122,7 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
   }
 };
 
-const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+const mapStateToProps = (state) => withCobrowsingState(state, {
   lobby: state.lobby,
   cobrowsing: state.cobrowsing,
   lobbyState: state.lobby.lobbyState,

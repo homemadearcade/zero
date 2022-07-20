@@ -10,7 +10,7 @@ What sort of STEPS to use?
 
 Check if switching game lobbies works
 
-Is this the right dimensions? node size 12, total size 1200. Think about how we switch to a larger world in the future. How many sections of the world do we want?
+Is this the right dimensions? Go over brush sized, etc
 
 Do we have little sections that fold and unfold in the columns?
   Brush Options
@@ -26,9 +26,11 @@ Do we have little sections that fold and unfold in the columns?
 
 TODO NEXT
 
+Object and Hero Layer for eraser
+
 Reset Button
-Pause Button
-Stop Game
+Play/Pause Button
+End Game
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA
@@ -45,6 +47,8 @@ DRAWING
 --------
 
 TODO LATER
+
+Lobby Steps?
 
 Theres two problems with cobrowsing to think about
 1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user

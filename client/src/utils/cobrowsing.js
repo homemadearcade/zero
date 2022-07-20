@@ -1,4 +1,26 @@
-export function getRemoteCobrowsingState(state, props) {
+import store from "../store"
+
+export function getRemoteStatePackage(state) {
+  return {
+    video: state.video.videoState,
+    lobby: state.lobby.lobbyState,
+    editor: state.editor.editorState,
+    editorForms: state.editorForms.editorFormsState,
+    editorInstance: state.editorInstance.editorInstanceState
+  }
+}
+
+export function getLocalCobrowsingState(state) {
+  return {
+    videoState: state.video.videoState,
+    lobbyState: state.lobby.lobbyState,
+    editorState: state.editor.editorState,
+    editorFormsState: state.editorForms.editorFormsState,
+    editorInstanceState: state.editorInstance.editorInstanceState
+  }
+}
+
+export function withCobrowsingState(state, props) {
   const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   if(!isCobrowsing) return props
 
@@ -17,7 +39,6 @@ export function getRemoteCobrowsingState(state, props) {
     }
 
     return prev 
-
   }, {})
 
   const transformedState = {
@@ -26,4 +47,25 @@ export function getRemoteCobrowsingState(state, props) {
   }
 
   return transformedState
+}
+
+export function getCobrowsingState() {
+  const state = store.getState()
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+
+  if(!isCobrowsing) return {
+    ...state,
+    ...getLocalCobrowsingState(state)
+  }
+
+  const remoteState = state.cobrowsing.remoteState
+
+  return {
+    ...state,
+    editorState: remoteState.editor,
+    editorInstanceState: remoteState.editorInstance,
+    editorFormsState: remoteState.editorForms,
+    lobbyState: remoteState.lobby,
+    videoState: remoteState.video,
+  }
 }
