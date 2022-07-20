@@ -9,6 +9,14 @@
     display: flex;
   }
 
+  &__leave {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    border: 1px solid #333;
+  }
+
   &__checklist-item {
     &--required {
       font-weight: 700;

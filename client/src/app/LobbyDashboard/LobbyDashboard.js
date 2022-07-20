@@ -14,6 +14,7 @@ import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
 import Typography from '../ui/Typography/Typography';
 import Button from '../ui/Button/Button';
+import Link from '../ui/Link/Link';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
@@ -145,10 +146,11 @@ const LobbyDashboard = ({
 
   return (
     <div className="LobbyDashboard">
+      <div className="LobbyDashboard__leave"><Link to="/lobbys">leave</Link></div>
       <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
 
       {lobby.isGameStarted && <>
-        <Typography variant="subtitle1" component="subtitle1">Game Started!</Typography>
+        <Typography variant="subtitle1" component="div">Game Started!</Typography>
         <GameCard game={lobby.game}/>
       </>}
 

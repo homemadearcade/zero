@@ -26,13 +26,9 @@ Do we have little sections that fold and unfold in the columns?
 
 TODO NEXT
 
-withLobby? common mistake..
-
 Reset Button
 Pause Button
 Stop Game
-Close Game
-Leave Lobby
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA
@@ -50,7 +46,6 @@ DRAWING
 
 TODO LATER
 
-
 Theres two problems with cobrowsing to think about
 1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user
 2) When clicking on a button while cobrowsing, how do we dispatch the remote event?
@@ -62,10 +57,6 @@ Popup for connection errors
 Better error handling in cobrowsing
 
 Unauthenticate socket when logging out
-
-Perhaps use something called withLobby so that I can have different url states during onboard and for the game. And you can use back button to go to the lobby 
-
-also withAgoraVideo?
 
 Finish everything and just add more and more behaviors, and controls, and customization
 
