@@ -3,13 +3,13 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './Eraser.scss';
+import './EraserSelect.scss';
 import classNames from 'classnames';
 import { clearClass, selectBrush, clearBrush } from '../../../store/actions/editorActions';
 import { ERASER_BRUSH_ID } from '../../../constants';
 
-const Eraser = ({
-  editor: { editorState: { brushSelectedIdBrushList }},
+const EraserSelect = ({
+  editorState: { brushSelectedIdBrushList },
   layerId,
   selectBrush,
   clearClass,
@@ -26,16 +26,21 @@ const Eraser = ({
         selectBrush(eraserId)
       }
     }}
-    className={classNames("Eraser", { 'Eraser--selected': brushSelectedIdBrushList === eraserId})}
+    className={classNames("EraserSelect", { 'EraserSelect--selected': brushSelectedIdBrushList === eraserId})}
   >
      <i className="fas fa-eraser"/>
   </div>
 };
 
-const mapStateToProps = (state) => ({
-  editor: state.editor,
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+
+  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
+  return {
+    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
+  }
+};
 
 export default compose(
   connect(mapStateToProps, { selectBrush, clearClass, clearBrush }),
-)(Eraser);
+)(EraserSelect);

@@ -14,7 +14,6 @@ const WorldContextMenu = ({ openLiveWorldEditor, onMenuItemClick }) => {
 };
 
 const mapStateToProps = (state) => ({
-  editor: state.editor
 });
 
 export default connect(mapStateToProps, { openLiveWorldEditor })( WorldContextMenu );

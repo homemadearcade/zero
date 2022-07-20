@@ -13,15 +13,15 @@ export class Stamper extends Phaser.GameObjects.Image {
     this.class = objectClass
     this.scene.add.existing(this)
     
+    this.setDisplaySize(this.class.width, this.class.height)
+    this.setDepth(OBJECT_INSTANCE_LAYER_DEPTH)
+
     return this
   }
 
   update(pointer) {
     const { snappedX, snappedY } = snapObjectXY(pointer, this.class)
-
     this.setPosition(snappedX, snappedY)
-    this.setDisplaySize(this.class.width, this.class.height)
-    this.setDepth(OBJECT_INSTANCE_LAYER_DEPTH)
   }
 
   stamp(pointer) {

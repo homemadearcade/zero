@@ -14,21 +14,21 @@ export class Pencil extends Phaser.GameObjects.Image {
     this.lastSnapX = null 
     this.lastSnapY = null
     scene.add.existing(this)
+
+    const brushSize = store.getState().editor.editorState.brushSize
+    const nodeSize = store.getState().game.gameModel.world.nodeSize
+    const newWidth = nodeSize * brushSize
+    const newHeight = nodeSize * brushSize
+
+    this.setDisplaySize(newWidth, newHeight)
+    this.setDepth(getDepthFromLayerId(this.brush.layerId))
     
     return this
   }
 
   update(pointer) {
-    const brushSize = store.getState().editor.editorState.brushSize
-    const nodeSize = store.getState().game.gameModel.world.nodeSize
-
     const { snappedX, snappedY } = snapBrushXY(pointer)
-    const newWidth = nodeSize * brushSize
-    const newHeight = nodeSize * brushSize
-    
     this.setPosition(snappedX, snappedY)
-    this.setDisplaySize(newWidth, newHeight)
-    this.setDepth(getDepthFromLayerId(this.brush.layerId))
   }
 
   stroke(pointer, layer) {

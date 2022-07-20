@@ -14,7 +14,7 @@ import { BACKGROUND_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
-import Eraser from '../ui/Eraser/Eraser';
+import EraserSelect from '../ui/EraserSelect/EraserSelect';
 import LayerVisibility from '../ui/LayerVisibility/LayerVisibility';
 
 const BrushList = ({
@@ -42,19 +42,19 @@ const BrushList = ({
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
       <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
-      <Eraser layerId={BACKGROUND_LAYER_ID}/>
+      <EraserSelect layerId={BACKGROUND_LAYER_ID}/>
       {brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Playground</Typography>
       <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
-      <Eraser layerId={PLAYGROUND_LAYER_ID}/>
+      <EraserSelect layerId={PLAYGROUND_LAYER_ID}/>
       {brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Overhead</Typography>
       <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
-      <Eraser layerId={OVERHEAD_LAYER_ID}/>
+      <EraserSelect layerId={OVERHEAD_LAYER_ID}/>
       {brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}

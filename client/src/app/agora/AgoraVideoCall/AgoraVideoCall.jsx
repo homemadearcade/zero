@@ -26,7 +26,7 @@ const AgoraVideoCall = (props) => {
 
 //      <img className="AgoraVideoCallPreview__demo" src="/assets/images/camera-permission.png" alt="cam"/>
 
-const AgoraVideoCallPreview = ({startAgoraVideoCall, lobbyId, onClickJoin, auth: { me }}) => {
+const AgoraVideoCallPreview = ({startAgoraVideoCall, auth: { me }}) => {
   const { tracks, ready } = useMicrophoneAndCameraTracks();
 
   const userTracks = { uid: me.id, videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
@@ -49,7 +49,6 @@ const AgoraVideoCallPreview = ({startAgoraVideoCall, lobbyId, onClickJoin, auth:
         <AgoraVolumeMeter audioTrack={userTracks.audioTrack}/>
       </div>
       <Button onClick={() => {
-        onClickJoin()
         startAgoraVideoCall(tracks)
       }}>
         Join Lobby with Video

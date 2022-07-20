@@ -36,7 +36,6 @@ const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
 };
 
 const mapStateToProps = (state) => ({
-  editor: state.editor,
   game: state.game,
 });
 

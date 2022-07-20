@@ -11,7 +11,7 @@ import Sprite from '../ui/Sprite/Sprite';
 const ClassItem = ({
   game: { gameModel: { classes } },
   classId,
-  editor: { editorState: { classSelectedIdClassList }},
+  editorState: { classSelectedIdClassList },
   selectClass,
   clearClass,
   clearBrush,
@@ -41,11 +41,15 @@ const ClassItem = ({
   </div>
 };
 
-const mapStateToProps = (state) => ({
-  game: state.game,
-  editor: state.editor
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
 
+  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
+  return {
+    game: state.game,
+    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
+  }
+};
 export default compose(
   connect(mapStateToProps, { openContextMenuFromClassId, selectClass, clearClass, clearBrush }),
 )(ClassItem);

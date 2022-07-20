@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { openLivePhysicsEditor } from '../../store/actions/editorActions';
 
-const ClassContextMenu = ({ openLivePhysicsEditor, onMenuItemClick,  editor: { editorState: { classSelectedIdContextMenu }} }) => {
+const ClassContextMenu = ({ openLivePhysicsEditor, onMenuItemClick,  editorState: { classSelectedIdContextMenu }}) => {
   return <>
     <MenuItem onClick={() => {
       openLivePhysicsEditor(classSelectedIdContextMenu)
@@ -13,8 +13,12 @@ const ClassContextMenu = ({ openLivePhysicsEditor, onMenuItemClick,  editor: { e
   </>
 };
 
-const mapStateToProps = (state) => ({
-  editor: state.editor
-});
+const mapStateToProps = (state) => {
+  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
 
+  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
+  return {
+    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
+  }
+};
 export default connect(mapStateToProps, {openLivePhysicsEditor })(ClassContextMenu);

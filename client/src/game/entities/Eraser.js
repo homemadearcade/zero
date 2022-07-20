@@ -1,5 +1,5 @@
 import Phaser, { BlendModes } from "phaser";
-import { OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID } from "../../constants";
+import { OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from "../../constants";
 import store from "../../store";
 import { getLayerIdFromEraserId, getDepthFromEraserId, snapBrushXY } from "../../utils/editor";
 
@@ -13,25 +13,33 @@ export class Eraser extends Phaser.GameObjects.Image {
     this.setBlendMode(BlendModes.ERASE)
     this.setOrigin(0, 0)
     this.scene.add.existing(this)
+
+    const nodeSize = store.getState().game.gameModel.world.nodeSize
+    const brushSize = store.getState().editor.editorState.brushSize
+    this.width = nodeSize * brushSize
+    this.height = nodeSize * brushSize
+    this.setDisplaySize(this.width, this.height)
+
+    this.outline = scene.add.graphics();
+    this.outline.lineStyle(3, 0xffffff, 1);
+    this.outline.strokeRect(0, 0, this.width, this.height);
+    this.outline.setDepth(UI_LAYER_DEPTH)
     
     return this
   }
 
   update(pointer) {
-    const nodeSize = store.getState().game.gameModel.world.nodeSize
-    const brushSize = store.getState().editor.editorState.brushSize
-
     const { snappedX, snappedY } = snapBrushXY(pointer)
-    const newWidth = nodeSize * brushSize
-    const newHeight = nodeSize * brushSize
+
+    this.outline.setPosition(snappedX, snappedY)
+
     this.setPosition(snappedX, snappedY)
-    this.setDisplaySize(newWidth, newHeight)
     
     const eraserDepth = getDepthFromEraserId(this.brushId)
     this.setDepth(eraserDepth)
     
     this.lowerLayerPreviews.forEach((preview) => {
-      preview.setCrop(snappedX, snappedY, newWidth, newHeight)
+      preview.setCrop(snappedX, snappedY, this.width, this.height)
     })
   }
 
@@ -67,6 +75,7 @@ export class Eraser extends Phaser.GameObjects.Image {
 
   destroy() {
     super.destroy()
+    this.outline.destroy()
     this.lowerLayerPreviews.forEach((preview) => {
       preview.destroy()
     })

@@ -26,7 +26,6 @@ Do we have little sections that fold and unfold in the columns?
 
 TODO NEXT
 
-Fix up EditorScene by making Brush, Eraser, Stamp classes
 withLobby? common mistake..
 
 Reset Button
@@ -41,7 +40,7 @@ GAME BOUNDARY
 
 DRAWING
   Tinting
-  Stamp?, Brush, Pencil, Spray Can, Eraser
+  Pixel Pencil, Brush, Spray Can
   Unlock snap to grid?
   BUG - Sometimes a Playground sprite is not picked up because it doesnt have alpha in the center
   BUG - brushing a ton sucks because the new image comes in and overwrites what you have
