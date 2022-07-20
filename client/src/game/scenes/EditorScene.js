@@ -33,7 +33,7 @@ export class EditorScene extends GameInstance {
       const { snappedX, snappedY } = snapObjectXY({x: dragX, y: dragY}, objectClass)
       objectInstance.x = snappedX;
       objectInstance.y = snappedY;
-    } else {
+    } else if(!this.brush && !this.stamper){
       this.draggingObjectInstanceId = objectInstance.id
     }
   }
