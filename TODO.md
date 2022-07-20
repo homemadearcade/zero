@@ -10,6 +10,8 @@ What sort of STEPS to use?
 
 Check if switching game lobbies works
 
+Is this the right dimensions? node size 12, total size 1200. Think about how we switch to a larger world in the future. How many sections of the world do we want?
+
 Do we have little sections that fold and unfold in the columns?
   Brush Options
   Background
@@ -24,11 +26,14 @@ Do we have little sections that fold and unfold in the columns?
 
 TODO NEXT
 
-Eraser
+Fix up EditorScene by making Brush, Eraser, Stamp classes
+withLobby? common mistake..
+
 Reset Button
 Pause Button
 Stop Game
-Exit Game
+Close Game
+Leave Lobby
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA

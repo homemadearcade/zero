@@ -3,7 +3,7 @@ import store from "../../store";
 import { addAwsImage } from "../../store/actions/gameActions";
 import { urlToFile } from "../../utils/utils";
 
-export class LayerCanvas extends Phaser.GameObjects.RenderTexture {
+export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { layerId }){
     const gameModel = store.getState().game.gameModel
     super(scene, 0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height)

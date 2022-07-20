@@ -9,6 +9,7 @@ import { PRELOADER_SCENE } from '../../constants';
 
 import WaterBodyPlugin from 'phaser-plugin-water-body';
 import Loader from '../../app/ui/Loader/Loader';
+import { gameSize } from '../../defaultData/general';
 
 const config= {
   type: Phaser.WEBGL,
@@ -18,8 +19,8 @@ const config= {
     mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
     parent: 'PhaserGame',
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 1200,
-    height: 1200
+    width: gameSize,
+    height: gameSize
   },
   physics: {
     default: 'matter',

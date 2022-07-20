@@ -40,11 +40,12 @@ export default class Sprite extends React.Component {
     const width = texture.width
     const height = texture.height
 
-    const scale = desiredWidth/width
+    const scaleX  = desiredWidth/width
+    const scaleY = desiredHeight/height
     const translate = (desiredWidth - width)/2 + 'px'
     const translateY = (desiredHeight - height)/2 + 'px'
 
-    const transform = `scale(${scale})`;
+    const transform = `scaleX(${scaleX}) scaleY(${scaleY})`;
 
     const transformContainer = `translateX(${translate}) translateY(${translateY})`
     return <div 

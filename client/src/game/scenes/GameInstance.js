@@ -3,9 +3,9 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import store from '../../store';
-import { LayerZero } from '../entities/LayerZero';
+import { CollisionCanvas } from '../entities/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
-import { LayerCanvas } from '../entities/LayerCanvas';
+import { Canvas } from '../entities/Canvas';
 import { BACKGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, HERO_INSTANCE_ID, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID } from '../../constants';
 
 export class GameInstance extends Phaser.Scene {
@@ -66,13 +66,13 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().game.gameModel
 
     // background layer
-    this.backgroundLayer = new LayerCanvas(this, {layerId: 'backgroundLayer'})
+    this.backgroundLayer = new Canvas(this, {layerId: BACKGROUND_LAYER_ID})
     this.backgroundLayer.setDepth(BACKGROUND_LAYER_DEPTH)
     // layer zero
-    this.playgroundLayer = new LayerZero(this)
+    this.playgroundLayer = new CollisionCanvas(this, {layerId: PLAYGROUND_LAYER_ID})
     this.playgroundLayer.setDepth(PLAYGROUND_LAYER_DEPTH)
     // overhead layer
-    this.overheadLayer = new LayerCanvas(this, {layerId: 'overheadLayer'})
+    this.overheadLayer = new Canvas(this, {layerId: OVERHEAD_LAYER_ID})
     this.overheadLayer.setDepth(OVERHEAD_LAYER_DEPTH)
 
     // objects

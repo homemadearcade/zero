@@ -1,10 +1,10 @@
 import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
-import { LayerCanvas } from "./LayerCanvas";
+import { Canvas } from "./Canvas";
 
-export class LayerZero extends LayerCanvas {
-  constructor(scene){
-    super(scene, { layerId: 'layer0'})
+export class CollisionCanvas extends Canvas {
+  constructor(scene, props){
+    super(scene, props)
 
     //for some reasion the initial draw in the super is the LayerCanvas version
     if(this.scene.textures.exists(this.textureId)) {
@@ -59,6 +59,7 @@ export class LayerZero extends LayerCanvas {
             searchX++
             rowNodes.push(row[searchX])
           }
+
 
           if(rowNodes.length) {
             collisionGridNodes.push({ x: x * nodeSize, y: y * nodeSize, width: rowNodes.length})

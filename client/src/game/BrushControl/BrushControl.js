@@ -9,11 +9,10 @@ import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../store/actions/editorActions';
 
 const BrushControl = ({
-  game: { gameModel : { brushes }},
+  game: { gameModel: { brushes, world }},
   updateBrushSize,
   editorState: { brushSize, brushSelectedIdBrushList },
 }) => {
-
   const brush = brushes[brushSelectedIdBrushList]
 
   return <div className="BrushControl">
@@ -21,7 +20,7 @@ const BrushControl = ({
       <FormLabel>Brush Size</FormLabel>
       <SliderNotched
         step={null}
-        options={[1, 2, 5, 10, 20]}
+        options={[1, 3, 6, 9, 15, 22.5, 30]}
         onChangeCommitted={(value) => {
           updateBrushSize(value)        
         }}

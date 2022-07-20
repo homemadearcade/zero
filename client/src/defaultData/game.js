@@ -1,4 +1,4 @@
-import { nodeSize } from "./general";
+import { gameSize, nodeSize } from "./general";
 import { spaceshipClass } from "./heros";
 
 export const defaultGame = {
@@ -10,8 +10,8 @@ export const defaultGame = {
   "world": {
     "nodeSize": nodeSize,
     "boundaries": {
-      "width": 1200,
-      "height": 1200
+      "width": gameSize,
+      "height": gameSize,
     },
     "gravity": {
       "y": 0,

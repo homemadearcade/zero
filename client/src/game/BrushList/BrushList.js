@@ -41,20 +41,20 @@ const BrushList = ({
     <div className="BrushList">
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
-      <Eraser depth={BACKGROUND_LAYER_DEPTH}/>
       <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
+      <Eraser depth={BACKGROUND_LAYER_DEPTH}/>
       {brushesByLayer[BACKGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Playground</Typography>
-      <Eraser depth={PLAYGROUND_LAYER_DEPTH}/>
       <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
+      <Eraser depth={PLAYGROUND_LAYER_DEPTH}/>
       {brushesByLayer[PLAYGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Overhead</Typography>
-      <Eraser depth={OVERHEAD_LAYER_DEPTH}/>
       <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
+      <Eraser depth={OVERHEAD_LAYER_DEPTH}/>
       {brushesByLayer[OVERHEAD_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
