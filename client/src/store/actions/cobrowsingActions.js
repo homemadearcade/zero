@@ -68,7 +68,8 @@ export const startCobrowsing = () => async (dispatch, getState) => {
           video: state.video.videoState,
           lobby: state.lobby.lobbyState,
           editor: state.editor.editorState,
-          editorForms: state.editorForms.editorFormsState
+          editorForms: state.editorForms.editorFormsState,
+          editorInstance: state.editorInstance.editorInstanceState
         }}
     });
 

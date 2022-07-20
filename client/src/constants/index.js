@@ -13,5 +13,10 @@ export const HERO_INSTANCE_LAYER_DEPTH = 30;
 export const OVERHEAD_LAYER_DEPTH = 40;
 export const UI_LAYER_DEPTH = 100;
 
+export const BACKGROUND_LAYER_ID = 'BACKGROUND_LAYER';
+export const PLAYGROUND_LAYER_ID = 'PLAYGROUND_LAYER';
+export const OVERHEAD_LAYER_ID = 'OVERHEAD_LAYER';
+export const UI_LAYER_ID = 'UI_LAYER';
+
 export const HERO_INSTANCE_ID = 'hero'
 export const ERASER_BRUSH_ID = 'ERASER'

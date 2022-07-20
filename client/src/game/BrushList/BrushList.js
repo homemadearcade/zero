@@ -10,11 +10,12 @@ import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
-import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
 import Eraser from '../ui/Eraser/Eraser';
+import LayerVisibility from '../ui/LayerVisibility/LayerVisibility';
 
 const BrushList = ({
   game: { gameModel },
@@ -41,16 +42,19 @@ const BrushList = ({
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
       <Eraser depth={BACKGROUND_LAYER_DEPTH}/>
+      <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
       {brushesByLayer[BACKGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Playground</Typography>
       <Eraser depth={PLAYGROUND_LAYER_DEPTH}/>
+      <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
       {brushesByLayer[PLAYGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Overhead</Typography>
       <Eraser depth={OVERHEAD_LAYER_DEPTH}/>
+      <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
       {brushesByLayer[OVERHEAD_LAYER_DEPTH]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}

@@ -13,6 +13,7 @@ import videoReducer from './videoReducer';
 import gameReducer from './gameReducer';
 import editorReducer from './editorReducer';
 import editorFormsReducer from './editorFormsReducer';
+import editorInstanceReducer from './editorInstanceReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -27,5 +28,6 @@ export default combineReducers({
   video: videoReducer,
   game: gameReducer,
   editor: editorReducer,
-  editorForms: editorFormsReducer
+  editorForms: editorFormsReducer,
+  editorInstance: editorInstanceReducer
 });
