@@ -85,10 +85,6 @@ const LobbyPage = ({
   }, [lobby?.id])
 
   function renderPageContents() {
-    if(!window.chrome) {
-      return <Typography component="h1" variant="h1">Please use a Chromium browser such as Chrome or Brave to participate in the Homemade Arcade experience</Typography>
-    }
-
     if(isLoading) {
       return <Loader text="Loading Lobby..."/>
     }

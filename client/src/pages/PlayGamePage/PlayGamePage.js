@@ -6,7 +6,7 @@ import GameEditor from '../../game/GameEditor/GameEditor';
 
 import './PlayGamePage.scss';
 
-import { requestFullscreen } from '../../store/actions/browserActions';
+import { requestFullscreen } from '../../utils/browser';
 import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import GameClassList from '../../game/ClassList/ClassList';

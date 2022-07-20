@@ -8,7 +8,7 @@ import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 import { updateLobbyUser, updateOnboardingStep } from '../../../store/actions/lobbyActions';
 
 import Loader from '../../ui/Loader/Loader';
-import { testInternetSpeed, requestFullscreen } from '../../../store/actions/browserActions';
+import { testInternetSpeed, requestFullscreen } from '../../../utils/browser';
 import Button from '../../ui/Button/Button';
 
 const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, videoState, lobbyState, cobrowsing: { cobrowsingUser }}) => {

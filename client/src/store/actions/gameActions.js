@@ -29,7 +29,7 @@ import _ from 'lodash';
 import { defaultGame } from '../../defaultData/game';
 import { defaultObjectInstance } from '../../defaultData/object';
 import { defaultObjectClass } from '../../defaultData/class';
-import { uploadToAws } from './browserActions';
+import { uploadToAws } from '../../utils/browser';
 import { getSpritesByDescriptor } from '../../defaultData/descriptors';
 
  

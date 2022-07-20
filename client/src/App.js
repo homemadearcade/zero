@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { compose } from 'redux';
@@ -33,6 +33,8 @@ import io from 'socket.io-client'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorHandler from './app/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
+
+import { checkIfIncognito, checkIfTabAlreadyOpen } from './utils/browser';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -106,9 +108,28 @@ window.socket.onAny((event, ...args) => {
 });
 
 const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
+  const [isCheckingBrowser, setIsCheckingBrowser] = useState(true)
+
   useEffect(() => {
-    loadMe();
-  }, [loadMe]);
+    if(!window.chrome) {
+      alert('Please use a Chromium browser such as Chrome or Brave')
+      window.stop()
+    } else {
+      checkIfIncognito((isIncognito) => {
+        if(!isIncognito) {
+          checkIfTabAlreadyOpen((isTabAlreadyOpen) => {
+            if(isTabAlreadyOpen) {
+              alert('Homemade Arcade is open inside of another tab. Please check all tabs you have open. This tab will now shutdown')
+              window.stop()
+            } else {
+              setIsCheckingBrowser(false)
+              loadMe();
+            }
+          })
+        }
+      })
+    }
+  }, []);
 
   // useEffect(() => {
   //   if (window.location.hash === '#_=_') window.location.hash = '';
@@ -131,6 +152,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
     <ThemeProvider theme={theme}>
       <>
         <ErrorHandler/>
+        {isCheckingBrowser && <Loader text="Checking Browser..."/>}
         {!auth.appLoaded && <Loader text="App Loading..."/>}
         {auth.appLoaded && <Router>
           <Switch>
