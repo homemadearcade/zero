@@ -23,7 +23,7 @@ const ClassList = ({
   const classes = gameModel?.classes
 
   if(!classes) {
-    return <Loader text="No Game Loaded"/>
+    return null
   }
 
   return <div className="ClassList">

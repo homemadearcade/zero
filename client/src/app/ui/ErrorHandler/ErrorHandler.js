@@ -27,7 +27,7 @@ const ErrorHandler = ({
   function renderError(errorType, error) {
     return <Alert severity="error">
       <AlertTitle>{errorType}</AlertTitle>
-      {error}
+      {error.toString()}
     </Alert>
   }
 

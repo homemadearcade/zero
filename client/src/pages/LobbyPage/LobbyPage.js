@@ -7,20 +7,36 @@ import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
 import { assignLobbyRole} from '../../store/actions/lobbyActions';
+import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
-import Lobby from '../../app/Lobby/Lobby';
 import withLobby from '../../hoc/withLobby';
 import CobrowsingGame from '../../app/cobrowsing/CobrowsingGame/CobrowsingGame';
+import LobbyDashboard from '../../app/LobbyDashboard/LobbyDashboard';
 
 const LobbyPage = ({
   lobby: { lobby },
   auth: { me },
   myTracks,
-  userTracks
+  userTracks,
+  loadGame,
+  unloadGame,
+  assignLobbyRole
 }) => {
   let { path} = useRouteMatch();
+
+  useEffect(() => {
+    if(lobby.isGameStarted && lobby.game?.id) {
+      loadGame(lobby.game.id)
+    }
+
+    return () => {
+      if(lobby.isGameStarted && lobby.game?.id) {
+        unloadGame()
+      }
+    }
+  }, [lobby.isGameStarted])
 
   useEffect(() => {
     if(me.role === 'ADMIN' && (!lobby.guideId)) {
@@ -48,7 +64,7 @@ const LobbyPage = ({
 
   return <Switch>
     <Route exact path={path}>
-      <Lobby/>
+      <LobbyDashboard/>
     </Route>
     <Route path={`${path}/join/:cobrowsingUserId`}>
       <CobrowsingGame myTracks={myTracks} userTracks={userTracks} />
@@ -64,5 +80,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withLobby,
-  connect(mapStateToProps, {  assignLobbyRole }),
+  connect(mapStateToProps, {  assignLobbyRole, loadGame, unloadGame }),
 )(LobbyPage);

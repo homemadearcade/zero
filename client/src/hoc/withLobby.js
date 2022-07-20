@@ -24,12 +24,11 @@ export default (ChildComponent) => {
         }
   
       }
-      
+
       doJoinLobby()
     }
 
     componentWillUnmount() {
-      console.log('were unmounting')
       this.withLobbyCleaup()
     }
 

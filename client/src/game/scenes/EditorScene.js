@@ -230,7 +230,6 @@ export class EditorScene extends GameInstance {
   // NETWORK UPDATE
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
-
     if(gameUpdate.world?.gravity) {
       const gravity = gameUpdate.world.gravity
       const currentGravity = store.getState().game.gameModel.world.gravity
@@ -261,10 +260,13 @@ export class EditorScene extends GameInstance {
       const objectInstance = this.getObjectInstance(id)
       if(!objectInstance) {
         this.addObjectInstance(id, objectUpdate)
+        return
       }
       if(objectUpdate === null) {
         this.removeObjectInstance(id)
+        return
       }
+      
       if(typeof objectUpdate.spawnX === 'number' || typeof objectUpdate.spawnY === 'number') {
         objectInstance.x = objectUpdate.spawnX
         objectInstance.y = objectUpdate.spawnY

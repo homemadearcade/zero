@@ -28,7 +28,7 @@ const BrushList = ({
   const brushes = gameModel?.brushes
 
   if(!brushes) {
-    return <Loader text="No Game Loaded"/>
+    return null
   }
 
   const brushesByLayer = Object.keys(brushes).reduce((prev, brushId) => {

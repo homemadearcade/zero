@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 import UserStatus from '../UserStatus/UserStatus';
 
-import './Lobby.scss';
+import './LobbyDashboard.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
-import { addGame, loadGame, unloadGame } from '../../store/actions/gameActions';
+import { addGame } from '../../store/actions/gameActions';
 import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
 import Typography from '../ui/Typography/Typography';
@@ -17,23 +17,14 @@ import Button from '../ui/Button/Button';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
-const LobbyPage = ({
+const LobbyDashboard = ({
   addGame,
   editLobby,
-  loadGame,
-  unloadGame,
   assignLobbyRole,
   lobby: { lobby },
   auth: { me },
   status: { lobbyUserStatus }
 }) => {
-
-  useEffect(() => {
-    if(lobby.isGameStarted && lobby.game?.id) {
-      loadGame(lobby.game.id)
-    }
-  }, [lobby.isGameStarted])
-  
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -153,7 +144,7 @@ const LobbyPage = ({
   })
 
   return (
-    <div className="Lobby">
+    <div className="LobbyDashboard">
       <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
 
       {lobby.isGameStarted && <>
@@ -162,17 +153,17 @@ const LobbyPage = ({
       </>}
 
       <Typography component="h5" variant="h5">Users in room: </Typography>
-      <div className="Lobby__users">
+      <div className="LobbyDashboard__users">
         {lobby.users.map((user) => {
           return <UserStatus key={user.id}  userId={user.id}/>
         })}
       </div>
       <Typography component="h5" variant="h5">Roles: </Typography>
-      <div className="Lobby__roles">
-        <div className="Lobby__role">
+      <div className="LobbyDashboard__roles">
+        <div className="LobbyDashboard__role">
           <strong>Game Host</strong><br/>
           {lobby.gameHostId && <UserStatus userId={usersById[lobby.gameHostId]?.id}/>}
-          {!lobby.isGameStarted && <div className="Lobby__role-assign">
+          {!lobby.isGameStarted && <div className="LobbyDashboard__role-assign">
             Assign:
             <select onChange={(e) => {
               assignLobbyRole(lobby.id, {
@@ -188,10 +179,10 @@ const LobbyPage = ({
             </select>
           </div>}
         </div>
-        <div className="Lobby__role">
+        <div className="LobbyDashboard__role">
           <strong>Participant</strong><br/>
           {lobby.participantId && <UserStatus userId={usersById[lobby.participantId]?.id}/>}
-          {!lobby.isGameStarted && <div className="Lobby__role-assign">
+          {!lobby.isGameStarted && <div className="LobbyDashboard__role-assign">
             Assign:
             <select onChange={(e) => {
               assignLobbyRole(lobby.id, {
@@ -207,10 +198,10 @@ const LobbyPage = ({
             </select>
           </div>}
         </div>
-        <div className="Lobby__role">
+        <div className="LobbyDashboard__role">
           <strong>Guide</strong><br/>
           {lobby.guideId && <UserStatus userId={usersById[lobby.guideId]?.id}/>}
-          {!lobby.isGameStarted && <div className="Lobby__role-assign">
+          {!lobby.isGameStarted && <div className="LobbyDashboard__role-assign">
           Assign:
             <select onChange={(e) => {
               assignLobbyRole(lobby.id, {
@@ -249,12 +240,12 @@ const LobbyPage = ({
       </>}
 
       <Typography component="h5" variant="h5">Checklist: </Typography>
-      <div className="Lobby__checklist">
+      <div className="LobbyDashboard__checklist">
         {checklist.map((item, i) => {
           const isPassing = !!item.test();
-          return <div key={i} className={classNames("Lobby__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
-            {isPassing && <span className="Lobby__checklist-check"><i className="fa-solid fa-check"></i></span>}
-            {!isPassing && <span className="Lobby__checklist-check" />}
+          return <div key={i} className={classNames("LobbyDashboard__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
+            {isPassing && <span className="LobbyDashboard__checklist-check"><i className="fa-solid fa-check"></i></span>}
+            {!isPassing && <span className="LobbyDashboard__checklist-check" />}
             {item.text}
             {item.required && ' (required)'}
           </div>
@@ -284,5 +275,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby, loadGame, unloadGame, addGame, assignLobbyRole }),
-)(LobbyPage);
+  connect(mapStateToProps, { editLobby,addGame, assignLobbyRole }),
+)(LobbyDashboard);
