@@ -11,6 +11,8 @@ export class Pencil extends Phaser.GameObjects.Image {
     this.setOrigin(0, 0)
     this.brushId = brushId
     this.brush = brush
+    this.lastSnapX = null 
+    this.lastSnapY = null
     scene.add.existing(this)
     
     return this
@@ -31,6 +33,11 @@ export class Pencil extends Phaser.GameObjects.Image {
 
   stroke(pointer, layer) {
     const { snappedX, snappedY } = snapBrushXY(pointer)
+
+    if(snappedX === this.lastSnapX && snappedY === this.lastSnapY) return
+
+    this.lastSnapX = snappedX
+    this.lastSnapY = snappedY
     layer.draw(this, snappedX, snappedY);
   }
 
