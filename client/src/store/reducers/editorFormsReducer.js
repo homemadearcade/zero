@@ -15,7 +15,7 @@ const initialState = {
     isCreateBrushFlowOpen: false,
     createBrushStep: '',
     brush: {
-      layer: null,
+      layerId: null,
       textureId: null,
       descriptors: []
     },

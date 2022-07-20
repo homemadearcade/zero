@@ -8,7 +8,7 @@ import SelectDescriptors from '../ui/SelectDescriptors/SelectDescriptors';
 import RadioGroupColumn from '../../app/ui/RadioGroupColumn/RadioGroupColumn';
 import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
-import { BACKGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_ID, PLAYGROUND_LAYER_ID, OVERHEAD_LAYER_ID } from '../../constants';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 
@@ -37,21 +37,21 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
         textureIdSelected={brush.textureId}
       />
       <RadioGroupColumn
-        value={brush.layer}
+        value={brush.layerId}
         formLabel="Pick a layer"
         onChange={(event, value) => {
-          updateCreateBrush({ layer: Number(value)})
+          updateCreateBrush({ layerId: value})
         }}
         options={[{
           label: 'Background',
-          value: BACKGROUND_LAYER_DEPTH,
+          value: BACKGROUND_LAYER_ID,
         },{
           label: 'Playground',
-          value: PLAYGROUND_LAYER_DEPTH,
+          value: PLAYGROUND_LAYER_ID,
         },
         {
           label: 'Overhead',
-          value: OVERHEAD_LAYER_DEPTH,
+          value: OVERHEAD_LAYER_ID,
         }]}
       />
       <div className="CreateBrushFlow__buttons">

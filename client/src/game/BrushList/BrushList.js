@@ -10,7 +10,7 @@ import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
-import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
+import { BACKGROUND_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
@@ -32,8 +32,8 @@ const BrushList = ({
 
   const brushesByLayer = Object.keys(brushes).reduce((prev, brushId) => {
     const brush = brushes[brushId]
-    if(!prev[brush.layer]) prev[brush.layer] = []
-    prev[brush.layer].push({ brushId, brush })
+    if(!prev[brush.layerId]) prev[brush.layerId] = []
+    prev[brush.layerId].push({ brushId, brush })
     return prev
   }, {})
 
@@ -42,20 +42,20 @@ const BrushList = ({
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
       <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
-      <Eraser depth={BACKGROUND_LAYER_DEPTH}/>
-      {brushesByLayer[BACKGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
+      <Eraser layerId={BACKGROUND_LAYER_ID}/>
+      {brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Playground</Typography>
       <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
-      <Eraser depth={PLAYGROUND_LAYER_DEPTH}/>
-      {brushesByLayer[PLAYGROUND_LAYER_DEPTH]?.map(({brushId}, i) => {
+      <Eraser layerId={PLAYGROUND_LAYER_ID}/>
+      {brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Typography component="h5" variant="h5">Overhead</Typography>
       <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
-      <Eraser depth={OVERHEAD_LAYER_DEPTH}/>
-      {brushesByLayer[OVERHEAD_LAYER_DEPTH]?.map(({brushId}, i) => {
+      <Eraser layerId={OVERHEAD_LAYER_ID}/>
+      {brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}
       <Button className="BrushList__add" onClick={() => {

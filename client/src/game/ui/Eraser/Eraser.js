@@ -10,12 +10,12 @@ import { ERASER_BRUSH_ID } from '../../../constants';
 
 const Eraser = ({
   editor: { editorState: { brushSelectedIdBrushList }},
-  depth,
+  layerId,
   selectBrush,
   clearClass,
   clearBrush,
 }) => {
-  const eraserId = ERASER_BRUSH_ID + depth;
+  const eraserId = ERASER_BRUSH_ID + layerId;
 
   return <div
     onClick={() => {

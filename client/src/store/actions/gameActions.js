@@ -183,12 +183,9 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     Object.keys(gameData.classes).forEach((id) => {
       gameData.classes[id] = mergeDeep({...defaultObjectClass}, gameData.classes[id])
     })
-    Object.keys(gameData.brushes).forEach((id) => {
-      gameData.brushes[id] = {
-        ...gameData.brushes[id],
-        layer: Number(gameData.brushes[id].layer)
-      }
-    })
+    // Object.keys(gameData.brushes).forEach((id) => {
+
+    // })
 
     dispatch({
       type: LOAD_GAME_SUCCESS,

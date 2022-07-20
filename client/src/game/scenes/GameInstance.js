@@ -62,6 +62,20 @@ export class GameInstance extends Phaser.Scene {
     return this.textures.getFrame(spriteSheetName, spriteIndex)
   }
 
+  getLayerById(layerId) {
+    if(layerId === BACKGROUND_LAYER_ID) {
+      return this.backgroundLayer
+    }
+    if(layerId === PLAYGROUND_LAYER_ID) {
+      return this.playgroundLayer
+    }
+    if(layerId === OVERHEAD_LAYER_ID) {
+      return this.overheadLayer
+    }
+
+    console.error('didnt find layer with id', layerId, typeof layerId)
+  }
+
   create() {
     const gameModel = store.getState().game.gameModel
 

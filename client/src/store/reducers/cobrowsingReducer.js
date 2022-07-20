@@ -43,7 +43,7 @@ const initialState = {
       // isCreateWorldFlowOpen: false,
       brush: {
         step: 'layer',
-        layer: null,
+        layerId: null,
         descriptors: []
       },
       class: {
