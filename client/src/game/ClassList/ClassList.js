@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import './ClassList.scss';
-import { Button } from '@mui/material';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 import { closeCreateClassFlow, openCreateClassFlow } from '../../store/actions/editorFormsActions';
+import Button from '../../app/ui/Button/Button';
 
 const ClassList = ({
   game: { gameModel },

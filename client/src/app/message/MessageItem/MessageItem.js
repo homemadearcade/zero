@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from '../../ui/Link/Link';
 import moment from 'moment';
 import { useFormik } from 'formik';
 

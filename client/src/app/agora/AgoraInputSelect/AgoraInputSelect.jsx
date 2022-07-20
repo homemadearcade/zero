@@ -4,44 +4,41 @@ import { connect } from 'react-redux';
 
 import { useChangeAgoraVideoAudio } from '../../../store/actions/videoActions';
 import { setVideoTrackId, setAudioTrackId } from "../../../store/actions/videoActions";
+import Select from "../../ui/Select/Select";
 
 const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, video: { videoTrackId, audioTrackId } }) => {
   const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio(tracks)
 
-  return <div>
-    <div>
-      Camera:
-      <select 
+  return <>
+      <Select
         value={videoTrackId || ""}
         onChange={(e) => {
-        setVideoDevice(e.target.value)
-        setVideoTrackId(e.target.value)
+          setVideoDevice(e.target.value)
+          setVideoTrackId(e.target.value)
         }}
-      >
-        {videoDevices && videoDevices.map(({label, deviceId}) => {
-          return <option value={deviceId} key={deviceId}>
-            {label}
-          </option>
+        inputLabel="Camera"
+        options={videoDevices.map(({label, deviceId}) => {
+          return {
+            value: deviceId,
+            label
+          }
         })}
-      </select>
-    </div>
-    <div>
-      Microphone:
-      <select 
+      />
+    <Select
         value={audioTrackId || ""}
         onChange={(e) => {
           setAudioDevice(e.target.value)
           setAudioTrackId(e.target.value)
         }}
-      >
-        {audioDevices && audioDevices.map(({label, deviceId}) => {
-          return <option value={deviceId} key={deviceId}>
-            {label}
-          </option>
+        inputLabel="Microphone"
+        options={audioDevices.map(({label, deviceId}) => {
+          return {
+            value: deviceId,
+            label
+          }
         })}
-      </select>
-    </div>
-  </div>
+      />
+  </>
 }
 
 const mapStateToProps = (state) => ({

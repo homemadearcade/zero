@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
+import Link from '../../app/ui/Link/Link';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -13,7 +14,8 @@ import { GOOGLE_AUTH_LINK } from '../../constants';
 import { getUrlParameter } from '../../utils/utils';
 
 import './styles.css';
-import { Button, Typography } from '@mui/material';
+import Button from '../../app/ui/Button/Button';
+import Typography from '../../app/ui/Typography/Typography';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail }) => {
   const participantEmail = getUrlParameter('participantEmail')
@@ -38,14 +40,14 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
         <Typography component="h1" variant="h1">Register page</Typography>
         <p>
           back to{' '}
-          <Link className="bold" to="/">
+          <Link to="/">
             Home page
           </Link>
         </p>
-        {false && <a className="google btn" href={GOOGLE_AUTH_LINK}>
+        {false && <Link className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Register with Google
-        </a>}
+        </Link>}
         <form onSubmit={formik.handleSubmit} noValidate>
 
           <div>
@@ -94,7 +96,7 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
           </div>
           <div>
             Have an account?{' '}
-            <Link className="bold" to="/login">
+            <Link to="/login">
               Log In
             </Link>
           </div>

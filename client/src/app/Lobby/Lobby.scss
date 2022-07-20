@@ -5,6 +5,10 @@
     width: 200px;
   }
 
+  &__roles, &__users {
+    display: flex;
+  }
+
   &__checklist-item {
     &--required {
       font-weight: 700;

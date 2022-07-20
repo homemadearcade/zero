@@ -13,10 +13,10 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 
   return (
     <div className="PhysicsEditor">
-      <Typography component="h1" variant="h1">Editing Class {classId}</Typography>
+      <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
       <div className="PhysicsEditor__sliders">
         <SliderNotched
-          title="Speed"
+          formLabel="Speed"
           options={[1, 5, 20, 100]}
           step={0.1}
           onChangeCommitted={(value) => {
@@ -25,7 +25,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.speed}
         />
         <SliderNotched
-          title="Density"
+          formLabel="Density"
           step={0.1}
           options={[.001, .01, 0.1, 0.25, 0.5, 0.75, 1]}
           onChangeCommitted={(value) => {
@@ -34,7 +34,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.density}
         />
         <SliderNotched
-          title="Bounce"
+          formLabel="Bounce"
           step={0.05}
           options={[0, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
@@ -43,7 +43,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.bounciness}
         />
         <SliderNotched
-          title="Friction"
+          formLabel="Friction"
           step={0.05}
           options={[0, 0.1, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
@@ -52,7 +52,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.friction}
         />
         <SliderNotched
-          title="Friction (Air)"
+          formLabel="Friction (Air)"
           step={0.05}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
@@ -61,7 +61,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.frictionAir}
         />
         <SliderNotched
-          title="Friction (Static)"
+          formLabel="Friction (Static)"
           step={1}
           options={[0.5, 1, 5, 20]}
           onChangeCommitted={(value) => {

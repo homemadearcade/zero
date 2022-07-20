@@ -4,19 +4,19 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './SelectSpriteInline.scss';
-import { FormLabel } from '@mui/material';
+import FormLabel from '../../../app/ui/FormLabel/FormLabel';
 import DescriptorSprites from '../DescriptorSprites/DescriptorSprites';
 import Sprite from '../Sprite/Sprite';
 
 const SelectSpriteInline = ({
   textureIdSelected,
-  title,
+  formLabel,
   descriptors,
   onSelect
 }) => {
   
   return <div className="SelectSpriteInline">
-    {title && <FormLabel>{title}</FormLabel>}
+    {formLabel && <FormLabel>{formLabel}</FormLabel>}
     {!textureIdSelected && <div className="SelectSpriteInline__sprite-missing SelectSpriteInline__sprite"></div>}
     {textureIdSelected && <div className="SelectSpriteInline__sprite"><Sprite textureId={textureIdSelected} width={150} height={150}/></div>}
     <div className="SelectSpriteInline__sprite-list"><DescriptorSprites onClickSprite={onSelect} descriptors={descriptors}/></div>

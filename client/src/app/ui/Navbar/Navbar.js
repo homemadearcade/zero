@@ -1,7 +1,8 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import Link from '../Link/Link';
 
 import { logOutUser } from '../../../store/actions/authActions';
 import './styles.css';
@@ -16,33 +17,33 @@ const Navbar = ({ auth, logOutUser, history }) => {
     <nav className="navbar">
       <ul className="nav-links flex-1">
         <li className="nav-item">
-          <Link to="/">Home</Link>
+          <Link ignoreDefaultStyle to="/">Home</Link>
         </li>
         {auth.isAuthenticated ? (
           <>
             {auth.me?.role === 'ADMIN' && (
               <li className="nav-item">
-                <Link to="/users">Users</Link>
+                <Link ignoreDefaultStyle to="/users">Users</Link>
               </li>
             )}
             {auth.me?.role === 'ADMIN' && (
               <li className="nav-item">
-                <Link to="/lobbys">Lobbies</Link>
+                <Link ignoreDefaultStyle to="/lobbys">Lobbies</Link>
               </li>
             )}
             {null && auth.me?.role === 'ADMIN' && (
               <li className="nav-item">
-                <Link to="/admin">Admin</Link>
+                <Link ignoreDefaultStyle to="/admin">Admin</Link>
               </li>
             )}
             {auth.me?.role === 'ADMIN' && (
             <li className="nav-item">
-              <Link to="/games">Games</Link>
+              <Link ignoreDefaultStyle to="/games">Games</Link>
              </li>
             )}
             <li className="flex-1" />
             <li className="nav-item">
-              <Link to={`/${auth.me.username}`}>My Account</Link>
+              <Link ignoreDefaultStyle to={`/${auth.me.username}`}>My Account</Link>
             </li>
           </>
         ) : (
@@ -50,7 +51,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
             <li className="flex-1" />
 
             <li className="nav-item">
-              <Link to="/login">Login</Link>
+              <Link ignoreDefaultStyle to="/login">Login</Link>
             </li>
           </>
         )}

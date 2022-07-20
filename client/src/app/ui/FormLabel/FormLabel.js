@@ -1,12 +1,12 @@
 import React from 'react';
-import { Typography } from '@mui/material';
-import './Typography.scss';
+import { FormLabel } from '@mui/material';
+import './FormLabel.scss';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => {
   return (
-    <div className="Typography">
-      <Typography {...props}/>
+    <div className="FormLabel">
+      <FormLabel {...props}/>
     </div>
   );
 };

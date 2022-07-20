@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
-import { FormLabel } from '@mui/material';
+import FormLabel from '../FormLabel/FormLabel';
 
-export default function SliderNotched({title, restricted, value, step, options, onChangeCommitted}) {
+export default function SliderNotched({formLabel, restricted, value, step, options, onChangeCommitted}) {
   const [sliderValue, setSliderValue] = useState()
 
   useEffect(() => {
@@ -34,9 +34,9 @@ export default function SliderNotched({title, restricted, value, step, options, 
 
   return (
     <div className="SliderNotched">
-      {title && <FormLabel>{title}</FormLabel>}
+      {formLabel && <FormLabel>{formLabel}</FormLabel>}
       <Slider
-        aria-label={title}
+        aria-label={formLabel}
         value={sliderValue}
         min={marks[0].value}
         max={marks[marks.length-1].value}

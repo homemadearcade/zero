@@ -13,7 +13,8 @@ import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.scss';
-import { Button, Typography } from '@mui/material';
+import Button from '../../app/ui/Button/Button';
+import Typography from '../../app/ui/Typography/Typography';
 
 const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {

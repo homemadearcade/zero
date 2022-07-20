@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '..//ui/SelectDescriptors/SelectDescriptors';
-import { Button, Typography } from '@mui/material';
 import { clearEditorForms, updateCreateClass } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
+import Button from '../../app/ui/Button/Button';
+import Typography from '../../app/ui/Typography/Typography';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onClose, editorFormsState: { class: objectClass } }) => {
   function handleClose() {
@@ -22,14 +23,14 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onCl
         onChange={(event, descriptors) => {
           updateCreateClass({ descriptors })
         }}
-        title="Descriptors"
+        formLabel="Descriptors"
         value={objectClass.descriptors}
       />
       <SelectSpriteInline
         onSelect={(textureId) => {
           updateCreateClass({ textureId })
         }}
-        title="Select a sprite"
+        formLabel="Select a sprite"
         descriptors={objectClass.descriptors}
         textureIdSelected={objectClass.textureId}
       />

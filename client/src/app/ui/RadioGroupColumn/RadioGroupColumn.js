@@ -5,10 +5,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-export default function RadioGroupColumn({title, options, value, onChange}) {
+export default function RadioGroupColumn({formLabel, options, value, onChange}) {
   return (
     <FormControl>
-      {title && <FormLabel>{title}</FormLabel>}
+      {formLabel && <FormLabel>{formLabel}</FormLabel>}
       <RadioGroup
         row
         value={value}

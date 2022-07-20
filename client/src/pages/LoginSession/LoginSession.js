@@ -18,7 +18,8 @@ import { getUrlParameter } from '../../utils/utils';
 import Loader from '../../app/ui/Loader/Loader';
 import SceneFull from '../../app/SceneFull/SceneFull.jsx';
 import { ON_AUTHENTICATE_SOCKET_SUCCESS } from '../../store/types';
-import { Button, Typography } from '@mui/material';
+import Button from '../../app/ui/Button/Button';
+import Typography from '../../app/ui/Typography/Typography';
 
 const LoginSession = ({ auth, history, loginUserWithEmail, authenticateSocket }) => {
   let [prefaces, setPrefaces] = useState([

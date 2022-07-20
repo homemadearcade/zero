@@ -15,7 +15,8 @@ import requireAuth from '../../hoc/requireAuth';
 import { userSchema } from './validation';
 
 import './styles.scss';
-import { Button, Typography } from '@mui/material';
+import Button from '../../app/ui/Button/Button';
+import Typography from '../../app/ui/Typography/Typography';
 
 const User = ({
   getUserByUsername,

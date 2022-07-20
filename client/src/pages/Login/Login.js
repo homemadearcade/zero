@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
+import Link from '../../app/ui/Link/Link';
 
 import { useFormik } from 'formik';
 
@@ -10,7 +11,8 @@ import { loginUserWithEmail } from '../../store/actions/authActions';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
 import './styles.css';
-import { Button, Typography } from '@mui/material';
+import Button from '../../app/ui/Button/Button';
+import Typography from '../../app/ui/Typography/Typography';
 
 const Login = ({ auth, history, loginUserWithEmail }) => {
   const formik = useFormik({
@@ -32,15 +34,15 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
         <Typography component="h1" variant="h1">Log in page</Typography>
         <p>
           back to{' '}
-          <Link className="bold" to="/">
+          <Link to="/">
             Home page
           </Link>
         </p>
         <form onSubmit={formik.handleSubmit}>
-          {false && <a className="google btn" href={GOOGLE_AUTH_LINK}>
+          {false && <Link className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Login with Google
-          </a>}
+          </Link>}
           <div>
             <input
               placeholder="Email address"
@@ -79,7 +81,7 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
           </div>
           <div>
             Don't have an account?{' '}
-            <Link className="bold" to="/register">
+            <Link to="/register">
               Register
             </Link>
           </div>

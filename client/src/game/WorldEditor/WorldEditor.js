@@ -5,16 +5,16 @@ import { editGameModel } from '../../store/actions/gameActions';
 
 import './WorldEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
-import { Typography } from '@mui/material';
+import Typography from '../../app/ui/Typography/Typography';
 
 const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
   const world = gameModel.world
 
   return (
     <div className="WorldEditor">
-      <Typography component="h1" variant="h1">Editing World</Typography>
+      <Typography component="h5" variant="h5">Editing World</Typography>
       <SliderNotched
-        title="Gravity X"
+        formLabel="Gravity X"
         step={0.5}
         options={[-5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5]}
         onChangeCommitted={(value) => {
@@ -23,7 +23,7 @@ const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
         value={world.gravity.x}
       />
       <SliderNotched
-        title="Gravity Y"
+        formLabel="Gravity Y"
         step={0.5}
         options={[-5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5]}
         onChangeCommitted={(value) => {

@@ -28,12 +28,20 @@ const LobbyPage = ({
   auth: { me },
   status: { lobbyUserStatus }
 }) => {
+
   useEffect(() => {
     if(lobby.isGameStarted && lobby.game?.id) {
       loadGame(lobby.game.id)
     }
   }, [lobby.isGameStarted])
 
+  useEffect(() => {
+    return () => {
+      if(lobby.game?.id) {
+        unloadGame()
+      }
+    }
+  }, [])
 
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -156,18 +164,20 @@ const LobbyPage = ({
   if(lobby?.id) {
     return (
       <div className="Lobby">
-        <Typography component="h1" variant="h1">{"You are in Lobby: " + lobby.id}</Typography>
+        <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
 
         {lobby.isGameStarted && <>
-          <Typography variant="h2" component="h2">Game Started!</Typography>
+          <Typography variant="subtitle1" component="subtitle1">Game Started!</Typography>
           <GameCard game={lobby.game}/>
         </>}
 
-        <Typography component="h1" variant="h1">In Room: </Typography>
-        {lobby.users.map((user) => {
-          return <UserStatus key={user.id} onClick={onClickUser} userId={user.id}/>
-        })}
-        <Typography component="h1" variant="h1">Roles: </Typography>
+        <Typography component="h5" variant="h5">Users in room: </Typography>
+        <div className="Lobby__users">
+          {lobby.users.map((user) => {
+            return <UserStatus key={user.id} onClick={onClickUser} userId={user.id}/>
+          })}
+        </div>
+        <Typography component="h5" variant="h5">Roles: </Typography>
         <div className="Lobby__roles">
           <div className="Lobby__role">
             <strong>Game Host</strong><br/>
@@ -229,7 +239,7 @@ const LobbyPage = ({
         </div>
 
         {!lobby.isGameStarted && <>
-          <Typography component="h1" variant="h1">Select Game: </Typography>
+          <Typography component="h5" variant="h5">Select Game: </Typography>
           {lobby?.game?.id && <GameCard game={lobby.game}/>}
           <GameSelect onSelect={(game) => {
             editLobby(lobby.id, {
@@ -248,11 +258,11 @@ const LobbyPage = ({
           </Button>
         </>}
 
-        <Typography component="h1" variant="h1">Checklist: </Typography>
+        <Typography component="h5" variant="h5">Checklist: </Typography>
         <div className="Lobby__checklist">
           {checklist.map((item, i) => {
             const isPassing = !!item.test();
-            return <div  key={i} className={classNames("Lobby__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
+            return <div key={i} className={classNames("Lobby__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
               {isPassing && <span className="Lobby__checklist-check"><i className="fa-solid fa-check"></i></span>}
               {!isPassing && <span className="Lobby__checklist-check" />}
               {item.text}

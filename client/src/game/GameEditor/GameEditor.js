@@ -8,12 +8,14 @@ import ContextMenu from '../../app/ui/ContextMenu/ContextMenu';
 // import SaveGameButton from '../SaveGameButton/SaveGameButton';
 import GameView from '../GameView/GameView';
 import LiveEditor from '../LiveEditor/LiveEditor';
-import { closeLiveEditor } from '../../store/actions/editorActions';
+import { clearEditor } from '../../store/actions/editorActions';
+import { clearEditorForms } from '../../store/actions/editorFormsActions';
 
-const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, closeLiveEditor}) => {
+const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, clearEditor, clearEditorForms}) => {
   useEffect(() => {
     return () => {
-      closeLiveEditor()
+      clearEditor()
+      clearEditorForms()
     }
   }, [])
 
@@ -46,4 +48,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps, { closeLiveEditor })(GameEditor);
+export default connect(mapStateToProps, { clearEditor, clearEditorForms })(GameEditor);

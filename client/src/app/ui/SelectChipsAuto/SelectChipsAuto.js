@@ -6,7 +6,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
-import { FormLabel } from '@mui/material';
+import FormLabel from '../FormLabel/FormLabel';
 
 const Root = styled('div')(
   ({ theme }) => `
@@ -148,7 +148,7 @@ const Listbox = styled('ul')(
 `,
 );
 
-export default function SelectChipsAuto({onChange, value, options, title}) {
+export default function SelectChipsAuto({onChange, value, options, formLabel}) {
   const [inheritedValue, setInheritedValue] = useState(value)
 
   useEffect(() => {
@@ -164,10 +164,10 @@ export default function SelectChipsAuto({onChange, value, options, title}) {
 
   if(!inheritedValue === undefined) return null
 
-  return <SelectChipsAutoForm onChange={onChange} inheritedValue={inheritedValue} options={options} title={title}/>
+  return <SelectChipsAutoForm onChange={onChange} inheritedValue={inheritedValue} options={options} formLabel={formLabel}/>
 }
 
-function SelectChipsAutoForm({onChange, inheritedValue, options, title}) {
+function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
   const {
     getRootProps,
     getInputLabelProps,
@@ -179,7 +179,7 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, title}) {
     focused,
     setAnchorEl,
   } = useAutocomplete({
-    id: title,
+    id: formLabel,
     value: inheritedValue,
     multiple: true,
     options,
@@ -191,7 +191,7 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, title}) {
   return (
     <Root>
       <div {...getRootProps()}>
-        {title && <FormLabel {...getInputLabelProps()}>{title}</FormLabel>}
+        {formLabel && <FormLabel {...getInputLabelProps()}>{formLabel}</FormLabel>}
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {inheritedValue.map((option, index) => (
             <StyledTag label={option.label} {...getTagProps({ index })} />

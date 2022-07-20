@@ -1,12 +1,12 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from '../../app/ui/Link/Link';
 
 import Layout from '../../layout/Layout';
 
 import './styles.css';
-import { Typography } from '@mui/material';
+import Typography from '../../app/ui/Typography/Typography';
 
 const Home = ({ auth, reseedDatabase }) => {
   return (
@@ -17,11 +17,11 @@ const Home = ({ auth, reseedDatabase }) => {
           <div>
             <p>
               Welcome guest!{' '}
-              <Link className="bold" to="/login">
+              <Link to="/login">
                 Log in
               </Link>{' '}
               or{' '}
-              <Link className="bold" to="/register">
+              <Link to="/register">
                 Register
               </Link>
             </p>

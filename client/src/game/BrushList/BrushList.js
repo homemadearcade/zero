@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import './BrushList.scss';
-import { Button, FormLabel, Typography } from '@mui/material';
+import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
@@ -14,6 +14,8 @@ import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/e
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../store/actions/editorActions';
 import { BACKGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH } from '../../constants';
+import Button from '../../app/ui/Button/Button';
+import Typography from '../../app/ui/Typography/Typography';
 
 const BrushList = ({
   game: { gameModel },

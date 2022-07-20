@@ -13,9 +13,13 @@ export default (props) => {
   }
 
   if(props.to) {
+    if(props.ignoreDefaultStyle) {
+      return <RouterLink to={props.to}>{props.children}</RouterLink>
+    }
+
     return (
       <RouterLink to={props.to}>
-        <MuiLink {...props}/>
+        <MuiLink component="div" {...props}/>
       </RouterLink>
     );
   } else if(props.href) {

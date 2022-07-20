@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from '../../app/ui/Link/Link';
 import moment from 'moment';
 
 import { getUsers } from '../../store/actions/usersActions';
@@ -11,7 +11,7 @@ import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.css';
-import { Typography } from '@mui/material';
+import Typography from '../../app/ui/Typography/Typography';
 
 const Users = ({ getUsers, users: { users, isLoading } }) => {
   useEffect(() => {
@@ -47,7 +47,7 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
                       </div>
                       <div>
                         <span className="label">Username: </span>
-                        <Link to={`/${user.username}`} className="info bold profile-link">
+                        <Link to={`/${user.username}`}>
                           {user.username}
                         </Link>
                       </div>

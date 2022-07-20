@@ -33,26 +33,26 @@ const AgoraVideoCallPreview = ({startAgoraVideoCall, lobbyId, onClickJoin, auth:
 
   return <div className="AgoraVideoCallPreview">
     {!ready && <div className="AgoraVideoCallPreview__popup">
-      <Typography component="h3" variant="h3">A window should popup in your browser asking permission to use your camera. Please click 'Allow'.</Typography>
+      <Typography component="h5" variant="h5">A window should popup in your browser asking permission to use your camera. Please click 'Allow'.</Typography>
     </div>}
     {ready && <div className="AgoraVideoCallPreview__body">
-      <Typography component="h3" variant="h3">Select a camera and microphone</Typography>
+      <Typography component="h5" variant="h5">Select a camera and microphone</Typography>
       <AgoraInputSelect tracks={userTracks}/>
-      <Typography component="h3" variant="h3">Please check that your preferred camera is visible below</Typography>
+      <Typography component="h5" variant="h5">Please check that your preferred camera is visible below</Typography>
       <AgoraVideo 
         className="AgoraVideo__preview"
         label="Preview"
         hideOverlay
         tracks={userTracks} />
       <div className="AgoraVideoCallPreview__volume-checker">
-        <Typography component="h3" variant="h3">Please check that your microphone is picking up sound with the meter below</Typography>
+        <Typography component="h5" variant="h5">Please check that your microphone is picking up sound with the meter below</Typography>
         <AgoraVolumeMeter audioTrack={userTracks.audioTrack}/>
       </div>
       <Button onClick={() => {
         onClickJoin()
         startAgoraVideoCall(tracks)
       }}>
-        Join with Video
+        Join Lobby with Video
       </Button>
     </div>
   }

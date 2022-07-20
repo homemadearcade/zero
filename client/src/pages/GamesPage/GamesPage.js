@@ -11,9 +11,9 @@ import requireAuth from '../../hoc/requireAuth';
 import Layout from '../../layout/Layout';
 import { getGames } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
-import { Link } from 'react-router-dom';
+import Link from '../../app/ui/Link/Link';
 import GameForm from '../../app/GameForm/GameForm';
-import { Typography } from '@mui/material';
+import Typography from '../../app/ui/Typography/Typography';
 
 const GamesPage = ({ getGames, game: { games, isLoading }}) => {
   useEffect(() => {

@@ -5,7 +5,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import { closeLiveEditor } from '../../store/actions/editorActions';
 
 import './LiveEditor.scss'
-import { Button } from '@mui/material';
+import Button from '../../app/ui/Button/Button';
 import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
 import WorldEditor from '../WorldEditor/WorldEditor';
 

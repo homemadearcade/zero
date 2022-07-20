@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../ui/SelectDescriptors/SelectDescriptors';
-import { Button, Typography } from '@mui/material';
 import RadioGroupColumn from '../../app/ui/RadioGroupColumn/RadioGroupColumn';
 import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import { BACKGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH } from '../../constants';
+import Typography from '../../app/ui/Typography/Typography';
+import Button from '../../app/ui/Button/Button';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush } }) => {
   function handleClose() {
@@ -24,20 +25,20 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
         onChange={(event, descriptors) => {
           updateCreateBrush({ descriptors })
         }}
-        title="Describe it"
+        formLabel="Describe it"
         value={brush.descriptors}
       />
       <SelectSpriteInline
         onSelect={(textureId) => {
           updateCreateBrush({ textureId })
         }}
-        title="Select a sprite"
+        formLabel="Select a sprite"
         descriptors={brush.descriptors}
         textureIdSelected={brush.textureId}
       />
       <RadioGroupColumn
         value={brush.layer}
-        title="Pick a layer"
+        formLabel="Pick a layer"
         onChange={(event, value) => {
           updateCreateBrush({ layer: Number(value)})
         }}

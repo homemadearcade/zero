@@ -1,10 +1,10 @@
-import { Typography } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from '../../app/ui/Link/Link';
 
 import requireAdmin from '../../hoc/requireAdmin';
 import Layout from '../../layout/Layout';
 import './styles.css';
+import Typography from '../../app/ui/Typography/Typography';
 
 const Admin = () => {
   return (
@@ -13,7 +13,7 @@ const Admin = () => {
         <Typography component="h1" variant="h1">Admin dashboard</Typography>
         <p>
           This is the Admin page. Only the Admin can access this page. Return back to{' '}
-          <Link className="bold" to="/">
+          <Link to="/">
             Home
           </Link>
         </p>

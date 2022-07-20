@@ -15,7 +15,7 @@ import Lobby from '../../app/Lobby/Lobby';
 import CobrowsingRoot from '../../app/cobrowsing/CobrowsingRoot/CobrowsingRoot';
 import { leaveAgoraVideoCall } from '../../store/actions/videoActions';
 import AgoraVideoCall from '../../app/agora/AgoraVideoCall/AgoraVideoCall';
-import { Typography } from '@mui/material';
+import Typography from '../../app/ui/Typography/Typography';
 
 const LobbyPage = ({
   leaveLobby,
