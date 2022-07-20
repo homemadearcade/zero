@@ -10,6 +10,7 @@ import GameView from '../GameView/GameView';
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/editorActions';
 import { clearEditorForms } from '../../store/actions/editorFormsActions';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, clearEditor, clearEditorForms}) => {
   useEffect(() => {
@@ -39,13 +40,8 @@ const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNet
   );
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
-  return {
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  editorState: state.editor.editorState,
+})
 
 export default connect(mapStateToProps, { clearEditor, clearEditorForms })(GameEditor);

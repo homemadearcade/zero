@@ -7,6 +7,7 @@ import './ClassItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 import Sprite from '../ui/Sprite/Sprite';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const ClassItem = ({
   game: { gameModel: { classes } },
@@ -41,15 +42,11 @@ const ClassItem = ({
   </div>
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  game: state.game,
+  editorState: state.editor.editorState,
+})
 
-  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
-  return {
-    game: state.game,
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
-  }
-};
 export default compose(
   connect(mapStateToProps, { openContextMenuFromClassId, selectClass, clearClass, clearBrush }),
 )(ClassItem);

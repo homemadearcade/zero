@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './CobrowsingRoot.scss';
-import { endCobrowsing, unsubscribeCobrowsing } from '../../../store/actions/cobrowsingActions';
+import './CobrowsingGame.scss';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
 import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import GameEditor from '../../../game/GameEditor/GameEditor';
@@ -11,23 +10,9 @@ import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 import Onboarding from '../Onboarding/Onboarding';
 import GameClassList from '../../../game/ClassList/ClassList';
 import GameBrushList from '../../../game/BrushList/BrushList';
+import withCobrowsing from '../../../hoc/withCobrowsing';
 
-const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isConnected }, myTracks, userTracks}) => {    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function onClose() {
-    if(isSubscribedCobrowsing) {
-      unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
-    } else {
-      endCobrowsing({lobbyId: lobby.id})
-    }
-  }
-
-  useEffect(() => {
-    return () => {
-      onClose()
-    }
-  }, [])
-
+const CobrowsingGame = ({ game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isConnected }, myTracks, userTracks}) => {    
   return <GameEditor 
     isHost={lobby.gameHostId === me.id}
     isNetworked
@@ -43,7 +28,7 @@ const CobrowsingRoot = ({ endCobrowsing, unsubscribeCobrowsing, game: { gameMode
     overlay={!lobby.isGameStarted && <Onboarding/>}
   >
     {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
-    {me.role === 'ADMIN' && <CobrowsingStatus onClose={onClose}/>}
+    {me.role === 'ADMIN' && <CobrowsingStatus/>}
   </GameEditor>
 };
 
@@ -56,6 +41,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { endCobrowsing, unsubscribeCobrowsing }),
-)(CobrowsingRoot);
+  withCobrowsing,
+  connect(mapStateToProps, { }),
+)(CobrowsingGame);
 

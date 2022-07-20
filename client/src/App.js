@@ -16,7 +16,7 @@ import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
 import Lobbys from './pages/Lobbys/Lobbys';
-import Lobby from './pages/LobbyPage/LobbyPage';
+import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
 import SessionLogin from './pages/LoginSession/LoginSession';
 import LobbyFind from './pages/LobbyFind/LobbyFind';
@@ -162,7 +162,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
             <Route path="/admin" component={Admin} />
             <Route path="/lobbys" component={Lobbys} />
             <Route path="/lobby/find" component={LobbyFind} />
-            <Route path="/lobby/:id" component={Lobby} />
+            <Route path="/lobby/:id" component={LobbyPage} />
             <Route exact path="/:username" component={Account} />
             <Route exact path="/" component={Home} />
             <Route component={NotFound} />

@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { openLivePhysicsEditor } from '../../store/actions/editorActions';
 import { editGameModel } from '../../store/actions/gameActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editorState: { objectSelectedIdContextMenu }}) => {
   return <>
@@ -16,13 +17,8 @@ const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editorState
   </>
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
-  return {
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  editorState: state.editor.editorState,
+})
 
 export default connect(mapStateToProps, { openLivePhysicsEditor, editGameModel })(ObjectInstanceContextMenu);

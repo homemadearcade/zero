@@ -2,25 +2,25 @@
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 import { assignLobbyRole} from '../../store/actions/lobbyActions';
-import { subscribeCobrowsing, startCobrowsing } from '../../store/actions/cobrowsingActions';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import Lobby from '../../app/Lobby/Lobby';
-import CobrowsingRoot from '../../app/cobrowsing/CobrowsingRoot/CobrowsingRoot';
 import withLobby from '../../hoc/withLobby';
+import CobrowsingGame from '../../app/cobrowsing/CobrowsingGame/CobrowsingGame';
 
 const LobbyPage = ({
-  startCobrowsing,
-  subscribeCobrowsing,
-  cobrowsing: { cobrowsingUser },
   lobby: { lobby },
   auth: { me },
   myTracks,
   userTracks
 }) => {
+  let { path} = useRouteMatch();
 
   useEffect(() => {
     if(me.role === 'ADMIN' && (!lobby.guideId)) {
@@ -42,31 +42,27 @@ const LobbyPage = ({
     }
   
     if(me.role !== 'ADMIN') {
-      startCobrowsing({lobbyId: lobby.id})
+      // startCobrowsing({lobbyId: lobby.id})
     }
   }, [])
 
-  if(cobrowsingUser) {
-    return <CobrowsingRoot myTracks={myTracks} userTracks={userTracks} />
-  }
-
-  return <Lobby onClickUser={(user) => {
-    if(user.id === me.id) {
-      startCobrowsing({lobbyId: lobby.id})
-    } else {
-      subscribeCobrowsing({lobbyId: lobby.id, userId: user.id})
-    }
-  }}/>
+  return <Switch>
+    <Route exact path={path}>
+      <Lobby/>
+    </Route>
+    <Route path={`${path}/join/:cobrowsingUserId`}>
+      <CobrowsingGame myTracks={myTracks} userTracks={userTracks} />
+    </Route>
+  </Switch>
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
-  cobrowsing: state.cobrowsing,
 });
 
 export default compose(
   requireAuth,
   withLobby,
-  connect(mapStateToProps, {  assignLobbyRole, startCobrowsing, subscribeCobrowsing }),
+  connect(mapStateToProps, {  assignLobbyRole }),
 )(LobbyPage);

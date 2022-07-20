@@ -7,6 +7,7 @@ import './BrushItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 import Sprite from '../ui/Sprite/Sprite';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },
@@ -34,15 +35,10 @@ const BrushItem = ({
   </div>
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
-  return {
-    game: state.game,
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  game: state.game,
+  editorState: state.editor.editorState,
+})
 
 export default compose(
   connect(mapStateToProps, { openContextMenuFromClassId, selectBrush, clearClass, clearBrush }),

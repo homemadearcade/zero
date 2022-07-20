@@ -7,6 +7,7 @@ import './EraserSelect.scss';
 import classNames from 'classnames';
 import { clearClass, selectBrush, clearBrush } from '../../../store/actions/editorActions';
 import { ERASER_BRUSH_ID } from '../../../constants';
+import { getRemoteCobrowsingState } from '../../../utils/cobrowsing';
 
 const EraserSelect = ({
   editorState: { brushSelectedIdBrushList },
@@ -32,14 +33,9 @@ const EraserSelect = ({
   </div>
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  // console.log(isCobrowsing, isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState)
-  return {
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  editorState: state.editor.editorState,
+})
 
 export default compose(
   connect(mapStateToProps, { selectBrush, clearClass, clearBrush }),

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import './UserStatus.scss';
+import Link from '../ui/Link/Link';
 
 const UserStatus = ({ onClick, userId, key, lobby: { lobby }, status : { lobbyUserStatus, cobrowsingMouse },  auth: {me} }) => {
   const userStatus = lobbyUserStatus[userId];
@@ -33,6 +34,7 @@ const UserStatus = ({ onClick, userId, key, lobby: { lobby }, status : { lobbyUs
       <div className="UserStatus__cobrowsing"><div className="UserStatus__icon"><i className="fa-solid fa-arrow-pointer"/></div>{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</span> : 'Never'}</div>
       <div className="UserStatus__upload"><div className="UserStatus__icon"><i className="fa-solid fa-upload"/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
       <div className="UserStatus__download"><div className="UserStatus__icon"><i className="fa-solid fa-download"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
+      <Link to={`/lobby/${lobby.id}/join/${user.id}`}>Join</Link>
     </div>
   </div>
 };

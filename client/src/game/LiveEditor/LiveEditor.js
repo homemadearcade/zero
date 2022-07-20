@@ -8,6 +8,7 @@ import './LiveEditor.scss'
 import Button from '../../app/ui/Button/Button';
 import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
 import WorldEditor from '../WorldEditor/WorldEditor';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const LiveEditor = ({ closeLiveEditor, editorState: { classSelectedIdLiveEditor, liveEditingCategory } }) => {
   return (
@@ -19,12 +20,9 @@ const LiveEditor = ({ closeLiveEditor, editorState: { classSelectedIdLiveEditor,
   );
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  return {
-    game: state.game,
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  game: state.game,
+  editorState: state.editor.editorState,
+})
 
 export default connect(mapStateToProps, { editGameModel, closeLiveEditor })(LiveEditor);

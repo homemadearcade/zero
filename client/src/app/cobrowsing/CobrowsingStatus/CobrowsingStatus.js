@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 
 import './CobrowsingStatus.scss';
 import UserStatus from '../../UserStatus/UserStatus';
+import Link from '../../ui/Link/Link';
 
-const CobrowsingStatus = ({ onClose, auth: {me}, cobrowsingUser }) => {
+const CobrowsingStatus = ({ auth: {me}, cobrowsingUser, lobby: { lobby } }) => {
   if(cobrowsingUser.id === me.id) {
     return (
       <div className="CobrowsingStatus">
-        <span className="CobrowsingStatus__close" onClick={onClose}>close</span>
+        <Link to={`/lobby/${lobby.id}`}>close</Link>
       </div>
     );
   }
@@ -17,12 +18,13 @@ const CobrowsingStatus = ({ onClose, auth: {me}, cobrowsingUser }) => {
   return (
     <div className="CobrowsingStatus">
       <UserStatus userId={cobrowsingUser.id}/>
-      <span className="CobrowsingStatus__close" onClick={onClose}>close</span>
+      <Link to={`/lobby/${lobby.id}`}>close</Link>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
+  lobby: state.lobby,
   cobrowsingUser: state.cobrowsing.cobrowsingUser,
   auth: state.auth
 });

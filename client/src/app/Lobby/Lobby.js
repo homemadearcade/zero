@@ -23,7 +23,6 @@ const LobbyPage = ({
   loadGame,
   unloadGame,
   assignLobbyRole,
-  onClickUser,
   lobby: { lobby },
   auth: { me },
   status: { lobbyUserStatus }
@@ -153,133 +152,129 @@ const LobbyPage = ({
     return !!item.test();
   })
 
-  if(lobby?.id) {
-    return (
-      <div className="Lobby">
-        <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
+  return (
+    <div className="Lobby">
+      <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
 
-        {lobby.isGameStarted && <>
-          <Typography variant="subtitle1" component="subtitle1">Game Started!</Typography>
-          <GameCard game={lobby.game}/>
-        </>}
+      {lobby.isGameStarted && <>
+        <Typography variant="subtitle1" component="subtitle1">Game Started!</Typography>
+        <GameCard game={lobby.game}/>
+      </>}
 
-        <Typography component="h5" variant="h5">Users in room: </Typography>
-        <div className="Lobby__users">
-          {lobby.users.map((user) => {
-            return <UserStatus key={user.id} onClick={onClickUser} userId={user.id}/>
-          })}
-        </div>
-        <Typography component="h5" variant="h5">Roles: </Typography>
-        <div className="Lobby__roles">
-          <div className="Lobby__role">
-            <strong>Game Host</strong><br/>
-            {lobby.gameHostId && <UserStatus userId={usersById[lobby.gameHostId]?.id}/>}
-            {!lobby.isGameStarted && <div className="Lobby__role-assign">
-              Assign:
-              <select onChange={(e) => {
-                assignLobbyRole(lobby.id, {
-                  userId: e.target.value, 
-                  role: 'gameHost'
-                });
-              }}>
-                <option/>
-                <option value={UNASSIGNED_ROLE}>unassign</option>
-                {lobby.users.map((user) => {
-                  return <option key={user.id} value={user.id}>{user.username}</option>
-                })}
-              </select>
-            </div>}
-          </div>
-          <div className="Lobby__role">
-            <strong>Participant</strong><br/>
-            {lobby.participantId && <UserStatus userId={usersById[lobby.participantId]?.id}/>}
-            {!lobby.isGameStarted && <div className="Lobby__role-assign">
-              Assign:
-              <select onChange={(e) => {
-                assignLobbyRole(lobby.id, {
-                  userId: e.target.value, 
-                  role: 'participant'
-                });
-              }}>
-                <option/>
-                <option value={UNASSIGNED_ROLE}>unassign</option>
-                {lobby.users.map((user) => {
-                  return <option key={user.id} value={user.id}>{user.username}</option>
-                })}
-              </select>
-            </div>}
-          </div>
-          <div className="Lobby__role">
-            <strong>Guide</strong><br/>
-            {lobby.guideId && <UserStatus userId={usersById[lobby.guideId]?.id}/>}
-            {!lobby.isGameStarted && <div className="Lobby__role-assign">
-            Assign:
-              <select onChange={(e) => {
-                assignLobbyRole(lobby.id, {
-                  userId: e.target.value, 
-                  role: 'guide'
-                });
-              }}>
-                <option/>
-                <option value={UNASSIGNED_ROLE}>unassign</option>
-                {lobby.users.map((user) => {
-                  return <option key={user.id} value={user.id}>{user.username}</option>
-                })}
-              </select>
-            </div>}
-          </div>
-        </div>
-
-        {!lobby.isGameStarted && <>
-          <Typography component="h5" variant="h5">Select Game: </Typography>
-          {lobby?.game?.id && <GameCard game={lobby.game}/>}
-          <GameSelect onSelect={(game) => {
-            editLobby(lobby.id, {
-              game
-            })
-          }}/>
-          <Button disabled={!lobby.participantId} variant="contained" onClick={async () => {
-            const response = await addGame({
-              userId: lobby.participantId
-            })
-            editLobby(lobby.id, {
-              game: response.data.game
-            })
-          }} startIcon={<i className="fas fa-plus"/>}>
-            New Game
-          </Button>
-        </>}
-
-        <Typography component="h5" variant="h5">Checklist: </Typography>
-        <div className="Lobby__checklist">
-          {checklist.map((item, i) => {
-            const isPassing = !!item.test();
-            return <div key={i} className={classNames("Lobby__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
-              {isPassing && <span className="Lobby__checklist-check"><i className="fa-solid fa-check"></i></span>}
-              {!isPassing && <span className="Lobby__checklist-check" />}
-              {item.text}
-              {item.required && ' (required)'}
-            </div>
-          })}
-        </div>
-        {!lobby.isGameStarted && <Button
-          type="button"
-          variant="contained"
-          onClick={() => {
-            editLobby(lobby.id, {
-              isGameStarted: true
-            })
-          }}
-          disabled={!isAllRequiredPassing}
-          startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
-        >
-          Start game
-        </Button>}
+      <Typography component="h5" variant="h5">Users in room: </Typography>
+      <div className="Lobby__users">
+        {lobby.users.map((user) => {
+          return <UserStatus key={user.id}  userId={user.id}/>
+        })}
       </div>
-    );
-  } else {
-    return <div className="LobbyPage"></div>
-  }
+      <Typography component="h5" variant="h5">Roles: </Typography>
+      <div className="Lobby__roles">
+        <div className="Lobby__role">
+          <strong>Game Host</strong><br/>
+          {lobby.gameHostId && <UserStatus userId={usersById[lobby.gameHostId]?.id}/>}
+          {!lobby.isGameStarted && <div className="Lobby__role-assign">
+            Assign:
+            <select onChange={(e) => {
+              assignLobbyRole(lobby.id, {
+                userId: e.target.value, 
+                role: 'gameHost'
+              });
+            }}>
+              <option/>
+              <option value={UNASSIGNED_ROLE}>unassign</option>
+              {lobby.users.map((user) => {
+                return <option key={user.id} value={user.id}>{user.username}</option>
+              })}
+            </select>
+          </div>}
+        </div>
+        <div className="Lobby__role">
+          <strong>Participant</strong><br/>
+          {lobby.participantId && <UserStatus userId={usersById[lobby.participantId]?.id}/>}
+          {!lobby.isGameStarted && <div className="Lobby__role-assign">
+            Assign:
+            <select onChange={(e) => {
+              assignLobbyRole(lobby.id, {
+                userId: e.target.value, 
+                role: 'participant'
+              });
+            }}>
+              <option/>
+              <option value={UNASSIGNED_ROLE}>unassign</option>
+              {lobby.users.map((user) => {
+                return <option key={user.id} value={user.id}>{user.username}</option>
+              })}
+            </select>
+          </div>}
+        </div>
+        <div className="Lobby__role">
+          <strong>Guide</strong><br/>
+          {lobby.guideId && <UserStatus userId={usersById[lobby.guideId]?.id}/>}
+          {!lobby.isGameStarted && <div className="Lobby__role-assign">
+          Assign:
+            <select onChange={(e) => {
+              assignLobbyRole(lobby.id, {
+                userId: e.target.value, 
+                role: 'guide'
+              });
+            }}>
+              <option/>
+              <option value={UNASSIGNED_ROLE}>unassign</option>
+              {lobby.users.map((user) => {
+                return <option key={user.id} value={user.id}>{user.username}</option>
+              })}
+            </select>
+          </div>}
+        </div>
+      </div>
+
+      {!lobby.isGameStarted && <>
+        <Typography component="h5" variant="h5">Select Game: </Typography>
+        {lobby?.game?.id && <GameCard game={lobby.game}/>}
+        <GameSelect onSelect={(game) => {
+          editLobby(lobby.id, {
+            game
+          })
+        }}/>
+        <Button disabled={!lobby.participantId} variant="contained" onClick={async () => {
+          const response = await addGame({
+            userId: lobby.participantId
+          })
+          editLobby(lobby.id, {
+            game: response.data.game
+          })
+        }} startIcon={<i className="fas fa-plus"/>}>
+          New Game
+        </Button>
+      </>}
+
+      <Typography component="h5" variant="h5">Checklist: </Typography>
+      <div className="Lobby__checklist">
+        {checklist.map((item, i) => {
+          const isPassing = !!item.test();
+          return <div key={i} className={classNames("Lobby__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
+            {isPassing && <span className="Lobby__checklist-check"><i className="fa-solid fa-check"></i></span>}
+            {!isPassing && <span className="Lobby__checklist-check" />}
+            {item.text}
+            {item.required && ' (required)'}
+          </div>
+        })}
+      </div>
+      {!lobby.isGameStarted && <Button
+        type="button"
+        variant="contained"
+        onClick={() => {
+          editLobby(lobby.id, {
+            isGameStarted: true
+          })
+        }}
+        disabled={!isAllRequiredPassing}
+        startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
+      >
+        Start game
+      </Button>}
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => ({

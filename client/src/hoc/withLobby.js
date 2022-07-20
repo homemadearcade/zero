@@ -29,6 +29,7 @@ export default (ChildComponent) => {
     }
 
     componentWillUnmount() {
+      console.log('were unmounting')
       this.withLobbyCleaup()
     }
 

@@ -11,6 +11,7 @@ import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import { BACKGROUND_LAYER_ID, PLAYGROUND_LAYER_ID, OVERHEAD_LAYER_ID } from '../../constants';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush } }) => {
   function handleClose() {
@@ -70,13 +71,9 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
   </CobrowsingModal>
 }
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  return {
-    editorFormsState: isCobrowsing ? state.cobrowsing.remoteState.editorForms : state.editorForms.editorFormsState,
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  editorFormsState: state.editorForms.editorFormsState,
+})
 
 export default compose(
   connect(mapStateToProps, { updateCreateBrush, clearEditorForms }),

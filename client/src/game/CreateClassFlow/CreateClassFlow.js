@@ -9,6 +9,7 @@ import { clearEditorForms, updateCreateClass } from '../../store/actions/editorF
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onClose, editorFormsState: { class: objectClass } }) => {
   function handleClose() {
@@ -47,13 +48,9 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onCl
   </CobrowsingModal>
 }
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  return {
-    editorFormsState: isCobrowsing ? state.cobrowsing.remoteState.editorForms : state.editorForms.editorFormsState,
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  editorFormsState: state.editorForms.editorFormsState,
+})
 
 export default compose(
   connect(mapStateToProps, { updateCreateClass, clearEditorForms }),

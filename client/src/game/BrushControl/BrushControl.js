@@ -7,6 +7,7 @@ import './BrushControl.scss';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../store/actions/editorActions';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const BrushControl = ({
   game: { gameModel: { brushes, world }},
@@ -30,14 +31,10 @@ const BrushControl = ({
   </div>
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  return {
-    game: state.game,
-    editorState: isCobrowsing ? state.cobrowsing.remoteState.editor : state.editor.editorState,
-  }
-};
-
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  game: state.game,
+  editorState: state.editor.editorState,
+})
 
 export default compose(
   connect(mapStateToProps, { updateBrushSize }),

@@ -11,6 +11,7 @@ import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 import { closeCreateClassFlow, openCreateClassFlow } from '../../store/actions/editorFormsActions';
 import Button from '../../app/ui/Button/Button';
+import { getRemoteCobrowsingState } from '../../utils/cobrowsing';
 
 const ClassList = ({
   game: { gameModel },
@@ -74,15 +75,10 @@ const ClassList = ({
   </div>
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  return {
-    game: state.game,
-    editorFormsState: isCobrowsing ? state.cobrowsing.remoteState.editorForms : state.editorForms.editorFormsState,
-  }
-};
-
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  game: state.game,
+  editorFormsState: state.editorForms.editorFormsState,
+})
 export default compose(
   connect(mapStateToProps, { editGameModel, openCreateClassFlow, closeCreateClassFlow }),
 )(ClassList);

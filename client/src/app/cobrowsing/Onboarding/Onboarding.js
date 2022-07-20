@@ -11,6 +11,7 @@ import Loader from '../../ui/Loader/Loader';
 import { testInternetSpeed } from '../../../utils/network';
 import { requestFullscreen } from '../../../utils/browser';
 import Button from '../../ui/Button/Button';
+import { getRemoteCobrowsingState } from '../../../utils/cobrowsing';
 
 const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, videoState, lobbyState, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
@@ -121,16 +122,12 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
   }
 };
 
-const mapStateToProps = (state) => {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  return {
-    lobbyState: isCobrowsing ? state.cobrowsing.remoteState.lobby : state.lobby.lobbyState,
-    videoState: isCobrowsing ? state.cobrowsing.remoteState.video : state.video.videoState,
-    lobby: state.lobby,
-    cobrowsing: state.cobrowsing
-  }
-};
+const mapStateToProps = (state) => getRemoteCobrowsingState(state, {
+  lobby: state.lobby,
+  cobrowsing: state.cobrowsing,
+  lobbyState: state.lobby.lobbyState,
+  videoState: state.video.videoState
+});
 
 export default compose(
   connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateOnboardingStep, unsubscribeCobrowsing }),
