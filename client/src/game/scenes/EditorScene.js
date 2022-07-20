@@ -1,11 +1,10 @@
-import Phaser from 'phaser';
 import { v4 as uuidv4 } from 'uuid';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID } from '../../constants';
-import { isBrushIdEraser } from '../../utils/editor';
+import { isBrushIdEraser, snapObjectXY } from '../../utils/editor';
 import { Pencil } from '../entities/Pencil';
 import { Eraser } from '../entities/Eraser';
 import { Stamper } from '../entities/Stamper';
@@ -31,7 +30,7 @@ export class EditorScene extends GameInstance {
     if(this.draggingObjectInstanceId) {
       const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
       const objectClass= store.getState().game.gameModel.classes[classId]
-      const { snappedX, snappedY } = this.getClassSnapXY({x: dragX, y: dragY}, objectClass)
+      const { snappedX, snappedY } = snapObjectXY({x: dragX, y: dragY}, objectClass)
       objectInstance.x = snappedX;
       objectInstance.y = snappedY;
     } else {

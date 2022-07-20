@@ -1,7 +1,7 @@
 import Phaser, { BlendModes } from "phaser";
 import { OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID } from "../../constants";
 import store from "../../store";
-import { getLayerIdFromEraserId, getDepthFromEraserId } from "../../utils/editor";
+import { getLayerIdFromEraserId, getDepthFromEraserId, snapBrushXY } from "../../utils/editor";
 
 export class Eraser extends Phaser.GameObjects.Image {
   constructor(scene, brushId){
@@ -21,7 +21,7 @@ export class Eraser extends Phaser.GameObjects.Image {
     const nodeSize = store.getState().game.gameModel.world.nodeSize
     const brushSize = store.getState().editor.editorState.brushSize
 
-    const { snappedX, snappedY } = this.getSnapXY(pointer)
+    const { snappedX, snappedY } = snapBrushXY(pointer)
     const newWidth = nodeSize * brushSize
     const newHeight = nodeSize * brushSize
     this.setPosition(snappedX, snappedY)
@@ -35,23 +35,8 @@ export class Eraser extends Phaser.GameObjects.Image {
     })
   }
 
-  getSnapXY({x, y}) {
-    const gameModel = store.getState().game.gameModel
-    const nodeSize = gameModel.world.nodeSize
-    const brushSize = store.getState().editor.editorState.brushSize
-    const blockSize = nodeSize * brushSize
-
-    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)
-    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), blockSize), 0, gameModel.world.boundaries.height)
-
-    return {
-      snappedX,
-      snappedY
-    }
-  }
-
   stroke(pointer, layer) {
-    const { snappedX, snappedY } = this.getSnapXY(pointer)
+    const { snappedX, snappedY } = snapBrushXY(pointer)
     layer.erase(this, snappedX, snappedY);
   }
 

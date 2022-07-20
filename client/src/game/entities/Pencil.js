@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
 import store from "../../store";
-import { getDepthFromLayerId } from "../../utils/editor";
+import { getDepthFromLayerId, snapBrushXY } from "../../utils/editor";
 
 export class Pencil extends Phaser.GameObjects.Image {
   constructor(scene, brushId, brush){
@@ -20,7 +20,7 @@ export class Pencil extends Phaser.GameObjects.Image {
     const brushSize = store.getState().editor.editorState.brushSize
     const nodeSize = store.getState().game.gameModel.world.nodeSize
 
-    const { snappedX, snappedY } = this.getSnapXY(pointer)
+    const { snappedX, snappedY } = snapBrushXY(pointer)
     const newWidth = nodeSize * brushSize
     const newHeight = nodeSize * brushSize
     
@@ -29,23 +29,8 @@ export class Pencil extends Phaser.GameObjects.Image {
     this.setDepth(getDepthFromLayerId(this.brush.layerId))
   }
 
-  getSnapXY({x, y}) {
-    const gameModel = store.getState().game.gameModel
-    const nodeSize = gameModel.world.nodeSize
-    const brushSize = store.getState().editor.editorState.brushSize
-    const blockSize = nodeSize * brushSize
-
-    const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)
-    const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), blockSize), 0, gameModel.world.boundaries.height)
-
-    return {
-      snappedX,
-      snappedY
-    }
-  }
-
   stroke(pointer, layer) {
-    const { snappedX, snappedY } = this.getSnapXY(pointer)
+    const { snappedX, snappedY } = snapBrushXY(pointer)
     layer.draw(this, snappedX, snappedY);
   }
 
