@@ -32,12 +32,10 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
     <div className="login">
       <div className="container">
         <Typography component="h1" variant="h1">Log in page</Typography>
-        <p>
-          back to{' '}
-          <Link to="/">
-            Home page
-          </Link>
-        </p>
+        back to{' '}
+        <Link to="/">
+          Home page
+        </Link>
         <form onSubmit={formik.handleSubmit}>
           {false && <Link className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />

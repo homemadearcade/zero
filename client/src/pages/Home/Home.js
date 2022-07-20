@@ -15,22 +15,18 @@ const Home = ({ auth, reseedDatabase }) => {
         <Typography component="h1" variant="h1">Home page</Typography>
         {!auth.isAuthenticated ? (
           <div>
-            <p>
-              Welcome guest!{' '}
-              <Link to="/login">
-                Log in
-              </Link>{' '}
-              or{' '}
-              <Link to="/register">
-                Register
-              </Link>
-            </p>
+            Welcome guest!{' '}
+            <Link to="/login">
+              Log in
+            </Link>{' '}
+            or{' '}
+            <Link to="/register">
+              Register
+            </Link>
           </div>
         ) : (
           <>
-            <p>
               Welcome <span className="name">{auth.me.username}</span>!
-            </p>
           </>
         )}
       </div>

@@ -115,17 +115,13 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
       alert('Please use a Chromium browser such as Chrome or Brave')
       window.stop()
     } else {
-      checkIfIncognito((isIncognito) => {
-        if(!isIncognito) {
-          checkIfTabAlreadyOpen((isTabAlreadyOpen) => {
-            if(isTabAlreadyOpen) {
-              alert('Homemade Arcade is open inside of another tab. Please check all tabs you have open. This tab will now shutdown')
-              window.stop()
-            } else {
-              setIsCheckingBrowser(false)
-              loadMe();
-            }
-          })
+      checkIfTabAlreadyOpen((isTabAlreadyOpen) => {
+        if(isTabAlreadyOpen) {
+          alert('Homemade Arcade is open in another tab. Please check all tabs you have open. This tab will now shutdown')
+          window.stop()
+        } else {
+          setIsCheckingBrowser(false)
+          loadMe();
         }
       })
     }

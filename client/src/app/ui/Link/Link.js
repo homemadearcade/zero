@@ -19,7 +19,7 @@ export default (props) => {
 
     return (
       <RouterLink to={props.to}>
-        <MuiLink component="div" {...props}/>
+        <MuiLink component="span" {...props}/>
       </RouterLink>
     );
   } else if(props.href) {

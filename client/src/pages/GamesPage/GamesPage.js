@@ -24,9 +24,7 @@ const GamesPage = ({ getGames, game: { games, isLoading }}) => {
     <Layout>
       <div className="GamesPage">
         <Typography component="h1" variant="h1">Games page</Typography>
-        <p>
           This is the Games page. Here are listed all of the games. Click the play link to play the game.
-        </p>
         <div className="GamesPage__list">
           {isLoading ? (
             <Loader />

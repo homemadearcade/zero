@@ -9,12 +9,10 @@ const NotFound = () => {
     <Layout>
       <div className="not-found-page">
         <Typography component="h1" variant="h1">Not Found 404</Typography>
-        <p>
-          Go back to{' '}
-          <Link to="/">
-            Home
-          </Link>
-        </p>
+        Go back to{' '}
+        <Link to="/">
+          Home
+        </Link>
       </div>
     </Layout>
   );

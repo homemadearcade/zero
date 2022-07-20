@@ -25,9 +25,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
     <Layout>
       <div className="LobbysPage">
         <Typography component="h1" variant="h1">Lobbies Page</Typography>
-        <p>
           This is the lobbies page where all active lobbies are listed. Only admin users can see this page.
-        </p>
         <div className="LobbysPage__list">
           {isLoading ? (
             <Loader text="Lobbys Loading..."/>

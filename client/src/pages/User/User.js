@@ -94,9 +94,7 @@ const User = ({
     <Layout>
       <div className="UserPage">
         <Typography component="h1" variant="h1">{user.username + "'s account"}</Typography>
-        <p>
           This is all your account information. You can edit your account here.
-        </p>
         {isLoading ? (
           <Loader text="Loading User..."/>
         ) : (

@@ -11,12 +11,10 @@ const Admin = () => {
     <Layout>
       <div className="admin-page">
         <Typography component="h1" variant="h1">Admin dashboard</Typography>
-        <p>
-          This is the Admin page. Only the Admin can access this page. Return back to{' '}
-          <Link to="/">
-            Home
-          </Link>
-        </p>
+        This is the Admin page. Only the Admin can access this page. Return back to{' '}
+        <Link to="/">
+          Home
+        </Link>
       </div>
     </Layout>
   );

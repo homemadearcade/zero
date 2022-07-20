@@ -38,12 +38,10 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
     <div className="RegisterPage">
       <div className="container">
         <Typography component="h1" variant="h1">Register page</Typography>
-        <p>
-          back to{' '}
-          <Link to="/">
-            Home page
-          </Link>
-        </p>
+        back to{' '}
+        <Link to="/">
+          Home page
+        </Link>
         {false && <Link className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Register with Google
@@ -90,7 +88,7 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
           </div>
           {error && <p className="error">{error}</p>}
           <div>
-            <Button className="btn submit" type="submit" disabled={isLoading || !formik.isValid}>
+            <Button type="submit" disabled={isLoading || !formik.isValid}>
               Sign up now
             </Button>
           </div>

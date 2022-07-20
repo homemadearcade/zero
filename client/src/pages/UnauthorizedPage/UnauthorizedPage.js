@@ -8,12 +8,10 @@ const UnauthorizedPage = () => {
   return (
       <div className="UnauthorizedPage">
         <Typography component="h1" variant="h1">Not authorized to see this page</Typography>
-        <p>
-          Go back to{' '}
-          <Link to="/">
-            Home
-          </Link>
-        </p>
+        Go back to{' '}
+        <Link to="/">
+          Home
+        </Link>
       </div>
   );
 };
