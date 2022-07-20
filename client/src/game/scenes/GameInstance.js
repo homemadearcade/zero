@@ -6,7 +6,7 @@ import store from '../../store';
 import { LayerZero } from '../entities/LayerZero';
 import { getTextureMetadata } from '../../utils/utils';
 import { LayerCanvas } from '../entities/LayerCanvas';
-import { BACKGROUND_LAYER_DEPTH, HERO_INSTANCE_ID, OVERHEAD_LAYER_DEPTH, PLAYGROUND_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, HERO_INSTANCE_ID, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID } from '../../constants';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
@@ -127,6 +127,13 @@ export class GameInstance extends Phaser.Scene {
   }
   
   update(time, delta) {
+    const editorInstanceState = store.getState().editorInstance.editorInstanceState
+    const layerVisibility = editorInstanceState.layerVisibility
+
+    this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_LAYER_ID])
+    this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_LAYER_ID])
+    this.overheadLayer.setVisible(layerVisibility[OVERHEAD_LAYER_ID])
+
     this.objectInstances.forEach((object) => {
       object.update(time, delta);
     })

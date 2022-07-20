@@ -197,8 +197,3 @@ export function getSpriteData(textureId) {
   return window.spriteSheets[spriteSheetName].sprites[spriteIndex]
 }
 
-export function stopPropagation(event) {
-  event.stopPropagation()
-}
-
-

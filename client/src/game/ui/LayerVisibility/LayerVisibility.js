@@ -10,7 +10,6 @@ const LayerVisibility = ({
   toggleLayerVisibility,
   layerId
 }) => {
-
   return <div
     onClick={() => {
       toggleLayerVisibility(layerId)

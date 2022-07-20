@@ -143,7 +143,6 @@ export class EditorScene extends GameInstance {
       this.classStampSprite.classId = classId
       this.add.existing(this.classStampSprite)
     }
-
     if(this.classStampSprite) {
       this.updateClassStamp(pointer)
     }
@@ -163,8 +162,8 @@ export class EditorScene extends GameInstance {
       )
     } else if(eraserDepth === OVERHEAD_LAYER_DEPTH) {
       this.lowerLayerPreviews.push(
-        new Phaser.GameObjects.RenderTexture(this, 0, 0, previewWidth, previewHeight).draw(this.backgroundLayer, 0, 0).setDepth(PLAYGROUND_LAYER_DEPTH + 5),
-        new Phaser.GameObjects.RenderTexture(this, 0, 0, previewWidth, previewHeight).draw(this.playgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH+ 5)
+        new Phaser.GameObjects.RenderTexture(this, 0, 0, previewWidth, previewHeight).draw(this.backgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
+        new Phaser.GameObjects.RenderTexture(this, 0, 0, previewWidth, previewHeight).draw(this.playgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5)
       )
     }
 
@@ -218,6 +217,9 @@ export class EditorScene extends GameInstance {
     if(isBrushIdEraser(brushId)) {
       const eraserDepth = getDepthFromEraserId(brushId)
       this.brushPointSprite.setDepth(eraserDepth)
+      this.lowerLayerPreviews.forEach((preview) => {
+        preview.setCrop(snappedX, snappedY, newWidth, newHeight)
+      })
     } else {
       const brush = gameModel.brushes[brushId]
       this.brushPointSprite.setDepth(brush.layer)
@@ -403,7 +405,6 @@ export class EditorScene extends GameInstance {
 
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
       const classUpdate = gameUpdate.classes[id]
-      
       if(classUpdate.bounciness >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setBounce(classUpdate.bounciness)
