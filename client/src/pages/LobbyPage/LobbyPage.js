@@ -50,13 +50,13 @@ const LobbyPage = ({
       <LobbyDashboard/>
     </Route>
     <Route path={`${path}/join/:cobrowsingUserId`}>
-      <CobrowsingGame gameId={lobby.game.id} myTracks={myTracks} userTracks={userTracks}>
+      {lobby.game && <CobrowsingGame gameId={lobby.game.id} myTracks={myTracks} userTracks={userTracks}>
         {!lobby.isGameStarted && <div className="GameEditor__empty-game"><Onboarding/></div>}
         {lobby.isGameStarted && <GameView
           isHost={lobby.gameHostId === me.id}
           isNetworked
         />}
-      </CobrowsingGame>
+      </CobrowsingGame>}
     </Route>
   </Switch>
 };
