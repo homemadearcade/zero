@@ -55,7 +55,7 @@ const AgoraVideoCallPreview = ({startAgoraVideoCall, bypassAgoraVideoCall, auth:
       <Button onClick={() => {
         startAgoraVideoCall(tracks)
       }}>
-        Join Lobby with Video
+        Enter Lobby with Video
       </Button>
       <Button onClick={() => {
         bypassAgoraVideoCall()

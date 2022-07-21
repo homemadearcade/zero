@@ -1,3 +1,6 @@
 .BrushList {
-
+  &__brushes{
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

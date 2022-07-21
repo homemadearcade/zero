@@ -69,7 +69,11 @@ export default function editorFormsReducer(state = initialState, { type, payload
         ...state,
         editorFormsState: {
           ...state.editorFormsState,
-          isCreateBrushFlowOpen: true
+          isCreateBrushFlowOpen: true,
+          brush: {
+            ...initialState.editorFormsState.brush,
+            layerId: payload.layerId
+          }
         }
       }
     case OPEN_CREATE_CLASS_FLOW: 

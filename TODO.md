@@ -1,32 +1,22 @@
-#LIST
-
-CONVERSATION
-
-Considering only allowing buttons for Density
-  Light Heavy qualities
-  Do the same for other physics things?
-
-What sort of STEPS to use?
-
-Check if switching game lobbies works
-
-Is this the right dimensions? Go over brush sized, etc
-
-Do we have little sections that fold and unfold in the columns?
-  Brush Options
-  Background
-  Playground
-  Overhead
-
-  Hero
-  Objects
-  etc
+CONVERSATIONS
 
 --
 
 TODO NEXT
 
-GAME_HOST_REMOTE_PROCEDURE_CALL
+LOBBY DASHBOARD MICAUDIO - VISUAL FEEDBACK, because I can hear others in the lobby
+FOLDING/UNFOLDING organization
+VALIDATION ON ALL FORMS
+
+Create Brush flow is just search sprite and tint
+
+FOR EACH BRUSH LAYER
+color squares ( with most commonly used colors ) with a + add the end that opens color selector
++ for fresh sprite open in sprite editor inside brush and class creation
+
+choose background color
+
+GAME_HOST_REMOTE_PROCEDURE_CALL or is this just update lobby to be gamePaused? what about game reset? maybe we need that...
 Reset Button
 Play/Pause Button
 
@@ -54,7 +44,11 @@ Update Lobby Find
 
 Leaving game bug....scenes?
 
-The thing is that... we dont want the game to STOP if they go to the lobby dashboard, that means they are LEAVING LEAVING and they end up loading all the spritesheets and shit again?
+right click brush - copy to layer X, delete, open in sprite editor
+
+Basically once they load the game and 'join it' I think its a one-way experience. To LEAVE the game after that is a big action. we need to get their hero involved. You can peek at the lobby dashboard if you want in like a side nav bar but yeah. If you want to stop COBROWSING thats fine, you can stop cobrowsing and just turn that flag off, but you dont unmount the game view
+
+remove brush 9 and 22.5 when you're not in the top layer
 
 add Login and Signup components to withAuth
 

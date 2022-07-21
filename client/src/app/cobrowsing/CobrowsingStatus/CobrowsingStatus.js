@@ -10,7 +10,7 @@ const CobrowsingStatus = ({ auth: {me}, cobrowsingUser, lobby: { lobby } }) => {
   if(cobrowsingUser.id === me.id) {
     return (
       <div className="CobrowsingStatus">
-        <Link to={`/lobby/${lobby.id}`}>close</Link>
+        <Link to={`/lobby/${lobby.id}`}>leave game</Link>
       </div>
     );
   }
@@ -18,7 +18,7 @@ const CobrowsingStatus = ({ auth: {me}, cobrowsingUser, lobby: { lobby } }) => {
   return (
     <div className="CobrowsingStatus">
       <UserStatus userId={cobrowsingUser.id}/>
-      <Link to={`/lobby/${lobby.id}`}>close</Link>
+      <Link to={`/lobby/${lobby.id}`}>leave game</Link>
     </div>
   );
 };

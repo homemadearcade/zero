@@ -2,7 +2,7 @@ import Phaser, { BlendModes } from "phaser";
 import { OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from "../../constants";
 import store from "../../store";
 import { getCobrowsingState } from "../../utils/cobrowsing";
-import { getLayerIdFromEraserId, getDepthFromEraserId, snapBrushXY } from "../../utils/editor";
+import { getLayerIdFromEraserId, getDepthFromEraserId, snapBrushXY, snapEraserXY } from "../../utils/editor";
 
 export class Eraser extends Phaser.GameObjects.Image {
   constructor(scene, brushId){
@@ -30,7 +30,7 @@ export class Eraser extends Phaser.GameObjects.Image {
   }
 
   update(pointer) {
-    const { snappedX, snappedY } = snapBrushXY(pointer)
+    const { snappedX, snappedY } = snapEraserXY(pointer)
 
     this.outline.setPosition(snappedX, snappedY)
 
@@ -55,7 +55,7 @@ export class Eraser extends Phaser.GameObjects.Image {
   }
 
   stroke(pointer, layer) {
-    const { snappedX, snappedY } = snapBrushXY(pointer)
+    const { snappedX, snappedY } = snapEraserXY(pointer)
     layer.erase(this, snappedX, snappedY);
   }
 

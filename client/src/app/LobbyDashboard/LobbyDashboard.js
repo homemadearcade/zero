@@ -147,7 +147,7 @@ const LobbyDashboard = ({
 
   return (
     <div className="LobbyDashboard">
-      <div className="LobbyDashboard__leave"><Link to="/lobbys">leave</Link></div>
+      <div className="LobbyDashboard__leave"><Link to="/lobbys">leave lobby</Link></div>
       <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
 
       {lobby.isGameStarted && <>

@@ -34,11 +34,13 @@ export const closeCreateClassFlow = () => (dispatch, getState) => {
   });
 }
 
-export const openCreateBrushFlow = () => (dispatch, getState) => {
+export const openCreateBrushFlow = (layerId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_BRUSH_FLOW,
-    payload: {}
+    payload: {
+      layerId
+    }
   });
 }
 

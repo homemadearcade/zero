@@ -44,25 +44,35 @@ const BrushList = ({
       <Typography component="h5" variant="h5">Background</Typography>
       <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
       <EraserSelect layerId={BACKGROUND_LAYER_ID}/>
-      {brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
+      <div className="BrushList__brushes">{brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
-      })}
+      })}</div>
+      <Button className="BrushList__add" onClick={() => {
+        openCreateBrushFlow(BACKGROUND_LAYER_ID)
+      }}>
+        +
+      </Button>
       <Typography component="h5" variant="h5">Playground</Typography>
       <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
       <EraserSelect layerId={PLAYGROUND_LAYER_ID}/>
-      {brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
+      <div className="BrushList__brushes">{brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
-      })}
+      })}</div>
+      <Button className="BrushList__add" onClick={() => {
+        openCreateBrushFlow(PLAYGROUND_LAYER_ID)
+      }}>
+        +
+      </Button>
       <Typography component="h5" variant="h5">Overhead</Typography>
       <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
       <EraserSelect layerId={OVERHEAD_LAYER_ID}/>
-      {brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {
+      <div className="BrushList__brushes">{brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
-      })}
+      })}</div>
       <Button className="BrushList__add" onClick={() => {
-        openCreateBrushFlow()
+        openCreateBrushFlow(OVERHEAD_LAYER_ID)
       }}>
-        Add New Brush
+        +
       </Button>
     </div>
     {isCreateBrushFlowOpen && <CreateBrushFlow 

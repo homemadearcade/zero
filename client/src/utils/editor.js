@@ -17,6 +17,22 @@ import Phaser from 'phaser'
 import store from "../store";
 import { getCobrowsingState } from "./cobrowsing";
 
+export function snapEraserXY({x, y}) {
+  const gameModel = store.getState().game.gameModel
+  const nodeSize = gameModel.world.nodeSize
+  const brushSize = getCobrowsingState().editorState.brushSize
+  const blockSize = nodeSize * brushSize
+
+  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), nodeSize), 0, gameModel.world.boundaries.width)
+  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), nodeSize), 0, gameModel.world.boundaries.height)
+
+  return {
+    snappedX,
+    snappedY
+  }
+}
+
+
 export function snapBrushXY({x, y}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
@@ -36,9 +52,9 @@ export function snapObjectXY({x, y}, objectClass) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2))
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2))
-
+  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x + objectClass.width/2, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2)) - objectClass.width/2
+  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y + objectClass.height/2, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2)) - objectClass.height/2
+  
   return {
     snappedX,
     snappedY

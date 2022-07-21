@@ -13,7 +13,7 @@ import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush } }) => {
+const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush, createBrushFlowLayer } }) => {
   function handleClose() {
     onClose()
     clearEditorForms()
@@ -26,34 +26,15 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
         onChange={(event, descriptors) => {
           updateCreateBrush({ descriptors })
         }}
-        formLabel="Describe it"
+        formLabel="Search sprites"
         value={brush.descriptors}
       />
       <SelectSpriteInline
         onSelect={(textureId) => {
           updateCreateBrush({ textureId })
         }}
-        formLabel="Select a sprite"
         descriptors={brush.descriptors}
         textureIdSelected={brush.textureId}
-      />
-      <RadioGroupColumn
-        value={brush.layerId}
-        formLabel="Pick a layer"
-        onChange={(event, value) => {
-          updateCreateBrush({ layerId: value})
-        }}
-        options={[{
-          label: 'Background',
-          value: BACKGROUND_LAYER_ID,
-        },{
-          label: 'Playground',
-          value: PLAYGROUND_LAYER_ID,
-        },
-        {
-          label: 'Overhead',
-          value: OVERHEAD_LAYER_ID,
-        }]}
       />
       <div className="CreateBrushFlow__buttons">
         <Button onClick={() => {
