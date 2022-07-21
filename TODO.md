@@ -26,8 +26,11 @@ Do we have little sections that fold and unfold in the columns?
 
 TODO NEXT
 
+GAME_HOST_REMOTE_PROCEDURE_CALL
 Reset Button
 Play/Pause Button
+
+COBROWSING_HOST_REMOTE_PROCEDURE_CALL
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA
@@ -50,6 +53,7 @@ Lobby Steps?
 Update Lobby Find
 
 With Game components ( handles sprite sheet loading, load, unload, etc )
+add Login and Signup components to withAuth
 
 Get rid of this editorState, videoState thing, thats total bs just make it editor, video, lobby... etc. Remove the lobby steps to editorForms. Also add a reducer called cobrowsingLocal. maybe just add it to the cobrowsing reducer
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import './GameSelect.scss';
 

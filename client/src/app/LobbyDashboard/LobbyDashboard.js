@@ -246,7 +246,7 @@ const LobbyDashboard = ({
       <div className="LobbyDashboard__checklist">
         {checklist.map((item, i) => {
           const isPassing = !!item.test();
-          return <div key={i} className={classNames("LobbyDashboard__checklist-item", { 'Lobby__checklist-item--required': item.required })}>
+          return <div key={i} className={classNames("LobbyDashboard__checklist-item", { 'LobbyDashboard__checklist-item--required': item.required })}>
             {isPassing && <span className="LobbyDashboard__checklist-check"><i className="fa-solid fa-check"></i></span>}
             {!isPassing && <span className="LobbyDashboard__checklist-check" />}
             {item.text}
