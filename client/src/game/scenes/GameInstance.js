@@ -5,7 +5,7 @@ import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../entities/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
 import { Canvas } from '../entities/Canvas';
-import { BACKGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, HERO_INSTANCE_ID, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID } from '../../constants';
+import { BACKGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, HERO_INSTANCE_ID, HERO_INSTANCE_LAYER_DEPTH, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from '../../constants';
 import { getCobrowsingState } from '../../utils/cobrowsing';
 import store from '../../store';
 
@@ -101,10 +101,21 @@ export class GameInstance extends Phaser.Scene {
     // layer zero
     this.playgroundLayer = new CollisionCanvas(this, {layerId: PLAYGROUND_LAYER_ID})
     this.playgroundLayer.setDepth(PLAYGROUND_LAYER_DEPTH)
+
+    this.objectInstanceLayer = this.add.layer();
+    this.objectInstanceLayer.setDepth(OBJECT_INSTANCE_LAYER_DEPTH)
+    this.objectInstanceGroup = this.add.group()
+
+    this.playerInstanceLayer = this.add.layer();
+    this.playerInstanceLayer.setDepth(HERO_INSTANCE_LAYER_DEPTH)
+    this.playerInstanceGroup = this.add.group()
+
     // overhead layer
     this.overheadLayer = new Canvas(this, {layerId: OVERHEAD_LAYER_ID})
     this.overheadLayer.setDepth(OVERHEAD_LAYER_DEPTH)
 
+    this.uiLayer = this.add.layer();
+    this.uiLayer.setDepth(UI_LAYER_DEPTH)
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

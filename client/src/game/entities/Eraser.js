@@ -24,13 +24,15 @@ export class Eraser extends Phaser.GameObjects.Image {
     this.outline = scene.add.graphics();
     this.outline.lineStyle(3, 0xffffff, 1);
     this.outline.strokeRect(0, 0, this.width, this.height);
-    this.outline.setDepth(UI_LAYER_DEPTH)
+    scene.uiLayer.add(this.outline)
     
     return this
   }
 
   update(pointer) {
     const { snappedX, snappedY } = snapBrushXY(pointer)
+
+    console.log(this)
 
     this.outline.setPosition(snappedX, snappedY)
 
@@ -64,7 +66,9 @@ export class Eraser extends Phaser.GameObjects.Image {
     } else if(eraserLayerId === OVERHEAD_LAYER_ID) {
       this.lowerLayerPreviews.push(
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.backgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
-        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5)
+        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
+        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
+        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playerInstanceGroup, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5)
       )
     }
 

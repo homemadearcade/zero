@@ -7,7 +7,6 @@ export class PlayerInstance extends ObjectInstance {
     super(scene, id, instanceData)
 
     var particles = scene.add.particles('blue');
-    particles.setDepth(this.depth - 1)
 
     var emitter = particles.createEmitter({
       speed: {
@@ -35,6 +34,9 @@ export class PlayerInstance extends ObjectInstance {
     emitter.startFollow(this);
 
     this.cursors = scene.input.keyboard.createCursorKeys();
+
+    scene.playerInstanceLayer.add(this)
+    scene.playerInstanceGroup.add(this)
 
     return this
   }

@@ -26,8 +26,6 @@ Do we have little sections that fold and unfold in the columns?
 
 TODO NEXT
 
-Object and Hero Layer for eraser
-
 Reset Button
 Play/Pause Button
 End Game
@@ -50,6 +48,10 @@ TODO LATER
 
 Lobby Steps?
 
+Update Lobby Find
+
+With Game components ( handles sprite sheet loading, load, unload, etc )
+
 Get rid of this editorState, videoState thing, thats total bs just make it editor, video, lobby... etc. Remove the lobby steps to editorForms. Also add a reducer called cobrowsingLocal. maybe just add it to the cobrowsing reducer
 
 Theres two problems with cobrowsing to think about
@@ -64,7 +66,7 @@ Better error handling in cobrowsing
 
 Unauthenticate socket when logging out
 
-Finish everything and just add more and more behaviors, and controls, and customization
+more behaviors, and controls, and customization
 
 then perhaps find the right way to do custom coding - collision, events? paths? etc
 
