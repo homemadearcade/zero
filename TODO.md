@@ -28,7 +28,6 @@ TODO NEXT
 
 Reset Button
 Play/Pause Button
-End Game
 
 CONTROLS - speed, other phaser examples, etc
 CAMERA

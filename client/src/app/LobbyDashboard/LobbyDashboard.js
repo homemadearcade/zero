@@ -9,7 +9,7 @@ import UserStatus from '../UserStatus/UserStatus';
 import './LobbyDashboard.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
-import { addGame } from '../../store/actions/gameActions';
+import { addGame, unloadGame } from '../../store/actions/gameActions';
 import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
 import Typography from '../ui/Typography/Typography';
@@ -22,6 +22,7 @@ const LobbyDashboard = ({
   addGame,
   editLobby,
   assignLobbyRole,
+  unloadGame,
   lobby: { lobby },
   auth: { me },
   status: { lobbyUserStatus }
@@ -150,7 +151,7 @@ const LobbyDashboard = ({
       <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
 
       {lobby.isGameStarted && <>
-        <Typography variant="subtitle1" component="div">Game Started!</Typography>
+        <Typography variant="h3" component="h3">Game is running!</Typography>
         <GameCard game={lobby.game}/>
       </>}
 
@@ -266,6 +267,18 @@ const LobbyDashboard = ({
       >
         Start game
       </Button>}
+      {lobby.isGameStarted && <Button
+        type="button"
+        variant="contained"
+        onClick={() => {
+          editLobby(lobby.id, {
+            isGameStarted:false
+          })
+          unloadGame()
+        }}
+      >
+        End game
+      </Button>}
     </div>
   );
 };
@@ -277,5 +290,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addGame, assignLobbyRole }),
+  connect(mapStateToProps, { editLobby,addGame, assignLobbyRole, unloadGame }),
 )(LobbyDashboard);

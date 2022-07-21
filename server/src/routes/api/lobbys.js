@@ -290,8 +290,8 @@ router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
 router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
 
-    if(req.lobby.isGameStarted) {
-      return res.status(400).json({ message: 'You cannot edit a lobby when game is started' });
+    if(req.lobby.isGameStarted && req.body.gameId) {
+      return res.status(400).json({ message: 'You cannot edit a lobby game id when game is started' });
     }
 
     if(req.body.isGameStarted && req.user.role !== 'ADMIN') {

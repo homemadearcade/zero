@@ -3,6 +3,7 @@ import {
 } from '../../constants';
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
+import { getCobrowsingState } from '../../utils/cobrowsing';
 import { EditorScene } from './EditorScene';
 
 export class GameHostScene extends EditorScene {
@@ -47,5 +48,15 @@ export class GameHostScene extends EditorScene {
     super.unload();
     window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     window.clearInterval(this.remoteClientUpdateInterval)
+  }
+
+  update() {
+    const editorInstanceState = getCobrowsingState().editorInstanceState
+    const resetGameId = editorInstanceState.resetGameId
+  
+    if(resetGameId > this.resetGameId) {
+      this.resetGameId = resetGameId
+      this.reload()
+    }
   }
 }

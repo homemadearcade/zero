@@ -1,7 +1,9 @@
 import { BACKGROUND_LAYER_ID, HERO_INSTANCE_LAYER_ID, OBJECT_INSTANCE_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
 import {
   CLEAR_EDITOR_INSTANCE,
-  TOGGLE_LAYER_VISIBILITY
+  TOGGLE_LAYER_VISIBILITY,
+  TOGGLE_GAME_INSTANCE_PAUSED,
+  RESET_GAME_INSTANCE
 } from '../types';
 
 const initialState = {
@@ -14,12 +16,28 @@ const initialState = {
       [OVERHEAD_LAYER_ID]: true
     },
     resetGameIndex: 0,
-    isPaused: false,
+    isGamePaused: false,
   }
 };
 
 export default function editorInstanceReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case RESET_GAME_INSTANCE:
+      return {
+        ...state,
+        editorInstanceState: {
+          ...state.editorInstanceState,
+          resetGameIndex: !state.editorInstanceState.resetGameIndex + 1
+        }
+      }
+    case TOGGLE_GAME_INSTANCE_PAUSED:
+      return {
+        ...state,
+        editorInstanceState: {
+          ...state.editorInstanceState,
+          isGamePaused: !state.editorInstanceState.isGamePaused
+        }
+      }
     case TOGGLE_LAYER_VISIBILITY:
       return {
         ...state,

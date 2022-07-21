@@ -1,6 +1,8 @@
 import { 
   TOGGLE_LAYER_VISIBILITY,
-  CLEAR_EDITOR_INSTANCE
+  CLEAR_EDITOR_INSTANCE,
+  TOGGLE_GAME_INSTANCE_PAUSED,
+  RESET_GAME_INSTANCE
 } from '../types';
 
 export const clearEditorInstance = () => (dispatch, getState) => {
@@ -18,4 +20,19 @@ export const toggleLayerVisibility = (layerId) => (dispatch, getState) => {
     payload: { layerId }
   });
 }
+
+export const toggleGameInstancePaused = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: TOGGLE_GAME_INSTANCE_PAUSED
+  });
+}
+
+export const resetGameIntance = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: RESET_GAME_INSTANCE
+  });
+}
+
 
