@@ -52,7 +52,10 @@ Lobby Steps?
 
 Update Lobby Find
 
-With Game components ( handles sprite sheet loading, load, unload, etc )
+Leaving game bug....scenes?
+
+The thing is that... we dont want the game to STOP if they go to the lobby dashboard, that means they are LEAVING LEAVING and they end up loading all the spritesheets and shit again?
+
 add Login and Signup components to withAuth
 
 Get rid of this editorState, videoState thing, thats total bs just make it editor, video, lobby... etc. Remove the lobby steps to editorForms. Also add a reducer called cobrowsingLocal. maybe just add it to the cobrowsing reducer

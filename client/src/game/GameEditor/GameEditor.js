@@ -5,14 +5,13 @@ import './GameEditor.scss';
 
 import ContextMenu from '../../app/ui/ContextMenu/ContextMenu';
 
-import GameView from '../GameView/GameView';
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/editorActions';
 import { clearEditorForms } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 
-const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({editorState: { isLiveEditorOpen }, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     return () => {
       clearEditor()
@@ -27,14 +26,9 @@ const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNet
       <div className="GameEditor__left-column">
         {leftColumn}
       </div>
-      {gameModel && <GameView isHost={isHost} isNetworked={isNetworked}/>}
-      {!gameModel && <div className="GameEditor__empty-game"></div>}
+      {children}
       <div className="GameEditor__right-column">
         {rightColumn}
-      </div>
-      {children}
-      <div className="GameEditor__overlay">
-        {overlay}
       </div>
       {isLiveEditorOpen && <LiveEditor/>}
     </div>

@@ -11,6 +11,7 @@ import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import GameClassList from '../../game/ClassList/ClassList';
 import GameBrushList from '../../game/BrushList/BrushList';
 import withGame from '../../hoc/withGame';
+import GameView from '../../game/GameView/GameView';
 
 const PlayGamePage = ({ game: { gameModel }, requestFullscreen}) => {
   // <div>{!window.isFullscreen && <div onClick={() => {
@@ -23,12 +24,15 @@ const PlayGamePage = ({ game: { gameModel }, requestFullscreen}) => {
   return (
     <div className="PlayGamePage">
       <GameEditor 
-        isHost
-        isNetworked={false}
         gameModel={gameModel}
         leftColumn={<GameBrushList/>}
         rightColumn={<GameClassList/>}
-      />
+      >
+        <GameView
+          isHost
+          isNetworked={false}
+        />
+      </GameEditor>
     </div>
   );
 };
