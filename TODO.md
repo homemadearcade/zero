@@ -8,8 +8,6 @@ LOBBY DASHBOARD MICAUDIO - VISUAL FEEDBACK, because I can hear others in the lob
 FOLDING/UNFOLDING organization
 VALIDATION ON ALL FORMS
 
-Create Brush flow is just search sprite and tint
-
 FOR EACH BRUSH LAYER
 color squares ( with most commonly used colors ) with a + add the end that opens color selector
 + for fresh sprite open in sprite editor inside brush and class creation
