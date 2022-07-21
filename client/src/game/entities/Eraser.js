@@ -32,8 +32,6 @@ export class Eraser extends Phaser.GameObjects.Image {
   update(pointer) {
     const { snappedX, snappedY } = snapBrushXY(pointer)
 
-    console.log(this)
-
     this.outline.setPosition(snappedX, snappedY)
 
     this.setPosition(snappedX, snappedY)
@@ -44,6 +42,16 @@ export class Eraser extends Phaser.GameObjects.Image {
     this.lowerLayerPreviews.forEach((preview) => {
       preview.setCrop(snappedX, snappedY, this.width, this.height)
     })
+    if(this.lowerInstancePreviews.length) {
+      this.lowerInstancePreviews.forEach((preview) => {
+        preview.destroy()
+      })
+      this.lowerInstancePreviews = this.createLowerInstancePreviews()
+      this.lowerInstancePreviews.forEach((preview) => {
+        this.scene.add.existing(preview)
+        preview.setCrop(snappedX, snappedY, this.width, this.height)
+      })
+    }
   }
 
   stroke(pointer, layer) {
@@ -51,8 +59,20 @@ export class Eraser extends Phaser.GameObjects.Image {
     layer.erase(this, snappedX, snappedY);
   }
 
+  createLowerInstancePreviews() {
+    const gameModel = store.getState().game.gameModel
+    const previewWidth = gameModel.world.boundaries.width
+    const previewHeight = gameModel.world.boundaries.height
+
+    return [
+      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
+      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playerInstanceGroup, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5)    
+    ]
+  }
+
   createPreviewLayers() {
     this.lowerLayerPreviews = []
+    this.lowerInstancePreviews = []
 
     const gameModel = store.getState().game.gameModel
     const eraserLayerId = getLayerIdFromEraserId(this.brushId)
@@ -67,12 +87,14 @@ export class Eraser extends Phaser.GameObjects.Image {
       this.lowerLayerPreviews.push(
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.backgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playgroundLayer, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
-        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5),
-        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playerInstanceGroup, 0, 0).setDepth(OVERHEAD_LAYER_DEPTH + 5)
       )
+      this.lowerInstancePreviews = this.createLowerInstancePreviews()
     }
 
     this.lowerLayerPreviews.forEach((preview) => {
+      this.scene.add.existing(preview)
+    })
+    this.lowerInstancePreviews.forEach((preview) => {
       this.scene.add.existing(preview)
     })
   }
