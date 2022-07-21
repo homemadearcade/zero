@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { toggleLayerVisibility } from '../../../store/actions/editorInstanceActions';
-import { withCobrowsingState } from '../../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
 const LayerVisibility = ({
   editorInstanceState: { layerVisibility },
@@ -21,7 +21,7 @@ const LayerVisibility = ({
   </div>
 };
 
-const mapStateToProps = (state) => withCobrowsingState(state, {
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   editorInstanceState: state.editorInstance.editorInstanceState,
 });
 

@@ -9,7 +9,7 @@ import { clearEditorForms, updateCreateClass } from '../../store/actions/editorF
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
-import { withCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsing';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onClose, editorFormsState: { class: objectClass } }) => {
   function handleClose() {
@@ -48,7 +48,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onCl
   </CobrowsingModal>
 }
 
-const mapStateToProps = (state) => withCobrowsingState(state, {
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   editorFormsState: state.editorForms.editorFormsState,
 })
 

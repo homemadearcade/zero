@@ -7,7 +7,7 @@ import './BrushControl.scss';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../store/actions/editorActions';
-import { withCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsing';
 
 const BrushControl = ({
   game: { gameModel: { brushes, world }},
@@ -31,7 +31,7 @@ const BrushControl = ({
   </div>
 };
 
-const mapStateToProps = (state) => withCobrowsingState(state, {
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
   editorState: state.editor.editorState,
 })

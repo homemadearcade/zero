@@ -9,7 +9,7 @@ import GameView from '../GameView/GameView';
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/editorActions';
 import { clearEditorForms } from '../../store/actions/editorFormsActions';
-import { withCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsing';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 
 const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNetworked, leftColumn, rightColumn, children, overlay, clearEditor, clearEditorForms, clearEditorInstance}) => {
@@ -41,7 +41,7 @@ const GameEditor = ({gameModel, editorState: { isLiveEditorOpen }, isHost, isNet
   );
 };
 
-const mapStateToProps = (state) => withCobrowsingState(state, {
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   editorState: state.editor.editorState,
 })
 

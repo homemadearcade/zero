@@ -153,7 +153,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
         {auth.appLoaded && <Router>
           <Switch>
             <Route path="/games" component={GamesPage} />
-            <Route path="/play/:id" component={PlayGamePage} />
+            <Route path="/play/:gameId" component={PlayGamePage} />
             <Route path="/login" component={Login} />
             <Route path="/loginsession" component={SessionLogin} />
             <Route path="/register" component={Register} />

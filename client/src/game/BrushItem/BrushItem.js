@@ -7,7 +7,7 @@ import './BrushItem.scss';
 import classNames from 'classnames';
 import { selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 import Sprite from '../ui/Sprite/Sprite';
-import { withCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsing';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },
@@ -33,7 +33,7 @@ const BrushItem = ({
   </div>
 };
 
-const mapStateToProps = (state) => withCobrowsingState(state, {
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
   editorState: state.editor.editorState,
 })

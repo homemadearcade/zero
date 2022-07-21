@@ -23,7 +23,7 @@ const initialState = {
   games: [],
   isLoading: false,
   isGameModelLoading: false,
-  isSpriteSheetDataLoading: false,
+  isSpriteSheetDataLoaded: false,
   error: null,
   gameModel: null,
   spritesByDescriptor: null
@@ -31,11 +31,11 @@ const initialState = {
 
 export default function gameReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case GET_SPRITESHEET_DATA_LOADING:
-      return {
-        ...state,
-        isSpriteSheetDataLoading: true,
-      };
+    // case GET_SPRITESHEET_DATA_LOADING:
+    //   return {
+    //     ...state,
+    //     isSpriteSheetDataLoaded: false,
+    //   };
     case LOAD_GAME_LOADING:
       return {
         ...state,
@@ -86,7 +86,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
         ...state,
         spritesByDescriptor: payload.spritesByDescriptor,
         descriptorOptions: payload.descriptorOptions,
-        isSpriteSheetDataLoading: false,
+        isSpriteSheetDataLoaded: true,
       };
     case EDIT_GAME_SUCCESS:
     case ON_GAME_MODEL_UPDATE: 
@@ -107,7 +107,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         error: payload.error,
-        isSpriteSheetDataLoading: false,
+        isSpriteSheetDataLoaded: false,
       };
     case LOAD_GAME_FAIL:
       return {

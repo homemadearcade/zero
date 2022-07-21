@@ -20,7 +20,7 @@ export function getLocalCobrowsingState(state) {
   }
 }
 
-export function withCobrowsingState(state, props) {
+export function mapCobrowsingState(state, props) {
   const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   if(!isCobrowsing) return props
 

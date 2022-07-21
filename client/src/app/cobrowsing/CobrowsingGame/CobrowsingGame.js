@@ -11,7 +11,8 @@ import Onboarding from '../Onboarding/Onboarding';
 import GameClassList from '../../../game/ClassList/ClassList';
 import GameBrushList from '../../../game/BrushList/BrushList';
 import withCobrowsing from '../../../hoc/withCobrowsing';
-import { withCobrowsingState } from '../../../utils/cobrowsing';
+import withGame from '../../../hoc/withGame';
+import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
 const CobrowsingGame = ({ game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, videoState: { isInsideVideoCall }, myTracks, userTracks}) => {    
   return <GameEditor 
@@ -33,7 +34,7 @@ const CobrowsingGame = ({ game: { gameModel }, auth: { me }, lobby: { lobby}, co
   </GameEditor>
 };
 
-const mapStateToProps = (state) => withCobrowsingState(state, {
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
   auth: state.auth,
   videoState: state.video.videoState,
@@ -42,6 +43,7 @@ const mapStateToProps = (state) => withCobrowsingState(state, {
 });
 
 export default compose(
+  withGame,
   withCobrowsing,
   connect(mapStateToProps, { }),
 )(CobrowsingGame);

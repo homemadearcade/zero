@@ -11,7 +11,7 @@ import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 import { closeCreateClassFlow, openCreateClassFlow } from '../../store/actions/editorFormsActions';
 import Button from '../../app/ui/Button/Button';
-import { withCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsing';
 
 const ClassList = ({
   game: { gameModel },
@@ -75,7 +75,7 @@ const ClassList = ({
   </div>
 };
 
-const mapStateToProps = (state) => withCobrowsingState(state, {
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
   editorFormsState: state.editorForms.editorFormsState,
 })

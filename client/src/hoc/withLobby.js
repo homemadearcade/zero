@@ -69,7 +69,7 @@ export default (ChildComponent) => {
             </>
           }
         
-          return <ChildComponent {...props} />
+          return <ChildComponent {...props } {...this.props} />
         }}
       />
     }

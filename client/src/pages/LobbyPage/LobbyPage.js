@@ -63,7 +63,7 @@ const LobbyPage = ({
       <LobbyDashboard/>
     </Route>
     <Route path={`${path}/join/:cobrowsingUserId`}>
-      <CobrowsingGame myTracks={myTracks} userTracks={userTracks} />
+      {lobby.game.id && <CobrowsingGame gameId={lobby.game.id} myTracks={myTracks} userTracks={userTracks} />}
     </Route>
   </Switch>
 };
