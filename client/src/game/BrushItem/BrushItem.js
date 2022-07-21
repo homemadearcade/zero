@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './BrushItem.scss';
 import classNames from 'classnames';
-import { clearClass, selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
+import { selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
 import Sprite from '../ui/Sprite/Sprite';
 import { withCobrowsingState } from '../../utils/cobrowsing';
 
@@ -14,7 +14,6 @@ const BrushItem = ({
   brushId,
   editorState: { brushSelectedIdBrushList },
   selectBrush,
-  clearClass,
   clearBrush,
 }) => {
   const brush = brushes[brushId]
@@ -24,7 +23,6 @@ const BrushItem = ({
       if(brushId === brushSelectedIdBrushList) {
         clearBrush()
       } else {
-        clearClass()
         selectBrush(brushId)
       }
     }}
@@ -41,5 +39,5 @@ const mapStateToProps = (state) => withCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, selectBrush, clearClass, clearBrush }),
+  connect(mapStateToProps, { openContextMenuFromClassId, selectBrush, clearBrush }),
 )(BrushItem);

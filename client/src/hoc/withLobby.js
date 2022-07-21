@@ -4,8 +4,9 @@ import { compose } from 'redux';
 import { joinLobby, leaveLobby } from '../store/actions/lobbyActions';
 import Loader from '../app/ui/Loader/Loader';
 import AgoraVideoCall from '../app/agora/AgoraVideoCall/AgoraVideoCall';
-import { leaveAgoraVideoCall } from '../store/actions/videoActions';
+import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 import { withRouter } from 'react-router-dom';
+import Button from '../app/ui/Button/Button';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -47,7 +48,7 @@ export default (ChildComponent) => {
     }
 
     render() {
-      const { lobby: { isLoading, isJoining } } = this.props;
+      const { lobby: { isLoading, isJoining }, videoState, bypassAgoraVideoCall } = this.props;
 
       if(isLoading) {
         return <Loader text="Loading Lobby..."/>
@@ -58,7 +59,18 @@ export default (ChildComponent) => {
       }
 
       return <AgoraVideoCall
-        render={(props) => <ChildComponent {...props} />}
+        render={(props) => {
+          if(videoState.isConnectingToVideoCall && !videoState.bypass) {
+            return <>
+              <Loader text="Connecting your video to other users..."/>
+              <Button onClick={() => {
+                bypassAgoraVideoCall()
+              }}>bypass video</Button>
+            </>
+          }
+        
+          return <ChildComponent {...props} />
+        }}
       />
     }
   }
@@ -66,10 +78,11 @@ export default (ChildComponent) => {
   const mapStateToProps = (state) => ({
     auth: state.auth,
     lobby: state.lobby,
+    videoState: state.video.videoState
   });
 
   return compose(
     withRouter, 
-    connect(mapStateToProps, { joinLobby, leaveLobby, leaveAgoraVideoCall })
+    connect(mapStateToProps, { joinLobby, leaveLobby, leaveAgoraVideoCall, bypassAgoraVideoCall })
   )(WithLobby)
 };

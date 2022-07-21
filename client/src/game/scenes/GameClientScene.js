@@ -37,7 +37,7 @@ export class GameClientScene extends EditorScene {
 
   unload() {
     super.unload();
-    window.socket.off(ON_GAME_INSTANCE_UPDATE)
-    window.socket.off(ON_GAME_MODEL_UPDATE)
+    window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
+    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
 }

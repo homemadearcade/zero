@@ -23,7 +23,7 @@ const initialState = {
       error: null,
     },
     video: {
-      isStarting: false,
+      isConnectingToVideoCall: false,
       error: null,
     },
     editor: {

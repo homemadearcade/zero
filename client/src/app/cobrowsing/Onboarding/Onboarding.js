@@ -3,8 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './Onboarding.scss';
-import { endCobrowsing, unsubscribeCobrowsing } from '../../../store/actions/cobrowsingActions';
-import { startAgoraVideoCall } from '../../../store/actions/videoActions';
 import { updateLobbyUser, updateOnboardingStep } from '../../../store/actions/lobbyActions';
 
 import Loader from '../../ui/Loader/Loader';
@@ -13,7 +11,7 @@ import { requestFullscreen } from '../../../utils/browser';
 import Button from '../../ui/Button/Button';
 import { withCobrowsingState } from '../../../utils/cobrowsing';
 
-const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, videoState, lobbyState, cobrowsing: { cobrowsingUser }}) => {
+const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, lobbyState, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -54,39 +52,9 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
    return  <Button onClick={onTestInternetSpeedClick}>Test your internet</Button>
   }
 
-
   if(lobbyState.onboardingStep === 'testing_speed') {
     return <Loader text="Testing your internet upload and download speed.."/>
   }
-
-  if(videoState.isStarting) {
-    return <Loader text="Connecting you to the other users..."/>
-  }
-
-  // if(lobbyState.onboardingStep === 'video_connection') {
-  //   return <div>
-  //     Step 1
-  //     <Button onClick={() => {
-  //       startAgoraVideoCall({lobbyId: lobby.id})
-  //     }}>Connect your video</Button>
-  //   </div>
-  // }
-
-  // if(lobbyState.onboardingStep === 'video_connection_confirmation') {
-  //   return <>
-  //     Step 1
-  //     <div>
-  //       Confirm you are using the correct video and audio devices
-  //     </div>
-  //     <AgoraInputSelect/>
-  //     <Button onClick={() => {
-  //       updateOnboardingStep({
-  //         ...lobbyState,
-  //         onboardingStep: 'internet_speed_test'
-  //       })
-  //     }}>Next Step</Button>
-  //   </>
-  // }
 
   if(lobbyState.onboardingStep === 'internet_speed_test') {
     return <div>
@@ -126,10 +94,9 @@ const mapStateToProps = (state) => withCobrowsingState(state, {
   lobby: state.lobby,
   cobrowsing: state.cobrowsing,
   lobbyState: state.lobby.lobbyState,
-  videoState: state.video.videoState
 });
 
 export default compose(
-  connect(mapStateToProps, { updateLobbyUser, endCobrowsing, requestFullscreen, startAgoraVideoCall, updateOnboardingStep, unsubscribeCobrowsing }),
+  connect(mapStateToProps, { updateLobbyUser, requestFullscreen, updateOnboardingStep }),
 )(Onboarding);
 

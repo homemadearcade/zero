@@ -31,6 +31,26 @@ import { defaultObjectInstance } from '../../defaultData/object';
 import { defaultObjectClass } from '../../defaultData/class';
 import { uploadToAws } from '../../utils/network';
 import { getSpritesByDescriptor } from '../../defaultData/descriptors';
+import store from '..';
+
+
+function onGameModelUpdate(gameUpdate) {
+  const oldGameData = _.cloneDeep(store.getState().game.gameModel)
+
+  if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
+    if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep({...defaultObjectInstance}, gameUpdate.objects[id])
+  })
+  if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
+    if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep({...defaultObjectClass}, gameUpdate.classes[id])
+  })
+
+  const gameData = mergeDeep(oldGameData, gameUpdate)
+  
+  store.dispatch({
+    type: ON_GAME_MODEL_UPDATE,
+    payload: { game: gameData },
+  });
+}
 
  
 export const getSpritesheetData  = () => async (dispatch, getState) => {
@@ -156,23 +176,7 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/games/' + gameId, options);
 
-    window.socket.on(ON_GAME_MODEL_UPDATE, (gameUpdate) => {
-      const oldGameData = _.cloneDeep(getState().game.gameModel)
-
-      if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
-        if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep({...defaultObjectInstance}, gameUpdate.objects[id])
-      })
-      if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
-        if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep({...defaultObjectClass}, gameUpdate.classes[id])
-      })
-
-      const gameData = mergeDeep(oldGameData, gameUpdate)
-     
-      dispatch({
-        type: ON_GAME_MODEL_UPDATE,
-        payload: { game: gameData },
-      });
-    })
+    window.socket.on(ON_GAME_MODEL_UPDATE, onGameModelUpdate)
 
     const gameData = mergeDeep({...defaultGame}, response.data.game)
 
@@ -201,7 +205,7 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
 };
 
 export const unloadGame = () => (dispatch, getState) => {
-  window.socket.off(ON_GAME_MODEL_UPDATE)
+  window.socket.off(ON_GAME_MODEL_UPDATE, onGameModelUpdate)
 
   dispatch({
     type: UNLOAD_GAME,

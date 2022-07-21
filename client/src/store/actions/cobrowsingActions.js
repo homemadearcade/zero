@@ -86,10 +86,10 @@ export const startCobrowsing = () => async (dispatch, getState) => {
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
-      dispatch(updateCobrowsing(state.cobrowsing.remoteState))
+      dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
     });
     
-    dispatch(updateCobrowsing(state.cobrowsing.remoteState))
+    dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
   } catch (err) {
     console.error(err)
 
@@ -116,36 +116,6 @@ export const endCobrowsing = () => async (dispatch, getState) => {
       payload: { error: err?.response?.data.message || err.message },
     });
   }
-};
-
-export const updateVideoCobrowsing = (cobrowsingVideoState) => async (dispatch, getState) => {
-  const remoteState = getState().cobrowsing.remoteState
-  remoteState.video = cobrowsingVideoState
-  dispatch({
-    type: VIDEO_STATE_UPDATE,
-    payload: { videoState: cobrowsingVideoState },
-  });
-  dispatch(updateCobrowsing(remoteState))
-};
-
-export const updateLobbyCobrowsing = (cobrowsingLobbyState) => async (dispatch, getState) => {
-  const remoteState = getState().cobrowsing.remoteState
-  remoteState.lobby = cobrowsingLobbyState
-  dispatch({
-    type: LOBBY_STATE_UPDATE,
-    payload: { lobbyState: cobrowsingLobbyState },
-  });
-  dispatch(updateCobrowsing(remoteState))
-};
-
-export const updateEditorCobrowsing = (cobrowsingEditorState) => async (dispatch, getState) => {
-  const remoteState = getState().cobrowsing.remoteState
-  remoteState.editor = cobrowsingEditorState
-  dispatch({
-    type: EDITOR_STATE_UPDATE,
-    payload: { editorState: cobrowsingEditorState },
-  });
-  dispatch(updateCobrowsing(remoteState))
 };
 
 export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
@@ -180,6 +150,7 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_UPDATE, ({userId, remoteState}) => {
+      console.log('here we are', remoteState)
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 

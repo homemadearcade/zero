@@ -47,6 +47,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         editorState: {
           ...state.editorState,
+          brushSelectedIdBrushList: null,
           classSelectedIdClassList: payload.classSelectedIdClassList
         }
       }
@@ -63,6 +64,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         editorState: {
           ...state.editorState,
+          classSelectedIdClassList: null,
           brushSelectedIdBrushList: payload.brushSelectedIdBrushList
         }
       }

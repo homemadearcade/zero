@@ -11,15 +11,16 @@ import Onboarding from '../Onboarding/Onboarding';
 import GameClassList from '../../../game/ClassList/ClassList';
 import GameBrushList from '../../../game/BrushList/BrushList';
 import withCobrowsing from '../../../hoc/withCobrowsing';
+import { withCobrowsingState } from '../../../utils/cobrowsing';
 
-const CobrowsingGame = ({ game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isConnected }, myTracks, userTracks}) => {    
+const CobrowsingGame = ({ game: { gameModel }, auth: { me }, lobby: { lobby}, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, videoState: { isInsideVideoCall }, myTracks, userTracks}) => {    
   return <GameEditor 
     isHost={lobby.gameHostId === me.id}
     isNetworked
     lobbyId={lobby.id}
     gameModel={gameModel}
     leftColumn={<>
-      {isConnected && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+      {isInsideVideoCall && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
       <GameBrushList/>
     </>}
     rightColumn={
@@ -32,10 +33,10 @@ const CobrowsingGame = ({ game: { gameModel }, auth: { me }, lobby: { lobby}, co
   </GameEditor>
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => withCobrowsingState(state, {
   lobby: state.lobby,
   auth: state.auth,
-  video: state.video,
+  videoState: state.video.videoState,
   game: state.game,
   cobrowsing: state.cobrowsing
 });

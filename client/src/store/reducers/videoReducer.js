@@ -4,29 +4,39 @@ import {
   START_VIDEO_CALL_FAIL,
   LEAVE_VIDEO_CALL_SUCCESS,
   LEAVE_VIDEO_CALL_FAIL,
-  VIDEO_STATE_UPDATE,
   SET_AUDIO_TRACK_ID,
-  SET_VIDEO_TRACK_ID
+  SET_VIDEO_TRACK_ID,
+  BYPASS_VIDEO_CALL
 } from '../types';
 
 const initialState = {
-  isConnected: false,
   videoTrackId: null,
   audioTrackId: null,
   videoState: {
-    isStarting: false,
+    isInsideVideoCall: false,
+    isConnectingToVideoCall: false,
     error: null,
+    bypass: false
   }
 };
 
 export default function videoReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case BYPASS_VIDEO_CALL:
+      return {
+        ...state,
+        videoState: {
+          ...state.videoState,
+          isConnectingToVideoCall: false,
+          bypass: true
+        },
+      };
     case START_VIDEO_CALL_LOADING:
       return {
         ...state,
         videoState: {
           ...state.videoState,
-          isStarting: true,
+          isConnectingToVideoCall: true,
         },
       };
     case START_VIDEO_CALL_SUCCESS:
@@ -34,18 +44,18 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         videoState: {
           ...state.videoState,
-          isStarting: false,
+          isConnectingToVideoCall: false,
+          isInsideVideoCall: true,
         },
-        isConnected: true,
       };
     case LEAVE_VIDEO_CALL_SUCCESS:
       return {
         ...state,
         videoState: {
           ...state.videoState,
-          isStarting: false,
+          isConnectingToVideoCall: false,
+          isInsideVideoCall: false,
         },
-        isConnected: false,
       };
     case START_VIDEO_CALL_FAIL:
     case LEAVE_VIDEO_CALL_FAIL:
@@ -53,10 +63,10 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         videoState: {
           ...state.videoState,
-          isStarting: false,
-          error: payload.error
+          isConnectingToVideoCall: false,
+          error: payload.error,
+          isInsideVideoCall: false,
         },
-        isConnected: false,
       };
     case SET_VIDEO_TRACK_ID:
       return {
@@ -67,11 +77,6 @@ export default function videoReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         audioTrackId: payload.audioTrackId
-      };
-    case VIDEO_STATE_UPDATE: 
-      return {
-        ...state,
-        videoState: payload.videoState
       };
     default:
       return state;

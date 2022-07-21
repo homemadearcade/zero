@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoCall.scss'
-import { useAgoraVideoCall } from "../../../store/actions/videoActions";
+import { bypassAgoraVideoCall, useAgoraVideoCall } from "../../../store/actions/videoActions";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from '../../../store/actions/videoActions';
 import {
@@ -17,16 +17,20 @@ import Typography from "../../ui/Typography/Typography";
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 const AgoraVideoCall = (props) => {
-  if(props.video.isConnected || props.video.videoState.isStarting) {
+  if(props.video.videoState.bypass) {
+    return <div className="AgoraVideoCall">
+      {props.render({})}
+    </div>
+  } else if(props.video.videoState.isInsideVideoCall || props.video.videoState.isConnectingToVideoCall) {
     return <AgoraVideoCallContext {...props}/>
   } else {
     return <AgoraVideoCallPreview  {...props}/>
-  }   
+  }
 };
 
 //      <img className="AgoraVideoCallPreview__demo" src="/assets/images/camera-permission.png" alt="cam"/>
 
-const AgoraVideoCallPreview = ({startAgoraVideoCall, auth: { me }}) => {
+const AgoraVideoCallPreview = ({startAgoraVideoCall, bypassAgoraVideoCall, auth: { me }}) => {
   const { tracks, ready } = useMicrophoneAndCameraTracks();
 
   const userTracks = { uid: me.id, videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
@@ -53,6 +57,11 @@ const AgoraVideoCallPreview = ({startAgoraVideoCall, auth: { me }}) => {
       }}>
         Join Lobby with Video
       </Button>
+      <Button onClick={() => {
+        bypassAgoraVideoCall()
+      }}>
+        Bypass Video
+      </Button>
     </div>
   }
   </div>
@@ -75,6 +84,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { startAgoraVideoCall, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess }),
+  connect(mapStateToProps, { startAgoraVideoCall, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, bypassAgoraVideoCall }),
 )(AgoraVideoCall);
 

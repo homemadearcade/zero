@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './ClassItem.scss';
 import classNames from 'classnames';
-import { clearClass, selectClass, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
+import { clearClass, selectClass, openContextMenuFromClassId } from '../../store/actions/editorActions';
 import Sprite from '../ui/Sprite/Sprite';
 import { withCobrowsingState } from '../../utils/cobrowsing';
 
@@ -15,7 +15,6 @@ const ClassItem = ({
   editorState: { classSelectedIdClassList },
   selectClass,
   clearClass,
-  clearBrush,
   openContextMenuFromClassId
 }) => {
   const objectClass = classes[classId]
@@ -27,7 +26,6 @@ const ClassItem = ({
       if(classId === classSelectedIdClassList) {
         clearClass()
       } else {
-        clearBrush()
         selectClass(classId)
       }
     }}
@@ -48,5 +46,5 @@ const mapStateToProps = (state) => withCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, selectClass, clearClass, clearBrush }),
+  connect(mapStateToProps, { openContextMenuFromClassId, selectClass, clearClass }),
 )(ClassItem);

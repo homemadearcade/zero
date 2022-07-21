@@ -7,7 +7,8 @@ import {
   LEAVE_VIDEO_CALL_SUCCESS,
   LEAVE_VIDEO_CALL_FAIL,
   SET_VIDEO_TRACK_ID,
-  SET_AUDIO_TRACK_ID
+  SET_AUDIO_TRACK_ID,
+  BYPASS_VIDEO_CALL
 } from '../types';
 
 import {
@@ -52,6 +53,12 @@ export const setAudioTrackId = (trackId) => (dispatch, getState) => {
   });
 }
 
+export const bypassAgoraVideoCall = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: BYPASS_VIDEO_CALL,
+  });
+}
 
 export const startAgoraVideoCall = () => (dispatch, getState) => {
   dispatch({

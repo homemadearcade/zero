@@ -45,7 +45,7 @@ export class GameHostScene extends EditorScene {
 
   unload() {
     super.unload();
-    window.socket.off(ON_GAME_MODEL_UPDATE)
+    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 }
