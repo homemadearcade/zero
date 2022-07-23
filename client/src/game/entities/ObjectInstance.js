@@ -38,7 +38,11 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     scene.input.setDraggable(this)
 
     this.setBounce(objectClass.bounciness)
-    this.setDensity(objectClass.density)
+    if(objectClass.useMass) {
+      this.setMass(objectClass.mass)
+    } else {
+      this.setDensity(objectClass.density)
+    }
     this.setFriction(objectClass.friction)
     this.setFrictionAir(objectClass.frictionAir)
     this.setFrictionStatic(objectClass.frictionStatic)

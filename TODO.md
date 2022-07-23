@@ -1,50 +1,65 @@
-CONVERSATIONS
+CONVERSATION TOPICS
 
 --
 
 TODO NEXT
 
-LOBBY DASHBOARD MICAUDIO - VISUAL FEEDBACK, because I can hear others in the lobby
+0) Small things
 FOLDING/UNFOLDING organization
-VALIDATION ON ALL FORMS
-
-FOR EACH BRUSH LAYER
-color squares ( with most commonly used colors ) with a + add the end that opens color selector
-+ for fresh sprite open in sprite editor inside brush and class creation
-
 choose background color
+cobrowsing scroll
 
+1) Unlockable UI
+
+2) LOBBY STEPS
+
+participants email should then find their user id and set them as game host and participant...
+
+fix problem with the leave game button not being above the other button
+
+It slowly builds a lobby detail view which can be accessed through the sidebar as well
+
+Seperate forms and data!
+
+Basically once they load the game and 'join it' I think its a one-way experience. To LEAVE the game after that is a big action. we need to get their hero involved. You can peek at the lobby dashboard if you want in like a side nav bar but yeah. If you want to stop COBROWSING thats fine, you can stop cobrowsing and just turn that flag off, but you dont unmount the game view
+LOBBY DASHBOARD MICAUDIO - VISUAL FEEDBACK, because I can hear others in the lobby
+
+
+3) REMOTE ACTIONS ( Cobrowsing, Game host/Lobby? )
 GAME_HOST_REMOTE_PROCEDURE_CALL or is this just update lobby to be gamePaused? what about game reset? maybe we need that...
 Reset Button
 Play/Pause Button
-
 COBROWSING_HOST_REMOTE_PROCEDURE_CALL
 
-CONTROLS - speed, other phaser examples, etc
-CAMERA
-GAME BOUNDARY
+4) CAMERA
 
-DRAWING
+5) DRAWING
   Tinting
   Pixel Pencil, Brush, Spray Can
   Unlock snap to grid?
   BUG - Sometimes a Playground sprite is not picked up because it doesnt have alpha in the center
   BUG - brushing a ton sucks because the new image comes in and overwrites what you have
   Sync network drawing?
+FOR EACH BRUSH LAYER
+color squares ( with most commonly used colors ) with a + add the end that opens color selector
++ for fresh sprite open in sprite editor inside brush and class creation
+
+GAME BOUNDARY
+CONTROLS - speed, other phaser examples, etc
 
 --------
 
 TODO LATER
 
-Lobby Steps?
+VALIDATION ON ALL FORMS
 
-Update Lobby Find
+update lobby find
 
 Leaving game bug....scenes?
 
 right click brush - copy to layer X, delete, open in sprite editor
 
-Basically once they load the game and 'join it' I think its a one-way experience. To LEAVE the game after that is a big action. we need to get their hero involved. You can peek at the lobby dashboard if you want in like a side nav bar but yeah. If you want to stop COBROWSING thats fine, you can stop cobrowsing and just turn that flag off, but you dont unmount the game view
+--
 
 remove brush 9 and 22.5 when you're not in the top layer
 
@@ -70,7 +85,7 @@ then perhaps find the right way to do custom coding - collision, events? paths? 
 
 BEHAVIORS
 
-Remove top layer
+invisible if collided with hero
 
 Soccerball ( attach to hero on collide and allow hero to shoot out again )
 

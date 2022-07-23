@@ -25,15 +25,6 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.speed}
         />
         <SliderNotched
-          formLabel="Density"
-          step={0.1}
-          options={[.001, .01, 0.1, 0.25, 0.5, 0.75, 1]}
-          onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { density: value }}})        
-          }}
-          value={classSelected.density}
-        />
-        <SliderNotched
           formLabel="Bounce"
           step={0.05}
           options={[0, .25, .5, .75, 1]}
@@ -52,7 +43,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.friction}
         />
         <SliderNotched
-          formLabel="Friction (Air)"
+          formLabel="Drag"
           step={0.05}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
@@ -60,15 +51,44 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           }}
           value={classSelected.frictionAir}
         />
-        <SliderNotched
-          formLabel="Friction (Static)"
+        {false && <SliderNotched
+          formLabel="Staticness"
           step={1}
-          options={[0.5, 1, 5, 20]}
+          options={[0, 1, 5, 20, 50, 100, 200]}
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { frictionStatic: value }}})        
           }}
           value={classSelected.frictionStatic}
-        />
+        />}
+          {classSelected.useMass &&  
+          <SliderNotched
+            formLabel="Weight"
+            step={0.1}
+            options={[.1, 1, 5, 10, 20, 50, 100, 200, 500]}
+            onChangeCommitted={(value) => {
+              editGameModel({ classes: { [classId]: { mass: value }}})        
+            }}
+            value={classSelected.mass}
+        />}
+        {!classSelected.useMass &&  
+          <SliderNotched
+            formLabel="Weight (Density)"
+            step={0.1}
+            options={[.001, .01, 0.1, 0.25, 0.5, 0.75, 1]}
+            onChangeCommitted={(value) => {
+              editGameModel({ classes: { [classId]: { density: value }}})        
+            }}
+            value={classSelected.density}
+          />}
+      </div>
+      <div>
+        <FormLabel>Customize weight</FormLabel>
+        <Switch
+          onChange={(e) => {
+            editGameModel({ classes: { [classId]: { useMass: e.target.checked }}})        
+          }}
+          checked={classSelected.useMass}
+         />
       </div>
       <div>
         <FormLabel>Ignore Gravity</FormLabel>

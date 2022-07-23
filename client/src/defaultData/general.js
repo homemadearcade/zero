@@ -6,6 +6,8 @@ export const defaultPhaserPhysicsProperties = {
   "density": .001,
   "ignoreGravity": false,
   "fixedRotation": false,
+  "useMass": false,
+  "mass": 10
 }
 
 export const nodeSize = 12

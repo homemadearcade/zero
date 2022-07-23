@@ -2,9 +2,8 @@ import store from "../store"
 
 export function getRemoteStatePackage(state) {
   return {
-    video: state.video.videoState,
-    lobby: state.lobby.lobbyState,
-    editor: state.editor.editorState,
+    video: state.video,
+    editor: state.editor,
     editorForms: state.editorForms.editorFormsState,
     editorInstance: state.editorInstance.editorInstanceState
   }
@@ -12,11 +11,10 @@ export function getRemoteStatePackage(state) {
 
 export function getLocalCobrowsingState(state) {
   return {
-    videoState: state.video.videoState,
-    lobbyState: state.lobby.lobbyState,
-    editorState: state.editor.editorState,
-    editorFormsState: state.editorForms.editorFormsState,
-    editorInstanceState: state.editorInstance.editorInstanceState
+    video: state.video,
+    editor: state.editor,
+    editorForms: state.editorForms,
+    editorInstance: state.editorInstance
   }
 }
 
@@ -26,15 +24,15 @@ export function mapCobrowsingState(state, props) {
 
   const remoteState = Object.keys(props).reduce((prev, propName) => {
     const remoteState = state.cobrowsing.remoteState
-    if(propName === 'editorState') {
+    if(propName === 'editor') {
       prev[propName] = remoteState.editor
-    } else if(propName === 'editorFormsState') {
+    } else if(propName === 'editorForms') {
       prev[propName] = remoteState.editorForms
-    } else if(propName === 'videoState') {
+    } else if(propName === 'video') {
       prev[propName] = remoteState.video
-    } else if(propName === 'lobbyState') {
+    } else if(propName === 'lobby') {
       prev[propName] = remoteState.lobby
-    } else if(propName === 'editorInstanceState') {
+    } else if(propName === 'editorInstance') {
       prev[propName] = remoteState.editorInstance
     }
 
@@ -62,10 +60,10 @@ export function getCobrowsingState() {
 
   return {
     ...state,
-    editorState: remoteState.editor,
-    editorInstanceState: remoteState.editorInstance,
-    editorFormsState: remoteState.editorForms,
-    lobbyState: remoteState.lobby,
-    videoState: remoteState.video,
+    editor: remoteState.editor,
+    editorInstance: remoteState.editorInstance,
+    editorForms: remoteState.editorForms,
+    lobby: remoteState.lobby,
+    video: remoteState.video,
   }
 }

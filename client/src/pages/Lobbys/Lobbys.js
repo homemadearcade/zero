@@ -15,6 +15,7 @@ import requireAdmin from '../../hoc/requireAdmin';
 import './styles.scss';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
+import Link from '../../app/ui/Link/Link';
 
 const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {
@@ -48,7 +49,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                         <span className="LobbysPage__label">Start Time: </span>
                         <span className="LobbysPage__info">{lobby.startTime}</span>
                       </div>
-                      <Button
+                      {/* <Button
                         className="LobbysPage__button"
                         type="button"
                         onClick={() => {
@@ -56,7 +57,8 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                         }}
                       >
                         Enter
-                      </Button>
+                      </Button> */}
+                      <Link to={'/lobby/'+lobby.id}>Enter</Link>
                       <Button
                         className="LobbysPage__button"
                         type="button"
