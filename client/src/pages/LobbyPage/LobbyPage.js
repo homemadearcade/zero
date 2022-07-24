@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Switch } from 'react-router-dom';
@@ -15,6 +15,9 @@ import CobrowsingGame from '../../app/cobrowsing/CobrowsingGame/CobrowsingGame';
 import LobbyDashboard from '../../app/LobbyDashboard/LobbyDashboard';
 import Onboarding from '../../app/cobrowsing/Onboarding/Onboarding';
 import GameView from '../../game/GameView/GameView';
+import Drawer from '../../app/ui/Drawer/Drawer';
+import LobbyDetail from '../../app/LobbyDetail/LobbyDetail';
+import Link from '../../app/ui/Link/Link';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -24,6 +27,8 @@ const LobbyPage = ({
   assignLobbyRole
 }) => {
   let { path } = useRouteMatch();
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
     if(me.role === 'ADMIN' && (!lobby.guideId)) {
@@ -45,20 +50,44 @@ const LobbyPage = ({
     }
   }, [])
 
+
+  function LobbyDrawer() {
+    return <>
+      <div className="LobbyPage__drawer-toggle" onClick={() => {
+        setIsDrawerOpen(!isDrawerOpen)
+      }}>
+        {!isDrawerOpen && <i className="fas fa-bars"></i>}
+        {isDrawerOpen && <i className="fas fa-close"></i>}
+      </div>
+      <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
+        setIsDrawerOpen(false)
+      }>
+        <br/>
+        <br/>
+        <br/>
+        <LobbyDetail myTracks={myTracks} userTracks={userTracks} 
+        />
+        <br/>
+        <Link to={`/lobby/${lobby.id}`}>Exit game <br/> and <br/> return to lobby</Link>
+      </Drawer>
+    </>
+  }
+
   return <Switch>
-    <Route exact path={path}>
-      <LobbyDashboard/>
-    </Route>
-    <Route path={`${path}/join/:cobrowsingUserId`}>
-      {lobby.game && <CobrowsingGame gameId={lobby.game.id} myTracks={myTracks} userTracks={userTracks}>
-        {!lobby.isGameStarted && <div className="GameEditor__empty-game"><Onboarding/></div>}
-        {lobby.isGameStarted && <GameView
-          isHost={lobby.gameHostId === me.id}
-          isNetworked
-        />}
-      </CobrowsingGame>}
-    </Route>
-  </Switch>
+      <Route exact path={path}>
+        <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
+      </Route>
+      <Route path={`${path}/join/:cobrowsingUserId`}>
+        {me.role === 'ADMIN' &&<LobbyDrawer/>}
+        {lobby.game && <CobrowsingGame gameId={lobby.game.id} myTracks={myTracks} userTracks={userTracks}>
+          {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"><Onboarding/></div>}
+          {lobby.isGamePoweredOn && <GameView
+            isHost={lobby.gameHostId === me.id}
+            isNetworked
+          />}
+        </CobrowsingGame>}
+      </Route>
+     </Switch>
 };
 
 const mapStateToProps = (state) => ({

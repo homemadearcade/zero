@@ -52,8 +52,8 @@ export class GameHostScene extends EditorScene {
 
   update(time, delta) {
     super.update(time, delta)
-    const editorInstanceState = getCobrowsingState().editorInstanceState
-    const resetGameId = editorInstanceState.resetGameId
+    const editorInstance = getCobrowsingState().editorInstance
+    const resetGameId = editorInstance.resetGameId
   
     if(resetGameId > this.resetGameId) {
       this.resetGameId = resetGameId

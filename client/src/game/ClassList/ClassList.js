@@ -15,7 +15,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 
 const ClassList = ({
   game: { gameModel },
-  editorFormsState: { isCreateClassFlowOpen },
+  editorForms: { isCreateClassFlowOpen },
   editGameModel,
   closeCreateClassFlow,
   openCreateClassFlow
@@ -77,7 +77,7 @@ const ClassList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorFormsState: state.editorForms.editorFormsState,
+  editorForms: state.editorForms,
 })
 export default compose(
   connect(mapStateToProps, { editGameModel, openCreateClassFlow, closeCreateClassFlow }),

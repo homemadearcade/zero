@@ -147,7 +147,7 @@ const lobbys = [
     participantId: null,
     guideId: null,
     game: null,
-    isGameStarted: false
+    isGamePoweredOn: false
   }
 ];
 

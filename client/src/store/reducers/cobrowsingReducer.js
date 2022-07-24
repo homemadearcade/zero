@@ -11,6 +11,10 @@ import {
   UNSUBSCRIBE_COBROWSING_FAIL,
   ON_COBROWSING_UPDATE,
 } from '../types';
+import { initialEditorState } from './editorFormsReducer';
+import { initialEditorInstanceState } from './editorInstanceReducer';
+import { initialEditorFormsState } from './editorReducer';
+import { initialVideoState } from './videoReducer';
 
 const initialState = {
   isSubscribedCobrowsing: false,
@@ -18,44 +22,10 @@ const initialState = {
   error: null,
   cobrowsingUser: false,
   remoteState: {
-    lobby: {
-      onboardingStep: 'internet_speed_test', //'video_connection',
-      error: null,
-    },
-    video: {
-      isConnectingToVideoCall: false,
-      error: null,
-    },
-    editor: {
-      error: null,
-      objectSelectedIdContextMenu: null,
-      classSelectedIdClassList: null,
-      classSelectedIdContextMenu: null,
-      classSelectedIdLiveEditor: null,
-      selectableObjectIds: null,
-      isContextMenuOpen: false,
-      isLiveEditorOpen: false
-    },
-    editorForms: {
-      isCreateBrushFlowOpen: false,
-      isCreateClassFlowOpen: false,
-      // isCreateHeroFlowOpen: false,
-      // isCreateWorldFlowOpen: false,
-      brush: {
-        step: 'layer',
-        layerId: null,
-        descriptors: []
-      },
-      class: {
-        step: 'descriptors',
-        descriptors: []
-      }
-    },
-    editorInstance: {
-      layerVisibility: {},
-      resetGameIndex: 0,
-      isPaused: false,
-    }
+    video: initialVideoState,
+    editor: initialEditorState,
+    editorForms: initialEditorFormsState,
+    editorInstance: initialEditorInstanceState
   },
 };
 

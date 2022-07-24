@@ -48,7 +48,7 @@ export default (ChildComponent) => {
     }
 
     render() {
-      const { lobby: { isLoading, isJoining }, videoState, bypassAgoraVideoCall } = this.props;
+      const { lobby: { isLoading, isJoining }, video: { bypass, isConnectingToVideoCall }, bypassAgoraVideoCall } = this.props;
 
       if(isLoading) {
         return <Loader text="Loading Lobby..."/>
@@ -60,7 +60,7 @@ export default (ChildComponent) => {
 
       return <AgoraVideoCall
         render={(props) => {
-          if(videoState.isConnectingToVideoCall && !videoState.bypass) {
+          if(isConnectingToVideoCall && !bypass) {
             return <>
               <Loader text="Connecting your video to other users..."/>
               <Button onClick={() => {
@@ -78,7 +78,7 @@ export default (ChildComponent) => {
   const mapStateToProps = (state) => ({
     auth: state.auth,
     lobby: state.lobby,
-    videoState: state.video.videoState
+    video: state.video
   });
 
   return compose(

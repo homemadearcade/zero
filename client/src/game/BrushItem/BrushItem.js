@@ -12,7 +12,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 const BrushItem = ({
   game: { gameModel: { brushes } },
   brushId,
-  editorState: { brushSelectedIdBrushList },
+  editor: { brushSelectedIdBrushList },
   selectBrush,
   clearBrush,
 }) => {
@@ -34,7 +34,7 @@ const BrushItem = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorState: state.editor.editorState,
+  editor: state.editor,
 })
 
 export default compose(

@@ -10,8 +10,9 @@ import ObjectInstanceContextMenu from '../../../game/ObjectInstanceContextMenu/O
 import ClassContextMenu from '../../../game/ClassContextMenu/ClassContextMenu';
 import WorldContextMenu from '../../../game/WorldContextMenu/WorldContextMenu';
 import { HERO_INSTANCE_ID } from '../../../constants';
+import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
-const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, editorState: { isContextMenuOpen, objectSelectedIdContextMenu, classSelectedIdContextMenu } }}) => {  
+const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, isContextMenuOpen, objectSelectedIdContextMenu, classSelectedIdContextMenu } }) => {  
   function handleClose() {
     closeContextMenu()
   }
@@ -43,8 +44,9 @@ const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, e
   );
 }
 
-const mapStateToProps = (state) => ({
-  editor: state.editor
+const mapStateToProps = (state) => mapCobrowsingState(state, {
+  editor: state.editor,
+  localEditor: state.editor
 });
 
 export default connect(mapStateToProps, { closeContextMenu })(ContextMenu);

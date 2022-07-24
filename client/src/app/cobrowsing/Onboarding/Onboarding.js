@@ -11,7 +11,7 @@ import { requestFullscreen } from '../../../utils/browser';
 import Button from '../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
-const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { lobby }, lobbyState, cobrowsing: { cobrowsingUser }}) => {
+const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { onboardingStep, lobby }, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -52,18 +52,18 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
    return  <Button onClick={onTestInternetSpeedClick}>Test your internet</Button>
   }
 
-  if(lobbyState.onboardingStep === 'testing_speed') {
+  if(onboardingStep === 'testing_speed') {
     return <Loader text="Testing your internet upload and download speed.."/>
   }
 
-  if(lobbyState.onboardingStep === 'internet_speed_test') {
+  if(onboardingStep === 'internet_speed_test') {
     return <div>
       Step 2
       {renderSpeedTest()}
     </div>
   }
 
-  if(lobbyState.onboardingStep === 'computer_environment') {
+  if(onboardingStep === 'computer_environment') {
     return <div>
       Step 3
       <div>
@@ -79,7 +79,7 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
     </div>
   }
 
-  if(lobbyState.onboardingStep === 'choose_game' && !lobby.isGameStarted) {
+  if(onboardingStep === 'choose_game' && !lobby.isGamePoweredOn) {
     if(cobrowsingUser.role === 'ADMIN') {
       return <div>
         Return to the lobby page - assign all roles, select game, review checklist, start game
@@ -93,7 +93,6 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
   cobrowsing: state.cobrowsing,
-  lobbyState: state.lobby.lobbyState,
 });
 
 export default compose(

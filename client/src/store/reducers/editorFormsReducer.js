@@ -11,94 +11,70 @@ import {
 } from '../types';
 
 const initialState = {
-  editorFormsState: {
-    isCreateBrushFlowOpen: false,
-    createBrushStep: '',
-    brush: {
-      layerId: null,
-      textureId: null,
-      descriptors: []
-    },
-    isCreateClassFlowOpen: false,
-    createClassStep: '',
-    class: {
-      descriptors: [],
-      textureId: null,
-    },
-    // isCreateHeroFlowOpen: false,
-    // isCreateWorldFlowOpen: false,
-  }
+  isCreateBrushFlowOpen: false,
+  createBrushStep: '',
+  brush: {
+    layerId: null,
+    textureId: null,
+    descriptors: []
+  },
+  isCreateClassFlowOpen: false,
+  createClassStep: '',
+  class: {
+    descriptors: [],
+    textureId: null,
+  },
+  // isCreateHeroFlowOpen: false,
+  // isCreateWorldFlowOpen: false,
 };
+
+export const initialEditorState = initialState
 
 export default function editorFormsReducer(state = initialState, { type, payload }) {
   switch (type) {
     case UPDATE_CREATE_BRUSH_STEP: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          createBrushStep: payload.step
-        }
+        createBrushStep: payload.step
       }
     case UPDATE_CREATE_CLASS_STEP: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          createClassStep: payload.step
-        }
+        createClassStep: payload.step
       }
     case UPDATE_CREATE_BRUSH: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          brush: {...state.editorFormsState.brush, ...payload.brush }
-        }
+        brush: {...state.brush, ...payload.brush }
       }
     case UPDATE_CREATE_CLASS: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          class: {...state.editorFormsState.class, ...payload.class }
-        }
+        class: {...state.class, ...payload.class }
     }
     case OPEN_CREATE_BRUSH_FLOW: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          isCreateBrushFlowOpen: true,
-          brush: {
-            ...initialState.editorFormsState.brush,
-            layerId: payload.layerId
-          }
+        isCreateBrushFlowOpen: true,
+        brush: {
+          ...initialState.brush,
+          layerId: payload.layerId
         }
       }
     case OPEN_CREATE_CLASS_FLOW: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          isCreateClassFlowOpen: true
-        }
+        isCreateClassFlowOpen: true
       }
     case CLOSE_CREATE_BRUSH_FLOW: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          isCreateBrushFlowOpen: false
-        }
+        isCreateBrushFlowOpen: false
       }
     case CLOSE_CREATE_CLASS_FLOW: 
       return {
         ...state,
-        editorFormsState: {
-          ...state.editorFormsState,
-          isCreateClassFlowOpen: false
-        }
+        isCreateClassFlowOpen: false
       }
     case CLEAR_EDITOR_FORMS:
       return initialState

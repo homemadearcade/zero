@@ -159,8 +159,8 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // EDITOR INSTANCE STATE
     ////////////////////////////////////////////////////////////
-    const editorInstanceState = getCobrowsingState().editorInstanceState
-    this.resetGameId =  editorInstanceState.resetGameId
+    const editorInstance = getCobrowsingState().editorInstance
+    this.resetGameId =  editorInstance.resetGameId
   }
 
   respawn() {
@@ -180,8 +180,8 @@ export class GameInstance extends Phaser.Scene {
   }
   
   update(time, delta) {
-    const editorInstanceState = getCobrowsingState().editorInstanceState
-    const layerVisibility = editorInstanceState.layerVisibility
+    const editorInstance = getCobrowsingState().editorInstance
+    const layerVisibility = editorInstance.layerVisibility
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_LAYER_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_LAYER_ID])

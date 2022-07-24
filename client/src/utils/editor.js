@@ -20,7 +20,7 @@ import { getCobrowsingState } from "./cobrowsing";
 export function snapEraserXY({x, y}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
-  const brushSize = getCobrowsingState().editorState.brushSize
+  const brushSize = getCobrowsingState().editor.brushSize
   const blockSize = nodeSize * brushSize
 
   const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), nodeSize), 0, gameModel.world.boundaries.width)
@@ -36,7 +36,7 @@ export function snapEraserXY({x, y}) {
 export function snapBrushXY({x, y}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
-  const brushSize = getCobrowsingState().editorState.brushSize
+  const brushSize = getCobrowsingState().editor.brushSize
   const blockSize = nodeSize * brushSize
 
   const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)

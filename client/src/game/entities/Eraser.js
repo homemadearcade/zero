@@ -16,7 +16,7 @@ export class Eraser extends Phaser.GameObjects.Image {
     this.scene.add.existing(this)
 
     const nodeSize = store.getState().game.gameModel.world.nodeSize
-    const brushSize = getCobrowsingState().editorState.brushSize
+    const brushSize = getCobrowsingState().editor.brushSize
     this.width = nodeSize * brushSize
     this.height = nodeSize * brushSize
     this.setDisplaySize(this.width, this.height)

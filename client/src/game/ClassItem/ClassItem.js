@@ -12,7 +12,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 const ClassItem = ({
   game: { gameModel: { classes } },
   classId,
-  editorState: { classSelectedIdClassList },
+  editor: { classSelectedIdClassList },
   selectClass,
   clearClass,
   openContextMenuFromClassId
@@ -42,7 +42,7 @@ const ClassItem = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorState: state.editor.editorState,
+  editor: state.editor,
 })
 
 export default compose(

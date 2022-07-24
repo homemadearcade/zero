@@ -10,7 +10,7 @@ import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
 import WorldEditor from '../WorldEditor/WorldEditor';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const LiveEditor = ({ closeLiveEditor, editorState: { classSelectedIdLiveEditor, liveEditingCategory } }) => {
+const LiveEditor = ({ closeLiveEditor, editor: { classSelectedIdLiveEditor, liveEditingCategory } }) => {
   return (
     <div className="LiveEditor">
       <div className="LiveEditor__close"><Button onClick={closeLiveEditor}><i className="fas fa-close"/></Button></div>
@@ -22,7 +22,7 @@ const LiveEditor = ({ closeLiveEditor, editorState: { classSelectedIdLiveEditor,
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorState: state.editor.editorState,
+  editor: state.editor,
 })
 
 export default connect(mapStateToProps, { editGameModel, closeLiveEditor })(LiveEditor);

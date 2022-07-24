@@ -1,0 +1,10 @@
+.LobbyPage {
+  &__drawer-toggle {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    font-size: 24px;
+    z-index: 10010;
+    cursor: pointer;
+  }
+}

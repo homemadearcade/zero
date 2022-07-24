@@ -133,4 +133,8 @@ export class PreloaderScene extends Phaser.Scene {
     this.preloaderBg.destroy();
     this.preloaderBar.destroy();
   };
+
+  unload = () => {
+    this.destroy()
+  }
 }

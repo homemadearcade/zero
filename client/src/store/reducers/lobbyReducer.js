@@ -31,9 +31,6 @@ const initialState = {
   error: null,
   isJoining: false,
   joinError: null,
-  lobbyState: {
-    onboardingStep: 'internet_speed_test',//'video_connection',
-  }
 };
 
 export default function lobbyReducer(state = initialState, { type, payload }) {
@@ -124,10 +121,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     case UPDATE_ONBOARDING_STEP: 
       return {
         ...state,
-        lobbyState: {
-          ...state.lobbyState,
-          onboardingStep: payload.onboardingStep
-        }
+        onboardingStep: payload.onboardingStep
       };
     default:
       return state;

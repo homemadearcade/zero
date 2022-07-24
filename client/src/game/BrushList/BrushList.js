@@ -20,7 +20,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 
 const BrushList = ({
   game: { gameModel },
-  editorFormsState: { isCreateBrushFlowOpen },
+  editorForms: { isCreateBrushFlowOpen },
   editGameModel,
   closeCreateBrushFlow,
   openCreateBrushFlow
@@ -96,7 +96,7 @@ const BrushList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorFormsState: state.editorForms.editorFormsState,
+  editorForms: state.editorForms,
 })
 
 

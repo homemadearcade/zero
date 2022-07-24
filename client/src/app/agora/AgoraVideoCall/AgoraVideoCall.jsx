@@ -17,11 +17,13 @@ import Typography from "../../ui/Typography/Typography";
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 const AgoraVideoCall = (props) => {
-  if(props.video.videoState.bypass) {
+  const { video : {bypass, isConnectingToVideoCall, isInsideVideoCall}, render } = props
+
+  if(bypass) {
     return <div className="AgoraVideoCall">
-      {props.render({})}
+      {render({})}
     </div>
-  } else if(props.video.videoState.isInsideVideoCall || props.video.videoState.isConnectingToVideoCall) {
+  } else if(isInsideVideoCall || isConnectingToVideoCall) {
     return <AgoraVideoCallContext {...props}/>
   } else {
     return <AgoraVideoCallPreview  {...props}/>

@@ -13,7 +13,7 @@ import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorFormsState: { brush, createBrushFlowLayer } }) => {
+const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorForms: { brush, createBrushFlowLayer } }) => {
   function handleClose() {
     onClose()
     clearEditorForms()
@@ -53,7 +53,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onCl
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorFormsState: state.editorForms.editorFormsState,
+  editorForms: state.editorForms,
 })
 
 export default compose(

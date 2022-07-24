@@ -11,7 +11,7 @@ import { clearEditorForms } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 
-const GameEditor = ({editorState: { isLiveEditorOpen }, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({editor: { isLiveEditorOpen }, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     return () => {
       clearEditor()
@@ -36,7 +36,7 @@ const GameEditor = ({editorState: { isLiveEditorOpen }, leftColumn, rightColumn,
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorState: state.editor.editorState,
+  editor: state.editor,
 })
 
 export default connect(mapStateToProps, { clearEditor, clearEditorForms, clearEditorInstance })(GameEditor);

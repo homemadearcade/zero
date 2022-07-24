@@ -4,15 +4,6 @@ export function getRemoteStatePackage(state) {
   return {
     video: state.video,
     editor: state.editor,
-    editorForms: state.editorForms.editorFormsState,
-    editorInstance: state.editorInstance.editorInstanceState
-  }
-}
-
-export function getLocalCobrowsingState(state) {
-  return {
-    video: state.video,
-    editor: state.editor,
     editorForms: state.editorForms,
     editorInstance: state.editorInstance
   }
@@ -30,8 +21,6 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.editorForms
     } else if(propName === 'video') {
       prev[propName] = remoteState.video
-    } else if(propName === 'lobby') {
-      prev[propName] = remoteState.lobby
     } else if(propName === 'editorInstance') {
       prev[propName] = remoteState.editorInstance
     }
@@ -51,10 +40,7 @@ export function getCobrowsingState() {
   const state = store.getState()
   const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
 
-  if(!isCobrowsing) return {
-    ...state,
-    ...getLocalCobrowsingState(state)
-  }
+  if(!isCobrowsing) return state
 
   const remoteState = state.cobrowsing.remoteState
 
@@ -63,7 +49,6 @@ export function getCobrowsingState() {
     editor: remoteState.editor,
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
-    lobby: remoteState.lobby,
     video: remoteState.video,
   }
 }

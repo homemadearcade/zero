@@ -7,29 +7,18 @@ TODO NEXT
 0) Small things
 FOLDING/UNFOLDING organization
 choose background color
-cobrowsing scroll
 
 1) Unlockable UI
 
 2) LOBBY STEPS
 
-participants email should then find their user id and set them as game host and participant...
+bug when switching cobrowsing, because the component does not unmount
 
-fix problem with the leave game button not being above the other button
+when creating lobby, find user, and then set that user - as game host and participant...
 
-It slowly builds a lobby detail view which can be accessed through the sidebar as well
-
-Seperate forms and data!
-
-Basically once they load the game and 'join it' I think its a one-way experience. To LEAVE the game after that is a big action. we need to get their hero involved. You can peek at the lobby dashboard if you want in like a side nav bar but yeah. If you want to stop COBROWSING thats fine, you can stop cobrowsing and just turn that flag off, but you dont unmount the game view
-LOBBY DASHBOARD MICAUDIO - VISUAL FEEDBACK, because I can hear others in the lobby
-
-
-3) REMOTE ACTIONS ( Cobrowsing, Game host/Lobby? )
-GAME_HOST_REMOTE_PROCEDURE_CALL or is this just update lobby to be gamePaused? what about game reset? maybe we need that...
+3) REMOTE ACTIONS
 Reset Button
 Play/Pause Button
-COBROWSING_HOST_REMOTE_PROCEDURE_CALL
 
 4) CAMERA
 
@@ -53,37 +42,29 @@ TODO LATER
 
 VALIDATION ON ALL FORMS
 
-update lobby find
-
-Leaving game bug....scenes?
-
 right click brush - copy to layer X, delete, open in sprite editor
 
 --
 
 remove brush 9 and 22.5 when you're not in the top layer
 
-add Login and Signup components to withAuth
-
-Get rid of this editorState, videoState thing, thats total bs just make it editor, video, lobby... etc. Remove the lobby steps to editorForms. Also add a reducer called cobrowsingLocal. maybe just add it to the cobrowsing reducer
+add Login and Signup components to withAuth - update lobby find
 
 Theres two problems with cobrowsing to think about
 1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user
 2) When clicking on a button while cobrowsing, how do we dispatch the remote event?
 
-Cobrowsing Click event
+Cobrowsing Click event, cobrowsing scroll
 
 Popup for connection errors
 
-Better error handling in cobrowsing
+Better error handling locally and with cobrowsing, perhaps have just one error array and make sure that array is shared in cobrowsing as well
 
 Unauthenticate socket when logging out
 
-more behaviors, and controls, and customization
-
 then perhaps find the right way to do custom coding - collision, events? paths? etc
 
-BEHAVIORS
+BEHAVIORS, CONTROLS
 
 invisible if collided with hero
 

@@ -7,46 +7,38 @@ import {
 } from '../types';
 
 const initialState = {
-  editorInstanceState: {
-    layerVisibility: {
-      [BACKGROUND_LAYER_ID]: true,
-      [PLAYGROUND_LAYER_ID]: true,
-      [OBJECT_INSTANCE_LAYER_ID]: true,
-      [HERO_INSTANCE_LAYER_ID]: true,
-      [OVERHEAD_LAYER_ID]: true
-    },
-    resetGameIndex: 0,
-    isGamePaused: false,
-  }
+  layerVisibility: {
+    [BACKGROUND_LAYER_ID]: true,
+    [PLAYGROUND_LAYER_ID]: true,
+    [OBJECT_INSTANCE_LAYER_ID]: true,
+    [HERO_INSTANCE_LAYER_ID]: true,
+    [OVERHEAD_LAYER_ID]: true
+  },
+  resetGameIndex: 0,
+  isGamePaused: false,
 };
+
+export const initialEditorInstanceState = initialState
+
 
 export default function editorInstanceReducer(state = initialState, { type, payload }) {
   switch (type) {
     case RESET_GAME_INSTANCE:
       return {
         ...state,
-        editorInstanceState: {
-          ...state.editorInstanceState,
-          resetGameIndex: !state.editorInstanceState.resetGameIndex + 1
-        }
+        resetGameIndex: !state.resetGameIndex + 1
       }
     case TOGGLE_GAME_INSTANCE_PAUSED:
       return {
         ...state,
-        editorInstanceState: {
-          ...state.editorInstanceState,
-          isGamePaused: !state.editorInstanceState.isGamePaused
-        }
+        isGamePaused: !state.isGamePaused
       }
     case TOGGLE_LAYER_VISIBILITY:
       return {
         ...state,
-        editorInstanceState: {
-          ...state.editorInstanceState,
-          layerVisibility: {
-            ...state.editorInstanceState.layerVisibility,
-            [payload.layerId]: !state.editorInstanceState.layerVisibility[payload.layerId]
-          }
+        layerVisibility: {
+          ...state.layerVisibility,
+          [payload.layerId]: !state.layerVisibility[payload.layerId]
         }
       }
     case CLEAR_EDITOR_INSTANCE:

@@ -67,9 +67,9 @@ export class EditorScene extends GameInstance {
   // POINTER
   ////////////////////////////////////////////////////////////
   onPointerMove = (pointer)  => {
-    const editorState = getCobrowsingState().editorState
-    const brushId = editorState.brushSelectedIdBrushList
-    const classId = editorState.classSelectedIdClassList
+    const editor = getCobrowsingState().editor
+    const brushId = editor.brushSelectedIdBrushList
+    const classId = editor.classSelectedIdClassList
     const gameModel = store.getState().game.gameModel
 
     ////////////////////////////////////////////////////////////

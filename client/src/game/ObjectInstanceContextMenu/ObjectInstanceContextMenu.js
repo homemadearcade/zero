@@ -7,7 +7,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editorState: { objectSelectedIdContextMenu }}) => {
+const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editor: { objectSelectedIdContextMenu }}) => {
   return <>
     <MenuItem onClick={() => {
       editGameModel({ objects: { [objectSelectedIdContextMenu]: null } })
@@ -18,7 +18,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editorState
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorState: state.editor.editorState,
+  editor: state.editor,
 })
 
 export default connect(mapStateToProps, { openLivePhysicsEditor, editGameModel })(ObjectInstanceContextMenu);

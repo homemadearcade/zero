@@ -12,7 +12,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 const BrushControl = ({
   game: { gameModel: { brushes, world }},
   updateBrushSize,
-  editorState: { brushSize, brushSelectedIdBrushList },
+  editor: { brushSize, brushSelectedIdBrushList },
 }) => {
   const brush = brushes[brushSelectedIdBrushList]
 
@@ -33,7 +33,7 @@ const BrushControl = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorState: state.editor.editorState,
+  editor: state.editor,
 })
 
 export default compose(

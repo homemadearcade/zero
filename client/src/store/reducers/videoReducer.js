@@ -12,61 +12,46 @@ import {
 const initialState = {
   videoTrackId: null,
   audioTrackId: null,
-  videoState: {
-    isInsideVideoCall: false,
-    isConnectingToVideoCall: false,
-    error: null,
-    bypass: false
-  }
+  isInsideVideoCall: false,
+  isConnectingToVideoCall: false,
+  error: null,
+  bypass: false
 };
+
+export const initialVideoState = initialState
 
 export default function videoReducer(state = initialState, { type, payload }) {
   switch (type) {
     case BYPASS_VIDEO_CALL:
       return {
         ...state,
-        videoState: {
-          ...state.videoState,
-          isConnectingToVideoCall: false,
-          bypass: true
-        },
+        isConnectingToVideoCall: false,
+        bypass: true
       };
     case START_VIDEO_CALL_LOADING:
       return {
         ...state,
-        videoState: {
-          ...state.videoState,
-          isConnectingToVideoCall: true,
-        },
+        isConnectingToVideoCall: true,
       };
     case START_VIDEO_CALL_SUCCESS:
       return {
         ...state,
-        videoState: {
-          ...state.videoState,
-          isConnectingToVideoCall: false,
-          isInsideVideoCall: true,
-        },
+        isConnectingToVideoCall: false,
+        isInsideVideoCall: true,
       };
     case LEAVE_VIDEO_CALL_SUCCESS:
       return {
         ...state,
-        videoState: {
-          ...state.videoState,
-          isConnectingToVideoCall: false,
-          isInsideVideoCall: false,
-        },
+        isConnectingToVideoCall: false,
+        isInsideVideoCall: false,
       };
     case START_VIDEO_CALL_FAIL:
     case LEAVE_VIDEO_CALL_FAIL:
       return {
         ...state,
-        videoState: {
-          ...state.videoState,
-          isConnectingToVideoCall: false,
-          error: payload.error,
-          isInsideVideoCall: false,
-        },
+        isConnectingToVideoCall: false,
+        error: payload.error,
+        isInsideVideoCall: false,
       };
     case SET_VIDEO_TRACK_ID:
       return {

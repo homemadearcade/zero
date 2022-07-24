@@ -10,7 +10,7 @@ import { ERASER_BRUSH_ID } from '../../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
 const EraserSelect = ({
-  editorState: { brushSelectedIdBrushList },
+  editor: { brushSelectedIdBrushList },
   layerId,
   selectBrush,
   clearClass,
@@ -34,7 +34,7 @@ const EraserSelect = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorState: state.editor.editorState,
+  editor: state.editor,
 })
 
 export default compose(

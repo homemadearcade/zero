@@ -43,7 +43,6 @@ const ErrorHandler = ({
   return <div className="ErrorHandler">
     {editorError && renderError('Editor Error', editorError)}
     {cobrowsingError && renderError('Cobrowsing Error', cobrowsingError)}
-    {cobrowsingLobbyError && renderError('Cobrowsing Lobby Error', cobrowsingLobbyError)}
     {cobrowsingVideoError && renderError('Cobrowsing Video Error', cobrowsingVideoError)}
     {cobrowsingEditorError && renderError('Cobrowsing Editor Error', cobrowsingEditorError)}
     {cobrowsingEditorFormsError && renderError('Cobrowsing Editor Error', cobrowsingEditorFormsError)}
@@ -64,7 +63,6 @@ const mapStateToProps = (state) => ({
   authError: state.auth.error,
   cobrowsingError: state.cobrowsing.error,
   cobrowsingVideoError: state.cobrowsing.remoteState.video.error,
-  cobrowsingLobbyError: state.cobrowsing.remoteState.lobby.error,
   cobrowsingEditorError: state.cobrowsing.remoteState.editor.error,
   cobrowsingEditorFormsError: state.cobrowsing.remoteState.editorForms.error,
   cobrowsingEditorInstanceError: state.cobrowsing.remoteState.editorInstance.error,

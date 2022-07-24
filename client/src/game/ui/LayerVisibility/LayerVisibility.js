@@ -7,7 +7,7 @@ import { toggleLayerVisibility } from '../../../store/actions/editorInstanceActi
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
 const LayerVisibility = ({
-  editorInstanceState: { layerVisibility },
+  editorInstance: { layerVisibility },
   toggleLayerVisibility,
   layerId
 }) => {
@@ -22,7 +22,7 @@ const LayerVisibility = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorInstanceState: state.editorInstance.editorInstanceState,
+  editorInstance: state.editorInstance,
 });
 
 export default compose(

@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
-import UserStatus from '../UserStatus/UserStatus';
 
 import './LobbyDashboard.scss';
 import classNames from 'classnames';
@@ -14,7 +13,7 @@ import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
 import Typography from '../ui/Typography/Typography';
 import Button from '../ui/Button/Button';
-import Link from '../ui/Link/Link';
+import LobbyDetail from '../LobbyDetail/LobbyDetail';
 
 const UNASSIGNED_ROLE = 'unassigned'
 
@@ -23,6 +22,8 @@ const LobbyDashboard = ({
   editLobby,
   assignLobbyRole,
   unloadGame,
+  myTracks, 
+  userTracks,
   lobby: { lobby },
   auth: { me },
   status: { lobbyUserStatus }
@@ -145,28 +146,16 @@ const LobbyDashboard = ({
     return !!item.test();
   })
 
+  //      <div className="LobbyDashboard__leave"><Link to="/lobbys">leave lobby</Link></div>
+
   return (
     <div className="LobbyDashboard">
-      <div className="LobbyDashboard__leave"><Link to="/lobbys">leave lobby</Link></div>
-      <Typography component="h5" variant="h5">{"You are in Lobby: " + lobby.id}</Typography>
-
-      {lobby.isGameStarted && <>
-        <Typography variant="h3" component="h3">Game is running!</Typography>
-        <GameCard game={lobby.game}/>
-      </>}
-
-      <Typography component="h5" variant="h5">Users in room: </Typography>
-      <div className="LobbyDashboard__users">
-        {lobby.users.map((user) => {
-          return <UserStatus key={user.id}  userId={user.id}/>
-        })}
-      </div>
+      <LobbyDetail userTracks={userTracks} myTracks={myTracks}/>
       <Typography component="h5" variant="h5">Roles: </Typography>
       <div className="LobbyDashboard__roles">
         <div className="LobbyDashboard__role">
           <strong>Game Host</strong><br/>
-          {lobby.gameHostId && <UserStatus userId={usersById[lobby.gameHostId]?.id}/>}
-          {!lobby.isGameStarted && <div className="LobbyDashboard__role-assign">
+          {!lobby.isGamePoweredOn && <div className="LobbyDashboard__role-assign">
             Assign:
             <select onChange={(e) => {
               assignLobbyRole(lobby.id, {
@@ -184,8 +173,7 @@ const LobbyDashboard = ({
         </div>
         <div className="LobbyDashboard__role">
           <strong>Participant</strong><br/>
-          {lobby.participantId && <UserStatus userId={usersById[lobby.participantId]?.id}/>}
-          {!lobby.isGameStarted && <div className="LobbyDashboard__role-assign">
+          {!lobby.isGamePoweredOn && <div className="LobbyDashboard__role-assign">
             Assign:
             <select onChange={(e) => {
               assignLobbyRole(lobby.id, {
@@ -203,8 +191,7 @@ const LobbyDashboard = ({
         </div>
         <div className="LobbyDashboard__role">
           <strong>Guide</strong><br/>
-          {lobby.guideId && <UserStatus userId={usersById[lobby.guideId]?.id}/>}
-          {!lobby.isGameStarted && <div className="LobbyDashboard__role-assign">
+          {!lobby.isGamePoweredOn && <div className="LobbyDashboard__role-assign">
           Assign:
             <select onChange={(e) => {
               assignLobbyRole(lobby.id, {
@@ -222,7 +209,7 @@ const LobbyDashboard = ({
         </div>
       </div>
 
-      {!lobby.isGameStarted && <>
+      {!lobby.isGamePoweredOn && <>
         <Typography component="h5" variant="h5">Select Game: </Typography>
         {lobby?.game?.id && <GameCard game={lobby.game}/>}
         <GameSelect onSelect={(game) => {
@@ -254,12 +241,12 @@ const LobbyDashboard = ({
           </div>
         })}
       </div>
-      {!lobby.isGameStarted && <Button
+      {!lobby.isGamePoweredOn && <Button
         type="button"
         variant="contained"
         onClick={() => {
           editLobby(lobby.id, {
-            isGameStarted: true
+            isGamePoweredOn: true
           })
         }}
         disabled={!isAllRequiredPassing}
@@ -267,12 +254,12 @@ const LobbyDashboard = ({
       >
         Start game
       </Button>}
-      {lobby.isGameStarted && <Button
+      {lobby.isGamePoweredOn && <Button
         type="button"
         variant="contained"
         onClick={() => {
           editLobby(lobby.id, {
-            isGameStarted:false
+            isGamePoweredOn:false
           })
           unloadGame()
         }}

@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import './AgoraVolumeMeter.scss'
 
-const AgoraVolumeMeter = ({ audioTrack }) => {
+const AgoraVolumeMeter = ({ audioTrack, username }) => {
 
   const [volume, setVolume] = useState()
+  const volumeBar = useRef(null)
 
   useEffect(() => {
     setInterval(() => {
-      setVolume((audioTrack.getVolumeLevel() * 100) * 1.1) 
+      const volumePercent = audioTrack.getVolumeLevel()
+      if(volumePercent < .1) {
+        setVolume(audioTrack.getVolumeLevel() * 100) 
+      } else {
+        setVolume((audioTrack.getVolumeLevel() * 100) * 1.1) 
+      }
     }, 300)
   })
 
   useEffect(() => {
-    var bars = document.getElementsByClassName("AgoraVolumeMeter__bar");
+    var bars = volumeBar.current?.children
+
     for (var i = 0; i < bars.length; i++) {
       if(volume / (100 / bars.length) > i) {
         bars[i].classList.add("on");
@@ -23,7 +30,7 @@ const AgoraVolumeMeter = ({ audioTrack }) => {
     }
   }, [volume]);
 
-  return <div className="AgoraVolumeMeter">
+  return <div className="AgoraVolumeMeter" ref={volumeBar}>
     <div className="AgoraVolumeMeter__bar"></div>
     <div className="AgoraVolumeMeter__bar"></div>
     <div className="AgoraVolumeMeter__bar"></div>

@@ -1,9 +1,9 @@
 .UserStatus {
-  padding: 15px;
-  
-  border: 1px solid #333;
-
   position: relative;
+
+  &__username {
+    display: block;
+  }
 
   &--left {
     opacity: 0.4;
@@ -21,11 +21,12 @@
     font-size: 12px;
     margin-top: 5px;
     color: white;
+    display: flex;
+    flex-direction: column;
   }
 
   &__ping {
     font-size: 7px;
-    display: inline-block;
     position: absolute;
     top: 1.7px;
     right: 12px;
@@ -34,7 +35,6 @@
   &__admin {
     width: 8px;
     height: 8px;
-    display: inline-block;
     position: absolute;
     top: 2px;
     left: 2px;
@@ -63,6 +63,10 @@
 
     &--bad {
       background-color: red;
+    }
+
+    &--none {
+      opacity: 0;
     }
   }
   

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import './CobrowsingGame.scss';
 import RemoteMouse from '../RemoteMouse/RemoteMouse';
-import CobrowsingStatus from '../CobrowsingStatus/CobrowsingStatus';
 import GameEditor from '../../../game/GameEditor/GameEditor';
 import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
 import GameClassList from '../../../game/ClassList/ClassList';
@@ -13,7 +12,9 @@ import withCobrowsing from '../../../hoc/withCobrowsing';
 import withGame from '../../../hoc/withGame';
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
-const CobrowsingGame = ({ auth: { me }, lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, videoState: { isInsideVideoCall }, myTracks, userTracks, children}) => {    
+//    {me.role === 'ADMIN' && <CobrowsingStatus/>}
+
+const CobrowsingGame = ({ auth: { me }, lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => {    
   return <GameEditor 
     lobbyId={lobby.id}
     leftColumn={<>
@@ -26,14 +27,13 @@ const CobrowsingGame = ({ auth: { me }, lobby: { lobby }, cobrowsing: { cobrowsi
   >
     {children}
     {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
-    {me.role === 'ADMIN' && <CobrowsingStatus/>}
   </GameEditor>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
   auth: state.auth,
-  videoState: state.video.videoState,
+  video: state.video,
   cobrowsing: state.cobrowsing
 });
 
