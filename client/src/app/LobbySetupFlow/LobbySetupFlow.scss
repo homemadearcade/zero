@@ -1,0 +1,28 @@
+.LobbySetupFlow {
+  &__role {
+    padding: 10px;
+    border: 1px solid #333;
+    width: 200px;
+  }
+
+  &__roles, &__users {
+    display: flex;
+  }
+
+  &__checklist-item {
+    &--required {
+      font-weight: 700;
+    }
+    display: flex;
+  }
+
+  &__checklist-check {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    display: inline-block;
+    border: 1px solid #333;
+    color: green;
+    margin-right: 5px;
+  }
+}

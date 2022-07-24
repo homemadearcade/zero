@@ -44,6 +44,7 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         isConnectingToVideoCall: false,
         isInsideVideoCall: false,
+        bypass: false
       };
     case START_VIDEO_CALL_FAIL:
     case LEAVE_VIDEO_CALL_FAIL:
@@ -52,6 +53,7 @@ export default function videoReducer(state = initialState, { type, payload }) {
         isConnectingToVideoCall: false,
         error: payload.error,
         isInsideVideoCall: false,
+        bypass: true
       };
     case SET_VIDEO_TRACK_ID:
       return {

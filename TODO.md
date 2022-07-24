@@ -12,9 +12,9 @@ choose background color
 
 2) LOBBY STEPS
 
-bug when switching cobrowsing, because the component does not unmount
-
 when creating lobby, find user, and then set that user - as game host and participant...
+
+Lobby steps
 
 3) REMOTE ACTIONS
 Reset Button
@@ -83,6 +83,8 @@ TAB + for moving through the UI
 --------
 
 TO RESEARCH
+
+https://blog.logrocket.com/using-material-ui-with-react-hook-form/
 
 https://github.com/saintedlama/mongoose-version#:~:text=Mongoose%20Version%20is%20a%20mongoose,and%20kept%20for%20later%20use.
 

@@ -3,28 +3,50 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Loader from '../app/ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
-import { startCobrowsing, endCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing } from '../store/actions/cobrowsingActions';
+import { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing } from '../store/actions/cobrowsingActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class WithCobrowsing extends Component {
     componentDidMount() {
-      const { match, auth: { me }, lobby: { lobby }, startCobrowsing, subscribeCobrowsing } = this.props
+      const { match } = this.props
       const cobrowsingUserId = match.params.cobrowsingUserId;
 
-      if(cobrowsingUserId === me.id) {
-        startCobrowsing({lobbyId: lobby.id})
-      } else {
-        subscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUserId})
-      }
+      this.startCobrowsing(cobrowsingUserId)
+    }
+
+    componentDidUpdate(oldProps) {
+      this.switchCobrowsing(oldProps, this.props)
     }
 
     componentWillUnmount() {
-      const { cobrowsing: { isSubscribedCobrowsing, cobrowsingUser }, lobby: {lobby}, unsubscribeCobrowsing, endCobrowsing } = this.props
-      if(isSubscribedCobrowsing) {
-        unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
+      this.stopCobrowsing()
+    }
+
+    async switchCobrowsing(oldProps, newProps) {
+      if(oldProps.match.params.cobrowsingUserId !== newProps.match.params.cobrowsingUserId) {
+        await this.stopCobrowsing()
+        await this.startCobrowsing(newProps.match.params.cobrowsingUserId)
+      } 
+    }
+
+    async startCobrowsing(userId) {     
+      const { auth: { me }, lobby: { lobby }, publishCobrowsing, subscribeCobrowsing } = this.props
+
+      if(userId === me.id) {
+        await publishCobrowsing({lobbyId: lobby.id})
       } else {
-        endCobrowsing({lobbyId: lobby.id})
+        await subscribeCobrowsing({lobbyId: lobby.id, userId: userId})
+      }
+    }
+
+    async stopCobrowsing() {
+      const { cobrowsing: { isSubscribedCobrowsing, cobrowsingUser }, lobby: { lobby }, unsubscribeCobrowsing, unpublishCobrowsing } = this.props
+
+      if(isSubscribedCobrowsing) {
+        await unsubscribeCobrowsing({lobbyId: lobby.id, userId: cobrowsingUser.id})
+      } else {
+        await unpublishCobrowsing({lobbyId: lobby.id})
       }
     }
 
@@ -47,6 +69,6 @@ export default (ChildComponent) => {
 
   return compose(
     withRouter, 
-    connect(mapStateToProps, { startCobrowsing, endCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing })
+    connect(mapStateToProps, { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing })
   )(WithCobrowsing)
 };

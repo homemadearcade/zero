@@ -12,10 +12,14 @@ export default (ChildComponent) => {
 
       if(gameId) {
         loadGame(gameId)
-      } else if(match) {
+      } else if(match?.params?.gameId) {
         const matchId = match.params.gameId;
         loadGame(matchId);
       }
+    }
+
+    componentDidUpdate() {
+
     }
 
     componentWillUnmount() {

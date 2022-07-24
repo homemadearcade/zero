@@ -11,7 +11,7 @@ import Button from '../app/ui/Button/Button';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class WithLobby extends Component {
-    componentDidMount() {
+    componentWillMount() {
       const {joinLobby,  match, auth: { me } } = this.props
 
       const matchId = match.params.id;

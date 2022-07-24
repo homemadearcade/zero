@@ -49,13 +49,13 @@ export default function AccordianList({accordians, initialExpandedId = null}) {
     setExpanded(newExpanded ? panel : false);
   };
 
-  return <Accordions accordians={accordians} expanded={expanded} onChange={handleChange}/>
+  return <AccordionListBody accordianList={accordians} expanded={expanded} onChange={handleChange}/>
 }
 
-export function Accordions({expanded, onChange, accordians}) {
+export function AccordionListBody({expanded, onChange, accordianList}) {
   return (
     <div className="Accordian">
-      {accordians.map(({id, title, body}) => {
+      {accordianList.map(({id, title, body}) => {
         return <Accordion key={title} expanded={expanded === id} onChange={onChange(id)}>
           <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
             <Typography>{title}</Typography>

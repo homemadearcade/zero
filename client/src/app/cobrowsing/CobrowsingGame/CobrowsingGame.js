@@ -14,16 +14,16 @@ import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
 //    {me.role === 'ADMIN' && <CobrowsingStatus/>}
 
-const CobrowsingGame = ({ auth: { me }, lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => {    
+const CobrowsingGame = ({ lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => {    
   return <GameEditor 
     lobbyId={lobby.id}
     leftColumn={<>
       {isInsideVideoCall && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
-      <GameBrushList/>
+      {lobby.game && <GameBrushList/>}
     </>}
-    rightColumn={
-      <GameClassList/>
-    }
+    rightColumn={<>
+      {lobby.game && <GameClassList/>}
+    </>}
   >
     {children}
     {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
@@ -32,7 +32,6 @@ const CobrowsingGame = ({ auth: { me }, lobby: { lobby }, cobrowsing: { cobrowsi
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
-  auth: state.auth,
   video: state.video,
   cobrowsing: state.cobrowsing
 });

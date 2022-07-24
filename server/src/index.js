@@ -17,6 +17,7 @@ import routes from './routes';
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
 import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE } from './constants';
+import Lobby from './models/Lobby';
 
 const app = express();
 
@@ -94,9 +95,28 @@ mongoose
     useUnifiedTopology: true,
     useFindAndModify: false,
   })
-  .then(() => {
+  .then(async () => {
     console.log('MongoDB Connected...');
-    // isProduction ? null : seedDb();
+    try {
+      const lobbys = (await Lobby.find().populate('participants game').populate({
+        path: 'game',
+        populate: {
+          path: 'user',
+          model: 'User'
+        }
+      })).map((lobby) => {
+        return {
+          ...lobby.toJSON(),
+          users: []
+        }
+      })
+
+      app.set('lobbys', lobbys);
+    } catch(e) {
+      console.log(e) 
+      process.exit()
+    } 
+
   })
   .catch((err) => console.log(err));
 
@@ -137,21 +157,6 @@ const socketSessions = new InMemorySessionStore()
 app.set('socketio', io);
 app.set('socketSessions', socketSessions);
 
-const lobbys = [
-  {
-    participantEmail: 'email0@email.com',
-    startTime: '8:00 PM',
-    id: 'c5ee5f1e-fe16-4296-9f26-162e21e922eb',
-    users: [],
-    gameHostId: null,
-    participantId: null,
-    guideId: null,
-    game: null,
-    isGamePoweredOn: false
-  }
-];
-
-app.set('lobbys', lobbys);
 
 io.on("connection", (socket) => {  
 

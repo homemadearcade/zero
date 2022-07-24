@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { getLobbys } from '../../store/actions/lobbysActions';
-import { deleteLobby, joinLobby } from '../../store/actions/lobbyActions';
+import { deleteLobby } from '../../store/actions/lobbyActions';
 
 import Layout from '../../layout/Layout';
 import Loader from '../../app/ui/Loader/Loader';
@@ -17,40 +17,44 @@ import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import Link from '../../app/ui/Link/Link';
 
-const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, isLoading } }) => {
+const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {
     getLobbys();
   }, [getLobbys]);
 
   return (
     <Layout>
-      <div className="LobbysPage">
+      <div className="LobbyListPage">
         <Typography component="h1" variant="h1">Lobbies Page</Typography>
           This is the lobbies page where all active lobbies are listed. Only admin users can see this page.
-        <div className="LobbysPage__list">
+        <div className="LobbyListPage__list">
           {isLoading ? (
             <Loader text="Lobbys Loading..."/>
           ) : (
             <>
               {lobbys.map((lobby, index) => {
                 return (
-                  <div key={index} className="LobbysPage__lobby">
+                  <div key={index} className="LobbyListPage__lobby">
 
-                    <div className="LobbysPage__info-container">
+                    <div className="LobbyListPage__info-container">
                       <div>
-                        <span className="LobbysPage__label">Lobby ID: </span>
-                        <span className="LobbysPage__info">{lobby.id}</span>
+                        <span className="LobbyListPage__label">Lobby ID: </span>
+                        <span className="LobbyListPage__info">{lobby.id}</span>
                       </div>
                       <div>
-                        <span className="LobbysPage__label">Participants Email: </span>
-                        <span className="LobbysPage__info">{lobby.participantEmail}</span>
+                        <span className="LobbyListPage__label">Participants Email: </span>
+                        <span className="LobbyListPage__info">{lobby.participants[0]?.email}</span>
                       </div>
                       <div>
-                        <span className="LobbysPage__label">Start Time: </span>
-                        <span className="LobbysPage__info">{lobby.startTime}</span>
+                        <span className="LobbyListPage__label">Participants Username: </span>
+                        <span className="LobbyListPage__info">{lobby.participants[0]?.username}</span>
+                      </div>
+                      <div>
+                        <span className="LobbyListPage__label">Start Time: </span>
+                        <span className="LobbyListPage__info">{lobby.startTime}</span>
                       </div>
                       {/* <Button
-                        className="LobbysPage__button"
+                        className="LobbyListPage__button"
                         type="button"
                         onClick={() => {
                           history.push('/lobby/'+lobby.id)
@@ -60,7 +64,7 @@ const Lobbys = ({ history, getLobbys, deleteLobby, joinLobby, lobbys: { lobbys, 
                       </Button> */}
                       <Link to={'/lobby/'+lobby.id}>Enter</Link>
                       <Button
-                        className="LobbysPage__button"
+                        className="LobbyListPage__button"
                         type="button"
                         onClick={async () => {
                           await deleteLobby(lobby.id, history)
@@ -92,4 +96,4 @@ export default compose(
   requireAuth,
   requireAdmin,  
   withRouter,
-  connect(mapStateToProps, { getLobbys, deleteLobby, joinLobby }))(Lobbys);
+  connect(mapStateToProps, { getLobbys, deleteLobby }))(LobbyListPage);

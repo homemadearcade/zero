@@ -1,63 +1,59 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useFormik } from 'formik';
-
 import { addLobby } from '../../store/actions/lobbyActions';
-import { lobbyFormSchema } from './validation';
+// import { lobbyFormSchema } from './validation';
+import { Controller, useForm } from "react-hook-form";
 
 import './styles.css';
 import Button from '../ui/Button/Button';
 import Typography from '../ui/Typography/Typography';
+import UserSelect from '../UserSelect/UserSelect';
+import { TextField } from '@mui/material';
+import { addGame } from '../../store/actions/gameActions';
 
-const LobbyForm = ({ addLobby, onSubmit }) => {
-  const formik = useFormik({
-    initialValues: {
-      participantEmail: '',
-      startTime: ''
-    },
-    validationSchema: lobbyFormSchema,
-    onSubmit: async (values, { resetForm }) => {
-      resetForm();
-      await addLobby({ participantEmail: values.participantEmail, startTime: values.startTime });
-      onSubmit()
+const LobbyForm = ({ addLobby, onSubmit, addGame }) => {
+  const { handleSubmit, reset, control } = useForm({
+    defaultValues: {
+      startTime: '',
+      participants: null,
     },
   });
+  const submit = async (data) => {
+    const gameResponse = await addGame({
+      userId: data.participants
+    });
+    const game = gameResponse.data.game
+    await addLobby({ game: game.id, participants: [data.participants], startTime: data.startTime });
+    reset();
+    onSubmit()
+  }
 
   return (
     <div className="LobbyForm">
       <Typography variant="h2" component="h2">Add a lobby</Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="input-div">
-          <label>Participant Email:</label>
-          <input
-            placeholder="Participant Email"
-            name="participantEmail"
-            className=""
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.participantEmail}
+      <form>
+        <Controller
+          name={"participants"}
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return <UserSelect 
+              usersSelected={value ? [value] : []} 
+              onSelect={(participants) => {
+                onChange(participants[participants.length-1])
+              }}
+            />
+          }}
+        />
+        <div>
+          <Controller
+            name={"startTime"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField onChange={onChange} value={value} label={"Start Time"} />
+            )}
           />
-          {formik.touched.participantEmail && formik.errors.participantEmail ? (
-            <p className="error">{formik.errors.participantEmail}</p>
-          ) : null}
         </div>
-        <div className="input-div">
-          <label>Start Time:</label>
-          <input
-            placeholder="Start Time"
-            name="startTime"
-            className=""
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.startTime}
-          />
-          {formik.touched.startTime && formik.errors.startTime ? (
-            <p className="error">{formik.errors.startTime}</p>
-          ) : null}
-        </div>
-        <Button type="submit" className="btn">Add Lobby</Button>
+        <Button type="submit" onClick={handleSubmit(submit)}>Add Lobby</Button>
       </form>
     </div>
   );
@@ -67,4 +63,4 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
 });
 
-export default connect(mapStateToProps, { addLobby })(LobbyForm);
+export default connect(mapStateToProps, { addLobby, addGame })(LobbyForm);

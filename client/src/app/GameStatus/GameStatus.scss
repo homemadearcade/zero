@@ -1,5 +1,23 @@
 .GameStatus {
   position: relative;
 
-  
+  &__icons {
+    font-size: 12px;
+    margin-top: 5px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__icon {
+    text-align: center;
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    display: inline-block;
+
+    &--wide {
+      width: 26px;
+    }
+  }
 }

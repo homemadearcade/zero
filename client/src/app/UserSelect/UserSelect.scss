@@ -1,5 +1,7 @@
-.GameSelect {
-  &__game {
+.UserSelect {
+  min-height: 100%;
+
+  &__user {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -19,8 +21,4 @@
   &__button {
     width: auto;
   }
-}
-
-.GamesPage .info-container {
-
 }

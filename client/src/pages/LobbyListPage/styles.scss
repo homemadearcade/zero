@@ -1,4 +1,4 @@
-.LobbysPage {
+.LobbyListPage {
   min-height: 100%;
 
   &__lobby {
@@ -21,16 +21,16 @@
   }
 }
 
-.LobbysPage .info {
+.LobbyListPage .info {
   font-size: 18px;
 }
 
-.LobbysPage .info-container {
+.LobbyListPage .info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.LobbysPage__list {
+.LobbyListPage__list {
   min-height: 100%;
 }

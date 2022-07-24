@@ -7,7 +7,7 @@ import Link from '../ui/Link/Link';
 import AccordianList from '../ui/AccordianList/AccordianList';
 import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 
-const UserStatus = ({ myTracks, userTracks, onClick, hasJoinLink, userId, key, lobby: { lobby }, status : { lobbyUserStatus, cobrowsingMouse },  auth: {me} }) => {
+const UserStatus = ({ myTracks, userTracks, hasJoinLink, userId, key, lobby: { lobby }, status : { lobbyUserStatus, cobrowsingMouse }, cobrowsing: { cobrowsingUser }, auth: {me} }) => {
   const userStatus = lobbyUserStatus[userId];
   const userCobrowsingStatus = cobrowsingMouse[userId]
   const user = lobby.users.filter(({id}) => {
@@ -30,18 +30,20 @@ const UserStatus = ({ myTracks, userTracks, onClick, hasJoinLink, userId, key, l
     }, {})
   }
   
-  return <div key={key} onClick={() => {
-    if(onClick) onClick(user)
-  }} className={classnames("UserStatus", {'UserStatus--left' : !user.joined, 'UserStatus--clickable' : onClick, 'UserStatus--me': me?.id === userId})}>
+  const isMe = me?.id === userId
+
+  return <div key={key} className={classnames("UserStatus", {'UserStatus--left' : !user.joined, 'UserStatus--cobrowser': cobrowsingUser.id === userId})}>
     {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[user.id].audioTrack}/>}
     <AccordianList accordians={[{
       id: user.id,
       title: <span className="UserStatus__title">
-        <span className="UserStatus__username">{user.username}</span>
+        <span className="UserStatus__username">{user.username}{isMe && ' (me)'}</span>
         <span className={classnames("UserStatus__connection", {'UserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 150, 'UserStatus__connection--none': !user.connected})}/>
         <span className="UserStatus__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</span>
         {user.role === 'ADMIN' && <i className="UserStatus__admin fa-solid fa-crown"/>}
-        {(hasJoinLink || true) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>Join in Game</Link>}
+        {(hasJoinLink || true) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
+          {isMe ? 'Play' : 'Join'}
+        </Link>}
       </span>,
       body: <span className="UserStatus__icons">
         <span className="UserStatus__fullscreen"><span className="UserStatus__icon"><i className="fa-solid fa-window-maximize"/></span>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</span>
@@ -57,7 +59,8 @@ const UserStatus = ({ myTracks, userTracks, onClick, hasJoinLink, userId, key, l
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
   status: state.status,
-  auth: state.auth
+  auth: state.auth,
+  cobrowsing: state.cobrowsing
 });
 
 export default connect(mapStateToProps, { })(UserStatus);

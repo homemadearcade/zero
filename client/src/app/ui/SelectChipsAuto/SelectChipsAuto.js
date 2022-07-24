@@ -154,10 +154,11 @@ export default function SelectChipsAuto({onChange, value, options, formLabel}) {
   useEffect(() => {
     if(value !== inheritedValue) {
       setInheritedValue(value.map((val) => {
-        return options.filter((option) => {
-          if(option.value === val) return option
+        const filtered = options.filter((option) => {
+          if(option.value == val) return option
           else return null
-        })[0]
+        })
+        return filtered[0]
       }))
     }
   }, [value])
@@ -184,7 +185,9 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
     multiple: true,
     options,
     getOptionLabel: (option) => option.label,
-    onChange
+    onChange: (event, selected) => {
+      onChange(event, selected.map(({value}) => value))
+    }
   });
 
 

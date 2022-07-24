@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import User from '../../models/User';
 
 import { ON_LOBBY_UPDATE } from '../../constants';
+import Lobby from '../../models/Lobby';
 
 const router = Router();
 
@@ -22,7 +23,7 @@ function requireLobby(req, res, next) {
   req.lobbys = lobbys
 
   const lobbyFound = lobbys.filter((l, i) => {
-    if(l.id === req.params.id) {
+    if(l.id.toString() === req.params.id) {
       index = i
       return true
     } else {
@@ -81,13 +82,25 @@ router.get('/byEmail/:participantEmail', requireLobbys, async (req, res) => {
 
 router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
   try {
-    let lobby = {
-      participantEmail: req.body.participantEmail,
+    let lobby = await Lobby.create({
+      participants: req.body.participants,
       startTime: req.body.startTime,
-      id: uuidv4(),
-      users: [],
-    };
+      gameHostId: req.body.participants[0],
+      participantId: req.body.participants[0],
+      game: req.body.game
+    });
 
+    lobby = await lobby.populate('participants game').populate({
+      path: 'game',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    }).execPopulate();
+
+    lobby = lobby.toJSON()
+
+    lobby.users = []
     req.lobbys.push(lobby)
 
     res.status(200).json({ lobbys: req.lobbys });
@@ -250,7 +263,13 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
       return res.status(400).json({ message: 'You do not have privileges to delete that lobby.' });
     }
 
-    req.lobbys.splice(req.lobbyIndex, 1);
+    try {
+      const lobby = await Lobby.findByIdAndRemove(req.params.id).populate('participants');
+      req.lobbys.splice(req.lobbyIndex, 1);
+      if (!lobby) return res.status(404).json({ game: 'No game found.' });
+    } catch (err) {
+      res.status(500).json({ game: 'Something went wrong.' });
+    }
 
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {

@@ -4,13 +4,12 @@ import classnames from 'classnames';
 
 import './GameStatus.scss';
 import AccordianList from '../ui/AccordianList/AccordianList';
+import Typography from '../ui/Typography/Typography';
 
 const GameStatus = ({ lobby: { lobby: { game, isGamePoweredOn, isGamePaused } } }) => {
 
-  if(!game) return <div>
-    No Game Selected
-  </div>
-  
+  if(!game) return <Typography component="div" variant="subtitle2">No Game Selected</Typography>
+
   return <div className={classnames("GameStatus")}>
     <AccordianList accordians={[{
       id: game.id,

@@ -15,7 +15,7 @@ import Home from './pages/Home/Home';
 import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
-import Lobbys from './pages/Lobbys/Lobbys';
+import Lobbys from './pages/LobbyListPage/LobbyListPage';
 import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
 import SessionLogin from './pages/LoginSession/LoginSession';

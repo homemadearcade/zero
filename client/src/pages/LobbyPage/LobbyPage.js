@@ -50,7 +50,6 @@ const LobbyPage = ({
     }
   }, [])
 
-
   function LobbyDrawer() {
     return <>
       <div className="LobbyPage__drawer-toggle" onClick={() => {
@@ -79,7 +78,7 @@ const LobbyPage = ({
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === 'ADMIN' &&<LobbyDrawer/>}
-        {lobby.game && <CobrowsingGame gameId={lobby.game.id} myTracks={myTracks} userTracks={userTracks}>
+        {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
           {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"><Onboarding/></div>}
           {lobby.isGamePoweredOn && <GameView
             isHost={lobby.gameHostId === me.id}

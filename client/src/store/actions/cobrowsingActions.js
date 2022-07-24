@@ -17,9 +17,6 @@ import {
   ON_COBROWSING_SUBSCRIBED,
   ON_COBROWSING_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
-  LOBBY_STATE_UPDATE,
-  VIDEO_STATE_UPDATE,
-  EDITOR_STATE_UPDATE
 } from '../types';
 
 import { getRemoteStatePackage } from '../../utils/cobrowsing';
@@ -65,7 +62,7 @@ export const handleCobrowsingUpdates = store => next => action => {
 }
 
 
-export const startCobrowsing = () => async (dispatch, getState) => {
+export const publishCobrowsing = () => (dispatch, getState) => {
   try {
     const state = getState()
 
@@ -100,7 +97,7 @@ export const startCobrowsing = () => async (dispatch, getState) => {
   }
 };
 
-export const endCobrowsing = () => async (dispatch, getState) => {
+export const unpublishCobrowsing = () => (dispatch, getState) => {
   try {
     window.socket.off(ON_COBROWSING_SUBSCRIBED);
     window.removeEventListener('mousemove', sendMouseState);
