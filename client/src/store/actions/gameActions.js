@@ -35,7 +35,6 @@ import store from '..';
 
 
 function onGameModelUpdate(gameUpdate) {
-  console.log(gameUpdate)
   const oldGameData = _.cloneDeep(store.getState().game.gameModel)
 
   if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
@@ -124,7 +123,6 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/games/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate }, options);
 
-    console.log(response)
     // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event in this scenario so we need a local EDIT_GAME_SUCCESS
     // if(!lobbyId) {
     //   dispatch({
@@ -207,7 +205,6 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
 };
 
 export const unloadGame = () => (dispatch, getState) => {
-  console.log('???')
   window.socket.off(ON_GAME_MODEL_UPDATE, onGameModelUpdate)
 
   dispatch({

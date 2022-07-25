@@ -52,7 +52,7 @@ export const validateLobby = (lobby) => {
 
 lobbySchema.methods.toJSON = function () {
   return {
-    id: this._id,
+    id: this._id.toString(),
     startTime: this.startTime,
     participants: this.participants.map((user) => {
       return user.toJSON()

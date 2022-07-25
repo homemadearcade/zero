@@ -56,7 +56,7 @@ const userSchema = new Schema(
   { timestamps: true },
 );
 
-console.log(join(__dirname, '../..', process.env.IMAGES_FOLDER_PATH));
+// console.log(join(__dirname, '../..', process.env.IMAGES_FOLDER_PATH));
 
 userSchema.methods.toJSON = function () {
   // if not exists avatar1 default
@@ -68,7 +68,7 @@ userSchema.methods.toJSON = function () {
     : `${process.env.IMAGES_FOLDER_PATH}avatar2.jpg`;
 
   return {
-    id: this._id,
+    id: this._id.toString(),
     provider: this.provider,
     email: this.email,
     username: this.username,

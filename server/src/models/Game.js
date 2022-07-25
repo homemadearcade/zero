@@ -73,7 +73,7 @@ export const validateGame = (game) => {
 
 gameSchema.methods.toJSON = function () {
   return {
-    id: this._id,
+    id: this._id.toString(),
     metadata: this.metadata,
     objects: this.objects,
     hero: this.hero,
