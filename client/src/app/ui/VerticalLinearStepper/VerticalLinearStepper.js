@@ -35,7 +35,7 @@ export function VerticalLinearStepperBody({ completed, steps, activeStep, onClic
           <Step key={step.id}>
             <StepLabel
               optional={
-                index === 2 ? (
+                index === steps.length-1 ? (
                   <Typography variant="caption">Last step</Typography>
                 ) : null
               }

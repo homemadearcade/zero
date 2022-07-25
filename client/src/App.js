@@ -26,8 +26,6 @@ import Loader from './app/ui/Loader/Loader';
 
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
-import '@fortawesome/fontawesome-free/js/all.js';
-
 import io from 'socket.io-client'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';

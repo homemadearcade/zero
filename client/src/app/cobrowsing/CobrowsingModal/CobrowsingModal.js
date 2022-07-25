@@ -5,6 +5,8 @@ import { Backdrop } from '@mui/material';
 
 import './CobrowsingModal.scss';
 import { stopPropagation } from '../../../utils/browser';
+import { faClose } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const CobrowsingModal = ({ onClose, children, open }) => {
   return <Backdrop
@@ -15,7 +17,7 @@ const CobrowsingModal = ({ onClose, children, open }) => {
     <div className="CobrowsingModal__safe-area">
       <div className="CobrowsingModal__body" onClick={stopPropagation}>
         <div className="CobrowsingModal__close" onClick={onClose}>
-          <Button><i className="fas fa-close"/></Button>
+          <Button><FontAwesomeIcon icon={faClose}/></Button>
         </div>
         {children}
       </div>

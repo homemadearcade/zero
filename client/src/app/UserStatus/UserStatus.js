@@ -7,6 +7,8 @@ import Link from '../ui/Link/Link';
 import AccordianList from '../ui/AccordianList/AccordianList';
 import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 import { Paper } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faCrown, faArrowPointer, faDownload, faUpload, faVideo, faWindowMaximize } from '@fortawesome/free-solid-svg-icons'
 
 const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatus, cobrowsingMouse }, cobrowsing: { cobrowsingUser }, auth: {me} }) => {
   const userStatus = lobbyUserStatus[userId];
@@ -38,7 +40,7 @@ const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildre
       <div className="UserStatus__username">{user.username}{isMe && ' (me)'}</div>
       <div className={classnames("UserStatus__connection", {'UserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 150, 'UserStatus__connection--none': !user.connected})}/>
       <div className="UserStatus__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
-      {user.role === 'ADMIN' && <i className="UserStatus__admin fa-solid fa-crown"/>}
+      {user.role === 'ADMIN' && <div className="UserStatus__admin"><FontAwesomeIcon icon={faCrown}/></div>}
       {(hasJoinLink) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
         {isMe ? 'Play' : 'Join'}
       </Link>}
@@ -54,12 +56,12 @@ const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildre
       id: user.id,
       title: renderTitle(),
       body: <div className="UserStatus__icons">
-        <div className="UserStatus__fullscreen"><div className="UserStatus__icon"><i className="fa-solid fa-window-maximize"/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
-        <div className="UserStatus__focus"><div className="UserStatus__icon"><i className="fa-solid fa-eye"/></div>{(!userStatus || userStatus?.isFocused) ? 'On Tab' : 'Away'}</div>
-        <div className="UserStatus__cobrowsing"><div className="UserStatus__icon"><i className="fa-solid fa-arrow-pointer"/></div>{userCobrowsingStatus ? <div>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</div> : 'Never'}</div>
-        <div className="UserStatus__upload"><div className="UserStatus__icon"><i className="fa-solid fa-upload"/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
-        <div className="UserStatus__download"><div className="UserStatus__icon"><i className="fa-solid fa-download"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
-        <div className="UserStatus__video-call"><div className="UserStatus__icon"><i className="fa-solid fa-video"/></div>{userTracksById && userTracksById[user.id] ? 'Connected' : 'Not Connected'}</div></div>
+        <div className="UserStatus__fullscreen"><div className="UserStatus__icon"><FontAwesomeIcon icon={faWindowMaximize}/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
+        <div className="UserStatus__focus"><div className="UserStatus__icon"><FontAwesomeIcon icon={faEye}/></div>{(!userStatus || userStatus?.isFocused) ? 'On Tab' : 'Away'}</div>
+        <div className="UserStatus__cobrowsing"><div className="UserStatus__icon"><FontAwesomeIcon icon={faArrowPointer}/></div>{userCobrowsingStatus ? <div>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</div> : 'Never'}</div>
+        <div className="UserStatus__upload"><div className="UserStatus__icon"><FontAwesomeIcon icon={faUpload}/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
+        <div className="UserStatus__download"><div className="UserStatus__icon"><FontAwesomeIcon icon={faDownload}/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
+        <div className="UserStatus__video-call"><div className="UserStatus__icon"><FontAwesomeIcon icon={faVideo}/></div>{userTracksById && userTracksById[user.id] ? 'Connected' : 'Not Connected'}</div></div>
     }]}/>
   </div>
 };

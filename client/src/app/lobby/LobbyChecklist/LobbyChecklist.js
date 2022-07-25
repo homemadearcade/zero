@@ -8,7 +8,8 @@ import { editLobby } from '../../../store/actions/lobbyActions';
 import './LobbyChecklist.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
-import Typography from '../../ui/Typography/Typography';
+import { faWarning, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '../../ui/Button/Button';
 
 const LobbyChecklist = ({
@@ -139,7 +140,7 @@ const LobbyChecklist = ({
     {checklist.map((item, i) => {
       const isPassing = !!item.test();
       return <div key={i} className={classNames("LobbyChecklist__checklist-item", { 'LobbyChecklist__checklist-item--required': item.required })}>
-        {isPassing && <span className="LobbyChecklist__checklist-check"><i className="fa-solid fa-check"></i></span>}
+        {isPassing && <span className="LobbyChecklist__checklist-check"><FontAwesomeIcon icon={faCheck}/></span>}
         {!isPassing && <span className="LobbyChecklist__checklist-check" />}
         {item.text}
         {item.required && ' (required)'}
@@ -154,7 +155,7 @@ const LobbyChecklist = ({
         })
       }}
       disabled={!isAllRequiredPassing}
-      startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
+      startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><FontAwesomeIcon icon={faWarning}/></span>}
     >
       Start game
     </Button>}

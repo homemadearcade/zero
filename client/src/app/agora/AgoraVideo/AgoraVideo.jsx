@@ -9,6 +9,8 @@ import './AgoraVideo.scss'
 import AgoraVideoStatus from "../AgoraVideoStatus/AgoraVideoStatus";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMicrophone, faMicrophoneSlash, faGear, faVideo, faVideoSlash } from '@fortawesome/free-solid-svg-icons'
 
 function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userId, controls}) {
   const isMe = me.id === userId
@@ -76,23 +78,23 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
 
      return <div className="AgoraVideo__controls">
       {trackState.audio ? <div className="AgoraVideo__control" onClick={muteAudio}>
-          <i className="fas fa-microphone"/>
+          <FontAwesomeIcon icon={faMicrophone}/>
         </div> : 
         <div className="AgoraVideo__control" onClick={muteAudio}>
-           <i className="fas fa-microphone-slash"/>
+           <FontAwesomeIcon icon={faMicrophoneSlash}/>
         </div>
       }
       {trackState.video ? <div className="AgoraVideo__control" onClick={muteVideo}>
-          <i className="fas fa-video"/>
+          <FontAwesomeIcon icon={faVideo}/>
         </div> : 
         <div className="AgoraVideo__control" onClick={muteVideo}>
-          <i className="fas fa-video-slash"/>
+          <FontAwesomeIcon icon={faVideoSlash}/>
         </div>
       }
       <div className="AgoraVideo__control" onClick={() => {
         setShowChangeInput(true)
       }}>
-        <i className="fas fa-gear" />
+        <FontAwesomeIcon icon={faGear} />
       </div>
     </div>
   }

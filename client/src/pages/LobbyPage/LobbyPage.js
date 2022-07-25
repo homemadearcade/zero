@@ -18,6 +18,9 @@ import GameView from '../../game/GameView/GameView';
 import Drawer from '../../app/ui/Drawer/Drawer';
 import LobbyDetail from '../../app/lobby/LobbyDetail/LobbyDetail';
 import Link from '../../app/ui/Link/Link';
+import { faBars, faClose } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -55,8 +58,8 @@ const LobbyPage = ({
       <div className="LobbyPage__drawer-toggle" onClick={() => {
         setIsDrawerOpen(!isDrawerOpen)
       }}>
-        {!isDrawerOpen && <i className="fas fa-bars"></i>}
-        {isDrawerOpen && <i className="fas fa-close"></i>}
+        {!isDrawerOpen && <FontAwesomeIcon icon={faBars}/>}
+        {isDrawerOpen && <FontAwesomeIcon icon={faClose}/>}
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)

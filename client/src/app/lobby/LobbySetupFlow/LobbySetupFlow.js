@@ -14,8 +14,8 @@ import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../../UserStatus/UserStatus';
-
-const UNASSIGNED_ROLE = 'unassigned'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // {lobby.isGamePoweredOn && <Button
 //   type="button"
@@ -83,7 +83,8 @@ const LobbySetupFlow = ({
         editLobby(lobby.id, {
           game: response.data.game
         })
-      }} startIcon={<i className="fas fa-plus"/>}>
+      }} 
+      startIcon={<FontAwesomeIcon icon={faPlus}/>}>
         New Game
       </Button>
     </>
@@ -93,12 +94,12 @@ const LobbySetupFlow = ({
     <div className="LobbySetupFlow">
       <VerticalLinearStepper steps={[
         {
-          id: 'Assign Roles',
+          id: 'Confirm Roles',
           title: <Typography component="h5" variant="h5">Assign Roles</Typography>,
           instructions: renderAssignRoles()
         },
         {
-          id: 'Select Game',
+          id: 'Confirm Game',
           title: <Typography component="h5" variant="h5">Select Game</Typography>,
           instructions: renderSelectGame()
         },
@@ -106,7 +107,32 @@ const LobbySetupFlow = ({
           id: 'Review Launch Checklist',
           title: <Typography component="h5" variant="h5">Review Launch Checklist </Typography>,
           instructions: <LobbyChecklist/>
-        }
+        },
+        {
+          id: 'Prologue one',
+          title: <Typography component="h5" variant="h5">Prologe one</Typography>,
+          instructions: null
+        },
+        {
+          id: 'Prologue two',
+          title: <Typography component="h5" variant="h5">Prologue two</Typography>,
+          instructions: null
+        },
+        {
+          id: 'Prologue three: demo',
+          title: <Typography component="h5" variant="h5">Demo's</Typography>,
+          instructions: null
+        },
+        {
+          id: 'Game creation',
+          title: <Typography component="h5" variant="h5">Game Creation</Typography>,
+          instructions: null
+        },
+        {
+          id: 'Outro and Credits',
+          title: <Typography component="h5" variant="h5">Outro and Credits</Typography>,
+          instructions: null
+        },
       ]}
       completed={<>
           All steps completed - you&apos;re finished

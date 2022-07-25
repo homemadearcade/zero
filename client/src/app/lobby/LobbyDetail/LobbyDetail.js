@@ -43,7 +43,7 @@ const LobbyDetail = ({
           {!lobby.guideId && <Typography component="div" variant="subtitle2">No Guide Selected</Typography>}
         </div>
         <div className="LobbyDetail__others">
-          <Typography component="div" variant="subtitle1">Watching:</Typography>
+          <Typography component="div" variant="subtitle1">Watchers:</Typography>
           <div>{lobby.users.filter((user) => {
             if(user.id ===lobby.guideId || user.id === lobby.participantId || user.id === lobby.gameHostId) return null
             return true

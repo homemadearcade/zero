@@ -15,7 +15,11 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
     }
 
     req.socket.join('cobrowsing@'+req.params.id);
-    req.app.get('socketSessions').findSession(req.params.id).emit(ON_COBROWSING_SUBSCRIBED);
+
+    const socketSession = req.app.get('socketSessions').findSession(req.params.id)
+    if(socketSession) {
+      socketSession.emit(ON_COBROWSING_SUBSCRIBED);
+    }
     
     const user = await User.findById(req.params.id)
     res.status(200).json({ cobrowsingUser: user });
