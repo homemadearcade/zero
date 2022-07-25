@@ -70,7 +70,9 @@ const LobbyPage = ({
         <LobbyDetail myTracks={myTracks} userTracks={userTracks} 
         />
         <br/>
-        <Link to={`/lobby/${lobby.id}`}>Exit game <br/> and <br/> return to lobby</Link>
+        <Link onClick={() => {
+          setIsDrawerOpen(false)
+        }} to={`/lobby/${lobby.id}`}>Exit game and return to lobby</Link>
       </Drawer>
     </>
   }

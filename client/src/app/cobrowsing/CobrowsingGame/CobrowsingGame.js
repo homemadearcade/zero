@@ -11,6 +11,7 @@ import GameBrushList from '../../../game/BrushList/BrushList';
 import withCobrowsing from '../../../hoc/withCobrowsing';
 import withGame from '../../../hoc/withGame';
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import LobbyToolbar from '../../lobby/LobbyToolbar/LobbyToolbar';
 
 //    {me.role === 'ADMIN' && <CobrowsingStatus/>}
 
@@ -22,7 +23,10 @@ const CobrowsingGame = ({ lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubs
       {lobby.game && <GameBrushList/>}
     </>}
     rightColumn={<>
-      {lobby.game && <GameClassList/>}
+      {lobby.game && <>
+        <LobbyToolbar/>
+        <GameClassList/>
+      </>}
     </>}
   >
     {children}

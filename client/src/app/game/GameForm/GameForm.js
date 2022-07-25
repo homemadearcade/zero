@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { addGame } from '../../store/actions/gameActions';
+import { addGame } from '../../../store/actions/gameActions';
 import { gameFormSchema } from './validation';
 
 import './styles.css';
-import Button from '../ui/Button/Button';
-import Typography from '../ui/Typography/Typography';
+import Button from '../../ui/Button/Button';
+import Typography from '../../ui/Typography/Typography';
 
 const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({

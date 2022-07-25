@@ -4,25 +4,15 @@ CONVERSATION TOPICS
 
 TODO NEXT
 
-0) Small things
-FOLDING/UNFOLDING organization
-choose background color
-
-1) Unlockable UI
-
-2) LOBBY STEPS
-
-when creating lobby, find user, and then set that user - as game host and participant...
-
-Lobby steps
-
-3) REMOTE ACTIONS
+1) REMOTE ACTIONS
 Reset Button
 Play/Pause Button
 
-4) CAMERA
+2) Unlockable UI
 
-5) DRAWING
+3) CAMERA
+
+4) DRAWING
   Tinting
   Pixel Pencil, Brush, Spray Can
   Unlock snap to grid?
@@ -35,6 +25,9 @@ color squares ( with most commonly used colors ) with a + add the end that opens
 
 GAME BOUNDARY
 CONTROLS - speed, other phaser examples, etc
+RELATIONSHIP SYSTEM
+DIALOGUE, CUTSCENES
+BEHAVIORS
 
 --------
 
@@ -42,9 +35,22 @@ TODO LATER
 
 VALIDATION ON ALL FORMS
 
+FOLDING/UNFOLDING organization
+choose background color
+
 right click brush - copy to layer X, delete, open in sprite editor
 
 --
+
+TODO BEHAVIORS, CONTROLS
+
+invisible if collided with hero
+
+Soccerball ( attach to hero on collide and allow hero to shoot out again )
+
+---
+
+TODO EVENTUALLY...
 
 remove brush 9 and 22.5 when you're not in the top layer
 
@@ -63,12 +69,6 @@ Better error handling locally and with cobrowsing, perhaps have just one error a
 Unauthenticate socket when logging out
 
 then perhaps find the right way to do custom coding - collision, events? paths? etc
-
-BEHAVIORS, CONTROLS
-
-invisible if collided with hero
-
-Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 --------
 

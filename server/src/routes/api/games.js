@@ -115,6 +115,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
     );
 
     if(req.body.lobbyId) {
+      console.log(req.body.lobbyId, req.io.to(req.body.lobbyId))
       req.io.to(req.body.lobbyId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
     } else {
       //local edit mode

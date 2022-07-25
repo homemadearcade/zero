@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import './GameSelect.scss';
 
-import { getGames } from '../../store/actions/gameActions';
-import Loader from '../ui/Loader/Loader';
+import { getGames } from '../../../store/actions/gameActions';
+import Loader from '../../ui/Loader/Loader';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 

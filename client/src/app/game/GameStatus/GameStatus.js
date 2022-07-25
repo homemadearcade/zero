@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import './GameStatus.scss';
-import AccordianList from '../ui/AccordianList/AccordianList';
-import Typography from '../ui/Typography/Typography';
+import AccordianList from '../../ui/AccordianList/AccordianList';
+import Typography from '../../ui/Typography/Typography';
 import { faPause, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 

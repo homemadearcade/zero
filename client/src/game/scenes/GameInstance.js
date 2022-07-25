@@ -21,7 +21,7 @@ export class GameInstance extends Phaser.Scene {
     this.overheadLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
-    this.resetGameId = null
+    this.gameResetDate = Date.now()
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
@@ -153,14 +153,6 @@ export class GameInstance extends Phaser.Scene {
       spawnX: gameModel.hero.spawnX,
       spawnY: gameModel.hero.spawnY
     });
-
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    // EDITOR INSTANCE STATE
-    ////////////////////////////////////////////////////////////
-    const editorInstance = getCobrowsingState().editorInstance
-    this.resetGameId =  editorInstance.resetGameId
   }
 
   respawn() {
@@ -192,6 +184,15 @@ export class GameInstance extends Phaser.Scene {
     })
 
     this.player.update(time, delta)
+
+    const lobby = store.getState().lobby.lobby
+    if(lobby) {
+      const gameResetDate = lobby.gameResetDate
+      if(gameResetDate > this.gameResetDate) {
+        this.gameResetDate = gameResetDate
+        this.reload()
+      }
+    }
   }
 
   unload() {

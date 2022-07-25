@@ -216,6 +216,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     })[0]
     
     if(userFound) {
+      console.log(req.lobby.id)
       req.socket.join(req.lobby.id);
       if(req.user.role === 'ADMIN') req.socket.join('admins@'+req.lobby.id);
       userFound.joined = true;

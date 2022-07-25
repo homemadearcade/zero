@@ -50,14 +50,8 @@ export class GameHostScene extends EditorScene {
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 
-  update(time, delta) {
-    super.update(time, delta)
-    const editorInstance = getCobrowsingState().editorInstance
-    const resetGameId = editorInstance.resetGameId
-  
-    if(resetGameId > this.resetGameId) {
-      this.resetGameId = resetGameId
-      this.reload()
-    }
-  }
+  // update(time, delta) {
+  //   super.update(time, delta)
+
+  // }
 }

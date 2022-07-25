@@ -7,8 +7,8 @@ import { assignLobbyRole, editLobby } from '../../../store/actions/lobbyActions'
 
 import './LobbySetupFlow.scss';
 import { addGame, unloadGame } from '../../../store/actions/gameActions';
-import GameSelect from '../../GameSelect/GameSelect';
-import GameCard from '../../GameCard/GameCard';
+import GameSelect from '../../game/GameSelect/GameSelect';
+import GameCard from '../../game/GameCard/GameCard';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
@@ -76,7 +76,7 @@ const LobbySetupFlow = ({
           game
         })
       }}/>
-      <Button disabled={!lobby.participantId} variant="contained" onClick={async () => {
+      <Button disabled={!lobby.participantId} onClick={async () => {
         const response = await addGame({
           userId: lobby.participantId
         })
@@ -110,7 +110,7 @@ const LobbySetupFlow = ({
         },
         {
           id: 'Prologue one',
-          title: <Typography component="h5" variant="h5">Prologe one</Typography>,
+          title: <Typography component="h5" variant="h5">Prologue one</Typography>,
           instructions: null
         },
         {
@@ -120,7 +120,7 @@ const LobbySetupFlow = ({
         },
         {
           id: 'Prologue three: demo',
-          title: <Typography component="h5" variant="h5">Demo's</Typography>,
+          title: <Typography component="h5" variant="h5">Demos</Typography>,
           instructions: null
         },
         {
