@@ -12,7 +12,7 @@ const ClassContextMenu = ({ openLivePhysicsEditor, openLiveCameraEditor, onMenuI
       openLivePhysicsEditor(classSelectedIdContextMenu)
       onMenuItemClick()
     }}>Edit Physics</MenuItem>
-    {objectClass.camera &&
+    {objectClass?.camera &&
       <MenuItem onClick={() => {
       openLiveCameraEditor(classSelectedIdContextMenu)
       onMenuItemClick()

@@ -8,7 +8,7 @@ const initialState = {
   lobbyUserStatus: {},
   cobrowsingMouse: {},
   cobrowsingScroll: {},
-  phaserView: {}
+  phaserViews: {}
 };
 
 export default function statusReducer(state = initialState, { type, payload }) {
@@ -22,7 +22,7 @@ export default function statusReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         cobrowsingMouse: {...state.cobrowsingMouse, [payload.userId]: payload.cobrowsingMouse },
-        phaserView: {...state.phaserView, [payload.userId]: payload.phaserView },
+        phaserViews: {...state.phaserViews, [payload.userId]: payload.phaserView },
         cobrowsingScroll: {...state.cobrowsingScroll, [payload.userId]: payload.cobrowsingScroll }
       };
     default:

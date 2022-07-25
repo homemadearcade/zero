@@ -1,10 +1,8 @@
 import Phaser from "phaser";
-import { nodeSize } from "../../defaultData/general";
 import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
-
-const cameraPreviewBorderWidth = 4
+import { CAMERA_PREVIEW_BORDER_SIZE } from "../../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -50,9 +48,9 @@ export class PlayerInstance extends ObjectInstance {
     // const gameHeight = gameModel.world.boundaries.height
     const cameraSize = gameWidth/objectClass.camera.zoom
     this.cameraPreview = scene.add.graphics();
-    this.cameraPreview.lineStyle(cameraPreviewBorderWidth, 0x00ff00, 1);
+    this.cameraPreview.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, 0x00ff00, 1);
 
-    // this.cameraPreview.strokeRect(0, 0, cameraSize + (cameraPreviewBorderWidth), cameraSize + (cameraPreviewBorderWidth));
+    // this.cameraPreview.strokeRect(0, 0, cameraSize + (CAMERA_PREVIEW_BORDER_SIZE), cameraSize + (CAMERA_PREVIEW_BORDER_SIZE));
     this.cameraPreview.strokeRect(0, 0, cameraSize, cameraSize);
     this.cameraPreview.setVisible(false)
 
@@ -82,7 +80,7 @@ export class PlayerInstance extends ObjectInstance {
       cornerX = Phaser.Math.Clamp(cornerX, 0, gameModel.world.boundaries.width - cameraSize)
       cornerY = Phaser.Math.Clamp(cornerY, 0, gameModel.world.boundaries.height - cameraSize)
     
-      this.cameraPreview.setPosition(cornerX + (cameraPreviewBorderWidth/2), cornerY + (cameraPreviewBorderWidth/2))
+      this.cameraPreview.setPosition(cornerX + (CAMERA_PREVIEW_BORDER_SIZE/2), cornerY + (CAMERA_PREVIEW_BORDER_SIZE/2))
       // this.cameraPreview.setPosition(cornerX, cornerY)
   
     } else {

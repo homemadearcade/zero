@@ -10,6 +10,7 @@ import { Pencil } from '../entities/Pencil';
 import { Eraser } from '../entities/Eraser';
 import { Stamper } from '../entities/Stamper';
 import { getCobrowsingState } from '../../utils/cobrowsing';
+import { RemoteEditor } from '../entities/RemoteEditor';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -24,6 +25,7 @@ export class EditorScene extends GameInstance {
     this.gameResetDate = Date.now()
     this.isEditModeOn = false
     this.editorCamera = null
+    this.remoteEditors = []
   }
   
   ////////////////////////////////////////////////////////////
@@ -412,12 +414,36 @@ export class EditorScene extends GameInstance {
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
     this.input.on('wheel', this.onMouseWheel);
+
+    const lobby = store.getState().lobby.lobby
+    if(lobby.id) {
+      const me = store.getState().auth.me
+      lobby.users.forEach(({id}) => {
+        if(id !== me.id) {
+          this.remoteEditors.push(
+            new RemoteEditor(this, { userId: id, color: 0xFF0000})
+          )
+        }
+      })
+    }
   }
 
   update(time, delta) {
     super.update(time, delta)
 
     this.cameraControls.update(delta)
+
+    this.remoteEditors.forEach((remoteEditor) => {
+      const phaserView = store.getState().status.phaserViews[remoteEditor.userId]
+      if(!remoteEditor.cameraPreview && phaserView) {
+        remoteEditor.onPhaserViewFound()
+      } else if(remoteEditor.cameraPreview && phaserView) {
+        if(remoteEditor.cameraPreview.zoom !== phaserView.cameraZoom) {
+          remoteEditor.cameraPreview.setZoom(phaserView.cameraZoom)
+        }
+        remoteEditor.update()
+      }
+    })
 
     const lobby = store.getState().lobby.lobby
     if(lobby.id) {
