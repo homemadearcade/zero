@@ -100,7 +100,17 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
 
     lobby = lobby.toJSON()
 
-    lobby.users = []
+    lobby.users = lobby.participants.map((user) => {
+      return {
+        email: user.email,
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        joined: false,
+        connected: false
+      }
+    })
+
     req.lobbys.push(lobby)
 
     res.status(200).json({ lobbys: req.lobbys });

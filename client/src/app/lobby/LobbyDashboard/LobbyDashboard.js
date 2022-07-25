@@ -3,12 +3,12 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../store/actions/lobbyActions';
+import { editLobby } from '../../../store/actions/lobbyActions';
 
 import './LobbyDashboard.scss';
-import Button from '../ui/Button/Button';
+import Button from '../../ui/Button/Button';
 import LobbyDetail from '../LobbyDetail/LobbyDetail';
-import Link from '../ui/Link/Link';
+import Link from '../../ui/Link/Link';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 
 const LobbyDashboard = ({
@@ -19,8 +19,6 @@ const LobbyDashboard = ({
   lobby: { lobby },
 }) => {
 
-
-  console.log(lobby.game)
   
   return (
     <div className="LobbyDashboard">

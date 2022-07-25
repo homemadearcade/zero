@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-export default function VerticalLinearStepper({steps}) {
+export default function VerticalLinearStepper({steps, completed}) {
 
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -24,15 +24,15 @@ export default function VerticalLinearStepper({steps}) {
     setActiveStep(0);
   };
 
-  return <VerticalLinearStepperBody steps={steps} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} />
+  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} />
 }
 
-export function VerticalLinearStepperBody({ steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
+export function VerticalLinearStepperBody({ completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
   return (
-    <Box sx={{ maxWidth: 400 }}>
+    <Box>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step.title}>
+          <Step key={step.id}>
             <StepLabel
               optional={
                 index === 2 ? (
@@ -43,7 +43,7 @@ export function VerticalLinearStepperBody({ steps, activeStep, onClickNext, onCl
               {step.title}
             </StepLabel>
             <StepContent>
-              <Typography>{step.instructions}</Typography>
+             {step.instructions}
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button
@@ -68,7 +68,7 @@ export function VerticalLinearStepperBody({ steps, activeStep, onClickNext, onCl
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>{completed}</Typography>
           <Button onClick={onClickReset} sx={{ mt: 1, mr: 1 }}>
             Reset
           </Button>

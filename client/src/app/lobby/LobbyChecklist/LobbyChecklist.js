@@ -3,13 +3,13 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../store/actions/lobbyActions';
+import { editLobby } from '../../../store/actions/lobbyActions';
 
 import './LobbyChecklist.scss';
 import classNames from 'classnames';
-import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
-import Typography from '../ui/Typography/Typography';
-import Button from '../ui/Button/Button';
+import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
+import Typography from '../../ui/Typography/Typography';
+import Button from '../../ui/Button/Button';
 
 const LobbyChecklist = ({
   editLobby,
@@ -136,7 +136,6 @@ const LobbyChecklist = ({
   })
 
   return <div className="LobbyChecklist__checklist">
-    <Typography component="h5" variant="h5">Checklist: </Typography>
     {checklist.map((item, i) => {
       const isPassing = !!item.test();
       return <div key={i} className={classNames("LobbyChecklist__checklist-item", { 'LobbyChecklist__checklist-item--required': item.required })}>

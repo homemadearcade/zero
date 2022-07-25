@@ -58,12 +58,10 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
       {accordianList.map(({id, title, body}) => {
         return <Accordion key={title} expanded={expanded === id} onChange={onChange(id)}>
           <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-            <Typography>{title}</Typography>
+            {title}
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              {body}
-            </Typography>
+            {body}
           </AccordionDetails>
         </Accordion>
       })}

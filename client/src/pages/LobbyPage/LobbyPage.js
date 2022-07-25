@@ -12,11 +12,11 @@ import requireAuth from '../../hoc/requireAuth';
 import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
 import CobrowsingGame from '../../app/cobrowsing/CobrowsingGame/CobrowsingGame';
-import LobbyDashboard from '../../app/LobbyDashboard/LobbyDashboard';
+import LobbyDashboard from '../../app/lobby/LobbyDashboard/LobbyDashboard';
 import Onboarding from '../../app/cobrowsing/Onboarding/Onboarding';
 import GameView from '../../game/GameView/GameView';
 import Drawer from '../../app/ui/Drawer/Drawer';
-import LobbyDetail from '../../app/LobbyDetail/LobbyDetail';
+import LobbyDetail from '../../app/lobby/LobbyDetail/LobbyDetail';
 import Link from '../../app/ui/Link/Link';
 
 const LobbyPage = ({

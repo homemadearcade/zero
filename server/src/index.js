@@ -98,20 +98,7 @@ mongoose
   .then(async () => {
     console.log('MongoDB Connected...');
     try {
-      const lobbys = (await Lobby.find().populate('participants game').populate({
-        path: 'game',
-        populate: {
-          path: 'user',
-          model: 'User'
-        }
-      })).map((lobby) => {
-        return {
-          ...lobby.toJSON(),
-          users: []
-        }
-      })
-
-      app.set('lobbys', lobbys);
+      onMongoDBConnected()
     } catch(e) {
       console.log(e) 
       process.exit()
@@ -157,72 +144,99 @@ const socketSessions = new InMemorySessionStore()
 app.set('socketio', io);
 app.set('socketSessions', socketSessions);
 
+server.listen(port, () => console.log(`Server started on port ${port}`));
 
-io.on("connection", (socket) => {  
-
-  // this event is called after a user is logged in and also after a socket is reconnected
-  socket.on('authenticate', async ({token}) => {
-    if (token) {
-      const isProduction = process.env.NODE_ENV === 'production';
-      const secretOrKey = isProduction ? process.env.JWT_SECRET_PROD : process.env.JWT_SECRET_DEV;
-  
-      const decoded = jsonwebtoken.verify(token, secretOrKey)
-      const email = decoded.email
-      const user = await User.findOne({ email: email.trim() });
-  
-      if (user) {
-        socket.user = {
+async function onMongoDBConnected() {
+  const lobbys = (await Lobby.find().populate('participants game').populate({
+    path: 'game',
+    populate: {
+      path: 'user',
+      model: 'User'
+    }
+  })).map((lob) => {
+    const lobby = lob.toJSON()
+    return {
+      ...lobby,
+      users: lobby.participants.map((user) => {
+        return {
           email: user.email,
           id: user.id,
           username: user.username,
+          role: user.role,
+          joined: false,
+          connected: false
         }
+      })
+    }
+  })
 
+  app.set('lobbys', lobbys);
+
+  io.on("connection", (socket) => {  
+
+    // this event is called after a user is logged in and also after a socket is reconnected
+    socket.on('authenticate', async ({token}) => {
+      if (token) {
+        const isProduction = process.env.NODE_ENV === 'production';
+        const secretOrKey = isProduction ? process.env.JWT_SECRET_PROD : process.env.JWT_SECRET_DEV;
+    
+        const decoded = jsonwebtoken.verify(token, secretOrKey)
+        const email = decoded.email
+        const user = await User.findOne({ email: email.trim() });
+    
+        if (user) {
+          socket.user = {
+            email: user.email,
+            id: user.id,
+            username: user.username,
+          }
+  
+          const lobbys = app.get('lobbys')
+          lobbys.forEach((lobby) => {
+            lobby.users.forEach((user) => {
+              if(user.id === socket.user.id) {
+                user.connected = true
+                socket.join(lobby.id);
+                io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
+              }
+            })
+          })
+    
+          socket.emit(ON_AUTHENTICATE_SOCKET_SUCCESS)
+          socketSessions.saveSession(user.id, socket);
+        } else {
+          socket.emit(ON_AUTHENTICATE_SOCKET_FAIL, { error: 'no such user'})
+        }
+      } else {
+        socket.emit(ON_AUTHENTICATE_SOCKET_FAIL, { error: 'no token for socket'})
+      }
+    })
+  
+    socket.on(ON_COBROWSING_STATUS_UPDATE, (payload) => {
+      io.to('admins@'+payload.lobbyId).emit(ON_COBROWSING_STATUS_UPDATE, payload)
+    })
+  
+    socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
+      io.to(payload.lobbyId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
+    })
+  
+    socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
+      io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
+    })
+  
+    socket.on("disconnect", async () => {
+      if(socket.user?.id) {
         const lobbys = app.get('lobbys')
         lobbys.forEach((lobby) => {
           lobby.users.forEach((user) => {
             if(user.id === socket.user.id) {
-              user.connected = true
-              socket.join(lobby.id);
+              user.connected = false
               io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
             }
           })
         })
-  
-        socket.emit(ON_AUTHENTICATE_SOCKET_SUCCESS)
-        socketSessions.saveSession(user.id, socket);
-      } else {
-        socket.emit(ON_AUTHENTICATE_SOCKET_FAIL, { error: 'no such user'})
       }
-    } else {
-      socket.emit(ON_AUTHENTICATE_SOCKET_FAIL, { error: 'no token for socket'})
-    }
-  })
-
-  socket.on(ON_COBROWSING_STATUS_UPDATE, (payload) => {
-    io.to('admins@'+payload.lobbyId).emit(ON_COBROWSING_STATUS_UPDATE, payload)
-  })
-
-  socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.lobbyId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
-  })
-
-  socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
-    io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
-  })
-
-  socket.on("disconnect", async () => {
-    if(socket.user?.id) {
-      const lobbys = app.get('lobbys')
-      lobbys.forEach((lobby) => {
-        lobby.users.forEach((user) => {
-          if(user.id === socket.user.id) {
-            user.connected = false
-            io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
-          }
-        })
-      })
-    }
+    });
   });
-});
-
-server.listen(port, () => console.log(`Server started on port ${port}`));
+  
+}
