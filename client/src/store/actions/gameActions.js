@@ -23,6 +23,7 @@ import {
   CLEAR_GAME_ERROR,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
+  SET_GAME_INSTANCE
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -209,6 +210,15 @@ export const unloadGame = () => (dispatch, getState) => {
 
   dispatch({
     type: UNLOAD_GAME,
+  })
+};
+
+export const setGameInstance = (gameInstance) => (dispatch, getState) => {
+  dispatch({
+    type: SET_GAME_INSTANCE,
+    payload: {
+      gameInstance
+    }
   })
 };
 

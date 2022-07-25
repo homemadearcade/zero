@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../../constants';
 import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import Icon from '../../ui/Icon/Icon';
 import './AgoraVideoStatus.scss';
 
 const AgoraVideoStatus = ({ userId, me }) => {
@@ -75,8 +73,8 @@ const AgoraVideoStatus = ({ userId, me }) => {
   }
 
   return <div className="AgoraVideoStatus">
-    <div className="AgoraVideoStatus__stat"><FontAwesomeIcon icon={faArrowUp}/>{cameraStatus[0]}</div>
-    <div className="AgoraVideoStatus__stat"><FontAwesomeIcon icon={faArrowDown}/>{cameraStatus[1]}</div>
+    <div className="AgoraVideoStatus__stat"><Icon icon="faArrowUp"/>{cameraStatus[0]}</div>
+    <div className="AgoraVideoStatus__stat"><Icon icon="faArrowDown"/>{cameraStatus[1]}</div>
   </div>
 };
 

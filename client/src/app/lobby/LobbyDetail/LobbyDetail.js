@@ -7,7 +7,7 @@ import UserStatus from '../../UserStatus/UserStatus';
 
 import './LobbyDetail.scss';
 import Typography from '../../ui/Typography/Typography';
-import GameStatus from '../../GameStatus/GameStatus';
+import GameStatus from '../../game/GameStatus/GameStatus';
 
 const LobbyDetail = ({
   lobby: { lobby },

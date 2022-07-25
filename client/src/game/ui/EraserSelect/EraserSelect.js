@@ -8,8 +8,7 @@ import classNames from 'classnames';
 import { clearClass, selectBrush, clearBrush } from '../../../store/actions/editorActions';
 import { ERASER_BRUSH_ID } from '../../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
-import { faEraser } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Icon from '../../../app/ui/Icon/Icon';
 
 const EraserSelect = ({
   editor: { brushSelectedIdBrushList },
@@ -31,7 +30,7 @@ const EraserSelect = ({
     }}
     className={classNames("EraserSelect", { 'EraserSelect--selected': brushSelectedIdBrushList === eraserId})}
   >
-     <FontAwesomeIcon icon={faEraser}/>
+     <Icon icon="faEraser"/>
   </div>
 };
 

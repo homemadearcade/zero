@@ -9,6 +9,7 @@ import { PRELOADER_SCENE } from '../../constants';
 
 import WaterBodyPlugin from 'phaser-plugin-water-body';
 import { gameSize } from '../../defaultData/general';
+import { setGameInstance } from '../../store/actions/gameActions';
 
 const config= {
   type: Phaser.WEBGL,
@@ -41,10 +42,11 @@ const config= {
   }
 };
 
-const GameView = ({isHost, isNetworked}) => {
+const GameView = ({isHost, isNetworked, setGameInstance}) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isHost, isNetworked}), true);
+    setGameInstance(game)
 
     return () => {
       game.scene.scenes[0]?.unload()
@@ -63,4 +65,4 @@ const mapStateToProps = (state) => ({
 
 });
 
-export default connect(mapStateToProps, { })(GameView);
+export default connect(mapStateToProps, { setGameInstance })(GameView);

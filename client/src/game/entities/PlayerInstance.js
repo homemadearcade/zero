@@ -44,6 +44,8 @@ export class PlayerInstance extends ObjectInstance {
   update() {  
     super.update()
 
+    if(this.scene.paused) return
+
     if (this.cursors.left.isDown)
     {
         this.setAngularVelocity(-0.1);

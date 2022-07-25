@@ -14,8 +14,7 @@ import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../../UserStatus/UserStatus';
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Icon from '../../ui/Icon/Icon';
 
 // {lobby.isGamePoweredOn && <Button
 //   type="button"
@@ -84,7 +83,7 @@ const LobbySetupFlow = ({
           game: response.data.game
         })
       }} 
-      startIcon={<FontAwesomeIcon icon={faPlus}/>}>
+      startIcon={<Icon icon="faPlus"/>}>
         New Game
       </Button>
     </>

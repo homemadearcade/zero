@@ -5,8 +5,7 @@ import classnames from 'classnames';
 import './GameStatus.scss';
 import AccordianList from '../../ui/AccordianList/AccordianList';
 import Typography from '../../ui/Typography/Typography';
-import { faPause, faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Icon from '../../ui/Icon/Icon';
 
 const GameStatus = ({ lobby: { lobby: { game, isGamePoweredOn, isGamePaused } } }) => {
 
@@ -19,8 +18,8 @@ const GameStatus = ({ lobby: { lobby: { game, isGamePoweredOn, isGamePaused } } 
         {game.metadata.name || game.user.username + "'s game"}
       </span>,
       body: <span className="GameStatus__icons">
-        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><FontAwesomeIcon icon={faPause}/></span>{(isGamePaused) ? 'Paused' : 'Not Paused'}</span>
-        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><FontAwesomeIcon icon={faPowerOff}/></span>{(isGamePoweredOn) ? 'Started' : 'Not Started'}</span>
+        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPause"/></span>{(isGamePaused) ? 'Paused' : 'Not Paused'}</span>
+        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPowerOff"/></span>{(isGamePoweredOn) ? 'Started' : 'Not Started'}</span>
       </span>
     }]}/>
   </div>

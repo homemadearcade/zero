@@ -14,9 +14,9 @@ import {
   CLEAR_GAME_ERROR,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
-  GET_SPRITESHEET_DATA_LOADING,
   GET_SPRITESHEET_DATA_FAIL,
-  GET_SPRITESHEET_DATA_SUCCESS
+  GET_SPRITESHEET_DATA_SUCCESS,
+  SET_GAME_INSTANCE
 } from '../types';
 
 const initialState = {
@@ -26,7 +26,8 @@ const initialState = {
   isSpriteSheetDataLoaded: false,
   error: null,
   gameModel: null,
-  spritesByDescriptor: null
+  spritesByDescriptor: null,
+  gameInstance: null
 };
 
 export default function gameReducer(state = initialState, { type, payload }) {
@@ -36,6 +37,11 @@ export default function gameReducer(state = initialState, { type, payload }) {
     //     ...state,
     //     isSpriteSheetDataLoaded: false,
     //   };
+    case SET_GAME_INSTANCE:
+      return {
+        ...state,
+        gameInstance: payload.gameInstance
+      };
     case LOAD_GAME_LOADING:
       return {
         ...state,

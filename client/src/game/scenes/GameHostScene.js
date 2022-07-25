@@ -3,7 +3,6 @@ import {
 } from '../../constants';
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
-import { getCobrowsingState } from '../../utils/cobrowsing';
 import { EditorScene } from './EditorScene';
 
 export class GameHostScene extends EditorScene {
@@ -11,6 +10,8 @@ export class GameHostScene extends EditorScene {
     super({
       key: GAME_SCENE,
     });
+
+    this.paused = false
   }
 
   startRemoteClientUpdateLoop = () => {
@@ -50,8 +51,19 @@ export class GameHostScene extends EditorScene {
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 
-  // update(time, delta) {
-  //   super.update(time, delta)
+  update(time, delta) {
+    super.update(time, delta)
 
-  // }
+    const lobby = store.getState().lobby.lobby
+    if(lobby) {
+      const isGamePaused = lobby.isGamePaused
+      if(isGamePaused) {
+        this.paused = true
+        this.matter.pause()
+      } else {
+        this.paused = false
+        this.matter.resume()
+      }
+    }
+  }
 }

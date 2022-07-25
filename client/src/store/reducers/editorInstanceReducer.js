@@ -14,8 +14,8 @@ const initialState = {
     [HERO_INSTANCE_LAYER_ID]: true,
     [OVERHEAD_LAYER_ID]: true
   },
-  resetGameIndex: 0,
-  isGamePaused: false,
+  // gameResetDate: 0,
+  // isGamePaused: false,
 };
 
 export const initialEditorInstanceState = initialState
@@ -23,16 +23,16 @@ export const initialEditorInstanceState = initialState
 
 export default function editorInstanceReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case RESET_GAME_INSTANCE:
-      return {
-        ...state,
-        resetGameIndex: !state.resetGameIndex + 1
-      }
-    case TOGGLE_GAME_INSTANCE_PAUSED:
-      return {
-        ...state,
-        isGamePaused: !state.isGamePaused
-      }
+    // case RESET_GAME_INSTANCE:
+    //   return {
+    //     ...state,
+    //     gameResetDate: Date.now()
+    //   }
+    // case TOGGLE_GAME_INSTANCE_PAUSED:
+    //   return {
+    //     ...state,
+    //     isGamePaused: !state.isGamePaused
+    //   }
     case TOGGLE_LAYER_VISIBILITY:
       return {
         ...state,

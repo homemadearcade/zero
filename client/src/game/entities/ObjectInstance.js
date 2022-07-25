@@ -58,6 +58,8 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     scene.objectInstanceLayer.add(this)
     scene.objectInstanceGroup.add(this)
 
+    this.scene = scene
+
     return this
   }
 

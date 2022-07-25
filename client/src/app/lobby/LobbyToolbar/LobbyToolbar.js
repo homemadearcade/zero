@@ -2,32 +2,40 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LobbyToolbar.scss';
-
-import { faPowerOff, faPlay, faPause, faRotateRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby } from '../../../store/actions/lobbyActions';
 
-const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { game, isGamePaused, isGamePoweredOn }}}) => {
+const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { isGamePaused, isGamePoweredOn }}}) => {
  return <div className="LobbyToolbar">
-  <FontAwesomeIcon 
+  <ToolbarIcon 
     size="lg"
-    icon={faPowerOff} 
+    icon="faPowerOff" 
     color={isGamePoweredOn ? "green" : 'white'}
     onClick={() => {
       editLobby(lobby.id, {
-        isGamePoweredOn: !isGamePoweredOn
+        isGamePoweredOn: !isGamePoweredOn,
+        isGamePaused: false
       })
     }}
   />
-  <FontAwesomeIcon 
+  {isGamePoweredOn && <ToolbarIcon 
     size="lg"
-    icon={isGamePaused ? faPlay : faPause} 
+    icon={isGamePaused ? "faPlay" : "faPause"} 
     onClick={() => {
       editLobby(lobby.id, {
         isGamePaused: !isGamePaused
       })
     }}
-  />
+  />}
+  {isGamePoweredOn && <ToolbarIcon 
+    size="lg"
+    icon="faRotateRight"
+    onClick={() => {
+      editLobby(lobby.id, {
+        gameResetDate: Date.now()
+      })
+    }}
+  />}
 
  </div>
 };

@@ -12,6 +12,7 @@ import GameClassList from '../../game/ClassList/ClassList';
 import GameBrushList from '../../game/BrushList/BrushList';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
+import LocalGameToolbar from '../../game/LocalGameToolbar/LocalGameToolbar';
 
 const PlayGamePage = ({ game: { gameModel }, requestFullscreen}) => {
   // <div>{!window.isFullscreen && <div onClick={() => {
@@ -26,7 +27,10 @@ const PlayGamePage = ({ game: { gameModel }, requestFullscreen}) => {
       <GameEditor 
         gameModel={gameModel}
         leftColumn={<GameBrushList/>}
-        rightColumn={<GameClassList/>}
+        rightColumn={<>
+          <LocalGameToolbar/>
+          <GameClassList/>
+        </>}
       >
         <GameView
           isHost

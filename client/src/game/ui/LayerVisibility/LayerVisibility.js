@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 
 import { toggleLayerVisibility } from '../../../store/actions/editorInstanceActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Icon from '../../../app/ui/Icon/Icon';
 
 const LayerVisibility = ({
   editorInstance: { layerVisibility },
@@ -18,8 +17,8 @@ const LayerVisibility = ({
       toggleLayerVisibility(layerId)
     }}
   >
-     {layerVisibility[layerId] && <div><FontAwesomeIcon icon={faEye}/></div>}
-     {!layerVisibility[layerId] && <div><FontAwesomeIcon icon={faEyeSlash}/></div>}
+     {layerVisibility[layerId] && <div><Icon icon="faEye"/></div>}
+     {!layerVisibility[layerId] && <div><Icon icon="faEyeSlash"/></div>}
   </div>
 };
 
