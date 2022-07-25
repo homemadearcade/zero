@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { v4 as uuidv4 } from 'uuid';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
@@ -320,6 +321,13 @@ export class EditorScene extends GameInstance {
           object.setFixedRotation(classUpdate.fixedRotation)
         })
       }
+      if(classUpdate.camera !== undefined) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          if(this.player === object) {
+            this.cameras.main.setZoom(classUpdate.camera.zoom)
+          }
+        })
+      }
     })
   }
 
@@ -348,7 +356,7 @@ export class EditorScene extends GameInstance {
       y: 0,
       width: gameWidth,
       height: gameHeight,
-      zoom: 2,
+      zoom: 1,
       rotation: 0,
       scrollX: 0,
       scrollY: 0,
@@ -372,6 +380,26 @@ export class EditorScene extends GameInstance {
     };
     this.cameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
     
+    // const minimapCameraPercent = 0.2
+    // this.cameras.fromJSON({
+    //   name: 'mini',
+    //   x: gameWidth - gameWidth * minimapCameraPercent,
+    //   y: gameHeight - gameHeight * minimapCameraPercent,
+    //   width: gameWidth * minimapCameraPercent,
+    //   height: gameHeight * minimapCameraPercent,
+    //   zoom: minimapCameraPercent,
+    //   rotation: 0,
+    //   scrollX: gameWidth/2,
+    //   scrollY: gameHeight/2,
+    //   roundPixels: false,
+    //   visible: true,
+    //   backgroundColor: 'black',
+    //   bounds: {x: 0, y: 0, width: gameWidth, height: gameHeight},
+    // })
+    // this.minimapCamera = this.cameras.getCamera('mini')
+    // this.minimapCamera.ignore(this.grid)
+    // this.minimapCamera.ignore(this.grid2)
+
     this.input.on('pointerover', this.onPointerOver);
     this.input.on('pointerout', this.onPointerOut);
     this.input.on('pointerdown', this.onPointerDown, this);
@@ -419,11 +447,14 @@ export class EditorScene extends GameInstance {
       this.grid2.setVisible(true)
       this.cameras.main.setVisible(false)
       this.cameras.getCamera('editor').setVisible(true)
+      // this.cameras.getCamera('mini').setVisible(true)
+
     } else {
       this.grid.setVisible(false)
       this.grid2.setVisible(false)
       this.cameras.main.setVisible(true)
       this.cameras.getCamera('editor').setVisible(false)
+      // this.cameras.getCamera('mini').setVisible(false)
     }
   }
 

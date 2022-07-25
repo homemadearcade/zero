@@ -174,16 +174,11 @@ export class GameInstance extends Phaser.Scene {
     // CAMERA
     ////////////////////////////////////////////////////////////
     this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
-    this.setPlayModeCamera()
-  }
-
-  setPlayModeCamera() {
-    const gameModel = store.getState().game.gameModel
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
-    console.log(heroClass)
     this.cameras.main.startFollow(this.player, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
   }
+
 
   respawn() {
     this.objectInstances.forEach((object) => {

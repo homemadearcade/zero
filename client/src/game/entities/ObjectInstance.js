@@ -4,7 +4,8 @@ import { getTextureMetadata } from "../../utils/utils";
 
 export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   constructor(scene, id, {spawnX, spawnY, classId}){
-    const objectClass = store.getState().game.gameModel.classes[classId]
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[classId]
     // console.log(spawnX, spawnY, id, classId, objectClass, classDataOverride)
     const { spriteSheetName, spriteIndex } = getTextureMetadata(objectClass.textureId)
     
@@ -44,9 +45,12 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.setFixedRotation(objectClass.fixedRotation)
     this.setIgnoreGravity(objectClass.ignoreGravity)
 
+
+    const cornerX = -objectClass.width/2
+    const cornerY = -objectClass.height/2
     this.outline = scene.add.graphics();
     this.outline.lineStyle(3, 0xffffff, 1);
-    this.outline.strokeRect(-objectClass.width/2, -objectClass.height/2, objectClass.width, objectClass.height);
+    this.outline.strokeRect(cornerX, cornerY, objectClass.width, objectClass.height);
     this.outline.setVisible(false)
 
     scene.uiLayer.add([this.outline, this.outline2])

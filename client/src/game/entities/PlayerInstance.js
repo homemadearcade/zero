@@ -1,7 +1,10 @@
 import Phaser from "phaser";
+import { nodeSize } from "../../defaultData/general";
 import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
+
+const cameraPreviewBorderWidth = 4
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -42,6 +45,18 @@ export class PlayerInstance extends ObjectInstance {
       console.error('no hero class for id:' + classId)
     }
 
+    const gameModel = store.getState().game.gameModel
+    const gameWidth = gameModel.world.boundaries.width
+    // const gameHeight = gameModel.world.boundaries.height
+    const cameraSize = gameWidth/objectClass.camera.zoom
+    this.cameraPreview = scene.add.graphics();
+    this.cameraPreview.lineStyle(cameraPreviewBorderWidth, 0x00ff00, 1);
+
+    // this.cameraPreview.strokeRect(0, 0, cameraSize + (cameraPreviewBorderWidth), cameraSize + (cameraPreviewBorderWidth));
+    this.cameraPreview.strokeRect(0, 0, cameraSize, cameraSize);
+    this.cameraPreview.setVisible(false)
+
+    scene.uiLayer.add([this.cameraPreview])
     scene.playerInstanceLayer.add(this)
     scene.playerInstanceGroup.add(this)
 
@@ -50,6 +65,30 @@ export class PlayerInstance extends ObjectInstance {
 
   update() {  
     super.update()
+
+    if(this.scene.isEditModeOn) {
+      this.cameraPreview.setVisible(true)
+      const classId = this.classId
+      const objectClass = store.getState().game.gameModel.classes[classId]
+      const gameModel = store.getState().game.gameModel
+      const gameWidth = gameModel.world.boundaries.width
+      const cameraSize = gameWidth/objectClass.camera.zoom
+      let cornerX = this.x
+      let cornerY = this.y
+  
+      cornerX = cornerX - cameraSize/2
+      cornerY = cornerY - cameraSize/2
+  
+      cornerX = Phaser.Math.Clamp(cornerX, 0, gameModel.world.boundaries.width - cameraSize)
+      cornerY = Phaser.Math.Clamp(cornerY, 0, gameModel.world.boundaries.height - cameraSize)
+    
+      this.cameraPreview.setPosition(cornerX + (cameraPreviewBorderWidth/2), cornerY + (cameraPreviewBorderWidth/2))
+      // this.cameraPreview.setPosition(cornerX, cornerY)
+  
+    } else {
+      this.cameraPreview.setVisible(false)
+    }
+
 
     if(this.scene.isPaused || this.scene.isEditModeOn) return
 

@@ -7,6 +7,8 @@ TODO NEXT
 2) Unlockable UI
 
 3) CAMERA
+Zoom Slider
+Hero Camera View and Edit
 
 4) DRAWING
   Tinting
