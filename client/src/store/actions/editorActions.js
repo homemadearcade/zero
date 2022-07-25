@@ -3,6 +3,7 @@ import {
   CLOSE_CONTEXT_MENU,
   OPEN_LIVE_PHYSICS_EDITOR,
   OPEN_LIVE_WORLD_EDITOR,
+  OPEN_LIVE_CAMERA_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
   CLEAR_CLASS,
@@ -105,6 +106,16 @@ export const openLivePhysicsEditor = (classId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_LIVE_PHYSICS_EDITOR,
+    payload: {
+      classSelectedIdLiveEditor: classId, 
+    }
+  });
+}
+
+export const openLiveCameraEditor = (classId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_LIVE_CAMERA_EDITOR,
     payload: {
       classSelectedIdLiveEditor: classId, 
     }

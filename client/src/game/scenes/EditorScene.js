@@ -322,11 +322,9 @@ export class EditorScene extends GameInstance {
         })
       }
       if(classUpdate.camera !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          if(this.player === object) {
-            this.cameras.main.setZoom(classUpdate.camera.zoom)
-          }
-        })
+        if(this.player.classId === id) {
+          this.cameras.main.setZoom(classUpdate.camera.zoom)
+        }
       }
     })
   }

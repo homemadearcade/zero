@@ -10,7 +10,8 @@ import {
   CLEAR_BRUSH,
   EDITOR_STATE_UPDATE,
   UPDATE_BRUSH_SIZE,
-  CLEAR_EDITOR
+  CLEAR_EDITOR,
+  OPEN_LIVE_CAMERA_EDITOR
 } from '../types';
 
 const initialState = {
@@ -89,6 +90,13 @@ export default function editorReducer(state = initialState, { type, payload }) {
         liveEditingCategory: 'physics',
         classSelectedIdLiveEditor: payload.classSelectedIdLiveEditor,
       };
+    case OPEN_LIVE_CAMERA_EDITOR:
+      return {
+        ...state,
+        isLiveEditorOpen: true,
+        liveEditingCategory: 'camera',
+        classSelectedIdLiveEditor: payload.classSelectedIdLiveEditor,
+      };
     case OPEN_LIVE_WORLD_EDITOR:
       return {
         ...state,
@@ -97,7 +105,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
       };
     case CLOSE_LIVE_EDITOR:
       return {
-          ...state.editor,
+          ...state,
         classSelectedIdLiveEditor: null,
         isLiveEditorOpen: false,
         liveEditingCategory: null

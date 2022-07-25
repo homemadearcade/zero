@@ -10,6 +10,7 @@ import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
 import WorldEditor from '../WorldEditor/WorldEditor';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import Icon from '../../app/ui/Icon/Icon';
+import CameraEditor from '../CameraEditor/CameraEditor';
 
 const LiveEditor = ({ closeLiveEditor, editor: { classSelectedIdLiveEditor, liveEditingCategory } }) => {
   return (
@@ -17,6 +18,7 @@ const LiveEditor = ({ closeLiveEditor, editor: { classSelectedIdLiveEditor, live
       <div className="LiveEditor__close"><Button onClick={closeLiveEditor}><Icon icon="faClose"/></Button></div>
       {liveEditingCategory === "physics" && <PhysicsEditor classId={classSelectedIdLiveEditor}/>}
       {liveEditingCategory === "world" && <WorldEditor/>}
+      {liveEditingCategory === "camera" && <CameraEditor classId={classSelectedIdLiveEditor}/>}
     </div>
   );
 };

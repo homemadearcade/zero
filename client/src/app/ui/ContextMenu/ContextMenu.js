@@ -18,23 +18,22 @@ const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, i
   }
 
   function _renderBody() {
-    if(classSelectedIdContextMenu | objectSelectedIdContextMenu === HERO_INSTANCE_ID) {
+    if(classSelectedIdContextMenu || objectSelectedIdContextMenu === HERO_INSTANCE_ID) {
       return <ClassContextMenu onMenuItemClick={handleClose}/>
     } else if(objectSelectedIdContextMenu) {
         return <ObjectInstanceContextMenu onMenuItemClick={handleClose}/>
     } else {
       return <WorldContextMenu onMenuItemClick={handleClose}/>
     }
-
   }
 
   return (
     <Menu
-      open={isContextMenuOpen !== false}
+      open={isContextMenuOpen}
       onClose={handleClose}
       anchorReference="anchorPosition"
       anchorPosition={
-        isContextMenuOpen !== false
+        isContextMenuOpen
           ? { top: contextMenuY, left: contextMenuX }
           : undefined
       }
