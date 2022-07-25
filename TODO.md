@@ -7,8 +7,9 @@ TODO NEXT
 2) Unlockable UI
 
 3) CAMERA
+How to deal with zoom and cobrowsing?
+  Basically you control your own zoom locally BUT there needs to be a remote object attached somewhere that display the users zoom on your map
 Zoom Slider
-Hero Camera View and Edit
 
 4) DRAWING
   Tinting

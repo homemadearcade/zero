@@ -10,7 +10,8 @@ import {
   SELECT_BRUSH,
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
-  CLEAR_EDITOR
+  CLEAR_EDITOR,
+  CHANGE_EDITOR_CAMERA_ZOOM
 } from '../types';
 
 export const selectClass = (classId) => (dispatch, getState) => {
@@ -64,6 +65,16 @@ export const openWorldContextMenu = (event) => (dispatch, getState) => {
     payload: {
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
+    }
+  });
+}
+
+export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CHANGE_EDITOR_CAMERA_ZOOM,
+    payload: {
+      cameraZoom: zoom
     }
   });
 }

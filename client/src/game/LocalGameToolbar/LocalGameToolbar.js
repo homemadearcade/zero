@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
+import { getCurrentGameScene } from '../../utils/editor';
 
 const LocalGameToolbar = ({ game: { gameInstance } }) => {
   const [isPaused, setIsPaused] = useState(false)
@@ -10,18 +11,12 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
 
   if(!gameInstance) return
 
-  function getScene() {
-    const scene = gameInstance.scene?.scenes[0]
-
-    return scene
-  }
-
   return <div className="LocalGameToolbar">
     <ToolbarIcon 
       size="lg"
       icon={isPaused ? "faPlay" : "faPause"} 
       onClick={() => {
-        const scene = getScene()
+        const scene = getCurrentGameScene(gameInstance)
         scene.isPaused = !scene.isPaused
         setIsPaused(scene.isPaused)
       }}
@@ -30,7 +25,7 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
       size="lg"
       icon="faRotateRight"
       onClick={() => {
-        getScene().reload()
+        getCurrentGameScene(gameInstance).reload()
       }}
     />
     <ToolbarIcon 
@@ -38,7 +33,7 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
       icon="faHammer"
       color={isEditModeOn ? "green" : 'white'}
       onClick={() => {
-        const scene = getScene()
+        const scene = getCurrentGameScene(gameInstance)
         scene.isEditModeOn = !scene.isEditModeOn
         setIsEditModeOn(scene.isEditModeOn)
       }}

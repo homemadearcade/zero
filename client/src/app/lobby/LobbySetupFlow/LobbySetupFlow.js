@@ -108,18 +108,8 @@ const LobbySetupFlow = ({
           instructions: <LobbyChecklist/>
         },
         {
-          id: 'Prologue one',
-          title: <Typography component="h5" variant="h5">Prologue one</Typography>,
-          instructions: null
-        },
-        {
-          id: 'Prologue two',
-          title: <Typography component="h5" variant="h5">Prologue two</Typography>,
-          instructions: null
-        },
-        {
-          id: 'Prologue three: demo',
-          title: <Typography component="h5" variant="h5">Demos</Typography>,
+          id: 'Prologue',
+          title: <Typography component="h5" variant="h5">Prologue</Typography>,
           instructions: null
         },
         {

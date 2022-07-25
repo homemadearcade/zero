@@ -10,6 +10,7 @@ import { PRELOADER_SCENE } from '../../constants';
 import WaterBodyPlugin from 'phaser-plugin-water-body';
 import { gameSize } from '../../defaultData/general';
 import { setGameInstance } from '../../store/actions/gameActions';
+import { getCurrentGameScene } from '../../utils/editor';
 
 const config= {
   type: Phaser.WEBGL,
@@ -49,7 +50,7 @@ const GameView = ({isHost, isNetworked, setGameInstance}) => {
     setGameInstance(game)
 
     return () => {
-      game.scene.scenes[0]?.unload()
+      getCurrentGameScene(game).unload()
       game.destroy()
     }
   }, []);

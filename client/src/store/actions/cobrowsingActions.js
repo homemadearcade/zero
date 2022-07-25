@@ -19,18 +19,22 @@ import {
   ON_COBROWSING_STATUS_UPDATE,
 } from '../types';
 
+import store from '..';
 import { getRemoteStatePackage } from '../../utils/cobrowsing';
+import { getCurrentGameScene } from '../../utils/editor';
 
-let mouseLobbyId;
-let mouseUserId;
 const sendMouseState = _.debounce((e) =>  {
   const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
   const viewPadding = (window.innerWidth - viewWidth)/2
   const xPercent = (e.clientX - viewPadding)/viewWidth
 
-  window.socket.emit(ON_COBROWSING_STATUS_UPDATE, {
-    lobbyId: mouseLobbyId,
-    userId: mouseUserId,
+  const state = store.getState()
+  const userId = state.auth.me.id
+  const lobbyId = state.lobby.lobby.id 
+
+  const cobrowsingStatus = {
+    lobbyId,
+    userId,
     cobrowsingMouse: {
       xPercent,
       // xPercent: e.clientX/window.innerWidth,
@@ -38,8 +42,33 @@ const sendMouseState = _.debounce((e) =>  {
       windowHeight: window.innerHeight,
       windowWidth: window.innerWidth,
       lastPing: Date.now(),
+    },
+  }
+
+  const leftColumn = document.getElementById('GameEditor__left-column')
+  const rightColumn = document.getElementById('GameEditor__right-column')
+
+  if(leftColumn && rightColumn) {
+    cobrowsingStatus.cobrowsingScroll = {
+      leftColumnScrollYPercent: leftColumn.scrollTop/leftColumn.scrollHeight,
+      rightColumnScrollYPercent: rightColumn.scrollTop/rightColumn.scrollHeight
     }
-  })
+  }
+
+  if(state.game.gameInstance && window.pointer) {
+    const cameraZoom = state.editor.cameraZoom
+    const camera = getCurrentGameScene(state.game.gameInstance).editorCamera
+    cobrowsingStatus.phaserView = {
+      mouseGameX: window.pointer.gameX,
+      mouseGameY: window.pointer.gameY,
+      cameraScrollX: camera.scrollX,
+      cameraScrollY: camera.scrollY,
+      cameraZoom
+    }
+  }
+
+
+  window.socket.emit(ON_COBROWSING_STATUS_UPDATE, cobrowsingStatus)
 }, 7)
 
 export const handleCobrowsingUpdates = store => next => action => {
@@ -67,9 +96,6 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     const state = getState()
 
     const user = state.auth.me
-
-    mouseUserId = user.id;
-    mouseLobbyId = state.lobby.lobby.id
 
     // this event will send admins your mouse state to let them know you can be browsed
     window.addEventListener('mousemove', sendMouseState)

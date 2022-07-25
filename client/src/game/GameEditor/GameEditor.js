@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
 import './GameEditor.scss';
@@ -11,7 +11,7 @@ import { clearEditorForms } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 
-const GameEditor = ({editor: { isLiveEditorOpen }, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({editor: { isLiveEditorOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     return () => {
       clearEditor()
@@ -23,11 +23,11 @@ const GameEditor = ({editor: { isLiveEditorOpen }, leftColumn, rightColumn, chil
   return (
     <div className="GameEditor">
       <ContextMenu/>
-      <div className="GameEditor__left-column">
+      <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
       </div>
       {children}
-      <div className="GameEditor__right-column">
+      <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         {rightColumn}
       </div>
       {isLiveEditorOpen && <LiveEditor/>}

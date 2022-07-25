@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { editGameModel } from '../../store/actions/gameActions';
-import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
+import { changeEditorCameraZoom, openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID } from '../../constants';
 import { isBrushIdEraser, snapObjectXY } from '../../utils/editor';
 import { Pencil } from '../entities/Pencil';
@@ -71,6 +71,8 @@ export class EditorScene extends GameInstance {
   // POINTER
   ////////////////////////////////////////////////////////////
   onPointerMove = (pointer)  => {
+    window.pointer = pointer
+
     const editor = getCobrowsingState().editor
     const brushId = editor.brushSelectedIdBrushList
     const classId = editor.classSelectedIdClassList
@@ -330,15 +332,16 @@ export class EditorScene extends GameInstance {
   }
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+    window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)
     const newZoom = this.editorCamera.zoom - zoomUpdate
 
     if(newZoom <= 1) {
-      this.editorCamera.setZoom(1)
+      store.dispatch(changeEditorCameraZoom(1))
     } else if(newZoom >= 10) {
-      this.editorCamera.setZoom(10)
+      store.dispatch(changeEditorCameraZoom(10))
     } else {
-      this.editorCamera.setZoom(newZoom)
+      store.dispatch(changeEditorCameraZoom(newZoom))
     }
   }
 
@@ -430,28 +433,35 @@ export class EditorScene extends GameInstance {
         this.isEditModeOn = false
       }
 
-      const isGamePaused = lobby.isGamePaused
-      if(isGamePaused) {
-        this.isPaused = true
-        this.matter.pause()
-      } else {
-        this.isPaused = false
-        this.matter.resume()
+      if(this.isHost) {
+        const isGamePaused = lobby.isGamePaused
+        if(isGamePaused) {
+          this.isPaused = true
+          this.matter.pause()
+        } else {
+          this.isPaused = false
+          this.matter.resume()
+        }
       }
+    }
+    
+    const cameraZoom = store.getState().editor.cameraZoom
+    if(cameraZoom !== this.editorCamera.zoom) {
+      this.editorCamera.setZoom(cameraZoom)
     }
 
     if(this.isEditModeOn) {
       this.grid.setVisible(true)
       this.grid2.setVisible(true)
       this.cameras.main.setVisible(false)
-      this.cameras.getCamera('editor').setVisible(true)
+      this.editorCamera.setVisible(true)
       // this.cameras.getCamera('mini').setVisible(true)
 
     } else {
       this.grid.setVisible(false)
       this.grid2.setVisible(false)
       this.cameras.main.setVisible(true)
-      this.cameras.getCamera('editor').setVisible(false)
+      this.editorCamera.setVisible(false)
       // this.cameras.getCamera('mini').setVisible(false)
     }
   }

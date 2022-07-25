@@ -11,7 +11,8 @@ import {
   EDITOR_STATE_UPDATE,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  OPEN_LIVE_CAMERA_EDITOR
+  OPEN_LIVE_CAMERA_EDITOR,
+  CHANGE_EDITOR_CAMERA_ZOOM
 } from '../types';
 
 const initialState = {
@@ -27,14 +28,20 @@ const initialState = {
   isContextMenuOpen: false,
   isLiveEditorOpen: false,
   liveEditingCategory: null,
-  brushSize: 3
+  brushSize: 3,
+  cameraZoom: 1,
 };
 
 export const initialEditorFormsState = initialState
 
-
 export default function editorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case CHANGE_EDITOR_CAMERA_ZOOM: {
+      return {
+        ...state,
+        cameraZoom: payload.cameraZoom
+      }
+    }
     case UPDATE_BRUSH_SIZE: {
       return {
         ...state,

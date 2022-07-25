@@ -6,11 +6,9 @@ import {
 
 const initialState = {
   lobbyUserStatus: {},
-  cobrowsingMouse: {
-    xPercent: 0,
-    yPercent: 0,
-    lastPing: null,
-  }
+  cobrowsingMouse: {},
+  cobrowsingScroll: {},
+  phaserView: {}
 };
 
 export default function statusReducer(state = initialState, { type, payload }) {
@@ -23,7 +21,9 @@ export default function statusReducer(state = initialState, { type, payload }) {
     case ON_COBROWSING_STATUS_UPDATE:
       return {
         ...state,
-        cobrowsingMouse: {...state.cobrowsingMouse, [payload.userId]: payload.cobrowsingMouse }
+        cobrowsingMouse: {...state.cobrowsingMouse, [payload.userId]: payload.cobrowsingMouse },
+        phaserView: {...state.phaserView, [payload.userId]: payload.phaserView },
+        cobrowsingScroll: {...state.cobrowsingScroll, [payload.userId]: payload.cobrowsingScroll }
       };
     default:
       return state;

@@ -17,6 +17,11 @@ import Phaser from 'phaser'
 import store from "../store";
 import { getCobrowsingState } from "./cobrowsing";
 
+export function getCurrentGameScene(gameInstance) {
+  const scene = gameInstance.scene?.scenes[0]
+  return scene
+}
+
 export function snapEraserXY({x, y}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
