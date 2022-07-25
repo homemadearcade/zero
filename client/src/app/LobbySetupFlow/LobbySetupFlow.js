@@ -1,20 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 
 import './LobbySetupFlow.scss';
-import classNames from 'classnames';
-import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
 import { addGame, unloadGame } from '../../store/actions/gameActions';
 import GameSelect from '../GameSelect/GameSelect';
 import GameCard from '../GameCard/GameCard';
 import Typography from '../ui/Typography/Typography';
 import Button from '../ui/Button/Button';
+import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 
 const UNASSIGNED_ROLE = 'unassigned'
+
+// {lobby.isGamePoweredOn && <Button
+//   type="button"
+//   variant="contained"
+//   onClick={() => {
+//     editLobby(lobby.id, {
+//       isGamePoweredOn:false
+//     })
+//     unloadGame()
+//   }}
+// >
+//   End game
+// </Button>}
 
 const LobbySetupFlow = ({
   addGame,
@@ -22,127 +34,7 @@ const LobbySetupFlow = ({
   assignLobbyRole,
   unloadGame,
   lobby: { lobby },
-  auth: { me },
-  status: { lobbyUserStatus }
 }) => {
-  const usersById = lobby.users.reduce((prev, next) => {
-    prev[next.id] = next
-    return prev
-  }, {})
-
-  const client = useAgoraVideoCallClient()
-
-  const checklist = [
-    {
-      text: 'Participant role is set',
-      test: () => {
-        return lobby.participantId
-      },
-      required: true,
-    },
-    {
-      text: 'Participant is present',
-      test: () => {
-        return usersById[lobby.participantId]?.joined && usersById[lobby.participantId]?.connected
-      },
-      required: true,
-    },
-    {
-      text: 'Guide role is set and Guide is present ',
-      test: () => {
-        return lobby.guideId && usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
-      },
-      required: true,
-    },
-    {
-      text: 'Guide is present ',
-      test: () => {
-        return usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
-      },
-      required: true,
-    },
-    {
-      text: 'Game Host role is set and Game Host is present',
-      test: () => {
-        return lobby.gameHostId
-      },
-      required: true,
-    },
-    {
-      text: 'Game Host is present',
-      test: () => {
-        return usersById[lobby.gameHostId]?.joined && usersById[lobby.gameHostId]?.connected
-      },
-      required: true,
-    },
-    {
-      text: 'Participant role is set to different user than guide',
-      test: () => {
-        return lobby.participantId !== lobby.guideId
-      },
-      required: true,
-    },
-    {
-      text: 'Game has been selected',
-      test: () => {
-        return !!lobby.game
-      },
-      required: true
-    },
-    {
-      text: 'Participant has connected camera',
-      test: () => {
-        if(me.id === lobby.participantId) {
-          return window.uplinkNetworkQuality
-        } else if(client) {
-          return client.getRemoteNetworkQuality()[lobby.participantId]?.uplinkNetworkQuality;
-        }
-      },
-      required: false,
-    },
-    {
-      text: 'Guide has connected camera',
-      test: () => {
-        if(me.id === lobby.guideId) {
-          return window.uplinkNetworkQuality
-        } else if(client) {
-          return client.getRemoteNetworkQuality()[lobby.guideId]?.uplinkNetworkQuality;
-        }
-      },
-      required: false,
-    },
-    {
-      text: 'Participant is fullscreen',
-      test: () => {
-        return lobbyUserStatus[lobby.participantId]?.isFullscreen
-      },
-      required: false,
-    },
-    {
-      text: 'Participant has passed internet speed test',
-      test: () => {
-        return usersById[lobby.participantId]?.internetSpeedTestResults?.downloadSpeed >= 10 && usersById[lobby.participantId]?.internetSpeedTestResults?.uploadSpeed >= 1
-      },
-      required: false,
-    },
-    {
-      text: 'Guide has passed internet speed test',
-      test: () => {
-        return usersById[lobby.guideId]?.internetSpeedTestResults?.downloadSpeed >= 10 && usersById[lobby.guideId]?.internetSpeedTestResults?.uploadSpeed >= 1
-      },
-      required: false,
-    },
-  ]
-
-  const isAllRequiredPassing = checklist.every((item, i) => {
-    if(!item.required) return true
-    return !!item.test();
-  })
-
-  const isAllPassing = checklist.every((item, i) => {
-    return !!item.test();
-  })
-
   return (
     <div className="LobbySetupFlow">
       <Typography component="h5" variant="h5">Roles: </Typography>
@@ -221,39 +113,13 @@ const LobbySetupFlow = ({
         New Game
       </Button>
 
-      <Typography component="h5" variant="h5">Checklist: </Typography>
-      <div className="LobbySetupFlow__checklist">
-        {checklist.map((item, i) => {
-          const isPassing = !!item.test();
-          return <div key={i} className={classNames("LobbySetupFlow__checklist-item", { 'LobbySetupFlow__checklist-item--required': item.required })}>
-            {isPassing && <span className="LobbySetupFlow__checklist-check"><i className="fa-solid fa-check"></i></span>}
-            {!isPassing && <span className="LobbySetupFlow__checklist-check" />}
-            {item.text}
-            {item.required && ' (required)'}
-          </div>
-        })}
-      </div>
-      {<Button
-        type="button"
-        variant="contained"
-        onClick={() => {
-          editLobby(lobby.id, {
-            isGamePoweredOn: true
-          })
-        }}
-        disabled={!isAllRequiredPassing}
-        startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><i className="fas fa-warning"></i></span>}
-      >
-        Start game
-      </Button>}
+      <LobbyChecklist/>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
   lobby: state.lobby,
-  status: state.status
 });
 
 export default compose(
