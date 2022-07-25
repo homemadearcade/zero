@@ -5,7 +5,7 @@ import './LobbyToolbar.scss';
 import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby } from '../../../store/actions/lobbyActions';
 
-const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { isGamePaused, isGamePoweredOn }}}) => {
+const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { isEditModeOn, isGamePaused, isGamePoweredOn }}}) => {
  return <div className="LobbyToolbar">
   <ToolbarIcon 
     size="lg"
@@ -33,6 +33,16 @@ const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { isGamePaused, isGam
     onClick={() => {
       editLobby(lobby.id, {
         gameResetDate: Date.now()
+      })
+    }}
+  />}
+  {isGamePoweredOn && <ToolbarIcon 
+    size="lg"
+    icon="faHammer"
+    color={isEditModeOn ? "green" : 'white'}
+    onClick={() => {
+      editLobby(lobby.id, {
+        isEditModeOn: !isEditModeOn
       })
     }}
   />}

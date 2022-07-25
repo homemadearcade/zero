@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
 
@@ -35,6 +36,12 @@ export class PlayerInstance extends ObjectInstance {
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 
+    const { classId } = instanceData
+    const objectClass = store.getState().game.gameModel.classes[classId]
+    if(!objectClass) {
+      console.error('no hero class for id:' + classId)
+    }
+
     scene.playerInstanceLayer.add(this)
     scene.playerInstanceGroup.add(this)
 
@@ -44,7 +51,7 @@ export class PlayerInstance extends ObjectInstance {
   update() {  
     super.update()
 
-    if(this.scene.paused) return
+    if(this.scene.isPaused || this.scene.isEditModeOn) return
 
     if (this.cursors.left.isDown)
     {

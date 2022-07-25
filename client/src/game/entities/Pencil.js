@@ -28,12 +28,12 @@ export class Pencil extends Phaser.GameObjects.Image {
   }
 
   update(pointer) {
-    const { snappedX, snappedY } = snapBrushXY(pointer)
+    const { snappedX, snappedY } = snapBrushXY({x: pointer.worldX, y: pointer.worldY})
     this.setPosition(snappedX, snappedY)
   }
 
   stroke(pointer, layer) {
-    const { snappedX, snappedY } = snapBrushXY(pointer)
+    const { snappedX, snappedY } = snapBrushXY({x: pointer.worldX, y: pointer.worldY})
 
     if(snappedX === this.lastSnapX && snappedY === this.lastSnapY) return
 

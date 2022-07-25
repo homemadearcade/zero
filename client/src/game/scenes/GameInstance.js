@@ -8,6 +8,8 @@ import { Canvas } from '../entities/Canvas';
 import { BACKGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, HERO_INSTANCE_ID, HERO_INSTANCE_LAYER_DEPTH, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from '../../constants';
 import { getCobrowsingState } from '../../utils/cobrowsing';
 import store from '../../store';
+import { nodeSize } from '../../defaultData/general';
+import tinycolor from 'tinycolor2';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
@@ -21,7 +23,6 @@ export class GameInstance extends Phaser.Scene {
     this.overheadLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
-    this.gameResetDate = Date.now()
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
@@ -80,6 +81,8 @@ export class GameInstance extends Phaser.Scene {
 
   create() {
     const gameModel = store.getState().game.gameModel
+    const gameWidth = gameModel.world.boundaries.width
+    const gameHeight = gameModel.world.boundaries.height
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -87,8 +90,7 @@ export class GameInstance extends Phaser.Scene {
     // WORLD
     ////////////////////////////////////////////////////////////
     this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
-    this.matter.world.setBounds(0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height);
-
+    this.matter.world.setBounds(0, 0, gameWidth, gameHeight);
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -117,18 +119,28 @@ export class GameInstance extends Phaser.Scene {
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_LAYER_DEPTH)
 
+    this.grid = this.add.grid(0, 0, gameWidth * 4, gameHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
+    this.grid2 = this.add.grid(0, 0, gameWidth * 4, gameHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
+
+    this.grid.setDepth(UI_LAYER_DEPTH)
+    this.grid2.setDepth(UI_LAYER_DEPTH)
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     // OBJECTS
     ////////////////////////////////////////////////////////////
     this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
-      if(!gameModel.objects[gameObjectId]) {
+      const objectInstanceData = gameModel.objects[gameObjectId]
+      if(!objectInstanceData) {
         return console.error('Object missing!')
       } 
       if(gameObjectId === HERO_INSTANCE_ID) {
         return console.error('hero got in?!')
       }
+      if(!objectInstanceData.classId) {
+        return console.log('missing classId!!', objectInstanceData)
+      }
+
       return new ObjectInstance(this, gameObjectId, gameModel.objects[gameObjectId])
     });
 
@@ -153,6 +165,24 @@ export class GameInstance extends Phaser.Scene {
       spawnX: gameModel.hero.spawnX,
       spawnY: gameModel.hero.spawnY
     });
+
+
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // CAMERA
+    ////////////////////////////////////////////////////////////
+    this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
+    this.setPlayModeCamera()
+  }
+
+  setPlayModeCamera() {
+    const gameModel = store.getState().game.gameModel
+    const heroClass = gameModel.classes[gameModel.hero.initialClassId]
+    console.log(heroClass)
+    this.cameras.main.startFollow(this.player, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
+    this.cameras.main.setZoom(heroClass.camera.zoom);
   }
 
   respawn() {
@@ -172,6 +202,8 @@ export class GameInstance extends Phaser.Scene {
   }
   
   update(time, delta) {
+    super.update(time, delta)
+
     const editorInstance = getCobrowsingState().editorInstance
     const layerVisibility = editorInstance.layerVisibility
 
@@ -184,15 +216,6 @@ export class GameInstance extends Phaser.Scene {
     })
 
     this.player.update(time, delta)
-
-    const lobby = store.getState().lobby.lobby
-    if(lobby) {
-      const gameResetDate = lobby.gameResetDate
-      if(gameResetDate > this.gameResetDate) {
-        this.gameResetDate = gameResetDate
-        this.reload()
-      }
-    }
   }
 
   unload() {

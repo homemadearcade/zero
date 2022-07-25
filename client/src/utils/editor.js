@@ -52,8 +52,8 @@ export function snapObjectXY({x, y}, objectClass) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x + objectClass.width/2, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2)) - objectClass.width/2
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y + objectClass.height/2, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2)) - objectClass.height/2
+  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2))
+  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2))
   
   return {
     snappedX,

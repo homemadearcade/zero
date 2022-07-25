@@ -1,22 +1,27 @@
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general"
 
 export const defaulHeroClass = {
+  ...defaultPhaserPhysicsProperties,
   "speed": 100,
   "jumpVelocity": 100,
-  ...defaultPhaserPhysicsProperties,
   "mass": 30,
   "tint": null,
   width: nodeSize * 5,
   height: nodeSize * 5,
   "textureId": null,
   "controls": "zelda",
+  "camera": {
+    zoom: 1.5,
+    lerpX: 0.09,
+    lerpY: 0.09,
+  },
   type: 'hero'
 }
 
 export const spaceshipClass = {
   ...defaulHeroClass,
-  "jumpVelocity": 0,
   ...defaultPhaserPhysicsProperties,
+  "jumpVelocity": 0,
   "frictionAir": 0.1,
   "density": .01,
   "fixedRotation": true,

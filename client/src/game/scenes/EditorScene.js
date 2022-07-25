@@ -20,6 +20,9 @@ export class EditorScene extends GameInstance {
     this.canvas = null
     this.brush = null 
     this.stamper = null
+    this.gameResetDate = Date.now()
+    this.isEditModeOn = false
+    this.editorCamera = null
   }
   
   ////////////////////////////////////////////////////////////
@@ -320,9 +323,55 @@ export class EditorScene extends GameInstance {
     })
   }
 
+  onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+    const zoomUpdate = (deltaY * 0.001)
+    const newZoom = this.editorCamera.zoom - zoomUpdate
+
+    if(newZoom <= 1) {
+      this.editorCamera.setZoom(1)
+    } else if(newZoom >= 10) {
+      this.editorCamera.setZoom(10)
+    } else {
+      this.editorCamera.setZoom(newZoom)
+    }
+  }
+
   create() {
     super.create()
 
+    const gameModel = store.getState().game.gameModel
+    const gameWidth = gameModel.world.boundaries.width
+    const gameHeight = gameModel.world.boundaries.height
+    this.cameras.fromJSON({
+      name: 'editor',
+      x: 0,
+      y: 0,
+      width: gameWidth,
+      height: gameHeight,
+      zoom: 2,
+      rotation: 0,
+      scrollX: 0,
+      scrollY: 0,
+      roundPixels: false,
+      visible: false,
+      backgroundColor: false,
+      bounds: {x: 0, y: 0, width: gameWidth, height: gameHeight},
+    })
+
+    this.editorCamera = this.cameras.getCamera('editor')
+    const cursors = this.input.keyboard.createCursorKeys();
+    const controlConfig = {
+      camera: this.editorCamera,
+      left: cursors.left,
+      right: cursors.right,
+      up: cursors.up,
+      down: cursors.down,
+      acceleration: 0.03,
+      drag: 0.001,
+      maxSpeed: 0.5
+    };
+    this.cameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    
     this.input.on('pointerover', this.onPointerOver);
     this.input.on('pointerout', this.onPointerOut);
     this.input.on('pointerdown', this.onPointerDown, this);
@@ -333,9 +382,53 @@ export class EditorScene extends GameInstance {
     this.input.dragDistanceThreshold = 16;
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
+    this.input.on('wheel', this.onMouseWheel);
+  }
+
+  update(time, delta) {
+    super.update(time, delta)
+
+    this.cameraControls.update(delta)
+
+    const lobby = store.getState().lobby.lobby
+    if(lobby.id) {
+      const gameResetDate = lobby.gameResetDate
+      if(gameResetDate > this.gameResetDate) {
+        this.gameResetDate = gameResetDate
+        this.reload()
+      }
+      const isEditModeOn = lobby.isEditModeOn
+      if(isEditModeOn) {
+        this.isEditModeOn = true
+      } else {
+        this.isEditModeOn = false
+      }
+
+      const isGamePaused = lobby.isGamePaused
+      if(isGamePaused) {
+        this.isPaused = true
+        this.matter.pause()
+      } else {
+        this.isPaused = false
+        this.matter.resume()
+      }
+    }
+
+    if(this.isEditModeOn) {
+      this.grid.setVisible(true)
+      this.grid2.setVisible(true)
+      this.cameras.main.setVisible(false)
+      this.cameras.getCamera('editor').setVisible(true)
+    } else {
+      this.grid.setVisible(false)
+      this.grid2.setVisible(false)
+      this.cameras.main.setVisible(true)
+      this.cameras.getCamera('editor').setVisible(false)
+    }
   }
 
   unload() {
     super.unload()
   }
 }
+

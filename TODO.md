@@ -4,10 +4,6 @@ CONVERSATION TOPICS
 
 TODO NEXT
 
-1) REMOTE ACTIONS
-Reset Button
-Play/Pause Button
-
 2) Unlockable UI
 
 3) CAMERA
@@ -37,6 +33,8 @@ VALIDATION ON ALL FORMS
 
 FOLDING/UNFOLDING organization
 choose background color
+
+COBROWING_RPC
 
 right click brush - copy to layer X, delete, open in sprite editor
 

@@ -11,7 +11,7 @@ export class GameHostScene extends EditorScene {
       key: GAME_SCENE,
     });
 
-    this.paused = false
+    this.isPaused = false
   }
 
   startRemoteClientUpdateLoop = () => {
@@ -51,19 +51,7 @@ export class GameHostScene extends EditorScene {
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 
-  update(time, delta) {
-    super.update(time, delta)
-
-    const lobby = store.getState().lobby.lobby
-    if(lobby) {
-      const isGamePaused = lobby.isGamePaused
-      if(isGamePaused) {
-        this.paused = true
-        this.matter.pause()
-      } else {
-        this.paused = false
-        this.matter.resume()
-      }
-    }
-  }
+  // update(time, delta) {
+  //   super.update(time, delta)
+  // }
 }

@@ -26,7 +26,7 @@ const initialState = {
   isContextMenuOpen: false,
   isLiveEditorOpen: false,
   liveEditingCategory: null,
-  brushSize: 1
+  brushSize: 3
 };
 
 export const initialEditorFormsState = initialState

@@ -3,13 +3,8 @@ import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 
 export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, id, {spawnX, spawnY, classId, classDataOverride}){
-    let objectClass
-    if(classDataOverride) {
-      objectClass = classDataOverride
-    } else {
-      objectClass = store.getState().game.gameModel.classes[classId]
-    }
+  constructor(scene, id, {spawnX, spawnY, classId}){
+    const objectClass = store.getState().game.gameModel.classes[classId]
     // console.log(spawnX, spawnY, id, classId, objectClass, classDataOverride)
     const { spriteSheetName, spriteIndex } = getTextureMetadata(objectClass.textureId)
     

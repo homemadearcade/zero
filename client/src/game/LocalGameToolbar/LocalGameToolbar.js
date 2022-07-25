@@ -5,7 +5,8 @@ import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
 
 const LocalGameToolbar = ({ game: { gameInstance } }) => {
-  const [paused, setPaused] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [isEditModeOn, setIsEditModeOn] = useState(false)
 
   if(!gameInstance) return
 
@@ -18,11 +19,11 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
   return <div className="LocalGameToolbar">
     <ToolbarIcon 
       size="lg"
-      icon={paused ? "faPlay" : "faPause"} 
+      icon={isPaused ? "faPlay" : "faPause"} 
       onClick={() => {
         const scene = getScene()
-        scene.paused = !scene.paused
-        setPaused(scene.paused)
+        scene.isPaused = !scene.isPaused
+        setIsPaused(scene.isPaused)
       }}
     />
     <ToolbarIcon 
@@ -30,6 +31,16 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
       icon="faRotateRight"
       onClick={() => {
         getScene().reload()
+      }}
+    />
+    <ToolbarIcon 
+      size="lg"
+      icon="faHammer"
+      color={isEditModeOn ? "green" : 'white'}
+      onClick={() => {
+        const scene = getScene()
+        scene.isEditModeOn = !scene.isEditModeOn
+        setIsEditModeOn(scene.isEditModeOn)
       }}
     />
   </div>
