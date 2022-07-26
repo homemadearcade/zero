@@ -7,6 +7,7 @@ import AgoraVideoCall from '../app/agora/AgoraVideoCall/AgoraVideoCall';
 import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 import { withRouter } from 'react-router-dom';
 import Button from '../app/ui/Button/Button';
+import { isLocalHost } from '../utils/browser';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -43,18 +44,18 @@ export default (ChildComponent) => {
 
     askBeforeClosing = (e) => {
       e.preventDefault();
-      if(window.location.host.indexOf('localhost') === -1) e.returnValue = '';
+      if(!isLocalHost()) e.returnValue = '';
       this.withLobbyCleaup()
     }
 
     render() {
-      const { lobby: { isLoading, isJoining }, video: { bypass, isConnectingToVideoCall }, bypassAgoraVideoCall } = this.props;
+      const { lobby: { isLoading, isJoining, lobby }, video: { bypass, isConnectingToVideoCall }, bypassAgoraVideoCall } = this.props;
 
       if(isLoading) {
         return <Loader text="Loading Lobby..."/>
       }
     
-      if(isJoining) {
+      if(isJoining || !lobby.id) {
         return <Loader text="Joining Lobby..."/>
       }
 

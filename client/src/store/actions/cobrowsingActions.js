@@ -99,6 +99,11 @@ export const handleCobrowsingUpdates = store => next => action => {
   const state = store.getState()
 
   if(action.updateCobrowsing && state.lobby.lobby?.id) {
+
+    if(state.cobrowsing.isSubscribedCobrowsing) {
+      return null
+    }
+
     store.dispatch(
       updateCobrowsing(getRemoteStatePackage(state))
     )

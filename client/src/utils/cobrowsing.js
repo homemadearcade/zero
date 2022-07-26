@@ -6,12 +6,14 @@ export function getRemoteStatePackage(state) {
     editor: state.editor,
     editorForms: state.editorForms,
     editorInstance: state.editorInstance,
+    unlockableInterface: state.unlockableInterface,
     contextMenu: state.contextMenu
   }
 }
 
 export function mapCobrowsingState(state, props) {
   const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+
   if(!isCobrowsing) return props
 
   const remoteState = Object.keys(props).reduce((prev, propName) => {
@@ -24,8 +26,10 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.video
     } else if(propName === 'editorInstance') {
       prev[propName] = remoteState.editorInstance
+    } else if(propName === 'unlockableInterface') {
+      prev[propName] = remoteState.unlockableInterface
     } 
-    // else if(propName === 'contextMenu') {
+     // else if(propName === 'contextMenu') {
     //   prev[propName] = remoteState.contextMenu
     // }
 
@@ -54,5 +58,6 @@ export function getCobrowsingState() {
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
     video: remoteState.video,
+    unlockableInterface: remoteState.unlockableInterface
   }
 }

@@ -1,3 +1,4 @@
+import { isLocalHost } from '../../utils/browser';
 import {
   START_VIDEO_CALL_LOADING,
   START_VIDEO_CALL_SUCCESS,
@@ -15,7 +16,7 @@ const initialState = {
   isInsideVideoCall: false,
   isConnectingToVideoCall: false,
   error: null,
-  bypass: false
+  bypass: isLocalHost()
 };
 
 export const initialVideoState = initialState

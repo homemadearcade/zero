@@ -11,10 +11,12 @@ import {
   UNSUBSCRIBE_COBROWSING_FAIL,
   ON_COBROWSING_UPDATE,
 } from '../types';
+
 import { initialContextMenuState } from './contextMenuReducer';
 import { initialEditorState } from './editorFormsReducer';
 import { initialEditorInstanceState } from './editorInstanceReducer';
 import { initialEditorFormsState } from './editorReducer';
+import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
 import { initialVideoState } from './videoReducer';
 
 const initialState = {
@@ -27,7 +29,8 @@ const initialState = {
     editor: initialEditorState,
     editorForms: initialEditorFormsState,
     editorInstance: initialEditorInstanceState,
-    contextMenu: initialContextMenuState
+    contextMenu: initialContextMenuState,
+    unlockableInterface: initialUnlockableInterfaceState
   },
 };
 

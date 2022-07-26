@@ -1,3 +1,7 @@
+export const isLocalHost = () => {
+  if(window.location.host.indexOf('localhost') !== -1) return true
+}
+
 export const checkIfTabAlreadyOpen = (callback) => {
   let otherPageOpen = false
   // Broadcast that you're opening a page.

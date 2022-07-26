@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import GameContextMenuBody from '../../../game/ui/GameContextMenuBody/GameContextMenuBody';
 
-import { closeContextMenu } from '../../../store/actions/contextMenuActions';
-
 import './ContextMenus.scss'
 import ContextMenu from '../../ui/ContextMenu/ContextMenu';
 
-const ContextMenus = ({ closeContextMenu, contextMenu, remoteContextMenu}) => {  
+const ContextMenus = ({ contextMenu, remoteContextMenu}) => {  
   if(contextMenu.isContextMenuOpen) {
     const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = contextMenu
 
@@ -33,4 +31,4 @@ const mapStateToProps = (state) => ({
   remoteContextMenu: state.cobrowsing.remoteState.contextMenu
 })
 
-export default connect(mapStateToProps, { closeContextMenu })(ContextMenus);
+export default connect(mapStateToProps, { })(ContextMenus);

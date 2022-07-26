@@ -1,15 +1,4 @@
-    // const cursors = this.input.keyboard.createCursorKeys();
-    // const controlConfig = {
-    //   camera: this.editorCamera,
-    //   left: cursors.left,
-    //   right: cursors.right,
-    //   up: cursors.up,
-    //   down: cursors.down,
-    //   acceleration: 0.03,
-    //   drag: 0.001,
-    //   maxSpeed: 0.5
-    // };
-    // this.cameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+
     
     // const minimapCameraPercent = 0.2
     // this.cameras.fromJSON({

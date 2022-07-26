@@ -51,7 +51,22 @@ export class GameHostScene extends EditorScene {
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 
-  // update(time, delta) {
-  //   super.update(time, delta)
-  // }
+  update(time, delta) {
+    super.update(time, delta)
+
+    console.log('updating host')
+
+    const lobby = store.getState().lobby.lobby
+    if(lobby.id) {
+
+      const isGamePaused = lobby.isGamePaused
+      if(isGamePaused) {
+        this.isPaused = true
+        this.matter.pause()
+      } else {
+        this.isPaused = false
+        this.matter.resume()
+      }
+    }
+  }
 }

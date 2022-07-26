@@ -21,7 +21,7 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
     return this
   }
 
-  onPhaserViewFound() {
+  onPhaserViewFound(scene) {
     const phaserView = store.getState().status.phaserViews[this.userId]
     this.cameraPreview = new CameraPreview(this.scene, { zoom: phaserView.cameraZoom, color: this.color})
 
@@ -36,6 +36,7 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
     this.cameraPreview.destroy()
     this.cameraPreview = null
     this.mouse.destroy()
+    this.mouse = null
   }
 
   update() {

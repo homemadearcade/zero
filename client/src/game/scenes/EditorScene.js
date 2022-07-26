@@ -466,15 +466,6 @@ export class EditorScene extends GameInstance {
       } else {
         this.isEditModeOn = false
       }
-
-      const isGamePaused = lobby.isGamePaused
-      if(isGamePaused) {
-        this.isPaused = true
-        this.matter.pause()
-      } else {
-        this.isPaused = false
-        this.matter.resume()
-      }
     }
     
     const cameraZoom = store.getState().editor.cameraZoom

@@ -2,7 +2,6 @@ import Phaser from "phaser";
 import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
-import { CAMERA_PREVIEW_BORDER_SIZE } from "../../constants";
 import { CameraPreview } from "./CameraPreview";
 
 export class PlayerInstance extends ObjectInstance {
@@ -50,6 +49,8 @@ export class PlayerInstance extends ObjectInstance {
 
     scene.playerInstanceLayer.add(this)
     scene.playerInstanceGroup.add(this)
+
+    this.scene = scene
 
     return this
   }

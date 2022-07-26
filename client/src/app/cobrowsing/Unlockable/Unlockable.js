@@ -5,17 +5,19 @@ import classNames from 'classnames';
 
 import './Unlockable.scss';
 import Icon from '../../ui/Icon/Icon';
-import { openUnlockableContextMenu } from '../../../store/actions/contextMenuActions';
+import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
+import { MenuItem } from '@mui/material';
 
-const Unlockable = ({ unlockableInterface, interfaceId, children, isSlider, auth: { me }, openUnlockableContextMenu }) => {
+const Unlockable = ({ unlockableInterface, interfaceId, children, isSlider, auth: { me } }) => {
   const ids = interfaceId.split(' ')
   const idLayers = ids.map((id) => {
     return id.split('/')
   })
 
-  const isUnlocked = idLayers.some((layer) => {
+  const isUnlocked = unlockableInterface['all'] || idLayers.every((layer) => {
     return layer.some((id) => {
-      return unlockableInterface[id]
+      return unlockableInterface[id] || unlockableInterface[id + '/all']
     })
   })
 
@@ -29,13 +31,12 @@ const Unlockable = ({ unlockableInterface, interfaceId, children, isSlider, auth
   // });
 
   function UnlockableMenu() {
-    return <div className={classNames("Unlockable__menu")} onClick={(event) => {
-      openUnlockableContextMenu(event)
-    }}>
-      <Icon  size="sm" icon={isUnlocked ? "faUnlock" : "faLock"} />
+    return <div className={classNames("Unlockable__menu")}>
+      <MenuIconButton icon={<Icon size="xs" icon={isUnlocked ? "faUnlock" : "faLock"} />} menu={(closeMenu) => {
+      return <MenuItem onMenuItemClick={closeMenu}>Hello</MenuItem>
+      }}/>
     </div>
   }
-
 
   if(me.role === 'ADMIN') {
     if(isUnlocked) {
@@ -101,11 +102,11 @@ const Unlockable = ({ unlockableInterface, interfaceId, children, isSlider, auth
   // </Badge>
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   unlockableInterface: state.unlockableInterface,
   auth: state.auth
 });
 
 export default compose(
-  connect(mapStateToProps, { openUnlockableContextMenu }),
+  connect(mapStateToProps, {  }),
 )(Unlockable);
