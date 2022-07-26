@@ -125,6 +125,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     // this event will send admins your mouse state to let them know you can be browsed
     window.addEventListener('mousemove', sendCobrowsingStatus)
     window.addEventListener('keyup', onEditorKeyUp)
+    window.addEventListener('wheel', sendCobrowsingStatus);
 
     dispatch({
       type: START_COBROWSING_SUCCESS,
@@ -158,6 +159,8 @@ export const unpublishCobrowsing = () => (dispatch, getState) => {
   try {
     window.removeEventListener('mousemove', sendCobrowsingStatus);
     window.removeEventListener('keyup', onEditorKeyUp)
+    window.removeEventListener('wheel', sendCobrowsingStatus);
+
     window.socket.off(ON_COBROWSING_SUBSCRIBED);
     window.socket.off(ON_COBROWSING_REMOTE_DISPATCH)
 

@@ -1,17 +1,20 @@
 CONVERSATION TOPICS
 
 Camera Drag vs WASD vs Arrow Keys. Controls conversation
-Edit Mode
+
+Edit Mode, how does that work. Can you control the hero? What else changes? Can you still add items during non edit mode?
+
 Lobby Steps
+
 Zoom Slider
-What does Unlockable really look like?
+
+What does Unlockable really look like? Weve got question mark squares. So what options to we want? What about options we actually just straight up want to hide? 
+
 So all this cobrowsing click together crap, does it all work the way we want it to?
 
 --
 
 TODO NEXT
-
-2) Unlockable UI
 
 4) DRAWING
   Tinting
@@ -51,6 +54,8 @@ TODO BEHAVIORS, CONTROLS
 
 invisible if collided with hero
 
+Attach to Sliding object, elevator, etc
+
 Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 ---
@@ -59,20 +64,19 @@ TODO EVENTUALLY...
 
 Lock to cobrowsers camera
 
-Popup for connection errors
+Popup for connection errors, little thing in the bottom corner. Toast thing
 
 remove brush 9 and 22.5 when you're not in the top layer
 
 add Login and Signup components to withAuth - update lobby find
-
-Theres two problems with cobrowsing to think about
-1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user
 
 Cobrowsing Click event
 
 Better error handling locally and with cobrowsing, perhaps have just one error array and make sure that array is shared in cobrowsing as well
 
 Unauthenticate socket when logging out
+
+<AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
 
 --------
 

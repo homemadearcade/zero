@@ -69,8 +69,6 @@ router.put('/dispatch/:id', requireJwtAuth, requireSocketAuth, async (req, res) 
       dispatchData: req.body.dispatchData
     });
 
-    console.log(req.body.dispatchData)
-
     res.status(200).send();
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });

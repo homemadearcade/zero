@@ -14,6 +14,16 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
   return <div className="LocalGameToolbar">
     <ToolbarIcon 
       size="lg"
+      icon="faTableCells"
+      color={isEditModeOn ? "green" : 'white'}
+      onClick={() => {
+        const scene = getCurrentGameScene(gameInstance)
+        scene.isEditModeOn = !scene.isEditModeOn
+        setIsEditModeOn(scene.isEditModeOn)
+      }}
+    />
+    <ToolbarIcon 
+      size="lg"
       icon={isPaused ? "faPlay" : "faPause"} 
       onClick={() => {
         const scene = getCurrentGameScene(gameInstance)
@@ -26,16 +36,6 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
       icon="faRotateRight"
       onClick={() => {
         getCurrentGameScene(gameInstance).reload()
-      }}
-    />
-    <ToolbarIcon 
-      size="lg"
-      icon="faHammer"
-      color={isEditModeOn ? "green" : 'white'}
-      onClick={() => {
-        const scene = getCurrentGameScene(gameInstance)
-        scene.isEditModeOn = !scene.isEditModeOn
-        setIsEditModeOn(scene.isEditModeOn)
       }}
     />
   </div>

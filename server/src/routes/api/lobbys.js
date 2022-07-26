@@ -223,7 +223,11 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
       return res.status(200).json({ lobby: req.lobby });
     }
 
-    if (!(req.user.role === 'ADMIN' || req.lobby.participantEmail === req.user.email)) {
+    const isParticipant = req.lobby.participants.some((user) => {
+      return user.id === req.user.id
+    })
+
+    if (!(req.user.role === 'ADMIN' || isParticipant)) {
       return res.status(400).json({ message: 'You do not have permission to join that lobby.' });
     }
 

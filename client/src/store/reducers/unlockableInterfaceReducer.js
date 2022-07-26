@@ -46,7 +46,7 @@ export default function unlockableInterfaceReducer(state = initialState, { type,
     case UNLOCK_INTERFACE:
       return {
         ...state,
-        [payload.interfaceId]: false
+        [payload.interfaceId]: true
       };
     default:
       return state;

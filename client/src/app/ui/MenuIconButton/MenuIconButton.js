@@ -13,13 +13,14 @@ export default function MenuIconButton({ icon, menu }) {
   };
 
   return (
-    <div>
+    <>
       <IconButton
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        sx={{ padding: 0}}
       >
         {icon}
       </IconButton>
@@ -34,6 +35,6 @@ export default function MenuIconButton({ icon, menu }) {
       >
         {menu(handleClose)}
       </Menu>
-    </div>
+    </>
   );
 }

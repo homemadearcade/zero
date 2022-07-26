@@ -1,3 +1,4 @@
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
@@ -32,6 +33,8 @@ const LobbyPage = ({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   useEffect(() => {
+    if(lobby.isGamePoweredOn) return 
+    
     if(me.role === 'ADMIN' && (!lobby.guideId)) {
       assignLobbyRole(lobby.id, {
         userId: me.id, 
@@ -39,7 +42,7 @@ const LobbyPage = ({
       });
     }
     
-    if(me.role !== 'ADMIN' && (!lobby.gameHostId || lobby.participantId)) {
+    if(me.role !== 'ADMIN' && (!lobby.gameHostId || !lobby.participantId)) {
       assignLobbyRole(lobby.id, {
         userId: me.id, 
         role: 'gameHost'

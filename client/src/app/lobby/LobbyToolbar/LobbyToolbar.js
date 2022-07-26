@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import './LobbyToolbar.scss';
 import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby } from '../../../store/actions/lobbyActions';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 
-const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { isEditModeOn, isGamePaused, isGamePoweredOn }}}) => {
+const LobbyToolbar = ({editLobby, auth: { me }, lobby : { lobby, lobby : { isEditModeOn, isGamePaused, isGamePoweredOn }}}) => {
  return <div className="LobbyToolbar">
-  <ToolbarIcon 
+  {me.role === 'ADMIN' && <ToolbarIcon 
     size="lg"
     icon="faPowerOff" 
     color={isGamePoweredOn ? "green" : 'white'}
@@ -17,7 +18,19 @@ const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { isEditModeOn, isGam
         isGamePaused: false
       })
     }}
-  />
+  />}
+  {isGamePoweredOn && <Unlockable isTiny interfaceId="toolbar/toggleEditMode">
+    <ToolbarIcon 
+      size="lg"
+      icon="faTableCells"
+      color={isEditModeOn ? "green" : 'white'}
+      onClick={() => {
+        editLobby(lobby.id, {
+          isEditModeOn: !isEditModeOn
+        })
+      }}
+    />
+  </Unlockable>}
   {isGamePoweredOn && <ToolbarIcon 
     size="lg"
     icon={isGamePaused ? "faPlay" : "faPause"} 
@@ -36,22 +49,12 @@ const LobbyToolbar = ({editLobby, lobby : { lobby, lobby : { isEditModeOn, isGam
       })
     }}
   />}
-  {isGamePoweredOn && <ToolbarIcon 
-    size="lg"
-    icon="faHammer"
-    color={isEditModeOn ? "green" : 'white'}
-    onClick={() => {
-      editLobby(lobby.id, {
-        isEditModeOn: !isEditModeOn
-      })
-    }}
-  />}
-
  </div>
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby
+  lobby: state.lobby,
+  auth: state.auth
 });
 
 export default compose(
