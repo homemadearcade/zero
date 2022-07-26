@@ -61,8 +61,8 @@ const sendMouseState = _.debounce((e) =>  {
     cobrowsingStatus.phaserView = {
       mouseGameX: window.pointer.gameX,
       mouseGameY: window.pointer.gameY,
-      cameraScrollX: camera.scrollX,
-      cameraScrollY: camera.scrollY,
+      cameraX: camera.worldView.x,
+      cameraY: camera.worldView.y,
       cameraZoom
     }
   }

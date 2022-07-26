@@ -35,8 +35,8 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
       const phaserView = store.getState().status.phaserViews[this.userId]
       if(phaserView) {
         this.cameraPreview.update({
-          x: phaserView.cameraScrollX,
-          y: phaserView.cameraScrollY
+          x: phaserView.cameraX,
+          y: phaserView.cameraY
         })
       }
     }

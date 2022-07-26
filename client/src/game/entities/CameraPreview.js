@@ -7,9 +7,9 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
     super(scene)
 
     this.scene = scene
+    this.color = color
     scene.add.existing(this)
 
-    this.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, color, 1);
     this.setZoom(zoom)
 
     scene.uiLayer.add([this])
@@ -21,8 +21,11 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
     const gameWidth = gameModel.world.boundaries.width
     const cameraSize = gameWidth/zoom
 
+    this.clear()
+
     this.cameraSize = cameraSize 
 
+    this.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, this.color, 1);
     this.strokeRect(0, 0, cameraSize - (CAMERA_PREVIEW_BORDER_SIZE), cameraSize - (CAMERA_PREVIEW_BORDER_SIZE));
     this.setVisible(true)
 
@@ -30,19 +33,13 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
   }
 
   update(followingEntity) {
-    console.log(followingEntity)
     if(this.scene.isEditModeOn) {
 
       this.setVisible(true)
 
       let cornerX = followingEntity.x
       let cornerY = followingEntity.y
-
-      console.log(cornerX, cornerY)
   
-      cornerX = cornerX - this.cameraSize/2
-      cornerY = cornerY - this.cameraSize/2
-
       const gameModel = store.getState().game.gameModel
       cornerX = Phaser.Math.Clamp(cornerX, 0, gameModel.world.boundaries.width - this.cameraSize)
       cornerY = Phaser.Math.Clamp(cornerY, 0, gameModel.world.boundaries.height - this.cameraSize)

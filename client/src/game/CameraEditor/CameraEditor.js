@@ -20,8 +20,8 @@ const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
       <SliderNotched
         formLabel="Zoom"
-        options={[1, 2, 3, 4, 5]}
-        step={0.25}
+        options={[1, 2, 3, 4]}
+        step={0.2}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { camera: { zoom: value }  }}})        
         }}

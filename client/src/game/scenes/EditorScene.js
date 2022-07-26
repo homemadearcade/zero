@@ -328,6 +328,7 @@ export class EditorScene extends GameInstance {
       if(classUpdate.camera !== undefined) {
         if(this.player.classId === id) {
           this.cameras.main.setZoom(classUpdate.camera.zoom)
+          this.player.setZoom(classUpdate.camera.zoom)
         }
       }
     })
@@ -368,8 +369,9 @@ export class EditorScene extends GameInstance {
       backgroundColor: false,
       bounds: {x: 0, y: 0, width: gameWidth, height: gameHeight},
     })
-
+    
     this.editorCamera = this.cameras.getCamera('editor')
+
     const cursors = this.input.keyboard.createCursorKeys();
     const controlConfig = {
       camera: this.editorCamera,

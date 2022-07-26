@@ -3,6 +3,7 @@ import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
 import { CAMERA_PREVIEW_BORDER_SIZE } from "../../constants";
+import { CameraPreview } from "./CameraPreview";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -43,50 +44,31 @@ export class PlayerInstance extends ObjectInstance {
       console.error('no hero class for id:' + classId)
     }
 
-    const gameModel = store.getState().game.gameModel
-    const gameWidth = gameModel.world.boundaries.width
-    // const gameHeight = gameModel.world.boundaries.height
-    const cameraSize = gameWidth/objectClass.camera.zoom
-    this.cameraPreview = scene.add.graphics();
-    this.cameraPreview.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, 0x00ff00, 1);
+    if(objectClass.camera) {
+      this.cameraPreview = new CameraPreview(scene, {color: 0x00FF00, zoom: objectClass.camera.zoom})
+    }
 
-    // this.cameraPreview.strokeRect(0, 0, cameraSize + (CAMERA_PREVIEW_BORDER_SIZE), cameraSize + (CAMERA_PREVIEW_BORDER_SIZE));
-    this.cameraPreview.strokeRect(0, 0, cameraSize, cameraSize);
-    this.cameraPreview.setVisible(false)
-
-    scene.uiLayer.add([this.cameraPreview])
     scene.playerInstanceLayer.add(this)
     scene.playerInstanceGroup.add(this)
 
     return this
   }
 
+  setZoom(zoom) {
+    this.cameraPreview.setZoom(zoom)
+  }
+
   update() {  
     super.update()
 
-    if(this.scene.isEditModeOn) {
-      this.cameraPreview.setVisible(true)
-      const classId = this.classId
-      const objectClass = store.getState().game.gameModel.classes[classId]
-      const gameModel = store.getState().game.gameModel
-      const gameWidth = gameModel.world.boundaries.width
-      const cameraSize = gameWidth/objectClass.camera.zoom
-      let cornerX = this.x
-      let cornerY = this.y
-  
-      cornerX = cornerX - cameraSize/2
-      cornerY = cornerY - cameraSize/2
-  
-      cornerX = Phaser.Math.Clamp(cornerX, 0, gameModel.world.boundaries.width - cameraSize)
-      cornerY = Phaser.Math.Clamp(cornerY, 0, gameModel.world.boundaries.height - cameraSize)
-    
-      this.cameraPreview.setPosition(cornerX + (CAMERA_PREVIEW_BORDER_SIZE/2), cornerY + (CAMERA_PREVIEW_BORDER_SIZE/2))
-      // this.cameraPreview.setPosition(cornerX, cornerY)
-  
-    } else {
-      this.cameraPreview.setVisible(false)
-    }
-
+    const classId = this.classId
+    const objectClass = store.getState().game.gameModel.classes[classId]
+    const gameModel = store.getState().game.gameModel
+    const gameWidth = gameModel.world.boundaries.width
+    const cameraSize = gameWidth/objectClass.camera.zoom
+    const x = this.x - cameraSize/2
+    const y = this.y - cameraSize/2
+    this.cameraPreview.update({x, y})
 
     if(this.scene.isPaused || this.scene.isEditModeOn) return
 
