@@ -421,7 +421,7 @@ export class EditorScene extends GameInstance {
     if(lobby.id) {
       const me = store.getState().auth.me
       lobby.users.forEach(({id}) => {
-        if(id !== me.id) {
+        if(id !== me.id && lobby.participantId === id) {
           this.remoteEditors.push(
             new RemoteEditor(this, { userId: id, color: 0xFF0000})
           )

@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { nodeSize } from "../../defaultData/general";
 import store from "../../store";
 import { CameraPreview } from "./CameraPreview";
 
@@ -23,21 +24,33 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
   onPhaserViewFound() {
     const phaserView = store.getState().status.phaserViews[this.userId]
     this.cameraPreview = new CameraPreview(this.scene, { zoom: phaserView.cameraZoom, color: this.color})
+
+    var circle = new Phaser.Geom.Circle(0, 0, nodeSize);
+    // circle.setPosition(400, 200);
+    this.mouse = this.scene.add.graphics({ lineStyle: { color: this.color } });
+    this.mouse.strokeCircleShape(circle);
+    this.scene.uiLayer.add([this.mouse])
   }
 
   onPhaserViewLost() {
     this.cameraPreview.destroy()
     this.cameraPreview = null
+    this.mouse.destroy()
   }
 
   update() {
-    if(this.cameraPreview) {
-      const phaserView = store.getState().status.phaserViews[this.userId]
-      if(phaserView) {
+    const phaserView = store.getState().status.phaserViews[this.userId]
+
+    if(phaserView)  {
+      if(this.cameraPreview) {
         this.cameraPreview.update({
           x: phaserView.cameraX,
           y: phaserView.cameraY
         })
+      }
+  
+      if(this.mouse) {
+        this.mouse.setPosition(phaserView.mouseWorldX, phaserView.mouseWorldY)
       }
     }
   }

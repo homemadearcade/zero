@@ -7,8 +7,7 @@ TODO NEXT
 2) Unlockable UI
 
 3) CAMERA
-How to deal with zoom and cobrowsing?
-  Basically you control your own zoom locally BUT there needs to be a remote object attached somewhere that display the users zoom on your map
+Drag Camera
 Zoom Slider
 
 4) DRAWING
@@ -22,7 +21,7 @@ FOR EACH BRUSH LAYER
 color squares ( with most commonly used colors ) with a + add the end that opens color selector
 + for fresh sprite open in sprite editor inside brush and class creation
 
-GAME BOUNDARY
+GAME SIZE
 CONTROLS - speed, other phaser examples, etc
 RELATIONSHIP SYSTEM
 DIALOGUE, CUTSCENES
