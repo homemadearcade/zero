@@ -10,7 +10,7 @@ import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({ lobby: { lobby }, isTiny, className, unlockableInterface, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, auth: { me } }) => {
+const Unlockable = ({ lobby: { lobby }, isTiny, hideIfLocked, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, auth: { me } }) => {
   const originalComponent = <div className={className}>{children}</div>
 
   if(!lobby.id) return <div className={className}>{children}</div>
@@ -40,9 +40,9 @@ const Unlockable = ({ lobby: { lobby }, isTiny, className, unlockableInterface, 
     })
   }, [])
 
-  const isUnlocked = unlockableInterface['all'] || idAliases.every((aliases) => {
+  const isUnlocked = unlockableInterfaceIds['all'] || idAliases.every((aliases) => {
     return aliases.some((alias) => {
-      return unlockableInterface[alias]
+      return unlockableInterfaceIds[alias]
     })
   })
 
@@ -65,7 +65,7 @@ const Unlockable = ({ lobby: { lobby }, isTiny, className, unlockableInterface, 
       })
     } else {
       return idAliases[0].map((id) => {
-        if(unlockableInterface[id]) {
+        if(unlockableInterfaceIds[id]) {
           return <MenuItem key={id} onClick={() => {
             lockInterfaceId(id)
             closeMenu()
@@ -108,6 +108,10 @@ const Unlockable = ({ lobby: { lobby }, isTiny, className, unlockableInterface, 
   if(isUnlocked) {
     return <div className={className}>{children}</div>
   }
+
+  if(hideIfLocked) {
+    return null
+  }
   
   // IF LOCKED UP THEN JUST SHOW A BLACK WALL
   return <div className={className + " Unlockable Unlockable--locked"}>
@@ -119,7 +123,7 @@ const Unlockable = ({ lobby: { lobby }, isTiny, className, unlockableInterface, 
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  unlockableInterface: state.unlockableInterface,
+  unlockableInterfaceIds: state.unlockableInterfaceIds,
   auth: state.auth,
   lobby: state.lobby
 });

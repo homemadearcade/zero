@@ -6,7 +6,7 @@ export function getRemoteStatePackage(state) {
     editor: state.editor,
     editorForms: state.editorForms,
     editorInstance: state.editorInstance,
-    unlockableInterface: state.unlockableInterface,
+    unlockableInterfaceIds: state.unlockableInterfaceIds,
     contextMenu: state.contextMenu
   }
 }
@@ -26,8 +26,8 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.video
     } else if(propName === 'editorInstance') {
       prev[propName] = remoteState.editorInstance
-    } else if(propName === 'unlockableInterface') {
-      prev[propName] = remoteState.unlockableInterface
+    } else if(propName === 'unlockableInterfaceIds') {
+      prev[propName] = remoteState.unlockableInterfaceIds
     } 
      // else if(propName === 'contextMenu') {
     //   prev[propName] = remoteState.contextMenu
@@ -58,6 +58,14 @@ export function getCobrowsingState() {
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
     video: remoteState.video,
-    unlockableInterface: remoteState.unlockableInterface
+    unlockableInterfaceIds: remoteState.unlockableInterfaceIDs
   }
 }
+
+export function hasUnlockedInterfaceId(id, unlockedInterfaceIds) {
+  return Object.keys(unlockedInterfaceIds).some((key) => {
+    if(!unlockedInterfaceIds[key]) return false
+    console.log(key, id, key.indexOf(id))
+    if(key.indexOf(id) >= 0) return true
+  })
+} 

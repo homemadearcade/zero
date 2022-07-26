@@ -33,5 +33,5 @@ export default combineReducers({
   editorForms: editorFormsReducer,
   editorInstance: editorInstanceReducer,
   contextMenu: contextMenuReducer,
-  unlockableInterface: unlockableInterfaceReducer
+  unlockableInterfaceIds: unlockableInterfaceReducer
 });

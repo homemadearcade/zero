@@ -3,20 +3,25 @@ import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 
 import { openLivePhysicsEditor, openLiveCameraEditor } from '../../store/actions/editorActions';
+import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
 const ClassContextMenu = ({ openLivePhysicsEditor, openLiveCameraEditor, onMenuItemClick,  game: { gameModel }, classId }) => {
   const objectClass = gameModel.classes[classId]
 
-return <>
-    <MenuItem onClick={() => {
-      openLivePhysicsEditor(classId)
-      onMenuItemClick()
-    }}>Edit Physics</MenuItem>
-    {objectClass?.camera &&
+  return <>
+    <Unlockable interfaceId="contextMenu/class/physics">
       <MenuItem onClick={() => {
-      openLiveCameraEditor(classId)
-      onMenuItemClick()
-      }}>Edit Camera</MenuItem>
+        openLivePhysicsEditor(classId)
+        onMenuItemClick()
+      }}>Edit Physics</MenuItem>
+    </Unlockable>
+    {objectClass?.camera &&
+      <Unlockable interfaceId="contextMenu/class/camera">
+        <MenuItem onClick={() => {
+          openLiveCameraEditor(classId)
+          onMenuItemClick()
+        }}>Edit Camera</MenuItem>
+      </Unlockable>
     }
   </>
 };

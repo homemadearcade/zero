@@ -30,7 +30,7 @@ const initialState = {
     editorForms: initialEditorFormsState,
     editorInstance: initialEditorInstanceState,
     contextMenu: initialContextMenuState,
-    unlockableInterface: initialUnlockableInterfaceState
+    unlockableInterfaceIds: initialUnlockableInterfaceState
   },
 };
 
