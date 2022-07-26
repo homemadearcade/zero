@@ -11,6 +11,7 @@ import {
   UNSUBSCRIBE_COBROWSING_FAIL,
   ON_COBROWSING_UPDATE,
 } from '../types';
+import { initialContextMenuState } from './contextMenuReducer';
 import { initialEditorState } from './editorFormsReducer';
 import { initialEditorInstanceState } from './editorInstanceReducer';
 import { initialEditorFormsState } from './editorReducer';
@@ -25,7 +26,8 @@ const initialState = {
     video: initialVideoState,
     editor: initialEditorState,
     editorForms: initialEditorFormsState,
-    editorInstance: initialEditorInstanceState
+    editorInstance: initialEditorInstanceState,
+    contextMenu: initialContextMenuState
   },
 };
 

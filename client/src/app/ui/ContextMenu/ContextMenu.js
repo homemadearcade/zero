@@ -6,46 +6,24 @@ import { closeContextMenu } from '../../../store/actions/contextMenuActions';
 import './ContextMenu.scss';
 
 import Menu from '@mui/material/Menu';
-import ObjectInstanceContextMenu from '../../../game/ObjectInstanceContextMenu/ObjectInstanceContextMenu';
-import ClassContextMenu from '../../../game/ClassContextMenu/ClassContextMenu';
-import WorldContextMenu from '../../../game/WorldContextMenu/WorldContextMenu';
-import { HERO_INSTANCE_ID } from '../../../constants';
 
-const ContextMenu = ({ closeContextMenu, contextMenu: { contextMenuX, contextMenuY, isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu } }) => {  
-  function handleClose() {
-    closeContextMenu()
-  }
-
-  function _renderBody() {
-    if(classIdSelectedContextMenu || objectIdSelectedContextMenu === HERO_INSTANCE_ID) {
-      return <ClassContextMenu classId={classIdSelectedContextMenu} onMenuItemClick={handleClose}/>
-    } else if(objectIdSelectedContextMenu) {
-        return <ObjectInstanceContextMenu onMenuItemClick={handleClose} objectId={objectIdSelectedContextMenu} />
-  } else {
-      return <WorldContextMenu onMenuItemClick={handleClose}/>
-    }
-  }
-
+const ContextMenu = ({ closeContextMenu, contextMenuX, contextMenuY, isOpen, children }) => {  
   return (
-     <>
-      <Menu
-        open={isContextMenuOpen}
-        onClose={handleClose}
-        anchorReference="anchorPosition"
-        anchorPosition={
-          isContextMenuOpen
-            ? { top: contextMenuY, left: contextMenuX }
-            : undefined
-        }
-      >
-        {_renderBody()}
-      </Menu>
-    </>
+    <Menu
+      open={isOpen}
+      onClose={closeContextMenu}
+      anchorReference="anchorPosition"
+      anchorPosition={
+        isOpen
+          ? { top: contextMenuY, left: contextMenuX }
+          : undefined
+      }
+    >
+      {children}
+    </Menu>
   )
 }
 
-const mapStateToProps = (state) => ({
-  contextMenu: state.contextMenu
-})
+const mapStateToProps = (state) => ({})
 
 export default connect(mapStateToProps, { closeContextMenu })(ContextMenu);

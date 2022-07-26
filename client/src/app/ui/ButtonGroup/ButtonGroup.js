@@ -34,8 +34,6 @@ const ButtonGroup = ({ onSelectOption, formLabel, options, initialOption = 'norm
   );
 };
 
-const mapStateToProps = (state) => ({
-  editor: state.editor
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { })(ButtonGroup);

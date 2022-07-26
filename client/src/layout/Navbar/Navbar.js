@@ -2,9 +2,9 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Link from '../Link/Link';
+import Link from '../../app/ui/Link/Link';
 
-import { logOutUser } from '../../../store/actions/authActions';
+import { logOutUser } from '../../store/actions/authActions';
 import './styles.css';
 
 const Navbar = ({ auth, logOutUser, history }) => {

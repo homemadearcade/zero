@@ -33,6 +33,7 @@ import ErrorHandler from './app/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
 import { checkIfTabAlreadyOpen } from './utils/browser';
+import ContextMenus from './app/cobrowsing/ContextMenus/ContextMenus';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -146,6 +147,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
     <ThemeProvider theme={theme}>
       <>
         <ErrorHandler/>
+        <ContextMenus/>
         {isCheckingBrowser && <Loader text="Checking Browser..."/>}
         {!auth.appLoaded && <Loader text="App Loading..."/>}
         {auth.appLoaded && <Router>
