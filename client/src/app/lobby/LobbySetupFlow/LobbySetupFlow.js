@@ -16,27 +16,12 @@ import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinear
 import UserStatus from '../../UserStatus/UserStatus';
 import Icon from '../../ui/Icon/Icon';
 
-// {lobby.isGamePoweredOn && <Button
-//   type="button"
-//   variant="contained"
-//   onClick={() => {
-//     editLobby(lobby.id, {
-//       isGamePoweredOn:false
-//     })
-//     unloadGame()
-//   }}
-// >
-//   End game
-// </Button>}
-
 const LobbySetupFlow = ({
   addGame,
   editLobby,
   assignLobbyRole,
-  unloadGame,
   lobby: { lobby },
 }) => {
-
   function renderAssignRoles() {
     return <div className="LobbySetupFlow__roles">
       {lobby.users.map((user) => {
@@ -95,7 +80,7 @@ const LobbySetupFlow = ({
         {
           id: 'Confirm Roles',
           title: <Typography component="h5" variant="h5">Assign Roles</Typography>,
-          instructions: renderAssignRoles()
+          instructions: !lobby.isGamePoweredOn ? renderAssignRoles() : <Typography component="h5" variant="h5">You can not assign roles while a game is powered on</Typography>
         },
         {
           id: 'Confirm Game',

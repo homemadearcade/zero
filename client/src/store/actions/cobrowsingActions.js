@@ -17,6 +17,7 @@ import {
   ON_COBROWSING_SUBSCRIBED,
   ON_COBROWSING_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
+  ON_COBROWSING_REMOTE_DISPATCH,
 } from '../types';
 
 import store from '..';
@@ -101,6 +102,8 @@ export const handleCobrowsingUpdates = store => next => action => {
   if(action.updateCobrowsing && state.lobby.lobby?.id) {
 
     if(state.cobrowsing.isSubscribedCobrowsing) {
+      const options = attachTokenToHeaders(store.getState);
+      axios.put('/api/cobrowsing/dispatch/' + state.cobrowsing.cobrowsingUser.id, { dispatchData: result }, options);
       return null
     }
 
@@ -130,6 +133,11 @@ export const publishCobrowsing = () => (dispatch, getState) => {
       }
     });
 
+    // event that is triggered if cobrowsing has been registered
+    window.socket.on(ON_COBROWSING_REMOTE_DISPATCH, ({dispatchData}) => {
+      dispatch(dispatchData);
+    });
+
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
       dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
@@ -148,9 +156,10 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 
 export const unpublishCobrowsing = () => (dispatch, getState) => {
   try {
-    window.socket.off(ON_COBROWSING_SUBSCRIBED);
     window.removeEventListener('mousemove', sendCobrowsingStatus);
     window.removeEventListener('keyup', onEditorKeyUp)
+    window.socket.off(ON_COBROWSING_SUBSCRIBED);
+    window.socket.off(ON_COBROWSING_REMOTE_DISPATCH)
 
     dispatch({
       type: END_COBROWSING_SUCCESS,

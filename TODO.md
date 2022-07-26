@@ -5,6 +5,7 @@ Edit Mode
 Lobby Steps
 Zoom Slider
 What does Unlockable really look like?
+So all this cobrowsing click together crap, does it all work the way we want it to?
 
 --
 
@@ -34,8 +35,6 @@ UNDO
 
 TODO LATER
 
-Context Menu cobrowsing
-
 Zoom Slider
 
 VALIDATION ON ALL FORMS
@@ -43,8 +42,6 @@ VALIDATION ON ALL FORMS
 FOLDING/UNFOLDING organization
 
 choose background color
-
-COBROWSING_RPC
 
 right click brush - copy to layer X, delete, open in sprite editor
 
@@ -70,7 +67,6 @@ add Login and Signup components to withAuth - update lobby find
 
 Theres two problems with cobrowsing to think about
 1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user
-2) When clicking on a button while cobrowsing, how do we dispatch the remote event?
 
 Cobrowsing Click event
 

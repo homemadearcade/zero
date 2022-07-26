@@ -54,8 +54,6 @@ export class GameHostScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta)
 
-    console.log('updating host')
-
     const lobby = store.getState().lobby.lobby
     if(lobby.id) {
 

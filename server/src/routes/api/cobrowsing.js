@@ -4,7 +4,7 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-import { ON_COBROWSING_UPDATE, ON_COBROWSING_SUBSCRIBED } from '../../constants';
+import { ON_COBROWSING_UPDATE, ON_COBROWSING_SUBSCRIBED, ON_COBROWSING_REMOTE_DISPATCH } from '../../constants';
 
 const router = Router();
 
@@ -51,6 +51,25 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       userId: req.params.id,
       remoteState: req.body.remoteState
     });
+
+    res.status(200).send();
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong. ' + err });
+  }
+});
+
+router.put('/dispatch/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
+  try {
+    if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
+      return res.status(400).json({ message: 'You do not have privileges to update this users cobrowse state.' });
+    }
+
+    const socketSession = req.app.get('socketSessions').findSession(req.params.id)
+    socketSession.emit(ON_COBROWSING_REMOTE_DISPATCH, {
+      dispatchData: req.body.dispatchData
+    });
+
+    console.log(req.body.dispatchData)
 
     res.status(200).send();
   } catch (err) {
