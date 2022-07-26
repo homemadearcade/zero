@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 import './BrushItem.scss';
 import classNames from 'classnames';
-import { selectBrush, openContextMenuFromClassId, clearBrush } from '../../store/actions/editorActions';
+import { selectBrush, clearBrush } from '../../store/actions/editorActions';
+import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import Sprite from '../ui/Sprite/Sprite';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 

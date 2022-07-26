@@ -4,6 +4,7 @@ Camera Drag vs WASD vs Arrow Keys. Controls conversation
 Edit Mode
 Lobby Steps
 Zoom Slider
+What does Unlockable really look like?
 
 --
 
@@ -32,6 +33,8 @@ UNDO
 --------
 
 TODO LATER
+
+Context Menu cobrowsing
 
 Zoom Slider
 
@@ -69,12 +72,11 @@ Theres two problems with cobrowsing to think about
 1) When we are checking something about the user, such as if they are admin or not. Do we check local or remote user
 2) When clicking on a button while cobrowsing, how do we dispatch the remote event?
 
-Cobrowsing Click event, cobrowsing scroll
+Cobrowsing Click event
 
 Better error handling locally and with cobrowsing, perhaps have just one error array and make sure that array is shared in cobrowsing as well
 
 Unauthenticate socket when logging out
-
 
 --------
 

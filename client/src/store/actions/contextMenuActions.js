@@ -1,19 +1,20 @@
 import { 
   OPEN_CONTEXT_MENU,
   CLOSE_CONTEXT_MENU,
-  OPEN_LIVE_PHYSICS_EDITOR,
-  OPEN_LIVE_WORLD_EDITOR,
-  OPEN_LIVE_CAMERA_EDITOR,
-  CLOSE_LIVE_EDITOR,
-  SELECT_CLASS,
-  CLEAR_CLASS,
-  SELECT_BRUSH,
-  CLEAR_BRUSH,
-  UPDATE_BRUSH_SIZE,
-  CLEAR_EDITOR,
-  CHANGE_EDITOR_CAMERA_ZOOM
 } from '../types';
 
+
+export const openUnlockableContextMenu = (event, unlockableIds) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CONTEXT_MENU,
+    payload: {
+      unlockableIds,
+      contextMenuX: event.pageX,
+      contextMenuY: event.pageY
+    }
+  });
+}
 
 export const openWorldContextMenu = (event) => (dispatch, getState) => {
   dispatch({
@@ -25,6 +26,7 @@ export const openWorldContextMenu = (event) => (dispatch, getState) => {
     }
   });
 }
+
 export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,

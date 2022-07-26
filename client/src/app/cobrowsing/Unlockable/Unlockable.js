@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import './Unlockable.scss';
 import Icon from '../../ui/Icon/Icon';
+import { openUnlockableContextMenu } from '../../../store/actions/contextMenuActions';
 
 const Unlockable = ({ unlockableInterface, interfaceId, children, isSlider, auth: { me }, openUnlockableContextMenu }) => {
   const ids = interfaceId.split(' ')
@@ -31,24 +32,33 @@ const Unlockable = ({ unlockableInterface, interfaceId, children, isSlider, auth
     return <div className={classNames("Unlockable__menu")} onClick={(event) => {
       openUnlockableContextMenu(event)
     }}>
-      <Icon icon={isUnlocked ? "faUnlock" : "faLock"} />
+      <Icon  size="sm" icon={isUnlocked ? "faUnlock" : "faLock"} />
     </div>
   }
 
-  if(isUnlocked) {
-    return <div className="Unlockable Unlockable--unlocked">
-      {children}
-      <UnlockableMenu/>
-    </div>
-  }
 
   if(me.role === 'ADMIN') {
+    if(isUnlocked) {
+      return <div className="Unlockable Unlockable--unlocked">
+        {children}
+        <UnlockableMenu/>
+      </div>
+    }
+
+    // IF UNLOCKED AS THE ADMIN THEN STILL SHOW MENU
     return <div className="Unlockable Unlockable--admin">
       {children}
       <UnlockableMenu/>
     </div>
   }
 
+
+  // FOR NON ADMINS, if UNLOCKED, JUST SHOW THE COMPONENT
+  if(isUnlocked) {
+    return children
+  }
+  
+  // IF LOCKED UP THEN JUST SHOW A BLACK WALL
   return <div className="Unlockable Unlockable--locked">
     {children}
     <div className={classNames("Unlockable__cover", {'Unlockable__cover--slider': isSlider})}>

@@ -3,27 +3,26 @@ import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 
 import { openLivePhysicsEditor, openLiveCameraEditor } from '../../store/actions/editorActions';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const ClassContextMenu = ({ openLivePhysicsEditor, openLiveCameraEditor, onMenuItemClick,  game: { gameModel },  editor: { classIdSelectedContextMenu }}) => {
-  const objectClass = gameModel.classes[classIdSelectedContextMenu]
-  return <>
+const ClassContextMenu = ({ openLivePhysicsEditor, openLiveCameraEditor, onMenuItemClick,  game: { gameModel }, classId }) => {
+  const objectClass = gameModel.classes[classId]
+
+return <>
     <MenuItem onClick={() => {
-      openLivePhysicsEditor(classIdSelectedContextMenu)
+      openLivePhysicsEditor(classId)
       onMenuItemClick()
     }}>Edit Physics</MenuItem>
     {objectClass?.camera &&
       <MenuItem onClick={() => {
-      openLiveCameraEditor(classIdSelectedContextMenu)
+      openLiveCameraEditor(classId)
       onMenuItemClick()
       }}>Edit Camera</MenuItem>
     }
   </>
 };
 
-const mapStateToProps = (state) => mapCobrowsingState(state, {
+const mapStateToProps = (state) => ({
   game: state.game,
-  editor: state.editor,
 })
 
 export default connect(mapStateToProps, { openLiveCameraEditor, openLivePhysicsEditor })(ClassContextMenu);

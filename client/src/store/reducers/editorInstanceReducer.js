@@ -20,7 +20,6 @@ const initialState = {
 
 export const initialEditorInstanceState = initialState
 
-
 export default function editorInstanceReducer(state = initialState, { type, payload }) {
   switch (type) {
     // case RESET_GAME_INSTANCE:

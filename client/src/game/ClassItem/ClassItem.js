@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 
 import './ClassItem.scss';
 import classNames from 'classnames';
-import { clearClass, selectClass, openContextMenuFromClassId } from '../../store/actions/editorActions';
+import { clearClass, selectClass } from '../../store/actions/editorActions';
 import Sprite from '../ui/Sprite/Sprite';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 
 const ClassItem = ({
   game: { gameModel: { classes } },

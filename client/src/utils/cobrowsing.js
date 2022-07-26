@@ -5,7 +5,8 @@ export function getRemoteStatePackage(state) {
     video: state.video,
     editor: state.editor,
     editorForms: state.editorForms,
-    editorInstance: state.editorInstance
+    editorInstance: state.editorInstance,
+    contextMenu: state.contextMenu
   }
 }
 
@@ -23,6 +24,8 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.video
     } else if(propName === 'editorInstance') {
       prev[propName] = remoteState.editorInstance
+    } else if(propName === 'contextMenu') {
+      prev[propName] = remoteState.contextMenu
     }
 
     return prev 
@@ -50,5 +53,6 @@ export function getCobrowsingState() {
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
     video: remoteState.video,
+    contextMenu: remoteState.contextMenu
   }
 }
