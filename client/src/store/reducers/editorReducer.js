@@ -19,11 +19,11 @@ const initialState = {
   contextMenuX: null,
   contextMenuY: null,
   error: null,
-  objectSelectedIdContextMenu: null,
-  brushSelectedIdBrushList: null,
-  classSelectedIdClassList: null,
-  classSelectedIdLiveEditor: null,
-  classSelectedIdContextMenu: null,
+  objectIdSelectedContextMenu: null,
+  brushIdSelectedBrushList: null,
+  classIdSelectedClassList: null,
+  classIdSelectedLiveEditor: null,
+  classIdSelectedContextMenu: null,
   selectableObjectIds: null,
   isContextMenuOpen: false,
   isLiveEditorOpen: false,
@@ -51,24 +51,24 @@ export default function editorReducer(state = initialState, { type, payload }) {
     case SELECT_CLASS: 
       return {
         ...state,
-        brushSelectedIdBrushList: null,
-        classSelectedIdClassList: payload.classSelectedIdClassList
+        brushIdSelectedBrushList: null,
+        classIdSelectedClassList: payload.classIdSelectedClassList
       }
     case CLEAR_CLASS:
        return {
          ...state,
-          classSelectedIdClassList: null
+          classIdSelectedClassList: null
        }
     case SELECT_BRUSH: 
       return {
         ...state,
-        classSelectedIdClassList: null,
-        brushSelectedIdBrushList: payload.brushSelectedIdBrushList
+        classIdSelectedClassList: null,
+        brushIdSelectedBrushList: payload.brushIdSelectedBrushList
       }
     case CLEAR_BRUSH:
       return {
         ...state,
-        brushSelectedIdBrushList: null
+        brushIdSelectedBrushList: null
       }
     case OPEN_CONTEXT_MENU:
       return {
@@ -76,8 +76,8 @@ export default function editorReducer(state = initialState, { type, payload }) {
         contextMenuX: payload.contextMenuX,
         contextMenuY: payload.contextMenuY,
         isContextMenuOpen: true,
-        classSelectedIdContextMenu: payload.classSelectedIdContextMenu,
-        objectSelectedIdContextMenu: payload.objectSelectedIdContextMenu,
+        classIdSelectedContextMenu: payload.classIdSelectedContextMenu,
+        objectIdSelectedContextMenu: payload.objectIdSelectedContextMenu,
         selectableObjectIds: payload.selectableObjectIds
       };
     case CLOSE_CONTEXT_MENU:
@@ -85,8 +85,8 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         contextMenuX: null,
         contextMenuY: null,
-        classSelectedIdContextMenu: null,
-        objectSelectedIdContextMenu: null,
+        classIdSelectedContextMenu: null,
+        objectIdSelectedContextMenu: null,
         selectableObjectIds: null,
         isContextMenuOpen: false
       };
@@ -95,14 +95,14 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         isLiveEditorOpen: true,
         liveEditingCategory: 'physics',
-        classSelectedIdLiveEditor: payload.classSelectedIdLiveEditor,
+        classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
       };
     case OPEN_LIVE_CAMERA_EDITOR:
       return {
         ...state,
         isLiveEditorOpen: true,
         liveEditingCategory: 'camera',
-        classSelectedIdLiveEditor: payload.classSelectedIdLiveEditor,
+        classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
       };
     case OPEN_LIVE_WORLD_EDITOR:
       return {
@@ -113,7 +113,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
     case CLOSE_LIVE_EDITOR:
       return {
           ...state,
-        classSelectedIdLiveEditor: null,
+        classIdSelectedLiveEditor: null,
         isLiveEditorOpen: false,
         liveEditingCategory: null
       };

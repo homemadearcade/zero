@@ -5,16 +5,16 @@ import MenuItem from '@mui/material/MenuItem';
 import { openLivePhysicsEditor, openLiveCameraEditor } from '../../store/actions/editorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const ClassContextMenu = ({ openLivePhysicsEditor, openLiveCameraEditor, onMenuItemClick,  game: { gameModel },  editor: { classSelectedIdContextMenu }}) => {
-  const objectClass = gameModel.classes[classSelectedIdContextMenu]
+const ClassContextMenu = ({ openLivePhysicsEditor, openLiveCameraEditor, onMenuItemClick,  game: { gameModel },  editor: { classIdSelectedContextMenu }}) => {
+  const objectClass = gameModel.classes[classIdSelectedContextMenu]
   return <>
     <MenuItem onClick={() => {
-      openLivePhysicsEditor(classSelectedIdContextMenu)
+      openLivePhysicsEditor(classIdSelectedContextMenu)
       onMenuItemClick()
     }}>Edit Physics</MenuItem>
     {objectClass?.camera &&
       <MenuItem onClick={() => {
-      openLiveCameraEditor(classSelectedIdContextMenu)
+      openLiveCameraEditor(classIdSelectedContextMenu)
       onMenuItemClick()
       }}>Edit Camera</MenuItem>
     }

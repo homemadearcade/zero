@@ -12,7 +12,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 const BrushItem = ({
   game: { gameModel: { brushes } },
   brushId,
-  editor: { brushSelectedIdBrushList },
+  editor: { brushIdSelectedBrushList },
   selectBrush,
   clearBrush,
 }) => {
@@ -20,13 +20,13 @@ const BrushItem = ({
   
   return <div
     onClick={() => {
-      if(brushId === brushSelectedIdBrushList) {
+      if(brushId === brushIdSelectedBrushList) {
         clearBrush()
       } else {
         selectBrush(brushId)
       }
     }}
-    className={classNames("BrushItem", { 'BrushItem--selected': brushSelectedIdBrushList === brushId})}
+    className={classNames("BrushItem", { 'BrushItem--selected': brushIdSelectedBrushList === brushId})}
   >
     {brush.textureId && <Sprite textureId={brush.textureId} width={50} height={50}/>}
   </div>

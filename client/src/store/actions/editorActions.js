@@ -19,7 +19,7 @@ export const selectClass = (classId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: SELECT_CLASS,
     payload: {
-      classSelectedIdClassList: classId, 
+      classIdSelectedClassList: classId, 
     }
   });
 }
@@ -46,7 +46,7 @@ export const selectBrush = (brushId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: SELECT_BRUSH,
     payload: {
-      brushSelectedIdBrushList: brushId, 
+      brushIdSelectedBrushList: brushId, 
     }
   });
 }
@@ -84,8 +84,8 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
     updateCobrowsing: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      classSelectedIdContextMenu: gameObjects[0].classId, 
-      objectSelectedIdContextMenu: gameObjects[0].id,
+      classIdSelectedContextMenu: gameObjects[0].classId, 
+      objectIdSelectedContextMenu: gameObjects[0].id,
       // objectSelectedId: gameObjects.length === 1 ? gameObjects[0].id : null, 
       selectableObjectIds: gameObjects.length > 1 ? gameObjects.map(({id}) => id) : null, 
       contextMenuX: event.pageX,
@@ -99,7 +99,7 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
     updateCobrowsing: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      classSelectedIdContextMenu: classId, 
+      classIdSelectedContextMenu: classId, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }
@@ -118,7 +118,7 @@ export const openLivePhysicsEditor = (classId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: OPEN_LIVE_PHYSICS_EDITOR,
     payload: {
-      classSelectedIdLiveEditor: classId, 
+      classIdSelectedLiveEditor: classId, 
     }
   });
 }
@@ -128,7 +128,7 @@ export const openLiveCameraEditor = (classId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: OPEN_LIVE_CAMERA_EDITOR,
     payload: {
-      classSelectedIdLiveEditor: classId, 
+      classIdSelectedLiveEditor: classId, 
     }
   });
 }

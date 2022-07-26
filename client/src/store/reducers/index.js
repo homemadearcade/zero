@@ -14,6 +14,7 @@ import gameReducer from './gameReducer';
 import editorReducer from './editorReducer';
 import editorFormsReducer from './editorFormsReducer';
 import editorInstanceReducer from './editorInstanceReducer';
+import unlockableInterfaceReducer from './unlockableInterfaceReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -29,5 +30,6 @@ export default combineReducers({
   game: gameReducer,
   editor: editorReducer,
   editorForms: editorFormsReducer,
-  editorInstance: editorInstanceReducer
+  editorInstance: editorInstanceReducer,
+  unlockableInterface: unlockableInterfaceReducer
 });

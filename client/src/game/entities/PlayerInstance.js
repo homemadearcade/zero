@@ -70,7 +70,7 @@ export class PlayerInstance extends ObjectInstance {
     const y = this.y - cameraSize/2
     this.cameraPreview.update({x, y})
 
-    if(this.scene.isPaused || this.scene.isEditModeOn) return
+    if(this.scene.isPaused) return
 
     if (this.cursors.left.isDown)
     {

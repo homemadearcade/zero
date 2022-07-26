@@ -12,7 +12,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 const ClassItem = ({
   game: { gameModel: { classes } },
   classId,
-  editor: { classSelectedIdClassList },
+  editor: { classIdSelectedClassList },
   selectClass,
   clearClass,
   openContextMenuFromClassId
@@ -23,7 +23,7 @@ const ClassItem = ({
     onClick={() => {
       if(objectClass.type === 'hero') return
 
-      if(classId === classSelectedIdClassList) {
+      if(classId === classIdSelectedClassList) {
         clearClass()
       } else {
         selectClass(classId)
@@ -33,7 +33,7 @@ const ClassItem = ({
       e.preventDefault();
       openContextMenuFromClassId(classId, e)
     }}
-    className={classNames("ClassItem", { 'ClassItem--selected': classSelectedIdClassList === classId})}
+    className={classNames("ClassItem", { 'ClassItem--selected': classIdSelectedClassList === classId})}
   >
     {objectClass.textureId && <Sprite textureId={objectClass.textureId} width={50} height={50}/>}
     {objectClass.name || objectClass.descriptors ? objectClass.descriptors[0] : classId}

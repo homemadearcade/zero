@@ -12,15 +12,15 @@ import WorldContextMenu from '../../../game/WorldContextMenu/WorldContextMenu';
 import { HERO_INSTANCE_ID } from '../../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsing';
 
-const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, isContextMenuOpen, objectSelectedIdContextMenu, classSelectedIdContextMenu } }) => {  
+const ContextMenu = ({ closeContextMenu, editor: { contextMenuX, contextMenuY, isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu } }) => {  
   function handleClose() {
     closeContextMenu()
   }
 
   function _renderBody() {
-    if(classSelectedIdContextMenu || objectSelectedIdContextMenu === HERO_INSTANCE_ID) {
+    if(classIdSelectedContextMenu || objectIdSelectedContextMenu === HERO_INSTANCE_ID) {
       return <ClassContextMenu onMenuItemClick={handleClose}/>
-    } else if(objectSelectedIdContextMenu) {
+    } else if(objectIdSelectedContextMenu) {
         return <ObjectInstanceContextMenu onMenuItemClick={handleClose}/>
     } else {
       return <WorldContextMenu onMenuItemClick={handleClose}/>

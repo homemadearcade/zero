@@ -11,7 +11,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsing';
 import Icon from '../../../app/ui/Icon/Icon';
 
 const EraserSelect = ({
-  editor: { brushSelectedIdBrushList },
+  editor: { brushIdSelectedBrushList },
   layerId,
   selectBrush,
   clearClass,
@@ -21,14 +21,14 @@ const EraserSelect = ({
 
   return <div
     onClick={() => {
-      if(eraserId === brushSelectedIdBrushList) {
+      if(eraserId === brushIdSelectedBrushList) {
         clearBrush()
       } else {
         clearClass()
         selectBrush(eraserId)
       }
     }}
-    className={classNames("EraserSelect", { 'EraserSelect--selected': brushSelectedIdBrushList === eraserId})}
+    className={classNames("EraserSelect", { 'EraserSelect--selected': brushIdSelectedBrushList === eraserId})}
   >
      <Icon icon="faEraser"/>
   </div>

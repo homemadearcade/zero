@@ -12,13 +12,13 @@ import { mapCobrowsingState } from '../../utils/cobrowsing';
 import Icon from '../../app/ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
 
-const LiveEditor = ({ closeLiveEditor, editor: { classSelectedIdLiveEditor, liveEditingCategory } }) => {
+const LiveEditor = ({ closeLiveEditor, editor: { classIdSelectedLiveEditor, liveEditingCategory } }) => {
   return (
     <div className="LiveEditor">
       <div className="LiveEditor__close"><Button onClick={closeLiveEditor}><Icon icon="faClose"/></Button></div>
-      {liveEditingCategory === "physics" && <PhysicsEditor classId={classSelectedIdLiveEditor}/>}
+      {liveEditingCategory === "physics" && <PhysicsEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === "world" && <WorldEditor/>}
-      {liveEditingCategory === "camera" && <CameraEditor classId={classSelectedIdLiveEditor}/>}
+      {liveEditingCategory === "camera" && <CameraEditor classId={classIdSelectedLiveEditor}/>}
     </div>
   );
 };

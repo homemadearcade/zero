@@ -7,10 +7,10 @@ import { editGameModel } from '../../store/actions/gameActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editor: { objectSelectedIdContextMenu }}) => {
+const ObjectInstanceContextMenu = ({ editGameModel, onMenuItemClick, editor: { objectIdSelectedContextMenu }}) => {
   return <>
     <MenuItem onClick={() => {
-      editGameModel({ objects: { [objectSelectedIdContextMenu]: null } })
+      editGameModel({ objects: { [objectIdSelectedContextMenu]: null } })
       onMenuItemClick()
     }}>Delete</MenuItem>
     <ClassContextMenu onMenuItemClick={onMenuItemClick}/>

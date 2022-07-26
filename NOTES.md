@@ -10,7 +10,6 @@ The back end only stores what’s different than the default model and will dele
 
 Never send an update with more data than you need
 
-
 GAME MODEL
 
 Hero

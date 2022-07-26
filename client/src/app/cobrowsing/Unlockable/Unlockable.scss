@@ -1,0 +1,30 @@
+.Unlockable {
+  position: relative;
+
+  // &--admin {
+  //   opacity: 0.5;
+  // }
+
+  &__menu {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    cursor: pointer;
+  }
+
+  &__cover {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--slider {
+      width: 110%;
+      left: -5%;
+    }
+  }
+}

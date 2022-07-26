@@ -87,8 +87,8 @@ export class EditorScene extends GameInstance {
     }
 
     const editor = getCobrowsingState().editor
-    const brushId = editor.brushSelectedIdBrushList
-    const classId = editor.classSelectedIdClassList
+    const brushId = editor.brushIdSelectedBrushList
+    const classId = editor.classIdSelectedClassList
     const gameModel = store.getState().game.gameModel
 
     ////////////////////////////////////////////////////////////
@@ -458,6 +458,7 @@ export class EditorScene extends GameInstance {
         this.gameResetDate = gameResetDate
         this.reload()
       }
+
       const isEditModeOn = lobby.isEditModeOn
       if(isEditModeOn) {
         this.isEditModeOn = true
@@ -465,15 +466,13 @@ export class EditorScene extends GameInstance {
         this.isEditModeOn = false
       }
 
-      if(this.isHost) {
-        const isGamePaused = lobby.isGamePaused
-        if(isGamePaused) {
-          this.isPaused = true
-          this.matter.pause()
-        } else {
-          this.isPaused = false
-          this.matter.resume()
-        }
+      const isGamePaused = lobby.isGamePaused
+      if(isGamePaused) {
+        this.isPaused = true
+        this.matter.pause()
+      } else {
+        this.isPaused = false
+        this.matter.resume()
       }
     }
     
