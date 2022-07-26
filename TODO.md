@@ -1,14 +1,15 @@
 CONVERSATION TOPICS
 
+Camera Drag vs WASD vs Arrow Keys. Controls conversation
+Edit Mode
+Lobby Steps
+Zoom Slider
+
 --
 
 TODO NEXT
 
 2) Unlockable UI
-
-3) CAMERA
-Drag Camera
-Zoom Slider
 
 4) DRAWING
   Tinting
@@ -21,7 +22,7 @@ FOR EACH BRUSH LAYER
 color squares ( with most commonly used colors ) with a + add the end that opens color selector
 + for fresh sprite open in sprite editor inside brush and class creation
 
-GAME SIZE
+GAME SIZE/BOUNDARY
 CONTROLS - speed, other phaser examples, etc
 RELATIONSHIP SYSTEM
 DIALOGUE, CUTSCENES
@@ -31,12 +32,15 @@ BEHAVIORS
 
 TODO LATER
 
+Zoom Slider
+
 VALIDATION ON ALL FORMS
 
 FOLDING/UNFOLDING organization
+
 choose background color
 
-COBROWING_RPC
+COBROWSING_RPC
 
 right click brush - copy to layer X, delete, open in sprite editor
 
@@ -52,6 +56,10 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 TODO EVENTUALLY...
 
+Lock to cobrowsers camera
+
+Popup for connection errors
+
 remove brush 9 and 22.5 when you're not in the top layer
 
 add Login and Signup components to withAuth - update lobby find
@@ -62,13 +70,10 @@ Theres two problems with cobrowsing to think about
 
 Cobrowsing Click event, cobrowsing scroll
 
-Popup for connection errors
-
 Better error handling locally and with cobrowsing, perhaps have just one error array and make sure that array is shared in cobrowsing as well
 
 Unauthenticate socket when logging out
 
-then perhaps find the right way to do custom coding - collision, events? paths? etc
 
 --------
 
@@ -78,11 +83,15 @@ Mobile
 
 Blockchain NFT editing thing
 
-TAB + for moving through the UI
+then perhaps find the right way to do custom coding - collision, events? paths? etc
+
+TAB + for moving through the UI ( other keyboard shortcuts )
 
 --------
 
 TO RESEARCH
+
+https://phaser.discourse.group/t/phaser-coding-tips-3-ride-on-platforms-revisited/11520
 
 https://blog.logrocket.com/using-material-ui-with-react-hook-form/
 

@@ -26,6 +26,7 @@ export class EditorScene extends GameInstance {
     this.isEditModeOn = false
     this.editorCamera = null
     this.remoteEditors = []
+    this.cameraDragStart = null
   }
   
   ////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ export class EditorScene extends GameInstance {
       const { snappedX, snappedY } = snapObjectXY({x: dragX, y: dragY}, objectClass)
       objectInstance.x = snappedX;
       objectInstance.y = snappedY;
-    } else if(!this.brush && !this.stamper){
+    } else if(!this.brush && !this.stamper && !this.cameraDragStart){
       this.draggingObjectInstanceId = objectInstance.id
     }
   }
@@ -74,6 +75,16 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   onPointerMove = (pointer)  => {
     window.pointer = pointer
+
+    if(this.cameraDragStart && !this.brush && !this.stamper) {
+      const cameraZoom = getCobrowsingState().editor.cameraZoom
+      const deltaX = (this.cameraDragStart.x - pointer.x)/cameraZoom
+      const deltaY = (this.cameraDragStart.y - pointer.y)/cameraZoom
+      let scrollX = this.cameraDragStart.startScrollX + deltaX 
+      let scrollY = this.cameraDragStart.startScrollY + deltaY
+      this.editorCamera.setScroll(scrollX, scrollY)
+      this.input.setDefaultCursor('grabbing');
+    }
 
     const editor = getCobrowsingState().editor
     const brushId = editor.brushSelectedIdBrushList
@@ -120,6 +131,7 @@ export class EditorScene extends GameInstance {
     if(this.stamper) {
       this.stamper.update(pointer)
     }
+
   }
 
   onPointerOver = (pointer, objectInstances) => {
@@ -147,11 +159,19 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    if(pointer.leftButtonDown() && this.brush) {
-      this.canvas = this.getLayerById(this.brush.getLayerId())
-      if(this.canvas) {
-        this.brush.stroke(pointer, this.canvas)
+    if(pointer.leftButtonDown()) {
+      if(this.brush) {
+        this.canvas = this.getLayerById(this.brush.getLayerId())
+        if(this.canvas) {
+          this.brush.stroke(pointer, this.canvas)
+        }
+      } else if(!gameObjects.length && this.isEditModeOn && !this.cameraDragStart) {
+
+        // PREVENTING CAMERA DRAG FUNCTIONALITY FOR NOW
+        // const editorCamera = this.editorCamera
+        // this.cameraDragStart = { x: pointer.x, y: pointer.y, startScrollX: editorCamera.scrollX, startScrollY: editorCamera.scrollY }
       }
+
     }
   }
 
@@ -161,6 +181,8 @@ export class EditorScene extends GameInstance {
     }
 
     this.draggingObjectInstanceId = null
+    this.cameraDragStart = null
+    this.input.setDefaultCursor('default');
 
     if(this.canvas) {
       this.onStrokeComplete()
@@ -179,9 +201,26 @@ export class EditorScene extends GameInstance {
 
   onPointerUpOutside = (pointer, objectInstances)  => {
     this.draggingObjectInstanceId = null
+    this.cameraDragStart = null
 
     if(this.canvas) {
       this.onStrokeComplete()
+    }
+  }
+
+  onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+    if(this.draggingObjectInstanceId || this.cameraDragStart) return
+
+    window.pointer = pointer
+    const zoomUpdate = (deltaY * 0.001)
+    const newZoom = this.editorCamera.zoom - zoomUpdate
+
+    if(newZoom <= 1) {
+      store.dispatch(changeEditorCameraZoom(1))
+    } else if(newZoom >= 10) {
+      store.dispatch(changeEditorCameraZoom(10))
+    } else {
+      store.dispatch(changeEditorCameraZoom(newZoom))
     }
   }
   
@@ -334,20 +373,6 @@ export class EditorScene extends GameInstance {
     })
   }
 
-  onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
-    window.pointer = pointer
-    const zoomUpdate = (deltaY * 0.001)
-    const newZoom = this.editorCamera.zoom - zoomUpdate
-
-    if(newZoom <= 1) {
-      store.dispatch(changeEditorCameraZoom(1))
-    } else if(newZoom >= 10) {
-      store.dispatch(changeEditorCameraZoom(10))
-    } else {
-      store.dispatch(changeEditorCameraZoom(newZoom))
-    }
-  }
-
   create() {
     super.create()
 
@@ -371,39 +396,18 @@ export class EditorScene extends GameInstance {
     })
     
     this.editorCamera = this.cameras.getCamera('editor')
-
-    const cursors = this.input.keyboard.createCursorKeys();
+    var keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
     const controlConfig = {
       camera: this.editorCamera,
-      left: cursors.left,
-      right: cursors.right,
-      up: cursors.up,
-      down: cursors.down,
+      left: keys.left,
+      right: keys.right,
+      up: keys.up,
+      down: keys.down,
       acceleration: 0.03,
       drag: 0.001,
       maxSpeed: 0.5
     };
     this.cameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
-    
-    // const minimapCameraPercent = 0.2
-    // this.cameras.fromJSON({
-    //   name: 'mini',
-    //   x: gameWidth - gameWidth * minimapCameraPercent,
-    //   y: gameHeight - gameHeight * minimapCameraPercent,
-    //   width: gameWidth * minimapCameraPercent,
-    //   height: gameHeight * minimapCameraPercent,
-    //   zoom: minimapCameraPercent,
-    //   rotation: 0,
-    //   scrollX: gameWidth/2,
-    //   scrollY: gameHeight/2,
-    //   roundPixels: false,
-    //   visible: true,
-    //   backgroundColor: 'black',
-    //   bounds: {x: 0, y: 0, width: gameWidth, height: gameHeight},
-    // })
-    // this.minimapCamera = this.cameras.getCamera('mini')
-    // this.minimapCamera.ignore(this.grid)
-    // this.minimapCamera.ignore(this.grid2)
 
     this.input.on('pointerover', this.onPointerOver);
     this.input.on('pointerout', this.onPointerOut);

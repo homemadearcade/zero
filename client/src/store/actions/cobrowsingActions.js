@@ -23,7 +23,7 @@ import store from '..';
 import { getRemoteStatePackage } from '../../utils/cobrowsing';
 import { getCurrentGameScene } from '../../utils/editor';
 
-const sendMouseState = _.debounce((e) =>  {
+const sendCobrowsingStatus = _.debounce((e) =>  {
   const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
   const viewPadding = (window.innerWidth - viewWidth)/2
   const xPercent = (e.clientX - viewPadding)/viewWidth
@@ -58,7 +58,6 @@ const sendMouseState = _.debounce((e) =>  {
   if(state.game.gameInstance && window.pointer) {
     const cameraZoom = state.editor.cameraZoom
     const camera = getCurrentGameScene(state.game.gameInstance).editorCamera
-    console.log(window.pointer)
     cobrowsingStatus.phaserView = {
       mouseWorldX: window.pointer.worldX,
       mouseWorldY: window.pointer.worldY,
@@ -68,9 +67,26 @@ const sendMouseState = _.debounce((e) =>  {
     }
   }
 
-
   window.socket.emit(ON_COBROWSING_STATUS_UPDATE, cobrowsingStatus)
 }, 7)
+
+function onEditorKeyUp(event) {
+  let shouldUpdate = false
+  if(event.key.toLowerCase() === 'w') {
+    shouldUpdate = true
+  } else if(event.key.toLowerCase() === 'a'){
+    shouldUpdate = true
+  } else if(event.key.toLowerCase() === 's'){
+    shouldUpdate = true
+  } else if(event.key.toLowerCase() === 'd'){
+    shouldUpdate = true
+  }
+  if(shouldUpdate){
+    setTimeout(() => {
+      sendCobrowsingStatus(event)
+    }, 500)
+  }
+}
 
 export const handleCobrowsingUpdates = store => next => action => {
   // console.log('dispatching', action)
@@ -99,7 +115,8 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     const user = state.auth.me
 
     // this event will send admins your mouse state to let them know you can be browsed
-    window.addEventListener('mousemove', sendMouseState)
+    window.addEventListener('mousemove', sendCobrowsingStatus)
+    window.addEventListener('keyup', onEditorKeyUp)
 
     dispatch({
       type: START_COBROWSING_SUCCESS,
@@ -127,7 +144,9 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 export const unpublishCobrowsing = () => (dispatch, getState) => {
   try {
     window.socket.off(ON_COBROWSING_SUBSCRIBED);
-    window.removeEventListener('mousemove', sendMouseState);
+    window.removeEventListener('mousemove', sendCobrowsingStatus);
+    window.removeEventListener('keyup', onEditorKeyUp)
+
     dispatch({
       type: END_COBROWSING_SUCCESS,
       payload: {}

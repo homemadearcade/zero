@@ -17,7 +17,7 @@ Hero
 Object ( Game Object )
 Class
 Brush
-Painting
+World
 
 GAME INSTANCE
 
