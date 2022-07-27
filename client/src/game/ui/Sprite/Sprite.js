@@ -38,7 +38,7 @@ export default class Sprite extends React.Component {
       tintStyle = {
         backgroundColor: tinycolor(this.props.tint).toRgbString(),
         backgroundBlendMode: 'multiply',
-        filter: `saturate(200%) hue-rotate(${hue}deg)`
+        filter: `saturate(200%) sepia(100%) hue-rotate(${hue}deg)`
       }
     }
 

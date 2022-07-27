@@ -9,7 +9,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 const ColorSelect = ({
-  colors,
+  colors = [],
   onSelectColor,
   onAddColor,
   selectedColorHex

@@ -1,8 +1,16 @@
 .ClassItem {
   cursor: pointer;
 
-
   &--selected {
     border: 1px solid;
+    .ClassItem__sprite {
+      width: 38px;
+      height: 38px;
+    }
+  }
+
+  &__sprite {
+    width: 40px;
+    height: 40px;
   }
 }

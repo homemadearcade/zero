@@ -12,6 +12,7 @@ import CreateColorFlow from '../../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { openCreateColorFlow } from '../../../store/actions/editorFormsActions';
+import CanvasSprite from '../CanvasSprite/CanvasSprite';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -20,6 +21,8 @@ const SelectSpriteInline = ({
   descriptors,
   onSelect,
   onSelectTint,
+  openCreateColorFlow,
+  editGameModel,
   game: { gameModel : { colors }},
   editorForms: { isCreateColorFlowOpen }
 }) => {
@@ -29,15 +32,13 @@ const SelectSpriteInline = ({
         {formLabel}
       </FormLabel>}
 
-      {!textureIdSelected && 
+      {!textureIdSelected && !tintSelected && 
         <div className="SelectSpriteInline__sprite-missing SelectSpriteInline__sprite"></div>
       }
 
-      {textureIdSelected && 
-        <div className="SelectSpriteInline__sprite">
-          <Sprite tint={tintSelected} textureId={textureIdSelected} width={150} height={150}/>
-        </div>
-      }
+      <div className="SelectSpriteInline__sprite">
+        <CanvasSprite tint={tintSelected} textureId={textureIdSelected} width={150} height={150}/>
+      </div>
 
       <div className="SelectSpriteInline__sprite-list">
         <DescriptorSprites onClickSprite={onSelect} descriptors={descriptors}/>
@@ -66,5 +67,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, {  }),
+  connect(mapStateToProps, { openCreateColorFlow, editGameModel  }),
 )(SelectSpriteInline);

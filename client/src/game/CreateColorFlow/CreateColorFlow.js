@@ -13,7 +13,6 @@ import ColorGrid from '../ui/ColorGrid/ColorGrid';
 const CreateColorFlow = ({ onComplete, updateCreateColor, clearEditorForms, closeCreateColorFlow,  editorForms: { color }}) => {
   function handleClose() {
     closeCreateColorFlow()
-    clearEditorForms()
   }
 
   // onChange={(event, descriptors) => {
