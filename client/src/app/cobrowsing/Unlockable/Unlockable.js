@@ -5,7 +5,8 @@ import classNames from 'classnames';
 
 import './Unlockable.scss';
 import Icon from '../../ui/Icon/Icon';
-import { getInterfaceIdData, mapCobrowsingState } from '../../../utils/cobrowsing';
+import { getInterfaceIdData } from '../../../utils/unlockableInterface';
+import { mapCobrowsingState } from '../../../utils/cobrowsing';
 import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';

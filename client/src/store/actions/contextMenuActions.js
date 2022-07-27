@@ -3,18 +3,17 @@ import {
   CLOSE_CONTEXT_MENU,
 } from '../types';
 
-
-export const openUnlockableContextMenu = (event, unlockableIds) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_CONTEXT_MENU,
-    payload: {
-      unlockableIds,
-      contextMenuX: event.pageX,
-      contextMenuY: event.pageY
-    }
-  });
-}
+// export const openUnlockableContextMenu = (event, unlockableIds) => (dispatch, getState) => {
+//   dispatch({
+//     updateCobrowsing: true,
+//     type: OPEN_CONTEXT_MENU,
+//     payload: {
+//       unlockableIds,
+//       contextMenuX: event.pageX,
+//       contextMenuY: event.pageY
+//     }
+//   });
+// }
 
 export const openWorldContextMenu = (event) => (dispatch, getState) => {
   dispatch({

@@ -14,6 +14,8 @@ So all this cobrowsing click together crap, does it all work the way we want it 
 
 Transparency? Should it be handled by brush or by color?
 
+preventing scroll
+
 --
 
 TODO NEXT
@@ -69,6 +71,8 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 TODO EVENTUALLY
 
 Cobrowsing Click event
+
+Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
 
 Better error handling locally and with cobrowsing, perhaps have just one error array and make sure that array is shared in cobrowsing as well
 
