@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './BrushList.scss';
 import { editGameModel } from '../../store/actions/gameActions';
-import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { openCreateBrushFlow } from '../../store/actions/editorFormsActions';
@@ -17,13 +16,13 @@ import BrushControl from '../BrushControl/BrushControl';
 import EraserSelect from '../ui/EraserSelect/EraserSelect';
 import LayerVisibility from '../ui/LayerVisibility/LayerVisibility';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
-import ColorSelect from '../ui/ColorSelect/ColorSelect';
+import LayerColorSelect from '../LayerColorSelect/LayerColorSelect';
 
 const BrushList = ({
   game: { gameModel },
   editorForms: { isCreateBrushFlowOpen },
   editGameModel,
-  openCreateBrushFlow
+  openCreateBrushFlow,
 }) => {
   const brushes = gameModel?.brushes
 
@@ -42,7 +41,7 @@ const BrushList = ({
     <div className="BrushList">
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
-      <ColorSelect layerId={BACKGROUND_LAYER_ID}/>
+      <LayerColorSelect layerId={BACKGROUND_LAYER_ID}/>
       <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
       <EraserSelect layerId={BACKGROUND_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
@@ -54,7 +53,7 @@ const BrushList = ({
         +
       </Button>
       <Typography component="h5" variant="h5">Playground</Typography>
-      <ColorSelect layerId={PLAYGROUND_LAYER_ID}/>
+      <LayerColorSelect layerId={PLAYGROUND_LAYER_ID}/>
       <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
       <EraserSelect layerId={PLAYGROUND_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
@@ -66,7 +65,7 @@ const BrushList = ({
         +
       </Button>
       <Typography component="h5" variant="h5">Overhead</Typography>
-      <ColorSelect layerId={OVERHEAD_LAYER_ID}/>
+      <LayerColorSelect layerId={OVERHEAD_LAYER_ID}/>
       <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
       <EraserSelect layerId={OVERHEAD_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {

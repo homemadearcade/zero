@@ -22,5 +22,6 @@ export const UI_LAYER_ID = 'UI_LAYER';
 
 export const HERO_INSTANCE_ID = 'HERO_INSTANCE'
 export const ERASER_BRUSH_ID = 'ERASER_BRUSH'
+export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 
 export const CAMERA_PREVIEW_BORDER_SIZE = 4

@@ -6,12 +6,13 @@ import { editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
 import { changeEditorCameraZoom } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID } from '../../constants';
-import { isBrushIdEraser, snapObjectXY } from '../../utils/editor';
+import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editor';
 import { Pencil } from '../entities/Pencil';
 import { Eraser } from '../entities/Eraser';
 import { Stamper } from '../entities/Stamper';
 import { getCobrowsingState } from '../../utils/cobrowsing';
 import { RemoteEditor } from '../entities/RemoteEditor';
+import { Paintbrush } from '../entities/Paintbrush';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -104,6 +105,8 @@ export class EditorScene extends GameInstance {
     if(brushId && !this.brush) {
       if(isBrushIdEraser(brushId)) {
         this.brush = new Eraser(this, brushId)
+      } else if(isBrushIdColor(brushId)) {
+        this.brush = new Paintbrush(this, brushId)
       } else {
         const brush = gameModel.brushes[brushId]
         this.brush = new Pencil(this, brushId, brush)

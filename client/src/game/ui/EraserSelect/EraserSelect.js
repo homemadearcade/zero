@@ -17,7 +17,7 @@ const EraserSelect = ({
   clearClass,
   clearBrush,
 }) => {
-  const eraserId = ERASER_BRUSH_ID + layerId;
+  const eraserId = ERASER_BRUSH_ID + '/' +  layerId;
 
   return <div
     onClick={() => {

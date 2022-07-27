@@ -36,7 +36,7 @@ const ClassItem = ({
     }}
     className={classNames("ClassItem", { 'ClassItem--selected': classIdSelectedClassList === classId})}
   >
-    {objectClass.textureId && <Sprite textureId={objectClass.textureId} width={50} height={50}/>}
+    {objectClass.textureId && <Sprite tint={objectClass.tint} textureId={objectClass.textureId} width={50} height={50}/>}
     {objectClass.name || objectClass.descriptors ? objectClass.descriptors[0] : classId}
   </div>
 };

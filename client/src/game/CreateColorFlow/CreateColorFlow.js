@@ -9,7 +9,6 @@ import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import ColorGrid from '../ui/ColorGrid/ColorGrid';
-import { color } from '@mui/system';
 
 const CreateColorFlow = ({ onComplete, updateCreateColor, clearEditorForms, closeCreateColorFlow,  editorForms: { color }}) => {
   function handleClose() {

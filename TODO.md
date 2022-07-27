@@ -18,17 +18,16 @@ Transparency? Should it be handled by brush or by color?
 
 TODO NEXT
 
+Bug with context menu in local edit mode, need to unlock context menu for that..
+Cant create color within create class or create brush
+
 4) DRAWING
   Tinting
-  Pixel Pencil, Brush, Spray Can
-  Unlock snap to grid?
   BUG - Sometimes a Playground sprite is not picked up because it doesnt have alpha in the center
   BUG - brushing a ton sucks because the new image comes in and overwrites what you have
   Sync network drawing?
-FOR EACH BRUSH LAYER
-color squares ( with most commonly used colors ) with a + add the end that opens color selector
-+ for fresh sprite open in sprite editor inside brush and class creation
 
+SPRITE EDITOR
 GAME SIZE/BOUNDARY
 CONTROLS - speed, other phaser examples, etc
 RELATIONSHIP SYSTEM
@@ -50,6 +49,11 @@ choose background color
 
 right click brush - copy to layer X, delete, open in sprite editor
 
++ when making class - to start a new drawing inside of sprite editor
+
+Spray Can
+Unlock snap to grid?
+
 --
 
 TODO BEHAVIORS, CONTROLS
@@ -63,6 +67,10 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 ---
 
 TODO EVENTUALLY...
+
+Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
+
+gameModal class
 
 Lock to cobrowsers camera
 

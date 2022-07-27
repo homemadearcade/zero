@@ -2,11 +2,16 @@
   display: flex;
   flex-wrap: wrap;
 
-  &__color {
-    width: 21px;
-    height: 21px;
+  &__add {
+    width: 22px;
+    height: 22px;
+  }
 
-    &:hover {
+  &__color {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    &--selected {
       border: 1px solid white;
       width: 20px;
       height: 20px;

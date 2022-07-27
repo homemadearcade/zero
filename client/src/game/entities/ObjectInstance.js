@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import store from "../../store";
+import { getHexIntFromHexString } from "../../utils/editor";
 import { getTextureMetadata } from "../../utils/utils";
 
 export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
@@ -44,6 +45,11 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.setFrictionStatic(objectClass.frictionStatic)
     this.setFixedRotation(objectClass.fixedRotation)
     this.setIgnoreGravity(objectClass.ignoreGravity)
+
+    if(objectClass.tint) {
+      const colorInt = getHexIntFromHexString(objectClass.tint)
+      this.setTint(colorInt)
+    }
 
 
     const cornerX = -objectClass.width/2

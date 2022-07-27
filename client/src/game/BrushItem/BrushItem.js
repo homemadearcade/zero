@@ -29,7 +29,7 @@ const BrushItem = ({
     }}
     className={classNames("BrushItem", { 'BrushItem--selected': brushIdSelectedBrushList === brushId})}
   >
-    {brush.textureId && <Sprite textureId={brush.textureId} width={50} height={50}/>}
+    {brush.textureId && <Sprite tint={brush.tint} textureId={brush.textureId} width={50} height={50}/>}
   </div>
 };
 

@@ -26,11 +26,13 @@ const initialState = {
   class: {
     descriptors: [],
     textureId: null,
+    tint: null,
   },
   isCreateColorFlowOpen: false,
   color: {
     hex: null,
-    layerId: null
+    layerId: null,
+    tint: null
   },
   // isCreateHeroFlowOpen: false,
   // isCreateWorldFlowOpen: false,

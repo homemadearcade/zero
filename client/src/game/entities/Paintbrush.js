@@ -1,34 +1,28 @@
 import Phaser from "phaser";
-import { getTextureMetadata } from "../../utils/utils";
 import store from "../../store";
-import { getDepthFromLayerId, getHexIntFromHexString, snapBrushXY } from "../../utils/editor";
+import { getDepthFromLayerId, getHexFromColorId, getHexIntFromHexString, getLayerIdFromColorId, snapBrushXY } from "../../utils/editor";
 import { getCobrowsingState } from "../../utils/cobrowsing";
 
-export class Pencil extends Phaser.GameObjects.Image {
-  constructor(scene, brushId, brush){
-    const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
-    super(scene, 0,0, spriteSheetName, spriteIndex)
+export class Paintbrush extends Phaser.GameObjects.Image {
+  constructor(scene, brushId){
+    super(scene, 0,0, 'square10x10')
 
     this.setOrigin(0, 0)
     this.brushId = brushId
-    this.brush = brush
     this.lastSnapX = null 
     this.lastSnapY = null
     scene.add.existing(this)
-
-    if(brush.tint) {
-      const colorInt = getHexIntFromHexString(brush.tint)
-      this.setTint(colorInt)
-    }
- 
 
     const brushSize = getCobrowsingState().editor.brushSize
     const nodeSize = store.getState().game.gameModel.world.nodeSize
     const newWidth = nodeSize * brushSize
     const newHeight = nodeSize * brushSize
 
+    const colorInt = getHexIntFromHexString(getHexFromColorId(this.brushId))
+    this.setTintFill(colorInt)
+
     this.setDisplaySize(newWidth, newHeight)
-    this.setDepth(getDepthFromLayerId(this.brush.layerId))
+    this.setDepth(getDepthFromLayerId(getLayerIdFromColorId(this.brushId)))
     
     return this
   }
@@ -49,7 +43,7 @@ export class Pencil extends Phaser.GameObjects.Image {
   }
 
   getLayerId() {
-    return this.brush.layerId
+    return getLayerIdFromColorId(this.brushId)
   }
 }
 

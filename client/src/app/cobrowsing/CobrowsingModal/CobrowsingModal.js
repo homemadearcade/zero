@@ -7,9 +7,11 @@ import './CobrowsingModal.scss';
 import Icon from '../../ui/Icon/Icon';
 import { stopPropagation } from '../../../utils/browser';
 
-const CobrowsingModal = ({ onClose, children, open }) => {
+const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1}) => {
   return <Backdrop
-    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    sx={{ color: '#fff', zIndex: (theme) => {
+      return theme.zIndex.drawer + zIndexIncrease
+    }}}
     open={open}
     onClick={onClose}
   >

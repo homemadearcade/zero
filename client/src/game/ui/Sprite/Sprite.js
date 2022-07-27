@@ -29,10 +29,17 @@ export default class Sprite extends React.Component {
 
     const backgroundImage = "url('/"+window.spriteSheets[spriteSheetName].serverImageUrl+"')"
 
-    let backgroundColor = ""
-    if(this.props.tint && this.props.tint != 'white' && this.props.tint != '#FFFFFF') {
-      const alpha = tinycolor(this.props.tint).getAlpha()
-      backgroundColor = tinycolor(this.props.tint).setAlpha(alpha - .1).toRgbString()
+    let tintStyle = {}
+    if(this.props.tint && this.props.tint !== '#FFFFFF') {
+      const hue = Math.floor(tinycolor(this.props.tint).setAlpha(0.5).toHsl().h)
+      // // console.log(hue)
+      // tintStyle = {
+      // }
+      tintStyle = {
+        backgroundColor: tinycolor(this.props.tint).toRgbString(),
+        backgroundBlendMode: 'multiply',
+        filter: `saturate(200%) hue-rotate(${hue}deg)`
+      }
     }
 
     const backgroundPositionX = -texture.x
@@ -62,16 +69,9 @@ export default class Sprite extends React.Component {
           width,
           height,
           transform,
-          position:"relative"
+          position:"relative",
+          ...tintStyle
         }}>
-          {backgroundColor && <div style={{
-               backgroundColor,
-               position: "absolute",
-               top: 0,
-               left: 0,
-               width: "100%",
-               height: "100%",
-             }}></div>}
       </div>
     </div>
   }

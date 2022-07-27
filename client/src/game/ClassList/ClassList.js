@@ -8,7 +8,7 @@ import './ClassList.scss';
 import { editGameModel } from '../../store/actions/gameActions';
 import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
-import { closeCreateClassFlow, openCreateClassFlow } from '../../store/actions/editorFormsActions';
+import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
@@ -16,6 +16,7 @@ const ClassList = ({
   game: { gameModel },
   editorForms: { isCreateClassFlowOpen },
   editGameModel,
+  openCreateClassFlow,
 }) => {
   const classes = gameModel?.classes
 

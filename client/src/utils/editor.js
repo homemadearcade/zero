@@ -13,9 +13,11 @@ import {
   UI_LAYER_DEPTH, 
   UI_LAYER_ID, 
 } from "../constants";
+import { COLOR_BRUSH_ID } from "../constants";
 import Phaser from 'phaser'
 import store from "../store";
 import { getCobrowsingState } from "./cobrowsing";
+
 
 export function getCurrentGameScene(gameInstance) {
   const scene = gameInstance.scene?.scenes[0]
@@ -77,11 +79,27 @@ export function getDepthFromLayerId(layerId) {
   if(layerId === HERO_INSTANCE_LAYER_ID) return HERO_INSTANCE_LAYER_DEPTH
   if(layerId === OVERHEAD_LAYER_ID) return OVERHEAD_LAYER_DEPTH
   if(layerId === UI_LAYER_ID) return UI_LAYER_DEPTH
-
 }
- 
+
+const HEX_CODE_LENGTH = 7
+export function getLayerIdFromColorId(colorId) {
+  return colorId.slice(COLOR_BRUSH_ID.length + 1, - (HEX_CODE_LENGTH + 1)) 
+}
+
+export function getHexFromColorId(colorId) {
+  return colorId.slice(-HEX_CODE_LENGTH)
+}
+
+export function getHexIntFromHexString(hexString) {
+  return parseInt(hexString.slice(1), 16)
+}
+
+export function isBrushIdColor(colorId) {
+  return colorId.indexOf(COLOR_BRUSH_ID) >= 0
+}
+
 export function getLayerIdFromEraserId(eraserId) {
-  return eraserId.slice(ERASER_BRUSH_ID.length)
+  return eraserId.slice(ERASER_BRUSH_ID.length + 1)
 }
 
 export function isBrushIdEraser(brushId) {

@@ -1,3 +1,4 @@
+import { BACKGROUND_LAYER_ID } from "../constants";
 import { gameSize, nodeSize } from "./general";
 import { spaceshipClass } from "./heros";
 
@@ -34,9 +35,6 @@ export const defaultGame = {
   },
   "classes": {
     "spaceship": spaceshipClass
-  },
-  "brushes" : {
-
   },
   "objects": {
   }
