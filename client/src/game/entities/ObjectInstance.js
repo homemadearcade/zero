@@ -57,8 +57,8 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     const cornerX = -objectClass.width/2
     const cornerY = -objectClass.height/2
     this.outline = scene.add.graphics();
-    this.outline.lineStyle(3, 0xffffff, 1);
-    this.outline.strokeRect(cornerX, cornerY, objectClass.width, objectClass.height);
+    this.outline.lineStyle(4, 0xffffff, 1);
+    this.outline.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
     this.outline.setVisible(false)
 
     scene.uiLayer.add([this.outline, this.outline2])
@@ -79,3 +79,10 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     }
   }
 }
+
+
+    //  Change the body to a Circle with a radius of 48px
+  //   circ.setBody({
+  //     type: 'circle',
+  //     radius: 48
+  // });

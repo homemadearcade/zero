@@ -4,7 +4,7 @@ import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../entities/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_LAYER_DEPTH, BACKGROUND_LAYER_ID, HERO_INSTANCE_ID, HERO_INSTANCE_LAYER_DEPTH, OBJECT_INSTANCE_LAYER_DEPTH, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from '../../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, OVERHEAD_CANVAS_DEPTH, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { getCobrowsingState } from '../../utils/cobrowsing';
 import store from '../../store';
 import { nodeSize } from '../../defaultData/general';
@@ -64,18 +64,18 @@ export class GameInstance extends Phaser.Scene {
     return this.textures.getFrame(spriteSheetName, spriteIndex)
   }
 
-  getLayerById(layerId) {
-    if(layerId === BACKGROUND_LAYER_ID) {
+  getLayerById(canvasId) {
+    if(canvasId === BACKGROUND_CANVAS_ID) {
       return this.backgroundLayer
     }
-    if(layerId === PLAYGROUND_LAYER_ID) {
+    if(canvasId === PLAYGROUND_CANVAS_ID) {
       return this.playgroundLayer
     }
-    if(layerId === OVERHEAD_LAYER_ID) {
+    if(canvasId === OVERHEAD_CANVAS_ID) {
       return this.overheadLayer
     }
 
-    console.error('didnt find layer with id', layerId, typeof layerId)
+    console.error('didnt find layer with id', canvasId, typeof canvasId)
   }
 
   create() {
@@ -97,32 +97,32 @@ export class GameInstance extends Phaser.Scene {
     // LAYERS
     ////////////////////////////////////////////////////////////
     // background layer
-    this.backgroundLayer = new CodrawingCanvas(this, {layerId: BACKGROUND_LAYER_ID})
-    this.backgroundLayer.setDepth(BACKGROUND_LAYER_DEPTH)
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID})
+    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {layerId: PLAYGROUND_LAYER_ID})
-    this.playgroundLayer.setDepth(PLAYGROUND_LAYER_DEPTH)
+    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID})
+    this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
     this.objectInstanceLayer = this.add.layer();
-    this.objectInstanceLayer.setDepth(OBJECT_INSTANCE_LAYER_DEPTH)
+    this.objectInstanceLayer.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH)
     this.objectInstanceGroup = this.add.group()
 
     this.playerInstanceLayer = this.add.layer();
-    this.playerInstanceLayer.setDepth(HERO_INSTANCE_LAYER_DEPTH)
+    this.playerInstanceLayer.setDepth(HERO_INSTANCE_CANVAS_DEPTH)
     this.playerInstanceGroup = this.add.group()
 
     // overhead layer
-    this.overheadLayer = new CodrawingCanvas(this, {layerId: OVERHEAD_LAYER_ID})
-    this.overheadLayer.setDepth(OVERHEAD_LAYER_DEPTH)
+    this.overheadLayer = new CodrawingCanvas(this, {canvasId: OVERHEAD_CANVAS_ID})
+    this.overheadLayer.setDepth(OVERHEAD_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
-    this.uiLayer.setDepth(UI_LAYER_DEPTH)
+    this.uiLayer.setDepth(UI_CANVAS_DEPTH)
 
     this.grid = this.add.grid(0, 0, gameWidth * 4, gameHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
     this.grid2 = this.add.grid(0, 0, gameWidth * 4, gameHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
-    this.grid.setDepth(UI_LAYER_DEPTH)
-    this.grid2.setDepth(UI_LAYER_DEPTH)
+    this.grid.setDepth(UI_CANVAS_DEPTH)
+    this.grid2.setDepth(UI_CANVAS_DEPTH)
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -200,9 +200,9 @@ export class GameInstance extends Phaser.Scene {
     const editorInstance = getCobrowsingState().editorInstance
     const layerVisibility = editorInstance.layerVisibility
 
-    this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_LAYER_ID])
-    this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_LAYER_ID])
-    this.overheadLayer.setVisible(layerVisibility[OVERHEAD_LAYER_ID])
+    this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
+    this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
+    this.overheadLayer.setVisible(layerVisibility[OVERHEAD_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {
       object.update(time, delta);

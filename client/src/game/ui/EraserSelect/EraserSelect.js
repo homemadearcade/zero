@@ -12,12 +12,12 @@ import Icon from '../../../app/ui/Icon/Icon';
 
 const EraserSelect = ({
   editor: { brushIdSelectedBrushList },
-  layerId,
+  canvasId,
   selectBrush,
   clearClass,
   clearBrush,
 }) => {
-  const eraserId = ERASER_BRUSH_ID + '/' +  layerId;
+  const eraserId = ERASER_BRUSH_ID + '/' +  canvasId;
 
   return <div
     onClick={() => {

@@ -1,4 +1,4 @@
-import { BACKGROUND_LAYER_ID } from "../constants";
+import { BACKGROUND_CANVAS_ID } from "../constants";
 import { gameSize, nodeSize } from "./general";
 import { spaceshipClass } from "./heros";
 

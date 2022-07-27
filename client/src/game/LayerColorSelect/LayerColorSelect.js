@@ -4,18 +4,18 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LayerColorSelect.scss';
-import { BACKGROUND_LAYER_ID, COLOR_BRUSH_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, COLOR_BRUSH_ID, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import { openCreateColorFlow } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../store/actions/gameActions';
 import ColorSelect from '../ui/ColorSelect/ColorSelect';
 import { clearBrush, selectBrush } from '../../store/actions/editorActions';
-import { getHexFromColorId, getLayerIdFromColorId, isBrushIdColor } from '../../utils/editor';
+import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../utils/editor';
 
 const LayerColorSelect = ({
   game: { gameModel : { colors }},
-  layerId,
+  canvasId,
   openCreateColorFlow,
   editGameModel,
   selectBrush,
@@ -25,30 +25,30 @@ const LayerColorSelect = ({
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
     const color = colors[hex]
-    Object.keys(color).forEach((layerId) => {
-      if(!color[layerId]) return
-      if(!prev[layerId]) prev[layerId] = []
-      prev[layerId].push(hex)
+    Object.keys(color).forEach((canvasId) => {
+      if(!color[canvasId]) return
+      if(!prev[canvasId]) prev[canvasId] = []
+      prev[canvasId].push(hex)
     })
     return prev
   }, {})
 
   function onAddColor() {
-    openCreateColorFlow(layerId)
+    openCreateColorFlow(canvasId)
   }
 
   function onSelectColor(hex) {
-    if(!colors[hex] || !colors[hex][layerId]) {
+    if(!colors[hex] || !colors[hex][canvasId]) {
       editGameModel({
         colors: {
           [hex]: {
-            [layerId]: true
+            [canvasId]: true
           }
         }
       })
     }
 
-    selectBrush(COLOR_BRUSH_ID + '/' + layerId + '/' + hex)
+    selectBrush(COLOR_BRUSH_ID + '/' + canvasId + '/' + hex)
   }
 
   function onUnselectColor() {
@@ -61,32 +61,32 @@ const LayerColorSelect = ({
     if(brushIdSelectedBrushList) {
       if(isBrushIdColor(brushIdSelectedBrushList)) {
         selectedColorHex = getHexFromColorId(brushIdSelectedBrushList)
-        selectedColorLayer = getLayerIdFromColorId(brushIdSelectedBrushList)
+        selectedColorLayer = getCanvasIdFromColorId(brushIdSelectedBrushList)
       }
     }
 
-    if(layerId === BACKGROUND_LAYER_ID) {
+    if(canvasId === BACKGROUND_CANVAS_ID) {
       return <ColorSelect 
-        selectedColorHex={selectedColorLayer === BACKGROUND_LAYER_ID && selectedColorHex} 
-        colors={colorsByLayer[BACKGROUND_LAYER_ID]} 
+        selectedColorHex={selectedColorLayer === BACKGROUND_CANVAS_ID && selectedColorHex} 
+        colors={colorsByLayer[BACKGROUND_CANVAS_ID]} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor}
       />
     }
-    if(layerId === PLAYGROUND_LAYER_ID) {
+    if(canvasId === PLAYGROUND_CANVAS_ID) {
       return <ColorSelect 
-        selectedColorHex={selectedColorLayer === PLAYGROUND_LAYER_ID && selectedColorHex} 
-        colors={colorsByLayer[PLAYGROUND_LAYER_ID]} 
+        selectedColorHex={selectedColorLayer === PLAYGROUND_CANVAS_ID && selectedColorHex} 
+        colors={colorsByLayer[PLAYGROUND_CANVAS_ID]} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor} 
       />
     }
-    if(layerId === OVERHEAD_LAYER_ID) {
+    if(canvasId === OVERHEAD_CANVAS_ID) {
       return <ColorSelect 
-        selectedColorHex={selectedColorLayer === OVERHEAD_LAYER_ID && selectedColorHex} 
-        colors={colorsByLayer[OVERHEAD_LAYER_ID]} 
+        selectedColorHex={selectedColorLayer === OVERHEAD_CANVAS_ID && selectedColorHex} 
+        colors={colorsByLayer[OVERHEAD_CANVAS_ID]} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor}
@@ -101,11 +101,11 @@ const LayerColorSelect = ({
         editGameModel({
           colors: {
             [color.hex]: {
-              [color.layerId]: true
+              [color.canvasId]: true
             }
           }
         })
-        selectBrush(COLOR_BRUSH_ID + '/' + color.layerId + '/' + color.hex)
+        selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex)
       }}
     />}
   </>

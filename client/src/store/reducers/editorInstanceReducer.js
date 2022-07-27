@@ -1,18 +1,18 @@
-import { BACKGROUND_LAYER_ID, HERO_INSTANCE_LAYER_ID, OBJECT_INSTANCE_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, OBJECT_INSTANCE_CANVAS_ID, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import {
   CLEAR_EDITOR_INSTANCE,
-  TOGGLE_LAYER_VISIBILITY,
+  TOGGLE_CANVAS_VISIBILITY,
   TOGGLE_GAME_INSTANCE_PAUSED,
   RESET_GAME_INSTANCE
 } from '../types';
 
 const initialState = {
   layerVisibility: {
-    [BACKGROUND_LAYER_ID]: true,
-    [PLAYGROUND_LAYER_ID]: true,
-    [OBJECT_INSTANCE_LAYER_ID]: true,
-    [HERO_INSTANCE_LAYER_ID]: true,
-    [OVERHEAD_LAYER_ID]: true
+    [BACKGROUND_CANVAS_ID]: true,
+    [PLAYGROUND_CANVAS_ID]: true,
+    [OBJECT_INSTANCE_CANVAS_ID]: true,
+    [HERO_INSTANCE_CANVAS_ID]: true,
+    [OVERHEAD_CANVAS_ID]: true
   },
   // gameResetDate: 0,
   // isGamePaused: false,
@@ -32,12 +32,12 @@ export default function editorInstanceReducer(state = initialState, { type, payl
     //     ...state,
     //     isGamePaused: !state.isGamePaused
     //   }
-    case TOGGLE_LAYER_VISIBILITY:
+    case TOGGLE_CANVAS_VISIBILITY:
       return {
         ...state,
         layerVisibility: {
           ...state.layerVisibility,
-          [payload.layerId]: !state.layerVisibility[payload.layerId]
+          [payload.canvasId]: !state.layerVisibility[payload.canvasId]
         }
       }
     case CLEAR_EDITOR_INSTANCE:

@@ -53,12 +53,12 @@ export const updateCreateClassStep = (step) => (dispatch, getState) => {
   });
 }
 
-export const openCreateColorFlow = (layerId) => (dispatch, getState) => {
+export const openCreateColorFlow = (canvasId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_COLOR_FLOW,
     payload: {
-      layerId
+      canvasId
     }
   });
 }
@@ -79,12 +79,12 @@ export const updateCreateColor = (color) => (dispatch, getState) => {
   });
 }
 
-export const openCreateBrushFlow = (layerId) => (dispatch, getState) => {
+export const openCreateBrushFlow = (canvasId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_BRUSH_FLOW,
     payload: {
-      layerId
+      canvasId
     }
   });
 }

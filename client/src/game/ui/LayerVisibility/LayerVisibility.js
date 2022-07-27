@@ -10,15 +10,15 @@ import Icon from '../../../app/ui/Icon/Icon';
 const LayerVisibility = ({
   editorInstance: { layerVisibility },
   toggleLayerVisibility,
-  layerId
+  canvasId
 }) => {
   return <div
     onClick={() => {
-      toggleLayerVisibility(layerId)
+      toggleLayerVisibility(canvasId)
     }}
   >
-     {layerVisibility[layerId] && <div><Icon icon="faEye"/></div>}
-     {!layerVisibility[layerId] && <div><Icon icon="faEyeSlash"/></div>}
+     {layerVisibility[canvasId] && <div><Icon icon="faEye"/></div>}
+     {!layerVisibility[canvasId] && <div><Icon icon="faEyeSlash"/></div>}
   </div>
 };
 

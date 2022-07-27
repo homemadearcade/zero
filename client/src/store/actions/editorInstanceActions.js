@@ -1,5 +1,5 @@
 import { 
-  TOGGLE_LAYER_VISIBILITY,
+  TOGGLE_CANVAS_VISIBILITY,
   CLEAR_EDITOR_INSTANCE,
   TOGGLE_GAME_INSTANCE_PAUSED,
   RESET_GAME_INSTANCE
@@ -13,11 +13,11 @@ export const clearEditorInstance = () => (dispatch, getState) => {
   });
 }
 
-export const toggleLayerVisibility = (layerId) => (dispatch, getState) => {
+export const toggleLayerVisibility = (canvasId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: TOGGLE_LAYER_VISIBILITY,
-    payload: { layerId }
+    type: TOGGLE_CANVAS_VISIBILITY,
+    payload: { canvasId }
   });
 }
 

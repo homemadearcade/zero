@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
-import { DEFAULT_TEXTURE_ID, OBJECT_INSTANCE_LAYER_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, OBJECT_INSTANCE_CANVAS_DEPTH } from "../../constants";
 import { getHexIntFromHexString, snapObjectXY } from "../../utils/editor";
 
 export class Stamper extends Phaser.GameObjects.Image {
@@ -22,7 +22,7 @@ export class Stamper extends Phaser.GameObjects.Image {
     this.scene.add.existing(this)
     
     this.setDisplaySize(this.class.width, this.class.height)
-    this.setDepth(OBJECT_INSTANCE_LAYER_DEPTH)
+    this.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH)
 
     if(objectClass.tint) {
       const colorInt = getHexIntFromHexString(objectClass.tint)
@@ -45,8 +45,8 @@ export class Stamper extends Phaser.GameObjects.Image {
     })
   }
 
-  getLayerId() {
-    return this.class.layerId
+  getCanvasId() {
+    return this.class.canvasId
   }
 }
 

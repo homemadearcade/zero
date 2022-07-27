@@ -5,6 +5,7 @@ import cobrowsingRoutes from './cobrowsing';
 import lobbysRoutes from './lobbys';
 import gameRoutes from './games';
 import awsRoutes from './aws';
+import codrawingRoutes from './codrawing'
 
 const router = Router();
 
@@ -12,6 +13,7 @@ router.use('/users', usersRoutes);
 router.use('/messages', messagesRoutes);
 router.use('/lobbys', lobbysRoutes);
 router.use('/cobrowsing', cobrowsingRoutes);
+router.use('/codrawing', codrawingRoutes);
 router.use('/games', gameRoutes);
 router.use('/aws', awsRoutes);
 

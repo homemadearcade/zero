@@ -158,7 +158,7 @@ export class EditorScene extends GameInstance {
 
     if(pointer.leftButtonDown()) {
       if(this.brush) {
-        this.canvas = this.getLayerById(this.brush.getLayerId())
+        this.canvas = this.getLayerById(this.brush.getCanvasId())
         if(this.canvas) {
           this.brush.stroke(pointer, this.canvas)
         }
@@ -227,15 +227,12 @@ export class EditorScene extends GameInstance {
   // HELPERS
   ////////////////////////////////////////////////////////////
   getBrushFromBrushId(brushId) {
-    const gameModel = store.getState().game.gameModel
-
     if(isBrushIdEraser(brushId)) {
-      return new Eraser(this, brushId)
+      return new Eraser(this, { brushId })
     } else if(isBrushIdColor(brushId)) {
-      return new Paintbrush(this, brushId)
+      return new Paintbrush(this, { brushId })
     } else {
-      const brush = gameModel.brushes[brushId]
-      return new Pencil(this, brushId, brush)
+      return new Pencil(this, { brushId })
     }
   }
 
@@ -250,7 +247,8 @@ export class EditorScene extends GameInstance {
   }
 
   onStrokeComplete = async () => {
-    this.canvas.save()
+    this.brush.releaseStroke()
+    if(this.canvas.createCollisionBody) this.canvas.createCollisionBody()
     this.canvas = null;
   }
 

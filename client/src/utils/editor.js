@@ -1,17 +1,17 @@
 import { 
-  BACKGROUND_LAYER_DEPTH, 
-  BACKGROUND_LAYER_ID, 
+  BACKGROUND_CANVAS_DEPTH, 
+  BACKGROUND_CANVAS_ID, 
   ERASER_BRUSH_ID , 
-  OBJECT_INSTANCE_LAYER_DEPTH, 
-  OBJECT_INSTANCE_LAYER_ID, 
-  HERO_INSTANCE_LAYER_DEPTH, 
-  HERO_INSTANCE_LAYER_ID, 
-  OVERHEAD_LAYER_DEPTH, 
-  OVERHEAD_LAYER_ID, 
-  PLAYGROUND_LAYER_DEPTH, 
-  PLAYGROUND_LAYER_ID,
-  UI_LAYER_DEPTH, 
-  UI_LAYER_ID, 
+  OBJECT_INSTANCE_CANVAS_DEPTH, 
+  OBJECT_INSTANCE_CANVAS_ID, 
+  HERO_INSTANCE_CANVAS_DEPTH, 
+  HERO_INSTANCE_CANVAS_ID, 
+  OVERHEAD_CANVAS_DEPTH, 
+  OVERHEAD_CANVAS_ID, 
+  PLAYGROUND_CANVAS_DEPTH, 
+  PLAYGROUND_CANVAS_ID,
+  UI_CANVAS_DEPTH, 
+  UI_CANVAS_ID, 
 } from "../constants";
 import { COLOR_BRUSH_ID } from "../constants";
 import Phaser from 'phaser'
@@ -69,20 +69,20 @@ export function snapObjectXY({x, y}, objectClass) {
 }
 
 export function getDepthFromEraserId(eraserId) {
-  return getDepthFromLayerId(getLayerIdFromEraserId(eraserId))
+  return getDepthFromCanvasId(getCanvasIdFromEraserId(eraserId))
 }
 
-export function getDepthFromLayerId(layerId) {
-  if(layerId === BACKGROUND_LAYER_ID) return BACKGROUND_LAYER_DEPTH
-  if(layerId === PLAYGROUND_LAYER_ID) return PLAYGROUND_LAYER_DEPTH
-  if(layerId === OBJECT_INSTANCE_LAYER_ID) return OBJECT_INSTANCE_LAYER_DEPTH
-  if(layerId === HERO_INSTANCE_LAYER_ID) return HERO_INSTANCE_LAYER_DEPTH
-  if(layerId === OVERHEAD_LAYER_ID) return OVERHEAD_LAYER_DEPTH
-  if(layerId === UI_LAYER_ID) return UI_LAYER_DEPTH
+export function getDepthFromCanvasId(canvasId) {
+  if(canvasId === BACKGROUND_CANVAS_ID) return BACKGROUND_CANVAS_DEPTH
+  if(canvasId === PLAYGROUND_CANVAS_ID) return PLAYGROUND_CANVAS_DEPTH
+  if(canvasId === OBJECT_INSTANCE_CANVAS_ID) return OBJECT_INSTANCE_CANVAS_DEPTH
+  if(canvasId === HERO_INSTANCE_CANVAS_ID) return HERO_INSTANCE_CANVAS_DEPTH
+  if(canvasId === OVERHEAD_CANVAS_ID) return OVERHEAD_CANVAS_DEPTH
+  if(canvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
 }
 
 const HEX_CODE_LENGTH = 7
-export function getLayerIdFromColorId(colorId) {
+export function getCanvasIdFromColorId(colorId) {
   return colorId.slice(COLOR_BRUSH_ID.length + 1, - (HEX_CODE_LENGTH + 1)) 
 }
 
@@ -98,7 +98,7 @@ export function isBrushIdColor(colorId) {
   return colorId.indexOf(COLOR_BRUSH_ID) >= 0
 }
 
-export function getLayerIdFromEraserId(eraserId) {
+export function getCanvasIdFromEraserId(eraserId) {
   return eraserId.slice(ERASER_BRUSH_ID.length + 1)
 }
 

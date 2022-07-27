@@ -16,6 +16,7 @@ import editorFormsReducer from './editorFormsReducer';
 import editorInstanceReducer from './editorInstanceReducer';
 import unlockableInterfaceReducer from './unlockableInterfaceReducer';
 import contextMenuReducer from './contextMenuReducer';
+import codrawingReducer from './codrawingReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -33,5 +34,6 @@ export default combineReducers({
   editorForms: editorFormsReducer,
   editorInstance: editorInstanceReducer,
   contextMenu: contextMenuReducer,
-  unlockableInterfaceIds: unlockableInterfaceReducer
+  unlockableInterfaceIds: unlockableInterfaceReducer,
+  codrawing: codrawingReducer
 });

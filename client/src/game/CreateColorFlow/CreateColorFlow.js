@@ -23,7 +23,7 @@ const CreateColorFlow = ({ onComplete, updateCreateColor, clearEditorForms, clos
     <div className="CreateColorFlow">
       <Typography component="h2" variant="h2">Add Color</Typography>
       <ColorGrid onClick={(hex) => {
-          onComplete({ layerId: color.layerId, hex})
+          onComplete({ canvasId: color.canvasId, hex})
           handleClose()
           // updateCreateColor({hex})
       }}/>

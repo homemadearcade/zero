@@ -17,7 +17,7 @@ const initialState = {
   isCreateBrushFlowOpen: false,
   createBrushStep: '',
   brush: {
-    layerId: null,
+    canvasId: null,
     textureId: null,
     descriptors: []
   },
@@ -31,7 +31,7 @@ const initialState = {
   isCreateColorFlowOpen: false,
   color: {
     hex: null,
-    layerId: null,
+    canvasId: null,
     tint: null
   },
   // isCreateHeroFlowOpen: false,
@@ -53,7 +53,7 @@ export default function editorFormsReducer(state = initialState, { type, payload
         isCreateColorFlowOpen: true,
         color: {
           ...initialState.color,
-          layerId: payload.layerId
+          canvasId: payload.canvasId
         }
       }
     case CLOSE_CREATE_COLOR_FLOW: 
@@ -92,7 +92,7 @@ export default function editorFormsReducer(state = initialState, { type, payload
         isCreateBrushFlowOpen: true,
         brush: {
           ...initialState.brush,
-          layerId: payload.layerId
+          canvasId: payload.canvasId
         }
       }
     case UPDATE_CREATE_BRUSH: 

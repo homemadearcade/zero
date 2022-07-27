@@ -1,7 +1,7 @@
-import { BACKGROUND_LAYER_ID, DEFAULT_TEXTURE_ID } from "../constants";
+import { BACKGROUND_CANVAS_ID, DEFAULT_TEXTURE_ID } from "../constants";
 
 export const defaultBrush = {
-  "layerId": BACKGROUND_LAYER_ID,
+  "canvasId": BACKGROUND_CANVAS_ID,
   'tint': '#FFFFFF',
   'textureId': DEFAULT_TEXTURE_ID
 }

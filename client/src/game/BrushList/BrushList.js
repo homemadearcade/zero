@@ -9,7 +9,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { openCreateBrushFlow } from '../../store/actions/editorFormsActions';
-import { BACKGROUND_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
@@ -32,8 +32,8 @@ const BrushList = ({
 
   const brushesByLayer = Object.keys(brushes).reduce((prev, brushId) => {
     const brush = brushes[brushId]
-    if(!prev[brush.layerId]) prev[brush.layerId] = []
-    prev[brush.layerId].push({ brushId, brush })
+    if(!prev[brush.canvasId]) prev[brush.canvasId] = []
+    prev[brush.canvasId].push({ brushId, brush })
     return prev
   }, {})
 
@@ -41,38 +41,38 @@ const BrushList = ({
     <div className="BrushList">
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
-      <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
-      <EraserSelect layerId={BACKGROUND_LAYER_ID}/>
-      <LayerColorSelect layerId={BACKGROUND_LAYER_ID}/>
-      <div className="BrushList__brushes">{brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
+      <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
+      <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
+      <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
+      <div className="BrushList__brushes">{brushesByLayer[BACKGROUND_CANVAS_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}</div>
       <Button className="BrushList__add" onClick={() => {
-        openCreateBrushFlow(BACKGROUND_LAYER_ID)
+        openCreateBrushFlow(BACKGROUND_CANVAS_ID)
       }}>
         +
       </Button>
       <Typography component="h5" variant="h5">Playground</Typography>
-      <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
-      <EraserSelect layerId={PLAYGROUND_LAYER_ID}/>
-      <LayerColorSelect layerId={PLAYGROUND_LAYER_ID}/>
-      <div className="BrushList__brushes">{brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
+      <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
+      <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
+      <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
+      <div className="BrushList__brushes">{brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}</div>
       <Button className="BrushList__add" onClick={() => {
-        openCreateBrushFlow(PLAYGROUND_LAYER_ID)
+        openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
       }}>
         +
       </Button>
       <Typography component="h5" variant="h5">Overhead</Typography>
-      <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
-      <EraserSelect layerId={OVERHEAD_LAYER_ID}/>
-      <LayerColorSelect layerId={OVERHEAD_LAYER_ID}/>
-      <div className="BrushList__brushes">{brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {
+      <LayerVisibility canvasId={OVERHEAD_CANVAS_ID} />
+      <EraserSelect canvasId={OVERHEAD_CANVAS_ID}/>
+      <LayerColorSelect canvasId={OVERHEAD_CANVAS_ID}/>
+      <div className="BrushList__brushes">{brushesByLayer[OVERHEAD_CANVAS_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}</div>
       <Button className="BrushList__add" onClick={() => {
-        openCreateBrushFlow(OVERHEAD_LAYER_ID)
+        openCreateBrushFlow(OVERHEAD_CANVAS_ID)
       }}>
         +
       </Button>
@@ -84,7 +84,7 @@ const BrushList = ({
             editGameModel({
               colors: {
                 [brush.tint]: {
-                  [brush.layerId]: true
+                  [brush.canvasId]: true
                 }
               }
             })

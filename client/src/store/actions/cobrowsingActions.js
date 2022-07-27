@@ -57,8 +57,14 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
   }
 
   if(state.game.gameInstance && window.pointer) {
+    
     const cameraZoom = state.editor.cameraZoom
-    const camera = getCurrentGameScene(state.game.gameInstance).editorCamera
+
+    const scene = getCurrentGameScene(state.game.gameInstance)
+    if(!scene) return 
+    const camera = scene.editorCamera
+    if(!camera) return
+
     cobrowsingStatus.phaserView = {
       mouseWorldX: window.pointer.worldX,
       mouseWorldY: window.pointer.worldY,
