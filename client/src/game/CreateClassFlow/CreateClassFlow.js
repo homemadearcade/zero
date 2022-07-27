@@ -35,6 +35,9 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
         onSelectTint={(tint) => {
           updateCreateClass({ tint })
         }}
+        onClearTint={() => {
+          updateCreateClass({ tint: null })
+        }}
         formLabel="Select a sprite"
         descriptors={objectClass.descriptors}
         textureIdSelected={objectClass.textureId}

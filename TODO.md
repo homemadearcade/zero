@@ -55,6 +55,7 @@ right click brush - copy to layer X, delete, open in sprite editor
 + when making class - to start a new drawing inside of sprite editor
 
 Spray Can
+
 Unlock snap to grid?
 
 --
@@ -93,6 +94,11 @@ Unauthenticate socket when logging out
 
 unlock other features, such as camera move with keys? drag object? etc
 
+DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
+ID system? is that smart
+Seperate more reducers?
+
+logic for unlockables
 --------
 
 TODO TIME PERMITTING

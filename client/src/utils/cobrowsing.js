@@ -62,10 +62,44 @@ export function getCobrowsingState() {
   }
 }
 
-export function hasUnlockedInterfaceId(id, unlockedInterfaceIds) {
-  return Object.keys(unlockedInterfaceIds).some((key) => {
-    if(!unlockedInterfaceIds[key]) return false
-    console.log(key, id, key.indexOf(id))
-    if(key.indexOf(id) >= 0) return true
+export function getInterfaceIdAliases(interfaceId) {
+  const ids = interfaceId.split(' ')
+
+  const idLayers = ids.map((id) => {
+    return id.split('/')
   })
+
+  const idAliases = idLayers.map((layers) => {
+    return layers.map((idLayer, index) => {
+      let prefix = ''
+      for(let i = 0; i < index; i++) {
+        if(prefix.length) {
+          prefix = prefix + '/' + layers[i]
+        } else {
+          prefix = prefix + layers[i]
+        }
+      }
+
+      if(prefix.length) {
+        const idSection = prefix +'/'+ idLayer
+        return idSection
+      } else {
+        return idLayer
+      }
+    })
+  }, [])
+
+  return idAliases
+}
+
+export function isInterfaceIdUnlocked(interfaceId, unlockableInterfaceIds) {
+  const idAliases = getInterfaceIdAliases(interfaceId)
+
+  const isUnlocked = unlockableInterfaceIds['all'] || idAliases.every((aliases) => {
+    return aliases.some((alias) => {
+      return unlockableInterfaceIds[alias]
+    })
+  })
+
+  return { isUnlocked, idAliases }
 } 

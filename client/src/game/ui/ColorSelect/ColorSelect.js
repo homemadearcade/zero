@@ -12,7 +12,8 @@ const ColorSelect = ({
   colors = [],
   onSelectColor,
   onAddColor,
-  selectedColorHex
+  selectedColorHex,
+  onUnselectColor
 }) => {
 
   const maxColors = 10
@@ -32,9 +33,20 @@ const ColorSelect = ({
 
   return <div className="ColorSelect">
     {suggestedColors.map((hex) => {
-      return <div onClick={() => {
-        onSelectColor(hex)
-    }} key={hex} className={classNames("ColorSelect__color", {' ColorSelect__color--selected': selectedColorHex === hex })} style={{backgroundColor: hex}}></div>
+      const isSelected = selectedColorHex === hex
+      return <div 
+        onClick={() => {
+          if(isSelected) {
+            if(onUnselectColor) onUnselectColor(hex)
+          } else {
+            onSelectColor(hex)
+          }
+        }} 
+        key={hex} 
+        className={classNames("ColorSelect__color", {' ColorSelect__color--selected': isSelected })} 
+        style={{backgroundColor: hex}}>
+          
+      </div>
     })}
     <Button className="ColorSelect__add" onClick={onAddColor}>
       +

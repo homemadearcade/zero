@@ -1,12 +1,12 @@
 import Phaser, { BlendModes } from "phaser";
-import { OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, OVERHEAD_LAYER_DEPTH, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_DEPTH, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH } from "../../constants";
 import store from "../../store";
 import { getCobrowsingState } from "../../utils/cobrowsing";
 import { getLayerIdFromEraserId, getDepthFromEraserId, snapBrushXY, snapEraserXY } from "../../utils/editor";
 
 export class Eraser extends Phaser.GameObjects.Image {
   constructor(scene, brushId){
-    super(scene, 0,0, 'square10x10')
+    super(scene, 0,0, DEFAULT_TEXTURE_ID)
 
     this.scene = scene
     this.brushId = brushId

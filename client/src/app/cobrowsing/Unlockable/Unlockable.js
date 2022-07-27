@@ -5,46 +5,18 @@ import classNames from 'classnames';
 
 import './Unlockable.scss';
 import Icon from '../../ui/Icon/Icon';
-import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import { isInterfaceIdUnlocked, mapCobrowsingState } from '../../../utils/cobrowsing';
 import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({ lobby: { lobby }, isTiny, hideIfLocked, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, auth: { me } }) => {
+const Unlockable = ({ lobby: { lobby }, cobrowsing: { isSubscribedCobrowsing }, isTiny, hideIfLocked, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, auth: { me } }) => {
   const originalComponent = <div className={className}>{children}</div>
 
+  // if local editor dont do this
   if(!lobby.id) return <div className={className}>{children}</div>
 
-  const ids = interfaceId.split(' ')
-  const idLayers = ids.map((id) => {
-    return id.split('/')
-  })
-
-  const idAliases = idLayers.map((layers) => {
-    return layers.map((idLayer, index) => {
-      let prefix = ''
-      for(let i = 0; i < index; i++) {
-        if(prefix.length) {
-          prefix = prefix + '/' + layers[i]
-        } else {
-          prefix = prefix + layers[i]
-        }
-      }
-
-      if(prefix.length) {
-        const idSection = prefix +'/'+ idLayer
-        return idSection
-      } else {
-        return idLayer
-      }
-    })
-  }, [])
-
-  const isUnlocked = unlockableInterfaceIds['all'] || idAliases.every((aliases) => {
-    return aliases.some((alias) => {
-      return unlockableInterfaceIds[alias]
-    })
-  })
+  const { isUnlocked, idAliases } = isInterfaceIdUnlocked(interfaceId, unlockableInterfaceIds)
 
   // const childrenWithProps = React.Children.map(children, child => {
   //   // Checking isValidElement is the safe way and avoids a typescript
@@ -85,8 +57,13 @@ const Unlockable = ({ lobby: { lobby }, isTiny, hideIfLocked, className, unlocka
   }
 
   if(me.role === 'ADMIN') {
-    if(isUnlocked) {
 
+      // if not cobrowsing a user dont do this, just let the admin see in peace
+    if(!isSubscribedCobrowsing) {
+      return <div className={className}>{children}</div>
+    }
+
+    if(isUnlocked) {
       // not enough space to have an icon or menu when its unlocked
       if(isTiny) return originalComponent
 
@@ -125,7 +102,8 @@ const Unlockable = ({ lobby: { lobby }, isTiny, hideIfLocked, className, unlocka
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   unlockableInterfaceIds: state.unlockableInterfaceIds,
   auth: state.auth,
-  lobby: state.lobby
+  lobby: state.lobby,
+  cobrowsing: state.cobrowsing
 });
 
 export default compose(

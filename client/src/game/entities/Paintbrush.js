@@ -2,10 +2,11 @@ import Phaser from "phaser";
 import store from "../../store";
 import { getDepthFromLayerId, getHexFromColorId, getHexIntFromHexString, getLayerIdFromColorId, snapBrushXY } from "../../utils/editor";
 import { getCobrowsingState } from "../../utils/cobrowsing";
+import { DEFAULT_TEXTURE_ID } from "../../constants";
 
 export class Paintbrush extends Phaser.GameObjects.Image {
   constructor(scene, brushId){
-    super(scene, 0,0, 'square10x10')
+    super(scene, 0,0, DEFAULT_TEXTURE_ID)
 
     this.setOrigin(0, 0)
     this.brushId = brushId

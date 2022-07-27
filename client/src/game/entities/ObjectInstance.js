@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { DEFAULT_TEXTURE_ID } from "../../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editor";
 import { getTextureMetadata } from "../../utils/utils";
@@ -7,13 +8,14 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   constructor(scene, id, {spawnX, spawnY, classId}){
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
+
+    const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
     // console.log(spawnX, spawnY, id, classId, objectClass, classDataOverride)
-    const { spriteSheetName, spriteIndex } = getTextureMetadata(objectClass.textureId)
+    const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     
     if(!spriteSheetName) {
-      console.log('missing spritesheet', objectClass.textureId)
-      super(scene.matter.world, spawnX, spawnY, objectClass.textureId, 0)
-      this.outline2 = scene.add.image(spawnX, spawnY, objectClass.textureId)
+      super(scene.matter.world, spawnX, spawnY, textureId, 0)
+      this.outline2 = scene.add.image(spawnX, spawnY, textureId)
     } else {
       super(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex)
       this.outline2 = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)

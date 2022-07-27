@@ -21,30 +21,41 @@ const SelectSpriteInline = ({
   descriptors,
   onSelect,
   onSelectTint,
+  onClearTint,
   openCreateColorFlow,
   editGameModel,
   game: { gameModel : { colors }},
   editorForms: { isCreateColorFlowOpen }
 }) => {
+  function renderSpriteStage() {
+
+    if(!textureIdSelected && !tintSelected) {
+      return <div className="SelectSpriteInline__sprite-missing SelectSpriteInline__sprite"></div>
+    }
+
+    return <div className="SelectSpriteInline__sprite">
+      <CanvasSprite tint={tintSelected} textureId={textureIdSelected}/>
+    </div>
+  }
+
   return <>
     <div className="SelectSpriteInline">
       {formLabel && <FormLabel>
         {formLabel}
       </FormLabel>}
 
-      {!textureIdSelected && !tintSelected && 
-        <div className="SelectSpriteInline__sprite-missing SelectSpriteInline__sprite"></div>
-      }
-
-      <div className="SelectSpriteInline__sprite">
-        <CanvasSprite tint={tintSelected} textureId={textureIdSelected} width={150} height={150}/>
-      </div>
-
+      {renderSpriteStage()}
+      <ColorSelect 
+        selectedColorHex={tintSelected} 
+        colors={Object.keys(colors)} 
+        onSelectColor={onSelectTint} 
+        onUnselectColor={onClearTint}
+        onAddColor={openCreateColorFlow}
+      />
       <div className="SelectSpriteInline__sprite-list">
         <DescriptorSprites onClickSprite={onSelect} descriptors={descriptors}/>
       </div>
 
-      <ColorSelect selectedColorHex={tintSelected} colors={Object.keys(colors)} onSelectColor={onSelectTint} onAddColor={openCreateColorFlow}/>
     </div>
 
     {isCreateColorFlowOpen && <CreateColorFlow

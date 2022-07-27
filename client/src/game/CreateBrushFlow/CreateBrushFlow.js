@@ -31,6 +31,9 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, clos
         onSelect={(textureId) => {
           updateCreateBrush({ textureId })
         }}
+        onClearTint={() => {
+          updateCreateBrush({ tint: null })
+        }}
         tintSelected={brush.tint}
         onSelectTint={(tint) => {
           updateCreateBrush({ tint })

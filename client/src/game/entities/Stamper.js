@@ -1,12 +1,20 @@
 import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
-import { OBJECT_INSTANCE_LAYER_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, OBJECT_INSTANCE_LAYER_DEPTH } from "../../constants";
 import { getHexIntFromHexString, snapObjectXY } from "../../utils/editor";
 
 export class Stamper extends Phaser.GameObjects.Image {
   constructor(scene, classId, objectClass){
-    const { spriteSheetName, spriteIndex } = getTextureMetadata(objectClass.textureId)
-    super(scene, 0,0, spriteSheetName, spriteIndex)
+
+    const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
+
+    const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
+
+    if(!spriteSheetName) {
+      super(scene, 0, 0, textureId, 0)
+    } else {
+      super(scene, 0, 0, spriteSheetName, spriteIndex)
+    }
 
     this.scene = scene
     this.classId = classId

@@ -4,13 +4,13 @@ import GameContextMenuBody from '../../../game/ui/GameContextMenuBody/GameContex
 
 import './ContextMenus.scss'
 import ContextMenu from '../../ui/ContextMenu/ContextMenu';
-import { hasUnlockedInterfaceId, mapCobrowsingState } from '../../../utils/cobrowsing';
+import { isInterfaceIdUnlocked, mapCobrowsingState } from '../../../utils/cobrowsing';
 // import { MenuItem } from '@mui/material';
 // import { unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const ContextMenus = ({ contextMenu, remoteContextMenu, unlockableInterfaceIds, cobrowsing: { isSubscribedCobrowsing } }) => {  
+const ContextMenus = ({ contextMenu, remoteContextMenu, unlockableInterfaceIds, cobrowsing: { isSubscribedCobrowsing }, lobby: { lobby } , auth: { me }}) => {  
 
-  if(!hasUnlockedInterfaceId('contextMenu', unlockableInterfaceIds)) {
+  if(me?.role !== 'ADMIN' && lobby.id && !isInterfaceIdUnlocked('contextMenu', unlockableInterfaceIds)) {
     if(!isSubscribedCobrowsing) return
   }
 
@@ -46,7 +46,9 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   contextMenu: state.contextMenu,
   remoteContextMenu: state.cobrowsing.remoteState.contextMenu,
   unlockableInterfaceIds: state.unlockableInterfaceIds,
-  cobrowsing: state.cobrowsing
+  cobrowsing: state.cobrowsing,
+  lobby: state.lobby,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { })(ContextMenus);

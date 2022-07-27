@@ -7,40 +7,42 @@ export default function CanvasSprite(props) {
   const canvasRef = useRef(null)
 
   function drawImageWithTint(drawingContext, image, tint, sx, sy, swidth, sheight, dx, dy, dwidth, dheight) {
-      // create offscreen buffer, 
-      const buffer = document.createElement('canvas');
-      buffer.width = drawingContext.canvas.width;
-      buffer.height = drawingContext.canvas.height;
-      const bx = buffer.getContext('2d');
+    // create offscreen buffer, 
+    const buffer = document.createElement('canvas');
+    buffer.width = drawingContext.canvas.width;
+    buffer.height = drawingContext.canvas.height;
+    const bx = buffer.getContext('2d');
 
-      // fill offscreen buffer with the tint color
-      bx.fillStyle = tint
-      bx.fillRect(0,0,buffer.width,buffer.height);
+    // fill offscreen buffer with the tint color
+    bx.fillStyle = tint
+    bx.fillRect(0,0,buffer.width,buffer.height);
 
-      // destination atop makes a result with an alpha channel identical to image, but with all pixels retaining their original color *as far as I can tell*
-      bx.globalCompositeOperation = "destination-atop";
-      bx.drawImage(image, sx, sy, swidth, sheight, dx, dy, dwidth, dheight);
+    // destination atop makes a result with an alpha channel identical to image, but with all pixels retaining their original color *as far as I can tell*
+    bx.globalCompositeOperation = "destination-atop";
+    bx.drawImage(image, sx, sy, swidth, sheight, dx, dy, dwidth, dheight);
 
-      // to tint the image, draw it first
-      drawingContext.drawImage(image, sx, sy, swidth, sheight, dx, dy, dwidth, dheight);
+    // to tint the image, draw it first
+    drawingContext.drawImage(image, sx, sy, swidth, sheight, dx, dy, dwidth, dheight);
 
-      //then set the global alpha to the amound that you want to tint it, and draw the buffer directly on top of it.
-      drawingContext.globalAlpha = 0.5;
-      drawingContext.drawImage(buffer, dx, dy);
+    //then set the global alpha to the amound that you want to tint it, and draw the buffer directly on top of it.
+    drawingContext.globalAlpha = 0.5;
+    drawingContext.drawImage(buffer, dx, dy);
+    drawingContext.globalAlpha = 1
   }
 
   useEffect(() => {
+    if(!props.textureId) return
+    const { spriteSheetName } = getTextureMetadata(props.textureId)
+    if(!spriteSheetName) return
+    const texture = getSpriteData(props.textureId)  
+    if(!texture) return
+
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     context.webkitImageSmoothingEnabled = false
     context.webkitImageSmoothingEnabled = false;
     context.mozImageSmoothingEnabled = false;
     context.imageSmoothingEnabled = false;
-
-    const { spriteSheetName } = getTextureMetadata(props.textureId)
-    if(!spriteSheetName) return
-    const texture = getSpriteData(props.textureId)  
-    if(!texture) return
 
     const x = texture.x
     const y = texture.y
@@ -76,7 +78,7 @@ export default function CanvasSprite(props) {
   }
 
   if(!props.textureId) {
-    return <div className="CanvasSprite" style={{backgroundColor: props.ting, backgroundSize: 'cover'}}/>
+    return <div className="CanvasSprite" style={{backgroundColor: props.tint, backgroundSize: 'cover'}}/>
   }
 
   return <canvas className="CanvasSprite" style={tintStyle} ref={canvasRef}/>
