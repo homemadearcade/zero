@@ -91,7 +91,6 @@ const BrushList = ({
           }
         } else {
           const brushId = uuidv4()
-        
           editGameModel({
             brushes: {
               [brushId] : brush

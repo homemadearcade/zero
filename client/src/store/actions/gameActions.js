@@ -39,10 +39,10 @@ function onGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().game.gameModel)
 
   if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
-    if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep({...defaultObjectInstance}, gameUpdate.objects[id])
+    if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameUpdate.objects[id])
   })
   if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
-    if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep({...defaultObjectClass}, gameUpdate.classes[id])
+    if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameUpdate.classes[id])
   })
 
   const gameData = mergeDeep(oldGameData, gameUpdate)
@@ -179,13 +179,13 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
 
     window.socket.on(ON_GAME_MODEL_UPDATE, onGameModelUpdate)
 
-    const gameData = mergeDeep({...defaultGame}, response.data.game)
+    const gameData = mergeDeep(_.cloneDeep(defaultGame), response.data.game)
 
     Object.keys(gameData.objects).forEach((id) => {
-      gameData.objects[id] = mergeDeep({...defaultObjectInstance}, gameData.objects[id])
+      gameData.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameData.objects[id])
     })
     Object.keys(gameData.classes).forEach((id) => {
-      gameData.classes[id] = mergeDeep({...defaultObjectClass}, gameData.classes[id])
+      gameData.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameData.classes[id])
     })
     // Object.keys(gameData.brushes).forEach((id) => {
 
