@@ -1,9 +1,9 @@
 import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
-import { Canvas } from "./Canvas";
 import { splitIntoSubarrays } from "../../utils/arrays";
+import { CodrawingCanvas } from "./CodrawingCanvas";
 
-export class CollisionCanvas extends Canvas {
+export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
     super(scene, props)
 
@@ -62,8 +62,6 @@ export class CollisionCanvas extends Canvas {
         }
       }
     }
-
-    console.log(collisionGridNodes)
     
     this.collisionBody = new CompoundStaticBody(this.scene, 
       { 

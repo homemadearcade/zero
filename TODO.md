@@ -10,7 +10,7 @@ Zoom Slider
 
 What does Unlockable really look like? Weve got question mark squares. So what options to we want? What about options we actually just straight up want to hide? 
 
-So all this cobrowsing click together crap, does it all work the way we want it to?
+So all this cobrowsing click together crap, does it all work the way we want it to? We click, it effects their screen, for everything??
 
 Transparency? Should it be handled by brush or by color?
 
@@ -19,7 +19,6 @@ Transparency? Should it be handled by brush or by color?
 TODO NEXT
 
 4) DRAWING
-  BUG - Sometimes a Playground sprite is not picked up because it doesnt have alpha in the center
   BUG - brushing a ton sucks because the new image comes in and overwrites what you have
   Sync network drawing?
 
@@ -89,6 +88,7 @@ Better error handling locally and with cobrowsing, perhaps have just one error a
 Unauthenticate socket when logging out
 
 <AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
+lobby.id -> isInLobby
 
 unlock other features, such as camera move with keys? drag object? etc
 

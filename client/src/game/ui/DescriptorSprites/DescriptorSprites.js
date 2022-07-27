@@ -20,7 +20,7 @@ const DescriptorSprites = ({
 
   return <div className="DescriptorSprites">
     {sprites.map((sprite) => {
-      return <Sprite onClick={onClickSprite} key={sprite.textureId} textureId={sprite.textureId} width={32} height={32}/>
+      return <Sprite onClick={onClickSprite} key={sprite.textureId} textureId={sprite.textureId}/>
     })}
   </div>
 };

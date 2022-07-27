@@ -103,14 +103,7 @@ export class EditorScene extends GameInstance {
     }
 
     if(brushId && !this.brush) {
-      if(isBrushIdEraser(brushId)) {
-        this.brush = new Eraser(this, brushId)
-      } else if(isBrushIdColor(brushId)) {
-        this.brush = new Paintbrush(this, brushId)
-      } else {
-        const brush = gameModel.brushes[brushId]
-        this.brush = new Pencil(this, brushId, brush)
-      }
+      this.brush = this.getBrushFromBrushId(brushId)
     }
 
     if(this.brush) {
@@ -233,6 +226,19 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   // HELPERS
   ////////////////////////////////////////////////////////////
+  getBrushFromBrushId(brushId) {
+    const gameModel = store.getState().game.gameModel
+
+    if(isBrushIdEraser(brushId)) {
+      return new Eraser(this, brushId)
+    } else if(isBrushIdColor(brushId)) {
+      return new Paintbrush(this, brushId)
+    } else {
+      const brush = gameModel.brushes[brushId]
+      return new Pencil(this, brushId, brush)
+    }
+  }
+
   destroyStamp() {
     this.stamper.destroy()
     this.stamper = null

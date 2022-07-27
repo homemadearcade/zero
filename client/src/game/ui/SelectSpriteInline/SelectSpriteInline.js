@@ -12,7 +12,7 @@ import CreateColorFlow from '../../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { openCreateColorFlow } from '../../../store/actions/editorFormsActions';
-import CanvasSprite from '../CanvasSprite/CanvasSprite';
+import CanvasSprite from '../Sprite/Sprite';
 
 const SelectSpriteInline = ({
   textureIdSelected,

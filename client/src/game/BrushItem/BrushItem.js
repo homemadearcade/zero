@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { selectBrush, clearBrush } from '../../store/actions/editorActions';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
-import CanvasSprite from '../ui/CanvasSprite/CanvasSprite';
+import Sprite from '../ui/Sprite/Sprite';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },
@@ -30,7 +30,7 @@ const BrushItem = ({
     className={classNames("BrushItem", { 'BrushItem--selected': brushIdSelectedBrushList === brushId})}
   >
     <div className="BrushItem__sprite">
-      <CanvasSprite tint={brush.tint} textureId={brush.textureId}/>
+      <Sprite tint={brush.tint} textureId={brush.textureId}/>
     </div>
   </div>
 };
