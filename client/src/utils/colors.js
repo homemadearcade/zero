@@ -1,6 +1,7 @@
 import nearestColor from 'nearest-color';
 import colorNameList from 'color-name-list';
 import colorNames from './colorNames.json'
+import { splitIntoSubarrays } from './arrays';
 // nearestColor need objects {name => hex} as input
 function swapKeysAndValues(obj) {
   // 👇️ [['color', 'blue'], ['fruit', 'apple']]
@@ -126,14 +127,7 @@ export const findColorNameByHex = function(hex) {
 }
 
 export function createColors() {
-  function splitIntoSubarrays(array, subarraySize) {
-    const subarrays = []
-    for (let i = 0; i < array.length; i += subarraySize) {
-        const chunk = array.slice(i, i + subarraySize);
-        subarrays.push(chunk)
-    }
-    return subarrays
-  }
+
 
   const colorsSortedLayer1 = sortColors('hue', Object.keys(colorNames))
 

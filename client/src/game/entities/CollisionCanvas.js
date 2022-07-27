@@ -1,6 +1,7 @@
 import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
 import { Canvas } from "./Canvas";
+import { splitIntoSubarrays } from "../../utils/arrays";
 
 export class CollisionCanvas extends Canvas {
   constructor(scene, props){
@@ -30,45 +31,39 @@ export class CollisionCanvas extends Canvas {
 
     const terrainData = bufferCanvasContext.getImageData(0, 0, bufferCanvas.width, bufferCanvas.height);
     const data = terrainData.data
-    const grid = []
-    const rowLength = (4 * (gameModel.world.boundaries.width))
     const halfNodeSize = nodeSize/2
-
-    let x = 0;
-    let y = 0;
-    for(let i = halfNodeSize; i < data.length/rowLength; i += nodeSize) {
-      grid.push([])
-      y = 0
-      for(let i2 = (i * rowLength) + (halfNodeSize * 4); i2 < (i * rowLength) + rowLength; i2 += (4 * nodeSize)) {
-        y = i2/4
-        grid[x].push({ alpha: data[i2], touched: false})
-      }
-      x++ 
-    }
 
     const collisionGridNodes = []
     this.collisionBody?.destroy()
+    const alphaNodes = []
+    for(var i = 3; i<data.length; i+=4){
+      alphaNodes.push({ alpha: data[i], touched: false });
+    }
 
-    grid.forEach((row, y) => {
-      row.forEach((node, x) => {
+    const alphaGrid = splitIntoSubarrays(alphaNodes, gameModel.world.boundaries.width)
+    for(let y = halfNodeSize; y < alphaGrid.length; y+= nodeSize) {
+      const row = alphaGrid[y]
+      for(let x = halfNodeSize; x < row.length; x+= nodeSize) {
+        const node = row[x]
         if(node.alpha && ! node.touched) {
           let rowNodes = []
           let searchX = x
           while(row[searchX]?.alpha) {
             row[searchX].touched = true
-            searchX++
+            searchX += nodeSize
             rowNodes.push(row[searchX])
           }
 
-
           if(rowNodes.length) {
-            collisionGridNodes.push({ x: x * nodeSize, y: y * nodeSize, width: rowNodes.length})
+            collisionGridNodes.push({ x: x - halfNodeSize, y: y - halfNodeSize, width: rowNodes.length})
           } else {
-            collisionGridNodes.push({ x: x * nodeSize, y: y * nodeSize, width: 1})
+            collisionGridNodes.push({ x: x - halfNodeSize, y: y - halfNodeSize, width: 1})
           }
         }
-      })
-    })
+      }
+    }
+
+    console.log(collisionGridNodes)
     
     this.collisionBody = new CompoundStaticBody(this.scene, 
       { 

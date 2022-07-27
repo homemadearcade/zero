@@ -23,7 +23,7 @@ TODO NEXT
   BUG - brushing a ton sucks because the new image comes in and overwrites what you have
   Sync network drawing?
 
-WORLDBUILDING
+GRAPHICAL WORLDBUILDING
 Sprite Editor
 Game Size, Boundary
 
@@ -72,7 +72,7 @@ TODO EVENTUALLY...
 
 Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
 
-gameModal class
+gameModal class?
 
 Lock to cobrowsers camera
 
@@ -95,6 +95,11 @@ unlock other features, such as camera move with keys? drag object? etc
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 ID system? is that smart
 Seperate more reducers?
+Lobbys..
+
+Object Instance -> Texture, Instance, Graphics
+Square
+standardize all the this
 
 logic for unlockables
 --------
