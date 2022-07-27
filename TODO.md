@@ -18,8 +18,6 @@ Transparency? Should it be handled by brush or by color?
 
 TODO NEXT
 
-Bug with context menu in local edit mode, need to unlock context menu for that..
-
 4) DRAWING
   BUG - Sometimes a Playground sprite is not picked up because it doesnt have alpha in the center
   BUG - brushing a ton sucks because the new image comes in and overwrites what you have

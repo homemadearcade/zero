@@ -41,9 +41,9 @@ const BrushList = ({
     <div className="BrushList">
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
-      <LayerColorSelect layerId={BACKGROUND_LAYER_ID}/>
       <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
       <EraserSelect layerId={BACKGROUND_LAYER_ID}/>
+      <LayerColorSelect layerId={BACKGROUND_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}</div>
@@ -53,9 +53,9 @@ const BrushList = ({
         +
       </Button>
       <Typography component="h5" variant="h5">Playground</Typography>
-      <LayerColorSelect layerId={PLAYGROUND_LAYER_ID}/>
       <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
       <EraserSelect layerId={PLAYGROUND_LAYER_ID}/>
+      <LayerColorSelect layerId={PLAYGROUND_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}</div>
@@ -65,9 +65,9 @@ const BrushList = ({
         +
       </Button>
       <Typography component="h5" variant="h5">Overhead</Typography>
-      <LayerColorSelect layerId={OVERHEAD_LAYER_ID}/>
       <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
       <EraserSelect layerId={OVERHEAD_LAYER_ID}/>
+      <LayerColorSelect layerId={OVERHEAD_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {
         return <BrushItem key={i} brushId={brushId}/>
       })}</div>
@@ -79,13 +79,26 @@ const BrushList = ({
     </div>
     {isCreateBrushFlowOpen && <CreateBrushFlow 
       onComplete={(brush) => {
-        const brushId = uuidv4()
-        
-        editGameModel({
-          brushes: {
-            [brushId] : brush
+        if(!brush.textureId) {   
+          if(brush.tint) {
+            editGameModel({
+              colors: {
+                [brush.tint]: {
+                  [brush.layerId]: true
+                }
+              }
+            })
           }
-        })
+        } else {
+          const brushId = uuidv4()
+        
+          editGameModel({
+            brushes: {
+              [brushId] : brush
+            }
+          })
+        }
+
       }}
     />}
   </>
