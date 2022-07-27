@@ -26,8 +26,6 @@ lobbys arent saved after they are saved initially, lobby update needs to save a 
 
 Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
 
-standardize logic for unlockables
-
 --
 
 GRAPHICAL WORLDBUILDING
@@ -98,6 +96,8 @@ check and make sure phaser is deleting the game objects
 security for codrawing and cobrowsing, make sure they are in the lobby!
 
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
+
+useHooks for Unlockable Data and other data...
 
 --------
 
