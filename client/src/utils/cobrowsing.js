@@ -58,7 +58,7 @@ export function getCobrowsingState() {
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
     video: remoteState.video,
-    unlockableInterfaceIds: remoteState.unlockableInterfaceIDs
+    unlockableInterfaceIds: remoteState.unlockableInterfaceIds
   }
 }
 
@@ -92,14 +92,55 @@ export function getInterfaceIdAliases(interfaceId) {
   return idAliases
 }
 
-export function isInterfaceIdUnlocked(interfaceId, unlockableInterfaceIds) {
-  const idAliases = getInterfaceIdAliases(interfaceId)
-
-  const isUnlocked = unlockableInterfaceIds['all'] || idAliases.every((aliases) => {
+export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
+  return unlockableInterfaceIds['all'] || idAliases.every((aliases) => {
     return aliases.some((alias) => {
       return unlockableInterfaceIds[alias]
     })
   })
-
-  return { isUnlocked, idAliases }
 } 
+
+export function getInterfaceIdData(interfaceId) {
+  const state = getCobrowsingState()
+  const unlockableInterfaceIds = state.unlockableInterfaceIds
+  const idAliases = getInterfaceIdAliases(interfaceId)
+
+  if(!state.lobby.lobby.id) {
+    return {
+      isUnlocked: true,
+      idAliases,
+      isObscured: false,
+      isLockToggleable: false
+    }
+  }
+
+  const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
+  const isObscured = isInterfaceIdObscured(interfaceId)
+
+  const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+  const me = state.auth.me
+  const isLockToggleable = me?.role === 'ADMIN' && isSubscribedCobrowsing
+
+  return {
+    isUnlocked,
+    idAliases,
+    isObscured,
+    isLockToggleable
+  }
+}
+
+export function isInterfaceIdObscured(interfaceId) {
+  const state = getCobrowsingState()
+  const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+  const me = state.auth.me
+
+  if(me?.role === 'ADMIN') {
+    return false
+  }
+
+  if(isSubscribedCobrowsing) {
+    return false
+  }
+
+  return true
+}
