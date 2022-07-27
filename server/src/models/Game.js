@@ -40,6 +40,11 @@ const gameSchema = new Schema(
       required: true,
       default: {}
     },
+    colors: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     awsImages: {
       type: Object,
       required: true,
@@ -66,6 +71,7 @@ export const validateGame = (game) => {
     objects: Joi.object(),
     classes: Joi.object(),
     brushes: Joi.object(),
+    colors: Joi.object(),
     awsImages: Joi.object(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
@@ -79,6 +85,7 @@ gameSchema.methods.toJSON = function () {
     hero: this.hero,
     classes: this.classes,
     brushes: this.brushes,
+    colors: this.colors,
     world: this.world,
     awsImages: this.awsImages,
     user: this.user.toJSON(),

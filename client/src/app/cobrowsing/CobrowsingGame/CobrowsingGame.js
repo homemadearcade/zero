@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
   });
 
   const cobrowsingUser = state.cobrowsing.cobrowsingUser
-  const cobrowsingScrolls =  state.status.cobrowsingScroll
+  const cobrowsingScrolls =  state.status.cobrowsingScrolls
   if(cobrowsingScrolls[cobrowsingUser.id]) {
     const { leftColumnScrollYPercent, rightColumnScrollYPercent } = cobrowsingScrolls[cobrowsingUser.id]
     cobrowsingState.leftColumnScrollYPercent = leftColumnScrollYPercent

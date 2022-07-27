@@ -5,19 +5,19 @@ import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '..//ui/SelectDescriptors/SelectDescriptors';
-import { clearEditorForms, updateCreateClass } from '../../store/actions/editorFormsActions';
+import { clearEditorForms, closeCreateClassFlow, updateCreateClass } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, onClose, editorForms: { class: objectClass } }) => {
+const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, closeCreateClassFlow, editorForms: { class: objectClass } }) => {
   function handleClose() {
-    onClose()
+    closeCreateClassFlow()
     clearEditorForms()
   }
 
-  return <CobrowsingModal open={true} onClose={onClose}>
+  return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateClassFlow">
       <Typography component="h2" variant="h2">Create Class</Typography>
       <SelectDescriptors 
@@ -53,5 +53,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateClass, clearEditorForms }),
+  connect(mapStateToProps, { updateCreateClass, closeCreateClassFlow, clearEditorForms }),
 )(CreateClassFlow);

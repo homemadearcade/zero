@@ -1,13 +1,16 @@
 import { 
   OPEN_CREATE_CLASS_FLOW,
-  OPEN_CREATE_BRUSH_FLOW,
-  CLOSE_CREATE_CLASS_FLOW,
-  CLOSE_CREATE_BRUSH_FLOW,
-  UPDATE_CREATE_BRUSH,
-  UPDATE_CREATE_CLASS,
-  CLEAR_EDITOR_FORMS,
   UPDATE_CREATE_CLASS_STEP,
-  UPDATE_CREATE_BRUSH_STEP
+  CLOSE_CREATE_CLASS_FLOW,
+  UPDATE_CREATE_CLASS,
+  OPEN_CREATE_COLOR_FLOW,
+  CLOSE_CREATE_COLOR_FLOW,
+  UPDATE_CREATE_COLOR,
+  CLOSE_CREATE_BRUSH_FLOW,
+  OPEN_CREATE_BRUSH_FLOW,
+  UPDATE_CREATE_BRUSH,
+  UPDATE_CREATE_BRUSH_STEP,
+  CLEAR_EDITOR_FORMS,
 } from '../types';
 
 export const clearEditorForms = () => (dispatch, getState) => {
@@ -31,6 +34,48 @@ export const closeCreateClassFlow = () => (dispatch, getState) => {
     updateCobrowsing: true,
     type: CLOSE_CREATE_CLASS_FLOW,
     payload: {}
+  });
+}
+
+export const updateCreateClass = (objectClass) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_CLASS,
+    payload: { class: objectClass }
+  });
+}
+
+export const updateCreateClassStep = (step) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_CLASS_STEP,
+    payload: { step }
+  });
+}
+
+export const openCreateColorFlow = (layerId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CREATE_COLOR_FLOW,
+    payload: {
+      layerId
+    }
+  });
+}
+
+export const closeCreateColorFlow = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_COLOR_FLOW,
+    payload: {}
+  });
+}
+
+export const updateCreateColor = (color) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_COLOR,
+    payload: { color }
   });
 }
 
@@ -60,26 +105,10 @@ export const updateCreateBrush = (brush) => (dispatch, getState) => {
   });
 }
 
-export const updateCreateClass = (objectClass) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: UPDATE_CREATE_CLASS,
-    payload: { class: objectClass }
-  });
-}
-
 export const updateCreateBrushStep = (step) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: UPDATE_CREATE_BRUSH_STEP,
-    payload: { step }
-  });
-}
-
-export const updateCreateClassStep = (step) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: UPDATE_CREATE_CLASS_STEP,
     payload: { step }
   });
 }

@@ -7,7 +7,7 @@ import { getCurrentGameScene } from '../../utils/editor';
 
 const LocalGameToolbar = ({ game: { gameInstance } }) => {
   const [isPaused, setIsPaused] = useState(false)
-  const [isEditModeOn, setIsEditModeOn] = useState(false)
+  const [isEditModeOn, setIsEditModeOn] = useState(true)
 
   if(!gameInstance) return
 

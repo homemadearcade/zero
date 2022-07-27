@@ -15,7 +15,7 @@ const LobbyChecklist = ({
   editLobby,
   lobby: { lobby },
   auth: { me },
-  status: { lobbyUserStatus }
+  status: { lobbyUserStatuses }
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -106,7 +106,7 @@ const LobbyChecklist = ({
     {
       text: 'Participant is fullscreen',
       test: () => {
-        return lobbyUserStatus[lobby.participantId]?.isFullscreen
+        return lobbyUserStatuses[lobby.participantId]?.isFullscreen
       },
       required: false,
     },

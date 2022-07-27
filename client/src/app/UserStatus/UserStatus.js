@@ -9,9 +9,9 @@ import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 import { Paper } from '@mui/material';
 import Icon from '../ui/Icon/Icon';
 
-const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatus, cobrowsingMouse }, cobrowsing: { cobrowsingUser }, auth: {me} }) => {
-  const userStatus = lobbyUserStatus[userId];
-  const userCobrowsingStatus = cobrowsingMouse[userId]
+const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, cobrowsing: { cobrowsingUser }, auth: {me} }) => {
+  const userStatus = lobbyUserStatuses[userId];
+  const userCobrowsingStatus = cobrowsingMouses[userId]
   const user = lobby.users.filter(({id}) => {
     if(userId === id) {
       return true

@@ -5,21 +5,19 @@ import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../ui/SelectDescriptors/SelectDescriptors';
-import RadioGroupColumn from '../../app/ui/RadioGroupColumn/RadioGroupColumn';
-import { updateCreateBrush, clearEditorForms } from '../../store/actions/editorFormsActions';
+import { updateCreateBrush, clearEditorForms, closeCreateBrushFlow } from '../../store/actions/editorFormsActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
-import { BACKGROUND_LAYER_ID, PLAYGROUND_LAYER_ID, OVERHEAD_LAYER_ID } from '../../constants';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 
-const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, onClose, editorForms: { brush, createBrushFlowLayer } }) => {
+const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, closeCreateBrushFlow,  editorForms: { brush }}) => {
   function handleClose() {
-    onClose()
+    closeCreateBrushFlow()
     clearEditorForms()
   }
 
-  return <CobrowsingModal open={true} onClose={onClose}>
+  return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
       <SelectDescriptors 
@@ -57,5 +55,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateBrush, clearEditorForms }),
+  connect(mapStateToProps, { updateCreateBrush, clearEditorForms, closeCreateBrushFlow }),
 )(CreateBrushFlow);

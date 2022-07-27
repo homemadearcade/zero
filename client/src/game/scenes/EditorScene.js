@@ -24,7 +24,7 @@ export class EditorScene extends GameInstance {
     this.brush = null 
     this.stamper = null
     this.gameResetDate = Date.now()
-    this.isEditModeOn = false
+    this.isEditModeOn = true
     this.editorCamera = null
     this.remoteEditors = []
     this.cameraDragStart = null

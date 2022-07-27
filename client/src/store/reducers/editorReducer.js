@@ -14,13 +14,14 @@ import {
 
 const initialState = {
   error: null,
+  colorIdSelected: null,
   brushIdSelectedBrushList: null,
   classIdSelectedClassList: null,
+  brushSize: 3,
+  cameraZoom: 1,
   classIdSelectedLiveEditor: null,
   isLiveEditorOpen: false,
   liveEditingCategory: null,
-  brushSize: 3,
-  cameraZoom: 1,
 };
 
 export const initialEditorFormsState = initialState

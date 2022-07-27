@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
       }),
     });
   } catch (err) {
+    console.error(err)
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
@@ -27,6 +28,7 @@ router.get('/:id', async (req, res) => {
     if (!game) return res.status(404).json({ message: 'No game found.' });
     res.json({ game: game.toJSON() });
   } catch (err) {
+    console.error(err)
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
@@ -46,6 +48,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       hero: req.body.hero, 
       classes: req.body.classes,
       brushes: req.body.brushes,
+      colors: req.body.colors,
       awsImages: req.body.awsImages,
       world: req.body.world, 
       user: req.body.userId,
@@ -55,6 +58,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
     res.status(200).json({ game: game.toJSON() });
   } catch (err) {
+    console.error(err)
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
@@ -69,6 +73,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 //     if (!game) return res.status(404).json({ game: 'No game found.' });
 //     res.status(200).json({ game });
 //   } catch (err) {
+  // console.error(err)
 //     res.status(500).json({ game: 'Something went wrong.' });
 //   }
 // });
@@ -107,6 +112,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         hero: updatedGame.hero, 
         classes: updatedGame.classes,
         brushes: updatedGame.brushes,
+        colors: updatedGame.colors,
         awsImages: updatedGame.awsImages,
         world: updatedGame.world, 
         user: tempGame.user.id 
@@ -123,6 +129,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
     
     res.status(200).json({ game: updatedGame });
   } catch (err) {
+    console.error(err)
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });

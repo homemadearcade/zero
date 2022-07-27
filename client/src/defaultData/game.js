@@ -18,6 +18,9 @@ export const defaultGame = {
       "x": 0
     },
   },
+  colors: {
+
+  },
   "awsImages": {
     // "url": "xxx",
     // "name": 'name'
@@ -31,6 +34,9 @@ export const defaultGame = {
   },
   "classes": {
     "spaceship": spaceshipClass
+  },
+  "brushes" : {
+
   },
   "objects": {
   }

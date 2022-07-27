@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import './RemoteMouse.scss';
 
-const RemoteMouse = ({userId, status: { cobrowsingMouse} }) => {
-  const mouseData = cobrowsingMouse[userId];
+const RemoteMouse = ({userId, status: { cobrowsingMouses} }) => {
+  const mouseData = cobrowsingMouses[userId];
 
   if(!mouseData) {
     return null

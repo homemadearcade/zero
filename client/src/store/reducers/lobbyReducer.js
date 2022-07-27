@@ -26,7 +26,6 @@ const initialState = {
   lobby: {
     users: []
   },
-  lobbyUserStatus: {},
   isLoading: false,
   error: null,
   isJoining: false,

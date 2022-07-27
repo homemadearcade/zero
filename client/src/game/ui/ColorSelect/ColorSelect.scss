@@ -1,0 +1,15 @@
+.ColorSelect {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__color {
+    width: 21px;
+    height: 21px;
+
+    &:hover {
+      border: 1px solid white;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

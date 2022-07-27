@@ -12,6 +12,8 @@ What does Unlockable really look like? Weve got question mark squares. So what o
 
 So all this cobrowsing click together crap, does it all work the way we want it to?
 
+Transparency? Should it be handled by brush or by color?
+
 --
 
 TODO NEXT
@@ -77,6 +79,8 @@ Better error handling locally and with cobrowsing, perhaps have just one error a
 Unauthenticate socket when logging out
 
 <AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
+
+unlock other features, such as camera move with keys? drag object? etc
 
 --------
 

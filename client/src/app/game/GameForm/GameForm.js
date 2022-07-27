@@ -18,6 +18,7 @@ const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
       metadata: {},
       classes: {},
       brushes: {},
+      colors: {},
       awsImages: {},
       userId: me.id
     },

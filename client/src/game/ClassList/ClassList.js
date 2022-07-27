@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './ClassList.scss';
 import { editGameModel } from '../../store/actions/gameActions';
-import Loader from '../../app/ui/Loader/Loader';
 import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 import { closeCreateClassFlow, openCreateClassFlow } from '../../store/actions/editorFormsActions';
@@ -17,8 +16,6 @@ const ClassList = ({
   game: { gameModel },
   editorForms: { isCreateClassFlowOpen },
   editGameModel,
-  closeCreateClassFlow,
-  openCreateClassFlow
 }) => {
   const classes = gameModel?.classes
 
@@ -57,9 +54,6 @@ const ClassList = ({
     </Button>
 
     {isCreateClassFlowOpen && <CreateClassFlow 
-      onClose={() => {
-        closeCreateClassFlow()
-      }}
       onComplete={(objectClass) => {
         const classId = uuidv4()
         editGameModel({
@@ -80,5 +74,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   editorForms: state.editorForms,
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateClassFlow, closeCreateClassFlow }),
+  connect(mapStateToProps, { editGameModel, openCreateClassFlow }),
 )(ClassList);

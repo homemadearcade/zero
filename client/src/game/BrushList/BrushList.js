@@ -9,7 +9,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
-import { closeCreateBrushFlow, openCreateBrushFlow } from '../../store/actions/editorFormsActions';
+import { openCreateBrushFlow } from '../../store/actions/editorFormsActions';
 import { BACKGROUND_LAYER_ID, OVERHEAD_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../constants';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
@@ -17,12 +17,12 @@ import BrushControl from '../BrushControl/BrushControl';
 import EraserSelect from '../ui/EraserSelect/EraserSelect';
 import LayerVisibility from '../ui/LayerVisibility/LayerVisibility';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
+import ColorSelect from '../ui/ColorSelect/ColorSelect';
 
 const BrushList = ({
   game: { gameModel },
   editorForms: { isCreateBrushFlowOpen },
   editGameModel,
-  closeCreateBrushFlow,
   openCreateBrushFlow
 }) => {
   const brushes = gameModel?.brushes
@@ -42,6 +42,7 @@ const BrushList = ({
     <div className="BrushList">
       <BrushControl/>
       <Typography component="h5" variant="h5">Background</Typography>
+      <ColorSelect layerId={BACKGROUND_LAYER_ID}/>
       <LayerVisibility layerId={BACKGROUND_LAYER_ID} />
       <EraserSelect layerId={BACKGROUND_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[BACKGROUND_LAYER_ID]?.map(({brushId}, i) => {
@@ -53,6 +54,7 @@ const BrushList = ({
         +
       </Button>
       <Typography component="h5" variant="h5">Playground</Typography>
+      <ColorSelect layerId={PLAYGROUND_LAYER_ID}/>
       <LayerVisibility layerId={PLAYGROUND_LAYER_ID} />
       <EraserSelect layerId={PLAYGROUND_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[PLAYGROUND_LAYER_ID]?.map(({brushId}, i) => {
@@ -64,6 +66,7 @@ const BrushList = ({
         +
       </Button>
       <Typography component="h5" variant="h5">Overhead</Typography>
+      <ColorSelect layerId={OVERHEAD_LAYER_ID}/>
       <LayerVisibility layerId={OVERHEAD_LAYER_ID} />
       <EraserSelect layerId={OVERHEAD_LAYER_ID}/>
       <div className="BrushList__brushes">{brushesByLayer[OVERHEAD_LAYER_ID]?.map(({brushId}, i) => {
@@ -76,9 +79,6 @@ const BrushList = ({
       </Button>
     </div>
     {isCreateBrushFlowOpen && <CreateBrushFlow 
-      onClose={() => {
-        closeCreateBrushFlow()
-      }}
       onComplete={(brush) => {
         const brushId = uuidv4()
         
@@ -87,8 +87,6 @@ const BrushList = ({
             [brushId] : brush
           }
         })
-
-        closeCreateBrushFlow()
       }}
     />}
   </>
@@ -101,5 +99,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 
 
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateBrushFlow, closeCreateBrushFlow }),
+  connect(mapStateToProps, { editGameModel, openCreateBrushFlow }),
 )(BrushList);
