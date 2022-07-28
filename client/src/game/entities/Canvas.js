@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import store from "../../store";
 import { addAwsImage } from "../../store/actions/gameActions";
 import { urlToFile } from "../../utils/utils";
+import _ from "lodash";
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { canvasId }){
@@ -21,23 +22,15 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     const gameHostId = lobby.gameHostId
     this.isHost = !lobby.id || me.id === gameHostId
 
-    setInterval(() => {
-      this.save()
-    }, 300000)
-    // 5 minutes auto save
-
     this.isSavingToAws = false
-    this.needsSave = false
 
     return this
   }
 
   save = async ()  => {
     if(!this.isHost) return
-    if(!this.needsSave) return
-    this.needsSave = false
     this.isSavingToAws = true
-
+    
     this.scene.input.setDefaultCursor('wait');
 
     const fileId = this.textureId
@@ -51,6 +44,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     }))
   }
 
+  debouncedSave = _.debounce(this.save, 3000);
+
   updateTexture = () => {
     this.scene.textures.remove(this.textureId)
     this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
@@ -61,6 +56,10 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
       this.initialDraw()
     });
     this.scene.load.start();
+  }
+
+  onStrokeReleased() {
+    this.debouncedSave()
   }
 
   getBufferCanvasFromRenderTexture = (renderTexture) => {
@@ -89,7 +88,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     if(this.isSavingToAws) {
       return false
     }
-    this.needsSave = true
     super.draw(entries, x, y)
   }
 
@@ -97,7 +95,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     if(this.isSavingToAws) {
       return false
     }
-    this.needsSave = true
     super.erase(entries, x, y)
   }
 

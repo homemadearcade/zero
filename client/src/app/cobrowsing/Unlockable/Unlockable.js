@@ -11,9 +11,11 @@ import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({isTiny, hideIfObscured, hideToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider}) => {
+const Unlockable = ({isTiny, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider}) => {
 
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
+
+  const customClassName = className + ' id-' + interfaceId
 
   function mapIdsToMenuItems(closeMenu) {
     if(!isUnlocked) {
@@ -46,27 +48,22 @@ const Unlockable = ({isTiny, hideIfObscured, hideToggle, className, unlockableIn
 
   // essentally for admins
   if(isLockToggleable) {
-    return <div className={className + " Unlockable Unlockable--unlocked"}>
+    return <div className={customClassName + " Unlockable Unlockable--unlocked"}>
       {children}
       {/* not enough space to have unlockable icon when its unlocked */}
-      {(!isTiny && !hideToggle) && <ToggleLockMenu/>}
+      {(!isTiny) && <ToggleLockMenu/>}
     </div>
   }
 
   if(isUnlocked) {
     if(isTiny) return children
 
-    return <div className={className}>{children}</div>
+    return <div className={customClassName}>{children}</div>
   }
 
   if(isObscured) {
-    // if its reached this point, its locked
-    if(hideIfObscured) {
-      return null
-    }
-
     // IF LOCKED UP THEN JUST SHOW A BLACK WALL
-    return <div className={className + " Unlockable Unlockable--locked"}>
+    return <div className={customClassName + " Unlockable Unlockable--locked"}>
       {children}
       <div className={classNames("Unlockable__cover", {'Unlockable__cover--slider': isSlider})}>
         <Icon icon="faLock" />
@@ -74,7 +71,7 @@ const Unlockable = ({isTiny, hideIfObscured, hideToggle, className, unlockableIn
     </div>
   }
 
-  return <div className={className}>{children}</div>
+  return <div className={customClassName}>{children}</div>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

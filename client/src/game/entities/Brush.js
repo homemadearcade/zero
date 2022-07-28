@@ -37,7 +37,7 @@ export class Brush extends Phaser.GameObjects.Image {
     this.lastSnapY = null
     this.strokeMemory = []
 
-    this.canvasId = null
+    this.canvas = null
 
     return this
   }
@@ -69,15 +69,16 @@ export class Brush extends Phaser.GameObjects.Image {
     } else {
       canvas.draw(this, x, y);
     }
-    this.canvasId = canvas.canvasId
+    this.canvas = canvas
   }
 
   releaseStroke() {
     const lobby = store.getState().lobby.lobby
     if(lobby.id) {
-      store.dispatch(publishCodrawingStrokes({ brushId: this.brushId, canvasId: this.canvasId, stroke: this.strokeMemory }))
+      store.dispatch(publishCodrawingStrokes({ brushId: this.brushId, canvasId: this.canvas.canvasId, stroke: this.strokeMemory }))
     }
-    this.canvasId = null
+    this.canvas.onStrokeReleased()
+    this.canvas = null
     this.strokeMemory = []
   }
 }

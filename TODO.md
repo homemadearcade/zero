@@ -2,11 +2,11 @@ CONVERSATION TOPICS
 
 Camera Drag vs WASD vs Arrow Keys. Controls conversation
 
-Edit Mode, how does that work. Can you control the hero? What else changes? Can you still add items during non edit mode?
+Edit Mode, how does that work. Can you control the hero? What else changes? Can you still add items during non edit mode? What is Section mode called?
 
-Lobby Steps
+Lobby Steps, how is it?
 
-Zoom Slider
+Zoom Slider, do we need it?
 
 What does Unlockable really look like? Weve got question mark squares. So what options to we want? What about options we actually just straight up want to hide? 
 
@@ -16,15 +16,13 @@ Transparency? Should it be handled by brush or by color?
 
 preventing scroll? How can we design it so nothing scrolls? they get smaller and smaller? yeah...I like that!
 
+UX for change background color?
+
 --
 
 TODO NOW
 
-choose background color
-
-lobbys arent saved after they are saved initially, lobby update needs to save a version of da lobby...
-
-Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
+checking for lobby.id
 
 --
 
@@ -54,6 +52,8 @@ Controls - speed, other phaser examples, etc
 
 TODO LATER
 
+choose background color
+
 Zoom Slider
 
 VALIDATION ON ALL FORMS
@@ -73,11 +73,23 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 ---
 
-TODO EVENTUALLY
+TODO FEATURES
 
 Cobrowsing Click event
 
 Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
+
+Spray Can, Paintbrush, Crayon?
+
+For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
+
+right click brush - copy to layer X, delete, open in sprite editor
+
+--
+
+TODO CHORES 
+
+Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
 
 Better error handling locally and with cobrowsing, perhaps have just one error array and make sure that array is shared in cobrowsing as well
 
@@ -88,14 +100,6 @@ remove brush 9 and 22.5 when you're not in the top layer
 add Login and Signup components to withAuth - update lobby find
 
 Unauthenticate socket when logging out
-
-checking for lobby.id
-
-Object Instance -> Texture, Instance, Graphics
-Square 
-
---------
-TODO CHORES
 
 util files -> Util Suffix
 
@@ -109,31 +113,29 @@ DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
 useHooks for Unlockable Data and other data...
 
+<AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
+
+Outline Class ( for eraser and objectInstance, and camerapreview? )
+
 --------
 
 TODO MAYBE
 
-Spray Can, Paintbrush
-
-unlock other features, such as camera move with keys? drag object? etc
-
-<AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
-lobby.id -> isInLobby
-
-right click brush - copy to layer X, delete, open in sprite editor
+interfaceUnlock other features, such as camera move with keys? drag object? etc
 
 Unlock snap to grid?
+
+Lock to cobrowsers camera
+
+Right click -> snap camera to section? regardless if you are in section or not?
 
 circle for objectInstance body?
 
 Game Modal class? for like getting data from redux  so we can get game data with functions
 
-Lock to cobrowsers camera
-
-ID system? is that smart
+ID system? is that smart? Like be able to figure out what anything is based on its id?
 
 Seperate more reducers?
-
 
 --------
 

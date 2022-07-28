@@ -85,8 +85,9 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
     let lobby = await Lobby.create({
       participants: req.body.participants,
       startTime: req.body.startTime,
-      gameHostId: req.body.participants[0],
-      participantId: req.body.participants[0],
+      gameHostId: req.body.gameHostId,
+      participantId: req.body.participantId,
+      guideId: req.body.guideId,
       game: req.body.game
     });
 
@@ -164,7 +165,7 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
   })[0]
 
   if(req.lobby.isGamePoweredOn) {
-    return res.status(400).json({ message: 'You cannot assign a role when the lobby game is started' });
+    return res.status(400).json({ message: 'You cannot assign a role when the lobby game is powered on' });
   }
 
   if(req.body.role === 'gameHost') {
@@ -196,6 +197,16 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
       }
     }
   }
+
+  const updatedLobby = await Lobby.findByIdAndUpdate(
+    req.params.id,
+    { 
+      gameHostId: req.lobby.gameHostId,
+      participantId: req.lobby.participantId,
+      guideId: req.lobby.guideId,
+    },
+    { new: true },
+  );
 
   // if(!userFound) {
   //   return res.status(400).json({ message: 'You are not a member of this lobby' });
@@ -324,12 +335,25 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
   try {
 
     if(req.lobby.isGamePoweredOn && req.body.gameId) {
-      return res.status(400).json({ message: 'You cannot edit a lobby game id when game is started' });
+      return res.status(400).json({ message: 'You cannot change the game id of a lobby when game is powered on' });
     }
 
     if(req.body.isGamePoweredOn && req.user.role !== 'ADMIN') {
-      return res.status(400).json({ message: 'You do not have privelages to start a game.' });
+      return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
     }
+
+    const updatedLobby = await Lobby.findByIdAndUpdate(
+      req.params.id,
+      { 
+        participants: req.body.participants,
+        startTime: req.body.startTime,
+        gameHostId: req.body.gameHostId,
+        participantId: req.body.participantId,
+        guideId: req.body.guideId,
+        game: req.body.game
+      },
+      { new: true },
+    );
 
     Object.assign(req.lobby,req.body)
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});

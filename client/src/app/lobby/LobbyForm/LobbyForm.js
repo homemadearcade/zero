@@ -23,7 +23,8 @@ const LobbyForm = ({ addLobby, onSubmit, addGame }) => {
       userId: data.participants
     });
     const game = gameResponse.data.game
-    await addLobby({ game: game.id, participants: [data.participants], startTime: data.startTime });
+    const participantId = data.participants
+    await addLobby({ game: game.id, participants: [data.participants], participantId: participantId, gameHostId: participantId, startTime: data.startTime });
     reset();
     onSubmit()
   }

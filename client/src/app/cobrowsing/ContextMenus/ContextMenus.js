@@ -5,7 +5,6 @@ import GameContextMenuBody from '../../../game/ui/GameContextMenuBody/GameContex
 import './ContextMenus.scss'
 import ContextMenu from '../../ui/ContextMenu/ContextMenu';
 import Unlockable from '../Unlockable/Unlockable';
-
 const ContextMenus = ({ contextMenu, remoteContextMenu}) => {  
 
   function renderContextMenus() {
@@ -13,7 +12,9 @@ const ContextMenus = ({ contextMenu, remoteContextMenu}) => {
       const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = contextMenu
   
       return <ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
-        <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
+        <Unlockable interfaceId="contextMenu">
+          <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
+        </Unlockable>
       </ContextMenu>
     }
   
@@ -23,16 +24,16 @@ const ContextMenus = ({ contextMenu, remoteContextMenu}) => {
   
       // need to calculate contextMenuX percent because... its not perfect
       return <ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
-        <div className="ContextMenus__remote-menu">
-          <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
-        </div>
+        <Unlockable interfaceId="contextMenu">
+          <div className="ContextMenus__remote-menu">
+            <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
+          </div>
+        </Unlockable>
       </ContextMenu>
     }
   }
 
-  return <Unlockable interfaceId="contextMenu" hideToggle>
-    {renderContextMenus()}
-  </Unlockable>
+  return renderContextMenus()
 }
 
 /// context menu state is passed to the subscriber, but it isnt mapped to cobrowsing state, it must be accessed directly

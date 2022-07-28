@@ -17,8 +17,7 @@ export const publishCodrawingStrokes = ({canvasId, brushId, stroke}) => async (d
     // dispatch({
     //   type: ON_CODRAWING_STROKE,
     //   payload: { canvasId, strokeData },
-    // });
-    
+    // });    
     const options = attachTokenToHeaders(getState);
     await axios.put('/api/codrawing/stroke/' + canvasId, { brushId, stroke }, options);
   } catch (err) {

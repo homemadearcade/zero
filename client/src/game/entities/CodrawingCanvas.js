@@ -13,24 +13,24 @@ export class CodrawingCanvas extends Canvas {
     const lobby = state.lobby.lobby
     if(!lobby.id) return
 
-    const me = state.auth.me 
-    const gameHostId = lobby.gameHostId
-    this.isHost = me.id === gameHostId
     this.canvasId = props.canvasId
     this.scene = scene
 
     store.dispatch(subscribeCodrawing(this.canvasId))
 
-    if(this.isHost) {
-      window.socket.on(ON_CODRAWING_SUBSCRIBED, ({ userId, canvasId  }) => {
-        if(canvasId !== this.canvasId) return 
-        if(userId === me.id) return 
-        this.save()
-      });
-    }
+    // if(this.isHost) {
+    //   window.socket.on(ON_CODRAWING_SUBSCRIBED, ({ userId, canvasId  }) => {
+    //     if(canvasId !== this.canvasId) return 
+    //     if(userId === me.id) return 
+    //     this.save()
+    //   });
+    // }
   
     // event that is triggered if codrawing has been registered
     window.socket.on(ON_CODRAWING_STROKE, ({userId, canvasId, stroke, brushId }) => {
+      const state = store.getState()
+      const me = state.auth.me 
+
       if(canvasId !== this.canvasId) return 
       if(userId === me.id) return 
 
@@ -45,6 +45,7 @@ export class CodrawingCanvas extends Canvas {
       brush.destroy()
 
       if(canvas.createCollisionBody) canvas.createCollisionBody()
+      if(this.isHost) this.onStrokeReleased()
     });
 
     // if you are the game host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
