@@ -56,12 +56,14 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isJoining: false,
+        isInsideLobby: true,
         lobby: {...payload.lobby, users: payload.lobby.users.slice()}
       };
     case LEAVE_LOBBY_SUCCESS:
     return {
       ...state,
       isJoining: false,
+      isInsideLobby: false,
       lobby: initialState.lobby,
       lobbyState: initialState.lobbyState
     };

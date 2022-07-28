@@ -22,18 +22,19 @@ UX for change background color?
 
 TODO NOW
 
-checking for lobby.id
-
---
-
-UP NEXT
-
 UNDO
 Game Size, Boundary
-Dialogue
 Relationsips
+Cutscenes
 
 --
+
+UP NEXT 
+
+
+
+
+---
 
 TODO SOON
 
@@ -42,7 +43,7 @@ Sprite Editor
   + when making class - to start a new drawing inside of sprite editor
 
 NARRATIVE
-Cutscenes
+Dialogue
 
 GAMEPLAY
 Behaviors
@@ -120,6 +121,12 @@ Outline Class ( for eraser and objectInstance, and camerapreview? )
 --------
 
 TODO MAYBE
+
+Resize object?
+
+this.isHost this.isLocal should I save? should I cobrowse, should I send remote updates?? All this lower level variables that are also coming from the top down
+
+For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional
 
 interfaceUnlock other features, such as camera move with keys? drag object? etc
 

@@ -6,7 +6,8 @@ import _ from "lodash";
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { canvasId }){
-    const gameModel = store.getState().game.gameModel
+    const state = store.getState()
+    const gameModel = state.game.gameModel
     super(scene, 0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height)
 
     this.scene = scene
@@ -16,7 +17,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     this.initialDraw()
 
-    const state = store.getState()
     const lobby = state.lobby.lobby
     const me = state.auth.me 
     const gameHostId = lobby.gameHostId

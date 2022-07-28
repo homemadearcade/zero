@@ -48,6 +48,8 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   stroke(pointer, canvas) {
+    if(canvas.isSavingToAws) return 
+    
     const { snappedX, snappedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY})
 
     if(snappedX === this.lastStrokeX && snappedY === this.lastStrokeY) return
