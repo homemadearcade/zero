@@ -1,49 +1,43 @@
 import Phaser, { BlendModes } from "phaser";
 import { DEFAULT_TEXTURE_ID, OVERHEAD_CANVAS_DEPTH, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from "../../constants";
 import store from "../../store";
-import { publishCodrawingStrokes } from "../../store/actions/codrawingActions";
-import { getCobrowsingState } from "../../utils/cobrowsing";
 import { getCanvasIdFromEraserId, getDepthFromEraserId, snapEraserXY } from "../../utils/editor";
+import { Brush } from "./Brush";
 
-export class Eraser extends Phaser.GameObjects.Image {
+export class Eraser extends Brush {
   constructor(scene, { brushId }){
-    super(scene, 0,0, DEFAULT_TEXTURE_ID)
+    const depth = getDepthFromEraserId(brushId)
+    super(scene, { brushId, textureId: DEFAULT_TEXTURE_ID, depth })
 
-    this.scene = scene
-    this.brushId = brushId
     this.createPreviewLayers()
     this.setBlendMode(BlendModes.ERASE)
-    this.setOrigin(0, 0)
-    this.scene.add.existing(this)
-
-    const nodeSize = store.getState().game.gameModel.world.nodeSize
-    const brushSize = getCobrowsingState().editor.brushSize
-    this.width = nodeSize * brushSize
-    this.height = nodeSize * brushSize
-    this.setDisplaySize(this.width, this.height)
 
     this.outline = scene.add.graphics();
-    this.outline.lineStyle(3, 0xffffff, 1);
+    this.outline.lineStyle(4, 0xffffff, 1);
     this.outline.strokeRect(0, 0, this.width, this.height);
     scene.uiLayer.add(this.outline)
 
-    this.strokeMemory = []
+    this.isEraser = true
+    this.snapMethod = snapEraserXY
+
+    this.lastUpdateX = null
+    this.lastUpdateY = null
     
     return this
   }
 
   update(pointer) {
-    const { snappedX, snappedY } = snapEraserXY({x: pointer.worldX, y: pointer.worldY})
+    super.update(pointer)
 
-    this.outline.setPosition(snappedX, snappedY)
+    this.outline.setPosition(this.x, this.y)
 
-    this.setPosition(snappedX, snappedY)
+    if(this.x === this.lastUpdateX && this.y === this.lastUpdateY) return
     
-    const eraserDepth = getDepthFromEraserId(this.brushId)
-    this.setDepth(eraserDepth)
-    
+    this.lastUpdateX = this.x
+    this.lastUpdateY = this.y
+
     this.lowerLayerPreviews.forEach((preview) => {
-      preview.setCrop(snappedX, snappedY, this.width, this.height)
+      preview.setCrop(this.x, this.y, this.width, this.height)
     })
     if(this.lowerInstancePreviews.length) {
       this.lowerInstancePreviews.forEach((preview) => {
@@ -52,34 +46,9 @@ export class Eraser extends Phaser.GameObjects.Image {
       this.lowerInstancePreviews = this.createLowerInstancePreviews()
       this.lowerInstancePreviews.forEach((preview) => {
         this.scene.add.existing(preview)
-        preview.setCrop(snappedX, snappedY, this.width, this.height)
+        preview.setCrop(this.x, this.y, this.width, this.height)
       })
     }
-  }
-
-  stroke(pointer, canvas) {
-    const { snappedX, snappedY } = snapEraserXY({x: pointer.worldX, y: pointer.worldY})
-
-    this.executeStroke(snappedX, snappedY, canvas)
-
-    this.strokeMemory.push({
-      x: snappedX,
-      y: snappedY
-    })
-  }
-
-  executeStroke(x, y, canvas) {
-    canvas.erase(this, x, y);
-    this.canvas = canvas
-  }
-
-  releaseStroke() {
-    const lobby = store.getState().lobby.lobby
-    if(lobby.id) {
-      store.dispatch(publishCodrawingStrokes({ brushId: this.brushId, canvasId: this.canvas.canvasId, stroke: this.strokeMemory }))
-    }
-    this.canvas = null
-    this.strokeMemory = []
   }
 
   createLowerInstancePreviews() {
@@ -89,7 +58,7 @@ export class Eraser extends Phaser.GameObjects.Image {
 
     return [
       new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5),
-      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.pcanvasInstanceGroup, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5)    
+      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playerInstanceGroup, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5)    
     ]
   }
 
@@ -121,7 +90,6 @@ export class Eraser extends Phaser.GameObjects.Image {
       this.scene.add.existing(preview)
     })
   }
-
 
   destroy() {
     super.destroy()

@@ -7,12 +7,12 @@ import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store
 import { changeEditorCameraZoom } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editor';
-import { Pencil } from '../entities/Pencil';
+import { TexturePencil } from '../entities/TexturePencil';
 import { Eraser } from '../entities/Eraser';
-import { Stamper } from '../entities/Stamper';
+import { ClassStamper } from '../entities/ClassStamper';
 import { getCobrowsingState } from '../../utils/cobrowsing';
 import { RemoteEditor } from '../entities/RemoteEditor';
-import { Paintbrush } from '../entities/Paintbrush';
+import { ColorPencil } from '../entities/ColorPencil';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -123,7 +123,7 @@ export class EditorScene extends GameInstance {
     }
     if(classId && !this.stamper) {
       const objectClass = gameModel.classes[classId]
-      this.stamper = new Stamper(this, classId, objectClass)
+      this.stamper = new ClassStamper(this, classId, objectClass)
     }
     if(this.stamper) {
       this.stamper.update(pointer)
@@ -230,9 +230,9 @@ export class EditorScene extends GameInstance {
     if(isBrushIdEraser(brushId)) {
       return new Eraser(this, { brushId })
     } else if(isBrushIdColor(brushId)) {
-      return new Paintbrush(this, { brushId })
+      return new ColorPencil(this, { brushId })
     } else {
-      return new Pencil(this, { brushId })
+      return new TexturePencil(this, { brushId })
     }
   }
 

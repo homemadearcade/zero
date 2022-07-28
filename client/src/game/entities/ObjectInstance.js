@@ -53,7 +53,6 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       this.setTint(colorInt)
     }
 
-
     const cornerX = -objectClass.width/2
     const cornerY = -objectClass.height/2
     this.outline = scene.add.graphics();

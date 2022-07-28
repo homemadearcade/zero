@@ -14,13 +14,11 @@ So all this cobrowsing click together crap, does it all work the way we want it 
 
 Transparency? Should it be handled by brush or by color?
 
-preventing scroll
+preventing scroll? How can we design it so nothing scrolls? they get smaller and smaller? yeah...I like that!
 
 --
 
-TODO NEXT
-
-Brush Class, CodrawingBrush Class
+TODO NOW
 
 choose background color
 
@@ -30,19 +28,26 @@ Theres 3 of each of these layer modals ( create brush, create color ) because th
 
 --
 
+UP NEXT
+
+UNDO
+Game Size, Boundary
+Dialogue
+Relationsips
+
+--
+
+TODO SOON
+
 GRAPHICAL WORLDBUILDING
 Sprite Editor
   + when making class - to start a new drawing inside of sprite editor
 
-Game Size, Boundary
-
 NARRATIVE
-Dialogue
 Cutscenes
 
 GAMEPLAY
 Behaviors
-Relationsips
 Controls - speed, other phaser examples, etc
 
 --------
@@ -89,9 +94,10 @@ checking for lobby.id
 Object Instance -> Texture, Instance, Graphics
 Square 
 
-
 --------
 TODO CHORES
+
+util files -> Util Suffix
 
 also like... event listeners, make sure they are getting turned off right. It can cause serious trouble
 

@@ -82,6 +82,6 @@ export default function Sprite(props) {
   }
 
   return <canvas onClick={() => {
-    props.onClick(props.textureId)
+    if(props.onClick) props.onClick(props.textureId)
   }} className="Sprite" style={tintStyle} ref={canvasRef}/>
 }
