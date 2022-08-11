@@ -214,28 +214,35 @@ io.on("connection", (socket) => {
 });
 
 async function onMongoDBConnected() {
-  const lobbys = (await Lobby.find().populate('participants game').populate({
+  let lobbys = (await Lobby.find().populate('participants game').populate({
     path: 'game',
     populate: {
       path: 'user',
       model: 'User'
     }
-  })).map((lob) => {
-    const lobby = lob.toJSON()
-    return {
-      ...lobby,
-      users: lobby.participants.map((user) => {
-        return {
-          email: user.email,
-          id: user.id,
-          username: user.username,
-          role: user.role,
-          joined: false,
-          connected: false
-        }
-      })
-    }
-  })
+  }))
+  
+  if(lobbys) {
+    lobbys =  lobbys.map((lob) => {
+      const lobby = lob.toJSON()
+      return {
+        ...lobby,
+        users: lobby.participants.map((user) => {
+          return {
+            email: user.email,
+            id: user.id,
+            username: user.username,
+            role: user.role,
+            joined: false,
+            connected: false
+          }
+        })
+      }
+    })
 
-  app.set('lobbys', lobbys);  
+    app.set('lobbys', lobbys);  
+  } else {
+    app.set('lobbys', []);  
+
+  }
 }

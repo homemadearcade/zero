@@ -1,20 +1,8 @@
 CONVERSATION TOPICS
 
-Camera Drag vs WASD vs Arrow Keys. Controls conversation
-
-Edit Mode, how does that work. Can you control the hero? What else changes? Can you still add items during non edit mode? What is Section mode called?
-
 Lobby Steps, how is it?
 
-Zoom Slider, do we need it?
-
-What does Unlockable really look like? Weve got question mark squares. So what options to we want? What about options we actually just straight up want to hide? 
-
-So all this cobrowsing click together crap, does it all work the way we want it to? We click, it effects their screen, for everything??
-
 Transparency? Should it be handled by brush or by color?
-
-preventing scroll? How can we design it so nothing scrolls? they get smaller and smaller? yeah...I like that!
 
 UX for change background color?
 

@@ -1,0 +1,433 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _express = require("express");
+
+var _requireJwtAuth = _interopRequireDefault(require("../../middleware/requireJwtAuth"));
+
+var _requireSocketAuth = _interopRequireDefault(require("../../middleware/requireSocketAuth"));
+
+var _uuid = require("uuid");
+
+var _User = _interopRequireDefault(require("../../models/User"));
+
+var _constants = require("../../constants");
+
+var _Lobby = _interopRequireDefault(require("../../models/Lobby"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const router = (0, _express.Router)();
+
+function requireLobbys(req, res, next) {
+  req.lobbys = req.app.get('lobbys');
+  next();
+}
+
+function requireLobby(req, res, next) {
+  let index;
+  const lobbys = req.app.get('lobbys');
+  req.lobbys = lobbys;
+  const lobbyFound = lobbys.filter((l, i) => {
+    if (l.id.toString() === req.params.id) {
+      index = i;
+      return true;
+    } else {
+      return false;
+    }
+  })[0];
+
+  if (!lobbyFound) {
+    res.status(400).json({
+      message: 'No lobby found with id: ' + req.params.id
+    });
+    return;
+  }
+
+  req.lobby = lobbyFound;
+  req.lobbyIndex = index;
+  next();
+}
+
+router.get('/', requireLobbys, async (req, res) => {
+  try {
+    res.json({
+      lobbys: req.lobbys
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+router.get('/:id', requireLobby, async (req, res) => {
+  try {
+    res.json({
+      lobby: req.lobby
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+router.get('/byEmail/:participantEmail', requireLobbys, async (req, res) => {
+  try {
+    const lobbyFound = req.lobbys.filter((l, i) => {
+      if (l.participantEmail === req.params.participantEmail) {
+        return true;
+      } else {
+        return false;
+      }
+    })[0];
+
+    if (!lobbyFound) {
+      res.status(400).json({
+        message: 'No lobby found for: ' + req.params.participantEmail
+      });
+    }
+
+    res.json({
+      lobby: lobbyFound
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+router.post('/', _requireJwtAuth.default, requireLobbys, async (req, res) => {
+  try {
+    let lobby = await _Lobby.default.create({
+      participants: req.body.participants,
+      startTime: req.body.startTime,
+      gameHostId: req.body.gameHostId,
+      participantId: req.body.participantId,
+      guideId: req.body.guideId,
+      game: req.body.game
+    });
+    lobby = await lobby.populate('participants game').populate({
+      path: 'game',
+      populate: {
+        path: 'user',
+        model: 'User'
+      }
+    }).execPopulate();
+    lobby = lobby.toJSON();
+    lobby.users = lobby.participants.map(user => {
+      return {
+        email: user.email,
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        joined: false,
+        connected: false
+      };
+    });
+    req.lobbys.push(lobby);
+    res.status(200).json({
+      lobbys: req.lobbys
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+router.post('/leave/:id', _requireJwtAuth.default, requireLobby, _requireSocketAuth.default, async (req, res) => {
+  try {
+    if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+      return res.status(400).json({
+        message: 'You do not have privileges to remove user from that lobby.'
+      });
+    } // let index;
+
+
+    const userFound = req.lobby.users.filter((u, i) => {
+      if (u.id === req.body.userId) {
+        // index = i
+        return true;
+      } else {
+        return false;
+      }
+    })[0];
+
+    if (!userFound) {
+      return res.status(400).json({
+        message: 'No user with id ' + req.body.userId + ' found in lobby'
+      });
+    }
+
+    userFound.joined = false;
+    req.io.to(req.lobby.id).emit(_constants.ON_LOBBY_UPDATE, {
+      lobby: req.lobby
+    });
+    req.socket.leave(req.lobby.id);
+    if (req.user.role === 'ADMIN') req.socket.leave('admins@' + req.lobby.id);
+    res.status(200).json({
+      lobby: req.lobby
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+router.post('/assign/:id', _requireJwtAuth.default, requireLobby, _requireSocketAuth.default, async (req, res) => {
+  if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userId)) {
+    return res.status(400).json({
+      message: 'You do not have privileges to assign that role.'
+    });
+  }
+
+  const userFound = req.lobby.users.filter((u, i) => {
+    if (u.id === req.body.userId) {
+      return true;
+    } else {
+      return false;
+    }
+  })[0];
+
+  if (req.lobby.isGamePoweredOn) {
+    return res.status(400).json({
+      message: 'You cannot assign a role when the lobby game is powered on'
+    });
+  }
+
+  if (req.body.role === 'gameHost') {
+    if (req.body.userId === 'unassigned') {
+      req.lobby.gameHostId = null;
+    } else {
+      req.lobby.gameHostId = req.body.userId;
+    }
+  }
+
+  if (req.body.role === 'participant') {
+    if (req.body.userId === 'unassigned') {
+      req.lobby.participantId = null;
+    } else {
+      req.lobby.participantId = req.body.userId;
+    }
+  }
+
+  if (req.body.role === 'guide') {
+    if (req.body.userId === 'unassigned') {
+      req.lobby.guideId = null;
+    } else {
+      const user = await _User.default.findById(req.body.userId);
+
+      if (user.role == 'ADMIN') {
+        req.lobby.guideId = req.body.userId;
+      } else {
+        return res.status(400).json({
+          message: 'Guide must be admin role'
+        });
+      }
+    }
+  }
+
+  const updatedLobby = await _Lobby.default.findByIdAndUpdate(req.params.id, {
+    gameHostId: req.lobby.gameHostId,
+    participantId: req.lobby.participantId,
+    guideId: req.lobby.guideId
+  }, {
+    new: true
+  }); // if(!userFound) {
+  //   return res.status(400).json({ message: 'You are not a member of this lobby' });
+  // }
+
+  req.io.to(req.lobby.id).emit(_constants.ON_LOBBY_UPDATE, {
+    lobby: req.lobby
+  });
+  return res.status(200).json({
+    lobby: req.lobby
+  });
+});
+router.post('/join/:id', _requireJwtAuth.default, requireLobby, _requireSocketAuth.default, async (req, res) => {
+  try {
+    const userFound = req.lobby.users.filter((u, i) => {
+      if (u.id === req.user.id) {
+        return true;
+      } else {
+        return false;
+      }
+    })[0];
+
+    if (userFound) {
+      req.socket.join(req.lobby.id);
+      if (req.user.role === 'ADMIN') req.socket.join('admins@' + req.lobby.id);
+      userFound.joined = true;
+      req.io.to(req.lobby.id).emit(_constants.ON_LOBBY_UPDATE, {
+        lobby: req.lobby
+      });
+      return res.status(200).json({
+        lobby: req.lobby
+      });
+    }
+
+    const isParticipant = req.lobby.participants.some(user => {
+      return user.id === req.user.id;
+    });
+
+    if (!(req.user.role === 'ADMIN' || isParticipant)) {
+      return res.status(400).json({
+        message: 'You do not have permission to join that lobby.'
+      });
+    } // generate a lobby formatted user
+
+
+    const newLobbyUser = {
+      email: req.user.email,
+      id: req.user.id,
+      username: req.user.username,
+      role: req.user.role,
+      joined: true,
+      connected: true
+    }; // listen for all of this lobbies events
+
+    req.socket.join(req.lobby.id);
+    if (req.user.role === 'ADMIN') req.socket.join('admins@' + req.lobby.id); // remove from all other lobbies
+
+    req.lobbys.forEach(lobby => {
+      let index;
+      lobby.users.forEach((user, i) => {
+        if (newLobbyUser.id === user.id) {
+          index = i;
+        }
+      });
+
+      if (index >= -1) {
+        lobby.users.splice(index, 1);
+        req.socket.leave(lobby.id);
+        req.io.to(lobby.id).emit(_constants.ON_LOBBY_UPDATE, {
+          lobby: lobby
+        });
+      }
+    }); // add to new lobby
+
+    req.lobby.users.push(newLobbyUser); // update the lobbies with this information
+
+    req.io.to(req.lobby.id).emit(_constants.ON_LOBBY_UPDATE, {
+      lobby: req.lobby
+    });
+    return res.status(200).json({
+      lobby: req.lobby
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong: ' + err
+    });
+  }
+});
+router.delete('/:id', _requireJwtAuth.default, requireLobby, async (req, res) => {
+  try {
+    if (req.user.role !== 'ADMIN') {
+      return res.status(400).json({
+        message: 'You do not have privileges to delete that lobby.'
+      });
+    }
+
+    try {
+      const lobby = await _Lobby.default.findByIdAndRemove(req.params.id).populate('participants');
+      req.lobbys.splice(req.lobbyIndex, 1);
+      if (!lobby) return res.status(404).json({
+        game: 'No game found.'
+      });
+    } catch (err) {
+      res.status(500).json({
+        game: 'Something went wrong.'
+      });
+    }
+
+    res.status(200).json({
+      lobby: req.lobby
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+router.put('/user/:id', _requireJwtAuth.default, requireLobby, _requireSocketAuth.default, async (req, res) => {
+  try {
+    if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+      return res.status(400).json({
+        message: 'You do not have privileges to update that user in that lobby.'
+      });
+    }
+
+    let index;
+    const userFound = req.lobby.users.filter((u, i) => {
+      if (u.id === req.body.userId) {
+        index = i;
+        return true;
+      } else {
+        return false;
+      }
+    })[0];
+
+    if (!userFound) {
+      return res.status(400).json({
+        message: 'No user with id ' + req.body.userId + ' found in lobby'
+      });
+    }
+
+    req.lobby.users[index] = { ...req.lobby.users[index],
+      ...req.body.user
+    };
+    req.io.to(req.lobby.id).emit(_constants.ON_LOBBY_UPDATE, {
+      lobby: req.lobby
+    });
+    res.status(200).json({
+      lobby: req.lobby
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+router.put('/:id', _requireJwtAuth.default, requireLobby, _requireSocketAuth.default, async (req, res) => {
+  try {
+    if (req.lobby.isGamePoweredOn && req.body.gameId) {
+      return res.status(400).json({
+        message: 'You cannot change the game id of a lobby when game is powered on'
+      });
+    }
+
+    if (req.body.isGamePoweredOn && req.user.role !== 'ADMIN') {
+      return res.status(400).json({
+        message: 'You do not have privelages to power on this game.'
+      });
+    }
+
+    const updatedLobby = await _Lobby.default.findByIdAndUpdate(req.params.id, {
+      participants: req.body.participants,
+      startTime: req.body.startTime,
+      gameHostId: req.body.gameHostId,
+      participantId: req.body.participantId,
+      guideId: req.body.guideId,
+      game: req.body.game
+    }, {
+      new: true
+    });
+    Object.assign(req.lobby, req.body);
+    req.io.to(req.lobby.id).emit(_constants.ON_LOBBY_UPDATE, {
+      lobby: req.lobby
+    });
+    res.status(200).json({
+      lobby: req.lobby
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong. ' + err
+    });
+  }
+});
+var _default = router;
+exports.default = _default;
+//# sourceMappingURL=lobbys.js.map

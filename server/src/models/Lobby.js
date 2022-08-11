@@ -54,9 +54,9 @@ lobbySchema.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     startTime: this.startTime,
-    participants: this.participants.map((user) => {
+    participants: this.participants ? this.participants.map((user) => {
       return user.toJSON()
-    }),
+    }) : [],
     game: this.game?.toJSON(),
     gameHostId: this.gameHostId,
     participantId: this.participantId,
