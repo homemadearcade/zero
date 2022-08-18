@@ -34,6 +34,8 @@ const initialState = {
     canvasId: null,
     tint: null
   },
+  onCloseCreateColorFlow: null,
+  onCompleteCreateColorFlow: null
   // isCreateHeroFlowOpen: false,
   // isCreateWorldFlowOpen: false,
 };
@@ -48,18 +50,23 @@ export default function editorFormsReducer(state = initialState, { type, payload
         color: {...state.color, ...payload.color }
       }
     case OPEN_CREATE_COLOR_FLOW: 
+    console.log(payload)
       return {
         ...state,
         isCreateColorFlowOpen: true,
         color: {
           ...initialState.color,
           canvasId: payload.canvasId
-        }
+        },
+        onCompleteCreateColorFlow: payload.onCompleteCreateColorFlow,
+        onCloseCreateColorFlow: payload.onCloseCreateColorFlow
       }
     case CLOSE_CREATE_COLOR_FLOW: 
       return {
         ...state,
-        isCreateColorFlowOpen: false
+        isCreateColorFlowOpen: false,
+        onCompleteCreateColorFlow: null,
+        onCloseCreateColorFlow: null
       }
     case UPDATE_CREATE_CLASS_STEP: 
       return {

@@ -4,15 +4,16 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateColorFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { updateCreateColor, clearEditorForms, closeCreateColorFlow } from '../../store/actions/editorFormsActions';
+import { closeCreateColorFlow } from '../../store/actions/editorFormsActions';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ColorGrid from '../ui/ColorGrid/ColorGrid';
 
-const CreateColorFlow = ({ onComplete, updateCreateColor, clearEditorForms, closeCreateColorFlow,  editorForms: { color }}) => {
+const CreateColorFlow = ({ closeCreateColorFlow, editorForms: { color, onCloseCreateColorFlow, onCompleteCreateColorFlow }}) => {
   function handleClose() {
     closeCreateColorFlow()
+    onCloseCreateColorFlow()
   }
 
   // onChange={(event, descriptors) => {
@@ -23,7 +24,7 @@ const CreateColorFlow = ({ onComplete, updateCreateColor, clearEditorForms, clos
     <div className="CreateColorFlow">
       <Typography component="h2" variant="h2">Add Color</Typography>
       <ColorGrid onClick={(hex) => {
-          onComplete({ canvasId: color.canvasId, hex})
+          onCompleteCreateColorFlow({ canvasId: color.canvasId, hex})
           handleClose()
           // updateCreateColor({hex})
       }}/>
@@ -47,5 +48,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateColor, clearEditorForms, closeCreateColorFlow }),
+  connect(mapStateToProps, { closeCreateColorFlow }),
 )(CreateColorFlow);

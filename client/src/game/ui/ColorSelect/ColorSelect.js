@@ -17,7 +17,7 @@ const ColorSelect = ({
   onUnselectColor
 }) => {
 
-  const maxColors = 10
+  const maxColors = 13
 
   const defaultColors = [
     '#000000',

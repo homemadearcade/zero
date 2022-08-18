@@ -7,7 +7,6 @@ import './LayerColorSelect.scss';
 import { BACKGROUND_CANVAS_ID, COLOR_BRUSH_ID, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import { openCreateColorFlow } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../store/actions/gameActions';
 import ColorSelect from '../ui/ColorSelect/ColorSelect';
 import { clearBrush, selectBrush } from '../../store/actions/editorActions';
@@ -21,7 +20,6 @@ const LayerColorSelect = ({
   selectBrush,
   clearBrush,
   editor: { brushIdSelectedBrushList },
-  editorForms: { isCreateColorFlowOpen }
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
     const color = colors[hex]
@@ -33,8 +31,16 @@ const LayerColorSelect = ({
     return prev
   }, {})
 
-  function onAddColor() {
-    openCreateColorFlow(canvasId)
+  async function onAddColor() {
+    const color = await openCreateColorFlow(canvasId)
+    editGameModel({
+      colors: {
+        [color.hex]: {
+          [color.canvasId]: true
+        }
+      }
+    })
+    selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex)
   }
 
   function onSelectColor(hex) {
@@ -96,24 +102,11 @@ const LayerColorSelect = ({
 
   return <>
     {renderColorSelect()}
-    {isCreateColorFlowOpen && <CreateColorFlow
-      onComplete={(color) => {
-        editGameModel({
-          colors: {
-            [color.hex]: {
-              [color.canvasId]: true
-            }
-          }
-        })
-        selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex)
-      }}
-    />}
   </>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorForms: state.editorForms,
   editor: state.editor,
 });
 

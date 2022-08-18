@@ -10,18 +10,17 @@ Create a 'toolbar' on the right hand side? This toolbar changes based on if you 
 
 Im thinking of another toolbar - mouse toolbar?
 
+Is size fixed based on class? Can you resize on the map?
+
 --
 
 TODO NOW
 
 Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
 
-util files -> Util Suffix
-
 UNDO
 Game Size, Boundary
 Relationsips
-Cutscenes
 
 --
 
@@ -40,6 +39,7 @@ Sprite Editor
 
 NARRATIVE
 Dialogue
+Cutscenes
 
 GAMEPLAY
 Behaviors
@@ -52,9 +52,6 @@ TODO LATER
 choose background color
 
 VALIDATION ON ALL FORMS
-
-FOLDING/UNFOLDING organization
-
 
 --
 
@@ -72,8 +69,6 @@ TODO FEATURES
 
 Clearer Autosave Indicator
 
-Zoom Slider
-
 Cobrowsing Click event
 
 Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
@@ -88,6 +83,7 @@ right click brush - copy to layer X, delete, open in sprite editor
 
 TODO CHORES 
 
+You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
 
 Popup for connection errors, little thing in the bottom corner. Toast thing
 
@@ -109,13 +105,14 @@ useHooks for Unlockable Data and other data...
 
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 
-Duplicate username bug
-
-You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
 
 --------
 
 TODO MAYBE
+
+Zoom Slider
+
+FOLDING/UNFOLDING organization
 
 Maybe also turn off editing with the hammer icon?
 

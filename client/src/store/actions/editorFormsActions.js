@@ -54,13 +54,17 @@ export const updateCreateClassStep = (step) => (dispatch, getState) => {
 }
 
 export const openCreateColorFlow = (canvasId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_CREATE_COLOR_FLOW,
-    payload: {
-      canvasId
-    }
-  });
+  return new Promise((resolve, reject) => {
+    dispatch({
+      updateCobrowsing: true,
+      type: OPEN_CREATE_COLOR_FLOW,
+      payload: {
+        canvasId,
+        onCompleteCreateColorFlow: resolve,
+        onCloseCreateColorFlow: reject
+      }
+    });
+  })
 }
 
 export const closeCreateColorFlow = () => (dispatch, getState) => {
