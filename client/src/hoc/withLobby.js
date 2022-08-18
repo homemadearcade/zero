@@ -7,7 +7,7 @@ import AgoraVideoCall from '../app/agora/AgoraVideoCall/AgoraVideoCall';
 import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 import { withRouter } from 'react-router-dom';
 import Button from '../app/ui/Button/Button';
-import { isLocalHost } from '../utils/browser';
+import { isLocalHost } from '../utils/browserUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {

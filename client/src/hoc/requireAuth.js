@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
+import { setRedirect } from '../store/actions/authActions';
 
 export default (ChildComponent) => {
   class ComposedComponent extends Component {
     // // Our component just got rendered
-    // componentDidMount() {
-    //   this.shouldNavigateAway();
-    // }
+    componentDidMount() {
+      if (!this.props.auth.isAuthenticated) {
+        const { setRedirect } = this.props
+        setRedirect(window.location.pathname)
+      }
+    }
 
     // // Our component just got updated
     // componentDidUpdate() {
@@ -24,7 +29,7 @@ export default (ChildComponent) => {
       if (this.props.auth.isAuthenticated && this.props.auth.isSocketAuthenticated) {
         return <ChildComponent {...this.props} />;
       } else {
-        return <UnauthorizedPage/>
+        return <Login/>
       }
     }
   }
@@ -33,5 +38,5 @@ export default (ChildComponent) => {
     return { auth: state.auth };
   }
 
-  return connect(mapStateToProps)(ComposedComponent);
+  return connect(mapStateToProps, { setRedirect })(ComposedComponent);
 };

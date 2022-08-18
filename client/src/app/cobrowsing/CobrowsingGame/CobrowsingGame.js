@@ -10,7 +10,7 @@ import GameClassList from '../../../game/ClassList/ClassList';
 import GameBrushList from '../../../game/BrushList/BrushList';
 import withCobrowsing from '../../../hoc/withCobrowsing';
 import withGame from '../../../hoc/withGame';
-import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import LobbyToolbar from '../../lobby/LobbyToolbar/LobbyToolbar';
 
 //    {me.role === 'ADMIN' && <CobrowsingStatus/>}

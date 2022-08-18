@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { DEFAULT_TEXTURE_ID } from "../../constants";
 import store from "../../store";
-import { getHexIntFromHexString } from "../../utils/editor";
+import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { getTextureMetadata } from "../../utils/utils";
 
 export class ObjectInstance extends Phaser.Physics.Matter.Sprite {

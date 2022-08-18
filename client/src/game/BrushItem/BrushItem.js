@@ -7,9 +7,10 @@ import './BrushItem.scss';
 import classNames from 'classnames';
 import { selectBrush, clearBrush } from '../../store/actions/editorActions';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Sprite from '../ui/Sprite/Sprite';
 import Icon from '../../app/ui/Icon/Icon';
+import { Paper } from '@mui/material';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },
@@ -24,26 +25,26 @@ const BrushItem = ({
   const isSelected = brushIdSelectedBrushList === brushId
 
   return <div
-    onClick={() => {
-      if(brushId === brushIdSelectedBrushList) {
-        clearBrush()
-      } else {
-        selectBrush(brushId)
-      }
-    }}
-    onMouseEnter={() => {
-      setIsHovering(true)
-    }}
-    onMouseLeave={() => {
-      setIsHovering(false)
-    }}
-    className={classNames("BrushItem", { 'BrushItem--selected': isSelected })}
-  >
-    {isSelected && isHovering && <Icon className="BrushItem__unselect" icon="faClose"/>}
-    <div className="BrushItem__sprite">
-      <Sprite tint={brush.tint} textureId={brush.textureId}/>
+      onClick={() => {
+        if(brushId === brushIdSelectedBrushList) {
+          clearBrush()
+        } else {
+          selectBrush(brushId)
+        }
+      }}
+      onMouseEnter={() => {
+        setIsHovering(true)
+      }}
+      onMouseLeave={() => {
+        setIsHovering(false)
+      }}
+      className={classNames("BrushItem", { 'BrushItem--selected': isSelected })}
+    >
+      {isSelected && isHovering && <Icon className="BrushItem__unselect" icon="faClose"/>}
+      <div className="BrushItem__sprite">
+        <Sprite tint={brush.tint} textureId={brush.textureId}/>
+      </div>
     </div>
-  </div>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

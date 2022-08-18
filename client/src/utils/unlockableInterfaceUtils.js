@@ -1,5 +1,5 @@
 import store from "../store"
-import { getCobrowsingState } from "./cobrowsing"
+import { getCobrowsingState } from "./cobrowsingUtils"
 
 export function getInterfaceIdAliases(interfaceId) {
   const ids = interfaceId.split(' ')

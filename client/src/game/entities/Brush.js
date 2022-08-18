@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import store from "../../store";
-import { getHexIntFromHexString } from "../../utils/editor";
-import { getCobrowsingState } from "../../utils/cobrowsing";
+import { getHexIntFromHexString } from "../../utils/editorUtils";
+import { getCobrowsingState } from "../../utils/cobrowsingUtils";
 import { DEFAULT_TEXTURE_ID } from "../../constants";
 import { publishCodrawingStrokes } from "../../store/actions/codrawingActions";
 

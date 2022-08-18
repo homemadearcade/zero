@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
 import store from "../../store";
-import { getDepthFromCanvasId, snapBrushXY } from "../../utils/editor";
+import { getDepthFromCanvasId, snapBrushXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
 
 export class TexturePencil extends Brush {

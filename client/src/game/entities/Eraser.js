@@ -1,7 +1,7 @@
 import Phaser, { BlendModes } from "phaser";
 import { DEFAULT_TEXTURE_ID, OVERHEAD_CANVAS_DEPTH, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from "../../constants";
 import store from "../../store";
-import { getCanvasIdFromEraserId, getDepthFromEraserId, snapEraserXY } from "../../utils/editor";
+import { getCanvasIdFromEraserId, getDepthFromEraserId, snapEraserXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
 
 export class Eraser extends Brush {

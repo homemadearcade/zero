@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './ClassItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectClass } from '../../store/actions/editorActions';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import Sprite from '../ui/Sprite/Sprite';
 import Icon from '../../app/ui/Icon/Icon';

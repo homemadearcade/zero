@@ -7,7 +7,7 @@ import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModa
 import { updateCreateColor, clearEditorForms, closeCreateColorFlow } from '../../store/actions/editorFormsActions';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ColorGrid from '../ui/ColorGrid/ColorGrid';
 
 const CreateColorFlow = ({ onComplete, updateCreateColor, clearEditorForms, closeCreateColorFlow,  editorForms: { color }}) => {

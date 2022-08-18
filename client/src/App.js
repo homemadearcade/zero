@@ -18,8 +18,6 @@ import Admin from './pages/Admin/Admin';
 import Lobbys from './pages/LobbyListPage/LobbyListPage';
 import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
-import SessionLogin from './pages/LoginSession/LoginSession';
-import LobbyFind from './pages/LobbyFind/LobbyFind';
 import './events.js'
 
 import Loader from './app/ui/Loader/Loader';
@@ -32,7 +30,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorHandler from './app/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
-import { checkIfTabAlreadyOpen } from './utils/browser';
+import { checkIfTabAlreadyOpen } from './utils/browserUtils';
 import ContextMenus from './app/cobrowsing/ContextMenus/ContextMenus';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
@@ -55,10 +53,13 @@ const theme = createTheme({
     MuiSlider: {
       styleOverrides: {
         root: {
-          borderRadius: 0
+          borderRadius: 0,
+          padding: '.6rem 0'
         },
         thumb: {
-          borderRadius: 0
+          borderRadius: 0,
+          width: '1rem',
+          height: '1rem',
         },
         valueLabel: {
           borderRadius: 0
@@ -78,14 +79,21 @@ const theme = createTheme({
     MuiSwitch: {
       styleOverrides: {
         thumb: {
-          borderRadius: 0
+          borderRadius: 0,
+          // width: '1rem',
+          // height: '1rem',
         },
         track: {
-          borderRadius: 0
+          // height: '.4rem',
+          borderRadius: 0,
         },
         switchBase: {
           borderRadius: 0
-        }
+        },
+        // root: {
+        //   paddingTop: '1rem',
+        //   paddingBottom: '1rem'
+        // }
       },
     },
     MuiButtonBase: {
@@ -155,13 +163,11 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
             <Route path="/games" component={GamesPage} />
             <Route path="/play/:gameId" component={PlayGamePage} />
             <Route path="/login" component={Login} />
-            <Route path="/loginsession" component={SessionLogin} />
             <Route path="/register" component={Register} />
             <Route path="/users" component={Users} />
             <Route path="/notfound" component={NotFound} />
             <Route path="/admin" component={Admin} />
             <Route path="/lobbys" component={Lobbys} />
-            <Route path="/lobby/find" component={LobbyFind} />
             <Route path="/lobby/:id" component={LobbyPage} />
             <Route exact path="/:username" component={Account} />
             <Route exact path="/" component={Home} />

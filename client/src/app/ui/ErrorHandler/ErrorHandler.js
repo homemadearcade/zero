@@ -5,7 +5,7 @@ import './ErrorHandler.scss';
 
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearError } from '../../../store/actions/errorsActions';
 import Button from '../Button/Button'
 import Icon from '../Icon/Icon';

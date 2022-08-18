@@ -8,15 +8,18 @@ import ContextMenu from '../../app/ui/ContextMenu/ContextMenu';
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/editorActions';
 import { clearEditorForms } from '../../store/actions/editorFormsActions';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 
 const GameEditor = ({ editor: { isLiveEditorOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
+    const ogStyle = document.documentElement.style
+    document.documentElement.style="font-size: 2vh";
     return () => {
       clearEditor()
       clearEditorForms()
       clearEditorInstance()
+      document.documentElement.style= ogStyle
     }
   }, [])
 

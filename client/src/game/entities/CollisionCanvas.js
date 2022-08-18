@@ -1,6 +1,6 @@
 import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
-import { splitIntoSubarrays } from "../../utils/arrays";
+import { splitIntoSubarrays } from "../../utils/arrayUtils";
 import { CodrawingCanvas } from "./CodrawingCanvas";
 
 export class CollisionCanvas extends CodrawingCanvas {

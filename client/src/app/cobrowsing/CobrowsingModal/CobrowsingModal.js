@@ -5,7 +5,7 @@ import { Backdrop } from '@mui/material';
 
 import './CobrowsingModal.scss';
 import Icon from '../../ui/Icon/Icon';
-import { stopPropagation } from '../../../utils/browser';
+import { stopPropagation } from '../../../utils/browserUtils';
 
 const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1}) => {
   return <Backdrop

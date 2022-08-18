@@ -22,8 +22,8 @@ import {
 } from '../types';
 
 import store from '..';
-import { getRemoteStatePackage } from '../../utils/cobrowsing';
-import { getCurrentGameScene } from '../../utils/editor';
+import { getRemoteStatePackage } from '../../utils/cobrowsingUtils';
+import { getCurrentGameScene } from '../../utils/editorUtils';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
@@ -79,6 +79,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
 }, 7)
 
 function onEditorKeyUp(event) {
+  if(!event.key) return
   if(event.key.toLowerCase() === '\\'){
     store.dispatch({
       type: TOGGLE_COBROWSING
@@ -133,7 +134,6 @@ export const handleCobrowsingUpdates = store => next => action => {
       // treat this like a normal action, but dont update the remote state please ( see updateCobrowsing below )
       return result
     }
-
 
     store.dispatch(
       updateCobrowsing(getRemoteStatePackage(state))

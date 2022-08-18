@@ -26,8 +26,6 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
     },
   });
 
-  if (auth.isAuthenticated) return <Redirect to="/" />;
-
   return (
     <div className="login">
       <div className="container">

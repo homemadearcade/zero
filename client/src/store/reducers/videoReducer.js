@@ -1,4 +1,4 @@
-import { isLocalHost } from '../../utils/browser';
+import { isLocalHost } from '../../utils/browserUtils';
 import {
   START_VIDEO_CALL_LOADING,
   START_VIDEO_CALL_SUCCESS,

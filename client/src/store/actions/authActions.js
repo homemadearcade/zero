@@ -22,6 +22,8 @@ import {
   ON_AUTHENTICATE_SOCKET_FAIL,
   ON_SOCKET_DISCONNECT,
   ON_SOCKET_CONNECT,
+  SET_REDIRECT,
+  CLEAR_REDIRECT
 } from '../types';
 
 export const authenticateSocket = (values) => async (dispatch, getState) => {
@@ -90,7 +92,8 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
     });
 
     dispatch(loadMe());
-    // history.push('/');
+    history.push(getState().auth.redirect || '/');
+    dispatch(clearRedirect())
   } catch (err) {   
     console.error(err) 
     dispatch({
@@ -190,3 +193,18 @@ export const attachTokenToHeaders = (getState) => {
 
   return config;
 };
+
+
+export const setRedirect = (redirect) => (dispatch, getState) => {
+  console.log(redirect)
+  dispatch({
+    type: SET_REDIRECT,
+    payload: { redirect },
+  });
+}
+
+export const clearRedirect = () => (dispatch, getState) => {
+  dispatch({
+    type: CLEAR_REDIRECT,
+  });
+}

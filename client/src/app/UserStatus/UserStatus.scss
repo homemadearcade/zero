@@ -22,7 +22,7 @@
   }
 
   &__icons {
-    font-size: 12px;
+    font-size: .8rem;
     margin-top: 5px;
     color: white;
     display: flex;
@@ -30,14 +30,14 @@
   }
 
   &__ping {
-    font-size: 7px;
+    font-size: .5rem;
     position: absolute;
     top: 1.7px;
     right: 12px;
   }
 
   &__admin {
-    font-size: 8px;
+    font-size: .5rem;
     position: absolute;
     top: 2px;
     left: 2px;
@@ -45,7 +45,7 @@
 
   &__icon {
     text-align: center;
-    font-size: 14px;
+    font-size: 1rem;
     margin-right: 5px;
     display: inline-block;
 

@@ -17,7 +17,7 @@ import './styles.css';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 
-const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail }) => {
+const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail}) => {
   const participantEmail = getUrlParameter('participantEmail')
 
   const formik = useFormik({
@@ -31,8 +31,6 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
       registerUserWithEmail(values, history);
     },
   });
-
-  if (auth.isAuthenticated) return <Redirect to="/" />;
 
   return (
     <div className="RegisterPage">

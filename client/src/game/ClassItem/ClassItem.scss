@@ -1,13 +1,11 @@
 .ClassItem {
   cursor: pointer;
   position: relative;
+  width: 100%;
+  height: 100%;
 
   &--selected {
-    border: 4px solid;
-    .ClassItem__sprite {
-      width: 38px;
-      height: 38px;
-    }
+    background-color: #333;
   }
 
   &__unselect {
@@ -17,7 +15,6 @@
   }
 
   &__sprite {
-    width: 40px;
-    height: 40px;
+    height: 100%;
   }
 }

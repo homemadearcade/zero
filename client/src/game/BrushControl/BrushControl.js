@@ -7,7 +7,7 @@ import './BrushControl.scss';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../store/actions/editorActions';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
 const BrushControl = ({

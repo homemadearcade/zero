@@ -5,7 +5,7 @@ import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../entities/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
 import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, OVERHEAD_CANVAS_DEPTH, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from '../../constants';
-import { getCobrowsingState } from '../../utils/cobrowsing';
+import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { nodeSize } from '../../defaultData/general';
 import { CodrawingCanvas } from '../entities/CodrawingCanvas';

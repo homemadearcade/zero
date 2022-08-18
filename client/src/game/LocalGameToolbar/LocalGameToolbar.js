@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
-import { getCurrentGameScene } from '../../utils/editor';
+import { getCurrentGameScene } from '../../utils/editorUtils';
 
 const LocalGameToolbar = ({ game: { gameInstance } }) => {
   const [isPaused, setIsPaused] = useState(false)

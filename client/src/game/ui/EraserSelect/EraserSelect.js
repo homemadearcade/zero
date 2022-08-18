@@ -7,7 +7,7 @@ import './EraserSelect.scss';
 import classNames from 'classnames';
 import { clearClass, selectBrush, clearBrush } from '../../../store/actions/editorActions';
 import { ERASER_BRUSH_ID } from '../../../constants';
-import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../app/ui/Icon/Icon';
 
 const EraserSelect = ({

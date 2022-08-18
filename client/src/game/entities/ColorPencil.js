@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { getDepthFromCanvasId, getHexFromColorId, getCanvasIdFromColorId, snapBrushXY } from "../../utils/editor";
+import { getDepthFromCanvasId, getHexFromColorId, getCanvasIdFromColorId, snapBrushXY } from "../../utils/editorUtils";
 import { DEFAULT_TEXTURE_ID } from "../../constants";
 import { Brush } from "./Brush";
 

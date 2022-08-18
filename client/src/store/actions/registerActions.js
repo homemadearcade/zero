@@ -4,16 +4,28 @@ import {
   REGISTER_WITH_EMAIL_LOADING,
   REGISTER_WITH_EMAIL_SUCCESS,
   REGISTER_WITH_EMAIL_FAIL,
+  LOGIN_WITH_EMAIL_SUCCESS
 } from '../types';
+
+import { clearRedirect, loadMe } from './authActions';
 
 export const registerUserWithEmail = (formData, history) => async (dispatch, getState) => {
   dispatch({ type: REGISTER_WITH_EMAIL_LOADING });
   try {
-    await axios.post('/auth/register', formData);
+    const response = await axios.post('/auth/register', formData);
+
     dispatch({
       type: REGISTER_WITH_EMAIL_SUCCESS,
     });
-    history.push('/login');
+
+    dispatch({
+      type: LOGIN_WITH_EMAIL_SUCCESS,
+      payload: { token: response.data.token, me: response.data.me },
+    });
+
+    dispatch(loadMe());
+    history.push(getState().auth.redirect || '/');
+    dispatch(clearRedirect())
   } catch (err) {
     console.error(err)
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
 
 export default (ChildComponent) => {
@@ -22,6 +23,8 @@ export default (ChildComponent) => {
     render() {
       if (this.props.auth.isAuthenticated && this.props.auth.me?.role === 'ADMIN') {
         return <ChildComponent {...this.props} />;
+      } else if(!this.props.auth.isAuthenticated) {
+        return <Login/>
       } else {
         return <UnauthorizedPage/>
       }

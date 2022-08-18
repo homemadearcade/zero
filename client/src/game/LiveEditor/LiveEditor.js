@@ -8,7 +8,7 @@ import './LiveEditor.scss'
 import Button from '../../app/ui/Button/Button';
 import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
 import WorldEditor from '../WorldEditor/WorldEditor';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Icon from '../../app/ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
 

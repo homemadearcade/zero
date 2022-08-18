@@ -10,7 +10,8 @@ import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
 import Button from '../../app/ui/Button/Button';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
 
 const ClassList = ({
   game: { gameModel },
@@ -25,22 +26,35 @@ const ClassList = ({
   }
 
   return <div className="ClassList">
-    {Object.keys(classes).map((currentClassId, i) => {
-      const currentClass = classes[currentClassId]
-      if(currentClass.type === 'hero') return null
-      return <ClassItem key={i} classId={currentClassId} />
-    })}
+    <BorderedGrid
+      maxItems={16} 
+      height="7vh"
+      width="9.5vh"
+      items={Object.keys(classes).filter((currentClassId) => {
+        const currentClass = classes[currentClassId]
+        if(currentClass.type === 'hero') return null
+        return true
+      }).map((currentClassId, i) => {
+        return <ClassItem key={i} classId={currentClassId} />
+      })}
+    />
     <Button className="ClassList__add" onClick={() => {
       openCreateClassFlow()
     }}>
       Add New Class
     </Button>
 
-    {Object.keys(classes).map((currentClassId, i) => {
-      const currentClass = classes[currentClassId]
-      if(currentClass.type !== 'hero') return null
-      return <ClassItem key={i} classId={currentClassId} hero/>
-    })}
+    <BorderedGrid
+      maxItems={6} 
+      height="7vh"
+      width="9.5vh"
+      items={Object.keys(classes).filter((currentClassId) => {
+          const currentClass = classes[currentClassId]
+          if(currentClass.type !== 'hero') return null
+          return true
+        }).map((currentClassId, i) => {
+        return <ClassItem key={i} classId={currentClassId} hero/>
+      })}/>
     <Button className="ClassList__add" onClick={() => {
       const classId = uuidv4()
       editGameModel({

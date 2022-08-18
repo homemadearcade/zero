@@ -7,7 +7,7 @@ import './SelectSpriteInline.scss';
 import FormLabel from '../../../app/ui/FormLabel/FormLabel';
 import DescriptorSprites from '../DescriptorSprites/DescriptorSprites';
 import Sprite from '../Sprite/Sprite';
-import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameActions';
 import ColorSelect from '../ColorSelect/ColorSelect';

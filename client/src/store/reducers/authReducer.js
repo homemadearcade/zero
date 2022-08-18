@@ -12,6 +12,8 @@ import {
   ME_LOADING,
   ME_SUCCESS,
   ME_FAIL,
+  SET_REDIRECT,
+  CLEAR_REDIRECT,
 } from '../types';
 
 const initialState = {
@@ -103,6 +105,16 @@ export default function authReducer(state = initialState, { type, payload }) {
         isLoading: false,
         error: payload.error
       };
+    case SET_REDIRECT:
+      return {
+        ...state,
+        redirect: payload.redirect
+      }
+    case CLEAR_REDIRECT:
+      return {
+        ...state,
+        redirect: null
+      }
     default:
       return state;
   }

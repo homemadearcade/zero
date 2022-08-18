@@ -6,10 +6,10 @@ import './Onboarding.scss';
 import { updateLobbyUser, updateOnboardingStep } from '../../../store/actions/lobbyActions';
 
 import Loader from '../../ui/Loader/Loader';
-import { testInternetSpeed } from '../../../utils/network';
-import { requestFullscreen } from '../../../utils/browser';
+import { testInternetSpeed } from '../../../utils/networkUtils';
+import { requestFullscreen } from '../../../utils/browserUtils';
 import Button from '../../ui/Button/Button';
-import { mapCobrowsingState } from '../../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { onboardingStep, lobby }, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {

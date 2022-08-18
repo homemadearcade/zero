@@ -9,7 +9,7 @@ import { updateCreateBrush, clearEditorForms, closeCreateBrushFlow } from '../..
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
-import { mapCobrowsingState } from '../../utils/cobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, closeCreateBrushFlow,  editorForms: { brush }}) => {
   function handleClose() {

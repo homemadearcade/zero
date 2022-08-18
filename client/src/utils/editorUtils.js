@@ -16,7 +16,7 @@ import {
 import { COLOR_BRUSH_ID } from "../constants";
 import Phaser from 'phaser'
 import store from "../store";
-import { getCobrowsingState } from "./cobrowsing";
+import { getCobrowsingState } from "./cobrowsingUtils";
 
 
 export function getCurrentGameScene(gameInstance) {

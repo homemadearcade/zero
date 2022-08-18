@@ -8,12 +8,15 @@ Camera scroll by hovering at the edges hit box?
 
 Create a 'toolbar' on the right hand side? This toolbar changes based on if you are admin or not
 
+Im thinking of another toolbar - mouse toolbar?
+
 --
 
 TODO NOW
 
-TinyUnlock style
-Size of ClassItem, BrushItem, ColorItem
+Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
+
+util files -> Util Suffix
 
 UNDO
 Game Size, Boundary
@@ -47,8 +50,6 @@ Controls - speed, other phaser examples, etc
 TODO LATER
 
 choose background color
-
-Zoom Slider
 
 VALIDATION ON ALL FORMS
 
@@ -87,17 +88,12 @@ right click brush - copy to layer X, delete, open in sprite editor
 
 TODO CHORES 
 
-Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
 
 Popup for connection errors, little thing in the bottom corner. Toast thing
 
 remove brush 9 and 22.5 when you're not in the top layer
 
-add Login and Signup components to withAuth - update lobby find
-
 Unauthenticate socket when logging out
-
-util files -> Util Suffix
 
 also like... event listeners, make sure they are getting turned off right. It can cause serious trouble
 
@@ -121,7 +117,7 @@ You do not have permission to update this users cobrowse state ( ? ) upon Spence
 
 TODO MAYBE
 
-A: Maybe also turn off editing with the hammer icon?
+Maybe also turn off editing with the hammer icon?
 
 Resize object?
 
