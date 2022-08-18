@@ -9,6 +9,7 @@ import { messageFormSchema } from './validation';
 import Button from '../../ui/Button/Button';
 
 import './styles.css';
+import { ADMIN_ROLE } from '../../../constants';
 
 const MessageItem = ({ message, auth, deleteMessage, editMessage, clearMessageError }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -88,7 +89,7 @@ const MessageItem = ({ message, auth, deleteMessage, editMessage, clearMessageEr
         ) : (
           <p>{message.text}</p>
         )}
-        {auth.isAuthenticated && (auth.me.id === message.user.id || auth.me.role === 'ADMIN') && (
+        {auth.isAuthenticated && (auth.me.id === message.user.id || auth.me.role === ADMIN_ROLE) && (
           <>
             {!isEdit ? (
               <>

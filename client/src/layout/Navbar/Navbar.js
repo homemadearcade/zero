@@ -6,6 +6,7 @@ import Link from '../../app/ui/Link/Link';
 
 import { logOutUser } from '../../store/actions/authActions';
 import './styles.css';
+import { ADMIN_ROLE } from '../../constants';
 
 const Navbar = ({ auth, logOutUser, history }) => {
   const onLogOut = (event) => {
@@ -21,22 +22,22 @@ const Navbar = ({ auth, logOutUser, history }) => {
         </li>
         {auth.isAuthenticated ? (
           <>
-            {auth.me?.role === 'ADMIN' && (
+            {auth.me?.role === ADMIN_ROLE && (
               <li className="nav-item">
                 <Link ignoreDefaultStyle to="/users">Users</Link>
               </li>
             )}
-            {auth.me?.role === 'ADMIN' && (
+            {auth.me?.role === ADMIN_ROLE && (
               <li className="nav-item">
                 <Link ignoreDefaultStyle to="/lobbys">Lobbies</Link>
               </li>
             )}
-            {null && auth.me?.role === 'ADMIN' && (
+            {null && auth.me?.role === ADMIN_ROLE && (
               <li className="nav-item">
                 <Link ignoreDefaultStyle to="/admin">Admin</Link>
               </li>
             )}
-            {auth.me?.role === 'ADMIN' && (
+            {auth.me?.role === ADMIN_ROLE && (
             <li className="nav-item">
               <Link ignoreDefaultStyle to="/games">Games</Link>
              </li>

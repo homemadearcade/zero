@@ -8,6 +8,7 @@ import AccordianList from '../ui/AccordianList/AccordianList';
 import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 import { Paper } from '@mui/material';
 import Icon from '../ui/Icon/Icon';
+import { ADMIN_ROLE } from '../../constants';
 
 const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, cobrowsing: { cobrowsingUser }, auth: {me} }) => {
   const userStatus = lobbyUserStatuses[userId];
@@ -39,7 +40,7 @@ const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildre
       <div className="UserStatus__username">{user.username}{isMe && ' (me)'}</div>
       <div className={classnames("UserStatus__connection", {'UserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 150, 'UserStatus__connection--none': !user.connected})}/>
       <div className="UserStatus__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
-      {user.role === 'ADMIN' && <div className="UserStatus__admin"><Icon icon="faCrown"/></div>}
+      {user.role === ADMIN_ROLE && <div className="UserStatus__admin"><Icon icon="faCrown"/></div>}
       {(hasJoinLink) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
         {isMe ? 'Play' : 'Join'}
       </Link>}

@@ -5,10 +5,11 @@ import './LobbyToolbar.scss';
 import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby } from '../../../store/actions/lobbyActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import { ADMIN_ROLE } from '../../../constants';
 
 const LobbyToolbar = ({editLobby, auth: { me }, lobby : { lobby, lobby : { isEditModeOn, isGamePaused, isGamePoweredOn }}}) => {
  return <div className="LobbyToolbar">
-  {me.role === 'ADMIN' && <ToolbarIcon 
+  {me.role === ADMIN_ROLE && <ToolbarIcon 
     size="lg"
     icon="faPowerOff" 
     color={isGamePoweredOn ? "green" : 'white'}

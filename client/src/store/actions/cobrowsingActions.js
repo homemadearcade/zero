@@ -43,6 +43,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
       yPercent: e.clientY/window.innerHeight,
       windowHeight: window.innerHeight,
       windowWidth: window.innerWidth,
+      didClick: window.didClick,
       lastPing: Date.now(),
     },
   }
@@ -88,6 +89,17 @@ function onEditorKeyUp(event) {
 }
 
 window.addEventListener('keyup', onEditorKeyUp)
+window.addEventListener('mousedown', onEditorClick) 
+window.addEventListener('mouseup', (event) => {
+  setTimeout(() => {
+    window.didClick = false
+  }, 300)
+})
+
+function onEditorClick(event) {
+  window.didClick = true
+  sendCobrowsingStatus(event)
+}
 
 function onCobrowsingKeyUp(event) {
   let shouldUpdate = false
@@ -114,8 +126,6 @@ export const handleCobrowsingUpdates = store => next => action => {
   // console.log('next state', store.getState())
   // return result
 
-  let result = next(action)
-
   const state = store.getState()
   
   // is this action connected to cobrowsing?
@@ -125,22 +135,27 @@ export const handleCobrowsingUpdates = store => next => action => {
     if(state.cobrowsing.isSubscribedCobrowsing) {
       // is the cobrowsing currently active/should we send the action to the publishers computer?
       if(state.cobrowsing.isCurrentlyCobrowsing || action.forceCobrowsingUpdate) {
-        // send out the action and finish the redux
+        // UPDATE PUBLISHER
         const options = attachTokenToHeaders(store.getState);
-        axios.put('/api/cobrowsing/dispatch/' + state.cobrowsing.cobrowsingUser.id, { dispatchData: result }, options);
+        axios.put('/api/cobrowsing/dispatch/' + state.cobrowsing.cobrowsingUser.id, { dispatchData: action }, options);
         return null
       }
 
-      // treat this like a normal action, but dont update the remote state please ( see updateCobrowsing below )
-      return result
+      // NORMAL ACTION
+      return next(action)
     }
 
+
+    const result = next(action)
+    // UPDATE SUBSCRIBERS
     store.dispatch(
-      updateCobrowsing(getRemoteStatePackage(state))
+      updateCobrowsing(getRemoteStatePackage(store.getState()))
     )
+    return result
   }
 
-  return result
+  // NORMAL ACTION
+  return next(action)
 }
 
 

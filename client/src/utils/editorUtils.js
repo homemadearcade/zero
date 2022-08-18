@@ -30,8 +30,8 @@ export function snapEraserXY({x, y}) {
   const brushSize = getCobrowsingState().editor.brushSize
   const blockSize = nodeSize * brushSize
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), nodeSize), 0, gameModel.world.boundaries.width)
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), nodeSize), 0, gameModel.world.boundaries.height)
+  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), nodeSize), 0, gameModel.world.boundaries.maxWidth)
+  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), nodeSize), 0, gameModel.world.boundaries.maxHeight)
 
   return {
     snappedX,
@@ -46,8 +46,8 @@ export function snapBrushXY({x, y}) {
   const brushSize = getCobrowsingState().editor.brushSize
   const blockSize = nodeSize * brushSize
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.width)
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), blockSize), 0, gameModel.world.boundaries.height)
+  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), 0, gameModel.world.boundaries.maxWidth)
+  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), blockSize), 0, gameModel.world.boundaries.maxHeight)
 
   return {
     snappedX,
@@ -59,8 +59,8 @@ export function snapObjectXY({x, y}, objectClass) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x, nodeSize), objectClass.width/2, gameModel.world.boundaries.width - (objectClass.width/2))
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y, nodeSize), objectClass.height/2, gameModel.world.boundaries.height - (objectClass.height/2))
+  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x, nodeSize), objectClass.width/2, gameModel.world.boundaries.maxWidth - (objectClass.width/2))
+  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y, nodeSize), objectClass.height/2, gameModel.world.boundaries.maxHeight - (objectClass.height/2))
   
   return {
     snappedX,

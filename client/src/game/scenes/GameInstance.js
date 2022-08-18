@@ -78,18 +78,23 @@ export class GameInstance extends Phaser.Scene {
     console.error('didnt find layer with id', canvasId, typeof canvasId)
   }
 
+  setWorldBounds(boundaries) {
+    const gameWidth = boundaries.width
+    const gameHeight = boundaries.height
+    const gameX = boundaries.x
+    const gameY = boundaries.y
+    this.matter.world.setBounds(gameX, gameY, gameWidth, gameHeight);
+  }
+
   create() {
     const gameModel = store.getState().game.gameModel
-    const gameWidth = gameModel.world.boundaries.width
-    const gameHeight = gameModel.world.boundaries.height
-
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     // WORLD
     ////////////////////////////////////////////////////////////
     this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
-    this.matter.world.setBounds(0, 0, gameWidth, gameHeight);
+    this.setWorldBounds(gameModel.world.boundaries)
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -118,8 +123,10 @@ export class GameInstance extends Phaser.Scene {
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)
 
-    this.grid = this.add.grid(0, 0, gameWidth * 4, gameHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
-    this.grid2 = this.add.grid(0, 0, gameWidth * 4, gameHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
+    const gameMaxWidth = gameModel.world.boundaries.maxWidth
+    const gameMaxHeight = gameModel.world.boundaries.maxHeight
+    this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
+    this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
     this.grid.setDepth(UI_CANVAS_DEPTH)
     this.grid2.setDepth(UI_CANVAS_DEPTH)
@@ -171,7 +178,11 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // CAMERA
     ////////////////////////////////////////////////////////////
-    this.cameras.main.setBounds(0, 0, gameWidth, gameHeight);
+    const gameWidth = gameModel.world.boundaries.Width
+    const gameHeight = gameModel.world.boundaries.Height
+    const gameX = gameModel.world.boundaries.x
+    const gameY = gameModel.world.boundaries.y
+    this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);

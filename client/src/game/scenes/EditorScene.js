@@ -299,6 +299,21 @@ export class EditorScene extends GameInstance {
       }
     }
 
+    if(gameUpdate.world?.boundaries) {
+      // set camera preview zoom
+      // set camera bounds
+      // set world bounds
+      const gameModel = store.getState().game.gameModel
+      const gameWidth = gameModel.world.boundaries.width
+      const gameHeight = gameModel.world.boundaries.height
+      const gameX = gameModel.world.boundaries.x
+      const gameY = gameModel.world.boundaries.y
+      this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
+      this.editorCamera.setBounds(gameX, gameY, gameWidth, gameHeight)
+      this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
+      this.setWorldBounds(gameModel.world.boundaries)
+    }
+
     if(gameUpdate.awsImages) {
       if(gameUpdate.awsImages[this.backgroundLayer.textureId]) {
         this.backgroundLayer.updateTexture()
@@ -387,6 +402,8 @@ export class EditorScene extends GameInstance {
     const gameModel = store.getState().game.gameModel
     const gameWidth = gameModel.world.boundaries.width
     const gameHeight = gameModel.world.boundaries.height
+    const gameX = gameModel.world.boundaries.x
+    const gameY = gameModel.world.boundaries.y
     this.cameras.fromJSON({
       name: 'editor',
       x: 0,
@@ -400,7 +417,7 @@ export class EditorScene extends GameInstance {
       roundPixels: false,
       visible: false,
       backgroundColor: false,
-      bounds: {x: 0, y: 0, width: gameWidth, height: gameHeight},
+      bounds: {x: gameX, y: gameY, width: gameWidth, height: gameHeight},
     })
     
     this.editorCamera = this.cameras.getCamera('editor')

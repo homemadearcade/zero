@@ -11,8 +11,12 @@ export const defaultGame = {
   "world": {
     "nodeSize": nodeSize,
     "boundaries": {
-      "width": gameSize,
+      "maxWidth": gameSize,
+      "maxHeight": gameSize,
       "height": gameSize,
+      "width": gameSize,
+      "x": 0,// gameSize/3,
+      "y":0// gameSize/3
     },
     "gravity": {
       "y": 0,

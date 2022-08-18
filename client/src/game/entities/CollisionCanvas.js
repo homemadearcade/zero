@@ -40,7 +40,7 @@ export class CollisionCanvas extends CodrawingCanvas {
       alphaNodes.push({ alpha: data[i], touched: false });
     }
 
-    const alphaGrid = splitIntoSubarrays(alphaNodes, gameModel.world.boundaries.width)
+    const alphaGrid = splitIntoSubarrays(alphaNodes, gameModel.world.boundaries.maxWidth)
     for(let y = halfNodeSize; y < alphaGrid.length; y+= nodeSize) {
       const row = alphaGrid[y]
       for(let x = halfNodeSize; x < row.length; x+= nodeSize) {
@@ -66,8 +66,8 @@ export class CollisionCanvas extends CodrawingCanvas {
     this.collisionBody = new CompoundStaticBody(this.scene, 
       { 
         parts: collisionGridNodes,
-        width: gameModel.world.boundaries.width, 
-        height: gameModel.world.boundaries.height, 
+        width: gameModel.world.boundaries.maxWidth, 
+        height: gameModel.world.boundaries.maxHeight, 
         nodeWidth: nodeSize, 
         nodeHeight: nodeSize
       })

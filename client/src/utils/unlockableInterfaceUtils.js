@@ -1,3 +1,4 @@
+import { ADMIN_ROLE } from "../constants"
 import store from "../store"
 import { getCobrowsingState } from "./cobrowsingUtils"
 
@@ -67,7 +68,7 @@ export function getInterfaceIdData(interfaceId) {
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const me = state.auth.me
-  const isLockToggleable = me?.role === 'ADMIN' && isSubscribedCobrowsing
+  const isLockToggleable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing
 
   return {
     isUnlocked,
@@ -82,7 +83,7 @@ export function isInterfaceIdObscured(interfaceId) {
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const me = state.auth.me
 
-  if(me?.role === 'ADMIN') {
+  if(me?.role === ADMIN_ROLE) {
     return false
   }
 

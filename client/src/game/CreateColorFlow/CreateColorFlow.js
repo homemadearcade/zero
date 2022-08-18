@@ -10,10 +10,9 @@ import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ColorGrid from '../ui/ColorGrid/ColorGrid';
 
-const CreateColorFlow = ({ closeCreateColorFlow, editorForms: { color, onCloseCreateColorFlow, onCompleteCreateColorFlow }}) => {
+const CreateColorFlow = ({ onComplete, closeCreateColorFlow,  editorForms: { color }}) => {
   function handleClose() {
     closeCreateColorFlow()
-    onCloseCreateColorFlow()
   }
 
   // onChange={(event, descriptors) => {
@@ -24,7 +23,7 @@ const CreateColorFlow = ({ closeCreateColorFlow, editorForms: { color, onCloseCr
     <div className="CreateColorFlow">
       <Typography component="h2" variant="h2">Add Color</Typography>
       <ColorGrid onClick={(hex) => {
-          onCompleteCreateColorFlow({ canvasId: color.canvasId, hex})
+          onComplete({ canvasId: color.canvasId, hex})
           handleClose()
           // updateCreateColor({hex})
       }}/>

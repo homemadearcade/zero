@@ -26,4 +26,6 @@ export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 
 export const DEFAULT_TEXTURE_ID = 'square10x10'
 
+export const ADMIN_ROLE = 'ADMIN'
+
 export const CAMERA_PREVIEW_BORDER_SIZE = 4

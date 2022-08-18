@@ -8,7 +8,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { canvasId }){
     const state = store.getState()
     const gameModel = state.game.gameModel
-    super(scene, 0, 0, gameModel.world.boundaries.width, gameModel.world.boundaries.height)
+    super(scene, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight)
 
     this.scene = scene
     this.scene.add.existing(this)
@@ -70,8 +70,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
           const gameModel = store.getState().game.gameModel 
   
           const bufferCanvas = document.createElement('canvas');
-          bufferCanvas.width = gameModel.world.boundaries.width
-          bufferCanvas.height = gameModel.world.boundaries.height
+          bufferCanvas.width = gameModel.world.boundaries.maxWidth
+          bufferCanvas.height = gameModel.world.boundaries.maxHeight
           const bufferCanvasContext = bufferCanvas.getContext('2d');
           bufferCanvasContext.drawImage(imageData, 0,  0, bufferCanvas.width, bufferCanvas.height);
     

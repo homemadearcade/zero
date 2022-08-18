@@ -40,8 +40,9 @@ const BrushList = ({
 
   return <>
     <div className="BrushList">
+      <Typography component="subtitle1" variant="subtitle1">Brush Controls</Typography>
       <BrushControl/>
-      <Typography component="h5" variant="h5">Background</Typography>
+      <Typography component="subtitle1" variant="subtitle1">Background</Typography>
       <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
       <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
       <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
@@ -53,29 +54,29 @@ const BrushList = ({
           return <BrushItem key={i} brushId={brushId}/>
         }) || []}/>
       </div>
-      <Button className="BrushList__add" onClick={() => {
+      <Button size="small" className="BrushList__add" onClick={() => {
         openCreateBrushFlow(BACKGROUND_CANVAS_ID)
       }}>
         +
       </Button>
-      <Typography component="h5" variant="h5">Playground</Typography>
+      <Typography component="subtitle1" variant="subtitle1">Playground</Typography>
       <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
       <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
       <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
-        maxItems={15} 
-        size="3.5vh"
-        items={brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-          return <BrushItem key={i} brushId={brushId}/>
-        }) || []}/>
+          maxItems={15} 
+          size="3.5vh"
+          items={brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
+            return <BrushItem key={i} brushId={brushId}/>
+          }) || []}/>
       </div>
-      <Button className="BrushList__add" onClick={() => {
+      <Button size="small" className="BrushList__add" onClick={() => {
         openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
       }}>
         +
       </Button>
-      <Typography component="h5" variant="h5">Overhead</Typography>
+      <Typography component="subtitle1" variant="subtitle1">Overhead</Typography>
       <LayerVisibility canvasId={OVERHEAD_CANVAS_ID} />
       <EraserSelect canvasId={OVERHEAD_CANVAS_ID}/>
       <LayerColorSelect canvasId={OVERHEAD_CANVAS_ID}/>
@@ -87,7 +88,7 @@ const BrushList = ({
           return <BrushItem key={i} brushId={brushId}/>
         }) || []}/>
       </div>
-      <Button className="BrushList__add" onClick={() => {
+      <Button size="small" className="BrushList__add" onClick={() => {
         openCreateBrushFlow(OVERHEAD_CANVAS_ID)
       }}>
         +

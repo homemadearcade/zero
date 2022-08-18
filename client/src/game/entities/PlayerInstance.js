@@ -65,8 +65,8 @@ export class PlayerInstance extends ObjectInstance {
     const classId = this.classId
     const objectClass = store.getState().game.gameModel.classes[classId]
     const gameModel = store.getState().game.gameModel
-    const gameWidth = gameModel.world.boundaries.width
-    const cameraSize = gameWidth/objectClass.camera.zoom
+    const gameMaxWidth = gameModel.world.boundaries.maxWidth
+    const cameraSize = gameMaxWidth/objectClass.camera.zoom
     const x = this.x - cameraSize/2
     const y = this.y - cameraSize/2
     this.cameraPreview.update({x, y})

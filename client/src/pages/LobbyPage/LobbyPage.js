@@ -21,6 +21,7 @@ import LobbyDetail from '../../app/lobby/LobbyDetail/LobbyDetail';
 import Link from '../../app/ui/Link/Link';
 import Icon from '../../app/ui/Icon/Icon';
 import CobrowsingIndicator from '../../app/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
+import { ADMIN_ROLE } from '../../constants';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -37,14 +38,14 @@ const LobbyPage = ({
   useEffect(() => {
     if(lobby.isGamePoweredOn) return 
     
-    if(me.role === 'ADMIN' && (!lobby.guideId)) {
+    if(me.role === ADMIN_ROLE && (!lobby.guideId)) {
       assignLobbyRole(lobby.id, {
         userId: me.id, 
         role: 'guide'
       });
     }
     
-    if(me.role !== 'ADMIN' && (!lobby.gameHostId || !lobby.participantId)) {
+    if(me.role !== ADMIN_ROLE && (!lobby.gameHostId || !lobby.participantId)) {
       assignLobbyRole(lobby.id, {
         userId: me.id, 
         role: 'gameHost'
@@ -88,7 +89,7 @@ const LobbyPage = ({
         <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
-        {me.role === 'ADMIN' && <LobbyDrawer/>}
+        {me.role === ADMIN_ROLE && <LobbyDrawer/>}
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
           {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"><Onboarding/></div>}
           {lobby.isGamePoweredOn && <GameView

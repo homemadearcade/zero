@@ -8,6 +8,7 @@ import Button from '../../../app/ui/Button/Button';
 import _ from 'lodash';
 import classNames from 'classnames';
 import Icon from '../../../app/ui/Icon/Icon';
+import BorderedGrid from '../../../app/ui/BorderedGrid/BorderedGrid';
 
 const ColorSelect = ({
   colors = [],
@@ -17,7 +18,7 @@ const ColorSelect = ({
   onUnselectColor
 }) => {
 
-  const maxColors = 13
+  const maxColors = 16
 
   const defaultColors = [
     '#000000',
@@ -30,12 +31,14 @@ const ColorSelect = ({
     '#FF00FF'
   ]
 
-  const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors].slice(0, maxColors))
+  const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors]).slice(0, maxColors)
   const [isHoveringHex, setIsHoveringHex] = useState()
 
   return <div className="ColorSelect">
-    {suggestedColors.map((hex) => {
-
+    <BorderedGrid
+    maxItems={maxColors} 
+    size="2.15vh"
+    items={suggestedColors.map((hex) => {
       const isSelected = selectedColorHex === hex
       const isHovering = isHoveringHex === hex
       return <div 
@@ -58,6 +61,7 @@ const ColorSelect = ({
           {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
       </div>
     })}
+    />
     <Button size="small" className="ColorSelect__add" onClick={onAddColor}>
       +
     </Button>

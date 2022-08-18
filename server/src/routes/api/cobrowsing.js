@@ -66,7 +66,8 @@ router.put('/dispatch/:id', requireJwtAuth, requireSocketAuth, async (req, res) 
 
     const socketSession = req.app.get('socketSessions').findSession(req.params.id)
     socketSession.emit(ON_COBROWSING_REMOTE_DISPATCH, {
-      dispatchData: req.body.dispatchData
+      dispatchData: req.body.dispatchData,
+      action: req.body.action
     });
 
     res.status(200).send();

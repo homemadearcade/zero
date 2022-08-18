@@ -16,7 +16,8 @@ Is size fixed based on class? Can you resize on the map?
 
 TODO NOW
 
-Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
+Cobrowsing Click event
+remove brush 9 and 22.5 when you're not in the top layer
 
 UNDO
 Game Size, Boundary
@@ -51,8 +52,6 @@ TODO LATER
 
 choose background color
 
-VALIDATION ON ALL FORMS
-
 --
 
 TODO BEHAVIORS, CONTROLS
@@ -69,10 +68,6 @@ TODO FEATURES
 
 Clearer Autosave Indicator
 
-Cobrowsing Click event
-
-Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
-
 Spray Can, Paintbrush, Crayon?
 
 For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
@@ -83,21 +78,25 @@ right click brush - copy to layer X, delete, open in sprite editor
 
 TODO CHORES 
 
+VALIDATION ON ALL FORMS
+DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
+
+Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
+
+security for codrawing and cobrowsing, make sure they are in the lobby!
+
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
 
 Popup for connection errors, little thing in the bottom corner. Toast thing
 
-remove brush 9 and 22.5 when you're not in the top layer
-
-Unauthenticate socket when logging out
 
 also like... event listeners, make sure they are getting turned off right. It can cause serious trouble
 
 check and make sure phaser is deleting the game objects
 
-security for codrawing and cobrowsing, make sure they are in the lobby!
+Unauthenticate socket when logging out
 
-DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
+TODO CHORES ( MAYBE )
 
 useHooks for Unlockable Data and other data...
 
@@ -105,10 +104,17 @@ useHooks for Unlockable Data and other data...
 
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 
+this.isHost this.isLocal should I save? should I cobrowse, should I send remote updates?? All this lower level variables that are also coming from the top down
+
+Seperate more reducers?
+
+Game Modal class? for like getting data from redux  so we can get game data with functions
+
+So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
 
 --------
 
-TODO MAYBE
+TODO FEATURES ( MAYBE )
 
 Zoom Slider
 
@@ -117,8 +123,6 @@ FOLDING/UNFOLDING organization
 Maybe also turn off editing with the hammer icon?
 
 Resize object?
-
-this.isHost this.isLocal should I save? should I cobrowse, should I send remote updates?? All this lower level variables that are also coming from the top down
 
 For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional
 
@@ -132,11 +136,7 @@ Right click -> snap camera to section? regardless if you are in section or not?
 
 circle for objectInstance body?
 
-Game Modal class? for like getting data from redux  so we can get game data with functions
-
 ID system? is that smart? Like be able to figure out what anything is based on its id?
-
-Seperate more reducers?
 
 --------
 

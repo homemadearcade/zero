@@ -10,6 +10,7 @@ import { testInternetSpeed } from '../../../utils/networkUtils';
 import { requestFullscreen } from '../../../utils/browserUtils';
 import Button from '../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import { ADMIN_ROLE } from '../../../constants';
 
 const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { onboardingStep, lobby }, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
@@ -73,14 +74,14 @@ const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, 
         requestFullscreen(document.body)
         updateOnboardingStep('choose_game')
       }}>Enter fullscreen mode</Button>
-      {cobrowsingUser.role === 'ADMIN' && <Button onClick={() => {
+      {cobrowsingUser.role === ADMIN_ROLE && <Button onClick={() => {
         updateOnboardingStep('choose_game')
       }}>Skip</Button>}
     </div>
   }
 
   if(onboardingStep === 'choose_game' && !lobby.isGamePoweredOn) {
-    if(cobrowsingUser.role === 'ADMIN') {
+    if(cobrowsingUser.role === ADMIN_ROLE) {
       return <div>
         Return to the lobby page - assign all roles, select game, review checklist, start game
       </div>

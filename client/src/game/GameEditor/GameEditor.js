@@ -34,7 +34,6 @@ const GameEditor = ({ editor: { isLiveEditorOpen }, editorForms: { isCreateColor
         {rightColumn}
       </div>
       {isLiveEditorOpen && <LiveEditor/>}
-      {isCreateColorFlowOpen && <CreateColorFlow/>}
     </div>
   );
 };

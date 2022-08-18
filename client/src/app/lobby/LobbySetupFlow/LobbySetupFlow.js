@@ -15,6 +15,7 @@ import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../../UserStatus/UserStatus';
 import Icon from '../../ui/Icon/Icon';
+import { ADMIN_ROLE } from '../../../constants';
 
 const LobbySetupFlow = ({
   addGame,
@@ -39,7 +40,7 @@ const LobbySetupFlow = ({
                 role: 'participant'
               });
             }}>Assign as Participant</Button>
-            {user.role === 'ADMIN' && <Button onClick={() => {
+            {user.role === ADMIN_ROLE && <Button onClick={() => {
               assignLobbyRole(lobby.id, {
                 userId: user.id, 
                 role: 'guide'

@@ -7,4 +7,6 @@
   border-radius: 16px;
   background-color: rgba(255,0,0,0.5);
   z-index: 10011;
+
+  transition: background-color 0.2s transform 0.2s;
 }

@@ -17,6 +17,7 @@ import { userSchema } from './validation';
 import './styles.scss';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
+import { ADMIN_ROLE } from '../../constants';
 
 const User = ({
   getUserByUsername,
@@ -78,7 +79,7 @@ const User = ({
       // formData.append('avatar', avatar);
       formData.append('username', values.username);
       
-      if(me?.role === 'ADMIN') {
+      if(me?.role === ADMIN_ROLE) {
         formData.append('role', values.role);
       }
 
@@ -127,7 +128,7 @@ const User = ({
                   className="btn"
                   type="button"
                   onClick={handleClickEdit}
-                  disabled={!(me?.username === user.username || me?.role === 'ADMIN')}
+                  disabled={!(me?.username === user.username || me?.role === ADMIN_ROLE)}
                 >
                   {isEdit ? 'Cancel' : 'Edit'}
                 </Button>
@@ -180,7 +181,7 @@ const User = ({
                   <p className="error">{formik.errors.username}</p>
                 ) : null}
               </div>
-              {me?.role === 'ADMIN' && <div className="input-div">
+              {me?.role === ADMIN_ROLE && <div className="input-div">
                 <label>Role:</label>
                 <select
                   placeholder="Role"

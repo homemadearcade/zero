@@ -50,10 +50,9 @@ export default function editorFormsReducer(state = initialState, { type, payload
         color: {...state.color, ...payload.color }
       }
     case OPEN_CREATE_COLOR_FLOW: 
-    console.log(payload)
       return {
         ...state,
-        isCreateColorFlowOpen: true,
+        isCreateColorFlowOpen: payload.componentName,
         color: {
           ...initialState.color,
           canvasId: payload.canvasId
@@ -64,9 +63,8 @@ export default function editorFormsReducer(state = initialState, { type, payload
     case CLOSE_CREATE_COLOR_FLOW: 
       return {
         ...state,
-        isCreateColorFlowOpen: false,
-        onCompleteCreateColorFlow: null,
-        onCloseCreateColorFlow: null
+        isCreateColorFlowOpen: null,
+
       }
     case UPDATE_CREATE_CLASS_STEP: 
       return {

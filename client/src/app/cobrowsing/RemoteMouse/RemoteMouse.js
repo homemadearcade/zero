@@ -14,8 +14,18 @@ const RemoteMouse = ({userId, status: { cobrowsingMouses} }) => {
   const top = (Number(mouseData.yPercent) * 100).toString() + '%';
   const left =  (Number(mouseData.xPercent) * 100).toString() + "%"//window.innerWidth;
 
+  const style = {
+    top,
+    left
+  }
+  
+  if(mouseData.didClick) {
+    style.backgroundColor =  'white';
+    style.transform = 'scale(0.5)'
+  }
+
   return (
-    <div className="RemoteMouse" style={{top, left}}>
+    <div className="RemoteMouse" style={style}>
     </div>
   );
 };
