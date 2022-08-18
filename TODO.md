@@ -2,15 +2,18 @@ CONVERSATION TOPICS
 
 Lobby Steps, how is it?
 
-Transparency? Should it be handled by brush or by color?
-
 UX for change background color?
+
+Camera scroll by hovering at the edges hit box?
+
+Create a 'toolbar' on the right hand side? This toolbar changes based on if you are admin or not
 
 --
 
 TODO NOW
 
-Indicator for cobrowsing
+TinyUnlock style
+Size of ClassItem, BrushItem, ColorItem
 
 UNDO
 Game Size, Boundary

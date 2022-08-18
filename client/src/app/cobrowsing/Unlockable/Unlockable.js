@@ -11,7 +11,7 @@ import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider}) => {
+const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing }}) => {
 
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
@@ -49,7 +49,7 @@ const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockab
   // essentally for admins
   if(isLockToggleable) {
     if(isTiny) {
-      if(isUnlocked) {
+      if(isUnlocked || (!isCurrentlyCobrowsing && isSubscribedCobrowsing)) {
         return children
       }
       
@@ -64,8 +64,7 @@ const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockab
   }
 
   if(isUnlocked) {
-    if(isTiny) return children
-
+    // if(isTiny) return children
     return <div className={customClassName}>{children}</div>
   }
 
