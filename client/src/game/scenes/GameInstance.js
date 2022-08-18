@@ -25,7 +25,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
-    this.objectInstances.forEach((object) => {
+   [this.player, ...this.objectInstances].forEach((object) => {
       if(object.classId === classId) {
         fx(object)
       }

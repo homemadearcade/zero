@@ -7,6 +7,7 @@ import {
 export const unlockInterfaceId = (id) => async (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    forceCobrowsingUpdate: true,
     type: UNLOCK_INTERFACE,
     payload: { interfaceId: id },
   });
@@ -15,6 +16,7 @@ export const unlockInterfaceId = (id) => async (dispatch, getState) => {
 export const lockInterfaceId = (id) => async (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    forceCobrowsingUpdate: true,
     type: LOCK_INTERFACE,
     payload: { interfaceId: id },
   });

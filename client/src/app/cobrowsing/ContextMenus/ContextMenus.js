@@ -12,9 +12,7 @@ const ContextMenus = ({ contextMenu, remoteContextMenu}) => {
       const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = contextMenu
   
       return <ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
-        <Unlockable interfaceId="contextMenu">
-          <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
-        </Unlockable>
+        <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
       </ContextMenu>
     }
   
@@ -24,16 +22,16 @@ const ContextMenus = ({ contextMenu, remoteContextMenu}) => {
   
       // need to calculate contextMenuX percent because... its not perfect
       return <ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
-        <Unlockable interfaceId="contextMenu">
-          <div className="ContextMenus__remote-menu">
-            <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
-          </div>
-        </Unlockable>
+        <div className="ContextMenus__remote-menu">
+          <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
+        </div>
       </ContextMenu>
     }
   }
-
-  return renderContextMenus()
+  
+  return <Unlockable interfaceId="contextMenu/*" hideIfObscured hideLockToggle>
+    {renderContextMenus()}
+  </Unlockable>
 }
 
 /// context menu state is passed to the subscriber, but it isnt mapped to cobrowsing state, it must be accessed directly

@@ -18,6 +18,7 @@ import {
   ON_COBROWSING_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
   ON_COBROWSING_REMOTE_DISPATCH,
+  TOGGLE_COBROWSING,
 } from '../types';
 
 import store from '..';
@@ -78,6 +79,16 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
 }, 7)
 
 function onEditorKeyUp(event) {
+  if(event.key.toLowerCase() === '\\'){
+    store.dispatch({
+      type: TOGGLE_COBROWSING
+    })
+  }
+}
+
+window.addEventListener('keyup', onEditorKeyUp)
+
+function onCobrowsingKeyUp(event) {
   let shouldUpdate = false
   if(event.key.toLowerCase() === 'w') {
     shouldUpdate = true
@@ -88,6 +99,7 @@ function onEditorKeyUp(event) {
   } else if(event.key.toLowerCase() === 'd'){
     shouldUpdate = true
   }
+
   if(shouldUpdate){
     setTimeout(() => {
       sendCobrowsingStatus(event)
@@ -104,14 +116,24 @@ export const handleCobrowsingUpdates = store => next => action => {
   let result = next(action)
 
   const state = store.getState()
-
+  
+  // is this action connected to cobrowsing?
   if(action.updateCobrowsing && state.lobby.lobby?.id) {
 
+    // is the user subscribed to cobrowse session?
     if(state.cobrowsing.isSubscribedCobrowsing) {
-      const options = attachTokenToHeaders(store.getState);
-      axios.put('/api/cobrowsing/dispatch/' + state.cobrowsing.cobrowsingUser.id, { dispatchData: result }, options);
-      return null
+      // is the cobrowsing currently active/should we send the action to the publishers computer?
+      if(state.cobrowsing.isCurrentlyCobrowsing || action.forceCobrowsingUpdate) {
+        // send out the action and finish the redux
+        const options = attachTokenToHeaders(store.getState);
+        axios.put('/api/cobrowsing/dispatch/' + state.cobrowsing.cobrowsingUser.id, { dispatchData: result }, options);
+        return null
+      }
+
+      // treat this like a normal action, but dont update the remote state please ( see updateCobrowsing below )
+      return result
     }
+
 
     store.dispatch(
       updateCobrowsing(getRemoteStatePackage(state))
@@ -130,7 +152,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 
     // this event will send admins your mouse state to let them know you can be browsed
     window.addEventListener('mousemove', sendCobrowsingStatus)
-    window.addEventListener('keyup', onEditorKeyUp)
+    window.addEventListener('keyup', onCobrowsingKeyUp)
     window.addEventListener('wheel', sendCobrowsingStatus);
 
     dispatch({
@@ -164,7 +186,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 export const unpublishCobrowsing = () => (dispatch, getState) => {
   try {
     window.removeEventListener('mousemove', sendCobrowsingStatus);
-    window.removeEventListener('keyup', onEditorKeyUp)
+    window.removeEventListener('keyup', onCobrowsingKeyUp)
     window.removeEventListener('wheel', sendCobrowsingStatus);
 
     window.socket.off(ON_COBROWSING_SUBSCRIBED);
@@ -265,3 +287,9 @@ export const unsubscribeCobrowsing = ({userId}) => async (dispatch, getState) =>
     });
   }
 };
+
+export const toggleActiveCobrowsing = () => (dispatch, getState) => {
+  store.dispatch({
+    type: TOGGLE_COBROWSING
+  })
+}

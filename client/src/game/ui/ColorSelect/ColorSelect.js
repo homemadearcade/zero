@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -7,6 +7,7 @@ import './ColorSelect.scss';
 import Button from '../../../app/ui/Button/Button';
 import _ from 'lodash';
 import classNames from 'classnames';
+import Icon from '../../../app/ui/Icon/Icon';
 
 const ColorSelect = ({
   colors = [],
@@ -29,11 +30,14 @@ const ColorSelect = ({
     '#FF00FF'
   ]
 
-  const suggestedColors = _.uniq([...colors.reverse(), ...defaultColors].slice(0, maxColors))
+  const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors].slice(0, maxColors))
+  const [isHoveringHex, setIsHoveringHex] = useState()
 
   return <div className="ColorSelect">
     {suggestedColors.map((hex) => {
+
       const isSelected = selectedColorHex === hex
+      const isHovering = isHoveringHex === hex
       return <div 
         onClick={() => {
           if(isSelected) {
@@ -42,13 +46,19 @@ const ColorSelect = ({
             onSelectColor(hex)
           }
         }} 
+        onMouseEnter={() => {
+          setIsHoveringHex(hex)
+        }}
+        onMouseLeave={() => {
+          setIsHoveringHex(null)
+        }}
         key={hex} 
         className={classNames("ColorSelect__color", {' ColorSelect__color--selected': isSelected })} 
         style={{backgroundColor: hex}}>
-          
+          {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
       </div>
     })}
-    <Button className="ColorSelect__add" onClick={onAddColor}>
+    <Button size="small" className="ColorSelect__add" onClick={onAddColor}>
       +
     </Button>
   </div>

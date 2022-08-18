@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -9,6 +9,7 @@ import { selectBrush, clearBrush } from '../../store/actions/editorActions';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import Sprite from '../ui/Sprite/Sprite';
+import Icon from '../../app/ui/Icon/Icon';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },
@@ -17,8 +18,11 @@ const BrushItem = ({
   selectBrush,
   clearBrush,
 }) => {
+  const [isHovering, setIsHovering] = useState(false)
   const brush = brushes[brushId]
   
+  const isSelected = brushIdSelectedBrushList === brushId
+
   return <div
     onClick={() => {
       if(brushId === brushIdSelectedBrushList) {
@@ -27,8 +31,15 @@ const BrushItem = ({
         selectBrush(brushId)
       }
     }}
-    className={classNames("BrushItem", { 'BrushItem--selected': brushIdSelectedBrushList === brushId})}
+    onMouseEnter={() => {
+      setIsHovering(true)
+    }}
+    onMouseLeave={() => {
+      setIsHovering(false)
+    }}
+    className={classNames("BrushItem", { 'BrushItem--selected': isSelected })}
   >
+    {isSelected && isHovering && <Icon className="BrushItem__unselect" icon="faClose"/>}
     <div className="BrushItem__sprite">
       <Sprite tint={brush.tint} textureId={brush.textureId}/>
     </div>

@@ -79,7 +79,7 @@ export class EditorScene extends GameInstance {
     window.pointer = pointer
 
     if(this.cameraDragStart && !this.brush && !this.stamper) {
-      const cameraZoom = getCobrowsingState().editor.cameraZoom
+      const cameraZoom = store.getState().editor.cameraZoom
       const deltaX = (this.cameraDragStart.x - pointer.x)/cameraZoom
       const deltaY = (this.cameraDragStart.y - pointer.y)/cameraZoom
       let scrollX = this.cameraDragStart.startScrollX + deltaX 

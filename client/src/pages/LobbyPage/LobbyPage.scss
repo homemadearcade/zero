@@ -7,4 +7,13 @@
     z-index: 10010;
     cursor: pointer;
   }
+
+  &__cobrowsing-toggle {
+    position: absolute;
+    top: 6%;
+    right: 1%;
+    font-size: 24px;
+    z-index: 1;
+    cursor: pointer;
+  }
 }

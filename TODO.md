@@ -10,6 +10,8 @@ UX for change background color?
 
 TODO NOW
 
+Indicator for cobrowsing
+
 UNDO
 Game Size, Boundary
 Relationsips
@@ -64,6 +66,10 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 TODO FEATURES
 
+Clearer Autosave Indicator
+
+Zoom Slider
+
 Cobrowsing Click event
 
 Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
@@ -79,8 +85,6 @@ right click brush - copy to layer X, delete, open in sprite editor
 TODO CHORES 
 
 Theres 3 of each of these layer modals ( create brush, create color ) because they are not in the root element area. They all open at the same time
-
-Better error handling locally and with cobrowsing, perhaps have just one error array and make sure that array is shared in cobrowsing as well
 
 Popup for connection errors, little thing in the bottom corner. Toast thing
 
@@ -106,9 +110,15 @@ useHooks for Unlockable Data and other data...
 
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 
+Duplicate username bug
+
+You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
+
 --------
 
 TODO MAYBE
+
+A: Maybe also turn off editing with the hammer icon?
 
 Resize object?
 

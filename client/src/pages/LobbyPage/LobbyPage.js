@@ -20,13 +20,15 @@ import Drawer from '../../app/ui/Drawer/Drawer';
 import LobbyDetail from '../../app/lobby/LobbyDetail/LobbyDetail';
 import Link from '../../app/ui/Link/Link';
 import Icon from '../../app/ui/Icon/Icon';
+import CobrowsingIndicator from '../../app/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 
 const LobbyPage = ({
   lobby: { lobby },
   auth: { me },
   myTracks,
   userTracks,
-  assignLobbyRole
+  assignLobbyRole,
+  toggleCobrowsing
 }) => {
   let { path } = useRouteMatch();
 
@@ -62,6 +64,9 @@ const LobbyPage = ({
         {!isDrawerOpen && <Icon icon="faBars"/>}
         {isDrawerOpen && <Icon icon="faClose"/>}
       </div>
+      <div className="LobbyPage__cobrowsing-toggle">
+        <CobrowsingIndicator/>
+      </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
       }>
@@ -83,7 +88,7 @@ const LobbyPage = ({
         <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
-        {me.role === 'ADMIN' &&<LobbyDrawer/>}
+        {me.role === 'ADMIN' && <LobbyDrawer/>}
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
           {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"><Onboarding/></div>}
           {lobby.isGamePoweredOn && <GameView
@@ -92,7 +97,7 @@ const LobbyPage = ({
           />}
         </CobrowsingGame>}
       </Route>
-     </Switch>
+    </Switch>
 };
 
 const mapStateToProps = (state) => ({
@@ -103,5 +108,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withLobby,
-  connect(mapStateToProps, {  assignLobbyRole }),
+  connect(mapStateToProps, { assignLobbyRole }),
 )(LobbyPage);

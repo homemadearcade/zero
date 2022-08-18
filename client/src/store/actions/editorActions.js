@@ -58,7 +58,6 @@ export const clearBrush = (brushId) => (dispatch, getState) => {
 
 export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
   dispatch({
-    updateCobrowsing: true,
     type: CHANGE_EDITOR_CAMERA_ZOOM,
     payload: {
       cameraZoom: zoom

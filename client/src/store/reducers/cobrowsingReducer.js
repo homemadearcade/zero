@@ -10,17 +10,20 @@ import {
   UNSUBSCRIBE_COBROWSING_SUCCESS,
   UNSUBSCRIBE_COBROWSING_FAIL,
   ON_COBROWSING_UPDATE,
+  TOGGLE_COBROWSING,
 } from '../types';
 
 import { initialContextMenuState } from './contextMenuReducer';
 import { initialEditorState } from './editorFormsReducer';
 import { initialEditorInstanceState } from './editorInstanceReducer';
 import { initialEditorFormsState } from './editorReducer';
+import { initialErrorState } from './errorsReducer';
 import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
 import { initialVideoState } from './videoReducer';
 
 const initialState = {
   isSubscribedCobrowsing: false,
+  isCurrentlyCobrowsing: false,
   isSubscribingCobrowsing: false,
   error: null,
   cobrowsingUser: false,
@@ -30,7 +33,8 @@ const initialState = {
     editorForms: initialEditorFormsState,
     editorInstance: initialEditorInstanceState,
     contextMenu: initialContextMenuState,
-    unlockableInterfaceIds: initialUnlockableInterfaceState
+    unlockableInterfaceIds: initialUnlockableInterfaceState,
+    errors: initialErrorState
   },
 };
 
@@ -56,6 +60,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         isSubscribedCobrowsing: true,
         isSubscribingCobrowsing: false,
+        isCurrentlyCobrowsing: true,
         cobrowsingUser: payload.cobrowsingUser,
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
@@ -63,6 +68,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         isSubscribedCobrowsing: false,
         isSubscribingCobrowsing: false,
+        isCurrentlyCobrowsing: false,
         cobrowsingUser: false,
         remoteState: initialState.remoteState
       };
@@ -82,6 +88,11 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         cobrowsingUser: false,
         error: payload.error,
       };
+    case TOGGLE_COBROWSING: 
+      return {
+        ...state,
+        isCurrentlyCobrowsing: !state.isCurrentlyCobrowsing
+      }
     case ON_COBROWSING_UPDATE:
       return {
         ...state,

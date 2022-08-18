@@ -33,11 +33,20 @@ export function getInterfaceIdAliases(interfaceId) {
 
 export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
   return unlockableInterfaceIds['all'] || idAliases.every((aliases) => {
+    const starAlias = aliases.find((alias) => {
+      return alias.indexOf('*') >= 0
+    })
+    if(starAlias) {
+      return Object.keys(unlockableInterfaceIds).some((id) => {
+        return id.indexOf(starAlias.slice(0, -1)) >= 0
+      })
+    }
+
     return aliases.some((alias) => {
       return unlockableInterfaceIds[alias]
     })
   })
-} 
+}
 
 export function getInterfaceIdData(interfaceId) {
   const state = getCobrowsingState()

@@ -20,7 +20,6 @@ import {
   GET_SPRITESHEET_DATA_LOADING,
   GET_SPRITESHEET_DATA_SUCCESS,
   GET_SPRITESHEET_DATA_FAIL,
-  CLEAR_GAME_ERROR,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
   SET_GAME_INSTANCE
@@ -292,8 +291,3 @@ export const editGame = (id, gameData) => async (dispatch, getState) => {
     });
   }
 };
-
-export const clearGameError = (id) => ({
-  type: CLEAR_GAME_ERROR,
-  payload: { id },
-});

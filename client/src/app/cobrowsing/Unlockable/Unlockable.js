@@ -11,7 +11,7 @@ import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({isTiny, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider}) => {
+const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider}) => {
 
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
@@ -48,10 +48,18 @@ const Unlockable = ({isTiny, className, unlockableInterfaceIds, lockInterfaceId,
 
   // essentally for admins
   if(isLockToggleable) {
+    if(isTiny) {
+      if(isUnlocked) {
+        return children
+      }
+      
+      return <ToggleLockMenu/>
+    }
+
     return <div className={customClassName + " Unlockable Unlockable--unlocked"}>
       {children}
       {/* not enough space to have unlockable icon when its unlocked */}
-      {(!isTiny) && <ToggleLockMenu/>}
+      {!hideLockToggle && <ToggleLockMenu/>}
     </div>
   }
 
@@ -62,10 +70,16 @@ const Unlockable = ({isTiny, className, unlockableInterfaceIds, lockInterfaceId,
   }
 
   if(isObscured) {
+    if(hideIfObscured) {
+      return null
+    }
+
     // IF LOCKED UP THEN JUST SHOW A BLACK WALL
-    return <div className={customClassName + " Unlockable Unlockable--locked"}>
-      {children}
-      <div className={classNames("Unlockable__cover", {'Unlockable__cover--slider': isSlider})}>
+    return <div className={classNames("Unlockable__cover", {'Unlockable__cover--slider': isSlider})}>
+      <div className={customClassName + " Unlockable Unlockable--locked"}>
+        {children}
+      </div>
+      <div className="Unlockable__obscured-icon">
         <Icon icon="faLock" />
       </div>
     </div>

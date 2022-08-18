@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -9,6 +9,7 @@ import { clearClass, selectClass } from '../../store/actions/editorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsing';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import Sprite from '../ui/Sprite/Sprite';
+import Icon from '../../app/ui/Icon/Icon';
 
 const ClassItem = ({
   game: { gameModel: { classes } },
@@ -19,6 +20,8 @@ const ClassItem = ({
   openContextMenuFromClassId
 }) => {
   const objectClass = classes[classId]
+  const [isHovering, setIsHovering] = useState(false)
+  const isSelected = classIdSelectedClassList === classId
 
   return <div
     onClick={() => {
@@ -30,12 +33,19 @@ const ClassItem = ({
         selectClass(classId)
       }
     }}
+    onMouseEnter={() => {
+      setIsHovering(true)
+    }}
+    onMouseLeave={() => {
+      setIsHovering(false)
+    }}
     onContextMenu={(e) => {
       e.preventDefault();
       openContextMenuFromClassId(classId, e)
     }}
-    className={classNames("ClassItem", { 'ClassItem--selected': classIdSelectedClassList === classId})}
+    className={classNames("ClassItem", { 'ClassItem--selected': isSelected})}
   >
+    {isSelected && isHovering && <Icon className="ClassItem__unselect" icon="faClose"/>}
     <div className="ClassItem__sprite">
       <Sprite tint={objectClass.tint} textureId={objectClass.textureId}/>
     </div>

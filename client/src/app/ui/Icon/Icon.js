@@ -5,7 +5,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { faWarning, faEraser, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faEye, faCrown, faArrowPointer, faDownload, faUpload, faWindowMaximize } from '@fortawesome/free-solid-svg-icons'
 import { faBars, faHammer } from '@fortawesome/free-solid-svg-icons'
-import { faEyeSlash, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash, faMask, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const iconMap = {
@@ -37,11 +37,13 @@ const iconMap = {
   faQuestionCircle,
   faQuestion,
   faLock,
-  faLockOpen
+  faLockOpen,
+  faMask
 }
 
-const Icon = ({icon, size, color, onClick}) => {
-  return <FontAwesomeIcon icon={iconMap[icon]} onClick={onClick} size={size} color={color} />
+const Icon = (props) => {
+  const { icon, size, color, onClick } = props
+  return <FontAwesomeIcon {...props} icon={iconMap[icon]} onClick={onClick} size={size} color={color} />
 }
 
 export default Icon

@@ -7,14 +7,21 @@ export function getRemoteStatePackage(state) {
     editorForms: state.editorForms,
     editorInstance: state.editorInstance,
     unlockableInterfaceIds: state.unlockableInterfaceIds,
-    contextMenu: state.contextMenu
+    contextMenu: state.contextMenu,
+    errors: state.errors
   }
 }
 
 export function mapCobrowsingState(state, props) {
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
+  const isCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
+  const isSubscribed = state.cobrowsing.isSubscribedCobrowsing
 
-  if(!isCobrowsing) return props
+  if(!isCobrowsing) {
+    return {
+      ...props,
+      unlockableInterfaceIds: isSubscribed ? state.cobrowsing.remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
+    }
+  }
 
   const remoteState = Object.keys(props).reduce((prev, propName) => {
     const remoteState = state.cobrowsing.remoteState
@@ -28,13 +35,16 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.editorInstance
     } else if(propName === 'unlockableInterfaceIds') {
       prev[propName] = remoteState.unlockableInterfaceIds
-    } 
-     // else if(propName === 'contextMenu') {
+    } else if(propName === 'errors') {
+      prev[propName] = remoteState.errors
+    }      // else if(propName === 'contextMenu') {
     //   prev[propName] = remoteState.contextMenu
     // }
 
     return prev 
   }, {})
+
+
 
   const transformedState = {
     ...props,
@@ -46,11 +56,15 @@ export function mapCobrowsingState(state, props) {
 
 export function getCobrowsingState() {
   const state = store.getState()
-  const isCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-
-  if(!isCobrowsing) return state
+  const isCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
+  const isSubscribed = state.cobrowsing.isSubscribedCobrowsing
 
   const remoteState = state.cobrowsing.remoteState
+
+  if(!isCobrowsing) return {
+    ...state,
+    unlockableInterfaceIds: isSubscribed ? remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
+  }
 
   return {
     ...state,
@@ -58,6 +72,7 @@ export function getCobrowsingState() {
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
     video: remoteState.video,
-    unlockableInterfaceIds: remoteState.unlockableInterfaceIds
+    unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
+    errors: remoteState.errors
   }
 }
