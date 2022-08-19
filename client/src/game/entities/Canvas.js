@@ -44,7 +44,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     }))
   }
 
-  debouncedSave = _.debounce(this.save, 3000);
+  debouncedSave = _.debounce(this.save, 10000);
 
   updateTexture = () => {
     this.scene.textures.remove(this.textureId)

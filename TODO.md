@@ -16,13 +16,14 @@ Is size fixed based on class? Can you resize on the map?
 
 TODO NOW
 
+Undo
+Behaviors
+Cutscenes ( and the relationships part of this )
 
 --
 
 UP NEXT 
 
-UNDO
-Behaviors
 
 ---
 
@@ -34,10 +35,9 @@ Sprite Editor
 
 NARRATIVE
 Dialogue
-Cutscenes
 
 GAMEPLAY
-Relationsips
+Relationships
 Controls - speed, other phaser examples, etc
 
 --------
@@ -73,7 +73,6 @@ right click brush - copy to layer X, delete, open in sprite editor
 TODO CHORES 
 
 TOOLBAR UPGRADE
-Move edit mode on/off to editor reducer
 Maybe also turn off editing with the hammer icon?
 
 VALIDATION ON ALL FORMS
