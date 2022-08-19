@@ -10,9 +10,9 @@ import { clearEditor } from '../../store/actions/editorActions';
 import { clearEditorForms } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
-import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
+import SectionEditor from '../SectionEditor/SectionEditor';
 
-const GameEditor = ({ editor: { isLiveEditorOpen }, editorForms: { isCreateColorFlowOpen}, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ editor: { isLiveEditorOpen, isSectionEditorOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -31,7 +31,7 @@ const GameEditor = ({ editor: { isLiveEditorOpen }, editorForms: { isCreateColor
       </div>
       {children}
       <div className="GameEditor__overlay">
-
+        {isSectionEditorOpen && <SectionEditor/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         {rightColumn}
@@ -43,7 +43,6 @@ const GameEditor = ({ editor: { isLiveEditorOpen }, editorForms: { isCreateColor
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
-  editorForms: state.editorForms
 })
 
 export default connect(mapStateToProps, { clearEditor, clearEditorForms, clearEditorInstance })(GameEditor);

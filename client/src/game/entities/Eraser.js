@@ -53,14 +53,12 @@ export class Eraser extends Brush {
 
   createLowerInstancePreviews() {
     const gameModel = store.getState().game.gameModel
-    const previewWidth = gameModel.world.boundaries.width
-    const previewHeight = gameModel.world.boundaries.height
-    const previewX = gameModel.world.boundaries.x;
-    const previewY = gameModel.world.boundaries.y;
+    const previewWidth = gameModel.world.boundaries.maxWidth
+    const previewHeight = gameModel.world.boundaries.maxHeight
 
     return [
-      new Phaser.GameObjects.RenderTexture(this.scene, previewX, previewY, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5),
-      new Phaser.GameObjects.RenderTexture(this.scene, previewX, previewY, previewWidth, previewHeight).draw(this.scene.playerInstanceGroup, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5)    
+      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5),
+      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playerInstanceGroup, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5)    
     ]
   }
 
@@ -70,19 +68,17 @@ export class Eraser extends Brush {
 
     const gameModel = store.getState().game.gameModel
     const eraserLayerId = getCanvasIdFromEraserId(this.brushId)
-    const previewWidth = gameModel.world.boundaries.width
-    const previewHeight = gameModel.world.boundaries.height
-    const previewX = gameModel.world.boundaries.x;
-    const previewY = gameModel.world.boundaries.y;
+    const previewWidth = gameModel.world.boundaries.maxWidth
+    const previewHeight = gameModel.world.boundaries.maxHeight
 
     if(eraserLayerId === PLAYGROUND_CANVAS_ID) {
       this.lowerLayerPreviews.push(
-        new Phaser.GameObjects.RenderTexture(this.scene, previewX, previewY, previewWidth, previewHeight).draw(this.scene.backgroundLayer, 0, 0).setDepth(PLAYGROUND_CANVAS_DEPTH + 5)
+        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.backgroundLayer, 0, 0).setDepth(PLAYGROUND_CANVAS_DEPTH + 5)
       )
     } else if(eraserLayerId === OVERHEAD_CANVAS_ID) {
       this.lowerLayerPreviews.push(
-        new Phaser.GameObjects.RenderTexture(this.scene, previewX, previewY, previewWidth, previewHeight).draw(this.scene.backgroundLayer, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5),
-        new Phaser.GameObjects.RenderTexture(this.scene, previewX, previewY, previewWidth, previewHeight).draw(this.scene.playgroundLayer, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5),
+        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.backgroundLayer, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5),
+        new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playgroundLayer, 0, 0).setDepth(OVERHEAD_CANVAS_DEPTH + 5),
       )
       this.lowerInstancePreviews = this.createLowerInstancePreviews()
     }

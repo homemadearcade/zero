@@ -9,7 +9,9 @@ import {
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
   OPEN_LIVE_CAMERA_EDITOR,
-  CHANGE_EDITOR_CAMERA_ZOOM
+  CHANGE_EDITOR_CAMERA_ZOOM,
+  OPEN_SECTION_EDITOR,
+  CLOSE_SECTION_EDITOR
 } from '../types';
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
   cameraZoom: 3,
   classIdSelectedLiveEditor: null,
   isLiveEditorOpen: false,
+  isSectionEditorOpen: false,
   liveEditingCategory: null,
 };
 
@@ -62,6 +65,17 @@ export default function editorReducer(state = initialState, { type, payload }) {
         ...state,
         brushIdSelectedBrushList: null
       }
+    case OPEN_SECTION_EDITOR:
+      return {
+        ...state,
+        isSectionEditorOpen: true,
+        cameraZoom: 1,
+      };
+    case CLOSE_SECTION_EDITOR:
+      return {
+        ...state,
+        isSectionEditorOpen: false,
+      };
     case OPEN_LIVE_PHYSICS_EDITOR:
       return {
         ...state,

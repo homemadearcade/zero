@@ -86,6 +86,30 @@ export class GameInstance extends Phaser.Scene {
     this.matter.world.setBounds(gameX, gameY, gameWidth, gameHeight);
   }
 
+  createGrids() {
+    
+    // const gameModel = store.getState().game.gameModel
+    // const gameMaxWidth = gameModel.world.boundaries.maxWidth
+    // const gameMaxHeight = gameModel.world.boundaries.maxHeight
+    // this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
+    // this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
+
+    // this.grid.setDepth(UI_CANVAS_DEPTH)
+    // this.grid2.setDepth(UI_CANVAS_DEPTH)
+
+    const boundaries = store.getState().game.gameModel.world.boundaries
+
+    const gameWidth = boundaries.width
+    const gameHeight = boundaries.height
+    const gameX = boundaries.x
+    const gameY = boundaries.y
+    this.grid = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize, nodeSize, null, null, 0x222222, 0.2)
+    this.grid2 = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
+
+    this.grid.setDepth(UI_CANVAS_DEPTH)
+    this.grid2.setDepth(UI_CANVAS_DEPTH)
+  }
+
   create() {
     const gameModel = store.getState().game.gameModel
     ////////////////////////////////////////////////////////////
@@ -123,13 +147,7 @@ export class GameInstance extends Phaser.Scene {
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)
 
-    const gameMaxWidth = gameModel.world.boundaries.maxWidth
-    const gameMaxHeight = gameModel.world.boundaries.maxHeight
-    this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
-    this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
-
-    this.grid.setDepth(UI_CANVAS_DEPTH)
-    this.grid2.setDepth(UI_CANVAS_DEPTH)
+    this.createGrids()
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

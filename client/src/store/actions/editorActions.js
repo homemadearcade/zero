@@ -2,6 +2,7 @@ import {
   OPEN_LIVE_PHYSICS_EDITOR,
   OPEN_LIVE_WORLD_EDITOR,
   OPEN_LIVE_CAMERA_EDITOR,
+  OPEN_SECTION_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
   CLEAR_CLASS,
@@ -9,7 +10,8 @@ import {
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  CHANGE_EDITOR_CAMERA_ZOOM
+  CHANGE_EDITOR_CAMERA_ZOOM,
+  CLOSE_SECTION_EDITOR
 } from '../types';
 
 export const selectClass = (classId) => (dispatch, getState) => {
@@ -89,6 +91,22 @@ export const openLiveWorldEditor = (classId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_LIVE_WORLD_EDITOR,
+    payload: {}
+  });
+}
+
+export const openSectionEditor= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_SECTION_EDITOR,
+    payload: {}
+  });
+}
+
+export const closeSectionEditor= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_SECTION_EDITOR,
     payload: {}
   });
 }

@@ -208,7 +208,7 @@ export class EditorScene extends GameInstance {
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId || this.cameraDragStart) return
-    if(!store.getState().lobby?.lobby.isEditModeOn) return
+    if(store.getState().lobby.lobby?.id && !store.getState().lobby.lobby.isEditModeOn) return
     
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)
