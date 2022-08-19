@@ -20,10 +20,7 @@ const gameSchema = new Schema(
     hero: {
       type: Object,
       required: true,
-      default: {
-        spawnX: 0,
-        spawnY: 0
-      }
+      default: {}
     },
     world: {
       type: Object,

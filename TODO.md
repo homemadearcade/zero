@@ -16,9 +16,6 @@ Is size fixed based on class? Can you resize on the map?
 
 TODO NOW
 
-remove brush 9 and 22.5 when you're not in the top layer
-Game Size, Boundary
-Move edit mode on/off to editor reducer
 
 --
 
@@ -75,6 +72,10 @@ right click brush - copy to layer X, delete, open in sprite editor
 
 TODO CHORES 
 
+TOOLBAR UPGRADE
+Move edit mode on/off to editor reducer
+Maybe also turn off editing with the hammer icon?
+
 VALIDATION ON ALL FORMS
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
@@ -86,7 +87,6 @@ You do not have permission to update this users cobrowse state ( ? ) upon Spence
 
 Popup for connection errors, little thing in the bottom corner. Toast thing
 
-
 also like... event listeners, make sure they are getting turned off right. It can cause serious trouble
 
 check and make sure phaser is deleting the game objects
@@ -94,6 +94,8 @@ check and make sure phaser is deleting the game objects
 Unauthenticate socket when logging out
 
 TODO CHORES ( MAYBE )
+
+Update Hero Camera Max after changing section
 
 useHooks for Unlockable Data and other data...
 
@@ -116,8 +118,6 @@ TODO FEATURES ( MAYBE )
 Zoom Slider
 
 FOLDING/UNFOLDING organization
-
-Maybe also turn off editing with the hammer icon?
 
 Resize object?
 

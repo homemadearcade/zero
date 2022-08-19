@@ -4,17 +4,22 @@ import { connect } from 'react-redux';
 import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
 import Button from '../../app/ui/Button/Button';
 import { closeSectionEditor } from '../../store/actions/editorActions';
+import { editGameModel } from '../../store/actions/gameActions';
+import { FormLabel } from '@mui/material';
 
 import './SectionEditor.scss'
 
-const SectionEditor = ({closeSectionEditor, game: { gameModel : { world: { boundaries }}}}) => {
+const SectionEditor = ({closeSectionEditor, editGameModel, game: { gameModel : { world: { boundaries }}}}) => {
   const [sections, setSections] = useState({})
+  const [isError, setIsError] = useState(false)
 
   function verifySections() {
     const useableIds =  Object.keys(sections).filter((id) => {
       if(!sections[id]) return false
       return true
     }).map(Number).sort()
+
+    console.log(useableIds)
 
     const validSections = [
       [1],
@@ -25,13 +30,13 @@ const SectionEditor = ({closeSectionEditor, game: { gameModel : { world: { bound
       [6],
       [7],
       [8],
-      [9]
+      [9],
       [1,2],
       [2,3],
       [4,5],
       [5,6],
       [7,8],
-      [8,9]
+      [8,9],
       [1,4],
       [4,7],
       [2,5],
@@ -47,7 +52,7 @@ const SectionEditor = ({closeSectionEditor, game: { gameModel : { world: { bound
       [1,2,4,5],
       [2,3,5,6],
       [4,5,7,8],
-      [5,6,8,9]
+      [5,6,8,9],
       [1,2,
       4,5,
       7,8],
@@ -55,7 +60,7 @@ const SectionEditor = ({closeSectionEditor, game: { gameModel : { world: { bound
       5,6,
       8,9],
       [1,2,3,4,5,6],
-      [4,5,6,7,8,9]
+      [4,5,6,7,8,9],
       [1,2,3,4,5,6,7,8,9]
     ]
 
@@ -111,12 +116,14 @@ const SectionEditor = ({closeSectionEditor, game: { gameModel : { world: { bound
   
     // console.log('sections', sections)
   
-    Object.keys(sections).forEach((x) => {
+    Object.keys(sections).map(Number).forEach((x) => {
       for(let y = 1; y < sectionsHeight; y++) {
         // console.log('adding for y', x + (3 * y))
         sections[x + (3 * y)] = true
       }
     })
+
+    // console.log(sections, sectionsX, sectionsY, sectionsWidth, sectionsHeight)
 
     setSections(sections)
   }, [])
@@ -147,13 +154,80 @@ const SectionEditor = ({closeSectionEditor, game: { gameModel : { world: { bound
     <div className="SectionEditor__controls">
         <Button
           onClick={() => {
-            const isVerified = verifySections()
-            if(isVerified) {
-              closeSectionEditor()
+            if(!verifySections()) {
+              setIsError(true)
+              return
             }
+
+            const sectionIds = Object.keys(sections).filter((id) => {
+              return sections[id]
+            })
+
+            const min = _.min(sectionIds)
+            const max = _.max(sectionIds)
+
+            const xyCornerFromSectionId = {
+              1: {
+                x: 0,
+                y: 0
+              },
+              2: {
+                x: 360,
+                y: 0
+              },
+              3: {
+                x: 720,
+                y: 0
+              },
+              4: {
+                x: 0,
+                y: 360
+              },
+              5: {
+                x: 360,
+                y: 360
+              },
+              6: {
+                x: 720,
+                y: 360
+              },
+              7: {
+                x: 0,
+                y: 720
+              },
+              8: {
+                x: 360,
+                y: 720
+              },
+              9: {
+                x: 720,
+                y: 720
+              }
+            }
+
+            const {x, y} = xyCornerFromSectionId[min]
+
+            const maxCorner = xyCornerFromSectionId[max]
+
+            const width = (maxCorner.x - x) + 360
+            const height = (maxCorner.y - y) + 360
+
+            console.log(x,y, width,height)
+
+            editGameModel({
+              world: {
+                boundaries: {
+                  x,y,width,height
+                }
+              }
+            })
+
+            closeSectionEditor()
           }}
         >Save
         </Button>
+        {isError && <FormLabel color="error"
+        >Shape must be square<br/> or rectangular</FormLabel>}
         <Button
           onClick={() => {
             closeSectionEditor()
@@ -170,4 +244,4 @@ const mapStateToProps = (state) => ({
   game: state.game
 });
 
-export default connect(mapStateToProps, { closeSectionEditor })(SectionEditor);
+export default connect(mapStateToProps, { closeSectionEditor, editGameModel })(SectionEditor);

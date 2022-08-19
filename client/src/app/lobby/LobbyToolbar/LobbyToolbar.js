@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import './LobbyToolbar.scss';
 import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby } from '../../../store/actions/lobbyActions';
+import { toggleGridView } from '../../../store/actions/editorActions'
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { ADMIN_ROLE } from '../../../constants';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const LobbyToolbar = ({editLobby, auth: { me }, lobby : { lobby, lobby : { isEditModeOn, isGamePaused, isGamePoweredOn }}}) => {
+const LobbyToolbar = ({editLobby, auth: { me }, lobby : { lobby, lobby : { isGamePaused, isGamePoweredOn }}, editor: { isGridViewOn}, toggleGridView}) => {
  return <div className="LobbyToolbar">
   {me.role === ADMIN_ROLE && <ToolbarIcon 
     size="lg"
@@ -24,11 +26,9 @@ const LobbyToolbar = ({editLobby, auth: { me }, lobby : { lobby, lobby : { isEdi
     <ToolbarIcon 
       size="lg"
       icon="faTableCells"
-      color={isEditModeOn ? "green" : 'white'}
+      color={isGridViewOn ? "green" : 'white'}
       onClick={() => {
-        editLobby(lobby.id, {
-          isEditModeOn: !isEditModeOn
-        })
+        toggleGridView()
       }}
     />
   </Unlockable>}
@@ -53,10 +53,11 @@ const LobbyToolbar = ({editLobby, auth: { me }, lobby : { lobby, lobby : { isEdi
  </div>
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
-  auth: state.auth
+  auth: state.auth,
+  editor: state.editor
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby }))(LobbyToolbar);
+  connect(mapStateToProps, { editLobby, toggleGridView }))(LobbyToolbar);

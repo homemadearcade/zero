@@ -11,8 +11,17 @@ import {
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
   CHANGE_EDITOR_CAMERA_ZOOM,
-  CLOSE_SECTION_EDITOR
+  CLOSE_SECTION_EDITOR,
+  TOGGLE_GRID_VIEW
 } from '../types';
+
+export const toggleGridView = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: TOGGLE_GRID_VIEW,
+    payload: {}
+  });
+}
 
 export const selectClass = (classId) => (dispatch, getState) => {
   dispatch({

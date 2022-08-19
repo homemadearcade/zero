@@ -68,6 +68,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
     if(!camera) return
 
     cobrowsingStatus.phaserView = {
+      isGridViewOn: state.editor.isGridViewOn,
       mouseWorldX: window.pointer.worldX,
       mouseWorldY: window.pointer.worldY,
       cameraX: camera.worldView.x,

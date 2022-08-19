@@ -1,4 +1,4 @@
-import { BACKGROUND_CANVAS_ID } from "../constants";
+// import { BACKGROUND_CANVAS_ID } from "../constants";
 import { gameSize, nodeSize } from "./general";
 import { spaceshipClass } from "./heros";
 
@@ -33,8 +33,8 @@ export const defaultGame = {
   },
   "hero": {
     "lives": 1,
-    "spawnX": 500,
-    "spawnY": 500,
+    spawnX: gameSize/2,
+    spawnY: gameSize/2,
     'initialClassId': 'spaceship'
   },
   "classes": {

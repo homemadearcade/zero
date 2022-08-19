@@ -97,6 +97,9 @@ export class GameInstance extends Phaser.Scene {
     // this.grid.setDepth(UI_CANVAS_DEPTH)
     // this.grid2.setDepth(UI_CANVAS_DEPTH)
 
+    if(this.grid) this.grid.destroy()
+    if(this.grid2) this.grid2.destroy()
+
     const boundaries = store.getState().game.gameModel.world.boundaries
 
     const gameWidth = boundaries.width

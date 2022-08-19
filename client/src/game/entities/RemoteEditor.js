@@ -44,10 +44,14 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
 
     if(phaserView)  {
       if(this.cameraPreview) {
-        this.cameraPreview.update({
-          x: phaserView.cameraX,
-          y: phaserView.cameraY
-        })
+        if(phaserView.isGridViewOn) {
+          this.cameraPreview.update({
+            x: phaserView.cameraX,
+            y: phaserView.cameraY
+          })
+        } else {
+          this.cameraPreview.setVisible(false)
+        }
       }
   
       if(this.mouse) {

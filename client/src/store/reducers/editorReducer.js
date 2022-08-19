@@ -11,7 +11,8 @@ import {
   OPEN_LIVE_CAMERA_EDITOR,
   CHANGE_EDITOR_CAMERA_ZOOM,
   OPEN_SECTION_EDITOR,
-  CLOSE_SECTION_EDITOR
+  CLOSE_SECTION_EDITOR,
+  TOGGLE_GRID_VIEW
 } from '../types';
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   classIdSelectedLiveEditor: null,
   isLiveEditorOpen: false,
   isSectionEditorOpen: false,
+  isGridViewOn: false,
   liveEditingCategory: null,
 };
 
@@ -69,8 +71,14 @@ export default function editorReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isSectionEditorOpen: true,
+        isGridViewOn: true,
         cameraZoom: 1,
       };
+    case TOGGLE_GRID_VIEW: 
+      return {
+        ...state,
+        isGridViewOn: !state.isGridViewOn,
+      }
     case CLOSE_SECTION_EDITOR:
       return {
         ...state,

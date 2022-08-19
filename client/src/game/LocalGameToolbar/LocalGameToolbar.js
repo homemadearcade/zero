@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
+import { toggleGridView } from '../../store/actions/editorActions';
 
-const LocalGameToolbar = ({ game: { gameInstance } }) => {
+const LocalGameToolbar = ({ toggleGridView, game: { gameInstance }, editor: { isGridViewOn} }) => {
   const [isPaused, setIsPaused] = useState(false)
-  const [isEditModeOn, setIsEditModeOn] = useState(true)
 
   if(!gameInstance) return
 
@@ -15,11 +15,9 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
     <ToolbarIcon 
       size="lg"
       icon="faTableCells"
-      color={isEditModeOn ? "green" : 'white'}
+      color={isGridViewOn ? "green" : 'white'}
       onClick={() => {
-        const scene = getCurrentGameScene(gameInstance)
-        scene.isEditModeOn = !scene.isEditModeOn
-        setIsEditModeOn(scene.isEditModeOn)
+        toggleGridView()
       }}
     />
     <ToolbarIcon 
@@ -42,8 +40,9 @@ const LocalGameToolbar = ({ game: { gameInstance } }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game
+  game: state.game,
+  editor: state.editor
 });
 
 export default compose(
-  connect(mapStateToProps, { }))(LocalGameToolbar);
+  connect(mapStateToProps, { toggleGridView }))(LocalGameToolbar);

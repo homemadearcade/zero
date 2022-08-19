@@ -26,7 +26,7 @@ export class EditorScene extends GameInstance {
     this.brush = null 
     this.stamper = null
     this.gameResetDate = Date.now()
-    this.isEditModeOn = true
+    this.isGridViewOn = true
     this.editorCamera = null
     this.remoteEditors = []
     this.cameraDragStart = null
@@ -163,7 +163,7 @@ export class EditorScene extends GameInstance {
         if(this.canvas) {
           this.brush.stroke(pointer, this.canvas)
         }
-      } else if(!gameObjects.length && this.isEditModeOn && !this.cameraDragStart) {
+      } else if(!gameObjects.length && this.isGridViewOn && !this.cameraDragStart) {
 
         // PREVENTING CAMERA DRAG FUNCTIONALITY FOR NOW
         // const editorCamera = this.editorCamera
@@ -208,7 +208,7 @@ export class EditorScene extends GameInstance {
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId || this.cameraDragStart) return
-    if(store.getState().lobby.lobby?.id && !store.getState().lobby.lobby.isEditModeOn) return
+    if(!store.getState().editor.isGridViewOn) return
     
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)
@@ -305,18 +305,18 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.world?.boundaries) {
-      // set camera preview zoom
+      // set camera previews zoom
       // set camera bounds
       // set world bounds
-      const gameModel = store.getState().game.gameModel
+      const gameModel = gameUpdate
       const gameWidth = gameModel.world.boundaries.width
       const gameHeight = gameModel.world.boundaries.height
       const gameX = gameModel.world.boundaries.x
       const gameY = gameModel.world.boundaries.y
       this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
-      this.editorCamera.setBounds(gameX, gameY, gameWidth, gameHeight)
-      this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
+      // this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
       this.setWorldBounds(gameModel.world.boundaries)
+      this.createGrids()
     }
 
     if(gameUpdate.awsImages) {
@@ -488,13 +488,13 @@ export class EditorScene extends GameInstance {
         this.gameResetDate = gameResetDate
         this.reload()
       }
+    }
 
-      const isEditModeOn = lobby.isEditModeOn
-      if(isEditModeOn) {
-        this.isEditModeOn = true
-      } else {
-        this.isEditModeOn = false
-      }
+    const isGridViewOn = getCobrowsingState().editor.isGridViewOn
+    if(isGridViewOn) {
+      this.isGridViewOn = true
+    } else {
+      this.isGridViewOn = false
     }
     
     const cameraZoom = store.getState().editor.cameraZoom
@@ -502,7 +502,7 @@ export class EditorScene extends GameInstance {
       this.editorCamera.setZoom(cameraZoom)
     }
 
-    if(this.isEditModeOn) {
+    if(this.isGridViewOn) {
       this.grid.setVisible(true)
       this.grid2.setVisible(true)
       this.cameras.main.setVisible(false)
