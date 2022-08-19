@@ -30,6 +30,9 @@ const GameEditor = ({ editor: { isLiveEditorOpen }, editorForms: { isCreateColor
         {leftColumn}
       </div>
       {children}
+      <div className="GameEditor__overlay">
+
+      </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         {rightColumn}
       </div>

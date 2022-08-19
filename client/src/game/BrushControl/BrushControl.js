@@ -17,13 +17,31 @@ const BrushControl = ({
 }) => {
   const brush = brushes[brushIdSelectedBrushList]
 
+  const boundaries = world.boundaries
+  const minZoomWidth = Math.floor((boundaries.width/boundaries.maxWidth) * 3)
+  const minZoomHeight = Math.floor((boundaries.height/boundaries.maxHeight) * 3)
+
+  const minZoomIndex = minZoomHeight < minZoomWidth ? minZoomHeight : minZoomWidth
+
+  const sizes = [
+    1, 
+    3, 
+    6, 
+    minZoomIndex === 3 && 9, 
+    15, 
+    minZoomIndex === 3 && 22.5, 
+    30
+  ].filter((num) => {
+    return !!num
+  })
+
   return <div className="BrushControl">
     <Unlockable isSlider interfaceId="brushSize">
       <div className="BrushControl__size">
         <FormLabel>Brush Size</FormLabel>
         <SliderNotched
           step={null}
-          options={[1, 3, 6, 9, 15, 22.5, 30]}
+          options={sizes}
           onChangeCommitted={(value) => {
             updateBrushSize(value)        
           }}

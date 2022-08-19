@@ -24,6 +24,10 @@ const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const zooms = [
     minZoomIndex === 3 && 1,
     minZoomIndex >= 2 && 1.5, 
+    // 2.2,
+    // 2.4,
+    // 2.6,
+    // 2.8,
      3, 
      4, 
      5
