@@ -13,6 +13,7 @@ import { ClassStamper } from '../entities/ClassStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../entities/ColorPencil';
+import { gameSize } from '../../defaultData/general';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -207,15 +208,19 @@ export class EditorScene extends GameInstance {
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId || this.cameraDragStart) return
-
+    if(!store.getState().lobby?.lobby.isEditModeOn) return
+    
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)
     const newZoom = this.editorCamera.zoom - zoomUpdate
 
-    if(newZoom <= 1) {
-      store.dispatch(changeEditorCameraZoom(1))
-    } else if(newZoom >= 10) {
-      store.dispatch(changeEditorCameraZoom(10))
+    const minZoom = 1;
+    const maxZoom = 10
+
+    if(newZoom <= minZoom) {
+      store.dispatch(changeEditorCameraZoom(minZoom))
+    } else if(newZoom >= maxZoom) {
+      store.dispatch(changeEditorCameraZoom(maxZoom))
     } else {
       store.dispatch(changeEditorCameraZoom(newZoom))
     }
@@ -400,24 +405,24 @@ export class EditorScene extends GameInstance {
     super.create()
 
     const gameModel = store.getState().game.gameModel
-    const gameWidth = gameModel.world.boundaries.width
-    const gameHeight = gameModel.world.boundaries.height
-    const gameX = gameModel.world.boundaries.x
-    const gameY = gameModel.world.boundaries.y
+    const gameMaxWidth = gameModel.world.boundaries.maxWidth
+    const gameMaxHeight = gameModel.world.boundaries.maxHeight
+    // const gameX = gameModel.world.boundaries.x
+    // const gameY = gameModel.world.boundaries.y
     this.cameras.fromJSON({
       name: 'editor',
       x: 0,
       y: 0,
-      width: gameWidth,
-      height: gameHeight,
-      zoom: 1,
+      width: gameSize,
+      height: gameSize,
+      zoom: 3,
       rotation: 0,
       scrollX: 0,
       scrollY: 0,
       roundPixels: false,
       visible: false,
       backgroundColor: false,
-      bounds: {x: gameX, y: gameY, width: gameWidth, height: gameHeight},
+      bounds: {x: 0, y: 0, width: gameMaxWidth, height: gameMaxHeight},
     })
     
     this.editorCamera = this.cameras.getCamera('editor')

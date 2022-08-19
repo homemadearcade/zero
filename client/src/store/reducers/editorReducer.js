@@ -18,7 +18,7 @@ const initialState = {
   brushIdSelectedBrushList: null,
   classIdSelectedClassList: null,
   brushSize: 3,
-  cameraZoom: 1,
+  cameraZoom: 3,
   classIdSelectedLiveEditor: null,
   isLiveEditorOpen: false,
   liveEditingCategory: null,

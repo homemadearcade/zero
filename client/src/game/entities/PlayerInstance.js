@@ -45,6 +45,7 @@ export class PlayerInstance extends ObjectInstance {
 
     if(objectClass.camera) {
       this.cameraPreview = new CameraPreview(scene, {color: 0x00FF00, zoom: objectClass.camera.zoom})
+      this.cameraPreview.setVisible(false)
     }
 
     scene.playerInstanceLayer.add(this)
@@ -69,7 +70,7 @@ export class PlayerInstance extends ObjectInstance {
     const cameraSize = gameMaxWidth/objectClass.camera.zoom
     const x = this.x - cameraSize/2
     const y = this.y - cameraSize/2
-    this.cameraPreview.update({x, y})
+    this.cameraPreview.update({x, y}, true)
 
     if(this.scene.isPaused) return
 

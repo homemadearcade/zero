@@ -17,8 +17,6 @@ const BrushControl = ({
 }) => {
   const brush = brushes[brushIdSelectedBrushList]
 
-  console.log(brushSize)
-
   return <div className="BrushControl">
     <Unlockable isSlider interfaceId="brushSize">
       <div className="BrushControl__size">

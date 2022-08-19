@@ -14,14 +14,32 @@ const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
     console.error('opened camera editor on a class with no camera')
     return null
   }
-  
+
+  const boundaries = gameModel.world.boundaries
+  const minZoomWidth = Math.floor((boundaries.width/boundaries.maxWidth) * 3)
+  const minZoomHeight = Math.floor((boundaries.height/boundaries.maxHeight) * 3)
+
+  const minZoomIndex = minZoomHeight < minZoomWidth ? minZoomHeight : minZoomWidth
+
+  const zooms = [
+    minZoomIndex === 3 && 1,
+    minZoomIndex >= 2 && 1.5, 
+     3, 
+     4, 
+     5
+  ].filter((num) => {
+    return !!num
+  })
+
+// step={0.2} is like... perfect for grids
+
   return (
     <div className="CameraEditor">
       <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
       <SliderNotched
         formLabel="Zoom"
-        options={[1, 2, 3, 4]}
-        step={0.2}
+        options={zooms}
+        step={0.1}
         onChangeCommitted={(value) => {
           editGameModel({ classes: { [classId]: { camera: { zoom: value }  }}})        
         }}

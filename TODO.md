@@ -16,19 +16,16 @@ Is size fixed based on class? Can you resize on the map?
 
 TODO NOW
 
-Cobrowsing Click event
 remove brush 9 and 22.5 when you're not in the top layer
-
-UNDO
 Game Size, Boundary
-Relationsips
+Move edit mode on/off to editor reducer
 
 --
 
 UP NEXT 
 
-
-
+UNDO
+Behaviors
 
 ---
 
@@ -43,7 +40,7 @@ Dialogue
 Cutscenes
 
 GAMEPLAY
-Behaviors
+Relationsips
 Controls - speed, other phaser examples, etc
 
 --------

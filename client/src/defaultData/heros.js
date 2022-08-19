@@ -1,4 +1,4 @@
-import { defaultPhaserPhysicsProperties, nodeSize } from "./general"
+import { defaultPhaserPhysicsProperties, gameSize, nodeSize } from "./general"
 
 export const defaulHeroClass = {
   ...defaultPhaserPhysicsProperties,
@@ -11,10 +11,12 @@ export const defaulHeroClass = {
   "textureId": null,
   "controls": "zelda",
   "camera": {
-    zoom: 1.5,
+    zoom: 3,
     lerpX: 0.09,
     lerpY: 0.09,
   },
+  spawnX: gameSize/2,
+  spawnY: gameSize/2,
   type: 'hero'
 }
 

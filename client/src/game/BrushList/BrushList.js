@@ -40,9 +40,9 @@ const BrushList = ({
 
   return <>
     <div className="BrushList">
-      <Typography component="subtitle1" variant="subtitle1">Brush Controls</Typography>
+      <Typography component="div" variant="subtitle1">Brush Controls</Typography>
       <BrushControl/>
-      <Typography component="subtitle1" variant="subtitle1">Background</Typography>
+      <Typography component="div" variant="subtitle1">Background</Typography>
       <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
       <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
       <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
@@ -59,7 +59,7 @@ const BrushList = ({
       }}>
         +
       </Button>
-      <Typography component="subtitle1" variant="subtitle1">Playground</Typography>
+      <Typography component="div" variant="subtitle1">Playground</Typography>
       <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
       <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
       <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
@@ -76,7 +76,7 @@ const BrushList = ({
       }}>
         +
       </Button>
-      <Typography component="subtitle1" variant="subtitle1">Overhead</Typography>
+      <Typography component="div" variant="subtitle1">Overhead</Typography>
       <LayerVisibility canvasId={OVERHEAD_CANVAS_ID} />
       <EraserSelect canvasId={OVERHEAD_CANVAS_ID}/>
       <LayerColorSelect canvasId={OVERHEAD_CANVAS_ID}/>

@@ -178,8 +178,8 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // CAMERA
     ////////////////////////////////////////////////////////////
-    const gameWidth = gameModel.world.boundaries.Width
-    const gameHeight = gameModel.world.boundaries.Height
+    const gameWidth = gameModel.world.boundaries.width
+    const gameHeight = gameModel.world.boundaries.height
     const gameX = gameModel.world.boundaries.x
     const gameY = gameModel.world.boundaries.y
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);

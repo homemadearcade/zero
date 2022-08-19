@@ -13,10 +13,10 @@ export const defaultGame = {
     "boundaries": {
       "maxWidth": gameSize,
       "maxHeight": gameSize,
-      "height": gameSize,
-      "width": gameSize,
-      "x": 0,// gameSize/3,
-      "y":0// gameSize/3
+      "height": (gameSize/3) * 1,
+      "width": (gameSize/3) * 1,
+      "x": gameSize/3,
+      "y": gameSize/3
     },
     "gravity": {
       "y": 0,

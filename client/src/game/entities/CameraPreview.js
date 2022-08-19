@@ -32,7 +32,7 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
     this.zoom = zoom
   }
 
-  update(followingEntity) {
+  update(followingEntity, useGameBoundaries) {
     if(!this.scene) return console.error('camera not destroyed again')
     
     if(this.scene.isEditModeOn) {
@@ -43,9 +43,15 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
       let cornerY = followingEntity.y
   
       const gameModel = store.getState().game.gameModel
-      cornerX = Phaser.Math.Clamp(cornerX, gameModel.world.boundaries.x, gameModel.world.boundaries.width - this.cameraSize)
-      cornerY = Phaser.Math.Clamp(cornerY, gameModel.world.boundaries.y, gameModel.world.boundaries.height - this.cameraSize)
-    
+
+      if(useGameBoundaries) {
+        cornerX = Phaser.Math.Clamp(cornerX, gameModel.world.boundaries.x, gameModel.world.boundaries.x + gameModel.world.boundaries.width - this.cameraSize)
+        cornerY = Phaser.Math.Clamp(cornerY, gameModel.world.boundaries.y, gameModel.world.boundaries.y + gameModel.world.boundaries.height - this.cameraSize)
+      } else {
+        cornerX = Phaser.Math.Clamp(cornerX, 0, gameModel.world.boundaries.maxWidth - this.cameraSize)
+        cornerY = Phaser.Math.Clamp(cornerY, 0, gameModel.world.boundaries.maxHeight - this.cameraSize)
+      }
+
       this.setPosition(cornerX + (CAMERA_PREVIEW_BORDER_SIZE/2), cornerY + (CAMERA_PREVIEW_BORDER_SIZE/2))  
     } else {
       this.setVisible(false)
