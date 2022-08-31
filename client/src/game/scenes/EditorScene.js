@@ -208,7 +208,7 @@ export class EditorScene extends GameInstance {
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId || this.cameraDragStart) return
-    if(!store.getState().editor.isGridViewOn) return
+    if(!getCobrowsingState().editor.isGridViewOn) return
     
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)

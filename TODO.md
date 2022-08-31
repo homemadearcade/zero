@@ -1,8 +1,12 @@
 CONVERSATION TOPICS
 
-Is size fixed based on class? Can you resize on the map?
-
 --
+
+WARMUPS
+
+Resize
+Change BG Color
+Put + inside of grid
 
 TODO NOW
 
@@ -32,9 +36,14 @@ Controls - speed, other phaser examples, etc
 
 --------
 
-TODO LATER
+HOW TO
 
-choose background color
+Choose BG Color
+  Right Click -> Change World Background -> Opens Modal Menu with your all yours Colors (+), When you click that it changes the entire Base Color
+
+Resizing object on map
+  All objects of that class are resized at the same time
+  Save or Cancel ( like Sections )
 
 --
 
@@ -106,11 +115,9 @@ TODO FEATURES ( MAYBE )
 
 Zoom Slider
 
-FOLDING/UNFOLDING organization
-
 Resize object?
 
-For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional
+For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
 
 interfaceUnlock other features, such as camera move with keys? drag object? etc
 

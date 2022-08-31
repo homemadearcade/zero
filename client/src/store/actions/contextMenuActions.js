@@ -18,6 +18,7 @@ import {
 export const openWorldContextMenu = (event) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       contextMenuX: event.pageX,
@@ -29,6 +30,7 @@ export const openWorldContextMenu = (event) => (dispatch, getState) => {
 export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: gameObjects[0].classId, 
@@ -44,6 +46,7 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
 export const openContextMenuFromClassId= (classId, event) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: classId, 
@@ -56,6 +59,7 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
 export const closeContextMenu = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
     type: CLOSE_CONTEXT_MENU
   });
 }
