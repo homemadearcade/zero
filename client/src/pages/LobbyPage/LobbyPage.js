@@ -22,6 +22,7 @@ import Link from '../../app/ui/Link/Link';
 import Icon from '../../app/ui/Icon/Icon';
 import CobrowsingIndicator from '../../app/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import { ADMIN_ROLE } from '../../constants';
+import LobbyPowerIndicator from '../../app/lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -59,18 +60,27 @@ const LobbyPage = ({
 
   function LobbyDrawer() {
     return <>
-      <div className="LobbyPage__drawer-toggle" onClick={() => {
-        setIsDrawerOpen(!isDrawerOpen)
-      }}>
-        {!isDrawerOpen && <Icon icon="faBars"/>}
-        {isDrawerOpen && <Icon icon="faClose"/>}
-      </div>
-      <div className="LobbyPage__cobrowsing-toggle">
+
+      <div className="LobbyPage__admin-tools">
+        <div className="LobbyPage__drawer-toggle" onClick={() => {
+          setIsDrawerOpen(true)
+        }}>
+          <Icon icon="faBars"/>
+        </div>
+        <LobbyPowerIndicator/>
         <CobrowsingIndicator/>
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
       }>
+        <div className="LobbyPage__drawer-close" 
+          onClick={() => {
+            setIsDrawerOpen(false)
+          }}>
+          <Icon 
+            icon="faClose"
+          />
+        </div>
         <br/>
         <br/>
         <br/>

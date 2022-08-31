@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LayerColorSelect.scss';
-import { BACKGROUND_CANVAS_ID, COLOR_BRUSH_ID, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, COLOR_BRUSH_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import { openCreateColorFlow } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
@@ -83,10 +83,10 @@ const LayerColorSelect = ({
         onAddColor={onAddColor} 
       />
     }
-    if(canvasId === OVERHEAD_CANVAS_ID) {
+    if(canvasId === FOREGROUND_CANVAS_ID) {
       return <ColorSelect 
-        selectedColorHex={selectedColorLayer === OVERHEAD_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[OVERHEAD_CANVAS_ID]} 
+        selectedColorHex={selectedColorLayer === FOREGROUND_CANVAS_ID && selectedColorHex} 
+        colors={colorsByLayer[FOREGROUND_CANVAS_ID]} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor}

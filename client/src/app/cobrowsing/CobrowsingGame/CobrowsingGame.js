@@ -12,6 +12,7 @@ import withCobrowsing from '../../../hoc/withCobrowsing';
 import withGame from '../../../hoc/withGame';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import LobbyToolbar from '../../lobby/LobbyToolbar/LobbyToolbar';
+import GridToggle from '../../../game/GridToggle/GridToggle';
 
 //    {me.role === 'ADMIN' && <CobrowsingStatus/>}
 
@@ -35,6 +36,7 @@ const CobrowsingGame = ({ leftColumnScrollYPercent, rightColumnScrollYPercent, l
     lobbyId={lobby.id}
     leftColumn={<>
       {isInsideVideoCall && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+      <GridToggle/>
       {lobby.game && <GameBrushList/>}
     </>}
     rightColumn={<>

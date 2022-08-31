@@ -29,7 +29,7 @@ const ClassList = ({
     <BorderedGrid
       maxItems={16} 
       height="7vh"
-      width="9.5vh"
+      width="9.2vh"
       items={Object.keys(classes).filter((currentClassId) => {
         const currentClass = classes[currentClassId]
         if(currentClass.type === 'hero') return null
@@ -47,7 +47,7 @@ const ClassList = ({
     <BorderedGrid
       maxItems={6} 
       height="7vh"
-      width="9.5vh"
+      width="9.2vh"
       items={Object.keys(classes).filter((currentClassId) => {
           const currentClass = classes[currentClassId]
           if(currentClass.type !== 'hero') return null

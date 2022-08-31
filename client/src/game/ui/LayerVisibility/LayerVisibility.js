@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { toggleLayerVisibility } from '../../../store/actions/editorInstanceActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../app/ui/Icon/Icon';
+import {  stopPropagation } from '../../../utils/browserUtils';
 
 const LayerVisibility = ({
   editorInstance: { layerVisibility },
@@ -13,7 +14,8 @@ const LayerVisibility = ({
   canvasId
 }) => {
   return <div
-    onClick={() => {
+    onClick={(e) => {
+      stopPropagation(e)
       toggleLayerVisibility(canvasId)
     }}
   >

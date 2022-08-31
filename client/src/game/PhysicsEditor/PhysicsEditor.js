@@ -5,9 +5,9 @@ import { editGameModel } from '../../store/actions/gameActions';
 
 import './PhysicsEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
-import Switch from '@mui/material/Switch';
 import { FormLabel, Typography } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
+import Switch from '../../app/ui/Switch/Switch';
 
 const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
@@ -98,6 +98,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       <Unlockable interfaceId="physics/toggle/ignoreGravity">
         <FormLabel>Ignore Gravity</FormLabel>
         <Switch
+          size="small"
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { ignoreGravity: e.target.checked }}})        
           }}
@@ -107,6 +108,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       <Unlockable interfaceId="physics/toggle/useMass">
         <FormLabel>Use Mass For Weight</FormLabel>
         <Switch
+          size="small"
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { useMass: e.target.checked }}})        
           }}
@@ -116,6 +118,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       <Unlockable interfaceId="physics/toggle/fixedRotation">
         <FormLabel>Fixed Rotation</FormLabel>
         <Switch
+          size="small"
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { fixedRotation: e.target.checked }}})        
           }}

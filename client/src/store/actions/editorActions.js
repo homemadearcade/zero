@@ -12,7 +12,8 @@ import {
   CLEAR_EDITOR,
   CHANGE_EDITOR_CAMERA_ZOOM,
   CLOSE_SECTION_EDITOR,
-  TOGGLE_GRID_VIEW
+  TOGGLE_GRID_VIEW,
+  UPDATE_ACCORDIAN_LIST
 } from '../types';
 
 export const toggleGridView = () => (dispatch, getState) => {
@@ -124,6 +125,17 @@ export const closeLiveEditor = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_LIVE_EDITOR
+  });
+}
+
+export const updateAccordianList = (id, value) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_ACCORDIAN_LIST,
+    payload: {
+      accordianListId: id,
+      accordianListValue: value
+    }
   });
 }
 

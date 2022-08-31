@@ -4,7 +4,7 @@ import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../entities/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, OVERHEAD_CANVAS_DEPTH, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from '../../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { nodeSize } from '../../defaultData/general';
@@ -19,7 +19,7 @@ export class GameInstance extends Phaser.Scene {
     this.player = null 
     this.backgroundLayer = null
     this.playgroundLayer = null
-    this.overheadLayer = null
+    this.FOREGROUNDLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
   }
@@ -71,8 +71,8 @@ export class GameInstance extends Phaser.Scene {
     if(canvasId === PLAYGROUND_CANVAS_ID) {
       return this.playgroundLayer
     }
-    if(canvasId === OVERHEAD_CANVAS_ID) {
-      return this.overheadLayer
+    if(canvasId === FOREGROUND_CANVAS_ID) {
+      return this.FOREGROUNDLayer
     }
 
     console.error('didnt find layer with id', canvasId, typeof canvasId)
@@ -143,9 +143,9 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstanceLayer.setDepth(HERO_INSTANCE_CANVAS_DEPTH)
     this.playerInstanceGroup = this.add.group()
 
-    // overhead layer
-    this.overheadLayer = new CodrawingCanvas(this, {canvasId: OVERHEAD_CANVAS_ID})
-    this.overheadLayer.setDepth(OVERHEAD_CANVAS_DEPTH)
+    // FOREGROUND layer
+    this.FOREGROUNDLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID})
+    this.FOREGROUNDLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)
@@ -234,7 +234,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
-    this.overheadLayer.setVisible(layerVisibility[OVERHEAD_CANVAS_ID])
+    this.FOREGROUNDLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {
       object.update(time, delta);

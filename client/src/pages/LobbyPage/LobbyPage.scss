@@ -1,16 +1,26 @@
 .LobbyPage {
   &__drawer-toggle {
-    position: absolute;
-    top: 1%;
-    right: 1%;
     font-size: 24px;
-    z-index: 10010;
+    z-index: 10011;
     cursor: pointer;
   }
 
-  &__cobrowsing-toggle {
+  &__drawer-close {
+    top: 1%;
+    right: 12px;
     position: absolute;
-    top: 50px;
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  &__admin-tools {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    top: 1%;
     right: 1%;
     font-size: 24px;
     z-index: 1;

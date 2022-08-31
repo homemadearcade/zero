@@ -40,8 +40,8 @@ const GameSelect = ({ onSelect, getGames, game: { games, isLoading }}) => {
               options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
               groupBy={(option) => option.firstLetter}
               getOptionLabel={(option) => option.user.username + '-' + option.id}
-              onChange={(e) => {
-                onSelect(games[e.target.value])
+              onChange={(e, value) => {
+                onSelect(value)
               }}
               renderInput={(params) => <TextField {...params} label="Games by authors username" />}
             />)

@@ -6,20 +6,12 @@ import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { toggleGridView } from '../../store/actions/editorActions';
 
-const LocalGameToolbar = ({ toggleGridView, game: { gameInstance }, editor: { isGridViewOn} }) => {
+const LocalGameToolbar = ({  game: { gameInstance }, undoLastInstanceChange }) => {
   const [isPaused, setIsPaused] = useState(false)
 
   if(!gameInstance) return
 
   return <div className="LocalGameToolbar">
-    <ToolbarIcon 
-      size="lg"
-      icon="faTableCells"
-      color={isGridViewOn ? "green" : 'white'}
-      onClick={() => {
-        toggleGridView()
-      }}
-    />
     <ToolbarIcon 
       size="lg"
       icon={isPaused ? "faPlay" : "faPause"} 
@@ -31,7 +23,14 @@ const LocalGameToolbar = ({ toggleGridView, game: { gameInstance }, editor: { is
     />
     <ToolbarIcon 
       size="lg"
-      icon="faRotateRight"
+      icon="faRotateLeft"
+      onClick={() => {
+        undoLastInstanceChange()
+      }}
+    />
+    <ToolbarIcon 
+      size="lg"
+      icon="faStop"
       onClick={() => {
         getCurrentGameScene(gameInstance).reload()
       }}
@@ -41,7 +40,6 @@ const LocalGameToolbar = ({ toggleGridView, game: { gameInstance }, editor: { is
 
 const mapStateToProps = (state) => ({
   game: state.game,
-  editor: state.editor
 });
 
 export default compose(

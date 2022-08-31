@@ -42,7 +42,7 @@ const UserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildre
       <div className="UserStatus__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
       {user.role === ADMIN_ROLE && <div className="UserStatus__admin"><Icon icon="faCrown"/></div>}
       {(hasJoinLink) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
-        {isMe ? 'Play' : 'Join'}
+        {isMe ? 'Play' : 'Watch'}
       </Link>}
       {titleChildren}
     </div>

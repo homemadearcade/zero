@@ -1,15 +1,5 @@
 CONVERSATION TOPICS
 
-Lobby Steps, how is it?
-
-UX for change background color?
-
-Camera scroll by hovering at the edges hit box?
-
-Create a 'toolbar' on the right hand side? This toolbar changes based on if you are admin or not
-
-Im thinking of another toolbar - mouse toolbar?
-
 Is size fixed based on class? Can you resize on the map?
 
 --

@@ -7,7 +7,7 @@ import {
   UNSUBSCRIBE_CODRAWING_FAIL,
 } from '../types';
 
-// import { BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, OVERHEAD_CANVAS_ID } from '../../constants';
+// import { BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../../constants';
 
 const initialState = {
   error: null,
@@ -15,7 +15,7 @@ const initialState = {
   // codrawingCanvasIds: {
   //   [BACKGROUND_CANVAS_ID]: false,
   //   [PLAYGROUND_CANVAS_ID]: false,
-  //   [OVERHEAD_CANVAS_ID]: false
+  //   [FOREGROUND_CANVAS_ID]: false
   // }
 };
 

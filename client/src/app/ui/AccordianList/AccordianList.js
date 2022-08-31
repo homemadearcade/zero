@@ -38,7 +38,7 @@ const AccordionSummary = styled((props) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
+  // padding: theme.spacing(2),
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
@@ -56,7 +56,7 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
   return (
     <div className="Accordian">
       {accordianList.map(({id, title, body}) => {
-        return <Accordion key={title} expanded={expanded === id} onChange={onChange(id)}>
+        return <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
           <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
             {title}
           </AccordionSummary>

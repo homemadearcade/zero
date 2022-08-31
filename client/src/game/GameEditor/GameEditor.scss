@@ -15,12 +15,18 @@
     width: 20vh;
     background-color: #111;
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__right-column {
     width: 20vh;
     background-color: #111;
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__overlay {

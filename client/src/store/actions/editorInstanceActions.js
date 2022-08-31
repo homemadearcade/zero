@@ -2,8 +2,12 @@ import {
   TOGGLE_CANVAS_VISIBILITY,
   CLEAR_EDITOR_INSTANCE,
   TOGGLE_GAME_INSTANCE_PAUSED,
-  RESET_GAME_INSTANCE
+  RESET_GAME_INSTANCE,
+  UNDO_INSTANCE_CHANGE_FAIL,
+  UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../types';
+
+import { attachTokenToHeaders } from './authActions';
 
 export const clearEditorInstance = () => (dispatch, getState) => {
   dispatch({

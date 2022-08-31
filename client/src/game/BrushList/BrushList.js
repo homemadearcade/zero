@@ -9,7 +9,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { openCreateBrushFlow } from '../../store/actions/editorFormsActions';
-import { BACKGROUND_CANVAS_ID, OVERHEAD_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
@@ -18,6 +18,7 @@ import LayerVisibility from '../ui/LayerVisibility/LayerVisibility';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import LayerColorSelect from '../LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
+import CobrowsingAccordianList from '../../app/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 
 const BrushList = ({
   game: { gameModel },
@@ -38,62 +39,86 @@ const BrushList = ({
     return prev
   }, {})
 
-  return <>
-    <div className="BrushList">
-      <Typography component="div" variant="subtitle1">Brush Controls</Typography>
-      <BrushControl/>
-      <Typography component="div" variant="subtitle1">Background</Typography>
-      <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
-      <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
-      <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
-      <div className="BrushList__brushes">
-        <BorderedGrid 
-        maxItems={15} 
-        size="3.5vh"
-        items={brushesByLayer[BACKGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-          return <BrushItem key={i} brushId={brushId}/>
-        }) || []}/>
-      </div>
-      <Button size="small" className="BrushList__add" onClick={() => {
-        openCreateBrushFlow(BACKGROUND_CANVAS_ID)
-      }}>
-        +
-      </Button>
-      <Typography component="div" variant="subtitle1">Playground</Typography>
-      <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
-      <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
-      <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
-      <div className="BrushList__brushes">
-        <BorderedGrid 
-          maxItems={15} 
-          size="3.5vh"
-          items={brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-            return <BrushItem key={i} brushId={brushId}/>
-          }) || []}/>
-      </div>
-      <Button size="small" className="BrushList__add" onClick={() => {
-        openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
-      }}>
-        +
-      </Button>
-      <Typography component="div" variant="subtitle1">Overhead</Typography>
-      <LayerVisibility canvasId={OVERHEAD_CANVAS_ID} />
-      <EraserSelect canvasId={OVERHEAD_CANVAS_ID}/>
-      <LayerColorSelect canvasId={OVERHEAD_CANVAS_ID}/>
-      <div className="BrushList__brushes">
-        <BorderedGrid 
-        maxItems={15} 
-        size="3.5vh"
-        items={brushesByLayer[OVERHEAD_CANVAS_ID]?.map(({brushId}, i) => {
-          return <BrushItem key={i} brushId={brushId}/>
-        }) || []}/>
-      </div>
-      <Button size="small" className="BrushList__add" onClick={() => {
-        openCreateBrushFlow(OVERHEAD_CANVAS_ID)
-      }}>
-        +
-      </Button>
-    </div>
+  return <div className="BrushList">
+    <BrushControl/>
+    
+    <CobrowsingAccordianList
+      listId="BrushList"
+      accordians={[
+        {
+          id: 'Background',
+          title: <>
+            <Typography component="div" variant="subtitle1">Background</Typography>
+            <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
+          </>,
+          body: <>
+            <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
+            <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
+            <div className="BrushList__brushes">
+              <BorderedGrid 
+              maxItems={15} 
+              size="3.5vh"
+              items={brushesByLayer[BACKGROUND_CANVAS_ID]?.map(({brushId}, i) => {
+                return <BrushItem key={i} brushId={brushId}/>
+              }) || []}/>
+            </div>
+            <Button size="small" className="BrushList__add" onClick={() => {
+              openCreateBrushFlow(BACKGROUND_CANVAS_ID)
+            }}>
+              +
+            </Button>
+          </>
+        },
+        {
+          id: 'Playground',
+          title: <>
+            <Typography component="div" variant="subtitle1">Playground</Typography>
+            <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
+          </>,
+          body: <>
+            <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
+            <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
+            <div className="BrushList__brushes">
+              <BorderedGrid 
+                maxItems={15} 
+                size="3.5vh"
+                items={brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
+                  return <BrushItem key={i} brushId={brushId}/>
+                }) || []}/>
+            </div>
+            <Button size="small" className="BrushList__add" onClick={() => {
+              openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
+            }}>
+              +
+            </Button>
+          </>
+      },
+      {
+        id: 'Foreground',
+        title: <>
+          <Typography component="div" variant="subtitle1">Foreground</Typography>
+          <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
+        </>,
+        body: <>
+          <EraserSelect canvasId={FOREGROUND_CANVAS_ID}/>
+          <LayerColorSelect canvasId={FOREGROUND_CANVAS_ID}/>
+          <div className="BrushList__brushes">
+            <BorderedGrid 
+            maxItems={15} 
+            size="3.5vh"
+            items={brushesByLayer[FOREGROUND_CANVAS_ID]?.map(({brushId}, i) => {
+              return <BrushItem key={i} brushId={brushId}/>
+            }) || []}/>
+          </div>
+          <Button size="small" className="BrushList__add" onClick={() => {
+            openCreateBrushFlow(FOREGROUND_CANVAS_ID)
+          }}>
+            +
+          </Button>
+        </>
+        }
+      ]}
+    />
     {isCreateBrushFlowOpen && <CreateBrushFlow 
       onComplete={(brush) => {
         if(!brush.textureId) {   
@@ -115,9 +140,9 @@ const BrushList = ({
           })
         }
 
-      }}
-    />}
-  </>
+    }}/>
+  }
+  </div>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

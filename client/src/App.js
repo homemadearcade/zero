@@ -103,6 +103,13 @@ const theme = createTheme({
         }
       },
     },
+    MuiAccordionDetails: {
+      styleOverrides: {
+        root: {
+          padding: '0px',
+        }
+      }
+    }
   },
 });
 

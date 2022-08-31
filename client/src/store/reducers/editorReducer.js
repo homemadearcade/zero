@@ -12,7 +12,8 @@ import {
   CHANGE_EDITOR_CAMERA_ZOOM,
   OPEN_SECTION_EDITOR,
   CLOSE_SECTION_EDITOR,
-  TOGGLE_GRID_VIEW
+  TOGGLE_GRID_VIEW,
+  UPDATE_ACCORDIAN_LIST
 } from '../types';
 
 const initialState = {
@@ -27,6 +28,9 @@ const initialState = {
   isSectionEditorOpen: false,
   isGridViewOn: false,
   liveEditingCategory: null,
+  accordianLists: {
+    'BrushList': null,
+  }
 };
 
 export const initialEditorFormsState = initialState
@@ -83,6 +87,14 @@ export default function editorReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isSectionEditorOpen: false,
+      };
+    case UPDATE_ACCORDIAN_LIST:
+      return {
+        ...state,
+        accordianLists: {
+          ...state.accordianLists,
+          [payload.accordianListId]: payload.accordianListValue
+        }
       };
     case OPEN_LIVE_PHYSICS_EDITOR:
       return {

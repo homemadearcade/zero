@@ -326,8 +326,8 @@ export class EditorScene extends GameInstance {
       if(gameUpdate.awsImages[this.playgroundLayer.textureId]) {
         this.playgroundLayer.updateTexture()
       }
-      if(gameUpdate.awsImages[this.overheadLayer.textureId]) {
-        this.overheadLayer.updateTexture()
+      if(gameUpdate.awsImages[this.FOREGROUNDLayer.textureId]) {
+        this.FOREGROUNDLayer.updateTexture()
       }
     }
 

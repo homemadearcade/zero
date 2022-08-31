@@ -350,7 +350,7 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
         gameHostId: req.body.gameHostId,
         participantId: req.body.participantId,
         guideId: req.body.guideId,
-        game: req.body.game
+        game: req.body.game?.id
       },
       { new: true },
     );

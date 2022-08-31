@@ -3,8 +3,8 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Icon from '../../ui/Icon/Icon';
-import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
+import Icon from '../../app/ui/Icon/Icon';
+import { toggleActiveCobrowsing } from '../../store/actions/cobrowsingActions';
 
 import './CobrowsingIndicator.scss'
 import Switch from '../../ui/Switch/Switch';
@@ -21,8 +21,8 @@ const CobrowsingIndicator = ({
   > 
     <Icon icon="faDesktop"/>
     <Switch
-      size="small"
-      checked={isCurrentlyCobrowsing}
+        size="small"
+        checked={isCurrentlyCobrowsing}
       />
   </div>
 };

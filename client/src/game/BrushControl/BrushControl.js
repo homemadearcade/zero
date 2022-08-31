@@ -37,8 +37,8 @@ const BrushControl = ({
 
   return <div className="BrushControl">
     <Unlockable isSlider interfaceId="brushSize">
+      <FormLabel>Brush Size</FormLabel>
       <div className="BrushControl__size">
-        <FormLabel>Brush Size</FormLabel>
         <SliderNotched
           step={null}
           options={sizes}
