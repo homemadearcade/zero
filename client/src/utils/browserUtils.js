@@ -59,3 +59,14 @@ export function preventDefault(event) {
   event.preventDefault()
 }
 
+
+export function throttleWheel(fn, wait) {
+  var time = Date.now();
+
+  return function() {
+    if ((time + wait - Date.now()) < 0) {
+      fn(...arguments);
+      time = Date.now();
+    }
+  }
+}

@@ -19,3 +19,20 @@
     // this.minimapCamera = this.cameras.getCamera('mini')
     // this.minimapCamera.ignore(this.grid)
     // this.minimapCamera.ignore(this.grid2)
+
+
+
+        this.editorCamera.setDeadzone(700, 700)
+    if (this.editorCamera.deadzone)
+    {
+        const graphics = this.add.graphics().setScrollFactor(0);
+        graphics.lineStyle(2, 0x00ff00, 1);
+        graphics.strokeRect(200, 200, this.editorCamera.deadzone.width, this.editorCamera.deadzone.height);
+    }
+
+
+
+
+        // PREVENTING CAMERA DRAG FUNCTIONALITY FOR NOW
+        // const editorCamera = this.editorCamera
+        // this.cameraDragStart = { x: pointer.x, y: pointer.y, startScrollX: editorCamera.scrollX, startScrollY: editorCamera.scrollY }

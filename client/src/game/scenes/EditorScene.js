@@ -30,6 +30,7 @@ export class EditorScene extends GameInstance {
     this.editorCamera = null
     this.remoteEditors = []
     this.cameraDragStart = null
+    this.mouseWheelTimeout = null
   }
   
   ////////////////////////////////////////////////////////////
@@ -129,7 +130,6 @@ export class EditorScene extends GameInstance {
     if(this.stamper) {
       this.stamper.update(pointer)
     }
-
   }
 
   onPointerOver = (pointer, objectInstances) => {
@@ -139,6 +139,13 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerDown = (pointer, gameObjects) => {
+    const clickDelay = this.time.now - this.lastClick;
+    this.lastClick = this.time.now;
+    if(clickDelay < 350) {
+      this.onDoubleClick(pointer)
+      return
+    }
+
     if (pointer.rightButtonDown()) {
       function disableContextMenue(e) {
         e.preventDefault()
@@ -164,10 +171,7 @@ export class EditorScene extends GameInstance {
           this.brush.stroke(pointer, this.canvas)
         }
       } else if(!gameObjects.length && this.isGridViewOn && !this.cameraDragStart) {
-
-        // PREVENTING CAMERA DRAG FUNCTIONALITY FOR NOW
-        // const editorCamera = this.editorCamera
-        // this.cameraDragStart = { x: pointer.x, y: pointer.y, startScrollX: editorCamera.scrollX, startScrollY: editorCamera.scrollY }
+          // Drag map?
       }
 
     }
@@ -206,24 +210,107 @@ export class EditorScene extends GameInstance {
     }
   }
 
+  onDoubleClick = (pointer) => {
+    this.editorCamera.pan(pointer.worldX, pointer.worldY, 300)
+  }
+
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId || this.cameraDragStart) return
     if(!getCobrowsingState().editor.isGridViewOn) return
     
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)
-    const newZoom = this.editorCamera.zoom - zoomUpdate
-
-    const minZoom = 1;
     const maxZoom = 10
+    const newZoom = Phaser.Math.Clamp(this.editorCamera.zoom - zoomUpdate, 1, maxZoom)
 
-    if(newZoom <= minZoom) {
-      store.dispatch(changeEditorCameraZoom(minZoom))
-    } else if(newZoom >= maxZoom) {
-      store.dispatch(changeEditorCameraZoom(maxZoom))
-    } else {
-      store.dispatch(changeEditorCameraZoom(newZoom))
+    store.dispatch(changeEditorCameraZoom(newZoom))
+
+    if(zoomUpdate > 0) {
+      this.targetCameraPosition = null
+      return
     }
+
+    if(!this.targetCameraPosition) {
+      this.targetCameraPosition = {
+        x: pointer.worldX,
+        y: pointer.worldY
+      }
+      this.cameraScrollStart = {
+        x: this.editorCamera.scrollX,
+        y: this.editorCamera.scrollY
+       }
+ 
+      this.journeyZoomStart = this.editorCamera.zoom
+    }
+
+    clearTimeout(this.mouseWheelTimeout)
+    this.mouseWheelTimeout = setTimeout(() => {
+      this.targetCameraPosition = null
+    }, 300)
+    
+
+    const cameraScrollTarget = this.editorCamera2.getScroll(this.targetCameraPosition.x, this.targetCameraPosition.y)
+    
+    console.log(cameraScrollTarget)
+
+    // const scrollDelta = {
+    //   x: cameraScrollTarget.x - (this.editorCamera.scrollX),
+    //   y: cameraScrollTarget.y - (this.editorCamera.scrollY)
+    // }
+
+    // console.log(scrollDelta, cameraScrollTarget, this.targetCameraPosition, this.editorCamera.scrollX)
+
+
+    const journeyPercent = (newZoom - this.journeyZoomStart)/(maxZoom - this.journeyZoomStart)
+
+    const x = Phaser.Math.Interpolation.Linear([this.cameraScrollStart.x, cameraScrollTarget.x], journeyPercent)
+    this.editorCamera.scrollX = x
+
+    const y = Phaser.Math.Interpolation.Linear([this.cameraScrollStart.y, cameraScrollTarget.y], journeyPercent)
+    this.editorCamera.scrollY = y
+
+        // this.editorCamera.pan(x, y, 0, 'Linear', true)
+
+    console.log(x,y)
+
+    // const x = this.cameraScrollStart.x + (scrollDelta.x * journeyPercent)
+    // const y = this.cameraScrollStart.y + (scrollDelta.y * journeyPercent)
+
+    // console.log(x, y, journeyPercent)
+
+    // this.editorCamera.pan(x, y, 0, 'Linear', true)
+    // console.log(cameraScrollTarget)
+    // if(this.editorCamera.scrollX > cameraScrollTarget.x) {
+    //   this.editorCamera.scrollX -= 1
+    // } else {
+    //   this.editorCamera.scrollX += 1
+    // }
+
+    // if(this.editorCamera.scrollY > cameraScrollTarget.y) {
+    //   this.editorCamera.scrollY -= 1
+    // } else {
+    //   this.editorCamera.scrollY += 1
+    // }
+
+    // this.editorCamera.scrollY += cameraScrollTarget.y/20
+
+    /// ^^ this kinda workin 
+
+    // if(!this.zoomScrollDestinationDelta) {
+
+    // }
+    // clearTimeout(this.mouseWheelTimeout)
+    // this.mouseWheelTimeout = setTimeout(() => {
+    //   this.zoomScrollDestinationDelta = null
+    // }, 100)
+    // console.log(this.zoomScrollDestinationDelta.x, zoomUpdate)
+    // console.log('percent journey', (zoomUpdate/(newZoom - minZoom)))
+    // this.editorCamera.scrollX -= (this.zoomScrollDestinationDelta.x * journeyPercent)
+    // this.editorCamera.scrollY -= (this.zoomScrollDestinationDelta.y * journeyPercent)
+    // // this.editorCamera.setLerp(1)
+
+    // this.camera.scrollX -= (pointer.x - pointer.prevPosition.x) / this.camera.zoom;
+    // this.camera.scrollY -= (pointer.y - pointer.prevPosition.y) / this.camera.zoom;
   }
   
   ////////////////////////////////////////////////////////////
@@ -409,8 +496,8 @@ export class EditorScene extends GameInstance {
     const gameMaxHeight = gameModel.world.boundaries.maxHeight
     // const gameX = gameModel.world.boundaries.x
     // const gameY = gameModel.world.boundaries.y
-    this.cameras.fromJSON({
-      name: 'editor',
+
+    const editorCameraJSON = {
       x: 0,
       y: 0,
       width: gameSize,
@@ -423,9 +510,22 @@ export class EditorScene extends GameInstance {
       visible: false,
       backgroundColor: false,
       bounds: {x: 0, y: 0, width: gameMaxWidth, height: gameMaxHeight},
+    }
+
+    this.cameras.fromJSON({
+      name: 'editor',
+      ...editorCameraJSON
+    })
+    this.cameras.fromJSON({
+      name: 'editor2',
+      ...editorCameraJSON
     })
     
     this.editorCamera = this.cameras.getCamera('editor')
+    this.editorCamera2 = this.cameras.getCamera('editor2')
+    this.editorCamera2.setVisible(false)
+    this.editorCamera2.setZoom(10)
+
     var keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
     const controlConfig = {
       camera: this.editorCamera,
