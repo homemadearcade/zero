@@ -43,7 +43,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
    
-    console.log('saving')
     store.dispatch(addAwsImage(file, fileId, {
       name: fileId,
       type: 'layer'
@@ -110,7 +109,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   draw(entries, x, y) {
-    // this.storeRenderTextureForUndoStack()
+    this.storeRenderTextureForUndoStack()
 
     if(this.isSavingToAws) {
       return false
@@ -119,7 +118,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   erase(entries, x, y) {
-    // this.storeRenderTextureForUndoStack()
+    this.storeRenderTextureForUndoStack()
 
     if(this.isSavingToAws) {
       return false
@@ -128,7 +127,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   onStrokeReleased() {
-    // this.addRenderTextureToUndoStack()
+    this.addRenderTextureToUndoStack()
     if(this.isHost) this.debouncedSave()
   }
 

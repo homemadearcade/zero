@@ -192,7 +192,8 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerLeaveGame = () => {
-    if(this.brush) this.destroyBrush()
+    // without !this.canvas check we end up with discrepencies in codrawing
+    if(this.brush && !this.canvas) this.destroyBrush()
     if(this.stamper) this.destroyStamp()
   }
 
