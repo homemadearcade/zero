@@ -19,7 +19,7 @@ export class GameInstance extends Phaser.Scene {
     this.player = null 
     this.backgroundLayer = null
     this.playgroundLayer = null
-    this.FOREGROUNDLayer = null
+    this.foregroundLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
   }
@@ -93,7 +93,7 @@ export class GameInstance extends Phaser.Scene {
       return this.playgroundLayer
     }
     if(canvasId === FOREGROUND_CANVAS_ID) {
-      return this.FOREGROUNDLayer
+      return this.foregroundLayer
     }
 
     console.error('didnt find layer with id', canvasId, typeof canvasId)
@@ -165,8 +165,8 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstanceGroup = this.add.group()
 
     // FOREGROUND layer
-    this.FOREGROUNDLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID})
-    this.FOREGROUNDLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
+    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID})
+    this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)
@@ -255,7 +255,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
-    this.FOREGROUNDLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
+    this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {
       object.update(time, delta);

@@ -4,6 +4,8 @@ import { addAwsImage } from "../../store/actions/gameActions";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
 
+window.undoStack = []
+
 export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { canvasId }){
     const state = store.getState()
@@ -14,6 +16,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene.add.existing(this)
 
     this.textureId = gameModel.id+'/' + canvasId
+    this.canvasId = canvasId
 
     this.initialDraw()
 
@@ -24,11 +27,13 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     this.isSavingToAws = false
 
+    this.previousRenderTexture = null
+    this.undoTextureStack = []
+
     return this
   }
 
   save = async ()  => {
-    if(!this.isHost) return
     this.isSavingToAws = true
     
     this.scene.input.setDefaultCursor('wait');
@@ -38,6 +43,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
    
+    console.log('saving')
     store.dispatch(addAwsImage(file, fileId, {
       name: fileId,
       type: 'layer'
@@ -57,10 +63,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
       this.initialDraw()
     });
     this.scene.load.start();
-  }
-
-  onStrokeReleased() {
-    this.debouncedSave()
   }
 
   getBufferCanvasFromRenderTexture = (renderTexture) => {
@@ -85,7 +87,31 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     })
   }
 
+  storeRenderTextureForUndoStack() {
+    if(!this.previousRenderTexture) {
+      const state = store.getState()
+      const gameModel = state.game.gameModel
+      this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
+      this.previousRenderTexture.draw(this, 0,0)
+      window.undoStack.push(this.canvasId)
+    }
+  }
+
+  addRenderTextureToUndoStack() {
+    this.undoTextureStack.push(this.previousRenderTexture)
+    this.previousRenderTexture = null
+  }
+
+  undo() {
+    const texture = this.undoTextureStack.pop()
+    this.clear()
+    super.draw(texture, 0,0)
+    this.debouncedSave()
+  }
+
   draw(entries, x, y) {
+    // this.storeRenderTextureForUndoStack()
+
     if(this.isSavingToAws) {
       return false
     }
@@ -93,20 +119,27 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   erase(entries, x, y) {
+    // this.storeRenderTextureForUndoStack()
+
     if(this.isSavingToAws) {
       return false
     }
     super.erase(entries, x, y)
   }
 
+  onStrokeReleased() {
+    // this.addRenderTextureToUndoStack()
+    if(this.isHost) this.debouncedSave()
+  }
+
   initialDraw() {
     if(this.scene.textures.exists(this.textureId)) {
-      this.draw(this.textureId, 0, 0)
+      super.draw(this.textureId, 0, 0)
     }
   }
 
   destroy() {
-    this.save()
+    if(this.isHost) this.save()
     super.destroy()
   }
 }

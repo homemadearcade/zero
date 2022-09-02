@@ -19,7 +19,7 @@ const CobrowsingIndicator = ({
       toggleActiveCobrowsing()
     }}
   > 
-    <Icon icon="faDesktop"/>
+    <Icon icon="faHouseLaptop"/>
     <Switch
       size="small"
       checked={isCurrentlyCobrowsing}

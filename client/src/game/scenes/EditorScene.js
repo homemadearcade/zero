@@ -212,7 +212,8 @@ export class EditorScene extends GameInstance {
 
   onDoubleClick = (pointer) => {
     store.dispatch(changeEditorCameraZoom(5))
-    this.editorCamera.pan(pointer.worldX, pointer.worldY, 500)
+    this.editorCamera.setZoom(5)
+    this.editorCamera.pan(pointer.worldX, pointer.worldY, 0)
   }
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -327,8 +328,8 @@ export class EditorScene extends GameInstance {
       if(gameUpdate.awsImages[this.playgroundLayer.textureId]) {
         this.playgroundLayer.updateTexture()
       }
-      if(gameUpdate.awsImages[this.FOREGROUNDLayer.textureId]) {
-        this.FOREGROUNDLayer.updateTexture()
+      if(gameUpdate.awsImages[this.foregroundLayer.textureId]) {
+        this.foregroundLayer.updateTexture()
       }
     }
 
