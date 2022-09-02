@@ -4,7 +4,7 @@ import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../entities/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from '../../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, DEFAULT_TEXTURE_ID } from '../../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { nodeSize } from '../../defaultData/general';
@@ -62,6 +62,27 @@ export class GameInstance extends Phaser.Scene {
   getSpriteTexture(textureId) {
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     return this.textures.getFrame(spriteSheetName, spriteIndex)
+  }
+
+  //Sine.easeInOut
+  zoomAndPanTo(camera, zoomLevel, x, y, duration, easing = "Linear") {
+    camera.pan(
+      x,
+      y,
+      duration,
+      easing,
+      true,
+      (camera, progress) => {
+        // if (spriteToFollow) {
+        //   camera.panEffect.destination.x = spriteToFollow.x;
+        //   camera.panEffect.destination.y = spriteToFollow.y;
+        // } 
+        // if (progress === 1 && whenFinished) {
+        //   whenFinished();
+        // }
+      }
+    );
+    camera.zoomTo(zoomLevel, duration, easing);
   }
 
   getLayerById(canvasId) {

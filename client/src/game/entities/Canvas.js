@@ -51,7 +51,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
     this.scene.load.once('complete', () => {
       this.isSavingToAws = false
-      this.scene.input.setDefaultCursor('default');
+      //sometimes this bugs out
+      this.scene?.input.setDefaultCursor('default');
       this.clear()
       this.initialDraw()
     });

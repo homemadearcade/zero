@@ -115,8 +115,6 @@ TODO FEATURES ( MAYBE )
 
 Zoom Slider
 
-Resize object?
-
 For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
 
 interfaceUnlock other features, such as camera move with keys? drag object? etc

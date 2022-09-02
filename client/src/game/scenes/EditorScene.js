@@ -211,7 +211,8 @@ export class EditorScene extends GameInstance {
   }
 
   onDoubleClick = (pointer) => {
-    this.editorCamera.pan(pointer.worldX, pointer.worldY, 300)
+    store.dispatch(changeEditorCameraZoom(5))
+    this.editorCamera.pan(pointer.worldX, pointer.worldY, 500)
   }
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -224,93 +225,6 @@ export class EditorScene extends GameInstance {
     const newZoom = Phaser.Math.Clamp(this.editorCamera.zoom - zoomUpdate, 1, maxZoom)
 
     store.dispatch(changeEditorCameraZoom(newZoom))
-
-    if(zoomUpdate > 0) {
-      this.targetCameraPosition = null
-      return
-    }
-
-    if(!this.targetCameraPosition) {
-      this.targetCameraPosition = {
-        x: pointer.worldX,
-        y: pointer.worldY
-      }
-      this.cameraScrollStart = {
-        x: this.editorCamera.scrollX,
-        y: this.editorCamera.scrollY
-       }
- 
-      this.journeyZoomStart = this.editorCamera.zoom
-    }
-
-    clearTimeout(this.mouseWheelTimeout)
-    this.mouseWheelTimeout = setTimeout(() => {
-      this.targetCameraPosition = null
-    }, 300)
-    
-
-    const cameraScrollTarget = this.editorCamera2.getScroll(this.targetCameraPosition.x, this.targetCameraPosition.y)
-    
-    console.log(cameraScrollTarget)
-
-    // const scrollDelta = {
-    //   x: cameraScrollTarget.x - (this.editorCamera.scrollX),
-    //   y: cameraScrollTarget.y - (this.editorCamera.scrollY)
-    // }
-
-    // console.log(scrollDelta, cameraScrollTarget, this.targetCameraPosition, this.editorCamera.scrollX)
-
-
-    const journeyPercent = (newZoom - this.journeyZoomStart)/(maxZoom - this.journeyZoomStart)
-
-    const x = Phaser.Math.Interpolation.Linear([this.cameraScrollStart.x, cameraScrollTarget.x], journeyPercent)
-    this.editorCamera.scrollX = x
-
-    const y = Phaser.Math.Interpolation.Linear([this.cameraScrollStart.y, cameraScrollTarget.y], journeyPercent)
-    this.editorCamera.scrollY = y
-
-        // this.editorCamera.pan(x, y, 0, 'Linear', true)
-
-    console.log(x,y)
-
-    // const x = this.cameraScrollStart.x + (scrollDelta.x * journeyPercent)
-    // const y = this.cameraScrollStart.y + (scrollDelta.y * journeyPercent)
-
-    // console.log(x, y, journeyPercent)
-
-    // this.editorCamera.pan(x, y, 0, 'Linear', true)
-    // console.log(cameraScrollTarget)
-    // if(this.editorCamera.scrollX > cameraScrollTarget.x) {
-    //   this.editorCamera.scrollX -= 1
-    // } else {
-    //   this.editorCamera.scrollX += 1
-    // }
-
-    // if(this.editorCamera.scrollY > cameraScrollTarget.y) {
-    //   this.editorCamera.scrollY -= 1
-    // } else {
-    //   this.editorCamera.scrollY += 1
-    // }
-
-    // this.editorCamera.scrollY += cameraScrollTarget.y/20
-
-    /// ^^ this kinda workin 
-
-    // if(!this.zoomScrollDestinationDelta) {
-
-    // }
-    // clearTimeout(this.mouseWheelTimeout)
-    // this.mouseWheelTimeout = setTimeout(() => {
-    //   this.zoomScrollDestinationDelta = null
-    // }, 100)
-    // console.log(this.zoomScrollDestinationDelta.x, zoomUpdate)
-    // console.log('percent journey', (zoomUpdate/(newZoom - minZoom)))
-    // this.editorCamera.scrollX -= (this.zoomScrollDestinationDelta.x * journeyPercent)
-    // this.editorCamera.scrollY -= (this.zoomScrollDestinationDelta.y * journeyPercent)
-    // // this.editorCamera.setLerp(1)
-
-    // this.camera.scrollX -= (pointer.x - pointer.prevPosition.x) / this.camera.zoom;
-    // this.camera.scrollY -= (pointer.y - pointer.prevPosition.y) / this.camera.zoom;
   }
   
   ////////////////////////////////////////////////////////////
@@ -494,9 +408,7 @@ export class EditorScene extends GameInstance {
     const gameModel = store.getState().game.gameModel
     const gameMaxWidth = gameModel.world.boundaries.maxWidth
     const gameMaxHeight = gameModel.world.boundaries.maxHeight
-    // const gameX = gameModel.world.boundaries.x
-    // const gameY = gameModel.world.boundaries.y
-
+    
     const editorCameraJSON = {
       x: 0,
       y: 0,
@@ -516,16 +428,9 @@ export class EditorScene extends GameInstance {
       name: 'editor',
       ...editorCameraJSON
     })
-    this.cameras.fromJSON({
-      name: 'editor2',
-      ...editorCameraJSON
-    })
-    
-    this.editorCamera = this.cameras.getCamera('editor')
-    this.editorCamera2 = this.cameras.getCamera('editor2')
-    this.editorCamera2.setVisible(false)
-    this.editorCamera2.setZoom(10)
 
+    this.editorCamera = this.cameras.getCamera('editor')
+  
     var keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
     const controlConfig = {
       camera: this.editorCamera,
@@ -600,6 +505,7 @@ export class EditorScene extends GameInstance {
     const cameraZoom = store.getState().editor.cameraZoom
     if(cameraZoom !== this.editorCamera.zoom) {
       this.editorCamera.setZoom(cameraZoom)
+      // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)
     }
 
     if(this.isGridViewOn) {

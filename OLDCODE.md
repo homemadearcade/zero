@@ -36,3 +36,72 @@
         // PREVENTING CAMERA DRAG FUNCTIONALITY FOR NOW
         // const editorCamera = this.editorCamera
         // this.cameraDragStart = { x: pointer.x, y: pointer.y, startScrollX: editorCamera.scrollX, startScrollY: editorCamera.scrollY }
+
+
+
+
+
+
+ZOOM INTO X
+
+          onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+    if(this.draggingObjectInstanceId || this.cameraDragStart) return
+    if(!getCobrowsingState().editor.isGridViewOn) return
+    
+    window.pointer = pointer
+    const zoomUpdate = (deltaY * 0.001)
+    const maxZoom = 10
+    const newZoom = Phaser.Math.Clamp(this.editorCamera.zoom - zoomUpdate, 1, maxZoom)
+
+    store.dispatch(changeEditorCameraZoom(newZoom))
+
+    if(zoomUpdate > 0) {
+      this.targetCameraPosition = null
+      return
+    }
+
+    if(!this.targetCameraPosition) {
+      
+      this.targetCameraPosition = {
+        x: pointer.worldX,
+        y: pointer.worldY
+      }
+
+      this.cameraScrollStart = {
+        x: this.editorCamera.scrollX,
+        y: this.editorCamera.scrollY
+       }
+ 
+      this.journeyZoomStart = this.editorCamera.zoom
+    }
+
+    clearTimeout(this.mouseWheelTimeout)
+    this.mouseWheelTimeout = setTimeout(() => {
+      this.targetCameraPosition = null
+    }, 300) 
+
+    const cameraScrollTarget = this.editorCamera2.getScroll(this.targetCameraPosition.x, this.targetCameraPosition.y)
+    
+    const journeyPercent = (newZoom - this.journeyZoomStart)/(maxZoom - this.journeyZoomStart)
+
+    const x = Phaser.Math.Interpolation.Linear([this.cameraScrollStart.x, cameraScrollTarget.x], journeyPercent)
+    this.editorCamera.scrollX = x
+
+    const y = Phaser.Math.Interpolation.Linear([this.cameraScrollStart.y, cameraScrollTarget.y], journeyPercent)
+    this.editorCamera.scrollY = y
+  }
+
+
+
+
+
+  MOUSE FOLLOW
+
+    this.editorCamera.setDeadzone(700, 700)
+
+    this.mouseFollower = this.add.image(0,0,DEFAULT_TEXTURE_ID).setScrollFactor(0)
+    this.mouseFollower.setDisplaySize(40, 40).setTint(0xFFFFFF).setDepth(UI_CANVAS_DEPTH)
+    this.mouseFollower.width = 40
+    this.mouseFollower.height = 40
+
+    this.editorCamera.startFollow(this.mouseFollower, false, 1, 1)
