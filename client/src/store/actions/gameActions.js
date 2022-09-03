@@ -37,6 +37,26 @@ import store from '..';
 function onGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().game.gameModel)
 
+  if(gameUpdate.hero) {
+    if(gameUpdate.hero.spawnX || gameUpdate.hero.spawnY) {
+      window.undoStack.push({
+        data: {
+          spawnX: oldGameData.hero.spawnX,
+          spawnY: oldGameData.hero.spawnY
+        }
+      })
+    }
+  }
+
+  if(gameUpdate.objects) {
+    window.undoStack.push(...Object.keys(gameUpdate.objects).map((id) => {
+      return {
+        objectInstanceId: id,
+        data: _.cloneDeep(oldGameData.objects[id])
+      }
+    }))
+  }
+
   if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
     if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameUpdate.objects[id])
   })

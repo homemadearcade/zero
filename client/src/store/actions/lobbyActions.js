@@ -39,6 +39,7 @@ import {
 import ping from 'web-pingjs';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { editGameModel } from './gameActions';
 
 setInterval(() => {
   window.isFullscreen = !window.screenTop && !window.screenY
@@ -292,6 +293,20 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       }
       if(undoAction === FOREGROUND_CANVAS_ID) {
         scene.foregrounddLayer.undo()
+      } else {
+        if(undoAction.objectInstanceId) {
+          dispatch(editGameModel({
+            objects: {
+              [undoAction.objectInstanceId]: undoAction.data
+            }
+          }))
+        } else if(undoAction.data) {
+          dispatch(editGameModel({
+            hero: undoAction.data
+          }))
+        } else {
+          console.error('undo action', undoAction)
+        }
       }
     })
 

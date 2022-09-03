@@ -71,9 +71,6 @@ right click brush - copy to layer X, delete, open in sprite editor
 
 TODO CHORES 
 
-TOOLBAR UPGRADE
-Maybe also turn off editing with the hammer icon?
-
 VALIDATION ON ALL FORMS
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
@@ -137,7 +134,7 @@ Mobile
 
 Blockchain NFT editing thing
 
-then perhaps find the right way to do custom coding - collision, events? paths? etc
+custom coding - collision, events? paths? etc
 
 TAB + for moving through the UI ( other keyboard shortcuts )
 
