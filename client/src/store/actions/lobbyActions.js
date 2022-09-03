@@ -287,11 +287,9 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       const undoAction = window.undoStack.pop()
       if(undoAction === BACKGROUND_CANVAS_ID) {
         scene.backgroundLayer.undo()
-      }
-      if(undoAction === PLAYGROUND_CANVAS_ID) {
+      } else if(undoAction === PLAYGROUND_CANVAS_ID) {
         scene.playgroundLayer.undo()
-      }
-      if(undoAction === FOREGROUND_CANVAS_ID) {
+      } else if(undoAction === FOREGROUND_CANVAS_ID) {
         scene.foregrounddLayer.undo()
       } else {
         if(undoAction.objectInstanceId) {
@@ -301,6 +299,7 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
             }
           }))
         } else if(undoAction.data) {
+          console.log(undoAction)
           dispatch(editGameModel({
             hero: undoAction.data
           }))

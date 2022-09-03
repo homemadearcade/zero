@@ -4,6 +4,7 @@ CONVERSATION TOPICS
 
 WARMUPS
 
+onGameUpdate Hero
 Resize
 Change BG Color
 Put + inside of grid
