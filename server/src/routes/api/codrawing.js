@@ -2,7 +2,7 @@ import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 
-import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED } from '../../constants';
+import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_UNDO } from '../../constants';
 
 const router = Router();
 
@@ -40,5 +40,9 @@ router.put('/stroke/:id', requireJwtAuth, requireSocketAuth, async (req, res) =>
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
+
+router.post('/undo/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
+  req.io.to('codrawing@'+req.params.id).emit(ON_CODRAWING_UNDO);
+})
 
 export default router;

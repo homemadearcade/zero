@@ -9,11 +9,11 @@ export const ON_AUTHENTICATE_SOCKET_FAIL = 'ON_AUTHENTICATE_SOCKET_FAIL';
 //////////////////////////////////////////////
 ///// LOBBY/GAME
 
-// PUT /game/undo/:id
-// FROM: Game Client or Game Host 
+// POST /lobbys/undo/:id
+// FROM: Lobby User 
 // TO: Game Host
 // Pops undo state, sometimes saving Phaser Canvas. sometimes calling ON_GAME_MODEL_UPDATE
-export const ON_GAME_UNDO = 'ON_GAME_UNDO';
+export const ON_LOBBY_UNDO = 'ON_LOBBY_UNDO';
 
 // PUT /game/:id 
 // FROM: Game Client or Game Host 
@@ -62,6 +62,11 @@ export const ON_CODRAWING_STROKE = 'ON_CODRAWING_STROKE'
 // Disabled
 export const ON_CODRAWING_SUBSCRIBED = 'ON_CODRAWING_SUBSCRIBED'
 
+// POST /codrawing/undo/:id
+// FROM: Publisher or Subscriber
+// TO: Publisher
+// Pops undo state and saves Phaser Canvas.
+export const ON_CODRAWING_UNDO = 'ON_CODRAWING_UNDO';
 
 //////////////////////////////////////////////
 //////////////////////////////////////////////

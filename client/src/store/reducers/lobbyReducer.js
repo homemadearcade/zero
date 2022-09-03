@@ -19,7 +19,10 @@ import {
   ON_LOBBY_UPDATE,
   START_VIDEO_CALL_SUCCESS,
   LOBBY_STATE_UPDATE,
-  UPDATE_ONBOARDING_STEP
+  UPDATE_ONBOARDING_STEP,
+  LOBBY_UNDO_LOADING,
+  LOBBY_UNDO_SUCCESS,
+  LOBBY_UNDO_FAIL
 } from '../types';
 
 const initialState = {
@@ -30,10 +33,22 @@ const initialState = {
   error: null,
   isJoining: false,
   joinError: null,
+  isUndoing: false,
 };
 
 export default function lobbyReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case LOBBY_UNDO_LOADING: 
+      return {
+        ...state,
+        isUndoing: true
+      }
+    case LOBBY_UNDO_SUCCESS: 
+    case LOBBY_UNDO_FAIL: 
+      return {
+        ...state,
+        isUndoing: false
+      }
     case GET_LOBBY_LOADING:
     case DELETE_LOBBY_LOADING:
       return {

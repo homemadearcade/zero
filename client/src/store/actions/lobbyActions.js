@@ -29,10 +29,16 @@ import {
   ON_LOBBY_UPDATE,
   ON_LOBBY_USER_STATUS_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
-  UPDATE_ONBOARDING_STEP
+  UPDATE_ONBOARDING_STEP,
+  LOBBY_UNDO_LOADING,
+  LOBBY_UNDO_SUCCESS,
+  LOBBY_UNDO_FAIL,
+  ON_LOBBY_UNDO
 } from '../types';
 
 import ping from 'web-pingjs';
+import { getCurrentGameScene } from '../../utils/editorUtils';
+import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 
 setInterval(() => {
   window.isFullscreen = !window.screenTop && !window.screenY
@@ -46,6 +52,30 @@ export const updateOnboardingStep = (step) => async (dispatch, getState) => {
     type: UPDATE_ONBOARDING_STEP,
     payload: { onboardingStep: step },
   });
+};
+
+export const lobbyUndo = (lobbyId) => async (dispatch, getState) => {
+  dispatch({
+    type: LOBBY_UNDO_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/lobbys/undo/' + lobbyId, {}, options);
+
+    setTimeout(() => {
+      dispatch({
+        type: LOBBY_UNDO_SUCCESS,
+      });
+    }, 3000)
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: LOBBY_UNDO_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
 };
 
 
@@ -97,8 +127,8 @@ export const addLobby = (formData) => async (dispatch, getState) => {
   }
 };
 
-
 export const editLobby = (id, formData) => async (dispatch, getState) => {
+  console.trace()
   dispatch({
     type: EDIT_LOBBY_LOADING,
   });
@@ -246,6 +276,25 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       });
     });
 
+    window.socket.on(ON_LOBBY_UNDO, () => {
+      const state = getState()
+      const isHost = userId === state.lobby.lobby.gameHostId
+
+      if(!isHost) return
+      
+      const scene = getCurrentGameScene(state.game.gameInstance)
+      const undoAction = window.undoStack.pop()
+      if(undoAction === BACKGROUND_CANVAS_ID) {
+        scene.backgroundLayer.undo()
+      }
+      if(undoAction === PLAYGROUND_CANVAS_ID) {
+        scene.playgroundLayer.undo()
+      }
+      if(undoAction === FOREGROUND_CANVAS_ID) {
+        scene.foregrounddLayer.undo()
+      }
+    })
+
     // event is triggered to all users in this lobby when lobby is updated
     window.socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
       dispatch({
@@ -287,6 +336,7 @@ export const leaveLobby = ({ lobbyId, userId }, history) => async (dispatch, get
     window.socket.off(ON_LOBBY_UPDATE);
     window.socket.off(ON_LOBBY_USER_STATUS_UPDATE);
     window.socket.off(ON_COBROWSING_STATUS_UPDATE);
+    window.socket.off(ON_LOBBY_UNDO)
     window.clearInterval(pingInterval);
 
     if(history) history.push('/');

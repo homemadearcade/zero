@@ -5,6 +5,9 @@ import {
   SUBSCRIBE_CODRAWING_FAIL,
   UNSUBSCRIBE_CODRAWING_SUCCESS,
   UNSUBSCRIBE_CODRAWING_FAIL,
+  CODRAWING_UNDO_LOADING,
+  CODRAWING_UNDO_SUCCESS,
+  CODRAWING_UNDO_FAIL,
 } from '../types';
 
 // import { BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../../constants';
@@ -12,6 +15,7 @@ import {
 const initialState = {
   error: null,
   isSubscribingCobrowsing: false,
+  isUndoing: false
   // codrawingCanvasIds: {
   //   [BACKGROUND_CANVAS_ID]: false,
   //   [PLAYGROUND_CANVAS_ID]: false,
@@ -21,6 +25,17 @@ const initialState = {
 
 export default function codrawingReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case CODRAWING_UNDO_LOADING: 
+    return {
+      ...state,
+      isUndoing: true
+    }
+  case CODRAWING_UNDO_SUCCESS: 
+  case CODRAWING_UNDO_FAIL: 
+    return {
+      ...state,
+      isUndoing: false
+    }
     case SUBSCRIBE_CODRAWING_LOADING:
       return {
         ...state,

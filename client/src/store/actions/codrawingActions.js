@@ -9,6 +9,9 @@ import {
   // UNSUBSCRIBE_CODRAWING_LOADING,
   UNSUBSCRIBE_CODRAWING_SUCCESS,
   UNSUBSCRIBE_CODRAWING_FAIL,
+  CODRAWING_UNDO_LOADING,
+  CODRAWING_UNDO_SUCCESS,
+  CODRAWING_UNDO_FAIL,
   // ON_CODRAWING_STROKE,
 } from '../types';
 
@@ -71,6 +74,28 @@ export const unsubscribeCodrawing = (canvasId) => async (dispatch, getState) => 
 
     dispatch({
       type: UNSUBSCRIBE_CODRAWING_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const codrawingUndo = (canvasId) => async (dispatch, getState) => {
+  dispatch({
+    type: CODRAWING_UNDO_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/codrawing/undo/' + canvasId, options);
+
+    dispatch({
+      type: CODRAWING_UNDO_SUCCESS,
+    });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: CODRAWING_UNDO_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import User from '../../models/User';
 
-import { ON_LOBBY_UPDATE } from '../../constants';
+import { ON_LOBBY_UPDATE, ON_LOBBY_UNDO } from '../../constants';
 import Lobby from '../../models/Lobby';
 
 const router = Router();
@@ -21,6 +21,10 @@ function requireLobby(req, res, next) {
 
   const lobbys = req.app.get('lobbys');
   req.lobbys = lobbys
+
+  if(!lobbys) {
+    res.status(400).json({ message: 'No lobbies found. Looking for lobby with id: ' + req.params.id });
+  }
 
   const lobbyFound = lobbys.filter((l, i) => {
     if(l.id.toString() === req.params.id) {
@@ -331,6 +335,21 @@ router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
   }
 });
 
+router.post('/undo/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  const isParticipant = req.lobby.participants.some((user) => {
+    return user.id === req.user.id
+  })
+
+  if (!(req.user.role === 'ADMIN' || isParticipant)) {
+    return res.status(400).json({ message: 'You do not have permission to undo in that lobby.' });
+  }
+
+  req.io.to(req.lobby.id).emit(ON_LOBBY_UNDO);
+  
+  res.status(200).json({});
+})
+
+
 router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
 
@@ -354,6 +373,8 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
       },
       { new: true },
     );
+
+    console.log(updatedLobby, req.body, req.lobby)
 
     Object.assign(req.lobby,req.body)
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});

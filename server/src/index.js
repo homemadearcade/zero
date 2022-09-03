@@ -234,7 +234,7 @@ async function onMongoDBConnected() {
             username: user.username,
             role: user.role,
             joined: false,
-            connected: false
+            connected: false,
           }
         })
       }
