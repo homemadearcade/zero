@@ -51,6 +51,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   debouncedSave = _.debounce(this.save, 30000);
 
+  debouncedSaveShort = _.debounce(this.save, 100);
+
   updateTexture = () => {
     this.scene.textures.remove(this.textureId)
     this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
@@ -105,7 +107,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     const texture = this.undoTextureStack.pop()
     this.clear()
     super.draw(texture, 0,0)
-    this.debouncedSave()
+    this.debouncedSaveShort()
   }
 
   draw(entries, x, y) {

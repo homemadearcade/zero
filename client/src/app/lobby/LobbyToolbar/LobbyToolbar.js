@@ -26,7 +26,6 @@ const LobbyToolbar = ({editLobby, game: { gameInstance }, lobby : { lobby, lobby
     onClick={() => {
       const scene = getCurrentGameScene(gameInstance)
       const undoAction = window.undoStack.pop()
-      console.log(undoAction)
       if(undoAction === BACKGROUND_CANVAS_ID) {
         scene.backgroundLayer.undo()
       }
