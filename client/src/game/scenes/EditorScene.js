@@ -334,6 +334,11 @@ export class EditorScene extends GameInstance {
       }
     }
 
+    if(gameUpdate.hero) {
+      this.player.destroy()
+      this.addHeroInstance()
+    }
+
     if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
       const objectUpdate = gameUpdate.objects[id]
       const objectInstance = this.getObjectInstance(id)

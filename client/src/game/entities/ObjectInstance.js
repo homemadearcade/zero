@@ -77,6 +77,13 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       this.outline2.setRotation(this.rotation)
     }
   }
+
+  destroy() {
+    this.outline.destroy()
+    this.outline2.destroy()
+
+    super.destroy()
+  }
 }
 
 

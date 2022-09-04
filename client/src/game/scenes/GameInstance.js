@@ -40,6 +40,19 @@ export class GameInstance extends Phaser.Scene {
     return this.objectInstancesById[id]
   }
 
+  addHeroInstance() {
+    const gameModel = store.getState().game.gameModel
+
+    this.player = new PlayerInstance(this, HERO_INSTANCE_ID, {
+      classId: gameModel.hero.initialClassId,
+      textureId: 'ship2',
+      spawnX: gameModel.hero.spawnX,
+      spawnY: gameModel.hero.spawnY
+    });
+
+    this.cameras.main.startFollow(this.player)
+  }
+
   addObjectInstance(id, gameObject) {
     const newPhaserObject = new ObjectInstance(this, id, gameObject)
     this.objectInstances.push(newPhaserObject)
@@ -207,13 +220,7 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // HERO
     ////////////////////////////////////////////////////////////
-    this.player = new PlayerInstance(this, HERO_INSTANCE_ID, {
-      classId: gameModel.hero.initialClassId,
-      textureId: 'ship2',
-      spawnX: gameModel.hero.spawnX,
-      spawnY: gameModel.hero.spawnY
-    });
-
+    this.addHeroInstance()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

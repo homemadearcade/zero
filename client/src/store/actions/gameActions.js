@@ -37,7 +37,6 @@ import store from '..';
 function onGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().game.gameModel)
 
-  console.log(window.nextGameModelUpdateIsUndo)
   if(!window.nextGameModelUpdateIsUndo) {
     if(gameUpdate.hero) {
       if(gameUpdate.hero.spawnX || gameUpdate.hero.spawnY) {

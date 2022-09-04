@@ -8,9 +8,9 @@ export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
     super(scene, id, instanceData)
 
-    var particles = scene.add.particles('blue');
+    this.particles = scene.add.particles('blue');
 
-    var emitter = particles.createEmitter({
+    this.emitter = this.particles.createEmitter({
       speed: {
         onEmit: (particle, key, t, value) =>
         {
@@ -33,7 +33,7 @@ export class PlayerInstance extends ObjectInstance {
       blendMode: 'ADD'
     });
 
-    emitter.startFollow(this);
+    this.emitter.startFollow(this);
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 
@@ -87,5 +87,11 @@ export class PlayerInstance extends ObjectInstance {
     {
         this.thrust(0.08);
     }
+  }
+
+  destroy() {
+    this.particles.destroy()
+
+    super.destroy()
   }
 }
