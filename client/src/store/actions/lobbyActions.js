@@ -280,11 +280,15 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
     window.socket.on(ON_LOBBY_UNDO, () => {
       const state = getState()
       const isHost = userId === state.lobby.lobby.gameHostId
+      
+      if(!window.undoStack.length) return
+
+      const undoAction = window.undoStack.pop()
+      window.nextGameModelUpdateIsUndo = !!undoAction.data
 
       if(!isHost) return
       
       const scene = getCurrentGameScene(state.game.gameInstance)
-      const undoAction = window.undoStack.pop()
       if(undoAction === BACKGROUND_CANVAS_ID) {
         scene.backgroundLayer.undo()
       } else if(undoAction === PLAYGROUND_CANVAS_ID) {
@@ -299,7 +303,6 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
             }
           }))
         } else if(undoAction.data) {
-          console.log(undoAction)
           dispatch(editGameModel({
             hero: undoAction.data
           }))
