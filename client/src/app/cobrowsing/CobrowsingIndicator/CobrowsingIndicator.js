@@ -10,9 +10,12 @@ import './CobrowsingIndicator.scss'
 import Switch from '../../ui/Switch/Switch';
 
 const CobrowsingIndicator = ({
-  cobrowsing: { isCurrentlyCobrowsing },
+  cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing },
   toggleActiveCobrowsing,
 }) => {
+
+  if(!isSubscribedCobrowsing) return null
+  
   return <div
     className="CobrowsingIndicator"
     onClick={() => {

@@ -226,10 +226,14 @@ export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
   try {
     const userId = getState().cobrowsing.cobrowsingUser.id
 
-    dispatch({
-      type: ON_COBROWSING_UPDATE,
-      payload: { remoteState },
-    });
+    if(!userId) {
+      return console.trace()
+    }
+
+    // dispatch({
+    //   type: ON_COBROWSING_UPDATE,
+    //   payload: { remoteState },
+    // });
     
     const options = attachTokenToHeaders(getState);
     await axios.put('/api/cobrowsing/' + userId, { remoteState }, options);

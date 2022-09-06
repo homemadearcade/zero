@@ -3,6 +3,7 @@ import store from "../../store";
 import { addAwsImage } from "../../store/actions/gameActions";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
+import { UNDO_MEMORY_MAX } from "../../constants";
 
 window.undoStack = []
 
@@ -95,11 +96,13 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
       this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
       this.previousRenderTexture.draw(this, 0,0)
       window.undoStack.push(this.canvasId)
+      window.undoStack = window.undoStack.slice(-UNDO_MEMORY_MAX)
     }
   }
 
   addRenderTextureToUndoStack() {
     this.undoTextureStack.push(this.previousRenderTexture)
+    this.undoTextureStack = this.undoTextureStack.slice(-UNDO_MEMORY_MAX)
     this.previousRenderTexture = null
   }
 

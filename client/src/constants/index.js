@@ -29,3 +29,5 @@ export const DEFAULT_TEXTURE_ID = 'square10x10'
 export const ADMIN_ROLE = 'ADMIN'
 
 export const CAMERA_PREVIEW_BORDER_SIZE = 4
+
+export const UNDO_MEMORY_MAX = 10

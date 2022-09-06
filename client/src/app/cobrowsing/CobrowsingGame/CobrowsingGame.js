@@ -13,10 +13,11 @@ import withGame from '../../../hoc/withGame';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import LobbyToolbar from '../../lobby/LobbyToolbar/LobbyToolbar';
 import GridToggle from '../../../game/GridToggle/GridToggle';
+import classNames from 'classnames';
 
 //    {me.role === 'ADMIN' && <CobrowsingStatus/>}
 
-const CobrowsingGame = ({ leftColumnScrollYPercent, rightColumnScrollYPercent, lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
+const CobrowsingGame = ({ leftColumnScrollYPercent, rightColumnScrollYPercent, lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isCurrentlyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   
   const rightColumnRef = useRef(null)
   const leftColumnRef = useRef(null)
@@ -31,24 +32,25 @@ const CobrowsingGame = ({ leftColumnScrollYPercent, rightColumnScrollYPercent, l
   }, [leftColumnScrollYPercent, rightColumnScrollYPercent])
 
   return <GameEditor 
-    leftColumnRef={leftColumnRef}
-    rightColumnRef={rightColumnRef}
-    lobbyId={lobby.id}
-    leftColumn={<>
-      {isInsideVideoCall && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
-      <GridToggle/>
-      {lobby.game && <GameBrushList/>}
-    </>}
-    rightColumn={<>
-      {lobby.game && <>
-        <LobbyToolbar/>
-        <GameClassList/>
+      classNames={isCurrentlyCobrowsing ? 'GameEditor--cobrowsing' : ''}
+      leftColumnRef={leftColumnRef}
+      rightColumnRef={rightColumnRef}
+      lobbyId={lobby.id}
+      leftColumn={<>
+        {isInsideVideoCall && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+        <GridToggle/>
+        {lobby.game && <GameBrushList/>}
       </>}
-    </>}
-  >
-    {children}
-    {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
-  </GameEditor>
+      rightColumn={<>
+        {lobby.game && <>
+          <LobbyToolbar/>
+          <GameClassList/>
+        </>}
+      </>}
+    >
+      {children}
+      {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
+    </GameEditor>
 };
 
 const mapStateToProps = (state) => {

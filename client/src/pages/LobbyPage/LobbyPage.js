@@ -30,7 +30,6 @@ const LobbyPage = ({
   myTracks,
   userTracks,
   assignLobbyRole,
-  toggleCobrowsing
 }) => {
   let { path } = useRouteMatch();
 

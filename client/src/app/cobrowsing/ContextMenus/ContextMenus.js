@@ -5,28 +5,34 @@ import GameContextMenuBody from '../../../game/ui/GameContextMenuBody/GameContex
 import './ContextMenus.scss'
 import ContextMenu from '../../ui/ContextMenu/ContextMenu';
 import Unlockable from '../Unlockable/Unlockable';
-const ContextMenus = ({ contextMenu, remoteContextMenu}) => {  
+const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isCurrentlyCobrowsing }}) => {  
 
   function renderContextMenus() {
+    const contextMenus = []
+
     if(contextMenu.isContextMenuOpen) {
       const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = contextMenu
   
-      return <ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
+      contextMenus.push(<ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
         <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
-      </ContextMenu>
+      </ContextMenu>)
     }
   
     // the only thing this does could be 1) shows you that you didnt open the menu 2) position it based on their screen...
-    if(remoteContextMenu.isContextMenuOpen) {
+    if(isCurrentlyCobrowsing && remoteContextMenu.isContextMenuOpen) {
       const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = remoteContextMenu
   
       // need to calculate contextMenuX percent because... its not perfect
-      return <ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
+      contextMenus.push(<ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
         <div className="ContextMenus__remote-menu">
           <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
         </div>
-      </ContextMenu>
+      </ContextMenu>)
     }
+
+    return <>
+      {contextMenus}
+    </>
   }
   
   return <Unlockable interfaceId="contextMenu/*" hideIfObscured hideLockToggle>
@@ -38,6 +44,7 @@ const ContextMenus = ({ contextMenu, remoteContextMenu}) => {
 const mapStateToProps = (state) => ({
   contextMenu: state.contextMenu,
   remoteContextMenu: state.cobrowsing.remoteState.contextMenu,
+  cobrowsing: state.cobrowsing
 })
 
 export default connect(mapStateToProps, { })(ContextMenus);

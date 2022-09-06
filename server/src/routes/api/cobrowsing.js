@@ -11,7 +11,7 @@ const router = Router();
 router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     if(req.user.role !== 'ADMIN') {
-      return res.status(400).json({ message: 'You do not have privileges to register cobrowse.' });
+      return res.status(400).json({ message: 'You do not have privelages to register cobrowse.' });
     }
 
     req.socket.join('cobrowsing@'+req.params.id);
@@ -31,7 +31,7 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 router.post('/stop/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     if(req.user.role !== 'ADMIN') {
-      return res.status(400).json({ message: 'You do not have privileges to unregister this cobrowse.' });
+      return res.status(400).json({ message: 'You do not have privelages to unregister this cobrowse.' });
     }
 
     req.socket.leave('cobrowsing@'+req.params.id);    
@@ -44,7 +44,7 @@ router.post('/stop/:id', requireJwtAuth, requireSocketAuth, async (req, res) => 
 router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
-      return res.status(400).json({ message: 'You do not have privileges to update this users cobrowse state.' });
+      return res.status(400).json({ message: 'You do not have privelages to update this users cobrowse state.' });
     }
 
     req.io.to('cobrowsing@'+req.params.id).emit(ON_COBROWSING_UPDATE, {
@@ -61,7 +61,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 router.put('/dispatch/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
-      return res.status(400).json({ message: 'You do not have privileges to update this users cobrowse state.' });
+      return res.status(400).json({ message: 'You do not have privelages to update this users cobrowse state.' });
     }
 
     const socketSession = req.app.get('socketSessions').findSession(req.params.id)

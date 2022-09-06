@@ -6,6 +6,12 @@
   width: calc(100vh + 40vh);
   margin: 0 auto;
 
+  &--cobrowsing {
+    height: calc(100vh - 2px);
+    width: calc(100vh + 40vh - 2px);
+    border: 1px solid red;
+  }
+
   &__empty-game {
     height: calc(100vh);
     width: calc(100vh);

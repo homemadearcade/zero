@@ -32,6 +32,7 @@ import { defaultObjectClass } from '../../defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../defaultData/descriptors';
 import store from '..';
+import { UNDO_MEMORY_MAX } from '../../constants';
 
 
 function onGameModelUpdate(gameUpdate) {
@@ -57,6 +58,8 @@ function onGameModelUpdate(gameUpdate) {
         }
       }))
     }
+
+    window.undoStack = window.undoStack.slice(-UNDO_MEMORY_MAX)
   }
 
   window.nextGameModelUpdateIsUndo = false

@@ -1,17 +1,28 @@
 CONVERSATION TOPICS
 
+Add Class
+ - Behavior
+ - Description
+ - Select Sprite/ Draw New
+
+ - Physical Attributes
+	- Size
+	- Speed
+	- Bounciness
+ 	- Friction
+
+ - Relationships 
+
 --
 
 WARMUPS
-
-onGameUpdate Hero
+ 
 Resize
 Change BG Color
 Put + inside of grid
 
 TODO NOW
 
-Undo
 Behaviors
 Cutscenes ( and the relationships part of this )
 
@@ -34,6 +45,10 @@ Dialogue
 GAMEPLAY
 Relationships
 Controls - speed, other phaser examples, etc
+
+EFFECTS
+Particle
+Anims
 
 --------
 
@@ -110,6 +125,8 @@ So for the redirect its possible we can just pass it as a prop to the 'login' co
 --------
 
 TODO FEATURES ( MAYBE )
+
+If an item within an accordian is selected, the accordian is open
 
 Zoom Slider
 

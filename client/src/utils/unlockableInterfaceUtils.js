@@ -39,6 +39,8 @@ export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
     })
     if(starAlias) {
       return Object.keys(unlockableInterfaceIds).some((id) => {
+        if(!unlockableInterfaceIds[id]) return false
+        if(unlockableInterfaceIds[id]) return true
         return id.indexOf(starAlias.slice(0, -1)) >= 0
       })
     }
@@ -64,7 +66,7 @@ export function getInterfaceIdData(interfaceId) {
   }
 
   const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
-  const isObscured = isInterfaceIdObscured(interfaceId)
+  const isObscured = isInterfaceIdObscured(interfaceId) && !isUnlocked
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const me = state.auth.me

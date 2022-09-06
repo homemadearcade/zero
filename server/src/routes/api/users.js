@@ -38,7 +38,7 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'You do not have privileges to edit this user.' });
+      return res.status(400).json({ message: 'You do not have privelages to edit this user.' });
 
     //validate name, username and password
     const { error } = validateUser(req.body);
@@ -127,7 +127,7 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
     const tempUser = await User.findById(req.params.id);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'You do not have privileges to delete that user.' });
+      return res.status(400).json({ message: 'You do not have privelages to delete that user.' });
 
     // if (['email0@email.com', 'email1@email.com'].includes(tempUser.email))
     //   return res.status(400).json({ message: 'You can not delete seeded user.' });

@@ -127,7 +127,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
 router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
-      return res.status(400).json({ message: 'You do not have privileges to remove user from that lobby.' });
+      return res.status(400).json({ message: 'You do not have privelages to remove user from that lobby.' });
     }
 
     // let index;
@@ -157,7 +157,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async
 
 router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userId)) {
-    return res.status(400).json({ message: 'You do not have privileges to assign that role.' });
+    return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
   }
 
   const userFound = req.lobby.users.filter((u, i) => {
@@ -289,7 +289,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
   try {
     if (req.user.role !== 'ADMIN') {
-      return res.status(400).json({ message: 'You do not have privileges to delete that lobby.' });
+      return res.status(400).json({ message: 'You do not have privelages to delete that lobby.' });
     }
 
     try {
@@ -310,7 +310,7 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
 router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
-      return res.status(400).json({ message: 'You do not have privileges to update that user in that lobby.' });
+      return res.status(400).json({ message: 'You do not have privelages to update that user in that lobby.' });
     }
 
     let index;

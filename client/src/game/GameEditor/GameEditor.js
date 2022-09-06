@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import './GameEditor.scss';
 
-import ContextMenu from '../../app/ui/ContextMenu/ContextMenu';
-
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/editorActions';
 import { clearEditorForms } from '../../store/actions/editorFormsActions';
@@ -12,7 +10,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 import SectionEditor from '../SectionEditor/SectionEditor';
 
-const GameEditor = ({ editor: { isLiveEditorOpen, isSectionEditorOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, editor: { isLiveEditorOpen, isSectionEditorOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -25,7 +23,7 @@ const GameEditor = ({ editor: { isLiveEditorOpen, isSectionEditorOpen }, leftCol
   }, [])
 
   return (
-    <div className="GameEditor">
+    <div className={"GameEditor " + classNames}>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
       </div>

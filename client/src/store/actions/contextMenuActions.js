@@ -1,3 +1,4 @@
+import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { 
   OPEN_CONTEXT_MENU,
   CLOSE_CONTEXT_MENU,
@@ -16,6 +17,8 @@ import {
 // }
 
 export const openWorldContextMenu = (event) => (dispatch, getState) => {
+  if(getInterfaceIdData('contextMenu/*').isObscured) return 
+
   dispatch({
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
@@ -28,6 +31,8 @@ export const openWorldContextMenu = (event) => (dispatch, getState) => {
 }
 
 export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
+  if(getInterfaceIdData('contextMenu/*').isObscured) return 
+
   dispatch({
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
@@ -44,6 +49,8 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
 }
 
 export const openContextMenuFromClassId= (classId, event) => (dispatch, getState) => {
+  if(getInterfaceIdData('contextMenu/*').isObscured) return 
+
   dispatch({
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
@@ -57,6 +64,8 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
 }
 
 export const closeContextMenu = () => (dispatch, getState) => {
+  if(getInterfaceIdData('contextMenu/*').isObscured) return 
+
   dispatch({
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
