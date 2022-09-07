@@ -14,7 +14,7 @@ export class ProjectileInstance extends ObjectInstance {
       return
     }
 
-    if(!objectClass.bulletData) {
+    if(!objectClass.projectile) {
       console.error('no projectile data in class id:' + classId)
     }
 
@@ -23,19 +23,21 @@ export class ProjectileInstance extends ObjectInstance {
 
     this.scene = scene
 
-    this.setVisible(false)
+    // this.setVisible(false)
+    
+    this.fireRate = 1000
 
     const world = this.scene.matter.world
    
-    this.scene.matterCollision.addOnCollideStart({
-      objectA: this,
-      callback: eventData => {
-        const { bodyB } = eventData;
-        if(bodyB === world.walls.right || bodyB === world.walls.left || bodyB === world.walls.top || bodyB === world.walls.bottom) {
-          this.destroy()
-        }
-      }
-    });
+    // this.scene.matterCollision.addOnCollideStart({
+    //   objectA: this,
+    //   callback: eventData => {
+    //     const { bodyB } = eventData;
+    //     if(bodyB === world.walls.right || bodyB === world.walls.left || bodyB === world.walls.top || bodyB === world.walls.bottom) {
+    //       this.destroy()
+    //     }
+    //   }
+    // });
 
     return this
   }
@@ -51,6 +53,6 @@ export class ProjectileInstance extends ObjectInstance {
     this.setPosition(shooter.x + offset.x, shooter.y + offset.y);    
     this.thrust(10)
 
-    this.destroyTime = this.scene.game.loop.time + this.lifespan
+    // this.destroyTime = this.scene.game.loop.time + this.lifespan
   }
 }

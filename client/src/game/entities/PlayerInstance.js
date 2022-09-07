@@ -54,8 +54,6 @@ export class PlayerInstance extends ObjectInstance {
 
     this.scene = scene
 
-    this.fireRate = 1000
-
     return this
   }
 
@@ -75,16 +73,16 @@ export class PlayerInstance extends ObjectInstance {
     const y = this.y - cameraSize/2
     this.cameraPreview.update({x, y}, true)
 
+    if(this.scene.isPaused) return
+
     if(this.cursors.space.isDown) {
       if (this.scene.game.loop.time < this.nextFire) { return; }
 
-      const bullet = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: '37a70784-e850-4953-ac66-1941283d8bca' } )
-      bullet.fire(this)
+      const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: '3a0927a1-5aa3-412f-9e35-726aafd07410' } )
+      projectile.fire(this)
 
-      this.nextFire = this.scene.game.loop.time + this.fireRate;
+      this.nextFire = this.scene.game.loop.time + projectile.fireRate;
     }
-
-    if(this.scene.isPaused) return
 
     if (this.cursors.left.isDown)
     {
@@ -95,7 +93,7 @@ export class PlayerInstance extends ObjectInstance {
         this.setAngularVelocity(0.1);
     }
 
-    if (this.cursors.up.isDown)
+    if (this.cursors.up.isDown && !objectClass.behaviors.ignoreUpKey)
     {
         this.thrust(0.08);
     }

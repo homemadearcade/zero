@@ -8,9 +8,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   constructor(scene, id, {spawnX, spawnY, classId}){
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
-
     const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
-    // console.log(spawnX, spawnY, id, classId, objectClass, classDataOverride)
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     
     if(!spriteSheetName) {
@@ -20,39 +18,15 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       super(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex)
       this.outline2 = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
     }
-    
-    this.setDisplaySize(objectClass.width, objectClass.height)
 
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // EDITOR
+    this.setInteractive();
+    scene.input.setDraggable(this)
     this.outline2.setTintFill(0xffffff)
     .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
     .setVisible(false)
-
-    this.id = id
-    this.classId = classId
-   
-    scene.add.existing(this)
-
-    // for EDITOR
-    this.setInteractive();
-    scene.input.setDraggable(this)
-
-    this.setBounce(objectClass.bounciness)
-    if(objectClass.useMass) {
-      this.setMass(objectClass.mass)
-    } else {
-      this.setDensity(objectClass.density)
-    }
-    this.setFriction(objectClass.friction)
-    this.setFrictionAir(objectClass.frictionAir)
-    this.setFrictionStatic(objectClass.frictionStatic)
-    this.setFixedRotation(objectClass.fixedRotation)
-    this.setIgnoreGravity(objectClass.ignoreGravity)
-
-    if(objectClass.tint) {
-      const colorInt = getHexIntFromHexString(objectClass.tint)
-      this.setTint(colorInt)
-    }
-
     const cornerX = -objectClass.width/2
     const cornerY = -objectClass.height/2
     this.outline = scene.add.graphics();
@@ -60,11 +34,43 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.outline.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
     this.outline.setVisible(false)
 
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // STORE
+    this.id = id
+    this.classId = classId
+    this.scene = scene
+    scene.add.existing(this)
     scene.uiLayer.add([this.outline, this.outline2])
     scene.objectInstanceLayer.add(this)
     scene.objectInstanceGroup.add(this)
 
-    this.scene = scene
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // PHYSICS 
+    const behaviors = objectClass.behaviors
+    this.setDisplaySize(objectClass.width, objectClass.height)
+    this.setBounce(objectClass.bounciness)
+    this.setFriction(objectClass.friction)
+    this.setFrictionAir(objectClass.frictionAir)
+    this.setFrictionStatic(objectClass.frictionStatic)
+    if(behaviors.useMass) {
+      this.setMass(objectClass.mass)
+    } else {
+      this.setDensity(objectClass.density)
+    }
+    this.setFixedRotation(behaviors.fixedRotation)
+    this.setIgnoreGravity(behaviors.ignoreGravity)
+    this.setStatic(behaviors.static)
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // VFX
+    if(objectClass.tint) {
+      const colorInt = getHexIntFromHexString(objectClass.tint)
+      this.setTint(colorInt)
+    }
+    this.setVisible(!behaviors.invisible)
 
     return this
   }
@@ -85,7 +91,6 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     super.destroy()
   }
 }
-
 
     //  Change the body to a Circle with a radius of 48px
   //   circ.setBody({

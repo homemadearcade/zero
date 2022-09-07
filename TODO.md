@@ -1,17 +1,19 @@
 CONVERSATION TOPICS
 
+I think its
+
 Add Class
- - Behavior
- - Description
- - Select Sprite/Draw New
 
- - Physical Attributes
-	- Size
-	- Speed
-	- Bounciness
- 	- Friction
+Sprite
+Physics
+Movement
+Visual Effects
+Relationships
 
- - Relationships
+Camera
+Projectile
+
+Whether something is 
 
 --
 
@@ -23,9 +25,7 @@ Put + inside of grid
 
 TODO NOW
 
-Shoot gun
-Create custom physics grid for custom sprite for swords
-Movement Area
+Movement Area Boundary
 
 Behaviors
 Cutscenes ( and the relationships part of this )
@@ -78,6 +78,8 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 ---
 
 TODO FEATURES
+
+Create custom physics grid for custom sprite for swords
 
 Clearer Autosave Indicator
 

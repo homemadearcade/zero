@@ -125,6 +125,16 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           checked={classSelected.behaviors.fixedRotation}
          />
       </Unlockable>
+      <Unlockable interfaceId="physics/toggle/static">
+        <FormLabel>Doesn't Move</FormLabel>
+        <Switch
+          size="small"
+          onChange={(e) => {
+            editGameModel({ classes: { [classId]: { static: e.target.checked }}})        
+          }}
+          checked={classSelected.behaviors.static}
+         />
+      </Unlockable>
     </div>
   );
 };

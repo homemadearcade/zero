@@ -1,14 +1,13 @@
 
 // BEHAVIORS
-// Position
+// Movement
 // Collision
-// Visiblity
 // VFX
 // Controls
 
 // RELATIONSHIP EFFECTS
 // While Touching
-// Position
+// Movement
 // Behavior
 // Narrative
 // VFX
@@ -17,7 +16,7 @@
 // Interact Area
 // Timer
 
-export const positionBehaviors = {
+export const movementBehaviors = {
   sideToSide: {
 
   },
@@ -54,6 +53,9 @@ export const visualEffectsBehaviors = {
   glowing: {
 
   },
+  invisible: {
+
+  },
   // outline: {
 
   // },
@@ -68,54 +70,11 @@ export const visualEffectsBehaviors = {
   // }
 }
 
-export const visibilityBehaviors = {
-  unspawned: {
-
-  },
-  invisible: {
-
-  },
-  seeThroughOnHeroCollide: {
-
-  },
-
-  // cameraLock: {
-
-  // },
-  // cameraZoomToFit: {
-
-  // },
-
-  // light: {
-    
-  // },
-  // darkArea: {
-    
-  // }
-}
-
 export const controlsBehaviors = {
   rotationFollowKeys: {
     requires: ['fixedRotation']
   },
-  disableUpKeyMovement: {
-
-  },
-}
-
-export const memoryOptimizationBehavior = {
-  // this deletes it after 60 seconds
-  destroyEventually: {
-
-  },
-
-  // this deletes it after 10 seconds
-  destroySoon: {
-
-  },
-
-  // this deletes it after 3 seconds
-  destroyQuickly: {
+  ignoreUpKey: {
 
   },
 }
@@ -140,6 +99,9 @@ export const relationshipEvents = {
 
 export const relationshipEffects = {
   // While Touching
+  invisible: {
+
+  },
   climbable: {
     //ignore gravity temporarily
   },
@@ -151,7 +113,7 @@ export const relationshipEffects = {
   },
 
 
-  // Position
+  // Movement
   teleport: {
 
   },

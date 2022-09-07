@@ -10,7 +10,7 @@ export const defaultObjectClass = {
   "textureId": null,
   "controls": null,
   "behaviors": {
-    // Position
+    // Movement
     sideToSide: false,
     upAndDown: false,
     wanderer: false,
@@ -25,11 +25,7 @@ export const defaultObjectClass = {
 
     // VFX
     glowing: false,
-
-    // Visibility
-    unspawned: false,
     invisible: false,
-    seeThroughOnHeroCollide: false,
 
     // Controls
     rotationFollowKeys: false,
