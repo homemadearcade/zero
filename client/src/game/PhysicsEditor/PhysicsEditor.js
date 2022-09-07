@@ -85,7 +85,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
            <Unlockable isSlider interfaceId="physics/sliders/weight/density">
             <SliderNotched
               formLabel="Weight (Density)"
-              step={0.1}
+              step={0.001}
               options={[.001, .01, 0.1, 0.25, 0.5, 0.75, 1]}
               onChangeCommitted={(value) => {
                 editGameModel({ classes: { [classId]: { density: value }}})        
@@ -102,7 +102,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { ignoreGravity: e.target.checked }}})        
           }}
-          checked={classSelected.ignoreGravity}
+          checked={classSelected.behaviors.ignoreGravity}
          />
       </Unlockable>
       <Unlockable interfaceId="physics/toggle/useMass">
@@ -112,7 +112,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { useMass: e.target.checked }}})        
           }}
-          checked={classSelected.useMass}
+          checked={classSelected.behaviors.useMass}
         />
       </Unlockable>
       <Unlockable interfaceId="physics/toggle/fixedRotation">
@@ -122,7 +122,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { fixedRotation: e.target.checked }}})        
           }}
-          checked={classSelected.fixedRotation}
+          checked={classSelected.behaviors.fixedRotation}
          />
       </Unlockable>
     </div>

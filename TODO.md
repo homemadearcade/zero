@@ -3,7 +3,7 @@ CONVERSATION TOPICS
 Add Class
  - Behavior
  - Description
- - Select Sprite/ Draw New
+ - Select Sprite/Draw New
 
  - Physical Attributes
 	- Size
@@ -11,7 +11,7 @@ Add Class
 	- Bounciness
  	- Friction
 
- - Relationships 
+ - Relationships
 
 --
 
@@ -22,6 +22,10 @@ Change BG Color
 Put + inside of grid
 
 TODO NOW
+
+Shoot gun
+Create custom physics grid for custom sprite for swords
+Movement Area
 
 Behaviors
 Cutscenes ( and the relationships part of this )

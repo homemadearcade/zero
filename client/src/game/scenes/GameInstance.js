@@ -53,6 +53,11 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.startFollow(this.player)
   }
 
+  removeHeroInstance() {
+    this.player.particles.destroy()
+    this.player.destroy()
+  }
+
   addObjectInstance(id, gameObject) {
     const newPhaserObject = new ObjectInstance(this, id, gameObject)
     this.objectInstances.push(newPhaserObject)
@@ -172,6 +177,7 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstanceLayer = this.add.layer();
     this.objectInstanceLayer.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH)
     this.objectInstanceGroup = this.add.group()
+    this.projectileInstanceGroup = this.add.group()
 
     this.playerInstanceLayer = this.add.layer();
     this.playerInstanceLayer.setDepth(HERO_INSTANCE_CANVAS_DEPTH)
@@ -236,7 +242,6 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
   }
-
 
   respawn() {
     this.objectInstances.forEach((object) => {

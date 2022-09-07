@@ -4,9 +4,6 @@ export const defaultPhaserPhysicsProperties = {
   "frictionAir": 0.01,
   "frictionStatic": 0.5,
   "density": .001,
-  "ignoreGravity": false,
-  "fixedRotation": false,
-  "useMass": false,
   "mass": 10
 }
 

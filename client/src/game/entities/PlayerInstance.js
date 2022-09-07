@@ -3,6 +3,7 @@ import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
+import { ProjectileInstance } from "./ProjectileInstance";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -53,6 +54,8 @@ export class PlayerInstance extends ObjectInstance {
 
     this.scene = scene
 
+    this.fireRate = 1000
+
     return this
   }
 
@@ -72,6 +75,15 @@ export class PlayerInstance extends ObjectInstance {
     const y = this.y - cameraSize/2
     this.cameraPreview.update({x, y}, true)
 
+    if(this.cursors.space.isDown) {
+      if (this.scene.game.loop.time < this.nextFire) { return; }
+
+      const bullet = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: '37a70784-e850-4953-ac66-1941283d8bca' } )
+      bullet.fire(this)
+
+      this.nextFire = this.scene.game.loop.time + this.fireRate;
+    }
+
     if(this.scene.isPaused) return
 
     if (this.cursors.left.isDown)
@@ -87,11 +99,5 @@ export class PlayerInstance extends ObjectInstance {
     {
         this.thrust(0.08);
     }
-  }
-
-  destroy() {
-    this.particles.destroy()
-
-    super.destroy()
   }
 }

@@ -70,15 +70,20 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   getBufferCanvasFromRenderTexture = (renderTexture) => {
     return new Promise((resolve, reject) => {
       renderTexture.snapshot(async (imageData) => {
-
         try {
-          const gameModel = store.getState().game.gameModel 
+          const gameModel = store.getState().game.gameModel
+
+          // this means its being called by 'save' from the debounce
+          if(!gameModel) {
+            console.error('no game model in buffer')
+            return 
+          }
   
-          const bufferCanvas = document.createElement('canvas');
+          const bufferCanvas = document.createElement('canvas')
           bufferCanvas.width = gameModel.world.boundaries.maxWidth
           bufferCanvas.height = gameModel.world.boundaries.maxHeight
-          const bufferCanvasContext = bufferCanvas.getContext('2d');
-          bufferCanvasContext.drawImage(imageData, 0,  0, bufferCanvas.width, bufferCanvas.height);
+          const bufferCanvasContext = bufferCanvas.getContext('2d')
+          bufferCanvasContext.drawImage(imageData, 0,  0, bufferCanvas.width, bufferCanvas.height)
     
           resolve({ bufferCanvas, bufferCanvasContext })
         } catch(e) {
@@ -140,11 +145,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     if(this.scene.textures.exists(this.textureId)) {
       super.draw(this.textureId, 0, 0)
     }
-  }
-
-  destroy() {
-    if(this.isHost) this.save()
-    super.destroy()
   }
 }
 

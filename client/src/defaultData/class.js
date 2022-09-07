@@ -8,5 +8,31 @@ export const defaultObjectClass = {
   ...defaultPhaserPhysicsProperties,
   "tint": null,
   "textureId": null,
-  "controls": null
+  "controls": null,
+  "behaviors": {
+    // Position
+    sideToSide: false,
+    upAndDown: false,
+    wanderer: false,
+    spaceInvader: false,
+
+    // Collision
+    ignoreWorldBoundaries: false,
+    ignoreGravity: false,
+    fixedRotation: false,
+    useMass: false,
+    static: false,
+
+    // VFX
+    glowing: false,
+
+    // Visibility
+    unspawned: false,
+    invisible: false,
+    seeThroughOnHeroCollide: false,
+
+    // Controls
+    rotationFollowKeys: false,
+    disableUpKeyMovement: false
+  }
 }

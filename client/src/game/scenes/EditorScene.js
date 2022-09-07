@@ -335,7 +335,7 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.hero) {
-      this.player.destroy()
+      this.removeHeroInstance()
       this.addHeroInstance()
     }
 

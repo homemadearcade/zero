@@ -12,6 +12,8 @@ import { gameSize } from '../../defaultData/general';
 import { setGameInstance } from '../../store/actions/gameActions';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 
+import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
+
 const config= {
   type: Phaser.WEBGL,
   pixelArt: true,
@@ -39,9 +41,16 @@ const config= {
         plugin: WaterBodyPlugin,
         start: true,
       }
+    ],
+    scene: [
+      {
+        plugin: PhaserMatterCollisionPlugin, // The plugin class
+        key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
+        mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
+      }
     ]
   }
-};
+}
 
 const GameView = ({isHost, isNetworked, setGameInstance}) => {
   useEffect(() => {
