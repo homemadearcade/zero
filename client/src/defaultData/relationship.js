@@ -1,44 +1,111 @@
+// RELATIONSHIP EVENTS
+// whileTouching: {
+
+// },
+// collide: {
+
+// },
+// interact: {
+
+// },
+// destroy: {
+  
+// },
+// spawn: {
+
+// },
+// timer: {
+
+// }
+
+// RELATIONSHIP EFFECTS
+// While Touching
+// Movement
+// State
+// Narrative
+// VFX
+
 export const defaultRelationship = {
   classId: '',
   event: '', 
-  /*
-    EVENTS
-    touch start
-    touch end
-    while touching
-
-    spawn
-    destroy
-    interact
-  */
   effect: '', 
-  /*
-    EFFECTS
+}
 
-    WHILE TOUCHING
-    invisible
-    climbable
-    stickTo
-    notAllowed
+export const relationshipEvents = {
+  whileTouching: {
 
-    POSITION
-    teleport
-    startFollow
-    stopFollow
+  },
+  collide: {
 
-    BEHAVIOR
-    reclass
-    toggleBehavior
-    spawn
-    destroy
+  },
+  interact: {
 
-    NARRATIVE
-    cutscene
-    dialogue
+  },
+  destroy: {
+    
+  },
+  spawn: {
 
-    VFX
-    animation
-    cameraShake
-    particleEffect
-  */
+  },
+  timer: {
+
+  }
+}
+
+export const relationshipEffects = {
+  // While Touching Only
+  invisible: {
+
+  },
+  allowClimb: {
+    //ignore gravity temporarily
+  },
+  stickTo: {
+    // move with
+  },
+  notAllowed: {
+    //create custom collision group
+  },
+
+
+  // Movement
+  teleport: {
+
+  },
+  startFollow: {
+
+  },
+  stopFollow: {
+
+  },
+
+  // State
+  reclass: {
+
+  },
+  spawn: {
+
+  },
+  destroy: {
+
+  },
+
+  // Narrative
+  cutscene: {
+
+  },
+  dialogue: {
+
+  },
+
+  //VFX
+  animation: {
+
+  },
+  cameraShake: {
+
+  },
+  particleEffect: {
+
+  }
 }

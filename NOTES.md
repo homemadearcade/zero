@@ -1,5 +1,25 @@
 DATA STRATEGY
 
+INITIAL STATE
+Qualities that are initially turned on but can be turned off
+Qualities that are initially turned off but can be turned on
+
+EVENT BASED
+Qualities that turn on when an event happens
+Qualities that are temporarily on while an event is happening
+
+<!-- CONDITION BASED
+Qualities that are temporarily on when a game state is true
+Qualities that turn on when a game state is true
+
+CONDITION AND EVENT BASED
+Qualities that turn on when an event happens AND when a certain game state is true
+Qualities that are temporarily on while an event is happening AND a certain game state is true -->
+
+
+---
+
+
 Everything is the same class
 Camera, Controls are all on the class object, not based on the hero object
 ... In the future I want everything to be able to be controlled. We need data for that. 
@@ -26,4 +46,6 @@ Collision Grid
 
 
 OLD DISCUSSION TOPICS
+
+
 

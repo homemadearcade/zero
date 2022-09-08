@@ -1,5 +1,21 @@
 CONVERSATION TOPICS
 
+INITIAL STATE
+Qualities that are initially turned on but can be turned off
+Qualities that are initially turned off but can be turned on
+
+EVENT BASED
+Qualities that turn on when an event happens
+Qualities that are temporarily on while an event is happening
+
+<!-- CONDITION BASED
+Qualities that are temporarily on when a game state is true
+Qualities that turn on when a game state is true
+
+CONDITION AND EVENT BASED
+Qualities that turn on when an event happens AND when a certain game state is true
+Qualities that are temporarily on while an event is happening AND a certain game state is true -->
+
 ADD CLASS
   Sprite
   Collision
@@ -10,12 +26,15 @@ ADD CLASS
 ADDITIONAL FEATURES IN ADD CLASS
   Camera
   Projectile
+  Interact Area
 
-Whether something is Spawned or not needs to be instance level
+Whether something is spawned or not needs to be instance level? or class level? Whats that look like?
 
-World Loop Switch, does it go in sections?
+World Loop Switch, does the checkbox for this go in sections editor?
 
 Movement Area Boundary Interface..?
+
+World Effects like gravity change.. and?? other?
 
 --
 
@@ -25,11 +44,6 @@ Resize
 Change BG Color
 Put + inside of grid
 Movement Area Boundary
-
-TODO NOW
-
-Behaviors
-Relationships
 
 --
 
@@ -49,11 +63,49 @@ Dialogue
 Cutscenes
 
 GAMEPLAY
+Movement
+Spawning
 Controls - speed, other phaser examples, etc
 
-EFFECTS
+VFX
 Particle
 Anims
+
+EFFECTS 
+
+  WHILE TOUCHING
+  invisible
+  allowClimb
+  stickTo
+  notAllowed
+
+  POSITION
+  teleport
+  startFollow
+  stopFollow
+
+  STATE
+  reclass
+  spawn
+  destroy
+
+  NARRATIVE
+  cutscene
+  dialogue
+
+  VFX
+  animation
+  cameraShake
+  particleEffect
+
+BEHAVIORS
+
+  sideToSide
+  upAndDown
+  wanderer
+  spaceInvader
+  glowing
+  rotationFollowKeys
 
 --------
 
@@ -159,6 +211,8 @@ ID system? is that smart? Like be able to figure out what anything is based on i
 --------
 
 TODO TIME PERMITTING
+
+Timers
 
 Mobile
 

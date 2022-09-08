@@ -96,6 +96,46 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   }
 
   registerRelationships(objectClass) {
+
+  /*
+    EVENTS
+    touch start
+    touch end
+    while touching
+    spawn
+    destroy
+    interact
+  */
+
+  /*
+    EFFECTS
+
+    WHILE TOUCHING
+    invisible
+    allowClimb
+    stickTo
+    notAllowed
+
+    POSITION
+    teleport
+    startFollow
+    stopFollow
+
+    STATE
+    reclass
+    spawn
+    destroy
+
+    NARRATIVE
+    cutscene
+    dialogue
+
+    VFX
+    animation
+    cameraShake
+    particleEffect
+  */
+
     const world = this.scene.matter.world
 
     objectClass.relationships.forEach(({classId, event, effect}) => {
