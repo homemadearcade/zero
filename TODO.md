@@ -1,20 +1,20 @@
 CONVERSATION TOPICS
 
-INITIAL STATE
-Qualities that are initially turned on but can be turned off
-Qualities that are initially turned off but can be turned on
+ATTRIBUTES
+Attributes that are initially turned on but can be turned off
+Attributes that are initially turned off but can be turned on
 
 EVENT BASED
-Qualities that turn on when an event happens
-Qualities that are temporarily on while an event is happening
+Actions that start when an event happens and resolve
+  1. immediately
+  2. when they are 'done'
+  3. when another event happens
 
-<!-- CONDITION BASED
-Qualities that are temporarily on when a game state is true
-Qualities that turn on when a game state is true
+When we take into acount the 'state' of the game, things get much more complex
 
-CONDITION AND EVENT BASED
-Qualities that turn on when an event happens AND when a certain game state is true
-Qualities that are temporarily on while an event is happening AND a certain game state is true -->
+-
+
+CREATE CLASS UI
 
 ADD CLASS
   Sprite
@@ -27,6 +27,8 @@ ADDITIONAL FEATURES IN ADD CLASS
   Camera
   Projectile
   Interact Area
+
+-
 
 Whether something is spawned or not needs to be instance level? or class level? Whats that look like?
 
@@ -49,40 +51,31 @@ Movement Area Boundary
 
 UP NEXT 
 
+Relationship UI
+Relationship Effects
 
 ---
 
 TODO SOON
 
-GRAPHICAL WORLDBUILDING
-Sprite Editor
+GRAPHICS
+  Sprite Editor
   + when making class - to start a new drawing inside of sprite editor
 
 NARRATIVE
-Dialogue
-Cutscenes
+  Dialogue
+  Cutscenes
 
-GAMEPLAY
-Movement
-Spawning
-Controls - speed, other phaser examples, etc
-
-VFX
-Particle
-Anims
+CONTROLS
+  Speed
+  Changing Controls.. etc
 
 EFFECTS 
-
-  WHILE TOUCHING
-  invisible
-  allowClimb
-  stickTo
-  notAllowed
-
-  POSITION
+  MOVEMENT
   teleport
-  startFollow
-  stopFollow
+  ignoreGravity ( While Touching Exclusive )
+  stickTo ( While Touching Exclusive )
+  notAllowed ( While Touching Exclusive )
 
   STATE
   reclass
@@ -94,12 +87,11 @@ EFFECTS
   dialogue
 
   VFX
-  animation
+  invisible ( While Touching Exclusive )
   cameraShake
-  particleEffect
 
-BEHAVIORS
-
+ATTRIBUTES
+  unspawned
   sideToSide
   upAndDown
   wanderer
@@ -117,16 +109,6 @@ Choose BG Color
 Resizing object on map
   All objects of that class are resized at the same time
   Save or Cancel ( like Sections )
-
---
-
-TODO BEHAVIORS, CONTROLS
-
-invisible if collided with hero
-
-Attach to Sliding object, elevator, etc
-
-Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 ---
 
@@ -188,6 +170,8 @@ So for the redirect its possible we can just pass it as a prop to the 'login' co
 
 TODO FEATURES ( MAYBE )
 
+Soccerball ( attach to hero on collide and allow hero to shoot out again )
+
 Interact area based on the size of the camera?
 
 If an item within an accordian is selected, the accordian is open
@@ -211,6 +195,12 @@ ID system? is that smart? Like be able to figure out what anything is based on i
 --------
 
 TODO TIME PERMITTING
+
+Particles
+
+Following..Advanced Pathfinding
+
+Light System
 
 Timers
 

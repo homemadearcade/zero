@@ -10,7 +10,7 @@ export const defaultObjectClass = {
   "textureId": null,
   "controls": null,
   relationships: [],
-  "behaviors": {
+  "attributes": {
     // Movement
     sideToSide: false,
     upAndDown: false,

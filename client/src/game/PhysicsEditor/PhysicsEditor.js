@@ -100,9 +100,9 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { behaviors: { ignoreGravity: e.target.checked }}}})        
+            editGameModel({ classes: { [classId]: { attributes: { ignoreGravity: e.target.checked }}}})        
           }}
-          checked={classSelected.behaviors.ignoreGravity}
+          checked={classSelected.attributes.ignoreGravity}
          />
       </Unlockable>
       <Unlockable interfaceId="physics/toggle/useMass">
@@ -110,9 +110,9 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { behaviors: { useMass: e.target.checked }}}})        
+            editGameModel({ classes: { [classId]: { attributes: { useMass: e.target.checked }}}})        
           }}
-          checked={classSelected.behaviors.useMass}
+          checked={classSelected.attributes.useMass}
         />
       </Unlockable>
       <Unlockable interfaceId="physics/toggle/fixedRotation">
@@ -120,9 +120,9 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { behaviors: { fixedRotation: e.target.checked }}}})        
+            editGameModel({ classes: { [classId]: { attributes: { fixedRotation: e.target.checked }}}})        
           }}
-          checked={classSelected.behaviors.fixedRotation}
+          checked={classSelected.attributes.fixedRotation}
          />
       </Unlockable>
       <Unlockable interfaceId="physics/toggle/static">
@@ -130,9 +130,9 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { behaviors: { static: e.target.checked } } } })        
+            editGameModel({ classes: { [classId]: { attributes: { static: e.target.checked } } } })        
           }}
-          checked={classSelected.behaviors.static}
+          checked={classSelected.attributes.static}
          />
       </Unlockable>
     </div>

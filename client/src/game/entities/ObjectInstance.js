@@ -10,7 +10,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     const objectClass = gameModel.classes[classId]
     const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
-    const behaviors = objectClass.behaviors
+    const attributes = objectClass.attributes
     
     const plugin = { 
       wrap: {
@@ -69,14 +69,14 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.setFriction(objectClass.friction)
     this.setFrictionAir(objectClass.frictionAir)
     this.setFrictionStatic(objectClass.frictionStatic)
-    if(behaviors.useMass) {
+    if(attributes.useMass) {
       this.setMass(objectClass.mass)
     } else {
       this.setDensity(objectClass.density)
     }
-    this.setFixedRotation(behaviors.fixedRotation)
-    this.setIgnoreGravity(behaviors.ignoreGravity)
-    this.setStatic(behaviors.static)
+    this.setFixedRotation(attributes.fixedRotation)
+    this.setIgnoreGravity(attributes.ignoreGravity)
+    this.setStatic(attributes.static)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       const colorInt = getHexIntFromHexString(objectClass.tint)
       this.setTint(colorInt)
     }
-    this.setVisible(!behaviors.invisible)
+    this.setVisible(!attributes.invisible)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -108,32 +108,26 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   */
 
   /*
-    EFFECTS
+    EFFECTS 
+      MOVEMENT
+      teleport
+      ignoreGravity ( While Touching Exclusive )
+      stickTo ( While Touching Exclusive )
+      notAllowed ( While Touching Exclusive )
 
-    WHILE TOUCHING
-    invisible
-    allowClimb
-    stickTo
-    notAllowed
+      STATE
+      reclass
+      spawn
+      destroy
 
-    POSITION
-    teleport
-    startFollow
-    stopFollow
+      NARRATIVE
+      cutscene
+      dialogue
 
-    STATE
-    reclass
-    spawn
-    destroy
+      VFX
+      invisible ( While Touching Exclusive )
+      cameraShake
 
-    NARRATIVE
-    cutscene
-    dialogue
-
-    VFX
-    animation
-    cameraShake
-    particleEffect
   */
 
     const world = this.scene.matter.world

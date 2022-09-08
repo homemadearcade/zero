@@ -113,7 +113,7 @@ export class PlayerInstance extends ObjectInstance {
       this.setAngularVelocity(0.1);
     }
 
-    if(this.cursors.up.isDown && !objectClass.behaviors.ignoreUpKey) {
+    if(this.cursors.up.isDown && !objectClass.attributes.ignoreUpKey) {
       this.thrust(0.08);
     }
   }
@@ -133,6 +133,7 @@ export class PlayerInstance extends ObjectInstance {
   }
 
   destroy() {
+    this.particles.destroy()
     this.cameraPreview.destroy()
     this.interactArea.destroy()
     super.destroy()

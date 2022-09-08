@@ -387,19 +387,24 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(objectClass.behaviors.useMass && classUpdate.mass >= 0) {
+      if(objectClass.attributes.useMass && classUpdate.mass >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setMass(classUpdate.mass)
         })
       }
-      if(!objectClass.behaviors.useMass && classUpdate.density >= 0) {
+      if(!objectClass.attributes.useMass && classUpdate.density >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setDensity(classUpdate.density)
         })
       }
 
-      if(classUpdate.behaviors) {
+      if(classUpdate.attributes) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          if(object.id === HERO_INSTANCE_ID) {
+            this.removePlayerInstance()
+            this.addPlayerInstance()
+            return
+          }
           const gameObject = this.getGameObjectById(object.id)
           this.removeObjectInstance(object.id)
           this.addObjectInstance(object.id, gameObject)

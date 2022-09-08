@@ -1,11 +1,11 @@
 
-// BEHAVHIORS
+// Attributes
 // Movement
 // Collision
 // VFX
 // Controls
 
-export const movementBehaviors = {
+export const movementAttributes = {
   sideToSide: {
 
   },
@@ -20,7 +20,7 @@ export const movementBehaviors = {
   }
 }
 
-export const collisionBehaviors = {
+export const collisionAttributes = {
   ignoreGravity: {
 
   },
@@ -35,7 +35,7 @@ export const collisionBehaviors = {
   },
 }
 
-export const visualEffectsBehaviors = {
+export const visualEffectsAttributes = {
   glowing: {
 
   },
@@ -44,7 +44,7 @@ export const visualEffectsBehaviors = {
   },
 }
 
-export const controlsBehaviors = {
+export const controlsAttributes = {
   rotationFollowKeys: {
     requires: ['fixedRotation']
   },
