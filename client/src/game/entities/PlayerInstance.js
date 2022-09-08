@@ -4,6 +4,7 @@ import store from "../../store";
 import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
+import { InteractArea } from "./InteractArea";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -36,6 +37,10 @@ export class PlayerInstance extends ObjectInstance {
 
     this.emitter.startFollow(this);
 
+    this.scene = scene
+    scene.playerInstanceLayer.add(this)
+    scene.playerInstanceGroup.add(this)
+
     this.cursors = scene.input.keyboard.createCursorKeys();
 
     const { classId } = instanceData
@@ -45,14 +50,28 @@ export class PlayerInstance extends ObjectInstance {
     }
 
     if(objectClass.camera) {
-      this.cameraPreview = new CameraPreview(scene, {color: 0x00FF00, zoom: objectClass.camera.zoom})
+      this.cameraPreview = new CameraPreview(this.scene, {color: 0x00FF00, zoom: objectClass.camera.zoom})
       this.cameraPreview.setVisible(false)
     }
 
-    scene.playerInstanceLayer.add(this)
-    scene.playerInstanceGroup.add(this)
+    this.interactArea = new InteractArea(this.scene, {color: 0x0000FF, size: this.width * 3 })
 
-    this.scene = scene
+
+    // this.scene.matterCollision.addOnCollideStart({
+    //   objectA: this.interactArea,
+    //   callback: eventData => {
+    //     const { gameObjectB } = eventData;
+    //     if(gameObjectB === this) return
+    //     console.log(gameObjectB)
+
+    //     // if(gameObjectB.classId === classId) {
+    //     //   if(effect === 'destroy') {
+    //         if(gameObjectB) gameObjectB.destroyInGame()
+
+    //     //   }
+    //     // }
+    //   }
+    // });
 
     return this
   }
@@ -66,17 +85,21 @@ export class PlayerInstance extends ObjectInstance {
 
     const classId = this.classId
     const objectClass = store.getState().game.gameModel.classes[classId]
+
     const gameModel = store.getState().game.gameModel
     const gameMaxWidth = gameModel.world.boundaries.maxWidth
+
     const cameraSize = gameMaxWidth/objectClass.camera.zoom
-    const x = this.x - cameraSize/2
-    const y = this.y - cameraSize/2
-    this.cameraPreview.update({x, y}, true)
+
+    this.cameraPreview.update({x: this.x - cameraSize/2, y: this.y - cameraSize/2}, true)
+    this.interactArea.update({x: this.x, y: this.y, angle: this.angle})
 
     if(this.scene.isPaused) return
 
     if(this.cursors.space.isDown) {
-      if (this.scene.game.loop.time < this.nextFire) { return; }
+      if(this.scene.game.loop.time < this.nextFire) { 
+        return
+      }
 
       const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: '3a0927a1-5aa3-412f-9e35-726aafd07410' } )
       projectile.fire(this)
@@ -84,18 +107,14 @@ export class PlayerInstance extends ObjectInstance {
       this.nextFire = this.scene.game.loop.time + projectile.fireRate;
     }
 
-    if (this.cursors.left.isDown)
-    {
-        this.setAngularVelocity(-0.1);
-    }
-    else if (this.cursors.right.isDown)
-    {
-        this.setAngularVelocity(0.1);
+    if(this.cursors.left.isDown) {
+      this.setAngularVelocity(-0.1);
+    } else if(this.cursors.right.isDown) {
+      this.setAngularVelocity(0.1);
     }
 
-    if (this.cursors.up.isDown && !objectClass.behaviors.ignoreUpKey)
-    {
-        this.thrust(0.08);
+    if(this.cursors.up.isDown && !objectClass.behaviors.ignoreUpKey) {
+      this.thrust(0.08);
     }
   }
 
@@ -111,5 +130,11 @@ export class PlayerInstance extends ObjectInstance {
     this.setCollisionCategory(1);
     this.setVisible(true)
     this.particles.setVisible(true)
+  }
+
+  destroy() {
+    this.cameraPreview.destroy()
+    this.interactArea.destroy()
+    super.destroy()
   }
 }

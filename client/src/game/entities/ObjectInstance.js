@@ -56,7 +56,6 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.id = id
     this.classId = classId
     this.scene = scene
-    console.log(this.scene)
     scene.add.existing(this)
     scene.uiLayer.add([this.outline, this.outline2])
     scene.objectInstanceLayer.add(this)
@@ -117,26 +116,21 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       // }
     })    
     
-    this.unregister = this.scene.matterCollision.addOnCollideStart({
-      objectA: this,
-      callback: eventData => {
-        const { gameObjectB } = eventData;
+    // this.unregister = this.scene.matterCollision.addOnCollideStart({
+    //   objectA: this,
+    //   callback: eventData => {
+    //     const { gameObjectB } = eventData;
 
-        // if(gameObjectB.classId === classId) {
-        //   if(effect === 'destroy') {
-          console.log(eventData)
-          console.log('XX')
-          console.log(this)
-            this.destroyInGame()
+    //     // if(gameObjectB.classId === classId) {
+    //     //   if(effect === 'destroy') {
+    //         this.destroyInGame()
 
-          // }
-      }
-    });
+    //       // }
+    //   }
+    // });
   }
 
   destroyInGame() {
-    console.log(this.id)
-    console.log(this)
     this.scene.removeObjectInstance(this.id)
   }
 

@@ -136,6 +136,8 @@ So for the redirect its possible we can just pass it as a prop to the 'login' co
 
 TODO FEATURES ( MAYBE )
 
+Interact area based on the size of the camera?
+
 If an item within an accordian is selected, the accordian is open
 
 Zoom Slider
