@@ -31,8 +31,11 @@ const config= {
       debug: {
         showBody: true,
         showStaticBody: true
-      }
-    }
+      },
+      plugins: {
+        wrap: true
+      },
+    },
   },
   plugins: {
     global: [

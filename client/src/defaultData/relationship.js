@@ -1,6 +1,5 @@
 export const defaultRelationship = {
-  classIdA: '',
-  classIdB: '',
+  classId: '',
   event: '', 
   /*
     EVENTS

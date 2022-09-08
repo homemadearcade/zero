@@ -9,6 +9,7 @@ export const defaultObjectClass = {
   "tint": null,
   "textureId": null,
   "controls": null,
+  relationships: [],
   "behaviors": {
     // Movement
     sideToSide: false,
@@ -17,18 +18,17 @@ export const defaultObjectClass = {
     spaceInvader: false,
 
     // Collision
-    ignoreWorldBoundaries: false,
-    ignoreGravity: false,
-    fixedRotation: false,
-    useMass: false,
-    static: false,
+    // ignoreGravity: false,
+    // fixedRotation: false,
+    // useMass: false,
+    // static: false,
 
     // VFX
     glowing: false,
-    invisible: false,
+    // invisible: false,
 
     // Controls
     rotationFollowKeys: false,
-    disableUpKeyMovement: false
+    // ignoreUpKey: false,
   }
 }

@@ -1,19 +1,21 @@
 CONVERSATION TOPICS
 
-I think its
+ADD CLASS
+  Sprite
+  Collision
+  Movement
+  Visual Effects
+  Relationships
 
-Add Class
+ADDITIONAL FEATURES IN ADD CLASS
+  Camera
+  Projectile
 
-Sprite
-Physics
-Movement
-Visual Effects
-Relationships
+Whether something is Spawned or not needs to be instance level
 
-Camera
-Projectile
+World Loop Switch, does it go in sections?
 
-Whether something is 
+Movement Area Boundary Interface..?
 
 --
 
@@ -22,13 +24,12 @@ WARMUPS
 Resize
 Change BG Color
 Put + inside of grid
+Movement Area Boundary
 
 TODO NOW
 
-Movement Area Boundary
-
 Behaviors
-Cutscenes ( and the relationships part of this )
+Relationships
 
 --
 
@@ -45,9 +46,9 @@ Sprite Editor
 
 NARRATIVE
 Dialogue
+Cutscenes
 
 GAMEPLAY
-Relationships
 Controls - speed, other phaser examples, etc
 
 EFFECTS
@@ -78,6 +79,9 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 ---
 
 TODO FEATURES
+
+If class is on background or foreground it should have isSensor: true in Constructor
+or - Collision Category?
 
 Create custom physics grid for custom sprite for swords
 

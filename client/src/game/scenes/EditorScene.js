@@ -308,6 +308,11 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.world?.boundaries) {
+      if(gameUpdate.world.boundaries.loop) {
+        this.reload()
+        return
+      }
+      
       // set camera previews zoom
       // set camera bounds
       // set world bounds
@@ -319,6 +324,7 @@ export class EditorScene extends GameInstance {
       this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
       // this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
       this.setWorldBounds(gameModel.world.boundaries)
+
       this.createGrids()
     }
 
@@ -335,8 +341,8 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.hero) {
-      this.removeHeroInstance()
-      this.addHeroInstance()
+      this.removePlayerInstance()
+      this.addPlayerInstance()
     }
 
     if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
@@ -365,16 +371,6 @@ export class EditorScene extends GameInstance {
           object.setBounce(classUpdate.bounciness)
         })
       }
-      if(objectClass.useMass && classUpdate.mass >= 0) {
-        this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setMass(classUpdate.mass)
-        })
-      }
-      if(!objectClass.useMass && classUpdate.density >= 0) {
-        this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setDensity(classUpdate.density)
-        })
-      }
       if(classUpdate.friction >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setFriction(classUpdate.friction)
@@ -390,16 +386,26 @@ export class EditorScene extends GameInstance {
           object.setFrictionStatic(classUpdate.frictionStatic)
         })
       }
-      if(classUpdate.ignoreGravity !== undefined) {
+
+      if(objectClass.behaviors.useMass && classUpdate.mass >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setIgnoreGravity(classUpdate.ignoreGravity)
+          object.setMass(classUpdate.mass)
         })
       }
-      if(classUpdate.fixedRotation !== undefined) {
+      if(!objectClass.behaviors.useMass && classUpdate.density >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setFixedRotation(classUpdate.fixedRotation)
+          object.setDensity(classUpdate.density)
         })
       }
+
+      if(classUpdate.behaviors) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          const gameObject = this.getGameObjectById(object.id)
+          this.removeObjectInstance(object.id)
+          this.addObjectInstance(object.id, gameObject)
+        })
+      }
+
       if(classUpdate.camera !== undefined) {
         if(this.player.classId === id) {
           this.cameras.main.setZoom(classUpdate.camera.zoom)

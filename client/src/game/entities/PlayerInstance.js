@@ -98,4 +98,18 @@ export class PlayerInstance extends ObjectInstance {
         this.thrust(0.08);
     }
   }
+
+  destroyInGame() {
+    this.setActive(false)
+    this.setCollisionCategory(null);
+    this.setVisible(false)
+    this.particles.setVisible(false)
+  }
+
+  respawn() {
+    this.setActive(true)
+    this.setCollisionCategory(1);
+    this.setVisible(true)
+    this.particles.setVisible(true)
+  }
 }

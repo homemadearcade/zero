@@ -32,9 +32,6 @@ export const movementBehaviors = {
 }
 
 export const collisionBehaviors = {
-  ignoreWorldBoundaries: {
-
-  },
   ignoreGravity: {
 
   },

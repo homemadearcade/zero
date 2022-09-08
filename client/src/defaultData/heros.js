@@ -24,7 +24,9 @@ export const spaceshipClass = {
   "jumpVelocity": 0,
   "frictionAir": 0.1,
   "density": .01,
-  "fixedRotation": true,
+  behaviors: {
+    "fixedRotation": true,
+  },
   "textureId": "ship2",
   "controls": "spaceship",
   type: 'hero'

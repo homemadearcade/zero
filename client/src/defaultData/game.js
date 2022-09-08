@@ -11,6 +11,7 @@ export const defaultGame = {
   "world": {
     "nodeSize": nodeSize,
     "boundaries": {
+      loop: false,
       "maxWidth": gameSize,
       "maxHeight": gameSize,
       "height": (gameSize/3) * 1,

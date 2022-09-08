@@ -40,7 +40,7 @@ export class GameInstance extends Phaser.Scene {
     return this.objectInstancesById[id]
   }
 
-  addHeroInstance() {
+  addPlayerInstance() {
     const gameModel = store.getState().game.gameModel
 
     this.player = new PlayerInstance(this, HERO_INSTANCE_ID, {
@@ -53,9 +53,10 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.startFollow(this.player)
   }
 
-  removeHeroInstance() {
+  removePlayerInstance() {
     this.player.particles.destroy()
     this.player.destroy()
+    this.player = null
   }
 
   addObjectInstance(id, gameObject) {
@@ -126,7 +127,6 @@ export class GameInstance extends Phaser.Scene {
   }
 
   createGrids() {
-    
     // const gameModel = store.getState().game.gameModel
     // const gameMaxWidth = gameModel.world.boundaries.maxWidth
     // const gameMaxHeight = gameModel.world.boundaries.maxHeight
@@ -160,7 +160,7 @@ export class GameInstance extends Phaser.Scene {
     // WORLD
     ////////////////////////////////////////////////////////////
     this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
-    this.setWorldBounds(gameModel.world.boundaries)
+    if(!gameModel.world.boundaries.loop) this.setWorldBounds(gameModel.world.boundaries)
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -226,7 +226,7 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // HERO
     ////////////////////////////////////////////////////////////
-    this.addHeroInstance()
+    this.addPlayerInstance()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -273,7 +273,7 @@ export class GameInstance extends Phaser.Scene {
       object.update(time, delta);
     })
 
-    this.player.update(time, delta)
+    if(this.player) this.player.update(time, delta)
   }
 
   unload() {

@@ -100,7 +100,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { ignoreGravity: e.target.checked }}})        
+            editGameModel({ classes: { [classId]: { behaviors: { ignoreGravity: e.target.checked }}}})        
           }}
           checked={classSelected.behaviors.ignoreGravity}
          />
@@ -110,7 +110,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { useMass: e.target.checked }}})        
+            editGameModel({ classes: { [classId]: { behaviors: { useMass: e.target.checked }}}})        
           }}
           checked={classSelected.behaviors.useMass}
         />
@@ -120,7 +120,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { fixedRotation: e.target.checked }}})        
+            editGameModel({ classes: { [classId]: { behaviors: { fixedRotation: e.target.checked }}}})        
           }}
           checked={classSelected.behaviors.fixedRotation}
          />
@@ -130,7 +130,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { static: e.target.checked }}})        
+            editGameModel({ classes: { [classId]: { behaviors: { static: e.target.checked } } } })        
           }}
           checked={classSelected.behaviors.static}
          />
