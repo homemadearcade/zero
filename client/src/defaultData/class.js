@@ -17,12 +17,14 @@ export const defaultObjectClass = {
     ammo: 0,
     velociry: 1,
   },
+  unspawned: false,
   "attributes": {
     // Movement
     sideToSide: false,
     upAndDown: false,
     wanderer: false,
     spaceInvader: false,
+    movingPlatform: true,
 
     // Collision
     // ignoreGravity: false,

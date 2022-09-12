@@ -32,7 +32,7 @@ ADDITIONAL FEATURES IN ADD CLASS
 
 Projectile Editor
 
-Whether something is spawned or not needs to be instance level? or class level? Whats that look like?
+Whether something is spawned or not needs to be instance level? or class level? Whats that look like? How to change? How to represent?
 
 World Loop Switch, does the checkbox for this go in sections editor?
 
@@ -77,7 +77,6 @@ CONTROLS
 
 EFFECTS 
   MOVEMENT
-  teleport
   ignoreGravity ( While Touching Exclusive )
   stickTo ( While Touching Exclusive )
   notAllowed ( While Touching Exclusive )

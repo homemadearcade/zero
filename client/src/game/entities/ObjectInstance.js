@@ -4,6 +4,7 @@ import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { isEventMatch } from "../../utils/gameUtils";
 import { getTextureMetadata } from "../../utils/utils";
+import { MovingPlatformSensor } from "./MovingPlatformSensor";
 
 export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
@@ -57,6 +58,8 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.id = id
     this.classId = classId
     this.scene = scene
+    this.width = objectClass.width
+    this.height = objectClass.height
     scene.add.existing(this)
     scene.uiLayer.add([this.outline, this.outline2])
     scene.objectInstanceLayer.add(this)
@@ -93,12 +96,28 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     // Relationships
     this.registerRelationships(objectClass)
 
-    if(unspawned) {
+    if(objectClass.unspawned) {
       this.setVisible(false)
-      this.setCollisionCategory(1);
+      this.setCollisionCategory(null);
     } else {
       this.spawn()
     }
+
+    // this.scene.matterCollision.addOnCollideEnd({
+    //   objectA: this,
+    //   callback: eventData => {
+    //     const { bodyB, bodyA, gameObjectB, } = eventData;
+    //     console.log(eventData)
+    //   }
+    // })
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // Movement
+    if(attributes.movingPlatform) {
+      this.movingPlatformSensor = new MovingPlatformSensor(scene, { color: 0x0000FF, width: this.width, parent: this})
+    }
+
 
     return this
   }
@@ -244,6 +263,12 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   }
 
   update() {
+    const attributes = store.getState().game.gameModel.classes[this.classId].attributes
+
+    if(attributes) {
+      this.movingPlatformSensor.update(this)
+    }
+
     if(true || this.outline.visible) {
       this.outline.setPosition(this.x, this.y)
       this.outline.setRotation(this.rotation)

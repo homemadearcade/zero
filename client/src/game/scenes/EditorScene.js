@@ -7,12 +7,12 @@ import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store
 import { changeEditorCameraZoom } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
-import { TexturePencil } from '../entities/TexturePencil';
-import { Eraser } from '../entities/Eraser';
-import { ClassStamper } from '../entities/ClassStamper';
+import { TexturePencil } from '../drawing/TexturePencil';
+import { Eraser } from '../drawing/Eraser';
+import { ClassStamper } from '../drawing/ClassStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
-import { ColorPencil } from '../entities/ColorPencil';
+import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize } from '../../defaultData/general';
 
 export class EditorScene extends GameInstance {

@@ -68,7 +68,7 @@ export class PlayerInstance extends ObjectInstance {
             if(gameObjectB === this) return
             if(!gameObjectB) return
             if(classId === gameObjectB.classId) {
-              this.interactables.push({gameObject: gameObjectB, effect: 'destroy'})
+              this.interactables.push({gameObject: gameObjectB, effect})
             }
           }
         })

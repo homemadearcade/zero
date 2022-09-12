@@ -1,4 +1,4 @@
-import { CAMERA_PREVIEW_BORDER_SIZE, DEFAULT_TEXTURE_ID } from "../../constants";
+import {  DEFAULT_TEXTURE_ID } from "../../constants";
 import store from "../../store";
 import Phaser from "phaser";
 
