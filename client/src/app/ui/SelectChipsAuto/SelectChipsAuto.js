@@ -163,7 +163,7 @@ export default function SelectChipsAuto({onChange, value, options, formLabel}) {
     }
   }, [value])
 
-  if(!inheritedValue === undefined) return null
+  if(inheritedValue === undefined) return null
 
   return <SelectChipsAutoForm onChange={onChange} inheritedValue={inheritedValue} options={options} formLabel={formLabel}/>
 }

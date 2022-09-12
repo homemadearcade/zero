@@ -1,11 +1,12 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID } from "../../constants";
+import { DEFAULT_TEXTURE_ID, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_NOT_ALLOWED, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, GAME_BOUNDARY_DOWN_WALL_ID, GAME_BOUNDARY_LEFT_WALL_ID, GAME_BOUNDARY_RIGHT_WALL_ID, GAME_BOUNDARY_UP_WALL_ID, GAME_BOUNDARY_WALL_ID, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY, ON_SPAWN } from "../../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
+import { isEventMatch } from "../../utils/gameUtils";
 import { getTextureMetadata } from "../../utils/utils";
 
 export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
-  constructor(scene, id, {spawnX, spawnY, classId}){
+  constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
     const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
@@ -92,79 +93,153 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     // Relationships
     this.registerRelationships(objectClass)
 
+    if(unspawned) {
+      this.setVisible(false)
+      this.setCollisionCategory(1);
+    } else {
+      this.spawn()
+    }
+
     return this
   }
 
   registerRelationships(objectClass) {
 
   /*
-    EVENTS
-    touch start
-    touch end
-    while touching
-    spawn
-    destroy
-    interact
-  */
-
-  /*
     EFFECTS 
       MOVEMENT
-      teleport
-      ignoreGravity ( While Touching Exclusive )
       stickTo ( While Touching Exclusive )
       notAllowed ( While Touching Exclusive )
-
-      STATE
-      reclass
-      spawn
-      destroy
 
       NARRATIVE
       cutscene
       dialogue
-
-      VFX
-      invisible ( While Touching Exclusive )
-      cameraShake
-
   */
 
     const world = this.scene.matter.world
 
     objectClass.relationships.forEach(({classId, event, effect}) => {
+      const eventEffect = {
+        objectA: this,
+        callback: eventData => {
+          const { gameObjectB, bodyB } = eventData;
 
-      // if(event === 'collide') {
-      //   this.scene.matterCollision.addOnCollideStart({
-      //     objectA: this,
-      //     callback: eventData => {
-      //       const { gameObjectB } = eventData;
+          if(isEventMatch({
+            gameObject: gameObjectB,
+            body: bodyB,
+            classId,
+            event,
+            world
+          })){
+            this.runEffect(effect, gameObjectB)
+          }
+        }
+      }
 
-      //       if(gameObjectB.classId === classId) {
-      //         if(effect === 'destroy') {
-      //           this.destroy()
-      //         }
-      //       }
-      //     }
-      //   });
-      // }
-    })    
+      const eventRestore = {
+        objectA: this,
+        callback: eventData => {
+          const { gameObjectB, bodyB } = eventData;
+          
+          if(isEventMatch({
+            gameObject: gameObjectB,
+            body: bodyB,
+            classId,
+            event,
+            world
+          })){
+            this.runRestore(effect, gameObjectB)
+          }
+        }
+      }
+
+      if(event === ON_COLLIDE_START) {
+        this.scene.matterCollision.addOnCollideStart(eventEffect);
+      }
+      if(event === ON_COLLIDE_END) {
+        this.scene.matterCollision.addOnCollideEnd(eventEffect);
+      }
+      if(event === ON_COLLIDE_ACTIVE) {
+        this.scene.matterCollision.addOnCollideActive(eventEffect);
+        this.scene.matterCollision.addOnCollideEnd(eventRestore)
+      }
+    })
+  }
+
+  runRestore(effect, agent) {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+    this.setCollisionCategory(1);
     
-    // this.unregister = this.scene.matterCollision.addOnCollideStart({
-    //   objectA: this,
-    //   callback: eventData => {
-    //     const { gameObjectB } = eventData;
+    // MOVEMENT
+    if(effect.id === EFFECT_IGNORE_GRAVITY) {
+      this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
+    }
+      
+    // VFX
+    if(effect.id === EFFECT_INVISIBLE) {
+      this.setVisible(!objectClass.attributes.invisible)
+    }
+  }
 
-    //     // if(gameObjectB.classId === classId) {
-    //     //   if(effect === 'destroy') {
-    //         this.destroyInGame()
 
-    //       // }
-    //   }
-    // });
+  runEffect(effect, agent) {
+    
+    // MOVEMENT
+    if(effect.id === EFFECT_TELEPORT) {
+      this.setPosition(effect.x, effect.y)
+    } else if(effect.id === EFFECT_IGNORE_GRAVITY) {
+      this.setIgnoreGravity(true)
+    } else if(effect.id === EFFECT_STICK_TO) {
+      
+    }
+    
+    // STATE
+    if(effect.id === EFFECT_DESTROY) {
+      this.destroyInGame()
+    } else if(effect.id === EFFECT_SPAWN) {
+      this.spawn()
+    } else if(effect.id === EFFECT_RECLASS) {
+      this.scene.removeObjectInstance(this.id)
+      this.scene.addObjectInstance(this.id, {x: this.x, y: this.y, classId: effect.classId})
+    }
+
+    // NARRATIVE
+    if(effect.id === EFFECT_CUTSCENE) {
+
+    } else if(effect.id === EFFECT_DIALOGUE) {
+
+    }
+    
+    // VFX
+    if(effect.id === EFFECT_INVISIBLE) {
+      this.setVisible(false)
+    } else if(effect.id === EFFECT_CAMERA_SHAKE) {
+      this.scene.cameras.main.shake(200)
+    }
+
+  }
+
+  spawn() {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+    this.setCollisionCategory(1);
+    this.setVisible(!objectClass.attributes.invisible)
+    objectClass.relationships.forEach(({classId, event, effect}) => {
+      if(event === ON_SPAWN) {
+        this.runEffect(effect)
+      }
+    })
   }
 
   destroyInGame() {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+    objectClass.relationships.forEach(({classId, event, effect}) => {
+      if(event === ON_DESTROY) {
+        this.runEffect(effect)
+      }
+    })
     this.scene.removeObjectInstance(this.id)
   }
 

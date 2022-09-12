@@ -23,7 +23,7 @@ export class ProjectileInstance extends ObjectInstance {
 
     this.scene = scene
     
-    this.fireRate = 1000
+    this.fireRate = objectClass.projectile.fireRate
 
     // const world = this.scene.matter.world
     // this.scene.matterCollision.addOnCollideStart({
@@ -40,16 +40,17 @@ export class ProjectileInstance extends ObjectInstance {
   }
 
   fire(shooter) {
-    this.lifespan = 2000;
+    const objectClass = store.getState().game.gameModel.classes[this.classId]
+    this.lifespan = objectClass.projectile.lifespan;
 
     this.setRotation(shooter.rotation); // angle is in degree, rotation is in radian
     var offset = new Phaser.Geom.Point(shooter.height, 0);
     Phaser.Math.Rotate(offset, shooter.rotation); // you can only rotate with radian
     this.setPosition(shooter.x + offset.x, shooter.y + offset.y);    
-    this.thrust(.5)
+    this.thrust(objectClass.projectile.velocity)
 
-    this.setActive(true);
     this.setVisible(true);
+    this.setActive(true)
 
     this.destroyTime = this.scene.game.loop.time + this.lifespan
   }

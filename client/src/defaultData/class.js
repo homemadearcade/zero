@@ -10,6 +10,13 @@ export const defaultObjectClass = {
   "textureId": null,
   "controls": null,
   relationships: [],
+  projectile: {
+    classId: null,
+    fireRate: 1000,
+    lifetime: 3000,
+    ammo: 0,
+    velociry: 1,
+  },
   "attributes": {
     // Movement
     sideToSide: false,

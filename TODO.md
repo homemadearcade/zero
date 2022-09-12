@@ -10,7 +10,7 @@ Actions that start when an event happens and resolve
   2. when they are 'done'
   3. when another event happens
 
-When we take into acount the 'state' of the game, things get much more complex
+When we take into acount conditions that read the 'state' of the game, things get much more complex
 
 -
 
@@ -30,6 +30,8 @@ ADDITIONAL FEATURES IN ADD CLASS
 
 -
 
+Projectile Editor
+
 Whether something is spawned or not needs to be instance level? or class level? Whats that look like?
 
 World Loop Switch, does the checkbox for this go in sections editor?
@@ -37,6 +39,9 @@ World Loop Switch, does the checkbox for this go in sections editor?
 Movement Area Boundary Interface..?
 
 World Effects like gravity change.. and?? other?
+
+Area that is only collidable with 1 class, how do we add that UI -wise???
+Exclusive Collisions between two
 
 --
 
@@ -77,18 +82,9 @@ EFFECTS
   stickTo ( While Touching Exclusive )
   notAllowed ( While Touching Exclusive )
 
-  STATE
-  reclass
-  spawn
-  destroy
-
   NARRATIVE
   cutscene
   dialogue
-
-  VFX
-  invisible ( While Touching Exclusive )
-  cameraShake
 
 ATTRIBUTES
   unspawned
@@ -196,19 +192,17 @@ ID system? is that smart? Like be able to figure out what anything is based on i
 
 TODO TIME PERMITTING
 
+Explosions
 Particles
-
 Following..Advanced Pathfinding
-
 Light System
-
 Timers
 
 Mobile
 
 Blockchain NFT editing thing
 
-custom coding - collision, events? paths? etc
+Custom coding - collision, events? paths? etc
 
 TAB + for moving through the UI ( other keyboard shortcuts )
 

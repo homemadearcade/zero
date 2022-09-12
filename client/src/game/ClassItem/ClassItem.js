@@ -10,6 +10,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import Sprite from '../ui/Sprite/Sprite';
 import Icon from '../../app/ui/Icon/Icon';
+import { getClassDisplayName } from '../../utils/gameUtils';
 
 const ClassItem = ({
   game: { gameModel: { classes } },
@@ -49,7 +50,7 @@ const ClassItem = ({
     <div className="ClassItem__sprite">
       <Sprite tint={objectClass.tint} textureId={objectClass.textureId}/>
     </div>
-    {objectClass.name || objectClass.descriptors ? objectClass.descriptors[0] : classId}
+    {getClassDisplayName(objectClass, classId)}
   </div>
 };
 

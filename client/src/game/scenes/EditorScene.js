@@ -134,7 +134,7 @@ export class EditorScene extends GameInstance {
 
   onPointerOver = (pointer, objectInstances) => {
     if(this.draggingObjectInstanceId) return
-    objectInstances[0].outline.setVisible(true)
+    // objectInstances[0].outline.setVisible(true)
     objectInstances[0].outline2.setVisible(true)
   }
 
@@ -198,7 +198,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, gameObjects) => {
-    gameObjects[0].outline.setVisible(false)
+    // gameObjects[0].outline.setVisible(false)
     gameObjects[0].outline2.setVisible(false)
   }
 

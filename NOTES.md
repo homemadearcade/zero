@@ -1,20 +1,14 @@
-DATA STRATEGY
-
-INITIAL STATE
-Qualities that are initially turned on but can be turned off
-Qualities that are initially turned off but can be turned on
+ATTRIBUTES
+Attributes that are initially turned on but can be turned off
+Attributes that are initially turned off but can be turned on
 
 EVENT BASED
-Qualities that turn on when an event happens
-Qualities that are temporarily on while an event is happening
+Actions that start when an event happens and resolve
+  1. immediately
+  2. when they are 'done'
+  3. when another event happens
 
-<!-- CONDITION BASED
-Qualities that are temporarily on when a game state is true
-Qualities that turn on when a game state is true
-
-CONDITION AND EVENT BASED
-Qualities that turn on when an event happens AND when a certain game state is true
-Qualities that are temporarily on while an event is happening AND a certain game state is true -->
+When we take into acount conditions that read the 'state' of the game, things get much more complex
 
 
 ---

@@ -13,7 +13,8 @@ import {
   CHANGE_EDITOR_CAMERA_ZOOM,
   CLOSE_SECTION_EDITOR,
   TOGGLE_GRID_VIEW,
-  UPDATE_ACCORDIAN_LIST
+  UPDATE_ACCORDIAN_LIST,
+  OPEN_LIVE_PROJECTILE_EDITOR
 } from '../types';
 
 export const toggleGridView = () => (dispatch, getState) => {
@@ -81,6 +82,16 @@ export const openLivePhysicsEditor = (classId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_LIVE_PHYSICS_EDITOR,
+    payload: {
+      classIdSelectedLiveEditor: classId, 
+    }
+  });
+}
+
+export const openLiveProjectileEditor = (classId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_LIVE_PROJECTILE_EDITOR,
     payload: {
       classIdSelectedLiveEditor: classId, 
     }

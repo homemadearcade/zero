@@ -2,7 +2,7 @@ import { CAMERA_PREVIEW_BORDER_SIZE, DEFAULT_TEXTURE_ID } from "../../constants"
 import store from "../../store";
 import Phaser from "phaser";
 
-export class InteractArea extends Phaser.Physics.Matter.Sprite {
+export class InteractArea extends Phaser.Physics.Matter.Image {
   constructor(scene, { color, size }){
     super(scene.matter.world, 0, 0, DEFAULT_TEXTURE_ID, 0, { isSensor: true })
 

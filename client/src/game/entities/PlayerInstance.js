@@ -5,6 +5,7 @@ import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
 import { InteractArea } from "./InteractArea";
+import { ON_INTERACT } from "../../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -54,24 +55,36 @@ export class PlayerInstance extends ObjectInstance {
       this.cameraPreview.setVisible(false)
     }
 
+    this.xKey = scene.input.keyboard.addKey('X');  // Get key object
     this.interactArea = new InteractArea(this.scene, {color: 0x0000FF, size: this.width * 3 })
-
-
-    // this.scene.matterCollision.addOnCollideStart({
-    //   objectA: this.interactArea,
-    //   callback: eventData => {
-    //     const { gameObjectB } = eventData;
-    //     if(gameObjectB === this) return
-    //     console.log(gameObjectB)
-
-    //     // if(gameObjectB.classId === classId) {
-    //     //   if(effect === 'destroy') {
-    //         if(gameObjectB) gameObjectB.destroyInGame()
-
-    //     //   }
-    //     // }
-    //   }
-    // });
+    
+    this.interactables = []
+    objectClass.relationships.forEach(({classId, event, effect}) => {
+      if(event === ON_INTERACT) {
+        this.scene.matterCollision.addOnCollideActive({
+          objectA: this.interactArea,
+          callback: eventData => {
+            const { gameObjectB } = eventData;
+            if(gameObjectB === this) return
+            if(!gameObjectB) return
+            if(classId === gameObjectB.classId) {
+              this.interactables.push({gameObject: gameObjectB, effect: 'destroy'})
+            }
+          }
+        })
+        this.scene.matterCollision.addOnCollideEnd({
+          objectA: this.interactArea,
+          callback: eventData => {
+            const { gameObjectB } = eventData;
+            if(gameObjectB === this) return
+            if(!gameObjectB) return
+            if(classId === gameObjectB.classId) {
+              gameObjectB.outline.setVisible(false)
+            }
+          }
+        })
+      }
+    })
 
     return this
   }
@@ -82,6 +95,8 @@ export class PlayerInstance extends ObjectInstance {
 
   update() {  
     super.update()
+
+    this.updateInteractions()
 
     const classId = this.classId
     const objectClass = store.getState().game.gameModel.classes[classId]
@@ -96,12 +111,12 @@ export class PlayerInstance extends ObjectInstance {
 
     if(this.scene.isPaused) return
 
-    if(this.cursors.space.isDown) {
+    if(this.cursors.space.isDown && objectClass.projectile?.classId) {
       if(this.scene.game.loop.time < this.nextFire) { 
         return
       }
 
-      const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: '3a0927a1-5aa3-412f-9e35-726aafd07410' } )
+      const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
       projectile.fire(this)
 
       this.nextFire = this.scene.game.loop.time + projectile.fireRate;
@@ -116,17 +131,41 @@ export class PlayerInstance extends ObjectInstance {
     if(this.cursors.up.isDown && !objectClass.attributes.ignoreUpKey) {
       this.thrust(0.08);
     }
+
+  }
+
+  updateInteractions() {
+    let interactPossibility = {
+      closestInteractable: null,
+      closestDistance: Infinity,
+      effect: null
+    }
+
+    this.interactables.forEach(({gameObject, effect}) => {
+      gameObject.outline.setVisible(false)
+      const distance = Phaser.Math.Distance.Between(gameObject.x, gameObject.y, this.x, this.y)
+      const { closestDistance } = interactPossibility
+      if(distance < closestDistance) {
+        interactPossibility.closestDistance = distance
+        interactPossibility.closestInteractable = gameObject
+        interactPossibility.effect = effect
+      }
+    })
+    const { closestInteractable, effect } = interactPossibility
+    if(closestInteractable) closestInteractable.outline.setVisible(true)
+    if(closestInteractable && this.xKey.isDown) {
+      this.runEffect(effect, closestInteractable)
+    }
+    this.interactables = []
   }
 
   destroyInGame() {
-    this.setActive(false)
     this.setCollisionCategory(null);
     this.setVisible(false)
     this.particles.setVisible(false)
   }
 
   respawn() {
-    this.setActive(true)
     this.setCollisionCategory(1);
     this.setVisible(true)
     this.particles.setVisible(true)
