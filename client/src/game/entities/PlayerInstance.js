@@ -151,6 +151,7 @@ export class PlayerInstance extends ObjectInstance {
         interactPossibility.effect = effect
       }
     })
+    
     const { closestInteractable, effect } = interactPossibility
     if(closestInteractable) closestInteractable.outline.setVisible(true)
     if(closestInteractable && this.xKey.isDown) {

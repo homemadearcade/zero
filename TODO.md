@@ -43,6 +43,13 @@ World Effects like gravity change.. and?? other?
 Area that is only collidable with 1 class, how do we add that UI -wise???
 Exclusive Collisions between two
 
+ARCADE VS MATTER
+  - Matter can do rotational collisions. Shit gets hit and spins around and stuff
+  - Arcade can NOT rotate
+  - Arcade can check easily where a collision occured - upleftrightdown
+  - Static objects in matter can only move position, not via velocity or thrust or force
+  - Arcade has immovable vs pushable. These are two different concepts
+
 --
 
 WARMUPS

@@ -22,15 +22,15 @@ export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
     this.scene.matterCollision.addOnCollideActive({
       objectA: this,
       callback: eventData => {
-        // console.log('trying', _.clone(eventData), parent)
         const { gameObjectB } = eventData;
+        console.log('trying', gameObjectB?.id, eventData.gameObjectA.id)
         if(gameObjectB === parent) {
-          // console.log('problem?')
+          console.log('problem?')
           return
         }
         if(!gameObjectB) return
         if(!gameObjectB.classId) return
-        // console.log('made it', gameObjectB.id)
+        console.log('made it', gameObjectB.id)
 
         this.onTops.push(gameObjectB)
         gameObjectB.setVelocityY(0)
@@ -50,7 +50,7 @@ export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
 
         const gameModel = store.getState().game.gameModel
         const objectClass = gameModel.classes[gameObjectB.classId]
-        // console.log('ended', gameObjectB.id)
+        console.log('ended', gameObjectB.id)
         gameObjectB.setIgnoreGravity(objectClass.attributes.setIgnoreGravity)
         gameObjectB.setVelocityY(0)
       }
@@ -66,17 +66,12 @@ export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
     
     let cornerX = followingEntity.x
     let cornerY = followingEntity.y  - followingEntity.height/4
-    const deltaX = followingEntity.x - followingEntity.prevX
-    const deltaY = followingEntity.y - followingEntity.prevY
-  
-    this.setAngle(followingEntity.angle)
-    this.setPosition(cornerX, cornerY - 5)  
 
-    if(deltaX) console.log(deltaX)
-    if(deltaY) console.log(deltaY)
+    this.setAngle(followingEntity.angle)
+    this.setPosition(cornerX, cornerY)  
 
     this.onTops.forEach((onTop) => {
-      onTop.setPosition(onTop.x - deltaX, onTop.y - deltaY)
+      onTop.setPosition(onTop.x - followingEntity.deltaX, onTop.y - followingEntity.deltaY)
     })
 
     this.onTops = []

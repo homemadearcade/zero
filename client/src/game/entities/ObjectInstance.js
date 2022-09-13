@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_NOT_ALLOWED, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, GAME_BOUNDARY_DOWN_WALL_ID, GAME_BOUNDARY_LEFT_WALL_ID, GAME_BOUNDARY_RIGHT_WALL_ID, GAME_BOUNDARY_UP_WALL_ID, GAME_BOUNDARY_WALL_ID, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY, ON_SPAWN } from "../../constants";
+import { DEFAULT_TEXTURE_ID, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_NOT_ALLOWED, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, MOVEMENT_SIDE_TO_SIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY, ON_SPAWN } from "../../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { isEventMatch } from "../../utils/gameUtils";
@@ -78,7 +78,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     } else {
       this.setDensity(objectClass.density)
     }
-    this.setFixedRotation(attributes.fixedRotation)
+    if(attributes.fixedRotation) this.setFixedRotation()
     this.setIgnoreGravity(attributes.ignoreGravity)
     this.setStatic(attributes.static)
 
@@ -114,9 +114,18 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // Movement
-    if(objectClass.movement.movingPlatform) {
-      this.movingPlatformSensor = new MovingPlatformSensor(scene, { color: 0x0000FF, width: this.width, parent: this})
-    }
+    // var Bodies = Phaser.Physics.Matter.Matter.Bodies;
+    // // var rect = Bodies.rectangle(this.width/2, this.height/2, this.width, this.height);
+    // var circleD = Bodies.circle(0, 70, 24, { isSensor: true, label: 'bottom' });
+    // var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+    //   parts: [ this.body, circleD ],
+    // })
+    // this.setExistingBody(compoundBody);
+    // this.setPosition(spawnX, spawnY)
+
+    // if(objectClass.movement.movingPlatform) {
+    //   this.movingPlatformSensor = new MovingPlatformSensor(scene, { color: 0x0000FF, width: this.width, parent: this})
+    // }
 
 
     return this
@@ -249,6 +258,12 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
         this.runEffect(effect)
       }
     })
+
+    const movementPattern = objectClass.movement.pattern
+
+    if(movementPattern === MOVEMENT_SIDE_TO_SIDE) {
+      this.setPosition(this.x + (delta/500), this.y)
+    }
   }
 
   destroyInGame() {
@@ -262,12 +277,12 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.scene.removeObjectInstance(this.id)
   }
 
-  update() {
+  update(time, delta) {
     const objectClass = store.getState().game.gameModel.classes[this.classId]
 
-    if(objectClass.movement.movingPlatform) {
-      this.movingPlatformSensor.update(this)
-    }
+    // if(this.movingPlatformSensor) {
+    //   this.movingPlatformSensor.update(this)
+    // }
 
     if(true || this.outline.visible) {
       this.outline.setPosition(this.x, this.y)
@@ -275,12 +290,13 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       this.outline2.setPosition(this.x, this.y)
       this.outline2.setRotation(this.rotation)
     }
+
   }
 
   destroy() {
     this.outline.destroy()
     this.outline2.destroy()
-    if(this.movingPlatformSensor) this.movingPlatformSensor.destroy()
+    // if(this.movingPlatformSensor) this.movingPlatformSensor.destroy()
 
     super.destroy()
   }

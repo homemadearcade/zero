@@ -242,13 +242,20 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
 
-    this.events.on('preupdate', function(time, delta){
+    this.events.on('postupdate', function(time, delta){
       this.objectInstances.forEach((object) => {
+        object.deltaX = object.prevX - object.x
+        object.deltaY = object.prevY - object.y
+
         object.prevX = object.x 
         object.prevY = object.y
       })
+      
       this.player.prevX = this.player.x
       this.player.prevY = this.player.y
+
+      this.player.deltaX = this.player.prevX - this.player.x
+      this.player.deltaY = this.player.prevY - this.player.y
     }, this);
   }
 
