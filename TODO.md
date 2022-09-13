@@ -50,10 +50,26 @@ ARCADE VS MATTER
   - Static objects in matter can only move position, not via velocity or thrust or force
   - Arcade has immovable vs pushable. These are two different concepts
 
+Have to decide what to do... would suck to have to do two interfaces for everything. Unless we limited it to just what Arcade Physics can do...What can arcade physics do that matter physics toggle that matter physics cant?
+
+Does having 'path system' do anything? Does that resolve movement?
+
+What sort of games will come out of Matter JS, what sort of games will come out of Arcade? What are the real design strengths?
+What sort of gameplays? What sort of stories, What sort of world is this?
+
+POSSIBLE ADDITIONS
+
+Why isnt friction working?
+Set Initial Velocity
+Rope
+'shoot'
+Create Force ( like a bomb type thing )
+
 --
 
 WARMUPS
  
+Rotate
 Resize
 Change BG Color
 Put + inside of grid
@@ -82,20 +98,12 @@ CONTROLS
   Changing Controls.. etc
 
 EFFECTS 
-  MOVEMENT
-  stickTo ( While Touching Exclusive )
-  notAllowed ( While Touching Exclusive )
-
   NARRATIVE
   cutscene
   dialogue
 
 ATTRIBUTES
   unspawned
-  sideToSide
-  upAndDown
-  wanderer
-  spaceInvader
   glowing
   rotationFollowKeys
 
@@ -169,6 +177,8 @@ So for the redirect its possible we can just pass it as a prop to the 'login' co
 --------
 
 TODO FEATURES ( MAYBE )
+
+Sensor on every side of the game object?
 
 Soccerball ( attach to hero on collide and allow hero to shoot out again )
 

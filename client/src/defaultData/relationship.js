@@ -62,11 +62,8 @@ export const relationshipEffects = {
   invisible: {
 
   },
-  allowClimb: {
+  ignoreGravity: {
     //ignore gravity temporarily
-  },
-  stickTo: {
-    // move with
   },
   notAllowed: {
     //create custom collision group

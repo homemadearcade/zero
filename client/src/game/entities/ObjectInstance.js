@@ -128,6 +128,8 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     // }
 
 
+    this.setAngle(30)
+
     return this
   }
 
@@ -135,10 +137,6 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
 
   /*
     EFFECTS 
-      MOVEMENT
-      stickTo ( While Touching Exclusive )
-      notAllowed ( While Touching Exclusive )
-
       NARRATIVE
       cutscene
       dialogue
@@ -219,8 +217,6 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       this.setPosition(effect.x, effect.y)
     } else if(effect.id === EFFECT_IGNORE_GRAVITY) {
       this.setIgnoreGravity(true)
-    } else if(effect.id === EFFECT_STICK_TO) {
-      
     }
     
     // STATE
@@ -259,11 +255,10 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       }
     })
 
-    const movementPattern = objectClass.movement.pattern
-
-    if(movementPattern === MOVEMENT_SIDE_TO_SIDE) {
-      this.setPosition(this.x + (delta/500), this.y)
-    }
+    // const movementPattern = objectClass.movement.pattern
+    // if(movementPattern === MOVEMENT_SIDE_TO_SIDE) {
+    //   this.setVelocityX(10)
+    // }
   }
 
   destroyInGame() {
@@ -291,6 +286,10 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       this.outline2.setRotation(this.rotation)
     }
 
+    // const movementPattern = objectClass.movement.pattern
+    // if(movementPattern === MOVEMENT_SIDE_TO_SIDE) {
+    //   this.setPosition(this.x + .1, this.y)
+    // }
   }
 
   destroy() {

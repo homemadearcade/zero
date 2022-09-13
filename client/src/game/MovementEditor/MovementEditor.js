@@ -23,6 +23,17 @@ import SelectMovementPattern from '../ui/SelectMovementPattern/SelectMovementPat
  />
 </Unlockable> */}
 
+{/* <Unlockable interfaceId="movement/toggle/movingPlatform">
+<FormLabel>Moving Platform</FormLabel>
+<Switch
+  size="small"
+  onChange={(e) => {
+    editGameModel({ classes: { [classId]: { movement: { movingPlatform: e.target.checked }}}})        
+  }}
+  checked={classSelected.movement.movingPlatform}
+ />
+</Unlockable> */}
+
 const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
   
@@ -56,16 +67,6 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             editGameModel({ classes: { [classId]: { attributes: { ignoreGravity: e.target.checked }}}})        
           }}
           checked={classSelected.attributes.ignoreGravity}
-         />
-      </Unlockable>
-      <Unlockable interfaceId="movement/toggle/movingPlatform">
-        <FormLabel>Moving Platform</FormLabel>
-        <Switch
-          size="small"
-          onChange={(e) => {
-            editGameModel({ classes: { [classId]: { movement: { movingPlatform: e.target.checked }}}})        
-          }}
-          checked={classSelected.movement.movingPlatform}
          />
       </Unlockable>
     </div>

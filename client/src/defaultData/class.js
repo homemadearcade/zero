@@ -27,7 +27,7 @@ export const defaultObjectClass = {
   movement: {
     pattern: null,
     spaceInvader: false,
-    movingPlatform: false,
+    // movingPlatform: false,
   },
   unspawned: false,
   "attributes": {
