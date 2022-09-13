@@ -149,17 +149,21 @@ const Listbox = styled('ul')(
 );
 
 export default function SelectChipsAuto({onChange, value, options, formLabel}) {
-  const [inheritedValue, setInheritedValue] = useState(value)
+  const [inheritedValue, setInheritedValue] = useState([])
+
+  function onValueChanged(value) {
+    setInheritedValue(value.map((val) => {
+      const filtered = options.filter((option) => {
+        if(option.value === val) return option
+        else return null
+      })
+      return filtered[0]
+    }))
+  }
 
   useEffect(() => {
     if(value !== inheritedValue) {
-      setInheritedValue(value.map((val) => {
-        const filtered = options.filter((option) => {
-          if(option.value == val) return option
-          else return null
-        })
-        return filtered[0]
-      }))
+      onValueChanged(value)
     }
   }, [value])
 
@@ -189,7 +193,6 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
       onChange(event, selected.map(({value}) => value))
     }
   });
-
 
   return (
     <Root>

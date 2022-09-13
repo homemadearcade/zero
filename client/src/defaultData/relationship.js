@@ -28,7 +28,12 @@
 export const defaultRelationship = {
   classId: '',
   event: '', 
-  effect: '', 
+  effect: {
+    id: '',
+    x: null,
+    y: null,
+    classId: null
+  }, 
 }
 
 export const relationshipEvents = {

@@ -1,9 +1,10 @@
 import {  DEFAULT_TEXTURE_ID } from "../../constants";
 import store from "../../store";
 import Phaser from "phaser";
+import _ from "lodash";
 
 export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
-  constructor(scene, { color, width, parent }){
+  constructor(scene, { color, parent }){
     super(scene.matter.world, 0, 0, DEFAULT_TEXTURE_ID, 0, { isSensor: true })
 
     this.scene = scene
@@ -11,8 +12,8 @@ export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
 
     this.setOrigin(0.5, 0.5)
     this.setAlpha(0.3)
-    this.setTint(0x0000FF)
-    this.setDisplaySize(width, 1)
+    this.setTint(color)
+    this.setDisplaySize(parent.width, parent.height/2)
 
     scene.add.existing(this)
     scene.uiLayer.add([this])
@@ -21,12 +22,18 @@ export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
     this.scene.matterCollision.addOnCollideActive({
       objectA: this,
       callback: eventData => {
+        // console.log('trying', _.clone(eventData), parent)
         const { gameObjectB } = eventData;
-        if(gameObjectB === this) return
-        if(gameObjectB === parent) return
+        if(gameObjectB === parent) {
+          // console.log('problem?')
+          return
+        }
         if(!gameObjectB) return
         if(!gameObjectB.classId) return
+        // console.log('made it', gameObjectB.id)
+
         this.onTops.push(gameObjectB)
+        gameObjectB.setVelocityY(0)
         gameObjectB.setIgnoreGravity(true)
       }
     })
@@ -34,13 +41,18 @@ export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
       objectA: this,
       callback: eventData => {
         const { gameObjectB } = eventData;
-        if(gameObjectB === this) return
         if(gameObjectB === parent) return
         if(!gameObjectB) return
         if(!gameObjectB.classId) return
+
+        // const index = this.onTops.indexOf(gameObjectB)
+        // this.onTops.splice(index,1)
+
         const gameModel = store.getState().game.gameModel
         const objectClass = gameModel.classes[gameObjectB.classId]
+        // console.log('ended', gameObjectB.id)
         gameObjectB.setIgnoreGravity(objectClass.attributes.setIgnoreGravity)
+        gameObjectB.setVelocityY(0)
       }
     })
 
@@ -48,24 +60,32 @@ export class MovingPlatformSensor extends Phaser.Physics.Matter.Image {
   }
 
   update(followingEntity) {
-    if(!this.scene) return console.error('interact area not destroyed again')
+    if(!followingEntity.prevX) return 
+
+    if(!this.scene) return console.error('moving platform not destroyed')
     
     let cornerX = followingEntity.x
-    let cornerY = followingEntity.y - (followingEntity.height/2)
-    const deltaX = this.x - cornerX
-    const deltaY = this.y - cornerY
-      
+    let cornerY = followingEntity.y  - followingEntity.height/4
+    const deltaX = followingEntity.x - followingEntity.prevX
+    const deltaY = followingEntity.y - followingEntity.prevY
+  
     this.setAngle(followingEntity.angle)
-    this.setPosition(cornerX, cornerY)  
+    this.setPosition(cornerX, cornerY - 5)  
+
+    if(deltaX) console.log(deltaX)
+    if(deltaY) console.log(deltaY)
 
     this.onTops.forEach((onTop) => {
-      // onTop.setPosition(onTop.x = deltaX, onTop.y + deltaY)
+      onTop.setPosition(onTop.x - deltaX, onTop.y - deltaY)
     })
+
+    this.onTops = []
 
     if(this.scene.isGridViewOn) {
       this.setVisible(true)
     } else {
       this.setVisible(false)
     }
+
   }
 }

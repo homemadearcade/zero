@@ -1,3 +1,4 @@
+import { EFFECT_CAMERA_SHAKE, ON_INTERACT } from "../constants";
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general";
 
 export const defaultObjectClass = {
@@ -9,7 +10,13 @@ export const defaultObjectClass = {
   "tint": null,
   "textureId": null,
   "controls": null,
-  relationships: [],
+  relationships: [{
+    classId: 'c56931de-a0ce-4cba-9248-632855cabd96',
+    event: ON_INTERACT,
+    effect: {
+      id: EFFECT_CAMERA_SHAKE
+    }
+  }],
   projectile: {
     classId: null,
     fireRate: 1000,
@@ -17,15 +24,13 @@ export const defaultObjectClass = {
     ammo: 0,
     velociry: 1,
   },
+  movement: {
+    pattern: null,
+    spaceInvader: false,
+    movingPlatform: false,
+  },
   unspawned: false,
   "attributes": {
-    // Movement
-    sideToSide: false,
-    upAndDown: false,
-    wanderer: false,
-    spaceInvader: false,
-    movingPlatform: true,
-
     // Collision
     // ignoreGravity: false,
     // fixedRotation: false,

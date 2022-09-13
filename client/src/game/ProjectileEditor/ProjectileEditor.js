@@ -16,7 +16,7 @@ const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   return (
     <div className="ProjectileEditor">
       <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
-      <Unlockable isSlider interfaceId="projectile/class">
+      <Unlockable interfaceId="projectile/class">
         <SelectClass 
           formLabel="Projectile Class"
           value={classSelected.projectile.classId ? [classSelected.projectile.classId] : []}

@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 
-import { openLivePhysicsEditor, openLiveCameraEditor, openLiveProjectileEditor } from '../../store/actions/editorActions';
+import { openLivePhysicsEditor, openLiveCameraEditor, openLiveProjectileEditor, openLiveMovementEditor } from '../../store/actions/editorActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
-const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLiveProjectileEditor, onMenuItemClick,  game: { gameModel }, classId }) => {
+const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLiveProjectileEditor, onMenuItemClick, openLiveMovementEditor,  game: { gameModel }, classId }) => {
   const objectClass = gameModel.classes[classId]
 
   return <>
@@ -31,6 +31,14 @@ const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLi
         }}>Edit Projectile</MenuItem>
       </Unlockable>
     }
+    {objectClass.type !== 'hero' &&
+      <Unlockable interfaceId="contextMenu/class/movement">
+        <MenuItem onClick={() => {
+          openLiveMovementEditor(classId)
+          onMenuItemClick()
+        }}>Edit Movement</MenuItem>
+      </Unlockable>
+    }
   </>
 };
 
@@ -38,4 +46,4 @@ const mapStateToProps = (state) => ({
   game: state.game,
 })
 
-export default connect(mapStateToProps, { openLiveCameraEditor, openLivePhysicsEditor, openLiveProjectileEditor })(ClassContextMenu);
+export default connect(mapStateToProps, { openLiveCameraEditor, openLivePhysicsEditor, openLiveProjectileEditor, openLiveMovementEditor })(ClassContextMenu);

@@ -14,7 +14,8 @@ import {
   CLOSE_SECTION_EDITOR,
   TOGGLE_GRID_VIEW,
   UPDATE_ACCORDIAN_LIST,
-  OPEN_LIVE_PROJECTILE_EDITOR
+  OPEN_LIVE_PROJECTILE_EDITOR,
+  OPEN_LIVE_MOVEMENT_EDITOR
 } from '../types';
 
 export const toggleGridView = () => (dispatch, getState) => {
@@ -92,6 +93,16 @@ export const openLiveProjectileEditor = (classId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_LIVE_PROJECTILE_EDITOR,
+    payload: {
+      classIdSelectedLiveEditor: classId, 
+    }
+  });
+}
+
+export const openLiveMovementEditor = (classId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_LIVE_MOVEMENT_EDITOR,
     payload: {
       classIdSelectedLiveEditor: classId, 
     }

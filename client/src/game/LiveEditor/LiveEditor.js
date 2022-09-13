@@ -12,11 +12,13 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Icon from '../../app/ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
 import ProjectileEditor from '../ProjectileEditor/ProjectileEditor';
+import MovementEditor from '../MovementEditor/MovementEditor';
 
 const LiveEditor = ({ closeLiveEditor, editor: { classIdSelectedLiveEditor, liveEditingCategory } }) => {
   return (
     <div className="LiveEditor">
       <div className="LiveEditor__close"><Button onClick={closeLiveEditor}><Icon icon="faClose"/></Button></div>
+      {liveEditingCategory === "movement" && <MovementEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === "projectile" && <ProjectileEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === "physics" && <PhysicsEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === "world" && <WorldEditor/>}

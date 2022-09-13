@@ -114,7 +114,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // Movement
-    if(attributes.movingPlatform) {
+    if(objectClass.movement.movingPlatform) {
       this.movingPlatformSensor = new MovingPlatformSensor(scene, { color: 0x0000FF, width: this.width, parent: this})
     }
 
@@ -203,6 +203,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
 
 
   runEffect(effect, agent) {
+    console.log(effect, agent)
     
     // MOVEMENT
     if(effect.id === EFFECT_TELEPORT) {
@@ -234,9 +235,8 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     if(effect.id === EFFECT_INVISIBLE) {
       this.setVisible(false)
     } else if(effect.id === EFFECT_CAMERA_SHAKE) {
-      this.scene.cameras.main.shake(200)
+      this.scene.cameras.main.shake(20)
     }
-
   }
 
   spawn() {
@@ -263,9 +263,9 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   }
 
   update() {
-    const attributes = store.getState().game.gameModel.classes[this.classId].attributes
+    const objectClass = store.getState().game.gameModel.classes[this.classId]
 
-    if(attributes) {
+    if(objectClass.movement.movingPlatform) {
       this.movingPlatformSensor.update(this)
     }
 
@@ -280,6 +280,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   destroy() {
     this.outline.destroy()
     this.outline2.destroy()
+    if(this.movingPlatformSensor) this.movingPlatformSensor.destroy()
 
     super.destroy()
   }

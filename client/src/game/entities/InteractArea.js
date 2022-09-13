@@ -12,8 +12,9 @@ export class InteractArea extends Phaser.Physics.Matter.Image {
 
     this.setOrigin(0.5, 0.5)
     this.setAlpha(0.3)
-    this.setTint(0x0000FF)
+    this.setTint(color)
     this.setDisplaySize(this.size, this.size)
+    // this.setDisplaySize(0, 0)
 
     scene.add.existing(this)
     scene.uiLayer.add([this])

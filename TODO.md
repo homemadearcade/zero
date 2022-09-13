@@ -57,7 +57,6 @@ Movement Area Boundary
 UP NEXT 
 
 Relationship UI
-Relationship Effects
 
 ---
 
@@ -77,7 +76,6 @@ CONTROLS
 
 EFFECTS 
   MOVEMENT
-  ignoreGravity ( While Touching Exclusive )
   stickTo ( While Touching Exclusive )
   notAllowed ( While Touching Exclusive )
 

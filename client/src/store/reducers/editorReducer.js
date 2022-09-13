@@ -14,7 +14,8 @@ import {
   CLOSE_SECTION_EDITOR,
   TOGGLE_GRID_VIEW,
   UPDATE_ACCORDIAN_LIST,
-  OPEN_LIVE_PROJECTILE_EDITOR
+  OPEN_LIVE_PROJECTILE_EDITOR,
+  OPEN_LIVE_MOVEMENT_EDITOR
 } from '../types';
 
 const initialState = {
@@ -96,6 +97,13 @@ export default function editorReducer(state = initialState, { type, payload }) {
           ...state.accordianLists,
           [payload.accordianListId]: payload.accordianListValue
         }
+      };
+    case OPEN_LIVE_MOVEMENT_EDITOR:
+      return {
+        ...state,
+        isLiveEditorOpen: true,
+        liveEditingCategory: 'movement',
+        classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
       };
     case OPEN_LIVE_PROJECTILE_EDITOR:
       return {

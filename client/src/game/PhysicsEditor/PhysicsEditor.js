@@ -16,17 +16,6 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
     <div className="PhysicsEditor">
       <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
       <div className="PhysicsEditor__sliders">    
-        <Unlockable isSlider interfaceId="physics/sliders/speed">
-          <SliderNotched
-            formLabel="Speed"
-            options={[1, 5, 20, 100]}
-            step={0.1}
-            onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { speed: value }}})        
-            }}
-            value={classSelected.speed}
-          />
-        </Unlockable>
         <Unlockable isSlider interfaceId="physics/sliders/bounce">
           <SliderNotched
             formLabel="Bounce"
@@ -105,15 +94,15 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           checked={classSelected.attributes.ignoreGravity}
          />
       </Unlockable>
-      <Unlockable interfaceId="physics/toggle/useMass">
-        <FormLabel>Use Mass For Weight</FormLabel>
+      <Unlockable interfaceId="physics/toggle/static">
+        <FormLabel>Not Effected</FormLabel>
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { useMass: e.target.checked }}}})        
+            editGameModel({ classes: { [classId]: { attributes: { static: e.target.checked } } } })        
           }}
-          checked={classSelected.attributes.useMass}
-        />
+          checked={classSelected.attributes.static}
+         />
       </Unlockable>
       <Unlockable interfaceId="physics/toggle/fixedRotation">
         <FormLabel>Fixed Rotation</FormLabel>
@@ -125,16 +114,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           checked={classSelected.attributes.fixedRotation}
          />
       </Unlockable>
-      <Unlockable interfaceId="physics/toggle/static">
-        <FormLabel>Doesn't Move</FormLabel>
-        <Switch
-          size="small"
-          onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { static: e.target.checked } } } })        
-          }}
-          checked={classSelected.attributes.static}
-         />
-      </Unlockable>
+
     </div>
   );
 };

@@ -172,7 +172,7 @@ export class PlayerInstance extends ObjectInstance {
   }
 
   destroy() {
-    this.particles.destroy()
+    // this.particles.destroy()
     this.cameraPreview.destroy()
     this.interactArea.destroy()
     super.destroy()

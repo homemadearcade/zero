@@ -241,6 +241,15 @@ export class GameInstance extends Phaser.Scene {
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
+
+    this.events.on('preupdate', function(time, delta){
+      this.objectInstances.forEach((object) => {
+        object.prevX = object.x 
+        object.prevY = object.y
+      })
+      this.player.prevX = this.player.x
+      this.player.prevY = this.player.y
+    }, this);
   }
 
   respawn() {
