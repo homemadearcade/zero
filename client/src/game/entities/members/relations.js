@@ -4,8 +4,9 @@ import store from "../../../store";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Relations {
-  constructor(scene, instance){
-    this.instance = instance
+  constructor(scene, objectInstance, sensor){
+    this.objectInstance = objectInstance
+    this.sensor = sensor
     this.unregisters = []
     this.scene = scene
   }
@@ -22,11 +23,11 @@ export class Relations {
   registerArcade(relationships) {
     relationships.forEach(({classId, event, effect, sides}) => {
       if(event === ON_COLLIDE) {
-        const releventInstances = this.scene.objectInstances.filter((instance) => instance.classId === classId).map(({sprite}) => sprite)
+        const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === classId).map(({sprite}) => sprite)
         if(effect.id === EFFECT_COLLIDE) {
-          this.scene.physics.add.collider(this.instance.sprite, releventInstances)
+          this.scene.physics.add.collider(this.sensor.sprite, releventInstances)
         } else {
-          this.scene.physics.add.collider(this.instance.sprite, releventInstances, (a, b) => {
+          this.scene.physics.add.collider(this.sensor.sprite, releventInstances, (a, b) => {
             if(sides.length && areBSidesHit(sides, a, b)) {
               this.runEffect(effect, b)
             } else {
@@ -102,17 +103,17 @@ export class Relations {
 
   runRestore(effect, agent) {
     const gameModel = store.getState().game.gameModel
-    const objectClass = gameModel.classes[this.classId]
-    this.setCollideable(true);
+    const objectClass = gameModel.classes[this.objectInstance.classId]
+    // this.objectInstance.setCollideable(true);
     
     // MOVEMENT
     if(effect.id === EFFECT_IGNORE_GRAVITY) {
-      this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
+      this.objectInstance.setIgnoreGravity(objectClass.attributes.ignoreGravity)
     }
       
     // VFX
     if(effect.id === EFFECT_INVISIBLE) {
-      this.setVisible(!objectClass.attributes.invisible)
+      this.objectInstance.setVisible(!objectClass.attributes.invisible)
     }
   }
 
@@ -122,19 +123,19 @@ export class Relations {
 
     // MOVEMENT
     if(effect.id === EFFECT_TELEPORT) {
-      this.setPosition(effect.x, effect.y)
+      this.objectInstance.setPosition(effect.x, effect.y)
     } else if(effect.id === EFFECT_IGNORE_GRAVITY) {
-      this.setIgnoreGravity(true)
+      this.objectInstance.setIgnoreGravity(true)
     }
     
     // LIFE
     if(effect.id === EFFECT_DESTROY) {
-      this.destroyInGame()
+      this.objectInstance.destroyInGame()
     } else if(effect.id === EFFECT_SPAWN) {
-      this.spawn()
+      this.objectInstance.spawn()
     } else if(effect.id === EFFECT_RECLASS) {
-      this.scene.removeObjectInstance(this.id)
-      this.scene.addObjectInstance(this.id, {spawnX: this.x, spawnY: this.y, classId: effect.classId})
+      this.objectInstance.scene.removeObjectInstance(this.objectInstance.id)
+      this.objectInstance.scene.addObjectInstance(this.objectInstance.id, {spawnX: this.objectInstance.sprite.x, spawnY: this.objectInstance.sprite.y, classId: effect.classId})
     }
 
     // NARRATIVE
@@ -146,7 +147,7 @@ export class Relations {
     
     // GRAPHICS
     if(effect.id === EFFECT_INVISIBLE) {
-      this.setVisible(false)
+      this.objectInstance.setVisible(false)
     } else if(effect.id === EFFECT_CAMERA_SHAKE) {
       this.scene.cameras.main.shake(20)
     }

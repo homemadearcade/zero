@@ -5,7 +5,7 @@ import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 
 export class Entity {
-  constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }, { useEditor }){
+  constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }, { useEditor } = {}){
     const gameModel = store.getState().game.gameModel
     
     const plugin = { 
@@ -214,6 +214,10 @@ export class Entity {
     this.sprite.setMass(mass)
   }
 
+  setOrigin(x, y) {
+    this.sprite.setOrigin(x, y)
+  }
+
   setPosition(x, y) {
     this.sprite.setPosition(x, y)
   }
@@ -256,6 +260,7 @@ export class Entity {
   }
 
   destroy() {
+    this.sprite.highlight.destroy()
     this.sprite.destroy()
   }
 }

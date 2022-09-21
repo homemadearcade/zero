@@ -1,4 +1,4 @@
-import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
+import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_DESTROY, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general";
 
 export const defaultObjectClass = {
@@ -14,9 +14,9 @@ export const defaultObjectClass = {
   worldBoundaryRelationship: WORLD_COLLIDE, // wrap, destroy
   relationships: [{
     classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
-    event: ON_COLLIDE,
+    event: ON_INTERACT,
     effect: {
-      id: EFFECT_COLLIDE
+      id: EFFECT_DESTROY
     },
     sides: [SIDE_DOWN]
   }],

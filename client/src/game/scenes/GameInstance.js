@@ -72,7 +72,8 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().game.gameModel
     const classes = gameModel.classes
     this.player.relations.register(classes[gameModel.hero.initialClassId].relationships)
-
+    this.player.interactArea.register(classes[gameModel.hero.initialClassId].relationships)
+   
     // this.objectInstances.forEach((instance) => {
     //   instance.relations.register(classes[instance.classId].relationships)
     // })
@@ -82,6 +83,7 @@ export class GameInstance extends Phaser.Scene {
 
   unregisterRelationships() {
     this.player.relations.unregister()
+    this.player.interactArea.unregister()
 
     this.objectInstances.forEach((instance) => {
       instance.relations.unregister()

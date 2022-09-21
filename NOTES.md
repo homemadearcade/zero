@@ -1,8 +1,8 @@
 ENTITY MEMBERS
-  Movement
-  Relationships
   Collision Response
   Graphics
+    Relationships
+    Movement
 
   Projectiles
   Camera

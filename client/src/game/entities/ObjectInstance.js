@@ -32,11 +32,11 @@ export class ObjectInstance extends Entity {
     }
     const cornerX = -objectClass.width/2
     const cornerY = -objectClass.height/2
-    this.border = scene.add.graphics();
-    this.border.lineStyle(4, 0xffffff, 1);
-    this.border.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
-    this.border.setVisible(false)
-    scene.uiLayer.add(this.border)
+    this.sprite.border = scene.add.graphics();
+    this.sprite.border.lineStyle(4, 0xffffff, 1);
+    this.sprite.border.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
+    this.sprite.border.setVisible(false)
+    scene.uiLayer.add(this.sprite.border)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ export class ObjectInstance extends Entity {
     //////////////////////////////////////////////////////////////
     // RELATIONS
     if(id === HERO_INSTANCE_ID) {
-      this.relations = new Relations(scene, this)
+      this.relations = new Relations(scene, this, this)
     }
 
     //////////////////////////////////////////////////////////////
@@ -128,8 +128,8 @@ export class ObjectInstance extends Entity {
     }
 
     if(true || this.border.visible) {
-      this.border.setPosition(this.sprite.x, this.sprite.y)
-      this.border.setRotation(this.sprite.rotation)
+      this.sprite.border.setPosition(this.sprite.x, this.sprite.y)
+      this.sprite.border.setRotation(this.sprite.rotation)
       this.sprite.highlight.setPosition(this.sprite.x, this.sprite.y)
       this.sprite.highlight.setRotation(this.sprite.rotation)
     }
@@ -141,8 +141,7 @@ export class ObjectInstance extends Entity {
   }
 
   destroy() {
-    this.border.destroy()
-    this.sprite.highlight.destroy()
+    this.sprite.border.destroy()
 
     super.destroy()
   }
