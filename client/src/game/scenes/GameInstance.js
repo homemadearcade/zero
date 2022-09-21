@@ -43,7 +43,7 @@ export class GameInstance extends Phaser.Scene {
     return this.objectInstancesById[id]
   }
 
-  addPlayerInstance() {
+  initializePlayerInstance() {
     const gameModel = store.getState().game.gameModel
 
     this.player = new PlayerInstance(this, HERO_INSTANCE_ID, {
@@ -56,19 +56,41 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.startFollow(this.player.sprite)
   }
 
+  addPlayerInstance() {
+    this.initializePlayerInstance()
+    this.unregisterRelations()
+    this.registerRelations()
+  }
+
   removePlayerInstance() {
     this.player.particles.destroy()
     this.player.destroy()
     this.player = null
   }
 
-  addObjectInstance(id, gameObject) {
+  initializeObjectInstance(id, gameObject) {
     const newPhaserObject = new ObjectInstance(this, id, gameObject)
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[id] = newPhaserObject
+  }
 
+  addObjectInstance(id, gameObject) {
+    this.initializeObjectInstance(id, gameObject)
     this.unregisterRelations()
     this.registerRelations()
+  }
+
+  removeObjectInstance(id) {
+    this.objectInstances = this.objectInstances.filter((object) => {
+      return id !== object.id
+    })
+    this.getObjectInstance(id).destroy()
+  }
+
+  updateObjectInstance(objectInstance, {x, y, rotation}) {
+    if(x) objectInstance.sprite.x = x;
+    if(y) objectInstance.sprite.y = y;
+    if(rotation) objectInstance.sprite.rotation = rotation;
   }
 
   registerRelations() {
@@ -89,22 +111,6 @@ export class GameInstance extends Phaser.Scene {
     // })
 
     this.playgroundLayer.unregisterRelations()
-  }
-
-  removeObjectInstance(id) {
-    this.objectInstances = this.objectInstances.filter((object) => {
-      return id !== object.id
-    })
-    this.getObjectInstance(id).destroy()
-
-    this.unregisterRelations()
-    this.registerRelations()
-  }
-
-  updateObjectInstance(objectInstance, {x, y, rotation}) {
-    if(x) objectInstance.sprite.x = x;
-    if(y) objectInstance.sprite.y = y;
-    if(rotation) objectInstance.sprite.rotation = rotation;
   }
 
   getSpriteTexture(textureId) {
@@ -217,7 +223,10 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // OBJECTS
     ////////////////////////////////////////////////////////////
-    this.objectInstances = Object.keys(gameModel.objects).map((gameObjectId) => {
+    this.objectInstances = []
+    this.objectInstancesById = {}
+
+    Object.keys(gameModel.objects).forEach((gameObjectId) => {
       const objectInstanceData = gameModel.objects[gameObjectId]
       if(!objectInstanceData) {
         return console.error('Object missing!')
@@ -229,25 +238,19 @@ export class GameInstance extends Phaser.Scene {
         return console.log('missing classId!!', objectInstanceData)
       }
 
-      return new ObjectInstance(this, gameObjectId, gameModel.objects[gameObjectId])
+      this.initializeObjectInstance(gameObjectId, objectInstanceData)
     });
 
     this.objectInstances = this.objectInstances.filter((objectInstance) => {
       return !!objectInstance
     })
 
-    this.objectInstancesById = this.objectInstances.reduce((prev, next) => {
-      prev[next.id] = next 
-      return prev
-    }, {})
-
-
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     // HERO
     ////////////////////////////////////////////////////////////
-    this.addPlayerInstance()
+    this.initializePlayerInstance()
 
 
     this.registerRelations()

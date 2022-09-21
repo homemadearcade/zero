@@ -11,6 +11,7 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
     scene.add.existing(this)
 
     this.setZoom(zoom)
+    this.setVisible(false)
 
     scene.uiLayer.add([this])
     return this

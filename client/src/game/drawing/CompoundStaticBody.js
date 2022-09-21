@@ -3,6 +3,7 @@ import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS } from "../../consta
 
 export class CompoundStaticBody {
   constructor(scene, {parts, width, height, nodeWidth, nodeHeight}){
+    this.scene = scene
 
     if(scene.physicsType === MATTER_PHYSICS) {
       this.group = new Phaser.Physics.Matter.Sprite(scene.matter.world, 0 + width/2, 0 + width/2, null, { isStatic: true })
@@ -57,7 +58,13 @@ export class CompoundStaticBody {
   }
 
   destroy() {
-    this.group.destroy()
+    if(this.scene.physicsType === MATTER_PHYSICS) {
+      this.group.destroy()
+    } else if(this.scene.physicsType === ARCADE_PHYSICS) {
+      this.group.forEach((sprite) => {
+        sprite.destroy()
+      })
+    }
   }
 }
 

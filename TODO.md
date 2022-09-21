@@ -30,49 +30,22 @@ ADDITIONAL FEATURES IN ADD CLASS
 
 -
 
+Set initial velocity and acceleration?
+
 Projectile Editor
 
 Whether something is spawned or not needs to be instance level? or class level? Whats that look like? How to change? How to represent?
 
-World Loop Switch, does the checkbox for this go in sections editor?
-
-Movement Area Boundary Interface..?
-
 World Effects like gravity change.. and?? other?
-
-Area that is only collidable with 1 class, how do we add that UI -wise???
-Exclusive Collisions between two
-
-ARCADE VS MATTER
-  - Matter can do rotational collisions. Shit gets hit and spins around and stuff
-  - Arcade can NOT rotate
-  - Arcade can check easily where a collision occured - upleftrightdown
-  - Static objects in matter can only move position, not via velocity or thrust or force
-  - Arcade has immovable vs pushable. These are two different concepts
-
-Have to decide what to do... would suck to have to do two interfaces for everything. Unless we limited it to just what Arcade Physics can do...What can arcade physics do that matter physics toggle that matter physics cant?
-
-Does having 'path system' do anything? Does that resolve movement?
-
-What sort of games will come out of Matter JS, what sort of games will come out of Arcade? What are the real design strengths?
-What sort of gameplays? What sort of stories, What sort of world is this?
-
-POSSIBLE ADDITIONS
-
-Set Initial Velocity
-Rope
-'shoot'
-Create Force ( like a bomb type thing )
 
 --
 
 WARMUPS
  
-Rotate
+
 Resize
 Change BG Color
 Put + inside of grid
-Movement Area Boundary
 
 --
 
@@ -121,11 +94,6 @@ Resizing object on map
 
 TODO FEATURES
 
-If class is on background or foreground it should have isSensor: true in Constructor
-or - Collision Category?
-
-Create custom physics grid for custom sprite for swords
-
 Clearer Autosave Indicator
 
 Spray Can, Paintbrush, Crayon?
@@ -171,7 +139,7 @@ this.isHost this.isLocal should I save? should I cobrowse, should I send remote 
 
 Seperate more reducers?
 
-Game Modal class? for like getting data from redux  so we can get game data with functions
+Game Model class? for like getting data from redux  so we can get game data with functions
 
 So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
 
@@ -179,7 +147,15 @@ So for the redirect its possible we can just pass it as a prop to the 'login' co
 
 TODO FEATURES ( MAYBE )
 
-Sensor on every side of the game object?
+MATTER
+  If class is on background or foreground it should have isSensor: true in Constructor
+  or - Collision Category?
+
+  circle for objectInstance body?
+
+  Create custom physics grid for custom sprite for swords
+
+  Sensor on every side of the game object?
 
 Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
@@ -198,8 +174,6 @@ Unlock snap to grid?
 Lock to cobrowsers camera
 
 Right click -> snap camera to section? regardless if you are in section or not?
-
-circle for objectInstance body?
 
 ID system? is that smart? Like be able to figure out what anything is based on its id?
 

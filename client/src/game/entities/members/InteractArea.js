@@ -17,6 +17,7 @@ export class InteractArea extends Sprite {
     this.setSize(this.size, this.size)
     this.setIgnoreGravity(true)
     this.setImmovable(true)
+    this.setVisible(false)
 
     this.unregisters = []
     this.interactables = []
