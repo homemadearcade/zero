@@ -139,6 +139,8 @@ right click brush - copy to layer X, delete, open in sprite editor
 
 TODO CHORES 
 
+Look up x, y, on sprite should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
+
 VALIDATION ON ALL FORMS
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 

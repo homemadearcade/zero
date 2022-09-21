@@ -12,10 +12,10 @@ export class Eraser extends Brush {
     this.createPreviewLayers()
     this.setBlendMode(BlendModes.ERASE)
 
-    this.outline = scene.add.graphics();
-    this.outline.lineStyle(4, 0xffffff, 1);
-    this.outline.strokeRect(0, 0, this.width, this.height);
-    scene.uiLayer.add(this.outline)
+    this.border = scene.add.graphics();
+    this.border.lineStyle(4, 0xffffff, 1);
+    this.border.strokeRect(0, 0, this.width, this.height);
+    scene.uiLayer.add(this.border)
 
     this.isEraser = true
     this.snapMethod = snapEraserXY
@@ -29,7 +29,7 @@ export class Eraser extends Brush {
   update(pointer) {
     super.update(pointer)
 
-    this.outline.setPosition(this.x, this.y)
+    this.border.setPosition(this.x, this.y)
 
     if(this.x === this.lastUpdateX && this.y === this.lastUpdateY) return
     
@@ -93,7 +93,7 @@ export class Eraser extends Brush {
 
   destroy() {
     super.destroy()
-    this.outline.destroy()
+    this.border.destroy()
     this.lowerLayerPreviews.forEach((preview) => {
       preview.destroy()
     })

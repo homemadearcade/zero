@@ -1,56 +1,35 @@
 import Phaser from "phaser";
 import { DEFAULT_TEXTURE_ID, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_NOT_ALLOWED, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, MOVEMENT_SIDE_TO_SIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY, ON_SPAWN } from "../../constants";
 import store from "../../store";
-import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { isEventMatch } from "../../utils/gameUtils";
 import { getTextureMetadata } from "../../utils/utils";
+import { Entity } from "./Entity";
 import { MovingPlatformSensor } from "./MovingPlatformSensor";
 
-export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
+export class ObjectInstance extends Entity {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
     const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     const attributes = objectClass.attributes
-    
-    const plugin = { 
-      wrap: {
-        min: {
-          x: gameModel.world.boundaries.x,
-          y: gameModel.world.boundaries.y
-        },
-        max: {
-          x: gameModel.world.boundaries.width,
-          y: gameModel.world.boundaries.height
-        }            
-      }
-    }
 
-    if(!spriteSheetName) {
-      super(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
-      this.outline2 = scene.add.image(spawnX, spawnY, textureId)
-    } else {
-      super(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
-      this.outline2 = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
-    }
+    super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName }, { useEditor: true })
     
-    // this.scene.matter.add.rectangle(spawnX, spawnY, objectClass.width, objectClass.height, { restitution: 0.9, plugin });
-
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // EDITOR
-    this.setInteractive();
-    scene.input.setDraggable(this)
-    this.outline2.setTintFill(0xffffff)
-    .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
-    .setVisible(false)
+    // OUTLINE
+    if(this.sprite.outline) {
+      this.sprite.outline.setTintFill(0xffffff)
+      .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
+      .setVisible(false)
+    }
     const cornerX = -objectClass.width/2
     const cornerY = -objectClass.height/2
-    this.outline = scene.add.graphics();
-    this.outline.lineStyle(4, 0xffffff, 1);
-    this.outline.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
-    this.outline.setVisible(false)
+    this.border = scene.add.graphics();
+    this.border.lineStyle(4, 0xffffff, 1);
+    this.border.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
+    this.border.setVisible(false)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -58,17 +37,22 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     this.id = id
     this.classId = classId
     this.scene = scene
+    this.sprite.id = id
+    this.sprite.classId = classId
     this.width = objectClass.width
     this.height = objectClass.height
-    scene.add.existing(this)
-    scene.uiLayer.add([this.outline, this.outline2])
-    scene.objectInstanceLayer.add(this)
-    scene.objectInstanceGroup.add(this)
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // SCENE
+    scene.uiLayer.add(this.border)
+    scene.objectInstanceLayer.add(this.sprite)
+    scene.objectInstanceGroup.add(this.sprite)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // PHYSICS 
-    this.setDisplaySize(objectClass.width, objectClass.height)
+    this.setSize(objectClass.width, objectClass.height)
     this.setBounce(objectClass.bounciness)
     this.setFriction(objectClass.friction)
     this.setFrictionAir(objectClass.frictionAir)
@@ -78,17 +62,14 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     } else {
       this.setDensity(objectClass.density)
     }
-    if(attributes.fixedRotation) this.setFixedRotation()
+    this.setFixedRotation(attributes.fixedRotation)
     this.setIgnoreGravity(attributes.ignoreGravity)
     this.setStatic(attributes.static)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VFX
-    if(objectClass.tint) {
-      const colorInt = getHexIntFromHexString(objectClass.tint)
-      this.setTint(colorInt)
-    }
+    if(objectClass.tint) this.setTint(objectClass.tint)
     this.setVisible(!attributes.invisible)
 
     //////////////////////////////////////////////////////////////
@@ -127,14 +108,11 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     //   this.movingPlatformSensor = new MovingPlatformSensor(scene, { color: 0x0000FF, width: this.width, parent: this})
     // }
 
-
-    this.setAngle(30)
-
     return this
   }
 
   registerRelationships(objectClass) {
-
+    return
   /*
     EFFECTS 
       NARRATIVE
@@ -226,7 +204,7 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
       this.spawn()
     } else if(effect.id === EFFECT_RECLASS) {
       this.scene.removeObjectInstance(this.id)
-      this.scene.addObjectInstance(this.id, {x: this.x, y: this.y, classId: effect.classId})
+      this.scene.addObjectInstance(this.id, {spawnX: this.x, spawnY: this.y, classId: effect.classId})
     }
 
     // NARRATIVE
@@ -279,11 +257,11 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
     //   this.movingPlatformSensor.update(this)
     // }
 
-    if(true || this.outline.visible) {
-      this.outline.setPosition(this.x, this.y)
-      this.outline.setRotation(this.rotation)
-      this.outline2.setPosition(this.x, this.y)
-      this.outline2.setRotation(this.rotation)
+    if(true || this.border.visible) {
+      this.border.setPosition(this.sprite.x, this.sprite.y)
+      this.border.setRotation(this.sprite.rotation)
+      this.sprite.outline.setPosition(this.sprite.x, this.sprite.y)
+      this.sprite.outline.setRotation(this.sprite.rotation)
     }
 
     // const movementPattern = objectClass.movement.pattern
@@ -293,8 +271,8 @@ export class ObjectInstance extends Phaser.Physics.Matter.Sprite {
   }
 
   destroy() {
-    this.outline.destroy()
-    this.outline2.destroy()
+    this.border.destroy()
+    this.sprite.outline.destroy()
     // if(this.movingPlatformSensor) this.movingPlatformSensor.destroy()
 
     super.destroy()

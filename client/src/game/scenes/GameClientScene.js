@@ -23,14 +23,14 @@ export class GameClientScene extends EditorScene {
     })
 
     if(this.draggingObjectInstanceId === HERO_INSTANCE_ID) return
-    this.player.x = player.x 
-    this.player.y = player.y
-    this.player.rotation = player.rotation
+    this.player.sprite.x = player.x 
+    this.player.sprite.y = player.y
+    this.player.sprite.rotation = player.rotation
   }
 
   create() {
     super.create()
-    this.matter.pause()
+    this.pause()
     window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }

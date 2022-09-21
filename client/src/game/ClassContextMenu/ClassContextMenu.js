@@ -8,6 +8,8 @@ import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLiveProjectileEditor, onMenuItemClick, openLiveMovementEditor,  game: { gameModel }, classId }) => {
   const objectClass = gameModel.classes[classId]
 
+  console.log(classId, objectClass)
+
   return <>
     <Unlockable interfaceId="contextMenu/class/physics">
       <MenuItem onClick={() => {

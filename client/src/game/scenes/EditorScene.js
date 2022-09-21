@@ -38,32 +38,32 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   // DRAG
    ////////////////////////////////////////////////////////////
-  onDragStart = (pointer, objectInstance, dragX, dragY) => {
+  onDragStart = (pointer, entitySprite, dragX, dragY) => {
     if(this.draggingObjectInstanceId) {
       const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
       const objectClass= store.getState().game.gameModel.classes[classId]
       const { snappedX, snappedY } = snapObjectXY({x: dragX, y: dragY}, objectClass)
-      objectInstance.x = snappedX;
-      objectInstance.y = snappedY;
+      entitySprite.x = snappedX;
+      entitySprite.y = snappedY;
     } else if(!this.brush && !this.stamper && !this.cameraDragStart){
-      this.draggingObjectInstanceId = objectInstance.id
+      this.draggingObjectInstanceId = entitySprite.id
     }
   }
 
-  onDragEnd = (pointer, objectInstance) => {
-    if(objectInstance.id === HERO_INSTANCE_ID) {
+  onDragEnd = (pointer, entitySprite) => {
+    if(entitySprite.id === HERO_INSTANCE_ID) {
       store.dispatch(editGameModel({ 
         hero: {
-          spawnX: objectInstance.x,
-          spawnY: objectInstance.y
+          spawnX: entitySprite.x,
+          spawnY: entitySprite.y
         }
       }))
     } else {
       store.dispatch(editGameModel({ 
         objects: {
-          [objectInstance.id]: {
-            spawnX: objectInstance.x,
-            spawnY: objectInstance.y
+          [entitySprite.id]: {
+            spawnX: entitySprite.x,
+            spawnY: entitySprite.y
           }
         }
       }))
@@ -132,10 +132,9 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  onPointerOver = (pointer, objectInstances) => {
+  onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
-    // objectInstances[0].outline.setVisible(true)
-    objectInstances[0].outline2.setVisible(true)
+    entitySprite[0].outline.setVisible(true)
   }
 
   onPointerDown = (pointer, gameObjects) => {
@@ -197,12 +196,11 @@ export class EditorScene extends GameInstance {
     if(this.stamper) this.destroyStamp()
   }
 
-  onPointerOut = (pointer, gameObjects) => {
-    // gameObjects[0].outline.setVisible(false)
-    gameObjects[0].outline2.setVisible(false)
+  onPointerOut = (pointer, entitySprite) => {
+    entitySprite[0].outline.setVisible(false)
   }
 
-  onPointerUpOutside = (pointer, objectInstances)  => {
+  onPointerUpOutside = (pointer)  => {
     this.draggingObjectInstanceId = null
     this.cameraDragStart = null
 
@@ -299,11 +297,11 @@ export class EditorScene extends GameInstance {
       const currentGravity = store.getState().game.gameModel.world.gravity
 
       if(typeof gravity?.x === 'number' && typeof gravity?.y === 'number') {
-        this.matter.world.setGravity(gravity.x, gravity.y)
+        this.world.setGravity(gravity.x, gravity.y)
       } else if(typeof gravity?.x === 'number') {
-        this.matter.world.setGravity(gravity.x, currentGravity.y)
+        this.world.setGravity(gravity.x, currentGravity.y)
       } else if(typeof gravity?.y === 'number') {
-        this.matter.world.setGravity(currentGravity.x, gravity.y)
+        this.world.setGravity(currentGravity.x, gravity.y)
       }
     }
 
@@ -323,7 +321,7 @@ export class EditorScene extends GameInstance {
       const gameY = gameModel.world.boundaries.y
       this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
       // this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
-      this.setWorldBounds(gameModel.world.boundaries)
+      this.world.setBoundaries(gameModel.world.boundaries)
 
       this.createGrids()
     }
@@ -358,8 +356,8 @@ export class EditorScene extends GameInstance {
       }
       
       if(typeof objectUpdate.spawnX === 'number' || typeof objectUpdate.spawnY === 'number') {
-        objectInstance.x = objectUpdate.spawnX
-        objectInstance.y = objectUpdate.spawnY
+        objectInstance.sprite.x = objectUpdate.spawnX
+        objectInstance.sprite.y = objectUpdate.spawnY
       }
     })
 

@@ -17,30 +17,30 @@ export class PlayerInstance extends ObjectInstance {
       speed: {
         onEmit: (particle, key, t, value) =>
         {
-          return this.body.speed * 10;
+          return this.sprite.body.speed * 10;
         }
       },
       lifespan: {
         onEmit: (particle, key, t, value) =>
         {
-          return Phaser.Math.Percent(this.body.speed, 0, 300) * 40000;
+          return Phaser.Math.Percent(this.sprite.body.speed, 0, 300) * 40000;
         }
       },
       alpha: {
         onEmit: (particle, key, t, value) =>
         {
-          return Phaser.Math.Percent(this.body.speed, 0, 300) * 1000;
+          return Phaser.Math.Percent(this.sprite.body.speed, 0, 300) * 1000;
         }
       },
       scale: { start: 1.0, end: 0 },
       blendMode: 'ADD'
     });
 
-    this.emitter.startFollow(this);
+    this.emitter.startFollow(this.sprite);
 
     this.scene = scene
-    scene.playerInstanceLayer.add(this)
-    scene.playerInstanceGroup.add(this)
+    scene.playerInstanceLayer.add(this.sprite)
+    scene.playerInstanceGroup.add(this.sprite)
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 
@@ -56,35 +56,35 @@ export class PlayerInstance extends ObjectInstance {
     }
 
     this.xKey = scene.input.keyboard.addKey('X');  // Get key object
-    this.interactArea = new InteractArea(this.scene, {color: 0x0000FF, size: this.width * 3 })
+    // this.interactArea = new InteractArea(this.scene, {color: 0x0000FF, size: this.width * 3 })
     
     this.interactables = []
-    objectClass.relationships.forEach(({classId, event, effect}) => {
-      if(event === ON_INTERACT) {
-        this.scene.matterCollision.addOnCollideActive({
-          objectA: this.interactArea,
-          callback: eventData => {
-            const { gameObjectB } = eventData;
-            if(gameObjectB === this) return
-            if(!gameObjectB) return
-            if(classId === gameObjectB.classId) {
-              this.interactables.push({gameObject: gameObjectB, effect})
-            }
-          }
-        })
-        this.scene.matterCollision.addOnCollideEnd({
-          objectA: this.interactArea,
-          callback: eventData => {
-            const { gameObjectB } = eventData;
-            if(gameObjectB === this) return
-            if(!gameObjectB) return
-            if(classId === gameObjectB.classId) {
-              gameObjectB.outline.setVisible(false)
-            }
-          }
-        })
-      }
-    })
+    // objectClass.relationships.forEach(({classId, event, effect}) => {
+    //   if(event === ON_INTERACT) {
+    //     this.scene.matterCollision.addOnCollideActive({
+    //       objectA: this.interactArea,
+    //       callback: eventData => {
+    //         const { gameObjectB } = eventData;
+    //         if(gameObjectB === this) return
+    //         if(!gameObjectB) return
+    //         if(classId === gameObjectB.classId) {
+    //           this.interactables.push({gameObject: gameObjectB, effect})
+    //         }
+    //       }
+    //     })
+    //     this.scene.matterCollision.addOnCollideEnd({
+    //       objectA: this.interactArea,
+    //       callback: eventData => {
+    //         const { gameObjectB } = eventData;
+    //         if(gameObjectB === this) return
+    //         if(!gameObjectB) return
+    //         if(classId === gameObjectB.classId) {
+    //           gameObjectB.border.setVisible(false)
+    //         }
+    //       }
+    //     })
+    //   }
+    // })
 
     return this
   }
@@ -106,8 +106,8 @@ export class PlayerInstance extends ObjectInstance {
 
     const cameraSize = gameMaxWidth/objectClass.camera.zoom
 
-    this.cameraPreview.update({x: this.x - cameraSize/2, y: this.y - cameraSize/2}, true)
-    this.interactArea.update({x: this.x, y: this.y, angle: this.angle})
+    this.cameraPreview.update({x: this.sprite.x - cameraSize/2, y: this.sprite.y - cameraSize/2}, true)
+    // this.interactArea.update({x: this.sprite.x, y: this.sprite.y, angle: this.sprite.angle})
 
     if(this.scene.isPaused) return
 
@@ -142,8 +142,8 @@ export class PlayerInstance extends ObjectInstance {
     }
 
     this.interactables.forEach(({gameObject, effect}) => {
-      gameObject.outline.setVisible(false)
-      const distance = Phaser.Math.Distance.Between(gameObject.x, gameObject.y, this.x, this.y)
+      gameObject.border.setVisible(false)
+      const distance = Phaser.Math.Distance.Between(gameObject.x, gameObject.y, this.sprite.x, this.sprite.y)
       const { closestDistance } = interactPossibility
       if(distance < closestDistance) {
         interactPossibility.closestDistance = distance
@@ -153,7 +153,7 @@ export class PlayerInstance extends ObjectInstance {
     })
     
     const { closestInteractable, effect } = interactPossibility
-    if(closestInteractable) closestInteractable.outline.setVisible(true)
+    if(closestInteractable) closestInteractable.border.setVisible(true)
     if(closestInteractable && this.xKey.isDown) {
       this.runEffect(effect, closestInteractable)
     }
@@ -175,7 +175,7 @@ export class PlayerInstance extends ObjectInstance {
   destroy() {
     // this.particles.destroy()
     this.cameraPreview.destroy()
-    this.interactArea.destroy()
+    // this.interactArea.destroy()
     super.destroy()
   }
 }

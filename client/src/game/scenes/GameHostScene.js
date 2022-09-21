@@ -60,10 +60,10 @@ export class GameHostScene extends EditorScene {
       const isGamePaused = lobby.isGamePaused
       if(isGamePaused) {
         this.isPaused = true
-        this.matter.pause()
+        this.pause()
       } else {
         this.isPaused = false
-        this.matter.resume()
+        this.resume()
       }
     }
   }

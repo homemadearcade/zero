@@ -9,6 +9,7 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { nodeSize } from '../../defaultData/general';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
+import { World } from '../entities/World';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key }) {
@@ -50,7 +51,7 @@ export class GameInstance extends Phaser.Scene {
       spawnY: gameModel.hero.spawnY
     });
 
-    this.cameras.main.startFollow(this.player)
+    this.cameras.main.startFollow(this.player.sprite)
   }
 
   removePlayerInstance() {
@@ -73,9 +74,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   updateObjectInstance(objectInstance, {x, y, rotation}) {
-    if(x) objectInstance.x = x;
-    if(y) objectInstance.y = y;
-    if(rotation) objectInstance.rotation = rotation;
+    if(x) objectInstance.sprite.x = x;
+    if(y) objectInstance.sprite.y = y;
+    if(rotation) objectInstance.sprite.rotation = rotation;
   }
 
   getSpriteTexture(textureId) {
@@ -118,14 +119,6 @@ export class GameInstance extends Phaser.Scene {
     console.error('didnt find layer with id', canvasId, typeof canvasId)
   }
 
-  setWorldBounds(boundaries) {
-    const gameWidth = boundaries.width
-    const gameHeight = boundaries.height
-    const gameX = boundaries.x
-    const gameY = boundaries.y
-    this.matter.world.setBounds(gameX, gameY, gameWidth, gameHeight);
-  }
-
   createGrids() {
     // const gameModel = store.getState().game.gameModel
     // const gameMaxWidth = gameModel.world.boundaries.maxWidth
@@ -159,8 +152,7 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // WORLD
     ////////////////////////////////////////////////////////////
-    this.matter.world.setGravity(gameModel.world.gravity.x, gameModel.world.gravity.y)
-    if(!gameModel.world.boundaries.loop) this.setWorldBounds(gameModel.world.boundaries)
+    this.world = new World(this, gameModel.world)
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -239,7 +231,7 @@ export class GameInstance extends Phaser.Scene {
     const gameY = gameModel.world.boundaries.y
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
-    this.cameras.main.startFollow(this.player, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
+    this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
 
     this.events.on('postupdate', function(time, delta){
@@ -295,5 +287,12 @@ export class GameInstance extends Phaser.Scene {
   unload() {
     // We want to keep the assets in the cache and leave the renderer for reuse.
     this.game.destroy(true);
+  }
+
+  pause() {
+    this.matter.pause()
+  }
+  resume() {
+    this.matter.resume()
   }
 }
