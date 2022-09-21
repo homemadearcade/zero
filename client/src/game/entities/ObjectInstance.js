@@ -19,8 +19,8 @@ export class ObjectInstance extends Entity {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // OUTLINE
-    if(this.sprite.outline) {
-      this.sprite.outline.setTintFill(0xffffff)
+    if(this.sprite.highlight) {
+      this.sprite.highlight.setTintFill(0xffffff)
       .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
       .setVisible(false)
     }
@@ -55,7 +55,7 @@ export class ObjectInstance extends Entity {
     this.setSize(objectClass.width, objectClass.height)
     this.setBounce(objectClass.bounciness)
     this.setFriction(objectClass.friction)
-    this.setFrictionAir(objectClass.frictionAir)
+    this.setDrag(objectClass.drag)
     this.setFrictionStatic(objectClass.frictionStatic)
     if(attributes.useMass) {
       this.setMass(objectClass.mass)
@@ -64,7 +64,7 @@ export class ObjectInstance extends Entity {
     }
     this.setFixedRotation(attributes.fixedRotation)
     this.setIgnoreGravity(attributes.ignoreGravity)
-    this.setStatic(attributes.static)
+    this.setImmovable(attributes.immovable)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ export class ObjectInstance extends Entity {
 
     if(objectClass.unspawned) {
       this.setVisible(false)
-      this.setCollisionCategory(null);
+      this.setCollideable(false);
     } else {
       this.spawn()
     }
@@ -173,7 +173,7 @@ export class ObjectInstance extends Entity {
   runRestore(effect, agent) {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
-    this.setCollisionCategory(1);
+    this.setCollideable(true);
     
     // MOVEMENT
     if(effect.id === EFFECT_IGNORE_GRAVITY) {
@@ -225,7 +225,7 @@ export class ObjectInstance extends Entity {
   spawn() {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
-    this.setCollisionCategory(1);
+    this.setCollideable(true);
     this.setVisible(!objectClass.attributes.invisible)
     objectClass.relationships.forEach(({classId, event, effect}) => {
       if(event === ON_SPAWN) {
@@ -260,8 +260,8 @@ export class ObjectInstance extends Entity {
     if(true || this.border.visible) {
       this.border.setPosition(this.sprite.x, this.sprite.y)
       this.border.setRotation(this.sprite.rotation)
-      this.sprite.outline.setPosition(this.sprite.x, this.sprite.y)
-      this.sprite.outline.setRotation(this.sprite.rotation)
+      this.sprite.highlight.setPosition(this.sprite.x, this.sprite.y)
+      this.sprite.highlight.setRotation(this.sprite.rotation)
     }
 
     // const movementPattern = objectClass.movement.pattern
@@ -272,7 +272,7 @@ export class ObjectInstance extends Entity {
 
   destroy() {
     this.border.destroy()
-    this.sprite.outline.destroy()
+    this.sprite.highlight.destroy()
     // if(this.movingPlatformSensor) this.movingPlatformSensor.destroy()
 
     super.destroy()

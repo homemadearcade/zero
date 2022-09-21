@@ -161,13 +161,13 @@ export class PlayerInstance extends ObjectInstance {
   }
 
   destroyInGame() {
-    this.setCollisionCategory(null);
+    this.setCollideable(false);
     this.setVisible(false)
     this.particles.setVisible(false)
   }
 
   respawn() {
-    this.setCollisionCategory(1);
+    this.setCollideable(true);
     this.setVisible(true)
     this.particles.setVisible(true)
   }

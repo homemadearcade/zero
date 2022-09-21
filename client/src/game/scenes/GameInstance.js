@@ -4,7 +4,7 @@ import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, DEFAULT_TEXTURE_ID } from '../../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ARCADE_PHYSICS } from '../../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { nodeSize } from '../../defaultData/general';
@@ -23,6 +23,8 @@ export class GameInstance extends Phaser.Scene {
     this.foregroundLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
+
+    this.physicsType = ARCADE_PHYSICS
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {

@@ -18,7 +18,7 @@ CREATE CLASS UI
 
 ADD CLASS
   Sprite
-  Collision
+  Reactivity
   Movement
   Visual Effects
   Relationships
@@ -59,7 +59,6 @@ What sort of gameplays? What sort of stories, What sort of world is this?
 
 POSSIBLE ADDITIONS
 
-Why isnt friction working?
 Set Initial Velocity
 Rope
 'shoot'

@@ -22,7 +22,7 @@ export const spaceshipClass = {
   ...defaulHeroClass,
   ...defaultPhaserPhysicsProperties,
   "jumpVelocity": 0,
-  "frictionAir": 0.1,
+  "drag": 0.1,
   "density": .01,
   attributes: {
     "fixedRotation": true,

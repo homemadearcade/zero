@@ -134,7 +134,7 @@ export class EditorScene extends GameInstance {
 
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
-    entitySprite[0].outline.setVisible(true)
+    entitySprite[0].highlight.setVisible(true)
   }
 
   onPointerDown = (pointer, gameObjects) => {
@@ -197,7 +197,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, entitySprite) => {
-    entitySprite[0].outline.setVisible(false)
+    entitySprite[0].highlight.setVisible(false)
   }
 
   onPointerUpOutside = (pointer)  => {
@@ -374,9 +374,9 @@ export class EditorScene extends GameInstance {
           object.setFriction(classUpdate.friction)
         })
       }
-      if(classUpdate.frictionAir >= 0) {
+      if(classUpdate.drag >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setFrictionAir(classUpdate.frictionAir)
+          object.setDrag(classUpdate.drag)
         })
       }
       if(classUpdate.frictionStatic >= 0) {

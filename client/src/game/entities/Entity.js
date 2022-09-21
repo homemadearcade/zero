@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { ARCADE_PHYSICS, MATTER_PHYSICS } from "../../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 
@@ -21,10 +22,10 @@ export class Entity {
 
     if(!spriteSheetName) {
       this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
-      if(useEditor) this.sprite.outline = scene.add.image(spawnX, spawnY, textureId)
+      if(useEditor) this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
     } else {
       this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
-      if(useEditor) this.sprite.outline = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
+      if(useEditor) this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
     }
     
     // this.scene.matter.add.rectangle(spawnX, spawnY, objectClass.width, objectClass.height, { restitution: 0.9, plugin });
@@ -35,59 +36,12 @@ export class Entity {
     if(useEditor) {
       this.sprite.setInteractive();
       scene.input.setDraggable(this.sprite)
-      scene.uiLayer.add(this.sprite.outline)
+      scene.uiLayer.add(this.sprite.highlight)
     }
 
+    this.physicsType = scene.physicsType
+
     return this
-  }
-
-  setPosition(x, y) {
-    this.sprite.setPosition(x, y)
-  }
-
-  setTint(tint) {
-    const colorInt = getHexIntFromHexString(tint)
-    this.sprite.setTint(colorInt)
-  }
-
-  setSize(width, height) {
-    this.sprite.setDisplaySize(width, height)
-  }
-
-  setBounce(bounciness) {
-    this.sprite.setBounce(bounciness)
-  }
-
-  setFriction(friction) {
-    this.sprite.setFriction(friction)
-  }
-
-  setFrictionAir(friction) {
-    this.sprite.setFrictionAir(friction)
-  }
-
-  setFrictionStatic(friction) {
-    this.sprite.setFrictionStatic(friction)
-  }
-
-  setMass(mass) {
-    this.sprite.setMass(mass)
-  }
-
-  setDensity(density) {
-    this.sprite.setDensity(density)
-  }
-
-  setFixedRotation(isFixed) {
-    if(isFixed) this.setFixedRotation()
-  } 
-
-  setIgnoreGravity(ignore) {
-    this.sprite.setIgnoreGravity(ignore)
-  }
-
-  setStatic(isStatic) {
-    this.sprite.setStatic(isStatic)
   }
 
   setActive(active) {
@@ -98,20 +52,144 @@ export class Entity {
     this.sprite.setAngle(angle)
   }
 
-  setRotation(rotation) {
-    this.sprite.setRotation(rotation)
+  setAlpha(alpha) {
+    this.sprite.setAlpha(alpha)
   }
 
-  setVisible(visible) {
-    this.sprite.setVisible(visible)
+  setAcceleration(acceleration) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting acc under matter')
+      return
+    }
+    this.sprite.setAcceleration(acceleration)
   }
 
-  setCollisionCategory(category) {
-    this.sprite.setCollisionCategory(category)
+  setAngularAcceleration(acceleration) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting angular acc under matter')
+      return
+    }
+    this.sprite.setAngularAcceleration(acceleration)
+  }
+
+  setAngularDrag(drag) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting angular drag under matter')
+      return
+    }
+    this.sprite.setAngularDrag(drag)
   }
 
   setAngularVelocity(velocity) {
     this.sprite.setAngularVelocity(velocity)
+  }
+
+  setBounce(bounciness) {
+    this.sprite.setBounce(bounciness)
+  }
+
+  setCollideable(collideable) {
+    if(this.physicsType !== MATTER_PHYSICS) {
+      console.log('setting collideable under not matter')
+
+      return
+    }
+
+    if(collideable) {
+      this.sprite.setCollisionCategory(1)
+    } else {
+      this.sprite.setCollisionCategory(null)
+    }
+  }
+
+  setCollisionCategory(category) {
+    if(this.physicsType !== MATTER_PHYSICS) {
+      console.log('setting collision category under not matter')
+
+      return
+    }
+    this.sprite.setCollisionCategory(category)
+  }
+
+  setDensity(density) {
+    if(this.physicsType === ARCADE_PHYSICS) {
+      console.log('setting density under arcade')
+      return
+    }
+    this.sprite.setDensity(density)
+  }
+
+  setDrag(friction) {
+    this.sprite.setFrictionAir(friction)
+  }
+
+  setFriction(friction) {
+    this.sprite.setFriction(friction)
+  }
+
+  setFixedRotation(isFixed) {
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.sprite.body.setAllowRotation(!isFixed)
+      return
+    }
+    if(isFixed) this.setFixedRotation()
+  }
+  
+  setFrictionStatic(friction) {
+    if(this.physicsType === ARCADE_PHYSICS) {
+      console.log('setting friction static under arcade')
+      return
+    }
+    this.sprite.setFrictionStatic(friction)
+  }
+
+  setIgnoreGravity(ignore) {
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.sprite.body.setAllowGravity(!ignore)
+      return
+    }
+    this.sprite.setIgnoreGravity(ignore)
+  }
+
+  setImmovable(isStatic) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      this.sprite.setStatic(isStatic)
+      return
+    }
+    this.sprite.setImmovable(isStatic)
+  }
+
+  setMass(mass) {
+    this.sprite.setMass(mass)
+  }
+
+  setPosition(x, y) {
+    this.sprite.setPosition(x, y)
+  }
+
+  setPushable(pushable) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting pushable under matter')
+      return
+    }
+    this.sprite.setPushable(pushable)
+  }
+
+  setRotation(rotation) {
+    this.sprite.setRotation(rotation)
+  }
+
+  setSize(width, height) {
+    this.sprite.setDisplaySize(width, height)
+  }
+
+  setTint(tint) {
+    const colorInt = getHexIntFromHexString(tint)
+    this.sprite.setTint(colorInt)
+  }
+
+  setVisible(visible) {
+    this.sprite.setVisible(visible)
   }
 
   setVelocity(x, y) {
@@ -119,7 +197,11 @@ export class Entity {
   }
 
   thrust(thrust) {
-    this.sprite.thrust(thrust)
+    if(this.physicsType === MATTER_PHYSICS) {
+      this.sprite.thrust(thrust)
+    } else {
+      this.sprite.body.acceleration.setToPolar(this.sprite.rotation, thrust);
+    }
   }
 
   destroy() {

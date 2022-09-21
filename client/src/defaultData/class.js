@@ -31,7 +31,7 @@ export const defaultObjectClass = {
   },
   unspawned: false,
   "attributes": {
-    // Collision
+    // Reactivity
     // ignoreGravity: false,
     // fixedRotation: false,
     // useMass: false,
