@@ -1,4 +1,4 @@
-import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
+import { EFFECT_COLLIDE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general";
 
 export const defaultObjectClass = {
@@ -12,14 +12,24 @@ export const defaultObjectClass = {
   "controls": null,
   unspawned: false,
   worldBoundaryRelationship: WORLD_COLLIDE, // wrap, destroy
-  relations: [{
-    classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
-    event: ON_COLLIDE,
-    effect: {
-      id: EFFECT_INVISIBLE
+  relations: [
+    {
+      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+      event: ON_COLLIDE,
+      effect: {
+        id: EFFECT_STICK_TO
+      },
+      sides: [SIDE_LEFT]
     },
-    sides: [SIDE_LEFT]
-  }],
+    {
+      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+      event: ON_COLLIDE,
+      effect: {
+        id: EFFECT_COLLIDE
+      },
+      sides: [SIDE_UP]
+    }
+  ],
   collisionResponse: {
     ignoreSides: {
       [SIDE_DOWN]: false,
@@ -37,6 +47,7 @@ export const defaultObjectClass = {
   },
   movement: {
     pattern: null,
+    velocity: [0, 30],
     // movingPlatform: false,
   },
   attributes: {

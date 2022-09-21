@@ -16,8 +16,8 @@ export class World {
     if(this.physicsType === MATTER_PHYSICS) {
       this.scene.matter.world.setGravity(x, y)
     } else if(this.physicsType === ARCADE_PHYSICS) {
-      this.scene.physics.world.gravity.x = x
-      this.scene.physics.world.gravity.y = y
+      this.scene.physics.world.gravity.x = x * 100
+      this.scene.physics.world.gravity.y = y * 100
     }
   }
 

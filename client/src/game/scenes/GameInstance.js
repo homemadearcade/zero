@@ -96,9 +96,9 @@ export class GameInstance extends Phaser.Scene {
   registerRelations() {
     this.player.registerRelations()
     
-    // this.objectInstances.forEach((instance) => {
-    //   instance.registerRelations()
-    // })
+    this.objectInstances.forEach((instance) => {
+      instance.registerRelations()
+    })
 
     this.playgroundLayer.registerRelations()
   }
@@ -106,9 +106,9 @@ export class GameInstance extends Phaser.Scene {
   unregisterRelations() {
     this.player.unregisterRelations()
 
-    // this.objectInstances.forEach((instance) => {
-    //   instance.unregisterRelations()
-    // })
+    this.objectInstances.forEach((instance) => {
+      instance.unregisterRelations()
+    })
 
     this.playgroundLayer.unregisterRelations()
   }
@@ -267,25 +267,7 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
-    this.cameras.main.setZoom(heroClass.camera.zoom);
-
-    this.events.on('postupdate', function(time, delta){
-      this.objectInstances.forEach((object) => {
-        object.deltaX = object.prevX - object.x
-        object.deltaY = object.prevY - object.y
-
-        object.prevX = object.x 
-        object.prevY = object.y
-      })
-      
-      this.player.prevX = this.player.x
-      this.player.prevY = this.player.y
-
-      this.player.deltaX = this.player.prevX - this.player.x
-      this.player.deltaY = this.player.prevY - this.player.y
-    }, this);
-
-    
+    this.cameras.main.setZoom(heroClass.camera.zoom);    
   }
 
   respawn() {

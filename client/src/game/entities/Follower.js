@@ -139,28 +139,6 @@ class Dude extends Phaser.Physics.Arcade.Sprite {
     this.cursors = this.scene.input.keyboard.createCursorKeys();
   } 
 
-  update() {
-    this.handleInput();
-    if (this.locked && this.lockedTo) {
-      this.body.position.x += this.lockedTo.body.deltaX();
-      this.body.position.y += this.lockedTo.body.deltaY();   
-    }
-    
-    if (this.locked && this.fallenOff(this, this.lockedTo)) {
-      this.locked = false;
-      this.lockedTo = null;   
-      this.body.setAllowGravity(true);
-    }
-      
-  }
-  
-  fallenOff(player, platform) {
-    return (
-      player.body.right <= platform.body.position.x ||
-      player.body.position.x >= platform.body.right 
-    );
-  }
-
   handleInput() {
     if (this.cursors.left.isDown) {
       this.body.setVelocityX(-160)
@@ -170,66 +148,11 @@ class Dude extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityX(0)
     }
 
-    // JUMP!!!
     if ((this.cursors.up.isDown && this.body.touching.down) || (this.cursors.up.isDown && this.locked)) {
       this.body.setVelocityY(-330);
       this.locked = false;
       this.lockedTo = null;
       this.body.setAllowGravity(true);
-    }
-    
-  }
-}
-
-class GameScene extends Phaser.Scene {
-  constructor() {
-    super('gameScene');
-  }
-  
-  preload() {
-    this.load.image('sky', 'https://raw.githubusercontent.com/shingo-sugiura/Game/main/sky.png');
-    this.load.image('ground', 'https://raw.githubusercontent.com/shingo-sugiura/Game/main/platform.png'); // 400x32
-    this.load.spritesheet('dude', 'https://raw.githubusercontent.com/shingo-sugiura/Game/main/dude.png', {frameWidth: 32, frameHeight: 48});
-  }//end preload
-  
-  create() {
-    this.add.image(400, 300, 'sky');    
-    this.ground = this.physics.add.staticGroup();
-    this.ground.create(400, 568, 'ground').setScale(2).refreshBody(); // this is the ground
-
-    this.path = new Phaser.Curves.Path(700, 290).ellipseTo(300,200);
-    
-    this.platform = new Follower(this, this.path, 0,0, 'ground');
-  
-    this.platform.setScale(0.3,0.5);
-    this.platform.body.setAllowGravity(false);
-    this.platform.body.setImmovable(true);
-    this.platform.body.setFriction(0,0);
-    
-    this.platform.setPath(this.path);
-    this.platform.setAtBeginingOfPath();
-    this.platform.startFollow({repeat: true});
-    
-    this.player = new Dude(this, 100, 450);
-    
-    this.physics.add.collider(this.player, this.ground);
-    this.physics.add.collider(this.player, this.platform, this.ridePlatform);
-    
-    this.text1 = this.add.text(0, 0, '-');
-    this.text2 = this.add.text(500,0,'')
-  }
-  
-
-  update(time) {
-    this.player.update(time);    
-  }
- 
-  ridePlatform(dude, platform) {
-    if (platform.body.touching.up && dude.body.touching.down) {
-      dude.locked = true;
-      dude.lockedTo = platform;   
-      dude.body.setAllowGravity(false);
-      dude.body.setVelocityY(0);
     }
   }
 }

@@ -103,6 +103,12 @@ export class PlayerInstance extends ObjectInstance {
     } else {
       this.setAcceleration(0)
     }
+
+    // if ((this.cursors.up.isDown && this.sprite.body.touching.down) || (this.cursors.up.isDown && this.sprite.lockedTo)) {
+    //   this.sprite.body.setVelocityY(-330);
+    //   this.sprite.lockedTo = null;
+    //   this.setIgnoreGravity(objectClass.attributes.ignoreGravity);
+    // }
   }
 
   registerRelations() {
@@ -115,6 +121,7 @@ export class PlayerInstance extends ObjectInstance {
   unregisterRelations() {
     super.unregisterRelations()
     this.interactArea.unregister()
+    this.lockedTo = null
   }
 
   destroyInGame() {

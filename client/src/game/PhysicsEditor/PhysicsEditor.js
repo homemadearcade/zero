@@ -94,7 +94,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             checked={classSelected.attributes.ignoreGravity}
           />
       </Unlockable>}
-      {false && <Unlockable interfaceId="physics/toggle/immovable">
+      {<Unlockable interfaceId="physics/toggle/immovable">
         <FormLabel>Immovable</FormLabel>
         <Switch
           size="small"

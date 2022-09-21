@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, HERO_INSTANCE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -58,6 +58,7 @@ export class ObjectInstance extends Sprite {
     // MOVEMENT
     this.setDrag(objectClass.drag)
     this.setIgnoreGravity(attributes.ignoreGravity)
+    this.setVelocity(objectClass.movement.velocity[0], objectClass.movement.velocity[1])
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -74,9 +75,7 @@ export class ObjectInstance extends Sprite {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // RELATIONS
-    if(id === HERO_INSTANCE_ID) {
-      this.collider = new Collider(scene, this, this)
-    }
+    this.collider = new Collider(scene, this, this)
 
     const cornerX = -objectClass.width/2
     const cornerY = -objectClass.height/2
@@ -109,11 +108,6 @@ export class ObjectInstance extends Sprite {
         this.runEffect(effect)
       }
     })
-
-    // const movementPattern = objectClass.movement.pattern
-    // if(movementPattern === MOVEMENT_SIDE_TO_SIDE) {
-    //   this.setVelocityX(10)
-    // }
   }
 
   destroyInGame() {
@@ -141,11 +135,6 @@ export class ObjectInstance extends Sprite {
       this.sprite.highlight.setRotation(this.sprite.rotation)
     }
 
-    // const movementPattern = objectClass.movement.pattern
-    // if(movementPattern === MOVEMENT_SIDE_TO_SIDE) {
-    //   this.setPosition(this.x + .1, this.y)
-    // }
-
     if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
       this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
       console.log(objectClass.attributes.ignoreGravity)
@@ -160,6 +149,38 @@ export class ObjectInstance extends Sprite {
 
     this.wasVisibilityModified = this.isVisibilityModified
     this.isVisibilityModified = false
+
+    if (this.sprite.lockedTo) {
+      this.sprite.body.position.x += this.sprite.lockedTo.body.deltaX();
+      this.sprite.body.position.y += this.sprite.lockedTo.body.deltaY();   
+    }
+    
+    if (this.sprite.lockedTo && this.fallenOff(this.sprite, this.sprite.lockedTo, this.sprite.lockedReleaseSides)) {
+      this.sprite.lockedTo = null;   
+      this.sprite.lockedReleaseSides = null
+      this.setIgnoreGravity(objectClass.attributes.ignoreGravity);
+    }
+  }
+
+  fallenOff(player, platform, sides) {
+    if(sides.indexOf(SIDE_LEFT) >= 0 || sides.indexOf(SIDE_RIGHT) >= 0) {
+      return (
+        player.body.down <= platform.body.position.y ||
+        player.body.position.y >= platform.body.down 
+      );
+    } else if(sides.indexOf(SIDE_UP) >= 0 || sides.indexOf(SIDE_DOWN) >= 0) {
+      return (
+        player.body.right <= platform.body.position.x ||
+        player.body.position.x >= platform.body.right 
+      );
+    } else {
+      return (
+        player.body.right <= platform.body.position.x ||
+        player.body.position.x >= platform.body.right ||
+        player.body.down <= platform.body.position.y ||
+        player.body.position.y >= platform.body.down 
+      );
+    }
   }
 
   destroy() {
@@ -179,13 +200,25 @@ export class ObjectInstance extends Sprite {
   }
 
 
-  runEffect(effect, agent) {
+  runEffect(effect, agent, sides = []) {
     // MOVEMENT
     if(effect.id === EFFECT_TELEPORT) {
       this.setPosition(effect.x, effect.y)
     } else if(effect.id === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
       this.isIgnoreGravityModified = true
       this.setIgnoreGravity(true)
+    } else if(effect.id === EFFECT_STICK_TO) {
+      this.sprite.lockedTo = agent;   
+      this.sprite.lockedReleaseSides = sides
+      this.setIgnoreGravity(true)
+      // if(sides.indexOf(SIDE_LEFT) >= 0 || sides.indexOf(SIDE_RIGHT) >= 0) {
+      //   this.sprite.body.setVelocityX(0)
+      // } else if(sides.indexOf(SIDE_UP) >= 0 || sides.indexOf(SIDE_DOWN) >= 0) {
+      //   this.sprite.body.setVelocityY(0)
+      // } else {
+        this.sprite.body.setVelocityY(0)
+        this.sprite.body.setVelocityX(0)
+      // }
     }
     
     // LIFE
@@ -212,5 +245,6 @@ export class ObjectInstance extends Sprite {
     } else if(effect.id === EFFECT_CAMERA_SHAKE) {
       this.scene.cameras.main.shake(20)
     }
+    
   }
 }

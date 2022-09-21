@@ -1,7 +1,4 @@
 // RELATIONSHIP EVENTS
-// whileTouching: {
-
-// },
 // collide: {
 
 // },
@@ -19,7 +16,6 @@
 // }
 
 // RELATIONSHIP EFFECTS
-// While Touching
 // Movement
 // State
 // Narrative
@@ -56,15 +52,15 @@ export const relationshipEvents = {
 }
 
 export const relationshipEffects = {
-  // While Touching Only
-  invisible: {
 
-  },
+
+  // Movement
   ignoreGravity: {
     //ignore gravity temporarily
   },
+  stickTo: {
 
-  // Movement
+  },
   teleport: {
 
   },
@@ -75,7 +71,7 @@ export const relationshipEffects = {
 
   // },
 
-  // State
+  // LIFECYCLE
   reclass: {
 
   },
@@ -99,6 +95,9 @@ export const relationshipEffects = {
 
   // },
   cameraShake: {
+
+  },
+  invisible: {
 
   },
   // particleEffect: {

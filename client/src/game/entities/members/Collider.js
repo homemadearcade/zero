@@ -32,9 +32,9 @@ export class Collider {
           this.unregisters.push(
             this.scene.physics.add.overlap(this.sensor.sprite, releventInstances, (a, b) => {
               if(sides.length) {
-                if(areBSidesHit(sides, a, b)) this.objectInstance.runEffect(effect, b)
+                if(areBSidesHit(sides, a, b)) this.objectInstance.runEffect(effect, b, sides)
               } else {
-                this.objectInstance.runEffect(effect, b)
+                this.objectInstance.runEffect(effect, b, sides)
               }
             })
           )

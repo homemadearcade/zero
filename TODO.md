@@ -42,7 +42,6 @@ World Effects like gravity change.. and?? other?
 
 WARMUPS
  
-
 Resize
 Change BG Color
 Put + inside of grid
