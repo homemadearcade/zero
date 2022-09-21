@@ -13,6 +13,7 @@ export class CollisionCanvas extends CodrawingCanvas {
     }
 
     this.collisionBody = null
+    this.scene = scene
 
     return this
   }
@@ -71,6 +72,18 @@ export class CollisionCanvas extends CodrawingCanvas {
         nodeWidth: nodeSize, 
         nodeHeight: nodeSize
       })
+  }
+
+  registerRelationships() {
+    this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.player.sprite)
+    this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.map(({sprite}) => {
+      return sprite
+    }))
+  }
+
+  unregisterRelationships() {
+    this.unregisterPlayerCollisions()
+    this.unregisterObjectCollisions()
   }
 }
 

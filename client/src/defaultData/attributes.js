@@ -20,7 +20,7 @@ export const movementAttributes = {
   }
 }
 
-export const reactivityAttributes = {
+export const collisionResponseAttributes = {
   ignoreGravity: {
 
   },

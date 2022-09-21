@@ -17,19 +17,19 @@ export class PlayerInstance extends ObjectInstance {
       speed: {
         onEmit: (particle, key, t, value) =>
         {
-          return this.sprite.body.speed * 10;
+          return this.sprite.body.speed/10;
         }
       },
       lifespan: {
         onEmit: (particle, key, t, value) =>
         {
-          return Phaser.Math.Percent(this.sprite.body.speed, 0, 300) * 40000;
+          return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 40000;
         }
       },
       alpha: {
         onEmit: (particle, key, t, value) =>
         {
-          return Phaser.Math.Percent(this.sprite.body.speed, 0, 300) * 1000;
+          return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 1000;
         }
       },
       scale: { start: 1.0, end: 0 },
@@ -86,6 +86,8 @@ export class PlayerInstance extends ObjectInstance {
     //   }
     // })
 
+    this.setAngularDrag(100)
+
     return this
   }
 
@@ -123,15 +125,16 @@ export class PlayerInstance extends ObjectInstance {
     }
 
     if(this.cursors.left.isDown) {
-      this.setAngularVelocity(-0.1);
+      this.setAngularVelocity(-100);
     } else if(this.cursors.right.isDown) {
-      this.setAngularVelocity(0.1);
+      this.setAngularVelocity(100);
     }
 
     if(this.cursors.up.isDown && !objectClass.attributes.ignoreUpKey) {
-      this.thrust(0.08);
+      this.thrust(200);
+    } else {
+      this.setAcceleration(0)
     }
-
   }
 
   updateInteractions() {

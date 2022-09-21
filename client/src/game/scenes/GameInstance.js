@@ -222,6 +222,16 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     this.addPlayerInstance()
 
+    this.physics.add.collider(this.objectInstances[0].sprite, this.player.sprite, () => {
+      console.log('occurs importantly...')
+    })
+
+    this.physics.add.collider(this.objectInstances.map(({sprite}) => {
+      return sprite
+    }), this.player.sprite, () => {
+      console.log('occurs')
+    })
+
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -251,6 +261,8 @@ export class GameInstance extends Phaser.Scene {
       this.player.deltaX = this.player.prevX - this.player.x
       this.player.deltaY = this.player.prevY - this.player.y
     }, this);
+
+    
   }
 
   respawn() {
@@ -292,9 +304,19 @@ export class GameInstance extends Phaser.Scene {
   }
 
   pause() {
-    this.matter.pause()
+    if(this.physicsType === MATTER_PHYSICS) {
+      this.matter.pause()
+    }
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.physics.pause()
+    }
   }
   resume() {
-    this.matter.resume()
+    if(this.physicsType === MATTER_PHYSICS) {
+      this.matter.resume()
+    }
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.physics.resume()
+    }  
   }
 }

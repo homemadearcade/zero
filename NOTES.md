@@ -1,3 +1,15 @@
+ENTITY MEMBERS
+  Movement
+  Relationships
+  Collision Response
+  Graphics
+  Projectiles
+  Camera
+  Interact Area
+  Controls
+
+
+
 ATTRIBUTES
 Attributes that are initially turned on but can be turned off
 Attributes that are initially turned off but can be turned on
@@ -40,6 +52,7 @@ Collision Grid
 
 
 OLD DISCUSSION TOPICS
+
 
 
 

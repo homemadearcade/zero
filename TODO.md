@@ -17,16 +17,16 @@ When we take into acount conditions that read the 'state' of the game, things ge
 CREATE CLASS UI
 
 ADD CLASS
-  Sprite
-  Reactivity
+  Graphics
   Movement
-  Visual Effects
   Relationships
+  Collision Response
 
 ADDITIONAL FEATURES IN ADD CLASS
   Camera
   Projectile
   Interact Area
+  Controls
 
 -
 

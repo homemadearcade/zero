@@ -26,32 +26,38 @@ const config= {
     height: gameSize
   },
   physics: {
-    default: 'matter',
-    matter: {
-      debug: {
-        showBody: true,
-        showStaticBody: true
-      },
-      plugins: {
-        wrap: true
-      },
-    },
+    default: 'arcade',
+    // matter: {
+    //   debug: {
+    //     showBody: true,
+    //     showStaticBody: true
+    //   },
+    //   plugins: {
+    //     wrap: true
+    //   },
+    // },
+    arcade: {
+      debug: true,
+      debugShowBody: true,
+      debugShowStaticBody: true,
+      debugShowVelocity: true,
+  }
   },
   plugins: {
-    global: [
-      {
-        key: 'WaterBodyPlugin',
-        plugin: WaterBodyPlugin,
-        start: true,
-      }
-    ],
-    scene: [
-      {
-        plugin: PhaserMatterCollisionPlugin, // The plugin class
-        key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
-        mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
-      }
-    ]
+    // global: [
+    //   {
+    //     key: 'WaterBodyPlugin',
+    //     plugin: WaterBodyPlugin,
+    //     start: true,
+    //   }
+    // ],
+    // scene: [
+    //   {
+    //     plugin: PhaserMatterCollisionPlugin, // The plugin class
+    //     key: "matterCollision", // Where to store in Scene.Systems, e.g. scene.sys.matterCollision
+    //     mapping: "matterCollision" // Where to store in the Scene, e.g. scene.matterCollision
+    //   }
+    // ]
   }
 }
 

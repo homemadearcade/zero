@@ -19,21 +19,26 @@ export class CompoundStaticBody {
       this.group.setDisplaySize(width, height)
       this.group.setExistingBody(compoundBody)
       this.group.setAlpha(0)
+      scene.add.existing(this.group, true)
+
     } else if(scene.physicsType === ARCADE_PHYSICS) {
       
-      this.group = new Phaser.Physics.Arcade.StaticGroup(scene.physics.world, scene)
+      this.group = []
 
       parts.forEach(({x, y, width}) => {
-        const body =  this.scene.add.rectangle(x + (nodeWidth * width)/2, y + nodeHeight/2, nodeWidth * width, nodeHeight)
-        // body.setAlpha(0)
-        this.group.add(body)
+        
+        const rect =  scene.add.rectangle(x + (nodeWidth * width)/2, y + nodeHeight/2, nodeWidth * width, nodeHeight)
+        // rect.setAlpha(0)
+        scene.physics.world.enable(rect)
+        rect.body.setAllowGravity(false)
+        rect.body.setImmovable(true)
+        this.group.push(rect)
       })
+
+      // scene.physics.add.existing(this.group)
 
       // this.group = new Phaser.Physics.Arcade.Sprite(scene, 0 + width/2, 0 + width/2, null, { isStatic: true })
     }
-
-
-    scene.add.existing(this.group, true)
 
     return this
   }

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_NOT_ALLOWED, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, MOVEMENT_SIDE_TO_SIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY, ON_SPAWN } from "../../constants";
+import { DEFAULT_TEXTURE_ID, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_NOT_ALLOWED, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, MOVEMENT_SIDE_TO_SIDE, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP } from "../../constants";
 import store from "../../store";
 import { isEventMatch } from "../../utils/gameUtils";
 import { getTextureMetadata } from "../../utils/utils";
@@ -10,12 +10,18 @@ export class ObjectInstance extends Entity {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // GRAPHICS
     const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     const attributes = objectClass.attributes
-
     super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName }, { useEditor: true })
-    
+    if(objectClass.tint) this.setTint(objectClass.tint)
+    this.setVisible(!attributes.invisible)
+    this.setSize(objectClass.width, objectClass.height)
+
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // OUTLINE
@@ -52,31 +58,39 @@ export class ObjectInstance extends Entity {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // PHYSICS 
-    this.setSize(objectClass.width, objectClass.height)
     this.setBounce(objectClass.bounciness)
     this.setFriction(objectClass.friction)
     this.setDrag(objectClass.drag)
-    this.setFrictionStatic(objectClass.frictionStatic)
-    if(attributes.useMass) {
-      this.setMass(objectClass.mass)
-    } else {
-      this.setDensity(objectClass.density)
-    }
-    this.setFixedRotation(attributes.fixedRotation)
-    this.setIgnoreGravity(attributes.ignoreGravity)
     this.setImmovable(attributes.immovable)
+    this.setPushable(!attributes.notPushable)
+
+    // this.setFrictionStatic(objectClass.frictionStatic)
+    // if(attributes.useMass) {
+    this.setMass(objectClass.mass)
+    // } else {
+    //   this.setDensity(objectClass.density)
+    // }
+    // this.setFixedRotation(attributes.fixedRotation)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // VFX
-    if(objectClass.tint) this.setTint(objectClass.tint)
-    this.setVisible(!attributes.invisible)
+    // WORLD
+    this.setIgnoreGravity(attributes.ignoreGravity)
+    const worldBoundaryRelationship = objectClass.worldBoundaryRelationship
+    if(attributes.ignoreWorldBounds) {
+      this.setCollideWorldBounds(false)
+    } else if(worldBoundaryRelationship === WORLD_COLLIDE) {
+      this.setCollideWorldBounds(true)
+    }
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // Relationships
+    // RELATIONS
     this.registerRelationships(objectClass)
 
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // LIFE
     if(objectClass.unspawned) {
       this.setVisible(false)
       this.setCollideable(false);
@@ -84,13 +98,6 @@ export class ObjectInstance extends Entity {
       this.spawn()
     }
 
-    // this.scene.matterCollision.addOnCollideEnd({
-    //   objectA: this,
-    //   callback: eventData => {
-    //     const { bodyB, bodyA, gameObjectB, } = eventData;
-    //     console.log(eventData)
-    //   }
-    // })
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -157,16 +164,16 @@ export class ObjectInstance extends Entity {
         }
       }
 
-      if(event === ON_COLLIDE_START) {
-        this.scene.matterCollision.addOnCollideStart(eventEffect);
-      }
-      if(event === ON_COLLIDE_END) {
-        this.scene.matterCollision.addOnCollideEnd(eventEffect);
-      }
-      if(event === ON_COLLIDE_ACTIVE) {
-        this.scene.matterCollision.addOnCollideActive(eventEffect);
-        this.scene.matterCollision.addOnCollideEnd(eventRestore)
-      }
+      // if(event === ON_COLLIDE_START) {
+      //   this.scene.matterCollision.addOnCollideStart(eventEffect);
+      // }
+      // if(event === ON_COLLIDE_END) {
+      //   this.scene.matterCollision.addOnCollideEnd(eventEffect);
+      // }
+      // if(event === ON_COLLIDE_ACTIVE) {
+      //   this.scene.matterCollision.addOnCollideActive(eventEffect);
+      //   this.scene.matterCollision.addOnCollideEnd(eventRestore)
+      // }
     })
   }
 
@@ -256,6 +263,10 @@ export class ObjectInstance extends Entity {
     // if(this.movingPlatformSensor) {
     //   this.movingPlatformSensor.update(this)
     // }
+
+    if(objectClass.worldBoundaryRelationship === WORLD_WRAP) {
+      this.scene.physics.world.wrap(this.sprite.body, this.width)
+    }
 
     if(true || this.border.visible) {
       this.border.setPosition(this.sprite.x, this.sprite.y)

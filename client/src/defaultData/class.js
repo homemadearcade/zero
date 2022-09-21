@@ -1,4 +1,4 @@
-import { EFFECT_CAMERA_SHAKE, ON_INTERACT } from "../constants";
+import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, ON_COLLIDE, ON_INTERACT, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general";
 
 export const defaultObjectClass = {
@@ -10,11 +10,13 @@ export const defaultObjectClass = {
   "tint": null,
   "textureId": null,
   "controls": null,
+  unspawned: false,
+  worldBoundaryRelationship: WORLD_COLLIDE, // wrap, destroy
   relationships: [{
-    classId: 'c56931de-a0ce-4cba-9248-632855cabd96',
-    event: ON_INTERACT,
+    classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+    event: ON_COLLIDE,
     effect: {
-      id: EFFECT_CAMERA_SHAKE
+      id: EFFECT_COLLIDE
     }
   }],
   projectile: {
@@ -26,15 +28,14 @@ export const defaultObjectClass = {
   },
   movement: {
     pattern: null,
-    spaceInvader: false,
     // movingPlatform: false,
   },
-  unspawned: false,
-  "attributes": {
-    // Reactivity
+  attributes: {
+    // Collision Response
     // ignoreGravity: false,
+    ignoreWorldBounds: false,
     // fixedRotation: false,
-    // useMass: false,
+    useMass: true,
     // static: false,
 
     // VFX

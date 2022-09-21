@@ -20,16 +20,27 @@ export class Entity {
       }
     }
 
+    if(scene.physicsType === ARCADE_PHYSICS) {
+      if(!spriteSheetName) {
+        this.sprite = scene.physics.add.sprite(spawnX, spawnY, textureId, 0)
+      } else {
+        this.sprite = scene.physics.add.sprite(spawnX, spawnY, spriteSheetName, spriteIndex)
+      }
+      // scene.physics.world.enable([ this.sprite ]);
+    } else if(scene.physicsType === MATTER_PHYSICS) {
+      if(!spriteSheetName) {
+        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
+      } else {
+        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
+      }
+    }
+
     if(!spriteSheetName) {
-      this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
       if(useEditor) this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
     } else {
-      this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
       if(useEditor) this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
     }
     
-    // this.scene.matter.add.rectangle(spawnX, spawnY, objectClass.width, objectClass.height, { restitution: 0.9, plugin });
-
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // EDITOR
@@ -40,6 +51,8 @@ export class Entity {
     }
 
     this.physicsType = scene.physicsType
+
+    // scene.physics.add.existing(this);   
 
     return this
   }
@@ -88,10 +101,15 @@ export class Entity {
     this.sprite.setBounce(bounciness)
   }
 
-  setCollideable(collideable) {
-    if(this.physicsType !== MATTER_PHYSICS) {
-      console.log('setting collideable under not matter')
+  setCollideWorldBounds(collide) {
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.sprite.setCollideWorldBounds(collide)
+    }
+  }
 
+  setCollideable(collideable) {
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.sprite.body.setEnable(collideable)
       return
     }
 
@@ -119,8 +137,12 @@ export class Entity {
     this.sprite.setDensity(density)
   }
 
-  setDrag(friction) {
-    this.sprite.setFrictionAir(friction)
+  setDrag(drag) {
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.sprite.setDrag(drag * 200)
+      return
+    }
+    this.sprite.setFrictionAir(drag)
   }
 
   setFriction(friction) {
@@ -156,7 +178,7 @@ export class Entity {
       this.sprite.setStatic(isStatic)
       return
     }
-    this.sprite.setImmovable(isStatic)
+    this.sprite.setImmovable(!!isStatic)
   }
 
   setMass(mass) {
@@ -172,7 +194,7 @@ export class Entity {
       console.log('setting pushable under matter')
       return
     }
-    this.sprite.setPushable(pushable)
+    this.sprite.setPushable(!!pushable)
   }
 
   setRotation(rotation) {
@@ -200,10 +222,10 @@ export class Entity {
     if(this.physicsType === MATTER_PHYSICS) {
       this.sprite.thrust(thrust)
     } else {
-      this.sprite.body.acceleration.setToPolar(this.sprite.rotation, thrust);
+      this.scene.physics.velocityFromRotation(this.sprite.rotation, thrust, this.sprite.body.acceleration);  
     }
   }
-
+  
   destroy() {
     this.sprite.destroy()
   }
