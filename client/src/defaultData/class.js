@@ -13,22 +13,22 @@ export const defaultObjectClass = {
   unspawned: false,
   worldBoundaryRelationship: WORLD_COLLIDE, // wrap, destroy
   relations: [
-    {
-      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
-      event: ON_COLLIDE,
-      effect: {
-        id: EFFECT_STICK_TO
-      },
-      sides: [SIDE_LEFT]
-    },
-    {
-      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
-      event: ON_COLLIDE,
-      effect: {
-        id: EFFECT_COLLIDE
-      },
-      sides: [SIDE_UP]
-    }
+    // {
+    //   classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+    //   event: ON_COLLIDE,
+    //   effect: {
+    //     id: EFFECT_STICK_TO
+    //   },
+    //   sides: []
+    // },
+    // {
+    //   classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+    //   event: ON_COLLIDE,
+    //   effect: {
+    //     id: EFFECT_COLLIDE
+    //   },
+    //   sides: [SIDE_UP]
+    // }
   ],
   collisionResponse: {
     ignoreSides: {

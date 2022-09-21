@@ -124,17 +124,35 @@ export class ObjectInstance extends Sprite {
   update(time, delta) {
     const objectClass = store.getState().game.gameModel.classes[this.classId]
 
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // INTERACT AREA
+    this.sprite.border.setPosition(this.sprite.x, this.sprite.y)
+    this.sprite.border.setRotation(this.sprite.rotation)
+
+
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // RELATIONS
     if(objectClass.worldBoundaryRelationship === WORLD_WRAP) {
       this.scene.physics.world.wrap(this.sprite.body, this.width)
     }
+    this.updateEffects()
 
-    if(true || this.border.visible) {
-      this.sprite.border.setPosition(this.sprite.x, this.sprite.y)
-      this.sprite.border.setRotation(this.sprite.rotation)
-      this.sprite.highlight.setPosition(this.sprite.x, this.sprite.y)
-      this.sprite.highlight.setRotation(this.sprite.rotation)
-    }
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // EDITOR
+    this.sprite.highlight.setPosition(this.sprite.x, this.sprite.y)
+    this.sprite.highlight.setRotation(this.sprite.rotation)
+    
+  }
 
+  updateEffects() {
+    const objectClass = store.getState().game.gameModel.classes[this.classId]
+    
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // VISIBLITY AND IGNORE GRAVITY EFFECTS
     if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
       this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
       console.log(objectClass.attributes.ignoreGravity)
@@ -150,7 +168,11 @@ export class ObjectInstance extends Sprite {
     this.wasVisibilityModified = this.isVisibilityModified
     this.isVisibilityModified = false
 
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // STICK TO EFFECT
     if (this.sprite.lockedTo) {
+      console.log(this.sprite.lockedTo)
       this.sprite.body.position.x += this.sprite.lockedTo.body.deltaX();
       this.sprite.body.position.y += this.sprite.lockedTo.body.deltaY();   
     }
@@ -159,27 +181,6 @@ export class ObjectInstance extends Sprite {
       this.sprite.lockedTo = null;   
       this.sprite.lockedReleaseSides = null
       this.setIgnoreGravity(objectClass.attributes.ignoreGravity);
-    }
-  }
-
-  fallenOff(player, platform, sides) {
-    if(sides.indexOf(SIDE_LEFT) >= 0 || sides.indexOf(SIDE_RIGHT) >= 0) {
-      return (
-        player.body.down <= platform.body.position.y ||
-        player.body.position.y >= platform.body.down 
-      );
-    } else if(sides.indexOf(SIDE_UP) >= 0 || sides.indexOf(SIDE_DOWN) >= 0) {
-      return (
-        player.body.right <= platform.body.position.x ||
-        player.body.position.x >= platform.body.right 
-      );
-    } else {
-      return (
-        player.body.right <= platform.body.position.x ||
-        player.body.position.x >= platform.body.right ||
-        player.body.down <= platform.body.position.y ||
-        player.body.position.y >= platform.body.down 
-      );
     }
   }
 
@@ -199,6 +200,32 @@ export class ObjectInstance extends Sprite {
     this.collider.unregister()
   }
 
+  fallenOff(player, platform, sides) {
+    // if turns out to be annoying
+    // if(Phaser.Math.Distance.Between(player.x, player.y, platform.x, platform.y) > 100) {
+    //   return true
+    // }
+
+    if(sides.indexOf(SIDE_LEFT) >= 0 || sides.indexOf(SIDE_RIGHT) >= 0) {
+      return (
+        player.body.bottom <= platform.body.position.y ||
+        player.body.position.y >= platform.body.bottom 
+      );
+    } else if(sides.indexOf(SIDE_UP) >= 0 || sides.indexOf(SIDE_DOWN) >= 0) {
+      return (
+        player.body.right <= platform.body.position.x ||
+        player.body.position.x >= platform.body.right 
+      );
+    } else {
+      return (
+        (player.body.right <= platform.body.position.x ||
+        player.body.position.x >= platform.body.right) && (
+          player.body.bottom <= platform.body.position.y ||
+          player.body.position.y >= platform.body.bottom 
+        )
+      );
+    }
+  }
 
   runEffect(effect, agent, sides = []) {
     // MOVEMENT

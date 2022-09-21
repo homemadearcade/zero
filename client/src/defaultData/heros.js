@@ -1,3 +1,4 @@
+import { EFFECT_COLLIDE, EFFECT_STICK_TO, ON_COLLIDE, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../constants"
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general"
 
 export const defaulHeroClass = {
@@ -27,6 +28,24 @@ export const spaceshipClass = {
   attributes: {
     "fixedRotation": true,
   },
+  relations: [
+    {
+      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+      event: ON_COLLIDE,
+      effect: {
+        id: EFFECT_STICK_TO
+      },
+      sides: []
+    },
+    {
+      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+      event: ON_COLLIDE,
+      effect: {
+        id: EFFECT_COLLIDE
+      },
+      sides: [SIDE_UP]
+    }
+  ],
   "textureId": "ship2",
   "controls": "spaceship",
   type: 'hero'
