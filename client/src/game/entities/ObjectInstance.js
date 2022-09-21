@@ -1,10 +1,9 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_NOT_ALLOWED, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, MOVEMENT_SIDE_TO_SIDE, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP } from "../../constants";
+import { DEFAULT_TEXTURE_ID, HERO_INSTANCE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP } from "../../constants";
 import store from "../../store";
-import { isEventMatch } from "../../utils/gameUtils";
 import { getTextureMetadata } from "../../utils/utils";
 import { Entity } from "./Entity";
-import { MovingPlatformSensor } from "./MovingPlatformSensor";
+import { Relations } from "./members/Relations";
 
 export class ObjectInstance extends Entity {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
@@ -21,10 +20,11 @@ export class ObjectInstance extends Entity {
     if(objectClass.tint) this.setTint(objectClass.tint)
     this.setVisible(!attributes.invisible)
     this.setSize(objectClass.width, objectClass.height)
+    scene.objectInstanceLayer.add(this.sprite)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // OUTLINE
+    // EDITOR
     if(this.sprite.highlight) {
       this.sprite.highlight.setTintFill(0xffffff)
       .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
@@ -36,6 +36,7 @@ export class ObjectInstance extends Entity {
     this.border.lineStyle(4, 0xffffff, 1);
     this.border.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
     this.border.setVisible(false)
+    scene.uiLayer.add(this.border)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -47,50 +48,40 @@ export class ObjectInstance extends Entity {
     this.sprite.classId = classId
     this.width = objectClass.width
     this.height = objectClass.height
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // SCENE
-    scene.uiLayer.add(this.border)
-    scene.objectInstanceLayer.add(this.sprite)
     scene.objectInstanceGroup.add(this.sprite)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // PHYSICS 
+    // COLLISION RESPONSE
     this.setBounce(objectClass.bounciness)
-    this.setFriction(objectClass.friction)
-    this.setDrag(objectClass.drag)
     this.setImmovable(attributes.immovable)
     this.setPushable(!attributes.notPushable)
-
-    // this.setFrictionStatic(objectClass.frictionStatic)
-    // if(attributes.useMass) {
     this.setMass(objectClass.mass)
-    // } else {
-    //   this.setDensity(objectClass.density)
-    // }
-    // this.setFixedRotation(attributes.fixedRotation)
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // WORLD
-    this.setIgnoreGravity(attributes.ignoreGravity)
+    this.setFriction(objectClass.friction)
     const worldBoundaryRelationship = objectClass.worldBoundaryRelationship
     if(attributes.ignoreWorldBounds) {
       this.setCollideWorldBounds(false)
     } else if(worldBoundaryRelationship === WORLD_COLLIDE) {
       this.setCollideWorldBounds(true)
     }
+    this.setCollideIgnoreSides(objectClass.collisionResponse.ignoreSides)
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // MOVEMENT
+    this.setDrag(objectClass.drag)
+    this.setIgnoreGravity(attributes.ignoreGravity)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // RELATIONS
-    this.registerRelationships(objectClass)
+    if(id === HERO_INSTANCE_ID) {
+      this.relations = new Relations(scene, this)
+    }
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // LIFE
+    // LIFECYCLE
     if(objectClass.unspawned) {
       this.setVisible(false)
       this.setCollideable(false);
@@ -98,135 +89,7 @@ export class ObjectInstance extends Entity {
       this.spawn()
     }
 
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // Movement
-    // var Bodies = Phaser.Physics.Matter.Matter.Bodies;
-    // // var rect = Bodies.rectangle(this.width/2, this.height/2, this.width, this.height);
-    // var circleD = Bodies.circle(0, 70, 24, { isSensor: true, label: 'bottom' });
-    // var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
-    //   parts: [ this.body, circleD ],
-    // })
-    // this.setExistingBody(compoundBody);
-    // this.setPosition(spawnX, spawnY)
-
-    // if(objectClass.movement.movingPlatform) {
-    //   this.movingPlatformSensor = new MovingPlatformSensor(scene, { color: 0x0000FF, width: this.width, parent: this})
-    // }
-
     return this
-  }
-
-  registerRelationships(objectClass) {
-    return
-  /*
-    EFFECTS 
-      NARRATIVE
-      cutscene
-      dialogue
-  */
-
-    const world = this.scene.matter.world
-
-    objectClass.relationships.forEach(({classId, event, effect}) => {
-      const eventEffect = {
-        objectA: this,
-        callback: eventData => {
-          const { gameObjectB, bodyB } = eventData;
-
-          if(isEventMatch({
-            gameObject: gameObjectB,
-            body: bodyB,
-            classId,
-            event,
-            world
-          })){
-            this.runEffect(effect, gameObjectB)
-          }
-        }
-      }
-
-      const eventRestore = {
-        objectA: this,
-        callback: eventData => {
-          const { gameObjectB, bodyB } = eventData;
-          
-          if(isEventMatch({
-            gameObject: gameObjectB,
-            body: bodyB,
-            classId,
-            event,
-            world
-          })){
-            this.runRestore(effect, gameObjectB)
-          }
-        }
-      }
-
-      // if(event === ON_COLLIDE_START) {
-      //   this.scene.matterCollision.addOnCollideStart(eventEffect);
-      // }
-      // if(event === ON_COLLIDE_END) {
-      //   this.scene.matterCollision.addOnCollideEnd(eventEffect);
-      // }
-      // if(event === ON_COLLIDE_ACTIVE) {
-      //   this.scene.matterCollision.addOnCollideActive(eventEffect);
-      //   this.scene.matterCollision.addOnCollideEnd(eventRestore)
-      // }
-    })
-  }
-
-  runRestore(effect, agent) {
-    const gameModel = store.getState().game.gameModel
-    const objectClass = gameModel.classes[this.classId]
-    this.setCollideable(true);
-    
-    // MOVEMENT
-    if(effect.id === EFFECT_IGNORE_GRAVITY) {
-      this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
-    }
-      
-    // VFX
-    if(effect.id === EFFECT_INVISIBLE) {
-      this.setVisible(!objectClass.attributes.invisible)
-    }
-  }
-
-
-  runEffect(effect, agent) {
-    console.log(effect, agent)
-    
-    // MOVEMENT
-    if(effect.id === EFFECT_TELEPORT) {
-      this.setPosition(effect.x, effect.y)
-    } else if(effect.id === EFFECT_IGNORE_GRAVITY) {
-      this.setIgnoreGravity(true)
-    }
-    
-    // STATE
-    if(effect.id === EFFECT_DESTROY) {
-      this.destroyInGame()
-    } else if(effect.id === EFFECT_SPAWN) {
-      this.spawn()
-    } else if(effect.id === EFFECT_RECLASS) {
-      this.scene.removeObjectInstance(this.id)
-      this.scene.addObjectInstance(this.id, {spawnX: this.x, spawnY: this.y, classId: effect.classId})
-    }
-
-    // NARRATIVE
-    if(effect.id === EFFECT_CUTSCENE) {
-
-    } else if(effect.id === EFFECT_DIALOGUE) {
-
-    }
-    
-    // VFX
-    if(effect.id === EFFECT_INVISIBLE) {
-      this.setVisible(false)
-    } else if(effect.id === EFFECT_CAMERA_SHAKE) {
-      this.scene.cameras.main.shake(20)
-    }
   }
 
   spawn() {
@@ -260,10 +123,6 @@ export class ObjectInstance extends Entity {
   update(time, delta) {
     const objectClass = store.getState().game.gameModel.classes[this.classId]
 
-    // if(this.movingPlatformSensor) {
-    //   this.movingPlatformSensor.update(this)
-    // }
-
     if(objectClass.worldBoundaryRelationship === WORLD_WRAP) {
       this.scene.physics.world.wrap(this.sprite.body, this.width)
     }
@@ -284,14 +143,7 @@ export class ObjectInstance extends Entity {
   destroy() {
     this.border.destroy()
     this.sprite.highlight.destroy()
-    // if(this.movingPlatformSensor) this.movingPlatformSensor.destroy()
 
     super.destroy()
   }
 }
-
-    //  Change the body to a Circle with a radius of 48px
-  //   circ.setBody({
-  //     type: 'circle',
-  //     radius: 48
-  // });

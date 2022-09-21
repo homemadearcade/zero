@@ -27,6 +27,7 @@
 
 export const defaultRelationship = {
   classId: '',
+  sides: [],
   event: '', 
   effect: {
     id: '',

@@ -64,21 +64,26 @@ export class CollisionCanvas extends CodrawingCanvas {
       }
     }
     
-    this.collisionBody = new CompoundStaticBody(this.scene, 
-      { 
-        parts: collisionGridNodes,
-        width: gameModel.world.boundaries.maxWidth, 
-        height: gameModel.world.boundaries.maxHeight, 
-        nodeWidth: nodeSize, 
-        nodeHeight: nodeSize
-      })
+    this.collisionBody = new CompoundStaticBody(this.scene, { 
+      parts: collisionGridNodes,
+      width: gameModel.world.boundaries.maxWidth, 
+      height: gameModel.world.boundaries.maxHeight, 
+      nodeWidth: nodeSize, 
+      nodeHeight: nodeSize
+    })
+    this.registerRelationships()
   }
 
   registerRelationships() {
-    this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.player.sprite)
-    this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.map(({sprite}) => {
-      return sprite
-    }))
+    if(this.collisionBody) {
+      this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.player.sprite)
+      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.map(({sprite}) => {
+        return sprite
+      }))
+    } else {
+      console.log('no body yet')
+    }
+
   }
 
   unregisterRelationships() {

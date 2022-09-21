@@ -38,6 +38,11 @@ export const GAME_BOUNDARY_RIGHT_WALL_ID = 'GAME_BOUNDARY_RIGHT'
 export const GAME_BOUNDARY_UP_WALL_ID = 'GAME_BOUNDARY_UP'
 export const GAME_BOUNDARY_DOWN_WALL_ID = 'GAME_BOUNDARY_DOWN'
 
+// SIDES
+export const SIDE_UP = 'SIDE_UP'
+export const SIDE_DOWN = 'SIDE_DOWN'
+export const SIDE_LEFT = 'SIDE_LEFT'
+export const SIDE_RIGHT = 'SIDE_RIGHT'
 
 // EVENTS
 export const ON_COLLIDE = 'ON_COLLIDE'

@@ -1,4 +1,4 @@
-import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, ON_COLLIDE, ON_INTERACT, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
+import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general";
 
 export const defaultObjectClass = {
@@ -17,8 +17,17 @@ export const defaultObjectClass = {
     event: ON_COLLIDE,
     effect: {
       id: EFFECT_COLLIDE
-    }
+    },
+    sides: [SIDE_DOWN]
   }],
+  collisionResponse: {
+    ignoreSides: {
+      [SIDE_DOWN]: false,
+      [SIDE_UP]: false,
+      [SIDE_LEFT]: false,
+      [SIDE_RIGHT]: false,
+    }
+  },
   projectile: {
     classId: null,
     fireRate: 1000,

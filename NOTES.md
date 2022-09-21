@@ -3,12 +3,14 @@ ENTITY MEMBERS
   Relationships
   Collision Response
   Graphics
+
   Projectiles
   Camera
   Interact Area
   Controls
 
-
+  Editor
+  Lifecycle
 
 ATTRIBUTES
 Attributes that are initially turned on but can be turned off

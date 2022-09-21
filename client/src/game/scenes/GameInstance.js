@@ -68,6 +68,28 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstancesById[id] = newPhaserObject
   }
 
+  registerRelationships() {
+    const gameModel = store.getState().game.gameModel
+    const classes = gameModel.classes
+    this.player.relations.register(classes[gameModel.hero.initialClassId].relationships)
+
+    // this.objectInstances.forEach((instance) => {
+    //   instance.relations.register(classes[instance.classId].relationships)
+    // })
+
+    this.playgroundLayer.registerRelationships()
+  }
+
+  unregisterRelationships() {
+    this.player.relations.unregister()
+
+    this.objectInstances.forEach((instance) => {
+      instance.relations.unregister()
+    })
+
+    this.playgroundLayer.unregisterRelationships()
+  }
+
   removeObjectInstance(id) {
     this.objectInstances = this.objectInstances.filter((object) => {
       return id !== object.id
@@ -185,6 +207,7 @@ export class GameInstance extends Phaser.Scene {
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)
 
     this.createGrids()
+
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -222,15 +245,8 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     this.addPlayerInstance()
 
-    this.physics.add.collider(this.objectInstances[0].sprite, this.player.sprite, () => {
-      console.log('occurs importantly...')
-    })
 
-    this.physics.add.collider(this.objectInstances.map(({sprite}) => {
-      return sprite
-    }), this.player.sprite, () => {
-      console.log('occurs')
-    })
+    this.registerRelationships()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

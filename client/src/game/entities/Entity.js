@@ -1,5 +1,6 @@
+import _ from "lodash";
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS } from "../../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 
@@ -105,6 +106,34 @@ export class Entity {
     if(this.physicsType === ARCADE_PHYSICS) {
       this.sprite.setCollideWorldBounds(collide)
     }
+  }
+
+  setCollideIgnoreSides(sides) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      return 
+    }
+    
+    this.sprite.body.checkCollision.down = true 
+    this.sprite.body.checkCollision.up = true 
+    this.sprite.body.checkCollision.left = true 
+    this.sprite.body.checkCollision.right = true 
+
+    Object.keys(sides).forEach((side) => {
+      if(sides[side] === false) return
+
+      if(side === SIDE_LEFT) {
+        this.sprite.body.checkCollision.left = false
+      }
+      if(side === SIDE_RIGHT) {
+        this.sprite.body.checkCollision.right = false
+      }
+      if(side === SIDE_UP) {
+        this.sprite.body.checkCollision.up = false
+      }
+      if(side === SIDE_DOWN) {
+        this.sprite.body.checkCollision.down = false
+      }
+    })
   }
 
   setCollideable(collideable) {
@@ -225,7 +254,7 @@ export class Entity {
       this.scene.physics.velocityFromRotation(this.sprite.rotation, thrust, this.sprite.body.acceleration);  
     }
   }
-  
+
   destroy() {
     this.sprite.destroy()
   }
