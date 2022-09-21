@@ -38,9 +38,6 @@ export const defaultRelationship = {
 }
 
 export const relationshipEvents = {
-  whileTouching: {
-
-  },
   collide: {
 
   },
@@ -53,9 +50,9 @@ export const relationshipEvents = {
   spawn: {
 
   },
-  timer: {
+  // timer: {
 
-  }
+  // }
 }
 
 export const relationshipEffects = {
@@ -66,21 +63,17 @@ export const relationshipEffects = {
   ignoreGravity: {
     //ignore gravity temporarily
   },
-  notAllowed: {
-    //create custom collision group
-  },
-
 
   // Movement
   teleport: {
 
   },
-  startFollow: {
+  // startFollow: {
 
-  },
-  stopFollow: {
+  // },
+  // stopFollow: {
 
-  },
+  // },
 
   // State
   reclass: {
@@ -102,13 +95,13 @@ export const relationshipEffects = {
   },
 
   //VFX
-  animation: {
+  // animation: {
 
-  },
+  // },
   cameraShake: {
 
   },
-  particleEffect: {
+  // particleEffect: {
 
-  }
+  // }
 }

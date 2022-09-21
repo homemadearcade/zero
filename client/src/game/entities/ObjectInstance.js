@@ -1,11 +1,11 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, HERO_INSTANCE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP } from "../../constants";
+import { DEFAULT_TEXTURE_ID, HERO_INSTANCE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
-import { Entity } from "./Entity";
-import { Relations } from "./members/Relations";
+import { Sprite } from "./members/Sprite";
+import { Collider } from "./members/Collider";
 
-export class ObjectInstance extends Entity {
+export class ObjectInstance extends Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
@@ -16,39 +16,11 @@ export class ObjectInstance extends Entity {
     const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     const attributes = objectClass.attributes
-    super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName }, { useEditor: true })
+    super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName })
     if(objectClass.tint) this.setTint(objectClass.tint)
     this.setVisible(!attributes.invisible)
     this.setSize(objectClass.width, objectClass.height)
     scene.objectInstanceLayer.add(this.sprite)
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // EDITOR
-    if(this.sprite.highlight) {
-      this.sprite.highlight.setTintFill(0xffffff)
-      .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
-      .setVisible(false)
-    }
-    const cornerX = -objectClass.width/2
-    const cornerY = -objectClass.height/2
-    this.sprite.border = scene.add.graphics();
-    this.sprite.border.lineStyle(4, 0xffffff, 1);
-    this.sprite.border.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
-    this.sprite.border.setVisible(false)
-    scene.uiLayer.add(this.sprite.border)
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // STORE
-    this.id = id
-    this.classId = classId
-    this.scene = scene
-    this.sprite.id = id
-    this.sprite.classId = classId
-    this.width = objectClass.width
-    this.height = objectClass.height
-    scene.objectInstanceGroup.add(this.sprite)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -68,16 +40,51 @@ export class ObjectInstance extends Entity {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
+    // EDITOR
+    this.sprite.setInteractive();
+    scene.input.setDraggable(this.sprite)
+    if(!spriteSheetName) {
+      this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
+    } else {
+      this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
+    }
+    this.sprite.highlight.setTintFill(0xffffff)
+    .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
+    .setVisible(false)
+    scene.uiLayer.add(this.sprite.highlight)
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
     // MOVEMENT
     this.setDrag(objectClass.drag)
     this.setIgnoreGravity(attributes.ignoreGravity)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
+    // STORE
+    this.id = id
+    this.classId = classId
+    this.scene = scene
+    this.sprite.id = id
+    this.sprite.classId = classId
+    this.width = objectClass.width
+    this.height = objectClass.height
+    scene.objectInstanceGroup.add(this.sprite)
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
     // RELATIONS
     if(id === HERO_INSTANCE_ID) {
-      this.relations = new Relations(scene, this, this)
+      this.collider = new Collider(scene, this, this)
     }
+
+    const cornerX = -objectClass.width/2
+    const cornerY = -objectClass.height/2
+    this.sprite.border = scene.add.graphics();
+    this.sprite.border.lineStyle(4, 0xffffff, 1);
+    this.sprite.border.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
+    this.sprite.border.setVisible(false)
+    scene.uiLayer.add(this.sprite.border)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -97,7 +104,7 @@ export class ObjectInstance extends Entity {
     const objectClass = gameModel.classes[this.classId]
     this.setCollideable(true);
     this.setVisible(!objectClass.attributes.invisible)
-    objectClass.relationships.forEach(({classId, event, effect}) => {
+    objectClass.relations.forEach(({classId, event, effect}) => {
       if(event === ON_SPAWN) {
         this.runEffect(effect)
       }
@@ -112,7 +119,7 @@ export class ObjectInstance extends Entity {
   destroyInGame() {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
-    objectClass.relationships.forEach(({classId, event, effect}) => {
+    objectClass.relations.forEach(({classId, event, effect}) => {
       if(event === ON_DESTROY) {
         this.runEffect(effect)
       }
@@ -138,11 +145,72 @@ export class ObjectInstance extends Entity {
     // if(movementPattern === MOVEMENT_SIDE_TO_SIDE) {
     //   this.setPosition(this.x + .1, this.y)
     // }
+
+    if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
+      this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
+      console.log(objectClass.attributes.ignoreGravity)
+    }
+
+    this.wasIgnoreGravityModified = this.isIgnoreGravityModified
+    this.isIgnoreGravityModified = false
+
+    if(this.wasVisibilityModified && !this.isVisibilityModified) {
+      this.setVisible(!objectClass.attributes.invisible)
+    }
+
+    this.wasVisibilityModified = this.isVisibilityModified
+    this.isVisibilityModified = false
   }
 
   destroy() {
+    this.sprite.highlight.destroy()
     this.sprite.border.destroy()
-
     super.destroy()
+  }
+
+  registerRelations() {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+    this.collider.register(objectClass.relations)
+  }
+
+  unregisterRelations() {
+    this.collider.unregister()
+  }
+
+
+  runEffect(effect, agent) {
+    // MOVEMENT
+    if(effect.id === EFFECT_TELEPORT) {
+      this.setPosition(effect.x, effect.y)
+    } else if(effect.id === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
+      this.isIgnoreGravityModified = true
+      this.setIgnoreGravity(true)
+    }
+    
+    // LIFE
+    if(effect.id === EFFECT_DESTROY) {
+      this.destroyInGame()
+    } else if(effect.id === EFFECT_SPAWN) {
+      this.spawn()
+    } else if(effect.id === EFFECT_RECLASS) {
+      this.scene.removeObjectInstance(this.id)
+      this.scene.addObjectInstance(this.id, {spawnX: this.sprite.x, spawnY: this.sprite.y, classId: effect.classId})
+    }
+
+    // NARRATIVE
+    if(effect.id === EFFECT_CUTSCENE) {
+
+    } else if(effect.id === EFFECT_DIALOGUE) {
+
+    }
+    
+    // GRAPHICS
+    if(effect.id === EFFECT_INVISIBLE &&!this.isVisibilityModified) {
+      this.isVisibilityModified = true
+      this.setVisible(false)
+    } else if(effect.id === EFFECT_CAMERA_SHAKE) {
+      this.scene.cameras.main.shake(20)
+    }
   }
 }

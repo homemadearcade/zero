@@ -1,9 +1,9 @@
+/* eslint-disable no-undef */
 import Phaser from "phaser";
 import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../../constants";
-import { Entity } from "../Entity";
-import { Relations } from "./Relations";
+import { Sprite } from "./Sprite";
 
-export class InteractArea extends Entity {
+export class InteractArea extends Sprite {
   constructor(scene, objectInstance, { color, size }){
     super(scene, { spawnX: 0, spawnY: 0, textureId: DEFAULT_TEXTURE_ID })
 
@@ -17,6 +17,8 @@ export class InteractArea extends Entity {
     this.setSize(this.size, this.size)
     this.setIgnoreGravity(true)
     this.setImmovable(true)
+
+    this.unregisters = []
     this.interactables = []
     this.previousClosest = null
     this.paused = false
@@ -24,7 +26,6 @@ export class InteractArea extends Entity {
     scene.uiLayer.add(this.sprite)
 
     this.objectInstance = objectInstance
-    this.relations = new Relations(scene, objectInstance, this)
 
     this.xKey = scene.input.keyboard.addKey('X');  // Get key object
 
@@ -34,23 +35,37 @@ export class InteractArea extends Entity {
     return this
   }
   
-  register(relationships) {
+  register(relations) {
     if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.registerArcade(relationships)
+      this.registerArcade(relations)
     } 
     if(this.scene.physicsType === MATTER_PHYSICS) {
-      this.registerMatter(relationships)
+      this.registerMatter(relations)
     } 
+  }
+
+  unregister() {
+    if(this.scene.physicsType === ARCADE_PHYSICS) {
+      this.unregisters.forEach((fx) =>  {
+        this.scene.physics.world.removeCollider(fx)
+      })
+    }
+
+    if(this.scene.physicsType === MATTER_PHYSICS) {
+
+    }
   }
 
   registerArcade(relations) {
     relations.forEach(({classId, event, effect}) => {
       if(event === ON_INTERACT) {
         const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === classId).map(({sprite}) => sprite)
-        this.scene.physics.add.overlap(this.sprite, releventInstances, (a, b) => {
-          if(this.paused) return
-          this.interactables.push({entitySprite: b, effect})
-        })
+        this.unregisters.push(
+          this.scene.physics.add.overlap(this.sprite, releventInstances, (a, b) => {
+            if(this.paused) return
+            this.interactables.push({entitySprite: b, effect})
+          })
+        )
       }
     })
   }
@@ -103,7 +118,7 @@ export class InteractArea extends Entity {
     }
 
     this.interactables.forEach(({entitySprite, effect}) => {
-      entitySprite.border.setVisible(false)
+      // entitySprite.border.setVisible(false)
       const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.sprite.x, this.sprite.y)
       const { closestDistance } = interactPossibility
       if(distance < closestDistance) {
@@ -116,7 +131,7 @@ export class InteractArea extends Entity {
     const { closestInteractable, effect } = interactPossibility
     if(closestInteractable) closestInteractable.border.setVisible(true)
     if(closestInteractable && this.xKey.isDown) {
-      this.relations.runEffect(effect, closestInteractable)
+      this.objectInstance.runEffect(effect, closestInteractable)
     }
 
     this.previousClosest = closestInteractable

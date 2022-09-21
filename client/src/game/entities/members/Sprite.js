@@ -1,11 +1,11 @@
 import _ from "lodash";
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../../constants";
-import store from "../../store";
-import { getHexIntFromHexString } from "../../utils/editorUtils";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../../../constants";
+import store from "../../../store";
+import { getHexIntFromHexString } from "../../../utils/editorUtils";
 
-export class Entity {
-  constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }, { useEditor } = {}){
+export class Sprite {
+  constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
     const gameModel = store.getState().game.gameModel
     
     const plugin = { 
@@ -34,21 +34,6 @@ export class Entity {
       } else {
         this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
       }
-    }
-
-    if(!spriteSheetName) {
-      if(useEditor) this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
-    } else {
-      if(useEditor) this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
-    }
-    
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // EDITOR
-    if(useEditor) {
-      this.sprite.setInteractive();
-      scene.input.setDraggable(this.sprite)
-      scene.uiLayer.add(this.sprite.highlight)
     }
 
     this.physicsType = scene.physicsType
@@ -260,7 +245,6 @@ export class Entity {
   }
 
   destroy() {
-    this.sprite.highlight.destroy()
     this.sprite.destroy()
   }
 }

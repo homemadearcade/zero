@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { GAME_BOUNDARY_DOWN_WALL_ID, GAME_BOUNDARY_LEFT_WALL_ID, GAME_BOUNDARY_RIGHT_WALL_ID, GAME_BOUNDARY_UP_WALL_ID, GAME_BOUNDARY_WALL_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../constants";
 
 export function isGameBoundaryWall(world, body) {
@@ -29,13 +30,14 @@ export function isEventMatch({effect, classId, world, gameObject, body}) {
 }
 
 export function areBSidesHit(sides, a, b) {
-  return sides.some((side) => {
+  
+  const verdict = sides.some((side) => {
     if(side === SIDE_UP) {
-      if (b.body.touching.down && a.body.touching.up) {
+      if (b.body.touching.up && a.body.touching.down) {
         return true
       }
     } else if(side === SIDE_DOWN) {
-      if (b.body.touching.up && a.body.touching.down) {
+      if (b.body.touching.down && a.body.touching.up) {
         return true
       }
     } else if(side === SIDE_RIGHT) {
@@ -50,6 +52,8 @@ export function areBSidesHit(sides, a, b) {
 
     return false
   })
+
+  return verdict
 }
 
 export function getClassDisplayName(objectClass, classId) {

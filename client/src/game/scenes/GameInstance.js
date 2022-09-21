@@ -66,30 +66,29 @@ export class GameInstance extends Phaser.Scene {
     const newPhaserObject = new ObjectInstance(this, id, gameObject)
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[id] = newPhaserObject
+
+    this.unregisterRelations()
+    this.registerRelations()
   }
 
-  registerRelationships() {
-    const gameModel = store.getState().game.gameModel
-    const classes = gameModel.classes
-    this.player.relations.register(classes[gameModel.hero.initialClassId].relationships)
-    this.player.interactArea.register(classes[gameModel.hero.initialClassId].relationships)
-   
+  registerRelations() {
+    this.player.registerRelations()
+    
     // this.objectInstances.forEach((instance) => {
-    //   instance.relations.register(classes[instance.classId].relationships)
+    //   instance.registerRelations()
     // })
 
-    this.playgroundLayer.registerRelationships()
+    this.playgroundLayer.registerRelations()
   }
 
-  unregisterRelationships() {
-    this.player.relations.unregister()
-    this.player.interactArea.unregister()
+  unregisterRelations() {
+    this.player.unregisterRelations()
 
-    this.objectInstances.forEach((instance) => {
-      instance.relations.unregister()
-    })
+    // this.objectInstances.forEach((instance) => {
+    //   instance.unregisterRelations()
+    // })
 
-    this.playgroundLayer.unregisterRelationships()
+    this.playgroundLayer.unregisterRelations()
   }
 
   removeObjectInstance(id) {
@@ -97,6 +96,9 @@ export class GameInstance extends Phaser.Scene {
       return id !== object.id
     })
     this.getObjectInstance(id).destroy()
+
+    this.unregisterRelations()
+    this.registerRelations()
   }
 
   updateObjectInstance(objectInstance, {x, y, rotation}) {
@@ -248,7 +250,7 @@ export class GameInstance extends Phaser.Scene {
     this.addPlayerInstance()
 
 
-    this.registerRelationships()
+    this.registerRelations()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

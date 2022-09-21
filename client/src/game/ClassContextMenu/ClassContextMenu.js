@@ -15,7 +15,7 @@ const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLi
       <MenuItem onClick={() => {
         openLivePhysicsEditor(classId)
         onMenuItemClick()
-      }}>Edit Reactions</MenuItem>
+      }}>Edit Collision Response</MenuItem>
     </Unlockable>
     {objectClass?.camera &&
       <Unlockable interfaceId="contextMenu/class/camera">

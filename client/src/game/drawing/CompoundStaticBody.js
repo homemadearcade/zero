@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS } from "../../constants";
+import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS } from "../../constants";
 
 export class CompoundStaticBody {
   constructor(scene, {parts, width, height, nodeWidth, nodeHeight}){
@@ -27,12 +27,25 @@ export class CompoundStaticBody {
 
       parts.forEach(({x, y, width}) => {
         
-        const rect =  scene.add.rectangle(x + (nodeWidth * width)/2, y + nodeHeight/2, nodeWidth * width, nodeHeight)
-        // rect.setAlpha(0)
-        scene.physics.world.enable(rect)
-        rect.body.setAllowGravity(false)
-        rect.body.setImmovable(true)
-        this.group.push(rect)
+        const sprite =  scene.physics.add.staticSprite(x + (nodeWidth * width)/2, y + nodeHeight/2, DEFAULT_TEXTURE_ID)
+        
+        // sprite.setDisplaySize(nodeWidth * width, nodeHeight)
+        scene.physics.world.enable(sprite)
+        sprite.setSize(nodeWidth * width, nodeHeight)
+        sprite.setOrigin(0,0)
+        sprite.setAlpha(0)
+        sprite.setVisible(false)
+        // sprite.setFriction(0)
+        // nodeWidth * width, nodeHeight
+        this.group.push(sprite)
+
+
+        // const sprite =  scene.add.rectangle(x + (nodeWidth * width)/2, y + nodeHeight/2, nodeWidth * width, nodeHeight)
+        // // rect.setAlpha(0)
+        // scene.physics.world.enable(sprite)
+        // sprite.body.setAllowGravity(false)
+        // sprite.body.setImmovable(true)
+        // this.group.push(sprite)
       })
 
       // scene.physics.add.existing(this.group)

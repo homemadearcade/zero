@@ -19,7 +19,7 @@ CREATE CLASS UI
 ADD CLASS
   Graphics
   Movement
-  Relationships
+  Relations
   Collision Response
 
 ADDITIONAL FEATURES IN ADD CLASS
