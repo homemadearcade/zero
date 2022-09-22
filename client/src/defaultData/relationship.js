@@ -1,25 +1,8 @@
-// RELATIONSHIP EVENTS
-// collide: {
-
-// },
-// interact: {
-
-// },
-// destroy: {
-  
-// },
-// spawn: {
-
-// },
-// timer: {
-
-// }
-
 // RELATIONSHIP EFFECTS
 // Movement
-// State
+// Lifecycle
 // Narrative
-// VFX
+// Graphics
 
 export const defaultRelationship = {
   classId: '',
@@ -87,11 +70,8 @@ export const relationshipEffects = {
   cutscene: {
 
   },
-  dialogue: {
 
-  },
-
-  //VFX
+  //Graphics
   // animation: {
 
   // },

@@ -15,7 +15,9 @@ import {
   TOGGLE_GRID_VIEW,
   UPDATE_ACCORDIAN_LIST,
   OPEN_LIVE_PROJECTILE_EDITOR,
-  OPEN_LIVE_MOVEMENT_EDITOR
+  OPEN_LIVE_MOVEMENT_EDITOR,
+  OPEN_SNAPSHOT_TAKER,
+  CLOSE_SNAPSHOT_TAKER,
 } from '../types';
 
 export const toggleGridView = () => (dispatch, getState) => {
@@ -123,6 +125,29 @@ export const openLiveWorldEditor = (classId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_LIVE_WORLD_EDITOR,
+    payload: {}
+  });
+}
+
+export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_SNAPSHOT_TAKER,
+    payload: {
+      snapshotFileId: fileId
+    }
+  });
+
+  document.body.style.cursor = 'cell'
+}
+
+export const closeSnapshotTaker = () => (dispatch, getState) => {
+
+  document.body.style.cursor = null
+
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_SNAPSHOT_TAKER,
     payload: {}
   });
 }

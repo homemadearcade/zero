@@ -15,7 +15,9 @@ import {
   TOGGLE_GRID_VIEW,
   UPDATE_ACCORDIAN_LIST,
   OPEN_LIVE_PROJECTILE_EDITOR,
-  OPEN_LIVE_MOVEMENT_EDITOR
+  OPEN_LIVE_MOVEMENT_EDITOR,
+  OPEN_SNAPSHOT_TAKER,
+  CLOSE_SNAPSHOT_TAKER
 } from '../types';
 
 const initialState = {
@@ -30,6 +32,8 @@ const initialState = {
   isSectionEditorOpen: false,
   isGridViewOn: false,
   liveEditingCategory: null,
+  isSnapshotTakerOpen: false,
+  snapshotFileId: null,
   accordianLists: {
     'BrushList': null,
   }
@@ -138,6 +142,18 @@ export default function editorReducer(state = initialState, { type, payload }) {
         classIdSelectedLiveEditor: null,
         isLiveEditorOpen: false,
         liveEditingCategory: null
+      };
+    case OPEN_SNAPSHOT_TAKER:
+      return {
+        ...state,
+        isSnapshotTakerOpen: true,
+        snapshotFileId: payload.snapshotFileId
+      };
+    case CLOSE_SNAPSHOT_TAKER:
+      return {
+        ...state,
+        isSnapshotTakerOpen: false,
+        snapshotFileId: null
       };
     case CLEAR_EDITOR:
       return initialState

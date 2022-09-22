@@ -1,19 +1,5 @@
 CONVERSATION TOPICS
 
-ATTRIBUTES
-Attributes that are initially turned on but can be turned off
-Attributes that are initially turned off but can be turned on
-
-EVENT BASED
-Actions that start when an event happens and resolve
-  1. immediately
-  2. when they are 'done'
-  3. when another event happens
-
-When we take into acount conditions that read the 'state' of the game, things get much more complex
-
----
-
 CREATE CLASS UI
 
 ADD CLASS
@@ -27,8 +13,6 @@ ADDITIONAL FEATURES IN ADD CLASS
   Projectile
   Interact Area
   Controls
-
--
 
 Set initial velocity and acceleration?
 
@@ -51,6 +35,7 @@ Put + inside of grid
 UP NEXT 
 
 Relationship UI
+Cutscenes UI
 
 ---
 
@@ -59,10 +44,6 @@ TODO SOON
 GRAPHICS
   Sprite Editor
   + when making class - to start a new drawing inside of sprite editor
-
-NARRATIVE
-  Dialogue
-  Cutscenes
 
 CONTROLS
   Speed

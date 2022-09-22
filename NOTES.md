@@ -1,8 +1,8 @@
 ENTITY MEMBERS
-  Graphics
+  Sprite
   Movement
   Collider
-  Physics Response
+  Collisions Response
 
   Projectiles
   Camera

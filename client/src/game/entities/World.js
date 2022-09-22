@@ -1,5 +1,7 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS } from "../../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, WORLD_BACKGROUND_CANVAS_DEPTH } from "../../constants";
+import store from "../../store";
+import { getHexIntFromHexString } from "../../utils/editorUtils";
 
 export class World {
   constructor(scene, { boundaries, gravity }){
@@ -8,6 +10,11 @@ export class World {
 
     this.setGravity(gravity.x, gravity.y)
     this.setBoundaries(boundaries)
+
+    const gameModel = store.getState().game.gameModel
+    const colorInt = getHexIntFromHexString(gameModel.world.backgroundColor || '#000000')
+    this.backgroundColorLayer = this.scene.add.rectangle(0, 0, gameModel.world.boundaries.maxWidth * 2, gameModel.world.boundaries.maxHeight * 2, colorInt)
+    this.backgroundColorLayer.setDepth(WORLD_BACKGROUND_CANVAS_DEPTH)
 
     return this
   }

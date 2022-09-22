@@ -61,3 +61,12 @@ button[disabled] {
   background-color: red;
   /* transition: background-color 100ms linear; */
 }
+
+@keyframes blinker {
+  35% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: blinker 1s step-start infinite;
+}

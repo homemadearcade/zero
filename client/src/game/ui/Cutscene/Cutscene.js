@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { progressActiveCutscene } from '../../../store/actions/narrativeActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import KeyIndicator from '../KeyIndicator/KeyIndicator';
 import './Cutscene.scss';
 
 function CutsceneBody({imageUrl, text, progressActiveCutscene}) {
@@ -23,7 +24,10 @@ function CutsceneBody({imageUrl, text, progressActiveCutscene}) {
   return (
     <div className="Cutscene">
       {imageUrl && <img className="Cutscene__image" src={imageUrl} alt={text}/>}
-      <div className="Cutscene__text">{text}</div>
+      <div className="Cutscene__text-container">
+        <div className="Cutscene__text">{text}</div>
+        <KeyIndicator className="Cutscene__text-key blink" keyName="x"/>
+      </div>
     </div>
   );
 }

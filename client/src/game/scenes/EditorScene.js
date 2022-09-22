@@ -2,10 +2,10 @@ import Phaser from 'phaser';
 import { v4 as uuidv4 } from 'uuid';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
-import { editGameModel } from '../../store/actions/gameActions';
+import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
-import { changeEditorCameraZoom } from '../../store/actions/editorActions';
-import { HERO_INSTANCE_ID } from '../../constants';
+import { changeEditorCameraZoom, closeSnapshotTaker, openSnapshotTaker } from '../../store/actions/editorActions';
+import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
@@ -14,6 +14,7 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize } from '../../defaultData/general';
+import { urlToFile } from '../../utils/utils';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -29,8 +30,10 @@ export class EditorScene extends GameInstance {
     this.isGridViewOn = true
     this.editorCamera = null
     this.remoteEditors = []
-    this.cameraDragStart = null
     this.mouseWheelTimeout = null
+
+    this.snapshotSquare = null 
+    this.snapshotStartPos = null
   }
   
   ////////////////////////////////////////////////////////////
@@ -45,7 +48,7 @@ export class EditorScene extends GameInstance {
       const { snappedX, snappedY } = snapObjectXY({x: dragX, y: dragY}, objectClass)
       entitySprite.x = snappedX;
       entitySprite.y = snappedY;
-    } else if(!this.brush && !this.stamper && !this.cameraDragStart){
+    } else if(!this.brush && !this.stamper){
       this.draggingObjectInstanceId = entitySprite.id
     }
   }
@@ -80,20 +83,27 @@ export class EditorScene extends GameInstance {
   onPointerMove = (pointer)  => {
     window.pointer = pointer
 
-    if(this.cameraDragStart && !this.brush && !this.stamper) {
-      const cameraZoom = store.getState().editor.cameraZoom
-      const deltaX = (this.cameraDragStart.x - pointer.x)/cameraZoom
-      const deltaY = (this.cameraDragStart.y - pointer.y)/cameraZoom
-      let scrollX = this.cameraDragStart.startScrollX + deltaX 
-      let scrollY = this.cameraDragStart.startScrollY + deltaY
-      this.editorCamera.setScroll(scrollX, scrollY)
-      this.input.setDefaultCursor('grabbing');
-    }
-
     const editor = getCobrowsingState().editor
     const brushId = editor.brushIdSelectedBrushList
     const classId = editor.classIdSelectedClassList
     const gameModel = store.getState().game.gameModel
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // SNAPSHOT
+    ////////////////////////////////////////////////////////////
+    if(this.snapshotSquare) {
+      if(!editor.isSnapshotTakerOpen) {
+        this.snapshotSquare.clear()
+        this.snapshotSquare = null 
+        this.snapshotStartPos = null
+       } else {
+        this.snapshotSquare.clear()
+        this.snapshotSquare.lineStyle(2, 0xffffff);
+        this.snapshotSquare.strokeRect(this.snapshotStartPos.x - 2, this.snapshotStartPos.y - 2, (pointer.worldX - this.snapshotStartPos.x) + 2, (pointer.worldY - this.snapshotStartPos.y) + 2);
+       }
+    }
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -145,6 +155,12 @@ export class EditorScene extends GameInstance {
       return
     }
 
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // CONTEXT MENU
+    ////////////////////////////////////////////////////////////
     if (pointer.rightButtonDown()) {
       function disableContextMenue(e) {
         e.preventDefault()
@@ -164,15 +180,65 @@ export class EditorScene extends GameInstance {
     }
 
     if(pointer.leftButtonDown()) {
+      ////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////
+      // SNAPSHOT
+      ////////////////////////////////////////////////////////////
+      const editor = getCobrowsingState().editor
+      const gameModel = store.getState().game.gameModel
+      if(editor.isSnapshotTakerOpen) {
+        if(this.snapshotSquare) {
+          const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
+          snapCanvas.draw(this.world.backgroundColorLayer, 0,0)
+          snapCanvas.draw(this.backgroundLayer, 0,0)
+          snapCanvas.draw(this.playgroundLayer, 0,0)
+          snapCanvas.draw(this.objectInstanceGroup, 0,0)
+          snapCanvas.draw(this.foregroundLayer, 0,0)
+          snapCanvas.snapshotArea(
+            Math.floor(this.snapshotStartPos.x - 2), Math.floor(this.snapshotStartPos.y - 2), 
+            Math.floor((pointer.worldX - this.snapshotStartPos.x) + 2), 
+            Math.floor((pointer.worldY - this.snapshotStartPos.y) + 2), 
+            async function (image) {
+              const fileId = editor.snapshotFileId
+          
+              var imgCanvas = document.createElement("canvas"),
+              imgContext = imgCanvas.getContext("2d");
+              imgCanvas.width = image.width;
+              imgCanvas.height = image.height;
+              imgContext.drawImage(image, 0, 0, image.width, image.height);
+
+              const file = await urlToFile(imgCanvas.toDataURL(), fileId, 'image/png')
+
+              store.dispatch(addAwsImage(file, fileId, {
+                name: fileId,
+                type: 'layer'
+              }))
+            }
+          );
+          this.snapshotSquare.clear()
+          this.snapshotSquare = null
+          this.snapshotStartPos = null
+          store.dispatch(closeSnapshotTaker())
+          return
+        }
+        this.snapshotSquare = this.add.graphics().setDepth(UI_CANVAS_DEPTH);
+        this.snapshotStartPos = { x: pointer.worldX, y: pointer.worldY }
+        return
+      }
+
+
+      ////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////
+      // BRUSH
+      ////////////////////////////////////////////////////////////
       if(this.brush) {
         this.canvas = this.getLayerById(this.brush.getCanvasId())
         if(this.canvas) {
           this.brush.stroke(pointer, this.canvas)
         }
-      } else if(!gameObjects.length && this.isGridViewOn && !this.cameraDragStart) {
-          // Drag map?
       }
-
     }
   }
 
@@ -182,8 +248,6 @@ export class EditorScene extends GameInstance {
     }
 
     this.draggingObjectInstanceId = null
-    this.cameraDragStart = null
-    this.input.setDefaultCursor('default');
 
     if(this.canvas) {
       this.onStrokeComplete()
@@ -202,7 +266,6 @@ export class EditorScene extends GameInstance {
 
   onPointerUpOutside = (pointer)  => {
     this.draggingObjectInstanceId = null
-    this.cameraDragStart = null
 
     if(this.canvas) {
       this.onStrokeComplete()
@@ -216,7 +279,7 @@ export class EditorScene extends GameInstance {
   }
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
-    if(this.draggingObjectInstanceId || this.cameraDragStart) return
+    if(this.draggingObjectInstanceId) return
     if(!getCobrowsingState().editor.isGridViewOn) return
     
     window.pointer = pointer
@@ -483,6 +546,8 @@ export class EditorScene extends GameInstance {
         }
       })
     }
+
+    store.dispatch(openSnapshotTaker(store.getState().game.gameModel.id + '/snapshot' + Math.random()))
   }
 
   update(time, delta) {

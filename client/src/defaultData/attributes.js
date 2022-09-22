@@ -1,8 +1,8 @@
 
 // Attributes
 // Movement
-// Collision
-// VFX
+// Collision Response
+// Graphics
 // Controls
 
 export const movementAttributes = {
@@ -35,7 +35,7 @@ export const collisionResponseAttributes = {
   },
 }
 
-export const visualEffectsAttributes = {
+export const graphicalAttributes = {
   glowing: {
 
   },

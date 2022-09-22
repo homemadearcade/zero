@@ -11,13 +11,23 @@
   justify-content: center;
   align-items: center;
 
-  &__text {
+  &__text-container {
     position: absolute;
     font-size: 1.5em;
     background: #222;
     padding: 1em;
     align-self: flex-end;
     margin-bottom: 10%;
+    max-width: 60%;
+  }
+
+  &__text-key {
+    display: flex;
+    justify-content: end;
+    padding-top: 8%;
+    div {
+      transform: scale(1.5);
+    }
   }
 
   &__image {

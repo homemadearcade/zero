@@ -9,8 +9,9 @@ import { clearEditorForms } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 import SectionEditor from '../SectionEditor/SectionEditor';
+import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
 
-const GameEditor = ({ classNames, editor: { isLiveEditorOpen, isSectionEditorOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, editor: { isLiveEditorOpen, isSectionEditorOpen, isSnapshotTakerOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -30,6 +31,7 @@ const GameEditor = ({ classNames, editor: { isLiveEditorOpen, isSectionEditorOpe
       {children}
       <div className="GameEditor__overlay">
         {isSectionEditorOpen && <SectionEditor/>}
+        {isSnapshotTakerOpen && <SnapshotTaker/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         {rightColumn}

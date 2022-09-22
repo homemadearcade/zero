@@ -37,8 +37,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   save = async ()  => {
     this.isSavingToAws = true
     
-    this.scene.input.setDefaultCursor('wait');
-
     const fileId = this.textureId
     const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 
@@ -60,7 +58,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene.load.once('complete', () => {
       this.isSavingToAws = false
       //sometimes this bugs out
-      this.scene?.input.setDefaultCursor('default');
       this.clear()
       this.initialDraw()
     });
