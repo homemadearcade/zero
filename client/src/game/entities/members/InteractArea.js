@@ -131,8 +131,12 @@ export class InteractArea extends Sprite {
     
     const { closestInteractable, effect } = interactPossibility
     if(closestInteractable) closestInteractable.border.setVisible(true)
-    if(closestInteractable && this.xKey.isDown) {
+    if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
       this.objectInstance.runEffect(effect, closestInteractable)
+      this.xKey.isPressable = false
+    }
+    if(closestInteractable && this.xKey.isUp) {
+      this.xKey.isPressable = true
     }
 
     this.previousClosest = closestInteractable

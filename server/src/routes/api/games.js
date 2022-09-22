@@ -49,6 +49,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       classes: req.body.classes,
       brushes: req.body.brushes,
       colors: req.body.colors,
+      cutscenes: req.body.cutscenes,
       awsImages: req.body.awsImages,
       world: req.body.world, 
       user: req.body.userId,
@@ -113,6 +114,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         classes: updatedGame.classes,
         brushes: updatedGame.brushes,
         colors: updatedGame.colors,
+        cutscenes: updatedGame.cutscenes,
         awsImages: updatedGame.awsImages,
         world: updatedGame.world, 
         user: tempGame.user.id 

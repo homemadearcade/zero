@@ -12,24 +12,7 @@ export const defaultObjectClass = {
   "controls": null,
   unspawned: false,
   worldBoundaryRelationship: WORLD_COLLIDE, // wrap, destroy
-  relations: [
-    // {
-    //   classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
-    //   event: ON_COLLIDE,
-    //   effect: {
-    //     id: EFFECT_STICK_TO
-    //   },
-    //   sides: []
-    // },
-    // {
-    //   classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
-    //   event: ON_COLLIDE,
-    //   effect: {
-    //     id: EFFECT_COLLIDE
-    //   },
-    //   sides: [SIDE_UP]
-    // }
-  ],
+  relations: [],
   collisionResponse: {
     ignoreSides: {
       [SIDE_DOWN]: false,

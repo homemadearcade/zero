@@ -1,9 +1,10 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_DIALOGUE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
 import { Collider } from "./members/Collider";
+import { openCutscene } from "../../store/actions/narrativeActions";
 
 export class ObjectInstance extends Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
@@ -155,7 +156,6 @@ export class ObjectInstance extends Sprite {
     // VISIBLITY AND IGNORE GRAVITY EFFECTS
     if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
       this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
-      console.log(objectClass.attributes.ignoreGravity)
     }
 
     this.wasIgnoreGravityModified = this.isIgnoreGravityModified
@@ -172,7 +172,6 @@ export class ObjectInstance extends Sprite {
     ////////////////////////////////////////
     // STICK TO EFFECT
     if (this.sprite.lockedTo) {
-      console.log(this.sprite.lockedTo)
       this.sprite.body.position.x += this.sprite.lockedTo.body.deltaX();
       this.sprite.body.position.y += this.sprite.lockedTo.body.deltaY();   
     }
@@ -260,9 +259,7 @@ export class ObjectInstance extends Sprite {
 
     // NARRATIVE
     if(effect.id === EFFECT_CUTSCENE) {
-
-    } else if(effect.id === EFFECT_DIALOGUE) {
-
+      store.dispatch(openCutscene(agent.classId, effect.cutsceneId))
     }
     
     // GRAPHICS

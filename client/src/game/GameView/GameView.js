@@ -13,6 +13,7 @@ import { setGameInstance } from '../../store/actions/gameActions';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 
 import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
+import Cutscene from '../ui/Cutscene/Cutscene';
 
 const config= {
   type: Phaser.WEBGL,
@@ -75,13 +76,14 @@ const GameView = ({isHost, isNetworked, setGameInstance}) => {
 
   return (
     <div className="GameView">
+      <Cutscene/>
       <div id="PhaserGame"/>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-
+  
 });
 
 export default connect(mapStateToProps, { setGameInstance })(GameView);

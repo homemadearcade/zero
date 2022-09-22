@@ -1,4 +1,4 @@
-import { EFFECT_COLLIDE, EFFECT_STICK_TO, ON_COLLIDE, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../constants"
+import { EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../constants"
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general"
 
 export const defaulHeroClass = {
@@ -31,9 +31,10 @@ export const spaceshipClass = {
   relations: [
     {
       classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
-      event: ON_COLLIDE,
+      event: ON_INTERACT,
       effect: {
-        id: EFFECT_STICK_TO
+        id: EFFECT_CUTSCENE,
+        cutsceneId: 'cutscene1'
       },
       sides: []
     },

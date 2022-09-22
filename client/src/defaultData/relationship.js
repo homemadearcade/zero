@@ -29,7 +29,8 @@ export const defaultRelationship = {
     id: '',
     x: null,
     y: null,
-    classId: null
+    classId: null,
+    cutsceneId: null,
   }, 
 }
 

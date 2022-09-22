@@ -27,6 +27,17 @@ export const defaultGame = {
   colors: {
 
   },
+  cutscenes: {
+    'cutscene1': {
+      pauseGame: true,
+      scenes: [
+        {
+          // imageUrl: 'https://i.imgur.com/6icjnbZ.jpeg',
+          text: 'This is the first scene text'
+        }
+      ]
+    }
+  },
   "awsImages": {
     // "url": "xxx",
     // "name": 'name'

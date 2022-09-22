@@ -21,4 +21,14 @@ export class GameLocalScene extends EditorScene {
     super.unload();
     window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
+
+  update() {
+    super.update() 
+
+    if(this.isPaused) {
+      this.pause()
+    } else {
+      this.resume()
+    }
+  }
 }

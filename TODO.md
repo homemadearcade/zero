@@ -12,7 +12,7 @@ Actions that start when an event happens and resolve
 
 When we take into acount conditions that read the 'state' of the game, things get much more complex
 
--
+---
 
 CREATE CLASS UI
 
@@ -67,11 +67,6 @@ NARRATIVE
 CONTROLS
   Speed
   Changing Controls.. etc
-
-EFFECTS 
-  NARRATIVE
-  cutscene
-  dialogue
 
 ATTRIBUTES
   unspawned

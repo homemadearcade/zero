@@ -1,8 +1,8 @@
 ENTITY MEMBERS
-  Auto Collision Response
   Graphics
-  Collider
   Movement
+  Collider
+  Physics Response
 
   Projectiles
   Camera
@@ -24,9 +24,7 @@ Actions that start when an event happens and resolve
 
 When we take into acount conditions that read the 'state' of the game, things get much more complex
 
-
 ---
-
 
 Everything is the same class
 Camera, Controls are all on the class object, not based on the hero object
@@ -51,7 +49,6 @@ GAME INSTANCE
 Object Instance
 Player
 Collision Grid
-
 
 OLD DISCUSSION TOPICS
 

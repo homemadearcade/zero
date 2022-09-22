@@ -68,6 +68,8 @@ export class PlayerInstance extends ObjectInstance {
   update() {  
     super.update()
 
+    if(this.scene.isPaused) return
+
     const classId = this.classId
     const objectClass = store.getState().game.gameModel.classes[classId]
 
@@ -78,8 +80,6 @@ export class PlayerInstance extends ObjectInstance {
 
     this.cameraPreview.update({x: this.sprite.x - cameraSize/2, y: this.sprite.y - cameraSize/2}, true)
     this.interactArea.update({x: this.sprite.x, y: this.sprite.y, angle: this.sprite.angle})
-
-    if(this.scene.isPaused) return
 
     if(this.cursors.space.isDown && objectClass.projectile?.classId) {
       if(this.scene.game.loop.time < this.nextFire) { 
@@ -129,6 +129,11 @@ export class PlayerInstance extends ObjectInstance {
     this.setVisible(false)
     this.particles.setVisible(false)
     this.interactArea.pause()
+  }
+
+  spawn() {
+    super.spawn()
+    // this.interactArea.resume()
   }
 
   respawn() {
