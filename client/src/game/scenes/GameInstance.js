@@ -25,6 +25,8 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstancesById = {}
 
     this.physicsType = ARCADE_PHYSICS
+
+    
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
@@ -268,6 +270,7 @@ export class GameInstance extends Phaser.Scene {
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);    
+
   }
 
   respawn() {

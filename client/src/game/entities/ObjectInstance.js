@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -22,6 +22,18 @@ export class ObjectInstance extends Sprite {
     this.setVisible(!attributes.invisible)
     this.setSize(objectClass.width, objectClass.height)
     scene.objectInstanceLayer.add(this.sprite)
+
+    if(attributes.glowing) {
+      var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(this.sprite);
+      this.sprite.glowTask = this.sprite.scene.tweens.add({
+        targets: pipeline,
+        intensity: 0.05,
+        ease: 'Linear',
+        duration: 500,
+        repeat: -1,
+        yoyo: true
+      });
+    }
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -50,9 +62,9 @@ export class ObjectInstance extends Sprite {
       this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
     }
     this.sprite.highlight.setTintFill(0xffffff)
-    .setDisplaySize(objectClass.width + 8, objectClass.height + 8)
+    .setDisplaySize(objectClass.width + 10, objectClass.height + 10)
     .setVisible(false)
-    scene.uiLayer.add(this.sprite.highlight)
+    this.sprite.highlight.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH - 1)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -67,10 +79,10 @@ export class ObjectInstance extends Sprite {
     this.id = id
     this.classId = classId
     this.scene = scene
-    this.sprite.id = id
-    this.sprite.classId = classId
     this.width = objectClass.width
     this.height = objectClass.height
+    this.sprite.id = id
+    this.sprite.classId = classId
     scene.objectInstanceGroup.add(this.sprite)
 
     //////////////////////////////////////////////////////////////
@@ -197,6 +209,7 @@ export class ObjectInstance extends Sprite {
 
   unregisterRelations() {
     this.collider.unregister()
+    this.sprite.lockedTo = null
   }
 
   fallenOff(player, platform, sides) {

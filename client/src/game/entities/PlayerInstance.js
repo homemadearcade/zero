@@ -104,11 +104,17 @@ export class PlayerInstance extends ObjectInstance {
       this.setAcceleration(0)
     }
 
-    // if ((this.cursors.up.isDown && this.sprite.body.touching.down) || (this.cursors.up.isDown && this.sprite.lockedTo)) {
-    //   this.sprite.body.setVelocityY(-330);
-    //   this.sprite.lockedTo = null;
-    //   this.setIgnoreGravity(objectClass.attributes.ignoreGravity);
-    // }
+    if(objectClass.attributes.rotationFollowKeys) {
+      if(this.cursors.left.isDown) {
+        this.setAngle(270)
+      } else if(this.cursors.right.isDown) {
+        this.setAngle(90)
+      } else if(this.cursors.up.isDown) {
+        this.setAngle(0)
+      } else if(this.cursors.down.isDown) {
+        this.setAngle(180)
+      }
+    }
   }
 
   registerRelations() {
@@ -121,7 +127,6 @@ export class PlayerInstance extends ObjectInstance {
   unregisterRelations() {
     super.unregisterRelations()
     this.interactArea.unregister()
-    this.lockedTo = null
   }
 
   destroyInGame() {

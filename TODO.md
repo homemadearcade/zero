@@ -16,43 +16,31 @@ ADDITIONAL FEATURES IN ADD CLASS
 
 Set initial velocity and acceleration?
 
-Projectile Editor
-
 Whether something is spawned or not needs to be instance level? or class level? Whats that look like? How to change? How to represent?
 
 World Effects like gravity change.. and?? other?
 
 --
 
-WARMUPS
+TODO
  
-Resize
-Change BG Color
 Put + inside of grid
-
---
-
-UP NEXT 
-
 Relationship UI
+Class UI
 Cutscenes UI
 
----
+Sprite Editor
+Projectile Editor
 
-TODO SOON
+Resize
+Change BG Color
+Unspawned
 
-GRAPHICS
-  Sprite Editor
-  + when making class - to start a new drawing inside of sprite editor
-
-CONTROLS
+Controls
+  Types
   Speed
-  Changing Controls.. etc
 
-ATTRIBUTES
-  unspawned
-  glowing
-  rotationFollowKeys
+Better Autosave
 
 --------
 
@@ -69,13 +57,6 @@ Resizing object on map
 
 TODO FEATURES
 
-Clearer Autosave Indicator
-
-Spray Can, Paintbrush, Crayon?
-
-For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
-
-right click brush - copy to layer X, delete, open in sprite editor
 
 --
 
@@ -100,69 +81,34 @@ check and make sure phaser is deleting the game objects
 
 Unauthenticate socket when logging out
 
-TODO CHORES ( MAYBE )
-
-Update Hero Camera Max after changing section
-
-useHooks for Unlockable Data and other data...
-
-<AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
-
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 
-this.isHost this.isLocal should I save? should I cobrowse, should I send remote updates?? All this lower level variables that are also coming from the top down
-
-Seperate more reducers?
-
-Game Model class? for like getting data from redux  so we can get game data with functions
-
-So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
+Update Hero Camera Max after changing section
 
 --------
 
 TODO FEATURES ( MAYBE )
 
-MATTER
-  If class is on background or foreground it should have isSensor: true in Constructor
-  or - Collision Category?
+Spray Can, Paintbrush, Crayon?
 
-  circle for objectInstance body?
-
-  Create custom physics grid for custom sprite for swords
-
-  Sensor on every side of the game object?
-
-Soccerball ( attach to hero on collide and allow hero to shoot out again )
-
-Interact area based on the size of the camera?
-
-If an item within an accordian is selected, the accordian is open
-
-Zoom Slider
-
-For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
+For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
 
 interfaceUnlock other features, such as camera move with keys? drag object? etc
 
 Unlock snap to grid?
 
-Lock to cobrowsers camera
-
-Right click -> snap camera to section? regardless if you are in section or not?
-
-ID system? is that smart? Like be able to figure out what anything is based on its id?
-
 --------
 
 TODO TIME PERMITTING
 
-Explosions
 Particles
-Following..Advanced Pathfinding
 Light System
+Following..Advanced Pathfinding
 Timers
 
 Mobile
+
+Explosions
 
 Blockchain NFT editing thing
 

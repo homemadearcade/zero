@@ -24,13 +24,10 @@ export const collisionResponseAttributes = {
   ignoreGravity: {
 
   },
-  fixedRotation: {
+  notPushable: {
 
   },
-  useMass: {
-
-  },
-  static: {
+  immovable: {
 
   },
 }

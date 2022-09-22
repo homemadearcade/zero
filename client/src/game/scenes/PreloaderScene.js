@@ -62,6 +62,8 @@ export class PreloaderScene extends Phaser.Scene {
 
     // this.load.image('kenny_platformer_64x64', 'https://labs.phaser.io/assets/tilemaps/tiles/kenny_platformer_64x64.png')
 
+    this.load.plugin('rexglowfilterpipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilterpipelineplugin.min.js', true);
+
     this.load.on('progress', this.updateLoaderGraphic);
     this.load.on('complete', this.checkOrientation);
     

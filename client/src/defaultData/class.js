@@ -26,27 +26,13 @@ export const defaultObjectClass = {
     fireRate: 1000,
     lifetime: 3000,
     ammo: 0,
-    velociry: 1,
+    velocity: 1,
   },
   movement: {
     pattern: null,
-    velocity: [0, 30],
-    // movingPlatform: false,
+    velocity: [0, 0],
   },
   attributes: {
-    // Collision Response
-    // ignoreGravity: false,
-    ignoreWorldBounds: false,
-    // fixedRotation: false,
-    useMass: true,
-    // static: false,
-
-    // VFX
-    glowing: false,
-    // invisible: false,
-
-    // Controls
-    rotationFollowKeys: false,
-    // ignoreUpKey: false,
+    rotationFollowKeys: true
   }
 }

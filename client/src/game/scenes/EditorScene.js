@@ -546,8 +546,6 @@ export class EditorScene extends GameInstance {
         }
       })
     }
-
-    store.dispatch(openSnapshotTaker(store.getState().game.gameModel.id + '/snapshot' + Math.random()))
   }
 
   update(time, delta) {

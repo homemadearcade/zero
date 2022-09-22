@@ -1,0 +1,45 @@
+----
+
+MAYBE DO FEATURES BACKLOG
+
+MATTER
+  If class is on background or foreground it should have isSensor: true in Constructor
+  or - Collision Category?
+
+  circle for objectInstance body?
+
+  Create custom physics grid for custom sprite for swords
+
+  Sensor on every side of the game object?
+
+Soccerball ( attach to hero on collide and allow hero to shoot out again )
+
+Interact area based on the size of the camera?
+
+Lock to cobrowsers camera
+
+If an item within an accordian is selected, the accordian is open
+
+Right click -> snap camera to section? regardless if you are in section or not?
+
+Zoom Slider
+
+For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
+
+----
+
+TODO CHORES BACKLOG
+
+useHooks for Unlockable Data and other data...
+
+<AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
+
+this.isHost this.isLocal should I save? should I cobrowse, should I send remote updates?? All this lower level variables that are also coming from the top down
+
+Seperate more reducers?
+
+Game Model class? for like getting data from redux  so we can get game data with functions
+
+So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
+
+ID system for objects vs player vs project, etc? is that smart? Like be able to figure out what anything is based on its id?
