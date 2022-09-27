@@ -34,37 +34,40 @@ const ColorSelect = ({
   const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors]).slice(0, maxColors)
   const [isHoveringHex, setIsHoveringHex] = useState()
 
+  const items = suggestedColors.map((hex) => {
+    const isSelected = selectedColorHex === hex
+    const isHovering = isHoveringHex === hex
+    return <div 
+      onClick={() => {
+        if(isSelected) {
+          if(onUnselectColor) onUnselectColor(hex)
+        } else {
+          onSelectColor(hex)
+        }
+      }} 
+      onMouseEnter={() => {
+        setIsHoveringHex(hex)
+      }}
+      onMouseLeave={() => {
+        setIsHoveringHex(null)
+      }}
+      key={hex} 
+      className={classNames("ColorSelect__color", {' ColorSelect__color--selected': isSelected })} 
+      style={{backgroundColor: hex}}>
+        {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
+    </div>
+  }).slice(0, 15)
+
+  items.push(<Button size="fit" onClick={onAddColor}>
+    +
+  </Button>)
+
   return <div className="ColorSelect">
     <BorderedGrid
     maxItems={maxColors} 
     size="2.15vh"
-    items={suggestedColors.map((hex) => {
-      const isSelected = selectedColorHex === hex
-      const isHovering = isHoveringHex === hex
-      return <div 
-        onClick={() => {
-          if(isSelected) {
-            if(onUnselectColor) onUnselectColor(hex)
-          } else {
-            onSelectColor(hex)
-          }
-        }} 
-        onMouseEnter={() => {
-          setIsHoveringHex(hex)
-        }}
-        onMouseLeave={() => {
-          setIsHoveringHex(null)
-        }}
-        key={hex} 
-        className={classNames("ColorSelect__color", {' ColorSelect__color--selected': isSelected })} 
-        style={{backgroundColor: hex}}>
-          {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
-      </div>
-    })}
+    items={items}
     />
-    <Button size="small" className="ColorSelect__add" onClick={onAddColor}>
-      +
-    </Button>
   </div>
 };
 

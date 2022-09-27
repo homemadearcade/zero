@@ -33,6 +33,6 @@ export const defaultObjectClass = {
     velocity: [0, 0],
   },
   attributes: {
-    rotationFollowKeys: true
+    // rotationFollowKeys: true
   }
 }

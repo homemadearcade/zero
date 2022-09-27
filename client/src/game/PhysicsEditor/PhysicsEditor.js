@@ -95,13 +95,13 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           />
       </Unlockable>}
       {<Unlockable interfaceId="physics/toggle/immovable">
-        <FormLabel>Immovable</FormLabel>
+        <FormLabel>Free Movement</FormLabel>
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { immovable: e.target.checked } } } })        
+            editGameModel({ classes: { [classId]: { attributes: { immovable: !e.target.checked } } } })        
           }}
-          checked={classSelected.attributes.immovable}
+          checked={!classSelected.attributes.immovable}
          />
       </Unlockable>}
       <Unlockable interfaceId="physics/toggle/notPushable">

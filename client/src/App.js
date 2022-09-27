@@ -103,6 +103,21 @@ const theme = createTheme({
         }
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: ({ ownerState, theme }) => ({
+          ...(ownerState.size === 'fit' && {
+            width: '100%',
+            lineHeight: 'normal',
+            padding: '0',
+            minWidth: 'auto',
+            display: 'flex',
+            alignSelf: 'middle',
+            height: '100%'
+          }),
+        }),
+      },
+    },
     MuiAccordionDetails: {
       styleOverrides: {
         root: {

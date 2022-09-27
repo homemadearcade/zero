@@ -39,9 +39,38 @@ const BrushList = ({
     return prev
   }, {})
 
+  const bgBrushes = brushesByLayer[BACKGROUND_CANVAS_ID]?.map(({brushId}, i) => {
+    return <BrushItem key={i} brushId={brushId}/>
+  }).slice(0, 14) || []
+  
+  bgBrushes.push(<Button size="fit" onClick={() => {
+    openCreateBrushFlow(BACKGROUND_CANVAS_ID)
+  }}>
+    +
+  </Button>)
+
+  const pgBrushes = brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
+    return <BrushItem key={i} brushId={brushId}/>
+  }).slice(0, 14) || []
+
+  pgBrushes.push(<Button size="fit" onClick={() => {
+    openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
+  }}>
+    +
+  </Button>)
+
+  const fgBrushes = brushesByLayer[FOREGROUND_CANVAS_ID]?.map(({brushId}, i) => {
+    return <BrushItem key={i} brushId={brushId}/>
+  }).slice(0, 14) || []
+
+  fgBrushes.push(<Button size="fit" onClick={() => {
+    openCreateBrushFlow(FOREGROUND_CANVAS_ID)
+  }}>
+    +
+  </Button>)
+
   return <div className="BrushList">
     <BrushControl/>
-    
     <CobrowsingAccordianList
       listId="BrushList"
       accordians={[
@@ -58,15 +87,8 @@ const BrushList = ({
               <BorderedGrid 
               maxItems={15} 
               size="3.5vh"
-              items={brushesByLayer[BACKGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-                return <BrushItem key={i} brushId={brushId}/>
-              }) || []}/>
+              items={bgBrushes}/>
             </div>
-            <Button size="small" className="BrushList__add" onClick={() => {
-              openCreateBrushFlow(BACKGROUND_CANVAS_ID)
-            }}>
-              +
-            </Button>
           </>
         },
         {
@@ -82,15 +104,8 @@ const BrushList = ({
               <BorderedGrid 
                 maxItems={15} 
                 size="3.5vh"
-                items={brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-                  return <BrushItem key={i} brushId={brushId}/>
-                }) || []}/>
+                items={pgBrushes}/>
             </div>
-            <Button size="small" className="BrushList__add" onClick={() => {
-              openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
-            }}>
-              +
-            </Button>
           </>
       },
       {
@@ -106,15 +121,8 @@ const BrushList = ({
             <BorderedGrid 
             maxItems={15} 
             size="3.5vh"
-            items={brushesByLayer[FOREGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-              return <BrushItem key={i} brushId={brushId}/>
-            }) || []}/>
+            items={fgBrushes}/>
           </div>
-          <Button size="small" className="BrushList__add" onClick={() => {
-            openCreateBrushFlow(FOREGROUND_CANVAS_ID)
-          }}>
-            +
-          </Button>
         </>
         }
       ]}

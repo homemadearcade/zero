@@ -1,30 +1,19 @@
 CONVERSATION TOPICS
 
-CREATE CLASS UI
-
-ADD CLASS
-  Graphics
-  Movement
-  Relations
-  Collision Response
-
-ADDITIONAL FEATURES IN ADD CLASS
-  Camera
-  Projectile
-  Interact Area
-  Controls
-
 Set initial velocity and acceleration?
 
 Whether something is spawned or not needs to be instance level? or class level? Whats that look like? How to change? How to represent?
 
 World Effects like gravity change.. and?? other?
 
+Camera change options for 'cutscene'
+
 --
 
 TODO
  
-Put + inside of grid
+Naming
+  One class per name, must rename
 Relationship UI
 Class UI
 Cutscenes UI
@@ -52,6 +41,20 @@ Choose BG Color
 Resizing object on map
   All objects of that class are resized at the same time
   Save or Cancel ( like Sections )
+
+CREATE CLASS UI
+
+  ADD CLASS
+    Graphics
+    Movement
+    Relations
+    Collision Response
+
+  ADDITIONAL FEATURES IN ADD CLASS
+    Camera
+    Projectile
+    Interact Area
+    Controls
 
 ---
 

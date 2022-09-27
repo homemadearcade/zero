@@ -78,7 +78,7 @@ export const relationshipEffects = {
   cameraShake: {
 
   },
-  invisible: {
+  hide: {
 
   },
   // particleEffect: {
