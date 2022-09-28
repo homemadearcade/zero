@@ -13,7 +13,7 @@ const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isCurrent
     if(contextMenu.isContextMenuOpen) {
       const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = contextMenu
   
-      contextMenus.push(<ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
+      contextMenus.push(<ContextMenu  key="contextmenu"  contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
         <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
       </ContextMenu>)
     }
@@ -23,7 +23,7 @@ const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isCurrent
       const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = remoteContextMenu
   
       // need to calculate contextMenuX percent because... its not perfect
-      contextMenus.push(<ContextMenu contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
+      contextMenus.push(<ContextMenu key="contextmenu" contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
         <div className="ContextMenus__remote-menu">
           <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
         </div>

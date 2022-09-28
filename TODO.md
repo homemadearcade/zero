@@ -18,8 +18,8 @@ Naming
   One class per name, must rename
 Relationship UI
 Cutscenes UI
-Controls UI
 
+Controls Editor
 Projectile Editor
 
 Change BG Color
