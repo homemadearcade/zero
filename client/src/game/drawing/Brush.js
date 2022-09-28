@@ -8,8 +8,6 @@ import { publishCodrawingStrokes } from "../../store/actions/codrawingActions";
 export class Brush extends Phaser.GameObjects.Image {
   constructor(scene, { brushId, tint, depth, textureId, spriteSheetName, spriteIndex }){
     
-    console.log(textureId, spriteSheetName)
-
     if(!spriteSheetName) {
       super(scene, 0, 0, textureId, 0)
     } else if(spriteSheetName, spriteIndex){

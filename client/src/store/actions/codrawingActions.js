@@ -22,7 +22,7 @@ export const publishCodrawingStrokes = ({canvasId, brushId, stroke}) => async (d
     //   payload: { canvasId, strokeData },
     // });    
     const options = attachTokenToHeaders(getState);
-    await axios.put('/api/codrawing/stroke/' + canvasId, { brushId, stroke }, options);
+    await axios.put('/api/codrawing/stroke/' + encodeURIComponent(canvasId), { brushId, stroke }, options);
   } catch (err) {
     console.error(err)
 
@@ -41,7 +41,7 @@ export const subscribeCodrawing = (canvasId) => async (dispatch, getState) => {
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/codrawing/' + canvasId, {}, options);
+    const response = await axios.post('/api/codrawing/' + encodeURIComponent(canvasId), {}, options);
 
     dispatch({
       type: SUBSCRIBE_CODRAWING_SUCCESS,
@@ -66,7 +66,7 @@ export const unsubscribeCodrawing = (canvasId) => async (dispatch, getState) => 
     console.log('leave', canvasId)
 
     const options = attachTokenToHeaders(getState);
-    await axios.post('/api/codrawing/stop/' + canvasId, {}, options);
+    await axios.post('/api/codrawing/stop/' + encodeURIComponent(canvasId), {}, options);
 
     dispatch({
       type: UNSUBSCRIBE_CODRAWING_SUCCESS,
@@ -89,7 +89,7 @@ export const codrawingUndo = (canvasId) => async (dispatch, getState) => {
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/codrawing/undo/' + canvasId, options);
+    const response = await axios.post('/api/codrawing/undo/' + encodeURIComponent(canvasId), options);
 
     dispatch({
       type: CODRAWING_UNDO_SUCCESS,

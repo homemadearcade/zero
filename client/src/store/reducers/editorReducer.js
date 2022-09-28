@@ -19,7 +19,8 @@ import {
   OPEN_SNAPSHOT_TAKER,
   CLOSE_SNAPSHOT_TAKER,
   OPEN_SPRITE_EDITOR,
-  CLOSE_SPRITE_EDITOR
+  CLOSE_SPRITE_EDITOR,
+  SET_SPRITE_EDITOR_GAME_INSTANCE
 } from '../types';
 
 const initialState = {
@@ -37,6 +38,7 @@ const initialState = {
   isSnapshotTakerOpen: false,
   snapshotFileId: null,
   spriteEditorTextureId: null,
+  spriteEditorGameInstance: null,
   accordianLists: {
     'BrushList': null,
   }
@@ -166,7 +168,13 @@ export default function editorReducer(state = initialState, { type, payload }) {
     case CLOSE_SPRITE_EDITOR: 
       return {
         ...state,
-        spriteEditorTextureId: null
+        spriteEditorTextureId: null,
+        spriteEditorGameInstance: null
+      }
+    case SET_SPRITE_EDITOR_GAME_INSTANCE: 
+      return {
+        ...state,
+        spriteEditorGameInstance: payload.gameInstance
       }
     case CLEAR_EDITOR:
       return initialState

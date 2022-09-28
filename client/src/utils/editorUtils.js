@@ -12,8 +12,8 @@ import {
   PLAYGROUND_CANVAS_ID,
   UI_CANVAS_DEPTH, 
   UI_CANVAS_ID,
-  BASE_CANVAS_ID,
-  BASE_CANVAS_DEPTH, 
+  SPRITE_EDITOR_CANVAS_ID,
+  SPRITE_EDITOR_CANVAS_DEPTH, 
 } from "../constants";
 import { COLOR_BRUSH_ID } from "../constants";
 import Phaser from 'phaser'
@@ -107,7 +107,7 @@ export function getDepthFromEraserId(eraserId) {
 
 export function getDepthFromCanvasId(canvasId) {
   if(canvasId === BACKGROUND_CANVAS_ID) return BACKGROUND_CANVAS_DEPTH
-  if(canvasId === BASE_CANVAS_ID) return BASE_CANVAS_DEPTH
+  if(canvasId === SPRITE_EDITOR_CANVAS_ID) return SPRITE_EDITOR_CANVAS_DEPTH
   if(canvasId === PLAYGROUND_CANVAS_ID) return PLAYGROUND_CANVAS_DEPTH
   if(canvasId === OBJECT_INSTANCE_CANVAS_ID) return OBJECT_INSTANCE_CANVAS_DEPTH
   if(canvasId === HERO_INSTANCE_CANVAS_ID) return HERO_INSTANCE_CANVAS_DEPTH

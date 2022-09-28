@@ -23,6 +23,7 @@ export class GameClientScene extends EditorScene {
     })
 
     if(this.draggingObjectInstanceId === HERO_INSTANCE_ID) return
+
     this.player.sprite.x = player.x 
     this.player.sprite.y = player.y
     this.player.sprite.rotation = player.rotation

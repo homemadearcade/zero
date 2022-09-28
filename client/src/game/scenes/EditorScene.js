@@ -234,10 +234,10 @@ export class EditorScene extends GameInstance {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        this.canvas = this.getLayerById(this.brush.getCanvasId())
-        if(this.canvas) {
-          this.brush.stroke(pointer, this.canvas)
-        }
+        const canvas = this.getLayerById(this.brush.getCanvasId())
+        if(canvas.isSavingToAws) return
+        this.canvas = canvas
+        this.brush.stroke(pointer, this.canvas)
       }
     }
   }

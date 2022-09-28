@@ -20,9 +20,11 @@ export class CodrawingCanvas extends Canvas {
 
     // if(this.isHost) {
     //   window.socket.on(ON_CODRAWING_SUBSCRIBED, ({ userId, canvasId  }) => {
+    //     const state = store.getState()
+    //     const me = state.auth.me 
     //     if(canvasId !== this.canvasId) return 
     //     if(userId === me.id) return 
-    //     this.save()
+    //     this.debouncedSaveShort()
     //   });
     // }
   

@@ -1,5 +1,15 @@
 ----
 
+FEATURES BACKLOG
+
+Spray Can, Paintbrush, Crayon?
+
+For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
+
+interfaceUnlock other features, such as camera move with keys? drag object? etc
+
+Unlock snap to grid?
+
 MAYBE DO FEATURES BACKLOG
 
 MATTER

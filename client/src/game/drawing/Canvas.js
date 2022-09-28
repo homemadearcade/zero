@@ -3,9 +3,10 @@ import store from "../../store";
 import { addAwsImage } from "../../store/actions/gameActions";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
-import { UNDO_MEMORY_MAX } from "../../constants";
+import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../../constants";
 
-window.undoStack = []
+window.instanceUndoStack = []
+window.spriteEditorUndoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { canvasId, boundaries }){
@@ -96,8 +97,13 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     if(!this.previousRenderTexture) {
       this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
       this.previousRenderTexture.draw(this, 0,0)
-      window.undoStack.push(this.canvasId)
-      window.undoStack = window.undoStack.slice(-UNDO_MEMORY_MAX)
+      if(this.canvasId.indexOf(SPRITE_EDITOR_CANVAS_ID) >= -1) {
+        window.spriteEditorUndoStack.push(this.canvasId)
+        window.spriteEditorUndoStack = window.spriteEditorUndoStack.slice(-UNDO_MEMORY_MAX)
+      } else {
+        window.instanceUndoStack.push(this.canvasId)
+        window.instanceUndoStack = window.instanceUndoStack.slice(-UNDO_MEMORY_MAX)
+      }
     }
   }
 
@@ -111,7 +117,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     const texture = this.undoTextureStack.pop()
     this.clear()
     super.draw(texture, 0,0)
-    this.debouncedSaveShort()
+    if(this.canvasId.indexOf(SPRITE_EDITOR_CANVAS_ID) === -1) {
+      this.debouncedSaveShort()
+    }
   }
 
   draw(entries, x, y) {

@@ -6,9 +6,9 @@ import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby, lobbyUndo } from '../../../store/actions/lobbyActions';
 import { toggleGridView } from '../../../store/actions/editorActions'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import LoadingIcon from '../../ui/LoadingIcon/LoadingIcon';
+import UndoButton from '../../ui/UndoButton/UndoButton';
 
-const LobbyToolbar = ({lobbyUndo, editLobby, lobby : { lobby, isUndoing, lobby : { isGamePaused }}}) => {
+const LobbyToolbar = ({lobbyUndo, editLobby, lobby : { lobby, lobby : { isGamePaused }}}) => {
  return <div className="LobbyToolbar">
    <ToolbarIcon 
     size="lg"
@@ -19,18 +19,7 @@ const LobbyToolbar = ({lobbyUndo, editLobby, lobby : { lobby, isUndoing, lobby :
       })
     }}
   />
-  {isUndoing ? 
-    <LoadingIcon
-      size="lg"
-    />
-  :
-    <ToolbarIcon
-      size="lg"
-      icon="faRotateLeft"
-      onClick={() => {
-        lobbyUndo(lobby.id)
-      }}
-    />}
+  <UndoButton onUndo={lobbyUndo}/>
    <ToolbarIcon 
     size="lg"
     icon="faStop"

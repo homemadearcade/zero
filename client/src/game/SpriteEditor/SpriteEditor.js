@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Phaser from 'phaser';
 
 import './SpriteEditor.scss';
-import { BASE_CANVAS_ID, POPUP_SCENE } from '../../constants';
+import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE } from '../../constants';
 
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { CodrawingScene } from '../scenes/CodrawingScene';
@@ -12,13 +12,14 @@ import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModa
 import { nodeSize } from '../../defaultData/general';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../BrushControl/BrushControl';
-import { closeSpriteEditor } from '../../store/actions/editorActions';
+import { closeSpriteEditor, setSpriteEditorGameInstance } from '../../store/actions/editorActions';
 import Button from '../../app/ui/Button/Button';
 import { v4 as uuidv4 } from 'uuid';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import UndoButton from '../../app/ui/UndoButton/UndoButton';
+import { onSpriteEditorUndo } from '../../store/actions/lobbyActions';
 
-const SpriteEditor = ({isHost, isNetworked, editor: { spriteEditorTextureId }, game: { gameInstance }, closeSpriteEditor, onSaveSprite }) => {
-  const [spriteEditorGameInstance, setSpriteEditorGameInstance] = useState(null)
-
+const SpriteEditor = ({isHost, isNetworked, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorGameInstance }, game: { gameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
     closeSpriteEditor()
   }
@@ -58,7 +59,7 @@ const SpriteEditor = ({isHost, isNetworked, editor: { spriteEditorTextureId }, g
       <div className="SpriteEditor">
         <div className="SpriteEditor__left-column">
           <BrushControl/>
-          <AggregateColorSelect canvasId={BASE_CANVAS_ID}/>
+          <AggregateColorSelect canvasId={SPRITE_EDITOR_CANVAS_ID}/>
         </div>
         <div id="PhaserPopupGame"/>
         <div className="SpriteEditor__right-column">
@@ -78,6 +79,7 @@ const SpriteEditor = ({isHost, isNetworked, editor: { spriteEditorTextureId }, g
           }}>
             Save
           </Button>
+          <UndoButton onUndo={onSpriteEditorUndo}></UndoButton>
         </div>
       </div>
 
@@ -85,9 +87,9 @@ const SpriteEditor = ({isHost, isNetworked, editor: { spriteEditorTextureId }, g
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
   game: state.game
 });
 
-export default connect(mapStateToProps, { closeSpriteEditor })(SpriteEditor);
+export default connect(mapStateToProps, { closeSpriteEditor, setSpriteEditorGameInstance })(SpriteEditor);

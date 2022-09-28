@@ -17,7 +17,7 @@ export class GameHostScene extends EditorScene {
   startRemoteClientUpdateLoop = () => {
     let updateInterval = 1000/12
     this.remoteClientUpdateInterval = setInterval(() => {
-      const objects = this.objectInstances.map(({id, x, y, rotation}) => {
+      const objects = this.objectInstances.map(({sprite: { id, x, y, rotation}}) => {
         return {
           id,
           x,
@@ -27,9 +27,9 @@ export class GameHostScene extends EditorScene {
       })
       
       const player = {
-        x: this.player.x,
-        y: this.player.y,
-        rotation: this.player.rotation
+        x: this.player.sprite.x,
+        y: this.player.sprite.y,
+        rotation: this.player.sprite.rotation
       }
       
       window.socket.emit(ON_GAME_INSTANCE_UPDATE, { lobbyId: store.getState().lobby.lobby.id, objects, player})

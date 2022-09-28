@@ -20,6 +20,7 @@ import {
   CLOSE_SNAPSHOT_TAKER,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
+  SET_SPRITE_EDITOR_GAME_INSTANCE,
 } from '../types';
 
 export const toggleGridView = () => (dispatch, getState) => {
@@ -187,6 +188,15 @@ export const closeSpriteEditor= () => (dispatch, getState) => {
     payload: {}
   });
 }
+
+export const setSpriteEditorGameInstance = (gameInstance) => (dispatch, getState) => {
+  dispatch({
+    type: SET_SPRITE_EDITOR_GAME_INSTANCE,
+    payload: {
+      gameInstance
+    }
+  })
+};
 
 export const closeLiveEditor = () => (dispatch, getState) => {
   dispatch({

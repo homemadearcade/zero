@@ -38,14 +38,65 @@ import {
 
 import ping from 'web-pingjs';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import { editGameModel } from './gameActions';
+import store from '..';
 
 setInterval(() => {
   window.isFullscreen = !window.screenTop && !window.screenY
 }, 3000)
 
 let pingInterval;
+
+export function onSpriteEditorUndo() {
+  const state = store.getState()
+  const isHost = state.auth.me.id === state.lobby.lobby.gameHostId
+  
+  if(!window.spriteEditorUndoStack.length) return
+
+  const undoAction = window.spriteEditorUndoStack.pop()
+
+  if(!isHost && state.lobby.id) return
+
+  getCurrentGameScene(state.editor.spriteEditorGameInstance).backgroundLayer.undo()
+}
+
+export function onInstanceUndo() {
+  const state = store.getState()
+  const isHost = state.auth.me.id === state.lobby.lobby.gameHostId
+  
+  if(!window.instanceUndoStack.length) return
+
+  const undoAction = window.instanceUndoStack.pop()
+  window.nextGameModelUpdateIsUndo = !!undoAction.data
+
+  if(!isHost && state.lobby.id) return
+  
+  const scene = getCurrentGameScene(state.game.gameInstance)
+  if(undoAction === BACKGROUND_CANVAS_ID) {
+    scene.backgroundLayer.undo()
+  } else if(undoAction === PLAYGROUND_CANVAS_ID) {
+    scene.playgroundLayer.undo()
+  } else if(undoAction === FOREGROUND_CANVAS_ID) {
+    scene.foregroundLayer.undo()
+  } else if(undoAction === SPRITE_EDITOR_CANVAS_ID) {
+    console.log('BASE CANVAS oddly got into undo there...')
+  } else { 
+    if(undoAction.objectInstanceId) {
+      store.dispatch(editGameModel({
+        objects: {
+          [undoAction.objectInstanceId]: undoAction.data
+        }
+      }))
+    } else if(undoAction.data) {
+      store.dispatch(editGameModel({
+        hero: undoAction.data
+      }))
+    } else {
+      console.error('undo action', undoAction)
+    }
+  }
+}
 
 export const updateOnboardingStep = (step) => async (dispatch, getState) => {
   dispatch({
@@ -277,40 +328,7 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
       });
     });
 
-    window.socket.on(ON_LOBBY_UNDO, () => {
-      const state = getState()
-      const isHost = userId === state.lobby.lobby.gameHostId
-      
-      if(!window.undoStack.length) return
-
-      const undoAction = window.undoStack.pop()
-      window.nextGameModelUpdateIsUndo = !!undoAction.data
-
-      if(!isHost) return
-      
-      const scene = getCurrentGameScene(state.game.gameInstance)
-      if(undoAction === BACKGROUND_CANVAS_ID) {
-        scene.backgroundLayer.undo()
-      } else if(undoAction === PLAYGROUND_CANVAS_ID) {
-        scene.playgroundLayer.undo()
-      } else if(undoAction === FOREGROUND_CANVAS_ID) {
-        scene.foregrounddLayer.undo()
-      } else {
-        if(undoAction.objectInstanceId) {
-          dispatch(editGameModel({
-            objects: {
-              [undoAction.objectInstanceId]: undoAction.data
-            }
-          }))
-        } else if(undoAction.data) {
-          dispatch(editGameModel({
-            hero: undoAction.data
-          }))
-        } else {
-          console.error('undo action', undoAction)
-        }
-      }
-    })
+    window.socket.on(ON_LOBBY_UNDO, onInstanceUndo)
 
     // event is triggered to all users in this lobby when lobby is updated
     window.socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {

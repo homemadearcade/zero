@@ -19,8 +19,6 @@ const SectionEditor = ({closeSectionEditor, editGameModel, game: { gameModel : {
       return true
     }).map(Number).sort()
 
-    console.log(useableIds)
-
     const validSections = [
       [1],
       [2],
@@ -211,8 +209,6 @@ const SectionEditor = ({closeSectionEditor, editGameModel, game: { gameModel : {
 
             const width = (maxCorner.x - x) + 360
             const height = (maxCorner.y - y) + 360
-
-            console.log(x,y, width,height)
 
             editGameModel({
               world: {

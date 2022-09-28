@@ -41,7 +41,7 @@ function onGameModelUpdate(gameUpdate) {
   if(!window.nextGameModelUpdateIsUndo) {
     if(gameUpdate.hero) {
       if(gameUpdate.hero.spawnX || gameUpdate.hero.spawnY) {
-        window.undoStack.push({
+        window.instanceUndoStack.push({
           data: {
             spawnX: oldGameData.hero.spawnX,
             spawnY: oldGameData.hero.spawnY
@@ -51,7 +51,7 @@ function onGameModelUpdate(gameUpdate) {
     }
   
     if(gameUpdate.objects) {
-      window.undoStack.push(...Object.keys(gameUpdate.objects).map((id) => {
+      window.instanceUndoStack.push(...Object.keys(gameUpdate.objects).map((id) => {
         return {
           objectInstanceId: id,
           data: _.cloneDeep(oldGameData.objects[id])
@@ -59,7 +59,7 @@ function onGameModelUpdate(gameUpdate) {
       }))
     }
 
-    window.undoStack = window.undoStack.slice(-UNDO_MEMORY_MAX)
+    window.instanceUndoStack = window.instanceUndoStack.slice(-UNDO_MEMORY_MAX)
   }
 
   window.nextGameModelUpdateIsUndo = false

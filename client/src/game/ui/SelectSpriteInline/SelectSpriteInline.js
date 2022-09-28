@@ -15,6 +15,7 @@ import Sprite from '../Sprite/Sprite';
 import Button from '../../../app/ui/Button/Button';
 import SpriteEditor from '../../SpriteEditor/SpriteEditor';
 import { openSpriteEditor } from '../../../store/actions/editorActions';
+import { DEFAULT_CLEAR_TEXTURE_ID } from '../../../constants';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -51,7 +52,7 @@ const SelectSpriteInline = ({
       {renderSpriteStage()}
 
       <Button onClick={() => {
-        openSpriteEditor(textureIdSelected)
+        openSpriteEditor(textureIdSelected || DEFAULT_CLEAR_TEXTURE_ID)
       }}>
         Draw New Sprite
       </Button>

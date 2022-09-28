@@ -5,7 +5,7 @@ import { Eraser } from '../drawing/Eraser';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { nodeSize } from '../../defaultData/general';
-import { BACKGROUND_CANVAS_DEPTH, BASE_CANVAS_ID, UI_CANVAS_DEPTH } from '../../constants';
+import { BACKGROUND_CANVAS_DEPTH, DEFAULT_CLEAR_TEXTURE_ID, DEFAULT_TEXTURE_ID, SPRITE_EDITOR_CANVAS_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
 import { getTextureMetadata } from '../../utils/utils';
@@ -35,7 +35,7 @@ export class CodrawingScene extends Phaser.Scene {
       width: this.size
     }
 
-    this.awsImageId = awsImageId
+    this.newAwsImageId = newAwsImageId
   }
 
   ////////////////////////////////////////////////////////////
@@ -79,10 +79,10 @@ export class CodrawingScene extends Phaser.Scene {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        this.canvas = this.getLayerById(this.brush.getCanvasId())
-        if(this.canvas) {
-          this.brush.stroke(pointer, this.canvas)
-        }
+        const canvas = this.getLayerById(this.brush.getCanvasId())
+        if(canvas.isSavingToAws) return
+        this.canvas = canvas
+        this.brush.stroke(pointer, this.canvas)
       }
     }
   }
@@ -142,29 +142,30 @@ export class CodrawingScene extends Phaser.Scene {
     const ss = window.spriteSheets[this.spriteSheetName]
     if(!ss.serverImageUrl) return
     
-    console.log(this.textures)
-
     ss.sprites.forEach((tile) => {
       const tileNamePrefix = 'sprite'
       this.textures.get(ss.id).add(tile.id.slice(tileNamePrefix.length), 0, tile.x, tile.y, tile.width, tile.height)
     })
 
+    this.load.off('complete', this.onSpriteSheetLoaded)
     this.initialDraw()
   }
 
   initialDraw = () => {
-    console.log({brushId: this.textureId, textureId: this.textureId})
     const texture = new Brush(this, { brushId: this.textureId, textureId: this.textureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
     texture.setDisplaySize(this.size, this.size)
     this.backgroundLayer.draw(texture, 0, 0)
+    this.backgroundLayer.addRenderTextureToUndoStack()
     texture.destroy()
+    this.load.off('complete', this.initialDraw)
   }
 
   create() {
-    this.load.image('square10x10', '/assets/images/square10x10.png')
-    this.load.image('eraser10x10', '/assets/images/eraser10x10.png')
+    this.load.image(DEFAULT_TEXTURE_ID, '/assets/images/square10x10.png')
 
-    if(this.spriteSheetName) {
+    if(this.textureId === DEFAULT_CLEAR_TEXTURE_ID) {
+      this.load.start();
+    } else  if(this.spriteSheetName) {
       this.load.image(this.spriteSheetName, window.location.origin + '/' + window.spriteSheets[this.spriteSheetName].serverImageUrl)
       this.load.on('complete', this.onSpriteSheetLoaded);
       this.load.start();
@@ -174,7 +175,7 @@ export class CodrawingScene extends Phaser.Scene {
       this.load.start();
     }
     
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BASE_CANVAS_ID + '/' + this.newAwsImageId, boundaries: this.boundaries})
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId, boundaries: this.boundaries})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
 
     this.createGrids()

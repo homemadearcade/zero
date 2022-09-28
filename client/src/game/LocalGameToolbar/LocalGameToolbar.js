@@ -5,8 +5,10 @@ import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { toggleGridView } from '../../store/actions/editorActions';
+import UndoButton from '../../app/ui/UndoButton/UndoButton';
+import { onInstanceUndo } from '../../store/actions/lobbyActions';
 
-const LocalGameToolbar = ({  game: { gameInstance }, undoLastInstanceChange }) => {
+const LocalGameToolbar = ({  game: { gameInstance } }) => {
   const [isPaused, setIsPaused] = useState(false)
 
   if(!gameInstance) return
@@ -21,13 +23,7 @@ const LocalGameToolbar = ({  game: { gameInstance }, undoLastInstanceChange }) =
         setIsPaused(scene.isPaused)
       }}
     />
-    <ToolbarIcon 
-      size="lg"
-      icon="faRotateLeft"
-      onClick={() => {
-        undoLastInstanceChange()
-      }}
-    />
+    <UndoButton onUndo={onInstanceUndo} />
     <ToolbarIcon 
       size="lg"
       icon="faStop"
