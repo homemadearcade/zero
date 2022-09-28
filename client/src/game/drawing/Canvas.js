@@ -97,7 +97,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     if(!this.previousRenderTexture) {
       this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
       this.previousRenderTexture.draw(this, 0,0)
-      if(this.canvasId.indexOf(SPRITE_EDITOR_CANVAS_ID) >= -1) {
+      if(this.canvasId.indexOf(SPRITE_EDITOR_CANVAS_ID) > -1) {
         window.spriteEditorUndoStack.push(this.canvasId)
         window.spriteEditorUndoStack = window.spriteEditorUndoStack.slice(-UNDO_MEMORY_MAX)
       } else {

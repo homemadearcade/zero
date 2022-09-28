@@ -64,14 +64,19 @@ export function onSpriteEditorUndo() {
 export function onInstanceUndo() {
   const state = store.getState()
   const isHost = state.auth.me.id === state.lobby.lobby.gameHostId
+
+  console.log(window.instanceUndoStack)
   
   if(!window.instanceUndoStack.length) return
 
   const undoAction = window.instanceUndoStack.pop()
   window.nextGameModelUpdateIsUndo = !!undoAction.data
 
+  console.log(undoAction)
+
   if(!isHost && state.lobby.id) return
   
+  console.log('..?')
   const scene = getCurrentGameScene(state.game.gameInstance)
   if(undoAction === BACKGROUND_CANVAS_ID) {
     scene.backgroundLayer.undo()
