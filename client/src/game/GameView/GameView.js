@@ -14,6 +14,7 @@ import { getCurrentGameScene } from '../../utils/editorUtils';
 
 import PhaserMatterCollisionPlugin from "phaser-matter-collision-plugin";
 import Cutscene from '../ui/Cutscene/Cutscene';
+import SpriteEditor from '../SpriteEditor/SpriteEditor';
 
 const config= {
   type: Phaser.WEBGL,
@@ -77,6 +78,7 @@ const GameView = ({isHost, isNetworked, setGameInstance}) => {
   return (
     <div className="GameView">
       <Cutscene/>
+      <SpriteEditor textureId="whtdragon-predators-sprite457" />
       <div id="PhaserGame"/>
     </div>
   );

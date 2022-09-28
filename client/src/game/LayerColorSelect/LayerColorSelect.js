@@ -67,6 +67,7 @@ const LayerColorSelect = ({
 
     if(canvasId === BACKGROUND_CANVAS_ID) {
       return <ColorSelect 
+        maxColors={16}
         selectedColorHex={selectedColorLayer === BACKGROUND_CANVAS_ID && selectedColorHex} 
         colors={colorsByLayer[BACKGROUND_CANVAS_ID]} 
         onSelectColor={onSelectColor} 
@@ -76,6 +77,7 @@ const LayerColorSelect = ({
     }
     if(canvasId === PLAYGROUND_CANVAS_ID) {
       return <ColorSelect 
+        maxColors={16}
         selectedColorHex={selectedColorLayer === PLAYGROUND_CANVAS_ID && selectedColorHex} 
         colors={colorsByLayer[PLAYGROUND_CANVAS_ID]} 
         onSelectColor={onSelectColor} 
@@ -85,6 +87,7 @@ const LayerColorSelect = ({
     }
     if(canvasId === FOREGROUND_CANVAS_ID) {
       return <ColorSelect 
+        maxColors={16}
         selectedColorHex={selectedColorLayer === FOREGROUND_CANVAS_ID && selectedColorHex} 
         colors={colorsByLayer[FOREGROUND_CANVAS_ID]} 
         onSelectColor={onSelectColor} 

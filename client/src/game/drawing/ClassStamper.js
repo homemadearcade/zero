@@ -33,15 +33,15 @@ export class ClassStamper extends Phaser.GameObjects.Image {
   }
 
   update(pointer) {
-    const { snappedX, snappedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY}, this.class)
-    this.setPosition(snappedX, snappedY)
+    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.class})
+    this.setPosition(clampedX, clampedY)
   }
 
   stamp(pointer) {
-    const { snappedX, snappedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY}, this.class)
+    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.class})
     this.scene.addGameObject(this.classId, {
-      spawnX: snappedX, 
-      spawnY: snappedY
+      spawnX: clampedX, 
+      spawnY: clampedY
     })
   }
 

@@ -39,29 +39,30 @@ export class Brush extends Phaser.GameObjects.Image {
 
     this.canvas = null
 
+    console.log(brushId, tint, depth, textureId, spriteSheetName, spriteIndex )
+
     return this
   }
 
   update(pointer) {
-    const { snappedX, snappedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY})
-    this.setPosition(snappedX, snappedY)
+    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY, boundaries: this.scene.boundaries})
+    this.setPosition(clampedX, clampedY)
   }
 
   stroke(pointer, canvas) {
     if(canvas.isSavingToAws) return 
     
-    const { snappedX, snappedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY})
+    const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY, boundaries: this.scene.boundaries})
+    if(clampedX === this.lastStrokeX && clampedY === this.lastStrokeY) return
 
-    if(snappedX === this.lastStrokeX && snappedY === this.lastStrokeY) return
+    this.lastStrokeX = clampedX
+    this.lastStrokeY = clampedY
 
-    this.lastStrokeX = snappedX
-    this.lastStrokeY = snappedY
-
-    this.executeStroke(snappedX, snappedY, canvas)
+    this.executeStroke(clampedX, clampedY, canvas)
 
     this.strokeMemory.push({
-      x: snappedX,
-      y: snappedY
+      x: clampedX,
+      y: clampedY
     })
   }
 

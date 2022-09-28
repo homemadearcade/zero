@@ -37,7 +37,6 @@ export class PreloaderScene extends Phaser.Scene {
     this.createLoaderGraphic();
     this.load.setCORS('anonymous');
 
-    this.load.script('WeaponPlugin', '/assets/js/WeaponPlugin.js');
     this.load.image('bullet','/assets/images/bullet.png');
     this.load.image('ship', "/assets/images/ship.png");
     this.load.image('ship2', '/assets/images/x2kship.png');

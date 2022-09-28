@@ -40,14 +40,14 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   // DRAG
-   ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
     if(this.draggingObjectInstanceId) {
       const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
       const objectClass= store.getState().game.gameModel.classes[classId]
-      const { snappedX, snappedY } = snapObjectXY({x: dragX, y: dragY}, objectClass)
-      entitySprite.x = snappedX;
-      entitySprite.y = snappedY;
+      const { clampedX, clampedY } = snapObjectXY({x: dragX, y: dragY,  objectClass})
+      entitySprite.x = clampedX;
+      entitySprite.y = clampedY;
     } else if(!this.brush && !this.stamper){
       this.draggingObjectInstanceId = entitySprite.id
     }

@@ -1,6 +1,7 @@
 export const GOOGLE_AUTH_LINK = 'https://homemadearcade.herokuapp.com/auth/google';
 export const PRELOADER_SCENE = 'Preloader';
 export const GAME_SCENE = 'Game';
+export const POPUP_SCENE = 'PopupScene';
 export const PROLOGUE_SCENE_1 = 'Prologue 1';
 export const PROLOGUE_SCENE_2 = 'Prologue 2';
 export const PROLOGUE_SCENE_3 = 'Prologue 3';
@@ -8,6 +9,7 @@ export const ON_MY_VIDEO_QUALITY_STATUS_UPDATE = 'ON_MY_VIDEO_QUALITY_STATUS_UPD
 
 export const WORLD_BACKGROUND_CANVAS_DEPTH = 0;
 export const BACKGROUND_CANVAS_DEPTH = 5;
+export const BASE_CANVAS_DEPTH = 19;
 export const PLAYGROUND_CANVAS_DEPTH = 20;
 export const OBJECT_INSTANCE_CANVAS_DEPTH = 40;
 export const HERO_INSTANCE_CANVAS_DEPTH = 50;
@@ -16,6 +18,7 @@ export const UI_CANVAS_DEPTH = 100;
 
 export const WORLD_BACKGROUND_CANVAS_ID = 'WORLD_BACKGROUND_CANVAS';
 export const BACKGROUND_CANVAS_ID = 'BACKGROUND_CANVAS';
+export const BASE_CANVAS_ID = 'BASE_CANVAS';
 export const PLAYGROUND_CANVAS_ID = 'PLAYGROUND_CANVAS';
 export const OBJECT_INSTANCE_CANVAS_ID = 'OBJECT_INSTANCE_CANVAS';
 export const HERO_INSTANCE_CANVAS_ID = 'HERO_INSTANCE_CANVAS';

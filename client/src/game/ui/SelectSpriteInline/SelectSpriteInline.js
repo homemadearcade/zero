@@ -13,6 +13,8 @@ import { editGameModel } from '../../../store/actions/gameActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { openCreateColorFlow } from '../../../store/actions/editorFormsActions';
 import CanvasSprite from '../Sprite/Sprite';
+import Button from '../../../app/ui/Button/Button';
+import SpriteEditor from '../../SpriteEditor/SpriteEditor';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -45,6 +47,13 @@ const SelectSpriteInline = ({
       </FormLabel>}
 
       {renderSpriteStage()}
+
+      <Button onClick={() => {
+
+      }}>
+        Draw New Sprite
+      </Button>
+
       <ColorSelect 
         selectedColorHex={tintSelected} 
         colors={Object.keys(colors)} 

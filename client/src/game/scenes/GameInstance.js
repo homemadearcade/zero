@@ -196,10 +196,10 @@ export class GameInstance extends Phaser.Scene {
     // LAYERS
     ////////////////////////////////////////////////////////////
     // background layer
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID})
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID})
+    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
     this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
     this.objectInstanceLayer = this.add.layer();
@@ -212,7 +212,7 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstanceGroup = this.add.group()
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID})
+    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
     this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
@@ -270,7 +270,6 @@ export class GameInstance extends Phaser.Scene {
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);    
-
   }
 
   respawn() {

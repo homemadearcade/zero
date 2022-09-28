@@ -8,10 +8,10 @@ import { UNDO_MEMORY_MAX } from "../../constants";
 window.undoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
-  constructor(scene, { canvasId }){
+  constructor(scene, { canvasId, boundaries }){
     const state = store.getState()
     const gameModel = state.game.gameModel
-    super(scene, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight)
+    super(scene, 0, 0, boundaries.maxWidth, boundaries.maxHeight)
 
     this.scene = scene
     this.scene.add.existing(this)
@@ -30,6 +30,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     this.previousRenderTexture = null
     this.undoTextureStack = []
+    this.boundaries = boundaries
 
     return this
   }
@@ -68,17 +69,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     return new Promise((resolve, reject) => {
       renderTexture.snapshot(async (imageData) => {
         try {
-          const gameModel = store.getState().game.gameModel
-
-          // this means its being called by 'save' from the debounce
-          if(!gameModel) {
-            console.error('no game model in buffer')
-            return 
-          }
-  
           const bufferCanvas = document.createElement('canvas')
-          bufferCanvas.width = gameModel.world.boundaries.maxWidth
-          bufferCanvas.height = gameModel.world.boundaries.maxHeight
+          bufferCanvas.width = this.boundaries.maxWidth
+          bufferCanvas.height = this.boundaries.maxHeight
           const bufferCanvasContext = bufferCanvas.getContext('2d')
           bufferCanvasContext.drawImage(imageData, 0,  0, bufferCanvas.width, bufferCanvas.height)
     
@@ -93,9 +86,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   storeRenderTextureForUndoStack() {
     if(!this.previousRenderTexture) {
-      const state = store.getState()
-      const gameModel = state.game.gameModel
-      this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
+      this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
       this.previousRenderTexture.draw(this, 0,0)
       window.undoStack.push(this.canvasId)
       window.undoStack = window.undoStack.slice(-UNDO_MEMORY_MAX)

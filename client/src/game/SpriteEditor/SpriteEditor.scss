@@ -1,0 +1,27 @@
+.SpriteEditor {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: calc(70vh);
+  width: calc(70vh + 40vh);
+  margin: 0 auto;
+
+  &__left-column {
+    width: 20vh;
+    background-color: #111;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__right-column {
+    width: 20vh;
+    background-color: #111;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+}

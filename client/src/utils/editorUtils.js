@@ -11,7 +11,9 @@ import {
   PLAYGROUND_CANVAS_DEPTH, 
   PLAYGROUND_CANVAS_ID,
   UI_CANVAS_DEPTH, 
-  UI_CANVAS_ID, 
+  UI_CANVAS_ID,
+  BASE_CANVAS_ID,
+  BASE_CANVAS_DEPTH, 
 } from "../constants";
 import { COLOR_BRUSH_ID } from "../constants";
 import Phaser from 'phaser'
@@ -24,7 +26,7 @@ export function getCurrentGameScene(gameInstance) {
   return scene
 }
 
-export function snapEraserXY({x, y}) {
+export function snapEraserXY({x, y, boundaries = store.getState().game.gameModel.world.boundaries}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
   const brushSize = getCobrowsingState().editor.brushSize
@@ -32,56 +34,68 @@ export function snapEraserXY({x, y}) {
 
   const blockSize = nodeSize * brushSize
 
-  const gridx = isGridViewOn ? 0 : gameModel.world.boundaries.x
-  const gridy = isGridViewOn ? 0 : gameModel.world.boundaries.y
-  const width = isGridViewOn ?  gameModel.world.boundaries.maxWidth : gridx + gameModel.world.boundaries.width
-  const height = isGridViewOn ? gameModel.world.boundaries.maxHeight : gridy + gameModel.world.boundaries.height
+  const gridx = isGridViewOn ? 0 : boundaries.x
+  const gridy = isGridViewOn ? 0 : boundaries.y
+  const width = isGridViewOn ?  boundaries.maxWidth : gridx + boundaries.width
+  const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), nodeSize), gridx, width)
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), nodeSize), gridy, height)
+  const snappedX = Phaser.Math.Snap.To(x - (blockSize/2), nodeSize)
+  const clampedX = Phaser.Math.Clamp(snappedX, gridx, width)
+  const snappedY = Phaser.Math.Snap.To(y - (blockSize/2), nodeSize)
+  const clampedY = Phaser.Math.Clamp(snappedY, gridy, height)
 
   return {
+    clampedX,
+    clampedY,
     snappedX,
     snappedY
   }
 }
 
 
-export function snapBrushXY({x, y}) {
+export function snapBrushXY({x, y, boundaries = store.getState().game.gameModel.world.boundaries}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
   const brushSize = getCobrowsingState().editor.brushSize
   const isGridViewOn = getCobrowsingState().editor.isGridViewOn
   const blockSize = nodeSize * brushSize
 
-  const gridx = isGridViewOn ? 0 : gameModel.world.boundaries.x
-  const gridy = isGridViewOn ? 0 : gameModel.world.boundaries.y
-  const width = isGridViewOn ?  gameModel.world.boundaries.maxWidth : gridx + gameModel.world.boundaries.width
-  const height = isGridViewOn ? gameModel.world.boundaries.maxHeight : gridy + gameModel.world.boundaries.height
+  const gridx = isGridViewOn ? 0 : boundaries.x
+  const gridy = isGridViewOn ? 0 : boundaries.y
+  const width = isGridViewOn ?  boundaries.maxWidth : gridx + boundaries.width
+  const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x - (blockSize/2), blockSize), gridx, width)
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y - (blockSize/2), blockSize), gridy, height)
+  const snappedX = Phaser.Math.Snap.To(x - (blockSize/2), blockSize)
+  const clampedX = Phaser.Math.Clamp(snappedX, gridx, width)
+  const snappedY = Phaser.Math.Snap.To(y - (blockSize/2), blockSize)
+  const clampedY = Phaser.Math.Clamp(snappedY, gridy, height)
 
   return {
+    clampedX,
+    clampedY,
     snappedX,
     snappedY
   }
 }
 
-export function snapObjectXY({x, y}, objectClass) {
+export function snapObjectXY({x, y, objectClass, boundaries = store.getState().game.gameModel.world.boundaries}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
   const isGridViewOn = getCobrowsingState().editor.isGridViewOn
 
-  const gridx = isGridViewOn ? 0 : gameModel.world.boundaries.x
-  const gridy = isGridViewOn ? 0 : gameModel.world.boundaries.y
-  const width = isGridViewOn ?  gameModel.world.boundaries.maxWidth : gridx + gameModel.world.boundaries.width
-  const height = isGridViewOn ? gameModel.world.boundaries.maxHeight : gridy + gameModel.world.boundaries.height
+  const gridx = isGridViewOn ? 0 : boundaries.x
+  const gridy = isGridViewOn ? 0 : boundaries.y
+  const width = isGridViewOn ?  boundaries.maxWidth : gridx + boundaries.width
+  const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
-  const snappedX = Phaser.Math.Clamp(Phaser.Math.Snap.To(x, nodeSize), gridx + (objectClass.width/2), width - (objectClass.width/2))
-  const snappedY = Phaser.Math.Clamp(Phaser.Math.Snap.To(y, nodeSize), gridy + (objectClass.height/2), height - (objectClass.height/2))
+  const snappedX = Phaser.Math.Snap.To(x, nodeSize)
+  const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (objectClass.width/2), width - (objectClass.width/2))
+  const snappedY = Phaser.Math.Snap.To(y, nodeSize)
+  const clampedY = Phaser.Math.Clamp(snappedY, gridy + (objectClass.height/2), height - (objectClass.height/2))
   
   return {
+    clampedX,
+    clampedY,
     snappedX,
     snappedY
   }
@@ -93,6 +107,7 @@ export function getDepthFromEraserId(eraserId) {
 
 export function getDepthFromCanvasId(canvasId) {
   if(canvasId === BACKGROUND_CANVAS_ID) return BACKGROUND_CANVAS_DEPTH
+  if(canvasId === BASE_CANVAS_ID) return BASE_CANVAS_DEPTH
   if(canvasId === PLAYGROUND_CANVAS_ID) return PLAYGROUND_CANVAS_DEPTH
   if(canvasId === OBJECT_INSTANCE_CANVAS_ID) return OBJECT_INSTANCE_CANVAS_DEPTH
   if(canvasId === HERO_INSTANCE_CANVAS_ID) return HERO_INSTANCE_CANVAS_DEPTH

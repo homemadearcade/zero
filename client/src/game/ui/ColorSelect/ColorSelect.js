@@ -15,10 +15,9 @@ const ColorSelect = ({
   onSelectColor,
   onAddColor,
   selectedColorHex,
-  onUnselectColor
+  onUnselectColor,
+  maxColors
 }) => {
-
-  const maxColors = 16
 
   const defaultColors = [
     '#000000',
