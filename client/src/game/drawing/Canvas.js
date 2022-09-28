@@ -36,17 +36,25 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   save = async ()  => {
-    this.isSavingToAws = true
+    return new Promise(async (resolve, reject) => {
+      try {
+        this.isSavingToAws = true
     
-    const fileId = this.textureId
-    const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
+        const fileId = this.textureId
+        const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
+    
+        const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
+       
+        await addAwsImage(file, fileId, {
+          name: fileId,
+          type: 'layer'
+        })
 
-    const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
-   
-    store.dispatch(addAwsImage(file, fileId, {
-      name: fileId,
-      type: 'layer'
-    }))
+        resolve(fileId)
+      } catch(e) {
+        reject(e)
+      }
+    })
   }
 
   debouncedSave = _.debounce(this.save, 30000);
@@ -126,7 +134,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   onStrokeReleased() {
     this.addRenderTextureToUndoStack()
-    if(this.isHost) this.debouncedSave()
   }
 
   initialDraw() {

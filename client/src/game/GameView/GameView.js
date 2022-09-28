@@ -78,7 +78,6 @@ const GameView = ({isHost, isNetworked, setGameInstance}) => {
   return (
     <div className="GameView">
       <Cutscene/>
-      <SpriteEditor textureId="whtdragon-predators-sprite457" />
       <div id="PhaserGame"/>
     </div>
   );

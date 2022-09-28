@@ -17,7 +17,9 @@ import {
   OPEN_LIVE_PROJECTILE_EDITOR,
   OPEN_LIVE_MOVEMENT_EDITOR,
   OPEN_SNAPSHOT_TAKER,
-  CLOSE_SNAPSHOT_TAKER
+  CLOSE_SNAPSHOT_TAKER,
+  OPEN_SPRITE_EDITOR,
+  CLOSE_SPRITE_EDITOR
 } from '../types';
 
 const initialState = {
@@ -34,6 +36,7 @@ const initialState = {
   liveEditingCategory: null,
   isSnapshotTakerOpen: false,
   snapshotFileId: null,
+  spriteEditorTextureId: null,
   accordianLists: {
     'BrushList': null,
   }
@@ -155,6 +158,16 @@ export default function editorReducer(state = initialState, { type, payload }) {
         isSnapshotTakerOpen: false,
         snapshotFileId: null
       };
+    case OPEN_SPRITE_EDITOR:
+      return {
+        ...state,
+        spriteEditorTextureId: payload.textureId
+      }
+    case CLOSE_SPRITE_EDITOR: 
+      return {
+        ...state,
+        spriteEditorTextureId: null
+      }
     case CLEAR_EDITOR:
       return initialState
     default:

@@ -8,6 +8,8 @@ import { publishCodrawingStrokes } from "../../store/actions/codrawingActions";
 export class Brush extends Phaser.GameObjects.Image {
   constructor(scene, { brushId, tint, depth, textureId, spriteSheetName, spriteIndex }){
     
+    console.log(textureId, spriteSheetName)
+
     if(!spriteSheetName) {
       super(scene, 0, 0, textureId, 0)
     } else if(spriteSheetName, spriteIndex){
@@ -39,8 +41,6 @@ export class Brush extends Phaser.GameObjects.Image {
 
     this.canvas = null
 
-    console.log(brushId, tint, depth, textureId, spriteSheetName, spriteIndex )
-
     return this
   }
 
@@ -50,7 +50,9 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   stroke(pointer, canvas) {
-    if(canvas.isSavingToAws) return 
+    if(canvas.isSavingToAws) {
+      return false
+    }
     
     const { clampedX, clampedY } = this.snapMethod({x: pointer.worldX, y: pointer.worldY, boundaries: this.scene.boundaries})
     if(clampedX === this.lastStrokeX && clampedY === this.lastStrokeY) return

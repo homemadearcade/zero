@@ -18,6 +18,8 @@ import {
   OPEN_LIVE_MOVEMENT_EDITOR,
   OPEN_SNAPSHOT_TAKER,
   CLOSE_SNAPSHOT_TAKER,
+  OPEN_SPRITE_EDITOR,
+  CLOSE_SPRITE_EDITOR,
 } from '../types';
 
 export const toggleGridView = () => (dispatch, getState) => {
@@ -135,7 +137,7 @@ export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
     type: OPEN_SNAPSHOT_TAKER,
     payload: {
       snapshotFileId: fileId
-    }
+  }
   });
 
   document.body.style.cursor = 'cell'
@@ -164,6 +166,24 @@ export const closeSectionEditor= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SECTION_EDITOR,
+    payload: {}
+  });
+}
+
+export const openSpriteEditor= (textureId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_SPRITE_EDITOR,
+    payload: {
+      textureId: textureId
+    }
+  });
+}
+
+export const closeSpriteEditor= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_SPRITE_EDITOR,
     payload: {}
   });
 }

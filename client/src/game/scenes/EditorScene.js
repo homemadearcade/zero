@@ -210,10 +210,10 @@ export class EditorScene extends GameInstance {
 
               const file = await urlToFile(imgCanvas.toDataURL(), fileId, 'image/png')
 
-              store.dispatch(addAwsImage(file, fileId, {
+              addAwsImage(file, fileId, {
                 name: fileId,
                 type: 'layer'
-              }))
+              })
             }
           );
           this.snapshotSquare.clear()

@@ -54,6 +54,10 @@ export class CodrawingCanvas extends Canvas {
   }
 
   destroy() {
+    const state = store.getState()
+    const lobby = state.lobby.lobby
+    if(!lobby.id) return
+    
     super.destroy()
 
     store.dispatch(unsubscribeCodrawing(this.canvasId))

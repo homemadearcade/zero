@@ -13,7 +13,7 @@ export class TexturePencil extends Brush {
 
     const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
 
-    super(scene, {brushId, depth, tint, spriteSheetName, spriteIndex})
+    super(scene, {brushId, depth, tint, spriteSheetName, spriteIndex, textureId: brush.textureId})
 
     this.snapMethod = snapBrushXY
 

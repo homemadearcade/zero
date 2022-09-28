@@ -37,6 +37,7 @@ export const subscribeCodrawing = (canvasId) => async (dispatch, getState) => {
   dispatch({
     type: SUBSCRIBE_CODRAWING_LOADING,
   });
+  console.log('join', canvasId)
   
   try {
     const options = attachTokenToHeaders(getState);
@@ -62,6 +63,8 @@ export const unsubscribeCodrawing = (canvasId) => async (dispatch, getState) => 
   // });
   
   try {
+    console.log('leave', canvasId)
+
     const options = attachTokenToHeaders(getState);
     await axios.post('/api/codrawing/stop/' + canvasId, {}, options);
 

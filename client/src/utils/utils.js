@@ -1,4 +1,5 @@
 import _ from "lodash";
+import store from "../store";
 
 export function getUrlParameter(name, url) {
   if (!url) url = global.location.href;
@@ -183,7 +184,14 @@ export function getTextureMetadata(textureId) {
   const endOfSpritesheetNameIndex = textureId.indexOf(spriteIndexIdentifier);
 
   if(endOfSpritesheetNameIndex === -1) {
-    return {}
+    const awsImages = store.getState().game.gameModel.awsImages
+    if(awsImages[textureId]) {
+      return {
+        isAwsImage: true
+      }
+    } else {
+      return {}
+    }
   }
 
   return {

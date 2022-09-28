@@ -15,7 +15,6 @@ TODO
 Naming
   One class per name, must rename
 Relationship UI
-Class UI
 Cutscenes UI
 
 Sprite Editor

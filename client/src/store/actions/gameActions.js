@@ -111,31 +111,28 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
 }
 
 
-export const addAwsImage  = (file, fileId, imageData) => async(dispatch, getState) => {
-  dispatch({
-    type: EDIT_GAME_LOADING,
-  });
-
-  try {
-    await uploadToAws(fileId, file)
-    
-    dispatch(editGameModel({
-      awsImages: { 
-        [fileId] : {
-          name: imageData.name,
-          url: fileId,
-          type: imageData.type
+export const addAwsImage = (file, fileId, imageData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await uploadToAws(fileId, file)
+      
+      store.dispatch(editGameModel({
+        awsImages: { 
+          [fileId] : {
+            name: imageData.name,
+            url: fileId,
+            type: imageData.type
+          }
         }
-      }
-    }))
-  } catch (err) {
-    console.error(err)
+      }))
 
-    dispatch({
-      type: EDIT_GAME_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
+      resolve()
+    } catch (err) {
+      console.error(err)
+      reject(err)
+    }
+  })
+
 }
  
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {

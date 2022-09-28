@@ -6,15 +6,15 @@ import { connect } from 'react-redux';
 import './SelectSpriteInline.scss';
 import FormLabel from '../../../app/ui/FormLabel/FormLabel';
 import DescriptorSprites from '../DescriptorSprites/DescriptorSprites';
-import Sprite from '../Sprite/Sprite';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { openCreateColorFlow } from '../../../store/actions/editorFormsActions';
-import CanvasSprite from '../Sprite/Sprite';
+import Sprite from '../Sprite/Sprite';
 import Button from '../../../app/ui/Button/Button';
 import SpriteEditor from '../../SpriteEditor/SpriteEditor';
+import { openSpriteEditor } from '../../../store/actions/editorActions';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -27,6 +27,8 @@ const SelectSpriteInline = ({
   openCreateColorFlow,
   editGameModel,
   game: { gameModel : { colors }},
+  editor: { spriteEditorTextureId },
+  openSpriteEditor,
   editorForms: { isCreateColorFlowOpen }
 }) => {
   function renderSpriteStage() {
@@ -36,7 +38,7 @@ const SelectSpriteInline = ({
     }
 
     return <div className="SelectSpriteInline__sprite">
-      <CanvasSprite tint={tintSelected} textureId={textureIdSelected}/>
+      <Sprite tint={tintSelected} textureId={textureIdSelected}/>
     </div>
   }
 
@@ -49,12 +51,13 @@ const SelectSpriteInline = ({
       {renderSpriteStage()}
 
       <Button onClick={() => {
-
+        openSpriteEditor(textureIdSelected)
       }}>
         Draw New Sprite
       </Button>
 
-      <ColorSelect 
+      <ColorSelect
+        maxColors={50}
         selectedColorHex={tintSelected} 
         colors={Object.keys(colors)} 
         onSelectColor={onSelectTint} 
@@ -79,14 +82,16 @@ const SelectSpriteInline = ({
         })
       }}
     />}
+    {spriteEditorTextureId && <SpriteEditor onSaveSprite={onSelect} />}
   </>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
+  editor: state.editor,
   editorForms: state.editorForms,
 });
 
 export default compose(
-  connect(mapStateToProps, { openCreateColorFlow, editGameModel  }),
+  connect(mapStateToProps, { openCreateColorFlow, editGameModel, openSpriteEditor  }),
 )(SelectSpriteInline);

@@ -55,7 +55,7 @@ const ColorSelect = ({
       style={{backgroundColor: hex}}>
         {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
     </div>
-  }).slice(0, 15)
+  }).slice(0, maxColors)
 
   items.push(<Button size="fit" onClick={onAddColor}>
     +
