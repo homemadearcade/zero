@@ -11,13 +11,26 @@ export class ObjectInstance extends Sprite {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
 
+    const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
+    const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
+    super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName })
+    
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // STORE
+    this.id = id
+    this.classId = classId
+    this.scene = scene
+    this.width = objectClass.width
+    this.height = objectClass.height
+    this.sprite.id = id
+    this.sprite.classId = classId
+    scene.objectInstanceGroup.add(this.sprite)
+    const attributes = objectClass.attributes
+
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // GRAPHICS
-    const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
-    const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
-    const attributes = objectClass.attributes
-    super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName })
     if(objectClass.tint) this.setTint(objectClass.tint)
     this.setVisible(!attributes.invisible)
     this.setSize(objectClass.width, objectClass.height)
@@ -75,28 +88,9 @@ export class ObjectInstance extends Sprite {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // STORE
-    this.id = id
-    this.classId = classId
-    this.scene = scene
-    this.width = objectClass.width
-    this.height = objectClass.height
-    this.sprite.id = id
-    this.sprite.classId = classId
-    scene.objectInstanceGroup.add(this.sprite)
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
     // RELATIONS
     this.collider = new Collider(scene, this, this)
-
-    const cornerX = -objectClass.width/2
-    const cornerY = -objectClass.height/2
-    this.sprite.border = scene.add.graphics();
-    this.sprite.border.lineStyle(4, 0xffffff, 1);
-    this.sprite.border.strokeRect(cornerX + 4, cornerY + 4, objectClass.width - 8, objectClass.height - 8);
-    this.sprite.border.setVisible(false)
-    scene.uiLayer.add(this.sprite.border)
+    this.createSpriteBorder()
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -109,6 +103,27 @@ export class ObjectInstance extends Sprite {
     }
 
     return this
+  }
+
+  setSize(w, h) {
+    super.setSize(w, h)
+    if(this.sprite.highlight) {
+      this.sprite.highlight.setDisplaySize(w + 10, h + 10)
+    }
+    this.createSpriteBorder()
+  }
+
+  createSpriteBorder() {
+    if(this.sprite.border) this.sprite.border.destroy()
+    const width = this.sprite.displayWidth
+    const height = this.sprite.displayHeight
+    const cornerX = -width/2
+    const cornerY = -height/2
+    this.sprite.border = this.scene.add.graphics();
+    this.sprite.border.lineStyle(4, 0xffffff, 1);
+    this.sprite.border.strokeRect(cornerX + 4, cornerY + 4, width - 8, height - 8);
+    this.sprite.border.setVisible(false)
+    this.scene.uiLayer.add(this.sprite.border)
   }
 
   spawn() {

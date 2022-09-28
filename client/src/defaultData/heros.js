@@ -30,7 +30,7 @@ export const spaceshipClass = {
   },
   relations: [
     {
-      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+      classId: 'e8e7e851-b182-4bb5-9a77-5badabda7c1d',
       event: ON_INTERACT,
       effect: {
         id: EFFECT_CUTSCENE,

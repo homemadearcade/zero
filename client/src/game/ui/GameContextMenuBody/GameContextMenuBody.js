@@ -8,12 +8,12 @@ import ClassContextMenu from '../../ClassContextMenu/ClassContextMenu';
 import WorldContextMenu from '../../WorldContextMenu/WorldContextMenu';
 import { HERO_INSTANCE_ID } from '../../../constants';
 
-const GameContextMenuBody = ({ objectIdSelectedContextMenu, classIdSelectedContextMenu, closeContextMenu }) => {  
-  if(classIdSelectedContextMenu || objectIdSelectedContextMenu === HERO_INSTANCE_ID) {
+const GameContextMenuBody = ({ objectIdSelectedContextMenu, classIdSelectedContextMenu, closeContextMenu }) => { 
+  if(objectIdSelectedContextMenu) {
+    return <ObjectInstanceContextMenu onMenuItemClick={closeContextMenu} objectId={objectIdSelectedContextMenu} classId={classIdSelectedContextMenu} />
+  } else if(classIdSelectedContextMenu || objectIdSelectedContextMenu === HERO_INSTANCE_ID) {
     return <ClassContextMenu classId={classIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>
-  } else if(objectIdSelectedContextMenu) {
-      return <ObjectInstanceContextMenu onMenuItemClick={closeContextMenu} objectId={objectIdSelectedContextMenu} />
-  }
+  } 
 
   return <WorldContextMenu onMenuItemClick={closeContextMenu}/>
 }

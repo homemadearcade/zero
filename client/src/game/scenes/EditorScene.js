@@ -13,7 +13,7 @@ import { ClassStamper } from '../drawing/ClassStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { gameSize } from '../../defaultData/general';
+import { gameSize, nodeSize } from '../../defaultData/general';
 import { urlToFile } from '../../utils/utils';
 
 export class EditorScene extends GameInstance {
@@ -71,7 +71,70 @@ export class EditorScene extends GameInstance {
         }
       }))
     }
+  }
 
+
+  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
+  // RESIZE
+  ////////////////////////////////////////////////////////////
+  onResizeStart = (instanceId) => {
+    this.resizingObjectInstance = this.getObjectInstance(instanceId)
+  }
+
+  onResizeMove = (pointer) => {
+    const sprite = this.resizingObjectInstance.sprite
+    const objectClass = store.getState().game.gameModel.classes[sprite.classId]
+    const boundaries = store.getState().game.gameModel.world.boundaries
+    // const distance = Phaser.Math.Distance.Between(sprite.x, sprite.y, pointer.worldX, pointer.worldY)
+    const distanceW = Phaser.Math.Snap.To(Math.abs(sprite.x - pointer.worldX), nodeSize)
+    const distanceH = Phaser.Math.Snap.To(Math.abs(sprite.y - pointer.worldY), nodeSize)
+
+    // const gridx = boundaries.x
+    // const gridy = boundaries.y
+    // const gridwidth = gridx + boundaries.width
+    // const gridheight = gridy + boundaries.height
+
+    const width = Phaser.Math.Clamp(distanceW * 2, nodeSize, boundaries.width)
+    const height = Phaser.Math.Clamp(distanceH * 2, nodeSize, boundaries.height)
+
+    this.resizingObjectInstance.setSize(width, height)
+  }
+
+  onResizeEnd = (pointer) => {
+    const sprite = this.resizingObjectInstance.sprite
+    if(sprite.id === HERO_INSTANCE_ID) {
+      store.dispatch(editGameModel({ 
+        hero: {
+          spawnX: sprite.x,
+          spawnY: sprite.y
+        },
+        classes: {
+          [sprite.classId]: {
+            width: sprite.displayWidth,
+            height: sprite.displayHeight
+          }
+        }
+      }))
+    } else {
+      store.dispatch(editGameModel({ 
+        objects: {
+          [sprite.id]: {
+            spawnX: sprite.x,
+            spawnY: sprite.y
+          }
+        },
+        classes: {
+          [sprite.classId]: {
+            width: sprite.displayWidth,
+            height: sprite.displayHeight
+          } 
+        }
+      }))
+    }
+
+    this.resizingObjectInstance = null
   }
 
 
@@ -87,6 +150,11 @@ export class EditorScene extends GameInstance {
     const brushId = editor.brushIdSelectedBrushList
     const classId = editor.classIdSelectedClassList
     const gameModel = store.getState().game.gameModel
+
+    if(this.resizingObjectInstance) {
+      this.onResizeMove(pointer)
+      return
+    }
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -147,6 +215,14 @@ export class EditorScene extends GameInstance {
     entitySprite[0].highlight.setVisible(true)
   }
 
+  onPointerDownOutside = (pointer) => {
+    if(pointer.leftButtonDown()) {
+      if(this.resizingObjectInstance) {
+        this.onResizeEnd()
+      }
+    }
+  }
+
   onPointerDown = (pointer, gameObjects) => {
     const clickDelay = this.time.now - this.lastClick;
     this.lastClick = this.time.now;
@@ -180,6 +256,10 @@ export class EditorScene extends GameInstance {
     }
 
     if(pointer.leftButtonDown()) {
+      if(this.resizingObjectInstance) {
+        this.onResizeEnd()
+      }
+
       ////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////
@@ -472,6 +552,20 @@ export class EditorScene extends GameInstance {
         })
       }
 
+      if(classUpdate.width && classUpdate.height) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setSize(classUpdate.width, classUpdate.height)
+        })
+      } else if(classUpdate.width) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setSize(classUpdate.width, objectClass.height)
+        })
+      } else if(classUpdate.height) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setSize(objectClass.width, classUpdate.height)
+        })
+      }
+
       if(classUpdate.camera !== undefined) {
         if(this.player.classId === id) {
           this.cameras.main.setZoom(classUpdate.camera.zoom)
@@ -528,6 +622,7 @@ export class EditorScene extends GameInstance {
     this.input.on('pointerdown', this.onPointerDown, this);
     this.input.on('pointerup', this.onPointerUp);
     this.input.on('pointerupoutside', this.onPointerUpOutside);
+    this.input.on('pointerdownoutside', this.onPointerDownOutside);
     this.input.on('pointermove', this.onPointerMove, this)
     this.input.on('gameout', this.onPointerLeaveGame, this)
     this.input.dragDistanceThreshold = 16;
