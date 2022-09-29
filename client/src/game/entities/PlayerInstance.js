@@ -88,9 +88,8 @@ export class PlayerInstance extends ObjectInstance {
   updateControls(time, delta) {
     const classId = this.classId
     const objectClass = store.getState().game.gameModel.classes[classId]
-    const gravity = store.getState().game.gameModel.world.gravity
 
-    const mod = (1/(delta * 10))
+    const mod = (1/(delta * 5))
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -101,7 +100,7 @@ export class PlayerInstance extends ObjectInstance {
       }
 
       const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
-      projectile.fire(this, time)
+      projectile.fire(this, time, this.cursors)
 
       this.nextFire = time + objectClass.projectile.cooldown;
     }
