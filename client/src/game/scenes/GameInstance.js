@@ -302,6 +302,11 @@ export class GameInstance extends Phaser.Scene {
       object.update(time, delta);
     })
 
+    this.projectileInstanceGroup.children.entries.forEach((projectile) => {
+      console.log(projectile.destroyTime, time)
+      if(projectile.destroyTime < time) projectile.destroy()
+    })
+
     if(this.player) this.player.update(time, delta)
   }
 

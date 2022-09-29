@@ -8,10 +8,11 @@ import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../ui/SelectClass/SelectClass';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
-  const projectileClass = gameModel.classes[classSelected.projectileClassId]
+  const projectileClass = gameModel.classes[classSelected.projectile?.classId]
 
   return (
     <div className="ProjectileEditor">
@@ -25,40 +26,40 @@ const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         }}/>
       </Unlockable>
       {projectileClass && <>
-        <Unlockable isSlider interfaceId="projectile/fireRate">
+        <Unlockable isSlider interfaceId="projectile/cooldown">
           <SliderNotched
-            formLabel="Fire Rate"
-            options={[1, 20, 50, 100, 200, 500]}
-            step={10}
+            formLabel="Cooldown"
+            options={[1, 5, 20, 50, 100, 200, 500]}
+            step={1}
             onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { projectile: { fireRate: value }}}})        
+              editGameModel({ classes: { [classId]: { projectile: { cooldown: value }}}})        
             }}
-            value={classSelected.projectile.fireRate}
+            value={classSelected.projectile.cooldown}
           />
         </Unlockable>
         <Unlockable isSlider interfaceId="projectile/lifetime">
           <SliderNotched
             formLabel="Lifetime"
             step={10}
-            options={[200, 500, 800, 1200, 2000]}
+            options={[30, 100, 200, 500, 1000, 2000, 5000, 10000]}
             onChangeCommitted={(value) => {
               editGameModel({ classes: { [classId]: { projectile: { lifetime: value }}}})        
             }}
             value={classSelected.projectile.lifetime}
           />
         </Unlockable>      
-        <Unlockable isSlider interfaceId="projectile/velocity">
+        <Unlockable isSlider interfaceId="projectile/speed">
           <SliderNotched
-            formLabel="Velocity"
-            options={[.1, .5, 1, 1.5, 2, 5, 10]}
-            step={.05}
+            formLabel="Speed"
+            options={[1, 10, 100, 200, 300, 500, 1000]}
+            step={10}
             onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { projectile: { velocity: value }}}})        
+              editGameModel({ classes: { [classId]: { projectile: { speed: value }}}})        
             }}
-            value={classSelected.projectile.ammo}
+            value={classSelected.projectile.speed}
           />
         </Unlockable>
-        <Unlockable isSlider interfaceId="projectile/Ammo">
+        {false && <Unlockable isSlider interfaceId="projectile/Ammo">
           <SliderNotched
             formLabel="Ammo"
             options={[1, 5, 10, 20, 50, 1000, 2000]}
@@ -68,7 +69,7 @@ const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             }}
             value={classSelected.projectile.ammo}
           />
-        </Unlockable>
+        </Unlockable>}
       </>}
     </div>
   );

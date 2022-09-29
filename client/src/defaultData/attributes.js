@@ -40,12 +40,3 @@ export const graphicalAttributes = {
 
   },
 }
-
-export const controlsAttributes = {
-  rotationFollowKeys: {
-    requires: ['fixedRotation']
-  },
-  ignoreUpKey: {
-
-  },
-}

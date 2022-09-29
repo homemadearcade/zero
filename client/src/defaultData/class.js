@@ -23,10 +23,10 @@ export const defaultObjectClass = {
   },
   projectile: {
     classId: null,
-    fireRate: 1000,
+    cooldown: 200,
     lifetime: 3000,
     ammo: 0,
-    velocity: 1,
+    speed: 300,
   },
   movement: {
     pattern: null,

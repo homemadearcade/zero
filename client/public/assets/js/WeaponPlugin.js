@@ -96,11 +96,11 @@ class Weapon extends Phaser.Events.EventEmitter {
    */
 
   /**
-   * Private var that holds the public {@link fireRate} property.
+   * Private var that holds the public {@link cooldown} property.
    */
 
   /**
-   * Private var that holds the public {@link fireRateVariance} property.
+   * Private var that holds the public {@link cooldownVariance} property.
    */
 
   /**
@@ -268,8 +268,8 @@ class Weapon extends Phaser.Events.EventEmitter {
     this._autofire = false;
     this._shots = 0;
     this._fireLimit = 0;
-    this._fireRate = 100;
-    this._fireRateVariance = 0;
+    this._cooldown = 100;
+    this._cooldownVariance = 0;
     this._fireFrom = new Phaser.Geom.Rectangle(0, 0, 1, 1);
     this._fireAngle = _consts__WEBPACK_IMPORTED_MODULE_3__.Angle.ANGLE_UP;
     this._bulletInheritSpriteSpeed = false;
@@ -350,7 +350,7 @@ class Weapon extends Phaser.Events.EventEmitter {
   }
   /**
    * Will this weapon auto fire? If set to true then a new bullet will be fired
-   * based on the {@link fireRate} value.
+   * based on the {@link cooldown} value.
    * @defaultValue false
    */
 
@@ -401,30 +401,30 @@ class Weapon extends Phaser.Events.EventEmitter {
    */
 
 
-  get fireRate() {
-    return this._fireRate;
+  get cooldown() {
+    return this._cooldown;
   }
 
-  set fireRate(value) {
-    this._fireRate = value;
-    (0,_validateConfig__WEBPACK_IMPORTED_MODULE_4__.validateConfig)(this, 'fireRate');
+  set cooldown(value) {
+    this._cooldown = value;
+    (0,_validateConfig__WEBPACK_IMPORTED_MODULE_4__.validateConfig)(this, 'cooldown');
   }
   /**
-   * This is a modifier that is added to the {@link fireRate} each update to add variety
+   * This is a modifier that is added to the {@link cooldown} each update to add variety
    * to the firing rate of the Weapon. The value is given in milliseconds.
-   * If you've a {@link fireRate} of 200 and a {@link fireRateVariance} of 50 then the actual
+   * If you've a {@link cooldown} of 200 and a {@link cooldownVariance} of 50 then the actual
    * firing rate of the Weapon will be between 150 and 250.
    * @defaultValue 0
    */
 
 
-  get fireRateVariance() {
-    return this._fireRateVariance;
+  get cooldownVariance() {
+    return this._cooldownVariance;
   }
 
-  set fireRateVariance(value) {
-    this._fireRateVariance = value;
-    (0,_validateConfig__WEBPACK_IMPORTED_MODULE_4__.validateConfig)(this, 'fireRateVariance');
+  set cooldownVariance(value) {
+    this._cooldownVariance = value;
+    (0,_validateConfig__WEBPACK_IMPORTED_MODULE_4__.validateConfig)(this, 'cooldownVariance');
   }
   /**
    * This is a Rectangle from within which the bullets are fired. By default it's a 1x1
@@ -1252,7 +1252,7 @@ class Weapon extends Phaser.Events.EventEmitter {
    *
    * If there are no more bullets available in the pool, and the pool cannot be extended,
    * then this method returns `undefined`. It will also return `undefined` if not enough time has expired since the last time
-   * the Weapon was fired, as defined in the {@link fireRate} property.
+   * the Weapon was fired, as defined in the {@link cooldown} property.
    *
    * Otherwise the first available bullet is selected, launched, and returned.
    *
@@ -1320,7 +1320,7 @@ class Weapon extends Phaser.Events.EventEmitter {
    * Attempts to fire a single Bullet. If there are no more bullets available in the pool,
    * and the pool cannot be extended, then this method returns `undefined`. It will also return `undefined`
    * if not enough time has expired since the last time the Weapon was fired,
-   * as defined in the {@link fireRate} property.
+   * as defined in the {@link cooldown} property.
    *
    * Otherwise the first available bullet is selected, launched, and returned.
    *
@@ -1486,8 +1486,8 @@ class Weapon extends Phaser.Events.EventEmitter {
       let next = 0; // Calculate when to fire next bullet, taking into account speed variance
 
       if (this.bulletSpeedVariance !== 0) {
-        let rate = this.fireRate;
-        rate += Phaser.Math.Between(-this.fireRateVariance, this.fireRateVariance);
+        let rate = this.cooldown;
+        rate += Phaser.Math.Between(-this.cooldownVariance, this.cooldownVariance);
 
         if (rate < 0) {
           rate = 0;
@@ -1495,7 +1495,7 @@ class Weapon extends Phaser.Events.EventEmitter {
 
         next = this.scene.time.now + rate;
       } else {
-        next = this.scene.time.now + this.fireRate;
+        next = this.scene.time.now + this.cooldown;
       } // Prepare for next shot
 
 
@@ -3718,7 +3718,7 @@ function validateConfig(weapon, property = 'all') {
     log('Warning: Bullet cannot inherit speed from a sprite without a body.', weapon.logLevel);
   }
 
-  const shouldBePositive = ['fireLimit', 'fireRate', 'fireRateVariance', 'bulletAngleVariance', 'bulletSpeedVariance', 'bulletKillDistance'];
+  const shouldBePositive = ['fireLimit', 'cooldown', 'cooldownVariance', 'bulletAngleVariance', 'bulletSpeedVariance', 'bulletKillDistance'];
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
   if (property === 'all') {

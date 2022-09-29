@@ -19,13 +19,10 @@ export class ProjectileInstance extends ObjectInstance {
       console.error('no projectile data in class id:' + classId)
     }
 
-    scene.objectInstanceLayer.add(this)
-    scene.projectileInstanceGroup.add(this)
+    scene.projectileInstanceGroup.add(this.sprite)
 
     this.scene = scene
     
-    this.fireRate = objectClass.projectile.fireRate
-
     // const world = this.scene.matter.world
     // this.scene.matterCollision.addOnCollideStart({
     //   objectA: this,
@@ -40,14 +37,14 @@ export class ProjectileInstance extends ObjectInstance {
     return this
   }
 
-  fire(shooter) {
-    const objectClass = store.getState().game.gameModel.classes[this.classId]
-    this.lifespan = objectClass.projectile.lifespan;
+  fire(shooter, time) {
+    const shooterClass = store.getState().game.gameModel.classes[shooter.classId]
+    this.lifespan = shooterClass.projectile.lifespan;
 
     let rotation
 
-    if(objectClass.controls.type === SPACESHIP_CONTROLS) {
-      rotation = shooter.rotation
+    if(shooterClass.controls.type === SPACESHIP_CONTROLS) {
+      rotation = shooter.sprite.rotation
     } else {
       if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_LEFT) {
         rotation = 270
@@ -63,12 +60,12 @@ export class ProjectileInstance extends ObjectInstance {
     this.setRotation(rotation); // angle is in degree, rotation is in radian
     var offset = new Phaser.Geom.Point(shooter.height, 0);
     Phaser.Math.Rotate(offset, rotation); // you can only rotate with radian
-    this.setPosition(shooter.x + offset.x, shooter.y + offset.y);    
-    this.thrust(objectClass.projectile.velocity)
+    this.setPosition(shooter.sprite.x + offset.x, shooter.sprite.y + offset.y);    
+    this.eject(shooterClass.projectile.speed)
 
     this.setVisible(true);
     this.setActive(true)
 
-    this.destroyTime = this.scene.game.loop.time + this.lifespan
+    this.sprite.destroyTime = time + shooterClass.projectile.lifetime
   }
 }

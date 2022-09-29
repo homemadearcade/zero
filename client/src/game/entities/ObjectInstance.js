@@ -167,6 +167,7 @@ export class ObjectInstance extends Sprite {
     if(objectClass.worldBoundaryRelationship === WORLD_WRAP) {
       this.scene.physics.world.wrap(this.sprite.body, this.width)
     }
+    
     this.updateEffects()
 
     ////////////////////////////////////////

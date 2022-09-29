@@ -303,6 +303,14 @@ export class Sprite {
     }
   }
 
+  eject(force) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('eject via matter')
+    } else {
+      this.scene.physics.velocityFromRotation(this.sprite.rotation, force, this.sprite.body.velocity);  
+    }
+  }
+
   destroy() {
     this.sprite.destroy()
   }

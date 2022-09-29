@@ -10,7 +10,12 @@ Camera change options for 'cutscene'
 
 CONTROLS/PHYSICS/MOVEMENT
 Do we have two sided labels in the checkboxes?
-Do we need Controls and Movement editor AND Phyisc Editor?
+Do we need Controls and Movement editor AND Phyics Editor?
+Controls UI. Key Diagrams to show what each version does?
+Go over slow down, different controls
+
+
+
 
 --
 
@@ -21,14 +26,8 @@ Naming
 Relationship UI
 Cutscenes UI
 
-Projectile Editor
-
 Change BG Color
 Unspawned
-
-Controls
-  Types
-  Speed
 
 Better Autosave
 

@@ -127,7 +127,7 @@ const gravity = store.getState().game.gameModel.world.gravity
       const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
       projectile.fire(this)
 
-      this.nextFire = this.scene.game.loop.time + projectile.fireRate;
+      this.nextFire = this.scene.game.loop.time + projectile.cooldown;
     }
 
     //////////////////////////////////////////////////////////////

@@ -82,10 +82,10 @@ export class PlayerInstance extends ObjectInstance {
     this.cameraPreview.update({x: this.sprite.x - cameraSize/2, y: this.sprite.y - cameraSize/2}, true)
     this.interactArea.update({x: this.sprite.x, y: this.sprite.y, angle: this.sprite.angle})
 
-    this.updateControls(delta)
+    this.updateControls(time, delta)
   }
 
-  updateControls(delta) {
+  updateControls(time, delta) {
     const classId = this.classId
     const objectClass = store.getState().game.gameModel.classes[classId]
     const gravity = store.getState().game.gameModel.world.gravity
@@ -96,14 +96,14 @@ export class PlayerInstance extends ObjectInstance {
     //////////////////////////////////////////////////////////////
     // PROJECTILE
     if(this.cursors.space.isDown && objectClass.projectile?.classId) {
-      if(this.scene.game.loop.time < this.nextFire) { 
+      if(time < this.nextFire) { 
         return
       }
 
       const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
-      projectile.fire(this)
+      projectile.fire(this, time)
 
-      this.nextFire = this.scene.game.loop.time + projectile.fireRate;
+      this.nextFire = time + objectClass.projectile.cooldown;
     }
 
     //////////////////////////////////////////////////////////////
@@ -116,12 +116,10 @@ export class PlayerInstance extends ObjectInstance {
         this.setAngularVelocity(objectClass.speed);
       }
 
-      if(!objectClass.controls.ignoreUpKey) {
-        if(this.cursors.up.isDown) {
-          this.thrust(objectClass.speed * 2);
-        } else {
-          this.setAcceleration(0)
-        }
+      if(this.cursors.up.isDown) {
+        this.thrust(objectClass.speed * 2);
+      } else {
+        this.setAcceleration(0)
       }
     }
 
@@ -176,7 +174,7 @@ export class PlayerInstance extends ObjectInstance {
         this.setVelocityY(this.sprite.body.velocity.y + objectClass.speed * mod)
       }
 
-      if(this.cursors.space.isDown && this.sprite.body.touching.down) {
+      if(this.cursors.up.isDown && this.sprite.body.touching.down) {
         this.setVelocityY(-objectClass.jumpSpeed)
       }
 
