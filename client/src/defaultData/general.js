@@ -1,7 +1,8 @@
 export const defaultPhaserPhysicsProperties = {
   "bounciness": 0,
   "friction": 0.1,
-  "drag": 0.01,
+  "dragY": 0.1,
+  "dragX": 0.1,
   "mass": 10
 }
 

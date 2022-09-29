@@ -522,6 +522,19 @@ export class EditorScene extends GameInstance {
           object.setDrag(classUpdate.drag)
         })
       }
+
+      if(classUpdate.dragX >= 0) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setDragX(classUpdate.dragX)
+        })
+      }
+
+      if(classUpdate.dragY >= 0) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setDragY(classUpdate.dragY)
+        })
+      }
+
       if(classUpdate.frictionStatic >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setFrictionStatic(classUpdate.frictionStatic)
@@ -544,7 +557,7 @@ export class EditorScene extends GameInstance {
           object.resetPhysics()
         })
       }
-      
+
       if(classUpdate.attributes) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           if(object.id === HERO_INSTANCE_ID) {

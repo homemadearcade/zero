@@ -38,17 +38,6 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             value={classSelected.friction}
           />
         </Unlockable>
-        <Unlockable isSlider interfaceId="physics/sliders/friction/air">
-          <SliderNotched
-            formLabel="Drag"
-            step={0.05}
-            options={[0, .01, .25, .5, .75, 1]}
-            onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { drag: value }}})        
-            }}
-            value={classSelected.drag}
-          />
-        </Unlockable>
         {false && <SliderNotched
           formLabel="Staticness"
           step={1}

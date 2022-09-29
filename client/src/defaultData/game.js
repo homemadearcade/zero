@@ -55,7 +55,7 @@ export const defaultGame = {
     "lives": 1,
     spawnX: gameSize/2,
     spawnY: gameSize/2,
-    'initialClassId': 'adventurer'
+    'initialClassId': 'spaceship'
   },
   "classes": {
     "spaceship": spaceshipClass,

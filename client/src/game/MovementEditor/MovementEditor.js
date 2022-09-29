@@ -50,16 +50,6 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           editGameModel({ classes: { [classId]: { controls: { type: type[type.length-1]} } }})        
         }}/>
       </Unlockable>}
-      {classSelected.type === 'hero' && <Unlockable isSlider interfaceId="movement/controls/sticky">
-      <FormLabel>Sticky Controls</FormLabel>
-        <Switch
-          size="small"
-          onChange={(e) => {
-            editGameModel({ classes: { [classId]: { controls: { sticky: e.target.checked }}}})        
-          }}
-          checked={classSelected.controls.sticky}
-         />
-      </Unlockable>}
       {classSelected.type === 'hero' && classSelected.controls.type === PLATFORMER_CONTROLS && <Unlockable interfaceId="movement/speed">
         <SliderNotched
           formLabel="Jump Speed"
@@ -90,15 +80,26 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.speed}
         />
       </Unlockable>
-      <Unlockable isSlider interfaceId="physics/sliders/friction/air">
+      <Unlockable isSlider interfaceId="movement/sliders/verticalDecay">
         <SliderNotched
-          formLabel="Drag"
-          step={0.05}
+          formLabel="Vertical Slow Down"
+          step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { drag: value }}})        
+            editGameModel({ classes: { [classId]: { dragY: 1 - value }}})        
           }}
-          value={classSelected.drag}
+          value={1 - classSelected.dragY}
+        />
+       </Unlockable>
+       <Unlockable isSlider interfaceId="movement/sliders/horizontalDecay">
+        <SliderNotched
+          formLabel="Horizontal Slow Down"
+          step={0.01}
+          options={[0, .01, .25, .5, .75, 1]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { dragX: 1 - value }}})        
+          }}
+          value={1 - classSelected.dragX}
         />
        </Unlockable>
       <Unlockable interfaceId="movement/toggle/ignoreGravity">

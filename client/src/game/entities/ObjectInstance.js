@@ -82,7 +82,9 @@ export class ObjectInstance extends Sprite {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // MOVEMENT
-    this.setDrag(objectClass.drag)
+    this.setDamping(true)
+    this.setDragX(objectClass.dragX)
+    this.setDragY(objectClass.dragY)
     this.setIgnoreGravity(attributes.ignoreGravity)
     this.setVelocity(objectClass.movement.velocity[0], objectClass.movement.velocity[1])
 

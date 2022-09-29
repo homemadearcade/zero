@@ -169,10 +169,45 @@ export class Sprite {
 
   setDrag(drag) {
     if(this.physicsType === ARCADE_PHYSICS) {
-      this.sprite.setDrag(drag * 200)
+      if(this.sprite.body.useDamping) this.sprite.setDrag(drag)
+      else this.sprite.setDrag(drag * 200)
       return
     }
     this.sprite.setFrictionAir(drag)
+  }
+
+  setDragY(drag) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting drag Y under matter')
+      return
+    }
+    if(this.physicsType === ARCADE_PHYSICS) {
+      if(this.sprite.body.useDamping) {
+        this.sprite.setDragY(drag === 0 ? 0.00000000001 : drag)
+      } else this.sprite.setDragY(drag * 200)
+      return
+    }
+  }
+
+  setDragX(drag) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting dragX under matter')
+      return
+    }
+    if(this.physicsType === ARCADE_PHYSICS) {
+      if(this.sprite.body.useDamping) {
+        this.sprite.setDragX(drag === 0 ? 0.00000000001 : drag)
+      } else this.sprite.setDragX(drag * 200)
+      return
+    }
+  }
+
+  setDamping(damping) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting damping under matter')
+      return
+    }
+    this.sprite.body.setDamping(damping)
   }
 
   setFriction(friction) {

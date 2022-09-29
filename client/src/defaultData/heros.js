@@ -40,8 +40,8 @@ export const defaulHeroClass = {
 export const spaceshipClass = {
   ...defaulHeroClass,
   ...defaultPhaserPhysicsProperties,
-  "drag": 0.1,
-  "density": .01,
+  "dragX": 0.25,
+  "dragY": 0.25,
   attributes: {
     "fixedRotation": true,
   },
@@ -56,7 +56,7 @@ export const platformerClass = {
   ...defaulHeroClass,
   ...defaultPhaserPhysicsProperties,
   "jumpSpeed": 300,
-  "drag": 0.1,
+  "dragX": 0.1,
   "textureId": "ship2",
   "controls": {
     type: PLATFORMER_CONTROLS,
@@ -69,6 +69,8 @@ export const adventurerClass = {
   ...defaulHeroClass,
   ...defaultPhaserPhysicsProperties,
   "textureId": "ship2",
+  "dragX": 0,
+  "dragY": 0,
   "controls": {
     type: ADVENTURER_CONTROLS,
     // stickyMovement: true
