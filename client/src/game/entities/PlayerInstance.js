@@ -5,6 +5,7 @@ import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
 import { InteractArea } from "./members/InteractArea";
+import { ADVENTURER_CONTROLS, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -65,7 +66,7 @@ export class PlayerInstance extends ObjectInstance {
     this.cameraPreview.setZoom(zoom)
   }
 
-  update() {  
+  update(time, delta) {  
     super.update()
 
     if(this.scene.isPaused) return
@@ -81,6 +82,19 @@ export class PlayerInstance extends ObjectInstance {
     this.cameraPreview.update({x: this.sprite.x - cameraSize/2, y: this.sprite.y - cameraSize/2}, true)
     this.interactArea.update({x: this.sprite.x, y: this.sprite.y, angle: this.sprite.angle})
 
+    this.updateControls(delta)
+  }
+
+  updateControls(delta) {
+    const classId = this.classId
+    const objectClass = store.getState().game.gameModel.classes[classId]
+    const gravity = store.getState().game.gameModel.world.gravity
+
+    const mod = (1/(delta * 10))
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // PROJECTILE
     if(this.cursors.space.isDown && objectClass.projectile?.classId) {
       if(this.scene.game.loop.time < this.nextFire) { 
         return
@@ -92,16 +106,156 @@ export class PlayerInstance extends ObjectInstance {
       this.nextFire = this.scene.game.loop.time + projectile.fireRate;
     }
 
-    if(this.cursors.left.isDown) {
-      this.setAngularVelocity(-100);
-    } else if(this.cursors.right.isDown) {
-      this.setAngularVelocity(100);
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // SPACESHIP
+    if(objectClass.controls.type === SPACESHIP_CONTROLS) {
+      let hasAngularMovement = false
+      if(this.cursors.left.isDown) {
+        hasAngularMovement = true
+        this.setAngularVelocity(-objectClass.speed);
+      } else if(this.cursors.right.isDown) {
+        hasAngularMovement = true
+        this.setAngularVelocity(objectClass.speed);
+      }
+
+      if(objectClass.controls.sticky && !hasAngularMovement) {
+        this.setAngularVelocity(false)
+      }
+  
+      if(!objectClass.controls.ignoreUpKey) {
+        if(this.cursors.up.isDown) {
+          this.thrust(objectClass.speed * 2);
+        } else {
+          this.setAcceleration(0)
+          // if(objectClass.controls.sticky) {
+          //   this.setVelocity(0, 0)
+          // }
+        }
+      }
     }
 
-    if(this.cursors.up.isDown && !objectClass.attributes.ignoreUpKey) {
-      this.thrust(200);
-    } else {
-      this.setAcceleration(0)
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // ADVENTURER
+    if(objectClass.controls.type === ADVENTURER_CONTROLS) {
+      let xTouched = false 
+      let yTouched = false
+
+      let xVelocityTouched = false
+      let yVelocityTouched = false
+
+      if(this.cursors.left.isDown) {
+        if(objectClass.controls.sticky) {
+          if(gravity.x === 0) {
+            this.setVelocityX(-objectClass.speed)
+            xVelocityTouched = true
+          } else {
+            this.setPosition(this.sprite.x - objectClass.speed * mod, this.sprite.y)
+          }
+        } else this.setAccelerationX(-objectClass.speed)
+        xTouched = true
+      }
+      
+      if(this.cursors.right.isDown) {
+        if(objectClass.controls.sticky) {
+          if(gravity.x === 0) {
+            this.setVelocityX(objectClass.speed)
+            xVelocityTouched = true
+          } else {
+            this.setPosition(this.sprite.x + objectClass.speed * mod, this.sprite.y)
+          }
+        } else this.setAccelerationX(objectClass.speed)
+        xTouched = true
+      }
+      
+      if(this.cursors.up.isDown) {
+        if(objectClass.controls.sticky) {
+          if(gravity.y === 0) {
+            this.setVelocityY(-objectClass.speed)
+            yVelocityTouched = true
+          } else {
+            this.setPosition(this.sprite.x, this.sprite.y - objectClass.speed * mod)
+          }
+        } else this.setAccelerationY(-objectClass.speed)
+        yTouched = true
+      }
+
+      if(this.cursors.down.isDown) {
+        if(objectClass.controls.sticky) {
+          if(gravity.y === 0) {
+            this.setVelocityY(objectClass.speed)
+            yVelocityTouched = true
+          } else {
+            this.setPosition(this.sprite.x, this.sprite.y +  objectClass.speed * mod)
+          }
+        } else this.setAccelerationY(objectClass.speed)
+        yTouched = true
+      }
+
+      if(objectClass.controls.sticky) {
+        console.log(gravity, xVelocityTouched, yVelocityTouched)
+        if(gravity.y === 0 && !yVelocityTouched) this.setVelocityY(0)
+        if(gravity.x === 0 && !xVelocityTouched) this.setVelocityX(0)
+      } else {
+        if(!xTouched) this.setAccelerationX(0)
+        if(!yTouched) this.setAccelerationY(0)
+      }
+
+    }
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // PLATFORMER
+    if(objectClass.controls.type === PLATFORMER_CONTROLS) {
+      let xTouched = false 
+
+      let xVelocityTouched = false
+      let yVelocityTouched = false
+
+      if(this.cursors.left.isDown) {
+        if(objectClass.controls.sticky) {
+          if(gravity.x === 0) {
+            this.setVelocityX(-objectClass.speed)
+            xVelocityTouched = true
+          } else {
+            this.setPosition(this.sprite.x - objectClass.speed * mod, this.sprite.y)
+          }
+        } else this.setAccelerationX(-objectClass.speed)
+        xTouched = true
+      }
+      
+      if(this.cursors.right.isDown) {
+        if(objectClass.controls.sticky) {
+          if(gravity.x === 0) {
+            this.setVelocityX(objectClass.speed)
+            xVelocityTouched = true
+          } else {
+            this.setPosition(this.sprite.x + objectClass.speed * mod, this.sprite.y)
+          }
+        } else this.setAccelerationX(objectClass.speed)
+        xTouched = true
+      }
+
+      if(this.cursors.down.isDown) {
+        if(gravity.y === 0) {
+          this.setVelocityY(objectClass.speed)
+          yVelocityTouched = true
+        } else {
+          this.setPosition(this.sprite.x, this.sprite.y +  objectClass.speed * mod)
+        }
+      }
+
+      if(this.cursors.space.isDown && this.sprite.body.touching.down) {
+        this.setVelocityY(-objectClass.jumpSpeed)
+      }
+
+      if(objectClass.controls.sticky) {
+        if(gravity.y === 0 && !yVelocityTouched) this.setVelocityY(0)
+        if(gravity.x === 0 && !xVelocityTouched) this.setVelocityX(0)
+      } else {
+        if(!xTouched && !objectClass.controls.sticky) this.setAccelerationX(0)
+      }
     }
 
     if(objectClass.attributes.rotationFollowKeys) {

@@ -254,6 +254,12 @@ export class ObjectInstance extends Sprite {
     }
   }
 
+  resetPhysics() {
+    this.setAcceleration(0,0)
+    this.setVelocity(0,0)
+    this.setRotation(0)
+  }
+
   runEffect(effect, agent, sides = []) {
     // MOVEMENT
     if(effect.id === EFFECT_TELEPORT) {

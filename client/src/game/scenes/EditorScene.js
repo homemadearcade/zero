@@ -539,6 +539,12 @@ export class EditorScene extends GameInstance {
         })
       }
 
+      if(classUpdate.controls) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.resetPhysics()
+        })
+      }
+      
       if(classUpdate.attributes) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           if(object.id === HERO_INSTANCE_ID) {

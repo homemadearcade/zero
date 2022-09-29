@@ -63,6 +63,22 @@ export class Sprite {
     this.sprite.setAcceleration(acceleration)
   }
 
+  setAccelerationX(acceleration) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting acc under matter')
+      return
+    }
+    this.sprite.setAccelerationX(acceleration)
+  }
+
+  setAccelerationY(acceleration) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting acc under matter')
+      return
+    }
+    this.sprite.setAccelerationY(acceleration)
+  }
+
   setAngularAcceleration(acceleration) {
     if(this.physicsType === MATTER_PHYSICS) {
       console.log('setting angular acc under matter')
@@ -234,6 +250,14 @@ export class Sprite {
 
   setVelocity(x, y) {
     this.sprite.setVelocity(x, y)
+  }
+
+  setVelocityX(x) {
+    this.sprite.setVelocityX(x)
+  }
+
+  setVelocityY(y) {
+    this.sprite.setVelocityY(y)
   }
 
   thrust(thrust) {

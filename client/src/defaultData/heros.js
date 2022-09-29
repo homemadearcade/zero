@@ -1,32 +1,19 @@
-import { EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../constants"
+import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general"
 
 export const defaulHeroClass = {
   ...defaultPhaserPhysicsProperties,
   "speed": 100,
-  "jumpVelocity": 100,
+  "jumpSpeed": 0,
   "mass": 30,
   "tint": null,
   width: nodeSize * 5,
   height: nodeSize * 5,
   "textureId": null,
-  "controls": "zelda",
   "camera": {
     zoom: 3,
     lerpX: 0.09,
     lerpY: 0.09,
-  },
-  type: 'hero'
-}
-
-export const spaceshipClass = {
-  ...defaulHeroClass,
-  ...defaultPhaserPhysicsProperties,
-  "jumpVelocity": 0,
-  "drag": 0.1,
-  "density": .01,
-  attributes: {
-    "fixedRotation": true,
   },
   relations: [
     {
@@ -47,7 +34,44 @@ export const spaceshipClass = {
       sides: [SIDE_UP]
     }
   ],
+  type: 'hero'
+}
+
+export const spaceshipClass = {
+  ...defaulHeroClass,
+  ...defaultPhaserPhysicsProperties,
+  "drag": 0.1,
+  "density": .01,
+  attributes: {
+    "fixedRotation": true,
+  },
   "textureId": "ship2",
-  "controls": "spaceship",
+  "controls": {
+    type: SPACESHIP_CONTROLS,
+  },
+  type: 'hero'
+}
+
+export const platformerClass = {
+  ...defaulHeroClass,
+  ...defaultPhaserPhysicsProperties,
+  "jumpSpeed": 300,
+  "drag": 0.1,
+  "textureId": "ship2",
+  "controls": {
+    type: PLATFORMER_CONTROLS,
+    disableUpKeyMovement: true,
+  },
+  type: 'hero'
+}
+
+export const adventurerClass = {
+  ...defaulHeroClass,
+  ...defaultPhaserPhysicsProperties,
+  "textureId": "ship2",
+  "controls": {
+    type: ADVENTURER_CONTROLS,
+    // stickyMovement: true
+  },
   type: 'hero'
 }

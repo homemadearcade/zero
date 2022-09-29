@@ -8,7 +8,9 @@ World Effects like gravity change.. and?? other?
 
 Camera change options for 'cutscene'
 
-Controls UI
+CONTROLS/PHYSICS/MOVEMENT
+Do we have two sided labels in the checkboxes?
+Do we need Controls and Movement editor AND Phyisc Editor?
 
 --
 
@@ -19,7 +21,6 @@ Naming
 Relationship UI
 Cutscenes UI
 
-Controls Editor
 Projectile Editor
 
 Change BG Color

@@ -22,8 +22,8 @@ export class GameLocalScene extends EditorScene {
     window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
 
-  update() {
-    super.update() 
+  update(time, delta) {
+    super.update(time, delta) 
 
     if(this.isPaused) {
       this.pause()

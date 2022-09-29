@@ -94,16 +94,6 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             checked={classSelected.attributes.ignoreGravity}
           />
       </Unlockable>}
-      {<Unlockable interfaceId="physics/toggle/immovable">
-        <FormLabel>Free Movement</FormLabel>
-        <Switch
-          size="small"
-          onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { immovable: !e.target.checked } } } })        
-          }}
-          checked={!classSelected.attributes.immovable}
-         />
-      </Unlockable>}
       <Unlockable interfaceId="physics/toggle/notPushable">
         <FormLabel>Not Pushable</FormLabel>
         <Switch
@@ -114,6 +104,16 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           checked={classSelected.attributes.notPushable}
          />
       </Unlockable>
+      {<Unlockable interfaceId="physics/toggle/immovable">
+        <FormLabel>Free Movement</FormLabel>
+        <Switch
+          size="small"
+          onChange={(e) => {
+            editGameModel({ classes: { [classId]: { attributes: { immovable: e.target.checked } } } })        
+          }}
+          checked={classSelected.attributes.immovable}
+         />
+      </Unlockable>}
       {false && <Unlockable interfaceId="physics/toggle/useMass">
         <FormLabel>Use Mass For Weight</FormLabel>
         <Switch

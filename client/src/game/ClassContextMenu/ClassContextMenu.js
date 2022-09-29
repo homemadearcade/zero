@@ -31,14 +31,12 @@ const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLi
         }}>Edit Projectile</MenuItem>
       </Unlockable>
     }
-    {objectClass.type !== 'hero' &&
-      <Unlockable interfaceId="contextMenu/class/movement">
-        <MenuItem onClick={() => {
-          openLiveMovementEditor(classId)
-          onMenuItemClick()
-        }}>Edit Movement</MenuItem>
-      </Unlockable>
-    }
+    <Unlockable interfaceId="contextMenu/class/movement">
+      <MenuItem onClick={() => {
+        openLiveMovementEditor(classId)
+        onMenuItemClick()
+      }}>Edit Movement</MenuItem>
+    </Unlockable>
   </>
 };
 
