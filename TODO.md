@@ -14,8 +14,9 @@ Do we need Controls and Movement editor AND Phyics Editor?
 Controls UI. Key Diagrams to show what each version does?
 Go over slow down, different controls
 
---
+Unlockables hidden from view unless not cobrowsing?
 
+--
 TODO
  
 Naming
@@ -23,23 +24,11 @@ Naming
 Relationship UI
 Cutscenes UI
 
-Change BG Color
 Unspawned
 
 Better Autosave
 
---------
-
-HOW TO
-
-Choose BG Color
-  Right Click -> Change World Background -> Opens Modal Menu with your all yours Colors (+), When you click that it changes the entire Base Color
-
-CREATE CLASS UI
-  Movement is prompted after placing the first object
-  
---
-
+------
 TODO CHORES 
 
 Add Unlockable to everything
@@ -49,11 +38,14 @@ Move properties into objects based on Member
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
 
 --------
+TODO FEATURES
+
+Movement is prompted after placing the first object
+
+Select from my Sprites
 
 TODO FEATURES ( MAYBE )
 
 Mini-Relationship View
-
-Select from my Sprites
 
 ------

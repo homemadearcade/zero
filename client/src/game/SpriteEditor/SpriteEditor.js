@@ -23,6 +23,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorGameInstance }, game: { gameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
     closeSpriteEditor()
+    clearBrush()
   }
 
   function handleSave(textureId) {
