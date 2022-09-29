@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Phaser from 'phaser';
 
 import './SpriteEditor.scss';
-import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE } from '../../constants';
+import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID } from '../../constants';
 
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { CodrawingScene } from '../scenes/CodrawingScene';
@@ -12,14 +12,15 @@ import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModa
 import { nodeSize } from '../../defaultData/general';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../BrushControl/BrushControl';
-import { closeSpriteEditor, setSpriteEditorGameInstance } from '../../store/actions/editorActions';
+import { clearBrush, closeSpriteEditor, selectBrush, setSpriteEditorGameInstance } from '../../store/actions/editorActions';
 import Button from '../../app/ui/Button/Button';
 import { v4 as uuidv4 } from 'uuid';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import UndoButton from '../../app/ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../store/actions/lobbyActions';
+import { editGameModel } from '../../store/actions/gameActions';
 
-const SpriteEditor = ({isHost, isNetworked, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorGameInstance }, game: { gameInstance }, closeSpriteEditor, onSaveSprite }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorGameInstance }, game: { gameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
     closeSpriteEditor()
   }
@@ -53,13 +54,30 @@ const SpriteEditor = ({isHost, isNetworked, setSpriteEditorGameInstance, editor:
       game.destroy()
     }
   }, []);
+
+  function onSelectColor(hex) {
+    console.log(hex)
+    editGameModel({
+      colors: {
+        [hex]: {
+          [SPRITE_EDITOR_CANVAS_ID]: true
+        }
+      }
+    })
+
+    selectBrush(COLOR_BRUSH_ID + '/' + SPRITE_EDITOR_CANVAS_ID + '/' + hex)
+  }
+
+  function onUnselectColor() {
+    clearBrush()
+  }
   
   return (
     <CobrowsingModal open={true} width="110vh" height="70vh" onClose={handleClose}>
       <div className="SpriteEditor">
         <div className="SpriteEditor__left-column">
           <BrushControl/>
-          <AggregateColorSelect canvasId={SPRITE_EDITOR_CANVAS_ID}/>
+          <AggregateColorSelect onSelectColor={onSelectColor} onUnselectColor={onUnselectColor}/>
         </div>
         <div id="PhaserPopupGame"/>
         <div className="SpriteEditor__right-column">
@@ -92,4 +110,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game
 });
 
-export default connect(mapStateToProps, { closeSpriteEditor, setSpriteEditorGameInstance })(SpriteEditor);
+export default connect(mapStateToProps, { clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance })(SpriteEditor);

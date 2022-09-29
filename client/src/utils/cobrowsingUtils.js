@@ -7,6 +7,7 @@ export function getRemoteStatePackage(state) {
     editorForms: state.editorForms,
     editorInstance: state.editorInstance,
     unlockableInterfaceIds: state.unlockableInterfaceIds,
+    narrative: state.narrative,
     contextMenu: state.contextMenu,
     errors: state.errors
   }
@@ -37,7 +38,12 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.unlockableInterfaceIds
     } else if(propName === 'errors') {
       prev[propName] = remoteState.errors
-    }      // else if(propName === 'contextMenu') {
+    } else if(propName === 'narrative') {
+      prev[propName] = remoteState.narrative
+    } 
+    
+    
+    // else if(propName === 'contextMenu') {
     //   prev[propName] = remoteState.contextMenu
     // }
 
@@ -72,6 +78,7 @@ export function getCobrowsingState() {
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
     video: remoteState.video,
+    narrative: remoteState.narrative,
     unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
     errors: remoteState.errors
   }

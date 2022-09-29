@@ -448,6 +448,10 @@ export class EditorScene extends GameInstance {
       }
     }
 
+    if(gameUpdate.world?.backgroundColor) {
+      this.world.createWorldBackgroundColorLayer()
+    }
+
     if(gameUpdate.world?.boundaries) {
       if(gameUpdate.world.boundaries.loop) {
         this.reload()

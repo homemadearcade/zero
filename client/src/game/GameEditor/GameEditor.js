@@ -10,8 +10,9 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 import SectionEditor from '../SectionEditor/SectionEditor';
 import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
+import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
 
-const GameEditor = ({ classNames, editor: { isLiveEditorOpen, isSectionEditorOpen, isSnapshotTakerOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, isLiveEditorOpen, isSectionEditorOpen, isSnapshotTakerOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -37,6 +38,7 @@ const GameEditor = ({ classNames, editor: { isLiveEditorOpen, isSectionEditorOpe
         {rightColumn}
       </div>
       {isLiveEditorOpen && <LiveEditor/>}
+      {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
     </div>
   );
 };

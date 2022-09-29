@@ -4,13 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AggregateColorSelect.scss';
-import { COLOR_BRUSH_ID } from '../../constants';
 import { openCreateColorFlow } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../store/actions/gameActions';
 import ColorSelect from '../ui/ColorSelect/ColorSelect';
-import { clearBrush, selectBrush } from '../../store/actions/editorActions';
 import { getHexFromColorId, isBrushIdColor } from '../../utils/editorUtils';
 
 const AggregateColorSelect = ({
@@ -18,8 +16,8 @@ const AggregateColorSelect = ({
   canvasId,
   openCreateColorFlow,
   editGameModel,
-  selectBrush,
-  clearBrush,
+  onSelectColor,
+  onUnselectColor,
   editor: { brushIdSelectedBrushList },
   editorForms: { isCreateColorFlowOpen }
 }) => {
@@ -27,24 +25,6 @@ const AggregateColorSelect = ({
 
   function onAddColor() {
     openCreateColorFlow('AggregateColorSelect' + canvasId, canvasId)
-  }
-
-  function onSelectColor(hex) {
-    if(!colors[hex]) {
-      editGameModel({
-        colors: {
-          [hex]: {
-            [canvasId]: true
-          }
-        }
-      })
-    }
-
-    selectBrush(COLOR_BRUSH_ID + '/' + canvasId + '/' + hex)
-  }
-
-  function onUnselectColor() {
-    clearBrush()
   }
 
   function renderColorSelect() {
@@ -71,12 +51,10 @@ const AggregateColorSelect = ({
       onComplete={(color) => {
         editGameModel({
           colors: {
-            [color.hex]: {
-              [color.canvasId]: true
-            }
+            [color.hex]: {}
           }
         })
-        selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex)
+        onSelectColor(color.hex)
       }}
     />}
   </>
@@ -89,5 +67,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { openCreateColorFlow, clearBrush, selectBrush, editGameModel }),
+  connect(mapStateToProps, { openCreateColorFlow, editGameModel }),
 )(AggregateColorSelect);

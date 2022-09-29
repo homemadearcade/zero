@@ -21,6 +21,8 @@ import {
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
   SET_SPRITE_EDITOR_GAME_INSTANCE,
+  OPEN_SELECT_BACKGROUND_COLOR,
+  CLOSE_SELECT_BACKGROUND_COLOR,
 } from '../types';
 
 export const toggleGridView = () => (dispatch, getState) => {
@@ -185,6 +187,22 @@ export const closeSpriteEditor= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SPRITE_EDITOR,
+    payload: {}
+  });
+}
+
+export const openSelectBackgroundColor= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_SELECT_BACKGROUND_COLOR,
+    payload: {}
+  });
+}
+
+export const closeSelectBackgroundColor= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_SELECT_BACKGROUND_COLOR,
     payload: {}
   });
 }

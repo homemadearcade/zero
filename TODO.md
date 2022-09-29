@@ -14,9 +14,6 @@ Do we need Controls and Movement editor AND Phyics Editor?
 Controls UI. Key Diagrams to show what each version does?
 Go over slow down, different controls
 
-
-
-
 --
 
 TODO
@@ -47,6 +44,16 @@ TODO CHORES
 
 Add Unlockable to everything
 
+Move properties into objects based on Member
+
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
 
 --------
+
+TODO FEATURES ( MAYBE )
+
+Mini-Relationship View
+
+Select from my Sprites
+
+------

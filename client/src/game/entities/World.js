@@ -10,13 +10,17 @@ export class World {
 
     this.setGravity(gravity.x, gravity.y)
     this.setBoundaries(boundaries)
-
-    const gameModel = store.getState().game.gameModel
-    const colorInt = getHexIntFromHexString(gameModel.world.backgroundColor || '#000000')
-    this.backgroundColorLayer = this.scene.add.rectangle(0, 0, gameModel.world.boundaries.maxWidth * 2, gameModel.world.boundaries.maxHeight * 2, colorInt)
-    this.backgroundColorLayer.setDepth(WORLD_BACKGROUND_CANVAS_DEPTH)
+    this.createWorldBackgroundColorLayer()
 
     return this
+  }
+
+  createWorldBackgroundColorLayer() {
+    const gameModel = store.getState().game.gameModel
+    const colorInt = getHexIntFromHexString(gameModel.world.backgroundColor || '#000000')
+    if(this.backgroundColorLayer) this.backgroundColorLayer.destroy()
+    this.backgroundColorLayer = this.scene.add.rectangle(0, 0, gameModel.world.boundaries.maxWidth * 2, gameModel.world.boundaries.maxHeight * 2, colorInt)
+    this.backgroundColorLayer.setDepth(WORLD_BACKGROUND_CANVAS_DEPTH)
   }
 
   setGravity(x, y) {
