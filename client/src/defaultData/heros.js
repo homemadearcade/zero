@@ -45,10 +45,12 @@ export const spaceshipClass = {
   attributes: {
     "fixedRotation": true,
   },
-  "textureId": "ship2",
+  classId: 'spaceship',
+  "textureId": "oryx-lofi-scifi-vehicles-8px-sprite13",
   "controls": {
     type: SPACESHIP_CONTROLS,
   },
+  name: 'spaceship',
   type: 'hero'
 }
 
@@ -57,20 +59,24 @@ export const platformerClass = {
   ...defaultPhaserPhysicsProperties,
   "jumpSpeed": 300,
   "dragX": 0.1,
-  "textureId": "ship2",
+  "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
+  classId: 'platformer',
   "controls": {
     type: PLATFORMER_CONTROLS,
     disableUpKeyMovement: true,
   },
+  name: 'jumper',
   type: 'hero'
 }
 
 export const adventurerClass = {
   ...defaulHeroClass,
   ...defaultPhaserPhysicsProperties,
-  "textureId": "ship2",
+  "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   "dragX": 0,
   "dragY": 0,
+  classId: 'adventurer',
+  name: 'classic',
   "controls": {
     type: ADVENTURER_CONTROLS,
     // stickyMovement: true

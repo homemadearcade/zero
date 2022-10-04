@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
@@ -10,19 +10,35 @@ import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import ClassNameForm from '../ui/ClassNameForm/ClassNameForm';
+import { getClassDisplayName } from '../../utils/gameUtils';
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, closeCreateClassFlow, editorForms: { class: objectClass } }) => {
   function handleClose() {
     closeCreateClassFlow()
     clearEditorForms()
   }
+  
+  useEffect(() => {
+    if(!objectClass.classId) {
+      console.log('creating new class Id', objectClass)
+      updateCreateClass({ classId: uuidv4() })
+    }
+  }, [])
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateClassFlow">
-      <Typography component="h2" variant="h2">Create Class</Typography>
-      <SelectDescriptors 
+      <Typography component="h2" variant="h2">Graphics</Typography>
+      <SelectDescriptors
         onChange={(event, descriptors) => {
-          updateCreateClass({ descriptors })
+          let newName = objectClass.name || ''
+          const nameFromDesc = getClassDisplayName(descriptors)
+
+          if(!newName && nameFromDesc) {
+            newName = nameFromDesc
+          }
+          updateCreateClass({ descriptors, name: newName })
         }}
         formLabel="Descriptors"
         value={objectClass.descriptors}
@@ -42,7 +58,10 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
         descriptors={objectClass.descriptors}
         textureIdSelected={objectClass.textureId}
       />
-      <Button onClick={() => {
+      <ClassNameForm/>
+      <Button
+        disabled={!!objectClass.error || !objectClass.name.length}
+        onClick={() => {
         onComplete(objectClass)
         handleClose()
       }}>

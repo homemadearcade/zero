@@ -15,6 +15,7 @@ import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../../defaultData/general';
 import { urlToFile } from '../../utils/utils';
+import { setFontAwesomeCursor } from '../../utils/browserUtils';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -711,7 +712,6 @@ export class EditorScene extends GameInstance {
       this.cameras.main.setVisible(false)
       this.editorCamera.setVisible(true)
       // this.cameras.getCamera('mini').setVisible(true)
-
     } else {
       this.grid.setVisible(false)
       this.grid2.setVisible(false)

@@ -8,22 +8,22 @@ import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../ui/SelectClass/SelectClass';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
   const projectileClass = gameModel.classes[classSelected.projectile?.classId]
-
+  
   return (
     <div className="ProjectileEditor">
-      <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
+      <Typography component="h5" variant="h5">Projectile</Typography>
       <Unlockable interfaceId="projectile/class">
         <SelectClass 
           formLabel="Projectile Class"
           value={classSelected.projectile.classId ? [classSelected.projectile.classId] : []}
           onChange={(event, classes) => {
-          editGameModel({ classes: { [classId]: { projectile: { classId: classes[classes.length-1] }}}})        
-        }}/>
+            const newClassId = classes[classes.length-1]
+            editGameModel({ classes: { [classId]: { projectile: { classId: newClassId ? newClassId : null  }}}})        
+         }}/>
       </Unlockable>
       {projectileClass && <>
         <Unlockable isSlider interfaceId="projectile/cooldown">

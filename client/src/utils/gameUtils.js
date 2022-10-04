@@ -56,6 +56,6 @@ export function areBSidesHit(sides, a, b) {
   return verdict
 }
 
-export function getClassDisplayName(objectClass, classId) {
-  return objectClass.name || objectClass.descriptors ? objectClass.descriptors[0] : classId
+export function getClassDisplayName(descriptors, classId) {
+  return descriptors ? descriptors[0] : classId
 }

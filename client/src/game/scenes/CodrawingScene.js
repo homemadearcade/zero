@@ -210,6 +210,12 @@ export class CodrawingScene extends Phaser.Scene {
       this.brush.setVisible(true)
     }
 
+    if(getCobrowsingState().editorForms.color.isEyeDropping) {
+      this.input.setDefaultCursor('url(/assets/images/eyedropper.png)');
+    } else {
+      this.input.setDefaultCursor('default')
+    }
+
     // if(this.isGridViewOn) {
     //   this.grid.setVisible(true)
     //   this.grid2.setVisible(true)

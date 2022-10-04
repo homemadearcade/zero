@@ -16,5 +16,14 @@
 
   &__sprite {
     height: 100%;
+    transform: scale(0.7);
+  }
+
+  &__name {
+    font-size: .7rem;
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    left: 0;
+    top: 0;
   }
 }

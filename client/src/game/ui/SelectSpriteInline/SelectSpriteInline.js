@@ -16,6 +16,7 @@ import Button from '../../../app/ui/Button/Button';
 import SpriteEditor from '../../SpriteEditor/SpriteEditor';
 import { openSpriteEditor } from '../../../store/actions/editorActions';
 import { DEFAULT_CLEAR_TEXTURE_ID } from '../../../constants';
+import MySprites from '../MySprites/MySprites';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -69,6 +70,7 @@ const SelectSpriteInline = ({
       />
       <div className="SelectSpriteInline__sprite-list">
         <DescriptorSprites onClickSprite={onSelect} descriptors={descriptors}/>
+        <MySprites onClickSprite={onSelect} descriptors={descriptors}/>
       </div>
     </div>
 

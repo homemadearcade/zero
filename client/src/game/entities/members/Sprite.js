@@ -299,7 +299,7 @@ export class Sprite {
     if(this.physicsType === MATTER_PHYSICS) {
       this.sprite.thrust(thrust)
     } else {
-      this.scene.physics.velocityFromRotation(this.sprite.rotation, thrust, this.sprite.body.acceleration);  
+      this.scene.physics.velocityFromRotation(this.sprite.rotation - Phaser.Math.DegToRad(90), thrust, this.sprite.body.acceleration);  
     }
   }
 

@@ -8,7 +8,6 @@ const router = Router();
 
 router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
-    console.log('joining', req.params.id)
     req.socket.join('codrawing@'+req.params.id);
     req.io.to('codrawing@'+req.params.id).emit(ON_CODRAWING_SUBSCRIBED, { userId: req.user.id, canvasId: req.params.id });
     
@@ -20,8 +19,6 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 
 router.post('/stop/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
-    console.log('leaving', req.params.id)
-
     req.socket.leave('codrawing@'+req.params.id);    
     res.status(200).send()
   } catch (err) {

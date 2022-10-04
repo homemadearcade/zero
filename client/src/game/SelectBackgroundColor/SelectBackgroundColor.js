@@ -10,12 +10,12 @@ import { closeSelectBackgroundColor } from '../../store/actions/editorActions';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../store/actions/gameActions';
 
-const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel }) => {
+const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel, editorForms: { color} }) => {
   function handleClose() {
     closeSelectBackgroundColor()
   }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingModal open={!color.isEyeDropping} onClose={handleClose}>
     <div className="SelectBackgroundColor">
       <Typography component="h2" variant="h2">Background Color</Typography>
       <AggregateColorSelect onSelectColor={(hex) => {
@@ -32,6 +32,7 @@ const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel }) =>
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
+  editorForms: state.editorForms,
   game: state.game
 })
 

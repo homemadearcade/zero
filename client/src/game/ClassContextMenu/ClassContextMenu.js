@@ -1,21 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-
+import { editGameModel } from '../../store/actions/gameActions'
 import { openLivePhysicsEditor, openLiveCameraEditor, openLiveProjectileEditor, openLiveMovementEditor } from '../../store/actions/editorActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
+import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
-const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLiveProjectileEditor, onMenuItemClick, openLiveMovementEditor,  game: { gameModel }, classId }) => {
+const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLivePhysicsEditor, openLiveCameraEditor, openLiveProjectileEditor, onMenuItemClick, openLiveMovementEditor,  game: { gameModel }, classId, editorForms : { isCreateClassFlowOpen }}) => {
   const objectClass = gameModel.classes[classId]
 
   return <>
+    {objectClass.type === 'hero' && classId !== gameModel.hero.initialClassId && 
+      <Unlockable interfaceId="contextMenu/class/setPlayerClass">
+          <MenuItem onClick={() => {
+            editGameModel({
+              hero: {
+                initialClassId: classId
+              }
+            })
+            onMenuItemClick()
+          }}>Set as Player</MenuItem>
+      </Unlockable>
+    }
+    <Unlockable interfaceId="contextMenu/class/graphics">
+      <MenuItem onClick={() => {
+        openCreateClassFlow(objectClass)
+        onMenuItemClick()
+      }}>Edit Graphics</MenuItem>
+    </Unlockable>
     <Unlockable interfaceId="contextMenu/class/physics">
       <MenuItem onClick={() => {
         openLivePhysicsEditor(classId)
         onMenuItemClick()
       }}>Edit Collision Response</MenuItem>
     </Unlockable>
-    {objectClass?.camera &&
+    {objectClass.type === 'hero' &&
       <Unlockable interfaceId="contextMenu/class/camera">
         <MenuItem onClick={() => {
           openLiveCameraEditor(classId)
@@ -38,8 +58,9 @@ const ClassContextMenu = ({ openLivePhysicsEditor,  openLiveCameraEditor, openLi
   </>
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
+  editorForms: state.editorForms
 })
 
-export default connect(mapStateToProps, { openLiveCameraEditor, openLivePhysicsEditor, openLiveProjectileEditor, openLiveMovementEditor })(ClassContextMenu);
+export default connect(mapStateToProps, { editGameModel, openCreateClassFlow, openLiveCameraEditor, openLivePhysicsEditor, openLiveProjectileEditor, openLiveMovementEditor })(ClassContextMenu);

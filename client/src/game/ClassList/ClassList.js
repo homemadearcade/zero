@@ -25,21 +25,19 @@ const ClassList = ({
     return null
   }
 
-
   const objectClasses = Object.keys(classes).filter((currentClassId) => {
     const currentClass = classes[currentClassId]
-    if(currentClass.type === 'hero') return null
+    if(currentClass.type === 'hero') return false
     return true
   }).map((currentClassId, i) => {
     return <ClassItem key={i} classId={currentClassId} />
-  }).slice(0, 15)
+  })
 
   objectClasses.push(<Button size="fit" className="ClassList__add" onClick={() => {
-    openCreateClassFlow()
+    openCreateClassFlow({ type: 'object' })
   }}>
     +
   </Button>)
-
 
   const heroClasses = Object.keys(classes).filter((currentClassId) => {
     const currentClass = classes[currentClassId]
@@ -47,46 +45,36 @@ const ClassList = ({
     return true
   }).map((currentClassId, i) => {
     return <ClassItem key={i} classId={currentClassId} hero/>
-  }).slice(0, 5)
+  })
   
-  heroClasses.push(<Button size="fit" onClick={() => {
-    const classId = uuidv4()
-    editGameModel({
-      classes: {
-        [classId] : {
-          type: 'hero'
-        }
-      }
-    })
-  }}>
+  heroClasses.push(<Button size="fit" 
+    onClick={() => {
+      openCreateClassFlow({ type: 'hero' })
+    }}>
     +
   </Button>)
 
+  const classList = [...objectClasses, ...heroClasses].slice(0, 25)
+
   return <div className="ClassList">
     <BorderedGrid
-      maxItems={16} 
+      maxItems={26} 
       height="7vh"
       width="9.2vh"
-      items={objectClasses}
+      items={classList}
     />
-    <BorderedGrid
-      maxItems={6} 
-      height="7vh"
-      width="9.2vh"
-      items={heroClasses}/>
     {isCreateClassFlowOpen && <CreateClassFlow 
       onComplete={(objectClass) => {
-        const classId = uuidv4()
+        console.log(objectClass.classId)
         editGameModel({
           classes: {
-            [classId] : {
-              type: 'object',
+            [objectClass.classId] : {
               ...objectClass
             }
           }
         })
       }}
-    />}
+  />}
   </div>
 };
 

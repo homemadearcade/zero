@@ -1,4 +1,4 @@
-import { EFFECT_COLLIDE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
+import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
 import { defaultPhaserPhysicsProperties, nodeSize } from "./general";
 
 export const defaultObjectClass = {
@@ -9,7 +9,6 @@ export const defaultObjectClass = {
   ...defaultPhaserPhysicsProperties,
   "tint": null,
   "textureId": null,
-  "controls": null,
   unspawned: false,
   worldBoundaryRelationship: WORLD_COLLIDE, // wrap, destroy
   relations: [],
@@ -21,6 +20,12 @@ export const defaultObjectClass = {
       [SIDE_RIGHT]: false,
     }
   },
+  movement: {
+    pattern: null,
+    velocity: [0, 0],
+  },
+  attributes: {},
+
   projectile: {
     classId: null,
     cooldown: 200,
@@ -28,9 +33,12 @@ export const defaultObjectClass = {
     ammo: 0,
     speed: 300,
   },
-  movement: {
-    pattern: null,
-    velocity: [0, 0],
+  "camera": {
+    zoom: 3,
+    lerpX: 0.09,
+    lerpY: 0.09,
   },
-  attributes: {}
+  "controls": {
+    type: ADVENTURER_CONTROLS,
+  },
 }

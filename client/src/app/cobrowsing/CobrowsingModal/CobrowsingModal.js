@@ -1,13 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '../../ui/Button/Button';
 import { Backdrop } from '@mui/material';
 
 import './CobrowsingModal.scss';
 import Icon from '../../ui/Icon/Icon';
 import { stopPropagation } from '../../../utils/browserUtils';
+import { getCurrentGameScene } from '../../../utils/editorUtils';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
-const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height}) => {
+const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, gameInstance }) => {
+  useEffect(() => {
+   getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = false
+
+    return () => {
+      getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = true
+    }
+  }, [])
+  
   return <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => {
       return theme.zIndex.drawer + zIndexIncrease
@@ -26,4 +37,10 @@ const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, h
   </Backdrop>
 };
 
-export default CobrowsingModal
+const mapStateToProps = (state) => ({
+  gameInstance: state.game.gameInstance,
+});
+
+export default compose(
+  connect(mapStateToProps, {}),
+)(CobrowsingModal);

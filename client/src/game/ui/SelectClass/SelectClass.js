@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectClass.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { getClassDisplayName } from '../../../utils/gameUtils';
 
 const SelectClass = ({ onChange, value, formLabel, gameModel}) => {
 
@@ -12,7 +11,7 @@ const SelectClass = ({ onChange, value, formLabel, gameModel}) => {
     const objectClass = gameModel.classes[classId]
 
     return {
-      label: getClassDisplayName(objectClass, classId),
+      label: objectClass.name,
       value: classId
     }
   }

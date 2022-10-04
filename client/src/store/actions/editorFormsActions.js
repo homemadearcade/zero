@@ -21,11 +21,11 @@ export const clearEditorForms = () => (dispatch, getState) => {
   });
 }
 
-export const openCreateClassFlow = () => (dispatch, getState) => {
+export const openCreateClassFlow = (initialClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_CLASS_FLOW,
-    payload: {}
+    payload: { initialClass }
   });
 }
 

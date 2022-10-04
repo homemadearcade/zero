@@ -4,13 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateColorFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeCreateColorFlow } from '../../store/actions/editorFormsActions';
+import { closeCreateColorFlow, updateCreateColor } from '../../store/actions/editorFormsActions';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ColorGrid from '../ui/ColorGrid/ColorGrid';
+import Icon from '../../app/ui/Icon/Icon';
 
-const CreateColorFlow = ({ onComplete, closeCreateColorFlow,  editorForms: { color }}) => {
+const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, editorForms: { color }}) => {
   function handleClose() {
     closeCreateColorFlow()
   }
@@ -19,9 +20,21 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow,  editorForms: { col
   //   updateCreateColor({ descriptors })
   // }}
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingModal open={!color.isEyeDropping} onClose={handleClose}>
     <div className="CreateColorFlow">
       <Typography component="h2" variant="h2">Add Color</Typography>
+      <Icon icon="faEyeDropper" onClick={() => {
+        const eyeDropper = new window.EyeDropper();
+        eyeDropper.open().then((result) => {
+          onComplete({ canvasId: color.canvasId, hex: result.sRGBHex})
+        }).catch((e) => {
+          console.error(e)
+        });
+
+        updateCreateColor({
+          isEyeDropping: true
+        })
+      }}/>
       <ColorGrid onClick={(hex) => {
           onComplete({ canvasId: color.canvasId, hex})
           handleClose()
@@ -47,5 +60,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { closeCreateColorFlow }),
+  connect(mapStateToProps, { updateCreateColor, closeCreateColorFlow }),
 )(CreateColorFlow);
