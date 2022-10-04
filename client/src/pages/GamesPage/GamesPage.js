@@ -15,7 +15,7 @@ import Link from '../../app/ui/Link/Link';
 import GameForm from '../../app/game/GameForm/GameForm';
 import Typography from '../../app/ui/Typography/Typography';
 
-const GamesPage = ({ getGames, game: { games, isLoading }}) => {
+const GamesPage = ({ getGames, game: { games, isLoading }, auth: { me }}) => {
   useEffect(() => {
     getGames();
   }, []);
@@ -52,12 +52,15 @@ const GamesPage = ({ getGames, game: { games, isLoading }}) => {
                       <Link to={`/play/${game.id}`} className="info bold profile-link">
                         Play!
                       </Link>
+                      {game.user.id === me?.id && <Link to={`/edit/${game.id}`} className="info bold profile-link">
+                        Edit
+                      </Link>}
                   </div>
                 );
               })}
-               <GameForm onSubmit={() => {
+               {me?.id && <GameForm onSubmit={() => {
                 getGames()
-              }}/>
+              }}/>}
             </>
           )}
         </div>
@@ -68,9 +71,8 @@ const GamesPage = ({ getGames, game: { games, isLoading }}) => {
 
 const mapStateToProps = (state) => ({
   game: state.game,
+  auth: state.auth,
 });
 
 export default compose(
-  requireAuth,
-  requireAdmin,
   connect(mapStateToProps, { getGames }))(GamesPage);

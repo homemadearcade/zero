@@ -34,7 +34,6 @@ TODO
 Star field transition
 https://openprocessing.org/sketch/76969/
 
-Play mode vs Edit Mode
 Movement
 Relationship UI
 Add Unlockable to everything

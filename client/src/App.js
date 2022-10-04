@@ -10,6 +10,7 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import GamesPage from './pages/GamesPage/GamesPage';
 import PlayGamePage from './pages/PlayGamePage/PlayGamePage';
+import EditGamePage from './pages/EditGamePage/EditGamePage';
 
 import Home from './pages/Home/Home';
 import Account from './pages/User/User';
@@ -183,6 +184,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
         {auth.appLoaded && <Router>
           <Switch>
             <Route path="/games" component={GamesPage} />
+            <Route path="/edit/:gameId" component={EditGamePage} />
             <Route path="/play/:gameId" component={PlayGamePage} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
