@@ -300,7 +300,7 @@ export const editGame = (id, gameData) => async (dispatch, getState) => {
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/games/${id}`, { game : gameData }, options);
+    const response = await axios.put(`/api/games/${id}`, { gameUpdate : gameData }, options);
 
     dispatch({
       type: EDIT_GAME_SUCCESS,

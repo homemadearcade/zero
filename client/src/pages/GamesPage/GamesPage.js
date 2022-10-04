@@ -5,20 +5,69 @@ import moment from 'moment';
 
 import './GamesPage.scss';
 
-import requireAdmin from '../../hoc/requireAdmin';
-import requireAuth from '../../hoc/requireAuth';
-
 import Layout from '../../layout/Layout';
-import { getGames } from '../../store/actions/gameActions';
+import { editGame, getGames } from '../../store/actions/gameActions';
 import Loader from '../../app/ui/Loader/Loader';
 import Link from '../../app/ui/Link/Link';
 import GameForm from '../../app/game/GameForm/GameForm';
 import Typography from '../../app/ui/Typography/Typography';
+import { ADMIN_ROLE } from '../../constants';
+import Button from '../../app/ui/Button/Button';
 
-const GamesPage = ({ getGames, game: { games, isLoading }, auth: { me }}) => {
+{/* <div>
+<span className="GamesPage__label">Created at: </span>
+<span className="GamesPage__info">
+  {moment(game.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
+</span>
+</div> */}
+
+const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me }}) => {
   useEffect(() => {
     getGames();
   }, []);
+
+  function getPublishData(game) {
+    let visible = false 
+    let publishable = false
+
+    if(me?.role === ADMIN_ROLE || me?.id === game.user.id) {
+      visible = true 
+      publishable = true
+    } else if(game.metadata.isPublished) {
+      visible = true 
+    }
+
+    return {
+      visible,
+      publishable
+    }
+  }
+  
+  function renderPublishButton(game) {
+    if(game.metadata.isPublished) {
+      return <Button size="small" onClick={async () => {
+        await editGame(game.id, {
+          metadata: {
+            isPublished: false
+          }
+        })
+        getGames()
+      }}>
+        Unpublish
+      </Button>
+    } else {
+      return <Button size="small" onClick={async () => {
+        await editGame(game.id, {
+          metadata: {
+            isPublished: true
+          }
+        })
+        getGames()
+      }}>
+        Publish
+      </Button>
+    }
+  }
 
   return (
     <Layout>
@@ -30,31 +79,26 @@ const GamesPage = ({ getGames, game: { games, isLoading }, auth: { me }}) => {
             <Loader />
           ) : (
             <>
-              {games.map((game, index) => {
+              {games.map((game) => {
                 const { user } = game
+
+                const { visible, publishable } = getPublishData(game)
+
+                if(!visible) return null
                 
                 return (
-                  <div key={index} className="GamesPage__game">
-                      <div>
-                        <span className="GamesPage__label">Created by: </span>
-                        <span className="GamesPage__info">{user.username}</span>
-                      </div>
-                      <div>
-                        <span className="GamesPage__label">Created by (email): </span>
-                        <span className="GamesPage__info">{user.email}</span>
-                      </div>
-                      <div>
-                        <span className="GamesPage__label">Created at: </span>
-                        <span className="GamesPage__info">
-                          {moment(game.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
-                        </span>
-                      </div>
-                      <Link to={`/play/${game.id}`} className="info bold profile-link">
-                        Play!
-                      </Link>
-                      {game.user.id === me?.id && <Link to={`/edit/${game.id}`} className="info bold profile-link">
-                        Edit
-                      </Link>}
+                  <div key={game.id} className="GamesPage__game">
+                    <span className="GamesPage__info">{game.metadata.title}</span>
+                    <span className="GamesPage__info">{game.metadata.description}</span>
+                    {game.metadata.imageUrl && <img alt={game.metadata.title + ' featured image'} src={game.metadata.imageUrl}/>}
+                    <span className="GamesPage__info">By: {game.metadata.authorPseudonym || user.username}</span>
+                    {publishable && renderPublishButton(game)}
+                    <Link to={`/play/${game.id}`} className="info bold profile-link">
+                      Play
+                    </Link>
+                    {game.user.id === me?.id && <Link to={`/edit/${game.id}`} className="info bold profile-link">
+                      Edit
+                    </Link>}
                   </div>
                 );
               })}
@@ -75,4 +119,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { getGames }))(GamesPage);
+  connect(mapStateToProps, { getGames, editGame }))(GamesPage);

@@ -22,6 +22,7 @@ const PlayGamePage = ({ game: { gameModel }, requestFullscreen}) => {
         <GameView
           isHost
           isNetworked={false}
+          isPlay
         />
     </div>
   );

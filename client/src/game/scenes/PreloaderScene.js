@@ -10,7 +10,9 @@ import {
   GAME_SCENE,
   DEFAULT_TEXTURE_ID,
   DEFAULT_CLEAR_TEXTURE_ID,
+  PLAY_GAME_SCENE,
 } from '../../constants';
+import { GameInstance } from './GameInstance';
 
 export class PreloaderScene extends Phaser.Scene {
   constructor(props) {
@@ -22,6 +24,7 @@ export class PreloaderScene extends Phaser.Scene {
 
     this.isHost = props.isHost 
     this.isNetworked = props.isNetworked
+    this.isPlay = props.isPlay
   }
 
   createLoaderGraphic = () => {
@@ -115,7 +118,9 @@ export class PreloaderScene extends Phaser.Scene {
   playGame = () => {
     let gameScene;
 
-    if(this.isNetworked) {
+    if(this.isPlay) {
+      gameScene = new GameInstance({ key: PLAY_GAME_SCENE })
+    } else if(this.isNetworked) {
       if(this.isHost) {
         gameScene = new GameHostScene(this.props)
       } else {

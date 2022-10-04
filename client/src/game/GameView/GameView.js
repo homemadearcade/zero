@@ -63,10 +63,10 @@ const config= {
   }
 }
 
-const GameView = ({isHost, isNetworked, setGameInstance}) => {
+const GameView = ({isHost, isNetworked, isPlay, setGameInstance}) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isHost, isNetworked}), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked}), true);
     setGameInstance(game)
 
     return () => {

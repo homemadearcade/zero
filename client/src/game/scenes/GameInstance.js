@@ -12,7 +12,7 @@ import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { World } from '../entities/World';
 
 export class GameInstance extends Phaser.Scene {
-  constructor({key }) {
+  constructor({key}) {
     super({
       key: key,
     });
@@ -26,7 +26,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.physicsType = ARCADE_PHYSICS
 
-    
+    console.log('instantiate?')
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
@@ -155,31 +155,6 @@ export class GameInstance extends Phaser.Scene {
     console.error('didnt find layer with id', canvasId, typeof canvasId)
   }
 
-  createGrids() {
-    // const gameModel = store.getState().game.gameModel
-    // const gameMaxWidth = gameModel.world.boundaries.maxWidth
-    // const gameMaxHeight = gameModel.world.boundaries.maxHeight
-    // this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
-    // this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
-
-    // this.grid.setDepth(UI_CANVAS_DEPTH)
-    // this.grid2.setDepth(UI_CANVAS_DEPTH)
-
-    if(this.grid) this.grid.destroy()
-    if(this.grid2) this.grid2.destroy()
-
-    const boundaries = store.getState().game.gameModel.world.boundaries
-
-    const gameWidth = boundaries.width
-    const gameHeight = boundaries.height
-    const gameX = boundaries.x
-    const gameY = boundaries.y
-    this.grid = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize, nodeSize, null, null, 0x222222, 0.2)
-    this.grid2 = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
-
-    this.grid.setDepth(UI_CANVAS_DEPTH)
-    this.grid2.setDepth(UI_CANVAS_DEPTH)
-  }
 
   create() {
     const gameModel = store.getState().game.gameModel
@@ -217,8 +192,6 @@ export class GameInstance extends Phaser.Scene {
 
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)
-
-    this.createGrids()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -270,6 +243,8 @@ export class GameInstance extends Phaser.Scene {
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);    
+
+    console.log('everything got created')
   }
 
   respawn() {
@@ -289,6 +264,7 @@ export class GameInstance extends Phaser.Scene {
   }
   
   update(time, delta) {
+    console.log('?')
     super.update(time, delta)
 
     const editorInstance = getCobrowsingState().editorInstance

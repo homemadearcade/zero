@@ -6,7 +6,8 @@ export const defaultGame = {
   "metadata": {
     "title": "",
     "description": "",
-    "authorPseudonym": ""
+    "authorPseudonym": "",
+    "imageUrl": ""
   },
   "world": {
     "nodeSize": nodeSize,
