@@ -323,6 +323,35 @@ export class EditorScene extends GameInstance {
     }
   }
 
+  getImageFromGame(fileId) {
+    return new Promise((resolve, reject) => {
+
+      try {
+        const gameModel = store.getState().game.gameModel
+        const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
+        snapCanvas.draw(this.world.backgroundColorLayer, 0,0)
+        snapCanvas.draw(this.backgroundLayer, 0,0)
+        snapCanvas.draw(this.playgroundLayer, 0,0)
+        snapCanvas.draw(this.objectInstanceGroup, 0,0)
+        snapCanvas.draw(this.foregroundLayer, 0,0)
+    
+        snapCanvas.snapshot(async function (image) {    
+          var imgCanvas = document.createElement("canvas"),
+          imgContext = imgCanvas.getContext("2d");
+          imgCanvas.width = image.width;
+          imgCanvas.height = image.height;
+          imgContext.drawImage(image, 0, 0, image.width, image.height);
+
+          const file = await urlToFile(imgCanvas.toDataURL(), fileId, 'image/png')
+
+          resolve({file, imgCanvas})
+        });
+      } catch(e) {
+        reject(e)
+      }
+    })
+  }
+
   onPointerUp = (pointer) => {
     if(this.stamper && pointer.leftButtonReleased() && !this.draggingObjectInstanceId) {
       this.stamper.stamp(pointer)

@@ -12,7 +12,7 @@ import GamesPage from './pages/GamesPage/GamesPage';
 import PlayGamePage from './pages/PlayGamePage/PlayGamePage';
 import EditGamePage from './pages/EditGamePage/EditGamePage';
 
-import Home from './pages/Home/Home';
+import HomePage from './pages/HomePage/HomePage';
 import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
@@ -51,6 +51,13 @@ const theme = createTheme({
     //     }
     //   }
     // },
+    MuiTypography: {
+      styleOverrides: {
+        h1: {
+          fontFamily: "'Press Start 2P', sans-serif;"
+        }
+      }
+    },
     MuiSlider: {
       styleOverrides: {
         root: {
@@ -194,7 +201,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
             <Route path="/lobbys" component={Lobbys} />
             <Route path="/lobby/:id" component={LobbyPage} />
             <Route exact path="/:username" component={Account} />
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={HomePage} />
             <Route component={NotFound} />
           </Switch>
         </Router>}

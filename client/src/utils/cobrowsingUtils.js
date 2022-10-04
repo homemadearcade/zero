@@ -9,7 +9,8 @@ export function getRemoteStatePackage(state) {
     unlockableInterfaceIds: state.unlockableInterfaceIds,
     narrative: state.narrative,
     contextMenu: state.contextMenu,
-    errors: state.errors
+    errors: state.errors,
+    homemadeArcade: state.homemadeArcade
   }
 }
 
@@ -40,8 +41,9 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.errors
     } else if(propName === 'narrative') {
       prev[propName] = remoteState.narrative
-    } 
-    
+    } else if(propName === 'homemadeArcade') {
+      prev[propName] = remoteState.homemadeArcade
+    }     
     
     // else if(propName === 'contextMenu') {
     //   prev[propName] = remoteState.contextMenu
@@ -79,6 +81,7 @@ export function getCobrowsingState() {
     editorForms: remoteState.editorForms,
     video: remoteState.video,
     narrative: remoteState.narrative,
+    homemadeArcade: remoteState.homemadeArcade,
     unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
     errors: remoteState.errors
   }

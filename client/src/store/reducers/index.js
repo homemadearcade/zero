@@ -19,6 +19,7 @@ import contextMenuReducer from './contextMenuReducer';
 import codrawingReducer from './codrawingReducer';
 import errorsReducer from './errorsReducer';
 import narrativeReducer from './narrativeReducer';
+import homemadeArcadeReducer from './homemadeArcadeReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -40,4 +41,5 @@ export default combineReducers({
   narrative: narrativeReducer,
   codrawing: codrawingReducer,
   errors: errorsReducer,
+  homemadeArcade: homemadeArcadeReducer
 });

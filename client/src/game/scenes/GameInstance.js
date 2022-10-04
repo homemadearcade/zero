@@ -264,7 +264,6 @@ export class GameInstance extends Phaser.Scene {
   }
   
   update(time, delta) {
-    console.log('?')
     super.update(time, delta)
 
     const editorInstance = getCobrowsingState().editorInstance

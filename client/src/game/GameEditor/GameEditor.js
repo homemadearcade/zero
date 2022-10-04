@@ -11,8 +11,9 @@ import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
 import SectionEditor from '../SectionEditor/SectionEditor';
 import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
+import { Constellation } from '../../app/Constellation/Constellation';
 
-const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, isLiveEditorOpen, isSectionEditorOpen, isSnapshotTakerOpen }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, isLiveEditorOpen, isSectionEditorOpen, isSnapshotTakerOpen }, homemadeArcade: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -37,6 +38,7 @@ const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, isLiveE
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         {rightColumn}
       </div>
+      {isConstellationOpen && <Constellation zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
       {isLiveEditorOpen && <LiveEditor/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
     </div>
@@ -45,6 +47,7 @@ const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, isLiveE
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
+  homemadeArcade: state.homemadeArcade
 })
 
 export default connect(mapStateToProps, { clearEditor, clearEditorForms, clearEditorInstance })(GameEditor);

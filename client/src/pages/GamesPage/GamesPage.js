@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect, useState} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -13,6 +13,7 @@ import GameForm from '../../app/game/GameForm/GameForm';
 import Typography from '../../app/ui/Typography/Typography';
 import { ADMIN_ROLE } from '../../constants';
 import Button from '../../app/ui/Button/Button';
+import { TextField } from '@mui/material';
 
 {/* <div>
 <span className="GamesPage__label">Created at: </span>
@@ -25,6 +26,23 @@ const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me 
   useEffect(() => {
     getGames();
   }, []);
+
+  const [searchTerm, setSearchTerm] = useState("")
+  const [gamesList, setGamesList] = useState(games)
+
+  useEffect(() => {
+    if(searchTerm) {
+      setGamesList(games.filter((game) => {
+        if(game.metadata.title?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
+        if(game.user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
+        if(game.metadata.description?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
+        if(game.metadata.authorPseudonym?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
+        return false
+      }))
+    } else {
+      setGamesList(games)
+    }
+  }, [searchTerm, games])
 
   function getPublishData(game) {
     let visible = false 
@@ -69,17 +87,22 @@ const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me 
     }
   }
 
+  function handleSearchChange(e) {
+    setSearchTerm(e.target.value)
+  }
+
   return (
     <Layout>
       <div className="GamesPage">
         <Typography component="h1" variant="h1">Games page</Typography>
           This is the Games page. Here are listed all of the games. Click the play link to play the game.
         <div className="GamesPage__list">
+          <TextField onChange={handleSearchChange} value={searchTerm} label={"Search"} />
           {isLoading ? (
             <Loader />
           ) : (
             <>
-              {games.map((game) => {
+              {gamesList.map((game) => {
                 const { user } = game
 
                 const { visible, publishable } = getPublishData(game)

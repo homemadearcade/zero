@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import Navbar from './Navbar/Navbar';
 import Footer from './Footer/Footer';
-import './styles.css';
+import './Layout.scss';
 
 const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className="container">{children}</div>
+      <div className="Layout__container">{children}</div>
       <Footer />
     </>
   );

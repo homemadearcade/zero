@@ -1,0 +1,9 @@
+.Layout {
+  &__container {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 80px;
+    /* border: 1px solid green; */
+    min-height: calc(100% - 111px);
+  }
+}

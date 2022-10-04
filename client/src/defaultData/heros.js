@@ -46,7 +46,7 @@ export const spaceshipClass = {
     "fixedRotation": true,
   },
   classId: 'spaceship',
-  "textureId": "oryx-lofi-scifi-vehicles-8px-sprite13",
+  "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
   "controls": {
     type: SPACESHIP_CONTROLS,
   },

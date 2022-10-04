@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Link from '../../app/ui/Link/Link';
 
 import { logOutUser } from '../../store/actions/authActions';
-import './styles.css';
+import './Navbar.scss';
 import { ADMIN_ROLE } from '../../constants';
 
 const Navbar = ({ auth, logOutUser, history }) => {
@@ -15,7 +15,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
   };
 
   return (
-    <nav className="navbar">
+    <nav className="Navbar">
       <ul className="nav-links flex-1">
         <li className="nav-item">
           <Link ignoreDefaultStyle to="/">Home</Link>

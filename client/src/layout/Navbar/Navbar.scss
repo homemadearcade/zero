@@ -1,13 +1,15 @@
-nav {
-  background-color: #1a1a1a;
-  padding-left: 30px;
-  padding-right: 10px;
-  height: 60px;
-}
-
-.navbar {
+.Navbar {
   display: flex;
   align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  // background-color: #1a1a1a;
+  // padding-left: 30px;
+  // padding-right: 10px;
+  height: 60px;
+  z-index: 1000;
 }
 
 .logo {

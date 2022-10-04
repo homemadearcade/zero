@@ -23,6 +23,7 @@ import Icon from '../../app/ui/Icon/Icon';
 import CobrowsingIndicator from '../../app/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import { ADMIN_ROLE } from '../../constants';
 import LobbyPowerIndicator from '../../app/lobby/LobbyPowerIndicator/LobbyPowerIndicator';
+import ConstellationToggle from '../../app/ConstellationToggle/ConstellationToggle';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -68,6 +69,7 @@ const LobbyPage = ({
         </div>
         <LobbyPowerIndicator/>
         <CobrowsingIndicator/>
+        <ConstellationToggle/>
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
