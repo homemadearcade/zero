@@ -97,7 +97,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEd
           }}>
             Save
           </Button>
-          <UndoButton onUndo={onSpriteEditorUndo}></UndoButton>
+          <UndoButton onClick={onSpriteEditorUndo}></UndoButton>
         </div>
       </div>
 

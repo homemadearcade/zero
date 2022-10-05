@@ -6,7 +6,7 @@ import ToolbarIcon from '../ToolbarIcon/ToolbarIcon';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import LoadingIcon from '../LoadingIcon/LoadingIcon';
 
-const UndoButton = ({ onUndo, lobby : { isUndoing }}) => {
+const UndoButton = ({ onClick, lobby : { isUndoing }}) => {
 
   if(isUndoing) {
     return <LoadingIcon
@@ -17,7 +17,7 @@ const UndoButton = ({ onUndo, lobby : { isUndoing }}) => {
   return <ToolbarIcon
     size="lg"
     icon="faRotateLeft"
-    onClick={onUndo}
+    onClick={onClick}
   />
 };
 

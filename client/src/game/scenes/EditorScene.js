@@ -568,7 +568,7 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(classUpdate.collisionResponse?.notPushable >= 0) {
+      if(classUpdate.collisionResponse?.notPushable !== undefined) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setPushable(!classUpdate.collisionResponse.notPushable)
         })
@@ -592,12 +592,12 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(classUpdate.movement?.gravityY >= 0) {
+      if(classUpdate.movement?.gravityY !== undefined) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setGravityY(classUpdate.movement?.gravityY)
         })
       }
-      if(classUpdate.movement?.gravityX >= 0) {
+      if(classUpdate.movement?.gravityX !== undefined) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setGravityX(classUpdate.movement?.gravityX)
         })
@@ -626,7 +626,7 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(classUpdate.graphics?.invisible) {
+      if(classUpdate.graphics?.invisible !== undefined) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setVisible(!classUpdate.graphics.invisible)
         })
@@ -638,13 +638,13 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(classUpdate.spawned || 
+      if(classUpdate.spawned !== undefined || 
         classUpdate.worldBoundaryRelationship || 
         classUpdate.graphics?.textureId ||
-        classUpdate.movement?.pattern ||
-        classUpdate.movement?.velocityX ||
-        classUpdate.movement?.velocityY ||
-        classUpdate.collisionResponse?.ignoreWorldBounds
+        classUpdate.movement?.pattern !== undefined ||
+        classUpdate.movement?.velocityX !== undefined ||
+        classUpdate.movement?.velocityY !== undefined ||
+        classUpdate.collisionResponse?.ignoreWorldBounds !== undefined
       ) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           if(object.id === HERO_INSTANCE_ID) {

@@ -7,13 +7,14 @@ import { toggleLayerVisibility } from '../../../store/actions/editorInstanceActi
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../app/ui/Icon/Icon';
 import {  stopPropagation } from '../../../utils/browserUtils';
+import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
 
 const LayerVisibility = ({
   editorInstance: { layerVisibility },
   toggleLayerVisibility,
   canvasId
 }) => {
-  return <div
+  return <Unlockable isTiny interfaceId="layerVisibility"><div
     onClick={(e) => {
       stopPropagation(e)
       toggleLayerVisibility(canvasId)
@@ -21,7 +22,7 @@ const LayerVisibility = ({
   >
      {layerVisibility[canvasId] && <div><Icon icon="faEye"/></div>}
      {!layerVisibility[canvasId] && <div><Icon icon="faEyeSlash"/></div>}
-  </div>
+  </div></Unlockable>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

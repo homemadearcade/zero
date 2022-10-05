@@ -5,17 +5,14 @@ import { editGameModel } from '../../store/actions/gameActions';
 
 import './MovementEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
-import { Typography } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
-import SelectClass from '../ui/SelectClass/SelectClass';
 import Switch from '../../app/ui/Switch/Switch';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SelectMovementPattern from '../ui/SelectMovementPattern/SelectMovementPattern';
 import SelectControls from '../ui/SelectControls/SelectControls';
-import { ADMIN_ROLE, PLATFORMER_CONTROLS } from '../../constants';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../app/ui/Button/Button';
-import ClassItem from '../ClassItem/ClassItem';
+import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">
 <FormLabel>Ignore Gravity</FormLabel>
@@ -60,17 +57,13 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
 
   return (
     <div className="MovementEditor">
-      <div className="LiveEditor__title">
-        <ClassItem classId={classId} 
-        height="7vh"
-        width="9.2vh"
-        />
-        <Typography component="h5" variant="h5">Movement</Typography>
-      </div>
-      {me.role === ADMIN_ROLE && <Button onClick={() => {
+      <ClassMemberTitle title="Movement" classId={classId}/>
+      <Unlockable interfaceId="movement/masterToggle">
+        <Button onClick={() => {
         setSeeAllParameters(!seeAllParameters)
-      }}>Toggle See All Parameters</Button>}
-      {classSelected.type === 'hero' && <Unlockable isSlider interfaceId="movement/controls/type">
+        }}>Toggle See All Parameters</Button>
+      </Unlockable>
+      {classSelected.type === 'hero' && <Unlockable interfaceId="movement/controls/type">
         <SelectControls
           formLabel="Controls"
           value={classSelected.movement.controls ? [classSelected.movement.controls] : []}
@@ -78,7 +71,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
           editGameModel({ classes: { [classId]: { movement: { controls: type[type.length-1]} } }})        
         }}/>
       </Unlockable>}
-      {classSelected.type !== 'hero' && <Unlockable isSlider interfaceId="movement/pattern">
+      {classSelected.type !== 'hero' && <Unlockable interfaceId="movement/pattern">
         <SelectMovementPattern
           formLabel="Pattern"
           value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}
@@ -152,7 +145,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
           value={1 - classSelected.movement.dragX}
         />
        </Unlockable>}
-       {parameters.gravityY && <Unlockable interfaceId="movement/gravity/vertical">
+       {parameters.gravityY && <Unlockable isSlider interfaceId="movement/gravity/vertical">
         <SliderNotched
           formLabel={parameters.gravityY.length ? parameters.gravityY : "Vertical Gravity"}
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
@@ -163,7 +156,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
           value={classSelected.movement.gravityY}
         />
       </Unlockable>}
-      {parameters.gravityX && <Unlockable interfaceId="movement/gravity/horizontal">
+      {parameters.gravityX && <Unlockable isSlider interfaceId="movement/gravity/horizontal">
         <SliderNotched
           formLabel={parameters.gravityX.length ? parameters.gravityX : "Horizontal Gravity"}
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}

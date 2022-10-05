@@ -9,6 +9,7 @@ import { clearClass, selectBrush, clearBrush } from '../../../store/actions/edit
 import { ERASER_BRUSH_ID } from '../../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../app/ui/Icon/Icon';
+import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
 
 const EraserSelect = ({
   editor: { brushIdSelectedBrushList },
@@ -19,7 +20,7 @@ const EraserSelect = ({
 }) => {
   const eraserId = ERASER_BRUSH_ID + '/' +  canvasId;
 
-  return <div
+  return <Unlockable isTiny interfaceId="eraser"><div
     onClick={() => {
       if(eraserId === brushIdSelectedBrushList) {
         clearBrush()
@@ -31,7 +32,7 @@ const EraserSelect = ({
     className={classNames("EraserSelect", { 'EraserSelect--selected': brushIdSelectedBrushList === eraserId})}
   >
      <Icon icon="faEraser"/>
-  </div>
+  </div></Unlockable>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

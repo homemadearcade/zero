@@ -10,6 +10,7 @@ import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, closeCreateBrushFlow,  editorForms: { brush }}) => {
   function handleClose() {
@@ -20,13 +21,13 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, clos
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
-      <SelectDescriptors 
+      <Unlockable interfaceId="chooseSprites"><SelectDescriptors 
         onChange={(event, descriptors) => {
           updateCreateBrush({ descriptors })
         }}
         formLabel="Search sprites"
         value={brush.descriptors}
-      />
+      /></Unlockable>
       <SelectSpriteInline
         onSelect={(textureId) => {
           updateCreateBrush({ textureId })

@@ -12,6 +12,7 @@ import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
+import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
 const ClassList = ({
   game: { gameModel },
@@ -33,11 +34,13 @@ const ClassList = ({
     return <ClassItem key={i} classId={currentClassId} />
   })
 
-  objectClasses.push(<Button size="fit" className="ClassList__add" onClick={() => {
-    openCreateClassFlow({ type: 'object' })
-  }}>
-    +
-  </Button>)
+  objectClasses.push(<Unlockable isTiny interfaceId="classList/object/add">
+    <Button size="fit" className="ClassList__add" onClick={() => {
+      openCreateClassFlow({ type: 'object' })
+    }}>
+      +
+    </Button>
+  </Unlockable>)
 
   const heroClasses = Object.keys(classes).filter((currentClassId) => {
     const currentClass = classes[currentClassId]
@@ -47,12 +50,14 @@ const ClassList = ({
     return <ClassItem key={i} classId={currentClassId} hero/>
   })
   
-  heroClasses.push(<Button size="fit" 
-    onClick={() => {
-      openCreateClassFlow({ type: 'hero' })
-    }}>
-    +
-  </Button>)
+  heroClasses.push(<Unlockable isTiny interfaceId="classList/hero/add">
+    <Button size="fit" 
+      onClick={() => {
+        openCreateClassFlow({ type: 'hero' })
+      }}>
+      +
+    </Button>
+  </Unlockable>)
 
   const classList = [...objectClasses, ...heroClasses].slice(0, 25)
 
@@ -69,7 +74,10 @@ const ClassList = ({
           classes: {
             [objectClass.classId] : {
               graphics: objectClass.graphics,
-              descriptors: objectClass.descriptors
+              descriptors: objectClass.descriptors,
+              name: objectClass.name,
+              classId: objectClass.classId,
+              type: objectClass.type
             }
           }
         })

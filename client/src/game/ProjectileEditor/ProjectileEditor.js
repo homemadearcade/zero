@@ -12,7 +12,7 @@ import SelectClass from '../ui/SelectClass/SelectClass';
 const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
   const projectileClass = gameModel.classes[classSelected.projectile?.classId]
-  
+
   return (
     <div className="ProjectileEditor">
       <Typography component="h5" variant="h5">Projectile</Typography>

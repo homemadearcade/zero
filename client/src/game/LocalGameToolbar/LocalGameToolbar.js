@@ -23,7 +23,7 @@ const LocalGameToolbar = ({ page: { gameInstance } }) => {
         setIsPaused(scene.isPaused)
       }}
     />
-    <UndoButton onUndo={onInstanceUndo} />
+    <UndoButton onClick={onInstanceUndo} />
     <ToolbarIcon 
       size="lg"
       icon="faStop"

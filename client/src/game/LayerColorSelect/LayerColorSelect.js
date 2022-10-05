@@ -12,6 +12,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import ColorSelect from '../ui/ColorSelect/ColorSelect';
 import { clearBrush, selectBrush } from '../../store/actions/editorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../utils/editorUtils';
+import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
 const LayerColorSelect = ({
   game: { gameModel : { colors }},
@@ -98,7 +99,7 @@ const LayerColorSelect = ({
   }
 
   return <>
-    {renderColorSelect()}
+    <Unlockable interfaceId={canvasId + "/colorSelect"}>{renderColorSelect()}</Unlockable>
     {isCreateColorFlowOpen === ('LayerColorSelect' + canvasId) && <CreateColorFlow
       onComplete={(color) => {
         editGameModel({

@@ -33,15 +33,14 @@ export function getInterfaceIdAliases(interfaceId) {
 }
 
 export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
-  return unlockableInterfaceIds['all'] || idAliases.every((aliases) => {
+  return unlockableInterfaceIds['all'] || idAliases.some((aliases) => {
     const starAlias = aliases.find((alias) => {
       return alias.indexOf('*') >= 0
     })
     if(starAlias) {
       return Object.keys(unlockableInterfaceIds).some((id) => {
         if(!unlockableInterfaceIds[id]) return false
-        if(unlockableInterfaceIds[id]) return true
-        return id.indexOf(starAlias.slice(0, -1)) >= 0
+        return id.indexOf(starAlias.slice(0, -2)) === 0
       })
     }
 
@@ -83,14 +82,11 @@ export function getInterfaceIdData(interfaceId) {
 export function isInterfaceIdObscured(interfaceId) {
   const state = getCobrowsingState()
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  const me = state.auth.me
-
-  if(me?.role === ADMIN_ROLE) {
-    return false
-  }
+  const isCurrentlyCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
 
   if(isSubscribedCobrowsing) {
-    return false
+    if(isCurrentlyCobrowsing) return true
+    else return false
   }
 
   return true

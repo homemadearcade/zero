@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
@@ -13,8 +13,11 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ClassNameForm from '../ui/ClassNameForm/ClassNameForm';
 import { getClassDisplayName } from '../../utils/gameUtils';
 import { v4 as uuidv4 } from 'uuid';
+import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, closeCreateClassFlow, editorForms: { class: objectClass } }) => {
+  const [isNewClass, setIsNewClass] = useState(null)
+
   function handleClose() {
     closeCreateClassFlow()
     clearEditorForms()
@@ -22,14 +25,17 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
   
   useEffect(() => {
     if(!objectClass.classId) {
-      console.log('creating new class Id', objectClass)
       updateCreateClass({ classId: uuidv4() })
+      setIsNewClass(true)
+    } else {
+      setIsNewClass(false)
     }
   }, [])
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateClassFlow">
-      <Typography component="h2" variant="h2">Graphics</Typography>
+      {isNewClass === true && <Typography component="h2" variant="h2">New {objectClass.type.charAt(0).toUpperCase() + objectClass.type.slice(1)}</Typography>}
+      {isNewClass === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
       <SelectDescriptors
         onChange={(event, descriptors) => {
           let newName = objectClass.name || ''
@@ -38,6 +44,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
           if(!newName && nameFromDesc) {
             newName = nameFromDesc
           }
+          
           updateCreateClass({ descriptors, name: newName })
         }}
         formLabel="Descriptors"
@@ -60,7 +67,6 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
             tint: null
          }})
         }}
-        formLabel="Select a sprite"
         descriptors={objectClass.descriptors}
         textureIdSelected={objectClass.graphics.textureId}
       />
@@ -71,7 +77,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
         onComplete(objectClass)
         handleClose()
       }}>
-        Create Class
+        Save
       </Button>
       <Button onClick={handleClose}>
         Cancel

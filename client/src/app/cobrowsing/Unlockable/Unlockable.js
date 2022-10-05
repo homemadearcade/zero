@@ -8,33 +8,45 @@ import Icon from '../../ui/Icon/Icon';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
-import { MenuItem } from '@mui/material';
+import { Fade, Grow, MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing }}) => {
+const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing }}) => {
 
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
   const customClassName = className + ' id-' + interfaceId
 
   function mapIdsToMenuItems(closeMenu) {
+    const list = []
+
+    if(isTiny && children.props.onClick) {
+      const names = interfaceId.split('/')
+      list.push(<MenuItem key="click" onClick={(e) => {
+         children.props.onClick(e) 
+         closeMenu()
+      }}>Click {names[names.length-1]}</MenuItem>)
+    }
+
     if(!isUnlocked) {
-      return idAliases[0].slice().reverse().map((id) => {
-        return <MenuItem key={id} onClick={() => {
+      idAliases.forEach(alias => alias.slice().reverse().forEach((id) => {
+        list.push(<MenuItem key={id + alias} onClick={() => {
           unlockInterfaceId(id)
           closeMenu()
-        }}>Unlock {id}</MenuItem>
-      })
+        }}>Unlock {id}</MenuItem>)
+      }))
     } else {
-      return idAliases[0].map((id) => {
+      idAliases.forEach(alias => alias.forEach((id) => {
         if(unlockableInterfaceIds[id]) {
-          return <MenuItem key={id} onClick={() => {
+          list.push(<MenuItem key={id + alias} onClick={() => {
             lockInterfaceId(id)
             closeMenu()
-          }}>Lock {id}</MenuItem>
-        } else return null
-      })
+          }}>Lock {id}</MenuItem>)
+        }
+      }))
     }
+
+    return list
   }
 
   function ToggleLockMenu() {
@@ -44,28 +56,6 @@ const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockab
         menu={mapIdsToMenuItems}
       />
     </div>
-  }
-
-  // essentally for admins
-  if(isLockToggleable) {
-    if(isTiny) {
-      if(isUnlocked || (!isCurrentlyCobrowsing && isSubscribedCobrowsing)) {
-        return children
-      }
-      
-      return <ToggleLockMenu/>
-    }
-
-    return <div className={customClassName + " Unlockable Unlockable--unlocked"}>
-      {children}
-      {/* not enough space to have unlockable icon when its unlocked */}
-      {!hideLockToggle && <ToggleLockMenu/>}
-    </div>
-  }
-
-  if(isUnlocked) {
-    // if(isTiny) return children
-    return <div className={customClassName}>{children}</div>
   }
 
   if(isObscured) {
@@ -82,6 +72,28 @@ const Unlockable = ({isTiny, hideIfObscured, hideLockToggle, className, unlockab
         <Icon icon="faLock" />
       </div>
     </div>
+  }
+
+  // essentally for admins
+  if(isLockToggleable) {
+    if(isTiny) {
+      if(isUnlocked) {
+        return children
+      }
+      
+      return <ToggleLockMenu/>
+    }
+
+    return <div className={customClassName + " Unlockable Unlockable--unlocked"}>
+      {!isObscured && children}
+      {/* not enough space to have unlockable icon when its unlocked */}
+      {!hideLockToggle && <ToggleLockMenu/>}
+    </div>
+  }
+
+  if(isUnlocked) {
+    // if(isTiny) return children
+    return <Grow in><div className={customClassName}>{children}</div></Grow>
   }
 
   return <div className={customClassName}>{children}</div>

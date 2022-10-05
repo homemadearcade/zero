@@ -6,6 +6,7 @@ import { editGameModel } from '../../store/actions/gameActions';
 import './CameraEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
+import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
 const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
@@ -40,15 +41,17 @@ const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   return (
     <div className="CameraEditor">
       <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
-      <SliderNotched
-        formLabel="Zoom"
-        options={zooms}
-        step={0.1}
-        onChangeCommitted={(value) => {
-          editGameModel({ classes: { [classId]: { camera: { zoom: value }  }}})        
-        }}
-        value={classSelected.camera.zoom}
+      <Unlockable isSlider interfaceId="camera/zoom">
+        <SliderNotched
+          formLabel="Zoom"
+          options={zooms}
+          step={0.1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { camera: { zoom: value }  }}})        
+          }}
+          value={classSelected.camera.zoom}
       />
+      </Unlockable>
     </div>
   );
 };

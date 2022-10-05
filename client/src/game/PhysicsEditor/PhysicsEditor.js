@@ -59,41 +59,39 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   return (
     <div className="PhysicsEditor">
       <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
-      <div className="PhysicsEditor__sliders">    
-        <Unlockable isSlider interfaceId="physics/sliders/bounce">
-          <SliderNotched
-            formLabel="Bounce"
-            step={0.05}
-            options={[0, .25, .5, .75, 1]}
-            onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { collisionResponse: { bounciness: value } }}})        
-            }}
-            value={classSelected.collisionResponse.bounciness}
-          />
-        </Unlockable>
-        <Unlockable isSlider interfaceId="physics/sliders/friction/ground">
-          <SliderNotched
-            formLabel="Friction"
-            step={0.05}
-            options={[0, 0.1, .25, .5, .75, 1]}
-            onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { collisionResponse: { friction: value } }}})        
-            }}
-            value={classSelected.collisionResponse.friction}
-          />
-        </Unlockable>
-        <Unlockable isSlider interfaceId="physics/sliders/weight/mass">
-          <SliderNotched
-            formLabel="Weight"
-            step={0.1}
-            options={[.1, 1, 5, 10, 20, 50, 100, 200, 500]}
-            onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { collisionResponse: { mass: value } }}})        
-            }}
-            value={classSelected.collisionResponse.mass}
-          />
-        </Unlockable>
-      </div>
+      <Unlockable isSlider interfaceId="physics/sliders/bounce">
+        <SliderNotched
+          formLabel="Bounce"
+          step={0.05}
+          options={[0, .25, .5, .75, 1]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { collisionResponse: { bounciness: value } }}})        
+          }}
+          value={classSelected.collisionResponse.bounciness}
+        />
+      </Unlockable>
+      <Unlockable isSlider interfaceId="physics/sliders/friction/ground">
+        <SliderNotched
+          formLabel="Friction"
+          step={0.05}
+          options={[0, 0.1, .25, .5, .75, 1]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { collisionResponse: { friction: value } }}})        
+          }}
+          value={classSelected.collisionResponse.friction}
+        />
+      </Unlockable>
+      <Unlockable isSlider interfaceId="physics/sliders/weight/mass">
+        <SliderNotched
+          formLabel="Weight"
+          step={0.1}
+          options={[.1, 1, 5, 10, 20, 50, 100, 200, 500]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { collisionResponse: { mass: value } }}})        
+          }}
+          value={classSelected.collisionResponse.mass}
+        />
+      </Unlockable>
       {false && <Unlockable interfaceId="physics/toggle/ignoreGravity">
           <FormLabel>Ignore Gravity</FormLabel>
           <Switch

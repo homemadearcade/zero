@@ -9,6 +9,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import Icon from '../../../app/ui/Icon/Icon';
 import BorderedGrid from '../../../app/ui/BorderedGrid/BorderedGrid';
+import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
 
 const ColorSelect = ({
   colors = [],
@@ -57,9 +58,9 @@ const ColorSelect = ({
     </div>
   }).slice(0, maxColors)
 
-  items.push(<Button size="fit" onClick={onAddColor}>
+  items.push(<Unlockable isTiny interfaceId="addColor"><Button size="fit" onClick={onAddColor}>
     +
-  </Button>)
+  </Button></Unlockable>)
 
   return <div className="ColorSelect">
     <BorderedGrid
