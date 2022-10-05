@@ -4,7 +4,7 @@ import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
-import { changeEditorCameraZoom, closeSnapshotTaker } from '../../store/actions/editorActions';
+import { changeEditorCameraZoom, clearBrush, closeSnapshotTaker } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
@@ -509,12 +509,20 @@ export class EditorScene extends GameInstance {
     if(gameUpdate.awsImages) {
       if(gameUpdate.awsImages[this.backgroundLayer.textureId]) {
         this.backgroundLayer.updateTexture()
-      }
-      if(gameUpdate.awsImages[this.playgroundLayer.textureId]) {
+      } else if(gameUpdate.awsImages[this.playgroundLayer.textureId]) {
         this.playgroundLayer.updateTexture()
-      }
-      if(gameUpdate.awsImages[this.foregroundLayer.textureId]) {
+      } else if(gameUpdate.awsImages[this.foregroundLayer.textureId]) {
         this.foregroundLayer.updateTexture()
+      } else {
+        Object.keys(gameUpdate.awsImages).forEach((id) => {
+          const textureId = gameUpdate.awsImages[id].url
+          this.load.image(textureId, window.awsUrl + textureId);
+          this.load.once('complete', (idk) => {
+            console.log('loaded', textureId)
+          });
+          this.load.start();
+        })
+  
       }
     }
 
@@ -584,6 +592,17 @@ export class EditorScene extends GameInstance {
         })
       }
 
+      if(classUpdate.movement?.gravityY >= 0) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setGravityY(classUpdate.movement?.gravityY)
+        })
+      }
+      if(classUpdate.movement?.gravityX >= 0) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setGravityX(classUpdate.movement?.gravityX)
+        })
+      }
+
       // if(classUpdate.frictionStatic >= 0) {
       //   this.forAllObjectInstancesMatchingClassId(id, (object) => {
       //     object.setFrictionStatic(classUpdate.frictionStatic)
@@ -601,7 +620,7 @@ export class EditorScene extends GameInstance {
       //   })
       // }
 
-      if(classUpdate.movement?.pattern || classUpdate.movement?.controls) {
+      if(classUpdate.movement?.controls) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.resetPhysics()
         })
@@ -613,11 +632,19 @@ export class EditorScene extends GameInstance {
         })
       }
 
+      if(classUpdate.collisionResponse?.ignoreSides) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setCollideIgnoreSides(classUpdate.collisionResponse?.ignoreSides)
+        })
+      }
+
       if(classUpdate.spawned || 
         classUpdate.worldBoundaryRelationship || 
-        classUpdate.movement?.velocity ||
-        classUpdate.collisionResponse?.ignoreSides || 
-        classUpdate.graphics?.textureId
+        classUpdate.graphics?.textureId ||
+        classUpdate.movement?.pattern ||
+        classUpdate.movement?.velocityX ||
+        classUpdate.movement?.velocityY ||
+        classUpdate.collisionResponse?.ignoreWorldBounds
       ) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           if(object.id === HERO_INSTANCE_ID) {
@@ -736,6 +763,7 @@ export class EditorScene extends GameInstance {
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
     this.input.on('wheel', this.onMouseWheel);
+    this.escKey = this.input.keyboard.addKey('esc');  // Get key object
 
     const lobby = store.getState().lobby.lobby
     if(lobby.id) {
@@ -754,6 +782,12 @@ export class EditorScene extends GameInstance {
     super.update(time, delta)
 
     this.cameraControls.update(delta)
+
+    if(this.escKey.isDown) {
+      store.dispatch(clearBrush())
+      if(this.brush) this.destroyBrush()
+      this.canvas = null
+    }
 
     this.remoteEditors.forEach((remoteEditor) => {
       const phaserView = store.getState().status.phaserViews[remoteEditor.userId]

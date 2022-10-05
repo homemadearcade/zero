@@ -25,8 +25,6 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstancesById = {}
 
     this.physicsType = ARCADE_PHYSICS
-
-    console.log('instantiate?')
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
@@ -65,7 +63,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   removePlayerInstance() {
-    this.player.particles.destroy()
+    // this.player.particles.destroy()
     this.player.destroy()
     this.player = null
   }
@@ -243,8 +241,6 @@ export class GameInstance extends Phaser.Scene {
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);    
-
-    console.log('everything got created')
   }
 
   respawn() {

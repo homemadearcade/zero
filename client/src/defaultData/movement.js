@@ -1,11 +1,54 @@
-import { MOVEMENT_DOWN_TO_UP, MOVEMENT_LEFT_TO_RIGHT, MOVEMENT_RIGHT_TO_LEFT, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_TO_DOWN, WORLD_COLLIDE } from "../constants"
+import { ADVENTURER_CONTROLS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../constants"
+import { defaultMovement } from "./class"
 
-export const leftToRight = {
-  // worldBoundaryRelationship: WORLD_COLLIDE,
+export const movementToParemeters = {
+  [MOVEMENT_SIDE_TO_SIDE]: {
+    velocityX: 'Speed',
+  },
+  [MOVEMENT_UP_AND_DOWN]: {
+    velocityY: 'Speed',
+  },
+  [MOVEMENT_TURN_ON_COLLIDE]: {
+    speed: true,
+  },
+  [MOVEMENT_JUMP]: {
+    gravityY: 'Jump Distance',
+    velocityY: true,
+    velocityX: true,
+  },
+  [MOVEMENT_FOLLOW_PLAYER]: {
+    speed: true
+  },
+  [MOVEMENT_NONE]: {
+    gravityY: true,
+    gravityX: true,
+    velocityY: true,
+    velocityX: true,
+  },
+  [SPACESHIP_CONTROLS]: {
+    speed: true,
+    dragX: true,
+    dragY: true
+  },
+  [ADVENTURER_CONTROLS]: {
+    speed: true,
+    dragX: true,
+    dragY: true
+  },
+  [PLATFORMER_CONTROLS]: {
+    jumpSpeed: true,
+    speed: true,
+    dragX: true,
+  }
+}
+
+export const sideToSide = {
   movement: {
-    pattern: MOVEMENT_LEFT_TO_RIGHT,
-    initialVelocityX: 50,
-    initialVelocityY: 0,
+    pattern: MOVEMENT_SIDE_TO_SIDE,
+    velocityX: 50,
+    velocityY: 0,
+    gravityY: 0,
+    gravityX: 0,
     dragX: 1,
     dragY: 1,
   },
@@ -15,42 +58,13 @@ export const leftToRight = {
   }
 }
 
-export const rightToLeft = {
-  // worldBoundaryRelationship: WORLD_COLLIDE,
+export const upAndDown = {
   movement: {
-    pattern: MOVEMENT_RIGHT_TO_LEFT,
-    initialVelocityX: -50,
-    initialVelocityY: 0,
-    dragX: 1,
-    dragY: 1,
-  },
-  collisionResponse: {
-    bounciness: 1,
-    notPushable: true,
-  }
-}
-
-export const upToDown = {
-  // worldBoundaryRelationship: WORLD_COLLIDE,
-  movement: {
-    pattern: MOVEMENT_UP_TO_DOWN,
-    initialVelocityX: 0,
-    initialVelocityY: -50,
-    dragX: 1,
-    dragY: 1,
-  },
-  collisionResponse: {
-    bounciness: 1,
-    notPushable: true,
-  }
-}
-
-export const downToUp = {
-  // worldBoundaryRelationship: WORLD_COLLIDE,
-  movement: {
-    pattern: MOVEMENT_DOWN_TO_UP,
-    initialVelocityX: 0,
-    initialVelocityY: 50,
+    pattern: MOVEMENT_UP_AND_DOWN,
+    velocityX: 0,
+    velocityY: 50,
+    gravityY: 0,
+    gravityX: 0,
     dragX: 1,
     dragY: 1,
   },
@@ -61,9 +75,43 @@ export const downToUp = {
 }
 
 export const turnOnCollide = {
-  // worldBoundaryRelationship: WORLD_COLLIDE,
   movement: {
     pattern: MOVEMENT_TURN_ON_COLLIDE,
-    initialVelocityX: 50,
+    gravityY: 0,
+    gravityX: 0,
+    velocityX: 50,
+    velocityY: 0,
+    speed: 100,
   },
+}
+
+export const followPlayer = {
+  movement: {
+    pattern: MOVEMENT_FOLLOW_PLAYER,
+    velocityX: 0,
+    velocityY: 0,
+    gravityY: 0,
+    gravityX: 0,
+    dragX: 1,
+    dragY: 1,
+    speed: 100,
+  },
+}
+
+export const jump = {
+  movement: {
+    pattern: MOVEMENT_JUMP,
+    gravityY: 50,
+    gravityX: 0,
+    dragX: 1,
+    dragY: 1,
+  },
+  collisionResponse: {
+    bounciness: 1,
+    notPushable: true,
+  }
+}
+
+export const none = {
+  ...defaultMovement
 }

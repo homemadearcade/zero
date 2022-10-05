@@ -1,12 +1,18 @@
 .LiveEditor {
   position:absolute;
   right: 1%; 
-  top: 1%;
+  top: 5%;
   background-color: rgba(34,34,34, 0.6);
   padding: 1%;
   &__close {
     position:absolute;
     right: 0; 
     top: 0;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

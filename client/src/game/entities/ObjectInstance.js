@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -84,8 +84,10 @@ export class ObjectInstance extends Sprite {
     this.setDamping(true)
     this.setDragX(objectClass.movement.dragX)
     this.setDragY(objectClass.movement.dragY)
+    this.setGravityX(objectClass.movement.gravityX)
+    this.setGravityY(objectClass.movement.gravityY)
     this.setIgnoreGravity(objectClass.movement.ignoreGravity)
-    this.setVelocity(objectClass.movement.initialVelocityX, objectClass.movement.initialVelocityY)
+    this.setVelocity(objectClass.movement.velocityX, objectClass.movement.velocityY)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -201,6 +203,28 @@ export class ObjectInstance extends Sprite {
         }
       }
     }
+
+    if(pattern === MOVEMENT_FOLLOW_PLAYER) {
+      const speed = objectClass.movement.speed
+      const player = this.scene.player.sprite
+      
+      if(Math.abs(this.sprite.x - player.x) < (speed/2)) {
+
+      } else if(this.sprite.x > player.x) {
+        this.setVelocityX(-speed)
+      } else {
+        this.setVelocityX(speed)
+      }
+
+      if(Math.abs(this.sprite.y - player.y) < (speed/2)) {
+
+      } else if(this.sprite.y > player.y) {
+        this.setVelocityY(-speed)
+      } else {
+        this.setVelocityY(speed)
+      }
+
+    }
   }
 
   updateEffects() {
@@ -283,8 +307,10 @@ export class ObjectInstance extends Sprite {
   }
 
   resetPhysics() {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
     this.setAcceleration(0,0)
-    this.setVelocity(0,0)
+    this.setVelocity(objectClass.movement.velocityX, objectClass.movement.velocityY)
     this.setRotation(0)
   }
 

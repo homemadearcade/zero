@@ -55,7 +55,7 @@ export class PlayerInstance extends ObjectInstance {
       this.cameraPreview.setVisible(false)
     }
 
-    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', size: this.width * 3 })
+    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', size: objectClass.graphics.width * 3 })
 
     this.setAngularDrag(100)
 
@@ -90,6 +90,7 @@ export class PlayerInstance extends ObjectInstance {
     const objectClass = store.getState().game.gameModel.classes[classId]
 
     const mod = (1/(delta * 5))
+    const speed = objectClass.movement.speed
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -110,13 +111,13 @@ export class PlayerInstance extends ObjectInstance {
     // SPACESHIP
     if(objectClass.movement.controls === SPACESHIP_CONTROLS) {
       if(this.cursors.left.isDown) {
-        this.setAngularVelocity(-objectClass.movement.speed);
+        this.setAngularVelocity(-speed);
       } else if(this.cursors.right.isDown) {
-        this.setAngularVelocity(objectClass.movement.speed);
+        this.setAngularVelocity(speed);
       }
 
       if(this.cursors.up.isDown) {
-        this.thrust(objectClass.movement.speed * 2);
+        this.thrust(speed * 2);
       } else {
         this.setAcceleration(0)
       }
@@ -130,22 +131,22 @@ export class PlayerInstance extends ObjectInstance {
       let yTouched = false
 
       if(this.cursors.left.isDown) {
-        this.setAccelerationX(-objectClass.movement.speed)
+        this.setAccelerationX(-speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        this.setAccelerationX(objectClass.movement.speed)
+        this.setAccelerationX(speed)
         xTouched = true
       }
       
       if(this.cursors.up.isDown) {
-        this.setAccelerationY(-objectClass.movement.speed)
+        this.setAccelerationY(-speed)
         yTouched = true
       }
 
       if(this.cursors.down.isDown) {
-        this.setAccelerationY(objectClass.movement.speed)
+        this.setAccelerationY(speed)
         yTouched = true
       }
 
@@ -160,21 +161,21 @@ export class PlayerInstance extends ObjectInstance {
       let xTouched = false 
 
       if(this.cursors.left.isDown) {
-        this.setAccelerationX(-objectClass.movement.speed)
+        this.setAccelerationX(-speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        this.setAccelerationX(objectClass.movement.speed)
+        this.setAccelerationX(speed)
         xTouched = true
       }
 
       if(this.cursors.down.isDown) {
-        this.setVelocityY(this.sprite.body.velocity.y + objectClass.movement.speed * mod)
+        this.setVelocityY(this.sprite.body.velocity.y + speed * mod)
       }
 
-      if(this.cursors.up.isDown && this.sprite.body.touching.down) {
-        this.setVelocityY(-objectClass.jumpSpeed)
+      if(this.cursors.up.isDown && (this.sprite.body.touching.down || this.sprite.body.blocked.down)) {
+        this.setVelocityY(-objectClass.movement.jumpSpeed)
       }
 
       if(!xTouched) this.setAccelerationX(0)

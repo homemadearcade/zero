@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { editGameModel } from '../../store/actions/gameActions';
@@ -12,7 +12,10 @@ import Switch from '../../app/ui/Switch/Switch';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SelectMovementPattern from '../ui/SelectMovementPattern/SelectMovementPattern';
 import SelectControls from '../ui/SelectControls/SelectControls';
-import { PLATFORMER_CONTROLS } from '../../constants';
+import { ADMIN_ROLE, PLATFORMER_CONTROLS } from '../../constants';
+import { movementToParemeters } from '../../defaultData/movement';
+import Button from '../../app/ui/Button/Button';
+import ClassItem from '../ClassItem/ClassItem';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">
 <FormLabel>Ignore Gravity</FormLabel>
@@ -36,12 +39,37 @@ import { PLATFORMER_CONTROLS } from '../../constants';
  />
 </Unlockable> */}
 
-const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
+const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { me } }) => {
+  const [seeAllParameters, setSeeAllParameters] = useState()
   const classSelected = gameModel.classes[classId]
+
+  let parameters = classSelected.movement.controls ? movementToParemeters[classSelected.movement.controls] : movementToParemeters[classSelected.movement.pattern]
   
+  if(seeAllParameters) {
+    parameters = {
+      jumpSpeed: true,
+      velocityX: true,
+      velocityY: true,
+      speed: true,
+      gravityX: true,
+      gravityY: true,
+      dragX: true,
+      dragY: true,
+    }
+  }
+
   return (
     <div className="MovementEditor">
-      <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
+      <div className="LiveEditor__title">
+        <ClassItem classId={classId} 
+        height="7vh"
+        width="9.2vh"
+        />
+        <Typography component="h5" variant="h5">Movement</Typography>
+      </div>
+      {me.role === ADMIN_ROLE && <Button onClick={() => {
+        setSeeAllParameters(!seeAllParameters)
+      }}>Toggle See All Parameters</Button>}
       {classSelected.type === 'hero' && <Unlockable isSlider interfaceId="movement/controls/type">
         <SelectControls
           formLabel="Controls"
@@ -50,9 +78,17 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           editGameModel({ classes: { [classId]: { movement: { controls: type[type.length-1]} } }})        
         }}/>
       </Unlockable>}
-      {classSelected.type === 'hero' && classSelected.movement.controls === PLATFORMER_CONTROLS && <Unlockable interfaceId="movement/speed">
+      {classSelected.type !== 'hero' && <Unlockable isSlider interfaceId="movement/pattern">
+        <SelectMovementPattern
+          formLabel="Pattern"
+          value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}
+          onChange={(event, pattern) => {
+            editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})    
+          }}/>
+      </Unlockable>}
+      {parameters.jumpSpeed && <Unlockable interfaceId="movement/speed">
         <SliderNotched
-          formLabel="Jump Speed"
+          formLabel={parameters.jumpSpeed.length ? parameters.jumpSpeed : "Jump Speed"}
           options={[50, 100, 200, 300, 400, 500]}
           step={10}
           onChangeCommitted={(value) => {
@@ -61,40 +97,31 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           value={classSelected.movement.jumpSpeed}
         />
       </Unlockable>}
-      {classSelected.type !== 'hero' && <Unlockable isSlider interfaceId="movement/pattern">
-        <SelectMovementPattern
-          formLabel="Pattern"
-          value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}
-          onChange={(event, pattern) => {
-            editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})    
-            editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})            
-          }}/>
+      {parameters.velocityY && <Unlockable interfaceId="movement/velocity/vertical">
+        <SliderNotched
+          formLabel={parameters.velocityY.length ? parameters.velocityY : "Vertical Velocity"}
+          options={[-100, -20, -5, 0, 1, 5, 20, 100]}
+          step={1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { velocityY: value} }}})        
+          }}
+          value={classSelected.movement.velocityY}
+        />
       </Unlockable>}
-      <Unlockable interfaceId="movement/initialVelocity/vertical">
+      {parameters.velocityX && <Unlockable interfaceId="movement/velocity/horizontal">
         <SliderNotched
-          formLabel="Vertical Velocity"
+          formLabel={parameters.velocityX.length ? parameters.velocityX : "Horizontal Velocity"}
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { initialVelocityY: value} }}})        
+            editGameModel({ classes: { [classId]: { movement: { velocityX: value} }}})        
           }}
-          value={classSelected.movement.initialVelocityY}
+          value={classSelected.movement.velocityX}
         />
-      </Unlockable>
-      <Unlockable interfaceId="movement/initialVelocity/horizontal">
+      </Unlockable>}
+      {parameters.speed &&<Unlockable interfaceId="movement/speed">
         <SliderNotched
-          formLabel="Horizontal Velocity"
-          options={[-100, -20, -5, 0, 1, 5, 20, 100]}
-          step={1}
-          onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { initialVelocityX: value} }}})        
-          }}
-          value={classSelected.movement.initialVelocityX}
-        />
-      </Unlockable>
-      <Unlockable interfaceId="movement/speed">
-        <SliderNotched
-          formLabel="Speed"
+          formLabel={parameters.speed.length ? parameters.speed : "Speed"}
           options={[1, 5, 20, 100]}
           step={0.1}
           onChangeCommitted={(value) => {
@@ -102,8 +129,8 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           }}
           value={classSelected.movement.speed}
         />
-      </Unlockable>
-      <Unlockable isSlider interfaceId="movement/sliders/decay/vertical">
+      </Unlockable>}
+      {parameters.dragY && <Unlockable isSlider interfaceId="movement/sliders/drag/vertical">
         <SliderNotched
           formLabel="Vertical Slow Down"
           step={0.01}
@@ -113,8 +140,8 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           }}
           value={1 - classSelected.movement.dragY}
         />
-       </Unlockable>
-       <Unlockable isSlider interfaceId="movement/sliders/decay/horizontal">
+       </Unlockable>}
+       {parameters.dragX && <Unlockable isSlider interfaceId="movement/sliders/drag/horizontal">
         <SliderNotched
           formLabel="Horizontal Slow Down"
           step={0.01}
@@ -124,7 +151,29 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           }}
           value={1 - classSelected.movement.dragX}
         />
-       </Unlockable>
+       </Unlockable>}
+       {parameters.gravityY && <Unlockable interfaceId="movement/gravity/vertical">
+        <SliderNotched
+          formLabel={parameters.gravityY.length ? parameters.gravityY : "Vertical Gravity"}
+          options={[-100, -20, -5, 0, 1, 5, 20, 100]}
+          step={1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { gravityY: value} }}})        
+          }}
+          value={classSelected.movement.gravityY}
+        />
+      </Unlockable>}
+      {parameters.gravityX && <Unlockable interfaceId="movement/gravity/horizontal">
+        <SliderNotched
+          formLabel={parameters.gravityX.length ? parameters.gravityX : "Horizontal Gravity"}
+          options={[-100, -20, -5, 0, 1, 5, 20, 100]}
+          step={1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { gravityX: value} }}})        
+          }}
+          value={classSelected.movement.gravityX}
+        />
+      </Unlockable>}
       <Unlockable interfaceId="movement/toggle/ignoreGravity">
         <FormLabel>Ignore Gravity</FormLabel>
         <Switch
@@ -151,6 +200,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 
 const mapStateToProps = (state) => ({
   game: state.game,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { editGameModel })(MovementEditor);

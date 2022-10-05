@@ -4,28 +4,29 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectMovementPattern.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { downToUp, leftToRight, rightToLeft, turnOnCollide, upToDown } from '../../../defaultData/movement';
-import { MOVEMENT_DOWN_TO_UP, MOVEMENT_LEFT_TO_RIGHT, MOVEMENT_RIGHT_TO_LEFT, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_TO_DOWN } from '../../../constants';
+import { followPlayer, jump, none, sideToSide, turnOnCollide, upAndDown } from '../../../defaultData/movement';
+import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN } from '../../../constants';
 
 const movementPatterns = {
-  [MOVEMENT_UP_TO_DOWN]: upToDown,
-  [MOVEMENT_DOWN_TO_UP]: downToUp,
-  [MOVEMENT_LEFT_TO_RIGHT]: leftToRight,
-  [MOVEMENT_RIGHT_TO_LEFT]: rightToLeft,
-  [MOVEMENT_TURN_ON_COLLIDE]: turnOnCollide
+  [MOVEMENT_UP_AND_DOWN]: upAndDown,
+  [MOVEMENT_SIDE_TO_SIDE]: sideToSide,
+  [MOVEMENT_TURN_ON_COLLIDE]: turnOnCollide,
+  [MOVEMENT_JUMP]: jump,
+  [MOVEMENT_FOLLOW_PLAYER]: followPlayer,
+  [MOVEMENT_NONE]: none,
 }
 
 const movementPatternToLabel = {
-  [MOVEMENT_UP_TO_DOWN]: 'Up to Down',
-  [MOVEMENT_DOWN_TO_UP]: 'Down to Up',
-  [MOVEMENT_LEFT_TO_RIGHT]: 'Left to Right',
-  [MOVEMENT_RIGHT_TO_LEFT]: 'Right to Left',
-  [MOVEMENT_TURN_ON_COLLIDE]: 'Turn on Collide'
+  [MOVEMENT_UP_AND_DOWN]: 'Up and Down',
+  [MOVEMENT_SIDE_TO_SIDE]: 'Side to Side',
+  [MOVEMENT_TURN_ON_COLLIDE]: 'Turn on Collide',
+  [MOVEMENT_JUMP]: 'Jumper',
+  [MOVEMENT_FOLLOW_PLAYER]: 'Follow Player',
+  [MOVEMENT_NONE]: 'None'
 }
 
 const SelectMovementPattern = ({ onChange, value, formLabel }) => {
   const mapMovementToOption = (movement) => {
-    console.log(movement, movementPatternToLabel[movement])
     return {
       label: movementPatternToLabel[movement],
       value: movement

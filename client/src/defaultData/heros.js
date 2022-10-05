@@ -1,7 +1,7 @@
 import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
 import { defaultObjectClass } from "./class"
 
-export const defaulHeroClass = {
+export const defaultHeroClass = {
   ...defaultObjectClass,
   relations: [
     {
@@ -26,7 +26,7 @@ export const defaulHeroClass = {
 }
 
 export const spaceshipClass = {
-  ...defaulHeroClass,
+  ...defaultHeroClass,
   classId: 'spaceship',
   name: 'spaceship',
   graphics: {
@@ -40,23 +40,24 @@ export const spaceshipClass = {
 }
 
 export const platformerClass = {
-  ...defaulHeroClass,
+  ...defaultHeroClass,
   classId: 'platformer',
-  name: 'jumper',
+  name: 'platformer',
   graphics: {
     "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
   movement: {
     type: PLATFORMER_CONTROLS,
     "dragX": 0.1,
+    "dragY": 1,
     disableUpKeyMovement: true,
   },
 }
 
 export const adventurerClass = {
-  ...defaulHeroClass,
+  ...defaultHeroClass,
   classId: 'adventurer',
-  name: 'classic',
+  name: 'adventurer',
   graphics: {
     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },

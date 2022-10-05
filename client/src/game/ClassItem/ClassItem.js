@@ -17,13 +17,15 @@ const ClassItem = ({
   editor: { classIdSelectedClassList },
   selectClass,
   clearClass,
-  openContextMenuFromClassId
+  openContextMenuFromClassId,
+  width, height
 }) => {
   const objectClass = classes[classId]
   const [isHovering, setIsHovering] = useState(false)
   const isSelected = classIdSelectedClassList === classId
 
   return <div
+    style={{width: width? width: null, height: height? height: null}}
     onClick={() => {
       if(objectClass.type === 'hero') return
 

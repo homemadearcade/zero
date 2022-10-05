@@ -4,7 +4,7 @@ Whether something is spawned or not needs to be instance level? or class level? 
 
 Camera change options for 'cutscene'
 
-Set Visible, set Spanwed, set Glowing, where to put it?
+Set Visible, set Spawned, set Glowing, set Ignore World Bounds, where to put it?
 
 CONTROLS/PHYSICS/MOVEMENT
 Do we have two sided labels in the checkboxes?
@@ -16,7 +16,7 @@ Unlockables hidden from view unless not cobrowsing?
 
 FEATURES FOR SPENCER TO THINK ABOUT
 
-Admin guidance ( Stars, Steps, Text, Etc )
+Admin guidance ( steps, text prompts, star prompts, etc )
 On boarding, off boarding
 Agora Video Camera effects
 
@@ -26,9 +26,6 @@ Prologue 1, 2, Demos ( Spencer please make these at home )
 --
 TODO
 
-Hopping movement that uses initial velociy for hop
-
-Movement
 Relationship UI
 Add Unlockable to everything
 World Effects
@@ -47,11 +44,13 @@ Mini-Relationship View
 
 Movement is prompted after placing the first object
 
+Bounce X/Y ?
+
 ------
 
 TODO CHORES 
 
-Front is right side
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for spaceship mode 
 
 Move properties into objects based on Member
 

@@ -230,6 +230,28 @@ export class Sprite {
     this.sprite.setFrictionStatic(friction)
   }
 
+  setGravityY(gravity) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting gravity Y under matter')
+      return
+    }
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.sprite.setGravityY(gravity)
+      return
+    }
+  }
+
+  setGravityX(gravity) {
+    if(this.physicsType === MATTER_PHYSICS) {
+      console.log('setting gravityX under matter')
+      return
+    }
+    if(this.physicsType === ARCADE_PHYSICS) {
+      this.sprite.setGravityX(gravity)
+      return
+    }
+  }
+
   setIgnoreGravity(ignore) {
     if(this.physicsType === ARCADE_PHYSICS) {
       this.sprite.body.setAllowGravity(!ignore)

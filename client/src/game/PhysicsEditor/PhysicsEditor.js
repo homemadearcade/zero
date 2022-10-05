@@ -124,6 +124,16 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
+      {<Unlockable interfaceId="physics/toggle/ignoreBoundaries">
+        <FormLabel>Ignore Boundaries</FormLabel>
+        <Switch
+          size="small"
+          onChange={(e) => {
+            editGameModel({ classes: { [classId]: { collisionResponse: { ignoreWorldBounds: e.target.checked } } } })        
+          }}
+          checked={classSelected.collisionResponse.ignoreWorldBounds}
+         />
+      </Unlockable>}
 
     </div>
   );

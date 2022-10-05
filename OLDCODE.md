@@ -293,3 +293,19 @@ const gravity = store.getState().game.gameModel.world.gravity
         this.setAngle(180)
       }
     }
+
+
+    // BOUNCE ON COLLIDE
+
+        if(pattern === MOVEMENT_JUMP_ON_COLLIDE) {
+      if(this.sprite.body.touching.none === false || this.sprite.body.blocked.none === false) {
+        console.log('...', objectClass.movement.velocityX, objectClass.movement.velocityY)
+        this.setVelocity(objectClass.movement.velocityX, objectClass.movement.velocityY)
+      }
+    }
+    export const jumpOnCollide = {
+  movement: {
+    pattern: MOVEMENT_JUMP_ON_COLLIDE,
+    jumpSpeed: 300
+  },
+}
