@@ -1,20 +1,8 @@
 import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
-import { defaultPhaserPhysicsProperties, nodeSize } from "./general"
+import { defaultObjectClass } from "./class"
 
 export const defaulHeroClass = {
-  ...defaultPhaserPhysicsProperties,
-  "speed": 100,
-  "jumpSpeed": 0,
-  "mass": 30,
-  "tint": null,
-  width: nodeSize * 5,
-  height: nodeSize * 5,
-  "textureId": null,
-  "camera": {
-    zoom: 3,
-    lerpX: 0.09,
-    lerpY: 0.09,
-  },
+  ...defaultObjectClass,
   relations: [
     {
       classId: 'e8e7e851-b182-4bb5-9a77-5badabda7c1d',
@@ -39,47 +27,42 @@ export const defaulHeroClass = {
 
 export const spaceshipClass = {
   ...defaulHeroClass,
-  ...defaultPhaserPhysicsProperties,
-  "dragX": 0.25,
-  "dragY": 0.25,
-  attributes: {
-    "fixedRotation": true,
-  },
   classId: 'spaceship',
-  "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
-  "controls": {
-    type: SPACESHIP_CONTROLS,
-  },
   name: 'spaceship',
-  type: 'hero'
+  graphics: {
+    "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
+  },
+  "movement": {
+    pattern: SPACESHIP_CONTROLS,
+    "dragX": 0.25,
+    "dragY": 0.25,
+  },
 }
 
 export const platformerClass = {
   ...defaulHeroClass,
-  ...defaultPhaserPhysicsProperties,
-  "jumpSpeed": 300,
-  "dragX": 0.1,
-  "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   classId: 'platformer',
-  "controls": {
+  name: 'jumper',
+  graphics: {
+    "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
+  },
+  movement: {
     type: PLATFORMER_CONTROLS,
+    "dragX": 0.1,
     disableUpKeyMovement: true,
   },
-  name: 'jumper',
-  type: 'hero'
 }
 
 export const adventurerClass = {
   ...defaulHeroClass,
-  ...defaultPhaserPhysicsProperties,
-  "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
-  "dragX": 0,
-  "dragY": 0,
   classId: 'adventurer',
   name: 'classic',
-  "controls": {
-    type: ADVENTURER_CONTROLS,
-    // stickyMovement: true
+  graphics: {
+    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },
-  type: 'hero'
+  movement: {
+    controls: ADVENTURER_CONTROLS,
+    "dragX": 0,
+    "dragY": 0,
+  },
 }

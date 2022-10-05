@@ -4,7 +4,7 @@ import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
-import { changeEditorCameraZoom, closeSnapshotTaker, openSnapshotTaker } from '../../store/actions/editorActions';
+import { changeEditorCameraZoom, closeSnapshotTaker } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
@@ -15,7 +15,6 @@ import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../../defaultData/general';
 import { urlToFile } from '../../utils/utils';
-import { setFontAwesomeCursor } from '../../utils/browserUtils';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -86,12 +85,10 @@ export class EditorScene extends GameInstance {
 
   onResizeMove = (pointer) => {
     const sprite = this.resizingObjectInstance.sprite
-    const objectClass = store.getState().game.gameModel.classes[sprite.classId]
     const boundaries = store.getState().game.gameModel.world.boundaries
     // const distance = Phaser.Math.Distance.Between(sprite.x, sprite.y, pointer.worldX, pointer.worldY)
     const distanceW = Phaser.Math.Snap.To(Math.abs(sprite.x - pointer.worldX), nodeSize)
     const distanceH = Phaser.Math.Snap.To(Math.abs(sprite.y - pointer.worldY), nodeSize)
-
     // const gridx = boundaries.x
     // const gridy = boundaries.y
     // const gridwidth = gridx + boundaries.width
@@ -100,7 +97,9 @@ export class EditorScene extends GameInstance {
     const width = Phaser.Math.Clamp(distanceW * 2, nodeSize, boundaries.width)
     const height = Phaser.Math.Clamp(distanceH * 2, nodeSize, boundaries.height)
 
-    this.resizingObjectInstance.setSize(width, height)
+    this.forAllObjectInstancesMatchingClassId(sprite.classId, (object) => {
+      object.setSize(width, height)
+    })
   }
 
   onResizeEnd = (pointer) => {
@@ -113,8 +112,10 @@ export class EditorScene extends GameInstance {
         },
         classes: {
           [sprite.classId]: {
-            width: sprite.displayWidth,
-            height: sprite.displayHeight
+            graphics: {
+              width: sprite.displayWidth,
+              height: sprite.displayHeight
+            }
           }
         }
       }))
@@ -128,8 +129,10 @@ export class EditorScene extends GameInstance {
         },
         classes: {
           [sprite.classId]: {
-            width: sprite.displayWidth,
-            height: sprite.displayHeight
+            graphics: {
+              width: sprite.displayWidth,
+              height: sprite.displayHeight
+            }
           } 
         }
       }))
@@ -541,58 +544,81 @@ export class EditorScene extends GameInstance {
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
       const classUpdate = gameUpdate.classes[id]
       const objectClass = store.getState().game.gameModel.classes[id]
-      if(classUpdate.bounciness >= 0) {
+
+      if(classUpdate.relations) {
+        this.reload()
+      }
+
+      if(classUpdate.collisionResponse?.bounciness >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setBounce(classUpdate.bounciness)
+          object.setBounce(classUpdate.collisionResponse.bounciness)
         })
       }
-      if(classUpdate.friction >= 0) {
+      if(classUpdate.collisionResponse?.friction >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setFriction(classUpdate.friction)
-        })
-      }
-      if(classUpdate.drag >= 0) {
-        this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setDrag(classUpdate.drag)
+          object.setFriction(classUpdate.collisionResponse.friction)
         })
       }
 
-      if(classUpdate.dragX >= 0) {
+      if(classUpdate.collisionResponse?.notPushable >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setDragX(classUpdate.dragX)
+          object.setPushable(!classUpdate.collisionResponse.notPushable)
         })
       }
 
-      if(classUpdate.dragY >= 0) {
+      if(classUpdate.movement?.drag >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setDragY(classUpdate.dragY)
+          object.setDrag(classUpdate.movement.drag)
         })
       }
 
-      if(classUpdate.frictionStatic >= 0) {
+      if(classUpdate.movement?.dragX >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setFrictionStatic(classUpdate.frictionStatic)
+          object.setDragX(classUpdate.movement.dragX)
         })
       }
 
-      if(objectClass.attributes.useMass && classUpdate.mass >= 0) {
+      if(classUpdate.movement?.dragY >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setMass(classUpdate.mass)
-        })
-      }
-      if(!objectClass.attributes.useMass && classUpdate.density >= 0) {
-        this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setDensity(classUpdate.density)
+          object.setDragY(classUpdate.movement.dragY)
         })
       }
 
-      if(classUpdate.controls) {
+      // if(classUpdate.frictionStatic >= 0) {
+      //   this.forAllObjectInstancesMatchingClassId(id, (object) => {
+      //     object.setFrictionStatic(classUpdate.frictionStatic)
+      //   })
+      // }
+
+      // if(objectClass.collisionResponse.useMass && classUpdate.mass >= 0) {
+      //   this.forAllObjectInstancesMatchingClassId(id, (object) => {
+      //     object.setMass(classUpdate.mass)
+      //   })
+      // }
+      // if(!objectClass.collisionResponse.useMass && classUpdate.density >= 0) {
+      //   this.forAllObjectInstancesMatchingClassId(id, (object) => {
+      //     object.setDensity(classUpdate.density)
+      //   })
+      // }
+
+      if(classUpdate.movement?.pattern || classUpdate.movement?.controls) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.resetPhysics()
         })
       }
 
-      if(classUpdate.attributes) {
+      if(classUpdate.graphics?.invisible) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setVisible(!classUpdate.graphics.invisible)
+        })
+      }
+
+      if(classUpdate.spawned || 
+        classUpdate.worldBoundaryRelationship || 
+        classUpdate.movement?.velocity ||
+        classUpdate.collisionResponse?.ignoreSides || 
+        classUpdate.graphics?.textureId
+      ) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           if(object.id === HERO_INSTANCE_ID) {
             this.removePlayerInstance()
@@ -605,17 +631,17 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(classUpdate.width && classUpdate.height) {
+      if(classUpdate.graphics?.width && classUpdate.graphics?.height) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setSize(classUpdate.width, classUpdate.height)
+          object.setSize(classUpdate.graphics?.width, classUpdate.graphics?.height)
         })
-      } else if(classUpdate.width) {
+      } else if(classUpdate.graphics?.width) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setSize(classUpdate.width, objectClass.height)
+          object.setSize(classUpdate.graphics?.width, objectClass.graphics?.height)
         })
-      } else if(classUpdate.height) {
+      } else if(classUpdate.graphics?.height) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setSize(objectClass.width, classUpdate.height)
+          object.setSize(objectClass.graphics?.width, classUpdate.graphics?.height)
         })
       }
 

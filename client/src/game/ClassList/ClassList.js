@@ -65,11 +65,11 @@ const ClassList = ({
     />
     {isCreateClassFlowOpen && <CreateClassFlow 
       onComplete={(objectClass) => {
-        console.log(objectClass.classId)
         editGameModel({
           classes: {
             [objectClass.classId] : {
-              ...objectClass
+              graphics: objectClass.graphics,
+              descriptors: objectClass.descriptors
             }
           }
         })

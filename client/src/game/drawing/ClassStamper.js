@@ -6,7 +6,7 @@ import { getHexIntFromHexString, snapObjectXY } from "../../utils/editorUtils";
 export class ClassStamper extends Phaser.GameObjects.Image {
   constructor(scene, classId, objectClass){
 
-    const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
+    const textureId = objectClass.graphics.textureId || DEFAULT_TEXTURE_ID
 
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
 
@@ -21,11 +21,11 @@ export class ClassStamper extends Phaser.GameObjects.Image {
     this.class = objectClass
     this.scene.add.existing(this)
     
-    this.setDisplaySize(this.class.width, this.class.height)
+    this.setDisplaySize(this.class.graphics.width, this.class.graphics.height)
     this.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH)
 
-    if(objectClass.tint) {
-      const colorInt = getHexIntFromHexString(objectClass.tint)
+    if(objectClass.graphics.tint) {
+      const colorInt = getHexIntFromHexString(objectClass.graphics.tint)
       this.setTint(colorInt)
     }
 

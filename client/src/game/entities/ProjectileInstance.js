@@ -43,25 +43,36 @@ export class ProjectileInstance extends ObjectInstance {
 
     let rotation
 
-    if(shooterClass.controls.type === SPACESHIP_CONTROLS) {
-      rotation = shooter.sprite.rotation
+    if(shooterClass.movement.controls === SPACESHIP_CONTROLS) {
+      rotation = shooter.sprite.rotation - Phaser.Math.DegToRad(90)
     } else {
-      // if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_LEFT) {
-      //   rotation = Phaser.Math.DegToRad(180)
-      // } else if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_RIGHT) {
-      //   rotation = Phaser.Math.DegToRad(0)
-      // } else if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_UP) {
-      //   rotation = Phaser.Math.DegToRad(270)
-      // } else if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_DOWN) {
-      //   rotation = Phaser.Math.DegToRad(90)
-      // }
       if(cursors.left.isDown) {
         rotation = Phaser.Math.DegToRad(180)
+        shooter.lastCursor = 'left'
       } else if(cursors.right.isDown) {
         rotation = Phaser.Math.DegToRad(0)
+        shooter.lastCursor = 'right'
       } else if(cursors.up.isDown) {
         rotation = Phaser.Math.DegToRad(270)
+        shooter.lastCursor = 'up'
       } else if(cursors.down.isDown) {
+        rotation = Phaser.Math.DegToRad(90)
+        shooter.lastCursor = 'down'
+      } else if(shooter.lastCursor === 'left') {
+        rotation = Phaser.Math.DegToRad(180)
+      } else if(shooter.lastCursor === 'right') {
+        rotation = Phaser.Math.DegToRad(0)
+      } else if(shooter.lastCursor === 'up') {
+        rotation = Phaser.Math.DegToRad(270)
+      } else if(shooter.lastCursor === 'down') {
+        rotation = Phaser.Math.DegToRad(90)
+      } else if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_LEFT) {
+        rotation = Phaser.Math.DegToRad(180)
+      } else if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_RIGHT) {
+        rotation = Phaser.Math.DegToRad(0)
+      } else if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_UP) {
+        rotation = Phaser.Math.DegToRad(270)
+      } else if(shooter.sprite.body.facing === Phaser.Physics.Arcade.FACING_DOWN) {
         rotation = Phaser.Math.DegToRad(90)
       }
     }

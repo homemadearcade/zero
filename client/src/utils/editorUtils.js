@@ -89,9 +89,9 @@ export function snapObjectXY({x, y, objectClass, boundaries = store.getState().g
   const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
   const snappedX = Phaser.Math.Snap.To(x, nodeSize)
-  const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (objectClass.width/2), width - (objectClass.width/2))
+  const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (objectClass.graphics.width/2), width - (objectClass.graphics.width/2))
   const snappedY = Phaser.Math.Snap.To(y, nodeSize)
-  const clampedY = Phaser.Math.Clamp(snappedY, gridy + (objectClass.height/2), height - (objectClass.height/2))
+  const clampedY = Phaser.Math.Clamp(snappedY, gridy + (objectClass.graphics.height/2), height - (objectClass.graphics.height/2))
   
   return {
     clampedX,

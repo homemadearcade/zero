@@ -4,34 +4,41 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectMovementPattern.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { MOVEMENT_SIDE_TO_SIDE, MOVEMENT_UP_AND_DOWN, MOVEMENT_WANDER } from '../../../constants';
+import { downToUp, leftToRight, rightToLeft, turnOnCollide, upToDown } from '../../../defaultData/movement';
+import { MOVEMENT_DOWN_TO_UP, MOVEMENT_LEFT_TO_RIGHT, MOVEMENT_RIGHT_TO_LEFT, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_TO_DOWN } from '../../../constants';
 
-const movementValues = [
-  MOVEMENT_SIDE_TO_SIDE,
-  MOVEMENT_UP_AND_DOWN,
-  MOVEMENT_WANDER
-]
+const movementPatterns = {
+  [MOVEMENT_UP_TO_DOWN]: upToDown,
+  [MOVEMENT_DOWN_TO_UP]: downToUp,
+  [MOVEMENT_LEFT_TO_RIGHT]: leftToRight,
+  [MOVEMENT_RIGHT_TO_LEFT]: rightToLeft,
+  [MOVEMENT_TURN_ON_COLLIDE]: turnOnCollide
+}
 
-const movementValueToLabel = {
-  [MOVEMENT_SIDE_TO_SIDE]: 'Side to side',
-  [MOVEMENT_UP_AND_DOWN]: 'Up and down',
-  [MOVEMENT_WANDER]: 'Wander'
+const movementPatternToLabel = {
+  [MOVEMENT_UP_TO_DOWN]: 'Up to Down',
+  [MOVEMENT_DOWN_TO_UP]: 'Down to Up',
+  [MOVEMENT_LEFT_TO_RIGHT]: 'Left to Right',
+  [MOVEMENT_RIGHT_TO_LEFT]: 'Right to Left',
+  [MOVEMENT_TURN_ON_COLLIDE]: 'Turn on Collide'
 }
 
 const SelectMovementPattern = ({ onChange, value, formLabel }) => {
   const mapMovementToOption = (movement) => {
-
+    console.log(movement, movementPatternToLabel[movement])
     return {
-      label: movementValueToLabel[movement],
+      label: movementPatternToLabel[movement],
       value: movement
     }
   }
 
-  const options = movementValues.map(mapMovementToOption)
+  const options = Object.keys(movementPatterns).map(mapMovementToOption)
 
   return <SelectChipsAuto 
     onChange={(event, descriptors) => {
-      onChange(event,  descriptors)
+      onChange(event,  descriptors.map((pattern) => {
+        return movementPatterns[pattern]
+      }))
     }}
     formLabel={formLabel}
     value={value}

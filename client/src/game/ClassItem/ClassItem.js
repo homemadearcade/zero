@@ -47,7 +47,7 @@ const ClassItem = ({
   >
     {isSelected && isHovering && <Icon className="ClassItem__unselect" icon="faClose"/>}
     <div className="ClassItem__sprite">
-      <Sprite tint={objectClass.tint} textureId={objectClass.textureId}/>
+      <Sprite tint={objectClass.graphics.tint} textureId={objectClass.graphics.textureId}/>
     </div>
     <div className="ClassItem__name">{objectClass.name}</div>
   </div>

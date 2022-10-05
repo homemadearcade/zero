@@ -1,12 +1,10 @@
 CONVERSATION TOPICS
 
-Set initial velocity and acceleration?
-
 Whether something is spawned or not needs to be instance level? or class level? Whats that look like? How to change? How to represent?
 
-World Effects like gravity change.. and?? other?
-
 Camera change options for 'cutscene'
+
+Set Visible, set Spanwed, set Glowing, where to put it?
 
 CONTROLS/PHYSICS/MOVEMENT
 Do we have two sided labels in the checkboxes?
@@ -18,25 +16,20 @@ Unlockables hidden from view unless not cobrowsing?
 
 FEATURES FOR SPENCER TO THINK ABOUT
 
-Admin guidance ( Steps, Text, Etc )
+Admin guidance ( Stars, Steps, Text, Etc )
 On boarding, off boarding
 Agora Video Camera effects
 
-Star Transition, when they are triggered, how 
-
 How does the arcade work, what does it look like?
-Whats the landing page for homemade arcade look like?
 Prologue 1, 2, Demos ( Spencer please make these at home )
 
 --
 TODO
 
-Star field transition
-https://openprocessing.org/sketch/76969/
-
 Movement
 Relationship UI
 Add Unlockable to everything
+World Effects
 
 --------
 
@@ -55,6 +48,8 @@ Movement is prompted after placing the first object
 ------
 
 TODO CHORES 
+
+Front is right side
 
 Move properties into objects based on Member
 

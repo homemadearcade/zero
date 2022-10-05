@@ -45,20 +45,20 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
       {classSelected.type === 'hero' && <Unlockable isSlider interfaceId="movement/controls/type">
         <SelectControls
           formLabel="Controls"
-          value={classSelected.controls.type ? [classSelected.controls.type] : []}
+          value={classSelected.movement.controls ? [classSelected.movement.controls] : []}
           onChange={(event, type) => {
-          editGameModel({ classes: { [classId]: { controls: { type: type[type.length-1]} } }})        
+          editGameModel({ classes: { [classId]: { movement: { controls: type[type.length-1]} } }})        
         }}/>
       </Unlockable>}
-      {classSelected.type === 'hero' && classSelected.controls.type === PLATFORMER_CONTROLS && <Unlockable interfaceId="movement/speed">
+      {classSelected.type === 'hero' && classSelected.movement.controls === PLATFORMER_CONTROLS && <Unlockable interfaceId="movement/speed">
         <SliderNotched
           formLabel="Jump Speed"
           options={[50, 100, 200, 300, 400, 500]}
           step={10}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { jumpSpeed: value }}})        
+            editGameModel({ classes: { [classId]: { movement: { jumpSpeed: value } }}})        
           }}
-          value={classSelected.jumpSpeed}
+          value={classSelected.movement.jumpSpeed}
         />
       </Unlockable>}
       {classSelected.type !== 'hero' && <Unlockable isSlider interfaceId="movement/pattern">
@@ -66,40 +66,63 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           formLabel="Pattern"
           value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}
           onChange={(event, pattern) => {
-          editGameModel({ classes: { [classId]: { movement: { pattern: pattern[pattern.length-1]} } }})        
-        }}/>
+            editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})    
+            editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})            
+          }}/>
       </Unlockable>}
+      <Unlockable interfaceId="movement/initialVelocity/vertical">
+        <SliderNotched
+          formLabel="Vertical Velocity"
+          options={[-100, -20, -5, 0, 1, 5, 20, 100]}
+          step={1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { initialVelocityY: value} }}})        
+          }}
+          value={classSelected.movement.initialVelocityY}
+        />
+      </Unlockable>
+      <Unlockable interfaceId="movement/initialVelocity/horizontal">
+        <SliderNotched
+          formLabel="Horizontal Velocity"
+          options={[-100, -20, -5, 0, 1, 5, 20, 100]}
+          step={1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { initialVelocityX: value} }}})        
+          }}
+          value={classSelected.movement.initialVelocityX}
+        />
+      </Unlockable>
       <Unlockable interfaceId="movement/speed">
         <SliderNotched
           formLabel="Speed"
           options={[1, 5, 20, 100]}
           step={0.1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { speed: value }}})        
+            editGameModel({ classes: { [classId]: { movement: { speed: value } }}})        
           }}
-          value={classSelected.speed}
+          value={classSelected.movement.speed}
         />
       </Unlockable>
-      <Unlockable isSlider interfaceId="movement/sliders/verticalDecay">
+      <Unlockable isSlider interfaceId="movement/sliders/decay/vertical">
         <SliderNotched
           formLabel="Vertical Slow Down"
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { dragY: 1 - value }}})        
+            editGameModel({ classes: { [classId]: { movement: { dragY: 1 - value } }}})        
           }}
-          value={1 - classSelected.dragY}
+          value={1 - classSelected.movement.dragY}
         />
        </Unlockable>
-       <Unlockable isSlider interfaceId="movement/sliders/horizontalDecay">
+       <Unlockable isSlider interfaceId="movement/sliders/decay/horizontal">
         <SliderNotched
           formLabel="Horizontal Slow Down"
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { dragX: 1 - value }}})        
+            editGameModel({ classes: { [classId]: { movement: { dragX: 1 - value } }}})        
           }}
-          value={1 - classSelected.dragX}
+          value={1 - classSelected.movement.dragX}
         />
        </Unlockable>
       <Unlockable interfaceId="movement/toggle/ignoreGravity">
@@ -107,9 +130,9 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { ignoreGravity: e.target.checked }}}})        
+            editGameModel({ classes: { [classId]: { movement: { ignoreGravity: e.target.checked }}}})        
           }}
-          checked={classSelected.attributes.ignoreGravity}
+          checked={classSelected.movement.ignoreGravity}
          />
       </Unlockable>
       {<Unlockable interfaceId="physics/toggle/immovable">
@@ -117,9 +140,9 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { immovable: e.target.checked } } } })        
+            editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        
           }}
-          checked={classSelected.attributes.immovable}
+          checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
     </div>

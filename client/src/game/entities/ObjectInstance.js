@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -11,7 +11,7 @@ export class ObjectInstance extends Sprite {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[classId]
 
-    const textureId = objectClass.textureId || DEFAULT_TEXTURE_ID
+    const textureId = objectClass.graphics.textureId || DEFAULT_TEXTURE_ID
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName })
     
@@ -26,17 +26,16 @@ export class ObjectInstance extends Sprite {
     this.sprite.id = id
     this.sprite.classId = classId
     scene.objectInstanceGroup.add(this.sprite)
-    const attributes = objectClass.attributes
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // GRAPHICS
-    if(objectClass.tint) this.setTint(objectClass.tint)
-    this.setVisible(!attributes.invisible)
-    this.setSize(objectClass.width, objectClass.height)
+    if(objectClass.graphics.tint) this.setTint(objectClass.graphics.tint)
+    this.setVisible(!objectClass.graphics.invisible)
+    this.setSize(objectClass.graphics.width, objectClass.graphics.height)
     scene.objectInstanceLayer.add(this.sprite)
 
-    if(attributes.glowing) {
+    if(objectClass.graphics.glowing) {
       var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(this.sprite);
       this.sprite.glowTask = this.sprite.scene.tweens.add({
         targets: pipeline,
@@ -51,13 +50,13 @@ export class ObjectInstance extends Sprite {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // COLLISION RESPONSE
-    this.setBounce(objectClass.bounciness)
-    this.setImmovable(attributes.immovable)
-    this.setPushable(!attributes.notPushable)
-    this.setMass(objectClass.mass)
-    this.setFriction(objectClass.friction)
+    this.setBounce(objectClass.collisionResponse.bounciness)
+    this.setImmovable(objectClass.collisionResponse.immovable)
+    this.setPushable(!objectClass.collisionResponse.notPushable)
+    this.setMass(objectClass.collisionResponse.mass)
+    this.setFriction(objectClass.collisionResponse.friction)
     const worldBoundaryRelationship = objectClass.worldBoundaryRelationship
-    if(attributes.ignoreWorldBounds) {
+    if(objectClass.collisionResponse.ignoreWorldBounds) {
       this.setCollideWorldBounds(false)
     } else if(worldBoundaryRelationship === WORLD_COLLIDE) {
       this.setCollideWorldBounds(true)
@@ -75,7 +74,7 @@ export class ObjectInstance extends Sprite {
       this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
     }
     this.sprite.highlight.setTintFill(0xffffff)
-    .setDisplaySize(objectClass.width + 10, objectClass.height + 10)
+    .setDisplaySize(objectClass.graphics.width + 10, objectClass.graphics.height + 10)
     .setVisible(false)
     this.sprite.highlight.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH - 1)
 
@@ -83,10 +82,10 @@ export class ObjectInstance extends Sprite {
     //////////////////////////////////////////////////////////////
     // MOVEMENT
     this.setDamping(true)
-    this.setDragX(objectClass.dragX)
-    this.setDragY(objectClass.dragY)
-    this.setIgnoreGravity(attributes.ignoreGravity)
-    this.setVelocity(objectClass.movement.velocity[0], objectClass.movement.velocity[1])
+    this.setDragX(objectClass.movement.dragX)
+    this.setDragY(objectClass.movement.dragY)
+    this.setIgnoreGravity(objectClass.movement.ignoreGravity)
+    this.setVelocity(objectClass.movement.initialVelocityX, objectClass.movement.initialVelocityY)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -132,7 +131,7 @@ export class ObjectInstance extends Sprite {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
     this.setCollideable(true);
-    this.setVisible(!objectClass.attributes.invisible)
+    this.setVisible(!objectClass.graphics.invisible)
     objectClass.relations.forEach(({classId, event, effect}) => {
       if(event === ON_SPAWN) {
         this.runEffect(effect)
@@ -175,7 +174,33 @@ export class ObjectInstance extends Sprite {
     // EDITOR
     this.sprite.highlight.setPosition(this.sprite.x, this.sprite.y)
     this.sprite.highlight.setRotation(this.sprite.rotation)
-    
+
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // MOVEMENT
+    this.updateMovement()
+  }
+
+  updateMovement() {
+    const objectClass = store.getState().game.gameModel.classes[this.classId]
+    const pattern = objectClass.movement.pattern 
+
+    if(pattern === MOVEMENT_TURN_ON_COLLIDE) {
+      if(this.sprite.body.touching.none === false || this.sprite.body.blocked.none === false) {
+        const speed = objectClass.movement.speed
+        const check = Math.random()
+
+        if(check < 0.25) {
+          this.setVelocity(speed, 0)
+        } else if(check < 0.5) {
+          this.setVelocity(0, speed)
+        } else if(check < 0.75) {
+          this.setVelocity(-speed, 0)
+        } else {
+          this.setVelocity(0, -speed)
+        }
+      }
+    }
   }
 
   updateEffects() {
@@ -185,14 +210,14 @@ export class ObjectInstance extends Sprite {
     ////////////////////////////////////////
     // VISIBLITY AND IGNORE GRAVITY EFFECTS
     if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
-      this.setIgnoreGravity(objectClass.attributes.ignoreGravity)
+      this.setIgnoreGravity(objectClass.movement.ignoreGravity)
     }
 
     this.wasIgnoreGravityModified = this.isIgnoreGravityModified
     this.isIgnoreGravityModified = false
 
     if(this.wasVisibilityModified && !this.isVisibilityModified) {
-      this.setVisible(!objectClass.attributes.invisible)
+      this.setVisible(!objectClass.graphics.invisible)
     }
 
     this.wasVisibilityModified = this.isVisibilityModified
@@ -209,7 +234,7 @@ export class ObjectInstance extends Sprite {
     if (this.sprite.lockedTo && this.fallenOff(this.sprite, this.sprite.lockedTo, this.sprite.lockedReleaseSides)) {
       this.sprite.lockedTo = null;   
       this.sprite.lockedReleaseSides = null
-      this.setIgnoreGravity(objectClass.attributes.ignoreGravity);
+      this.setIgnoreGravity(objectClass.movement.ignoreGravity);
     }
   }
 

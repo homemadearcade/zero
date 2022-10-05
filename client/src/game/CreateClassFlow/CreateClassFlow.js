@@ -45,18 +45,24 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
       />
       <SelectSpriteInline
         onSelect={(textureId) => {
-          updateCreateClass({ textureId })
+          updateCreateClass({ graphics: {
+            textureId 
+          }})
         }}
-        tintSelected={objectClass.tint}
+        tintSelected={objectClass.graphics.tint}
         onSelectTint={(tint) => {
-          updateCreateClass({ tint })
+          updateCreateClass({ graphics: {
+            tint
+          }})
         }}
         onClearTint={() => {
-          updateCreateClass({ tint: null })
+          updateCreateClass({ graphics: {
+            tint: null
+         }})
         }}
         formLabel="Select a sprite"
         descriptors={objectClass.descriptors}
-        textureIdSelected={objectClass.textureId}
+        textureIdSelected={objectClass.graphics.textureId}
       />
       <ClassNameForm/>
       <Button

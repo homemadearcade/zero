@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import tinycolor from 'tinycolor2'
 import { getTextureMetadata, getSpriteData } from '../../../utils/utils'
 import './Sprite.scss'
 

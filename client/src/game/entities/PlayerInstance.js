@@ -108,15 +108,15 @@ export class PlayerInstance extends ObjectInstance {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // SPACESHIP
-    if(objectClass.controls.type === SPACESHIP_CONTROLS) {
+    if(objectClass.movement.controls === SPACESHIP_CONTROLS) {
       if(this.cursors.left.isDown) {
-        this.setAngularVelocity(-objectClass.speed);
+        this.setAngularVelocity(-objectClass.movement.speed);
       } else if(this.cursors.right.isDown) {
-        this.setAngularVelocity(objectClass.speed);
+        this.setAngularVelocity(objectClass.movement.speed);
       }
 
       if(this.cursors.up.isDown) {
-        this.thrust(objectClass.speed * 2);
+        this.thrust(objectClass.movement.speed * 2);
       } else {
         this.setAcceleration(0)
       }
@@ -125,27 +125,27 @@ export class PlayerInstance extends ObjectInstance {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // ADVENTURER
-    if(objectClass.controls.type === ADVENTURER_CONTROLS) {
+    if(objectClass.movement.controls === ADVENTURER_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
       if(this.cursors.left.isDown) {
-        this.setAccelerationX(-objectClass.speed)
+        this.setAccelerationX(-objectClass.movement.speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        this.setAccelerationX(objectClass.speed)
+        this.setAccelerationX(objectClass.movement.speed)
         xTouched = true
       }
       
       if(this.cursors.up.isDown) {
-        this.setAccelerationY(-objectClass.speed)
+        this.setAccelerationY(-objectClass.movement.speed)
         yTouched = true
       }
 
       if(this.cursors.down.isDown) {
-        this.setAccelerationY(objectClass.speed)
+        this.setAccelerationY(objectClass.movement.speed)
         yTouched = true
       }
 
@@ -156,21 +156,21 @@ export class PlayerInstance extends ObjectInstance {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // PLATFORMER
-    if(objectClass.controls.type === PLATFORMER_CONTROLS) {
+    if(objectClass.movement.controls === PLATFORMER_CONTROLS) {
       let xTouched = false 
 
       if(this.cursors.left.isDown) {
-        this.setAccelerationX(-objectClass.speed)
+        this.setAccelerationX(-objectClass.movement.speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        this.setAccelerationX(objectClass.speed)
+        this.setAccelerationX(objectClass.movement.speed)
         xTouched = true
       }
 
       if(this.cursors.down.isDown) {
-        this.setVelocityY(this.sprite.body.velocity.y + objectClass.speed * mod)
+        this.setVelocityY(this.sprite.body.velocity.y + objectClass.movement.speed * mod)
       }
 
       if(this.cursors.up.isDown && this.sprite.body.touching.down) {
@@ -180,7 +180,7 @@ export class PlayerInstance extends ObjectInstance {
       if(!xTouched) this.setAccelerationX(0)
     }
 
-    if(objectClass.attributes.rotationFollowKeys) {
+    if(objectClass.movement.rotationFollowKeys) {
       if(this.cursors.left.isDown) {
         this.setAngle(270)
       } else if(this.cursors.right.isDown) {

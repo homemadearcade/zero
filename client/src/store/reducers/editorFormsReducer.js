@@ -1,3 +1,4 @@
+import { mergeDeep } from '../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,
   OPEN_CREATE_CLASS_FLOW,
@@ -25,8 +26,10 @@ const initialState = {
   createClassStep: '',
   class: {
     descriptors: [],
-    textureId: null,
-    tint: null,
+    graphics : {
+      textureId: null,
+      tint: null,
+    },
     name: "",
     type: null,
   },
@@ -36,7 +39,6 @@ const initialState = {
     canvasId: null,
     tint: null,
     isEyeDropping: false
-
   },
   onCloseCreateColorFlow: null,
   // isCreateHeroFlowOpen: false,
@@ -75,7 +77,7 @@ export default function editorFormsReducer(state = initialState, { type, payload
     case UPDATE_CREATE_CLASS: 
       return {
         ...state,
-        class: {...state.class, ...payload.class }
+        class: mergeDeep(state.class, payload.class)
       }
     case OPEN_CREATE_CLASS_FLOW: 
       return {

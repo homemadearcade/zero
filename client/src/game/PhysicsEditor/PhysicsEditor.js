@@ -9,6 +9,50 @@ import { FormLabel, Typography } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../app/ui/Switch/Switch';
 
+
+// {false && <Unlockable interfaceId="physics/toggle/useMass">
+// <FormLabel>Use Mass For Weight</FormLabel>
+// <Switch
+//   size="small"
+//   onChange={(e) => {
+//     editGameModel({ classes: { [classId]: { collisionResponse: { useMass: e.target.checked }}}})        
+//   }}
+//   checked={classSelected.collisionResponse.useMass}
+// />
+// </Unlockable>}
+// {false && <Unlockable interfaceId="physics/toggle/fixedRotation">
+// <FormLabel>Fixed Rotation</FormLabel>
+// <Switch
+//   size="small"
+//   onChange={(e) => {
+//     editGameModel({ classes: { [classId]: { attributes: { fixedRotation: e.target.checked }}}})        
+//   }}
+//   checked={classSelected.attributes.fixedRotation}
+//  />
+// </Unlockable>}
+// {false && !classSelected.useMass &&  
+//   <Unlockable isSlider interfaceId="physics/sliders/weight/density">
+//    <SliderNotched
+//      formLabel="Weight (Density)"
+//      step={0.001}
+//      options={[.001, .01, 0.1, 0.25, 0.5, 0.75, 1]}
+//      onChangeCommitted={(value) => {
+//        editGameModel({ classes: { [classId]: { density: value }}})        
+//      }}
+//      value={classSelected.density}
+//    />
+//  </Unlockable>
+// }
+// {false && <SliderNotched
+//   formLabel="Staticness"
+//   step={1}
+//   options={[0, 1, 5, 20, 50, 100, 200]}
+//   onChangeCommitted={(value) => {
+//     editGameModel({ classes: { [classId]: { frictionStatic: value }}})        
+//   }}
+//   value={classSelected.frictionStatic}
+// />}
+
 const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
@@ -22,9 +66,9 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             step={0.05}
             options={[0, .25, .5, .75, 1]}
             onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { bounciness: value }}})        
+              editGameModel({ classes: { [classId]: { collisionResponse: { bounciness: value } }}})        
             }}
-            value={classSelected.bounciness}
+            value={classSelected.collisionResponse.bounciness}
           />
         </Unlockable>
         <Unlockable isSlider interfaceId="physics/sliders/friction/ground">
@@ -33,54 +77,31 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             step={0.05}
             options={[0, 0.1, .25, .5, .75, 1]}
             onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { friction: value }}})        
+              editGameModel({ classes: { [classId]: { collisionResponse: { friction: value } }}})        
             }}
-            value={classSelected.friction}
+            value={classSelected.collisionResponse.friction}
           />
         </Unlockable>
-        {false && <SliderNotched
-          formLabel="Staticness"
-          step={1}
-          options={[0, 1, 5, 20, 50, 100, 200]}
-          onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { frictionStatic: value }}})        
-          }}
-          value={classSelected.frictionStatic}
-        />}
-        {(true || classSelected.useMass) && 
-          <Unlockable isSlider interfaceId="physics/sliders/weight/mass">
-            <SliderNotched
-              formLabel="Weight"
-              step={0.1}
-              options={[.1, 1, 5, 10, 20, 50, 100, 200, 500]}
-              onChangeCommitted={(value) => {
-                editGameModel({ classes: { [classId]: { mass: value }}})        
-              }}
-              value={classSelected.mass}
-            />
-          </Unlockable>}
-        {false && !classSelected.useMass &&  
-           <Unlockable isSlider interfaceId="physics/sliders/weight/density">
-            <SliderNotched
-              formLabel="Weight (Density)"
-              step={0.001}
-              options={[.001, .01, 0.1, 0.25, 0.5, 0.75, 1]}
-              onChangeCommitted={(value) => {
-                editGameModel({ classes: { [classId]: { density: value }}})        
-              }}
-              value={classSelected.density}
-            />
-          </Unlockable>
-        }
+        <Unlockable isSlider interfaceId="physics/sliders/weight/mass">
+          <SliderNotched
+            formLabel="Weight"
+            step={0.1}
+            options={[.1, 1, 5, 10, 20, 50, 100, 200, 500]}
+            onChangeCommitted={(value) => {
+              editGameModel({ classes: { [classId]: { collisionResponse: { mass: value } }}})        
+            }}
+            value={classSelected.collisionResponse.mass}
+          />
+        </Unlockable>
       </div>
       {false && <Unlockable interfaceId="physics/toggle/ignoreGravity">
           <FormLabel>Ignore Gravity</FormLabel>
           <Switch
             size="small"
             onChange={(e) => {
-              editGameModel({ classes: { [classId]: { attributes: { ignoreGravity: e.target.checked }}}})        
+              editGameModel({ classes: { [classId]: { movement: { ignoreGravity: e.target.checked }}}})        
             }}
-            checked={classSelected.attributes.ignoreGravity}
+            checked={classSelected.movement.ignoreGravity}
           />
       </Unlockable>}
       <Unlockable interfaceId="physics/toggle/notPushable">
@@ -88,9 +109,9 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { notPushable: e.target.checked } } } })        
+            editGameModel({ classes: { [classId]: { collisionResponse: { notPushable: e.target.checked } } } })        
           }}
-          checked={classSelected.attributes.notPushable}
+          checked={classSelected.collisionResponse.notPushable}
          />
       </Unlockable>
       {<Unlockable interfaceId="physics/toggle/immovable">
@@ -98,31 +119,12 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
         <Switch
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { immovable: e.target.checked } } } })        
+            editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        
           }}
-          checked={classSelected.attributes.immovable}
+          checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
-      {false && <Unlockable interfaceId="physics/toggle/useMass">
-        <FormLabel>Use Mass For Weight</FormLabel>
-        <Switch
-          size="small"
-          onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { useMass: e.target.checked }}}})        
-          }}
-          checked={classSelected.attributes.useMass}
-        />
-      </Unlockable>}
-      {false && <Unlockable interfaceId="physics/toggle/fixedRotation">
-        <FormLabel>Fixed Rotation</FormLabel>
-        <Switch
-          size="small"
-          onChange={(e) => {
-            editGameModel({ classes: { [classId]: { attributes: { fixedRotation: e.target.checked }}}})        
-          }}
-          checked={classSelected.attributes.fixedRotation}
-         />
-      </Unlockable>}
+
     </div>
   );
 };

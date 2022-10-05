@@ -81,6 +81,9 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
 }, 7)
 
 function onEditorKeyUp(event) {
+  const state = store.getState()
+
+  if(!state.cobrowsing.isSubscribedCobrowsing) return
   if(!event.key) return
   if(event.key.toLowerCase() === '\\'){
     store.dispatch({
@@ -234,6 +237,7 @@ export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
     //   type: ON_COBROWSING_UPDATE,
     //   payload: { remoteState },
     // });
+
     
     const options = attachTokenToHeaders(getState);
     await axios.put('/api/cobrowsing/' + userId, { remoteState }, options);
