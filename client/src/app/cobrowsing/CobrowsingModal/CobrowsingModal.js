@@ -10,7 +10,7 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, gameInstance }) => {
+const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, page: { gameInstance } }) => {
   useEffect(() => {
    getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = false
 
@@ -38,7 +38,7 @@ const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, h
 };
 
 const mapStateToProps = (state) => ({
-  gameInstance: state.game.gameInstance,
+  page: state.page
 });
 
 export default compose(

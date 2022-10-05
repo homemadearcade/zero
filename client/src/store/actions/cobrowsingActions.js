@@ -58,11 +58,11 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
     }
   }
 
-  if(state.game.gameInstance && window.pointer) {
+  if(state.page.pageInstance && window.pointer) {
     
     const cameraZoom = state.editor.cameraZoom
 
-    const scene = getCurrentGameScene(state.game.gameInstance)
+    const scene = getCurrentGameScene(state.page.gameInstance)
     if(!scene) return 
     const camera = scene.editorCamera
     if(!camera) return
@@ -237,7 +237,6 @@ export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
     //   type: ON_COBROWSING_UPDATE,
     //   payload: { remoteState },
     // });
-
     
     const options = attachTokenToHeaders(getState);
     await axios.put('/api/cobrowsing/' + userId, { remoteState }, options);

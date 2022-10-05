@@ -22,7 +22,6 @@ import {
   GET_SPRITESHEET_DATA_FAIL,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
-  SET_GAME_INSTANCE
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -235,16 +234,6 @@ export const unloadGame = () => (dispatch, getState) => {
     type: UNLOAD_GAME,
   })
 };
-
-export const setGameInstance = (gameInstance) => (dispatch, getState) => {
-  dispatch({
-    type: SET_GAME_INSTANCE,
-    payload: {
-      gameInstance
-    }
-  })
-};
-
 export const addGame = (gameData) => async (dispatch, getState) => {
   dispatch({
     type: ADD_GAME_LOADING,

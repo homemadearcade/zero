@@ -8,7 +8,7 @@ import { toggleGridView } from '../../store/actions/editorActions';
 import UndoButton from '../../app/ui/UndoButton/UndoButton';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 
-const LocalGameToolbar = ({  game: { gameInstance } }) => {
+const LocalGameToolbar = ({ page: { gameInstance } }) => {
   const [isPaused, setIsPaused] = useState(false)
 
   if(!gameInstance) return
@@ -35,7 +35,7 @@ const LocalGameToolbar = ({  game: { gameInstance } }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  page: state.page,
 });
 
 export default compose(

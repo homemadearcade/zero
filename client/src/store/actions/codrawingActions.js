@@ -36,13 +36,11 @@ export const publishCodrawingStrokes = ({canvasId, brushId, stroke}) => async (d
 export const subscribeCodrawing = (canvasId) => async (dispatch, getState) => {
   dispatch({
     type: SUBSCRIBE_CODRAWING_LOADING,
-  });
-  console.log('join', canvasId)
-  
+  });  
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/codrawing/' + encodeURIComponent(canvasId), {}, options);
-
+    
     dispatch({
       type: SUBSCRIBE_CODRAWING_SUCCESS,
       payload: { codrawingCanvasId: response.data.codrawingCanvasId },

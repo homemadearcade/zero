@@ -12,15 +12,15 @@ import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModa
 import { nodeSize } from '../../defaultData/general';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../BrushControl/BrushControl';
-import { clearBrush, closeSpriteEditor, selectBrush, setSpriteEditorGameInstance } from '../../store/actions/editorActions';
+import { clearBrush, closeSpriteEditor, selectBrush } from '../../store/actions/editorActions';
 import Button from '../../app/ui/Button/Button';
-import { v4 as uuidv4 } from 'uuid';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import UndoButton from '../../app/ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../store/actions/lobbyActions';
 import { editGameModel } from '../../store/actions/gameActions';
+import { setSpriteEditorGameInstance } from '../../store/actions/pageActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorGameInstance }, game: { gameInstance }, closeSpriteEditor, onSaveSprite }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorAwsId }, page: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -47,7 +47,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEd
     }
     
     const game = new Phaser.Game(config);
-    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: uuidv4(), key: POPUP_SCENE, size }), true);
+    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, key: POPUP_SCENE, size }), true);
     setSpriteEditorGameInstance(game)
 
     return () => {
@@ -57,7 +57,6 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEd
   }, []);
 
   function onSelectColor(hex) {
-    console.log(hex)
     editGameModel({
       colors: {
         [hex]: {
@@ -108,7 +107,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEd
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
-  game: state.game
+  page: state.page
 });
 
 export default connect(mapStateToProps, { clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance })(SpriteEditor);

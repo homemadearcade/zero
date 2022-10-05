@@ -14,7 +14,7 @@ export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
         isGamePaused: true
       }))
     } else {
-      const scene = getCurrentGameScene(getState().game.gameInstance)
+      const scene = getCurrentGameScene(getState().page.gameInstance)
       scene.isPaused = true
     }
   // }
@@ -55,7 +55,7 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
         isGamePaused: false
       }))
     } else {
-      const scene = getCurrentGameScene(getState().game.gameInstance)
+      const scene = getCurrentGameScene(getState().page.gameInstance)
       scene.isPaused = false
     }
   // }

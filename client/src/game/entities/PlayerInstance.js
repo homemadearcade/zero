@@ -11,32 +11,32 @@ export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
     super(scene, id, instanceData)
 
-    this.particles = scene.add.particles('blue');
+    // this.particles = scene.add.particles('blue');
 
-    this.emitter = this.particles.createEmitter({
-      speed: {
-        onEmit: (particle, key, t, value) =>
-        {
-          return this.sprite.body.speed/10;
-        }
-      },
-      lifespan: {
-        onEmit: (particle, key, t, value) =>
-        {
-          return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 40000;
-        }
-      },
-      alpha: {
-        onEmit: (particle, key, t, value) =>
-        {
-          return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 1000;
-        }
-      },
-      scale: { start: 1.0, end: 0 },
-      blendMode: 'ADD'
-    });
+    // this.emitter = this.particles.createEmitter({
+    //   speed: {
+    //     onEmit: (particle, key, t, value) =>
+    //     {
+    //       return this.sprite.body.speed/10;
+    //     }
+    //   },
+    //   lifespan: {
+    //     onEmit: (particle, key, t, value) =>
+    //     {
+    //       return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 40000;
+    //     }
+    //   },
+    //   alpha: {
+    //     onEmit: (particle, key, t, value) =>
+    //     {
+    //       return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 1000;
+    //     }
+    //   },
+    //   scale: { start: 1.0, end: 0 },
+    //   blendMode: 'ADD'
+    // });
 
-    this.emitter.startFollow(this.sprite);
+    // this.emitter.startFollow(this.sprite);
 
     this.scene = scene
     scene.playerInstanceLayer.add(this.sprite)
@@ -208,7 +208,7 @@ export class PlayerInstance extends ObjectInstance {
   destroyInGame() {
     this.setCollideable(false);
     this.setVisible(false)
-    this.particles.setVisible(false)
+    // this.particles.setVisible(false)
     this.interactArea.pause()
   }
 
@@ -220,7 +220,7 @@ export class PlayerInstance extends ObjectInstance {
   respawn() {
     this.setCollideable(true);
     this.setVisible(true)
-    this.particles.setVisible(true)
+    // this.particles.setVisible(true)
   }
 
   destroy() {

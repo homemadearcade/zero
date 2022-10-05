@@ -26,6 +26,8 @@ Prologue 1, 2, Demos ( Spencer please make these at home )
 --
 TODO
 
+Hopping movement that uses initial velociy for hop
+
 Movement
 Relationship UI
 Add Unlockable to everything

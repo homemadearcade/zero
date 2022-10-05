@@ -20,7 +20,6 @@ import {
   CLOSE_SNAPSHOT_TAKER,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
-  SET_SPRITE_EDITOR_GAME_INSTANCE,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
 } from '../types';
@@ -206,15 +205,6 @@ export const closeSelectBackgroundColor= () => (dispatch, getState) => {
     payload: {}
   });
 }
-
-export const setSpriteEditorGameInstance = (gameInstance) => (dispatch, getState) => {
-  dispatch({
-    type: SET_SPRITE_EDITOR_GAME_INSTANCE,
-    payload: {
-      gameInstance
-    }
-  })
-};
 
 export const closeLiveEditor = () => (dispatch, getState) => {
   dispatch({

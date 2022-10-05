@@ -6,7 +6,7 @@ import {
 } from '../types';
 
 export const openConstellation = () => async (dispatch, getState) => {
-  const gameInstance = getState().game.gameInstance
+  const gameInstance = getState().page.gameInstance
 
   if(gameInstance) {
     const scene = getCurrentGameScene(gameInstance)

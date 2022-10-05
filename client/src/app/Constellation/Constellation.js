@@ -7,13 +7,15 @@ import React from 'react';
 import Sketch from 'react-p5';
 import './Constellation.scss'
 
+const stars = 350
+
 export class Constellation extends React.Component {
   state = {}
-  xVel = Array(250);
-  yVel = Array(250);
-  xPos = Array(250);
-  yPos = Array(250);
-  s = Array(250);
+  xVel = Array(stars);
+  yVel = Array(stars);
+  xPos = Array(stars);
+  yPos = Array(stars);
+  s = Array(stars);
   a = 0;
   b = 0;
   c = 100;
@@ -32,22 +34,22 @@ export class Constellation extends React.Component {
 		p5.createCanvas(this.width, this.height).parent(parentRef);
     // size(this.width, 600);
 
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       this.xPos[i] = p5.random(1, this.width);
     }
 
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       this.yPos[i] = p5.random(1, this.height -1);
     }
 
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       this.xVel[i] = p5.random(-10, 10);
     }
 
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       this.yVel[i] = p5.random(-10, 10);
     }
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       this.s[i] = p5.random(1, 4);
     }
 	};
@@ -65,9 +67,9 @@ export class Constellation extends React.Component {
 
     p5.background(0);
     p5.fill(255);
-    if(this.zoom === 1) this.tracker(p5);
+    if(this.zoom <= 1) this.tracker(p5);
 
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       p5.noStroke();
       p5.rect(this.xPos[i], this.yPos[i], this.s[i], this.s[i]);
     }
@@ -86,7 +88,7 @@ export class Constellation extends React.Component {
     }
     p5.stroke (255);
 
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       p5.line (this.xPos[i]+this.p, this.yPos[i], this.xPos[i], this.yPos[i]);
       p5.line (this.xPos[i], this.yPos[i]+this.p, this.xPos[i], this.yPos[i]);
       p5.line (this.xPos[i], this.yPos[i], this.xPos[i]-this.p, this.yPos[i]);
@@ -108,10 +110,12 @@ export class Constellation extends React.Component {
   }
 
   mouseMoved = (p5, event) => {
+    if(this.props.zoomOut) return 
+
     const { clientX: mouseX, clientY: mouseY } = event
 
     
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       if (p5.dist(mouseX, mouseY, this.xPos[i], this.yPos[i]) < 100) {
         this.xPos[i] = this.xPos[i] + p5.random(100);
         this.yPos[i] = this.yPos[i] - p5.random(100);
@@ -134,9 +138,11 @@ export class Constellation extends React.Component {
   }
 
   mouseDragged = (p5, event) => {
+    if(this.props.zoomOut) return 
+
     const { clientX: mouseX, clientY: mouseY } = event
 
-    for (let i=0; i < 250; i++) {
+    for (let i=0; i < stars; i++) {
       if (p5.dist(mouseX, mouseY, this.xPos[i], this.yPos[i]) > 150) {
         this.xPos[i] = this.xPos[i] - p5.random(100);
         this.yPos[i] = this.yPos[i] + p5.random(100);
@@ -153,7 +159,7 @@ export class Constellation extends React.Component {
       }
 
 
-      p5.stroke(100, 200, 250, 40);
+      p5.stroke(100, 200, stars, 40);
       p5.line(mouseX, mouseY, this.xPos[i], this.yPos[i]);
     }
   }
@@ -167,7 +173,10 @@ export class Constellation extends React.Component {
 	render() {
 		return <div className="Constellation">
       <Sketch setup={this.setup} draw={this.draw} mouseDragged={this.mouseDragged} mouseMoved={this.mouseMoved} />
-      {this.props.zoomOutImage && <img className={classNames("Constellation__zoom-out-image", { 'shrink':  this.state.startZoom } )} alt="zooming out game" src={this.props.zoomOutImage}/>}
+      {this.props.zoomOutImage && <>
+        <img className={classNames("Constellation__zoom-out-image", { 'shrink':  this.state.startZoom } )} alt="zooming out game" src={this.props.zoomOutImage}/>
+        <div className={classNames("Constellation__zoom-out-image", { 'shrink starify':  this.state.startZoom } )}/>
+      </>}
     </div>
 	}
 }

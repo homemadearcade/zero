@@ -27,7 +27,6 @@ const initialState = {
   error: null,
   gameModel: null,
   spritesByDescriptor: null,
-  gameInstance: null
 };
 
 export default function gameReducer(state = initialState, { type, payload }) {
@@ -37,11 +36,6 @@ export default function gameReducer(state = initialState, { type, payload }) {
     //     ...state,
     //     isSpriteSheetDataLoaded: false,
     //   };
-    case SET_GAME_INSTANCE:
-      return {
-        ...state,
-        gameInstance: payload.gameInstance
-      };
     case LOAD_GAME_LOADING:
       return {
         ...state,

@@ -20,10 +20,11 @@ import {
   CLOSE_SNAPSHOT_TAKER,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
-  SET_SPRITE_EDITOR_GAME_INSTANCE,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR
 } from '../types';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   error: null,
@@ -40,7 +41,6 @@ const initialState = {
   isSnapshotTakerOpen: false,
   snapshotFileId: null,
   spriteEditorTextureId: null,
-  spriteEditorGameInstance: null,
   isSelectBackgroundColorOpen: false,
   accordianLists: {
     'BrushList': null,
@@ -166,18 +166,13 @@ export default function editorReducer(state = initialState, { type, payload }) {
     case OPEN_SPRITE_EDITOR:
       return {
         ...state,
-        spriteEditorTextureId: payload.textureId
+        spriteEditorTextureId: payload.textureId,
+        spriteEditorAwsId: uuidv4()
       }
     case CLOSE_SPRITE_EDITOR: 
       return {
         ...state,
         spriteEditorTextureId: null,
-        spriteEditorGameInstance: null
-      }
-    case SET_SPRITE_EDITOR_GAME_INSTANCE: 
-      return {
-        ...state,
-        spriteEditorGameInstance: payload.gameInstance
       }
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {
