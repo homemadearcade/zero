@@ -45,6 +45,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
       <Unlockable interfaceId="invisibleClass">
         <FormLabel>Invisible</FormLabel>
         <Switch
+          labels={['Visible', 'Invisible']}
           size="small"
           onChange={(e) => {
             updateCreateClass({ graphics: {
@@ -110,6 +111,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
       <Unlockable interfaceId="interfaceLockedClass">
         <FormLabel>Interface Locked</FormLabel>
         <Switch
+          labels={['Normal', 'Interface Locked']}
           size="small"
           onChange={(e) => {
             updateCreateClass({ interfaceLocked: e.target.checked })          

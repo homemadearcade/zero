@@ -93,7 +93,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
       </Unlockable>}
       {parameters.velocityY && <Unlockable interfaceId="movement/velocity/vertical">
         <SliderNotched
-          formLabel={parameters.velocityY.length ? parameters.velocityY : "Vertical Velocity"}
+          formLabel={parameters.velocityY.length ? parameters.velocityY : "Velocity (Vertical)"}
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
@@ -104,7 +104,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
       </Unlockable>}
       {parameters.velocityX && <Unlockable interfaceId="movement/velocity/horizontal">
         <SliderNotched
-          formLabel={parameters.velocityX.length ? parameters.velocityX : "Horizontal Velocity"}
+          formLabel={parameters.velocityX.length ? parameters.velocityX : "Velocity (Horizontal)"}
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
@@ -126,7 +126,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
       </Unlockable>}
       {parameters.dragY && <Unlockable isSlider interfaceId="movement/sliders/drag/vertical">
         <SliderNotched
-          formLabel="Vertical Slow Down"
+          formLabel="Slow Down (Vertical)"
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
@@ -137,7 +137,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
        </Unlockable>}
        {parameters.dragX && <Unlockable isSlider interfaceId="movement/sliders/drag/horizontal">
         <SliderNotched
-          formLabel="Horizontal Slow Down"
+          formLabel="Slow Down (Horizontal)"
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
@@ -148,7 +148,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
        </Unlockable>}
        {parameters.gravityY && <Unlockable isSlider interfaceId="movement/gravity/vertical">
         <SliderNotched
-          formLabel={parameters.gravityY.length ? parameters.gravityY : "Vertical Gravity"}
+          formLabel={parameters.gravityY.length ? parameters.gravityY : "Gravity (Vertical)"}
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
@@ -159,7 +159,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
       </Unlockable>}
       {parameters.gravityX && <Unlockable isSlider interfaceId="movement/gravity/horizontal">
         <SliderNotched
-          formLabel={parameters.gravityX.length ? parameters.gravityX : "Horizontal Gravity"}
+          formLabel={parameters.gravityX.length ? parameters.gravityX : "Gravity (Horizontal)"}
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
@@ -180,9 +180,9 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
         />
       </Unlockable>}
       <Unlockable interfaceId="movement/toggle/ignoreGravity">
-        <FormLabel>Ignore Gravity</FormLabel>
         <Switch
           size="small"
+          labels={['Gravity', 'No Gravity']}
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { movement: { ignoreGravity: e.target.checked }}}})        
           }}
@@ -190,8 +190,8 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
          />
       </Unlockable>
       {<Unlockable interfaceId="physics/toggle/immovable">
-        <FormLabel>Free Movement</FormLabel>
         <Switch
+          labels={['Collisions', 'No Collisions']}
           size="small"
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        

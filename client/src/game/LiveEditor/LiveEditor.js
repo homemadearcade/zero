@@ -26,7 +26,7 @@ const LiveEditor = ({ closeLiveEditor, openLiveMovementEditor, openLivePhysicsEd
   if(liveEditingCategory === "movement") {
     title = 'Movement'
   } else if(liveEditingCategory === "physics") {
-    title = 'Physics'
+    title = 'Collisions'
   } else if(liveEditingCategory === "projectile") {
     title = 'Projectile'
   } else if(liveEditingCategory === "camera") {
@@ -41,24 +41,24 @@ const LiveEditor = ({ closeLiveEditor, openLiveMovementEditor, openLivePhysicsEd
           <MenuIconButton
             icon={<Icon size="xs" icon={"faChevronDown"} />} 
             menu={(closeMenu) => {
-              return <>
+              return [
                 <MenuItem onClick={() => {
                   openLiveMovementEditor(classIdSelectedLiveEditor)
                   closeMenu()
-                }}>Movement</MenuItem>
+                }}>Movement</MenuItem>,
                 <MenuItem onClick={() => {
                   openLivePhysicsEditor(classIdSelectedLiveEditor)
                   closeMenu()
-                }}>Physics</MenuItem>
-                {objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
+                }}>Collisions</MenuItem>,
+                objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
                   openLiveProjectileEditor(classIdSelectedLiveEditor)
                   closeMenu()
-                }}>Projectile</MenuItem>}
-                {objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
+                }}>Projectile</MenuItem>,
+                objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
                   openLiveCameraEditor(classIdSelectedLiveEditor)
                   closeMenu()
-                }}>Camera</MenuItem>}
-              </>
+                }}>Camera</MenuItem>,
+              ]
             }}
           />
       </>} />}

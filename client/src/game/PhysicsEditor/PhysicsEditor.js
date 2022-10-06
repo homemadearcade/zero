@@ -102,8 +102,8 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           />
       </Unlockable>}
       <Unlockable interfaceId="physics/toggle/notPushable">
-        <FormLabel>Not Pushable</FormLabel>
         <Switch
+          labels={['Pushable', 'Not Pushable']}
           size="small"
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { collisionResponse: { notPushable: e.target.checked } } } })        
@@ -112,8 +112,8 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
          />
       </Unlockable>
       {<Unlockable interfaceId="physics/toggle/immovable">
-        <FormLabel>Free Movement</FormLabel>
         <Switch
+          labels={['Collisions', 'No Collisions']}
           size="small"
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        
@@ -122,8 +122,8 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
          />
       </Unlockable>}
       {<Unlockable interfaceId="physics/toggle/ignoreBoundaries">
-        <FormLabel>Ignore Boundaries</FormLabel>
         <Switch
+          labels={['Boundaried', 'No Boundaries']}
           size="small"
           onChange={(e) => {
             editGameModel({ classes: { [classId]: { collisionResponse: { ignoreWorldBounds: e.target.checked } } } })        

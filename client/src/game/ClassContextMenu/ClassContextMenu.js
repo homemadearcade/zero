@@ -34,7 +34,7 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLivePhysicsE
       <MenuItem onClick={() => {
         openLivePhysicsEditor(classId)
         onMenuItemClick()
-      }}>Edit Collision Response</MenuItem>
+      }}>Edit Collisions</MenuItem>
     </Unlockable>
     {objectClass.type === HERO_CLASS &&
       <Unlockable interfaceId="contextMenu/class/camera">
@@ -58,16 +58,13 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLivePhysicsE
     </Unlockable>
     <Unlockable interfaceId="contextMenu/class/spawn">
       <MenuItem onClick={() => {
-        if(objectClass.unspawned) {
-          editGameModel({
-            classes: {
-              [classId]: {
-                unspawned: !objectClass.unspawned
-              }
+        editGameModel({
+          classes: {
+            [classId]: {
+              unspawned: !objectClass.unspawned
             }
-          })
-        }
- 
+          }
+        })
         onMenuItemClick()
       }}>{objectClass.unspawned ? 'Set as Spawned' : 'Set as Unspawned'}</MenuItem>
     </Unlockable>

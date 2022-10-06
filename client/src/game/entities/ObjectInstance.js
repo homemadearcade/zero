@@ -1,10 +1,11 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_YOU_WIN, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_YOU_WIN, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
 import { Collider } from "./members/Collider";
 import { openCutscene } from "../../store/actions/narrativeActions";
+import { getHexIntFromHexString } from "../../utils/editorUtils";
 
 export class ObjectInstance extends Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
@@ -67,6 +68,10 @@ export class ObjectInstance extends Sprite {
       });
     }
 
+    if(objectClass.graphics.invisible) {
+      this.createInvisibleOutline()
+    }
+
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // COLLISION RESPONSE
@@ -99,14 +104,13 @@ export class ObjectInstance extends Sprite {
     //////////////////////////////////////////////////////////////
     // RELATIONS
     this.collider = new Collider(scene, this, this)
-    this.createSpriteBorder()
+    this.createInteractBorder()
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // LIFECYCLE
     if(objectClass.unspawned) {
-      this.setVisible(false)
-      this.setCollideable(false);
+      this.unspawn()
     } else {
       this.spawn()
     }
@@ -119,10 +123,14 @@ export class ObjectInstance extends Sprite {
     if(this.sprite.highlight) {
       this.sprite.highlight.setDisplaySize(w + 10, h + 10)
     }
-    this.createSpriteBorder()
+    if(this.sprite.unspawnedImage) {
+      this.sprite.unspawnedImage.setDisplaySize(w/2, h/2)
+    }
+
+    this.createInteractBorder()
   }
 
-  createSpriteBorder() {
+  createInteractBorder() {
     if(this.sprite.border) this.sprite.border.destroy()
     const width = this.sprite.displayWidth
     const height = this.sprite.displayHeight
@@ -130,21 +138,51 @@ export class ObjectInstance extends Sprite {
     const cornerY = -height/2
     this.sprite.border = this.scene.add.graphics();
     this.sprite.border.lineStyle(4, 0xffffff, 1);
-    this.sprite.border.strokeRect(cornerX + 4, cornerY + 4, width - 8, height - 8);
+    this.sprite.border.strokeRect(cornerX, cornerY, width, height);
     this.sprite.border.setVisible(false)
     this.scene.uiLayer.add(this.sprite.border)
+  }
+
+  createInvisibleOutline() {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+
+    if(this.sprite.outline) this.sprite.outline.destroy()
+    const width = this.sprite.displayWidth
+    const height = this.sprite.displayHeight
+    const cornerX = -width/2
+    const cornerY = -height/2
+    this.sprite.outline = this.scene.add.graphics();
+    const colorInt = getHexIntFromHexString(objectClass.graphics.tint || '#FFFFFF')
+    this.sprite.outline.lineStyle(4, colorInt, 1);
+    this.sprite.outline.setAlpha(0.5)
+    this.sprite.outline.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
+    this.scene.zoneInstanceLayer.add(this.sprite.outline)
   }
 
   spawn() {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
+    if(this.sprite.unspawnedImage) this.sprite.unspawnedImage.destroy()
     this.setCollideable(true);
     this.setVisible(!objectClass.graphics.invisible)
+    this.setAlpha(1)
     objectClass.relations.forEach(({classId, event, effect}) => {
       if(event === ON_SPAWN) {
         this.runEffect(effect)
       }
     })
+  }
+
+  unspawn() {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+    this.setAlpha(0.2)
+    this.setCollideable(false);
+    this.sprite.unspawnedImage = this.scene.add.image(0, 0, UNSPAWNED_TEXTURE_ID)
+    this.sprite.unspawnedImage.setDisplaySize(objectClass.graphics.width/2, objectClass.graphics.height/2)
+    .setAlpha(0.5)
+    this.scene.objectInstanceLayer.add(this.sprite.unspawnedImage)
   }
 
   destroyInGame() {
@@ -160,6 +198,14 @@ export class ObjectInstance extends Sprite {
 
   update(time, delta) {
     const objectClass = store.getState().game.gameModel.classes[this.classId]
+
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // GRAPHICS
+    if(this.sprite.outline) {
+      this.sprite.outline.setPosition(this.sprite.x, this.sprite.y)
+      this.sprite.outline.setRotation(this.sprite.rotation)
+    }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
@@ -187,6 +233,13 @@ export class ObjectInstance extends Sprite {
     ////////////////////////////////////////
     // MOVEMENT
     this.updateMovement()
+
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // LIFECYCLE
+    if(this.sprite.unspawnedImage) {
+      this.sprite.unspawnedImage.setPosition(this.sprite.x, this.sprite.y)
+    }
   }
 
   updateMovement() {

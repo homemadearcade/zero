@@ -4,6 +4,7 @@ export const ON_MY_VIDEO_QUALITY_STATUS_UPDATE = 'ON_MY_VIDEO_QUALITY_STATUS_UPD
 
 export const DEFAULT_TEXTURE_ID = 'square10x10'
 export const DEFAULT_CLEAR_TEXTURE_ID = 'eraser10x10'
+export const UNSPAWNED_TEXTURE_ID = 'spawn'
 
 export const ADMIN_ROLE = 'ADMIN'
 
