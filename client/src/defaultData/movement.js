@@ -37,23 +37,23 @@ export const movementToParemeters = {
     dragY: true
   },
   [ADVENTURER_CONTROLS]: {
-    speed: true,
+    speed: 'Move Speed',
     dragX: true,
     dragY: true
   },
   [PLATFORMER_CONTROLS]: {
     jumpSpeed: true,
-    speed: true,
+    speed: 'Move Speed',
     dragX: true,
   },
   [FLOATER_CONTROLS]: {
     jumpSpeed: true,
     floatSpeed: true,
-    speed: true,
+    speed: 'Move Speed',
     dragX: true,
   },
   [CAR_CONTROLS]: {
-    speed: true,
+    speed: 'Accelerate/Reverse Speed',
     dragX: true,
     dragY: true
   }
@@ -198,30 +198,35 @@ export const floaterDefaults = {
 
 export const controlsToKeys = {
   [SPACESHIP_CONTROLS]: {
-    speed: true,
-    dragX: true,
-    dragY: true
+    up: 'Thrust',
+    left: 'Rotate Left',
+    right: 'Rotate Right',
+    down: null
   },
   [ADVENTURER_CONTROLS]: {
-    speed: true,
-    dragX: true,
-    dragY: true
+    up: 'Move Up',
+    left: 'Move Left',
+    right: 'Move Right',
+    down: 'Move Down'
   },
   [PLATFORMER_CONTROLS]: {
-    jumpSpeed: true,
-    speed: true,
-    dragX: true,
+    up: 'Jump (On Ground)',
+    left: 'Move Left',
+    right: 'Move Right',
+    down: 'Move Down'
   },
   [FLOATER_CONTROLS]: {
-    jumpSpeed: true,
-    floatSpeed: true,
-    speed: true,
-    dragX: true,
+    up: 'Jump (On Ground)',
+    up2: 'Float (In Air)',
+    left: 'Move Left',
+    right: 'Move Right',
+    down: 'Move Down'
   },
   [CAR_CONTROLS]: {
-    speed: true,
-    dragX: true,
-    dragY: true
+    up: 'Accelerate',
+    left: 'Turn Left',
+    right: 'Turn Right',
+    down: 'Reverse'
   }
 }
 

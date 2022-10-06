@@ -36,10 +36,10 @@ const config= {
     //   },
     // },
     arcade: {
-      // debug: true,
-      // debugShowBody: true,
-      // debugShowStaticBody: true,
-      // debugShowVelocity: true,
+      debug: true,
+      debugShowBody: true,
+      debugShowStaticBody: true,
+      debugShowVelocity: true,
     }
   },
   plugins: {

@@ -3,14 +3,12 @@ TODO
 Relationship UI
 Cutscene UI
 World Effects
-Controls UI. Key Diagrams to show what each version does
 Mini-Relationship View - Icons + Name
 Start Screen for games?/Game Over/You win
 Metadata Button/Menu
 Images Menu Snapshot Button
 Autosave
 onCutsceneEnd Event
-Controls - FLOAT JUMP/CAR
 Duplicate Class
 Multiple Object Stacked Select
 
@@ -29,7 +27,7 @@ AUTOSAVE
 
 TODO ( MAYBE )
 
-Jetpack Controls
+Jetpack Controls. I think car should go and jetback added
 Change UI color option
 
 ---

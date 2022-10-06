@@ -39,6 +39,8 @@ TODO FEATURES ( MAYBE ) BACKlog
 
 Camera change options for 'cutscene'
 
+Make Key Diagrams Responsive
+
 MATTER
   If class is on background or foreground it should have isSensor: true in Constructor
   or - Collision Category?

@@ -11,7 +11,7 @@ const controlsValues = {
   [PLATFORMER_CONTROLS]: platformerDefaults,
   [ADVENTURER_CONTROLS]: adventurerDefaults,
   [SPACESHIP_CONTROLS]: spaceshipDefaults,
-  [CAR_CONTROLS]: carDefaults,
+  // [CAR_CONTROLS]: carDefaults,
   [FLOATER_CONTROLS]: floaterDefaults,
 }
 

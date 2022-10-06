@@ -1,0 +1,16 @@
+.ControlsCard {
+  margin: 1vh 0vh;
+  margin-left: 1vh;
+
+  &__key {
+    display: flex;
+    align-items: center;
+    padding: .5vh 0vh;
+  }
+  &__key-indicator {
+    padding-right: 1.5vh;
+    div {
+      transform: scale(1.7);
+    }
+  }
+}

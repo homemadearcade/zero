@@ -325,9 +325,20 @@ export class Sprite {
     }
   }
 
+  adjustVelocityForRotation() {
+    //Math.abs(this.sprite.body.velocity.x) + Math.abs(this.sprite.body.velocity.y)
+    const rotationalVelocity = this.scene.physics.velocityFromRotation(this.sprite.rotation - Phaser.Math.DegToRad(90), this.sprite.body.speed); 
+
+    // const xVel = (this.sprite.body.velocity.x + rotationalVelocity.x)/2
+    // const yVel = (this.sprite.body.velocity.y + rotationalVelocity.y)/2
+    // console.log(this.sprite.body.speed)
+    this.setPosition(this.sprite.x + (rotationalVelocity.x/10), this.sprite.y + (rotationalVelocity.y/10))
+  }
+
   eject(force) {
     if(this.physicsType === MATTER_PHYSICS) {
       console.log('eject via matter')
+      this.sprite.thrust(force)
     } else {
       this.scene.physics.velocityFromRotation(this.sprite.rotation, force, this.sprite.body.velocity);  
     }

@@ -173,6 +173,8 @@ export default function SelectChipsAuto({onChange, value, options, formLabel}) {
 }
 
 function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
+  const inputRef = React.useRef(null);
+
   const {
     getRootProps,
     getInputLabelProps,
@@ -183,13 +185,14 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
     groupedOptions,
     focused,
     setAnchorEl,
-  } = useAutocomplete({
+  } = useAutocomplete({ 
     id: formLabel,
     value: inheritedValue,
     multiple: true,
     options,
     getOptionLabel: (option) => option.label,
     onChange: (event, selected) => {
+      document.activeElement.blur();
       onChange(event, selected.map(({value}) => value))
     }
   });
@@ -202,7 +205,7 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
           {inheritedValue.map((option, index) => (
             <StyledTag label={option.label} {...getTagProps({ index })} />
           ))}
-          <input {...getInputProps()} />
+          <input {...getInputProps()}/>
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (

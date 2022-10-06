@@ -42,19 +42,19 @@ const LiveEditor = ({ closeLiveEditor, openLiveMovementEditor, openLivePhysicsEd
             icon={<Icon size="xs" icon={"faChevronDown"} />} 
             menu={(closeMenu) => {
               return [
-                <MenuItem onClick={() => {
+                <MenuItem key="Movement" onClick={() => {
                   openLiveMovementEditor(classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Movement</MenuItem>,
-                <MenuItem onClick={() => {
+                <MenuItem key="Collisions" onClick={() => {
                   openLivePhysicsEditor(classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Collisions</MenuItem>,
-                objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
+                objectClass.type === HERO_CLASS && <MenuItem key="Projectile" onClick={() => {
                   openLiveProjectileEditor(classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,
-                objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
+                objectClass.type === HERO_CLASS && <MenuItem key="Camera" onClick={() => {
                   openLiveCameraEditor(classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,

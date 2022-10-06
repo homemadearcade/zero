@@ -107,7 +107,7 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // SPACESHIP
+    // SPACESHIP/CAR
     if(objectClass.movement.controls === SPACESHIP_CONTROLS || objectClass.movement.controls === CAR_CONTROLS) {
       if(this.cursors.left.isDown) {
         this.setAngularVelocity(-speed);
@@ -116,7 +116,7 @@ export class PlayerInstance extends ObjectInstance {
       }
 
       if(this.cursors.up.isDown) {
-        this.thrust(speed * 2);
+          this.thrust(speed * 2);
       } else {
         if(this.cursors.down.isDown && !objectClass.movement.disableDownKey) {
           this.thrust(-(speed * 2));
@@ -159,7 +159,7 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // PLATFORMER
+    // PLATFORMER/FLOATER
     if(objectClass.movement.controls === PLATFORMER_CONTROLS || objectClass.movement.controls === FLOATER_CONTROLS) {
       let xTouched = false 
 
@@ -178,7 +178,6 @@ export class PlayerInstance extends ObjectInstance {
       }
 
       if(this.cursors.up.isDown) {
-        console.log(objectClass.movement)
         if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
           this.setVelocityY(-objectClass.movement.jumpSpeed)
         } else if(objectClass.movement.allowDoubleJump) {

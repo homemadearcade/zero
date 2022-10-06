@@ -14,6 +14,7 @@ import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../app/ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import { HERO_CLASS } from '../../constants';
+import ControlsCard from '../ui/ControlsCard/ControlsCard';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">
 <FormLabel>Ignore Gravity</FormLabel>
@@ -73,6 +74,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
             editGameModel({ classes: { [classId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
+      {classSelected.movement.controls && <ControlsCard controlScheme={classSelected.movement.controls}></ControlsCard>}
       {classSelected.type !== HERO_CLASS && <Unlockable interfaceId="movement/pattern">
         <SelectMovementPattern
           formLabel="Pattern"
@@ -80,6 +82,17 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
           onChange={(event, pattern) => {
             editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})    
           }}/>
+      </Unlockable>}
+      {parameters.speed &&<Unlockable interfaceId="movement/speed">
+        <SliderNotched
+          formLabel={parameters.speed.length ? parameters.speed : "Speed"}
+          options={[1, 5, 20, 100]}
+          step={0.1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { speed: value } }}})        
+          }}
+          value={classSelected.movement.speed}
+        />
       </Unlockable>}
       {parameters.jumpSpeed && <Unlockable interfaceId="movement/jumpSpeed">
         <SliderNotched
@@ -123,17 +136,6 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
             editGameModel({ classes: { [classId]: { movement: { velocityX: value} }}})        
           }}
           value={classSelected.movement.velocityX}
-        />
-      </Unlockable>}
-      {parameters.speed &&<Unlockable interfaceId="movement/speed">
-        <SliderNotched
-          formLabel={parameters.speed.length ? parameters.speed : "Speed"}
-          options={[1, 5, 20, 100]}
-          step={0.1}
-          onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { speed: value } }}})        
-          }}
-          value={classSelected.movement.speed}
         />
       </Unlockable>}
       {parameters.dragY && <Unlockable isSlider interfaceId="movement/sliders/drag/vertical">
@@ -209,6 +211,16 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
             editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        
           }}
           checked={classSelected.collisionResponse.immovable}
+         />
+      </Unlockable>}
+      {<Unlockable interfaceId="advanced/disableDownKey">
+        <Switch
+          labels={['Enable Down', 'Disable Down']}
+          size="small"
+          onChange={(e) => {
+            editGameModel({ classes: { [classId]: { movement: { disableDownKey: e.target.checked }}}})        
+          }}
+          checked={classSelected.movement.disableDownKey}
          />
       </Unlockable>}
     </div>
