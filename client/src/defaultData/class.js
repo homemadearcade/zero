@@ -13,7 +13,9 @@ export const defaultMovement = {
   dragY: 1,
   dragX: 1,
   gravityY: 0,
-  gravityX: 0
+  gravityX: 0,
+  disableDownKey: false,
+  allowDoubleJump: false,
 }
 
 export const defaultCollisionResponse = {

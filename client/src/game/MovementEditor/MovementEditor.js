@@ -46,6 +46,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
   if(seeAllParameters) {
     parameters = {
       jumpSpeed: true,
+      floatSpeed: true,
       velocityX: true,
       velocityY: true,
       speed: true,
@@ -68,8 +69,8 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
         <SelectControls
           formLabel="Controls"
           value={classSelected.movement.controls ? [classSelected.movement.controls] : []}
-          onChange={(event, type) => {
-          editGameModel({ classes: { [classId]: { movement: { controls: type[type.length-1]} } }})        
+          onChange={(event, controls) => {
+            editGameModel({ classes: { [classId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
       {classSelected.type !== HERO_CLASS && <Unlockable interfaceId="movement/pattern">
@@ -80,7 +81,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
             editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})    
           }}/>
       </Unlockable>}
-      {parameters.jumpSpeed && <Unlockable interfaceId="movement/speed">
+      {parameters.jumpSpeed && <Unlockable interfaceId="movement/jumpSpeed">
         <SliderNotched
           formLabel={parameters.jumpSpeed.length ? parameters.jumpSpeed : "Jump Speed"}
           options={[50, 100, 200, 300, 400, 500]}
@@ -89,6 +90,17 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
             editGameModel({ classes: { [classId]: { movement: { jumpSpeed: value } }}})        
           }}
           value={classSelected.movement.jumpSpeed}
+        />
+      </Unlockable>}
+      {parameters.floatSpeed && <Unlockable interfaceId="movement/floatSpeed">
+        <SliderNotched
+          formLabel={parameters.floatSpeed.length ? parameters.floatSpeed : "Float Speed"}
+          options={[10, 50, 100, 200, 300, 400, 500]}
+          step={10}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { floatSpeed: value } }}})        
+          }}
+          value={classSelected.movement.floatSpeed}
         />
       </Unlockable>}
       {parameters.velocityY && <Unlockable interfaceId="movement/velocity/vertical">

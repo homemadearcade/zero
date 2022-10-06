@@ -1,6 +1,12 @@
-import { ADVENTURER_CONTROLS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../constants"
+import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../constants"
 import { defaultMovement } from "./class"
 
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+// PARAMETERS
 export const movementToParemeters = {
   [MOVEMENT_SIDE_TO_SIDE]: {
     velocityX: 'Speed',
@@ -26,7 +32,7 @@ export const movementToParemeters = {
     velocityX: true,
   },
   [SPACESHIP_CONTROLS]: {
-    speed: true,
+    speed: 'Thrust Speed',
     dragX: true,
     dragY: true
   },
@@ -39,10 +45,28 @@ export const movementToParemeters = {
     jumpSpeed: true,
     speed: true,
     dragX: true,
+  },
+  [FLOATER_CONTROLS]: {
+    jumpSpeed: true,
+    floatSpeed: true,
+    speed: true,
+    dragX: true,
+  },
+  [CAR_CONTROLS]: {
+    speed: true,
+    dragX: true,
+    dragY: true
   }
 }
 
-export const sideToSide = {
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+// PATTERNS
+export const sideToSideDefaults = {
   movement: {
     pattern: MOVEMENT_SIDE_TO_SIDE,
     velocityX: 50,
@@ -58,7 +82,7 @@ export const sideToSide = {
   }
 }
 
-export const upAndDown = {
+export const upAndDownDefaults = {
   movement: {
     pattern: MOVEMENT_UP_AND_DOWN,
     velocityX: 0,
@@ -74,7 +98,7 @@ export const upAndDown = {
   }
 }
 
-export const turnOnCollide = {
+export const turnOnCollideDefaults = {
   movement: {
     pattern: MOVEMENT_TURN_ON_COLLIDE,
     gravityY: 0,
@@ -85,7 +109,7 @@ export const turnOnCollide = {
   },
 }
 
-export const followPlayer = {
+export const followPlayerDefaults = {
   movement: {
     pattern: MOVEMENT_FOLLOW_PLAYER,
     velocityX: 0,
@@ -98,7 +122,7 @@ export const followPlayer = {
   },
 }
 
-export const jump = {
+export const jumpDefaults = {
   movement: {
     pattern: MOVEMENT_JUMP,
     gravityY: 50,
@@ -112,6 +136,92 @@ export const jump = {
   }
 }
 
-export const none = {
+export const noneDefaults = {
   ...defaultMovement
 }
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+// CONTROLS
+export const spaceshipDefaults = {
+  movement: {
+    controls: SPACESHIP_CONTROLS,
+    dragX: 0.25,
+    dragY: 0.25,
+    disableDownKey: true,
+    allowDoubleJump: false,
+  },
+}
+
+export const platformerDefaults = {
+  movement: {
+    controls: PLATFORMER_CONTROLS,
+    dragX: 0.1,
+    dragY: 1,
+    allowDoubleJump: false,
+    disableDownKey: false,
+  },
+}
+
+export const adventurerDefaults = {
+  movement: {
+    controls: ADVENTURER_CONTROLS,
+    allowDoubleJump: false,
+    disableDownKey: false,
+    dragX: 0,
+    dragY: 0,
+  },
+}
+
+export const carDefaults = {
+  movement: {
+    controls: CAR_CONTROLS,
+    allowDoubleJump: false,
+    disableDownKey: false,
+    dragX: 0.25,
+    dragY: 0.25,
+  },
+}
+
+export const floaterDefaults = {
+  movement: {
+    controls: FLOATER_CONTROLS,
+    allowDoubleJump: true,
+    disableDownKey: false,
+    dragX: 0.1,
+    dragY: 1,
+  },
+}
+
+export const controlsToKeys = {
+  [SPACESHIP_CONTROLS]: {
+    speed: true,
+    dragX: true,
+    dragY: true
+  },
+  [ADVENTURER_CONTROLS]: {
+    speed: true,
+    dragX: true,
+    dragY: true
+  },
+  [PLATFORMER_CONTROLS]: {
+    jumpSpeed: true,
+    speed: true,
+    dragX: true,
+  },
+  [FLOATER_CONTROLS]: {
+    jumpSpeed: true,
+    floatSpeed: true,
+    speed: true,
+    dragX: true,
+  },
+  [CAR_CONTROLS]: {
+    speed: true,
+    dragX: true,
+    dragY: true
+  }
+}
+

@@ -12,6 +12,7 @@ Autosave
 onCutsceneEnd Event
 Controls - FLOAT JUMP/CAR
 Duplicate Class
+Multiple Object Stacked Select
 
 --
 HOW TO
@@ -26,11 +27,15 @@ AUTOSAVE
 
 ------
 
-TODO CHORES 
+TODO ( MAYBE )
 
+Jetpack Controls
 Change UI color option
 
-Multiple Object Stacked Select
+---
+
+TODO CHORES 
+
 
 Move properties into objects based on Member
 

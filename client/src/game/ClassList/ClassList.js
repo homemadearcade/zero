@@ -83,6 +83,7 @@ const ClassList = ({
         type: NPC_CLASS,
         movement: {
           pattern: MOVEMENT_TURN_ON_COLLIDE,
+          velocityX: 50,
         },
         collisionResponse: {
           bounciness: 0.5,

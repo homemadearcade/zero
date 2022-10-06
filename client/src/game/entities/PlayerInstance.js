@@ -5,7 +5,7 @@ import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
 import { InteractArea } from "./members/InteractArea";
-import { ADVENTURER_CONTROLS, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../../constants";
+import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -108,7 +108,7 @@ export class PlayerInstance extends ObjectInstance {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // SPACESHIP
-    if(objectClass.movement.controls === SPACESHIP_CONTROLS) {
+    if(objectClass.movement.controls === SPACESHIP_CONTROLS || objectClass.movement.controls === CAR_CONTROLS) {
       if(this.cursors.left.isDown) {
         this.setAngularVelocity(-speed);
       } else if(this.cursors.right.isDown) {
@@ -118,7 +118,11 @@ export class PlayerInstance extends ObjectInstance {
       if(this.cursors.up.isDown) {
         this.thrust(speed * 2);
       } else {
-        this.setAcceleration(0)
+        if(this.cursors.down.isDown && !objectClass.movement.disableDownKey) {
+          this.thrust(-(speed * 2));
+        } else {
+          this.setAcceleration(0)
+        }
       }
     }
 
@@ -156,7 +160,7 @@ export class PlayerInstance extends ObjectInstance {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // PLATFORMER
-    if(objectClass.movement.controls === PLATFORMER_CONTROLS) {
+    if(objectClass.movement.controls === PLATFORMER_CONTROLS || objectClass.movement.controls === FLOATER_CONTROLS) {
       let xTouched = false 
 
       if(this.cursors.left.isDown) {
@@ -173,8 +177,13 @@ export class PlayerInstance extends ObjectInstance {
         this.setVelocityY(this.sprite.body.velocity.y + speed * mod)
       }
 
-      if(this.cursors.up.isDown && (this.sprite.body.touching.down || this.sprite.body.blocked.down)) {
-        this.setVelocityY(-objectClass.movement.jumpSpeed)
+      if(this.cursors.up.isDown) {
+        console.log(objectClass.movement)
+        if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
+          this.setVelocityY(-objectClass.movement.jumpSpeed)
+        } else if(objectClass.movement.allowDoubleJump) {
+          this.setVelocityY(-objectClass.movement.floatSpeed)
+        }
       }
 
       if(!xTouched) this.setAccelerationX(0)

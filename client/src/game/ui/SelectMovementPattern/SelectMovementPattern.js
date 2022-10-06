@@ -4,16 +4,16 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectMovementPattern.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { followPlayer, jump, none, sideToSide, turnOnCollide, upAndDown } from '../../../defaultData/movement';
+import { followPlayerDefaults, jumpDefaults, noneDefaults, sideToSideDefaults,turnOnCollideDefaults, upAndDownDefaults } from '../../../defaultData/movement';
 import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN } from '../../../constants';
 
 const movementPatterns = {
-  [MOVEMENT_UP_AND_DOWN]: upAndDown,
-  [MOVEMENT_SIDE_TO_SIDE]: sideToSide,
-  [MOVEMENT_TURN_ON_COLLIDE]: turnOnCollide,
-  [MOVEMENT_JUMP]: jump,
-  [MOVEMENT_FOLLOW_PLAYER]: followPlayer,
-  [MOVEMENT_NONE]: none,
+  [MOVEMENT_UP_AND_DOWN]: upAndDownDefaults,
+  [MOVEMENT_SIDE_TO_SIDE]: sideToSideDefaults,
+  [MOVEMENT_TURN_ON_COLLIDE]: turnOnCollideDefaults,
+  [MOVEMENT_JUMP]: jumpDefaults,
+  [MOVEMENT_FOLLOW_PLAYER]: followPlayerDefaults,
+  [MOVEMENT_NONE]: noneDefaults,
 }
 
 const movementPatternToLabel = {

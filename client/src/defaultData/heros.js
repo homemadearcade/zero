@@ -1,5 +1,6 @@
 import { ADVENTURER_CONTROLS, CAR_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, FLOATER_CONTROLS, HERO_CLASS, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
 import { defaultObjectClass } from "./class"
+import { adventurerDefaults, carDefaults, floaterDefaults, platformerDefaults, spaceshipDefaults } from "./movement"
 
 export const defaultHeroClass = {
   ...defaultObjectClass,
@@ -33,9 +34,7 @@ export const spaceshipClass = {
     "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
   },
   "movement": {
-    controls: SPACESHIP_CONTROLS,
-    "dragX": 0.25,
-    "dragY": 0.25,
+    ...spaceshipDefaults.movement
   },
 }
 
@@ -47,10 +46,7 @@ export const platformerClass = {
     "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
   movement: {
-    controls: PLATFORMER_CONTROLS,
-    "dragX": 0.1,
-    "dragY": 1,
-    disableUpKeyMovement: true,
+    ...platformerDefaults.movement
   },
 }
 
@@ -62,9 +58,7 @@ export const adventurerClass = {
     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },
   movement: {
-    controls: ADVENTURER_CONTROLS,
-    "dragX": 0,
-    "dragY": 0,
+    ...adventurerDefaults.movement
   },
 }
 
@@ -73,12 +67,10 @@ export const carClass = {
   classId: 'car',
   name: 'car',
   graphics: {
-    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
+    "textureId": "kenney-roguelike-environment-16px-sprite1112",
   },
   "movement": {
-    controls: CAR_CONTROLS,
-    "dragX": 0.25,
-    "dragY": 0.25,
+    ...carDefaults.movement
   },
 }
 
@@ -87,11 +79,9 @@ export const floaterClass = {
   classId: 'floater',
   name: 'floater',
   graphics: {
-    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
+    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite206",
   },
   "movement": {
-    controls: FLOATER_CONTROLS,
-    "dragX": 0.25,
-    "dragY": 0.25,
+    ...floaterDefaults.movement
   },
 }
