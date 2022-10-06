@@ -52,6 +52,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
       gravityY: true,
       dragX: true,
       dragY: true,
+      bounce: true
     }
   }
 
@@ -165,6 +166,17 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
             editGameModel({ classes: { [classId]: { movement: { gravityX: value} }}})        
           }}
           value={classSelected.movement.gravityX}
+        />
+      </Unlockable>}
+      {parameters.bounce && <Unlockable isSlider interfaceId="physics/sliders/bounce">
+        <SliderNotched
+          formLabel="Bounce"
+          step={0.05}
+          options={[0, .25, .5, .75, 1]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { collisionResponse: { bounciness: value } }}})        
+          }}
+          value={classSelected.collisionResponse.bounciness}
         />
       </Unlockable>}
       <Unlockable interfaceId="movement/toggle/ignoreGravity">

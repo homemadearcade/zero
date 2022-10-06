@@ -37,6 +37,8 @@ Unlock snap to grid?
 
 TODO FEATURES ( MAYBE ) BACKlog
 
+Camera change options for 'cutscene'
+
 MATTER
   If class is on background or foreground it should have isSensor: true in Constructor
   or - Collision Category?
@@ -66,6 +68,8 @@ For all these util functions, I need to rethink how utils are done, is there obj
 --------------------------------------------------------------------------------------
 
 TODO CHORES BACKLOG
+
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for spaceship mode 
 
 Look up x, y, on sprite should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 

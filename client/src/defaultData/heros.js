@@ -33,7 +33,7 @@ export const spaceshipClass = {
     "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
   },
   "movement": {
-    pattern: SPACESHIP_CONTROLS,
+    controls: SPACESHIP_CONTROLS,
     "dragX": 0.25,
     "dragY": 0.25,
   },
@@ -47,7 +47,7 @@ export const platformerClass = {
     "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
   movement: {
-    type: PLATFORMER_CONTROLS,
+    controls: PLATFORMER_CONTROLS,
     "dragX": 0.1,
     "dragY": 1,
     disableUpKeyMovement: true,
