@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_YOU_WIN, EFFECT_GAME_OVER } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_YOU_WIN, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -29,11 +29,31 @@ export class ObjectInstance extends Sprite {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
+    // EDITOR
+    this.sprite.setInteractive();
+    scene.input.setDraggable(this.sprite)
+    if(!spriteSheetName) {
+      this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
+    } else {
+      this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
+    }
+    this.sprite.highlight.setTintFill(0xffffff)
+    .setDisplaySize(objectClass.graphics.width + 10, objectClass.graphics.height + 10)
+    .setVisible(false).setDepth(OBJECT_INSTANCE_CANVAS_DEPTH-1)
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
     // GRAPHICS
     if(objectClass.graphics.tint) this.setTint(objectClass.graphics.tint)
     this.setVisible(!objectClass.graphics.invisible)
     this.setSize(objectClass.graphics.width, objectClass.graphics.height)
-    scene.objectInstanceLayer.add(this.sprite)
+    if(objectClass.type === OBJECT_CLASS ||objectClass.type === NPC_CLASS) {
+      scene.objectInstanceLayer.add(this.sprite)
+    } else if(objectClass.type === HERO_CLASS) {
+      scene.playerInstanceLayer.add(this.sprite)
+    } else if(objectClass.type === ZONE_CLASS) {
+      scene.zoneInstanceLayer.add(this.sprite)
+    }
 
     if(objectClass.graphics.glowing) {
       var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(this.sprite);
@@ -63,20 +83,6 @@ export class ObjectInstance extends Sprite {
     }
     this.setCollideIgnoreSides(objectClass.collisionResponse.ignoreSides)
 
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // EDITOR
-    this.sprite.setInteractive();
-    scene.input.setDraggable(this.sprite)
-    if(!spriteSheetName) {
-      this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
-    } else {
-      this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
-    }
-    this.sprite.highlight.setTintFill(0xffffff)
-    .setDisplaySize(objectClass.graphics.width + 10, objectClass.graphics.height + 10)
-    .setVisible(false)
-    this.sprite.highlight.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH - 1)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -351,7 +357,7 @@ export class ObjectInstance extends Sprite {
     } else if(effect.id === EFFECT_YOU_WIN) {
 
     } else if(effect.id === EFFECT_GAME_OVER) {
-      
+
     }
     
     // GRAPHICS

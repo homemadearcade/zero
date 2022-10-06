@@ -8,10 +8,10 @@ import Icon from '../../ui/Icon/Icon';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
-import { Fade, Grow, MenuItem } from '@mui/material';
+import { Fade, MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing }}) => {
+const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing }, width, height}) => {
 
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
@@ -58,6 +58,12 @@ const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, u
     </div>
   }
 
+  function renderChildren() {
+    return React.Children.map(children, (child, index) => {
+      return <Fade in><div>{React.cloneElement(child, {width, height})}</div></Fade>
+    })
+  }
+
   if(isObscured) {
     if(hideIfObscured) {
       return null
@@ -78,25 +84,25 @@ const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, u
   if(isLockToggleable) {
     if(isTiny) {
       if(isUnlocked) {
-        return children
+        return renderChildren()
       }
       
       return <ToggleLockMenu/>
     }
 
     return <div className={customClassName + " Unlockable Unlockable--unlocked"}>
-      {!isObscured && children}
+      {!isObscured && renderChildren()}
       {/* not enough space to have unlockable icon when its unlocked */}
       {!hideLockToggle && <ToggleLockMenu/>}
     </div>
   }
 
-  if(isUnlocked) {
-    // if(isTiny) return children
-    return <Grow in><div className={customClassName}>{children}</div></Grow>
-  }
+  // if(isUnlocked) {
+  //   // if(isTiny) return children
+  //   return <Grow in>{children}</Grow>
+  // }
 
-  return <div className={customClassName}>{children}</div>
+  return renderChildren()
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

@@ -40,7 +40,6 @@ const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 
   return (
     <div className="CameraEditor">
-      <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
       <Unlockable isSlider interfaceId="camera/zoom">
         <SliderNotched
           formLabel="Zoom"

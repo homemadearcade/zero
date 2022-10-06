@@ -58,7 +58,6 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
 
   return (
     <div className="MovementEditor">
-      <ClassMemberTitle title="Movement" classId={classId}/>
       <Unlockable interfaceId="movement/masterToggle">
         <Button onClick={() => {
         setSeeAllParameters(!seeAllParameters)

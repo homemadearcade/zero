@@ -21,13 +21,14 @@ export default function BorderedGrid({maxItems, items, size, width, height}) {
           },
         }}
       >
-        {[...Array(maxItems)].map((_, index) => (
-          <Grid key={index} sx={{p: 0}}>
-            <div style={{width: width || size, height: height || size}}>
-              {items[index] ? items[index] : null}
+        {[...Array(maxItems)].map((_, index) => {
+          const style = {width: width || size, height: height || size}
+          return <Grid key={index} sx={{p: 0}}>
+            <div style={style}>
+              {items[index] ? React.cloneElement(items[index], {width, height}) : null}
             </div>
           </Grid>
-        ))}
+        })}
       </Grid>
     </Box>
   )

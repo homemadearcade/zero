@@ -3,12 +3,13 @@ import { faMicrophone, faMicrophoneSlash, faGear, faVideo, faVideoSlash } from '
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { faWarning, faEraser, faCheck } from '@fortawesome/free-solid-svg-icons'
-import { faEye, faCrown, faArrowPointer, faDownload, faUpload, faWindowMaximize } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faCrown, faArrowPointer, faChevronDown, faDownload, faUpload, faWindowMaximize } from '@fortawesome/free-solid-svg-icons'
 import { faBars, faHammer, faEyeDropper } from '@fortawesome/free-solid-svg-icons'
 import { faEyeSlash, faStar, faPlus, faMask, faHouseLaptop, faStop, faRotateLeft, faDesktop, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const iconMap = {
+  faChevronDown,
   faEyeDropper,
   faArrowDown,
   faTableCells,

@@ -1,4 +1,4 @@
-import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_STICK_TO, MOVEMENT_NONE, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP } from "../constants";
+import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_STICK_TO, HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP, ZONE_CLASS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -32,6 +32,7 @@ export const defaultCollisionResponse = {
 
 export const defaultObjectClass = {
   unspawned: false,
+  locked: false,
   worldBoundaryRelationship: WORLD_COLLIDE,
   relations: [],
   movement: {
@@ -60,4 +61,11 @@ export const defaultObjectClass = {
     lerpX: 0.09,
     lerpY: 0.09,
   },
+}
+
+export const classTypeToDisplayName = {
+  [HERO_CLASS]: 'Player',
+  [OBJECT_CLASS]: 'Object',
+  [ZONE_CLASS]: 'Zone',
+  [NPC_CLASS]: 'NPC'
 }

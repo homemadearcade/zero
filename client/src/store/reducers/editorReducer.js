@@ -44,6 +44,7 @@ const initialState = {
   isSelectBackgroundColorOpen: false,
   accordianLists: {
     'BrushList': null,
+    'ClassList': null
   }
 };
 

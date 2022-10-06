@@ -58,7 +58,6 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 
   return (
     <div className="PhysicsEditor">
-      <Typography component="h5" variant="h5">Editing Class {classId}</Typography>
       <Unlockable isSlider interfaceId="physics/sliders/bounce">
         <SliderNotched
           formLabel="Bounce"

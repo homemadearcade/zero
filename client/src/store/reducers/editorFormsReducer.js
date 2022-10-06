@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { mergeDeep } from '../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,
@@ -83,7 +84,7 @@ export default function editorFormsReducer(state = initialState, { type, payload
       return {
         ...state,
         class: {
-          ...initialState.class,
+          ..._.cloneDeep(initialState.class),
           ...payload.initialClass
         },
         isCreateClassFlowOpen: true
@@ -118,6 +119,7 @@ export default function editorFormsReducer(state = initialState, { type, payload
         isCreateBrushFlowOpen: false
       }
     case CLEAR_EDITOR_FORMS:
+      console.log(initialState)
       return initialState
     default:
       return state;

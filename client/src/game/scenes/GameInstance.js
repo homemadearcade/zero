@@ -4,7 +4,7 @@ import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
 import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ARCADE_PHYSICS } from '../../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { nodeSize } from '../../defaultData/general';
@@ -184,6 +184,9 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstanceLayer.setDepth(HERO_INSTANCE_CANVAS_DEPTH)
     this.playerInstanceGroup = this.add.group()
 
+    this.zoneInstanceLayer = this.add.layer();
+    this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
+
     // FOREGROUND layer
     this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
     this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
@@ -268,6 +271,9 @@ export class GameInstance extends Phaser.Scene {
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
+    this.objectInstanceLayer.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
+    this.playerInstanceLayer.setVisible(layerVisibility[HERO_INSTANCE_CANVAS_ID])
+    this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {
       object.update(time, delta);

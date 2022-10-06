@@ -39,7 +39,6 @@ export class PlayerInstance extends ObjectInstance {
     // this.emitter.startFollow(this.sprite);
 
     this.scene = scene
-    scene.playerInstanceLayer.add(this.sprite)
     scene.playerInstanceGroup.add(this.sprite)
 
     this.cursors = scene.input.keyboard.createCursorKeys();

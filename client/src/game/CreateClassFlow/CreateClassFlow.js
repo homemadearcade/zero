@@ -14,6 +14,10 @@ import ClassNameForm from '../ui/ClassNameForm/ClassNameForm';
 import { getClassDisplayName } from '../../utils/gameUtils';
 import { v4 as uuidv4 } from 'uuid';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
+import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
+import { classTypeToDisplayName } from '../../defaultData/class';
+import Switch from '../../app/ui/Switch/Switch';
+import FormLabel from '../../app/ui/FormLabel/FormLabel';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, closeCreateClassFlow, editorForms: { class: objectClass } }) => {
   const [isNewClass, setIsNewClass] = useState(null)
@@ -34,7 +38,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateClassFlow">
-      {isNewClass === true && <Typography component="h2" variant="h2">New {objectClass.type.charAt(0).toUpperCase() + objectClass.type.slice(1)}</Typography>}
+      {isNewClass === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
       {isNewClass === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
       <SelectDescriptors
         onChange={(event, descriptors) => {
@@ -71,6 +75,16 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
         textureIdSelected={objectClass.graphics.textureId}
       />
       <ClassNameForm/>
+      <Unlockable interfaceId="hiddenClass">
+        <FormLabel>Locked</FormLabel>
+        <Switch
+          size="small"
+          onChange={(e) => {
+            updateCreateClass({ locked: e.target.checked })          
+          }}
+          checked={objectClass.locked}
+         />
+      </Unlockable>
       <Button
         disabled={!!objectClass.error || !objectClass.name.length}
         onClick={() => {

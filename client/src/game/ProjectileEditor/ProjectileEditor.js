@@ -5,7 +5,6 @@ import { editGameModel } from '../../store/actions/gameActions';
 
 import './ProjectileEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
-import { Typography } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../ui/SelectClass/SelectClass';
 
@@ -15,7 +14,6 @@ const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 
   return (
     <div className="ProjectileEditor">
-      <Typography component="h5" variant="h5">Projectile</Typography>
       <Unlockable interfaceId="projectile/class">
         <SelectClass 
           formLabel="Projectile Class"

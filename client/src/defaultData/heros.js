@@ -1,4 +1,4 @@
-import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
+import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, HERO_CLASS, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
 import { defaultObjectClass } from "./class"
 
 export const defaultHeroClass = {
@@ -22,7 +22,7 @@ export const defaultHeroClass = {
       sides: [SIDE_UP]
     }
   ],
-  type: 'hero'
+  type: HERO_CLASS,
 }
 
 export const spaceshipClass = {
