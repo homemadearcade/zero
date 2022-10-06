@@ -121,7 +121,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
-      {<Unlockable interfaceId="physics/toggle/ignoreBoundaries">
+      {<Unlockable interfaceId="advanced/ignoreBoundaries physics/toggle/ignoreBoundaries">
         <Switch
           labels={['Boundaried', 'No Boundaries']}
           size="small"

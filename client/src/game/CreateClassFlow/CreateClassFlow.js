@@ -42,8 +42,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
     <div className="CreateClassFlow">
       {isNewClass === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
       {isNewClass === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
-      <Unlockable interfaceId="invisibleClass">
-        <FormLabel>Invisible</FormLabel>
+      <Unlockable interfaceId="advanced/invisibleClass">
         <Switch
           labels={['Visible', 'Invisible']}
           size="small"
@@ -108,8 +107,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
         />
       }
       <ClassNameForm/>
-      <Unlockable interfaceId="interfaceLockedClass">
-        <FormLabel>Interface Locked</FormLabel>
+      {isNewClass && <Unlockable interfaceId="advanced/interfaceLockedClass">
         <Switch
           labels={['Normal', 'Interface Locked']}
           size="small"
@@ -118,7 +116,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
           }}
           checked={objectClass.interfaceLocked}
          />
-      </Unlockable>
+      </Unlockable>}
       <Button
         disabled={!!objectClass.error || !objectClass.name.length}
         onClick={() => {

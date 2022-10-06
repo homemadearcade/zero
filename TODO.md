@@ -4,16 +4,14 @@ Relationship UI
 Cutscene UI
 World Effects
 Controls UI. Key Diagrams to show what each version does
-Unspawned - Class Level - https://fontawesome.com/icons/location-crosshairs?s=solid&f=classic
 Mini-Relationship View - Icons + Name
 Start Screen for games?/Game Over/You win
 Metadata Button/Menu
 Images Menu Snapshot Button
 Autosave
 onCutsceneEnd Event
-Controls - FLOAT JUMP
+Controls - FLOAT JUMP/CAR
 Duplicate Class
-Images/Snapshot Button/Menu
 
 --
 HOW TO
@@ -30,7 +28,7 @@ AUTOSAVE
 
 TODO CHORES 
 
-Change UI color
+Change UI color option
 
 Multiple Object Stacked Select
 

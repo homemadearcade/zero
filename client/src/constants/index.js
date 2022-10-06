@@ -143,3 +143,10 @@ export const SPACESHIP_CONTROLS = 'SPACESHIP_CONTROLS'
 export const PLATFORMER_CONTROLS = 'PLATFORMER_CONTROLS'
 export const FLOATER_CONTROLS = 'FLOATER_CONTROLS'
 export const ADVENTURER_CONTROLS = 'ADVENTURER_CONTROLS'
+
+/////////////////////////////////////
+/////////////////////////////////////
+// CUTSCENES
+export const TEXT_CUTSCENE = 'TEXT_CUTSCENE'
+export const IMAGE_CUTSCENE = 'IMAGE_CUTSCENE'
+export const IMAGE_AND_TEXT_CUTSCENE = 'IMAGE_AND_TEXT_CUTSCENE'

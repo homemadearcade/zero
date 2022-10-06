@@ -638,7 +638,20 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(classUpdate.unspawned !== undefined || 
+      // if(classUpdate.unspawned !== undefined) {
+      //   if(classUpdate.unspawned) {
+      //     this.forAllObjectInstancesMatchingClassId(id, (object) => {
+      //       object.unspawn()
+      //     })
+      //   } else {
+      //     this.forAllObjectInstancesMatchingClassId(id, (object) => {
+      //       object.spawn()
+      //     })
+      //   }
+      // }
+
+      if(
+        classUpdate.unspawned !== undefined ||
         classUpdate.worldBoundaryRelationship || 
         classUpdate.graphics?.textureId ||
         classUpdate.movement?.pattern !== undefined ||

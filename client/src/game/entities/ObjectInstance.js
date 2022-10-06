@@ -48,13 +48,7 @@ export class ObjectInstance extends Sprite {
     if(objectClass.graphics.tint) this.setTint(objectClass.graphics.tint)
     this.setVisible(!objectClass.graphics.invisible)
     this.setSize(objectClass.graphics.width, objectClass.graphics.height)
-    if(objectClass.type === OBJECT_CLASS ||objectClass.type === NPC_CLASS) {
-      scene.objectInstanceLayer.add(this.sprite)
-    } else if(objectClass.type === HERO_CLASS) {
-      scene.playerInstanceLayer.add(this.sprite)
-    } else if(objectClass.type === ZONE_CLASS) {
-      scene.zoneInstanceLayer.add(this.sprite)
-    }
+    this.addToTypeLayer(this.sprite)
 
     if(objectClass.graphics.glowing) {
       var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(this.sprite);
@@ -68,7 +62,10 @@ export class ObjectInstance extends Sprite {
       });
     }
 
+    // IF EDITOR
     if(objectClass.graphics.invisible) {
+      this.setVisible(true) 
+      this.setAlpha(0.1)
       this.createInvisibleOutline()
     }
 
@@ -118,6 +115,19 @@ export class ObjectInstance extends Sprite {
     return this
   }
 
+  addToTypeLayer(sprite) {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+
+    if(objectClass.type === OBJECT_CLASS ||objectClass.type === NPC_CLASS) {
+      this.scene.objectInstanceLayer.add(sprite)
+    } else if(objectClass.type === HERO_CLASS) {
+      this.scene.playerInstanceLayer.add(sprite)
+    } else if(objectClass.type === ZONE_CLASS) {
+      this.scene.zoneInstanceLayer.add(sprite)
+    }
+  }
+
   setSize(w, h) {
     super.setSize(w, h)
     if(this.sprite.highlight) {
@@ -125,6 +135,12 @@ export class ObjectInstance extends Sprite {
     }
     if(this.sprite.unspawnedImage) {
       this.sprite.unspawnedImage.setDisplaySize(w/2, h/2)
+    }
+    // IF EDITOR
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+    if(objectClass.graphics.invisible) {
+      this.createInvisibleOutline()
     }
 
     this.createInteractBorder()
@@ -157,16 +173,25 @@ export class ObjectInstance extends Sprite {
     this.sprite.outline.lineStyle(4, colorInt, 1);
     this.sprite.outline.setAlpha(0.5)
     this.sprite.outline.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    this.scene.zoneInstanceLayer.add(this.sprite.outline)
+    this.addToTypeLayer(this.sprite.outline)
   }
 
   spawn() {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
-    if(this.sprite.unspawnedImage) this.sprite.unspawnedImage.destroy()
+    if(this.sprite.unspawnedImage) {
+      this.sprite.unspawnedImage.destroy()
+    }
     this.setCollideable(true);
     this.setVisible(!objectClass.graphics.invisible)
-    this.setAlpha(1)
+
+    // IF EDITOR
+    if(objectClass.graphics.invisible) {
+      this.setVisible(true) 
+      this.setAlpha(0.1)
+      this.createInvisibleOutline()
+    }
+
     objectClass.relations.forEach(({classId, event, effect}) => {
       if(event === ON_SPAWN) {
         this.runEffect(effect)
@@ -177,12 +202,14 @@ export class ObjectInstance extends Sprite {
   unspawn() {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
-    this.setAlpha(0.2)
     this.setCollideable(false);
+
+    // IF EDITOR
+    this.setAlpha(0.2)
     this.sprite.unspawnedImage = this.scene.add.image(0, 0, UNSPAWNED_TEXTURE_ID)
     this.sprite.unspawnedImage.setDisplaySize(objectClass.graphics.width/2, objectClass.graphics.height/2)
     .setAlpha(0.5)
-    this.scene.objectInstanceLayer.add(this.sprite.unspawnedImage)
+    this.addToTypeLayer(this.sprite.unspawnedImage)
   }
 
   destroyInGame() {
@@ -322,6 +349,8 @@ export class ObjectInstance extends Sprite {
   }
 
   destroy() {
+    if(this.sprite.outline) this.sprite.outline.destroy()
+    if(this.sprite.unspawnedImage) this.sprite.unspawnedImage.destroy()
     this.sprite.highlight.destroy()
     this.sprite.border.destroy()
     super.destroy()

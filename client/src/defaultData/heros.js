@@ -1,4 +1,4 @@
-import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, HERO_CLASS, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
+import { ADVENTURER_CONTROLS, CAR_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, FLOATER_CONTROLS, HERO_CLASS, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
 import { defaultObjectClass } from "./class"
 
 export const defaultHeroClass = {
@@ -65,5 +65,33 @@ export const adventurerClass = {
     controls: ADVENTURER_CONTROLS,
     "dragX": 0,
     "dragY": 0,
+  },
+}
+
+export const carClass = {
+  ...defaultHeroClass,
+  classId: 'car',
+  name: 'car',
+  graphics: {
+    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
+  },
+  "movement": {
+    controls: CAR_CONTROLS,
+    "dragX": 0.25,
+    "dragY": 0.25,
+  },
+}
+
+export const floaterClass = {
+  ...defaultHeroClass,
+  classId: 'floater',
+  name: 'floater',
+  graphics: {
+    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
+  },
+  "movement": {
+    controls: FLOATER_CONTROLS,
+    "dragX": 0.25,
+    "dragY": 0.25,
   },
 }
