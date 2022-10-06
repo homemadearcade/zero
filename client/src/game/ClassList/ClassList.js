@@ -38,7 +38,7 @@ const ClassList = ({
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
-    if(currentClass.locked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
+    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
       {el}
     </Unlockable>
 
@@ -70,7 +70,7 @@ const ClassList = ({
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
-    if(currentClass.locked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
+    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
       {el}
     </Unlockable> 
     
@@ -100,7 +100,7 @@ const ClassList = ({
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
-    if(currentClass.locked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
+    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
       {el}
     </Unlockable>
 
@@ -123,7 +123,7 @@ const ClassList = ({
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId} />
     const currentClass = classes[currentClassId]
-    if(currentClass.locked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
+    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name}>
       {el}
     </Unlockable>
 
@@ -227,7 +227,7 @@ const ClassList = ({
               name: objectClass.name,
               classId: objectClass.classId,
               type: objectClass.type,
-              locked: objectClass.locked
+              interfaceLocked: objectClass.interfaceLocked
             }
           }
         })

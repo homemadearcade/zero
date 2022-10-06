@@ -16,7 +16,6 @@ import {
   ON_GAME_MODEL_UPDATE,
   GET_SPRITESHEET_DATA_FAIL,
   GET_SPRITESHEET_DATA_SUCCESS,
-  SET_GAME_INSTANCE
 } from '../types';
 
 const initialState = {

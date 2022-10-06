@@ -13,6 +13,7 @@ import SelectControls from '../ui/SelectControls/SelectControls';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../app/ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
+import { HERO_CLASS } from '../../constants';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">
 <FormLabel>Ignore Gravity</FormLabel>
@@ -63,7 +64,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
         setSeeAllParameters(!seeAllParameters)
         }}>Toggle See All Parameters</Button>
       </Unlockable>
-      {classSelected.type === 'hero' && <Unlockable interfaceId="movement/controls/type">
+      {classSelected.type === HERO_CLASS && <Unlockable interfaceId="movement/controls/type">
         <SelectControls
           formLabel="Controls"
           value={classSelected.movement.controls ? [classSelected.movement.controls] : []}
@@ -71,7 +72,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
           editGameModel({ classes: { [classId]: { movement: { controls: type[type.length-1]} } }})        
         }}/>
       </Unlockable>}
-      {classSelected.type !== 'hero' && <Unlockable interfaceId="movement/pattern">
+      {classSelected.type !== HERO_CLASS && <Unlockable interfaceId="movement/pattern">
         <SelectMovementPattern
           formLabel="Pattern"
           value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}

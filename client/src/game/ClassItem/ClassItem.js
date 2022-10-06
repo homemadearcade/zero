@@ -10,6 +10,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import Sprite from '../ui/Sprite/Sprite';
 import Icon from '../../app/ui/Icon/Icon';
+import { HERO_CLASS } from '../../constants';
 
 const ClassItem = ({
   game: { gameModel: { classes } },
@@ -27,7 +28,7 @@ const ClassItem = ({
   return <div
     style={{width: width? width: null, height: height? height: null}}
     onClick={() => {
-      if(objectClass.type === 'hero') return
+      if(objectClass.type === HERO_CLASS) return
 
       if(classId === classIdSelectedClassList) {
         clearClass()

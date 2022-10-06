@@ -19,7 +19,8 @@ const AggregateColorSelect = ({
   onSelectColor,
   onUnselectColor,
   editor: { brushIdSelectedBrushList },
-  editorForms: { isCreateColorFlowOpen }
+  editorForms: { isCreateColorFlowOpen },
+  selectedColor
 }) => {
   const aggregateColors = Object.keys(colors)
 
@@ -37,7 +38,7 @@ const AggregateColorSelect = ({
 
     return <ColorSelect 
       maxColors={50}
-      selectedColorHex={selectedColorHex} 
+      selectedColorHex={selectedColorHex || selectedColor} 
       colors={aggregateColors} 
       onSelectColor={onSelectColor} 
       onUnselectColor={onUnselectColor}

@@ -6,12 +6,13 @@ import { openLivePhysicsEditor, openLiveCameraEditor, openLiveProjectileEditor, 
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import { HERO_CLASS } from '../../constants';
 
 const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLivePhysicsEditor, openLiveCameraEditor, openLiveProjectileEditor, onMenuItemClick, openLiveMovementEditor,  game: { gameModel }, classId, editorForms : { isCreateClassFlowOpen }}) => {
   const objectClass = gameModel.classes[classId]
 
   return <>
-    {objectClass.type === 'hero' && classId !== gameModel.hero.initialClassId && 
+    {objectClass.type === HERO_CLASS && classId !== gameModel.hero.initialClassId && 
       <Unlockable interfaceId="contextMenu/class/setPlayerClass">
           <MenuItem onClick={() => {
             editGameModel({
@@ -35,7 +36,7 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLivePhysicsE
         onMenuItemClick()
       }}>Edit Collision Response</MenuItem>
     </Unlockable>
-    {objectClass.type === 'hero' &&
+    {objectClass.type === HERO_CLASS &&
       <Unlockable interfaceId="contextMenu/class/camera">
         <MenuItem onClick={() => {
           openLiveCameraEditor(classId)
@@ -43,7 +44,7 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLivePhysicsE
         }}>Edit Camera</MenuItem>
       </Unlockable>
     }
-    {objectClass.type === 'hero' && <Unlockable interfaceId="contextMenu/class/projectile">
+    {objectClass.type === HERO_CLASS && <Unlockable interfaceId="contextMenu/class/projectile">
         <MenuItem onClick={() => {
           openLiveProjectileEditor(classId)
           onMenuItemClick()
@@ -54,6 +55,21 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLivePhysicsE
         openLiveMovementEditor(classId)
         onMenuItemClick()
       }}>Edit Movement</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId="contextMenu/class/spawn">
+      <MenuItem onClick={() => {
+        if(objectClass.unspawned) {
+          editGameModel({
+            classes: {
+              [classId]: {
+                unspawned: !objectClass.unspawned
+              }
+            }
+          })
+        }
+ 
+        onMenuItemClick()
+      }}>{objectClass.unspawned ? 'Set as Spawned' : 'Set as Unspawned'}</MenuItem>
     </Unlockable>
   </>
 };

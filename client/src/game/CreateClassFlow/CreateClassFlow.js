@@ -18,6 +18,8 @@ import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import Switch from '../../app/ui/Switch/Switch';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
+import ColorSelect from '../ui/ColorSelect/ColorSelect';
+import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, closeCreateClassFlow, editorForms: { class: objectClass } }) => {
   const [isNewClass, setIsNewClass] = useState(null)
@@ -40,49 +42,79 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
     <div className="CreateClassFlow">
       {isNewClass === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
       {isNewClass === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
-      <SelectDescriptors
-        onChange={(event, descriptors) => {
-          let newName = objectClass.name || ''
-          const nameFromDesc = getClassDisplayName(descriptors)
-
-          if(!newName && nameFromDesc) {
-            newName = nameFromDesc
-          }
-          
-          updateCreateClass({ descriptors, name: newName })
-        }}
-        formLabel="Descriptors"
-        value={objectClass.descriptors}
-      />
-      <SelectSpriteInline
-        onSelect={(textureId) => {
-          updateCreateClass({ graphics: {
-            textureId 
-          }})
-        }}
-        tintSelected={objectClass.graphics.tint}
-        onSelectTint={(tint) => {
-          updateCreateClass({ graphics: {
-            tint
-          }})
-        }}
-        onClearTint={() => {
-          updateCreateClass({ graphics: {
-            tint: null
-         }})
-        }}
-        descriptors={objectClass.descriptors}
-        textureIdSelected={objectClass.graphics.textureId}
-      />
-      <ClassNameForm/>
-      <Unlockable interfaceId="hiddenClass">
-        <FormLabel>Locked</FormLabel>
+      <Unlockable interfaceId="invisibleClass">
+        <FormLabel>Invisible</FormLabel>
         <Switch
           size="small"
           onChange={(e) => {
-            updateCreateClass({ locked: e.target.checked })          
+            updateCreateClass({ graphics: {
+              invisible: e.target.checked
+           }})          
           }}
-          checked={objectClass.locked}
+          checked={objectClass.graphics.invisible}
+         />
+      </Unlockable>
+      {!objectClass.graphics.invisible && <>
+        <SelectDescriptors
+          onChange={(event, descriptors) => {
+            let newName = objectClass.name || ''
+            const nameFromDesc = getClassDisplayName(descriptors)
+
+            if(!newName && nameFromDesc) {
+              newName = nameFromDesc
+            }
+            
+            updateCreateClass({ descriptors, name: newName })
+          }}
+          formLabel="Descriptors"
+          value={objectClass.descriptors}
+        />
+        <SelectSpriteInline
+          onSelect={(textureId) => {
+            updateCreateClass({ graphics: {
+              textureId 
+            }})
+          }}
+          tintSelected={objectClass.graphics.tint}
+          onSelectTint={(tint) => {
+            updateCreateClass({ graphics: {
+              tint
+            }})
+          }}
+          onClearTint={() => {
+            updateCreateClass({ graphics: {
+              tint: null
+            }})
+          }}
+          descriptors={objectClass.descriptors}
+          textureIdSelected={objectClass.graphics.textureId}
+        />
+      </>}
+      {objectClass.graphics.invisible && 
+        <AggregateColorSelect
+          canvasId="common"
+          selectedColor={objectClass.graphics.tint}
+          onSelectColor={(tint) => {
+            updateCreateClass({ graphics: {
+              tint
+            }})
+          }}
+          onClearcoloronSelectColor={() => {
+            updateCreateClass({ graphics: {
+              tint: null
+            }})
+          }}
+        />
+      }
+      <ClassNameForm/>
+      <Unlockable interfaceId="interfaceLockedClass">
+        <FormLabel>Interface Locked</FormLabel>
+        <Switch
+          size="small"
+          onChange={(e) => {
+            updateCreateClass({ interfaceLocked: e.target.checked })          
+          }}
+          checked={objectClass.interfaceLocked}
          />
       </Unlockable>
       <Button

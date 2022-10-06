@@ -16,6 +16,7 @@ import MovementEditor from '../MovementEditor/MovementEditor';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import MenuIconButton from '../../app/ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
+import { HERO_CLASS } from '../../constants';
 
 const LiveEditor = ({ closeLiveEditor, openLiveMovementEditor, openLivePhysicsEditor, openLiveProjectileEditor, openLiveCameraEditor, editor: { classIdSelectedLiveEditor, liveEditingCategory }, game: { gameModel } }) => {
   const objectClass = gameModel.classes[classIdSelectedLiveEditor]
@@ -31,7 +32,7 @@ const LiveEditor = ({ closeLiveEditor, openLiveMovementEditor, openLivePhysicsEd
   } else if(liveEditingCategory === "camera") {
     title = 'Camera'
   }
-  
+
   return (
     <div className="LiveEditor">
       <div className="LiveEditor__close"><Button onClick={closeLiveEditor}><Icon icon="faClose"/></Button></div>
@@ -49,11 +50,11 @@ const LiveEditor = ({ closeLiveEditor, openLiveMovementEditor, openLivePhysicsEd
                   openLivePhysicsEditor(classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Physics</MenuItem>
-                {objectClass.type === 'hero' && <MenuItem onClick={() => {
+                {objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
                   openLiveProjectileEditor(classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>}
-                {objectClass.type === 'hero' && <MenuItem onClick={() => {
+                {objectClass.type === HERO_CLASS && <MenuItem onClick={() => {
                   openLiveCameraEditor(classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>}

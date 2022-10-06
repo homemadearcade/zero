@@ -32,7 +32,7 @@ export const defaultCollisionResponse = {
 
 export const defaultObjectClass = {
   unspawned: false,
-  locked: false,
+  interfaceLocked: false,
   worldBoundaryRelationship: WORLD_COLLIDE,
   relations: [],
   movement: {
