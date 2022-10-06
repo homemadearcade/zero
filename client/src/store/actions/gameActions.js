@@ -37,6 +37,8 @@ import { UNDO_MEMORY_MAX } from '../../constants';
 function onGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().game.gameModel)
 
+  console.log('updating', gameUpdate)
+
   if(!window.nextGameModelUpdateIsUndo) {
     if(gameUpdate.hero) {
       if(gameUpdate.hero.spawnX || gameUpdate.hero.spawnY) {

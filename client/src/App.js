@@ -137,7 +137,9 @@ const theme = createTheme({
 });
 
 // window.socket = io(window.location.host, { autoConnect: false })
-window.socket = io()
+window.socket = io({
+  closeOnBeforeunload: false // defaults to true
+})
 
 window.socket.onAny((event, ...args) => {
   if(event.indexOf('STATUS') >= 0 || event.indexOf(ON_GAME_INSTANCE_UPDATE) >= 0) return 

@@ -58,15 +58,15 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     })
   }
 
-  debouncedSave = _.debounce(this.save, 30000);
-
-  debouncedSaveShort = _.debounce(this.save, 100);
+  debouncedSave = _.debounce(this.save, 100);
 
   updateTexture = () => {
     this.scene.textures.remove(this.textureId)
     this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
     this.scene.load.once('complete', () => {
       this.isSavingToAws = false
+      this.unsavedChanges = false
+
       //sometimes this bugs out
       this.clear()
       this.initialDraw()
@@ -118,25 +118,27 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.clear()
     super.draw(texture, 0,0)
     if(this.canvasId.indexOf(SPRITE_EDITOR_CANVAS_ID) === -1) {
-      this.debouncedSaveShort()
+      this.debouncedSave()
     }
   }
 
   draw(entries, x, y) {
-    this.storeRenderTextureForUndoStack()
-
     if(this.isSavingToAws) {
       return false
     }
+
+    this.storeRenderTextureForUndoStack()
+    this.unsavedChanges = true
     super.draw(entries, x, y)
   }
 
   erase(entries, x, y) {
-    this.storeRenderTextureForUndoStack()
-
     if(this.isSavingToAws) {
       return false
     }
+
+    this.storeRenderTextureForUndoStack()
+    this.unsavedChanges = true
     super.erase(entries, x, y)
   }
 

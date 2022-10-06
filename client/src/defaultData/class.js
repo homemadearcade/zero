@@ -1,4 +1,4 @@
-import { ADVENTURER_CONTROLS, EFFECT_COLLIDE, EFFECT_STICK_TO, HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP, ZONE_CLASS } from "../constants";
+import { ADVENTURER_CONTROLS, DEFAULT_TEXTURE_ID, EFFECT_COLLIDE, EFFECT_STICK_TO, HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP, ZONE_CLASS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -7,8 +7,8 @@ export const defaultMovement = {
   velocityX: 0,
   velocityY: 0,
   speed: 100,
-  jumpSpeed: 100,
-  floatSpeed: 50,
+  jumpSpeed: 50,
+  floatSpeed: 20,
   ignoreGravity: false,
   dragY: 1,
   dragX: 1,
@@ -45,10 +45,10 @@ export const defaultObjectClass = {
     ...defaultCollisionResponse
   },
   graphics: {
+    textureId: null,
     width: nodeSize * 6,
     height: nodeSize * 6,
     tint: null,
-    textureId: null,
     invisible: false,
     glowing: false,
   },

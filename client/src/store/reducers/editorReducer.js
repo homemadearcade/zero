@@ -21,7 +21,8 @@ import {
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
   OPEN_SELECT_BACKGROUND_COLOR,
-  CLOSE_SELECT_BACKGROUND_COLOR
+  CLOSE_SELECT_BACKGROUND_COLOR,
+  OPEN_LIVE_EDITOR
 } from '../types';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -34,7 +35,6 @@ const initialState = {
   brushSize: 3,
   cameraZoom: 3,
   classIdSelectedLiveEditor: null,
-  isLiveEditorOpen: false,
   isSectionEditorOpen: false,
   isGridViewOn: false,
   liveEditingCategory: null,
@@ -111,45 +111,16 @@ export default function editorReducer(state = initialState, { type, payload }) {
           [payload.accordianListId]: payload.accordianListValue
         }
       };
-    case OPEN_LIVE_MOVEMENT_EDITOR:
+    case OPEN_LIVE_EDITOR:
       return {
         ...state,
-        isLiveEditorOpen: true,
-        liveEditingCategory: 'movement',
+        liveEditingCategory: payload.type,
         classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
-      };
-    case OPEN_LIVE_PROJECTILE_EDITOR:
-      return {
-        ...state,
-        isLiveEditorOpen: true,
-        liveEditingCategory: 'projectile',
-        classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
-      };
-    case OPEN_LIVE_PHYSICS_EDITOR:
-      return {
-        ...state,
-        isLiveEditorOpen: true,
-        liveEditingCategory: 'physics',
-        classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
-      };
-    case OPEN_LIVE_CAMERA_EDITOR:
-      return {
-        ...state,
-        isLiveEditorOpen: true,
-        liveEditingCategory: 'camera',
-        classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
-      };
-    case OPEN_LIVE_WORLD_EDITOR:
-      return {
-        ...state,
-        isLiveEditorOpen: true,
-        liveEditingCategory: 'world',
       };
     case CLOSE_LIVE_EDITOR:
       return {
           ...state,
         classIdSelectedLiveEditor: null,
-        isLiveEditorOpen: false,
         liveEditingCategory: null
       };
     case OPEN_SNAPSHOT_TAKER:

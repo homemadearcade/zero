@@ -1,7 +1,4 @@
 import { 
-  OPEN_LIVE_PHYSICS_EDITOR,
-  OPEN_LIVE_WORLD_EDITOR,
-  OPEN_LIVE_CAMERA_EDITOR,
   OPEN_SECTION_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
@@ -14,15 +11,16 @@ import {
   CLOSE_SECTION_EDITOR,
   TOGGLE_GRID_VIEW,
   UPDATE_ACCORDIAN_LIST,
-  OPEN_LIVE_PROJECTILE_EDITOR,
-  OPEN_LIVE_MOVEMENT_EDITOR,
   OPEN_SNAPSHOT_TAKER,
   CLOSE_SNAPSHOT_TAKER,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
+  OPEN_LIVE_EDITOR,
 } from '../types';
+
+import { saveAllCurrentCanvases } from './codrawingActions';
 
 export const toggleGridView = () => (dispatch, getState) => {
   dispatch({
@@ -33,6 +31,8 @@ export const toggleGridView = () => (dispatch, getState) => {
 }
 
 export const selectClass = (classId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: SELECT_CLASS,
@@ -85,55 +85,22 @@ export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
   });
 }
 
-export const openLivePhysicsEditor = (classId) => (dispatch, getState) => {
+export const openLiveEditor = (type, classId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_LIVE_PHYSICS_EDITOR,
+    type: OPEN_LIVE_EDITOR,
     payload: {
+      type,
       classIdSelectedLiveEditor: classId, 
     }
-  });
-}
-
-export const openLiveProjectileEditor = (classId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_LIVE_PROJECTILE_EDITOR,
-    payload: {
-      classIdSelectedLiveEditor: classId, 
-    }
-  });
-}
-
-export const openLiveMovementEditor = (classId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_LIVE_MOVEMENT_EDITOR,
-    payload: {
-      classIdSelectedLiveEditor: classId, 
-    }
-  });
-}
-
-export const openLiveCameraEditor = (classId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_LIVE_CAMERA_EDITOR,
-    payload: {
-      classIdSelectedLiveEditor: classId, 
-    }
-  });
-}
-
-export const openLiveWorldEditor = (classId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_LIVE_WORLD_EDITOR,
-    payload: {}
   });
 }
 
 export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SNAPSHOT_TAKER,
@@ -157,6 +124,8 @@ export const closeSnapshotTaker = () => (dispatch, getState) => {
 }
 
 export const openSectionEditor= () => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SECTION_EDITOR,

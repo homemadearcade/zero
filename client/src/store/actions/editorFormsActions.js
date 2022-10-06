@@ -12,6 +12,7 @@ import {
   UPDATE_CREATE_BRUSH_STEP,
   CLEAR_EDITOR_FORMS,
 } from '../types';
+import { saveAllCurrentCanvases } from './codrawingActions';
 
 export const clearEditorForms = () => (dispatch, getState) => {
   dispatch({
@@ -22,6 +23,8 @@ export const clearEditorForms = () => (dispatch, getState) => {
 }
 
 export const openCreateClassFlow = (initialClass) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_CLASS_FLOW,
@@ -54,6 +57,8 @@ export const updateCreateClassStep = (step) => (dispatch, getState) => {
 }
 
 export const openCreateColorFlow = (componentName, canvasId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_COLOR_FLOW,
@@ -81,6 +86,8 @@ export const updateCreateColor = (color) => (dispatch, getState) => {
 }
 
 export const openCreateBrushFlow = (canvasId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_BRUSH_FLOW,

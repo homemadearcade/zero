@@ -8,6 +8,9 @@ import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/vide
 import { withRouter } from 'react-router-dom';
 import Button from '../app/ui/Button/Button';
 import { isLocalHost } from '../utils/browserUtils';
+import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
+import store from '../store';
+import { getCurrentGameScene } from '../utils/editorUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -42,9 +45,25 @@ export default (ChildComponent) => {
       window.removeEventListener('beforeunload', this.askBeforeClosing)
     }
 
-    askBeforeClosing = (e) => {
+    askBeforeClosing = async (e) => {
       e.preventDefault();
-      if(!isLocalHost()) e.returnValue = '';
+
+      const gameInstance = store.getState().page.gameInstance
+      if(gameInstance) {
+        const scene = getCurrentGameScene(gameInstance)
+          
+        if(scene.backgroundLayer.unsavedChanges ||
+          scene.playgroundLayer.unsavedChanges ||
+          scene.foregroundLayer.unsavedChanges
+        ) {
+          setTimeout(() => {
+            saveAllCurrentCanvases()
+          })
+          e.returnValue = ''
+          return
+        }
+      }
+
       this.withLobbyCleaup()
     }
 

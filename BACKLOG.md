@@ -29,13 +29,15 @@ Spray Can, Paintbrush, Crayon?
 
 For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
 
-interfaceUnlock other features, such as camera move with keys? drag object? etc
-
-Unlock snap to grid?
-
 --------------------------------------------------------------------------------------
 
 TODO FEATURES ( MAYBE ) BACKlog
+
+Unlock snap to grid?
+
+Sprite Editor when loading up, you cant see previous strokes
+
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for spaceship mode 
 
 Camera change options for 'cutscene'
 
@@ -71,7 +73,7 @@ For all these util functions, I need to rethink how utils are done, is there obj
 
 TODO CHORES BACKLOG
 
-Attribute to make the left side the 'front' of a sprite. For.. projectiles and for spaceship mode 
+Add tint to sprite editor
 
 Look up x, y, on sprite should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 

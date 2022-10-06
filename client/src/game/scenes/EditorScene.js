@@ -4,7 +4,7 @@ import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
-import { changeEditorCameraZoom, clearBrush, closeSnapshotTaker } from '../../store/actions/editorActions';
+import { changeEditorCameraZoom, clearBrush, clearClass, closeSnapshotTaker } from '../../store/actions/editorActions';
 import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
@@ -203,7 +203,7 @@ export class EditorScene extends GameInstance {
     // STAMPERS
     ////////////////////////////////////////////////////////////
     if((!classId && this.stamper) || (this.stamper && (this.stamper.classId !== classId))) {
-      this.destroyStamp()
+      this.destroyStamper()
     }
     if(classId && !this.stamper) {
       const objectClass = gameModel.classes[classId]
@@ -370,7 +370,7 @@ export class EditorScene extends GameInstance {
   onPointerLeaveGame = () => {
     // without !this.canvas check we end up with discrepencies in codrawing
     if(this.brush && !this.canvas) this.destroyBrush()
-    if(this.stamper) this.destroyStamp()
+    if(this.stamper) this.destroyStamper()
   }
 
   onPointerOut = (pointer, entitySprite) => {
@@ -418,7 +418,7 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  destroyStamp() {
+  destroyStamper() {
     this.stamper.destroy()
     this.stamper = null
   }
@@ -799,6 +799,9 @@ export class EditorScene extends GameInstance {
     if(this.escKey.isDown) {
       store.dispatch(clearBrush())
       if(this.brush) this.destroyBrush()
+      store.dispatch(clearClass())
+      if(this.stamper) this.destroyStamper()
+
       this.canvas = null
     }
 

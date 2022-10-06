@@ -13,7 +13,7 @@ import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/Constellation/Constellation';
 
-const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, isLiveEditorOpen, isSectionEditorOpen, isSnapshotTakerOpen }, homemadeArcade: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, liveEditingCategory, isSectionEditorOpen, isSnapshotTakerOpen }, homemadeArcade: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -39,7 +39,7 @@ const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, isLiveE
         {rightColumn}
       </div>
       {isConstellationOpen && <Constellation zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
-      {isLiveEditorOpen && <LiveEditor/>}
+      {liveEditingCategory && <LiveEditor/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
     </div>
   );

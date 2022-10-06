@@ -14,6 +14,16 @@ import {
   CODRAWING_UNDO_FAIL,
   // ON_CODRAWING_STROKE,
 } from '../types';
+import { getCurrentGameScene } from '../../utils/editorUtils';
+import store from '..';
+
+export function saveAllCurrentCanvases() {
+  const state = store.getState()
+  const scene = getCurrentGameScene(state.page.gameInstance)
+  if(scene.backgroundLayer.unsavedChanges) scene.backgroundLayer.save()
+  if(scene.playgroundLayer.unsavedChanges) scene.playgroundLayer.save()
+  if(scene.foregroundLayer.unsavedChanges) scene.foregroundLayer.save()
+}
 
 export const publishCodrawingStrokes = ({canvasId, brushId, stroke}) => async (dispatch, getState) => {
   try {
@@ -61,8 +71,6 @@ export const unsubscribeCodrawing = (canvasId) => async (dispatch, getState) => 
   // });
   
   try {
-    console.log('leave', canvasId)
-
     const options = attachTokenToHeaders(getState);
     await axios.post('/api/codrawing/stop/' + encodeURIComponent(canvasId), {}, options);
 

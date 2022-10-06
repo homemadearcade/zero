@@ -150,3 +150,12 @@ export const ADVENTURER_CONTROLS = 'ADVENTURER_CONTROLS'
 export const TEXT_CUTSCENE = 'TEXT_CUTSCENE'
 export const IMAGE_CUTSCENE = 'IMAGE_CUTSCENE'
 export const IMAGE_AND_TEXT_CUTSCENE = 'IMAGE_AND_TEXT_CUTSCENE'
+
+/////////////////////////////////////
+/////////////////////////////////////
+// LIVE EDITORS
+export const PHYSICS_EDITOR = 'PHYSICS_EDITOR'
+export const MOVEMENT_EDITOR = 'MOVEMENT_EDITOR'
+export const CAMERA_EDITOR = 'CAMERA_EDITOR'
+export const WORLD_EDITOR = 'WORLD_EDITOR'
+export const PROJECTILE_EDITOR = 'PROJECTILE_EDITOR'

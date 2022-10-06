@@ -30,6 +30,9 @@ export const relationshipEvents = {
   spawn: {
 
   },
+  cutsceneEnd: {
+
+  },
   // timer: {
 
   // }
@@ -68,6 +71,12 @@ export const relationshipEffects = {
 
   // Narrative
   cutscene: {
+
+  },
+  gameOver: {
+
+  },
+  winGame: {
 
   },
 
