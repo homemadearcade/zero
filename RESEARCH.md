@@ -1,6 +1,12 @@
 
 TO RESEARCH
 
+https://codepen.io/ko-yelie/pen/LqXWWx
+https://codepen.io/shubniggurath/pen/OEeMOd
+https://codepen.io/soulwire/pen/mEMPrK
+
+--
+
 https://codepen.io/rexrainbow/pens/public
 
 https://blog.ourcade.co/posts/2020/phaser-3-platformer-quicksand-arcade-physics/

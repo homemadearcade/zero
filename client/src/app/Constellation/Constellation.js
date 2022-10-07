@@ -81,11 +81,13 @@ export class Constellation extends React.Component {
     p5.noStroke ();
     p5.line (this.a, this.b, this.c, this.a);
     this.a = this.a + 3;
-    if (this.a === this.height) {
+
+    if (this.a >= this.height) {
       this.a = 0;
       this.c = this.c +100;
       this.b = this.b +100;
     }
+
     p5.stroke (255);
 
     for (let i=0; i < stars; i++) {
@@ -173,6 +175,9 @@ export class Constellation extends React.Component {
 	render() {
 		return <div className="Constellation">
       <Sketch setup={this.setup} draw={this.draw} mouseDragged={this.mouseDragged} mouseMoved={this.mouseMoved} />
+      <div className="Constellation__content">
+        {this.props.children}
+      </div>
       {this.props.zoomOutImage && <>
         <img className={classNames("Constellation__zoom-out-image", { 'shrink':  this.state.startZoom } )} alt="zooming out game" src={this.props.zoomOutImage}/>
         <div className={classNames("Constellation__zoom-out-image", { 'shrink starify':  this.state.startZoom } )}/>

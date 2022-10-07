@@ -30,10 +30,9 @@ const HomePage = ({ auth, reseedDatabase }) => {
   return (
     <Layout>
       <div className="HomePage">
-        <Constellation />
-        <div className="HomePage__title">
-          <Typography component="h1" variant="h1">Homemade Arcade</Typography>
-        </div>
+        <Constellation>
+          <Typography font="2P" component="h1" variant="h1">Homemade Arcade</Typography>
+        </Constellation>
       </div>
     </Layout>
   );

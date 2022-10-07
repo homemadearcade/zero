@@ -21,6 +21,7 @@ import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../app/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
+import { generateUniqueId } from '../../utils/browserUtils';
 
 const BrushList = ({
   game: { gameModel },
@@ -163,7 +164,7 @@ const BrushList = ({
             })
           }
         } else {
-          const brushId = uuidv4()
+          const brushId = generateUniqueId()
           editGameModel({
             brushes: {
               [brushId] : brush

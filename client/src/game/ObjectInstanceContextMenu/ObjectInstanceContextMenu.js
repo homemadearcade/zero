@@ -21,7 +21,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
         onMenuItemClick()
       }}>Delete</MenuItem>
     </Unlockable>
-    <ClassContextMenu onMenuItemClick={onMenuItemClick} classId={classId} />
+    <ClassContextMenu onMenuItemClick={onMenuItemClick} classId={classId} insideObjectInstanceContextMenu />
   </>
 };
 

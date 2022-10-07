@@ -2,7 +2,6 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 
 import './ClassList.scss';
 import { editGameModel } from '../../store/actions/gameActions';

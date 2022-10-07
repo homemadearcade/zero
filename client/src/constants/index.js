@@ -159,3 +159,11 @@ export const MOVEMENT_EDITOR = 'MOVEMENT_EDITOR'
 export const CAMERA_EDITOR = 'CAMERA_EDITOR'
 export const WORLD_EDITOR = 'WORLD_EDITOR'
 export const PROJECTILE_EDITOR = 'PROJECTILE_EDITOR'
+
+/////////////////////////////////////
+/////////////////////////////////////
+// NARRATIVE STATE
+export const START_STATE = 'START_STATE'
+export const PLAY_STATE = 'PLAY_STATE'
+export const GAME_OVER_STATE = 'GAME_OVER_STATE'
+export const WIN_GAME_STATE = 'WIN_GAME_STATE'

@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import { v4 as uuidv4 } from 'uuid';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
@@ -15,6 +14,7 @@ import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../../defaultData/general';
 import { urlToFile } from '../../utils/utils';
+import { generateUniqueId } from '../../utils/browserUtils';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -444,7 +444,7 @@ export class EditorScene extends GameInstance {
   }
 
   addGameObject(classId, {spawnX, spawnY}) {
-    const id = uuidv4();
+    const id = generateUniqueId()
 
     const gameObject = {
       classId,

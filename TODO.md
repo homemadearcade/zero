@@ -9,16 +9,16 @@ Change UI color option
 TODO
 
 Relationship UI
-Cutscene UI
-World Effects
+  onCutsceneEnd Event
+  World Effects
+
 Mini-Relationship View - Icons + Name
-Start Screen for games?/Game Over/You win
-Metadata Button/Menu
-Images Menu Snapshot Button
-onCutsceneEnd Event
-Duplicate Class
 Multiple Object Stacked Select
 Jetpack Controls
+
+Cutscene UI
+Metadata Button/Menu
+Images Menu Snapshot Button
 
 --
 HOW TO

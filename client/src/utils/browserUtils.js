@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const isLocalHost = () => {
   if(window.location.host.indexOf('localhost') !== -1) return true
 }
@@ -84,4 +86,8 @@ export function setFontAwesomeCursor(unicode, color) {
   ctx.fillText(unicode, 12, 12);
   var dataURL = canvas.toDataURL('image/png')
   document.body.style.cursor = 'url('+dataURL+'), auto';
+}
+
+export function generateUniqueId() {
+  return uuidv4()
 }

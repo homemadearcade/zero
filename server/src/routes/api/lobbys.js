@@ -2,8 +2,6 @@ import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import User from '../../models/User';
 
 import { ON_LOBBY_UPDATE, ON_LOBBY_UNDO } from '../../constants';

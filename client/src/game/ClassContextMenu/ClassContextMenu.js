@@ -7,8 +7,10 @@ import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
+import { classTypeToDisplayName } from '../../defaultData/class';
+import { generateUniqueId } from '../../utils/browserUtils';
 
-const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, onMenuItemClick, game: { gameModel }, classId, editorForms : { isCreateClassFlowOpen }}) => {
+const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, onMenuItemClick, game: { gameModel }, classId, editorForms : { isCreateClassFlowOpen }, insideObjectInstanceContextMenu }) => {
   const objectClass = gameModel.classes[classId]
 
   return <>
@@ -68,6 +70,21 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, 
         onMenuItemClick()
       }}>{objectClass.unspawned ? 'Set as Spawned' : 'Set as Unspawned'}</MenuItem>
     </Unlockable>
+    {!insideObjectInstanceContextMenu && <Unlockable interfaceId="contextMenu/class/duplicate">
+      <MenuItem onClick={() => {  
+        const classId = generateUniqueId()
+        editGameModel({
+          classes: {
+            [classId]: {
+              ...objectClass,
+              classId,
+              name: objectClass.name + ' Duplicate'
+            }
+          }
+        })
+        onMenuItemClick()
+      }}>Duplicate {classTypeToDisplayName[objectClass.type]}</MenuItem>
+    </Unlockable>}
   </>
 };
 

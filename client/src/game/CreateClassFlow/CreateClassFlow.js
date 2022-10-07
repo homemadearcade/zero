@@ -12,14 +12,12 @@ import Typography from '../../app/ui/Typography/Typography';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ClassNameForm from '../ui/ClassNameForm/ClassNameForm';
 import { getClassDisplayName } from '../../utils/gameUtils';
-import { v4 as uuidv4 } from 'uuid';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import Switch from '../../app/ui/Switch/Switch';
-import FormLabel from '../../app/ui/FormLabel/FormLabel';
-import ColorSelect from '../ui/ColorSelect/ColorSelect';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
+import { generateUniqueId } from '../../utils/browserUtils';
 
 const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, closeCreateClassFlow, editorForms: { class: objectClass } }) => {
   const [isNewClass, setIsNewClass] = useState(null)
@@ -31,7 +29,7 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
   
   useEffect(() => {
     if(!objectClass.classId) {
-      updateCreateClass({ classId: uuidv4() })
+      updateCreateClass({ classId: generateUniqueId() })
       setIsNewClass(true)
     } else {
       setIsNewClass(false)

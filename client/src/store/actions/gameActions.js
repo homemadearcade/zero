@@ -22,6 +22,7 @@ import {
   GET_SPRITESHEET_DATA_FAIL,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
+  CHANGE_GAME_STATE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -31,7 +32,8 @@ import { defaultObjectClass } from '../../defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../defaultData/descriptors';
 import store from '..';
-import { UNDO_MEMORY_MAX } from '../../constants';
+import { START_STATE, UNDO_MEMORY_MAX } from '../../constants';
+import { changeGameState } from './narrativeActions';
 
 
 function onGameModelUpdate(gameUpdate) {
@@ -211,14 +213,18 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     Object.keys(gameData.classes).forEach((id) => {
       gameData.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameData.classes[id])
     })
+    
     // Object.keys(gameData.brushes).forEach((id) => {
 
     // })
+
+    store.dispatch(changeGameState(START_STATE))
 
     dispatch({
       type: LOAD_GAME_SUCCESS,
       payload: { game: gameData },
     });
+    
   } catch (err) {
     console.error(err)
 

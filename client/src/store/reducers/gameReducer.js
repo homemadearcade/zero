@@ -1,3 +1,4 @@
+import { START_STATE } from '../../constants';
 import {
   GET_GAMES_LOADING,
   GET_GAMES_SUCCESS,

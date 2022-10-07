@@ -26,6 +26,7 @@ import {
 } from '../types';
 
 import { v4 as uuidv4 } from 'uuid';
+import { generateUniqueId } from '../../utils/browserUtils';
 
 const initialState = {
   error: null,
@@ -139,7 +140,7 @@ export default function editorReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         spriteEditorTextureId: payload.textureId,
-        spriteEditorAwsId: uuidv4()
+        spriteEditorAwsId: generateUniqueId()
       }
     case CLOSE_SPRITE_EDITOR: 
       return {

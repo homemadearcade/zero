@@ -1,10 +1,22 @@
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { 
+  CHANGE_GAME_STATE,
   CLOSE_CUTSCENE,
   OPEN_CUTSCENE,
   PROGRESS_CUTSCENE,
 } from '../types';
 import { editLobby } from './lobbyActions';
+
+
+export const changeGameState = (gameState) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CHANGE_GAME_STATE,
+    payload: {
+      gameState
+    }
+  })
+};
 
 export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
   // const cutscene = getState().game.gameModel.cutscenes[cutsceneId]

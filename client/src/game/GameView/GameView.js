@@ -12,6 +12,8 @@ import { getCurrentGameScene } from '../../utils/editorUtils';
 import { setGameInstance } from '../../store/actions/pageActions';
 
 import Cutscene from '../ui/Cutscene/Cutscene';
+import { Constellation } from '../../app/Constellation/Constellation';
+import StateScreen from '../ui/StateScreen/StateScreen';
 
 const config= {
   type: Phaser.WEBGL,
@@ -60,7 +62,7 @@ const config= {
   }
 }
 
-const GameView = ({isHost, isNetworked, isPlay, setGameInstance}) => {
+const GameView = ({isHost, isNetworked, isPlay, setGameInstance }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked}), true);
@@ -75,13 +77,12 @@ const GameView = ({isHost, isNetworked, isPlay, setGameInstance}) => {
   return (
     <div className="GameView">
       <Cutscene/>
+      <StateScreen/>
       <div id="PhaserGame"/>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { setGameInstance })(GameView);

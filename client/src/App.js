@@ -53,9 +53,11 @@ const theme = createTheme({
     // },
     MuiTypography: {
       styleOverrides: {
-        h1: {
-          fontFamily: "'Press Start 2P', sans-serif;"
-        }
+        root: ({ ownerState, theme }) => ({
+          ...(ownerState.font === '2P' && {
+            fontFamily: "'Press Start 2P', sans-serif;"
+          }),
+        }),
       }
     },
     MuiSlider: {
