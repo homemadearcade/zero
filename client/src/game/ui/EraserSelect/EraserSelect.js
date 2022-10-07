@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 
 import './EraserSelect.scss';
 import classNames from 'classnames';
-import { clearClass, selectBrush, clearBrush } from '../../../store/actions/editorActions';
+import { clearClass, selectBrush, clearBrush } from '../../../store/actions/gameEditorActions';
 import { ERASER_BRUSH_ID } from '../../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../app/ui/Icon/Icon';
 import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
 
 const EraserSelect = ({
-  editor: { brushIdSelectedBrushList },
+  gameEditor: { brushIdSelectedBrushList },
   canvasId,
   selectBrush,
   clearClass,
@@ -36,7 +36,7 @@ const EraserSelect = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editor: state.editor,
+  gameEditor: state.gameEditor,
 })
 
 export default compose(

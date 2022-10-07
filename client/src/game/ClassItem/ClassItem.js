@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './ClassItem.scss';
 import classNames from 'classnames';
-import { clearClass, selectClass } from '../../store/actions/editorActions';
+import { clearClass, selectClass } from '../../store/actions/gameEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import Sprite from '../ui/Sprite/Sprite';
@@ -15,7 +15,7 @@ import { HERO_CLASS } from '../../constants';
 const ClassItem = ({
   game: { gameModel: { classes } },
   classId,
-  editor: { classIdSelectedClassList },
+  gameEditor: { classIdSelectedClassList },
   selectClass,
   clearClass,
   openContextMenuFromClassId,
@@ -58,7 +58,7 @@ const ClassItem = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editor: state.editor,
+  gameEditor: state.gameEditor,
 })
 
 export default compose(

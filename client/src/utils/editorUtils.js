@@ -29,7 +29,7 @@ export function getCurrentGameScene(gameInstance) {
 export function snapEraserXY({x, y, boundaries = store.getState().game.gameModel.world.boundaries}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
-  const brushSize = getCobrowsingState().editor.brushSize
+  const brushSize = getCobrowsingState().gameEditor.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
 
   const blockSize = nodeSize * brushSize
@@ -56,7 +56,7 @@ export function snapEraserXY({x, y, boundaries = store.getState().game.gameModel
 export function snapBrushXY({x, y, boundaries = store.getState().game.gameModel.world.boundaries}) {
   const gameModel = store.getState().game.gameModel
   const nodeSize = gameModel.world.nodeSize
-  const brushSize = getCobrowsingState().editor.brushSize
+  const brushSize = getCobrowsingState().gameEditor.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
   const blockSize = nodeSize * brushSize
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openLiveEditor, openSelectBackgroundColor } from '../../store/actions/editorActions';
+import { openLiveEditor, openSelectBackgroundColor } from '../../store/actions/gameEditorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { WORLD_EDITOR } from '../../constants';

@@ -11,7 +11,7 @@ import lobbyReducer from './lobbyReducer';
 import statusReducer from './statusReducer';
 import videoReducer from './videoReducer';
 import gameReducer from './gameReducer';
-import editorReducer from './editorReducer';
+import gameEditorReducer from './gameEditorReducer';
 import gameFormEditorReducer from './gameFormEditorReducer';
 import gameViewEditorReducer from './gameViewEditorReducer';
 import unlockableInterfaceReducer from './unlockableInterfaceReducer';
@@ -33,7 +33,7 @@ export default combineReducers({
   status: statusReducer,
   video: videoReducer,
   game: gameReducer,
-  editor: editorReducer,
+  gameEditor: gameEditorReducer,
   gameFormEditor: gameFormEditorReducer,
   gameViewEditor: gameViewEditorReducer,
   contextMenu: contextMenuReducer,

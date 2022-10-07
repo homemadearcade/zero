@@ -35,7 +35,6 @@ const LobbyToolbar = ({lobbyUndo, editLobby, lobby : { lobby, lobby : { isGamePa
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
-  editor: state.editor,
 });
 
 export default compose(

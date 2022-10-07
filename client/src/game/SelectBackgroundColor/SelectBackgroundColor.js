@@ -6,7 +6,7 @@ import './SelectBackgroundColor.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import Typography from '../../app/ui/Typography/Typography';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import { closeSelectBackgroundColor } from '../../store/actions/editorActions';
+import { closeSelectBackgroundColor } from '../../store/actions/gameEditorActions';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../store/actions/gameActions';
 
@@ -31,7 +31,6 @@ const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel, game
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editor: state.editor,
   gameFormEditor: state.gameFormEditor,
   game: state.game
 })

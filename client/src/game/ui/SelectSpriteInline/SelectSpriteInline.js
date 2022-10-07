@@ -14,7 +14,7 @@ import { openCreateColorFlow } from '../../../store/actions/gameFormEditorAction
 import Sprite from '../Sprite/Sprite';
 import Button from '../../../app/ui/Button/Button';
 import SpriteEditor from '../../SpriteEditor/SpriteEditor';
-import { openSpriteEditor } from '../../../store/actions/editorActions';
+import { openSpriteEditor } from '../../../store/actions/gameEditorActions';
 import { DEFAULT_CLEAR_TEXTURE_ID } from '../../../constants';
 import MySprites from '../MySprites/MySprites';
 import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
@@ -30,7 +30,7 @@ const SelectSpriteInline = ({
   openCreateColorFlow,
   editGameModel,
   game: { gameModel : { colors }},
-  editor: { spriteEditorTextureId },
+  gameEditor: { spriteEditorTextureId },
   openSpriteEditor,
   gameFormEditor: { isCreateColorFlowOpen }
 }) => {
@@ -92,7 +92,7 @@ const SelectSpriteInline = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editor: state.editor,
+  gameEditor: state.gameEditor,
   gameFormEditor: state.gameFormEditor,
 });
 

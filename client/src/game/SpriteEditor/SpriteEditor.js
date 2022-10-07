@@ -12,7 +12,7 @@ import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModa
 import { nodeSize } from '../../defaultData/general';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../BrushControl/BrushControl';
-import { clearBrush, closeSpriteEditor, selectBrush } from '../../store/actions/editorActions';
+import { clearBrush, closeSpriteEditor, selectBrush } from '../../store/actions/gameEditorActions';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import UndoButton from '../../app/ui/UndoButton/UndoButton';
@@ -20,7 +20,7 @@ import { onSpriteEditorUndo } from '../../store/actions/lobbyActions';
 import { editGameModel } from '../../store/actions/gameActions';
 import { setSpriteEditorGameInstance } from '../../store/actions/webPageActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -106,7 +106,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEd
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editor: state.editor,
+  gameEditor: state.gameEditor,
   webPage: state.webPage
 });
 

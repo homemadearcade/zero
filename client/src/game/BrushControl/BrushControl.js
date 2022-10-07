@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 import './BrushControl.scss';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
-import { updateBrushSize } from '../../store/actions/editorActions';
+import { updateBrushSize } from '../../store/actions/gameEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
 const BrushControl = ({
   game: { gameModel: { brushes, world }},
   updateBrushSize,
-  editor: { brushSize, brushIdSelectedBrushList },
+  gameEditor: { brushSize, brushIdSelectedBrushList },
 }) => {
   const brush = brushes[brushIdSelectedBrushList]
 
@@ -54,7 +54,7 @@ const BrushControl = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editor: state.editor,
+  gameEditor: state.gameEditor,
 })
 
 export default compose(

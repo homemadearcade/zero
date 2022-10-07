@@ -5,17 +5,16 @@ import { connect } from 'react-redux';
 
 import './BrushItem.scss';
 import classNames from 'classnames';
-import { selectBrush, clearBrush } from '../../store/actions/editorActions';
+import { selectBrush, clearBrush } from '../../store/actions/gameEditorActions';
 import { openContextMenuFromClassId } from '../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Sprite from '../ui/Sprite/Sprite';
 import Icon from '../../app/ui/Icon/Icon';
-import { Paper } from '@mui/material';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },
   brushId,
-  editor: { brushIdSelectedBrushList },
+  gameEditor: { brushIdSelectedBrushList },
   selectBrush,
   clearBrush,
 }) => {
@@ -49,7 +48,7 @@ const BrushItem = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editor: state.editor,
+  gameEditor: state.gameEditor,
 })
 
 export default compose(

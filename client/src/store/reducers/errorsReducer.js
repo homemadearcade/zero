@@ -45,7 +45,7 @@ const initialState = []
 
 export const initialErrorState = initialState
 
-export default function editorReducer(state = initialState, { type, payload }) {
+export default function errorReducer(state = initialState, { type, payload }) {
   switch (type) {
     case ME_FAIL:
     case ADD_GAME_FAIL:

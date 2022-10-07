@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../store/actions/gameActions';
 import ColorSelect from '../ui/ColorSelect/ColorSelect';
-import { clearBrush, selectBrush } from '../../store/actions/editorActions';
+import { clearBrush, selectBrush } from '../../store/actions/gameEditorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../utils/editorUtils';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
@@ -21,7 +21,7 @@ const LayerColorSelect = ({
   editGameModel,
   selectBrush,
   clearBrush,
-  editor: { brushIdSelectedBrushList },
+  gameEditor: { brushIdSelectedBrushList },
   gameFormEditor: { isCreateColorFlowOpen }
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
@@ -118,7 +118,7 @@ const LayerColorSelect = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
   gameFormEditor: state.gameFormEditor,
-  editor: state.editor,
+  gameEditor: state.gameEditor,
 });
 
 export default compose(

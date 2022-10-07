@@ -3,10 +3,10 @@ import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
-import { clearBrush, clearClass } from '../../store/actions/editorActions';
+import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
+import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
 import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
-import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -152,9 +152,9 @@ export class EditorScene extends GameInstance {
     window.pointer = pointer
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
-    const editor = getCobrowsingState().editor
-    const brushId = editor.brushIdSelectedBrushList
-    const classId = editor.classIdSelectedClassList
+    const gameEditor = getCobrowsingState().gameEditor
+    const brushId = gameEditor.brushIdSelectedBrushList
+    const classId = gameEditor.classIdSelectedClassList
     const gameModel = store.getState().game.gameModel
 
     if(this.resizingObjectInstance) {
