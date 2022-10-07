@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { GAME_BOUNDARY_DOWN_WALL_ID, GAME_BOUNDARY_LEFT_WALL_ID, GAME_BOUNDARY_RIGHT_WALL_ID, GAME_BOUNDARY_UP_WALL_ID, GAME_BOUNDARY_WALL_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../constants";
+import { GAME_BOUNDARY_DOWN_WALL_ID, GAME_BOUNDARY_LEFT_WALL_ID, GAME_BOUNDARY_RIGHT_WALL_ID, GAME_BOUNDARY_UP_WALL_ID, GAME_BOUNDARY_WALL_ID, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../constants";
 
 export function isGameBoundaryWall(world, body) {
   if(body === world.walls.left || body === world.walls.right || body === world.walls.up || body === world.walls.down) {
@@ -7,6 +7,10 @@ export function isGameBoundaryWall(world, body) {
   }
 
   return false
+}
+
+export function isGameContextPausing(gameContext) {
+  return gameContext.gameState !== PLAY_STATE || gameContext.isConstellationOpen || gameContext.isConstellationClosing || gameContext.cutsceneId
 }
 
 export function isEventMatch({effect, classId, world, gameObject, body}) {

@@ -6,7 +6,7 @@ import { Constellation } from '../../../app/Constellation/Constellation';
 import Link from '../../../app/ui/Link/Link';
 import Typography from '../../../app/ui/Typography/Typography';
 import { GAME_OVER_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../../../constants';
-import { changeGameState } from '../../../store/actions/narrativeActions';
+import { changeGameState } from '../../../store/actions/gameContextActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../KeyIndicator/KeyIndicator';
 import './StateScreen.scss';
@@ -62,7 +62,7 @@ function StateScreenBody({changeGameState, gameState}) {
   );
 }
 
-function StateScreen({narrative: { gameState}, changeGameState}) {
+function StateScreen({gameContext: { gameState}, changeGameState}) {
   if(gameState === PLAY_STATE) {
     return null
   }
@@ -70,7 +70,7 @@ function StateScreen({narrative: { gameState}, changeGameState}) {
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  narrative: state.narrative,
+  gameContext: state.gameContext,
 });
 
 export default compose(

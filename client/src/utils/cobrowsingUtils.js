@@ -7,10 +7,9 @@ export function getRemoteStatePackage(state) {
     editorForms: state.editorForms,
     editorInstance: state.editorInstance,
     unlockableInterfaceIds: state.unlockableInterfaceIds,
-    narrative: state.narrative,
     contextMenu: state.contextMenu,
     errors: state.errors,
-    homemadeArcade: state.homemadeArcade
+    gameContext: state.gameContext
   }
 }
 
@@ -39,10 +38,8 @@ export function mapCobrowsingState(state, props) {
       prev[propName] = remoteState.unlockableInterfaceIds
     } else if(propName === 'errors') {
       prev[propName] = remoteState.errors
-    } else if(propName === 'narrative') {
-      prev[propName] = remoteState.narrative
-    } else if(propName === 'homemadeArcade') {
-      prev[propName] = remoteState.homemadeArcade
+    } else if(propName === 'gameContext') {
+      prev[propName] = remoteState.gameContext
     }     
     
     // else if(propName === 'contextMenu') {
@@ -80,8 +77,7 @@ export function getCobrowsingState() {
     editorInstance: remoteState.editorInstance,
     editorForms: remoteState.editorForms,
     video: remoteState.video,
-    narrative: remoteState.narrative,
-    homemadeArcade: remoteState.homemadeArcade,
+    gameContext: remoteState.gameContext,
     unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
     errors: remoteState.errors
   }

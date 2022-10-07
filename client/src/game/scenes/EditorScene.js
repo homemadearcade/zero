@@ -771,8 +771,8 @@ export class EditorScene extends GameInstance {
     this.input.on('pointerup', this.onPointerUp);
     this.input.on('pointerupoutside', this.onPointerUpOutside);
     this.input.on('pointerdownoutside', this.onPointerDownOutside);
-    this.input.on('pointermove', this.onPointerMove, this)
-    this.input.on('gameout', this.onPointerLeaveGame, this)
+    this.input.on('pointermove', this.onPointerMove, this);
+    this.input.on('gameout', this.onPointerLeaveGame, this);
     this.input.dragDistanceThreshold = 16;
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
@@ -827,17 +827,17 @@ export class EditorScene extends GameInstance {
       }
     }
 
+    const cameraZoom = store.getState().editorInstance.cameraZoom
+    if(cameraZoom !== this.editorCamera.zoom) {
+      this.editorCamera.setZoom(cameraZoom)
+      // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)
+    }
+
     const isGridViewOn = getCobrowsingState().editorInstance.isGridViewOn
     if(isGridViewOn) {
       this.isGridViewOn = true
     } else {
       this.isGridViewOn = false
-    }
-    
-    const cameraZoom = store.getState().editorInstance.cameraZoom
-    if(cameraZoom !== this.editorCamera.zoom) {
-      this.editorCamera.setZoom(cameraZoom)
-      // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)
     }
 
     if(this.isGridViewOn) {

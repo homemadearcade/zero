@@ -1,8 +1,9 @@
 import {
-  GAME_SCENE,
+  GAME_SCENE, PLAY_STATE,
 } from '../../constants';
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
+import { isGameContextPausing } from '../../utils/gameUtils';
 import { EditorScene } from './EditorScene';
 
 export class GameHostScene extends EditorScene {
@@ -54,17 +55,24 @@ export class GameHostScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta)
 
-    const lobby = store.getState().lobby.lobby
-    if(lobby.id) {
-
-      const isGamePaused = lobby.isGamePaused
-      if(isGamePaused) {
-        this.isPaused = true
-        this.pause()
-      } else {
-        this.isPaused = false
-        this.resume()
+    const state = store.getState()
+    const gameContext = state.gameContext
+    if(isGameContextPausing(gameContext)) {
+      this.isPaused = true
+      this.pause()
+    } else {
+      const lobby = state.lobby.lobby
+      if(lobby.id) {
+        const isGamePaused = lobby.isGamePaused
+        if(isGamePaused) {
+          this.isPaused = true
+          this.pause()
+        } else {
+          this.isPaused = false
+          this.resume()
+        }
       }
     }
+
   }
 }

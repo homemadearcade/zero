@@ -18,9 +18,8 @@ import unlockableInterfaceReducer from './unlockableInterfaceReducer';
 import contextMenuReducer from './contextMenuReducer';
 import codrawingReducer from './codrawingReducer';
 import errorsReducer from './errorsReducer';
-import narrativeReducer from './narrativeReducer';
-import homemadeArcadeReducer from './homemadeArcadeReducer';
 import pageReducer from './pageReducer';
+import gameContextReducer from './gameContextReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -39,9 +38,8 @@ export default combineReducers({
   editorInstance: editorInstanceReducer,
   contextMenu: contextMenuReducer,
   unlockableInterfaceIds: unlockableInterfaceReducer,
-  narrative: narrativeReducer,
+  gameContext: gameContextReducer,
   codrawing: codrawingReducer,
   errors: errorsReducer,
-  homemadeArcade: homemadeArcadeReducer,
   page: pageReducer
 });

@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import Icon from '../ui/Icon/Icon';
 import './ConstellationToggle.scss'
 import Switch from '../ui/Switch/Switch';
-import { openConstellation, completeCloseConstellation } from '../../store/actions/homemadeArcadeActions';
+import { openConstellation, completeCloseConstellation } from '../../store/actions/gameContextActions';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 
 const ConstellationToggle = ({
   cobrowsing: { isSubscribedCobrowsing, 
     remoteState: {
-      homemadeArcade: { isConstellationOpen, isConstellationClosing },
+      gameContext: { isConstellationOpen, isConstellationClosing },
     } 
   },
   completeCloseConstellation,

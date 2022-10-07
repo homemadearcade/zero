@@ -4,7 +4,7 @@ import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
 import { Collider } from "./members/Collider";
-import { openCutscene } from "../../store/actions/narrativeActions";
+import { openCutscene } from "../../store/actions/gameContextActions";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 
 export class ObjectInstance extends Sprite {

@@ -1,7 +1,9 @@
 import {
   GAME_SCENE,
 } from '../../constants';
+import store from '../../store';
 import { ON_GAME_MODEL_UPDATE } from '../../store/types';
+import { isGameContextPausing } from '../../utils/gameUtils';
 import { EditorScene } from './EditorScene';
 
 export class GameLocalScene extends EditorScene {
@@ -25,10 +27,16 @@ export class GameLocalScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta) 
 
-    if(this.isPaused) {
+    const state = store.getState()
+    const gameContext = state.gameContext
+    if(isGameContextPausing(gameContext)) {
       this.pause()
     } else {
-      this.resume()
+      if(this.isPaused) {
+        this.pause()
+      } else {
+        this.resume()
+      }
     }
   }
 }

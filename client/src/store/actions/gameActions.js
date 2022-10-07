@@ -22,7 +22,6 @@ import {
   GET_SPRITESHEET_DATA_FAIL,
   UNLOAD_GAME,
   ON_GAME_MODEL_UPDATE,
-  CHANGE_GAME_STATE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -33,7 +32,7 @@ import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../defaultData/descriptors';
 import store from '..';
 import { START_STATE, UNDO_MEMORY_MAX } from '../../constants';
-import { changeGameState } from './narrativeActions';
+import { changeGameState } from './gameContextActions';
 
 
 function onGameModelUpdate(gameUpdate) {

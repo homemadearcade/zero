@@ -7,7 +7,7 @@ import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { WORLD_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../utils/browserUtils';
 
-const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, game: { gameModel }, editorInstance: { isGridViewOpen }}) => {
+const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, game: { gameModel }, editorInstance: { isGridViewOn }}) => {
   return <>
      <MenuItem><strong>{gameModel.metadata.title}</strong></MenuItem>
     <Unlockable interfaceId="contextMenu/world/gravity">
@@ -32,7 +32,7 @@ const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, 
       <MenuItem onClick={() => {
         toggleGridView()
         onMenuItemClick()
-      }}>{isGridViewOpen ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
+      }}>{isGridViewOn ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
     </Unlockable>
     <Unlockable interfaceId="contextMenu/world/takeSnapshot">
       <MenuItem onClick={() => {

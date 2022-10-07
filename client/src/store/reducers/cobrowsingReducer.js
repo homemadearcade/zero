@@ -18,8 +18,7 @@ import { initialEditorState } from './editorFormsReducer';
 import { initialEditorInstanceState } from './editorInstanceReducer';
 import { initialEditorFormsState } from './editorReducer';
 import { initialErrorState } from './errorsReducer';
-import { initialHomemadeArcadeState } from './homemadeArcadeReducer';
-import { initialNarrativeState } from './narrativeReducer';
+import { initialGameContextState } from './gameContextReducer';
 import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
 import { initialVideoState } from './videoReducer';
 
@@ -37,8 +36,7 @@ const initialState = {
     contextMenu: initialContextMenuState,
     unlockableInterfaceIds: initialUnlockableInterfaceState,
     errors: initialErrorState,
-    narrative: initialNarrativeState,
-    homemadeArcade: initialHomemadeArcadeState
+    gameContext: initialGameContextState
   },
 };
 
