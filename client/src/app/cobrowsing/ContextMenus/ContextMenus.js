@@ -5,27 +5,28 @@ import GameContextMenuBody from '../../../game/ui/GameContextMenuBody/GameContex
 import './ContextMenus.scss'
 import ContextMenu from '../../ui/ContextMenu/ContextMenu';
 import Unlockable from '../Unlockable/Unlockable';
+
 const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isCurrentlyCobrowsing }}) => {  
 
   function renderContextMenus() {
     const contextMenus = []
 
     if(contextMenu.isContextMenuOpen) {
-      const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = contextMenu
+      const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, selectableObjectInstances, contextMenuX, contextMenuY } = contextMenu
   
       contextMenus.push(<ContextMenu  key="contextmenu"  contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
-        <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
+        <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu} selectableObjectInstances={selectableObjectInstances}/>
       </ContextMenu>)
     }
   
     // the only thing this does could be 1) shows you that you didnt open the menu 2) position it based on their screen...
     if(isCurrentlyCobrowsing && remoteContextMenu.isContextMenuOpen) {
-      const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, contextMenuX, contextMenuY } = remoteContextMenu
+      const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, selectableObjectInstances, contextMenuX, contextMenuY} = remoteContextMenu
   
       // need to calculate contextMenuX percent because... its not perfect
       contextMenus.push(<ContextMenu key="contextmenu" contextMenuX={contextMenuX} contextMenuY={contextMenuY} isOpen={isContextMenuOpen}>
         <div className="ContextMenus__remote-menu">
-          <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu}/>
+          <GameContextMenuBody objectIdSelectedContextMenu={objectIdSelectedContextMenu} classIdSelectedContextMenu={classIdSelectedContextMenu} selectableObjectInstances={selectableObjectInstances}/>
         </div>
       </ContextMenu>)
     }

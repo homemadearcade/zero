@@ -1,4 +1,4 @@
-import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../constants"
+import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, JETPACK_CONTROLS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../constants"
 import { defaultMovement } from "./class"
 
 //////////////////////////////////////////////////////////////////////////
@@ -51,9 +51,16 @@ export const movementToParemeters = {
     floatSpeed: true,
     speed: 'Move Speed',
     dragX: true,
+    cooldown: 'Float Cooldown'
   },
   [CAR_CONTROLS]: {
     speed: 'Accelerate/Reverse Speed',
+    dragX: true,
+    dragY: true
+  },
+  [JETPACK_CONTROLS]: {
+    jumpSpeed: 'Thrust Speed',
+    speed: 'Move Speed',
     dragX: true,
     dragY: true
   }
@@ -191,8 +198,19 @@ export const floaterDefaults = {
     controls: FLOATER_CONTROLS,
     allowDoubleJump: true,
     disableDownKey: false,
+    cooldown: 200,
     dragX: 0.1,
     dragY: 1,
+  },
+}
+
+export const jetpackDefaults = {
+  movement: {
+    controls: JETPACK_CONTROLS,
+    // jumpSpeed: 100,
+    dragX: 0,
+    dragY: 1,
+    disableDownKey: true,
   },
 }
 
@@ -227,6 +245,12 @@ export const controlsToKeys = {
     left: 'Turn Left',
     right: 'Turn Right',
     down: 'Reverse'
+  },
+  [JETPACK_CONTROLS]: {
+    up: 'Thrust',
+    left: 'Move Left',
+    right: 'Move Right',
+    down: null
   }
 }
 

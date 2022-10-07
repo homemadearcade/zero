@@ -3,7 +3,8 @@ import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
-import { changeEditorCameraZoom, clearBrush, clearClass, closeSnapshotTaker } from '../../store/actions/editorActions';
+import { clearBrush, clearClass } from '../../store/actions/editorActions';
+import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/editorInstanceActions';
 import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
@@ -150,6 +151,7 @@ export class EditorScene extends GameInstance {
   onPointerMove = (pointer)  => {
     window.pointer = pointer
 
+    const editorInstance = getCobrowsingState().editorInstance
     const editor = getCobrowsingState().editor
     const brushId = editor.brushIdSelectedBrushList
     const classId = editor.classIdSelectedClassList
@@ -166,7 +168,7 @@ export class EditorScene extends GameInstance {
     // SNAPSHOT
     ////////////////////////////////////////////////////////////
     if(this.snapshotSquare) {
-      if(!editor.isSnapshotTakerOpen) {
+      if(!editorInstance.isSnapshotTakerOpen) {
         this.snapshotSquare.clear()
         this.snapshotSquare = null 
         this.snapshotStartPos = null
@@ -235,7 +237,6 @@ export class EditorScene extends GameInstance {
       return
     }
 
-
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -269,9 +270,9 @@ export class EditorScene extends GameInstance {
       ////////////////////////////////////////////////////////////
       // SNAPSHOT
       ////////////////////////////////////////////////////////////
-      const editor = getCobrowsingState().editor
+      const editorInstance = getCobrowsingState().editorInstance
       const gameModel = store.getState().game.gameModel
-      if(editor.isSnapshotTakerOpen) {
+      if(editorInstance.isSnapshotTakerOpen) {
         if(this.snapshotSquare) {
           const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
           snapCanvas.draw(this.world.backgroundColorLayer, 0,0)
@@ -284,7 +285,7 @@ export class EditorScene extends GameInstance {
             Math.floor((pointer.worldX - this.snapshotStartPos.x) + 2), 
             Math.floor((pointer.worldY - this.snapshotStartPos.y) + 2), 
             async function (image) {
-              const fileId = editor.snapshotFileId
+              const fileId = editorInstance.snapshotFileId
           
               var imgCanvas = document.createElement("canvas"),
               imgContext = imgCanvas.getContext("2d");
@@ -393,7 +394,7 @@ export class EditorScene extends GameInstance {
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId) return
-    if(!getCobrowsingState().editor.isGridViewOn) return
+    if(!getCobrowsingState().editorInstance.isGridViewOn) return
     
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)
@@ -826,14 +827,14 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    const isGridViewOn = getCobrowsingState().editor.isGridViewOn
+    const isGridViewOn = getCobrowsingState().editorInstance.isGridViewOn
     if(isGridViewOn) {
       this.isGridViewOn = true
     } else {
       this.isGridViewOn = false
     }
     
-    const cameraZoom = store.getState().editor.cameraZoom
+    const cameraZoom = store.getState().editorInstance.cameraZoom
     if(cameraZoom !== this.editorCamera.zoom) {
       this.editorCamera.setZoom(cameraZoom)
       // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)

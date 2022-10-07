@@ -7,9 +7,12 @@ import ObjectInstanceContextMenu from '../../ObjectInstanceContextMenu/ObjectIns
 import ClassContextMenu from '../../ClassContextMenu/ClassContextMenu';
 import WorldContextMenu from '../../WorldContextMenu/WorldContextMenu';
 import { HERO_INSTANCE_ID } from '../../../constants';
+import ObjectInstanceListContextMenu from '../../ObjectInstanceListContextMenu/ObjectInstanceListContextMenu';
 
-const GameContextMenuBody = ({ objectIdSelectedContextMenu, classIdSelectedContextMenu, closeContextMenu }) => { 
-  if(objectIdSelectedContextMenu) {
+const GameContextMenuBody = ({ selectableObjectInstances, objectIdSelectedContextMenu, classIdSelectedContextMenu, closeContextMenu }) => { 
+  if(selectableObjectInstances) {
+    return <ObjectInstanceListContextMenu selectableObjectInstances={selectableObjectInstances} onMenuItemClick={closeContextMenu}/>
+  } else if(objectIdSelectedContextMenu) {
     return <ObjectInstanceContextMenu onMenuItemClick={closeContextMenu} objectId={objectIdSelectedContextMenu} classId={classIdSelectedContextMenu} />
   } else if(classIdSelectedContextMenu || objectIdSelectedContextMenu === HERO_INSTANCE_ID) {
     return <ClassContextMenu classId={classIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>

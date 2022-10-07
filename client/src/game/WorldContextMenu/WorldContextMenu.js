@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-
-import { openLiveEditor, openSectionEditor, openSelectBackgroundColor } from '../../store/actions/editorActions';
+import { openLiveEditor, openSelectBackgroundColor } from '../../store/actions/editorActions';
+import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../store/actions/editorInstanceActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { WORLD_EDITOR } from '../../constants';
+import { generateUniqueId } from '../../utils/browserUtils';
 
-const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor }) => {
+const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, game: { gameModel }, editorInstance: { isGridViewOpen }}) => {
   return <>
+     <MenuItem><strong>{gameModel.metadata.title}</strong></MenuItem>
     <Unlockable interfaceId="contextMenu/world/gravity">
       <MenuItem onClick={() => {
         openLiveEditor(WORLD_EDITOR)
@@ -26,11 +28,24 @@ const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, 
         onMenuItemClick()
       }}>Edit Background Color</MenuItem>
     </Unlockable>
+    <Unlockable interfaceId="contextMenu/world/toggleGrid">
+      <MenuItem onClick={() => {
+        toggleGridView()
+        onMenuItemClick()
+      }}>{isGridViewOpen ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId="contextMenu/world/takeSnapshot">
+      <MenuItem onClick={() => {
+        openSnapshotTaker(generateUniqueId())
+        onMenuItemClick()
+      }}>Take Snapshot</MenuItem>
+    </Unlockable>
   </>
 };
 
 const mapStateToProps = (state) => ({
-
+  game: state.game,
+  editorInstance: state.editorInstance
 });
 
-export default connect(mapStateToProps, { openLiveEditor, openSectionEditor, openSelectBackgroundColor })( WorldContextMenu );
+export default connect(mapStateToProps, { openLiveEditor, openSectionEditor, openSelectBackgroundColor, openSnapshotTaker, toggleGridView })( WorldContextMenu );

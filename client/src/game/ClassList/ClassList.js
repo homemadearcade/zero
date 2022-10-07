@@ -222,12 +222,13 @@ const ClassList = ({
         editGameModel({
           classes: {
             [objectClass.classId] : {
-              graphics: objectClass.graphics,
-              descriptors: objectClass.descriptors,
-              name: objectClass.name,
-              classId: objectClass.classId,
-              type: objectClass.type,
-              interfaceLocked: objectClass.interfaceLocked
+              ...objectClass
+              // graphics: objectClass.graphics,
+              // descriptors: objectClass.descriptors,
+              // name: objectClass.name,
+              // classId: objectClass.classId,
+              // type: objectClass.type,
+              // interfaceLocked: objectClass.interfaceLocked
             }
           }
         })

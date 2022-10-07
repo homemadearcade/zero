@@ -199,7 +199,7 @@ export class CodrawingScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    const isGridViewOn = getCobrowsingState().editor.isGridViewOn
+    const isGridViewOn = getCobrowsingState().editorInstance.isGridViewOn
     if(isGridViewOn) {
       this.isGridViewOn = true
     } else {

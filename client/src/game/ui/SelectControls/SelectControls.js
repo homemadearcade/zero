@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectControls.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { PLATFORMER_CONTROLS, ADVENTURER_CONTROLS, SPACESHIP_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS } from '../../../constants';
-import { adventurerDefaults, carDefaults, floaterDefaults, platformerDefaults, spaceshipDefaults } from '../../../defaultData/movement';
+import { PLATFORMER_CONTROLS, ADVENTURER_CONTROLS, SPACESHIP_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, JETPACK_CONTROLS } from '../../../constants';
+import { adventurerDefaults, carDefaults, floaterDefaults, jetpackDefaults, platformerDefaults, spaceshipDefaults } from '../../../defaultData/movement';
 
 const controlsValues = {
   [PLATFORMER_CONTROLS]: platformerDefaults,
@@ -13,6 +13,7 @@ const controlsValues = {
   [SPACESHIP_CONTROLS]: spaceshipDefaults,
   // [CAR_CONTROLS]: carDefaults,
   [FLOATER_CONTROLS]: floaterDefaults,
+  [JETPACK_CONTROLS]: jetpackDefaults
 }
 
 const controlsValueToLabel = {
@@ -20,7 +21,8 @@ const controlsValueToLabel = {
   [ADVENTURER_CONTROLS]: 'Adventurer',
   [SPACESHIP_CONTROLS]: 'Spaceship',
   [FLOATER_CONTROLS]: 'Floater',
-  [CAR_CONTROLS]: 'Car'
+  [CAR_CONTROLS]: 'Car',
+  [JETPACK_CONTROLS]: 'Jetpack'
 }
 
 const SelectControls = ({ onChange, value, formLabel }) => {

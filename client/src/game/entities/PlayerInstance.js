@@ -5,7 +5,7 @@ import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
 import { InteractArea } from "./members/InteractArea";
-import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../../constants";
+import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, JETPACK_CONTROLS, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -128,6 +128,35 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
+    // JETPACK
+    if(objectClass.movement.controls === JETPACK_CONTROLS) {
+      let xTouched = false
+
+      if(this.cursors.left.isDown) {
+        this.setAccelerationX(-speed)
+        xTouched = true
+      }
+      
+      if(this.cursors.right.isDown) {
+        this.setAccelerationX(speed)
+        xTouched = true
+      }
+
+      if(this.cursors.up.isDown) {
+          this.thrust(objectClass.movement.jumpSpeed * 2);
+      } else {
+        if(this.cursors.down.isDown && !objectClass.movement.disableDownKey) {
+          this.thrust(-(objectClass.movement.jumpSpeed * 2));
+        } else {
+          this.setAccelerationY(0)
+        }
+      }
+
+      if(!xTouched) this.setAccelerationX(0)
+    }
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
     // ADVENTURER
     if(objectClass.movement.controls === ADVENTURER_CONTROLS) {
       let xTouched = false 
@@ -180,8 +209,9 @@ export class PlayerInstance extends ObjectInstance {
       if(this.cursors.up.isDown) {
         if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
           this.setVelocityY(-objectClass.movement.jumpSpeed)
-        } else if(objectClass.movement.allowDoubleJump) {
+        } else if(objectClass.movement.allowDoubleJump && (!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
           this.setVelocityY(-objectClass.movement.floatSpeed)
+          this.doubleJumpCoolDown = time + objectClass.movement.cooldown
         }
       }
 

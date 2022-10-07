@@ -39,9 +39,8 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: gameObjects[0].classId, 
-      objectIdSelectedContextMenu: gameObjects[0].id,
-      // objectSelectedId: gameObjects.length === 1 ? gameObjects[0].id : null, 
-      selectableObjectIds: gameObjects.length > 1 ? gameObjects.map(({id}) => id) : null, 
+      objectIdSelectedContextMenu: gameObjects.length === 1 ? gameObjects[0].id : null, 
+      selectableObjectInstances: gameObjects.length > 1 ? gameObjects.map(({id, classId}) => { return {objectId: id, classId}}) : null, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }
@@ -57,6 +56,26 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: classId, 
+      selectableObjectInstances: null,
+      contextMenuX: event.pageX,
+      contextMenuY: event.pageY
+    }
+  });
+}
+
+export const openContextMenuFromObjectInstanceId= (objectId, classId, event) => (dispatch, getState) => {
+  if(getInterfaceIdData('contextMenu/*').isObscured) return 
+
+  console.log(objectId, classId, {      contextMenuX: event.pageX,
+    contextMenuY: event.pageY})
+  dispatch({
+    updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
+    type: OPEN_CONTEXT_MENU,
+    payload: {
+      objectIdSelectedContextMenu: objectId,
+      classIdSelectedContextMenu: classId,
+      selectableObjectInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }

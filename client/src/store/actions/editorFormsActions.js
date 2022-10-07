@@ -11,8 +11,18 @@ import {
   UPDATE_CREATE_BRUSH,
   UPDATE_CREATE_BRUSH_STEP,
   CLEAR_EDITOR_FORMS,
+  CHANGE_EDITOR_CAMERA_ZOOM,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
+
+export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_EDITOR_CAMERA_ZOOM,
+    payload: {
+      cameraZoom: zoom
+    }
+  });
+}
 
 export const clearEditorForms = () => (dispatch, getState) => {
   dispatch({

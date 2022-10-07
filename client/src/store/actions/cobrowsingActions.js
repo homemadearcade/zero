@@ -60,7 +60,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
 
   if(state.page.pageInstance && window.pointer) {
     
-    const cameraZoom = state.editor.cameraZoom
+    const cameraZoom = state.editorInstance.cameraZoom
 
     const scene = getCurrentGameScene(state.page.gameInstance)
     if(!scene) return 
@@ -68,7 +68,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
     if(!camera) return
 
     cobrowsingStatus.phaserView = {
-      isGridViewOn: state.editor.isGridViewOn,
+      isGridViewOn: state.editorInstance.isGridViewOn,
       mouseWorldX: window.pointer.worldX,
       mouseWorldY: window.pointer.worldY,
       cameraX: camera.worldView.x,

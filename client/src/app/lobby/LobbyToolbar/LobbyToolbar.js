@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './LobbyToolbar.scss';
 import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby, lobbyUndo } from '../../../store/actions/lobbyActions';
-import { toggleGridView } from '../../../store/actions/editorActions'
+import { toggleGridView } from '../../../store/actions/editorInstanceActions'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';

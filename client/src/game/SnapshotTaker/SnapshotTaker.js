@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { } from 'react';
 import { connect } from 'react-redux';
 import Button from '../../app/ui/Button/Button';
-import { closeSnapshotTaker } from '../../store/actions/editorActions';
+import { closeSnapshotTaker } from '../../store/actions/editorInstanceActions';
 
 import './SnapshotTaker.scss'
 

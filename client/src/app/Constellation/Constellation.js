@@ -67,7 +67,7 @@ export class Constellation extends React.Component {
 
     p5.background(0);
     p5.fill(255);
-    if(!this.props.zoomOut || this.zoom <= 1) this.tracker(p5);
+    if(this.zoom <= 1) this.tracker(p5);
 
     for (let i=0; i < stars; i++) {
       p5.noStroke();
@@ -113,6 +113,7 @@ export class Constellation extends React.Component {
 
   mouseMoved = (p5, event) => {
     if(this.props.zoomOut) return 
+    if(this.props.notInteractive) return
 
     const { clientX: mouseX, clientY: mouseY } = event
 
@@ -141,6 +142,8 @@ export class Constellation extends React.Component {
 
   mouseDragged = (p5, event) => {
     if(this.props.zoomOut) return 
+    if(this.props.notInteractive) return
+
 
     const { clientX: mouseX, clientY: mouseY } = event
 

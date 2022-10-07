@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { toggleGridView } from '../../store/actions/editorActions';
+import { toggleGridView } from '../../store/actions/editorInstanceActions';
 import UndoButton from '../../app/ui/UndoButton/UndoButton';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 

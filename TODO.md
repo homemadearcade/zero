@@ -11,10 +11,8 @@ TODO
 Relationship UI
   onCutsceneEnd Event
   World Effects
-
-Mini-Relationship View - Icons + Name
-Multiple Object Stacked Select
-Jetpack Controls
+  Destroyed By Message ( You lost because... )
+  Mini-Relationship View - Icons + Name
 
 Cutscene UI
 Metadata Button/Menu
@@ -33,5 +31,13 @@ CUTSCENE UI
 TODO CHORES 
 
 Move properties into objects based on Member
+
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
+
 Game -> Arcade Game
+
+editorInstanceReducer -> gameViewReducer
+editorReducer -> gameEditorReducer
+homemadeArcadeReducer -> narrativeReducer
+narrativeReducer -> gameStateReducer
+pageReducer -> browserReducer

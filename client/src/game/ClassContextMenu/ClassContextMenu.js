@@ -10,10 +10,11 @@ import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../utils/browserUtils';
 
-const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, onMenuItemClick, game: { gameModel }, classId, editorForms : { isCreateClassFlowOpen }, insideObjectInstanceContextMenu }) => {
+const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, onMenuItemClick, game: { gameModel }, classId, insideObjectInstanceContextMenu }) => {
   const objectClass = gameModel.classes[classId]
 
   return <>
+    {!insideObjectInstanceContextMenu &&  <MenuItem><strong>{gameModel.classes[classId].name}</strong></MenuItem>}
     {objectClass.type === HERO_CLASS && classId !== gameModel.hero.initialClassId && 
       <Unlockable interfaceId="contextMenu/class/setPlayerClass">
           <MenuItem onClick={() => {
@@ -90,7 +91,6 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, 
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorForms: state.editorForms
 })
 
 export default connect(mapStateToProps, { editGameModel, openCreateClassFlow, openLiveEditor })(ClassContextMenu);

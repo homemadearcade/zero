@@ -13,7 +13,7 @@ import SelectControls from '../ui/SelectControls/SelectControls';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../app/ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
-import { HERO_CLASS } from '../../constants';
+import { HERO_CLASS, JETPACK_CONTROLS, SPACESHIP_CONTROLS } from '../../constants';
 import ControlsCard from '../ui/ControlsCard/ControlsCard';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">
@@ -55,7 +55,8 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
       gravityY: true,
       dragX: true,
       dragY: true,
-      bounce: true
+      cooldown: true,
+      bounce: true,
     }
   }
 
@@ -182,6 +183,17 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
           value={classSelected.movement.gravityX}
         />
       </Unlockable>}
+      {parameters.cooldown && <Unlockable isSlider interfaceId="movement/cooldown">
+        <SliderNotched
+          formLabel={parameters.cooldown.length ? parameters.cooldown : "Cooldown"}
+          options={[50, 100, 200, 500, 1000, 2000, 5000]}
+          step={1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { cooldown: value} }}})        
+          }}
+          value={classSelected.movement.cooldown}
+        />
+      </Unlockable>}
       {parameters.bounce && <Unlockable isSlider interfaceId="physics/sliders/bounce">
         <SliderNotched
           formLabel="Bounce"
@@ -213,7 +225,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
           checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
-      {<Unlockable interfaceId="advanced/disableDownKey">
+      {(classSelected.movement.controls === SPACESHIP_CONTROLS || classSelected.movement.controls === JETPACK_CONTROLS) && <Unlockable interfaceId="advanced/disableDownKey">
         <Switch
           labels={['Enable Down', 'Disable Down']}
           size="small"

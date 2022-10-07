@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
 import Button from '../../app/ui/Button/Button';
-import { closeSectionEditor } from '../../store/actions/editorActions';
+import { closeSectionEditor } from '../../store/actions/editorInstanceActions';
 import { editGameModel } from '../../store/actions/gameActions';
 import { FormLabel } from '@mui/material';
 

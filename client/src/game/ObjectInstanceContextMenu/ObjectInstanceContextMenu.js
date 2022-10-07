@@ -7,8 +7,9 @@ import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, page: { gameInstance } }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, page: { gameInstance }, game: { gameModel } }) => {
   return <>
+    <MenuItem><strong>{gameModel.classes[classId].name}</strong></MenuItem>
     <Unlockable interfaceId="contextMenu/instance/resize">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(objectId)
@@ -26,7 +27,8 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
 };
 
 const mapStateToProps = (state) => ({
-  page: state.page
+  page: state.page,
+  game: state.game
 })
 
 export default connect(mapStateToProps, { editGameModel })(ObjectInstanceContextMenu);

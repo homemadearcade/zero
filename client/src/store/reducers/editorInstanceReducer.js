@@ -2,8 +2,12 @@ import { BACKGROUND_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, OBJECT_INSTANCE_CANVAS_I
 import {
   CLEAR_EDITOR_INSTANCE,
   TOGGLE_CANVAS_VISIBILITY,
-  TOGGLE_GAME_INSTANCE_PAUSED,
-  RESET_GAME_INSTANCE
+  TOGGLE_GRID_VIEW,
+  OPEN_SECTION_EDITOR,
+  CLOSE_SECTION_EDITOR,
+  OPEN_SNAPSHOT_TAKER,
+  CLOSE_SNAPSHOT_TAKER,
+  CHANGE_EDITOR_CAMERA_ZOOM
 } from '../types';
 
 const initialState = {
@@ -15,24 +19,52 @@ const initialState = {
     [ZONE_INSTANCE_CANVAS_ID]: true,
     [FOREGROUND_CANVAS_ID]: true
   },
-  // gameResetDate: 0,
-  // isGamePaused: false,
+  cameraZoom: 3,
+  isGridViewOn: false,
+  isSectionEditorOpen: false,
+  isSnapshotTakerOpen: false,
+  snapshotFileId: null
 };
 
 export const initialEditorInstanceState = initialState
 
 export default function editorInstanceReducer(state = initialState, { type, payload }) {
   switch (type) {
-    // case RESET_GAME_INSTANCE:
-    //   return {
-    //     ...state,
-    //     gameResetDate: Date.now()
-    //   }
-    // case TOGGLE_GAME_INSTANCE_PAUSED:
-    //   return {
-    //     ...state,
-    //     isGamePaused: !state.isGamePaused
-    //   }
+    case CHANGE_EDITOR_CAMERA_ZOOM: {
+      return {
+        ...state,
+        cameraZoom: payload.cameraZoom
+      }
+    }
+    case OPEN_SNAPSHOT_TAKER:
+      return {
+        ...state,
+        isSnapshotTakerOpen: true,
+        snapshotFileId: payload.snapshotFileId
+      };
+    case CLOSE_SNAPSHOT_TAKER:
+      return {
+        ...state,
+        isSnapshotTakerOpen: false,
+        snapshotFileId: null
+      };
+    case OPEN_SECTION_EDITOR:
+      return {
+        ...state,
+        isSectionEditorOpen: true,
+        isGridViewOn: true,
+        cameraZoom: 1,
+      };
+    case CLOSE_SECTION_EDITOR:
+      return {
+        ...state,
+        isSectionEditorOpen: false,
+      };
+    case TOGGLE_GRID_VIEW: 
+      return {
+        ...state,
+        isGridViewOn: !state.isGridViewOn,
+      }
     case TOGGLE_CANVAS_VISIBILITY:
       return {
         ...state,

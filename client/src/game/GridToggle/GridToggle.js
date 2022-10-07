@@ -7,12 +7,12 @@ import Icon from '../../app/ui/Icon/Icon';
 
 import './GridToggle.scss'
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
-import { toggleGridView } from '../../store/actions/editorActions';
+import { toggleGridView } from '../../store/actions/editorInstanceActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Switch from '../../app/ui/Switch/Switch';
 
 const GridToggle = ({
-  editor: { isGridViewOn}, 
+  editorInstance: { isGridViewOn}, 
   toggleGridView
 }) => {
   return <Unlockable interfaceId="toolbar/toggleGrid">
@@ -32,7 +32,7 @@ const GridToggle = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editor: state.editor,
+  editorInstance: state.editorInstance,
 });
 
 export default compose(

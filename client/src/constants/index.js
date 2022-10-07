@@ -143,6 +143,7 @@ export const SPACESHIP_CONTROLS = 'SPACESHIP_CONTROLS'
 export const PLATFORMER_CONTROLS = 'PLATFORMER_CONTROLS'
 export const FLOATER_CONTROLS = 'FLOATER_CONTROLS'
 export const ADVENTURER_CONTROLS = 'ADVENTURER_CONTROLS'
+export const JETPACK_CONTROLS = 'JETPACK_CONTROLS'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -167,3 +168,4 @@ export const START_STATE = 'START_STATE'
 export const PLAY_STATE = 'PLAY_STATE'
 export const GAME_OVER_STATE = 'GAME_OVER_STATE'
 export const WIN_GAME_STATE = 'WIN_GAME_STATE'
+

@@ -13,7 +13,7 @@ import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/Constellation/Constellation';
 
-const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, liveEditingCategory, isSectionEditorOpen, isSnapshotTakerOpen }, homemadeArcade: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, liveEditingCategory }, editorInstance: { isSectionEditorOpen, isSnapshotTakerOpen }, homemadeArcade: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -47,6 +47,7 @@ const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, liveEdi
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
+  editorInstance: state.editorInstance,
   homemadeArcade: state.homemadeArcade
 })
 

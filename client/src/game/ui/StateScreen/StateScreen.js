@@ -11,14 +11,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../KeyIndicator/KeyIndicator';
 import './StateScreen.scss';
 
-function StateScreen({changeGameState, narrative: { gameState }}) {
-  function progressIfX(event) {
-    if(!event.key) return
-    if(event.key.toLowerCase() === 'x'){
-      changeGameState(PLAY_STATE)
-    }
-  }
-
+function StateScreenBody({changeGameState, gameState}) {
   useEffect(() => {
     window.addEventListener('keydown', progressIfX)
     return () => {
@@ -26,29 +19,36 @@ function StateScreen({changeGameState, narrative: { gameState }}) {
     }
   })
 
+  function progressIfX(event) {
+    if(!event.key) return
+    if(event.key.toLowerCase() === 'x'){
+      changeGameState(PLAY_STATE)
+    }
+  }
+
   function renderStateScreen() {
     if(gameState === START_STATE) {
-      return <Constellation>
+      return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">Start Game</Typography>
-          <Typography component="h3" variant="h3">Press X To Start</Typography>
+          <Typography component="h3" variant="h3">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Start</Typography>
         </div></Fade>
       </Constellation>
     }
     if(gameState === GAME_OVER_STATE) {
-      return <Constellation>
+      return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
-          <Typography component="h3" variant="h3">Press X To Try Again</Typography>
+          <Typography component="h3" variant="h3">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
           <Link to="/games"><Typography component="h3" variant="h3">Return to Arcade</Typography></Link>
         </div></Fade>
       </Constellation>
     }
     if(gameState === WIN_GAME_STATE) {
-      return <Constellation>
+      return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">You won!</Typography>
-          <Typography component="h3" variant="h3">Press X To Play Again</Typography>
+          <Typography component="h3" variant="h3">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
           <Link to="/games"><Typography component="h3" variant="h3">Return to Arcade</Typography></Link>
         </div></Fade>
       </Constellation>
@@ -60,6 +60,13 @@ function StateScreen({changeGameState, narrative: { gameState }}) {
       {renderStateScreen()}
     </div>
   );
+}
+
+function StateScreen({narrative: { gameState}, changeGameState}) {
+  if(gameState === PLAY_STATE) {
+    return null
+  }
+  return <StateScreenBody gameState={gameState} changeGameState={changeGameState}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
