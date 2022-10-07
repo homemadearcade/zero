@@ -28,6 +28,4 @@ Move properties into objects based on Member
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
 
 Game -> Arcade Game
-editorInstanceReducer -> gameViewReducer
 editorReducer -> gameEditorReducer
-pageReducer -> browserReducer

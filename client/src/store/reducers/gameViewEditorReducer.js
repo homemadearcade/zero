@@ -1,6 +1,6 @@
 import { BACKGROUND_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, OBJECT_INSTANCE_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import {
-  CLEAR_EDITOR_INSTANCE,
+  CLEAR_GAME_VIEW_EDITOR,
   TOGGLE_CANVAS_VISIBILITY,
   TOGGLE_GRID_VIEW,
   OPEN_SECTION_EDITOR,
@@ -26,9 +26,9 @@ const initialState = {
   snapshotFileId: null
 };
 
-export const initialEditorInstanceState = initialState
+export const initialGameViewEditorState = initialState
 
-export default function editorInstanceReducer(state = initialState, { type, payload }) {
+export default function gameViewEditorReducer(state = initialState, { type, payload }) {
   switch (type) {
     case CHANGE_EDITOR_CAMERA_ZOOM: {
       return {
@@ -73,7 +73,7 @@ export default function editorInstanceReducer(state = initialState, { type, payl
           [payload.canvasId]: !state.layerVisibility[payload.canvasId]
         }
       }
-    case CLEAR_EDITOR_INSTANCE:
+    case CLEAR_GAME_VIEW_EDITOR:
       return initialState
     default:
       return state;

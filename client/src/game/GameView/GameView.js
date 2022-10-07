@@ -9,7 +9,7 @@ import { PRELOADER_SCENE } from '../../constants';
 
 import { gameSize } from '../../defaultData/general';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { setGameInstance } from '../../store/actions/pageActions';
+import { setGameInstance } from '../../store/actions/webPageActions';
 
 import Cutscene from '../ui/Cutscene/Cutscene';
 import { Constellation } from '../../app/Constellation/Constellation';

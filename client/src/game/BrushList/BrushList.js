@@ -8,7 +8,7 @@ import './BrushList.scss';
 import { editGameModel } from '../../store/actions/gameActions';
 import BrushItem from '../BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
-import { openCreateBrushFlow } from '../../store/actions/editorFormsActions';
+import { openCreateBrushFlow } from '../../store/actions/gameFormEditorActions';
 import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
@@ -21,11 +21,11 @@ import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../app/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
-import { generateUniqueId } from '../../utils/browserUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
 const BrushList = ({
   game: { gameModel },
-  editorForms: { isCreateBrushFlowOpen },
+  gameFormEditor: { isCreateBrushFlowOpen },
   editGameModel,
   openCreateBrushFlow,
 }) => {
@@ -179,7 +179,7 @@ const BrushList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
 })
 
 

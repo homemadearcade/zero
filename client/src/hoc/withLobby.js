@@ -7,7 +7,7 @@ import AgoraVideoCall from '../app/agora/AgoraVideoCall/AgoraVideoCall';
 import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 import { withRouter } from 'react-router-dom';
 import Button from '../app/ui/Button/Button';
-import { isLocalHost } from '../utils/browserUtils';
+import { isLocalHost } from '../utils/webPageUtils';
 import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
 import store from '../store';
 import { getCurrentGameScene } from '../utils/editorUtils';
@@ -48,7 +48,7 @@ export default (ChildComponent) => {
     askBeforeClosing = async (e) => {
       e.preventDefault();
 
-      const gameInstance = store.getState().page.gameInstance
+      const gameInstance = store.getState().webPage.gameInstance
       if(gameInstance) {
         const scene = getCurrentGameScene(gameInstance)
           

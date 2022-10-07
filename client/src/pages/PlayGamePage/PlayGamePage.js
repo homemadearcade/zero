@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './PlayGamePage.scss';
 
-import { requestFullscreen } from '../../utils/browserUtils';
+import { requestFullscreen } from '../../utils/webPageUtils';
 import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';

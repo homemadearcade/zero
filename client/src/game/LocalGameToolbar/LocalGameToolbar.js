@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { toggleGridView } from '../../store/actions/editorInstanceActions';
+import { toggleGridView } from '../../store/actions/gameViewEditorActions';
 import UndoButton from '../../app/ui/UndoButton/UndoButton';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 
-const LocalGameToolbar = ({ page: { gameInstance } }) => {
+const LocalGameToolbar = ({ webPage: { gameInstance } }) => {
   const [isPaused, setIsPaused] = useState(false)
 
   if(!gameInstance) return
@@ -35,7 +35,7 @@ const LocalGameToolbar = ({ page: { gameInstance } }) => {
 };
 
 const mapStateToProps = (state) => ({
-  page: state.page,
+  webPage: state.webPage,
 });
 
 export default compose(

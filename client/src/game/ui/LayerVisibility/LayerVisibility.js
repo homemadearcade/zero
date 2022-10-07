@@ -3,14 +3,14 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { toggleLayerVisibility } from '../../../store/actions/editorInstanceActions';
+import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../app/ui/Icon/Icon';
-import {  stopPropagation } from '../../../utils/browserUtils';
+import {  stopPropagation } from '../../../utils/webPageUtils';
 import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
 
 const LayerVisibility = ({
-  editorInstance: { layerVisibility },
+  gameViewEditor: { layerVisibility },
   toggleLayerVisibility,
   canvasId
 }) => {
@@ -26,7 +26,7 @@ const LayerVisibility = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorInstance: state.editorInstance,
+  gameViewEditor: state.gameViewEditor,
 });
 
 export default compose(

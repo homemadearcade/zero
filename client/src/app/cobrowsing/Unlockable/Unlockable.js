@@ -11,8 +11,7 @@ import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
 import { Fade, MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing }, width, height}) => {
-
+const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing, showUnlockableInterfaceLocks }, width, height}) => {
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
   const customClassName = className + ' id-' + interfaceId
@@ -50,6 +49,8 @@ const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, u
   }
 
   function ToggleLockMenu() {
+    if(!showUnlockableInterfaceLocks) return 
+
     return <div className={classNames("Unlockable__menu", {'Unlockable__menu--tiny': isTiny})}>
       <MenuIconButton 
         icon={<Icon size="xs" icon={isUnlocked ? "faLockOpen" : "faLock"} />} 
@@ -83,7 +84,7 @@ const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, u
   // essentally for admins
   if(isLockToggleable) {
     if(isTiny) {
-      if(isUnlocked) {
+      if(isUnlocked || !showUnlockableInterfaceLocks) {
         return renderChildren()
       }
       

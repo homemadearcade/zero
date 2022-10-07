@@ -11,7 +11,7 @@ export const checkIfTabAlreadyOpen = (callback) => {
   var onLocalStorageEvent = function(e){
     if(e.key === "openpages"){
         // Listen if anybody else is opening the same page!
-      localStorage.page_available = Date.now();
+      localStorage.webPage_available = Date.now();
     }
     if(e.key === "page_available"){
       otherPageOpen = true

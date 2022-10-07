@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { } from 'react';
 import { connect } from 'react-redux';
 import Button from '../../app/ui/Button/Button';
-import { closeSnapshotTaker } from '../../store/actions/editorInstanceActions';
+import { closeSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 
 import './SnapshotTaker.scss'
 

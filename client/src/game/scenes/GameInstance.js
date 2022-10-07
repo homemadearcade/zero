@@ -265,8 +265,8 @@ export class GameInstance extends Phaser.Scene {
   update(time, delta) {
     super.update(time, delta)
 
-    const editorInstance = getCobrowsingState().editorInstance
-    const layerVisibility = editorInstance.layerVisibility
+    const gameViewEditor = getCobrowsingState().gameViewEditor
+    const layerVisibility = gameViewEditor.layerVisibility
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])

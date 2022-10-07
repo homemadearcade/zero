@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { openLiveEditor, openSelectBackgroundColor } from '../../store/actions/editorActions';
-import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../store/actions/editorInstanceActions';
+import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { WORLD_EDITOR } from '../../constants';
-import { generateUniqueId } from '../../utils/browserUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
-const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, game: { gameModel }, editorInstance: { isGridViewOn }}) => {
+const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, game: { gameModel }, gameViewEditor: { isGridViewOn }}) => {
   return <>
      <MenuItem><strong>{gameModel.metadata.title}</strong></MenuItem>
     <Unlockable interfaceId="contextMenu/world/gravity">
@@ -45,7 +45,7 @@ const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, 
 
 const mapStateToProps = (state) => ({
   game: state.game,
-  editorInstance: state.editorInstance
+  gameViewEditor: state.gameViewEditor
 });
 
 export default connect(mapStateToProps, { openLiveEditor, openSectionEditor, openSelectBackgroundColor, openSnapshotTaker, toggleGridView })( WorldContextMenu );

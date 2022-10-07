@@ -12,13 +12,13 @@ import statusReducer from './statusReducer';
 import videoReducer from './videoReducer';
 import gameReducer from './gameReducer';
 import editorReducer from './editorReducer';
-import editorFormsReducer from './editorFormsReducer';
-import editorInstanceReducer from './editorInstanceReducer';
+import gameFormEditorReducer from './gameFormEditorReducer';
+import gameViewEditorReducer from './gameViewEditorReducer';
 import unlockableInterfaceReducer from './unlockableInterfaceReducer';
 import contextMenuReducer from './contextMenuReducer';
 import codrawingReducer from './codrawingReducer';
 import errorsReducer from './errorsReducer';
-import pageReducer from './pageReducer';
+import webPageReducer from './webPageReducer';
 import gameContextReducer from './gameContextReducer';
 
 export default combineReducers({
@@ -34,12 +34,12 @@ export default combineReducers({
   video: videoReducer,
   game: gameReducer,
   editor: editorReducer,
-  editorForms: editorFormsReducer,
-  editorInstance: editorInstanceReducer,
+  gameFormEditor: gameFormEditorReducer,
+  gameViewEditor: gameViewEditorReducer,
   contextMenu: contextMenuReducer,
   unlockableInterfaceIds: unlockableInterfaceReducer,
   gameContext: gameContextReducer,
   codrawing: codrawingReducer,
   errors: errorsReducer,
-  page: pageReducer
+  webPage: webPageReducer
 });

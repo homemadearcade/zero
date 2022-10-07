@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AggregateColorSelect.scss';
-import { openCreateColorFlow } from '../../store/actions/editorFormsActions';
+import { openCreateColorFlow } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../store/actions/gameActions';
@@ -19,7 +19,7 @@ const AggregateColorSelect = ({
   onSelectColor,
   onUnselectColor,
   editor: { brushIdSelectedBrushList },
-  editorForms: { isCreateColorFlowOpen },
+  gameFormEditor: { isCreateColorFlowOpen },
   selectedColor
 }) => {
   const aggregateColors = Object.keys(colors)
@@ -63,7 +63,7 @@ const AggregateColorSelect = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
   editor: state.editor,
 });
 

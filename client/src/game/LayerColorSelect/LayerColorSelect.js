@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './LayerColorSelect.scss';
 import { BACKGROUND_CANVAS_ID, COLOR_BRUSH_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
-import { openCreateColorFlow } from '../../store/actions/editorFormsActions';
+import { openCreateColorFlow } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../store/actions/gameActions';
@@ -22,7 +22,7 @@ const LayerColorSelect = ({
   selectBrush,
   clearBrush,
   editor: { brushIdSelectedBrushList },
-  editorForms: { isCreateColorFlowOpen }
+  gameFormEditor: { isCreateColorFlowOpen }
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
     const color = colors[hex]
@@ -117,7 +117,7 @@ const LayerColorSelect = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
   editor: state.editor,
 });
 

@@ -4,7 +4,7 @@ import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
 import { clearBrush, clearClass } from '../../store/actions/editorActions';
-import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/editorInstanceActions';
+import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
 import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
@@ -15,7 +15,7 @@ import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../../defaultData/general';
 import { urlToFile } from '../../utils/utils';
-import { generateUniqueId } from '../../utils/browserUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -151,7 +151,7 @@ export class EditorScene extends GameInstance {
   onPointerMove = (pointer)  => {
     window.pointer = pointer
 
-    const editorInstance = getCobrowsingState().editorInstance
+    const gameViewEditor = getCobrowsingState().gameViewEditor
     const editor = getCobrowsingState().editor
     const brushId = editor.brushIdSelectedBrushList
     const classId = editor.classIdSelectedClassList
@@ -168,7 +168,7 @@ export class EditorScene extends GameInstance {
     // SNAPSHOT
     ////////////////////////////////////////////////////////////
     if(this.snapshotSquare) {
-      if(!editorInstance.isSnapshotTakerOpen) {
+      if(!gameViewEditor.isSnapshotTakerOpen) {
         this.snapshotSquare.clear()
         this.snapshotSquare = null 
         this.snapshotStartPos = null
@@ -270,9 +270,9 @@ export class EditorScene extends GameInstance {
       ////////////////////////////////////////////////////////////
       // SNAPSHOT
       ////////////////////////////////////////////////////////////
-      const editorInstance = getCobrowsingState().editorInstance
+      const gameViewEditor = getCobrowsingState().gameViewEditor
       const gameModel = store.getState().game.gameModel
-      if(editorInstance.isSnapshotTakerOpen) {
+      if(gameViewEditor.isSnapshotTakerOpen) {
         if(this.snapshotSquare) {
           const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
           snapCanvas.draw(this.world.backgroundColorLayer, 0,0)
@@ -285,7 +285,7 @@ export class EditorScene extends GameInstance {
             Math.floor((pointer.worldX - this.snapshotStartPos.x) + 2), 
             Math.floor((pointer.worldY - this.snapshotStartPos.y) + 2), 
             async function (image) {
-              const fileId = editorInstance.snapshotFileId
+              const fileId = gameViewEditor.snapshotFileId
           
               var imgCanvas = document.createElement("canvas"),
               imgContext = imgCanvas.getContext("2d");
@@ -394,7 +394,7 @@ export class EditorScene extends GameInstance {
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId) return
-    if(!getCobrowsingState().editorInstance.isGridViewOn) return
+    if(!getCobrowsingState().gameViewEditor.isGridViewOn) return
     
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)
@@ -827,13 +827,13 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    const cameraZoom = store.getState().editorInstance.cameraZoom
+    const cameraZoom = store.getState().gameViewEditor.cameraZoom
     if(cameraZoom !== this.editorCamera.zoom) {
       this.editorCamera.setZoom(cameraZoom)
       // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)
     }
 
-    const isGridViewOn = getCobrowsingState().editorInstance.isGridViewOn
+    const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     if(isGridViewOn) {
       this.isGridViewOn = true
     } else {

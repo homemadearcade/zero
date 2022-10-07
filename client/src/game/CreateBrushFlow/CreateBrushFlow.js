@@ -5,17 +5,17 @@ import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../ui/SelectDescriptors/SelectDescriptors';
-import { updateCreateBrush, clearEditorForms, closeCreateBrushFlow } from '../../store/actions/editorFormsActions';
+import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../store/actions/gameFormEditorActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 
-const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, closeCreateBrushFlow,  editorForms: { brush }}) => {
+const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow,  gameFormEditor: { brush }}) => {
   function handleClose() {
     closeCreateBrushFlow()
-    clearEditorForms()
+    clearGameFormEditor()
   }
 
   return <CobrowsingModal open={true} onClose={handleClose}>
@@ -59,9 +59,9 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearEditorForms, clos
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateBrush, clearEditorForms, closeCreateBrushFlow }),
+  connect(mapStateToProps, { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow }),
 )(CreateBrushFlow);

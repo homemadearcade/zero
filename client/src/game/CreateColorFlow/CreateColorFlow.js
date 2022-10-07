@@ -4,14 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateColorFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeCreateColorFlow, updateCreateColor } from '../../store/actions/editorFormsActions';
+import { closeCreateColorFlow, updateCreateColor } from '../../store/actions/gameFormEditorActions';
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ColorGrid from '../ui/ColorGrid/ColorGrid';
 import Icon from '../../app/ui/Icon/Icon';
 
-const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, editorForms: { color }}) => {
+const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, gameFormEditor: { color }}) => {
   function handleClose() {
     closeCreateColorFlow()
   }
@@ -56,7 +56,7 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, 
 </Button> */}
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
 })
 
 export default compose(

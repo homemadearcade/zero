@@ -15,7 +15,7 @@ import {
   OPEN_LIVE_EDITOR
 } from '../types';
 
-import { generateUniqueId } from '../../utils/browserUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
 const initialState = {
   error: null,
@@ -33,7 +33,7 @@ const initialState = {
   }
 };
 
-export const initialEditorFormsState = initialState
+export const initialEditorState = initialState
 
 export default function editorReducer(state = initialState, { type, payload }) {
   switch (type) {

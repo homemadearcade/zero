@@ -24,6 +24,7 @@ import CobrowsingIndicator from '../../app/cobrowsing/CobrowsingIndicator/Cobrow
 import { ADMIN_ROLE } from '../../constants';
 import LobbyPowerIndicator from '../../app/lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../app/ConstellationToggle/ConstellationToggle';
+import UnlockableInterfaceLocksToggle from '../../app/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -69,6 +70,7 @@ const LobbyPage = ({
         </div>
         <LobbyPowerIndicator/>
         <CobrowsingIndicator/>
+        <UnlockableInterfaceLocksToggle/>
         <ConstellationToggle/>
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 

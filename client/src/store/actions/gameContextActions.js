@@ -28,7 +28,7 @@ export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
         isGamePaused: true
       }))
     } else {
-      const scene = getCurrentGameScene(getState().page.gameInstance)
+      const scene = getCurrentGameScene(getState().webPage.gameInstance)
       scene.isPaused = true
     }
   // }
@@ -69,7 +69,7 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
         isGamePaused: false
       }))
     } else {
-      const scene = getCurrentGameScene(getState().page.gameInstance)
+      const scene = getCurrentGameScene(getState().webPage.gameInstance)
       scene.isPaused = false
     }
   // }
@@ -83,7 +83,7 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
 
 
 export const openConstellation = () => async (dispatch, getState) => {
-  const gameInstance = getState().page.gameInstance
+  const gameInstance = getState().webPage.gameInstance
 
   if(gameInstance) {
     const scene = getCurrentGameScene(gameInstance)

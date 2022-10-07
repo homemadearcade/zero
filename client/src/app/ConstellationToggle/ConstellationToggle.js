@@ -7,14 +7,11 @@ import Icon from '../ui/Icon/Icon';
 import './ConstellationToggle.scss'
 import Switch from '../ui/Switch/Switch';
 import { openConstellation, completeCloseConstellation } from '../../store/actions/gameContextActions';
-import { getCurrentGameScene } from '../../utils/editorUtils';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
 const ConstellationToggle = ({
-  cobrowsing: { isSubscribedCobrowsing, 
-    remoteState: {
-      gameContext: { isConstellationOpen, isConstellationClosing },
-    } 
-  },
+  cobrowsing: { isSubscribedCobrowsing},
+  gameContext: { isConstellationOpen, isConstellationClosing },
   completeCloseConstellation,
   openConstellation,
 }) => {
@@ -39,9 +36,9 @@ const ConstellationToggle = ({
   </div>
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing,
-  game: state.game
+  gameContext: state.gameContext
 });
 
 export default compose(

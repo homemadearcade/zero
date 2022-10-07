@@ -46,9 +46,9 @@ const initialState = {
   // isCreateWorldFlowOpen: false,
 };
 
-export const initialEditorState = initialState
+export const initialGameFormEditorState = initialState
 
-export default function editorFormsReducer(state = initialState, { type, payload }) {
+export default function gameFormEditorReducer(state = initialState, { type, payload }) {
   switch (type) {
     case UPDATE_CREATE_COLOR: 
       return {
@@ -119,7 +119,6 @@ export default function editorFormsReducer(state = initialState, { type, payload
         isCreateBrushFlowOpen: false
       }
     case CLEAR_EDITOR_FORMS:
-      console.log(initialState)
       return initialState
     default:
       return state;

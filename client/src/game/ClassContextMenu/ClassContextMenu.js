@@ -4,11 +4,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../store/actions/gameActions'
 import { openLiveEditor } from '../../store/actions/editorActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
-import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
+import { openCreateClassFlow } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
-import { generateUniqueId } from '../../utils/browserUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
 const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, onMenuItemClick, game: { gameModel }, classId, insideObjectInstanceContextMenu }) => {
   const objectClass = gameModel.classes[classId]

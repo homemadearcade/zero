@@ -18,9 +18,9 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import UndoButton from '../../app/ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../store/actions/lobbyActions';
 import { editGameModel } from '../../store/actions/gameActions';
-import { setSpriteEditorGameInstance } from '../../store/actions/pageActions';
+import { setSpriteEditorGameInstance } from '../../store/actions/webPageActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorAwsId }, page: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, editor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -107,7 +107,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEd
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
-  page: state.page
+  webPage: state.webPage
 });
 
 export default connect(mapStateToProps, { clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance })(SpriteEditor);

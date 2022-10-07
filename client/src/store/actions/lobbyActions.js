@@ -58,7 +58,7 @@ export function onSpriteEditorUndo() {
 
   if(!isHost && state.lobby.id) return
 
-  getCurrentGameScene(state.page.spriteEditorGameInstance).backgroundLayer.undo()
+  getCurrentGameScene(state.webPage.spriteEditorGameInstance).backgroundLayer.undo()
 }
 
 export function onInstanceUndo() {
@@ -73,7 +73,7 @@ export function onInstanceUndo() {
   if(!isHost && state.lobby.id) return
   
   console.log('..?')
-  const scene = getCurrentGameScene(state.page.gameInstance)
+  const scene = getCurrentGameScene(state.webPage.gameInstance)
   if(undoAction === BACKGROUND_CANVAS_ID) {
     scene.backgroundLayer.undo()
   } else if(undoAction === PLAYGROUND_CANVAS_ID) {

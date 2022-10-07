@@ -1,6 +1,6 @@
 import { 
   TOGGLE_CANVAS_VISIBILITY,
-  CLEAR_EDITOR_INSTANCE,
+  CLEAR_GAME_VIEW_EDITOR,
   TOGGLE_GAME_INSTANCE_PAUSED,
   RESET_GAME_INSTANCE,
   TOGGLE_GRID_VIEW,
@@ -75,10 +75,10 @@ export const toggleGridView = () => (dispatch, getState) => {
   });
 }
 
-export const clearEditorInstance = () => (dispatch, getState) => {
+export const clearGameViewEditor = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLEAR_EDITOR_INSTANCE,
+    type: CLEAR_GAME_VIEW_EDITOR,
     payload: {}
   });
 }

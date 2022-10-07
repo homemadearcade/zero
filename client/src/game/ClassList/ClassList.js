@@ -7,7 +7,7 @@ import './ClassList.scss';
 import { editGameModel } from '../../store/actions/gameActions';
 import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
-import { openCreateClassFlow } from '../../store/actions/editorFormsActions';
+import { openCreateClassFlow } from '../../store/actions/gameFormEditorActions';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import BorderedGrid from '../../app/ui/BorderedGrid/BorderedGrid';
@@ -20,7 +20,7 @@ import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 
 const ClassList = ({
   game: { gameModel },
-  editorForms: { isCreateClassFlowOpen },
+  gameFormEditor: { isCreateClassFlowOpen },
   editGameModel,
   openCreateClassFlow,
 }) => {
@@ -239,7 +239,7 @@ const ClassList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
 })
 export default compose(
   connect(mapStateToProps, { editGameModel, openCreateClassFlow }),

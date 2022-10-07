@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '..//ui/SelectDescriptors/SelectDescriptors';
-import { clearEditorForms, closeCreateClassFlow, updateCreateClass } from '../../store/actions/editorFormsActions';
+import { clearGameFormEditor, closeCreateClassFlow, updateCreateClass } from '../../store/actions/gameFormEditorActions';
 import SelectSpriteInline from '../ui/SelectSpriteInline/SelectSpriteInline';
 import Button from '../../app/ui/Button/Button';
 import Typography from '../../app/ui/Typography/Typography';
@@ -17,14 +17,14 @@ import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import Switch from '../../app/ui/Switch/Switch';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
-import { generateUniqueId } from '../../utils/browserUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
-const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, closeCreateClassFlow, editorForms: { class: objectClass } }) => {
+const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
   const [isNewClass, setIsNewClass] = useState(null)
 
   function handleClose() {
     closeCreateClassFlow()
-    clearEditorForms()
+    clearGameFormEditor()
   }
   
   useEffect(() => {
@@ -131,9 +131,9 @@ const CreateClassFlow = ({ onComplete, clearEditorForms, updateCreateClass, clos
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateClass, closeCreateClassFlow, clearEditorForms }),
+  connect(mapStateToProps, { updateCreateClass, closeCreateClassFlow, clearGameFormEditor }),
 )(CreateClassFlow);

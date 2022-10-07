@@ -11,12 +11,13 @@ import {
   UNSUBSCRIBE_COBROWSING_FAIL,
   ON_COBROWSING_UPDATE,
   TOGGLE_COBROWSING,
+  TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
 } from '../types';
 
 import { initialContextMenuState } from './contextMenuReducer';
-import { initialEditorState } from './editorFormsReducer';
-import { initialEditorInstanceState } from './editorInstanceReducer';
-import { initialEditorFormsState } from './editorReducer';
+import { initialGameFormEditorState } from './gameFormEditorReducer';
+import { initialGameViewEditorState } from './gameViewEditorReducer';
+import { initialEditorState } from './editorReducer';
 import { initialErrorState } from './errorsReducer';
 import { initialGameContextState } from './gameContextReducer';
 import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
@@ -26,17 +27,18 @@ const initialState = {
   isSubscribedCobrowsing: false,
   isCurrentlyCobrowsing: false,
   isSubscribingCobrowsing: false,
+  showUnlockableInterfaceLocks: true,
   error: null,
   cobrowsingUser: false,
   remoteState: {
     video: initialVideoState,
     editor: initialEditorState,
-    editorForms: initialEditorFormsState,
-    editorInstance: initialEditorInstanceState,
+    gameFormEditor: initialGameFormEditorState,
+    gameViewEditor: initialGameViewEditorState,
+    gameContext: initialGameContextState,
     contextMenu: initialContextMenuState,
     unlockableInterfaceIds: initialUnlockableInterfaceState,
     errors: initialErrorState,
-    gameContext: initialGameContextState
   },
 };
 
@@ -94,6 +96,11 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         isCurrentlyCobrowsing: !state.isCurrentlyCobrowsing
+      }
+    case TOGGLE_UNLOCKABLE_INTERFACE_LOCKS: 
+      return {
+        ...state,
+        showUnlockableInterfaceLocks: !state.showUnlockableInterfaceLocks
       }
     case ON_COBROWSING_UPDATE:
       return {

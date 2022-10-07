@@ -7,7 +7,7 @@ import { updateLobbyUser, updateOnboardingStep } from '../../../store/actions/lo
 
 import Loader from '../../ui/Loader/Loader';
 import { testInternetSpeed } from '../../../utils/networkUtils';
-import { requestFullscreen } from '../../../utils/browserUtils';
+import { requestFullscreen } from '../../../utils/webPageUtils';
 import Button from '../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { ADMIN_ROLE } from '../../../constants';

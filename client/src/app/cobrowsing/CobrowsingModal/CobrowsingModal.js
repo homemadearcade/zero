@@ -5,12 +5,12 @@ import { Backdrop } from '@mui/material';
 
 import './CobrowsingModal.scss';
 import Icon from '../../ui/Icon/Icon';
-import { stopPropagation } from '../../../utils/browserUtils';
+import { stopPropagation } from '../../../utils/webPageUtils';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, page: { gameInstance } }) => {
+const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
   useEffect(() => {
    getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = false
 
@@ -38,7 +38,7 @@ const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, h
 };
 
 const mapStateToProps = (state) => ({
-  page: state.page
+  webPage: state.webPage
 });
 
 export default compose(

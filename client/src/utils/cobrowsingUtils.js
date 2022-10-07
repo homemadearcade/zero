@@ -4,8 +4,8 @@ export function getRemoteStatePackage(state) {
   return {
     video: state.video,
     editor: state.editor,
-    editorForms: state.editorForms,
-    editorInstance: state.editorInstance,
+    gameFormEditor: state.gameFormEditor,
+    gameViewEditor: state.gameViewEditor,
     unlockableInterfaceIds: state.unlockableInterfaceIds,
     contextMenu: state.contextMenu,
     errors: state.errors,
@@ -28,12 +28,12 @@ export function mapCobrowsingState(state, props) {
     const remoteState = state.cobrowsing.remoteState
     if(propName === 'editor') {
       prev[propName] = remoteState.editor
-    } else if(propName === 'editorForms') {
-      prev[propName] = remoteState.editorForms
+    } else if(propName === 'gameFormEditor') {
+      prev[propName] = remoteState.gameFormEditor
     } else if(propName === 'video') {
       prev[propName] = remoteState.video
-    } else if(propName === 'editorInstance') {
-      prev[propName] = remoteState.editorInstance
+    } else if(propName === 'gameViewEditor') {
+      prev[propName] = remoteState.gameViewEditor
     } else if(propName === 'unlockableInterfaceIds') {
       prev[propName] = remoteState.unlockableInterfaceIds
     } else if(propName === 'errors') {
@@ -74,8 +74,8 @@ export function getCobrowsingState() {
   return {
     ...state,
     editor: remoteState.editor,
-    editorInstance: remoteState.editorInstance,
-    editorForms: remoteState.editorForms,
+    gameViewEditor: remoteState.gameViewEditor,
+    gameFormEditor: remoteState.gameFormEditor,
     video: remoteState.video,
     gameContext: remoteState.gameContext,
     unlockableInterfaceIds: remoteState.unlockableInterfaceIds,

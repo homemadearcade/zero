@@ -5,10 +5,10 @@ import { addLobby } from '../../../store/actions/lobbyActions';
 import './ClassNameForm.scss';
 import { Alert, TextField } from '@mui/material';
 import { addGame } from '../../../store/actions/gameActions';
-import { updateCreateClass } from '../../../store/actions/editorFormsActions';
+import { updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const ClassNameForm = ({ updateCreateClass, game: { gameModel }, editorForms: { class: objectClass } }) => {
+const ClassNameForm = ({ updateCreateClass, game: { gameModel }, gameFormEditor: { class: objectClass } }) => {
   const [nameList, setNameList] = useState([])
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const ClassNameForm = ({ updateCreateClass, game: { gameModel }, editorForms: { 
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
-  editorForms: state.editorForms
+  gameFormEditor: state.gameFormEditor
 });
 
 export default connect(mapStateToProps, { updateCreateClass, addLobby, addGame })(ClassNameForm);

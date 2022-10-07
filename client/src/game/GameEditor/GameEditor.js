@@ -5,9 +5,9 @@ import './GameEditor.scss';
 
 import LiveEditor from '../LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/editorActions';
-import { clearEditorForms } from '../../store/actions/editorFormsActions';
+import { clearGameFormEditor } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import { clearEditorInstance } from '../../store/actions/editorInstanceActions';
+import { clearGameViewEditor } from '../../store/actions/gameViewEditorActions';
 import SectionEditor from '../SectionEditor/SectionEditor';
 import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
@@ -15,15 +15,15 @@ import { Constellation } from '../../app/Constellation/Constellation';
 import { EDIT_STATE } from '../../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
 
-const GameEditor = ({ classNames, changeGameState, editor: { isSelectBackgroundColorOpen, liveEditingCategory }, editorInstance: { isSectionEditorOpen, isSnapshotTakerOpen }, gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, changeGameState, editor: { isSelectBackgroundColorOpen, liveEditingCategory }, gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearGameFormEditor, clearGameViewEditor}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
     changeGameState(EDIT_STATE)
     return () => {
       clearEditor()
-      clearEditorForms()
-      clearEditorInstance()
+      clearGameFormEditor()
+      clearGameViewEditor()
       document.documentElement.style= ogStyle
     }
   }, [])
@@ -50,8 +50,8 @@ const GameEditor = ({ classNames, changeGameState, editor: { isSelectBackgroundC
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   editor: state.editor,
-  editorInstance: state.editorInstance,
+  gameViewEditor: state.gameViewEditor,
   gameContext: state.gameContext
 })
 
-export default connect(mapStateToProps, { clearEditor, clearEditorForms, clearEditorInstance, changeGameState })(GameEditor);
+export default connect(mapStateToProps, { clearEditor, clearGameFormEditor, clearGameViewEditor, changeGameState })(GameEditor);

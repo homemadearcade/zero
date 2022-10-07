@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
-import { openCreateColorFlow } from '../../../store/actions/editorFormsActions';
+import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import Sprite from '../Sprite/Sprite';
 import Button from '../../../app/ui/Button/Button';
 import SpriteEditor from '../../SpriteEditor/SpriteEditor';
@@ -32,7 +32,7 @@ const SelectSpriteInline = ({
   game: { gameModel : { colors }},
   editor: { spriteEditorTextureId },
   openSpriteEditor,
-  editorForms: { isCreateColorFlowOpen }
+  gameFormEditor: { isCreateColorFlowOpen }
 }) => {
   function renderSpriteStage() {
 
@@ -93,7 +93,7 @@ const SelectSpriteInline = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
   editor: state.editor,
-  editorForms: state.editorForms,
+  gameFormEditor: state.gameFormEditor,
 });
 
 export default compose(

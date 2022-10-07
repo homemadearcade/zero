@@ -199,7 +199,7 @@ export class CodrawingScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    const isGridViewOn = getCobrowsingState().editorInstance.isGridViewOn
+    const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
     if(isGridViewOn) {
       this.isGridViewOn = true
     } else {
@@ -210,7 +210,7 @@ export class CodrawingScene extends Phaser.Scene {
       this.brush.setVisible(true)
     }
 
-    if(getCobrowsingState().editorForms.color.isEyeDropping) {
+    if(getCobrowsingState().gameFormEditor.color.isEyeDropping) {
       this.input.setDefaultCursor('url(/assets/images/eyedropper.png)');
     } else {
       this.input.setDefaultCursor('default')

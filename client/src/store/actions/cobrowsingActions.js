@@ -19,6 +19,7 @@ import {
   ON_COBROWSING_STATUS_UPDATE,
   ON_COBROWSING_REMOTE_DISPATCH,
   TOGGLE_COBROWSING,
+  TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
 } from '../types';
 
 import store from '..';
@@ -58,17 +59,17 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
     }
   }
 
-  if(state.page.pageInstance && window.pointer) {
+  if(state.webPage.gameInstance && window.pointer) {
     
-    const cameraZoom = state.editorInstance.cameraZoom
+    const cameraZoom = state.gameViewEditor.cameraZoom
 
-    const scene = getCurrentGameScene(state.page.gameInstance)
+    const scene = getCurrentGameScene(state.webPage.gameInstance)
     if(!scene) return 
     const camera = scene.editorCamera
     if(!camera) return
 
     cobrowsingStatus.phaserView = {
-      isGridViewOn: state.editorInstance.isGridViewOn,
+      isGridViewOn: state.gameViewEditor.isGridViewOn,
       mouseWorldX: window.pointer.worldX,
       mouseWorldY: window.pointer.worldY,
       cameraX: camera.worldView.x,
@@ -314,5 +315,11 @@ export const unsubscribeCobrowsing = ({userId}) => async (dispatch, getState) =>
 export const toggleActiveCobrowsing = () => (dispatch, getState) => {
   store.dispatch({
     type: TOGGLE_COBROWSING
+  })
+}
+
+export const toggleUnlockableInterfaceLocks = () => (dispatch, getState) => {
+  store.dispatch({
+    type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS
   })
 }
