@@ -9,10 +9,11 @@ import Switch from '../../ui/Switch/Switch';
 import { toggleUnlockableInterfaceLocks } from '../../../store/actions/cobrowsingActions';
 
 const UnlockableInterfaceLocksToggle = ({
-  cobrowsing: { showUnlockableInterfaceLocks },
+  cobrowsing: { showUnlockableInterfaceLocks, isSubscribedCobrowsing },
   toggleUnlockableInterfaceLocks
 }) => {
-  
+  if(!isSubscribedCobrowsing) return null
+
   return <div
     className="UnlockableInterfaceLocksToggle"
     onClick={async () => {
@@ -29,7 +30,6 @@ const UnlockableInterfaceLocksToggle = ({
 
 const mapStateToProps = (state) => ({
   cobrowsing: state.cobrowsing,
-  gameContext: state.gameContext
 });
 
 export default compose(

@@ -1,5 +1,4 @@
 import { 
-  OPEN_SECTION_EDITOR,
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
   CLEAR_CLASS,
@@ -7,16 +6,14 @@ import {
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  CHANGE_EDITOR_CAMERA_ZOOM,
-  CLOSE_SECTION_EDITOR,
   UPDATE_ACCORDIAN_LIST,
-  OPEN_SNAPSHOT_TAKER,
-  CLOSE_SNAPSHOT_TAKER,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
+  OPEN_GAME_METADATA_MODAL,
+  CLOSE_GAME_METADATA_MODAL,
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
@@ -94,6 +91,22 @@ export const closeSpriteEditor= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SPRITE_EDITOR,
+    payload: {}
+  });
+}
+
+export const openGameMetadataModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_GAME_METADATA_MODAL,
+    payload: {}
+  });
+}
+
+export const closeGameMetadataModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_GAME_METADATA_MODAL,
     payload: {}
   });
 }

@@ -10,14 +10,10 @@ import { openConstellation, completeCloseConstellation } from '../../store/actio
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
 const ConstellationToggle = ({
-  cobrowsing: { isSubscribedCobrowsing},
   gameContext: { isConstellationOpen, isConstellationClosing },
   completeCloseConstellation,
   openConstellation,
-}) => {
-
-  if(!isSubscribedCobrowsing) return null
-  
+}) => {  
   return <div
     className="ConstellationToggle"
     onClick={async () => {
@@ -37,7 +33,6 @@ const ConstellationToggle = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  cobrowsing: state.cobrowsing,
   gameContext: state.gameContext
 });
 

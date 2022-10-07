@@ -14,8 +14,24 @@ import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColo
 import { Constellation } from '../../app/Constellation/Constellation';
 import { EDIT_STATE } from '../../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
+import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
 
-const GameEditor = ({ classNames, changeGameState, gameEditor: { isSelectBackgroundColorOpen, liveEditingCategory }, gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearGameFormEditor, clearGameViewEditor}) => {
+const GameEditor = ({ 
+  classNames, 
+  gameEditor: { isSelectBackgroundColorOpen, liveEditingCategory, isGameMetadataModalOpen }, 
+  gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
+  gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
+  leftColumnRef, 
+  rightColumnRef, 
+  leftColumn, 
+  rightColumn, 
+  children, 
+  changeGameState, 
+  clearEditor, 
+  clearGameFormEditor, 
+  clearGameViewEditor
+}) => {
+  
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -44,6 +60,7 @@ const GameEditor = ({ classNames, changeGameState, gameEditor: { isSelectBackgro
       {isConstellationOpen && <Constellation zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
       {liveEditingCategory && <LiveEditor/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
+      {isGameMetadataModalOpen && <GameMetadataModal/>}
     </div>
   );
 };

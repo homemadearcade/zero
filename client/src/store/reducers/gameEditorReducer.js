@@ -12,7 +12,9 @@ import {
   CLOSE_SPRITE_EDITOR,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
-  OPEN_LIVE_EDITOR
+  OPEN_LIVE_EDITOR,
+  OPEN_GAME_METADATA_MODAL,
+  CLOSE_GAME_METADATA_MODAL
 } from '../types';
 
 import { generateUniqueId } from '../../utils/webPageUtils';
@@ -27,6 +29,7 @@ const initialState = {
   liveEditingCategory: null,
   spriteEditorTextureId: null,
   isSelectBackgroundColorOpen: false,
+  isGameMetadataModalOpen: false,
   accordianLists: {
     'BrushList': null,
     'ClassList': null
@@ -105,6 +108,16 @@ export default function gameEditorReducer(state = initialState, { type, payload 
       return {
         ...state,
         isSelectBackgroundColorOpen: false
+      }
+    case OPEN_GAME_METADATA_MODAL: 
+      return {
+        ...state,
+        isGameMetadataModalOpen: true
+      }
+    case CLOSE_GAME_METADATA_MODAL:
+      return {
+        ...state,
+        isGameMetadataModalOpen: false
       }
     case CLEAR_EDITOR:
       return initialState

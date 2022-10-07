@@ -12,14 +12,13 @@ Relationship UI
   World Effects
   Destroyed By Message ( You lost because... )
   Mini-Relationship View - Icons + Name
+  Press X to Interact
 
 CUTSCENE UI
   Image, Image + Text, Text
   Name at the top
   Image -> Snapshot -> Save & close cutscene
-
-Metadata Button/Menu
-
+  
 ---
 TODO CHORES 
 
@@ -28,4 +27,3 @@ Move properties into objects based on Member
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
 
 Game -> Arcade Game
-editorReducer -> gameEditorReducer

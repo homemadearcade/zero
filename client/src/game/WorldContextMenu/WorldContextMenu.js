@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openLiveEditor, openSelectBackgroundColor } from '../../store/actions/gameEditorActions';
+import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColor } from '../../store/actions/gameEditorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { WORLD_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../utils/webPageUtils';
 
-const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, game: { gameModel }, gameViewEditor: { isGridViewOn }}) => {
+const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openGameMetadataModal, openSnapshotTaker, toggleGridView, game: { gameModel }, gameViewEditor: { isGridViewOn }}) => {
   return <>
      <MenuItem><strong>{gameModel.metadata.title}</strong></MenuItem>
     <Unlockable interfaceId="contextMenu/world/gravity">
@@ -27,6 +27,12 @@ const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, 
         openSelectBackgroundColor()
         onMenuItemClick()
       }}>Edit Background Color</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId="contextMenu/world/metadatar">
+      <MenuItem onClick={() => {
+        openGameMetadataModal()
+        onMenuItemClick()
+      }}>Edit Metadata</MenuItem>
     </Unlockable>
     <Unlockable interfaceId="contextMenu/world/toggleGrid">
       <MenuItem onClick={() => {
@@ -48,4 +54,4 @@ const mapStateToProps = (state) => ({
   gameViewEditor: state.gameViewEditor
 });
 
-export default connect(mapStateToProps, { openLiveEditor, openSectionEditor, openSelectBackgroundColor, openSnapshotTaker, toggleGridView })( WorldContextMenu );
+export default connect(mapStateToProps, { openLiveEditor, openSectionEditor, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, openGameMetadataModal })( WorldContextMenu );

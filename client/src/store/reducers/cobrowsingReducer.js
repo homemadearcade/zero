@@ -27,7 +27,7 @@ const initialState = {
   isSubscribedCobrowsing: false,
   isCurrentlyCobrowsing: false,
   isSubscribingCobrowsing: false,
-  showUnlockableInterfaceLocks: true,
+  showUnlockableInterfaceLocks: false,
   error: null,
   cobrowsingUser: false,
   remoteState: {

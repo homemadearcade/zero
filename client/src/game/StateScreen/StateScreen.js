@@ -2,13 +2,13 @@ import { Fade } from '@mui/material';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Constellation } from '../../../app/Constellation/Constellation';
-import Link from '../../../app/ui/Link/Link';
-import Typography from '../../../app/ui/Typography/Typography';
-import { EDIT_STATE, GAME_OVER_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../../../constants';
-import { changeGameState } from '../../../store/actions/gameContextActions';
-import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import KeyIndicator from '../KeyIndicator/KeyIndicator';
+import { Constellation } from '../../app/Constellation/Constellation';
+import Link from '../../app/ui/Link/Link';
+import Typography from '../../app/ui/Typography/Typography';
+import { EDIT_STATE, GAME_OVER_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../../constants';
+import { changeGameState } from '../../store/actions/gameContextActions';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import KeyIndicator from '../ui/KeyIndicator/KeyIndicator';
 import './StateScreen.scss';
 
 function StateScreenBody({changeGameState, gameState}) {

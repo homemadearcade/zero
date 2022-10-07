@@ -11,6 +11,20 @@ import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
 import Button from '../../ui/Button/Button';
 import Icon from '../../ui/Icon/Icon';
 
+// {<Button
+//   type="button"
+//   variant="contained"
+//   onClick={() => {
+//     editLobby(lobby.id, {
+//       isGamePoweredOn: true
+//     })
+//   }}
+//   disabled={!isAllRequiredPassing}
+//   startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><Icon icon="faWarning"/></span>}
+// >
+//   Start game
+// </Button>}
+
 const LobbyChecklist = ({
   editLobby,
   lobby: { lobby },
@@ -145,19 +159,6 @@ const LobbyChecklist = ({
         {item.required && ' (required)'}
       </div>
     })}
-    {<Button
-      type="button"
-      variant="contained"
-      onClick={() => {
-        editLobby(lobby.id, {
-          isGamePoweredOn: true
-        })
-      }}
-      disabled={!isAllRequiredPassing}
-      startIcon={!isAllPassing && <span style={{marginLeft: '5px'}}><Icon icon="faWarning"/></span>}
-    >
-      Start game
-    </Button>}
   </div>
 };
 

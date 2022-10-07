@@ -12,8 +12,7 @@ import { getCurrentGameScene } from '../../utils/editorUtils';
 import { setGameInstance } from '../../store/actions/webPageActions';
 
 import Cutscene from '../ui/Cutscene/Cutscene';
-import { Constellation } from '../../app/Constellation/Constellation';
-import StateScreen from '../ui/StateScreen/StateScreen';
+import StateScreen from '../StateScreen/StateScreen';
 
 const config= {
   type: Phaser.WEBGL,
