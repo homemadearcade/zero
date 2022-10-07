@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { Constellation } from '../../../app/Constellation/Constellation';
 import Link from '../../../app/ui/Link/Link';
 import Typography from '../../../app/ui/Typography/Typography';
-import { GAME_OVER_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../../../constants';
+import { EDIT_STATE, GAME_OVER_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../../../constants';
 import { changeGameState } from '../../../store/actions/gameContextActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../KeyIndicator/KeyIndicator';
@@ -63,7 +63,7 @@ function StateScreenBody({changeGameState, gameState}) {
 }
 
 function StateScreen({gameContext: { gameState}, changeGameState}) {
-  if(gameState === PLAY_STATE) {
+  if(gameState === PLAY_STATE || gameState === EDIT_STATE) {
     return null
   }
   return <StateScreenBody gameState={gameState} changeGameState={changeGameState}/>

@@ -12,11 +12,14 @@ import SectionEditor from '../SectionEditor/SectionEditor';
 import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/Constellation/Constellation';
+import { EDIT_STATE } from '../../constants';
+import { changeGameState } from '../../store/actions/gameContextActions';
 
-const GameEditor = ({ classNames, editor: { isSelectBackgroundColorOpen, liveEditingCategory }, editorInstance: { isSectionEditorOpen, isSnapshotTakerOpen }, gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
+const GameEditor = ({ classNames, changeGameState, editor: { isSelectBackgroundColorOpen, liveEditingCategory }, editorInstance: { isSectionEditorOpen, isSnapshotTakerOpen }, gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, leftColumnRef, rightColumnRef, leftColumn, rightColumn, children, clearEditor, clearEditorForms, clearEditorInstance}) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
+    changeGameState(EDIT_STATE)
     return () => {
       clearEditor()
       clearEditorForms()
@@ -51,4 +54,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameContext: state.gameContext
 })
 
-export default connect(mapStateToProps, { clearEditor, clearEditorForms, clearEditorInstance })(GameEditor);
+export default connect(mapStateToProps, { clearEditor, clearEditorForms, clearEditorInstance, changeGameState })(GameEditor);

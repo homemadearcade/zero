@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -8,8 +8,14 @@ import { requestFullscreen } from '../../utils/browserUtils';
 import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
+import { changeGameState } from '../../store/actions/gameContextActions';
+import { START_STATE } from '../../constants';
 
-const PlayGamePage = ({ game: { gameModel }, requestFullscreen}) => {
+const PlayGamePage = ({ game: { gameModel }, changeGameState, requestFullscreen}) => {
+  useEffect(() => {
+    changeGameState(START_STATE)
+  }, [])
+
   // <div>{!window.isFullscreen && <div onClick={() => {
   //   requestFullscreen()
   //    }}>
@@ -34,5 +40,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withGame,
-  connect(mapStateToProps, { requestFullscreen, unloadGame, loadGame })
+  connect(mapStateToProps, { requestFullscreen, unloadGame, loadGame, changeGameState })
 )(PlayGamePage);

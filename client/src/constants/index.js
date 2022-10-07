@@ -163,9 +163,10 @@ export const PROJECTILE_EDITOR = 'PROJECTILE_EDITOR'
 
 /////////////////////////////////////
 /////////////////////////////////////
-// NARRATIVE STATE
+// GAME STATE
 export const START_STATE = 'START_STATE'
 export const PLAY_STATE = 'PLAY_STATE'
 export const GAME_OVER_STATE = 'GAME_OVER_STATE'
 export const WIN_GAME_STATE = 'WIN_GAME_STATE'
+export const EDIT_STATE = 'EDIT_STATE'
 

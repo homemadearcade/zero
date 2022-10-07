@@ -216,9 +216,7 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     // Object.keys(gameData.brushes).forEach((id) => {
 
     // })
-
-    store.dispatch(changeGameState(START_STATE))
-
+    
     dispatch({
       type: LOAD_GAME_SUCCESS,
       payload: { game: gameData },
