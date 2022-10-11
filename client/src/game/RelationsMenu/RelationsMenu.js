@@ -29,7 +29,7 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relations"/>
       {relations.map((relation) => {
         const {classId, event, effect: { type }} = relation
-        return <div className="RelationsMenu__relation">
+        return <div key={relation.relationId} className="RelationsMenu__relation">
           <ClassMemberTitle classId={classId} title={effectDisplayNames[type] +  ' When ' + eventDisplayNames[event]}/>
           <Button onClick={() => {
             openCreateRelation(relation)

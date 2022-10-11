@@ -18,11 +18,12 @@ Mobile
 
 Explosions
 
+Conditions
+
 Blockchain NFT editing thing
 
 Custom coding - collision, events? paths? etc
 
-TAB + for moving through the UI ( other keyboard shortcuts )
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -64,6 +65,8 @@ Interact area based on the size of the camera?
 
 Lock to cobrowsers camera
 
+TAB + for moving through the UI ( other keyboard shortcuts )
+
 If an item within an accordian is selected, the accordian is open
 
 Right click -> snap camera to section? regardless if you are in section or not?
@@ -77,8 +80,6 @@ For all these util functions, I need to rethink how utils are done, is there obj
 --------------------------------------------------------------------------------------
 
 TODO CHORES BACKLOG
-
-Add tint to sprite editor
 
 Look up x, y, on sprite should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 

@@ -3,6 +3,7 @@ import { IMAGE_AND_TEXT_CUTSCENE } from "../constants";
 export const defaultCutscene = {
   // pauseGame: true,
   name: null,
+  cutsceneId: null,
   scenes: [{
     type: IMAGE_AND_TEXT_CUTSCENE, 
     imageUrl: null,

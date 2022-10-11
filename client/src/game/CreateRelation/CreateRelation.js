@@ -29,14 +29,18 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
   }, [])
 
-  const handleRelationChange = (prop) => (value) => {
+  const handleRelationChange = (prop, value) => {
     relation[prop] = value
+
+    console.log(relation)
 
     updateCreateRelation(relation)
   }
 
   const handleEffectChange = (prop) => (value) => {
     relation.effect[prop] = value
+
+    console.log(relation)
 
     updateCreateRelation(relation)
   }

@@ -193,6 +193,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         },
       }
     case UPDATE_CREATE_RELATION:
+      console.log(payload)
       return {
         ...state,
         relation: {...state.relation, ...payload.relation }

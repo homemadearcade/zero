@@ -7,7 +7,8 @@ export const defaultRelationship = {
     type: '',
     classId: null,
     cutsceneId: null,
-  }, 
+  },
+  relationId: null,
   sides: [],
 }
 

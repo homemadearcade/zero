@@ -188,12 +188,12 @@ export default function SelectChipsAuto({onChange, value, options, formLabel}) {
 
   if(inheritedValue === undefined) return null
 
-  return <SelectChipsAutoForm onChange={onChange} inheritedValue={inheritedValue} options={options} formLabel={formLabel}/>
+  return <SelectChipsAutoForm onChange={onChange} inheritedValue={inheritedValue} options={options.filter(({label}) => {
+    return !!label
+  })} formLabel={formLabel}/>
 }
 
 function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
-  const inputRef = React.useRef(null);
-
   const {
     getRootProps,
     getInputLabelProps,

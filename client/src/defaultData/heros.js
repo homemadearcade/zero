@@ -4,25 +4,6 @@ import { adventurerDefaults, carDefaults, floaterDefaults, platformerDefaults, s
 
 export const defaultHeroClass = {
   ...defaultObjectClass,
-  relations: {
-    r1 : {
-      classId: "e6982bea-898f-4562-ae89-b2c07f3bb353",
-      event: ON_INTERACT,
-      effect: {
-        type: EFFECT_CUTSCENE,
-        cutsceneId: 'cutscene1'
-      },
-      sides: []
-    },
-    r2: {
-      classId: "e6982bea-898f-4562-ae89-b2c07f3bb353",
-      event: ON_COLLIDE,
-      effect: {
-        type: EFFECT_CUTSCENE,
-      },
-      sides: [SIDE_UP]
-    }
-  },
   type: HERO_CLASS,
 }
 

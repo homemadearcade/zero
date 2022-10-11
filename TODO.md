@@ -12,11 +12,12 @@ TODO
 Relationship UI
   onCutsceneEnd Event
   Destroyed By Message ( You lost because... )
-  Mini-Relationship View - Icons + Name
+  Mini-Relationship View
 
 ---
 TODO CHORES 
 
+Add tint to sprite editor
 Take snapshot without BG
 Move properties into objects based on Member
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
