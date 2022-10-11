@@ -4,25 +4,25 @@ import { adventurerDefaults, carDefaults, floaterDefaults, platformerDefaults, s
 
 export const defaultHeroClass = {
   ...defaultObjectClass,
-  relations: [
-    {
-      classId: 'e8e7e851-b182-4bb5-9a77-5badabda7c1d',
+  relations: {
+    r1 : {
+      classId: "e6982bea-898f-4562-ae89-b2c07f3bb353",
       event: ON_INTERACT,
       effect: {
-        id: EFFECT_CUTSCENE,
+        type: EFFECT_CUTSCENE,
         cutsceneId: 'cutscene1'
       },
       sides: []
     },
-    {
-      classId: '557891dd-fa31-430e-86a9-75d42e8c5981',
+    r2: {
+      classId: "e6982bea-898f-4562-ae89-b2c07f3bb353",
       event: ON_COLLIDE,
       effect: {
-        id: EFFECT_COLLIDE
+        type: EFFECT_CUTSCENE,
       },
       sides: [SIDE_UP]
     }
-  ],
+  },
   type: HERO_CLASS,
 }
 

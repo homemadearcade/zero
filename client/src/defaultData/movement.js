@@ -144,7 +144,9 @@ export const jumpDefaults = {
 }
 
 export const noneDefaults = {
-  ...defaultMovement
+  movement: {
+    ...defaultMovement
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////

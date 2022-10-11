@@ -3,8 +3,13 @@
 TODO TIME PERMITTING BACKLOG
 
 Particles
+
 Light System
+    World Effects
+    Change world, change gravity. Like a 'world' class
+
 Following..Advanced Pathfinding
+
 Timers
 
 Enemy Projectiles?
@@ -108,7 +113,7 @@ this.isHost this.isLocal should I save? should I cobrowse, should I send remote 
 
 Seperate more reducers?
 
-Game Model class? for like getting data from redux  so we can get game data with functions
+Game Model class? for like getting data from redux so we can get game data with functions
 
 So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
 

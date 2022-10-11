@@ -12,7 +12,9 @@ const SelectClass = ({ onChange, value, formLabel, gameModel}) => {
 
     return {
       label: objectClass.name,
-      value: classId
+      value: classId,
+      textureId: objectClass.graphics.textureId,
+      tint: objectClass.graphics.tint
     }
   }
 

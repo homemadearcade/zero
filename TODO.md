@@ -1,7 +1,7 @@
 IN DISCUSSION
 
 interfaceUnlock other features, such as camera move with keys? drag object? etc
-Movement is prompted after placing the first object
+Movement is prompted after placing the first object?
 Change UI color option
 Press X to Interact
 Player Spawn is a zone?
@@ -11,7 +11,6 @@ TODO
 
 Relationship UI
   onCutsceneEnd Event
-  World Effects
   Destroyed By Message ( You lost because... )
   Mini-Relationship View - Icons + Name
 

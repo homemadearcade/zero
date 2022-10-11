@@ -21,7 +21,9 @@ export class Collider {
   }
 
   registerArcade(relations) {
-    relations.forEach(({classId, event, effect, sides}) => {
+    Object.keys(relations).map((relationId) => {
+	    return relations[relationId]
+    }).forEach(({classId, event, effect, sides}) => {
       if(event === ON_COLLIDE) {
         const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === classId).map(({sprite}) => sprite)
         if(effect.id === EFFECT_COLLIDE) {
@@ -46,7 +48,9 @@ export class Collider {
   registerMatter(relations) { 
     const world = this.scene.matter.world
 
-    relations.forEach(({classId, event, effect}) => {
+    Object.keys(relations).map((relationId) => {
+	    return relations[relationId]
+    }).forEach(({classId, event, effect}) => {
       const eventEffect = {
         objectA: this,
         callback: eventData => {

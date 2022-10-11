@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 import FormLabel from '../FormLabel/FormLabel';
+import Sprite from '../../../game/ui/Sprite/Sprite';
 
 const Root = styled('div')(
   ({ theme }) => `
@@ -99,8 +100,21 @@ const StyledTag = styled(Tag)(
     cursor: pointer;
     padding: 4px;
   }
+
+  .Sprite {
+    margin-right: 0px;
+  }
 `,
 );
+
+const SpriteWrapper = styled('div')(
+  ({ theme }) => `
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  `
+)
 
 const Listbox = styled('ul')(
   ({ theme }) => `
@@ -121,6 +135,11 @@ const Listbox = styled('ul')(
 
     & span {
       flex-grow: 1;
+    }
+
+    .Sprite {
+      width: 20px;
+      height: 20px;
     }
 
     & svg {
@@ -197,25 +216,41 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
     }
   });
 
+  function renderSprite(option) {
+    if(option.textureId || option.tint) {
+      return <SpriteWrapper><Sprite textureId={option.textureId} tint={option.tint}/></SpriteWrapper>
+    }
+
+    return null
+  }
+
   return (
     <Root>
       <div {...getRootProps()}>
         {formLabel && <FormLabel {...getInputLabelProps()}>{formLabel}</FormLabel>}
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {inheritedValue.map((option, index) => (
-            <StyledTag label={option.label} {...getTagProps({ index })} />
+              <StyledTag label={<>
+                  {renderSprite(option)}
+                  {option.label}
+                </>} 
+                {...getTagProps({ index })}
+              />
           ))}
           <input {...getInputProps()}/>
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
-          {groupedOptions.map((option, index) => (
-            <li {...getOptionProps({ option, index })}>
-              <span>{option.label}</span>
+          {groupedOptions.map((option, index) => {
+            return <li {...getOptionProps({ option, index })}>
+              <span>
+                {renderSprite(option)}
+                {option.label}
+              </span>
               <CheckIcon fontSize="small" />
             </li>
-          ))}
+          })}
         </Listbox>
       ) : null}
     </Root>

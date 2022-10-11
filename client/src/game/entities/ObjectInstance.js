@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_YOU_WIN, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -192,7 +192,9 @@ export class ObjectInstance extends Sprite {
       this.createInvisibleOutline()
     }
 
-    objectClass.relations.forEach(({classId, event, effect}) => {
+    Object.keys(objectClass.relations).map((relationId) => {
+	    return objectClass.relations[relationId]
+    }).forEach(({classId, event, effect}) => {
       if(event === ON_SPAWN) {
         this.runEffect(effect)
       }
@@ -215,7 +217,9 @@ export class ObjectInstance extends Sprite {
   destroyInGame() {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
-    objectClass.relations.forEach(({classId, event, effect}) => {
+    Object.keys(objectClass.relations).map((relationId) => {
+	    return objectClass.relations[relationId]
+    }).forEach(({classId, event, effect}) => {
       if(event === ON_DESTROY) {
         this.runEffect(effect)
       }
@@ -404,12 +408,12 @@ export class ObjectInstance extends Sprite {
 
   runEffect(effect, agent, sides = []) {
     // MOVEMENT
-    if(effect.id === EFFECT_TELEPORT) {
+    if(effect.type === EFFECT_TELEPORT) {
       this.setPosition(effect.x, effect.y)
-    } else if(effect.id === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
+    } else if(effect.type === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
       this.isIgnoreGravityModified = true
       this.setIgnoreGravity(true)
-    } else if(effect.id === EFFECT_STICK_TO) {
+    } else if(effect.type === EFFECT_STICK_TO) {
       this.sprite.lockedTo = agent;   
       this.sprite.lockedReleaseSides = sides
       this.setIgnoreGravity(true)
@@ -424,29 +428,29 @@ export class ObjectInstance extends Sprite {
     }
     
     // LIFE
-    if(effect.id === EFFECT_DESTROY) {
+    if(effect.type === EFFECT_DESTROY) {
       this.destroyInGame()
-    } else if(effect.id === EFFECT_SPAWN) {
+    } else if(effect.type === EFFECT_SPAWN) {
       this.spawn()
-    } else if(effect.id === EFFECT_RECLASS) {
+    } else if(effect.type === EFFECT_RECLASS) {
       this.scene.removeObjectInstance(this.id)
       this.scene.addObjectInstance(this.id, {spawnX: this.sprite.x, spawnY: this.sprite.y, classId: effect.classId})
     }
 
     // NARRATIVE
-    if(effect.id === EFFECT_CUTSCENE) {
+    if(effect.type === EFFECT_CUTSCENE) {
       store.dispatch(openCutscene(agent.classId, effect.cutsceneId))
-    } else if(effect.id === EFFECT_YOU_WIN) {
+    } else if(effect.type === EFFECT_WIN_GAME) {
 
-    } else if(effect.id === EFFECT_GAME_OVER) {
+    } else if(effect.type === EFFECT_GAME_OVER) {
 
     }
     
     // GRAPHICS
-    if(effect.id === EFFECT_INVISIBLE &&!this.isVisibilityModified) {
+    if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
       this.isVisibilityModified = true
       this.setVisible(false)
-    } else if(effect.id === EFFECT_CAMERA_SHAKE) {
+    } else if(effect.type === EFFECT_CAMERA_SHAKE) {
       this.scene.cameras.main.shake(20)
     }
     

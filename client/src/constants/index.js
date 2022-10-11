@@ -88,6 +88,7 @@ export const ON_COLLIDE_ACTIVE = 'ON_COLLIDE_ACTIVE'
 export const ON_SPAWN = 'ON_SPAWN'
 export const ON_DESTROY = 'ON_DESTROY'
 export const ON_INTERACT = 'ON_INTERACT'
+export const ON_CUTSCENE_END = 'ON_CUTSCENE_END'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -110,7 +111,7 @@ export const EFFECT_CAMERA_SHAKE = 'EFFECT_CAMERA_SHAKE'
 export const EFFECT_INVISIBLE = 'EFFECT_INVISIBLE'
 
 export const EFFECT_GAME_OVER = 'EFFECT_GAME_OVER'
-export const EFFECT_YOU_WIN = 'EFFECT_YOU_WIN'
+export const EFFECT_WIN_GAME = 'EFFECT_WIN_GAME'
 
 /////////////////////////////////////
 /////////////////////////////////////

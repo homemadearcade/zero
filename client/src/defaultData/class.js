@@ -37,7 +37,7 @@ export const defaultObjectClass = {
   unspawned: false,
   interfaceLocked: false,
   worldBoundaryRelationship: WORLD_COLLIDE,
-  relations: [],
+  relations: {},
   movement: {
     ...defaultMovement
   },

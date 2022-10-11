@@ -58,7 +58,9 @@ export class InteractArea extends Sprite {
   }
 
   registerArcade(relations) {
-    relations.forEach(({classId, event, effect}) => {
+    Object.keys(relations).map((relationId) => {
+	    return relations[relationId]
+    }).forEach(({classId, event, effect}) => {
       if(event === ON_INTERACT) {
         const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === classId).map(({sprite}) => sprite)
         this.unregisters.push(
@@ -72,7 +74,9 @@ export class InteractArea extends Sprite {
   }
 
   registerMatter(relations) {
-    relations.forEach(({classId, event, effect}) => {
+    Object.keys(relations).map((relationId) => {
+	    return relations[relationId]
+    }).forEach(({classId, event, effect}) => {
       if(event === ON_INTERACT) {
         this.scene.matterCollision.addOnCollideActive({
           objectA: this.interactArea,

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateRelation.scss';
@@ -8,23 +8,63 @@ import { closeCreateRelation, updateCreateRelation } from '../../store/actions/g
 import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
+import { editGameModel } from '../../store/actions/gameActions';
+import FormLabel from '../../app/ui/FormLabel/FormLabel';
+import SelectClass from '../ui/SelectClass/SelectClass';
 
-const CreateRelation = ({ closeCreateRelation, gameFormEditor: { relation }}) => {
+const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { classIdRelationsMenu, relation }}) => {
   function handleClose() {
     closeCreateRelation()
   }
 
-  // onChange={(event, descriptors) => {
-  //   updateCreateRelation({ descriptors })
-  // }}
+  const [isNewRelation, setIsNewRelation] = useState(null)
+
+  useEffect(() => {
+    if(!relation.relationId) {
+      updateCreateRelation({ relationId: generateUniqueId() })
+      setIsNewRelation(true)
+    } else {
+      setIsNewRelation(false)
+    }
+  }, [])
+
+  const handleRelationChange = (prop) => (value) => {
+    relation[prop] = value
+
+    updateCreateRelation(relation)
+  }
+
+  const handleEffectChange = (prop) => (value) => {
+    relation.effect[prop] = value
+
+    updateCreateRelation(relation)
+  }
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">
-      <Typography component="h2" variant="h2">Cutscenes</Typography>
-      <div className="CreateRelation__buttons">
-
-
-        <Button onClick={handleClose}>
+        <SelectClass 
+          formLabel="With What?"
+          value={relation.classId ? [relation.classId] : []}
+          onChange={(event, classes) => {
+            const newClassId = classes[classes.length-1]
+            handleRelationChange('classId', newClassId)
+         }}/>
+        <div className="CreateRelation__buttons">
+        <Button onClick={() => {
+           editGameModel({
+            classes: {
+              [classIdRelationsMenu]: {
+                relations: {
+                  [relation.relationId] : {
+                    ...relation
+                  }
+                }
+              }
+            }
+          })
+          handleClose()
+        }}>
           Save
         </Button>
         <Button onClick={handleClose}>
@@ -40,5 +80,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateRelation, closeCreateRelation }),
+  connect(mapStateToProps, { updateCreateRelation, closeCreateRelation, editGameModel }),
 )(CreateRelation);

@@ -200,7 +200,7 @@ const ClassList = ({
     accordians.push({
       id: 'Zones',
       title: <>
-        <Typography component="div" variant="subtitle1">Zone</Typography>
+        <Typography component="div" variant="subtitle1">Zones</Typography>
         <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
