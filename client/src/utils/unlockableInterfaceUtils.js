@@ -54,12 +54,25 @@ export function getInterfaceIdData(interfaceId) {
   const state = getCobrowsingState()
   const unlockableInterfaceIds = state.unlockableInterfaceIds
   const idAliases = getInterfaceIdAliases(interfaceId)
+  const me = state.auth.me
 
   if(!state.lobby.lobby.id) {
+    let isUnlocked = true
+    let isObscured = false
+
+    if(me?.role !== ADMIN_ROLE) {
+      if(idAliases.some((aliases) => {
+        return aliases.indexOf('adminOnly') === 0
+      })) {
+        isUnlocked = false
+        isObscured = true
+      }
+    }
+
     return {
-      isUnlocked: true,
+      isUnlocked,
       idAliases,
-      isObscured: false,
+      isObscured,
       isLockToggleable: false
     }
   }
@@ -68,7 +81,6 @@ export function getInterfaceIdData(interfaceId) {
   const isObscured = isInterfaceIdObscured(interfaceId) && !isUnlocked
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  const me = state.auth.me
   const isLockToggleable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing
 
   return {

@@ -72,7 +72,6 @@ export function onInstanceUndo() {
 
   if(!isHost && state.lobby.id) return
   
-  console.log('..?')
   const scene = getCurrentGameScene(state.webPage.gameInstance)
   if(undoAction === BACKGROUND_CANVAS_ID) {
     scene.backgroundLayer.undo()

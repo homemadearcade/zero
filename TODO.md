@@ -18,14 +18,7 @@ Relationship UI
 ---
 TODO CHORES 
 
-Camera Cuts from out of nowhere when game loads
-
-Admin unlockables need to be hidden
-
 Take snapshot without BG
-
 Move properties into objects based on Member
-
 You do not have permission to update this users cobrowse state ( ? ) upon Spencer logging on 
-
 Game -> Arcade Game

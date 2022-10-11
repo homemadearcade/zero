@@ -240,10 +240,12 @@ export class GameInstance extends Phaser.Scene {
     const gameHeight = gameModel.world.boundaries.height
     const gameX = gameModel.world.boundaries.x
     const gameY = gameModel.world.boundaries.y
+
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
+    this.cameras.main.pan(this.player.sprite.x, this.player.sprite.y, 0)
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
-    this.cameras.main.setZoom(heroClass.camera.zoom);    
+    this.cameras.main.setZoom(heroClass.camera.zoom);
   }
 
   respawn() {
