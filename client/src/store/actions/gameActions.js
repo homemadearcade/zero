@@ -31,14 +31,10 @@ import { defaultObjectClass } from '../../defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../defaultData/descriptors';
 import store from '..';
-import { START_STATE, UNDO_MEMORY_MAX } from '../../constants';
-import { changeGameState } from './gameContextActions';
-
+import { UNDO_MEMORY_MAX } from '../../constants';
 
 function onGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().game.gameModel)
-
-  console.log('updating', gameUpdate)
 
   if(!window.nextGameModelUpdateIsUndo) {
     if(gameUpdate.hero) {
@@ -216,7 +212,7 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     // Object.keys(gameData.brushes).forEach((id) => {
 
     // })
-    
+
     dispatch({
       type: LOAD_GAME_SUCCESS,
       payload: { game: gameData },

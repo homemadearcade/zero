@@ -29,23 +29,7 @@ export const defaultGame = {
 
   },
   cutscenes: {
-    'cutscene1': {
-      pauseGame: true,
-      scenes: [
-        {
-          // imageUrl: 'https://i.imgur.com/6icjnbZ.jpeg',
-          text: 'This is the first scene text'
-        },
-        {
-          // imageUrl: 'https://i.imgur.com/6icjnbZ.jpeg',
-          text: 'This is the first scene text 2. This is the first scene text 2. This is the first scene text 2. This is the first scene text 2'
-        },
-        {
-          // imageUrl: 'https://i.imgur.com/6icjnbZ.jpeg',
-          text: 'This is the first scene text 3'
-        }
-      ]
-    }
+
   },
   "awsImages": {
     // "url": "xxx",

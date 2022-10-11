@@ -14,7 +14,9 @@ import {
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
-  CLOSE_GAME_METADATA_MODAL
+  CLOSE_GAME_METADATA_MODAL,
+  OPEN_MY_SPRITES_MODAL,
+  CLOSE_MY_SPRITES_MODAL
 } from '../types';
 
 import { generateUniqueId } from '../../utils/webPageUtils';
@@ -108,6 +110,16 @@ export default function gameEditorReducer(state = initialState, { type, payload 
       return {
         ...state,
         isSelectBackgroundColorOpen: false
+      }
+    case OPEN_MY_SPRITES_MODAL: 
+      return {
+        ...state,
+        isMySpritesModalOpen: true
+      }
+    case CLOSE_MY_SPRITES_MODAL:
+      return {
+        ...state,
+        isMySpritesModalOpen: false
       }
     case OPEN_GAME_METADATA_MODAL: 
       return {

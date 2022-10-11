@@ -54,10 +54,8 @@ const initialState = {
   isCutscenesMenuOpen: false,
   isCreateCutsceneOpen: false,
   cutscene: {
-    type: null, 
-    imageUrl: null,
-    text: null,
-    name: null,
+    name: '',
+    scenes: [],
   },
 
   isRelationsMenuOpen: false,

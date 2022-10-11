@@ -21,14 +21,7 @@ const ColorSelect = ({
 }) => {
 
   const defaultColors = [
-    '#000000',
-    '#FFFFFF',
-    '#FF0000',
-    '#00FF00',
-    '#0000FF',
-    '#FFFF00',
-    '#00FFFF',
-    '#FF00FF'
+    '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
   ]
 
   const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors]).slice(0, maxColors)

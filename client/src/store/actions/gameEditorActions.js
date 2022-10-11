@@ -14,6 +14,8 @@ import {
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
+  OPEN_MY_SPRITES_MODAL,
+  CLOSE_MY_SPRITES_MODAL,
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
@@ -149,5 +151,21 @@ export const clearEditor = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLEAR_EDITOR
+  });
+}
+
+export const openMySpritesModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_MY_SPRITES_MODAL,
+    payload: {}
+  });
+}
+
+export const closeMySpritesModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_MY_SPRITES_MODAL,
+    payload: {}
   });
 }

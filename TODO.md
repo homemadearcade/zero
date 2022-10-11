@@ -4,6 +4,7 @@ interfaceUnlock other features, such as camera move with keys? drag object? etc
 Movement is prompted after placing the first object
 Change UI color option
 Press X to Interact
+Player Spawn is a zone?
 
 ---
 TODO
@@ -14,17 +15,14 @@ Relationship UI
   Destroyed By Message ( You lost because... )
   Mini-Relationship View - Icons + Name
 
-CUTSCENE UI
-  Image, Image + Text, Text
-  Name at the top
-  ImageMenu -> Snapshot -> Save & close cutscene
-
 ---
 TODO CHORES 
 
-Admin unlockables
+Camera Cuts from out of nowhere when game loads
 
-Player Spawn is a zone?
+Admin unlockables need to be hidden
+
+Take snapshot without BG
 
 Move properties into objects based on Member
 

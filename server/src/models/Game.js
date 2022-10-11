@@ -90,7 +90,7 @@ gameSchema.methods.toJSON = function () {
     brushes: this.brushes,
     colors: this.colors,
     world: this.world,
-    cutscene: this.cutscene,
+    cutscenes: this.cutscenes,
     awsImages: this.awsImages,
     user: this.user.toJSON(),
     createdAt: this.createdAt,
