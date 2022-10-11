@@ -1,6 +1,5 @@
 import { 
   OPEN_CREATE_CLASS_FLOW,
-  UPDATE_CREATE_CLASS_STEP,
   CLOSE_CREATE_CLASS_FLOW,
   UPDATE_CREATE_CLASS,
   OPEN_CREATE_COLOR_FLOW,
@@ -9,9 +8,18 @@ import {
   CLOSE_CREATE_BRUSH_FLOW,
   OPEN_CREATE_BRUSH_FLOW,
   UPDATE_CREATE_BRUSH,
-  UPDATE_CREATE_BRUSH_STEP,
   CLEAR_EDITOR_FORMS,
   CHANGE_EDITOR_CAMERA_ZOOM,
+  UPDATE_CREATE_CUTSCENE,
+  CLOSE_CREATE_CUTSCENE,
+  OPEN_CREATE_CUTSCENE,
+  OPEN_RELATION_MENU,
+  CLOSE_RELATION_MENU,
+  OPEN_CREATE_RELATION,
+  CLOSE_CREATE_RELATION,
+  UPDATE_CREATE_RELATION,
+  OPEN_CUTSCENE_MENU,
+  CLOSE_CUTSCENE_MENU,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
@@ -55,14 +63,6 @@ export const updateCreateClass = (objectClass) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: UPDATE_CREATE_CLASS,
     payload: { class: objectClass }
-  });
-}
-
-export const updateCreateClassStep = (step) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: UPDATE_CREATE_CLASS_STEP,
-    payload: { step }
   });
 }
 
@@ -123,10 +123,91 @@ export const updateCreateBrush = (brush) => (dispatch, getState) => {
   });
 }
 
-export const updateCreateBrushStep = (step) => (dispatch, getState) => {
+
+export const openCutscenesMenu= () => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
-    type: UPDATE_CREATE_BRUSH_STEP,
-    payload: { step }
+    type: OPEN_CUTSCENE_MENU,
+    payload: {}
+  });
+}
+
+export const closeCutscenesMenu= () => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CUTSCENE_MENU,
+    payload: {}
+  });
+}
+
+export const openCreateCutscene = (initialCutscene) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CREATE_CUTSCENE,
+    payload: { initialCutscene }
+  });
+}
+
+export const closeCreateCutscene= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_CUTSCENE,
+    payload: {}
+  });
+}
+
+export const updateCreateCutscene = (cutscene) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_CUTSCENE,
+    payload: { cutscene }
+  });
+}
+
+export const openRelationsMenu= (classId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_RELATION_MENU,
+    payload: {
+      classId
+    }
+  });
+}
+
+export const closeRelationsMenu= () => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_RELATION_MENU,
+    payload: {}
+  });
+}
+
+export const openCreateRelation = (initialRelation) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CREATE_RELATION,
+    payload: { initialRelation }
+  });
+}
+export const closeCreateRelation= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_RELATION,
+    payload: {}
+  });
+}
+export const updateCreateRelation = (relation) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_RELATION,
+    payload: { relation }
   });
 }

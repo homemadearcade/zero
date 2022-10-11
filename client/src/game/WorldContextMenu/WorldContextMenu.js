@@ -6,8 +6,21 @@ import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../stor
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { WORLD_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../utils/webPageUtils';
+import { openCutscenesMenu } from '../../store/actions/gameFormEditorActions';
 
-const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, openSelectBackgroundColor, openGameMetadataModal, openSnapshotTaker, toggleGridView, game: { gameModel }, gameViewEditor: { isGridViewOn }}) => {
+const WorldContextMenu = ({ 
+  openLiveEditor,
+  openSectionEditor, 
+  onMenuItemClick, 
+  openSelectBackgroundColor,
+  openGameMetadataModal, 
+  openSnapshotTaker, 
+  openCutscenesMenu, 
+  toggleGridView, 
+  game: { gameModel }, 
+  gameViewEditor: { isGridViewOn }
+}) => {
+
   return <>
      <MenuItem><strong>{gameModel.metadata.title}</strong></MenuItem>
     <Unlockable interfaceId="contextMenu/world/gravity">
@@ -28,23 +41,29 @@ const WorldContextMenu = ({ openLiveEditor, openSectionEditor, onMenuItemClick, 
         onMenuItemClick()
       }}>Edit Background Color</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/world/metadatar">
+    <Unlockable interfaceId="contextMenu/metadatar">
       <MenuItem onClick={() => {
         openGameMetadataModal()
         onMenuItemClick()
       }}>Edit Metadata</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/world/toggleGrid">
+    <Unlockable interfaceId="contextMenu/toggleGrid">
       <MenuItem onClick={() => {
         toggleGridView()
         onMenuItemClick()
       }}>{isGridViewOn ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/world/takeSnapshot">
+    <Unlockable interfaceId="contextMenu/takeSnapshot">
       <MenuItem onClick={() => {
         openSnapshotTaker(generateUniqueId())
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId="contextMenu/cutscenes">
+      <MenuItem onClick={() => {
+        openCutscenesMenu()
+        onMenuItemClick()
+      }}>View Cutscenes</MenuItem>
     </Unlockable>
   </>
 };
@@ -54,4 +73,12 @@ const mapStateToProps = (state) => ({
   gameViewEditor: state.gameViewEditor
 });
 
-export default connect(mapStateToProps, { openLiveEditor, openSectionEditor, openSelectBackgroundColor, openSnapshotTaker, toggleGridView, openGameMetadataModal })( WorldContextMenu );
+export default connect(mapStateToProps, { 
+  openLiveEditor, 
+  openSectionEditor, 
+  openSelectBackgroundColor, 
+  openSnapshotTaker, 
+  toggleGridView, 
+  openGameMetadataModal, 
+  openCutscenesMenu
+})( WorldContextMenu );

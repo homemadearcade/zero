@@ -15,12 +15,17 @@ import { Constellation } from '../../app/Constellation/Constellation';
 import { EDIT_STATE } from '../../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
+import CutscenesMenu from '../CutscenesMenu/CutscenesMenu';
+import CreateCutscene from '../CreateCutscene/CreateCutscene';
+import CreateRelation from '../CreateRelation/CreateRelation';
+import RelationsMenu from '../RelationsMenu/RelationsMenu';
 
 const GameEditor = ({ 
   classNames, 
   gameEditor: { isSelectBackgroundColorOpen, liveEditingCategory, isGameMetadataModalOpen }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
+  gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
@@ -61,6 +66,10 @@ const GameEditor = ({
       {liveEditingCategory && <LiveEditor/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
+      {isCutscenesMenuOpen && <CutscenesMenu/>}
+      {isCreateCutsceneOpen && <CreateCutscene/>}
+      {isRelationsMenuOpen && <RelationsMenu/>}
+      {isCreateRelationOpen && <CreateRelation/>}
     </div>
   );
 };
@@ -68,7 +77,13 @@ const GameEditor = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameEditor: state.gameEditor,
   gameViewEditor: state.gameViewEditor,
-  gameContext: state.gameContext
+  gameFormEditor: state.gameFormEditor,
+  gameContext: state.gameContext,
 })
 
-export default connect(mapStateToProps, { clearEditor, clearGameFormEditor, clearGameViewEditor, changeGameState })(GameEditor);
+export default connect(mapStateToProps, { 
+  clearEditor, 
+  clearGameFormEditor, 
+  clearGameViewEditor, 
+  changeGameState
+})(GameEditor);

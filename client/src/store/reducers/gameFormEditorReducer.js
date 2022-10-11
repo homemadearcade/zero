@@ -8,23 +8,31 @@ import {
   OPEN_CREATE_COLOR_FLOW,
   CLOSE_CREATE_COLOR_FLOW,
   UPDATE_CREATE_COLOR,
-  UPDATE_CREATE_CLASS_STEP,
   CLOSE_CREATE_BRUSH_FLOW,
   OPEN_CREATE_BRUSH_FLOW,
   UPDATE_CREATE_BRUSH,
   UPDATE_CREATE_BRUSH_STEP,
+  OPEN_CREATE_CUTSCENE,
+  UPDATE_CREATE_CUTSCENE,
+  CLOSE_CREATE_CUTSCENE,
+  OPEN_CREATE_RELATION,
+  UPDATE_CREATE_RELATION,
+  CLOSE_CREATE_RELATION,
+  OPEN_CUTSCENE_MENU,
+  CLOSE_CUTSCENE_MENU,
+  OPEN_RELATION_MENU,
+  CLOSE_RELATION_MENU,
 } from '../types';
 
 const initialState = {
   isCreateBrushFlowOpen: false,
-  createBrushStep: '',
   brush: {
     canvasId: null,
     textureId: null,
     descriptors: []
   },
+
   isCreateClassFlowOpen: false,
-  createClassStep: '',
   class: {
     descriptors: [],
     graphics : {
@@ -34,6 +42,7 @@ const initialState = {
     name: "",
     type: null,
   },
+
   isCreateColorFlowOpen: false,
   color: {
     hex: null,
@@ -41,9 +50,31 @@ const initialState = {
     tint: null,
     isEyeDropping: false
   },
-  onCloseCreateColorFlow: null,
-  // isCreateHeroFlowOpen: false,
-  // isCreateWorldFlowOpen: false,
+
+  isCutscenesMenuOpen: false,
+  isCreateCutsceneOpen: false,
+  cutscene: {
+    type: null, 
+    imageUrl: null,
+    text: null,
+    name: null,
+  },
+
+  isRelationsMenuOpen: false,
+  isCreateRelationOpen: false,
+  classIdRelationsMenu: null,
+  relation: {
+    classId: null,
+    sides: [],
+    event: null, 
+    effect: {
+      id: null,
+      x: null,
+      y: null,
+      classId: null,
+      cutsceneId: null,
+    }, 
+  }
 };
 
 export const initialGameFormEditorState = initialState
@@ -70,11 +101,6 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isCreateColorFlowOpen: null,
 
       }
-    case UPDATE_CREATE_CLASS_STEP: 
-      return {
-        ...state,
-        createClassStep: payload.step
-      }
     case UPDATE_CREATE_CLASS: 
       return {
         ...state,
@@ -85,7 +111,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         class: {
           ..._.cloneDeep(initialState.class),
-          ...payload.initialClass
+          ...payload.initialClass ? _.cloneDeep(payload.initialClass) : {}
         },
         isCreateClassFlowOpen: true
       }
@@ -117,6 +143,66 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCreateBrushFlowOpen: false
+      }
+    case OPEN_CUTSCENE_MENU: 
+      return {
+        ...state,
+        isCutscenesMenuOpen: true,
+      }
+    case CLOSE_CUTSCENE_MENU:
+      return {
+        ...state,
+        isCutscenesMenuOpen: false
+      }
+    case OPEN_CREATE_CUTSCENE: 
+      return {
+        ...state,
+        isCreateCutsceneOpen: true,
+        cutscene: {
+          ..._.cloneDeep(initialState.cutscene),
+          ...payload.initialCutscene ? _.cloneDeep(payload.initialCutscene) : {}
+        },
+      }
+    case UPDATE_CREATE_CUTSCENE: 
+      return {
+        ...state,
+        cutscene: {...state.cutscene, ...payload.cutscene }
+      }
+    case CLOSE_CREATE_CUTSCENE: 
+      return {
+        ...state,
+        isCreateCutsceneOpen: false
+      }
+    case OPEN_RELATION_MENU: 
+      return {
+        ...state,
+        isRelationsMenuOpen: true,
+        classIdRelationsMenu: payload.classId
+      }
+    case CLOSE_RELATION_MENU:
+      return {
+        ...state,
+        isRelationsMenuOpen: false,
+        classIdRelationsMenu: null
+      }
+    case OPEN_CREATE_RELATION: 
+      return {
+        ...state,
+        isCreateRelationOpen: true,
+        relation: {
+          ..._.cloneDeep(initialState.relation),
+          ...payload.initialRelation ? _.cloneDeep(payload.initialRelation) : {}
+        },
+      }
+    case UPDATE_CREATE_RELATION:
+      return {
+        ...state,
+        relation: {...state.relation, ...payload.relation }
+      }
+    case CLOSE_CREATE_RELATION:
+      return {
+        ...state,
+        isCreateRelationOpen: false
       }
     case CLEAR_EDITOR_FORMS:
       return initialState

@@ -3,6 +3,7 @@ IN DISCUSSION
 interfaceUnlock other features, such as camera move with keys? drag object? etc
 Movement is prompted after placing the first object
 Change UI color option
+Press X to Interact
 
 ---
 TODO
@@ -12,15 +13,18 @@ Relationship UI
   World Effects
   Destroyed By Message ( You lost because... )
   Mini-Relationship View - Icons + Name
-  Press X to Interact
 
 CUTSCENE UI
   Image, Image + Text, Text
   Name at the top
-  Image -> Snapshot -> Save & close cutscene
-  
+  ImageMenu -> Snapshot -> Save & close cutscene
+
 ---
 TODO CHORES 
+
+Admin unlockables
+
+Player Spawn is a zone?
 
 Move properties into objects based on Member
 

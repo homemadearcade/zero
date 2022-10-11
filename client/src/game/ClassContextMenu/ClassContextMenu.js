@@ -4,13 +4,22 @@ import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../store/actions/gameActions'
 import { openLiveEditor } from '../../store/actions/gameEditorActions';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
-import { openCreateClassFlow } from '../../store/actions/gameFormEditorActions';
+import { openCreateClassFlow, openRelationsMenu } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../utils/webPageUtils';
 
-const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, onMenuItemClick, game: { gameModel }, classId, insideObjectInstanceContextMenu }) => {
+const ClassContextMenu = ({ 
+  editGameModel, 
+  openCreateClassFlow, 
+  openLiveEditor, 
+  onMenuItemClick, 
+  openRelationsMenu,
+  game: { gameModel }, 
+  classId, 
+  insideObjectInstanceContextMenu
+}) => {
   const objectClass = gameModel.classes[classId]
 
   return <>
@@ -59,6 +68,12 @@ const ClassContextMenu = ({ editGameModel, openCreateClassFlow, openLiveEditor, 
         onMenuItemClick()
       }}>Edit Movement</MenuItem>
     </Unlockable>
+    <Unlockable interfaceId="contextMenu/class/relations">
+      <MenuItem onClick={() => {
+        openRelationsMenu(classId)
+        onMenuItemClick()
+      }}>Edit Relations</MenuItem>
+    </Unlockable>
     <Unlockable interfaceId="contextMenu/class/spawn">
       <MenuItem onClick={() => {
         editGameModel({
@@ -93,4 +108,9 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   game: state.game,
 })
 
-export default connect(mapStateToProps, { editGameModel, openCreateClassFlow, openLiveEditor })(ClassContextMenu);
+export default connect(mapStateToProps, { 
+  editGameModel, 
+  openCreateClassFlow, 
+  openLiveEditor, 
+  openRelationsMenu
+})(ClassContextMenu);
