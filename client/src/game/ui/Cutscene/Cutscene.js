@@ -23,7 +23,7 @@ function CutsceneBody({imageUrl, text, progressActiveCutscene}) {
 
   return (
     <div className="Cutscene">
-      {imageUrl && <img className="Cutscene__image" src={imageUrl} alt={text}/>}
+      {imageUrl && <img className="Cutscene__image" src={window.awsUrl + imageUrl} alt={text}/>}
       <div className="Cutscene__text-container">
         <div className="Cutscene__text">{text}</div>
         <KeyIndicator className="Cutscene__text-key blink" keyName="x"/>

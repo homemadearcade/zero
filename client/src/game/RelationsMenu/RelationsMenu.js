@@ -9,7 +9,7 @@ import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
-import { effectDisplayNames, eventDisplayNames } from '../../defaultData/relationship';
+import { effectDisplayNames, eventDisplayNames, getEffectLabel, getEventLabel } from '../../defaultData/relationship';
 
 const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor: { classIdRelationsMenu }, game: { gameModel } }) => {
   function handleClose() {
@@ -19,25 +19,32 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
   // onChange={(event, descriptors) => {
   //   updateCreateCutscene({ descriptors })
   // }}
+  const objectClass = gameModel.classes[classIdRelationsMenu]
 
-  const relations = Object.keys(gameModel.classes[classIdRelationsMenu].relations).map((relationId) => {
-    return gameModel.classes[classIdRelationsMenu].relations[relationId]
+  const relations = Object.keys(objectClass.relations).map((relationId) => {
+    return objectClass.relations[relationId]
   })
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="RelationsMenu">
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relations"/>
       {relations.map((relation) => {
-        const {classId, event, effect: { type }} = relation
+        const { classId, event, effect: { type, effectedClassId }} = relation
+
+        const effectedClass = gameModel.classes[effectedClassId]
+        const agentClass = gameModel.classes[classId]
+
         return <div key={relation.relationId} className="RelationsMenu__relation">
-          <ClassMemberTitle classId={classId} title={effectDisplayNames[type] +  ' When ' + eventDisplayNames[event]}/>
+          <ClassMemberTitle classId={classId} title={getEffectLabel(type, effectedClass, agentClass) + getEventLabel(event, effectedClass, agentClass)}/>
           <Button onClick={() => {
             openCreateRelation(relation)
           }}>Edit</Button>
         </div>
       })}
       <Button onClick={() => {
-        openCreateRelation()
+        openCreateRelation({
+          // effectedClassId: classIdRelationsMenu
+        })
       }}>Add Relation</Button>
     </div>
   </CobrowsingModal>

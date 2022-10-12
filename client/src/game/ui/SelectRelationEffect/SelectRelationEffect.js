@@ -4,33 +4,28 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationEffect.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { effectDisplayNames, effectSuffix } from '../../../defaultData/relationship';
+import { collideOnlyEffects, effectDisplayNames, effectSuffix, getEffectLabel } from '../../../defaultData/relationship';
+import { ON_COLLIDE } from '../../../constants';
 
-const SelectRelationEffect = ({ onChange, value, formLabel, game: { gameModel }, classId, agentClassId}) => {
+const SelectRelationEffect = ({ event, onChange, value, formLabel, disabled, game: { gameModel }, classId, agentClassId}) => {
   const objectClass = gameModel.classes[classId]
   const agentClass = gameModel.classes[agentClassId]
-
-  function getSuffix(effect) {
-    if(effectSuffix[effect] === 'Both' && agentClassId) {
-      return objectClass.name + ' and ' + agentClass.name
-    } else if(effectSuffix[effect] === 'Class') {
-      return objectClass.name
-    }
-
-    return ''
-  }
 
   const mapControlsToOption = (effect) => {
 
     return {
-      label: effectDisplayNames[effect] + ' ' + getSuffix(effect),
+      label: getEffectLabel(effect, objectClass, agentClass),
       value: effect
     }
   }
 
-  const options = Object.keys(effectDisplayNames).map(mapControlsToOption)
+  const options = Object.keys(effectDisplayNames).filter((effectType) => {
+    if(event !== ON_COLLIDE && collideOnlyEffects[effectType]) return false
+    return true
+  }).map(mapControlsToOption)
 
   return <SelectChipsAuto 
+    disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}
     value={value}

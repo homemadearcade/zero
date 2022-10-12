@@ -1,10 +1,10 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH, WIN_GAME_STATE, GAME_OVER_STATE } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
 import { Collider } from "./members/Collider";
-import { openCutscene } from "../../store/actions/gameContextActions";
+import { changeGameState, openCutscene } from "../../store/actions/gameContextActions";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 
 export class ObjectInstance extends Sprite {
@@ -22,8 +22,8 @@ export class ObjectInstance extends Sprite {
     this.id = id
     this.classId = classId
     this.scene = scene
-    this.width = objectClass.width
-    this.height = objectClass.height
+    this.width = objectClass.graphics.width
+    this.height = objectClass.graphics.height
     this.sprite.id = id
     this.sprite.classId = classId
     scene.objectInstanceGroup.add(this.sprite)
@@ -220,7 +220,7 @@ export class ObjectInstance extends Sprite {
     Object.keys(objectClass.relations).map((relationId) => {
 	    return objectClass.relations[relationId]
     }).forEach(({classId, event, effect}) => {
-      if(event === ON_DESTROY) {
+      if(event === ON_DESTROY_ONE) {
         this.runEffect(effect)
       }
     })
@@ -249,7 +249,7 @@ export class ObjectInstance extends Sprite {
     ////////////////////////////////////////
     // RELATIONS
     if(objectClass.worldBoundaryRelationship === WORLD_WRAP) {
-      this.scene.physics.world.wrap(this.sprite.body, this.width)
+      this.scene.physics.world.wrap(this.sprite.body, objectClass.graphics.width)
     }
     
     this.updateEffects()
@@ -407,9 +407,18 @@ export class ObjectInstance extends Sprite {
   }
 
   runEffect(effect, agent, sides = []) {
+    if(effect.effectedClassId) {
+      this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
+        object.runEffect({...effect, effectedClassId: null}, agent, sides)
+      })
+      return
+    }
+
     // MOVEMENT
     if(effect.type === EFFECT_TELEPORT) {
-      this.setPosition(effect.x, effect.y)
+      const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      if(!zone) return
+      this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
     } else if(effect.type === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
       this.isIgnoreGravityModified = true
       this.setIgnoreGravity(true)
@@ -431,7 +440,10 @@ export class ObjectInstance extends Sprite {
     if(effect.type === EFFECT_DESTROY) {
       this.destroyInGame()
     } else if(effect.type === EFFECT_SPAWN) {
-      this.spawn()
+      // const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      // if(!zone) return
+      // this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
+      // this.spawn()
     } else if(effect.type === EFFECT_RECLASS) {
       this.scene.removeObjectInstance(this.id)
       this.scene.addObjectInstance(this.id, {spawnX: this.sprite.x, spawnY: this.sprite.y, classId: effect.classId})
@@ -441,9 +453,9 @@ export class ObjectInstance extends Sprite {
     if(effect.type === EFFECT_CUTSCENE) {
       if(effect.cutsceneId) store.dispatch(openCutscene(agent?.classId, effect.cutsceneId))
     } else if(effect.type === EFFECT_WIN_GAME) {
-
+      store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
     } else if(effect.type === EFFECT_GAME_OVER) {
-
+      store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
     }
     
     // GRAPHICS

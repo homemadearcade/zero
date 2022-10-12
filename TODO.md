@@ -5,18 +5,18 @@ Movement is prompted after placing the first object?
 Change UI color option
 Press X to Interact
 Player Spawn is a zone?
+Spawn is an Effect that chooses a zone?
 
 ---
 TODO
 
 Relationship UI
-  onCutsceneEnd Event
-  Destroyed By Message ( You lost because... )
   Mini-Relationship View
 
 ---
 TODO CHORES 
 
+File reorg
 Add tint to sprite editor
 Take snapshot without BG
 Move properties into objects based on Member

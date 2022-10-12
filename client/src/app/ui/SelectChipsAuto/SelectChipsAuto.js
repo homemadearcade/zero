@@ -21,7 +21,7 @@ const Root = styled('div')(
 const InputWrapper = styled('div')(
   ({ theme }) => `
   width: calc(100% -2px);
-  border: 1px solid ${theme.palette.mode === 'dark' ? '#FFF' : '#d9d9d9'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.23)' : '#d9d9d9'};
   background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
   display: flex;
   flex-wrap: wrap;
@@ -127,7 +127,7 @@ const Listbox = styled('ul')(
   overflow: auto;
   max-height: 250px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1;
+  z-index: 2;
 
   & li {
     padding: 5px 12px;
@@ -167,7 +167,7 @@ const Listbox = styled('ul')(
 `,
 );
 
-export default function SelectChipsAuto({onChange, value, options, formLabel}) {
+export default function SelectChipsAuto({onChange, value, options, disabled, formLabel}) {
   const [inheritedValue, setInheritedValue] = useState([])
 
   function onValueChanged(value) {
@@ -188,12 +188,12 @@ export default function SelectChipsAuto({onChange, value, options, formLabel}) {
 
   if(inheritedValue === undefined) return null
 
-  return <SelectChipsAutoForm onChange={onChange} inheritedValue={inheritedValue} options={options.filter(({label}) => {
+  return <SelectChipsAutoForm onChange={onChange} disabled={disabled} inheritedValue={inheritedValue} options={options.filter(({label}) => {
     return !!label
   })} formLabel={formLabel}/>
 }
 
-function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
+function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formLabel}) {
   const {
     getRootProps,
     getInputLabelProps,
@@ -230,7 +230,7 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
     <Root>
       <div {...getRootProps()}>
         {formLabel && <FormLabel {...getInputLabelProps()}>{formLabel}</FormLabel>}
-        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+        <InputWrapper disabled={disabled} ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {inheritedValue.map((option, index) => (
               <StyledTag label={<>
                   {renderSprite(option)}

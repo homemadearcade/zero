@@ -2,6 +2,8 @@
 
 TODO TIME PERMITTING BACKLOG
 
+Spawning
+
 Choices in dialogue
 
 Particles
@@ -40,6 +42,10 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 --------------------------------------------------------------------------------------
 
 TODO FEATURES ( MAYBE ) BACKlog
+
+onCutsceneEnd Event
+
+Destroyed By Message ( You lost because... )
 
 Unlock snap to grid?
 

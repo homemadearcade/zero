@@ -74,7 +74,7 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Edit Relations</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/class/spawn">
+    {false && <Unlockable interfaceId="contextMenu/class/spawn">
       <MenuItem onClick={() => {
         editGameModel({
           classes: {
@@ -85,7 +85,7 @@ const ClassContextMenu = ({
         })
         onMenuItemClick()
       }}>{objectClass.unspawned ? 'Set as Spawned' : 'Set as Unspawned'}</MenuItem>
-    </Unlockable>
+    </Unlockable>}
     {!insideObjectInstanceContextMenu && <Unlockable interfaceId="contextMenu/class/duplicate">
       <MenuItem onClick={() => {  
         const classId = generateUniqueId()

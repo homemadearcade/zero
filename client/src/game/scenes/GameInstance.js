@@ -27,6 +27,14 @@ export class GameInstance extends Phaser.Scene {
     this.physicsType = ARCADE_PHYSICS
   }
 
+  getRandomInstanceOfClassId(classId) {
+    const instances = [this.player, ...this.objectInstances].filter((instance) => {
+      return instance.classId === classId
+    })
+    const index = Math.floor(Math.random() * instances.length)
+    return instances[index]
+  }
+
   forAllObjectInstancesMatchingClassId(classId, fx) {
    [this.player, ...this.objectInstances].forEach((object) => {
       if(object.classId === classId) {

@@ -4,28 +4,16 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEvent.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { eventDisplayNames, eventPrefix } from '../../../defaultData/relationship';
+import { eventDisplayNames, eventPrefix, getEventLabel } from '../../../defaultData/relationship';
+import { capitalize } from '../../../utils/utils';
 
-const SelectEvent = ({ onChange, value, formLabel, agentClassId, classId, game: { gameModel } }) => {
+const SelectEvent = ({ onChange, value, formLabel, agentClassId, disabled, classId, game: { gameModel } }) => {
   const objectClass = gameModel.classes[classId]
   const agentClass = gameModel.classes[agentClassId]
 
-  function getPrefix(event) {
-    if(eventPrefix[event] === 'Both' && agentClassId) {
-      return objectClass.name + ' and ' + agentClass.name
-    } else if(eventPrefix[event] === 'Class') {
-      return objectClass.name + ' is'
-    } else if(eventPrefix[event] === 'Agent') {
-      return agentClass.name + ' is'
-    }
-
-    return ''
-  }
-
-
   const mapControlsToOption = (event) => {
     return {
-      label: 'When ' + getPrefix(event) + ' ' + eventDisplayNames[event],
+      label: capitalize(getEventLabel(event, objectClass, agentClass)),
       value: event
     }
   }
@@ -33,6 +21,7 @@ const SelectEvent = ({ onChange, value, formLabel, agentClassId, classId, game: 
   const options = Object.keys(eventDisplayNames).map(mapControlsToOption)
 
   return <SelectChipsAuto 
+    disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}
     value={value}
