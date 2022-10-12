@@ -36,12 +36,12 @@ const config= {
     //     wrap: true
     //   },
     // },
-    // arcade: {
-    //   debug: true,
-    //   debugShowBody: true,
-    //   debugShowStaticBody: true,
-    //   debugShowVelocity: true,
-    // }
+    arcade: {
+      debug: true,
+      debugShowBody: true,
+      debugShowStaticBody: true,
+      debugShowVelocity: true,
+    }
   },
   plugins: {
     // global: [

@@ -350,6 +350,14 @@ export class ObjectInstance extends Sprite {
       this.sprite.lockedReleaseSides = null
       this.setIgnoreGravity(objectClass.movement.ignoreGravity);
     }
+
+    this.lastCollidedWithClassId = this.collidedWithClassId
+
+    if(this.sprite.body.touching.none && this.sprite.body.blocked.none) {
+      this.collidedWithClassId = null
+    }
+
+    console.log(this.lastCollidedWithClassId, this.collidedWithClassId)
   }
 
   destroy() {
@@ -414,12 +422,19 @@ export class ObjectInstance extends Sprite {
       return
     }
 
-    // MOVEMENT
-    if(effect.type === EFFECT_TELEPORT) {
-      const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
-      if(!zone) return
-      this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
-    } else if(effect.type === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
+    this.collidedWithClassId = agent?.classId
+
+    /////////////////////////////////////////
+    /////////////////////////////////////////
+    // WHILE COLLIDING EFFECTS
+    if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
+      this.isVisibilityModified = true
+      this.setVisible(false)
+    } else if(effect.type === EFFECT_CAMERA_SHAKE) {
+      this.scene.cameras.main.shake(20)
+    }
+
+    if(effect.type === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
       this.isIgnoreGravityModified = true
       this.setIgnoreGravity(true)
     } else if(effect.type === EFFECT_STICK_TO) {
@@ -434,6 +449,17 @@ export class ObjectInstance extends Sprite {
         this.sprite.body.setVelocityY(0)
         this.sprite.body.setVelocityX(0)
       // }
+    }
+
+    if(this.lastCollidedWithClassId === agent.classId) return
+
+    /////////////////////////////////////////
+    /////////////////////////////////////////
+    // COLLIDE ONCE EFFECTS
+    if(effect.type === EFFECT_TELEPORT) {
+      const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      if(!zone) return
+      this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
     }
     
     // LIFE
@@ -458,13 +484,7 @@ export class ObjectInstance extends Sprite {
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
     }
     
-    // GRAPHICS
-    if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
-      this.isVisibilityModified = true
-      this.setVisible(false)
-    } else if(effect.type === EFFECT_CAMERA_SHAKE) {
-      this.scene.cameras.main.shake(20)
-    }
+
     
   }
 }

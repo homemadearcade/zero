@@ -182,6 +182,18 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         <Button onClick={handleClose}>
           Cancel
         </Button>
+        <Button onClick={() => {
+        editGameModel({
+          classes: {
+            [classIdRelationsMenu]: {
+              relations: {
+                [relation.relationId]: null
+              }
+            }
+          }
+        })
+        handleClose()
+        }}>Remove</Button>
       </div>
     </div>
   </CobrowsingModal>

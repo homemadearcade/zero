@@ -95,11 +95,27 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       }
     });
 
+    Object.keys(updatedGame.cutscenes).forEach(key => {
+      if (updatedGame.cutscenes[key] === null || updatedGame.cutscenes[key] === undefined) {
+        console.log('deleting cutscene', key)
+        delete updatedGame.cutscenes[key];
+      }
+    });
+
     Object.keys(updatedGame.classes).forEach(key => {
       if (updatedGame.classes[key] === null || updatedGame.classes[key] === undefined) {
         console.log('deleting class', key)
         delete updatedGame.classes[key];
+        return
       }
+
+      const objectClass = updatedGame.classes[key]
+      Object.keys(objectClass.relations).forEach(key => {
+        if (objectClass.relations[key] === null || objectClass.relations[key] === undefined) {
+          console.log('deleting relation', key)
+          delete objectClass.relations[key];
+        }
+      });
     });
 
     const { error } = validateGame(updatedGame);

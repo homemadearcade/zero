@@ -26,7 +26,7 @@ export class Collider {
     }).forEach(({classId, event, effect, sides}) => {
       if(event === ON_COLLIDE) {
         const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === classId).map(({sprite}) => sprite)
-        if(effect.id === EFFECT_COLLIDE) {
+        if(effect.type === EFFECT_COLLIDE) {
           this.unregisters.push(
             this.scene.physics.add.collider(this.sensor.sprite, releventInstances)
           )

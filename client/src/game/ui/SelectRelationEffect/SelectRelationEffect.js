@@ -24,11 +24,13 @@ const SelectRelationEffect = ({ event, onChange, value, formLabel, disabled, gam
     return true
   }).map(mapControlsToOption)
 
+  const useableValue = (event !== ON_COLLIDE  && collideOnlyEffects[value]) ? []: value 
+
   return <SelectChipsAuto 
     disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}
-    value={value}
+    value={useableValue}
     options={options}
   />
 }

@@ -231,14 +231,14 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
       <div {...getRootProps()}>
         {formLabel && <FormLabel {...getInputLabelProps()}>{formLabel}</FormLabel>}
         <InputWrapper disabled={disabled} ref={setAnchorEl} className={focused ? 'focused' : ''}>
-          {inheritedValue.map((option, index) => (
-              <StyledTag label={<>
-                  {renderSprite(option)}
-                  {option.label}
-                </>} 
-                {...getTagProps({ index })}
-              />
-          ))}
+          {inheritedValue.map((option, index) => {
+            return <StyledTag label={<>
+                {renderSprite(option)}
+                {option.label}
+              </>} 
+              {...getTagProps({ index })}
+            />
+          })}
           <input {...getInputProps()}/>
         </InputWrapper>
       </div>
