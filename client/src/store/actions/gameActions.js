@@ -62,14 +62,43 @@ function onGameModelUpdate(gameUpdate) {
 
   window.nextGameModelUpdateIsUndo = false
 
+  
+
   if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
     if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameUpdate.objects[id])
   })
   if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
     if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameUpdate.classes[id])
   })
+  
 
   const gameData = mergeDeep(oldGameData, gameUpdate)
+
+
+  Object.keys(gameData.cutscenes).forEach(key => {
+    if (gameData.cutscenes[key] === null || gameData.cutscenes[key] === undefined) {
+      console.log('deleting cutscene', key)
+      delete gameData.cutscenes[key];
+    }
+  });
+
+  Object.keys(gameData.classes).forEach(key => {
+    if (gameData.classes[key] === null || gameData.classes[key] === undefined) {
+      console.log('deleting class', key)
+      delete gameData.classes[key];
+      return
+    }
+
+    const objectClass = gameData.classes[key]
+    if(objectClass.relations) {
+      Object.keys(objectClass.relations).forEach(key => {
+        if (objectClass.relations[key] === null || objectClass.relations[key] === undefined) {
+          console.log('deleting relation', key)
+          delete objectClass.relations[key];
+        }
+      });
+    }
+  });
   
   store.dispatch({
     type: ON_GAME_MODEL_UPDATE,

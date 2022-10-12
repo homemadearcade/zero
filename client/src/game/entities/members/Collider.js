@@ -22,7 +22,6 @@ export class Collider {
   }
 
   registerArcade(relations) {
-    console.log('before?')
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
     }).forEach(({event, effect, sides}) => {

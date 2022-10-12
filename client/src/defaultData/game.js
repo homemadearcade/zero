@@ -31,6 +31,9 @@ export const defaultGame = {
   cutscenes: {
 
   },
+  relations: {
+
+  },
   "awsImages": {
     // "url": "xxx",
     // "name": 'name'

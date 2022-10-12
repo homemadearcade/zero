@@ -38,9 +38,11 @@ export const defaultObjectClass = {
   interfaceLocked: false,
   worldBoundaryRelationship: WORLD_COLLIDE,
   classId: null,
-  relations: {},
   movement: {
     ...defaultMovement
+  },
+  relations: {
+
   },
   collisionResponse: {
     ...defaultCollisionResponse

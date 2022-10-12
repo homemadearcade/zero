@@ -243,7 +243,6 @@ export class GameInstance extends Phaser.Scene {
     this.initializePlayerInstance()
 
 
-    console.log('not befoer this please')
     this.registerRelations()
 
     ////////////////////////////////////////////////////////////

@@ -8,6 +8,10 @@ import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
 import { FormLabel, Typography } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../app/ui/Switch/Switch';
+import SelectColliders from '../ui/SelectColliders/SelectColliders';
+import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
+import { generateUniqueId } from '../../utils/webPageUtils';
+import { defaultRelationship } from '../../defaultData/relationship';
 
 
 // {false && <Unlockable interfaceId="physics/toggle/useMass">
@@ -58,6 +62,63 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 
   return (
     <div className="PhysicsEditor">
+      <Unlockable interfaceId="physics/select/colliders">
+        <SelectColliders
+          formLabel="Colliders"
+          classId={classId}
+          onChange={(event, newColliderClasses) => {
+            const relations = classSelected.relations
+            const oldColliderRelations = Object.keys(relations).map((relationId) => {
+              return relations[relationId]
+            }).filter((relation) => {
+              if(relation.event.type === ON_COLLIDE && relation.effect.type === EFFECT_COLLIDE) {
+                return true
+              }
+              return false
+            })
+
+            if(oldColliderRelations.length < newColliderClasses.length) {
+              oldColliderRelations.forEach((relation) => {
+                const index = newColliderClasses.indexOf(relation.event.classId)
+                newColliderClasses.splice(index, 1)
+              })
+  
+              newColliderClasses.forEach((classId) => {
+                const newId = generateUniqueId()
+                relations[newId] = {
+                  relationId: newId,
+                  event: {
+                    type: ON_COLLIDE,
+                    classId,
+                  },
+                  effect: {
+                    type: EFFECT_COLLIDE
+                  },
+                }
+              })
+            } else {
+
+              const oldColliderClassIds = oldColliderRelations.map(({event: {classId}}) => classId)
+
+              newColliderClasses.forEach((classId) => {
+                const index = oldColliderClassIds.indexOf(classId)
+                oldColliderRelations.splice(index, 1)
+              })
+  
+              oldColliderRelations.forEach((relation) => {
+                relations[relation.relationId] = null
+              })
+            }
+
+            console.log(relations)
+
+            editGameModel({ classes: {
+              [classId]: {
+                relations
+              }
+            }})        
+         }}/>
+      </Unlockable>
       <Unlockable isSlider interfaceId="physics/sliders/bounce">
         <SliderNotched
           formLabel="Bounce"
