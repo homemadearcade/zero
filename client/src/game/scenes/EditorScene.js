@@ -687,9 +687,9 @@ export class EditorScene extends GameInstance {
       }
 
       if(classUpdate.camera !== undefined) {
-        if(this.player.classId === id) {
+        if(this.playerInstance.classId === id) {
           this.cameras.main.setZoom(classUpdate.camera.zoom)
-          this.player.setZoom(classUpdate.camera.zoom)
+          this.playerInstance.setZoom(classUpdate.camera.zoom)
         }
       }
     })

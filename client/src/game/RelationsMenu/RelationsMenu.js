@@ -29,13 +29,13 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
     <div className="RelationsMenu">
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relations"/>
       {relations.map((relation) => {
-        const { classId, event, effect: { type, effectedClassId }} = relation
+        const { event, effect: { type, effectedClassId }} = relation
 
         const effectedClass = gameModel.classes[effectedClassId]
-        const agentClass = gameModel.classes[classId]
+        const agentClass = gameModel.classes[event.classId]
 
         return <div key={relation.relationId} className="RelationsMenu__relation">
-          <ClassMemberTitle classId={classId} title={getEffectLabel(type, effectedClass, agentClass) + getEventLabel(event, effectedClass, agentClass)}/>
+          <ClassMemberTitle classId={event.classId} title={getEffectLabel(type, (effectedClass || objectClass), agentClass) + getEventLabel(event.type, objectClass, agentClass)}/>
           <Button onClick={() => {
             openCreateRelation(relation)
           }}>Edit</Button>

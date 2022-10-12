@@ -60,9 +60,9 @@ export class InteractArea extends Sprite {
   registerArcade(relations) {
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
-    }).forEach(({classId, event, effect}) => {
-      if(event === ON_INTERACT) {
-        const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === classId).map(({sprite}) => sprite)
+    }).forEach(({event, effect}) => {
+      if(event.type === ON_INTERACT) {
+        const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classId).map(({sprite}) => sprite)
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventInstances, (a, b) => {
             if(this.paused) return
@@ -76,15 +76,15 @@ export class InteractArea extends Sprite {
   registerMatter(relations) {
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
-    }).forEach(({classId, event, effect}) => {
-      if(event === ON_INTERACT) {
+    }).forEach(({event, effect}) => {
+      if(event.type === ON_INTERACT) {
         this.scene.matterCollision.addOnCollideActive({
           objectA: this.interactArea,
           callback: eventData => {
             const { gameObjectB } = eventData;
             if(gameObjectB === this) return
             if(!gameObjectB) return
-            if(classId === gameObjectB.classId) {
+            if(event.classId === gameObjectB.classId) {
               this.interactables.push({gameObject: gameObjectB, effect})
             }
           }
@@ -95,7 +95,7 @@ export class InteractArea extends Sprite {
             const { gameObjectB } = eventData;
             if(gameObjectB === this) return
             if(!gameObjectB) return
-            if(classId === gameObjectB.classId) {
+            if(event.classId === gameObjectB.classId) {
               gameObjectB.border.setVisible(false)
             }
           }

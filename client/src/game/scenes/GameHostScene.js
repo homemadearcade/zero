@@ -28,9 +28,9 @@ export class GameHostScene extends EditorScene {
       })
       
       const player = {
-        x: this.player.sprite.x,
-        y: this.player.sprite.y,
-        rotation: this.player.sprite.rotation
+        x: this.playerInstance.sprite.x,
+        y: this.playerInstance.sprite.y,
+        rotation: this.playerInstance.sprite.rotation
       }
       
       window.socket.emit(ON_GAME_INSTANCE_UPDATE, { lobbyId: store.getState().lobby.lobby.id, objects, player})

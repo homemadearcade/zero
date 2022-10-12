@@ -62,13 +62,14 @@ const initialState = {
   isCreateRelationOpen: false,
   classIdRelationsMenu: null,
   relation: {
-    classId: null,
+    relationId: null,
     sides: [],
-    event: null, 
+    event: {
+      type: null,
+      classId: null,
+    },
     effect: {
-      id: null,
-      x: null,
-      y: null,
+      type: null,
       classId: null,
       cutsceneId: null,
     }, 

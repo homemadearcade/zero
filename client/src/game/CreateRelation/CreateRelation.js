@@ -44,6 +44,10 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       if(!relation.effect.classId) return true
     }
 
+    if(editForms?.zoneClassId) {
+      if(!relation.effect.zoneClassId) return true
+    }
+
     if(editForms?.cutsceneId) {
       if(!relation.effect.cutsceneId) return true
     }
@@ -52,13 +56,13 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       if(!relation.effect.text) return true
     }
 
-    if(!relation.effect.type || !relation.event || !relation.classId) return true
+    if(!relation.effect.type || !relation.event.type || !relation.event.classId) return true
     
     return false 
   }
 
-  const handleRelationChange = (prop, value) => {
-    relation[prop] = value
+  const handleEventChange = (prop, value) => {
+    relation.event[prop] = value
     updateCreateRelation(relation)
   }
 
@@ -124,20 +128,20 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relation"/>
         <SelectClass 
           formLabel="With what objects?"
-          value={relation.classId ? [relation.classId] : []}
+          value={relation.event.classId ? [relation.event.classId] : []}
           onChange={(event, classes) => {
             const newClassId = classes[classes.length-1]
-            handleRelationChange('classId', newClassId)
+            handleEventChange('classId', newClassId)
          }}/>
         <SelectEvent
           disabled={!relation.effect.type}
           classId={classIdRelationsMenu}
-          agentClassId={relation.classId}
+          agentClassId={relation.event.classId}
           formLabel="When?"
-          value={relation.event ? [relation.event] : []}
+          value={relation.event.type ? [relation.event.type] : []}
           onChange={(event, events) => {
             const newEvent = events[events.length-1]
-            handleRelationChange('event', newEvent)
+            handleEventChange('type', newEvent)
         }}/>
         <Unlockable interfaceId="relation/effected">
           <SelectClass 
@@ -149,10 +153,11 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           }}/>
          </Unlockable>
         <SelectRelationEffect
+          effect={relation.effect}
           event={relation.event}
-          disabled={!relation.classId}
+          disabled={!relation.event.classId}
           classId={relation.effect.effectedClassId || classIdRelationsMenu}
-          agentClassId={relation.classId}
+          agentClassId={relation.event.classId}
           formLabel={`What is the effect?`}
           value={relation.effect.type ? [relation.effect.type] : []}
           onChange={(event, effects) => {
@@ -182,7 +187,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         <Button onClick={handleClose}>
           Cancel
         </Button>
-        <Button onClick={() => {
+        {!isNewRelation && <Button onClick={() => {
         editGameModel({
           classes: {
             [classIdRelationsMenu]: {
@@ -193,7 +198,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           }
         })
         handleClose()
-        }}>Remove</Button>
+        }}>Remove</Button>}
       </div>
     </div>
   </CobrowsingModal>

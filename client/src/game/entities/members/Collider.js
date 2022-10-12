@@ -1,6 +1,7 @@
 import _ from "lodash";
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, EFFECT_COLLIDE, MATTER_PHYSICS, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../../constants";
+import { ARCADE_PHYSICS, EFFECT_COLLIDE, MATTER_PHYSICS, MOVEMENT_TURN_ON_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../../constants";
+import store from "../../../store";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {
@@ -21,14 +22,18 @@ export class Collider {
   }
 
   registerArcade(relations) {
+    console.log('before?')
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
-    }).forEach(({classId, event, effect, sides}) => {
-      if(event === ON_COLLIDE) {
-        const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === classId).map(({sprite}) => sprite)
+    }).forEach(({event, effect, sides}) => {
+      if(event.type === ON_COLLIDE) {
+        const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classId).map(({sprite}) => sprite)
         if(effect.type === EFFECT_COLLIDE) {
           this.unregisters.push(
-            this.scene.physics.add.collider(this.sensor.sprite, releventInstances)
+            this.scene.physics.add.collider(this.sensor.sprite, releventInstances, (instanceA, instanceB) => {
+              instanceA.justCollided = true
+              instanceB.justCollided = true
+            })
           )
         } else {
           this.unregisters.push(
@@ -50,7 +55,7 @@ export class Collider {
 
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
-    }).forEach(({classId, event, effect}) => {
+    }).forEach(({event, effect}) => {
       const eventEffect = {
         objectA: this,
         callback: eventData => {
@@ -59,7 +64,7 @@ export class Collider {
           if(isEventMatch({
             gameObject: gameObjectB,
             body: bodyB,
-            classId,
+            classId: event.classId,
             event,
             world
           })){
@@ -76,7 +81,7 @@ export class Collider {
           if(isEventMatch({
             gameObject: gameObjectB,
             body: bodyB,
-            classId,
+            classId: event.classId,
             event,
             world
           })){

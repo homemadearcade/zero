@@ -1,10 +1,12 @@
 import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_CUTSCENE_END, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_SPAWN } from "../constants"
 
 export const defaultRelationship = {
-  classId: null,
-  cutsceneId: null,
-  event: '', 
+  event: {
+    type: '',
+    classId: null,
+  },
   effect: {
+    effectedInstanceId: null,
     effectedClassId: null,
     type: '',
     classId: null,
@@ -120,6 +122,29 @@ export const collideOnlyEffects  = {
   [EFFECT_INVISIBLE]: true
 }
 
+export const nonRemoteEffects  = {
+  // Movement
+  [EFFECT_TELEPORT]: false,
+  [EFFECT_COLLIDE]: true,
+  [EFFECT_IGNORE_GRAVITY]: true,
+  [EFFECT_STICK_TO]: true,
+
+  // Lifecycle
+  [EFFECT_RECLASS]: false,
+  [EFFECT_SPAWN]: false,
+  [EFFECT_DESTROY]: false,
+
+  // Narrative
+  [EFFECT_CUTSCENE]: false,
+  [EFFECT_GAME_OVER]: false,
+  [EFFECT_WIN_GAME]: false,
+
+  // Graphical
+  [EFFECT_CAMERA_SHAKE]: false,
+  [EFFECT_INVISIBLE]: false
+}
+
+
 // export const effectIgnoreEvent = {
 //   // Movement
 //   [EFFECT_TELEPORT]: {
@@ -219,7 +244,7 @@ export const eventPrefix = {
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
 
-function getEventPrefix(event, objectClass, agentClass) {
+function getEventPrefix(event, objectClass, agentClass) {  
   if(eventPrefix[event] === 'Both' && agentClass && objectClass) {
     return objectClass.name + ' and ' + agentClass.name
   } else if(eventPrefix[event] === 'Class' && objectClass) {

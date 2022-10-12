@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH, WIN_GAME_STATE, GAME_OVER_STATE } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH, WIN_GAME_STATE, GAME_OVER_STATE, HERO_INSTANCE_ID, ON_DESTROY_ALL, EFFECT_DESTROY } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -192,12 +192,15 @@ export class ObjectInstance extends Sprite {
       this.createInvisibleOutline()
     }
 
-    Object.keys(objectClass.relations).map((relationId) => {
-	    return objectClass.relations[relationId]
-    }).forEach(({classId, event, effect}) => {
-      if(event === ON_SPAWN) {
-        this.runEffect(effect)
-      }
+    Object.keys(gameModel.classes).forEach((classId) => {
+      const objectClass = gameModel.classes[classId]
+      Object.keys(objectClass.relations).map((relationId) => {
+        return objectClass.relations[relationId]
+      }).forEach(({event, effect}) => {
+        if(event.type === ON_SPAWN && event.classId === this.classId) {
+          this.runEffect(effect)
+        }
+      })
     })
   }
 
@@ -216,14 +219,24 @@ export class ObjectInstance extends Sprite {
 
   destroyInGame() {
     const gameModel = store.getState().game.gameModel
-    const objectClass = gameModel.classes[this.classId]
-    Object.keys(objectClass.relations).map((relationId) => {
-	    return objectClass.relations[relationId]
-    }).forEach(({classId, event, effect}) => {
-      if(event === ON_DESTROY_ONE) {
-        this.runEffect(effect)
-      }
+    let eventType = ON_DESTROY_ONE
+
+    const instances = this.scene.getAllInstancesOfClassId(this.classId)
+    if(instances.length === 1) {
+      eventType = ON_DESTROY_ALL
+    }
+    
+    Object.keys(gameModel.classes).forEach((classId) => {
+      const objectClass = gameModel.classes[classId]
+      Object.keys(objectClass.relations).map((relationId) => {
+        return objectClass.relations[relationId]
+      }).forEach(({event, effect}) => {
+        if(event.type === eventType && event.classId === this.classId) {
+          this.runEffect(effect)
+        }
+      })
     })
+
     this.scene.removeObjectInstance(this.id)
   }
 
@@ -273,15 +286,17 @@ export class ObjectInstance extends Sprite {
     }
   }
 
+
   updateMovement() {
     const objectClass = store.getState().game.gameModel.classes[this.classId]
     const pattern = objectClass.movement.pattern 
 
     if(pattern === MOVEMENT_TURN_ON_COLLIDE) {
-      if(this.sprite.body.touching.none === false || this.sprite.body.blocked.none === false) {
+      if(this.sprite.body.blocked.none === false || this.sprite.justCollided) {
+        const objectClass = store.getState().game.gameModel.classes[this.classId]
         const speed = objectClass.movement.speed
         const check = Math.random()
-
+    
         if(check < 0.25) {
           this.setVelocity(speed, 0)
         } else if(check < 0.5) {
@@ -290,7 +305,7 @@ export class ObjectInstance extends Sprite {
           this.setVelocity(-speed, 0)
         } else {
           this.setVelocity(0, -speed)
-        }
+        }      
       }
     }
 
@@ -315,6 +330,8 @@ export class ObjectInstance extends Sprite {
       }
 
     }
+
+    this.sprite.justCollided = false
   }
 
   updateEffects() {
@@ -356,8 +373,6 @@ export class ObjectInstance extends Sprite {
     if(this.sprite.body.touching.none && this.sprite.body.blocked.none) {
       this.collidedWithClassId = null
     }
-
-    console.log(this.lastCollidedWithClassId, this.collidedWithClassId)
   }
 
   destroy() {
@@ -381,9 +396,9 @@ export class ObjectInstance extends Sprite {
 
   fallenOff(player, platform, sides) {
     // if turns out to be annoying
-    // if(Phaser.Math.Distance.Between(player.x, player.y, platform.x, platform.y) > 100) {
-    //   return true
-    // }
+    if(Phaser.Math.Distance.Between(player.body.x, player.body.y, platform.body.x, platform.body.y) > 100) {
+      return true
+    }
 
     if(sides.indexOf(SIDE_LEFT) >= 0 || sides.indexOf(SIDE_RIGHT) >= 0) {
       return (
@@ -424,45 +439,45 @@ export class ObjectInstance extends Sprite {
 
     this.collidedWithClassId = agent?.classId
 
-    /////////////////////////////////////////
-    /////////////////////////////////////////
-    // WHILE COLLIDING EFFECTS
     if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
       this.isVisibilityModified = true
       this.setVisible(false)
-    } else if(effect.type === EFFECT_CAMERA_SHAKE) {
-      this.scene.cameras.main.shake(20)
     }
 
     if(effect.type === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
       this.isIgnoreGravityModified = true
       this.setIgnoreGravity(true)
-    } else if(effect.type === EFFECT_STICK_TO) {
+    }
+
+    if(effect.type === EFFECT_STICK_TO) {
       this.sprite.lockedTo = agent;   
       this.sprite.lockedReleaseSides = sides
+      this.isIgnoreGravityModified = true
       this.setIgnoreGravity(true)
-      // if(sides.indexOf(SIDE_LEFT) >= 0 || sides.indexOf(SIDE_RIGHT) >= 0) {
-      //   this.sprite.body.setVelocityX(0)
-      // } else if(sides.indexOf(SIDE_UP) >= 0 || sides.indexOf(SIDE_DOWN) >= 0) {
-      //   this.sprite.body.setVelocityY(0)
-      // } else {
-        this.sprite.body.setVelocityY(0)
-        this.sprite.body.setVelocityX(0)
-      // }
     }
 
     if(this.lastCollidedWithClassId === agent.classId) return
 
-    /////////////////////////////////////////
-    /////////////////////////////////////////
-    // COLLIDE ONCE EFFECTS
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // ONLY ONCE 
+
+    if(effect.type === EFFECT_STICK_TO) {
+      this.sprite.body.setVelocityY(0)
+      this.sprite.body.setVelocityX(0)
+    }
+
+    if(effect.type === EFFECT_CAMERA_SHAKE) {
+      this.scene.cameras.main.shake(20)
+    }
+
     if(effect.type === EFFECT_TELEPORT) {
       const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
       if(!zone) return
-      this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
+      this.setRandomPosition(zone.sprite.x, zone.sprite.y, zone.sprite.displayWidth, zone.sprite.displayHeight)
     }
     
-    // LIFE
     if(effect.type === EFFECT_DESTROY) {
       this.destroyInGame()
     } else if(effect.type === EFFECT_SPAWN) {
@@ -471,8 +486,16 @@ export class ObjectInstance extends Sprite {
       // this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
       // this.spawn()
     } else if(effect.type === EFFECT_RECLASS) {
-      this.scene.removeObjectInstance(this.id)
-      this.scene.addObjectInstance(this.id, {spawnX: this.sprite.x, spawnY: this.sprite.y, classId: effect.classId})
+      setTimeout(() => {
+        const modifiedClassData = { spawnX: this.sprite.x, spawnY: this.sprite.y, classId: effect.classId }
+        if(this.id === HERO_INSTANCE_ID) {
+          this.scene.removePlayerInstance()
+          this.scene.addPlayerInstance(modifiedClassData)
+        } else {
+          this.scene.removeObjectInstance(this.id)
+          this.scene.addObjectInstance(this.id, modifiedClassData)
+        }
+      })
     }
 
     // NARRATIVE
@@ -483,8 +506,5 @@ export class ObjectInstance extends Sprite {
     } else if(effect.type === EFFECT_GAME_OVER) {
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
     }
-    
-
-    
   }
 }

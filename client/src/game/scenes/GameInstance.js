@@ -17,7 +17,7 @@ export class GameInstance extends Phaser.Scene {
       key: key,
     });
 
-    this.player = null 
+    this.playerInstance = null 
     this.backgroundLayer = null
     this.playgroundLayer = null
     this.foregroundLayer = null
@@ -27,16 +27,20 @@ export class GameInstance extends Phaser.Scene {
     this.physicsType = ARCADE_PHYSICS
   }
 
-  getRandomInstanceOfClassId(classId) {
-    const instances = [this.player, ...this.objectInstances].filter((instance) => {
+  getAllInstancesOfClassId(classId) {
+    return [this.playerInstance, ...this.objectInstances].filter((instance) => {
       return instance.classId === classId
     })
+  }
+
+  getRandomInstanceOfClassId(classId) {
+    const instances = this.getAllInstancesOfClassId(classId)
     const index = Math.floor(Math.random() * instances.length)
     return instances[index]
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
-   [this.player, ...this.objectInstances].forEach((object) => {
+   [this.playerInstance, ...this.objectInstances].forEach((object) => {
       if(object.classId === classId) {
         fx(object)
       }
@@ -45,35 +49,37 @@ export class GameInstance extends Phaser.Scene {
 
   getObjectInstance(id) {
     if(id === HERO_INSTANCE_ID) {
-      return this.player
+      return this.playerInstance
     }
     
     return this.objectInstancesById[id]
   }
 
-  initializePlayerInstance() {
+  initializePlayerInstance(classData = {}) {
     const gameModel = store.getState().game.gameModel
+    const {classId, spawnX, spawnY} = classData
 
-    this.player = new PlayerInstance(this, HERO_INSTANCE_ID, {
-      classId: gameModel.hero.initialClassId,
+    this.playerInstance = new PlayerInstance(this, HERO_INSTANCE_ID, {
+      classId: classId ? classId : gameModel.hero.initialClassId,
       textureId: 'ship2',
-      spawnX: gameModel.hero.spawnX,
-      spawnY: gameModel.hero.spawnY
+      spawnX: spawnX !== undefined ? spawnX :gameModel.hero.spawnX,
+      spawnY: spawnY !== undefined ? spawnY :gameModel.hero.spawnY,
     });
 
-    this.cameras.main.startFollow(this.player.sprite)
+    this.cameras.main.startFollow(this.playerInstance.sprite)
   }
 
-  addPlayerInstance() {
-    this.initializePlayerInstance()
+  addPlayerInstance(classData = {}) {
+    const {classId, spawnX, spawnY} = classData
+    this.initializePlayerInstance({classId, spawnX, spawnY})
     this.unregisterRelations()
     this.registerRelations()
   }
 
   removePlayerInstance() {
-    // this.player.particles.destroy()
-    this.player.destroy()
-    this.player = null
+    // this.playerInstance.particles.destroy()
+    this.playerInstance.destroy()
+    this.playerInstance = null
   }
 
   initializeObjectInstance(id, gameObject) {
@@ -102,7 +108,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   registerRelations() {
-    this.player.registerRelations()
+    this.playerInstance.registerRelations()
     
     this.objectInstances.forEach((instance) => {
       instance.registerRelations()
@@ -112,7 +118,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   unregisterRelations() {
-    this.player.unregisterRelations()
+    this.playerInstance.unregisterRelations()
 
     this.objectInstances.forEach((instance) => {
       instance.unregisterRelations()
@@ -237,6 +243,7 @@ export class GameInstance extends Phaser.Scene {
     this.initializePlayerInstance()
 
 
+    console.log('not befoer this please')
     this.registerRelations()
 
     ////////////////////////////////////////////////////////////
@@ -250,9 +257,9 @@ export class GameInstance extends Phaser.Scene {
     const gameY = gameModel.world.boundaries.y
 
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
-    this.cameras.main.pan(this.player.sprite.x, this.player.sprite.y, 0)
+    this.cameras.main.pan(this.playerInstance.sprite.x, this.playerInstance.sprite.y, 0)
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
-    this.cameras.main.startFollow(this.player.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
+    this.cameras.main.startFollow(this.playerInstance.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
   }
 
@@ -262,8 +269,8 @@ export class GameInstance extends Phaser.Scene {
       object.y = object.spawnY
     })
 
-    this.player.x = this.player.spawnX
-    this.player.y = this.player.spawnY
+    this.playerInstance.x = this.playerInstance.spawnX
+    this.playerInstance.y = this.playerInstance.spawnY
   }
 
   reload = () => {
@@ -293,7 +300,7 @@ export class GameInstance extends Phaser.Scene {
       if(projectile.destroyTime < time) projectile.destroy()
     })
 
-    if(this.player) this.player.update(time, delta)
+    if(this.playerInstance) this.playerInstance.update(time, delta)
   }
 
   unload() {

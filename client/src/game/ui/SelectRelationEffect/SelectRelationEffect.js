@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationEffect.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { collideOnlyEffects, effectDisplayNames, effectSuffix, getEffectLabel } from '../../../defaultData/relationship';
+import { collideOnlyEffects, effectDisplayNames, effectSuffix, getEffectLabel, nonRemoteEffects } from '../../../defaultData/relationship';
 import { ON_COLLIDE } from '../../../constants';
 
-const SelectRelationEffect = ({ event, onChange, value, formLabel, disabled, game: { gameModel }, classId, agentClassId}) => {
+const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, game: { gameModel }, classId, agentClassId}) => {
   const objectClass = gameModel.classes[classId]
   const agentClass = gameModel.classes[agentClassId]
 
@@ -19,12 +19,19 @@ const SelectRelationEffect = ({ event, onChange, value, formLabel, disabled, gam
     }
   }
 
-  const options = Object.keys(effectDisplayNames).filter((effectType) => {
-    if(event !== ON_COLLIDE && collideOnlyEffects[effectType]) return false
+  function isUsuableEffect(effectType) {
+    if(event.type !== ON_COLLIDE && collideOnlyEffects[effectType]) return false
+    if(effect?.effectedClassId && nonRemoteEffects[effectType]) return false
+
     return true
+  }
+
+  const options = Object.keys(effectDisplayNames).filter((effectType) => {
+    if(isUsuableEffect(effectType)) return true
+    return false
   }).map(mapControlsToOption)
 
-  const useableValue = (event !== ON_COLLIDE  && collideOnlyEffects[value]) ? []: value 
+  const useableValue = isUsuableEffect(value) ? value : []
 
   return <SelectChipsAuto 
     disabled={disabled}

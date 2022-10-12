@@ -110,12 +110,17 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       }
 
       const objectClass = updatedGame.classes[key]
-      Object.keys(objectClass.relations).forEach(key => {
-        if (objectClass.relations[key] === null || objectClass.relations[key] === undefined) {
-          console.log('deleting relation', key)
-          delete objectClass.relations[key];
-        }
-      });
+      if(objectClass.relations) {
+        Object.keys(objectClass.relations).forEach(key => {
+          if (objectClass.relations[key] === null || objectClass.relations[key] === undefined) {
+            console.log('deleting relation', key)
+            delete objectClass.relations[key];
+          }
+        });
+      } else {
+        console.log('no relations?', objectClass)
+      }
+
     });
 
     const { error } = validateGame(updatedGame);
