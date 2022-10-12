@@ -7,9 +7,7 @@ import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
 
 const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => {
   return <SelectChipsAuto 
-    onChange={(event, descriptors) => {
-      onChange(event,  descriptors)
-    }}
+    onChange={onChange}
     formLabel={formLabel}
     value={value}
     options={descriptorOptions}

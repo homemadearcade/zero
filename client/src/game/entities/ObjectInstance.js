@@ -439,7 +439,7 @@ export class ObjectInstance extends Sprite {
 
     // NARRATIVE
     if(effect.type === EFFECT_CUTSCENE) {
-      store.dispatch(openCutscene(agent.classId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(agent?.classId, effect.cutsceneId))
     } else if(effect.type === EFFECT_WIN_GAME) {
 
     } else if(effect.type === EFFECT_GAME_OVER) {

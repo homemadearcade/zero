@@ -12,8 +12,11 @@ import { generateUniqueId } from '../../utils/webPageUtils';
 import { editGameModel } from '../../store/actions/gameActions';
 import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SelectClass from '../ui/SelectClass/SelectClass';
+import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
+import SelectEvent from '../ui/SelectEvent/SelectEvent';
+import SelectRelationEffect from '../ui/SelectRelationEffect/SelectRelationEffect';
 
-const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { classIdRelationsMenu, relation }}) => {
+const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { classIdRelationsMenu, relation }, game: { gameModel }}) => {
   function handleClose() {
     closeCreateRelation()
   }
@@ -37,7 +40,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     updateCreateRelation(relation)
   }
 
-  const handleEffectChange = (prop) => (value) => {
+  const handleEffectChange = (prop, value) => {
     relation.effect[prop] = value
 
     console.log(relation)
@@ -45,8 +48,11 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     updateCreateRelation(relation)
   }
 
+  const objectClass = gameModel.classes[classIdRelationsMenu]
+
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">
+      <ClassMemberTitle classId={classIdRelationsMenu} title="Relation"/>
         <SelectClass 
           formLabel="With What?"
           value={relation.classId ? [relation.classId] : []}
@@ -54,6 +60,24 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
             const newClassId = classes[classes.length-1]
             handleRelationChange('classId', newClassId)
          }}/>
+        <SelectRelationEffect
+          classId={classIdRelationsMenu}
+          agentClassId={relation.classId}
+          formLabel={`What Happens?`}
+          value={relation.effect.type ? [relation.effect.type] : []}
+          onChange={(event, effects) => {
+            const effect = effects[effects.length-1]
+            handleEffectChange('type', effect)
+        }}/>
+        <SelectEvent
+          classId={classIdRelationsMenu}
+          agentClassId={relation.classId}
+          formLabel="When?"
+          value={relation.event ? [relation.event] : []}
+          onChange={(event, events) => {
+            const newEvent = events[events.length-1]
+            handleRelationChange('event', newEvent)
+        }}/>
         <div className="CreateRelation__buttons">
         <Button onClick={() => {
            editGameModel({
@@ -81,6 +105,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
+  game: state.game
 })
 
 export default compose(

@@ -217,6 +217,8 @@ function SelectChipsAutoForm({onChange, inheritedValue, options, formLabel}) {
   });
 
   function renderSprite(option) {
+    if(!option) return null
+
     if(option.textureId || option.tint) {
       return <SpriteWrapper><Sprite textureId={option.textureId} tint={option.tint}/></SpriteWrapper>
     }
