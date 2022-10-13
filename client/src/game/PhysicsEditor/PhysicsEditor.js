@@ -12,6 +12,8 @@ import SelectColliders from '../ui/SelectColliders/SelectColliders';
 import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { defaultRelationship } from '../../defaultData/relationship';
+import _ from 'lodash';
+import { getOppositeRelationClassId } from '../../utils/gameUtils';
 
 
 // {false && <Unlockable interfaceId="physics/toggle/useMass">
@@ -67,29 +69,37 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
           formLabel="Colliders"
           classId={classId}
           onChange={(event, newColliderClasses) => {
-            const relations = classSelected.relations
-            const oldColliderRelations = Object.keys(relations).map((relationId) => {
-              return relations[relationId]
+            const oldColliderRelations = Object.keys(gameModel.relations).map((relationId) => {
+              return gameModel.relations[relationId]
             }).filter((relation) => {
-              if(relation.event.type === ON_COLLIDE && relation.effect.type === EFFECT_COLLIDE) {
+              if(relation.event.type === ON_COLLIDE &&
+                 relation.effect.type === EFFECT_COLLIDE &&
+                 (relation.event.classIdA === classId || relation.event.classIdB === classId)
+                ) {
                 return true
               }
               return false
             })
 
+            const relations = _.cloneDeep(gameModel.relations)
+
             if(oldColliderRelations.length < newColliderClasses.length) {
               oldColliderRelations.forEach((relation) => {
-                const index = newColliderClasses.indexOf(relation.event.classId)
+                let index = newColliderClasses.indexOf(relation.event.classIdA)
+                if(index === -1) {
+                  index = newColliderClasses.indexOf(relation.event.classIdB)
+                }
                 newColliderClasses.splice(index, 1)
               })
   
-              newColliderClasses.forEach((classId) => {
+              newColliderClasses.forEach((classIdB) => {
                 const newId = generateUniqueId()
                 relations[newId] = {
                   relationId: newId,
                   event: {
                     type: ON_COLLIDE,
-                    classId,
+                    classIdA: classId,
+                    classIdB,
                   },
                   effect: {
                     type: EFFECT_COLLIDE
@@ -98,7 +108,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
               })
             } else {
 
-              const oldColliderClassIds = oldColliderRelations.map(({event: {classId}}) => classId)
+              const oldColliderClassIds = oldColliderRelations.map((relation) => getOppositeRelationClassId(classId, relation))
 
               newColliderClasses.forEach((classId) => {
                 const index = oldColliderClassIds.indexOf(classId)
@@ -112,11 +122,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 
             console.log(relations)
 
-            editGameModel({ classes: {
-              [classId]: {
-                relations
-              }
-            }})        
+            editGameModel({ relations })        
          }}/>
       </Unlockable>
       <Unlockable isSlider interfaceId="physics/sliders/bounce">

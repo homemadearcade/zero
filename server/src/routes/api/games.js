@@ -50,7 +50,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       brushes: req.body.brushes,
       colors: req.body.colors,
       cutscenes: req.body.cutscenes,
-      // relations: req.body.relations,
+      relations: req.body.relations,
       awsImages: req.body.awsImages,
       world: req.body.world, 
       user: req.body.userId,
@@ -109,28 +109,14 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         delete updatedGame.classes[key];
         return
       }
-
-      const objectClass = updatedGame.classes[key]
-      if(objectClass.relations) {
-        Object.keys(objectClass.relations).forEach(key => {
-          if (objectClass.relations[key] === null || objectClass.relations[key] === undefined) {
-            console.log('deleting relation', key)
-            delete objectClass.relations[key];
-          }
-        });
-      } else {
-        
-      }
     });
 
-    // Object.keys(updatedGame.relations).forEach(key => {
-    //   if (updatedGame.relations[key] === null || updatedGame.relations[key] === undefined) {
-    //     console.log('deleting relation', key)
-    //     delete updatedGame.relations[key];
-    //   }
-
-
-    // });
+    Object.keys(updatedGame.relations).forEach(key => {
+      if (updatedGame.relations[key] === null || updatedGame.relations[key] === undefined) {
+        console.log('deleting relation', key)
+        delete updatedGame.relations[key];
+      }
+    });
 
     const { error } = validateGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
@@ -147,7 +133,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         cutscenes: updatedGame.cutscenes,
         awsImages: updatedGame.awsImages,
         world: updatedGame.world, 
-        // relations: updatedGame.relations, 
+        relations: updatedGame.relations, 
         user: tempGame.user.id,
      },
       { new: true },

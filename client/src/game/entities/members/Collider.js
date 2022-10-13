@@ -22,11 +22,9 @@ export class Collider {
   }
 
   registerArcade(relations) {
-    Object.keys(relations).map((relationId) => {
-	    return relations[relationId]
-    }).forEach(({event, effect, sides}) => {
+    relations.forEach(({event, effect, sides}) => {
       if(event.type === ON_COLLIDE) {
-        const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classId).map(({sprite}) => sprite)
+        const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
         if(effect.type === EFFECT_COLLIDE) {
           this.unregisters.push(
             this.scene.physics.add.collider(this.sensor.sprite, releventInstances, (instanceA, instanceB) => {
@@ -52,9 +50,7 @@ export class Collider {
   registerMatter(relations) { 
     const world = this.scene.matter.world
 
-    Object.keys(relations).map((relationId) => {
-	    return relations[relationId]
-    }).forEach(({event, effect}) => {
+    relations.forEach(({event, effect}) => {
       const eventEffect = {
         objectA: this,
         callback: eventData => {
@@ -63,7 +59,7 @@ export class Collider {
           if(isEventMatch({
             gameObject: gameObjectB,
             body: bodyB,
-            classId: event.classId,
+            classId: event.classIdB,
             event,
             world
           })){
@@ -80,7 +76,7 @@ export class Collider {
           if(isEventMatch({
             gameObject: gameObjectB,
             body: bodyB,
-            classId: event.classId,
+            classId: event.classIdB,
             event,
             world
           })){

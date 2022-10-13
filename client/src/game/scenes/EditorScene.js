@@ -550,13 +550,13 @@ export class EditorScene extends GameInstance {
       }
     })
 
+    if(gameUpdate.relations) {
+      this.reload()
+    }
+
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
       const classUpdate = gameUpdate.classes[id]
       const objectClass = store.getState().game.gameModel.classes[id]
-
-      if(classUpdate.relations) {
-        this.reload()
-      }
 
       if(classUpdate.collisionResponse?.bounciness >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {

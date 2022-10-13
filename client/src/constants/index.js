@@ -116,6 +116,14 @@ export const EFFECT_WIN_GAME = 'EFFECT_WIN_GAME'
 
 /////////////////////////////////////
 /////////////////////////////////////
+// EFFECTED TYPES
+export const EFFECTED_INSTANCE_A = 'EFFECTED_INSTANCE_A'
+export const EFFECTED_INSTANCE_B = 'EFFECTED_INSTANCE_B'
+export const EFFECTED_INSTANCE_ID = 'EFFECTED_INSTANCE_ID'
+export const EFFECTED_CLASS_ID = 'EFFECTED_CLASS_ID'
+
+/////////////////////////////////////
+/////////////////////////////////////
 // MOVEMENT PATTERNS
 export const MOVEMENT_SIDE_TO_SIDE = 'MOVEMENT_SIDE_TO_SIDE'
 export const MOVEMENT_UP_AND_DOWN = 'MOVEMENT_UP_AND_DOWN'

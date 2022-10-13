@@ -233,9 +233,7 @@ export class PlayerInstance extends ObjectInstance {
 
   registerRelations() {
     super.registerRelations()
-    const gameModel = store.getState().game.gameModel
-    const objectClass = gameModel.classes[this.classId]
-    this.interactArea.register(objectClass.relations)
+    this.interactArea.register(this.getRelations())
   }
 
   unregisterRelations() {

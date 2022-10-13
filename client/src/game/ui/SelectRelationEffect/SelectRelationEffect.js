@@ -7,14 +7,14 @@ import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
 import { collideOnlyEffects, effectDisplayNames, effectSuffix, getEffectLabel, nonRemoteEffects } from '../../../defaultData/relationship';
 import { ON_COLLIDE } from '../../../constants';
 
-const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, game: { gameModel }, classId, agentClassId}) => {
-  const objectClass = gameModel.classes[classId]
-  const agentClass = gameModel.classes[agentClassId]
+const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, game: { gameModel }, classIdA, classIdB}) => {
+  const classA = gameModel.classes[classIdA]
+  const classB = gameModel.classes[classIdB]
 
   const mapControlsToOption = (effect) => {
 
     return {
-      label: getEffectLabel(effect, objectClass, agentClass),
+      label: getEffectLabel(effect, classA, classB),
       value: effect
     }
   }

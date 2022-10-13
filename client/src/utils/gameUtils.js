@@ -63,3 +63,14 @@ export function areBSidesHit(sides, a, b) {
 export function getClassDisplayName(descriptors, classId) {
   return descriptors ? descriptors[0] : classId
 }
+
+export function getOppositeRelationClassId(classId, relation) {
+  if(classId === relation.event.classIdA) {
+    return relation.event.classIdB
+  }
+  if(classId === relation.event.classIdB) {
+    return relation.event.classIdA
+  }
+
+  return null
+}

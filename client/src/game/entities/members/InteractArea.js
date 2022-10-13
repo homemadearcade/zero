@@ -62,7 +62,7 @@ export class InteractArea extends Sprite {
 	    return relations[relationId]
     }).forEach(({event, effect}) => {
       if(event.type === ON_INTERACT) {
-        const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classId).map(({sprite}) => sprite)
+        const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventInstances, (a, b) => {
             if(this.paused) return
@@ -84,7 +84,7 @@ export class InteractArea extends Sprite {
             const { gameObjectB } = eventData;
             if(gameObjectB === this) return
             if(!gameObjectB) return
-            if(event.classId === gameObjectB.classId) {
+            if(event.classIdB === gameObjectB.classId) {
               this.interactables.push({gameObject: gameObjectB, effect})
             }
           }

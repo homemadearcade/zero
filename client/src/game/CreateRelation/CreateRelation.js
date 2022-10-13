@@ -5,12 +5,10 @@ import { connect } from 'react-redux';
 import './CreateRelation.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { closeCreateRelation, updateCreateRelation } from '../../store/actions/gameFormEditorActions';
-import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { editGameModel } from '../../store/actions/gameActions';
-import FormLabel from '../../app/ui/FormLabel/FormLabel';
 import SelectClass from '../ui/SelectClass/SelectClass';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import SelectEvent from '../ui/SelectEvent/SelectEvent';
@@ -21,7 +19,7 @@ import { TextField } from '@mui/material';
 import { ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../ui/SelectCutscene/SelectCutscene';
 
-const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { classIdRelationsMenu, relation }, game: { gameModel }}) => {
+const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { relation }}) => {
   function handleClose() {
     closeCreateRelation()
   }
@@ -56,7 +54,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       if(!relation.effect.text) return true
     }
 
-    if(!relation.effect.type || !relation.event.type || !relation.event.classId) return true
+    if(!relation.effect.type || !relation.event.type || !relation.event.classIdA || !relation.event.classIdB) return true
     
     return false 
   }
@@ -77,7 +75,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     const forms =[]
     if(editForms.classId) {
       forms.push(<SelectClass 
-        key={classIdRelationsMenu + 'effectClassId'}
+        key={relation.event.classIdA + 'effectClassId'}
         formLabel={editForms.classId}
         value={relation.effect.classId ? [relation.effect.classId] : []}
         onChange={(event, classes) => {
@@ -89,7 +87,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
     if(editForms.zoneClassId) {
       forms.push(<SelectClass 
-        key={classIdRelationsMenu + 'effectClassId'}
+        key={relation.event.classIdA + 'effectClassId'}
         classType={ZONE_CLASS}
         formLabel={editForms.zoneClassId}
         value={relation.effect.zoneClassId ? [relation.effect.zoneClassId] : []}
@@ -102,7 +100,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
     if(editForms.cutsceneId) {
       forms.push(<SelectCutscene
-        key={classIdRelationsMenu + 'effectCutsceneId'}
+        key={relation.event.classIdA + 'effectCutsceneId'}
         formLabel={editForms.cutsceneId}
         value={relation.effect.cutsceneId ? [relation.effect.cutsceneId] : []}
         onChange={(event, cutscenes) => {
@@ -125,18 +123,17 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">
-      <ClassMemberTitle classId={classIdRelationsMenu} title="Relation"/>
+      <ClassMemberTitle classId={relation.event.classIdA} title="Relation"/>
         <SelectClass 
           formLabel="With what objects?"
-          value={relation.event.classId ? [relation.event.classId] : []}
+          value={relation.event.classIdB ? [relation.event.classIdB] : []}
           onChange={(event, classes) => {
             const newClassId = classes[classes.length-1]
-            handleEventChange('classId', newClassId)
+            handleEventChange('classIdB', newClassId)
          }}/>
         <SelectEvent
-          disabled={!relation.effect.type}
-          classId={classIdRelationsMenu}
-          agentClassId={relation.event.classId}
+          classIdA={relation.event.classIdA}
+          classIdB={relation.event.classIdB}
           formLabel="When?"
           value={relation.event.type ? [relation.event.type] : []}
           onChange={(event, events) => {
@@ -155,9 +152,8 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         <SelectRelationEffect
           effect={relation.effect}
           event={relation.event}
-          disabled={!relation.event.classId}
-          classId={relation.effect.effectedClassId || classIdRelationsMenu}
-          agentClassId={relation.event.classId}
+          classIdA={relation.effect.effectedClassId || relation.event.classIdA}
+          classIdB={relation.event.classIdB}
           formLabel={`What is the effect?`}
           value={relation.effect.type ? [relation.effect.type] : []}
           onChange={(event, effects) => {
@@ -170,13 +166,9 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         disabled={isSaveDisabled()}
         onClick={() => {
            editGameModel({
-            classes: {
-              [classIdRelationsMenu]: {
-                relations: {
-                  [relation.relationId] : {
-                    ...relation
-                  }
-                }
+            relations: {
+              [relation.relationId] : {
+                ...relation
               }
             }
           })
@@ -188,16 +180,12 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           Cancel
         </Button>
         {!isNewRelation && <Button onClick={() => {
-        editGameModel({
-          classes: {
-            [classIdRelationsMenu]: {
-              relations: {
-                [relation.relationId]: null
-              }
+          editGameModel({
+            relations: {
+              [relation.relationId]: null
             }
-          }
-        })
-        handleClose()
+          })
+          handleClose()
         }}>Remove</Button>}
       </div>
     </div>
@@ -206,7 +194,6 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
-  game: state.game
 })
 
 export default compose(

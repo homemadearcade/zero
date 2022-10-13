@@ -66,12 +66,16 @@ const initialState = {
     sides: [],
     event: {
       type: null,
-      classId: null,
+      classIdA: null,
+      classIdB: null,
     },
     effect: {
       type: null,
+      effectedClassId: null,
+      text: '',
       classId: null,
       cutsceneId: null,
+      zoneClassId: null
     }, 
   }
 };

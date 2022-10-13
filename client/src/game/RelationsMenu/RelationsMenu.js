@@ -9,7 +9,7 @@ import Typography from '../../app/ui/Typography/Typography';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
-import { effectDisplayNames, eventDisplayNames, getEffectLabel, getEventLabel } from '../../defaultData/relationship';
+import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
 
 const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor: { classIdRelationsMenu }, game: { gameModel } }) => {
   function handleClose() {
@@ -19,10 +19,10 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
   // onChange={(event, descriptors) => {
   //   updateCreateCutscene({ descriptors })
   // }}
-  const objectClass = gameModel.classes[classIdRelationsMenu]
-
-  const relations = Object.keys(objectClass.relations).map((relationId) => {
-    return objectClass.relations[relationId]
+  const relations = Object.keys(gameModel.relations).map((relationId) => {
+    return gameModel.relations[relationId]
+  }).filter((relation) => {
+    return relation.event.classIdA === classIdRelationsMenu
   })
 
   return <CobrowsingModal open={true} onClose={handleClose}>
@@ -31,11 +31,12 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
       {relations.map((relation) => {
         const { event, effect: { type, effectedClassId }} = relation
 
+        const classA = gameModel.classes[event.classIdA]
         const effectedClass = gameModel.classes[effectedClassId]
-        const agentClass = gameModel.classes[event.classId]
+        const classB = gameModel.classes[event.classIdB]
 
         return <div key={relation.relationId} className="RelationsMenu__relation">
-          <ClassMemberTitle classId={event.classId} title={getEffectLabel(type, (effectedClass || objectClass), agentClass) + getEventLabel(event.type, objectClass, agentClass)}/>
+          <ClassMemberTitle classId={event.classIdA} title={getEffectLabel(type, (effectedClass || classA), classB) + getEventLabel(event.type, classA, classB)}/>
           <Button onClick={() => {
             openCreateRelation(relation)
           }}>Edit</Button>
@@ -43,7 +44,9 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
       })}
       <Button onClick={() => {
         openCreateRelation({
-          // effectedClassId: classIdRelationsMenu
+          event: {
+            classIdA: classIdRelationsMenu
+          } 
         })
       }}>Add Relation</Button>
     </div>

@@ -192,15 +192,12 @@ export class ObjectInstance extends Sprite {
       this.createInvisibleOutline()
     }
 
-    Object.keys(gameModel.classes).forEach((classId) => {
-      const objectClass = gameModel.classes[classId]
-      Object.keys(objectClass.relations).map((relationId) => {
-        return objectClass.relations[relationId]
-      }).forEach(({event, effect}) => {
-        if(event.type === ON_SPAWN && event.classId === this.classId) {
-          this.runEffect(effect)
-        }
-      })
+    Object.keys(gameModel.relations).map((relationId) => {
+      return gameModel.relations[relationId]
+    }).forEach(({event, effect}) => {
+      if(event.type === ON_SPAWN && event.classIdA === this.classIdA) {
+        this.runEffect(effect)
+      }
     })
   }
 
@@ -225,16 +222,13 @@ export class ObjectInstance extends Sprite {
     if(instances.length === 1) {
       eventType = ON_DESTROY_ALL
     }
-    
-    Object.keys(gameModel.classes).forEach((classId) => {
-      const objectClass = gameModel.classes[classId]
-      Object.keys(objectClass.relations).map((relationId) => {
-        return objectClass.relations[relationId]
-      }).forEach(({event, effect}) => {
-        if(event.type === eventType && event.classId === this.classId) {
-          this.runEffect(effect)
-        }
-      })
+
+    Object.keys(gameModel.relations).map((relationId) => {
+      return gameModel.relations[relationId]
+    }).forEach(({event, effect}) => {
+      if(event.type === eventType && event.classIdA === this.classIdA) {
+        this.runEffect(effect)
+      }
     })
 
     this.scene.removeObjectInstance(this.id)
@@ -383,10 +377,18 @@ export class ObjectInstance extends Sprite {
     super.destroy()
   }
 
-  registerRelations() {
+  getRelations() {
     const gameModel = store.getState().game.gameModel
-    const objectClass = gameModel.classes[this.classId]
-    this.collider.register(objectClass.relations)
+
+    Object.keys(gameModel.relations).map((relationId) => {
+      return gameModel.relations[relationId]
+    }).filter(({event: { classIdA }}) => {
+      return classIdA === this.classId
+    })
+  }
+
+  registerRelations() {
+    this.collider.register(this.getRelations())
   }
 
   unregisterRelations() {
@@ -429,15 +431,15 @@ export class ObjectInstance extends Sprite {
     this.setRotation(0)
   }
 
-  runEffect(effect, agent, sides = []) {
+  runEffect(effect, instanceB, sides = []) {
     if(effect.effectedClassId) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
-        object.runEffect({...effect, effectedClassId: null}, agent, sides)
+        object.runEffect({...effect, effectedClassId: null}, instanceB, sides)
       })
       return
     }
 
-    this.collidedWithClassId = agent?.classId
+    this.collidedWithClassId = instanceB?.classId
 
     if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
       this.isVisibilityModified = true
@@ -450,13 +452,13 @@ export class ObjectInstance extends Sprite {
     }
 
     if(effect.type === EFFECT_STICK_TO) {
-      this.sprite.lockedTo = agent;   
+      this.sprite.lockedTo = instanceB;   
       this.sprite.lockedReleaseSides = sides
       this.isIgnoreGravityModified = true
       this.setIgnoreGravity(true)
     }
 
-    if(this.lastCollidedWithClassId === agent.classId) return
+    if(this.lastCollidedWithClassId === instanceB.classId) return
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -500,7 +502,7 @@ export class ObjectInstance extends Sprite {
 
     // NARRATIVE
     if(effect.type === EFFECT_CUTSCENE) {
-      if(effect.cutsceneId) store.dispatch(openCutscene(agent?.classId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(instanceB?.classId, effect.cutsceneId))
     } else if(effect.type === EFFECT_WIN_GAME) {
       store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
     } else if(effect.type === EFFECT_GAME_OVER) {

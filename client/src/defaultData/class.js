@@ -41,9 +41,6 @@ export const defaultObjectClass = {
   movement: {
     ...defaultMovement
   },
-  relations: {
-
-  },
   collisionResponse: {
     ...defaultCollisionResponse
   },

@@ -1,21 +1,31 @@
-import { EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_CUTSCENE_END, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_SPAWN } from "../constants"
+import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_CUTSCENE_END, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_SPAWN } from "../constants"
 
 export const defaultRelationship = {
   event: {
     type: '',
-    classId: null,
+    classIdA: null,
+    classIdB: null,
   },
   effect: {
-    effectedInstanceId: null,
+    effectedType: null,
     effectedClassId: null,
     type: '',
     classId: null,
+    zoneClassId: null,
     cutsceneId: null,
     text: ''
   },
   relationId: null,
   sides: [],
 }
+
+export const effectedTypesDisplayNames = {
+  // [EFFECTED_INSTANCE_A]: 'This',
+  // [EFFECTED_INSTANCE_B]: 'That',
+  // [EFFECTED_CLASS_ID]: 'All objects named'
+  // [EFFECTED_INSTANCE_ID]: 'Instance with Id'
+}
+
 
 export const eventDisplayNames = {
   [ON_COLLIDE]: 'overlap',
@@ -33,7 +43,7 @@ export const eventDisplayNames = {
 export const effectDisplayNames = {
   // Movement
   [EFFECT_TELEPORT]: 'Teleport',
-  [EFFECT_COLLIDE]: 'Collide',
+  // [EFFECT_COLLIDE]: 'Collide',
   [EFFECT_IGNORE_GRAVITY]: 'Remove gravity from',
   [EFFECT_STICK_TO]: 'Hold',
 
@@ -126,7 +136,7 @@ export const nonRemoteEffects  = {
   // Movement
   [EFFECT_TELEPORT]: false,
   [EFFECT_COLLIDE]: true,
-  [EFFECT_IGNORE_GRAVITY]: true,
+  [EFFECT_IGNORE_GRAVITY]: false,
   [EFFECT_STICK_TO]: true,
 
   // Lifecycle
@@ -192,15 +202,15 @@ export const nonRemoteEffects  = {
 
 export const effectSuffixes = {
   // Movement
-  [EFFECT_TELEPORT]: 'Class',
-  [EFFECT_COLLIDE]: 'Both',
-  [EFFECT_IGNORE_GRAVITY]: 'Class',
-  [EFFECT_STICK_TO]: 'Class',
+  [EFFECT_TELEPORT]: 'ClassA',
+  [EFFECT_COLLIDE]: 'Class A And Class B',
+  [EFFECT_IGNORE_GRAVITY]: 'ClassA',
+  [EFFECT_STICK_TO]: 'ClassA',
 
   // Lifecycle
-  [EFFECT_RECLASS]: 'Class',
-  [EFFECT_SPAWN]: 'Class',
-  [EFFECT_DESTROY]: 'Class',
+  [EFFECT_RECLASS]: 'ClassA',
+  [EFFECT_SPAWN]: 'ClassA',
+  [EFFECT_DESTROY]: 'ClassA',
 
   // Narrative
   [EFFECT_CUTSCENE]: null,
@@ -209,21 +219,21 @@ export const effectSuffixes = {
 
   // Graphical
   [EFFECT_CAMERA_SHAKE]: null,
-  [EFFECT_INVISIBLE]: 'Class',
+  [EFFECT_INVISIBLE]: 'ClassA',
 }
 
-function getEffectSuffix(effect, objectClass, agentClass) {
-  if(effectSuffixes[effect] === 'Both' && agentClass && objectClass) {
-    return objectClass.name + ' and ' + agentClass.name + ' '
-  } else if(effectSuffixes[effect] === 'Class' && objectClass) {
-    return objectClass.name + ' '
+function getEffectSuffix(effect, classA, classB) {
+  if(effectSuffixes[effect] === 'Class A And Class B' && classB && classA) {
+    return classA.name + ' and ' + classB.name + ' '
+  } else if(effectSuffixes[effect] === 'ClassA' && classA) {
+    return classA.name + ' '
   }
 
   return ''
 }
 
-export function getEffectLabel(effect, objectClass, agentClass) {
-  return effectDisplayNames[effect] + ' ' + getEffectSuffix(effect, objectClass, agentClass)
+export function getEffectLabel(effect, classA, classB) {
+  return effectDisplayNames[effect] + ' ' + getEffectSuffix(effect, classA, classB)
 }
 
 /////////////////////////////////////////////////////////////////
@@ -231,32 +241,43 @@ export function getEffectLabel(effect, objectClass, agentClass) {
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 //// EVENT
-export const eventPrefix = {
-  [ON_COLLIDE]: 'Both',
+export const singleClassEvents = {
+  [ON_COLLIDE]: false,
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
-  [ON_SPAWN]: 'Agent',
-  [ON_DESTROY_ONE]: 'Agent',
-  [ON_DESTROY_ALL]: 'All Agents',
-  [ON_INTERACT]: 'Agent',
+  [ON_SPAWN]: true,
+  [ON_DESTROY_ONE]: true,
+  [ON_DESTROY_ALL]: true,
+  [ON_INTERACT]: false,
+}
+
+export const eventPrefix = {
+  [ON_COLLIDE]: 'Class A And Class B',
+  //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
+  //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
+  //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
+  [ON_SPAWN]: 'ClassB',
+  [ON_DESTROY_ONE]: 'ClassB',
+  [ON_DESTROY_ALL]: 'All ClassBs',
+  [ON_INTERACT]: 'ClassB',
 
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
 
-function getEventPrefix(event, objectClass, agentClass) {  
-  if(eventPrefix[event] === 'Both' && agentClass && objectClass) {
-    return objectClass.name + ' and ' + agentClass.name
-  } else if(eventPrefix[event] === 'Class' && objectClass) {
-    return objectClass.name + ' is'
-  } else if(eventPrefix[event] === 'Agent' && agentClass) {
-    return agentClass.name + ' is'
-  } else if(eventPrefix[event] === 'All Agents' && agentClass) {
-    return agentClass.name + ' are all '
+function getEventPrefix(event, classA, classB) {  
+  if(eventPrefix[event] === 'Class A And Class B' && classB && classA) {
+    return classA.name + ' and ' + classB.name
+  } else if(eventPrefix[event] === 'ClassA' && classA) {
+    return classA.name + ' is'
+  } else if(eventPrefix[event] === 'ClassB' && classB) {
+    return classB.name + ' is'
+  } else if(eventPrefix[event] === 'All ClassBs' && classB) {
+    return classB.name + ' are all '
   }
   return ''
 }
 
-export function getEventLabel(event, objectClass, agentClass) {
-  return 'when ' + getEventPrefix(event, objectClass, agentClass) + ' ' + eventDisplayNames[event]
+export function getEventLabel(event, classA, classB) {
+  return 'when ' + getEventPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
 }

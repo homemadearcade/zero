@@ -88,15 +88,12 @@ function onGameModelUpdate(gameUpdate) {
       delete gameData.classes[key];
       return
     }
+  });
 
-    const objectClass = gameData.classes[key]
-    if(objectClass.relations) {
-      Object.keys(objectClass.relations).forEach(key => {
-        if (objectClass.relations[key] === null || objectClass.relations[key] === undefined) {
-          console.log('deleting relation', key)
-          delete objectClass.relations[key];
-        }
-      });
+  Object.keys(gameData.relations).forEach(key => {
+    if (gameData.relations[key] === null || gameData.relations[key] === undefined) {
+      console.log('deleting relation', key)
+      delete gameData.relations[key];
     }
   });
   

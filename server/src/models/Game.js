@@ -47,11 +47,11 @@ const gameSchema = new Schema(
       required: true,
       default: {}
     },
-    // relations: {
-    //   type: Object,
-    //   required: true,
-    //   default: {}
-    // },
+    relations: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     awsImages: {
       type: Object,
       required: true,
@@ -79,7 +79,7 @@ export const validateGame = (game) => {
     classes: Joi.object(),
     brushes: Joi.object(),
     colors: Joi.object(),
-    // relations: Joi.object(),
+    relations: Joi.object(),
     cutscenes: Joi.object(),
     awsImages: Joi.object(),
   };
@@ -96,7 +96,7 @@ gameSchema.methods.toJSON = function () {
     brushes: this.brushes,
     colors: this.colors,
     world: this.world,
-    // relations: this.relations,
+    relations: this.relations,
     cutscenes: this.cutscenes,
     awsImages: this.awsImages,
     user: this.user.toJSON(),
