@@ -55,6 +55,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
             isLoading: true,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
+            metadata: {},
             user: { ...payload.me },
           },
           ...state.games,
@@ -77,6 +78,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         games: state.games.map((m) => {
+          console.log(m)
           if (m.id === 0) return payload.game;
           return m;
         }),

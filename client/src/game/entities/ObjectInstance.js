@@ -103,15 +103,6 @@ export class ObjectInstance extends Sprite {
     this.collider = new Collider(scene, this, this)
     this.createInteractBorder()
 
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // LIFECYCLE
-    if(objectClass.unspawned) {
-      this.unspawn()
-    } else {
-      this.spawn()
-    }
-
     return this
   }
 
@@ -195,7 +186,7 @@ export class ObjectInstance extends Sprite {
     Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
     }).forEach(({event, effect}) => {
-      if(event.type === ON_SPAWN && event.classIdA === this.classIdA) {
+      if(event.type === ON_SPAWN && event.classIdA === this.classId) {
         this.runEffect(effect)
       }
     })
@@ -226,7 +217,7 @@ export class ObjectInstance extends Sprite {
     Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
     }).forEach(({event, effect}) => {
-      if(event.type === eventType && event.classIdA === this.classIdA) {
+      if(event.type === eventType && event.classIdA === this.classId) {
         this.runEffect(effect)
       }
     })
@@ -380,7 +371,7 @@ export class ObjectInstance extends Sprite {
   getRelations() {
     const gameModel = store.getState().game.gameModel
 
-    Object.keys(gameModel.relations).map((relationId) => {
+    return Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
     }).filter(({event: { classIdA }}) => {
       return classIdA === this.classId
@@ -458,7 +449,15 @@ export class ObjectInstance extends Sprite {
       this.setIgnoreGravity(true)
     }
 
-    if(this.lastCollidedWithClassId === instanceB.classId) return
+    if(effect.type === EFFECT_WIN_GAME) {
+      store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
+      this.scene.reload()
+    } else if(effect.type === EFFECT_GAME_OVER) {
+      store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
+      this.scene.reload()
+    }
+
+    if(instanceB && this.lastCollidedWithClassId === instanceB.classId) return
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -503,10 +502,6 @@ export class ObjectInstance extends Sprite {
     // NARRATIVE
     if(effect.type === EFFECT_CUTSCENE) {
       if(effect.cutsceneId) store.dispatch(openCutscene(instanceB?.classId, effect.cutsceneId))
-    } else if(effect.type === EFFECT_WIN_GAME) {
-      store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
-    } else if(effect.type === EFFECT_GAME_OVER) {
-      store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
     }
   }
 }

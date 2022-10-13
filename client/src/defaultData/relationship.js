@@ -32,7 +32,7 @@ export const eventDisplayNames = {
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
-  [ON_SPAWN]: 'spawned',
+  // [ON_SPAWN]: 'spawned',
   [ON_DESTROY_ONE]: 'destroyed',
   [ON_DESTROY_ALL]: 'destroyed',
   [ON_INTERACT]: 'interacted with',
