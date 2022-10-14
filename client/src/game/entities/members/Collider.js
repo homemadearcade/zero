@@ -1,7 +1,5 @@
-import _ from "lodash";
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, EFFECT_COLLIDE, MATTER_PHYSICS, MOVEMENT_TURN_ON_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../../constants";
-import store from "../../../store";
+import { ARCADE_PHYSICS, EFFECT_COLLIDE, MATTER_PHYSICS, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {
@@ -35,10 +33,14 @@ export class Collider {
         } else {
           this.unregisters.push(
             this.scene.physics.add.overlap(this.sensor.sprite, releventInstances, (a, b) => {
-              if(sides.length) {
-                if(areBSidesHit(sides, a, b)) this.objectInstance.runEffect(effect, b, sides)
+              const sidesList = Object.keys(sides).filter((sideId) => {
+                return !!sides[sideId]
+              })
+              console.log(sidesList)
+              if(sidesList.length) {
+                if(areBSidesHit(sides, a, b)) this.objectInstance.runEffect(effect, b, sidesList)
               } else {
-                this.objectInstance.runEffect(effect, b, sides)
+                this.objectInstance.runEffect(effect, b, sidesList)
               }
             })
           )

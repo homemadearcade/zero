@@ -11,7 +11,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import KeyIndicator from '../ui/KeyIndicator/KeyIndicator';
 import './StateScreen.scss';
 
-function StateScreenBody({changeGameState, gameState}) {
+function StateScreenBody({changeGameState, gameStateMessage, gameState}) {
   useEffect(() => {
     window.addEventListener('keydown', progressIfX)
     return () => {
@@ -31,7 +31,7 @@ function StateScreenBody({changeGameState, gameState}) {
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">Start Game</Typography>
-          <Typography component="h3" variant="h3">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Start</Typography>
+          <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Start</Typography>
         </div></Fade>
       </Constellation>
     }
@@ -39,8 +39,9 @@ function StateScreenBody({changeGameState, gameState}) {
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
-          <Typography component="h3" variant="h3">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
-          <Link to="/games"><Typography component="h3" variant="h3">Return to Arcade</Typography></Link>
+          {gameStateMessage && <Typography component="h3" variant="h3">{gameStateMessage}</Typography>}
+          <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
+          <Link to="/games"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>
         </div></Fade>
       </Constellation>
     }
@@ -48,8 +49,9 @@ function StateScreenBody({changeGameState, gameState}) {
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">You won!</Typography>
-          <Typography component="h3" variant="h3">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
-          <Link to="/games"><Typography component="h3" variant="h3">Return to Arcade</Typography></Link>
+          {gameStateMessage && <Typography component="h3" variant="h3">{gameStateMessage}</Typography>}
+          <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
+          <Link to="/games"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>
         </div></Fade>
       </Constellation>
     }
@@ -62,11 +64,11 @@ function StateScreenBody({changeGameState, gameState}) {
   );
 }
 
-function StateScreen({gameContext: { gameState}, changeGameState}) {
+function StateScreen({gameContext: { gameState, gameStateMessage}, changeGameState}) {
   if(gameState === PLAY_STATE || gameState === EDIT_STATE) {
     return null
   }
-  return <StateScreenBody gameState={gameState} changeGameState={changeGameState}/>
+  return <StateScreenBody gameState={gameState} gameStateMessage={gameStateMessage} changeGameState={changeGameState}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import Phaser from "phaser";
 import { ARCADE_PHYSICS, MATTER_PHYSICS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../../../constants";
 import store from "../../../store";
@@ -17,7 +16,7 @@ export class Sprite {
         max: {
           x: gameModel.world.boundaries.width,
           y: gameModel.world.boundaries.height
-        }            
+        }           
       }
     }
 
@@ -120,7 +119,7 @@ export class Sprite {
     this.sprite.body.checkCollision.right = true 
 
     Object.keys(sides).forEach((side) => {
-      if(sides[side] === false) return
+      if(!sides[side]) return
 
       if(side === SIDE_LEFT) {
         this.sprite.body.checkCollision.left = false

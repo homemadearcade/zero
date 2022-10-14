@@ -4,14 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './RelationsMenu.scss';
 import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeRelationsMenu, openCreateRelation } from '../../store/actions/gameFormEditorActions';
-import Typography from '../../app/ui/Typography/Typography';
+import { closeRelationsMenu, openCreateRelation, openWorldRelation } from '../../store/actions/gameFormEditorActions';
 import Button from '../../app/ui/Button/Button';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
+import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
 
-const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor: { classIdRelationsMenu }, game: { gameModel } }) => {
+const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, game: { gameModel } }) => {
   function handleClose() {
     closeRelationsMenu()
   }
@@ -19,6 +19,9 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
   // onChange={(event, descriptors) => {
   //   updateCreateCutscene({ descriptors })
   // }}
+
+  const objectClass = gameModel.classes[classIdRelationsMenu]
+
   const relations = Object.keys(gameModel.relations).map((relationId) => {
     return gameModel.relations[relationId]
   }).filter((relation) => {
@@ -28,6 +31,10 @@ const RelationsMenu = ({ closeRelationsMenu, openCreateRelation, gameFormEditor:
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="RelationsMenu">
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relations"/>
+      <ClassMemberTitle classId={classIdRelationsMenu} title={getWorldBoundaryRelationLabel(objectClass.getWorldBoundaryRelation, objectClass)}/>
+      <Button onClick={() => {
+        openWorldRelation(objectClass)
+      }}>Edit</Button>
       {relations.map((relation) => {
         const { event, effect: { type, effectedClassId }} = relation
 
@@ -60,5 +67,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openCreateRelation, closeRelationsMenu }),
+  connect(mapStateToProps, { openCreateRelation, closeRelationsMenu, openWorldRelation }),
 )(RelationsMenu);

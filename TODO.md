@@ -7,6 +7,8 @@ Press X to Interact - Press space to interact? z to fire?
 Player Spawn is a zone?, Spawn is an Effect that chooses a zone?
 Choose instances in relation editor
 
+Crazy effect where like they see their own reflection sometimes. Dark version of their reflection
+
 ---
 TODO
 
@@ -16,7 +18,6 @@ Spawn
 ---
 TODO CHORES
 
-Zone teleport and spawn is too random. I need to take object size into account when doing
 File reorg
 Add tint to sprite editor
 Take snapshot without BG

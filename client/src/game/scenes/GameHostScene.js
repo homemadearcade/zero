@@ -1,5 +1,5 @@
 import {
-  GAME_SCENE, PLAY_STATE,
+  GAME_SCENE,
 } from '../../constants';
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';

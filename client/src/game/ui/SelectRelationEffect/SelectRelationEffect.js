@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationEffect.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { collideOnlyEffects, effectDisplayNames, effectSuffix, getEffectLabel, nonRemoteEffects } from '../../../defaultData/relationship';
+import { collideOnlyEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../../defaultData/relationship';
 import { ON_COLLIDE } from '../../../constants';
 
 const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, game: { gameModel }, classIdA, classIdB}) => {

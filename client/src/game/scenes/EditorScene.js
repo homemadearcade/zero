@@ -653,7 +653,7 @@ export class EditorScene extends GameInstance {
 
       if(
         classUpdate.unspawned !== undefined ||
-        classUpdate.worldBoundaryRelationship || 
+        classUpdate.worldBoundaryRelation || 
         classUpdate.graphics?.textureId ||
         classUpdate.movement?.pattern !== undefined ||
         classUpdate.movement?.velocityX !== undefined ||

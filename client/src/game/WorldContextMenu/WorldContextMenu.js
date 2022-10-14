@@ -33,7 +33,7 @@ const WorldContextMenu = ({
       <MenuItem onClick={() => {
         openSectionEditor()
         onMenuItemClick()
-      }}>Edit Sections</MenuItem>
+      }}>Edit Boundaries</MenuItem>
     </Unlockable>
     <Unlockable interfaceId="contextMenu/world/backgroundColor">
       <MenuItem onClick={() => {

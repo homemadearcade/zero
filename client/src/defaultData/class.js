@@ -1,4 +1,4 @@
-import { ADVENTURER_CONTROLS, DEFAULT_TEXTURE_ID, EFFECT_COLLIDE, EFFECT_STICK_TO, HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, ON_COLLIDE, ON_INTERACT, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, WORLD_DESTROY, WORLD_WRAP, ZONE_CLASS } from "../constants";
+import { HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -36,7 +36,7 @@ export const defaultCollisionResponse = {
 export const defaultObjectClass = {
   unspawned: false,
   interfaceLocked: false,
-  worldBoundaryRelationship: WORLD_COLLIDE,
+  worldBoundaryRelation: WORLD_COLLIDE,
   classId: null,
   movement: {
     ...defaultMovement

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEvent.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
-import { eventDisplayNames, eventPrefix, getEventLabel, singleClassEvents } from '../../../defaultData/relationship';
+import { eventDisplayNames, getEventLabel, singleClassEvents } from '../../../defaultData/relationship';
 import { capitalize } from '../../../utils/utils';
 
 const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA, game: { gameModel } }) => {

@@ -10,12 +10,13 @@ import {
 } from '../types';
 import { editLobby } from './lobbyActions';
 
-export const changeGameState = (gameState) => (dispatch, getState) => {
+export const changeGameState = (gameState, message) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CHANGE_GAME_STATE,
     payload: {
-      gameState
+      gameState,
+      gameStateMessage: message
     }
   })
 };

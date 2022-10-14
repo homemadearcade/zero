@@ -5,13 +5,12 @@ import { editGameModel } from '../../store/actions/gameActions';
 
 import './PhysicsEditor.scss'
 import SliderNotched from '../../app/ui/SliderNotched/SliderNotched';
-import { FormLabel, Typography } from '@mui/material';
+import { FormLabel } from '@mui/material';
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../app/ui/Switch/Switch';
 import SelectColliders from '../ui/SelectColliders/SelectColliders';
 import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
 import { generateUniqueId } from '../../utils/webPageUtils';
-import { defaultRelationship } from '../../defaultData/relationship';
 import _ from 'lodash';
 import { getOppositeRelationClassId } from '../../utils/gameUtils';
 

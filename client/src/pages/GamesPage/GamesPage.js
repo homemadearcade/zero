@@ -1,7 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import './GamesPage.scss';
 
@@ -25,7 +24,7 @@ import { TextField } from '@mui/material';
 const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me }}) => {
   useEffect(() => {
     getGames();
-  }, []);
+  }, [getGames]);
 
   const [searchTerm, setSearchTerm] = useState("")
   const [gamesList, setGamesList] = useState(games)

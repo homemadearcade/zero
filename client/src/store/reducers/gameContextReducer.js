@@ -13,6 +13,7 @@ const initialState = {
   classId: null,
   cutsceneIndex: 0,
   gameState: null,
+  gameStateMessage: null,
   isConstellationClosing: false,
   isConstellationOpen: false,
   constellationZoomImageFile: null
@@ -61,7 +62,8 @@ export default function gameContextReducer(state = initialState, { type, payload
     case CHANGE_GAME_STATE: 
       return {
         ...state,
-        gameState: payload.gameState
+        gameState: payload.gameState,
+        gameStateMessage: payload.gameStateMessage
       }
     default:
       return state;

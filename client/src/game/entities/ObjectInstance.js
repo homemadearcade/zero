@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_JUMP_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, HERO_INSTANCE_CANVAS_DEPTH, UNSPAWNED_TEXTURE_ID, UI_CANVAS_DEPTH, WIN_GAME_STATE, GAME_OVER_STATE, HERO_INSTANCE_ID, ON_DESTROY_ALL, EFFECT_DESTROY } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, UNSPAWNED_TEXTURE_ID, WIN_GAME_STATE, GAME_OVER_STATE, HERO_INSTANCE_ID, ON_DESTROY_ALL, EFFECT_DESTROY } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -77,10 +77,10 @@ export class ObjectInstance extends Sprite {
     this.setPushable(!objectClass.collisionResponse.notPushable)
     this.setMass(objectClass.collisionResponse.mass)
     this.setFriction(objectClass.collisionResponse.friction)
-    const worldBoundaryRelationship = objectClass.worldBoundaryRelationship
+    const worldBoundaryRelation = objectClass.worldBoundaryRelation
     if(objectClass.collisionResponse.ignoreWorldBounds) {
       this.setCollideWorldBounds(false)
-    } else if(worldBoundaryRelationship === WORLD_COLLIDE) {
+    } else if(worldBoundaryRelation === WORLD_COLLIDE) {
       this.setCollideWorldBounds(true)
     }
     this.setCollideIgnoreSides(objectClass.collisionResponse.ignoreSides)
@@ -246,7 +246,7 @@ export class ObjectInstance extends Sprite {
     ////////////////////////////////////////
     ////////////////////////////////////////
     // RELATIONS
-    if(objectClass.worldBoundaryRelationship === WORLD_WRAP) {
+    if(objectClass.worldBoundaryRelation === WORLD_WRAP) {
       this.scene.physics.world.wrap(this.sprite.body, objectClass.graphics.width)
     }
     
@@ -393,12 +393,12 @@ export class ObjectInstance extends Sprite {
       return true
     }
 
-    if(sides.indexOf(SIDE_LEFT) >= 0 || sides.indexOf(SIDE_RIGHT) >= 0) {
+    if(sides[SIDE_LEFT] || sides[SIDE_RIGHT]) {
       return (
         player.body.bottom <= platform.body.position.y ||
         player.body.position.y >= platform.body.bottom 
       );
-    } else if(sides.indexOf(SIDE_UP) >= 0 || sides.indexOf(SIDE_DOWN) >= 0) {
+    } else if(sides[SIDE_UP] >= 0 || sides[SIDE_DOWN] >= 0) {
       return (
         player.body.right <= platform.body.position.x ||
         player.body.position.x >= platform.body.right 
@@ -474,9 +474,11 @@ export class ObjectInstance extends Sprite {
     }
 
     if(effect.type === EFFECT_TELEPORT) {
+      const gameModel = store.getState().game.gameModel
+      const objectClass = gameModel.classes[this.classId]
       const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
       if(!zone) return
-      this.setRandomPosition(zone.sprite.x, zone.sprite.y, zone.sprite.displayWidth, zone.sprite.displayHeight)
+      this.setRandomPosition(zone.sprite.x, zone.sprite.y, zone.sprite.displayWidth - objectClass.graphics.width, zone.sprite.displayHeight - objectClass.graphics.height)
     }
     
     if(effect.type === EFFECT_DESTROY) {
