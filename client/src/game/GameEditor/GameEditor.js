@@ -19,13 +19,14 @@ import CutscenesMenu from '../CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../CreateCutscene/CreateCutscene';
 import CreateRelation from '../CreateRelation/CreateRelation';
 import RelationsMenu from '../RelationsMenu/RelationsMenu';
+import WorldRelation from '../WorldRelation/WorldRelation';
 
 const GameEditor = ({ 
   classNames, 
   gameEditor: { isSelectBackgroundColorOpen, liveEditingCategory, isGameMetadataModalOpen }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
-  gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen },
+  gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isWorldRelationOpen },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
@@ -49,6 +50,8 @@ const GameEditor = ({
     }
   }, [])
 
+  console.log(isWorldRelationOpen)
+
   return (
     <div className={"GameEditor " + classNames}>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
@@ -70,6 +73,7 @@ const GameEditor = ({
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isRelationsMenuOpen && <RelationsMenu/>}
       {isCreateRelationOpen && <CreateRelation/>}
+      {isWorldRelationOpen && <WorldRelation/>}
     </div>
   );
 };

@@ -6,19 +6,19 @@ Change UI color option
 Press X to Interact - Press space to interact? z to fire?
 Player Spawn is a zone?, Spawn is an Effect that chooses a zone?
 Choose instances in relation editor
-
-Crazy effect where like they see their own reflection sometimes. Dark version of their reflection
+Crazy effect where like they see their own reflection sometimes in the screen? Something definitely artsy for the layer over the window
 
 ---
 TODO
 
-World relation
+Event Sides
 Spawn
 
 ---
 TODO CHORES
 
 File reorg
+Auto hide live editor when using keys?
 Add tint to sprite editor
 Take snapshot without BG
 Move properties into objects based on Member

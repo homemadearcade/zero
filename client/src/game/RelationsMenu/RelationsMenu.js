@@ -31,7 +31,7 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="RelationsMenu">
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relations"/>
-      <ClassMemberTitle classId={classIdRelationsMenu} title={getWorldBoundaryRelationLabel(objectClass.getWorldBoundaryRelation, objectClass)}/>
+      <ClassMemberTitle classId={classIdRelationsMenu} title={getWorldBoundaryRelationLabel(objectClass.worldBoundaryRelation, objectClass)}/>
       <Button onClick={() => {
         openWorldRelation(objectClass)
       }}>Edit</Button>

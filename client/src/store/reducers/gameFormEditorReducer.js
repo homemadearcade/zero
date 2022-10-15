@@ -219,7 +219,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case OPEN_WORLD_RELATION: 
       return {
         ...state,
-        isWorldRelationMenuOpen: true,
+        isWorldRelationOpen: true,
         objectClass: {
           ..._.cloneDeep(initialState.objectClass),
           ...payload.initialObjectClass ? _.cloneDeep(payload.initialObjectClass) : {}
@@ -233,7 +233,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case CLOSE_WORLD_RELATION: 
       return {
         ...state,
-        isWorldRelationMenuOpen: false
+        isWorldRelationOpen: false
       }
     case CLEAR_EDITOR_FORMS:
       return initialState
