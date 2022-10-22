@@ -10,6 +10,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
 import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
+import { EFFECT_COLLIDE } from '../../constants';
 
 const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, game: { gameModel } }) => {
   function handleClose() {
@@ -41,6 +42,8 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
         const classA = gameModel.classes[event.classIdA]
         const effectedClass = gameModel.classes[effectedClassId]
         const classB = gameModel.classes[event.classIdB]
+
+        if(type === EFFECT_COLLIDE) return null
 
         return <div key={relation.relationId} className="RelationsMenu__relation">
           <ClassMemberTitle classId={event.classIdA} title={getEffectLabel(type, (effectedClass || classA), classB) + getEventLabel(event.type, classA, classB)}/>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectRelationEffect.scss';
 import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
 import { collideOnlyEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../../defaultData/relationship';
-import { ON_COLLIDE } from '../../../constants';
+import { EFFECT_COLLIDE, ON_COLLIDE } from '../../../constants';
 
 const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, game: { gameModel }, classIdA, classIdB}) => {
   const classA = gameModel.classes[classIdA]
@@ -20,6 +20,7 @@ const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disab
   }
 
   function isUsuableEffect(effectType) {
+    if(effectType === EFFECT_COLLIDE) return false
     if(event.type !== ON_COLLIDE && collideOnlyEffects[effectType]) return false
     if(effect?.effectedClassId && nonRemoteEffects[effectType]) return false
 

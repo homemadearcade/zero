@@ -50,8 +50,6 @@ const GameEditor = ({
     }
   }, [])
 
-  console.log(isWorldRelationOpen)
-
   return (
     <div className={"GameEditor " + classNames}>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">

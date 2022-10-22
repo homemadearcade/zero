@@ -31,8 +31,6 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
     return !!classId
   })
 
-  console.log(value)
-
   const options = Object.keys(gameModel.classes).map(mapClassToOption)
 
   return <SelectChipsAuto 

@@ -22,12 +22,9 @@ export default (ChildComponent) => {
       const doJoinLobby = async () => {   
         try {
           await joinLobby({lobbyId: matchId, userId: me?.id});
-    
-          window.addEventListener('beforeunload', this.askBeforeClosing);
-        } catch(error) {
+            } catch(error) {
           console.log(error)
         }
-  
       }
 
       doJoinLobby()
@@ -42,29 +39,6 @@ export default (ChildComponent) => {
 
       leaveAgoraVideoCall()
       leaveLobby({lobbyId: lobby.id, userId: me?.id})
-      window.removeEventListener('beforeunload', this.askBeforeClosing)
-    }
-
-    askBeforeClosing = async (e) => {
-      e.preventDefault();
-
-      const gameInstance = store.getState().webPage.gameInstance
-      if(gameInstance) {
-        const scene = getCurrentGameScene(gameInstance)
-          
-        if(scene.backgroundLayer.unsavedChanges ||
-          scene.playgroundLayer.unsavedChanges ||
-          scene.foregroundLayer.unsavedChanges
-        ) {
-          setTimeout(() => {
-            saveAllCurrentCanvases()
-          })
-          e.returnValue = ''
-          return
-        }
-      }
-
-      this.withLobbyCleaup()
     }
 
     render() {

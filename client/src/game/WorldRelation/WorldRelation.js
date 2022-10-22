@@ -16,14 +16,12 @@ const WorldRelation = ({ closeWorldRelation, editGameModel, updateWorldRelation,
     closeWorldRelation()
   }
 
-  console.log(objectClass.worldBoundaryRelation)
-
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="WorldRelation">
       <ClassMemberTitle classId={objectClass.classId} title="Boundary Relation"/>
         <SelectWorldBoundaryEffect
           classId={objectClass.classId}
-          formLabel={`What happens when hitting the world boundary?`}
+          formLabel={`What happens when touching the world boundary?`}
           value={objectClass.worldBoundaryRelation ? [objectClass.worldBoundaryRelation] : []}
           onChange={(event, worldRelations) => {
             const worldBoundaryRelation = worldRelations[worldRelations.length-1]

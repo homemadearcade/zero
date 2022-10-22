@@ -19,10 +19,8 @@ export class CollisionCanvas extends CodrawingCanvas {
   }
 
   initialDraw = () => {
-    if(this.scene.textures.exists(this.textureId)) {
-      this.draw(this.textureId, 0, 0)
-      this.createCollisionBody()
-    }
+    super.initialDraw()
+    this.createCollisionBody()
   }
 
   createCollisionBody = async () => {
@@ -76,7 +74,9 @@ export class CollisionCanvas extends CodrawingCanvas {
 
   registerRelations() {
     if(this.collisionBody) {
-      this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.player.sprite)
+      console.log('body arrived')
+
+      this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.sprite)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.map(({sprite}) => {
         return sprite
       }))

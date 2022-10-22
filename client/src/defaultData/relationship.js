@@ -43,7 +43,7 @@ export const eventDisplayNames = {
 export const effectDisplayNames = {
   // Movement
   [EFFECT_TELEPORT]: 'Teleport',
-  // [EFFECT_COLLIDE]: 'Collide',
+  [EFFECT_COLLIDE]: 'Collide',
   [EFFECT_IGNORE_GRAVITY]: 'Remove gravity from',
   [EFFECT_STICK_TO]: 'Hold',
 
