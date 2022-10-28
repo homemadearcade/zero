@@ -245,6 +245,7 @@ export class PlayerInstance extends ObjectInstance {
     this.setCollideable(false);
     this.setVisible(false)
     // this.particles.setVisible(false)
+    this.destroyed = true
     this.interactArea.pause()
   }
 

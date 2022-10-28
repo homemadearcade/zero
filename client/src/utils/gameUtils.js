@@ -33,7 +33,6 @@ export function isEventMatch({effect, classId, world, gameObject, body}) {
 }
 
 export function areBSidesHit(sidesList, a, b) {
-  
   const verdict = sidesList.some((side) => {
     if(side === SIDE_UP) {
       if (b.body.touching.up && a.body.touching.down) {

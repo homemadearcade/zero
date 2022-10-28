@@ -66,7 +66,7 @@ const initialState = {
   classIdRelationsMenu: null,
   relation: {
     relationId: null,
-    sides: {},
+    sides: [],
     event: {
       type: null,
       classIdA: null,

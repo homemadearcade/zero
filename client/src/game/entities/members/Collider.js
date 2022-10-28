@@ -33,14 +33,10 @@ export class Collider {
         } else {
           this.unregisters.push(
             this.scene.physics.add.overlap(this.sensor.sprite, releventInstances, (a, b) => {
-              const sidesList = Object.keys(sides).filter((sideId) => {
-                return !!sides[sideId]
-              })
-              console.log(sidesList)
-              if(sidesList.length) {
-                if(areBSidesHit(sides, a, b)) this.objectInstance.runEffect(effect, b, sidesList)
+              if(sides.length) {
+                if(areBSidesHit(sides, a, b)) this.objectInstance.runEffect(effect, b, sides)
               } else {
-                this.objectInstance.runEffect(effect, b, sidesList)
+                this.objectInstance.runEffect(effect, b, sides)
               }
             })
           )

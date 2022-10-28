@@ -16,15 +16,19 @@ import SelectRelationEffect from '../ui/SelectRelationEffect/SelectRelationEffec
 import Unlockable from '../../app/cobrowsing/Unlockable/Unlockable';
 import { effectEditInterface } from '../../defaultData/relationship';
 import { TextField } from '@mui/material';
-import { ZONE_CLASS } from '../../constants';
+import { ON_COLLIDE, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../ui/SelectCutscene/SelectCutscene';
+import SelectSides from '../ui/SelectSides/SelectSides';
 
-const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { relation }}) => {
+const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { relation }, game: { gameModel} }) => {
   function handleClose() {
     closeCreateRelation()
   }
 
   const [isNewRelation, setIsNewRelation] = useState(null)
+
+  const classA = gameModel.classes[relation.event.classIdA]
+  const classB = gameModel.classes[relation.event.classIdB]
 
   useEffect(() => {
     if(!relation.relationId) {
@@ -140,15 +144,25 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
             const newEvent = events[events.length-1]
             handleEventChange('type', newEvent)
         }}/>
-        <Unlockable interfaceId="relation/effected">
+        {classB && relation.event.type === ON_COLLIDE && <Unlockable interfaceId="physics/ignoreSides">
+          <SelectSides
+            formLabel={"Overlapping with which side of " + classB.name + '? ( leave blank for all sides )'}
+            value={relation.sides ? relation.sides : []}
+            onChange={(event, sides) => {
+              updateCreateRelation({
+                sides
+              })
+          }}/>
+        </Unlockable>}
+        {classB && <Unlockable interfaceId="relation/effected">
           <SelectClass 
-            formLabel="What objects are effected, instead?"
+            formLabel={"What class is effected? Instead of the " + classA.name + ' instance'}
             value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
             onChange={(event, classes) => {
               const newClassId = classes[classes.length-1]
               handleEffectChange('effectedClassId', newClassId)
           }}/>
-         </Unlockable>
+         </Unlockable>}
         <SelectRelationEffect
           effect={relation.effect}
           event={relation.event}
@@ -194,6 +208,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
+  game: state.game,
 })
 
 export default compose(

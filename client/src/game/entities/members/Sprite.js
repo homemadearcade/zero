@@ -118,9 +118,7 @@ export class Sprite {
     this.sprite.body.checkCollision.left = true 
     this.sprite.body.checkCollision.right = true 
 
-    Object.keys(sides).forEach((side) => {
-      if(!sides[side]) return
-
+    sides.forEach((side) => {
       if(side === SIDE_LEFT) {
         this.sprite.body.checkCollision.left = false
       }

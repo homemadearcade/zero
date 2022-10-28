@@ -5,16 +5,14 @@ Movement is prompted after placing the first object?
 Press X to Interact - Press space to interact? z to fire?
 Crazy effect where like they see their own reflection sometimes in the screen? Something definitely artsy for the layer over the window
 
-If you have a white background, if you have a grey background, Still issues!!
+If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
+
 
 ---
 TODO
 
 Event Sides
 Spawn
-
-Layers for classes
-Two border colors instead of ui color change
 
 ---
 TODO CHORES

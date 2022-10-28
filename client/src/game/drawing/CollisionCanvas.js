@@ -74,14 +74,14 @@ export class CollisionCanvas extends CodrawingCanvas {
 
   registerRelations() {
     if(this.collisionBody) {
-      console.log('body arrived')
+      // console.log('body arrived')
 
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.sprite)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.map(({sprite}) => {
         return sprite
       }))
     } else {
-      console.log('no body yet')
+      // console.log('no body yet')
     }
 
   }

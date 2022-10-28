@@ -25,12 +25,7 @@ export const defaultCollisionResponse = {
   notPushable: false,
   immovable: false,
   ignoreWorldBoundaries: false,
-  ignoreSides: {
-    [SIDE_DOWN]: false,
-    [SIDE_UP]: false,
-    [SIDE_LEFT]: false,
-    [SIDE_RIGHT]: false,
-  }
+  ignoreSides: [],
 }
 
 export const defaultObjectClass = {

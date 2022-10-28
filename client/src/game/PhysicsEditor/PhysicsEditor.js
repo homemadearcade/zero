@@ -13,6 +13,7 @@ import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeRelationClassId } from '../../utils/gameUtils';
+import SelectSides from '../ui/SelectSides/SelectSides';
 
 
 // {false && <Unlockable interfaceId="physics/toggle/useMass">
@@ -60,6 +61,8 @@ import { getOppositeRelationClassId } from '../../utils/gameUtils';
 
 const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
+
+  console.log(classSelected.collisionResponse.ignoreSides)
 
   return (
     <div className="PhysicsEditor">
@@ -122,6 +125,20 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
             console.log(relations)
 
             editGameModel({ relations })        
+         }}/>
+      </Unlockable>
+      <Unlockable interfaceId="physics/ignoreSides">
+        <SelectSides
+          formLabel="Ignore Sides"
+          value={classSelected.collisionResponse.ignoreSides ? classSelected.collisionResponse.ignoreSides : []}
+          onChange={(event, sides) => {
+            editGameModel({
+              classes: { 
+                [classId]: { 
+                  collisionResponse: { ignoreSides: sides } 
+                } 
+              }
+            })
          }}/>
       </Unlockable>
       <Unlockable isSlider interfaceId="physics/sliders/bounce">
