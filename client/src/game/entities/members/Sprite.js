@@ -158,6 +158,10 @@ export class Sprite {
     this.sprite.setCollisionCategory(category)
   }
 
+  setDepth(depth) {
+    this.sprite.setDepth(depth)
+  }
+
   setDensity(density) {
     if(this.physicsType === ARCADE_PHYSICS) {
       console.log('setting density under arcade')

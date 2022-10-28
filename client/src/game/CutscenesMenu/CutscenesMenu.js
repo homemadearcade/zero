@@ -32,7 +32,9 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, game: { gameMod
         </div>
       })}
       <Button onClick={() => {
-        openCreateCutscene()
+        openCreateCutscene({
+          name: 'Cutscene #' + Object.keys(cutscenes).length + 1
+        })
       }}>New Cutscene</Button>
     </div>
   </CobrowsingModal>

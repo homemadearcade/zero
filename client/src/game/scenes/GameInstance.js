@@ -188,9 +188,9 @@ export class GameInstance extends Phaser.Scene {
     this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
     this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
-    this.objectInstanceLayer = this.add.layer();
-    this.objectInstanceLayer.setDepth(OBJECT_INSTANCE_CANVAS_DEPTH)
     this.objectInstanceGroup = this.add.group()
+    this.objectClassGroup = this.add.group()
+    this.npcClassGroup = this.add.group()
     this.projectileInstanceGroup = this.add.group()
 
     this.playerInstanceLayer = this.add.layer();
@@ -286,8 +286,9 @@ export class GameInstance extends Phaser.Scene {
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
-    this.objectInstanceLayer.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
-    this.playerInstanceLayer.setVisible(layerVisibility[HERO_INSTANCE_CANVAS_ID])
+    this.objectClassGroup.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
+    this.npcClassGroup.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
+    this.playerInstance.setVisible(layerVisibility[HERO_INSTANCE_CANVAS_ID])
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {

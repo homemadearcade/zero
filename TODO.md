@@ -2,17 +2,19 @@ IN DISCUSSION
 
 interfaceUnlock other features, such as camera move with keys? drag object? etc
 Movement is prompted after placing the first object?
-Change UI color option
 Press X to Interact - Press space to interact? z to fire?
-Player Spawn is a zone?, Spawn is an Effect that chooses a zone?
-Choose instances in relation editor
 Crazy effect where like they see their own reflection sometimes in the screen? Something definitely artsy for the layer over the window
+
+If you have a white background, if you have a grey background, Still issues!!
 
 ---
 TODO
 
 Event Sides
 Spawn
+
+Layers for classes
+Two border colors instead of ui color change
 
 ---
 TODO CHORES

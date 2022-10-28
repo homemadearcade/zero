@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, UNSPAWNED_TEXTURE_ID, WIN_GAME_STATE, GAME_OVER_STATE, HERO_INSTANCE_ID, ON_DESTROY_ALL, EFFECT_DESTROY } from "../../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, UNSPAWNED_TEXTURE_ID, WIN_GAME_STATE, GAME_OVER_STATE, HERO_INSTANCE_ID, ON_DESTROY_ALL, EFFECT_DESTROY, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH } from "../../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -49,6 +49,7 @@ export class ObjectInstance extends Sprite {
     this.setVisible(!objectClass.graphics.invisible)
     this.setSize(objectClass.graphics.width, objectClass.graphics.height)
     this.addToTypeLayer(this.sprite)
+    this.addToTypeGroup(this.sprite)
 
     if(objectClass.graphics.glowing) {
       var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(this.sprite);
@@ -110,12 +111,26 @@ export class ObjectInstance extends Sprite {
     const gameModel = store.getState().game.gameModel
     const objectClass = gameModel.classes[this.classId]
 
-    if(objectClass.type === OBJECT_CLASS ||objectClass.type === NPC_CLASS) {
-      this.scene.objectInstanceLayer.add(sprite)
-    } else if(objectClass.type === HERO_CLASS) {
-      this.scene.playerInstanceLayer.add(sprite)
+    if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === HERO_CLASS) {
+      const layerToDepth = {
+        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
+        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,
+        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH
+      }
+      this.setDepth(layerToDepth[objectClass.graphics.layerId])
     } else if(objectClass.type === ZONE_CLASS) {
       this.scene.zoneInstanceLayer.add(sprite)
+    }
+  }
+
+  addToTypeGroup(sprite) {
+    const gameModel = store.getState().game.gameModel
+    const objectClass = gameModel.classes[this.classId]
+
+    if(objectClass.type === OBJECT_CLASS) {
+      this.scene.objectClassGroup.add(sprite)
+    } else if(objectClass.type === NPC_CLASS) {
+      this.scene.npcClassGroup.add(sprite)
     }
   }
 

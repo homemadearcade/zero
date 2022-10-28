@@ -1,4 +1,4 @@
-import { HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
+import { HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -51,6 +51,7 @@ export const defaultObjectClass = {
     tint: null,
     invisible: false,
     glowing: false,
+    layerId: PLAYGROUND_CANVAS_ID,
   },
   projectile: {
     classId: null,

@@ -45,6 +45,8 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 
 TODO FEATURES ( MAYBE ) BACKlog
 
+Choose instances in relation editor
+
 onCutsceneEnd Event
 
 Destroyed By Message ( You lost because... )

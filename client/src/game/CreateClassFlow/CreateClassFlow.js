@@ -18,6 +18,8 @@ import { classTypeToDisplayName } from '../../defaultData/class';
 import Switch from '../../app/ui/Switch/Switch';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../utils/webPageUtils';
+import SelectLayer from '../ui/SelectLayer/SelectLayer';
+import { HERO_CLASS, PLAYGROUND_CANVAS_ID, ZONE_CLASS } from '../../constants';
 
 const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
   const [isNewClass, setIsNewClass] = useState(null)
@@ -102,12 +104,19 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
               tint: null
             }})
           }}
-        />
-      }
+      />}
+      {objectClass.type !== ZONE_CLASS && <Unlockable  interfaceId="class/layer">
+        <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_CANVAS_ID]} onChange={(e, value) => {
+          const newValue = value[value.length-1]
+          if(newValue) updateCreateClass({ graphics: {
+            layerId: newValue
+          }})
+        }}/>
+      </Unlockable>}
       <ClassNameForm/>
       {isNewClass && <Unlockable interfaceId="advanced/interfaceLockedClass adminOnly">
         <Switch
-          labels={['Normal', 'Interface Locked']}
+          labels={['Normal', 'Player cannot see unless unlocked']}
           size="small"
           onChange={(e) => {
             updateCreateClass({ interfaceLocked: e.target.checked })          

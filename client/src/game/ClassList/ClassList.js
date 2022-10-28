@@ -80,13 +80,13 @@ const ClassList = ({
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow({ 
         type: NPC_CLASS,
-        movement: {
-          pattern: MOVEMENT_TURN_ON_COLLIDE,
-          velocityX: 50,
-        },
-        collisionResponse: {
-          bounciness: 0.5,
-        }
+        // movement: {
+        //   pattern: MOVEMENT_TURN_ON_COLLIDE,
+        //   velocityX: 50,
+        // },
+        // collisionResponse: {
+        //   bounciness: 0.5,
+        // }
      })
     }}>
       +
