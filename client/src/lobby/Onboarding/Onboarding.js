@@ -3,14 +3,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './Onboarding.scss';
-import { updateLobbyUser, updateOnboardingStep } from '../../../store/actions/lobbyActions';
+import { updateLobbyUser, updateOnboardingStep } from '../../store/actions/lobbyActions';
 
-import Loader from '../../ui/Loader/Loader';
-import { testInternetSpeed } from '../../../utils/networkUtils';
-import { requestFullscreen } from '../../../utils/webPageUtils';
-import Button from '../../ui/Button/Button';
-import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { ADMIN_ROLE } from '../../../constants';
+import Loader from '../../components/ui/Loader/Loader';
+import { testInternetSpeed } from '../../utils/networkUtils';
+import { requestFullscreen } from '../../utils/webPageUtils';
+import Button from '../../components/ui/Button/Button';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import { ADMIN_ROLE } from '../../constants';
 
 const Onboarding = ({ requestFullscreen, updateOnboardingStep, updateLobbyUser, lobby: { onboardingStep, lobby }, cobrowsing: { cobrowsingUser }}) => {
   const usersById = lobby.users.reduce((prev, next) => {

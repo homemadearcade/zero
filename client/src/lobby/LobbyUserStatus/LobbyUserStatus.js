@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import './LobbyUserStatus.scss';
-import Link from '../../ui/Link/Link';
-import AccordianList from '../../ui/AccordianList/AccordianList';
+import Link from '../../components/ui/Link/Link';
+import AccordianList from '../../components/ui/AccordianList/AccordianList';
 import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 import { Paper } from '@mui/material';
-import Icon from '../../ui/Icon/Icon';
-import { ADMIN_ROLE } from '../../../constants';
+import Icon from '../../components/ui/Icon/Icon';
+import { ADMIN_ROLE } from '../../constants';
 
 const LobbyUserStatus = ({ myTracks, userTracks, titleOnly, hasJoinLink, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, cobrowsing: { cobrowsingUser }, auth: {me} }) => {
   const userStatus = lobbyUserStatuses[userId];

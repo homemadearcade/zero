@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 
 import './LobbyDetail.scss';
-import Typography from '../../ui/Typography/Typography';
-import GameStatus from '../../arcadeGame/GameStatus/GameStatus';
+import Typography from '../../components/ui/Typography/Typography';
+import GameStatus from '../../components/arcadeGame/GameStatus/GameStatus';
 
 const LobbyDetail = ({
   lobby: { lobby },

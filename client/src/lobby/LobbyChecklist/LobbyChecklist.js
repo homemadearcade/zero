@@ -3,13 +3,12 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../../store/actions/lobbyActions';
+import { editLobby } from '../../store/actions/lobbyActions';
 
 import './LobbyChecklist.scss';
 import classNames from 'classnames';
-import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
-import Button from '../../ui/Button/Button';
-import Icon from '../../ui/Icon/Icon';
+import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
+import Icon from '../../components/ui/Icon/Icon';
 
 // {<Button
 //   type="button"

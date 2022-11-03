@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addLobby } from '../../../store/actions/lobbyActions';
+import { addLobby } from '../../store/actions/lobbyActions';
 // import { lobbyFormSchema } from './validation';
 import { Controller, useForm } from "react-hook-form";
 
 import './styles.css';
-import Button from '../../ui/Button/Button';
-import Typography from '../../ui/Typography/Typography';
-import SelectUser from '../../ui--connected/SelectUser/SelectUser';
+import Button from '../../components/ui/Button/Button';
+import Typography from '../../components/ui/Typography/Typography';
+import SelectUser from '../../components/ui--connected/SelectUser/SelectUser';
 import { TextField } from '@mui/material';
-import { addGame } from '../../../store/actions/gameActions';
+import { addGame } from '../../store/actions/gameActions';
 
 const LobbyForm = ({ addLobby, onSubmit, addGame }) => {
   const { handleSubmit, reset, control } = useForm({

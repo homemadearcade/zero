@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './CobrowsingGame.scss';
 import RemoteMouse from '../../game/cobrowsing/RemoteMouse/RemoteMouse';
 import GameEditor from '../GameEditor/GameEditor';
-import AgoraVideoLayoutHA from '../../components/lobby/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
+import AgoraVideoLayoutHA from '../../lobby/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
 import GameClassList from '../class/ClassList/ClassList';
 import GameBrushList from '../brush/BrushList/BrushList';
 import withCobrowsing from '../../hoc/withCobrowsing';
