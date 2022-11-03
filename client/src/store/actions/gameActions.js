@@ -25,13 +25,13 @@ import {
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
-import { defaultGame } from '../../defaultData/game';
-import { defaultObjectInstance } from '../../defaultData/object';
-import { defaultObjectClass } from '../../defaultData/class';
+import { defaultGame } from '../../game/defaultData/game';
+import { defaultObjectInstance } from '../../game/defaultData/object';
+import { defaultObjectClass } from '../../game/defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
-import { getSpritesByDescriptor } from '../../defaultData/descriptors';
+import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
-import { UNDO_MEMORY_MAX } from '../../constants';
+import { UNDO_MEMORY_MAX } from '../../game/constants';
 
 function onGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().game.gameModel)

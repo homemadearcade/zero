@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './WorldRelation.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { closeWorldRelation, updateWorldRelation } from '../../../store/actions/gameFormEditorActions';
-import Button from '../../../components/ui/Button/Button';
+import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameActions';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';

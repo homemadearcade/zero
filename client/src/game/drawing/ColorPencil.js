@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { getDepthFromCanvasId, getHexFromColorId, getCanvasIdFromColorId, snapBrushXY } from "../../utils/editorUtils";
-import { DEFAULT_TEXTURE_ID } from "../../constants";
+import { DEFAULT_TEXTURE_ID } from "../constants";
 import { Brush } from "./Brush";
 
 export class ColorPencil extends Brush {

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS } from "../../constants";
+import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS } from "../constants";
 
 export class CompoundStaticBody {
   constructor(scene, {parts, width, height, nodeWidth, nodeHeight}){

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, WORLD_BACKGROUND_CANVAS_DEPTH } from "../../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, WORLD_BACKGROUND_CANVAS_DEPTH } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 

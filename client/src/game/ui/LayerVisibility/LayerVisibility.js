@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 import {  stopPropagation } from '../../../utils/webPageUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 

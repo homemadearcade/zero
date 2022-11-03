@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../../constants";
+import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../constants";
 import { Sprite } from "./Sprite";
 
 export class InteractArea extends Sprite {

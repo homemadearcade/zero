@@ -1,5 +1,28 @@
-.HomePage {
-  position: absolute;
-  top: 0;
-  left: 0;
+.WishLabsPage {
+
+  &__footer {
+    background-color: #060212;
+    color: white;
+    position: absolute;
+    bottom: 0px;
+    z-index: 10;
+    padding: 1em 1em;
+    font-size: .9rem;
+    width: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__brandname {
+    font-weight: 500;
+  }
+
+  &__links {
+    display: flex;
+    color: white;
+    gap: 10px;
+  }
 }

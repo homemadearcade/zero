@@ -1,45 +1,27 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Link from '../../components/ui/Link/Link';
+import Link from '../../ui/Link/Link';
 
-import Layout from '../../layout/Layout';
+import './WishLabsPage.scss';
+import ShootingStarSky from '../../app/wishLabs/ShootingStarSky/ShootingStarSky';
 
-import './HomePage.scss';
-import { Constellation } from '../../components/Constellation/Constellation';
-import Typography from '../../components/ui/Typography/Typography';
-
-// {!auth.isAuthenticated ? (
-//   <div>
-//     Welcome guest!{' '}
-//     <Link to="/login">
-//       Log in
-//     </Link>{' '}
-//     or{' '}
-//     <Link to="/register">
-//       Register
-//     </Link>
-//   </div>
-// ) : (
-//   <>
-//       <Constellation/>
-//   </>
-// )}
-
-const HomePage = ({ auth, reseedDatabase }) => {
-  return (
-    <Layout>
-      <div className="HomePage">
-        <Constellation>
-          <Typography font="2P" component="h1" variant="h1">Homemade Arcade</Typography>
-        </Constellation>
+const WishLabsPage = ({ }) => {
+  return <div className="WishLabsPage">
+    <ShootingStarSky/>
+    <div className="WishLabsPage__footer">
+      <div className="WishLabsPage__brandname">Wish Labs</div>
+      <div className="WishLabsPage__links">
+        <Link to="/">Work</Link>
+        <Link to="/">Press</Link>
+        <Link to="/">Careers</Link>
       </div>
-    </Layout>
-  );
+    </div>
+  </div>
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+
 });
 
-export default compose(connect(mapStateToProps, { }))(HomePage);
+export default compose(connect(mapStateToProps, { }))(WishLabsPage);

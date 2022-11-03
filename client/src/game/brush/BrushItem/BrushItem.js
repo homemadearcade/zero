@@ -9,7 +9,7 @@ import { selectBrush, clearBrush } from '../../../store/actions/gameEditorAction
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Sprite from '../../sprites/Sprite/Sprite';
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 
 const BrushItem = ({
   game: { gameModel: { brushes } },

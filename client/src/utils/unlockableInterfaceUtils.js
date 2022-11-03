@@ -1,4 +1,4 @@
-import { ADMIN_ROLE } from "../constants"
+import { ADMIN_ROLE } from "../game/constants"
 import store from "../store"
 import { getCobrowsingState } from "./cobrowsingUtils"
 

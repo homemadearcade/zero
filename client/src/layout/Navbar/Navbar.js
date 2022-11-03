@@ -2,11 +2,11 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Link from '../../components/ui/Link/Link';
+import Link from '../../ui/Link/Link';
 
 import { logOutUser } from '../../store/actions/authActions';
 import './Navbar.scss';
-import { ADMIN_ROLE } from '../../constants';
+import { ADMIN_ROLE } from '../../game/constants';
 
 const Navbar = ({ auth, logOutUser, history }) => {
   const onLogOut = (event) => {

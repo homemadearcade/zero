@@ -1,6 +1,6 @@
 import {
   GAME_SCENE, HERO_INSTANCE_ID,
-} from '../../constants';
+} from '../constants';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 

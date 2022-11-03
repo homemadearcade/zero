@@ -3,8 +3,8 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectLayer.scss';
-import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
-import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../../constants';
+import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
+import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 
 const layerToDisplayName = {
   [BACKGROUND_CANVAS_ID]: 'Background',

@@ -3,13 +3,13 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Icon from '../../components/ui/Icon/Icon';
+import Icon from '../../ui/Icon/Icon';
 
 import './GridToggle.scss'
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import Switch from '../../components/ui/Switch/Switch';
+import Switch from '../../ui/Switch/Switch';
 
 const GridToggle = ({
   gameViewEditor: { isGridViewOn}, 

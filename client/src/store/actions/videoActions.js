@@ -17,7 +17,7 @@ import {
 } from "agora-rtc-react";
 import AgoraRTC from 'agora-rtc-react';
 
-import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../constants';
+import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../lobby/constants';
 
 const config = { 
   mode: "rtc", codec: "vp8",

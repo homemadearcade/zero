@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../../constants';
+
 import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
+import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../constants';
 import './AgoraVideoStatus.scss';
 
 const AgoraVideoStatus = ({ userId, me }) => {

@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import './RelationsMenu.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { closeRelationsMenu, openCreateRelation, openWorldRelation } from '../../../store/actions/gameFormEditorActions';
-import Button from '../../../components/ui/Button/Button';
+import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
-import { getEffectLabel, getEventLabel } from '../../../defaultData/relationship';
-import { getWorldBoundaryRelationLabel } from '../../../defaultData/world';
-import { EFFECT_COLLIDE } from '../../../constants';
+import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
+import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
+import { EFFECT_COLLIDE } from '../../constants';
 
 const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, game: { gameModel } }) => {
   function handleClose() {

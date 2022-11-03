@@ -3,9 +3,9 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectMovementPattern.scss';
-import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
-import { followPlayerDefaults, jumpDefaults, noneDefaults, sideToSideDefaults,turnOnCollideDefaults, upAndDownDefaults } from '../../../defaultData/movement';
-import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN } from '../../../constants';
+import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
+import { followPlayerDefaults, jumpDefaults, noneDefaults, sideToSideDefaults,turnOnCollideDefaults, upAndDownDefaults } from '../../defaultData/movement';
+import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN } from '../../constants';
 
 const movementPatterns = {
   [MOVEMENT_UP_AND_DOWN]: upAndDownDefaults,

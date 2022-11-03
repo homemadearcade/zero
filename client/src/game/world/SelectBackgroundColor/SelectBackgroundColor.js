@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectBackgroundColor.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import Typography from '../../../components/ui/Typography/Typography';
+import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { closeSelectBackgroundColor } from '../../../store/actions/gameEditorActions';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';

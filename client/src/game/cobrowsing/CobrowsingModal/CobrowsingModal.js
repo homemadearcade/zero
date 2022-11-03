@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import Button from '../../../components/ui/Button/Button';
+import Button from '../../../ui/Button/Button';
 import { Backdrop } from '@mui/material';
 
 import './CobrowsingModal.scss';
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 import { stopPropagation } from '../../../utils/webPageUtils';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { compose } from 'redux';

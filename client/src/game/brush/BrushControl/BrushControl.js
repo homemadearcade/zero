@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './BrushControl.scss';
-import FormLabel from '../../../components/ui/FormLabel/FormLabel';
-import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
+import FormLabel from '../../../ui/FormLabel/FormLabel';
+import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../../store/actions/gameEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';

@@ -2,7 +2,7 @@ import classnames from 'classnames'
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { controlsToKeys } from '../../../defaultData/movement'
+import { controlsToKeys } from '../../defaultData/movement'
 import KeyIndicator from '../KeyIndicator/KeyIndicator'
 import './ControlsCard.scss'
 

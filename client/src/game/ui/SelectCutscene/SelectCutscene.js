@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectCutscene.scss';
-import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
+import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 
 const SelectCutscene = ({ onChange, value, formLabel, gameModel}) => {
 

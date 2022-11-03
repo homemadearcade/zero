@@ -5,18 +5,18 @@ import { editGameModel } from '../../../store/actions/gameActions';
 import { closeLiveEditor, openLiveEditor } from '../../../store/actions/gameEditorActions';
 
 import './LiveEditor.scss'
-import Button from '../../../components/ui/Button/Button';
+import Button from '../../../ui/Button/Button';
 import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
 import WorldEditor from '../WorldEditor/WorldEditor';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
 import ProjectileEditor from '../ProjectileEditor/ProjectileEditor';
 import MovementEditor from '../MovementEditor/MovementEditor';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
-import MenuIconButton from '../../../components/ui/MenuIconButton/MenuIconButton';
+import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
-import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, WORLD_EDITOR } from '../../../constants';
+import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, WORLD_EDITOR } from '../../constants';
 
 const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSelectedLiveEditor, liveEditingCategory }, game: { gameModel } }) => {
   const objectClass = gameModel.classes[classIdSelectedLiveEditor]

@@ -7,15 +7,15 @@ import { getLobbys } from '../../store/actions/lobbysActions';
 import { deleteLobby } from '../../store/actions/lobbyActions';
 
 import Layout from '../../layout/Layout';
-import Loader from '../../components/ui/Loader/Loader';
+import Loader from '../../ui/Loader/Loader';
 import LobbyForm from '../../lobby/LobbyForm/LobbyForm';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.scss';
-import Button from '../../components/ui/Button/Button';
-import Typography from '../../components/ui/Typography/Typography';
-import Link from '../../components/ui/Link/Link';
+import Button from '../../ui/Button/Button';
+import Typography from '../../ui/Typography/Typography';
+import Link from '../../ui/Link/Link';
 
 const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {

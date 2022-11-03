@@ -5,9 +5,9 @@ import Phaser from 'phaser';
 import { PreloaderScene } from '../scenes/PreloaderScene';
 
 import './GameView.scss';
-import { PRELOADER_SCENE } from '../../constants';
+import { PRELOADER_SCENE } from '../constants';
 
-import { gameSize } from '../../defaultData/general';
+import { gameSize } from '../defaultData/general';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { setGameInstance } from '../../store/actions/webPageActions';
 

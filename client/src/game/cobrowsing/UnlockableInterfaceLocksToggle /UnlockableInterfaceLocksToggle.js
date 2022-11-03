@@ -3,9 +3,9 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 import './UnlockableInterfaceLocksToggle.scss'
-import Switch from '../../../components/ui/Switch/Switch';
+import Switch from '../../../ui/Switch/Switch';
 import { toggleUnlockableInterfaceLocks } from '../../../store/actions/cobrowsingActions';
 
 const UnlockableInterfaceLocksToggle = ({

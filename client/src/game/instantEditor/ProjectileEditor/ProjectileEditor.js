@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { editGameModel } from '../../../store/actions/gameActions';
 
 import './ProjectileEditor.scss'
-import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
+import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../../ui/SelectClass/SelectClass';
 

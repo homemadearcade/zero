@@ -1,10 +1,10 @@
 import React from 'react';
-import Link from '../../components/ui/Link/Link';
+import Link from '../../ui/Link/Link';
 
 import requireAdmin from '../../hoc/requireAdmin';
 import Layout from '../../layout/Layout';
 import './styles.css';
-import Typography from '../../components/ui/Typography/Typography';
+import Typography from '../../ui/Typography/Typography';
 
 const Admin = () => {
   return (

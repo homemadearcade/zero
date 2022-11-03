@@ -6,7 +6,7 @@ import './MySpritesModal.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { closeMySpritesModal } from '../../../store/actions/gameEditorActions';
 import MySprites from '../MySprites/MySprites';
-import Typography from '../../../components/ui/Typography/Typography';
+import Typography from '../../../ui/Typography/Typography';
 
 const MySpritesModal = ({ closeMySpritesModal, onClickSprite }) => {
   function handleClose() {

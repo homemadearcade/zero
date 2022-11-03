@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { useChangeAgoraVideoAudio } from "../../../store/actions/videoActions";
 import { setVideoTrackId, setAudioTrackId } from "../../../store/actions/videoActions";
-import Select from "../../../components/ui/Select/Select";
+import Select from "../../../ui/Select/Select";
 
 const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, video: { videoTrackId, audioTrackId } }) => {
   const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio(tracks)

@@ -7,19 +7,19 @@ import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/Cobrowsing
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { clearGameFormEditor, closeCreateClassFlow, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import SelectSpriteInline from '../../sprites/SelectSpriteInline/SelectSpriteInline';
-import Button from '../../../components/ui/Button/Button';
-import Typography from '../../../components/ui/Typography/Typography';
+import Button from '../../../ui/Button/Button';
+import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassNameForm from '../ClassNameForm/ClassNameForm';
 import { getClassDisplayName } from '../../../utils/gameUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { classTypeToDisplayName } from '../../../defaultData/class';
-import Switch from '../../../components/ui/Switch/Switch';
+import { classTypeToDisplayName } from '../../defaultData/class';
+import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { HERO_CLASS, PLAYGROUND_CANVAS_ID, ZONE_CLASS } from '../../../constants';
+import { HERO_CLASS, PLAYGROUND_CANVAS_ID, ZONE_CLASS } from '../../constants';
 
 const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
   const [isNewClass, setIsNewClass] = useState(null)

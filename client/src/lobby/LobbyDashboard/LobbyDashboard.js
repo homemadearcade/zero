@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './LobbyDashboard.scss';
 import LobbyDetail from '../LobbyDetail/LobbyDetail';
-import Link from '../../components/ui/Link/Link';
+import Link from '../../ui/Link/Link';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 

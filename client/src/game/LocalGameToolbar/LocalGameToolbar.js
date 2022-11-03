@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LocalGameToolbar.scss';
-import ToolbarIcon from '../../components/ui/ToolbarIcon/ToolbarIcon';
+import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions';
 import UndoButton from '../ui/UndoButton/UndoButton';

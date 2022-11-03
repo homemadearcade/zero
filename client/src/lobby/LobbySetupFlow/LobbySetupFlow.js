@@ -7,15 +7,15 @@ import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 
 import './LobbySetupFlow.scss';
 import { addGame, unloadGame } from '../../store/actions/gameActions';
-import GameSelect from '../../components/arcadeGame/GameSelect/GameSelect';
-import GameCard from '../../components/arcadeGame/GameCard/GameCard';
-import Typography from '../../components/ui/Typography/Typography';
-import Button from '../../components/ui/Button/Button';
+import GameSelect from '../../app/homemadeArcade/arcadeGame/GameSelect/GameSelect';
+import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
+import Typography from '../../ui/Typography/Typography';
+import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
-import VerticalLinearStepper from '../../components/ui/VerticalLinearStepper/VerticalLinearStepper';
+import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
-import Icon from '../../components/ui/Icon/Icon';
-import { ADMIN_ROLE } from '../../constants';
+import Icon from '../../ui/Icon/Icon';
+import { ADMIN_ROLE } from '../../game/constants';
 
 const LobbySetupFlow = ({
   addGame,

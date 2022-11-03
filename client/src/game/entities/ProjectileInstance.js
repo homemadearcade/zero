@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { SPACESHIP_CONTROLS } from "../../constants";
+import { SPACESHIP_CONTROLS } from "../constants";
 import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";

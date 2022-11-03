@@ -21,18 +21,19 @@ import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
 import './events.js'
 
-import Loader from './components/ui/Loader/Loader';
+import Loader from './ui/Loader/Loader';
 
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
 import io from 'socket.io-client'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ErrorHandler from './components/ui/ErrorHandler/ErrorHandler';
+import ErrorHandler from './ui/connected/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
 import { checkIfTabAlreadyOpen } from './utils/webPageUtils';
 import ContextMenus from './game/cobrowsing/ContextMenus/ContextMenus';
+import WishLabsPage from './pages/WishLabsPage/WishLabsPage';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -194,6 +195,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
         {!auth.appLoaded && <Loader text="App Loading..."/>}
         {auth.appLoaded && <Router>
           <Switch>
+            <Route path="/wishlabs" component={WishLabsPage} />
             <Route path="/games" component={GamesPage} />
             <Route path="/edit/:gameId" component={EditGamePage} />
             <Route path="/play/:gameId" component={PlayGamePage} />

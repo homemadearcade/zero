@@ -1,13 +1,13 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Link from '../../components/ui/Link/Link';
+import Link from '../../ui/Link/Link';
 
 import Layout from '../../layout/Layout';
 
 import './HomemadeArcadePage.scss';
-import { Constellation } from '../../components/Constellation/Constellation';
-import Typography from '../../components/ui/Typography/Typography';
+import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
+import Typography from '../../ui/Typography/Typography';
 
 // {!auth.isAuthenticated ? (
 //   <div>

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { nodeSize } from "../../defaultData/general";
+import { nodeSize } from "../defaultData/general";
 import store from "../../store";
 import { CameraPreview } from "./CameraPreview";
 

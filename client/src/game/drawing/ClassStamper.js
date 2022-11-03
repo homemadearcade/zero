@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
-import { DEFAULT_TEXTURE_ID, OBJECT_INSTANCE_CANVAS_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, OBJECT_INSTANCE_CANVAS_DEPTH } from "../constants";
 import { getHexIntFromHexString, snapObjectXY } from "../../utils/editorUtils";
 
 export class ClassStamper extends Phaser.GameObjects.Image {

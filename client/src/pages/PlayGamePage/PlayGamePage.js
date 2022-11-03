@@ -9,7 +9,7 @@ import { loadGame, unloadGame } from '../../store/actions/gameActions';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
 import { changeGameState } from '../../store/actions/gameContextActions';
-import { START_STATE } from '../../constants';
+import { START_STATE } from '../../game/constants';
 
 const PlayGamePage = ({ game: { gameModel }, changeGameState, requestFullscreen}) => {
   useEffect(() => {

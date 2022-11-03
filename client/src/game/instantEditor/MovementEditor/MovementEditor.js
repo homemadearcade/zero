@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import { editGameModel } from '../../../store/actions/gameActions';
 
 import './MovementEditor.scss'
-import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
+import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import Switch from '../../../components/ui/Switch/Switch';
-import FormLabel from '../../../components/ui/FormLabel/FormLabel';
+import Switch from '../../../ui/Switch/Switch';
+import FormLabel from '../../../ui/FormLabel/FormLabel';
 import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovementPattern';
 import SelectControls from '../../ui/SelectControls/SelectControls';
-import { movementToParemeters } from '../../../defaultData/movement';
-import Button from '../../../components/ui/Button/Button';
+import { movementToParemeters } from '../../defaultData/movement';
+import Button from '../../../ui/Button/Button';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
-import { HERO_CLASS, JETPACK_CONTROLS, SPACESHIP_CONTROLS } from '../../../constants';
+import { HERO_CLASS, JETPACK_CONTROLS, SPACESHIP_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">

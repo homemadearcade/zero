@@ -11,8 +11,8 @@ import {
 } from "agora-rtc-react";
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
-import Button from "../../../components/ui/Button/Button";
-import Typography from "../../../components/ui/Typography/Typography";
+import Button from "../../../ui/Button/Button";
+import Typography from "../../../ui/Typography/Typography";
 
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 

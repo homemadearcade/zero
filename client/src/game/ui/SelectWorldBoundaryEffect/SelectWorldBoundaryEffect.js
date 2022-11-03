@@ -3,9 +3,9 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectWorldBoundaryEffect.scss';
-import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
-import { } from '../../../defaultData/relationship';
-import { getWorldBoundaryRelationLabel, worldBoundaryRelationsDisplayNames } from '../../../defaultData/world';
+import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
+import { } from '../../defaultData/relationship';
+import { getWorldBoundaryRelationLabel, worldBoundaryRelationsDisplayNames } from '../../defaultData/world';
 
 const SelectWorldBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, game: { gameModel } }) => {
   const objectClass = gameModel.classes[classId]

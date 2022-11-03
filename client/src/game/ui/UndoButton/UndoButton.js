@@ -2,9 +2,9 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './UndoButton.scss';
-import ToolbarIcon from '../../../components/ui/ToolbarIcon/ToolbarIcon';
+import ToolbarIcon from '../../../ui/ToolbarIcon/ToolbarIcon';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import LoadingIcon from '../../../components/ui/LoadingIcon/LoadingIcon';
+import LoadingIcon from '../../../ui/LoadingIcon/LoadingIcon';
 
 const UndoButton = ({ onClick, lobby : { isUndoing }}) => {
 

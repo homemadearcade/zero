@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './CobrowsingStatus.scss';
 import UserStatus from '../../UserStatus/UserStatus';
-import Link from '../../../components/ui/Link/Link';
+import Link from '../../../ui/Link/Link';
 
 const CobrowsingStatus = ({ auth: {me}, cobrowsingUser, lobby: { lobby } }) => {
   if(cobrowsingUser.id === me.id) {

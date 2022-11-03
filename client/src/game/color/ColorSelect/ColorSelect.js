@@ -4,11 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './ColorSelect.scss';
-import Button from '../../../components/ui/Button/Button';
+import Button from '../../../ui/Button/Button';
 import _ from 'lodash';
 import classNames from 'classnames';
-import Icon from '../../../components/ui/Icon/Icon';
-import BorderedGrid from '../../../components/ui/BorderedGrid/BorderedGrid';
+import Icon from '../../../ui/Icon/Icon';
+import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const ColorSelect = ({

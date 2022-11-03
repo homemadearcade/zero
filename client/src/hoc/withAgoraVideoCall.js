@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AgoraVideoCall from '../components/agora/AgoraVideoCall/AgoraVideoCall';
+import AgoraVideoCall from '../lobby/agora/AgoraVideoCall/AgoraVideoCall';
 import { leaveAgoraVideoCall } from '../store/actions/videoActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export

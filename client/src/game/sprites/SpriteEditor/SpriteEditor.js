@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import Phaser from 'phaser';
 
 import './SpriteEditor.scss';
-import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID } from '../../../constants';
+import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID } from '../../constants';
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { nodeSize } from '../../../defaultData/general';
+import { nodeSize } from '../../defaultData/general';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../../brush/BrushControl/BrushControl';
 import { clearBrush, closeSpriteEditor, selectBrush } from '../../../store/actions/gameEditorActions';
-import Button from '../../../components/ui/Button/Button';
+import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../../store/actions/lobbyActions';

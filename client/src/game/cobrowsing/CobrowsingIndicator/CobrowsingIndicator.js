@@ -3,11 +3,11 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
 
 import './CobrowsingIndicator.scss'
-import Switch from '../../../components/ui/Switch/Switch';
+import Switch from '../../../ui/Switch/Switch';
 
 const CobrowsingIndicator = ({
   cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing },

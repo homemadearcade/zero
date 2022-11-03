@@ -1,4 +1,4 @@
-import { CAMERA_PREVIEW_BORDER_SIZE } from "../../constants";
+import { CAMERA_PREVIEW_BORDER_SIZE } from "../constants";
 import store from "../../store";
 import Phaser from "phaser";
 

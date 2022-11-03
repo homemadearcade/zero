@@ -6,7 +6,7 @@ import { closeContextMenu } from '../../../store/actions/contextMenuActions';
 import ObjectInstanceContextMenu from '../ObjectInstanceContextMenu/ObjectInstanceContextMenu';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import WorldContextMenu from '../WorldContextMenu/WorldContextMenu';
-import { HERO_INSTANCE_ID } from '../../../constants';
+import { HERO_INSTANCE_ID } from '../../constants';
 import ObjectInstanceListContextMenu from '../ObjectInstanceListContextMenu/ObjectInstanceListContextMenu';
 
 const GameContextMenuBody = ({ selectableObjectInstances, objectIdSelectedContextMenu, classIdSelectedContextMenu, closeContextMenu }) => { 

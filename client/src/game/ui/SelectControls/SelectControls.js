@@ -3,9 +3,9 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectControls.scss';
-import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
-import { PLATFORMER_CONTROLS, ADVENTURER_CONTROLS, SPACESHIP_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, JETPACK_CONTROLS } from '../../../constants';
-import { adventurerDefaults, carDefaults, floaterDefaults, jetpackDefaults, platformerDefaults, spaceshipDefaults } from '../../../defaultData/movement';
+import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
+import { PLATFORMER_CONTROLS, ADVENTURER_CONTROLS, SPACESHIP_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, JETPACK_CONTROLS } from '../../constants';
+import { adventurerDefaults, carDefaults, floaterDefaults, jetpackDefaults, platformerDefaults, spaceshipDefaults } from '../../defaultData/movement';
 
 const controlsValues = {
   [PLATFORMER_CONTROLS]: platformerDefaults,

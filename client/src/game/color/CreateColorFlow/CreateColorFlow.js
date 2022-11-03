@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import './CreateColorFlow.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { closeCreateColorFlow, updateCreateColor } from '../../../store/actions/gameFormEditorActions';
-import Typography from '../../../components/ui/Typography/Typography';
-import Button from '../../../components/ui/Button/Button';
+import Typography from '../../../ui/Typography/Typography';
+import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ColorGrid from '../ColorGrid/ColorGrid';
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 
 const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, gameFormEditor: { color }}) => {
   function handleClose() {

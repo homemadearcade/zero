@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LobbyToolbar.scss';
-import ToolbarIcon from '../../components/ui/ToolbarIcon/ToolbarIcon';
+import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { editLobby, lobbyUndo } from '../../store/actions/lobbyActions';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions'
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';

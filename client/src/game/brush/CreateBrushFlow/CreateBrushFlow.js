@@ -7,8 +7,8 @@ import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/Cobrowsing
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 import SelectSpriteInline from '../../sprites/SelectSpriteInline/SelectSpriteInline';
-import Typography from '../../../components/ui/Typography/Typography';
-import Button from '../../../components/ui/Button/Button';
+import Typography from '../../../ui/Typography/Typography';
+import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 

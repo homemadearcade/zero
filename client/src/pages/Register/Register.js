@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import Link from '../../components/ui/Link/Link';
+import Link from '../../ui/Link/Link';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -10,12 +10,12 @@ import { useFormik } from 'formik';
 
 import { registerUserWithEmail } from '../../store/actions/registerActions';
 import { registerSchema } from './validation';
-import { GOOGLE_AUTH_LINK } from '../../constants';
+import { GOOGLE_AUTH_LINK } from '../../game/constants';
 import { getUrlParameter } from '../../utils/utils';
 
 import './styles.css';
-import Button from '../../components/ui/Button/Button';
-import Typography from '../../components/ui/Typography/Typography';
+import Button from '../../ui/Button/Button';
+import Typography from '../../ui/Typography/Typography';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail}) => {
   const participantEmail = getUrlParameter('participantEmail')

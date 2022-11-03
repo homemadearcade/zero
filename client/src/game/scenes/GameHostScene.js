@@ -1,6 +1,6 @@
 import {
   GAME_SCENE,
-} from '../../constants';
+} from '../constants';
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { isGameContextPausing } from '../../utils/gameUtils';

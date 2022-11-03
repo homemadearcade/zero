@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { editGameModel } from '../../../store/actions/gameActions';
 
 import './PhysicsEditor.scss'
-import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
+import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import { FormLabel } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import Switch from '../../../components/ui/Switch/Switch';
+import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { EFFECT_COLLIDE, ON_COLLIDE } from '../../../constants';
+import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';

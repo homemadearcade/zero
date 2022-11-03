@@ -8,7 +8,7 @@ import { editLobby } from '../../store/actions/lobbyActions';
 import './LobbyChecklist.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
-import Icon from '../../components/ui/Icon/Icon';
+import Icon from '../../ui/Icon/Icon';
 
 // {<Button
 //   type="button"

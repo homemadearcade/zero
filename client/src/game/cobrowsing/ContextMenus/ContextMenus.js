@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import GameContextMenuBody from '../../../game/contextMenu/GameContextMenuBody/GameContextMenuBody';
 
 import './ContextMenus.scss'
-import ContextMenu from '../../../components/ui/ContextMenu/ContextMenu';
+import ContextMenu from '../../../ui/connected/ContextMenu/ContextMenu';
 import Unlockable from '../Unlockable/Unlockable';
 
 const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isCurrentlyCobrowsing }}) => {  

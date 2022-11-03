@@ -1,5 +1,5 @@
 import Phaser, { BlendModes } from "phaser";
-import { DEFAULT_TEXTURE_ID, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from "../../constants";
+import { DEFAULT_TEXTURE_ID, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from "../constants";
 import store from "../../store";
 import { getCanvasIdFromEraserId, getDepthFromEraserId, snapEraserXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { editGameModel } from '../../../store/actions/gameActions';
 
 import './CameraEditor.scss'
-import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
+import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 

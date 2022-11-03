@@ -3,7 +3,7 @@ import store from "../../store";
 import { addAwsImage } from "../../store/actions/gameActions";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
-import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../../constants";
+import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
 
 window.instanceUndoStack = []
 window.spriteEditorUndoStack = []

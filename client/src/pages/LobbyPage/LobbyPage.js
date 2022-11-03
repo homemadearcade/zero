@@ -16,14 +16,14 @@ import CobrowsingGame from '../../game/CobrowsingGame/CobrowsingGame';
 import LobbyDashboard from '../../lobby/LobbyDashboard/LobbyDashboard';
 import Onboarding from '../../lobby/Onboarding/Onboarding';
 import GameView from '../../game/GameView/GameView';
-import Drawer from '../../components/ui/Drawer/Drawer';
+import Drawer from '../../ui/Drawer/Drawer';
 import LobbyDetail from '../../lobby/LobbyDetail/LobbyDetail';
-import Link from '../../components/ui/Link/Link';
-import Icon from '../../components/ui/Icon/Icon';
+import Link from '../../ui/Link/Link';
+import Icon from '../../ui/Icon/Icon';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import { ADMIN_ROLE } from '../../constants';
+import { ADMIN_ROLE } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
-import ConstellationToggle from '../../components/ConstellationToggle/ConstellationToggle';
+import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
 
 const LobbyPage = ({

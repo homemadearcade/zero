@@ -14,8 +14,8 @@ import {
   UI_CANVAS_ID,
   SPRITE_EDITOR_CANVAS_ID,
   SPRITE_EDITOR_CANVAS_DEPTH, 
-} from "../constants";
-import { COLOR_BRUSH_ID } from "../constants";
+} from "../game/constants";
+import { COLOR_BRUSH_ID } from "../game/constants";
 import Phaser from 'phaser'
 import store from "../store";
 import { getCobrowsingState } from "./cobrowsingUtils";

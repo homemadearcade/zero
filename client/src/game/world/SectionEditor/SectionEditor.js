@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import BorderedGrid from '../../../components/ui/BorderedGrid/BorderedGrid';
-import Button from '../../../components/ui/Button/Button';
+import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
+import Button from '../../../ui/Button/Button';
 import { closeSectionEditor } from '../../../store/actions/gameViewEditorActions';
 import { editGameModel } from '../../../store/actions/gameActions';
 import { FormLabel } from '@mui/material';

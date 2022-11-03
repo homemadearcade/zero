@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Typography from '../../../components/ui/Typography/Typography';
+import Typography from '../../../ui/Typography/Typography';
 import ClassItem from '../ClassItem/ClassItem';
 
 import './ClassMemberTitle.scss'

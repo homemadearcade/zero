@@ -9,8 +9,8 @@ import { clearClass, selectClass } from '../../../store/actions/gameEditorAction
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import Sprite from '../../sprites/Sprite/Sprite';
-import Icon from '../../../components/ui/Icon/Icon';
-import { HERO_CLASS } from '../../../constants';
+import Icon from '../../../ui/Icon/Icon';
+import { HERO_CLASS } from '../../constants';
 
 const ClassItem = ({
   game: { gameModel: { classes } },

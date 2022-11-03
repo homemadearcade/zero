@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Link from '../../components/ui/Link/Link';
+import Link from '../../ui/Link/Link';
 import moment from 'moment';
 
 import { getUsers } from '../../store/actions/usersActions';
 import Layout from '../../layout/Layout';
-import Loader from '../../components/ui/Loader/Loader';
+import Loader from '../../ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.css';
-import Typography from '../../components/ui/Typography/Typography';
+import Typography from '../../ui/Typography/Typography';
 
 const Users = ({ getUsers, users: { users, isLoading } }) => {
   useEffect(() => {

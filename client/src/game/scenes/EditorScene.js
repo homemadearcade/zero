@@ -6,14 +6,14 @@ import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../../constants';
+import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { gameSize, nodeSize } from '../../defaultData/general';
+import { gameSize, nodeSize } from '../defaultData/general';
 import { urlToFile } from '../../utils/utils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 

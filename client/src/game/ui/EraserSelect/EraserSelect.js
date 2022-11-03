@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import './EraserSelect.scss';
 import classNames from 'classnames';
 import { clearClass, selectBrush, clearBrush } from '../../../store/actions/gameEditorActions';
-import { ERASER_BRUSH_ID } from '../../../constants';
+import { ERASER_BRUSH_ID } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Icon from '../../../components/ui/Icon/Icon';
+import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const EraserSelect = ({

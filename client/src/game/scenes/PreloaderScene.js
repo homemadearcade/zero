@@ -12,7 +12,7 @@ import {
   DEFAULT_CLEAR_TEXTURE_ID,
   PLAY_GAME_SCENE,
   UNSPAWNED_TEXTURE_ID,
-} from '../../constants';
+} from '../constants';
 import { GameInstance } from './GameInstance';
 
 export class PreloaderScene extends Phaser.Scene {
