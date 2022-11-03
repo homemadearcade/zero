@@ -12,7 +12,7 @@ import GamesPage from './pages/GamesPage/GamesPage';
 import PlayGamePage from './pages/PlayGamePage/PlayGamePage';
 import EditGamePage from './pages/EditGamePage/EditGamePage';
 
-import HomePage from './pages/HomePage/HomePage';
+import HomemadeArcadePage from './pages/HomemadeArcadePage/HomemadeArcadePage';
 import Account from './pages/User/User';
 import Users from './pages/Users/Users';
 import Admin from './pages/Admin/Admin';
@@ -205,7 +205,7 @@ const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
             <Route path="/lobbys" component={Lobbys} />
             <Route path="/lobby/:id" component={LobbyPage} />
             <Route exact path="/:username" component={Account} />
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" component={HomemadeArcadePage} />
             <Route component={NotFound} />
           </Switch>
         </Router>}

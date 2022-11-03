@@ -4,6 +4,8 @@ TODO TIME PERMITTING BACKLOG
 
 Spawning
 
+Timers - A whole timer interface like at the bottom like an editor?
+
 Choices in dialogue
 
 Particles
@@ -13,8 +15,6 @@ Light System
     Change world, change gravity. Like a 'world' class
 
 Following..Advanced Pathfinding
-
-Timers
 
 Enemy Projectiles?
 
@@ -35,8 +35,6 @@ Custom coding - collision, events? paths? etc
 
 TODO FEATURES BACKLOG
 
-Relation & Collide Sides
-
 Spray Can, Paintbrush, Crayon?
 
 For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
@@ -46,6 +44,8 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 TODO FEATURES ( MAYBE ) BACKlog
 
 Choose instances in relation editor
+
+Take snapshot without BG
 
 onCutsceneEnd Event
 
