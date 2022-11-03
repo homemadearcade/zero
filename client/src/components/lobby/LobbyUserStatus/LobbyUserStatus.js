@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import './LobbyUserStatus.scss';
 import Link from '../../ui/Link/Link';
 import AccordianList from '../../ui/AccordianList/AccordianList';
-import AgoraVolumeMeter from '../../agora/AgoraVolumeMeter/AgoraVolumeMeter';
+import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 import { Paper } from '@mui/material';
 import Icon from '../../ui/Icon/Icon';
 import { ADMIN_ROLE } from '../../../constants';

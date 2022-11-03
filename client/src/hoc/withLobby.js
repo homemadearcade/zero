@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { joinLobby, leaveLobby } from '../store/actions/lobbyActions';
 import Loader from '../components/ui/Loader/Loader';
-import AgoraVideoCall from '../components/agora/AgoraVideoCall/AgoraVideoCall';
+import AgoraVideoCall from '../components/lobby/agora/AgoraVideoCall/AgoraVideoCall';
 import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 import { withRouter } from 'react-router-dom';
 import Button from '../components/ui/Button/Button';

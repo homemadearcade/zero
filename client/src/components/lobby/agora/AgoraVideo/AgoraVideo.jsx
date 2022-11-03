@@ -9,7 +9,7 @@ import './AgoraVideo.scss'
 import AgoraVideoStatus from "../AgoraVideoStatus/AgoraVideoStatus";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
-import Icon from "../../ui/Icon/Icon";
+import Icon from "../../../ui/Icon/Icon";
 
 function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userId, controls}) {
   const isMe = me.id === userId

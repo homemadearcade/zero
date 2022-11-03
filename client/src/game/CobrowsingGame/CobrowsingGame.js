@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './CobrowsingGame.scss';
 import RemoteMouse from '../../game/cobrowsing/RemoteMouse/RemoteMouse';
 import GameEditor from '../GameEditor/GameEditor';
-import VideoLayoutHA from '../../components/VideoLayoutHA/VideoLayoutHA';
+import AgoraVideoLayoutHA from '../../components/lobby/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
 import GameClassList from '../class/ClassList/ClassList';
 import GameBrushList from '../brush/BrushList/BrushList';
 import withCobrowsing from '../../hoc/withCobrowsing';
@@ -37,7 +37,7 @@ const CobrowsingGame = ({ leftColumnScrollYPercent, rightColumnScrollYPercent, l
       rightColumnRef={rightColumnRef}
       lobbyId={lobby.id}
       leftColumn={<>
-        {isInsideVideoCall && <VideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+        {isInsideVideoCall && <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
         <GridToggle/>
         {lobby.game && <GameBrushList/>}
       </>}
