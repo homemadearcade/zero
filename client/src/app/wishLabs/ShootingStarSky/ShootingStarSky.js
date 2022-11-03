@@ -24,7 +24,7 @@ const ShootingStarSky = ({game}) => {
 
     // constants for the behavior of the model
     const sNumber = 600;              // number of Stars
-    let sNumberRemaining = sNumber
+    const sNumberRemaining = sNumber
 
     const sSize = .3;                 // minimum size of Star
     const sSizeR = .6;                // randomness of the size of Stars
@@ -45,13 +45,12 @@ const ShootingStarSky = ({game}) => {
     ];
     // milky way constants
     const mwStarCount = 100000;     // amount of static stars not clustered in the milky way
-    let mwStarCountRemaining = mwStarCount
+    const mwStarCountRemaining = mwStarCount
 
     const mwRandomStarProp = .2;    // proportion of stars completely random in the milky way
-    const mwClusterCount = 300;     // amount of clusters in the milky way
-    let mwClusterCountRemaining = mwClusterCount
+    const mwClusterCount = 1000;     // amount of clusters in the milky way
     const mwClusterStarCount = 1500;// amount of stars per cluster
-    let mwClusterStarCountRemaining = Array(mwClusterCount).map(() => {
+    const mwClusterStarCountRemaining = Array(mwClusterCount).map(() => {
       return mwClusterCount
     })
 
@@ -64,6 +63,9 @@ const ShootingStarSky = ({game}) => {
     const mwWhiteProportionMin = 50;// minimum base percentage of white in cluster hue
     const mwWhiteProportionMax = 65;// maximum base percentage of white in cluster hue
 
+    let mouseX = 0;
+    let mouseY = 0;
+
     // array containing random numbers
     let randomArray;
     const randomArrayLength = 1000;
@@ -75,7 +77,9 @@ const ShootingStarSky = ({game}) => {
     let StarsArray;
     let ShootingStarsArray;
 
+    let shootingStarYet = false
 
+    let isInteractive = false
 
     // Star creation
     class Star{
@@ -93,9 +97,19 @@ const ShootingStarSky = ({game}) => {
       // method to draw each Star
       draw(){
           ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI*2, false);
+
           let rAlpha = this.alpha + Math.min((this.randomValue - 0.5) * sAlphaR, 1);    // random alpha for the shimmering
           let rHue = randomArray[this.randomIndexh] > this.baseHueProportion ? hueArray[this.randomIndexa] : this.baseHue; // random hue or base hue
+
+          const distance = Math.abs(this.x - mouseX) + Math.abs(this.y - mouseY)
+          if(distance < 100 && isInteractive) {
+            rAlpha = 1
+            rHue = this.baseHue
+            ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI*2, false);
+          } else {
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI*2, false);
+          }
+
           this.color = "hsla("+ rHue + ",100%,85%," + rAlpha + ")";
           ctx.fillStyle = this.color;
           ctx.fill();
@@ -227,7 +241,19 @@ const ShootingStarSky = ({game}) => {
 
       ShootingStarsArray = [];
 
-      await DrawMilkyWayCanvas();
+      DrawMilkyWayCanvas();
+
+      setTimeout(() => {
+        randomArray[randomArrayIterator] = shootingStarDensity - .01
+        randomArray[randomArrayIterator + 50] = shootingStarDensity - .01
+        randomArray[randomArrayIterator + 60] = shootingStarDensity - .01
+        randomArray[randomArrayIterator + 130] = shootingStarDensity - .01
+        randomArray[randomArrayIterator + 180] = shootingStarDensity - .01
+      }, 500)
+
+      setTimeout(() => {
+        isInteractive = true
+      }, 1800)
 
       animate();
     }
@@ -248,6 +274,15 @@ const ShootingStarSky = ({game}) => {
           let posY = Math.floor(Math.random()*150); // will appear anywhere from top to 150px from top
           let speedX = Math.floor((Math.random()-.5)*shootingStarBaseXspeed); // will go anywhere left or right
           let speedY = Math.floor(Math.random()*shootingStarBaseYspeed); // will go down
+
+          if(!shootingStarYet) {
+            posX = 200
+            posY = 200
+            shootingStarYet = true
+            speedX = shootingStarBaseXspeed * .4
+            speedY = shootingStarBaseYspeed * .8
+          }
+
           let color = shootingStarsColors[Math.floor(Math.random()*shootingStarsColors.length)];
           ShootingStarsArray.push(new ShootingStar(posX,posY,speedX,speedY,color));
       }
@@ -294,36 +329,18 @@ const ShootingStarSky = ({game}) => {
 
       return new Promise((resolve, reject) => {
         // at first we draw unclustered stars
-
-        const starsPerIteration = 1000
-
-        function drawStar() {
-          setTimeout(() => {
-            mwStarCountRemaining-= starsPerIteration
-            if(mwStarCountRemaining > 0) {
-              for(let i = 0; i < starsPerIteration; i++) {
-                ctxMw.beginPath();
-                let xPos = MilkyWayX();
-                let yPos = Math.random() < mwRandomStarProp ? Math.floor(Math.random()*innerHeight) : MilkyWayYFromX(xPos, "star");
-                let size = Math.random()*.27;
-                ctxMw.arc(xPos, yPos, size, 0, Math.PI*2, false);
-                let alpha = .4 + Math.random()*.6;
-                ctxMw.fillStyle = "hsla(0,100%,100%," + alpha + ")";
-                ctxMw.fill();
-              }
-            }
-
-            drawStar()
-          })
+        for(let i = 0; i < mwStarCount; i++){
+            ctxMw.beginPath();
+            let xPos = MilkyWayX();
+            let yPos = Math.random() < mwRandomStarProp ? Math.floor(Math.random()*innerHeight) : MilkyWayYFromX(xPos, "star");
+            let size = Math.random()*.27;
+            ctxMw.arc(xPos, yPos, size, 0, Math.PI*2, false);
+            let alpha = .4 + Math.random()*.6;
+            ctxMw.fillStyle = "hsla(0,100%,100%," + alpha + ")";
+            ctxMw.fill();
         }
-
-        drawStar()
-
-
-        function drawClusters() {
-          const clustersPerIteration = 10
-          // now we draw clusters
-          for(let i = 0; i < mwClusterCount; i++){
+        // now we draw clusters
+        for(let i = 0; i < mwClusterCount; i++){
             let xPos = MilkyWayX();
             let yPos = MilkyWayYFromX(xPos, "cluster");
             // modifier using position of the cluster, a value of 1 is at the center, 0 is on the side
@@ -333,22 +350,25 @@ const ShootingStarSky = ({game}) => {
             let hue = mwHueMin + Math.floor((Math.random()*.5 + distToCenter*.5)*(mwHueMax - mwHueMin));
             let baseWhiteProportion = mwWhiteProportionMin + Math.random()*(mwWhiteProportionMax - mwWhiteProportionMin);
             new MwStarCluster(xPos, yPos, size, hue, baseWhiteProportion, distToCenter).draw();
-          }
-
-          setTimeout(() => {
-            mwClusterCountRemaining -= clustersPerIteration
-            if(mwClusterCount > 0) {
-              drawStar()
-            }
-          })
         }
-
-        drawClusters()
       })
     }
 
     // now we play
     init();
+
+    function onMouseMove(event) {
+      const { clientX, clientY } = event
+
+      mouseX = clientX
+      mouseY = clientY
+    }
+
+    window.addEventListener('mousemove', onMouseMove)
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+    }
   }, [])
 
  return <div className="ShootingStarSky">

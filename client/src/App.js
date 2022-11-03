@@ -21,19 +21,9 @@ import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
 import './events.js'
 
-import Loader from './ui/Loader/Loader';
-
-import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
-
-import io from 'socket.io-client'
-
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ErrorHandler from './ui/connected/ErrorHandler/ErrorHandler';
-import { ON_GAME_INSTANCE_UPDATE } from './store/types';
-
-import { checkIfTabAlreadyOpen } from './utils/webPageUtils';
-import ContextMenus from './game/cobrowsing/ContextMenus/ContextMenus';
 import WishLabsPage from './pages/WishLabsPage/WishLabsPage';
+import AppPage from './pages/AppPage/AppPage';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -139,85 +129,38 @@ const theme = createTheme({
   },
 });
 
-// window.socket = io(window.location.host, { autoConnect: false })
-window.socket = io({
-  closeOnBeforeunload: false // defaults to true
-})
 
-window.socket.onAny((event, ...args) => {
-  if(event.indexOf('STATUS') >= 0 || event.indexOf(ON_GAME_INSTANCE_UPDATE) >= 0) return 
-  console.log(event, args);
-});
-
-const App = ({ logInUserWithOauth, authenticateSocket, auth, loadMe }) => {
-  const [isCheckingBrowser, setIsCheckingBrowser] = useState(true)
-
-  useEffect(() => {
-    if(!window.chrome) {
-      alert('Please use a Chromium browser such as Chrome or Brave')
-      window.stop()
-    } else {
-      checkIfTabAlreadyOpen((isTabAlreadyOpen) => {
-        if(isTabAlreadyOpen) {
-          alert('Homemade Arcade is open in another tab. Please check all tabs you have open. This tab will now shutdown')
-          window.stop()
-        } else {
-          setIsCheckingBrowser(false)
-          loadMe();
-        }
-      })
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   if (window.location.hash === '#_=_') window.location.hash = '';
-
-  //   const cookieJwt = Cookies.get('x-auth-cookie');
-  //   if (cookieJwt) {
-  //     Cookies.remove('x-auth-cookie');
-  //     logInUserWithOauth(cookieJwt);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!auth.appLoaded && !auth.isLoading && auth.token && !auth.isAuthenticated && !auth.isSocketAuthenticated) {
-  //     loadMe();
-  //     authenticateSocket();
-  //   }
-  // }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded, auth.isSocketAuthenticated]);
+const App = ({ }) => {
+  const wrapComponentInApp = (Component) => (props) => {
+    return <AppPage>
+      <Component {...props} />
+    </AppPage>
+  }
 
   return (
     <ThemeProvider theme={theme}>
-      <>
-        <ErrorHandler/>
-        <ContextMenus/>
-        {isCheckingBrowser && <Loader text="Checking Browser..."/>}
-        {!auth.appLoaded && <Loader text="App Loading..."/>}
-        {auth.appLoaded && <Router>
-          <Switch>
-            <Route path="/wishlabs" component={WishLabsPage} />
-            <Route path="/games" component={GamesPage} />
-            <Route path="/edit/:gameId" component={EditGamePage} />
-            <Route path="/play/:gameId" component={PlayGamePage} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/users" component={Users} />
-            <Route path="/notfound" component={NotFound} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/lobbys" component={Lobbys} />
-            <Route path="/lobby/:id" component={LobbyPage} />
-            <Route exact path="/:username" component={Account} />
-            <Route exact path="/" component={HomemadeArcadePage} />
-            <Route component={NotFound} />
-          </Switch>
-        </Router>}
-      </>
+      <Router>
+        <Switch>
+          <Route path="/wishlabs" component={WishLabsPage}/>
+          <Route path="/games" children={wrapComponentInApp(GamesPage)} />
+          <Route path="/edit/:gameId" children={wrapComponentInApp(EditGamePage)} />
+          <Route path="/play/:gameId" children={wrapComponentInApp(PlayGamePage)} />
+          <Route path="/login" children={wrapComponentInApp(Login)} />
+          <Route path="/register" children={wrapComponentInApp(Register)} />
+          <Route path="/users" children={wrapComponentInApp(Users)} />
+          <Route path="/notfound" children={<NotFound/>} />
+          <Route path="/admin" children={wrapComponentInApp(Admin)} />
+          <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
+          <Route path="/lobby/:id" children={wrapComponentInApp(LobbyPage)} />
+          <Route exact path="/:username" children={wrapComponentInApp(Account)} />
+          <Route exact path="/" component={HomemadeArcadePage} />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
     </ThemeProvider>
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
+const mapStateToProps = () => ({});
 
-export default compose(connect(mapStateToProps, { authenticateSocket, logInUserWithOauth, loadMe }))(App);
+export default compose(connect(mapStateToProps, {}))(App);

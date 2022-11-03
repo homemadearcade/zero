@@ -1,22 +1,94 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Link from '../../ui/Link/Link';
 
 import './WishLabsPage.scss';
 import ShootingStarSky from '../../app/wishLabs/ShootingStarSky/ShootingStarSky';
+import { Fade, Slide } from '@mui/material';
+import classNames from 'classnames';
 
 const WishLabsPage = ({ }) => {
+  const [slideIn, setSlideIn] = useState(false)
+
+  const [mouse, setMouse] = useState({x: 0, y: 0})
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSlideIn(true)
+    }, 2000)
+
+    function onMouseMove({ clientX, clientY }) {
+      setMouse({x: clientX, y: clientY})
+    }
+
+    window.addEventListener('mousemove', onMouseMove)
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove)
+    }
+  })
+
+  function getCurrentRGB() {
+    // let r = 6;
+    // let g = 2;
+    // let b = 18
+
+    // let r2 = 6;
+    // let g2 = 2;
+    // let b2 = 18
+
+    // r += (mouse.x + mouse.y) % 30
+    // g += (mouse.y) % 30
+    // b += (mouse.x) % 30
+
+    // r2 += (mouse.x - mouse.y) % 30
+    // g2 += (mouse.y * mouse.x) % 30
+    // b2 += (mouse.x + mouse.y * 2) % 30
+
+
+    let r = (mouse.x/20) + 0;
+    let g = 99 - (mouse.y/10);
+    let b = 99 - ((mouse.x + mouse.y)/30);
+    
+    r = Math.floor(r);
+    g = Math.floor(g);
+    b = Math.floor(b);
+    
+    let r2 = (mouse.x/20) + 0;
+    let g2 = (mouse.y/20) + 183;
+    let b2 = ((mouse.x + mouse.y)/60) + 95;
+          
+    r2 = Math.floor(r2);
+    g2 = Math.floor(g2);
+    b2 = Math.floor(b2);
+
+    return `rgba(${g}, ${g}, ${b}, .1)`
+
+    return `linear-gradient(rgba(${g}, ${g}, ${b}, .6),rgba(${g2}, ${g2}, ${b2}, 0.8))`
+  }
+
+
   return <div className="WishLabsPage">
-    <ShootingStarSky/>
-    <div className="WishLabsPage__footer">
+    <Fade in timeout={{ enter: 800 }}>
+      <div 
+        className={classNames("WishLabsPage__content", { 'WishLabsPage__content--ready': slideIn })}
+        style={{ backgroundColor: getCurrentRGB() }}
+      >
+        <ShootingStarSky/>
+        <div className="WishLabsPage__make"></div>
+      </div>
+    </Fade>
+    <Slide timeout={{ enter: 800 }} in={slideIn} direction="up"><div className="WishLabsPage__footer">
       <div className="WishLabsPage__brandname">Wish Labs</div>
       <div className="WishLabsPage__links">
-        <Link to="/">Work</Link>
-        <Link to="/">Press</Link>
-        <Link to="/">Careers</Link>
+        <Link to="/">Bar of Dreams</Link>
+        <Link to="/">Homemade Arcade</Link>
+        <Link to="/">SupDucks</Link>
+        <Link to="/">Previous Works</Link>
       </div>
     </div>
+    </Slide>
   </div>
 };
 

@@ -8,6 +8,7 @@ import Layout from '../../layout/Layout';
 import './HomemadeArcadePage.scss';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
 import Typography from '../../ui/Typography/Typography';
+import { Fade } from '@mui/material';
 
 // {!auth.isAuthenticated ? (
 //   <div>
@@ -30,9 +31,9 @@ const HomemadeArcadePage = ({ auth, reseedDatabase }) => {
   return (
     <Layout>
       <div className="HomemadeArcadePage">
-        <Constellation>
-          <Typography font="2P" component="h1" variant="h1">Homemade Arcade</Typography>
-        </Constellation>
+        <Fade in timeout={{ enter: 3000 }}><div><Constellation>
+          <Fade in timeout={{ enter: 5000 }}><div><Typography font="2P" component="h1" variant="h1">Homemade Arcade</Typography></div></Fade>
+        </Constellation></div></Fade>
       </div>
     </Layout>
   );

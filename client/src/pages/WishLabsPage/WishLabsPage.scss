@@ -1,4 +1,21 @@
 .WishLabsPage {
+  background-color: #060212;
+  // background-color: black;
+
+
+  &__content {
+    transition: background-color .2s;
+    overflow-y: hidden;
+    height: 100vh;
+  }
+
+  &__content--ready {
+    overflow-y: scroll;
+  }
+
+  &__make {
+    height: 100vh
+  }
 
   &__footer {
     background-color: #060212;
@@ -17,7 +34,7 @@
   }
 
   &__brandname {
-    font-weight: 500;
+
   }
 
   &__links {
