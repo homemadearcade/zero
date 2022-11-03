@@ -1,20 +1,46 @@
 .WishLabsPage {
   background-color: #060212;
   // background-color: black;
+  scroll-behavior: smooth;
 
+  &__shooting-star {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
 
   &__content {
     transition: background-color .2s;
     overflow-y: hidden;
     height: 100vh;
+    position: relative;
   }
 
   &__content--ready {
     overflow-y: scroll;
   }
 
-  &__make {
-    height: 100vh
+  &__block {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+  }
+
+  &__scroll-down {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4rem;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
+  &__portfolio {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
   }
 
   &__footer {
@@ -23,7 +49,7 @@
     position: absolute;
     bottom: 0px;
     z-index: 10;
-    padding: 1em 1em;
+    padding: 1rem 2rem;
     font-size: .9rem;
     width: 100%;
 

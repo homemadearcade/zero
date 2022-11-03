@@ -119,7 +119,10 @@ if (isProduction) {
   app.use(express.static(join(__dirname, '../../client/build')));
 
   app.get('*', (req, res) => {
-    res.sendFile(resolve(__dirname, '../..', 'client', 'build', 'index.html')); // index is in /server/src so 2 folders up
+
+    const rawHtml = resolve(__dirname, '../..', 'client', 'build', 'index.html')
+
+    res.sendFile(rawHtml); // index is in /server/src so 2 folders up
   });
 
   port = process.env.PORT || 80;
