@@ -1,6 +1,6 @@
 import React from 'react';
-import Link from '../../app/ui/Link/Link';
-import Typography from '../../app/ui/Typography/Typography';
+import Link from '../../components/ui/Link/Link';
+import Typography from '../../components/ui/Typography/Typography';
 
 import './styles.css';
 

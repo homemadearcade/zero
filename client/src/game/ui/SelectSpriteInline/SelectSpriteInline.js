@@ -4,20 +4,20 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './SelectSpriteInline.scss';
-import FormLabel from '../../../app/ui/FormLabel/FormLabel';
-import DescriptorSprites from '../DescriptorSprites/DescriptorSprites';
+import FormLabel from '../../../components/ui/FormLabel/FormLabel';
+import DescriptorSprites from '../../ui/DescriptorSprites/DescriptorSprites';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import CreateColorFlow from '../../CreateColorFlow/CreateColorFlow';
+import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameActions';
-import ColorSelect from '../ColorSelect/ColorSelect';
+import ColorSelect from '../../color/ColorSelect/ColorSelect';
 import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import Sprite from '../Sprite/Sprite';
-import Button from '../../../app/ui/Button/Button';
+import Button from '../../../components/ui/Button/Button';
 import SpriteEditor from '../../SpriteEditor/SpriteEditor';
 import { openSpriteEditor } from '../../../store/actions/gameEditorActions';
 import { DEFAULT_CLEAR_TEXTURE_ID } from '../../../constants';
 import MySprites from '../MySprites/MySprites';
-import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
 
 const SelectSpriteInline = ({
   textureIdSelected,

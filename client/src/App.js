@@ -21,18 +21,18 @@ import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
 import './events.js'
 
-import Loader from './app/ui/Loader/Loader';
+import Loader from './components/ui/Loader/Loader';
 
 import { logInUserWithOauth, loadMe, authenticateSocket } from './store/actions/authActions';
 
 import io from 'socket.io-client'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ErrorHandler from './app/ui/ErrorHandler/ErrorHandler';
+import ErrorHandler from './components/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
 import { checkIfTabAlreadyOpen } from './utils/webPageUtils';
-import ContextMenus from './app/cobrowsing/ContextMenus/ContextMenus';
+import ContextMenus from './components/cobrowsing/ContextMenus/ContextMenus';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 

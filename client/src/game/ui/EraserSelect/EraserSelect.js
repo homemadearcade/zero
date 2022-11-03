@@ -8,8 +8,8 @@ import classNames from 'classnames';
 import { clearClass, selectBrush, clearBrush } from '../../../store/actions/gameEditorActions';
 import { ERASER_BRUSH_ID } from '../../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Icon from '../../../app/ui/Icon/Icon';
-import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
+import Icon from '../../../components/ui/Icon/Icon';
+import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
 
 const EraserSelect = ({
   gameEditor: { brushIdSelectedBrushList },

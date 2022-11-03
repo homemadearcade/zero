@@ -12,19 +12,19 @@ import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
-import CobrowsingGame from '../../app/cobrowsing/CobrowsingGame/CobrowsingGame';
-import LobbyDashboard from '../../app/lobby/LobbyDashboard/LobbyDashboard';
-import Onboarding from '../../app/cobrowsing/Onboarding/Onboarding';
+import CobrowsingGame from '../../components/cobrowsing/CobrowsingGame/CobrowsingGame';
+import LobbyDashboard from '../../components/lobby/LobbyDashboard/LobbyDashboard';
+import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
 import GameView from '../../game/GameView/GameView';
-import Drawer from '../../app/ui/Drawer/Drawer';
-import LobbyDetail from '../../app/lobby/LobbyDetail/LobbyDetail';
-import Link from '../../app/ui/Link/Link';
-import Icon from '../../app/ui/Icon/Icon';
-import CobrowsingIndicator from '../../app/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
+import Drawer from '../../components/ui/Drawer/Drawer';
+import LobbyDetail from '../../components/lobby/LobbyDetail/LobbyDetail';
+import Link from '../../components/ui/Link/Link';
+import Icon from '../../components/ui/Icon/Icon';
+import CobrowsingIndicator from '../../components/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import { ADMIN_ROLE } from '../../constants';
-import LobbyPowerIndicator from '../../app/lobby/LobbyPowerIndicator/LobbyPowerIndicator';
-import ConstellationToggle from '../../app/ConstellationToggle/ConstellationToggle';
-import UnlockableInterfaceLocksToggle from '../../app/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
+import LobbyPowerIndicator from '../../components/lobby/LobbyPowerIndicator/LobbyPowerIndicator';
+import ConstellationToggle from '../../components/ConstellationToggle/ConstellationToggle';
+import UnlockableInterfaceLocksToggle from '../../components/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
 
 const LobbyPage = ({
   lobby: { lobby },

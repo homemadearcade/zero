@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectSides.scss';
-import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
+import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
 import { SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from '../../../constants';
 
 const sideToDisplayName = {

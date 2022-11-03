@@ -3,11 +3,11 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './GameMetadataModal.scss';
-import CobrowsingModal from '../../app/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingModal from '../../components/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { closeGameMetadataModal } from '../../store/actions/gameEditorActions';
 import { editGameModel } from '../../store/actions/gameActions';
-import GameMetadataForm from '../../app/game/GameMetadataForm/GameMetadataForm';
+import GameMetadataForm from '../../components/arcadeGame/GameMetadataForm/GameMetadataForm';
 
 const GameMetadataModal = ({ closeGameMetadataModal, gameViewEditor: { isSnapshotTakerOpen } }) => {
   function handleClose() {

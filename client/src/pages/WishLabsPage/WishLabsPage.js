@@ -1,13 +1,13 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Link from '../../app/ui/Link/Link';
+import Link from '../../components/ui/Link/Link';
 
 import Layout from '../../layout/Layout';
 
 import './HomePage.scss';
-import { Constellation } from '../../app/Constellation/Constellation';
-import Typography from '../../app/ui/Typography/Typography';
+import { Constellation } from '../../components/Constellation/Constellation';
+import Typography from '../../components/ui/Typography/Typography';
 
 // {!auth.isAuthenticated ? (
 //   <div>

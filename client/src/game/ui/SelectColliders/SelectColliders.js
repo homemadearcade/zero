@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectColliders.scss';
-import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
+import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
 import { EFFECT_COLLIDE, ON_COLLIDE } from '../../../constants';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
 

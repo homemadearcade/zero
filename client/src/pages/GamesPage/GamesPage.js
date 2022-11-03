@@ -6,12 +6,12 @@ import './GamesPage.scss';
 
 import Layout from '../../layout/Layout';
 import { editGame, getGames } from '../../store/actions/gameActions';
-import Loader from '../../app/ui/Loader/Loader';
-import Link from '../../app/ui/Link/Link';
-import GameForm from '../../app/game/GameForm/GameForm';
-import Typography from '../../app/ui/Typography/Typography';
+import Loader from '../../components/ui/Loader/Loader';
+import Link from '../../components/ui/Link/Link';
+import GameForm from '../../components/arcadeGame/GameForm/GameForm';
+import Typography from '../../components/ui/Typography/Typography';
 import { ADMIN_ROLE } from '../../constants';
-import Button from '../../app/ui/Button/Button';
+import Button from '../../components/ui/Button/Button';
 import { TextField } from '@mui/material';
 
 {/* <div>

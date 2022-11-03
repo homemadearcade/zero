@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loader from '../app/ui/Loader/Loader';
+import Loader from '../components/ui/Loader/Loader';
 import store from '../store';
 import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
 import { loadGame, unloadGame } from '../store/actions/gameActions';

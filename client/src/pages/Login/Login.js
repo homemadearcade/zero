@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import Link from '../../app/ui/Link/Link';
+import Link from '../../components/ui/Link/Link';
 
 import { useFormik } from 'formik';
 
@@ -11,8 +11,8 @@ import { loginUserWithEmail } from '../../store/actions/authActions';
 import { GOOGLE_AUTH_LINK } from '../../constants';
 import { loginSchema } from './validation';
 import './styles.css';
-import Button from '../../app/ui/Button/Button';
-import Typography from '../../app/ui/Typography/Typography';
+import Button from '../../components/ui/Button/Button';
+import Typography from '../../components/ui/Typography/Typography';
 
 const Login = ({ auth, history, loginUserWithEmail }) => {
   const formik = useFormik({

@@ -3,23 +3,23 @@ import { connect } from 'react-redux';
 
 import './GameEditor.scss';
 
-import LiveEditor from '../LiveEditor/LiveEditor';
+import LiveEditor from '../instantEditor/LiveEditor/LiveEditor';
 import { clearEditor } from '../../store/actions/gameEditorActions';
 import { clearGameFormEditor } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../store/actions/gameViewEditorActions';
-import SectionEditor from '../SectionEditor/SectionEditor';
-import SnapshotTaker from '../SnapshotTaker/SnapshotTaker';
-import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
-import { Constellation } from '../../app/Constellation/Constellation';
+import SectionEditor from '../world/SectionEditor/SectionEditor';
+import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
+import SelectBackgroundColor from '../world/SelectBackgroundColor/SelectBackgroundColor';
+import { Constellation } from '../../components/Constellation/Constellation';
 import { EDIT_STATE } from '../../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
-import CutscenesMenu from '../CutscenesMenu/CutscenesMenu';
-import CreateCutscene from '../CreateCutscene/CreateCutscene';
-import CreateRelation from '../CreateRelation/CreateRelation';
-import RelationsMenu from '../RelationsMenu/RelationsMenu';
-import WorldRelation from '../WorldRelation/WorldRelation';
+import CutscenesMenu from '../cutscene/CutscenesMenu/CutscenesMenu';
+import CreateCutscene from '../cutscene/CreateCutscene/CreateCutscene';
+import CreateRelation from '../relations/CreateRelation/CreateRelation';
+import RelationsMenu from '../relations/RelationsMenu/RelationsMenu';
+import WorldRelation from '../relations/WorldRelation/WorldRelation';
 
 const GameEditor = ({ 
   classNames, 

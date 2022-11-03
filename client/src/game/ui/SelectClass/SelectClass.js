@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectClass.scss';
-import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
+import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
 
 const SelectClass = ({ onChange, value, formLabel, gameModel, classType }) => {
 

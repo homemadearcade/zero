@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEvent.scss';
-import SelectChipsAuto from '../../../app/ui/SelectChipsAuto/SelectChipsAuto';
+import SelectChipsAuto from '../../../components/ui/SelectChipsAuto/SelectChipsAuto';
 import { eventDisplayNames, getEventLabel, singleClassEvents } from '../../../defaultData/relationship';
 import { capitalize } from '../../../utils/utils';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import Link from '../../app/ui/Link/Link';
+import Link from '../../components/ui/Link/Link';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -14,8 +14,8 @@ import { GOOGLE_AUTH_LINK } from '../../constants';
 import { getUrlParameter } from '../../utils/utils';
 
 import './styles.css';
-import Button from '../../app/ui/Button/Button';
-import Typography from '../../app/ui/Typography/Typography';
+import Button from '../../components/ui/Button/Button';
+import Typography from '../../components/ui/Typography/Typography';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail}) => {
   const participantEmail = getUrlParameter('participantEmail')

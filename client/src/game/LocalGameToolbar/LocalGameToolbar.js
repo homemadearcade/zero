@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LocalGameToolbar.scss';
-import ToolbarIcon from '../../app/ui/ToolbarIcon/ToolbarIcon';
+import ToolbarIcon from '../../components/ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions';
-import UndoButton from '../../app/ui/UndoButton/UndoButton';
+import UndoButton from '../../components/ui/UndoButton/UndoButton';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 
 const LocalGameToolbar = ({ webPage: { gameInstance } }) => {

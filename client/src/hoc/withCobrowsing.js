@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Loader from '../app/ui/Loader/Loader';
+import Loader from '../components/ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
 import { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing } from '../store/actions/cobrowsingActions';
 

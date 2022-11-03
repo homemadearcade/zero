@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Icon from '../../../app/ui/Icon/Icon';
+import Icon from '../../../components/ui/Icon/Icon';
 import {  stopPropagation } from '../../../utils/webPageUtils';
-import Unlockable from '../../../app/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
 
 const LayerVisibility = ({
   gameViewEditor: { layerVisibility },

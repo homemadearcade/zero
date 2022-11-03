@@ -1,7 +1,7 @@
 import React from 'react';
-import Link from '../../app/ui/Link/Link';
+import Link from '../../components/ui/Link/Link';
 import Layout from '../../layout/Layout';
-import Typography from '../../app/ui/Typography/Typography';
+import Typography from '../../components/ui/Typography/Typography';
 import './styles.css';
 
 const NotFound = () => {

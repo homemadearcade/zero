@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './SaveGameButton.scss';
 import { editGame } from '../../../store/actions/gameActions';
-import Button from '../../../app/ui/Button/Button';
+import Button from '../../../components/ui/Button/Button';
 
 const SaveGameButton = ({editGame, game: { gameModel }}) => {
   function saveGame() {

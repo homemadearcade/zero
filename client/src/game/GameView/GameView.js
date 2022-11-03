@@ -11,7 +11,7 @@ import { gameSize } from '../../defaultData/general';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { setGameInstance } from '../../store/actions/webPageActions';
 
-import Cutscene from '../ui/Cutscene/Cutscene';
+import Cutscene from '../cutscene/Cutscene/Cutscene';
 import StateScreen from '../StateScreen/StateScreen';
 
 const config= {
