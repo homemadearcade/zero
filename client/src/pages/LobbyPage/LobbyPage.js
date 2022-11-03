@@ -12,19 +12,19 @@ import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
-import CobrowsingGame from '../../components/cobrowsing/CobrowsingGame/CobrowsingGame';
+import CobrowsingGame from '../../game/CobrowsingGame/CobrowsingGame';
 import LobbyDashboard from '../../components/lobby/LobbyDashboard/LobbyDashboard';
-import Onboarding from '../../components/cobrowsing/Onboarding/Onboarding';
+import Onboarding from '../../components/lobby/Onboarding/Onboarding';
 import GameView from '../../game/GameView/GameView';
 import Drawer from '../../components/ui/Drawer/Drawer';
 import LobbyDetail from '../../components/lobby/LobbyDetail/LobbyDetail';
 import Link from '../../components/ui/Link/Link';
 import Icon from '../../components/ui/Icon/Icon';
-import CobrowsingIndicator from '../../components/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
+import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import { ADMIN_ROLE } from '../../constants';
 import LobbyPowerIndicator from '../../components/lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../components/ConstellationToggle/ConstellationToggle';
-import UnlockableInterfaceLocksToggle from '../../components/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
+import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
 
 const LobbyPage = ({
   lobby: { lobby },

@@ -12,7 +12,7 @@ import { editGameModel } from '../../../store/actions/gameActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, selectBrush } from '../../../store/actions/gameEditorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const LayerColorSelect = ({
   game: { gameModel : { colors }},

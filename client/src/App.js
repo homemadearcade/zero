@@ -32,7 +32,7 @@ import ErrorHandler from './components/ui/ErrorHandler/ErrorHandler';
 import { ON_GAME_INSTANCE_UPDATE } from './store/types';
 
 import { checkIfTabAlreadyOpen } from './utils/webPageUtils';
-import ContextMenus from './components/cobrowsing/ContextMenus/ContextMenus';
+import ContextMenus from './game/cobrowsing/ContextMenus/ContextMenus';
 
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 

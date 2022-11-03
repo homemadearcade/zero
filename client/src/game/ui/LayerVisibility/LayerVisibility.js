@@ -7,7 +7,7 @@ import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActi
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../components/ui/Icon/Icon';
 import {  stopPropagation } from '../../../utils/webPageUtils';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const LayerVisibility = ({
   gameViewEditor: { layerVisibility },

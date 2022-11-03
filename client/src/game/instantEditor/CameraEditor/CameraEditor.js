@@ -6,7 +6,7 @@ import { editGameModel } from '../../../store/actions/gameActions';
 import './CameraEditor.scss'
 import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]

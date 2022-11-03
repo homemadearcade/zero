@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import './Unlockable.scss';
-import Icon from '../../ui/Icon/Icon';
+import Icon from '../../../components/ui/Icon/Icon';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import MenuIconButton from '../../ui/MenuIconButton/MenuIconButton';
+import MenuIconButton from '../../../components/ui/MenuIconButton/MenuIconButton';
 import { Fade, MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 

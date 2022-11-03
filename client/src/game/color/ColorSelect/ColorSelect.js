@@ -9,7 +9,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import Icon from '../../../components/ui/Icon/Icon';
 import BorderedGrid from '../../../components/ui/BorderedGrid/BorderedGrid';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const ColorSelect = ({
   colors = [],

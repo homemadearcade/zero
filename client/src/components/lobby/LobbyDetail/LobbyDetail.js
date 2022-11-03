@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import UserStatus from '../../UserStatus/UserStatus';
+import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 
 import './LobbyDetail.scss';
 import Typography from '../../ui/Typography/Typography';

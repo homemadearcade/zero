@@ -2,13 +2,13 @@ import React, { useEffect} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './UserSelect.scss';
+import './SelectUser.scss';
 
-import { getUsers } from '../../store/actions/usersActions';
-import SelectChipsAuto from '../ui/SelectChipsAuto/SelectChipsAuto';
-import Loader from '../ui/Loader/Loader';
+import { getUsers } from '../../../store/actions/usersActions';
+import SelectChipsAuto from '../../ui/SelectChipsAuto/SelectChipsAuto';
+import Loader from '../../ui/Loader/Loader';
 
-const UserSelect = ({ onSelect, usersSelected, getUsers, users: { users, isLoading }}) => {
+const SelectUser = ({ onSelect, usersSelected, getUsers, users: { users, isLoading }}) => {
   useEffect(() => {
     getUsers();
   }, []);
@@ -27,7 +27,7 @@ const UserSelect = ({ onSelect, usersSelected, getUsers, users: { users, isLoadi
   const options = users.map(mapUserToOption)
 
   return (
-    <div className="UserSelect">
+    <div className="SelectUser">
       <SelectChipsAuto
         onChange={(event, usersSelected) => {
           onSelect(usersSelected)
@@ -45,4 +45,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { getUsers }))(UserSelect);
+  connect(mapStateToProps, { getUsers }))(SelectUser);

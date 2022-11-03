@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/gameActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, game: { gameModel } }) => {
   return <>

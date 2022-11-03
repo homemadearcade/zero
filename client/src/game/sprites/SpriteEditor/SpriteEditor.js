@@ -8,14 +8,14 @@ import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID } from '../../../c
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
-import CobrowsingModal from '../../../components/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { nodeSize } from '../../../defaultData/general';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../../brush/BrushControl/BrushControl';
 import { clearBrush, closeSpriteEditor, selectBrush } from '../../../store/actions/gameEditorActions';
 import Button from '../../../components/ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import UndoButton from '../../../components/ui/UndoButton/UndoButton';
+import UndoButton from '../../ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../../store/actions/lobbyActions';
 import { editGameModel } from '../../../store/actions/gameActions';
 import { setSpriteEditorGameInstance } from '../../../store/actions/webPageActions';

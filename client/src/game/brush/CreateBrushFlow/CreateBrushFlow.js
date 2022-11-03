@@ -3,14 +3,14 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
-import CobrowsingModal from '../../../components/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 import SelectSpriteInline from '../../sprites/SelectSpriteInline/SelectSpriteInline';
 import Typography from '../../../components/ui/Typography/Typography';
 import Button from '../../../components/ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow,  gameFormEditor: { brush }}) => {
   function handleClose() {

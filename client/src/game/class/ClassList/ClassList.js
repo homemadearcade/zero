@@ -11,8 +11,8 @@ import { openCreateClassFlow } from '../../../store/actions/gameFormEditorAction
 import Button from '../../../components/ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import BorderedGrid from '../../../components/ui/BorderedGrid/BorderedGrid';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
-import CobrowsingAccordianList from '../../../components/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { HERO_CLASS, HERO_INSTANCE_CANVAS_ID, MOVEMENT_NONE, MOVEMENT_TURN_ON_COLLIDE, NPC_CLASS, OBJECT_CLASS, OBJECT_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../../constants';
 import Typography from '../../../components/ui/Typography/Typography';

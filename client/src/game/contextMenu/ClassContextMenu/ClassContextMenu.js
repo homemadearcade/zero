@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/gameActions'
 import { openLiveEditor } from '../../../store/actions/gameEditorActions';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../../constants';

@@ -17,7 +17,7 @@ import SpriteEditor from '../SpriteEditor/SpriteEditor';
 import { openSpriteEditor } from '../../../store/actions/gameEditorActions';
 import { DEFAULT_CLEAR_TEXTURE_ID } from '../../../constants';
 import MySprites from '../MySprites/MySprites';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const SelectSpriteInline = ({
   textureIdSelected,

@@ -5,7 +5,7 @@ import './LocalGameToolbar.scss';
 import ToolbarIcon from '../../components/ui/ToolbarIcon/ToolbarIcon';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions';
-import UndoButton from '../../components/ui/UndoButton/UndoButton';
+import UndoButton from '../ui/UndoButton/UndoButton';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 
 const LocalGameToolbar = ({ webPage: { gameInstance } }) => {

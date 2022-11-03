@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateCutscene.scss';
-import CobrowsingModal from '../../../components/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { closeCreateCutscene, updateCreateCutscene } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../components/ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';

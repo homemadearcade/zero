@@ -18,8 +18,8 @@ import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../components/ui/BorderedGrid/BorderedGrid';
-import CobrowsingAccordianList from '../../../components/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 

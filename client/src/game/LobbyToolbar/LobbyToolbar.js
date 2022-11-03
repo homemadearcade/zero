@@ -2,12 +2,12 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LobbyToolbar.scss';
-import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
-import { editLobby, lobbyUndo } from '../../../store/actions/lobbyActions';
-import { toggleGridView } from '../../../store/actions/gameViewEditorActions'
-import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import UndoButton from '../../ui/UndoButton/UndoButton';
-import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import ToolbarIcon from '../../components/ui/ToolbarIcon/ToolbarIcon';
+import { editLobby, lobbyUndo } from '../../store/actions/lobbyActions';
+import { toggleGridView } from '../../store/actions/gameViewEditorActions'
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import UndoButton from '../ui/UndoButton/UndoButton';
+import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 
 const LobbyToolbar = ({lobbyUndo, editLobby, lobby : { lobby, lobby : { isGamePaused }}}) => {
  return <div className="LobbyToolbar">

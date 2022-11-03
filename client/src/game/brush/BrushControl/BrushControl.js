@@ -8,7 +8,7 @@ import FormLabel from '../../../components/ui/FormLabel/FormLabel';
 import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
 import { updateBrushSize } from '../../../store/actions/gameEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const BrushControl = ({
   game: { gameModel: { brushes, world }},

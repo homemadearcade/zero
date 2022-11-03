@@ -6,7 +6,7 @@ import { editGameModel } from '../../../store/actions/gameActions';
 import './WorldEditor.scss'
 import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
 import Typography from '../../../components/ui/Typography/Typography';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
   const world = gameModel.world

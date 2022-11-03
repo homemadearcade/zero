@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CutscenesMenu.scss';
-import CobrowsingModal from '../../../components/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { closeCutscenesMenu, openCreateCutscene, updateCreateCutscene } from '../../../store/actions/gameFormEditorActions';
 import Typography from '../../../components/ui/Typography/Typography';
 import Button from '../../../components/ui/Button/Button';

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Icon from '../../components/ui/Icon/Icon';
 
 import './GridToggle.scss'
-import Unlockable from '../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Switch from '../../components/ui/Switch/Switch';

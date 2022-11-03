@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import './styles.css';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
-import UserSelect from '../../UserSelect/UserSelect';
+import SelectUser from '../../ui--connected/SelectUser/SelectUser';
 import { TextField } from '@mui/material';
 import { addGame } from '../../../store/actions/gameActions';
 
@@ -37,7 +37,7 @@ const LobbyForm = ({ addLobby, onSubmit, addGame }) => {
           name={"participants"}
           control={control}
           render={({ field: { onChange, value } }) => {
-            return <UserSelect 
+            return <SelectUser 
               usersSelected={value ? [value] : []} 
               onSelect={(participants) => {
                 onChange(participants[participants.length-1])

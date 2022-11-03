@@ -3,16 +3,16 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './CobrowsingGame.scss';
-import RemoteMouse from '../RemoteMouse/RemoteMouse';
-import GameEditor from '../../../game/GameEditor/GameEditor';
-import VideoLayoutHA from '../../VideoLayoutHA/VideoLayoutHA';
-import GameClassList from '../../../game/class/ClassList/ClassList';
-import GameBrushList from '../../../game/brush/BrushList/BrushList';
-import withCobrowsing from '../../../hoc/withCobrowsing';
-import withGame from '../../../hoc/withGame';
-import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import LobbyToolbar from '../../lobby/LobbyToolbar/LobbyToolbar';
-import GridToggle from '../../../game/GridToggle/GridToggle';
+import RemoteMouse from '../../game/cobrowsing/RemoteMouse/RemoteMouse';
+import GameEditor from '../GameEditor/GameEditor';
+import VideoLayoutHA from '../../components/VideoLayoutHA/VideoLayoutHA';
+import GameClassList from '../class/ClassList/ClassList';
+import GameBrushList from '../brush/BrushList/BrushList';
+import withCobrowsing from '../../hoc/withCobrowsing';
+import withGame from '../../hoc/withGame';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
+import GridToggle from '../GridToggle/GridToggle';
 import classNames from 'classnames';
 
 //    {me.role === 'ADMIN' && <CobrowsingStatus/>}

@@ -13,7 +13,7 @@ import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
-import UserStatus from '../../UserStatus/UserStatus';
+import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import Icon from '../../ui/Icon/Icon';
 import { ADMIN_ROLE } from '../../../constants';
 

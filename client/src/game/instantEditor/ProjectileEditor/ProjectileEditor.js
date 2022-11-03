@@ -5,7 +5,7 @@ import { editGameModel } from '../../../store/actions/gameActions';
 
 import './ProjectileEditor.scss'
 import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../../ui/SelectClass/SelectClass';
 
 const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {

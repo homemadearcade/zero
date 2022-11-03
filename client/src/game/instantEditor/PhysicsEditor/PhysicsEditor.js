@@ -6,7 +6,7 @@ import { editGameModel } from '../../../store/actions/gameActions';
 import './PhysicsEditor.scss'
 import SliderNotched from '../../../components/ui/SliderNotched/SliderNotched';
 import { FormLabel } from '@mui/material';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../components/ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
 import { EFFECT_COLLIDE, ON_COLLIDE } from '../../../constants';

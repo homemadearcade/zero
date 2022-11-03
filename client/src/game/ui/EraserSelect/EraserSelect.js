@@ -9,7 +9,7 @@ import { clearClass, selectBrush, clearBrush } from '../../../store/actions/game
 import { ERASER_BRUSH_ID } from '../../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../components/ui/Icon/Icon';
-import Unlockable from '../../../components/cobrowsing/Unlockable/Unlockable';
+import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const EraserSelect = ({
   gameEditor: { brushIdSelectedBrushList },
