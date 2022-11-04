@@ -40,7 +40,7 @@ const VideoWithControls = ({ videoSrc, className, thumbnailSrc, autoPlay, unmute
 
   return <div className={"VideoWithControls " + className}>
       {!isPlaying && <img className="VideoWithControls__thumbnail" src={thumbnailSrc}></img>}
-      <video ref={videoRef} muted loop={loop}
+      <video ref={videoRef} playInline muted loop={loop}
         onLoadedData={() => {
           setIsLoading(false)
         }}>
