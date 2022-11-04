@@ -1,0 +1,48 @@
+.VideoWithControls {
+  position: relative;
+
+  &:hover {
+    video {
+      opacity: 1;
+    }
+  }
+
+  video {
+    width: 100%;
+    opacity: 0.4;
+    transition: opacity 1s;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 4rem;
+  }
+
+  &__control-bar {
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1;
+  }
+
+  &__thumbnail {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__loading {
+    
+  }
+}

@@ -1,0 +1,7 @@
+.LightupImage {
+  opacity: 0.4;
+  transition: opacity 1s;
+  &:hover {
+    opacity: 1;
+  }
+}

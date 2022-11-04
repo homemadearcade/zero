@@ -126,3 +126,15 @@ button[disabled] {
 .bounce {
   animation: bounce 1s ease infinite;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}

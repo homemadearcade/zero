@@ -12,7 +12,7 @@ import JumboDescription from '../../app/wishLabs/JumboDescription/JumboDescripti
 import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
 
-const WishLabsPage = ({ }) => {
+const WishLabsPage = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) => {
   const [isScrollabe, setIsScrollable] = useState(false)
   const [slideIn, setSlideIn] = useState(false)
 
@@ -24,11 +24,11 @@ const WishLabsPage = ({ }) => {
   useEffect(() => {
     setTimeout(() => {
       setSlideIn(true)
-    }, 3500)
+    }, 4500)
   
     setTimeout(() => {
       setIsScrollable(true)
-    }, 3800)
+    }, 4800)
 
     function onMouseMove({ clientX, clientY }) {
       setMouse({x: clientX, y: clientY})
@@ -54,7 +54,7 @@ const WishLabsPage = ({ }) => {
       }
       
       if (opacity >= 0) {
-        shootStarSkyRef.current.style.opacity = opacity;
+        shootStarSkyRef.current.style.opacity = (opacity > 0 ? opacity : 0) + 0.1;
       }
     }
 
@@ -86,8 +86,8 @@ const WishLabsPage = ({ }) => {
 
 
     let r = (mouse.x/10) + 0;
-    let g = 99 - (mouse.y/5);
-    let b = 99 - ((mouse.x + mouse.y)/15);
+    let g = 99 + (mouse.y/3);
+    let b = 99 + ((mouse.x + mouse.y)/10);
     
     r = Math.floor(r);
     g = Math.floor(g);
@@ -106,7 +106,6 @@ const WishLabsPage = ({ }) => {
     return `linear-gradient(rgba(${g}, ${g}, ${b}, .6),rgba(${g2}, ${g2}, ${b2}, 0.8))`
   }
 
-
   return <div className="WishLabsPage">
     <Fade in timeout={{ enter: 800 }}>
       <div 
@@ -115,23 +114,21 @@ const WishLabsPage = ({ }) => {
         style={{ backgroundColor: getCurrentRGB() }}
       >
         <div className="WishLabsPage__shooting-star" ref={shootStarSkyRef}><ShootingStarSky/></div>
-        <div className="WishLabsPage__portfolio">
+        <div className="WishLabsPage__description">
           <Fade style={{ transitionDelay: '2000ms' }} timeout={{ enter: 1200 }} in><div className="WishLabsPage__block">
             <JumboDescription/>
-            <Fade style={{ transitionDelay: '6000ms' }} timeout={{ enter: 1200 }} in><div><Icon className="bounce WishLabsPage__scroll-down" icon="faChevronDown" size="sm"></Icon></div></Fade>
+            <Fade style={{ transitionDelay: '7000ms' }} timeout={{ enter: 1200 }} in><div><Icon className="bounce WishLabsPage__scroll-down" icon="faChevronDown" size="sm"></Icon></div></Fade>
           </div></Fade>
-          <div className="WishLabsPage__block"></div>
-          <Portfolio/>
+          <div className="WishLabsPage__portfolio"><Portfolio/></div>
         </div>
       </div>
     </Fade>
     <Slide timeout={{ enter: 1200 }} in={slideIn} direction="up"><div className="WishLabsPage__footer">
       <Typography component="h1" variant="div">Wish Labs</Typography> 
       <div className="WishLabsPage__links">
-        <Link to="/">Bar of Dreams</Link>
+        <Link to="#barofdreams">Bar of Dreams</Link>
+        <Link to="#supducks">SupDucks</Link>
         <Link to="/">Homemade Arcade</Link>
-        <Link to="/">SupDucks</Link>
-        <Link to="/">Previous Works</Link>
       </div>
     </div>
     </Slide>
@@ -139,7 +136,8 @@ const WishLabsPage = ({ }) => {
 };
 
 const mapStateToProps = (state) => ({
-
+  portfolio: state.portfolio
 });
 
-export default compose(connect(mapStateToProps, { }))(WishLabsPage);
+export default compose(
+  connect(mapStateToProps, { }))(WishLabsPage);
