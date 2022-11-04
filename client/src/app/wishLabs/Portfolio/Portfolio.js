@@ -29,7 +29,7 @@ const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) 
       />
       <Grid container>
         {['/connie_outside.jpeg', '/press.jpeg', '/under_the_bar.jpeg', '/will_asleep.jpeg'].map((src) => {
-          return <Grid key={src} xs={3}>
+          return <Grid key={src} xs={6} md={3}>
             <LightupImage className="w-full h-full" src={window.barofdreamsAws + src}/>
           </Grid>
         })}
@@ -65,7 +65,7 @@ const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) 
     <BlockText text="SupDucks is a collaborative community of over 40,000 people that build the world of The Pond, the stories of the King Frogs, the legends of the MegaToads, and the music and artwork of the Boardwalk. Anyone has the power to buy the intellectual property rights of characters and locations within the universe and make them their own."/>
     <Grid container>
         {['/frankynines.webp','/veecon.webp', '/mural.png', '/opensea.png'].map((src) => {
-          return <Grid key={src} xs={3}>
+          return <Grid key={src} xs={6} md={3}>
             <LightupImage className="w-full h-full" src={window.supducksAws + src}/>
           </Grid>
         })}
