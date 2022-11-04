@@ -14,7 +14,7 @@ import Icon from '../../../ui/Icon/Icon';
 
 const JumboDescription = ({game}) => {
  return <div className="JumboDescription">
-    <Typography component="h1" variant="h4" fontWeight={100}>We create immersive, interactive experiences that are hilarious, heartfelt, and centered around the stories you bring 
+    <Typography component="h1" variant="h4" fontWeight={100}>Worlds that are hilarious, heartfelt, and centered around the stories you bring 
     </Typography>
  </div>
 };

@@ -24,11 +24,19 @@
     font-family: 'Special Elite', cursive;
     font-weight: 100;
     font-size: 2rem;
+
+
     max-width: 600px;
     line-height: 1.4;
     position: relative;
     margin: 0;
     padding: .5rem;
+
+    @media screen and (max-width: 850px) {
+      font-size: 1.5rem;
+      line-height: 1.2;
+
+    }
   }
   
   blockquote:before,
@@ -40,9 +48,9 @@
     height: 4rem;
 
     @media screen and (max-width: 850px) {
-      font-size: 4rem;
-      width: 2rem;
-      height: 2rem;
+      font-size: 2rem;
+      width: 1rem;
+      height: 1rem;
     }
   }
   
@@ -52,8 +60,8 @@
     top: -2rem;
 
     @media screen and (max-width: 850px) {
-      left: -2.5rem;
-      top: -1rem;
+      left: -1.25rem;
+      top: -0rem;
     }
   }
   
@@ -63,7 +71,7 @@
     bottom: 1rem;
 
     @media screen and (max-width: 850px) {
-      right: -2.5rem;
+      right: -1.25rem;
       bottom: .5rem;
     }
   }
