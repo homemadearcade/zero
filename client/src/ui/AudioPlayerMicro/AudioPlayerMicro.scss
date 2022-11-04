@@ -1,0 +1,29 @@
+.AudioPlayerMicro {
+
+  &__music {
+    // opacity: 0.5;
+    cursor: pointer;
+    // transition: opacity 1s;
+    animation: bounceIn 8s infinite 8s;
+  }
+
+  &__music--playing {
+    // opacity: 1;
+    cursor: default;
+    animation: spin 10s linear infinite;
+
+  }
+}
+
+@keyframes bounceIn {
+	0%, 5%, 11%, 15%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+	8% {
+    transform: translateY(-50px);
+  }
+	13% {
+    transform: translateY(-25px);
+  }
+}

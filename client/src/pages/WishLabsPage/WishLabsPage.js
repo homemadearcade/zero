@@ -11,8 +11,10 @@ import Portfolio from '../../app/wishLabs/Portfolio/Portfolio';
 import JumboDescription from '../../app/wishLabs/JumboDescription/JumboDescription';
 import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
+import AudioPlayerMicro from '../../ui/AudioPlayerMicro/AudioPlayerMicro';
+import { playBackgroundMusic, unpauseBackgroundMusic } from '../../store/actions/portfolioActions';
 
-const WishLabsPage = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) => {
+const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, isBackgroundMusicPlaying, isBackgroundMusicPaused }}) => {
   const [isScrollabe, setIsScrollable] = useState(false)
   const [slideIn, setSlideIn] = useState(false)
 
@@ -124,11 +126,21 @@ const WishLabsPage = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }
       </div>
     </Fade>
     <Slide timeout={{ enter: 1200 }} in={slideIn} direction="up"><div className="WishLabsPage__footer">
-      <Typography component="h1" variant="div">Wish Labs</Typography> 
+      <div className="WishLabsPage__brand">
+        <Typography component="h1" variant="div">Wish Labs</Typography> 
+      </div>
       <div className="WishLabsPage__links">
         <Link to="#barofdreams">Bar of Dreams</Link>
         <Link to="#supducks">SupDucks</Link>
         <Link to="/">Homemade Arcade</Link>
+        <AudioPlayerMicro 
+          isPlaying={!isVideoAudioUnmuted && isBackgroundMusicPlaying && !isBackgroundMusicPaused} 
+          src={window.barofdreamsAws + '/bar_ambience_trimmed.m4a'} 
+          type="audio/mp4"
+          onClick={() => {
+            playBackgroundMusic()
+          }}
+        />
       </div>
     </div>
     </Slide>
@@ -140,4 +152,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { }))(WishLabsPage);
+  connect(mapStateToProps, { playBackgroundMusic }))(WishLabsPage);

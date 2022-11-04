@@ -55,7 +55,6 @@ const VideoWithControls = ({ videoSrc, className, thumbnailSrc, autoPlay, unmute
         }}
         onMouseLeave={() => {
           setShowControls(false)
-          console.log('??x')
           if(unmuteOnMouseEnter) {
             videoRef.current.muted = true
           }
