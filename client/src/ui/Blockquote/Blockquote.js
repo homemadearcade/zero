@@ -3,7 +3,7 @@ import Link from '../Link/Link';
 
 import './Blockquote.scss';
 
-const Blockquote = ({ quote, cite, className, seeMoreLink }) => {
+const Blockquote = ({ quote, cite, className = "", seeMoreLink, }) => {
   return <div className={"Blockquote " + className}>
     <blockquote>
       {quote}

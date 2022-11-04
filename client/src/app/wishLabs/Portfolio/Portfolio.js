@@ -8,8 +8,10 @@ import ProjectHeader from '../ProjectHeader/ProjectHeader';
 import Grid from '../../../ui/Grid/Grid';
 import LightupImage from '../../../ui/LightupImage/LightupImage';
 import Blockquote from '../../../ui/Blockquote/Blockquote';
+import BlockText from '../../../ui/BlockText/BlockText';
 
 window.barofdreamsAws = "https://wishlabs.s3.us-west-2.amazonaws.com/barofdreams"
+window.supducksAws = "https://wishlabs.s3.us-west-2.amazonaws.com/supducks"
 
 const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) => {
  return <div className="Portfolio">
@@ -45,12 +47,6 @@ const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) 
         unmuteOnMouseEnter 
         autoPlay 
         loop 
-        onUnmute={() => {
-
-        }}
-        onMute={() => {
-          
-        }}
       />
       <Blockquote 
         cite="Anthony Robinson, No Proscenium, 2019"
@@ -58,6 +54,34 @@ const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) 
         seeMoreLink={"https://noproscenium.com/nopros-best-shows-experiences-of-2019-90178e1716de"}
       />
     </div>
+    <div className="Portfolio__supducks" id="#supducks">
+      <ProjectHeader 
+        title="SupDucks" 
+        logoSrc={window.supducksAws + '/chip_wackified.jpeg'}
+        subtitle="A quacky art collective traveling through the metaverse"
+        websiteLink={"https://supducks.com"}
+      />
+    </div>
+    <BlockText text="SupDucks is a collaborative community of over 40,000 people that build the world of The Pond, the stories of the King Frogs, the legends of the MegaToads, and the music and artwork of the Boardwalk. Anyone has the power to buy the intellectual property rights of characters and locations within the universe and make them their own."/>
+    <Grid container>
+        {['/frankynines.webp','/veecon.webp', '/mural.png', '/opensea.png'].map((src) => {
+          return <Grid key={src} xs={3}>
+            <LightupImage className="w-full h-full" src={window.supducksAws + src}/>
+          </Grid>
+        })}
+      </Grid>
+      <Blockquote 
+        cite="Franky Nines, 2022"
+        quote="I love to have fun and am a jokester on about everything. My art is a way for me to truly express myself. And with that, I love to make art that strikes emotion of joy, love, fear and laughter."
+        seeMoreLink={"https://shoutoutla.com/meet-franky-nines-artist-founder-supducks/"}
+      />
+    <VideoWithControls 
+      videoSrc={window.supducksAws + '/finalcompressed.mp4'} 
+      className="Portfolio__full-wide" 
+      unmuteOnMouseEnter 
+      autoPlay 
+      loop 
+    />
  </div>
 };
 
