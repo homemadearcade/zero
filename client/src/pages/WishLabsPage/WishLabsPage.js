@@ -127,12 +127,8 @@ const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, is
     </Fade>
     <Slide timeout={{ enter: 1200 }} in={slideIn} direction="up"><div className="WishLabsPage__footer">
       <div className="WishLabsPage__brand">
-        <Typography component="h1" variant="div">Wish Labs</Typography> 
-      </div>
-      <div className="WishLabsPage__links">
-        <Link to="#barofdreams">Bar of Dreams</Link>
-        <Link to="#supducks">SupDucks</Link>
-        <Link to="/">Homemade Arcade</Link>
+        {console.log({isVideoAudioUnmuted, isBackgroundMusicPaused, isBackgroundMusicPlaying})}
+        <img className="WishLabsPage__logo" src="https://wishlabs.s3.us-west-2.amazonaws.com/wishlabs/wishlabslogosmall.png"/>
         <AudioPlayerMicro 
           isPlaying={!isVideoAudioUnmuted && isBackgroundMusicPlaying && !isBackgroundMusicPaused} 
           src={window.barofdreamsAws + '/bar_ambience_trimmed.m4a'} 
@@ -141,6 +137,11 @@ const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, is
             playBackgroundMusic()
           }}
         />
+      </div>
+      <div className="WishLabsPage__links">
+        <Link to="#barofdreams">Bar of Dreams</Link>
+        <Link to="#supducks">SupDucks</Link>
+        <Link to="/">Homemade Arcade</Link>
       </div>
     </div>
     </Slide>

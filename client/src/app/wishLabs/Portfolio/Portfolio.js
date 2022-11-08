@@ -9,11 +9,12 @@ import Grid from '../../../ui/Grid/Grid';
 import LightupImage from '../../../ui/LightupImage/LightupImage';
 import Blockquote from '../../../ui/Blockquote/Blockquote';
 import BlockText from '../../../ui/BlockText/BlockText';
+import { muteVideoAudio, unmuteVideoAudio } from '../../../store/actions/portfolioActions';
 
 window.barofdreamsAws = "https://wishlabs.s3.us-west-2.amazonaws.com/barofdreams"
 window.supducksAws = "https://wishlabs.s3.us-west-2.amazonaws.com/supducks"
 
-const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) => {
+const Portfolio = ({muteVideoAudio, unmuteVideoAudio}) => {
  return <div className="Portfolio">
     <div className="Portfolio__bar-of-dreams" id="#barofdreams">
       <ProjectHeader 
@@ -47,6 +48,12 @@ const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) 
         unmuteOnMouseEnter 
         autoPlay 
         loop 
+        onMute={() => {
+          muteVideoAudio()
+        }}
+        onUnmute={() => {
+          unmuteVideoAudio()
+        }}
       />
       <Blockquote 
         cite="Anthony Robinson, No Proscenium, 2019"
@@ -81,13 +88,17 @@ const Portfolio = ({portfolio: { isVideoAudioPlay, isBackgroundMusicPlaying }}) 
       unmuteOnMouseEnter 
       autoPlay 
       loop 
+      onMute={() => {
+        muteVideoAudio()
+      }}
+      onUnmute={() => {
+        unmuteVideoAudio()
+      }}
     />
  </div>
 };
 
-const mapStateToProps = (state) => ({
-  portfolio: state.portfolio
-});
+const mapStateToProps = (state) => ({});
 
 export default compose(
-  connect(mapStateToProps, { }))(Portfolio);
+  connect(mapStateToProps, { muteVideoAudio, unmuteVideoAudio }))(Portfolio);

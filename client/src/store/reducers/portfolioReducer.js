@@ -10,22 +10,27 @@ export default function portfolioReducer(state = initialState, { type, payload }
   switch (type) {
     case MUTE_VIDEO_AUDIO: 
       return {
+        ...state,
         isVideoAudioUnmuted: false
       }
     case UNMUTE_VIDEO_AUDIO: 
       return {
-        isVideoAudioMuted: true
+        ...state,
+        isVideoAudioUnmuted: true
       }
     case PLAY_BACKGROUND_MUSIC: 
       return {
+        ...state,
         isBackgroundMusicPlaying: true
       }
     case PAUSE_BACKGROUND_MUSIC: 
       return {
+        ...state,
         isBackgroundMusicPaused: true
       }
     case UNPAUSE_BACKGROUND_MUSIC: 
       return {
+        ...state,
         isBackgroundMusicPaused: false
       }
     default:

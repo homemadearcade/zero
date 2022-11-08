@@ -12,7 +12,9 @@
 
   &__content {
     transition: background-color .2s;
-    overflow-y: hidden;
+    // overflow-y: hidden;
+    overflow-y: scroll;
+
     height: 100vh;
     position: relative;
   }
@@ -45,7 +47,7 @@
   }
 
   &__portfolio {
-    margin-top: 50vh;
+    margin-top: 20vh;
   }
 
   &__footer {
@@ -67,6 +69,10 @@
   &__brand {
     display: flex;
     gap: 10px;
+  }
+
+  &__logo {
+    height: 1.1rem;
   }
 
   &__links {

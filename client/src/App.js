@@ -25,6 +25,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import WishLabsPage from './pages/WishLabsPage/WishLabsPage';
 import AppPage from './pages/AppPage/AppPage';
 
+import './App.scss'
+
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
 const theme = createTheme({
@@ -45,9 +47,15 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
+
           ...(ownerState.font === '2P' && {
             fontFamily: "'Press Start 2P', sans-serif;"
           }),
+
+          ...(ownerState.font === 'WishLabs' && {
+            fontFamily: "'Wish', serif;"
+          })
+
         }),
       }
     },

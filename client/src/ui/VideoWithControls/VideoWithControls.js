@@ -4,7 +4,7 @@ import Icon from '../Icon/Icon';
 
 import './VideoWithControls.scss';
 
-const VideoWithControls = ({ videoSrc, className, thumbnailSrc, autoPlay, unmuteOnMouseEnter, loop }) => {
+const VideoWithControls = ({ videoSrc, className, thumbnailSrc, autoPlay, unmuteOnMouseEnter, loop, onMute, onUnmute }) => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isPaused, setIsPaused] = useState(false)
@@ -40,7 +40,7 @@ const VideoWithControls = ({ videoSrc, className, thumbnailSrc, autoPlay, unmute
 
   return <div className={"VideoWithControls " + className}>
       {!isPlaying && <img className="VideoWithControls__thumbnail" src={thumbnailSrc}></img>}
-      <video ref={videoRef} playInline muted loop={loop}
+      <video ref={videoRef} muted loop={loop}
         onLoadedData={() => {
           setIsLoading(false)
         }}>
@@ -51,12 +51,14 @@ const VideoWithControls = ({ videoSrc, className, thumbnailSrc, autoPlay, unmute
           setShowControls(true)
           if(unmuteOnMouseEnter) {
             videoRef.current.muted = false
+            if(onUnmute) onUnmute()
           }
         }}
         onMouseLeave={() => {
           setShowControls(false)
           if(unmuteOnMouseEnter) {
             videoRef.current.muted = true
+            if(onMute) onMute()
           }
         }}
       >
@@ -78,10 +80,12 @@ const VideoWithControls = ({ videoSrc, className, thumbnailSrc, autoPlay, unmute
           {!unmuteOnMouseEnter && isMuted && <Icon className="cursor-pointer"  icon="faVolumeXmark" onClick={() => {
             videoRef.current.muted = false
             setIsMuted(false)
+            if(onUnmute) onUnmute()
           }}/>}
           {!unmuteOnMouseEnter && !isMuted && <Icon className="cursor-pointer" icon="faVolumeHigh" onClick={() => {
             videoRef.current.muted = true
             setIsMuted(true)
+            if(onMute) onMute()
           }}/>}
         </div></Fade>}
       </div>

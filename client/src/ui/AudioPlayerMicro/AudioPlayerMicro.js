@@ -7,10 +7,8 @@ const AudioPlayerMicro = ({ isPlaying, src, type, onClick }) => {
   const audioRef = useRef(null)
 
   useEffect(() => {
-    console.log(isPlaying)
     if(isPlaying) {
       audioRef.current.play()
-      console.log(audioRef.current)
     } else {
       audioRef.current.pause()
     }

@@ -6,7 +6,7 @@ https://codepen.io/shubniggurath/pen/OEeMOd
 https://codepen.io/soulwire/pen/mEMPrK
 https://codepen.io/mimikos/pen/QMjjzy
 https://codepen.io/jcoulterdesign/pen/vYyzZdo
-https://codepen.io/lucien-denis/pen/eYyOjYx
+https://github.com/mnbroatch/react-dialogue-tree
 
 --
 
