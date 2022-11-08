@@ -4,6 +4,8 @@ import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Link as RouterLink, MemoryRouter } from 'react-router-dom';
+
 // import Cookies from 'js-cookie';
 
 import Login from './pages/Login/Login';
@@ -27,6 +29,12 @@ import AppPage from './pages/AppPage/AppPage';
 
 import './App.scss'
 
+const LinkBehavior = React.forwardRef((props, ref) => {
+  const { href, ...other } = props;
+  // Map href (MUI) -> to (react-router)
+  return <RouterLink data-testid="custom-link" ref={ref} to={href} {...other} />;
+});
+
 window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
 const theme = createTheme({
@@ -44,6 +52,19 @@ const theme = createTheme({
     //     }
     //   }
     // },
+    MuiLink: {
+      //   styleOverrides: {
+      //     root: {
+      //       margin: 'unset',
+      //     }
+      //   }
+      defaultProps: {
+        component: LinkBehavior,
+      },
+    },
+    MuiButtonBase: {
+
+    },
     MuiTypography: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
@@ -52,7 +73,7 @@ const theme = createTheme({
             fontFamily: "'Press Start 2P', sans-serif;"
           }),
 
-          ...(ownerState.font === 'WishLabs' && {
+          ...(ownerState.font === 'Wish' && {
             fontFamily: "'Wish', serif;"
           })
 
@@ -111,6 +132,9 @@ const theme = createTheme({
           borderRadius: 0
         }
       },
+      defaultProps: {
+        LinkComponent: LinkBehavior,
+      },
     },
     MuiButton: {
       styleOverrides: {
@@ -127,13 +151,6 @@ const theme = createTheme({
         }),
       },
     },
-    // MuiLink: {
-    //   styleOverrides: {
-    //     root: {
-    //       margin: 'unset',
-    //     }
-    //   }
-    // },
     MuiAccordionDetails: {
       styleOverrides: {
         root: {

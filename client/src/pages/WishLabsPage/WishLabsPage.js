@@ -13,6 +13,7 @@ import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
 import AudioPlayerMicro from '../../ui/AudioPlayerMicro/AudioPlayerMicro';
 import { playBackgroundMusic, unpauseBackgroundMusic } from '../../store/actions/portfolioActions';
+import EmailListSignUp from '../../ui/EmailListSignUp/EmailListSignUp';
 
 const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, isBackgroundMusicPlaying, isBackgroundMusicPaused }}) => {
   const [isScrollabe, setIsScrollable] = useState(false)
@@ -64,7 +65,7 @@ const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, is
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
-      contentRef.current.removeEventListener('scroll', fadeOutOnScroll);
+      // contentRef.current.removeEventListener('scroll', fadeOutOnScroll);
     }
     
   })
@@ -122,13 +123,13 @@ const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, is
             <Fade style={{ transitionDelay: '7000ms' }} timeout={{ enter: 1200 }} in><div><Icon className="bounce WishLabsPage__scroll-down" icon="faChevronDown" size="sm"></Icon></div></Fade>
           </div></Fade>
           <div className="WishLabsPage__portfolio"><Portfolio/></div>
+          <EmailListSignUp/>
         </div>
       </div>
     </Fade>
     <Slide timeout={{ enter: 1200 }} in={slideIn} direction="up"><div className="WishLabsPage__footer">
       <div className="WishLabsPage__brand">
-        {console.log({isVideoAudioUnmuted, isBackgroundMusicPaused, isBackgroundMusicPlaying})}
-        <img className="WishLabsPage__logo" src="https://wishlabs.s3.us-west-2.amazonaws.com/wishlabs/wishlabslogosmall.png"/>
+        <Typography font="Wish" component="h1" variant="p">Wish Labs</Typography> 
         <AudioPlayerMicro 
           isPlaying={!isVideoAudioUnmuted && isBackgroundMusicPlaying && !isBackgroundMusicPaused} 
           src={window.barofdreamsAws + '/bar_ambience_trimmed.m4a'} 
@@ -139,8 +140,9 @@ const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, is
         />
       </div>
       <div className="WishLabsPage__links">
-        <Link to="#barofdreams">Bar of Dreams</Link>
-        <Link to="#supducks">SupDucks</Link>
+        <Link to="/#barofdreams">Bar of Dreams</Link>
+        <Link to="/#supducks">SupDucks</Link>
+        <Link to="/#cuddles">Cuddles</Link>
         <Link to="/">Homemade Arcade</Link>
       </div>
     </div>

@@ -15,6 +15,7 @@ window.barofdreamsAws = "https://wishlabs.s3.us-west-2.amazonaws.com/barofdreams
 window.supducksAws = "https://wishlabs.s3.us-west-2.amazonaws.com/supducks"
 
 const Portfolio = ({muteVideoAudio, unmuteVideoAudio}) => {
+  
  return <div className="Portfolio">
     <div className="Portfolio__bar-of-dreams" id="#barofdreams">
       <ProjectHeader 
