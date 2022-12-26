@@ -21,7 +21,7 @@ export const defaultGame = {
       "y": gameSize/3
     },
     "gravity": {
-      "y": 0,
+      "y": 12,
       "x": 0
     },
   },

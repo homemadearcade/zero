@@ -14,8 +14,9 @@ import ContextMenus from '../../game/cobrowsing/ContextMenus/ContextMenus';
 
 import io from 'socket.io-client'
 import { ON_GAME_INSTANCE_UPDATE } from '../../store/types';
+import { withRouter } from 'react-router-dom';
 
-const AppPage = ({ auth, loadMe, children }) => {
+const AppPage = ({ auth, loadMe, children, history }) => {
   const [isCheckingBrowser, setIsCheckingBrowser] = useState(true)
 
   useEffect(() => {
@@ -63,4 +64,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(connect(mapStateToProps, { authenticateSocket, logInUserWithOauth, loadMe }))(AppPage);
+export default compose(withRouter, connect(mapStateToProps, { authenticateSocket, logInUserWithOauth, loadMe }))(AppPage);

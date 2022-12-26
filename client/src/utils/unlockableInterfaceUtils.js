@@ -86,7 +86,7 @@ export function getInterfaceIdData(interfaceId) {
   return {
     isUnlocked,
     idAliases,
-    isObscured: me?.role === ADMIN_ROLE ? false : isObscured,
+    isObscured,
     isLockToggleable
   }
 }
@@ -95,11 +95,14 @@ export function isInterfaceIdObscured(interfaceId) {
   const state = getCobrowsingState()
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const isCurrentlyCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
-
+  const me = state.auth.me
+  
   if(isSubscribedCobrowsing) {
     if(isCurrentlyCobrowsing) return true
     else return false
   }
 
+  if(me?.role === ADMIN_ROLE) return false
+  
   return true
 }

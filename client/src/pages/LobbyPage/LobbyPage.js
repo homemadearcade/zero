@@ -25,6 +25,9 @@ import { ADMIN_ROLE } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
+import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
+import { getInterfaceIdData, isInterfaceIdObscured } from '../../utils/unlockableInterfaceUtils';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -32,6 +35,7 @@ const LobbyPage = ({
   myTracks,
   userTracks,
   assignLobbyRole,
+  cobrowsing: { showUnlockableInterfaceLocks }
 }) => {
   let { path } = useRouteMatch();
 
@@ -94,6 +98,10 @@ const LobbyPage = ({
     </>
   }
 
+  const { isObscured } = getInterfaceIdData('gameView')
+
+  console.log(isObscured)
+  
   return <Switch>
       <Route exact path={path}>
         <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
@@ -107,11 +115,19 @@ const LobbyPage = ({
           <ConstellationToggle/>
       </LobbyDrawer>}
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
-          {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"></div>}
-          {lobby.isGamePoweredOn && <GameView
-            isHost={lobby.gameHostId === me.id}
-            isNetworked
-          />}
+          {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game">
+          </div>}
+          {lobby.isGamePoweredOn && 
+            <>{(isObscured || showUnlockableInterfaceLocks) && 
+              <div className="GameEditor__empty-game GameEditor__empty-game--overlay">
+                <Unlockable interfaceId="gameView"></Unlockable>
+              </div>
+            }
+            <GameView
+              isHost={lobby.gameHostId === me.id}
+              isNetworked
+            /></>
+          }
         </CobrowsingGame>}
       </Route>
     </Switch>
@@ -120,6 +136,7 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
+  cobrowsing: state.cobrowsing
 });
 
 export default compose(

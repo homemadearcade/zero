@@ -627,6 +627,12 @@ export class EditorScene extends GameInstance {
         })
       }
 
+      if(classUpdate.movement?.ignoreGravity !== undefined) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setIgnoreGravity(classUpdate.movement?.ignoreGravity)
+        })
+      }
+
       if(classUpdate.graphics?.invisible !== undefined) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setVisible(!classUpdate.graphics.invisible)

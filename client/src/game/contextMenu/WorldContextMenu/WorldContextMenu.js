@@ -22,7 +22,7 @@ const WorldContextMenu = ({
 }) => {
 
   return <>
-     <MenuItem><strong>{gameModel.metadata.title}</strong></MenuItem>
+    <MenuItem>{gameModel.metadata.title}</MenuItem>
     <Unlockable interfaceId="contextMenu/world/gravity">
       <MenuItem onClick={() => {
         openLiveEditor(WORLD_EDITOR)

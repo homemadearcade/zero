@@ -196,7 +196,6 @@ export const attachTokenToHeaders = (getState) => {
 
 
 export const setRedirect = (redirect) => (dispatch, getState) => {
-  console.log(redirect)
   dispatch({
     type: SET_REDIRECT,
     payload: { redirect },

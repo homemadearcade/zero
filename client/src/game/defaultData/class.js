@@ -9,7 +9,7 @@ export const defaultMovement = {
   speed: 100,
   jumpSpeed: 50,
   floatSpeed: 20,
-  ignoreGravity: false,
+  ignoreGravity: true,
   dragY: 1,
   dragX: 1,
   gravityY: 0,

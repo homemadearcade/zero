@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { ADMIN_ROLE } from '../game/constants';
 import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';

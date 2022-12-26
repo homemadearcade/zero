@@ -13,6 +13,7 @@ import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
 import GridToggle from '../GridToggle/GridToggle';
+import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 
 const CobrowsingGame = ({ lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isCurrentlyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   

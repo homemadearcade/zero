@@ -27,10 +27,10 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
   });
 
   useEffect(() => {
-    if(auth.me?.id) {
+    if(auth.me?.id && !auth.redirect) {
       history.push('/')
     }
-  })
+  }, [])
 
   return (
     <div className="login">
