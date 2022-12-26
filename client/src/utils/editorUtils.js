@@ -22,7 +22,7 @@ import { getCobrowsingState } from "./cobrowsingUtils";
 
 
 export function getCurrentGameScene(gameInstance) {
-  const scene = gameInstance.scene?.scenes[0]
+  const scene = gameInstance?.scene?.scenes[0]
   return scene
 }
 

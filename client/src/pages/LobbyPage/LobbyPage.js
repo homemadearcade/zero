@@ -59,7 +59,7 @@ const LobbyPage = ({
     }
   }, [])
 
-  function LobbyDrawer() {
+  function LobbyDrawer({ children }) {
     return <>
 
       <div className="LobbyPage__admin-tools">
@@ -68,10 +68,7 @@ const LobbyPage = ({
         }}>
           <Icon icon="faBars"/>
         </div>
-        <LobbyPowerIndicator/>
-        <CobrowsingIndicator/>
-        <UnlockableInterfaceLocksToggle/>
-        <ConstellationToggle/>
+        {children}
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
@@ -89,10 +86,10 @@ const LobbyPage = ({
         <br/>
         <LobbyDetail myTracks={myTracks} userTracks={userTracks} 
         />
-        <br/>
         <Link onClick={() => {
           setIsDrawerOpen(false)
-        }} to={`/lobby/${lobby.id}`}>Exit game and return to lobby</Link>
+        }} to={`/lobby/${lobby.id}`}>Go to Lobby</Link>
+        <Link to="/lobbys">Exit Lobby</Link>
       </Drawer>
     </>
   }
@@ -100,9 +97,15 @@ const LobbyPage = ({
   return <Switch>
       <Route exact path={path}>
         <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
+        {<LobbyDrawer/>}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
-        {me.role === ADMIN_ROLE && <LobbyDrawer/>}
+        {me.role === ADMIN_ROLE && <LobbyDrawer>
+          <LobbyPowerIndicator/>
+          <CobrowsingIndicator/>
+          <UnlockableInterfaceLocksToggle/>
+          <ConstellationToggle/>
+        </LobbyDrawer>}
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
           {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"><Onboarding/></div>}
           {lobby.isGamePoweredOn && <GameView

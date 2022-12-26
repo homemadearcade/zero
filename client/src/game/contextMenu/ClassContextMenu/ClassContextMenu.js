@@ -100,6 +100,21 @@ const ClassContextMenu = ({
         })
         onMenuItemClick()
       }}>Duplicate {classTypeToDisplayName[objectClass.type]}</MenuItem>
+      {!insideObjectInstanceContextMenu && 
+        <Unlockable interfaceId="contextMenu/class/delete">
+          <MenuItem onClick={() => {
+          
+            const partOfClass = Object.keys(gameModel.objects).filter((objectId) => {
+              return gameModel.objects[objectId].classId === classId
+            }).reduce((prev, objectId) => {
+              prev[objectId] = null
+              return prev
+            }, {})
+
+            editGameModel({ classes: { [classId]: null }, objects: partOfClass })
+            onMenuItemClick()
+          }}>Delete</MenuItem>
+        </Unlockable>}
     </Unlockable>}
   </>
 };

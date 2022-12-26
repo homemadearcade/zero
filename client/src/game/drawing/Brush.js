@@ -28,7 +28,7 @@ export class Brush extends Phaser.GameObjects.Image {
     this.height = nodeSize * brushSize
 
     this.setOrigin(0, 0)
-    this.setDisplaySize(this.height, this.height)
+    this.setSize(this.width, this.height)
 
     if(tint) this.setTint(getHexIntFromHexString(tint))
     this.setDepth(depth)
@@ -61,9 +61,15 @@ export class Brush extends Phaser.GameObjects.Image {
     this.executeStroke(clampedX, clampedY, canvas)
 
     this.strokeMemory.push({
+      width: this.width,
+      height: this.height,
       x: clampedX,
       y: clampedY
     })
+  }
+
+  setSize(width, height) {
+    this.setDisplaySize(width, height)
   }
 
   executeStroke(x, y, canvas) {

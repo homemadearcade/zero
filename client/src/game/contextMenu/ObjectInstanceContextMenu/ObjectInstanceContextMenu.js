@@ -6,6 +6,7 @@ import { editGameModel } from '../../../store/actions/gameActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import { HERO_INSTANCE_ID } from '../../constants';
 
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, game: { gameModel } }) => {
   return <>
@@ -16,12 +17,12 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
         onMenuItemClick()
       }}>Resize</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/instance/delete">
+    {objectId !== HERO_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/delete">
       <MenuItem onClick={() => {
         editGameModel({ objects: { [objectId]: null } })
         onMenuItemClick()
       }}>Delete</MenuItem>
-    </Unlockable>
+    </Unlockable>}
     <ClassContextMenu onMenuItemClick={onMenuItemClick} classId={classId} insideObjectInstanceContextMenu />
   </>
 };

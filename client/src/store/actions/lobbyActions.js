@@ -106,10 +106,13 @@ export const updateOnboardingStep = (step) => async (dispatch, getState) => {
   });
 };
 
-export const lobbyUndo = (lobbyId) => async (dispatch, getState) => {
+export const lobbyUndo = () => async (dispatch, getState) => {
   dispatch({
     type: LOBBY_UNDO_LOADING,
   });
+  
+  const state = store.getState()
+  const lobbyId = state.lobby.lobby.id
   
   try {
     const options = attachTokenToHeaders(getState);

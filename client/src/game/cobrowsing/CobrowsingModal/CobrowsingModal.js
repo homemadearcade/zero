@@ -12,11 +12,16 @@ import { connect } from 'react-redux';
 
 const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
   useEffect(() => {
-   getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = false
+    const scene = getCurrentGameScene(gameInstance)
+    
+    if(scene) {
+      scene.input.keyboard.manager.enabled = false
 
-    return () => {
-      getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = true
+      return () => {
+        getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = true
+      }
     }
+
   }, [])
   
   return <Backdrop

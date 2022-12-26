@@ -9,6 +9,10 @@ import Link from '../../ui/Link/Link';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 
+        // <div>
+        //   <LobbyPowerIndicator/>
+        //   <LobbyDetail userTracks={userTracks} myTracks={myTracks}/>
+        // </div>
 const LobbyDashboard = ({
   myTracks, 
   userTracks,
@@ -17,13 +21,7 @@ const LobbyDashboard = ({
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
         <LobbySetupFlow/>
-        <div>
-          <LobbyPowerIndicator/>
-          <LobbyDetail userTracks={userTracks} myTracks={myTracks}/>
-        </div>
       </div>
-
-      <div className="LobbyDashboard__leave"><Link to="/lobbys">leave lobby</Link></div>
     </div>
   );
 };

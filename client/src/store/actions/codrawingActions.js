@@ -20,6 +20,7 @@ import store from '..';
 export function saveAllCurrentCanvases() {
   const state = store.getState()
   const scene = getCurrentGameScene(state.webPage.gameInstance)
+  if(!scene) return
   if(scene.backgroundLayer.unsavedChanges) scene.backgroundLayer.save()
   if(scene.playgroundLayer.unsavedChanges) scene.playgroundLayer.save()
   if(scene.foregroundLayer.unsavedChanges) scene.foregroundLayer.save()

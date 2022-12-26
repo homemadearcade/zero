@@ -86,7 +86,7 @@ export function getInterfaceIdData(interfaceId) {
   return {
     isUnlocked,
     idAliases,
-    isObscured,
+    isObscured: me?.role === ADMIN_ROLE ? false : isObscured,
     isLockToggleable
   }
 }

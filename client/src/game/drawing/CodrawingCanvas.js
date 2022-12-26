@@ -40,7 +40,8 @@ export class CodrawingCanvas extends Canvas {
       const brush = this.scene.getBrushFromBrushId(brushId)
       brush.setVisible(false)
 
-      stroke.forEach(({x, y}) => {
+      stroke.forEach(({x, y, width, height}) => {
+        brush.setSize(width, height)
         brush.executeStroke(x, y, canvas)
       })
 

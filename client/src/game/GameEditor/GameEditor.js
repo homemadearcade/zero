@@ -53,7 +53,7 @@ const GameEditor = ({
   return (
     <div className={"GameEditor " + classNames}>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
-        {leftColumn}
+        {!isSectionEditorOpen && leftColumn}
       </div>
       {children}
       <div className="GameEditor__overlay">
@@ -61,7 +61,7 @@ const GameEditor = ({
         {isSnapshotTakerOpen && <SnapshotTaker/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        {rightColumn}
+        {!isSectionEditorOpen && rightColumn}
       </div>
       {isConstellationOpen && <Constellation zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
       {liveEditingCategory && <LiveEditor/>}
