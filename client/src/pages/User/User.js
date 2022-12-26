@@ -74,7 +74,7 @@ const User = ({
       role: user.role,
     },
     validationSchema: userSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
       // formData.append('avatar', avatar);
       formData.append('username', values.username);
@@ -86,7 +86,18 @@ const User = ({
       if (user.provider === 'email') {
         formData.append('password', values.password);
       }
-      editUser(values.id, formData, history);
+
+      const result = await editUser(values.id, formData);
+      if(result) {
+        history.push(`/${values.username}`);
+        setTimeout(() => {
+          formik.setFieldValue('id', result.data.user.id);
+          formik.setFieldValue('name', result.data.user.name);
+          formik.setFieldValue('username', result.data.user.username);
+          formik.setFieldValue('role', result.data.user.role);
+        })
+      }
+
       //setIsEdit(false);
     },
   });

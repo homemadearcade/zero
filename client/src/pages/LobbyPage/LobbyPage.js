@@ -105,9 +105,9 @@ const LobbyPage = ({
           <CobrowsingIndicator/>
           <UnlockableInterfaceLocksToggle/>
           <ConstellationToggle/>
-        </LobbyDrawer>}
+      </LobbyDrawer>}
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
-          {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"><Onboarding/></div>}
+          {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game"></div>}
           {lobby.isGamePoweredOn && <GameView
             isHost={lobby.gameHostId === me.id}
             isNetworked

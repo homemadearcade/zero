@@ -16,7 +16,7 @@ const initialState = {
   isInsideVideoCall: false,
   isConnectingToVideoCall: false,
   error: null,
-  bypass: isLocalHost()
+  // bypass: isLocalHost()
 };
 
 export const initialVideoState = initialState

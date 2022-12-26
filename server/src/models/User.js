@@ -45,6 +45,14 @@ const userSchema = new Schema(
       unique: true,
       sparse: true,
     },
+    preferences: {
+      agoraVideoTrackId: {
+        type: String,
+      },
+      agoraAudioTrackId: {
+        type: String,
+      }
+    },
     // fb
     // facebookId: {
     //   type: String,
@@ -77,6 +85,7 @@ userSchema.methods.toJSON = function () {
     role: this.role,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
+    preferences: this.preferences
   };
 };
 

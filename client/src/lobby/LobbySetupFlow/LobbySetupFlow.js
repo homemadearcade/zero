@@ -14,8 +14,8 @@ import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
-import Icon from '../../ui/Icon/Icon';
 import { ADMIN_ROLE } from '../../game/constants';
+import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 
 const LobbySetupFlow = ({
   addGame,
@@ -23,11 +23,42 @@ const LobbySetupFlow = ({
   assignLobbyRole,
   lobby: { lobby },
 }) => {
+  const usersById = lobby.users.reduce((prev, next) => {
+    prev[next.id] = next
+    return prev
+  }, {})
+
   function renderAssignRoles() {
-    return <div className="LobbySetupFlow__roles">
+
+    function getRoles(userId) {
+      const roles = []
+
+     if(lobby.gameHostId === userId) {
+      roles.push('Game Host')
+     }
+
+     if(lobby.participantId === userId) {
+      roles.push('Participant')
+     }
+
+    if(lobby.guideId === userId) {
+      roles.push('Guide')
+     }
+
+     return roles.join(' ,')
+    }
+
+    return <>
+      <div>
+        Roles are assigned automatically. By default, the participant is the Game Host and the Participant role and the first admin into the lobby is assiged the Guide role. If this does not need to be changed, click Continue.
+      </div><br/>
+      <div className="LobbySetupFlow__roles">
+
       {lobby.users.map((user) => {
         return <UserStatus titleOnly key={user.id} userId={user.id}
           titleChildren={<>
+            <br/>
+            <div>Current Roles: {getRoles(user.id)}</div><br/>
             <Button onClick={() => {
               assignLobbyRole(lobby.id, {
                 userId: user.id, 
@@ -49,29 +80,34 @@ const LobbySetupFlow = ({
           </>}
         />
       })}
-    </div>
+      </div>
+    </>
   }
 
   function renderSelectGame() {
-
-    return <>{lobby?.game?.id && 
+      // <Button disabled={!lobby.participantId} onClick={async () => {
+      //   const response = await addGame({
+      //     userId: lobby.participantId
+      //   })
+      //   editLobby(lobby.id, {
+      //     game: response.data.game
+      //   })
+      // }} 
+      // startIcon={<Icon icon="faPlus"/>}>
+      //   New Game
+      // </Button>
+    return <>
+      <div>
+       A Game is created automatically when a lobby is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
+      </div><br/>
+      {lobby?.game?.id && 
       <GameCard game={lobby.game}/>}
+      Select a pre-existing game:
       <GameSelect onSelect={(game) => {
         editLobby(lobby.id, {
           game
         })
       }}/>
-      <Button disabled={!lobby.participantId} onClick={async () => {
-        const response = await addGame({
-          userId: lobby.participantId
-        })
-        editLobby(lobby.id, {
-          game: response.data.game
-        })
-      }} 
-      startIcon={<Icon icon="faPlus"/>}>
-        New Game
-      </Button>
     </>
   }
 
@@ -81,12 +117,12 @@ const LobbySetupFlow = ({
         {
           id: 'Confirm Roles',
           title: <Typography component="h5" variant="h5">Assign Roles</Typography>,
-          instructions: !lobby.isGamePoweredOn ? renderAssignRoles() : <Typography component="h5" variant="h5">You can not assign roles while a game is powered on</Typography>
+          instructions: !lobby.isGamePoweredOn ? renderAssignRoles() : <Typography component="h5" variant="h5">You can not assign roles while the game is powered on</Typography>
         },
         {
           id: 'Confirm Game',
           title: <Typography component="h5" variant="h5">Select Game</Typography>,
-          instructions: renderSelectGame()
+          instructions: !lobby.isGamePoweredOn ? renderSelectGame() : <Typography component="h5" variant="h5">You can not change the selected game when the game is powered on</Typography>
         },
         {
           id: 'Review Launch Checklist',
@@ -94,23 +130,16 @@ const LobbySetupFlow = ({
           instructions: <LobbyChecklist/>
         },
         {
-          id: 'Prologue',
-          title: <Typography component="h5" variant="h5">Prologue</Typography>,
-          instructions: null
-        },
-        {
-          id: 'Game creation',
-          title: <Typography component="h5" variant="h5">Game Creation</Typography>,
-          instructions: null
-        },
-        {
-          id: 'Outro and Credits',
-          title: <Typography component="h5" variant="h5">Outro and Credits</Typography>,
-          instructions: null
-        },
+          id: 'Power on',
+          title: <Typography component="h5" variant="h5">Power on the Game </Typography>,
+          instructions: <>
+            <LobbyPowerIndicator/>
+          </>
+        }
       ]}
       completed={<>
-          All steps completed - you&apos;re finished
+          <Typography component="h5" variant="h5">Join Participant</Typography>
+          <UserStatus hasJoinLink userId={usersById[lobby.participantId]?.id}/>
         </>}
       />
     </div>

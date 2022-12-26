@@ -9,10 +9,6 @@ import Link from '../../ui/Link/Link';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 
-        // <div>
-        //   <LobbyPowerIndicator/>
-        //   <LobbyDetail userTracks={userTracks} myTracks={myTracks}/>
-        // </div>
 const LobbyDashboard = ({
   myTracks, 
   userTracks,

@@ -26,6 +26,12 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
     },
   });
 
+  useEffect(() => {
+    if(auth.me?.id) {
+      history.push('/')
+    }
+  })
+
   return (
     <div className="login">
       <div className="container">

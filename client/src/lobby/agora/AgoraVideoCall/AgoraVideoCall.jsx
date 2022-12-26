@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoCall.scss'
-import { bypassAgoraVideoCall, useAgoraVideoCall } from "../../../store/actions/videoActions";
+import { bypassAgoraVideoCall, setAudioTrackId, setVideoTrackId, useAgoraVideoCall } from "../../../store/actions/videoActions";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from "../../../store/actions/videoActions";
 import {
@@ -32,8 +32,19 @@ const AgoraVideoCall = (props) => {
 
 //      <img className="AgoraVideoCallPreview__demo" src="/assets/images/camera-permission.png" alt="cam"/>
 
-const AgoraVideoCallPreview = ({startAgoraVideoCall, bypassAgoraVideoCall, auth: { me }}) => {
+const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVideoCall, bypassAgoraVideoCall, auth: { me }}) => {
   const { tracks, ready } = useMicrophoneAndCameraTracks();
+
+  useEffect(() => {
+    const preferences = me.preferences
+
+    if(preferences.agoraVideoTrackId) {
+      setVideoTrackId(preferences.agoraVideoTrackId)
+    }
+    if(preferences.agoraAudioTrackId) {
+      setAudioTrackId(preferences.agoraAudioTrackId)
+    }
+  }, [])
 
   const userTracks = { uid: me.id, videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
 
@@ -86,6 +97,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { startAgoraVideoCall, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, bypassAgoraVideoCall }),
+  connect(mapStateToProps, { setAudioTrackId, setVideoTrackId, startAgoraVideoCall, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, bypassAgoraVideoCall }),
 )(AgoraVideoCall);
 

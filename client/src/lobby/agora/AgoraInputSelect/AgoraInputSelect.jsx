@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 
 import { useChangeAgoraVideoAudio } from "../../../store/actions/videoActions";
 import { setVideoTrackId, setAudioTrackId } from "../../../store/actions/videoActions";
+import { editUser } from "../../../store/actions/userActions";
 import Select from "../../../ui/Select/Select";
 
-const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, video: { videoTrackId, audioTrackId } }) => {
+const AgoraInputSelect = ({ auth: { me }, tracks = null, editUser, setVideoTrackId, setAudioTrackId, video: { videoTrackId, audioTrackId } }) => {
   const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio(tracks)
 
   return <>
@@ -15,6 +16,11 @@ const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, vid
         onChange={(e) => {
           setVideoDevice(e.target.value)
           setVideoTrackId(e.target.value)
+          editUser(me?.id, {
+            preferences: {
+              agoraVideoTrackId: e.target.value
+            }
+          })
         }}
         inputLabel="Camera"
         options={videoDevices.map(({label, deviceId}) => {
@@ -29,6 +35,11 @@ const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, vid
         onChange={(e) => {
           setAudioDevice(e.target.value)
           setAudioTrackId(e.target.value)
+          editUser(me?.id, {
+            preferences: {
+              agoraAudioTrackId: e.target.value
+            }
+          })
         }}
         inputLabel="Microphone"
         options={audioDevices.map(({label, deviceId}) => {
@@ -42,9 +53,10 @@ const AgoraInputSelect = ({ tracks = null, setVideoTrackId, setAudioTrackId, vid
 }
 
 const mapStateToProps = (state) => ({
-  video: state.video
+  video: state.video,
+  auth: state.auth,
 });
 
 export default compose(
-  connect(mapStateToProps, { setAudioTrackId, setVideoTrackId }),
+  connect(mapStateToProps, { editUser, setAudioTrackId, setVideoTrackId }),
 )(AgoraInputSelect);

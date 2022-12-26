@@ -45,7 +45,6 @@ const AppPage = ({ auth, loadMe, children }) => {
     }
 
     return () => {
-      console.log('???')
       window.socket.close()
     }
   }, []);

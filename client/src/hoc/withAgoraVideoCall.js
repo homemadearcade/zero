@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AgoraVideoCall from '../lobby/agora/AgoraVideoCall/AgoraVideoCall';
-import { leaveAgoraVideoCall } from '../store/actions/videoActions';
+import { leaveAgoraVideoCall, setAudioTrackId, setVideoTrackId } from '../store/actions/videoActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class WithAgoraVideoCall extends Component {
+    constructor(props) {
+      const preferences = props.auth.me.preferences
+
+      if(preferences?.agoraVideoTrackId) {
+        props.setVideoTrackId(preferences.agoraVideoTrackId)
+      }
+      if(preferences?.agoraAudioTrackId) {
+        props.setAudioTrackId(preferences.agoraAudioTrackId)
+      }
+    }
+
     componentWillUnmount() {
       const { leaveAgoraVideoCall } = this.props;
       leaveAgoraVideoCall()
@@ -16,7 +27,9 @@ export default (ChildComponent) => {
     }
   }
 
-  const mapStateToProps = (state) => ({});
+  const mapStateToProps = (state) => ({
+    auth: state.auth
+  });
 
-  return connect(mapStateToProps, { leaveAgoraVideoCall })(WithAgoraVideoCall)
+  return connect(mapStateToProps, { leaveAgoraVideoCall, setVideoTrackId, setAudioTrackId })(WithAgoraVideoCall)
 };

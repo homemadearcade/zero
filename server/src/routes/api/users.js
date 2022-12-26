@@ -31,8 +31,6 @@ const upload = multer({
   },
 });
 
-//`checkit`, which is probably the option I'd suggest if  `validatem`
-
 router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, next) => {
   try {
     const tempUser = await User.findById(req.params.id);
@@ -40,9 +38,9 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
       return res.status(400).json({ message: 'You do not have privelages to edit this user.' });
 
-    //validate name, username and password
-    const { error } = validateUser(req.body);
-    if (error) return res.status(400).json({ message: error.details[0].message });
+    //       //validate name, username and password
+    // const { error } = validateUser();
+    // if (error) return res.status(400).json({ message: error.details[0].message });
 
     let avatarPath = null;
     if (req.file) {
@@ -65,15 +63,16 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       return res.status(400).json({ message: 'Email already taken.' });
     }
 
-    const updatedUser = { avatar: avatarPath, username: req.body.username, password, role: req.body.role };
-    // remove '', null, undefined
+    const updatedUser = {  ...req.body, avatar: avatarPath, password, preferences: { ...tempUser.preferences, ...req.body.preferences } };
 
+    // remove '', null, undefined
     Object.keys(updatedUser).forEach((k) => !updatedUser[k] && updatedUser[k] !== undefined && delete updatedUser[k]);
     // console.log(req.body, updatedUser);
     const user = await User.findByIdAndUpdate(tempUser.id, { $set: updatedUser }, { new: true });
 
     res.status(200).json({ user });
   } catch (err) {
+    console.log(err)
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });

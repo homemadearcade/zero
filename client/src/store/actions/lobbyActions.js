@@ -182,14 +182,14 @@ export const addLobby = (formData) => async (dispatch, getState) => {
   }
 };
 
-export const editLobby = (id, formData) => async (dispatch, getState) => {
-  console.trace()
+export const editLobby = (id, data) => async (dispatch, getState) => {
   dispatch({
     type: EDIT_LOBBY_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/lobbys/${id}`, formData, options);
+    console.log(data)
+    const response = await axios.put(`/api/lobbys/${id}`, data, options);
 
     dispatch({
       type: EDIT_LOBBY_SUCCESS,

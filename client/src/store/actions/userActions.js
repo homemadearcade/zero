@@ -15,13 +15,15 @@ import {
 
 import { logOutUser, loadMe } from './authActions';
 
-export const editUser = (id, formData, history) => async (dispatch, getState) => {
+export const editUser = (id, data) => async (dispatch, getState) => {
   dispatch({
     type: EDIT_USER_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/users/${id}`, formData, options);
+    const response = await axios.put(`/api/users/${id}`, data, options);
+
+    console.log(response)
 
     dispatch({
       type: EDIT_USER_SUCCESS,
@@ -29,7 +31,8 @@ export const editUser = (id, formData, history) => async (dispatch, getState) =>
     });
     // edited him self, reload me
     if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
-    history.push(`/${response.data.user.username}`);
+
+    return response
   } catch (err) {
     console.error(err)
 
