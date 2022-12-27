@@ -26,8 +26,7 @@ import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndic
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
-import { getInterfaceIdData, isInterfaceIdObscured } from '../../utils/unlockableInterfaceUtils';
-import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -98,10 +97,9 @@ const LobbyPage = ({
     </>
   }
 
-  const { isObscured } = getInterfaceIdData('gameView')
-
-  console.log(isObscured)
+  const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
   
+  console.log(isObscured)
   return <Switch>
       <Route exact path={path}>
         <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
@@ -118,9 +116,9 @@ const LobbyPage = ({
           {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game">
           </div>}
           {lobby.isGamePoweredOn && 
-            <>{(isObscured || showUnlockableInterfaceLocks) && 
+            <>{(isObscured || (!isUnlocked && showUnlockableInterfaceLocks)) && 
               <div className="GameEditor__empty-game GameEditor__empty-game--overlay">
-                <Unlockable interfaceId="gameView"></Unlockable>
+                <Unlockable isTiny interfaceId="gameView"><div></div></Unlockable>
               </div>
             }
             <GameView
@@ -136,7 +134,8 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
-  cobrowsing: state.cobrowsing
+  cobrowsing: state.cobrowsing,
+  unlockableInterfaceIds: state.unlockableInterfaceIds
 });
 
 export default compose(

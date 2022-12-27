@@ -16,6 +16,7 @@ import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../defaultData/general';
 import { urlToFile } from '../../utils/utils';
 import { generateUniqueId } from '../../utils/webPageUtils';
+import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -42,7 +43,16 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   // DRAG
   ////////////////////////////////////////////////////////////
+  onDragStartContextMenu = (objectInstanceId) => {
+    this.draggingObjectInstanceId = objectInstanceId
+  }
+
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
+    const { isObscured } = getInterfaceIdData('drag')
+    if(isObscured) {
+      return
+    }
+    
     if(this.draggingObjectInstanceId) {
       const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
       const objectClass= store.getState().game.gameModel.classes[classId]

@@ -11,6 +11,12 @@ import { HERO_INSTANCE_ID } from '../../constants';
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, game: { gameModel } }) => {
   return <>
     <MenuItem><strong>{gameModel.classes[classId].name}</strong></MenuItem>
+    <Unlockable interfaceId="drag">
+      <MenuItem onClick={() => {
+        getCurrentGameScene(gameInstance).onDragStart(objectId)
+        onMenuItemClick()
+      }}>Drag</MenuItem>
+    </Unlockable>
     <Unlockable interfaceId="contextMenu/instance/resize">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(objectId)
