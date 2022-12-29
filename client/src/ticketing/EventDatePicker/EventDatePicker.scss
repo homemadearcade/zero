@@ -1,12 +1,42 @@
 .EventDatePicker {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  padding: 2rem 4rem;
+  overflow-y: scroll;
+  height: 100%; 
+  
   &__date {
+    display: flex;
+    align-items: center;
 
+    justify-content: space-between;
+  }
+
+  &__tickets {
+    justify-self: end;
+  }
+
+  &__body {
+        display: flex;
+          align-items: center;
+        gap: 2rem;
+          justify-content: space-between;
   }
 
   &__calendar-date {
-    display: flex;
-    gap: 1rem;
+        display: flex;
+          flex-direction: column;
+              justify-content: space-between;
+                align-items: center;
   }
 
+  &__calendar-date-month {
+    text-transform: uppercase;
+  }
+  &__calendar-date-day {
+    letter-spacing: .2rem;
+
+  }
 
 }

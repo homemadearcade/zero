@@ -21,6 +21,7 @@ import errorsReducer from './errorsReducer';
 import webPageReducer from './webPageReducer';
 import gameContextReducer from './gameContextReducer';
 import portfolioReducer from './portfolioReducer';
+import ticketedEventReducer from './ticketedEventReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -43,5 +44,6 @@ export default combineReducers({
   codrawing: codrawingReducer,
   errors: errorsReducer,
   webPage: webPageReducer,
-  portfolio: portfolioReducer
+  portfolio: portfolioReducer,
+  ticketedEvent: ticketedEventReducer
 });

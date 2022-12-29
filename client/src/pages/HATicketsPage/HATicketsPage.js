@@ -10,7 +10,7 @@ import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import Icon from '../../ui/Icon/Icon';
 import { Container } from '@mui/system';
-import { Dialog, IconButton } from '@mui/material';
+import { Dialog, DialogTitle, IconButton } from '@mui/material';
 import EventDatePicker from '../../ticketing/EventDatePicker/EventDatePicker';
 import TicketTypePicker from '../../ticketing/TicketTypePicker/TicketTypePicker';
 
@@ -28,15 +28,48 @@ const HATicketsPage = () => {
   }
 
   const ticketedEvent = {
+    title: 'Homemade Arcade',
+    subtitle: 'An arcade game creation experience',
+    location: 'Online',
     dates: [{
       month: 'July',
       day: '13',
       year: '2023',
+      time: '8am-10am',
       id: 'july132023'
     }, {
+      month: 'September',
+      day: '11',
+      year: '2023',
+      time: '8am-10am',
+      id: 'june202023'
+    },
+    {
+      month: 'April',
+      day: '24',
+      year: '2023',
+      time: '8am-10am',
+      id: 'june202023'
+    },
+    {
+      month: 'May',
+      day: '4',
+      year: '2023',
+      time: '8am-10am',
+      id: 'june202023'
+    },
+    {
+      month: 'September',
+      day: '13',
+      year: '2023',
+      time: '8am-10am',
+      id: 'june202023'
+    },
+    {
       month: 'June',
       day: '20',
       year: '2023',
+      time: '8am-10am',
       id: 'june202023'
     }],
     tickets: [{
@@ -46,10 +79,14 @@ const HATicketsPage = () => {
     }]
   }
 
+  const selectedDate = ticketedEvent.dates.filter(({ id }) => {
+    return id === isTicketPickerOpen
+  })[0]
+
   return <div className="HATicketsPage">
     <ProjectHeader
-      title="Homemade Arcade" 
-      subtitle="An arcade game creation experience"
+      title={ticketedEvent.title}
+      subtitle={ticketedEvent.subtitle}
       logoSrc=""
     />
     <Container>
@@ -108,33 +145,53 @@ const HATicketsPage = () => {
             <Icon icon="faClose"></Icon>
           </IconButton>
         </div>
+        {isTicketPickerOpen && <div className="PurchaseDialog__return">
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={() => {
+              setIsTicketPickerOpen(null)
+            }}
+            aria-label="close"
+          >
+            <Icon icon="faArrowLeft"></Icon>
+          </IconButton>
+        </div>}
 
-        <div className='PurchaseDialog__picker'>
-          {!isTicketPickerOpen && <EventDatePicker 
-            onClickTicket={(id) => {
-              setIsTicketPickerOpen(id)
-            }}
-            dates={
-              ticketedEvent.dates
-            }
-          />}
-          {isTicketPickerOpen && <TicketTypePicker 
-            ticketsInCart={ticketsInCart}
-            tickets={ticketedEvent.tickets}
-            onChangeTicketAmount={(id, amount) => {
-              setTicketsInCart({
-                ...ticketsInCart,
-                [id] : amount
-              })
-            }}
-          />}
-        </div>
-        <div className='PurchaseDialog__results'>
-          <ProjectHeader
-            title="Homemade Arcade" 
-            subtitle="An arcade game creation experience"
-            logoSrc=""
-          />
+        <div className='PurchaseDialog__content'>
+          <div className='PurchaseDialog__picker'>
+            <div className="PurchaseDialog__title">
+              <Typography font="2P" variant="h5">{ticketedEvent.title}</Typography>
+              {isTicketPickerOpen && <Typography variant="subtitle1">{selectedDate.month} {selectedDate.day} {selectedDate.time}</Typography>}
+            </div>
+            {!isTicketPickerOpen && <EventDatePicker 
+              title={ticketedEvent.title}
+              location={ticketedEvent.location}
+              onClickTicket={(id) => {
+                setIsTicketPickerOpen(id)
+              }}
+              dates={
+                ticketedEvent.dates
+              }
+            />}
+            {isTicketPickerOpen && <TicketTypePicker 
+              ticketsInCart={ticketsInCart}
+              tickets={ticketedEvent.tickets}
+              onChangeTicketAmount={(id, amount) => {
+                setTicketsInCart({
+                  ...ticketsInCart,
+                  [id] : amount
+                })
+              }}
+            />}
+          </div>
+          <div className='PurchaseDialog__results'>
+            <ProjectHeader
+              title={ticketedEvent.title}
+              subtitle={ticketedEvent.subtitle}
+              logoSrc=""
+            />
+          </div>
         </div>
       </div>
     </Dialog>

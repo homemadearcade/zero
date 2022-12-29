@@ -5,6 +5,7 @@ import cobrowsingRoutes from './cobrowsing';
 import lobbysRoutes from './lobbys';
 import gameRoutes from './games';
 import awsRoutes from './aws';
+import ticketedEventRoutes from './ticketedEvents'
 import codrawingRoutes from './codrawing'
 
 const router = Router();
@@ -15,6 +16,8 @@ router.use('/lobbys', lobbysRoutes);
 router.use('/cobrowsing', cobrowsingRoutes);
 router.use('/codrawing', codrawingRoutes);
 router.use('/games', gameRoutes);
+router.use('/ticketedEvents', ticketedEventRoutes);
+
 router.use('/aws', awsRoutes);
 
 'routes register', router.stack.map((router) => {

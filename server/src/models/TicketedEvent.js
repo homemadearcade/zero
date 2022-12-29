@@ -60,8 +60,13 @@ const ticketedEventSchema = new Schema(
 
 ticketedEventSchema.methods.toJSON = function () {
   return {
+    title: this.title,
+    subtitle: this.subtitle,
+    location: this.location,
+    description: this.description,
+    user: this.user.toJSON(),
     tickets: this.tickets,
-    dates: this.dates
+    dates: this.dates,
   };
 };
 
