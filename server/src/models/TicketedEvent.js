@@ -5,12 +5,29 @@ const { Schema } = mongoose;
 
 const ticketedEventSchema = new Schema(
   {
+    title: {
+      type: String,
+      required: true,
+    },
+    subtitle: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true, 
+    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     ticketTypes: [{
       id: {
         type: String,
         required: true,
       },
-      quantity: {
+      availableQuantity: {
         type: String,
         required: true,
       },

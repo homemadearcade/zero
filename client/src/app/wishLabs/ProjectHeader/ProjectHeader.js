@@ -11,7 +11,7 @@ const ProjectHeader = ({ title, subtitle, logoSrc, websiteLink }) => {
     <div className="ProjectHeader__background" style={{backgroundImage: `url("${logoSrc}"`}}>
     </div>
     <div className="ProjectHeader__body">
-      <img src={logoSrc}></img>
+      {logoSrc && <img src={logoSrc}></img>}
       <div className="ProjectHeader__info">
         <Typography component="h3" variant="h3">{title}</Typography>
         <Typography component="h5" variant="h5">{subtitle}</Typography>

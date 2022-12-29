@@ -28,6 +28,7 @@ import WishLabsPage from './pages/WishLabsPage/WishLabsPage';
 import AppPage from './pages/AppPage/AppPage';
 
 import './App.scss'
+import HATicketsPage from './pages/HATicketsPage/HATicketsPage';
 
 const LinkBehavior = React.forwardRef((props, ref) => {
   const { href, ...other } = props;
@@ -174,6 +175,7 @@ const App = ({ }) => {
       <Router>
         <Switch>
           <Route path="/wishlabs" component={WishLabsPage}/>
+          <Route path="/tickets" component={HATicketsPage}/>
           <Route path="/games" children={wrapComponentInApp(GamesPage)} />
           <Route path="/edit/:gameId" children={wrapComponentInApp(EditGamePage)} />
           <Route path="/play/:gameId" children={wrapComponentInApp(PlayGamePage)} />

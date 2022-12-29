@@ -1,0 +1,23 @@
+.TicketTypePicker {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem 2rem;
+
+  &__ticket {
+    width: 100%;
+    border: 1px solid #222;
+  }
+
+  &__ticket-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &__ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+}

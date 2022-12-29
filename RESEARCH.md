@@ -1,6 +1,8 @@
 
 TO RESEARCH
 
+https://www.authorize.net/en-us/sign-up/pricing.html
+
 https://codepen.io/ko-yelie/pen/LqXWWx
 https://codepen.io/shubniggurath/pen/OEeMOd
 https://codepen.io/soulwire/pen/mEMPrK

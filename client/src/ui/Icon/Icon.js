@@ -5,10 +5,11 @@ import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { faWarning, faEraser, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faEye, faCrown, faArrowPointer, faChevronDown, faDownload, faUpload, faWindowMaximize } from '@fortawesome/free-solid-svg-icons'
 import { faBars, faHammer, faEyeDropper } from '@fortawesome/free-solid-svg-icons'
-import { faEyeSlash, faMusic, faStar, faPlus, faVolumeHigh, faVolumeXmark, faVolumeSlash, faMask, faHouseLaptop, faStop, faRotateLeft, faDesktop, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash, faLocationDot, faMusic, faStar, faCalendar, faPlus, faVolumeHigh, faVolumeXmark, faVolumeSlash, faMask, faHouseLaptop, faStop, faRotateLeft, faDesktop, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const iconMap = {
+  faCalendar,
   faChevronDown,
   faEyeDropper,
   faArrowDown,
@@ -50,6 +51,7 @@ const iconMap = {
   faVolumeXmark,
   faMusic,
   faVolumeHigh,
+  faLocationDot,
 }
 
 const Icon = (props) => {
