@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import './GamePreview.scss';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
+import GameStatus from '../../app/homemadeArcade/arcadeGame/GameStatus/GameStatus';
 
 const GamePreview = ({children}) => {
   return (
@@ -14,6 +15,7 @@ const GamePreview = ({children}) => {
         isNetworked={true}
       />
       {children}
+      <div className="GamePreview__note"><GameStatus/></div>
     </div>
   );
 };

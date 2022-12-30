@@ -8,6 +8,7 @@ import { changeGameState, openCutscene } from "../../store/actions/gameContextAc
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { shakeCamera } from "../../store/actions/gameViewEditorActions";
 import { ANIMATION_CAMERA_SHAKE } from "../../store/types";
+import { editLobby } from "../../store/actions/lobbyActions";
 
 export class ObjectInstance extends Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
@@ -468,10 +469,14 @@ export class ObjectInstance extends Sprite {
 
     if(effect.type === EFFECT_WIN_GAME) {
       store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
-      this.scene.reload()
+      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
+        gameResetDate: Date.now()
+      }))
     } else if(effect.type === EFFECT_GAME_OVER) {
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
-      this.scene.reload()
+      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
+        gameResetDate: Date.now()
+      }))
     }
 
     if(instanceB && this.lastCollidedWithClassId === instanceB.classId) return
@@ -490,7 +495,7 @@ export class ObjectInstance extends Sprite {
       this.scene.callAnimation({
         type: ANIMATION_CAMERA_SHAKE,
         data: {
-          intensity: 200,
+          intensity: 400,
         }
       })
     }

@@ -37,7 +37,7 @@ const LobbyDashboard = ({
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
         <LobbySetupFlow/>
-        <Link to={`/lobby/${lobby.id}/join/${lobby.participantId}`}>{renderGamePreview()}</Link>
+        {renderGamePreview()}
       </div>
     </div>      
   );

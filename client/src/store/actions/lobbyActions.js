@@ -188,7 +188,7 @@ export const editLobby = (id, data) => async (dispatch, getState) => {
   });
   try {
     const options = attachTokenToHeaders(getState);
-    console.log(data)
+
     const response = await axios.put(`/api/lobbys/${id}`, data, options);
 
     dispatch({

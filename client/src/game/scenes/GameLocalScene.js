@@ -14,7 +14,6 @@ export class GameLocalScene extends EditorScene {
   }
 
   callAnimation({type, data}) {
-    console.log(this)
     this.runAnimation({type, data})
   }
 

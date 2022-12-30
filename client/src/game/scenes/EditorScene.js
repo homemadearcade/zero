@@ -17,6 +17,7 @@ import { gameSize, nodeSize } from '../defaultData/general';
 import { urlToFile } from '../../utils/utils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
+import { editLobby } from '../../store/actions/lobbyActions';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -498,7 +499,9 @@ export class EditorScene extends GameInstance {
 
     if(gameUpdate.world?.boundaries) {
       if(gameUpdate.world.boundaries.loop) {
-        this.reload()
+        store.dispatch(editLobby(store.getState().lobby.lobby.id, {
+          gameResetDate: Date.now()
+        }))
         return
       }
       
@@ -561,7 +564,9 @@ export class EditorScene extends GameInstance {
     })
 
     if(gameUpdate.relations) {
-      this.reload()
+      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
+        gameResetDate: Date.now()
+      }))
     }
 
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {

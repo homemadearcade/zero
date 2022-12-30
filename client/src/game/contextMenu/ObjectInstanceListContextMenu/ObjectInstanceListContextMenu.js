@@ -21,7 +21,7 @@ const ObjectInstanceListContextMenu = ({ openContextMenuFromObjectInstanceId, on
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
 })
 
 export default connect(mapStateToProps, { editGameModel, openContextMenuFromObjectInstanceId })(ObjectInstanceListContextMenu);

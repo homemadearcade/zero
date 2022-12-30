@@ -69,7 +69,7 @@ const WorldContextMenu = ({
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
   gameViewEditor: state.gameViewEditor
 });
 
