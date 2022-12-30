@@ -2,7 +2,7 @@ import {
   GAME_SCENE,
 } from '../constants';
 import store from '../../store';
-import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
+import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_ANIMATION } from '../../store/types';
 import { isGameContextPausing } from '../../utils/gameUtils';
 import { EditorScene } from './EditorScene';
 
@@ -13,6 +13,11 @@ export class GameHostScene extends EditorScene {
     });
 
     this.isPaused = false
+  }
+
+  callAnimation({type, data}) {
+    window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { lobbyId: store.getState().lobby.lobby.id, type, data})
+    this.runAnimation({type, data})
   }
 
   startRemoteClientUpdateLoop = () => {

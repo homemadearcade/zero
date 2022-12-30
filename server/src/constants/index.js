@@ -45,6 +45,12 @@ export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 // Updates Phaser GameClient GameInstance
 export const ON_GAME_INSTANCE_UPDATE = 'ON_GAME_INSTANCE_UPDATE';
 
+// Socket ON_GAME_INSTANCE_ANIMATION
+// FROM: Game Host 
+// TO: Game Client
+// Updates Phaser GameClient Game Instance
+export const ON_GAME_INSTANCE_ANIMATION = 'ON_GAME_INSTANCE_ANIMATION';
+
 //////////////////////////////////////////////
 //////////////////////////////////////////////
 //////////////////////////////////////////////

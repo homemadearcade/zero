@@ -27,6 +27,8 @@ import ConstellationToggle from '../../game/ConstellationToggle/ConstellationTog
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
+import GamePreview from '../../game/GamePreview/GamePreview';
+import LobbySetupFlow from '../../lobby/LobbySetupFlow/LobbySetupFlow';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -39,8 +41,6 @@ const LobbyPage = ({
   let { path } = useRouteMatch();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-
-  console.log(lobby)
 
   useEffect(() => {
     if(lobby.isGamePoweredOn) return 
@@ -66,7 +66,6 @@ const LobbyPage = ({
 
   function LobbyDrawer({ children }) {
     return <>
-
       <div className="LobbyPage__admin-tools">
         <div className="LobbyPage__drawer-toggle" onClick={() => {
           setIsDrawerOpen(true)
@@ -100,10 +99,27 @@ const LobbyPage = ({
   }
 
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
+
+  function renderGameEditor() {
+    if(!lobby.isGamePoweredOn) return <div className="GameEditor__empty-game"></div>
+
+    if(lobby.isGamePoweredOn) {
+      return <>{(isObscured || (!isUnlocked && showUnlockableInterfaceLocks)) && 
+        <div className="GameEditor__empty-game GameEditor__empty-game--overlay">
+          <Unlockable isTiny interfaceId="gameView"><div></div></Unlockable>
+        </div>
+        }
+        <GameView
+          isHost={lobby.gameHostId === me.id}
+          isNetworked
+        />
+      </>
+    }
+  }
   
   return <Switch>
       <Route exact path={path}>
-        <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
+        <LobbyDashboard/>  
         {<LobbyDrawer/>}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
@@ -114,19 +130,7 @@ const LobbyPage = ({
           <ConstellationToggle/>
         </LobbyDrawer>}
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
-          {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game">
-          </div>}
-          {lobby.isGamePoweredOn && 
-            <>{(isObscured || (!isUnlocked && showUnlockableInterfaceLocks)) && 
-              <div className="GameEditor__empty-game GameEditor__empty-game--overlay">
-                <Unlockable isTiny interfaceId="gameView"><div></div></Unlockable>
-              </div>
-            }
-            <GameView
-              isHost={lobby.gameHostId === me.id}
-              isNetworked
-            /></>
-          }
+          {renderGameEditor()}
         </CobrowsingGame>}
       </Route>
     </Switch>

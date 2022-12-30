@@ -16,7 +16,7 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE } from './constants';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION } from './constants';
 import Lobby from './models/Lobby';
 
 const app = express();
@@ -195,6 +195,10 @@ io.on("connection", (socket) => {
 
   socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
     io.to(payload.lobbyId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
+  })
+
+  socket.on(ON_GAME_INSTANCE_ANIMATION, (payload) => {
+    io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {

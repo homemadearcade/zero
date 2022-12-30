@@ -16,6 +16,7 @@ import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinear
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { ADMIN_ROLE } from '../../game/constants';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
+import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -113,15 +114,17 @@ const LobbySetupFlow = ({
 
   return (
     <div className="LobbySetupFlow">
-      <VerticalLinearStepper steps={[
+      <VerticalLinearStepper 
+      initialStep={2}
+      steps={[
         {
-          id: 'Confirm Roles',
-          title: <Typography component="h5" variant="h5">Assign Roles</Typography>,
+          id: 'Assign User Roles',
+          title: <Typography component="h5" variant="h5">Assign User Roles</Typography>,
           instructions: !lobby.isGamePoweredOn ? renderAssignRoles() : <Typography component="h5" variant="h5">You can not assign roles while the game is powered on</Typography>
         },
         {
-          id: 'Confirm Game',
-          title: <Typography component="h5" variant="h5">Select Game</Typography>,
+          id: 'Select Game to be Edited',
+          title: <Typography component="h5" variant="h5">Select Game to be Edited</Typography>,
           instructions: !lobby.isGamePoweredOn ? renderSelectGame() : <Typography component="h5" variant="h5">You can not change the selected game when the game is powered on</Typography>
         },
         {
@@ -134,6 +137,17 @@ const LobbySetupFlow = ({
           title: <Typography component="h5" variant="h5">Power on the Game </Typography>,
           instructions: <>
             <LobbyPowerIndicator/>
+          </>
+        },
+        {
+          id: 'Reveal Game Screen',
+          title: <Typography component="h5" variant="h5">Reveal Game Screen</Typography>,
+          instructions: <>
+            <Button onClick={() => {
+              unlockInterfaceId('gameView')
+            }}>
+            Reveal
+           </Button>
           </>
         }
       ]}

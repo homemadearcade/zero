@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import './PlayGamePage.scss';
 
 import { requestFullscreen } from '../../utils/webPageUtils';
-import { loadArcadeGame, unloadArcadeGame } from '../../store/actions/arcadeGameActions';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
 import { changeGameState } from '../../store/actions/gameContextActions';
@@ -40,5 +39,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withGame,
-  connect(mapStateToProps, { requestFullscreen, unloadArcadeGame, loadArcadeGame, changeGameState })
+  connect(mapStateToProps, { requestFullscreen, changeGameState })
 )(PlayGamePage);

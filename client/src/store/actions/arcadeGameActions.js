@@ -184,7 +184,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
   });
 
   try {
-    if(!getState().arcadeGame.spritesByDescriptor) {
+    if(!getState().gameModel.spritesByDescriptor) {
       dispatch(getSpritesheetData())
     }
 

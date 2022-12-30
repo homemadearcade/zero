@@ -99,6 +99,8 @@ DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
 Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
 
+security for redux state stuff. Since cobrowsers can edit the redux state, they could potentially change the users redux state for their user, their password for example, and then they could try to get them to save their account and save that new password.
+
 security for codrawing and cobrowsing, make sure they are in the lobby!
 
 Popup for connection errors, little thing in the bottom corner. Toast thing

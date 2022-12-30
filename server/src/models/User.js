@@ -46,12 +46,14 @@ const userSchema = new Schema(
       sparse: true,
     },
     preferences: {
-      agoraVideoTrackId: {
-        type: String,
-      },
-      agoraAudioTrackId: {
-        type: String,
-      }
+      type: Object,
+      required: true,
+      default: {}
+    },
+    unlockableInterfaceIds: {
+      type: Object,
+      required: true,
+      default: {}
     },
     // fb
     // facebookId: {
@@ -85,7 +87,8 @@ userSchema.methods.toJSON = function () {
     role: this.role,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
-    preferences: this.preferences
+    preferences: this.preferences,
+    unlockableInterfaceIds: this.unlockableInterfaceIds
   };
 };
 

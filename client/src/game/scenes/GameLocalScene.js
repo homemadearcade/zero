@@ -13,6 +13,11 @@ export class GameLocalScene extends EditorScene {
     });
   }
 
+  callAnimation({type, data}) {
+    console.log(this)
+    this.runAnimation({type, data})
+  }
+
   create() {
     super.create()
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)

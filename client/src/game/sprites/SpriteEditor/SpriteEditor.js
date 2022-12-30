@@ -20,7 +20,7 @@ import { onSpriteEditorUndo } from '../../../store/actions/lobbyActions';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { setSpriteEditorGameInstance } from '../../../store/actions/webPageActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -47,7 +47,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEd
     }
     
     const game = new Phaser.Game(config);
-    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, key: POPUP_SCENE, size }), true);
+    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
     setSpriteEditorGameInstance(game)
 
     return () => {

@@ -26,7 +26,7 @@ const DescriptorSprites = ({
 };
 
 const mapStateToProps = (state) => ({
-  spritesByDescriptor: state.game.spritesByDescriptor
+  spritesByDescriptor: state.gameModel.spritesByDescriptor
 });
 
 export default compose(

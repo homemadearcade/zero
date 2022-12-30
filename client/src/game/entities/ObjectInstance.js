@@ -7,6 +7,7 @@ import { Collider } from "./members/Collider";
 import { changeGameState, openCutscene } from "../../store/actions/gameContextActions";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { shakeCamera } from "../../store/actions/gameViewEditorActions";
+import { ANIMATION_CAMERA_SHAKE } from "../../store/types";
 
 export class ObjectInstance extends Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
@@ -486,10 +487,12 @@ export class ObjectInstance extends Sprite {
     }
 
     if(effect.type === EFFECT_CAMERA_SHAKE) {
-       store.dispatch(shakeCamera({
-        duration: 200,
-        intensity: 10
-      }))
+      this.scene.callAnimation({
+        type: ANIMATION_CAMERA_SHAKE,
+        data: {
+          intensity: 200,
+        }
+      })
     }
 
     if(effect.type === EFFECT_TELEPORT) {

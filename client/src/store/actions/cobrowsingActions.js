@@ -20,11 +20,14 @@ import {
   ON_COBROWSING_REMOTE_DISPATCH,
   TOGGLE_COBROWSING,
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
+  LOCK_INTERFACE,
+  UNLOCK_INTERFACE,
 } from '../types';
 
 import store from '..';
 import { getRemoteStatePackage } from '../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../utils/editorUtils';
+import { editUser } from './userActions';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
@@ -183,6 +186,21 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_REMOTE_DISPATCH, ({dispatchData}) => {
       dispatch(dispatchData);
+
+      if(dispatchData.type === UNLOCK_INTERFACE) {
+        dispatch(editUser(user.id, {
+          unlockableInterfaceIds: {
+            [dispatchData.payload.interfaceId]: true
+          }
+        }))
+      }
+      if(dispatchData.type === LOCK_INTERFACE) {
+        dispatch(editUser(user.id, {
+          unlockableInterfaceIds: {
+            [dispatchData.payload.interfaceId]: false
+          }
+        }))
+      }
     });
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out

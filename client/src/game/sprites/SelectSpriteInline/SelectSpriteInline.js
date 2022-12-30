@@ -86,7 +86,7 @@ const SelectSpriteInline = ({
         })
       }}
     />}
-    {spriteEditorTextureId && <SpriteEditor onSaveSprite={onSelect} />}
+    {spriteEditorTextureId && <SpriteEditor tintSelected={tintSelected} onSaveSprite={onSelect} />}
   </>
 };
 

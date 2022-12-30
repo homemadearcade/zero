@@ -25,6 +25,7 @@ import {
   SET_REDIRECT,
   CLEAR_REDIRECT
 } from '../types';
+import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 
 export const authenticateSocket = (values) => async (dispatch, getState) => {
   dispatch({ type: AUTHENTICATE_SOCKET_LOADING });
@@ -67,10 +68,15 @@ export const loadMe = () => async (dispatch, getState) => {
     const response = await axios.get('/api/users/me', options);
 
     dispatch(authenticateSocket())
+    dispatch(initializeUnlockableInterfaceIds(response.data.me.unlockableInterfaceIds))
+
+    const me = response.data.me
+    // if(!me.preferences) me.preferences = {}
+    // if(!me.preferences.unlockableInterfaceIds) me.preferences.unlockableInterfaceIds = {}
 
     dispatch({
       type: ME_SUCCESS,
-      payload: { me: response.data.me },
+      payload: { me },
     });
   } catch (err) {
     console.error(err)

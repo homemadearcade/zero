@@ -11,7 +11,7 @@ import { Brush } from '../drawing/Brush';
 import { getTextureMetadata } from '../../utils/utils';
 
 export class CodrawingScene extends Phaser.Scene {
-  constructor({key, textureId, newAwsImageId, awsImageId, size}) {
+  constructor({key, textureId, newAwsImageId, awsImageId, tint, size}) {
     super({
       key: key,
     });
@@ -20,6 +20,7 @@ export class CodrawingScene extends Phaser.Scene {
     this.canvas= null
 
     this.size = size
+    this.tint = tint
 
     this.textureId = textureId
     const { spriteIndex, spriteSheetName } = getTextureMetadata(this.textureId)
@@ -152,7 +153,7 @@ export class CodrawingScene extends Phaser.Scene {
   }
 
   initialDraw = () => {
-    const texture = new Brush(this, { brushId: this.textureId, textureId: this.textureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
+    const texture = new Brush(this, { tint: this.tint, brushId: this.textureId, textureId: this.textureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
     texture.setDisplaySize(this.size, this.size)
     this.backgroundLayer.draw(texture, 0, 0)
     this.backgroundLayer.addRenderTextureToUndoStack()

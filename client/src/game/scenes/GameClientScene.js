@@ -1,7 +1,7 @@
 import {
   GAME_SCENE, HERO_INSTANCE_ID,
 } from '../constants';
-import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
+import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 
 export class GameClientScene extends EditorScene {
@@ -29,15 +29,21 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.sprite.rotation = player.rotation
   }
 
+  onGameInstanceAnimation = ({type, data}) => {
+    this.runAnimation({type, data})
+  }
+
   create() {
     super.create()
     this.pause()
+    window.socket.on(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
     window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
 
   unload() {
     super.unload();
+    window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
     window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
     window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }

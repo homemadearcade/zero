@@ -16,7 +16,7 @@ const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => 
 
 const mapStateToProps = (state) => {
   return {
-    descriptorOptions: state.game.descriptorOptions,
+    descriptorOptions: state.gameModel.descriptorOptions,
   }
 };
 

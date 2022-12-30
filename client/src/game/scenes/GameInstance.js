@@ -9,6 +9,7 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { World } from '../entities/World';
+import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key}) {
@@ -24,6 +25,16 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstancesById = {}
 
     this.physicsType = ARCADE_PHYSICS
+  }
+
+  runAnimation({type, data}) {
+    switch(type) {
+      case ANIMATION_CAMERA_SHAKE: 
+        this.cameras.main.shake(data.intensity)
+        return
+      default: 
+        return
+    } 
   }
 
   getAllInstancesOfClassId(classId) {
@@ -282,11 +293,6 @@ export class GameInstance extends Phaser.Scene {
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerVisibility = gameViewEditor.layerVisibility
-
-    // CAMERA SHAKE
-    if(gameViewEditor.cameraShakeIntensity && (Date.now() < gameViewEditor.cameraShakeEndTime)) {
-      this.scene.cameras.main.shake(gameViewEditor.cameraShakeIntensity)
-    }
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])

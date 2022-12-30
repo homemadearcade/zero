@@ -63,7 +63,23 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       return res.status(400).json({ message: 'Email already taken.' });
     }
 
-    const updatedUser = {  ...req.body, avatar: avatarPath, password, preferences: { ...tempUser.preferences, ...req.body.preferences } };
+    if(!tempUser.unlockableInterfaceIds) {
+      tempUser.unlockableInterfaceIds = {}
+    }
+
+    if(!tempUser.preferences) {
+      tempUser.preferences = {}
+    }
+
+    const updatedUser = {  ...req.body, avatar: avatarPath, password };
+
+    if(req.body.preferences) {
+      updatedUser.preferences = { ...tempUser.preferences, ...req.body.preferences }
+    }
+
+    if(req.body.unlockableInterfaceIds) {
+      updatedUser.unlockableInterfaceIds = { ...tempUser.unlockableInterfaceIds, ...req.body.unlockableInterfaceIds }
+    }
 
     // remove '', null, undefined
     Object.keys(updatedUser).forEach((k) => !updatedUser[k] && updatedUser[k] !== undefined && delete updatedUser[k]);

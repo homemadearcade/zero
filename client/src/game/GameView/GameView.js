@@ -68,7 +68,7 @@ const GameView = ({isHost, isNetworked, isPlay, setGameInstance }) => {
     setGameInstance(game)
 
     return () => {
-      getCurrentGameScene(game).unload()
+      getCurrentGameScene(game)?.unload()
       game.destroy()
     }
   }, []);
