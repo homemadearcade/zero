@@ -1,11 +1,11 @@
 IN DISCUSSION
 
 Movement is prompted after placing the first object?
-Press X to Interact - Press space to interact? z to fire?
+Press X to interact - Press space to fire
 If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
 Auto hide live editor when using keys?
 
----
+--- 
 TODO
 
 Non Game Mode For the Lobby 
@@ -20,7 +20,6 @@ Spawn Effect
 ---
 TODO CHORES
 
-Add tint to sprite editor
 Move properties into objects based on Member
 Player should be just another object instance. Also add a variable called like 'controlling instance' which is like a copy or something? think on this. Too many variations between player and object
 Effect 'Player'? Effect Instance id? Create a generelized id structure for everything.

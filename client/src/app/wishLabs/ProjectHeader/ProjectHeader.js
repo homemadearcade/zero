@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import './ProjectHeader.scss';
 import Typography from '../../../ui/Typography/Typography';
 import Link from '../../../ui/Link/Link';
+import classNames from 'classnames';
 
-const ProjectHeader = ({ title, subtitle, logoSrc, websiteLink }) => {
- return <div className="ProjectHeader">
+const ProjectHeader = ({ title, subtitle, logoSrc, websiteLink, hideImage, autoHeight }) => {
+ return <div className={classNames("ProjectHeader", { 'ProjectHeader--auto-height' : autoHeight})}>
     <div className="ProjectHeader__background" style={{backgroundImage: `url("${logoSrc}"`}}>
     </div>
     <div className="ProjectHeader__body">
-      {logoSrc && <img src={logoSrc}></img>}
+      {logoSrc && !hideImage && <img src={logoSrc}></img>}
       <div className="ProjectHeader__info">
         <Typography component="h3" variant="h3">{title}</Typography>
         <Typography component="h5" variant="h5">{subtitle}</Typography>

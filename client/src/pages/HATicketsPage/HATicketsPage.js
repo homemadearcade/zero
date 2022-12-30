@@ -10,13 +10,14 @@ import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import Icon from '../../ui/Icon/Icon';
 import { Container } from '@mui/system';
-import { Dialog, DialogTitle, IconButton } from '@mui/material';
+import { Dialog, IconButton } from '@mui/material';
 import EventDatePicker from '../../ticketing/EventDatePicker/EventDatePicker';
 import TicketTypePicker from '../../ticketing/TicketTypePicker/TicketTypePicker';
+import ScrollDialog from '../../ui/ScrollDialog/ScrollDialog';
 
 const HATicketsPage = () => {
-  let [isDatePickerOpen, setIsDatePickerOpen] = useState()
-  let [isTicketPickerOpen, setIsTicketPickerOpen] = useState()
+  let [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  let [isTicketPickerOpen, setIsTicketPickerOpen] = useState(false)
   let [ticketsInCart, setTicketsInCart] = useState({})
 
   function handleDialogClose() {
@@ -84,12 +85,13 @@ const HATicketsPage = () => {
   })[0]
 
   return <div className="HATicketsPage">
-    <ProjectHeader
-      title={ticketedEvent.title}
-      subtitle={ticketedEvent.subtitle}
-      logoSrc=""
-    />
-    <Container>
+     <Container>
+      <ProjectHeader
+        title={ticketedEvent.title}
+        subtitle={ticketedEvent.subtitle}
+        logoSrc="/assets/images/homemadearcadelogo.png"
+      />
+   
       <div className="HATicketsPage__content">
         <div className="HATicketsPage__info">
           <div className="HATicketsPage__authors">
@@ -129,10 +131,12 @@ const HATicketsPage = () => {
         </div>
       </div>
     </Container>
-    <Dialog maxWidth={false} open={isDatePickerOpen} onClose={() => {
-      handleDialogClose()
-    }}>
-      <div className="PurchaseDialog">
+    <ScrollDialog 
+      title={<>
+        <div className="PurchaseDialog__title">
+          <Typography font="2P" variant="h5">{ticketedEvent.title}</Typography>
+          {isTicketPickerOpen && <Typography variant="subtitle1">{selectedDate.month} {selectedDate.day} {selectedDate.time}</Typography>}
+        </div>
         <div className="PurchaseDialog__close">
           <IconButton
             edge="start"
@@ -157,13 +161,17 @@ const HATicketsPage = () => {
             <Icon icon="faArrowLeft"></Icon>
           </IconButton>
         </div>}
-
+      </>}
+      actions={<Button size="large" variant="contained" disabled={!(Object.keys(ticketsInCart).length)}>
+        Checkout
+      </Button>}
+      maxWidth={false} 
+      open={isDatePickerOpen} onClose={() => {
+        handleDialogClose()
+      }}>
+      <div className="PurchaseDialog">
         <div className='PurchaseDialog__content'>
           <div className='PurchaseDialog__picker'>
-            <div className="PurchaseDialog__title">
-              <Typography font="2P" variant="h5">{ticketedEvent.title}</Typography>
-              {isTicketPickerOpen && <Typography variant="subtitle1">{selectedDate.month} {selectedDate.day} {selectedDate.time}</Typography>}
-            </div>
             {!isTicketPickerOpen && <EventDatePicker 
               title={ticketedEvent.title}
               location={ticketedEvent.location}
@@ -187,14 +195,16 @@ const HATicketsPage = () => {
           </div>
           <div className='PurchaseDialog__results'>
             <ProjectHeader
+              hideImage
+              autoHeight
               title={ticketedEvent.title}
               subtitle={ticketedEvent.subtitle}
-              logoSrc=""
+              logoSrc="/assets/images/homemadearcadelogo.png"
             />
           </div>
         </div>
       </div>
-    </Dialog>
+    </ScrollDialog>
   </div>
 
 };

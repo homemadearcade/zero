@@ -3,10 +3,17 @@
   gap: 2rem;
     padding: 2rem 4rem;
 
+          @media screen and (max-width: 850px) {
+              padding: 0rem;
+            }
+
   &__ticket {
     width: 100%;
     border: 1px solid #222;
     padding: 2rem 2rem;
+            @media screen and (max-width: 850px) {
+                padding: 1rem;
+              }
   }
 
   &__ticket-buttons {
