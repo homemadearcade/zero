@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Button from '../../../ui/Button/Button';
 import { closeSectionEditor } from '../../../store/actions/gameViewEditorActions';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import { FormLabel } from '@mui/material';
 
 import './SectionEditor.scss'
 
-const SectionEditor = ({closeSectionEditor, editGameModel, game: { gameModel : { world: { boundaries }}}}) => {
+const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameModel : { world: { boundaries }}}}) => {
   const [sections, setSections] = useState({})
   const [isError, setIsError] = useState(false)
 
@@ -237,7 +237,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, game: { gameModel : {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game
+  gameModel: state.gameModel,
 });
 
 export default connect(mapStateToProps, { closeSectionEditor, editGameModel })(SectionEditor);

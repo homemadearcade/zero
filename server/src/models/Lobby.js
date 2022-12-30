@@ -10,7 +10,7 @@ const lobbySchema = new Schema(
       type: String,
       // required: true,
     },
-    game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'ArcadeGame' },
     gameHostId: {
       type: String,
       // required: true,

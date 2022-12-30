@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { editGameModel } from '../../../store/actions/gameActions'
+import { editGameModel } from '../../../store/actions/gameModelActions'
 import { openLiveEditor } from '../../../store/actions/gameEditorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
@@ -16,7 +16,7 @@ const ClassContextMenu = ({
   openLiveEditor, 
   onMenuItemClick, 
   openRelationsMenu,
-  game: { gameModel }, 
+  gameModel: { gameModel }, 
   classId, 
   insideObjectInstanceContextMenu
 }) => {
@@ -120,7 +120,7 @@ const ClassContextMenu = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
 })
 
 export default connect(mapStateToProps, { 

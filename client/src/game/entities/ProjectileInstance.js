@@ -9,7 +9,7 @@ export class ProjectileInstance extends ObjectInstance {
     super(scene, id, instanceData)
 
     const { classId } = instanceData
-    const objectClass = store.getState().game.gameModel.classes[classId]
+    const objectClass = store.getState().gameModel.gameModel.classes[classId]
     if(!objectClass) {
       console.error('no class for id:' + classId)
       return
@@ -38,7 +38,7 @@ export class ProjectileInstance extends ObjectInstance {
   }
 
   fire(shooter, time, cursors) {
-    const shooterClass = store.getState().game.gameModel.classes[shooter.classId]
+    const shooterClass = store.getState().gameModel.gameModel.classes[shooter.classId]
     this.lifespan = shooterClass.projectile.lifespan;
 
     let rotation

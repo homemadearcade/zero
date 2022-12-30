@@ -5,7 +5,7 @@ import { getHexIntFromHexString } from "../../../utils/editorUtils";
 
 export class Sprite {
   constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     
     const plugin = { 
       wrap: {

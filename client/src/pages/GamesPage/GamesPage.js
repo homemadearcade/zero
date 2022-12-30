@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './GamesPage.scss';
 
 import Layout from '../../layout/Layout';
-import { editGame, getGames } from '../../store/actions/gameActions';
+import { editArcadeGame, getArcadeGames } from '../../store/actions/arcadeGameActions';
 import Loader from '../../ui/Loader/Loader';
 import Link from '../../ui/Link/Link';
 import GameForm from '../../app/homemadeArcade/arcadeGame/GameForm/GameForm';
@@ -21,17 +21,17 @@ import { TextField } from '@mui/material';
 </span>
 </div> */}
 
-const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me }}) => {
+const GamesPage = ({ getArcadeGames, editArcadeGame, arcadeGames: { arcadeGames, isLoading }, auth: { me }}) => {
   useEffect(() => {
-    getGames();
-  }, [getGames]);
+    getArcadeGames();
+  }, [getArcadeGames]);
 
   const [searchTerm, setSearchTerm] = useState("")
-  const [gamesList, setGamesList] = useState(games)
+  const [gamesList, setGamesList] = useState(arcadeGames)
 
   useEffect(() => {
     if(searchTerm) {
-      setGamesList(games.filter((game) => {
+      setGamesList(arcadeGames.filter((game) => {
         if(game.metadata.title?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         if(game.user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         if(game.metadata.description?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
@@ -39,9 +39,9 @@ const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me 
         return false
       }))
     } else {
-      setGamesList(games)
+      setGamesList(arcadeGames)
     }
-  }, [searchTerm, games])
+  }, [searchTerm, arcadeGames])
 
   function getPublishData(game) {
     let visible = false 
@@ -63,23 +63,23 @@ const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me 
   function renderPublishButton(game) {
     if(game.metadata.isPublished) {
       return <Button size="small" onClick={async () => {
-        await editGame(game.id, {
+        await editArcadeGame(game.id, {
           metadata: {
             isPublished: false
           }
         })
-        getGames()
+        getArcadeGames()
       }}>
         Unpublish
       </Button>
     } else {
       return <Button size="small" onClick={async () => {
-        await editGame(game.id, {
+        await editArcadeGame(game.id, {
           metadata: {
             isPublished: true
           }
         })
-        getGames()
+        getArcadeGames()
       }}>
         Publish
       </Button>
@@ -125,7 +125,7 @@ const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me 
                 );
               })}
                {me?.id && <GameForm onSubmit={() => {
-                getGames()
+                getArcadeGames()
               }}/>}
             </>
           )}
@@ -136,9 +136,9 @@ const GamesPage = ({ getGames, editGame, game: { games, isLoading }, auth: { me 
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  arcadeGames: state.arcadeGames,
   auth: state.auth,
 });
 
 export default compose(
-  connect(mapStateToProps, { getGames, editGame }))(GamesPage);
+  connect(mapStateToProps, { getArcadeGames, editArcadeGame }))(GamesPage);

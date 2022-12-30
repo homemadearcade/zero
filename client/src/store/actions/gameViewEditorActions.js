@@ -9,10 +9,22 @@ import {
   CLOSE_SECTION_EDITOR,
   OPEN_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
+  SHAKE_CAMERA,
   // UNDO_INSTANCE_CHANGE_FAIL,
   // UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../types';
+
 import { saveAllCurrentCanvases } from './codrawingActions';
+
+export const shakeCamera = ({duration, intensity}) => (dispatch, getState) => {
+    dispatch({
+    type: SHAKE_CAMERA,
+    payload: {
+      cameraShakeEndTime: Date.now() + duration,
+      cameraShakeIntensity: intensity
+    }
+  });
+}
 
 export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
   dispatch({

@@ -13,7 +13,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { HERO_CLASS } from '../../constants';
 
 const ClassItem = ({
-  game: { gameModel: { classes } },
+  gameModel: { gameModel: { classes } },
   classId,
   gameEditor: { classIdSelectedClassList },
   selectClass,
@@ -57,7 +57,7 @@ const ClassItem = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameEditor: state.gameEditor,
 })
 

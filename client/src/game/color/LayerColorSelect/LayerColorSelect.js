@@ -8,14 +8,14 @@ import { BACKGROUND_CANVAS_ID, COLOR_BRUSH_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_
 import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, selectBrush } from '../../../store/actions/gameEditorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const LayerColorSelect = ({
-  game: { gameModel : { colors }},
+  gameModel: { gameModel : { colors }},
   canvasId,
   openCreateColorFlow,
   editGameModel,
@@ -116,7 +116,7 @@ const LayerColorSelect = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
   gameEditor: state.gameEditor,
 });

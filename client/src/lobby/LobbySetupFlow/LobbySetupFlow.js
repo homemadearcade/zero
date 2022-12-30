@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 
 import './LobbySetupFlow.scss';
-import { addGame, unloadGame } from '../../store/actions/gameActions';
+import { addArcadeGame, unloadArcadeGame } from '../../store/actions/arcadeGameActions';
 import GameSelect from '../../app/homemadeArcade/arcadeGame/GameSelect/GameSelect';
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import Typography from '../../ui/Typography/Typography';
@@ -18,7 +18,7 @@ import { ADMIN_ROLE } from '../../game/constants';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 
 const LobbySetupFlow = ({
-  addGame,
+  addArcadeGame,
   editLobby,
   assignLobbyRole,
   lobby: { lobby },
@@ -86,7 +86,7 @@ const LobbySetupFlow = ({
 
   function renderSelectGame() {
       // <Button disabled={!lobby.participantId} onClick={async () => {
-      //   const response = await addGame({
+      //   const response = await addArcadeGame({
       //     userId: lobby.participantId
       //   })
       //   editLobby(lobby.id, {
@@ -151,5 +151,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addGame, assignLobbyRole, unloadGame }),
+  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame }),
 )(LobbySetupFlow);

@@ -55,7 +55,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   initializePlayerInstance(classData = {}) {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const {classId, spawnX, spawnY} = classData
 
     this.playerInstance = new PlayerInstance(this, HERO_INSTANCE_ID, {
@@ -168,7 +168,7 @@ export class GameInstance extends Phaser.Scene {
 
 
   create() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -282,6 +282,11 @@ export class GameInstance extends Phaser.Scene {
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerVisibility = gameViewEditor.layerVisibility
+
+    // CAMERA SHAKE
+    if(gameViewEditor.cameraShakeIntensity && (Date.now() < gameViewEditor.cameraShakeEndTime)) {
+      this.scene.cameras.main.shake(gameViewEditor.cameraShakeIntensity)
+    }
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])

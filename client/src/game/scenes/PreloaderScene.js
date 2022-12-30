@@ -52,7 +52,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image(DEFAULT_TEXTURE_ID, '/assets/images/square10x10.png')
     this.load.image(DEFAULT_CLEAR_TEXTURE_ID, '/assets/images/eraser10x10.png')
 
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     Object.keys(gameModel.awsImages).forEach((awsImageId) => {
       console.log('downloading', awsImageId)
       const awsImageData = gameModel.awsImages[awsImageId]

@@ -8,7 +8,7 @@ import FormLabel from '../../../ui/FormLabel/FormLabel';
 import DescriptorSprites from '../../ui/DescriptorSprites/DescriptorSprites';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/arcadeGameActions';
 import ColorSelect from '../../color/ColorSelect/ColorSelect';
 import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import Sprite from '../Sprite/Sprite';
@@ -29,7 +29,7 @@ const SelectSpriteInline = ({
   onClearTint,
   openCreateColorFlow,
   editGameModel,
-  game: { gameModel : { colors }},
+  gameModel: { gameModel : { colors }},
   gameEditor: { spriteEditorTextureId },
   openSpriteEditor,
   gameFormEditor: { isCreateColorFlowOpen }
@@ -91,7 +91,7 @@ const SelectSpriteInline = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameEditor: state.gameEditor,
   gameFormEditor: state.gameFormEditor,
 });

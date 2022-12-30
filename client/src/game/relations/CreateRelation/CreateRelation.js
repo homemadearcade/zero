@@ -8,7 +8,7 @@ import { closeCreateRelation, updateCreateRelation } from '../../../store/action
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import SelectClass from '../../ui/SelectClass/SelectClass';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import SelectEvent from '../../ui/SelectEvent/SelectEvent';
@@ -20,7 +20,7 @@ import { ON_COLLIDE, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 
-const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { relation }, game: { gameModel} }) => {
+const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { relation }, gameModel: { gameModel} }) => {
   function handleClose() {
     closeCreateRelation()
   }
@@ -208,7 +208,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
-  game: state.game,
+  gameModel: state.gameModel,
 })
 
 export default compose(

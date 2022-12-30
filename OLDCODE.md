@@ -112,7 +112,7 @@ ZOOM INTO X
 
 STICKY KEYS
 
-const gravity = store.getState().game.gameModel.world.gravity
+const gravity = store.getState().gameModel.gameModel.world.gravity
 
     const mod = (1/(delta * 10))
 

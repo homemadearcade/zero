@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openContextMenuFromObjectInstanceId } from '../../../store/actions/contextMenuActions';
 
-const ObjectInstanceListContextMenu = ({ openContextMenuFromObjectInstanceId, onMenuItemClick, selectableObjectInstances, game: { gameModel }}) => {
+const ObjectInstanceListContextMenu = ({ openContextMenuFromObjectInstanceId, onMenuItemClick, selectableObjectInstances, gameModel: { gameModel }}) => {
   return <>
     {selectableObjectInstances.map(({objectId, classId}) => {
       const name = gameModel.classes[classId].name

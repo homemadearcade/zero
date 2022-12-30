@@ -6,10 +6,11 @@ import { Sprite } from "./members/Sprite";
 import { Collider } from "./members/Collider";
 import { changeGameState, openCutscene } from "../../store/actions/gameContextActions";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
+import { shakeCamera } from "../../store/actions/gameViewEditorActions";
 
 export class ObjectInstance extends Sprite {
   constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
     const textureId = objectClass.graphics.textureId || DEFAULT_TEXTURE_ID
@@ -108,7 +109,7 @@ export class ObjectInstance extends Sprite {
   }
 
   addToTypeLayer(sprite) {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
 
     if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === HERO_CLASS) {
@@ -124,7 +125,7 @@ export class ObjectInstance extends Sprite {
   }
 
   addToTypeGroup(sprite) {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
 
     if(objectClass.type === OBJECT_CLASS) {
@@ -143,7 +144,7 @@ export class ObjectInstance extends Sprite {
       this.sprite.unspawnedImage.setDisplaySize(w/2, h/2)
     }
     // IF EDITOR
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
     if(objectClass.graphics.invisible) {
       this.createInvisibleOutline()
@@ -166,7 +167,7 @@ export class ObjectInstance extends Sprite {
   }
 
   createInvisibleOutline() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
 
     if(this.sprite.outline) this.sprite.outline.destroy()
@@ -183,7 +184,7 @@ export class ObjectInstance extends Sprite {
   }
 
   spawn() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
     if(this.sprite.unspawnedImage) {
       this.sprite.unspawnedImage.destroy()
@@ -208,7 +209,7 @@ export class ObjectInstance extends Sprite {
   }
 
   unspawn() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
     this.setCollideable(false);
 
@@ -221,7 +222,7 @@ export class ObjectInstance extends Sprite {
   }
 
   destroyInGame() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     let eventType = ON_DESTROY_ONE
 
     const instances = this.scene.getAllInstancesOfClassId(this.classId)
@@ -241,7 +242,7 @@ export class ObjectInstance extends Sprite {
   }
 
   update(time, delta) {
-    const objectClass = store.getState().game.gameModel.classes[this.classId]
+    const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
 
     ////////////////////////////////////////
     ////////////////////////////////////////
@@ -288,12 +289,12 @@ export class ObjectInstance extends Sprite {
 
 
   updateMovement() {
-    const objectClass = store.getState().game.gameModel.classes[this.classId]
+    const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
     const pattern = objectClass.movement.pattern 
 
     if(pattern === MOVEMENT_TURN_ON_COLLIDE) {
       if(this.sprite.body.blocked.none === false || this.sprite.justCollided) {
-        const objectClass = store.getState().game.gameModel.classes[this.classId]
+        const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
         const speed = objectClass.movement.speed
         const check = Math.random()
     
@@ -335,7 +336,7 @@ export class ObjectInstance extends Sprite {
   }
 
   updateEffects() {
-    const objectClass = store.getState().game.gameModel.classes[this.classId]
+    const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
     
     ////////////////////////////////////////
     ////////////////////////////////////////
@@ -384,7 +385,7 @@ export class ObjectInstance extends Sprite {
   }
 
   getRelations() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
 
     return Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
@@ -430,7 +431,7 @@ export class ObjectInstance extends Sprite {
   }
 
   resetPhysics() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
     this.setAcceleration(0,0)
     this.setVelocity(objectClass.movement.velocityX, objectClass.movement.velocityY)
@@ -485,11 +486,14 @@ export class ObjectInstance extends Sprite {
     }
 
     if(effect.type === EFFECT_CAMERA_SHAKE) {
-      this.scene.cameras.main.shake(20)
+       store.dispatch(shakeCamera({
+        duration: 200,
+        intensity: 10
+      }))
     }
 
     if(effect.type === EFFECT_TELEPORT) {
-      const gameModel = store.getState().game.gameModel
+      const gameModel = store.getState().gameModel.gameModel
       const objectClass = gameModel.classes[this.classId]
       const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
       if(!zone) return

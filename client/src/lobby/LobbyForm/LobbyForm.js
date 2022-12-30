@@ -9,9 +9,9 @@ import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import SelectUser from '../../ui/connected/SelectUser/SelectUser';
 import { TextField } from '@mui/material';
-import { addGame } from '../../store/actions/gameActions';
+import { addArcadeGame } from '../../store/actions/arcadeGameActions';
 
-const LobbyForm = ({ addLobby, onSubmit, addGame }) => {
+const LobbyForm = ({ addLobby, onSubmit, addArcadeGame }) => {
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
       startTime: '',
@@ -19,7 +19,7 @@ const LobbyForm = ({ addLobby, onSubmit, addGame }) => {
     },
   });
   const submit = async (data) => {
-    const gameResponse = await addGame({
+    const gameResponse = await addArcadeGame({
       userId: data.participants
     });
     const game = gameResponse.data.game
@@ -64,4 +64,4 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
 });
 
-export default connect(mapStateToProps, { addLobby, addGame })(LobbyForm);
+export default connect(mapStateToProps, { addLobby, addArcadeGame })(LobbyForm);

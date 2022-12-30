@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import './PlayGamePage.scss';
 
 import { requestFullscreen } from '../../utils/webPageUtils';
-import { loadGame, unloadGame } from '../../store/actions/gameActions';
+import { loadArcadeGame, unloadArcadeGame } from '../../store/actions/arcadeGameActions';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import { START_STATE } from '../../game/constants';
 
-const PlayGamePage = ({ game: { gameModel }, changeGameState, requestFullscreen}) => {
+const PlayGamePage = ({ gameModel: { gameModel }, changeGameState, requestFullscreen}) => {
   useEffect(() => {
     changeGameState(START_STATE)
   }, [])
@@ -35,10 +35,10 @@ const PlayGamePage = ({ game: { gameModel }, changeGameState, requestFullscreen}
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game
+  gameModel: state.gameModel,
 });
 
 export default compose(
   withGame,
-  connect(mapStateToProps, { requestFullscreen, unloadGame, loadGame, changeGameState })
+  connect(mapStateToProps, { requestFullscreen, unloadArcadeGame, loadArcadeGame, changeGameState })
 )(PlayGamePage);

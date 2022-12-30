@@ -2,7 +2,7 @@
 import { gameSize, nodeSize } from "./general";
 import { adventurerClass, platformerClass, spaceshipClass } from "./heros";
 
-export const defaultGame = {
+export const defaulGameModel = {
   "metadata": {
     "title": "",
     "description": "",

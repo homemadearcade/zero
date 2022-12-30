@@ -7,7 +7,8 @@ import {
   CLOSE_SECTION_EDITOR,
   OPEN_SNAPSHOT_TAKER,
   CLOSE_SNAPSHOT_TAKER,
-  CHANGE_EDITOR_CAMERA_ZOOM
+  CHANGE_EDITOR_CAMERA_ZOOM,
+  SHAKE_CAMERA
 } from '../types';
 
 const initialState = {
@@ -23,13 +24,22 @@ const initialState = {
   isGridViewOn: false,
   isSectionEditorOpen: false,
   isSnapshotTakerOpen: false,
-  snapshotFileId: null
+  snapshotFileId: null,
+  cameraShakeIntensity: null,
+  cameraShakeEndTime: 0
 };
 
 export const initialGameViewEditorState = initialState
 
 export default function gameViewEditorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case SHAKE_CAMERA: {
+      return {
+        ...state,
+        cameraShakeEndTime: payload.cameraShakeEndTime,
+        cameraShakeIntensity: payload.cameraShakeIntensity
+      }
+    }
     case CHANGE_EDITOR_CAMERA_ZOOM: {
       return {
         ...state,

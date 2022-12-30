@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 
 import './PhysicsEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
@@ -59,7 +59,7 @@ import SelectSides from '../../ui/SelectSides/SelectSides';
 //   value={classSelected.frictionStatic}
 // />}
 
-const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
+const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
   console.log(classSelected.collisionResponse.ignoreSides)
@@ -220,7 +220,7 @@ const PhysicsEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
 });
 
 export default connect(mapStateToProps, { editGameModel })(PhysicsEditor);

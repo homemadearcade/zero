@@ -2,39 +2,40 @@ import axios from 'axios';
 
 import { attachTokenToHeaders } from './authActions';
 import {
-  GET_GAMES_LOADING,
-  GET_GAMES_SUCCESS,
-  GET_GAMES_FAIL,
-  LOAD_GAME_LOADING,
-  LOAD_GAME_SUCCESS,
-  LOAD_GAME_FAIL,
-  ADD_GAME_LOADING,
-  ADD_GAME_SUCCESS,
-  ADD_GAME_FAIL,
+  GET_ARCADE_GAMES_LOADING,
+  GET_ARCADE_GAMES_SUCCESS,
+  GET_ARCADE_GAMES_FAIL,
+  LOAD_GAME_MODEL_LOADING,
+  LOAD_GAME_MODEL_SUCCESS,
+  LOAD_GAME_MODEL_FAIL,
+  ADD_ARCADE_GAME_LOADING,
+  ADD_ARCADE_GAME_SUCCESS,
+  ADD_ARCADE_GAME_FAIL,
   // DELETE_GAME_LOADING,
   // DELETE_GAME_SUCCESS,
   // DELETE_GAME_FAIL,
-  EDIT_GAME_LOADING,
-  EDIT_GAME_SUCCESS,
-  EDIT_GAME_FAIL,
+  EDIT_ARCADE_GAME_LOADING,
+  EDIT_ARCADE_GAME_SUCCESS,
+  EDIT_ARCADE_GAME_FAIL,
   GET_SPRITESHEET_DATA_LOADING,
   GET_SPRITESHEET_DATA_SUCCESS,
   GET_SPRITESHEET_DATA_FAIL,
-  UNLOAD_GAME,
+  UNLOAD_GAME_MODEL,
   ON_GAME_MODEL_UPDATE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
-import { defaultGame } from '../../game/defaultData/game';
+import { defaulGameModel } from '../../game/defaultData/gameModel';
 import { defaultObjectInstance } from '../../game/defaultData/object';
 import { defaultObjectClass } from '../../game/defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
 import { UNDO_MEMORY_MAX } from '../../game/constants';
+import { editGameModel } from './gameModelActions';
 
-function onGameModelUpdate(gameUpdate) {
-  const oldGameData = _.cloneDeep(store.getState().game.gameModel)
+function onArcadeGameModelUpdate(gameUpdate) {
+  const oldGameData = _.cloneDeep(store.getState().gameModel.gameModel)
 
   if(!window.nextGameModelUpdateIsUndo) {
     if(gameUpdate.hero) {
@@ -62,8 +63,6 @@ function onGameModelUpdate(gameUpdate) {
 
   window.nextGameModelUpdateIsUndo = false
 
-  
-
   if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
     if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameUpdate.objects[id])
   })
@@ -71,9 +70,7 @@ function onGameModelUpdate(gameUpdate) {
     if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameUpdate.classes[id])
   })
   
-
   const gameData = mergeDeep(oldGameData, gameUpdate)
-
 
   Object.keys(gameData.cutscenes).forEach(key => {
     if (gameData.cutscenes[key] === null || gameData.cutscenes[key] === undefined) {
@@ -99,7 +96,7 @@ function onGameModelUpdate(gameUpdate) {
   
   store.dispatch({
     type: ON_GAME_MODEL_UPDATE,
-    payload: { game: gameData },
+    payload: { gameModel: gameData },
   });
 }
 
@@ -158,75 +155,45 @@ export const addAwsImage = (file, fileId, imageData) => {
   })
 
 }
- 
-export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
-  const lobbyId = getState().lobby.lobby.id
-  const gameId = getState().game.gameModel.id
 
+export const getArcadeGames = () => async (dispatch, getState) => {
   dispatch({
-    type: EDIT_GAME_LOADING,
-  });
-
-  try {
-    const options = attachTokenToHeaders(getState);
-    await axios.put(`/api/games/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate }, options);
-
-    // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event in this scenario so we need a local EDIT_GAME_SUCCESS
-    // if(!lobbyId) {
-    //   dispatch({
-    //     type: EDIT_GAME_SUCCESS,
-    //     payload: { game: response.data.game },
-    //   });
-    // }
-
-  } catch (err) {
-    console.error(err)
-
-    dispatch({
-      type: EDIT_GAME_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-}
-
-export const getGames = () => async (dispatch, getState) => {
-  dispatch({
-    type: GET_GAMES_LOADING,
+    type: GET_ARCADE_GAMES_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/games', options);
+    const response = await axios.get('/api/arcadeGames', options);
 
     dispatch({
-      type: GET_GAMES_SUCCESS,
-      payload: { games: response.data.games },
+      type: GET_ARCADE_GAMES_SUCCESS,
+      payload: { arcadeGames: response.data.games },
     });
   } catch (err) {
     console.error(err)
 
     dispatch({
-      type: GET_GAMES_FAIL,
+      type: GET_ARCADE_GAMES_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
 
-export const loadGame = (gameId) => async (dispatch, getState) => {
+export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
   dispatch({
-    type: LOAD_GAME_LOADING,
+    type: LOAD_GAME_MODEL_LOADING,
   });
 
   try {
-    if(!getState().game.spritesByDescriptor) {
+    if(!getState().arcadeGame.spritesByDescriptor) {
       dispatch(getSpritesheetData())
     }
 
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/games/' + gameId, options);
+    const response = await axios.get('/api/arcadeGames/' + gameId, options);
 
-    window.socket.on(ON_GAME_MODEL_UPDATE, onGameModelUpdate)
+    window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
 
-    const gameData = mergeDeep(_.cloneDeep(defaultGame), response.data.game)
+    const gameData = mergeDeep(_.cloneDeep(defaulGameModel), response.data.game)
 
     Object.keys(gameData.objects).forEach((id) => {
       gameData.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameData.objects[id])
@@ -240,39 +207,40 @@ export const loadGame = (gameId) => async (dispatch, getState) => {
     // })
 
     dispatch({
-      type: LOAD_GAME_SUCCESS,
-      payload: { game: gameData },
+      type: LOAD_GAME_MODEL_SUCCESS,
+      payload: { gameModel: gameData },
     });
     
   } catch (err) {
     console.error(err)
 
     dispatch({
-      type: LOAD_GAME_FAIL,
+      type: LOAD_GAME_MODEL_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
 
-export const unloadGame = () => (dispatch, getState) => {
-  window.socket.off(ON_GAME_MODEL_UPDATE, onGameModelUpdate)
+export const unloadArcadeGame = () => (dispatch, getState) => {
+  window.socket.off(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
 
   dispatch({
-    type: UNLOAD_GAME,
+    type: UNLOAD_GAME_MODEL,
   })
 };
-export const addGame = (gameData) => async (dispatch, getState) => {
+
+export const addArcadeGame = (gameData) => async (dispatch, getState) => {
   dispatch({
-    type: ADD_GAME_LOADING,
+    type: ADD_ARCADE_GAME_LOADING,
     payload: { me: { ...getState().auth.me } },
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/games', gameData, options);
+    const response = await axios.post('/api/arcadeGames', gameData, options);
 
     dispatch({
-      type: ADD_GAME_SUCCESS,
-      payload: { game: response.data.game },
+      type: ADD_ARCADE_GAME_SUCCESS,
+      payload: { arcadeGame: response.data.game },
     });
 
     return response
@@ -280,7 +248,7 @@ export const addGame = (gameData) => async (dispatch, getState) => {
     console.error(err)
 
     dispatch({
-      type: ADD_GAME_FAIL,
+      type: ADD_ARCADE_GAME_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
@@ -293,11 +261,11 @@ export const addGame = (gameData) => async (dispatch, getState) => {
 //   });
 //   try {
 //     const options = attachTokenToHeaders(getState);
-//     const response = await axios.delete(`/api/games/${id}`, options);
+//     const response = await axios.delete(`/api/arcadeGames/${id}`, options);
 
 //     dispatch({
 //       type: DELETE_GAME_SUCCESS,
-//       payload: { game: response.data.game },
+//       payload: { arcadeGame: response.data.game },
 //     });
 //   } catch (err) {
  //    console.error(err)
@@ -309,24 +277,24 @@ export const addGame = (gameData) => async (dispatch, getState) => {
 //   }
 // };
 
-export const editGame = (id, gameData) => async (dispatch, getState) => {
+export const editArcadeGame = (id, gameData) => async (dispatch, getState) => {
   dispatch({
-    type: EDIT_GAME_LOADING,
+    type: EDIT_ARCADE_GAME_LOADING,
     payload: { id },
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/games/${id}`, { gameUpdate : gameData }, options);
+    const response = await axios.put(`/api/arcadeGames/${id}`, { gameUpdate : gameData }, options);
 
     dispatch({
-      type: EDIT_GAME_SUCCESS,
-      payload: { game: response.data.game },
+      type: EDIT_ARCADE_GAME_SUCCESS,
+      payload: { arcadeGame: response.data.game },
     });
   } catch (err) {
     console.error(err)
 
     dispatch({
-      type: EDIT_GAME_FAIL,
+      type: EDIT_ARCADE_GAME_FAIL,
       payload: { error: err?.response?.data.message || err.message, id },
     });
   }

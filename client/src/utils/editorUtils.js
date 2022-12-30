@@ -26,8 +26,8 @@ export function getCurrentGameScene(gameInstance) {
   return scene
 }
 
-export function snapEraserXY({x, y, boundaries = store.getState().game.gameModel.world.boundaries}) {
-  const gameModel = store.getState().game.gameModel
+export function snapEraserXY({x, y, boundaries = store.getState().gameModel.gameModel.world.boundaries}) {
+  const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.world.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
@@ -53,8 +53,8 @@ export function snapEraserXY({x, y, boundaries = store.getState().game.gameModel
 }
 
 
-export function snapBrushXY({x, y, boundaries = store.getState().game.gameModel.world.boundaries}) {
-  const gameModel = store.getState().game.gameModel
+export function snapBrushXY({x, y, boundaries = store.getState().gameModel.gameModel.world.boundaries}) {
+  const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.world.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
@@ -78,8 +78,8 @@ export function snapBrushXY({x, y, boundaries = store.getState().game.gameModel.
   }
 }
 
-export function snapObjectXY({x, y, objectClass, boundaries = store.getState().game.gameModel.world.boundaries}) {
-  const gameModel = store.getState().game.gameModel
+export function snapObjectXY({x, y, objectClass, boundaries = store.getState().gameModel.gameModel.world.boundaries}) {
+  const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.world.nodeSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
 

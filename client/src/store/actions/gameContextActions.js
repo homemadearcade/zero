@@ -22,7 +22,7 @@ export const changeGameState = (gameState, message) => (dispatch, getState) => {
 };
 
 export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
-  // const cutscene = getState().game.gameModel.cutscenes[cutsceneId]
+  // const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
   // if(cutscene.pauseGame) {
     if(getState().lobby.lobby?.id) {
       dispatch(editLobby(getState().lobby.lobby?.id, {
@@ -47,7 +47,7 @@ export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
 export const progressActiveCutscene = () => (dispatch, getState) => {
   const cutsceneId = getState().gameContext.cutsceneId
   const cutsceneIndex = getState().gameContext.cutsceneIndex
-  const cutscene = getState().game.gameModel.cutscenes[cutsceneId]
+  const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
 
   if(cutscene.scenes.length <= cutsceneIndex + 1) {
     dispatch(closeActiveCutscene())
@@ -63,7 +63,7 @@ export const progressActiveCutscene = () => (dispatch, getState) => {
 
 export const closeActiveCutscene = () => (dispatch, getState) => {
   // const cutsceneId = getState().gameContext.cutsceneId
-  // const cutscene = getState().game.gameModel.cutscenes[cutsceneId]
+  // const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
   // if(cutscene.pauseGame) {
     if(getState().lobby.lobby?.id) {
       dispatch(editLobby(getState().lobby.lobby?.id, {

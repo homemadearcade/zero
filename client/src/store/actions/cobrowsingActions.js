@@ -93,8 +93,6 @@ function onEditorKeyUp(event) {
   }
 }
 
-window.addEventListener('keyup', onEditorKeyUp)
-window.addEventListener('mousedown', onEditorClick) 
 window.addEventListener('mouseup', (event) => {
   setTimeout(() => {
     window.didClick = false
@@ -260,6 +258,9 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/cobrowsing/' + userId, {}, options);
 
+    window.addEventListener('keyup', onEditorKeyUp)
+    window.addEventListener('mousedown', onEditorClick) 
+
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_UPDATE, ({userId, remoteState}) => {
       dispatch({
@@ -295,6 +296,9 @@ export const unsubscribeCobrowsing = ({userId}) => async (dispatch, getState) =>
   try {
     const options = attachTokenToHeaders(getState);
     await axios.post('/api/cobrowsing/stop/' + userId, {}, options);
+
+    window.removeEventListener('keyup', onEditorKeyUp)
+    window.removeEventListener('mousedown', onEditorClick) 
 
     window.socket.off(ON_COBROWSING_UPDATE);
 

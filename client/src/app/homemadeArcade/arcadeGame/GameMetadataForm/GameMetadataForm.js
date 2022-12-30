@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import './GameMetadataForm.scss';
 import { TextField } from '@mui/material';
-import { editGameModel } from '../../../../store/actions/gameActions';
+import { editGameModel } from '../../../../store/actions/gameModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
 import Typography from '../../../../ui/Typography/Typography';
 
-const GameMetadataForm = ({ editGameModel, game: { gameModel }, onSubmit }) => {
+const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit }) => {
   const metadata = gameModel.metadata
 
   const { title, description, authorPseudonym, imageUrl } = metadata
@@ -71,7 +71,7 @@ const GameMetadataForm = ({ editGameModel, game: { gameModel }, onSubmit }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
 });
 
 export default connect(mapStateToProps, { editGameModel })(GameMetadataForm);

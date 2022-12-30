@@ -184,7 +184,7 @@ export function getTextureMetadata(textureId) {
   const endOfSpritesheetNameIndex = textureId.indexOf(spriteIndexIdentifier);
 
   if(endOfSpritesheetNameIndex === -1) {
-    const awsImages = store.getState().game.gameModel.awsImages
+    const awsImages = store.getState().gameModel.gameModel.awsImages
     if(awsImages[textureId]) {
       return {
         isAwsImage: true

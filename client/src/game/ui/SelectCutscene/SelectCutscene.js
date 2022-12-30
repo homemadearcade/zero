@@ -30,7 +30,7 @@ const SelectCutscene = ({ onChange, value, formLabel, gameModel}) => {
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.game.gameModel,
+    gameModel: state.gameModel.gameModel,
   }
 };
 

@@ -12,7 +12,7 @@ import Sprite from '../../sprites/Sprite/Sprite';
 import Icon from '../../../ui/Icon/Icon';
 
 const BrushItem = ({
-  game: { gameModel: { brushes } },
+  gameModel: { gameModel: { brushes } },
   brushId,
   gameEditor: { brushIdSelectedBrushList },
   selectBrush,
@@ -47,7 +47,7 @@ const BrushItem = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameEditor: state.gameEditor,
 })
 

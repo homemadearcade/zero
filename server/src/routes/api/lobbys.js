@@ -117,8 +117,6 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
     req.lobbys.push(lobby)
 
     res.status(200).json({ lobbys: req.lobbys });
-
-    console.log('edit lobby', lobby.participants)
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }

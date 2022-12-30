@@ -34,7 +34,6 @@ const SelectSides = ({ formLabel, onChange, value, disabled}) => {
 
 const mapStateToProps = (state) => {
   return {
-    game: state.game,
   }
 };
 

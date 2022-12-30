@@ -50,7 +50,7 @@ const SelectControls = ({ onChange, value, formLabel }) => {
 
 const mapStateToProps = (state) => {
   return {
-    // gameModel: state.game.gameModel,
+    // gameModel: state.gameModel.gameModel,
   }
 };
 

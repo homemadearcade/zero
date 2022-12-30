@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './ClassList.scss';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
 import { openCreateClassFlow } from '../../../store/actions/gameFormEditorActions';
@@ -19,7 +19,7 @@ import Typography from '../../../ui/Typography/Typography';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 
 const ClassList = ({
-  game: { gameModel },
+  gameModel: { gameModel },
   gameFormEditor: { isCreateClassFlowOpen },
   editGameModel,
   openCreateClassFlow,
@@ -238,7 +238,7 @@ const ClassList = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
 })
 export default compose(

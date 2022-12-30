@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 
 import './WorldEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Typography from '../../../ui/Typography/Typography';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
-const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
+const WorldEditor = ({ gameModel: { gameModel }, editGameModel }) => {
   const world = gameModel.world
 
   return (
@@ -41,7 +41,7 @@ const WorldEditor = ({ game: { gameModel }, editGameModel }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
 });
 
 export default connect(mapStateToProps, { editGameModel })(WorldEditor);

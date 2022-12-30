@@ -40,6 +40,8 @@ const LobbyPage = ({
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
+  console.log(lobby)
+
   useEffect(() => {
     if(lobby.isGamePoweredOn) return 
     
@@ -99,7 +101,6 @@ const LobbyPage = ({
 
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
   
-  console.log(isObscured)
   return <Switch>
       <Route exact path={path}>
         <LobbyDashboard myTracks={myTracks} userTracks={userTracks}/>
@@ -111,7 +112,7 @@ const LobbyPage = ({
           <CobrowsingIndicator/>
           <UnlockableInterfaceLocksToggle/>
           <ConstellationToggle/>
-      </LobbyDrawer>}
+        </LobbyDrawer>}
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
           {!lobby.isGamePoweredOn && <div className="GameEditor__empty-game">
           </div>}

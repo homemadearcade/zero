@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 
 import './CameraEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
-const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
+const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
   if(!classSelected?.camera) {
@@ -56,7 +56,7 @@ const CameraEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
 });
 
 export default connect(mapStateToProps, { editGameModel })(CameraEditor);

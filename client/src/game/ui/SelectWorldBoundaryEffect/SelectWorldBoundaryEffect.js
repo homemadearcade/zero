@@ -7,7 +7,7 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { } from '../../defaultData/relationship';
 import { getWorldBoundaryRelationLabel, worldBoundaryRelationsDisplayNames } from '../../defaultData/world';
 
-const SelectWorldBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, game: { gameModel } }) => {
+const SelectWorldBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
   const objectClass = gameModel.classes[classId]
 
 
@@ -30,7 +30,7 @@ const SelectWorldBoundaryEffect = ({ classId, onChange, value, formLabel, disabl
 }
 
 const mapStateToProps = (state) => ({
-  game: state.game
+  gameModel: state.gameModel,
 });
 
 export default compose(

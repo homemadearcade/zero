@@ -37,7 +37,7 @@ const SelectClass = ({ onChange, value, formLabel, gameModel, classType }) => {
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.game.gameModel,
+    gameModel: state.gameModel.gameModel,
   }
 };
 

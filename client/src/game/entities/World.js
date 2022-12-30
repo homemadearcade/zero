@@ -16,7 +16,7 @@ export class World {
   }
 
   createWorldBackgroundColorLayer() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const colorInt = getHexIntFromHexString(gameModel.world.backgroundColor || '#000000')
     if(this.backgroundColorLayer) this.backgroundColorLayer.destroy()
     this.backgroundColorLayer = this.scene.add.rectangle(0, 0, gameModel.world.boundaries.maxWidth * 2, gameModel.world.boundaries.maxHeight * 2, colorInt)

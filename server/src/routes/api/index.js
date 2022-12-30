@@ -3,7 +3,7 @@ import usersRoutes from './users';
 import messagesRoutes from './messages';
 import cobrowsingRoutes from './cobrowsing';
 import lobbysRoutes from './lobbys';
-import gameRoutes from './games';
+import arcadeGameRoutes from './arcadeGames';
 import awsRoutes from './aws';
 import ticketedEventRoutes from './ticketedEvents'
 import codrawingRoutes from './codrawing'
@@ -15,7 +15,7 @@ router.use('/messages', messagesRoutes);
 router.use('/lobbys', lobbysRoutes);
 router.use('/cobrowsing', cobrowsingRoutes);
 router.use('/codrawing', codrawingRoutes);
-router.use('/games', gameRoutes);
+router.use('/arcadeGames', arcadeGameRoutes);
 router.use('/ticketedEvents', ticketedEventRoutes);
 
 router.use('/aws', awsRoutes);

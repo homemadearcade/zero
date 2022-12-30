@@ -17,7 +17,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../../store/actions/lobbyActions';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import { setSpriteEditorGameInstance } from '../../../store/actions/webPageActions';
 
 const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {

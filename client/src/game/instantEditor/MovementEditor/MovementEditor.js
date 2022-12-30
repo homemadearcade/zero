@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 
 import './MovementEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import FormLabel from '../../../ui/FormLabel/FormLabel';
 import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovementPattern';
 import SelectControls from '../../ui/SelectControls/SelectControls';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../../ui/Button/Button';
-import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import { HERO_CLASS, JETPACK_CONTROLS, SPACESHIP_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 
@@ -38,7 +36,7 @@ import ControlsCard from '../../ui/ControlsCard/ControlsCard';
  />
 </Unlockable> */}
 
-const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { me } }) => {
+const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
   const classSelected = gameModel.classes[classId]
 
@@ -208,11 +206,11 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
       <Unlockable interfaceId="movement/toggle/ignoreGravity">
         <Switch
           size="small"
-          labels={['Gravity', 'No Gravity']}
+          labels={['No Gravity', 'Gravity']}
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { movement: { ignoreGravity: e.target.checked }}}})        
+            editGameModel({ classes: { [classId]: { movement: { ignoreGravity: !e.target.checked }}}})        
           }}
-          checked={classSelected.movement.ignoreGravity}
+          checked={!classSelected.movement.ignoreGravity}
          />
       </Unlockable>
       {<Unlockable interfaceId="physics/toggle/immovable">
@@ -240,7 +238,7 @@ const MovementEditor = ({ classId, game: { gameModel }, editGameModel, auth: { m
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
   auth: state.auth
 });
 

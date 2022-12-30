@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { addLobby } from '../../../store/actions/lobbyActions';
 
 import './ClassNameForm.scss';
 import { Alert, TextField } from '@mui/material';
-import { addGame } from '../../../store/actions/gameActions';
 import { updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const ClassNameForm = ({ updateCreateClass, game: { gameModel }, gameFormEditor: { class: objectClass } }) => {
+const ClassNameForm = ({ updateCreateClass, gameModel: { gameModel }, gameFormEditor: { class: objectClass } }) => {
   const [nameList, setNameList] = useState([])
 
   useEffect(() => {
@@ -52,8 +50,8 @@ const ClassNameForm = ({ updateCreateClass, game: { gameModel }, gameFormEditor:
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor
 });
 
-export default connect(mapStateToProps, { updateCreateClass, addLobby, addGame })(ClassNameForm);
+export default connect(mapStateToProps, { updateCreateClass })(ClassNameForm);

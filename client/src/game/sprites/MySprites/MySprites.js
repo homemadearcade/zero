@@ -23,7 +23,7 @@ const MySprites = ({
 };
 
 const mapStateToProps = (state) => ({
-  awsImages: state.game.gameModel.awsImages
+  awsImages: state.gameModel.gameModel.awsImages
 });
 
 export default compose(

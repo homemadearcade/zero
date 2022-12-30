@@ -18,7 +18,7 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
   }
 
   setZoom(zoom) {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const gameMaxWidth = gameModel.world.boundaries.maxWidth
     const cameraSize = gameMaxWidth/zoom
 
@@ -43,7 +43,7 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
       let cornerX = followingEntity.x
       let cornerY = followingEntity.y
   
-      const gameModel = store.getState().game.gameModel
+      const gameModel = store.getState().gameModel.gameModel
 
       if(useGameBoundaries) {
         cornerX = Phaser.Math.Clamp(cornerX, gameModel.world.boundaries.x, gameModel.world.boundaries.x + gameModel.world.boundaries.width - this.cameraSize)

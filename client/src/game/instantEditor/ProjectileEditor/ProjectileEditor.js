@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 
 import './ProjectileEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../../ui/SelectClass/SelectClass';
 
-const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
+const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
   const projectileClass = gameModel.classes[classSelected.projectile?.classId]
 
@@ -74,7 +74,7 @@ const ProjectileEditor = ({ classId, game: { gameModel }, editGameModel }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+  gameModel: state.gameModel,
 });
 
 export default connect(mapStateToProps, { editGameModel })(ProjectileEditor);

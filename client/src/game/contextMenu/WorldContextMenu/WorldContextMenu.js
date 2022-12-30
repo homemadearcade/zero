@@ -17,7 +17,7 @@ const WorldContextMenu = ({
   openSnapshotTaker, 
   openCutscenesMenu, 
   toggleGridView, 
-  game: { gameModel }, 
+  gameModel: { gameModel }, 
   gameViewEditor: { isGridViewOn }
 }) => {
 

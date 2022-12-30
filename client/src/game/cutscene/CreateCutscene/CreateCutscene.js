@@ -8,7 +8,7 @@ import { closeCreateCutscene, updateCreateCutscene } from '../../../store/action
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CutsceneNameForm from '../../cutscene/CutsceneNameForm/CutsceneNameForm';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, TEXT_CUTSCENE } from '../../constants';
 import { TextField } from '@mui/material';
@@ -25,7 +25,7 @@ const CreateCutscene = ({
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
   gameEditor: { isMySpritesModalOpen },
-  game: { gameModel }
+  gameModel: { gameModel }
 }) => {
   const [isNewCutscene, setIsNewCutscene] = useState(null)
 
@@ -172,7 +172,7 @@ const CreateCutscene = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
   gameEditor: state.gameEditor,
-  game: state.game
+  gameModel: state.gameModel,
 })
 
 export default compose(

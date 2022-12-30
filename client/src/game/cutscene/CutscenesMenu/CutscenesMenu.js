@@ -9,7 +9,7 @@ import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, game: { gameModel }}) => {
+const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { gameModel }}) => {
   function handleClose() {
     closeCutscenesMenu()
   }
@@ -41,7 +41,7 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, game: { gameMod
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
 })
 
 export default compose(

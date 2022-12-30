@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import arcadeGamesReducer from './arcadeGamesReducer';
 import authReducer from './authReducer';
 import cobrowsingReducer from './cobrowsingReducer';
 import registerReducer from './registerReducer';
@@ -10,7 +11,7 @@ import lobbysReducer from './lobbysReducer';
 import lobbyReducer from './lobbyReducer';
 import statusReducer from './statusReducer';
 import videoReducer from './videoReducer';
-import gameReducer from './gameReducer';
+import gameModelReducer from './gameModelReducer';
 import gameEditorReducer from './gameEditorReducer';
 import gameFormEditorReducer from './gameFormEditorReducer';
 import gameViewEditorReducer from './gameViewEditorReducer';
@@ -24,6 +25,7 @@ import portfolioReducer from './portfolioReducer';
 import ticketedEventReducer from './ticketedEventReducer';
 
 export default combineReducers({
+  arcadeGames: arcadeGamesReducer,
   auth: authReducer,
   cobrowsing: cobrowsingReducer,
   register: registerReducer,
@@ -34,7 +36,7 @@ export default combineReducers({
   lobby: lobbyReducer,
   status: statusReducer,
   video: videoReducer,
-  game: gameReducer,
+  gameModel: gameModelReducer,
   gameEditor: gameEditorReducer,
   gameFormEditor: gameFormEditorReducer,
   gameViewEditor: gameViewEditorReducer,

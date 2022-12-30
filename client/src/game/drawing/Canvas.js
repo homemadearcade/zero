@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import store from "../../store";
-import { addAwsImage } from "../../store/actions/gameActions";
+import { addAwsImage } from "../../store/actions/arcadeGameActions";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
 import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
@@ -11,7 +11,7 @@ window.spriteEditorUndoStack = []
 export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { canvasId, boundaries }){
     const state = store.getState()
-    const gameModel = state.game.gameModel
+    const gameModel = state.gameModel.gameModel
     super(scene, 0, 0, boundaries.maxWidth, boundaries.maxHeight)
 
     this.scene = scene

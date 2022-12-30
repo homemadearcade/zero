@@ -44,7 +44,7 @@ export class PlayerInstance extends ObjectInstance {
     this.cursors = scene.input.keyboard.createCursorKeys();
 
     const { classId } = instanceData
-    const objectClass = store.getState().game.gameModel.classes[classId]
+    const objectClass = store.getState().gameModel.gameModel.classes[classId]
     if(!objectClass) {
       console.error('no hero class for id:' + classId)
     }
@@ -71,9 +71,9 @@ export class PlayerInstance extends ObjectInstance {
     if(this.scene.isPaused) return
 
     const classId = this.classId
-    const objectClass = store.getState().game.gameModel.classes[classId]
+    const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const gameMaxWidth = gameModel.world.boundaries.maxWidth
 
     const cameraSize = gameMaxWidth/objectClass.camera.zoom
@@ -86,7 +86,7 @@ export class PlayerInstance extends ObjectInstance {
 
   updateControls(time, delta) {
     const classId = this.classId
-    const objectClass = store.getState().game.gameModel.classes[classId]
+    const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
     const mod = (1/(delta * 5))
     const speed = objectClass.movement.speed

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
-import { addAwsImage, editGameModel } from '../../store/actions/gameActions';
+import { addAwsImage, editGameModel } from '../../store/actions/gameModelActions';
 import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
@@ -55,7 +55,7 @@ export class EditorScene extends GameInstance {
     
     if(this.draggingObjectInstanceId) {
       const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
-      const objectClass= store.getState().game.gameModel.classes[classId]
+      const objectClass= store.getState().gameModel.gameModel.classes[classId]
       const { clampedX, clampedY } = snapObjectXY({x: dragX, y: dragY,  objectClass})
       entitySprite.x = clampedX;
       entitySprite.y = clampedY;
@@ -96,7 +96,7 @@ export class EditorScene extends GameInstance {
 
   onResizeMove = (pointer) => {
     const sprite = this.resizingObjectInstance.sprite
-    const boundaries = store.getState().game.gameModel.world.boundaries
+    const boundaries = store.getState().gameModel.gameModel.world.boundaries
     // const distance = Phaser.Math.Distance.Between(sprite.x, sprite.y, pointer.worldX, pointer.worldY)
     const distanceW = Phaser.Math.Snap.To(Math.abs(sprite.x - pointer.worldX), nodeSize)
     const distanceH = Phaser.Math.Snap.To(Math.abs(sprite.y - pointer.worldY), nodeSize)
@@ -165,7 +165,7 @@ export class EditorScene extends GameInstance {
     const gameEditor = getCobrowsingState().gameEditor
     const brushId = gameEditor.brushIdSelectedBrushList
     const classId = gameEditor.classIdSelectedClassList
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
 
     if(this.resizingObjectInstance) {
       this.onResizeMove(pointer)
@@ -281,7 +281,7 @@ export class EditorScene extends GameInstance {
       // SNAPSHOT
       ////////////////////////////////////////////////////////////
       const gameViewEditor = getCobrowsingState().gameViewEditor
-      const gameModel = store.getState().game.gameModel
+      const gameModel = store.getState().gameModel.gameModel
       if(gameViewEditor.isSnapshotTakerOpen) {
         if(this.snapshotSquare) {
           const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
@@ -341,7 +341,7 @@ export class EditorScene extends GameInstance {
     return new Promise((resolve, reject) => {
 
       try {
-        const gameModel = store.getState().game.gameModel
+        const gameModel = store.getState().gameModel.gameModel
         const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
         snapCanvas.draw(this.world.backgroundColorLayer, 0,0)
         snapCanvas.draw(this.backgroundLayer, 0,0)
@@ -446,7 +446,7 @@ export class EditorScene extends GameInstance {
   }
 
   getGameObjectById(id) {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
 
     if(id === HERO_INSTANCE_ID) {
       return gameModel.hero
@@ -481,7 +481,7 @@ export class EditorScene extends GameInstance {
   onGameModelUpdate = (gameUpdate) => {
     if(gameUpdate.world?.gravity) {
       const gravity = gameUpdate.world.gravity
-      const currentGravity = store.getState().game.gameModel.world.gravity
+      const currentGravity = store.getState().gameModel.gameModel.world.gravity
 
       if(typeof gravity?.x === 'number' && typeof gravity?.y === 'number') {
         this.world.setGravity(gravity.x, gravity.y)
@@ -566,7 +566,7 @@ export class EditorScene extends GameInstance {
 
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
       const classUpdate = gameUpdate.classes[id]
-      const objectClass = store.getState().game.gameModel.classes[id]
+      const objectClass = store.getState().gameModel.gameModel.classes[id]
 
       if(classUpdate.collisionResponse?.bounciness >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
@@ -712,7 +712,7 @@ export class EditorScene extends GameInstance {
   }
 
   createGrids() {
-    // const gameModel = store.getState().game.gameModel
+    // const gameModel = store.getState().gameModel.gameModel
     // const gameMaxWidth = gameModel.world.boundaries.maxWidth
     // const gameMaxHeight = gameModel.world.boundaries.maxHeight
     // this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
@@ -724,7 +724,7 @@ export class EditorScene extends GameInstance {
     if(this.grid) this.grid.destroy()
     if(this.grid2) this.grid2.destroy()
 
-    const boundaries = store.getState().game.gameModel.world.boundaries
+    const boundaries = store.getState().gameModel.gameModel.world.boundaries
 
     const gameWidth = boundaries.width
     const gameHeight = boundaries.height
@@ -742,7 +742,7 @@ export class EditorScene extends GameInstance {
 
     this.createGrids()
 
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const gameMaxWidth = gameModel.world.boundaries.maxWidth
     const gameMaxHeight = gameModel.world.boundaries.maxHeight
     

@@ -1,14 +1,14 @@
 import {
   ME_FAIL,
-  ADD_GAME_FAIL,
+  ADD_ARCADE_GAME_FAIL,
   GET_USER_FAIL,
   ADD_LOBBY_FAIL,
-  EDIT_GAME_FAIL,
+  EDIT_GAME_MODEL_FAIL,
   EDIT_USER_FAIL,
-  GET_GAMES_FAIL,
+  GET_ARCADE_GAMES_FAIL,
   GET_LOBBY_FAIL,
   GET_USERS_FAIL,
-  LOAD_GAME_FAIL,
+  LOAD_GAME_MODEL_FAIL,
   EDIT_LOBBY_FAIL,
   GET_LOBBYS_FAIL,
   JOIN_LOBBY_FAIL,
@@ -48,15 +48,15 @@ export const initialErrorState = initialState
 export default function errorReducer(state = initialState, { type, payload }) {
   switch (type) {
     case ME_FAIL:
-    case ADD_GAME_FAIL:
+    case ADD_ARCADE_GAME_FAIL:
     case GET_USER_FAIL:
     case ADD_LOBBY_FAIL:
-    case EDIT_GAME_FAIL:
+    case EDIT_GAME_MODEL_FAIL:
     case EDIT_USER_FAIL:
-    case GET_GAMES_FAIL:
+    case GET_ARCADE_GAMES_FAIL:
     case GET_LOBBY_FAIL:
     case GET_USERS_FAIL:
-    case LOAD_GAME_FAIL:
+    case LOAD_GAME_MODEL_FAIL:
     case EDIT_LOBBY_FAIL:
     case GET_LOBBYS_FAIL:
     case JOIN_LOBBY_FAIL:

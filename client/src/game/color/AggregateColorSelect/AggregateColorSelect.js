@@ -7,12 +7,12 @@ import './AggregateColorSelect.scss';
 import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { getHexFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
 
 const AggregateColorSelect = ({
-  game: { gameModel : { colors }},
+  gameModel: { gameModel : { colors }},
   canvasId,
   openCreateColorFlow,
   editGameModel,
@@ -62,7 +62,7 @@ const AggregateColorSelect = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
   gameEditor: state.gameEditor,
 });

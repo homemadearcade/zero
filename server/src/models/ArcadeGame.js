@@ -3,7 +3,7 @@ import Joi from 'joi';
 
 const { Schema } = mongoose;
 
-const gameSchema = new Schema(
+const arcadeGameSchema = new Schema(
   {
     objects: {
       type: Object,
@@ -62,7 +62,7 @@ const gameSchema = new Schema(
   { timestamps: true },
 );
 
-export const validateGame = (game) => {
+export const validateArcadeGame = (game) => {
   //Joi.object().pattern(/^/, Joi.date().iso())
   const schema = {
     hero: Joi.object({
@@ -86,7 +86,7 @@ export const validateGame = (game) => {
   return Joi.validate(game, schema, { allowUnknown: true });
 };
 
-gameSchema.methods.toJSON = function () {
+arcadeGameSchema.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     metadata: this.metadata,
@@ -105,6 +105,6 @@ gameSchema.methods.toJSON = function () {
   };
 };
 
-const Game = mongoose.model('Game', gameSchema);
+const ArcadeGame = mongoose.model('ArcadeGame', arcadeGameSchema);
 
-export default Game;
+export default ArcadeGame;

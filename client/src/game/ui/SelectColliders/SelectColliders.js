@@ -45,7 +45,7 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.game.gameModel,
+    gameModel: state.gameModel.gameModel,
   }
 };
 

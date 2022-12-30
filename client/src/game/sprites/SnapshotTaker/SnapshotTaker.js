@@ -23,7 +23,7 @@ const SnapshotTaker = ({closeSnapshotTaker }) => {
 };
 
 const mapStateToProps = (state) => ({
-  game: state.game,
+
 });
 
 export default connect(mapStateToProps, { closeSnapshotTaker })(SnapshotTaker);

@@ -8,7 +8,7 @@ import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { closeSelectBackgroundColor } from '../../../store/actions/gameEditorActions';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 
 const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel, gameFormEditor: { color} }) => {
   function handleClose() {
@@ -32,7 +32,6 @@ const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel, game
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
-  game: state.game
 })
 
 export default compose(

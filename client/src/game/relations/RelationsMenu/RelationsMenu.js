@@ -12,7 +12,7 @@ import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
 import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
 import { EFFECT_COLLIDE } from '../../constants';
 
-const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, game: { gameModel } }) => {
+const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel } }) => {
   function handleClose() {
     closeRelationsMenu()
   }
@@ -65,8 +65,7 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
-  game: state.game,
-
+  gameModel: state.gameModel,
 })
 
 export default compose(

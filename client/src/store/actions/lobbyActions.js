@@ -39,7 +39,7 @@ import {
 import ping from 'web-pingjs';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { BACKGROUND_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../game/constants';
-import { editGameModel } from './gameActions';
+import { editGameModel } from './gameModelActions';
 import store from '..';
 
 setInterval(() => {

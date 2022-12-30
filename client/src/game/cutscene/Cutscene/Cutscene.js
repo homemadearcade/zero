@@ -32,7 +32,7 @@ function CutsceneBody({imageUrl, text, progressActiveCutscene}) {
   );
 }
 
-const Cutscene = ({ game: { gameModel: { cutscenes } }, gameContext: { cutsceneId, cutsceneIndex }, progressActiveCutscene}) => {
+const Cutscene = ({ gameModel: { gameModel: { cutscenes } }, gameContext: { cutsceneId, cutsceneIndex }, progressActiveCutscene}) => {
   if(!cutsceneId) return null
   
   const { imageUrl, text } = cutscenes[cutsceneId].scenes[cutsceneIndex]
@@ -42,7 +42,7 @@ const Cutscene = ({ game: { gameModel: { cutscenes } }, gameContext: { cutsceneI
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameContext: state.gameContext,
-  game: state.game
+  gameModel: state.gameModel,
 });
 
 export default compose(

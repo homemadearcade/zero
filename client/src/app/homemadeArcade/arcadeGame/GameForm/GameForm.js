@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
-import { addGame } from '../../../../store/actions/gameActions';
+import { addArcadeGame } from '../../../../store/actions/arcadeGameActions';
 import { gameFormSchema } from './validation';
 
 import './styles.css';
 import Button from '../../../../ui/Button/Button';
 import Typography from '../../../../ui/Typography/Typography';
 
-const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
+const GameForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
     initialValues: {
       objects: {},
@@ -25,7 +25,7 @@ const GameForm = ({ addGame, onSubmit, auth: { me } }) => {
     validationSchema: gameFormSchema,
     onSubmit: async (values, { resetForm }) => {
       resetForm();
-      await addGame(values);
+      await addArcadeGame(values);
       onSubmit()
     },
   });
@@ -75,4 +75,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { addGame })(GameForm);
+export default connect(mapStateToProps, { addArcadeGame })(GameForm);

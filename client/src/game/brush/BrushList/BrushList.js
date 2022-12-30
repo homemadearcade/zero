@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import './BrushList.scss';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
@@ -24,7 +24,7 @@ import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 
 const BrushList = ({
-  game: { gameModel },
+  gameModel: { gameModel },
   gameFormEditor: { isCreateBrushFlowOpen },
   editGameModel,
   openCreateBrushFlow,
@@ -178,7 +178,7 @@ const BrushList = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
 })
 

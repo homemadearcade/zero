@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { HERO_INSTANCE_ID } from '../../constants';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, game: { gameModel } }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel } }) => {
   return <>
     <MenuItem><strong>{gameModel.classes[classId].name}</strong></MenuItem>
     <Unlockable interfaceId="drag">
@@ -35,7 +35,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
 
 const mapStateToProps = (state) => ({
   webPage: state.webPage,
-  game: state.game
+  gameModel: state.gameModel,
 })
 
 export default connect(mapStateToProps, { editGameModel })(ObjectInstanceContextMenu);

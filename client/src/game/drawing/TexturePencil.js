@@ -6,7 +6,7 @@ import { Brush } from "./Brush";
 
 export class TexturePencil extends Brush {
   constructor(scene, {brushId}){
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const brush = gameModel.brushes[brushId]
     const depth = getDepthFromCanvasId(brush.canvasId)
     const tint = brush.tint
@@ -21,7 +21,7 @@ export class TexturePencil extends Brush {
   }
 
   getCanvasId() {
-    const gameModel = store.getState().game.gameModel
+    const gameModel = store.getState().gameModel.gameModel
     const brush = gameModel.brushes[this.brushId]
     return brush.canvasId
   }

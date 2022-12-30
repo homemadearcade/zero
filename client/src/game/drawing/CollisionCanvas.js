@@ -25,7 +25,7 @@ export class CollisionCanvas extends CodrawingCanvas {
 
   createCollisionBody = async () => {
     const { bufferCanvasContext, bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
-    const gameModel = store.getState().game.gameModel 
+    const gameModel = store.getState().gameModel.gameModel 
     const nodeSize = gameModel.world.nodeSize
 
     const terrainData = bufferCanvasContext.getImageData(0, 0, bufferCanvas.width, bufferCanvas.height);

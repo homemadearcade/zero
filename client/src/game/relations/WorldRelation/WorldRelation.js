@@ -7,7 +7,7 @@ import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/Cobrowsing
 import { closeWorldRelation, updateWorldRelation } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { editGameModel } from '../../../store/actions/gameActions';
+import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import SelectWorldBoundaryEffect from '../../ui/SelectWorldBoundaryEffect/SelectWorldBoundaryEffect';
 

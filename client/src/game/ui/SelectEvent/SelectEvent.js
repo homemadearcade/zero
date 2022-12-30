@@ -7,7 +7,7 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { eventDisplayNames, getEventLabel, singleClassEvents } from '../../defaultData/relationship';
 import { capitalize } from '../../../utils/utils';
 
-const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA, game: { gameModel } }) => {
+const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA, gameModel: { gameModel } }) => {
   const classA = gameModel.classes[classIdA]
   const classB = gameModel.classes[classIdB]
 
@@ -37,7 +37,7 @@ const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA,
 
 const mapStateToProps = (state) => {
   return {
-    game: state.game,
+    gameModel: state.gameModel,
   }
 };
 

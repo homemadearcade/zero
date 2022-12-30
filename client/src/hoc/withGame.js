@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Loader from '../ui/Loader/Loader';
 import store from '../store';
 import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
-import { loadGame, unloadGame } from '../store/actions/gameActions';
+import { loadArcadeGame, unloadArcadeGame } from '../store/actions/arcadeGameActions';
 import { getCurrentGameScene } from '../utils/editorUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -11,15 +11,15 @@ export default (ChildComponent) => {
   class WithGame extends Component {
 
     componentDidMount() {
-      const { match, gameId, loadGame } = this.props
+      const { match, gameId, loadArcadeGame } = this.props
 
 
       const doLoadGame = async () => {
         if(gameId) {
-          await loadGame(gameId)
+          await loadArcadeGame(gameId)
         } else if(match?.params?.gameId) {
           const matchId = match.params.gameId;
-          await loadGame(matchId);
+          await loadArcadeGame(matchId);
         }
   
         window.addEventListener('beforeunload', this.askBeforeClosing);    
@@ -51,20 +51,20 @@ export default (ChildComponent) => {
     }
 
     componentWillUnmount() {
-      const { unloadGame } = this.props
+      const { unloadArcadeGame } = this.props
 
-      unloadGame()
+      unloadArcadeGame()
       window.removeEventListener('beforeunload', this.askBeforeClosing)
     }
 
     render() {
-      const { game } = this.props
+      const { gameModel } = this.props
 
-      if(!game.gameModel) {
+      if(!gameModel.gameModel) {
         return <Loader text="Loading Game Data..."/>
       }
 
-      if(!game.isSpriteSheetDataLoaded) {
+      if(!gameModel.isSpriteSheetDataLoaded) {
         return <Loader text="Loading Sprites..."/>
       }
 
@@ -73,8 +73,8 @@ export default (ChildComponent) => {
   }
 
   const mapStateToProps = (state) => ({
-    game: state.game
+    gameModel: state.gameModel
   });
 
-  return connect(mapStateToProps, { loadGame, unloadGame })(WithGame)
+  return connect(mapStateToProps, { loadArcadeGame, unloadArcadeGame })(WithGame)
 };

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { addLobby } from '../../../store/actions/lobbyActions';
 
 import './CutsceneNameForm.scss';
 import { Alert, TextField } from '@mui/material';
-import { addGame } from '../../../store/actions/gameActions';
 import { updateCreateCutscene } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const CutsceneNameForm = ({ updateCreateCutscene, game: { gameModel }, gameFormEditor: { cutscene } }) => {
+const CutsceneNameForm = ({ updateCreateCutscene, gameModel: { gameModel }, gameFormEditor: { cutscene } }) => {
   const [nameList, setNameList] = useState([])
 
   useEffect(() => {
@@ -52,8 +50,8 @@ const CutsceneNameForm = ({ updateCreateCutscene, game: { gameModel }, gameFormE
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  game: state.game,
+  gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor
 });
 
-export default connect(mapStateToProps, { updateCreateCutscene, addLobby, addGame })(CutsceneNameForm);
+export default connect(mapStateToProps, { updateCreateCutscene })(CutsceneNameForm);

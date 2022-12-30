@@ -6,7 +6,7 @@ import './GameMetadataModal.scss';
 import CobrowsingModal from '../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { closeGameMetadataModal } from '../../store/actions/gameEditorActions';
-import { editGameModel } from '../../store/actions/gameActions';
+import { editGameModel } from '../../store/actions/gameModelActions';
 import GameMetadataForm from '../../app/homemadeArcade/arcadeGame/GameMetadataForm/GameMetadataForm';
 
 const GameMetadataModal = ({ closeGameMetadataModal, gameViewEditor: { isSnapshotTakerOpen } }) => {
