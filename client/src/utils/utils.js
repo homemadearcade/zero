@@ -1,6 +1,10 @@
 import _ from "lodash";
 import store from "../store";
 
+export function centsToDollars(cents) {
+  return (cents / 100).toLocaleString("en-US", {style:"currency", currency:"USD"});
+}
+
 export function getUrlParameter(name, url) {
   if (!url) url = global.location.href;
   name = name.replace(/[[\]]/g, '\\$&');

@@ -10,7 +10,8 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
 import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
-import { EFFECT_COLLIDE } from '../../constants';
+import { EFFECT_COLLIDE, HERO_CLASS } from '../../constants';
+import { getClassAandB } from '../../../utils/gameUtils';
 
 const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel } }) => {
   function handleClose() {
@@ -39,9 +40,14 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
       {relations.map((relation) => {
         const { event, effect: { type, effectedClassId }} = relation
 
-        const classA = gameModel.classes[event.classIdA]
-        const effectedClass = gameModel.classes[effectedClassId]
-        const classB = gameModel.classes[event.classIdB]
+        // if the class dont exist, its the hero class ( as of now thats the only generalized one)
+        let effectedClass = gameModel.classes[effectedClassId];
+        if(effectedClassId === HERO_CLASS) {
+          effectedClass = gameModel.classes[gameModel.hero.initialClassId]
+          effectedClass.name = 'Player'
+          console.log(effectedClass)
+        }
+        const { classA, classB } = getClassAandB(event.classIdA, event.classIdB)
 
         if(type === EFFECT_COLLIDE) return null
 

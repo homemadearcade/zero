@@ -6,10 +6,10 @@ import './SelectRelationEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { collideOnlyEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../defaultData/relationship';
 import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
+import { getClassAandB } from '../../../utils/gameUtils';
 
-const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, gameModel: { gameModel }, classIdA, classIdB}) => {
-  const classA = gameModel.classes[classIdA]
-  const classB = gameModel.classes[classIdB]
+const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, classIdA, classIdB}) => {
+  const { classA, classB } = getClassAandB(classIdA, classIdB)
 
   const mapControlsToOption = (effect) => {
 
@@ -45,7 +45,6 @@ const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disab
 
 const mapStateToProps = (state) => {
   return {
-    gameModel: state.gameModel,
   }
 };
 

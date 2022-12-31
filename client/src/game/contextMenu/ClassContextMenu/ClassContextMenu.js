@@ -100,7 +100,7 @@ const ClassContextMenu = ({
         })
         onMenuItemClick()
       }}>Duplicate {classTypeToDisplayName[objectClass.type]}</MenuItem>
-      {!insideObjectInstanceContextMenu && 
+      {false && 'before doing this I need to clean up a lot of stuff in relations' && !insideObjectInstanceContextMenu && 
         <Unlockable interfaceId="contextMenu/class/delete">
           <MenuItem onClick={() => {
           

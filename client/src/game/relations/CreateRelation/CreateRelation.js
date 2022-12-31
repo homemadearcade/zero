@@ -19,6 +19,7 @@ import { TextField } from '@mui/material';
 import { ON_COLLIDE, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectSides from '../../ui/SelectSides/SelectSides';
+import { getClassAandB } from '../../../utils/gameUtils';
 
 const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { relation }, gameModel: { gameModel} }) => {
   function handleClose() {
@@ -27,8 +28,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
   const [isNewRelation, setIsNewRelation] = useState(null)
 
-  const classA = gameModel.classes[relation.event.classIdA]
-  const classB = gameModel.classes[relation.event.classIdB]
+  const { classA, classB } = getClassAandB(relation.event.classIdA, relation.event.classIdB)
 
   useEffect(() => {
     if(!relation.relationId) {
@@ -79,6 +79,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     const forms =[]
     if(editForms.classId) {
       forms.push(<SelectClass 
+        includePlayerClass
         key={relation.event.classIdA + 'effectClassId'}
         formLabel={editForms.classId}
         value={relation.effect.classId ? [relation.effect.classId] : []}
@@ -129,6 +130,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     <div className="CreateRelation">
       <ClassMemberTitle classId={relation.event.classIdA} title="Relation"/>
         <SelectClass 
+          includePlayerClass
           formLabel="With what objects?"
           value={relation.event.classIdB ? [relation.event.classIdB] : []}
           onChange={(event, classes) => {
@@ -156,6 +158,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         </Unlockable>}
         {classB && <Unlockable interfaceId="relation/effected">
           <SelectClass 
+            includePlayerClass
             formLabel={"What class is effected? Instead of the " + classA.name + ' instance'}
             value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
             onChange={(event, classes) => {

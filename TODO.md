@@ -3,30 +3,43 @@ IN DISCUSSION
 Movement is prompted after placing the first object?
 Press X to interact - Press space to fire
 If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
-Auto hide live editor when using keys?
 
 --- 
 TODO
+
+The sliders - you dont really know what zero is
+
+Spawn Effect
+
+Ticketing
+  Integrate authorize
+  Checkout Itenerary
+  Hookup to TicketedEvent system
+  Ticket Model
+  Calendar
+    Upcoming dates
+    Unsold dates
+    Expired dates
+  Add Date
+  Remove Date
+  Create Lobby with sold ticket
 
 Non Game Mode For the Lobby 
 	Guide-Only Video
   ‘Dialogue Popup’
   Which is essentially Participants and Guides camera with Dialogue overlaid the Guides camera
 
-The sliders - you dont really know what zero is
-
-Spawn Effect
+Full screen decision
+  GAME SPECIFIC UI SYSTEM? for settin gravity
 
 ---
 TODO CHORES
 
+Forgot Email Flow
+UI system for changing ui...
 Move properties into objects based on Member
-Player should be just another object instance. Also add a variable called like 'controlling instance' which is like a copy or something? think on this. Too many variations between player and object
-Effect 'Player'? Effect Instance id? Create a generelized id structure for everything.
+Outline Class ( for eraser and objectInstance, and camerapreview? )
+Popup for connection errors, little thing in the bottom corner. Toast thing
 
--- 
+--
 
-TODO LATER MAYBE
-
-Relation menu - No matter what the class is, be able to select the player
-GAME SPECIFIC UI SYSTEM? for settin gravity

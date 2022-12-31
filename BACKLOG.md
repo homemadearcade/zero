@@ -42,7 +42,7 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 
 TODO FEATURES ( MAYBE ) BACKlog
 
-Choose instances in relation editor
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for spaceship mode 
 
 Take snapshot without BG
 
@@ -53,8 +53,6 @@ Destroyed By Message ( You lost because... )
 Unlock snap to grid?
 
 Sprite Editor when loading up, you cant see previous strokes
-
-Attribute to make the left side the 'front' of a sprite. For.. projectiles and for spaceship mode 
 
 Camera change options for 'cutscene'
 
@@ -74,7 +72,7 @@ Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 Interact area based on the size of the camera?
 
-Lock to cobrowsers camera
+View to lock to cobrowsers camera
 
 TAB + for moving through the UI ( other keyboard shortcuts )
 
@@ -84,13 +82,21 @@ Right click -> snap camera to section? regardless if you are in section or not?
 
 Zoom Slider
 
-For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
 TODO CHORES BACKLOG
+
+Hero Name -> Player
+
+Choose instances in relation editor
+Effect Instance id? Create a generelized id structure for everything.
+  event.classIdB, classIdA would actually just be idA, idB, and then that id will relate to like objectclass/adsoasd98/ or objectinstance/oiasdljkasdna or playerinstance/kj.hasdkhjasd
+  ID system for objects vs player vs project, etc? is that smart? Like be able to figure out what anything is based on its id?
+
+Player should be just another object instance. Also add a variable called like 'controlling instance' which is like a copy or something? think on this. Too many variations between player and object
 
 Look up x, y, on sprite should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 
@@ -103,15 +109,11 @@ security for redux state stuff. Since cobrowsers can edit the redux state, they 
 
 security for codrawing and cobrowsing, make sure they are in the lobby!
 
-Popup for connection errors, little thing in the bottom corner. Toast thing
+check and make sure phaser is deleting the game objects
 
 also like... event listeners, make sure they are getting turned off right. It can cause serious trouble
 
-check and make sure phaser is deleting the game objects
-
 Unauthenticate socket when logging out
-
-Outline Class ( for eraser and objectInstance, and camerapreview? )
 
 Update Hero Camera Max after changing section
 
@@ -127,13 +129,13 @@ this.isHost this.isLocal should I save? should I cobrowse, should I send remote 
 
 Seperate more reducers?
 
-Game Model class? for like getting data from redux so we can get game data with functions
-
 So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
 
-ID system for objects vs player vs project, etc? is that smart? Like be able to figure out what anything is based on its id?
+Game Model class? for like getting data from redux so we can get game data with functions
+For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
 
--------------------------------------------
+Auto hide live editor when using keys?
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 

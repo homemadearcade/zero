@@ -18,6 +18,7 @@ import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
 import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION } from './constants';
 import Lobby from './models/Lobby';
+import TicketedEvent from './models/TicketedEvent';
 
 const app = express();
 
@@ -221,6 +222,28 @@ io.on("connection", (socket) => {
 });
 
 async function onMongoDBConnected() {
+
+  // const ticketedEvent = {
+  //   title: 'Homemade Arcade',
+  //   subtitle: 'An arcade game creation experience',
+  //   location: 'Online',
+  //   description: 'In this two hour experience you will create your own arcade game, guided by a sentient and sentimental AI. Spencer Williams has an award winning history of building collaborative creative experiences such as Tales by Candlelight. Jon Pedigo is the co-creator of Bar of Dreams, a beloved intimate immersive theater production about a kid who played too many video games. He is a software engineer and spent the pandemic building a custom game engine to allow this experience to exist',
+  //   user: '62143b5618ac51461e5ecf6b',
+  //   dates: [{
+  //     startDate: '2023-08-18T21:11:54',
+  //     endDate: '2023-08-18T21:12:54',
+  //     id: 'july132023'
+  //   }],
+  //   tickets: [{
+  //     id: 'genadmin',
+  //     name: 'general admission',
+  //     price: 100,
+  //     quantity: 100,
+  //   }],
+  // }
+  
+  // await TicketedEvent.create(ticketedEvent)
+
   let lobbys = (await Lobby.find().populate('participants game').populate({
     path: 'game',
     populate: {

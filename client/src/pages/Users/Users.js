@@ -38,6 +38,10 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
                     </Link>}
                     <div className="info-container">
                       <div>
+                        <span className="label">id: </span>
+                        <span className="info">{user.id}</span>
+                      </div>
+                      <div>
                         <span className="label">Provider: </span>
                         <span className="info">{user.provider}</span>
                       </div>

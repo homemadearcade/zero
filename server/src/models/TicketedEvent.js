@@ -22,16 +22,8 @@ const ticketedEventSchema = new Schema(
       required: true, 
     },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    ticketTypes: [{
+    tickets: [{
       id: {
-        type: String,
-        required: true,
-      },
-      availableQuantity: {
-        type: String,
-        required: true,
-      },
-      price: {
         type: String,
         required: true,
       },
@@ -39,18 +31,26 @@ const ticketedEventSchema = new Schema(
         type: String,
         required: true,
       },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
     }],
     dates: [{ 
-      day: {
+      id: {
         type: String,
         required: true,
       },
-      startTime: {
-        type: String,
+      startDate: {
+        type: Date,
         required: true,
       },
-      endTime: {
-        type: String,
+      endDate: {
+        type: Date,
         required: true,
       },
     }]
@@ -60,6 +60,7 @@ const ticketedEventSchema = new Schema(
 
 ticketedEventSchema.methods.toJSON = function () {
   return {
+    id: this._id.toString(),
     title: this.title,
     subtitle: this.subtitle,
     location: this.location,

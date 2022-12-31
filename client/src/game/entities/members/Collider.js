@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, EFFECT_COLLIDE, MATTER_PHYSICS, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../constants";
+import { ARCADE_PHYSICS, EFFECT_COLLIDE, HERO_CLASS, MATTER_PHYSICS, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {
@@ -23,6 +23,9 @@ export class Collider {
     relations.forEach(({event, effect, sides}) => {
       if(event.type === ON_COLLIDE) {
         const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
+        if(event.classIdB === HERO_CLASS) {
+          releventInstances.push(this.scene.playerInstance.sprite)
+        }
         if(effect.type === EFFECT_COLLIDE) {
           this.unregisters.push(
             this.scene.physics.add.collider(this.sensor.sprite, releventInstances, (instanceA, instanceB) => {

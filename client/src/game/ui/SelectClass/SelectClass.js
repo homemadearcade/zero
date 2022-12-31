@@ -4,8 +4,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectClass.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
+import { HERO_CLASS } from '../../constants';
 
-const SelectClass = ({ onChange, value, formLabel, gameModel, classType }) => {
+const SelectClass = ({ onChange, value, formLabel, gameModel, classType, includePlayerClass }) => {
 
   const mapClassToOption = (classId) => {
     const objectClass = gameModel.classes[classId]
@@ -24,6 +25,14 @@ const SelectClass = ({ onChange, value, formLabel, gameModel, classType }) => {
     if(classType === objectClass.type) return true
     return false
   }).map(mapClassToOption)
+
+  if(includePlayerClass) {
+    console.log('xx')
+    options.push({
+      label: 'Player',
+      value: HERO_CLASS
+    })
+  }
 
   return <SelectChipsAuto 
     onChange={(event, descriptors) => {
