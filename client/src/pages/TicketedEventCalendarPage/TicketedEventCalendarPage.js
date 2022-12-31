@@ -10,6 +10,7 @@ import Typography from '../../ui/Typography/Typography';
 import { getTicketedEvents, editTicketedEvent } from '../../store/actions/ticketedEventActions';
 import ProjectHeader from '../../app/wishLabs/ProjectHeader/ProjectHeader';
 import Loader from '../../ui/Loader/Loader';
+import AddEventDateForm from '../../ticketing/AddEventDateForm/AddEventDateForm';
 
 const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticketedEvent: { ticketedEvents, isLoading }, auth: { me }}) => {
   useEffect(() => {
@@ -29,7 +30,7 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
           <ProjectHeader title={homemadeArcadeEvent.title} subtitle={homemadeArcadeEvent.subtitle}></ProjectHeader>
         </div>
         <div className="TicketedEventCalendarPage__calendar">
-
+          <AddEventDateForm></AddEventDateForm>
         </div></>)}
       </div>
     </Layout>

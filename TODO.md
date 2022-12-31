@@ -24,6 +24,11 @@ Ticketing
   Remove Date
   Create Lobby with sold ticket
 
+UI MODE
+  Monologue
+  Conversation
+  Game Editor
+  
 Non Game Mode For the Lobby 
 	Guide-Only Video
   ‘Dialogue Popup’

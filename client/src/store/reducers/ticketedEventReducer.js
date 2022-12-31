@@ -95,7 +95,7 @@ export default function ticketedEventReducer(state = initialState, { type, paylo
         ...state,
         isLoading: false,
         error: payload.error,
-        ticketedEvents: state.ticketedEvents.filter((m) => m.id !== 0),
+        ticketedEvents: state.ticketedEvent.filter((m) => m.id !== 0),
       };
     default:
       return state;
