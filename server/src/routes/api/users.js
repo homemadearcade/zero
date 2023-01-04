@@ -113,6 +113,16 @@ router.get('/:username', requireJwtAuth, async (req, res) => {
   }
 });
 
+router.get('/byId/:id', requireJwtAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'No user found.' });
+    res.json({ user: user.toJSON() });
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.get('/byEmail/:email', async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email });

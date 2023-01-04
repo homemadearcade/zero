@@ -1,3 +1,4 @@
+import store from '..';
 import {
   UNLOCK_INTERFACE,
   LOCK_INTERFACE,
@@ -18,6 +19,8 @@ export const unlockInterfaceId = (id) => async (dispatch, getState) => {
     type: UNLOCK_INTERFACE,
     payload: { interfaceId: id },
   });
+
+  store.getState()
 };
 
 export const lockInterfaceId = (id) => async (dispatch, getState) => {

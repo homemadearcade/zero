@@ -30,7 +30,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
         isLoading: true,
       };
     case LOAD_GAME_MODEL_SUCCESS:
-      console.log('game loaded', payload.game)
+      console.log('game model loaded', payload.gameModel)
       return {
         ...state,
         isLoading: false,

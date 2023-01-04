@@ -1,4 +1,4 @@
-import React, { } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -6,8 +6,15 @@ import './GamePreview.scss';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
 import GameStatus from '../../app/homemadeArcade/arcadeGame/GameStatus/GameStatus';
+import { loadCobrowsingPreview } from '../../store/actions/cobrowsingActions';
 
-const GamePreview = ({children}) => {
+const GamePreview = ({children, userId, loadCobrowsingPreview}) => {
+  useEffect(() => {
+    if(userId) {
+      loadCobrowsingPreview(userId)
+    }
+  }, [userId])
+
   return (
     <div className="GamePreview">
       <GameView
@@ -26,5 +33,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withGame,
-  connect(mapStateToProps, {  })
+  connect(mapStateToProps, { loadCobrowsingPreview })
 )(GamePreview);

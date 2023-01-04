@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 
 import './LobbySetupFlow.scss';
-import { addArcadeGame, unloadArcadeGame } from '../../store/actions/arcadeGameActions';
+import { addArcadeGame, unloadArcadeGame, updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
 import GameSelect from '../../app/homemadeArcade/arcadeGame/GameSelect/GameSelect';
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import Typography from '../../ui/Typography/Typography';
@@ -22,6 +22,7 @@ const LobbySetupFlow = ({
   addArcadeGame,
   editLobby,
   assignLobbyRole,
+  updateArcadeGameCharacter,
   lobby: { lobby },
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
@@ -128,6 +129,17 @@ const LobbySetupFlow = ({
           instructions: !lobby.isGamePoweredOn ? renderSelectGame() : <Typography component="h5" variant="h5">You can not change the selected game when the game is powered on</Typography>
         },
         {
+          id: 'Share Participant link',
+          title: <Typography component="h5" variant="h5">Share Participant link</Typography>,
+          instructions: <>
+            The participant will automatically have recieved this link in the email for their ticket. You may also manually share this link with them if needed
+            <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobby/' + lobby.id + '/join/' + lobby.participantId}></input>
+            When they have joined, the card below will be lit up and have a green dot in the corner
+            <UserStatus userId={usersById[lobby.participantId]?.id}/>
+
+          </>
+        },
+        {
           id: 'Review Launch Checklist',
           title: <Typography component="h5" variant="h5">Review Launch Checklist </Typography>,
           instructions: <LobbyChecklist/>
@@ -140,13 +152,19 @@ const LobbySetupFlow = ({
           </>
         },
         {
-          id: 'Reveal Game Screen',
-          title: <Typography component="h5" variant="h5">Reveal Game Screen</Typography>,
+          id: 'I1 - Reveal Game Screen',
+          title: <Typography component="h5" variant="h5">i1 - Reveal Game Screen</Typography>,
           instructions: <>
-            <Button onClick={() => {
-              unlockInterfaceId('gameView')
+            This will set the participants game screen to be able to see the Game View and the Game View only
+            <Button variant="contained" onClick={() => {
+              updateArcadeGameCharacter({
+                userId: lobby.participantId,
+                unlockableInterfaceIds: {
+                  gameView: true,
+                }
+              })
             }}>
-            Reveal
+            Set interface to i1
            </Button>
           </>
         }
@@ -165,5 +183,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame }),
+  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter }),
 )(LobbySetupFlow);

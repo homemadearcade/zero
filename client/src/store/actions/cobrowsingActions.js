@@ -22,12 +22,16 @@ import {
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
   LOCK_INTERFACE,
   UNLOCK_INTERFACE,
+  LOAD_COBROWSING_PREVIEW_SUCCESS,
+  LOAD_COBROWSING_PREVIEW_FAIL,
+  LOAD_COBROWSING_PREVIEW_LOADING,
 } from '../types';
 
 import store from '..';
 import { getRemoteStatePackage } from '../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { editUser } from './userActions';
+import { initializeUnlockableInterfaceIds, loadCobrowsingUnlockableInterfaceIds } from './unlockableInterfaceActions';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
@@ -125,6 +129,28 @@ function onCobrowsingKeyUp(event) {
     }, 500)
   }
 }
+
+export const loadCobrowsingPreview = (userId) => async (dispatch, getState) => {
+  dispatch({
+    type: LOAD_COBROWSING_PREVIEW_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/users/byId/' + userId, options);
+
+    dispatch(initializeUnlockableInterfaceIds(response.data.user.unlockableInterfaceIds))
+
+    dispatch({
+      type: LOAD_COBROWSING_PREVIEW_SUCCESS,
+    });
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: LOAD_COBROWSING_PREVIEW_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
 
 export const handleCobrowsingUpdates = store => next => action => {
   // console.log('dispatching', action)

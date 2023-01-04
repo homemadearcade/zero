@@ -3,7 +3,8 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 import ArcadeGame, { validateArcadeGame } from '../../models/ArcadeGame';
 import { mergeDeep } from '../../utils/utils';
-import { ON_GAME_MODEL_UPDATE} from '../../constants';
+import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE} from '../../constants';
+import User from '../../models/User';
 
 const router = Router();
 
@@ -32,6 +33,35 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong.' });
   }
 });
+
+router.post('/character', requireJwtAuth, requireSocketAuth, async (req, res) => {
+  if (req.user.role !== 'ADMIN') {
+    return res.status(400).json({ message: 'Admins only' });
+  }
+
+  const tempUser = await User.findById(req.body.userId);
+  if (!tempUser) return res.status(404).json({ message: 'No such user.' });
+  
+  try {
+    const updatedUser = {};
+    updatedUser.unlockableInterfaceIds = req.body.unlockableInterfaceIds
+
+    const user = await User.findByIdAndUpdate(req.body.userId, { $set: updatedUser }, { new: true });
+
+    req.io.to(req.body.lobbyId).emit(ON_GAME_CHARACTER_UPDATE, {
+      id: req.body.userId,
+      data: {
+        unlockableInterfaceIds: user.unlockableInterfaceIds
+      }
+    })
+
+    res.status(200).json({ user: user.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 
 router.post('/', requireJwtAuth, async (req, res) => {
   const { error } = validateArcadeGame(req.body);

@@ -14,7 +14,6 @@ import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
 import CobrowsingGame from '../../game/CobrowsingGame/CobrowsingGame';
 import LobbyDashboard from '../../lobby/LobbyDashboard/LobbyDashboard';
-import Onboarding from '../../lobby/Onboarding/Onboarding';
 import GameView from '../../game/GameView/GameView';
 import Drawer from '../../ui/Drawer/Drawer';
 import LobbyDetail from '../../lobby/LobbyDetail/LobbyDetail';
@@ -27,8 +26,6 @@ import ConstellationToggle from '../../game/ConstellationToggle/ConstellationTog
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
-import GamePreview from '../../game/GamePreview/GamePreview';
-import LobbySetupFlow from '../../lobby/LobbySetupFlow/LobbySetupFlow';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -132,6 +129,10 @@ const LobbyPage = ({
         {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
           {renderGameEditor()}
         </CobrowsingGame>}
+      </Route>
+      <Route path={`${path}/preview/:cobrowsingUserId`}>
+        <LobbyDashboard/>  
+        {<LobbyDrawer/>}
       </Route>
     </Switch>
 };

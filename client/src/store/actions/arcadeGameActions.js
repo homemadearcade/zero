@@ -22,6 +22,8 @@ import {
   GET_SPRITESHEET_DATA_FAIL,
   UNLOAD_GAME_MODEL,
   ON_GAME_MODEL_UPDATE,
+  ON_GAME_CHARACTER_UPDATE,
+  INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -33,6 +35,50 @@ import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
 import { UNDO_MEMORY_MAX } from '../../game/constants';
 import { editGameModel } from './gameModelActions';
+
+function onArcadeGameCharacterUpdate({ id, data }) {
+  const me = store.getState().auth.me 
+  const lobby = store.getState().lobby.lobby
+  const cobrowsing = store.getState().cobrowsing
+
+  if(me.id === id || (lobby.id && !cobrowsing.isSubscribedCobrowsing)) {
+    store.dispatch({
+      type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+      updateCobrowsing: true,
+      payload: {
+        unlockableInterfaceIds: data.unlockableInterfaceIds
+      }
+    })
+  }
+}
+
+export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds}) => async (dispatch, getState) => {
+  // dispatch({
+  //   type: GET_SPRITESHEET_DATA_LOADING,
+  // });
+
+  try {
+    const state = store.getState()
+    const lobbyId = state.lobby.lobby.id 
+
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/arcadeGames/character', {
+      lobbyId,
+      userId,
+      unlockableInterfaceIds
+    }, options);
+
+    console.log(response)
+
+    // dispatch({
+    //   type: GET_SPRITESHEET_DATA_SUCCESS,
+    //   payload: { spritesByDescriptor, descriptorOptions },
+    // });
+
+  } catch(e) {
+
+  }
+}
 
 function onArcadeGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().gameModel.gameModel)
@@ -192,6 +238,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     const response = await axios.get('/api/arcadeGames/' + gameId, options);
 
     window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
+    window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
 
     const gameData = mergeDeep(_.cloneDeep(defaulGameModel), response.data.game)
 
@@ -223,6 +270,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
 
 export const unloadArcadeGame = () => (dispatch, getState) => {
   window.socket.off(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
+  window.socket.off(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
 
   dispatch({
     type: UNLOAD_GAME_MODEL,
