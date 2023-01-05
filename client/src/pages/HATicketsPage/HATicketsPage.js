@@ -14,74 +14,30 @@ import { Dialog, IconButton } from '@mui/material';
 import EventDatePicker from '../../ticketing/EventDatePicker/EventDatePicker';
 import TicketTypePicker from '../../ticketing/TicketTypePicker/TicketTypePicker';
 import ScrollDialog from '../../ui/ScrollDialog/ScrollDialog';
+import { getTicketedEvents } from '../../store/actions/ticketedEventActions';
+import Loader from '../../ui/Loader/Loader';
 
-const HATicketsPage = () => {
+const HATicketsPage = ({ getTicketedEvents, ticketedEvent: { ticketedEvent } }) => {
+  useEffect(() => {
+    getTicketedEvents();
+  }, []);
+
   let [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  let [isTicketPickerOpen, setIsTicketPickerOpen] = useState(false)
+  let [selectedDateId, setSelectedDateId] = useState(false)
   let [ticketsInCart, setTicketsInCart] = useState({})
+
+  if(!ticketedEvent) return <Loader></Loader>
 
   function handleDialogClose() {
     setTimeout(() => {
-      setIsTicketPickerOpen(false)
+      setSelectedDateId(false)
       setTicketsInCart({})
     }, 200)
     setIsDatePickerOpen(false)
   }
 
-  const ticketedEvent = {
-    title: 'Homemade Arcade',
-    subtitle: 'An arcade game creation experience',
-    location: 'Online',
-    dates: [{
-      month: 'July',
-      day: '13',
-      year: '2023',
-      time: '8am-10am',
-      id: 'july132023'
-    }, {
-      month: 'September',
-      day: '11',
-      year: '2023',
-      time: '8am-10am',
-      id: 'june202023'
-    },
-    {
-      month: 'April',
-      day: '24',
-      year: '2023',
-      time: '8am-10am',
-      id: 'june202023'
-    },
-    {
-      month: 'May',
-      day: '4',
-      year: '2023',
-      time: '8am-10am',
-      id: 'june202023'
-    },
-    {
-      month: 'September',
-      day: '13',
-      year: '2023',
-      time: '8am-10am',
-      id: 'june202023'
-    },
-    {
-      month: 'June',
-      day: '20',
-      year: '2023',
-      time: '8am-10am',
-      id: 'june202023'
-    }],
-    tickets: [{
-      id: 'genadmin',
-      title: 'general admission',
-      price: '100'
-    }]
-  }
-
   const selectedDate = ticketedEvent.dates.filter(({ id }) => {
-    return id === isTicketPickerOpen
+    return id === selectedDateId
   })[0]
 
   return <div className="HATicketsPage">
@@ -135,7 +91,7 @@ const HATicketsPage = () => {
       title={<>
         <div className="PurchaseDialog__title">
           <Typography font="2P" variant="h5">{ticketedEvent.title}</Typography>
-          {isTicketPickerOpen && <Typography variant="subtitle1">{selectedDate.month} {selectedDate.day} {selectedDate.time}</Typography>}
+          {selectedDateId && <Typography variant="subtitle1">{selectedDate.month} {selectedDate.day} {selectedDate.time}</Typography>}
         </div>
         <div className="PurchaseDialog__close">
           <IconButton
@@ -149,12 +105,13 @@ const HATicketsPage = () => {
             <Icon icon="faClose"></Icon>
           </IconButton>
         </div>
-        {isTicketPickerOpen && <div className="PurchaseDialog__return">
+        {selectedDateId && <div className="PurchaseDialog__return">
           <IconButton
             edge="start"
             color="inherit"
             onClick={() => {
-              setIsTicketPickerOpen(null)
+              setSelectedDateId(null)
+              setTicketsInCart({})
             }}
             aria-label="close"
           >
@@ -172,17 +129,14 @@ const HATicketsPage = () => {
       <div className="PurchaseDialog">
         <div className='PurchaseDialog__content'>
           <div className='PurchaseDialog__picker'>
-            {!isTicketPickerOpen && <EventDatePicker 
-              title={ticketedEvent.title}
-              location={ticketedEvent.location}
+            {!selectedDateId && <EventDatePicker 
+              event={ticketedEvent}
               onClickTicket={(id) => {
-                setIsTicketPickerOpen(id)
+                setSelectedDateId(id)
               }}
-              dates={
-                ticketedEvent.dates
-              }
             />}
-            {isTicketPickerOpen && <TicketTypePicker 
+            {selectedDateId && <TicketTypePicker 
+              dateId={selectedDateId}
               ticketsInCart={ticketsInCart}
               tickets={ticketedEvent.tickets}
               onChangeTicketAmount={(id, amount) => {
@@ -209,7 +163,9 @@ const HATicketsPage = () => {
 
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  ticketedEvent: state.ticketedEvent
+});
 
 export default compose(
-  connect(mapStateToProps, { playBackgroundMusic }))(HATicketsPage);
+  connect(mapStateToProps, { playBackgroundMusic, getTicketedEvents }))(HATicketsPage);

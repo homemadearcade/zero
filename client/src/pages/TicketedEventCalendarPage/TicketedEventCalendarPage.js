@@ -22,23 +22,21 @@ import Button from '../../ui/Button/Button';
           // renderCallToActionSection={(id) => {
             
           // }}
-const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticketedEvent: { ticketedEvents, isLoading }, auth: { me }}) => {
+const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticketedEvent: { ticketedEvent, isLoading }, auth: { me }}) => {
   useEffect(() => {
     getTicketedEvents();
   }, []);
 
   const [sortingBy, setSortingBy] = useState('upcoming')
 
-  let homemadeArcadeEvent = ticketedEvents[0]
-
   return (
     <Layout>
       <div className="TicketedEventCalendarPage">
         <Typography component="h1" variant="h1">Calendar page</Typography>
         This is the Calendar page. Here are listed all of the dates for the event. 
-        {(isLoading || ticketedEvents.length === 0) ? (<Loader />) : (<>
+        {(isLoading || !ticketedEvent) ? (<Loader />) : (<>
           <div className="TicketedEventCalendarPage__event">
-            <ProjectHeader title={homemadeArcadeEvent.title} subtitle={homemadeArcadeEvent.subtitle}></ProjectHeader>
+            <ProjectHeader title={ticketedEvent.title} subtitle={ticketedEvent.subtitle}></ProjectHeader>
           </div>
           <div className="TicketedEventCalendarPage__dates">
             <Select inputLabel="Sort Dates By" options={['upcoming', 'expired', 'unsold', 'all'].map((s) => {
@@ -47,9 +45,8 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
               setSortingBy(e.target.value)
             }} value={sortingBy}></Select>
             <EventDateList
-              title={homemadeArcadeEvent.title}
-              location={homemadeArcadeEvent.location}
-              dates={homemadeArcadeEvent.dates.filter((date) => {
+              event={ticketedEvent}
+              dates={ticketedEvent.dates.filter((date) => {
                 if(!date.startDate) return false
 
                 const now =  dayjs(Date.now())
@@ -82,12 +79,12 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
               })}
               renderCallToActionSection={(dateId) => {
                 return <Button onClick={() => {
-                  const index = homemadeArcadeEvent.dates.findIndex(({id}) => {
+                  const index = ticketedEvent.dates.findIndex(({id}) => {
                     console.log(dateId, id)
                     return id === dateId
                   })
-                  homemadeArcadeEvent.dates.splice(index, 1)
-                  editTicketedEvent(homemadeArcadeEvent.id, homemadeArcadeEvent)
+                  ticketedEvent.dates.splice(index, 1)
+                  editTicketedEvent(ticketedEvent.id, ticketedEvent)
                 }}>
                   Delete
                 </Button>

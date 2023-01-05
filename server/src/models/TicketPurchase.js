@@ -17,6 +17,10 @@ const ticketPurchase = new Schema(
       type: String,
       required: true,
     },
+    dateId: {
+      type: String,
+      required: true,
+    },
     ticketedEvent: { type: mongoose.Schema.Types.ObjectId, ref: 'TicketedEvent' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     lobby: { type: mongoose.Schema.Types.ObjectId, ref: 'Lobby' },
@@ -26,6 +30,7 @@ const ticketPurchase = new Schema(
 
 ticketPurchase.methods.toJSON = function () {
   return {
+    dateId: this.dateId,
     ticketId: this.ticketId,
     lobby: this.lobby.toJSON(),
     user: this.user.toJSON(),

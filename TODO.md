@@ -14,14 +14,9 @@ Spawn Effect
 Ticketing
   Integrate authorize
   Checkout Itenerary
-  Hookup to TicketedEvent system
-  Ticket Model
   Calendar
-    Upcoming dates
+    Upcoming Sold dates
     Unsold dates
-    Expired dates
-  Add Date
-  Remove Date
   Create Lobby with sold ticket
 
 Full screen decision

@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs'
 
 import './EventDateList.scss';
 import Typography from '../../ui/Typography/Typography';
+import { getTicketedPurchaseByEventId } from '../../store/actions/ticketPurchaseActions';
+import { isDateSoldOut, isTicketSoldOut } from '../../utils/ticketUtils';
 
 // const monthToMonthName = {
 //   0: 'Jan',
@@ -23,12 +25,17 @@ import Typography from '../../ui/Typography/Typography';
 // }
 
 const EventDateList = ({
-  title,
-  location, 
   dates,
-  renderCallToActionSection
+  renderCallToActionSection,
+  ticketedEvent: { ticketPurchases, ticketedEvent, ticketedEvent: { id, title, location} },
+  getTicketedPurchaseByEventId,
 }) => {
-
+  
+  useEffect(() => {
+    getTicketedPurchaseByEventId(id)
+    // get the tickets for this event here in order to display the correct information
+  }, [])
+  
   const sortedDates = dates.sort((a, b) => {
     return Number(new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }).reverse()
@@ -37,6 +44,8 @@ const EventDateList = ({
     <div className="EventDateList">
       {sortedDates.map(({id, startDate}) => {
         const date = dayjs(startDate)
+
+        const isSoldOut = isDateSoldOut({dateId: id, ticketPurchases, ticketedEvent})
 
         return <div className="EventDateList__date">
           <div className="EventDateList__body">
@@ -55,7 +64,7 @@ const EventDateList = ({
             </div>
           </div>
           {renderCallToActionSection && <div className="EventDateList__cta">
-            {renderCallToActionSection(id)}
+            {renderCallToActionSection(id, isSoldOut)}
           </div>}
         </div>
       })}
@@ -64,9 +73,9 @@ const EventDateList = ({
 };
 
 const mapStateToProps = (state) => ({
-
+  ticketedEvent: state.ticketedEvent
 });
 
 export default compose(
-  connect(mapStateToProps, { }),
+  connect(mapStateToProps, { getTicketedPurchaseByEventId }),
 )(EventDateList);

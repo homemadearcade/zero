@@ -13,11 +13,13 @@ import {
   ADD_TICKETED_EVENT_FAIL,
   EDIT_TICKETED_EVENT_FAIL,
   EDIT_TICKETED_EVENT_SUCCESS,
+  GET_TICKET_PURCHASES_BY_EVENT_SUCCESS,
 } from '../types';
 
 const initialState = {
   ticketedEvents: [],
-  ticketedEvent: {},
+  ticketedEvent: null,
+  ticketPurchases: [],
   isLoading: false,
   error: null,
 };
@@ -58,7 +60,12 @@ export default function ticketedEventReducer(state = initialState, { type, paylo
       return {
         ...state,
         isLoading: false,
-        ticketedEvents: payload.ticketedEvents,
+        ticketedEvent: payload.ticketedEvents[0],
+      };
+    case GET_TICKET_PURCHASES_BY_EVENT_SUCCESS:
+      return {
+        ...state,
+        ticketPurchases: payload.ticketPurchases,
       };
     case ADD_TICKETED_EVENT_SUCCESS:
       return {

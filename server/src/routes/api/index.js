@@ -6,6 +6,8 @@ import lobbysRoutes from './lobbys';
 import arcadeGameRoutes from './arcadeGames';
 import awsRoutes from './aws';
 import ticketedEventRoutes from './ticketedEvents'
+import ticketPurchaseRoutes from './ticketPurchases'
+
 import codrawingRoutes from './codrawing'
 
 const router = Router();
@@ -17,6 +19,7 @@ router.use('/cobrowsing', cobrowsingRoutes);
 router.use('/codrawing', codrawingRoutes);
 router.use('/arcadeGames', arcadeGameRoutes);
 router.use('/ticketedEvents', ticketedEventRoutes);
+router.use('/ticketPurchase', ticketPurchaseRoutes);
 
 router.use('/aws', awsRoutes);
 

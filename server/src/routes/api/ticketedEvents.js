@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const ticketedEvents = await TicketedEvent.find().sort({ createdAt: 'desc' }).select('user title subtitle dates').populate('user');
+    const ticketedEvents = await TicketedEvent.find().sort({ createdAt: 'desc' }).select('user title subtitle dates tickets').populate('user');
 
     res.json({
       ticketedEvents: ticketedEvents.map((m) => {

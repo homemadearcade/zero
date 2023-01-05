@@ -6,46 +6,35 @@ import { connect } from 'react-redux';
 import './EventDatePicker.scss';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
+import EventDateList from '../EventDateList/EventDateList';
+
+{/* <Typography variant="subtitle1">Starting at $100</Typography> */}
 
 const EventDatePicker = ({
-  title,
-  location, 
-  dates,
+  ticketedEvent: { ticketedEvent: { dates }},
   onClickTicket
 }) => {
   return (
     <div className="EventDatePicker">
-      {dates.map(({id, month, day, time}) => {
-        return <div className="EventDatePicker__date">
-          <div className="EventDatePicker__body">
-            <div className="EventDatePicker__calendar-date">
-              <div className="EventDatePicker__calendar-date-month">
-                {month.substr(0,3)}
-              </div>
-              <div className="EventDatePicker__calendar-date-day">
-                {day}
-              </div>
-            </div>
-            <div className="EventDatePicker__details">
-              <Typography variant="h4">{time}</Typography>
-              <Typography variant="subtitle2">{title}</Typography>
-              <Typography variant="subtitle1">{location}</Typography>
-            </div>
-          </div>
-          <div className="EventDatePicker__tickets">
-            <Button variant="contained" onClick={() => {
-              onClickTicket(id)
+      <EventDateList
+        dates={dates.filter((date) => {
+          if(!date.startDate) return false          
+          return true
+        })}
+        renderCallToActionSection={(dateId, isSoldOut) => {
+          return <>
+            <Button disabled={isSoldOut} variant="contained" onClick={() => {
+              onClickTicket(dateId)
             }}>Tickets</Button>
-            <Typography variant="subtitle1">Starting at $100</Typography>
-          </div>
-        </div>
-      })}
+            </>
+        }}
+        ></EventDateList>      
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-
+  ticketedEvent: state.ticketedEvent
 });
 
 export default compose(

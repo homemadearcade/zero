@@ -11,8 +11,8 @@ import DatePickerInline from '../../ui/DatePickerInline/DatePickerInline';
 import TimePickerInline from '../../ui/TimePickerInline/TimePickerInline';
 import dayjs from 'dayjs';
 
-const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticketedEvents } }) => {
-  const homemadeArcadeEvent = ticketedEvents[0]
+const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticketedEvent } }) => {
+ 
 
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
@@ -24,13 +24,13 @@ const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticket
     if(!data.day || !data.time) return console.log('data not completed', data)
     
     const startDate = dayjs(data.day.format('YYYY-MM-DD') + data.time.format('THH:mm:ssZ'))
-    homemadeArcadeEvent.dates.push({
+    ticketedEvent.dates.push({
       id: uuidv4(),
       startDate: startDate.toDate(),
       // endDate: 
     })
 
-    editTicketedEvent(homemadeArcadeEvent.id, homemadeArcadeEvent)
+    editTicketedEvent(ticketedEvent.id, ticketedEvent)
   }
 
   return (
