@@ -11,7 +11,7 @@ import EventDateList from '../EventDateList/EventDateList';
 {/* <Typography variant="subtitle1">Starting at $100</Typography> */}
 
 const EventDatePicker = ({
-  ticketedEvent: { ticketedEvent: { dates }},
+  ticketedEvent: { ticketedEvent: { dates, title, location }},
   onClickTicket
 }) => {
   return (
@@ -21,6 +21,12 @@ const EventDatePicker = ({
           if(!date.startDate) return false          
           return true
         })}
+        renderDetails={() => {
+          return <>
+              <Typography variant="subtitle2">{title}</Typography>
+              <Typography variant="subtitle1">{location}</Typography>
+            </>
+        }}
         renderCallToActionSection={(dateId, isSoldOut) => {
           return <>
             <Button disabled={isSoldOut} variant="contained" onClick={() => {

@@ -26,8 +26,9 @@ import { isDateSoldOut, isTicketSoldOut } from '../../utils/ticketUtils';
 
 const EventDateList = ({
   dates,
-  renderCallToActionSection,
-  ticketedEvent: { ticketPurchases, ticketedEvent, ticketedEvent: { id, title, location} },
+  renderCallToActionSection = () => {},
+  renderDetails = () => {},
+  ticketedEvent: { ticketPurchases, ticketedEvent, ticketedEvent: { id } },
   getTicketedPurchaseByEventId,
 }) => {
   
@@ -59,8 +60,7 @@ const EventDateList = ({
             </div>
             <div className="EventDateList__details">
               <Typography variant="h4">{date.format('LT') + ' PT'}</Typography>
-              <Typography variant="subtitle2">{title}</Typography>
-              <Typography variant="subtitle1">{location}</Typography>
+              {renderDetails(id, isSoldOut)}
             </div>
           </div>
           {renderCallToActionSection && <div className="EventDateList__cta">

@@ -39,7 +39,7 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
             <ProjectHeader title={ticketedEvent.title} subtitle={ticketedEvent.subtitle}></ProjectHeader>
           </div>
           <div className="TicketedEventCalendarPage__dates">
-            <Select inputLabel="Sort Dates By" options={['upcoming', 'expired', 'unsold', 'all'].map((s) => {
+            <Select inputLabel="Sort Dates By" options={['upcoming', 'expired', 'all'].map((s) => {
               return {value: s, label: s}
             })} onChange={(e) => {
               setSortingBy(e.target.value)
@@ -68,19 +68,25 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
                   return true
                 }
 
-                if(sortingBy === 'unsold') {
-                  return true
-                }
+                // if(sortingBy === 'unsold') {
+                //   return true
+                // }
 
                 if(sortingBy === 'all') {
                   return true
                 }
 
               })}
-              renderCallToActionSection={(dateId) => {
+              renderDetails={(id, isSoldOut) => {
+                return <>
+                  {isSoldOut && <Typography color="red" variant="h5">Ticket sold!</Typography>}
+                </>
+              }}
+              renderCallToActionSection={(dateId, isSoldOut) => {
+                if(isSoldOut) return 
+                
                 return <Button onClick={() => {
                   const index = ticketedEvent.dates.findIndex(({id}) => {
-                    console.log(dateId, id)
                     return id === dateId
                   })
                   ticketedEvent.dates.splice(index, 1)

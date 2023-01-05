@@ -13,30 +13,30 @@ const TicketTypePicker = ({
   tickets,
   dateId, 
   onChangeTicketAmount,
-  ticketsInCart,
+  checkout: { ticketCart },
   ticketedEvent: { ticketPurchases, ticketedEvent }
 }) => {
   return (
     <div className="TicketTypePicker">
       {tickets.map(({id, name, price}) => {
 
-        const { isSoldOut, isAtMax, unsold, remaining } = getTicketData({quantity: ticketsInCart[id], ticketId: id, dateId, ticketPurchases, ticketedEvent})
+        const { isSoldOut, isAtMax, unsold, remaining } = getTicketData({quantity: ticketCart.ticketId === id && ticketCart.quantity, ticketId: id, dateId, ticketPurchases, ticketedEvent})
 
         return <div className="TicketTypePicker__ticket">
           <div className="TicketTypePicker__ticket-header">
             <Typography variant="h4">{name}</Typography>
             <div className="TicketTypePicker__ticket-buttons">
-            <Button variant="outlined" onClick={() => {
-              if(ticketsInCart[id] > 0) {
-               onChangeTicketAmount(id, ticketsInCart[id] - 1)
+            <Button variant="outlined" disabled={!ticketCart.quantity} onClick={() => {
+              if(ticketCart.ticketId === id && ticketCart.quantity > 0) {
+               onChangeTicketAmount(id, ticketCart.quantity - 1)
               }
             }}>-</Button>
-            {ticketsInCart[id] ? ticketsInCart[id] : 0}
+            {ticketCart.ticketId === id && ticketCart.quantity ? ticketCart.quantity : 0}
             <Button disabled={isAtMax || isSoldOut} variant="contained" onClick={() => {
-              if(!ticketsInCart[id]) {
+              if(!ticketCart.ticketId === id && ticketCart.quantity) {
                 onChangeTicketAmount(id, 1)
               } else {
-                onChangeTicketAmount(id, ticketsInCart[id] + 1)
+                onChangeTicketAmount(id, ticketCart.quantity + 1)
               }
             }}>+</Button>
             </div>
@@ -52,7 +52,8 @@ const TicketTypePicker = ({
 };
 
 const mapStateToProps = (state) => ({
-  ticketedEvent: state.ticketedEvent
+  ticketedEvent: state.ticketedEvent,
+  checkout: state.checkout
 });
 
 export default compose(

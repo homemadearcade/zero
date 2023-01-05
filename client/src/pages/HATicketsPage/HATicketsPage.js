@@ -16,22 +16,22 @@ import TicketTypePicker from '../../ticketing/TicketTypePicker/TicketTypePicker'
 import ScrollDialog from '../../ui/ScrollDialog/ScrollDialog';
 import { getTicketedEvents } from '../../store/actions/ticketedEventActions';
 import Loader from '../../ui/Loader/Loader';
+import { clearCartTicket, updateCartTicketCount } from '../../store/actions/checkoutActions';
 
-const HATicketsPage = ({ getTicketedEvents, ticketedEvent: { ticketedEvent } }) => {
+const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCount, ticketedEvent: { ticketedEvent }, checkout: { ticketCart } }) => {
   useEffect(() => {
     getTicketedEvents();
   }, []);
 
   let [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   let [selectedDateId, setSelectedDateId] = useState(false)
-  let [ticketsInCart, setTicketsInCart] = useState({})
 
   if(!ticketedEvent) return <Loader></Loader>
 
   function handleDialogClose() {
     setTimeout(() => {
       setSelectedDateId(false)
-      setTicketsInCart({})
+      clearCartTicket()
     }, 200)
     setIsDatePickerOpen(false)
   }
@@ -111,7 +111,7 @@ const HATicketsPage = ({ getTicketedEvents, ticketedEvent: { ticketedEvent } }) 
             color="inherit"
             onClick={() => {
               setSelectedDateId(null)
-              setTicketsInCart({})
+              clearCartTicket()
             }}
             aria-label="close"
           >
@@ -119,7 +119,7 @@ const HATicketsPage = ({ getTicketedEvents, ticketedEvent: { ticketedEvent } }) 
           </IconButton>
         </div>}
       </>}
-      actions={<Button size="large" variant="contained" disabled={!(Object.keys(ticketsInCart).length)}>
+      actions={<Button size="large" variant="contained" disabled={!(ticketCart.quantity > 0 && ticketCart.dateId && ticketCart.ticketedEventId && ticketCart.ticketId)}>
         Checkout
       </Button>}
       maxWidth={false} 
@@ -137,12 +137,13 @@ const HATicketsPage = ({ getTicketedEvents, ticketedEvent: { ticketedEvent } }) 
             />}
             {selectedDateId && <TicketTypePicker 
               dateId={selectedDateId}
-              ticketsInCart={ticketsInCart}
               tickets={ticketedEvent.tickets}
               onChangeTicketAmount={(id, amount) => {
-                setTicketsInCart({
-                  ...ticketsInCart,
-                  [id] : amount
+                updateCartTicketCount({
+                  ticketId: id,
+                  quantity: amount,
+                  dateId: selectedDateId,
+                  ticketedEventId: ticketedEvent.id
                 })
               }}
             />}
@@ -164,8 +165,9 @@ const HATicketsPage = ({ getTicketedEvents, ticketedEvent: { ticketedEvent } }) 
 };
 
 const mapStateToProps = (state) => ({
-  ticketedEvent: state.ticketedEvent
+  ticketedEvent: state.ticketedEvent,
+  checkout: state.checkout
 });
 
 export default compose(
-  connect(mapStateToProps, { playBackgroundMusic, getTicketedEvents }))(HATicketsPage);
+  connect(mapStateToProps, { playBackgroundMusic, getTicketedEvents, clearCartTicket, updateCartTicketCount }))(HATicketsPage);

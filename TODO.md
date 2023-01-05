@@ -14,9 +14,6 @@ Spawn Effect
 Ticketing
   Integrate authorize
   Checkout Itenerary
-  Calendar
-    Upcoming Sold dates
-    Unsold dates
   Create Lobby with sold ticket
 
 Full screen decision
