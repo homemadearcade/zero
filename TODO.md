@@ -24,16 +24,6 @@ Ticketing
   Remove Date
   Create Lobby with sold ticket
 
-UI MODE
-  Monologue
-  Conversation
-  Game Editor
-  
-Non Game Mode For the Lobby 
-	Guide-Only Video
-  ‘Dialogue Popup’
-  Which is essentially Participants and Guides camera with Dialogue overlaid the Guides camera
-
 Full screen decision
   GAME SPECIFIC UI SYSTEM? for settin gravity
 

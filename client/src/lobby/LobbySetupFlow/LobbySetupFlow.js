@@ -173,23 +173,11 @@ const LobbySetupFlow = ({
           </>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              experienceUI: MONOLOGUE_UI
+              experienceUI: MONOLOGUE_UI,
+              monologueText: 'Hey I am a pixel, I am so small and blocky, yikes!'
             })
           },
           nextButtonText: 'Start Monologue'
-        },
-        {
-          id: 'Return to Game Editor',
-          title: <Typography component="h5" variant="h5">Return to Game Editor</Typography>,
-          instructions: <>
-            When you are done with the monologue, return the participant to the Game Editor
-          </>,
-          onClickNext: () => {
-            editLobby(lobby.id, {
-              experienceUI: GAME_EDITOR_UI
-            })
-          },
-          nextButtonText: 'Return to Game Editor'
         },
         {
           id: 'Power on',

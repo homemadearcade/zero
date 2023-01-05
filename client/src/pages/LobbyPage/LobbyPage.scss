@@ -40,3 +40,52 @@
     height: 50%;
   }
 }
+
+.LobbyMonologueView {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+    display: flex;
+      align-items: center;
+      flex-direction: column;
+
+  &__body {
+    width: 100%;
+      display: flex;
+      justify-content: center;
+          height: 20%;
+          position: relative;
+  }
+
+  &__speaker {
+    width: 20%;
+    height: 100%;
+    position: relative;
+  }
+  &__listener {
+    width: 20%;
+    height: 100%;
+  }
+
+  &__dialogue-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 3;
+    width: 20%;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: rgba(0,0,0,0.2);
+
+    &:hover {
+      opacity: 0.4;
+    }
+  }
+  
+}

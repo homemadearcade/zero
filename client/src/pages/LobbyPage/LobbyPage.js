@@ -7,7 +7,7 @@ import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
-import { assignLobbyRole} from '../../store/actions/lobbyActions';
+import { assignLobbyRole, editLobby} from '../../store/actions/lobbyActions';
 import requireAuth from '../../hoc/requireAuth';
 
 import './LobbyPage.scss';
@@ -25,12 +25,14 @@ import ConstellationToggle from '../../game/ConstellationToggle/ConstellationTog
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle/UnlockableInterfaceLocksToggle';
 import AgoraUserVideo from '../../lobby/agora/AgoraUserVideo/AgoraUserVideo';
 import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
+import Button from '../../ui/Button/Button';
 
 const LobbyPage = ({
   lobby: { lobby },
   auth: { me },
   myTracks,
   userTracks,
+  editLobby,
   assignLobbyRole,
   video: { isInsideVideoCall },
 }) => {
@@ -113,11 +115,49 @@ const LobbyPage = ({
       </div>
     }
   }
+
+  function renderLobbyExperience() {
+    if(lobby.experienceUI === GAME_EDITOR_UI) {
+      return null
+    }
+
+    if(lobby.experienceUI === MONOLOGUE_UI) {
+      return <div className="LobbyMonologueView">
+        <div className="LobbyMonologueView__body">
+        <div className="LobbyMonologueView__dialogue-text">
+          {lobby.monologueText}
+        </div>
+
+          {isInsideVideoCall && <AgoraUserVideo
+            className="LobbyMonologueView__listener"
+            myTracks={myTracks}
+            userTracks={userTracks}
+            userId={lobby.participantId}
+          ></AgoraUserVideo>}
+          {isInsideVideoCall && <AgoraUserVideo
+            className="LobbyMonologueView__speaker"
+            myTracks={myTracks}
+            userTracks={userTracks}
+            userId={lobby.guideId}
+          ></AgoraUserVideo>}
+        </div>
+
+        <Button variant="contained" onClick={() => {
+          editLobby(lobby.id, {
+            experienceUI: GAME_EDITOR_UI
+          })
+        }}>
+          Complete Monologue
+        </Button>
+      </div>
+    }
+  }
   
   return <Switch>
       <Route exact path={path}>
         <LobbyDashboard/>  
-        {<LobbyDrawer/>}
+        <LobbyDrawer/>
+        {renderLobbyExperience()}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <LobbyDrawer>
@@ -140,5 +180,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withLobby,
-  connect(mapStateToProps, { assignLobbyRole }),
+  connect(mapStateToProps, { assignLobbyRole, editLobby }),
 )(LobbyPage);
