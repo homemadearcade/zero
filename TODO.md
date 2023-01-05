@@ -31,7 +31,7 @@ Full screen decision
 TODO CHORES
 
 Forgot Email Flow
-UI system for changing ui...
+UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 Move properties into objects based on Member
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 Popup for connection errors, little thing in the bottom corner. Toast thing

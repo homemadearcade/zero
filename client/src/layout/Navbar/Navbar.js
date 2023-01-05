@@ -42,6 +42,11 @@ const Navbar = ({ auth, logOutUser, history }) => {
               <Link ignoreDefaultStyle to="/games">Games</Link>
              </li>
             )}
+            {auth.me?.role === ADMIN_ROLE && (
+            <li className="nav-item">
+              <Link ignoreDefaultStyle to="/calendar">Calendar</Link>
+             </li>
+            )}
             <li className="flex-1" />
             <li className="nav-item">
               <Link ignoreDefaultStyle to={`/${auth.me.username}`}>My Account</Link>

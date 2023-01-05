@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 const ProjectHeader = ({ title, subtitle, logoSrc, websiteLink, hideImage, autoHeight }) => {
  return <div className={classNames("ProjectHeader", { 'ProjectHeader--auto-height' : autoHeight})}>
-    <div className="ProjectHeader__background" style={{backgroundImage: `url("${logoSrc}"`}}>
+    <div className="ProjectHeader__background" style={{backgroundImage: logoSrc ? `url("${logoSrc}"` : ''}}>
     </div>
     <div className="ProjectHeader__body">
       {logoSrc && !hideImage && <img src={logoSrc}></img>}

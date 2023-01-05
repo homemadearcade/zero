@@ -177,7 +177,7 @@ const App = ({ }) => {
         <Switch>
           <Route path="/wishlabs" component={WishLabsPage}/>
           <Route path="/buy-tickets" component={HATicketsPage}/>
-          <Route path="/calendar" component={TicketedEventCalendarPage} />
+          <Route path="/calendar" children={wrapComponentInApp(TicketedEventCalendarPage)} />
           <Route path="/games" children={wrapComponentInApp(GamesPage)} />
           <Route path="/edit/:gameId" children={wrapComponentInApp(EditGamePage)} />
           <Route path="/play/:gameId" children={wrapComponentInApp(PlayGamePage)} />

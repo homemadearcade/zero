@@ -11,11 +11,23 @@ import { getTicketedEvents, editTicketedEvent } from '../../store/actions/ticket
 import ProjectHeader from '../../app/wishLabs/ProjectHeader/ProjectHeader';
 import Loader from '../../ui/Loader/Loader';
 import AddEventDateForm from '../../ticketing/AddEventDateForm/AddEventDateForm';
+import requireAuth from '../../hoc/requireAuth';
+import requireAdmin from '../../hoc/requireAdmin';
+import EventDateList from '../../ticketing/EventDateList/EventDateList';
 
+import dayjs from 'dayjs'
+import Select from '../../ui/Select/Select';
+import Button from '../../ui/Button/Button';
+
+          // renderCallToActionSection={(id) => {
+            
+          // }}
 const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticketedEvent: { ticketedEvents, isLoading }, auth: { me }}) => {
   useEffect(() => {
     getTicketedEvents();
-  }, [getTicketedEvents]);
+  }, []);
+
+  const [sortingBy, setSortingBy] = useState('upcoming')
 
   let homemadeArcadeEvent = ticketedEvents[0]
 
@@ -23,15 +35,69 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
     <Layout>
       <div className="TicketedEventCalendarPage">
         <Typography component="h1" variant="h1">Calendar page</Typography>
-          This is the Calendar page. Here are listed all of the dates for the event. 
-      {(isLoading || ticketedEvents.length === 0) ? (
-            <Loader />
-      ) : (<><div className="TicketedEventCalendarPage__event">
-          <ProjectHeader title={homemadeArcadeEvent.title} subtitle={homemadeArcadeEvent.subtitle}></ProjectHeader>
-        </div>
-        <div className="TicketedEventCalendarPage__calendar">
-          <AddEventDateForm></AddEventDateForm>
-        </div></>)}
+        This is the Calendar page. Here are listed all of the dates for the event. 
+        {(isLoading || ticketedEvents.length === 0) ? (<Loader />) : (<>
+          <div className="TicketedEventCalendarPage__event">
+            <ProjectHeader title={homemadeArcadeEvent.title} subtitle={homemadeArcadeEvent.subtitle}></ProjectHeader>
+          </div>
+          <div className="TicketedEventCalendarPage__dates">
+            <Select inputLabel="Sort Dates By" options={['upcoming', 'expired', 'unsold', 'all'].map((s) => {
+              return {value: s, label: s}
+            })} onChange={(e) => {
+              setSortingBy(e.target.value)
+            }} value={sortingBy}></Select>
+            <EventDateList
+              title={homemadeArcadeEvent.title}
+              location={homemadeArcadeEvent.location}
+              dates={homemadeArcadeEvent.dates.filter((date) => {
+                if(!date.startDate) return false
+
+                const now =  dayjs(Date.now())
+                const ticketDate = dayjs(date.startDate)
+
+                const diff = now.diff(ticketDate)
+                
+                if(sortingBy === 'upcoming') {
+                  if(diff > 0) {
+                    return false
+                  }
+                  return true
+                }
+        
+                if(sortingBy === 'expired') {
+                  if(diff < 0) {
+                    return false
+                  }
+                  return true
+                }
+
+                if(sortingBy === 'unsold') {
+                  return true
+                }
+
+                if(sortingBy === 'all') {
+                  return true
+                }
+
+              })}
+              renderCallToActionSection={(dateId) => {
+                return <Button onClick={() => {
+                  const index = homemadeArcadeEvent.dates.findIndex(({id}) => {
+                    console.log(dateId, id)
+                    return id === dateId
+                  })
+                  homemadeArcadeEvent.dates.splice(index, 1)
+                  editTicketedEvent(homemadeArcadeEvent.id, homemadeArcadeEvent)
+                }}>
+                  Delete
+                </Button>
+              }} 
+            ></EventDateList>
+          </div>
+          <div className="TicketedEventCalendarPage__calendar">
+            <AddEventDateForm></AddEventDateForm>
+          </div>
+        </>)}
       </div>
     </Layout>
   );
@@ -43,4 +109,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
+  requireAuth,
+  requireAdmin,  
   connect(mapStateToProps, { getTicketedEvents, editTicketedEvent }))(TicketedEventCalendarPage);

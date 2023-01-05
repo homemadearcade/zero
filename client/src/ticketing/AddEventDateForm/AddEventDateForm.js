@@ -7,12 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import { editTicketedEvent } from '../../store/actions/ticketedEventActions';
-import DateTimePicker from '../../ui/DateTimePicker/DateTimePicker';
-import CalendarPicker from '../../ui/CalendarPicker/CalendarPicker';
 import DatePickerInline from '../../ui/DatePickerInline/DatePickerInline';
 import TimePickerInline from '../../ui/TimePickerInline/TimePickerInline';
+import dayjs from 'dayjs';
 
-const AddEventDateForm = ({ onSubmit, ticketedEvent: { ticketedEvents } }) => {
+const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticketedEvents } }) => {
   const homemadeArcadeEvent = ticketedEvents[0]
 
   const { handleSubmit, reset, control } = useForm({
@@ -22,17 +21,16 @@ const AddEventDateForm = ({ onSubmit, ticketedEvent: { ticketedEvents } }) => {
     },
   });
   const submit = async (data) => {
-    console.log(data)
+    if(!data.day || !data.time) return console.log('data not completed', data)
+    
+    const startDate = dayjs(data.day.format('YYYY-MM-DD') + data.time.format('THH:mm:ssZ'))
     homemadeArcadeEvent.dates.push({
       id: uuidv4(),
-      // startDate: 
+      startDate: startDate.toDate(),
+      // endDate: 
     })
 
-    return
     editTicketedEvent(homemadeArcadeEvent.id, homemadeArcadeEvent)
-
-    reset();
-    onSubmit()
   }
 
   return (

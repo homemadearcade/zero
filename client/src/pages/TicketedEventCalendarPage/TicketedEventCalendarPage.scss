@@ -2,4 +2,9 @@
   min-height: 100%;
 
 
+  &__dates {
+    padding-top: 1rem;
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
 }
