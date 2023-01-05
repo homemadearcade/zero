@@ -4,6 +4,10 @@
       font-weight: 700;
     }
     display: flex;
+
+    &--red {
+      color: red;
+    }
   }
 
   &__checklist-check {
@@ -15,4 +19,6 @@
     color: green;
     margin-right: 5px;
   }
+
+  
 }

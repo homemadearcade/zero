@@ -14,7 +14,7 @@ import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
-import { ADMIN_ROLE } from '../../game/constants';
+import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 
@@ -116,7 +116,12 @@ const LobbySetupFlow = ({
   return (
     <div className="LobbySetupFlow">
       <VerticalLinearStepper 
-      initialStep={2}
+      initialStep={lobby.currentStep}
+      onStepChange={(step) => {
+        editLobby(lobby.id, {
+          currentStep: step
+        })
+      }}
       steps={[
         {
           id: 'Assign User Roles',
@@ -136,37 +141,81 @@ const LobbySetupFlow = ({
             <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobby/' + lobby.id + '/join/' + lobby.participantId}></input>
             When they have joined, the card below will be lit up and have a green dot in the corner
             <UserStatus userId={usersById[lobby.participantId]?.id}/>
-
           </>
+        },
+        {
+          id: 'i0 - Reset Participant UI',
+          title: <Typography component="h5" variant="h5">i0 - Reset Participant UI</Typography>,
+          instructions: <>
+            This will set the participants game screen to be able to see the Game View and the Game View only
+          </>,
+          onClickNext: () => {
+            updateArcadeGameCharacter({
+              userId: lobby.participantId,
+              unlockableInterfaceIds: {}
+            })
+          },
+          nextButtonText: 'Set Interface to i1'
         },
         {
           id: 'Review Launch Checklist',
           title: <Typography component="h5" variant="h5">Review Launch Checklist </Typography>,
-          instructions: <LobbyChecklist/>
+          instructions: <LobbyChecklist/>,
+          // disableContinueButtonCheck: () => {
+          //   return !window.lobby?.isAllRequiredPassing
+          // }
+        },
+        {
+          id: 'Give Monologue 1',
+          title: <Typography component="h5" variant="h5">Give Monologue 1</Typography>,
+          instructions: <>
+            When you are ready to start Monologue 1, click start Monologue 1
+          </>,
+          onClickNext: () => {
+            editLobby(lobby.id, {
+              experienceUI: MONOLOGUE_UI
+            })
+          },
+          nextButtonText: 'Start Monologue'
+        },
+        {
+          id: 'Return to Game Editor',
+          title: <Typography component="h5" variant="h5">Return to Game Editor</Typography>,
+          instructions: <>
+            When you are done with the monologue, return the participant to the Game Editor
+          </>,
+          onClickNext: () => {
+            editLobby(lobby.id, {
+              experienceUI: GAME_EDITOR_UI
+            })
+          },
+          nextButtonText: 'Return to Game Editor'
         },
         {
           id: 'Power on',
           title: <Typography component="h5" variant="h5">Power on the Game </Typography>,
-          instructions: <>
-            <LobbyPowerIndicator/>
-          </>
+          onClickNext: () => {
+            editLobby(lobby.id, {
+              isGamePoweredOn: true
+            })
+          },
+          nextButtonText: 'Power on'
         },
         {
-          id: 'I1 - Reveal Game Screen',
+          id: 'i1 - Reveal Game Screen',
           title: <Typography component="h5" variant="h5">i1 - Reveal Game Screen</Typography>,
           instructions: <>
             This will set the participants game screen to be able to see the Game View and the Game View only
-            <Button variant="contained" onClick={() => {
-              updateArcadeGameCharacter({
-                userId: lobby.participantId,
-                unlockableInterfaceIds: {
-                  gameView: true,
-                }
-              })
-            }}>
-            Set interface to i1
-           </Button>
-          </>
+          </>,
+          onClickNext: () => {
+            updateArcadeGameCharacter({
+              userId: lobby.participantId,
+              unlockableInterfaceIds: {
+                gameView: true,
+              }
+            })
+          },
+          nextButtonText: 'Set Interface to i1'
         }
       ]}
       completed={<>

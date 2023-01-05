@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -53,21 +53,21 @@ const LobbyChecklist = ({
       required: true,
     },
     {
-      text: 'Guide role is set and Guide is present ',
+      text: 'Guide role is set',
       test: () => {
-        return lobby.guideId && usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
+        return lobby.guideId
       },
       required: true,
     },
     {
-      text: 'Guide is present ',
+      text: 'Guide is present',
       test: () => {
         return usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
       },
       required: true,
     },
     {
-      text: 'Game Host role is set and Game Host is present',
+      text: 'Game Host role is set',
       test: () => {
         return lobby.gameHostId
       },
@@ -148,10 +148,18 @@ const LobbyChecklist = ({
     return !!item.test();
   })
 
+  // useEffect(() => {
+  //   if(me.id === lobby.guideId) {
+  //     window.lobby = {
+  //       isAllPassing, isAllRequiredPassing
+  //     }
+  //   }
+  // }, [client, lobby, lobbyUserStatuses])
+
   return <div className="LobbyChecklist__checklist">
     {checklist.map((item, i) => {
       const isPassing = !!item.test();
-      return <div key={i} className={classNames("LobbyChecklist__checklist-item", { 'LobbyChecklist__checklist-item--required': item.required })}>
+      return <div key={i} className={classNames("LobbyChecklist__checklist-item", { 'LobbyChecklist__checklist-item--required': item.required, 'LobbyChecklist__checklist-item--red': item.required && !isPassing })}>
         {isPassing && <span className="LobbyChecklist__checklist-check"><Icon icon="faCheck"/></span>}
         {!isPassing && <span className="LobbyChecklist__checklist-check" />}
         {item.text}

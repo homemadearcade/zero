@@ -177,3 +177,9 @@ export const GAME_OVER_STATE = 'GAME_OVER_STATE'
 export const WIN_GAME_STATE = 'WIN_GAME_STATE'
 export const EDIT_STATE = 'EDIT_STATE'
 
+/////////////////////////////////////
+/////////////////////////////////////
+// EXPERIENCE UI
+export const GAME_EDITOR_UI = 'GAME_EDITOR_UI'
+export const MONOLOGUE_UI = 'MONOLOGUE_UI'
+export const CONVERSATION_UI = 'CONVERSATION_UI'

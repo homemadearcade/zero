@@ -8,26 +8,40 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
-export default function VerticalLinearStepper({initialStep = 0, steps, completed}) {
+export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange}) {
 
   const [activeStep, setActiveStep] = React.useState(initialStep);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    onStepChange(activeStep + 1)
   };
 
   const handlePrev = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    onStepChange(activeStep - 1)
   };
 
   const handleReset = () => {
     setActiveStep(0);
+    onStepChange(0)
   };
 
   return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} />
 }
 
 export function VerticalLinearStepperBody({ completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
+
+  function renderStepText(step, index) {
+    if(step.nextButtonText) {
+      return step.nextButtonText
+    } else if(index === steps.length - 1) {
+      return 'Finish'
+    } else {
+      return 'Continue'
+    }
+  }
+
   return (
     <Box>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -47,11 +61,17 @@ export function VerticalLinearStepperBody({ completed, steps, activeStep, onClic
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button
+                    disabled={step.disableContinueButtonCheck ? step.disableContinueButtonCheck() : false}
                     variant="contained"
-                    onClick={onClickNext}
+                    onClick={() => {
+                      if(step.onClickNext) {
+                        step.onClickNext()
+                      }
+                      onClickNext()
+                    }}
                     sx={{ mt: 1, mr: 1 }}
                   >
-                    {index === steps.length - 1 ? 'Finish' : 'Continue'}
+                    {renderStepText(step, index)}
                   </Button>
                   <Button
                     disabled={index === 0}

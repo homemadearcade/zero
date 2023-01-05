@@ -273,7 +273,7 @@ export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
     const userId = getState().cobrowsing.cobrowsingUser.id
 
     if(!userId) {
-      return console.trace()
+      return console.log('no user id in update cobrowsing')
     }
 
     // dispatch({

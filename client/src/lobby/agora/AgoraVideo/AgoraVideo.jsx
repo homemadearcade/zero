@@ -10,10 +10,11 @@ import AgoraVideoStatus from "../AgoraVideoStatus/AgoraVideoStatus";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
 import Icon from "../../../ui/Icon/Icon";
+import { ADMIN_ROLE } from "../../constants";
 
 function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userId, controls}) {
   const isMe = me.id === userId
-  return <div className={"AgoraVideo__video-container " + className} 
+  return <div className={"AgoraVideo " + className} 
     onMouseEnter={() => {
       setShowInfo(userId)
     }} 
@@ -22,7 +23,7 @@ function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hide
       setShowChangeInput(false)
     }}>
     {!hideOverlay && showInfo === userId && <div className="AgoraVideo__info">
-      {!showChangeInput && me.role === 'ADMIN' && <div className="AgoraVideo__details">
+      {!showChangeInput && me.role === ADMIN_ROLE && <div className="AgoraVideo__details">
         <div>
           {label ? label : null}
           {isMe && ' - me'}
@@ -41,6 +42,8 @@ function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hide
 const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
   let [showInfo, setShowInfo] = useState(false)
   let [showChangeInput, setShowChangeInput] = useState(false)
+
+  console.log('rerender av')
   
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const muteVideo = async () => {
@@ -98,7 +101,7 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
     </div>
   }
 
-  return <div className="AgoraVideo">
+  return <>
     {tracks && <Video 
       className={className} 
       label={label}
@@ -113,8 +116,8 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
       me={me}
       controls={<Controls/>}
      />}
-    {!tracks && <div className="AgoraVideo__video-container AgoraVideo__guide"/>}
-  </div>
+    {!tracks && <div className="AgoraVideo"/>}
+  </>
 }
 
 const mapStateToProps = (state) => ({

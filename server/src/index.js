@@ -216,6 +216,7 @@ io.on("connection", (socket) => {
       lobbys.forEach((lobby) => {
         lobby.users.forEach((user) => {
           if(user.id === socket.user.id) {
+            console.log('???')
             user.connected = false
             io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
           }
@@ -261,6 +262,8 @@ async function onMongoDBConnected() {
       const lobby = lob.toJSON()
       return {
         ...lobby,
+        experienceUI: 'GAME_EDITOR_UI',
+        currentStep: 2,
         users: lobby.participants.map((user) => {
           return {
             email: user.email,

@@ -127,7 +127,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
       return false
     }
 
-    console.trace('but from where?')
     this.storeRenderTextureForUndoStack()
     this.unsavedChanges = true
     super.draw(entries, x, y)

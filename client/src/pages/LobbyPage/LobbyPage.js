@@ -14,18 +14,17 @@ import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
 import CobrowsingGame from '../../game/CobrowsingGame/CobrowsingGame';
 import LobbyDashboard from '../../lobby/LobbyDashboard/LobbyDashboard';
-import GameView from '../../game/GameView/GameView';
 import Drawer from '../../ui/Drawer/Drawer';
 import LobbyDetail from '../../lobby/LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
 import Icon from '../../ui/Icon/Icon';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import { ADMIN_ROLE } from '../../game/constants';
+import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
-import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle /UnlockableInterfaceLocksToggle';
-import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
-import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
+import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle/UnlockableInterfaceLocksToggle';
+import AgoraUserVideo from '../../lobby/agora/AgoraUserVideo/AgoraUserVideo';
+import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -33,7 +32,7 @@ const LobbyPage = ({
   myTracks,
   userTracks,
   assignLobbyRole,
-  cobrowsing: { showUnlockableInterfaceLocks }
+  video: { isInsideVideoCall },
 }) => {
   let { path } = useRouteMatch();
 
@@ -95,22 +94,23 @@ const LobbyPage = ({
     </>
   }
 
-  const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
+  function renderExperience() {
+    if(lobby.experienceUI === GAME_EDITOR_UI) {
 
-  function renderGameEditor() {
-    if(!lobby.isGamePoweredOn) return <div className="GameEditor__empty-game"></div>
+      return <CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
+        <ObscuredGameView/>
+      </CobrowsingGame>
+    }
 
-    if(lobby.isGamePoweredOn) {
-      return <>{(isObscured || (!isUnlocked && showUnlockableInterfaceLocks)) && 
-        <div className="GameEditor__empty-game GameEditor__empty-game--overlay">
-          <Unlockable isTiny interfaceId="gameView"><div></div></Unlockable>
-        </div>
-        }
-        <GameView
-          isHost={lobby.gameHostId === me.id}
-          isNetworked
-        />
-      </>
+    if(lobby.experienceUI === MONOLOGUE_UI) {
+      return <div className="MonologueView">
+        {isInsideVideoCall && <AgoraUserVideo
+          className="MonologueView__speaker"
+          myTracks={myTracks}
+          userTracks={userTracks}
+          userId={lobby.guideId}
+        ></AgoraUserVideo>}
+      </div>
     }
   }
   
@@ -126,13 +126,7 @@ const LobbyPage = ({
           <UnlockableInterfaceLocksToggle/>
           <ConstellationToggle/>
         </LobbyDrawer>}
-        {<CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
-          {renderGameEditor()}
-        </CobrowsingGame>}
-      </Route>
-      <Route path={`${path}/preview/:cobrowsingUserId`}>
-        <LobbyDashboard/>  
-        {<LobbyDrawer/>}
+        {renderExperience()}
       </Route>
     </Switch>
 };
@@ -140,8 +134,7 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
-  cobrowsing: state.cobrowsing,
-  unlockableInterfaceIds: state.unlockableInterfaceIds
+  video: state.video
 });
 
 export default compose(
