@@ -8,6 +8,7 @@ import './EventDateList.scss';
 import Typography from '../../ui/Typography/Typography';
 import { getTicketedPurchaseByEventId } from '../../store/actions/ticketPurchaseActions';
 import { isDateSoldOut, isTicketSoldOut } from '../../utils/ticketUtils';
+import Loader from '../../ui/Loader/Loader';
 
 // const monthToMonthName = {
 //   0: 'Jan',
@@ -40,6 +41,7 @@ const EventDateList = ({
   const sortedDates = dates.sort((a, b) => {
     return Number(new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }).reverse()
+  if(!ticketPurchases) return <Loader></Loader> 
   
   return (
     <div className="EventDateList">

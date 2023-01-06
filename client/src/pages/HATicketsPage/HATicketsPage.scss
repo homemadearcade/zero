@@ -126,4 +126,17 @@
     top: 1rem;
     z-index: 1;
   }
+
+  &__line-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__receipt {
+    padding-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }

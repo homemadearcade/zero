@@ -4,8 +4,7 @@ const initialState = {
   ticketCart: {
     ticketedEventId: null,
     dateId: null,
-    ticketId: null,
-    quantity: null
+    tickets: {}
   }
 };
 

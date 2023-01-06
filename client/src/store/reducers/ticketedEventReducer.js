@@ -19,7 +19,7 @@ import {
 const initialState = {
   ticketedEvents: [],
   ticketedEvent: null,
-  ticketPurchases: [],
+  ticketPurchases: null,
   isLoading: false,
   error: null,
 };

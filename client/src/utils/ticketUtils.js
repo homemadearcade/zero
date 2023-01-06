@@ -1,5 +1,13 @@
 import _ from "lodash";
 
+export function getServiceFee(price) {
+  return price * .03
+} 
+
+export function getTotalWithFee(price) {
+  return price + getServiceFee(price)
+} 
+
 export function isDateSoldOut({dateId: relevantDateId, ticketPurchases, ticketedEvent}) {
   const relevantPurchases = ticketPurchases.filter(({dateId}) => {
     return relevantDateId === dateId
@@ -10,6 +18,22 @@ export function isDateSoldOut({dateId: relevantDateId, ticketPurchases, ticketed
   }, 0)
 
   return totalTix - relevantPurchases.length <= 0 
+}
+
+export function getTicketPurchaseInfo({ticketedEvent, ticketPurchase}) {
+   const startTime = ticketedEvent.dates.find(({id}) => {
+    return id === ticketPurchase.dateId
+  }).startTime
+
+  const ticket = ticketedEvent.tickets.find(({id}) => {
+    return id === ticketPurchase.ticketId
+  })
+  
+  return {
+    startTime,
+    name: ticket.name,
+    price: ticket.price
+  }
 }
 
 export function getTicketData({ticketedEvent, ticketPurchases, ticketId, dateId, quantity}) {

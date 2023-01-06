@@ -3,15 +3,14 @@ import {
   CLEAR_TICKET_CART,
 } from '../types';
 
-export const updateCartTicketCount= ({ticketId, ticketedEventId, dateId, quantity}) => (dispatch, getState) => {
+export const updateCartTicketCount= ({ticketedEventId, dateId, tickets}) => (dispatch, getState) => {
   dispatch({
     type: UPDATE_TICKET_CART,
     payload: {
       ticketCart: {
         ticketedEventId,
         dateId,
-        ticketId,
-        quantity
+        tickets
       }
     }
   })

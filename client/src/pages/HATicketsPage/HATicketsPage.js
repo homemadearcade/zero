@@ -10,13 +10,15 @@ import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import Icon from '../../ui/Icon/Icon';
 import { Container } from '@mui/system';
-import { Dialog, IconButton } from '@mui/material';
+import { Dialog, Divider, IconButton } from '@mui/material';
 import EventDatePicker from '../../ticketing/EventDatePicker/EventDatePicker';
 import TicketTypePicker from '../../ticketing/TicketTypePicker/TicketTypePicker';
 import ScrollDialog from '../../ui/ScrollDialog/ScrollDialog';
 import { getTicketedEvents } from '../../store/actions/ticketedEventActions';
 import Loader from '../../ui/Loader/Loader';
 import { clearCartTicket, updateCartTicketCount } from '../../store/actions/checkoutActions';
+import { getServiceFee, getTicketPurchaseInfo, getTotalWithFee } from '../../utils/ticketUtils';
+import { dollarizer } from '../../utils/utils';
 
 const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCount, ticketedEvent: { ticketedEvent }, checkout: { ticketCart } }) => {
   useEffect(() => {
@@ -39,6 +41,23 @@ const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCou
   const selectedDate = ticketedEvent.dates.filter(({ id }) => {
     return id === selectedDateId
   })[0]
+
+  function LineItem({children}) {
+    return <div className="PurchaseDialog__line-item">
+      {children}
+    </div>  
+  }
+
+  const enrichedTickets = Object.keys(ticketCart.tickets).map((ticketId) => {
+    const ticketData = ticketCart.tickets[ticketId]
+    return {...ticketData, ...getTicketPurchaseInfo({ticketPurchase: {...ticketData, dateId: selectedDateId }, ticketedEvent})}
+  }).filter((ticket) => {
+    return ticket.quantity
+  })
+
+  const subtotal = enrichedTickets.reduce((prev, next) => {
+    return prev + (next.price * next.quantity)
+  }, 0)
 
   return <div className="HATicketsPage">
      <Container>
@@ -119,7 +138,7 @@ const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCou
           </IconButton>
         </div>}
       </>}
-      actions={<Button size="large" variant="contained" disabled={!(ticketCart.quantity > 0 && ticketCart.dateId && ticketCart.ticketedEventId && ticketCart.ticketId)}>
+      actions={<Button size="large" variant="contained" disabled={!(ticketCart.dateId && ticketCart.ticketedEventId && enrichedTickets.length)}>
         Checkout
       </Button>}
       maxWidth={false} 
@@ -140,8 +159,12 @@ const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCou
               tickets={ticketedEvent.tickets}
               onChangeTicketAmount={(id, amount) => {
                 updateCartTicketCount({
-                  ticketId: id,
-                  quantity: amount,
+                  tickets: {
+                    [id]: {
+                      quantity: amount,
+                      ticketId: id
+                    }
+                  },
                   dateId: selectedDateId,
                   ticketedEventId: ticketedEvent.id
                 })
@@ -156,6 +179,31 @@ const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCou
               subtitle={ticketedEvent.subtitle}
               logoSrc="/assets/images/homemadearcadelogo.png"
             />
+            {enrichedTickets.length > 0 && <div className="PurchaseDialog__receipt">
+              <LineItem>
+                <Typography variant="h5">Order Summary</Typography>
+              </LineItem>
+              {enrichedTickets.map((ticket) => {
+                return <LineItem>
+                  <Typography variant="subtitle2">{ticket.quantity + ' x ' + ticket.name}</Typography>
+                  <Typography variant="subtitle2">{dollarizer.format(ticket.price)}</Typography>
+                </LineItem>
+              })}
+              <Divider></Divider>
+              <LineItem>
+                <Typography variant="subtitle2">Subtotal</Typography>
+                <Typography variant="subtitle2">{dollarizer.format(subtotal)}</Typography>
+              </LineItem>
+              <LineItem>
+                <Typography variant="subtitle2">Service Fee</Typography>
+                <Typography variant="subtitle2">{dollarizer.format((getServiceFee(subtotal)))}</Typography>
+              </LineItem>
+              <Divider></Divider>
+              <LineItem>
+                <Typography variant="h4">Total</Typography>
+                <Typography variant="h4">{dollarizer.format((getTotalWithFee(subtotal)))}</Typography>
+              </LineItem>
+            </div>}
           </div>
         </div>
       </div>

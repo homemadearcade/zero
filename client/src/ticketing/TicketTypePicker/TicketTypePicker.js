@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import './TicketTypePicker.scss';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
-import { formatter } from '../../utils/utils';
-import { getTicketData } from '../../utils/ticketUtils';
+import { dollarizer } from '../../utils/utils';
+import { getServiceFee, getTicketData } from '../../utils/ticketUtils';
 
 const TicketTypePicker = ({ 
   tickets,
@@ -20,30 +20,30 @@ const TicketTypePicker = ({
     <div className="TicketTypePicker">
       {tickets.map(({id, name, price}) => {
 
-        const { isSoldOut, isAtMax, unsold, remaining } = getTicketData({quantity: ticketCart.ticketId === id && ticketCart.quantity, ticketId: id, dateId, ticketPurchases, ticketedEvent})
+        const { isSoldOut, isAtMax, unsold, remaining } = getTicketData({quantity: ticketCart.tickets[id]?.quantity, ticketId: id, dateId, ticketPurchases, ticketedEvent})
 
         return <div className="TicketTypePicker__ticket">
           <div className="TicketTypePicker__ticket-header">
             <Typography variant="h4">{name}</Typography>
             <div className="TicketTypePicker__ticket-buttons">
-            <Button variant="outlined" disabled={!ticketCart.quantity} onClick={() => {
-              if(ticketCart.ticketId === id && ticketCart.quantity > 0) {
-               onChangeTicketAmount(id, ticketCart.quantity - 1)
+            <Button variant="outlined" disabled={!ticketCart.tickets[id]?.quantity} onClick={() => {
+              if(ticketCart.tickets[id]?.quantity > 0) {
+               onChangeTicketAmount(id, ticketCart.tickets[id]?.quantity - 1)
               }
             }}>-</Button>
-            {ticketCart.ticketId === id && ticketCart.quantity ? ticketCart.quantity : 0}
+            {ticketCart.tickets[id]?.quantity ? ticketCart.tickets[id].quantity : 0}
             <Button disabled={isAtMax || isSoldOut} variant="contained" onClick={() => {
-              if(!ticketCart.ticketId === id && ticketCart.quantity) {
+              if(!ticketCart.tickets[id]) {
                 onChangeTicketAmount(id, 1)
               } else {
-                onChangeTicketAmount(id, ticketCart.quantity + 1)
+                onChangeTicketAmount(id, ticketCart.tickets[id]?.quantity + 1)
               }
             }}>+</Button>
             </div>
           </div>
           <div className="TicketTypePicker__details">
-            <Typography variant="h5">{formatter.format(price)}</Typography>
-            <Typography variant="subtitle1">+{formatter.format((price * .03) + .3)}</Typography>
+            <Typography variant="h5">{dollarizer.format(price)}</Typography>
+            <Typography variant="subtitle1">+{dollarizer.format(getServiceFee(price))}</Typography>
           </div>
         </div>
       })}

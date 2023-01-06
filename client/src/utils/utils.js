@@ -1,7 +1,7 @@
 import _ from "lodash";
 import store from "../store";
 
-const formatter = new Intl.NumberFormat('en-US', {
+const dollarizer = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
 
@@ -11,7 +11,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 export {
-  formatter
+  dollarizer
 }
 
 export function centsToDollars(cents) {
