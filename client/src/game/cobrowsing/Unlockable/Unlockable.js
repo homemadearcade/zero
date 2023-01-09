@@ -61,6 +61,7 @@ const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, u
 
   function renderChildren() {
     return React.Children.map(children, (child, index) => {
+      console.log(child, index)
       return <Fade in><div>{React.cloneElement(child, {width, height})}</div></Fade>
     })
   }

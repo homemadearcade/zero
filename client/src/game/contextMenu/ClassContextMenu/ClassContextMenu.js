@@ -9,6 +9,8 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../../utils/webPageUtils';
+import { Divider } from '@mui/material';
+import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 
 const ClassContextMenu = ({ 
   editGameModel, 
@@ -22,8 +24,12 @@ const ClassContextMenu = ({
 }) => {
   const objectClass = gameModel.classes[classId]
 
+  function div({children}) {
+    return <div className="ContextMenu__title">{children}</div>
+  }
+
   return <>
-    {!insideObjectInstanceContextMenu &&  <MenuItem><strong>{gameModel.classes[classId].name}</strong></MenuItem>}
+    {!insideObjectInstanceContextMenu && <ContextMenuTitle>{gameModel.classes[classId].name}</ContextMenuTitle>}
     {objectClass.type === HERO_CLASS && classId !== gameModel.hero.initialClassId && 
       <Unlockable interfaceId="contextMenu/class/setPlayerClass">
           <MenuItem onClick={() => {
@@ -100,6 +106,7 @@ const ClassContextMenu = ({
         })
         onMenuItemClick()
       }}>Duplicate {classTypeToDisplayName[objectClass.type]}</MenuItem>
+      </Unlockable>}
       {false && 'before doing this I need to clean up a lot of stuff in relations' && !insideObjectInstanceContextMenu && 
         <Unlockable interfaceId="contextMenu/class/delete">
           <MenuItem onClick={() => {
@@ -115,7 +122,6 @@ const ClassContextMenu = ({
             onMenuItemClick()
           }}>Delete</MenuItem>
         </Unlockable>}
-    </Unlockable>}
   </>
 };
 

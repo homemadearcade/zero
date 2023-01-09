@@ -7,10 +7,12 @@ import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { HERO_INSTANCE_ID } from '../../constants';
+import { Divider } from '@mui/material';
+import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel } }) => {
   return <>
-    <MenuItem><strong>{gameModel.classes[classId].name}</strong></MenuItem>
+    <ContextMenuTitle>{gameModel.classes[classId].name}</ContextMenuTitle>
     <Unlockable interfaceId="drag">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(objectId)

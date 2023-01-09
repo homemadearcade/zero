@@ -19,7 +19,7 @@ const ContextMenu = ({ closeContextMenu, contextMenuX, contextMenuY, isOpen, chi
           : undefined
       }
     >
-      {children}
+      <div className="ContextMenu">{children}</div>
     </Menu>
   )
 }

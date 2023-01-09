@@ -7,6 +7,8 @@ import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { WORLD_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { openCutscenesMenu } from '../../../store/actions/gameFormEditorActions';
+import { Divider } from '@mui/material';
+import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 
 const WorldContextMenu = ({ 
   openLiveEditor,
@@ -22,7 +24,8 @@ const WorldContextMenu = ({
 }) => {
 
   return <>
-    <MenuItem>{gameModel.metadata.title}</MenuItem>
+    <ContextMenuTitle>{gameModel.metadata.title}</ContextMenuTitle>
+    <Divider></Divider>
     <Unlockable interfaceId="contextMenu/world/gravity">
       <MenuItem onClick={() => {
         openLiveEditor(WORLD_EDITOR)
