@@ -27,8 +27,6 @@ const CreateCutscene = ({
   gameEditor: { isMySpritesModalOpen },
   gameModel: { gameModel }
 }) => {
-  const [isNewCutscene, setIsNewCutscene] = useState(null)
-
   function handleClose() {
     closeCreateCutscene()
   }
@@ -36,9 +34,6 @@ const CreateCutscene = ({
   useEffect(() => {
     if(!cutscene.cutsceneId) {
       updateCreateCutscene({ cutsceneId: generateUniqueId() })
-      setIsNewCutscene(true)
-    } else {
-      setIsNewCutscene(false)
     }
   }, [])
 

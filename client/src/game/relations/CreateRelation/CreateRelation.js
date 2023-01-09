@@ -26,16 +26,11 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     closeCreateRelation()
   }
 
-  const [isNewRelation, setIsNewRelation] = useState(null)
-
   const { classA, classB } = getClassAandB(relation.event.classIdA, relation.event.classIdB)
 
   useEffect(() => {
     if(!relation.relationId) {
-      updateCreateRelation({ relationId: generateUniqueId() })
-      setIsNewRelation(true)
-    } else {
-      setIsNewRelation(false)
+      updateCreateRelation({ relationId: generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -185,7 +180,8 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
            editGameModel({
             relations: {
               [relation.relationId] : {
-                ...relation
+                ...relation,
+                isNew: false,
               }
             }
           })
@@ -196,7 +192,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         <Button onClick={handleClose}>
           Cancel
         </Button>
-        {!isNewRelation && <Button onClick={() => {
+        {!relation.isNew && <Button onClick={() => {
           editGameModel({
             relations: {
               [relation.relationId]: null

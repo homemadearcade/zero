@@ -22,8 +22,6 @@ import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { HERO_CLASS, PLAYGROUND_CANVAS_ID, ZONE_CLASS } from '../../constants';
 
 const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
-  const [isNewClass, setIsNewClass] = useState(null)
-
   function handleClose() {
     closeCreateClassFlow()
     clearGameFormEditor()
@@ -31,17 +29,14 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
   
   useEffect(() => {
     if(!objectClass.classId) {
-      updateCreateClass({ classId: generateUniqueId() })
-      setIsNewClass(true)
-    } else {
-      setIsNewClass(false)
+      updateCreateClass({ classId: generateUniqueId(), isNew: true })
     }
   }, [])
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateClassFlow">
-      {isNewClass === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
-      {isNewClass === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
+      {objectClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
+      {objectClass.isNew === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
       <Unlockable interfaceId="advanced/invisibleClass adminOnly">
         <Switch
           labels={['Visible', 'Invisible']}
@@ -114,7 +109,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
         }}/>
       </Unlockable>}
       <ClassNameForm/>
-      {isNewClass && <Unlockable interfaceId="advanced/interfaceLockedClass adminOnly">
+      {objectClass.isNew && <Unlockable interfaceId="advanced/interfaceLockedClass adminOnly">
         <Switch
           labels={['Normal', 'Player cannot see unless unlocked']}
           size="small"
