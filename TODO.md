@@ -12,9 +12,10 @@ The sliders - you dont really know what zero is
 Spawn Effect
 
 Ticketing
-  Integrate authorize
-  Checkout Itenerary
-  Create Lobby with sold ticket
+  Checkout page
+    Integrate authorize
+    Create Lobby with sold ticket
+  Ticket Receipt Page
 
 Full screen decision
   GAME SPECIFIC UI SYSTEM? for settin gravity
@@ -22,7 +23,8 @@ Full screen decision
 ---
 TODO CHORES
 
-Forgot Email Flow
+Forgot Password - email Flow
+All sorts of emails for tickets
 UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 Move properties into objects based on Member
 Outline Class ( for eraser and objectInstance, and camerapreview? )

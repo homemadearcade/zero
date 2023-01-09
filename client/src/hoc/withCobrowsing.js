@@ -33,6 +33,8 @@ export default (ChildComponent) => {
     async startCobrowsing(userId) {     
       const { auth: { me }, lobby: { lobby }, publishCobrowsing, subscribeCobrowsing } = this.props
 
+      console.log(userId, me.id)
+      
       if(userId === me.id) {
         await publishCobrowsing({lobbyId: lobby.id})
       } else {
