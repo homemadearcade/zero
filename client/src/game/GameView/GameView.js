@@ -61,7 +61,13 @@ const config= {
   }
 }
 
-const GameView = ({isHost, isNetworked, isPlay, setGameInstance }) => {
+const GameView = (props) => {
+  if(!props.gameModel.gameModel) return
+
+  return <PhaserGame {...props}></PhaserGame>
+}
+
+const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked}), true);
@@ -82,6 +88,8 @@ const GameView = ({isHost, isNetworked, isPlay, setGameInstance }) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  gameModel: state.gameModel
+});
 
 export default connect(mapStateToProps, { setGameInstance })(GameView);

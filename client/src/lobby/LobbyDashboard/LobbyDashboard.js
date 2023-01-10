@@ -21,7 +21,7 @@ const LobbyDashboard = ({
   const { isUnlocked } = getInterfaceIdData('gameView')
 
   function renderGamePreview() {      
-    return <GamePreview gameId={lobby.game?.id} userId={lobby.participantId}>
+    return <GamePreview gameId={lobby.currentGameId} userId={lobby.participantId}>
       {(!isUnlocked || !lobby.isGamePoweredOn) && 
         <div className="GameEditor__empty-game GameEditor__empty-game--overlay">
 

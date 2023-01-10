@@ -32,8 +32,11 @@ function CutsceneBody({imageUrl, text, progressActiveCutscene}) {
   );
 }
 
-const Cutscene = ({ gameModel: { gameModel: { cutscenes } }, gameContext: { cutsceneId, cutsceneIndex }, progressActiveCutscene}) => {
+const Cutscene = ({ gameModel: { gameModel }, gameContext: { cutsceneId, cutsceneIndex }, progressActiveCutscene}) => {
   if(!cutsceneId) return null
+  if(!gameModel) return null 
+
+  const { cutscenes } = gameModel
   
   const { imageUrl, text } = cutscenes[cutsceneId].scenes[cutsceneIndex]
 

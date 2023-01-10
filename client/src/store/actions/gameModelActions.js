@@ -18,6 +18,7 @@ import { defaultObjectClass } from '../../game/defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
+
  
 export const getSpritesheetData  = () => async (dispatch, getState) => {
   dispatch({

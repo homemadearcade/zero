@@ -34,7 +34,7 @@ import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
 import { UNDO_MEMORY_MAX } from '../../game/constants';
-import { editGameModel } from './gameModelActions';
+import { editGameModel, getSpritesheetData } from './gameModelActions';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
   const me = store.getState().auth.me 
@@ -146,62 +146,6 @@ function onArcadeGameModelUpdate(gameUpdate) {
   });
 }
 
- 
-export const getSpritesheetData  = () => async (dispatch, getState) => {
-  dispatch({
-    type: GET_SPRITESHEET_DATA_LOADING,
-  });
-
-  try {
-    const spritesByDescriptor = await getSpritesByDescriptor()
-
-    const descriptorOptions = Object.keys(spritesByDescriptor).map((descriptor) => {
-      return {
-        label: descriptor,
-        value: descriptor
-      }
-    })
-
-    dispatch({
-      type: GET_SPRITESHEET_DATA_SUCCESS,
-      payload: { spritesByDescriptor, descriptorOptions },
-    });
-
-  } catch (err) {
-    console.error(err)
-
-    dispatch({
-      type: GET_SPRITESHEET_DATA_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-}
-
-
-export const addAwsImage = (file, fileId, imageData) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await uploadToAws(fileId, file)
-      
-      store.dispatch(editGameModel({
-        awsImages: { 
-          [fileId] : {
-            name: imageData.name,
-            url: fileId,
-            type: imageData.type
-          }
-        }
-      }))
-
-      resolve()
-    } catch (err) {
-      console.error(err)
-      reject(err)
-    }
-  })
-
-}
-
 export const getArcadeGames = () => async (dispatch, getState) => {
   dispatch({
     type: GET_ARCADE_GAMES_LOADING,
@@ -230,10 +174,6 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
   });
 
   try {
-    if(!getState().gameModel.spritesByDescriptor) {
-      dispatch(getSpritesheetData())
-    }
-
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/arcadeGames/' + gameId, options);
 

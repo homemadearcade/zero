@@ -253,6 +253,7 @@ async function onMongoDBConnected() {
         ...lobby,
         experienceUI: 'GAME_EDITOR_UI',
         currentStep: 2,
+        currentGameId: null,
         users: lobby.participants.map((user) => {
           return {
             email: user.email,

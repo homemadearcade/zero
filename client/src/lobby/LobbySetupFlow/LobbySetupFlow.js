@@ -17,6 +17,7 @@ import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
+import { isLocalHost } from '../../utils/webPageUtils';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -180,14 +181,15 @@ const LobbySetupFlow = ({
           nextButtonText: 'Start Monologue'
         },
         {
-          id: 'Power on',
-          title: <Typography component="h5" variant="h5">Power on the Game </Typography>,
+          id: 'Load Prologue 1',
+          title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
           onClickNext: () => {
             editLobby(lobby.id, {
+              currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63af258a1a7bdd005363ac7e',
               isGamePoweredOn: true
             })
           },
-          nextButtonText: 'Power on'
+          nextButtonText: 'Load Prologue 1'
         },
         {
           id: 'i1 - Reveal Game Screen',
@@ -204,7 +206,18 @@ const LobbySetupFlow = ({
             })
           },
           nextButtonText: 'Set Interface to i1'
-        }
+        },
+        {
+          id: 'Load Editing Game',
+          title: <Typography component="h5" variant="h5">Load Editing Game</Typography>,
+          onClickNext: () => {
+            editLobby(lobby.id, {
+              currentGameId: lobby.game.id,
+              isGamePoweredOn: true
+            })
+          },
+          nextButtonText: 'Load Editing Game'
+        },
       ]}
       completed={<>
           <Typography component="h5" variant="h5">Join Participant</Typography>

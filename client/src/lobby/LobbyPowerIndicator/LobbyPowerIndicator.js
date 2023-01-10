@@ -16,6 +16,7 @@ const LobbyPowerIndicator = ({
   return <div
     className="LobbyPowerIndicator"
     onClick={() => {
+      if(!lobby.currentGameId) return
       editLobby(lobby.id, {
         isGamePoweredOn: !isGamePoweredOn,
         isGamePaused: false
@@ -24,6 +25,7 @@ const LobbyPowerIndicator = ({
   > 
     <Icon icon="faPowerOff"/>
     <Switch
+      disabled={!lobby.currentGameId}
       size="small"
       checked={isGamePoweredOn}
     />

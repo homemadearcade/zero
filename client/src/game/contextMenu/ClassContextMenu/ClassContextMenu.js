@@ -24,10 +24,6 @@ const ClassContextMenu = ({
 }) => {
   const objectClass = gameModel.classes[classId]
 
-  function div({children}) {
-    return <div className="ContextMenu__title">{children}</div>
-  }
-
   return <>
     {!insideObjectInstanceContextMenu && <ContextMenuTitle>{gameModel.classes[classId].name}</ContextMenuTitle>}
     {objectClass.type === HERO_CLASS && classId !== gameModel.hero.initialClassId && 

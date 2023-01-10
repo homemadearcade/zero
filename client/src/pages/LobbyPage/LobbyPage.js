@@ -99,7 +99,7 @@ const LobbyPage = ({
   function renderExperience() {
     if(lobby.experienceUI === GAME_EDITOR_UI) {
 
-      return <CobrowsingGame gameId={lobby.game?.id} myTracks={myTracks} userTracks={userTracks}>
+      return <CobrowsingGame gameId={lobby.currentGameId} myTracks={myTracks} userTracks={userTracks}>
         <ObscuredGameView/>
       </CobrowsingGame>
     }

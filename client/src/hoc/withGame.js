@@ -5,27 +5,49 @@ import store from '../store';
 import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
 import { loadArcadeGame, unloadArcadeGame } from '../store/actions/arcadeGameActions';
 import { getCurrentGameScene } from '../utils/editorUtils';
+import { getSpritesheetData } from '../store/actions/gameModelActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class WithGame extends Component {
 
     componentDidMount() {
-      const { match, gameId, loadArcadeGame } = this.props
+      this.loadGame()
+      window.addEventListener('beforeunload', this.askBeforeClosing); 
+    }
 
+    componentDidUpdate(oldProps) {
+      this.switchGame(oldProps, this.props)
+    }
 
-      const doLoadGame = async () => {
-        if(gameId) {
-          await loadArcadeGame(gameId)
-        } else if(match?.params?.gameId) {
-          const matchId = match.params.gameId;
-          await loadArcadeGame(matchId);
-        }
-  
-        window.addEventListener('beforeunload', this.askBeforeClosing);    
+    async loadGame() {
+      const { match, gameId, loadArcadeGame, gameModel, getSpritesheetData } = this.props
+
+      if(gameId) {
+        await loadArcadeGame(gameId)
+      } else if(match?.params?.gameId) {
+        const matchId = match.params.gameId;
+        await loadArcadeGame(matchId);
       }
 
-      doLoadGame()
+      if(!gameModel.spritesByDescriptor) {
+        getSpritesheetData()
+      }
+    }
+
+    async unloadGame() {
+      const { unloadArcadeGame } = this.props
+
+      unloadArcadeGame()
+    }
+
+    async switchGame(oldProps, newProps) {
+      if(oldProps.gameId !== newProps.gameId) {
+        await this.unloadGame()
+        setTimeout(() => {
+          this.loadGame(newProps.gameId)
+        }, 1000)
+      }
     }
 
     askBeforeClosing = (e) => {
@@ -46,23 +68,16 @@ export default (ChildComponent) => {
       }
     }
 
-    componentDidUpdate() {
-
-    }
-
     componentWillUnmount() {
-      const { unloadArcadeGame } = this.props
-
-      unloadArcadeGame()
       window.removeEventListener('beforeunload', this.askBeforeClosing)
     }
 
     render() {
       const { gameModel } = this.props
 
-      if(!gameModel.gameModel) {
-        return <Loader text="Loading Game Data..."/>
-      }
+      // if(!gameModel.gameModel) {
+      //   return <Loader text="Loading Game Data..."/>
+      // }
 
       if(!gameModel.isSpriteSheetDataLoaded) {
         return <Loader text="Loading Sprites..."/>
@@ -76,5 +91,5 @@ export default (ChildComponent) => {
     gameModel: state.gameModel
   });
 
-  return connect(mapStateToProps, { loadArcadeGame, unloadArcadeGame })(WithGame)
+  return connect(mapStateToProps, { loadArcadeGame, unloadArcadeGame, getSpritesheetData })(WithGame)
 };

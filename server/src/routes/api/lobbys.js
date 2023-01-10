@@ -354,9 +354,14 @@ router.post('/undo/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
 
-    if(req.lobby.isGamePoweredOn && req.body.gameId) {
-      return res.status(400).json({ message: 'You cannot change the game id of a lobby when game is powered on' });
+    if(req.lobby.isGamePoweredOn && req.body.game?.id) {
+      return res.status(400).json({ message: 'You cannot change the editing game id of a lobby when game is powered on' });
     }
+
+    // actually currently needed to be able to switch while game is on to function
+    // if(req.lobby.isGamePoweredOn && req.body.currentGameId) {
+    //   return res.status(400).json({ message: 'You cannot change the current game id of a lobby when game is powered on' });
+    // }
 
     if(req.body.isGamePoweredOn && req.user.role !== 'ADMIN') {
       return res.status(400).json({ message: 'You do not have privelages to power on this game.' });

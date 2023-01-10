@@ -25,7 +25,6 @@ const WorldContextMenu = ({
 
   return <>
     <ContextMenuTitle>{gameModel.metadata.title}</ContextMenuTitle>
-    <Divider></Divider>
     <Unlockable interfaceId="contextMenu/world/gravity">
       <MenuItem onClick={() => {
         openLiveEditor(WORLD_EDITOR)

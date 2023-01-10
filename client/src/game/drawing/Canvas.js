@@ -1,9 +1,9 @@
 import Phaser from "phaser";
 import store from "../../store";
-import { addAwsImage } from "../../store/actions/arcadeGameActions";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
 import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
+import { addAwsImage } from "../../store/actions/gameModelActions";
 
 window.instanceUndoStack = []
 window.spriteEditorUndoStack = []
