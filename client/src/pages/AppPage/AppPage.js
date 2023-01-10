@@ -55,6 +55,7 @@ const AppPage = ({ auth, loadMe, children, history }) => {
     if (window.location.hash === '#_=_') window.location.hash = '';
 
     const cookieJwt = Cookies.get('x-auth-cookie');
+    console.log('cookie found', cookieJwt)
     if (cookieJwt) {
       Cookies.remove('x-auth-cookie');
       logInUserWithOauth(cookieJwt);

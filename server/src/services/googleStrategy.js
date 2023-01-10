@@ -14,9 +14,12 @@ const googleLogin = new GoogleStrategy(
     proxy: true,
   },
   async (accessToken, refreshToken, profile, done) => {
-    // console.log(profile);
+    console.log('google profile', profile);
+
     try {
       const oldUser = await User.findOne({ email: profile.email });
+
+      console.log('found old user', oldUser)
 
       if (oldUser) {
         return done(null, oldUser);
@@ -32,6 +35,8 @@ const googleLogin = new GoogleStrategy(
         username: profile.displayName.replace(/\W/g, ""),
         email: profile.email,
       }).save();
+
+      console.log('created new user', newUser)
       done(null, newUser);
     } catch (err) {
       console.log(err);
