@@ -121,14 +121,15 @@ export const logInUserWithOauth = (token, history) => async (dispatch, getState)
 
     const response = await axios.get('/api/users/me', { headers });
 
-    dispatch(loadMe());
-    history.push(getState().auth.redirect || '/');
-    dispatch(clearRedirect())
-
     dispatch({
       type: LOGIN_WITH_OAUTH_SUCCESS,
       payload: { me: response.data.me, token },
     });
+
+    dispatch(authenticateSocket())
+    dispatch(initializeUnlockableInterfaceIds(response.data.me.unlockableInterfaceIds))
+    history.push(getState().auth.redirect || '/');
+    dispatch(clearRedirect())
   } catch (err) {
     console.error(err)
 

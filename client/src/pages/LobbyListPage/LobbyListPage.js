@@ -16,6 +16,7 @@ import './styles.scss';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import Link from '../../ui/Link/Link';
+import PageHeader from '../../ui/PageHeader/PageHeader';
 
 const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbys: { lobbys, isLoading } }) => {
   useEffect(() => {
@@ -25,8 +26,10 @@ const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbys: { lobbys, isLo
   return (
     <Layout>
       <div className="LobbyListPage">
-        <Typography component="h1" variant="h1">Lobbies Page</Typography>
-          This is the lobbies page where all active lobbies are listed. Only admin users can see this page.
+        <PageHeader 
+          title="Lobbies Page"
+          description={`This is the lobbies page where all active lobbies are listed. Only admin users can see this page.`}
+        ></PageHeader>
         <div className="LobbyListPage__list">
           {isLoading ? (
             <Loader text="Lobbys Loading..."/>
@@ -37,6 +40,7 @@ const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbys: { lobbys, isLo
                   <div key={index} className="LobbyListPage__lobby">
 
                     <div className="LobbyListPage__info-container">
+                      <Typography component="h5" variant="h5">{lobby.participants[0]?.username}'s Lobby</Typography>
                       <div>
                         <span className="LobbyListPage__label">Lobby ID: </span>
                         <span className="LobbyListPage__info">{lobby.id}</span>

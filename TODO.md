@@ -7,11 +7,8 @@ If you have a white background, if you have a grey background, Still issues!! Tw
 --- 
 TODO
 
-Theres a redirect issue when logging in sometimes??
 
 Stars get bigger when hovering 
-
-Make an account with google. 
 
 Center all page title text
 
@@ -34,6 +31,7 @@ TODO CHORES
 
 Forgot Password - email Flow
 All sorts of emails for tickets
+Theres a redirect issue when logging in sometimes??
 UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 Move properties into objects based on Member
 Outline Class ( for eraser and objectInstance, and camerapreview? )
