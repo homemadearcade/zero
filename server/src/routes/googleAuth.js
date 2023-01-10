@@ -24,7 +24,6 @@ router.get(
   }),
   (req, res) => {
     const token = req.user.generateJWT();
-    console.log('token', token, clientUrl)
     res.cookie('x-auth-cookie', token);
     res.redirect('https://homemadearcade.herokuapp.com/OAuthSuccess');
   },

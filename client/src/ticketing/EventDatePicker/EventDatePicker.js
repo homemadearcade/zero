@@ -18,7 +18,10 @@ const EventDatePicker = ({
     <div className="EventDatePicker">
       <EventDateList
         dates={dates.filter((date) => {
-          if(!date.startDate) return false          
+          if(!date.startDate) return false    
+          if((new Date(date.startDate).getTime() - new Date().getTime()) < 0) {
+            return false
+          }
           return true
         })}
         renderDetails={() => {

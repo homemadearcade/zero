@@ -9,13 +9,9 @@ TODO
 
 Theres a redirect issue when logging in sometimes??
 
-Expired Dates should not show up in buy tickets
-
 Stars get bigger when hovering 
 
 Make an account with google. 
-
-Usernames = email without @XXX
 
 Center all page title text
 
@@ -43,6 +39,7 @@ UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 Move properties into objects based on Member
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 Popup for connection errors, little thing in the bottom corner. Toast thing
+Why is fullscreen connection and is present thing not working anymore?
 
 --
 
