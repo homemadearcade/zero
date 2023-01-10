@@ -110,9 +110,11 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
         username: user.username,
         role: user.role,
         joined: false,
-        connected: false
+        connected: false,
       }
     })
+
+    lobby.currentStep = 2
 
     req.lobbys.push(lobby)
 

@@ -1,5 +1,11 @@
 .LobbySetupFlow {
-  width: 50%;
+  max-height: 100vh;
+  overflow-y: scroll;
+  margin-left: 2rem;
+
+  &__stepper {
+      padding-bottom: 90vh;
+  }
 
   &__role {
     padding: 10px;

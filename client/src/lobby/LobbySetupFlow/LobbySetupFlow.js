@@ -119,6 +119,7 @@ const LobbySetupFlow = ({
 
   return (
     <div className="LobbySetupFlow">
+      <div className="LobbySetupFlow__stepper">
       <VerticalLinearStepper 
       initialStep={lobby.currentStep}
       onStepChange={(step) => {
@@ -230,12 +231,12 @@ const LobbySetupFlow = ({
           nextButtonText: 'Load Prologue 2'
         },
         {
-          id: 'Return Participant to Stars',
-          title: <Typography component="h5" variant="h5">Return Participant to Stars</Typography>,
+          id: 'Return Participant to Game',
+          title: <Typography component="h5" variant="h5">Return Participant to Game</Typography>,
           onClickNext: () => {
             completeCloseConstellation({ externalForceCobrowsingUpdateUserId: lobby.participantId })
           },
-          nextButtonText: 'Return Participant to Stars'
+          nextButtonText: 'Return Participant to Game'
         },
         {
           id: 'Load Editing Game',
@@ -254,6 +255,7 @@ const LobbySetupFlow = ({
           <UserStatus hasJoinLink userId={usersById[lobby.participantId]?.id}/>
         </>}
       />
+    </div>
     </div>
   );
 };

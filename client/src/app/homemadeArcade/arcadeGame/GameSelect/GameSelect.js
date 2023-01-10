@@ -39,7 +39,7 @@ const GameSelect = ({ onSelect, getArcadeGames, arcadeGames: { arcadeGames, isLo
               id="grouped-demo"
               options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
               groupBy={(option) => option.firstLetter}
-              getOptionLabel={(option) => option.user.username + '-' + option.id}
+              getOptionLabel={(option) => option.metadata.title ? option.metadata.title : option.user.username + '-' + option.id}
               onChange={(e, value) => {
                 onSelect(value)
               }}

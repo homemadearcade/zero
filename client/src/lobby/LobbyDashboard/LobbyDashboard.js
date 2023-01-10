@@ -18,10 +18,10 @@ const LobbyDashboard = ({
   return (
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
-        <LobbySetupFlow/>
         {renderGamePreview()}
+        <LobbySetupFlow/>
       </div>
-    </div>      
+    </div>
   );
 };
 

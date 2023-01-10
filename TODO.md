@@ -7,6 +7,18 @@ If you have a white background, if you have a grey background, Still issues!! Tw
 --- 
 TODO
 
+Theres a redirect issue when logging in sometimes??
+
+Expired Dates should not show up in buy tickets
+
+Stars get bigger when hovering 
+
+Make an account with google. 
+
+Usernames = email without @XXX
+
+Center all page title text
+
 The sliders - you dont really know what zero is
 
 Spawn Effect

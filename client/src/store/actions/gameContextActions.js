@@ -84,12 +84,16 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
 
 
 export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => async (dispatch, getState) => {
-  const gameInstance = getState().webPage.gameInstance
+  async function attemptConstellation() {
+    const gameInstance = getState().webPage.gameInstance
 
-  if(gameInstance) {
+    if(!gameInstance) setTimeout(() => attemptConstellation(), 1000)
     const scene = getCurrentGameScene(gameInstance)
+
+    if(!scene) setTimeout(() => attemptConstellation(), 1000)
+
     const { imgCanvas } = await scene.getImageFromGame('constellation')
-  
+    
     dispatch({
       externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
       updateCobrowsing: true,
@@ -98,13 +102,9 @@ export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => as
         imageBase64: imgCanvas.toDataURL()
       }
     });
-  } else {
-    dispatch({
-      updateCobrowsing: true,
-      type: OPEN_CONSTELLATION,
-      payload: {}
-    });
   }
+
+  attemptConstellation()
 }
 
 export const startCloseConstellation = ({ externalForceCobrowsingUpdateUserId }) => (dispatch, getState) => {

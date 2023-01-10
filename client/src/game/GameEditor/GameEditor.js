@@ -50,7 +50,8 @@ const GameEditor = ({
     }
   }, [])
 
-  return (
+  return <>
+    {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
     <div className={"GameEditor " + classNames}>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {!isSectionEditorOpen && leftColumn}
@@ -63,7 +64,6 @@ const GameEditor = ({
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         {!isSectionEditorOpen && rightColumn}
       </div>
-      {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
       {liveEditingCategory && <LiveEditor/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
@@ -73,7 +73,7 @@ const GameEditor = ({
       {isCreateRelationOpen && <CreateRelation/>}
       {isWorldRelationOpen && <WorldRelation/>}
     </div>
-  );
+  </>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
