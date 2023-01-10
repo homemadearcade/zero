@@ -17,7 +17,7 @@ import io from 'socket.io-client'
 import { ON_GAME_INSTANCE_UPDATE } from '../../store/types';
 import { withRouter } from 'react-router-dom';
 
-const AppPage = ({ auth, loadMe, children, history }) => {
+const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   const [isCheckingBrowser, setIsCheckingBrowser] = useState(true)
 
   useEffect(() => {
