@@ -110,7 +110,7 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
   }
 };
 
-export const logInUserWithOauth = (token) => async (dispatch, getState) => {
+export const logInUserWithOauth = (token, history) => async (dispatch, getState) => {
   dispatch({ type: LOGIN_WITH_OAUTH_LOADING });
 
   try {
@@ -120,6 +120,10 @@ export const logInUserWithOauth = (token) => async (dispatch, getState) => {
     };
 
     const response = await axios.get('/api/users/me', { headers });
+
+    dispatch(loadMe());
+    history.push(getState().auth.redirect || '/');
+    dispatch(clearRedirect())
 
     dispatch({
       type: LOGIN_WITH_OAUTH_SUCCESS,

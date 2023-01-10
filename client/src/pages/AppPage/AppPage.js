@@ -45,7 +45,7 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
           console.log('cookie found', cookieJwt)
           if (cookieJwt) {
             Cookies.remove('x-auth-cookie');
-            logInUserWithOauth(cookieJwt);
+            logInUserWithOauth(cookieJwt, history);
           } else {
             loadMe();
           }
@@ -56,12 +56,6 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
     return () => {
       window.socket.close()
     }
-  }, []);
-
-  useEffect(() => {
-    if (window.location.hash === '#_=_') window.location.hash = '';
-
-
   }, []);
 
   return ( <>
