@@ -47,12 +47,10 @@ const userSchema = new Schema(
     },
     preferences: {
       type: Object,
-      required: true,
       default: {}
     },
     unlockableInterfaceIds: {
       type: Object,
-      required: true,
       default: {}
     },
     // fb
