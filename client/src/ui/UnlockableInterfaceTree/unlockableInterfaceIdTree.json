@@ -74,8 +74,8 @@
           ]
         },
         {
-          "id": "contextMenu/metadatar",
-          "name": "metadatar",
+          "id": "contextMenu/metadata",
+          "name": "metadata",
           "children": []
         },
         {

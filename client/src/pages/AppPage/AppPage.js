@@ -41,7 +41,14 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
           window.stop()
         } else {
           setIsCheckingBrowser(false)
-          loadMe();
+          const cookieJwt = Cookies.get('x-auth-cookie');
+          console.log('cookie found', cookieJwt)
+          if (cookieJwt) {
+            Cookies.remove('x-auth-cookie');
+            logInUserWithOauth(cookieJwt);
+          } else {
+            loadMe();
+          }
         }
       })
     }
@@ -54,12 +61,7 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   useEffect(() => {
     if (window.location.hash === '#_=_') window.location.hash = '';
 
-    const cookieJwt = Cookies.get('x-auth-cookie');
-    console.log('cookie found', cookieJwt)
-    if (cookieJwt) {
-      Cookies.remove('x-auth-cookie');
-      logInUserWithOauth(cookieJwt);
-    }
+
   }, []);
 
   return ( <>

@@ -17,6 +17,7 @@ import { MenuItem } from '@mui/material';
 import { connect } from 'react-redux';
 import { updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
 import { getUserById } from '../../store/actions/userActions';
+import Button from '../Button/Button';
 
 function MinusSquare(props) {
   return (
@@ -107,6 +108,7 @@ const StyledTreeItem = styled((props) => {
     // },
 
 window.unlockableData = unlockableInterfaceIdTree
+const nodeIds = []
 
 function getClassName(id, unlockableInterfaceIds) {
   if(unlockableInterfaceIds[id]) return 'TreeItem__unlocked--specific'
@@ -118,6 +120,19 @@ function getClassName(id, unlockableInterfaceIds) {
 }
 
 function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserById, updateArcadeGameCharacter}) {
+
+  const [expanded, setExpanded] = React.useState([]);
+
+  const handleToggle = (event, nodeIds) => {
+    setExpanded(nodeIds);
+  };
+
+  const handleExpandClick = () => {
+    setExpanded((oldExpanded) =>
+      oldExpanded.length === 0 ? nodeIds : [],
+    );
+  };
+
   function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {
 
     const idAliases = getInterfaceIdAliases(interfaceId)
@@ -170,30 +185,39 @@ function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserB
   }
 
   const renderTree = (nodes) => {
-  
-  return (
-    <>
-      <StyledTreeItem contentClass={getClassName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
-        <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={unlockableInterfaceIds}></ToggleLockMenu>
-        {Array.isArray(nodes.children)
-          ? nodes.children.map((node) => renderTree(node))
-          : null}
-        
-      </StyledTreeItem>
-    </>
-  )}
+    if(nodes.children.length) nodeIds.push(nodes.id)
+
+    return (
+      <>
+        <StyledTreeItem contentClass={getClassName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+          <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={unlockableInterfaceIds}></ToggleLockMenu>
+          {Array.isArray(nodes.children)
+            ? nodes.children.map((node) => renderTree(node))
+            : null}
+          
+        </StyledTreeItem>
+      </>
+    )
+  }
 
   return (
-    <TreeView
-      aria-label="customized"
-      defaultExpanded={['10']}
-      defaultCollapseIcon={<MinusSquare />}
-      defaultExpandIcon={<PlusSquare />}
-      defaultEndIcon={<CloseSquare />}
-      sx={{ flexGrow: 1, overflowY: 'auto' }}
-    >
-      {renderTree(window.unlockableData)}
-    </TreeView>
+    <>
+      <Button onClick={handleExpandClick}>
+        {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
+      </Button>
+      <TreeView
+        aria-label="customized"
+        defaultExpanded={['10']}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        defaultEndIcon={<CloseSquare />}
+        expanded={expanded}
+        onNodeToggle={handleToggle}
+        sx={{ flexGrow: 1, overflowY: 'auto' }}
+      >
+        {renderTree(window.unlockableData)}
+      </TreeView>
+    </>
   );
 }
 

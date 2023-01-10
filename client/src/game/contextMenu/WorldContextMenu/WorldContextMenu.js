@@ -43,7 +43,7 @@ const WorldContextMenu = ({
         onMenuItemClick()
       }}>Edit Background Color</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/metadatar">
+    <Unlockable interfaceId="contextMenu/metadata">
       <MenuItem onClick={() => {
         openGameMetadataModal()
         onMenuItemClick()
