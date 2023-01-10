@@ -40,12 +40,11 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
         <Link to="/">
           Home page
         </Link>
-        {false && <Link className="google btn" href={GOOGLE_AUTH_LINK}>
-            <i className="fa fa-google fa-fw" />
-            Register with Google
-        </Link>}
+        <Link className="google btn" to={GOOGLE_AUTH_LINK}>
+          <i className="fa fa-google fa-fw" />
+          Register with Google
+        </Link>
         <form onSubmit={formik.handleSubmit} noValidate>
-
           <div>
             <input
               placeholder="Email address"

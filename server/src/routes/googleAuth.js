@@ -20,6 +20,7 @@ router.get(
   }),
   (req, res) => {
     const token = req.user.generateJWT();
+    console.log('google auth token', token)
     res.cookie('x-auth-cookie', token);
     res.redirect(clientUrl);
   },

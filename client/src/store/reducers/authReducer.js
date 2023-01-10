@@ -1,7 +1,6 @@
 import {
-  // LOGIN_WITH_OAUTH_LOADING,
-  // LOGIN_WITH_OAUTH_SUCCESS,
-  // LOGIN_WITH_OAUTH_FAIL,
+  LOGIN_WITH_OAUTH_LOADING,
+  LOGIN_WITH_OAUTH_SUCCESS,
   LOGOUT_SUCCESS,
   LOGIN_WITH_EMAIL_LOADING,
   LOGIN_WITH_EMAIL_SUCCESS,
@@ -37,14 +36,14 @@ export default function authReducer(state = initialState, { type, payload }) {
       };
     case LOGIN_WITH_EMAIL_LOADING:
     case AUTHENTICATE_SOCKET_LOADING:
-    // case LOGIN_WITH_OAUTH_LOADING:
+    case LOGIN_WITH_OAUTH_LOADING:
       return {
         ...state,
         isLoading: true,
         error: null,
       };
     case LOGIN_WITH_EMAIL_SUCCESS:
-    // case LOGIN_WITH_OAUTH_SUCCESS:
+    case LOGIN_WITH_OAUTH_SUCCESS:
       localStorage.setItem('token', payload.token);
       return {
         ...state,

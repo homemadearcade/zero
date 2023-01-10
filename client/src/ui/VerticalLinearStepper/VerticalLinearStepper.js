@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
+import './VerticalLinearStepper.scss';
+
 export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange}) {
 
   const [activeStep, setActiveStep] = React.useState(initialStep);
@@ -27,10 +29,13 @@ export default function VerticalLinearStepper({initialStep = 0, steps, completed
     onStepChange(0)
   };
 
-  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} />
+  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} onChangeStep={(step) => {
+    setActiveStep(step);
+    onStepChange(step)
+  }} />
 }
 
-export function VerticalLinearStepperBody({ completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
+export function VerticalLinearStepperBody({ onChangeStep, completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
 
   function renderStepText(step, index) {
     if(step.nextButtonText) {
@@ -46,8 +51,12 @@ export function VerticalLinearStepperBody({ completed, steps, activeStep, onClic
     <Box>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step.id}>
+          <Step key={step.id} >
             <StepLabel
+              onClick={() => {
+                onChangeStep(index)
+              }}
+              classes={{root: "VerticalLinearStepper__step-number"}} 
               optional={
                 index === steps.length-1 ? (
                   <Typography variant="caption">Last step</Typography>

@@ -9,6 +9,7 @@ import { logInUserWithOauth, loadMe, authenticateSocket } from '../../store/acti
 
 import ErrorHandler from '../../ui/connected/ErrorHandler/ErrorHandler';
 
+import Cookies from 'js-cookie';
 import { checkIfTabAlreadyOpen } from '../../utils/webPageUtils';
 import ContextMenus from '../../game/cobrowsing/ContextMenus/ContextMenus';
 
@@ -47,6 +48,16 @@ const AppPage = ({ auth, loadMe, children, history }) => {
 
     return () => {
       window.socket.close()
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.location.hash === '#_=_') window.location.hash = '';
+
+    const cookieJwt = Cookies.get('x-auth-cookie');
+    if (cookieJwt) {
+      Cookies.remove('x-auth-cookie');
+      logInUserWithOauth(cookieJwt);
     }
   }, []);
 

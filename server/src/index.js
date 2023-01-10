@@ -77,7 +77,7 @@ app.get('/spriteSheets', (req,res)=>{
 // Bodyparser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(morgan('combined'))
+app.use(morgan('combined'))
 
 app.use(passport.initialize());
 require('./services/jwtStrategy');

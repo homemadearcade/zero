@@ -2,6 +2,18 @@
   &__content {
     display: flex;
   }
+
+  .LobbySetupFlow {
+    width: 40%;
+  }
+
+  .GamePreview {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    width: 40vw;
+    height: 40vw;
+  }
+  
   &__leave {
     position: fixed;
     top: 0;

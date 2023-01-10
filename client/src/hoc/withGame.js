@@ -46,7 +46,7 @@ export default (ChildComponent) => {
         await this.unloadGame()
         setTimeout(() => {
           this.loadGame(newProps.gameId)
-        }, 1000)
+        }, 100)
       }
     }
 

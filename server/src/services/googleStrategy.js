@@ -31,7 +31,6 @@ const googleLogin = new GoogleStrategy(
         googleId: profile.id,
         username: profile.displayName,
         email: profile.email,
-        avatar: profile.picture,
       }).save();
       done(null, newUser);
     } catch (err) {

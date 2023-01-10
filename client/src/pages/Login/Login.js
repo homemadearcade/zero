@@ -28,6 +28,7 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
 
   useEffect(() => {
     if(auth.me?.id && !auth.redirect) {
+      console.log('redirect in login componet is triggering')
       history.push('/')
     }
   }, [])
@@ -41,10 +42,10 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
           Home page
         </Link>
         <form onSubmit={formik.handleSubmit}>
-          {false && <Link className="google btn" href={GOOGLE_AUTH_LINK}>
+          <a className="google btn" href={GOOGLE_AUTH_LINK}>
             <i className="fa fa-google fa-fw" />
             Login with Google
-          </Link>}
+          </a>
           <div>
             <input
               placeholder="Email address"
