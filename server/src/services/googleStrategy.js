@@ -29,7 +29,7 @@ const googleLogin = new GoogleStrategy(
       const newUser = await new User({
         provider: 'google',
         googleId: profile.id,
-        username: profile.displayName,
+        username: profile.displayName.replace(/\W/g, ""),
         email: profile.email,
       }).save();
       done(null, newUser);
