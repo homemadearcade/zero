@@ -16,6 +16,7 @@ import { getUrlParameter } from '../../utils/utils';
 import './styles.css';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
+import Icon from '../../ui/Icon/Icon';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail}) => {
   const participantEmail = getUrlParameter('participantEmail')
@@ -34,18 +35,15 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
 
   return (
     <div className="RegisterPage">
-      <div className="container">
-        <Typography component="h1" variant="h1">Register page</Typography>
+      <Typography component="h4" variant="h4">Register</Typography>
+      <div>
         back to{' '}
         <Link to="/">
           Home page
         </Link>
-        <a className="google btn" href={GOOGLE_AUTH_LINK}>
-          <i className="fa fa-google fa-fw" />
-          Register with Google
-        </a>
+      </div> 
+      <div className="container">
         <form onSubmit={formik.handleSubmit} noValidate>
-          <div>
             <input
               placeholder="Email address"
               name="email"
@@ -82,20 +80,24 @@ const Register = ({ auth, register: { isLoading, error }, history, registerUserW
             {formik.touched.password && formik.errors.password ? (
               <p className="error">{formik.errors.password}</p>
             ) : null}
-          </div>
           {error && <p className="error">{error}</p>}
           <div>
             <Button type="submit" disabled={isLoading || !formik.isValid}>
               Sign up now
             </Button>
           </div>
-          <div>
-            Have an account?{' '}
-            <Link to="/login">
-              Log In
-            </Link>
-          </div>
         </form>
+      </div>
+      <a className="GoogleOAuth" href={GOOGLE_AUTH_LINK}>
+        <Icon icon="faGoogle"></Icon>
+        Register with Google
+      </a>
+
+      <div>
+        Have an account?{' '}
+        <Link to="/login">
+          Log In
+        </Link>
       </div>
     </div>
   );

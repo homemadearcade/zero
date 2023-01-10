@@ -1,20 +1,7 @@
 .RegisterPage {
   display: flex;
   justify-content: center;
-}
-
-.RegisterPage .container {
-  max-width: 400px;
-  flex: 1;
-}
-
-.RegisterPage .google {
-  background-color: #dd4b39;
-  color: white;
-  display: block;
-}
-
-.RegisterPage .submit {
-  background-color: gray;
-  color: white;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
 }

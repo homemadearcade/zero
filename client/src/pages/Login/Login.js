@@ -13,6 +13,7 @@ import { loginSchema } from './validation';
 import './styles.css';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
+import Icon from '../../ui/Icon/Icon';
 
 const Login = ({ auth, history, loginUserWithEmail }) => {
   const formik = useFormik({
@@ -34,18 +35,16 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
   }, [])
 
   return (
-    <div className="login">
-      <div className="container">
-        <Typography component="h1" variant="h1">Log in page</Typography>
+    <div className="Login">
+      <Typography component="h4" variant="h4">Log in</Typography>
+      <div>
         back to{' '}
         <Link to="/">
           Home page
         </Link>
+      </div>
+      <div className="container">
         <form onSubmit={formik.handleSubmit}>
-          <a className="google btn" href={GOOGLE_AUTH_LINK}>
-            <i className="fa fa-google fa-fw" />
-            Login with Google
-          </a>
           <div>
             <input
               placeholder="Email address"
@@ -82,14 +81,18 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
               Log in now
             </Button>
           </div>
-          <div>
-            Don't have an account?{' '}
-            <Link to="/register">
-              Register
-            </Link>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+        <a className="GoogleOAuth" href={GOOGLE_AUTH_LINK}>
+          <Icon icon="faGoogle"></Icon>
+          Login with Google
+        </a>
+        <div>
+          Don't have an account?{' '}
+          <Link to="/register">
+            Register
+          </Link>
+        </div>
     </div>
   );
 };

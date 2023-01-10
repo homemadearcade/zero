@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Link from '../../ui/Link/Link';
 
 import Layout from '../../layout/Layout';
+import Cookies from 'js-cookie';
 
 import './HomemadeArcadePage.scss';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
@@ -29,6 +30,12 @@ import { Fade, useMediaQuery } from '@mui/material';
 
 const HomemadeArcadePage = ({ auth, reseedDatabase }) => {
   const matches = useMediaQuery('(max-width:800px)');
+
+    useEffect(() => {
+
+    const cookieJwt = Cookies.get('x-auth-cookie');
+    console.log('ha page cookie found', cookieJwt)
+  }, []);
 
   return (
     <Layout>

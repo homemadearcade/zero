@@ -189,6 +189,7 @@ const App = ({ }) => {
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
           <Route path="/lobby/:id" children={wrapComponentInApp(LobbyPage)} />
           <Route exact path="/:username" children={wrapComponentInApp(Account)} />
+          <Route path="/OAuthSuccess" children={wrapComponentInApp(HomemadeArcadePage)} />
           <Route exact path="/" component={HomemadeArcadePage} />
           <Route component={NotFound} />
         </Switch>

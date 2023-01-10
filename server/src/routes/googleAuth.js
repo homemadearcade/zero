@@ -10,7 +10,7 @@ router.get(
   }),
 );
 
-const clientUrl = process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL_PROD : process.env.CLIENT_URL_DEV;
+// const clientUrl = process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL_PROD : process.env.CLIENT_URL_DEV;
 
 router.get(
   '/google/callback',
@@ -24,9 +24,9 @@ router.get(
   }),
   (req, res) => {
     const token = req.user.generateJWT();
-    console.log(token)
+    console.log('token', token, clientUrl)
     res.cookie('x-auth-cookie', token);
-    res.redirect(clientUrl);
+    res.redirect('https://homemadearcade.herokuapp.com/OAuthSuccess');
   },
 );
 
