@@ -62,7 +62,7 @@ const config= {
 }
 
 const GameView = (props) => {
-  if(!props.gameModel.gameModel) return
+  if(!props.gameModel.gameModel) return null
 
   return <PhaserGame {...props}></PhaserGame>
 }

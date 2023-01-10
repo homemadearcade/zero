@@ -18,11 +18,11 @@ const ObscuredGameView = ({
 
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
 
-    if(!lobby.isGamePoweredOn) return <div className="GameEditor__empty-game"></div>
+    if(!lobby.isGamePoweredOn) return <div className="GameView__empty"></div>
 
     if(lobby.isGamePoweredOn) {
       return <>{(isObscured || (!isUnlocked && showUnlockableInterfaceLocks)) && 
-        <div className="GameEditor__empty-game GameEditor__empty-game--overlay">
+        <div className="GameView__empty GameView__empty--overlay">
           <Unlockable isTiny interfaceId="gameView"><div></div></Unlockable>
         </div>
         }

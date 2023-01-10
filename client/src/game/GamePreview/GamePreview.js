@@ -7,13 +7,22 @@ import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
 import GameStatus from '../../app/homemadeArcade/arcadeGame/GameStatus/GameStatus';
 import { loadCobrowsingPreview } from '../../store/actions/cobrowsingActions';
+import LobbyUserStatus from '../../lobby/LobbyUserStatus/LobbyUserStatus';
+import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 
-const GamePreview = ({children, userId, loadCobrowsingPreview}) => {
+const GamePreview = ({unlockableInterfaceIds, userId, loadCobrowsingPreview, lobby: { lobby }}) => {
   useEffect(() => {
     if(userId) {
       loadCobrowsingPreview(userId)
     }
   }, [userId])
+
+  const usersById = lobby.users.reduce((prev, next) => {
+    prev[next.id] = next
+    return prev
+  }, {})
+
+  const { isUnlocked } = getInterfaceIdData('gameView')
 
   return (
     <div className="GamePreview">
@@ -21,14 +30,22 @@ const GamePreview = ({children, userId, loadCobrowsingPreview}) => {
         isHost={false}
         isNetworked={true}
       />
-      {children}
+      {(!isUnlocked || !lobby.isGamePoweredOn) && 
+        <div className="GameView__empty">
+
+        </div>
+      }
+      <div className="GamePreview__user">
+        <LobbyUserStatus hasJoinLink userId={usersById[lobby.participantId]?.id}/>
+      </div>
       <div className="GamePreview__note"><GameStatus/></div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-
+  lobby: state.lobby,
+  unlockableInterfaceIds: state.unlockableInterfaceIds
 });
 
 export default compose(

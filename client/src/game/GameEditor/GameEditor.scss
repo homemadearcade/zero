@@ -12,7 +12,7 @@
     border: 1px solid red;
   }
 
-  &__empty-game {
+  .GameView__empty {
     height: calc(100vh);
     width: calc(100vh);
     display: flex;
