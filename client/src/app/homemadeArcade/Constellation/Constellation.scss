@@ -1,6 +1,13 @@
 .Constellation {
   position: relative;
 
+  &--overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
   &__zoom-out-image {
     position: absolute;
     display: flex;
@@ -14,6 +21,7 @@
     height: 100vh;
     width: 100vh;
     transition: all 3s ease;
+    z-index: 2;
   }
 
   .shrink {

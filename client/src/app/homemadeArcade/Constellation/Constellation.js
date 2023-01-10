@@ -21,8 +21,8 @@ export class Constellation extends React.Component {
   c = 100;
   p = 10;
   sf = 1;
-  width = window.innerWidth;
-  height = window.innerHeight;
+  width = window.innerWidth - 2;
+  height = window.innerHeight - 2;
   zoom = 1;
   maxZoom = 32;
 
@@ -176,7 +176,7 @@ export class Constellation extends React.Component {
   }
 
 	render() {
-		return <div className="Constellation">
+		return <div className={classNames("Constellation", this.props.className)}>
       <Sketch setup={this.setup} draw={this.draw} mouseDragged={this.mouseDragged} mouseMoved={this.mouseMoved} />
       <div className="Constellation__content">
         {this.props.children}

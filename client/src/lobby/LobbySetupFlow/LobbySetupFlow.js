@@ -18,6 +18,7 @@ import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost } from '../../utils/webPageUtils';
+import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -25,6 +26,8 @@ const LobbySetupFlow = ({
   assignLobbyRole,
   updateArcadeGameCharacter,
   lobby: { lobby },
+  completeCloseConstellation, 
+  openConstellation
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -185,7 +188,7 @@ const LobbySetupFlow = ({
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63af258a1a7bdd005363ac7e',
+              currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63bcb9f10d17e60053793a2a',
               isGamePoweredOn: true
             })
           },
@@ -206,6 +209,33 @@ const LobbySetupFlow = ({
             })
           },
           nextButtonText: 'Set Interface to i1'
+        },
+        {
+          id: 'Send Participant to Stars',
+          title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
+          onClickNext: () => {
+            openConstellation({ externalForceCobrowsingUpdateUserId: lobby.participantId })
+          },
+          nextButtonText: 'Send Participant to Stars'
+        },
+        {
+          id: 'Load Prologue 2',
+          title: <Typography component="h5" variant="h5">Load Prologue 2</Typography>,
+          onClickNext: () => {
+            editLobby(lobby.id, {
+              currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63af258a1a7bdd005363ac7e',
+              isGamePoweredOn: true
+            })
+          },
+          nextButtonText: 'Load Prologue 2'
+        },
+        {
+          id: 'Return Participant to Stars',
+          title: <Typography component="h5" variant="h5">Return Participant to Stars</Typography>,
+          onClickNext: () => {
+            completeCloseConstellation({ externalForceCobrowsingUpdateUserId: lobby.participantId })
+          },
+          nextButtonText: 'Return Participant to Stars'
         },
         {
           id: 'Load Editing Game',
@@ -233,5 +263,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter }),
+  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation }),
 )(LobbySetupFlow);

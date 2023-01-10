@@ -25,6 +25,7 @@ import {
   LOAD_COBROWSING_PREVIEW_SUCCESS,
   LOAD_COBROWSING_PREVIEW_FAIL,
   LOAD_COBROWSING_PREVIEW_LOADING,
+  OPEN_CONSTELLATION,
 } from '../types';
 
 import store from '..';
@@ -175,6 +176,17 @@ export const handleCobrowsingUpdates = store => next => action => {
 
       // NORMAL ACTION
       return next(action)
+    } else if(action.externalForceCobrowsingUpdateUserId && action.externalForceCobrowsingUpdateUserId !== state.auth.me.id) {
+      // this happens when you arent currently cobrowsing or even subscribed to a cobrowsing
+      // user. Its likely clicking a button outside of a cobrowsing context that is meant
+      // to inflict a change on a users UI
+     
+      // publisher gets the message but does not trigger this part, it skips to next
+
+      // UPDATE PUBLISHER
+      const options = attachTokenToHeaders(store.getState);
+      axios.put('/api/cobrowsing/dispatch/' + action.externalForceCobrowsingUpdateUserId, { dispatchData: action }, options);
+      return null
     }
 
 

@@ -63,7 +63,7 @@ const GameEditor = ({
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         {!isSectionEditorOpen && rightColumn}
       </div>
-      {isConstellationOpen && <Constellation zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
+      {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
       {liveEditingCategory && <LiveEditor/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}

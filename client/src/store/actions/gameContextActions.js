@@ -83,7 +83,7 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
 }
 
 
-export const openConstellation = () => async (dispatch, getState) => {
+export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => async (dispatch, getState) => {
   const gameInstance = getState().webPage.gameInstance
 
   if(gameInstance) {
@@ -91,6 +91,7 @@ export const openConstellation = () => async (dispatch, getState) => {
     const { imgCanvas } = await scene.getImageFromGame('constellation')
   
     dispatch({
+      externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
       updateCobrowsing: true,
       type: OPEN_CONSTELLATION,
       payload: {
@@ -106,17 +107,19 @@ export const openConstellation = () => async (dispatch, getState) => {
   }
 }
 
-export const startCloseConstellation = () => (dispatch, getState) => {
+export const startCloseConstellation = ({ externalForceCobrowsingUpdateUserId }) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
     type: START_CLOSE_CONSTELLATION,
     payload: {}
   });
 }
 
-export const completeCloseConstellation = () => (dispatch, getState) => {
+export const completeCloseConstellation = ({ externalForceCobrowsingUpdateUserId }) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
     type: COMPLETE_CLOSE_CONSTELLATION,
     payload: {}
   });

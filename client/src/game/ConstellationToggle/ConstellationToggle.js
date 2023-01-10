@@ -18,9 +18,9 @@ const ConstellationToggle = ({
     className="ConstellationToggle"
     onClick={async () => {
       if(isConstellationOpen) {
-        completeCloseConstellation()
+        completeCloseConstellation({})
       } else {
-        openConstellation()
+        openConstellation({})
       }
     }}
   > 
