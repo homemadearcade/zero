@@ -1,0 +1,12 @@
+.TreeItem {
+  font-weight: 400;
+
+  &__unlocked {
+    color: darkseagreen;
+  }
+
+  &__unlocked--specific {
+    color: lightgreen;
+    font-weight: 800;
+  }
+}

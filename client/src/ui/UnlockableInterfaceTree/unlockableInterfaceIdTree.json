@@ -1,0 +1,560 @@
+{
+  "id": "all",
+  "name": "all",
+  "children": [
+    {
+      "id": "contextMenu",
+      "name": "contextMenu",
+      "children": [
+        {
+          "id": "contextMenu/*",
+          "name": "*",
+          "children": []
+        },
+        {
+          "id": "contextMenu/class",
+          "name": "class",
+          "children": [
+            {
+              "id": "contextMenu/class/graphics",
+              "name": "graphics",
+              "children": []
+            },
+            {
+              "id": "contextMenu/class/physics",
+              "name": "physics",
+              "children": []
+            },
+            {
+              "id": "contextMenu/class/movement",
+              "name": "movement",
+              "children": []
+            },
+            {
+              "id": "contextMenu/class/relations",
+              "name": "relations",
+              "children": []
+            },
+            {
+              "id": "contextMenu/class/duplicate",
+              "name": "duplicate",
+              "children": []
+            },
+            {
+              "id": "contextMenu/class/camera",
+              "name": "camera",
+              "children": []
+            },
+            {
+              "id": "contextMenu/class/projectile",
+              "name": "projectile",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "contextMenu/world",
+          "name": "world",
+          "children": [
+            {
+              "id": "contextMenu/world/gravity",
+              "name": "gravity",
+              "children": []
+            },
+            {
+              "id": "contextMenu/world/sections",
+              "name": "sections",
+              "children": []
+            },
+            {
+              "id": "contextMenu/world/backgroundColor",
+              "name": "backgroundColor",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "contextMenu/metadatar",
+          "name": "metadatar",
+          "children": []
+        },
+        {
+          "id": "contextMenu/toggleGrid",
+          "name": "toggleGrid",
+          "children": []
+        },
+        {
+          "id": "contextMenu/takeSnapshot",
+          "name": "takeSnapshot",
+          "children": []
+        },
+        {
+          "id": "contextMenu/cutscenes",
+          "name": "cutscenes",
+          "children": []
+        },
+        {
+          "id": "contextMenu/instance",
+          "name": "instance",
+          "children": [
+            {
+              "id": "contextMenu/instance/resize",
+              "name": "resize",
+              "children": []
+            },
+            {
+              "id": "contextMenu/instance/move",
+              "name": "move",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toolbar",
+      "name": "toolbar",
+      "children": [
+        {
+          "id": "toolbar/toggleGrid",
+          "name": "toggleGrid",
+          "children": []
+        },
+        {
+          "id": "toolbar/playPause",
+          "name": "playPause",
+          "children": []
+        },
+        {
+          "id": "toolbar/undo",
+          "name": "undo",
+          "children": []
+        },
+        {
+          "id": "toolbar/reset",
+          "name": "reset",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "brushSize",
+      "name": "brushSize",
+      "children": []
+    },
+    {
+      "id": "layerVisibility",
+      "name": "layerVisibility",
+      "children": []
+    },
+    {
+      "id": "eraser",
+      "name": "eraser",
+      "children": []
+    },
+    {
+      "id": "BACKGROUND_CANVAS",
+      "name": "BACKGROUND_CANVAS",
+      "children": [
+        {
+          "id": "BACKGROUND_CANVAS/colorSelect",
+          "name": "colorSelect",
+          "children": []
+        },
+        {
+          "id": "BACKGROUND_CANVAS/brushSelect",
+          "name": "brushSelect",
+          "children": []
+        },
+        {
+          "id": "BACKGROUND_CANVAS/addBrush",
+          "name": "addBrush",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "addColor",
+      "name": "addColor",
+      "children": []
+    },
+    {
+      "id": "PLAYGROUND_CANVAS",
+      "name": "PLAYGROUND_CANVAS",
+      "children": [
+        {
+          "id": "PLAYGROUND_CANVAS/colorSelect",
+          "name": "colorSelect",
+          "children": []
+        },
+        {
+          "id": "PLAYGROUND_CANVAS/brushSelect",
+          "name": "brushSelect",
+          "children": []
+        },
+        {
+          "id": "PLAYGROUND_CANVAS/addBrush",
+          "name": "addBrush",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "FOREGROUND_CANVAS",
+      "name": "FOREGROUND_CANVAS",
+      "children": [
+        {
+          "id": "FOREGROUND_CANVAS/colorSelect",
+          "name": "colorSelect",
+          "children": []
+        },
+        {
+          "id": "FOREGROUND_CANVAS/brushSelect",
+          "name": "brushSelect",
+          "children": []
+        },
+        {
+          "id": "FOREGROUND_CANVAS/addBrush",
+          "name": "addBrush",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "OBJECT_INSTANCE_CANVAS",
+      "name": "OBJECT_INSTANCE_CANVAS",
+      "children": [
+        {
+          "id": "OBJECT_INSTANCE_CANVAS/addObject",
+          "name": "addObject",
+          "children": []
+        },
+        {
+          "id": "OBJECT_INSTANCE_CANVAS/addNPC",
+          "name": "addNPC",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "HERO_INSTANCE_CANVAS",
+      "name": "HERO_INSTANCE_CANVAS",
+      "children": [
+        {
+          "id": "HERO_INSTANCE_CANVAS/addPlayer",
+          "name": "addPlayer",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "ZONE_INSTANCE_CANVAS",
+      "name": "ZONE_INSTANCE_CANVAS",
+      "children": [
+        {
+          "id": "ZONE_INSTANCE_CANVAS/addZone",
+          "name": "addZone",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "name": "advanced",
+      "children": [
+        {
+          "id": "advanced/invisibleClass",
+          "name": "invisibleClass",
+          "children": []
+        },
+        {
+          "id": "advanced/interfaceLockedClass",
+          "name": "interfaceLockedClass",
+          "children": []
+        },
+        {
+          "id": "advanced/ignoreBoundaries",
+          "name": "ignoreBoundaries",
+          "children": []
+        },
+        {
+          "id": "advanced/disableDownKey",
+          "name": "disableDownKey",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "adminOnly",
+      "name": "adminOnly",
+      "children": []
+    },
+    {
+      "id": "drawNewSprite",
+      "name": "drawNewSprite",
+      "children": []
+    },
+    {
+      "id": "chooseSprites",
+      "name": "chooseSprites",
+      "children": []
+    },
+    {
+      "id": "class",
+      "name": "class",
+      "children": [
+        {
+          "id": "class/layer",
+          "name": "layer",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "physics",
+      "name": "physics",
+      "children": [
+        {
+          "id": "physics/select",
+          "name": "select",
+          "children": [
+            {
+              "id": "physics/select/colliders",
+              "name": "colliders",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "physics/ignoreSides",
+          "name": "ignoreSides",
+          "children": []
+        },
+        {
+          "id": "physics/sliders",
+          "name": "sliders",
+          "children": [
+            {
+              "id": "physics/sliders/bounce",
+              "name": "bounce",
+              "children": []
+            },
+            {
+              "id": "physics/sliders/friction",
+              "name": "friction",
+              "children": [
+                {
+                  "id": "physics/sliders/friction/ground",
+                  "name": "ground",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "physics/sliders/weight",
+              "name": "weight",
+              "children": [
+                {
+                  "id": "physics/sliders/weight/mass",
+                  "name": "mass",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "physics/toggle",
+          "name": "toggle",
+          "children": [
+            {
+              "id": "physics/toggle/notPushable",
+              "name": "notPushable",
+              "children": []
+            },
+            {
+              "id": "physics/toggle/immovable",
+              "name": "immovable",
+              "children": []
+            },
+            {
+              "id": "physics/toggle/ignoreBoundaries",
+              "name": "ignoreBoundaries",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "movement",
+      "name": "movement",
+      "children": [
+        {
+          "id": "movement/masterToggle",
+          "name": "masterToggle",
+          "children": []
+        },
+        {
+          "id": "movement/pattern",
+          "name": "pattern",
+          "children": []
+        },
+        {
+          "id": "movement/velocity",
+          "name": "velocity",
+          "children": [
+            {
+              "id": "movement/velocity/vertical",
+              "name": "vertical",
+              "children": []
+            },
+            {
+              "id": "movement/velocity/horizontal",
+              "name": "horizontal",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "movement/gravity",
+          "name": "gravity",
+          "children": [
+            {
+              "id": "movement/gravity/vertical",
+              "name": "vertical",
+              "children": []
+            },
+            {
+              "id": "movement/gravity/horizontal",
+              "name": "horizontal",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "movement/toggle",
+          "name": "toggle",
+          "children": [
+            {
+              "id": "movement/toggle/ignoreGravity",
+              "name": "ignoreGravity",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "movement/speed",
+          "name": "speed",
+          "children": []
+        },
+        {
+          "id": "movement/jumpSpeed",
+          "name": "jumpSpeed",
+          "children": []
+        },
+        {
+          "id": "movement/floatSpeed",
+          "name": "floatSpeed",
+          "children": []
+        },
+        {
+          "id": "movement/sliders",
+          "name": "sliders",
+          "children": [
+            {
+              "id": "movement/sliders/drag",
+              "name": "drag",
+              "children": [
+                {
+                  "id": "movement/sliders/drag/vertical",
+                  "name": "vertical",
+                  "children": []
+                },
+                {
+                  "id": "movement/sliders/drag/horizontal",
+                  "name": "horizontal",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "movement/cooldown",
+          "name": "cooldown",
+          "children": []
+        },
+        {
+          "id": "movement/controls",
+          "name": "controls",
+          "children": [
+            {
+              "id": "movement/controls/type",
+              "name": "type",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "camera",
+      "name": "camera",
+      "children": [
+        {
+          "id": "camera/zoom",
+          "name": "zoom",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "projectile",
+      "name": "projectile",
+      "children": [
+        {
+          "id": "projectile/class",
+          "name": "class",
+          "children": []
+        },
+        {
+          "id": "projectile/cooldown",
+          "name": "cooldown",
+          "children": []
+        },
+        {
+          "id": "projectile/lifetime",
+          "name": "lifetime",
+          "children": []
+        },
+        {
+          "id": "projectile/speed",
+          "name": "speed",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "gameView",
+      "name": "gameView",
+      "children": []
+    },
+    {
+      "id": "world",
+      "name": "world",
+      "children": [
+        {
+          "id": "world/gravityX",
+          "name": "gravityX",
+          "children": []
+        },
+        {
+          "id": "world/gravityY",
+          "name": "gravityY",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

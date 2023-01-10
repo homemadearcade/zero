@@ -48,12 +48,15 @@ router.post('/character', requireJwtAuth, requireSocketAuth, async (req, res) =>
 
     const user = await User.findByIdAndUpdate(req.body.userId, { $set: updatedUser }, { new: true });
 
-    req.io.to(req.body.lobbyId).emit(ON_GAME_CHARACTER_UPDATE, {
-      id: req.body.userId,
-      data: {
-        unlockableInterfaceIds: user.unlockableInterfaceIds
-      }
-    })
+
+    if(req.body.lobbyId) {
+      req.io.to(req.body.lobbyId).emit(ON_GAME_CHARACTER_UPDATE, {
+        id: req.body.userId,
+        data: {
+          unlockableInterfaceIds: user.unlockableInterfaceIds
+        }
+      })
+    }
 
     res.status(200).json({ user: user.toJSON() });
   } catch (err) {

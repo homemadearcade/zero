@@ -13,11 +13,11 @@ import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel } }) => {
   return <>
     <ContextMenuTitle>{gameModel.classes[classId].name}</ContextMenuTitle>
-    <Unlockable interfaceId="drag">
+    <Unlockable interfaceId="contextMenu/instance/move">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(objectId)
         onMenuItemClick()
-      }}>Drag</MenuItem>
+      }}>Move</MenuItem>
     </Unlockable>
     <Unlockable interfaceId="contextMenu/instance/resize">
       <MenuItem onClick={() => {

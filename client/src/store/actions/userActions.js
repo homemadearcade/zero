@@ -43,6 +43,7 @@ export const editUser = (id, data) => async (dispatch, getState) => {
   }
 };
 
+
 export const getUserByUsername = (username, history) => async (dispatch, getState) => {
   dispatch({
     type: GET_USER_LOADING,
@@ -67,6 +68,29 @@ export const getUserByUsername = (username, history) => async (dispatch, getStat
     });
   }
 };
+
+export const getUserById = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_USER_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`/api/users/byId/${id}`, options);
+
+    dispatch({
+      type: GET_USER_SUCCESS,
+      payload: { user: response.data.user },
+    });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_USER_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 
 export const getUserByEmail = (email) => async (dispatch, getState) => {
   dispatch({

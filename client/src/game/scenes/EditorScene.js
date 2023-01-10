@@ -49,7 +49,7 @@ export class EditorScene extends GameInstance {
   }
 
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
-    const { isObscured } = getInterfaceIdData('drag')
+    const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
     if(isObscured) {
       return
     }

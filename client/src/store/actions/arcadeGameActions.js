@@ -59,7 +59,7 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds}) => a
 
   try {
     const state = store.getState()
-    const lobbyId = state.lobby.lobby.id 
+    const lobbyId = state.lobby.lobby?.id 
 
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/arcadeGames/character', {

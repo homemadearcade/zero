@@ -18,6 +18,7 @@ import './styles.scss';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import { ADMIN_ROLE } from '../../game/constants';
+import UnlockableInterfaceTree from '../../ui/UnlockableInterfaceTree/UnlockableInterfaceTree';
 
 const User = ({
   getUserByUsername,
@@ -241,6 +242,7 @@ const User = ({
           </div>
         )}
       </div>
+      <UnlockableInterfaceTree userId={user.id} unlockableInterfaceIds={user.unlockableInterfaceIds}></UnlockableInterfaceTree>
     </Layout>
   );
 };

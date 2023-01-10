@@ -56,26 +56,26 @@ export function getInterfaceIdData(interfaceId) {
   const idAliases = getInterfaceIdAliases(interfaceId)
   const me = state.auth.me
 
-  if(!state.lobby.lobby.id) {
-    let isUnlocked = true
-    let isObscured = false
+  // if(!state.lobby.lobby.id) {
+  //   let isUnlocked = true
+  //   let isObscured = false
 
-    if(me?.role !== ADMIN_ROLE) {
-      if(idAliases.some((aliases) => {
-        return aliases.indexOf('adminOnly') === 0
-      })) {
-        isUnlocked = false
-        isObscured = true
-      }
-    }
+  //   if(me?.role !== ADMIN_ROLE) {
+  //     if(idAliases.some((aliases) => {
+  //       return aliases.indexOf('adminOnly') === 0
+  //     })) {
+  //       isUnlocked = false
+  //       isObscured = true
+  //     }
+  //   }
 
-    return {
-      isUnlocked,
-      idAliases,
-      isObscured,
-      isLockToggleable: false
-    }
-  }
+  //   return {
+  //     isUnlocked,
+  //     idAliases,
+  //     isObscured,
+  //     isLockToggleable: false
+  //   }
+  // }
 
   const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
   const isObscured = isInterfaceIdObscured(interfaceId) && !isUnlocked
