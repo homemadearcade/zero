@@ -36,7 +36,7 @@ const userSchema = new Schema(
       minlength: 6,
       maxlength: 60,
     },
-    avatar: String,
+    // avatar: String,
     role: { type: String, default: 'USER' },
     bio: String,
     // google
@@ -143,7 +143,7 @@ export async function hashPassword(password) {
 
 export const validateUser = (user) => {
   const schema = {
-    avatar: Joi.any(),
+    // avatar: Joi.any(),
     // name: Joi.string().min(2).max(30).required(),
     username: Joi.string()
       .min(2)

@@ -42,7 +42,7 @@ router.post('/register', async (req, res, next) => {
         password,
         username,
         name,
-        avatar: faker.image.avatar(),
+        // avatar: faker.image.avatar(),
       });
 
       newUser.registerUser(newUser, (err, user) => {

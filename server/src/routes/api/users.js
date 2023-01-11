@@ -42,10 +42,10 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
     // const { error } = validateUser();
     // if (error) return res.status(400).json({ message: error.details[0].message });
 
-    let avatarPath = null;
-    if (req.file) {
-      avatarPath = req.file.filename;
-    }
+    // let avatarPath = null;
+    // if (req.file) {
+    //   avatarPath = req.file.filename;
+    // }
 
     // if google user provider dont update password
     let password = null;
@@ -71,7 +71,8 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       tempUser.preferences = {}
     }
 
-    const updatedUser = {  ...req.body, avatar: avatarPath, password };
+    //avatar: avatarPath
+    const updatedUser = {  ...req.body, password };
 
     if(req.body.preferences) {
       updatedUser.preferences = { ...tempUser.preferences, ...req.body.preferences }
