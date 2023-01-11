@@ -13,6 +13,7 @@ import Typography from '../../ui/Typography/Typography';
 import { ADMIN_ROLE } from '../../game/constants';
 import Button from '../../ui/Button/Button';
 import { TextField } from '@mui/material';
+import PageHeader from '../../ui/PageHeader/PageHeader';
 
 {/* <div>
 <span className="GamesPage__label">Created at: </span>
@@ -93,8 +94,10 @@ const GamesPage = ({ getArcadeGames, editArcadeGame, arcadeGames: { arcadeGames,
   return (
     <Layout>
       <div className="GamesPage">
-        <Typography component="h1" variant="h1">Games page</Typography>
-          This is the Games page. Here are listed all of the games. Click the play link to play the game.
+        <PageHeader 
+          title="Games page"
+          description="This is the Games page. Here are listed all of the games. Click the play link to play the game."
+        ></PageHeader>
         <div className="GamesPage__list">
           <TextField onChange={handleSearchChange} value={searchTerm} label={"Search"} />
           {isLoading ? (

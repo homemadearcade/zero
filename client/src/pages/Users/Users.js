@@ -12,6 +12,7 @@ import requireAdmin from '../../hoc/requireAdmin';
 
 import './styles.css';
 import Typography from '../../ui/Typography/Typography';
+import PageHeader from '../../ui/PageHeader/PageHeader';
 
 const Users = ({ getUsers, users: { users, isLoading } }) => {
   useEffect(() => {
@@ -21,9 +22,11 @@ const Users = ({ getUsers, users: { users, isLoading } }) => {
   return (
     <Layout>
       <div className="UsersPage">
-        <Typography component="h1" variant="h1">Users page</Typography>
+        <PageHeader
+          title="Users page"
+          description="This is the Users page. Here are listed all of the users of the app. Click the username link to go to user's profile. Only admin users can see this page."
+        ></PageHeader>
         <p>
-          This is the Users page. Here are listed all of the users of the app. Click the username link to go to user's profile. Only admin users can see this page.
         </p>
         <div className="list">
           {isLoading ? (

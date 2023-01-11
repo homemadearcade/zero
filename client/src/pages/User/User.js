@@ -19,6 +19,7 @@ import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import { ADMIN_ROLE } from '../../game/constants';
 import UnlockableInterfaceTree from '../../ui/UnlockableInterfaceTree/UnlockableInterfaceTree';
+import PageHeader from '../../ui/PageHeader/PageHeader';
 
 const User = ({
   getUserByUsername,
@@ -106,8 +107,10 @@ const User = ({
   return (
     <Layout>
       <div className="UserPage">
-        <Typography component="h1" variant="h1">{user.username + "'s account"}</Typography>
-          This is all your account information. You can edit your account here.
+        <PageHeader
+          title={user.username + "'s account"}
+          description="This is all your account information. You can edit your account here"
+        ></PageHeader>
         {isLoading ? (
           <Loader text="Loading User..."/>
         ) : (
@@ -242,6 +245,7 @@ const User = ({
           </div>
         )}
       </div>
+      <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
       <UnlockableInterfaceTree userId={user.id} unlockableInterfaceIds={user.unlockableInterfaceIds}></UnlockableInterfaceTree>
     </Layout>
   );

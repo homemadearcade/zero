@@ -29,7 +29,6 @@ export const defaultCollisionResponse = {
 }
 
 export const defaultObjectClass = {
-  unspawned: false,
   interfaceLocked: false,
   worldBoundaryRelation: WORLD_COLLIDE,
   classId: null,

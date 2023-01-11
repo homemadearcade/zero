@@ -7,13 +7,7 @@ If you have a white background, if you have a grey background, Still issues!! Tw
 --- 
 TODO
 
-
-Stars get bigger when hovering 
-
-Center all page title text
-
-The sliders - you dont really know what zero is
-
+Remote Game Effect
 Spawn Effect
 
 Ticketing
@@ -25,6 +19,8 @@ Ticketing
 Full screen decision
   GAME SPECIFIC UI SYSTEM? for settin gravity
 
+UI
+  The sliders - you dont really know what zero is
 
 ---
 TODO CHORES

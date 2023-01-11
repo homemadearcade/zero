@@ -249,10 +249,10 @@ export class PlayerInstance extends ObjectInstance {
     this.interactArea.pause()
   }
 
-  spawn() {
-    super.spawn()
-    // this.interactArea.resume()
-  }
+  // spawn() {
+  //   super.spawn()
+  //   // this.interactArea.resume()
+  // }
 
   respawn() {
     this.setCollideable(true);

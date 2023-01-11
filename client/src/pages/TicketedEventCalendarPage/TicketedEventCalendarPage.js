@@ -18,6 +18,7 @@ import EventDateList from '../../ticketing/EventDateList/EventDateList';
 import dayjs from 'dayjs'
 import Select from '../../ui/Select/Select';
 import Button from '../../ui/Button/Button';
+import PageHeader from '../../ui/PageHeader/PageHeader';
 
           // renderCallToActionSection={(id) => {
             
@@ -32,8 +33,10 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
   return (
     <Layout>
       <div className="TicketedEventCalendarPage">
-        <Typography component="h1" variant="h1">Calendar page</Typography>
-        This is the Calendar page. Here are listed all of the dates for the event. 
+        <PageHeader
+          title="Calendar page"
+          description="This is the Calendar page. Here are listed all of the dates for the event."
+        ></PageHeader>
         {(isLoading || !ticketedEvent) ? (<Loader />) : (<>
           <div className="TicketedEventCalendarPage__event">
             <ProjectHeader title={ticketedEvent.title} subtitle={ticketedEvent.subtitle}></ProjectHeader>
@@ -84,7 +87,7 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
               }}
               renderCallToActionSection={(dateId, isSoldOut) => {
                 if(isSoldOut) return 
-                
+
                 return <Button onClick={() => {
                   const index = ticketedEvent.dates.findIndex(({id}) => {
                     return id === dateId
