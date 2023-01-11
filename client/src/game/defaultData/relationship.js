@@ -49,7 +49,7 @@ export const effectDisplayNames = {
 
   // Lifecycle
   [EFFECT_RECLASS]: 'Transform',
-  // [EFFECT_SPAWN]: 'Spawn',
+  [EFFECT_SPAWN]: 'Spawn',
   [EFFECT_DESTROY]: 'Destroy',
 
   // Narrative

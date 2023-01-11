@@ -7,7 +7,7 @@ import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
 import Collapse from '@mui/material/Collapse';
 // web.cjs is required for IE11 support
 import { useSpring, animated } from '@react-spring/web';
-import unlockableInterfaceIdTree from './unlockableInterfaceIdTree.json'
+import allInterfaceIds from './allInterfaceIds.json'
 
 import './UnlockableInterfaceTree.scss'
 import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../utils/unlockableInterfaceUtils';
@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import { updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
 import { getUserById } from '../../store/actions/userActions';
 import Button from '../Button/Button';
+import { cloneDeep } from 'lodash';
 
 function MinusSquare(props) {
   return (
@@ -107,8 +108,64 @@ const StyledTreeItem = styled((props) => {
     //   ],
     // },
 
-window.unlockableData = unlockableInterfaceIdTree
-const nodeIds = []
+window.allInterfaceIds = allInterfaceIds
+const nodeIdsWithChildren = []
+
+function structureAllInterfaceIds() {
+  const interfaceIdRoot= {
+    "id": "all",
+    "name": "all",
+    "children": []
+  }
+
+  const previouslySeen = {
+    'all': true
+  }
+  window.allInterfaceIds = window.allInterfaceIds.filter((id) => {
+    if(previouslySeen[id]) return false
+    previouslySeen[id] = true
+    return true
+  })
+
+  window.allInterfaceIds.forEach((id) => {
+    const idAliases = getInterfaceIdAliases(id)
+
+    idAliases.forEach((aliasSet) => {
+      let currentTreeNode = interfaceIdRoot
+
+      aliasSet.forEach((nodeNameRaw, index) => {
+        let nodeName = nodeNameRaw.split('/')
+        nodeName = nodeName[nodeName.length - 1]
+
+        let foundNode = null
+        currentTreeNode.children.forEach((node) => {
+          if(node.name === nodeName) {
+            foundNode = node
+          }
+        })
+
+        if(foundNode) {
+          currentTreeNode = foundNode
+        } else {
+          const newTreeNode = {
+            id: nodeNameRaw,
+            name: nodeName,
+            children: []
+          }
+          currentTreeNode.children.push(newTreeNode)
+          currentTreeNode = newTreeNode
+          console.log(cloneDeep(interfaceIdRoot))
+        }
+      })
+    })
+  })
+
+  return interfaceIdRoot
+}
+
+const structuredInterfaceData = structureAllInterfaceIds()
+
+console.log(structuredInterfaceData)
 
 function getClassName(id, unlockableInterfaceIds) {
   if(unlockableInterfaceIds[id]) return 'TreeItem__unlocked--specific'
@@ -129,7 +186,7 @@ function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserB
 
   const handleExpandClick = () => {
     setExpanded((oldExpanded) =>
-      oldExpanded.length === 0 ? nodeIds : [],
+      oldExpanded.length === 0 ? nodeIdsWithChildren : [],
     );
   };
 
@@ -185,8 +242,7 @@ function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserB
   }
 
   const renderTree = (nodes) => {
-    if(nodes.children.length) nodeIds.push(nodes.id)
-
+    if(nodes.children.length) nodeIdsWithChildren.push(nodes.id)
     return (
       <>
         <StyledTreeItem contentClass={getClassName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
@@ -215,7 +271,7 @@ function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserB
         onNodeToggle={handleToggle}
         sx={{ flexGrow: 1, overflowY: 'auto' }}
       >
-        {renderTree(window.unlockableData)}
+        {renderTree(structuredInterfaceData)}
       </TreeView>
     </>
   );

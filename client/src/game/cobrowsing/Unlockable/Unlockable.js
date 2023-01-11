@@ -14,33 +14,7 @@ import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unloc
 const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing, showUnlockableInterfaceLocks }, width, height}) => {
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
-  idAliases.forEach((aliasSet) => {
-    let currentTreeNode = window.unlockableData
-
-    aliasSet.forEach((nodeNameRaw, index) => {
-      let nodeName = nodeNameRaw.split('/')
-      nodeName = nodeName[nodeName.length - 1]
-
-      let foundNode = null
-      currentTreeNode.children.forEach((node) => {
-        if(node.name === nodeName) {
-          foundNode = node
-        }
-      })
-
-      if(foundNode) {
-        currentTreeNode = foundNode
-      } else {
-        const newTreeNode = {
-          id: nodeNameRaw,
-          name: nodeName,
-          children: []
-        }
-        currentTreeNode.children.push(newTreeNode)
-        currentTreeNode = newTreeNode
-      }
-    })
-  })
+  // window.allInterfaceIds.push(interfaceId)
 
   const customClassName = className + ' id-' + interfaceId
 
