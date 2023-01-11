@@ -35,19 +35,17 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/character', requireJwtAuth, requireSocketAuth, async (req, res) => {
-  if (req.user.role !== 'ADMIN') {
-    return res.status(400).json({ message: 'Admins only' });
-  }
-
   const tempUser = await User.findById(req.body.userId);
   if (!tempUser) return res.status(404).json({ message: 'No such user.' });
-  
+  if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN')) {
+    return res.status(400).json({ message: 'Not updated by the user themself or an admin.' });
+  }
+
   try {
     const updatedUser = {};
     updatedUser.unlockableInterfaceIds = req.body.unlockableInterfaceIds
 
     const user = await User.findByIdAndUpdate(req.body.userId, { $set: updatedUser }, { new: true });
-
 
     if(req.body.lobbyId) {
       req.io.to(req.body.lobbyId).emit(ON_GAME_CHARACTER_UPDATE, {

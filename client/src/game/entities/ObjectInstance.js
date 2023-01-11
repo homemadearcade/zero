@@ -6,7 +6,6 @@ import { Sprite } from "./members/Sprite";
 import { Collider } from "./members/Collider";
 import { changeGameState, openCutscene } from "../../store/actions/gameContextActions";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
-import { shakeCamera } from "../../store/actions/gameViewEditorActions";
 import { ANIMATION_CAMERA_SHAKE } from "../../store/types";
 import { editLobby } from "../../store/actions/lobbyActions";
 
@@ -107,18 +106,26 @@ export class ObjectInstance extends Sprite {
     this.collider = new Collider(scene, this, this)
     this.createInteractBorder()
 
+    Object.keys(gameModel.relations).map((relationId) => {
+      return gameModel.relations[relationId]
+    }).forEach(({event, effect}) => {
+      if(event.type === ON_SPAWN && event.classIdA === this.classId) {
+        this.runEffect(effect)
+      }
+    })
+
     return this
   }
 
-  addToTypeLayer(sprite) {
+  addToTypeLayer(sprite, modifier = 0) {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
 
     if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === HERO_CLASS) {
       const layerToDepth = {
-        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
-        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,
-        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH
+        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH + modifier,
+        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH + modifier,
+        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH + modifier
       }
       this.setDepth(layerToDepth[objectClass.graphics.layerId])
     } else if(objectClass.type === ZONE_CLASS) {
@@ -142,9 +149,9 @@ export class ObjectInstance extends Sprite {
     if(this.sprite.highlight) {
       this.sprite.highlight.setDisplaySize(w + 10, h + 10)
     }
-    if(this.sprite.unspawnedImage) {
-      this.sprite.unspawnedImage.setDisplaySize(w/2, h/2)
-    }
+    // if(this.sprite.unspawnedImage) {
+    //   this.sprite.unspawnedImage.setDisplaySize(w/2, h/2)
+    // }
     // IF EDITOR
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
@@ -182,46 +189,45 @@ export class ObjectInstance extends Sprite {
     this.sprite.outline.lineStyle(4, colorInt, 1);
     this.sprite.outline.setAlpha(0.5)
     this.sprite.outline.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    this.addToTypeLayer(this.sprite.outline)
+    this.addToTypeLayer(this.sprite.outline, -1)
   }
 
-  spawn() {
-    const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.classId]
-    if(this.sprite.unspawnedImage) {
-      this.sprite.unspawnedImage.destroy()
-    }
-    this.setCollideable(true);
-    this.setVisible(!objectClass.graphics.invisible)
+  // spawn() {
+  //   const gameModel = store.getState().gameModel.gameModel
+  //   const objectClass = gameModel.classes[this.classId]
+  //   // if(this.sprite.unspawnedImage) {
+  //   //   this.sprite.unspawnedImage.destroy()
+  //   // }
+  //   this.setCollideable(true);
+  //   this.setVisible(!objectClass.graphics.invisible)
 
-    // IF EDITOR
-    if(objectClass.graphics.invisible) {
-      this.setVisible(true) 
-      this.setAlpha(0.1)
-      this.createInvisibleOutline()
-    }
+  //   // IF EDITOR
+  //   if(objectClass.graphics.invisible) {
+  //     this.setVisible(true) 
+  //     this.createInvisibleOutline()
+  //   }
 
-    Object.keys(gameModel.relations).map((relationId) => {
-      return gameModel.relations[relationId]
-    }).forEach(({event, effect}) => {
-      if(event.type === ON_SPAWN && event.classIdA === this.classId) {
-        this.runEffect(effect)
-      }
-    })
-  }
+  //   Object.keys(gameModel.relations).map((relationId) => {
+  //     return gameModel.relations[relationId]
+  //   }).forEach(({event, effect}) => {
+  //     if(event.type === ON_SPAWN && event.classIdA === this.classId) {
+  //       this.runEffect(effect)
+  //     }
+  //   })
+  // }
 
-  unspawn() {
-    const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.classId]
-    this.setCollideable(false);
+  // unspawn() {
+  //   const gameModel = store.getState().gameModel.gameModel
+  //   const objectClass = gameModel.classes[this.classId]
+  //   this.setCollideable(false);
 
-    // IF EDITOR
-    this.setAlpha(0.2)
-    this.sprite.unspawnedImage = this.scene.add.image(0, 0, UNSPAWNED_TEXTURE_ID)
-    this.sprite.unspawnedImage.setDisplaySize(objectClass.graphics.width/2, objectClass.graphics.height/2)
-    .setAlpha(0.5)
-    this.addToTypeLayer(this.sprite.unspawnedImage)
-  }
+  //   // IF EDITOR
+  //   this.setAlpha(0.2)
+  //   this.sprite.unspawnedImage = this.scene.add.image(0, 0, UNSPAWNED_TEXTURE_ID)
+  //   this.sprite.unspawnedImage.setDisplaySize(objectClass.graphics.width/2, objectClass.graphics.height/2)
+  //   .setAlpha(0.5)
+  //   this.addToTypeLayer(this.sprite.unspawnedImage)
+  // }
 
   destroyInGame() {
     const gameModel = store.getState().gameModel.gameModel
@@ -281,12 +287,12 @@ export class ObjectInstance extends Sprite {
     // MOVEMENT
     this.updateMovement()
 
-    ////////////////////////////////////////
-    ////////////////////////////////////////
-    // LIFECYCLE
-    if(this.sprite.unspawnedImage) {
-      this.sprite.unspawnedImage.setPosition(this.sprite.x, this.sprite.y)
-    }
+    // ////////////////////////////////////////
+    // ////////////////////////////////////////
+    // // LIFECYCLE
+    // if(this.sprite.unspawnedImage) {
+    //   this.sprite.unspawnedImage.setPosition(this.sprite.x, this.sprite.y)
+    // }
   }
 
 
@@ -380,7 +386,7 @@ export class ObjectInstance extends Sprite {
 
   destroy() {
     if(this.sprite.outline) this.sprite.outline.destroy()
-    if(this.sprite.unspawnedImage) this.sprite.unspawnedImage.destroy()
+    // if(this.sprite.unspawnedImage) this.sprite.unspawnedImage.destroy()
     this.sprite.highlight.destroy()
     this.sprite.border.destroy()
     super.destroy()
@@ -511,10 +517,10 @@ export class ObjectInstance extends Sprite {
     if(effect.type === EFFECT_DESTROY) {
       this.destroyInGame()
     } else if(effect.type === EFFECT_SPAWN) {
-      // const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
-      // if(!zone) return
-      // this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
-      // this.spawn()
+      const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      if(!zone) return
+      this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
+      this.spawn()
     } else if(effect.type === EFFECT_RECLASS) {
       setTimeout(() => {
         const modifiedClassData = { spawnX: this.sprite.x, spawnY: this.sprite.y, classId: effect.classId }

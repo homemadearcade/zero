@@ -12,6 +12,20 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import { Divider } from '@mui/material';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 
+
+    // {false && <Unlockable interfaceId="contextMenu/class/spawn">
+    //   <MenuItem onClick={() => {
+    //     editGameModel({
+    //       classes: {
+    //         [classId]: {
+    //           unspawned: !objectClass.unspawned
+    //         }
+    //       }
+    //     })
+    //     onMenuItemClick()
+    //   }}>{objectClass.unspawned ? 'Set as Spawned' : 'Set as Unspawned'}</MenuItem>
+    // </Unlockable>}
+
 const ClassContextMenu = ({ 
   editGameModel, 
   openCreateClassFlow, 
@@ -59,10 +73,10 @@ const ClassContextMenu = ({
       </Unlockable>
     }
     {objectClass.type === HERO_CLASS && <Unlockable interfaceId="contextMenu/class/projectile">
-        <MenuItem onClick={() => {
-          openLiveEditor(PROJECTILE_EDITOR, classId)
-          onMenuItemClick()
-        }}>Edit Projectile</MenuItem>
+      <MenuItem onClick={() => {
+        openLiveEditor(PROJECTILE_EDITOR, classId)
+        onMenuItemClick()
+      }}>Edit Projectile</MenuItem>
     </Unlockable>}
     <Unlockable interfaceId="contextMenu/class/movement">
       <MenuItem onClick={() => {
@@ -76,18 +90,6 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Edit Relations</MenuItem>
     </Unlockable>
-    {false && <Unlockable interfaceId="contextMenu/class/spawn">
-      <MenuItem onClick={() => {
-        editGameModel({
-          classes: {
-            [classId]: {
-              unspawned: !objectClass.unspawned
-            }
-          }
-        })
-        onMenuItemClick()
-      }}>{objectClass.unspawned ? 'Set as Spawned' : 'Set as Unspawned'}</MenuItem>
-    </Unlockable>}
     {!insideObjectInstanceContextMenu && <Unlockable interfaceId="contextMenu/class/duplicate">
       <MenuItem onClick={() => {  
         const classId = generateUniqueId()

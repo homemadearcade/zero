@@ -648,12 +648,6 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      if(classUpdate.graphics?.invisible !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          object.setVisible(!classUpdate.graphics.invisible)
-        })
-      }
-
       if(classUpdate.collisionResponse?.ignoreSides) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setCollideIgnoreSides(classUpdate.collisionResponse?.ignoreSides)
@@ -673,7 +667,8 @@ export class EditorScene extends GameInstance {
       // }
 
       if(
-        classUpdate.unspawned !== undefined ||
+        // classUpdate.unspawned !== undefined ||
+        classUpdate.graphics.invisibile !== undefined ||
         classUpdate.worldBoundaryRelation || 
         classUpdate.graphics?.textureId ||
         classUpdate.movement?.pattern !== undefined ||
@@ -681,16 +676,18 @@ export class EditorScene extends GameInstance {
         classUpdate.movement?.velocityY !== undefined ||
         classUpdate.collisionResponse?.ignoreWorldBounds !== undefined
       ) {
-        this.forAllObjectInstancesMatchingClassId(id, (object) => {
-          if(object.id === HERO_INSTANCE_ID) {
-            this.removePlayerInstance()
-            this.addPlayerInstance()
-            return
-          }
-          const gameObject = this.getGameObjectById(object.id)
-          this.removeObjectInstance(object.id)
-          this.addObjectInstance(object.id, gameObject)
-        })
+        // setTimeout(() => {
+          this.forAllObjectInstancesMatchingClassId(id, (object) => {
+            if(object.id === HERO_INSTANCE_ID) {
+              this.removePlayerInstance()
+              this.addPlayerInstance()
+              return
+            }
+            const gameObject = this.getGameObjectById(object.id)
+            this.removeObjectInstance(object.id)
+            this.addObjectInstance(object.id, gameObject)
+          })
+        // })
       }
 
       if(classUpdate.graphics?.width && classUpdate.graphics?.height) {

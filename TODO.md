@@ -7,7 +7,6 @@ If you have a white background, if you have a grey background, Still issues!! Tw
 --- 
 TODO
 
-Remote Game Effect
 Spawn Effect
 
 Ticketing

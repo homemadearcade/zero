@@ -163,9 +163,6 @@ function structureAllInterfaceIds() {
   return interfaceIdRoot
 }
 
-const structuredInterfaceData = structureAllInterfaceIds()
-
-console.log(structuredInterfaceData)
 
 function getClassName(id, unlockableInterfaceIds) {
   if(unlockableInterfaceIds[id]) return 'TreeItem__unlocked--specific'
@@ -179,6 +176,7 @@ function getClassName(id, unlockableInterfaceIds) {
 function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserById, updateArcadeGameCharacter}) {
 
   const [expanded, setExpanded] = React.useState([]);
+  const [structuredInterfaceData] = React.useState(structureAllInterfaceIds())
 
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
