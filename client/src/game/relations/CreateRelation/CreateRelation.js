@@ -16,7 +16,7 @@ import SelectRelationEffect from '../../ui/SelectRelationEffect/SelectRelationEf
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { effectEditInterface } from '../../defaultData/relationship';
 import { TextField } from '@mui/material';
-import { ON_COLLIDE, ZONE_CLASS } from '../../constants';
+import { EFFECT_SPAWN, ON_COLLIDE, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import { getClassAandB } from '../../../utils/gameUtils';
@@ -74,7 +74,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     const forms =[]
     if(editForms.classId) {
       forms.push(<SelectClass 
-        includePlayerClass
+        includePlayerInstance
         key={relation.event.classIdA + 'effectClassId'}
         formLabel={editForms.classId}
         value={relation.effect.classId ? [relation.effect.classId] : []}
@@ -87,7 +87,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
     if(editForms.zoneClassId) {
       forms.push(<SelectClass 
-        key={relation.event.classIdA + 'effectClassId'}
+        key={relation.event.classIdA + 'zoneClassId'}
         classType={ZONE_CLASS}
         formLabel={editForms.zoneClassId}
         value={relation.effect.zoneClassId ? [relation.effect.zoneClassId] : []}
@@ -125,7 +125,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     <div className="CreateRelation">
       <ClassMemberTitle classId={relation.event.classIdA} title="Relation"/>
         <SelectClass 
-          includePlayerClass
+          includePlayerInstance
           formLabel="With what objects?"
           value={relation.event.classIdB ? [relation.event.classIdB] : []}
           onChange={(event, classes) => {
@@ -151,16 +151,6 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
               })
           }}/>
         </Unlockable>}
-        {classB && <Unlockable interfaceId="relation/effected">
-          <SelectClass 
-            includePlayerClass
-            formLabel={"What class is effected? Instead of the " + classA.name + ' instance'}
-            value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
-            onChange={(event, classes) => {
-              const newClassId = classes[classes.length-1]
-              handleEffectChange('effectedClassId', newClassId)
-          }}/>
-         </Unlockable>}
         <SelectRelationEffect
           effect={relation.effect}
           event={relation.event}
@@ -172,6 +162,25 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
             const effect = effects[effects.length-1]
             handleEffectChange('type', effect)
         }}/>
+        {classB && relation.effect.type !== EFFECT_SPAWN && <Unlockable interfaceId="relation/effected">
+          <SelectClass 
+            includePlayerInstance
+            formLabel={"What class is effected? ( If different than " + classA.name + ')'}
+            value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
+            onChange={(event, classes) => {
+              const newClassId = classes[classes.length-1]
+              handleEffectChange('effectedClassId', newClassId)
+          }}/>
+         </Unlockable>}
+        {classB && relation.effect.type === EFFECT_SPAWN &&
+          <SelectClass
+            formLabel={"What class is spawned? ( If different than " + classA.name  + ')'}
+            value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
+            onChange={(event, classes) => {
+              const newClassId = classes[classes.length-1]
+              handleEffectChange('effectedClassId', newClassId)
+          }}/>
+        }
         {relation.effect.type && renderEffectForms(relation.effect.type)}
         <div className="CreateRelation__buttons">
         <Button 

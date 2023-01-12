@@ -27,6 +27,7 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.sprite.x = player.x 
     this.playerInstance.sprite.y = player.y
     this.playerInstance.sprite.rotation = player.rotation
+    this.playerInstance.setVisible(player.isVisible);
   }
 
   onGameInstanceAnimation = ({type, data}) => {

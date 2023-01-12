@@ -223,7 +223,6 @@ export const effectSuffixes = {
 }
 
 function getEffectSuffix(effect, classA, classB) {
-  console.log(classA, classB)
   if(effectSuffixes[effect] === 'Class A And Class B' && classB && classA) {
     return classA.name + ' and ' + classB.name + ' '
   } else if(effectSuffixes[effect] === 'ClassA' && classA) {

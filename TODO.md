@@ -3,6 +3,7 @@ IN DISCUSSION
 Movement is prompted after placing the first object?
 Press X to interact - Press space to fire
 If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
+For the Full Screen decision background color, what colors to show? I think we show them the whole thang the big color choice screen
 
 --- 
 TODO

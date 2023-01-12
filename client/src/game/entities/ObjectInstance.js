@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, UNSPAWNED_TEXTURE_ID, WIN_GAME_STATE, GAME_OVER_STATE, HERO_INSTANCE_ID, ON_DESTROY_ALL, EFFECT_DESTROY, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH } from "../constants";
+import { DEFAULT_TEXTURE_ID, ON_DESTROY_ONE, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_STICK_TO, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, OBJECT_INSTANCE_CANVAS_DEPTH, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, EFFECT_WIN_GAME, EFFECT_GAME_OVER, OBJECT_CLASS, HERO_CLASS, ZONE_CLASS, NPC_CLASS, UNSPAWNED_TEXTURE_ID, WIN_GAME_STATE, GAME_OVER_STATE, HERO_INSTANCE_ID, ON_DESTROY_ALL, EFFECT_DESTROY, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH, ON_INTERACT } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -7,10 +7,10 @@ import { Collider } from "./members/Collider";
 import { changeGameState, openCutscene } from "../../store/actions/gameContextActions";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { ANIMATION_CAMERA_SHAKE } from "../../store/types";
-import { editLobby } from "../../store/actions/lobbyActions";
+import { generateUniqueId } from "../../utils/webPageUtils";
 
 export class ObjectInstance extends Sprite {
-  constructor(scene, id, {spawnX, spawnY, classId, unspawned}){
+  constructor(scene, id, {spawnX, spawnY, classId}, effectSpawned){
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
@@ -30,19 +30,25 @@ export class ObjectInstance extends Sprite {
     this.sprite.classId = classId
     scene.objectInstanceGroup.add(this.sprite)
 
+    this.effectSpawned = effectSpawned
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // EDITOR
-    this.sprite.setInteractive();
-    scene.input.setDraggable(this.sprite)
-    if(!spriteSheetName) {
-      this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
-    } else {
-      this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
+    //&& this.scene.isEditor
+    if(!effectSpawned) {
+      this.sprite.setInteractive();
+      scene.input.setDraggable(this.sprite)
+      if(!spriteSheetName) {
+        this.sprite.highlight = scene.add.image(spawnX, spawnY, textureId)
+      } else {
+        this.sprite.highlight = scene.add.image(spawnX, spawnY, spriteSheetName, spriteIndex)
+      }
+      this.sprite.highlight.setTintFill(0xffffff)
+      .setDisplaySize(objectClass.graphics.width + 10, objectClass.graphics.height + 10)
+      .setVisible(false)
+      this.addToTypeLayer(this.sprite.highlight, -1)
     }
-    this.sprite.highlight.setTintFill(0xffffff)
-    .setDisplaySize(objectClass.graphics.width + 10, objectClass.graphics.height + 10)
-    .setVisible(false).setDepth(OBJECT_INSTANCE_CANVAS_DEPTH-1)
+
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -117,17 +123,22 @@ export class ObjectInstance extends Sprite {
     return this
   }
 
-  addToTypeLayer(sprite, modifier = 0) {
+  addToTypeLayer(sprite, modifier) {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
 
     if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === HERO_CLASS) {
       const layerToDepth = {
-        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH + modifier,
-        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH + modifier,
-        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH + modifier
+        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
+        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,
+        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH
       }
-      this.setDepth(layerToDepth[objectClass.graphics.layerId])
+
+      if(modifier !== undefined) {
+        this.setDepth(layerToDepth[objectClass.graphics.layerId] + modifier)
+      } else {
+        this.setDepth(layerToDepth[objectClass.graphics.layerId])
+      }
     } else if(objectClass.type === ZONE_CLASS) {
       this.scene.zoneInstanceLayer.add(sprite)
     }
@@ -189,7 +200,7 @@ export class ObjectInstance extends Sprite {
     this.sprite.outline.lineStyle(4, colorInt, 1);
     this.sprite.outline.setAlpha(0.5)
     this.sprite.outline.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    this.addToTypeLayer(this.sprite.outline, -1)
+    this.addToTypeLayer(this.sprite.outline)
   }
 
   // spawn() {
@@ -279,8 +290,10 @@ export class ObjectInstance extends Sprite {
     ////////////////////////////////////////
     ////////////////////////////////////////
     // EDITOR
-    this.sprite.highlight.setPosition(this.sprite.x, this.sprite.y)
-    this.sprite.highlight.setRotation(this.sprite.rotation)
+    if(this.sprite.highlight) {
+      this.sprite.highlight.setPosition(this.sprite.x, this.sprite.y)
+      this.sprite.highlight.setRotation(this.sprite.rotation)
+    }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
@@ -397,8 +410,13 @@ export class ObjectInstance extends Sprite {
 
     return Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
-    }).filter(({event: { classIdA }}) => {
-      return classIdA === this.classId
+    }).filter(({event: { classIdA, classIdB, type }}) => {
+      if(classIdB === HERO_INSTANCE_ID && this.id === HERO_INSTANCE_ID) return true
+      if(type === ON_INTERACT) {
+        return classIdA === this.classId || classIdB === this.classId
+      } else {
+        return classIdA === this.classId
+      }
     })
   }
 
@@ -438,6 +456,15 @@ export class ObjectInstance extends Sprite {
     }
   }
 
+  getInnerCoordinateBoundaries(objectClass) {
+    const x = this.sprite.x - (this.sprite.displayWidth/2) +  objectClass.graphics.width/4
+    const y = this.sprite.y - (this.sprite.displayHeight/2) + objectClass.graphics.height/4
+    const width = this.sprite.displayWidth -  objectClass.graphics.width/2
+    const height = this.sprite.displayHeight-  objectClass.graphics.height/2
+
+    return [ x, y, width, height]
+  }
+
   resetPhysics() {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.classId]
@@ -447,7 +474,7 @@ export class ObjectInstance extends Sprite {
   }
 
   runEffect(effect, instanceB, sides = []) {
-    if(effect.effectedClassId) {
+    if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
         object.runEffect({...effect, effectedClassId: null}, instanceB, sides)
       })
@@ -475,14 +502,10 @@ export class ObjectInstance extends Sprite {
 
     if(effect.type === EFFECT_WIN_GAME) {
       store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
-      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
-        gameResetDate: Date.now()
-      }))
+      this.scene.sendReloadGameEvent()
     } else if(effect.type === EFFECT_GAME_OVER) {
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
-      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
-        gameResetDate: Date.now()
-      }))
+      this.scene.sendReloadGameEvent()
     }
 
     if(instanceB && this.lastCollidedWithClassId === instanceB.classId) return
@@ -511,16 +534,20 @@ export class ObjectInstance extends Sprite {
       const objectClass = gameModel.classes[this.classId]
       const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
       if(!zone) return
-      this.setRandomPosition(zone.sprite.x, zone.sprite.y, zone.sprite.displayWidth - objectClass.graphics.width, zone.sprite.displayHeight - objectClass.graphics.height)
+      this.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
     }
     
     if(effect.type === EFFECT_DESTROY) {
       this.destroyInGame()
     } else if(effect.type === EFFECT_SPAWN) {
+      const spawningClassId = effect.effectedClassId ? effect.effectedClassId : this.classId
+      const modifiedClassData = { spawnX: this.sprite.x, spawnY: this.sprite.y, classId: spawningClassId }
+      const spawnedObjectInstance =  this.scene.addObjectInstance(generateUniqueId(), modifiedClassData, true)
       const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
       if(!zone) return
-      this.setRandomPosition(zone.x, zone.y, zone.displayWidth, zone.displayHeight)
-      this.spawn()
+      const gameModel = store.getState().gameModel.gameModel
+      const objectClass = gameModel.classes[spawningClassId]
+      spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
     } else if(effect.type === EFFECT_RECLASS) {
       setTimeout(() => {
         const modifiedClassData = { spawnX: this.sprite.x, spawnY: this.sprite.y, classId: effect.classId }

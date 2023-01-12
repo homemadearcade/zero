@@ -62,11 +62,21 @@ export class InteractArea extends Sprite {
 	    return relations[relationId]
     }).forEach(({event, effect}) => {
       if(event.type === ON_INTERACT) {
-        const releventInstances = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
+        const releventInstancesB = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdB)
+        const releventSpritesB = releventInstancesB.map(({sprite}) => sprite)
         this.unregisters.push(
-          this.scene.physics.add.overlap(this.sprite, releventInstances, (a, b) => {
+          this.scene.physics.add.overlap(this.sprite, releventSpritesB, (a, b) => {
             if(this.paused) return
-            this.interactables.push({entitySprite: b, effect})
+            this.interactables.push({entitySprite: b, effect, effectInteractable: false})
+          })
+        )
+
+        const releventInstancesA = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdA)
+        const releventSpritesA = releventInstancesA.map(({sprite}) => sprite)
+        this.unregisters.push(
+          this.scene.physics.add.overlap(this.sprite, releventSpritesA, (a, b) => {
+            if(this.paused) return
+            this.interactables.push({entitySprite: b, effect, effectInteractable: true})
           })
         )
       }
@@ -119,25 +129,40 @@ export class InteractArea extends Sprite {
     let interactPossibility = {
       closestInteractable: null,
       closestDistance: Infinity,
-      effect: null
+      effects: []
     }
 
-    this.interactables.forEach(({entitySprite, effect}) => {
+    this.interactables.forEach(({entitySprite, effectInteractable}) => {
       // entitySprite.border.setVisible(false)
       const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.sprite.x, this.sprite.y)
       const { closestDistance } = interactPossibility
       if(distance < closestDistance) {
         interactPossibility.closestDistance = distance
         interactPossibility.closestInteractable = entitySprite
-        interactPossibility.effect = effect
+        interactPossibility.effectInteractable = effectInteractable
       }
     })
     
-    const { closestInteractable, effect } = interactPossibility
-    if(closestInteractable) closestInteractable.border.setVisible(true)
+    const { closestInteractable, effectInteractable } = interactPossibility
+    if(closestInteractable) {
+      closestInteractable.border.setVisible(true)
+      this.interactables.forEach(({entitySprite, effect}) => {
+        if(entitySprite === closestInteractable) {
+          interactPossibility.effects.push(effect)
+        }
+      })
+    }
+
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
-      this.objectInstance.runEffect(effect, closestInteractable)
-      this.xKey.isPressable = false
+      interactPossibility.effects.forEach((effect) => {
+        if(effectInteractable) {
+          this.scene.getObjectInstance(closestInteractable.id).runEffect(effect, closestInteractable)
+        } else {
+          this.objectInstance.runEffect(effect, closestInteractable)
+        }
+
+        this.xKey.isPressable = false
+      })
     }
     if(closestInteractable && this.xKey.isUp) {
       this.xKey.isPressable = true

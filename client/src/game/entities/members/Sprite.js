@@ -307,6 +307,7 @@ export class Sprite {
   }
 
   setVisible(visible) {
+    this.sprite.isVisible = visible
     this.sprite.setVisible(visible)
   }
 

@@ -10,6 +10,7 @@ import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { World } from '../entities/World';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
+import { editLobby } from '../../store/actions/lobbyActions';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key}) {
@@ -92,16 +93,18 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstance = null
   }
 
-  initializeObjectInstance(id, gameObject) {
-    const newPhaserObject = new ObjectInstance(this, id, gameObject)
+  initializeObjectInstance(id, gameObject, effectSpawned) {
+    const newPhaserObject = new ObjectInstance(this, id, gameObject, effectSpawned)
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[id] = newPhaserObject
+    return newPhaserObject
   }
 
-  addObjectInstance(id, gameObject) {
-    this.initializeObjectInstance(id, gameObject)
+  addObjectInstance(id, gameObject, effectSpawned) {
+    const instance = this.initializeObjectInstance(id, gameObject, effectSpawned)
     this.unregisterRelations()
     this.registerRelations()
+    return instance
   }
 
   removeObjectInstance(id) {
@@ -111,10 +114,11 @@ export class GameInstance extends Phaser.Scene {
     this.getObjectInstance(id).destroy()
   }
 
-  updateObjectInstance(objectInstance, {x, y, rotation}) {
+  updateObjectInstance(objectInstance, {x, y, rotation, isVisible}) {
     if(x) objectInstance.sprite.x = x;
     if(y) objectInstance.sprite.y = y;
     if(rotation) objectInstance.sprite.rotation = rotation;
+    objectInstance.setVisible(isVisible);
   }
 
   registerRelations() {
@@ -280,6 +284,16 @@ export class GameInstance extends Phaser.Scene {
 
     this.playerInstance.x = this.playerInstance.spawnX
     this.playerInstance.y = this.playerInstance.spawnY
+  }
+
+  sendReloadGameEvent() {
+    if(store.getState().lobby.lobby?.id) {
+      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
+        gameResetDate: Date.now()
+      }))
+    } else {
+      this.reload()
+    }
   }
 
   reload = () => {

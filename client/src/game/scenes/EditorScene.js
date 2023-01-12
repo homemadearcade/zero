@@ -37,6 +37,7 @@ export class EditorScene extends GameInstance {
 
     this.snapshotSquare = null 
     this.snapshotStartPos = null
+    this.isEditor = true
   }
   
   ////////////////////////////////////////////////////////////
@@ -473,7 +474,6 @@ export class EditorScene extends GameInstance {
     this.addObjectInstance(id, gameObject)
   }
 
-
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
@@ -499,9 +499,7 @@ export class EditorScene extends GameInstance {
 
     if(gameUpdate.world?.boundaries) {
       if(gameUpdate.world.boundaries.loop) {
-        store.dispatch(editLobby(store.getState().lobby.lobby.id, {
-          gameResetDate: Date.now()
-        }))
+        this.sendReloadGameEvent()
         return
       }
       
@@ -564,9 +562,7 @@ export class EditorScene extends GameInstance {
     })
 
     if(gameUpdate.relations) {
-      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
-        gameResetDate: Date.now()
-      }))
+      this.sendReloadGameEvent()
     }
 
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {

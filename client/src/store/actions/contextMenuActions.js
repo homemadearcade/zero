@@ -33,6 +33,8 @@ export const openWorldContextMenu = (event) => (dispatch, getState) => {
 export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
   if(getInterfaceIdData('contextMenu/*').isObscured) return 
 
+  if(gameObjects[0].effectSpawned) return
+
   dispatch({
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
