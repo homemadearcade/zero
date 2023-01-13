@@ -1,0 +1,34 @@
+import {
+  GAME_SCENE,
+} from '../constants';
+import store from '../../store';
+import { isGameContextPausing } from '../../utils/gameUtils';
+import { GameInstance } from './GameInstance';
+
+export class GamePlayScene extends GameInstance {
+  constructor() {
+    super({
+      key: GAME_SCENE,
+    });
+  }
+
+  callAnimation({type, data}) {
+    this.runAnimation({type, data})
+  }
+
+  update(time, delta) {
+    super.update(time, delta) 
+
+    const state = store.getState()
+    const gameContext = state.gameContext
+    if(isGameContextPausing(gameContext)) {
+      this.pause()
+    } else {
+      if(this.isPaused) {
+        this.pause()
+      } else {
+        this.resume()
+      }
+    }
+  }
+}

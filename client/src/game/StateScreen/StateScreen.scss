@@ -13,10 +13,18 @@
 
   &__content {
     width: 100vh;
+      display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 2rem;
   }
 
   .KeyIndicator {
     transform: scale(4);
     padding: 3vh 0vh;
+  }
+
+  &__controls {
   }
 }

@@ -5,12 +5,16 @@
   &__key {
     display: flex;
     align-items: center;
-    padding: .5vh 0vh;
+    padding: .5% 0;
   }
-  &__key-indicator {
+
+  .KeyIndicator {
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
     padding-right: 1.5vh;
-    div {
+    // div {
       transform: scale(1.7);
-    }
+    // }
   }
 }

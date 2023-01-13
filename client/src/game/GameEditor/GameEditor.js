@@ -20,10 +20,12 @@ import CreateCutscene from '../cutscene/CreateCutscene/CreateCutscene';
 import CreateRelation from '../relations/CreateRelation/CreateRelation';
 import RelationsMenu from '../relations/RelationsMenu/RelationsMenu';
 import WorldRelation from '../relations/WorldRelation/WorldRelation';
+import ClassNameModal from '../class/ClassNameModal/ClassNameModal';
 
 const GameEditor = ({ 
   classNames, 
-  gameEditor: { isSelectBackgroundColorOpen, liveEditingCategory, isGameMetadataModalOpen }, 
+  gameEditor,
+  gameEditor: { isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
   gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isWorldRelationOpen },
@@ -50,6 +52,8 @@ const GameEditor = ({
     }
   }, [])
 
+  console.log(classIdEditingName)
+
   return <>
     {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
     <div className={"GameEditor " + classNames}>
@@ -67,6 +71,7 @@ const GameEditor = ({
       {liveEditingCategory && <LiveEditor/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
+      {classIdEditingName && <ClassNameModal/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isRelationsMenuOpen && <RelationsMenu/>}

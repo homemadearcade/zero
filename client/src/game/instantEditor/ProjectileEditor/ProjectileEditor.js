@@ -7,6 +7,7 @@ import './ProjectileEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../../ui/SelectClass/SelectClass';
+import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 
 const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
@@ -23,6 +24,7 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             editGameModel({ classes: { [classId]: { projectile: { classId: newClassId ? newClassId : null  }}}})        
          }}/>
       </Unlockable>
+      {classSelected.movement.controls && <ControlsCard projectileClass={projectileClass}></ControlsCard>}
       {projectileClass && <>
         <Unlockable isSlider interfaceId="projectile/cooldown">
           <SliderNotched

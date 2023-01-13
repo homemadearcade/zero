@@ -14,6 +14,8 @@ import {
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
+  OPEN_CLASS_NAME_MODAL,
+  CLOSE_CLASS_NAME_MODAL,
   OPEN_MY_SPRITES_MODAL,
   CLOSE_MY_SPRITES_MODAL,
 } from '../types';
@@ -109,6 +111,24 @@ export const closeGameMetadataModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_GAME_METADATA_MODAL,
+    payload: {}
+  });
+}
+
+export const openClassNameModal = (classId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CLASS_NAME_MODAL,
+    payload: {
+      classId
+    }
+  });
+}
+
+export const closeClassNameModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CLASS_NAME_MODAL,
     payload: {}
   });
 }

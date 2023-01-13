@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 
 import './ContextMenuTitle.scss'
 
-const ContextMenuTitle = ({ children }) => { 
+const ContextMenuTitle = ({ children, onClick }) => { 
   function div({children}) {
-    return <div className="ContextMenuTitle">{children}</div>
+    return <div onClick={() => {
+      onClick()
+    }} className="ContextMenuTitle">{children}</div>
   }
 
   return <>

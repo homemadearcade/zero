@@ -20,6 +20,7 @@ import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColo
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { HERO_CLASS, PLAYGROUND_CANVAS_ID, ZONE_CLASS } from '../../constants';
+import { Alert } from '@mui/material';
 
 const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
   function handleClose() {
@@ -108,7 +109,21 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
           }})
         }}/>
       </Unlockable>}
-      {objectClass.isNew && <ClassNameForm/>}
+      {objectClass.isNew && <ClassNameForm
+        onChangeName={(name) => {
+          updateCreateClass({
+            error: null,
+            name
+          })
+        }}
+        onError={(error) => {
+          updateCreateClass({
+            error
+          })
+        }}
+        objectClass={objectClass}
+      />}
+      {objectClass.error && <Alert severity="error">{objectClass.error}</Alert>}
       {objectClass.isNew && <Unlockable interfaceId="advanced/interfaceLockedClass adminOnly">
         <Switch
           labels={['Normal', 'Player cannot see unless unlocked']}

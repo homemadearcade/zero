@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import './ClassNameForm.scss';
-import { Alert, TextField } from '@mui/material';
-import { updateCreateClass } from '../../../store/actions/gameFormEditorActions';
+import { TextField } from '@mui/material';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const ClassNameForm = ({ updateCreateClass, gameModel: { gameModel }, gameFormEditor: { class: objectClass } }) => {
+const ClassNameForm = ({ gameModel: { gameModel }, objectClass, onChangeName, onError }) => {
   const [nameList, setNameList] = useState([])
 
   useEffect(() => {
@@ -24,9 +23,7 @@ const ClassNameForm = ({ updateCreateClass, gameModel: { gameModel }, gameFormEd
 
   function testName(name) {
     if(nameList.indexOf(name) >= 0) {
-      updateCreateClass({
-        error: 'That name is already in use'
-      })
+      onError('That name is already in use')
       return false
     }
 
@@ -35,23 +32,18 @@ const ClassNameForm = ({ updateCreateClass, gameModel: { gameModel }, gameFormEd
 
   function handleChange(e) {
     const newVal = e.target.value
-    updateCreateClass({
-      name: newVal,
-      error: null
-    })
+    onChangeName(newVal)
   }
 
   return (
     <div className="ClassNameForm">
       <TextField onChange={handleChange} value={objectClass.name} label={"Name"} />
-      {objectClass.error && <Alert severity="error">{objectClass.error}</Alert>}
     </div>
   );
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameFormEditor: state.gameFormEditor
 });
 
-export default connect(mapStateToProps, { updateCreateClass })(ClassNameForm);
+export default connect(mapStateToProps, { })(ClassNameForm);

@@ -16,7 +16,9 @@ import {
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
   OPEN_MY_SPRITES_MODAL,
-  CLOSE_MY_SPRITES_MODAL
+  CLOSE_MY_SPRITES_MODAL,
+  OPEN_CLASS_NAME_MODAL,
+  CLOSE_CLASS_NAME_MODAL
 } from '../types';
 
 import { generateUniqueId } from '../../utils/webPageUtils';
@@ -32,6 +34,7 @@ const initialState = {
   spriteEditorTextureId: null,
   isSelectBackgroundColorOpen: false,
   isGameMetadataModalOpen: false,
+  classIdEditingName: null,
   accordianLists: {
     'BrushList': null,
     'ClassList': null
@@ -130,6 +133,16 @@ export default function gameEditorReducer(state = initialState, { type, payload 
       return {
         ...state,
         isGameMetadataModalOpen: false
+      }
+    case OPEN_CLASS_NAME_MODAL: 
+      return {
+        ...state,
+        classIdEditingName: payload.classId
+      }
+    case CLOSE_CLASS_NAME_MODAL:
+      return {
+        ...state,
+        classIdEditingName: null
       }
     case CLEAR_EDITOR:
       return initialState

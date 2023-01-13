@@ -9,7 +9,9 @@ import './ControlsCard.scss'
 
 const ControlsCard = ({
   controlScheme,
-  jumpStyle
+  jumpStyle,
+  projectileClass,
+  showInteract
 }) => {
   const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpStyle] }
 
@@ -20,6 +22,20 @@ const ControlsCard = ({
       <KeyIndicator className="ControlsCard__key-indicator" keyName={keyName}></KeyIndicator>
       {action}
     </div>
+  }
+
+  if(projectileClass) {
+    list.push(renderKey({
+      keyName: 'space',
+      action: 'Shoot ' + projectileClass.name
+    }))
+  }
+
+  if(showInteract) {
+    list.push(renderKey({
+      keyName: 'x',
+      action: 'Interact'
+    }))
   }
 
   if(keys.up) {

@@ -7,12 +7,15 @@ import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { HERO_INSTANCE_ID } from '../../constants';
-import { Divider } from '@mui/material';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
+import { openClassNameModal } from '../../../store/actions/gameEditorActions';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel } }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal }) => {
   return <>
-    <ContextMenuTitle>{gameModel.classes[classId].name}</ContextMenuTitle>
+    <ContextMenuTitle onClick={() => {
+      openClassNameModal(classId)
+      onMenuItemClick()
+    }}>{gameModel.classes[classId].name}</ContextMenuTitle>
     <Unlockable interfaceId="contextMenu/instance/move">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(objectId)
@@ -41,4 +44,4 @@ const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
 })
 
-export default connect(mapStateToProps, { editGameModel })(ObjectInstanceContextMenu);
+export default connect(mapStateToProps, { editGameModel, openClassNameModal })(ObjectInstanceContextMenu);

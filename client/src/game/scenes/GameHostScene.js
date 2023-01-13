@@ -61,6 +61,7 @@ export class GameHostScene extends EditorScene {
 
   update(time, delta) {
     super.update(time, delta)
+    console.log('updating')
 
     const state = store.getState()
     const gameContext = state.gameContext

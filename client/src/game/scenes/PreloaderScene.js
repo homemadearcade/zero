@@ -13,7 +13,7 @@ import {
   PLAY_GAME_SCENE,
   UNSPAWNED_TEXTURE_ID,
 } from '../constants';
-import { GameInstance } from './GameInstance';
+import { GamePlayScene } from './GamePlayScene';
 
 export class PreloaderScene extends Phaser.Scene {
   constructor(props) {
@@ -121,7 +121,7 @@ export class PreloaderScene extends Phaser.Scene {
     let gameScene;
 
     if(this.isPlay) {
-      gameScene = new GameInstance({ key: PLAY_GAME_SCENE })
+      gameScene = new GamePlayScene({ key: PLAY_GAME_SCENE })
     } else if(this.isNetworked) {
       if(this.isHost) {
         gameScene = new GameHostScene(this.props)

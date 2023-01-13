@@ -46,7 +46,7 @@ export class Graphics {
     if(objectClass.graphics.invisible && this.scene.isEditor) {
       objectInstance.setVisible(true) 
       objectInstance.setAlpha(0.1)
-      objectInstance.createInvisiblilityIndicator()
+      this.createInvisiblilityIndicator()
     }
 
     this.createInteractBorder()
@@ -90,7 +90,7 @@ export class Graphics {
     const sprite = this.objectInstance.sprite
 
     const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.classId]
+    const objectClass = gameModel.classes[this.objectInstance.classId]
 
     if(sprite.invisibleIndicator) sprite.invisibleIndicator.destroy()
     const width = sprite.displayWidth
@@ -102,7 +102,7 @@ export class Graphics {
     sprite.invisibleIndicator.lineStyle(4, colorInt, 1);
     sprite.invisibleIndicator.setAlpha(0.5)
     sprite.invisibleIndicator.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    this.addToTypeLayer(sprite.invisibleIndicator)
+    this.objectInstance.addToTypeLayer(sprite.invisibleIndicator)
   }
 
   update() {

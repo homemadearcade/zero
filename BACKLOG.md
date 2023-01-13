@@ -96,6 +96,12 @@ TODO CHORES BACKLOG
 
 Hero Name -> Player
 
+Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
+
+Wrap Sprite in another class called like...object instance... lol
+
+Outline Class ( for eraser and objectInstance, and camerapreview? )
+
 Choose instances in relation editor
 Effect Instance id? Create a generelized id structure for everything.
   event.classIdB, classIdA would actually just be idA, idB, and then that id will relate to like objectclass/adsoasd98/ or objectinstance/oiasdljkasdna or playerinstance/kj.hasdkhjasd

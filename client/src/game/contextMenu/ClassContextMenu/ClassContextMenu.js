@@ -2,16 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/gameModelActions'
-import { openLiveEditor } from '../../../store/actions/gameEditorActions';
+import { openClassNameModal, openLiveEditor } from '../../../store/actions/gameEditorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, HERO_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { Divider } from '@mui/material';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-
 
     // {false && <Unlockable interfaceId="contextMenu/class/spawn">
     //   <MenuItem onClick={() => {
@@ -33,13 +31,17 @@ const ClassContextMenu = ({
   onMenuItemClick, 
   openRelationsMenu,
   gameModel: { gameModel }, 
+  openClassNameModal,
   classId, 
   insideObjectInstanceContextMenu
 }) => {
   const objectClass = gameModel.classes[classId]
 
   return <>
-    {!insideObjectInstanceContextMenu && <ContextMenuTitle>{gameModel.classes[classId].name}</ContextMenuTitle>}
+    {!insideObjectInstanceContextMenu && <ContextMenuTitle onClick={() => {
+      openClassNameModal(classId)
+      onMenuItemClick()
+    }}>{gameModel.classes[classId].name}</ContextMenuTitle>}
     {objectClass.type === HERO_CLASS && classId !== gameModel.hero.initialClassId && 
       <Unlockable interfaceId="contextMenu/class/setPlayerClass">
           <MenuItem onClick={() => {
@@ -138,5 +140,6 @@ export default connect(mapStateToProps, {
   editGameModel, 
   openCreateClassFlow, 
   openLiveEditor, 
-  openRelationsMenu
+  openRelationsMenu,
+  openClassNameModal,
 })(ClassContextMenu);
