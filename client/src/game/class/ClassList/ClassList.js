@@ -222,7 +222,8 @@ const ClassList = ({
         editGameModel({
           classes: {
             [objectClass.classId] : {
-              ...objectClass
+              ...objectClass,
+              isNew: false
               // graphics: objectClass.graphics,
               // descriptors: objectClass.descriptors,
               // name: objectClass.name,

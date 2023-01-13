@@ -6,7 +6,6 @@ import './GameMetadataModal.scss';
 import CobrowsingModal from '../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { closeGameMetadataModal } from '../../store/actions/gameEditorActions';
-import { editGameModel } from '../../store/actions/gameModelActions';
 import GameMetadataForm from '../../app/homemadeArcade/arcadeGame/GameMetadataForm/GameMetadataForm';
 
 const GameMetadataModal = ({ closeGameMetadataModal, gameViewEditor: { isSnapshotTakerOpen } }) => {
@@ -26,5 +25,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { closeGameMetadataModal, editGameModel }),
+  connect(mapStateToProps, { closeGameMetadataModal }),
 )(GameMetadataModal);

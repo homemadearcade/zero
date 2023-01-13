@@ -29,6 +29,9 @@ const LocalGameToolbar = ({ webPage: { gameInstance } }) => {
       icon="faStop"
       onClick={() => {
         getCurrentGameScene(gameInstance).reload()
+        const scene = getCurrentGameScene(gameInstance)
+        scene.isPaused = true 
+        setIsPaused(scene.isPaused)
       }}
     />
   </div>

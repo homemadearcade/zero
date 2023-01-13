@@ -26,7 +26,8 @@ const LobbyToolbar = ({lobbyUndo, editLobby, lobby : { lobby, lobby : { isGamePa
     icon="faStop"
     onClick={() => {
       editLobby(lobby.id, {
-        gameResetDate: Date.now()
+        gameResetDate: Date.now(),
+        isGamePaused: true
       })
     }}
   /></Unlockable>

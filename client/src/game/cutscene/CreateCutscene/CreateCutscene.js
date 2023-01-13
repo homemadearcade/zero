@@ -33,7 +33,7 @@ const CreateCutscene = ({
   
   useEffect(() => {
     if(!cutscene.cutsceneId) {
-      updateCreateCutscene({ cutsceneId: generateUniqueId() })
+      updateCreateCutscene({ cutsceneId: generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -140,7 +140,8 @@ const CreateCutscene = ({
             editGameModel({
               cutscenes: {
                 [cutscene.cutsceneId] : {
-                  ...cutscene
+                  ...cutscene,
+                  isNew: false
                 }
               }
             })

@@ -12,6 +12,7 @@ import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
 import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
 import { EFFECT_COLLIDE, HERO_INSTANCE_ID } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 
 const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel } }) => {
   function handleClose() {
@@ -32,11 +33,13 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="RelationsMenu">
-      <ClassMemberTitle classId={classIdRelationsMenu} title="Relations"/>
-      <ClassMemberTitle classId={classIdRelationsMenu} title={getWorldBoundaryRelationLabel(objectClass.worldBoundaryRelation, objectClass)}/>
-      <Button onClick={() => {
-        openWorldRelation(objectClass)
-      }}>Edit</Button>
+      <ClassMemberTitle classId={classIdRelationsMenu} title="Relationships"/>
+      <Unlockable interfaceId="relations/world">
+        <ClassMemberTitle classId={classIdRelationsMenu} title={getWorldBoundaryRelationLabel(objectClass.worldBoundaryRelation, objectClass)}/>
+        <Button onClick={() => {
+          openWorldRelation(objectClass)
+        }}>Edit</Button>
+      </Unlockable>
       {relations.map((relation) => {
         const { event, effect: { type, effectedClassId }} = relation
         console.log(relation)

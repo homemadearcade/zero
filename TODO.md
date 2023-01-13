@@ -17,6 +17,7 @@ UI
   UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
   Press X to interact - Press space to fire
   If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
+  EDIT NAME POPUP
 
 AUTH
   Forgot Password - email Flow
@@ -31,6 +32,7 @@ CONNECTION
   Why is fullscreen connection and is present thing not working anymore?
 
 FLOW
+  Spawn object at the edge of the heros camera?
   Movement is prompted after placing the first object?
 
 --
@@ -39,3 +41,6 @@ IDEAS
 
 Jump Only - control scheme ( allows controlling during jumps only )
 Allow changing the rotation speed for Vehicle/Direction
+
+---
+

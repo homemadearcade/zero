@@ -5,7 +5,7 @@ import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
 import { InteractArea } from "./members/InteractArea";
-import { WALKER_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, VEHICLE_CONTROLS, JUMP_AIR, RUNNER_CONTROLS } from "../constants";
+import { WALKER_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, VEHICLE_CONTROLS, JUMP_AIR, RUNNER_CONTROLS, JUMP_NONE } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -174,7 +174,7 @@ export class PlayerInstance extends ObjectInstance {
         xTouched = true
       }
       
-      if(this.cursors.up.isDown) {
+      if(objectClass.jump.style === JUMP_NONE && this.cursors.up.isDown) {
         this.setAccelerationY(-speed * 4)
         yTouched = true
       }
@@ -188,65 +188,68 @@ export class PlayerInstance extends ObjectInstance {
       if(!yTouched) this.setAccelerationY(0)
     }
 
+
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // JUMP
-    if(objectClass.jump.style === JUMP_GROUND) {
-      if(this.cursors.up.isDown) {
-        if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
-          this.setVelocityY(-objectClass.jump.ground)
-        }
-      }
-    }
-
-    if(objectClass.jump.style === JUMP_COMBO) {
-      if(this.cursors.up.isDown) {
-        if(this.cursors.up.isPressable) {
-          this.cursors.up.isPressable = false
+    if(!objectClass.movement.ignoreGravity) {
+      if(objectClass.jump.style === JUMP_GROUND) {
+        if(this.cursors.up.isDown) {
           if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
             this.setVelocityY(-objectClass.jump.ground)
-          } else if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
-            this.setVelocityY(-objectClass.jump.air)
+          }
+        }
+      }
+
+      if(objectClass.jump.style === JUMP_COMBO) {
+        if(this.cursors.up.isDown) {
+          if(this.cursors.up.isPressable) {
+            this.cursors.up.isPressable = false
+            if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
+              this.setVelocityY(-objectClass.jump.ground * 5)
+            } else if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
+              this.setVelocityY(-objectClass.jump.air * 5)
+              this.doubleJumpCoolDown = time + objectClass.jump.cooldown
+            }
+          }
+        } else {
+          this.cursors.up.isPressable = true
+        }
+      }
+
+      if(objectClass.jump.style === JUMP_AIR) {
+        if(this.cursors.up.isDown) {
+          if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
+            this.setVelocityY(-objectClass.jump.air * 5)
             this.doubleJumpCoolDown = time + objectClass.jump.cooldown
           }
         }
-      } else {
-        this.cursors.up.isPressable = true
       }
-    }
 
-    if(objectClass.jump.style === JUMP_AIR) {
-      if(this.cursors.up.isDown) {
-        if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
-          this.setVelocityY(-objectClass.jump.air)
-          this.doubleJumpCoolDown = time + objectClass.jump.cooldown
+      if(objectClass.jump.style === JUMP_CONSTANT) {
+        if(this.cursors.up.isDown) {
+            this.thrust(objectClass.jump.ground * 4);
+        } else {
+          // if(this.cursors.down.isDown && !objectClass.jump.disableDownKey) {
+          //   this.thrust(-(objectClass.jump.ground * 4));
+          // } else {
+          //   this.setAccelerationY(0)
+          // }
         }
       }
     }
 
-    if(objectClass.jump.style === JUMP_CONSTANT) {
-      if(this.cursors.up.isDown) {
-          this.thrust(objectClass.jump.ground * 4);
-      } else {
-        // if(this.cursors.down.isDown && !objectClass.jump.disableDownKey) {
-        //   this.thrust(-(objectClass.jump.ground * 4));
-        // } else {
-        //   this.setAccelerationY(0)
-        // }
-      }
-    }
-
-    if(objectClass.movement.rotationFollowKeys) {
-      if(this.cursors.left.isDown) {
-        this.setAngle(270)
-      } else if(this.cursors.right.isDown) {
-        this.setAngle(90)
-      } else if(this.cursors.up.isDown) {
-        this.setAngle(0)
-      } else if(this.cursors.down.isDown) {
-        this.setAngle(180)
-      }
-    }
+    // if(objectClass.movement.rotationFollowKeys) {
+    //   if(this.cursors.left.isDown) {
+    //     this.setAngle(270)
+    //   } else if(this.cursors.right.isDown) {
+    //     this.setAngle(90)
+    //   } else if(this.cursors.up.isDown) {
+    //     this.setAngle(0)
+    //   } else if(this.cursors.down.isDown) {
+    //     this.setAngle(180)
+    //   }
+    // }
   }
 
   registerRelations() {

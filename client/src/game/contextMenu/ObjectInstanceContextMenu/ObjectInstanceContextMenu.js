@@ -16,6 +16,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
     <Unlockable interfaceId="contextMenu/instance/move">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(objectId)
+        console.log(getCurrentGameScene(gameInstance).onDragStartContextMenu)
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>

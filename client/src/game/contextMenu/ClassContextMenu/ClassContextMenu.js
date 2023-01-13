@@ -94,7 +94,7 @@ const ClassContextMenu = ({
       <MenuItem onClick={() => {
         openRelationsMenu(classId)
         onMenuItemClick()
-      }}>Edit Relations</MenuItem>
+      }}>Edit Relationships</MenuItem>
     </Unlockable>
     {!insideObjectInstanceContextMenu && <Unlockable interfaceId="contextMenu/class/duplicate">
       <MenuItem onClick={() => {  
@@ -104,7 +104,8 @@ const ClassContextMenu = ({
             [classId]: {
               ...objectClass,
               classId,
-              name: objectClass.name + ' Duplicate'
+              name: objectClass.name + ' Duplicate',
+              isNew: false
             }
           }
         })

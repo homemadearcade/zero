@@ -123,6 +123,7 @@ export const jumpDefaults = {
     gravityX: 0,
     dragX: 1,
     dragY: 1,
+    ignoreGravity: false
   },
   collisionResponse: {
     bounciness: 1,

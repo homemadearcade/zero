@@ -60,8 +60,6 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
     }
   }
 
-  console.log(movementParameters)
-
   return (
     <div className="MovementEditor">
       {classSelected.type === HERO_CLASS && <Unlockable interfaceId="movement/controls/type">
@@ -80,7 +78,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
             editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})    
           }}/>
       </Unlockable>}
-      {classSelected.movement.controls && <ControlsCard controlScheme={classSelected.movement.controls}></ControlsCard>}
+      {classSelected.movement.controls && <ControlsCard controlScheme={classSelected.movement.controls} jumpStyle={classSelected.jump.style}></ControlsCard>}
       {movementParameters.speed &&<Unlockable interfaceId="movement/speed">
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}

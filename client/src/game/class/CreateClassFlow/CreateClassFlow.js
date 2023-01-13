@@ -108,7 +108,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
           }})
         }}/>
       </Unlockable>}
-      <ClassNameForm/>
+      {objectClass.isNew && <ClassNameForm/>}
       {objectClass.isNew && <Unlockable interfaceId="advanced/interfaceLockedClass adminOnly">
         <Switch
           labels={['Normal', 'Player cannot see unless unlocked']}

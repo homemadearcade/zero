@@ -17,7 +17,6 @@ import { gameSize, nodeSize } from '../defaultData/general';
 import { urlToFile } from '../../utils/utils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
-import { editLobby } from '../../store/actions/lobbyActions';
 
 export class EditorScene extends GameInstance {
   constructor({key}) {
@@ -47,6 +46,11 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   onDragStartContextMenu = (objectInstanceId) => {
     this.draggingObjectInstanceId = objectInstanceId
+    this.isDragFromContext = true
+    console.log(this.draggingObjectInstanceId)
+          document.body.style.cursor = 'grab'
+
+    
   }
 
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
@@ -54,6 +58,9 @@ export class EditorScene extends GameInstance {
     if(isObscured) {
       return
     }
+    this.isDragFromContext = false
+      document.body.style.cursor = 'grab'
+
     
     if(this.draggingObjectInstanceId) {
       const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
@@ -66,7 +73,9 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  onDragEnd = (pointer, entitySprite) => {
+  finishDrag(entitySprite) {
+          document.body.style.cursor = null
+
     if(entitySprite.id === HERO_INSTANCE_ID) {
       store.dispatch(editGameModel({ 
         hero: {
@@ -84,6 +93,10 @@ export class EditorScene extends GameInstance {
         }
       }))
     }
+  }
+
+  onDragEnd = (pointer, entitySprite) => {
+    this.finishDrag(entitySprite)
   }
 
 
@@ -172,6 +185,12 @@ export class EditorScene extends GameInstance {
     if(this.resizingObjectInstance) {
       this.onResizeMove(pointer)
       return
+    }
+
+    if(this.isDragFromContext && this.draggingObjectInstanceId) {
+      const instance = this.getObjectInstance(this.draggingObjectInstanceId)
+      instance.sprite.x = pointer.worldX
+      instance.sprite.y = pointer.worldY
     }
 
     ////////////////////////////////////////////////////////////
@@ -273,6 +292,11 @@ export class EditorScene extends GameInstance {
     }
 
     if(pointer.leftButtonDown()) {
+
+      if(this.draggingObjectInstanceId && this.isDragFromContext) {
+        this.finishDrag(this.getObjectInstance(this.draggingObjectInstanceId).sprite)
+      }
+
       if(this.resizingObjectInstance) {
         this.onResizeEnd()
       }
@@ -372,7 +396,7 @@ export class EditorScene extends GameInstance {
     if(this.stamper && pointer.leftButtonReleased() && !this.draggingObjectInstanceId) {
       this.stamper.stamp(pointer)
     }
-
+    
     this.draggingObjectInstanceId = null
 
     if(this.canvas) {

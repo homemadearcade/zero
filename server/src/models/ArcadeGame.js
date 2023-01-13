@@ -14,7 +14,7 @@ const arcadeGameSchema = new Schema(
       type: Object,
       required: true,
       default: {
-        title: 'Unknown',
+        title: 'New Game',
       }
     },
     hero: {
