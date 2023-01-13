@@ -141,10 +141,10 @@ export class GameInstance extends Phaser.Scene {
     this.playgroundLayer.unregisterRelations()
   }
 
-  getSpriteTexture(textureId) {
-    const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
-    return this.textures.getFrame(spriteSheetName, spriteIndex)
-  }
+  // getSpriteTexture(textureId) {
+  //   const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
+  //   return this.textures.getFrame(spriteSheetName, spriteIndex)
+  // }
 
   //Sine.easeInOut
   zoomAndPanTo(camera, zoomLevel, x, y, duration, easing = "Linear") {

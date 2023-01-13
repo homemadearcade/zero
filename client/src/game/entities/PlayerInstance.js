@@ -2,10 +2,10 @@ import Phaser from "phaser";
 import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
-import { CameraPreview } from "./CameraPreview";
+import { CameraPreview } from "./members/CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
 import { InteractArea } from "./members/InteractArea";
-import { WALKER_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, VEHICLE_CONTROLS, JUMP_AIR, RUNNER_CONTROLS, JUMP_NONE } from "../constants";
+import { DIRECTIONAL_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, VEHICLE_CONTROLS, JUMP_AIR, ADVANCED_DIRECTIONAL_CONTROLS, JUMP_NONE } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -88,7 +88,7 @@ export class PlayerInstance extends ObjectInstance {
     const classId = this.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
-    const isJumpAllowed = !objectClass.movement.ignoreGravity && objectClass.movement.controls === RUNNER_CONTROLS
+    const isJumpAllowed = !objectClass.movement.ignoreGravity && objectClass.movement.controls === ADVANCED_DIRECTIONAL_CONTROLS
 
     const mod = (1/(delta * 5))
     const speed = objectClass.movement.speed * 100 * mod
@@ -130,8 +130,8 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // WALKER
-    if(objectClass.movement.controls === WALKER_CONTROLS) {
+    // DIRECTIONAL
+    if(objectClass.movement.controls === DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -161,8 +161,8 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // RUNNER
-    if(objectClass.movement.controls === RUNNER_CONTROLS) {
+    // ADVANCED_DIRECTIONAL
+    if(objectClass.movement.controls === ADVANCED_DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -274,12 +274,12 @@ export class PlayerInstance extends ObjectInstance {
 
   // spawn() {
   //   super.spawn()
-  //   // this.interactArea.resume()
   // }
 
   respawn() {
     this.setCollideable(true);
     this.setVisible(true)
+    this.interactArea.resume()
     // this.particles.setVisible(true)
   }
 

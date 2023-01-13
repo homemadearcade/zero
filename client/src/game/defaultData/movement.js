@@ -1,4 +1,4 @@
-import { WALKER_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, JUMP_GROUND, VEHICLE_CONTROLS, RUNNER_CONTROLS, JUMP_NONE } from "../constants"
+import { DIRECTIONAL_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, JUMP_GROUND, VEHICLE_CONTROLS, ADVANCED_DIRECTIONAL_CONTROLS, JUMP_NONE, MOVEMENT_TURN_RANDOMLY } from "../constants"
 import { defaultMovement } from "./class"
 
 //////////////////////////////////////////////////////////////////////////
@@ -15,6 +15,9 @@ export const movementToParemeters = {
     velocityY: 'Speed',
   },
   [MOVEMENT_TURN_ON_COLLIDE]: {
+    speed: true,
+  },
+  [MOVEMENT_TURN_RANDOMLY]: {
     speed: true,
   },
   [MOVEMENT_JUMP]: {
@@ -39,12 +42,12 @@ export const movementToParemeters = {
     ignoreGravity: true,
     disableDownKey: true
   },
-  [WALKER_CONTROLS]: {
+  [DIRECTIONAL_CONTROLS]: {
     speed: 'Move Speed',
     dragX: false,
     dragY: false
   },
-  [RUNNER_CONTROLS]: {
+  [ADVANCED_DIRECTIONAL_CONTROLS]: {
     speed: 'Move Speed',
     dragX: true,
     dragY: true,
@@ -69,6 +72,7 @@ export const sideToSideDefaults = {
     gravityX: 0,
     dragX: 1,
     dragY: 1,
+    ignoreGravity: true
   },
   collisionResponse: {
     bounciness: 1,
@@ -85,6 +89,7 @@ export const upAndDownDefaults = {
     gravityX: 0,
     dragX: 1,
     dragY: 1,
+    ignoreGravity: true
   },
   collisionResponse: {
     bounciness: 1,
@@ -100,8 +105,22 @@ export const turnOnCollideDefaults = {
     velocityX: 50,
     velocityY: 0,
     speed: 100,
+    ignoreGravity: true
   },
 }
+
+export const turnRandomlyDefaults = {
+  movement: {
+    pattern: MOVEMENT_TURN_RANDOMLY,
+    gravityY: 0,
+    gravityX: 0,
+    velocityX: 50,
+    velocityY: 0,
+    speed: 100,
+    ignoreGravity: true
+  },
+}
+
 
 export const followPlayerDefaults = {
   movement: {
@@ -113,6 +132,7 @@ export const followPlayerDefaults = {
     dragX: 1,
     dragY: 1,
     speed: 100,
+    ignoreGravity: true
   },
 }
 
@@ -155,9 +175,9 @@ export const vehicleDefaults = {
   }
 }
 
-export const walkerDefaults = {
+export const directionalDefaults = {
   movement: {
-    controls: WALKER_CONTROLS,
+    controls: DIRECTIONAL_CONTROLS,
     disableDownKey: false,
     dragX: 0,
     dragY: 0,
@@ -168,9 +188,9 @@ export const walkerDefaults = {
   }
 }
 
-export const runnerDefaults = {
+export const advancedDirectionalDefaults = {
   movement: {
-    controls: RUNNER_CONTROLS,
+    controls: ADVANCED_DIRECTIONAL_CONTROLS,
     disableDownKey: false,
     dragX: 0,
     dragY: 0,
@@ -184,6 +204,9 @@ export const carDefaults = {
     dragX: 0.25,
     dragY: 0.25,
   },
+  jump: {
+    style: JUMP_NONE
+  }
 }
 
 export const movementControlsToKeys = {
@@ -193,13 +216,13 @@ export const movementControlsToKeys = {
     right: 'Rotate Right',
     down: null
   },
-  [WALKER_CONTROLS]: {
+  [DIRECTIONAL_CONTROLS]: {
     up: 'Move Up',
     left: 'Move Left',
     right: 'Move Right',
     down: 'Move Down'
   },
-  [RUNNER_CONTROLS]: {
+  [ADVANCED_DIRECTIONAL_CONTROLS]: {
     up: 'Accelerate Up',
     left: 'Accelerate Left',
     right: 'Accelerate Right',

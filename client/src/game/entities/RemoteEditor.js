@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { nodeSize } from "../defaultData/general";
 import store from "../../store";
-import { CameraPreview } from "./CameraPreview";
+import { CameraPreview } from "./members/CameraPreview";
 
 export class RemoteEditor extends Phaser.GameObjects.Container {
   constructor(scene, {userId, color}){

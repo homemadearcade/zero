@@ -106,7 +106,7 @@ export class InteractArea extends Sprite {
             if(gameObjectB === this) return
             if(!gameObjectB) return
             if(event.classId === gameObjectB.classId) {
-              gameObjectB.border.setVisible(false)
+              gameObjectB.interactBorder.setVisible(false)
             }
           }
         })
@@ -115,7 +115,7 @@ export class InteractArea extends Sprite {
   }
 
   pause() {
-    if(this.previousClosest) this.previousClosest.border.setVisible(false)
+    if(this.previousClosest) this.previousClosest.interactBorder.setVisible(false)
     this.paused = true
   }
 
@@ -124,7 +124,7 @@ export class InteractArea extends Sprite {
   }
 
   updateInteractions() {
-    if(this.previousClosest) this.previousClosest.border.setVisible(false)
+    if(this.previousClosest) this.previousClosest.interactBorder.setVisible(false)
 
     let interactPossibility = {
       closestInteractable: null,
@@ -133,7 +133,7 @@ export class InteractArea extends Sprite {
     }
 
     this.interactables.forEach(({entitySprite, effectInteractable}) => {
-      // entitySprite.border.setVisible(false)
+      // entitySprite.interactBorder.setVisible(false)
       const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.sprite.x, this.sprite.y)
       const { closestDistance } = interactPossibility
       if(distance < closestDistance) {
@@ -145,7 +145,7 @@ export class InteractArea extends Sprite {
     
     const { closestInteractable, effectInteractable } = interactPossibility
     if(closestInteractable) {
-      closestInteractable.border.setVisible(true)
+      closestInteractable.interactBorder.setVisible(true)
       this.interactables.forEach(({entitySprite, effect}) => {
         if(entitySprite === closestInteractable) {
           interactPossibility.effects.push(effect)

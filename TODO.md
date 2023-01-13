@@ -37,10 +37,3 @@ FLOW
 
 --
 
-IDEAS
-
-Jump Only - control scheme ( allows controlling during jumps only )
-Allow changing the rotation speed for Vehicle/Direction
-
----
-

@@ -4,7 +4,7 @@ TODO TIME PERMITTING BACKLOG
 
 IDEAS
 
-Jump Only - control scheme ( allows controlling during jumps only )
+Jump Only boolean ( allows controlling during jumps only )
 Allow changing the rotation speed for Vehicle/Direction
 
 ---

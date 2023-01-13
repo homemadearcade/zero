@@ -47,8 +47,8 @@ export const defaultObjectClass = {
   },
   graphics: {
     textureId: null,
-    width: nodeSize * 6,
-    height: nodeSize * 6,
+    width: nodeSize * 2,
+    height: nodeSize * 2,
     tint: null,
     invisible: false,
     glowing: false,

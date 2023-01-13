@@ -4,20 +4,20 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectControls.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import {  WALKER_CONTROLS, VEHICLE_CONTROLS, RUNNER_CONTROLS } from '../../constants';
-import { walkerDefaults, vehicleDefaults, runnerDefaults } from '../../defaultData/movement';
+import {  DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
+import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from '../../defaultData/movement';
 
 const controlsValues = {
-  [WALKER_CONTROLS]: walkerDefaults,
+  [DIRECTIONAL_CONTROLS]: directionalDefaults,
   // [CAR_CONTROLS]: carDefaults,
-  [RUNNER_CONTROLS]: runnerDefaults,
+  [ADVANCED_DIRECTIONAL_CONTROLS]: advancedDirectionalDefaults,
   [VEHICLE_CONTROLS]: vehicleDefaults,
 }
 
 const controlsValueToLabel = {
-  [WALKER_CONTROLS]: 'Directional',
+  [DIRECTIONAL_CONTROLS]: 'Directional',
   // [CAR_CONTROLS]: 'Car',
-  [RUNNER_CONTROLS]: 'Advanced Directional',
+  [ADVANCED_DIRECTIONAL_CONTROLS]: 'Advanced Directional',
   [VEHICLE_CONTROLS]: 'Rotational',
 
 }

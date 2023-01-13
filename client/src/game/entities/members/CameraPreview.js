@@ -1,5 +1,5 @@
-import { CAMERA_PREVIEW_BORDER_SIZE } from "../constants";
-import store from "../../store";
+import { CAMERA_PREVIEW_BORDER_SIZE } from "../../constants";
+import store from "../../../store";
 import Phaser from "phaser";
 
 export class CameraPreview extends Phaser.GameObjects.Graphics {

@@ -255,7 +255,7 @@ export class EditorScene extends GameInstance {
 
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
-    entitySprite[0].highlight.setVisible(true)
+    entitySprite[0].editorHighlight.setVisible(true)
   }
 
   onPointerDownOutside = (pointer) => {
@@ -421,7 +421,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, entitySprite) => {
-    entitySprite[0].highlight.setVisible(false)
+    entitySprite[0].editorHighlight.setVisible(false)
   }
 
   onPointerUpOutside = (pointer)  => {

@@ -161,8 +161,8 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // WALKER
-    if(objectClass.controls.type === WALKER_CONTROLS) {
+    // DIRECTIONAL
+    if(objectClass.controls.type === DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 

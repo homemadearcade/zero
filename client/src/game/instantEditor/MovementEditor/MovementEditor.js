@@ -11,7 +11,7 @@ import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovement
 import SelectControls from '../../ui/SelectControls/SelectControls';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../../ui/Button/Button';
-import { HERO_CLASS, RUNNER_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
+import { HERO_CLASS, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">

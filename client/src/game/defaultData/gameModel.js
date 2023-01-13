@@ -1,6 +1,6 @@
 // import { BACKGROUND_CANVAS_ID } from "../constants";
 import { gameSize, nodeSize } from "./general";
-import { walkerClass, jumperClass, vehicleClass } from "./heros";
+import { directionalClass, jumperClass, vehicleClass } from "./heros";
 
 export const defaulGameModel = {
   "metadata": {
@@ -48,7 +48,7 @@ export const defaulGameModel = {
   "classes": {
     "vehicle": vehicleClass,
     "jumper": jumperClass,
-    "walker": walkerClass
+    "directional": directionalClass
   },
   "objects": {
   }

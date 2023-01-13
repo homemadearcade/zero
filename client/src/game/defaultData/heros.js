@@ -1,6 +1,6 @@
 import { HERO_CLASS } from "../constants"
 import { defaultObjectClass } from "./class"
-import { walkerDefaults, carDefaults, vehicleDefaults } from "./movement"
+import { directionalDefaults, carDefaults, vehicleDefaults } from "./movement"
 import { jumperDefaults, floaterDefaults, noJumpDefaults } from "./jumping"
 
 export const defaultHeroClass = {
@@ -38,15 +38,15 @@ export const jumperClass = {
   }
 }
 
-export const walkerClass = {
+export const directionalClass = {
   ...defaultHeroClass,
-  classId: 'walker',
-  name: 'walker',
+  classId: 'directional',
+  name: 'directional',
   graphics: {
     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },
   movement: {
-    ...walkerDefaults.movement
+    ...directionalDefaults.movement
   },
   'jump': {
     ...noJumpDefaults

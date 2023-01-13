@@ -11,7 +11,7 @@ import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovement
 import SelectControls from '../../ui/SelectControls/SelectControls';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../../ui/Button/Button';
-import { HERO_CLASS, JUMP_CONSTANT, RUNNER_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
+import { HERO_CLASS, JUMP_CONSTANT, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumping from '../../ui/SelectJump/SelectJumping';
 import { jumpStyleToParemeters } from '../../defaultData/jumping';
@@ -44,7 +44,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
 
   const incompatibleErrors = []
 
-  if(classSelected.movement.controls !== RUNNER_CONTROLS) {
+  if(classSelected.movement.controls !== ADVANCED_DIRECTIONAL_CONTROLS) {
     incompatibleErrors.push('Movement control scheme must be the Advanced Directional scheme to use Jump')
   }
 
