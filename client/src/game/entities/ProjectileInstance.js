@@ -1,8 +1,7 @@
 import Phaser from "phaser";
+import { ObjectInstance } from "./ObjectInstance";
 import { VEHICLE_CONTROLS } from "../constants";
 import store from "../../store";
-
-import { ObjectInstance } from "./ObjectInstance";
 
 export class ProjectileInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
