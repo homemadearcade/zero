@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Login from '../pages/Login/Login';
-import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
+import GetChromePage from '../pages/GetChromePage/GetChromePage';
 import { setRedirect } from '../store/actions/authActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class ComposedComponent extends Component {
     // // Our component just got rendered
-    componentDidMount() {
-      if (!this.props.auth.isAuthenticated) {
-        const { setRedirect } = this.props
-        setRedirect(window.location.pathname)
+    constructor(props) {
+      super(props)
+      this.state = {
+        isChrome: window.chrome
       }
     }
 
@@ -27,17 +26,19 @@ export default (ChildComponent) => {
     // }
 
     render() {
-      if (this.props.auth.isAuthenticated && this.props.auth.isSocketAuthenticated) {
-        return <ChildComponent {...this.props} />;
+      if(!this.state.isChrome) {
+        return <GetChromePage/>
       } else {
-        return <Login/>
+        return <ChildComponent {...this.props} />;
       }
+
+      
     }
   }
 
   function mapStateToProps(state) {
-    return { auth: state.auth };
+    return {}
   }
 
-  return connect(mapStateToProps, { setRedirect })(ComposedComponent);
+  return connect(mapStateToProps, { })(ComposedComponent);
 };

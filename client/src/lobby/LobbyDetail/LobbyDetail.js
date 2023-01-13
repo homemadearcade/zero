@@ -27,19 +27,19 @@ const LobbyDetail = ({
         <div className="LobbyDetail__role">
         <Typography component="div" variant="subtitle1">Game Host:</Typography>
           {lobby.gameHostId && !usersById[lobby.gameHostId] && <Typography component="div" variant="subtitle2">User is not in room</Typography>}
-          {lobby.gameHostId && usersById[lobby.gameHostId] && <UserStatus hasJoinLink myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.gameHostId]?.id}/>}
+          {lobby.gameHostId && usersById[lobby.gameHostId] && <UserStatus hasJoinLink hasUIButton myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.gameHostId]?.id}/>}
           {!lobby.gameHostId && <Typography component="div" variant="subtitle2">No Game Host Selected</Typography>}
         </div>
         <div className="LobbyDetail__role">
           <Typography component="div" variant="subtitle1">Participant:</Typography>
           {lobby.participantId && !usersById[lobby.participantId] && <Typography component="div" variant="subtitle2">User is not in room</Typography>}
-          {lobby.participantId && usersById[lobby.participantId] && <UserStatus hasJoinLink myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.participantId]?.id}/>}
+          {lobby.participantId && usersById[lobby.participantId] && <UserStatus hasJoinLink hasUIButton myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.participantId]?.id}/>}
           {!lobby.participantId && <Typography component="div" variant="subtitle2">No Participant Selected</Typography>}
         </div>
         <div className="LobbyDetail__role">
           <Typography component="div" variant="subtitle1">Guide:</Typography>
           {lobby.guideId && !usersById[lobby.guideId] && <Typography component="div" variant="subtitle2">User is not in room</Typography>}
-          {lobby.guideId && usersById[lobby.guideId] && <UserStatus hasJoinLink myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.guideId]?.id}/>}
+          {lobby.guideId && usersById[lobby.guideId] && <UserStatus hasJoinLink hasUIButton myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.guideId]?.id}/>}
           {!lobby.guideId && <Typography component="div" variant="subtitle2">No Guide Selected</Typography>}
         </div>
         <div className="LobbyDetail__others">
@@ -50,7 +50,7 @@ const LobbyDetail = ({
           }).length === 0 && <Typography component="div" variant="subtitle2">No one watching</Typography>}</div>
           <div>{lobby.users.map((user) => {
             if(user.id ===lobby.guideId || user.id === lobby.participantId || user.id === lobby.gameHostId) return null
-            return <UserStatus hasJoinLink key={user.id} myTracks={myTracks} userTracks={userTracks} userId={user.id}/>
+            return <UserStatus hasJoinLink hasUIButton key={user.id} myTracks={myTracks} userTracks={userTracks} userId={user.id}/>
           })}</div>
         </div>
       </div>

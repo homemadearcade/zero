@@ -13,7 +13,7 @@ export const checkIfTabAlreadyOpen = (callback) => {
         // Listen if anybody else is opening the same page!
       localStorage.webPage_available = Date.now();
     }
-    if(e.key === "page_available"){
+    if(e.key === "webPage_available"){
       otherPageOpen = true
     }
   };

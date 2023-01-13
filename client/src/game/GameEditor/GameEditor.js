@@ -21,11 +21,11 @@ import CreateRelation from '../relations/CreateRelation/CreateRelation';
 import RelationsMenu from '../relations/RelationsMenu/RelationsMenu';
 import WorldRelation from '../relations/WorldRelation/WorldRelation';
 import ClassNameModal from '../class/ClassNameModal/ClassNameModal';
+import SetupChoicesModal from '../SetupChoicesModal/SetupChoicesModal';
 
 const GameEditor = ({ 
   classNames, 
-  gameEditor,
-  gameEditor: { isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen }, 
+  gameEditor: { isSetupChoicesModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
   gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isWorldRelationOpen },
@@ -37,9 +37,8 @@ const GameEditor = ({
   changeGameState, 
   clearEditor, 
   clearGameFormEditor, 
-  clearGameViewEditor
+  clearGameViewEditor,
 }) => {
-  
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
@@ -51,8 +50,6 @@ const GameEditor = ({
       document.documentElement.style= ogStyle
     }
   }, [])
-
-  console.log(classIdEditingName)
 
   return <>
     {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
@@ -69,7 +66,6 @@ const GameEditor = ({
         {!isSectionEditorOpen && rightColumn}
       </div>
       {liveEditingCategory && <LiveEditor/>}
-      {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
       {classIdEditingName && <ClassNameModal/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
@@ -77,6 +73,8 @@ const GameEditor = ({
       {isRelationsMenuOpen && <RelationsMenu/>}
       {isCreateRelationOpen && <CreateRelation/>}
       {isWorldRelationOpen && <WorldRelation/>}
+      {isSetupChoicesModalOpen && <SetupChoicesModal/>}
+      {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
     </div>
   </>
 };

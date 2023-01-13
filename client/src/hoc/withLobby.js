@@ -7,10 +7,7 @@ import AgoraVideoCall from '../lobby/agora/AgoraVideoCall/AgoraVideoCall';
 import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 import { withRouter } from 'react-router-dom';
 import Button from '../ui/Button/Button';
-import { isLocalHost } from '../utils/webPageUtils';
-import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
-import store from '../store';
-import { getCurrentGameScene } from '../utils/editorUtils';
+import requireOneTab from './requireOneTab';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -76,6 +73,7 @@ export default (ChildComponent) => {
   });
 
   return compose(
+    requireOneTab,
     withRouter, 
     connect(mapStateToProps, { joinLobby, leaveLobby, leaveAgoraVideoCall, bypassAgoraVideoCall })
   )(WithLobby)

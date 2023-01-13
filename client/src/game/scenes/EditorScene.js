@@ -58,18 +58,21 @@ export class EditorScene extends GameInstance {
       return
     }
     this.isDragFromContext = false
-      document.body.style.cursor = 'grab'
+    document.body.style.cursor = 'grab'
 
-    
     if(this.draggingObjectInstanceId) {
-      const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
-      const objectClass= store.getState().gameModel.gameModel.classes[classId]
-      const { clampedX, clampedY } = snapObjectXY({x: dragX, y: dragY,  objectClass})
-      entitySprite.x = clampedX;
-      entitySprite.y = clampedY;
+      this.continueDrag(entitySprite, {x: dragX, y: dragY})
     } else if(!this.brush && !this.stamper){
       this.draggingObjectInstanceId = entitySprite.id
     }
+  }
+
+  continueDrag(sprite, {x, y}) {
+    const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
+    const objectClass= store.getState().gameModel.gameModel.classes[classId]
+    const { clampedX, clampedY } = snapObjectXY({x, y,  objectClass})
+    sprite.x = clampedX;
+    sprite.y = clampedY;
   }
 
   finishDrag(entitySprite) {
@@ -195,8 +198,7 @@ export class EditorScene extends GameInstance {
 
     if(this.isDragFromContext && this.draggingObjectInstanceId) {
       const instance = this.getObjectInstance(this.draggingObjectInstanceId)
-      instance.sprite.x = pointer.worldX
-      instance.sprite.y = pointer.worldY
+      this.continueDrag(instance.sprite, {x: pointer.worldX, y: pointer.worldY})
     }
 
     ////////////////////////////////////////////////////////////

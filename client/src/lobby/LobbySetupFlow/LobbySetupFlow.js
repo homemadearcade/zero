@@ -14,11 +14,11 @@ import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
-import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
-import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
+import { ADMIN_ROLE, MONOLOGUE_UI } from '../../game/constants';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost } from '../../utils/webPageUtils';
 import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
+import { openSetupChoicesModal } from '../../store/actions/gameEditorActions';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -27,7 +27,8 @@ const LobbySetupFlow = ({
   updateArcadeGameCharacter,
   lobby: { lobby },
   completeCloseConstellation, 
-  openConstellation
+  openConstellation,
+  openSetupChoicesModal
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -249,6 +250,30 @@ const LobbySetupFlow = ({
           },
           nextButtonText: 'Load Editing Game'
         },
+        {
+          id: 'Open Editing Game Setup',
+          title: <Typography component="h5" variant="h5">Open Editing Game Setup</Typography>,
+          onClickNext: () => {
+            openSetupChoicesModal({ externalForceCobrowsingUpdateUserId: lobby.participantId })
+          },
+          nextButtonText: 'Open Editing Game Setup'
+        },
+        {
+          id: 'Unlock Add Color',
+          title: <Typography component="h5" variant="h5">Unlock Add Color</Typography>,
+          instructions: <>
+            If the user wants to select another color that isnt given, you can unlock that feature for them
+          </>,
+          onClickNext: () => {
+            updateArcadeGameCharacter({
+              userId: lobby.participantId,
+              unlockableInterfaceIds: {
+                addColor: true
+              }
+            })
+          },
+          nextButtonText: 'Unlock Add Color'
+        },
       ]}
       completed={<>
           <Typography component="h5" variant="h5">Join Participant</Typography>
@@ -265,5 +290,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation }),
+  connect(mapStateToProps, { openSetupChoicesModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation }),
 )(LobbySetupFlow);

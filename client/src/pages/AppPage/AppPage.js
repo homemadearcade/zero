@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -10,7 +10,6 @@ import { logInUserWithOauth, loadMe, authenticateSocket } from '../../store/acti
 import ErrorHandler from '../../ui/connected/ErrorHandler/ErrorHandler';
 
 import Cookies from 'js-cookie';
-import { checkIfTabAlreadyOpen } from '../../utils/webPageUtils';
 import ContextMenus from '../../game/cobrowsing/ContextMenus/ContextMenus';
 
 import io from 'socket.io-client'
@@ -18,8 +17,6 @@ import { ON_GAME_INSTANCE_UPDATE } from '../../store/types';
 import { withRouter } from 'react-router-dom';
 
 const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
-  const [isCheckingBrowser, setIsCheckingBrowser] = useState(true)
-
   useEffect(() => {
     // window.socket = io(window.location.host, { autoConnect: false })
     window.socket = io({
@@ -31,26 +28,12 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
       console.log(event, args);
     });
 
-    if(!window.chrome) {
-      alert('Please use a Chromium browser such as Chrome or Brave')
-      window.stop()
+    const cookieJwt = Cookies.get('x-auth-cookie');
+    if (cookieJwt) {
+      Cookies.remove('x-auth-cookie');
+      logInUserWithOauth(cookieJwt, history);
     } else {
-      checkIfTabAlreadyOpen((isTabAlreadyOpen) => {
-        if(isTabAlreadyOpen) {
-          alert('Homemade Arcade is open in another tab. Please check all tabs you have open. This tab will now shutdown')
-          window.stop()
-        } else {
-          setIsCheckingBrowser(false)
-          const cookieJwt = Cookies.get('x-auth-cookie');
-          console.log('cookie found', cookieJwt)
-          if (cookieJwt) {
-            Cookies.remove('x-auth-cookie');
-            logInUserWithOauth(cookieJwt, history);
-          } else {
-            loadMe();
-          }
-        }
-      })
+      loadMe();
     }
 
     return () => {
@@ -61,7 +44,6 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   return ( <>
       <ErrorHandler/>
       <ContextMenus/>
-      {isCheckingBrowser && <Loader text="Checking Browser..."/>}
       {!auth.appLoaded && <Loader text="App Loading..."/>}
       {auth.appLoaded && children}
     </>

@@ -6,6 +6,7 @@ import './PlayGamePage.scss';
 
 import { requestFullscreen } from '../../utils/webPageUtils';
 import withGame from '../../hoc/withGame';
+import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/GameView/GameView';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import { START_STATE } from '../../game/constants';
@@ -38,6 +39,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
+  requireChrome,
   withGame,
   connect(mapStateToProps, { requestFullscreen, changeGameState })
 )(PlayGamePage);

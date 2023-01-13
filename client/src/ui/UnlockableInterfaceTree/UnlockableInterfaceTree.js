@@ -19,6 +19,7 @@ import { updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions
 import { getUserById } from '../../store/actions/userActions';
 import Button from '../Button/Button';
 import { cloneDeep } from 'lodash';
+import Loader from '../Loader/Loader';
 
 function MinusSquare(props) {
   return (
@@ -173,7 +174,7 @@ function getClassName(id, unlockableInterfaceIds) {
   if(isUnlocked) return 'TreeItem__unlocked'
 }
 
-function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserById, updateArcadeGameCharacter}) {
+function UnlockableInterfaceTree({ userId, getUserById, user: { user }, updateArcadeGameCharacter}) {
 
   const [expanded, setExpanded] = React.useState([]);
   const [structuredInterfaceData] = React.useState(structureAllInterfaceIds())
@@ -187,6 +188,14 @@ function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserB
       oldExpanded.length === 0 ? nodeIdsWithChildren : [],
     );
   };
+
+  React.useEffect(() => {
+    if(user?.id !== userId) {
+      getUserById(userId)
+    }
+  }, [userId, user?.id])
+
+  if(!user) return <Loader text="Loading User..."></Loader>
 
   function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {
 
@@ -243,8 +252,8 @@ function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserB
     if(nodes.children.length) nodeIdsWithChildren.push(nodes.id)
     return (
       <>
-        <StyledTreeItem contentClass={getClassName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
-          <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={unlockableInterfaceIds}></ToggleLockMenu>
+        <StyledTreeItem contentClass={getClassName(nodes.id, user.unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+          <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={user.unlockableInterfaceIds}></ToggleLockMenu>
           {Array.isArray(nodes.children)
             ? nodes.children.map((node) => renderTree(node))
             : null}
@@ -275,6 +284,8 @@ function UnlockableInterfaceTree({ unlockableInterfaceIds = {}, userId, getUserB
   );
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  user: state.user
+})
 
 export default connect(mapStateToProps, { getUserById, updateArcadeGameCharacter })(UnlockableInterfaceTree);

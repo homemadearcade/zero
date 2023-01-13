@@ -5,6 +5,7 @@ import { ADMIN_ROLE } from '../game/constants';
 import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class ComposedComponent extends Component {
     // // Our component just got rendered

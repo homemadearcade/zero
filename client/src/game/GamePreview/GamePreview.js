@@ -36,7 +36,7 @@ const GamePreview = ({unlockableInterfaceIds, userId, loadCobrowsingPreview, lob
         </div>
       }
       <div className="GamePreview__user">
-        <LobbyUserStatus hasJoinLink userId={usersById[lobby.participantId]?.id}/>
+        <LobbyUserStatus hasJoinLink hasUIButton userId={usersById[lobby.participantId]?.id}/>
       </div>
       <div className="GamePreview__note"><GameStatus/></div>
     </div>

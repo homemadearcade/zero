@@ -128,6 +128,8 @@ Unauthenticate socket when logging out
 
 Update Hero Camera Max after changing section
 
+unload game model needs to undo game context as well
+
 --------------------------------------------------------------------------------------
 
 TODO CHORES ( MAYBE ) backlog

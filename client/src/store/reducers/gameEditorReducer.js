@@ -18,7 +18,10 @@ import {
   OPEN_MY_SPRITES_MODAL,
   CLOSE_MY_SPRITES_MODAL,
   OPEN_CLASS_NAME_MODAL,
-  CLOSE_CLASS_NAME_MODAL
+  CLOSE_CLASS_NAME_MODAL,
+  OPEN_SETUP_CHOICES_MODAL,
+  CLOSE_SETUP_CHOICES_MODAL,
+  UPDATE_VERTICAL_LINEAR_STEPPER
 } from '../types';
 
 import { generateUniqueId } from '../../utils/webPageUtils';
@@ -34,10 +37,14 @@ const initialState = {
   spriteEditorTextureId: null,
   isSelectBackgroundColorOpen: false,
   isGameMetadataModalOpen: false,
+  isSetupChoicesModalOpen: false,
   classIdEditingName: null,
   accordianLists: {
     'BrushList': null,
     'ClassList': null
+  },
+  verticalLinearSteppers: {
+    'EditingGameSetup': 0,
   }
 };
 
@@ -79,6 +86,14 @@ export default function gameEditorReducer(state = initialState, { type, payload 
         accordianLists: {
           ...state.accordianLists,
           [payload.accordianListId]: payload.accordianListValue
+        }
+      };
+    case UPDATE_VERTICAL_LINEAR_STEPPER:
+      return {
+        ...state,
+        verticalLinearSteppers: {
+          ...state.verticalLinearSteppers,
+          [payload.verticalLinearStepperId]: payload.verticalLinearStepperValue
         }
       };
     case OPEN_LIVE_EDITOR:
@@ -143,6 +158,16 @@ export default function gameEditorReducer(state = initialState, { type, payload 
       return {
         ...state,
         classIdEditingName: null
+      }
+    case OPEN_SETUP_CHOICES_MODAL: 
+      return {
+        ...state,
+        isSetupChoicesModalOpen: true,
+      }
+    case CLOSE_SETUP_CHOICES_MODAL:
+      return {
+        ...state,
+        isSetupChoicesModalOpen: false
       }
     case CLEAR_EDITOR:
       return initialState

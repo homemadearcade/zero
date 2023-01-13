@@ -11,6 +11,8 @@ import {
   DELETE_USER_LOADING,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
+  OPEN_INTERFACE_TREE,
+  CLOSE_INTERFACE_TREE,
 } from '../types';
 
 import { logOutUser, loadMe } from './authActions';
@@ -43,6 +45,21 @@ export const editUser = (id, data) => async (dispatch, getState) => {
   }
 };
 
+export const openInterfaceTree = (userId) => (dispatch, getState) => {
+  dispatch({
+    type: OPEN_INTERFACE_TREE,
+    payload: {
+      userId
+    }
+  });
+}
+
+export const closeInterfaceTree = () => (dispatch, getState) => {
+  dispatch({
+    type: CLOSE_INTERFACE_TREE,
+    payload: {}
+  });
+}
 
 export const getUserByUsername = (username, history) => async (dispatch, getState) => {
   dispatch({

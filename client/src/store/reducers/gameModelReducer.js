@@ -17,7 +17,6 @@ const initialState = {
 };
 
 export default function gameReducer(state = initialState, { type, payload }) {
-  console.log(type)
   switch (type) {
     // case GET_SPRITESHEET_DATA_LOADING:
     //   return {

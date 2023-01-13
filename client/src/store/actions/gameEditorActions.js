@@ -16,8 +16,11 @@ import {
   CLOSE_GAME_METADATA_MODAL,
   OPEN_CLASS_NAME_MODAL,
   CLOSE_CLASS_NAME_MODAL,
+  OPEN_SETUP_CHOICES_MODAL,
+  CLOSE_SETUP_CHOICES_MODAL,
   OPEN_MY_SPRITES_MODAL,
   CLOSE_MY_SPRITES_MODAL,
+  UPDATE_VERTICAL_LINEAR_STEPPER,
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
@@ -133,6 +136,23 @@ export const closeClassNameModal = () => (dispatch, getState) => {
   });
 }
 
+export const openSetupChoicesModal = ({externalForceCobrowsingUpdateUserId}) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_SETUP_CHOICES_MODAL,
+    externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
+    payload: {}
+  });
+}
+
+export const closeSetupChoicesModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_SETUP_CHOICES_MODAL,
+    payload: {}
+  });
+}
+
 export const openSelectBackgroundColor= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
@@ -163,6 +183,17 @@ export const updateAccordianList = (id, value) => (dispatch, getState) => {
     payload: {
       accordianListId: id,
       accordianListValue: value
+    }
+  });
+}
+
+export const updateVerticalLinearStepper = (id, value) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_VERTICAL_LINEAR_STEPPER,
+    payload: {
+      verticalLinearStepperId: id,
+      verticalLinearStepperValue: value
     }
   });
 }

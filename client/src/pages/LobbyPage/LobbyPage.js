@@ -9,6 +9,7 @@ import { useRouteMatch } from 'react-router-dom';
 
 import { assignLobbyRole, editLobby} from '../../store/actions/lobbyActions';
 import requireAuth from '../../hoc/requireAuth';
+import requireChrome from '../../hoc/requireChrome';
 
 import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
@@ -19,7 +20,7 @@ import LobbyDetail from '../../lobby/LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
 import Icon from '../../ui/Icon/Icon';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
+import { ADMIN_ROLE, GAME_EDITOR_UI, IMPORTANT_CHOICE_UI, MONOLOGUE_UI } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle/UnlockableInterfaceLocksToggle';
@@ -96,7 +97,7 @@ const LobbyPage = ({
     </>
   }
 
-  function renderExperience() {
+  function renderExperience() {    
     if(lobby.experienceUI === GAME_EDITOR_UI) {
 
       return <CobrowsingGame gameId={lobby.currentGameId} myTracks={myTracks} userTracks={userTracks}>
@@ -178,6 +179,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
+  requireChrome,
   requireAuth,
   withLobby,
   connect(mapStateToProps, { assignLobbyRole, editLobby }),
