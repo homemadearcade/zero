@@ -155,7 +155,7 @@ function structureAllInterfaceIds() {
           }
           currentTreeNode.children.push(newTreeNode)
           currentTreeNode = newTreeNode
-          console.log(cloneDeep(interfaceIdRoot))
+          // console.log(cloneDeep(interfaceIdRoot))
         }
       })
     })
@@ -193,9 +193,12 @@ function UnlockableInterfaceTree({ userId, getUserById, user: { user }, updateAr
     if(user?.id !== userId) {
       getUserById(userId)
     }
+    
   }, [userId, user?.id])
 
   if(!user) return <Loader text="Loading User..."></Loader>
+
+  console.log(user)
 
   function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {
 

@@ -9,7 +9,7 @@ import Switch from '../../../ui/Switch/Switch';
 import { toggleUnlockableInterfaceLocks } from '../../../store/actions/cobrowsingActions';
 
 const UnlockableInterfaceLocksToggle = ({
-  cobrowsing: { showUnlockableInterfaceLocks, isSubscribedCobrowsing },
+  cobrowsing: { showUnlockableInterfaceLocks, isSubscribedCobrowsing, isCurrentlyCobrowsing },
   toggleUnlockableInterfaceLocks
 }) => {
   if(!isSubscribedCobrowsing) return null
@@ -23,7 +23,7 @@ const UnlockableInterfaceLocksToggle = ({
     <Icon icon="faLock"/>
     <Switch
       size="small"
-      checked={showUnlockableInterfaceLocks}
+      checked={!isCurrentlyCobrowsing && showUnlockableInterfaceLocks}
       />
   </div>
 };

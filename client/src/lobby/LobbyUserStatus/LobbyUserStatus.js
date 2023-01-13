@@ -51,7 +51,7 @@ const LobbyUserStatus = ({ closeInterfaceTree, openInterfaceTree, user: { userId
       {(hasUIButton) && <Button onClick={() => {
         openInterfaceTree(user.id)
       }}>
-        View UI
+        View Tree
       </Button>}
       {titleChildren}
     </div>

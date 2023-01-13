@@ -8,9 +8,7 @@ TICKETING
   Ticket Receipt Page
   All sorts of emails for tickets
 
-FULLSCREEN DECISION
-  GAME SPECIFIC UI SYSTEM? for settin gravity
-  For the Full Screen decision background color, what colors to show? I think we show them the whole thang the big color choice screen
+GAME SPECIFIC UI SYSTEM? for settin gravity
 
 UI
   The sliders - you dont really know what zero is
