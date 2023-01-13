@@ -14,25 +14,39 @@ import { ADMIN_ROLE } from '../constants';
 const ObscuredGameView = ({
   auth: { me },
   lobby: { lobby },
-  cobrowsing: { showUnlockableInterfaceLocks, cobrowsingUser }
+  cobrowsing: { showUnlockableInterfaceLocks, cobrowsingUser, isCurrentlyCobrowsing }
 }) => {
-
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
 
-    if(!lobby.isGamePoweredOn) return <div className="GameView__empty"></div>
+  function renderOverlay() {
+    if(cobrowsingUser.role === ADMIN_ROLE) return
 
-    if(lobby.isGamePoweredOn) {
-      return <>{(isObscured || (!isUnlocked && showUnlockableInterfaceLocks)) && cobrowsingUser.role !== ADMIN_ROLE &&
-        <div className="GameView__empty GameView__empty--overlay">
-          <Unlockable isTiny interfaceId="gameView"><div></div></Unlockable>
-        </div>
-        }
-        <GameView
-          isHost={lobby.gameHostId === me.id}
-          isNetworked
-        />
-      </>
+    if(isObscured) {
+      return <div className="GameView__empty GameView__empty--overlay">
+
+      </div>
+    } else if(!isCurrentlyCobrowsing) {
+      return <div className="ObscuredGameView__unlock">
+        <Unlockable interfaceId="gameView"><div></div></Unlockable>
+      </div>
     }
+
+
+ 
+  }
+
+
+  if(!lobby.isGamePoweredOn) return <div className="GameView__empty"></div>
+
+  if(lobby.isGamePoweredOn) {
+    return <>
+      {renderOverlay()}
+      <GameView
+        isHost={lobby.gameHostId === me.id}
+        isNetworked
+      />
+    </>
+  }
 };
 
 const mapStateToProps = (state) => ({
