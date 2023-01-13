@@ -2,8 +2,6 @@
 
 TODO TIME PERMITTING BACKLOG
 
-Spawning
-
 Timers - A whole timer interface like at the bottom like an editor?
 
 Choices in dialogue
@@ -42,7 +40,7 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 
 TODO FEATURES ( MAYBE ) BACKlog
 
-Attribute to make the left side the 'front' of a sprite. For.. projectiles and for spaceship mode 
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode 
 
 Take snapshot without BG
 

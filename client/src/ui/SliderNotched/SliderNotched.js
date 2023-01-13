@@ -31,7 +31,6 @@ export default function SliderNotched({formLabel, restricted, value, step, optio
     return null
   }
 
-
   return (
     <div className="SliderNotched">
       {formLabel && <FormLabel>{formLabel}</FormLabel>}

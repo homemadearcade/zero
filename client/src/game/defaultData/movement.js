@@ -1,4 +1,4 @@
-import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, JETPACK_CONTROLS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../constants"
+import { WALKER_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, JUMP_GROUND, VEHICLE_CONTROLS, RUNNER_CONTROLS, JUMP_NONE } from "../constants"
 import { defaultMovement } from "./class"
 
 //////////////////////////////////////////////////////////////////////////
@@ -31,39 +31,26 @@ export const movementToParemeters = {
     velocityY: true,
     velocityX: true,
   },
-  [SPACESHIP_CONTROLS]: {
+  [VEHICLE_CONTROLS]: {
     speed: 'Thrust Speed',
     dragX: true,
-    dragY: true
+    dragY: true,
+    bounce: true,
+    ignoreGravity: true,
+    disableDownKey: true
   },
-  [ADVENTURER_CONTROLS]: {
+  [WALKER_CONTROLS]: {
+    speed: 'Move Speed',
+    dragX: false,
+    dragY: false
+  },
+  [RUNNER_CONTROLS]: {
     speed: 'Move Speed',
     dragX: true,
-    dragY: true
+    dragY: true,
+    bounce: true,
+    ignoreGravity: true
   },
-  [PLATFORMER_CONTROLS]: {
-    jumpSpeed: true,
-    speed: 'Move Speed',
-    dragX: true,
-  },
-  [FLOATER_CONTROLS]: {
-    jumpSpeed: true,
-    floatSpeed: true,
-    speed: 'Move Speed',
-    dragX: true,
-    cooldown: 'Float Cooldown'
-  },
-  [CAR_CONTROLS]: {
-    speed: 'Accelerate/Reverse Speed',
-    dragX: true,
-    dragY: true
-  },
-  [JETPACK_CONTROLS]: {
-    jumpSpeed: 'Thrust Speed',
-    speed: 'Move Speed',
-    dragX: true,
-    dragY: true
-  }
 }
 
 
@@ -155,30 +142,34 @@ export const noneDefaults = {
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 // CONTROLS
-export const spaceshipDefaults = {
+export const vehicleDefaults = {
   movement: {
-    controls: SPACESHIP_CONTROLS,
+    controls: VEHICLE_CONTROLS,
     dragX: 0.25,
     dragY: 0.25,
     disableDownKey: true,
-    allowDoubleJump: false,
   },
+  jump: {
+    style: JUMP_NONE
+  }
 }
 
-export const platformerDefaults = {
+export const walkerDefaults = {
   movement: {
-    controls: PLATFORMER_CONTROLS,
-    dragX: 0.1,
-    dragY: 1,
-    allowDoubleJump: false,
+    controls: WALKER_CONTROLS,
     disableDownKey: false,
+    dragX: 0,
+    dragY: 0,
+    ignoreGravity: true
   },
+  jump: {
+    style: JUMP_NONE
+  }
 }
 
-export const adventurerDefaults = {
+export const runnerDefaults = {
   movement: {
-    controls: ADVENTURER_CONTROLS,
-    allowDoubleJump: false,
+    controls: RUNNER_CONTROLS,
     disableDownKey: false,
     dragX: 0,
     dragY: 0,
@@ -188,71 +179,36 @@ export const adventurerDefaults = {
 export const carDefaults = {
   movement: {
     controls: CAR_CONTROLS,
-    allowDoubleJump: false,
     disableDownKey: false,
     dragX: 0.25,
     dragY: 0.25,
   },
 }
 
-export const floaterDefaults = {
-  movement: {
-    controls: FLOATER_CONTROLS,
-    allowDoubleJump: true,
-    disableDownKey: false,
-    cooldown: 200,
-    dragX: 0.1,
-    dragY: 1,
-  },
-}
-
-export const jetpackDefaults = {
-  movement: {
-    controls: JETPACK_CONTROLS,
-    // jumpSpeed: 100,
-    dragX: 0,
-    dragY: 1,
-    disableDownKey: true,
-  },
-}
-
-export const controlsToKeys = {
-  [SPACESHIP_CONTROLS]: {
-    up: 'Thrust',
+export const movementControlsToKeys = {
+  [VEHICLE_CONTROLS]: {
+    up: 'Thrust Forward',
     left: 'Rotate Left',
     right: 'Rotate Right',
     down: null
   },
-  [ADVENTURER_CONTROLS]: {
+  [WALKER_CONTROLS]: {
     up: 'Move Up',
     left: 'Move Left',
     right: 'Move Right',
     down: 'Move Down'
   },
-  [PLATFORMER_CONTROLS]: {
-    up: 'Jump (On Ground)',
-    left: 'Move Left',
-    right: 'Move Right',
-    down: 'Move Down'
+  [RUNNER_CONTROLS]: {
+    up: 'Accelerate Up',
+    left: 'Accelerate Left',
+    right: 'Accelerate Right',
+    down: 'Accelerate Down'
   },
-  [FLOATER_CONTROLS]: {
-    up: 'Jump (On Ground)',
-    up2: 'Float (In Air)',
-    left: 'Move Left',
-    right: 'Move Right',
-    down: 'Move Down'
-  },
-  [CAR_CONTROLS]: {
-    up: 'Accelerate',
-    left: 'Turn Left',
-    right: 'Turn Right',
-    down: 'Reverse'
-  },
-  [JETPACK_CONTROLS]: {
-    up: 'Thrust',
-    left: 'Move Left',
-    right: 'Move Right',
-    down: null
-  }
+  // [CAR_CONTROLS]: {
+  //   up: 'Accelerate',
+  //   left: 'Turn Left',
+  //   right: 'Turn Right',
+  //   down: 'Reverse'
+  // },
 }
 

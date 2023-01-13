@@ -16,9 +16,9 @@ const WorldEditor = ({ gameModel: { gameModel }, editGameModel }) => {
       <Typography component="h5" variant="h5">Editing World</Typography>
       <Unlockable interfaceId="world/gravityX">
         <SliderNotched
-          formLabel="Gravity X"
+          formLabel="Gravity ⇆"
           step={0.5}
-          options={[-5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5]}
+          options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
           onChangeCommitted={(value) => {
             editGameModel({ world: { gravity: { x: value }}})        
           }}
@@ -27,9 +27,9 @@ const WorldEditor = ({ gameModel: { gameModel }, editGameModel }) => {
       </Unlockable>
       <Unlockable interfaceId="world/gravityY">
         <SliderNotched
-          formLabel="Gravity Y"
+          formLabel="Gravity ⇵"
           step={0.5}
-          options={[-5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5]}
+          options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
           onChangeCommitted={(value) => {
             editGameModel({ world: { gravity: { y: value }}})        
           }}

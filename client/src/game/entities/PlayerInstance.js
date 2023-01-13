@@ -5,7 +5,7 @@ import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./CameraPreview";
 import { ProjectileInstance } from "./ProjectileInstance";
 import { InteractArea } from "./members/InteractArea";
-import { ADVENTURER_CONTROLS, CAR_CONTROLS, FLOATER_CONTROLS, JETPACK_CONTROLS, PLATFORMER_CONTROLS, SPACESHIP_CONTROLS } from "../constants";
+import { WALKER_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, VEHICLE_CONTROLS, JUMP_AIR, RUNNER_CONTROLS } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -89,7 +89,7 @@ export class PlayerInstance extends ObjectInstance {
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
     const mod = (1/(delta * 5))
-    const speed = objectClass.movement.speed
+    const speed = objectClass.movement.speed * 100 * mod
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -107,8 +107,8 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // SPACESHIP/CAR
-    if(objectClass.movement.controls === SPACESHIP_CONTROLS || objectClass.movement.controls === CAR_CONTROLS) {
+    // VEHICLE/CAR
+    if(objectClass.movement.controls === VEHICLE_CONTROLS || objectClass.movement.controls === CAR_CONTROLS) {
       if(this.cursors.left.isDown) {
         this.setAngularVelocity(-speed);
       } else if(this.cursors.right.isDown) {
@@ -116,10 +116,10 @@ export class PlayerInstance extends ObjectInstance {
       }
 
       if(this.cursors.up.isDown) {
-          this.thrust(speed * 2);
+          this.thrust(speed * 4);
       } else {
         if(this.cursors.down.isDown && !objectClass.movement.disableDownKey) {
-          this.thrust(-(speed * 2));
+          this.thrust(-(speed * 4));
         } else {
           this.setAcceleration(0)
         }
@@ -128,57 +128,59 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // JETPACK
-    if(objectClass.movement.controls === JETPACK_CONTROLS) {
-      let xTouched = false
-
-      if(this.cursors.left.isDown) {
-        this.setAccelerationX(-speed)
-        xTouched = true
-      }
-      
-      if(this.cursors.right.isDown) {
-        this.setAccelerationX(speed)
-        xTouched = true
-      }
-
-      if(this.cursors.up.isDown) {
-          this.thrust(objectClass.movement.jumpSpeed * 2);
-      } else {
-        if(this.cursors.down.isDown && !objectClass.movement.disableDownKey) {
-          this.thrust(-(objectClass.movement.jumpSpeed * 2));
-        } else {
-          this.setAccelerationY(0)
-        }
-      }
-
-      if(!xTouched) this.setAccelerationX(0)
-    }
-
-    //////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////
-    // ADVENTURER
-    if(objectClass.movement.controls === ADVENTURER_CONTROLS) {
+    // WALKER
+    if(objectClass.movement.controls === WALKER_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
       if(this.cursors.left.isDown) {
-        this.setAccelerationX(-speed)
+        this.setVelocityX(-speed * 5)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        this.setAccelerationX(speed)
+        this.setVelocityX(speed * 5)
         xTouched = true
       }
       
       if(this.cursors.up.isDown) {
-        this.setAccelerationY(-speed)
+        this.setVelocityY(-speed * 5)
         yTouched = true
       }
 
       if(this.cursors.down.isDown) {
-        this.setAccelerationY(speed)
+        this.setVelocityY(speed * 5)
+        yTouched = true
+      }
+
+      if(!xTouched) this.setVelocityX(0)
+      if(!yTouched) this.setVelocityY(0)
+    }
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    // RUNNER
+    if(objectClass.movement.controls === RUNNER_CONTROLS) {
+      let xTouched = false 
+      let yTouched = false
+
+      if(this.cursors.left.isDown) {
+        this.setAccelerationX(-speed * 4)
+        xTouched = true
+      }
+      
+      if(this.cursors.right.isDown) {
+        this.setAccelerationX(speed * 4)
+        xTouched = true
+      }
+      
+      if(this.cursors.up.isDown) {
+        this.setAccelerationY(-speed * 4)
+        yTouched = true
+      }
+
+      if(this.cursors.down.isDown) {
+        this.setAccelerationY(speed * 4)
         yTouched = true
       }
 
@@ -188,34 +190,50 @@ export class PlayerInstance extends ObjectInstance {
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // PLATFORMER/FLOATER
-    if(objectClass.movement.controls === PLATFORMER_CONTROLS || objectClass.movement.controls === FLOATER_CONTROLS) {
-      let xTouched = false 
-
-      if(this.cursors.left.isDown) {
-        this.setAccelerationX(-speed)
-        xTouched = true
-      }
-      
-      if(this.cursors.right.isDown) {
-        this.setAccelerationX(speed)
-        xTouched = true
-      }
-
-      if(this.cursors.down.isDown) {
-        this.setVelocityY(this.sprite.body.velocity.y + speed * mod)
-      }
-
+    // JUMP
+    if(objectClass.jump.style === JUMP_GROUND) {
       if(this.cursors.up.isDown) {
         if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
-          this.setVelocityY(-objectClass.movement.jumpSpeed)
-        } else if(objectClass.movement.allowDoubleJump && (!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
-          this.setVelocityY(-objectClass.movement.floatSpeed)
-          this.doubleJumpCoolDown = time + objectClass.movement.cooldown
+          this.setVelocityY(-objectClass.jump.ground)
         }
       }
+    }
 
-      if(!xTouched) this.setAccelerationX(0)
+    if(objectClass.jump.style === JUMP_COMBO) {
+      if(this.cursors.up.isDown) {
+        if(this.cursors.up.isPressable) {
+          this.cursors.up.isPressable = false
+          if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {
+            this.setVelocityY(-objectClass.jump.ground)
+          } else if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
+            this.setVelocityY(-objectClass.jump.air)
+            this.doubleJumpCoolDown = time + objectClass.jump.cooldown
+          }
+        }
+      } else {
+        this.cursors.up.isPressable = true
+      }
+    }
+
+    if(objectClass.jump.style === JUMP_AIR) {
+      if(this.cursors.up.isDown) {
+        if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
+          this.setVelocityY(-objectClass.jump.air)
+          this.doubleJumpCoolDown = time + objectClass.jump.cooldown
+        }
+      }
+    }
+
+    if(objectClass.jump.style === JUMP_CONSTANT) {
+      if(this.cursors.up.isDown) {
+          this.thrust(objectClass.jump.ground * 4);
+      } else {
+        // if(this.cursors.down.isDown && !objectClass.jump.disableDownKey) {
+        //   this.thrust(-(objectClass.jump.ground * 4));
+        // } else {
+        //   this.setAccelerationY(0)
+        // }
+      }
     }
 
     if(objectClass.movement.rotationFollowKeys) {

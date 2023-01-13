@@ -146,11 +146,14 @@ export const ARCADE_PHYSICS = 'ARCADE_PHYSICS'
 /////////////////////////////////////
 // CONTROL TYPES
 export const CAR_CONTROLS = 'CAR_CONTROLS'
-export const SPACESHIP_CONTROLS = 'SPACESHIP_CONTROLS'
-export const PLATFORMER_CONTROLS = 'PLATFORMER_CONTROLS'
-export const FLOATER_CONTROLS = 'FLOATER_CONTROLS'
-export const ADVENTURER_CONTROLS = 'ADVENTURER_CONTROLS'
-export const JETPACK_CONTROLS = 'JETPACK_CONTROLS'
+export const VEHICLE_CONTROLS = 'VEHICLE_CONTROLS'
+export const JUMP_GROUND = 'JUMP_GROUND'
+export const JUMP_COMBO = 'JUMP_COMBO'
+export const WALKER_CONTROLS = 'WALKER_CONTROLS'
+export const JUMP_CONSTANT = 'JUMP_CONSTANT'
+export const RUNNER_CONTROLS = 'RUNNER_CONTROLS'
+export const JUMP_NONE = 'JUMP_NONE'
+export const JUMP_AIR = 'JUMP_AIR'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -164,6 +167,7 @@ export const IMAGE_AND_TEXT_CUTSCENE = 'IMAGE_AND_TEXT_CUTSCENE'
 // LIVE EDITORS
 export const PHYSICS_EDITOR = 'PHYSICS_EDITOR'
 export const MOVEMENT_EDITOR = 'MOVEMENT_EDITOR'
+export const JUMP_EDITOR = 'JUMP_EDITOR'
 export const CAMERA_EDITOR = 'CAMERA_EDITOR'
 export const WORLD_EDITOR = 'WORLD_EDITOR'
 export const PROJECTILE_EDITOR = 'PROJECTILE_EDITOR'

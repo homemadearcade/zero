@@ -174,24 +174,14 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.mass}
         />
       </Unlockable>
-      {false && <Unlockable interfaceId="physics/toggle/ignoreGravity">
-          <FormLabel>Ignore Gravity</FormLabel>
-          <Switch
-            size="small"
-            onChange={(e) => {
-              editGameModel({ classes: { [classId]: { movement: { ignoreGravity: e.target.checked }}}})        
-            }}
-            checked={classSelected.movement.ignoreGravity}
-          />
-      </Unlockable>}
       <Unlockable interfaceId="physics/toggle/notPushable">
         <Switch
-          labels={['Pushable', 'Not Pushable']}
+          labels={['Not Pushable', 'Pushable']}
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { notPushable: e.target.checked } } } })        
+            editGameModel({ classes: { [classId]: { collisionResponse: { notPushable: !e.target.checked } } } })        
           }}
-          checked={classSelected.collisionResponse.notPushable}
+          checked={!classSelected.collisionResponse.notPushable}
          />
       </Unlockable>
       {<Unlockable interfaceId="physics/toggle/immovable">

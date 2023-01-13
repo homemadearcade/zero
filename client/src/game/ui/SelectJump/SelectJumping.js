@@ -2,27 +2,29 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectControls.scss';
+import './SelectJumping.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import {  WALKER_CONTROLS, VEHICLE_CONTROLS, RUNNER_CONTROLS } from '../../constants';
-import { walkerDefaults, vehicleDefaults, runnerDefaults } from '../../defaultData/movement';
+import { JUMP_GROUND,  JUMP_COMBO, JUMP_CONSTANT, JUMP_NONE, JUMP_AIR } from '../../constants';
+import { floaterDefaults, jetpackDefaults, jumperDefaults } from '../../defaultData/jumping';
+import { airJumpDefaults, noJumpDefaults } from '../../defaultData/jumping';
 
 const controlsValues = {
-  [WALKER_CONTROLS]: walkerDefaults,
-  // [CAR_CONTROLS]: carDefaults,
-  [RUNNER_CONTROLS]: runnerDefaults,
-  [VEHICLE_CONTROLS]: vehicleDefaults,
+  [JUMP_NONE]: noJumpDefaults,
+  [JUMP_GROUND]: jumperDefaults,
+  [JUMP_AIR]: airJumpDefaults,
+  [JUMP_COMBO]: floaterDefaults,
+  [JUMP_CONSTANT]: jetpackDefaults,
 }
 
 const controlsValueToLabel = {
-  [WALKER_CONTROLS]: 'Directional',
-  // [CAR_CONTROLS]: 'Car',
-  [RUNNER_CONTROLS]: 'Advanced Directional',
-  [VEHICLE_CONTROLS]: 'Rotational',
-
+  [JUMP_NONE]: 'None',
+  [JUMP_GROUND]: 'Ground Jump',
+  [JUMP_AIR]: 'Air Jump',
+  [JUMP_COMBO]: 'Ground + Air Jump',
+  [JUMP_CONSTANT]: 'Jetpack',
 }
 
-const SelectControls = ({ onChange, value, formLabel }) => {
+const SelectJumping = ({ onChange, value, formLabel }) => {
   const mapControlsToOption = (controls) => {
 
     return {
@@ -31,7 +33,9 @@ const SelectControls = ({ onChange, value, formLabel }) => {
     }
   }
 
+
   const options = Object.keys(controlsValues).map(mapControlsToOption)
+  console.log(options, controlsValues, controlsValueToLabel)
 
   return <SelectChipsAuto 
     onChange={(event, descriptors) => {
@@ -53,4 +57,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectControls);
+)(SelectJumping);

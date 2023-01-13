@@ -1,68 +1,84 @@
-import { ADVENTURER_CONTROLS, CAR_CONTROLS, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DIALOGUE, EFFECT_STICK_TO, FLOATER_CONTROLS, HERO_CLASS, ON_COLLIDE, ON_INTERACT, PLATFORMER_CONTROLS, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPACESHIP_CONTROLS } from "../constants"
+import { HERO_CLASS } from "../constants"
 import { defaultObjectClass } from "./class"
-import { adventurerDefaults, carDefaults, floaterDefaults, platformerDefaults, spaceshipDefaults } from "./movement"
+import { walkerDefaults, carDefaults, vehicleDefaults } from "./movement"
+import { jumperDefaults, floaterDefaults, noJumpDefaults } from "./jumping"
 
 export const defaultHeroClass = {
   ...defaultObjectClass,
   type: HERO_CLASS,
 }
 
-export const spaceshipClass = {
+export const vehicleClass = {
   ...defaultHeroClass,
-  classId: 'spaceship',
-  name: 'spaceship',
+  classId: 'vehicle',
+  name: 'vehicle',
   graphics: {
     "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
   },
   "movement": {
-    ...spaceshipDefaults.movement
+    ...vehicleDefaults.movement
   },
+  'jump': {
+    ...noJumpDefaults.jump
+  }
 }
 
-export const platformerClass = {
+export const jumperClass = {
   ...defaultHeroClass,
-  classId: 'platformer',
-  name: 'platformer',
+  classId: 'jumper',
+  name: 'jumper',
   graphics: {
     "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
   movement: {
-    ...platformerDefaults.movement
+    ...floaterDefaults.movement
   },
+  'jump': {
+    ...jumperDefaults.jump
+  }
 }
 
-export const adventurerClass = {
+export const walkerClass = {
   ...defaultHeroClass,
-  classId: 'adventurer',
-  name: 'adventurer',
+  classId: 'walker',
+  name: 'walker',
   graphics: {
     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },
   movement: {
-    ...adventurerDefaults.movement
+    ...walkerDefaults.movement
   },
+  'jump': {
+    ...noJumpDefaults
+  }
 }
 
-export const carClass = {
-  ...defaultHeroClass,
-  classId: 'car',
-  name: 'car',
-  graphics: {
-    "textureId": "kenney-roguelike-environment-16px-sprite1112",
-  },
-  "movement": {
-    ...carDefaults.movement
-  },
-}
+// export const carClass = {
+//   ...defaultHeroClass,
+//   classId: 'car',
+//   name: 'car',
+//   graphics: {
+//     "textureId": "kenney-roguelike-environment-16px-sprite1112",
+//   },
+//   "movement": {
+//     ...carDefaults.movement
+//   },
+//   "jump": {
+//     ...carDefaults.jump
+//   },
+// }
 
-export const floaterClass = {
-  ...defaultHeroClass,
-  classId: 'floater',
-  name: 'floater',
-  graphics: {
-    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite206",
-  },
-  "movement": {
-    ...floaterDefaults.movement
-  },
-}
+// export const floaterClass = {
+//   ...defaultHeroClass,
+//   classId: 'floater',
+//   name: 'floater',
+//   graphics: {
+//     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite206",
+//   },
+//   "movement": {
+//     ...floaterDefaults.movement
+//   },
+//   "jump": {
+//     ...floaterDefaults.jump
+//   },
+// }

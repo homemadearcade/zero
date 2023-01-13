@@ -121,7 +121,7 @@ const GamesPage = ({ getArcadeGames, editArcadeGame, arcadeGames: { arcadeGames,
                     <Link to={`/play/${game.id}`} className="info bold profile-link">
                       Play
                     </Link>
-                    {game.user.id === me?.id && <Link to={`/edit/${game.id}`} className="info bold profile-link">
+                    {(game.user.id === me?.id || me.role === ADMIN_ROLE) && <Link to={`/edit/${game.id}`} className="info bold profile-link">
                       Edit
                     </Link>}
                   </div>

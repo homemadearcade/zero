@@ -1,4 +1,4 @@
-import { HERO_CLASS, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
+import { HERO_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -7,22 +7,26 @@ export const defaultMovement = {
   velocityX: 0,
   velocityY: 0,
   speed: 100,
-  jumpSpeed: 50,
-  floatSpeed: 20,
   ignoreGravity: true,
   dragY: 1,
   dragX: 1,
   gravityY: 0,
   gravityX: 0,
   disableDownKey: false,
-  allowDoubleJump: false,
+}
+
+export const defaultJump = {
+  style: JUMP_NONE,
+  ground: 0,
+  air: 0,
+  cooldown: 100,
 }
 
 export const defaultCollisionResponse = {
   bounciness: 0,
   friction: 0.1,
   mass: 10,
-  notPushable: false,
+  notPushable: true,
   immovable: false,
   ignoreWorldBoundaries: false,
   ignoreSides: [],
@@ -37,6 +41,9 @@ export const defaultObjectClass = {
   },
   collisionResponse: {
     ...defaultCollisionResponse
+  },
+  jump: {
+    ...defaultJump
   },
   graphics: {
     textureId: null,

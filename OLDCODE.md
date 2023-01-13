@@ -132,8 +132,8 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // SPACESHIP
-    if(objectClass.controls.type === SPACESHIP_CONTROLS) {
+    // VEHICLE
+    if(objectClass.controls.type === VEHICLE_CONTROLS) {
       let hasAngularMovement = false
       if(this.cursors.left.isDown) {
         hasAngularMovement = true
@@ -161,8 +161,8 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // ADVENTURER
-    if(objectClass.controls.type === ADVENTURER_CONTROLS) {
+    // WALKER
+    if(objectClass.controls.type === WALKER_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -230,8 +230,8 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
-    // PLATFORMER
-    if(objectClass.controls.type === PLATFORMER_CONTROLS) {
+    // JUMPER
+    if(objectClass.controls.type === JUMP_GROUND) {
       let xTouched = false 
 
       let xVelocityTouched = false
@@ -271,7 +271,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
       }
 
       if(this.cursors.space.isDown && this.sprite.body.touching.down) {
-        this.setVelocityY(-objectClass.jumpSpeed)
+        this.setVelocityY(-objectClass.ground)
       }
 
       if(objectClass.controls.sticky) {
@@ -306,6 +306,6 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     export const jumpOnCollide = {
   movement: {
     pattern: MOVEMENT_JUMP_ON_COLLIDE,
-    jumpSpeed: 300
+    ground: 300
   },
 }

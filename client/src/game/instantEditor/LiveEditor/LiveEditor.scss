@@ -1,10 +1,14 @@
 .LiveEditor {
   position:absolute;
-  right: 3%; 
+  right: 0%; 
   top: 5%;
+  max-height: calc(100vh - 20%);
+  overflow-y: scroll;
+  min-height: 50vh;
   // background-color: rgba(34,34,34, 0.6);
   background-color: black;
-  padding: 1%;
+  padding: 3%;
+  
   &__close {
     position:absolute;
     right: 0; 

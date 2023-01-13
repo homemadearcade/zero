@@ -323,6 +323,10 @@ export class Sprite {
     this.sprite.setVelocityY(y)
   }
 
+  setMaxVelocity(xy) {
+    this.sprite.setMaxVelocity(xy)
+  }
+
   thrust(thrust) {
     if(this.physicsType === MATTER_PHYSICS) {
       this.sprite.thrust(thrust)

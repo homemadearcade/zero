@@ -1,6 +1,6 @@
 // import { BACKGROUND_CANVAS_ID } from "../constants";
 import { gameSize, nodeSize } from "./general";
-import { adventurerClass, platformerClass, spaceshipClass } from "./heros";
+import { walkerClass, jumperClass, vehicleClass } from "./heros";
 
 export const defaulGameModel = {
   "metadata": {
@@ -43,12 +43,12 @@ export const defaulGameModel = {
     "lives": 1,
     spawnX: gameSize/2,
     spawnY: gameSize/2,
-    'initialClassId': 'spaceship'
+    'initialClassId': 'vehicle'
   },
   "classes": {
-    "spaceship": spaceshipClass,
-    "platformer": platformerClass,
-    "adventurer": adventurerClass
+    "vehicle": vehicleClass,
+    "jumper": jumperClass,
+    "walker": walkerClass
   },
   "objects": {
   }

@@ -664,7 +664,7 @@ export class EditorScene extends GameInstance {
 
       if(
         // classUpdate.unspawned !== undefined ||
-        classUpdate.graphics.invisibile !== undefined ||
+        classUpdate.graphics?.invisibile !== undefined ||
         classUpdate.worldBoundaryRelation || 
         classUpdate.graphics?.textureId ||
         classUpdate.movement?.pattern !== undefined ||

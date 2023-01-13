@@ -6,7 +6,7 @@ import { openLiveEditor } from '../../../store/actions/gameEditorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
+import { CAMERA_EDITOR, HERO_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { Divider } from '@mui/material';
@@ -77,6 +77,12 @@ const ClassContextMenu = ({
         openLiveEditor(PROJECTILE_EDITOR, classId)
         onMenuItemClick()
       }}>Edit Projectile</MenuItem>
+    </Unlockable>}
+    {objectClass.type === HERO_CLASS && <Unlockable interfaceId="contextMenu/class/jump">
+      <MenuItem onClick={() => {
+        openLiveEditor(JUMP_EDITOR, classId)
+        onMenuItemClick()
+      }}>Edit Jump</MenuItem>
     </Unlockable>}
     <Unlockable interfaceId="contextMenu/class/movement">
       <MenuItem onClick={() => {

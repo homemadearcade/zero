@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { SPACESHIP_CONTROLS } from "../constants";
+import { VEHICLE_CONTROLS } from "../constants";
 import store from "../../store";
 
 import { ObjectInstance } from "./ObjectInstance";
@@ -43,7 +43,7 @@ export class ProjectileInstance extends ObjectInstance {
 
     let rotation
 
-    if(shooterClass.movement.controls === SPACESHIP_CONTROLS) {
+    if(shooterClass.movement.controls === VEHICLE_CONTROLS) {
       rotation = shooter.sprite.rotation - Phaser.Math.DegToRad(90)
     } else {
       if(cursors.left.isDown) {

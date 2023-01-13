@@ -2,14 +2,16 @@ import classnames from 'classnames'
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { controlsToKeys } from '../../defaultData/movement'
+import { jumpControlsToKeys } from '../../defaultData/jumping'
+import { movementControlsToKeys } from '../../defaultData/movement'
 import KeyIndicator from '../KeyIndicator/KeyIndicator'
 import './ControlsCard.scss'
 
 const ControlsCard = ({
-  controlScheme
+  controlScheme,
+  jumpStyle
 }) => {
-  const keys = controlsToKeys[controlScheme]
+  const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpStyle] }
 
   const list = []
 

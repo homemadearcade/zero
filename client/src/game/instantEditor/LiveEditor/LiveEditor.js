@@ -16,7 +16,8 @@ import MovementEditor from '../MovementEditor/MovementEditor';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
-import { CAMERA_EDITOR, HERO_CLASS, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, WORLD_EDITOR } from '../../constants';
+import { CAMERA_EDITOR, HERO_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, WORLD_EDITOR } from '../../constants';
+import JumpEditor from '../JumpEditor/JumpEditor';
 
 const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSelectedLiveEditor, liveEditingCategory }, gameModel: { gameModel } }) => {
   const objectClass = gameModel.classes[classIdSelectedLiveEditor]
@@ -31,6 +32,8 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSele
     title = 'Projectile'
   } else if(liveEditingCategory === CAMERA_EDITOR) {
     title = 'Camera'
+  } else if(liveEditingCategory === JUMP_EDITOR) {
+    title = 'Jump'
   }
 
   return (
@@ -58,10 +61,15 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSele
                   openLiveEditor(CAMERA_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,
+                objectClass.type === HERO_CLASS && <MenuItem key="Jump" onClick={() => {
+                  openLiveEditor(JUMP_EDITOR, classIdSelectedLiveEditor)
+                  closeMenu()
+                }}>Jump</MenuItem>,
               ]
             }}
           />
       </>} />}
+      {liveEditingCategory === JUMP_EDITOR && <JumpEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === MOVEMENT_EDITOR && <MovementEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === PROJECTILE_EDITOR && <ProjectileEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === PHYSICS_EDITOR && <PhysicsEditor classId={classIdSelectedLiveEditor}/>}
