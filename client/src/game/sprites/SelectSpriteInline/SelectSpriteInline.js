@@ -69,10 +69,12 @@ const SelectSpriteInline = ({
           openCreateColorFlow('SelectSpriteInline')
         }}
       />
-      <Unlockable interfaceId="chooseSprites"><div className="SelectSpriteInline__sprite-list">
-        <DescriptorSprites onClickSprite={onSelect} descriptors={descriptors}/>
-        <MySprites onClickSprite={onSelect} descriptors={descriptors}/>
-      </div></Unlockable>
+      <Unlockable interfaceId="chooseSprites">
+        <div className="SelectSpriteInline__sprite-list">
+          <DescriptorSprites onClickSprite={onSelect} descriptors={descriptors}/>
+          <MySprites onClickSprite={onSelect} descriptors={descriptors}/>
+        </div>
+      </Unlockable>
     </div>
 
     {isCreateColorFlowOpen === 'SelectSpriteInline' && <CreateColorFlow

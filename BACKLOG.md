@@ -2,6 +2,13 @@
 
 TODO TIME PERMITTING BACKLOG
 
+IDEAS
+
+Jump Only - control scheme ( allows controlling during jumps only )
+Allow changing the rotation speed for Vehicle/Direction
+
+---
+
 Timers - A whole timer interface like at the bottom like an editor?
 
 Choices in dialogue

@@ -88,6 +88,8 @@ export class PlayerInstance extends ObjectInstance {
     const classId = this.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
+    const isJumpAllowed = !objectClass.movement.ignoreGravity && objectClass.movement.controls === RUNNER_CONTROLS
+
     const mod = (1/(delta * 5))
     const speed = objectClass.movement.speed * 100 * mod
 
@@ -174,7 +176,7 @@ export class PlayerInstance extends ObjectInstance {
         xTouched = true
       }
       
-      if(objectClass.jump.style === JUMP_NONE && this.cursors.up.isDown) {
+      if((objectClass.jump.style === JUMP_NONE || !isJumpAllowed) && this.cursors.up.isDown) {
         this.setAccelerationY(-speed * 4)
         yTouched = true
       }
@@ -192,7 +194,7 @@ export class PlayerInstance extends ObjectInstance {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // JUMP
-    if(!objectClass.movement.ignoreGravity) {
+    if(isJumpAllowed) {
       if(objectClass.jump.style === JUMP_GROUND) {
         if(this.cursors.up.isDown) {
           if(this.sprite.body.touching.down || this.sprite.body.blocked.down) {

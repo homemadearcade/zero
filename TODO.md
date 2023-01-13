@@ -15,7 +15,7 @@ FULLSCREEN DECISION
 UI
   The sliders - you dont really know what zero is
   UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
-  Press X to interact - Press space to fire
+  Press X to interact - Press Space to fire
   If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
   EDIT NAME POPUP
 

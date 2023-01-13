@@ -47,8 +47,7 @@ export class EditorScene extends GameInstance {
   onDragStartContextMenu = (objectInstanceId) => {
     this.draggingObjectInstanceId = objectInstanceId
     this.isDragFromContext = true
-    console.log(this.draggingObjectInstanceId)
-          document.body.style.cursor = 'grab'
+    document.body.style.cursor = 'grab'
 
     
   }
@@ -74,7 +73,7 @@ export class EditorScene extends GameInstance {
   }
 
   finishDrag(entitySprite) {
-          document.body.style.cursor = null
+    document.body.style.cursor = null
 
     if(entitySprite.id === HERO_INSTANCE_ID) {
       store.dispatch(editGameModel({ 
@@ -120,8 +119,15 @@ export class EditorScene extends GameInstance {
     // const gridwidth = gridx + boundaries.width
     // const gridheight = gridy + boundaries.height
 
-    const width = Phaser.Math.Clamp(distanceW * 2, nodeSize, boundaries.width)
-    const height = Phaser.Math.Clamp(distanceH * 2, nodeSize, boundaries.height)
+    let width;
+    let height;
+    if(pointer.event.shiftKey) {
+      width = Phaser.Math.Clamp(distanceW, nodeSize, boundaries.width)
+      height = Phaser.Math.Clamp(distanceH, nodeSize, boundaries.height)
+    } else {
+      width = Phaser.Math.Clamp(distanceW * 2, nodeSize, boundaries.width)
+      height = Phaser.Math.Clamp(distanceH * 2, nodeSize, boundaries.height)
+    }
 
     this.forAllObjectInstancesMatchingClassId(sprite.classId, (object) => {
       object.setSize(width, height)
@@ -395,6 +401,10 @@ export class EditorScene extends GameInstance {
   onPointerUp = (pointer) => {
     if(this.stamper && pointer.leftButtonReleased() && !this.draggingObjectInstanceId) {
       this.stamper.stamp(pointer)
+      if(!pointer.event.shiftKey) {
+        this.destroyStamper()
+        store.dispatch(clearClass())
+      }
     }
     
     this.draggingObjectInstanceId = null

@@ -242,20 +242,25 @@ export class ObjectInstance extends Sprite {
 
   destroyInGame() {
     const gameModel = store.getState().gameModel.gameModel
-    let eventType = ON_DESTROY_ONE
-
-    const instances = this.scene.getAllInstancesOfClassId(this.classId)
-    if(instances.length === 1) {
-      eventType = ON_DESTROY_ALL
-    }
 
     Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
     }).forEach(({event, effect}) => {
-      if(event.type === eventType && event.classIdA === this.classId) {
+      if(event.type === ON_DESTROY_ONE && event.classIdA === this.classId) {
         this.runEffect(effect)
       }
     })
+    
+    const instances = this.scene.getAllInstancesOfClassId(this.classId)
+    if(instances.length === 1) {
+      Object.keys(gameModel.relations).map((relationId) => {
+        return gameModel.relations[relationId]
+      }).forEach(({event, effect}) => {
+        if(event.type === ON_DESTROY_ALL && event.classIdA === this.classId) {
+          this.runEffect(effect)
+        }
+      })
+    }
 
     this.scene.removeObjectInstance(this.id)
   }

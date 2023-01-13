@@ -29,7 +29,7 @@ const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, h
       return theme.zIndex.drawer + zIndexIncrease
     }}}
     open={open}
-    onClick={onClose}
+    onClick={false && onClose}
   >
     <div className="CobrowsingModal__safe-area">
       <div className="CobrowsingModal__body" style={{width: width, height: height}} onClick={stopPropagation}>
