@@ -16,9 +16,10 @@ import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinear
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { ADMIN_ROLE, MONOLOGUE_UI } from '../../game/constants';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
-import { isLocalHost } from '../../utils/webPageUtils';
+import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
 import { openSetupChoicesModal } from '../../store/actions/gameEditorActions';
+import store from '../../store';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -28,7 +29,7 @@ const LobbySetupFlow = ({
   lobby: { lobby },
   completeCloseConstellation, 
   openConstellation,
-  openSetupChoicesModal
+  openSetupChoicesModal,
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -150,6 +151,16 @@ const LobbySetupFlow = ({
           </>
         },
         {
+          id: 'Go Fullscreen',
+          title: <Typography component="h5" variant="h5">Go Fullscreen</Typography>,
+          instructions: <>
+          </>,
+          onClickNext: () => {
+            requestFullscreen(document.body)
+          },
+          nextButtonText: 'Go Fullscreen'
+        },
+        {
           id: 'i0 - Reset Participant UI',
           title: <Typography component="h5" variant="h5">i0 - Reset Participant UI</Typography>,
           instructions: <>
@@ -166,7 +177,9 @@ const LobbySetupFlow = ({
         {
           id: 'Review Launch Checklist',
           title: <Typography component="h5" variant="h5">Review Launch Checklist </Typography>,
-          instructions: <LobbyChecklist/>,
+          instructions: <>
+            <LobbyChecklist/>
+          </>,
           // disableContinueButtonCheck: () => {
           //   return !window.lobby?.isAllRequiredPassing
           // }

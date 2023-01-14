@@ -217,6 +217,7 @@ io.on("connection", (socket) => {
       lobbys.forEach((lobby) => {
         lobby.users.forEach((user) => {
           if(user.id === socket.user.id) {
+            console.log(user.username, 'lost connection')
             user.connected = false
             io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
           }

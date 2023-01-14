@@ -42,10 +42,6 @@ import { BACKGROUND_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_CANVAS_ID, PL
 import { editGameModel } from './gameModelActions';
 import store from '..';
 
-setInterval(() => {
-  window.isFullscreen = !window.screenTop && !window.screenY
-}, 3000)
-
 let pingInterval;
 
 export function onSpriteEditorUndo() {
@@ -308,18 +304,18 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
     const options = attachTokenToHeaders(getState);
     const response = await axios.post(`/api/lobbys/join/${lobbyId}`, { userId }, options);
 
-    let isFocused = true
-    window.onfocus = () => {
+    let isFocused = false
+    window.addEventListener('focus', () => {
       isFocused = true
-    }
-    window.onblur = () => {
+    })
+    window.addEventListener('blur', () => {
       isFocused = false
-    }
+    })
     
     pingInterval = window.setInterval(async () => {
       const pingDelta = await ping(window.location.origin)
       window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
-        pingDelta, isFocused, isFullscreen: window.isFullscreen,
+        pingDelta, isFocused, isFullscreen: document.fullscreenElement,
       }, userId, lobbyId })
     }, 3000);
 

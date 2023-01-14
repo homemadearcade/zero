@@ -45,12 +45,14 @@ export const checkIfIncognito = (callback) => {
   }
 }
 
-export const requestFullscreen = (element = document.body) => (dispatch, getState) => {
+export const requestFullscreen = (element = document.body) => {
   var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
 
   if (requestMethod) { // Native full screen.
-      requestMethod.call(element);
+    // may only be initiated by a user guesture
+    requestMethod.call(element);
   }
+
 }
 
 export function stopPropagation(event) {

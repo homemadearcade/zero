@@ -189,7 +189,6 @@ export const handleCobrowsingUpdates = store => next => action => {
       return null
     }
 
-
     const result = next(action)
     // UPDATE SUBSCRIBERS
     store.dispatch(
