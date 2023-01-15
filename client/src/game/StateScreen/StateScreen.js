@@ -38,7 +38,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
           </div>
           <div className="StateScreen__controls">
             <Typography component="h5" variant="h5">Controls</Typography>
-            <ControlsCard showInteract projectileClass={hero.projectile.class} controlScheme={hero.movement.controls} jumpStyle={hero.jump.style}></ControlsCard>
+            <ControlsCard showInteract objectClass={hero} projectileClass={hero.projectile.class} controlScheme={hero.movement.controls} jumpStyle={hero.jump.style}></ControlsCard>
           </div>
         </div></Fade>
       </Constellation>

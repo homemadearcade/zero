@@ -14,6 +14,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
 import GridToggle from '../GridToggle/GridToggle';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
+import askFullscreen from '../../hoc/askFullscreen';
 
 const CobrowsingGame = ({ lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isCurrentlyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   
@@ -51,6 +52,7 @@ const mapStateToProps = (state) => {
 export default compose(
   withGame,
   withCobrowsing,
+  askFullscreen,
   connect(mapStateToProps, { }),
 )(CobrowsingGame);
 

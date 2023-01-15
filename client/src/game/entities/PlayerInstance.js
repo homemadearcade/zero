@@ -68,7 +68,8 @@ export class PlayerInstance extends ObjectInstance {
   update(time, delta) {  
     super.update()
 
-    if(this.scene.isPaused) return
+    // paused type?
+    // if(this.scene.isPaused) return
 
     const classId = this.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]

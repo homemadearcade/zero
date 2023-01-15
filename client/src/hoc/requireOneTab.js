@@ -21,7 +21,6 @@ export default (ChildComponent) => {
           alert('Homemade Arcade is open in another tab. Please check all tabs you have open. This tab will now shutdown')
           window.stop()
         } else {
-          console.log('???')
           this.setState({
             isCheckingBrowser: false
           })

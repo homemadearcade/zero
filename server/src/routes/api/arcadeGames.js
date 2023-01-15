@@ -43,7 +43,11 @@ router.post('/character', requireJwtAuth, requireSocketAuth, async (req, res) =>
 
   try {
     const updatedUser = {};
-    updatedUser.unlockableInterfaceIds = req.body.unlockableInterfaceIds
+    if(req.body.merge) {
+      updatedUser.unlockableInterfaceIds = {...req.body.unlockableInterfaceIds, ...tempUser.unlockableInterfaceIds }
+    } else {
+      updatedUser.unlockableInterfaceIds = req.body.unlockableInterfaceIds
+    }
 
     const user = await User.findByIdAndUpdate(req.body.userId, { $set: updatedUser }, { new: true });
 

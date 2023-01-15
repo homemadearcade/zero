@@ -280,6 +280,7 @@ const LobbySetupFlow = ({
           onClickNext: () => {
             updateArcadeGameCharacter({
               userId: lobby.participantId,
+              merge: true,
               unlockableInterfaceIds: {
                 addColor: true
               }

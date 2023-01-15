@@ -11,7 +11,8 @@ const ControlsCard = ({
   controlScheme,
   jumpStyle,
   projectileClass,
-  showInteract
+  showInteract,
+  objectClass
 }) => {
   const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpStyle] }
 
@@ -20,7 +21,7 @@ const ControlsCard = ({
   function renderKey({keyName, action}) {
     return <div className="ControlsCard__key" key={keyName}>
       <KeyIndicator className="ControlsCard__key-indicator" keyName={keyName}></KeyIndicator>
-      {action}
+      {action instanceof Function ? action(objectClass) : action}
     </div>
   }
 
@@ -50,7 +51,7 @@ const ControlsCard = ({
   if(keys.right) {
     list.push(renderKey({keyName: 'right', action: keys.right}))
   }
-  if(keys.down) {
+  if(keys.down instanceof Function ? keys.down(objectClass) : keys.down) {
     list.push(renderKey({keyName: 'down', action: keys.down}))
   }
 

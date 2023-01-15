@@ -5,7 +5,6 @@ TODO TIME PERMITTING BACKLOG
 IDEAS
 
 Jump Only boolean ( allows controlling during jumps only )
-Allow changing the rotation speed for Vehicle/Direction
 
 ---
 
@@ -42,6 +41,8 @@ TODO FEATURES BACKLOG
 Spray Can, Paintbrush, Crayon?
 
 For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
+
+If you interact with a zone and want to spawn, have it spawn in that same zone instance 
 
 --------------------------------------------------------------------------------------
 

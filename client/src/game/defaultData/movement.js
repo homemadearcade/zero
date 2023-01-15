@@ -195,6 +195,9 @@ export const advancedDirectionalDefaults = {
     dragX: 0,
     dragY: 0,
   },
+  jump: {
+    style: JUMP_GROUND
+  },
 }
 
 export const carDefaults = {
@@ -214,7 +217,13 @@ export const movementControlsToKeys = {
     up: 'Thrust Forward',
     left: 'Rotate Left',
     right: 'Rotate Right',
-    down: null
+    down: function(objectClass) {
+      if(!objectClass.movement.disableDownKey) {
+        return 'Thrust Backwards'
+      } else {
+        return null
+      }
+    },
   },
   [DIRECTIONAL_CONTROLS]: {
     up: 'Move Up',

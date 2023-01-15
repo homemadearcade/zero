@@ -246,7 +246,7 @@ const User = ({
         )}
       </div>
       <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
-      <UnlockableInterfaceTree userId={user.id} unlockableInterfaceIds={user.unlockableInterfaceIds}></UnlockableInterfaceTree>
+      {user.id && <UnlockableInterfaceTree userId={user.id}></UnlockableInterfaceTree>}
     </Layout>
   );
 };

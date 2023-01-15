@@ -24,7 +24,7 @@ const movementPatternToLabel = {
   [MOVEMENT_TURN_RANDOMLY]: 'Turn Randomly',
   [MOVEMENT_JUMP]: 'Jumper',
   [MOVEMENT_FOLLOW_PLAYER]: 'Follow Player',
-  [MOVEMENT_NONE]: 'None'
+  [MOVEMENT_NONE]: 'Doesnt move by itself'
 }
 
 const SelectMovementPattern = ({ onChange, value, formLabel }) => {

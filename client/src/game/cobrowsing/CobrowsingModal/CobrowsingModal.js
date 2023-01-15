@@ -15,9 +15,11 @@ const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, h
     const scene = getCurrentGameScene(gameInstance)
     
     if(scene) {
+      console.log('disable key capture')
       scene.input.keyboard.manager.enabled = false
 
       return () => {
+        console.log('enable key capture')
         getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = true
       }
     }

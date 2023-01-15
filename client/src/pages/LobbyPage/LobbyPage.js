@@ -20,13 +20,15 @@ import LobbyDetail from '../../lobby/LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
 import Icon from '../../ui/Icon/Icon';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import { ADMIN_ROLE, GAME_EDITOR_UI, IMPORTANT_CHOICE_UI, MONOLOGUE_UI } from '../../game/constants';
+import { ADMIN_ROLE, GAME_EDITOR_UI, IMPORTANT_CHOICE_UI, MONOLOGUE_UI, WAITING_UI } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle/UnlockableInterfaceLocksToggle';
 import AgoraUserVideo from '../../lobby/agora/AgoraUserVideo/AgoraUserVideo';
 import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
 import Button from '../../ui/Button/Button';
+import Typography from '../../ui/Typography/Typography';
+import withSpeedTest from '../../hoc/withSpeedTest';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -97,9 +99,14 @@ const LobbyPage = ({
     </>
   }
 
-  function renderExperience() {    
-    if(lobby.experienceUI === GAME_EDITOR_UI) {
+  function renderGameExperience() {   
+    if(lobby.experienceUI === WAITING_UI) {
+      return <div className="LobbyWaiting">
+        <Typography variant="h4">Your experience will start shortly...</Typography>
+      </div>
+    }
 
+    if(lobby.experienceUI === GAME_EDITOR_UI) {
       return <CobrowsingGame gameId={lobby.currentGameId} myTracks={myTracks} userTracks={userTracks}>
         <ObscuredGameView/>
       </CobrowsingGame>
@@ -167,7 +174,7 @@ const LobbyPage = ({
           <UnlockableInterfaceLocksToggle/>
           <ConstellationToggle/>
         </LobbyDrawer>}
-        {renderExperience()}
+        {renderGameExperience()}
       </Route>
     </Switch>
 };
@@ -182,5 +189,6 @@ export default compose(
   requireChrome,
   requireAuth,
   withLobby,
+  withSpeedTest,
   connect(mapStateToProps, { assignLobbyRole, editLobby }),
 )(LobbyPage);

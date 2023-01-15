@@ -41,7 +41,11 @@ function onArcadeGameCharacterUpdate({ id, data }) {
   const lobby = store.getState().lobby.lobby
   const cobrowsing = store.getState().cobrowsing
 
-  if(me.id === id || (lobby.id && !cobrowsing.isSubscribedCobrowsing)) {
+
+  const isNotCobrowsing = lobby.id && !cobrowsing.isSubscribedCobrowsing
+  // isNotCobrowsing allows the lobby admin to get the update when they arent coborwsing, but the issue is that it will trigger a cobrowsing update as well because... updateCobrowsing gets triggered below. You are doing a cobrowsing action outside of cobrowsing without the extrenal flag is on. This is needed for this action since Unlockable UI is technically a cobrowsing system and so like we need to update that thing which is normally done inside cobrowsing...etc
+
+  if(me.id === id || (isNotCobrowsing)) {
     store.dispatch({
       type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
       updateCobrowsing: true,
@@ -52,7 +56,7 @@ function onArcadeGameCharacterUpdate({ id, data }) {
   }
 }
 
-export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds}) => async (dispatch, getState) => {
+export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge}) => async (dispatch, getState) => {
   // dispatch({
   //   type: GET_SPRITESHEET_DATA_LOADING,
   // });
@@ -65,10 +69,11 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds}) => a
     const response = await axios.post('/api/arcadeGames/character', {
       lobbyId,
       userId,
-      unlockableInterfaceIds
+      unlockableInterfaceIds,
+      merge
     }, options);
 
-    console.log(response)
+    return response
 
     // dispatch({
     //   type: GET_SPRITESHEET_DATA_SUCCESS,

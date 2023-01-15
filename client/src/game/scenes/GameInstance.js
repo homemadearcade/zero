@@ -303,6 +303,9 @@ export class GameInstance extends Phaser.Scene {
   }
   
   update(time, delta) {
+    // FOR SPECIAL IS PASUED
+    // if(this.isPaused) return
+
     super.update(time, delta)
 
     const gameViewEditor = getCobrowsingState().gameViewEditor

@@ -70,7 +70,7 @@ export const effectDisplayNames = {
 export const effectEditInterface = {
   // Movement
   [EFFECT_TELEPORT]: {
-    zoneClassId: 'Teleport to what zone?'
+    zoneClassId: 'Teleport to which zone?'
   },
   [EFFECT_COLLIDE]: {
 
@@ -84,10 +84,10 @@ export const effectEditInterface = {
 
   // Lifecycle
   [EFFECT_RECLASS]: {
-    classId: 'Transform into what object?'
+    classId: 'Transform into which object?'
   },
   [EFFECT_SPAWN]: {
-    zoneClassId: 'What zone does it spawn?'
+    zoneClassId: 'In which zone does it spawn?'
   },
   [EFFECT_DESTROY]: {},
 
@@ -209,7 +209,7 @@ export const effectSuffixes = {
 
   // Lifecycle
   [EFFECT_RECLASS]: 'ClassA',
-  [EFFECT_SPAWN]: 'ClassA',
+  [EFFECT_SPAWN]: null,
   [EFFECT_DESTROY]: 'ClassA',
 
   // Narrative

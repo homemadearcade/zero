@@ -24,7 +24,7 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             editGameModel({ classes: { [classId]: { projectile: { classId: newClassId ? newClassId : null  }}}})        
          }}/>
       </Unlockable>
-      {classSelected.movement.controls && <ControlsCard projectileClass={projectileClass}></ControlsCard>}
+      {classSelected.movement.controls && <ControlsCard objectClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
       {projectileClass && <>
         <Unlockable isSlider interfaceId="projectile/cooldown">
           <SliderNotched

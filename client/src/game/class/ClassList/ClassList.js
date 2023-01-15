@@ -30,9 +30,9 @@ const ClassList = ({
     return null
   }
 
-  const objectClasses = Object.keys(classes).filter((currentClassId) => {
-    const currentClass = classes[currentClassId]
-    if(currentClass.type === OBJECT_CLASS) return true
+  const heroClasses = Object.keys(classes).filter((currentClassId) => {
+  const currentClass = classes[currentClassId]
+    if(currentClass.type === HERO_CLASS) return true
     return false
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
@@ -43,21 +43,12 @@ const ClassList = ({
 
     return el
   })
-
-  objectClasses.push(<Unlockable interfaceId={OBJECT_INSTANCE_CANVAS_ID + '/addObject'}>
-    <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateClassFlow({ 
-        type: OBJECT_CLASS,
-        movement: {
-          pattern: MOVEMENT_NONE,
-        },
-        collisionResponse: {
-          notPushable: true,
-          mass: 100,
-          bounciness: 0,
-        }
-      })
-    }}>
+  
+  heroClasses.push(<Unlockable interfaceId={HERO_INSTANCE_CANVAS_ID + '/addPlayer'}>
+    <Button size="fit" 
+      onClick={() => {
+        openCreateClassFlow({ type: HERO_CLASS, movement: { controls: DIRECTIONAL_CONTROLS } })
+      }}>
       +
     </Button>
   </Unlockable>)
@@ -93,9 +84,9 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const heroClasses = Object.keys(classes).filter((currentClassId) => {
-    const currentClass = classes[currentClassId]
-    if(currentClass.type === HERO_CLASS) return true
+  const objectClasses = Object.keys(classes).filter((currentClassId) => {
+  const currentClass = classes[currentClassId]
+    if(currentClass.type === OBJECT_CLASS) return true
     return false
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
@@ -106,12 +97,21 @@ const ClassList = ({
 
     return el
   })
-  
-  heroClasses.push(<Unlockable interfaceId={HERO_INSTANCE_CANVAS_ID + '/addPlayer'}>
-    <Button size="fit" 
-      onClick={() => {
-        openCreateClassFlow({ type: HERO_CLASS, movement: { controls: DIRECTIONAL_CONTROLS } })
-      }}>
+
+  objectClasses.push(<Unlockable interfaceId={OBJECT_INSTANCE_CANVAS_ID + '/addObject'}>
+    <Button size="fit" className="ClassList__add" onClick={() => {
+      openCreateClassFlow({ 
+        type: OBJECT_CLASS,
+        movement: {
+          pattern: MOVEMENT_NONE,
+        },
+        collisionResponse: {
+          notPushable: true,
+          mass: 100,
+          bounciness: 0,
+        }
+      })
+    }}>
       +
     </Button>
   </Unlockable>)
@@ -148,18 +148,18 @@ const ClassList = ({
 
   const accordians = []
 
-  if(!getInterfaceIdData(OBJECT_INSTANCE_CANVAS_ID + '/*').isObscured) {
+  if(!getInterfaceIdData(HERO_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
-      id: 'objects',
+      id: 'heros',
       title: <>
-        <Typography component="div" variant="subtitle1">Objects</Typography>
-        <LayerVisibility canvasId={OBJECT_INSTANCE_CANVAS_ID} />
+        <Typography component="div" variant="subtitle1">Players</Typography>
+        <LayerVisibility canvasId={HERO_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
         maxItems={18} 
         height="7vh"
         width="9.2vh"
-        items={objectClasses}
+        items={heroClasses}
       />
     })
   }
@@ -180,18 +180,18 @@ const ClassList = ({
     })
   }
 
-  if(!getInterfaceIdData(HERO_INSTANCE_CANVAS_ID + '/*').isObscured) {
+  if(!getInterfaceIdData(OBJECT_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
-      id: 'heros',
+      id: 'objects',
       title: <>
-        <Typography component="div" variant="subtitle1">Players</Typography>
-        <LayerVisibility canvasId={HERO_INSTANCE_CANVAS_ID} />
+        <Typography component="div" variant="subtitle1">Objects</Typography>
+        <LayerVisibility canvasId={OBJECT_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
         maxItems={18} 
         height="7vh"
         width="9.2vh"
-        items={heroClasses}
+        items={objectClasses}
       />
     })
   }

@@ -1,7 +1,7 @@
 import { 
   TOGGLE_CANVAS_VISIBILITY,
   CLEAR_GAME_VIEW_EDITOR,
-  TOGGLE_GAME_INSTANCE_PAUSED,
+  // TOGGLE_GAME_INSTANCE_PAUSED,
   RESET_GAME_INSTANCE,
   TOGGLE_GRID_VIEW,
   CLOSE_SNAPSHOT_TAKER,
@@ -92,12 +92,12 @@ export const toggleLayerVisibility = (canvasId) => (dispatch, getState) => {
   });
 }
 
-export const toggleGameInstancePaused = () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: TOGGLE_GAME_INSTANCE_PAUSED
-  });
-}
+// export const toggleGameInstancePaused = () => (dispatch, getState) => {
+//   dispatch({
+//     updateCobrowsing: true,
+//     type: TOGGLE_GAME_INSTANCE_PAUSED
+//   });
+// }
 
 export const resetGameInstance = () => (dispatch, getState) => {
   dispatch({
