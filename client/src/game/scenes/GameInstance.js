@@ -315,7 +315,7 @@ export class GameInstance extends Phaser.Scene {
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
     this.objectClassGroup.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
     this.npcClassGroup.setVisible(layerVisibility[NPC_INSTANCE_CANVAS_ID])
-    if(!this.playerInstance.destroyed) this.playerInstance.setVisible(layerVisibility[HERO_INSTANCE_CANVAS_ID])
+    if(!this.playerInstance.destroyed && this.playerInstance.isVisible) this.playerInstance.setVisible(layerVisibility[HERO_INSTANCE_CANVAS_ID])
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {

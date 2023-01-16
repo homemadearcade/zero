@@ -82,6 +82,7 @@ export class ObjectInstance extends Sprite {
     const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
 
     this.graphics.update()
+    this.collider.update()
 
     ////////////////////////////////////////
     ////////////////////////////////////////

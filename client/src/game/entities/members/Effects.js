@@ -13,9 +13,15 @@ export class Effects {
     this.collidingWith = []
     this.lastCollidedWithClassId = null 
     this.collidedWithClassId = null
+
+    this.isVisibilityModified = null
+    this.isIgnoreGravityModified = null
+    this.wasIgnoreGravityModified = null 
+    this.wasVisibilityModified = null
   }
 
   update() {
+
     const classId = this.objectInstance.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
     const sprite = this.objectInstance.sprite
@@ -92,11 +98,9 @@ export class Effects {
       );
     }
   }
-
-  run(effect, instanceB, sides = []) {
+  
+  runPersistentEffect(effect, instanceB, sides) {
     const sprite = this.objectInstance.sprite
-    const instanceId = this.objectInstance.id
-    const classId = this.objectInstance.classId
 
     if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
@@ -104,9 +108,6 @@ export class Effects {
       })
       return
     }
-
-    this.collidingWith.push(instanceB?.classId)
-    this.collidedWithClassId = instanceB?.classId
 
     if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
       this.isVisibilityModified = true
@@ -124,25 +125,19 @@ export class Effects {
       this.isIgnoreGravityModified = true
       this.objectInstance.setIgnoreGravity(true)
     }
+  }
 
-    if(effect.type === EFFECT_WIN_GAME) {
-      store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
-      this.scene.sendReloadGameEvent()
-    } else if(effect.type === EFFECT_GAME_OVER) {
-      store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
-      this.scene.sendReloadGameEvent()
+  run(effect, instanceB, sides = []) {
+    const sprite = this.objectInstance.sprite
+    const instanceId = this.objectInstance.id
+    const classId = this.objectInstance.classId
+
+    if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
+      this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
+        object.effects.run({...effect, effectedClassId: null}, instanceB, sides)
+      })
+      return
     }
-
-
-    const isOnEnter = this.lastCollidingWith.indexOf(instanceB?.classId) === -1
-
-
-    if(instanceB && this.lastCollidingWith.indexOf(instanceB?.classId) >= 0) return
-
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    // ONLY ONCE 
 
     if(effect.type === EFFECT_STICK_TO) {
       sprite.body.setVelocityY(0)
@@ -156,6 +151,14 @@ export class Effects {
           intensity: 400,
         }
       })
+    }
+
+    if(effect.type === EFFECT_WIN_GAME) {
+      store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
+      this.scene.sendReloadGameEvent()
+    } else if(effect.type === EFFECT_GAME_OVER) {
+      store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
+      this.scene.sendReloadGameEvent()
     }
 
     if(effect.type === EFFECT_TELEPORT) {

@@ -1,4 +1,4 @@
-import { ARCADE_PHYSICS, EFFECT_COLLIDE, HERO_CLASS, HERO_INSTANCE_ID, MATTER_PHYSICS, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../constants";
+import { ARCADE_PHYSICS, EFFECT_COLLIDE, EFFECT_STICK_TO, HERO_CLASS, HERO_INSTANCE_ID, MATTER_PHYSICS, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {
@@ -7,6 +7,10 @@ export class Collider {
     this.sensor = sensor
     this.unregisters = []
     this.scene = scene
+
+    this.collidingWith = []
+    this.lastCollidingWith = null
+    // this.onCollideEndRelations = {}
   }
 
   register(relations) {
@@ -18,9 +22,42 @@ export class Collider {
     } 
   }
 
+  update() {
+    // if(this.lastCollidingWith) {
+    //   this.lastCollidingWith.forEach((classId) => {
+    //     if(this.collidingWith.indexOf(classId) === -1) {
+    //       const relevantRelations = this.onCollideEndRelations[classId]
+    //       if(relevantRelations) {
+                // I stopped here cuz the issue is I need.. to keep track of instance ids which makes these arrays WAY longer, so really I need to flag which instance ids to keep track of...
+    //       }
+    //     }
+    //   })
+    // }
+
+    this.lastCollidingWith = this.collidingWith
+    this.collidingWith = []
+  }
+
+  testForEffect(event, effect, instanceB, sides) {
+    const isOnEnter = this.lastCollidingWith?.indexOf(instanceB?.classId) === -1 && this.collidingWith?.indexOf(instanceB?.classId) === -1
+
+    const alreadyCollidingWith = this.collidingWith.indexOf(instanceB?.classId) >= 0
+    if(!alreadyCollidingWith) {
+      this.collidingWith.push(instanceB?.classId)
+    }
+
+    if(event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE) {
+      this.objectInstance.effects.runPersistentEffect(effect, instanceB, sides)
+    }
+    
+    if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
+      this.objectInstance.runEffect(effect, instanceB, sides)
+    }
+  }
+
   registerArcade(relations) {
     relations.forEach(({event, effect, sides}) => {
-      if(event.type === ON_COLLIDE) {
+      if(event.type === ON_COLLIDE || event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_START) {
         const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
         if(event.classIdB === HERO_INSTANCE_ID) {
           releventInstances.push(this.scene.playerInstance.sprite)
@@ -38,8 +75,8 @@ export class Collider {
             this.scene.physics.add.overlap(this.sensor.sprite, releventInstances, (a, b) => {
               if(sides.length) {
                 if(areBSidesHit(sides, a, b)) this.objectInstance.runEffect(effect, b, sides)
-              } else {
-                this.objectInstance.runEffect(effect, b, sides)
+              } else  {
+                this.testForEffect(event, effect, b, sides)
               }
             })
           )
@@ -104,6 +141,7 @@ export class Collider {
       this.unregisters.forEach((fx) =>  {
         this.scene.physics.world.removeCollider(fx)
       })
+      // this.onCollideEndRelations = {}
     } 
 
     if(this.scene.physicsType === MATTER_PHYSICS) {

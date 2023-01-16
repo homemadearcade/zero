@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
+import { EFFECT_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
 
 const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType }) => {
@@ -23,7 +23,7 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
     const relation = gameModel.relations[relationId]
     return relation
   }).filter(({event, effect}) => {
-    if(event.type === ON_COLLIDE && effect.type === EFFECT_COLLIDE) return true
+    if((event.type === ON_COLLIDE || event.type === ON_COLLIDE_ACTIVE) && effect.type === EFFECT_COLLIDE) return true
     else return false
   }).map((relation) => {
     return getOppositeRelationClassId(classId, relation)

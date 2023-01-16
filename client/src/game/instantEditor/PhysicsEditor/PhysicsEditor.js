@@ -9,7 +9,7 @@ import { FormLabel } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { EFFECT_COLLIDE, ON_COLLIDE } from '../../constants';
+import { EFFECT_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
@@ -74,7 +74,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
             const oldColliderRelations = Object.keys(gameModel.relations).map((relationId) => {
               return gameModel.relations[relationId]
             }).filter((relation) => {
-              if(relation.event.type === ON_COLLIDE &&
+              if((relation.event.type === ON_COLLIDE || relation.event.type === ON_COLLIDE_ACTIVE) &&
                  relation.effect.type === EFFECT_COLLIDE &&
                  (relation.event.classIdA === classId || relation.event.classIdB === classId)
                 ) {
@@ -99,7 +99,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
                 relations[newId] = {
                   relationId: newId,
                   event: {
-                    type: ON_COLLIDE,
+                    type: ON_COLLIDE_ACTIVE,
                     classIdA: classId,
                     classIdB,
                   },

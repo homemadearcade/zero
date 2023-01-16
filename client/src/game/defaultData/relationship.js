@@ -15,6 +15,8 @@ export const defaultRelationship = {
     cutsceneId: null,
     text: ''
   },
+  onlyTriggersOnce: true,
+  intervalBetweenTriggers: null,
   relationId: null,
   sides: []
 }
@@ -29,13 +31,13 @@ export const effectedTypesDisplayNames = {
 
 export const eventDisplayNames = {
   [ON_COLLIDE_START]: 'start touching',
-  [ON_COLLIDE_END]: 'stop touching',
+  // [ON_COLLIDE_END]: 'stop touching',
   [ON_COLLIDE]: 'overlapping',
-  [ON_COLLIDE_ACTIVE]: 'overlapping',
+  [ON_COLLIDE_ACTIVE]: 'is touching',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
-  // [ON_SPAWN]: 'spawned',
+  [ON_SPAWN]: 'spawned',
   [ON_DESTROY_ONE]: 'destroyed',
   [ON_DESTROY_ALL]: 'destroyed',
   [ON_INTERACT]: 'interacts with',
@@ -112,8 +114,8 @@ export const effectEditInterface = {
   [EFFECT_INVISIBLE]: {}
 }
 
-
-export const collideOnlyEffects  = {
+// EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_CUTSCENE
+export const collideActiveEffects  = {
   // Movement
   [EFFECT_TELEPORT]: false,
   [EFFECT_COLLIDE]: true,
@@ -248,7 +250,7 @@ export const singleClassEvents = {
   [ON_COLLIDE]: false,
   [ON_COLLIDE_ACTIVE]: false,
   [ON_COLLIDE_START]: false,
-  [ON_COLLIDE_END]: false,
+  // [ON_COLLIDE_END]: false,
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
@@ -262,7 +264,7 @@ export const eventPrefix = {
   [ON_COLLIDE]: 'Class A And Class B',
   [ON_COLLIDE_ACTIVE]: 'Class A And Class B',
   [ON_COLLIDE_START]: 'Class A And Class B',
-  [ON_COLLIDE_END]: 'Class A And Class B',
+  // [ON_COLLIDE_END]: 'Class A And Class B',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
