@@ -75,7 +75,7 @@ export class InteractArea extends Sprite {
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesB, (a, b) => {
             if(this.paused) return
-            if(this.objectInstance.effects.timeToTriggerAgain[relation.id] > Date.now()) return
+            if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
             this.interactables.push({entitySprite: b, relation: { ...relation, effect: {...effect, effectInteractable: false}}})
           })
         )
@@ -85,7 +85,7 @@ export class InteractArea extends Sprite {
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesA, (a, b) => {
             if(this.paused) return
-            if(this.objectInstance.effects.timeToTriggerAgain[relation.id] > Date.now()) return
+            if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
             this.interactables.push({entitySprite: b, relation: { ...relation, effect: {...effect, effectInteractable: true}}})
           })
         )

@@ -33,7 +33,7 @@ export const effectedTypesDisplayNames = {
 export const eventDisplayNames = {
   [ON_COLLIDE_START]: 'start touching',
   // [ON_COLLIDE_END]: 'stop touching',
-  [ON_COLLIDE_ACTIVE]: 'are touching',
+  [ON_COLLIDE_ACTIVE]: 'sustain touch',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',

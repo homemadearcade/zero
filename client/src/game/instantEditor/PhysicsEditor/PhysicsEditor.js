@@ -77,7 +77,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
               if((relation.event.type === ON_COLLIDE_ACTIVE) &&
                  relation.effect.type === EFFECT_COLLIDE &&
                  (relation.event.classIdA === classId || relation.event.classIdB === classId)
-                ) {
+              ) {
                 return true
               }
               return false
@@ -121,8 +121,6 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
                 relations[relation.relationId] = null
               })
             }
-
-            console.log(relations)
 
             editGameModel({ relations })        
          }}/>

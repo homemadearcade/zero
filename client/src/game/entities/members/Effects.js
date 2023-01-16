@@ -131,17 +131,17 @@ export class Effects {
       return
     }
 
-    if(this.timeToTriggerAgain[relation.id]) {
-      if(this.timeToTriggerAgain[relation.id] > Date.now()) {
+    if(this.timeToTriggerAgain[relation.relationId]) {
+      if(this.timeToTriggerAgain[relation.relationId] > Date.now()) {
         return
       }
     } 
 
     if(relation.onlyOnce) {
-      this.timeToTriggerAgain[relation.id] = Date.now() + 10000000000000
+      this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
     } else {
       if(relation.delayInterval) {
-        this.timeToTriggerAgain[relation.id] = Date.now() + relation.delayInterval
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.delayInterval
       }
     }
 
