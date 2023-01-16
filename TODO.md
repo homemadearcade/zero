@@ -17,6 +17,7 @@ UI
   When trying to name a class, spacebar doesnt work
     Shift + Press it works fine
   When a class is highlighted, you should be able to see all of them highlighted on the map?
+  Disable UI for ClassB, Event, Effect after these are chosen
 
 AUTH
   Forgot Password - email Flow
@@ -36,9 +37,6 @@ GAME
   Effect to switch games
   Go to ticketing page with Effect
   Allow changing the rotation speed for Vehicle/Direction
-
-RELATIONS
-  Delay interval and onlyOnce option in effects ( perhaps create an 'advacned menu' for all the extra shit)
 
 COLLISIONS
   Add Player Instance to Colliders menu

@@ -157,9 +157,6 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     return forms
   }
 
-  console.log(classB, !relation.onlyOnce, effectEditInterface[relation.effect.type]?.delayInterval)
-  console.log(relation)
-
   const advancedOptions = [
     classB && relation.effect.type && !nonRemoteEffects[relation.effect.type] && <Unlockable interfaceId="relation/advanced/effected">
       <SelectClass 
@@ -199,7 +196,8 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">
       <ClassMemberTitle classId={relation.event.classIdA} title="Relation"/>
-        <SelectClass 
+        <SelectClass
+          disabled={relation.event.classIdB}
           includePlayerInstance
           formLabel="With what objects?"
           value={relation.event.classIdB ? [relation.event.classIdB] : []}
@@ -211,6 +209,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           classIdA={relation.event.classIdA}
           classIdB={relation.event.classIdB}
           formLabel="When?"
+          disabled={relation.event.type}
           value={relation.event.type ? [relation.event.type] : []}
           onChange={(event, events) => {
             const newEvent = events[events.length-1]
@@ -219,6 +218,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         <SelectRelationEffect
           effect={relation.effect}
           event={relation.event}
+          disabled={relation.effect.type}
           classIdA={relation.effect.effectedClassId || relation.event.classIdA}
           classIdB={relation.event.classIdB}
           formLabel={`What is the effect?`}

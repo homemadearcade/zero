@@ -209,6 +209,10 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
     value: inheritedValue,
     multiple: true,
     options,
+    // disabled: !!disabled,
+    // disableClearable: !!disabled,
+    // disableListWrap: !!disabled,
+    // disabledItemsFocusable: !!disabled,
     getOptionLabel: (option) => option.label,
     onChange: (event, selected) => {
       document.activeElement.blur();
@@ -230,7 +234,7 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
     <Root>
       <div {...getRootProps()}>
         {formLabel && <FormLabel {...getInputLabelProps()}>{formLabel}</FormLabel>}
-        <InputWrapper disabled={disabled} ref={setAnchorEl} className={focused ? 'focused' : ''}>
+        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {inheritedValue.map((option, index) => {
             return <StyledTag label={<>
                 {renderSprite(option)}

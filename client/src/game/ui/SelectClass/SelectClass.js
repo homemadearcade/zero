@@ -6,7 +6,7 @@ import './SelectClass.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { HERO_CLASS, HERO_INSTANCE_ID } from '../../constants';
 
-const SelectClass = ({ onChange, value, formLabel, gameModel, classType, includePlayerInstance }) => {
+const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classType, includePlayerInstance }) => {
 
   const mapClassToOption = (classId) => {
     const objectClass = gameModel.classes[classId]
@@ -34,6 +34,7 @@ const SelectClass = ({ onChange, value, formLabel, gameModel, classType, include
   }
 
   return <SelectChipsAuto 
+    disabled={disabled}
     onChange={(event, descriptors) => {
       onChange(event,  descriptors)
     }}
