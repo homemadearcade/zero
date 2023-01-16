@@ -3,8 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { getTextureMetadata } from '../../utils/utils';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, HERO_CLASS } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -147,25 +146,25 @@ export class GameInstance extends Phaser.Scene {
   // }
 
   //Sine.easeInOut
-  zoomAndPanTo(camera, zoomLevel, x, y, duration, easing = "Linear") {
-    camera.pan(
-      x,
-      y,
-      duration,
-      easing,
-      true,
-      (camera, progress) => {
-        // if (spriteToFollow) {
-        //   camera.panEffect.destination.x = spriteToFollow.x;
-        //   camera.panEffect.destination.y = spriteToFollow.y;
-        // } 
-        // if (progress === 1 && whenFinished) {
-        //   whenFinished();
-        // }
-      }
-    );
-    camera.zoomTo(zoomLevel, duration, easing);
-  }
+  // zoomAndPanTo(camera, zoomLevel, x, y, duration, easing = "Linear") {
+  //   camera.pan(
+  //     x,
+  //     y,
+  //     duration,
+  //     easing,
+  //     true,
+  //     (camera, progress) => {
+  //       // if (spriteToFollow) {
+  //       //   camera.panEffect.destination.x = spriteToFollow.x;
+  //       //   camera.panEffect.destination.y = spriteToFollow.y;
+  //       // } 
+  //       // if (progress === 1 && whenFinished) {
+  //       //   whenFinished();
+  //       // }
+  //     }
+  //   );
+  //   camera.zoomTo(zoomLevel, duration, easing);
+  // }
 
   getLayerById(canvasId) {
     if(canvasId === BACKGROUND_CANVAS_ID) {
@@ -315,7 +314,7 @@ export class GameInstance extends Phaser.Scene {
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
     this.objectClassGroup.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
-    this.npcClassGroup.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
+    this.npcClassGroup.setVisible(layerVisibility[NPC_INSTANCE_CANVAS_ID])
     if(!this.playerInstance.destroyed) this.playerInstance.setVisible(layerVisibility[HERO_INSTANCE_CANVAS_ID])
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
@@ -351,4 +350,37 @@ export class GameInstance extends Phaser.Scene {
       this.physics.resume()
     }  
   }
+
+  addSpriteToTypeLayer(classId, sprite, modifier) {
+    const gameModel = store.getState().gameModel.gameModel
+    const objectClass = gameModel.classes[classId]
+
+    if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === HERO_CLASS) {
+      const layerToDepth = {
+        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
+        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,
+        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH
+      }
+
+      if(modifier !== undefined) {
+        sprite.setDepth(layerToDepth[objectClass.graphics.layerId] + modifier)
+      } else {
+        sprite.setDepth(layerToDepth[objectClass.graphics.layerId])
+      }
+    } else if(objectClass.type === ZONE_CLASS) {
+      this.zoneInstanceLayer.add(sprite)
+    }
+  }
+
+  addSpriteToTypeGroup(classId, sprite) {
+    const gameModel = store.getState().gameModel.gameModel
+    const objectClass = gameModel.classes[classId]
+
+    if(objectClass.type === OBJECT_CLASS) {
+      this.objectClassGroup.add(sprite)
+    } else if(objectClass.type === NPC_CLASS) {
+      this.npcClassGroup.add(sprite)
+    }
+  }
+
 }

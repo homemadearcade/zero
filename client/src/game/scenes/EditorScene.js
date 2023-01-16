@@ -48,8 +48,6 @@ export class EditorScene extends GameInstance {
     this.draggingObjectInstanceId = objectInstanceId
     this.isDragFromContext = true
     document.body.style.cursor = 'grab'
-
-    
   }
 
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
@@ -258,6 +256,11 @@ export class EditorScene extends GameInstance {
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
     entitySprite[0].editorHighlight.setVisible(true)
+    const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
+    if(isObscured) {
+      return
+    }
+    document.body.style.cursor = 'grab'
   }
 
   onPointerDownOutside = (pointer) => {
@@ -424,6 +427,11 @@ export class EditorScene extends GameInstance {
 
   onPointerOut = (pointer, entitySprite) => {
     entitySprite[0].editorHighlight.setVisible(false)
+    const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
+    if(isObscured) {
+      return
+    }
+    document.body.style.cursor = null
   }
 
   onPointerUpOutside = (pointer)  => {

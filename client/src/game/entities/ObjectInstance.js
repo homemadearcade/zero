@@ -69,38 +69,6 @@ export class ObjectInstance extends Sprite {
     return this
   }
 
-  addToTypeLayer(sprite, modifier) {
-    const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.classId]
-
-    if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === HERO_CLASS) {
-      const layerToDepth = {
-        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
-        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,
-        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH
-      }
-
-      if(modifier !== undefined) {
-        this.setDepth(layerToDepth[objectClass.graphics.layerId] + modifier)
-      } else {
-        this.setDepth(layerToDepth[objectClass.graphics.layerId])
-      }
-    } else if(objectClass.type === ZONE_CLASS) {
-      this.scene.zoneInstanceLayer.add(sprite)
-    }
-  }
-
-  addToTypeGroup(sprite) {
-    const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.classId]
-
-    if(objectClass.type === OBJECT_CLASS) {
-      this.scene.objectClassGroup.add(sprite)
-    } else if(objectClass.type === NPC_CLASS) {
-      this.scene.npcClassGroup.add(sprite)
-    }
-  }
-
   runEffect(effect, instanceB, sides = []) {
     this.effects.run(effect, instanceB, sides)
   }

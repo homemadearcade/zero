@@ -119,7 +119,6 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
     return forms
   }
-  
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">

@@ -8,7 +8,7 @@ import { closeRelationsMenu, openCreateRelation, openWorldRelation } from '../..
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
-import { getEffectLabel, getEventLabel } from '../../defaultData/relationship';
+import { getEffectLabel, getEventLabel, getEventPreviewLabel } from '../../defaultData/relationship';
 import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
 import { EFFECT_COLLIDE, HERO_INSTANCE_ID } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
@@ -42,7 +42,6 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
       </Unlockable>
       {relations.map((relation) => {
         const { event, effect: { type, effectedClassId }} = relation
-        console.log(relation)
 
         // if the class dont exist, its the hero class ( as of now thats the only generalized one)
         let effectedClass = gameModel.classes[effectedClassId];
@@ -54,7 +53,7 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
         if(type === EFFECT_COLLIDE) return null
 
         return <div key={relation.relationId} className="RelationsMenu__relation">
-          <ClassMemberTitle classId={event.classIdA} title={getEffectLabel(type, (effectedClass || classA), classB) + getEventLabel(event.type, classA, classB)}/>
+          <ClassMemberTitle classId={event.classIdB} title={getEffectLabel(type, (effectedClass || classA), classB) + getEventPreviewLabel(event.type, classA, classB)}/>
           <Button onClick={() => {
             openCreateRelation(relation)
           }}>Edit</Button>
@@ -66,7 +65,7 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
             classIdA: classIdRelationsMenu
           } 
         })
-      }}>Add Relation</Button>
+      }}>Add Relationship</Button>
     </div>
   </CobrowsingModal>
 }

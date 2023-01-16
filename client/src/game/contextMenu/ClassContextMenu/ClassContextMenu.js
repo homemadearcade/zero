@@ -54,6 +54,12 @@ const ClassContextMenu = ({
           }}>Set as Player</MenuItem>
       </Unlockable>
     }
+    <Unlockable interfaceId="contextMenu/class/name">
+      <MenuItem onClick={() => {
+        openClassNameModal(classId)
+        onMenuItemClick()
+      }}>Edit Name</MenuItem>
+    </Unlockable>
     <Unlockable interfaceId="contextMenu/class/graphics">
       <MenuItem onClick={() => {
         openCreateClassFlow(objectClass)

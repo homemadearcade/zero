@@ -9,6 +9,10 @@ export class Effects {
   constructor(scene, objectInstance){
     this.objectInstance = objectInstance
     this.scene = scene
+
+    this.collidingWith = []
+    this.lastCollidedWithClassId = null 
+    this.collidedWithClassId = null
   }
 
   update() {
@@ -48,16 +52,18 @@ export class Effects {
     }
 
     this.lastCollidedWithClassId = this.collidedWithClassId
+    this.lastCollidingWith = this.collidingWith
 
     if(sprite.body.touching.none && sprite.body.blocked.none) {
       this.collidedWithClassId = null
     }
+
+    this.collidingWith = []
   }
 
   unregister() {
     const sprite = this.objectInstance.sprite
     sprite.lockedTo = null
-
   }
 
   fallenOff(player, platform, sides) {
@@ -99,6 +105,7 @@ export class Effects {
       return
     }
 
+    this.collidingWith.push(instanceB?.classId)
     this.collidedWithClassId = instanceB?.classId
 
     if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
@@ -126,7 +133,11 @@ export class Effects {
       this.scene.sendReloadGameEvent()
     }
 
-    if(instanceB && this.lastCollidedWithClassId === instanceB.classId) return
+
+    const isOnEnter = this.lastCollidingWith.indexOf(instanceB?.classId) === -1
+
+
+    if(instanceB && this.lastCollidingWith.indexOf(instanceB?.classId) >= 0) return
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

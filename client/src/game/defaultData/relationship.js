@@ -1,4 +1,4 @@
-import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_SPAWN } from "../constants"
+import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_SPAWN } from "../constants"
 
 export const defaultRelationship = {
   event: {
@@ -28,14 +28,17 @@ export const effectedTypesDisplayNames = {
 
 
 export const eventDisplayNames = {
-  [ON_COLLIDE]: 'overlap',
+  [ON_COLLIDE_START]: 'start touching',
+  [ON_COLLIDE_END]: 'stop touching',
+  [ON_COLLIDE]: 'overlapping',
+  [ON_COLLIDE_ACTIVE]: 'overlapping',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
   // [ON_SPAWN]: 'spawned',
   [ON_DESTROY_ONE]: 'destroyed',
   [ON_DESTROY_ALL]: 'destroyed',
-  [ON_INTERACT]: 'interacted with',
+  [ON_INTERACT]: 'interacts with',
 
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
@@ -243,6 +246,9 @@ export function getEffectLabel(effect, classA, classB) {
 //// EVENT
 export const singleClassEvents = {
   [ON_COLLIDE]: false,
+  [ON_COLLIDE_ACTIVE]: false,
+  [ON_COLLIDE_START]: false,
+  [ON_COLLIDE_END]: false,
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
@@ -254,6 +260,9 @@ export const singleClassEvents = {
 
 export const eventPrefix = {
   [ON_COLLIDE]: 'Class A And Class B',
+  [ON_COLLIDE_ACTIVE]: 'Class A And Class B',
+  [ON_COLLIDE_START]: 'Class A And Class B',
+  [ON_COLLIDE_END]: 'Class A And Class B',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
@@ -276,6 +285,23 @@ function getEventPrefix(event, classA, classB) {
     return classB.name + ' are all '
   }
   return ''
+}
+
+function getEventPreviewPrefix(event, classA, classB) {  
+  if(eventPrefix[event] === 'Class A And Class B' && classB && classA) {
+    return ''
+  } else if(eventPrefix[event] === 'ClassA' && classA) {
+    return classA.name + ' is'
+  } else if(eventPrefix[event] === 'ClassB' && classB) {
+    return ''
+  } else if(eventPrefix[event] === 'All ClassBs' && classB) {
+    return 'are all '
+  }
+  return ''
+}
+
+export function getEventPreviewLabel(event, classA, classB) {
+  return 'when ' + getEventPreviewPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
 }
 
 export function getEventLabel(event, classA, classB) {

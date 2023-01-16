@@ -109,6 +109,7 @@ window.addEventListener('mouseup', (event) => {
 
 function onEditorClick(event) {
   window.didClick = true
+  console.log('xxx')
   sendCobrowsingStatus(event)
 }
 
@@ -201,7 +202,6 @@ export const handleCobrowsingUpdates = store => next => action => {
   return next(action)
 }
 
-
 export const publishCobrowsing = () => (dispatch, getState) => {
   try {
     const state = getState()
@@ -211,6 +211,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     // this event will send admins your mouse state to let them know you can be browsed
     window.addEventListener('mousemove', sendCobrowsingStatus)
     window.addEventListener('keyup', onCobrowsingKeyUp)
+    window.addEventListener('mousedown', onEditorClick) 
     window.addEventListener('wheel', sendCobrowsingStatus);
 
     dispatch({
@@ -261,6 +262,7 @@ export const unpublishCobrowsing = () => (dispatch, getState) => {
     window.removeEventListener('mousemove', sendCobrowsingStatus);
     window.removeEventListener('keyup', onCobrowsingKeyUp)
     window.removeEventListener('wheel', sendCobrowsingStatus);
+    window.removeEventListener('mousedown', onEditorClick) 
 
     window.socket.off(ON_COBROWSING_SUBSCRIBED);
     window.socket.off(ON_COBROWSING_REMOTE_DISPATCH)
@@ -314,7 +316,6 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
     const response = await axios.post('/api/cobrowsing/' + userId, {}, options);
 
     window.addEventListener('keyup', onEditorKeyUp)
-    window.addEventListener('mousedown', onEditorClick) 
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_UPDATE, ({userId, remoteState}) => {

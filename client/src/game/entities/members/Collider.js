@@ -25,6 +25,7 @@ export class Collider {
         if(event.classIdB === HERO_INSTANCE_ID) {
           releventInstances.push(this.scene.playerInstance.sprite)
         }
+
         if(effect.type === EFFECT_COLLIDE) {
           this.unregisters.push(
             this.scene.physics.add.collider(this.sensor.sprite, releventInstances, (instanceA, instanceB) => {

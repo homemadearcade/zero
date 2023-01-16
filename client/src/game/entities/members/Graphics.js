@@ -14,8 +14,8 @@ export class Graphics {
     objectInstance.setVisible(!objectClass.graphics.invisible)
     sprite.setDisplaySize(objectClass.graphics.width, objectClass.graphics.height)
     this.setSize(objectClass.graphics.width, objectClass.graphics.height)
-    objectInstance.addToTypeLayer(sprite)
-    objectInstance.addToTypeGroup(sprite)
+    scene.addSpriteToTypeLayer(objectInstance.classId, sprite)
+    scene.addSpriteToTypeGroup(objectInstance.classId, sprite)
 
     if(objectClass.graphics.glowing) {
       var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(sprite);
@@ -41,7 +41,7 @@ export class Graphics {
       sprite.editorHighlight.setTintFill(0xffffff)
       .setDisplaySize(this.objectInstance.width + 10, this.objectInstance.height + 10)
       .setVisible(false)
-      objectInstance.addToTypeLayer(sprite.editorHighlight, -1)
+      scene.addSpriteToTypeLayer(objectInstance.classId, sprite.editorHighlight, -1)
     }
     if(objectClass.graphics.invisible && this.scene.isEditor) {
       objectInstance.setVisible(true) 
@@ -102,7 +102,7 @@ export class Graphics {
     sprite.invisibleIndicator.lineStyle(4, colorInt, 1);
     sprite.invisibleIndicator.setAlpha(0.5)
     sprite.invisibleIndicator.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    this.objectInstance.addToTypeLayer(sprite.invisibleIndicator)
+    this.scene.addSpriteToTypeLayer(this.objectInstance.classId, sprite.invisibleIndicator)
   }
 
   update() {

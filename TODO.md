@@ -16,13 +16,7 @@ UI
   UI COLOR needs and ...If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
   When trying to name a class, spacebar doesnt work
     Shift + Press it works fine
-
   When a class is highlighted, you should be able to see of them on the map?
-
-CONTEXT MENU
-  Edit Name Option in the context menu list as well
-  Select Class ( duplicate ) from Instance Context Menu 
-  Resize -> Reisze all
 
 AUTH
   Forgot Password - email Flow
@@ -43,9 +37,7 @@ GAME
   Go to ticketing page with Effect
   Allow changing the rotation speed for Vehicle/Direction
 
-
 RELATIONS
-  We can remove Class A from the relationship description? Put class B in the Right hand Icon. Remove both classes from the text
   Delay interval and onlyOnce option in effects ( perhaps create an 'advacned menu' for all the extra shit)
   Add Player Instance to Colliders menu
 

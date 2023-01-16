@@ -8,9 +8,9 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { HERO_INSTANCE_ID } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-import { openClassNameModal } from '../../../store/actions/gameEditorActions';
+import { openClassNameModal, selectClass } from '../../../store/actions/gameEditorActions';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal, selectClass }) => {
   return <>
     <ContextMenuTitle onClick={() => {
       openClassNameModal(classId)
@@ -19,15 +19,20 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
     <Unlockable interfaceId="contextMenu/instance/move">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(objectId)
-        console.log(getCurrentGameScene(gameInstance).onDragStartContextMenu)
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>
+    {objectId !== HERO_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/move">
+      <MenuItem onClick={() => {
+        selectClass(classId)
+        onMenuItemClick()
+      }}>Copy</MenuItem>
+    </Unlockable>}
     <Unlockable interfaceId="contextMenu/instance/resize">
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(objectId)
         onMenuItemClick()
-      }}>Resize</MenuItem>
+      }}>Resize{objectId === HERO_INSTANCE_ID ? '' : ' All'}</MenuItem>
     </Unlockable>
     {objectId !== HERO_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/delete">
       <MenuItem onClick={() => {
@@ -44,4 +49,4 @@ const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
 })
 
-export default connect(mapStateToProps, { editGameModel, openClassNameModal })(ObjectInstanceContextMenu);
+export default connect(mapStateToProps, { editGameModel, openClassNameModal, selectClass })(ObjectInstanceContextMenu);
