@@ -109,7 +109,6 @@ window.addEventListener('mouseup', (event) => {
 
 function onEditorClick(event) {
   window.didClick = true
-  console.log('xxx')
   sendCobrowsingStatus(event)
 }
 

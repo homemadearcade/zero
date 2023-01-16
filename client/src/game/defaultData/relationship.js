@@ -16,7 +16,7 @@ export const defaultRelationship = {
     text: ''
   },
   onlyTriggersOnce: true,
-  intervalBetweenTriggers: null,
+  delayInterval: null,
   relationId: null,
   sides: []
 }
@@ -75,7 +75,8 @@ export const effectDisplayNames = {
 export const effectEditInterface = {
   // Movement
   [EFFECT_TELEPORT]: {
-    zoneClassId: 'Teleport to which zone?'
+    zoneClassId: 'Teleport to which zone?',
+    onlyOnce: true,
   },
   [EFFECT_COLLIDE]: {
 
@@ -89,16 +90,20 @@ export const effectEditInterface = {
 
   // Lifecycle
   [EFFECT_RECLASS]: {
-    classId: 'Transform into which object?'
+    classId: 'Transform into which object?',
+    onlyOnce: true,
   },
   [EFFECT_SPAWN]: {
-    zoneClassId: 'In which zone does it spawn?'
+    zoneClassId: 'In which zone does it spawn?',
+    onlyOnce: true,
+    delayInterval: true
   },
   [EFFECT_DESTROY]: {},
 
   // Narrative
   [EFFECT_CUTSCENE]: {
-    cutsceneId: 'Which cutscene?'
+    cutsceneId: 'Which cutscene?',
+    onlyOnce: true,
   },
   [EFFECT_GAME_OVER]: {
     text: 'Message'
@@ -109,13 +114,15 @@ export const effectEditInterface = {
 
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
-    // number: 'How intense is the camera shake?'
+    // number: 'How intense is the camera shake?',
+    onlyOnce: true,
+    delayInterval: true
   },
   [EFFECT_INVISIBLE]: {}
 }
 
 // EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_CUTSCENE
-export const collideActiveEffects  = {
+export const persistentEffects  = {
   // Movement
   [EFFECT_TELEPORT]: false,
   [EFFECT_COLLIDE]: true,

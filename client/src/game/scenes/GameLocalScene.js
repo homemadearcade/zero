@@ -42,5 +42,7 @@ export class GameLocalScene extends EditorScene {
         this.resume()
       }
     }
+
+    this.afterGameInstanceUpdateEffects()
   }
 }

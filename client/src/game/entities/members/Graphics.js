@@ -127,7 +127,7 @@ export class Graphics {
 
     if(sprite.invisibleIndicator) sprite.invisibleIndicator.destroy()
     // if(sprite.unspawnedImage) sprite.unspawnedImage.destroy()
-    sprite.editorHighlight.destroy()
+    if(sprite.editorHighlight) sprite.editorHighlight.destroy()
     sprite.interactBorder.destroy()
   }
 }

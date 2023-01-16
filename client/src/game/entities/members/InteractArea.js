@@ -33,6 +33,9 @@ export class InteractArea extends Sprite {
     // this.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, this.color, 1);
     // this.strokeRect(-size/2, -size/2, size - (CAMERA_PREVIEW_BORDER_SIZE), size - (CAMERA_PREVIEW_BORDER_SIZE));
 
+    // this.lastInteractedWithClassId = null 
+    // this.interactedWithClassId = null
+
     return this
   }
   
@@ -57,6 +60,10 @@ export class InteractArea extends Sprite {
     }
   }
 
+  testForEffect() {
+    
+  }
+
   registerArcade(relations) {
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
@@ -67,7 +74,7 @@ export class InteractArea extends Sprite {
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesB, (a, b) => {
             if(this.paused) return
-            this.interactables.push({entitySprite: b, effect, effectInteractable: false})
+            this.interactables.push({entitySprite: b, effect: {...effect, effectInteractable: false}})
           })
         )
 
@@ -76,7 +83,7 @@ export class InteractArea extends Sprite {
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesA, (a, b) => {
             if(this.paused) return
-            this.interactables.push({entitySprite: b, effect, effectInteractable: true})
+            this.interactables.push({entitySprite: b, effect: {...effect, effectInteractable: true}})
           })
         )
       }
@@ -139,11 +146,10 @@ export class InteractArea extends Sprite {
       if(distance < closestDistance) {
         interactPossibility.closestDistance = distance
         interactPossibility.closestInteractable = entitySprite
-        interactPossibility.effectInteractable = effectInteractable
       }
     })
     
-    const { closestInteractable, effectInteractable } = interactPossibility
+    const { closestInteractable } = interactPossibility
     if(closestInteractable) {
       closestInteractable.interactBorder.setVisible(true)
       this.interactables.forEach(({entitySprite, effect}) => {
@@ -155,8 +161,8 @@ export class InteractArea extends Sprite {
 
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
       interactPossibility.effects.forEach((effect) => {
-        if(effectInteractable) {
-          this.scene.getObjectInstance(closestInteractable.id).runEffect(effect, closestInteractable)
+        if(effect.effectInteractable) {
+          this.scene.getObjectInstance(closestInteractable.id).runEffect(effect, this.objectInstance)
         } else {
           this.objectInstance.runEffect(effect, closestInteractable)
         }
@@ -188,5 +194,11 @@ export class InteractArea extends Sprite {
     } else {
       this.setVisible(false)
     }
+
+    // const sprite = this.objectInstance.sprite
+    // this.lastInteractedWithClassId = this.interactedWithClassId
+    // if(sprite.body.touching.none && sprite.body.blocked.none) {
+    //   this.interactedWithClassId = null
+    // }
   }
 }

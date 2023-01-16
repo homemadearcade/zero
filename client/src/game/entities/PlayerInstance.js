@@ -96,6 +96,13 @@ export class PlayerInstance extends ObjectInstance {
     this.interactArea.unregister()
   }
 
+  reclass(classId) {
+    const sprite = this.sprite
+    const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
+    this.scene.addPlayerInstance(modifiedClassData)
+    this.scene.removePlayerInstance()
+  }
+
   destroyInGame() {
     this.setCollideable(false);
     this.setVisible(false)

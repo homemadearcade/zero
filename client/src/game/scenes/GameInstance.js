@@ -113,11 +113,13 @@ export class GameInstance extends Phaser.Scene {
     this.getObjectInstance(id).destroy()
   }
 
-  updateObjectInstance(objectInstance, {x, y, rotation, isVisible}) {
+  updateObjectInstance(objectInstance, {x, y, rotation, isVisible, destroyAfterUpdate, reclassId}) {
     if(x) objectInstance.sprite.x = x;
     if(y) objectInstance.sprite.y = y;
     if(rotation) objectInstance.sprite.rotation = rotation;
     objectInstance.setVisible(isVisible);
+    objectInstance.destroyAfterUpdate = destroyAfterUpdate 
+    objectInstance.reclassId = reclassId
   }
 
   registerRelations() {
@@ -128,6 +130,23 @@ export class GameInstance extends Phaser.Scene {
     })
 
     this.playgroundLayer.registerRelations()
+  }
+
+  afterGameInstanceUpdateEffects() {
+    if(this.playerInstance.reclassId) {
+      this.playerInstance.reclass(this.playerInstance.reclassId)
+    }
+    if(this.playerInstance.destroyAfterUpdate) {
+      this.playerInstance.destroyInGame()
+    }
+    this.objectInstances.forEach((instance) => {
+      if(instance.reclassId) {
+        instance.reclass(instance.reclassId)
+      }
+      if(instance.destroyAfterUpdate) {
+        instance.destroyInGame()
+      }
+    })
   }
 
   unregisterRelations() {

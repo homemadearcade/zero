@@ -30,5 +30,7 @@ export class GamePlayScene extends GameInstance {
         this.resume()
       }
     }
+    
+    this.afterGameInstanceUpdateEffects()
   }
 }

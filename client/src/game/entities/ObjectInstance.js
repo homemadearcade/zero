@@ -130,6 +130,13 @@ export class ObjectInstance extends Sprite {
     return [ x, y, width, height]
   }
 
+  reclass(classId) {
+    const sprite = this.sprite
+    const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
+    this.scene.addObjectInstance(this.id, modifiedClassData)
+    this.scene.removeObjectInstance(this.id)
+  }
+
   destroyInGame() {
     const instanceId = this.id
     const classId = this.classId
@@ -154,6 +161,7 @@ export class ObjectInstance extends Sprite {
       })
     }
 
+    this.sprite.destroyed = true
     this.scene.removeObjectInstance(instanceId)
   }
 

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { collideActiveEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../defaultData/relationship';
+import { persistentEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../defaultData/relationship';
 import { EFFECT_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 
@@ -21,8 +21,8 @@ const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disab
 
   function isUsuableEffect(effectType) {
     if(effectType === EFFECT_COLLIDE) return false
-    if(event.type !== ON_COLLIDE && event.type !== ON_COLLIDE_ACTIVE && collideActiveEffects[effectType]) return false
-    if(!collideActiveEffects[effectType] && (event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE)) return false
+    if(event.type !== ON_COLLIDE && event.type !== ON_COLLIDE_ACTIVE && persistentEffects[effectType]) return false
+    if(!persistentEffects[effectType] && (event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE)) return false
     if(effect?.effectedClassId && nonRemoteEffects[effectType]) return false
 
     return true

@@ -18,7 +18,11 @@ export class GameClientScene extends EditorScene {
         return
       }
       const objectInstance = this.objectInstancesById[instanceUpdate.id]
-      if(!objectInstance) return;
+      if(!objectInstance) {
+        const modifiedClassData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, classId: instanceUpdate.classId }
+        this.addObjectInstance(instanceUpdate.id, modifiedClassData, true)
+        return
+      };
       this.updateObjectInstance(objectInstance, instanceUpdate)
     })
 
@@ -28,6 +32,11 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.sprite.y = player.y
     this.playerInstance.sprite.rotation = player.rotation
     this.playerInstance.setVisible(player.isVisible);
+    this.playerInstance.destroyAfterUpdate = player.destroyAfterUpdate 
+    this.playerInstance.reclassId = player.reclassId
+
+    this.afterGameInstanceUpdateEffects() 
+
   }
 
   onGameInstanceAnimation = ({type, data}) => {

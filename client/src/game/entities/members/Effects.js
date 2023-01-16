@@ -10,10 +10,6 @@ export class Effects {
     this.objectInstance = objectInstance
     this.scene = scene
 
-    this.collidingWith = []
-    this.lastCollidedWithClassId = null 
-    this.collidedWithClassId = null
-
     this.isVisibilityModified = null
     this.isIgnoreGravityModified = null
     this.wasIgnoreGravityModified = null 
@@ -21,7 +17,6 @@ export class Effects {
   }
 
   update() {
-
     const classId = this.objectInstance.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
     const sprite = this.objectInstance.sprite
@@ -56,15 +51,6 @@ export class Effects {
       sprite.lockedReleaseSides = null
       this.objectInstance.setIgnoreGravity(objectClass.movement.ignoreGravity);
     }
-
-    this.lastCollidedWithClassId = this.collidedWithClassId
-    this.lastCollidingWith = this.collidingWith
-
-    if(sprite.body.touching.none && sprite.body.blocked.none) {
-      this.collidedWithClassId = null
-    }
-
-    this.collidingWith = []
   }
 
   unregister() {
@@ -170,7 +156,7 @@ export class Effects {
     }
     
     if(effect.type === EFFECT_DESTROY) {
-      this.objectInstance.destroyInGame()
+      this.objectInstance.destroyAfterUpdate = true
     } else if(effect.type === EFFECT_SPAWN) {
       const spawningClassId = effect.effectedClassId ? effect.effectedClassId : classId
       const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId: spawningClassId }
@@ -181,16 +167,7 @@ export class Effects {
       const objectClass = gameModel.classes[spawningClassId]
       spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
     } else if(effect.type === EFFECT_RECLASS) {
-      setTimeout(() => {
-        const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId: effect.classId }
-        if(instanceId === HERO_INSTANCE_ID) {
-          this.scene.removePlayerInstance()
-          this.scene.addPlayerInstance(modifiedClassData)
-        } else {
-          this.scene.removeObjectInstance(instanceId)
-          this.scene.addObjectInstance(instanceId, modifiedClassData)
-        }
-      })
+      this.objectInstance.reclassId = effect.classId
     }
 
     // NARRATIVE
