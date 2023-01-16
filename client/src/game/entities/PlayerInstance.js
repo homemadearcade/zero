@@ -6,6 +6,7 @@ import { CameraPreview } from "./members/CameraPreview";
 import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ProjectileEjector } from "./members/ProjectileEjector";
+import { PLAYGROUND_CANVAS_DEPTH } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -46,6 +47,8 @@ export class PlayerInstance extends ObjectInstance {
     if(!objectClass) {
       console.error('no hero class for id:' + classId)
     }
+
+    this.setDepth(PLAYGROUND_CANVAS_DEPTH + 1)
 
     this.setAngularDrag(100)
 

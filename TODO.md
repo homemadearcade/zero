@@ -31,7 +31,7 @@ CONNECTION
 
 FLOW
   Spawn object at the edge of the heros camera?
-  Movement is prompted after placing the first object?
+  Class is selected after being created, Movement is prompted after placing the first object?
 
 GAME
   Effect to switch games
@@ -40,7 +40,7 @@ GAME
 
 COLLISIONS
   Add Player Instance to Colliders menu
-  Collider with player exists for all playground layer classes by default
+  Collider with player exists for all playground layer classes by default?
 
 FEATURES
   ANALYTICS on each action?, on where on the screen? Save all records

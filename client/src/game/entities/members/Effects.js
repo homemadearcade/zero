@@ -117,7 +117,7 @@ export class Effects {
     }
   }
 
-  run(relation, instanceB, sides = []) {
+  runAccuteEffect(relation, instanceB, sides = []) {
     const effect = relation.effect
     const sprite = this.objectInstance.sprite
     const instanceId = this.objectInstance.id
@@ -126,7 +126,7 @@ export class Effects {
     // spawning does not effect existing instances so it cannot run here
     if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
-        object.effects.run({...relation, effect: {...effect, effectedClassId: null}}, instanceB, sides)
+        object.effects.runAccuteEffect({...relation, effect: {...effect, effectedClassId: null}}, instanceB, sides)
       })
       return
     }

@@ -48,14 +48,16 @@ export class Collider {
     if(!alreadyCollidingWith) {
       this.collidingWith.push(instanceB?.id)
     }
-
+    
+    console.log('going to run..')
     if(event.type === ON_COLLIDE_ACTIVE) {
       this.objectInstance.effects.runPersistentEffect(relation, instanceB, sides)
     }
     
     if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
-      this.objectInstance.runEffect(relation, instanceB, sides)
+      this.objectInstance.runAccuteEffect(relation, instanceB, sides)
     }
+
   }
 
   registerArcade(relations) {
@@ -107,7 +109,7 @@ export class Collider {
             event,
             world
           })){
-            this.runEffect(effect, gameObjectB)
+            this.runAccuteEffect(effect, gameObjectB)
           }
         }
       }
