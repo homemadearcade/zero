@@ -14,12 +14,36 @@ import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import SelectEvent from '../../ui/SelectEvent/SelectEvent';
 import SelectRelationEffect from '../../ui/SelectRelationEffect/SelectRelationEffect';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectEditInterface } from '../../defaultData/relationship';
+import { effectEditInterface, nonRemoteEffects } from '../../defaultData/relationship';
 import { TextField } from '@mui/material';
-import { EFFECT_SPAWN, ON_COLLIDE, ON_COLLIDE_ACTIVE, ZONE_CLASS } from '../../constants';
+import { EFFECT_SPAWN, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import { getClassAandB } from '../../../utils/gameUtils';
+import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
+import Switch from '../../../ui/Switch/Switch';
+import Typography from '../../../ui/Typography/Typography';
+import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
+
+/*
+
+
+
+          <CobrowsingAccordianList
+            listId="CreateRelation"
+            accordians={[{
+                id: 'Advanced',
+                title: <>
+                  Advanced
+                </>,
+                body: <>
+                  {advancedOptions}
+                </>
+              }
+            ]}
+          />
+
+*/
 
 const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelation, gameFormEditor: { relation }, gameModel: { gameModel} }) => {
   function handleClose() {
@@ -71,7 +95,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
   function renderEffectForms(effect, effectedClass) {
     const editForms = effectEditInterface[effect]
 
-    const forms =[]
+    const forms = []
     if(editForms.classId) {
       forms.push(<SelectClass 
         includePlayerInstance
@@ -117,8 +141,60 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       )
     }
 
+    if(editForms.onlyOnce) {
+      forms.push(<Unlockable interfaceId="relation/onlyOnce">
+        <Switch
+          labels={['Recurring', 'Only Occurs Once']}
+          size="small"
+          onChange={(e) => {
+            updateCreateRelation({ onlyOnce: e.target.checked })
+          }}
+          checked={relation.onlyOnce}
+         />
+      </Unlockable>)
+    }
+
     return forms
   }
+
+  console.log(classB, !relation.onlyOnce, effectEditInterface[relation.effect.type]?.delayInterval)
+  console.log(relation)
+
+  const advancedOptions = [
+    classB && relation.effect.type && !nonRemoteEffects[relation.effect.type] && <Unlockable interfaceId="relation/advanced/effected">
+      <SelectClass 
+        includePlayerInstance
+        formLabel={"What class is effected? ( If different than " + classA.name + ')'}
+        value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
+        onChange={(event, classes) => {
+          const newClassId = classes[classes.length-1]
+          handleEffectChange('effectedClassId', newClassId)
+      }}/>
+    </Unlockable>,
+    classB && !relation.onlyOnce && effectEditInterface[relation.effect.type]?.delayInterval && <Unlockable interfaceId="relation/advanced/delayInterval">
+      <SliderNotched
+        formLabel="Delay Interval"
+        step={10}
+        options={[10, 100, 200, 400, 1000, 3000]}
+        onChangeCommitted={(value) => {
+          updateCreateRelation({delayInterval: value})
+        }}
+        value={relation.delayInterval || 10}
+      />
+    </Unlockable>,
+    classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId="relation/advanced/ignoreSides">
+      <SelectSides
+      formLabel={"Overlapping with which side of " + classB.name + '? ( leave blank for all sides )'}
+      value={relation.sides ? relation.sides : []}
+      onChange={(event, sides) => {
+        updateCreateRelation({
+          sides
+        })
+      }}/>
+    </Unlockable>,
+  ].filter((i) => {
+    return !!i
+  })
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">
@@ -140,26 +216,6 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
             const newEvent = events[events.length-1]
             handleEventChange('type', newEvent)
         }}/>
-        {classB && (relation.event.type === ON_COLLIDE || relation.event.type === ON_COLLIDE_ACTIVE) && <Unlockable interfaceId="physics/ignoreSides">
-          <SelectSides
-            formLabel={"Overlapping with which side of " + classB.name + '? ( leave blank for all sides )'}
-            value={relation.sides ? relation.sides : []}
-            onChange={(event, sides) => {
-              updateCreateRelation({
-                sides
-              })
-          }}/>
-        </Unlockable>}
-        {classB && relation.effect.type !== EFFECT_SPAWN && <Unlockable interfaceId="relation/effected">
-          <SelectClass 
-            includePlayerInstance
-            formLabel={"What class is effected? ( If different than " + classA.name + ')'}
-            value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
-            onChange={(event, classes) => {
-              const newClassId = classes[classes.length-1]
-              handleEffectChange('effectedClassId', newClassId)
-          }}/>
-         </Unlockable>}
         <SelectRelationEffect
           effect={relation.effect}
           event={relation.event}
@@ -174,40 +230,44 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         {classB && relation.effect.type === EFFECT_SPAWN &&
           <SelectClass
             formLabel={"What class is spawned? ( If different than " + classA.name  + ')'}
-            value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
+            value={relation.effect.spawnClassId ? [relation.effect.spawnClassId] : []}
             onChange={(event, classes) => {
               const newClassId = classes[classes.length-1]
-              handleEffectChange('effectedClassId', newClassId)
+              handleEffectChange('spawnClassId', newClassId)
           }}/>
         }
         {relation.effect.type && renderEffectForms(relation.effect.type)}
+        {advancedOptions.length > 0 && <Unlockable interfaceId="relation/advanced">
+          <Typography variant="h5">Advanced</Typography>
+          {advancedOptions}
+        </Unlockable>}
         <div className="CreateRelation__buttons">
-        <Button 
-        disabled={isSaveDisabled()}
-        onClick={() => {
-           editGameModel({
-            relations: {
-              [relation.relationId] : {
-                ...relation,
-                isNew: false,
+          <Button 
+            disabled={isSaveDisabled()}
+            onClick={() => {
+            editGameModel({
+              relations: {
+                [relation.relationId] : {
+                  ...relation,
+                  isNew: false,
+                }
               }
-            }
-          })
-          handleClose()
-        }}>
-          Save
-        </Button>
-        <Button onClick={handleClose}>
-          Cancel
-        </Button>
-        {!relation.isNew && <Button onClick={() => {
-          editGameModel({
-            relations: {
-              [relation.relationId]: null
-            }
-          })
-          handleClose()
-        }}>Remove</Button>}
+            })
+            handleClose()
+          }}>
+            Save
+          </Button>
+          <Button onClick={handleClose}>
+            Cancel
+          </Button>
+          {!relation.isNew && <Button onClick={() => {
+            editGameModel({
+              relations: {
+                [relation.relationId]: null
+              }
+            })
+            handleClose()
+          }}>Remove</Button>}
       </div>
     </div>
   </CobrowsingModal>

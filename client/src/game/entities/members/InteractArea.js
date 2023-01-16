@@ -67,14 +67,16 @@ export class InteractArea extends Sprite {
   registerArcade(relations) {
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
-    }).forEach(({event, effect}) => {
+    }).forEach((relation) => {
+      const {event, effect} = relation
       if(event.type === ON_INTERACT) {
         const releventInstancesB = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdB)
         const releventSpritesB = releventInstancesB.map(({sprite}) => sprite)
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesB, (a, b) => {
             if(this.paused) return
-            this.interactables.push({entitySprite: b, effect: {...effect, effectInteractable: false}})
+            if(this.objectInstance.effects.timeToTriggerAgain[relation.id] > Date.now()) return
+            this.interactables.push({entitySprite: b, relation: { ...relation, effect: {...effect, effectInteractable: false}}})
           })
         )
 
@@ -83,7 +85,8 @@ export class InteractArea extends Sprite {
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesA, (a, b) => {
             if(this.paused) return
-            this.interactables.push({entitySprite: b, effect: {...effect, effectInteractable: true}})
+            if(this.objectInstance.effects.timeToTriggerAgain[relation.id] > Date.now()) return
+            this.interactables.push({entitySprite: b, relation: { ...relation, effect: {...effect, effectInteractable: true}}})
           })
         )
       }
@@ -93,7 +96,9 @@ export class InteractArea extends Sprite {
   registerMatter(relations) {
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
-    }).forEach(({event, effect}) => {
+    }).forEach((relation) => {
+      const {event, effect} = relation
+
       if(event.type === ON_INTERACT) {
         this.scene.matterCollision.addOnCollideActive({
           objectA: this.interactArea,
@@ -102,7 +107,7 @@ export class InteractArea extends Sprite {
             if(gameObjectB === this) return
             if(!gameObjectB) return
             if(event.classIdB === gameObjectB.classId) {
-              this.interactables.push({gameObject: gameObjectB, effect})
+              this.interactables.push({gameObject: gameObjectB, relation})
             }
           }
         })
@@ -136,10 +141,10 @@ export class InteractArea extends Sprite {
     let interactPossibility = {
       closestInteractable: null,
       closestDistance: Infinity,
-      effects: []
+      relations: []
     }
 
-    this.interactables.forEach(({entitySprite, effectInteractable}) => {
+    this.interactables.forEach(({entitySprite}) => {
       // entitySprite.interactBorder.setVisible(false)
       const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.sprite.x, this.sprite.y)
       const { closestDistance } = interactPossibility
@@ -152,19 +157,19 @@ export class InteractArea extends Sprite {
     const { closestInteractable } = interactPossibility
     if(closestInteractable) {
       closestInteractable.interactBorder.setVisible(true)
-      this.interactables.forEach(({entitySprite, effect}) => {
+      this.interactables.forEach(({entitySprite, relation}) => {
         if(entitySprite === closestInteractable) {
-          interactPossibility.effects.push(effect)
+          interactPossibility.relations.push(relation)
         }
       })
     }
 
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
-      interactPossibility.effects.forEach((effect) => {
-        if(effect.effectInteractable) {
-          this.scene.getObjectInstance(closestInteractable.id).runEffect(effect, this.objectInstance)
+      interactPossibility.relations.forEach((relation) => {
+        if(relation.effectInteractable) {
+          this.scene.getObjectInstance(closestInteractable.id).runEffect(relation, this.objectInstance)
         } else {
-          this.objectInstance.runEffect(effect, closestInteractable)
+          this.objectInstance.runEffect(relation, closestInteractable)
         }
 
         this.xKey.isPressable = false

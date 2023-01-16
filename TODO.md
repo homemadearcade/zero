@@ -16,17 +16,17 @@ UI
   UI COLOR needs and ...If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
   When trying to name a class, spacebar doesnt work
     Shift + Press it works fine
-  When a class is highlighted, you should be able to see of them on the map?
+  When a class is highlighted, you should be able to see all of them highlighted on the map?
 
 AUTH
   Forgot Password - email Flow
   Theres a redirect issue when logging in sometimes??
   Signing  in with google won’t work for the lobby login page, maybe it will, ill test this
-    I need to create a local host system for 1- camera/audio and 2-redirects
+    I need to create a local host system for 1- camera/audio and 2- redirects
 
 CONNECTION
   Popup for connection errors, little thing in the bottom corner. Toast thing
-  Why is fullscreen connection and is present thing not working anymore?
+  why is connected = false happening so much?
 
 FLOW
   Spawn object at the edge of the heros camera?
@@ -39,14 +39,16 @@ GAME
 
 RELATIONS
   Delay interval and onlyOnce option in effects ( perhaps create an 'advacned menu' for all the extra shit)
+
+COLLISIONS
   Add Player Instance to Colliders menu
+  Collider with player exists for all playground layer classes by default
 
 FEATURES
   ANALYTICS on each action?, on where on the screen? Save all records
   STATUS TOOLBAR
     Microphone, Internet Connection, Game Paused, Editing, Whatever State, The time. If you have an object selected its obvious, 
   Unlockable UI presets creator/editor page
-
 
 --
 

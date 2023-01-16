@@ -80,7 +80,6 @@ export const SIDE_RIGHT = 'SIDE_RIGHT'
 /////////////////////////////////////
 /////////////////////////////////////
 // EVENTS
-export const ON_COLLIDE = 'ON_COLLIDE'
 export const ON_COLLIDE_START = 'ON_COLLIDE_START'
 export const ON_COLLIDE_END = 'ON_COLLIDE_END'
 export const ON_COLLIDE_ACTIVE = 'ON_COLLIDE_ACTIVE'

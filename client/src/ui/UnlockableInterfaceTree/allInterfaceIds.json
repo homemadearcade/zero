@@ -1,4 +1,10 @@
 [
+  "relation",
+  "relation/advanced",
+  "relation/advanced/ignoreSides",
+  "relation/advanced/effected",
+  "relation/delayInterval",
+  "relation/onlyOnce",
   "contextMenu/class/jump",
   "contextMenu",
   "contextMenu/*",

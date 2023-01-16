@@ -46,7 +46,7 @@ const LobbyUserStatus = ({ closeInterfaceTree, openInterfaceTree, user: { userId
       <div className="LobbyUserStatus__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
       {user.role === ADMIN_ROLE && <div className="LobbyUserStatus__admin"><Icon icon="faCrown"/></div>}
       {(hasJoinLink) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
-        {isMe ? 'Play' : 'Watch'}
+        {isMe ? 'Play' : 'Join'}
       </Link>}
       {(hasUIButton) && <Button onClick={() => {
         openInterfaceTree(user.id)

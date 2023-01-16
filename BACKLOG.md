@@ -95,6 +95,8 @@ Zoom Slider
 
 TODO CHORES BACKLOG
 
+KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spawned ones are not detroyed
+
 Hero Name -> Player
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?

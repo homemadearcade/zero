@@ -74,7 +74,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
             const oldColliderRelations = Object.keys(gameModel.relations).map((relationId) => {
               return gameModel.relations[relationId]
             }).filter((relation) => {
-              if((relation.event.type === ON_COLLIDE || relation.event.type === ON_COLLIDE_ACTIVE) &&
+              if((relation.event.type === ON_COLLIDE_ACTIVE) &&
                  relation.effect.type === EFFECT_COLLIDE &&
                  (relation.event.classIdA === classId || relation.event.classIdB === classId)
                 ) {
@@ -184,7 +184,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={!classSelected.collisionResponse.notPushable}
          />
       </Unlockable>
-      {<Unlockable interfaceId="physics/toggle/immovable">
+      {false && <Unlockable interfaceId="physics/toggle/immovable">
         <Switch
           labels={['Collisions', 'No Collisions']}
           size="small"

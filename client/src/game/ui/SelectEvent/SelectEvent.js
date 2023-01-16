@@ -7,6 +7,7 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { eventDisplayNames, getEventLabel, singleClassEvents } from '../../defaultData/relationship';
 import { capitalize } from '../../../utils/utils';
 import { getClassAandB } from '../../../utils/gameUtils';
+import { ON_INTERACT } from '../../constants';
 
 const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA }) => {
   const { classA, classB } = getClassAandB(classIdA, classIdB)
@@ -21,6 +22,8 @@ const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA 
   const options = Object.keys(eventDisplayNames).filter((eventType) => {
     if(classIdB !== classIdA) {
       if(singleClassEvents[eventType]) return false
+    } else if(classIdA === classIdB && eventType === ON_INTERACT) {
+      return false
     }
 
     return true

@@ -52,8 +52,13 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
 
         if(type === EFFECT_COLLIDE) return null
 
+        let classIdB  = event.classIdB
+        if(classIdB === HERO_INSTANCE_ID) {
+          classIdB = gameModel.hero.initialClassId
+        }
+
         return <div key={relation.relationId} className="RelationsMenu__relation">
-          <ClassMemberTitle classId={event.classIdB} title={getEffectLabel(type, (effectedClass || classA), classB) + getEventPreviewLabel(event.type, classA, classB)}/>
+          <ClassMemberTitle classId={classIdB} title={getEffectLabel(type, (effectedClass || classA), classB) + getEventPreviewLabel(event.type, classA, classB)}/>
           <Button onClick={() => {
             openCreateRelation(relation)
           }}>Edit</Button>

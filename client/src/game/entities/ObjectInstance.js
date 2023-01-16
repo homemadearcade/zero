@@ -60,7 +60,9 @@ export class ObjectInstance extends Sprite {
 
     Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
-    }).forEach(({event, effect}) => {
+    }).forEach((relation) => {
+      const {event, effect} = relation
+
       if(event.type === ON_SPAWN && event.classIdA === this.classId) {
         this.runEffect(effect)
       }
@@ -69,8 +71,8 @@ export class ObjectInstance extends Sprite {
     return this
   }
 
-  runEffect(effect, instanceB, sides = []) {
-    this.effects.run(effect, instanceB, sides)
+  runEffect(relation, instanceB, sides = []) {
+    this.effects.run(relation, instanceB, sides)
   }
 
   setSize(w, h) {
@@ -144,7 +146,8 @@ export class ObjectInstance extends Sprite {
 
     Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
-    }).forEach(({event, effect}) => {
+    }).forEach((relation) => {
+      const {event, effect} = relation
       if(event.type === ON_DESTROY_ONE && event.classIdA === classId) {
         this.runEffect(effect)
       }
@@ -154,7 +157,8 @@ export class ObjectInstance extends Sprite {
     if(instances.length === 1) {
       Object.keys(gameModel.relations).map((relationId) => {
         return gameModel.relations[relationId]
-      }).forEach(({event, effect}) => {
+      }).forEach((relation) => {
+        const {event, effect} = relation
         if(event.type === ON_DESTROY_ALL && event.classIdA === classId) {
           this.runEffect(effect)
         }

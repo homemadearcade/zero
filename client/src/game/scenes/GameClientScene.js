@@ -36,7 +36,6 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.reclassId = player.reclassId
 
     this.afterGameInstanceUpdateEffects() 
-
   }
 
   onGameInstanceAnimation = ({type, data}) => {

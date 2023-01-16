@@ -1,4 +1,4 @@
-import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_SPAWN } from "../constants"
+import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_SPAWN } from "../constants"
 
 export const defaultRelationship = {
   event: {
@@ -9,13 +9,14 @@ export const defaultRelationship = {
   effect: {
     effectedType: null,
     effectedClassId: null,
+    spawnClassId: null,
     type: '',
     classId: null,
     zoneClassId: null,
     cutsceneId: null,
     text: ''
   },
-  onlyTriggersOnce: true,
+  onlyOnce: true,
   delayInterval: null,
   relationId: null,
   sides: []
@@ -32,15 +33,14 @@ export const effectedTypesDisplayNames = {
 export const eventDisplayNames = {
   [ON_COLLIDE_START]: 'start touching',
   // [ON_COLLIDE_END]: 'stop touching',
-  [ON_COLLIDE]: 'overlapping',
-  [ON_COLLIDE_ACTIVE]: 'is touching',
+  [ON_COLLIDE_ACTIVE]: 'are touching',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
   [ON_SPAWN]: 'spawned',
   [ON_DESTROY_ONE]: 'destroyed',
   [ON_DESTROY_ALL]: 'destroyed',
-  [ON_INTERACT]: 'interacts with',
+  [ON_INTERACT]: 'interacted',
 
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
@@ -116,7 +116,7 @@ export const effectEditInterface = {
   [EFFECT_CAMERA_SHAKE]: {
     // number: 'How intense is the camera shake?',
     onlyOnce: true,
-    delayInterval: true
+    // delayInterval: true
   },
   [EFFECT_INVISIBLE]: {}
 }
@@ -153,7 +153,7 @@ export const nonRemoteEffects  = {
 
   // Lifecycle
   [EFFECT_RECLASS]: false,
-  [EFFECT_SPAWN]: false,
+  [EFFECT_SPAWN]: true,
   [EFFECT_DESTROY]: false,
 
   // Narrative
@@ -254,7 +254,6 @@ export function getEffectLabel(effect, classA, classB) {
 /////////////////////////////////////////////////////////////////
 //// EVENT
 export const singleClassEvents = {
-  [ON_COLLIDE]: false,
   [ON_COLLIDE_ACTIVE]: false,
   [ON_COLLIDE_START]: false,
   // [ON_COLLIDE_END]: false,
@@ -268,7 +267,6 @@ export const singleClassEvents = {
 }
 
 export const eventPrefix = {
-  [ON_COLLIDE]: 'Class A And Class B',
   [ON_COLLIDE_ACTIVE]: 'Class A And Class B',
   [ON_COLLIDE_START]: 'Class A And Class B',
   // [ON_COLLIDE_END]: 'Class A And Class B',

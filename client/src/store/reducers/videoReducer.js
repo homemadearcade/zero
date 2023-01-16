@@ -10,13 +10,17 @@ import {
   BYPASS_VIDEO_CALL
 } from '../types';
 
+function defaultBypass() {
+  return isLocalHost()
+}
+
 const initialState = {
   videoTrackId: null,
   audioTrackId: null,
   isInsideVideoCall: false,
   isConnectingToVideoCall: false,
   error: null,
-  bypass: isLocalHost()
+  bypass: defaultBypass()
 };
 
 export const initialVideoState = initialState
@@ -45,7 +49,7 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         isConnectingToVideoCall: false,
         isInsideVideoCall: false,
-        bypass: false
+        bypass: defaultBypass()
       };
     case START_VIDEO_CALL_FAIL:
     case LEAVE_VIDEO_CALL_FAIL:

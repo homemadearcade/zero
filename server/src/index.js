@@ -175,6 +175,7 @@ io.on("connection", (socket) => {
           lobby.users.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
+              console.log(user.username, ' connected')
               socket.join(lobby.id);
               io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
             }

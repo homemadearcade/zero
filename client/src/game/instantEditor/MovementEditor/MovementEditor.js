@@ -177,7 +177,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           checked={!classSelected.movement.ignoreGravity}
          />
       </Unlockable>}
-      {<Unlockable interfaceId="physics/toggle/immovable">
+      {false && <Unlockable interfaceId="physics/toggle/immovable">
         <Switch
           labels={['Collisions', 'No Collisions']}
           size="small"

@@ -29,10 +29,11 @@ export const movementToParemeters = {
     speed: true
   },
   [MOVEMENT_NONE]: {
-    gravityY: true,
-    gravityX: true,
-    velocityY: true,
-    velocityX: true,
+    gravityY: false,
+    gravityX: false,
+    velocityY: false,
+    velocityX: false,
+    ignoreGravity: true
   },
   [VEHICLE_CONTROLS]: {
     speed: 'Thrust Speed',

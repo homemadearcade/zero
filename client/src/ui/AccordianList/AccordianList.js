@@ -55,7 +55,7 @@ export default function AccordianList({accordians, initialExpandedId = null}) {
 export function AccordionListBody({expanded, onChange, accordianList}) {
   return (
     <div className="Accordian">
-      {accordianList.map(({id, title, body}) => {
+      {accordianList.filter((item) => !!item).map(({id, title, body}) => {
         return <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
           <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
             {title}

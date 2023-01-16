@@ -14,6 +14,8 @@ export class Effects {
     this.isIgnoreGravityModified = null
     this.wasIgnoreGravityModified = null 
     this.wasVisibilityModified = null
+
+    this.timeToTriggerAgain = {}
   }
 
   update() {
@@ -85,12 +87,14 @@ export class Effects {
     }
   }
   
-  runPersistentEffect(effect, instanceB, sides) {
+  runPersistentEffect(relation, instanceB, sides) {
+    const effect = relation.effect
     const sprite = this.objectInstance.sprite
 
+    // spawning does not effect existing instances
     if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
-        object.runEffect({...effect, effectedClassId: null}, instanceB, sides)
+        object.effects.runPersistentEffect({...relation, effect: {...effect, effectedClassId: null}}, instanceB, sides)
       })
       return
     }
@@ -113,16 +117,32 @@ export class Effects {
     }
   }
 
-  run(effect, instanceB, sides = []) {
+  run(relation, instanceB, sides = []) {
+    const effect = relation.effect
     const sprite = this.objectInstance.sprite
     const instanceId = this.objectInstance.id
     const classId = this.objectInstance.classId
 
+    // spawning does not effect existing instances so it cannot run here
     if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
-        object.effects.run({...effect, effectedClassId: null}, instanceB, sides)
+        object.effects.run({...relation, effect: {...effect, effectedClassId: null}}, instanceB, sides)
       })
       return
+    }
+
+    if(this.timeToTriggerAgain[relation.id]) {
+      if(this.timeToTriggerAgain[relation.id] > Date.now()) {
+        return
+      }
+    } 
+
+    if(relation.onlyOnce) {
+      this.timeToTriggerAgain[relation.id] = Date.now() + 10000000000000
+    } else {
+      if(relation.delayInterval) {
+        this.timeToTriggerAgain[relation.id] = Date.now() + relation.delayInterval
+      }
     }
 
     if(effect.type === EFFECT_STICK_TO) {
@@ -158,7 +178,7 @@ export class Effects {
     if(effect.type === EFFECT_DESTROY) {
       this.objectInstance.destroyAfterUpdate = true
     } else if(effect.type === EFFECT_SPAWN) {
-      const spawningClassId = effect.effectedClassId ? effect.effectedClassId : classId
+      const spawningClassId = effect.spawnClassId ? effect.spawnClassId : classId
       const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId: spawningClassId }
       const spawnedObjectInstance =  this.scene.addObjectInstance(generateUniqueId(), modifiedClassData, true)
       const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
