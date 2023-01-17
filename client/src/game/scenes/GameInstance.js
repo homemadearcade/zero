@@ -135,15 +135,13 @@ export class GameInstance extends Phaser.Scene {
   afterGameInstanceUpdateEffects() {
     if(this.playerInstance.reclassId) {
       this.playerInstance.reclass(this.playerInstance.reclassId)
-    }
-    if(this.playerInstance.destroyAfterUpdate) {
+    } else if(this.playerInstance.destroyAfterUpdate) {
       this.playerInstance.destroyInGame()
     }
     this.objectInstances.forEach((instance) => {
       if(instance.reclassId) {
         instance.reclass(instance.reclassId)
-      }
-      if(instance.destroyAfterUpdate) {
+      } else if(instance.destroyAfterUpdate) {
         instance.destroyInGame()
       }
     })
