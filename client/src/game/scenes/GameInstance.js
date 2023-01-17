@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, HERO_CLASS } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, HERO_CLASS, ON_PLAY_CINEMATIC } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -291,6 +291,17 @@ export class GameInstance extends Phaser.Scene {
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
     this.cameras.main.startFollow(this.playerInstance.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
+
+    if(this.isCinematicPlay) {
+      Object.keys(gameModel.relations).map((relationId) => {
+        return gameModel.relations[relationId]
+      }).forEach((relation) => {
+        const {event, effect} = relation
+        if(event.type === ON_PLAY_CINEMATIC) {
+          this.runAccuteEffect(relation)
+        }
+      })
+    }
   }
 
   respawn() {

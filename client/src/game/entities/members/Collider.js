@@ -11,6 +11,8 @@ export class Collider {
     this.collidingWith = []
     this.lastCollidingWith = null
     // this.onCollideEndRelations = {}
+
+    // this.testRelationsList = []
   }
 
   register(relations) {
@@ -34,6 +36,10 @@ export class Collider {
     //   })
     // }
 
+    // this.testRelationsList.forEach(() => {
+
+    // })
+
     this.lastCollidingWith = this.collidingWith
     this.collidingWith = []
   }
@@ -49,7 +55,6 @@ export class Collider {
       this.collidingWith.push(instanceB?.id)
     }
     
-    console.log('going to run..')
     if(event.type === ON_COLLIDE_ACTIVE) {
       this.objectInstance.effects.runPersistentEffect(relation, instanceB, sides)
     }
@@ -57,7 +62,6 @@ export class Collider {
     if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
       this.objectInstance.runAccuteEffect(relation, instanceB, sides)
     }
-
   }
 
   registerArcade(relations) {
