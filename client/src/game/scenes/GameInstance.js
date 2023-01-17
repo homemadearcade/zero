@@ -10,6 +10,7 @@ import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { World } from '../entities/World';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { editLobby } from '../../store/actions/lobbyActions';
+import { closeActiveCutscene } from '../../store/actions/gameContextActions';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key}) {
@@ -316,6 +317,7 @@ export class GameInstance extends Phaser.Scene {
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events
     this.scene.restart(); // restart current scene
+    store.dispatch(closeActiveCutscene())
   }
   
   update(time, delta) {

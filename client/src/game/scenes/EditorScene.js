@@ -746,9 +746,15 @@ export class EditorScene extends GameInstance {
 
       if(classUpdate.camera !== undefined) {
         if(this.playerInstance.classId === id) {
-          this.cameras.main.setZoom(classUpdate.camera.zoom)
-          this.playerInstance.setZoom(classUpdate.camera.zoom)
-        }
+          if(classUpdate.camera.zoom) {
+            this.cameras.main.setZoom(classUpdate.camera.zoom)
+            this.playerInstance.setZoom(classUpdate.camera.zoom)
+          }
+          if(classUpdate.camera.lerpX || classUpdate.camera.lerpY) {
+            this.cameras.main.setLerp(classUpdate.camera.lerpX ? classUpdate.camera.lerpX : objectClass.camera.lerpX, classUpdate.camera.lerpY ? classUpdate.camera.lerpY : objectClass.camera.lerpY)
+          }
+          // this.cameras.main.startFollow(this.playerInstance.sprite, true, classUpdate.camera.lerpX ? classUpdate.camera.lerpX : objectClass.camera.lerpX, classUpdate.camera.lerpY ? classUpdate.camera.lerpY : objectClass.camera.lerpY);
+        } 
       }
     })
   }

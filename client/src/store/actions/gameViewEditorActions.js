@@ -99,11 +99,11 @@ export const toggleLayerVisibility = (canvasId) => (dispatch, getState) => {
 //   });
 // }
 
-export const resetGameInstance = () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: RESET_GAME_INSTANCE
-  });
-}
+// export const resetGameInstance = () => (dispatch, getState) => {
+//   dispatch({
+//     updateCobrowsing: true,
+//     type: RESET_GAME_INSTANCE
+//   });
+// }
 
 

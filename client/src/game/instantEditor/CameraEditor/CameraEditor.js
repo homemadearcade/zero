@@ -31,7 +31,12 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
     // 2.8,
      3, 
      4, 
-     5
+     5,
+     6,
+     7,
+     8,
+     9, 
+     10
   ].filter((num) => {
     return !!num
   })
@@ -49,6 +54,26 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
             editGameModel({ classes: { [classId]: { camera: { zoom: value }  }}})        
           }}
           value={classSelected.camera.zoom}
+      />
+      </Unlockable>
+      <Unlockable isSlider interfaceId="camera/lerp/horizontal">
+        <SliderNotched
+          formLabel="Lerp ⇆"
+          options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { camera: { lerpX: value }  }}})        
+          }}
+          value={classSelected.camera.lerpX}
+      />
+      </Unlockable>
+      <Unlockable isSlider interfaceId="camera/lerp/vertical">
+        <SliderNotched
+          formLabel="Lerp ⇵"
+          options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { camera: { lerpY: value }  }}})        
+          }}
+          value={classSelected.camera.lerpY}
       />
       </Unlockable>
     </div>
