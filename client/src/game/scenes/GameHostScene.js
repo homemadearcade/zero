@@ -59,10 +59,14 @@ export class GameHostScene extends EditorScene {
     //game.loop.actualFps
   }
 
-  unload() {
-    super.unload();
+  unregisterEvents() {
     window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     window.clearInterval(this.remoteClientUpdateInterval)
+  }
+
+  unload() {
+    super.unload();
+    this.unregisterEvents()
   }
 
   update(time, delta) {

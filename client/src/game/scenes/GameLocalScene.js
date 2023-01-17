@@ -23,9 +23,13 @@ export class GameLocalScene extends EditorScene {
     //game.loop.actualFps
   }
 
+  unregisterEvents() {
+    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+  }
+
   unload() {
     super.unload();
-    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+    this.unregisterEvents()
   }
 
   update(time, delta) {

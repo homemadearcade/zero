@@ -60,6 +60,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
         <SliderNotched
           formLabel="Lerp ⇆"
           options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
+          step={0.01}
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { camera: { lerpX: value }  }}})        
           }}
@@ -69,6 +70,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
       <Unlockable isSlider interfaceId="camera/lerp/vertical">
         <SliderNotched
           formLabel="Lerp ⇵"
+          step={0.01}
           options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
           onChangeCommitted={(value) => {
             editGameModel({ classes: { [classId]: { camera: { lerpY: value }  }}})        

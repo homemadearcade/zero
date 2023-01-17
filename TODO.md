@@ -18,6 +18,10 @@ UI
     Shift + Press it works fine
   When a class is highlighted, you should be able to see all of them highlighted on the map?
   Disable UI for ClassB, Event, Effect after these are chosen
+  Camera Zoom Editor + or - which way…
+  Randomize Descriptors
+  You should be able to hide games, you should be able to hide classes
+  Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
 
 AUTH
   Forgot Password - email Flow
@@ -46,6 +50,7 @@ FEATURES
   ANALYTICS on each action?, on where on the screen? Save all records
   STATUS TOOLBAR
     Microphone, Internet Connection, Game Paused, Editing, Whatever State, The time. If you have an object selected its obvious, 
+    We need STOP, PAUSE, PLAY, REALLY PLAY
   Unlockable UI presets creator/editor page
 
 --

@@ -16,6 +16,10 @@ export class GamePlayScene extends GameInstance {
     this.runAnimation({type, data})
   }
 
+  unregisterEvents() {
+    
+  }
+
   update(time, delta) {
     super.update(time, delta) 
 

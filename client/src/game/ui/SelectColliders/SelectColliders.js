@@ -18,7 +18,7 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
       tint: objectClass.graphics.tint
     }
   }
-
+  
   const value = Object.keys(gameModel.relations).map((relationId) => {
     const relation = gameModel.relations[relationId]
     return relation
@@ -31,7 +31,12 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
     return !!classId
   })
 
-  const options = Object.keys(gameModel.classes).map(mapClassToOption)
+  const options = Object.keys(gameModel.classes).map(mapClassToOption).filter(({value}) => {
+    if(classId === value) {
+      return false
+    }
+    return true
+  })
 
   return <SelectChipsAuto 
     onChange={(event, classIds) => {

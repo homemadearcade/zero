@@ -7,6 +7,14 @@
     width: 150px;
     height: 150px;
     border: 1px solid white;
+    position: relative;
+  }
+
+  &__no-sprite {
+    position: absolute;
+    top: .4rem;
+    right: .4rem;
+    cursor: pointer;
   }
 
   &__sprite-list {

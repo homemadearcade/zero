@@ -33,7 +33,7 @@ export const eventDisplayNames = {
   [ON_COLLIDE_START]: 'start touching',
   // [ON_COLLIDE_END]: 'stop touching',
   [ON_COLLIDE_ACTIVE]: 'sustain touch',
-  [ON_PLAY_CINEMATIC]: 'cinematic play begins',
+  [ON_PLAY_CINEMATIC]: 'playthrough begins',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',

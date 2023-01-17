@@ -106,6 +106,14 @@ export class PlayerInstance extends ObjectInstance {
     this.scene.removePlayerInstance()
   }
 
+  setLerp() {
+    const classId = this.classId
+    const objectClass = store.getState().gameModel.gameModel.classes[classId]
+    let lerpX = objectClass.camera.lerpX
+    let lerpY = objectClass.camera.lerpY
+    this.scene.cameras.main.startFollow(this.sprite, false, lerpX, lerpY)
+  }
+
   destroyInGame() {
     this.setCollideable(false);
     this.setVisible(false)

@@ -18,6 +18,7 @@ import { openSpriteEditor } from '../../../store/actions/gameEditorActions';
 import { DEFAULT_CLEAR_TEXTURE_ID } from '../../constants';
 import MySprites from '../MySprites/MySprites';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import Icon from '../../../ui/Icon/Icon';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -42,6 +43,11 @@ const SelectSpriteInline = ({
 
     return <div className="SelectSpriteInline__sprite">
       <Sprite tint={tintSelected} textureId={textureIdSelected}/>
+     {textureIdSelected && <div className="SelectSpriteInline__no-sprite" onClick={() => {
+        onSelect(null)
+      }}>
+        <Icon size="lg" icon="faClose"></Icon>
+      </div>}
     </div>
   }
 

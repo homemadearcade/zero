@@ -11,7 +11,7 @@ import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
 import { EFFECT_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import _ from 'lodash';
+import _, { last } from 'lodash';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 
@@ -62,7 +62,6 @@ import SelectSides from '../../ui/SelectSides/SelectSides';
 const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
-  console.log(classSelected.collisionResponse.ignoreSides)
 
   return (
     <div className="PhysicsEditor">
@@ -108,20 +107,24 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
                   },
                 }
               })
+
             } else {
 
               const oldColliderClassIds = oldColliderRelations.map((relation) => getOppositeRelationClassId(classId, relation))
 
+              const toSplice = []
               newColliderClasses.forEach((classId) => {
                 const index = oldColliderClassIds.indexOf(classId)
-                oldColliderRelations.splice(index, 1)
+                toSplice.push(index)
               })
-  
-              oldColliderRelations.forEach((relation) => {
+
+              oldColliderRelations.filter((relation, index) => {
+                return toSplice.indexOf(index) === -1
+              }).forEach((relation) => {
                 relations[relation.relationId] = null
               })
             }
-
+            
             editGameModel({ relations })        
          }}/>
       </Unlockable>

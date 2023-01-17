@@ -42,6 +42,12 @@ export class GameClientScene extends EditorScene {
     this.runAnimation({type, data})
   }
 
+  unregisterEvents() {
+    window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
+    window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
+    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+  }
+
   create() {
     super.create()
     this.pause()
@@ -52,8 +58,6 @@ export class GameClientScene extends EditorScene {
 
   unload() {
     super.unload();
-    window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
-    window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
-    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+    this.unregisterEvents()
   }
 }

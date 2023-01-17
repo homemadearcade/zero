@@ -77,7 +77,7 @@ export class GameInstance extends Phaser.Scene {
       spawnY: spawnY !== undefined ? spawnY :gameModel.hero.spawnY,
     });
 
-    this.cameras.main.startFollow(this.playerInstance.sprite)
+    this.playerInstance.setLerp()
   }
 
   addPlayerInstance(classData = {}) {
@@ -289,7 +289,6 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     this.cameras.main.pan(this.playerInstance.sprite.x, this.playerInstance.sprite.y, 0)
     const heroClass = gameModel.classes[gameModel.hero.initialClassId]
-    this.cameras.main.startFollow(this.playerInstance.sprite, true, heroClass.camera.lerpX, heroClass.camera.lerpY);
     this.cameras.main.setZoom(heroClass.camera.zoom);
 
     if(this.isCinematicPlay) {
@@ -328,6 +327,8 @@ export class GameInstance extends Phaser.Scene {
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events
     this.scene.restart(); // restart current scene
+    this.unregisterEvents()
+
     store.dispatch(closeActiveCutscene())
   }
   
@@ -372,6 +373,7 @@ export class GameInstance extends Phaser.Scene {
       this.physics.pause()
     }
   }
+  
   resume() {
     if(this.physicsType === MATTER_PHYSICS) {
       this.matter.resume()
