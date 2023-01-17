@@ -74,7 +74,7 @@ const initialState = {
     },
     effect: {
       type: null,
-      effectedClassId: null,
+      remoteEffectedClassId: null,
       text: '',
       classId: null,
       cutsceneId: null,

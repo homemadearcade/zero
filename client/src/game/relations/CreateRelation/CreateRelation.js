@@ -161,11 +161,11 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     classB && relation.effect.type && !nonRemoteEffects[relation.effect.type] && <Unlockable interfaceId="relation/advanced/effected">
       <SelectClass 
         includePlayerInstance
-        formLabel={"What class is effected? ( If different than " + classA.name + ')'}
-        value={relation.effect.effectedClassId ? [relation.effect.effectedClassId] : []}
+        formLabel={"What class is effected remotely? ( " + classA.name + " will no longer be effected"}
+        value={relation.effect.remoteEffectedClassId ? [relation.effect.remoteEffectedClassId] : []}
         onChange={(event, classes) => {
           const newClassId = classes[classes.length-1]
-          handleEffectChange('effectedClassId', newClassId)
+          handleEffectChange('remoteEffectedClassId', newClassId)
       }}/>
     </Unlockable>,
     classB && !relation.onlyOnce && effectEditInterface[relation.effect.type]?.delayInterval && <Unlockable interfaceId="relation/advanced/delayInterval">
@@ -181,7 +181,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     </Unlockable>,
     classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId="relation/advanced/ignoreSides">
       <SelectSides
-      formLabel={"Overlapping with which side of " + classB.name + '? ( leave blank for all sides )'}
+      formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
       value={relation.sides ? relation.sides : []}
       onChange={(event, sides) => {
         updateCreateRelation({
@@ -219,7 +219,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           effect={relation.effect}
           event={relation.event}
           disabled={relation.effect.type}
-          classIdA={relation.effect.effectedClassId || relation.event.classIdA}
+          classIdA={relation.effect.remoteEffectedClassId || relation.event.classIdA}
           classIdB={relation.event.classIdB}
           formLabel={`What is the effect?`}
           value={relation.effect.type ? [relation.effect.type] : []}

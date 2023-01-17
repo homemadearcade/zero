@@ -23,8 +23,7 @@ const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disab
     if(effectType === EFFECT_COLLIDE) return false
     if(event.type !== ON_COLLIDE_ACTIVE && persistentEffects[effectType]) return false
     if(!persistentEffects[effectType] && (event.type === ON_COLLIDE_ACTIVE)) return false
-    if(effect?.effectedClassId && nonRemoteEffects[effectType] && effect.type !== EFFECT_SPAWN) {
-      console.log(effect, event, effectType)
+    if(effect?.remoteEffectedClassId && nonRemoteEffects[effectType]) {
       return false
     }
 

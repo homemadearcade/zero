@@ -41,11 +41,11 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
         }}>Edit</Button>
       </Unlockable>
       {relations.map((relation) => {
-        const { event, effect: { type, effectedClassId }} = relation
+        const { event, effect: { type, remoteEffectedClassId }} = relation
 
         // if the class dont exist, its the hero class ( as of now thats the only generalized one)
-        let effectedClass = gameModel.classes[effectedClassId];
-        if(effectedClassId === HERO_INSTANCE_ID) {
+        let effectedClass = gameModel.classes[remoteEffectedClassId];
+        if(remoteEffectedClassId === HERO_INSTANCE_ID) {
           effectedClass = {...gameModel.classes[gameModel.hero.initialClassId], name: 'Player'}
         }
         const { classA, classB } = getClassAandB(event.classIdA, event.classIdB)

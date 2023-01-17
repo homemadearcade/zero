@@ -8,7 +8,7 @@ export const defaultRelationship = {
   },
   effect: {
     effectedType: null,
-    effectedClassId: null,
+    remoteEffectedClassId: null,
     spawnClassId: null,
     type: '',
     classId: null,
@@ -157,12 +157,12 @@ export const nonRemoteEffects  = {
   [EFFECT_DESTROY]: false,
 
   // Narrative
-  [EFFECT_CUTSCENE]: false,
-  [EFFECT_GAME_OVER]: false,
-  [EFFECT_WIN_GAME]: false,
+  [EFFECT_CUTSCENE]: true,
+  [EFFECT_GAME_OVER]: true,
+  [EFFECT_WIN_GAME]: true,
 
   // Graphical
-  [EFFECT_CAMERA_SHAKE]: false,
+  [EFFECT_CAMERA_SHAKE]: true,
   [EFFECT_INVISIBLE]: false
 }
 

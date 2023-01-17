@@ -4,6 +4,7 @@ import Phaser from "phaser";
 import { changeGameState, openCutscene } from "../../../store/actions/gameContextActions";
 import { ANIMATION_CAMERA_SHAKE } from "../../../store/types";
 import { generateUniqueId } from "../../../utils/webPageUtils";
+import { nonRemoteEffects } from "../../defaultData/relationship";
 
 export class Effects {
   constructor(scene, objectInstance){
@@ -92,9 +93,9 @@ export class Effects {
     const sprite = this.objectInstance.sprite
 
     // spawning does not effect existing instances
-    if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
-      this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
-        object.effects.runPersistentEffect({...relation, effect: {...effect, effectedClassId: null}}, instanceB, sides)
+    if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
+      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
+        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceB, sides)
       })
       return
     }
@@ -124,9 +125,9 @@ export class Effects {
     const classId = this.objectInstance.classId
 
     // spawning does not effect existing instances so it cannot run here
-    if(effect.effectedClassId && effect.type !== EFFECT_SPAWN) {
-      this.scene.forAllObjectInstancesMatchingClassId(effect.effectedClassId, (object) => {
-        object.effects.runAccuteEffect({...relation, effect: {...effect, effectedClassId: null}}, instanceB, sides)
+    if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
+      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
+        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceB, sides)
       })
       return
     }
