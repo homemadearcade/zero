@@ -138,7 +138,8 @@ const ClassList = ({
           immovable: true,
         },
         graphics: {
-          invisible: true
+          invisible: true,
+          layerId: ZONE_INSTANCE_CANVAS_ID
         }
       })
     }}>

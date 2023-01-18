@@ -39,8 +39,6 @@ const ClassNameModal = ({ closeClassNameModal, editGameModel, gameModel: { gameM
     handleClose()
   }
 
-  console.log('rendering')
-
   return <CobrowsingModal open onClose={handleClose}>
     <ClassMemberTitle 
       classId={classIdEditingName} 

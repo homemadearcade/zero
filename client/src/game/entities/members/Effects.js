@@ -182,7 +182,16 @@ export class Effects {
       const spawningClassId = effect.spawnClassId ? effect.spawnClassId : classId
       const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId: spawningClassId }
       const spawnedObjectInstance =  this.scene.addObjectInstance(generateUniqueId(), modifiedClassData, true)
-      const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      let zone 
+      
+      console.log(effect.useClassAZoneInstance)
+      if(effect.useClassAZoneInstance) {
+        console.log('xx')
+        zone = this.objectInstance
+      } else {
+        zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      }
+      console.log(zone)
       if(!zone) return
       const gameModel = store.getState().gameModel.gameModel
       const objectClass = gameModel.classes[spawningClassId]

@@ -154,6 +154,19 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       </Unlockable>)
     }
 
+    if(editForms.useClassAZoneInstance && classA.classId === relation.effect.zoneClassId) {
+      forms.push(<Unlockable interfaceId="relation/useClassAZoneInstance">
+        <Switch
+          labels={['Pick Random Zone', 'Use this zone']}
+          size="small"
+          onChange={(e) => {
+            handleEffectChange('useClassAZoneInstance', e.target.value)
+          }}
+          checked={relation.effect.useClassAZoneInstance}
+         />
+      </Unlockable>)
+    }
+
     return forms
   }
 
@@ -203,7 +216,13 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           value={relation.event.classIdB ? [relation.event.classIdB] : []}
           onChange={(event, classes) => {
             const newClassId = classes[classes.length-1]
-            handleEventChange('classIdB', newClassId)
+            updateCreateRelation({
+              event: {
+                classIdA: classA.classId,
+                classIdB: newClassId
+              }
+            })
+            // handleEventChange('classIdB', newClassId)
          }}/>
         <SelectEvent
           classIdA={relation.event.classIdA}
@@ -213,7 +232,13 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           value={relation.event.type ? [relation.event.type] : []}
           onChange={(event, events) => {
             const newEvent = events[events.length-1]
-            handleEventChange('type', newEvent)
+            updateCreateRelation({
+              event: {
+                classIdA: classA.classId,
+                classIdB: classB.classId,
+                type: newEvent
+              }
+            })
         }}/>
         <SelectRelationEffect
           effect={relation.effect}
@@ -225,7 +250,16 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           value={relation.effect.type ? [relation.effect.type] : []}
           onChange={(event, effects) => {
             const effect = effects[effects.length-1]
-            handleEffectChange('type', effect)
+            updateCreateRelation({
+              // event: {
+              //   classIdA: classA.classId,
+              //   classIdB: classB.classId,
+              //   type: relation.event.type
+              // },
+              effect: {
+                type: effect
+              }
+            })
         }}/>
         {classB && relation.effect.type === EFFECT_SPAWN &&
           <SelectClass

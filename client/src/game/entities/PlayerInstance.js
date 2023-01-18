@@ -6,7 +6,7 @@ import { CameraPreview } from "./members/CameraPreview";
 import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ProjectileEjector } from "./members/ProjectileEjector";
-import { PLAYGROUND_CANVAS_DEPTH } from "../constants";
+import { PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -61,6 +61,8 @@ export class PlayerInstance extends ObjectInstance {
     this.controlledMovement = new ControlledMovement(scene, this)
     this.projectileEjector = new ProjectileEjector(scene, this)
 
+    this.unregisterColliders = []
+
     return this
   }
 
@@ -92,11 +94,28 @@ export class PlayerInstance extends ObjectInstance {
   registerRelations() {
     super.registerRelations()
     this.interactArea.register(this.getRelations())
+
+    // all sprites on playground layer collide with hero
+    const gameModel = store.getState().gameModel.gameModel
+    const releventInstances = this.scene.objectInstances.filter((objectInstance) => {
+      const objectClass = gameModel.classes[objectInstance.classId]
+      return objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID
+    }).map(({sprite}) => sprite)
+
+    this.unregisterColliders.push(
+      this.scene.physics.add.collider(this.sprite, releventInstances, (instanceA, instanceB) => {
+        instanceA.justCollided = true
+        instanceB.justCollided = true
+      })
+    )
   }
 
   unregisterRelations() {
     super.unregisterRelations()
     this.interactArea.unregister()
+    this.unregisterColliders.forEach((fx) =>  {
+      this.scene.physics.world.removeCollider(fx)
+    })
   }
 
   reclass(classId) {

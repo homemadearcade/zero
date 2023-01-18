@@ -119,7 +119,6 @@ export default function authReducer(state = initialState, { type, payload }) {
       auth = window.LocalStorageSession.getItem("auth");
       auth.redirect = ''
       window.LocalStorageSession.setItem("auth", auth);    
-      console.log('?') 
       return {
         ...state,
         redirect: null

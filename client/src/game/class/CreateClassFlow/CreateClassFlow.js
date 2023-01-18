@@ -101,7 +101,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
             }})
           }}
       />}
-      {objectClass.type !== ZONE_CLASS && <Unlockable  interfaceId="class/layer">
+      {objectClass.type !== ZONE_CLASS && objectClass.type !== HERO_CLASS && <Unlockable  interfaceId="class/layer">
         <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_CANVAS_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateClass({ graphics: {
@@ -123,7 +123,6 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
         }}
         objectClass={objectClass}
       />}
-      {objectClass.error && <Alert severity="error">{objectClass.error}</Alert>}
       {objectClass.isNew && <Unlockable interfaceId="advanced/interfaceLockedClass adminOnly">
         <Switch
           labels={['Normal', 'Player cannot see unless unlocked']}
@@ -134,6 +133,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
           checked={objectClass.interfaceLocked}
          />
       </Unlockable>}
+      {objectClass.error && <Alert severity="error">{objectClass.error}</Alert>}
       <Button
         disabled={!!objectClass.error || !objectClass.name.length}
         onClick={() => {

@@ -8,7 +8,7 @@ TICKETING
   Ticket Receipt Page
   All sorts of emails for tickets
 
-GAME SPECIFIC UI SYSTEM? for settin gravity
+GAME SPECIFIC UI SYSTEM? for settin gravity, choosing player movement options, etc
 
 UI
   The sliders - you dont really know what zero is
@@ -22,10 +22,8 @@ UI
   You should be able to hide games, you should be able to hide classes, hide lobby not delete them, hide users, dont delete them
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
 
-AUTH
+META
   Forgot Password - email Flow
-
-CONNECTION
   Popup for connection errors, little thing in the bottom corner. Toast thing
   why is connected = false happening so much?
 
@@ -39,10 +37,6 @@ GAME
   Allow changing the rotation speed for Vehicle/Direction
   Spawn from the zone that is interacted with
 
-COLLISIONS
-  Add Player Instance to Colliders menu
-  Collider with player exists for all playground layer classes by default?
-
 FEATURES
   STATUS TOOLBAR
     Microphone, Internet Connection, Game Paused, Editing, Whatever State, The time. If you have an object selected its obvious, 
@@ -50,12 +44,3 @@ FEATURES
   Unlockable UI presets creator/editor page
 
 --
-
-
-  Theres a redirect issue when logging in sometimes??
-  Signing  in with google won’t work for the lobby login page, maybe it will, ill test this
-    I need to create a local host system for 1- camera/audio and 2- redirects
-
-  So basically I gotta retest redirect stuff...
-
-  The issue is that you are not logged in and then loading an app page that requires login
