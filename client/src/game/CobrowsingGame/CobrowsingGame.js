@@ -25,10 +25,10 @@ const CobrowsingGame = ({ lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubs
         {isInsideVideoCall && <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
         <GridToggle/>
         {lobby.game && <GameBrushList/>}
+        <LobbyToolbar/>
       </>}
       rightColumn={<>
         {lobby.game && <>
-          <LobbyToolbar/>
           <GameClassList/>
         </>}
       </>}

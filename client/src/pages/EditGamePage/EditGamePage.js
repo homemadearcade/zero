@@ -31,9 +31,9 @@ const EditGamePage = ({ gameModel: { gameModel }, requestFullscreen}) => {
         leftColumn={<>
           <GridToggle/>
           <GameBrushList/>
+          <LocalGameToolbar/>
         </>}
         rightColumn={<>
-          <LocalGameToolbar/>
           <GameClassList/>
         </>}
       >

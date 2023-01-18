@@ -183,6 +183,9 @@ export const PLAY_STATE = 'PLAY_STATE'
 export const GAME_OVER_STATE = 'GAME_OVER_STATE'
 export const WIN_GAME_STATE = 'WIN_GAME_STATE'
 export const EDIT_STATE = 'EDIT_STATE'
+export const PAUSED_STATE = 'PAUSED_STATE'
+export const STOPPED_STATE = 'STOPPED_STATE'
+export const CINEMATIC_PLAY_STATE = 'CINEMATIC_PLAY_STATE'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -191,3 +194,5 @@ export const GAME_EDITOR_UI = 'GAME_EDITOR_UI'
 export const WAITING_UI = 'WAITING_UI'
 export const MONOLOGUE_UI = 'MONOLOGUE_UI'
 export const CONVERSATION_UI = 'CONVERSATION_UI'
+
+    changeGameState(EDIT_STATE)
