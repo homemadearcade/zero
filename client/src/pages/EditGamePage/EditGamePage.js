@@ -16,7 +16,7 @@ import GameView from '../../game/GameView/GameView';
 import LocalGameToolbar from '../../game/LocalGameToolbar/LocalGameToolbar';
 import GridToggle from '../../game/GridToggle/GridToggle';
 
-const EditGamePage = ({ gameModel: { gameModel }, requestFullscreen}) => {
+const EditGamePage = ({ }) => {
   // <div>{!window.isFullscreen && <div onClick={() => {
   //   requestFullscreen()
   //    }}>
@@ -27,14 +27,9 @@ const EditGamePage = ({ gameModel: { gameModel }, requestFullscreen}) => {
   return (
     <div className="EditGamePage">
       <GameEditor 
-        gameModel={gameModel}
         leftColumn={<>
-          <GridToggle/>
-          <GameBrushList/>
-          <LocalGameToolbar/>
         </>}
         rightColumn={<>
-          <GameClassList/>
         </>}
       >
         <GameView
@@ -47,7 +42,7 @@ const EditGamePage = ({ gameModel: { gameModel }, requestFullscreen}) => {
 };
 
 const mapStateToProps = (state) => ({
-  gameModel: state.gameModel,
+
 });
 
 export default compose(

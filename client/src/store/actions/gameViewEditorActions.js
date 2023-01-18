@@ -68,11 +68,13 @@ export const closeSectionEditor= () => (dispatch, getState) => {
 }
 
 
-export const toggleGridView = () => (dispatch, getState) => {
+export const toggleGridView = (value) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: TOGGLE_GRID_VIEW,
-    payload: {}
+    payload: {
+      value
+    }
   });
 }
 

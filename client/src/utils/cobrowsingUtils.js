@@ -13,72 +13,72 @@ export function getRemoteStatePackage(state) {
   }
 }
 
-export function mapCobrowsingState(state, props) {
+export function mapCobrowsingState(state, props, options) {
   const isCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
   const isSubscribed = state.cobrowsing.isSubscribedCobrowsing
 
-  if(!isCobrowsing) {
-    return {
+  if((options?.force && isSubscribed) || isCobrowsing) {
+    const remoteState = Object.keys(props).reduce((prev, propName) => {
+      const remoteState = state.cobrowsing.remoteState
+      if(propName === 'gameEditor') {
+        prev[propName] = remoteState.gameEditor
+      } else if(propName === 'gameFormEditor') {
+        prev[propName] = remoteState.gameFormEditor
+      } else if(propName === 'video') {
+        prev[propName] = remoteState.video
+      } else if(propName === 'gameViewEditor') {
+        prev[propName] = remoteState.gameViewEditor
+      } else if(propName === 'unlockableInterfaceIds') {
+        prev[propName] = remoteState.unlockableInterfaceIds
+      } else if(propName === 'errors') {
+        prev[propName] = remoteState.errors
+      } else if(propName === 'gameContext') {
+        prev[propName] = remoteState.gameContext
+      }     
+      
+      // else if(propName === 'contextMenu') {
+      //   prev[propName] = remoteState.contextMenu
+      // }
+
+      return prev 
+    }, {})
+
+    const transformedState = {
       ...props,
-      unlockableInterfaceIds: isSubscribed ? state.cobrowsing.remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
+      ...remoteState
     }
+
+    return transformedState
   }
 
-  const remoteState = Object.keys(props).reduce((prev, propName) => {
-    const remoteState = state.cobrowsing.remoteState
-    if(propName === 'gameEditor') {
-      prev[propName] = remoteState.gameEditor
-    } else if(propName === 'gameFormEditor') {
-      prev[propName] = remoteState.gameFormEditor
-    } else if(propName === 'video') {
-      prev[propName] = remoteState.video
-    } else if(propName === 'gameViewEditor') {
-      prev[propName] = remoteState.gameViewEditor
-    } else if(propName === 'unlockableInterfaceIds') {
-      prev[propName] = remoteState.unlockableInterfaceIds
-    } else if(propName === 'errors') {
-      prev[propName] = remoteState.errors
-    } else if(propName === 'gameContext') {
-      prev[propName] = remoteState.gameContext
-    }     
-    
-    // else if(propName === 'contextMenu') {
-    //   prev[propName] = remoteState.contextMenu
-    // }
-
-    return prev 
-  }, {})
-
-
-
-  const transformedState = {
+  return {
     ...props,
-    ...remoteState
+    unlockableInterfaceIds: isSubscribed ? state.cobrowsing.remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
   }
-
-  return transformedState
 }
 
-export function getCobrowsingState() {
+export function getCobrowsingState(options) {
   const state = store.getState()
   const isCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
   const isSubscribed = state.cobrowsing.isSubscribedCobrowsing
 
   const remoteState = state.cobrowsing.remoteState
 
-  if(!isCobrowsing) return {
-    ...state,
-    unlockableInterfaceIds: isSubscribed ? remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
+  if(isCobrowsing || (isSubscribed && options?.force)) {
+    return {
+      ...state,
+      gameEditor: remoteState.gameEditor,
+      gameViewEditor: remoteState.gameViewEditor,
+      gameFormEditor: remoteState.gameFormEditor,
+      video: remoteState.video,
+      gameContext: remoteState.gameContext,
+      unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
+      errors: remoteState.errors
+    }
   }
 
   return {
     ...state,
-    gameEditor: remoteState.gameEditor,
-    gameViewEditor: remoteState.gameViewEditor,
-    gameFormEditor: remoteState.gameFormEditor,
-    video: remoteState.video,
-    gameContext: remoteState.gameContext,
-    unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
-    errors: remoteState.errors
+    unlockableInterfaceIds: isSubscribed ? remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
   }
 }

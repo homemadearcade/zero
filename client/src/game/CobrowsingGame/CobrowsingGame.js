@@ -16,21 +16,13 @@ import GridToggle from '../GridToggle/GridToggle';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 import askFullscreen from '../../hoc/askFullscreen';
 
-const CobrowsingGame = ({ lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isCurrentlyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
-  
+const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isCurrentlyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   return <GameEditor 
       classNames={isCurrentlyCobrowsing ? 'GameEditor--cobrowsing' : ''}
-      lobbyId={lobby.id}
       leftColumn={<>
         {isInsideVideoCall && <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
-        <GridToggle/>
-        {lobby.game && <GameBrushList/>}
-        <LobbyToolbar/>
       </>}
       rightColumn={<>
-        {lobby.game && <>
-          <GameClassList/>
-        </>}
       </>}
     >
       {children}
@@ -41,7 +33,6 @@ const CobrowsingGame = ({ lobby: { lobby }, cobrowsing: { cobrowsingUser, isSubs
 const mapStateToProps = (state) => {
   
   const cobrowsingState = mapCobrowsingState(state, {
-    lobby: state.lobby,
     video: state.video,
     cobrowsing: state.cobrowsing,
   });

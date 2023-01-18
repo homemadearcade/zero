@@ -3,14 +3,14 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, HERO_CLASS, ON_PLAY_CINEMATIC } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, HERO_CLASS, ON_PLAY_CINEMATIC, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { World } from '../entities/World';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { editLobby } from '../../store/actions/lobbyActions';
-import { closeActiveCutscene } from '../../store/actions/gameContextActions';
+import { clearGameContext  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 
 export class GameInstance extends Phaser.Scene {
@@ -25,6 +25,8 @@ export class GameInstance extends Phaser.Scene {
     this.foregroundLayer = null
     this.objectInstances = []
     this.objectInstancesById = {}
+
+    this.gameState = null
 
     this.physicsType = ARCADE_PHYSICS
   }
@@ -331,7 +333,7 @@ export class GameInstance extends Phaser.Scene {
   sendReloadGameEvent() {
     if(store.getState().lobby.lobby?.id) {
       store.dispatch(editLobby(store.getState().lobby.lobby.id, {
-        gameResetDate: Date.now()
+        gameReloadDate: Date.now()
       }))
     } else {
       this.reload()
@@ -344,7 +346,7 @@ export class GameInstance extends Phaser.Scene {
     this.scene.restart(); // restart current scene
     this.unregisterEvents()
 
-    store.dispatch(closeActiveCutscene())
+    store.dispatch(clearGameContext())
   }
   
   update(time, delta) {
@@ -399,6 +401,48 @@ export class GameInstance extends Phaser.Scene {
     if(this.physicsType === ARCADE_PHYSICS) {
       this.physics.resume()
     }  
+  }
+
+  onStateChange(oldGameState, gameState) {
+    if(gameState === START_STATE) {
+      this.sendReloadGameEvent()
+      this.pause()
+    }
+    if(gameState === PLAYTHROUGH_PAUSED_STATE) {
+      this.isPaused = true
+      this.pause()
+    }
+    if(gameState === PAUSED_STATE) {
+      this.isPaused = true
+      this.pause()
+    }
+    if(gameState === PLAY_STATE) {
+      this.isPaused = false
+      this.isPlaythrough = false
+      this.resume()
+    }
+    if(gameState === STOPPED_STATE) {
+      this.isPaused = true
+      this.isPlaythrough = false
+      this.sendReloadGameEvent()
+      this.pause()
+    }
+    if(gameState === PLAYTHROUGH_PLAY_STATE) {
+      this.isPaused = false
+      this.resume()
+      this.isPlaythrough = true
+    }
+
+    if(gameState === GAME_OVER_STATE) {
+      this.isPaused = true   
+      this.resume()
+    }
+    if(gameState === WIN_GAME_STATE) {
+      this.isPaused = true
+      this.pause()
+    }
+
+    this.gameState = gameState
   }
 
   addSpriteToTypeLayer(classId, sprite, modifier) {

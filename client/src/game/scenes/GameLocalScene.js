@@ -1,10 +1,12 @@
 import {
-  GAME_SCENE,
+  GAME_OVER_STATE,
+  GAME_SCENE, PLAYTHROUGH_PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE, WIN_GAME_STATE,
 } from '../constants';
 import store from '../../store';
 import { ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { isGameContextPausing } from '../../utils/gameUtils';
 import { EditorScene } from './EditorScene';
+import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 
 export class GameLocalScene extends EditorScene {
   constructor(props) {
@@ -34,19 +36,11 @@ export class GameLocalScene extends EditorScene {
 
   update(time, delta) {
     super.update(time, delta) 
-
-    const state = store.getState()
-    const gameContext = state.gameContext
-    if(isGameContextPausing(gameContext)) {
-      this.pause()
-    } else {
-      if(this.isPaused) {
-        this.pause()
-      } else {
-        this.resume()
-      }
-    }
-
     this.afterGameInstanceUpdateEffects()
+
+    const gameState = store.getState().gameContext.gameState
+    if(this.gameState !== gameState) {
+      this.onStateChange(this.gameState, gameState)
+    }
   }
 }

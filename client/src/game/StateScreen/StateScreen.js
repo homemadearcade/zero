@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
 import Link from '../../ui/Link/Link';
 import Typography from '../../ui/Typography/Typography';
-import { EDIT_STATE, GAME_OVER_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../constants';
+import { GAME_OVER_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import KeyIndicator from '../ui/KeyIndicator/KeyIndicator';
@@ -23,7 +23,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
   function progressIfX(event) {
     if(!event.key) return
     if(event.key.toLowerCase() === 'x'){
-      changeGameState(PLAY_STATE)
+      changeGameState(PLAYTHROUGH_PLAY_STATE)
     }
   }
 
@@ -78,9 +78,10 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
 }
 
 function StateScreen({gameContext: { gameState, gameStateMessage}, changeGameState, gameModel}) {
-  if(gameState === PLAY_STATE || gameState === EDIT_STATE) {
+  if(gameState !== START_STATE && gameState !== WIN_GAME_STATE && gameState !== GAME_OVER_STATE) {
     return null
   }
+
   return <StateScreenBody gameState={gameState} gameStateMessage={gameStateMessage} changeGameState={changeGameState} gameModel={gameModel}/>
 }
 

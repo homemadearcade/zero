@@ -64,6 +64,12 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
         isSectionEditorOpen: false,
       };
     case TOGGLE_GRID_VIEW: 
+      if(payload.value !== undefined) {
+        return {
+          ...state,
+          isGridViewOn: payload.value
+        }
+      }
       return {
         ...state,
         isGridViewOn: !state.isGridViewOn,

@@ -1,6 +1,8 @@
+import { PAUSED_STATE, PLAYTHROUGH_PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE } from '../../game/constants';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { 
   CHANGE_GAME_STATE,
+  CLEAR_GAME_CONTEXT,
   CLOSE_CUTSCENE,
   COMPLETE_CLOSE_CONSTELLATION,
   OPEN_CONSTELLATION,
@@ -8,11 +10,11 @@ import {
   PROGRESS_CUTSCENE,
   START_CLOSE_CONSTELLATION,
 } from '../types';
-import { editLobby } from './lobbyActions';
 
 export const changeGameState = (gameState, message) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    forceCobrowsingUpdate: true,
     type: CHANGE_GAME_STATE,
     payload: {
       gameState,
@@ -22,17 +24,14 @@ export const changeGameState = (gameState, message) => (dispatch, getState) => {
 };
 
 export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
-  // const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
-  // if(cutscene.pauseGame) {
-    if(getState().lobby.lobby?.id) {
-      dispatch(editLobby(getState().lobby.lobby?.id, {
-        isGamePaused: true
-      }))
-    } else {
-      const scene = getCurrentGameScene(getState().webPage.gameInstance)
-      scene.isPaused = true
-    }
-  // }
+  dispatch(changeGameState(PAUSED_STATE))
+
+  const scene = getCurrentGameScene(getState().webPage.gameInstance)
+  if(scene.isPlaythrough) {
+    dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
+  } else {
+    dispatch(changeGameState(PAUSED_STATE))
+  }
 
   dispatch({
     updateCobrowsing: true,
@@ -65,14 +64,13 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
   // const cutsceneId = getState().gameContext.cutsceneId
   // const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
   // if(cutscene.pauseGame) {
-    if(getState().lobby.lobby?.id) {
-      dispatch(editLobby(getState().lobby.lobby?.id, {
-        isGamePaused: false
-      }))
-    } else {
-      const scene = getCurrentGameScene(getState().webPage.gameInstance)
-      scene.isPaused = false
-    }
+
+  const scene = getCurrentGameScene(getState().webPage.gameInstance)
+  if(scene.isPlaythrough) {
+    dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+  } else {
+    dispatch(changeGameState(PLAY_STATE))
+  }
   // }
 
   dispatch({
@@ -93,6 +91,12 @@ export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => as
     if(!scene) setTimeout(() => attemptConstellation(), 1000)
 
     const { imgCanvas } = await scene.getImageFromGame('constellation')
+
+    if(scene.isPlaythrough) {
+      dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
+    } else {
+      dispatch(changeGameState(PAUSED_STATE))
+    }
     
     dispatch({
       externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
@@ -117,10 +121,25 @@ export const startCloseConstellation = ({ externalForceCobrowsingUpdateUserId })
 }
 
 export const completeCloseConstellation = ({ externalForceCobrowsingUpdateUserId }) => (dispatch, getState) => {
+  const scene = getCurrentGameScene(getState().webPage.gameInstance)
+  if(scene.isPlaythrough) {
+    dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+  } else {
+    dispatch(changeGameState(PLAY_STATE))
+  }
+  
   dispatch({
     updateCobrowsing: true,
     externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
     type: COMPLETE_CLOSE_CONSTELLATION,
+    payload: {}
+  });
+}
+
+export const clearGameContext = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLEAR_GAME_CONTEXT,
     payload: {}
   });
 }

@@ -1,5 +1,6 @@
 import store from "../../../store"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
+import { ZONE_CLASS } from "../../constants"
 
 export class Graphics {
   constructor(scene, objectInstance){
@@ -44,12 +45,16 @@ export class Graphics {
       scene.addSpriteToTypeLayer(objectInstance.classId, sprite.editorHighlight, -1)
     }
     if(objectClass.graphics.invisible && this.scene.isEditor) {
-      objectInstance.setVisible(true) 
-      objectInstance.setAlpha(0.1)
       this.createInvisiblilityIndicator()
+      this.setInvisible()
     }
 
     this.createInteractBorder()
+  }
+
+  setInvisible() {
+    this.objectInstance.setVisible(true) 
+    this.objectInstance.setAlpha(0.1)
   }
 
   setSize(w, h) {
@@ -109,8 +114,15 @@ export class Graphics {
     const sprite = this.objectInstance.sprite
 
     if(sprite.invisibleIndicator) {
-      sprite.invisibleIndicator.setPosition(sprite.x, sprite.y)
-      sprite.invisibleIndicator.setRotation(sprite.rotation)
+      if(this.scene.isPlaythrough) {
+        sprite.invisibleIndicator.setVisible(false)
+        this.objectInstance.setVisible(false)
+      } else {
+        sprite.invisibleIndicator.setPosition(sprite.x, sprite.y)
+        sprite.invisibleIndicator.setRotation(sprite.rotation)
+        sprite.invisibleIndicator.setVisible(true)
+        this.setInvisible()
+      }
     }
 
     sprite.interactBorder.setPosition(sprite.x, sprite.y)

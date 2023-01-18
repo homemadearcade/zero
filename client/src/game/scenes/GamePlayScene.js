@@ -22,19 +22,10 @@ export class GamePlayScene extends GameInstance {
 
   update(time, delta) {
     super.update(time, delta) 
-
-    const state = store.getState()
-    const gameContext = state.gameContext
-    if(isGameContextPausing(gameContext)) {
-      this.pause()
-    } else {
-      if(this.isPaused) {
-        this.pause()
-      } else {
-        this.resume()
-      }
-    }
-    
     this.afterGameInstanceUpdateEffects()
+    const gameState = store.getState().gameContext.gameState
+    if(this.gameState !== gameState) {
+      this.onStateChange(this.gameState, gameState)
+    }
   }
 }

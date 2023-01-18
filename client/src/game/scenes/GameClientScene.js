@@ -1,8 +1,9 @@
 import {
-  GAME_SCENE, HERO_INSTANCE_ID,
+  GAME_SCENE, HERO_INSTANCE_ID, PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, STOPPED_STATE,
 } from '../constants';
 import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
+import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
@@ -69,5 +70,28 @@ export class GameClientScene extends EditorScene {
   unload() {
     super.unload();
     this.unregisterEvents()
+  }
+
+  update(time, delta) {
+    super.update(time, delta)
+
+    const gameState = getCobrowsingState({force: true}).gameContext.gameState
+    if(this.gameState !== gameState) {
+      this.onStateChange(this.gameState, gameState)
+    }
+  }
+
+  onStateChange(oldGameState, gameState) {
+    if(gameState === PLAY_STATE) {
+      this.isPlaythrough = false
+    }
+    if(gameState === PLAYTHROUGH_PLAY_STATE) {
+      this.isPlaythrough = true
+    }
+    if(gameState === STOPPED_STATE) {
+      this.isPlaythrough = false
+    }
+
+    this.gameState = gameState
   }
 }

@@ -1,5 +1,6 @@
 import {
   CHANGE_GAME_STATE,
+  CLEAR_GAME_CONTEXT,
   CLOSE_CUTSCENE,
   COMPLETE_CLOSE_CONSTELLATION,
   OPEN_CONSTELLATION,
@@ -16,7 +17,8 @@ const initialState = {
   gameStateMessage: null,
   isConstellationClosing: false,
   isConstellationOpen: false,
-  constellationZoomImageFile: null
+  constellationZoomImageFile: null,
+  currentSceneId: null
 };
 
 export const initialGameContextState = initialState
@@ -52,6 +54,11 @@ export default function gameContextReducer(state = initialState, { type, payload
         ...state,
         cutsceneIndex: state.cutsceneIndex + 1
       };
+    case CLEAR_GAME_CONTEXT: 
+      return {
+        ...initialGameContextState,
+        gameState: state.gameState
+      }
     case CLOSE_CUTSCENE:
       return {
         ...state,

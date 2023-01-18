@@ -92,7 +92,7 @@ export class ObjectInstance extends Sprite {
     if(objectClass.worldBoundaryRelation === WORLD_WRAP) {
       this.scene.physics.world.wrap(this.sprite.body, objectClass.graphics.width)
     }
-    
+
     this.effects.update()
     this.movement.update(time, delta)
   }

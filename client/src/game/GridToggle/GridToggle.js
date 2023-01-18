@@ -24,7 +24,7 @@ const GridToggle = ({
     > 
     <Icon icon="faTableCells"/>
     <Switch
-          size="small"
+      size="small"
       checked={isGridViewOn}
       />
     </div>

@@ -11,8 +11,6 @@ export class GameHostScene extends EditorScene {
     super({
       key: props.key,
     });
-
-    this.isPaused = false
   }
 
   callAnimation({type, data}) {
@@ -86,24 +84,9 @@ export class GameHostScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta)
 
-    const state = store.getState()
-    const gameContext = state.gameContext
-    if(isGameContextPausing(gameContext)) {
-      this.isPaused = true
-      this.pause()
-    } else {
-      const lobby = state.lobby.lobby
-      if(lobby.id) {
-        const isGamePaused = lobby.isGamePaused
-        if(isGamePaused) {
-          this.isPaused = true
-          this.pause()
-        } else {
-          this.isPaused = false
-          this.resume()
-        }
-      }
+    const gameState = store.getState().gameContext.gameState
+    if(this.gameState !== gameState) {
+      this.onStateChange(this.gameState, gameState)
     }
-
   }
 }

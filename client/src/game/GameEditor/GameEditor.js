@@ -12,7 +12,7 @@ import SectionEditor from '../world/SectionEditor/SectionEditor';
 import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../world/SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
-import { EDIT_STATE } from '../constants';
+import { EDIT_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../cutscene/CutscenesMenu/CutscenesMenu';
@@ -22,6 +22,10 @@ import RelationsMenu from '../relations/RelationsMenu/RelationsMenu';
 import WorldRelation from '../relations/WorldRelation/WorldRelation';
 import ClassNameModal from '../class/ClassNameModal/ClassNameModal';
 import SetupChoicesModal from '../SetupChoicesModal/SetupChoicesModal';
+import GridToggle from '../GridToggle/GridToggle';
+import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
+import ClassList from '../class/ClassList/ClassList';
+import BrushList from '../brush/BrushList/BrushList';
 
 const GameEditor = ({ 
   classNames, 
@@ -38,11 +42,14 @@ const GameEditor = ({
   clearEditor, 
   clearGameFormEditor, 
   clearGameViewEditor,
+  gameContext: { gameState },
+  gameModel: { gameModel }
 }) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
-    changeGameState(EDIT_STATE)
+    changeGameState(PLAY_STATE)
+    
     return () => {
       clearEditor()
       clearGameFormEditor()
@@ -51,11 +58,18 @@ const GameEditor = ({
     }
   }, [])
 
+  const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE)
+
   return <>
     {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
     <div className={"GameEditor " + classNames}>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
-        {!isSectionEditorOpen && leftColumn}
+        {showColumns && <>
+          {leftColumn}
+          <GridToggle/>
+          {gameModel && <BrushList/>}
+        </>}
+        <LobbyToolbar/>
       </div>
       {children}
       <div className="GameEditor__overlay">
@@ -63,7 +77,9 @@ const GameEditor = ({
         {isSnapshotTakerOpen && <SnapshotTaker/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        {!isSectionEditorOpen && rightColumn}
+        {showColumns && gameModel && <>
+          <ClassList/>
+        </>}
       </div>
       {liveEditingCategory && <LiveEditor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
@@ -84,6 +100,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
   gameFormEditor: state.gameFormEditor,
   gameContext: state.gameContext,
+  gameModel: state.gameModel
 })
 
 export default connect(mapStateToProps, { 

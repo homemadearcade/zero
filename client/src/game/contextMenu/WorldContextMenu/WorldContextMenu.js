@@ -52,12 +52,12 @@ const WorldContextMenu = ({
         onMenuItemClick()
       }}>Edit Metadata</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/toggleGrid">
+    {false && <Unlockable interfaceId="contextMenu/toggleGrid">
       <MenuItem onClick={() => {
         toggleGridView()
         onMenuItemClick()
       }}>{isGridViewOn ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
-    </Unlockable>
+    </Unlockable>}
     <Unlockable interfaceId="contextMenu/takeSnapshot">
       <MenuItem onClick={() => {
         openSnapshotTaker(generateUniqueId())

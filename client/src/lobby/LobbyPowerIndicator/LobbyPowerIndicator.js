@@ -19,7 +19,6 @@ const LobbyPowerIndicator = ({
       if(!lobby.currentGameId) return
       editLobby(lobby.id, {
         isGamePoweredOn: !isGamePoweredOn,
-        isGamePaused: false
       })
     }}
   > 
