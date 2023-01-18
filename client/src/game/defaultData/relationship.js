@@ -1,3 +1,4 @@
+import store from "../../store"
 import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAY_CINEMATIC, ON_SPAWN } from "../constants"
 
 export const defaultRelationship = {
@@ -221,7 +222,7 @@ export const effectSuffixes = {
 
   // Lifecycle
   [EFFECT_RECLASS]: 'ClassA',
-  [EFFECT_SPAWN]: null,
+  [EFFECT_SPAWN]: null,//'spawnClassId',
   [EFFECT_DESTROY]: 'ClassA',
 
   // Narrative
@@ -240,6 +241,13 @@ function getEffectSuffix(effect, classA, classB) {
   } else if(effectSuffixes[effect] === 'ClassA' && classA) {
     return classA.name + ' '
   }
+  
+  // if(effectSuffixes[effect]) {
+  //   if(effect.spawnClassId) {
+  //     const classSpawn = store.getState().gameModel.gameModel.classes[effect.spawnClassId]
+  //     return classSpawn.name
+  //   }
+  // }
 
   return ''
 }
@@ -247,6 +255,11 @@ function getEffectSuffix(effect, classA, classB) {
 export function getEffectLabel(effect, classA, classB) {
   return effectDisplayNames[effect] + ' ' + getEffectSuffix(effect, classA, classB)
 }
+
+// export function getCompletedEffectLabel(effect, classA, classB) {
+//   return effectDisplayNames[effect.type] + ' ' + getEffectSuffix(effect, classA, classB)
+// }
+
 
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -310,9 +323,9 @@ function getEventPreviewPrefix(event, classA, classB) {
 }
 
 export function getEventPreviewLabel(event, classA, classB) {
-  return 'when ' + getEventPreviewPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
+  return 'when ' + getEventPreviewPrefix(event.type, classA, classB) + ' ' + eventDisplayNames[event]
 }
 
 export function getEventLabel(event, classA, classB) {
-  return 'when ' + getEventPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
+  return 'when ' + getEventPrefix(event.type, classA, classB) + ' ' + eventDisplayNames[event]
 }

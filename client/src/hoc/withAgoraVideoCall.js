@@ -7,13 +7,12 @@ import { leaveAgoraVideoCall, setAudioTrackId, setVideoTrackId } from '../store/
 export default (ChildComponent) => {
   class WithAgoraVideoCall extends Component {
     constructor(props) {
-      const preferences = props.auth.me.preferences
-
-      if(preferences?.agoraVideoTrackId) {
-        props.setVideoTrackId(preferences.agoraVideoTrackId)
+      const agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
+      if(agoraPreferences.videoTrackId) {
+        props.setVideoTrackId(agoraPreferences.videoTrackId)
       }
-      if(preferences?.agoraAudioTrackId) {
-        props.setAudioTrackId(preferences.agoraAudioTrackId)
+      if(agoraPreferences.audioTrackId) {
+        props.setAudioTrackId(agoraPreferences.audioTrackId)
       }
     }
 

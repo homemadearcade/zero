@@ -152,7 +152,6 @@ app.set('socketSessions', socketSessions);
 server.listen(port, () => console.log(`Server started on port ${port}`));
 
 io.on("connection", (socket) => {  
-
   // this event is called after a user is logged in and also after a socket is reconnected
   socket.on('authenticate', async ({token}) => {
     if (token) {

@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link as RouterLink, MemoryRouter } from 'react-router-dom';
+import './utils/webPageUtils'
 
 // import Cookies from 'js-cookie';
 
@@ -30,6 +31,7 @@ import AppPage from './pages/AppPage/AppPage';
 import './App.scss'
 import HATicketsPage from './pages/HATicketsPage/HATicketsPage';
 import TicketedEventCalendarPage from './pages/TicketedEventCalendarPage/TicketedEventCalendarPage';
+import store from './store';
 
 const LinkBehavior = React.forwardRef((props, ref) => {
   const { href, ...other } = props;
@@ -171,12 +173,22 @@ const App = ({ }) => {
     </AppPage>
   }
 
+  const wrapComponentInAppIfAuthenticated = (Component) => (props) => {
+    const auth = store.getState().auth
+
+    if(auth.isAuthenticated && auth.isSocketAuthenticated) {
+      return <AppPage>
+        <Component {...props} />
+      </AppPage>
+    } return <Component {...props}/>
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/wishlabs" component={WishLabsPage}/>
-          <Route path="/buy-tickets" component={HATicketsPage}/>
+          <Route path="/wishlabs" children={wrapComponentInAppIfAuthenticated(WishLabsPage)}/>
+          <Route path="/buy-tickets" children={wrapComponentInAppIfAuthenticated(HATicketsPage)}/>
           <Route path="/calendar" children={wrapComponentInApp(TicketedEventCalendarPage)} />
           <Route path="/games" children={wrapComponentInApp(GamesPage)} />
           <Route path="/edit/:gameId" children={wrapComponentInApp(EditGamePage)} />
@@ -184,14 +196,14 @@ const App = ({ }) => {
           <Route path="/login" children={wrapComponentInApp(Login)} />
           <Route path="/register" children={wrapComponentInApp(Register)} />
           <Route path="/users" children={wrapComponentInApp(Users)} />
-          <Route path="/notfound" children={<NotFound/>} />
+          <Route path="/notfound" children={wrapComponentInAppIfAuthenticated(NotFound)} />
           <Route path="/admin" children={wrapComponentInApp(Admin)} />
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
           <Route path="/lobby/:id" children={wrapComponentInApp(LobbyPage)} />
           <Route exact path="/:username" children={wrapComponentInApp(Account)} />
           <Route path="/OAuthSuccess" children={wrapComponentInApp(HomemadeArcadePage)} />
-          <Route exact path="/" component={HomemadeArcadePage} />
-          <Route component={NotFound} />
+          <Route exact path="/" children={wrapComponentInAppIfAuthenticated(HomemadeArcadePage)} />
+          <Route children={wrapComponentInAppIfAuthenticated(NotFound)} />
         </Switch>
       </Router>
     </ThemeProvider>

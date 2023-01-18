@@ -9,7 +9,7 @@ export default (ChildComponent) => {
   class ComposedComponent extends Component {
     // // Our component just got rendered
     componentDidMount() {
-      if (!this.props.auth.isAuthenticated) {
+      if (!this.props.auth.isAuthenticated || !this.props.auth.isSocketAuthenticated) {
         const { setRedirect } = this.props
         setRedirect(window.location.pathname)
       }

@@ -23,7 +23,10 @@ const initialState = {
   me: null,
   error: null,
   appLoaded: false,
+  redirect: window.LocalStorageSession.getItem("auth").redirect
 };
+
+let auth
 
 export default function authReducer(state = initialState, { type, payload }) {
   switch (type) {
@@ -105,11 +108,18 @@ export default function authReducer(state = initialState, { type, payload }) {
         error: payload.error
       };
     case SET_REDIRECT:
+      auth = window.LocalStorageSession.getItem("auth");
+      auth.redirect = payload.redirect
+      window.LocalStorageSession.setItem("auth", auth);  
       return {
         ...state,
         redirect: payload.redirect
       }
     case CLEAR_REDIRECT:
+      auth = window.LocalStorageSession.getItem("auth");
+      auth.redirect = ''
+      window.LocalStorageSession.setItem("auth", auth);    
+      console.log('?') 
       return {
         ...state,
         redirect: null

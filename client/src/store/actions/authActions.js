@@ -29,21 +29,23 @@ import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 
 export const authenticateSocket = (values) => async (dispatch, getState) => {
   dispatch({ type: AUTHENTICATE_SOCKET_LOADING });
+
   return new Promise((resolve, reject) => {
     const token = getState().auth.token;
 
-    window.socket.emit('authenticate', { token })
+    window.socket.connect()
+
+    window.socket.on(ON_SOCKET_CONNECT, () => {
+      console.log('connecting socket');
+      window.socket.emit('authenticate', { token })
+    });
 
     window.socket.on(ON_SOCKET_DISCONNECT, () => {
-      console.log('disconnected'); // undefined
+      console.log('disconnected socket'); // undefined
     });
 
     window.socket.on(ON_AUTHENTICATE_SOCKET_SUCCESS, () => {
-      window.socket.on(ON_SOCKET_CONNECT, () => {
-        console.log('connecting again');
-        window.socket.emit('authenticate', { token })
-      });
-
+      console.log('socket auth successful')
       dispatch({
         type: AUTHENTICATE_SOCKET_SUCCESS,
         payload: {},
@@ -51,6 +53,7 @@ export const authenticateSocket = (values) => async (dispatch, getState) => {
       resolve()
     })
     window.socket.on(ON_AUTHENTICATE_SOCKET_FAIL, (err) => {
+      console.log('failed to auth socket')
       dispatch({
         type: AUTHENTICATE_SOCKET_FAIL,
         payload: { error: err},
@@ -99,7 +102,7 @@ export const loginUserWithEmail = (formData, history) => async (dispatch, getSta
     });
 
     dispatch(loadMe());
-    history.push(getState().auth.redirect || '/');
+    history.push(window.LocalStorageSession.getItem("auth").redirect || '/');
     dispatch(clearRedirect())
   } catch (err) {   
     console.error(err) 
@@ -128,7 +131,7 @@ export const logInUserWithOauth = (token, history) => async (dispatch, getState)
 
     dispatch(authenticateSocket())
     dispatch(initializeUnlockableInterfaceIds(response.data.me.unlockableInterfaceIds))
-    history.push(getState().auth.redirect || '/');
+    history.push(window.LocalStorageSession.getItem("auth").redirect || '/');
     dispatch(clearRedirect())
   } catch (err) {
     console.error(err)

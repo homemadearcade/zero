@@ -17,11 +17,6 @@ const AgoraInputSelect = ({ auth: { me }, tracks = null, editUser, setVideoTrack
         onChange={(e) => {
           setVideoDevice(e.target.value)
           setVideoTrackId(e.target.value)
-          editUser(me?.id, {
-            preferences: {
-              agoraVideoTrackId: e.target.value
-            }
-          })
         }}
         inputLabel="Camera"
         options={videoDevices.map(({label, deviceId}) => {
@@ -36,13 +31,6 @@ const AgoraInputSelect = ({ auth: { me }, tracks = null, editUser, setVideoTrack
         onChange={(e) => {
           setAudioDevice(e.target.value)
           setAudioTrackId(e.target.value)
-          editUser(me?.id, 
-            ...me,
-            {
-            preferences: {
-              agoraAudioTrackId: e.target.value
-            }
-          })
         }}
         inputLabel="Microphone"
         options={audioDevices.map(({label, deviceId}) => {

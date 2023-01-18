@@ -24,7 +24,7 @@ export const registerUserWithEmail = (formData, history) => async (dispatch, get
     });
 
     dispatch(loadMe());
-    history.push(getState().auth.redirect || '/');
+    history.push(window.LocalStorageSession.getItem("auth").redirect || '/');
     dispatch(clearRedirect())
   } catch (err) {
     console.error(err)

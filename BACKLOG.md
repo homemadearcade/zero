@@ -48,6 +48,8 @@ If you interact with a zone and want to spawn, have it spawn in that same zone i
 
 TODO FEATURES ( MAYBE ) BACKlog
 
+ANALYTICS on each action?, on where on the screen? Save all records
+
 Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode 
 
 Take snapshot without BG
@@ -101,7 +103,7 @@ Hero Name -> Player
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
 
-Wrap Sprite in another class called like...object instance... lol
+Wrap Sprite in another class called like...object instance... lol, phaser?
 
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 
@@ -109,6 +111,8 @@ Choose instances in relation editor
 Effect Instance id? Create a generelized id structure for everything.
   event.classIdB, classIdA would actually just be idA, idB, and then that id will relate to like objectclass/adsoasd98/ or objectinstance/oiasdljkasdna or playerinstance/kj.hasdkhjasd
   ID system for objects vs player vs project, etc? is that smart? Like be able to figure out what anything is based on its id?
+Also like basically effects should not use ClassA and ClassB
+effect Suffix shouldnt really be a thing. Its like just Whats effected, an instance or a class?? or what??
 
 Player should be just another object instance. Also add a variable called like 'controlling instance' which is like a copy or something? think on this. Too many variations between player and object
 

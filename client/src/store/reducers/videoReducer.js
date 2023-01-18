@@ -25,6 +25,8 @@ const initialState = {
 
 export const initialVideoState = initialState
 
+let agoraPreferences
+
 export default function videoReducer(state = initialState, { type, payload }) {
   switch (type) {
     case BYPASS_VIDEO_CALL:
@@ -61,11 +63,17 @@ export default function videoReducer(state = initialState, { type, payload }) {
         bypass: true
       };
     case SET_VIDEO_TRACK_ID:
+      agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
+      agoraPreferences.videoTrackId = payload.videoTrackId
+      window.LocalStorageSession.setItem("agoraPreferences", agoraPreferences);
       return {
         ...state,
         videoTrackId: payload.videoTrackId
       };
     case SET_AUDIO_TRACK_ID:
+      agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
+      agoraPreferences.audioTrackId = payload.audioTrackId
+      window.LocalStorageSession.setItem("agoraPreferences", agoraPreferences);
       return {
         ...state,
         audioTrackId: payload.audioTrackId

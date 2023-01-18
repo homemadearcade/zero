@@ -23,7 +23,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
         <li className="nav-item">
           <Link ignoreDefaultStyle to="/buy-tickets">Buy Tickets</Link>
         </li>
-        {auth.isAuthenticated ? (
+        {auth.isAuthenticated && auth.isSocketAuthenticated ? (
           <>
             {auth.me?.role === ADMIN_ROLE && (
               <li className="nav-item">

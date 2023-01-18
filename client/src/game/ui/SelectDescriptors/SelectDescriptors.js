@@ -4,13 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectDescriptors.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
+import { shuffleArray } from '../../../utils/arrayUtils';
 
 const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => {
   return <SelectChipsAuto 
     onChange={onChange}
     formLabel={formLabel}
     value={value}
-    options={descriptorOptions}
+    options={shuffleArray(descriptorOptions)}
   />
 }
 

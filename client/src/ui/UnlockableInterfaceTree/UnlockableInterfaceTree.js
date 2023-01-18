@@ -196,8 +196,6 @@ function UnlockableInterfaceTree({ userId, getUserById, user: { user }, updateAr
     
   }, [userId, user?.id])
 
-  console.log(user, userId)
-
   if(!user) return <Loader text="Loading User..."></Loader>
 
   function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {

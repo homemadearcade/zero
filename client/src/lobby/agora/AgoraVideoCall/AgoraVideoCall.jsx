@@ -36,13 +36,12 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
   const { tracks, ready } = useMicrophoneAndCameraTracks();
 
   useEffect(() => {
-    const preferences = me.preferences
-
-    if(preferences.agoraVideoTrackId) {
-      setVideoTrackId(preferences.agoraVideoTrackId)
+    const agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
+    if(agoraPreferences.videoTrackId) {
+      setVideoTrackId(agoraPreferences.videoTrackId)
     }
-    if(preferences.agoraAudioTrackId) {
-      setAudioTrackId(preferences.agoraAudioTrackId)
+    if(agoraPreferences.audioTrackId) {
+      setAudioTrackId(agoraPreferences.audioTrackId)
     }
   }, [])
 

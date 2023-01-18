@@ -12,7 +12,6 @@ const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disab
   const { classA, classB } = getClassAandB(classIdA, classIdB)
 
   const mapControlsToOption = (effect) => {
-
     return {
       label: getEffectLabel(effect, classA, classB),
       value: effect

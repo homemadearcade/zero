@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Loader from '../../ui/Loader/Loader';
 
-import { logInUserWithOauth, loadMe, authenticateSocket } from '../../store/actions/authActions';
+import { logInUserWithOauth, loadMe } from '../../store/actions/authActions';
 
 import ErrorHandler from '../../ui/connected/ErrorHandler/ErrorHandler';
 
@@ -19,9 +19,12 @@ import { withRouter } from 'react-router-dom';
 const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   useEffect(() => {
     // window.socket = io(window.location.host, { autoConnect: false })
-    window.socket = io({
-      closeOnBeforeunload: false // defaults to true
-    })
+    if(!window.socket) {
+      window.socket = io({
+        autoConnect: false,
+        closeOnBeforeunload: false // defaults to true
+      })
+    }
 
     window.socket.onAny((event, ...args) => {
       if(event.indexOf('STATUS') >= 0 || event.indexOf(ON_GAME_INSTANCE_UPDATE) >= 0) return 
@@ -32,7 +35,7 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
     if (cookieJwt) {
       Cookies.remove('x-auth-cookie');
       logInUserWithOauth(cookieJwt, history);
-    } else {
+    } else if(!auth.isAuthenticated || !auth.isSocketAuthenticated){
       loadMe();
     }
 
@@ -54,4 +57,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default compose(withRouter, connect(mapStateToProps, { authenticateSocket, logInUserWithOauth, loadMe }))(AppPage);
+export default compose(withRouter, connect(mapStateToProps, { logInUserWithOauth, loadMe }))(AppPage);

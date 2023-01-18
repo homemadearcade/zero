@@ -28,7 +28,7 @@ const Login = ({ auth, history, loginUserWithEmail }) => {
   });
 
   useEffect(() => {
-    if(auth.me?.id && !auth.redirect) {
+    if(auth.isAuthenticated && auth.isSocketAuthenticated && !auth.redirect) {
       console.log('redirect in login componet is triggering')
       history.push('/')
     }
