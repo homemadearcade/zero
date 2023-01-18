@@ -21,11 +21,12 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE/CAR
-    if(objectClass.movement.controls === VEHICLE_CONTROLS || objectClass.movement.controls === CAR_CONTROLS) {
+    // || objectClass.movement.controls === CAR_CONTROLS
+    if(objectClass.movement.controls === VEHICLE_CONTROLS) {
       if(this.cursors.left.isDown) {
-        this.objectInstance.setAngularVelocity(-speed);
+        this.objectInstance.setAngularVelocity(-objectClass.movement.speedAngular);
       } else if(this.cursors.right.isDown) {
-        this.objectInstance.setAngularVelocity(speed);
+        this.objectInstance.setAngularVelocity(objectClass.movement.speedAngular);
       }
 
       if(this.cursors.up.isDown) {

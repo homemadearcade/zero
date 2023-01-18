@@ -35,7 +35,6 @@ const SelectJumping = ({ onChange, value, formLabel }) => {
 
 
   const options = Object.keys(controlsValues).map(mapControlsToOption)
-  console.log(options, controlsValues, controlsValueToLabel)
 
   return <SelectChipsAuto 
     onChange={(event, descriptors) => {

@@ -50,8 +50,6 @@ export class PlayerInstance extends ObjectInstance {
 
     this.setDepth(PLAYGROUND_CANVAS_DEPTH + 1)
 
-    this.setAngularDrag(100)
-
     this.cursors = scene.input.keyboard.createCursorKeys();
 
     this.cameraPreview = new CameraPreview(this.scene, {color: 0x00FF00, zoom: objectClass.camera.zoom})

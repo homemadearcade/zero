@@ -18,9 +18,9 @@ export const defaultRelationship = {
     text: '',
     useClassAZoneInstance: false
   },
-  onlyOnce: true,
+  onlyOnce: false,
   delayInterval: null,
-  relationId: null,
+  // relationId: null,
   sides: []
 }
 

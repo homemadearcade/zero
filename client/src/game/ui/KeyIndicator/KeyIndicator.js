@@ -25,8 +25,6 @@ const KeyIndicator = ({
   //   </span>
   // }
 
-  console.log(KeySpriteSheetData, keyName)
-
   return <div className={classnames("KeyIndicator", className)}>
     <SpriteSheet filename="/assets/images/KeyUI.png" data={KeySpriteSheetData} sprite={keyName}/>
   </div>

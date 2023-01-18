@@ -112,6 +112,28 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           value={classSelected.movement.velocityX}
         />
       </Unlockable>}
+      {movementParameters.speedAngular && <Unlockable isSlider interfaceId="movement/sliders/speedAngular">
+        <SliderNotched
+          formLabel={movementParameters.speedAngular.length ? movementParameters.speedAngular : "Rotation Speed ⟲"}
+          options={[1, 20, 100, 200, 400]}
+          step={0.1}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { speedAngular: value } }}})        
+          }}
+          value={classSelected.movement.speedAngular}
+        />
+       </Unlockable>}
+      {movementParameters.dragAngular && <Unlockable isSlider interfaceId="movement/sliders/drag/angular">
+        <SliderNotched
+          formLabel="Rotation Speed Decrease ⟲"
+          step={0.01}
+          options={[0, 20, 100, 200, 400]}
+          onChangeCommitted={(value) => {
+            editGameModel({ classes: { [classId]: { movement: { dragAngular: value } }}})        
+          }}
+          value={classSelected.movement.dragAngular}
+        />
+       </Unlockable>}
       {movementParameters.dragY && <Unlockable isSlider interfaceId="movement/sliders/drag/vertical">
         <SliderNotched
           formLabel="Speed Decrease ⇵"

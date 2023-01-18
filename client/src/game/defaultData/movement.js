@@ -41,7 +41,9 @@ export const movementToParemeters = {
     dragY: true,
     bounce: true,
     ignoreGravity: true,
-    disableDownKey: true
+    disableDownKey: true,
+    dragAngular: true,
+    speedAngular: true,
   },
   [DIRECTIONAL_CONTROLS]: {
     speed: 'Move Speed',
@@ -170,6 +172,8 @@ export const vehicleDefaults = {
     dragX: 0.25,
     dragY: 0.25,
     disableDownKey: true,
+    dragAngular: 100,
+    speedAngular: 100,
   },
   jump: {
     style: JUMP_NONE

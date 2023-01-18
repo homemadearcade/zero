@@ -5,7 +5,7 @@ import store from "../../store";
 
 export class ProjectileInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
-    super(scene, id, instanceData)
+    super(scene, id, instanceData, true)
 
     const { classId } = instanceData
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
@@ -35,6 +35,10 @@ export class ProjectileInstance extends ObjectInstance {
 
     return this
   }
+
+  // update(time, delta) {
+  //   super.update(time, delta) 
+  // }
 
   fire(shooter, time, cursors) {
     const shooterClass = store.getState().gameModel.gameModel.classes[shooter.classId]
@@ -85,6 +89,15 @@ export class ProjectileInstance extends ObjectInstance {
     this.setVisible(true);
     this.setActive(true)
 
-    this.sprite.destroyTime = time + shooterClass.projectile.lifetime
+    this.destroyTime = Date.now() + shooterClass.projectile.lifetime
+
+    this.registerRelations()
+  }
+
+  destroy() {
+    const index = this.scene.projectileInstances.indexOf(this) 
+    this.scene.projectileInstances.splice(index, 1)
+    super.destroy()
+    this.unregisterRelations()
   }
 }

@@ -14,7 +14,7 @@ import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import SelectEvent from '../../ui/SelectEvent/SelectEvent';
 import SelectRelationEffect from '../../ui/SelectRelationEffect/SelectRelationEffect';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectEditInterface, nonRemoteEffects } from '../../defaultData/relationship';
+import { defaultRelationship, effectEditInterface, nonRemoteEffects } from '../../defaultData/relationship';
 import { TextField } from '@mui/material';
 import { EFFECT_SPAWN, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
@@ -217,9 +217,13 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           onChange={(event, classes) => {
             const newClassId = classes[classes.length-1]
             updateCreateRelation({
+              ...defaultRelationship,
               event: {
                 classIdA: classA.classId,
                 classIdB: newClassId
+              }, 
+              effect: {
+
               }
             })
             // handleEventChange('classIdB', newClassId)
@@ -233,10 +237,14 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           onChange={(event, events) => {
             const newEvent = events[events.length-1]
             updateCreateRelation({
+              ...defaultRelationship,
               event: {
                 classIdA: classA.classId,
                 classIdB: classB.classId,
                 type: newEvent
+              },
+              effect: {
+
               }
             })
         }}/>
@@ -251,11 +259,12 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           onChange={(event, effects) => {
             const effect = effects[effects.length-1]
             updateCreateRelation({
-              // event: {
-              //   classIdA: classA.classId,
-              //   classIdB: classB.classId,
-              //   type: relation.event.type
-              // },
+              ...defaultRelationship,
+              event: {
+                classIdA: classA.classId,
+                classIdB: classB.classId,
+                type: relation.event.type
+              },
               effect: {
                 type: effect
               }

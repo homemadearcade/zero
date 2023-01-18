@@ -55,6 +55,9 @@ export class EditorScene extends GameInstance {
     if(isObscured) {
       return
     }
+
+    if(entitySprite.effectSpawned) return
+
     this.isDragFromContext = false
     document.body.style.cursor = 'grab'
 
@@ -198,6 +201,7 @@ export class EditorScene extends GameInstance {
       const instance = this.getObjectInstance(this.draggingObjectInstanceId)
       this.continueDrag(instance.sprite, {x: pointer.worldX, y: pointer.worldY})
     }
+    
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -260,6 +264,7 @@ export class EditorScene extends GameInstance {
     if(isObscured) {
       return
     }
+    if(entitySprite.effectSpawned) return
     document.body.style.cursor = 'grab'
   }
 
@@ -639,6 +644,12 @@ export class EditorScene extends GameInstance {
       if(classUpdate.movement?.dragX >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setDragX(classUpdate.movement.dragX)
+        })
+      }
+
+      if(classUpdate.movement?.dragAngular >= 0) {
+        this.forAllObjectInstancesMatchingClassId(id, (object) => {
+          object.setAngularDrag(classUpdate.movement.dragAngular)
         })
       }
 

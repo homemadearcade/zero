@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 
 const arcadeGameSchema = new Schema(
   {
+    // THESE COULD BE IN AN ARRAY?
     objects: {
       type: Object,
       required: true,
@@ -17,12 +18,14 @@ const arcadeGameSchema = new Schema(
         title: 'New Game',
       }
     },
-    hero: {
+    world: {
       type: Object,
       required: true,
       default: {}
     },
-    world: {
+
+    // THESE ARE GLOBAL, perhaps hero -> initialScene
+    hero: {
       type: Object,
       required: true,
       default: {}

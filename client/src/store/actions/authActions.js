@@ -36,13 +36,13 @@ export const authenticateSocket = (values) => async (dispatch, getState) => {
     window.socket.connect()
 
     window.socket.on(ON_SOCKET_CONNECT, () => {
-      console.log('connecting socket');
+      console.log('authenticating socket');
       window.socket.emit('authenticate', { token })
-    });
+    })
 
     window.socket.on(ON_SOCKET_DISCONNECT, () => {
-      console.log('disconnected socket'); // undefined
-    });
+      console.log('disconnected socket'); 
+    })
 
     window.socket.on(ON_AUTHENTICATE_SOCKET_SUCCESS, () => {
       console.log('socket auth successful')
@@ -52,14 +52,41 @@ export const authenticateSocket = (values) => async (dispatch, getState) => {
       });
       resolve()
     })
+
     window.socket.on(ON_AUTHENTICATE_SOCKET_FAIL, (err) => {
       console.log('failed to auth socket')
       dispatch({
         type: AUTHENTICATE_SOCKET_FAIL,
         payload: { error: err},
-      });
+      })
       reject()
     })
+
+    window.socket.on("disconnect", (reason) => {
+      console.log('socket disconnected, disconnect reason', reason)
+      if (reason === "io server disconnect") {
+        // the disconnection was initiated by the server, you need to reconnect manually
+        window.socket.connect();
+      }
+      // else the socket will automatically try to reconnect
+    });
+
+    window.socket.io.on("reconnect_attempt", () => {
+      console.log('attempting to reconnect')
+      // ...
+    });
+
+    window.socket.io.on("reconnect", () => {
+      console.log('reconnected')
+      // ...
+    });
+
+    window.socket.on("connect_error", () => {
+      console.log('connect error')
+      // setTimeout(() => {
+      //   socket.connect();
+      // }, 1000);
+    });
   })
 }
 

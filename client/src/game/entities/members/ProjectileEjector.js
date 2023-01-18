@@ -17,7 +17,7 @@ export class ProjectileEjector {
         return
       }
 
-      const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
+      const projectile = this.scene.addProjectileInstance('hero-'+Math.random(), objectClass.projectile?.classId)
       projectile.fire(this.objectInstance, time, this.cursors)
 
       this.nextFire = time + objectClass.projectile.cooldown;

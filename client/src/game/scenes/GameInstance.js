@@ -11,6 +11,7 @@ import { World } from '../entities/World';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { editLobby } from '../../store/actions/lobbyActions';
 import { closeActiveCutscene } from '../../store/actions/gameContextActions';
+import { ProjectileInstance } from '../entities/ProjectileInstance';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key}) {
@@ -26,6 +27,12 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstancesById = {}
 
     this.physicsType = ARCADE_PHYSICS
+  }
+
+  init(data) {
+    // this is where you can grab data from a larger system and
+    // make a consistent hero and other game state things...
+
   }
 
   runAnimation({type, data}) {
@@ -98,6 +105,13 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[id] = newPhaserObject
     return newPhaserObject
+  }
+
+  addProjectileInstance(id, classId) {
+    const projectile = new ProjectileInstance(this, id, { classId })
+    this.projectileInstances.push(projectile)
+    this.projectileInstancesById[id] = projectile
+    return projectile
   }
 
   addObjectInstance(id, gameObject, effectSpawned) {
@@ -246,11 +260,13 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     this.objectInstances = []
     this.objectInstancesById = {}
+    this.projectileInstances = []
+    this.projectileInstancesById = {}
 
     Object.keys(gameModel.objects).forEach((gameObjectId) => {
       const objectInstanceData = gameModel.objects[gameObjectId]
       if(!objectInstanceData) {
-        return console.error('Object missing!')
+        return console.error('Object missing!', gameObjectId)
       } 
       if(gameObjectId === HERO_INSTANCE_ID) {
         return console.error('hero got in?!')
@@ -352,8 +368,11 @@ export class GameInstance extends Phaser.Scene {
       object.update(time, delta);
     })
 
-    this.projectileInstanceGroup.children.entries.forEach((projectile) => {
-      if(projectile.destroyTime < time) projectile.destroy()
+    this.projectileInstances.forEach((projectile) => {
+      projectile.update(time, delta)
+      if(projectile.destroyTime < Date.now()) {
+        projectile.destroy()
+      }
     })
 
     if(this.playerInstance) this.playerInstance.update(time, delta)

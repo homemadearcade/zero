@@ -5,13 +5,13 @@ import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDA
 import { EditorScene } from './EditorScene';
 
 export class GameClientScene extends EditorScene {
-  constructor() {
+  constructor(props) {
     super({
-      key: GAME_SCENE,
+      key: props.key,
     });
   }
 
-  onGameInstanceUpdate = ({objects, player}) => {
+  onGameInstanceUpdate = ({objects, player, projectiles}) => {
     objects.forEach((instanceUpdate) => {
       const objectId = instanceUpdate.id
       if(objectId === this.draggingObjectInstanceId) {
@@ -24,6 +24,16 @@ export class GameClientScene extends EditorScene {
         return
       };
       this.updateObjectInstance(objectInstance, instanceUpdate)
+    })
+
+    projectiles.forEach((instanceUpdate) => {
+      const projectileInstance = this.projectileInstancesById[instanceUpdate.id]
+      if(!projectileInstance) {
+        this.addProjectileInstance(instanceUpdate.id, instanceUpdate.classId)
+        return
+      };
+      this.updateObjectInstance(projectileInstance, instanceUpdate)
+      projectileInstance.destroyTime = instanceUpdate.destroyTime
     })
 
     if(this.draggingObjectInstanceId === HERO_INSTANCE_ID) return

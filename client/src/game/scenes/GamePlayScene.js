@@ -6,9 +6,9 @@ import { isGameContextPausing } from '../../utils/gameUtils';
 import { GameInstance } from './GameInstance';
 
 export class GamePlayScene extends GameInstance {
-  constructor() {
+  constructor(props) {
     super({
-      key: GAME_SCENE,
+      key: props.key,
     });
   }
 
@@ -17,7 +17,7 @@ export class GamePlayScene extends GameInstance {
   }
 
   unregisterEvents() {
-    
+
   }
 
   update(time, delta) {

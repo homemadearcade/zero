@@ -7,9 +7,9 @@ import { isGameContextPausing } from '../../utils/gameUtils';
 import { EditorScene } from './EditorScene';
 
 export class GameLocalScene extends EditorScene {
-  constructor() {
+  constructor(props) {
     super({
-      key: GAME_SCENE,
+      key: props.key,
     });
   }
 

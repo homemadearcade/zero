@@ -9,6 +9,7 @@ export class Movement {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.objectInstance.classId]
 
+    this.objectInstance.setAngularDrag(objectClass.movement.dragAngular)
     this.objectInstance.setDamping(true)
     this.objectInstance.setDragX(objectClass.movement.dragX)
     this.objectInstance.setDragY(objectClass.movement.dragY)

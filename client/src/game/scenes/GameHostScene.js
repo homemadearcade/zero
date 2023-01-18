@@ -7,9 +7,9 @@ import { isGameContextPausing } from '../../utils/gameUtils';
 import { EditorScene } from './EditorScene';
 
 export class GameHostScene extends EditorScene {
-  constructor() {
+  constructor(props) {
     super({
-      key: GAME_SCENE,
+      key: props.key,
     });
 
     this.isPaused = false
@@ -35,6 +35,20 @@ export class GameHostScene extends EditorScene {
           classId
         }
       })
+
+      const projectiles = this.projectileInstances.map(({sprite: { id, x, y, rotation, isVisible}, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
+        return {
+          id,
+          x,
+          y,
+          rotation,
+          isVisible,
+          classId,
+          destroyTime,
+          destroyAfterUpdate, 
+          reclassId,
+        }
+      })
       
       const player = {
         x: this.playerInstance.sprite.x,
@@ -45,7 +59,7 @@ export class GameHostScene extends EditorScene {
         reclassId: this.playerInstance.reclassId
       }
       
-      window.socket.emit(ON_GAME_INSTANCE_UPDATE, { lobbyId: store.getState().lobby.lobby.id, objects, player})
+      window.socket.emit(ON_GAME_INSTANCE_UPDATE, { lobbyId: store.getState().lobby.lobby.id, objects, player, projectiles})
       this.afterGameInstanceUpdateEffects() 
     }, updateInterval)
   }

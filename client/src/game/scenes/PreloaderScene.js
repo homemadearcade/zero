@@ -117,24 +117,27 @@ export class PreloaderScene extends Phaser.Scene {
     });
   };
 
-  playGame = () => {
-    let gameScene;
-
+  getGameSceneInstance(key) {
     if(this.isPlay) {
-      gameScene = new GamePlayScene({ key: PLAY_GAME_SCENE })
+      return new GamePlayScene({...this.props, key})
     } else if(this.isNetworked) {
       if(this.isHost) {
-        gameScene = new GameHostScene(this.props)
+        return new GameHostScene({...this.props, key})
       } else {
-        gameScene = new GameClientScene(this.props)
+        return new GameClientScene({...this.props, key})
       }
     } else {
-      gameScene = new GameLocalScene(this.props)
+      return new GameLocalScene({...this.props, key})
     }
+  }
 
-    this.game.scene.add(GAME_SCENE, 
-      gameScene
-    , true);
+  playGame = () => {
+
+    const gameScene = this.getGameSceneInstance(GAME_SCENE)
+
+    this.scene.add(GAME_SCENE, gameScene);
+    this.scene.start(GAME_SCENE, { hello: 'hello' })
+
     this.game.scene.remove(PRELOADER_SCENE);
     this.destroy();
   };

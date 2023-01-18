@@ -16,7 +16,7 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE } from './constants';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT } from './constants';
 import Lobby from './models/Lobby';
 import TicketedEvent from './models/TicketedEvent';
 import TicketPurchase from './models/TicketPurchase';
@@ -219,6 +219,7 @@ io.on("connection", (socket) => {
           if(user.id === socket.user.id) {
             console.log(user.username, 'lost connection')
             user.connected = false
+            socket.emit(ON_SOCKET_DISCONNECT)
             io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
           }
         })
