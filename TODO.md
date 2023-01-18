@@ -1,3 +1,5 @@
+Thoughts - where should the camera be during a run through???
+
 --
 TODO
 
@@ -9,15 +11,10 @@ The thing is once a new scene starts..., the old instance will lose all its info
 I think it all needs to be on redux? or a larger object?
 yes.. I think redux..State needs to be shared as well
 
-Thoughts - where should the camera be during a run through???
-Should run throughs be remote connected? Part of me thinks so yes. I mean.. what the hell!
-
 Also switch games? whats going on here? At least set it up so it can work in the future. Give scenes ids. Give an initial scene Id to the main data set
 
 STATUS TOOLBAR
-  Microphone, Internet Connection, Game Paused, Editing, Whatever State, The time. If you have an object selected its obvious, 
-  We need STOP, PAUSE, PLAY, REALLY PLAY
-  Game States are going to be more advanced now PAUSE STATE, PLAY STATE, CINEMATIC_PLAY_STATE. This needs to trickle into object and whatnot. Like cinematic play state should just create a 'Play Version' of the game. Thats almost... a lobby state. Yes
+  The time? If you have an object selected its obvious?
 
 GAME
   Effect to switch games
@@ -48,10 +45,7 @@ UI
   When a class is highlighted, you should be able to see all of them highlighted on the map?
   You should be able to hide games, you should be able to hide classes, hide lobby not delete them, hide users, dont delete them
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
-
-META
-  Popup for connection errors, little thing in the bottom corner. Toast thing
-  why is connected = false happening so much?
+  Auto hide live editor when using keys?
 
 FEATURES
   Unlockable UI presets creator/editor page

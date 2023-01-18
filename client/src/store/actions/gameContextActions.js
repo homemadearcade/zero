@@ -127,7 +127,7 @@ export const completeCloseConstellation = ({ externalForceCobrowsingUpdateUserId
   } else {
     dispatch(changeGameState(PLAY_STATE))
   }
-  
+
   dispatch({
     updateCobrowsing: true,
     externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,

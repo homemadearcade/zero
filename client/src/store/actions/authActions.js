@@ -23,7 +23,8 @@ import {
   ON_SOCKET_DISCONNECT,
   ON_SOCKET_CONNECT,
   SET_REDIRECT,
-  CLEAR_REDIRECT
+  CLEAR_REDIRECT,
+  ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED
 } from '../types';
 import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 

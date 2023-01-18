@@ -6,21 +6,20 @@ import './CobrowsingGame.scss';
 import RemoteMouse from '../../game/cobrowsing/RemoteMouse/RemoteMouse';
 import GameEditor from '../GameEditor/GameEditor';
 import AgoraVideoLayoutHA from '../../lobby/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
-import GameClassList from '../class/ClassList/ClassList';
-import GameBrushList from '../brush/BrushList/BrushList';
 import withCobrowsing from '../../hoc/withCobrowsing';
 import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
-import GridToggle from '../GridToggle/GridToggle';
-import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 import askFullscreen from '../../hoc/askFullscreen';
+import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
 
 const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isCurrentlyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   return <GameEditor 
       classNames={isCurrentlyCobrowsing ? 'GameEditor--cobrowsing' : ''}
       leftColumn={<>
         {isInsideVideoCall && <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+      </>}
+      toolbar={<>
+        {isInsideVideoCall && <LobbyToolbar tracks={myTracks}></LobbyToolbar>}
       </>}
       rightColumn={<>
       </>}

@@ -42,8 +42,6 @@ Spray Can, Paintbrush, Crayon?
 
 For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
 
-If you interact with a zone and want to spawn, have it spawn in that same zone instance 
-
 --------------------------------------------------------------------------------------
 
 TODO FEATURES ( MAYBE ) BACKlog
@@ -90,6 +88,7 @@ Right click -> snap camera to section? regardless if you are in section or not?
 
 Zoom Slider
 
+Other lobby connection issue popups
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -135,8 +134,6 @@ Unauthenticate socket when logging out
 
 Update Hero Camera Max after changing section
 
-unload game model needs to undo game context as well
-
 --------------------------------------------------------------------------------------
 
 TODO CHORES ( MAYBE ) backlog
@@ -153,8 +150,6 @@ So for the redirect its possible we can just pass it as a prop to the 'login' co
 
 Game Model class? for like getting data from redux so we can get game data with functions
 For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
-
-Auto hide live editor when using keys?
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

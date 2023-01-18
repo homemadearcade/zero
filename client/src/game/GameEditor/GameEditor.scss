@@ -47,6 +47,12 @@
 
   }
 
+  &__toolbar {
+    position: absolute;
+      bottom: 0;
+      width: 100%;
+  }
+
   &__right-column {
     width: 20vh;
     background-color: #111;

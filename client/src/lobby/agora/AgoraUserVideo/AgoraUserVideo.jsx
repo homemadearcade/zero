@@ -6,9 +6,6 @@ import './AgoraUserVideo.scss'
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 
 const AgoraUserVideo = ({ className, userId, label, auth: { me }, myTracks, userTracks, width, height }) => {
-
-    console.log('rerender auv')
-
   if(!myTracks || !userTracks) {
     return <div style={{width, height}} className={className}/>
   }

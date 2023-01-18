@@ -19,7 +19,6 @@ import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceAction
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
 import { openSetupChoicesModal } from '../../store/actions/gameEditorActions';
-import store from '../../store';
 
 const LobbySetupFlow = ({
   addArcadeGame,

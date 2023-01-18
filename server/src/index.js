@@ -16,7 +16,7 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT } from './constants';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED } from './constants';
 import Lobby from './models/Lobby';
 import TicketedEvent from './models/TicketedEvent';
 import TicketPurchase from './models/TicketPurchase';
@@ -205,6 +205,10 @@ io.on("connection", (socket) => {
 
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
+  })
+
+  socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, (payload) => {
+    io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
   })
 
   socket.on(ON_GAME_CHARACTER_UPDATE, (payload) => {

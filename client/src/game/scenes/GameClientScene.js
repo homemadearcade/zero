@@ -1,15 +1,21 @@
 import {
-  GAME_SCENE, HERO_INSTANCE_ID, PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, STOPPED_STATE,
+  disconnectedDelta,
+  HERO_INSTANCE_ID, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, STOPPED_STATE,
 } from '../constants';
-import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE } from '../../store/types';
+import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
+import store from '../../store';
+import { changeLobbyConnectionState } from '../../store/actions/lobbyActions';
+import { GAME_CONNECTION_LOST } from '../../lobby/constants';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
     super({
       key: props.key,
     });
+
+    this.lastUpdate = null
   }
 
   onGameInstanceUpdate = ({objects, player, projectiles}) => {
@@ -46,6 +52,11 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.destroyAfterUpdate = player.destroyAfterUpdate 
     this.playerInstance.reclassId = player.reclassId
 
+    window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
+      lobbyId: store.getState().lobby.lobby?.id
+    })
+
+    this.lastUpdate = Date.now()
     this.afterGameInstanceUpdateEffects() 
   }
 
@@ -79,6 +90,16 @@ export class GameClientScene extends EditorScene {
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }
+
+    if(this.lastUpdate) {
+      if(this.lastUpdate + disconnectedDelta < Date.now()) {
+        store.dispatch(changeLobbyConnectionState(GAME_CONNECTION_LOST, 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'))
+        this.lastUpdate = null
+      } else if(store.getState().lobby.connectionState) {
+        store.dispatch(changeLobbyConnectionState(null))
+      }  
+    }
+
   }
 
   onStateChange(oldGameState, gameState) {

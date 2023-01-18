@@ -52,7 +52,7 @@ export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 // Socket ON_GAME_INSTANCE_UPDATE
 // FROM: Game Host 
 // TO: Game Clients 
-// Updates Phaser GameClient GameInstance
+// Updates Phaser GameClient GameInstance, checks to make sure connection is still established
 export const ON_GAME_INSTANCE_UPDATE = 'ON_GAME_INSTANCE_UPDATE';
 
 // Socket ON_GAME_INSTANCE_ANIMATION
@@ -60,6 +60,12 @@ export const ON_GAME_INSTANCE_UPDATE = 'ON_GAME_INSTANCE_UPDATE';
 // TO: Game Client
 // Updates Phaser GameClient Game Instance
 export const ON_GAME_INSTANCE_ANIMATION = 'ON_GAME_INSTANCE_ANIMATION';
+
+// Socket ON_GAME_INSTANCE_ACKNOWLEDGED
+// FROM: Game Client
+// TO: Game Host
+// Checks to make sure connection is still established
+export const ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED = 'ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED';
 
 //////////////////////////////////////////////
 //////////////////////////////////////////////

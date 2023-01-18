@@ -43,56 +43,14 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
   let [showInfo, setShowInfo] = useState(false)
   let [showChangeInput, setShowChangeInput] = useState(false)
 
-  console.log('rerender av')
-  
-  const [trackState, setTrackState] = useState({ video: true, audio: true });
-  const muteVideo = async () => {
-    try {
-      await tracks.videoTrack.setEnabled(!trackState.video);
-      setTrackState((ps) => {
-        return { ...ps, video: !ps.video };
-      });
-    } catch(e) {
-      console.error(e)
-    }
-  };
-  const muteAudio = async () => {
-    try{
-      await tracks.audioTrack.setEnabled(!trackState.audio);
-      setTrackState((ps) => {
-        return { ...ps, audio: !ps.audio };
-      });
-    } catch(e) {
-      console.error(e)
-    }
-  };
-
   function Controls() {    
     if(showChangeInput) {
       return <>
         <AgoraInputSelect/>
-        <div>
-          Microphone Volume:
-          <AgoraVolumeMeter audioTrack={tracks.audioTrack}/>
-        </div>
       </>
     }
 
      return <div className="AgoraVideo__controls">
-      {trackState.audio ? <div className="AgoraVideo__control" onClick={muteAudio}>
-          <Icon icon="faMicrophone"/>
-        </div> : 
-        <div className="AgoraVideo__control" onClick={muteAudio}>
-           <Icon icon="faMicrophoneSlash"/>
-        </div>
-      }
-      {trackState.video ? <div className="AgoraVideo__control" onClick={muteVideo}>
-          <Icon icon="faVideo"/>
-        </div> : 
-        <div className="AgoraVideo__control" onClick={muteVideo}>
-          <Icon icon="faVideoSlash"/>
-        </div>
-      }
       <div className="AgoraVideo__control" onClick={() => {
         setShowChangeInput(true)
       }}>

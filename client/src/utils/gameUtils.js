@@ -9,10 +9,6 @@ export function isGameBoundaryWall(world, body) {
   return false
 }
 
-export function isGameContextPausing(gameContext) {
-  return (gameContext.gameState !== PLAY_STATE && gameContext.gameState !== EDIT_STATE) || gameContext.isConstellationOpen || gameContext.isConstellationClosing || gameContext.cutsceneId
-}
-
 export function getClassAandB(classIdA, classIdB) {
  // if the class dont exist, its the hero class ( as of now thats the only generalized one)
 

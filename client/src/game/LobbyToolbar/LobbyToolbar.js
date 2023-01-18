@@ -1,82 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './LobbyToolbar.scss';
-import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { lobbyUndo } from '../../store/actions/lobbyActions';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions'
-import { getCobrowsingState, mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import UndoButton from '../ui/UndoButton/UndoButton';
-import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { changeGameState } from '../../store/actions/gameContextActions';
-import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE } from '../constants';
-import { Divider } from '@mui/material';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
+import Icon from '../../ui/Icon/Icon';
+import AgoraVolumeMeter from '../../lobby/agora/AgoraVolumeMeter/AgoraVolumeMeter';
 
-const LobbyToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameContext: { gameState }, lobby: { lobby }, onInstanceUndo}) => {
-  function renderStop() {
-    return <Unlockable isTiny interfaceId="toolbar/stop">
-      <ToolbarIcon 
-        size="lg"
-        icon="faStop"
-        color={gameState === STOPPED_STATE ? 'blue': null}
-        onClick={() => {
-          changeGameState(STOPPED_STATE)
-        }}
-      />
-    </Unlockable>
+const LobbyToolbar = ({ tracks }) => {
+  const videoTrack = tracks[1]
+  const audioTrack = tracks[0]
+
+  const [trackState, setTrackState] = useState({ video: true, audio: true });
+  const muteVideo = async () => {
+    try {
+      await videoTrack.setEnabled(!trackState.video);
+      setTrackState((ps) => {
+        return { ...ps, video: !ps.video };
+      });
+    } catch(e) {
+      console.error(e)
+    }
+  };
+  const muteAudio = async () => {
+    try{
+      await audioTrack.setEnabled(!trackState.audio);
+      setTrackState((ps) => {
+        return { ...ps, audio: !ps.audio };
+      });
+    } catch(e) {
+      console.error(e)
+    }
+  };
+
+  function Controls() {    
+     return <>
+      {trackState.audio ? <div className="LobbyToolbar__control" onClick={muteAudio}>
+          <Icon size="lg" icon="faMicrophone"/>
+        </div> : 
+        <div className="LobbyToolbar__control" onClick={muteAudio}>
+           <Icon  size="lg" icon="faMicrophoneSlash"/>
+        </div>
+      }
+      {trackState.video ? <div className="LobbyToolbar__control" onClick={muteVideo}>
+          <Icon size="lg" icon="faVideo"/>
+        </div> : 
+        <div className="LobbyToolbar__control" onClick={muteVideo}>
+          <Icon size="lg" icon="faVideoSlash"/>
+        </div>
+      }
+    </>
   }
 
-  if(gameState === START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
-    return <div className="LobbyToolbar">
-      {renderStop()}
-    </div>
-  }
-
- return <div className="LobbyToolbar">
-  <Unlockable isTiny interfaceId="toolbar/undo">
-    <UndoButton onClick={lobby.id ? lobbyUndo : onInstanceUndo}/>
-  </Unlockable>
-  <Unlockable hideLockToggle interfaceId="toolbar/undo">
-    <Divider orientation="vertical" variant="middle" flexItem sx={{
-      mx: 0,
-      my: 0,
-      color: '#ccc'
-    }}/>
-  </Unlockable>
-  {renderStop()}
-  <Unlockable isTiny interfaceId="toolbar/pause">
-    <ToolbarIcon 
-      size="lg"
-      icon="faPause"
-      color={gameState === PAUSED_STATE ? 'blue': null}
-      onClick={() => {
-        changeGameState(PAUSED_STATE)
-      }}
-    />
-  </Unlockable>
-  <Unlockable isTiny interfaceId="toolbar/play">
-    <ToolbarIcon 
-      size="lg"
-      icon="faPlay"
-      color={gameState === PLAY_STATE ? 'blue': null}
-      onClick={() => {
-        changeGameState(PLAY_STATE)
-      }}
-    />
-  </Unlockable>
-  <Unlockable isTiny interfaceId="toolbar/playthrough">
-    <ToolbarIcon 
-      size="lg"
-      icon="faCirclePlay"
-      color={(gameState === START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) ? 'blue': null}
-      onClick={() => {
-        toggleGridView(false)
-        changeGameState(START_STATE)
-      }}
-    />
-  </Unlockable>
- </div>
+ return <>
+  <div className="LobbyToolbar">
+    <Controls></Controls>
+  </div>
+  <AgoraVolumeMeter audioTrack={audioTrack}/>
+  </>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

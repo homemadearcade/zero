@@ -33,7 +33,8 @@ import {
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
-  ON_LOBBY_UNDO
+  ON_LOBBY_UNDO,
+  CHANGE_LOBBY_CONNECTON_STATE
 } from '../types';
 
 import ping from 'web-pingjs';
@@ -387,4 +388,14 @@ export const leaveLobby = ({ lobbyId, userId }, history) => async (dispatch, get
       payload: { error: err?.response?.data.message || err.message },
     });
   }
+};
+
+export const changeLobbyConnectionState  = (connectionState, connectionMessage) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_LOBBY_CONNECTON_STATE,
+    payload: {
+      connectionState,
+      connectionMessage
+    }
+  })
 };

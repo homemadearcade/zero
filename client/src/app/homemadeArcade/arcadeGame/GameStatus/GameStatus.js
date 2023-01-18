@@ -10,9 +10,9 @@ import { mapCobrowsingState } from '../../../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../../../utils/editorUtils';
 import store from '../../../../store';
 
-const GameStatus = ({ lobby: { lobby: { game, isGamePoweredOn}}, gameContext: { gameState } }) => {
+const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameState }, gameModel: { gameModel } }) => {
 
-  if(!game) return <Typography component="div" variant="subtitle2">No Game Selected</Typography>
+  if(!gameModel) return <Typography component="div" variant="subtitle2">No Game Model Loaded</Typography>
   const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
 
   function renderGameInstanceSceneStatus() {
@@ -21,14 +21,15 @@ const GameStatus = ({ lobby: { lobby: { game, isGamePoweredOn}}, gameContext: { 
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isEditor ? 'Is Editor': 'Not Editor'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isPlaythrough ? 'Is Playthrough': 'Not Playthrough'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isGridViewOn ? 'GridView On': 'Not GridView'}</span>
+      <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'FPS:' + scene.game.loop.actualFps}</span>
     </>
   }
   
   return <div className={classnames("GameStatus")}>
     <AccordianList accordians={[{
-      id: game.id,
+      id: gameModel.id,
       title: <span className="GameStatus__title">
-        {game.metadata.name || game.user.username + "'s game"}
+        {gameModel.metadata.name || gameModel.user.username + "'s game"}
       </span>,
       body: <span className="GameStatus__icons">
         <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPowerOff"/></span>{(isGamePoweredOn) ? 'Started' : 'Not Started'}</span>
@@ -41,7 +42,8 @@ const GameStatus = ({ lobby: { lobby: { game, isGamePoweredOn}}, gameContext: { 
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
-  gameContext: state.gameContext
+  gameContext: state.gameContext,
+  gameModel: state.gameModel
 });
 
 export default connect(mapStateToProps, {  })(GameStatus);

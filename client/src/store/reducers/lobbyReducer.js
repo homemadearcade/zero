@@ -22,7 +22,8 @@ import {
   UPDATE_ONBOARDING_STEP,
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
-  LOBBY_UNDO_FAIL
+  LOBBY_UNDO_FAIL,
+  CHANGE_LOBBY_CONNECTON_STATE
 } from '../types';
 
 const initialState = {
@@ -34,6 +35,8 @@ const initialState = {
   isJoining: false,
   joinError: null,
   isUndoing: false,
+  connectionState: null,
+  connectionMessage: null
 };
 
 export default function lobbyReducer(state = initialState, { type, payload }) {
@@ -139,6 +142,13 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         onboardingStep: payload.onboardingStep
       };
+
+    case CHANGE_LOBBY_CONNECTON_STATE: 
+      return {
+        ...state,
+        connectionState: payload.connectionState,
+        connectionMessage: payload.connectionMessage
+      }
     default:
       return state;
   }

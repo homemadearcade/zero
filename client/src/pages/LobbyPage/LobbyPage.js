@@ -7,7 +7,7 @@ import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
-import { assignLobbyRole, editLobby} from '../../store/actions/lobbyActions';
+import { assignLobbyRole, changeLobbyConnectionState, editLobby} from '../../store/actions/lobbyActions';
 import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 
@@ -29,15 +29,19 @@ import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import withSpeedTest from '../../hoc/withSpeedTest';
+import { GAME_CONNECTION_LOST } from '../../lobby/constants';
+import Dialog from '../../ui/Dialog/Dialog';
+import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 const LobbyPage = ({
-  lobby: { lobby },
+  lobby: { lobby, connectionMessage, connectionState },
   auth: { me },
   myTracks,
   userTracks,
   editLobby,
   assignLobbyRole,
   video: { isInsideVideoCall },
+  changeLobbyConnectionState
 }) => {
   let { path } = useRouteMatch();
 
@@ -160,12 +164,22 @@ const LobbyPage = ({
       </div>
     }
   }
+
+  function renderLobbyConnection() {
+    if(connectionState === GAME_CONNECTION_LOST) return <Dialog open onClose={() => {
+      changeLobbyConnectionState(null)
+    }}>
+      <DialogTitle>Game Connection Lost</DialogTitle>
+      <DialogContent>{connectionMessage}</DialogContent>
+    </Dialog>
+  }
   
   return <Switch>
       <Route exact path={path}>
         <LobbyDashboard/>  
         <LobbyDrawer/>
         {renderLobbyExperience()}
+        {renderLobbyConnection()}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <LobbyDrawer>
@@ -175,6 +189,7 @@ const LobbyPage = ({
           <ConstellationToggle/>
         </LobbyDrawer>}
         {renderGameExperience()}
+        {renderLobbyConnection()}
       </Route>
     </Switch>
 };
@@ -190,5 +205,5 @@ export default compose(
   requireAuth,
   withLobby,
   withSpeedTest,
-  connect(mapStateToProps, { assignLobbyRole, editLobby }),
+  connect(mapStateToProps, { assignLobbyRole, editLobby, changeLobbyConnectionState }),
 )(LobbyPage);

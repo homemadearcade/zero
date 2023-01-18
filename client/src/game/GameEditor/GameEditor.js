@@ -23,7 +23,7 @@ import WorldRelation from '../relations/WorldRelation/WorldRelation';
 import ClassNameModal from '../class/ClassNameModal/ClassNameModal';
 import SetupChoicesModal from '../SetupChoicesModal/SetupChoicesModal';
 import GridToggle from '../GridToggle/GridToggle';
-import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
+import GameStateToolbar from '../GameStateToolbar/GameStateToolbar';
 import ClassList from '../class/ClassList/ClassList';
 import BrushList from '../brush/BrushList/BrushList';
 
@@ -43,7 +43,8 @@ const GameEditor = ({
   clearGameFormEditor, 
   clearGameViewEditor,
   gameContext: { gameState },
-  gameModel: { gameModel }
+  gameModel: { gameModel },
+  toolbar,
 }) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
@@ -64,12 +65,14 @@ const GameEditor = ({
     {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
     <div className={"GameEditor " + classNames}>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
+        {leftColumn}
         {showColumns && <>
-          {leftColumn}
           <GridToggle/>
           {gameModel && <BrushList/>}
         </>}
-        <LobbyToolbar/>
+        <div className="GameEditor__toolbar">
+          {toolbar}
+        </div>
       </div>
       {children}
       <div className="GameEditor__overlay">
@@ -77,6 +80,7 @@ const GameEditor = ({
         {isSnapshotTakerOpen && <SnapshotTaker/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
+        <GameStateToolbar/>
         {showColumns && gameModel && <>
           <ClassList/>
         </>}
