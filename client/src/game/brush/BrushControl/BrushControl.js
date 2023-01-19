@@ -11,13 +11,13 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const BrushControl = ({
-  gameModel: { gameModel: { brushes, world }},
+  gameModel: { gameModel: { brushes, stages }},
   updateBrushSize,
   gameEditor: { brushSize, brushIdSelectedBrushList },
 }) => {
   const brush = brushes[brushIdSelectedBrushList]
 
-  const boundaries = world.boundaries
+  const boundaries = stages['default'].boundaries
   const minZoomWidth = Math.floor((boundaries.width/boundaries.maxWidth) * 3)
   const minZoomHeight = Math.floor((boundaries.height/boundaries.maxHeight) * 3)
 

@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import './SelectJumping.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { JUMP_GROUND,  JUMP_COMBO, JUMP_CONSTANT, JUMP_NONE, JUMP_AIR } from '../../constants';
-import { floaterDefaults, jetpackDefaults, jumperDefaults } from '../../defaultData/jumping';
+import { comboJumpDefaults, jetpackDefaults, groundJumpDefaults } from '../../defaultData/jumping';
 import { airJumpDefaults, noJumpDefaults } from '../../defaultData/jumping';
 
 const controlsValues = {
   [JUMP_NONE]: noJumpDefaults,
-  [JUMP_GROUND]: jumperDefaults,
+  [JUMP_GROUND]: groundJumpDefaults,
   [JUMP_AIR]: airJumpDefaults,
-  [JUMP_COMBO]: floaterDefaults,
+  [JUMP_COMBO]: comboJumpDefaults,
   [JUMP_CONSTANT]: jetpackDefaults,
 }
 

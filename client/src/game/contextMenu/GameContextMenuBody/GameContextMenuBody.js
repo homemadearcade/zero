@@ -5,7 +5,7 @@ import { closeContextMenu } from '../../../store/actions/contextMenuActions';
 
 import ObjectInstanceContextMenu from '../ObjectInstanceContextMenu/ObjectInstanceContextMenu';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
-import WorldContextMenu from '../WorldContextMenu/WorldContextMenu';
+import StageContextMenu from '../StageContextMenu/StageContextMenu';
 import { PLAYER_INSTANCE_ID } from '../../constants';
 import ObjectInstanceListContextMenu from '../ObjectInstanceListContextMenu/ObjectInstanceListContextMenu';
 
@@ -18,7 +18,7 @@ const GameContextMenuBody = ({ selectableObjectInstances, objectIdSelectedContex
     return <ClassContextMenu classId={classIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>
   }
 
-  return <WorldContextMenu onMenuItemClick={closeContextMenu}/>
+  return <StageContextMenu onMenuItemClick={closeContextMenu}/>
 }
 
 const mapStateToProps = (state) => ({})

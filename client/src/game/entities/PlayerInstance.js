@@ -77,7 +77,7 @@ export class PlayerInstance extends ObjectInstance {
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
     const gameModel = store.getState().gameModel.gameModel
-    const gameMaxWidth = gameModel.world.boundaries.maxWidth
+    const gameMaxWidth = gameModel.stages['default'].boundaries.maxWidth
 
     const cameraSize = gameMaxWidth/objectClass.camera.zoom
 

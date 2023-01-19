@@ -16,7 +16,7 @@ import {
 //   });
 // }
 
-export const openWorldContextMenu = (event) => (dispatch, getState) => {
+export const openStageContextMenu = (event) => (dispatch, getState) => {
   if(getInterfaceIdData('contextMenu/*').isObscured) return 
 
   dispatch({

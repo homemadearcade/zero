@@ -36,7 +36,13 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
     </Unlockable>
     {objectId !== PLAYER_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/delete">
       <MenuItem onClick={() => {
-        editGameModel({ objects: { [objectId]: null } })
+        editGameModel({ 
+          stages: {
+            ['default'] : {
+              objects: { [objectId]: null } 
+            }
+          }
+        })
         onMenuItemClick()
       }}>Delete</MenuItem>
     </Unlockable>}

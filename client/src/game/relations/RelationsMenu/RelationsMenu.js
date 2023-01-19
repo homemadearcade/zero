@@ -4,17 +4,17 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './RelationsMenu.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeRelationsMenu, openCreateRelation, openWorldRelation } from '../../../store/actions/gameFormEditorActions';
+import { closeRelationsMenu, openCreateRelation, openBoundaryRelation } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import { getEffectLabel, getEventLabel, getEventPreviewLabel } from '../../defaultData/relationship';
-import { getWorldBoundaryRelationLabel } from '../../defaultData/world';
+import { getboundaryRelationLabel } from '../../defaultData/stage';
 import { EFFECT_COLLIDE, PLAYER_INSTANCE_ID } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 
-const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel } }) => {
+const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel } }) => {
   function handleClose() {
     closeRelationsMenu()
   }
@@ -34,10 +34,10 @@ const RelationsMenu = ({ closeRelationsMenu, openWorldRelation,  openCreateRelat
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="RelationsMenu">
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relationships"/>
-      <Unlockable interfaceId="relations/world">
-        <ClassMemberTitle classId={classIdRelationsMenu} title={getWorldBoundaryRelationLabel(objectClass.worldBoundaryRelation, objectClass)}/>
+      <Unlockable interfaceId="relations/boundary">
+        <ClassMemberTitle classId={classIdRelationsMenu} title={getboundaryRelationLabel(objectClass.boundaryRelation, objectClass)}/>
         <Button onClick={() => {
-          openWorldRelation(objectClass)
+          openBoundaryRelation(objectClass)
         }}>Edit</Button>
       </Unlockable>
       {relations.map((relation) => {
@@ -81,5 +81,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openCreateRelation, closeRelationsMenu, openWorldRelation }),
+  connect(mapStateToProps, { openCreateRelation, closeRelationsMenu, openBoundaryRelation }),
 )(RelationsMenu);

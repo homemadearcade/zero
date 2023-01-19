@@ -65,7 +65,7 @@ export const airJumpDefaults = {
   },
 }
 
-export const floaterDefaults = {
+export const comboJumpDefaults = {
   jump: {
     style: JUMP_COMBO,
     ground: 100,
@@ -74,7 +74,7 @@ export const floaterDefaults = {
   },
 }
 
-export const jumperDefaults = {
+export const groundJumpDefaults = {
   jump: {
     style: JUMP_GROUND,
     ground: 100,

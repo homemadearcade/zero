@@ -9,7 +9,8 @@ import { FormLabel } from '@mui/material';
 
 import './SectionEditor.scss'
 
-const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameModel : { world: { boundaries }}}}) => {
+const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameModel : { stages }}}) => {
+  const boundaries = stages['default'].boundaries
   const [sections, setSections] = useState({})
   const [isError, setIsError] = useState(false)
 
@@ -211,9 +212,11 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameMode
             const height = (maxCorner.y - y) + 360
 
             editGameModel({
-              world: {
-                boundaries: {
-                  x,y,width,height
+              stages: {
+                ['default']: {
+                  boundaries: {
+                    x,y,width,height
+                  }
                 }
               }
             })

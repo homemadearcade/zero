@@ -2,38 +2,38 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './WorldRelation.scss';
-import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeWorldRelation, updateWorldRelation } from '../../../store/actions/gameFormEditorActions';
+import './BoundaryRelation.scss';
+import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
+import { closeBoundaryRelation, updateBoundaryRelation } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
-import SelectWorldBoundaryEffect from '../../ui/SelectWorldBoundaryEffect/SelectWorldBoundaryEffect';
+import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 
-const WorldRelation = ({ closeWorldRelation, editGameModel, updateWorldRelation, gameFormEditor: { objectClass }}) => {
+const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundaryRelation, gameFormEditor: { objectClass }}) => {
   function handleClose() {
-    closeWorldRelation()
+    closeBoundaryRelation()
   }
 
   return <CobrowsingModal open={true} onClose={handleClose}>
-    <div className="WorldRelation">
+    <div className="BoundaryRelation">
       <ClassMemberTitle classId={objectClass.classId} title="Boundary Relation"/>
-        <SelectWorldBoundaryEffect
+        <SelectBoundaryEffect
           classId={objectClass.classId}
           formLabel={`What happens when touching the world boundary?`}
-          value={objectClass.worldBoundaryRelation ? [objectClass.worldBoundaryRelation] : []}
-          onChange={(event, worldRelations) => {
-            const worldBoundaryRelation = worldRelations[worldRelations.length-1]
-            updateWorldRelation({ worldBoundaryRelation })
+          value={objectClass.boundaryRelation ? [objectClass.boundaryRelation] : []}
+          onChange={(event, BoundaryRelations) => {
+            const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
+            updateBoundaryRelation({ boundaryRelation })
         }}/>
-        <div className="WorldRelation__buttons">
+        <div className="BoundaryRelation__buttons">
           <Button 
           onClick={() => {
             editGameModel({
               classes: {
                 [objectClass.classId] : {
-                  worldBoundaryRelation: objectClass.worldBoundaryRelation
+                  boundaryRelation: objectClass.boundaryRelation
                 }
               }
             })
@@ -54,5 +54,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateWorldRelation, closeWorldRelation, editGameModel }),
-)(WorldRelation);
+  connect(mapStateToProps, { updateBoundaryRelation, closeBoundaryRelation, editGameModel }),
+)(BoundaryRelation);

@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColor } from '../../../store/actions/gameEditorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
-import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { SNAPSHOT_ID_PREFIX, WORLD_EDITOR } from '../../constants';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import { SNAPSHOT_ID_PREFIX, STAGE_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { openCutscenesMenu } from '../../../store/actions/gameFormEditorActions';
 import { Divider } from '@mui/material';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 
-const WorldContextMenu = ({ 
+const StageContextMenu = ({ 
   openLiveEditor,
   openSectionEditor, 
   onMenuItemClick, 
@@ -28,19 +28,19 @@ const WorldContextMenu = ({
         openGameMetadataModal()
         onMenuItemClick()
     }}>{gameModel.metadata.title}</ContextMenuTitle>
-    <Unlockable interfaceId="contextMenu/world/gravity">
+    <Unlockable interfaceId="contextMenu/stage/gravity">
       <MenuItem onClick={() => {
-        openLiveEditor(WORLD_EDITOR)
+        openLiveEditor(STAGE_EDITOR)
         onMenuItemClick()
       }}>Edit Gravity</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/world/sections">
+    <Unlockable interfaceId="contextMenu/stage/sections">
       <MenuItem onClick={() => {
         openSectionEditor()
         onMenuItemClick()
       }}>Edit Boundaries</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/world/backgroundColor">
+    <Unlockable interfaceId="contextMenu/stage/backgroundColor">
       <MenuItem onClick={() => {
         openSelectBackgroundColor()
         onMenuItemClick()
@@ -86,4 +86,4 @@ export default connect(mapStateToProps, {
   toggleGridView, 
   openGameMetadataModal, 
   openCutscenesMenu
-})( WorldContextMenu );
+})( StageContextMenu );

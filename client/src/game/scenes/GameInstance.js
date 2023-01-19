@@ -7,7 +7,7 @@ import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID, PLAY
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
-import { World } from '../entities/World';
+import { Stage } from '../entities/Stage';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { editLobby } from '../../store/actions/lobbyActions';
 import { clearGameContext  } from '../../store/actions/gameContextActions';
@@ -222,7 +222,7 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // WORLD
     ////////////////////////////////////////////////////////////
-    this.world = new World(this, gameModel.world)
+    this.stage = new Stage(this, gameModel.stages['default'])
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -230,10 +230,10 @@ export class GameInstance extends Phaser.Scene {
     // LAYERS
     ////////////////////////////////////////////////////////////
     // background layer
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, boundaries: gameModel.stages['default'].boundaries})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
+    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, boundaries: gameModel.stages['default'].boundaries})
     this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
     this.objectInstanceGroup = this.add.group()
@@ -249,7 +249,7 @@ export class GameInstance extends Phaser.Scene {
     this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, boundaries: gameModel.world.boundaries})
+    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, boundaries: gameModel.stages['default'].boundaries})
     this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
@@ -265,8 +265,9 @@ export class GameInstance extends Phaser.Scene {
     this.projectileInstances = []
     this.projectileInstancesById = {}
 
-    Object.keys(gameModel.objects).forEach((gameObjectId) => {
-      const objectInstanceData = gameModel.objects[gameObjectId]
+    const objects = gameModel.stages['default'].objects
+    Object.keys(objects).forEach((gameObjectId) => {
+      const objectInstanceData = objects[gameObjectId]
       if(!objectInstanceData) {
         return console.error('Object missing!', gameObjectId)
       } 
@@ -298,10 +299,10 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // CAMERA
     ////////////////////////////////////////////////////////////
-    const gameWidth = gameModel.world.boundaries.width
-    const gameHeight = gameModel.world.boundaries.height
-    const gameX = gameModel.world.boundaries.x
-    const gameY = gameModel.world.boundaries.y
+    const gameWidth = gameModel.stages['default'].boundaries.width
+    const gameHeight = gameModel.stages['default'].boundaries.height
+    const gameX = gameModel.stages['default'].boundaries.x
+    const gameY = gameModel.stages['default'].boundaries.y
 
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     this.cameras.main.pan(this.playerInstance.sprite.x, this.playerInstance.sprite.y, 0)

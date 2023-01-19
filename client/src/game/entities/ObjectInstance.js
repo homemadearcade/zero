@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_SPAWN, WORLD_COLLIDE, WORLD_WRAP, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, OBJECT_CLASS, PLAYER_CLASS, ZONE_CLASS, NPC_CLASS, PLAYER_INSTANCE_ID, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH, ON_INTERACT, ON_DESTROY_ONE, ON_DESTROY_ALL } from "../constants";
+import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, OBJECT_CLASS, PLAYER_CLASS, ZONE_CLASS, NPC_CLASS, PLAYER_INSTANCE_ID, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH, ON_INTERACT, ON_DESTROY_ONE, ON_DESTROY_ALL } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -44,10 +44,10 @@ export class ObjectInstance extends Sprite {
     this.setPushable(!objectClass.collisionResponse.notPushable)
     this.setMass(objectClass.collisionResponse.mass)
     this.setFriction(objectClass.collisionResponse.friction)
-    const worldBoundaryRelation = objectClass.worldBoundaryRelation
-    if(objectClass.collisionResponse.ignoreWorldBounds) {
+    const boundaryRelation = objectClass.boundaryRelation
+    if(objectClass.collisionResponse.ignoreBoundaries) {
       this.setCollideWorldBounds(false)
-    } else if(worldBoundaryRelation === WORLD_COLLIDE) {
+    } else if(boundaryRelation === BOUNDARY_COLLIDE) {
       this.setCollideWorldBounds(true)
     }
     this.setCollideIgnoreSides(objectClass.collisionResponse.ignoreSides)
@@ -89,7 +89,7 @@ export class ObjectInstance extends Sprite {
     ////////////////////////////////////////
     ////////////////////////////////////////
     // RELATIONS
-    if(objectClass.worldBoundaryRelation === WORLD_WRAP) {
+    if(objectClass.boundaryRelation === BOUNDARY_WRAP) {
       this.scene.physics.world.wrap(this.sprite.body, objectClass.graphics.width)
     }
 

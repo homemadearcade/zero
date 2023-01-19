@@ -1,7 +1,7 @@
 import { PLAYER_CLASS } from "../constants"
 import { defaultObjectClass } from "./class"
-import { directionalDefaults, carDefaults, vehicleDefaults } from "./movement"
-import { jumperDefaults, floaterDefaults, noJumpDefaults } from "./jumping"
+import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from "./movement"
+import { noJumpDefaults } from "./jumping"
 
 export const defaultPlayerClass = {
   ...defaultObjectClass,
@@ -31,10 +31,10 @@ export const jumperClass = {
     "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
   movement: {
-    ...floaterDefaults.movement
+    ...advancedDirectionalDefaults.movement
   },
   'jump': {
-    ...jumperDefaults.jump
+    ...advancedDirectionalDefaults.jump
   }
 }
 
@@ -76,9 +76,9 @@ export const directionalClass = {
 //     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite206",
 //   },
 //   "movement": {
-//     ...floaterDefaults.movement
+//     ...comboJumpDefaults.movement
 //   },
 //   "jump": {
-//     ...floaterDefaults.jump
+//     ...comboJumpDefaults.jump
 //   },
 // }

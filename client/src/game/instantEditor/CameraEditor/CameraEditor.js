@@ -16,7 +16,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
     return null
   }
 
-  const boundaries = gameModel.world.boundaries
+  const boundaries = gameModel.stages['default'].boundaries
   const minZoomWidth = Math.floor((boundaries.width/boundaries.maxWidth) * 3)
   const minZoomHeight = Math.floor((boundaries.height/boundaries.maxHeight) * 3)
 

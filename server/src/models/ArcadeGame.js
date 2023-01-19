@@ -5,23 +5,25 @@ const { Schema } = mongoose;
 
 const arcadeGameSchema = new Schema(
   {
-    // THESE COULD BE IN AN ARRAY?
-    objects: {
-      type: Object,
-      required: true,
-      default: {}
+    stages: {
+      // objects: {
+      //   type: Object,
+      //   required: true,
+      //   default: {}
+      // },
+      // world: {
+      //   type: Object,
+      //   required: true,
+      //   default: {}
+      // },
     },
+
     metadata: {
       type: Object,
       required: true,
       default: {
         title: 'New Game',
       }
-    },
-    world: {
-      type: Object,
-      required: true,
-      default: {}
     },
 
     // THESE ARE GLOBAL, perhaps player -> initialScene
@@ -72,13 +74,11 @@ export const validateArcadeGame = (game) => {
       // spawnX: Joi.number().required(),
       // spawnY: Joi.number().required()
     }),
-    world: Joi.object({
-
-    }),
     metadata: Joi.object({
 
     }),
-    objects: Joi.object(),
+    nodeSize: Joi.number(),
+    stages: Joi.object(),
     classes: Joi.object(),
     brushes: Joi.object(),
     colors: Joi.object(),
@@ -93,12 +93,12 @@ arcadeGameSchema.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     metadata: this.metadata,
-    objects: this.objects,
+    stages: this.stages,
+    nodeSize: this.nodeSize,
     player: this.player,
     classes: this.classes,
     brushes: this.brushes,
     colors: this.colors,
-    world: this.world,
     relations: this.relations,
     cutscenes: this.cutscenes,
     awsImages: this.awsImages,

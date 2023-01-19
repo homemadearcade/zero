@@ -22,9 +22,9 @@ import {
   CLOSE_CUTSCENE_MENU,
   OPEN_RELATION_MENU,
   CLOSE_RELATION_MENU,
-  OPEN_WORLD_RELATION,
-  UPDATE_WORLD_RELATION,
-  CLOSE_WORLD_RELATION,
+  OPEN_BOUNDARY_RELATION,
+  UPDATE_BOUNDARY_RELATION,
+  CLOSE_BOUNDARY_RELATION,
 } from '../types';
 
 const initialState = {
@@ -82,10 +82,10 @@ const initialState = {
     }, 
   },
 
-  isWorldRelationMenuOpen: false,
+  isBoundaryRelationMenuOpen: false,
   objectClass: {
     classId: null,
-    worldBoundaryRelation: null,
+    boundaryRelation: null,
   }
 };
 
@@ -216,24 +216,24 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         isCreateRelationOpen: false
       }
-    case OPEN_WORLD_RELATION: 
+    case OPEN_BOUNDARY_RELATION: 
       return {
         ...state,
-        isWorldRelationOpen: true,
+        isBoundaryRelationOpen: true,
         objectClass: {
           ..._.cloneDeep(initialState.objectClass),
           ...payload.initialObjectClass ? _.cloneDeep(payload.initialObjectClass) : {}
         },
       }
-    case UPDATE_WORLD_RELATION: 
+    case UPDATE_BOUNDARY_RELATION: 
       return {
         ...state,
         objectClass: {...state.objectClass, ...payload.objectClass }
       }
-    case CLOSE_WORLD_RELATION: 
+    case CLOSE_BOUNDARY_RELATION: 
       return {
         ...state,
-        isWorldRelationOpen: false
+        isBoundaryRelationOpen: false
       }
     case CLEAR_EDITOR_FORMS:
       return initialState

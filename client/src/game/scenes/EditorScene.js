@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameModelActions';
-import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store/actions/contextMenuActions';
+import { openContextMenuFromGameObject, openStageContextMenu } from '../../store/actions/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
@@ -88,10 +88,14 @@ export class EditorScene extends GameInstance {
       }))
     } else {
       store.dispatch(editGameModel({ 
-        objects: {
-          [entitySprite.id]: {
-            spawnX: entitySprite.x,
-            spawnY: entitySprite.y
+        stages: {
+          ['default']: {
+            objects: {
+              [entitySprite.id]: {
+                spawnX: entitySprite.x,
+                spawnY: entitySprite.y
+              }
+            }
           }
         }
       }))
@@ -114,7 +118,7 @@ export class EditorScene extends GameInstance {
 
   onResizeMove = (pointer) => {
     const sprite = this.resizingObjectInstance.sprite
-    const boundaries = store.getState().gameModel.gameModel.world.boundaries
+    const boundaries = store.getState().gameModel.gameModel.stages['default'].boundaries
     // const distance = Phaser.Math.Distance.Between(sprite.x, sprite.y, pointer.worldX, pointer.worldY)
     const distanceW = Phaser.Math.Snap.To(Math.abs(sprite.x - pointer.worldX), nodeSize)
     const distanceH = Phaser.Math.Snap.To(Math.abs(sprite.y - pointer.worldY), nodeSize)
@@ -157,10 +161,14 @@ export class EditorScene extends GameInstance {
       }))
     } else {
       store.dispatch(editGameModel({ 
-        objects: {
-          [sprite.id]: {
-            spawnX: sprite.x,
-            spawnY: sprite.y
+        stages: {
+          ['default']: {
+            objects: {
+              [sprite.id]: {
+                spawnX: sprite.x,
+                spawnY: sprite.y
+              }
+            },
           }
         },
         classes: {
@@ -303,7 +311,7 @@ export class EditorScene extends GameInstance {
       if(gameObjects.length) {
         store.dispatch(openContextMenuFromGameObject(gameObjects, pointer.event))
       } else {
-        store.dispatch(openWorldContextMenu(pointer.event))
+        store.dispatch(openStageContextMenu(pointer.event))
       }
     }
 
@@ -326,8 +334,8 @@ export class EditorScene extends GameInstance {
       const gameModel = store.getState().gameModel.gameModel
       if(gameViewEditor.isSnapshotTakerOpen) {
         if(this.snapshotSquare) {
-          const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
-          snapCanvas.draw(this.world.backgroundColorLayer, 0,0)
+          const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.stages['default'].boundaries.maxWidth, gameModel.stages['default'].boundaries.maxHeight);
+          snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
           snapCanvas.draw(this.backgroundLayer, 0,0)
           snapCanvas.draw(this.playgroundLayer, 0,0)
           snapCanvas.draw(this.objectInstanceGroup, 0,0)
@@ -384,8 +392,8 @@ export class EditorScene extends GameInstance {
 
       try {
         const gameModel = store.getState().gameModel.gameModel
-        const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.world.boundaries.maxWidth, gameModel.world.boundaries.maxHeight);
-        snapCanvas.draw(this.world.backgroundColorLayer, 0,0)
+        const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.stages['default'].boundaries.maxWidth, gameModel.stages['default'].boundaries.maxHeight);
+        snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
         snapCanvas.draw(this.backgroundLayer, 0,0)
         snapCanvas.draw(this.playgroundLayer, 0,0)
         snapCanvas.draw(this.objectInstanceGroup, 0,0)
@@ -502,7 +510,7 @@ export class EditorScene extends GameInstance {
     if(id === PLAYER_INSTANCE_ID) {
       return gameModel.playero
     }
-    return gameModel.objects[id]
+    return gameModel.stages['default'].objects[id]
   }
 
   addGameObject(classId, {spawnX, spawnY}) {
@@ -515,8 +523,12 @@ export class EditorScene extends GameInstance {
     }
 
     store.dispatch(editGameModel({
-      objects: {
-        [id]: gameObject
+      stages: {
+        'default': {
+          objects: {
+            [id]: gameObject
+          }
+        }
       }
     }))
 
@@ -529,43 +541,65 @@ export class EditorScene extends GameInstance {
   // NETWORK UPDATE
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
-    if(gameUpdate.world?.gravity) {
-      const gravity = gameUpdate.world.gravity
-      const currentGravity = store.getState().gameModel.gameModel.world.gravity
+    if(gameUpdate.stages) {
+      if(gameUpdate.stages['default']?.gravity) {
+        const gravity = gameUpdate.stages['default'].gravity
+        const currentGravity = store.getState().gameModel.gameModel.stages['default'].gravity
 
-      if(typeof gravity?.x === 'number' && typeof gravity?.y === 'number') {
-        this.world.setGravity(gravity.x, gravity.y)
-      } else if(typeof gravity?.x === 'number') {
-        this.world.setGravity(gravity.x, currentGravity.y)
-      } else if(typeof gravity?.y === 'number') {
-        this.world.setGravity(currentGravity.x, gravity.y)
+        if(typeof gravity?.x === 'number' && typeof gravity?.y === 'number') {
+          this.stage.setGravity(gravity.x, gravity.y)
+        } else if(typeof gravity?.x === 'number') {
+          this.stage.setGravity(gravity.x, currentGravity.y)
+        } else if(typeof gravity?.y === 'number') {
+          this.stage.setGravity(currentGravity.x, gravity.y)
+        }
       }
-    }
 
-    if(gameUpdate.world?.backgroundColor) {
-      this.world.createWorldBackgroundColorLayer()
-    }
-
-    if(gameUpdate.world?.boundaries) {
-      if(gameUpdate.world.boundaries.loop) {
-        this.sendReloadGameEvent()
-        return
+      if(gameUpdate.stages['default']?.backgroundColor) {
+        this.stage.createWorldBackgroundColorLayer()
       }
-      
-      // set camera previews zoom
-      // set camera bounds
-      // set world bounds
-      const gameModel = gameUpdate
-      const gameWidth = gameModel.world.boundaries.width
-      const gameHeight = gameModel.world.boundaries.height
-      const gameX = gameModel.world.boundaries.x
-      const gameY = gameModel.world.boundaries.y
-      this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
-      // this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
-      this.world.setBoundaries(gameModel.world.boundaries)
 
-      this.createGrids()
+      if(gameUpdate.stages['default']?.boundaries) {
+        if(gameUpdate.stages['default'].boundaries.loop) {
+          this.sendReloadGameEvent()
+          return
+        }
+        
+        // set camera previews zoom
+        // set camera bounds
+        // set world bounds
+        const gameModel = gameUpdate
+        const gameWidth = gameModel.stages['default'].boundaries.width
+        const gameHeight = gameModel.stages['default'].boundaries.height
+        const gameX = gameModel.stages['default'].boundaries.x
+        const gameY = gameModel.stages['default'].boundaries.y
+        this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
+        // this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
+        this.stage.setBoundaries(gameModel.stages['default'].boundaries)
+
+        this.createGrids()
+      }
+
+      const objects = gameUpdate.stages['default'].objects
+      if(objects) Object.keys(objects).forEach((id) => {
+        const objectUpdate = objects[id]
+        const objectInstance = this.getObjectInstance(id)
+        if(!objectInstance) {
+          this.addObjectInstance(id, objectUpdate)
+          return
+        }
+        if(objectUpdate === null) {
+          this.removeObjectInstance(id)
+          return
+        }
+        
+        if(typeof objectUpdate.spawnX === 'number' || typeof objectUpdate.spawnY === 'number') {
+          objectInstance.sprite.x = objectUpdate.spawnX
+          objectInstance.sprite.y = objectUpdate.spawnY
+        }
+      })
     }
+    
 
     if(gameUpdate.awsImages) {
       if(gameUpdate.awsImages[this.backgroundLayer.textureId]) {
@@ -591,24 +625,6 @@ export class EditorScene extends GameInstance {
       this.removePlayerInstance()
       this.addPlayerInstance()
     }
-
-    if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
-      const objectUpdate = gameUpdate.objects[id]
-      const objectInstance = this.getObjectInstance(id)
-      if(!objectInstance) {
-        this.addObjectInstance(id, objectUpdate)
-        return
-      }
-      if(objectUpdate === null) {
-        this.removeObjectInstance(id)
-        return
-      }
-      
-      if(typeof objectUpdate.spawnX === 'number' || typeof objectUpdate.spawnY === 'number') {
-        objectInstance.sprite.x = objectUpdate.spawnX
-        objectInstance.sprite.y = objectUpdate.spawnY
-      }
-    })
 
     if(gameUpdate.relations) {
       this.sendReloadGameEvent()
@@ -720,7 +736,7 @@ export class EditorScene extends GameInstance {
       if(
         // classUpdate.unspawned !== undefined ||
         classUpdate.graphics?.invisibile !== undefined ||
-        classUpdate.worldBoundaryRelation || 
+        classUpdate.boundaryRelation || 
         classUpdate.graphics?.textureId ||
         classUpdate.movement?.pattern !== undefined ||
         classUpdate.movement?.velocityX !== undefined ||
@@ -774,8 +790,8 @@ export class EditorScene extends GameInstance {
 
   createGrids() {
     // const gameModel = store.getState().gameModel.gameModel
-    // const gameMaxWidth = gameModel.world.boundaries.maxWidth
-    // const gameMaxHeight = gameModel.world.boundaries.maxHeight
+    // const gameMaxWidth = gameModel.stages['default'].boundaries.maxWidth
+    // const gameMaxHeight = gameModel.stages['default'].boundaries.maxHeight
     // this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
     // this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
@@ -785,7 +801,7 @@ export class EditorScene extends GameInstance {
     if(this.grid) this.grid.destroy()
     if(this.grid2) this.grid2.destroy()
 
-    const boundaries = store.getState().gameModel.gameModel.world.boundaries
+    const boundaries = store.getState().gameModel.gameModel.stages['default'].boundaries
 
     const gameWidth = boundaries.width
     const gameHeight = boundaries.height
@@ -804,8 +820,8 @@ export class EditorScene extends GameInstance {
     this.createGrids()
 
     const gameModel = store.getState().gameModel.gameModel
-    const gameMaxWidth = gameModel.world.boundaries.maxWidth
-    const gameMaxHeight = gameModel.world.boundaries.maxHeight
+    const gameMaxWidth = gameModel.stages['default'].boundaries.maxWidth
+    const gameMaxHeight = gameModel.stages['default'].boundaries.maxHeight
     
     const editorCameraJSON = {
       x: 0,

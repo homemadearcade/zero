@@ -7,6 +7,8 @@ GAME
   Effect to switch games
   Go to ticketing page with Effect
 
+Turn hero spawning into a zone
+
 Forgot Password - email Flow
 
 ---------

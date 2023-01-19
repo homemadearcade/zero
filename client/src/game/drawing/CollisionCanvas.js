@@ -26,7 +26,7 @@ export class CollisionCanvas extends CodrawingCanvas {
   createCollisionBody = async () => {
     const { bufferCanvasContext, bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
     const gameModel = store.getState().gameModel.gameModel 
-    const nodeSize = gameModel.world.nodeSize
+    const nodeSize = gameModel.nodeSize
 
     const terrainData = bufferCanvasContext.getImageData(0, 0, bufferCanvas.width, bufferCanvas.height);
     const data = terrainData.data
@@ -39,7 +39,7 @@ export class CollisionCanvas extends CodrawingCanvas {
       alphaNodes.push({ alpha: data[i], touched: false });
     }
 
-    const alphaGrid = splitIntoSubarrays(alphaNodes, gameModel.world.boundaries.maxWidth)
+    const alphaGrid = splitIntoSubarrays(alphaNodes, gameModel.stages['default'].boundaries.maxWidth)
     for(let y = halfNodeSize; y < alphaGrid.length; y+= nodeSize) {
       const row = alphaGrid[y]
       for(let x = halfNodeSize; x < row.length; x+= nodeSize) {
@@ -64,8 +64,8 @@ export class CollisionCanvas extends CodrawingCanvas {
     
     this.collisionBody = new CompoundStaticBody(this.scene, { 
       parts: collisionGridNodes,
-      width: gameModel.world.boundaries.maxWidth, 
-      height: gameModel.world.boundaries.maxHeight, 
+      width: gameModel.stages['default'].boundaries.maxWidth, 
+      height: gameModel.stages['default'].boundaries.maxHeight, 
       nodeWidth: nodeSize, 
       nodeHeight: nodeSize
     })

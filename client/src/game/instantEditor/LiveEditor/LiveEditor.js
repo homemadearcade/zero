@@ -7,7 +7,7 @@ import { closeLiveEditor, openLiveEditor } from '../../../store/actions/gameEdit
 import './LiveEditor.scss'
 import Button from '../../../ui/Button/Button';
 import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
-import WorldEditor from '../WorldEditor/WorldEditor';
+import GravityEditor from '../GravityEditor/GravityEditor';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
@@ -16,7 +16,7 @@ import MovementEditor from '../MovementEditor/MovementEditor';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
-import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, WORLD_EDITOR } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, STAGE_EDITOR } from '../../constants';
 import JumpEditor from '../JumpEditor/JumpEditor';
 
 const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSelectedLiveEditor, liveEditingCategory }, gameModel: { gameModel } }) => {
@@ -73,7 +73,7 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSele
       {liveEditingCategory === MOVEMENT_EDITOR && <MovementEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === PROJECTILE_EDITOR && <ProjectileEditor classId={classIdSelectedLiveEditor}/>}
       {liveEditingCategory === PHYSICS_EDITOR && <PhysicsEditor classId={classIdSelectedLiveEditor}/>}
-      {liveEditingCategory === WORLD_EDITOR && <WorldEditor/>}
+      {liveEditingCategory === STAGE_EDITOR && <GravityEditor/>}
       {liveEditingCategory === CAMERA_EDITOR && <CameraEditor classId={classIdSelectedLiveEditor}/>}
     </div>
   );

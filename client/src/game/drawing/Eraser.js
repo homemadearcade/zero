@@ -53,8 +53,8 @@ export class Eraser extends Brush {
 
   createLowerInstancePreviews() {
     const gameModel = store.getState().gameModel.gameModel
-    const previewWidth = gameModel.world.boundaries.maxWidth
-    const previewHeight = gameModel.world.boundaries.maxHeight
+    const previewWidth = gameModel.stages['default'].boundaries.maxWidth
+    const previewHeight = gameModel.stages['default'].boundaries.maxHeight
 
     return [
       new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(FOREGROUND_CANVAS_DEPTH + 5),
@@ -68,8 +68,8 @@ export class Eraser extends Brush {
 
     const gameModel = store.getState().gameModel.gameModel
     const eraserLayerId = getCanvasIdFromEraserId(this.brushId)
-    const previewWidth = gameModel.world.boundaries.maxWidth
-    const previewHeight = gameModel.world.boundaries.maxHeight
+    const previewWidth = gameModel.stages['default'].boundaries.maxWidth
+    const previewHeight = gameModel.stages['default'].boundaries.maxHeight
 
     if(eraserLayerId === PLAYGROUND_CANVAS_ID) {
       this.lowerLayerPreviews.push(

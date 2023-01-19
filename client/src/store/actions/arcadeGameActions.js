@@ -100,23 +100,31 @@ function onArcadeGameModelUpdate(gameUpdate) {
       }
     }
   
-    if(gameUpdate.objects) {
-      window.instanceUndoStack.push(...Object.keys(gameUpdate.objects).map((id) => {
-        return {
-          objectInstanceId: id,
-          data: _.cloneDeep(oldGameData.objects[id])
-        }
-      }))
+    if(gameUpdate.stages) {
+      const objects = gameUpdate.stages['default'].objects 
+      const oldObjects = oldGameData.stages['default'].objects
+      if(objects) {
+        window.instanceUndoStack.push(...Object.keys(objects).map((id) => {
+          return {
+            objectInstanceId: id,
+            data: _.cloneDeep(oldObjects[id])
+          }
+        }))
+      }
     }
 
     window.instanceUndoStack = window.instanceUndoStack.slice(-UNDO_MEMORY_MAX)
   }
 
   window.nextGameModelUpdateIsUndo = false
+  if(gameUpdate.stages) {
+    const oldObjects = oldGameData.stages['default'].objects
+    const objects = gameUpdate.stages['default'].objects 
+    if(objects) Object.keys(objects).forEach((id) => {
+      if(!oldObjects[id]) objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
+    })
+  }
 
-  if(gameUpdate.objects) Object.keys(gameUpdate.objects).forEach((id) => {
-    if(!oldGameData.objects[id]) gameUpdate.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameUpdate.objects[id])
-  })
   if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
     if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameUpdate.classes[id])
   })
@@ -187,8 +195,9 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
 
     const gameData = mergeDeep(_.cloneDeep(defaulGameModel), response.data.game)
 
-    Object.keys(gameData.objects).forEach((id) => {
-      gameData.objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), gameData.objects[id])
+    const objects = gameData.stages['default'].objects
+    Object.keys(objects).forEach((id) => {
+      objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
     })
     Object.keys(gameData.classes).forEach((id) => {
       gameData.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameData.classes[id])

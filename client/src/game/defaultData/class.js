@@ -1,4 +1,4 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, BOUNDARY_COLLIDE, ZONE_CLASS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -30,13 +30,13 @@ export const defaultCollisionResponse = {
   mass: 10,
   notPushable: true,
   immovable: false,
-  ignoreWorldBoundaries: false,
+  ignoreBoundaries: false,
   ignoreSides: [],
 }
 
 export const defaultObjectClass = {
   interfaceLocked: false,
-  worldBoundaryRelation: WORLD_COLLIDE,
+  boundaryRelation: BOUNDARY_COLLIDE,
   classId: null,
   movement: {
     ...defaultMovement

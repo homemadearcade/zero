@@ -25,11 +25,11 @@ export const PROLOGUE_SCENE_3 = 'Prologue 3';
 /////////////////////////////////////
 /////////////////////////////////////
 // BOUNDARIES
-export const GAME_BOUNDARY_WALL_ID = 'GAME_BOUNDARY'
-export const GAME_BOUNDARY_LEFT_WALL_ID = 'GAME_BOUNDARY_LEFT'
-export const GAME_BOUNDARY_RIGHT_WALL_ID = 'GAME_BOUNDARY_RIGHT'
-export const GAME_BOUNDARY_UP_WALL_ID = 'GAME_BOUNDARY_UP'
-export const GAME_BOUNDARY_DOWN_WALL_ID = 'GAME_BOUNDARY_DOWN'
+export const BOUNDARY_WALL_ID = 'BOUNDARY'
+export const BOUNDARY_LEFT_WALL_ID = 'BOUNDARY_LEFT'
+export const BOUNDARY_RIGHT_WALL_ID = 'BOUNDARY_RIGHT'
+export const BOUNDARY_UP_WALL_ID = 'BOUNDARY_UP'
+export const BOUNDARY_DOWN_WALL_ID = 'BOUNDARY_DOWN'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -41,7 +41,7 @@ export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 /////////////////////////////////////
 /////////////////////////////////////
 // LAYERS
-export const WORLD_BACKGROUND_CANVAS_DEPTH = 0;
+export const STAGE_BACKGROUND_CANVAS_DEPTH = 0;
 export const BACKGROUND_CANVAS_DEPTH = 5;
 export const ZONE_INSTANCE_CANVAS_DEPTH = 10;
 export const SPRITE_EDITOR_CANVAS_DEPTH = 19;
@@ -52,7 +52,7 @@ export const PLAYER_INSTANCE_CANVAS_DEPTH = 50;
 export const FOREGROUND_CANVAS_DEPTH = 70;
 export const UI_CANVAS_DEPTH = 100;
 
-export const WORLD_BACKGROUND_CANVAS_ID = 'WORLD_BACKGROUND_CANVAS';
+export const STAGE_BACKGROUND_CANVAS_ID = 'STAGE_BACKGROUND_CANVAS';
 export const BACKGROUND_CANVAS_ID = 'BACKGROUND_CANVAS';
 export const ZONE_INSTANCE_CANVAS_ID = 'ZONE_INSTANCE_CANVAS';
 export const SPRITE_EDITOR_CANVAS_ID = 'SPRITE_EDITOR_CANVAS';
@@ -136,10 +136,10 @@ export const MOVEMENT_NONE = 'MOVEMENT_NONE'
 
 /////////////////////////////////////
 /////////////////////////////////////
-// WORLD BOUNDARY RELATIONSHIP
-export const WORLD_WRAP = 'WORLD_WRAP'
-export const WORLD_COLLIDE = 'WORLD_COLLIDE'
-export const WORLD_DESTROY = 'WORLD_DESTROY'
+// STAGE BOUNDARY RELATIONSHIP
+export const BOUNDARY_WRAP = 'BOUNDARY_WRAP'
+export const BOUNDARY_COLLIDE = 'BOUNDARY_COLLIDE'
+export const BOUNDARY_DESTROY = 'BOUNDARY_DESTROY'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -174,7 +174,7 @@ export const PHYSICS_EDITOR = 'PHYSICS_EDITOR'
 export const MOVEMENT_EDITOR = 'MOVEMENT_EDITOR'
 export const JUMP_EDITOR = 'JUMP_EDITOR'
 export const CAMERA_EDITOR = 'CAMERA_EDITOR'
-export const WORLD_EDITOR = 'WORLD_EDITOR'
+export const STAGE_EDITOR = 'STAGE_EDITOR'
 export const PROJECTILE_EDITOR = 'PROJECTILE_EDITOR'
 
 /////////////////////////////////////

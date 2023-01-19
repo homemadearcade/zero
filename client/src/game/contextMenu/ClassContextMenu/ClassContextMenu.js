@@ -123,15 +123,7 @@ const ClassContextMenu = ({
       {false && 'before doing this I need to clean up a lot of stuff in relations' && !insideObjectInstanceContextMenu && 
         <Unlockable interfaceId="contextMenu/class/delete">
           <MenuItem onClick={() => {
-          
-            const partOfClass = Object.keys(gameModel.objects).filter((objectId) => {
-              return gameModel.objects[objectId].classId === classId
-            }).reduce((prev, objectId) => {
-              prev[objectId] = null
-              return prev
-            }, {})
-
-            editGameModel({ classes: { [classId]: null }, objects: partOfClass })
+        
             onMenuItemClick()
           }}>Delete</MenuItem>
         </Unlockable>}

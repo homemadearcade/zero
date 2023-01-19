@@ -78,7 +78,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
   try {
     let game = await ArcadeGame.create({
-      objects: req.body.objects, 
+      stages: req.body.stages, 
       metadata: req.body.metadata, 
       player: req.body.player, 
       classes: req.body.classes,
@@ -87,7 +87,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       cutscenes: req.body.cutscenes,
       relations: req.body.relations,
       awsImages: req.body.awsImages,
-      world: req.body.world, 
+      nodeSize: req.body.nodeSize, 
       user: req.body.userId,
     });
 
@@ -124,12 +124,22 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 
     const updatedGame = mergeDeep(tempGame, req.body.gameUpdate)
 
-    Object.keys(updatedGame.objects).forEach(key => {
-      if (updatedGame.objects[key] === null || updatedGame.objects[key] === undefined) {
-        console.log('deleting object', key)
-        delete updatedGame.objects[key];
+    if(!updatedGame.stages) updatedGame.stages = {
+      default: {
+        objects: {},
+        boundaries: {},
+        gravity: {}
       }
-    });
+    }
+    Object.keys(updatedGame.stages).forEach((stageId) => {
+      const stage = updatedGame.stages[stageId]
+      Object.keys(stage.objects).forEach(key => {
+        if (stage.objects[key] === null || stage.objects[key] === undefined) {
+          console.log('deleting object', key)
+          delete stage.objects[key];
+        }
+      });
+    })
 
     Object.keys(updatedGame.cutscenes).forEach(key => {
       if (updatedGame.cutscenes[key] === null || updatedGame.cutscenes[key] === undefined) {
@@ -159,7 +169,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
     await ArcadeGame.findByIdAndUpdate(
       req.params.id,
       { 
-        objects: updatedGame.objects, 
+        stages: updatedGame.stages, 
         metadata: updatedGame.metadata, 
         player: updatedGame.player, 
         classes: updatedGame.classes,
@@ -167,7 +177,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         colors: updatedGame.colors,
         cutscenes: updatedGame.cutscenes,
         awsImages: updatedGame.awsImages,
-        world: updatedGame.world, 
+        nodeSize: updatedGame.nodeSize, 
         relations: updatedGame.relations, 
         user: tempGame.user.id,
      },

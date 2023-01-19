@@ -2,23 +2,23 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectWorldBoundaryEffect.scss';
+import './SelectBoundaryEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { } from '../../defaultData/relationship';
-import { getWorldBoundaryRelationLabel, worldBoundaryRelationsDisplayNames } from '../../defaultData/world';
+import { getboundaryRelationLabel, boundaryRelationsDisplayNames } from '../../defaultData/stage';
 
-const SelectWorldBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
+const SelectBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
   const objectClass = gameModel.classes[classId]
 
 
   const mapEffectsToOption = (relation) => {
     return {
-      label: getWorldBoundaryRelationLabel(relation, objectClass),
+      label: getboundaryRelationLabel(relation, objectClass),
       value: relation
     }
   }
 
-  const options = Object.keys(worldBoundaryRelationsDisplayNames).map(mapEffectsToOption)
+  const options = Object.keys(boundaryRelationsDisplayNames).map(mapEffectsToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectWorldBoundaryEffect);
+)(SelectBoundaryEffect);

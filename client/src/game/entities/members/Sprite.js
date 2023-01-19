@@ -10,12 +10,12 @@ export class Sprite {
     const plugin = { 
       wrap: {
         min: {
-          x: gameModel.world.boundaries.x,
-          y: gameModel.world.boundaries.y
+          x: gameModel.stages['default'].boundaries.x,
+          y: gameModel.stages['default'].boundaries.y
         },
         max: {
-          x: gameModel.world.boundaries.width,
-          y: gameModel.world.boundaries.height
+          x: gameModel.stages['default'].boundaries.width,
+          y: gameModel.stages['default'].boundaries.height
         }           
       }
     }
@@ -29,9 +29,9 @@ export class Sprite {
       // scene.physics.world.enable([ this.sprite ]);
     } else if(scene.physicsType === MATTER_PHYSICS) {
       if(!spriteSheetName) {
-        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
+        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: gameModel.stages['default'].boundaries.loop ? plugin : {} })
       } else {
-        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.world.boundaries.loop ? plugin : {} })
+        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.stages['default'].boundaries.loop ? plugin : {} })
       }
     }
 

@@ -20,9 +20,9 @@ import {
   UPDATE_CREATE_RELATION,
   OPEN_CUTSCENE_MENU,
   CLOSE_CUTSCENE_MENU,
-  OPEN_WORLD_RELATION,
-  CLOSE_WORLD_RELATION,
-  UPDATE_WORLD_RELATION,
+  OPEN_BOUNDARY_RELATION,
+  CLOSE_BOUNDARY_RELATION,
+  UPDATE_BOUNDARY_RELATION,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
@@ -217,26 +217,26 @@ export const updateCreateRelation = (relation) => (dispatch, getState) => {
 
 
 
-export const openWorldRelation = (initialObjectClass) => (dispatch, getState) => {
+export const openBoundaryRelation = (initialObjectClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_WORLD_RELATION,
+    type: OPEN_BOUNDARY_RELATION,
     payload: { initialObjectClass }
   });
 }
 
-export const closeWorldRelation= () => (dispatch, getState) => {
+export const closeBoundaryRelation= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_WORLD_RELATION,
+    type: CLOSE_BOUNDARY_RELATION,
     payload: {}
   });
 }
 
-export const updateWorldRelation = (objectClass) => (dispatch, getState) => {
+export const updateBoundaryRelation = (objectClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: UPDATE_WORLD_RELATION,
+    type: UPDATE_BOUNDARY_RELATION,
     payload: { objectClass }
   });
 }

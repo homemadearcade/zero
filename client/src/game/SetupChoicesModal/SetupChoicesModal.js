@@ -10,7 +10,7 @@ import CobrowsingVerticalLinearStepper from '../cobrowsing/CobrowsingVerticalLin
 import Typography from '../../ui/Typography/Typography';
 import AggregateColorSelect from '../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../store/actions/gameModelActions';
-import { WORLD_BACKGROUND_CANVAS_ID } from '../constants';
+import { STAGE_BACKGROUND_CANVAS_ID } from '../constants';
 
 const SetupChoicesModal = ({ closeSetupChoicesModal, editGameModel, gameModel: { gameModel }}) => {
   function handleClose() {
@@ -27,12 +27,14 @@ const SetupChoicesModal = ({ closeSetupChoicesModal, editGameModel, gameModel: {
             title: <Typography component="h5" variant="h5">Background Color</Typography>,
             instructions: <>
               <AggregateColorSelect 
-                selectedColor={gameModel.world.backgroundColor}
-                canvasId={WORLD_BACKGROUND_CANVAS_ID} 
+                selectedColor={gameModel.stages['default'].backgroundColor}
+                canvasId={STAGE_BACKGROUND_CANVAS_ID} 
                 onSelectColor={(hex) => {
                   editGameModel({
-                    world: {
-                      backgroundColor: hex
+                    stages: {
+                      ['default'] : {
+                        backgroundColor: hex
+                      }
                     }
                   })
                 }}

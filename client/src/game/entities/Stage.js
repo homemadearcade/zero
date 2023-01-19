@@ -1,9 +1,9 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, WORLD_BACKGROUND_CANVAS_DEPTH } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, STAGE_BACKGROUND_CANVAS_DEPTH } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 
-export class World {
+export class Stage {
   constructor(scene, { boundaries, gravity }){
     this.scene = scene
     this.physicsType = scene.physicsType
@@ -17,10 +17,10 @@ export class World {
 
   createWorldBackgroundColorLayer() {
     const gameModel = store.getState().gameModel.gameModel
-    const colorInt = getHexIntFromHexString(gameModel.world.backgroundColor || '#000000')
+    const colorInt = getHexIntFromHexString(gameModel.stages['default'].backgroundColor || '#000000')
     if(this.backgroundColorLayer) this.backgroundColorLayer.destroy()
-    this.backgroundColorLayer = this.scene.add.rectangle(0, 0, gameModel.world.boundaries.maxWidth * 2, gameModel.world.boundaries.maxHeight * 2, colorInt)
-    this.backgroundColorLayer.setDepth(WORLD_BACKGROUND_CANVAS_DEPTH)
+    this.backgroundColorLayer = this.scene.add.rectangle(0, 0, gameModel.stages['default'].boundaries.maxWidth * 2, gameModel.stages['default'].boundaries.maxHeight * 2, colorInt)
+    this.backgroundColorLayer.setDepth(STAGE_BACKGROUND_CANVAS_DEPTH)
   }
 
   setGravity(x, y) {

@@ -12,9 +12,14 @@ import Typography from '../../../../ui/Typography/Typography';
 const GameForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
     initialValues: {
-      objects: {},
       player: {},
-      world: {},
+      stages: {
+        default: {
+          objects: {},
+          boundaries: {},
+          gravity: {}
+        }
+      },
       metadata: {},
       classes: {},
       brushes: {},

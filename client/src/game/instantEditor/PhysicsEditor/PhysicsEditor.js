@@ -203,9 +203,9 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           labels={['Boundaried', 'No Boundaries']}
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { ignoreWorldBounds: e.target.checked } } } })        
+            editGameModel({ classes: { [classId]: { collisionResponse: { ignoreBoundaries: e.target.checked } } } })        
           }}
-          checked={classSelected.collisionResponse.ignoreWorldBounds}
+          checked={classSelected.collisionResponse.ignoreBoundaries}
          />
       </Unlockable>}
 

@@ -81,8 +81,12 @@ export function onInstanceUndo() {
   } else { 
     if(undoAction.objectInstanceId) {
       store.dispatch(editGameModel({
-        objects: {
-          [undoAction.objectInstanceId]: undoAction.data
+        stages: {
+          ['default']: {
+            objects: {
+            [undoAction.objectInstanceId]: undoAction.data
+            }
+          }
         }
       }))
     } else if(undoAction.data) {

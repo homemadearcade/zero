@@ -8,9 +8,9 @@ import { clearEditor } from '../../store/actions/gameEditorActions';
 import { clearGameFormEditor } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../store/actions/gameViewEditorActions';
-import SectionEditor from '../world/SectionEditor/SectionEditor';
+import SectionEditor from '../stage/SectionEditor/SectionEditor';
 import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
-import SelectBackgroundColor from '../world/SelectBackgroundColor/SelectBackgroundColor';
+import SelectBackgroundColor from '../stage/SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
 import { EDIT_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
@@ -19,7 +19,7 @@ import CutscenesMenu from '../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../cutscene/CreateCutscene/CreateCutscene';
 import CreateRelation from '../relations/CreateRelation/CreateRelation';
 import RelationsMenu from '../relations/RelationsMenu/RelationsMenu';
-import WorldRelation from '../relations/WorldRelation/WorldRelation';
+import BoundaryRelation from '../relations/BoundaryRelation/BoundaryRelation';
 import ClassNameModal from '../class/ClassNameModal/ClassNameModal';
 import SetupChoicesModal from '../SetupChoicesModal/SetupChoicesModal';
 import GridToggle from '../GridToggle/GridToggle';
@@ -32,7 +32,7 @@ const GameEditor = ({
   gameEditor: { isSetupChoicesModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
-  gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isWorldRelationOpen },
+  gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
@@ -92,7 +92,7 @@ const GameEditor = ({
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isRelationsMenuOpen && <RelationsMenu/>}
       {isCreateRelationOpen && <CreateRelation/>}
-      {isWorldRelationOpen && <WorldRelation/>}
+      {isBoundaryRelationOpen && <BoundaryRelation/>}
       {isSetupChoicesModalOpen && <SetupChoicesModal/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
     </div>
