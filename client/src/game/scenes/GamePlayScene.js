@@ -27,5 +27,12 @@ export class GamePlayScene extends GameInstance {
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }
+
+    if(this.isPaused) {
+      this.pause()
+    } else {
+      this.resume()
+    }
   }
+
 }

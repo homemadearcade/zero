@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CutsceneNameForm from '../../cutscene/CutsceneNameForm/CutsceneNameForm';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, TEXT_CUTSCENE } from '../../constants';
+import { CUTSCENE_ID_PREFIX, IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
 import { TextField } from '@mui/material';
 import Typography from '../../../ui/Typography/Typography';
 import MySpritesModal from '../../sprites/MySpritesModal/MySpritesModal';
@@ -33,7 +33,7 @@ const CreateCutscene = ({
   
   useEffect(() => {
     if(!cutscene.cutsceneId) {
-      updateCreateCutscene({ cutsceneId: generateUniqueId(), isNew: true })
+      updateCreateCutscene({ cutsceneId: CUTSCENE_ID_PREFIX+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -50,6 +50,7 @@ const CreateCutscene = ({
   function addScene(type) {
     const scenes = cutscene.scenes.slice()
     scenes.push({
+      id: SCENE_ID_PREFIX+generateUniqueId(),
       type,
       text: null,
       imageUrl: null,

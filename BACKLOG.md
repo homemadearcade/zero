@@ -12,19 +12,17 @@ Timers - A whole timer interface like at the bottom like an editor?
 
 Choices in dialogue
 
-Particles
+Particles/Explosions
 
 Light System
     World Effects
     Change world, change gravity. Like a 'world' class
 
-Following..Advanced Pathfinding
+Following, Advanced Pathfinding
 
-Enemy Projectiles?
+Enemy Projectiles
 
 Mobile
-
-Explosions
 
 Conditions
 
@@ -45,6 +43,8 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 --------------------------------------------------------------------------------------
 
 TODO FEATURES ( MAYBE ) BACKlog
+
+On touch end. Instead of an array - plant a boolean on another collider? maybe? and like reset that boolean every loop. Once it doesnt need to be reset, thats when the touch stopped? right?
 
 ANALYTICS on each action?, on where on the screen? Save all records
 
@@ -97,8 +97,6 @@ Other lobby connection issue popups
 TODO CHORES BACKLOG
 
 KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spawned ones are not detroyed
-
-Hero Name -> Player
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
 

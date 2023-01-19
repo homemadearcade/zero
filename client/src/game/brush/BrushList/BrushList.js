@@ -2,14 +2,13 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 
 import './BrushList.scss';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, BRUSH_ID_PREFIX, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
@@ -164,7 +163,7 @@ const BrushList = ({
             })
           }
         } else {
-          const brushId = generateUniqueId()
+          const brushId = BRUSH_ID_PREFIX+generateUniqueId()
           editGameModel({
             brushes: {
               [brushId] : brush

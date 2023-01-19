@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import { lobbyFormSchema } from './validation';
 import { Controller, useForm } from "react-hook-form";
-import { v4 as uuidv4 } from 'uuid';
 
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
@@ -10,6 +9,8 @@ import { editTicketedEvent } from '../../store/actions/ticketedEventActions';
 import DatePickerInline from '../../ui/DatePickerInline/DatePickerInline';
 import TimePickerInline from '../../ui/TimePickerInline/TimePickerInline';
 import dayjs from 'dayjs';
+import { generateUniqueId } from '../../utils/webPageUtils';
+import { DATE_ID_PREFIX } from '../../game/constants';
 
 const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticketedEvent } }) => {
  
@@ -25,7 +26,7 @@ const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticket
     
     const startDate = dayjs(data.day.format('YYYY-MM-DD') + data.time.format('THH:mm:ssZ'))
     ticketedEvent.dates.push({
-      id: uuidv4(),
+      id: DATE_ID_PREFIX+generateUniqueId(),
       startDate: startDate.toDate(),
       // endDate: 
     })

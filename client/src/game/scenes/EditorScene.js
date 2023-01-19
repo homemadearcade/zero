@@ -6,7 +6,7 @@ import { openContextMenuFromGameObject, openWorldContextMenu } from '../../store
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { HERO_INSTANCE_ID, UI_CANVAS_DEPTH } from '../constants';
+import { PLAYER_INSTANCE_ID, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -79,9 +79,9 @@ export class EditorScene extends GameInstance {
   finishDrag(entitySprite) {
     document.body.style.cursor = null
 
-    if(entitySprite.id === HERO_INSTANCE_ID) {
+    if(entitySprite.id === PLAYER_INSTANCE_ID) {
       store.dispatch(editGameModel({ 
-        hero: {
+        player: {
           spawnX: entitySprite.x,
           spawnY: entitySprite.y
         }
@@ -140,9 +140,9 @@ export class EditorScene extends GameInstance {
 
   onResizeEnd = (pointer) => {
     const sprite = this.resizingObjectInstance.sprite
-    if(sprite.id === HERO_INSTANCE_ID) {
+    if(sprite.id === PLAYER_INSTANCE_ID) {
       store.dispatch(editGameModel({ 
-        hero: {
+        player: {
           spawnX: sprite.x,
           spawnY: sprite.y
         },
@@ -499,14 +499,14 @@ export class EditorScene extends GameInstance {
   getGameObjectById(id) {
     const gameModel = store.getState().gameModel.gameModel
 
-    if(id === HERO_INSTANCE_ID) {
-      return gameModel.hero
+    if(id === PLAYER_INSTANCE_ID) {
+      return gameModel.playero
     }
     return gameModel.objects[id]
   }
 
   addGameObject(classId, {spawnX, spawnY}) {
-    const id = generateUniqueId()
+    const id = OBJECT_INSTANCE_ID_PREFIX+generateUniqueId()
 
     const gameObject = {
       classId,
@@ -587,7 +587,7 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    if(gameUpdate.hero) {
+    if(gameUpdate.player) {
       this.removePlayerInstance()
       this.addPlayerInstance()
     }
@@ -729,7 +729,7 @@ export class EditorScene extends GameInstance {
       ) {
         // setTimeout(() => {
           this.forAllObjectInstancesMatchingClassId(id, (object) => {
-            if(object.id === HERO_INSTANCE_ID) {
+            if(object.id === PLAYER_INSTANCE_ID) {
               this.removePlayerInstance()
               this.addPlayerInstance()
               return

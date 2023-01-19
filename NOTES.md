@@ -38,7 +38,7 @@ Never send an update with more data than you need
 
 GAME MODEL
 
-Hero
+Player
 Object ( Game Object )
 Class
 Brush

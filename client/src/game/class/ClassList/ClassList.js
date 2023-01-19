@@ -14,7 +14,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { DIRECTIONAL_CONTROLS, HERO_CLASS, HERO_INSTANCE_CANVAS_ID, MOVEMENT_NONE, MOVEMENT_TURN_ON_COLLIDE, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, OBJECT_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
+import { DIRECTIONAL_CONTROLS, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, MOVEMENT_NONE, MOVEMENT_TURN_ON_COLLIDE, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, OBJECT_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 
@@ -30,9 +30,9 @@ const ClassList = ({
     return null
   }
 
-  const heroClasses = Object.keys(classes).filter((currentClassId) => {
+  const playerClasses = Object.keys(classes).filter((currentClassId) => {
   const currentClass = classes[currentClassId]
-    if(currentClass.type === HERO_CLASS) return true
+    if(currentClass.type === PLAYER_CLASS) return true
     return false
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
@@ -44,10 +44,10 @@ const ClassList = ({
     return el
   })
   
-  heroClasses.push(<Unlockable interfaceId={HERO_INSTANCE_CANVAS_ID + '/addPlayer'}>
+  playerClasses.push(<Unlockable interfaceId={PLAYER_INSTANCE_CANVAS_ID + '/addPlayer'}>
     <Button size="fit" 
       onClick={() => {
-        openCreateClassFlow({ type: HERO_CLASS, movement: { controls: DIRECTIONAL_CONTROLS } })
+        openCreateClassFlow({ type: PLAYER_CLASS, movement: { controls: DIRECTIONAL_CONTROLS } })
       }}>
       +
     </Button>
@@ -149,18 +149,18 @@ const ClassList = ({
 
   const accordians = []
 
-  if(!getInterfaceIdData(HERO_INSTANCE_CANVAS_ID + '/*').isObscured) {
+  if(!getInterfaceIdData(PLAYER_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
-      id: 'heros',
+      id: 'players',
       title: <>
         <Typography component="div" variant="subtitle1">Players</Typography>
-        <LayerVisibility canvasId={HERO_INSTANCE_CANVAS_ID} />
+        <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
         maxItems={18} 
         height="7vh"
         width="9.2vh"
-        items={heroClasses}
+        items={playerClasses}
       />
     })
   }

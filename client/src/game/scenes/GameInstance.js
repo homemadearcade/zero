@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, HERO_INSTANCE_ID, HERO_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, HERO_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, HERO_CLASS, ON_PLAY_CINEMATIC, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAY_CINEMATIC, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -68,7 +68,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   getObjectInstance(id) {
-    if(id === HERO_INSTANCE_ID) {
+    if(id === PLAYER_INSTANCE_ID) {
       return this.playerInstance
     }
     
@@ -79,11 +79,11 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().gameModel.gameModel
     const {classId, spawnX, spawnY} = classData
 
-    this.playerInstance = new PlayerInstance(this, HERO_INSTANCE_ID, {
-      classId: classId ? classId : gameModel.hero.initialClassId,
+    this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID, {
+      classId: classId ? classId : gameModel.player.initialClassId,
       textureId: 'ship2',
-      spawnX: spawnX !== undefined ? spawnX :gameModel.hero.spawnX,
-      spawnY: spawnY !== undefined ? spawnY :gameModel.hero.spawnY,
+      spawnX: spawnX !== undefined ? spawnX :gameModel.player.spawnX,
+      spawnY: spawnY !== undefined ? spawnY :gameModel.player.spawnY,
     });
 
     this.playerInstance.setLerp()
@@ -242,7 +242,7 @@ export class GameInstance extends Phaser.Scene {
     this.projectileInstanceGroup = this.add.group()
 
     this.playerInstanceLayer = this.add.layer();
-    this.playerInstanceLayer.setDepth(HERO_INSTANCE_CANVAS_DEPTH)
+    this.playerInstanceLayer.setDepth(PLAYER_INSTANCE_CANVAS_DEPTH)
     this.playerInstanceGroup = this.add.group()
 
     this.zoneInstanceLayer = this.add.layer();
@@ -270,7 +270,7 @@ export class GameInstance extends Phaser.Scene {
       if(!objectInstanceData) {
         return console.error('Object missing!', gameObjectId)
       } 
-      if(gameObjectId === HERO_INSTANCE_ID) {
+      if(gameObjectId === PLAYER_INSTANCE_ID) {
         return console.error('hero got in?!')
       }
       if(!objectInstanceData.classId) {
@@ -287,7 +287,7 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
-    // HERO
+    // PLAYER
     ////////////////////////////////////////////////////////////
     this.initializePlayerInstance()
 
@@ -305,8 +305,8 @@ export class GameInstance extends Phaser.Scene {
 
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     this.cameras.main.pan(this.playerInstance.sprite.x, this.playerInstance.sprite.y, 0)
-    const heroClass = gameModel.classes[gameModel.hero.initialClassId]
-    this.cameras.main.setZoom(heroClass.camera.zoom);
+    const playerClass = gameModel.classes[gameModel.player.initialClassId]
+    this.cameras.main.setZoom(playerClass.camera.zoom);
 
     if(this.isCinematicPlay) {
       Object.keys(gameModel.relations).map((relationId) => {
@@ -363,7 +363,7 @@ export class GameInstance extends Phaser.Scene {
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
     this.objectClassGroup.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
     this.npcClassGroup.setVisible(layerVisibility[NPC_INSTANCE_CANVAS_ID])
-    if(!this.playerInstance.destroyed && this.playerInstance.isVisible) this.playerInstance.setVisible(layerVisibility[HERO_INSTANCE_CANVAS_ID])
+    if(!this.playerInstance.destroyed && this.playerInstance.isVisible) this.playerInstance.setVisible(layerVisibility[PLAYER_INSTANCE_CANVAS_ID])
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {
@@ -378,6 +378,8 @@ export class GameInstance extends Phaser.Scene {
     })
 
     if(this.playerInstance) this.playerInstance.update(time, delta)
+
+    setTimeout(() => {this.hasLoadedOnce = true})
   }
 
   unload() {
@@ -405,41 +407,34 @@ export class GameInstance extends Phaser.Scene {
 
   onStateChange(oldGameState, gameState) {
     if(gameState === START_STATE) {
-      this.sendReloadGameEvent()
-      this.pause()
+      this.isPaused = true
+      this.isPlaythrough = true
+      if(this.hasLoadedOnce) this.sendReloadGameEvent()
     }
     if(gameState === PLAYTHROUGH_PAUSED_STATE) {
       this.isPaused = true
-      this.pause()
     }
     if(gameState === PAUSED_STATE) {
       this.isPaused = true
-      this.pause()
     }
     if(gameState === PLAY_STATE) {
       this.isPaused = false
       this.isPlaythrough = false
-      this.resume()
     }
     if(gameState === STOPPED_STATE) {
       this.isPaused = true
       this.isPlaythrough = false
       this.sendReloadGameEvent()
-      this.pause()
     }
     if(gameState === PLAYTHROUGH_PLAY_STATE) {
       this.isPaused = false
-      this.resume()
       this.isPlaythrough = true
     }
-
     if(gameState === GAME_OVER_STATE) {
       this.isPaused = true   
-      this.resume()
     }
     if(gameState === WIN_GAME_STATE) {
       this.isPaused = true
-      this.pause()
     }
 
     this.gameState = gameState
@@ -449,7 +444,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
-    if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === HERO_CLASS) {
+    if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === PLAYER_CLASS) {
       const layerToDepth = {
         [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
         [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,

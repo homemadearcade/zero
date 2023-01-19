@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColor } from '../../../store/actions/gameEditorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { WORLD_EDITOR } from '../../constants';
+import { SNAPSHOT_ID_PREFIX, WORLD_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { openCutscenesMenu } from '../../../store/actions/gameFormEditorActions';
 import { Divider } from '@mui/material';
@@ -60,7 +60,7 @@ const WorldContextMenu = ({
     </Unlockable>}
     <Unlockable interfaceId="contextMenu/takeSnapshot">
       <MenuItem onClick={() => {
-        openSnapshotTaker(generateUniqueId())
+        openSnapshotTaker(SNAPSHOT_ID_PREFIX+generateUniqueId())
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
     </Unlockable>

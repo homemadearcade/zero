@@ -1,6 +1,6 @@
 // import { BACKGROUND_CANVAS_ID } from "../constants";
 import { gameSize, nodeSize } from "./general";
-import { directionalClass, jumperClass, vehicleClass } from "./heros";
+import { directionalClass, jumperClass, vehicleClass } from "./players";
 
 export const defaulGameModel = {
   "metadata": {
@@ -39,7 +39,7 @@ export const defaulGameModel = {
     // "name": 'name'
     // "type": "layer"
   },
-  "hero": {
+  "player": {
     "lives": 1,
     spawnX: gameSize/2,
     spawnY: gameSize/2,

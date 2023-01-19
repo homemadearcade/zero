@@ -24,8 +24,8 @@ const arcadeGameSchema = new Schema(
       default: {}
     },
 
-    // THESE ARE GLOBAL, perhaps hero -> initialScene
-    hero: {
+    // THESE ARE GLOBAL, perhaps player -> initialScene
+    player: {
       type: Object,
       required: true,
       default: {}
@@ -68,7 +68,7 @@ const arcadeGameSchema = new Schema(
 export const validateArcadeGame = (game) => {
   //Joi.object().pattern(/^/, Joi.date().iso())
   const schema = {
-    hero: Joi.object({
+    player: Joi.object({
       // spawnX: Joi.number().required(),
       // spawnY: Joi.number().required()
     }),
@@ -94,7 +94,7 @@ arcadeGameSchema.methods.toJSON = function () {
     id: this._id.toString(),
     metadata: this.metadata,
     objects: this.objects,
-    hero: this.hero,
+    player: this.player,
     classes: this.classes,
     brushes: this.brushes,
     colors: this.colors,

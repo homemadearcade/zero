@@ -1,4 +1,4 @@
-import { ARCADE_PHYSICS, EFFECT_COLLIDE, EFFECT_STICK_TO, HERO_CLASS, HERO_INSTANCE_ID, MATTER_PHYSICS, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../constants";
+import { ARCADE_PHYSICS, EFFECT_COLLIDE, EFFECT_STICK_TO, PLAYER_CLASS, PLAYER_INSTANCE_ID, MATTER_PHYSICS, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {
@@ -69,7 +69,7 @@ export class Collider {
       const {event, effect, sides} = relation
       if(event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_START) {
         const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
-        if(event.classIdB === HERO_INSTANCE_ID) {
+        if(event.classIdB === PLAYER_INSTANCE_ID) {
           releventInstances.push(this.scene.playerInstance.sprite)
         }
 

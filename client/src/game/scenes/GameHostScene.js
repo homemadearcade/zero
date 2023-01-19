@@ -105,6 +105,12 @@ export class GameHostScene extends EditorScene {
         store.dispatch(changeLobbyConnectionState(null))
       }
     }
+    
+    if(this.isPaused) {
+      this.pause()
+    } else {
+      this.resume()
+    }
 
   }
 }

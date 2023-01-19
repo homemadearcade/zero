@@ -80,7 +80,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
     let game = await ArcadeGame.create({
       objects: req.body.objects, 
       metadata: req.body.metadata, 
-      hero: req.body.hero, 
+      player: req.body.player, 
       classes: req.body.classes,
       brushes: req.body.brushes,
       colors: req.body.colors,
@@ -161,7 +161,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       { 
         objects: updatedGame.objects, 
         metadata: updatedGame.metadata, 
-        hero: updatedGame.hero, 
+        player: updatedGame.player, 
         classes: updatedGame.classes,
         brushes: updatedGame.brushes,
         colors: updatedGame.colors,

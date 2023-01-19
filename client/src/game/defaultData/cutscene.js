@@ -5,6 +5,7 @@ export const defaultCutscene = {
   name: null,
   cutsceneId: null,
   scenes: [{
+    id: null,
     type: IMAGE_AND_TEXT_CUTSCENE, 
     imageUrl: null,
     text: null 

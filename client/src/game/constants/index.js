@@ -34,7 +34,7 @@ export const GAME_BOUNDARY_DOWN_WALL_ID = 'GAME_BOUNDARY_DOWN'
 /////////////////////////////////////
 /////////////////////////////////////
 // INSTANCES
-export const HERO_INSTANCE_ID = 'HERO_INSTANCE'
+export const PLAYER_INSTANCE_ID = 'PLAYER_INSTANCE'
 export const ERASER_BRUSH_ID = 'ERASER_BRUSH'
 export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 
@@ -48,7 +48,7 @@ export const SPRITE_EDITOR_CANVAS_DEPTH = 19;
 export const PLAYGROUND_CANVAS_DEPTH = 20;
 // export const OBJECT_INSTANCE_CANVAS_DEPTH = 40;
 // export const NPC_INSTANCE_CANVAS_DEPTH = 45;
-export const HERO_INSTANCE_CANVAS_DEPTH = 50;
+export const PLAYER_INSTANCE_CANVAS_DEPTH = 50;
 export const FOREGROUND_CANVAS_DEPTH = 70;
 export const UI_CANVAS_DEPTH = 100;
 
@@ -59,14 +59,14 @@ export const SPRITE_EDITOR_CANVAS_ID = 'SPRITE_EDITOR_CANVAS';
 export const PLAYGROUND_CANVAS_ID = 'PLAYGROUND_CANVAS';
 export const OBJECT_INSTANCE_CANVAS_ID = 'OBJECT_INSTANCE_CANVAS';
 export const NPC_INSTANCE_CANVAS_ID = 'NPC_INSTANCE_CANVAS';
-export const HERO_INSTANCE_CANVAS_ID = 'HERO_INSTANCE_CANVAS';
+export const PLAYER_INSTANCE_CANVAS_ID = 'PLAYER_INSTANCE_CANVAS';
 export const FOREGROUND_CANVAS_ID = 'FOREGROUND_CANVAS';
 export const UI_CANVAS_ID = 'UI_CANVAS';
 
 /////////////////////////////////////
 /////////////////////////////////////
 // CLASSES
-export const HERO_CLASS = 'HERO_CLASS'
+export const PLAYER_CLASS = 'PLAYER_CLASS'
 export const OBJECT_CLASS = 'OBJECT_CLASS'
 export const NPC_CLASS = 'NPC_CLASS'
 export const ZONE_CLASS = 'ZONE_CLASS'
@@ -200,3 +200,18 @@ export const GAME_EDITOR_UI = 'GAME_EDITOR_UI'
 export const WAITING_UI = 'WAITING_UI'
 export const MONOLOGUE_UI = 'MONOLOGUE_UI'
 export const CONVERSATION_UI = 'CONVERSATION_UI'
+
+
+export const PROJECTILE_INSTANCE_ID_PREFIX = 'objectinstance/projectile/'
+export const SPAWNED_INSTANCE_ID_PREFIX = 'objectinstance/spawned/'
+export const PLAYER_INSTANCE_ID_PREFIX = 'objectinstance/player/'
+export const OBJECT_INSTANCE_ID_PREFIX = 'objectinstance/'
+export const OBJECT_CLASS_ID_PREFIX = 'objectclass/'
+export const CUTSCENE_ID_PREFIX = 'cutscene/'
+export const RELATION_ID_PREFIX = 'relation/'
+export const BRUSH_ID_PREFIX = 'brush/'
+export const DATE_ID_PREFIX = 'date/'
+export const SNAPSHOT_ID_PREFIX = 'snapshot/'
+export const TICKE_TYPE_ID_PREFIX = 'tickettype/'
+export const SCENE_ID_PREFIX = 'scene/'
+export const SPRITE_EDITOR_ID_PREFIX = 'sprite/'

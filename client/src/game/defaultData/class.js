@@ -1,4 +1,4 @@
-import { HERO_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WORLD_COLLIDE, ZONE_CLASS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -71,7 +71,7 @@ export const defaultObjectClass = {
 }
 
 export const classTypeToDisplayName = {
-  [HERO_CLASS]: 'Player',
+  [PLAYER_CLASS]: 'Player',
   [OBJECT_CLASS]: 'Object',
   [ZONE_CLASS]: 'Zone',
   [NPC_CLASS]: 'NPC'

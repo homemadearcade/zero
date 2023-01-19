@@ -87,7 +87,7 @@ export function onInstanceUndo() {
       }))
     } else if(undoAction.data) {
       store.dispatch(editGameModel({
-        hero: undoAction.data
+        player: undoAction.data
       }))
     } else {
       console.error('undo action', undoAction)

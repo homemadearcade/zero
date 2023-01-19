@@ -1,4 +1,4 @@
-import { EDIT_STATE, GAME_BOUNDARY_DOWN_WALL_ID, GAME_BOUNDARY_LEFT_WALL_ID, GAME_BOUNDARY_RIGHT_WALL_ID, GAME_BOUNDARY_UP_WALL_ID, GAME_BOUNDARY_WALL_ID, HERO_INSTANCE_ID, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../game/constants";
+import { EDIT_STATE, GAME_BOUNDARY_DOWN_WALL_ID, GAME_BOUNDARY_LEFT_WALL_ID, GAME_BOUNDARY_RIGHT_WALL_ID, GAME_BOUNDARY_UP_WALL_ID, GAME_BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../game/constants";
 import store from "../store";
 
 export function isGameBoundaryWall(world, body) {
@@ -17,13 +17,13 @@ export function getClassAandB(classIdA, classIdB) {
   let classA = gameModel.classes[classIdA] 
   let classB = gameModel.classes[classIdB]
 
-  // if(classIdA === HERO_INSTANCE_ID) {
-  //   classA = gameModel.classes[gameModel.hero.initialClassId]
+  // if(classIdA === PLAYER_INSTANCE_ID) {
+  //   classA = gameModel.classes[gameModel.player.initialClassId]
   //   classA.name = 'Player'
   // }
 
-  if(classIdB === HERO_INSTANCE_ID) {
-    classB = {...gameModel.classes[gameModel.hero.initialClassId], name: 'Player'}
+  if(classIdB === PLAYER_INSTANCE_ID) {
+    classB = {...gameModel.classes[gameModel.player.initialClassId], name: 'Player'}
   }
 
   return {
@@ -49,8 +49,8 @@ export function isEventMatch({effect, classId, world, gameObject, body}) {
     return true
   }
 
-  if(classId === HERO_INSTANCE_ID) {
-    return gameObject.type === HERO_INSTANCE_ID
+  if(classId === PLAYER_INSTANCE_ID) {
+    return gameObject.type === PLAYER_INSTANCE_ID
   }
 
   return false

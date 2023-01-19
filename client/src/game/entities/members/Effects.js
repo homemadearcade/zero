@@ -1,5 +1,5 @@
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, HERO_INSTANCE_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, WIN_GAME_STATE } from "../../constants"
+import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { changeGameState, openCutscene } from "../../../store/actions/gameContextActions";
 import { ANIMATION_CAMERA_SHAKE } from "../../../store/types";
@@ -161,9 +161,11 @@ export class Effects {
     }
 
     if(effect.type === EFFECT_WIN_GAME) {
+      console.log('we are in fact doing this')
       store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
       this.scene.sendReloadGameEvent()
     } else if(effect.type === EFFECT_GAME_OVER) {
+      console.log('we are in fact doing this')
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
       this.scene.sendReloadGameEvent()
     }
@@ -181,7 +183,7 @@ export class Effects {
     } else if(effect.type === EFFECT_SPAWN) {
       const spawningClassId = effect.spawnClassId ? effect.spawnClassId : classId
       const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId: spawningClassId }
-      const spawnedObjectInstance =  this.scene.addObjectInstance(generateUniqueId(), modifiedClassData, true)
+      const spawnedObjectInstance =  this.scene.addObjectInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
       
       let zone 
       if(effect.useClassAZoneInstance) {

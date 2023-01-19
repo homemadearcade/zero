@@ -16,7 +16,7 @@ import SelectRelationEffect from '../../ui/SelectRelationEffect/SelectRelationEf
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { defaultRelationship, effectEditInterface, nonRemoteEffects } from '../../defaultData/relationship';
 import { TextField } from '@mui/material';
-import { EFFECT_SPAWN, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ZONE_CLASS } from '../../constants';
+import { EFFECT_SPAWN, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, RELATION_ID_PREFIX, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import { getClassAandB } from '../../../utils/gameUtils';
@@ -54,7 +54,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
 
   useEffect(() => {
     if(!relation.relationId) {
-      updateCreateRelation({ relationId: generateUniqueId(), isNew: true })
+      updateCreateRelation({ relationId: RELATION_ID_PREFIX+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -240,7 +240,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
               ...defaultRelationship,
               event: {
                 classIdA: classA.classId,
-                classIdB: classB.classId,
+                classIdB: relation.event.classIdB,
                 type: newEvent
               },
               effect: {
@@ -262,7 +262,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
               ...defaultRelationship,
               event: {
                 classIdA: classA.classId,
-                classIdB: classB.classId,
+                classIdB: relation.event.classIdB,
                 type: relation.event.type
               },
               effect: {

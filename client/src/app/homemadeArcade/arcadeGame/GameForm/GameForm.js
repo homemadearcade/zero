@@ -13,7 +13,7 @@ const GameForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
     initialValues: {
       objects: {},
-      hero: {},
+      player: {},
       world: {},
       metadata: {},
       classes: {},

@@ -11,6 +11,8 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import KeyIndicator from '../ui/KeyIndicator/KeyIndicator';
 import './StateScreen.scss';
 import ControlsCard from '../ui/ControlsCard/ControlsCard';
+import { getCurrentGameScene } from '../../utils/editorUtils';
+import store from '../../store';
 
 function StateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {
   useEffect(() => {
@@ -23,13 +25,18 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
   function progressIfX(event) {
     if(!event.key) return
     if(event.key.toLowerCase() === 'x'){
-      changeGameState(PLAYTHROUGH_PLAY_STATE)
+      const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
+      if(scene.isPlaythrough) {
+        changeGameState(PLAYTHROUGH_PLAY_STATE)
+      } else {
+        changeGameState(PLAY_STATE)
+      }
     }
   }
 
   function renderStateScreen() {
     if(gameState === START_STATE) {
-      const hero = gameModel.classes[gameModel.hero.initialClassId]
+      const player = gameModel.classes[gameModel.player.initialClassId]
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">{gameModel.metadata.title}</Typography>
@@ -38,7 +45,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
           </div>
           <div className="StateScreen__controls">
             <Typography component="h5" variant="h5">Controls</Typography>
-            <ControlsCard showInteract objectClass={hero} projectileClass={hero.projectile.class} controlScheme={hero.movement.controls} jumpStyle={hero.jump.style}></ControlsCard>
+            <ControlsCard showInteract objectClass={player} projectileClass={player.projectile.class} controlScheme={player.movement.controls} jumpStyle={player.jump.style}></ControlsCard>
           </div>
         </div></Fade>
       </Constellation>

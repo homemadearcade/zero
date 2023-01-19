@@ -6,7 +6,7 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { HERO_INSTANCE_ID } from '../../constants';
+import { PLAYER_INSTANCE_ID } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { openClassNameModal, selectClass } from '../../../store/actions/gameEditorActions';
 
@@ -22,7 +22,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>
-    {objectId !== HERO_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/move">
+    {objectId !== PLAYER_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/move">
       <MenuItem onClick={() => {
         selectClass(classId)
         onMenuItemClick()
@@ -32,9 +32,9 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(objectId)
         onMenuItemClick()
-      }}>Resize{objectId === HERO_INSTANCE_ID ? '' : ' All'}</MenuItem>
+      }}>Resize{objectId === PLAYER_INSTANCE_ID ? '' : ' All'}</MenuItem>
     </Unlockable>
-    {objectId !== HERO_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/delete">
+    {objectId !== PLAYER_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/delete">
       <MenuItem onClick={() => {
         editGameModel({ objects: { [objectId]: null } })
         onMenuItemClick()

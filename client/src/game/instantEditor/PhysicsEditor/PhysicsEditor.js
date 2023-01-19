@@ -9,7 +9,7 @@ import { FormLabel } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { EFFECT_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
+import { EFFECT_COLLIDE, ON_COLLIDE, ON_COLLIDE_ACTIVE, PLAYGROUND_CANVAS_ID, RELATION_ID_PREFIX } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _, { last } from 'lodash';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
@@ -94,7 +94,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
               })
   
               newColliderClasses.forEach((classIdB) => {
-                const newId = generateUniqueId()
+                const newId = RELATION_ID_PREFIX+generateUniqueId()
                 relations[newId] = {
                   relationId: newId,
                   event: {
@@ -128,6 +128,9 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
             editGameModel({ relations })        
          }}/>
       </Unlockable>
+      {classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>
+        also collides with Player because this is on the Playground Layer
+      </div>}
       <Unlockable interfaceId="physics/ignoreSides">
         <SelectSides
           formLabel="Ignore Sides"

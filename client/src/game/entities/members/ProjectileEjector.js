@@ -1,4 +1,6 @@
 import store from "../../../store"
+import { generateUniqueId } from "../../../utils/webPageUtils"
+import { PROJECTILE_INSTANCE_ID_PREFIX } from "../../constants"
 import { ProjectileInstance } from "../ProjectileInstance"
 
 export class ProjectileEjector {
@@ -17,7 +19,7 @@ export class ProjectileEjector {
         return
       }
 
-      const projectile = this.scene.addProjectileInstance('hero-'+Math.random(), objectClass.projectile?.classId)
+      const projectile = this.scene.addProjectileInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
       projectile.fire(this.objectInstance, time, this.cursors)
 
       this.nextFire = time + objectClass.projectile.cooldown;

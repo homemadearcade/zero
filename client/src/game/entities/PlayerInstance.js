@@ -45,7 +45,7 @@ export class PlayerInstance extends ObjectInstance {
     const { classId } = instanceData
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
     if(!objectClass) {
-      console.error('no hero class for id:' + classId)
+      console.error('no player class for id:' + classId)
     }
 
     this.setDepth(PLAYGROUND_CANVAS_DEPTH + 1)

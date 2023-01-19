@@ -6,7 +6,6 @@ import {
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  CHANGE_EDITOR_CAMERA_ZOOM,
   UPDATE_ACCORDIAN_LIST,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
@@ -25,6 +24,7 @@ import {
 } from '../types';
 
 import { generateUniqueId } from '../../utils/webPageUtils';
+import { SPRITE_EDITOR_ID_PREFIX } from '../../game/constants';
 
 const initialState = {
   error: null,
@@ -112,7 +112,7 @@ export default function gameEditorReducer(state = initialState, { type, payload 
       return {
         ...state,
         spriteEditorTextureId: payload.textureId,
-        spriteEditorAwsId: generateUniqueId()
+        spriteEditorAwsId: SPRITE_EDITOR_ID_PREFIX + generateUniqueId()
       }
     case CLOSE_SPRITE_EDITOR: 
       return {

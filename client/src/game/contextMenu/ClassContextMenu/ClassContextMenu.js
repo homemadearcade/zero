@@ -6,7 +6,7 @@ import { openClassNameModal, openLiveEditor } from '../../../store/actions/gameE
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CAMERA_EDITOR, HERO_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -42,11 +42,11 @@ const ClassContextMenu = ({
       openClassNameModal(classId)
       onMenuItemClick()
     }}>{gameModel.classes[classId].name}</ContextMenuTitle>}
-    {objectClass.type === HERO_CLASS && classId !== gameModel.hero.initialClassId && 
+    {objectClass.type === PLAYER_CLASS && classId !== gameModel.player.initialClassId && 
       <Unlockable interfaceId="contextMenu/class/setPlayerClass">
           <MenuItem onClick={() => {
             editGameModel({
-              hero: {
+              player: {
                 initialClassId: classId
               }
             })
@@ -72,7 +72,7 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Edit Collisions</MenuItem>
     </Unlockable>
-    {objectClass.type === HERO_CLASS &&
+    {objectClass.type === PLAYER_CLASS &&
       <Unlockable interfaceId="contextMenu/class/camera">
         <MenuItem onClick={() => {
           openLiveEditor(CAMERA_EDITOR, classId)
@@ -80,13 +80,13 @@ const ClassContextMenu = ({
         }}>Edit Camera</MenuItem>
       </Unlockable>
     }
-    {objectClass.type === HERO_CLASS && <Unlockable interfaceId="contextMenu/class/projectile">
+    {objectClass.type === PLAYER_CLASS && <Unlockable interfaceId="contextMenu/class/projectile">
       <MenuItem onClick={() => {
         openLiveEditor(PROJECTILE_EDITOR, classId)
         onMenuItemClick()
       }}>Edit Projectile</MenuItem>
     </Unlockable>}
-    {objectClass.type === HERO_CLASS && <Unlockable interfaceId="contextMenu/class/jump">
+    {objectClass.type === PLAYER_CLASS && <Unlockable interfaceId="contextMenu/class/jump">
       <MenuItem onClick={() => {
         openLiveEditor(JUMP_EDITOR, classId)
         onMenuItemClick()
@@ -106,7 +106,7 @@ const ClassContextMenu = ({
     </Unlockable>
     {!insideObjectInstanceContextMenu && <Unlockable interfaceId="contextMenu/class/duplicate">
       <MenuItem onClick={() => {  
-        const classId = generateUniqueId()
+        const classId = OBJECT_CLASS_ID_PREFIX+generateUniqueId()
         editGameModel({
           classes: {
             [classId]: {

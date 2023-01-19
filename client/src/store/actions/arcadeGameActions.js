@@ -89,12 +89,12 @@ function onArcadeGameModelUpdate(gameUpdate) {
   const oldGameData = _.cloneDeep(store.getState().gameModel.gameModel)
 
   if(!window.nextGameModelUpdateIsUndo) {
-    if(gameUpdate.hero) {
-      if(gameUpdate.hero.spawnX || gameUpdate.hero.spawnY) {
+    if(gameUpdate.player) {
+      if(gameUpdate.player.spawnX || gameUpdate.player.spawnY) {
         window.instanceUndoStack.push({
           data: {
-            spawnX: oldGameData.hero.spawnX,
-            spawnY: oldGameData.hero.spawnY
+            spawnX: oldGameData.player.spawnX,
+            spawnY: oldGameData.player.spawnY
           }
         })
       }

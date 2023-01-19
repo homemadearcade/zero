@@ -32,7 +32,7 @@ export const validateLobby = (lobby) => {
   return true
   //Joi.object().pattern(/^/, Joi.date().iso())
   // const schema = {
-  //   hero: Joi.object({
+  //   player: Joi.object({
   //     // spawnX: Joi.number().required(),
   //     // spawnY: Joi.number().required()
   //   }),

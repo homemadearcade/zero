@@ -16,7 +16,7 @@ import MovementEditor from '../MovementEditor/MovementEditor';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
-import { CAMERA_EDITOR, HERO_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, WORLD_EDITOR } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, WORLD_EDITOR } from '../../constants';
 import JumpEditor from '../JumpEditor/JumpEditor';
 
 const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSelectedLiveEditor, liveEditingCategory }, gameModel: { gameModel } }) => {
@@ -53,15 +53,15 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSele
                   openLiveEditor(PHYSICS_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Collisions</MenuItem>,
-                objectClass.type === HERO_CLASS && <MenuItem key="Projectile" onClick={() => {
+                objectClass.type === PLAYER_CLASS && <MenuItem key="Projectile" onClick={() => {
                   openLiveEditor(PROJECTILE_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,
-                objectClass.type === HERO_CLASS && <MenuItem key="Camera" onClick={() => {
+                objectClass.type === PLAYER_CLASS && <MenuItem key="Camera" onClick={() => {
                   openLiveEditor(CAMERA_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,
-                objectClass.type === HERO_CLASS && <MenuItem key="Jump" onClick={() => {
+                objectClass.type === PLAYER_CLASS && <MenuItem key="Jump" onClick={() => {
                   openLiveEditor(JUMP_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Jump</MenuItem>,

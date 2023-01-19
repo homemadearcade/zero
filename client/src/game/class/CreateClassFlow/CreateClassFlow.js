@@ -19,7 +19,7 @@ import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { HERO_CLASS, PLAYGROUND_CANVAS_ID, ZONE_CLASS } from '../../constants';
+import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS } from '../../constants';
 import { Alert } from '@mui/material';
 
 const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
@@ -30,7 +30,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
   
   useEffect(() => {
     if(!objectClass.classId) {
-      updateCreateClass({ classId: generateUniqueId(), isNew: true })
+      updateCreateClass({ classId: OBJECT_CLASS_ID_PREFIX+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -101,7 +101,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
             }})
           }}
       />}
-      {objectClass.type !== ZONE_CLASS && objectClass.type !== HERO_CLASS && <Unlockable  interfaceId="class/layer">
+      {objectClass.type !== ZONE_CLASS && objectClass.type !== PLAYER_CLASS && <Unlockable  interfaceId="class/layer">
         <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_CANVAS_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateClass({ graphics: {

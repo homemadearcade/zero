@@ -11,7 +11,7 @@ import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovement
 import SelectControls from '../../ui/SelectControls/SelectControls';
 import { advancedDirectionalDefaults, movementToParemeters } from '../../defaultData/movement';
 import Button from '../../../ui/Button/Button';
-import { HERO_CLASS, JUMP_CONSTANT, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
+import { PLAYER_CLASS, JUMP_CONSTANT, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumping from '../../ui/SelectJump/SelectJumping';
 import { jumpStyleToParemeters } from '../../defaultData/jumping';
@@ -92,7 +92,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
 
   return (
     <div className="JumpEditor">
-      {classSelected.type === HERO_CLASS && <Unlockable interfaceId="jump/style">
+      {classSelected.type === PLAYER_CLASS && <Unlockable interfaceId="jump/style">
         <SelectJumping
           formLabel="Style"
           value={classSelected.jump.style ? [classSelected.jump.style] : []}

@@ -11,7 +11,7 @@ import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovement
 import SelectControls from '../../ui/SelectControls/SelectControls';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../../ui/Button/Button';
-import { HERO_CLASS, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
+import { PLAYER_CLASS, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 
 {/* <Unlockable interfaceId="physics/toggle/ignoreGravity">
@@ -62,7 +62,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
 
   return (
     <div className="MovementEditor">
-      {classSelected.type === HERO_CLASS && <Unlockable interfaceId="movement/controls/type">
+      {classSelected.type === PLAYER_CLASS && <Unlockable interfaceId="movement/controls/type">
         <SelectControls
           formLabel="Controls"
           value={classSelected.movement.controls ? [classSelected.movement.controls] : []}
@@ -70,7 +70,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
             editGameModel({ classes: { [classId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
-      {classSelected.type !== HERO_CLASS && <Unlockable interfaceId="movement/pattern">
+      {classSelected.type !== PLAYER_CLASS && <Unlockable interfaceId="movement/pattern">
         <SelectMovementPattern
           formLabel="Pattern"
           value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}

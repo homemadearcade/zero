@@ -1,15 +1,15 @@
-import { HERO_CLASS } from "../constants"
+import { PLAYER_CLASS } from "../constants"
 import { defaultObjectClass } from "./class"
 import { directionalDefaults, carDefaults, vehicleDefaults } from "./movement"
 import { jumperDefaults, floaterDefaults, noJumpDefaults } from "./jumping"
 
-export const defaultHeroClass = {
+export const defaultPlayerClass = {
   ...defaultObjectClass,
-  type: HERO_CLASS,
+  type: PLAYER_CLASS,
 }
 
 export const vehicleClass = {
-  ...defaultHeroClass,
+  ...defaultPlayerClass,
   classId: 'vehicle',
   name: 'vehicle',
   graphics: {
@@ -24,7 +24,7 @@ export const vehicleClass = {
 }
 
 export const jumperClass = {
-  ...defaultHeroClass,
+  ...defaultPlayerClass,
   classId: 'jumper',
   name: 'jumper',
   graphics: {
@@ -39,7 +39,7 @@ export const jumperClass = {
 }
 
 export const directionalClass = {
-  ...defaultHeroClass,
+  ...defaultPlayerClass,
   classId: 'directional',
   name: 'directional',
   graphics: {
@@ -54,7 +54,7 @@ export const directionalClass = {
 }
 
 // export const carClass = {
-//   ...defaultHeroClass,
+//   ...defaultPlayerClass,
 //   classId: 'car',
 //   name: 'car',
 //   graphics: {
@@ -69,7 +69,7 @@ export const directionalClass = {
 // }
 
 // export const floaterClass = {
-//   ...defaultHeroClass,
+//   ...defaultPlayerClass,
 //   classId: 'floater',
 //   name: 'floater',
 //   graphics: {
