@@ -583,7 +583,7 @@ export class EditorScene extends GameInstance {
         this.createGrids()
       }
 
-      const objects = stageUpdate.objects
+      const objects = stageUpdate?.objects
       if(objects) Object.keys(objects).forEach((id) => {
         const objectUpdate = objects[id]
         const objectInstance = this.getObjectInstance(id)

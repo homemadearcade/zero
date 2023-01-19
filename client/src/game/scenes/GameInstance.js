@@ -107,9 +107,10 @@ export class GameInstance extends Phaser.Scene {
       const state = store.getState()
       const gameModel = state.gameModel.gameModel
       const stageId = state.gameContext.currentStageId
-      const zoneId = gameModel.stages[stageId].playerSpawnZoneId
+      const zoneId = gameModel.stages[stageId].spawnZoneClassId
       const zone = this.getRandomInstanceOfClassId(zoneId)
       const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
+
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID, {
         classId: gameModel.stages[stageId].playerClassId,
         spawnX:x,
@@ -457,7 +458,7 @@ export class GameInstance extends Phaser.Scene {
     })
     const state = store.getState()
     const gameModel = state.gameModel
-    const zoneId = gameModel.stages[this.stage.id].playerSpawnZoneId
+    const zoneId = gameModel.stages[this.stage.id].spawnZoneClassId
     const zone = this.scene.getRandomInstanceOfClassId(zoneId)
     this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
   }

@@ -3,17 +3,13 @@ Thoughts - where should the camera be during a run through???
 --
 TODO
 
-CreateStage Modal ( steal Relations Modal )
-EditStageModal ( same thing )
 StageList
   Switch Stage 
-  Pick initial Stage
-  New Stage
-  Edit Stage
 Effect to switch stage
 Open Ticket Modal effect
 
 Forgot Password - email Flow
+All sorts of emails for tickets
 
 ---------
 BIG FEATURES
@@ -24,7 +20,6 @@ TICKETING
     Integrate authorize
     Create Lobby with sold ticket
   Ticket Receipt Page
-  All sorts of emails for tickets
 
 GAME SPECIFIC UI SYSTEM
   for settin gravity, choosing player movement options, etc

@@ -6,7 +6,7 @@ import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../../s
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { SNAPSHOT_ID_PREFIX, STAGE_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { openCutscenesMenu } from '../../../store/actions/gameFormEditorActions';
+import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/gameFormEditorActions';
 import { Divider } from '@mui/material';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 
@@ -18,6 +18,7 @@ const StageContextMenu = ({
   openGameMetadataModal, 
   openSnapshotTaker, 
   openCutscenesMenu, 
+  openStagesMenu,
   toggleGridView, 
   gameModel: { gameModel }, 
   gameViewEditor: { isGridViewOn }
@@ -52,24 +53,30 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Metadata</MenuItem>
     </Unlockable>
-    {false && <Unlockable interfaceId="contextMenu/toggleGrid">
+    <Unlockable interfaceId="contextMenu/cutscenes">
       <MenuItem onClick={() => {
-        toggleGridView()
+        openCutscenesMenu()
         onMenuItemClick()
-      }}>{isGridViewOn ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
-    </Unlockable>}
+      }}>Edit Cutscenes</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId="contextMenu/stages">
+      <MenuItem onClick={() => {
+        openStagesMenu()
+        onMenuItemClick()
+      }}>Edit Stages</MenuItem>
+    </Unlockable>
     <Unlockable interfaceId="contextMenu/takeSnapshot">
       <MenuItem onClick={() => {
         openSnapshotTaker(SNAPSHOT_ID_PREFIX+generateUniqueId())
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId="contextMenu/cutscenes">
+    {false && <Unlockable interfaceId="contextMenu/toggleGrid">
       <MenuItem onClick={() => {
-        openCutscenesMenu()
+        toggleGridView()
         onMenuItemClick()
-      }}>View Cutscenes</MenuItem>
-    </Unlockable>
+      }}>{isGridViewOn ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
+    </Unlockable>}
   </>
 };
 
@@ -85,5 +92,6 @@ export default connect(mapStateToProps, {
   openSnapshotTaker, 
   toggleGridView, 
   openGameMetadataModal, 
-  openCutscenesMenu
+  openCutscenesMenu,
+  openStagesMenu,
 })( StageContextMenu );

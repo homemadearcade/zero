@@ -109,7 +109,7 @@ const CreateCutscene = ({
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateCutscene">
       <Typography component="h2" variant="h2">{cutscene.name}</Typography>
-      <CutsceneNameForm/>
+      <CutsceneNameForm initialName={cutscene.name}/>
       {cutscene.scenes.map((scene, index) => {
         return <div key={index} className='CreateCutscene__scene'> 
           <Typography component="h5" variant="h5">{index + 1}</Typography>

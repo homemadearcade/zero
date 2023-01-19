@@ -201,7 +201,6 @@ export const WAITING_UI = 'WAITING_UI'
 export const MONOLOGUE_UI = 'MONOLOGUE_UI'
 export const CONVERSATION_UI = 'CONVERSATION_UI'
 
-
 export const PROJECTILE_INSTANCE_ID_PREFIX = 'oi/pr/'
 export const SPAWNED_INSTANCE_ID_PREFIX = 'oi/s/'
 export const PLAYER_INSTANCE_ID_PREFIX = 'oi/pl/'
@@ -215,6 +214,7 @@ export const SNAPSHOT_ID_PREFIX = 'snapshot/'
 export const TICKE_TYPE_ID_PREFIX = 'tickettype/'
 export const SCENE_ID_PREFIX = 'scene/'
 export const SPRITE_EDITOR_ID_PREFIX = 'sprite/'
+export const STAGE_ID_PREFIX = 'stage/'
 
 export const PLAYER_CLASS_TYPE_PREFIX = 'pl/'
 export const OBJECT_CLASS_TYPE_PREFIX = 'o/'

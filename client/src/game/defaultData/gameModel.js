@@ -4,7 +4,7 @@ import { nodeSize } from "./general";
 import { directionalClass, jumperClass, vehicleClass } from "./players";
 import { defaultStage } from "./stage";
 
-export const defaulGameModel = {
+export const defaultGameModel = {
   "metadata": {
     "title": "",
     "description": "",
@@ -13,6 +13,7 @@ export const defaulGameModel = {
   },
   "stages": {
     default: {
+      name: 'Stage # 1',
       'playerClassId': 'oc/pl/vehicle',
       ...defaultStage,
       boundaries: {...defaultStage.boundaries}, 

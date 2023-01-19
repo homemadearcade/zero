@@ -8,9 +8,9 @@ import { clearEditor, closeJsonViewer } from '../../store/actions/gameEditorActi
 import { clearGameFormEditor } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../store/actions/gameViewEditorActions';
-import SectionEditor from '../stage/SectionEditor/SectionEditor';
+import SectionEditor from '../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
-import SelectBackgroundColor from '../stage/SelectBackgroundColor/SelectBackgroundColor';
+import SelectBackgroundColor from '../stages/SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
 import { EDIT_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
@@ -27,13 +27,15 @@ import GameStateToolbar from '../GameStateToolbar/GameStateToolbar';
 import ClassList from '../class/ClassList/ClassList';
 import BrushList from '../brush/BrushList/BrushList';
 import Dialog from '../../ui/Dialog/Dialog';
+import StagesMenu from '../stages/StagesMenu/StagesMenu';
+import CreateStage from '../stages/CreateStage/CreateStage';
 
 const GameEditor = ({ 
   classNames, 
   gameEditor: { isSetupChoicesModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
-  gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen },
+  gameFormEditor: { isCreateCutsceneOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
@@ -95,6 +97,8 @@ const GameEditor = ({
       {isRelationsMenuOpen && <RelationsMenu/>}
       {isCreateRelationOpen && <CreateRelation/>}
       {isBoundaryRelationOpen && <BoundaryRelation/>}
+      {isStagesMenuOpen && <StagesMenu/>}
+      {isCreateStageOpen && <CreateStage/>}
       {isSetupChoicesModalOpen && <SetupChoicesModal/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {viewingJson && <Dialog onClose={closeJsonViewer} open>

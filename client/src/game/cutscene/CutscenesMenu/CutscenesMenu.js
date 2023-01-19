@@ -33,7 +33,7 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { ga
       })}
       <Button onClick={() => {
         openCreateCutscene({
-          name: 'Cutscene #' + Object.keys(cutscenes).length + 1
+          name: 'Cutscene #' + (Object.keys(cutscenes).length + 1).toString()
         })
       }}>New Cutscene</Button>
     </div>

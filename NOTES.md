@@ -79,3 +79,12 @@ ARCADE VS MATTER
 Collide Relationship needs to be registered last....
 
 
+---
+
+Default Class, Default Object get placed onto all classes and instance objects when loading the game model
+
+Default Game Model gets placed onto the game model when loading up, it has a default stage on it
+
+Default stage gets put on the create stage flow
+
+Default relation gets places onto relation data when resetting it

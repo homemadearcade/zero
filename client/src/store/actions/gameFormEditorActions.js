@@ -13,16 +13,21 @@ import {
   UPDATE_CREATE_CUTSCENE,
   CLOSE_CREATE_CUTSCENE,
   OPEN_CREATE_CUTSCENE,
-  OPEN_RELATION_MENU,
-  CLOSE_RELATION_MENU,
+  OPEN_RELATIONS_MENU,
+  CLOSE_RELATIONS_MENU,
   OPEN_CREATE_RELATION,
   CLOSE_CREATE_RELATION,
   UPDATE_CREATE_RELATION,
-  OPEN_CUTSCENE_MENU,
-  CLOSE_CUTSCENE_MENU,
+  OPEN_CUTSCENES_MENU,
+  CLOSE_CUTSCENES_MENU,
   OPEN_BOUNDARY_RELATION,
   CLOSE_BOUNDARY_RELATION,
   UPDATE_BOUNDARY_RELATION,
+  OPEN_STAGES_MENU,
+  CLOSE_STAGES_MENU,
+  OPEN_CREATE_STAGE,
+  CLOSE_CREATE_STAGE,
+  UPDATE_CREATE_STAGE,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
@@ -132,7 +137,7 @@ export const openCutscenesMenu= () => (dispatch, getState) => {
 
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_CUTSCENE_MENU,
+    type: OPEN_CUTSCENES_MENU,
     payload: {}
   });
 }
@@ -142,8 +147,52 @@ export const closeCutscenesMenu= () => (dispatch, getState) => {
 
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_CUTSCENE_MENU,
+    type: CLOSE_CUTSCENES_MENU,
     payload: {}
+  });
+}
+
+export const openStagesMenu= () => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_STAGES_MENU,
+    payload: {}
+  });
+}
+
+export const closeStagesMenu= () => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_STAGES_MENU,
+    payload: {}
+  });
+}
+
+export const openCreateStage = (initialStage) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CREATE_STAGE,
+    payload: { initialStage }
+  });
+}
+
+export const closeCreateStage= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_STAGE,
+    payload: {}
+  });
+}
+
+export const updateCreateStage = (stage) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_STAGE,
+    payload: { stage }
   });
 }
 
@@ -176,7 +225,7 @@ export const openRelationsMenu= (classId) => (dispatch, getState) => {
 
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_RELATION_MENU,
+    type: OPEN_RELATIONS_MENU,
     payload: {
       classId
     }
@@ -188,7 +237,7 @@ export const closeRelationsMenu= () => (dispatch, getState) => {
 
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_RELATION_MENU,
+    type: CLOSE_RELATIONS_MENU,
     payload: {}
   });
 }

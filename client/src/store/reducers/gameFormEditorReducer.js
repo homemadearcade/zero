@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { defaultStage } from '../../game/defaultData/stage';
 import { mergeDeep } from '../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,
@@ -18,13 +19,18 @@ import {
   OPEN_CREATE_RELATION,
   UPDATE_CREATE_RELATION,
   CLOSE_CREATE_RELATION,
-  OPEN_CUTSCENE_MENU,
-  CLOSE_CUTSCENE_MENU,
-  OPEN_RELATION_MENU,
-  CLOSE_RELATION_MENU,
+  OPEN_CUTSCENES_MENU,
+  CLOSE_CUTSCENES_MENU,
+  OPEN_RELATIONS_MENU,
+  CLOSE_RELATIONS_MENU,
   OPEN_BOUNDARY_RELATION,
   UPDATE_BOUNDARY_RELATION,
   CLOSE_BOUNDARY_RELATION,
+  OPEN_STAGES_MENU,
+  CLOSE_STAGES_MENU,
+  OPEN_CREATE_STAGE,
+  UPDATE_CREATE_STAGE,
+  CLOSE_CREATE_STAGE,
 } from '../types';
 
 const initialState = {
@@ -60,6 +66,14 @@ const initialState = {
     name: '',
     scenes: [],
   },
+
+  isStagesMenuOpen: false,
+  isCreateStageOpen: false,
+  stage: {
+    ...defaultStage,
+    name: '',
+  },
+
 
   isRelationsMenuOpen: false,
   isCreateRelationOpen: false,
@@ -160,12 +174,12 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         isCreateBrushFlowOpen: false
       }
-    case OPEN_CUTSCENE_MENU: 
+    case OPEN_CUTSCENES_MENU: 
       return {
         ...state,
         isCutscenesMenuOpen: true,
       }
-    case CLOSE_CUTSCENE_MENU:
+    case CLOSE_CUTSCENES_MENU:
       return {
         ...state,
         isCutscenesMenuOpen: false
@@ -189,13 +203,13 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         isCreateCutsceneOpen: false
       }
-    case OPEN_RELATION_MENU: 
+    case OPEN_RELATIONS_MENU: 
       return {
         ...state,
         isRelationsMenuOpen: true,
         classIdRelationsMenu: payload.classId
       }
-    case CLOSE_RELATION_MENU:
+    case CLOSE_RELATIONS_MENU:
       return {
         ...state,
         isRelationsMenuOpen: false,
@@ -238,6 +252,35 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isBoundaryRelationOpen: false
+      }
+   case OPEN_STAGES_MENU: 
+      return {
+        ...state,
+        isStagesMenuOpen: true,
+      }
+    case CLOSE_STAGES_MENU:
+      return {
+        ...state,
+        isStagesMenuOpen: false
+      }
+    case OPEN_CREATE_STAGE: 
+      return {
+        ...state,
+        isCreateStageOpen: true,
+        stage: {
+          ..._.cloneDeep(initialState.stage),
+          ...payload.initialStage ? _.cloneDeep(payload.initialStage) : {}
+        },
+      }
+    case UPDATE_CREATE_STAGE: 
+      return {
+        ...state,
+        stage: {...state.stage, ...payload.stage }
+      }
+    case CLOSE_CREATE_STAGE: 
+      return {
+        ...state,
+        isCreateStageOpen: false
       }
     case CLEAR_EDITOR_FORMS:
       return initialState
