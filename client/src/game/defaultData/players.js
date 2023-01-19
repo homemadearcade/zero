@@ -1,10 +1,10 @@
 import { PLAYER_CLASS } from "../constants"
-import { defaultObjectClass } from "./class"
+import { defaultClass } from "./class"
 import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from "./movement"
 import { noJumpDefaults } from "./jumping"
 
 export const defaultPlayerClass = {
-  ...defaultObjectClass,
+  ...defaultClass,
   type: PLAYER_CLASS,
 }
 

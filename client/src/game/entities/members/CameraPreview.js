@@ -19,7 +19,7 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
 
   setZoom(zoom) {
     const gameModel = store.getState().gameModel.gameModel
-    const gameMaxWidth = gameModel.stages['default'].boundaries.maxWidth
+    const gameMaxWidth = gameModel.stages[this.scene.stage.id].boundaries.maxWidth
     const cameraSize = gameMaxWidth/zoom
 
     this.clear()
@@ -46,11 +46,11 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
       const gameModel = store.getState().gameModel.gameModel
 
       if(useGameBoundaries) {
-        cornerX = Phaser.Math.Clamp(cornerX, gameModel.stages['default'].boundaries.x, gameModel.stages['default'].boundaries.x + gameModel.stages['default'].boundaries.width - this.cameraSize)
-        cornerY = Phaser.Math.Clamp(cornerY, gameModel.stages['default'].boundaries.y, gameModel.stages['default'].boundaries.y + gameModel.stages['default'].boundaries.height - this.cameraSize)
+        cornerX = Phaser.Math.Clamp(cornerX, gameModel.stages[this.scene.stage.id].boundaries.x, gameModel.stages[this.scene.stage.id].boundaries.x + gameModel.stages[this.scene.stage.id].boundaries.width - this.cameraSize)
+        cornerY = Phaser.Math.Clamp(cornerY, gameModel.stages[this.scene.stage.id].boundaries.y, gameModel.stages[this.scene.stage.id].boundaries.y + gameModel.stages[this.scene.stage.id].boundaries.height - this.cameraSize)
       } else {
-        cornerX = Phaser.Math.Clamp(cornerX, 0, gameModel.stages['default'].boundaries.maxWidth - this.cameraSize)
-        cornerY = Phaser.Math.Clamp(cornerY, 0, gameModel.stages['default'].boundaries.maxHeight - this.cameraSize)
+        cornerX = Phaser.Math.Clamp(cornerX, 0, gameModel.stages[this.scene.stage.id].boundaries.maxWidth - this.cameraSize)
+        cornerY = Phaser.Math.Clamp(cornerY, 0, gameModel.stages[this.scene.stage.id].boundaries.maxHeight - this.cameraSize)
       }
 
       this.setPosition(cornerX + (CAMERA_PREVIEW_BORDER_SIZE/2), cornerY + (CAMERA_PREVIEW_BORDER_SIZE/2))  

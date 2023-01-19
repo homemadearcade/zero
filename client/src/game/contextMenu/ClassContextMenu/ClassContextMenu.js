@@ -31,6 +31,7 @@ const ClassContextMenu = ({
   onMenuItemClick, 
   openRelationsMenu,
   gameModel: { gameModel }, 
+  gameContext: { currentStageId },
   openClassNameModal,
   classId, 
   insideObjectInstanceContextMenu
@@ -42,12 +43,14 @@ const ClassContextMenu = ({
       openClassNameModal(classId)
       onMenuItemClick()
     }}>{gameModel.classes[classId].name}</ContextMenuTitle>}
-    {objectClass.type === PLAYER_CLASS && classId !== gameModel.player.initialClassId && 
+    {objectClass.type === PLAYER_CLASS && classId !== gameModel.stages[currentStageId].playerClassId && 
       <Unlockable interfaceId="contextMenu/class/setPlayerClass">
           <MenuItem onClick={() => {
             editGameModel({
-              player: {
-                initialClassId: classId
+              stages: {
+                [currentStageId] : {
+                  playerClassId: classId
+                }
               }
             })
             onMenuItemClick()
@@ -132,6 +135,7 @@ const ClassContextMenu = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameContext: state.gameContext
 })
 
 export default connect(mapStateToProps, { 

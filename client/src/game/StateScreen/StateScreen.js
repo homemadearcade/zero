@@ -14,7 +14,7 @@ import ControlsCard from '../ui/ControlsCard/ControlsCard';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import store from '../../store';
 
-function StateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {
+function StateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }, currentStageId}) {
   useEffect(() => {
     window.addEventListener('keydown', progressIfX)
     return () => {
@@ -36,7 +36,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
 
   function renderStateScreen() {
     if(gameState === START_STATE) {
-      const player = gameModel.classes[gameModel.player.initialClassId]
+      const player = gameModel.classes[gameModel.stages[currentStageId].playerClassId]
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">{gameModel.metadata.title}</Typography>
@@ -84,17 +84,17 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
   );
 }
 
-function StateScreen({gameContext: { gameState, gameStateMessage}, changeGameState, gameModel}) {
+function StateScreen({gameContext: { gameState, gameStateMessage, currentStageId}, changeGameState, gameModel}) {
   if(gameState !== START_STATE && gameState !== WIN_GAME_STATE && gameState !== GAME_OVER_STATE) {
     return null
   }
 
-  return <StateScreenBody gameState={gameState} gameStateMessage={gameStateMessage} changeGameState={changeGameState} gameModel={gameModel}/>
+  return <StateScreenBody gameState={gameState} gameStateMessage={gameStateMessage} changeGameState={changeGameState} gameModel={gameModel} currentStageId={currentStageId}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameContext: state.gameContext,
-  gameModel: state.gameModel
+  gameModel: state.gameModel,
 });
 
 export default compose(

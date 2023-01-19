@@ -12,7 +12,7 @@ import AggregateColorSelect from '../color/AggregateColorSelect/AggregateColorSe
 import { editGameModel } from '../../store/actions/gameModelActions';
 import { STAGE_BACKGROUND_CANVAS_ID } from '../constants';
 
-const SetupChoicesModal = ({ closeSetupChoicesModal, editGameModel, gameModel: { gameModel }}) => {
+const SetupChoicesModal = ({ closeSetupChoicesModal, editGameModel, gameModel: { gameModel }, gameContext: { currentStageId }}) => {
   function handleClose() {
     closeSetupChoicesModal()
   }
@@ -27,12 +27,12 @@ const SetupChoicesModal = ({ closeSetupChoicesModal, editGameModel, gameModel: {
             title: <Typography component="h5" variant="h5">Background Color</Typography>,
             instructions: <>
               <AggregateColorSelect 
-                selectedColor={gameModel.stages['default'].backgroundColor}
+                selectedColor={gameModel.stages[currentStageId].backgroundColor}
                 canvasId={STAGE_BACKGROUND_CANVAS_ID} 
                 onSelectColor={(hex) => {
                   editGameModel({
                     stages: {
-                      ['default'] : {
+                      [currentStageId] : {
                         backgroundColor: hex
                       }
                     }
@@ -59,7 +59,8 @@ const SetupChoicesModal = ({ closeSetupChoicesModal, editGameModel, gameModel: {
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameModel: state.gameModel
+  gameModel: state.gameModel,
+  gameContext: state.gameContext
 })
 
 export default compose(

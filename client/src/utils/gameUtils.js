@@ -12,18 +12,21 @@ export function isGameBoundaryWall(world, body) {
 export function getClassAandB(classIdA, classIdB) {
  // if the class dont exist, its the playerclass ( as of now thats the only generalized one)
 
-  const gameModel = store.getState().gameModel.gameModel
+  const state = store.getState()
+  const gameModel = state.gameModel.gameModel
 
   let classA = gameModel.classes[classIdA] 
   let classB = gameModel.classes[classIdB]
 
+  const stage = gameModel.stages[state.gameContext.currentStageId]
+
   // if(classIdA === PLAYER_INSTANCE_ID) {
-  //   classA = gameModel.classes[gameModel.player.initialClassId]
+  //   classA = gameModel.classes[stage.playerClassId].playerClassId]
   //   classA.name = 'Player'
   // }
 
   if(classIdB === PLAYER_INSTANCE_ID) {
-    classB = {...gameModel.classes[gameModel.player.initialClassId], name: 'Player'}
+    classB = {...gameModel.classes[stage.playerClassId], name: 'Player'}
   }
 
   return {

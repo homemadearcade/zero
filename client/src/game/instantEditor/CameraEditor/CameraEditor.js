@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
-const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
+const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel, gameContext: { currentStageId } }) => {
   const classSelected = gameModel.classes[classId]
 
   if(!classSelected?.camera) {
@@ -16,7 +16,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
     return null
   }
 
-  const boundaries = gameModel.stages['default'].boundaries
+  const boundaries = gameModel.stages[currentStageId].boundaries
   const minZoomWidth = Math.floor((boundaries.width/boundaries.maxWidth) * 3)
   const minZoomHeight = Math.floor((boundaries.height/boundaries.maxHeight) * 3)
 

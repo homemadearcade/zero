@@ -14,7 +14,7 @@ import {
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import { defaultObjectInstance } from '../../game/defaultData/object';
-import { defaultObjectClass } from '../../game/defaultData/class';
+import { defaultClass } from '../../game/defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';

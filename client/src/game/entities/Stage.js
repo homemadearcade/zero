@@ -4,9 +4,10 @@ import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 
 export class Stage {
-  constructor(scene, { boundaries, gravity }){
+  constructor(scene, id, { boundaries, gravity }){
     this.scene = scene
     this.physicsType = scene.physicsType
+    this.id = id
 
     this.setGravity(gravity.x, gravity.y)
     this.setBoundaries(boundaries)
@@ -16,10 +17,13 @@ export class Stage {
   }
 
   createWorldBackgroundColorLayer() {
+    
     const gameModel = store.getState().gameModel.gameModel
-    const colorInt = getHexIntFromHexString(gameModel.stages['default'].backgroundColor || '#000000')
+    const stage = gameModel.stages[this.id]
+    const boundaries = stage.boundaries
+    const colorInt = getHexIntFromHexString(stage.backgroundColor || '#000000')
     if(this.backgroundColorLayer) this.backgroundColorLayer.destroy()
-    this.backgroundColorLayer = this.scene.add.rectangle(0, 0, gameModel.stages['default'].boundaries.maxWidth * 2, gameModel.stages['default'].boundaries.maxHeight * 2, colorInt)
+    this.backgroundColorLayer = this.scene.add.rectangle(0, 0, boundaries.maxWidth * 2, boundaries.maxHeight * 2, colorInt)
     this.backgroundColorLayer.setDepth(STAGE_BACKGROUND_CANVAS_DEPTH)
   }
 

@@ -73,6 +73,7 @@ export class GameClientScene extends EditorScene {
   create() {
     super.create()
     this.pause()
+    this.isPaused = true
     window.socket.on(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
     window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)

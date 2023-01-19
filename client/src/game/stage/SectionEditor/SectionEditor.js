@@ -9,8 +9,8 @@ import { FormLabel } from '@mui/material';
 
 import './SectionEditor.scss'
 
-const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameModel : { stages }}}) => {
-  const boundaries = stages['default'].boundaries
+const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameModel : { stages }}, gameContext: { currentStageId }}) => {
+  const boundaries = stages[currentStageId].boundaries
   const [sections, setSections] = useState({})
   const [isError, setIsError] = useState(false)
 
@@ -213,7 +213,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameMode
 
             editGameModel({
               stages: {
-                ['default']: {
+                [currentStageId]: {
                   boundaries: {
                     x,y,width,height
                   }
@@ -241,6 +241,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameMode
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
+  gameContext: state.gameContext
 });
 
 export default connect(mapStateToProps, { closeSectionEditor, editGameModel })(SectionEditor);

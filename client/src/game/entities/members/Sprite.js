@@ -5,17 +5,20 @@ import { getHexIntFromHexString } from "../../../utils/editorUtils";
 
 export class Sprite {
   constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
-    const gameModel = store.getState().gameModel.gameModel
+    const state = store.getState()
+    const gameModel = state.gameModel.gameModel
+    const stageId = state.gameContext.currentStageId
+    const stage = gameModel.stages[stageId]
     
     const plugin = { 
       wrap: {
         min: {
-          x: gameModel.stages['default'].boundaries.x,
-          y: gameModel.stages['default'].boundaries.y
+          x: stage.boundaries.x,
+          y: stage.boundaries.y
         },
         max: {
-          x: gameModel.stages['default'].boundaries.width,
-          y: gameModel.stages['default'].boundaries.height
+          x: stage.boundaries.width,
+          y: stage.boundaries.height
         }           
       }
     }
@@ -29,9 +32,9 @@ export class Sprite {
       // scene.physics.world.enable([ this.sprite ]);
     } else if(scene.physicsType === MATTER_PHYSICS) {
       if(!spriteSheetName) {
-        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: gameModel.stages['default'].boundaries.loop ? plugin : {} })
+        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, textureId, 0, { plugin: stage.boundaries.loop ? plugin : {} })
       } else {
-        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: gameModel.stages['default'].boundaries.loop ? plugin : {} })
+        this.sprite = new Phaser.Physics.Matter.Sprite(scene.matter.world, spawnX, spawnY, spriteSheetName, spriteIndex, { plugin: stage.boundaries.loop ? plugin : {} })
       }
     }
 

@@ -7,8 +7,6 @@ GAME
   Effect to switch games
   Go to ticketing page with Effect
 
-Turn hero spawning into a zone
-
 Forgot Password - email Flow
 
 ---------
@@ -51,6 +49,29 @@ BUGS
     you also need to be responsible for registering all the events from that object via your own overlap detector
 
   Its possible I just need like... to control who sets relationships myself, it has nothing to do with classIdA, etc
+
+  The person who is the collider needs to register the relation ship. So that means if you are on the playground layer, he hero is definitely gonna register your relationships
+
+  Just need to add B potential to the collider class and make it so its not all about just As.
+
+
+  build a 'initiasCollideWith' map where you just structure all
+  {
+    classId: [classIdX, classIdB, classId]
+  }
+
+  When its their turn to registerEvents, they register all those whom they initiate collide with
+
+  Then we flag them as completed
+
+  Sort relations by classA and classB ( how to put these in a key? )
+  Sort by alphabetical className and then add both to a key?
+
+  just sometimes .runEffect om the entitySprites instance, sometimes run it on the object we are currently on
+
+  Then run through all pairs
+    for each pair.. find the one who initiates collision and we make sure they register everything
+  If neither collide, just register?
 
 FLOW
   Spawn object at the edge of the heros camera?

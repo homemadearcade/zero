@@ -25,7 +25,7 @@ export function getCurrentGameScene(gameInstance) {
   return scene
 }
 
-export function snapEraserXY({x, y, boundaries = store.getState().gameModel.gameModel.stages['default'].boundaries}) {
+export function snapEraserXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameContext.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize
@@ -52,7 +52,7 @@ export function snapEraserXY({x, y, boundaries = store.getState().gameModel.game
 }
 
 
-export function snapBrushXY({x, y, boundaries = store.getState().gameModel.gameModel.stages['default'].boundaries}) {
+export function snapBrushXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameContext.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize
@@ -77,7 +77,7 @@ export function snapBrushXY({x, y, boundaries = store.getState().gameModel.gameM
   }
 }
 
-export function snapObjectXY({x, y, objectClass, boundaries = store.getState().gameModel.gameModel.stages['default'].boundaries}) {
+export function snapObjectXY({x, y, objectClass, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameContext.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn

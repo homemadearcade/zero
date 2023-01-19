@@ -70,19 +70,19 @@ export class PlayerInstance extends ObjectInstance {
 
   update(time, delta) {  
     super.update()
-
-    // paused type?
-
+    
     const classId = this.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
     const gameModel = store.getState().gameModel.gameModel
-    const gameMaxWidth = gameModel.stages['default'].boundaries.maxWidth
+    const gameMaxWidth = gameModel.stages[this.scene.stage.id].boundaries.maxWidth
 
     const cameraSize = gameMaxWidth/objectClass.camera.zoom
 
     this.cameraPreview.update({x: this.sprite.x - cameraSize/2, y: this.sprite.y - cameraSize/2}, true)
     this.interactArea.update({x: this.sprite.x, y: this.sprite.y, angle: this.sprite.angle})
+
+    if(this.scene.isPaused) return
 
     this.controlledMovement.update(time, delta)
     this.projectileEjector.update(time, delta)

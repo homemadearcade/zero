@@ -8,8 +8,8 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Typography from '../../../ui/Typography/Typography';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 
-const GravityEditor = ({ gameModel: { gameModel }, editGameModel }) => {
-  const stage = gameModel.stages['default']
+const GravityEditor = ({ gameModel: { gameModel }, editGameModel, gameContext: { currentStageId } }) => {
+  const stage = gameModel.stages[currentStageId]
 
   return (
     <div className="GravityEditor">
@@ -20,7 +20,7 @@ const GravityEditor = ({ gameModel: { gameModel }, editGameModel }) => {
           step={0.5}
           options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
           onChangeCommitted={(value) => {
-            editGameModel({ stages: { ['default']: { gravity: { x: value } }} })        
+            editGameModel({ stages: { [currentStageId]: { gravity: { x: value } }} })        
           }}
           value={stage.gravity.x}
         />
@@ -31,7 +31,7 @@ const GravityEditor = ({ gameModel: { gameModel }, editGameModel }) => {
           step={0.5}
           options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
           onChangeCommitted={(value) => {
-            editGameModel({ stages: { ['default'] : { gravity: { y: value } }} })        
+            editGameModel({ stages: { [currentStageId] : { gravity: { y: value } }} })        
           }}
           value={stage.gravity.y}
         />
@@ -42,6 +42,7 @@ const GravityEditor = ({ gameModel: { gameModel }, editGameModel }) => {
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
+  gameContext: state.gameContext
 });
 
 export default connect(mapStateToProps, { editGameModel })(GravityEditor);

@@ -2,7 +2,7 @@ import { PAUSED_STATE, PLAYTHROUGH_PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_ST
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { 
   CHANGE_GAME_STATE,
-  CLEAR_GAME_CONTEXT,
+  CLEAR_CUTSCENES,
   CLOSE_CUTSCENE,
   COMPLETE_CLOSE_CONSTELLATION,
   OPEN_CONSTELLATION,
@@ -136,10 +136,10 @@ export const completeCloseConstellation = ({ externalForceCobrowsingUpdateUserId
   });
 }
 
-export const clearGameContext = () => (dispatch, getState) => {
+export const clearCutscenes = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLEAR_GAME_CONTEXT,
+    type: CLEAR_CUTSCENES,
     payload: {}
   });
 }

@@ -10,7 +10,7 @@ import { PLAYER_INSTANCE_ID } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { openClassNameModal, selectClass } from '../../../store/actions/gameEditorActions';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal, selectClass }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal, selectClass, gameContext: { currentStageId } }) => {
   return <>
     <ContextMenuTitle onClick={() => {
       openClassNameModal(classId)
@@ -38,7 +38,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
       <MenuItem onClick={() => {
         editGameModel({ 
           stages: {
-            ['default'] : {
+            [currentStageId] : {
               objects: { [objectId]: null } 
             }
           }
@@ -53,6 +53,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
 const mapStateToProps = (state) => ({
   webPage: state.webPage,
   gameModel: state.gameModel,
+  gameContext: state.gameContext
 })
 
 export default connect(mapStateToProps, { editGameModel, openClassNameModal, selectClass })(ObjectInstanceContextMenu);

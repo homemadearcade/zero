@@ -9,7 +9,7 @@ export const CAMERA_PREVIEW_BORDER_SIZE = 4
 
 export const UNDO_MEMORY_MAX = 10
 
-export const disconnectedDelta = 100
+export const disconnectedDelta = 5000
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -86,7 +86,7 @@ export const ON_COLLIDE_START = 'ON_COLLIDE_START'
 export const ON_COLLIDE_END = 'ON_COLLIDE_END'
 export const ON_COLLIDE_ACTIVE = 'ON_COLLIDE_ACTIVE'
 export const ON_SPAWN = 'ON_SPAWN'
-export const ON_PLAY_CINEMATIC = 'ON_PLAY_CINEMATIC'
+export const ON_PLAYTHROUGH = 'ON_PLAYTHROUGH'
 export const ON_DESTROY_ONE = 'ON_DESTROY_ONE'
 export const ON_DESTROY_ALL = 'ON_DESTROY_ALL'
 export const ON_INTERACT = 'ON_INTERACT'

@@ -17,6 +17,7 @@ import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { DIRECTIONAL_CONTROLS, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, MOVEMENT_NONE, MOVEMENT_TURN_ON_COLLIDE, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, OBJECT_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
+import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 
 const ClassList = ({
   gameModel: { gameModel },
@@ -47,7 +48,7 @@ const ClassList = ({
   playerClasses.push(<Unlockable interfaceId={PLAYER_INSTANCE_CANVAS_ID + '/addPlayer'}>
     <Button size="fit" 
       onClick={() => {
-        openCreateClassFlow({ type: PLAYER_CLASS, movement: { controls: DIRECTIONAL_CONTROLS } })
+        openCreateClassFlow(defaultPlayerClass)
       }}>
       +
     </Button>
@@ -69,16 +70,7 @@ const ClassList = ({
 
   npcClasses.push(<Unlockable interfaceId={NPC_INSTANCE_CANVAS_ID + '/addNPC'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateClassFlow({ 
-        type: NPC_CLASS,
-        // movement: {
-        //   pattern: MOVEMENT_TURN_ON_COLLIDE,
-        //   velocityX: 50,
-        // },
-        // collisionResponse: {
-        //   bounciness: 0.5,
-        // }
-     })
+      openCreateClassFlow(defaultNpcClass)
     }}>
       +
     </Button>
@@ -100,17 +92,7 @@ const ClassList = ({
 
   objectClasses.push(<Unlockable interfaceId={OBJECT_INSTANCE_CANVAS_ID + '/addObject'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateClassFlow({ 
-        type: OBJECT_CLASS,
-        movement: {
-          pattern: MOVEMENT_NONE,
-        },
-        collisionResponse: {
-          notPushable: true,
-          mass: 100,
-          bounciness: 0,
-        }
-      })
+      openCreateClassFlow(defaultObjectClass)
     }}>
       +
     </Button>
@@ -132,16 +114,7 @@ const ClassList = ({
 
   zoneClasses.push(<Unlockable interfaceId={ZONE_INSTANCE_CANVAS_ID + '/addZone'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateClassFlow({ 
-        type: ZONE_CLASS, 
-        collisionResponse: {
-          immovable: true,
-        },
-        graphics: {
-          invisible: true,
-          layerId: ZONE_INSTANCE_CANVAS_ID
-        }
-      })
+      openCreateClassFlow(defaultZoneClass)
     }}>
       +
     </Button>

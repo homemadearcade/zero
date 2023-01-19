@@ -80,16 +80,16 @@ export class EditorScene extends GameInstance {
     document.body.style.cursor = null
 
     if(entitySprite.id === PLAYER_INSTANCE_ID) {
-      store.dispatch(editGameModel({ 
-        player: {
-          spawnX: entitySprite.x,
-          spawnY: entitySprite.y
-        }
-      }))
+      // store.dispatch(editGameModel({ 
+      //   player: {
+      //     spawnX: entitySprite.x,
+      //     spawnY: entitySprite.y
+      //   }
+      // }))
     } else {
       store.dispatch(editGameModel({ 
         stages: {
-          ['default']: {
+          [this.stage.id]: {
             objects: {
               [entitySprite.id]: {
                 spawnX: entitySprite.x,
@@ -118,7 +118,7 @@ export class EditorScene extends GameInstance {
 
   onResizeMove = (pointer) => {
     const sprite = this.resizingObjectInstance.sprite
-    const boundaries = store.getState().gameModel.gameModel.stages['default'].boundaries
+    const boundaries = store.getState().gameModel.gameModel.stages[this.stage.id].boundaries
     // const distance = Phaser.Math.Distance.Between(sprite.x, sprite.y, pointer.worldX, pointer.worldY)
     const distanceW = Phaser.Math.Snap.To(Math.abs(sprite.x - pointer.worldX), nodeSize)
     const distanceH = Phaser.Math.Snap.To(Math.abs(sprite.y - pointer.worldY), nodeSize)
@@ -146,10 +146,10 @@ export class EditorScene extends GameInstance {
     const sprite = this.resizingObjectInstance.sprite
     if(sprite.id === PLAYER_INSTANCE_ID) {
       store.dispatch(editGameModel({ 
-        player: {
-          spawnX: sprite.x,
-          spawnY: sprite.y
-        },
+        // player: {
+        //   spawnX: sprite.x,
+        //   spawnY: sprite.y
+        // },
         classes: {
           [sprite.classId]: {
             graphics: {
@@ -162,7 +162,7 @@ export class EditorScene extends GameInstance {
     } else {
       store.dispatch(editGameModel({ 
         stages: {
-          ['default']: {
+          [this.stage.id]: {
             objects: {
               [sprite.id]: {
                 spawnX: sprite.x,
@@ -334,7 +334,8 @@ export class EditorScene extends GameInstance {
       const gameModel = store.getState().gameModel.gameModel
       if(gameViewEditor.isSnapshotTakerOpen) {
         if(this.snapshotSquare) {
-          const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.stages['default'].boundaries.maxWidth, gameModel.stages['default'].boundaries.maxHeight);
+          const boundaries = gameModel.stages[this.stage.id].boundaries
+          const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
           snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
           snapCanvas.draw(this.backgroundLayer, 0,0)
           snapCanvas.draw(this.playgroundLayer, 0,0)
@@ -392,7 +393,8 @@ export class EditorScene extends GameInstance {
 
       try {
         const gameModel = store.getState().gameModel.gameModel
-        const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, gameModel.stages['default'].boundaries.maxWidth, gameModel.stages['default'].boundaries.maxHeight);
+        const boundaries = gameModel.stages[this.stage.id].boundaries
+        const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
         snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
         snapCanvas.draw(this.backgroundLayer, 0,0)
         snapCanvas.draw(this.playgroundLayer, 0,0)
@@ -510,7 +512,7 @@ export class EditorScene extends GameInstance {
     if(id === PLAYER_INSTANCE_ID) {
       return gameModel.playero
     }
-    return gameModel.stages['default'].objects[id]
+    return gameModel.stages[this.stage.id].objects[id]
   }
 
   addGameObject(classId, {spawnX, spawnY}) {
@@ -524,7 +526,7 @@ export class EditorScene extends GameInstance {
 
     store.dispatch(editGameModel({
       stages: {
-        'default': {
+        [this.stage.id]: {
           objects: {
             [id]: gameObject
           }
@@ -542,9 +544,11 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
     if(gameUpdate.stages) {
-      if(gameUpdate.stages['default']?.gravity) {
-        const gravity = gameUpdate.stages['default'].gravity
-        const currentGravity = store.getState().gameModel.gameModel.stages['default'].gravity
+      const stageUpdate = gameUpdate.stages[this.stage.id]
+
+      if(stageUpdate?.gravity) {
+        const gravity = stageUpdate.gravity
+        const currentGravity = store.getState().gameModel.gameModel.stages[this.stage.id].gravity
 
         if(typeof gravity?.x === 'number' && typeof gravity?.y === 'number') {
           this.stage.setGravity(gravity.x, gravity.y)
@@ -555,12 +559,12 @@ export class EditorScene extends GameInstance {
         }
       }
 
-      if(gameUpdate.stages['default']?.backgroundColor) {
+      if(stageUpdate?.backgroundColor) {
         this.stage.createWorldBackgroundColorLayer()
       }
 
-      if(gameUpdate.stages['default']?.boundaries) {
-        if(gameUpdate.stages['default'].boundaries.loop) {
+      if(stageUpdate?.boundaries) {
+        if(stageUpdate.boundaries.loop) {
           this.sendReloadGameEvent()
           return
         }
@@ -568,19 +572,18 @@ export class EditorScene extends GameInstance {
         // set camera previews zoom
         // set camera bounds
         // set world bounds
-        const gameModel = gameUpdate
-        const gameWidth = gameModel.stages['default'].boundaries.width
-        const gameHeight = gameModel.stages['default'].boundaries.height
-        const gameX = gameModel.stages['default'].boundaries.x
-        const gameY = gameModel.stages['default'].boundaries.y
+        const gameWidth = stageUpdate.boundaries.width
+        const gameHeight = stageUpdate.boundaries.height
+        const gameX = stageUpdate.boundaries.x
+        const gameY = stageUpdate.boundaries.y
         this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
         // this.player.cameraPreview.setZoom(this.player.cameraPreview.zoom)
-        this.stage.setBoundaries(gameModel.stages['default'].boundaries)
+        this.stage.setBoundaries(stageUpdate.boundaries)
 
         this.createGrids()
       }
 
-      const objects = gameUpdate.stages['default'].objects
+      const objects = stageUpdate.objects
       if(objects) Object.keys(objects).forEach((id) => {
         const objectUpdate = objects[id]
         const objectInstance = this.getObjectInstance(id)
@@ -745,6 +748,7 @@ export class EditorScene extends GameInstance {
       ) {
         // setTimeout(() => {
           this.forAllObjectInstancesMatchingClassId(id, (object) => {
+            
             if(object.id === PLAYER_INSTANCE_ID) {
               this.removePlayerInstance()
               this.addPlayerInstance()
@@ -790,8 +794,8 @@ export class EditorScene extends GameInstance {
 
   createGrids() {
     // const gameModel = store.getState().gameModel.gameModel
-    // const gameMaxWidth = gameModel.stages['default'].boundaries.maxWidth
-    // const gameMaxHeight = gameModel.stages['default'].boundaries.maxHeight
+    // const gameMaxWidth = gameModel.stages[this.stage.id].boundaries.maxWidth
+    // const gameMaxHeight = gameModel.stages[this.stage.id].boundaries.maxHeight
     // this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
     // this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
@@ -801,7 +805,7 @@ export class EditorScene extends GameInstance {
     if(this.grid) this.grid.destroy()
     if(this.grid2) this.grid2.destroy()
 
-    const boundaries = store.getState().gameModel.gameModel.stages['default'].boundaries
+    const boundaries = store.getState().gameModel.gameModel.stages[this.stage.id].boundaries
 
     const gameWidth = boundaries.width
     const gameHeight = boundaries.height
@@ -820,8 +824,9 @@ export class EditorScene extends GameInstance {
     this.createGrids()
 
     const gameModel = store.getState().gameModel.gameModel
-    const gameMaxWidth = gameModel.stages['default'].boundaries.maxWidth
-    const gameMaxHeight = gameModel.stages['default'].boundaries.maxHeight
+    const boundaries = gameModel.stages[this.stage.id].boundaries
+    const gameMaxWidth = boundaries.maxWidth
+    const gameMaxHeight = boundaries.maxHeight
     
     const editorCameraJSON = {
       x: 0,

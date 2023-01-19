@@ -1,4 +1,4 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, BOUNDARY_COLLIDE, ZONE_CLASS } from "../constants";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -34,7 +34,7 @@ export const defaultCollisionResponse = {
   ignoreSides: [],
 }
 
-export const defaultObjectClass = {
+export const defaultClass = {
   interfaceLocked: false,
   boundaryRelation: BOUNDARY_COLLIDE,
   classId: null,
@@ -68,6 +68,47 @@ export const defaultObjectClass = {
     lerpX: 0.09,
     lerpY: 0.09,
   },
+}
+
+export const defaultNpcClass = { 
+  type: NPC_CLASS,
+  // movement: {
+  //   pattern: MOVEMENT_TURN_ON_COLLIDE,
+  //   velocityX: 50,
+  // },
+  // collisionResponse: {
+  //   bounciness: 0.5,
+  // }
+}
+
+export const defaultZoneClass = {
+  type: ZONE_CLASS, 
+  collisionResponse: {
+    immovable: true,
+  },
+  graphics: {
+    invisible: true,
+    layerId: ZONE_INSTANCE_CANVAS_ID
+  }
+}
+
+export const defaultPlayerClass = {
+  type: PLAYER_CLASS, 
+  movement: { 
+    controls: DIRECTIONAL_CONTROLS
+  }
+}
+
+export const defaultObjectClass = { 
+  type: OBJECT_CLASS,
+  movement: {
+    pattern: MOVEMENT_NONE,
+  },
+  collisionResponse: {
+    notPushable: true,
+    mass: 100,
+    bounciness: 0,
+  }
 }
 
 export const classTypeToDisplayName = {

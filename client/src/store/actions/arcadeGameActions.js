@@ -24,12 +24,13 @@ import {
   ON_GAME_MODEL_UPDATE,
   ON_GAME_CHARACTER_UPDATE,
   INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+  CHANGE_GAME_STAGE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import { defaulGameModel } from '../../game/defaultData/gameModel';
 import { defaultObjectInstance } from '../../game/defaultData/object';
-import { defaultObjectClass } from '../../game/defaultData/class';
+import { defaultClass } from '../../game/defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
@@ -86,23 +87,14 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
 }
 
 function onArcadeGameModelUpdate(gameUpdate) {
-  const oldGameData = _.cloneDeep(store.getState().gameModel.gameModel)
+  const state = store.getState()
+  const oldGameData = _.cloneDeep(state.gameModel.gameModel)
+  const stageId = state.gameContext.currentStageId
 
   if(!window.nextGameModelUpdateIsUndo) {
-    if(gameUpdate.player) {
-      if(gameUpdate.player.spawnX || gameUpdate.player.spawnY) {
-        window.instanceUndoStack.push({
-          data: {
-            spawnX: oldGameData.player.spawnX,
-            spawnY: oldGameData.player.spawnY
-          }
-        })
-      }
-    }
-  
     if(gameUpdate.stages) {
-      const objects = gameUpdate.stages['default'].objects 
-      const oldObjects = oldGameData.stages['default'].objects
+      const objects = gameUpdate.stages[stageId].objects 
+      const oldObjects = oldGameData.stages[stageId].objects
       if(objects) {
         window.instanceUndoStack.push(...Object.keys(objects).map((id) => {
           return {
@@ -118,15 +110,15 @@ function onArcadeGameModelUpdate(gameUpdate) {
 
   window.nextGameModelUpdateIsUndo = false
   if(gameUpdate.stages) {
-    const oldObjects = oldGameData.stages['default'].objects
-    const objects = gameUpdate.stages['default'].objects 
+      const objects = gameUpdate.stages[stageId].objects 
+      const oldObjects = oldGameData.stages[stageId].objects
     if(objects) Object.keys(objects).forEach((id) => {
       if(!oldObjects[id]) objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
     })
   }
 
   if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
-    if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameUpdate.classes[id])
+    if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameUpdate.classes[id])
   })
   
   const gameData = mergeDeep(oldGameData, gameUpdate)
@@ -181,6 +173,14 @@ export const getArcadeGames = () => async (dispatch, getState) => {
   }
 };
 
+export const changeArcadeGameStage = (stageId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CHANGE_GAME_STAGE,
+    payload: { stageId },
+  });
+}
+
 export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
   dispatch({
     type: LOAD_GAME_MODEL_LOADING,
@@ -195,14 +195,16 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
 
     const gameData = mergeDeep(_.cloneDeep(defaulGameModel), response.data.game)
 
-    const objects = gameData.stages['default'].objects
+    dispatch(changeArcadeGameStage(gameData.player.initialStageId))
+    
+    const objects = gameData.stages[getState().gameContext.currentStageId].objects
     Object.keys(objects).forEach((id) => {
       objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
     })
     Object.keys(gameData.classes).forEach((id) => {
-      gameData.classes[id] = mergeDeep(_.cloneDeep(defaultObjectClass), gameData.classes[id])
+      gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
     })
-    
+
     // Object.keys(gameData.brushes).forEach((id) => {
 
     // })

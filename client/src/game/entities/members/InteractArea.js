@@ -60,10 +60,6 @@ export class InteractArea extends Sprite {
     }
   }
 
-  testForEffect() {
-    
-  }
-
   registerArcade(relations) {
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]

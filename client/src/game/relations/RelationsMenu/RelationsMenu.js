@@ -14,7 +14,7 @@ import { EFFECT_COLLIDE, PLAYER_INSTANCE_ID } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 
-const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel } }) => {
+const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel }, gameContext: { currentStageId } }) => {
   function handleClose() {
     closeRelationsMenu()
   }
@@ -43,10 +43,12 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
       {relations.map((relation) => {
         const { event, effect: { type, remoteEffectedClassId }} = relation
 
+        const playerClassId = gameModel.stages[currentStageId].playerClassId
+
         // if the class dont exist, its the player class ( as of now thats the only generalized one)
         let effectedClass = gameModel.classes[remoteEffectedClassId];
         if(remoteEffectedClassId === PLAYER_INSTANCE_ID) {
-          effectedClass = {...gameModel.classes[gameModel.player.initialClassId], name: 'Player'}
+          effectedClass = {...gameModel.classes[playerClassId], name: 'Player'}
         }
         const { classA, classB } = getClassAandB(event.classIdA, event.classIdB)
 
@@ -54,7 +56,7 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
 
         let classIdB  = event.classIdB
         if(classIdB === PLAYER_INSTANCE_ID) {
-          classIdB = gameModel.player.initialClassId
+          classIdB = playerClassId
         }
 
         return <div key={relation.relationId} className="RelationsMenu__relation">
@@ -78,6 +80,7 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
   gameModel: state.gameModel,
+  gameContext: state.gameContext
 })
 
 export default compose(
