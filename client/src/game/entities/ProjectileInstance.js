@@ -90,14 +90,11 @@ export class ProjectileInstance extends ObjectInstance {
     this.setActive(true)
 
     this.destroyTime = Date.now() + shooterClass.projectile.lifetime
-
-    this.registerRelations()
   }
 
   destroy() {
     const index = this.scene.projectileInstances.indexOf(this) 
     this.scene.projectileInstances.splice(index, 1)
     super.destroy()
-    this.unregisterRelations()
   }
 }

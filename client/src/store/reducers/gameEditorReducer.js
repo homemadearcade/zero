@@ -20,7 +20,9 @@ import {
   CLOSE_CLASS_NAME_MODAL,
   OPEN_SETUP_CHOICES_MODAL,
   CLOSE_SETUP_CHOICES_MODAL,
-  UPDATE_VERTICAL_LINEAR_STEPPER
+  UPDATE_VERTICAL_LINEAR_STEPPER,
+  OPEN_JSON_VIEWER,
+  CLOSE_JSON_VIEWER
 } from '../types';
 
 import { generateUniqueId } from '../../utils/webPageUtils';
@@ -168,6 +170,16 @@ export default function gameEditorReducer(state = initialState, { type, payload 
       return {
         ...state,
         isSetupChoicesModalOpen: false
+      }
+    case OPEN_JSON_VIEWER: 
+      return {
+        ...state,
+        viewingJson: payload.viewingJson
+      }
+    case CLOSE_JSON_VIEWER:
+      return {
+        ...state,
+       viewingJson: null
       }
     case CLEAR_EDITOR:
       return initialState

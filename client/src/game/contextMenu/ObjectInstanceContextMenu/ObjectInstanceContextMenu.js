@@ -8,9 +8,9 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { PLAYER_INSTANCE_ID } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-import { openClassNameModal, selectClass } from '../../../store/actions/gameEditorActions';
+import { openClassNameModal, selectClass, openJsonViewer } from '../../../store/actions/gameEditorActions';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal, selectClass, gameContext: { currentStageId } }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal, selectClass, gameContext: { currentStageId }, openJsonViewer }) => {
   return <>
     <ContextMenuTitle onClick={() => {
       openClassNameModal(classId)
@@ -46,6 +46,11 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
         onMenuItemClick()
       }}>Delete</MenuItem>
     </Unlockable>}
+    {<Unlockable interfaceId="adminOnly/viewInstanceJson">
+      <MenuItem onClick={() => {
+        openJsonViewer(getCurrentGameScene(gameInstance).getObjectInstance(objectId))
+      }}>View Json</MenuItem>
+    </Unlockable>}
     <ClassContextMenu onMenuItemClick={onMenuItemClick} classId={classId} insideObjectInstanceContextMenu />
   </>
 };
@@ -56,4 +61,4 @@ const mapStateToProps = (state) => ({
   gameContext: state.gameContext
 })
 
-export default connect(mapStateToProps, { editGameModel, openClassNameModal, selectClass })(ObjectInstanceContextMenu);
+export default connect(mapStateToProps, { editGameModel, openClassNameModal, selectClass, openJsonViewer })(ObjectInstanceContextMenu);

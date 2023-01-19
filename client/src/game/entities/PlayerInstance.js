@@ -88,23 +88,9 @@ export class PlayerInstance extends ObjectInstance {
     this.projectileEjector.update(time, delta)
   }
 
-  registerRelations() {
-    super.registerRelations()
-    this.interactArea.register(this.getRelations())
-
-    // all sprites on playground layer collide with hero
-    const gameModel = store.getState().gameModel.gameModel
-    const releventInstances = this.scene.objectInstances.filter((objectInstance) => {
-      const objectClass = gameModel.classes[objectInstance.classId]
-      return objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID
-    }).map(({sprite}) => sprite)
-
-    this.unregisterColliders.push(
-      this.scene.physics.add.collider(this.sprite, releventInstances, (instanceA, instanceB) => {
-        instanceA.justCollided = true
-        instanceB.justCollided = true
-      })
-    )
+  registerRelations(relations) {
+    super.registerRelations(relations)
+    this.interactArea.register(relations)
   }
 
   unregisterRelations() {
@@ -118,7 +104,10 @@ export class PlayerInstance extends ObjectInstance {
   reclass(classId) {
     const sprite = this.sprite
     const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
-    this.scene.addPlayerInstance(modifiedClassData)
+
+    //issue because as soon as we destroy it, we lose acces to 'this'!
+    const scene = this.scene
+    setTimeout(() => { scene.addPlayerInstance(modifiedClassData) }) 
     this.scene.removePlayerInstance()
   }
 

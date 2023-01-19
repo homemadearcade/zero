@@ -65,23 +65,27 @@ const initialState = {
   isCreateRelationOpen: false,
   classIdRelationsMenu: null,
   relation: {
-    relationId: null,
-    sides: [],
     event: {
-      type: null,
+      type: '',
       classIdA: null,
       classIdB: null,
     },
     effect: {
-      type: null,
+      effectedType: null,
       remoteEffectedClassId: null,
-      text: '',
+      spawnClassId: null,
+      type: '',
       classId: null,
+      zoneClassId: null,
       cutsceneId: null,
-      zoneClassId: null
-    }, 
+      text: '',
+      useClassAZoneInstance: false
+    },
+    onlyOnce: false,
+    delayInterval: null,
+    relationId: null,
+    sides: []
   },
-
   isBoundaryRelationMenuOpen: false,
   objectClass: {
     classId: null,

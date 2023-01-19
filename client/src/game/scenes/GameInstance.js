@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, EFFECT_COLLIDE, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -12,6 +12,7 @@ import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { editLobby } from '../../store/actions/lobbyActions';
 import { clearCutscenes  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
+import { isPlayerId } from '../../utils/gameUtils';
 
 export class GameInstance extends Phaser.Scene {
   constructor({key}) {
@@ -27,6 +28,9 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstancesById = {}
 
     this.gameState = null
+    this.relationMap = {}
+
+    this.unregisterColliders = []
 
     this.physicsType = ARCADE_PHYSICS
   }
@@ -48,13 +52,19 @@ export class GameInstance extends Phaser.Scene {
   }
 
   getAllInstancesOfClassId(classId) {
-    const instances = [...this.objectInstances]
-    if(this.playerInstance) {
+    let instances = [...this.objectInstances]
+    if(classId === this.playerInstance?.id || classId === this.playerInstance?.classId) {
       instances.push(this.playerInstance)
     }
-    return instances.filter((instance) => {
+    instances = instances.filter((instance) => {
       return instance.classId === classId
     })
+    
+    const projectiles= this.projectileInstances.filter((instance) => {
+      return instance.classId === classId
+    })
+
+    return instances.concat(projectiles)
   }
 
   getRandomInstanceOfClassId(classId) {
@@ -64,8 +74,11 @@ export class GameInstance extends Phaser.Scene {
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
-   [this.playerInstance, ...this.objectInstances].forEach((object) => {
+   [this.playerInstance, ...this.objectInstances, ...this.projectileInstances].forEach((object) => {
       if(object.classId === classId) {
+        fx(object)
+      } else if(object.id === classId) {
+        //player class
         fx(object)
       }
     })
@@ -167,14 +180,107 @@ export class GameInstance extends Phaser.Scene {
     objectInstance.reclassId = reclassId
   }
 
+  createRelationsMap() {
+    this.relationMap = {}
+    const state = store.getState()
+    const gameModel = state.gameModel.gameModel
+    const relations = gameModel.relations 
+
+    Object.keys(relations).forEach((relationId) => {
+      const relation = relations[relationId]
+      const classIds = [relation.event.classIdA, relation.event.classIdB] 
+      classIds.sort()
+      const classString = classIds.join()
+      if(!this.relationMap[classString]) {
+        this.relationMap[classString] = {
+          collideRelation: null,
+          otherRelations: []
+        }
+      }
+      if(relation.effect.type === EFFECT_COLLIDE) {
+        this.relationMap[classString].collideRelation = relation
+      } else {
+        this.relationMap[classString].otherRelations.push(relation)
+      }
+    })
+  }
+
+  findCollideInitiator(classes, relation) {
+    if(isPlayerId(classes[0])) {
+      const objectClass = store.getState().gameModel.gameModel.classes[classes[1]]
+      if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
+        return classes[0]
+      }
+    }
+    if(isPlayerId(classes[1])) {
+      const objectClass = store.getState().gameModel.gameModel.classes[classes[0]]
+      if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
+        return classes[1]
+      }
+    }
+
+    if(relation) {
+      return relation.event.classIdA
+    }
+
+    return classes[0]
+  }
+
   registerRelations() {
-    this.playerInstance.registerRelations()
-    
-    this.objectInstances.forEach((instance) => {
-      instance.registerRelations()
+    this.createRelationsMap()
+
+    // relations
+    Object.keys(this.relationMap).forEach((classPair) => {
+      const relationMap = this.relationMap[classPair]
+      const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
+      this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
+        instance.registerRelations(relationMap.otherRelations)
+      })
     })
 
+    //collisions
+    Object.keys(this.relationMap).forEach((classPair) => {
+      const relationMap = this.relationMap[classPair]
+      if(!relationMap.collideRelation) return
+      const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
+      this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
+        instance.registerRelations([relationMap.collideRelation])
+      })
+    })
+    
+    // all sprites on playground layer collide with hero
+    const gameModel = store.getState().gameModel.gameModel
+    const releventInstances = this.objectInstances.filter((objectInstance) => {
+      const objectClass = gameModel.classes[objectInstance.classId]
+      return objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID
+    }).map(({sprite}) => sprite)
+
+    this.unregisterColliders.push(
+      this.physics.add.collider(this.playerInstance.sprite, releventInstances, (instanceA, instanceB) => {
+        instanceA.justCollided = true
+        instanceB.justCollided = true
+      })
+    )
+
     this.playgroundLayer.registerRelations()
+  }
+
+  unregisterRelations() {
+    this.playerInstance.unregisterRelations()
+
+    this.objectInstances.forEach((instance) => {
+      instance.unregisterRelations()
+    })
+
+    this.projectileInstances.forEach((instance) => {
+      instance.unregisterRelations()
+    })
+
+    this.unregisterColliders.forEach((fx) =>  {
+      this.physics.world.removeCollider(fx)
+    })
+
+    this.playgroundLayer.unregisterRelations()
   }
 
   afterGameInstanceUpdateEffects() {
@@ -190,16 +296,6 @@ export class GameInstance extends Phaser.Scene {
         instance.destroyInGame()
       }
     })
-  }
-
-  unregisterRelations() {
-    this.playerInstance.unregisterRelations()
-
-    this.objectInstances.forEach((instance) => {
-      instance.unregisterRelations()
-    })
-
-    this.playgroundLayer.unregisterRelations()
   }
 
   // getSpriteTexture(textureId) {

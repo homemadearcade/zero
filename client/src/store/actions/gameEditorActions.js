@@ -21,6 +21,8 @@ import {
   OPEN_MY_SPRITES_MODAL,
   CLOSE_MY_SPRITES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
+  CLOSE_JSON_VIEWER,
+  OPEN_JSON_VIEWER,
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
@@ -218,5 +220,24 @@ export const closeMySpritesModal = () => (dispatch, getState) => {
     updateCobrowsing: true,
     type: CLOSE_MY_SPRITES_MODAL,
     payload: {}
+  });
+}
+
+export const openJsonViewer = (viewingJson) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_JSON_VIEWER,
+    payload: {
+      viewingJson
+    }
+  });
+}
+
+export const closeJsonViewer = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_JSON_VIEWER,
+    payload: {
+    }
   });
 }

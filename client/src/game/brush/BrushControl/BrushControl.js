@@ -18,8 +18,6 @@ const BrushControl = ({
 }) => {
   const brush = brushes[brushIdSelectedBrushList]
 
-  console.log(currentStageId, stages)
-
   const boundaries = stages[currentStageId].boundaries
   const minZoomWidth = Math.floor((boundaries.width/boundaries.maxWidth) * 3)
   const minZoomHeight = Math.floor((boundaries.height/boundaries.maxHeight) * 3)

@@ -1,5 +1,6 @@
-import { EDIT_STATE, BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../game/constants";
+import { EDIT_STATE, BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, PLAYER_INSTANCE_ID_PREFIX } from "../game/constants";
 import store from "../store";
+import { getCurrentGameScene } from "./editorUtils";
 
 export function isGameBoundaryWall(world, body) {
   if(body === world.walls.left || body === world.walls.right || body === world.walls.up || body === world.walls.down) {
@@ -98,4 +99,20 @@ export function getOppositeRelationClassId(classId, relation) {
   }
 
   return null
+}
+
+export function isPlayerId(id) {
+  if(id.indexOf(OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX) === 0) {
+    return true
+  }
+
+  if(id.indexOf(PLAYER_INSTANCE_ID_PREFIX) === 0) {
+    return true
+  }
+}
+
+window.consoleTools = {
+  getCurrentScene: () => { return getCurrentGameScene(store.getState().webPage.gameInstance) },
+  getCurrentGameModel: () => { return store.getState().gameModel.gameModel },
+  getCurrentState: () => { return store.getState() }
 }

@@ -1,6 +1,6 @@
 // import { BACKGROUND_CANVAS_ID } from "../constants";
 import { defaultZoneClass } from "./class";
-import { gameSize, nodeSize } from "./general";
+import { nodeSize } from "./general";
 import { directionalClass, jumperClass, vehicleClass } from "./players";
 import { defaultStage } from "./stage";
 
@@ -13,16 +13,8 @@ export const defaulGameModel = {
   },
   "stages": {
     default: {
-      'playerClassId': 'vehicle',
-      'playerSpawnZoneId': 'objectclass/playerspawnzone',
-      objects: {
-        'objectinstance/playerspawnzone': {
-          id: 'objectinstance/playerspawnzone',
-          classId: 'objectclass/playerspawnzone',
-          spawnX: gameSize/2,
-          spawnY: gameSize/2,
-        }
-      },
+      'playerClassId': 'oc/pl/vehicle',
+      ...defaultStage,
       boundaries: {...defaultStage.boundaries}, 
       gravity: {...defaultStage.gravity}
     },
@@ -47,10 +39,10 @@ export const defaulGameModel = {
     'initialStageId': 'default'
   },
   "classes": {
-    "vehicle": vehicleClass,
-    "jumper": jumperClass,
-    "directional": directionalClass,
-    'objectclass/playerspawnzone': {
+    "oc/pl/vehicle": vehicleClass,
+    "oc/pl/jumper": jumperClass,
+    "oc/pl/directional": directionalClass,
+    'oc/z/playerspawnzone': {
       name: 'Player Spawn Zone',
       ...defaultZoneClass,
       graphics: {

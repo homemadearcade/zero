@@ -1,4 +1,4 @@
-import { ARCADE_PHYSICS, EFFECT_COLLIDE, EFFECT_STICK_TO, PLAYER_CLASS, PLAYER_INSTANCE_ID, MATTER_PHYSICS, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from "../../constants";
+import { ARCADE_PHYSICS, EFFECT_COLLIDE, EFFECT_STICK_TO, PLAYER_CLASS, PLAYER_INSTANCE_ID, MATTER_PHYSICS, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, EFFECT_RECLASS } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {
@@ -44,7 +44,7 @@ export class Collider {
     this.collidingWith = []
   }
 
-  testForEffect(relation, instanceB, sides) {
+  testForEffect(relation, instanceB, sides, swapWhoRunsEffect) {
     const effect = relation.effect 
     const event = relation.event
 
@@ -56,40 +56,79 @@ export class Collider {
     }
     
     if(event.type === ON_COLLIDE_ACTIVE) {
-      this.objectInstance.effects.runPersistentEffect(relation, instanceB, sides)
+      if(swapWhoRunsEffect) {
+        this.scene.getObjectInstance(instanceB.id).effects.runPersistentEffect(relation, this.objectInstance.sprite, sides)
+      } else {
+        this.objectInstance.effects.runPersistentEffect(relation, instanceB, sides)
+      }
     }
-    
+
     if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
-      this.objectInstance.runAccuteEffect(relation, instanceB, sides)
+      if(swapWhoRunsEffect) {
+        this.scene.getObjectInstance(instanceB.id).runAccuteEffect(relation, this.objectInstance.sprite, sides)
+      } else {
+        this.objectInstance.runAccuteEffect(relation, instanceB, sides)
+      }
     }
   }
 
   registerArcade(relations) {
     relations.forEach((relation) => {
+
       const {event, effect, sides} = relation
       if(event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_START) {
-        const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
-        if(event.classIdB === PLAYER_INSTANCE_ID) {
-          releventInstances.push(this.scene.playerInstance.sprite)
+
+        if(event.classIdA !== this.objectInstance.classId) {
+          const releventInstancesA = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdA).map(({sprite}) => sprite)
+          if(event.classIdA === PLAYER_INSTANCE_ID) {
+            releventInstancesA.push(this.scene.playerInstance.sprite)
+          }
+
+          if(effect.type === EFFECT_COLLIDE) {
+            // console.log('I believe this should never be run... collider are owned by classId A, this would register collider with self', this.sensor.sprite.classId, releventInstancesA[0].classId)
+            // this.unregisters.push(
+            //   this.scene.physics.add.collider(this.sensor.sprite, releventInstancesA, (instanceA, instanceB) => {
+            //     instanceA.justCollided = true
+            //     instanceB.justCollided = true
+            //   })
+            // )
+          } else {
+            this.unregisters.push(
+              this.scene.physics.add.overlap(this.sensor.sprite, releventInstancesA, (a, b) => {
+                if(sides.length) {
+                  if(areBSidesHit(sides, a, b)) this.testForEffect(relation, b, sides, true)
+                } else  {
+                  this.testForEffect(relation, b, sides, true)
+                }
+              })
+            )
+          }
         }
 
-        if(effect.type === EFFECT_COLLIDE) {
-          this.unregisters.push(
-            this.scene.physics.add.collider(this.sensor.sprite, releventInstances, (instanceA, instanceB) => {
-              instanceA.justCollided = true
-              instanceB.justCollided = true
-            })
-          )
-        } else {
-          this.unregisters.push(
-            this.scene.physics.add.overlap(this.sensor.sprite, releventInstances, (a, b) => {
-              if(sides.length) {
-                if(areBSidesHit(sides, a, b)) this.testForEffect(relation, b, sides)
-              } else  {
-                this.testForEffect(relation, b, sides)
-              }
-            })
-          )
+        if(event.classIdB !== this.objectInstance.classId) {
+          const releventInstancesB = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
+          if(event.classIdB === PLAYER_INSTANCE_ID) {
+            releventInstancesB.push(this.scene.playerInstance.sprite)
+          }
+
+          if(effect.type === EFFECT_COLLIDE) {
+            this.unregisters.push(
+              this.scene.physics.add.collider(this.sensor.sprite, releventInstancesB, (instanceA, instanceB) => {
+                instanceA.justCollided = true
+                instanceB.justCollided = true
+              })
+            )
+          } else {
+            this.unregisters.push(
+              this.scene.physics.add.overlap(this.sensor.sprite, releventInstancesB, (a, b) => {
+                if(sides.length) {
+                  if(areBSidesHit(sides, a, b)) this.testForEffect(relation, b, sides)
+                } else  {
+                  this.testForEffect(relation, b, sides)
+                }
+              })
+            )
+          }
         }
       }
     })

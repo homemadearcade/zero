@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './GameEditor.scss';
 
 import LiveEditor from '../instantEditor/LiveEditor/LiveEditor';
-import { clearEditor } from '../../store/actions/gameEditorActions';
+import { clearEditor, closeJsonViewer } from '../../store/actions/gameEditorActions';
 import { clearGameFormEditor } from '../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../store/actions/gameViewEditorActions';
@@ -26,10 +26,11 @@ import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../GameStateToolbar/GameStateToolbar';
 import ClassList from '../class/ClassList/ClassList';
 import BrushList from '../brush/BrushList/BrushList';
+import Dialog from '../../ui/Dialog/Dialog';
 
 const GameEditor = ({ 
   classNames, 
-  gameEditor: { isSetupChoicesModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen }, 
+  gameEditor: { isSetupChoicesModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
   gameFormEditor: { isCreateCutsceneOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen },
@@ -42,6 +43,7 @@ const GameEditor = ({
   clearEditor, 
   clearGameFormEditor, 
   clearGameViewEditor,
+  closeJsonViewer,
   gameContext: { gameState },
   gameModel: { gameModel },
   toolbar,
@@ -95,6 +97,14 @@ const GameEditor = ({
       {isBoundaryRelationOpen && <BoundaryRelation/>}
       {isSetupChoicesModalOpen && <SetupChoicesModal/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
+      {viewingJson && <Dialog onClose={closeJsonViewer} open>
+        {viewingJson.sprite.x}<br/><br/>
+        {viewingJson.sprite.y}<br/><br/>
+        {viewingJson.reclassId}<br/><br/>
+        {viewingJson.destroyAfterUpdate}<br/><br/>
+        {viewingJson.id}<br/><br/>
+        {viewingJson.classId}<br/><br/>
+      </Dialog>}
     </div>
   </>
 };
@@ -111,5 +121,6 @@ export default connect(mapStateToProps, {
   clearEditor, 
   clearGameFormEditor, 
   clearGameViewEditor, 
-  changeGameState
+  changeGameState,
+  closeJsonViewer
 })(GameEditor);

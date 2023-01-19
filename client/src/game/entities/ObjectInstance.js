@@ -97,23 +97,23 @@ export class ObjectInstance extends Sprite {
     this.movement.update(time, delta)
   }
 
-  getRelations() {
-    const gameModel = store.getState().gameModel.gameModel
+  // getRelations() {
+  //   const gameModel = store.getState().gameModel.gameModel
 
-    return Object.keys(gameModel.relations).map((relationId) => {
-      return gameModel.relations[relationId]
-    }).filter(({event: { classIdA, classIdB, type }}) => {
-      if(classIdB === PLAYER_INSTANCE_ID && this.id === PLAYER_INSTANCE_ID) return true
-      if(type === ON_INTERACT) {
-        return classIdA === this.classId || classIdB === this.classId
-      } else {
-        return classIdA === this.classId
-      }
-    })
-  }
+  //   return Object.keys(gameModel.relations).map((relationId) => {
+  //     return gameModel.relations[relationId]
+  //   }).filter(({event: { classIdA, classIdB, type }}) => {
+  //     if(classIdB === PLAYER_INSTANCE_ID && this.id === PLAYER_INSTANCE_ID) return true
+  //     if(type === ON_INTERACT) {
+  //       return classIdA === this.classId || classIdB === this.classId
+  //     } else {
+  //       return classIdA === this.classId
+  //     }
+  //   })
+  // }
 
-  registerRelations() {
-    this.collider.register(this.getRelations())
+  registerRelations(relations) {
+    this.collider.register(relations)
   }
 
   unregisterRelations() {
@@ -135,7 +135,11 @@ export class ObjectInstance extends Sprite {
   reclass(classId) {
     const sprite = this.sprite
     const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
-    this.scene.addObjectInstance(this.id, modifiedClassData)
+
+    //issue because as soon as we destroy it, we lose acces to 'this'!
+    const id = this.id
+    setTimeout(() => { this.scene.addObjectInstance(id, modifiedClassData)})
+
     this.scene.removeObjectInstance(this.id)
   }
 

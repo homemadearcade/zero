@@ -2,7 +2,15 @@ import { BOUNDARY_COLLIDE, BOUNDARY_DESTROY, BOUNDARY_WRAP } from "../constants"
 import { gameSize } from "./general";
 
 export const defaultStage = {
-  objects: {},
+  'playerSpawnZoneId': 'oc/z/playerspawnzone',
+  objects: {
+    'oi/playerspawnzone': {
+      id: 'oi/playerspawnzone',
+      classId: 'oc/z/playerspawnzone',
+      spawnX: gameSize/2,
+      spawnY: gameSize/2,
+    }
+  },
   "boundaries": {
     loop: false,
     "maxWidth": gameSize,

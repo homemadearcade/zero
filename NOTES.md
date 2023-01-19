@@ -74,5 +74,8 @@ ARCADE VS MATTER
   Create Force ( like a bomb type thing )
 
 
+--
+
+Collide Relationship needs to be registered last....
 
 

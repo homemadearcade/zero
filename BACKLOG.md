@@ -2,29 +2,33 @@
 
 TODO TIME PERMITTING BACKLOG
 
-IDEAS
-
-Jump Only boolean ( allows controlling during jumps only )
-
----
-
-Timers - A whole timer interface like at the bottom like an editor?
-
-Choices in dialogue
-
-Particles/Explosions
-
-Light System
-    World Effects
-    Change world, change gravity. Like a 'world' class
+--------------------------------------------------------------------------------------
+--
+SMALL FEATURES
+--
 
 Following, Advanced Pathfinding
 
 Enemy Projectiles
 
-Mobile
+Jump Only boolean ( allows controlling during jumps only )
 
-Conditions
+--------------------------------------------------------------------------------------
+--
+BIG FEATURES
+--
+
+Timers - A whole timer interface like at the bottom like an editor?
+
+Choices in dialogue
+
+Particles - Explosions
+
+Light System
+    World Effects
+    Change world, change gravity. Like a 'world' class
+
+Mobile
 
 Blockchain NFT editing thing
 

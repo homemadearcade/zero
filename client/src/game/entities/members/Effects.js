@@ -88,14 +88,14 @@ export class Effects {
     }
   }
   
-  runPersistentEffect(relation, instanceB, sides) {
+  runPersistentEffect(relation, instanceSpriteB, sides) {
     const effect = relation.effect
     const sprite = this.objectInstance.sprite
 
     // spawning does not effect existing instances
     if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
-        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceB, sides)
+        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sides)
       })
       return
     }
@@ -111,14 +111,14 @@ export class Effects {
     }
 
     if(effect.type === EFFECT_STICK_TO) {
-      sprite.lockedTo = instanceB;   
+      sprite.lockedTo = instanceSpriteB;   
       sprite.lockedReleaseSides = sides
       this.isIgnoreGravityModified = true
       this.objectInstance.setIgnoreGravity(true)
     }
   }
 
-  runAccuteEffect(relation, instanceB, sides = []) {
+  runAccuteEffect(relation, instanceSpriteB, sides = []) {
     const effect = relation.effect
     const sprite = this.objectInstance.sprite
     const instanceId = this.objectInstance.id
@@ -127,7 +127,7 @@ export class Effects {
     // spawning does not effect existing instances so it cannot run here
     if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
-        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceB, sides)
+        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sides)
       })
       return
     }
@@ -202,7 +202,7 @@ export class Effects {
 
     // NARRATIVE
     if(effect.type === EFFECT_CUTSCENE) {
-      if(effect.cutsceneId) store.dispatch(openCutscene(instanceB?.classId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(instanceSpriteB?.classId, effect.cutsceneId))
     }
   }
 }
