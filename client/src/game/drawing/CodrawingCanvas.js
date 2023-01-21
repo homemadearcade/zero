@@ -16,7 +16,8 @@ export class CodrawingCanvas extends Canvas {
     this.canvasId = props.canvasId
     this.scene = scene
 
-    store.dispatch(subscribeCodrawing(this.canvasId))
+    console.log(this.textureId)
+    store.dispatch(subscribeCodrawing(this.textureId))
 
     // if(this.isHost) {
     //   window.socket.on(ON_CODRAWING_SUBSCRIBED, ({ userId, canvasId  }) => {
@@ -29,14 +30,14 @@ export class CodrawingCanvas extends Canvas {
     // }
   
     // event that is triggered if codrawing has been registered
-    window.socket.on(ON_CODRAWING_STROKE, ({userId, canvasId, stroke, brushId }) => {
+    window.socket.on(ON_CODRAWING_STROKE, ({userId, textureId, stroke, brushId }) => {
       const state = store.getState()
       const me = state.auth.me 
 
-      if(canvasId !== this.canvasId) return 
+      if(textureId !== this.textureId) return 
       if(userId === me.id) return 
 
-      const canvas = this.scene.getLayerById(canvasId)
+      const canvas = this.scene.getLayerById(textureId)
       const brush = this.scene.getBrushFromBrushId(brushId)
       brush.setVisible(false)
 
@@ -63,7 +64,7 @@ export class CodrawingCanvas extends Canvas {
     
     super.destroy()
 
-    store.dispatch(unsubscribeCodrawing(this.canvasId))
+    store.dispatch(unsubscribeCodrawing(this.textureId))
 
     window.socket.off(ON_CODRAWING_SUBSCRIBED);
     window.socket.off(ON_CODRAWING_STROKE);

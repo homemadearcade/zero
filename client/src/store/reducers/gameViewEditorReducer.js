@@ -13,11 +13,11 @@ import {
 const initialState = {
   layerVisibility: {
     [BACKGROUND_CANVAS_ID]: true,
-    [PLAYGROUND_CANVAS_ID]: true,
+    [ZONE_INSTANCE_CANVAS_ID]: true,
     [OBJECT_INSTANCE_CANVAS_ID]: true,
+    [PLAYGROUND_CANVAS_ID]: true,
     [NPC_INSTANCE_CANVAS_ID]: true,
     [PLAYER_INSTANCE_CANVAS_ID]: true,
-    [ZONE_INSTANCE_CANVAS_ID]: true,
     [FOREGROUND_CANVAS_ID]: true
   },
   cameraZoom: 3,

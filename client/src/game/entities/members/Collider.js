@@ -63,19 +63,19 @@ export class Collider {
     }
     
     if(event.type === ON_COLLIDE_ACTIVE) {
-      if(swapWhoRunsEffect) {
-        this.scene.getObjectInstance(instanceB.id).effects.runPersistentEffect(relation, this.objectInstance.sprite, sides)
-      } else {
+      // if(swapWhoRunsEffect) {
+      //   this.scene.getObjectInstance(instanceB.id).effects.runPersistentEffect(relation, this.objectInstance.sprite, sides)
+      // } else {
         this.objectInstance.effects.runPersistentEffect(relation, instanceB, sides)
-      }
+      // }
     }
 
     if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
-      if(swapWhoRunsEffect) {
-        this.scene.getObjectInstance(instanceB.id).runAccuteEffect(relation, this.objectInstance.sprite, sides)
-      } else {
+      // if(swapWhoRunsEffect) {
+      //   this.scene.getObjectInstance(instanceB.id).runAccuteEffect(relation, this.objectInstance.sprite, sides)
+      // } else {
         this.objectInstance.runAccuteEffect(relation, instanceB, sides)
-      }
+      // }
     }
   }
 

@@ -26,14 +26,14 @@ export function saveAllCurrentCanvases() {
   if(scene.foregroundLayer.unsavedChanges) scene.foregroundLayer.save()
 }
 
-export const publishCodrawingStrokes = ({canvasId, brushId, stroke}) => async (dispatch, getState) => {
+export const publishCodrawingStrokes = ({textureId, brushId, stroke}) => async (dispatch, getState) => {
   try {
     // dispatch({
     //   type: ON_CODRAWING_STROKE,
-    //   payload: { canvasId, strokeData },
+    //   payload: { textureId, strokeData },
     // });    
     const options = attachTokenToHeaders(getState);
-    await axios.put('/api/codrawing/stroke/' + encodeURIComponent(canvasId), { brushId, stroke }, options);
+    await axios.put('/api/codrawing/stroke/' + encodeURIComponent(textureId), { brushId, stroke }, options);
   } catch (err) {
     console.error(err)
 
@@ -44,17 +44,17 @@ export const publishCodrawingStrokes = ({canvasId, brushId, stroke}) => async (d
   }
 };
 
-export const subscribeCodrawing = (canvasId) => async (dispatch, getState) => {
+export const subscribeCodrawing = (textureId) => async (dispatch, getState) => {
   dispatch({
     type: SUBSCRIBE_CODRAWING_LOADING,
   });  
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/codrawing/' + encodeURIComponent(canvasId), {}, options);
+    const response = await axios.post('/api/codrawing/' + encodeURIComponent(textureId), {}, options);
     
     dispatch({
       type: SUBSCRIBE_CODRAWING_SUCCESS,
-      payload: { codrawingCanvasId: response.data.codrawingCanvasId },
+      payload: { codrawingId: response.data.codrawingId },
     });
   } catch (err) {
     console.error(err)
@@ -66,14 +66,14 @@ export const subscribeCodrawing = (canvasId) => async (dispatch, getState) => {
   }
 };
 
-export const unsubscribeCodrawing = (canvasId) => async (dispatch, getState) => {
+export const unsubscribeCodrawing = (textureId) => async (dispatch, getState) => {
   // dispatch({
   //   type: UNSUBSCRIBE_CODRAWING_LOADING,
   // });
   
   try {
     const options = attachTokenToHeaders(getState);
-    await axios.post('/api/codrawing/stop/' + encodeURIComponent(canvasId), {}, options);
+    await axios.post('/api/codrawing/stop/' + encodeURIComponent(textureId), {}, options);
 
     dispatch({
       type: UNSUBSCRIBE_CODRAWING_SUCCESS,
@@ -89,14 +89,14 @@ export const unsubscribeCodrawing = (canvasId) => async (dispatch, getState) => 
   }
 };
 
-export const codrawingUndo = (canvasId) => async (dispatch, getState) => {
+export const codrawingUndo = (textureId) => async (dispatch, getState) => {
   dispatch({
     type: CODRAWING_UNDO_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/codrawing/undo/' + encodeURIComponent(canvasId), options);
+    const response = await axios.post('/api/codrawing/undo/' + encodeURIComponent(textureId), options);
 
     dispatch({
       type: CODRAWING_UNDO_SUCCESS,

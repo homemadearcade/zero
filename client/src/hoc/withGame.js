@@ -41,7 +41,7 @@ export default (ChildComponent) => {
 
       unloadArcadeGame()
       clearCutscenes()
-      completeCloseConstellation({})
+      // completeCloseConstellation({})
       changeGameState(null)
     }
 

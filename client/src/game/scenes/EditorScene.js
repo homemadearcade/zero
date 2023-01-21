@@ -380,7 +380,7 @@ export class EditorScene extends GameInstance {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        const canvas = this.getLayerById(this.brush.getCanvasId())
+        const canvas = this.getLayerByCanvasId(this.brush.getCanvasId())
         if(canvas.isSavingToAws) return
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)

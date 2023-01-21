@@ -104,7 +104,7 @@ popup if the player has switched stages and you want to follow them to that scen
 
 undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by Id not ... canvas id?
 
-KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spawned ones are not detroyed
+KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spawned ones are not detroyed. FIX = Spawn Effects go before Destroy Effects
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
 

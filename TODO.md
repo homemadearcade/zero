@@ -3,10 +3,17 @@ TODO
 
 change experienceUI stage in lobby dashboard?
 set invisible effect broke, check others..
+INFO BOX - Right Click, Left Click, Name of Class
+Game Name Area, Stage Name Area
+   Cutscenes, Stages, Metadata, OThers? More 
+Think on toolbars
 
 EMAILS 
 Forgot Password - email Flow
 All sorts of emails for tickets
+
+Unlockable UI presets creator/editor page
+  Save As Preset in the Unlockable Tree Menu, name the preset and boom. We got a preset. Can you edit the preset? Can you delete presets?. Can you load preset and play as that preset?
 
 ---------
 BIG FEATURES
@@ -26,7 +33,6 @@ DEFAULT STAGE SELECTION
     Every player should have gravity, and be advanced controls vs ??
 
 FEATURES
-  Unlockable UI presets creator/editor page
   Sprite sheet editor page
       Glass sprites from Kenney are all sorts of fucked up...?
 

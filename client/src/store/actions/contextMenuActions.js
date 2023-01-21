@@ -68,8 +68,6 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
 export const openContextMenuFromObjectInstanceId= (objectId, classId, event) => (dispatch, getState) => {
   if(getInterfaceIdData('contextMenu/*').isObscured) return 
 
-  console.log(objectId, classId, {      contextMenuX: event.pageX,
-    contextMenuY: event.pageY})
   dispatch({
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,

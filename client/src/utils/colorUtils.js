@@ -82,7 +82,7 @@ const sortColorsBySaturation = function (colors) {
 
 const sortColorsByChroma = function (colors) {
   return colors.sort(function (a, b) {
-    console.log((a.chroma) - (b.chroma))
+    // console.log((a.chroma) - (b.chroma))
     return a.chroma - b.chroma;
   });
 };
@@ -100,7 +100,6 @@ export const sortColors = function(sortBy, hexArray) {
   } else if(sortBy === 'hue') {
     sortColorsByHue(colors);
   } else if(sortBy === 'saturation') {
-    console.log('x')
     sortColorsBySaturation(colors);
   } else if(sortBy === 'chroma') {
     sortColorsByChroma(colors);

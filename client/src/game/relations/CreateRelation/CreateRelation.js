@@ -224,6 +224,8 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     return !!i
   })
 
+  console.log(relation.event.classIdA)
+
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">
       <ClassMemberTitle classId={relation.event.classIdA} title="Relation"/>

@@ -204,7 +204,6 @@ export class Effects {
       spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
     } else if(effect.type === EFFECT_RECLASS) {
       if(this.objectInstance.id === PLAYER_INSTANCE_ID_PREFIX) {
-        console.log('reclasses player..')
         store.dispatch(changePlayerState({classId: effect.classId}))
       } else {
         this.objectInstance.reclassId = effect.classId

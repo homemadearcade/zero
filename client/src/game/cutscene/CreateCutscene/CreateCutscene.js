@@ -15,7 +15,6 @@ import { TextField } from '@mui/material';
 import Typography from '../../../ui/Typography/Typography';
 import MySpritesModal from '../../sprites/MySpritesModal/MySpritesModal';
 import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameEditorActions';
-import Sprite from '../../sprites/Sprite/Sprite';
 
 const CreateCutscene = ({ 
   closeCreateCutscene, 

@@ -23,7 +23,6 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit })
   });
 
   const submit = async (data) => {
-    console.log(data)
     editGameModel({
       metadata: {
         ...data

@@ -12,7 +12,6 @@ import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { editLobby } from '../../store/actions/lobbyActions';
 import { changeCurrentStage, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
-import { isPlayerId } from '../../utils/gameUtils';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -349,7 +348,21 @@ export class GameInstance extends Phaser.Scene {
   //   camera.zoomTo(zoomLevel, duration, easing);
   // }
 
-  getLayerById(canvasId) {
+  getLayerById(textureId) {
+    if(textureId === this.backgroundLayer.textureId) {
+      return this.backgroundLayer
+    }
+    if(textureId === this.playgroundLayer.textureId) {
+      return this.backgroundLayer
+    }
+    if(textureId === this.foregroundLayer.textureId) {
+      return this.foregroundLayer
+    }
+
+    console.error('didnt find layer with id', textureId, typeof textureId)
+  }
+  
+  getLayerByCanvasId(canvasId) {
     if(canvasId === BACKGROUND_CANVAS_ID) {
       return this.backgroundLayer
     }
@@ -362,7 +375,6 @@ export class GameInstance extends Phaser.Scene {
 
     console.error('didnt find layer with id', canvasId, typeof canvasId)
   }
-
 
   create() {
     const gameModel = store.getState().gameModel.gameModel
@@ -382,10 +394,10 @@ export class GameInstance extends Phaser.Scene {
     // LAYERS
     ////////////////////////////////////////////////////////////
     // background layer
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: stageId + '/' + BACKGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {canvasId: stageId + '/' + PLAYGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
+    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
     this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
     this.objectInstanceGroup = this.add.group()
@@ -401,7 +413,7 @@ export class GameInstance extends Phaser.Scene {
     this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: stageId + '/' + FOREGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
+    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
     this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
@@ -523,8 +535,6 @@ export class GameInstance extends Phaser.Scene {
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
-    this.objectClassGroup.setVisible(layerVisibility[OBJECT_INSTANCE_CANVAS_ID])
-    this.npcClassGroup.setVisible(layerVisibility[NPC_INSTANCE_CANVAS_ID])
     if(!this.playerInstance.destroyed && this.playerInstance.isVisible) this.playerInstance.setVisible(layerVisibility[PLAYER_INSTANCE_CANVAS_ID])
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 

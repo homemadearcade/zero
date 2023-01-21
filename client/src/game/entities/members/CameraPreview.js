@@ -34,7 +34,10 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
   }
 
   update(followingEntity, useGameBoundaries) {
-    if(!this.scene) return console.error('camera not destroyed again')
+    if(!this.scene) {
+      this.destroy()
+      return console.error('camera not destroyed again')
+    }
     
     if(this.scene.isGridViewOn) {
 

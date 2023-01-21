@@ -51,11 +51,14 @@ export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
   dispatch(changeGameState(PAUSED_STATE))
 
   const scene = getCurrentGameScene(getState().webPage.gameInstance)
-  if(scene.isPlaythrough) {
-    dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
-  } else {
-    dispatch(changeGameState(PAUSED_STATE))
+  if(scene) {
+    if(scene.isPlaythrough) {
+      dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
+    } else {
+      dispatch(changeGameState(PAUSED_STATE))
+    }
   }
+
 
   dispatch({
     updateCobrowsing: true,
@@ -90,12 +93,13 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
   // if(cutscene.pauseGame) {
 
   const scene = getCurrentGameScene(getState().webPage.gameInstance)
-  if(scene.isPlaythrough) {
-    dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
-  } else {
-    dispatch(changeGameState(PLAY_STATE))
+  if(scene) {
+    if(scene.isPlaythrough) {
+      dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+    } else {
+      dispatch(changeGameState(PLAY_STATE))
+    }
   }
-  // }
 
   dispatch({
     updateCobrowsing: true,
@@ -116,11 +120,14 @@ export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => as
 
     const { imgCanvas } = await scene.getImageFromGame('constellation')
 
-    if(scene.isPlaythrough) {
-      dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
-    } else {
-      dispatch(changeGameState(PAUSED_STATE))
+    if(scene) {
+      if(scene.isPlaythrough) {
+        dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
+      } else {
+        dispatch(changeGameState(PAUSED_STATE))
+      }
     }
+
     
     dispatch({
       externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
@@ -146,11 +153,14 @@ export const startCloseConstellation = ({ externalForceCobrowsingUpdateUserId })
 
 export const completeCloseConstellation = ({ externalForceCobrowsingUpdateUserId }) => (dispatch, getState) => {
   const scene = getCurrentGameScene(getState().webPage.gameInstance)
-  if(scene.isPlaythrough) {
-    dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
-  } else {
-    dispatch(changeGameState(PLAY_STATE))
+  if(scene) {
+    if(scene.isPlaythrough) {
+      dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+    } else {
+      dispatch(changeGameState(PLAY_STATE))
+    }
   }
+
 
   dispatch({
     updateCobrowsing: true,

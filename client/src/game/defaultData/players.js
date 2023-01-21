@@ -10,7 +10,7 @@ export const defaultPlayerClass = {
 
 export const vehicleClass = {
   ...defaultPlayerClass,
-  classId: 'vehicle',
+  classId: 'oc/pl/vehicle',
   name: 'vehicle',
   graphics: {
     "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
@@ -25,7 +25,7 @@ export const vehicleClass = {
 
 export const jumperClass = {
   ...defaultPlayerClass,
-  classId: 'jumper',
+  classId: 'oc/pl/jumper',
   name: 'jumper',
   graphics: {
     "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
@@ -40,7 +40,7 @@ export const jumperClass = {
 
 export const directionalClass = {
   ...defaultPlayerClass,
-  classId: 'directional',
+  classId: 'oc/pl/directional',
   name: 'directional',
   graphics: {
     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",

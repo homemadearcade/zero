@@ -84,7 +84,7 @@ export class Brush extends Phaser.GameObjects.Image {
   releaseStroke() {
     const lobby = store.getState().lobby.lobby
     if(lobby.id) {
-      store.dispatch(publishCodrawingStrokes({ brushId: this.brushId, canvasId: this.canvas.canvasId, stroke: this.strokeMemory }))
+      store.dispatch(publishCodrawingStrokes({ brushId: this.brushId, textureId: this.canvas.textureId, stroke: this.strokeMemory }))
     }
     this.canvas.onStrokeReleased()
     this.canvas = null
