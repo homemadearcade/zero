@@ -116,16 +116,16 @@ export class PlayerInstance extends ObjectInstance {
 
   destroyInGame() {
     this.setCollideable(false);
-    this.setVisible(false)
     // this.particles.setVisible(false)
     this.destroyed = true
-    this.sprite.destroyed = true
+    this.isVisible = false
     this.interactArea.pause()
   }
 
   respawn() {
     this.setCollideable(true);
-    this.setVisible(true)
+    this.destroyed = false
+    this.isVisible = true
     this.interactArea.resume()
     // this.particles.setVisible(true)
   }

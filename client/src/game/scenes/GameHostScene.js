@@ -27,7 +27,7 @@ export class GameHostScene extends EditorScene {
     this.remoteClientUpdateInterval = setInterval(() => {
       const currentStageId = getCobrowsingState().gameContext.currentStageId
       if(this.stage.id !== currentStageId) return
-      const objects = this.objectInstances.map(({sprite: { id, x, y, rotation, isVisible}, destroyAfterUpdate, reclassId, classId}) => {
+      const objects = this.objectInstances.map(({sprite: { id, x, y, rotation}, isVisible, destroyAfterUpdate, reclassId, classId}) => {
         return {
           id,
           x,
@@ -40,7 +40,7 @@ export class GameHostScene extends EditorScene {
         }
       })
 
-      const projectiles = this.projectileInstances.map(({sprite: { id, x, y, rotation, isVisible}, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
+      const projectiles = this.projectileInstances.map(({sprite: { id, x, y, rotation}, isVisible, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
         return {
           id,
           x,
@@ -58,7 +58,7 @@ export class GameHostScene extends EditorScene {
         x: this.playerInstance.sprite.x,
         y: this.playerInstance.sprite.y,
         rotation: this.playerInstance.sprite.rotation,
-        isVisible: this.playerInstance.sprite.isVisible,
+        isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
       }
       

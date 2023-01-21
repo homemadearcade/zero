@@ -101,10 +101,11 @@ export class ObjectInstance extends Sprite {
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerVisibility = gameViewEditor.layerVisibility
-
-    if(this.isVisible && !this.destroyed) {
-      const isLayerVisible = layerVisibility[this.getObjectGroup()]
-      this.setVisible(isLayerVisible)
+    const isLayerVisible = layerVisibility[this.getObjectGroup(objectClass)]
+    if(!isLayerVisible) {
+      this.setVisible(false)
+    } else {
+      this.setVisible(this.isVisible)
     }
 
     ////////////////////////////////////////
@@ -205,7 +206,6 @@ export class ObjectInstance extends Sprite {
       })
     }
 
-    this.sprite.destroyed = true
     this.destroyed = true
     this.scene.removeObjectInstance(instanceId)
   }

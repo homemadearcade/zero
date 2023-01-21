@@ -35,7 +35,7 @@ export class Effects {
     this.isIgnoreGravityModified = false
 
     if(this.wasVisibilityModified && !this.isVisibilityModified) {
-      this.objectInstance.setVisible(!objectClass.graphics.invisible)
+      this.objectInstance.isVisible = !objectClass.graphics.invisible
     }
 
     this.wasVisibilityModified = this.isVisibilityModified
@@ -102,7 +102,7 @@ export class Effects {
 
     if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
       this.isVisibilityModified = true
-      this.objectInstance.setVisible(false)
+      this.objectInstance.isVisible = false
     }
 
     if(effect.type === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {

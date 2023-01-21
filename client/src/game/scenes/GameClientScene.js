@@ -51,6 +51,8 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.sprite.y = player.y
     this.playerInstance.sprite.rotation = player.rotation
     this.playerInstance.setVisible(player.isVisible);
+    this.playerInstance.setVisible(player.isVisible);
+    this.playerInstance.isVisible = player.isVisible
     this.playerInstance.destroyAfterUpdate = player.destroyAfterUpdate 
     this.playerInstance.reclassId = player.reclassId
 

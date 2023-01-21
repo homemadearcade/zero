@@ -174,6 +174,7 @@ export class GameInstance extends Phaser.Scene {
     if(y) objectInstance.sprite.y = y;
     if(rotation) objectInstance.sprite.rotation = rotation;
     objectInstance.setVisible(isVisible);
+    objectInstance.isVisible = isVisible
     objectInstance.destroyAfterUpdate = destroyAfterUpdate 
     objectInstance.reclassId = reclassId
   }
@@ -535,7 +536,6 @@ export class GameInstance extends Phaser.Scene {
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
-    if(!this.playerInstance.destroyed && this.playerInstance.isVisible) this.playerInstance.setVisible(layerVisibility[PLAYER_INSTANCE_CANVAS_ID])
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
     this.objectInstances.forEach((object) => {

@@ -12,7 +12,7 @@ export class Graphics {
     const sprite = this.objectInstance.sprite
 
     if(objectClass.graphics.tint) objectInstance.setTint(objectClass.graphics.tint)
-    objectInstance.setVisible(!objectClass.graphics.invisible)
+    objectInstance.isVisible = !objectClass.graphics.invisible
     sprite.setDisplaySize(objectClass.graphics.width, objectClass.graphics.height)
     this.setSize(objectClass.graphics.width, objectClass.graphics.height)
     scene.addSpriteToTypeLayer(objectInstance.classId, sprite)
@@ -53,7 +53,7 @@ export class Graphics {
   }
 
   setInvisible() {
-    this.objectInstance.setVisible(true) 
+    this.objectInstance.isVisible = true
     this.objectInstance.setAlpha(0.1)
   }
 
@@ -116,7 +116,7 @@ export class Graphics {
     if(sprite.invisibleIndicator) {
       if(this.scene.isPlaythrough) {
         sprite.invisibleIndicator.setVisible(false)
-        this.objectInstance.setVisible(false)
+        this.objectInstance.isVisible = false
       } else {
         sprite.invisibleIndicator.setPosition(sprite.x, sprite.y)
         sprite.invisibleIndicator.setRotation(sprite.rotation)

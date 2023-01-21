@@ -86,7 +86,7 @@ export class ProjectileInstance extends ObjectInstance {
     this.setPosition(shooter.sprite.x + offset.x, shooter.sprite.y + offset.y);    
     this.eject(shooterClass.projectile.speed)
 
-    this.setVisible(true);
+    this.isVisible = true;
     this.setActive(true)
 
     this.destroyTime = Date.now() + shooterClass.projectile.lifetime
