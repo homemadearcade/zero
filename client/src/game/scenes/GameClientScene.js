@@ -1,6 +1,6 @@
 import {
   disconnectedDelta,
-  PLAYER_INSTANCE_ID, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, STOPPED_STATE,
+  PLAYER_INSTANCE_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, STOPPED_STATE,
 } from '../constants';
 import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
@@ -11,14 +11,16 @@ import { GAME_CONNECTION_LOST } from '../../lobby/constants';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
-    super({
-      key: props.key,
-    });
+    super(props);
+
+    this.sceneInstanceData = props.sceneInstanceData
 
     this.lastUpdate = null
   }
 
-  onGameInstanceUpdate = ({objects, player, projectiles}) => {
+  onGameInstanceUpdate = ({objects, player, projectiles, stageId}) => {
+    if(this.stage.id !== stageId) return
+
     objects.forEach((instanceUpdate) => {
       const objectId = instanceUpdate.id
       if(objectId === this.draggingObjectInstanceId) {
@@ -43,7 +45,7 @@ export class GameClientScene extends EditorScene {
       projectileInstance.destroyTime = instanceUpdate.destroyTime
     })
 
-    if(this.draggingObjectInstanceId === PLAYER_INSTANCE_ID) return
+    if(this.draggingObjectInstanceId === PLAYER_INSTANCE_ID_PREFIX) return
 
     this.playerInstance.sprite.x = player.x 
     this.playerInstance.sprite.y = player.y

@@ -24,7 +24,7 @@ import {
   ON_GAME_MODEL_UPDATE,
   ON_GAME_CHARACTER_UPDATE,
   INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
-  CHANGE_GAME_STAGE,
+  CHANGE_CURRENT_STAGE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -36,6 +36,7 @@ import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
 import { UNDO_MEMORY_MAX } from '../../game/constants';
 import { editGameModel, getSpritesheetData } from './gameModelActions';
+import { changePlayerState } from './gameContextActions';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
   const me = store.getState().auth.me 
@@ -100,6 +101,7 @@ function onArcadeGameModelUpdate(gameUpdate) {
         if(objects) {
           window.instanceUndoStack.push(...Object.keys(objects).map((id) => {
             return {
+              objectInstanceStageId: stageId,
               objectInstanceId: id,
               data: _.cloneDeep(oldObjects[id])
             }
@@ -182,7 +184,7 @@ export const getArcadeGames = () => async (dispatch, getState) => {
 export const changeArcadeGameStage = (stageId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CHANGE_GAME_STAGE,
+    type: CHANGE_CURRENT_STAGE,
     payload: { stageId },
   });
 }
@@ -202,7 +204,8 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
     dispatch(changeArcadeGameStage(gameData.player.initialStageId))
-    
+    dispatch(changePlayerState({classId: gameData.stages[gameData.player.initialStageId].playerClassId}))
+
     const stages = Object.keys(gameData.stages).map((stageId) => {
       return gameData.stages[stageId]
     })

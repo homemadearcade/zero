@@ -9,8 +9,9 @@ import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
+import { changeCurrentStage } from '../../../store/actions/gameContextActions';
 
-const StagesMenu = ({ closeStagesMenu, openCreateStage, gameModel: { gameModel }, editGameModel}) => {
+const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, gameModel: { gameModel }, editGameModel, gameContext: { currentStageId }}) => {
   function handleClose() {
     closeStagesMenu()
   }
@@ -27,6 +28,12 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, gameModel: { gameModel }
           <Button onClick={() => {
             openCreateStage(stage)
           }}>Edit</Button>
+          <Button onClick={() => {
+            openCreateStage({
+              ...stage,
+              name: stage.name + 'copy'
+            })
+          }}>Copy</Button>
           {gameModel.player.initialStageId !== stageId && stage.playerClassId && <Button onClick={() => {
             editGameModel({
               player: {
@@ -34,6 +41,9 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, gameModel: { gameModel }
               }
             })
           }}>Set as Start Stage</Button>}
+          {currentStageId !== stageId && <Button onClick={() => {
+            changeCurrentStage(stageId)
+          }}>Switch to this Stage</Button>}
         </div>
       })}
       <Button onClick={() => {
@@ -47,8 +57,10 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, gameModel: { gameModel }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameContext: state.gameContext
 })
 
+
 export default compose(
-  connect(mapStateToProps, { updateCreateCutscene, closeStagesMenu, openCreateStage, editGameModel }),
+  connect(mapStateToProps, { updateCreateCutscene, closeStagesMenu, openCreateStage, editGameModel, changeCurrentStage }),
 )(StagesMenu);

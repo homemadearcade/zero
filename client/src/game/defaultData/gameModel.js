@@ -12,7 +12,7 @@ export const defaultGameModel = {
     "imageUrl": ""
   },
   "stages": {
-    default: {
+    'stage/default': {
       name: 'Stage # 1',
       'playerClassId': 'oc/pl/vehicle',
       ...defaultStage,
@@ -37,7 +37,7 @@ export const defaultGameModel = {
   },
   "player": {
     "lives": 1,
-    'initialStageId': 'default'
+    'initialStageId': 'stage/default'
   },
   "classes": {
     "oc/pl/vehicle": vehicleClass,

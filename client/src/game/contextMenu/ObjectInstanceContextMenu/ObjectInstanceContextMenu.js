@@ -6,9 +6,10 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { PLAYER_INSTANCE_ID } from '../../constants';
+import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { openClassNameModal, selectClass, openJsonViewer } from '../../../store/actions/gameEditorActions';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal, selectClass, gameContext: { currentStageId }, openJsonViewer }) => {
   return <>
@@ -22,7 +23,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>
-    {objectId !== PLAYER_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/move">
+    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId="contextMenu/instance/move">
       <MenuItem onClick={() => {
         selectClass(classId)
         onMenuItemClick()
@@ -32,9 +33,9 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(objectId)
         onMenuItemClick()
-      }}>Resize{objectId === PLAYER_INSTANCE_ID ? '' : ' All'}</MenuItem>
+      }}>Resize{objectId === PLAYER_INSTANCE_ID_PREFIX ? '' : ' All'}</MenuItem>
     </Unlockable>
-    {objectId !== PLAYER_INSTANCE_ID && <Unlockable interfaceId="contextMenu/instance/delete">
+    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId="contextMenu/instance/delete">
       <MenuItem onClick={() => {
         editGameModel({ 
           stages: {
@@ -55,7 +56,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
   </>
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   webPage: state.webPage,
   gameModel: state.gameModel,
   gameContext: state.gameContext

@@ -124,16 +124,15 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 
     const updatedGame = mergeDeep(tempGame, req.body.gameUpdate)
 
-    if(!updatedGame.stages) updatedGame.stages = {
-      default: {
-        objects: {},
-        boundaries: {},
-        gravity: {}
-      }
-    }
     Object.keys(updatedGame.stages).forEach((stageId) => {
       const stage = updatedGame.stages[stageId]
-      Object.keys(stage.objects).forEach(key => {
+      if (updatedGame.stages[stageId] === null || updatedGame.stages[stageId] === undefined) {
+        console.log('deleting stage', stageId)
+        delete updatedGame.stages[stageId];
+      }
+
+      // the default stage doesnt start with objects because its virtual so gotta check
+      if(stage.objects) Object.keys(stage.objects).forEach(key => {
         if (stage.objects[key] === null || stage.objects[key] === undefined) {
           console.log('deleting object', key)
           delete stage.objects[key];

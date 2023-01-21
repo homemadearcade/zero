@@ -7,6 +7,7 @@ import './GravityEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Typography from '../../../ui/Typography/Typography';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const GravityEditor = ({ gameModel: { gameModel }, editGameModel, gameContext: { currentStageId } }) => {
   const stage = gameModel.stages[currentStageId]
@@ -40,7 +41,7 @@ const GravityEditor = ({ gameModel: { gameModel }, editGameModel, gameContext: {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameContext: state.gameContext
 });

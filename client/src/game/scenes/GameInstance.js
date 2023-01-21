@@ -3,22 +3,20 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, EFFECT_COLLIDE, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, EFFECT_COLLIDE, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { editLobby } from '../../store/actions/lobbyActions';
-import { clearCutscenes  } from '../../store/actions/gameContextActions';
+import { changeCurrentStage, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import { isPlayerId } from '../../utils/gameUtils';
 
 export class GameInstance extends Phaser.Scene {
-  constructor({key}) {
-    super({
-      key: key,
-    });
+  constructor(props) {
+    super(props);
 
     this.playerInstance = null 
     this.backgroundLayer = null
@@ -33,12 +31,12 @@ export class GameInstance extends Phaser.Scene {
     this.unregisterColliders = []
 
     this.physicsType = ARCADE_PHYSICS
+
+    this.sceneInstanceData = props.sceneInstanceData
   }
 
   init(data) {
-    // this is where you can grab data from a larger system and
-    // make a consistent hero and other game state things...
-
+    this.firstStage = data.firstStage
   }
 
   runAnimation({type, data}) {
@@ -85,7 +83,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   getObjectInstance(id) {
-    if(id === PLAYER_INSTANCE_ID) {
+    if(id === PLAYER_INSTANCE_ID_PREFIX) {
       return this.playerInstance
     }
     
@@ -106,26 +104,26 @@ export class GameInstance extends Phaser.Scene {
     if(!classData) {
       const state = store.getState()
       const gameModel = state.gameModel.gameModel
-      const stageId = state.gameContext.currentStageId
+      const gameContext = getCobrowsingState().gameContext
+      const stageId = gameContext.currentStageId
       const zoneId = gameModel.stages[stageId].spawnZoneClassId
       const zone = this.getRandomInstanceOfClassId(zoneId)
       const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
 
-      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID, {
-        classId: gameModel.stages[stageId].playerClassId,
+      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
+        classId: gameContext.player.classId,
         spawnX:x,
         spawnY: y
       });
     } else {
       const {classId, spawnX, spawnY} = classData
 
-      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID, {
+      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
         classId,
         spawnX,
         spawnY
       });
     }
-
 
     this.playerInstance.setLerp()
   }
@@ -181,74 +179,101 @@ export class GameInstance extends Phaser.Scene {
     objectInstance.reclassId = reclassId
   }
 
-  createRelationsMap() {
-    this.relationMap = {}
-    const state = store.getState()
-    const gameModel = state.gameModel.gameModel
-    const relations = gameModel.relations 
+  // createRelationsMap() {
+  //   this.relationMap = {}
+  //   const state = store.getState()
+  //   const gameModel = state.gameModel.gameModel
+  //   const relations = gameModel.relations 
 
-    Object.keys(relations).forEach((relationId) => {
-      const relation = relations[relationId]
-      const classIds = [relation.event.classIdA, relation.event.classIdB] 
-      classIds.sort()
-      const classString = classIds.join()
-      if(!this.relationMap[classString]) {
-        this.relationMap[classString] = {
-          collideRelation: null,
-          otherRelations: []
-        }
-      }
-      if(relation.effect.type === EFFECT_COLLIDE) {
-        this.relationMap[classString].collideRelation = relation
-      } else {
-        this.relationMap[classString].otherRelations.push(relation)
-      }
-    })
-  }
+  //   Object.keys(relations).forEach((relationId) => {
+  //     const relation = relations[relationId]
+  //     const classIds = [relation.event.classIdA, relation.event.classIdB] 
+  //     classIds.sort()
+  //     const classString = classIds.join()
+  //     if(!this.relationMap[classString]) {
+  //       this.relationMap[classString] = {
+  //         collideRelation: null,
+  //         otherRelations: []
+  //       }
+  //     }
+  //     if(relation.effect.type === EFFECT_COLLIDE) {
+  //       this.relationMap[classString].collideRelation = relation
+  //     } else {
+  //       this.relationMap[classString].otherRelations.push(relation)
+  //     }
+  //   })
+  // }
 
-  findCollideInitiator(classes, relation) {
-    if(isPlayerId(classes[0])) {
-      const objectClass = store.getState().gameModel.gameModel.classes[classes[1]]
-      if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
-        return classes[0]
-      }
-    }
-    if(isPlayerId(classes[1])) {
-      const objectClass = store.getState().gameModel.gameModel.classes[classes[0]]
-      if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
-        return classes[1]
-      }
-    }
+  // findCollideInitiator(classes, relation) {
+  //   if(isPlayerId(classes[0])) {
+  //     const objectClass = store.getState().gameModel.gameModel.classes[classes[1]]
+  //     if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
+  //       return classes[0]
+  //     }
+  //   }
+  //   if(isPlayerId(classes[1])) {
+  //     const objectClass = store.getState().gameModel.gameModel.classes[classes[0]]
+  //     if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
+  //       return classes[1]
+  //     }
+  //   }
 
-    if(relation) {
-      return relation.event.classIdA
-    }
+  //   if(relation) {
+  //     return relation.event.classIdA
+  //   }
 
-    return classes[0]
-  }
+  //   return classes[0]
+  // }
+
+  // registerRelationMap() {
+
+  //   // relations
+  //   Object.keys(this.relationMap).forEach((classPair) => {
+  //     const relationMap = this.relationMap[classPair]
+  //     const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
+  //     this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
+  //       instance.registerRelations(relationMap.otherRelations)
+  //     })
+  //   })
+
+  //   //collisions
+  //   Object.keys(this.relationMap).forEach((classPair) => {
+  //     const relationMap = this.relationMap[classPair]
+  //     if(!relationMap.collideRelation) return
+  //     const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
+  //     this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
+  //       instance.registerRelations([relationMap.collideRelation])
+  //     })
+  //   })
+    
+  // }
 
   registerRelations() {
-    this.createRelationsMap()
+    // this.createRelationsMap()
 
-    // relations
-    Object.keys(this.relationMap).forEach((classPair) => {
-      const relationMap = this.relationMap[classPair]
-      const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
-      this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
-        instance.registerRelations(relationMap.otherRelations)
-      })
+    /// RELATIONS
+    this.playerInstance.registerRelations()
+
+    this.objectInstances.forEach((instance) => {
+      instance.registerRelations()
     })
 
-    //collisions
-    Object.keys(this.relationMap).forEach((classPair) => {
-      const relationMap = this.relationMap[classPair]
-      if(!relationMap.collideRelation) return
-      const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
-      this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
-        instance.registerRelations([relationMap.collideRelation])
-      })
+    this.projectileInstances.forEach((instance) => {
+      instance.registerRelations()
     })
-    
+
+
+    /// COLLIDERS
+    this.playerInstance.registerColliders()
+
+    this.objectInstances.forEach((instance) => {
+      instance.registerColliders()
+    })
+
+    this.projectileInstances.forEach((instance) => {
+      instance.registerColliders()
+    })
+
     // all sprites on playground layer collide with hero
     const gameModel = store.getState().gameModel.gameModel
     const releventInstances = this.objectInstances.filter((objectInstance) => {
@@ -263,31 +288,30 @@ export class GameInstance extends Phaser.Scene {
       })
     )
 
-    this.playgroundLayer.registerRelations()
+    this.playgroundLayer.registerColliders()
   }
 
   unregisterRelations() {
-    this.playerInstance.unregisterRelations()
+    /// RELATIONS AND COLLIDERS
+    this.playerInstance.unregister()
 
     this.objectInstances.forEach((instance) => {
-      instance.unregisterRelations()
+      instance.unregister()
     })
 
     this.projectileInstances.forEach((instance) => {
-      instance.unregisterRelations()
+      instance.unregister()
     })
 
     this.unregisterColliders.forEach((fx) =>  {
       this.physics.world.removeCollider(fx)
     })
 
-    this.playgroundLayer.unregisterRelations()
+    this.playgroundLayer.unregisterColliders()
   }
 
   afterGameInstanceUpdateEffects() {
-    if(this.playerInstance.reclassId) {
-      this.playerInstance.reclass(this.playerInstance.reclassId)
-    } else if(this.playerInstance.destroyAfterUpdate) {
+    if(this.playerInstance.destroyAfterUpdate) {
       this.playerInstance.destroyInGame()
     }
     this.objectInstances.forEach((instance) => {
@@ -342,7 +366,7 @@ export class GameInstance extends Phaser.Scene {
 
   create() {
     const gameModel = store.getState().gameModel.gameModel
-    const gameContext = store.getState().gameContext
+    const gameContext = getCobrowsingState().gameContext
     const stageId = gameContext.currentStageId
     const currentStage = gameModel.stages[stageId]
     ////////////////////////////////////////////////////////////
@@ -358,10 +382,10 @@ export class GameInstance extends Phaser.Scene {
     // LAYERS
     ////////////////////////////////////////////////////////////
     // background layer
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: stageId + '/' + BACKGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
+    this.playgroundLayer = new CollisionCanvas(this, {canvasId: stageId + '/' + PLAYGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
     this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
     this.objectInstanceGroup = this.add.group()
@@ -377,7 +401,7 @@ export class GameInstance extends Phaser.Scene {
     this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
+    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: stageId + '/' + FOREGROUND_CANVAS_ID, boundaries: currentStage.boundaries})
     this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
@@ -399,7 +423,7 @@ export class GameInstance extends Phaser.Scene {
       if(!objectInstanceData) {
         return console.error('Object missing!', gameObjectId)
       } 
-      if(gameObjectId === PLAYER_INSTANCE_ID) {
+      if(gameObjectId === PLAYER_INSTANCE_ID_PREFIX) {
         return console.error('hero got in?!')
       }
       if(!objectInstanceData.classId) {
@@ -434,10 +458,10 @@ export class GameInstance extends Phaser.Scene {
 
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     this.cameras.main.pan(this.playerInstance.sprite.x, this.playerInstance.sprite.y, 0)
-    const playerClass = gameModel.classes[currentStage.playerClassId]
+    const playerClass = gameModel.classes[gameContext.player.classId]
     this.cameras.main.setZoom(playerClass.camera.zoom);
 
-    if(this.isPlaythrough) {
+    if(this.isPlaythrough && this.firstStage) {
       Object.keys(gameModel.relations).map((relationId) => {
         return gameModel.relations[relationId]
       }).forEach((relation) => {
@@ -464,6 +488,12 @@ export class GameInstance extends Phaser.Scene {
   }
 
   sendReloadGameEvent() {
+    // this updates here because all players are watching the current stage right now
+    const initialStageId = store.getState().gameModel.gameModel.player.initialStageId
+    store.dispatch(changeCurrentStage(initialStageId))
+    const classId = store.getState().gameModel.gameModel.stages[initialStageId].playerClassId
+    store.dispatch(changePlayerState({classId}))
+
     if(store.getState().lobby.lobby?.id) {
       store.dispatch(editLobby(store.getState().lobby.lobby.id, {
         gameReloadDate: Date.now()
@@ -485,7 +515,6 @@ export class GameInstance extends Phaser.Scene {
   update(time, delta) {
     // FOR SPECIAL IS PASUED
     // if(this.isPaused) return
-
     super.update(time, delta)
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
@@ -512,8 +541,14 @@ export class GameInstance extends Phaser.Scene {
 
     if(this.playerInstance) this.playerInstance.update(time, delta)
 
-    if(this.stage.id !== store.getState().gameContext.currentStageId) {
-      console.log('weve changed')
+    const currentStageId = getCobrowsingState().gameContext.currentStageId
+    if(this.stage.id !== currentStageId) {
+      this.scene.start(currentStageId, this.props)
+    }
+
+    const currentPlayerId = getCobrowsingState().gameContext.player.classId
+    if(this.playerInstance.classId !== currentPlayerId) {
+      this.playerInstance.reclass(currentPlayerId)
     }
   }
 

@@ -4,9 +4,10 @@ import { EditorScene } from './EditorScene';
 
 export class GameLocalScene extends EditorScene {
   constructor(props) {
-    super({
-      key: props.key,
-    });
+    super(props);
+
+    this.sceneInstanceData = props.sceneInstanceData
+
   }
 
   callAnimation({type, data}) {

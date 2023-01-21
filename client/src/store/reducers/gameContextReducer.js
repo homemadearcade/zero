@@ -1,6 +1,7 @@
 import {
-  CHANGE_GAME_STAGE,
+  CHANGE_CURRENT_STAGE,
   CHANGE_GAME_STATE,
+  CHANGE_PLAYER_STATE,
   CLEAR_CUTSCENES,
   CLOSE_CUTSCENE,
   COMPLETE_CLOSE_CONSTELLATION,
@@ -19,7 +20,11 @@ const initialState = {
   isConstellationClosing: false,
   isConstellationOpen: false,
   constellationZoomImageFile: null,
-  currentStageId: null
+  currentStageId: null,
+  player: {
+    classId: null,
+
+  }
 };
 
 export const initialGameContextState = initialState
@@ -62,10 +67,11 @@ export default function gameContextReducer(state = initialState, { type, payload
         cutsceneClassId: null,
         cutsceneIndex: 0,
       }
-    case CHANGE_GAME_STAGE: 
+    case CHANGE_GAME_STATE: 
       return {
         ...state,
-        currentStageId: payload.stageId
+        gameState: payload.gameState,
+        gameStateMessage: payload.gameStateMessage
       }
     case CLOSE_CUTSCENE:
       return {
@@ -74,11 +80,18 @@ export default function gameContextReducer(state = initialState, { type, payload
         cutsceneClassId: null,
         cutsceneIndex: 0
       };
-    case CHANGE_GAME_STATE: 
+    case CHANGE_CURRENT_STAGE: 
       return {
         ...state,
-        gameState: payload.gameState,
-        gameStateMessage: payload.gameStateMessage
+        currentStageId: payload.stageId,
+      }
+    case CHANGE_PLAYER_STATE: 
+      return {
+        ...state,
+        player: {
+          ...state.player,
+          ...payload.player
+        }
       }
     default:
       return state;

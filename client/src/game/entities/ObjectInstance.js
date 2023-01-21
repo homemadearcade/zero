@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, OBJECT_CLASS, PLAYER_CLASS, ZONE_CLASS, NPC_CLASS, PLAYER_INSTANCE_ID, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH, ON_INTERACT, ON_DESTROY_ONE, ON_DESTROY_ALL } from "../constants";
+import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, OBJECT_CLASS, PLAYER_CLASS, ZONE_CLASS, NPC_CLASS, PLAYER_INSTANCE_ID_PREFIX, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH, ON_INTERACT, ON_DESTROY_ONE, ON_DESTROY_ALL, EFFECT_COLLIDE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -97,26 +97,41 @@ export class ObjectInstance extends Sprite {
     this.movement.update(time, delta)
   }
 
-  // getRelations() {
-  //   const gameModel = store.getState().gameModel.gameModel
+  getRelations() {
+    const gameModel = store.getState().gameModel.gameModel
 
-  //   return Object.keys(gameModel.relations).map((relationId) => {
-  //     return gameModel.relations[relationId]
-  //   }).filter(({event: { classIdA, classIdB, type }}) => {
-  //     if(classIdB === PLAYER_INSTANCE_ID && this.id === PLAYER_INSTANCE_ID) return true
-  //     if(type === ON_INTERACT) {
-  //       return classIdA === this.classId || classIdB === this.classId
-  //     } else {
-  //       return classIdA === this.classId
-  //     }
-  //   })
-  // }
-
-  registerRelations(relations) {
-    this.collider.register(relations)
+    return Object.keys(gameModel.relations).map((relationId) => {
+      return gameModel.relations[relationId]
+    }).filter(({event: { classIdA, classIdB, type }, effect}) => {
+      if(effect.type === EFFECT_COLLIDE) return false
+      if(classIdB === PLAYER_INSTANCE_ID_PREFIX && this.id === PLAYER_INSTANCE_ID_PREFIX) return true
+      if(type === ON_INTERACT) {
+        return classIdA === this.classId || classIdB === this.classId
+      } else {
+        return classIdA === this.classId
+      }
+    })
   }
 
-  unregisterRelations() {
+  getColliders() {
+    const gameModel = store.getState().gameModel.gameModel
+    return Object.keys(gameModel.relations).map((relationId) => {
+      return gameModel.relations[relationId]
+    }).filter(({event: { classIdA, classIdB, type }, effect}) => {
+      if(effect.type !== EFFECT_COLLIDE) return false
+      return classIdA === this.classId
+    })
+  }
+
+  registerRelations() {
+    this.collider.registerRelations(this.getRelations())
+  }
+
+  registerColliders() {
+    this.collider.registerColliders(this.getColliders())
+  }
+
+  unregister() {
     this.collider.unregister()
     this.effects.unregister()
   }

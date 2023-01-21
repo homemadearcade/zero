@@ -13,13 +13,7 @@ const GameForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
     initialValues: {
       player: {},
-      stages: {
-        default: {
-          objects: {},
-          boundaries: {},
-          gravity: {}
-        }
-      },
+      stages: {},
       metadata: {},
       classes: {},
       brushes: {},

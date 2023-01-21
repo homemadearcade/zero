@@ -23,6 +23,7 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
 
   onPhaserViewFound(scene) {
     const phaserView = store.getState().status.phaserViews[this.userId]
+    if(!this.scene) return console.log('we dont have a scene here... preventing phaser breakdown')
     this.cameraPreview = new CameraPreview(this.scene, { zoom: phaserView.cameraZoom, color: this.color})
 
     var circle = new Phaser.Geom.Circle(0, 0, nodeSize);

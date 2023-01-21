@@ -7,9 +7,9 @@ import { GameInstance } from './GameInstance';
 
 export class GamePlayScene extends GameInstance {
   constructor(props) {
-    super({
-      key: props.key,
-    });
+    super(props);
+
+    this.sceneInstanceData = props.sceneInstanceData
   }
 
   callAnimation({type, data}) {

@@ -9,6 +9,7 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/gameFormEditorActions';
 import { Divider } from '@mui/material';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const StageContextMenu = ({ 
   openLiveEditor,
@@ -80,7 +81,7 @@ const StageContextMenu = ({
   </>
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameViewEditor: state.gameViewEditor
 });

@@ -1,13 +1,10 @@
-Thoughts - where should the camera be during a run through???
-
 --
 TODO
 
-StageList
-  Switch Stage 
-Effect to switch stage
-Open Ticket Modal effect
+change experienceUI stage in lobby dashboard?
+set invisible effect broke, check others..
 
+EMAILS 
 Forgot Password - email Flow
 All sorts of emails for tickets
 
@@ -20,12 +17,18 @@ TICKETING
     Integrate authorize
     Create Lobby with sold ticket
   Ticket Receipt Page
+  Open Ticket Modal effect
 
-GAME SPECIFIC UI SYSTEM
-  for settin gravity, choosing player movement options, etc
+DEFAULT STAGE SELECTION
+  for settin gravity, choosing player movement options, etc, default stage world
+  Basically yeah you establish a default stage
+  different kinds of stages like --- gravity defaults.. hmm yeah like player default?
+    Every player should have gravity, and be advanced controls vs ??
 
 FEATURES
   Unlockable UI presets creator/editor page
+  Sprite sheet editor page
+      Glass sprites from Kenney are all sorts of fucked up...?
 
 -----
 SMALL UPATES
@@ -38,12 +41,10 @@ UI
   When trying to name a class, spacebar doesnt work
     Shift + Press it works fine
   When a class is highlighted, you should be able to see all of them highlighted on the map?
-  You should be able to hide games, you should be able to hide classes, hide lobby not delete them, hide users, dont delete them
+  You should be able to hide games, you should be able to hide classes, hide stages, hide lobby not delete them, hide users, dont delete them, hide objects? nah delete them
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
   Auto hide live editor when using keys?
-
-BUGS
-  Performance huge upgrade - sort all instances into class Id. Use for relations
+  Popup if your phaser game stops updating, or like phaser crashes?
 
 FLOW
   Spawn object at the edge of the heros camera?

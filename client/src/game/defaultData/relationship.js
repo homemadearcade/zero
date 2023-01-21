@@ -1,5 +1,5 @@
 import store from "../../store"
-import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN } from "../constants"
+import { EFFECTED_CLASS_ID, EFFECTED_INSTANCE_A, EFFECT_CAMERA_SHAKE, EFFECT_COLLIDE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN } from "../constants"
 
 export const defaultRelationship = {
   event: {
@@ -16,6 +16,7 @@ export const defaultRelationship = {
     zoneClassId: null,
     cutsceneId: null,
     text: '',
+    stageId: null,
     useClassAZoneInstance: false
   },
   onlyOnce: false,
@@ -60,6 +61,7 @@ export const effectDisplayNames = {
   [EFFECT_DESTROY]: 'Destroy',
 
   // Narrative
+  [EFFECT_SWITCH_STAGE]: 'Switch Stage',
   [EFFECT_CUTSCENE]: 'Cutscene',
   [EFFECT_GAME_OVER]: 'Game Over',
   [EFFECT_WIN_GAME]: 'Win Game',
@@ -104,6 +106,9 @@ export const effectEditInterface = {
   [EFFECT_DESTROY]: {},
 
   // Narrative
+  [EFFECT_SWITCH_STAGE]: {
+    stageId: 'Which stage?'
+  },
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',
     onlyOnce: true,
@@ -138,6 +143,7 @@ export const persistentEffects  = {
   [EFFECT_DESTROY]: false,
 
   // Narrative
+  [EFFECT_SWITCH_STAGE]: false,
   [EFFECT_CUTSCENE]: false,
   [EFFECT_GAME_OVER]: false,
   [EFFECT_WIN_GAME]: false,
@@ -160,6 +166,7 @@ export const nonRemoteEffects  = {
   [EFFECT_DESTROY]: false,
 
   // Narrative
+  [EFFECT_SWITCH_STAGE]: true,
   [EFFECT_CUTSCENE]: true,
   [EFFECT_GAME_OVER]: true,
   [EFFECT_WIN_GAME]: true,
@@ -228,6 +235,7 @@ export const effectSuffixes = {
   [EFFECT_DESTROY]: 'ClassA',
 
   // Narrative
+  [EFFECT_SWITCH_STAGE]: null,
   [EFFECT_CUTSCENE]: null,
   [EFFECT_GAME_OVER]: null,
   [EFFECT_WIN_GAME]: null,
@@ -325,9 +333,9 @@ function getEventPreviewPrefix(event, classA, classB) {
 }
 
 export function getEventPreviewLabel(event, classA, classB) {
-  return 'when ' + getEventPreviewPrefix(event.type, classA, classB) + ' ' + eventDisplayNames[event]
+  return 'when ' + getEventPreviewPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
 }
 
 export function getEventLabel(event, classA, classB) {
-  return 'when ' + getEventPrefix(event.type, classA, classB) + ' ' + eventDisplayNames[event]
+  return 'when ' + getEventPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
 }

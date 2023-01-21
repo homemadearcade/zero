@@ -1,7 +1,7 @@
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
+import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
-import { changeGameState, openCutscene } from "../../../store/actions/gameContextActions";
+import { changeCurrentStage, changeGameState, changePlayerState, clearCutscenes, openCutscene } from "../../../store/actions/gameContextActions";
 import { ANIMATION_CAMERA_SHAKE } from "../../../store/types";
 import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../defaultData/relationship";
@@ -161,13 +161,19 @@ export class Effects {
     }
 
     if(effect.type === EFFECT_WIN_GAME) {
-      console.log('we are in fact doing this')
       store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
       this.scene.sendReloadGameEvent()
     } else if(effect.type === EFFECT_GAME_OVER) {
-      console.log('we are in fact doing this')
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
       this.scene.sendReloadGameEvent()
+    } else if(effect.type === EFFECT_SWITCH_STAGE) {
+      store.dispatch(changeCurrentStage(effect.stageId))
+      const gameModel = store.getState().gameModel.gameModel
+      const playerClassId = gameModel.stages[effect.stageId].playerClassId
+      if(playerClassId) {
+        store.dispatch(changePlayerState({classId: playerClassId}))
+      }
+      store.dispatch(clearCutscenes())
     }
 
     if(effect.type === EFFECT_TELEPORT) {
@@ -197,7 +203,12 @@ export class Effects {
       const objectClass = gameModel.classes[spawningClassId]
       spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
     } else if(effect.type === EFFECT_RECLASS) {
-      this.objectInstance.reclassId = effect.classId
+      if(this.objectInstance.id === PLAYER_INSTANCE_ID_PREFIX) {
+        console.log('reclasses player..')
+        store.dispatch(changePlayerState({classId: effect.classId}))
+      } else {
+        this.objectInstance.reclassId = effect.classId
+      }
     }
 
     // NARRATIVE

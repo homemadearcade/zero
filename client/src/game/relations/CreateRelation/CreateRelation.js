@@ -24,6 +24,7 @@ import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/Co
 import Switch from '../../../ui/Switch/Switch';
 import Typography from '../../../ui/Typography/Typography';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
+import SelectStage from '../../ui/SelectStage/SelectStage';
 
 /*
 
@@ -72,6 +73,11 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     if(editForms?.cutsceneId) {
       if(!relation.effect.cutsceneId) return true
     }
+
+    if(editForms?.stageId) {
+      if(!relation.effect.stageId) return true
+    }
+
 
     if(editForms?.text) {
       if(!relation.effect.text) return true
@@ -130,6 +136,18 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         onChange={(event, cutscenes) => {
           const newCutsceneId = cutscenes[cutscenes.length-1]
           handleEffectChange('cutsceneId', newCutsceneId)
+        }}/>
+      )
+    }
+
+    if(editForms.stageId) {
+      forms.push(<SelectStage
+        key={relation.event.classIdA + 'effectStageId'}
+        formLabel={editForms.stageId}
+        value={relation.effect.stageId ? [relation.effect.stageId] : []}
+        onChange={(event, stages) => {
+          const newStageId = stages[stages.length-1]
+          handleEffectChange('stageId', newStageId)
         }}/>
       )
     }

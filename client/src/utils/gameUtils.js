@@ -1,4 +1,8 @@
-import { EDIT_STATE, BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, PLAYER_INSTANCE_ID_PREFIX } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from "../game/constants";
+import { GameClientScene } from "../game/scenes/GameClientScene";
+import { GameHostScene } from "../game/scenes/GameHostScene";
+import { GameLocalScene } from "../game/scenes/GameLocalScene";
+import { GamePlayScene } from "../game/scenes/GamePlayScene";
 import store from "../store";
 import { getCurrentGameScene } from "./editorUtils";
 
@@ -14,20 +18,21 @@ export function getClassAandB(classIdA, classIdB) {
  // if the class dont exist, its the playerclass ( as of now thats the only generalized one)
 
   const state = store.getState()
+  const gameContext = state.gameContext
   const gameModel = state.gameModel.gameModel
 
   let classA = gameModel.classes[classIdA] 
   let classB = gameModel.classes[classIdB]
 
-  const stage = gameModel.stages[state.gameContext.currentStageId]
+  const playerClassId= gameContext.player.classId
 
-  // if(classIdA === PLAYER_INSTANCE_ID) {
+  // if(classIdA === PLAYER_INSTANCE_ID_PREFIX) {
   //   classA = gameModel.classes[stage.playerClassId].playerClassId]
   //   classA.name = 'Player'
   // }
 
-  if(classIdB === PLAYER_INSTANCE_ID) {
-    classB = {...gameModel.classes[stage.playerClassId], name: 'Player'}
+  if(classIdB === PLAYER_INSTANCE_ID_PREFIX) {
+    classB = {...gameModel.classes[playerClassId], name: 'Player'}
   }
 
   return {
@@ -53,8 +58,8 @@ export function isEventMatch({effect, classId, world, gameObject, body}) {
     return true
   }
 
-  if(classId === PLAYER_INSTANCE_ID) {
-    return gameObject.type === PLAYER_INSTANCE_ID
+  if(classId === PLAYER_INSTANCE_ID_PREFIX) {
+    return gameObject.type === PLAYER_INSTANCE_ID_PREFIX
   }
 
   return false
@@ -108,6 +113,21 @@ export function isPlayerId(id) {
 
   if(id.indexOf(PLAYER_INSTANCE_ID_PREFIX) === 0) {
     return true
+  }
+}
+
+export function createGameSceneInstance(key, sceneInstanceData) {
+  const { isPlay, isNetworked, isHost } = sceneInstanceData
+  if(isPlay) {
+    return new GamePlayScene({ sceneInstanceData: sceneInstanceData, key})
+  } else if(isNetworked) {
+    if(isHost) {
+      return new GameHostScene({ sceneInstanceData: sceneInstanceData, key})
+    } else {
+      return new GameClientScene({ sceneInstanceData: sceneInstanceData, key})
+    }
+  } else {
+    return new GameLocalScene({ sceneInstanceData: sceneInstanceData, key})
   }
 }
 

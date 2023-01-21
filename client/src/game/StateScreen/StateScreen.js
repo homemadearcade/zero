@@ -14,7 +14,7 @@ import ControlsCard from '../ui/ControlsCard/ControlsCard';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import store from '../../store';
 
-function StateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }, currentStageId}) {
+function StateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }, player}) {
   useEffect(() => {
     window.addEventListener('keydown', progressIfX)
     return () => {
@@ -36,7 +36,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
 
   function renderStateScreen() {
     if(gameState === START_STATE) {
-      const player = gameModel.classes[gameModel.stages[currentStageId].playerClassId]
+      const playerClass = gameModel.classes[player.classId]
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">{gameModel.metadata.title}</Typography>
@@ -45,7 +45,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
           </div>
           <div className="StateScreen__controls">
             <Typography component="h5" variant="h5">Controls</Typography>
-            <ControlsCard showInteract objectClass={player} projectileClass={player.projectile.class} controlScheme={player.movement.controls} jumpStyle={player.jump.style}></ControlsCard>
+            <ControlsCard showInteract objectClass={playerClass} projectileClass={playerClass.projectile.class} controlScheme={playerClass.movement.controls} jumpStyle={playerClass.jump.style}></ControlsCard>
           </div>
         </div></Fade>
       </Constellation>
@@ -84,12 +84,12 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
   );
 }
 
-function StateScreen({gameContext: { gameState, gameStateMessage, currentStageId}, changeGameState, gameModel}) {
+function StateScreen({gameContext: { gameState, gameStateMessage, player}, changeGameState, gameModel}) {
   if(gameState !== START_STATE && gameState !== WIN_GAME_STATE && gameState !== GAME_OVER_STATE) {
     return null
   }
 
-  return <StateScreenBody gameState={gameState} gameStateMessage={gameStateMessage} changeGameState={changeGameState} gameModel={gameModel} currentStageId={currentStageId}/>
+  return <StateScreenBody gameState={gameState} gameStateMessage={gameStateMessage} changeGameState={changeGameState} gameModel={gameModel} player={player}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

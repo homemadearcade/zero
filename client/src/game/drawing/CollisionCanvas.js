@@ -72,10 +72,10 @@ export class CollisionCanvas extends CodrawingCanvas {
       nodeWidth: nodeSize, 
       nodeHeight: nodeSize
     })
-    this.registerRelations()
+    this.registerColliders()
   }
 
-  registerRelations() {
+  registerColliders() {
     if(this.collisionBody) {
       // console.log('body arrived')
 
@@ -89,7 +89,7 @@ export class CollisionCanvas extends CodrawingCanvas {
 
   }
 
-  unregisterRelations() {
+  unregisterColliders() {
     this.scene.physics.world.removeCollider(this.unregisterPlayerCollisions)
     this.scene.physics.world.removeCollider(this.unregisterObjectCollisions)
   }

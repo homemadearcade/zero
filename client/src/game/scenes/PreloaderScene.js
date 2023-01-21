@@ -1,19 +1,13 @@
 import Phaser from 'phaser';
-
-import { GameClientScene } from './GameClientScene';
-import { GameHostScene } from './GameHostScene';
-import { GameLocalScene } from './GameLocalScene';
 import store from '../../store';
 
 import {
   PRELOADER_SCENE,
-  GAME_SCENE,
   DEFAULT_TEXTURE_ID,
   DEFAULT_CLEAR_TEXTURE_ID,
-  PLAY_GAME_SCENE,
   UNSPAWNED_TEXTURE_ID,
 } from '../constants';
-import { GamePlayScene } from './GamePlayScene';
+import { createGameSceneInstance } from '../../utils/gameUtils';
 
 export class PreloaderScene extends Phaser.Scene {
   constructor(props) {
@@ -21,11 +15,11 @@ export class PreloaderScene extends Phaser.Scene {
       key: PRELOADER_SCENE,
     });
 
-    this.props = props
-
-    this.isHost = props.isHost 
-    this.isNetworked = props.isNetworked
-    this.isPlay = props.isPlay
+    this.sceneInstanceData = {
+      isHost: props.isHost,
+      isNetworked: props.isNetworked,
+      isPlay: props.isPlay
+    }
   }
 
   createLoaderGraphic = () => {
@@ -54,7 +48,6 @@ export class PreloaderScene extends Phaser.Scene {
 
     const gameModel = store.getState().gameModel.gameModel
     Object.keys(gameModel.awsImages).forEach((awsImageId) => {
-      console.log('downloading', awsImageId)
       const awsImageData = gameModel.awsImages[awsImageId]
       this.load.image(awsImageId, window.awsUrl + awsImageData.url)
     })
@@ -117,26 +110,17 @@ export class PreloaderScene extends Phaser.Scene {
     });
   };
 
-  getGameSceneInstance(key) {
-    if(this.isPlay) {
-      return new GamePlayScene({...this.props, key})
-    } else if(this.isNetworked) {
-      if(this.isHost) {
-        return new GameHostScene({...this.props, key})
-      } else {
-        return new GameClientScene({...this.props, key})
-      }
-    } else {
-      return new GameLocalScene({...this.props, key})
-    }
+  addGameScene(key) {
+    this.scene.add(key, createGameSceneInstance(key, this.sceneInstanceData));
   }
 
   playGame = () => {
-
-    const gameScene = this.getGameSceneInstance(GAME_SCENE)
-
-    this.scene.add(GAME_SCENE, gameScene);
-    this.scene.start(GAME_SCENE, { hello: 'hello' })
+    const gameModel = store.getState().gameModel.gameModel
+    Object.keys(gameModel.stages).forEach((stageId) => {
+      this.addGameScene(stageId)
+    })
+    
+    this.scene.start(gameModel.player.initialStageId, { firstStage: true })
 
     this.game.scene.remove(PRELOADER_SCENE);
     this.destroy();

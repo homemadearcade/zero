@@ -8,6 +8,7 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import { FormLabel } from '@mui/material';
 
 import './SectionEditor.scss'
+import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameModel : { stages }}, gameContext: { currentStageId }}) => {
   const boundaries = stages[currentStageId].boundaries
@@ -239,7 +240,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameMode
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameContext: state.gameContext
 });

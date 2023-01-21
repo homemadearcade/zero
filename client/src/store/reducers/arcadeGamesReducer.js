@@ -51,7 +51,6 @@ export default function arcadeGamesReducer(state = initialState, { type, payload
       return {
         ...state,
         arcadeGames: state.arcadeGames.map((m) => {
-          console.log(m)
           if (m.id === 0) return payload.arcadeGame;
           return m;
         }),

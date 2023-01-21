@@ -56,7 +56,7 @@ Attribute to make the left side the 'front' of a sprite. For.. projectiles and f
 
 Take snapshot without BG
 
-onCutsceneEnd Event
+onCutsceneEnd Event, onStageEntered
 
 Destroyed By Message ( You lost because... )
 
@@ -100,6 +100,10 @@ Other lobby connection issue popups
 
 TODO CHORES BACKLOG
 
+popup if the player has switched stages and you want to follow them to that scene 
+
+undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by Id not ... canvas id?
+
 KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spawned ones are not detroyed
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
@@ -135,6 +139,8 @@ also like... event listeners, make sure they are getting turned off right. It ca
 Unauthenticate socket when logging out
 
 Update Hero Camera Max after changing section
+
+Performance huge upgrade - sort all instances into class Id. Use for relations
 
 --------------------------------------------------------------------------------------
 

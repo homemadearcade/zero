@@ -6,7 +6,7 @@ import { openContextMenuFromGameObject, openStageContextMenu } from '../../store
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -17,12 +17,13 @@ import { gameSize, nodeSize } from '../defaultData/general';
 import { urlToFile } from '../../utils/utils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
+import { createGameSceneInstance } from '../../utils/gameUtils';
 
 export class EditorScene extends GameInstance {
-  constructor({key}) {
-    super({
-      key: key,
-    });
+  constructor(props) {
+    super(props);
+
+    this.sceneInstanceData = props.sceneInstanceData
 
     this.draggingObjectInstanceId = null
     this.canvas = null
@@ -32,7 +33,6 @@ export class EditorScene extends GameInstance {
     this.isGridViewOn = true
     this.editorCamera = null
     this.remoteEditors = []
-    this.mouseWheelTimeout = null
 
     this.snapshotSquare = null 
     this.snapshotStartPos = null
@@ -79,7 +79,7 @@ export class EditorScene extends GameInstance {
   finishDrag(entitySprite) {
     document.body.style.cursor = null
 
-    if(entitySprite.id === PLAYER_INSTANCE_ID) {
+    if(entitySprite.id === PLAYER_INSTANCE_ID_PREFIX) {
       // store.dispatch(editGameModel({ 
       //   player: {
       //     spawnX: entitySprite.x,
@@ -144,7 +144,7 @@ export class EditorScene extends GameInstance {
 
   onResizeEnd = (pointer) => {
     const sprite = this.resizingObjectInstance.sprite
-    if(sprite.id === PLAYER_INSTANCE_ID) {
+    if(sprite.id === PLAYER_INSTANCE_ID_PREFIX) {
       store.dispatch(editGameModel({ 
         // player: {
         //   spawnX: sprite.x,
@@ -509,7 +509,7 @@ export class EditorScene extends GameInstance {
   getGameObjectById(id) {
     const gameModel = store.getState().gameModel.gameModel
 
-    if(id === PLAYER_INSTANCE_ID) {
+    if(id === PLAYER_INSTANCE_ID_PREFIX) {
       return gameModel.playero
     }
     return gameModel.stages[this.stage.id].objects[id]
@@ -544,6 +544,15 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
     if(gameUpdate.stages) {
+
+      Object.keys(gameUpdate.stages).forEach((stageId) => {
+        const sceneKeys = this.scene.manager.keys
+        if(stageId && !sceneKeys[stageId]) {
+          const key = stageId
+          this.scene.add(key, createGameSceneInstance(key, this.sceneInstanceData));
+        }
+      })
+
       const stageUpdate = gameUpdate.stages[this.stage.id]
 
       if(stageUpdate?.gravity) {
@@ -601,6 +610,10 @@ export class EditorScene extends GameInstance {
           objectInstance.sprite.y = objectUpdate.spawnY
         }
       })
+      // if(stageUpdate?.playerClassId) {
+      //   this.removePlayerInstance()
+      //   this.addPlayerInstance()
+      // }
     }
     
 
@@ -622,11 +635,6 @@ export class EditorScene extends GameInstance {
         })
   
       }
-    }
-
-    if(gameUpdate.player) {
-      this.removePlayerInstance()
-      this.addPlayerInstance()
     }
 
     if(gameUpdate.relations) {
@@ -749,7 +757,7 @@ export class EditorScene extends GameInstance {
         // setTimeout(() => {
           this.forAllObjectInstancesMatchingClassId(id, (object) => {
             
-            if(object.id === PLAYER_INSTANCE_ID) {
+            if(object.id === PLAYER_INSTANCE_ID_PREFIX) {
               this.removePlayerInstance()
               this.addPlayerInstance()
               return

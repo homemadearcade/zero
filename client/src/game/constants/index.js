@@ -9,7 +9,7 @@ export const CAMERA_PREVIEW_BORDER_SIZE = 4
 
 export const UNDO_MEMORY_MAX = 10
 
-export const disconnectedDelta = 5000
+export const disconnectedDelta = 15000
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -34,7 +34,6 @@ export const BOUNDARY_DOWN_WALL_ID = 'BOUNDARY_DOWN'
 /////////////////////////////////////
 /////////////////////////////////////
 // INSTANCES
-export const PLAYER_INSTANCE_ID = 'PLAYER_INSTANCE'
 export const ERASER_BRUSH_ID = 'ERASER_BRUSH'
 export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 
@@ -108,6 +107,7 @@ export const EFFECT_SPAWN = 'EFFECT_SPAWN'
 export const EFFECT_DESTROY = 'EFFECT_DESTROY'
 
 export const EFFECT_CUTSCENE = 'EFFECT_CUTSCENE'
+export const EFFECT_SWITCH_STAGE = 'EFFECT_SWITCH_STAGE'
 
 export const EFFECT_CAMERA_SHAKE = 'EFFECT_CAMERA_SHAKE'
 export const EFFECT_INVISIBLE = 'EFFECT_INVISIBLE'

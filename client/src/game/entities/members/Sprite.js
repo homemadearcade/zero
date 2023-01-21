@@ -2,12 +2,13 @@ import Phaser from "phaser";
 import { ARCADE_PHYSICS, MATTER_PHYSICS, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP } from "../../constants";
 import store from "../../../store";
 import { getHexIntFromHexString } from "../../../utils/editorUtils";
+import { getCobrowsingState } from "../../../utils/cobrowsingUtils";
 
 export class Sprite {
   constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
-    const stageId = state.gameContext.currentStageId
+    const stageId = getCobrowsingState().gameContext.currentStageId
     const stage = gameModel.stages[stageId]
     
     const plugin = { 

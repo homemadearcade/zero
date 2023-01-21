@@ -59,8 +59,6 @@ export class PlayerInstance extends ObjectInstance {
     this.controlledMovement = new ControlledMovement(scene, this)
     this.projectileEjector = new ProjectileEjector(scene, this)
 
-    this.unregisterColliders = []
-
     return this
   }
 
@@ -88,27 +86,24 @@ export class PlayerInstance extends ObjectInstance {
     this.projectileEjector.update(time, delta)
   }
 
-  registerRelations(relations) {
+  registerRelations() {
+    const relations = this.getRelations()
     super.registerRelations(relations)
     this.interactArea.register(relations)
   }
 
-  unregisterRelations() {
-    super.unregisterRelations()
+  unregister() {
+    super.unregister()
     this.interactArea.unregister()
-    this.unregisterColliders.forEach((fx) =>  {
-      this.scene.physics.world.removeCollider(fx)
-    })
   }
 
   reclass(classId) {
     const sprite = this.sprite
     const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
 
-    //issue because as soon as we destroy it, we lose acces to 'this'!
     const scene = this.scene
-    setTimeout(() => { scene.addPlayerInstance(modifiedClassData) }) 
     this.scene.removePlayerInstance()
+    scene.addPlayerInstance(modifiedClassData)
   }
 
   setLerp() {

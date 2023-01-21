@@ -1,7 +1,9 @@
 import { PAUSED_STATE, PLAYTHROUGH_PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE } from '../../game/constants';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { 
+  CHANGE_CURRENT_STAGE,
   CHANGE_GAME_STATE,
+  CHANGE_PLAYER_STATE,
   CLEAR_CUTSCENES,
   CLOSE_CUTSCENE,
   COMPLETE_CLOSE_CONSTELLATION,
@@ -19,6 +21,28 @@ export const changeGameState = (gameState, message) => (dispatch, getState) => {
     payload: {
       gameState,
       gameStateMessage: message
+    }
+  })
+};
+
+export const changeCurrentStage = (stageId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CHANGE_CURRENT_STAGE,
+    payload: {
+      stageId,
+    }
+  })
+};
+
+export const changePlayerState = ({classId}) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CHANGE_PLAYER_STATE,
+    payload: {
+      player: {
+        classId
+      }
     }
   })
 };
