@@ -11,32 +11,23 @@ import {
   ADD_ARCADE_GAME_LOADING,
   ADD_ARCADE_GAME_SUCCESS,
   ADD_ARCADE_GAME_FAIL,
-  // DELETE_GAME_LOADING,
-  // DELETE_GAME_SUCCESS,
-  // DELETE_GAME_FAIL,
   EDIT_ARCADE_GAME_LOADING,
   EDIT_ARCADE_GAME_SUCCESS,
   EDIT_ARCADE_GAME_FAIL,
-  GET_SPRITESHEET_DATA_LOADING,
-  GET_SPRITESHEET_DATA_SUCCESS,
-  GET_SPRITESHEET_DATA_FAIL,
   UNLOAD_GAME_MODEL,
   ON_GAME_MODEL_UPDATE,
   ON_GAME_CHARACTER_UPDATE,
   INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
-  CHANGE_CURRENT_STAGE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import { defaultGameModel } from '../../game/defaultData/gameModel';
 import { defaultObjectInstance } from '../../game/defaultData/object';
 import { defaultClass } from '../../game/defaultData/class';
-import { uploadToAws } from '../../utils/networkUtils';
-import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
-import { UNDO_MEMORY_MAX } from '../../game/constants';
-import { editGameModel, getSpritesheetData } from './gameModelActions';
-import { changePlayerState } from './gameContextActions';
+import { ARCADE_EXPERIENCE_ID, UNDO_MEMORY_MAX } from '../../game/constants';
+import { changeCurrentStage, changePlayerState } from './gameContextActions';
+import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
   const me = store.getState().auth.me 
@@ -181,14 +172,6 @@ export const getArcadeGames = () => async (dispatch, getState) => {
   }
 };
 
-export const changeArcadeGameStage = (stageId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CHANGE_CURRENT_STAGE,
-    payload: { stageId },
-  });
-}
-
 export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
   dispatch({
     type: LOAD_GAME_MODEL_LOADING,
@@ -200,10 +183,11 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
 
     window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
     window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
+    dispatch(initializeUnlockableInterfaceIds(getState().auth.me.unlockableInterfaceIds[ARCADE_EXPERIENCE_ID]))
 
     const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
-    dispatch(changeArcadeGameStage(gameData.player.initialStageId))
+    dispatch(changeCurrentStage(gameData.player.initialStageId))
     dispatch(changePlayerState({classId: gameData.stages[gameData.player.initialStageId].playerClassId}))
 
     const stages = Object.keys(gameData.stages).map((stageId) => {

@@ -1,4 +1,4 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, OBJECT_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS } from "../constants";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_CANVAS_ID, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS } from "../constants";
 import { nodeSize } from "./general";
 
 export const defaultMovement = {
@@ -100,7 +100,7 @@ export const defaultPlayerClass = {
 }
 
 export const defaultObjectClass = { 
-  type: OBJECT_CLASS,
+  type: BASIC_CLASS,
   movement: {
     pattern: MOVEMENT_NONE,
   },
@@ -113,7 +113,7 @@ export const defaultObjectClass = {
 
 export const classTypeToDisplayName = {
   [PLAYER_CLASS]: 'Player',
-  [OBJECT_CLASS]: 'Object',
+  [BASIC_CLASS]: 'Object',
   [ZONE_CLASS]: 'Zone',
   [NPC_CLASS]: 'NPC'
 }

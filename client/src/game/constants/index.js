@@ -5,6 +5,8 @@ export const DEFAULT_TEXTURE_ID = 'square10x10'
 export const DEFAULT_CLEAR_TEXTURE_ID = 'eraser10x10'
 export const UNSPAWNED_TEXTURE_ID = 'spawn'
 
+export const ARCADE_EXPERIENCE_ID = 'homemadeArcade'
+
 export const CAMERA_PREVIEW_BORDER_SIZE = 4
 
 export const UNDO_MEMORY_MAX = 10
@@ -45,7 +47,7 @@ export const BACKGROUND_CANVAS_DEPTH = 5;
 export const ZONE_INSTANCE_CANVAS_DEPTH = 10;
 export const SPRITE_EDITOR_CANVAS_DEPTH = 19;
 export const PLAYGROUND_CANVAS_DEPTH = 20;
-// export const OBJECT_INSTANCE_CANVAS_DEPTH = 40;
+// export const BASIC_INSTANCE_CANVAS_DEPTH = 40;
 // export const NPC_INSTANCE_CANVAS_DEPTH = 45;
 export const PLAYER_INSTANCE_CANVAS_DEPTH = 50;
 export const FOREGROUND_CANVAS_DEPTH = 70;
@@ -56,7 +58,7 @@ export const BACKGROUND_CANVAS_ID = 'BACKGROUND_CANVAS';
 export const ZONE_INSTANCE_CANVAS_ID = 'ZONE_INSTANCE_CANVAS';
 export const SPRITE_EDITOR_CANVAS_ID = 'SPRITE_EDITOR_CANVAS';
 export const PLAYGROUND_CANVAS_ID = 'PLAYGROUND_CANVAS';
-export const OBJECT_INSTANCE_CANVAS_ID = 'OBJECT_INSTANCE_CANVAS';
+export const BASIC_INSTANCE_CANVAS_ID = 'BASIC_INSTANCE_CANVAS';
 export const NPC_INSTANCE_CANVAS_ID = 'NPC_INSTANCE_CANVAS';
 export const PLAYER_INSTANCE_CANVAS_ID = 'PLAYER_INSTANCE_CANVAS';
 export const FOREGROUND_CANVAS_ID = 'FOREGROUND_CANVAS';
@@ -66,7 +68,7 @@ export const UI_CANVAS_ID = 'UI_CANVAS';
 /////////////////////////////////////
 // CLASSES
 export const PLAYER_CLASS = 'PLAYER_CLASS'
-export const OBJECT_CLASS = 'OBJECT_CLASS'
+export const BASIC_CLASS = 'BASIC_CLASS'
 export const NPC_CLASS = 'NPC_CLASS'
 export const ZONE_CLASS = 'ZONE_CLASS'
 
@@ -205,7 +207,6 @@ export const PROJECTILE_INSTANCE_ID_PREFIX = 'oi/pr/'
 export const SPAWNED_INSTANCE_ID_PREFIX = 'oi/s/'
 export const PLAYER_INSTANCE_ID_PREFIX = 'oi/pl/'
 export const OBJECT_INSTANCE_ID_PREFIX = 'oi/'
-export const OBJECT_CLASS_ID_PREFIX = 'oc/'
 export const CUTSCENE_ID_PREFIX = 'cutscene/'
 export const RELATION_ID_PREFIX = 'relation/'
 export const BRUSH_ID_PREFIX = 'brush/'
@@ -216,14 +217,16 @@ export const SCENE_ID_PREFIX = 'scene/'
 export const SPRITE_EDITOR_ID_PREFIX = 'sprite/'
 export const STAGE_ID_PREFIX = 'stage/'
 
+export const OBJECT_CLASS_ID_PREFIX = 'oc/'
+
 export const PLAYER_CLASS_TYPE_PREFIX = 'pl/'
-export const OBJECT_CLASS_TYPE_PREFIX = 'o/'
+export const BASIC_CLASS_TYPE_PREFIX = 'o/'
 export const NPC_CLASS_TYPE_PREFIX = 'n/'
 export const ZONE_CLASS_TYPE_PREFIX = 'z/'
 
 export const classTypeToPrefix = {
   [ZONE_CLASS]: ZONE_CLASS_TYPE_PREFIX,
   [PLAYER_CLASS]: PLAYER_CLASS_TYPE_PREFIX,
-  [OBJECT_CLASS]: OBJECT_CLASS_TYPE_PREFIX,
+  [BASIC_CLASS]: BASIC_CLASS_TYPE_PREFIX,
   [NPC_CLASS]: NPC_CLASS_TYPE_PREFIX
 }

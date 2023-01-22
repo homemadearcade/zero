@@ -17,7 +17,7 @@ import { userSchema } from './validation';
 import './styles.scss';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
-import { ADMIN_ROLE } from '../../game/constants';
+import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
 import UnlockableInterfaceTree from '../../ui/UnlockableInterfaceTree/UnlockableInterfaceTree';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 
@@ -246,7 +246,7 @@ const User = ({
         )}
       </div>
       <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
-      {user.id && <UnlockableInterfaceTree userId={user.id}></UnlockableInterfaceTree>}
+      {user.id && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_ID} userId={user.id}></UnlockableInterfaceTree>}
     </Layout>
   );
 };

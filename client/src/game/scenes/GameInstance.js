@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, OBJECT_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, EFFECT_COLLIDE, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, EFFECT_COLLIDE, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -624,7 +624,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
-    if(objectClass.type === OBJECT_CLASS || objectClass.type === NPC_CLASS || objectClass.type === PLAYER_CLASS) {
+    if(objectClass.type === BASIC_CLASS || objectClass.type === NPC_CLASS || objectClass.type === PLAYER_CLASS) {
       const layerToDepth = {
         [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
         [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,
@@ -645,7 +645,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
-    if(objectClass.type === OBJECT_CLASS) {
+    if(objectClass.type === BASIC_CLASS) {
       this.objectClassGroup.add(sprite)
     } else if(objectClass.type === NPC_CLASS) {
       this.npcClassGroup.add(sprite)

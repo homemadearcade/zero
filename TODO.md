@@ -2,7 +2,6 @@
 TODO
 
 change experienceUI stage in lobby dashboard?
-set invisible effect broke, check others..
 INFO BOX - Right Click, Left Click, Name of Class
 Game Name Area, Stage Name Area
    Cutscenes, Stages, Metadata, OThers? More 

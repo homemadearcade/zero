@@ -66,7 +66,7 @@ const LobbyToolbar = ({ tracks }) => {
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
   gameContext: state.gameContext
-}, { force: true });
+}, { forceViewCobrowsing: true });
 
 export default compose(
   connect(mapStateToProps, { lobbyUndo, toggleGridView, changeGameState, onInstanceUndo }))(LobbyToolbar);

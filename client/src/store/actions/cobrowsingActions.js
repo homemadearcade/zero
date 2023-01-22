@@ -22,17 +22,12 @@ import {
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
   LOCK_INTERFACE,
   UNLOCK_INTERFACE,
-  LOAD_COBROWSING_PREVIEW_SUCCESS,
-  LOAD_COBROWSING_PREVIEW_FAIL,
-  LOAD_COBROWSING_PREVIEW_LOADING,
-  OPEN_CONSTELLATION,
 } from '../types';
 
 import store from '..';
 import { getRemoteStatePackage } from '../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { editUser } from './userActions';
-import { initializeUnlockableInterfaceIds, loadCobrowsingUnlockableInterfaceIds } from './unlockableInterfaceActions';
+import { updateArcadeGameCharacter } from './arcadeGameActions';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
@@ -131,28 +126,6 @@ function onCobrowsingKeyUp(event) {
   }
 }
 
-export const loadCobrowsingPreview = (userId) => async (dispatch, getState) => {
-  dispatch({
-    type: LOAD_COBROWSING_PREVIEW_LOADING,
-  });
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/users/byId/' + userId, options);
-
-    dispatch(initializeUnlockableInterfaceIds(response.data.user.unlockableInterfaceIds))
-
-    dispatch({
-      type: LOAD_COBROWSING_PREVIEW_SUCCESS,
-    });
-  } catch (err) {
-    console.error(err)
-    dispatch({
-      type: LOAD_COBROWSING_PREVIEW_FAIL,
-      payload: { error: err.response.data.message },
-    });
-  }
-};
-
 export const handleCobrowsingUpdates = store => next => action => {
   // console.log('dispatching', action)
   // let result = next(action)
@@ -225,17 +198,21 @@ export const publishCobrowsing = () => (dispatch, getState) => {
       dispatch(dispatchData);
 
       if(dispatchData.type === UNLOCK_INTERFACE) {
-        dispatch(editUser(user.id, {
+        dispatch(updateArcadeGameCharacter({
+          userId: user.id,
           unlockableInterfaceIds: {
             [dispatchData.payload.interfaceId]: true
-          }
+          },
+          merge: true
         }))
       }
       if(dispatchData.type === LOCK_INTERFACE) {
-        dispatch(editUser(user.id, {
+        dispatch(updateArcadeGameCharacter({
+          userId: user.id,
           unlockableInterfaceIds: {
             [dispatchData.payload.interfaceId]: false
-          }
+          },
+          merge: true
         }))
       }
     });

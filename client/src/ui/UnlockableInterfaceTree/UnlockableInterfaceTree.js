@@ -174,7 +174,7 @@ function getClassName(id, unlockableInterfaceIds) {
   if(isUnlocked) return 'TreeItem__unlocked'
 }
 
-function UnlockableInterfaceTree({ userId, getUserById, user: { user }, updateArcadeGameCharacter}) {
+function UnlockableInterfaceTree({ experienceId, userId, getUserById, user: { user }, updateArcadeGameCharacter}) {
 
   const [expanded, setExpanded] = React.useState([]);
   const [structuredInterfaceData] = React.useState(structureAllInterfaceIds())
@@ -198,8 +198,9 @@ function UnlockableInterfaceTree({ userId, getUserById, user: { user }, updateAr
 
   if(!user) return <Loader text="Loading User..."></Loader>
 
-  function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {
+  const unlockableInterfaceIds = user.unlockableInterfaceIds[experienceId]
 
+  function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {
     const idAliases = getInterfaceIdAliases(interfaceId)
     const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
 
@@ -253,8 +254,8 @@ function UnlockableInterfaceTree({ userId, getUserById, user: { user }, updateAr
     if(nodes.children.length) nodeIdsWithChildren.push(nodes.id)
     return (
       <>
-        <StyledTreeItem contentClass={getClassName(nodes.id, user.unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
-          <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={user.unlockableInterfaceIds}></ToggleLockMenu>
+        <StyledTreeItem contentClass={getClassName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+          <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={unlockableInterfaceIds}></ToggleLockMenu>
           {Array.isArray(nodes.children)
             ? nodes.children.map((node) => renderTree(node))
             : null}

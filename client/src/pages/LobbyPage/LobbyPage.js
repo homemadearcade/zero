@@ -20,7 +20,7 @@ import LobbyDetail from '../../lobby/LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
 import Icon from '../../ui/Icon/Icon';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import { ADMIN_ROLE, GAME_EDITOR_UI, IMPORTANT_CHOICE_UI, MONOLOGUE_UI, WAITING_UI } from '../../game/constants';
+import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle/UnlockableInterfaceLocksToggle';
@@ -31,7 +31,7 @@ import Typography from '../../ui/Typography/Typography';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import { GAME_CONNECTION_LOST } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
-import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { DialogContent, DialogTitle } from '@mui/material';
 
 const LobbyPage = ({
   lobby: { lobby, connectionMessage, connectionState },

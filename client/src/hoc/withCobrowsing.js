@@ -10,7 +10,7 @@ export default (ChildComponent) => {
   class WithCobrowsing extends Component {
     componentDidMount() {
       const { match } = this.props
-      const cobrowsingUserId = match.params.cobrowsingUserId;
+      const cobrowsingUserId = this.props.userId ? this.props.userId : match.params.cobrowsingUserId;
 
       this.startCobrowsing(cobrowsingUserId)
     }

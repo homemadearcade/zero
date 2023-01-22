@@ -5,20 +5,15 @@ import { connect } from 'react-redux';
 
 import './LobbyDashboard.scss';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
-import GamePreview from '../../game/GamePreview/GamePreview';
+import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
 
 const LobbyDashboard = ({
   lobby: { lobby },
 }) => {
-
-  function renderGamePreview() {      
-    return <GamePreview gameId={lobby.currentGameId} userId={lobby.participantId}></GamePreview>
-  }
-
   return (
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
-        {renderGamePreview()}
+        <ExperiencePreview userId={lobby.participantId}/>
         <LobbySetupFlow/>
       </div>
     </div>

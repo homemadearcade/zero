@@ -50,7 +50,7 @@ export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
   })
 }
 
-export function getInterfaceIdData(interfaceId) {
+export function getInterfaceIdData(interfaceId, options) {
   const state = getCobrowsingState()
   const unlockableInterfaceIds = state.unlockableInterfaceIds
   const idAliases = getInterfaceIdAliases(interfaceId)
@@ -78,7 +78,7 @@ export function getInterfaceIdData(interfaceId) {
   // }
 
   const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
-  const isObscured = isInterfaceIdObscured(interfaceId) && !isUnlocked
+  const isObscured = isInterfaceIdObscured(interfaceId, options) && !isUnlocked
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const isLockToggleable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing
@@ -91,8 +91,8 @@ export function getInterfaceIdData(interfaceId) {
   }
 }
 
-export function isInterfaceIdObscured(interfaceId) {
-  const state = getCobrowsingState()
+export function isInterfaceIdObscured(interfaceId, options) {
+  const state = getCobrowsingState(options)
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const isCurrentlyCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
   const me = state.auth.me

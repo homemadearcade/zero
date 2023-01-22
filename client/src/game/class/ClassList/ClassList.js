@@ -14,7 +14,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { DIRECTIONAL_CONTROLS, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, MOVEMENT_NONE, MOVEMENT_TURN_ON_COLLIDE, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, OBJECT_CLASS, OBJECT_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
+import { DIRECTIONAL_CONTROLS, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, MOVEMENT_NONE, MOVEMENT_TURN_ON_COLLIDE, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
@@ -78,7 +78,7 @@ const ClassList = ({
 
   const objectClasses = Object.keys(classes).filter((currentClassId) => {
   const currentClass = classes[currentClassId]
-    if(currentClass.type === OBJECT_CLASS) return true
+    if(currentClass.type === BASIC_CLASS) return true
     return false
   }).map((currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
@@ -90,7 +90,7 @@ const ClassList = ({
     return el
   })
 
-  objectClasses.push(<Unlockable interfaceId={OBJECT_INSTANCE_CANVAS_ID + '/addObject'}>
+  objectClasses.push(<Unlockable interfaceId={BASIC_INSTANCE_CANVAS_ID + '/addObject'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultObjectClass)
     }}>
@@ -154,12 +154,12 @@ const ClassList = ({
     })
   }
 
-  if(!getInterfaceIdData(OBJECT_INSTANCE_CANVAS_ID + '/*').isObscured) {
+  if(!getInterfaceIdData(BASIC_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'objects',
       title: <>
         <Typography component="div" variant="subtitle1">Objects</Typography>
-        <LayerVisibility canvasId={OBJECT_INSTANCE_CANVAS_ID} />
+        <LayerVisibility canvasId={BASIC_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
         maxItems={18} 

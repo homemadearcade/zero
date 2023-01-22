@@ -14,7 +14,7 @@ import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
-import { ADMIN_ROLE, MONOLOGUE_UI } from '../../game/constants';
+import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
@@ -203,7 +203,9 @@ const LobbySetupFlow = ({
           onClickNext: () => {
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63bcb9f10d17e60053793a2a',
-              isGamePoweredOn: true
+              isGamePoweredOn: true,
+              experienceUI: GAME_EDITOR_UI
+
             })
           },
           nextButtonText: 'Load Prologue 1'
@@ -238,7 +240,8 @@ const LobbySetupFlow = ({
           onClickNext: () => {
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63af258a1a7bdd005363ac7e',
-              isGamePoweredOn: true
+              isGamePoweredOn: true,
+              experienceUI: GAME_EDITOR_UI
             })
           },
           nextButtonText: 'Load Prologue 2'
@@ -257,7 +260,8 @@ const LobbySetupFlow = ({
           onClickNext: () => {
             editLobby(lobby.id, {
               currentGameId: lobby.game.id,
-              isGamePoweredOn: true
+              isGamePoweredOn: true,
+              experienceUI: GAME_EDITOR_UI
             })
           },
           nextButtonText: 'Load Editing Game'

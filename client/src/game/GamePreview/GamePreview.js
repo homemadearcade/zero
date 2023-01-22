@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -6,23 +6,17 @@ import './GamePreview.scss';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
 import GameStatus from '../../app/homemadeArcade/arcadeGame/GameStatus/GameStatus';
-import { loadCobrowsingPreview } from '../../store/actions/cobrowsingActions';
 import LobbyUserStatus from '../../lobby/LobbyUserStatus/LobbyUserStatus';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
-const GamePreview = ({unlockableInterfaceIds, userId, loadCobrowsingPreview, lobby: { lobby }}) => {
-  useEffect(() => {
-    if(userId) {
-      loadCobrowsingPreview(userId)
-    }
-  }, [userId])
-
+const GamePreview = ({lobby: { lobby }}) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
 
-  const { isUnlocked } = getInterfaceIdData('gameView')
+  const { isUnlocked } = getInterfaceIdData('gameView', { forceCobrowsingView: true })
 
   return (
     <div className="GamePreview">
@@ -43,12 +37,12 @@ const GamePreview = ({unlockableInterfaceIds, userId, loadCobrowsingPreview, lob
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
   unlockableInterfaceIds: state.unlockableInterfaceIds
-});
+}, { forceCobrowsingView: true });
 
 export default compose(
   withGame,
-  connect(mapStateToProps, { loadCobrowsingPreview })
+  connect(mapStateToProps, { })
 )(GamePreview);

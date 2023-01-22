@@ -10,6 +10,7 @@ import {
   GET_SPRITESHEET_DATA_FAIL,
   UNLOAD_GAME_MODEL,
   ON_GAME_MODEL_UPDATE,
+  CHANGE_CURRENT_STAGE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';

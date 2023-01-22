@@ -108,7 +108,7 @@ KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spa
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
 
-Wrap Sprite in another class called like...object instance... lol, phaser?
+Wrap Sprite in another class called like...object instance... lol, phaser objectinstance??
 
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 
@@ -150,14 +150,14 @@ useHooks for Unlockable Data and other data...
 
 <AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
 
-this.isHost this.isLocal should I save? should I cobrowse, should I send remote updates?? All this lower level variables that are also coming from the top down
-
 Seperate more reducers?
 
 So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
 
 Game Model class? for like getting data from redux so we can get game data with functions
 For all these util functions, I need to rethink how utils are done, is there objects we can use? should I turn gameModel, user, lobby, etc all these things into classes? Is that normal inside of redux? should it really be all functional. Where IS THE STATE? What state belongs in my classes and what state belongs in REDUX. React UI = Redux. Phaser UI = OOP
+^^^
+I think so yes. Basically we can... turn Game Model into a class that has the Scene on it.. yes :)
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

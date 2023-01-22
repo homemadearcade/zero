@@ -10,7 +10,7 @@ import UnlockableInterfaceTree from '../../ui/UnlockableInterfaceTree/Unlockable
 import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 import { Paper } from '@mui/material';
 import Icon from '../../ui/Icon/Icon';
-import { ADMIN_ROLE } from '../../game/constants';
+import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
 import Button from '../../ui/Button/Button';
 import { closeInterfaceTree, openInterfaceTree } from '../../store/actions/userActions';
 
@@ -76,7 +76,7 @@ const LobbyUserStatus = ({ closeInterfaceTree, openInterfaceTree, user: { userId
   {userIdInterfaceTree === user.id && <Dialog open onClose={() => {
     closeInterfaceTree()
   }}>
-    <UnlockableInterfaceTree userId={userId}></UnlockableInterfaceTree>
+    <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_ID} userId={userId}></UnlockableInterfaceTree>
   </Dialog>}
   </>
 };
