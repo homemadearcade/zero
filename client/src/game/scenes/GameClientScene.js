@@ -91,7 +91,7 @@ export class GameClientScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta)
 
-    const gameState = getCobrowsingState({forceViewCobrowsing: true}).gameContext.gameState
+    const gameState = getCobrowsingState({forceActiveCobrowsing: true}).gameContext.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }

@@ -140,7 +140,7 @@ export const handleCobrowsingUpdates = store => next => action => {
     // is the user subscribed to cobrowse session?
     if(state.cobrowsing.isSubscribedCobrowsing) {
       // is the cobrowsing currently active/should we send the action to the publishers computer?
-      if((state.cobrowsing.isCurrentlyCobrowsing || action.forceCobrowsingUpdate) && !action.cobrowsingPublisherOnly) {
+      if((state.cobrowsing.isActivelyCobrowsing || action.forceCobrowsingUpdate) && !action.cobrowsingPublisherOnly) {
         // UPDATE PUBLISHER
         const options = attachTokenToHeaders(store.getState);
         axios.put('/api/cobrowsing/dispatch/' + state.cobrowsing.cobrowsingUser.id, { dispatchData: action }, options);

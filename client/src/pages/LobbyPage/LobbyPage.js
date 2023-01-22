@@ -20,7 +20,7 @@ import LobbyDetail from '../../lobby/LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
 import Icon from '../../ui/Icon/Icon';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../game/constants';
+import { ADMIN_ROLE } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle/UnlockableInterfaceLocksToggle';
@@ -32,6 +32,7 @@ import withSpeedTest from '../../hoc/withSpeedTest';
 import { GAME_CONNECTION_LOST } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
 import { DialogContent, DialogTitle } from '@mui/material';
+import { GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
 
 const LobbyPage = ({
   lobby: { lobby, connectionMessage, connectionState },
@@ -104,19 +105,19 @@ const LobbyPage = ({
   }
 
   function renderGameExperience() {   
-    if(lobby.experienceUI === WAITING_UI) {
+    if(lobby.experienceState === WAITING_UI) {
       return <div className="LobbyWaiting">
         <Typography variant="h4">Your experience will start shortly...</Typography>
       </div>
     }
 
-    if(lobby.experienceUI === GAME_EDITOR_UI) {
+    if(lobby.experienceState === GAME_EDITOR_UI) {
       return <CobrowsingGame gameId={lobby.currentGameId} myTracks={myTracks} userTracks={userTracks}>
         <ObscuredGameView/>
       </CobrowsingGame>
     }
 
-    if(lobby.experienceUI === MONOLOGUE_UI) {
+    if(lobby.experienceState === MONOLOGUE_UI) {
       return <div className="MonologueView">
         {isInsideVideoCall && <AgoraUserVideo
           className="MonologueView__speaker"
@@ -128,12 +129,12 @@ const LobbyPage = ({
     }
   }
 
-  function renderLobbyExperience() {
-    if(lobby.experienceUI === GAME_EDITOR_UI) {
+  function renderLobbyAdminExperience() {
+    if(lobby.experienceState === GAME_EDITOR_UI) {
       return null
     }
 
-    if(lobby.experienceUI === MONOLOGUE_UI) {
+    if(lobby.experienceState === MONOLOGUE_UI) {
       return <div className="LobbyMonologueView">
         <div className="LobbyMonologueView__body">
         <div className="LobbyMonologueView__dialogue-text">
@@ -156,7 +157,7 @@ const LobbyPage = ({
 
         <Button variant="contained" onClick={() => {
           editLobby(lobby.id, {
-            experienceUI: GAME_EDITOR_UI
+            experienceState: GAME_EDITOR_UI
           })
         }}>
           Complete Monologue
@@ -178,7 +179,7 @@ const LobbyPage = ({
       <Route exact path={path}>
         <LobbyDashboard/>  
         <LobbyDrawer/>
-        {renderLobbyExperience()}
+        {renderLobbyAdminExperience()}
         {renderLobbyConnection()}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>

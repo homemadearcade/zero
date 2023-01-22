@@ -94,11 +94,11 @@ export function getInterfaceIdData(interfaceId, options) {
 export function isInterfaceIdObscured(interfaceId, options) {
   const state = getCobrowsingState(options)
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  const isCurrentlyCobrowsing = state.cobrowsing.isCurrentlyCobrowsing
+  const isActivelyCobrowsing = state.cobrowsing.isActivelyCobrowsing
   const me = state.auth.me
   
   if(isSubscribedCobrowsing) {
-    if(isCurrentlyCobrowsing) return true
+    if(isActivelyCobrowsing) return true
     else return false
   }
 

@@ -1,11 +1,13 @@
 --
 TODO
 
-change experienceUI stage in lobby dashboard?
 INFO BOX - Right Click, Left Click, Name of Class
 Game Name Area, Stage Name Area
    Cutscenes, Stages, Metadata, OThers? More 
 Think on toolbars
+  Stages, Cutscenes, Relations, Images, Metadata, Boundaries
+I think perhaps you can switch one of these bars between class/brush and stage information
+  Play Cutscne, Switch to Stage
 
 EMAILS 
 Forgot Password - email Flow

@@ -11,7 +11,7 @@ import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { Fade, MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 
-const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing, showUnlockableInterfaceLocks }, width, height}) => {
+const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isActivelyCobrowsing, isSubscribedCobrowsing, showUnlockableInterfaceLocks }, width, height}) => {
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
   // window.allInterfaceIds.push(interfaceId)

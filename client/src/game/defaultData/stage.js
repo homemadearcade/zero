@@ -3,6 +3,7 @@ import { gameSize } from "./general";
 
 export const defaultStage = {
   'spawnZoneClassId': 'oc/z/playerspawnzone',
+  "imageUrl": "",
   objects: {
     'oi/playerspawnzone': {
       id: 'oi/playerspawnzone',

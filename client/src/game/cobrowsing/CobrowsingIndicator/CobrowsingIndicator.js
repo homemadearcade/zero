@@ -10,7 +10,7 @@ import './CobrowsingIndicator.scss'
 import Switch from '../../../ui/Switch/Switch';
 
 const CobrowsingIndicator = ({
-  cobrowsing: { isCurrentlyCobrowsing, isSubscribedCobrowsing },
+  cobrowsing: { isActivelyCobrowsing, isSubscribedCobrowsing },
   toggleActiveCobrowsing,
 }) => {
   if(!isSubscribedCobrowsing) return null
@@ -24,7 +24,7 @@ const CobrowsingIndicator = ({
     <Icon icon="faHouseLaptop"/>
     <Switch
       size="small"
-      checked={isCurrentlyCobrowsing}
+      checked={isActivelyCobrowsing}
       />
   </div>
 };

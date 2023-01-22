@@ -4,6 +4,7 @@ import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
 import { GamePlayScene } from "../game/scenes/GamePlayScene";
 import store from "../store";
+import { getCobrowsingState } from "./cobrowsingUtils";
 import { getCurrentGameScene } from "./editorUtils";
 
 export function isGameBoundaryWall(world, body) {
@@ -134,5 +135,6 @@ export function createGameSceneInstance(key, sceneInstanceData) {
 window.consoleTools = {
   getCurrentScene: () => { return getCurrentGameScene(store.getState().webPage.gameInstance) },
   getCurrentGameModel: () => { return store.getState().gameModel.gameModel },
-  getCurrentState: () => { return store.getState() }
+  getCurrentState: () => { return store.getState() },
+  getCobrowsingState: () => { return getCobrowsingState({forceActiveCobrowsing: true }) }
 }

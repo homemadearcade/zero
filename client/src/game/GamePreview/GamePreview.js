@@ -16,7 +16,7 @@ const GamePreview = ({lobby: { lobby }}) => {
     return prev
   }, {})
 
-  const { isUnlocked } = getInterfaceIdData('gameView', { forceCobrowsingView: true })
+  const { isUnlocked } = getInterfaceIdData('gameView', { forceActiveCobrowsing: true })
 
   return (
     <div className="GamePreview">
@@ -40,7 +40,7 @@ const GamePreview = ({lobby: { lobby }}) => {
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
   unlockableInterfaceIds: state.unlockableInterfaceIds
-}, { forceCobrowsingView: true });
+}, { forceActiveCobrowsing: true });
 
 export default compose(
   withGame,

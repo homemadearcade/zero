@@ -6,7 +6,7 @@ import './AgoraVideoLayoutHA.scss'
 import AgoraUserVideo from "../AgoraUserVideo/AgoraUserVideo";
 import { ADMIN_ROLE } from "../../constants";
 
-const AgoraVideoLayoutHA = ({ participantId, cobrowsing: { isCurrentlyCobrowsing}, guideId, auth: { me }, myTracks, userTracks }) => {
+const AgoraVideoLayoutHA = ({ participantId, cobrowsing: { isActivelyCobrowsing}, guideId, auth: { me }, myTracks, userTracks }) => {
   return <div className="AgoraVideoLayoutHA">
      <AgoraUserVideo
         userId={guideId}
@@ -15,7 +15,7 @@ const AgoraVideoLayoutHA = ({ participantId, cobrowsing: { isCurrentlyCobrowsing
         myTracks={myTracks}
         userTracks={userTracks}
      />
-    {me.role === ADMIN_ROLE && !isCurrentlyCobrowsing && <>
+    {me.role === ADMIN_ROLE && !isActivelyCobrowsing && <>
       <AgoraUserVideo
         userId={participantId}
         className="AgoraVideo__participant"

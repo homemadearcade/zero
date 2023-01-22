@@ -6,42 +6,68 @@ import { connect } from 'react-redux';
 import './ExperiencePreview.scss';
 import GamePreview from '../../game/GamePreview/GamePreview';
 import Typography from '../../ui/Typography/Typography';
-import { GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../game/constants';
 import withCobrowsing from '../../hoc/withCobrowsing';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import Icon from '../../ui/Icon/Icon';
+import { experienceStateKeyToDisplayName, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
+import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperienceState';
+import { editLobby } from '../../store/actions/lobbyActions';
 
 const ExperiencePreview = ({
   lobby: { lobby },
+  gameContext: { isConstellationOpen },
+  editLobby
 }) => {
 
   function renderExperiencePreview() {   
-    if(lobby.experienceUI === WAITING_UI) {
+    if(lobby.experienceState === WAITING_UI) {
       return <>
-        <Typography variant="h5">Waiting View</Typography>
+        <Typography variant="h5">{experienceStateKeyToDisplayName[lobby.experienceState]}</Typography>
         <Typography variant="subtitle2">Your experience will start shortly...</Typography>
       </>
     }
 
-    if(lobby.experienceUI === GAME_EDITOR_UI) {
+    if(lobby.experienceState === GAME_EDITOR_UI) {
       return <GamePreview gameId={lobby.currentGameId} userId={lobby.participantId}></GamePreview>
     }
 
-    if(lobby.experienceUI === MONOLOGUE_UI) {
-      return <Typography variant="h5">Monologue View</Typography>
+    if(lobby.experienceState === MONOLOGUE_UI) {
+      return <>
+        <Typography variant="h5">{experienceStateKeyToDisplayName[lobby.experienceState]}</Typography>
+      </>
     }
   }
 
   return (
     <div className="ExperiencePreview">
-      {renderExperiencePreview()}
+      <div className="ExperiencePreview__window">
+        {renderExperiencePreview()}
+        {isConstellationOpen && 
+          <div className="ExperiencePreview__star">
+            <Icon size="lg" icon="faStar"></Icon>
+            <br/>Star View is overlaying {experienceStateKeyToDisplayName[lobby.experienceState]}
+          </div>
+        }
+      </div>
+      <div className="ExperiencePreview__state">
+      <SelectExperienceState 
+        value={[lobby.experienceState]}
+        onChange={(event, experienceState) => {
+          editLobby(lobby.id, {
+            experienceState: experienceState[experienceState.length-1]
+          })       
+        }}/>
+      </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
-});
+  gameContext: state.gameContext
+}, { forceActiveCobrowsing: true });
 
 export default compose(
   withCobrowsing,
-  connect(mapStateToProps, { }),
+  connect(mapStateToProps, {  editLobby }),
 )(ExperiencePreview);

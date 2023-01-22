@@ -109,7 +109,8 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
 }
 
 
-export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => async (dispatch, getState) => {
+export const openConstellation = ({ forceCobrowsingUpdate  }) => async (dispatch, getState) => {
+  //  externalForceCobrowsingUpdateUserId
   async function attemptConstellation() {
     const gameInstance = getState().webPage.gameInstance
 
@@ -130,7 +131,8 @@ export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => as
 
     
     dispatch({
-      externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
+      forceCobrowsingUpdate,
+      // externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
       updateCobrowsing: true,
       type: OPEN_CONSTELLATION,
       payload: {
@@ -142,16 +144,19 @@ export const openConstellation = ({ externalForceCobrowsingUpdateUserId }) => as
   attemptConstellation()
 }
 
-export const startCloseConstellation = ({ externalForceCobrowsingUpdateUserId }) => (dispatch, getState) => {
+export const startCloseConstellation = ({ forceCobrowsingUpdate }) => (dispatch, getState) => {
+  //  externalForceCobrowsingUpdateUserId
   dispatch({
     updateCobrowsing: true,
-    externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
+    forceCobrowsingUpdate,
+    // externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
     type: START_CLOSE_CONSTELLATION,
     payload: {}
   });
 }
 
-export const completeCloseConstellation = ({ externalForceCobrowsingUpdateUserId }) => (dispatch, getState) => {
+export const completeCloseConstellation = ({ forceCobrowsingUpdate }) => (dispatch, getState) => {
+  // externalForceCobrowsingUpdateUserId
   const scene = getCurrentGameScene(getState().webPage.gameInstance)
   if(scene) {
     if(scene.isPlaythrough) {
@@ -164,7 +169,8 @@ export const completeCloseConstellation = ({ externalForceCobrowsingUpdateUserId
 
   dispatch({
     updateCobrowsing: true,
-    externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
+    forceCobrowsingUpdate,
+    // externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
     type: COMPLETE_CLOSE_CONSTELLATION,
     payload: {}
   });

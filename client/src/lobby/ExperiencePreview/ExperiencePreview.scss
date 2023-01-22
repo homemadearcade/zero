@@ -1,9 +1,34 @@
 .ExperiencePreview {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 
+  &__window {
+    position: relative;
+    width: 40vw;
+    height: 40vw;
+    border: 1px solid white;
+  }
+  
   .GameView {
     width: 100%;
     height: 100%;
+  }
+
+  &__state {
+    width: auto;
+    position: relative;
+  }
+
+  &__star {
+    background-color: rgba(0,0,0,0.2);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding-bottom: 10%;
+    align-items: end;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }

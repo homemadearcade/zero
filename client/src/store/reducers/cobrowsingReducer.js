@@ -25,7 +25,7 @@ import { initialVideoState } from './videoReducer';
 
 const initialState = {
   isSubscribedCobrowsing: false,
-  isCurrentlyCobrowsing: false,
+  isActivelyCobrowsing: false,
   isSubscribingCobrowsing: false,
   showUnlockableInterfaceLocks: false,
   error: null,
@@ -64,7 +64,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         isSubscribedCobrowsing: true,
         isSubscribingCobrowsing: false,
-        isCurrentlyCobrowsing: false,
+        isActivelyCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
@@ -72,7 +72,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         isSubscribedCobrowsing: false,
         isSubscribingCobrowsing: false,
-        isCurrentlyCobrowsing: false,
+        isActivelyCobrowsing: false,
         cobrowsingUser: false,
         remoteState: initialState.remoteState
       };
@@ -95,7 +95,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case TOGGLE_COBROWSING: 
       return {
         ...state,
-        isCurrentlyCobrowsing: !state.isCurrentlyCobrowsing
+        isActivelyCobrowsing: !state.isActivelyCobrowsing
       }
     case TOGGLE_UNLOCKABLE_INTERFACE_LOCKS: 
       return {

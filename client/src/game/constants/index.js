@@ -195,13 +195,7 @@ export const PLAYTHROUGH_PLAY_STATE = 'PLAYTHROUGH_PLAY_STATE'
 export const GAME_OVER_STATE = 'GAME_OVER_STATE'
 export const WIN_GAME_STATE = 'WIN_GAME_STATE'
 
-/////////////////////////////////////
-/////////////////////////////////////
-// EXPERIENCE UI
-export const GAME_EDITOR_UI = 'GAME_EDITOR_UI'
-export const WAITING_UI = 'WAITING_UI'
-export const MONOLOGUE_UI = 'MONOLOGUE_UI'
-export const CONVERSATION_UI = 'CONVERSATION_UI'
+////----
 
 export const PROJECTILE_INSTANCE_ID_PREFIX = 'oi/pr/'
 export const SPAWNED_INSTANCE_ID_PREFIX = 'oi/s/'
@@ -212,7 +206,6 @@ export const RELATION_ID_PREFIX = 'relation/'
 export const BRUSH_ID_PREFIX = 'brush/'
 export const DATE_ID_PREFIX = 'date/'
 export const SNAPSHOT_ID_PREFIX = 'snapshot/'
-export const TICKE_TYPE_ID_PREFIX = 'tickettype/'
 export const SCENE_ID_PREFIX = 'scene/'
 export const SPRITE_EDITOR_ID_PREFIX = 'sprite/'
 export const STAGE_ID_PREFIX = 'stage/'

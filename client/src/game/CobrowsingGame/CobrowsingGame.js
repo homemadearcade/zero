@@ -12,9 +12,9 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import askFullscreen from '../../hoc/askFullscreen';
 import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
 
-const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isCurrentlyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
+const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isActivelyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   return <GameEditor 
-      classNames={isCurrentlyCobrowsing ? 'GameEditor--cobrowsing' : ''}
+      classNames={isActivelyCobrowsing ? 'GameEditor--cobrowsing' : ''}
       leftColumn={<>
         {isInsideVideoCall && <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
       </>}

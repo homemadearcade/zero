@@ -6,7 +6,7 @@ import './ContextMenus.scss'
 import ContextMenu from '../../../ui/connected/ContextMenu/ContextMenu';
 import Unlockable from '../Unlockable/Unlockable';
 
-const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isCurrentlyCobrowsing }}) => {  
+const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isActivelyCobrowsing }}) => {  
 
   function renderContextMenus() {
     const contextMenus = []
@@ -20,7 +20,7 @@ const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isCurrent
     }
   
     // the only thing this does could be 1) shows you that you didnt open the menu 2) position it based on their screen...
-    if(isCurrentlyCobrowsing && remoteContextMenu.isContextMenuOpen) {
+    if(isActivelyCobrowsing && remoteContextMenu.isContextMenuOpen) {
       const { isContextMenuOpen, objectIdSelectedContextMenu, classIdSelectedContextMenu, selectableObjectInstances, contextMenuX, contextMenuY} = remoteContextMenu
   
       // need to calculate contextMenuX percent because... its not perfect

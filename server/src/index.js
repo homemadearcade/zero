@@ -257,7 +257,7 @@ async function onMongoDBConnected() {
       const lobby = lob.toJSON()
       return {
         ...lobby,
-        experienceUI: 'WAITING_UI',
+        experienceState: 'WAITING_UI',
         currentStep: 2,
         currentGameId: null,
         users: lobby.participants.map((user) => {

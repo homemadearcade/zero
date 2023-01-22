@@ -84,7 +84,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   lobby: state.lobby,
   gameContext: state.gameContext
-}, { forceViewCobrowsing: true });
+}, { forceActiveCobrowsing: true });
 
 export default compose(
   connect(mapStateToProps, { lobbyUndo, toggleGridView, changeGameState, onInstanceUndo }))(GameStateToolbar);

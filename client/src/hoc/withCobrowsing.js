@@ -11,6 +11,11 @@ export default (ChildComponent) => {
     componentDidMount() {
       const { match } = this.props
       const cobrowsingUserId = this.props.userId ? this.props.userId : match.params.cobrowsingUserId;
+      if(cobrowsingUserId === this.props.cobrowsing.cobrowsingUser.id) {
+        // 'already cobrowsing this user :)
+        window.preventCobrowsingUnmount = true
+        return 
+      } 
 
       this.startCobrowsing(cobrowsingUserId)
     }
@@ -20,7 +25,11 @@ export default (ChildComponent) => {
     }
 
     componentWillUnmount() {
-      this.stopCobrowsing()
+      setTimeout(() => {
+        if(window.preventCobrowsingUnmount) return 
+        // we just unmounted this component!
+        this.stopCobrowsing()
+      }, 1000)
     }
 
     async switchCobrowsing(oldProps, newProps) {

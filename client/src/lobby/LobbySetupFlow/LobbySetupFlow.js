@@ -14,11 +14,12 @@ import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
-import { ADMIN_ROLE, GAME_EDITOR_UI, MONOLOGUE_UI } from '../../game/constants';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
 import { openSetupChoicesModal } from '../../store/actions/gameEditorActions';
+import { ADMIN_ROLE } from '../constants';
+import { GAME_EDITOR_UI, MONOLOGUE_UI } from '../../constants';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -191,7 +192,7 @@ const LobbySetupFlow = ({
           </>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              experienceUI: MONOLOGUE_UI,
+              experienceState: MONOLOGUE_UI,
               monologueText: 'Hey I am a pixel, I am so small and blocky, yikes!'
             })
           },
@@ -204,7 +205,7 @@ const LobbySetupFlow = ({
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63bcb9f10d17e60053793a2a',
               isGamePoweredOn: true,
-              experienceUI: GAME_EDITOR_UI
+              experienceState: GAME_EDITOR_UI
 
             })
           },
@@ -230,7 +231,7 @@ const LobbySetupFlow = ({
           id: 'Send Participant to Stars',
           title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
           onClickNext: () => {
-            openConstellation({ externalForceCobrowsingUpdateUserId: lobby.participantId })
+            openConstellation({ forceCobrowsingUpdate: true })
           },
           nextButtonText: 'Send Participant to Stars'
         },
@@ -241,7 +242,7 @@ const LobbySetupFlow = ({
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63af258a1a7bdd005363ac7e',
               isGamePoweredOn: true,
-              experienceUI: GAME_EDITOR_UI
+              experienceState: GAME_EDITOR_UI
             })
           },
           nextButtonText: 'Load Prologue 2'
@@ -250,7 +251,7 @@ const LobbySetupFlow = ({
           id: 'Return Participant to Game',
           title: <Typography component="h5" variant="h5">Return Participant to Game</Typography>,
           onClickNext: () => {
-            completeCloseConstellation({ externalForceCobrowsingUpdateUserId: lobby.participantId })
+            completeCloseConstellation({ forceCobrowsingUpdate: true })
           },
           nextButtonText: 'Return Participant to Game'
         },
@@ -261,7 +262,7 @@ const LobbySetupFlow = ({
             editLobby(lobby.id, {
               currentGameId: lobby.game.id,
               isGamePoweredOn: true,
-              experienceUI: GAME_EDITOR_UI
+              experienceState: GAME_EDITOR_UI
             })
           },
           nextButtonText: 'Load Editing Game'
@@ -270,7 +271,7 @@ const LobbySetupFlow = ({
           id: 'Open Editing Game Setup',
           title: <Typography component="h5" variant="h5">Open Editing Game Setup</Typography>,
           onClickNext: () => {
-            openSetupChoicesModal({ externalForceCobrowsingUpdateUserId: lobby.participantId })
+            openSetupChoicesModal({ forceCobrowsingUpdate: true })
           },
           nextButtonText: 'Open Editing Game Setup'
         },
