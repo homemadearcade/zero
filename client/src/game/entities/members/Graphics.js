@@ -1,6 +1,7 @@
 import store from "../../../store"
+import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
-import { ZONE_CLASS } from "../../constants"
+import { BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from "../../constants"
 
 export class Graphics {
   constructor(scene, objectInstance){
@@ -49,7 +50,32 @@ export class Graphics {
       this.setInvisible()
     }
 
+    const gameViewEditor = getCobrowsingState().gameViewEditor
+    const layerVisibility = gameViewEditor.layerVisibility
+    const isLayerVisible = layerVisibility[this.getObjectGroup(objectClass)]
+    if(!isLayerVisible) {
+      this.objectInstance.setVisible(false)
+    } else {
+      this.objectInstance.setVisible(this.objectInstance.isVisible)
+    }
+
     this.createInteractBorder()
+  }
+
+
+  getObjectGroup(objectClass) {
+    if(objectClass.type === NPC_CLASS) {
+      return NPC_INSTANCE_CANVAS_ID
+    }
+    if(objectClass.type === BASIC_CLASS) {
+      return BASIC_INSTANCE_CANVAS_ID
+    }
+    if(objectClass.type === PLAYER_CLASS) {
+      return PLAYER_INSTANCE_CANVAS_ID
+    }
+    if(objectClass.type === ZONE_CLASS) {
+      return ZONE_INSTANCE_CANVAS_ID
+    }
   }
 
   setInvisible() {

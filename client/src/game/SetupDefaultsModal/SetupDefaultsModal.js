@@ -90,7 +90,7 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
                      boundaryRelation: value
                     }
                   })
-                }} 
+                }}
                 options={[{
                   value: BOUNDARY_COLLIDE,
                   label: 'Stop Object'

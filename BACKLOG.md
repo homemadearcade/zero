@@ -13,20 +13,20 @@ Enemy Projectiles
 
 Jump Only boolean ( allows controlling during jumps only )
 
+Change gravity/boundaries effect ( basically change stage but?? )
+
 --------------------------------------------------------------------------------------
 --
 BIG FEATURES
 --
 
-Timers - A whole timer interface like at the bottom like an editor?
+Timeline..timers - A whole timer interface like at the bottom like an editor?
 
 Choices in dialogue
 
 Particles - Explosions
 
 Light System
-    World Effects
-    Change world, change gravity. Like a 'world' class
 
 Mobile
 

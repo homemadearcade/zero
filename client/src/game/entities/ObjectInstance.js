@@ -1,5 +1,4 @@
-import Phaser from "phaser";
-import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_FOLLOW_PLAYER, BASIC_CLASS, PLAYER_CLASS, ZONE_CLASS, NPC_CLASS, PLAYER_INSTANCE_ID_PREFIX, BACKGROUND_CANVAS_ID, BACKGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, FOREGROUND_CANVAS_DEPTH, ON_INTERACT, ON_DESTROY_ONE, ON_DESTROY_ALL, EFFECT_COLLIDE, NPC_INSTANCE_CANVAS_ID, BASIC_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID } from "../constants";
+import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP,PLAYER_INSTANCE_ID_PREFIX,ON_INTERACT, ON_DESTROY_ONE, ON_DESTROY_ALL, EFFECT_COLLIDE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -7,7 +6,6 @@ import { Collider } from "./members/Collider";
 import { Graphics } from "./members/Graphics";
 import { Effects } from "./members/Effects";
 import { Movement } from "./members/Movement";
-import { getCobrowsingState } from "../../utils/cobrowsingUtils";
 
 export class ObjectInstance extends Sprite {
   constructor(scene, id, {spawnX, spawnY, classId}, effectSpawned){
@@ -81,32 +79,11 @@ export class ObjectInstance extends Sprite {
     this.graphics.setSize(w, h)
   }
 
-  getObjectGroup(objectClass) {
-    if(objectClass.type === NPC_CLASS) {
-      return NPC_INSTANCE_CANVAS_ID
-    }
-    if(objectClass.type === BASIC_CLASS) {
-      return BASIC_INSTANCE_CANVAS_ID
-    }
-    if(objectClass.type === PLAYER_CLASS) {
-      return PLAYER_INSTANCE_CANVAS_ID
-    }
-  }
-
   update(time, delta) {
     const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
 
     this.graphics.update()
     this.collider.update()
-
-    const gameViewEditor = getCobrowsingState().gameViewEditor
-    const layerVisibility = gameViewEditor.layerVisibility
-    const isLayerVisible = layerVisibility[this.getObjectGroup(objectClass)]
-    if(!isLayerVisible) {
-      this.setVisible(false)
-    } else {
-      this.setVisible(this.isVisible)
-    }
 
     ////////////////////////////////////////
     ////////////////////////////////////////
