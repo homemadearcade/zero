@@ -50,15 +50,6 @@ export class Graphics {
       this.setInvisible()
     }
 
-    const gameViewEditor = getCobrowsingState().gameViewEditor
-    const layerVisibility = gameViewEditor.layerVisibility
-    const isLayerVisible = layerVisibility[this.getObjectGroup(objectClass)]
-    if(!isLayerVisible) {
-      this.objectInstance.setVisible(false)
-    } else {
-      this.objectInstance.setVisible(this.objectInstance.isVisible)
-    }
-
     this.createInteractBorder()
   }
 
@@ -149,6 +140,18 @@ export class Graphics {
         sprite.invisibleIndicator.setVisible(true)
         this.setInvisible()
       }
+    }
+
+
+    const gameModel = store.getState().gameModel.gameModel
+    const objectClass = gameModel.classes[this.objectInstance.classId]
+    const gameViewEditor = getCobrowsingState().gameViewEditor
+    const layerVisibility = gameViewEditor.layerVisibility
+    const isLayerVisible = layerVisibility[this.getObjectGroup(objectClass)]
+    if(!isLayerVisible) {
+      this.objectInstance.setVisible(false)
+    } else {
+      this.objectInstance.setVisible(this.objectInstance.isVisible)
     }
 
     sprite.interactBorder.setPosition(sprite.x, sprite.y)
