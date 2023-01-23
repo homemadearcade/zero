@@ -39,7 +39,7 @@ const initialState = {
   spriteEditorTextureId: null,
   isSelectBackgroundColorOpen: false,
   isGameMetadataModalOpen: false,
-  isSetupChoicesModalOpen: false,
+  isSetupDefaultsModalOpen: false,
   classIdEditingName: null,
   accordianLists: {
     'BrushList': null,
@@ -164,12 +164,12 @@ export default function gameEditorReducer(state = initialState, { type, payload 
     case OPEN_SETUP_CHOICES_MODAL: 
       return {
         ...state,
-        isSetupChoicesModalOpen: true,
+        isSetupDefaultsModalOpen: true,
       }
     case CLOSE_SETUP_CHOICES_MODAL:
       return {
         ...state,
-        isSetupChoicesModalOpen: false
+        isSetupDefaultsModalOpen: false
       }
     case OPEN_JSON_VIEWER: 
       return {

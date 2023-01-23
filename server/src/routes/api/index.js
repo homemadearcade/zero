@@ -7,7 +7,8 @@ import arcadeGameRoutes from './arcadeGames';
 import awsRoutes from './aws';
 import ticketedEventRoutes from './ticketedEvents'
 import ticketPurchaseRoutes from './ticketPurchases'
-
+import interfacePresetRoutes from './interfacePresets'
+import experienceRoutes from './experiences'
 import codrawingRoutes from './codrawing'
 
 const router = Router();
@@ -19,8 +20,9 @@ router.use('/cobrowsing', cobrowsingRoutes);
 router.use('/codrawing', codrawingRoutes);
 router.use('/arcadeGames', arcadeGameRoutes);
 router.use('/ticketedEvents', ticketedEventRoutes);
-router.use('/ticketPurchase', ticketPurchaseRoutes);
-
+router.use('/ticketPurchases', ticketPurchaseRoutes);
+router.use('/interfacePresets', interfacePresetRoutes);
+router.use('/experience', experienceRoutes);
 router.use('/aws', awsRoutes);
 
 'routes register', router.stack.map((router) => {

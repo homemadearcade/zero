@@ -30,11 +30,12 @@ const ticketPurchase = new Schema(
 
 ticketPurchase.methods.toJSON = function () {
   return {
+    id: this._id.toString(),
     dateId: this.dateId,
     ticketId: this.ticketId,
-    lobby: this.lobby.toJSON(),
-    user: this.user.toJSON(),
-    ticketedEvent: this.ticketedEvent.toJSON(),
+    lobby: this.lobby?.toJSON(),
+    user: this.user?.toJSON(),
+    ticketedEvent: this.ticketedEvent?.toJSON(),
   };
 };
 

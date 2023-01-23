@@ -18,7 +18,7 @@ import './styles.scss';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
-import UnlockableInterfaceTree from '../../ui/UnlockableInterfaceTree/UnlockableInterfaceTree';
+import UnlockableInterfaceTree from '../../ui/connected/UnlockableInterfaceTree/UnlockableInterfaceTree';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 
 const User = ({

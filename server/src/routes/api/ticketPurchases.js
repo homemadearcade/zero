@@ -43,16 +43,14 @@ router.get('/byEvent/:eventId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  const { error } = validateGame(req.body);
-  if (error) return res.status(400).json({ message: error.details[0].message });
-
   if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the ticket purchase owner or admin.' });
   }
 
   try {
     let ticketPurchase = await TicketPurchase.create({
-      ...req.body
+      ...req.body,
+      user: req.body.userId,
     });
 
     ticketPurchase = await ticketPurchase.populate('user').execPopulate();

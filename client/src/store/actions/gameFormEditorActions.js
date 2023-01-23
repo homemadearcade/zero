@@ -143,8 +143,6 @@ export const openCutscenesMenu= () => (dispatch, getState) => {
 }
 
 export const closeCutscenesMenu= () => (dispatch, getState) => {
-  saveAllCurrentCanvases()
-
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CUTSCENES_MENU,
@@ -163,8 +161,6 @@ export const openStagesMenu= () => (dispatch, getState) => {
 }
 
 export const closeStagesMenu= () => (dispatch, getState) => {
-  saveAllCurrentCanvases()
-
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_STAGES_MENU,
@@ -173,6 +169,8 @@ export const closeStagesMenu= () => (dispatch, getState) => {
 }
 
 export const openCreateStage = (initialStage) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_STAGE,
@@ -197,6 +195,8 @@ export const updateCreateStage = (stage) => (dispatch, getState) => {
 }
 
 export const openCreateCutscene = (initialCutscene) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_CUTSCENE,
@@ -233,8 +233,6 @@ export const openRelationsMenu= (classId) => (dispatch, getState) => {
 }
 
 export const closeRelationsMenu= () => (dispatch, getState) => {
-  saveAllCurrentCanvases()
-
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_RELATIONS_MENU,

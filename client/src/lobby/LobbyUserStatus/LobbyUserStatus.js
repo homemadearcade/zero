@@ -6,7 +6,7 @@ import './LobbyUserStatus.scss';
 import Link from '../../ui/Link/Link';
 import AccordianList from '../../ui/AccordianList/AccordianList';
 import Dialog from '../../ui/Dialog/Dialog';
-import UnlockableInterfaceTree from '../../ui/UnlockableInterfaceTree/UnlockableInterfaceTree';
+import UnlockableInterfaceTree from '../../ui/connected/UnlockableInterfaceTree/UnlockableInterfaceTree';
 import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 import { Paper } from '@mui/material';
 import Icon from '../../ui/Icon/Icon';

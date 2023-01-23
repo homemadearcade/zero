@@ -15,6 +15,7 @@ const lobbySchema = new Schema(
       type: String,
       // required: true,
     },
+    experience: { type: mongoose.Schema.Types.ObjectId, ref: 'Experience' },
     // guideId: {
     //   type: String,
     //   required: true,
@@ -55,11 +56,12 @@ lobbySchema.methods.toJSON = function () {
     id: this._id.toString(),
     startTime: this.startTime,
     participants: this.participants ? this.participants.map((user) => {
-      return user.toJSON()
+      return user?.toJSON()
     }) : [],
     game: this.game?.toJSON(),
     gameHostId: this.gameHostId,
     participantId: this.participantId,
+    experience: this.experience,
     // guideId: this.guideId
   };
 };

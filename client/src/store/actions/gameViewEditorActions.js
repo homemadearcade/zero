@@ -39,7 +39,6 @@ export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
 }
 
 export const closeSnapshotTaker = () => (dispatch, getState) => {
-
   document.body.style.cursor = null
 
   dispatch({

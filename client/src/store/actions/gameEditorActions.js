@@ -138,7 +138,7 @@ export const closeClassNameModal = () => (dispatch, getState) => {
   });
 }
 
-export const openSetupChoicesModal = ({ forceCobrowsingUpdate }) => (dispatch, getState) => {
+export const openSetupDefaultsModal = ({ forceCobrowsingUpdate }) => (dispatch, getState) => {
   // externalForceCobrowsingUpdateUserId
   
   dispatch({
@@ -150,7 +150,7 @@ export const openSetupChoicesModal = ({ forceCobrowsingUpdate }) => (dispatch, g
   });
 }
 
-export const closeSetupChoicesModal = () => (dispatch, getState) => {
+export const closeSetupDefaultsModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SETUP_CHOICES_MODAL,

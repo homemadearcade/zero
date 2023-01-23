@@ -39,6 +39,14 @@ import {
   START_COBROWSING_FAIL,
   ASSIGN_LOBBY_ROLE_FAIL,
   CLEAR_ERROR,
+  ADD_INTERFACE_PRESET_FAIL,
+  EDIT_INTERFACE_PRESET_FAIL,
+  GET_INTERFACE_PRESET_FAIL,
+  GET_INTERFACE_PRESETS_FAIL,
+  ADD_TICKETED_EVENT_FAIL,
+  EDIT_TICKETED_EVENT_FAIL,
+  GET_TICKETED_EVENTS_FAIL,
+  GET_TICKETED_EVENT_FAIL,
 } from '../types';
 
 const initialState = []
@@ -47,6 +55,14 @@ export const initialErrorState = initialState
 
 export default function errorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case ADD_INTERFACE_PRESET_FAIL:
+    case EDIT_INTERFACE_PRESET_FAIL:
+    case GET_INTERFACE_PRESET_FAIL:
+    case GET_INTERFACE_PRESETS_FAIL:
+    case ADD_TICKETED_EVENT_FAIL:
+    case EDIT_TICKETED_EVENT_FAIL:
+    case GET_TICKETED_EVENTS_FAIL:
+    case GET_TICKETED_EVENT_FAIL:
     case ME_FAIL:
     case ADD_ARCADE_GAME_FAIL:
     case GET_USER_FAIL:

@@ -1,0 +1,36 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import './SelectInterfacePreset.scss';
+import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
+
+const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interfacePresets }) => {
+
+  const mapClassToOption = (interfacePreset) => {
+    return {
+      label: interfacePreset.name,
+      value: interfacePreset.id,
+    }
+  }
+
+  const options = interfacePresets.map(mapClassToOption)
+
+  return <SelectChipsAuto 
+    disabled={disabled}
+    onChange={(event, descriptors) => {
+      onChange(event,  descriptors)
+    }}
+    formLabel={formLabel}
+    value={value}
+    options={options}
+  />
+}
+
+const mapStateToProps = (state) => {
+  return {}
+};
+
+export default compose(
+  connect(mapStateToProps, { }),
+)(SelectInterfacePreset);

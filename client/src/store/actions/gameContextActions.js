@@ -12,6 +12,7 @@ import {
   PROGRESS_CUTSCENE,
   START_CLOSE_CONSTELLATION,
 } from '../types';
+import { saveAllCurrentCanvases } from './codrawingActions';
 
 export const changeGameState = (gameState, message) => (dispatch, getState) => {
   dispatch({

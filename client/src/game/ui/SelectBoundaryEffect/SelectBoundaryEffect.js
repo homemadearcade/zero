@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectBoundaryEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { } from '../../defaultData/relationship';
-import { getboundaryRelationLabel, boundaryRelationsDisplayNames } from '../../defaultData/stage';
+import { getBoundaryRelationLabel, boundaryRelationsDisplayNames } from '../../defaultData/stage';
 
 const SelectBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
   const objectClass = gameModel.classes[classId]
@@ -13,7 +13,7 @@ const SelectBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, g
 
   const mapEffectsToOption = (relation) => {
     return {
-      label: getboundaryRelationLabel(relation, objectClass),
+      label: getBoundaryRelationLabel(relation, objectClass),
       value: relation
     }
   }

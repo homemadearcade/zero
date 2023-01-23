@@ -28,11 +28,11 @@ export const defaultStage = {
 }
 
 export const boundaryRelationsDisplayNames = {
-  [BOUNDARY_COLLIDE]: ' collides with the boundary ',
+  [BOUNDARY_COLLIDE]: ' stops ',
   [BOUNDARY_DESTROY]: ' is destroyed ',
-  [BOUNDARY_WRAP]:  ' teleports to the opposite side '
+  [BOUNDARY_WRAP]:  ' flips to the other side '
 }
 
-export function getboundaryRelationLabel(type, objectClass) {
-  return objectClass.name + boundaryRelationsDisplayNames[type] + ' when touching the boundary'
+export function getBoundaryRelationLabel(type, objectClass) {
+  return objectClass.name + boundaryRelationsDisplayNames[type] + ' when it hits the boundary'
 }

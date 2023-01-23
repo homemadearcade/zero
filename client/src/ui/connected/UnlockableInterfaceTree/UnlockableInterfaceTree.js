@@ -10,16 +10,17 @@ import { useSpring, animated } from '@react-spring/web';
 import allInterfaceIds from './allInterfaceIds.json'
 
 import './UnlockableInterfaceTree.scss'
-import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../utils/unlockableInterfaceUtils';
-import MenuIconButton from '../MenuIconButton/MenuIconButton';
-import Icon from '../Icon/Icon';
-import { MenuItem } from '@mui/material';
+import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../../utils/unlockableInterfaceUtils';
+import MenuIconButton from '../../MenuIconButton/MenuIconButton';
+import Icon from '../../Icon/Icon';
+import { DialogActions, DialogContent, DialogTitle,  List, ListItem, ListItemButton, ListItemText, MenuItem, TextareaAutosize, TextField } from '@mui/material';
 import { connect } from 'react-redux';
-import { updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
-import { getUserById } from '../../store/actions/userActions';
-import Button from '../Button/Button';
-import { cloneDeep } from 'lodash';
-import Loader from '../Loader/Loader';
+import { updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
+import { getUserById } from '../../../store/actions/userActions';
+import Button from '../../Button/Button';
+import Loader from '../../Loader/Loader';
+import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/interfacePresetActions';
+import Dialog from '../../Dialog/Dialog';
 
 function MinusSquare(props) {
   return (
@@ -174,10 +175,14 @@ function getClassName(id, unlockableInterfaceIds) {
   if(isUnlocked) return 'TreeItem__unlocked'
 }
 
-function UnlockableInterfaceTree({ experienceId, userId, getUserById, user: { user }, updateArcadeGameCharacter}) {
+function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceId, userId, getUserById, user: { user }, interfacePreset: { interfacePresets }, updateArcadeGameCharacter}) {
 
+  const [presetName, setPresetName] = React.useState('');
+  const [presetDescription, setPresetDescription] = React.useState('');
+  const [isAddPresetModalOpen, setIsAddPresetModalOpen] = React.useState(false);
   const [expanded, setExpanded] = React.useState([]);
   const [structuredInterfaceData] = React.useState(structureAllInterfaceIds())
+  const [isMorphPresetModalOpen, setIsMorphPresetModalOpen] = React.useState(false);
 
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
@@ -193,12 +198,17 @@ function UnlockableInterfaceTree({ experienceId, userId, getUserById, user: { us
     if(user?.id !== userId) {
       getUserById(userId)
     }
-    
   }, [userId, user?.id])
+
+  React.useEffect(() => {
+    getInterfacePresets()
+  }, [])
 
   if(!user) return <Loader text="Loading User..."></Loader>
 
-  const unlockableInterfaceIds = user.unlockableInterfaceIds[experienceId]
+  let unlockableInterfaceIds = user.unlockableInterfaceIds[experienceId]
+
+  if(!unlockableInterfaceIds) unlockableInterfaceIds = {}
 
   function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {
     const idAliases = getInterfaceIdAliases(interfaceId)
@@ -259,10 +269,90 @@ function UnlockableInterfaceTree({ experienceId, userId, getUserById, user: { us
           {Array.isArray(nodes.children)
             ? nodes.children.map((node) => renderTree(node))
             : null}
-          
         </StyledTreeItem>
       </>
     )
+  }
+
+  function renderAddPreset() {
+      return <Dialog open={isAddPresetModalOpen}>
+        <DialogTitle>Create New Interface Preset</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Name"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setPresetName(e.target.value)
+            }}
+            value={presetName}
+          />
+          <TextField 
+            multiline
+            margin="dense"
+            id="description"
+            label="Description"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setPresetDescription(e.target.value)
+            }}
+            value={presetDescription}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={() => {
+            addInterfacePreset({
+              name: presetName,
+              description: presetDescription,
+              ids: unlockableInterfaceIds
+            })
+            setIsAddPresetModalOpen(false)
+          }}>Save</Button>
+          <Button onClick={() => {
+            setIsAddPresetModalOpen(false)
+          }}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+  }
+
+    function renderMorphPreset() {
+      return <Dialog open={isMorphPresetModalOpen}>
+        <DialogTitle>Morph Tree to Preset</DialogTitle>
+        <DialogContent>
+          {interfacePresets.map((interfacePreset) => {
+            return <>
+              <List>
+                <ListItem divider secondaryAction={<Button 
+                    variant="contained" 
+                    onClick={async () => {
+                      await updateArcadeGameCharacter({
+                        userId: userId,
+                        unlockableInterfaceIds : interfacePreset.ids
+                      })
+                      setIsMorphPresetModalOpen(false)
+                      await getUserById(userId)
+                  }}>
+                    Morph
+                  </Button>
+                }>
+                  <ListItemButton>
+                    <ListItemText primary={interfacePreset.name} secondary={interfacePreset.description} />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </>
+          })}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {
+            setIsMorphPresetModalOpen(false)
+          }}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
   }
 
   return (
@@ -270,6 +360,12 @@ function UnlockableInterfaceTree({ experienceId, userId, getUserById, user: { us
       <Button onClick={handleExpandClick}>
         {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
       </Button>
+      {interfacePresets &&  <Button onClick={() => {
+        setIsMorphPresetModalOpen(true)
+      }}>Morph current tree to Preset</Button>}
+      <Button onClick={() => {
+        setIsAddPresetModalOpen(true)
+      }}>Save current tree to Preset</Button>
       <TreeView
         aria-label="customized"
         defaultExpanded={['10']}
@@ -282,12 +378,15 @@ function UnlockableInterfaceTree({ experienceId, userId, getUserById, user: { us
       >
         {renderTree(structuredInterfaceData)}
       </TreeView>
+      {renderAddPreset()}
+      {renderMorphPreset()}
     </>
   );
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user
+  user: state.user,
+  interfacePreset: state.interfacePreset
 })
 
-export default connect(mapStateToProps, { getUserById, updateArcadeGameCharacter })(UnlockableInterfaceTree);
+export default connect(mapStateToProps, { getUserById, updateArcadeGameCharacter, addInterfacePreset, getInterfacePresets })(UnlockableInterfaceTree);

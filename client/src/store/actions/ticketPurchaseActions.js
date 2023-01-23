@@ -19,7 +19,7 @@ import {
 //   });
 //   try {
 //     const options = attachTokenToHeaders(getState);
-//     const response = await axios.get('/api/ticketPurchase', options);
+//     const response = await axios.get('/api/ticketPurchases', options);
 
 //     dispatch({
 //       type: GET_TICKET_PURCHASES_SUCCESS,
@@ -42,7 +42,7 @@ export const getTicketedPurchaseByEventId = (ticketedEventId) => async (dispatch
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/ticketPurchase/byEvent/' + ticketedEventId, options);
+    const response = await axios.get('/api/ticketPurchases/byEvent/' + ticketedEventId, options);
 
     dispatch({
       type: GET_TICKET_PURCHASES_BY_EVENT_SUCCESS,
@@ -66,7 +66,7 @@ export const getTicketedPurchaseByEventId = (ticketedEventId) => async (dispatch
 
 //   try {
 //     const options = attachTokenToHeaders(getState);
-//     const response = await axios.get('/api/ticketPurchase/' + ticketPurchaseId, options);
+//     const response = await axios.get('/api/ticketPurchases/' + ticketPurchaseId, options);
 
 //     dispatch({
 //       type: GET_TICKET_PURCHASE_SUCCESS,
@@ -91,7 +91,7 @@ export const getTicketedPurchaseByEventId = (ticketedEventId) => async (dispatch
 
 //   try {
 //     const options = attachTokenToHeaders(getState);
-//     const response = await axios.post('/api/ticketPurchase', ticketedEvent, options);
+//     const response = await axios.post('/api/ticketPurchases', ticketedEvent, options);
 
 //     dispatch({
 //       type: ADD_TICKET_PURCHASE_SUCCESS,
@@ -116,7 +116,7 @@ export const getTicketedPurchaseByEventId = (ticketedEventId) => async (dispatch
 //   });
 //   try {
 //     const options = attachTokenToHeaders(getState);
-//     const response = await axios.delete(`/api/ticketPurchase/${id}`, options);
+//     const response = await axios.delete(`/api/ticketPurchases/${id}`, options);
 
 //     dispatch({
 //       type: DELETE_TICKET_PURCHASE_SUCCESS,
@@ -139,7 +139,7 @@ export const getTicketedPurchaseByEventId = (ticketedEventId) => async (dispatch
 //   });
 //   try {
 //     const options = attachTokenToHeaders(getState);
-//     const response = await axios.put(`/api/ticketPurchase/${id}`,ticketedEvent, options);
+//     const response = await axios.put(`/api/ticketPurchases/${id}`,ticketedEvent, options);
 
 //     dispatch({
 //       type: EDIT_TICKET_PURCHASE_SUCCESS,

@@ -1,16 +1,16 @@
-.UsersPage {
+.UserListPage {
   min-height: 100%;
 }
-.UsersPage .profile {
+.UserListPage .profile {
   display: flex;
   padding: 20px 0;
   border-bottom: 1px solid black;
 }
-.UsersPage .profile:last-child {
+.UserListPage .profile:last-child {
   border-bottom: 0;
 }
 
-.UsersPage .avatar {
+.UserListPage .avatar {
   width: 150px;
   height: 150px;
   align-self: center;
@@ -18,26 +18,26 @@
   object-fit: cover;
 }
 
-.UsersPage .label {
+.UserListPage .label {
   font-size: 18px;
   font-weight: bold;
   margin-right: 10px;
 }
 
-.UsersPage .info {
+.UserListPage .info {
   font-size: 18px;
 }
 
-.UsersPage .info-container {
+.UserListPage .info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.UsersPage .list {
+.UserListPage .list {
   min-height: 100%;
 }
 
-.UsersPage .profile-link {
+.UserListPage .profile-link {
   color: rgb(0, 0, 238);
 }

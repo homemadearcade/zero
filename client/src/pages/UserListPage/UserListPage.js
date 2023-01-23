@@ -14,14 +14,14 @@ import './styles.css';
 import Typography from '../../ui/Typography/Typography';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 
-const Users = ({ getUsers, users: { users, isLoading } }) => {
+const UserListPage = ({ getUsers, users: { users, isLoading } }) => {
   useEffect(() => {
     getUsers();
   }, []);
 
   return (
     <Layout>
-      <div className="UsersPage">
+      <div className="UserListPage">
         <PageHeader
           title="Users page"
           description="This is the Users page. Here are listed all of the users of the app. Click the username link to go to user's profile. Only admin users can see this page."
@@ -84,4 +84,4 @@ const mapStateToProps = (state) => ({
   users: state.users,
 });
 
-export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { getUsers }))(Users);
+export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { getUsers }))(UserListPage);

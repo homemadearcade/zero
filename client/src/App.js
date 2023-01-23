@@ -17,7 +17,7 @@ import EditGamePage from './pages/EditGamePage/EditGamePage';
 
 import HomemadeArcadePage from './pages/HomemadeArcadePage/HomemadeArcadePage';
 import Account from './pages/User/User';
-import Users from './pages/Users/Users';
+import UserListPage from './pages/UserListPage/UserListPage';
 import Admin from './pages/Admin/Admin';
 import Lobbys from './pages/LobbyListPage/LobbyListPage';
 import LobbyPage from './pages/LobbyPage/LobbyPage';
@@ -32,6 +32,7 @@ import './App.scss'
 import HATicketsPage from './pages/HATicketsPage/HATicketsPage';
 import TicketedEventCalendarPage from './pages/TicketedEventCalendarPage/TicketedEventCalendarPage';
 import store from './store';
+import InterfaceListPage from './pages/InterfaceListPage/InterfaceListPage';
 
 const LinkBehavior = React.forwardRef((props, ref) => {
   const { href, ...other } = props;
@@ -195,7 +196,8 @@ const App = ({ }) => {
           <Route path="/play/:gameId" children={wrapComponentInApp(PlayGamePage)} />
           <Route path="/login" children={wrapComponentInApp(Login)} />
           <Route path="/register" children={wrapComponentInApp(Register)} />
-          <Route path="/users" children={wrapComponentInApp(Users)} />
+          <Route path="/users" children={wrapComponentInApp(UserListPage)} />
+          <Route path="/interface" children={wrapComponentInApp(InterfaceListPage)} />
           <Route path="/notfound" children={wrapComponentInAppIfAuthenticated(NotFound)} />
           <Route path="/admin" children={wrapComponentInApp(Admin)} />
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />

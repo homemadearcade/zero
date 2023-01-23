@@ -170,7 +170,7 @@ io.on("connection", (socket) => {
         }
 
         const lobbys = app.get('lobbys')
-        lobbys.forEach((lobby) => {
+        lobbys?.forEach((lobby) => {
           lobby.users.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true

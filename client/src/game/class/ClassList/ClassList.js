@@ -14,10 +14,11 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { DIRECTIONAL_CONTROLS, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, MOVEMENT_NONE, MOVEMENT_TURN_ON_COLLIDE, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
+import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
+import { directionalClass, jumperClass } from '../../defaultData/players';
 
 const ClassList = ({
   gameModel: { gameModel },
@@ -29,6 +30,19 @@ const ClassList = ({
 
   if(!classes) {
     return null
+  }
+
+  function addDefaultValuesToPlayerClass(objectClass) {
+    if(gameModel.defaults?.boundaryRelation) objectClass.boundaryRelation = gameModel.defaults?.boundaryRelation
+    if(gameModel.defaults?.playerClass === 'JUMPER_PLAYER') {
+      objectClass.movement = { ...jumperClass.movement }
+      objectClass.jump = { ...jumperClass.jump }
+    } else {
+      objectClass.movement = { ...directionalClass.movement }
+      objectClass.jump = { ...directionalClass.jump }
+    }
+
+    return objectClass
   }
 
   const playerClasses = Object.keys(classes).filter((currentClassId) => {
@@ -48,7 +62,7 @@ const ClassList = ({
   playerClasses.push(<Unlockable interfaceId={PLAYER_INSTANCE_CANVAS_ID + '/addPlayer'}>
     <Button size="fit" 
       onClick={() => {
-        openCreateClassFlow(defaultPlayerClass)
+        openCreateClassFlow(addDefaultValuesToPlayerClass({...defaultPlayerClass}))
       }}>
       +
     </Button>

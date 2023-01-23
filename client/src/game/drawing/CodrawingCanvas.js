@@ -16,7 +16,6 @@ export class CodrawingCanvas extends Canvas {
     this.canvasId = props.canvasId
     this.scene = scene
 
-    console.log(this.textureId)
     store.dispatch(subscribeCodrawing(this.textureId))
 
     // if(this.isHost) {

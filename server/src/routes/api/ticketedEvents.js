@@ -32,16 +32,14 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  const { error } = validateGame(req.body);
-  if (error) return res.status(400).json({ message: error.details[0].message });
-
   if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the ticketed event owner or admin.' });
   }
 
   try {
     let ticketedEvent = await TicketedEvent.create({
-      ...req.body
+      ...req.body,
+      user: req.body.userId,
     });
 
     ticketedEvent = await ticketedEvent.populate('user').execPopulate();

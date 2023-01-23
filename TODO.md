@@ -1,6 +1,8 @@
 --
 TODO
 
+Copy game when homemade arcade is completed and put it in a different database
+
 INFO BOX - Right Click, Left Click, Name of Class
 Game Name Area, Stage Name Area
    Cutscenes, Stages, Metadata, OThers? More 
@@ -9,12 +11,9 @@ Think on toolbars
 I think perhaps you can switch one of these bars between class/brush and stage information
   Play Cutscne, Switch to Stage
 
-EMAILS 
+EMAILS
 Forgot Password - email Flow
 All sorts of emails for tickets
-
-Unlockable UI presets creator/editor page
-  Save As Preset in the Unlockable Tree Menu, name the preset and boom. We got a preset. Can you edit the preset? Can you delete presets?. Can you load preset and play as that preset?
 
 ---------
 BIG FEATURES
@@ -26,12 +25,6 @@ TICKETING
     Create Lobby with sold ticket
   Ticket Receipt Page
   Open Ticket Modal effect
-
-DEFAULT STAGE SELECTION
-  for settin gravity, choosing player movement options, etc, default stage world
-  Basically yeah you establish a default stage
-  different kinds of stages like --- gravity defaults.. hmm yeah like player default?
-    Every player should have gravity, and be advanced controls vs ??
 
 FEATURES
   Sprite sheet editor page
@@ -52,6 +45,7 @@ UI
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
   Auto hide live editor when using keys?
   Popup if your phaser game stops updating, or like phaser crashes?
+    Connection should be based on something else, sockets are not working, base it on lobby user update?
 
 FLOW
   Spawn object at the edge of the heros camera?

@@ -1,7 +1,7 @@
 import { PLAYER_CLASS } from "../constants"
 import { defaultClass } from "./class"
 import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from "./movement"
-import { noJumpDefaults } from "./jumping"
+import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"
 
 export const defaultPlayerClass = {
   ...defaultClass,
@@ -10,10 +10,11 @@ export const defaultPlayerClass = {
 
 export const vehicleClass = {
   ...defaultPlayerClass,
+  interfaceLocked: true,
   classId: 'oc/pl/vehicle',
   name: 'vehicle',
   graphics: {
-    "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
+    // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
   },
   "movement": {
     ...vehicleDefaults.movement
@@ -25,25 +26,29 @@ export const vehicleClass = {
 
 export const jumperClass = {
   ...defaultPlayerClass,
+  interfaceLocked: true,
   classId: 'oc/pl/jumper',
   name: 'jumper',
   graphics: {
-    "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
+    // "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
   movement: {
-    ...advancedDirectionalDefaults.movement
+    ...advancedDirectionalDefaults.movement,
+    ...jumpMovementDefaults.movement
   },
   'jump': {
-    ...advancedDirectionalDefaults.jump
+    ...advancedDirectionalDefaults.jump,
+    ...groundJumpDefaults.jump
   }
 }
 
 export const directionalClass = {
   ...defaultPlayerClass,
+  interfaceLocked: true,
   classId: 'oc/pl/directional',
   name: 'directional',
   graphics: {
-    "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
+    // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },
   movement: {
     ...directionalDefaults.movement

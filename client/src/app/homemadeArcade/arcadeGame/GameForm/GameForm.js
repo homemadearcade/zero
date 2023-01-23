@@ -14,6 +14,7 @@ const GameForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
     initialValues: {
       player: {},
       stages: {},
+      defaults: {},
       metadata: {},
       classes: {},
       brushes: {},

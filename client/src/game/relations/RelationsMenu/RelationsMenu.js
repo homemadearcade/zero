@@ -9,7 +9,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import { getEffectLabel, getEventPreviewLabel } from '../../defaultData/relationship';
-import { getboundaryRelationLabel } from '../../defaultData/stage';
+import { getBoundaryRelationLabel } from '../../defaultData/stage';
 import { EFFECT_COLLIDE, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
@@ -35,7 +35,7 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
     <div className="RelationsMenu">
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relationships"/>
       <Unlockable interfaceId="relations/boundary">
-        <ClassMemberTitle classId={classIdRelationsMenu} title={getboundaryRelationLabel(objectClass.boundaryRelation, objectClass)}/>
+        <ClassMemberTitle classId={classIdRelationsMenu} title={getBoundaryRelationLabel(objectClass.boundaryRelation, objectClass)}/>
         <Button onClick={() => {
           openBoundaryRelation(objectClass)
         }}>Edit</Button>

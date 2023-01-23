@@ -1,4 +1,4 @@
-import { JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE, JUMP_AIR } from "../constants"
+import { JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE, JUMP_AIR, ADVANCED_DIRECTIONAL_CONTROLS } from "../constants"
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ export const comboJumpDefaults = {
 export const groundJumpDefaults = {
   jump: {
     style: JUMP_GROUND,
-    ground: 100,
+    ground: 200,
     air: 0,
   },
 }
@@ -88,6 +88,16 @@ export const jetpackDefaults = {
     ground: 100,
     air: 0,
   },
+}
+
+export const jumpMovementDefaults = {
+  movement: {
+    controls: ADVANCED_DIRECTIONAL_CONTROLS,
+    disableDownKey: false,
+    dragX: 0,
+    dragY: 1,
+    ignoreGravity: false
+  }
 }
 
 export const jumpControlsToKeys = {

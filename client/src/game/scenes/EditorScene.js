@@ -18,6 +18,7 @@ import { urlToFile } from '../../utils/utils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
+import { changePlayerState } from '../../store/actions/gameContextActions';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -610,10 +611,9 @@ export class EditorScene extends GameInstance {
           objectInstance.sprite.y = objectUpdate.spawnY
         }
       })
-      // if(stageUpdate?.playerClassId) {
-      //   this.removePlayerInstance()
-      //   this.addPlayerInstance()
-      // }
+      if(stageUpdate?.playerClassId) {
+        store.dispatch(changePlayerState({classId: stageUpdate?.playerClassId}))
+      }
     }
     
 

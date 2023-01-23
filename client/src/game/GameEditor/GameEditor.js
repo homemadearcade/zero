@@ -21,7 +21,7 @@ import CreateRelation from '../relations/CreateRelation/CreateRelation';
 import RelationsMenu from '../relations/RelationsMenu/RelationsMenu';
 import BoundaryRelation from '../relations/BoundaryRelation/BoundaryRelation';
 import ClassNameModal from '../class/ClassNameModal/ClassNameModal';
-import SetupChoicesModal from '../SetupChoicesModal/SetupChoicesModal';
+import SetupDefaultsModal from '../SetupDefaultsModal/SetupDefaultsModal';
 import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../GameStateToolbar/GameStateToolbar';
 import ClassList from '../class/ClassList/ClassList';
@@ -32,7 +32,7 @@ import CreateStage from '../stages/CreateStage/CreateStage';
 
 const GameEditor = ({ 
   classNames, 
-  gameEditor: { isSetupChoicesModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
+  gameEditor: { isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
   gameFormEditor: { isCreateCutsceneOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
@@ -99,7 +99,7 @@ const GameEditor = ({
       {isBoundaryRelationOpen && <BoundaryRelation/>}
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageOpen && <CreateStage/>}
-      {isSetupChoicesModalOpen && <SetupChoicesModal/>}
+      {isSetupDefaultsModalOpen && <SetupDefaultsModal/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         {viewingJson.sprite.x}<br/><br/>

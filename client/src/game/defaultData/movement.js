@@ -197,8 +197,9 @@ export const advancedDirectionalDefaults = {
   movement: {
     controls: ADVANCED_DIRECTIONAL_CONTROLS,
     disableDownKey: false,
-    dragX: 0,
-    dragY: 0,
+    dragX: 0.25,
+    dragY: 0.25,
+    ignoreGravity: false
   },
   jump: {
     style: JUMP_GROUND

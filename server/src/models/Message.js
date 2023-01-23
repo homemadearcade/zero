@@ -19,7 +19,7 @@ messageSchema.methods.toJSON = function () {
     text: this.text,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
-    user: this.user.toJSON(),
+    user: this.user?.toJSON(),
   };
 };
 

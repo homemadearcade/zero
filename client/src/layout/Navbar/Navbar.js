@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -7,12 +7,18 @@ import Link from '../../ui/Link/Link';
 import { logOutUser } from '../../store/actions/authActions';
 import './Navbar.scss';
 import { ADMIN_ROLE } from '../../game/constants';
+import Button from '../../ui/Button/Button';
+import AdminNavbar from '../AdminNavbar/AdminNavbar';
 
 const Navbar = ({ auth, logOutUser, history }) => {
   const onLogOut = (event) => {
     event.preventDefault();
     logOutUser(history);
   };
+
+  const [viewAdmin, setViewAdmin] = useState()
+
+  if(viewAdmin) return <AdminNavbar/>
 
   return (
     <nav className="Navbar">
@@ -25,31 +31,6 @@ const Navbar = ({ auth, logOutUser, history }) => {
         </li>
         {auth.isAuthenticated && auth.isSocketAuthenticated ? (
           <>
-            {auth.me?.role === ADMIN_ROLE && (
-              <li className="nav-item">
-                <Link ignoreDefaultStyle to="/users">Users</Link>
-              </li>
-            )}
-            {auth.me?.role === ADMIN_ROLE && (
-              <li className="nav-item">
-                <Link ignoreDefaultStyle to="/lobbys">Lobbies</Link>
-              </li>
-            )}
-            {null && auth.me?.role === ADMIN_ROLE && (
-              <li className="nav-item">
-                <Link ignoreDefaultStyle to="/admin">Admin</Link>
-              </li>
-            )}
-            {auth.me?.role === ADMIN_ROLE && (
-            <li className="nav-item">
-              <Link ignoreDefaultStyle to="/games">Games</Link>
-             </li>
-            )}
-            {auth.me?.role === ADMIN_ROLE && (
-            <li className="nav-item">
-              <Link ignoreDefaultStyle to="/calendar">Calendar</Link>
-             </li>
-            )}
             <li className="flex-1" />
             <li className="nav-item">
               <Link ignoreDefaultStyle to={`/${auth.me.username}`}>My Account</Link>
@@ -64,6 +45,11 @@ const Navbar = ({ auth, logOutUser, history }) => {
             </li>
           </>
         )}
+        {auth.me?.role === ADMIN_ROLE && <Button onClick={() => {
+          setViewAdmin(true)
+        }}>
+          Admin
+        </Button>}
       </ul>
     </nav>
   );

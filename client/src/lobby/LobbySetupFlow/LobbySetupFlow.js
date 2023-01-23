@@ -17,7 +17,7 @@ import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
-import { openSetupChoicesModal } from '../../store/actions/gameEditorActions';
+import { openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
 import { GAME_EDITOR_UI, MONOLOGUE_UI } from '../../constants';
 
@@ -29,7 +29,7 @@ const LobbySetupFlow = ({
   lobby: { lobby },
   completeCloseConstellation, 
   openConstellation,
-  openSetupChoicesModal,
+  openSetupDefaultsModal,
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -268,12 +268,12 @@ const LobbySetupFlow = ({
           nextButtonText: 'Load Editing Game'
         },
         {
-          id: 'Open Editing Game Setup',
-          title: <Typography component="h5" variant="h5">Open Editing Game Setup</Typography>,
+          id: 'Select Game Defaults',
+          title: <Typography component="h5" variant="h5">Select Game Defaults</Typography>,
           onClickNext: () => {
-            openSetupChoicesModal({ forceCobrowsingUpdate: true })
+            openSetupDefaultsModal({ forceCobrowsingUpdate: true })
           },
-          nextButtonText: 'Open Editing Game Setup'
+          nextButtonText: 'Open Game Defaults Selector'
         },
         {
           id: 'Unlock Add Color',
@@ -308,5 +308,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { openSetupChoicesModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation }),
+  connect(mapStateToProps, { openSetupDefaultsModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation }),
 )(LobbySetupFlow);
