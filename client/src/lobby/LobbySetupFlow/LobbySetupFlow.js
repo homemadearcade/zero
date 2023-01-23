@@ -203,7 +203,7 @@ const LobbySetupFlow = ({
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63bcb9f10d17e60053793a2a',
+              currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
               isGamePoweredOn: true,
               experienceState: GAME_EDITOR_UI
 
@@ -240,7 +240,7 @@ const LobbySetupFlow = ({
           title: <Typography component="h5" variant="h5">Load Prologue 2</Typography>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63af258a1a7bdd005363ac7e',
+              currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63c5e24c90a58a00531f4c1a',
               isGamePoweredOn: true,
               experienceState: GAME_EDITOR_UI
             })
