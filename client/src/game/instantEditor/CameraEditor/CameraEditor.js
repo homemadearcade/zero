@@ -84,6 +84,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel, gameCo
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
+  gameContext: state.gameContext,
 });
 
 export default connect(mapStateToProps, { editGameModel })(CameraEditor);
