@@ -30,23 +30,22 @@ import { changeCurrentStage, changePlayerState } from './gameContextActions';
 import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
-  const me = store.getState().auth.me 
-  const lobby = store.getState().lobby.lobby
-  const cobrowsing = store.getState().cobrowsing
+  // const me = store.getState().auth.me 
+  // const lobby = store.getState().lobby.lobby
+  // const cobrowsing = store.getState().cobrowsing
 
-
-  const isNotCobrowsing = lobby.id && !cobrowsing.isSubscribedCobrowsing
-  // isNotCobrowsing allows the lobby admin to get the update when they arent coborwsing, but the issue is that it will trigger a cobrowsing update as well because... updateCobrowsing gets triggered below. You are doing a cobrowsing action outside of cobrowsing without the extrenal flag is on. This is needed for this action since Unlockable UI is technically a cobrowsing system and so like we need to update that thing which is normally done inside cobrowsing...etc
-
-  if(me.id === id || (isNotCobrowsing)) {
-    store.dispatch({
-      type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
-      updateCobrowsing: true,
-      payload: {
-        unlockableInterfaceIds: data.unlockableInterfaceIds
-      }
-    })
-  }
+  // // const isNotCobrowsing = lobby.id && !cobrowsing.isSubscribedCobrowsing
+  // // // isNotCobrowsing allows the lobby admin to get the update when they arent coborwsing, but the issue is that it will trigger a cobrowsing update as well because... updateCobrowsing gets triggered below. You are doing a cobrowsing action outside of cobrowsing without the extrenal flag is on. This is needed for this action since Unlockable UI is technically a cobrowsing system and so like we need to update that thing which is normally done inside cobrowsing...etc
+  // //   console.log(id, data, isNotCobrowsing)
+  // if(me.id === id || (cobrowsing.isSubscribedCobrowsing)) {  
+  //   store.dispatch({
+  //     type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+  //     updateCobrowsing: true,
+  //     payload: {
+  //       unlockableInterfaceIds: data.unlockableInterfaceIds
+  //     }
+  //   })
+  // }
 }
 
 export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge}) => async (dispatch, getState) => {

@@ -12,7 +12,6 @@ import AggregateColorSelect from '../color/AggregateColorSelect/AggregateColorSe
 import { editGameModel } from '../../store/actions/gameModelActions';
 import { BOUNDARY_COLLIDE, BOUNDARY_DESTROY, BOUNDARY_WRAP, STAGE_BACKGROUND_CANVAS_ID } from '../constants';
 import Button from '../../ui/Button/Button';
-import { Divider } from '@mui/material';
 import RadioGroupColumn from '../../ui/RadioGroupColumn/RadioGroupColumn';
 
 
@@ -95,10 +94,10 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
                   value: BOUNDARY_COLLIDE,
                   label: 'Stop Object'
                 },
-                {
-                  value: BOUNDARY_DESTROY,
-                  label: 'Destroy Object'
-                },
+                // {
+                //   value: BOUNDARY_DESTROY,
+                //   label: 'Destroy Object'
+                // },
                 {
                   value: BOUNDARY_WRAP,
                   label: 'Flip Object to other side'

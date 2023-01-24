@@ -15,6 +15,10 @@ EMAILS
 Forgot Password - email Flow
 All sorts of emails for tickets
 
+  // how to update and view cobrowsing when they aint logged on?
+  // should an entire cobrowsing state be.... shared/editable when the user is not logged on
+  // and also therefore, its inherited?? omg thats so dope!
+
 ---------
 BIG FEATURES
 ---------

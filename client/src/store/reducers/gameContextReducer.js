@@ -20,10 +20,9 @@ const initialState = {
   isConstellationClosing: false,
   isConstellationOpen: false,
   constellationZoomImageFile: null,
-  currentStageId: null,
+  currentStageId: 'stage/default',
   player: {
     classId: null,
-
   }
 };
 

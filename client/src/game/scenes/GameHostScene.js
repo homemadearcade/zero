@@ -101,7 +101,7 @@ export class GameHostScene extends EditorScene {
 
     if(this.lastAcknowledgement) {
       if(this.lastAcknowledgement + disconnectedDelta < Date.now()) {
-        store.dispatch(changeLobbyConnectionState(GAME_CONNECTION_LOST, 'Your connection to your guide has been lost. This may resolve shorty. It if doesnt please refresh the page. If the problem continues further, your guide will contact you'))
+        store.dispatch(changeLobbyConnectionState(GAME_CONNECTION_LOST, 'Your connection to your guide has been lost. This may resolve shorty. If it doesnt please refresh the page. If the problem continues further, your guide will contact you'))
         this.lastAcknowledgement = null
       } else if(state.lobby.connectionState) {
         store.dispatch(changeLobbyConnectionState(null))

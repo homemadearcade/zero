@@ -12,10 +12,7 @@ import {
   ON_GAME_MODEL_UPDATE,
   CHANGE_CURRENT_STAGE,
 } from '../types';
-import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
-import { defaultObjectInstance } from '../../game/defaultData/object';
-import { defaultClass } from '../../game/defaultData/class';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';

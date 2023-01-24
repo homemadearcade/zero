@@ -39,7 +39,6 @@ export default (ChildComponent) => {
     async unloadGame() {
       const { unloadArcadeGame, clearCutscenes, changeGameState } = this.props
      
-      saveAllCurrentCanvases()
       unloadArcadeGame()
       clearCutscenes()
       changeGameState(null)
