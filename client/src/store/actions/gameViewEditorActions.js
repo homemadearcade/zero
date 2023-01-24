@@ -66,7 +66,6 @@ export const closeSectionEditor= () => (dispatch, getState) => {
   });
 }
 
-
 export const toggleGridView = (value) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,

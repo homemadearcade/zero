@@ -15,9 +15,9 @@ EMAILS
 Forgot Password - email Flow
 All sorts of emails for tickets
 
-  // how to update and view cobrowsing when they aint logged on?
-  // should an entire cobrowsing state be.... shared/editable when the user is not logged on
-  // and also therefore, its inherited?? omg thats so dope!
+how to update and view cobrowsing when they aint logged on?
+should an entire cobrowsing state be.... shared/editable when the user is not logged on
+and also therefore, its inherited?? omg thats so dope!
 
 ---------
 BIG FEATURES
@@ -50,6 +50,24 @@ UI
   Auto hide live editor when using keys?
   Popup if your phaser game stops updating, or like phaser crashes?
     Connection should be based on something else, sockets are not working, base it on lobby user update?
+  So and so joined lobby popup so we know when someone enters or not
+  When someone joins video call?
+  For prologues - Fix zones that are not on playground layer 
+  Automate some video - In monologue mode…Hovering over video creates… overlay
+  Video/Audio Toolbar should be pulled out perhaps to the left hand side in a drawer?
+  Non saving mode for games
+  Remove Lobby State stuff in reducers? Form the past?
+  Remove Bypass Video thing so they can’t
+  Playthrough mode for prologues
+  Pressing X sending us to the Play state when on the admin game client editor computer?
+  Eraser in Sprite Editor
+  Initialize player Instance, no zone? Check for zone…
+  Not cobrowsing with participant in waiting view?
+  Change default boundary relationship for the hero after selected
+  Current Player Icon in Player Class Menu
+  Delay for Effects
+  Fit all titles into the box 
+  Turn off Zone Layer by Default 
 
 FLOW
   Spawn object at the edge of the heros camera?

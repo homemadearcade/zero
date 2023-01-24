@@ -574,10 +574,10 @@ export class EditorScene extends GameInstance {
       }
 
       if(stageUpdate?.boundaries) {
-        if(stageUpdate.boundaries.loop) {
-          this.sendReloadGameEvent()
-          return
-        }
+        // if(stageUpdate.boundaries.loop) {
+        //   this.sendReloadGameEvent()
+        //   return
+        // }
         
         // set camera previews zoom
         // set camera bounds
@@ -638,7 +638,8 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.relations) {
-      this.sendReloadGameEvent()
+      this.unregisterRelations()
+      this.registerRelations()
     }
 
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
@@ -963,6 +964,9 @@ export class EditorScene extends GameInstance {
 
   unload() {
     super.unload()
+    this.remoteEditors.forEach((remoteEditor) => {
+      remoteEditor.destroy()
+    })
   }
 }
 

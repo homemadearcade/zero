@@ -15,6 +15,8 @@ import {
 import { saveAllCurrentCanvases } from './codrawingActions';
 
 export const changeGameState = (gameState, message) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     forceCobrowsingUpdate: true,

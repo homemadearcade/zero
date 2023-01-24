@@ -7,7 +7,7 @@ import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
 
 import './LobbyDetail.scss';
 import Typography from '../../ui/Typography/Typography';
-import GameStatus from '../../app/homemadeArcade/arcadeGame/GameStatus/GameStatus';
+import GameStatus from '../GameStatus/GameStatus';
 
 const LobbyDetail = ({
   lobby: { lobby },

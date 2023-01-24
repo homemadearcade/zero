@@ -7,7 +7,6 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { SNAPSHOT_ID_PREFIX, STAGE_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/gameFormEditorActions';
-import { Divider } from '@mui/material';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
@@ -71,6 +70,12 @@ const StageContextMenu = ({
         openSnapshotTaker(SNAPSHOT_ID_PREFIX+generateUniqueId())
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
+    </Unlockable>
+    <Unlockable interfaceId="contextMenu/playtest adminOnly/playtest">
+      <MenuItem onClick={() => {
+        window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
+        onMenuItemClick()
+      }}>Playtest Game</MenuItem>
     </Unlockable>
     {false && <Unlockable interfaceId="contextMenu/toggleGrid">
       <MenuItem onClick={() => {

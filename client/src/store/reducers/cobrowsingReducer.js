@@ -66,6 +66,10 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isSubscribingCobrowsing: false,
         isActivelyCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
+        remoteState: {
+          ...state.remoteState,
+          ...payload.initialCobrowsingState
+        }
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
       return {

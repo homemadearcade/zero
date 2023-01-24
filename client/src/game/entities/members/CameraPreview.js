@@ -19,7 +19,7 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
 
   setZoom(zoom) {
     const gameModel = store.getState().gameModel.gameModel
-    const gameMaxWidth = gameModel.stages[this.scene.stage.id].boundaries.maxWidth
+    const gameMaxWidth = gameModel.stages[this.scene?.stage.id].boundaries.maxWidth
     const cameraSize = gameMaxWidth/zoom
 
     this.clear()

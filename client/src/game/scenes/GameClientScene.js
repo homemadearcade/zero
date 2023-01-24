@@ -16,6 +16,10 @@ export class GameClientScene extends EditorScene {
     this.sceneInstanceData = props.sceneInstanceData
 
     this.lastUpdate = null
+
+    this.lastUpsCount = null
+    this.updates = 0
+    this.ups = null
   }
 
   onGameInstanceUpdate = ({objects, player, projectiles, stageId}) => {
@@ -56,11 +60,21 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.destroyAfterUpdate = player.destroyAfterUpdate 
     this.playerInstance.reclassId = player.reclassId
 
+    this.lastUpdate = Date.now()
+
+    const time = Date.now();
+    this.updates++;
+    if (time > this.lastUpsCount + 1000) {
+      this.ups = Math.round( ( this.updates * 1000 ) / ( time - this.lastUpsCount ) );
+      this.lastUpsCount = time;
+      this.updates = 0;
+    }
+
     window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
-      lobbyId: store.getState().lobby.lobby?.id
+      lobbyId: store.getState().lobby.lobby?.id,
+      ups: this.ups
     })
 
-    this.lastUpdate = Date.now()
     this.afterGameInstanceUpdateEffects() 
   }
 

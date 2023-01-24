@@ -67,8 +67,9 @@ export class GameHostScene extends EditorScene {
     }, updateInterval)
   }
 
-  onGameInstanceUpdateAcknowledged = () => {
+  onGameInstanceUpdateAcknowledged = ({ ups }) => {
     this.lastAcknowledgement = Date.now()
+    this.ups = ups
   }
 
   create() {

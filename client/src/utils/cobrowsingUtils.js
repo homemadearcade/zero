@@ -82,3 +82,10 @@ export function getCobrowsingState(options) {
     unlockableInterfaceIds: isSubscribed ? remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
   }
 }
+
+export const forceCobrowsingUpdateDispatch = (fx) => (dispatch, getState) => {
+  fx((dispatchData) => {
+    dispatchData.forceCobrowsingUpdate = true
+    dispatch(dispatchData)
+  }, getState)
+}

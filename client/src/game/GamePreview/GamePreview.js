@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './GamePreview.scss';
 import withGame from '../../hoc/withGame';
 import GameView from '../../game/GameView/GameView';
-import GameStatus from '../../app/homemadeArcade/arcadeGame/GameStatus/GameStatus';
+import GameStatus from '../../lobby/GameStatus/GameStatus';
 import LobbyUserStatus from '../../lobby/LobbyUserStatus/LobbyUserStatus';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';

@@ -67,6 +67,8 @@ export const selectBrush = (brushId) => (dispatch, getState) => {
 }
 
 export const clearBrush = (brushId) => (dispatch, getState) => {
+  saveAllCurrentCanvases()
+
   dispatch({
     updateCobrowsing: true,
     type: CLEAR_BRUSH,

@@ -29,7 +29,7 @@ import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import withSpeedTest from '../../hoc/withSpeedTest';
-import { GAME_CONNECTION_LOST } from '../../lobby/constants';
+import { GAME_CONNECTION_LOST, PHASER_ERROR } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
 import { DialogContent, DialogTitle } from '@mui/material';
 import { GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
@@ -171,6 +171,13 @@ const LobbyPage = ({
       changeLobbyConnectionState(null)
     }}>
       <DialogTitle>Game Connection Lost</DialogTitle>
+      <DialogContent>{connectionMessage}</DialogContent>
+    </Dialog>
+
+    if(connectionState === PHASER_ERROR) return <Dialog open onClose={() => {
+      changeLobbyConnectionState(null)
+    }}>
+      <DialogTitle>Game Error</DialogTitle>
       <DialogContent>{connectionMessage}</DialogContent>
     </Dialog>
   }

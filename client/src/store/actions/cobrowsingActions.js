@@ -133,7 +133,7 @@ export const handleCobrowsingUpdates = store => next => action => {
   // return result
 
   const state = store.getState()
-  
+
   // is this action connected to cobrowsing?
   if(action.updateCobrowsing && state.lobby.lobby?.id) {
 
@@ -306,9 +306,17 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
       });
     });
 
+    const gameModel = getState().gameModel.gameModel
     dispatch({
       type: SUBSCRIBE_COBROWSING_SUCCESS,
-      payload: { cobrowsingUser: response.data.cobrowsingUser },
+      payload: { cobrowsingUser: response.data.cobrowsingUser, initialCobrowsingState: {
+        gameContext: {
+          stageId: gameModel.player.initialStageId,
+          player: {
+            classId: gameModel.stages[gameModel.player.initialStageId].playerClassId
+          }
+        }
+      } },
     });
   } catch (err) {
     console.error(err)

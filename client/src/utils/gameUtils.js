@@ -25,7 +25,7 @@ export function getClassAandB(classIdA, classIdB) {
   let classA = gameModel.classes[classIdA] 
   let classB = gameModel.classes[classIdB]
 
-  const playerClassId= gameContext.player.classId
+  const playerClassId= getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId
 
   // if(classIdA === PLAYER_INSTANCE_ID_PREFIX) {
   //   classA = gameModel.classes[stage.playerClassId].playerClassId]

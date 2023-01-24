@@ -1,16 +1,28 @@
-import React, { } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import './GameStatus.scss';
-import AccordianList from '../../../../ui/AccordianList/AccordianList';
-import Typography from '../../../../ui/Typography/Typography';
-import Icon from '../../../../ui/Icon/Icon';
-import { mapCobrowsingState } from '../../../../utils/cobrowsingUtils';
-import { getCurrentGameScene } from '../../../../utils/editorUtils';
-import store from '../../../../store';
+import AccordianList from '../../ui/AccordianList/AccordianList';
+import Typography from '../../ui/Typography/Typography';
+import Icon from '../../ui/Icon/Icon';
+import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import { getCurrentGameScene } from '../../utils/editorUtils';
+import store from '../../store';
 
 const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameState }, gameModel: { gameModel } }) => {
+  const [ups, setUps] = useState(null)
+  
+  useEffect(() => {
+    const upsInterval = setInterval(() => {
+      const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
+      setUps(scene.ups)
+    }, 1000)
+
+    return () => {
+      clearInterval(upsInterval)
+    }
+  }, [])
 
   if(!gameModel) return <Typography component="div" variant="subtitle2">No Game Model Loaded</Typography>
   const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
@@ -22,6 +34,7 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isPlaythrough ? 'Is Playthrough': 'Not Playthrough'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isGridViewOn ? 'GridView On': 'Not GridView'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'FPS:' + scene.game.loop.actualFps}</span>
+      {ups && <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'UPS:' + ups}</span>}
     </>
   }
   

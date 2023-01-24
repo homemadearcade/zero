@@ -5,7 +5,7 @@ import Phaser from 'phaser';
 import { PreloaderScene } from '../scenes/PreloaderScene';
 
 import './GameView.scss';
-import { PRELOADER_SCENE } from '../constants';
+import { disconnectedDelta, PRELOADER_SCENE } from '../constants';
 
 import { gameSize } from '../defaultData/general';
 import { getCurrentGameScene } from '../../utils/editorUtils';
@@ -13,6 +13,9 @@ import { setGameInstance } from '../../store/actions/webPageActions';
 
 import Cutscene from '../cutscene/Cutscene/Cutscene';
 import StateScreen from '../StateScreen/StateScreen';
+import store from '../../store';
+import { changeLobbyConnectionState } from '../../store/actions/lobbyActions';
+import { PHASER_ERROR } from '../../lobby/constants';
 
 const config= {
   type: Phaser.WEBGL,
@@ -67,7 +70,7 @@ const GameView = (props) => {
   return <PhaserGame {...props}></PhaserGame>
 }
 
-const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance }) => {
+const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeLobbyConnectionState }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked}), true);
@@ -79,6 +82,19 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const connectionInterval = setInterval(() => {
+      const lastUpdate = getCurrentGameScene(store.getState().webPage.gameInstance).lastUpdate
+      if(lastUpdate + disconnectedDelta < Date.now()) {
+        changeLobbyConnectionState(PHASER_ERROR, 'Your connection to the game has been lost. Please refresh the page')
+      }
+    }, disconnectedDelta)
+
+    return () => {
+      clearInterval(connectionInterval)
+    }
+  }, [])
+
   return (
     <div className="GameView">
       <Cutscene/>
@@ -89,7 +105,7 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance }) => {
 };
 
 const mapStateToProps = (state) => ({
-  gameModel: state.gameModel
+  gameModel: state.gameModel,
 });
 
-export default connect(mapStateToProps, { setGameInstance })(GameView);
+export default connect(mapStateToProps, { setGameInstance, changeLobbyConnectionState })(GameView);

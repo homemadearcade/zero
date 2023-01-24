@@ -10,7 +10,7 @@ export default (ChildComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        fullscreenDecision: !document.fullscreenElement || isLocalHost()
+        fullscreenDecision: isLocalHost() || (document.fullscreenElement ? 'fullscreen' : null)
       }
     }
 

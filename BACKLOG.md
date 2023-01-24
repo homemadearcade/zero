@@ -105,6 +105,22 @@ Interface Preset Update
 
 TODO CHORES BACKLOG
 
+App -> Creator, Admin sections of the app
+
+SECTIONS
+Admin
+Marketing
+Creator
+Game
+Lobby
+Layout
+Ticketing
+Pages
+ui
+hoc
+constants
+state
+
 popup if the player has switched stages and you want to follow them to that scene 
 
 undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by Id not ... canvas id?

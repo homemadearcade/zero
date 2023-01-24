@@ -117,11 +117,25 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
                  }
                 }
               })
+              editGameModel({
+                classes: {
+                 ['oc/pl/jumper']: {
+                    boundaryRelation: gameModel.defaults.boundaryRelation
+                 }
+                }
+              })
             } else {
               editGameModel({
                 stages: {
                  ['stage/default']: {
                     playerClassId: 'oc/pl/directional'
+                 }
+                }
+              })
+              editGameModel({
+                classes: {
+                 ['oc/pl/directional']: {
+                    boundaryRelation: gameModel.defaults.boundaryRelation
                  }
                 }
               })

@@ -32,6 +32,8 @@ export class GameInstance extends Phaser.Scene {
     this.physicsType = ARCADE_PHYSICS
 
     this.sceneInstanceData = props.sceneInstanceData
+
+    this.lastUpdate = null
   }
 
   init(data) {
@@ -354,7 +356,7 @@ export class GameInstance extends Phaser.Scene {
       return this.backgroundLayer
     }
     if(textureId === this.playgroundLayer.textureId) {
-      return this.backgroundLayer
+      return this.playgroundLayer
     }
     if(textureId === this.foregroundLayer.textureId) {
       return this.foregroundLayer
@@ -375,6 +377,32 @@ export class GameInstance extends Phaser.Scene {
     }
 
     console.error('didnt find layer with id', canvasId, typeof canvasId)
+  }
+
+  initializeObjectInstances() {
+    const gameModel = store.getState().gameModel.gameModel
+    const gameContext = getCobrowsingState().gameContext
+    const stageId = gameContext.currentStageId
+    const currentStage = gameModel.stages[stageId]
+    const objects = currentStage.objects
+    Object.keys(objects).forEach((gameObjectId) => {
+      const objectInstanceData = objects[gameObjectId]
+      if(!objectInstanceData) {
+        return console.error('Object missing!', gameObjectId)
+      } 
+      if(gameObjectId === PLAYER_INSTANCE_ID_PREFIX) {
+        return console.error('hero got in?!')
+      }
+      if(!objectInstanceData.classId) {
+        return console.log('missing classId!!', objectInstanceData)
+      }
+
+      this.initializeObjectInstance(gameObjectId, objectInstanceData)
+    });
+
+    this.objectInstances = this.objectInstances.filter((objectInstance) => {
+      return !!objectInstance
+    })
   }
 
   create() {
@@ -430,25 +458,7 @@ export class GameInstance extends Phaser.Scene {
     this.projectileInstances = []
     this.projectileInstancesById = {}
 
-    const objects = currentStage.objects
-    Object.keys(objects).forEach((gameObjectId) => {
-      const objectInstanceData = objects[gameObjectId]
-      if(!objectInstanceData) {
-        return console.error('Object missing!', gameObjectId)
-      } 
-      if(gameObjectId === PLAYER_INSTANCE_ID_PREFIX) {
-        return console.error('hero got in?!')
-      }
-      if(!objectInstanceData.classId) {
-        return console.log('missing classId!!', objectInstanceData)
-      }
-
-      this.initializeObjectInstance(gameObjectId, objectInstanceData)
-    });
-
-    this.objectInstances = this.objectInstances.filter((objectInstance) => {
-      return !!objectInstance
-    })
+    this.initializeObjectInstances()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -471,7 +481,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     this.cameras.main.pan(this.playerInstance.sprite.x, this.playerInstance.sprite.y, 0)
-    const playerClass = gameModel.classes[gameContext.player.classId]
+    const playerClass = gameModel.classes[getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId]
     this.cameras.main.setZoom(playerClass.camera.zoom);
 
     if(this.isPlaythrough && this.firstStage) {
@@ -517,10 +527,26 @@ export class GameInstance extends Phaser.Scene {
   }
 
   reload = () => {
-    this.registry.destroy(); // destroy registry
-    this.events.off(); // disable all active events
-    this.scene.restart(); // restart current scene
-    this.unregisterEvents()
+    // this.registry.destroy(); // destroy registry
+    // this.events.off(); // disable all active events
+    // this.scene.restart(); // restart current scene
+    // this.unregisterEvents()
+
+    this.objectInstances.forEach((instance) => {
+      instance.destroy()
+    })
+    this.objectInstances= []
+    this.projectileInstances.forEach((instance) => {
+      instance.destroy()
+    })
+    this.projectileInstances = []
+    this.playerInstance.destroy()
+    
+    this.initializeObjectInstances()
+    this.initializePlayerInstance()
+
+    this.unregisterRelations()
+    this.registerRelations()
 
     store.dispatch(clearCutscenes())
   }
@@ -556,10 +582,12 @@ export class GameInstance extends Phaser.Scene {
       this.scene.start(currentStageId, this.props)
     }
 
-    const currentPlayerId = getCobrowsingState().gameContext.player.classId
+    const currentPlayerId = getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId
     if(this.playerInstance.classId !== currentPlayerId) {
       this.playerInstance.reclass(currentPlayerId)
     }
+
+    this.lastUpdate = Date.now()
   }
 
   unload() {
