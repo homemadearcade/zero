@@ -21,9 +21,9 @@ export function saveAllCurrentCanvases() {
   const state = store.getState()
   const scene = getCurrentGameScene(state.webPage.gameInstance)
   if(!scene) return
-  if(scene.backgroundLayer.unsavedChanges) scene.backgroundLayer.save()
-  if(scene.playgroundLayer.unsavedChanges) scene.playgroundLayer.save()
-  if(scene.foregroundLayer.unsavedChanges) scene.foregroundLayer.save()
+  if(scene.backgroundLayer?.unsavedChanges) scene.backgroundLayer.save()
+  if(scene.playgroundLayer?.unsavedChanges) scene.playgroundLayer.save()
+  if(scene.foregroundLayer?.unsavedChanges) scene.foregroundLayer.save()
 }
 
 export const publishCodrawingStrokes = ({textureId, brushId, stroke}) => async (dispatch, getState) => {

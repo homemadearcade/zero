@@ -9,9 +9,11 @@ import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
-import { editLobby } from '../../store/actions/lobbyActions';
-import { changeCurrentStage, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
+import { changeLobbyConnectionState, editLobby } from '../../store/actions/lobbyActions';
+import { changeCurrentStage, changeGameState, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
+import { PHASER_ERROR } from '../../lobby/constants';
+import { defaultPlayerSpawnZone } from '../defaultData/stage';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -109,6 +111,11 @@ export class GameInstance extends Phaser.Scene {
       const stageId = gameContext.currentStageId
       const zoneId = gameModel.stages[stageId].spawnZoneClassId
       const zone = this.getRandomInstanceOfClassId(zoneId)
+      if(!zone) {
+        store.dispatch(changeGameState(STOPPED_STATE))
+        store.dispatch(changeLobbyConnectionState(PHASER_ERROR, 'Your Player cannot find a spawn zone, please add one before starting again. We stopped the game for you'))
+        return 
+      }
       const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
@@ -388,13 +395,18 @@ export class GameInstance extends Phaser.Scene {
     Object.keys(objects).forEach((gameObjectId) => {
       const objectInstanceData = objects[gameObjectId]
       if(!objectInstanceData) {
-        return console.error('Object missing!', gameObjectId)
+        if(gameObjectId === 'oi/playspawnzone') {
+          this.initializeObjectInstance(gameObjectId, defaultPlayerSpawnZone)
+          return
+        } else {
+          return console.error('Object missing!', gameObjectId)
+        }
       } 
       if(gameObjectId === PLAYER_INSTANCE_ID_PREFIX) {
         return console.error('hero got in?!')
       }
       if(!objectInstanceData.classId) {
-        return console.log('missing classId!!', objectInstanceData)
+        return console.error('missing classId!!', objectInstanceData)
       }
 
       this.initializeObjectInstance(gameObjectId, objectInstanceData)

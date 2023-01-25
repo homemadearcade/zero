@@ -1,15 +1,19 @@
 import { BOUNDARY_COLLIDE, BOUNDARY_DESTROY, BOUNDARY_WRAP } from "../constants";
 import { gameSize } from "./general";
 
+export const defaultPlayerSpawnZone = {
+  id: 'oi/playerspawnzone',
+  classId: 'oc/z/playerspawnzone',
+  spawnX: gameSize/2,
+  spawnY: gameSize/2,
+}
+
 export const defaultStage = {
   'spawnZoneClassId': 'oc/z/playerspawnzone',
   "imageUrl": "",
   objects: {
     'oi/playerspawnzone': {
-      id: 'oi/playerspawnzone',
-      classId: 'oc/z/playerspawnzone',
-      spawnX: gameSize/2,
-      spawnY: gameSize/2,
+      ...defaultPlayerSpawnZone
     }
   },
   "boundaries": {

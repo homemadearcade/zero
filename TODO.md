@@ -53,6 +53,8 @@ UI
   Fit all titles into the box with TextFit thing from before
   Turn off Zone Layer visibility by Default if not admin
 
+  Player Spawn zone being deleted issue, I think perhaps its just best to never let it be deleted, same with default stage. CANT BE DELETED! Player spawn zone issue is leading to... the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
+
 FLOW
   Spawn object at the edge of the heros camera?
   Class is selected after being created, Movement is prompted after placing the first object?
