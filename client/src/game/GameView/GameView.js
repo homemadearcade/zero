@@ -86,7 +86,7 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeLobbyCo
     const connectionInterval = setInterval(() => {
       const lastUpdate = getCurrentGameScene(store.getState().webPage.gameInstance).lastUpdate
       if(lastUpdate + disconnectedDelta < Date.now()) {
-        changeLobbyConnectionState(PHASER_ERROR, 'Your connection to the game has been lost. Please refresh the page')
+        changeLobbyConnectionState(PHASER_ERROR, 'Your browser has run into an issue. Please refresh the page')
       }
     }, disconnectedDelta)
 

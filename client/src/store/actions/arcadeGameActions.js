@@ -18,6 +18,7 @@ import {
   ON_GAME_MODEL_UPDATE,
   ON_GAME_CHARACTER_UPDATE,
   INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+  INITIALIZE_COBROWSING_STATE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -189,6 +190,20 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     dispatch(changeCurrentStage(gameData.player.initialStageId))
     dispatch(changePlayerState({classId: gameData.stages[gameData.player.initialStageId].playerClassId}))
 
+    dispatch({
+      type: INITIALIZE_COBROWSING_STATE,
+      payload: {
+        initialCobrowsingState: {
+          gameContext: {
+            currentStageId: gameData.player.initialStageId,
+            player: {
+              classId: gameData.stages[gameData.player.initialStageId].playerClassId
+            }
+          } 
+        }
+      }
+    })
+    
     const stages = Object.keys(gameData.stages).map((stageId) => {
       return gameData.stages[stageId]
     })

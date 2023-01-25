@@ -5,7 +5,7 @@ import './AgoraUserVideo.scss'
 
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 
-const AgoraUserVideo = ({ className, userId, label, auth: { me }, myTracks, userTracks, width, height }) => {
+const AgoraUserVideo = ({ hideOverlay, className, userId, label, auth: { me }, myTracks, userTracks, width, height }) => {
   if(!myTracks || !userTracks) {
     return <div style={{width, height}} className={className}/>
   }
@@ -24,6 +24,7 @@ const AgoraUserVideo = ({ className, userId, label, auth: { me }, myTracks, user
 
   return <div className={className} style={{width, height}}>
     <AgoraVideo
+    hideOverlay={hideOverlay}
     tracks={userTracksById[userId]}
     label={label}
   /></div>

@@ -15,10 +15,6 @@ EMAILS
 Forgot Password - email Flow
 All sorts of emails for tickets
 
-how to update and view cobrowsing when they aint logged on?
-should an entire cobrowsing state be.... shared/editable when the user is not logged on
-and also therefore, its inherited?? omg thats so dope!
-
 ---------
 BIG FEATURES
 ---------
@@ -48,26 +44,14 @@ UI
   You should be able to hide games, you should be able to hide classes, hide stages, hide lobby not delete them, hide users, dont delete them, hide objects? nah delete them
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
   Auto hide live editor when using keys?
-  Popup if your phaser game stops updating, or like phaser crashes?
-    Connection should be based on something else, sockets are not working, base it on lobby user update?
-  So and so joined lobby popup so we know when someone enters or not
-  When someone joins video call?
   For prologues - Fix zones that are not on playground layer 
-  Automate some video - In monologue mode…Hovering over video creates… overlay
-  Video/Audio Toolbar should be pulled out perhaps to the left hand side in a drawer?
-  Non saving mode for games
-  Remove Lobby State stuff in reducers? Form the past?
-  Remove Bypass Video thing so they can’t
-  Playthrough mode for prologues
-  Pressing X sending us to the Play state when on the admin game client editor computer?
+  Non saving mode for games/Playthrough mode for prologues
   Eraser in Sprite Editor
-  Initialize player Instance, no zone? Check for zone…
-  Not cobrowsing with participant in waiting view?
-  Change default boundary relationship for the hero after selected
+  Initialize player Instance, no zone? Check for zone… and if no zone throw error?
   Current Player Icon in Player Class Menu
-  Delay for Effects
-  Fit all titles into the box 
-  Turn off Zone Layer by Default 
+  Delay for Effects, or like a flag for if you want the effect to happen first?
+  Fit all titles into the box with TextFit thing from before
+  Turn off Zone Layer visibility by Default if not admin
 
 FLOW
   Spawn object at the edge of the heros camera?

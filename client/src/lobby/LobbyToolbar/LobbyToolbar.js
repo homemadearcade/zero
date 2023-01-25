@@ -8,7 +8,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 import Icon from '../../ui/Icon/Icon';
-import AgoraVolumeMeter from '../../lobby/agora/AgoraVolumeMeter/AgoraVolumeMeter';
+import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
 
 const LobbyToolbar = ({ tracks }) => {
   const videoTrack = tracks[1]

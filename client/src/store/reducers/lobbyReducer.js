@@ -23,7 +23,8 @@ import {
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
-  CHANGE_LOBBY_CONNECTON_STATE
+  CHANGE_LOBBY_CONNECTON_STATE,
+  SEND_LOBBY_MESSAGE_FAIL
 } from '../types';
 
 const initialState = {
@@ -119,6 +120,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     case LEAVE_LOBBY_FAIL:
     case ASSIGN_LOBBY_ROLE_FAIL:
     case UPDATE_LOBBY_USER_FAIL:
+    case SEND_LOBBY_MESSAGE_FAIL:
       return {
         ...state,
         isLoading: false,

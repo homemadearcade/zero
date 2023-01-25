@@ -12,6 +12,7 @@ import {
   ON_COBROWSING_UPDATE,
   TOGGLE_COBROWSING,
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
+  INITIALIZE_COBROWSING_STATE,
 } from '../types';
 
 import { initialContextMenuState } from './contextMenuReducer';
@@ -59,6 +60,14 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         cobrowsingUser: false,
       };
+    case INITIALIZE_COBROWSING_STATE: 
+      return {
+        ...state,
+       remoteState: {
+          ...state.remoteState,
+          ...payload.initialCobrowsingState
+        }
+      }
     case SUBSCRIBE_COBROWSING_SUCCESS:
       return {
         ...state,
@@ -66,10 +75,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isSubscribingCobrowsing: false,
         isActivelyCobrowsing: false,
         cobrowsingUser: payload.cobrowsingUser,
-        remoteState: {
-          ...state.remoteState,
-          ...payload.initialCobrowsingState
-        }
+ 
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
       return {
@@ -99,12 +105,12 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case TOGGLE_COBROWSING: 
       return {
         ...state,
-        isActivelyCobrowsing: !state.isActivelyCobrowsing
+        isActivelyCobrowsing: payload.value
       }
     case TOGGLE_UNLOCKABLE_INTERFACE_LOCKS: 
       return {
         ...state,
-        showUnlockableInterfaceLocks: !state.showUnlockableInterfaceLocks
+        showUnlockableInterfaceLocks: payload.value
       }
     case ON_COBROWSING_UPDATE:
       return {

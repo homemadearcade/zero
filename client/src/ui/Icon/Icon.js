@@ -5,11 +5,14 @@ import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { faWarning, faEraser, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faEye, faCrown, faArrowPointer, faChevronDown, faDownload, faUpload, faWindowMaximize } from '@fortawesome/free-solid-svg-icons'
 import { faBars, faHammer, faEyeDropper } from '@fortawesome/free-solid-svg-icons'
-import { faEyeSlash, faCirclePlay, faArrowLeft, faLocationDot, faMusic, faStar, faCalendar, faPlus, faVolumeHigh, faVolumeXmark, faVolumeSlash, faMask, faHouseLaptop, faStop, faRotateLeft, faDesktop, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash, faUserSecret, faUserLock, faUser, faCirclePlay, faArrowLeft, faLocationDot, faMusic, faStar, faCalendar, faPlus, faVolumeHigh, faVolumeXmark, faVolumeSlash, faMask, faHouseLaptop, faStop, faRotateLeft, faDesktop, faQuestionCircle, faQuestion, faLock, faLockOpen, faTableCells } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 const iconMap = {
+  faUserSecret,
+  faUserLock,
+  faUser,
   faArrowLeft,
   faGoogle,
   faCalendar,

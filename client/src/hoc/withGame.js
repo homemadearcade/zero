@@ -41,7 +41,7 @@ export default (ChildComponent) => {
      
       unloadArcadeGame()
       clearCutscenes()
-      changeGameState(null)
+      // changeGameState(null)
     }
 
     async switchGame(oldProps, newProps) {

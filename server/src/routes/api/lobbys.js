@@ -82,6 +82,22 @@ router.get('/byEmail/:participantEmail', requireLobbys, async (req, res) => {
   }
 });
 
+router.post('/:id/message', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  req.lobby.messages.push({
+    user: req.body.user,
+    message: req.body.message
+  })
+
+  req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
+  res.status(200).json({ lobby: req.lobby });
+})
+
+router.post('/:id/clearMessages', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
+  req.lobby.messages = []
+  req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
+  res.status(200).json({ lobby: req.lobby });
+})
+
 router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
   try {
     let lobby = await Lobby.create({
@@ -116,6 +132,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
 
     lobby.currentStep = 2
     lobby.experienceState = 'WAITING_UI'
+    lobby.messages = []
 
     req.lobbys.push(lobby)
 
@@ -146,6 +163,15 @@ router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async
     }
 
     userFound.joined = false
+
+    req.lobby.messages.push({
+      user: {
+        id: userFound.id,
+        username: userFound.username
+      },
+      automated: true,
+      message: 'has left the lobby',
+    })
 
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     req.socket.leave(req.lobby.id)
@@ -213,9 +239,6 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     { new: true },
   );
 
-
-      console.log('assign role', updatedLobby.participants)
-
   // if(!userFound) {
   //   return res.status(400).json({ message: 'You are not a member of this lobby' });
   // }
@@ -233,8 +256,19 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
         return false
       }
     })[0]
-    
+
+
     if(userFound) {
+
+      req.lobby.messages.push({
+        user: {
+          id: userFound.id,
+          username: userFound.username
+        },
+        message: 'has re-joined the lobby',
+        automated: true
+      })
+      
       req.socket.join(req.lobby.id);
       if(req.user.role === 'ADMIN') req.socket.join('admins@'+req.lobby.id);
       userFound.joined = true;
@@ -259,6 +293,16 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
       joined: true,
       connected: true
     }
+
+    req.lobby.messages.push({
+      user: {
+        id: newLobbyUser.id,
+        username: newLobbyUser.username
+      },
+      message: 'has joined the lobby',
+      automated: true
+    })
+      
 
     // listen for all of this lobbies events
     req.socket.join(req.lobby.id);

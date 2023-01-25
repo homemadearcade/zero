@@ -161,10 +161,10 @@ const LobbySetupFlow = ({
           nextButtonText: 'Go Fullscreen'
         },
         {
-          id: 'i0 - Reset Participant UI',
-          title: <Typography component="h5" variant="h5">i0 - Reset Participant UI</Typography>,
+          id: 'UI - Lock All',
+          title: <Typography component="h5" variant="h5">UI - Lock All</Typography>,
           instructions: <>
-            This will set the participants game screen to be able to see the Game View and the Game View only
+            This will set the participants UI to not see any thing including the Game View
           </>,
           onClickNext: () => {
             updateArcadeGameCharacter({
@@ -212,10 +212,10 @@ const LobbySetupFlow = ({
           nextButtonText: 'Load Prologue 1'
         },
         {
-          id: 'i1 - Reveal Game Screen',
-          title: <Typography component="h5" variant="h5">i1 - Reveal Game Screen</Typography>,
+          id: 'UI - Unlock Game View',
+          title: <Typography component="h5" variant="h5">UI - Unlock Game View</Typography>,
           instructions: <>
-            This will set the participants game screen to be able to see the Game View and the Game View only
+            This will set the participants UI to be able to see the Game View and the Game View only
           </>,
           onClickNext: () => {
             updateArcadeGameCharacter({
@@ -277,7 +277,7 @@ const LobbySetupFlow = ({
         },
         {
           id: 'Unlock Add Color',
-          title: <Typography component="h5" variant="h5">Unlock Add Color</Typography>,
+          title: <Typography component="h5" variant="h5">UI - Unlock Add Color</Typography>,
           instructions: <>
             If the user wants to select another color that isnt given, you can unlock that feature for them
           </>,

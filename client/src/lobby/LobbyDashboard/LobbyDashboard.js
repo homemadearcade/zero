@@ -6,15 +6,26 @@ import { connect } from 'react-redux';
 import './LobbyDashboard.scss';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
+import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
+import { Paper } from '@mui/material';
+import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
 
 const LobbyDashboard = ({
   lobby: { lobby },
+  myTracks,
+  video: { isInsideVideoCall }
 }) => {
   return (
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
-        <ExperiencePreview userId={lobby.participantId}/>
+        <div className="LobbyDashboard__communication">
+          <ExperiencePreview userId={lobby.participantId}/>
+        </div>
         <LobbySetupFlow/>
+        <Paper className="LobbyDashboard__chatroom">
+          <LobbyChatroom name="Lobby Log"/>
+          {isInsideVideoCall && myTracks && <LobbyToolbar tracks={myTracks}></LobbyToolbar>}
+        </Paper>
       </div>
     </div>
   );
@@ -22,6 +33,7 @@ const LobbyDashboard = ({
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
+  video: state.video
 });
 
 export default compose(

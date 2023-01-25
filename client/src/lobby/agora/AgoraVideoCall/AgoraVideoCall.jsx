@@ -13,6 +13,7 @@ import AgoraVideo from "../AgoraVideo/AgoraVideo";
 import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
 import Button from "../../../ui/Button/Button";
 import Typography from "../../../ui/Typography/Typography";
+import { isLocalHost } from "../../../utils/webPageUtils";
 
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
@@ -69,11 +70,11 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
       }}>
         Enter Lobby with Video
       </Button>
-      <Button onClick={() => {
+      {isLocalHost() && <Button onClick={() => {
         bypassAgoraVideoCall()
       }}>
         Bypass Video
-      </Button>
+      </Button>}
     </div>
   }
   </div>

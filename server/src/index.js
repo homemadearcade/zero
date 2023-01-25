@@ -183,6 +183,7 @@ io.on("connection", (socket) => {
   
         socket.emit(ON_AUTHENTICATE_SOCKET_SUCCESS)
         socketSessions.saveSession(user.id, socket);
+
       } else {
         socket.emit(ON_AUTHENTICATE_SOCKET_FAIL, { error: 'no such user'})
       }
@@ -224,6 +225,14 @@ io.on("connection", (socket) => {
             console.log(user.username, 'lost connection')
             user.connected = false
             socket.emit(ON_SOCKET_DISCONNECT)
+            lobby.messages.push({
+              user: {
+                id: user.id,
+                username: user.username
+              },
+              message: 'has disconnected from the lobby',
+              automated: true
+            })
             io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
           }
         })
@@ -260,6 +269,7 @@ async function onMongoDBConnected() {
         experienceState: 'WAITING_UI',
         currentStep: 2,
         currentGameId: null,
+        messages: [],
         users: lobby.participants.map((user) => {
           return {
             email: user.email,

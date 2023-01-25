@@ -30,9 +30,6 @@ const ObscuredGameView = ({
         <Unlockable interfaceId="gameView"><div></div></Unlockable>
       </div>
     }
-
-
- 
   }
 
 

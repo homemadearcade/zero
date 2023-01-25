@@ -32,7 +32,9 @@ import withSpeedTest from '../../hoc/withSpeedTest';
 import { GAME_CONNECTION_LOST, PHASER_ERROR } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
 import { DialogContent, DialogTitle } from '@mui/material';
-import { GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
+import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
+import LobbyChatroom from '../../lobby/LobbyChatroom/LobbyChatroom';
+import { Container } from '@mui/system';
 
 const LobbyPage = ({
   lobby: { lobby, connectionMessage, connectionState },
@@ -57,17 +59,6 @@ const LobbyPage = ({
         role: 'guide'
       });
     }
-    
-    if(me.role !== ADMIN_ROLE && (!lobby.gameHostId || !lobby.participantId)) {
-      assignLobbyRole(lobby.id, {
-        userId: me.id, 
-        role: 'gameHost'
-      });
-      assignLobbyRole(lobby.id, {
-        userId: me.id, 
-        role: 'participant'
-      });
-    }
   }, [])
 
   function LobbyDrawer({ children }) {
@@ -80,7 +71,7 @@ const LobbyPage = ({
         </div>
         {children}
       </div>
-      <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
+      <Drawer anchor="left" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
       }>
         <div className="LobbyPage__drawer-close" 
@@ -117,9 +108,14 @@ const LobbyPage = ({
       </CobrowsingGame>
     }
 
+    if(lobby.experienceState === CHATROOM_UI) {
+      return <LobbyChatroom hideAutomated></LobbyChatroom>
+    }
+
     if(lobby.experienceState === MONOLOGUE_UI) {
       return <div className="MonologueView">
         {isInsideVideoCall && <AgoraUserVideo
+          hideOverlay
           className="MonologueView__speaker"
           myTracks={myTracks}
           userTracks={userTracks}
@@ -184,19 +180,18 @@ const LobbyPage = ({
   
   return <Switch>
       <Route exact path={path}>
-        <LobbyDashboard/>  
-        <LobbyDrawer/>
+        <Container><LobbyDashboard myTracks={myTracks}/></Container>
         {renderLobbyAdminExperience()}
+        <LobbyDrawer/>
         {renderLobbyConnection()}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <LobbyDrawer>
-          <LobbyPowerIndicator/>
           <CobrowsingIndicator/>
-          <UnlockableInterfaceLocksToggle/>
+          <LobbyPowerIndicator/>
           <ConstellationToggle/>
         </LobbyDrawer>}
-        {renderGameExperience()}
+        <Container>{renderGameExperience()}</Container>
         {renderLobbyConnection()}
       </Route>
     </Switch>

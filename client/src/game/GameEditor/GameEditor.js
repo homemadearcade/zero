@@ -48,7 +48,6 @@ const GameEditor = ({
   closeJsonViewer,
   gameContext: { gameState },
   gameModel: { gameModel },
-  toolbar,
 }) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
@@ -74,9 +73,6 @@ const GameEditor = ({
           <GridToggle/>
           {gameModel && <BrushList/>}
         </>}
-        <div className="GameEditor__toolbar">
-          {toolbar}
-        </div>
       </div>
       {children}
       <div className="GameEditor__overlay">

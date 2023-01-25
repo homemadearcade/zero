@@ -90,9 +90,43 @@ function onEditorKeyUp(event) {
   if(!state.cobrowsing.isSubscribedCobrowsing) return
   if(!event.key) return
   if(event.key.toLowerCase() === '\\'){
-    store.dispatch({
-      type: TOGGLE_COBROWSING
-    })
+    if(store.getState().cobrowsing.isActivelyCobrowsing) {
+      store.dispatch({
+        type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS, 
+        payload: {
+          value: true
+        }
+      })
+      store.dispatch({
+        type: TOGGLE_COBROWSING,
+        payload: {
+          value: false
+        }
+      })
+    } else if(store.getState().cobrowsing.showUnlockableInterfaceLocks) {
+      store.dispatch({
+        type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS, 
+        payload: {
+          value: false
+        }
+      })
+      store.dispatch({
+        type: TOGGLE_COBROWSING,
+        payload: {
+          value: false
+        }
+      })
+    } else {
+      store.dispatch({
+        type: TOGGLE_COBROWSING,
+        payload: {
+          value: true
+        }
+      })
+    }
+    
+
+
   }
 }
 
@@ -306,17 +340,11 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
       });
     });
 
-    const gameModel = getState().gameModel.gameModel
     dispatch({
       type: SUBSCRIBE_COBROWSING_SUCCESS,
-      payload: { cobrowsingUser: response.data.cobrowsingUser, initialCobrowsingState: {
-        gameContext: {
-          stageId: gameModel.player.initialStageId,
-          player: {
-            classId: gameModel.stages[gameModel.player.initialStageId].playerClassId
-          }
-        }
-      } },
+      payload: { 
+        cobrowsingUser: response.data.cobrowsingUser, 
+      },
     });
   } catch (err) {
     console.error(err)
@@ -356,14 +384,22 @@ export const unsubscribeCobrowsing = ({userId}) => async (dispatch, getState) =>
   }
 };
 
-export const toggleActiveCobrowsing = () => (dispatch, getState) => {
+export const toggleActiveCobrowsing = (value) => (dispatch, getState) => {
+  console.log(value === undefined ? !getState().cobrowsing.isActivelyCobrowsing : value)
   store.dispatch({
-    type: TOGGLE_COBROWSING
+    type: TOGGLE_COBROWSING,
+    payload: {
+      value: value === undefined ? !getState().cobrowsing.isActivelyCobrowsing : value
+    }
   })
 }
 
-export const toggleUnlockableInterfaceLocks = () => (dispatch, getState) => {
+export const toggleUnlockableInterfaceLocks = (value) => (dispatch, getState) => {
+  console.log(value === undefined ? !getState().cobrowsing.showUnlockableInterfaceLocks : value)
   store.dispatch({
-    type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS
+    type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
+    payload: {
+      value: value === undefined ? !getState().cobrowsing.showUnlockableInterfaceLocks : value
+    }
   })
 }

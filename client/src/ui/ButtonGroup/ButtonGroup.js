@@ -6,28 +6,28 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import './ButtonGroup.scss'
 
-const ButtonGroup = ({ onSelectOption, formLabel, options, initialOption = 'normal' }) => {
-  const [alignment, setAlignment] = React.useState(initialOption);
+const ButtonGroup = ({ onSelectOption, value, formLabel, options}) => {
+  // const [alignment, setAlignment] = React.useState(initialOption);
 
-  const handleChange = (
-    event,
-    newAlignment,
-  ) => {
-    onSelectOption(newAlignment)
-    setAlignment(newAlignment);
-  };
+  // const handleChange = (
+  //   event,
+  //   newAlignment,
+  // ) => {
+  //   onSelectOption(newAlignment)
+  //   setAlignment(newAlignment);
+  // };
 
   return (
     <div className="ButtonGroup">
       {formLabel && <div>{formLabel}</div>}
       <ToggleButtonGroup
         color="primary"
-        value={alignment}
+        value={value}
         exclusive
-        onChange={handleChange}
+        onChange={onSelectOption}
       >
-        {options.map((option) => {
-          return <ToggleButton key={option} size="small" value={option}>{option}</ToggleButton>
+        {options.map(({value, icon}) => {
+          return <ToggleButton key={value} size="small" value={value}>{icon}</ToggleButton>
         })}
       </ToggleButtonGroup>
     </div>

@@ -8,6 +8,7 @@ import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/vide
 import { withRouter } from 'react-router-dom';
 import Button from '../ui/Button/Button';
 import requireOneTab from './requireOneTab';
+import { isLocalHost } from '../utils/webPageUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -54,9 +55,9 @@ export default (ChildComponent) => {
           if(isConnectingToVideoCall && !bypass) {
             return <>
               <Loader text="Connecting your video to other users..."/>
-              <Button onClick={() => {
+              {isLocalHost() && <Button onClick={() => {
                 bypassAgoraVideoCall()
-              }}>bypass video</Button>
+              }}>bypass video</Button>}
             </>
           }
         

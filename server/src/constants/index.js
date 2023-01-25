@@ -39,6 +39,13 @@ export const ON_GAME_MODEL_UPDATE = 'ON_GAME_MODEL_UPDATE';
 //  Updates Redux Lobby state
 export const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE';
 
+
+// PUT /lobby/:id, Many Other Places
+// FROM: Lobby Member 
+// TO: Lobby Members
+// Pushes to Lobby chat
+export const ON_LOBBY_SEND_MESSAGE = 'ON_LOBBY_SEND_MESSAGE';
+
 // Socket ON_LOBBY_USER_STATUS_UPDATE
 // FROM Lobby Mamber 
 // TO: Lobby Members.

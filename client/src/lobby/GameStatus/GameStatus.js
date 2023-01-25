@@ -16,7 +16,7 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
   useEffect(() => {
     const upsInterval = setInterval(() => {
       const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
-      setUps(scene.ups)
+      if(scene) setUps(scene.ups)
     }, 1000)
 
     return () => {
@@ -29,12 +29,12 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
 
   function renderGameInstanceSceneStatus() {
     return <>
+      {ups >= 0 && <strong className="GameStatus__fullscreen"><strong className="GameStatus__icon"></strong>{`UPS: ${ups} (${String((ups/12) * 100).substring(0,5)}%)`}</strong>}
+      <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'FPS: ' + String(scene.game.loop.actualFps).substring(0,5)}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isPaused ? 'Is Paused': 'Not Paused'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isEditor ? 'Is Editor': 'Not Editor'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isPlaythrough ? 'Is Playthrough': 'Not Playthrough'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isGridViewOn ? 'GridView On': 'Not GridView'}</span>
-      <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'FPS:' + scene.game.loop.actualFps}</span>
-      {ups && <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'UPS:' + ups}</span>}
     </>
   }
   

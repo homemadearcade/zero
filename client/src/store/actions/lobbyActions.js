@@ -34,7 +34,10 @@ import {
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
   ON_LOBBY_UNDO,
-  CHANGE_LOBBY_CONNECTON_STATE
+  CHANGE_LOBBY_CONNECTON_STATE,
+  SEND_LOBBY_MESSAGE_LOADING,
+  SEND_LOBBY_MESSAGE_SUCCESS,
+  SEND_LOBBY_MESSAGE_FAIL
 } from '../types';
 
 import ping from 'web-pingjs';
@@ -130,7 +133,6 @@ export const lobbyUndo = () => async (dispatch, getState) => {
   }
 };
 
-
 export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState) => {
   dispatch({
     type: ASSIGN_LOBBY_ROLE_LOADING,
@@ -149,6 +151,52 @@ export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState)
 
     dispatch({
       type: ASSIGN_LOBBY_ROLE_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const sendLobbyMessage = (lobbyId, messageData) => async (dispatch, getState) => {
+  dispatch({
+    type: SEND_LOBBY_MESSAGE_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/lobbys/' + lobbyId + '/message', messageData, options);
+
+    dispatch({
+      type: SEND_LOBBY_MESSAGE_SUCCESS,
+      payload: { lobby: response.data.lobby },
+    });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: SEND_LOBBY_MESSAGE_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const clearLobbyMessages = (lobbyId, messageData) => async (dispatch, getState) => {
+  dispatch({
+    type: SEND_LOBBY_MESSAGE_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/lobbys/' + lobbyId + '/clearMessages', messageData, options);
+
+    dispatch({
+      type: SEND_LOBBY_MESSAGE_SUCCESS,
+      payload: { lobby: response.data.lobby },
+    });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: SEND_LOBBY_MESSAGE_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }

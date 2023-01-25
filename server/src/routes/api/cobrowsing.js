@@ -63,8 +63,13 @@ router.put('/dispatch/:id', requireJwtAuth, requireSocketAuth, async (req, res) 
     if (!(req.params.id === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privelages to update this users cobrowse state.' });
     }
-
+    
     const socketSession = req.app.get('socketSessions').findSession(req.params.id)
+    if(!socketSession) {
+      res.status(400).json({ message: 'User not connected to socket, cannot dispatch: ' + req.body.dispatchData.type });
+      return
+    }
+
     socketSession.emit(ON_COBROWSING_REMOTE_DISPATCH, {
       dispatchData: req.body.dispatchData,
       action: req.body.action

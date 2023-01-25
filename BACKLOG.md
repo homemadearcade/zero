@@ -48,11 +48,15 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 
 TODO FEATURES ( MAYBE ) BACKlog
 
+Combine the lobby drawers into one drawer??
+
 On touch end. Instead of an array - plant a boolean on another collider? maybe? and like reset that boolean every loop. Once it doesnt need to be reset, thats when the touch stopped? right?
+
+Automate some video - In monologue mode…Hovering over video creates… overlay
 
 ANALYTICS on each action?, on where on the screen? Save all records
 
-Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode 
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode
 
 Take snapshot without BG
 
@@ -99,9 +103,19 @@ Interface Preset Update
   Create a list component
   Select Experience State -> Experience State List
 
+how to update and view cobrowsing when they aint logged on?
+should an entire cobrowsing state be.... shared/editable when the user is not logged on
+and also therefore, its inherited?? omg thats so dope! So like yeah create their full interface before they log on, like add a couple popups
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
+
+The way gameContext.player.classId works ?? Not sure but like 
+I think we need to....
+  Players should always morph whether you are cobrowsing or not. I think we need to base the morph on the instance.reclassId so it can be constantly propagated across the network
+Possibly same with game state
+  This redux based state stuff is pretty nasty when it comes to cobrowsing
 
 TODO CHORES BACKLOG
 
@@ -132,6 +146,8 @@ Physics member? Cuz right now movement is like two members and like ok physics a
 Wrap Sprite in another class called like...object instance... lol, phaser objectinstance??
 
 Outline Class ( for eraser and objectInstance, and camerapreview? )
+
+Remove LobbyState stuff in reducers? Form the past?
 
 Choose instances in relation editor
 Effect Instance id? Create a generelized id structure for everything.

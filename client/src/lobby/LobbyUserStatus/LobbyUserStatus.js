@@ -13,8 +13,10 @@ import Icon from '../../ui/Icon/Icon';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
 import Button from '../../ui/Button/Button';
 import { closeInterfaceTree, openInterfaceTree } from '../../store/actions/userActions';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 
-const LobbyUserStatus = ({ closeInterfaceTree, openInterfaceTree, user: { userIdInterfaceTree }, myTracks, userTracks, titleOnly, hasJoinLink, hasUIButton, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, cobrowsing: { cobrowsingUser }, auth: {me},  }) => {
+const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceTree, user: { userIdInterfaceTree }, myTracks, userTracks, titleOnly, hasJoinLink, hasUIButton, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, cobrowsing: { cobrowsingUser }, auth: {me},  }) => {
   const userStatus = lobbyUserStatuses[userId];
   const userCobrowsingStatus = cobrowsingMouses[userId]
   const user = lobby.users.filter(({id}) => {
@@ -59,7 +61,9 @@ const LobbyUserStatus = ({ closeInterfaceTree, openInterfaceTree, user: { userId
 
   if(titleOnly) return <Paper variant="outlined"><div className="LobbyUserStatus LobbyUserStatus--title-only">{renderTitle()}</div></Paper>
 
-  return <><div key={key} className={classnames("LobbyUserStatus", {'LobbyUserStatus--left' : !user.joined, 'LobbyUserStatus--cobrowser': cobrowsingUser.id === userId})}>
+  const isNavigatedToCobrowse = params.cobrowsingUserId === userId
+
+  return <><div key={key} className={classnames("LobbyUserStatus", {'LobbyUserStatus--left' : !user.joined, 'LobbyUserStatus--cobrowser': isNavigatedToCobrowse})}>
     {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[user.id].audioTrack}/>}
     <AccordianList accordians={[{
       id: user.id,
@@ -89,4 +93,7 @@ const mapStateToProps = (state) => ({
   cobrowsing: state.cobrowsing,
 });
 
-export default connect(mapStateToProps, { openInterfaceTree, closeInterfaceTree })(LobbyUserStatus);
+export default compose(
+  withRouter, 
+  connect(mapStateToProps, { openInterfaceTree, closeInterfaceTree })
+)(LobbyUserStatus);
