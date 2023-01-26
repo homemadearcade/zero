@@ -156,11 +156,15 @@ export const assignLobbyRole = (lobbyId, formData) => async (dispatch, getState)
   }
 };
 
-export const sendLobbyMessage = (lobbyId, messageData) => async (dispatch, getState) => {
+export const sendLobbyMessage = (messageData) => async (dispatch, getState) => {
   dispatch({
     type: SEND_LOBBY_MESSAGE_LOADING,
   });
   
+  const lobbyId = getState().lobby.lobby?.id
+
+  if(!lobbyId) return
+
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/lobbys/' + lobbyId + '/message', messageData, options);

@@ -13,7 +13,7 @@ import {
 const initialState = {
   layerVisibility: {
     [BACKGROUND_CANVAS_ID]: true,
-    [ZONE_INSTANCE_CANVAS_ID]: true,
+    [ZONE_INSTANCE_CANVAS_ID]: false,
     [BASIC_INSTANCE_CANVAS_ID]: true,
     [PLAYGROUND_CANVAS_ID]: true,
     [NPC_INSTANCE_CANVAS_ID]: true,

@@ -84,8 +84,12 @@ router.get('/byEmail/:participantEmail', requireLobbys, async (req, res) => {
 
 router.post('/:id/message', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   req.lobby.messages.push({
-    user: req.body.user,
-    message: req.body.message
+    user: {
+      id: req.user.id,
+      username: req.user.username
+    },
+    message: req.body.message,
+    automated: req.body.automated
   })
 
   req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});

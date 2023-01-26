@@ -51,9 +51,8 @@ UI
   Current Player Icon in Player Class Menu
   Delay for Effects, or like a flag for if you want the effect to happen first?
   Fit all titles into the box with TextFit thing from before
-  Turn off Zone Layer visibility by Default if not admin
-
-  Player Spawn zone being deleted issue, I think perhaps its just best to never let it be deleted, same with default stage. CANT BE DELETED! Player spawn zone issue is leading to... the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
+  
+  User Status can be a user Popup and the User Cards can just be the name. The lobby log is the thing that will be opened by the drawer and ... inside of their you can see just guide: participant: game host: and then also You can perhaps be like see users in the chat. Perhaps its a tab thing. Users vs Chat. Clicking username will bring you to the user popup with their tree, connection info, etc
 
 FLOW
   Spawn object at the edge of the heros camera?

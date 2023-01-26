@@ -117,6 +117,8 @@ I think we need to....
 Possibly same with game state
   This redux based state stuff is pretty nasty when it comes to cobrowsing
 
+Player Spawn zone being deleted issue, I think perhaps its just best to never let it be deleted, same with default stage. CANT BE DELETED! Player spawn zone issue is leading to... the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
+
 TODO CHORES BACKLOG
 
 App -> Creator, Admin sections of the app

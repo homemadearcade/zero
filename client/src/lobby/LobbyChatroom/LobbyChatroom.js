@@ -69,13 +69,7 @@ const LobbyChatroom = ({
           setText(e.target.value)
         }}></TextField>
         <Button disabled={!text} onClick={() => {
-          sendLobbyMessage(lobby.id, {
-            user: {
-              id: me?.id,
-              username: me?.username
-            },
-            message: text
-          })
+          sendLobbyMessage({message: text})
           setText('')
         }}>Send</Button>
         {me.role === ADMIN_ROLE && <Button onClick={() => {

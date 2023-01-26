@@ -18,6 +18,8 @@ import {
 import AgoraRTC from 'agora-rtc-react';
 
 import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../lobby/constants';
+import { sendLobbyMessage } from './lobbyActions';
+import store from '..';
 
 const config = { 
   mode: "rtc", codec: "vp8",
@@ -189,6 +191,8 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
 
         await client.join(appId, lobbyId, token, userId);
         await client.publish([tracks[0], tracks[1]]);
+
+        store.dispatch(sendLobbyMessage({message: 'has connected video and audio', automated: true}))
   
         onStartAgoraVideoCallSuccess()
       } catch(err) {

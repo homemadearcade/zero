@@ -13,7 +13,7 @@ import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
-import UserStatus from '../LobbyUserStatus/LobbyUserStatus';
+import LobbyUserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
@@ -63,7 +63,7 @@ const LobbySetupFlow = ({
       <div className="LobbySetupFlow__roles">
 
       {lobby.users.map((user) => {
-        return <UserStatus titleOnly key={user.id} userId={user.id}
+        return <LobbyUserStatus titleOnly key={user.id} userId={user.id}
           titleChildren={<>
             <br/>
             <div>Current Roles: {getRoles(user.id)}</div><br/>
@@ -147,7 +147,7 @@ const LobbySetupFlow = ({
             The participant will automatically have recieved this link in the email for their ticket. You may also manually share this link with them if needed
             <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobby/' + lobby.id + '/join/' + lobby.participantId}></input>
             When they have joined, the card below will be lit up and have a green dot in the corner
-            <UserStatus userId={usersById[lobby.participantId]?.id}/>
+            <LobbyUserStatus userId={usersById[lobby.participantId]?.id}/>
           </>
         },
         {
@@ -295,7 +295,7 @@ const LobbySetupFlow = ({
       ]}
       completed={<>
           <Typography component="h5" variant="h5">Join Participant</Typography>
-          <UserStatus hasJoinLink userId={usersById[lobby.participantId]?.id}/>
+          <LobbyUserStatus hasJoinLink userId={usersById[lobby.participantId]?.id}/>
         </>}
       />
     </div>
