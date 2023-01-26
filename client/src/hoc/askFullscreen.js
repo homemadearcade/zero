@@ -13,7 +13,7 @@ export default (ChildComponent) => {
         fullscreenDecision: isLocalHost() || (document.fullscreenElement ? 'fullscreen' : null)
       }
 
-      console.log(isLocalHost() || document.fullscreenElement, document.fullscreenElement)
+      console.log('fullscreen', isLocalHost() || document.fullscreenElement, document.fullscreenElement)
     }
 
     componentDidMount() {

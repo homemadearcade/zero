@@ -65,7 +65,10 @@ const config= {
 }
 
 const GameView = (props) => {
-  if(!props.gameModel.gameModel) return <div className="GameView__empty"></div>
+  if(!props.gameModel.gameModel) {
+    console.log('not rendering game model')
+    return <div className="GameView__empty"></div>
+  }
 
   return <PhaserGame {...props}></PhaserGame>
 }

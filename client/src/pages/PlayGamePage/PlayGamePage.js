@@ -10,10 +10,15 @@ import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/GameView/GameView';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import { START_STATE } from '../../game/constants';
+import { unloadArcadeGame } from '../../store/actions/arcadeGameActions';
 
-const PlayGamePage = ({ gameModel: { gameModel }, changeGameState, requestFullscreen}) => {
+const PlayGamePage = ({ gameModel: { gameModel }, changeGameState, requestFullscreen, unloadArcadeGame}) => {
   useEffect(() => {
     changeGameState(START_STATE)
+
+    return () => {
+      unloadArcadeGame()
+    }
   }, [])
 
   // <div>{!window.isFullscreen && <div onClick={() => {
@@ -41,5 +46,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireChrome,
   withGame,
-  connect(mapStateToProps, { requestFullscreen, changeGameState })
+  connect(mapStateToProps, { requestFullscreen, changeGameState, unloadArcadeGame })
 )(PlayGamePage);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -12,13 +12,20 @@ import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/GameView/GameView';
 
-const EditGamePage = ({ }) => {
+const EditGamePage = ({ unloadArcadeGame }) => {
   // <div>{!window.isFullscreen && <div onClick={() => {
   //   requestFullscreen()
   //    }}>
   //   <i className="fas fa-expand EditGamePage__fullscreen"/>
   //  </div>
   // </div>
+
+  useEffect(() => {
+
+    return () => {
+      unloadArcadeGame()
+    }
+  })
 
   return (
     <div className="EditGamePage">
@@ -44,5 +51,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireChrome,
   withGame,
-  connect(mapStateToProps, { requestFullscreen, unloadArcadeGame, loadArcadeGame })
+  connect(mapStateToProps, { unloadArcadeGame })
 )(EditGamePage);

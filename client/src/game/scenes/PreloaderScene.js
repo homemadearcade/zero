@@ -34,7 +34,6 @@ export class PreloaderScene extends Phaser.Scene {
   };
 
   create() {
-    console.log('running create...again')
     this.createLoaderGraphic();
     this.load.setCORS('anonymous');
 
