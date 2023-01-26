@@ -51,7 +51,7 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
         <div className="LobbyUsername__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
         {user.role === ADMIN_ROLE && <div className="LobbyUsername__admin"><Icon icon="faCrown"/></div>}
       </div>
-      {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[user.id].audioTrack}/>}
+      {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[userId].audioTrack} username={user?.username}/>}
       <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
         {isMe ? 'Play' : 'Join'}
       </Link>

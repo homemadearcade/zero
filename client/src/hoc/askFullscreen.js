@@ -12,6 +12,8 @@ export default (ChildComponent) => {
       this.state = {
         fullscreenDecision: isLocalHost() || (document.fullscreenElement ? 'fullscreen' : null)
       }
+
+      console.log(isLocalHost() || document.fullscreenElement, document.fullscreenElement)
     }
 
     componentDidMount() {

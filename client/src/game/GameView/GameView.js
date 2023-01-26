@@ -78,6 +78,7 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeLobbyCo
 
     return () => {
       getCurrentGameScene(game)?.unload()
+      setGameInstance(null)
       game.destroy()
     }
   }, []);

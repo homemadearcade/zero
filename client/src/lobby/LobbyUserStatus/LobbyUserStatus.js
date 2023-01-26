@@ -50,11 +50,6 @@ const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceT
       {(hasJoinLink) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
         {isMe ? 'Play' : 'Join'}
       </Link>}
-      {(hasUIButton) && <Button onClick={() => {
-        openInterfaceTree(user.id)
-      }}>
-        View Tree
-      </Button>}
       {titleChildren}
     </div>
   }
@@ -64,7 +59,7 @@ const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceT
   const isNavigatedToCobrowse = params.cobrowsingUserId === userId
 
   return <><div key={key} className={classnames("LobbyUserStatus", {'LobbyUserStatus--left' : !user.joined, 'LobbyUserStatus--cobrowser': isNavigatedToCobrowse})}>
-    {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[user.id].audioTrack}/>}
+    {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[user.id].audioTrack} username={user?.username} />}
     <AccordianList accordians={[{
       id: user.id,
       title: renderTitle(),

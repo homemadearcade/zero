@@ -10,7 +10,6 @@ import withCobrowsing from '../../hoc/withCobrowsing';
 import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import askFullscreen from '../../hoc/askFullscreen';
-import LobbyToolbar from '../../lobby/LobbyToolbar/LobbyToolbar';
 
 const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isActivelyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   // a bug occurs with LobbyToolbar when you bypass video and the cobrowsing user is in a video call 

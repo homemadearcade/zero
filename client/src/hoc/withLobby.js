@@ -41,7 +41,6 @@ export default (ChildComponent) => {
 
     render() {
       const { lobby: { isLoading, isJoining, lobby }, video: { bypass, isConnectingToVideoCall }, bypassAgoraVideoCall } = this.props;
-
       if(isLoading) {
         return <Loader text="Loading Lobby..."/>
       }
@@ -70,7 +69,8 @@ export default (ChildComponent) => {
   const mapStateToProps = (state) => ({
     auth: state.auth,
     lobby: state.lobby,
-    video: state.video
+    video: state.video,
+    // cobrowsing: state.cobrowsing
   });
 
   return compose(

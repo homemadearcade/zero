@@ -20,7 +20,7 @@ const GameCard = ({game}) => {
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
-        {game?.user.username + 's game'}
+        {game?.user?.username + 's game'}
       </Typography>
       <Typography variant="body2" color="text.secondary">
           Description of game

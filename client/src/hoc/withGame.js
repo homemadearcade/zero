@@ -72,6 +72,7 @@ export default (ChildComponent) => {
     }
 
     componentWillUnmount() {
+      this.unloadGame()
       window.removeEventListener('beforeunload', this.askBeforeClosing)
     }
 

@@ -168,6 +168,8 @@ export const handleCobrowsingUpdates = store => next => action => {
 
   const state = store.getState()
 
+  console.log(action)
+
   // is this action connected to cobrowsing?
   if(action.updateCobrowsing && state.lobby.lobby?.id) {
 

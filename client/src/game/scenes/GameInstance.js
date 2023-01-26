@@ -323,6 +323,7 @@ export class GameInstance extends Phaser.Scene {
     if(this.playerInstance.destroyAfterUpdate) {
       this.playerInstance.destroyInGame()
     }
+    
     this.objectInstances.forEach((instance) => {
       if(instance.reclassId) {
         instance.reclass(instance.reclassId)
@@ -330,6 +331,17 @@ export class GameInstance extends Phaser.Scene {
         instance.destroyInGame()
       }
     })
+
+    this.projectileInstances.forEach((projectile) => {
+      if(projectile.destroyTime < Date.now()) {
+        projectile.destroy()
+      }
+    })
+
+    const currentPlayerId = getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId
+    if(this.playerInstance.classId !== currentPlayerId) {
+      this.playerInstance.reclass(currentPlayerId)
+    }
   }
 
   // getSpriteTexture(textureId) {
@@ -565,7 +577,8 @@ export class GameInstance extends Phaser.Scene {
   
   update(time, delta) {
     // FOR SPECIAL IS PASUED
-    // if(this.isPaused) return
+    if(this.isPaused) return
+    
     super.update(time, delta)
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
@@ -582,9 +595,6 @@ export class GameInstance extends Phaser.Scene {
 
     this.projectileInstances.forEach((projectile) => {
       projectile.update(time, delta)
-      if(projectile.destroyTime < Date.now()) {
-        projectile.destroy()
-      }
     })
 
     if(this.playerInstance) this.playerInstance.update(time, delta)
@@ -592,11 +602,6 @@ export class GameInstance extends Phaser.Scene {
     const currentStageId = getCobrowsingState().gameContext.currentStageId
     if(this.stage.id !== currentStageId) {
       this.scene.start(currentStageId, this.props)
-    }
-
-    const currentPlayerId = getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId
-    if(this.playerInstance.classId !== currentPlayerId) {
-      this.playerInstance.reclass(currentPlayerId)
     }
 
     this.lastUpdate = Date.now()

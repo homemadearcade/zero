@@ -63,7 +63,7 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
         tracks={userTracks} />
       <div className="AgoraVideoCallPreview__volume-checker">
         <Typography component="h5" variant="h5">Please check that your microphone is picking up sound with the meter below</Typography>
-        <AgoraVolumeMeter audioTrack={userTracks.audioTrack}/>
+        <AgoraVolumeMeter audioTrack={userTracks.audioTrack} username={me.username} />
       </div>
       <Button onClick={() => {
         startAgoraVideoCall(tracks)

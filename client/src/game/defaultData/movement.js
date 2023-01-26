@@ -199,7 +199,6 @@ export const advancedDirectionalDefaults = {
     disableDownKey: false,
     dragX: 0.25,
     dragY: 0.25,
-    ignoreGravity: false
   },
   jump: {
     style: JUMP_GROUND

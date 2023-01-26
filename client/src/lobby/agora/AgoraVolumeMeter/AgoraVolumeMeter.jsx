@@ -9,6 +9,7 @@ const AgoraVolumeMeter = ({ audioTrack, username }) => {
 
   useEffect(() => {
     setInterval(() => {
+      if(!audioTrack) return console.log('no audio track', username)
       const volumePercent = audioTrack.getVolumeLevel()
       if(volumePercent < .1) {
         setVolume(audioTrack.getVolumeLevel() * 100) 

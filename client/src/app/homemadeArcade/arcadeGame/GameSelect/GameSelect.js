@@ -19,7 +19,7 @@ const GameSelect = ({ onSelect, getArcadeGames, arcadeGames: { arcadeGames, isLo
   useEffect(() => {
     const options = arcadeGames.map((option) => {
       // const firstLetter = option.metadata.title[0].toUpperCase();
-      const firstLetter = option.user.username[0].toUpperCase();
+      const firstLetter = option.user ? option.user.username[0].toUpperCase() : 'fromprod'
 
       return {
         firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,

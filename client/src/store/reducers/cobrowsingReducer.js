@@ -9,6 +9,7 @@ import {
   SUBSCRIBE_COBROWSING_LOADING,
   UNSUBSCRIBE_COBROWSING_SUCCESS,
   UNSUBSCRIBE_COBROWSING_FAIL,
+  UNSUBSCRIBE_COBROWSING_LOADING,
   ON_COBROWSING_UPDATE,
   TOGGLE_COBROWSING,
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
@@ -49,7 +50,13 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         isSubscribingCobrowsing: true,
+        isSubscribing: true
       };
+    case UNSUBSCRIBE_COBROWSING_LOADING:
+      return {
+        ...state,
+        isUnsubscribing: true
+      }
     case START_COBROWSING_SUCCESS:
       return {
         ...state,
@@ -72,17 +79,16 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         isSubscribedCobrowsing: true,
-        isSubscribingCobrowsing: false,
         isActivelyCobrowsing: false,
+        isSubscribing: false,
         cobrowsingUser: payload.cobrowsingUser,
- 
       };
     case UNSUBSCRIBE_COBROWSING_SUCCESS:
       return {
         ...state,
         isSubscribedCobrowsing: false,
-        isSubscribingCobrowsing: false,
         isActivelyCobrowsing: false,
+        isUnsubscribing: false,
         cobrowsingUser: false,
         remoteState: initialState.remoteState
       };
@@ -90,7 +96,8 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case UNSUBSCRIBE_COBROWSING_FAIL:
       return {
         ...state,
-        isSubscribingCobrowsing: false,
+        isUnsubscribing: false,
+        isSubscribing: false,
         cobrowsingUser: false,
         error: payload.error,
       };

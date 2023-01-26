@@ -111,6 +111,8 @@ and also therefore, its inherited?? omg thats so dope! So like yeah create their
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+Fix with Cobrowsing?? right now broken af when switching between two different users
+
 The way gameContext.player.classId works ?? Not sure but like 
 I think we need to....
   Players should always morph whether you are cobrowsing or not. I think we need to base the morph on the instance.reclassId so it can be constantly propagated across the network

@@ -73,12 +73,6 @@ ARCADE VS MATTER
   'shoot'
   Create Force ( like a bomb type thing )
 
-
---
-
-Collide Relationship needs to be registered last....
-
-
 ---
 
 Default Class, Default Object get placed onto all classes and instance objects when loading the game model
@@ -87,4 +81,17 @@ Default Game Model gets placed onto the game model when loading up, it has a def
 
 Default stage gets put on the create stage flow
 
-Default relation gets places onto relation data when resetting it
+Default relation gets placed onto relation ( in create relation menu ) data when resetting it
+
+
+----
+
+Order of EFFECTS are
+
+IMMEDIATELY
+  Teleport or Spawn ( no guaranteed order )
+  Collide
+
+AFTER PACKAGE UPDATE
+  Destroy
+  Reclass

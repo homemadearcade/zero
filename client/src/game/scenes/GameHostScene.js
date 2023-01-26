@@ -15,6 +15,11 @@ export class GameHostScene extends EditorScene {
     this.sceneInstanceData = props.sceneInstanceData
 
     this.lastAcknowledgement = null
+    
+    this.lastUpsHostCount = null
+    this.upsHostUpdates = 0
+    this.upshost = 0
+    this.upsclient = 0
   }
 
   callAnimation({type, data}) {
@@ -61,15 +66,23 @@ export class GameHostScene extends EditorScene {
         isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
       }
+
+      const time = Date.now();
+      this.upsHostUpdates++;
+      if (time > this.lastUpsHostCount + 1000) {
+        this.upshost = Math.round( ( this.upsHostUpdates * 1000 ) / ( time - this.lastUpsHostCount ) );
+        this.lastUpsHostCount = time;
+        this.upsHostUpdates = 0;
+      }
       
-      window.socket.emit(ON_GAME_INSTANCE_UPDATE, { lobbyId: store.getState().lobby.lobby.id, objects, player, projectiles, stageId: currentStageId})
+      window.socket.emit(ON_GAME_INSTANCE_UPDATE, { lobbyId: store.getState().lobby.lobby.id, objects, player, projectiles, stageId: currentStageId, upshost: this.upshost })
       this.afterGameInstanceUpdateEffects() 
     }, updateInterval)
   }
 
-  onGameInstanceUpdateAcknowledged = ({ ups }) => {
+  onGameInstanceUpdateAcknowledged = ({ upsclient }) => {
     this.lastAcknowledgement = Date.now()
-    this.ups = ups
+    this.upsclient = upsclient
   }
 
   create() {

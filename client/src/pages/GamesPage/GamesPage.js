@@ -34,7 +34,7 @@ const GamesPage = ({ getArcadeGames, editArcadeGame, arcadeGames: { arcadeGames,
     if(searchTerm) {
       setGamesList(arcadeGames.filter((game) => {
         if(game.metadata.title?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
-        if(game.user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
+        if(game.user?.username.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         if(game.metadata.description?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         if(game.metadata.authorPseudonym?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         return false
@@ -48,7 +48,7 @@ const GamesPage = ({ getArcadeGames, editArcadeGame, arcadeGames: { arcadeGames,
     let visible = false 
     let publishable = false
 
-    if(me?.role === ADMIN_ROLE || me?.id === game.user.id) {
+    if(me?.role === ADMIN_ROLE || me?.id === game.user?.id) {
       visible = true 
       publishable = true
     } else if(game.metadata.isPublished) {
@@ -116,12 +116,12 @@ const GamesPage = ({ getArcadeGames, editArcadeGame, arcadeGames: { arcadeGames,
                     <span className="GamesPage__info">{game.metadata.title}</span>
                     <span className="GamesPage__info">{game.metadata.description}</span>
                     {game.metadata.imageUrl && <img alt={game.metadata.title + ' featured image'} src={game.metadata.imageUrl}/>}
-                    <span className="GamesPage__info">By: {game.metadata.authorPseudonym || user.username}</span>
+                    <span className="GamesPage__info">By: {game.metadata.authorPseudonym || user?.username}</span>
                     {publishable && renderPublishButton(game)}
                     <Link to={`/play/${game.id}`} className="info bold profile-link">
                       Play
                     </Link>
-                    {(game.user.id === me?.id || me.role === ADMIN_ROLE) && <Link to={`/edit/${game.id}`} className="info bold profile-link">
+                    {(game.user?.id === me?.id || me.role === ADMIN_ROLE) && <Link to={`/edit/${game.id}`} className="info bold profile-link">
                       Edit
                     </Link>}
                   </div>

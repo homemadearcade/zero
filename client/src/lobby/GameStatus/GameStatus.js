@@ -11,12 +11,17 @@ import { getCurrentGameScene } from '../../utils/editorUtils';
 import store from '../../store';
 
 const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameState }, gameModel: { gameModel } }) => {
-  const [ups, setUps] = useState(null)
+  const [ups, setUps] = useState({})
   
   useEffect(() => {
     const upsInterval = setInterval(() => {
       const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
-      if(scene) setUps(scene.ups)
+      if(scene) setUps(
+        {
+          client: scene.upsclient,
+          host: scene.upshost
+        }
+      )
     }, 1000)
 
     return () => {
@@ -29,7 +34,8 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
 
   function renderGameInstanceSceneStatus() {
     return <>
-      {ups >= 0 && <strong className="GameStatus__fullscreen"><strong className="GameStatus__icon"></strong>{`UPS: ${ups} (${String((ups/12) * 100).substring(0,5)}%)`}</strong>}
+      {ups.client >= 0 && <strong className="GameStatus__fullscreen"><strong className="GameStatus__icon"></strong>{`UPS-CLIENT: ${ups.client} (${String((ups.client/12) * 100).substring(0,5)}%)`}</strong>}
+      {ups.host >= 0 && <strong className="GameStatus__fullscreen"><strong className="GameStatus__icon"></strong>{`UPS-HOST: ${ups.host} (${String((ups.host/12) * 100).substring(0,5)}%)`}</strong>}
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'FPS: ' + String(scene.game.loop.actualFps).substring(0,5)}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isPaused ? 'Is Paused': 'Not Paused'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isEditor ? 'Is Editor': 'Not Editor'}</span>
@@ -42,10 +48,10 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
     <AccordianList accordians={[{
       id: gameModel.id,
       title: <span className="GameStatus__title">
-        {gameModel.metadata.name || gameModel.user.username + "'s game"}
+        {gameModel.metadata.name || gameModel.user?.username + "'s game"}
       </span>,
       body: <span className="GameStatus__icons">
-        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPowerOff"/></span>{(isGamePoweredOn) ? 'Started' : 'Not Started'}</span>
+        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPowerOff"/></span>{(isGamePoweredOn) ? 'Powered On' : 'Not Powered On'}</span>
         <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{gameState}</span>
         {scene && renderGameInstanceSceneStatus()}
       </span>

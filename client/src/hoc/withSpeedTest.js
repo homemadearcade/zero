@@ -5,7 +5,7 @@ import Button from '../ui/Button/Button';
 import Loader from '../ui/Loader/Loader';
 import Typography from '../ui/Typography/Typography';
 import { testInternetSpeed } from '../utils/networkUtils';
-import { isLocalHost, requestFullscreen } from '../utils/webPageUtils';
+import { isLocalHost } from '../utils/webPageUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
