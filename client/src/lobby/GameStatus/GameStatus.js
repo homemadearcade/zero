@@ -19,7 +19,8 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
       if(scene) setUps(
         {
           client: scene.upsclient,
-          host: scene.upshost
+          host: scene.upshost,
+          server: scene.upsserver
         }
       )
     }, 1000)
@@ -36,6 +37,7 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
     return <>
       {ups.client >= 0 && <strong className="GameStatus__fullscreen"><strong className="GameStatus__icon"></strong>{`UPS-CLIENT: ${ups.client} (${String((ups.client/12) * 100).substring(0,5)}%)`}</strong>}
       {ups.host >= 0 && <strong className="GameStatus__fullscreen"><strong className="GameStatus__icon"></strong>{`UPS-HOST: ${ups.host} (${String((ups.host/12) * 100).substring(0,5)}%)`}</strong>}
+      {ups.server >= 0 && <strong className="GameStatus__fullscreen"><strong className="GameStatus__icon"></strong>{`UPS-SERVER: ${ups.server} (${String((ups.server/12) * 100).substring(0,5)}%)`}</strong>}
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{'FPS: ' + String(scene.game.loop.actualFps).substring(0,5)}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isPaused ? 'Is Paused': 'Not Paused'}</span>
       <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{scene.isEditor ? 'Is Editor': 'Not Editor'}</span>

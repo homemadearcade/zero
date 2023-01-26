@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 import './VerticalLinearStepper.scss';
+import { Divider } from '@mui/material';
 
 export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange}) {
 
@@ -50,8 +51,26 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
   return (
     <Box>
       <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((step, index) => (
-          <Step key={step.id} >
+        {steps.map((step, index) => {
+
+          if(step.break) return <Step key={step.id} >
+            {step.title}
+            <StepContent>
+              <Button
+                disabled={step.disableContinueButtonCheck ? step.disableContinueButtonCheck() : false}
+                variant="contained"
+                onClick={() => {
+                  if(step.onClickNext) {
+                    step.onClickNext()
+                  }
+                  onClickNext()
+                }}
+                sx={{ mt: 1, mr: 1 }}
+              >Next</Button>
+            </StepContent>
+          </Step>
+
+          return <Step key={step.id} >
             <StepLabel
               onClick={() => {
                 onChangeStep(index)
@@ -93,7 +112,7 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
               </Box>
             </StepContent>
           </Step>
-        ))}
+        })}
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>

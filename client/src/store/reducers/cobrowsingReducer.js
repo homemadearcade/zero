@@ -66,7 +66,10 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
        remoteState: {
           ...state.remoteState,
-          ...payload.initialCobrowsingState
+          ...payload.initialCobrowsingState,
+          unlockableInterfaceIds: {
+            ...state.remoteState.unlockableInterfaceIds
+          }
         }
       }
     case SUBSCRIBE_COBROWSING_SUCCESS:

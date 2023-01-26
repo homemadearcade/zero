@@ -52,7 +52,7 @@ UI
   Fit all titles into the box with TextFit thing from before
   Remote cut video
 
- The lobby log is the thing that will be opened by the drawer and ... inside of their you can see just guide: participant: game host: and then also You can perhaps be like see users in the chat. Perhaps its a tab thing. Users vs Chat
+  The lobby log is the thing that will be opened by the drawer and ... inside of their you can see just guide: participant: game host: and then also You can perhaps be like see users in the chat. Perhaps its a tab thing. Users vs Chat
 
 FLOW
   Spawn object at the edge of the heros camera?

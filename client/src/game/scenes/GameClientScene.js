@@ -21,12 +21,14 @@ export class GameClientScene extends EditorScene {
     this.upsClientUpdates = 0
     this.upsclient = 0
     this.upshost = 0
+    this.upsserver = 0
   }
 
-  onGameInstanceUpdate = ({objects, player, projectiles, stageId, upshost}) => {
+  onGameInstanceUpdate = ({objects, player, projectiles, stageId, upshost, upsserver}) => {
     if(this.stage.id !== stageId) return
 
     this.upshost = upshost
+    this.upsserver = upsserver
 
     objects.forEach((instanceUpdate) => {
       const objectId = instanceUpdate.id
@@ -75,7 +77,7 @@ export class GameClientScene extends EditorScene {
 
     window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
       lobbyId: store.getState().lobby.lobby?.id,
-      upsclient: this.upsclient
+      upsclient: this.upsclient,
     })
 
     this.afterGameInstanceUpdateEffects() 

@@ -20,6 +20,7 @@ import { completeCloseConstellation, openConstellation } from '../../store/actio
 import { openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
 import { GAME_EDITOR_UI, MONOLOGUE_UI } from '../../constants';
+import { BASIC_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../game/constants';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -35,6 +36,68 @@ const LobbySetupFlow = ({
     prev[next.id] = next
     return prev
   }, {})
+
+  let returnFromStarsStepIndex = 0
+  function returnFromStarsStep() {
+    return {
+      id: 'Return Participant From Stars' + returnFromStarsStepIndex++,
+      title: <Typography component="h5" variant="h5">Return Participant From Stars</Typography>,
+      onClickNext: () => {
+        completeCloseConstellation({ forceCobrowsingUpdate: true })
+      },
+      nextButtonText: 'Return Participant From Stars'
+    }
+  }
+
+  let sendToStarsStepIndex = 0
+  function sendToStarsStep() {
+    return {
+      id: 'Send Participant to Stars' + sendToStarsStepIndex++,
+      title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
+      onClickNext: () => {
+        openConstellation({ forceCobrowsingUpdate: true })
+      },
+      nextButtonText: 'Send Participant to Stars'
+    }
+  }
+
+  function sayThis(text) {
+     return {
+      id: text,
+      title: <Typography component="h5" variant="h5">Say This</Typography>,
+      instructions: <>
+        {text}
+      </>,
+      nextButtonText: 'I said it'
+    }
+  }
+
+    function unlockThis(description, ids) {
+     return {
+      id: description,
+      title: <Typography component="h5" variant="h5">{description}</Typography>,
+      instructions: <>
+
+      </>,
+      onClickNext: () => {
+        updateArcadeGameCharacter({
+          userId: lobby.participantId,
+          unlockableInterfaceIds: ids,
+          merge: true
+        })
+      },
+      nextButtonText: 'Unlock'
+    }
+  }
+
+    function breakTitle(title) {
+          return {
+          id:title,
+          title: <Typography component="h2" variant="h2">{title}</Typography>,
+          break: true
+        }
+  }
+
 
   function renderAssignRoles() {
 
@@ -172,7 +235,7 @@ const LobbySetupFlow = ({
               unlockableInterfaceIds: {}
             })
           },
-          nextButtonText: 'Set Interface to i1'
+          nextButtonText: 'Lock All'
         },
         {
           id: 'Review Launch Checklist',
@@ -184,19 +247,21 @@ const LobbySetupFlow = ({
           //   return !window.lobby?.isAllRequiredPassing
           // }
         },
+        breakTitle('Experience Begins'),
         {
-          id: 'Give Monologue 1',
-          title: <Typography component="h5" variant="h5">Give Monologue 1</Typography>,
+          id: 'Starting Monologue',
+          title: <Typography component="h5" variant="h5">Starting Monologue</Typography>,
           instructions: <>
-            When you are ready to start Monologue 1, click start Monologue 1
+            When you are ready to start experience, click the button bellow to start the monologue
           </>,
           onClickNext: () => {
             editLobby(lobby.id, {
               experienceState: MONOLOGUE_UI,
-              monologueText: 'Hey I am a pixel, I am so small and blocky, yikes!'
+              monologueText: `More and more, the world interacts with reflections made on the screen in front of you. These began as pixels. So we begin with our relationship to pixels, through the tools of the keyboard you know so well.
+We’ll use it to create - a story, a piece of art, a game… however You feel inspired.`
             })
           },
-          nextButtonText: 'Start Monologue'
+          nextButtonText: 'Open Monologue View'
         },
         {
           id: 'Load Prologue 1',
@@ -225,16 +290,33 @@ const LobbySetupFlow = ({
               }
             })
           },
-          nextButtonText: 'Set Interface to i1'
+          nextButtonText: 'Unlock'
         },
-        {
-          id: 'Send Participant to Stars',
-          title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
-          onClickNext: () => {
-            openConstellation({ forceCobrowsingUpdate: true })
-          },
-          nextButtonText: 'Send Participant to Stars'
-        },
+        sayThis(`
+          You start with a square on a screen.  It expands to a larger square.
+
+          This, as You remember, is a pixel, magnified. The relationship, the interpretation we have with this very block… is our building block.
+          You’ll begin to use what some call WASD keys, the arrow keys.
+          As you move, it first seems nothing happens, yes?
+          Then, you encounter something.
+          What do you encounter? What could it be?
+
+          You answer as You interact.
+
+          We repeat this answer, support and clarify it.
+
+          Another, larger block appears.
+
+          And what is this?...
+
+          You answer.  We affirm.
+            Another image appears…
+
+          …And this?
+
+          You answer, we affirm.`
+        ),
+        sendToStarsStep(),
         {
           id: 'Load Prologue 2',
           title: <Typography component="h5" variant="h5">Load Prologue 2</Typography>,
@@ -247,14 +329,14 @@ const LobbySetupFlow = ({
           },
           nextButtonText: 'Load Prologue 2'
         },
-        {
-          id: 'Return Participant to Game',
-          title: <Typography component="h5" variant="h5">Return Participant to Game</Typography>,
-          onClickNext: () => {
-            completeCloseConstellation({ forceCobrowsingUpdate: true })
-          },
-          nextButtonText: 'Return Participant to Game'
-        },
+        sayThis(`And so you remind yourself, how simple instincts can lead to worlds of discovery.
+             As many worlds as there are imaginative moments in the universe.  
+             You take a breath, and dive in again, to connect with another world…`),
+        returnFromStarsStep(),
+        sayThis(`You encounter the world that loops, 
+            adds color and individual powers, 
+            naming those as You did before.`),
+        sendToStarsStep(),
         {
           id: 'Load Editing Game',
           title: <Typography component="h5" variant="h5">Load Editing Game</Typography>,
@@ -267,31 +349,73 @@ const LobbySetupFlow = ({
           },
           nextButtonText: 'Load Editing Game'
         },
+        sayThis(`And now, We hope, unless you need a moment, are you ready to begin?`),
+        breakTitle('Game Creation Begins'),
         {
-          id: 'Select Game Defaults',
-          title: <Typography component="h5" variant="h5">Select Game Defaults</Typography>,
+          id: 'Open Game Defaults Selector',
+          title: <Typography component="h5" variant="h5">Open Game Defaults Selector</Typography>,
           onClickNext: () => {
             openSetupDefaultsModal({ forceCobrowsingUpdate: true })
           },
-          nextButtonText: 'Open Game Defaults Selector'
+          nextButtonText: 'Open'
         },
-        {
-          id: 'Unlock Add Color',
-          title: <Typography component="h5" variant="h5">UI - Unlock Add Color</Typography>,
-          instructions: <>
-            If the user wants to select another color that isnt given, you can unlock that feature for them
-          </>,
-          onClickNext: () => {
-            updateArcadeGameCharacter({
-              userId: lobby.participantId,
-              merge: true,
-              unlockableInterfaceIds: {
-                addColor: true
-              }
-            })
-          },
-          nextButtonText: 'Unlock Add Color'
-        },
+        returnFromStarsStep(),
+        sayThis(`
+          As you know, not every world exists with the black background of the original pixel.  What is the background color we begin with today?
+          You choose a BG color...
+
+          Will we experience this world from the side, or overhead?
+
+          You choose platformer or overhead…
+
+          What are the parameters of our world?
+
+          You choose a contained room / arena; you choose looped or unlooped.
+
+          What is your perspective?
+        `),
+        unlockThis('Unlock Add Color', {
+          addColor: true
+        }),
+        unlockThis('Unlock Playground Color Brush', {
+           [PLAYGROUND_CANVAS_ID+'/colorSelect']: true
+        }),
+        unlockThis('Unlock Playground Sprite Brush', 
+          {
+            [PLAYGROUND_CANVAS_ID+'/addBrush']: true,
+            [PLAYGROUND_CANVAS_ID+'/brushSelect']: true,
+            ['chooseSprites']: true,
+          }),
+        unlockThis('Unlock Eraser', 
+          {
+            ['eraser']: true,
+          }),
+         unlockThis('Unlock Draw New Sprite', 
+          {
+            ['drawNewSprite']: true,
+          }),
+         unlockThis('Unlock Drag Sprite', 
+          {
+            ['contextMenu/move']: true,
+          }),
+        unlockThis('Unlock Add Object', 
+          {
+            [BASIC_INSTANCE_CANVAS_ID+'/addObject']: true,
+            ['chooseSprites']: true,
+          }
+        ),
+        unlockThis('Unlock Add NPC', 
+          {
+            [NPC_INSTANCE_CANVAS_ID+'/addNPC']: true,
+            ['chooseSprites']: true,
+          }
+        ),
+        unlockThis('Unlock Add Player', 
+          {
+            [PLAYER_INSTANCE_CANVAS_ID+'/addPlayer']: true,
+            ['chooseSprites']: true,
+          }
+        )
       ]}
       completed={<>
           <Typography component="h5" variant="h5">Join Participant</Typography>

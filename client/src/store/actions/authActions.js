@@ -25,6 +25,7 @@ import {
   SET_REDIRECT,
   CLEAR_REDIRECT,
 } from '../types';
+import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 
 export const authenticateSocket = (values) => async (dispatch, getState) => {
   dispatch({ type: AUTHENTICATE_SOCKET_LOADING });
@@ -97,6 +98,7 @@ export const loadMe = () => async (dispatch, getState) => {
     const response = await axios.get('/api/users/me', options);
 
     dispatch(authenticateSocket())
+    dispatch(initializeUnlockableInterfaceIds(response.data.me.unlockableInterfaceIds.homemadeArcade))
 
     const me = response.data.me
     // if(!me.preferences) me.preferences = {}
@@ -155,6 +157,7 @@ export const logInUserWithOauth = (token, history) => async (dispatch, getState)
     });
 
     dispatch(authenticateSocket())
+    dispatch(initializeUnlockableInterfaceIds(response.data.me.unlockableInterfaceIds))
     history.push(window.LocalStorageSession.getItem("auth").redirect || '/');
     dispatch(clearRedirect())
   } catch (err) {

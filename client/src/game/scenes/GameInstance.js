@@ -576,10 +576,10 @@ export class GameInstance extends Phaser.Scene {
   }
   
   update(time, delta) {
-    // FOR SPECIAL IS PASUED
-    if(this.isPaused) return
+    this.lastUpdate = Date.now()
     
-    super.update(time, delta)
+        // FOR CLIENTS
+    if(!this.isPaused) super.update(time, delta)
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerVisibility = gameViewEditor.layerVisibility
@@ -603,8 +603,6 @@ export class GameInstance extends Phaser.Scene {
     if(this.stage.id !== currentStageId) {
       this.scene.start(currentStageId, this.props)
     }
-
-    this.lastUpdate = Date.now()
   }
 
   unload() {

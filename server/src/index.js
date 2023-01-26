@@ -204,11 +204,34 @@ io.on("connection", (socket) => {
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
   })
 
+  let upsserver = {}
+  let lastUpsServerCounts = {}
+  let upsServerUpdates = {}
+
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
+
+    const lobbyId = payload.lobbyId
+    const time = Date.now();
+    
+    if(!lastUpsServerCounts[lobbyId]) lastUpsServerCounts[lobbyId] = 0
+    if(!upsServerUpdates[lobbyId]) upsServerUpdates[lobbyId] = 0
+
+    upsServerUpdates[lobbyId]++;
+
+    if (time > lastUpsServerCounts[lobbyId] + 1000) {
+      upsserver[lobbyId] = Math.round( ( upsServerUpdates[lobbyId] * 1000 ) / ( time - lastUpsServerCounts[lobbyId] ) );
+      lastUpsServerCounts[lobbyId] = time;
+      upsServerUpdates[lobbyId] = 0;
+    }
+
+    payload.upsserver = upsserver[lobbyId]
+      
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, (payload) => {
+    payload.upsserver = upsserver[payload.lobbyId]
+
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
   })
 

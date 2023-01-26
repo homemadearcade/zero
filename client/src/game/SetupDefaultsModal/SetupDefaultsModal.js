@@ -108,9 +108,9 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
           },
         ]}
          completed={<>
-          <Button onClick={() => {
+          <Button onClick={async () => {
             if(gameModel.defaults.playerClass === 'JUMPER_PLAYER') {
-              editGameModel({
+              await editGameModel({
                 stages: {
                  ['stage/default']: {
                     playerClassId: 'oc/pl/jumper'
@@ -125,7 +125,7 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
                 }
               })
             } else {
-              editGameModel({
+              await editGameModel({
                 stages: {
                  ['stage/default']: {
                     playerClassId: 'oc/pl/directional'

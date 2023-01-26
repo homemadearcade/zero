@@ -20,6 +20,7 @@ export class GameHostScene extends EditorScene {
     this.upsHostUpdates = 0
     this.upshost = 0
     this.upsclient = 0
+    this.upsserver = 0
   }
 
   callAnimation({type, data}) {
@@ -80,9 +81,10 @@ export class GameHostScene extends EditorScene {
     }, updateInterval)
   }
 
-  onGameInstanceUpdateAcknowledged = ({ upsclient }) => {
+  onGameInstanceUpdateAcknowledged = ({ upsclient, upsserver }) => {
     this.lastAcknowledgement = Date.now()
     this.upsclient = upsclient
+    this.upsserver = upsserver
   }
 
   create() {

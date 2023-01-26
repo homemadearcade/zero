@@ -124,7 +124,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     const tempGame = await ArcadeGame.findById(req.params.id).populate('user');
     if (!tempGame) return res.status(404).json({ message: 'No game found.' });
-    if (!(tempGame.user.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempGame.user?.id === req.user.id || req.user.role === 'ADMIN'))
       return res.status(400).json({ message: 'Not updated by the game owner or admin.' });
 
     const updatedGame = mergeDeep(tempGame, req.body.gameUpdate)
@@ -184,7 +184,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         awsImages: updatedGame.awsImages,
         nodeSize: updatedGame.nodeSize, 
         relations: updatedGame.relations, 
-        user: tempGame.user.id,
+        // user: tempGame.user ? tempGame.user.id : Math.random()
      },
       { new: true },
     );
