@@ -204,7 +204,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
     getInterfacePresets()
   }, [])
 
-  if(!user) return <Loader text="Loading User..."></Loader>
+  if(!user.unlockableInterfaceIds) return <Loader text="Loading User..."></Loader>
 
   let unlockableInterfaceIds = user.unlockableInterfaceIds[experienceId]
 

@@ -10,14 +10,15 @@ export default (ChildComponent) => {
   class WithCobrowsing extends Component {
     componentDidMount() {
       const { match } = this.props
-      const cobrowsingUserId = this.props.userId ? this.props.userId : match.params.cobrowsingUserId;
-      if(cobrowsingUserId === this.props.cobrowsing.cobrowsingUser.id) {
-        // 'already cobrowsing this user :)
-        window.preventCobrowsingUnmount = true
-        return 
-      } 
+      this.cobrowsingUserId = this.props.userId ? this.props.userId : match.params.cobrowsingUserId;
+      // if(cobrowsingUserId === this.props.cobrowsing.cobrowsingUser.id) {
+      //   // 'already cobrowsing this user :)
+      //   return 
+      // } 
 
-      this.startCobrowsing(cobrowsingUserId)
+      if(this.cobrowsingUserId) {
+        this.startCobrowsing(this.cobrowsingUserId)
+      }
     }
 
     componentDidUpdate(oldProps) {
@@ -25,18 +26,17 @@ export default (ChildComponent) => {
     }
 
     componentWillUnmount() {
-      setTimeout(() => {
-        if(window.preventCobrowsingUnmount) return 
-        // we just unmounted this component!
-        this.stopCobrowsing()
-      }, 1000)
+      this.stopCobrowsing()
     }
 
     async switchCobrowsing(oldProps, newProps) {
-      if(oldProps.match.params.cobrowsingUserId !== newProps.match.params.cobrowsingUserId) {
+      const newCobrowsingId = newProps.userId ? newProps.userId : newProps.match.params.cobrowsingUserId;
+
+      if(this.cobrowsingUserId !== newCobrowsingId) {
         await this.stopCobrowsing()
-        await this.startCobrowsing(newProps.match.params.cobrowsingUserId)
+        await this.startCobrowsing(newCobrowsingId)
       } 
+      
     }
 
     async startCobrowsing(userId) {     

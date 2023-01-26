@@ -9,4 +9,8 @@
     height: calc(100% - 100px);
     overflow-y: scroll;
   }
+
+  &__message {
+    flex-direction: column;
+  }
 }

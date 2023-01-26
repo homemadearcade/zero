@@ -1,0 +1,79 @@
+.LobbyUsername {
+  position: relative;
+
+  &__title {
+    position: relative;
+    width: 50%;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  &__username {
+    display: block;
+  }
+
+  &--left {
+    opacity: 0.4;
+  }
+
+  &--cobrowser {
+    border: 1px solid white;
+  }
+
+  &__icons {
+    font-size: .8rem;
+    margin-top: 5px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__ping {
+    font-size: .5rem;
+    position: absolute;
+    top: 1.7px;
+    right: 12px;
+  }
+
+  &__admin {
+    font-size: .5rem;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
+
+  &__icon {
+    text-align: center;
+    font-size: 1rem;
+    margin-right: 5px;
+    display: inline-block;
+
+    &--wide {
+      width: 26px;
+    }
+  }
+
+  &__connection-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: green;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+
+    &--bad {
+      background-color: red;
+    }
+
+    &--none {
+      opacity: 0;
+    }
+  }
+
+  &__modal {
+    padding: 1rem;
+    position: relative;
+  }
+  
+}

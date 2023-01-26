@@ -9,6 +9,7 @@ import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
 import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/lobbyActions';
 import { ADMIN_ROLE } from '../constants';
+import LobbyUsername from '../LobbyUsername/LobbyUsername';
 
 const LobbyChatroom = ({
   lobby: { lobby },
@@ -38,6 +39,10 @@ const LobbyChatroom = ({
   function getChatroomName(messageData) {
     const {user, automated} = messageData
 
+    if(me?.role === ADMIN_ROLE) {
+      return <LobbyUsername userId={messageData.user.id}></LobbyUsername>
+    }
+
     if(automated) return user.username
 
     if(lobby.guideId === user.id) {
@@ -55,8 +60,8 @@ const LobbyChatroom = ({
           const {user, message, automated} = messageData
           if(automated && hideAutomated) return null
 
-          return <ListItem>
-            {getChatroomName(messageData)}:{' '}
+          return <ListItem classes={{root: 'LobbyChatroom__message'}}>
+            {getChatroomName(messageData)}
             {message}
           </ListItem>
         })}
