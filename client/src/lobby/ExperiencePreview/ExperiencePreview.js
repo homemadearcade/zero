@@ -13,12 +13,19 @@ import { CHATROOM_UI, experienceStateKeyToDisplayName, GAME_EDITOR_UI, MONOLOGUE
 import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperienceState';
 import { editLobby } from '../../store/actions/lobbyActions';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
+import LobbyUserStatus from '../LobbyUserStatus/LobbyUserStatus';
+import GameStatus from '../GameStatus/GameStatus';
 
 const ExperiencePreview = ({
   lobby: { lobby },
   gameContext: { isConstellationOpen },
   editLobby
 }) => {
+
+  const usersById = lobby.users.reduce((prev, next) => {
+    prev[next.id] = next
+    return prev
+  }, {})
 
   function renderExperiencePreview() {   
     if(lobby.experienceState === CHATROOM_UI) {
@@ -43,13 +50,14 @@ const ExperiencePreview = ({
     }
   }
 
+        // <Typography variant="h5">Preview</Typography>
+
   return (
     <div className="ExperiencePreview">
-      <Typography variant="h5">Preview</Typography>
 
       <div className="ExperiencePreview__window">
         {renderExperiencePreview()}
-        {isConstellationOpen && 
+        {isConstellationOpen && lobby.experienceState !== GAME_EDITOR_UI && 
           <div className="ExperiencePreview__star">
             <Icon size="lg" icon="faStar"></Icon>
             <br/>Star View is overlaying {experienceStateKeyToDisplayName[lobby.experienceState]}
@@ -65,6 +73,10 @@ const ExperiencePreview = ({
             })       
           }}/>
       </div>
+      <div className="ExperiencePreview__user">
+        <LobbyUserStatus hasJoinLink hasUIButton userId={usersById[lobby.participantId]?.id}/>
+      </div>
+      <div className="ExperiencePreview__note"><GameStatus/></div>
     </div>
   );
 };

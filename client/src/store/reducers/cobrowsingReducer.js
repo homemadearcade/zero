@@ -24,10 +24,15 @@ import { initialErrorState } from './errorsReducer';
 import { initialGameContextState } from './gameContextReducer';
 import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
 import { initialVideoState } from './videoReducer';
+import { inIframe } from '../../utils/webPageUtils';
+
+function getDefaultIsActiveCobrowsing() {
+  return inIframe()
+}
 
 const initialState = {
   isSubscribedCobrowsing: false,
-  isActivelyCobrowsing: false,
+  isActivelyCobrowsing: getDefaultIsActiveCobrowsing(),
   isSubscribingCobrowsing: false,
   showUnlockableInterfaceLocks: false,
   error: null,
@@ -76,7 +81,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         isSubscribedCobrowsing: true,
-        isActivelyCobrowsing: false,
+        isActivelyCobrowsing: getDefaultIsActiveCobrowsing(),
         isSubscribing: false,
         cobrowsingUser: payload.cobrowsingUser,
       };

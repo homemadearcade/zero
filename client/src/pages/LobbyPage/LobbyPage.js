@@ -35,6 +35,7 @@ import { DialogContent, DialogTitle } from '@mui/material';
 import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
 import LobbyChatroom from '../../lobby/LobbyChatroom/LobbyChatroom';
 import { Container } from '@mui/system';
+import { inIframe } from '../../utils/webPageUtils';
 
 const LobbyPage = ({
   lobby: { lobby, connectionMessage, connectionState },
@@ -64,11 +65,11 @@ const LobbyPage = ({
   function LobbyDrawer({ children }) {
     return <>
       <div className="LobbyPage__admin-tools">
-        <div className="LobbyPage__drawer-toggle" onClick={() => {
+        {!inIframe() && <div className="LobbyPage__drawer-toggle" onClick={() => {
           setIsDrawerOpen(true)
         }}>
           <Icon icon="faBars"/>
-        </div>
+        </div>}
         {children}
       </div>
       <Drawer anchor="left" isOpen={isDrawerOpen} onClose={() => 
@@ -180,9 +181,9 @@ const LobbyPage = ({
   
   return <Switch>
       <Route exact path={path}>
-        <Container><LobbyDashboard myTracks={myTracks}/></Container>
+        <LobbyDashboard myTracks={myTracks}/>
         {renderLobbyAdminExperience()}
-        <LobbyDrawer/>
+        {<LobbyDrawer/>}
         {renderLobbyConnection()}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>

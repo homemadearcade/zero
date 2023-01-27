@@ -13,16 +13,16 @@
     z-index: 2;
   }
 
-  .GameView__empty {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    background-color: #000;
-    z-index: 1;
-    top: 0;
-  }
+  // .GameView__empty {
+  //   position: absolute;
+  //   top: 0px;
+  //   left: 0px;
+  //   height: 100%;
+  //   width: 100%;
+  //   background-color: #000;
+  //   z-index: 1;
+  //   top: 0;
+  // }
 
   &__user {
     position: absolute;
@@ -31,8 +31,8 @@
     z-index: 2;
   }
 
-  .GameView {
-    width: 100%;
-    height: 100%;
-  }
+  // .GameView {
+  //   width: 100%;
+  //   height: 100%;
+  // }
 }

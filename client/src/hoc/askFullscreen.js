@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '../ui/Button/Button';
 import Typography from '../ui/Typography/Typography';
-import { isLocalHost, requestFullscreen } from '../utils/webPageUtils';
+import { inIframe, isLocalHost, requestFullscreen } from '../utils/webPageUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -10,7 +10,7 @@ export default (ChildComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        fullscreenDecision: isLocalHost() || (document.fullscreenElement ? 'fullscreen' : null)
+        fullscreenDecision: inIframe() || isLocalHost() || (document.fullscreenElement ? 'fullscreen' : null)
       }
 
       console.log('fullscreen', isLocalHost() || document.fullscreenElement, document.fullscreenElement)

@@ -7,7 +7,7 @@
 
   &__drawer-close {
     top: 1%;
-    left: 12px;
+    right: 12px;
     position: absolute;
     cursor: pointer;
     font-size: 24px;
@@ -21,7 +21,7 @@
     flex-direction: column;
     gap: 1rem;
     top: 1%;
-    left: 1%;
+    right: 1%;
     font-size: 24px;
     z-index: 100;
     cursor: pointer;

@@ -22,11 +22,11 @@ const LobbyDashboard = ({
           <ExperiencePreview userId={lobby.participantId}/>
         </div>
         <LobbySetupFlow/>
-        <Paper className="LobbyDashboard__chatroom">
-          <LobbyChatroom name="Lobby Log"/>
-          {isInsideVideoCall && myTracks && <LobbyToolbar tracks={myTracks}></LobbyToolbar>}
-        </Paper>
       </div>
+      <Paper className="LobbyDashboard__chatroom">
+        <LobbyChatroom name="Lobby Log"/>
+        {isInsideVideoCall && myTracks && <LobbyToolbar tracks={myTracks}></LobbyToolbar>}
+      </Paper>
     </div>
   );
 };

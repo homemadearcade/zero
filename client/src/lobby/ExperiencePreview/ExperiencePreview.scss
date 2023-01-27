@@ -1,11 +1,13 @@
 .ExperiencePreview {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100vh;
 
   &__window {
     position: relative;
-    width: 30vw;
-    height: 30vw;
+    width: 100%;
+    height: 50%;
     border: 1px solid white;
   }
   

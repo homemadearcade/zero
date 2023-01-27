@@ -11,28 +11,15 @@ import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
 const GamePreview = ({lobby: { lobby }}) => {
-  const usersById = lobby.users.reduce((prev, next) => {
-    prev[next.id] = next
-    return prev
-  }, {})
+  // const { isUnlocked } = getInterfaceIdData('gameView', { forceActiveCobrowsing: true })
+  //     {(!isUnlocked || !lobby.isGamePoweredOn) && 
+  //       <div className="GameView__empty">
 
-  const { isUnlocked } = getInterfaceIdData('gameView', { forceActiveCobrowsing: true })
-
+  //       </div>
+  //     }
   return (
     <div className="GamePreview">
-      <GameView
-        isHost={false}
-        isNetworked={true}
-      />
-      {(!isUnlocked || !lobby.isGamePoweredOn) && 
-        <div className="GameView__empty">
-
-        </div>
-      }
-      <div className="GamePreview__user">
-        <LobbyUserStatus hasJoinLink hasUIButton userId={usersById[lobby.participantId]?.id}/>
-      </div>
-      <div className="GamePreview__note"><GameStatus/></div>
+      <iframe title="gamepreview" height="100%" width="100%'" src={window.location.origin + '/lobby/' + lobby.id + '/join/' + lobby.participantId}></iframe>
     </div>
   );
 };

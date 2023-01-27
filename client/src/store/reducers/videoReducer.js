@@ -1,4 +1,4 @@
-import { isLocalHost } from '../../utils/webPageUtils';
+import { inIframe, isLocalHost } from '../../utils/webPageUtils';
 import {
   START_VIDEO_CALL_LOADING,
   START_VIDEO_CALL_SUCCESS,
@@ -11,7 +11,7 @@ import {
 } from '../types';
 
 function defaultBypass() {
-  return isLocalHost()
+  return inIframe() || isLocalHost()
 }
 
 const initialState = {

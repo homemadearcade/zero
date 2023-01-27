@@ -131,7 +131,6 @@ export const openConstellation = ({ forceCobrowsingUpdate  }) => async (dispatch
         dispatch(changeGameState(PAUSED_STATE))
       }
     }
-
     
     dispatch({
       forceCobrowsingUpdate,

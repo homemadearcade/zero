@@ -25,7 +25,7 @@ const EditGamePage = ({ unloadArcadeGame }) => {
     return () => {
       unloadArcadeGame()
     }
-  })
+  }, [])
 
   return (
     <div className="EditGamePage">

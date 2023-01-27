@@ -5,7 +5,7 @@ import Button from '../ui/Button/Button';
 import Loader from '../ui/Loader/Loader';
 import Typography from '../ui/Typography/Typography';
 import { testInternetSpeed } from '../utils/networkUtils';
-import { isLocalHost } from '../utils/webPageUtils';
+import { inIframe, isLocalHost } from '../utils/webPageUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -59,7 +59,7 @@ export default (ChildComponent) => {
 
     render() {
       
-       if(!this.state.testResults) {
+       if(!this.state.testResults && !inIframe()) {
         return <Loader text="Checking internet speed..."></Loader>
       } else {
         return <ChildComponent {...this.props} />;

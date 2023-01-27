@@ -16,16 +16,19 @@ export default (ChildComponent) => {
     }
 
     componentDidMount() {
-      checkIfTabAlreadyOpen((isTabAlreadyOpen) => {
-        if(isTabAlreadyOpen) {
-          alert('Homemade Arcade is open in another tab. Please check all tabs you have open. This tab will now shutdown')
-          window.stop()
-        } else {
           this.setState({
             isCheckingBrowser: false
           })
-        }
-      })
+      // checkIfTabAlreadyOpen((isTabAlreadyOpen) => {
+      //   if(isTabAlreadyOpen) {
+      //     alert('Homemade Arcade is open in another tab. Please check all tabs you have open. This tab will now shutdown')
+      //     window.stop()
+      //   } else {
+      //     this.setState({
+      //       isCheckingBrowser: false
+      //     })
+      //   }
+      // })s
     }
 
     // // Our component just got updated
