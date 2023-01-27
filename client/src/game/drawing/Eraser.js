@@ -1,7 +1,7 @@
 import Phaser, { BlendModes } from "phaser";
 import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, DEFAULT_TEXTURE_ID, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH } from "../constants";
 import store from "../../store";
-import { getCanvasIdFromEraserId, getDepthFromEraserId, snapEraserXY } from "../../utils/editorUtils";
+import { getCanvasIdFromEraserId, getDepthFromEraserId, snapFreeXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
 
 export class Eraser extends Brush {
@@ -18,7 +18,7 @@ export class Eraser extends Brush {
     scene.uiLayer.add(this.border)
 
     this.isEraser = true
-    this.snapMethod = snapEraserXY
+    this.snapMethod = snapFreeXY
 
     this.lastUpdateX = null
     this.lastUpdateY = null

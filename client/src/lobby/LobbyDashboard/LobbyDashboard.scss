@@ -1,10 +1,10 @@
 .LobbyDashboard {
   &__content {
     display: flex;
-    width: calc((100% - 200px))
+    width: 100%;
   }
 
-  &__communication {
+  &__preview {
     height: 100%;
     width: 60%;
     display: flex;
@@ -12,20 +12,12 @@
     gap: 1rem;
   }
 
-  &__chatroom {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 200px;
-
-    .LobbyChatroom {
-      height: 94%;
-    }
-  }
-
-  .LobbySetupFlow {
+  .Tabs {
     width: 40%;
+    &__panel {
+      height: 90vh;
+      overflow-y: scroll;
+    }
   }
   
   &__leave {

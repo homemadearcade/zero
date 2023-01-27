@@ -12,7 +12,7 @@ import SectionEditor from '../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../stages/SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
-import { PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
+import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../cutscene/CutscenesMenu/CutscenesMenu';
@@ -52,13 +52,12 @@ const GameEditor = ({
   useEffect(() => {
     const ogStyle = document.documentElement.style
     document.documentElement.style="font-size: 2vh";
-    changeGameState(PLAY_STATE)
     
     return () => {
       clearEditor()
       clearGameFormEditor()
       clearGameViewEditor()
-      document.documentElement.style= ogStyle
+      document.documentElement.style = ogStyle
     }
   }, [])
 

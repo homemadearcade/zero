@@ -17,7 +17,7 @@ const PlayGamePage = ({ gameModel: { gameModel }, changeGameState, requestFullsc
     changeGameState(START_STATE)
 
     return () => {
-      unloadArcadeGame()
+      // unloadArcadeGame()
     }
   }, [])
 

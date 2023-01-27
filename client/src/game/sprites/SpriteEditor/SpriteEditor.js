@@ -47,7 +47,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelecte
     }
     
     const game = new Phaser.Game(config);
-    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
+    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, stageId: 'spriteeditor', newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
     setSpriteEditorGameInstance(game)
 
     return () => {

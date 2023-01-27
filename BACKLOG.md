@@ -111,6 +111,8 @@ and also therefore, its inherited?? omg thats so dope! So like yeah create their
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?
+
 Fix with Cobrowsing?? right now broken af when switching between two different users
 
 The way gameContext.player.classId works ?? Not sure but like 

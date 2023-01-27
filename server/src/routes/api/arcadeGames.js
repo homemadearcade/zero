@@ -48,7 +48,7 @@ router.post('/character', requireJwtAuth, requireSocketAuth, async (req, res) =>
       }
     };
     if(req.body.merge) {
-      updatedUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_ID] = {...req.body.unlockableInterfaceIds, ...tempUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_ID] }
+      updatedUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_ID] = { ...tempUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_ID], ...req.body.unlockableInterfaceIds }
     } else {
       updatedUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_ID]= req.body.unlockableInterfaceIds
     }

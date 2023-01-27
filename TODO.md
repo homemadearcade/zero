@@ -1,23 +1,51 @@
---
-TODO
+---------
+TODO NOW
+---------
+
+DIALOGUE!!! Figure this out... Custom relation menu basically FOR THE USER. Simplified Relation menu for the user
+
+Non saving mode for games/Playthrough mode for prologues
+  
+Eraser in Sprite Editor
+
+Destroy Delay after X seconds - EffectDelay, EffectDelayInterval
+
+---
+---------
+TODO LATER
+---------
+
+Shortcuts menu?
+
+Current Player Icon in Player Class Menu
+
+Player should be assessed by .classId by game clients
+and assessed based on the state by the game host and game local and game 
+  its possible it goes Host ReduxState -> Host Game -> Game Update -> Client Game -> Client ReduxState
+for BOTH game state AND Hero? Game state WILL NEVER BY LOCALLY COBROWSED.. EVER!
+Is current player EVER neede in the UI? if not. Then we can just check the scene.player Instnace?
+
+Remote cut video
+
+Collides with self toggle
 
 Copy game when homemade arcade is completed and put it in a different database
 
-INFO BOX - Right Click, Left Click, Name of Class
-Game Name Area, Stage Name Area
-   Cutscenes, Stages, Metadata, OThers? More 
-Think on toolbars
-  Stages, Cutscenes, Relations, Images, Metadata, Boundaries
-I think perhaps you can switch one of these bars between class/brush and stage information
-  Play Cutscne, Switch to Stage
-
-EMAILS
-Forgot Password - email Flow
-All sorts of emails for tickets
+--
 
 ---------
 BIG FEATURES
 ---------
+
+INFO BOX 
+  Right Click, Left Click, Name of Class
+  You should be able to ^ highlight for the cobrowsing user any thing that is an INFOBOX
+  TOOL TIP sort of thing. Perhaps is inside the Unlockable Component. Perhaps we just like...
+  also have other additions to it like -- Information, Highlight click
+
+EMAILS
+  Forgot Password - email Flow
+  All sorts of emails for tickets
 
 TICKETING
   Checkout page
@@ -35,25 +63,31 @@ SMALL UPATES
 -----
 
 UI
-  The sliders - you dont really know what zero is
   UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
+  
   UI COLOR needs and ...If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
+  
   When trying to name a class, spacebar doesnt work
     Shift + Press it works fine
+  
   When a class is highlighted, you should be able to see all of them highlighted on the map?
+  
   You should be able to hide games, you should be able to hide classes, hide stages, hide lobby not delete them, hide users, dont delete them, hide objects? nah delete them
+  
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
+  
   Auto hide live editor when using keys?
-  For prologues - Fix zones that are not on playground layer 
-  Non saving mode for games/Playthrough mode for prologues
-  Eraser in Sprite Editor
-  Initialize player Instance, no zone? Check for zone… and if no zone throw error?
-  Current Player Icon in Player Class Menu
+    
   Fit all titles into the box with TextFit thing from before
-  Remote cut video
 
-  The lobby log is the thing that will be opened by the drawer and ... inside of their you can see just guide: participant: game host: and then also You can perhaps be like see users in the chat. Perhaps its a tab thing. Users vs Chat
+  When there’s no option selectable in the descriptor mode, they expect something to pop up 
+  We need to be able to HIGHLIGHT a div or UNLOCKABLE
 
-FLOW
-  Spawn object at the edge of the heros camera?
-  Class is selected after being created, Movement is prompted after placing the first object?
+BUGS  
+  User Disonnect, fkin wierd man. It shows up in lobby now because they can send that message even when not logged in 
+
+  Scroll bar showing up in the class menu??
+
+  Initialize player Instance, no zone? Check for zone… and if no zone throw error?
+
+  For prologues - Fix zones that are not on playground layer 

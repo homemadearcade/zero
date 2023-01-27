@@ -12,15 +12,15 @@ import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
-import VerticalLinearStepper from '../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import LobbyUserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
-import { completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
+import { changeGameState, completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
 import { openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
 import { GAME_EDITOR_UI, MONOLOGUE_UI } from '../../constants';
-import { BASIC_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../game/constants';
+import { BASIC_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, PAUSED_STATE, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID, PLAY_STATE } from '../../game/constants';
+import LobbyVerticalLinearStepper from '../LobbyVerticalLinearStepper/LobbyVerticalLinearStepper';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -31,6 +31,7 @@ const LobbySetupFlow = ({
   completeCloseConstellation, 
   openConstellation,
   openSetupDefaultsModal,
+  changeGameState,
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -185,13 +186,7 @@ const LobbySetupFlow = ({
   return (
     <div className="LobbySetupFlow">
       <div className="LobbySetupFlow__stepper">
-      <VerticalLinearStepper 
-      initialStep={lobby.currentStep}
-      onStepChange={(step) => {
-        editLobby(lobby.id, {
-          currentStep: step
-        })
-      }}
+      <LobbyVerticalLinearStepper 
       steps={[
         {
           id: 'Assign User Roles',
@@ -277,6 +272,14 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           nextButtonText: 'Load Prologue 1'
         },
         {
+          id: 'Pause Game',
+          title: <Typography component="h5" variant="h5">Pause Game</Typography>,
+          onClickNext: () => {
+            changeGameState(PAUSED_STATE)
+          },
+          nextButtonText: 'Pause'
+        },
+        {
           id: 'UI - Unlock Game View',
           title: <Typography component="h5" variant="h5">UI - Unlock Game View</Typography>,
           instructions: <>
@@ -299,6 +302,17 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           You’ll begin to use what some call WASD keys, the arrow keys.
           As you move, it first seems nothing happens, yes?
           Then, you encounter something.
+          `
+        ),
+        {
+          id: 'Unpause Game',
+          title: <Typography component="h5" variant="h5">Unpause Game</Typography>,
+          onClickNext: () => {
+            changeGameState(PLAY_STATE)
+          },
+          nextButtonText: 'Unpause'
+        },
+        sayThis(`
           What do you encounter? What could it be?
 
           You answer as You interact.
@@ -314,8 +328,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           …And this?
 
-          You answer, we affirm.`
-        ),
+          You answer, we affirm.
+        `),
         sendToStarsStep(),
         {
           id: 'Load Prologue 2',
@@ -396,7 +410,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           }),
          unlockThis('Unlock Drag Sprite', 
           {
-            ['contextMenu/move']: true,
+            ['contextMenu/instance/move']: true,
           }),
         unlockThis('Unlock Add Object', 
           {
@@ -432,5 +446,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { openSetupDefaultsModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation }),
+  connect(mapStateToProps, { openSetupDefaultsModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState }),
 )(LobbySetupFlow);

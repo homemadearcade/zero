@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectExperienceState.scss';
 
 import { experienceStateKeyToDisplayName } from '../../constants';
-import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
+import RadioGroupColumn from '../RadioGroupColumn/RadioGroupColumn';
 
 const SelectExperienceState = ({ onChange, value, formLabel, disabled }) => {
   const mapControlsToOption = (experience) => {
@@ -17,7 +17,7 @@ const SelectExperienceState = ({ onChange, value, formLabel, disabled }) => {
 
   const options = Object.keys(experienceStateKeyToDisplayName).map(mapControlsToOption)
 
-  return <SelectChipsAuto
+  return <RadioGroupColumn
     disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}

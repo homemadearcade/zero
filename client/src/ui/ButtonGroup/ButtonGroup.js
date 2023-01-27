@@ -6,7 +6,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import './ButtonGroup.scss'
 
-const ButtonGroup = ({ onSelectOption, value, formLabel, options}) => {
+const ButtonGroup = ({ onSelectOption, value, formLabel, options, orientation}) => {
   // const [alignment, setAlignment] = React.useState(initialOption);
 
   // const handleChange = (
@@ -23,6 +23,7 @@ const ButtonGroup = ({ onSelectOption, value, formLabel, options}) => {
       <ToggleButtonGroup
         color="primary"
         value={value}
+        orientation={orientation}
         exclusive
         onChange={onSelectOption}
       >

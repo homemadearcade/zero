@@ -25,7 +25,7 @@ export function getCurrentGameScene(gameInstance) {
   return scene
 }
 
-export function snapEraserXY({x, y, boundaries = getCobrowsingState().gameModel.gameModel.stages[getCobrowsingState().gameContext.currentStageId].boundaries}) {
+export function snapFreeXY({x, y, boundaries = getCobrowsingState().gameModel.gameModel.stages[getCobrowsingState().gameContext.currentStageId].boundaries}) {
   const gameModel = getCobrowsingState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize
@@ -52,7 +52,7 @@ export function snapEraserXY({x, y, boundaries = getCobrowsingState().gameModel.
 }
 
 
-export function snapBrushXY({x, y, boundaries = getCobrowsingState().gameModel.gameModel.stages[getCobrowsingState().gameContext.currentStageId].boundaries}) {
+export function snapSectionalXY({x, y, boundaries = getCobrowsingState().gameModel.gameModel.stages[getCobrowsingState().gameContext.currentStageId].boundaries}) {
   const gameModel = getCobrowsingState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize

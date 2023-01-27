@@ -15,7 +15,7 @@ import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../defaultData/general';
 import { urlToFile } from '../../utils/utils';
-import { generateUniqueId } from '../../utils/webPageUtils';
+import { generateUniqueId, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { changePlayerState } from '../../store/actions/gameContextActions';
@@ -303,6 +303,7 @@ export class EditorScene extends GameInstance {
         e.preventDefault()
         return false
       }
+      
 
       document.body.addEventListener('contextmenu', disableContextMenue)
       setTimeout(() => {
@@ -884,6 +885,7 @@ export class EditorScene extends GameInstance {
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
     this.input.on('wheel', this.onMouseWheel);
+    if(!isLocalHost()) this.input.mouse.disableContextMenu()
     this.escKey = this.input.keyboard.addKey('esc');  // Get key object
 
     const lobby = store.getState().lobby.lobby

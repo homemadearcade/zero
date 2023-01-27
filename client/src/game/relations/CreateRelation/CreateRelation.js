@@ -207,7 +207,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         onChangeCommitted={(value) => {
           updateCreateRelation({delayInterval: value})
         }}
-        value={relation.delayInterval || 10}
+        value={relation.delayInterval || 200}
       />
     </Unlockable>,
     classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId="relation/advanced/ignoreSides">

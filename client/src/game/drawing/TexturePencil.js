@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
 import store from "../../store";
-import { getDepthFromCanvasId, snapBrushXY } from "../../utils/editorUtils";
+import { getDepthFromCanvasId, snapFreeXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
 
 export class TexturePencil extends Brush {
@@ -15,7 +15,7 @@ export class TexturePencil extends Brush {
 
     super(scene, {brushId, depth, tint, spriteSheetName, spriteIndex, textureId: brush.textureId})
 
-    this.snapMethod = snapBrushXY
+    this.snapMethod = snapFreeXY
 
     return this
   }

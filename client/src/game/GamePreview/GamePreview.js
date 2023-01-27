@@ -3,20 +3,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './GamePreview.scss';
-import withGame from '../../hoc/withGame';
-import GameView from '../../game/GameView/GameView';
-import GameStatus from '../../lobby/GameStatus/GameStatus';
-import LobbyUserStatus from '../../lobby/LobbyUserStatus/LobbyUserStatus';
-import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
-import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 
 const GamePreview = ({lobby: { lobby }}) => {
-  // const { isUnlocked } = getInterfaceIdData('gameView', { forceActiveCobrowsing: true })
-  //     {(!isUnlocked || !lobby.isGamePoweredOn) && 
-  //       <div className="GameView__empty">
-
-  //       </div>
-  //     }
   return (
     <div className="GamePreview">
       <iframe title="gamepreview" height="100%" width="100%'" src={window.location.origin + '/lobby/' + lobby.id + '/join/' + lobby.participantId}></iframe>
@@ -24,12 +12,10 @@ const GamePreview = ({lobby: { lobby }}) => {
   );
 };
 
-const mapStateToProps = (state) => mapCobrowsingState(state, {
+const mapStateToProps = (state) => ({
   lobby: state.lobby,
-  unlockableInterfaceIds: state.unlockableInterfaceIds
-}, { forceActiveCobrowsing: true });
+});
 
 export default compose(
-  withGame,
   connect(mapStateToProps, { })
 )(GamePreview);

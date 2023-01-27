@@ -7,7 +7,7 @@ import {
   CLEAR_CUTSCENES,
   CLOSE_CUTSCENE,
   COMPLETE_CLOSE_CONSTELLATION,
-  OPEN_CONSTELLATION,
+  START_OPEN_CONSTELLATION,
   OPEN_CUTSCENE,
   PROGRESS_CUTSCENE,
   START_CLOSE_CONSTELLATION,
@@ -114,36 +114,13 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
 
 export const openConstellation = ({ forceCobrowsingUpdate  }) => async (dispatch, getState) => {
   //  externalForceCobrowsingUpdateUserId
-  async function attemptConstellation() {
-    const gameInstance = getState().webPage.gameInstance
 
-    if(!gameInstance) setTimeout(() => attemptConstellation(), 1000)
-    const scene = getCurrentGameScene(gameInstance)
-
-    if(!scene) setTimeout(() => attemptConstellation(), 1000)
-
-    const { imgCanvas } = await scene.getImageFromGame('constellation')
-
-    if(scene) {
-      if(scene.isPlaythrough) {
-        dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
-      } else {
-        dispatch(changeGameState(PAUSED_STATE))
-      }
-    }
-    
     dispatch({
       forceCobrowsingUpdate,
       // externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
       updateCobrowsing: true,
-      type: OPEN_CONSTELLATION,
-      payload: {
-        imageBase64: imgCanvas.toDataURL()
-      }
+      type: START_OPEN_CONSTELLATION,
     });
-  }
-
-  attemptConstellation()
 }
 
 export const startCloseConstellation = ({ forceCobrowsingUpdate }) => (dispatch, getState) => {

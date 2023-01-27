@@ -23,7 +23,6 @@ import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/Cobro
 import { ADMIN_ROLE } from '../../game/constants';
 import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
-import UnlockableInterfaceLocksToggle from '../../game/cobrowsing/UnlockableInterfaceLocksToggle/UnlockableInterfaceLocksToggle';
 import AgoraUserVideo from '../../lobby/agora/AgoraUserVideo/AgoraUserVideo';
 import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
 import Button from '../../ui/Button/Button';
@@ -38,7 +37,7 @@ import { Container } from '@mui/system';
 import { inIframe } from '../../utils/webPageUtils';
 
 const LobbyPage = ({
-  lobby: { lobby, connectionMessage, connectionState },
+  lobby: { lobby, lobby: { experienceState, isGamePoweredOn }, connectionMessage, connectionState  },
   auth: { me },
   myTracks,
   userTracks,
@@ -72,7 +71,7 @@ const LobbyPage = ({
         </div>}
         {children}
       </div>
-      <Drawer anchor="left" isOpen={isDrawerOpen} onClose={() => 
+      <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
       }>
         <div className="LobbyPage__drawer-close" 
@@ -181,7 +180,7 @@ const LobbyPage = ({
   
   return <Switch>
       <Route exact path={path}>
-        <LobbyDashboard myTracks={myTracks}/>
+        <LobbyDashboard userId={lobby.participantId} myTracks={myTracks}/>
         {renderLobbyAdminExperience()}
         {<LobbyDrawer/>}
         {renderLobbyConnection()}
@@ -189,8 +188,8 @@ const LobbyPage = ({
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <LobbyDrawer>
           <CobrowsingIndicator/>
-          <LobbyPowerIndicator/>
-          <ConstellationToggle/>
+          {experienceState === GAME_EDITOR_UI && <LobbyPowerIndicator/>}
+          {experienceState === GAME_EDITOR_UI && isGamePoweredOn && <ConstellationToggle/>}
         </LobbyDrawer>}
         <Container>{renderGameExperience()}</Container>
         {renderLobbyConnection()}

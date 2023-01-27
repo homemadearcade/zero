@@ -7,8 +7,9 @@ import './LobbyDashboard.scss';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
-import { Paper } from '@mui/material';
 import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
+import Tabs from '../../ui/Tabs/Tabs';
+import withCobrowsing from '../../hoc/withCobrowsing';
 
 const LobbyDashboard = ({
   lobby: { lobby },
@@ -18,15 +19,24 @@ const LobbyDashboard = ({
   return (
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
-        <div className="LobbyDashboard__communication">
+        <div className="LobbyDashboard__preview">
           <ExperiencePreview userId={lobby.participantId}/>
         </div>
-        <LobbySetupFlow/>
+        <Tabs tabs={[
+          {
+            label: 'Instructions',
+            body: <LobbySetupFlow/>
+          },
+          {
+            label: 'Chatlog',
+            body: <div className="LobbyDashboard__chatroom">
+              <LobbyChatroom/>
+              {isInsideVideoCall && myTracks && <LobbyToolbar tracks={myTracks}></LobbyToolbar>}
+            </div>
+          },
+        ]}></Tabs>
       </div>
-      <Paper className="LobbyDashboard__chatroom">
-        <LobbyChatroom name="Lobby Log"/>
-        {isInsideVideoCall && myTracks && <LobbyToolbar tracks={myTracks}></LobbyToolbar>}
-      </Paper>
+
     </div>
   );
 };
@@ -37,5 +47,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
+  withCobrowsing,
   connect(mapStateToProps, { }),
 )(LobbyDashboard);

@@ -23,7 +23,7 @@ const EditGamePage = ({ unloadArcadeGame }) => {
   useEffect(() => {
 
     return () => {
-      unloadArcadeGame()
+      // unloadArcadeGame()
     }
   }, [])
 
