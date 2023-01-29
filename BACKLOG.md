@@ -153,8 +153,6 @@ Wrap Sprite in another class called like...object instance... lol, phaser object
 
 Outline Class ( for eraser and objectInstance, and camerapreview? )
 
-Remove LobbyState stuff in reducers? Form the past?
-
 Choose instances in relation editor
 Effect Instance id? Create a generelized id structure for everything.
   event.classIdB, classIdA would actually just be idA, idB, and then that id will relate to like objectclass/adsoasd98/ or objectinstance/oiasdljkasdna or playerinstance/kj.hasdkhjasd

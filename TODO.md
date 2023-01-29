@@ -13,10 +13,6 @@ Destroy Delay after X seconds - EffectDelay, EffectDelayInterval
 TODO LATER
 ---------
 
-Hard Game Reload, Cut Participant Video?
-
-Shortcuts menu?
-
 Current Player Icon in Player Class Menu
 
 Player should be assessed by .classId by game clients
@@ -24,8 +20,6 @@ and assessed based on the state by the game host and game local and game
   its possible it goes Host ReduxState -> Host Game -> Game Update -> Client Game -> Client ReduxState
 for BOTH game state AND Hero? Game state WILL NEVER BY LOCALLY COBROWSED.. EVER!
 Is current player EVER neede in the UI? if not. Then we can just check the scene.player Instnace?
-
-Remote cut video
 
 Collides with self toggle
 
@@ -57,6 +51,8 @@ TICKETING
 FEATURES
   Sprite sheet editor page
       Glass sprites from Kenney are all sorts of fucked up...?
+
+COMMAND CENTER
 
 -----
 SMALL UPATES

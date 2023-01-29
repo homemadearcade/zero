@@ -7,11 +7,13 @@ import {
   LEAVE_VIDEO_CALL_FAIL,
   SET_AUDIO_TRACK_ID,
   SET_VIDEO_TRACK_ID,
-  BYPASS_VIDEO_CALL
+  BYPASS_VIDEO_CALL,
+  SET_CUT_VIDEO,
+  SET_CUT_AUDIO
 } from '../types';
 
 function defaultBypass() {
-  return inIframe() || isLocalHost()
+  return inIframe() //|| isLocalHost()
 }
 
 const initialState = {
@@ -19,6 +21,8 @@ const initialState = {
   audioTrackId: null,
   isInsideVideoCall: false,
   isConnectingToVideoCall: false,
+  cutVideo: false,
+  cutAudio: false,
   error: null,
   bypass: defaultBypass()
 };
@@ -45,6 +49,16 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         isConnectingToVideoCall: false,
         isInsideVideoCall: true,
+      };
+    case SET_CUT_VIDEO:
+      return {
+        ...state,
+        cutVideo: payload.value
+      };
+    case SET_CUT_AUDIO:
+      return {
+        ...state,
+        cutAudio: payload.value
       };
     case LEAVE_VIDEO_CALL_SUCCESS:
       return {

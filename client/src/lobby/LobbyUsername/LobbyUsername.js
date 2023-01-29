@@ -14,8 +14,10 @@ import Button from '../../ui/Button/Button';
 import { closeInterfaceTree, openInterfaceTree } from '../../store/actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
+import { GAME_EDITOR_UI } from '../../constants';
 
-const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, auth: {me},  }) => {
+const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, auth: {me}, setCutAudio, setCutVideo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showUnlockedUI, setShowUnlockedUI] = useState(false)
 
@@ -80,6 +82,10 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
   }}>
     <div className="LobbyUsername__modal">
       {renderConnectionInfo()}
+      {lobby.experienceState === GAME_EDITOR_UI && <>
+        <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
+        <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
+      </>}
       <Divider></Divider>
       {!showUnlockedUI && <Button onClick={() => {
         setShowUnlockedUI(true)
@@ -100,5 +106,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withRouter, 
-  connect(mapStateToProps, { openInterfaceTree, closeInterfaceTree })
+  connect(mapStateToProps, { openInterfaceTree, closeInterfaceTree, setCutAudio, setCutVideo })
 )(LobbyUsername);

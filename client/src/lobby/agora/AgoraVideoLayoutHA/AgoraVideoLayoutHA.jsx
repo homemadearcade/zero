@@ -15,15 +15,6 @@ const AgoraVideoLayoutHA = ({ participantId, cobrowsing: { isActivelyCobrowsing}
         myTracks={myTracks}
         userTracks={userTracks}
      />
-    {me.role === ADMIN_ROLE && !isActivelyCobrowsing && <>
-      <AgoraUserVideo
-        userId={participantId}
-        className="AgoraVideo__participant"
-        label="Participant"
-        myTracks={myTracks}
-        userTracks={userTracks}
-      />
-    </>}
   </div>
 }
 

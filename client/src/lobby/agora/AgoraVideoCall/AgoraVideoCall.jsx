@@ -14,6 +14,7 @@ import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
 import Button from "../../../ui/Button/Button";
 import Typography from "../../../ui/Typography/Typography";
 import { isLocalHost } from "../../../utils/webPageUtils";
+import AgoraCommandReciever from "../AgoraCommandReciever/AgoraCommandReciever";
 
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
@@ -80,12 +81,13 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
   </div>
 }
 
+
 const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, video: { videoTrackId, audioTrackId }, render}) => {
   let [tracks, users] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
-
   return (
     <div className="AgoraVideoCall">
       {tracks ? render({ myTracks: tracks, userTracks: users }) : render({})}
+      <AgoraCommandReciever tracks={tracks}/>
     </div>
   );
 };

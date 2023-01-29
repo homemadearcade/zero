@@ -8,7 +8,9 @@ import {
   LEAVE_VIDEO_CALL_FAIL,
   SET_VIDEO_TRACK_ID,
   SET_AUDIO_TRACK_ID,
-  BYPASS_VIDEO_CALL
+  BYPASS_VIDEO_CALL,
+  SET_CUT_VIDEO,
+  SET_CUT_AUDIO
 } from '../types';
 
 import {
@@ -255,3 +257,27 @@ export const useChangeAgoraVideoAudio = (tracks) => {
 
   return [videoDevices, audioDevices, setVideoDevice, setAudioDevice]
 }
+
+export const setCutVideo = (value, forceCobrowsingUpdate) => (dispatch, getState) => {
+  console.log(forceCobrowsingUpdate)
+  dispatch({
+    forceCobrowsingUpdate,
+    updateCobrowsing: true,
+    type: SET_CUT_VIDEO,
+    payload: {
+      value
+    }
+  })
+}
+
+export const setCutAudio = (value, forceCobrowsingUpdate) => (dispatch, getState) => {
+  dispatch({
+    forceCobrowsingUpdate,
+    updateCobrowsing: true,
+    type: SET_CUT_AUDIO,
+    payload: {
+      value
+    }
+  })
+}
+

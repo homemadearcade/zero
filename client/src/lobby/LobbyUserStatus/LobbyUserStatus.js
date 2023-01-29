@@ -15,8 +15,9 @@ import Button from '../../ui/Button/Button';
 import { closeInterfaceTree, openInterfaceTree } from '../../store/actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
 
-const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceTree, user: { userIdInterfaceTree }, myTracks, userTracks, titleOnly, hasJoinLink, hasUIButton, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, cobrowsing: { cobrowsingUser }, auth: {me},  }) => {
+const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceTree, user: { userIdInterfaceTree }, myTracks, userTracks, titleOnly, hasJoinLink, hasUIButton, titleChildren, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, cobrowsing: { cobrowsingUser }, auth: {me}, setCutAudio, setCutVideo  }) => {
   const userStatus = lobbyUserStatuses[userId];
   const userCobrowsingStatus = cobrowsingMouses[userId]
   const user = lobby.users.filter(({id}) => {
@@ -51,6 +52,7 @@ const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceT
         {isMe ? 'Play' : 'Join'}
       </Link>}
       {titleChildren}
+   
     </div>
   }
 
@@ -63,13 +65,16 @@ const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceT
     <AccordianList accordians={[{
       id: user.id,
       title: renderTitle(),
-      body: <div className="LobbyUserStatus__icons">
+      body: <><div className="LobbyUserStatus__icons">
         <div className="LobbyUserStatus__fullscreen"><div className="LobbyUserStatus__icon"><Icon icon="faWindowMaximize"/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
         <div className="LobbyUserStatus__focus"><div className="LobbyUserStatus__icon"><Icon icon="faEye"/></div>{(!userStatus || userStatus?.isFocused) ? 'On Tab' : 'Away'}</div>
         <div className="LobbyUserStatus__cobrowsing"><div className="LobbyUserStatus__icon"><Icon icon="faArrowPointer"/></div>{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</span> : 'Never'}</div>
         <div className="LobbyUserStatus__upload"><div className="LobbyUserStatus__icon"><Icon icon="faUpload"/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
         <div className="LobbyUserStatus__download"><div className="LobbyUserStatus__icon"><Icon icon="faDownload"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
         <div className="LobbyUserStatus__video-call"><div className="LobbyUserStatus__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[user.id] ? 'Connected' : 'Not Connected'}</div></div>
+        <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
+        <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
+      </>
     }]}/>
   </div>
   {userIdInterfaceTree === user.id && <Dialog open onClose={() => {
@@ -90,5 +95,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withRouter, 
-  connect(mapStateToProps, { openInterfaceTree, closeInterfaceTree })
+  connect(mapStateToProps, { openInterfaceTree, closeInterfaceTree , setCutAudio, setCutVideo })
 )(LobbyUserStatus);

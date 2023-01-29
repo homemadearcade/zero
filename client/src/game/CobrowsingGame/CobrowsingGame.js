@@ -12,8 +12,6 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import askFullscreen from '../../hoc/askFullscreen';
 
 const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isActivelyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
-  // a bug occurs with LobbyToolbar when you bypass video and the cobrowsing user is in a video call 
-  // beacuse youll go into the component, but you wont have tracks
   return <GameEditor 
       classNames={isActivelyCobrowsing ? 'GameEditor--cobrowsing' : ''}
       leftColumn={<>

@@ -18,7 +18,6 @@ import {
   ASSIGN_LOBBY_ROLE_FAIL,
   ON_LOBBY_UPDATE,
   START_VIDEO_CALL_SUCCESS,
-  LOBBY_STATE_UPDATE,
   UPDATE_ONBOARDING_STEP,
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
@@ -84,7 +83,6 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       isJoining: false,
       isInsideLobby: false,
       lobby: initialState.lobby,
-      lobbyState: initialState.lobbyState
     };
     case EDIT_LOBBY_SUCCESS:
       return {
@@ -101,10 +99,6 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     case START_VIDEO_CALL_SUCCESS:
       return {
         ...state,
-        lobbyState: {
-          ...state.lobbyState,
-          // step: 'video_connection_confirmation'
-        }
       };
     case JOIN_LOBBY_FAIL:
       return {
@@ -126,18 +120,12 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         isLoading: false,
         isJoining: false,
         lobby: initialState.lobby,
-        lobbyState: initialState.lobbyState,
         error: payload.error,
       };
     case ON_LOBBY_UPDATE:
       return {
         ...state,
         lobby: {...payload.lobby, users: payload.lobby.users.slice()}
-      };
-    case LOBBY_STATE_UPDATE: 
-      return {
-        ...state,
-        lobbyState: payload.lobbyState
       };
     case UPDATE_ONBOARDING_STEP: 
       return {

@@ -375,7 +375,6 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
   }
 
 
-
   export const uploadToAws = async (id, file) => {
   const contentType = file.type; // eg. image/jpeg or image/svg+xml
 

@@ -7,14 +7,14 @@ import './LobbyDashboard.scss';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
-import LobbyToolbar from '../LobbyToolbar/LobbyToolbar';
+import AgoraToolbar from '../agora/AgoraToolbar/AgoraToolbar';
 import Tabs from '../../ui/Tabs/Tabs';
 import withCobrowsing from '../../hoc/withCobrowsing';
 
 const LobbyDashboard = ({
   lobby: { lobby },
   myTracks,
-  video: { isInsideVideoCall }
+  video: { isInsideVideoCall },
 }) => {
   return (
     <div className="LobbyDashboard">
@@ -31,7 +31,13 @@ const LobbyDashboard = ({
             label: 'Chatlog',
             body: <div className="LobbyDashboard__chatroom">
               <LobbyChatroom/>
-              {isInsideVideoCall && myTracks && <LobbyToolbar tracks={myTracks}></LobbyToolbar>}
+              {isInsideVideoCall && myTracks && <AgoraToolbar tracks={myTracks}></AgoraToolbar>}
+            </div>
+          },
+          {
+            label: 'Command Center',
+            body: <div className="LobbyDashboard__command-center">
+  
             </div>
           },
         ]}></Tabs>
