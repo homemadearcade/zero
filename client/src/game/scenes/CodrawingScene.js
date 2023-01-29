@@ -9,6 +9,7 @@ import { BACKGROUND_CANVAS_DEPTH, DEFAULT_CLEAR_TEXTURE_ID, DEFAULT_TEXTURE_ID, 
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
 import { getTextureMetadata } from '../../utils/utils';
+import { EraserSingleLayer } from '../drawing/EraserSingleLayer';
 
 export class CodrawingScene extends Phaser.Scene {
   constructor({key, textureId, newAwsImageId, awsImageId, tint, size}) {
@@ -117,7 +118,7 @@ export class CodrawingScene extends Phaser.Scene {
   ////////////////////////////////////////////////////////////
   getBrushFromBrushId(brushId) {
     if(isBrushIdEraser(brushId)) {
-      return new Eraser(this, { brushId })
+      return new EraserSingleLayer(this, { brushId })
     } else if(isBrushIdColor(brushId)) {
       return new ColorPencil(this, { brushId })
     } else {
@@ -176,7 +177,7 @@ export class CodrawingScene extends Phaser.Scene {
       this.load.start();
     }
     
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId, boundaries: this.boundaries})
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId, stageId: 'spriteeditor', boundaries: this.boundaries})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
 
     this.createGrids()
@@ -192,12 +193,17 @@ export class CodrawingScene extends Phaser.Scene {
     if(this.grid) this.grid.destroy()
     if(this.grid2) this.grid2.destroy()
 
-    this.grid = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize, nodeSize, null, null, 0x222222, 0.2)
-    this.grid2 = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
+    this.grid = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize, nodeSize, null, null, 0x1111, 0.2)
+    // this.grid2 = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize * 3, nodeSize * 3, null, null, 0x1111, 0.2)
 
     this.grid.setDepth(UI_CANVAS_DEPTH)
-    this.grid2.setDepth(UI_CANVAS_DEPTH)
+    // this.grid2.setDepth(UI_CANVAS_DEPTH)
+
+    this.grid3 = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize, nodeSize, null, null, 0xFFFFFF, 0.2)
+
+    this.grid3.setDepth(0)
   }
+
 
   update(time, delta) {
     const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn

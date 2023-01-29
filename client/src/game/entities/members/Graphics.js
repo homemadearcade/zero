@@ -17,7 +17,7 @@ export class Graphics {
     sprite.setDisplaySize(objectClass.graphics.width, objectClass.graphics.height)
     this.setSize(objectClass.graphics.width, objectClass.graphics.height)
     scene.addSpriteToTypeLayer(objectInstance.classId, sprite)
-    scene.addSpriteToTypeGroup(objectInstance.classId, sprite)
+    // scene.addSpriteToTypeGroup(objectInstance.classId, sprite)
 
     if(objectClass.graphics.glowing) {
       var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(sprite);

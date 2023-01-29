@@ -92,6 +92,8 @@ export default function Sprite(props) {
     } else {
       const image = new Image();
       image.src = window.awsUrl + props.textureId;
+
+      console.log(window.awsUrl + props.textureId, image)
   
       image.onload = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);

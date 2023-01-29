@@ -14,6 +14,7 @@ export const vehicleClass = {
   classId: 'oc/pl/vehicle',
   name: 'vehicle',
   graphics: {
+    tint: '#FFFFFF',
     // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
   },
   "movement": {
@@ -30,6 +31,8 @@ export const jumperClass = {
   classId: 'oc/pl/jumper',
   name: 'jumper',
   graphics: {
+    tint: '#FFFFFF',
+
     // "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
   movement: {
@@ -48,6 +51,7 @@ export const directionalClass = {
   classId: 'oc/pl/directional',
   name: 'directional',
   graphics: {
+    tint: '#FFFFFF',
     // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },
   movement: {

@@ -29,6 +29,7 @@ import BrushList from '../brush/BrushList/BrushList';
 import Dialog from '../../ui/Dialog/Dialog';
 import StagesMenu from '../stages/StagesMenu/StagesMenu';
 import CreateStage from '../stages/CreateStage/CreateStage';
+import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 
 const GameEditor = ({ 
   classNames, 
@@ -79,7 +80,7 @@ const GameEditor = ({
         {isSnapshotTakerOpen && <SnapshotTaker/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        <GameStateToolbar/>
+        <Unlockable hideLockToggle interfaceId="toolbar/*"><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
           <ClassList/>
         </>}

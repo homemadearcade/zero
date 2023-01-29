@@ -20,7 +20,11 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame }) => {
   });
   const submit = async (data) => {
     const gameResponse = await addArcadeGame({
-      userId: data.participants
+      userId: data.participants,
+      stages: {},
+      classes: {},
+      cutscenes: {},
+      relations: {}
     });
     const game = gameResponse.data.game
     const participantId = data.participants

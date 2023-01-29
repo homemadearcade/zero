@@ -358,6 +358,7 @@ export class Sprite {
   }
 
   destroy() {
+    console.log('neing destroyed', this.id)
     this.sprite.destroy()
   }
 }

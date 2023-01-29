@@ -429,6 +429,38 @@ export class GameInstance extends Phaser.Scene {
     })
   }
 
+  initializeLayers = () => {
+    const gameModel = store.getState().gameModel.gameModel
+    const gameContext = getCobrowsingState().gameContext
+    const stageId = gameContext.currentStageId
+    const currentStage = gameModel.stages[stageId]
+
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
+    // layer zero
+    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
+
+    this.objectInstanceGroup = this.add.group()
+    // this.basicClassGroup = this.add.group()
+    // this.npcClassGroup = this.add.group()
+    // this.projectileInstanceGroup = this.add.group()
+
+    this.playerInstanceLayer = this.add.layer();
+    this.playerInstanceLayer.setDepth(PLAYER_INSTANCE_CANVAS_DEPTH)
+    this.playerInstanceGroup = this.add.group()
+
+    this.zoneInstanceLayer = this.add.layer();
+    this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
+
+    // FOREGROUND layer
+    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
+
+    this.uiLayer = this.add.layer();
+    this.uiLayer.setDepth(UI_CANVAS_DEPTH)
+  }
+
   create() {
     const gameModel = store.getState().gameModel.gameModel
     const gameContext = getCobrowsingState().gameContext
@@ -446,31 +478,7 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     // LAYERS
     ////////////////////////////////////////////////////////////
-    // background layer
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
-    // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
-
-    this.objectInstanceGroup = this.add.group()
-    this.objectClassGroup = this.add.group()
-    this.npcClassGroup = this.add.group()
-    this.projectileInstanceGroup = this.add.group()
-
-    this.playerInstanceLayer = this.add.layer();
-    this.playerInstanceLayer.setDepth(PLAYER_INSTANCE_CANVAS_DEPTH)
-    this.playerInstanceGroup = this.add.group()
-
-    this.zoneInstanceLayer = this.add.layer();
-    this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
-
-    // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
-
-    this.uiLayer = this.add.layer();
-    this.uiLayer.setDepth(UI_CANVAS_DEPTH)
+    this.initializeLayers()
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -565,14 +573,12 @@ export class GameInstance extends Phaser.Scene {
     })
     this.projectileInstances = []
     this.playerInstance.destroy()
-    
+
     this.initializeObjectInstances()
     this.initializePlayerInstance()
 
     this.unregisterRelations()
     this.registerRelations()
-
-    store.dispatch(clearCutscenes())
   }
   
   update(time, delta) {
@@ -684,15 +690,25 @@ export class GameInstance extends Phaser.Scene {
     }
   }
 
-  addSpriteToTypeGroup(classId, sprite) {
-    const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[classId]
+  // addSpriteToTypeGroup(classId, sprite) {
+  //   const gameModel = store.getState().gameModel.gameModel
+  //   const objectClass = gameModel.classes[classId]
 
-    if(objectClass.type === BASIC_CLASS) {
-      this.objectClassGroup.add(sprite)
-    } else if(objectClass.type === NPC_CLASS) {
-      this.npcClassGroup.add(sprite)
-    }
-  }
+  //   if(objectClass.type === BASIC_CLASS) {
+  //     this.basicClassGroup.add(sprite)
+  //   } else if(objectClass.type === NPC_CLASS) {
+  //     this.npcClassGroup.add(sprite)
+  //   }
+  // }
 
+  // removeSpriteFromTypeGroup(classId, sprite) {
+  //   const gameModel = store.getState().gameModel.gameModel
+  //   const objectClass = gameModel.classes[classId]
+
+  //   if(objectClass.type === BASIC_CLASS) {
+  //     this.basicClassGroup.remove(sprite)
+  //   } else if(objectClass.type === NPC_CLASS) {
+  //     this.npcClassGroup.remove(sprite)
+  //   }
+  // }
 }

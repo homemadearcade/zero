@@ -16,6 +16,9 @@ const arcadeGameSchema = new Schema(
       //   required: true,
       //   default: {}
       // },
+      type: Object,
+      required: true,
+      default: {}
     },
 
     metadata: {

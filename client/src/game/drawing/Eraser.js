@@ -15,7 +15,6 @@ export class Eraser extends Brush {
     this.border = scene.add.graphics();
     this.border.lineStyle(4, 0xffffff, 1);
     this.border.strokeRect(0, 0, this.width, this.height);
-    scene.uiLayer.add(this.border)
 
     this.isEraser = true
     this.snapMethod = snapFreeXY

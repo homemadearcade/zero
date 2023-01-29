@@ -192,6 +192,8 @@ export class ObjectInstance extends Sprite {
   }
 
   destroy() {
+    this.scene.objectInstanceGroup.remove(this.sprite)
+    // this.scene.removeInstanceFromSpriteGroup(this.classId, this.sprite)
     this.graphics.destroy()
     super.destroy()
   }

@@ -309,3 +309,96 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     ground: 300
   },
 }
+
+
+
+//////
+
+
+    this.objectInstances.forEach((instance) => {
+      instance.destroy()
+    })
+    this.objectInstances= []
+    this.projectileInstances.forEach((instance) => {
+      instance.destroy()
+    })
+    this.projectileInstances = []
+    this.playerInstance.destroy()
+
+    this.objectInstanceGroup.destroy()
+    this.backgroundLayer.destroy()
+    this.playgroundLayer.destroy()
+    this.foregroundLayer.destroy()
+    this.zoneInstanceLayer.destroy()
+    this.uiLayer.destroy()
+
+    this.initializeLayers()
+    this.initializeObjectInstances()
+    this.initializePlayerInstance()
+
+    this.unregisterRelations()
+    this.registerRelations()
+
+
+
+
+  initializeLayers() {
+    const gameModel = store.getState().gameModel.gameModel
+    const gameContext = getCobrowsingState().gameContext
+    const stageId = gameContext.currentStageId
+    const currentStage = gameModel.stages[stageId]
+
+    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
+    // layer zero
+    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
+
+    this.objectInstanceGroup = this.add.group()
+    // this.basicClassGroup = this.add.group()
+    // this.npcClassGroup = this.add.group()
+    // this.projectileInstanceGroup = this.add.group()
+
+    this.playerInstanceLayer = this.add.layer();
+    this.playerInstanceLayer.setDepth(PLAYER_INSTANCE_CANVAS_DEPTH)
+    this.playerInstanceGroup = this.add.group()
+
+    this.zoneInstanceLayer = this.add.layer();
+    this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
+
+    // FOREGROUND layer
+    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
+
+    this.uiLayer = this.add.layer();
+    this.uiLayer.setDepth(UI_CANVAS_DEPTH)
+  }
+
+
+
+  export const uploadToAws = async (id, file) => {
+  const contentType = file.type; // eg. image/jpeg or image/svg+xml
+
+        let formData = new FormData();
+      formData.append('file', file);
+  try {
+    return await axios({
+      method: 'put',
+      url: '/api/aws/post',
+      headers: {
+        'Content-Type': contentType || 'image/png',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      },
+      data: formData,
+      params: {
+        Key: id,
+        ContentType: contentType || 'image/png'
+      }
+    });
+  } catch(e) {
+    console.error(e)
+  }
+
+
+};

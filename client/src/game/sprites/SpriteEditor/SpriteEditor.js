@@ -19,6 +19,7 @@ import UndoButton from '../../ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../../store/actions/lobbyActions';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { setSpriteEditorGameInstance } from '../../../store/actions/webPageActions';
+import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 
 const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
   function handleClose(){
@@ -47,7 +48,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelecte
     }
     
     const game = new Phaser.Game(config);
-    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, stageId: 'spriteeditor', newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
+    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
     setSpriteEditorGameInstance(game)
 
     return () => {
@@ -77,6 +78,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelecte
       <div className="SpriteEditor">
         <div className="SpriteEditor__left-column">
           <BrushControl/>
+          <EraserSelect canvasId={SPRITE_EDITOR_CANVAS_ID}></EraserSelect>
           <AggregateColorSelect onSelectColor={onSelectColor} onUnselectColor={onUnselectColor}/>
         </div>
         <div id="PhaserPopupGame"/>

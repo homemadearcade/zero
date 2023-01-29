@@ -40,7 +40,7 @@ const LinkBehavior = React.forwardRef((props, ref) => {
   return <RouterLink data-testid="custom-link" ref={ref} to={href} {...other} />;
 });
 
-window.awsUrl = 'https://homemadearcade.s3-us-west-1.amazonaws.com/'
+window.awsUrl = window.location.origin + "/api/aws/" //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
 const theme = createTheme({
   palette: {

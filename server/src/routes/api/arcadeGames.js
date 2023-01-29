@@ -77,8 +77,11 @@ router.post('/', requireJwtAuth, async (req, res) => {
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
-    return res.status(400).json({ message: 'Not created by the game owner or admin.' });
+    return
+     res.status(400).json({ message: 'Not created by the game owner or admin.' });
   }
+
+  console.log(req.body)
 
   try {
     let game = await ArcadeGame.create({

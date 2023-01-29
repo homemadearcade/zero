@@ -18,7 +18,7 @@ export class ProjectileInstance extends ObjectInstance {
       console.error('no projectile data in class id:' + classId)
     }
 
-    scene.projectileInstanceGroup.add(this.sprite)
+    // scene.projectileInstanceGroup.add(this.sprite)
 
     this.scene = scene
     

@@ -16,8 +16,7 @@ export class Stage {
     return this
   }
 
-  createWorldBackgroundColorLayer() {
-    
+  createWorldBackgroundColorLayer() {    
     const gameModel = store.getState().gameModel.gameModel
     const stage = gameModel.stages[this.id]
     const boundaries = stage.boundaries

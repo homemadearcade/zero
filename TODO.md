@@ -6,14 +6,14 @@ DIALOGUE!!! Figure this out... Custom relation menu basically FOR THE USER. Simp
 
 Non saving mode for games/Playthrough mode for prologues
   
-Eraser in Sprite Editor
-
 Destroy Delay after X seconds - EffectDelay, EffectDelayInterval
 
 ---
 ---------
 TODO LATER
 ---------
+
+Hard Game Reload, Cut Participant Video?
 
 Shortcuts menu?
 

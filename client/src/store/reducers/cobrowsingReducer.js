@@ -123,6 +123,10 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         showUnlockableInterfaceLocks: payload.value
       }
     case ON_COBROWSING_UPDATE:
+      console.log('getting new state', {
+        ...state,
+        remoteState: {...payload.remoteState }
+      })
       return {
         ...state,
         remoteState: {...payload.remoteState }

@@ -68,7 +68,6 @@ export const testInternetSpeed = async () => {
   return [downloadSpeed, uploadSpeed]
 }
 
-
 export const uploadToAws = async (id, file) => {
   const contentType = file.type; // eg. image/jpeg or image/svg+xml
 
@@ -85,8 +84,8 @@ export const uploadToAws = async (id, file) => {
       ...options,
       headers: {
         'Content-Type': contentType || 'image/png',
-      //   'Access-Control-Allow-Origin': '*',
-      //   'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       }
     })
   } catch(e) {

@@ -222,6 +222,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     window.addEventListener('mousedown', onEditorClick) 
     window.addEventListener('wheel', sendCobrowsingStatus);
 
+    
     dispatch({
       type: START_COBROWSING_SUCCESS,
       payload: { 
