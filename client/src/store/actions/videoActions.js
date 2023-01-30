@@ -259,7 +259,6 @@ export const useChangeAgoraVideoAudio = (tracks) => {
 }
 
 export const setCutVideo = (value, forceCobrowsingUpdate) => (dispatch, getState) => {
-  console.log(forceCobrowsingUpdate)
   dispatch({
     forceCobrowsingUpdate,
     updateCobrowsing: true,

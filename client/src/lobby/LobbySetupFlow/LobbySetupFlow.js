@@ -16,11 +16,14 @@ import LobbyUserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { changeGameState, completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
-import { openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
+import { openGameMetadataModal, openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
 import { GAME_EDITOR_UI, MONOLOGUE_UI } from '../../constants';
-import { BASIC_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, PAUSED_STATE, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID, PLAYTHROUGH_PLAY_STATE, PLAY_STATE } from '../../game/constants';
+import { PAUSED_STATE, PLAY_STATE } from '../../game/constants';
 import LobbyVerticalLinearStepper from '../LobbyVerticalLinearStepper/LobbyVerticalLinearStepper';
+import { forceCobrowsingUpdateDispatch } from '../../utils/cobrowsingUtils';
+import store from '../../store';
+import Icon from '../../ui/Icon/Icon';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -94,7 +97,7 @@ const LobbySetupFlow = ({
     function breakTitle(title) {
           return {
           id:title,
-          title: <Typography component="h2" variant="h2">{title}</Typography>,
+          title: <Typography component="h3" variant="h3">{title}</Typography>,
           break: true
         }
   }
@@ -157,29 +160,30 @@ const LobbySetupFlow = ({
   }
 
   function renderSelectGame() {
-      // <Button disabled={!lobby.participantId} onClick={async () => {
-      //   const response = await addArcadeGame({
-      //     userId: lobby.participantId
-      //   })
-      //   editLobby(lobby.id, {
-      //     game: response.data.game
-      //   })
-      // }} 
-      // startIcon={<Icon icon="faPlus"/>}>
-      //   New Game
-      // </Button>
     return <>
       <div>
        A Game is created automatically when a lobby is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
       </div><br/>
       {lobby?.game?.id && 
       <GameCard game={lobby.game}/>}
-      Select a pre-existing game:
-      <GameSelect onSelect={(game) => {
+      Select a pre-existing game that was created by the participant:
+      {lobby.participantId && <GameSelect userId={lobby.participantId} onSelect={(game) => {
         editLobby(lobby.id, {
           game
         })
-      }}/>
+      }}/>}
+      Create a new game for the particpant
+      <Button disabled={!lobby.participantId} onClick={async () => {
+        const response = await addArcadeGame({
+          userId: lobby.participantId
+        })
+        editLobby(lobby.id, {
+          game: response.data.game
+        })
+      }}
+      startIcon={<Icon icon="faPlus"/>}>
+        New Game
+      </Button>
     </>
   }
 
@@ -242,7 +246,7 @@ const LobbySetupFlow = ({
           //   return !window.lobby?.isAllRequiredPassing
           // }
         },
-        breakTitle('Experience Begins'),
+        breakTitle('Experience Begins (20mins)'),
         {
           id: 'Starting Monologue',
           title: <Typography component="h5" variant="h5">Starting Monologue</Typography>,
@@ -366,12 +370,12 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           nextButtonText: 'Load Editing Game'
         },
         sayThis(`And now, We hope, unless you need a moment, are you ready to begin?`),
-        breakTitle('Game Creation Begins'),
+        breakTitle('Game Creation Begins (40 mins)'),
         {
           id: 'Open Game Defaults Selector',
           title: <Typography component="h5" variant="h5">Open Game Defaults Selector</Typography>,
           onClickNext: () => {
-            openSetupDefaultsModal({ forceCobrowsingUpdate: true })
+            store.dispatch(forceCobrowsingUpdateDispatch(openSetupDefaultsModal()))
           },
           nextButtonText: 'Open'
         },
@@ -390,52 +394,26 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           What is your perspective?
         `),
-        unlockThis('Unlock Add Color', {
-          addColor: true
-        }),
-        unlockThis('Unlock Playground Color Brush', {
-           [PLAYGROUND_CANVAS_ID+'/colorSelect']: true
-        }),
-        unlockThis('Unlock Playground Sprite Brush', 
-          {
-            [PLAYGROUND_CANVAS_ID+'/addBrush']: true,
-            [PLAYGROUND_CANVAS_ID+'/brushSelect']: true,
-            ['chooseSprites']: true,
-          }),
-        unlockThis('Unlock Eraser', 
-          {
-            ['eraser']: true,
-          }),
-         unlockThis('Unlock Draw New Sprite', 
-          {
-            ['drawNewSprite']: true,
-          }),
-         unlockThis('Unlock Drag Sprite', 
-          {
-            ['contextMenu/instance/move']: true,
-          }),
-        unlockThis('Unlock Add Object', 
-          {
-            [BASIC_INSTANCE_CANVAS_ID+'/addObject']: true,
-            ['chooseSprites']: true,
-          }
-        ),
-        unlockThis('Unlock Add NPC', 
-          {
-            [NPC_INSTANCE_CANVAS_ID+'/addNPC']: true,
-            ['chooseSprites']: true,
-          }
-        ),
-        unlockThis('Unlock Add Player', 
-          {
-            [PLAYER_INSTANCE_CANVAS_ID+'/addPlayer']: true,
-            ['chooseSprites']: true,
-          }
-        )
+        {
+          id: 'Open Command Center',
+          title: <Typography component="h5" variant="h5">Open Command Center</Typography>,
+          instructions: <>
+            Click the command center at the top right and build a game with the user! Come back when you are ready to wrap up
+          </>,
+          nextButtonText: 'Ready to Wrap up'
+        },
+        breakTitle('Wrapping Up (10 mins)'),
+        {
+          id: 'Open Game Metadata Modal',
+          title: <Typography component="h5" variant="h5">Open Game Metadata Modal</Typography>,
+          onClickNext: () => {
+            store.dispatch(forceCobrowsingUpdateDispatch(openGameMetadataModal()))
+          },
+          nextButtonText: 'Open'
+        },
       ]}
       completed={<>
-          <Typography component="h5" variant="h5">Join Participant</Typography>
-          <LobbyUserStatus hasJoinLink userId={usersById[lobby.participantId]?.id}/>
+          <Typography component="h5" variant="h5">Great job!</Typography>
         </>}
       />
     </div>
@@ -448,5 +426,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { openSetupDefaultsModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState }),
+  connect(mapStateToProps, { openSetupDefaultsModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState, openGameMetadataModal }),
 )(LobbySetupFlow);

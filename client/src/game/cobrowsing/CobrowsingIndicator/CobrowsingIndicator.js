@@ -33,15 +33,15 @@ const CobrowsingIndicator = ({
     <ButtonGroup orientation="vertical" value={getCobrowsingUI()} options={[
       {
         value: 'COBROWSE_EDIT',
-        icon: <Icon size="lg" icon="faPenToSquare"></Icon>
+        icon: <Icon size="xl" icon="faPenToSquare"></Icon>
       },
       {
         value: 'COBROWSE_ACTIVE',
-        icon: <Icon size="lg" icon="faUserSecret"></Icon>
+        icon: <Icon size="xl" icon="faUserSecret"></Icon>
       },
       {
         value: 'COBROWSE_UNLOCK',
-        icon: <Icon size="lg" icon="faUserLock"></Icon>
+        icon: <Icon size="xl" icon="faUserLock"></Icon>
       }
     ]} onSelectOption={(event, value) => {
       if(value === 'COBROWSE_ACTIVE') {

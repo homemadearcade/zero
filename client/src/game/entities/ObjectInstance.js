@@ -152,7 +152,9 @@ export class ObjectInstance extends Sprite {
 
     //issue because as soon as we destroy it, we lose acces to 'this'!
     const id = this.id
-    setTimeout(() => { this.scene.addObjectInstance(id, modifiedClassData)})
+    setTimeout(() => { 
+      this.scene.addObjectInstance(id, modifiedClassData)
+    })
 
     this.scene.removeObjectInstance(this.id)
   }

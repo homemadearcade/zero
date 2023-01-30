@@ -30,7 +30,7 @@ import Typography from '../../ui/Typography/Typography';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import { GAME_CONNECTION_LOST, PHASER_ERROR } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
-import { DialogContent, DialogTitle } from '@mui/material';
+import { DialogContent, DialogTitle, Divider } from '@mui/material';
 import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
 import LobbyChatroom from '../../lobby/LobbyChatroom/LobbyChatroom';
 import { Container } from '@mui/system';
@@ -39,7 +39,7 @@ import WithCobrowsing from '../../hoc/withCobrowsing';
 import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperienceState';
 
 const LobbyPage = ({
-  lobby: { lobby, lobby: { experienceState, isGamePoweredOn }, connectionMessage, connectionState  },
+  lobby: { lobby, lobby: { experienceState, isGamePoweredOn, skipStageSave }, connectionMessage, connectionState  },
   auth: { me },
   myTracks,
   userTracks,
@@ -153,6 +153,7 @@ const LobbyPage = ({
           ></AgoraUserVideo>}
         </div>
 
+        <Divider></Divider>
         <Typography variant="h5">Leave Monologue</Typography>
         <SelectExperienceState
           value={[lobby.experienceState]}
@@ -187,7 +188,6 @@ const LobbyPage = ({
           <LobbyDashboard myTracks={myTracks}/>
         </WithCobrowsing>
         {renderLobbyAdminExperience()}
-        {<LobbyDrawer/>}
         {renderLobbyConnection()}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
@@ -195,6 +195,10 @@ const LobbyPage = ({
           <CobrowsingIndicator/>
           {experienceState === GAME_EDITOR_UI && <LobbyPowerIndicator/>}
           {experienceState === GAME_EDITOR_UI && isGamePoweredOn && <ConstellationToggle/>}
+          {skipStageSave && <div className="LobbyPage__not-saving-stage">
+            <Icon icon="faFloppyDisk"></Icon>
+            <Typography variant="subtitle2">Not Saving<br/>Map Objects</Typography>
+          </div>}
         </LobbyDrawer>}
         <WithCobrowsing>
           <Container>{renderGameExperience()}</Container>

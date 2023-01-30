@@ -7,14 +7,14 @@ import './ClassList.scss';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassItem from '../ClassItem/ClassItem';
 import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
-import { openCreateClassFlow } from '../../../store/actions/gameFormEditorActions';
+import { openCreateClassFlow, openCreateCutscene } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
+import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, CUTSCENE_ID_PREFIX } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
@@ -25,8 +25,10 @@ const ClassList = ({
   gameFormEditor: { isCreateClassFlowOpen },
   editGameModel,
   openCreateClassFlow,
+  openCreateCutscene,
 }) => {
   const classes = gameModel?.classes
+  const cutscenes = gameModel?.cutscenes
 
   if(!classes) {
     return null
@@ -134,6 +136,27 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
+  const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
+    const currentCutscene = cutscenes[currentCutsceneId]
+    if(currentCutscene.inDialogueMenu) return true
+    return false
+  }).map((currentCutsceneId, i) => {
+    const currentCutscene = cutscenes[currentCutsceneId]
+    return <div style={{cursor:'hover'}} onClick={() => {openCreateCutscene(currentCutscene)}}>
+      <Typography variant="subtitle2">{currentCutscene.name}</Typography>
+    </div>
+  })
+
+  dialogueScenes.push(<Unlockable interfaceId={'/addDialog'}>
+    <Button size="fit" className="ClassList__add" onClick={() => {
+      openCreateCutscene({
+        inDialogueMenu: true
+      })
+    }}>
+      +
+    </Button>
+  </Unlockable>)
+
   const accordians = []
 
   if(!getInterfaceIdData(PLAYER_INSTANCE_CANVAS_ID + '/*').isObscured) {
@@ -144,7 +167,7 @@ const ClassList = ({
         <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
-        maxItems={18} 
+        maxItems={16} 
         height="7vh"
         width="9.2vh"
         items={playerClasses}
@@ -160,7 +183,7 @@ const ClassList = ({
         <LayerVisibility canvasId={NPC_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
-        maxItems={18} 
+        maxItems={16} 
         height="7vh"
         width="9.2vh"
         items={npcClasses}
@@ -176,7 +199,7 @@ const ClassList = ({
         <LayerVisibility canvasId={BASIC_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
-        maxItems={18} 
+        maxItems={16} 
         height="7vh"
         width="9.2vh"
         items={objectClasses}
@@ -192,10 +215,25 @@ const ClassList = ({
         <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
       </>,
       body: <BorderedGrid
-        maxItems={18} 
+        maxItems={16} 
         height="7vh"
         width="9.2vh"
         items={zoneClasses}
+      />
+    })
+  }
+
+    if(!getInterfaceIdData(CUTSCENE_ID_PREFIX + '/*').isObscured) {
+    accordians.push({
+      id: 'Dialogue',
+      title: <>
+        <Typography component="div" variant="subtitle1">Dialogue</Typography>
+      </>,
+      body: <BorderedGrid
+        maxItems={16} 
+        height="7vh"
+        width="9.2vh"
+        items={dialogueScenes}
       />
     })
   }
@@ -231,5 +269,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateClassFlow }),
+  connect(mapStateToProps, { editGameModel, openCreateClassFlow, openCreateCutscene }),
 )(ClassList);

@@ -14,6 +14,7 @@ import { ADMIN_ROLE } from '../../game/constants';
 import Button from '../../ui/Button/Button';
 import { TextField } from '@mui/material';
 import PageHeader from '../../ui/PageHeader/PageHeader';
+import requireAdmin from '../../hoc/requireAdmin';
 
 {/* <div>
 <span className="GamesPage__label">Created at: </span>
@@ -144,4 +145,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
+  requireAdmin,
   connect(mapStateToProps, { getArcadeGames, editArcadeGame }))(GamesPage);

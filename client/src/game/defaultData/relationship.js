@@ -17,7 +17,8 @@ export const defaultRelationship = {
     cutsceneId: null,
     text: '',
     stageId: null,
-    pickRandomZone: false
+    pickRandomZone: false,
+    delayEffect: null,
   },
   onlyOnce: false,
   delayInterval: null,
@@ -62,7 +63,7 @@ export const effectDisplayNames = {
 
   // Narrative
   [EFFECT_SWITCH_STAGE]: 'Switch Stage',
-  [EFFECT_CUTSCENE]: 'Cutscene',
+  [EFFECT_CUTSCENE]: 'Dialog/Cutscene',
   [EFFECT_GAME_OVER]: 'Game Over',
   [EFFECT_WIN_GAME]: 'Win Game',
 
@@ -81,6 +82,7 @@ export const effectEditInterface = {
   [EFFECT_TELEPORT]: {
     zoneClassId: 'Teleport to which zone?',
     onlyOnce: true,
+    delayEffect: true
   },
   [EFFECT_COLLIDE]: {
 
@@ -96,28 +98,37 @@ export const effectEditInterface = {
   [EFFECT_RECLASS]: {
     classId: 'Transform into which object?',
     onlyOnce: true,
+    delayEffect: true
   },
   [EFFECT_SPAWN]: {
     zoneClassId: 'Spawn in which Zone?',
     onlyOnce: true,
     delayInterval: true,
-    pickRandomZone: true
+    pickRandomZone: true,
+    // delayEffect: true
+    
   },
-  [EFFECT_DESTROY]: {},
+  [EFFECT_DESTROY]: {
+    delayEffect: true
+  },
 
   // Narrative
   [EFFECT_SWITCH_STAGE]: {
-    stageId: 'Which stage?'
+    stageId: 'Which stage?',
+    delayEffect: true
   },
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',
     onlyOnce: true,
+    delayEffect: true
   },
   [EFFECT_GAME_OVER]: {
-    text: 'Message'
+    text: 'Message',
+    delayEffect: true
   },
   [EFFECT_WIN_GAME]: {
-    text: 'Message'
+    text: 'Message',
+    delayEffect: true
   },
 
   // Graphical

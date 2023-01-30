@@ -7,6 +7,7 @@ import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../defaultData/relationship";
 import { isZoneClassId } from "../../../utils/gameUtils";
 import { changeCurrentStage } from "../../../store/actions/gameModelActions";
+import _ from "lodash";
 
 export class Effects {
   constructor(scene, objectInstance){
@@ -138,7 +139,7 @@ export class Effects {
       if(this.timeToTriggerAgain[relation.relationId] > Date.now()) {
         return
       }
-    } 
+    }
 
     if(relation.onlyOnce) {
       this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
@@ -148,6 +149,15 @@ export class Effects {
       }
     }
 
+    if(relation.effect.delayEffect) {
+      setTimeout(() => {
+        const delayedRelation = _.cloneDeep(relation)
+        delayedRelation.effect.delayEffect = null
+        this.runAccuteEffect(delayedRelation, instanceSpriteB, sides)
+      }, relation.effect.delayEffect)
+      return
+    }
+    
     if(effect.type === EFFECT_STICK_TO) {
       sprite.body.setVelocityY(0)
       sprite.body.setVelocityX(0)

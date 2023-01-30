@@ -159,6 +159,7 @@ export class GameInstance extends Phaser.Scene {
     const newPhaserObject = new ObjectInstance(this, id, gameObject, effectSpawned)
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[id] = newPhaserObject
+
     return newPhaserObject
   }
 

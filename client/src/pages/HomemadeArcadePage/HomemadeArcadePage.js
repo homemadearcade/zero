@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Link from '../../ui/Link/Link';
@@ -10,6 +10,8 @@ import './HomemadeArcadePage.scss';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
 import Typography from '../../ui/Typography/Typography';
 import { Fade, useMediaQuery } from '@mui/material';
+import GameList from '../../app/homemadeArcade/arcadeGame/GameList/GameList';
+import Button from '../../ui/Button/Button';
 
 // {!auth.isAuthenticated ? (
 //   <div>
@@ -30,6 +32,8 @@ import { Fade, useMediaQuery } from '@mui/material';
 
 const HomemadeArcadePage = ({ auth, reseedDatabase }) => {
   const matches = useMediaQuery('(max-width:800px)');
+
+  const gameListRef = useRef()
   
   return (
     <Layout>
@@ -37,10 +41,14 @@ const HomemadeArcadePage = ({ auth, reseedDatabase }) => {
         <Fade in timeout={{ enter: 3000 }}><div><Constellation>
           <Fade in timeout={{ enter: 5000 }}>
             <div>
-              <Typography className="HomemadeArcadePage__title" font="2P" component="h1" variant={matches ? 'h4' : "h1"}>Homemade<br/> Arcade</Typography>
+              <Typography className="HomemadeArcadePage__title" font="2P" component="h3" variant={matches ? 'h4' : "h1"}>Homemade<br/> Arcade</Typography>
+              <Button variant="contained" onClick={() => {
+                gameListRef.current.scrollIntoView({ behavior: "smooth" })
+              }} className="PlayNow" to="/#playnow">Play Now</Button>
             </div>
           </Fade>
         </Constellation></div></Fade>
+        <div  ref={gameListRef}><GameList publishedOnly></GameList></div>
       </div>
     </Layout>
   );

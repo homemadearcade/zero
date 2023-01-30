@@ -11,10 +11,12 @@ import CutsceneNameForm from '../../cutscene/CutsceneNameForm/CutsceneNameForm';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { CUTSCENE_ID_PREFIX, IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
-import { TextField } from '@mui/material';
 import Typography from '../../../ui/Typography/Typography';
 import MySpritesModal from '../../sprites/MySpritesModal/MySpritesModal';
 import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameEditorActions';
+import SceneCard from '../SceneCard/SceneCard';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import Switch from '../../../ui/Switch/Switch';
 
 const CreateCutscene = ({ 
   closeCreateCutscene, 
@@ -24,8 +26,9 @@ const CreateCutscene = ({
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
   gameEditor: { isMySpritesModalOpen },
-  gameModel: { gameModel }
+  gameModel: { gameModel },
 }) => {
+  const [editScene, setEditScene] = useState(null)
   function handleClose() {
     closeCreateCutscene()
   }
@@ -35,7 +38,6 @@ const CreateCutscene = ({
       updateCreateCutscene({ cutsceneId: CUTSCENE_ID_PREFIX+generateUniqueId(), isNew: true })
     }
   }, [])
-
 
   function handleTextChange(value, index) {
     const scenes = cutscene.scenes.slice()
@@ -55,6 +57,8 @@ const CreateCutscene = ({
       imageUrl: null,
     })
 
+    setEditScene(scenes.length -1)
+
     updateCreateCutscene({
       scenes,
     })
@@ -70,54 +74,17 @@ const CreateCutscene = ({
     })
   }
 
-  function renderTextInput(scene, index) {
-    return  <TextField multiline value={scene.text} onChange={(e) => {
-      handleTextChange(e.target.value, index)
-    }} label={"Text"}/>
-  }
+  function renderActionButtons() {
 
-  function renderImageSelect(scene, index) {
-    return <>
-      {scene.imageUrl && <img className="CreateCutscene__scene-image" alt={index + ' image'} src={window.awsUrl + scene.imageUrl}/>}
-      <Button onClick={() => {
-        openMySpritesModal()
-        updateCreateCutscene({
-          indexSelected: index
-        })
-      }}>Select Image</Button>
-    </>
-  }
-
-  function renderSceneContents(scene, index) {
-    if(scene.type === IMAGE_AND_TEXT_CUTSCENE) {
-      return <div className='CreateCutscene__scene-contents'>
-        {renderImageSelect(scene, index)}
-        {renderTextInput(scene, index)}
-      </div>
-    } else if(scene.type === IMAGE_CUTSCENE) {
-      return <div className='CreateCutscene__scene-contents'>
-        {renderImageSelect(scene, index)}
-      </div>
-    } else if(scene.type === TEXT_CUTSCENE) {
-      return <div className='CreateCutscene__scene-contents'>
-        {renderTextInput(scene, index)}
-      </div>
+    if(cutscene.inDialogueMenu) {
+      return <Button onClick={() => {
+        addScene(TEXT_CUTSCENE)
+      }}>
+        Add Line
+      </Button>
     }
-  }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
-    <div className="CreateCutscene">
-      <Typography component="h2" variant="h2">{cutscene.name}</Typography>
-      <CutsceneNameForm initialName={cutscene.name}/>
-      {cutscene.scenes.map((scene, index) => {
-        return <div key={index} className='CreateCutscene__scene'> 
-          <Typography component="h5" variant="h5">{index + 1}</Typography>
-          <Button onClick={() => {
-            removeScene(index)
-          }}>Remove Scene</Button>
-          {renderSceneContents(scene, index)}
-        </div>
-      })}
+    return <>
       <Button onClick={() => {
         addScene(TEXT_CUTSCENE)
       }}>
@@ -133,6 +100,52 @@ const CreateCutscene = ({
       }}>
         Add Image and Text Scene
       </Button>
+    </>
+  }
+
+  return <CobrowsingModal open={true} onClose={handleClose}>
+    <div className="CreateCutscene">
+       <Unlockable interfaceId="advanced/inDialogueMenu adminOnly">
+        <Switch
+          labels={['Only In Cutscene Menu', 'In Dialogue Menu']}
+          size="small"
+          onChange={(e) => {
+              updateCreateCutscene({ inDialogueMenu: e.target.checked
+            })          
+          }}
+          checked={cutscene.inDialogueMenu}
+         />
+      </Unlockable>
+      <Typography component="h2" variant="h2">{cutscene.name}</Typography>
+      <CutsceneNameForm initialName={cutscene.name}/>
+      {cutscene.scenes.map((scene, index) => {
+        return <div key={index} className='CreateCutscene__scene'>   
+           <SceneCard 
+            isEditing={index === editScene}
+            index={index}
+            onRemoveScene={() => {
+              removeScene(index)
+            }} 
+            onChangeText={(e) => {
+              handleTextChange(e.target.value, index)
+            }}
+            onEditScene={() => {
+              setEditScene(index)
+            }} 
+            onDoneEditing={() => {
+              setEditScene(null)
+            }}
+            onChooseNewImage={() => {
+              openMySpritesModal()
+              updateCreateCutscene({
+                indexSelected: index
+              })
+            }}
+            scene={scene}>
+          </SceneCard>
+        </div>
+      })}
+      {renderActionButtons()}
       <div className="CreateCutscene__buttons">
         <Button 
           disabled={!!cutscene.error || !cutscene.name.length}

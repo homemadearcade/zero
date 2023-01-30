@@ -9,23 +9,36 @@ import Loader from '../../../../ui/Loader/Loader';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-const GameSelect = ({ onSelect, getArcadeGames, arcadeGames: { arcadeGames, isLoading }}) => {
+const GameSelect = ({ onSelect, userId, getArcadeGames, arcadeGames: { arcadeGames, isLoading }}) => {
   const [options, setOptions] = useState()
 
   useEffect(() => {
     getArcadeGames();
   }, []);
 
-  useEffect(() => {
-    const options = arcadeGames.map((option) => {
-      // const firstLetter = option.metadata.title[0].toUpperCase();
-      const firstLetter = option.user ? option.user.username[0].toUpperCase() : 'fromprod'
+  function sortByFirstName(option) {
+    // const firstLetter = option.metadata.title[0].toUpperCase();
+    const firstLetter = option.user ? option.user.username[0].toUpperCase() : 'fromprod'
 
-      return {
-        firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-        ...option,
-      };
-    });
+    return {
+      firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
+      ...option,
+    };
+  }
+
+  useEffect(() => {
+
+    if(userId) {
+      const options = arcadeGames.filter((option) => {
+        if(option.user?.id === userId) return true 
+        return false
+      }).map(sortByFirstName)
+
+      setOptions(options) 
+      return
+    }
+
+    const options = arcadeGames.map(sortByFirstName);
 
     setOptions(options) 
   }, [arcadeGames])

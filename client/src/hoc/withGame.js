@@ -79,9 +79,9 @@ export default (ChildComponent) => {
     render() {
       const { gameModel } = this.props
 
-      if(!gameModel.gameModel) {
-        return <Loader text="Loading Game Data..."/>
-      }
+      // if(!gameModel.gameModel) {
+      //   return <Loader text="Loading Game Data..."/>
+      // }
 
       if(!gameModel.isSpriteSheetDataLoaded) {
         return <Loader text="Loading Sprites..."/>

@@ -9,6 +9,7 @@ import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
 import AgoraToolbar from '../agora/AgoraToolbar/AgoraToolbar';
 import Tabs from '../../ui/Tabs/Tabs';
+import LobbyCommandCenter from '../LobbyCommandCenter/LobbyCommandCenter';
 
 const LobbyDashboard = ({
   lobby: { lobby },
@@ -35,9 +36,7 @@ const LobbyDashboard = ({
           },
           {
             label: 'Command Center',
-            body: <div className="LobbyDashboard__command-center">
-  
-            </div>
+            body: <LobbyCommandCenter></LobbyCommandCenter>
           },
         ]}></Tabs>
       </div>

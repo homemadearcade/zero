@@ -104,7 +104,6 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     const forms = []
     if(editForms.classId) {
       forms.push(<SelectClass 
-        includePlayerInstance
         key={relation.event.classIdA + 'effectClassId'}
         formLabel={editForms.classId}
         value={relation.effect.classId ? [relation.effect.classId] : []}
@@ -172,6 +171,20 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       </Unlockable>)
     }
 
+    if(editForms.delayEffect) {
+      forms.push(<Unlockable interfaceId="relation/delayEffect">
+        <SliderNotched
+          formLabel="Delay Effect (ms)"
+          step={10}
+          options={[0, 10, 50, 100, 200, 400, 1000, 3000, 6000, 9000, 15000, 20000]}
+          onChangeCommitted={(value) => {
+            handleEffectChange('delayEffect', value)
+          }}
+          value={relation.delayEffect || 0}
+        />
+      </Unlockable>)
+    }
+
     if(editForms.pickRandomZone && classA.classId === relation.effect.zoneClassId) {
       forms.push(<Unlockable interfaceId="relation/pickRandomZone">
         <Switch
@@ -201,9 +214,9 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     </Unlockable>,
     classB && !relation.onlyOnce && effectEditInterface[relation.effect.type]?.delayInterval && <Unlockable interfaceId="relation/advanced/delayInterval">
       <SliderNotched
-        formLabel="Delay Interval"
+        formLabel="Delay Interval (ms)"
         step={10}
-        options={[10, 100, 200, 400, 1000, 3000]}
+        options={[100, 200, 400, 1000, 3000]}
         onChangeCommitted={(value) => {
           updateCreateRelation({delayInterval: value})
         }}
@@ -223,8 +236,6 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
   ].filter((i) => {
     return !!i
   })
-
-  console.log(relation.event.classIdA)
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateRelation">

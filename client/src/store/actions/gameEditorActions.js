@@ -140,12 +140,11 @@ export const closeClassNameModal = () => (dispatch, getState) => {
   });
 }
 
-export const openSetupDefaultsModal = ({ forceCobrowsingUpdate }) => (dispatch, getState) => {
+export const openSetupDefaultsModal = () => (dispatch, getState) => {
   // externalForceCobrowsingUpdateUserId
   
   dispatch({
     updateCobrowsing: true,
-    forceCobrowsingUpdate,
     type: OPEN_SETUP_CHOICES_MODAL,
     // externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
     payload: {}
