@@ -1,6 +1,6 @@
 import { response, Router } from 'express';
 import aws from '../../services/aws';
-import axios from 'axios'
+// import axios from 'axios'
 import request from 'request'
 
 const router = Router();
