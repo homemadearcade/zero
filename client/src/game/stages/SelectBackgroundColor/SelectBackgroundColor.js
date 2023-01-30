@@ -10,7 +10,7 @@ import { closeSelectBackgroundColor } from '../../../store/actions/gameEditorAct
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 
-const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel, gameFormEditor: { color}, gameContext: { currentStageId } }) => {
+const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel, gameFormEditor: { color}, gameModel: { currentStageId } }) => {
   function handleClose() {
     closeSelectBackgroundColor()
   }
@@ -34,7 +34,7 @@ const SelectBackgroundColor = ({ closeSelectBackgroundColor, editGameModel, game
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
-  gameContext: state.gameContext,
+  gameModel: state.gameModel,
 })
 
 export default compose(

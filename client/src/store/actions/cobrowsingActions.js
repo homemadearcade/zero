@@ -205,6 +205,7 @@ export const handleCobrowsingUpdates = store => next => action => {
     )
     return result
   }
+  
 
   // NORMAL ACTION
   return next(action)
@@ -388,7 +389,6 @@ export const unsubscribeCobrowsing = ({userId}) => async (dispatch, getState) =>
 };
 
 export const toggleActiveCobrowsing = (value) => (dispatch, getState) => {
-  console.log(value === undefined ? !getState().cobrowsing.isActivelyCobrowsing : value)
   store.dispatch({
     type: TOGGLE_COBROWSING,
     payload: {
@@ -398,7 +398,6 @@ export const toggleActiveCobrowsing = (value) => (dispatch, getState) => {
 }
 
 export const toggleUnlockableInterfaceLocks = (value) => (dispatch, getState) => {
-  console.log(value === undefined ? !getState().cobrowsing.showUnlockableInterfaceLocks : value)
   store.dispatch({
     type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
     payload: {

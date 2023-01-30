@@ -6,6 +6,11 @@
 
   &--selected {
     background-color: #333;
+    border: 1px solid white;
+  }
+
+  &--isPlayer {
+    border: 1px solid red;
   }
 
   &__unselect {

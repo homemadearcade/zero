@@ -1,7 +1,7 @@
 export const spriteSheetIds = {
     'andbandtk': true,
     'overworld-2-8px': true,
-    'kenney-voxel-128px': true,
+    // 'kenney-voxel-128px': true,
     'kenney-platformer-21px': true,
     'kenney-roguelike-environment-16px': true,
     'kenney-roguelike-dungeon-16px': true,

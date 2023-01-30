@@ -19,7 +19,8 @@ const ClassItem = ({
   selectClass,
   clearClass,
   openContextMenuFromClassId,
-  width, height
+  width, height,
+  gameContext: { player},
 }) => {
   const objectClass = classes[classId]
   const [isHovering, setIsHovering] = useState(false)
@@ -46,7 +47,7 @@ const ClassItem = ({
       e.preventDefault();
       openContextMenuFromClassId(classId, e)
     }}
-    className={classNames("ClassItem", { 'ClassItem--selected': isSelected})}
+    className={classNames("ClassItem", { 'ClassItem--selected': isSelected, 'ClassItem--isPlayer': classId === player.classId })}
   >
     {isSelected && isHovering && <Icon className="ClassItem__unselect" icon="faClose"/>}
     <div className="ClassItem__sprite">
@@ -59,6 +60,7 @@ const ClassItem = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameEditor: state.gameEditor,
+  gameContext: state.gameContext
 })
 
 export default compose(

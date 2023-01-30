@@ -16,7 +16,17 @@ import _ from 'lodash';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
+import { PLAYTHROUGH_PAUSED_STATE, PLAYTHROUGH_PLAY_STATE } from '../../game/constants';
+import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 
+export const changeCurrentStage = (stageId) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_CURRENT_STAGE,
+    payload: {
+      stageId,
+    }
+  })
+};
  
 export const getSpritesheetData  = () => async (dispatch, getState) => {
   dispatch({
@@ -74,16 +84,19 @@ export const addAwsImage = (file, fileId, imageData) => {
 }
  
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
-  const lobbyId = getState().lobby.lobby.id
+  const lobby = getState().lobby.lobby
+  const lobbyId = lobby.id
   const gameId = getState().gameModel.gameModel.id
 
   dispatch({
     type: EDIT_GAME_MODEL_LOADING,
   });
 
+  const skipStageSave = lobby?.skipStageSave
+
   try {
     const options = attachTokenToHeaders(getState);
-    await axios.put(`/api/arcadeGames/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate }, options);
+    await axios.put(`/api/arcadeGames/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate, skipStageSave}, options);
 
     // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event in this scenario so we need a local EDIT_GAME_SUCCESS
     // if(!lobbyId) {

@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -19,13 +19,12 @@ export function getClassAandB(classIdA, classIdB) {
  // if the class dont exist, its the playerclass ( as of now thats the only generalized one)
 
   const state = store.getState()
-  const gameContext = state.gameContext
   const gameModel = state.gameModel.gameModel
 
   let classA = gameModel.classes[classIdA] 
   let classB = gameModel.classes[classIdB]
 
-  const playerClassId= getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId
+  const playerClassId= getCurrentGameScene(state.webPage.gameInstance).playerInstance.classId
 
   // if(classIdA === PLAYER_INSTANCE_ID_PREFIX) {
   //   classA = gameModel.classes[stage.playerClassId].playerClassId]
@@ -113,6 +112,12 @@ export function isPlayerId(id) {
   }
 
   if(id.indexOf(PLAYER_INSTANCE_ID_PREFIX) === 0) {
+    return true
+  }
+}
+
+export function isZoneClassId(id) {
+  if(id.indexOf(OBJECT_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX) === 0) {
     return true
   }
 }

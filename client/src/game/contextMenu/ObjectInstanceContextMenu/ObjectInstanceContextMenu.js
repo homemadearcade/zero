@@ -11,7 +11,7 @@ import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { openClassNameModal, selectClass, openJsonViewer } from '../../../store/actions/gameEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel }, openClassNameModal, selectClass, gameContext: { currentStageId }, openJsonViewer }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openClassNameModal, selectClass, openJsonViewer }) => {
   return <>
     <ContextMenuTitle onClick={() => {
       openClassNameModal(classId)
@@ -59,7 +59,6 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   webPage: state.webPage,
   gameModel: state.gameModel,
-  gameContext: state.gameContext
 })
 
 export default connect(mapStateToProps, { editGameModel, openClassNameModal, selectClass, openJsonViewer })(ObjectInstanceContextMenu);

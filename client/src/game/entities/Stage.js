@@ -1,7 +1,8 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, STAGE_BACKGROUND_CANVAS_DEPTH } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, OBJECT_INSTANCE_ID_PREFIX, STAGE_BACKGROUND_CANVAS_DEPTH } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
+import { generateUniqueId } from "../../utils/webPageUtils";
 
 export class Stage {
   constructor(scene, id, { boundaries, gravity }){
@@ -47,6 +48,15 @@ export class Stage {
     }
     if(this.physicsType === ARCADE_PHYSICS) {
       this.scene.physics.world.setBounds(gameX, gameY, gameWidth, gameHeight);
+    }
+  }
+
+  ensureSpawnZoneExists() {
+    const gameModel = store.getState().gameModel.gameModel
+    const stage = gameModel.stages[this.id]
+    const spawnZones = this.scene.getAllInstancesOfClassId(stage.spawnZoneClassId) 
+    if(!spawnZones.length) {
+      this.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + '/' + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, classId: stage.spawnZoneClassId}, true)
     }
   }
 }

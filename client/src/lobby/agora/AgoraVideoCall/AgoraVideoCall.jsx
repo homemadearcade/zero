@@ -81,7 +81,6 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
   </div>
 }
 
-
 const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, video: { videoTrackId, audioTrackId }, render}) => {
   let [tracks, users] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
   return (

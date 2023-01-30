@@ -10,7 +10,7 @@ import { FormLabel } from '@mui/material';
 import './SectionEditor.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameModel : { stages }}, gameContext: { currentStageId }}) => {
+const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentStageId, gameModel : { stages }}}) => {
   const boundaries = stages[currentStageId].boundaries
   const [sections, setSections] = useState({})
   const [isError, setIsError] = useState(false)
@@ -242,7 +242,6 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { gameMode
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameContext: state.gameContext
 });
 
 export default connect(mapStateToProps, { closeSectionEditor, editGameModel })(SectionEditor);

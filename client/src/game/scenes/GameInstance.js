@@ -3,17 +3,19 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, EFFECT_COLLIDE, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, EFFECT_COLLIDE, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, OBJECT_INSTANCE_ID_PREFIX } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import { changeLobbyConnectionState, editLobby } from '../../store/actions/lobbyActions';
-import { changeCurrentStage, changeGameState, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
+import { changeGameState, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import { PHASER_ERROR } from '../../lobby/constants';
 import { defaultPlayerSpawnZone } from '../defaultData/stage';
+import { generateUniqueId } from '../../utils/webPageUtils';
+import { changeCurrentStage } from '../../store/actions/gameModelActions';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -108,22 +110,26 @@ export class GameInstance extends Phaser.Scene {
       const state = store.getState()
       const gameModel = state.gameModel.gameModel
       const gameContext = getCobrowsingState().gameContext
-      const stageId = gameContext.currentStageId
+      const stageId = state.gameModel.currentStageId
+      const currentStage = gameModel.stages[stageId]
       const zoneId = gameModel.stages[stageId].spawnZoneClassId
       const zone = this.getRandomInstanceOfClassId(zoneId)
-      if(!zone) {
-        store.dispatch(changeGameState(STOPPED_STATE))
-        store.dispatch(changeLobbyConnectionState(PHASER_ERROR, 'Your Player cannot find a spawn zone, please add one before starting again. We stopped the game for you'))
-        return 
-      }
+      // if(!zone) {
+      //   store.dispatch(changeGameState(STOPPED_STATE))
+      //   store.dispatch(changeLobbyConnectionState(PHASER_ERROR, 'Your Player cannot find a spawn zone, please add one before starting again. We stopped the game for you'))
+      //   return 
+      // }
       const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
 
+      let lastPlayerClassId = gameContext.player.classId ? gameContext.player.classId : 'oc/p/directional';
+
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
-        classId: gameContext.player.classId,
+        classId: currentStage.playerClassId ? currentStage.playerClassId : lastPlayerClassId,
         spawnX:x,
         spawnY: y
       });
     } else {
+
       const {classId, spawnX, spawnY} = classData
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
@@ -131,6 +137,7 @@ export class GameInstance extends Phaser.Scene {
         spawnX,
         spawnY
       });
+
     }
 
     this.playerInstance.setLerp()
@@ -325,7 +332,7 @@ export class GameInstance extends Phaser.Scene {
     }
     
     this.objectInstances.forEach((instance) => {
-      if(instance.reclassId) {
+      if(instance.reclassId && instance.reclassId !== instance.classId) {
         instance.reclass(instance.reclassId)
       } else if(instance.destroyAfterUpdate) {
         instance.destroyInGame()
@@ -338,9 +345,8 @@ export class GameInstance extends Phaser.Scene {
       }
     })
 
-    const currentPlayerId = getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId
-    if(this.playerInstance.classId !== currentPlayerId) {
-      this.playerInstance.reclass(currentPlayerId)
+    if(this.playerInstance.reclassId && this.playerInstance.classId !== this.playerInstance.reclassId) {
+      this.playerInstance.reclass(this.playerInstance.reclassId)
     }
   }
 
@@ -399,9 +405,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   initializeObjectInstances() {
+    const state = store.getState()
     const gameModel = store.getState().gameModel.gameModel
-    const gameContext = getCobrowsingState().gameContext
-    const stageId = gameContext.currentStageId
+    const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
     const objects = currentStage.objects
     Object.keys(objects).forEach((gameObjectId) => {
@@ -430,9 +436,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   initializeLayers = () => {
+    const state = store.getState()
     const gameModel = store.getState().gameModel.gameModel
-    const gameContext = getCobrowsingState().gameContext
-    const stageId = gameContext.currentStageId
+    const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
 
     this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
@@ -462,9 +468,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   create() {
+    const state = store.getState()
     const gameModel = store.getState().gameModel.gameModel
-    const gameContext = getCobrowsingState().gameContext
-    const stageId = gameContext.currentStageId
+    const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -492,6 +498,8 @@ export class GameInstance extends Phaser.Scene {
 
     this.initializeObjectInstances()
 
+    this.stage.ensureSpawnZoneExists()
+
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -513,7 +521,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     this.cameras.main.pan(this.playerInstance.sprite.x, this.playerInstance.sprite.y, 0)
-    const playerClass = gameModel.classes[getCobrowsingState({ forceActiveCobrowsing: true }).gameContext.player.classId]
+    const playerClass = gameModel.classes[this.playerInstance.classId]
     this.cameras.main.setZoom(playerClass.camera.zoom);
 
     if(this.isPlaythrough && this.firstStage) {
@@ -537,6 +545,7 @@ export class GameInstance extends Phaser.Scene {
     })
     const state = store.getState()
     const gameModel = state.gameModel
+    this.stage.ensureSpawnZoneExists()
     const zoneId = gameModel.stages[this.stage.id].spawnZoneClassId
     const zone = this.scene.getRandomInstanceOfClassId(zoneId)
     this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
@@ -546,8 +555,6 @@ export class GameInstance extends Phaser.Scene {
     // this updates here because all players are watching the current stage right now
     const initialStageId = store.getState().gameModel.gameModel.player.initialStageId
     store.dispatch(changeCurrentStage(initialStageId))
-    const classId = store.getState().gameModel.gameModel.stages[initialStageId].playerClassId
-    store.dispatch(changePlayerState({classId}))
 
     if(store.getState().lobby.lobby?.id) {
       store.dispatch(editLobby(store.getState().lobby.lobby.id, {
@@ -605,9 +612,14 @@ export class GameInstance extends Phaser.Scene {
 
     if(this.playerInstance) this.playerInstance.update(time, delta)
 
-    const currentStageId = getCobrowsingState().gameContext.currentStageId
+    const currentStageId = store.getState().gameModel.currentStageId
     if(this.stage.id !== currentStageId) {
       this.scene.start(currentStageId, this.props)
+    }
+
+    const currentPlayerId = getCobrowsingState().gameContext.player.classId
+    if(this.playerInstance.classId !== currentPlayerId) {
+      store.dispatch(changePlayerState({classId: this.playerInstance.classId}))
     }
   }
 

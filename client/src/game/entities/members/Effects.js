@@ -1,10 +1,12 @@
 import store from "../../../store"
 import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
-import { changeCurrentStage, changeGameState, changePlayerState, clearCutscenes, openCutscene } from "../../../store/actions/gameContextActions";
+import { changeGameState, clearCutscenes, openCutscene } from "../../../store/actions/gameContextActions";
 import { ANIMATION_CAMERA_SHAKE } from "../../../store/types";
 import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../defaultData/relationship";
+import { isZoneClassId } from "../../../utils/gameUtils";
+import { changeCurrentStage } from "../../../store/actions/gameModelActions";
 
 export class Effects {
   constructor(scene, objectInstance){
@@ -168,11 +170,6 @@ export class Effects {
       this.scene.sendReloadGameEvent()
     } else if(effect.type === EFFECT_SWITCH_STAGE) {
       store.dispatch(changeCurrentStage(effect.stageId))
-      const gameModel = store.getState().gameModel.gameModel
-      const playerClassId = gameModel.stages[effect.stageId].playerClassId
-      if(playerClassId) {
-        store.dispatch(changePlayerState({classId: playerClassId}))
-      }
       store.dispatch(clearCutscenes())
     }
 
@@ -192,10 +189,14 @@ export class Effects {
       const spawnedObjectInstance =  this.scene.addObjectInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
       
       let zone 
-      if(effect.useClassAZoneInstance) {
-        zone = this.objectInstance
-      } else {
+      if(effect.pickRandomZone) {
         zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      } else {
+        if(isZoneClassId(this.objectInstance.classId)) {
+          zone = this.objectInstance
+        } else {
+          zone = this.scene.getObjectInstance(instanceSpriteB.id)
+        }
       }
       if(!zone) return console.log('no zone exists for that')
       
@@ -204,7 +205,7 @@ export class Effects {
       spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
     } else if(effect.type === EFFECT_RECLASS) {
       if(this.objectInstance.id === PLAYER_INSTANCE_ID_PREFIX) {
-        store.dispatch(changePlayerState({classId: effect.classId}))
+        this.objectInstance.reclassId = effect.classId
       } else {
         this.objectInstance.reclassId = effect.classId
       }

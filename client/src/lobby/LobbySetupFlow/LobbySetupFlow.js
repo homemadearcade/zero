@@ -19,7 +19,7 @@ import { changeGameState, completeCloseConstellation, openConstellation } from '
 import { openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
 import { GAME_EDITOR_UI, MONOLOGUE_UI } from '../../constants';
-import { BASIC_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, PAUSED_STATE, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID, PLAY_STATE } from '../../game/constants';
+import { BASIC_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, PAUSED_STATE, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID, PLAYTHROUGH_PLAY_STATE, PLAY_STATE } from '../../game/constants';
 import LobbyVerticalLinearStepper from '../LobbyVerticalLinearStepper/LobbyVerticalLinearStepper';
 
 const LobbySetupFlow = ({
@@ -265,8 +265,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
               isGamePoweredOn: true,
-              experienceState: GAME_EDITOR_UI
-
+              experienceState: GAME_EDITOR_UI,
+              skipStageSave: true
             })
           },
           nextButtonText: 'Load Prologue 1'
@@ -338,7 +338,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63c5e24c90a58a00531f4c1a',
               isGamePoweredOn: true,
-              experienceState: GAME_EDITOR_UI
+              experienceState: GAME_EDITOR_UI,
+              skipStageSave: true
             })
           },
           nextButtonText: 'Load Prologue 2'
@@ -358,7 +359,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             editLobby(lobby.id, {
               currentGameId: lobby.game.id,
               isGamePoweredOn: true,
-              experienceState: GAME_EDITOR_UI
+              experienceState: GAME_EDITOR_UI,
+              skipStageSave: false
             })
           },
           nextButtonText: 'Load Editing Game'

@@ -18,7 +18,7 @@ import RadioGroupColumn from '../../ui/RadioGroupColumn/RadioGroupColumn';
             // <Typography component="h5" variant="h5">
                 
             //   </Typography>
-const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel: { gameModel }, gameContext: { currentStageId }}) => {
+const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel: { gameModel, currentStageId }}) => {
   function handleClose() {
     closeSetupDefaultsModal()
   }
@@ -150,7 +150,6 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameContext: state.gameContext
 })
 
 export default compose(

@@ -27,8 +27,8 @@ import { defaultObjectInstance } from '../../game/defaultData/object';
 import { defaultClass } from '../../game/defaultData/class';
 import store from '..';
 import { ARCADE_EXPERIENCE_ID, UNDO_MEMORY_MAX } from '../../game/constants';
-import { changeCurrentStage, changePlayerState } from './gameContextActions';
 import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
+import { changeCurrentStage } from './gameModelActions';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
   const me = store.getState().auth.me 
@@ -77,7 +77,7 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
 function onArcadeGameModelUpdate(gameUpdate) {
   const state = store.getState()
   const oldGameData = _.cloneDeep(state.gameModel.gameModel)
-  const stageId = state.gameContext.currentStageId
+  const stageId = state.gameModel.currentStageId
 
   if(!window.nextGameModelUpdateIsUndo) {
     if(gameUpdate.stages) {
@@ -183,21 +183,6 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
     dispatch(changeCurrentStage(gameData.player.initialStageId))
-    dispatch(changePlayerState({classId: gameData.stages[gameData.player.initialStageId].playerClassId}))
-
-    dispatch({
-      type: INITIALIZE_COBROWSING_STATE,
-      payload: {
-        initialCobrowsingState: {
-          gameContext: {
-            currentStageId: gameData.player.initialStageId,
-            player: {
-              classId: gameData.stages[gameData.player.initialStageId].playerClassId
-            }
-          },
-        }
-      }
-    })
     
     const stages = Object.keys(gameData.stages).map((stageId) => {
       return gameData.stages[stageId]

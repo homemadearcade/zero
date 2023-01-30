@@ -95,3 +95,11 @@ IMMEDIATELY
 AFTER PACKAGE UPDATE
   Destroy
   Reclass
+
+---
+
+Current Stage is controlled by UI and by one effect. Its the local users choice and experience. It is never automatically updated except by the one effect. Outside of that it is always a choice
+
+Current Game State is controlled by cobrowsing. Its a shared experience. Perhaps it should be on the lobby?. Its not on the lobby so it can also be used in single player
+
+Player is controlled by the game host and broadcasts to all clients from the host. It also updates redux when the current cobrowsing player state is different than the redux state

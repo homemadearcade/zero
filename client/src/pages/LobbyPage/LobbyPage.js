@@ -35,6 +35,8 @@ import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../con
 import LobbyChatroom from '../../lobby/LobbyChatroom/LobbyChatroom';
 import { Container } from '@mui/system';
 import { inIframe } from '../../utils/webPageUtils';
+import WithCobrowsing from '../../hoc/WithCobrowsing';
+import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperienceState';
 
 const LobbyPage = ({
   lobby: { lobby, lobby: { experienceState, isGamePoweredOn }, connectionMessage, connectionState  },
@@ -151,13 +153,14 @@ const LobbyPage = ({
           ></AgoraUserVideo>}
         </div>
 
-        <Button variant="contained" onClick={() => {
-          editLobby(lobby.id, {
-            experienceState: GAME_EDITOR_UI
-          })
-        }}>
-          Complete Monologue
-        </Button>
+        <Typography variant="h5">Leave Monologue</Typography>
+        <SelectExperienceState
+          value={[lobby.experienceState]}
+          onChange={(event, experienceState) => {
+            editLobby(lobby.id, {
+              experienceState: experienceState
+            })       
+          }}/>
       </div>
     }
   }
@@ -180,7 +183,9 @@ const LobbyPage = ({
   
   return <Switch>
       <Route exact path={path}>
-        <LobbyDashboard userId={lobby.participantId} myTracks={myTracks}/>
+        <WithCobrowsing userId={lobby.participantId}>
+          <LobbyDashboard myTracks={myTracks}/>
+        </WithCobrowsing>
         {renderLobbyAdminExperience()}
         {<LobbyDrawer/>}
         {renderLobbyConnection()}
@@ -191,7 +196,9 @@ const LobbyPage = ({
           {experienceState === GAME_EDITOR_UI && <LobbyPowerIndicator/>}
           {experienceState === GAME_EDITOR_UI && isGamePoweredOn && <ConstellationToggle/>}
         </LobbyDrawer>}
-        <Container>{renderGameExperience()}</Container>
+        <WithCobrowsing>
+          <Container>{renderGameExperience()}</Container>
+        </WithCobrowsing>
         {renderLobbyConnection()}
       </Route>
     </Switch>

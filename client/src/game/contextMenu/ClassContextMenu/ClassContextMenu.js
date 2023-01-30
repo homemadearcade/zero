@@ -10,7 +10,6 @@ import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-import { changePlayerState } from '../../../store/actions/gameContextActions';
 
     // {false && <Unlockable interfaceId="contextMenu/class/spawn">
     //   <MenuItem onClick={() => {
@@ -31,11 +30,9 @@ const ClassContextMenu = ({
   openLiveEditor, 
   onMenuItemClick, 
   openRelationsMenu,
-  gameModel: { gameModel }, 
-  gameContext: { currentStageId },
+  gameModel: { gameModel, currentStageId }, 
   openClassNameModal,
   classId, 
-  changePlayerState,
   insideObjectInstanceContextMenu
 }) => {
   const objectClass = gameModel.classes[classId]
@@ -54,9 +51,6 @@ const ClassContextMenu = ({
                   playerClassId: classId
                 }
               }
-            })
-            changePlayerState({
-              classId
             })
             onMenuItemClick()
           }}>Set as Player</MenuItem>
@@ -140,7 +134,6 @@ const ClassContextMenu = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameContext: state.gameContext
 })
 
 export default connect(mapStateToProps, { 
@@ -149,5 +142,4 @@ export default connect(mapStateToProps, {
   openLiveEditor, 
   openRelationsMenu,
   openClassNameModal,
-  changePlayerState,
 })(ClassContextMenu);

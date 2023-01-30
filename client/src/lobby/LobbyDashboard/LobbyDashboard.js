@@ -9,7 +9,6 @@ import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
 import AgoraToolbar from '../agora/AgoraToolbar/AgoraToolbar';
 import Tabs from '../../ui/Tabs/Tabs';
-import withCobrowsing from '../../hoc/withCobrowsing';
 
 const LobbyDashboard = ({
   lobby: { lobby },
@@ -53,6 +52,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withCobrowsing,
   connect(mapStateToProps, { }),
 )(LobbyDashboard);

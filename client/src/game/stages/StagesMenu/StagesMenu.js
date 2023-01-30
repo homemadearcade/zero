@@ -9,9 +9,9 @@ import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
-import { changeCurrentStage } from '../../../store/actions/gameContextActions';
+import { changeCurrentStage } from '../../../store/actions/gameModelActions';
 
-const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, gameModel: { gameModel }, editGameModel, gameContext: { currentStageId }}) => {
+const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
   function handleClose() {
     closeStagesMenu()
   }
@@ -57,7 +57,6 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameContext: state.gameContext
 })
 
 

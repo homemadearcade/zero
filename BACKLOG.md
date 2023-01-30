@@ -58,9 +58,10 @@ ANALYTICS on each action?, on where on the screen? Save all records
 
 Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode
 
-Take snapshot without BG
+Take snapshot without BG ( because when the BG is black ... )
 
 onCutsceneEnd Event, onStageEntered
+
 
 Destroyed By Message ( You lost because... )
 
@@ -96,7 +97,7 @@ Right click -> snap camera to section? regardless if you are in section or not?
 
 Zoom Slider
 
-Other lobby connection issue popups
+Other lobby connection issue popups. Cobrowsing connection... are remote states synced?
 
 Interface Preset Update
   Need to make an interface tree component to seperate user tree and a preset tree
@@ -121,7 +122,7 @@ I think we need to....
 Possibly same with game state
   This redux based state stuff is pretty nasty when it comes to cobrowsing
 
-Player Spawn zone being deleted issue, I think perhaps its just best to never let it be deleted, same with default stage. CANT BE DELETED! Player spawn zone issue is leading to... the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
+if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
 
 TODO CHORES BACKLOG
 
@@ -143,7 +144,13 @@ state
 
 popup if the player has switched stages and you want to follow them to that scene 
 
-undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by Id not ... canvas id?
+UI COLOR needs and ...If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
+
+When a class is highlighted, you should be able to see all of them highlighted on the map?
+
+Auto hide live editor when using keys?
+
+undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by texture Id not ... canvas id?
 
 KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spawned ones are not detroyed. FIX = Spawn Effects go before Destroy Effects
 

@@ -18,7 +18,6 @@ import { urlToFile } from '../../utils/utils';
 import { generateUniqueId, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
-import { changePlayerState } from '../../store/actions/gameContextActions';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -613,7 +612,7 @@ export class EditorScene extends GameInstance {
         }
       })
       if(stageUpdate?.playerClassId) {
-        store.dispatch(changePlayerState({classId: stageUpdate?.playerClassId}))
+        this.playerInstance.reclassId = stageUpdate?.playerClassId
       }
     }
     

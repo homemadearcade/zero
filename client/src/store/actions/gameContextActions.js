@@ -28,16 +28,6 @@ export const changeGameState = (gameState, message) => (dispatch, getState) => {
   })
 };
 
-export const changeCurrentStage = (stageId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CHANGE_CURRENT_STAGE,
-    payload: {
-      stageId,
-    }
-  })
-};
-
 export const changePlayerState = ({classId}) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,

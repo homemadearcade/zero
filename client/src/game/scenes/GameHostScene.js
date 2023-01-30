@@ -31,7 +31,7 @@ export class GameHostScene extends EditorScene {
   startRemoteClientUpdateLoop = () => {
     let updateInterval = 1000/12
     this.remoteClientUpdateInterval = setInterval(() => {
-      const currentStageId = getCobrowsingState().gameContext.currentStageId
+      const currentStageId = store.getState().gameModel.currentStageId
       if(this.stage.id !== currentStageId) return
       const objects = this.objectInstances.map(({sprite: { id, x, y, rotation}, isVisible, destroyAfterUpdate, reclassId, classId}) => {
         return {
@@ -66,6 +66,7 @@ export class GameHostScene extends EditorScene {
         rotation: this.playerInstance.sprite.rotation,
         isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
+        reclassId: this.playerInstance.reclassId
       }
 
       const time = Date.now();

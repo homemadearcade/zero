@@ -6,7 +6,6 @@ import './CobrowsingGame.scss';
 import RemoteMouse from '../../game/cobrowsing/RemoteMouse/RemoteMouse';
 import GameEditor from '../GameEditor/GameEditor';
 import AgoraVideoLayoutHA from '../../lobby/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
-import withCobrowsing from '../../hoc/withCobrowsing';
 import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import askFullscreen from '../../hoc/askFullscreen';
@@ -37,7 +36,6 @@ const mapStateToProps = (state) => {
 
 export default compose(
   withGame,
-  withCobrowsing,
   askFullscreen,
   connect(mapStateToProps, { }),
 )(CobrowsingGame);

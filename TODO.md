@@ -8,19 +8,6 @@ Non saving mode for games/Playthrough mode for prologues
   
 Destroy Delay after X seconds - EffectDelay, EffectDelayInterval
 
----
----------
-TODO LATER
----------
-
-Current Player Icon in Player Class Menu
-
-Player should be assessed by .classId by game clients
-and assessed based on the state by the game host and game local and game 
-  its possible it goes Host ReduxState -> Host Game -> Game Update -> Client Game -> Client ReduxState
-for BOTH game state AND Hero? Game state WILL NEVER BY LOCALLY COBROWSED.. EVER!
-Is current player EVER neede in the UI? if not. Then we can just check the scene.player Instnace?
-
 Collides with self toggle
 
 Copy game when homemade arcade is completed and put it in a different database
@@ -30,6 +17,8 @@ Copy game when homemade arcade is completed and put it in a different database
 ---------
 BIG FEATURES
 ---------
+
+COMMAND CENTER
 
 INFO BOX 
   Right Click, Left Click, Name of Class
@@ -50,9 +39,6 @@ TICKETING
 
 FEATURES
   Sprite sheet editor page
-      Glass sprites from Kenney are all sorts of fucked up...?
-
-COMMAND CENTER
 
 -----
 SMALL UPATES
@@ -61,18 +47,12 @@ SMALL UPATES
 UI
   UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
   
-  UI COLOR needs and ...If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
-  
   When trying to name a class, spacebar doesnt work
     Shift + Press it works fine
-  
-  When a class is highlighted, you should be able to see all of them highlighted on the map?
   
   You should be able to hide games, you should be able to hide classes, hide stages, hide lobby not delete them, hide users, dont delete them, hide objects? nah delete them
   
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
-  
-  Auto hide live editor when using keys?
     
   Fit all titles into the box with TextFit thing from before
 
@@ -83,7 +63,5 @@ BUGS
   User Disonnect, fkin wierd man. It shows up in lobby now because they can send that message even when not logged in 
 
   Scroll bar showing up in the class menu??
-
-  Initialize player Instance, no zone? Check for zone… and if no zone throw error?
 
   For prologues - Fix zones that are not on playground layer 

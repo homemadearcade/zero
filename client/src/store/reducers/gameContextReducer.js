@@ -26,7 +26,6 @@ const initialState = {
   isConstellationClosing: false,
   isConstellationOpen: false,
   constellationZoomImageFile: null,
-  currentStageId: null,
   player: {
     classId: null,
   }
@@ -126,11 +125,6 @@ export default function gameContextReducer(state = initialState, { type, payload
         cutsceneClassId: null,
         cutsceneIndex: 0
       };
-    case CHANGE_CURRENT_STAGE: 
-      return {
-        ...state,
-        currentStageId: payload.stageId,
-      }
     case CHANGE_PLAYER_STATE: 
       return {
         ...state,

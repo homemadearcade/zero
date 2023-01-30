@@ -172,15 +172,15 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       </Unlockable>)
     }
 
-    if(editForms.useClassAZoneInstance && classA.classId === relation.effect.zoneClassId) {
-      forms.push(<Unlockable interfaceId="relation/useClassAZoneInstance">
+    if(editForms.pickRandomZone && classA.classId === relation.effect.zoneClassId) {
+      forms.push(<Unlockable interfaceId="relation/pickRandomZone">
         <Switch
-          labels={['Pick Random Zone', 'Use this zone']}
+          labels={['Use this zone', 'Pick Random Zone']}
           size="small"
           onChange={(e) => {
-            handleEffectChange('useClassAZoneInstance', e.target.value)
+            handleEffectChange('pickRandomZone', e.target.value)
           }}
-          checked={relation.effect.useClassAZoneInstance}
+          checked={relation.effect.pickRandomZone}
          />
       </Unlockable>)
     }

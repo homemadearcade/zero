@@ -11,8 +11,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const BrushControl = ({
-  gameModel: { gameModel: { brushes, stages }},
-  gameContext: { currentStageId },
+  gameModel: { gameModel: { brushes, stages }, currentStageId},
   updateBrushSize,
   gameEditor: { brushSize, brushIdSelectedBrushList },
 }) => {
@@ -56,7 +55,6 @@ const BrushControl = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameEditor: state.gameEditor,
-  gameContext: state.gameContext
 })
 
 export default compose(

@@ -93,7 +93,7 @@ const initialState = {
       zoneClassId: null,
       cutsceneId: null,
       text: '',
-      useClassAZoneInstance: false
+      pickRandomZone: false
     },
     onlyOnce: false,
     delayInterval: null,

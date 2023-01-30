@@ -173,24 +173,24 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
     const { error } = validateArcadeGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
   
-    await ArcadeGame.findByIdAndUpdate(
-      req.params.id,
-      { 
-        stages: updatedGame.stages, 
-        metadata: updatedGame.metadata, 
-        defaults: updatedGame.defaults, 
-        player: updatedGame.player, 
-        classes: updatedGame.classes,
-        brushes: updatedGame.brushes,
-        colors: updatedGame.colors,
-        cutscenes: updatedGame.cutscenes,
-        awsImages: updatedGame.awsImages,
-        nodeSize: updatedGame.nodeSize, 
-        relations: updatedGame.relations, 
-        // user: tempGame.user ? tempGame.user.id : Math.random()
-     },
-      { new: true },
-    );
+      await ArcadeGame.findByIdAndUpdate(
+        req.params.id,
+        { 
+          stages: req.body.skipStageSave ? tempGame.stages : updatedGame.stages, 
+          metadata: updatedGame.metadata, 
+          defaults: updatedGame.defaults, 
+          player: updatedGame.player, 
+          classes: updatedGame.classes,
+          brushes: updatedGame.brushes,
+          colors: updatedGame.colors,
+          cutscenes: updatedGame.cutscenes,
+          awsImages: updatedGame.awsImages,
+          nodeSize: updatedGame.nodeSize, 
+          relations: updatedGame.relations, 
+          // user: tempGame.user ? tempGame.user.id : Math.random()
+      },
+        { new: true },
+      );
 
     if(req.body.lobbyId) {
       req.io.to(req.body.lobbyId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)

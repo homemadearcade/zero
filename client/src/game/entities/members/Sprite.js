@@ -8,7 +8,7 @@ export class Sprite {
   constructor(scene, { textureId, spriteSheetName, spriteIndex, spawnX, spawnY }){
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
-    const stageId = getCobrowsingState().gameContext.currentStageId
+    const stageId = state.gameModel.currentStageId
     const stage = gameModel.stages[stageId]
     
     const plugin = { 

@@ -25,8 +25,8 @@ export function getCurrentGameScene(gameInstance) {
   return scene
 }
 
-export function snapFreeXY({x, y, boundaries = getCobrowsingState().gameModel.gameModel.stages[getCobrowsingState().gameContext.currentStageId].boundaries}) {
-  const gameModel = getCobrowsingState().gameModel.gameModel
+export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+  const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
@@ -52,8 +52,8 @@ export function snapFreeXY({x, y, boundaries = getCobrowsingState().gameModel.ga
 }
 
 
-export function snapSectionalXY({x, y, boundaries = getCobrowsingState().gameModel.gameModel.stages[getCobrowsingState().gameContext.currentStageId].boundaries}) {
-  const gameModel = getCobrowsingState().gameModel.gameModel
+export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+  const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const brushSize = getCobrowsingState().gameEditor.brushSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
@@ -77,8 +77,8 @@ export function snapSectionalXY({x, y, boundaries = getCobrowsingState().gameMod
   }
 }
 
-export function snapObjectXY({x, y, objectClass, boundaries = getCobrowsingState().gameModel.gameModel.stages[getCobrowsingState().gameContext.currentStageId].boundaries}) {
-  const gameModel = getCobrowsingState().gameModel.gameModel
+export function snapObjectXY({x, y, objectClass, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+  const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
 

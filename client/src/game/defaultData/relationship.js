@@ -17,7 +17,7 @@ export const defaultRelationship = {
     cutsceneId: null,
     text: '',
     stageId: null,
-    useClassAZoneInstance: false
+    pickRandomZone: false
   },
   onlyOnce: false,
   delayInterval: null,
@@ -101,7 +101,7 @@ export const effectEditInterface = {
     zoneClassId: 'Spawn in which Zone?',
     onlyOnce: true,
     delayInterval: true,
-    useClassAZoneInstance: true
+    pickRandomZone: true
   },
   [EFFECT_DESTROY]: {},
 

@@ -9,7 +9,7 @@ import Typography from '../../../ui/Typography/Typography';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const GravityEditor = ({ gameModel: { gameModel }, editGameModel, gameContext: { currentStageId } }) => {
+const GravityEditor = ({ gameModel: { gameModel, currentStageId }, editGameModel }) => {
   const stage = gameModel.stages[currentStageId]
 
   return (

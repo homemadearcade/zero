@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
-const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel, gameContext: { currentStageId } }) => {
+const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
   if(!classSelected?.camera) {
@@ -84,7 +84,6 @@ const CameraEditor = ({ classId, gameModel: { gameModel }, editGameModel, gameCo
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
-  gameContext: state.gameContext,
 });
 
 export default connect(mapStateToProps, { editGameModel })(CameraEditor);
