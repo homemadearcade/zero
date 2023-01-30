@@ -131,6 +131,17 @@ const theme = createTheme({
         // }
       },
     },
+    MuiAccordionSummary: {
+      styleOverrides: {
+        root: {
+          minHeight: '0rem'
+        },
+        content: {
+          marginTop: '.75rem',
+          marginBottom: '.75rem'
+        }
+      }
+    },
     MuiButtonBase: {
       styleOverrides: {
         root: {

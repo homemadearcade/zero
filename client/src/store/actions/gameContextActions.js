@@ -1,4 +1,5 @@
 import { PAUSED_STATE, PLAYTHROUGH_PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE } from '../../game/constants';
+import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { 
   CHANGE_CURRENT_STAGE,
@@ -64,8 +65,8 @@ export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
 }
 
 export const progressActiveCutscene = () => (dispatch, getState) => {
-  const cutsceneId = getState().gameContext.cutsceneId
-  const cutsceneIndex = getState().gameContext.cutsceneIndex
+  const cutsceneId = getCobrowsingState().gameContext.cutsceneId
+  const cutsceneIndex = getCobrowsingState().gameContext.cutsceneIndex
   const cutscene = getState().gameModel.gameModel.cutscenes[cutsceneId]
 
   if(cutscene.scenes.length <= cutsceneIndex + 1) {

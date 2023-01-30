@@ -202,6 +202,7 @@ const LobbySetupFlow = ({
           title: <Typography component="h5" variant="h5">Select Game to be Edited</Typography>,
           instructions: !lobby.isGamePoweredOn ? renderSelectGame() : <Typography component="h5" variant="h5">You can not change the selected game when the game is powered on</Typography>
         },
+        breakTitle('Setup (5mins)'),
         {
           id: 'Share Participant link',
           title: <Typography component="h5" variant="h5">Share Participant link</Typography>,
