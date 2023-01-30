@@ -35,7 +35,7 @@ import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../con
 import LobbyChatroom from '../../lobby/LobbyChatroom/LobbyChatroom';
 import { Container } from '@mui/system';
 import { inIframe } from '../../utils/webPageUtils';
-import WithCobrowsing from '../../hoc/WithCobrowsing';
+import WithCobrowsing from '../../hoc/withCobrowsing';
 import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperienceState';
 
 const LobbyPage = ({
