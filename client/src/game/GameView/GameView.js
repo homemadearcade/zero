@@ -16,6 +16,7 @@ import StateScreen from '../StateScreen/StateScreen';
 import store from '../../store';
 import { changeLobbyConnectionState } from '../../store/actions/lobbyActions';
 import { PHASER_ERROR } from '../../lobby/constants';
+import ControlsPopup from '../ControlsPopup/ControlsPopup';
 
 const config= {
   type: Phaser.WEBGL,
@@ -103,6 +104,7 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeLobbyCo
     <div className="GameView">
       <Cutscene/>
       <StateScreen/>
+      <ControlsPopup/>
       <div id="PhaserGame"/>
     </div>
   );

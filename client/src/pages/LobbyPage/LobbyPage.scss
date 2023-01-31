@@ -1,7 +1,7 @@
 .LobbyPage {
   &__drawer-toggle {
     font-size: 24px;
-    z-index: 10011;
+    z-index: 1001;
     cursor: pointer;
   }
 
@@ -27,7 +27,7 @@
     top: 1%;
     right: 1%;
     font-size: 24px;
-    z-index: 100;
+    z-index: 1001;
     cursor: pointer;
   }
 }
@@ -82,7 +82,6 @@
     left: 0;
     right: 0;
     margin: 0 auto;
-    z-index: 3;
     width: 50vw;
     height: 20vh;
     overflow-y: scroll;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Phaser from 'phaser';
 
 import './SpriteEditor.scss';
-import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID } from '../../constants';
+import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
@@ -20,8 +20,12 @@ import { onSpriteEditorUndo } from '../../../store/actions/lobbyActions';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { setSpriteEditorGameInstance } from '../../../store/actions/webPageActions';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
+import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
+import BrushItem from '../../brush/BrushItem/BrushItem';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes } }, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -51,7 +55,9 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelecte
     game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
     setSpriteEditorGameInstance(game)
 
+    console.log('???')
     return () => {
+      console.log('XX??')
       getCurrentGameScene(game).unload()
       game.destroy()
     }
@@ -73,6 +79,21 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelecte
     clearBrush()
   }
   
+  const brushList = Object.keys(brushes).map((brushId, i) => {
+    console.log(brushId)
+    return <BrushItem key={i} brushId={brushId}/>
+  }).slice(0, 42) || []
+
+
+  // cannot happen here cuz. of ... recursion?
+  // brushList.push(<Unlockable isTiny interfaceId='addBrush'>
+  //     <Button size="fit" onClick={() => {
+  //       openCreateBrushFlow(SPRITE_EDITOR_CANVAS_ID)
+  //     }}>
+  //       +
+  //     </Button>
+  // </Unlockable>)
+
   return (
     <CobrowsingModal open={true} width="110vh" height="70vh" onClose={handleClose}>
       <div className="SpriteEditor">
@@ -80,6 +101,10 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelecte
           <BrushControl/>
           <EraserSelect canvasId={SPRITE_EDITOR_CANVAS_ID}></EraserSelect>
           <AggregateColorSelect onSelectColor={onSelectColor} onUnselectColor={onUnselectColor}/>
+          <BorderedGrid 
+            maxItems={42} 
+            size="3.5vh"
+            items={brushList}/>
         </div>
         <div id="PhaserPopupGame"/>
         <div className="SpriteEditor__right-column">
@@ -109,7 +134,9 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, tintSelecte
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameEditor: state.gameEditor,
-  webPage: state.webPage
+  webPage: state.webPage,
+  gameModel: state.gameModel,
+  gameFormEditor: state.gameFormEditor
 });
 
-export default connect(mapStateToProps, { clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance })(SpriteEditor);
+export default connect(mapStateToProps, { clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance, openCreateBrushFlow })(SpriteEditor);

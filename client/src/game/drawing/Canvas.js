@@ -37,6 +37,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   save = async ()  => {
+    if(!this.isHost) return 
+
     return new Promise(async (resolve, reject) => {
       try {
         this.isSavingToAws = true
@@ -64,12 +66,13 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene.textures.remove(this.textureId)
     this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
     this.scene.load.once('complete', () => {
-      this.isSavingToAws = false
       this.unsavedChanges = false
 
       //sometimes this bugs out
       this.clear()
       this.initialDraw()
+
+      this.isSavingToAws = false
     });
     this.scene.load.start();
   }

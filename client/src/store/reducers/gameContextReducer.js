@@ -15,6 +15,7 @@ import {
   PROGRESS_CUTSCENE,
   START_CLOSE_CONSTELLATION,
   OPEN_CONSTELLATION,
+  CHANGE_CONTROL_POPUP,
 } from '../types';
 
 const initialState = {
@@ -28,7 +29,8 @@ const initialState = {
   constellationZoomImageFile: null,
   player: {
     classId: null,
-  }
+  },
+  controlsToPress: null
 };
 
 export const initialGameContextState = initialState
@@ -133,6 +135,11 @@ export default function gameContextReducer(state = initialState, { type, payload
           ...payload.player
         }
       }
+    case CHANGE_CONTROL_POPUP: 
+      return {
+      ...state,
+      controlsToPress: payload.controlsToPress
+    }
     default:
       return state;
   }

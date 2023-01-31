@@ -172,7 +172,8 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case CLOSE_CREATE_BRUSH_FLOW: 
       return {
         ...state,
-        isCreateBrushFlowOpen: false
+        isCreateBrushFlowOpen: false,
+        brush: initialState.brush
       }
     case OPEN_CUTSCENES_MENU: 
       return {

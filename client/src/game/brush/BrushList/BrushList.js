@@ -45,7 +45,7 @@ const BrushList = ({
     return <BrushItem key={i} brushId={brushId}/>
   }).slice(0, 14) || []
   
-  bgBrushes.push(<Unlockable isTiny interfaceId={BACKGROUND_CANVAS_ID + '/addBrush'}>
+  bgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
     <Button size="fit" onClick={() => {
       openCreateBrushFlow(BACKGROUND_CANVAS_ID)
     }}>
@@ -57,7 +57,7 @@ const BrushList = ({
     return <BrushItem key={i} brushId={brushId}/>
   }).slice(0, 14) || []
 
-  pgBrushes.push(<Unlockable isTiny interfaceId={PLAYGROUND_CANVAS_ID + '/addBrush'}>
+  pgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
     <Button size="fit" onClick={() => {
       openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
     }}>
@@ -69,7 +69,7 @@ const BrushList = ({
     return <BrushItem key={i} brushId={brushId}/>
   }).slice(0, 14) || []
 
-  fgBrushes.push(<Unlockable isTiny interfaceId={FOREGROUND_CANVAS_ID + '/addBrush'}>
+  fgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
     <Button size="fit" onClick={() => {
       openCreateBrushFlow(FOREGROUND_CANVAS_ID)
     }}>
@@ -150,29 +150,6 @@ const BrushList = ({
       listId="BrushList"
       accordians={accordians}
     />
-    {isCreateBrushFlowOpen && <CreateBrushFlow 
-      onComplete={(brush) => {
-        if(!brush.textureId) {   
-          if(brush.tint) {
-            editGameModel({
-              colors: {
-                [brush.tint]: {
-                  [brush.canvasId]: true
-                }
-              }
-            })
-          }
-        } else {
-          const brushId = BRUSH_ID_PREFIX+generateUniqueId()
-          editGameModel({
-            brushes: {
-              [brushId] : brush
-            }
-          })
-        }
-
-    }}/>
-  }
   </div>
 };
 

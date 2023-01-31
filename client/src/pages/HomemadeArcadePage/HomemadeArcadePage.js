@@ -38,6 +38,7 @@ const HomemadeArcadePage = ({ auth, reseedDatabase }) => {
   return (
     <Layout>
       <div className="HomemadeArcadePage">
+        <div className="HomemadeArcadePage__placeholder">
         <Fade in timeout={{ enter: 3000 }}><div><Constellation>
           <Fade in timeout={{ enter: 5000 }}>
             <div>
@@ -48,6 +49,7 @@ const HomemadeArcadePage = ({ auth, reseedDatabase }) => {
             </div>
           </Fade>
         </Constellation></div></Fade>
+        </div>
         <div  ref={gameListRef}><GameList publishedOnly></GameList></div>
       </div>
     </Layout>

@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 import Phaser from "phaser";
+import store from "../../../store";
+import { changeControlPopup } from "../../../store/actions/gameContextActions";
 import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../constants";
 import { Sprite } from "./Sprite";
 
@@ -138,6 +140,16 @@ export class InteractArea extends Sprite {
       closestInteractable: null,
       closestDistance: Infinity,
       relations: []
+    }
+
+    if(this.interactables.length) {
+      if(!store.getState().gameContext.controlsToPres) {
+        store.dispatch(changeControlPopup({
+          key: 'x'
+        }))
+      }
+    } else if(store.getState().gameContext.controlsToPress) {
+      store.dispatch(changeControlPopup(null))
     }
 
     this.interactables.forEach(({entitySprite}) => {

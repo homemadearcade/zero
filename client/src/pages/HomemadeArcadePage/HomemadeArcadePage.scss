@@ -4,4 +4,8 @@
   position: absolute;
   top: 0;
   left: 0;
+
+  &__placeholder {
+    height: 100vh;
+  }
 }

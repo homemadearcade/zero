@@ -168,7 +168,7 @@ export const handleCobrowsingUpdates = store => next => action => {
 
   const state = store.getState()
 
-  console.log(action)
+  // console.log(action)
 
   // is this action connected to cobrowsing?
   if(action.updateCobrowsing && state.lobby.lobby?.id) {
@@ -222,7 +222,6 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     window.addEventListener('keyup', onCobrowsingKeyUp)
     window.addEventListener('mousedown', onEditorClick) 
     window.addEventListener('wheel', sendCobrowsingStatus);
-
 
     dispatch({
       type: START_COBROWSING_SUCCESS,

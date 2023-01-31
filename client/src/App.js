@@ -175,7 +175,6 @@ const theme = createTheme({
   },
 });
 
-
 const App = ({ }) => {
   const wrapComponentInApp = (Component) => (props) => {
     return <AppPage>

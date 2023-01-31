@@ -58,7 +58,7 @@ const LobbyCommandCenter = ({
         }),
         unlockThis('Playground Sprite Brush', 
           {
-            [PLAYGROUND_CANVAS_ID+'/addBrush']: true,
+            ['addBrush']: true,
             [PLAYGROUND_CANVAS_ID+'/brushSelect']: true,
             ['chooseSprites']: true,
           }),

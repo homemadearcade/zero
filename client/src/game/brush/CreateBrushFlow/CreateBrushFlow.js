@@ -15,7 +15,7 @@ import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow,  gameFormEditor: { brush }}) => {
   function handleClose() {
     closeCreateBrushFlow()
-    clearGameFormEditor()
+    // clearGameFormEditor()
   }
 
   return <CobrowsingModal open={true} onClose={handleClose}>

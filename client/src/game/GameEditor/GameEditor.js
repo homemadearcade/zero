@@ -12,7 +12,7 @@ import SectionEditor from '../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../stages/SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
-import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
+import { BRUSH_ID_PREFIX, PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
 import { changeGameState } from '../../store/actions/gameContextActions';
 import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../cutscene/CutscenesMenu/CutscenesMenu';
@@ -30,19 +30,23 @@ import Dialog from '../../ui/Dialog/Dialog';
 import StagesMenu from '../stages/StagesMenu/StagesMenu';
 import CreateStage from '../stages/CreateStage/CreateStage';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
+import CreateBrushFlow from '../brush/CreateBrushFlow/CreateBrushFlow';
+import { generateUniqueId } from '../../utils/webPageUtils';
+import { editGameModel } from '../../store/actions/gameModelActions';
 
 const GameEditor = ({ 
   classNames, 
   gameEditor: { isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
-  gameFormEditor: { isCreateCutsceneOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
+  gameFormEditor: { isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
   rightColumn, 
   children, 
   changeGameState, 
+  editGameModel,
   clearEditor, 
   clearGameFormEditor, 
   clearGameViewEditor,
@@ -105,6 +109,27 @@ const GameEditor = ({
         {viewingJson.id}<br/><br/>
         {viewingJson.classId}<br/><br/>
       </Dialog>}
+      {isCreateBrushFlowOpen && <CreateBrushFlow 
+        onComplete={(brush) => {
+          if(!brush.textureId) {   
+            if(brush.tint) {
+              editGameModel({
+                colors: {
+                  [brush.tint]: {
+                    [brush.canvasId]: true
+                  }
+                }
+              })
+            }
+          } else {
+            const brushId = BRUSH_ID_PREFIX+generateUniqueId()
+            editGameModel({
+              brushes: {
+                [brushId] : brush
+              }
+            })
+          }
+     }}/>}
     </div>
   </>
 };
@@ -122,5 +147,6 @@ export default connect(mapStateToProps, {
   clearGameFormEditor, 
   clearGameViewEditor, 
   changeGameState,
-  closeJsonViewer
+  closeJsonViewer,
+  editGameModel,
 })(GameEditor);

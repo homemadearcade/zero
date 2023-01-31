@@ -147,7 +147,7 @@ const ClassList = ({
     </div>
   })
 
-  dialogueScenes.push(<Unlockable interfaceId={'/addDialogue'}>
+  dialogueScenes.push(<Unlockable interfaceId={'addDialogue'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateCutscene({
         inDialogueMenu: true

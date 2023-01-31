@@ -12,11 +12,12 @@ import {
   OPEN_CUTSCENE,
   PROGRESS_CUTSCENE,
   START_CLOSE_CONSTELLATION,
+  CHANGE_CONTROL_POPUP,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
 export const changeGameState = (gameState, message) => (dispatch, getState) => {
-  saveAllCurrentCanvases()
+  // saveAllCurrentCanvases()
 
   dispatch({
     updateCobrowsing: true,
@@ -36,6 +37,16 @@ export const changePlayerState = ({classId}) => (dispatch, getState) => {
       player: {
         classId
       }
+    }
+  })
+};
+
+export const changeControlPopup = (controlsToPress) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CHANGE_CONTROL_POPUP,
+    payload: {
+        controlsToPress
     }
   })
 };
