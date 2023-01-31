@@ -67,9 +67,6 @@ const theme = createTheme({
         component: LinkBehavior,
       },
     },
-    MuiButtonBase: {
-
-    },
     MuiTypography: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
@@ -138,7 +135,8 @@ const theme = createTheme({
         },
         content: {
           marginTop: '.75rem',
-          marginBottom: '.75rem'
+          marginBottom: '.75rem',
+          textAlign: 'left'
         }
       }
     },

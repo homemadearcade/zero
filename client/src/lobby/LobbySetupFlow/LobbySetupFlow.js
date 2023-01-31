@@ -33,7 +33,6 @@ const LobbySetupFlow = ({
   lobby: { lobby },
   completeCloseConstellation, 
   openConstellation,
-  openSetupDefaultsModal,
   changeGameState,
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
@@ -427,5 +426,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { openSetupDefaultsModal, editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState, openGameMetadataModal }),
+  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState }),
 )(LobbySetupFlow);

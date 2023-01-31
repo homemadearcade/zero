@@ -10,16 +10,20 @@ import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
 import AgoraToolbar from '../agora/AgoraToolbar/AgoraToolbar';
 import Tabs from '../../ui/Tabs/Tabs';
 import LobbyCommandCenter from '../LobbyCommandCenter/LobbyCommandCenter';
+import AgoraUserVideo from '../agora/AgoraUserVideo/AgoraUserVideo';
 
 const LobbyDashboard = ({
   lobby: { lobby },
   myTracks,
+  userTracks,
   video: { isInsideVideoCall },
 }) => {
+  
   return (
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
         <div className="LobbyDashboard__preview">
+          <AgoraUserVideo className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}></AgoraUserVideo>
           <ExperiencePreview userId={lobby.participantId}/>
         </div>
         <Tabs tabs={[

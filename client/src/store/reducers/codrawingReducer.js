@@ -14,7 +14,7 @@ import {
 
 const initialState = {
   error: null,
-  isSubscribingCobrowsing: false,
+  isSubscribingCodrawing: false,
   isUndoing: false
   // codrawingCanvasIds: {
   //   [BACKGROUND_CANVAS_ID]: false,

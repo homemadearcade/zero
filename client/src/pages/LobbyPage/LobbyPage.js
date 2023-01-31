@@ -185,7 +185,7 @@ const LobbyPage = ({
   return <Switch>
       <Route exact path={path}>
         <WithCobrowsing userId={lobby.participantId}>
-          <LobbyDashboard myTracks={myTracks}/>
+          <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
         </WithCobrowsing>
         {renderLobbyAdminExperience()}
         {renderLobbyConnection()}

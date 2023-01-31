@@ -22,6 +22,8 @@ const AgoraUserVideo = ({ hideOverlay, className, userId, label, auth: { me }, m
     return <div style={{width, height}} className={className}/>
   }
 
+  console.log(width, height)
+
   return <div className={className} style={{width, height}}>
     <AgoraVideo
     hideOverlay={hideOverlay}

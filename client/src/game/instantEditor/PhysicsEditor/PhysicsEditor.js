@@ -14,6 +14,7 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import _, { last } from 'lodash';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
 import SelectSides from '../../ui/SelectSides/SelectSides';
+import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 
 
 // {false && <Unlockable interfaceId="physics/toggle/useMass">
@@ -58,6 +59,16 @@ import SelectSides from '../../ui/SelectSides/SelectSides';
 //   }}
 //   value={classSelected.frictionStatic}
 // />}
+
+
+      // <Switch
+      //   labels={['Does not collide', 'Does collide']}
+      //   size="small"
+      //   onChange={(e) => {
+      //     editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        
+      //   }}
+      //   checked={classSelected.collisionResponse.immovable}
+      // />
 
 const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
@@ -131,6 +142,8 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
       {classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>
         also collides with Player because this is on the Playground Layer
       </div>}
+      <ClassMemberTitle classId={classId} title="Collides with self?"></ClassMemberTitle>
+
       <Unlockable interfaceId="physics/ignoreSides">
         <SelectSides
           formLabel="Ignore Sides"
