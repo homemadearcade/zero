@@ -618,9 +618,11 @@ export class GameInstance extends Phaser.Scene {
       this.scene.start(currentStageId, this.props)
     }
 
-    const currentPlayerId = getCobrowsingState().gameContext.player.classId
-    if(this.playerInstance.classId !== currentPlayerId) {
-      store.dispatch(changePlayerState({classId: this.playerInstance.classId}))
+    if(store.getState().cobrowsing.isActivelyCobrowsing === false) {
+      let currentPlayerId = store.getState().gameContext.player.classId
+      if(this.playerInstance.classId !== currentPlayerId) {
+        store.dispatch(changePlayerState({classId: this.playerInstance.classId}))
+      }
     }
   }
 

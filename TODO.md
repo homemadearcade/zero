@@ -29,3 +29,6 @@ BUGS
   User Disonnect, fkin wierd man. It shows up in lobby now because they can send that message even when not logged in 
 
   Scroll bar showing up in the class menu??
+
+  Generate an Id for at the game and send with an update to prevent possible double updating 
+  Double updating… what’s up with that, we CANNOT let two games exist the same time. PERIOD

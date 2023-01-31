@@ -37,6 +37,10 @@ const Cutscene = ({ gameModel: { gameModel }, gameContext: { cutsceneId, cutscen
   if(!gameModel) return null 
 
   const { cutscenes } = gameModel
+
+  if(!cutscenes[cutsceneId].scenes[cutsceneIndex]) {
+    return <CutsceneBody text={'Hello World'} progressActiveCutscene={progressActiveCutscene} />
+  }
   
   const { imageUrl, text } = cutscenes[cutsceneId].scenes[cutsceneIndex]
 

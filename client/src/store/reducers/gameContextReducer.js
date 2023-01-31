@@ -42,13 +42,13 @@ export default function gameContextReducer(state = initialState, { type, payload
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
 
-        if(scene) {
-          if(scene.isPlaythrough) {
-            store.dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
-          } else {
-            store.dispatch(changeGameState(PAUSED_STATE))
-          }
-        }
+        // if(scene) {
+        //   if(scene.isPlaythrough) {
+        //     store.dispatch(changeGameState(PLAYTHROUGH_PAUSED_STATE))
+        //   } else {
+        //     store.dispatch(changeGameState(PAUSED_STATE))
+        //   }
+        // }
       
         const { imgCanvas } = await scene.getImageFromGame('constellation')
 

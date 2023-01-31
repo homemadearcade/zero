@@ -147,7 +147,7 @@ const ClassList = ({
     </div>
   })
 
-  dialogueScenes.push(<Unlockable interfaceId={'/addDialog'}>
+  dialogueScenes.push(<Unlockable interfaceId={'/addDialogue'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateCutscene({
         inDialogueMenu: true
@@ -223,7 +223,7 @@ const ClassList = ({
     })
   }
 
-    if(!getInterfaceIdData(CUTSCENE_ID_PREFIX + '/*').isObscured) {
+    if(!getInterfaceIdData('addDialogue').isObscured) {
     accordians.push({
       id: 'Dialogue',
       title: <>

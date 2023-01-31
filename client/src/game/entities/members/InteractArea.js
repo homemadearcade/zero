@@ -161,10 +161,13 @@ export class InteractArea extends Sprite {
     }
 
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
+      console.log(interactPossibility)
       interactPossibility.relations.forEach((relation) => {
-        if(relation.effectInteractable) {
+        if(relation.effect.effectInteractable) {
+          console.log(relation.effect.type, closestInteractable.id)
           this.scene.getObjectInstance(closestInteractable.id).runAccuteEffect(relation, this.objectInstance)
         } else {
+          console.log(this.objectInstance.id)
           this.objectInstance.runAccuteEffect(relation, closestInteractable)
         }
 

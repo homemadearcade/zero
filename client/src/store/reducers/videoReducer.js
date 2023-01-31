@@ -13,14 +13,14 @@ import {
 } from '../types';
 
 function defaultBypass() {
-  return inIframe() //|| isLocalHost()
+  return isLocalHost()
 }
 
 const initialState = {
   videoTrackId: null,
   audioTrackId: null,
   isInsideVideoCall: false,
-  isConnectingToVideoCall: false,
+  isConnectingToVideoCall: inIframe(),
   cutVideo: false,
   cutAudio: false,
   error: null,

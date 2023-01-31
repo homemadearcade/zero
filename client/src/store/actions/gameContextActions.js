@@ -31,7 +31,6 @@ export const changeGameState = (gameState, message) => (dispatch, getState) => {
 
 export const changePlayerState = ({classId}) => (dispatch, getState) => {
   dispatch({
-    updateCobrowsing: true,
     type: CHANGE_PLAYER_STATE,
     payload: {
       player: {
@@ -127,14 +126,14 @@ export const startCloseConstellation = ({ forceCobrowsingUpdate }) => (dispatch,
 
 export const completeCloseConstellation = ({ forceCobrowsingUpdate }) => (dispatch, getState) => {
   // externalForceCobrowsingUpdateUserId
-  const scene = getCurrentGameScene(getState().webPage.gameInstance)
-  if(scene) {
-    if(scene.isPlaythrough) {
-      dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
-    } else {
-      dispatch(changeGameState(PLAY_STATE))
-    }
-  }
+  // const scene = getCurrentGameScene(getState().webPage.gameInstance)
+  // if(scene) {
+  //   if(scene.isPlaythrough) {
+  //     dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+  //   } else {
+  //     dispatch(changeGameState(PLAY_STATE))
+  //   }
+  // }
 
 
   dispatch({

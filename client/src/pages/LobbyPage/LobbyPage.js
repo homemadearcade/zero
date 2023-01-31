@@ -133,36 +133,28 @@ const LobbyPage = ({
     }
 
     if(lobby.experienceState === MONOLOGUE_UI) {
-      return <div className="LobbyMonologueView">
-        <div className="LobbyMonologueView__body">
-        <div className="LobbyMonologueView__dialogue-text">
-          {lobby.monologueText}
-        </div>
-
-          {isInsideVideoCall && <AgoraUserVideo
-            className="LobbyMonologueView__listener"
-            myTracks={myTracks}
-            userTracks={userTracks}
-            userId={lobby.participantId}
-          ></AgoraUserVideo>}
-          {isInsideVideoCall && <AgoraUserVideo
-            className="LobbyMonologueView__speaker"
-            myTracks={myTracks}
-            userTracks={userTracks}
-            userId={lobby.guideId}
-          ></AgoraUserVideo>}
-        </div>
-
-        <Divider></Divider>
-        <Typography variant="h5">Leave Monologue</Typography>
-        <SelectExperienceState
-          value={[lobby.experienceState]}
-          onChange={(event, experienceState) => {
-            editLobby(lobby.id, {
-              experienceState: experienceState
-            })       
-          }}/>
-      </div>
+      // return <div className="LobbyMonologueView">
+      //   <div className="LobbyMonologueView__body">
+      //     <div className="LobbyMonologueView__dialogue-text">
+      //       {lobby.monologueText}
+      //     </div>
+      //     {isInsideVideoCall && <AgoraUserVideo
+      //       className="LobbyMonologueView__speaker"
+      //       myTracks={myTracks}
+      //       userTracks={userTracks}
+      //       userId={lobby.guideId}
+      //     ></AgoraUserVideo>}
+      //   </div>
+      //   <Divider></Divider>
+      //   <Typography variant="h5">Leave Monologue</Typography>
+      //   <SelectExperienceState
+      //     value={[lobby.experienceState]}
+      //     onChange={(event, experienceState) => {
+      //       editLobby(lobby.id, {
+      //         experienceState: experienceState
+      //       })       
+      //     }}/>
+      // </div>
     }
   }
 

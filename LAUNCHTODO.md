@@ -3,6 +3,12 @@ NOW
 
   Collides with self toggle
 
+  Press X needs to appear when you can intereact with something
+
+  A View that lets you just select and open shit up??
+
+  Review drawing saving. We know that they draw alot at the beginning
+
 SMALL THINGS
   For prologues games spencer made - Fix zones that are not on playground layer 
 
@@ -14,6 +20,7 @@ WRAPPING UP
   Another Lobby View - Arcade View. We send them to the main page inside of an iframe or just a game list?
   
 ---
+
 
 EMAILS
   Forgot Password - email Flow
