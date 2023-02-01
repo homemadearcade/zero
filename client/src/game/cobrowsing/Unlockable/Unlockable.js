@@ -10,9 +10,23 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { Fade, MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
-import { setMouseOverInterfaceId, toggleUnlockableInterfaceLocks } from '../../../store/actions/cobrowsingActions';
+import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
 
-const Unlockable = ({setMouseOverInterfaceId, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, toggleUnlockableInterfaceLocks, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { mouseOverInterfaceId }, width, height}) => {
+const Unlockable = ({
+  setMouseOverInterfaceId,
+  hideLockToggle,
+  className,
+  unlockableInterfaceIds,
+  lockInterfaceId,
+  selectCobrowsingTool,
+  unlockInterfaceId,
+  interfaceId,
+  children,
+  isSlider,
+  cobrowsing: { mouseOverInterfaceId }, 
+  width,
+  height
+}) => {
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
   // window.allInterfaceIds.push(interfaceId)
@@ -38,7 +52,7 @@ const Unlockable = ({setMouseOverInterfaceId, hideLockToggle, className, unlocka
       }
       onClick={() => {
         unlockInterfaceId(interfaceId)
-        toggleUnlockableInterfaceLocks(false)
+        selectCobrowsingTool(null)
       }}
       onMouseEnter={() => {
         setMouseOverInterfaceId(interfaceId)
@@ -71,5 +85,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { unlockInterfaceId, lockInterfaceId, setMouseOverInterfaceId, toggleUnlockableInterfaceLocks  }),
+  connect(mapStateToProps, { unlockInterfaceId, lockInterfaceId, setMouseOverInterfaceId, selectCobrowsingTool  }),
 )(Unlockable);

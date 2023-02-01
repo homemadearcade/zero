@@ -1,0 +1,12 @@
+.CobrowsingToolbar {
+  position: absolute;
+  left: 45%;
+  top: .5em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 1em;
+  .MuiIconButton-root {
+      z-index: 1002;
+  }
+}

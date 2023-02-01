@@ -23,6 +23,7 @@ import {
   LOCK_INTERFACE,
   UNLOCK_INTERFACE,
   SET_MOUSE_OVER_INTERFACE_ID,
+  SELECT_COBROWSING_TOOL,
 } from '../types';
 
 import store from '..';
@@ -91,43 +92,12 @@ function onEditorKeyUp(event) {
   if(!state.cobrowsing.isSubscribedCobrowsing) return
   if(!event.key) return
   if(event.key.toLowerCase() === '\\'){
-    if(store.getState().cobrowsing.isActivelyCobrowsing) {
-      store.dispatch({
-        type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS, 
-        payload: {
-          value: true
-        }
-      })
-      store.dispatch({
-        type: TOGGLE_COBROWSING,
-        payload: {
-          value: false
-        }
-      })
-    } else if(store.getState().cobrowsing.showUnlockableInterfaceLocks) {
-      store.dispatch({
-        type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS, 
-        payload: {
-          value: false
-        }
-      })
-      store.dispatch({
-        type: TOGGLE_COBROWSING,
-        payload: {
-          value: false
-        }
-      })
-    } else {
-      store.dispatch({
-        type: TOGGLE_COBROWSING,
-        payload: {
-          value: true
-        }
-      })
-    }
-    
-
-
+    store.dispatch({
+      type: TOGGLE_COBROWSING,
+      payload: {
+        value: !store.getState().cobrowsing.isActivelyCobrowsing
+      }
+    })
   }
 }
 
@@ -392,7 +362,7 @@ export const toggleActiveCobrowsing = (value) => (dispatch, getState) => {
   store.dispatch({
     type: TOGGLE_COBROWSING,
     payload: {
-      value: value === undefined ? !getState().cobrowsing.isActivelyCobrowsing : value
+      value: !getState().cobrowsing.isActivelyCobrowsing
     }
   })
 }
@@ -411,6 +381,15 @@ export const setMouseOverInterfaceId = (interfaceId) => (dispatch, getState) => 
     type: SET_MOUSE_OVER_INTERFACE_ID,
     payload: {
       interfaceId,
+    }
+  })
+}
+
+export const selectCobrowsingTool = (toolId) => (dispatch, getState) => {
+  store.dispatch({
+    type: SELECT_COBROWSING_TOOL,
+    payload: {
+      toolId
     }
   })
 }

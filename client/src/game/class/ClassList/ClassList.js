@@ -210,7 +210,6 @@ const ClassList = ({
     })
   }
 
-  if(!getInterfaceIdData(ZONE_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'Zones',
       interfaceId: ZONE_INSTANCE_CANVAS_ID + '/*',
@@ -225,7 +224,6 @@ const ClassList = ({
         items={zoneClasses}
       />
     })
-  }
 
     if(!getInterfaceIdData('addDialogue').isObscured) {
     accordians.push({

@@ -9,7 +9,7 @@
   // &--not-cobrowsing {
   // }
 
-  transition: all;
+  transition-property: background-color;
 
   &--cobrowsing {
     height: calc(100vh - 2px);

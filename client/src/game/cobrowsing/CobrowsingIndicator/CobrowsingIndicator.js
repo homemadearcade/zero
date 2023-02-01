@@ -4,58 +4,27 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import Icon from '../../../ui/Icon/Icon';
-import { toggleActiveCobrowsing, toggleUnlockableInterfaceLocks } from '../../../store/actions/cobrowsingActions';
-
 import './CobrowsingIndicator.scss'
-import ButtonGroup from '../../../ui/ButtonGroup/ButtonGroup';
-
+import Switch from '../../../ui/Switch/Switch';
+import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
 
 const CobrowsingIndicator = ({
-  cobrowsing: { isSubscribedCobrowsing, isActivelyCobrowsing, showUnlockableInterfaceLocks },
-  toggleActiveCobrowsing,
-  toggleUnlockableInterfaceLocks
+  cobrowsing: { isSubscribedCobrowsing, isActivelyCobrowsing },
+  toggleActiveCobrowsing
 }) => {
   if(!isSubscribedCobrowsing) return null
 
-  function getCobrowsingUI() {
-    if(isActivelyCobrowsing) {
-      return 'COBROWSE_ACTIVE'
-    } else if(showUnlockableInterfaceLocks) {
-      return 'COBROWSE_UNLOCK'
-    } else {
-      return 'COBROWSE_EDIT'
-    }
-}
-  
   return <div
     className="CobrowsingIndicator"
+    onClick={async () => {
+      toggleActiveCobrowsing()
+    }}
   > 
-    <ButtonGroup orientation="vertical" value={getCobrowsingUI()} options={[
-      {
-        value: 'COBROWSE_EDIT',
-        icon: <Icon size="xl" icon="faPenToSquare"></Icon>
-      },
-      {
-        value: 'COBROWSE_ACTIVE',
-        icon: <Icon size="xl" icon="faUserSecret"></Icon>
-      },
-      {
-        value: 'COBROWSE_UNLOCK',
-        icon: <Icon size="xl" icon="faUserLock"></Icon>
-      }
-    ]} onSelectOption={(event, value) => {
-      if(value === 'COBROWSE_ACTIVE') {
-        toggleActiveCobrowsing(true)
-        toggleUnlockableInterfaceLocks(true)
-      } else if(value === 'COBROWSE_UNLOCK') {
-        toggleActiveCobrowsing(true)
-        toggleUnlockableInterfaceLocks(true)
-      } else if(value === 'COBROWSING_EDIT') {
-        toggleActiveCobrowsing(false)
-        toggleUnlockableInterfaceLocks(false)
-      }
-    }}>
-    </ButtonGroup>
+    <Icon icon="faPenToSquare"/>
+    <Switch
+      size="small"
+      checked={!isActivelyCobrowsing}
+      />
   </div>
 };
 
@@ -64,5 +33,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { toggleActiveCobrowsing, toggleUnlockableInterfaceLocks }),
+  connect(mapStateToProps, { toggleActiveCobrowsing }),
 )(CobrowsingIndicator);

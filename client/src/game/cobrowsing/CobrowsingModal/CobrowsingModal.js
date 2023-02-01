@@ -26,11 +26,10 @@ const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, h
     }
 
   }, [])
-  
+
+  //z-index
   return <Backdrop
-    sx={{ color: '#fff', zIndex: (theme) => {
-      return theme.zIndex.drawer + zIndexIncrease
-    }}}
+    sx={{ color: '#fff', zIndex: 1000 + zIndexIncrease}}
     open={open}
     onClick={false && onClose}
   >

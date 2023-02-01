@@ -223,3 +223,8 @@ export const classTypeToPrefix = {
   [BASIC_CLASS]: BASIC_CLASS_TYPE_PREFIX,
   [NPC_CLASS]: NPC_CLASS_TYPE_PREFIX
 }
+
+
+// COBROWSING TOOLS
+export const UNLOCK_TOOL = 'UNLOCK_TOOL'
+export const OPEN_TOOL = 'OPEN_TOOL'

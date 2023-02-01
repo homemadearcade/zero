@@ -9,6 +9,7 @@ import AgoraVideoLayoutHA from '../../lobby/agora/AgoraVideoLayoutHA/AgoraVideoL
 import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import askFullscreen from '../../hoc/askFullscreen';
+import CobrowsingToolbar from '../cobrowsing/CobrowsingToolbar/CobrowsingToolbar';
 
 const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isActivelyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
   return <GameEditor 
@@ -20,6 +21,7 @@ const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, 
       </>}
     >
       {children}
+      {isActivelyCobrowsing && <CobrowsingToolbar/>}
       {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
     </GameEditor>
 };

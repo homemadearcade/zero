@@ -25,7 +25,7 @@ import BrushItem from '../../brush/BrushItem/BrushItem';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes } }, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes, classes } }, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -85,6 +85,11 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
   }).slice(0, 42) || []
 
 
+  // Object.keys(classes).forEach((classId) => {
+  //   const textureId = classes[classId].graphics.textureId;
+  //   brushList.push()
+  // })
+
   // cannot happen here cuz. of ... recursion?
   // brushList.push(<Unlockable isTiny interfaceId='addBrush'>
   //     <Button size="fit" onClick={() => {
@@ -95,7 +100,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
   // </Unlockable>)
 
   return (
-    <CobrowsingModal open={true} width="110vh" height="70vh" onClose={handleClose}>
+    <CobrowsingModal open={true} width="110vh" zIndexIncrease={10} height="70vh" onClose={handleClose}>
       <div className="SpriteEditor">
         <div className="SpriteEditor__left-column">
           <BrushControl/>

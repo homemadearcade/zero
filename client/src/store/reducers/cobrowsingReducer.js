@@ -15,6 +15,7 @@ import {
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
   INITIALIZE_COBROWSING_STATE,
   SET_MOUSE_OVER_INTERFACE_ID,
+  SELECT_COBROWSING_TOOL,
 } from '../types';
 
 import { initialContextMenuState } from './contextMenuReducer';
@@ -38,6 +39,7 @@ const initialState = {
   showUnlockableInterfaceLocks: false,
   error: null,
   cobrowsingUser: false,
+  selectedTool: null,
   remoteState: {
     video: initialVideoState,
     gameEditor: initialGameEditorState,
@@ -137,6 +139,11 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         remoteState: {...payload.remoteState }
       };
+    case SELECT_COBROWSING_TOOL:
+      return {
+        ...state,
+        selectedTool: payload.toolId
+      }
     default:
       return state;
   }

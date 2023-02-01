@@ -14,7 +14,7 @@ import { ADMIN_ROLE } from '../constants';
 const ObscuredGameView = ({
   auth: { me },
   lobby: { lobby },
-  cobrowsing: { showUnlockableInterfaceLocks, cobrowsingUser, isActivelyCobrowsing }
+  cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
 
