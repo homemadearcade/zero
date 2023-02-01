@@ -7,29 +7,34 @@ import './Unlockable.scss';
 import Icon from '../../../ui/Icon/Icon';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
-import { Fade, MenuItem } from '@mui/material';
+import { Fade } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
+import { ADMIN_ROLE, OPEN_TOOL, UNLOCK_TOOL } from '../../constants';
 
 const Unlockable = ({
+  auth: { me },
+  adminOnly,
   setMouseOverInterfaceId,
   hideLockToggle,
   className,
-  unlockableInterfaceIds,
   lockInterfaceId,
   selectCobrowsingTool,
   unlockInterfaceId,
   interfaceId,
   children,
   isSlider,
-  cobrowsing: { mouseOverInterfaceId }, 
+  cobrowsing: { mouseOverInterfaceId, selectedTool }, 
   width,
   height
 }) => {
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
-  // window.allInterfaceIds.push(interfaceId)
+  window.allInterfaceIds.push(interfaceId)
+
+  if(adminOnly && me?.role !== ADMIN_ROLE) {
+    return null
+  }
 
   const customClassName = className + ' id-' + interfaceId
 
@@ -50,9 +55,14 @@ const Unlockable = ({
           }
         )
       }
-      onClick={() => {
-        unlockInterfaceId(interfaceId)
-        selectCobrowsingTool(null)
+      onClick={(e) => {
+        if(selectedTool === UNLOCK_TOOL) {
+          unlockInterfaceId(interfaceId)
+        }
+
+        if(!e.shiftKey) {
+          selectCobrowsingTool(null)
+        }
       }}
       onMouseEnter={() => {
         setMouseOverInterfaceId(interfaceId)
@@ -67,10 +77,32 @@ const Unlockable = ({
 
   if(isObscured) return null
 
+  function shouldShowCover() {
+    if(selectedTool === UNLOCK_TOOL) {
+      return !hideLockToggle && !adminOnly && !isUnlocked
+    }
+    if(selectedTool === OPEN_TOOL) {
+      return false
+    }
+  }
+
+  function isOpenable() {
+    if(selectedTool=== OPEN_TOOL) {
+      return !hideLockToggle
+    }
+  }
+
   if(isLockToggleable) {
-    return <div className={classNames(customClassName + " Unlockable Unlockable--unlocked")}>
+    return <div 
+      onClick={(e) => {
+        if(selectedTool === OPEN_TOOL && !e.shiftKey) {
+          selectCobrowsingTool(null)
+        }
+      }}
+      className={classNames(customClassName + " Unlockable Unlockable--unlocked", { 'Unlockable--openable': isOpenable() })}
+    >
       {renderChildren()}
-      {!hideLockToggle && !isUnlocked && renderCover()}
+      {shouldShowCover() && renderCover()}
     </div>
   }
 
@@ -80,7 +112,6 @@ const Unlockable = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   unlockableInterfaceIds: state.unlockableInterfaceIds,
   auth: state.auth,
-  lobby: state.lobby,
   cobrowsing: state.cobrowsing
 });
 

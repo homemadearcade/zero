@@ -4,9 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './BrushList.scss';
-import { editGameModel } from '../../../store/actions/gameModelActions';
 import BrushItem from '../../brush/BrushItem/BrushItem';
-import CreateBrushFlow from '../CreateBrushFlow/CreateBrushFlow';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 import { BACKGROUND_CANVAS_ID, BRUSH_ID_PREFIX, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import Button from '../../../ui/Button/Button';
@@ -19,13 +17,9 @@ import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
-import { generateUniqueId } from '../../../utils/webPageUtils';
 
 const BrushList = ({
   gameModel: { gameModel },
-  gameFormEditor: { isCreateBrushFlowOpen },
-  editGameModel,
   openCreateBrushFlow,
 }) => {
   const brushes = gameModel?.brushes
@@ -79,73 +73,68 @@ const BrushList = ({
 
   const accordians = []
 
-  if(!getInterfaceIdData(BACKGROUND_CANVAS_ID + '/*').isObscured) {
-    accordians.push({
-      id: 'Background',
-      interfaceId: BACKGROUND_CANVAS_ID + '/*',
-      title: <>
-        <Typography component="div" variant="subtitle1">Background</Typography>
-        <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
-      </>,
-      body: <>
-        <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
-        <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
-        <Unlockable interfaceId={BACKGROUND_CANVAS_ID + "/brushSelect"}>
+  accordians.push({
+    id: 'Background',
+    interfaceId: BACKGROUND_CANVAS_ID + '/colorSelect',
+    title: <>
+      <Typography component="div" variant="subtitle1">Background</Typography>
+      <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
+    </>,
+    body: <>
+      <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
+      <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
+      <Unlockable interfaceId={BACKGROUND_CANVAS_ID + "/brushSelect"}>
+        <div className="BrushList__brushes">
+          <BorderedGrid 
+          maxItems={15} 
+          size="3.5vh"
+          items={bgBrushes}/>
+        </div>
+      </Unlockable>
+    </>
+  })
+
+  accordians.push({
+    id: 'Playground',
+    interfaceId: PLAYGROUND_CANVAS_ID + '/colorSelect',
+    title: <>
+      <Typography component="div" variant="subtitle1">Playground</Typography>
+      <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
+    </>,
+    body: <>
+      <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
+      <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
+      <Unlockable interfaceId={PLAYGROUND_CANVAS_ID + "/brushSelect"}>
+        <div className="BrushList__brushes">
+          <BorderedGrid 
+            maxItems={15} 
+            size="3.5vh"
+            items={pgBrushes}/>
+        </div>
+      </Unlockable>
+    </>
+  })
+
+  accordians.push({
+    id: 'Foreground',
+    interfaceId: FOREGROUND_CANVAS_ID + '/colorSelect',
+    title: <>
+      <Typography component="div" variant="subtitle1">Foreground</Typography>
+      <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
+    </>,
+    body: <>
+      <EraserSelect canvasId={FOREGROUND_CANVAS_ID}/>
+      <LayerColorSelect canvasId={FOREGROUND_CANVAS_ID}/>
+        <Unlockable interfaceId={FOREGROUND_CANVAS_ID + "/brushSelect"}>
           <div className="BrushList__brushes">
             <BorderedGrid 
             maxItems={15} 
             size="3.5vh"
-            items={bgBrushes}/>
+            items={fgBrushes}/>
           </div>
-        </Unlockable>
-      </>
-    })
-  }
-
-  if(!getInterfaceIdData(PLAYGROUND_CANVAS_ID + '/*').isObscured) {
-    accordians.push({
-      id: 'Playground',
-      interfaceId: PLAYGROUND_CANVAS_ID + '/*',
-      title: <>
-        <Typography component="div" variant="subtitle1">Playground</Typography>
-        <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
-      </>,
-      body: <>
-        <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
-        <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
-        <Unlockable interfaceId={PLAYGROUND_CANVAS_ID + "/brushSelect"}>
-          <div className="BrushList__brushes">
-            <BorderedGrid 
-              maxItems={15} 
-              size="3.5vh"
-              items={pgBrushes}/>
-          </div>
-        </Unlockable>
-      </>
-    })
-  }
-  if(!getInterfaceIdData(FOREGROUND_CANVAS_ID + '/*').isObscured) {
-    accordians.push({
-      id: 'Foreground',
-      interfaceId: FOREGROUND_CANVAS_ID + '/*',
-      title: <>
-        <Typography component="div" variant="subtitle1">Foreground</Typography>
-        <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
-      </>,
-      body: <>
-        <EraserSelect canvasId={FOREGROUND_CANVAS_ID}/>
-        <LayerColorSelect canvasId={FOREGROUND_CANVAS_ID}/>
-          <Unlockable interfaceId={FOREGROUND_CANVAS_ID + "/brushSelect"}>
-            <div className="BrushList__brushes">
-              <BorderedGrid 
-              maxItems={15} 
-              size="3.5vh"
-              items={fgBrushes}/>
-            </div>
-        </Unlockable>
-      </>
-    })
-  }
+      </Unlockable>
+    </>
+  })
 
   return <div className="BrushList">
     <BrushControl/>
@@ -158,12 +147,11 @@ const BrushList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameFormEditor: state.gameFormEditor,
   // for the unlockability to show up
   cobrowsing: state.cobrowsing
 })
 
 
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateBrushFlow }),
+  connect(mapStateToProps, { openCreateBrushFlow }),
 )(BrushList);

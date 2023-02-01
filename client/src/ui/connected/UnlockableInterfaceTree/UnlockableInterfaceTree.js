@@ -110,7 +110,7 @@ const StyledTreeItem = styled((props) => {
     //   ],
     // },
 
-window.allInterfaceIds = allInterfaceIds
+window.allInterfaceIds = Object.keys(allInterfaceIds)
 const nodeIdsWithChildren = []
 
 function structureAllInterfaceIds() {
@@ -128,6 +128,8 @@ function structureAllInterfaceIds() {
     previouslySeen[id] = true
     return true
   })
+
+  console.log(window.allInterfaceIds)
 
   window.allInterfaceIds.forEach((id) => {
     const idAliases = getInterfaceIdAliases(id)

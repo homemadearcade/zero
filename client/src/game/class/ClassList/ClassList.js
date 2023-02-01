@@ -16,7 +16,6 @@ import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordia
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, CUTSCENE_ID_PREFIX } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 import { directionalClass, jumperClass } from '../../defaultData/players';
 
@@ -147,7 +146,7 @@ const ClassList = ({
     </div>
   })
 
-  dialogueScenes.push(<Unlockable interfaceId={'addDialogue'}>
+  dialogueScenes.push(<Unlockable interfaceId={'dialogue/addDialogue'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateCutscene({
         inDialogueMenu: true
@@ -159,87 +158,84 @@ const ClassList = ({
 
   const accordians = []
 
-  if(!getInterfaceIdData(PLAYER_INSTANCE_CANVAS_ID + '/*').isObscured) {
-    accordians.push({
-      id: 'players',
-      interfaceId: PLAYER_INSTANCE_CANVAS_ID + '/*',
-      title: <>
-        <Typography component="div" variant="subtitle1">Players</Typography>
-        <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
-      </>,
-      body: <BorderedGrid
-        maxItems={16} 
-        height="7vh"
-        width="9.2vh"
-        items={playerClasses}
-      />
-    })
-  }
+  accordians.push({
+    id: 'players',
+    interfaceId: PLAYER_INSTANCE_CANVAS_ID + '/select',
+    lockBody: true,
+    title: <>
+      <Typography component="div" variant="subtitle1">Players</Typography>
+      <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
+    </>,
+    body: <BorderedGrid
+      maxItems={16} 
+      height="7vh"
+      width="9.2vh"
+      items={playerClasses}
+    />
+  })
 
-  if(!getInterfaceIdData(NPC_INSTANCE_CANVAS_ID + '/*').isObscured) {
-    accordians.push({
-      id: 'NPCs',
-      interfaceId: NPC_INSTANCE_CANVAS_ID + '/*',
-      title: <>
-        <Typography component="div" variant="subtitle1">NPCs</Typography>
-        <LayerVisibility canvasId={NPC_INSTANCE_CANVAS_ID} />
-      </>,
-      body: <BorderedGrid
-        maxItems={16} 
-        height="7vh"
-        width="9.2vh"
-        items={npcClasses}
-      />
-    })
-  }
+  accordians.push({
+    id: 'NPCs',
+    interfaceId: NPC_INSTANCE_CANVAS_ID + '/select',
+    lockBody: true,
+    title: <>
+      <Typography component="div" variant="subtitle1">NPCs</Typography>
+      <LayerVisibility canvasId={NPC_INSTANCE_CANVAS_ID} />
+    </>,
+    body: <BorderedGrid
+      maxItems={16} 
+      height="7vh"
+      width="9.2vh"
+      items={npcClasses}
+    />
+  })
 
-  if(!getInterfaceIdData(BASIC_INSTANCE_CANVAS_ID + '/*').isObscured) {
-    accordians.push({
-      id: 'objects',
-      interfaceId: BASIC_INSTANCE_CANVAS_ID + '/*',
-      title: <>
-        <Typography component="div" variant="subtitle1">Objects</Typography>
-        <LayerVisibility canvasId={BASIC_INSTANCE_CANVAS_ID} />
-      </>,
-      body: <BorderedGrid
-        maxItems={16} 
-        height="7vh"
-        width="9.2vh"
-        items={objectClasses}
-      />
-    })
-  }
+  accordians.push({
+    id: 'objects',
+    interfaceId: BASIC_INSTANCE_CANVAS_ID + '/select',
+    lockBody: true,
+    title: <>
+      <Typography component="div" variant="subtitle1">Objects</Typography>
+      <LayerVisibility canvasId={BASIC_INSTANCE_CANVAS_ID} />
+    </>,
+    body: <BorderedGrid
+      maxItems={16} 
+      height="7vh"
+      width="9.2vh"
+      items={objectClasses}
+    />
+  })
 
-    accordians.push({
-      id: 'Zones',
-      interfaceId: ZONE_INSTANCE_CANVAS_ID + '/*',
-      title: <>
-        <Typography component="div" variant="subtitle1">Zones</Typography>
-        <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
-      </>,
-      body: <BorderedGrid
-        maxItems={16} 
-        height="7vh"
-        width="9.2vh"
-        items={zoneClasses}
-      />
-    })
+  accordians.push({
+    id: 'Zones',
+    interfaceId: ZONE_INSTANCE_CANVAS_ID + '/select',
+    lockBody: true,
+    title: <>
+      <Typography component="div" variant="subtitle1">Zones</Typography>
+      <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
+    </>,
+    body: <BorderedGrid
+      maxItems={16} 
+      height="7vh"
+      width="9.2vh"
+      items={zoneClasses}
+    />
+  })
 
-    if(!getInterfaceIdData('addDialogue').isObscured) {
-    accordians.push({
-      id: 'Dialogue',
-      interfaceId: 'addDialogue',
-      title: <>
-        <Typography component="div" variant="subtitle1">Dialogue</Typography>
-      </>,
-      body: <BorderedGrid
-        maxItems={16} 
-        height="7vh"
-        width="9.2vh"
-        items={dialogueScenes}
-      />
-    })
-  }
+  accordians.push({
+    id: 'Dialogue',
+    interfaceId: 'dialogue/select',
+    lockBody: true,
+    title: <>
+      <Typography component="div" variant="subtitle1">Dialogue</Typography>
+    </>,
+    body: <BorderedGrid
+      maxItems={16} 
+      height="7vh"
+      width="9.2vh"
+      items={dialogueScenes}
+    />
+  })
 
   return <div className="ClassList">
     <CobrowsingAccordianList

@@ -38,7 +38,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
     <div className="CreateClassFlow">
       {objectClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
       {objectClass.isNew === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
-      <Unlockable interfaceId="advanced/invisibleClass adminOnly">
+      <Unlockable adminOnly interfaceId="advanced/invisibleClass adminOnly">
         <Switch
           labels={['Visible', 'Invisible']}
           size="small"
@@ -123,7 +123,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
         }}
         objectClass={objectClass}
       />}
-      {objectClass.isNew && <Unlockable interfaceId="advanced/interfaceLockedClass adminOnly">
+      {objectClass.isNew && <Unlockable adminOnly interfaceId="advanced/interfaceLockedClass adminOnly">
         <Switch
           labels={['Normal', 'Player cannot see unless unlocked']}
           size="small"

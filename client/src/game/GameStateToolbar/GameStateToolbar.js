@@ -38,16 +38,14 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
   //   <Unlockable isTiny interfaceId="toolbar/undo">
   //   <UndoButton onClick={lobby.id ? lobbyUndo : onInstanceUndo}/>
   // </Unlockable>
-
+  // <Unlockable interfaceId="toolbar/undo">
+  //   <Divider orientation="vertical" variant="middle" flexItem sx={{
+  //     mx: 0,
+  //     my: 0,
+  //     color: '#ccc'
+  //   }}/>
+  // </Unlockable>
  return <div className="GameStateToolbar">
-
-  <Unlockable interfaceId="toolbar/undo">
-    <Divider orientation="vertical" variant="middle" flexItem sx={{
-      mx: 0,
-      my: 0,
-      color: '#ccc'
-    }}/>
-  </Unlockable>
   {renderStop()}
   <Unlockable isTiny interfaceId="toolbar/pause">
     <ToolbarIcon 

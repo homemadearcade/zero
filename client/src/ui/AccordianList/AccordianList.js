@@ -58,26 +58,36 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
   function renderSummary({title, interfaceId}) {
 
     const summaryEl = <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-        {title}
-      </AccordionSummary>
+      {title}
+    </AccordionSummary>
 
     if(interfaceId) {
-      return <Unlockable interfaceId={interfaceId}>
-          {summaryEl}
+      return <Unlockable hideLockToggle interfaceId={interfaceId}>
+        {summaryEl}
       </Unlockable>
     } else {
       return summaryEl
     }
-
   }
+
+  function renderBody({body, interfaceId}) {
+    const bodyEl = <AccordionDetails>{body}</AccordionDetails>
+
+    if(interfaceId) {
+      return <Unlockable interfaceId={interfaceId}>
+        {bodyEl}
+      </Unlockable>
+    } else {
+      return bodyEl
+    }
+  }
+
   return (
     <div className="Accordian">
-      {accordianList.filter((item) => !!item).map(({id, title, body, interfaceId}) => {
+      {accordianList.filter((item) => !!item).map(({id, title, body, interfaceId, lockBody}) => {
         return <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
           {renderSummary({title, interfaceId})}
-          <AccordionDetails>
-            {body}
-          </AccordionDetails>
+          {renderBody({body, interfaceId, lockBody})}
         </Accordion>
       })}
     </div>
