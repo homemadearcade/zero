@@ -5,8 +5,7 @@ BIG FEATURES
 INFO BOX 
   Right Click, Left Click, Name of Class
   You should be able to ^ highlight for the cobrowsing user any thing that is an INFOBOX
-  TOOL TIP sort of thing. Perhaps is inside the Unlockable Component. Perhaps we just like...
-  also have other additions to it like -- Information, Highlight click
+  TOOL TIP sort of thing.  We need to be able to HIGHLIGHT a div or UNLOCKABLE
 
 FEATURES
   Sprite sheet editor page
@@ -23,7 +22,6 @@ UI
   Add New Cutscene inside of Create Relation? Add a new Class inside of Create Relation
   
   When there’s no option selectable in the descriptor mode, they expect something to pop up 
-  We need to be able to HIGHLIGHT a div or UNLOCKABLE
 
 BUGS  
   User Disonnect, fkin wierd man. It shows up in lobby now because they can send that message even when not logged in 
