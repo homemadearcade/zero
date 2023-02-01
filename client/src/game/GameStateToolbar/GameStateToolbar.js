@@ -41,7 +41,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
 
  return <div className="GameStateToolbar">
 
-  <Unlockable hideLockToggle interfaceId="toolbar/undo">
+  <Unlockable interfaceId="toolbar/undo">
     <Divider orientation="vertical" variant="middle" flexItem sx={{
       mx: 0,
       my: 0,

@@ -131,7 +131,9 @@ const theme = createTheme({
     MuiAccordionSummary: {
       styleOverrides: {
         root: {
-          minHeight: '0rem'
+          minHeight: '0rem',
+          paddingLeft: '.75rem',
+          paddingRight: '.75rem'
         },
         content: {
           marginTop: '.75rem',

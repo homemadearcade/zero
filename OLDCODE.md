@@ -401,3 +401,31 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
 
 };
+
+
+
+
+
+    // if(hideIfObscured) {
+    //   return null
+    // }
+
+    // IF LOCKED UP THEN JUST SHOW A BLACK WALL
+    return <div className={classNames("Unlockable__cover", {'Unlockable__cover--slider': isSlider})}>
+      <div className={customClassName + " Unlockable Unlockable--obscured"}>
+        {children}
+      </div>
+      <div className="Unlockable__obscured-icon">
+        <Icon icon="faLock" />
+      </div>
+    </div>
+
+
+        // if(isTiny) {
+    //   if(isUnlocked) {
+    //     return renderChildren()
+    //   }
+      
+    //   return renderCover() //<ToggleLockMenu/>
+    // }
+    //      <ToggleLockMenu/>}

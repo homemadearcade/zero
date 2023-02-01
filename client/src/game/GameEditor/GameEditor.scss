@@ -12,9 +12,18 @@
   transition: all;
 
   &--cobrowsing {
-    // height: calc(100vh - 2px);
-    // width: calc(100vh + 40vh - 2px);
+    height: calc(100vh - 2px);
+    width: calc(100vh + 40vh - 2px);
     background-color: rgba(25,0,0);
+    border: 1px solid red;
+
+      .CobrowsingModal__body {
+            background-color: rgba(25, 0, 0);
+              border: 1px solid red;
+      }
+
+      .MuiPaper-root {
+            background-color: rgba(25, 0, 0);      }
   }
 
   .GameView__empty {
@@ -70,4 +79,6 @@
     left: 20vh;
     width: calc(100vh);
   }
+
+
 }

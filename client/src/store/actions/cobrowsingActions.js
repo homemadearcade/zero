@@ -22,6 +22,7 @@ import {
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
   LOCK_INTERFACE,
   UNLOCK_INTERFACE,
+  SET_MOUSE_OVER_INTERFACE_ID,
 } from '../types';
 
 import store from '..';
@@ -401,6 +402,15 @@ export const toggleUnlockableInterfaceLocks = (value) => (dispatch, getState) =>
     type: TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
     payload: {
       value: value === undefined ? !getState().cobrowsing.showUnlockableInterfaceLocks : value
+    }
+  })
+}
+
+export const setMouseOverInterfaceId = (interfaceId) => (dispatch, getState) => {
+  store.dispatch({
+    type: SET_MOUSE_OVER_INTERFACE_ID,
+    payload: {
+      interfaceId,
     }
   })
 }

@@ -10,56 +10,14 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { Fade, MenuItem } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
+import { setMouseOverInterfaceId, toggleUnlockableInterfaceLocks } from '../../../store/actions/cobrowsingActions';
 
-const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { isActivelyCobrowsing, isSubscribedCobrowsing, showUnlockableInterfaceLocks }, width, height}) => {
+const Unlockable = ({setMouseOverInterfaceId, hideLockToggle, className, unlockableInterfaceIds, lockInterfaceId, toggleUnlockableInterfaceLocks, unlockInterfaceId, interfaceId, children, isSlider, cobrowsing: { mouseOverInterfaceId }, width, height}) => {
   const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
 
   // window.allInterfaceIds.push(interfaceId)
 
   const customClassName = className + ' id-' + interfaceId
-
-  function mapIdsToMenuItems(closeMenu) {
-    const list = []
-
-    if(isTiny && children.props.onClick) {
-      const names = interfaceId.split('/')
-      list.push(<MenuItem key="click" onClick={(e) => {
-         children.props.onClick(e) 
-         closeMenu()
-      }}>Click {names[names.length-1]}</MenuItem>)
-    }
-
-    if(!isUnlocked) {
-      idAliases.forEach(alias => alias.slice().reverse().forEach((id) => {
-        list.push(<MenuItem key={id + alias} onClick={() => {
-          unlockInterfaceId(id)
-          closeMenu()
-        }}>Unlock {id}</MenuItem>)
-      }))
-    } else {
-      idAliases.forEach(alias => alias.forEach((id) => {
-        if(unlockableInterfaceIds[id]) {
-          list.push(<MenuItem key={id + alias} onClick={() => {
-            lockInterfaceId(id)
-            closeMenu()
-          }}>Lock {id}</MenuItem>)
-        }
-      }))
-    }
-
-    return list
-  }
-
-  function ToggleLockMenu() {
-    if(!showUnlockableInterfaceLocks) return 
-
-    return <div className={classNames("Unlockable__menu", {'Unlockable__menu--tiny': isTiny})}>
-      <MenuIconButton 
-        icon={<Icon size="xs" icon={isUnlocked ? "faLockOpen" : "faLock"} />} 
-        menu={mapIdsToMenuItems}
-      />
-    </div>
-  }
 
   function renderChildren() {
     return React.Children.map(children, (child, index) => {
@@ -67,43 +25,40 @@ const Unlockable = ({isTiny, hideIfObscured = true, hideLockToggle, className, u
     })
   }
 
-  if(isObscured) {
-    if(hideIfObscured) {
-      return null
-    }
-
-    // IF LOCKED UP THEN JUST SHOW A BLACK WALL
-    return <div className={classNames("Unlockable__cover", {'Unlockable__cover--slider': isSlider})}>
-      <div className={customClassName + " Unlockable Unlockable--locked"}>
-        {children}
-      </div>
-      <div className="Unlockable__obscured-icon">
-        <Icon icon="faLock" />
-      </div>
-    </div>
-  }
-
-  // essentally for admins
-  if(isLockToggleable) {
-    if(isTiny) {
-      if(isUnlocked || !showUnlockableInterfaceLocks) {
-        return renderChildren()
+  function renderCover() {
+    return <div 
+      className={
+        classNames(
+          "Unlockable__cover", 
+          { 
+            'Unlockable__cover--mouse-over': mouseOverInterfaceId === interfaceId, 
+            'Unlockable__cover--slider': isSlider 
+          }
+        )
       }
-      
-      return <ToggleLockMenu/>
-    }
+      onClick={() => {
+        unlockInterfaceId(interfaceId)
+        toggleUnlockableInterfaceLocks(false)
+      }}
+      onMouseEnter={() => {
+        setMouseOverInterfaceId(interfaceId)
+      }}
+      onMouseLeave={() => {
+        setMouseOverInterfaceId(null)
+      }}
+    >
 
-    return <div className={customClassName + " Unlockable Unlockable--unlocked"}>
-      {!isObscured && renderChildren()}
-      {/* not enough space to have unlockable icon when its unlocked */}
-      {!hideLockToggle && <ToggleLockMenu/>}
     </div>
   }
 
-  // if(isUnlocked) {
-  //   // if(isTiny) return children
-  //   return <Grow in>{children}</Grow>
-  // }
+  if(isObscured) return null
+
+  if(isLockToggleable) {
+    return <div className={classNames(customClassName + " Unlockable Unlockable--unlocked")}>
+      {renderChildren()}
+      {!hideLockToggle && !isUnlocked && renderCover()}
+    </div>
+  }
 
   return renderChildren()
 };
@@ -116,5 +71,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { unlockInterfaceId, lockInterfaceId  }),
+  connect(mapStateToProps, { unlockInterfaceId, lockInterfaceId, setMouseOverInterfaceId, toggleUnlockableInterfaceLocks  }),
 )(Unlockable);

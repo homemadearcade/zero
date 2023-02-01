@@ -5,8 +5,8 @@
   //   opacity: 0.5;
   // }
 
-  &--locked {
-    opacity: 0;
+  &--obscured {
+    // opacity: 0;
   }
 
   &__menu {
@@ -24,16 +24,26 @@
   }
 
   &__cover {
-    position: relative;
-    // left: 0px;
-    // top: 0px;
-    // width: 100%;
-    // height: 100%;
-    font-size: 1rem;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(144, 202, 249, 0.5);
+    cursor: pointer;
+    &--mouse-over {
+      background-color: rgb(144, 202, 249, 0);
+    }
+    
     &--slider {
       width: 110%;
       left: -5%;
     }
+
+    // &--isTiny {
+    //   height: 40px;
+    //   width: 40px;
+    // }
   }
 
   &__obscured-icon {

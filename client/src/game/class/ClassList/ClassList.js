@@ -162,6 +162,7 @@ const ClassList = ({
   if(!getInterfaceIdData(PLAYER_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'players',
+      interfaceId: PLAYER_INSTANCE_CANVAS_ID + '/*',
       title: <>
         <Typography component="div" variant="subtitle1">Players</Typography>
         <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
@@ -178,6 +179,7 @@ const ClassList = ({
   if(!getInterfaceIdData(NPC_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'NPCs',
+      interfaceId: NPC_INSTANCE_CANVAS_ID + '/*',
       title: <>
         <Typography component="div" variant="subtitle1">NPCs</Typography>
         <LayerVisibility canvasId={NPC_INSTANCE_CANVAS_ID} />
@@ -194,6 +196,7 @@ const ClassList = ({
   if(!getInterfaceIdData(BASIC_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'objects',
+      interfaceId: BASIC_INSTANCE_CANVAS_ID + '/*',
       title: <>
         <Typography component="div" variant="subtitle1">Objects</Typography>
         <LayerVisibility canvasId={BASIC_INSTANCE_CANVAS_ID} />
@@ -210,6 +213,7 @@ const ClassList = ({
   if(!getInterfaceIdData(ZONE_INSTANCE_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'Zones',
+      interfaceId: ZONE_INSTANCE_CANVAS_ID + '/*',
       title: <>
         <Typography component="div" variant="subtitle1">Zones</Typography>
         <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
@@ -226,6 +230,7 @@ const ClassList = ({
     if(!getInterfaceIdData('addDialogue').isObscured) {
     accordians.push({
       id: 'Dialogue',
+      interfaceId: 'addDialogue',
       title: <>
         <Typography component="div" variant="subtitle1">Dialogue</Typography>
       </>,
@@ -267,6 +272,8 @@ const ClassList = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
+  // for the unlockability to show up
+  cobrowsing: state.cobrowsing
 })
 export default compose(
   connect(mapStateToProps, { editGameModel, openCreateClassFlow, openCreateCutscene }),

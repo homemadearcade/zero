@@ -70,11 +70,13 @@ export function getInterfaceIdData(interfaceId, options) {
     }
   }
 
+  const showUnlockableInterfaceLocks = store.getState().cobrowsing.showUnlockableInterfaceLocks
+
   const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
-  const isObscured = isInterfaceIdObscured(interfaceId, options) && !isUnlocked
+  const isObscured = !showUnlockableInterfaceLocks && isInterfaceIdObscured(interfaceId, options) && !isUnlocked
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  const isLockToggleable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing
+  const isLockToggleable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing && showUnlockableInterfaceLocks
 
   return {
     isUnlocked,

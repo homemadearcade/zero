@@ -46,11 +46,11 @@ const CobrowsingIndicator = ({
     ]} onSelectOption={(event, value) => {
       if(value === 'COBROWSE_ACTIVE') {
         toggleActiveCobrowsing(true)
-        toggleUnlockableInterfaceLocks(false)
-      } else if(value === 'COBROWSE_UNLOCK') {
-        toggleActiveCobrowsing(false)
         toggleUnlockableInterfaceLocks(true)
-      } else {
+      } else if(value === 'COBROWSE_UNLOCK') {
+        toggleActiveCobrowsing(true)
+        toggleUnlockableInterfaceLocks(true)
+      } else if(value === 'COBROWSING_EDIT') {
         toggleActiveCobrowsing(false)
         toggleUnlockableInterfaceLocks(false)
       }

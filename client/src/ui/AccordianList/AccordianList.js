@@ -5,6 +5,7 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -53,13 +54,27 @@ export default function AccordianList({accordians, initialExpandedId = null}) {
 }
 
 export function AccordionListBody({expanded, onChange, accordianList}) {
+
+  function renderSummary({title, interfaceId}) {
+
+    const summaryEl = <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+        {title}
+      </AccordionSummary>
+
+    if(interfaceId) {
+      return <Unlockable interfaceId={interfaceId}>
+          {summaryEl}
+      </Unlockable>
+    } else {
+      return summaryEl
+    }
+
+  }
   return (
     <div className="Accordian">
-      {accordianList.filter((item) => !!item).map(({id, title, body}) => {
+      {accordianList.filter((item) => !!item).map(({id, title, body, interfaceId}) => {
         return <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
-          <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-            {title}
-          </AccordionSummary>
+          {renderSummary({title, interfaceId})}
           <AccordionDetails>
             {body}
           </AccordionDetails>

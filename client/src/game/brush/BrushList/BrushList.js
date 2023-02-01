@@ -82,6 +82,7 @@ const BrushList = ({
   if(!getInterfaceIdData(BACKGROUND_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'Background',
+      interfaceId: BACKGROUND_CANVAS_ID + '/*',
       title: <>
         <Typography component="div" variant="subtitle1">Background</Typography>
         <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
@@ -104,6 +105,7 @@ const BrushList = ({
   if(!getInterfaceIdData(PLAYGROUND_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'Playground',
+      interfaceId: PLAYGROUND_CANVAS_ID + '/*',
       title: <>
         <Typography component="div" variant="subtitle1">Playground</Typography>
         <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
@@ -125,6 +127,7 @@ const BrushList = ({
   if(!getInterfaceIdData(FOREGROUND_CANVAS_ID + '/*').isObscured) {
     accordians.push({
       id: 'Foreground',
+      interfaceId: FOREGROUND_CANVAS_ID + '/*',
       title: <>
         <Typography component="div" variant="subtitle1">Foreground</Typography>
         <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
@@ -156,6 +159,8 @@ const BrushList = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
+  // for the unlockability to show up
+  cobrowsing: state.cobrowsing
 })
 
 

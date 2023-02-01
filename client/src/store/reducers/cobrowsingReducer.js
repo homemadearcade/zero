@@ -14,6 +14,7 @@ import {
   TOGGLE_COBROWSING,
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
   INITIALIZE_COBROWSING_STATE,
+  SET_MOUSE_OVER_INTERFACE_ID,
 } from '../types';
 
 import { initialContextMenuState } from './contextMenuReducer';
@@ -121,6 +122,11 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         showUnlockableInterfaceLocks: payload.value
+      }
+    case SET_MOUSE_OVER_INTERFACE_ID:
+      return {
+        ...state,
+        mouseOverInterfaceId: payload.interfaceId
       }
     case ON_COBROWSING_UPDATE:
       console.log('getting new state', {
