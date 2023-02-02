@@ -32,16 +32,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &--overlay {
+    flex-direction: column;
+    gap: 1rem;
+    
+    // &--overlay {
       position: absolute;
-        left: 20vh;
-        width: calc(100vh);
+      left: 20vh;
+      width: calc(100vh);
       position: absolute;
       background-color: #000;
       z-index: 1;
       top:0;
-    }
+    // }
   }
 
   &__left-column {

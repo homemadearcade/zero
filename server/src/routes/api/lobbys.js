@@ -303,6 +303,14 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
         id: newLobbyUser.id,
         username: newLobbyUser.username
       },
+      message: 'has connected',
+      automated: true
+    })
+    req.lobby.messages.push({
+      user: {
+        id: newLobbyUser.id,
+        username: newLobbyUser.username
+      },
       message: 'has joined the lobby',
       automated: true
     })

@@ -114,11 +114,7 @@ export class GameInstance extends Phaser.Scene {
       const currentStage = gameModel.stages[stageId]
       const zoneId = gameModel.stages[stageId].spawnZoneClassId
       const zone = this.getRandomInstanceOfClassId(zoneId)
-      // if(!zone) {
-      //   store.dispatch(changeGameState(STOPPED_STATE))
-      //   store.dispatch(changeLobbyConnectionState(PHASER_ERROR, 'Your Player cannot find a spawn zone, please add one before starting again. We stopped the game for you'))
-      //   return 
-      // }
+
       const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
 
       let lastPlayerClassId = gameContext.player.classId ? gameContext.player.classId : 'oc/p/directional';

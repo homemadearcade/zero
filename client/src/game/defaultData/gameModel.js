@@ -50,6 +50,7 @@ export const defaultGameModel = {
     'oc/z/playerspawnzone': {
       name: 'Player Spawn Zone',
       ...defaultZoneClass,
+      classId: 'oc/z/playerspawnzone',
       graphics: {
         ...defaultZoneClass.graphics,
         tint: '#FFFFFF'

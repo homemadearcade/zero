@@ -40,15 +40,15 @@ Custom coding - collision, events? paths? etc
 
 TODO FEATURES BACKLOG
 
-Spray Can, Paintbrush, Crayon?
-
-For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode
 
 --------------------------------------------------------------------------------------
 
 TODO FEATURES ( MAYBE ) BACKlog
 
-Combine the lobby drawers into one drawer??
+Spray Can, Paintbrush, Crayon?
+
+For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
 
 On touch end. Instead of an array - plant a boolean on another collider? maybe? and like reset that boolean every loop. Once it doesnt need to be reset, thats when the touch stopped? right?
 
@@ -56,16 +56,9 @@ Automate some video - In monologue mode…Hovering over video creates… overlay
 
 ANALYTICS on each action?, on where on the screen? Save all records
 
-Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode
-
-Take snapshot without BG ( because when the BG is black ... )
-
 onCutsceneEnd Event, onStageEntered
 
-
 Destroyed By Message ( You lost because... )
-
-Unlock snap to grid?
 
 Sprite Editor when loading up, you cant see previous strokes
 
@@ -73,36 +66,19 @@ Camera change options for 'cutscene'
 
 Make Key Diagrams Responsive
 
-MATTER
-  If class is on background or foreground it should have isSensor: true in Constructor
-  or - Collision Category?
-
-  circle for objectInstance body?
-
-  Create custom physics grid for custom sprite for swords
-
-  Sensor on every side of the game object?
-
 Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
 Interact area based on the size of the camera?
 
 View to lock to cobrowsers camera
 
-TAB + for moving through the UI ( other keyboard shortcuts )
-
 If an item within an accordian is selected, the accordian is open
 
 Right click -> snap camera to section? regardless if you are in section or not?
 
-Zoom Slider
-
-Other lobby connection issue popups. Cobrowsing connection... are remote states synced?
-
 Interface Preset Update
   Need to make an interface tree component to seperate user tree and a preset tree
   Create a list component
-  Select Experience State -> Experience State List
 
 how to update and view cobrowsing when they aint logged on?
 should an entire cobrowsing state be.... shared/editable when the user is not logged on
@@ -112,47 +88,21 @@ and also therefore, its inherited?? omg thats so dope! So like yeah create their
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?
-
 Fix with Cobrowsing?? right now broken af when switching between two different users
-
-The way gameContext.player.classId works ?? Not sure but like 
-I think we need to....
-  Players should always morph whether you are cobrowsing or not. I think we need to base the morph on the instance.reclassId so it can be constantly propagated across the network
-Possibly same with game state
-  This redux based state stuff is pretty nasty when it comes to cobrowsing
 
 if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
 
 TODO CHORES BACKLOG
 
-App -> Creator, Admin sections of the app
-
-SECTIONS
-Admin
-Marketing
-Creator
-Game
-Lobby
-Layout
-Ticketing
-Pages
-ui
-hoc
-constants
-state
+Admin, Creator, Marketing Folders
 
 popup if the player has switched stages and you want to follow them to that scene 
 
 UI COLOR needs and ...If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
 
-When a class is highlighted, you should be able to see all of them highlighted on the map?
-
 Auto hide live editor when using keys?
 
 undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by texture Id not ... canvas id?
-
-KNOWN BUG - if you spawn and destroy all of a type at the same time, the new spawned ones are not detroyed. FIX = Spawn Effects go before Destroy Effects
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
 
@@ -174,13 +124,9 @@ Look up x, y, on sprite should be... getPosition(). Overall use Get Methods inst
 VALIDATION ON ALL FORMS
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
-Context menu X,Y being sent back and forth to the cobrowsers is not correct x, y. You need to send %
-
 security for redux state stuff. Since cobrowsers can edit the redux state, they could potentially change the users redux state for their user, their password for example, and then they could try to get them to save their account and save that new password.
 
 security for codrawing and cobrowsing, make sure they are in the lobby!
-
-check and make sure phaser is deleting the game objects
 
 also like... event listeners, make sure they are getting turned off right. It can cause serious trouble
 
@@ -195,8 +141,6 @@ Performance huge upgrade - sort all instances into class Id. Use for relations
 TODO CHORES ( MAYBE ) backlog
 
 useHooks for Unlockable Data and other data...
-
-<AdminHidden> component? isInLobby, isGameStarted, isAdmin, isLogged In interfaceId="X' all in one component etc
 
 Seperate more reducers?
 

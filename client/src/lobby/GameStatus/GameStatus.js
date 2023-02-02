@@ -18,9 +18,9 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
       const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
       if(scene) setUps(
         {
-          client: scene.upsclient,
-          host: scene.upshost,
-          server: scene.upsserver
+          client: scene.upsClient,
+          host: scene.upsHost,
+          server: scene.upsServer
         }
       )
     }, 1000)

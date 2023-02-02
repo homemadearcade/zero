@@ -19,16 +19,22 @@ export class GameClientScene extends EditorScene {
 
     this.lastUpsClientCount = null
     this.upsClientUpdates = 0
-    this.upsclient = 0
-    this.upshost = 0
-    this.upsserver = 0
+    this.upsClient = 0
+    this.upsHost = 0
+    this.upsServer = 0
+
+    this.gameInstanceId = null
   }
 
-  onGameInstanceUpdate = ({objects, player, projectiles, stageId, upshost, upsserver}) => {
+  onGameInstanceUpdate = ({gameInstanceId, objects, player, projectiles, stageId, upsHost, upsServer}) => {
+    if(!this.gameInstanceId) {
+      this.gameInstanceId = gameInstanceId
+    }
+    if(gameInstanceId !== this.gameInstanceId) return
     if(this.stage.id !== stageId) return
 
-    this.upshost = upshost
-    this.upsserver = upsserver
+    this.upsHost = upsHost
+    this.upsServer = upsServer
 
     objects.forEach((instanceUpdate) => {
       const objectId = instanceUpdate.id
@@ -70,14 +76,14 @@ export class GameClientScene extends EditorScene {
     const time = Date.now();
     this.upsClientUpdates++;
     if (time > this.lastUpsClientCount + 1000) {
-      this.upsclient = Math.round( ( this.upsClientUpdates * 1000 ) / ( time - this.lastUpsClientCount ) );
+      this.upsClient = Math.round( ( this.upsClientUpdates * 1000 ) / ( time - this.lastUpsClientCount ) );
       this.lastUpsClientCount = time;
       this.upsClientUpdates = 0;
     }
 
     window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
       lobbyId: store.getState().lobby.lobby?.id,
-      upsclient: this.upsclient,
+      upsClient: this.upsClient,
     })
 
     this.afterGameInstanceUpdateEffects() 

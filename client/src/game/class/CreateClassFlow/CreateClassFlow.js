@@ -34,8 +34,6 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
     }
   }, [])
 
-  //objectClass.type !== ZONE_CLASS && objectClass.type !== PLAYER_CLASS &&
-
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateClassFlow">
       {objectClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
@@ -103,7 +101,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
             }})
           }}
       />}
-      {<Unlockable  interfaceId="class/layer">
+      {objectClass.type !== ZONE_CLASS && objectClass.type !== PLAYER_CLASS && <Unlockable  interfaceId="class/layer">
         <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_CANVAS_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateClass({ graphics: {

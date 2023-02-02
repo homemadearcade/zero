@@ -4,8 +4,15 @@
 
   position: relative;
 
+  transition: filter 1s;
   &--not-focused{
-    filter: grayscale(50%);
+    filter: grayscale(80%);
+  }
+  
+  &__fullscreen {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
   }
 
   iframe {

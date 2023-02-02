@@ -6,8 +6,10 @@ import {
   DEFAULT_TEXTURE_ID,
   DEFAULT_CLEAR_TEXTURE_ID,
   UNSPAWNED_TEXTURE_ID,
+  GAME_INSTANCE_ID_PREFIX,
 } from '../constants';
 import { createGameSceneInstance } from '../../utils/gameUtils';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
 export class PreloaderScene extends Phaser.Scene {
   constructor(props) {
@@ -18,7 +20,8 @@ export class PreloaderScene extends Phaser.Scene {
     this.sceneInstanceData = {
       isHost: props.isHost,
       isNetworked: props.isNetworked,
-      isPlay: props.isPlay
+      isPlay: props.isPlay,
+      gameInstanceId: GAME_INSTANCE_ID_PREFIX + generateUniqueId()
     }
   }
 

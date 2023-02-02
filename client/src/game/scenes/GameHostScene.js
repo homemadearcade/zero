@@ -6,7 +6,6 @@ import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_ANIMATI
 import { EditorScene } from './EditorScene';
 import { changeLobbyConnectionState} from '../../store/actions/lobbyActions';
 import { GAME_CONNECTION_LOST } from '../../lobby/constants';
-import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 
 export class GameHostScene extends EditorScene {
   constructor(props) {
@@ -18,9 +17,12 @@ export class GameHostScene extends EditorScene {
     
     this.lastUpsHostCount = null
     this.upsHostUpdates = 0
-    this.upshost = 0
-    this.upsclient = 0
-    this.upsserver = 0
+    this.upsHost = 0
+    this.upsClient = 0
+    this.upsServer = 0
+
+    this.gameInstanceId = props.sceneInstanceData.gameInstanceId
+    console.log(this.gameInstanceId)
   }
 
   callAnimation({type, data}) {
@@ -72,20 +74,21 @@ export class GameHostScene extends EditorScene {
       const time = Date.now();
       this.upsHostUpdates++;
       if (time > this.lastUpsHostCount + 1000) {
-        this.upshost = Math.round( ( this.upsHostUpdates * 1000 ) / ( time - this.lastUpsHostCount ) );
+        this.upsHost = Math.round( ( this.upsHostUpdates * 1000 ) / ( time - this.lastUpsHostCount ) );
         this.lastUpsHostCount = time;
         this.upsHostUpdates = 0;
       }
       
-      window.socket.emit(ON_GAME_INSTANCE_UPDATE, { lobbyId: store.getState().lobby.lobby.id, objects, player, projectiles, stageId: currentStageId, upshost: this.upshost })
+      console.log(this.gameInstanceId)
+      window.socket.emit(ON_GAME_INSTANCE_UPDATE, { gameInstanceId: this.gameInstanceId, lobbyId: store.getState().lobby.lobby.id, objects, player, projectiles, stageId: currentStageId, upsHost: this.upsHost })
       this.afterGameInstanceUpdateEffects() 
     }, updateInterval)
   }
 
-  onGameInstanceUpdateAcknowledged = ({ upsclient, upsserver }) => {
+  onGameInstanceUpdateAcknowledged = ({ upsClient, upsServer }) => {
     this.lastAcknowledgement = Date.now()
-    this.upsclient = upsclient
-    this.upsserver = upsserver
+    this.upsClient = upsClient
+    this.upsServer = upsServer
   }
 
   create() {

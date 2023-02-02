@@ -103,3 +103,24 @@ Current Stage is controlled by UI and by one effect. Its the local users choice 
 Current Game State is controlled by cobrowsing. Its a shared experience. Perhaps it should be on the lobby?. Its not on the lobby so it can also be used in single player
 
 Player is controlled by the game host and broadcasts to all clients from the host. It also updates redux when the current cobrowsing player state is different than the redux state
+
+--
+
+Phaser keeps spawned object in some sort of memory pool between 'reloading' the scene. I tested via profifile. Even if you destory all objects, phaser still is slower next time you boot. You have to turn game off and turn it on again
+
+
+--
+
+SECTIONS
+Admin
+Marketing
+Creator
+Game
+Lobby
+Layout
+Ticketing
+Pages
+ui
+hoc
+constants
+state

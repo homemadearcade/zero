@@ -5,7 +5,7 @@ import Phaser from 'phaser';
 import { PreloaderScene } from '../scenes/PreloaderScene';
 
 import './GameView.scss';
-import { disconnectedDelta, PRELOADER_SCENE } from '../constants';
+import { noPhaserUpdateDelta, PRELOADER_SCENE } from '../constants';
 
 import { gameSize } from '../defaultData/general';
 import { getCurrentGameScene } from '../../utils/editorUtils';
@@ -17,6 +17,7 @@ import store from '../../store';
 import { changeLobbyConnectionState } from '../../store/actions/lobbyActions';
 import { PHASER_ERROR } from '../../lobby/constants';
 import ControlsPopup from '../ControlsPopup/ControlsPopup';
+import Icon from '../../ui/Icon/Icon';
 
 const config= {
   type: Phaser.WEBGL,
@@ -67,8 +68,10 @@ const config= {
 
 const GameView = (props) => {
   if(!props.gameModel.gameModel) {
-    console.log('not rendering game model')
-    return <div className="GameView__empty"></div>
+    return <div className="GameView__empty">
+      <Icon icon="faCircleQuestion"></Icon>
+      No Game Loaded
+    </div>
   }
 
   return <PhaserGame {...props}></PhaserGame>
@@ -90,10 +93,10 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeLobbyCo
   useEffect(() => {
     const connectionInterval = setInterval(() => {
       const lastUpdate = getCurrentGameScene(store.getState().webPage.gameInstance).lastUpdate
-      if(lastUpdate + disconnectedDelta < Date.now()) {
-        changeLobbyConnectionState(PHASER_ERROR, 'Your browser has run into an issue. Please refresh the page')
+      if(lastUpdate + noPhaserUpdateDelta < Date.now()) {
+        changeLobbyConnectionState(PHASER_ERROR, 'The game ran into an error and needs to be restarted')
       }
-    }, disconnectedDelta)
+    }, noPhaserUpdateDelta)
 
     return () => {
       clearInterval(connectionInterval)

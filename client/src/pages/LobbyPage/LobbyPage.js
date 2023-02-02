@@ -30,7 +30,7 @@ import Typography from '../../ui/Typography/Typography';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import { GAME_CONNECTION_LOST, PHASER_ERROR } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
-import { DialogContent, DialogTitle, Divider } from '@mui/material';
+import { DialogActions, DialogContent, DialogTitle, Divider } from '@mui/material';
 import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
 import LobbyChatroom from '../../lobby/LobbyChatroom/LobbyChatroom';
 import { Container } from '@mui/system';
@@ -166,11 +166,20 @@ const LobbyPage = ({
       <DialogContent>{connectionMessage}</DialogContent>
     </Dialog>
 
-    if(connectionState === PHASER_ERROR) return <Dialog open onClose={() => {
-      changeLobbyConnectionState(null)
-    }}>
+    if(connectionState === PHASER_ERROR) return <Dialog open>
       <DialogTitle>Game Error</DialogTitle>
       <DialogContent>{connectionMessage}</DialogContent>
+      <DialogActions><Button onClick={async () => {
+        await editLobby(lobby.id, {
+          isGamePoweredOn: false
+        })
+        setTimeout(async () => {
+          await editLobby(lobby.id, {
+            isGamePoweredOn: true
+          })
+          changeLobbyConnectionState(null)
+        }, 100)
+      }}>Restart Game</Button></DialogActions>
     </Dialog>
   }
   

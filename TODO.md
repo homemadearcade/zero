@@ -2,11 +2,6 @@
 BIG FEATURES
 ---------
 
-INFO BOX 
-  Right Click, Left Click, Name of Class
-  You should be able to ^ highlight for the cobrowsing user any thing that is an INFOBOX
-  TOOL TIP sort of thing.  We need to be able to HIGHLIGHT a div or UNLOCKABLE
-
 FEATURES
   Sprite sheet editor page
 
@@ -15,6 +10,10 @@ SMALL UPATES
 -----
 
 UI
+  Move with arrow keys on side of game during grid mode
+
+  When a class is highlighted, you should be able to see all of them highlighted on the map?
+
   UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
   
   You should be able to hide games, you should be able to hide classes, hide stages, hide lobby not delete them, hide users, dont delete them, hide objects? nah delete them
@@ -23,10 +22,12 @@ UI
   
   When there’s no option selectable in the descriptor mode, they expect something to pop up 
 
+  Take snapshot without BG ( because when the BG is black ... ) ( or perhaps allow you to make background not visible just like other layers and only snapshot whats visible )
+
 BUGS  
-  User Disonnect, fkin wierd man. It shows up in lobby now because they can send that message even when not logged in 
+  User Disconnect? What is considered connection?
 
   Scroll bar showing up in the class menu??
 
-  Generate an Id for at the game and send with an update to prevent possible double updating 
-  Double updating… what’s up with that, we CANNOT let two games exist the same time. PERIOD
+  Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?
+

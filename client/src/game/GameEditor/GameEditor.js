@@ -12,8 +12,7 @@ import SectionEditor from '../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../stages/SelectBackgroundColor/SelectBackgroundColor';
 import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
-import { BRUSH_ID_PREFIX, PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../constants';
-import { changeGameState } from '../../store/actions/gameContextActions';
+import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../constants';
 import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../cutscene/CreateCutscene/CreateCutscene';
@@ -45,7 +44,6 @@ const GameEditor = ({
   leftColumn, 
   rightColumn, 
   children, 
-  changeGameState, 
   editGameModel,
   clearEditor, 
   clearGameFormEditor, 
@@ -146,7 +144,6 @@ export default connect(mapStateToProps, {
   clearEditor, 
   clearGameFormEditor, 
   clearGameViewEditor, 
-  changeGameState,
   closeJsonViewer,
   editGameModel,
 })(GameEditor);

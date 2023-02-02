@@ -12,6 +12,7 @@ export const CAMERA_PREVIEW_BORDER_SIZE = 4
 export const UNDO_MEMORY_MAX = 10
 
 export const disconnectedDelta = 15000
+export const noPhaserUpdateDelta = 15000
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -205,7 +206,7 @@ export const SNAPSHOT_ID_PREFIX = 'snapshot/'
 export const SCENE_ID_PREFIX = 'scene/'
 export const SPRITE_EDITOR_ID_PREFIX = 'sprite/'
 export const STAGE_ID_PREFIX = 'stage/'
-
+export const GAME_INSTANCE_ID_PREFIX = 'gi/'
 export const OBJECT_CLASS_ID_PREFIX = 'oc/'
 
 export const PLAYER_CLASS_TYPE_PREFIX = 'pl/'

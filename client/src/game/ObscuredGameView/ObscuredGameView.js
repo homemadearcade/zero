@@ -10,11 +10,13 @@ import GameView from '../GameView/GameView';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { ADMIN_ROLE, UNLOCK_TOOL } from '../constants';
+import Icon from '../../ui/Icon/Icon';
 
 const ObscuredGameView = ({
   auth: { me },
   lobby: { lobby },
-  cobrowsing: { cobrowsingUser, selectedTool }
+  cobrowsing: { cobrowsingUser, selectedTool },
+  gameModel,
 }) => {
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
 
@@ -23,7 +25,10 @@ const ObscuredGameView = ({
 
     if(isObscured) {
       return <div className="GameView__empty GameView__empty--overlay">
-
+        {me.role === ADMIN_ROLE && <>
+          <Icon icon="faLock"></Icon>
+          Game View Locked
+        </>}
       </div>
     } else if(selectedTool === UNLOCK_TOOL) {
       return <div className="ObscuredGameView__unlock">
@@ -32,8 +37,18 @@ const ObscuredGameView = ({
     }
   }
 
+  if(!gameModel.gameModel) {
+     return <div className="GameView__empty">
+        <Icon icon="faCircleQuestion"></Icon>
+        No Game Loaded
+      </div>
+  }
 
-  if(!lobby.isGamePoweredOn) return <div className="GameView__empty"></div>
+  if(!lobby.isGamePoweredOn) return <div className="GameView__empty">
+    <Icon icon="faPowerOff"></Icon>
+    Not Powered On
+  </div>
+  
 
   if(lobby.isGamePoweredOn) {
     return <>
@@ -50,6 +65,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
   cobrowsing: state.cobrowsing,
+  gameModel: state.gameModel,
   unlockableInterfaceIds: state.unlockableInterfaceIds,
 });
 

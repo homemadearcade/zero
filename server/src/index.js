@@ -174,7 +174,14 @@ io.on("connection", (socket) => {
           lobby.users.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
-              console.log(user.username, ' connected')
+              lobby.messages.push({
+                user: {
+                  id: user.id,
+                  username: user.username
+                },
+                message: 'has connected',
+                automated: true
+              })
               socket.join(lobby.id);
               io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
             }
@@ -204,7 +211,7 @@ io.on("connection", (socket) => {
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
   })
 
-  let upsserver = {}
+  let upsServer = {}
   let lastUpsServerCounts = {}
   let upsServerUpdates = {}
 
@@ -219,18 +226,18 @@ io.on("connection", (socket) => {
     upsServerUpdates[lobbyId]++;
 
     if (time > lastUpsServerCounts[lobbyId] + 1000) {
-      upsserver[lobbyId] = Math.round( ( upsServerUpdates[lobbyId] * 1000 ) / ( time - lastUpsServerCounts[lobbyId] ) );
+      upsServer[lobbyId] = Math.round( ( upsServerUpdates[lobbyId] * 1000 ) / ( time - lastUpsServerCounts[lobbyId] ) );
       lastUpsServerCounts[lobbyId] = time;
       upsServerUpdates[lobbyId] = 0;
     }
 
-    payload.upsserver = upsserver[lobbyId]
+    payload.upsServer = upsServer[lobbyId]
       
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, (payload) => {
-    payload.upsserver = upsserver[payload.lobbyId]
+    payload.upsServer = upsServer[payload.lobbyId]
 
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
   })
@@ -245,7 +252,6 @@ io.on("connection", (socket) => {
       lobbys.forEach((lobby) => {
         lobby.users.forEach((user) => {
           if(user.id === socket.user.id) {
-            console.log(user.username, 'lost connection')
             user.connected = false
             socket.emit(ON_SOCKET_DISCONNECT)
             lobby.messages.push({
@@ -253,7 +259,7 @@ io.on("connection", (socket) => {
                 id: user.id,
                 username: user.username
               },
-              message: 'has disconnected from the lobby',
+              message: 'has disconnected',
               automated: true
             })
             io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});

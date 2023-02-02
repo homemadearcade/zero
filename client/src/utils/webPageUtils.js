@@ -53,6 +53,10 @@ export const checkIfIncognito = (callback) => {
   }
 }
 
+export const closeFullscreen = () => {
+  document.exitFullscreen()
+}
+
 export const requestFullscreen = (element = document.body) => {
   var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
 
