@@ -9,7 +9,7 @@ window.instanceUndoStack = []
 window.spriteEditorUndoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
-  constructor(scene, { canvasId, boundaries, stageId }){
+  constructor(scene, { canvasId, boundaries, stageId, isHost }){
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
     super(scene, 0, 0, boundaries.maxWidth, boundaries.maxHeight)
@@ -22,10 +22,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     this.initialDraw()
 
-    const lobby = state.lobby.lobby
-    const me = state.auth.me 
-    const gameHostId = lobby.gameHostId
-    this.isHost = !lobby.id || me.id === gameHostId
+    this.isHost = isHost
 
     this.isSavingToAws = false
 
@@ -37,7 +34,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   save = async ()  => {
-    if(!this.isHost) return 
+    if(!this.isHost) return this.textureId 
 
     return new Promise(async (resolve, reject) => {
       try {

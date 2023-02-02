@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import './Unlockable.scss';
-import Icon from '../../../ui/Icon/Icon';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
@@ -26,10 +25,9 @@ const Unlockable = ({
   isSlider,
   cobrowsing: { mouseOverInterfaceId, selectedTool }, 
   width,
-  height
+  height,
 }) => {
-  const { isUnlocked, idAliases, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
-
+  const { isUnlocked, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
   window.allInterfaceIds.push(interfaceId)
 
   if(adminOnly && me?.role !== ADMIN_ROLE) {
@@ -37,6 +35,7 @@ const Unlockable = ({
   }
 
   const customClassName = className + ' id-' + interfaceId
+
 
   function renderChildren() {
     return React.Children.map(children, (child, index) => {
@@ -87,7 +86,7 @@ const Unlockable = ({
   }
 
   function isOpenable() {
-    if(selectedTool=== OPEN_TOOL) {
+    if(!hideLockToggle && selectedTool=== OPEN_TOOL) {
       return !hideLockToggle
     }
   }
@@ -95,7 +94,7 @@ const Unlockable = ({
   if(isLockToggleable) {
     return <div 
       onClick={(e) => {
-        if(selectedTool === OPEN_TOOL && !e.shiftKey) {
+        if(!hideLockToggle && selectedTool === OPEN_TOOL && !e.shiftKey) {
           selectCobrowsingTool(null)
         }
       }}

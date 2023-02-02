@@ -71,7 +71,7 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
     </Unlockable>
-    <Unlockable adminOnly interfaceId="contextMenu/playtest adminOnly/playtest">
+    <Unlockable adminOnly interfaceId="contextMenu/playtest">
       <MenuItem onClick={() => {
         window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
         onMenuItemClick()

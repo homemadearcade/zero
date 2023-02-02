@@ -19,7 +19,7 @@ import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
+import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS, classTypeToPrefix, COMMON_COLOR_ID } from '../../constants';
 import { Alert } from '@mui/material';
 
 const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
@@ -40,7 +40,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
     <div className="CreateClassFlow">
       {objectClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
       {objectClass.isNew === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
-      <Unlockable adminOnly interfaceId="advanced/invisibleClass adminOnly">
+      <Unlockable adminOnly interfaceId="advanced/invisibleClass">
         <Switch
           labels={['Visible', 'Invisible']}
           size="small"
@@ -90,7 +90,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
       </>}
       {objectClass.graphics.invisible && 
         <AggregateColorSelect
-          canvasId="common"
+          canvasId={COMMON_COLOR_ID}
           selectedColor={objectClass.graphics.tint}
           onSelectColor={(tint) => {
             updateCreateClass({ graphics: {
@@ -125,7 +125,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
         }}
         objectClass={objectClass}
       />}
-      {objectClass.isNew && <Unlockable adminOnly interfaceId="advanced/interfaceLockedClass adminOnly">
+      {objectClass.isNew && <Unlockable adminOnly interfaceId="advanced/interfaceLockedClass">
         <Switch
           labels={['Normal', 'Player cannot see unless unlocked']}
           size="small"

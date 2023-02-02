@@ -17,6 +17,7 @@ const BrushItem = ({
   gameEditor: { brushIdSelectedBrushList },
   selectBrush,
   clearBrush,
+  width, height
 }) => {
   const [isHovering, setIsHovering] = useState(false)
   const brush = brushes[brushId]
@@ -24,6 +25,7 @@ const BrushItem = ({
   const isSelected = brushIdSelectedBrushList === brushId
 
   return <div
+      style={{width: width? width: null, height: height? height: null}}
       onClick={() => {
         if(brushId === brushIdSelectedBrushList) {
           clearBrush()

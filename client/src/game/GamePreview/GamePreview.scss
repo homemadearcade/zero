@@ -4,39 +4,11 @@
 
   position: relative;
 
-  &__note {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: rgba(100,100,100,0.2);
-    padding: .2rem;
-    z-index: 2;
+  &--not-focused{
+    filter: grayscale(50%);
   }
 
   iframe {
     border: none;
   }
-
-  // .GameView__empty {
-  //   position: absolute;
-  //   top: 0px;
-  //   left: 0px;
-  //   height: 100%;
-  //   width: 100%;
-  //   background-color: #000;
-  //   z-index: 1;
-  //   top: 0;
-  // }
-
-  &__user {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-  }
-
-  // .GameView {
-  //   width: 100%;
-  //   height: 100%;
-  // }
 }

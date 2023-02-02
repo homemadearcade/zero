@@ -28,6 +28,13 @@ const BrushList = ({
     return null
   }
 
+  const renderBrushItem = (parentId) =>  ({brushId}, i) => {
+    const el = <BrushItem key={i} brushId={brushId}/>
+    return <Unlockable interfaceId={parentId + '/brushSelect'}>
+      {el}
+    </Unlockable>
+  }
+
   const brushesByLayer = Object.keys(brushes).reduce((prev, brushId) => {
     const brush = brushes[brushId]
     if(!prev[brush.canvasId]) prev[brush.canvasId] = []
@@ -35,9 +42,9 @@ const BrushList = ({
     return prev
   }, {})
 
-  const bgBrushes = brushesByLayer[BACKGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-    return <BrushItem key={i} brushId={brushId}/>
-  }).slice(0, 14) || []
+  const bgBrushes = brushesByLayer[BACKGROUND_CANVAS_ID]?.map(
+    renderBrushItem(BACKGROUND_CANVAS_ID)
+  ).slice(0, 14) || []
   
   bgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
     <Button size="fit" onClick={() => {
@@ -47,9 +54,9 @@ const BrushList = ({
     </Button>
   </Unlockable>)
 
-  const pgBrushes = brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-    return <BrushItem key={i} brushId={brushId}/>
-  }).slice(0, 14) || []
+  const pgBrushes = brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(
+    renderBrushItem(PLAYGROUND_CANVAS_ID)
+  ).slice(0, 14) || []
 
   pgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
     <Button size="fit" onClick={() => {
@@ -59,9 +66,9 @@ const BrushList = ({
     </Button>
   </Unlockable>)
 
-  const fgBrushes = brushesByLayer[FOREGROUND_CANVAS_ID]?.map(({brushId}, i) => {
-    return <BrushItem key={i} brushId={brushId}/>
-  }).slice(0, 14) || []
+  const fgBrushes = brushesByLayer[FOREGROUND_CANVAS_ID]?.map(
+    renderBrushItem(FOREGROUND_CANVAS_ID)
+  ).slice(0, 14) || []
 
   fgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
     <Button size="fit" onClick={() => {
@@ -75,7 +82,7 @@ const BrushList = ({
 
   accordians.push({
     id: 'Background',
-    interfaceId: BACKGROUND_CANVAS_ID + '/colorSelect',
+    interfaceId: BACKGROUND_CANVAS_ID + '/*',
     title: <>
       <Typography component="div" variant="subtitle1">Background</Typography>
       <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
@@ -83,20 +90,19 @@ const BrushList = ({
     body: <>
       <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
       <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
-      <Unlockable interfaceId={BACKGROUND_CANVAS_ID + "/brushSelect"}>
-        <div className="BrushList__brushes">
-          <BorderedGrid 
-          maxItems={15} 
-          size="3.5vh"
-          items={bgBrushes}/>
-        </div>
-      </Unlockable>
+      <div className="BrushList__brushes">
+        <BorderedGrid 
+        maxItems={15} 
+        width="3.5vh"
+        height="3.5vh"
+        items={bgBrushes}/>
+      </div>
     </>
   })
 
   accordians.push({
     id: 'Playground',
-    interfaceId: PLAYGROUND_CANVAS_ID + '/colorSelect',
+    interfaceId: PLAYGROUND_CANVAS_ID + '/*',
     title: <>
       <Typography component="div" variant="subtitle1">Playground</Typography>
       <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
@@ -104,20 +110,19 @@ const BrushList = ({
     body: <>
       <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
       <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
-      <Unlockable interfaceId={PLAYGROUND_CANVAS_ID + "/brushSelect"}>
-        <div className="BrushList__brushes">
-          <BorderedGrid 
-            maxItems={15} 
-            size="3.5vh"
-            items={pgBrushes}/>
-        </div>
-      </Unlockable>
+      <div className="BrushList__brushes">
+        <BorderedGrid 
+          maxItems={15} 
+          width="3.5vh"
+          height="3.5vh"
+          items={pgBrushes}/>
+      </div>
     </>
   })
 
   accordians.push({
     id: 'Foreground',
-    interfaceId: FOREGROUND_CANVAS_ID + '/colorSelect',
+    interfaceId: FOREGROUND_CANVAS_ID + '/*',
     title: <>
       <Typography component="div" variant="subtitle1">Foreground</Typography>
       <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
@@ -125,14 +130,13 @@ const BrushList = ({
     body: <>
       <EraserSelect canvasId={FOREGROUND_CANVAS_ID}/>
       <LayerColorSelect canvasId={FOREGROUND_CANVAS_ID}/>
-        <Unlockable interfaceId={FOREGROUND_CANVAS_ID + "/brushSelect"}>
-          <div className="BrushList__brushes">
-            <BorderedGrid 
-            maxItems={15} 
-            size="3.5vh"
-            items={fgBrushes}/>
-          </div>
-      </Unlockable>
+      <div className="BrushList__brushes">
+        <BorderedGrid 
+        maxItems={15} 
+        width="3.5vh"
+        height="3.5vh"
+        items={fgBrushes}/>
+      </div>
     </>
   })
 

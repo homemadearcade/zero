@@ -287,14 +287,15 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'UI - Unlock Game View',
           title: <Typography component="h5" variant="h5">UI - Unlock Game View</Typography>,
           instructions: <>
-            This will set the participants UI to be able to see the Game View and the Game View only
+            This will set the participants UI to be able to see the Game View.
           </>,
           onClickNext: () => {
             updateArcadeGameCharacter({
               userId: lobby.participantId,
               unlockableInterfaceIds: {
                 gameView: true,
-              }
+              },
+              merge: true
             })
           },
           nextButtonText: 'Unlock'

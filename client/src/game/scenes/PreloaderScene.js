@@ -22,19 +22,8 @@ export class PreloaderScene extends Phaser.Scene {
     }
   }
 
-  createLoaderGraphic = () => {
-    const width = 800;
-    const height = 100;
-    const x = this.scale.gameSize.width / 2;
-    const y = this.scale.gameSize.height / 2;
-
-    this.preloaderBg = this.add.rectangle(x, y, width, height, 0xff0000);
-    this.preloaderBar = this.add.rectangle(x, y, width, height, 0x0000ff);
-    this.preloaderBar.setSize(0, this.preloaderBar.displayHeight);
-  };
-
   create() {
-    this.createLoaderGraphic();
+    // this.createLoaderGraphic();
     this.load.setCORS('anonymous');
 
     this.load.image('bullet','/assets/images/bullet.png');
@@ -61,6 +50,11 @@ export class PreloaderScene extends Phaser.Scene {
 
     // this.load.image('kenny_platformer_64x64', 'https://labs.phaser.io/assets/tilemaps/tiles/kenny_platformer_64x64.png')
 
+    this.load.start();
+    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+    this.loadingText = this.add.text(screenCenterX, screenCenterY, 'Loading..').setOrigin(0.5);
+    
     this.load.plugin('rexglowfilterpipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexglowfilterpipelineplugin.min.js', true);
 
     this.load.on('progress', this.updateLoaderGraphic);
@@ -70,7 +64,12 @@ export class PreloaderScene extends Phaser.Scene {
   }
 
   updateLoaderGraphic = (progress) => {
-    this.preloaderBar.setSize((progress * this.preloaderBg.displayWidth), this.preloaderBar.displayHeight);
+    if(this.loadingText) this.loadingText.destroy()
+    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+
+    const formattedProgress = (100 * progress).toFixed(0)
+    this.loadingText = this.add.text(screenCenterX, screenCenterY, 'Loading ' + formattedProgress + '%').setOrigin(0.5);
   };
 
   checkOrientation = () => {    
@@ -92,22 +91,8 @@ export class PreloaderScene extends Phaser.Scene {
       })
     })
 
-    this.tweens.add({
-      targets: this.preloaderBg,
-      alpha: 0,
-      delay: 100,
-      duration: 200,
-      onComplete: () => {
-        this.playGame();
-      },
-    });
-
-    this.tweens.add({
-      targets: this.preloaderBar,
-      alpha: 0,
-      delay: 100,
-      duration: 200,
-    });
+    this.updateLoaderGraphic(1)
+    this.playGame()
   };
 
   addGameScene(key) {
@@ -127,8 +112,7 @@ export class PreloaderScene extends Phaser.Scene {
   };
 
   destroy = () => {
-    this.preloaderBg.destroy();
-    this.preloaderBar.destroy();
+    this.loadingText.destroy()
   };
 
   unload = () => {

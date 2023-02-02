@@ -15,7 +15,7 @@ import Sprite from '../Sprite/Sprite';
 import Button from '../../../ui/Button/Button';
 import SpriteEditor from '../SpriteEditor/SpriteEditor';
 import { openSpriteEditor } from '../../../store/actions/gameEditorActions';
-import { DEFAULT_CLEAR_TEXTURE_ID } from '../../constants';
+import { COMMON_COLOR_ID, DEFAULT_CLEAR_TEXTURE_ID } from '../../constants';
 import MySprites from '../MySprites/MySprites';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
@@ -88,7 +88,7 @@ const SelectSpriteInline = ({
         editGameModel({
           colors: {
             [color.hex]: {
-              ['common']: true
+              [COMMON_COLOR_ID]: true
             }
           }
         })

@@ -26,7 +26,7 @@ import { defaultGameModel } from '../../game/defaultData/gameModel';
 import { defaultObjectInstance } from '../../game/defaultData/object';
 import { defaultClass } from '../../game/defaultData/class';
 import store from '..';
-import { ARCADE_EXPERIENCE_ID, UNDO_MEMORY_MAX } from '../../game/constants';
+import { ARCADE_EXPERIENCE_ID, BRUSH_ID_PREFIX, COMMON_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 import { changeCurrentStage } from './gameModelActions';
 
@@ -195,6 +195,16 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     })  
     Object.keys(gameData.classes).forEach((id) => {
       gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
+      
+      const objectClass = gameData.classes[id]
+      
+      if(objectClass.graphics.textureId) {
+        gameData.brushes[BRUSH_ID_PREFIX + objectClass.classId] = {
+          canvasId: COMMON_BRUSH_ID,
+          textureId: objectClass.graphics.textureId,
+          tint: objectClass.graphics.tint
+        }
+      }
     })
 
     // Object.keys(gameData.brushes).forEach((id) => {

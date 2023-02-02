@@ -26,7 +26,7 @@ const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
     disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}
-    value={value}
+    value={[PLAYGROUND_CANVAS_ID]}
     options={options}
   />
 }

@@ -10,6 +10,7 @@ import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
 import { getTextureMetadata } from '../../utils/utils';
 import { EraserSingleLayer } from '../drawing/EraserSingleLayer';
+import store from '../../store';
 
 export class CodrawingScene extends Phaser.Scene {
   constructor({key, textureId, newAwsImageId, awsImageId, tint, size}) {
@@ -140,47 +141,69 @@ export class CodrawingScene extends Phaser.Scene {
     this.canvas = null;
   }
 
-  onSpriteSheetLoaded = () => {
-    const ss = window.spriteSheets[this.spriteSheetName]
-    if(!ss.serverImageUrl) return
-    
-    ss.sprites.forEach((tile) => {
-      const tileNamePrefix = 'sprite'
-      this.textures.get(ss.id).add(tile.id.slice(tileNamePrefix.length), 0, tile.x, tile.y, tile.width, tile.height)
-    })
-
-    this.load.off('complete', this.onSpriteSheetLoaded)
-    this.initialDraw()
-  }
-
   initialDraw = () => {
+    this.loadingText.destroy()
+    this.createGrids()
     const texture = new Brush(this, { tint: this.tint, brushId: this.textureId, textureId: this.textureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
     texture.setDisplaySize(this.size, this.size)
     this.backgroundLayer.draw(texture, 0, 0)
     this.backgroundLayer.addRenderTextureToUndoStack()
     texture.destroy()
-    this.load.off('complete', this.initialDraw)
+  }
+
+  onSpriteSheetsLoaded = () => {
+    this.spriteSheetsToLoad.forEach((ssId) => {
+      const ss = window.spriteSheets[ssId]
+      ss.sprites.forEach((tile) => {
+        const tileNamePrefix = 'sprite'
+        this.textures.get(ss.id).add(tile.id.slice(tileNamePrefix.length), 0, tile.x, tile.y, tile.width, tile.height)
+      })
+    })
+    this.load.off('complete', this.onSpriteSheetsLoaded)
+    this.initialDraw()
   }
 
   create() {
     this.load.image(DEFAULT_TEXTURE_ID, '/assets/images/square10x10.png')
-
-    if(this.textureId === DEFAULT_CLEAR_TEXTURE_ID) {
-      this.load.start();
-    } else  if(this.spriteSheetName) {
-      this.load.image(this.spriteSheetName, window.location.origin + '/' + window.spriteSheets[this.spriteSheetName].serverImageUrl)
-      this.load.on('complete', this.onSpriteSheetLoaded);
-      this.load.start();
-    } else {
-      this.load.image(this.textureId, window.awsUrl + this.textureId)
-      this.load.on('complete', this.initialDraw);
-      this.load.start();
-    }
     
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId, stageId: 'spriteeditor', boundaries: this.boundaries})
-    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
+    const brushes = store.getState().gameModel.gameModel.brushes 
 
-    this.createGrids()
+    const textureIds = [this.textureId]
+    Object.keys(brushes).forEach((brushId) => {
+      const brush = brushes[brushId]
+      if(brush.textureId) {
+        textureIds.push(brush.textureId)
+      }
+    })
+
+    const gameModel = store.getState().gameModel.gameModel
+
+    this.spriteSheetsToLoad = []
+    textureIds.forEach((textureId) => {
+      const { spriteSheetName } = getTextureMetadata(textureId)
+      if(this.textureId === DEFAULT_CLEAR_TEXTURE_ID) {
+
+      } else if(spriteSheetName) {
+        const spriteSheet = window.spriteSheets[spriteSheetName]
+        if(spriteSheet.serverImageUrl) {
+          this.load.image(spriteSheet.id, window.location.origin + '/' +  spriteSheet.serverImageUrl)
+          this.spriteSheetsToLoad.push(spriteSheetName)
+        }
+      } else {
+        const awsImageData = gameModel.awsImages[textureId]
+        this.load.image(textureId, window.awsUrl + awsImageData.url)
+      }
+    })
+
+    this.load.start();
+    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+    this.loadingText = this.add.text(screenCenterX, screenCenterY, 'Loading..').setOrigin(0.5);
+    
+    this.load.on('complete', this.onSpriteSheetsLoaded);
+    
+    this.backgroundLayer = new CodrawingCanvas(this, {isHost: true, canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId, stageId: 'spriteeditor', boundaries: this.boundaries})
+    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
 
     this.input.on('pointerdown', this.onPointerDown, this);
     this.input.on('pointerup', this.onPointerUp);

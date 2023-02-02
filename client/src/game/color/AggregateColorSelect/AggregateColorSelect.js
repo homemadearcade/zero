@@ -37,6 +37,7 @@ const AggregateColorSelect = ({
     }
 
     return <ColorSelect 
+      canvasId={canvasId}
       maxColors={50}
       selectedColorHex={selectedColorHex || selectedColor} 
       colors={aggregateColors} 

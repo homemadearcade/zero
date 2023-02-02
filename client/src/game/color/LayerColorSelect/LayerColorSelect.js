@@ -68,6 +68,7 @@ const LayerColorSelect = ({
 
     if(canvasId === BACKGROUND_CANVAS_ID) {
       return <ColorSelect 
+        canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === BACKGROUND_CANVAS_ID && selectedColorHex} 
         colors={colorsByLayer[BACKGROUND_CANVAS_ID]} 
@@ -78,6 +79,7 @@ const LayerColorSelect = ({
     }
     if(canvasId === PLAYGROUND_CANVAS_ID) {
       return <ColorSelect 
+        canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === PLAYGROUND_CANVAS_ID && selectedColorHex} 
         colors={colorsByLayer[PLAYGROUND_CANVAS_ID]} 
@@ -88,6 +90,7 @@ const LayerColorSelect = ({
     }
     if(canvasId === FOREGROUND_CANVAS_ID) {
       return <ColorSelect 
+        canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === FOREGROUND_CANVAS_ID && selectedColorHex} 
         colors={colorsByLayer[FOREGROUND_CANVAS_ID]} 
@@ -99,7 +102,7 @@ const LayerColorSelect = ({
   }
 
   return <>
-    <Unlockable interfaceId={canvasId + "/colorSelect"}>{renderColorSelect()}</Unlockable>
+    {renderColorSelect()}
     {isCreateColorFlowOpen === ('LayerColorSelect' + canvasId) && <CreateColorFlow
       onComplete={(color) => {
         editGameModel({

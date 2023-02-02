@@ -7,7 +7,7 @@ import './LobbyCommandCenter.scss';
 import { updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
 import Button from '../../ui/Button/Button';
 import { openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
-import { BASIC_INSTANCE_CANVAS_ID, NPC_INSTANCE_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID, PLAYTHROUGH_PLAY_STATE, PLAY_STATE } from '../../game/constants';
+import { BASIC_CLASS, NPC_CLASS, PLAYER_INSTANCE_CANVAS_ID, PLAYGROUND_CANVAS_ID, PLAYTHROUGH_PLAY_STATE, PLAY_STATE } from '../../game/constants';
 import BorderedGrid from '../../ui/BorderedGrid/BorderedGrid';
 import Icon from '../../ui/Icon/Icon';
 
@@ -76,13 +76,13 @@ const LobbyCommandCenter = ({
           }),
         unlockThis('Add Object', 
           {
-            [BASIC_INSTANCE_CANVAS_ID+'/addObject']: true,
+            [BASIC_CLASS+'/addObject']: true,
             ['chooseSprites']: true,
           }
         ),
         unlockThis('Add NPC', 
           {
-            [NPC_INSTANCE_CANVAS_ID+'/addNPC']: true,
+            [NPC_CLASS+'/addNPC']: true,
             ['chooseSprites']: true,
           }
         ),

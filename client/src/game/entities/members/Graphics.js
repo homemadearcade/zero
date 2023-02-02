@@ -1,7 +1,7 @@
 import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
-import { BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from "../../constants"
+import { BASIC_CLASS, NPC_CLASS, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from "../../constants"
 
 export class Graphics {
   constructor(scene, objectInstance){
@@ -56,10 +56,10 @@ export class Graphics {
 
   getObjectGroup(objectClass) {
     if(objectClass.type === NPC_CLASS) {
-      return NPC_INSTANCE_CANVAS_ID
+      return NPC_CLASS
     }
     if(objectClass.type === BASIC_CLASS) {
-      return BASIC_INSTANCE_CANVAS_ID
+      return BASIC_CLASS
     }
     if(objectClass.type === PLAYER_CLASS) {
       return PLAYER_INSTANCE_CANVAS_ID

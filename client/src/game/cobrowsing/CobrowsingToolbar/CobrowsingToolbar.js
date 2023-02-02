@@ -33,13 +33,12 @@ const CobrowsingToolbar = ({cobrowsing: { selectedTool }, selectCobrowsingTool }
     }
 
     return <>
-      <IconButton size="large" icon="faLockOpen" onClick={() => {
-        selectCobrowsingTool(UNLOCK_TOOL)
-                setIsOverClose(false)
-
-      }}/>
       <IconButton size="large" icon="faHandPointer" onClick={() => {
         selectCobrowsingTool(OPEN_TOOL)
+        setIsOverClose(false)
+      }}/>
+      <IconButton size="large" icon="faLockOpen" onClick={() => {
+        selectCobrowsingTool(UNLOCK_TOOL)
         setIsOverClose(false)
       }}/>
     </>

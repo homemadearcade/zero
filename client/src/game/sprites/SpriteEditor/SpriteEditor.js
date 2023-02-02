@@ -24,6 +24,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
+import { Divider } from '@mui/material';
 
 const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes, classes } }, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
   function handleClose(){
@@ -80,7 +81,6 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
   }
   
   const brushList = Object.keys(brushes).map((brushId, i) => {
-    console.log(brushId)
     return <BrushItem key={i} brushId={brushId}/>
   }).slice(0, 42) || []
 
@@ -106,13 +106,14 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
           <BrushControl/>
           <EraserSelect canvasId={SPRITE_EDITOR_CANVAS_ID}></EraserSelect>
           <AggregateColorSelect onSelectColor={onSelectColor} onUnselectColor={onUnselectColor}/>
+        </div>
+        <div id="PhaserPopupGame"/>
+        <div className="SpriteEditor__right-column">
           <BorderedGrid 
             maxItems={42} 
             size="3.5vh"
             items={brushList}/>
-        </div>
-        <div id="PhaserPopupGame"/>
-        <div className="SpriteEditor__right-column">
+          <UndoButton onClick={onSpriteEditorUndo}></UndoButton>
           <Button onClick={async () => {
             const spriteEditorScene = getCurrentGameScene(spriteEditorGameInstance)
             const textureId = await spriteEditorScene.backgroundLayer.save()
@@ -129,7 +130,6 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
           }}>
             Save
           </Button>
-          <UndoButton onClick={onSpriteEditorUndo}></UndoButton>
         </div>
       </div>
 

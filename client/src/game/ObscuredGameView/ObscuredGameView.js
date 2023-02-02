@@ -9,12 +9,12 @@ import './ObscuredGameView.scss';
 import GameView from '../GameView/GameView';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
-import { ADMIN_ROLE } from '../constants';
+import { ADMIN_ROLE, UNLOCK_TOOL } from '../constants';
 
 const ObscuredGameView = ({
   auth: { me },
   lobby: { lobby },
-  cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
+  cobrowsing: { cobrowsingUser, selectedTool }
 }) => {
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
 
@@ -25,7 +25,7 @@ const ObscuredGameView = ({
       return <div className="GameView__empty GameView__empty--overlay">
 
       </div>
-    } else if(!isActivelyCobrowsing) {
+    } else if(selectedTool === UNLOCK_TOOL) {
       return <div className="ObscuredGameView__unlock">
         <Unlockable interfaceId="gameView"><div></div></Unlockable>
       </div>

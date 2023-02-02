@@ -17,19 +17,18 @@ const ColorSelect = ({
   onAddColor,
   selectedColorHex,
   onUnselectColor,
-  maxColors
+  maxColors,
+  canvasId,
 }) => {
 
   const defaultColors = [
     '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
   ]
 
-  const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors]).slice(0, maxColors)
-  const [isHoveringHex, setIsHoveringHex] = useState()
-
-  const items = suggestedColors.map((hex) => {
+  function ColorItem({width, height, hex}) {
     const isSelected = selectedColorHex === hex
     const isHovering = isHoveringHex === hex
+
     return <div 
       onClick={() => {
         if(isSelected) {
@@ -46,9 +45,25 @@ const ColorSelect = ({
       }}
       key={hex} 
       className={classNames("ColorSelect__color", {' ColorSelect__color--selected': isSelected })} 
-      style={{backgroundColor: hex}}>
+      style={{backgroundColor: hex, width: width? width: null, height: height? height: null}}>
         {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
     </div>
+  }
+
+  const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors]).slice(0, maxColors)
+  const [isHoveringHex, setIsHoveringHex] = useState()
+
+  const items = suggestedColors.map((hex) => {
+
+    const el = <ColorItem hex={hex}></ColorItem>
+
+    if(canvasId) {
+      return <Unlockable interfaceId={canvasId + '/colorSelect'}>
+        {el}
+      </Unlockable>
+    }
+
+    return el
   }).slice(0, maxColors)
 
   items.push(<Unlockable isTiny interfaceId="addColor"><Button size="fit" onClick={onAddColor}>
@@ -58,7 +73,8 @@ const ColorSelect = ({
   return <div className="ColorSelect">
     <BorderedGrid
     maxItems={maxColors} 
-    size="2.15vh"
+    width="2.15vh"
+    height="2.15vh"
     items={items}
     />
   </div>

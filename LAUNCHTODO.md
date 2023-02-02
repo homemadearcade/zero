@@ -4,15 +4,9 @@ NOW
 SMALL THINGS
   Collides with self toggle
 
-  Put game in iframe to solve key capture?
-
-  UI indicator for if you are focused on iframe or not
-
   For prologues games spencer made - Fix zones that are not on playground layer 
 
   Fit all titles into the box with TextFit thing from before
-
-  Class Texture Ids Brushes inside of Sprite Editor? this will require just saving a brush object for every class
 
 WRAPPING UP
   Copy game when homemade arcade is completed and put it in a different database

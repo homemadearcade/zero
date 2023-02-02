@@ -22,6 +22,7 @@ const ClassItem = ({
   width, height,
   gameContext: { player},
 }) => {
+
   const objectClass = classes[classId]
   const [isHovering, setIsHovering] = useState(false)
   const isSelected = classIdSelectedClassList === classId

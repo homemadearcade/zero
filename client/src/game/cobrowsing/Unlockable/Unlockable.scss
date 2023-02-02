@@ -2,14 +2,14 @@
   position: relative;
   
   &--openable {
-    // background-color: rgb(144, 202, 249, 0.2);
-    // &:hover {
-    //   background-color: rgb(255, 0,0, 0.2);
-    // }
+    border: 1px solid rgba(144, 202, 249, 0.7);
+    &:hover {
+      border: 2px solid rgba(144, 202, 249, 1);
+    }
   }
-  transition-duration: 1s;
 
-  transition-property: background-color;
+  transition-duration: 1s;
+  transition-property: border;
 
   // &--admin {
   //   opacity: 0.5;
@@ -41,7 +41,7 @@
     height: 100%;
     cursor: pointer;
     opacity: 1;
-    background-color: rgb(144, 202, 249, 0.7);
+    background-color: rgba(144, 202, 249, 0.7);
     transition-property: opacity;
     transition-duration: 1s;
 

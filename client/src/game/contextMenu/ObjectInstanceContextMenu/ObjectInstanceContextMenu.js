@@ -47,7 +47,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
         onMenuItemClick()
       }}>Delete</MenuItem>
     </Unlockable>}
-    {<Unlockable adminOnly interfaceId="adminOnly/viewInstanceJson">
+    {<Unlockable adminOnly interfaceId="contextMenu/instance/viewInstanceJson">
       <MenuItem onClick={() => {
         openJsonViewer(getCurrentGameScene(gameInstance).getObjectInstance(objectId))
       }}>View Json</MenuItem>

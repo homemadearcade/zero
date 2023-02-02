@@ -14,7 +14,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, NPC_INSTANCE_CANVAS_ID, BASIC_CLASS, BASIC_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, CUTSCENE_ID_PREFIX } from '../../constants';
+import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, CUTSCENE_ID_PREFIX } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 import { directionalClass, jumperClass } from '../../defaultData/players';
@@ -31,6 +31,20 @@ const ClassList = ({
 
   if(!classes) {
     return null
+  }
+
+  const renderClassItem = (parentId) =>  (currentClassId, i) => {
+    const el = <ClassItem key={i} classId={currentClassId}/>
+    const currentClass = classes[currentClassId]
+    if(currentClass.interfaceLocked) {
+      return <Unlockable interfaceId={'lockedClass/' + currentClass.name.replace(/\s+/g, '')}>
+        {el}
+      </Unlockable>
+    } else {
+      return <Unlockable interfaceId={parentId + '/select'}>
+        {el}
+      </Unlockable>
+    }
   }
 
   function addDefaultValuesToPlayerClass(objectClass) {
@@ -50,17 +64,9 @@ const ClassList = ({
   const currentClass = classes[currentClassId]
     if(currentClass.type === PLAYER_CLASS) return true
     return false
-  }).map((currentClassId, i) => {
-    const el = <ClassItem key={i} classId={currentClassId}/>
-    const currentClass = classes[currentClassId]
-    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name.replace(/\s+/g, '')}>
-      {el}
-    </Unlockable>
-
-    return el
-  })
+  }).map(renderClassItem(PLAYER_CLASS))
   
-  playerClasses.push(<Unlockable interfaceId={PLAYER_INSTANCE_CANVAS_ID + '/addPlayer'}>
+  playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS + '/addPlayer'}>
     <Button size="fit" 
       onClick={() => {
         openCreateClassFlow(addDefaultValuesToPlayerClass({...defaultPlayerClass}))
@@ -73,17 +79,9 @@ const ClassList = ({
     const currentClass = classes[currentClassId]
     if(currentClass.type === NPC_CLASS) return true
     return false
-  }).map((currentClassId, i) => {
-    const el = <ClassItem key={i} classId={currentClassId}/>
-    const currentClass = classes[currentClassId]
-    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name.replace(/\s+/g, '')}>
-      {el}
-    </Unlockable> 
-    
-    return el
-  })
+  }).map(renderClassItem(NPC_CLASS))
 
-  npcClasses.push(<Unlockable interfaceId={NPC_INSTANCE_CANVAS_ID + '/addNPC'}>
+  npcClasses.push(<Unlockable interfaceId={NPC_CLASS + '/addNPC'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultNpcClass)
     }}>
@@ -95,17 +93,9 @@ const ClassList = ({
   const currentClass = classes[currentClassId]
     if(currentClass.type === BASIC_CLASS) return true
     return false
-  }).map((currentClassId, i) => {
-    const el = <ClassItem key={i} classId={currentClassId}/>
-    const currentClass = classes[currentClassId]
-    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name.replace(/\s+/g, '')}>
-      {el}
-    </Unlockable>
+  }).map(renderClassItem(BASIC_CLASS))
 
-    return el
-  })
-
-  objectClasses.push(<Unlockable interfaceId={BASIC_INSTANCE_CANVAS_ID + '/addObject'}>
+  objectClasses.push(<Unlockable interfaceId={BASIC_CLASS + '/addObject'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultObjectClass)
     }}>
@@ -117,17 +107,9 @@ const ClassList = ({
     const currentClass = classes[currentClassId]
     if(currentClass.type === ZONE_CLASS) return true
     return false
-  }).map((currentClassId, i) => {
-    const el = <ClassItem key={i} classId={currentClassId} />
-    const currentClass = classes[currentClassId]
-    if(currentClass.interfaceLocked) return <Unlockable interfaceId={'lockedClass/' + currentClass.name.replace(/\s+/g, '')}>
-      {el}
-    </Unlockable>
+  }).map(renderClassItem(ZONE_CLASS))
 
-    return el
-  })
-
-  zoneClasses.push(<Unlockable interfaceId={ZONE_INSTANCE_CANVAS_ID + '/addZone'}>
+  zoneClasses.push(<Unlockable interfaceId={ZONE_CLASS + '/addZone'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultZoneClass)
     }}>
@@ -141,9 +123,11 @@ const ClassList = ({
     return false
   }).map((currentCutsceneId, i) => {
     const currentCutscene = cutscenes[currentCutsceneId]
-    return <div style={{cursor:'hover'}} onClick={() => {openCreateCutscene(currentCutscene)}}>
-      <Typography variant="subtitle2">{currentCutscene.name}</Typography>
-    </div>
+    return <Unlockable interfaceId="dialogue/select">
+      <div style={{cursor:'hover'}} onClick={() => {openCreateCutscene(currentCutscene)}}>
+        <Typography variant="subtitle2">{currentCutscene.name}</Typography>
+      </div>
+    </Unlockable>
   })
 
   dialogueScenes.push(<Unlockable interfaceId={'dialogue/addDialogue'}>
@@ -160,8 +144,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'players',
-    interfaceId: PLAYER_INSTANCE_CANVAS_ID + '/select',
-    lockBody: true,
+    interfaceId: PLAYER_CLASS + '/*',
     title: <>
       <Typography component="div" variant="subtitle1">Players</Typography>
       <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
@@ -176,11 +159,10 @@ const ClassList = ({
 
   accordians.push({
     id: 'NPCs',
-    interfaceId: NPC_INSTANCE_CANVAS_ID + '/select',
-    lockBody: true,
+    interfaceId: NPC_CLASS + '/*',
     title: <>
       <Typography component="div" variant="subtitle1">NPCs</Typography>
-      <LayerVisibility canvasId={NPC_INSTANCE_CANVAS_ID} />
+      <LayerVisibility canvasId={NPC_CLASS} />
     </>,
     body: <BorderedGrid
       maxItems={16} 
@@ -192,11 +174,10 @@ const ClassList = ({
 
   accordians.push({
     id: 'objects',
-    interfaceId: BASIC_INSTANCE_CANVAS_ID + '/select',
-    lockBody: true,
+    interfaceId: BASIC_CLASS + '/*',
     title: <>
       <Typography component="div" variant="subtitle1">Objects</Typography>
-      <LayerVisibility canvasId={BASIC_INSTANCE_CANVAS_ID} />
+      <LayerVisibility canvasId={BASIC_CLASS} />
     </>,
     body: <BorderedGrid
       maxItems={16} 
@@ -208,8 +189,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'Zones',
-    interfaceId: ZONE_INSTANCE_CANVAS_ID + '/select',
-    lockBody: true,
+    interfaceId: ZONE_CLASS + '/*',
     title: <>
       <Typography component="div" variant="subtitle1">Zones</Typography>
       <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
@@ -224,8 +204,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'Dialogue',
-    interfaceId: 'dialogue/select',
-    lockBody: true,
+    interfaceId: 'dialogue/*',
     title: <>
       <Typography component="div" variant="subtitle1">Dialogue</Typography>
     </>,

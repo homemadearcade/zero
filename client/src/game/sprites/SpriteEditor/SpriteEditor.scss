@@ -7,8 +7,11 @@
   margin: 0 auto;
 
   &__left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     width: 20vh;
-    background-color: #111;
+    // background-color: #111;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       display: none;
@@ -16,8 +19,13 @@
   }
 
   &__right-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: 1rem;
+    align-items: center;
     width: 20vh;
-    background-color: #111;
+    // background-color: #111;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       display: none;

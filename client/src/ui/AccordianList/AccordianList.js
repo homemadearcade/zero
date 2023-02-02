@@ -4,7 +4,6 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 
 const Accordion = styled((props) => (
@@ -61,34 +60,35 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
       {title}
     </AccordionSummary>
 
-    if(interfaceId) {
-      return <Unlockable hideLockToggle interfaceId={interfaceId}>
-        {summaryEl}
-      </Unlockable>
-    } else {
-      return summaryEl
-    }
+    return summaryEl
   }
 
   function renderBody({body, interfaceId}) {
     const bodyEl = <AccordionDetails>{body}</AccordionDetails>
 
+    return bodyEl
+  }
+
+  function renderAccordian({id, title, body, interfaceId, lockBody}) {
+
+    const el = <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
+      {renderSummary({title, interfaceId})}
+      {renderBody({body, interfaceId})}
+    </Accordion>
+
     if(interfaceId) {
-      return <Unlockable interfaceId={interfaceId}>
-        {bodyEl}
+      return <Unlockable hideLockToggle interfaceId={interfaceId}>
+        {el}
       </Unlockable>
     } else {
-      return bodyEl
+      return el
     }
   }
 
   return (
     <div className="Accordian">
-      {accordianList.filter((item) => !!item).map(({id, title, body, interfaceId, lockBody}) => {
-        return <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
-          {renderSummary({title, interfaceId})}
-          {renderBody({body, interfaceId, lockBody})}
-        </Accordion>
+      {accordianList.filter((item) => !!item).map((props) => {
+        return renderAccordian(props)
       })}
     </div>
   );
