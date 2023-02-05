@@ -11,7 +11,7 @@ import Button from '../../Button/Button'
 import Icon from '../../Icon/Icon';
 
 const ErrorHandler = ({ 
-  errors,
+  errors: { errors },
   clearError
  }) => {  
 

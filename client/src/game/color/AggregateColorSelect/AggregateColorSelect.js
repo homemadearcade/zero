@@ -10,6 +10,7 @@ import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { getHexFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
+import { COMMON_COLOR_ID } from '../../constants';
 
 const AggregateColorSelect = ({
   gameModel: { gameModel : { colors }},
@@ -53,7 +54,9 @@ const AggregateColorSelect = ({
       onComplete={(color) => {
         editGameModel({
           colors: {
-            [color.hex]: {}
+            [color.hex]: {
+              [COMMON_COLOR_ID]: true
+            }
           }
         })
         onSelectColor(color.hex)

@@ -24,10 +24,13 @@ export class CodrawingScene extends Phaser.Scene {
     this.size = size
     this.tint = tint
 
-    this.textureId = textureId
-    const { spriteIndex, spriteSheetName } = getTextureMetadata(this.textureId)
-    this.spriteIndex = spriteIndex
-    this.spriteSheetName = spriteSheetName
+    if(textureId) {
+      this.textureId = textureId
+      const { spriteIndex, spriteSheetName } = getTextureMetadata(this.textureId)
+      this.spriteIndex = spriteIndex
+      this.spriteSheetName = spriteSheetName
+    }
+
 
     this.boundaries = {
       x: 0,
@@ -144,6 +147,9 @@ export class CodrawingScene extends Phaser.Scene {
   initialDraw = () => {
     this.loadingText.destroy()
     this.createGrids()
+    if(!this.textureId && !this.tint) {
+      return 
+    }
     const texture = new Brush(this, { tint: this.tint, brushId: this.textureId, textureId: this.textureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
     texture.setDisplaySize(this.size, this.size)
     this.backgroundLayer.draw(texture, 0, 0)
@@ -180,10 +186,11 @@ export class CodrawingScene extends Phaser.Scene {
 
     this.spriteSheetsToLoad = []
     textureIds.forEach((textureId) => {
+      if(!this.textureId) {
+        return
+      }
       const { spriteSheetName } = getTextureMetadata(textureId)
-      if(this.textureId === DEFAULT_CLEAR_TEXTURE_ID) {
-
-      } else if(spriteSheetName) {
+      if(spriteSheetName) {
         const spriteSheet = window.spriteSheets[spriteSheetName]
         if(spriteSheet.serverImageUrl) {
           this.load.image(spriteSheet.id, window.location.origin + '/' +  spriteSheet.serverImageUrl)

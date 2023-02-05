@@ -10,6 +10,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ColorGrid from '../ColorGrid/ColorGrid';
 import Icon from '../../../ui/Icon/Icon';
+import tinycolor from 'tinycolor2';
 
 const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, gameFormEditor: { color }}) => {
   function handleClose() {
@@ -26,7 +27,8 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, 
       <Icon icon="faEyeDropper" onClick={() => {
         const eyeDropper = new window.EyeDropper();
         eyeDropper.open().then((result) => {
-          onComplete({ canvasId: color.canvasId, hex: result.sRGBHex})
+          const hex = '#' + tinycolor(result.sRGBHex).toHex()
+          onComplete({ canvasId: color.canvasId, hex })
         }).catch((e) => {
           console.error(e)
         });

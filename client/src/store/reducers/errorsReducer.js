@@ -47,9 +47,14 @@ import {
   EDIT_TICKETED_EVENT_FAIL,
   GET_TICKETED_EVENTS_FAIL,
   GET_TICKETED_EVENT_FAIL,
+  CHANGE_ERROR_STATE,
 } from '../types';
 
-const initialState = []
+const initialState = {
+  errors: [],
+  errorState: null,
+  errorStateMessage: null
+}
 
 export const initialErrorState = initialState
 
@@ -102,12 +107,25 @@ export default function errorReducer(state = initialState, { type, payload }) {
     case UPDATE_COBROWSING_FAIL:
     case START_COBROWSING_FAIL:
     case ASSIGN_LOBBY_ROLE_FAIL:
-      return [...state, {message: payload.error, type}]
+      return {
+        ...state,
+        errors: 
+        [...state.errors, {message: payload.error, type}]
+      }
     case CLEAR_ERROR:
-      return state.filter((m, i) => {
-        if (i === payload.index) return false;
-        return true
-      })
+      return {
+        ...state,
+        errors: state.errors.filter((m, i) => {
+          if (i === payload.index) return false;
+          return true
+        })
+      }
+    case CHANGE_ERROR_STATE: 
+      return {
+        ...state,
+        errorState: payload.errorState,
+        errorStateMessage: payload.errorStateMessage
+      }
     default:
       return state;
   }

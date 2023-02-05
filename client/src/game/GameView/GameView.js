@@ -14,10 +14,10 @@ import { setGameInstance } from '../../store/actions/webPageActions';
 import Cutscene from '../cutscene/Cutscene/Cutscene';
 import StateScreen from '../StateScreen/StateScreen';
 import store from '../../store';
-import { changeLobbyConnectionState } from '../../store/actions/lobbyActions';
 import { PHASER_ERROR } from '../../lobby/constants';
 import ControlsPopup from '../ControlsPopup/ControlsPopup';
 import Icon from '../../ui/Icon/Icon';
+import { changeErrorState } from '../../store/actions/errorsActions';
 
 const config= {
   type: Phaser.WEBGL,
@@ -77,7 +77,7 @@ const GameView = (props) => {
   return <PhaserGame {...props}></PhaserGame>
 }
 
-const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeLobbyConnectionState }) => {
+const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeErrorState }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked}), true);
@@ -94,7 +94,7 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeLobbyCo
     const connectionInterval = setInterval(() => {
       const lastUpdate = getCurrentGameScene(store.getState().webPage.gameInstance).lastUpdate
       if(lastUpdate + noPhaserUpdateDelta < Date.now()) {
-        changeLobbyConnectionState(PHASER_ERROR, 'The game ran into an error and needs to be restarted')
+        changeErrorState(PHASER_ERROR, 'The game ran into an error and needs to be restarted')
       }
     }, noPhaserUpdateDelta)
 
@@ -117,4 +117,4 @@ const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
 });
 
-export default connect(mapStateToProps, { setGameInstance, changeLobbyConnectionState })(GameView);
+export default connect(mapStateToProps, { setGameInstance, changeErrorState })(GameView);

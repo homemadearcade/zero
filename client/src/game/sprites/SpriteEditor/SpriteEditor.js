@@ -56,9 +56,9 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
     game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
     setSpriteEditorGameInstance(game)
 
-    console.log('???')
+    console.log('load sprite edit ')
     return () => {
-      console.log('XX??')
+      console.log('unload sprite edit ')
       getCurrentGameScene(game).unload()
       game.destroy()
     }
@@ -98,6 +98,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
   //       +
   //     </Button>
   // </Unlockable>)
+
 
   return (
     <CobrowsingModal open={true} width="110vh" zIndexIncrease={10} height="70vh" onClose={handleClose}>

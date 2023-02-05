@@ -9,7 +9,7 @@ import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
-import { changeLobbyConnectionState, editLobby } from '../../store/actions/lobbyActions';
+import { changeErrorState, editLobby } from '../../store/actions/lobbyActions';
 import { changeGameState, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import { PHASER_ERROR } from '../../lobby/constants';

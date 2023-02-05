@@ -4,6 +4,12 @@ NOW
 
   Know where a connection is initiated ( right now game connection is iniated where?? in the lobby? make this more explicit) and then you check for disconnection, if its not updating correctly, disconnect it yourself and then reconnect
 
+  GAME CONNECTION and PHASER ERRORS can go into the Game View and Obscured Game View
+
+  CODRAWING ERRORS CAN GO IN SUBTLER AREAS??? Should that interrupt flow?
+
+  COBROWSING ERRORS AND LOBBY ERRORS CAN GO IN THE TOP LEFT? or over the whole view?
+
 SMALL THINGS
   Collides with self toggle
 

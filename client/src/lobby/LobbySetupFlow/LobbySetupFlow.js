@@ -265,27 +265,20 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
         {
           id: 'Load Prologue 1',
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
-          onClickNext: () => {
-            editLobby(lobby.id, {
+          onClickNext: async () => {
+            await editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
               isGamePoweredOn: true,
               experienceState: GAME_EDITOR_UI,
               skipStageSave: true
             })
+            changeGameState(PAUSED_STATE)
           },
           nextButtonText: 'Load Prologue 1'
         },
         {
-          id: 'Pause Game',
-          title: <Typography component="h5" variant="h5">Pause Game</Typography>,
-          onClickNext: () => {
-            changeGameState(PAUSED_STATE)
-          },
-          nextButtonText: 'Pause'
-        },
-        {
-          id: 'UI - Unlock Game View',
-          title: <Typography component="h5" variant="h5">UI - Unlock Game View</Typography>,
+          id: 'Show Pixel',
+          title: <Typography component="h5" variant="h5">Show Pixel</Typography>,
           instructions: <>
             This will set the participants UI to be able to see the Game View.
           </>,
@@ -310,8 +303,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           `
         ),
         {
-          id: 'Unpause Game',
-          title: <Typography component="h5" variant="h5">Unpause Game</Typography>,
+          id: 'Allow Pixel Movement',
+          title: <Typography component="h5" variant="h5">Allow Pixel Movement</Typography>,
           onClickNext: () => {
             changeGameState(PLAY_STATE)
           },

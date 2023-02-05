@@ -7,7 +7,7 @@ import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
-import { assignLobbyRole, changeLobbyConnectionState, editLobby} from '../../store/actions/lobbyActions';
+import { assignLobbyRole, editLobby} from '../../store/actions/lobbyActions';
 import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 
@@ -25,28 +25,29 @@ import LobbyPowerIndicator from '../../lobby/LobbyPowerIndicator/LobbyPowerIndic
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import AgoraUserVideo from '../../lobby/agora/AgoraUserVideo/AgoraUserVideo';
 import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
-import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import withSpeedTest from '../../hoc/withSpeedTest';
-import { GAME_CONNECTION_LOST, PHASER_ERROR } from '../../lobby/constants';
+import { GAME_CONNECTION_LOST } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
-import { DialogActions, DialogContent, DialogTitle, Divider } from '@mui/material';
+import { DialogContent, DialogTitle } from '@mui/material';
 import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
 import LobbyChatroom from '../../lobby/LobbyChatroom/LobbyChatroom';
 import { Container } from '@mui/system';
 import { inIframe } from '../../utils/webPageUtils';
 import WithCobrowsing from '../../hoc/withCobrowsing';
-import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperienceState';
+import AskFullscreen from '../../hoc/askFullscreen';
+import { changeErrorState } from '../../store/actions/errorsActions';
 
 const LobbyPage = ({
-  lobby: { lobby, lobby: { experienceState, isGamePoweredOn, skipStageSave }, connectionMessage, connectionState  },
+  lobby: { lobby, lobby: { experienceState, isGamePoweredOn, skipStageSave } },
+  errors: { errorState, errorStateMessage },
   auth: { me },
   myTracks,
   userTracks,
   editLobby,
   assignLobbyRole,
   video: { isInsideVideoCall },
-  changeLobbyConnectionState
+  changeErrorState
 }) => {
   let { path } = useRouteMatch();
 
@@ -158,28 +159,12 @@ const LobbyPage = ({
     }
   }
 
-  function renderLobbyConnection() {
-    if(connectionState === GAME_CONNECTION_LOST) return <Dialog open onClose={() => {
-      changeLobbyConnectionState(null)
+  function renderErrors() {
+    if(errorState === GAME_CONNECTION_LOST) return <Dialog open onClose={() => {
+      changeErrorState(null)
     }}>
       <DialogTitle>Game Connection Lost</DialogTitle>
-      <DialogContent>{connectionMessage}</DialogContent>
-    </Dialog>
-
-    if(connectionState === PHASER_ERROR) return <Dialog open>
-      <DialogTitle>Game Error</DialogTitle>
-      <DialogContent>{connectionMessage}</DialogContent>
-      <DialogActions><Button onClick={async () => {
-        await editLobby(lobby.id, {
-          isGamePoweredOn: false
-        })
-        setTimeout(async () => {
-          await editLobby(lobby.id, {
-            isGamePoweredOn: true
-          })
-          changeLobbyConnectionState(null)
-        }, 100)
-      }}>Restart Game</Button></DialogActions>
+      <DialogContent>{errorStateMessage}</DialogContent>
     </Dialog>
   }
   
@@ -189,11 +174,11 @@ const LobbyPage = ({
           <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
         </WithCobrowsing>
         {renderLobbyAdminExperience()}
-        {renderLobbyConnection()}
+        {renderErrors()}
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <LobbyDrawer>
-          <CobrowsingIndicator/>
+          {experienceState === GAME_EDITOR_UI && <CobrowsingIndicator/>}
           {experienceState === GAME_EDITOR_UI && <LobbyPowerIndicator/>}
           {experienceState === GAME_EDITOR_UI && isGamePoweredOn && <ConstellationToggle/>}
           {skipStageSave && <div className="LobbyPage__not-saving-stage">
@@ -202,9 +187,11 @@ const LobbyPage = ({
           </div>}
         </LobbyDrawer>}
         <WithCobrowsing>
-          <Container>{renderGameExperience()}</Container>
+          <AskFullscreen>
+            <Container>{renderGameExperience()}</Container>
+          </AskFullscreen>
         </WithCobrowsing>
-        {renderLobbyConnection()}
+        {renderErrors()}
       </Route>
     </Switch>
 };
@@ -212,7 +199,8 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
-  video: state.video
+  video: state.video,
+  errors: state.errors
 });
 
 export default compose(
@@ -220,5 +208,5 @@ export default compose(
   requireAuth,
   withLobby,
   withSpeedTest,
-  connect(mapStateToProps, { assignLobbyRole, editLobby, changeLobbyConnectionState }),
+  connect(mapStateToProps, { assignLobbyRole, editLobby, changeErrorState }),
 )(LobbyPage);

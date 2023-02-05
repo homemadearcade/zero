@@ -22,7 +22,7 @@ import {
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
-  CHANGE_LOBBY_CONNECTON_STATE,
+  CHANGE_ERROR_STATE,
   SEND_LOBBY_MESSAGE_FAIL
 } from '../types';
 
@@ -133,7 +133,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         onboardingStep: payload.onboardingStep
       };
 
-    case CHANGE_LOBBY_CONNECTON_STATE: 
+    case CHANGE_ERROR_STATE: 
       return {
         ...state,
         connectionState: payload.connectionState,

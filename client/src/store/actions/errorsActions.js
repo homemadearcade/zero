@@ -1,4 +1,5 @@
 import { 
+  CHANGE_ERROR_STATE,
   CLEAR_ERROR
 } from '../types';
 
@@ -11,3 +12,13 @@ export const clearError = (index) => (dispatch, getState) => {
     }
   });
 }
+
+export const changeErrorState  = (errorState, errorStateMessage) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_ERROR_STATE,
+    payload: {
+      errorState,
+      errorStateMessage
+    }
+  })
+};

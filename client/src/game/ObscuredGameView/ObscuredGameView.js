@@ -11,12 +11,19 @@ import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { ADMIN_ROLE, UNLOCK_TOOL } from '../constants';
 import Icon from '../../ui/Icon/Icon';
+import { PHASER_ERROR } from '../../lobby/constants';
+import { changeErrorState } from '../../store/actions/errorsActions';
+import Button from '../../ui/Button/Button';
+import { editLobby } from '../../store/actions/lobbyActions';
 
 const ObscuredGameView = ({
   auth: { me },
   lobby: { lobby },
   cobrowsing: { cobrowsingUser, selectedTool },
   gameModel,
+  errors: { errorState },
+  editLobby,
+  changeErrorState,
 }) => {
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
 
@@ -48,8 +55,23 @@ const ObscuredGameView = ({
     <Icon icon="faPowerOff"></Icon>
     Not Powered On
   </div>
-  
 
+  if(errorState === PHASER_ERROR) return <div className="GameView__empty">
+      <Icon icon="faTriangleExclamation"></Icon>
+      Game Error
+      {me.role === ADMIN_ROLE && <Button onClick={async () => {
+        await editLobby(lobby.id, {
+          isGamePoweredOn: false
+        })
+        setTimeout(async () => {
+          await editLobby(lobby.id, {
+            isGamePoweredOn: true
+          })
+          changeErrorState(null)
+        }, 100)
+      }}>Restart Game</Button>}
+    </div>
+  
   if(lobby.isGamePoweredOn) {
     return <>
       {renderOverlay()}
@@ -67,9 +89,10 @@ const mapStateToProps = (state) => ({
   cobrowsing: state.cobrowsing,
   gameModel: state.gameModel,
   unlockableInterfaceIds: state.unlockableInterfaceIds,
+  errors: state.errors,
 });
 
 export default compose(
   requireAuth,
-  connect(mapStateToProps, { }),
+  connect(mapStateToProps, { editLobby, changeErrorState }),
 )(ObscuredGameView);

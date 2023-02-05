@@ -47,7 +47,8 @@ const initialState = {
   },
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
-  }
+  },
+  isSpriteEditorOpen: false
 };
 
 export const initialGameEditorState = initialState
@@ -113,12 +114,14 @@ export default function gameEditorReducer(state = initialState, { type, payload 
     case OPEN_SPRITE_EDITOR:
       return {
         ...state,
+        isSpriteEditorOpen: true,
         spriteEditorTextureId: payload.textureId,
         spriteEditorAwsId: SPRITE_EDITOR_ID_PREFIX + generateUniqueId()
       }
     case CLOSE_SPRITE_EDITOR: 
       return {
         ...state,
+        isSpriteEditorOpen: false,
         spriteEditorTextureId: null,
       }
     case OPEN_SELECT_BACKGROUND_COLOR: 

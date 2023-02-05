@@ -58,6 +58,7 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
         {isMe ? 'Play' : 'Join'}
       </Link>
       <div className="LobbyUsername__icons">
+        <div className="LobbyUsername__fullscreen">{user.email}</div>
         <div className="LobbyUsername__fullscreen"><div className="LobbyUsername__icon"><Icon icon="faWindowMaximize"/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
         <div className="LobbyUsername__focus"><div className="LobbyUsername__icon"><Icon icon="faEye"/></div>{(!userStatus || userStatus?.isFocused) ? 'On Tab' : 'Away'}</div>
         <div className="LobbyUsername__cobrowsing"><div className="LobbyUsername__icon"><Icon icon="faArrowPointer"/></div>{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</span> : 'Never'}</div>

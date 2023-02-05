@@ -8,7 +8,6 @@ import GameEditor from '../GameEditor/GameEditor';
 import AgoraVideoLayoutHA from '../../lobby/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
 import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import askFullscreen from '../../hoc/askFullscreen';
 import CobrowsingToolbar from '../cobrowsing/CobrowsingToolbar/CobrowsingToolbar';
 
 const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isActivelyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
@@ -38,7 +37,6 @@ const mapStateToProps = (state) => {
 
 export default compose(
   withGame,
-  askFullscreen,
   connect(mapStateToProps, { }),
 )(CobrowsingGame);
 

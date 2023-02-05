@@ -6,8 +6,8 @@ import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_U
 import { EditorScene } from './EditorScene';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
-import { changeLobbyConnectionState } from '../../store/actions/lobbyActions';
 import { GAME_CONNECTION_LOST } from '../../lobby/constants';
+import { changeErrorState } from '../../store/actions/errorsActions';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
@@ -123,10 +123,10 @@ export class GameClientScene extends EditorScene {
 
     if(this.lastUpdate) {
       if(this.lastUpdate + disconnectedDelta < Date.now()) {
-        store.dispatch(changeLobbyConnectionState(GAME_CONNECTION_LOST, 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'))
+        store.dispatch(changeErrorState(GAME_CONNECTION_LOST, 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'))
         this.lastUpdate = null
       } else if(store.getState().lobby.connectionState) {
-        store.dispatch(changeLobbyConnectionState(null))
+        store.dispatch(changeErrorState(null))
       }  
     }
   }

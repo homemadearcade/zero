@@ -4,8 +4,8 @@ import {
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED } from '../../store/types';
 import { EditorScene } from './EditorScene';
-import { changeLobbyConnectionState} from '../../store/actions/lobbyActions';
 import { GAME_CONNECTION_LOST } from '../../lobby/constants';
+import { changeErrorState } from '../../store/actions/errorsActions';
 
 export class GameHostScene extends EditorScene {
   constructor(props) {
@@ -22,7 +22,6 @@ export class GameHostScene extends EditorScene {
     this.upsServer = 0
 
     this.gameInstanceId = props.sceneInstanceData.gameInstanceId
-    console.log(this.gameInstanceId)
   }
 
   callAnimation({type, data}) {
@@ -121,10 +120,10 @@ export class GameHostScene extends EditorScene {
 
     if(this.lastAcknowledgement) {
       if(this.lastAcknowledgement + disconnectedDelta < Date.now()) {
-        store.dispatch(changeLobbyConnectionState(GAME_CONNECTION_LOST, 'Your connection to your guide has been lost. This may resolve shorty. If it doesnt please refresh the page. If the problem continues further, your guide will contact you'))
+        store.dispatch(changeErrorState(GAME_CONNECTION_LOST, 'Your connection to your guide has been lost. This may resolve shorty. If it doesnt please refresh the page. If the problem continues further, your guide will contact you'))
         this.lastAcknowledgement = null
       } else if(state.lobby.connectionState) {
-        store.dispatch(changeLobbyConnectionState(null))
+        store.dispatch(changeErrorState(null))
       }
     }
     
