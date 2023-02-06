@@ -46,7 +46,7 @@ import { BACKGROUND_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_CANVAS_ID, PL
 import { editGameModel } from './gameModelActions';
 import store from '..';
 import { PHASER_ERROR } from '../../lobby/constants';
-import { changeErrorState } from './errorsActions';
+import { clearErrorState } from './errorsActions';
 
 let pingInterval;
 
@@ -376,8 +376,8 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
 
     // event is triggered to all users in this lobby when lobby is updated
     window.socket.on(ON_LOBBY_UPDATE, ({lobby}) => {
-      if(lobby.isGamePoweredOn === false && getState().errors.errorState === PHASER_ERROR) {
-        dispatch(changeErrorState(null))
+      if(lobby.isGamePoweredOn === false && getState().errors.errorStates[PHASER_ERROR].on) {
+        dispatch(clearErrorState(PHASER_ERROR))
       }
       dispatch({
         type: ON_LOBBY_UPDATE,

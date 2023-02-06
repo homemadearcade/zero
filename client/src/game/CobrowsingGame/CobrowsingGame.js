@@ -9,10 +9,12 @@ import AgoraVideoLayoutHA from '../../lobby/agora/AgoraVideoLayoutHA/AgoraVideoL
 import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CobrowsingToolbar from '../cobrowsing/CobrowsingToolbar/CobrowsingToolbar';
+import classNames from 'classnames';
 
-const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, isActivelyCobrowsing }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => { 
+const CobrowsingGame = ({ auth: { me }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserId }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => {   
+
   return <GameEditor 
-      classNames={isActivelyCobrowsing ? 'GameEditor--cobrowsing' : ''}
+      classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool})}
       leftColumn={<>
         {isInsideVideoCall && <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
       </>}
@@ -21,7 +23,7 @@ const CobrowsingGame = ({ cobrowsing: { cobrowsingUser, isSubscribedCobrowsing, 
     >
       {children}
       {isActivelyCobrowsing && <CobrowsingToolbar/>}
-      {isSubscribedCobrowsing && <RemoteMouse userId={cobrowsingUser.id}/>}
+      {isSubscribedCobrowsing && remoteStateUserId && <RemoteMouse userId={cobrowsingUser.id}/>}
     </GameEditor>
 };
 
@@ -30,6 +32,7 @@ const mapStateToProps = (state) => {
   const cobrowsingState = mapCobrowsingState(state, {
     video: state.video,
     cobrowsing: state.cobrowsing,
+    auth: state.auth,
   });
 
   return cobrowsingState

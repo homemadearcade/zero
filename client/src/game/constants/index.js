@@ -11,8 +11,9 @@ export const CAMERA_PREVIEW_BORDER_SIZE = 4
 
 export const UNDO_MEMORY_MAX = 10
 
-export const disconnectedDelta = 15000
+export const gameInstanceDisconnectedDelta = 15000
 export const noPhaserUpdateDelta = 15000
+export const noCobrowsingUpdateDelta = 15000
 
 /////////////////////////////////////
 /////////////////////////////////////

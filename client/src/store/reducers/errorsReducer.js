@@ -1,3 +1,4 @@
+import { COBROWSING_CONNECTION_LOST, CODRAWING_CONNECTION_LOST, GAME_CONNECTION_LOST, INTERNET_SPEED_TEST_FAIL, PHASER_ERROR, SOCKET_CONNECTION_LOST } from '../../lobby/constants';
 import {
   ME_FAIL,
   ADD_ARCADE_GAME_FAIL,
@@ -48,12 +49,34 @@ import {
   GET_TICKETED_EVENTS_FAIL,
   GET_TICKETED_EVENT_FAIL,
   CHANGE_ERROR_STATE,
+  CLEAR_ERROR_STATE,
 } from '../types';
 
 const initialState = {
   errors: [],
-  errorState: null,
-  errorStateMessage: null
+  errorStates: {
+    [PHASER_ERROR]: {
+      on: false,
+    },
+    [GAME_CONNECTION_LOST]: {
+      on: false,
+      message: ''
+    },
+    [COBROWSING_CONNECTION_LOST]: {
+      on: false,
+      userId: null
+    },
+    [CODRAWING_CONNECTION_LOST]: {
+      canvasId: null,
+      on: false,
+    },
+    [SOCKET_CONNECTION_LOST]: {
+      on: false
+    },
+    [INTERNET_SPEED_TEST_FAIL]: {
+      on: false
+    }
+  }
 }
 
 export const initialErrorState = initialState
@@ -123,8 +146,21 @@ export default function errorReducer(state = initialState, { type, payload }) {
     case CHANGE_ERROR_STATE: 
       return {
         ...state,
-        errorState: payload.errorState,
-        errorStateMessage: payload.errorStateMessage
+        errorStates: {
+          ...state.errorStates,
+          [payload.errorState]: {
+            ...payload.data,
+            on: true
+          }
+        }
+      }
+    case CLEAR_ERROR_STATE: 
+      return {
+        ...state,
+        errorStates: {
+          ...state.errorStates,
+          [payload.errorState]: initialState.errorStates[payload.errorState]
+        }
       }
     default:
       return state;

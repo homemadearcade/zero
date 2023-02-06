@@ -7,6 +7,7 @@ import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ProjectileEjector } from "./members/ProjectileEjector";
 import { PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
+import { nodeSize } from "../defaultData/general";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, id, instanceData){
@@ -54,12 +55,18 @@ export class PlayerInstance extends ObjectInstance {
 
     this.cameraPreview = new CameraPreview(this.scene, {color: 0x00FF00, zoom: objectClass.camera.zoom})
     this.cameraPreview.setVisible(false)
-    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', size: objectClass.graphics.width * 3 }) 
+    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: objectClass.graphics.width + (nodeSize * 3), height: objectClass.graphics.height + (nodeSize * 3) }) 
 
     this.controlledMovement = new ControlledMovement(scene, this)
     this.projectileEjector = new ProjectileEjector(scene, this)
 
     return this
+  }
+
+  setSize(width, height) {
+    super.setSize(width, height)
+
+    this.interactArea.setSize(width, height)
   }
 
   setZoom(zoom) {

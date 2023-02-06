@@ -32,13 +32,24 @@ import { getCurrentGameScene } from '../../utils/editorUtils';
 import { updateArcadeGameCharacter } from './arcadeGameActions';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
-  const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
-  const viewPadding = (window.innerWidth - viewWidth)/2
-  const xPercent = (e.clientX - viewPadding)/viewWidth
-
   const state = store.getState()
   const userId = state.auth.me.id
   const lobbyId = state.lobby.lobby.id 
+
+  if(!e) {
+    window.socket.emit(ON_COBROWSING_STATUS_UPDATE, {
+      lobbyId,
+      userId,
+      cobrowsingMouse: {
+        lastPing: Date.now()
+      }
+    })
+    return
+  }
+
+  const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
+  const viewPadding = (window.innerWidth - viewWidth)/2
+  const xPercent = (e.clientX - viewPadding)/viewWidth
 
   const cobrowsingStatus = {
     lobbyId,
@@ -54,15 +65,15 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
     },
   }
 
-  const leftColumn = document.getElementById('GameEditor__left-column')
-  const rightColumn = document.getElementById('GameEditor__right-column')
+  // const leftColumn = document.getElementById('GameEditor__left-column')
+  // const rightColumn = document.getElementById('GameEditor__right-column')
 
-  if(leftColumn && rightColumn) {
-    cobrowsingStatus.cobrowsingScroll = {
-      leftColumnScrollYPercent: leftColumn.scrollTop/leftColumn.scrollHeight,
-      rightColumnScrollYPercent: rightColumn.scrollTop/rightColumn.scrollHeight
-    }
-  }
+  // if(leftColumn && rightColumn) {
+  //   cobrowsingStatus.cobrowsingScroll = {
+  //     leftColumnScrollYPercent: leftColumn.scrollTop/leftColumn.scrollHeight,
+  //     rightColumnScrollYPercent: rightColumn.scrollTop/rightColumn.scrollHeight
+  //   }
+  // }
 
   if(state.webPage.gameInstance && window.pointer) {
     
@@ -193,6 +204,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     window.addEventListener('keyup', onCobrowsingKeyUp)
     window.addEventListener('mousedown', onEditorClick) 
     window.addEventListener('wheel', sendCobrowsingStatus);
+    window.cobrowsingStatusInterval = setInterval(sendCobrowsingStatus, 6000)
 
     dispatch({
       type: START_COBROWSING_SUCCESS,
@@ -227,6 +239,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
+      console.log('sending package to subscribers')
       dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
     });
     
@@ -247,6 +260,7 @@ export const unpublishCobrowsing = () => (dispatch, getState) => {
     window.removeEventListener('keyup', onCobrowsingKeyUp)
     window.removeEventListener('wheel', sendCobrowsingStatus);
     window.removeEventListener('mousedown', onEditorClick) 
+    clearInterval(window.cobrowsingStatusInterval)
 
     window.socket.off(ON_COBROWSING_SUBSCRIBED);
     window.socket.off(ON_COBROWSING_REMOTE_DISPATCH)
@@ -266,13 +280,13 @@ export const unpublishCobrowsing = () => (dispatch, getState) => {
 };
 
 export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
+  const userId = getState().cobrowsing.cobrowsingUser.id
+
+  if(!userId) {
+    return console.log('no user id in update cobrowsing')
+  }
+
   try {
-    const userId = getState().cobrowsing.cobrowsingUser.id
-
-    if(!userId) {
-      return console.log('no user id in update cobrowsing')
-    }
-
     // dispatch({
     //   type: ON_COBROWSING_UPDATE,
     //   payload: { remoteState },
@@ -306,9 +320,10 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 
+          remoteStateUserId: userId,
           remoteState: {
             ...getState().cobrowsing.remoteState,
-            ...remoteState
+            ...remoteState,
           }
         },
       });

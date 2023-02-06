@@ -10,7 +10,9 @@ SMALL UPATES
 -----
 
 UI
-  Move with arrow keys on side of game during grid mode
+  Aggregate Color menu for brushes when you’ve added like 1 color already
+
+  Move with arrow panels on side of game during grid mode
 
   When a class is highlighted, you should be able to see all of them highlighted on the map?
 

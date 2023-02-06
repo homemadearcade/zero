@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Switch } from 'react-router-dom';
+import { Switch as RouterSwitch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ import AgoraUserVideo from '../../lobby/agora/AgoraUserVideo/AgoraUserVideo';
 import ObscuredGameView from '../../game/ObscuredGameView/ObscuredGameView';
 import Typography from '../../ui/Typography/Typography';
 import withSpeedTest from '../../hoc/withSpeedTest';
-import { GAME_CONNECTION_LOST } from '../../lobby/constants';
+import { COBROWSING_CONNECTION_LOST, GAME_CONNECTION_LOST } from '../../lobby/constants';
 import Dialog from '../../ui/Dialog/Dialog';
 import { DialogContent, DialogTitle } from '@mui/material';
 import { CHATROOM_UI, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
@@ -36,18 +36,19 @@ import { Container } from '@mui/system';
 import { inIframe } from '../../utils/webPageUtils';
 import WithCobrowsing from '../../hoc/withCobrowsing';
 import AskFullscreen from '../../hoc/askFullscreen';
-import { changeErrorState } from '../../store/actions/errorsActions';
+import { clearErrorState } from '../../store/actions/errorsActions';
+import Switch from '../../ui/Switch/Switch';
 
 const LobbyPage = ({
   lobby: { lobby, lobby: { experienceState, isGamePoweredOn, skipStageSave } },
-  errors: { errorState, errorStateMessage },
+  errors: { errorStates },
   auth: { me },
   myTracks,
   userTracks,
   editLobby,
   assignLobbyRole,
   video: { isInsideVideoCall },
-  changeErrorState
+  clearErrorState
 }) => {
   let { path } = useRouteMatch();
 
@@ -160,15 +161,22 @@ const LobbyPage = ({
   }
 
   function renderErrors() {
-    if(errorState === GAME_CONNECTION_LOST) return <Dialog open onClose={() => {
-      changeErrorState(null)
+    if(errorStates[GAME_CONNECTION_LOST].on) return <Dialog open onClose={() => {
+      clearErrorState(GAME_CONNECTION_LOST)
     }}>
       <DialogTitle>Game Connection Lost</DialogTitle>
-      <DialogContent>{errorStateMessage}</DialogContent>
+      <DialogContent>{errorStates[GAME_CONNECTION_LOST].message}</DialogContent>
     </Dialog>
+
+   if(errorStates[COBROWSING_CONNECTION_LOST].on) {
+      return <Dialog open>
+        <DialogTitle>Cobrowsing Connection Lost</DialogTitle>
+        <DialogContent>{errorStates[COBROWSING_CONNECTION_LOST].message ? errorStates[COBROWSING_CONNECTION_LOST].message : 'Attempting to reconnect...'}</DialogContent>
+      </Dialog>
+   }
   }
   
-  return <Switch>
+  return <RouterSwitch>
       <Route exact path={path}>
         <WithCobrowsing userId={lobby.participantId}>
           <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
@@ -184,6 +192,15 @@ const LobbyPage = ({
           {skipStageSave && <div className="LobbyPage__not-saving-stage">
             <Icon icon="faFloppyDisk"></Icon>
             <Typography variant="subtitle2">Not Saving<br/>Map Objects</Typography>
+            <Switch
+              size="small"
+              onChange={() => {
+                editLobby(lobby.id, {
+                  skipStageSave: false,
+                })
+              }}
+              checked={skipStageSave}
+            />
           </div>}
         </LobbyDrawer>}
         <WithCobrowsing>
@@ -193,7 +210,7 @@ const LobbyPage = ({
         </WithCobrowsing>
         {renderErrors()}
       </Route>
-    </Switch>
+    </RouterSwitch>
 };
 
 const mapStateToProps = (state) => ({
@@ -208,5 +225,5 @@ export default compose(
   requireAuth,
   withLobby,
   withSpeedTest,
-  connect(mapStateToProps, { assignLobbyRole, editLobby, changeErrorState }),
+  connect(mapStateToProps, { assignLobbyRole, editLobby, clearErrorState }),
 )(LobbyPage);

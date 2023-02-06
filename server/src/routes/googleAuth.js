@@ -15,7 +15,6 @@ router.get(
 router.get(
   '/google/callback',
   (req, res, next) => {
-    console.log('geting callback')
     next()
   },
   passport.authenticate('google', {

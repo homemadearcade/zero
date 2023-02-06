@@ -40,6 +40,7 @@ const initialState = {
   error: null,
   cobrowsingUser: false,
   selectedTool: null,
+  remoteStateUserId: null,
   remoteState: {
     video: initialVideoState,
     gameEditor: initialGameEditorState,
@@ -67,6 +68,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case END_COBROWSING_SUCCESS:
       return {
         ...state,
+        remoteStateUserId: null,
         cobrowsingUser: false,
       };
     case INITIALIZE_COBROWSING_STATE: 
@@ -96,6 +98,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isActivelyCobrowsing: false,
         isUnsubscribing: false,
         cobrowsingUser: false,
+        remoteStateUserId: null,
         remoteState: initialState.remoteState
       };
     case SUBSCRIBE_COBROWSING_FAIL:
@@ -105,14 +108,15 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isUnsubscribing: false,
         isSubscribing: false,
         cobrowsingUser: false,
+        remoteStateUserId: null,
         error: payload.error,
       };
-    case UPDATE_COBROWSING_FAIL:
     case START_COBROWSING_FAIL:
     case END_COBROWSING_FAIL:
       return {
         ...state,
         cobrowsingUser: false,
+        remoteStateUserId: null,
         error: payload.error,
       };
     case TOGGLE_COBROWSING: 
@@ -131,12 +135,9 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         mouseOverInterfaceId: payload.interfaceId
       }
     case ON_COBROWSING_UPDATE:
-      console.log('getting new state', {
-        ...state,
-        remoteState: {...payload.remoteState }
-      })
       return {
         ...state,
+        remoteStateUserId: payload.remoteStateUserId,
         remoteState: {...payload.remoteState }
       };
     case SELECT_COBROWSING_TOOL:

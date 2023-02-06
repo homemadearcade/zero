@@ -6,17 +6,18 @@ import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from 
 import { Sprite } from "./Sprite";
 
 export class InteractArea extends Sprite {
-  constructor(scene, objectInstance, { color, size }){
+  constructor(scene, objectInstance, { color, width, height }){
     super(scene, { spawnX: 0, spawnY: 0, textureId: DEFAULT_TEXTURE_ID })
 
     this.scene = scene
     this.color = color
-    this.size = size
+    this.width = width
+    this.height = height
 
     this.setOrigin(0.5, 0.5)
     this.setAlpha(0.3)
     this.setTint(color)
-    this.setSize(this.size, this.size)
+    this.setSize(this.width, this.height)
     this.setIgnoreGravity(true)
     this.setImmovable(true)
     this.setVisible(false)
@@ -143,7 +144,7 @@ export class InteractArea extends Sprite {
     }
 
     if(this.interactables.length) {
-      if(!store.getState().gameContext.controlsToPres) {
+      if(!store.getState().gameContext.controlsToPress) {
         store.dispatch(changeControlPopup({
           key: 'x'
         }))
@@ -173,13 +174,10 @@ export class InteractArea extends Sprite {
     }
 
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
-      console.log(interactPossibility)
       interactPossibility.relations.forEach((relation) => {
         if(relation.effect.effectInteractable) {
-          console.log(relation.effect.type, closestInteractable.id)
           this.scene.getObjectInstance(closestInteractable.id).runAccuteEffect(relation, this.objectInstance)
         } else {
-          console.log(this.objectInstance.id)
           this.objectInstance.runAccuteEffect(relation, closestInteractable)
         }
 
@@ -204,6 +202,8 @@ export class InteractArea extends Sprite {
       
     // this.setAngle(followingEntity.angle)
     this.setPosition(cornerX, cornerY)  
+    this.setAngle(followingEntity.angle)  
+
 
     if(this.scene.isGridViewOn) {
       this.setVisible(true)

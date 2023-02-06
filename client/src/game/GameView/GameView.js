@@ -17,7 +17,7 @@ import store from '../../store';
 import { PHASER_ERROR } from '../../lobby/constants';
 import ControlsPopup from '../ControlsPopup/ControlsPopup';
 import Icon from '../../ui/Icon/Icon';
-import { changeErrorState } from '../../store/actions/errorsActions';
+import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 
 const config= {
   type: Phaser.WEBGL,
@@ -77,7 +77,7 @@ const GameView = (props) => {
   return <PhaserGame {...props}></PhaserGame>
 }
 
-const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeErrorState }) => {
+const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeErrorState, clearErrorState }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked}), true);
@@ -92,11 +92,18 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeErrorSt
 
   useEffect(() => {
     const connectionInterval = setInterval(() => {
-      const lastUpdate = getCurrentGameScene(store.getState().webPage.gameInstance).lastUpdate
-      if(lastUpdate + noPhaserUpdateDelta < Date.now()) {
-        changeErrorState(PHASER_ERROR, 'The game ran into an error and needs to be restarted')
+      const scene = getCurrentGameScene(store.getState().webPage.gameInstance)
+      const lastUpdate = scene.lastUpdate
+      if(lastUpdate) {
+        if(lastUpdate + noPhaserUpdateDelta < Date.now()) {
+          changeErrorState(PHASER_ERROR, {})
+          scene.lastUpdate = null
+        } else {
+          clearErrorState(PHASER_ERROR)
+        }
       }
-    }, noPhaserUpdateDelta)
+
+    }, 1000)
 
     return () => {
       clearInterval(connectionInterval)
@@ -117,4 +124,4 @@ const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
 });
 
-export default connect(mapStateToProps, { setGameInstance, changeErrorState })(GameView);
+export default connect(mapStateToProps, { setGameInstance, changeErrorState, clearErrorState })(GameView);

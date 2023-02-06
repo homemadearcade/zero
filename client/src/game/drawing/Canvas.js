@@ -123,6 +123,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   draw(entries, x, y) {
+    console.log('issaving', this.isSavingToAws)
     if(this.isSavingToAws) {
       return false
     }

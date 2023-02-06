@@ -1,11 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './RemoteMouse.scss';
+import { noCobrowsingUpdateDelta } from '../../constants';
+import { clearErrorState, changeErrorState } from '../../../store/actions/errorsActions';
+import { COBROWSING_CONNECTION_LOST } from '../../../lobby/constants';
+import store from '../../../store';
 
-const RemoteMouse = ({userId, status: { cobrowsingMouses} }) => {
+const RemoteMouse = ({userId, errors: { errorStates }, status: { cobrowsingMouses}, changeErrorState, clearErrorState}) => {
   const mouseData = cobrowsingMouses[userId];
+  const [lastPing, setLastPing] = useState()
+
+  useEffect(() => {
+    
+    const mouseInterval = setInterval(() => {
+      const mouseData = store.getState().status.cobrowsingMouses[userId];
+
+      if(mouseData) {
+        setLastPing(mouseData.lastPing)
+        
+        if(mouseData.lastPing + noCobrowsingUpdateDelta < Date.now()) {
+          changeErrorState(COBROWSING_CONNECTION_LOST, { userId })
+        } else if(errorStates[COBROWSING_CONNECTION_LOST].on) {
+          clearErrorState(COBROWSING_CONNECTION_LOST)
+        }
+      } else if(lastPing) {
+        if(lastPing + noCobrowsingUpdateDelta < Date.now()) {
+          changeErrorState(COBROWSING_CONNECTION_LOST, { userId })
+        }
+      }
+ 
+    }, 1000)
+
+    return () => {
+      clearInterval(mouseInterval)
+    }
+  }, [])
 
   if(!mouseData) {
     return null
@@ -31,9 +62,11 @@ const RemoteMouse = ({userId, status: { cobrowsingMouses} }) => {
 };
 
 const mapStateToProps = (state) => ({
-  status: state.status
+  cobrowsing: state.cobrowsing,
+  status: state.status,
+  errors: state.errors
 });
 
 export default compose(
-  connect(mapStateToProps, { }),
+  connect(mapStateToProps, { clearErrorState, changeErrorState }),
 )(RemoteMouse);

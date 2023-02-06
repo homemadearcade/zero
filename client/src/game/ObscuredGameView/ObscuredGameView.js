@@ -12,7 +12,7 @@ import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { ADMIN_ROLE, UNLOCK_TOOL } from '../constants';
 import Icon from '../../ui/Icon/Icon';
 import { PHASER_ERROR } from '../../lobby/constants';
-import { changeErrorState } from '../../store/actions/errorsActions';
+import { clearErrorState } from '../../store/actions/errorsActions';
 import Button from '../../ui/Button/Button';
 import { editLobby } from '../../store/actions/lobbyActions';
 
@@ -21,14 +21,30 @@ const ObscuredGameView = ({
   lobby: { lobby },
   cobrowsing: { cobrowsingUser, selectedTool },
   gameModel,
-  errors: { errorState },
+  errors: { errorStates },
   editLobby,
-  changeErrorState,
+  clearErrorState
 }) => {
   const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
 
   function renderOverlay() {
     if(cobrowsingUser.role === ADMIN_ROLE) return
+
+    if(errorStates[PHASER_ERROR].on) return <div className="GameView__empty">
+      <Icon icon="faTriangleExclamation"></Icon>
+      Game Error
+      {me.role === ADMIN_ROLE && <Button onClick={async () => {
+        await editLobby(lobby.id, {
+          isGamePoweredOn: false
+        })
+        setTimeout(async () => {
+          await editLobby(lobby.id, {
+            isGamePoweredOn: true
+          })
+          clearErrorState(PHASER_ERROR)
+        }, 100)
+      }}>Restart Game</Button>}
+    </div>
 
     if(isObscured) {
       return <div className="GameView__empty GameView__empty--overlay">
@@ -56,22 +72,6 @@ const ObscuredGameView = ({
     Not Powered On
   </div>
 
-  if(errorState === PHASER_ERROR) return <div className="GameView__empty">
-      <Icon icon="faTriangleExclamation"></Icon>
-      Game Error
-      {me.role === ADMIN_ROLE && <Button onClick={async () => {
-        await editLobby(lobby.id, {
-          isGamePoweredOn: false
-        })
-        setTimeout(async () => {
-          await editLobby(lobby.id, {
-            isGamePoweredOn: true
-          })
-          changeErrorState(null)
-        }, 100)
-      }}>Restart Game</Button>}
-    </div>
-  
   if(lobby.isGamePoweredOn) {
     return <>
       {renderOverlay()}
@@ -94,5 +94,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   requireAuth,
-  connect(mapStateToProps, { editLobby, changeErrorState }),
+  connect(mapStateToProps, { editLobby, clearErrorState }),
 )(ObscuredGameView);

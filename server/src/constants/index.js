@@ -53,8 +53,8 @@ export const ON_LOBBY_SEND_MESSAGE = 'ON_LOBBY_SEND_MESSAGE';
 export const ON_LOBBY_USER_STATUS_UPDATE = 'ON_LOBBY_USER_STATUS_UPDATE';
 
 // Socket ON_COBROWSING_STATUS_UPDATE
-// FROM Lobby Mamber 
-// TO: Lobby Members.
+// FROM Cobrowsing Publisher 
+// TO: Cobrowsing Subscribers.
 // Update Redux CobrowsingMouse and PhaserViews state
 export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 
