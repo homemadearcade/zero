@@ -239,7 +239,6 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
-      console.log('sending package to subscribers')
       dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
     });
     

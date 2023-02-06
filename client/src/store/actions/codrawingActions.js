@@ -26,14 +26,14 @@ export function saveAllCurrentCanvases() {
   if(scene.foregroundLayer?.unsavedChanges) scene.foregroundLayer.save()
 }
 
-export const publishCodrawingStrokes = ({textureId, brushId, stroke}) => async (dispatch, getState) => {
+export const publishCodrawingStrokes = ({textureId, brushId, stroke, strokeId}) => async (dispatch, getState) => {
   try {
     // dispatch({
     //   type: ON_CODRAWING_STROKE,
     //   payload: { textureId, strokeData },
     // });    
     const options = attachTokenToHeaders(getState);
-    await axios.put('/api/codrawing/stroke/' + encodeURIComponent(textureId), { brushId, stroke }, options);
+    await axios.put('/api/codrawing/stroke/' + encodeURIComponent(textureId), { brushId, stroke, strokeId }, options);
   } catch (err) {
     console.error(err)
 

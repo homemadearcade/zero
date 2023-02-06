@@ -26,8 +26,8 @@ UI
 
   Take snapshot without BG ( because when the BG is black ... ) ( or perhaps allow you to make background not visible just like other layers and only snapshot whats visible )
 
+  Change width/height of the GamePreview when its full screen
 BUGS  
-  User Disconnect? What is considered connection?
 
   Scroll bar showing up in the class menu??
 

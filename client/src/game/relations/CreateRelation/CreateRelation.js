@@ -152,14 +152,14 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
 
     if(editForms.text) {
-      forms.push(<TextField multiline value={relation.effect.text} onChange={(e) => {
+      forms.push(<TextField key={"relation/text"}  multiline value={relation.effect.text} onChange={(e) => {
         handleEffectChange('text', e.target.value)
       }} label={editForms.text}/>
       )
     }
 
     if(editForms.onlyOnce) {
-      forms.push(<Unlockable interfaceId="relation/onlyOnce">
+      forms.push(<Unlockable key={"relation/onlyOnce"} interfaceId="relation/onlyOnce">
         <Switch
           labels={['Recurring', 'Only Occurs Once']}
           size="small"
@@ -172,7 +172,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
 
     if(editForms.delayEffect) {
-      forms.push(<Unlockable interfaceId="relation/delayEffect">
+      forms.push(<Unlockable key={"relation/delayEffect"} interfaceId="relation/delayEffect">
         <SliderNotched
           formLabel="Delay Effect (ms)"
           step={10}
@@ -186,7 +186,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
 
     if(editForms.pickRandomZone && classA.classId === relation.effect.zoneClassId) {
-      forms.push(<Unlockable interfaceId="relation/pickRandomZone">
+      forms.push(<Unlockable key={"relation/pickRandomZone"} interfaceId="relation/pickRandomZone">
         <Switch
           labels={['Use this zone', 'Pick Random Zone']}
           size="small"
@@ -204,6 +204,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
   const advancedOptions = [
     classB && relation.effect.type && !nonRemoteEffects[relation.effect.type] && <Unlockable interfaceId="relation/advanced/effected">
       <SelectClass 
+        key="relation/remoteClass"
         includePlayerInstance
         formLabel={"What class is effected remotely? ( " + classA.name + " will no longer be effected"}
         value={relation.effect.remoteEffectedClassId ? [relation.effect.remoteEffectedClassId] : []}
@@ -214,6 +215,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     </Unlockable>,
     classB && !relation.onlyOnce && effectEditInterface[relation.effect.type]?.delayInterval && <Unlockable interfaceId="relation/advanced/delayInterval">
       <SliderNotched
+              key="relation/delayInterval"
         formLabel="Delay Interval (ms)"
         step={10}
         options={[100, 200, 400, 1000, 3000]}
@@ -225,6 +227,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     </Unlockable>,
     classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId="relation/advanced/ignoreSides">
       <SelectSides
+       key="relation/sides"
       formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
       value={relation.sides ? relation.sides : []}
       onChange={(event, sides) => {

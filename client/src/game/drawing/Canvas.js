@@ -9,7 +9,7 @@ window.instanceUndoStack = []
 window.spriteEditorUndoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
-  constructor(scene, { canvasId, boundaries, stageId, isHost }){
+  constructor(scene, { canvasId, boundaries, stageId }){
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
     super(scene, 0, 0, boundaries.maxWidth, boundaries.maxHeight)
@@ -22,8 +22,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     this.initialDraw()
 
-    this.isHost = isHost
-
     this.isSavingToAws = false
 
     this.previousRenderTexture = null
@@ -34,14 +32,14 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   save = async ()  => {
-    if(!this.isHost) return this.textureId 
-
+    if(!this.isHost) return
     return new Promise(async (resolve, reject) => {
       try {
         this.isSavingToAws = true
     
         const fileId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
+        if(this.isHost) this.strokeHistory = []
     
         const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
        
@@ -65,9 +63,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene.load.once('complete', () => {
       this.unsavedChanges = false
 
-      //sometimes this bugs out
-      this.clear()
-      this.initialDraw()
+      // //sometimes this bugs out
+      // this.clear()
+      // this.initialDraw()
 
       this.isSavingToAws = false
     });
@@ -123,7 +121,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   draw(entries, x, y) {
-    console.log('issaving', this.isSavingToAws)
     if(this.isSavingToAws) {
       return false
     }

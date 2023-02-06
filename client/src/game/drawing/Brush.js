@@ -2,8 +2,9 @@ import Phaser from "phaser";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
-import { DEFAULT_TEXTURE_ID } from "../constants";
+import { DEFAULT_TEXTURE_ID, STROKE_ID_PREFIX } from "../constants";
 import { publishCodrawingStrokes } from "../../store/actions/codrawingActions";
+import { generateUniqueId } from "../../utils/webPageUtils";
 
 export class Brush extends Phaser.GameObjects.Image {
   constructor(scene, { brushId, tint, depth, textureId, spriteSheetName, spriteIndex }){
@@ -66,6 +67,10 @@ export class Brush extends Phaser.GameObjects.Image {
       x: clampedX,
       y: clampedY
     })
+
+    if(this.strokeMemory.length > 20) {
+      this.releaseStroke()
+    }
   }
 
   setSize(width, height) {
@@ -84,7 +89,9 @@ export class Brush extends Phaser.GameObjects.Image {
   releaseStroke() {
     const lobby = store.getState().lobby.lobby
     if(lobby.id) {
-      store.dispatch(publishCodrawingStrokes({ brushId: this.brushId, textureId: this.canvas.textureId, stroke: this.strokeMemory }))
+      const strokeData = { strokeId: STROKE_ID_PREFIX + generateUniqueId(), textureId: this.canvas.textureId, time: Date.now() }
+      store.dispatch(publishCodrawingStrokes({ ...strokeData, brushId: this.brushId, stroke: this.strokeMemory }))
+      if(!this.canvas.isHost) this.canvas.strokesPending.push(strokeData)
     }
     this.canvas.onStrokeReleased()
     this.canvas = null

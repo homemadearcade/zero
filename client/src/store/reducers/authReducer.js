@@ -13,12 +13,14 @@ import {
   ME_FAIL,
   SET_REDIRECT,
   CLEAR_REDIRECT,
+  SOCKET_DISCONNECTED,
 } from '../types';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   isSocketAuthenticated: false,
+  isSocketReconnecting: false,
   isLoading: false,
   me: null,
   error: null,
@@ -60,9 +62,16 @@ export default function authReducer(state = initialState, { type, payload }) {
         ...state,
         appLoaded: true,
         isSocketAuthenticated: true,
+        isSocketReconnecting: false,
         isLoading: false,
         error: null,
       };
+    case SOCKET_DISCONNECTED:
+      return {
+        ...state,
+        isSocketAuthenticated: false,
+        isSocketReconnecting: true
+      }
     case ME_SUCCESS:
       return {
         ...state,
@@ -104,6 +113,7 @@ export default function authReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isSocketAuthenticated: false,
+        isSocketReconnecting: false,
         isLoading: false,
         error: payload.error
       };

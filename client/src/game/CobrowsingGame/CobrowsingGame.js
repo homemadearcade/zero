@@ -10,6 +10,7 @@ import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CobrowsingToolbar from '../cobrowsing/CobrowsingToolbar/CobrowsingToolbar';
 import classNames from 'classnames';
+import Typography from '../../ui/Typography/Typography';
 
 const CobrowsingGame = ({ auth: { me }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserId }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => {   
 
@@ -22,8 +23,11 @@ const CobrowsingGame = ({ auth: { me }, cobrowsing: { cobrowsingUser, selectedTo
       </>}
     >
       {children}
-      {isActivelyCobrowsing && <CobrowsingToolbar/>}
-      {isSubscribedCobrowsing && remoteStateUserId && <RemoteMouse userId={cobrowsingUser.id}/>}
+      {isActivelyCobrowsing && !remoteStateUserId && <div className="CobrowsingGame__no-state">
+        <Typography variant="h5">{cobrowsingUser.username} has not interacted with the app yet.</Typography> 
+      </div>}
+      {isActivelyCobrowsing && remoteStateUserId && <CobrowsingToolbar/>}
+      {isActivelyCobrowsing && remoteStateUserId && <RemoteMouse userId={cobrowsingUser.id}/>}
     </GameEditor>
 };
 

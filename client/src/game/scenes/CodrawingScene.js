@@ -31,7 +31,6 @@ export class CodrawingScene extends Phaser.Scene {
       this.spriteSheetName = spriteSheetName
     }
 
-
     this.boundaries = {
       x: 0,
       y: 0,

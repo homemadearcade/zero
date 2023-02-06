@@ -35,7 +35,7 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
     if (cookieJwt) {
       Cookies.remove('x-auth-cookie');
       logInUserWithOauth(cookieJwt, history);
-    } else if(!auth.isAuthenticated || !auth.isSocketAuthenticated){
+    } else if(!auth.isAuthenticated || !auth.isSocketAuthenticated) {
       loadMe();
     }
 
@@ -44,11 +44,18 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
     }
   }, []);
 
+  function renderBody() {
+    if(auth.appLoaded) {
+      return children
+    } else {
+      return <Loader text="App Loading..."/>
+    }
+  }
+
   return ( <>
       <ErrorHandler/>
       <ContextMenus/>
-      {!auth.appLoaded && <Loader text="App Loading..."/>}
-      {auth.appLoaded && children}
+      {renderBody()}
     </>
   );
 };

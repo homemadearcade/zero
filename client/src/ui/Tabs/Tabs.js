@@ -61,7 +61,7 @@ export default function({ tabs }) {
           aria-label="full width tabs example"
         >
           {tabs.map((tab, index) => {
-            return <Tab label={tab.label} {...a11yProps(index)} />
+            return <Tab key={tab.label} label={tab.label} {...a11yProps(index)} />
           })}
         </Tabs>
       </AppBar>
@@ -70,7 +70,7 @@ export default function({ tabs }) {
         index={value}
       >
         {tabs.map((tab, index) => {
-          return <TabPanel label={tab.label} value={value} index={index} dir={theme.direction}>
+          return <TabPanel key={tab.label} label={tab.label} value={value} index={index} dir={theme.direction}>
             {tab.body}
           </TabPanel>
         })}

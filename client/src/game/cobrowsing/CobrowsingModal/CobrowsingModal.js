@@ -27,11 +27,12 @@ const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, h
 
   }, [])
 
+  // onClick={false && onClose}
+
   //z-index
   return <Backdrop
     sx={{ color: '#fff', zIndex: 1000 + zIndexIncrease}}
     open={open}
-    onClick={false && onClose}
   >
     <div className="CobrowsingModal__safe-area">
       <div className="CobrowsingModal__body" style={{width: width, height: height}} onClick={stopPropagation}>

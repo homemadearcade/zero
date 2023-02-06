@@ -24,6 +24,7 @@ import {
   ON_SOCKET_CONNECT,
   SET_REDIRECT,
   CLEAR_REDIRECT,
+  SOCKET_DISCONNECTED,
 } from '../types';
 import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
 
@@ -63,11 +64,16 @@ export const authenticateSocket = (values) => async (dispatch, getState) => {
     })
 
     window.socket.on("disconnect", (reason) => {
+      dispatch({
+        type: SOCKET_DISCONNECTED,
+      })
+
       console.log('socket disconnected, disconnect reason', reason)
       if (reason === "io server disconnect") {
         // the disconnection was initiated by the server, you need to reconnect manually
         window.socket.connect();
       }
+
       // else the socket will automatically try to reconnect
     });
 

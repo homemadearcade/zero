@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
 import { setRedirect } from '../store/actions/authActions';
+import Loader from '../ui/Loader/Loader';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -27,8 +28,14 @@ export default (ChildComponent) => {
     // }
 
     render() {
-      if (this.props.auth.isAuthenticated && this.props.auth.isSocketAuthenticated) {
-        return <ChildComponent {...this.props} />;
+      if(this.props.auth.isSocketReconnecting) {
+        return <Loader text="Disconnected. Attempting to reconnect..."></Loader>
+      } else if (this.props.auth.isAuthenticated) {
+        if(this.props.auth.isSocketAuthenticated) {
+          return <ChildComponent {...this.props} />;
+        } else {
+          return <Loader text="Establishing connection with server..."></Loader>
+        }
       } else {
         return <Login/>
       }

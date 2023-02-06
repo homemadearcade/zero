@@ -9,6 +9,7 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 import FormLabel from '../FormLabel/FormLabel';
 import Sprite from '../../game/sprites/Sprite/Sprite';
 
+/* eslint-disable react/prop-types */
 const Root = styled('div')(
   ({ theme }) => `
   color: ${
@@ -236,7 +237,9 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
         {formLabel && <FormLabel {...getInputLabelProps()}>{formLabel}</FormLabel>}
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {inheritedValue.map((option, index) => {
-            return <StyledTag label={<>
+            return <StyledTag 
+              key={option.label}
+              label={<>
                 {renderSprite(option)}
                 {option.label}
               </>} 
@@ -262,3 +265,4 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
     </Root>
   );
 }
+/* eslint-enable react/prop-types */

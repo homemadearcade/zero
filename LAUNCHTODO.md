@@ -1,17 +1,12 @@
 NOW
-  A system that checks for ALL connections and reconnect if needed
-  codrawing stroke ACKnowledged return... and...If that isnt being ackowledge let them know they have disconnected. The host can never disconnect. The host is truth. But also its true that the host not accepting updates is a PROBLEM that needs to be fixed. If they arent getting the update, they need to also reset the connection
-
-  Know where a connection is initiated ( right now game connection is iniated where?? in the lobby? make this more explicit) and then you check for disconnection, if its not updating correctly, disconnect it yourself and then reconnect
-
-  CODRAWING ERRORS CAN GO IN SUBTLER AREAS??? Should that interrupt flow?
-
-  COBROWSING ERRORS AND LOBBY ERRORS CAN GO IN THE TOP LEFT? or over the whole view?
+  COBROWSING PUBLISHER CHECK!
 
 SMALL THINGS
   Collides with self toggle
 
   Fit all titles into the box with TextFit thing from before
+
+  User Disconnect? What is considered connection? HAVE IT JUST CHECK FOR LOBBY STATUS UPDATING last Seen 
 
 WRAPPING UP
   Copy game when homemade arcade is completed and put it in a different database

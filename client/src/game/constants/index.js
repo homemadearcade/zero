@@ -14,6 +14,7 @@ export const UNDO_MEMORY_MAX = 10
 export const gameInstanceDisconnectedDelta = 15000
 export const noPhaserUpdateDelta = 15000
 export const noCobrowsingUpdateDelta = 15000
+export const noCodrawingStrokeUpdateDelta = 15000
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -201,6 +202,7 @@ export const PLAYER_INSTANCE_ID_PREFIX = 'oi/pl/'
 export const OBJECT_INSTANCE_ID_PREFIX = 'oi/'
 export const CUTSCENE_ID_PREFIX = 'cutscene/'
 export const RELATION_ID_PREFIX = 'relation/'
+export const STROKE_ID_PREFIX = 'stroke/'
 export const BRUSH_ID_PREFIX = 'brush/'
 export const DATE_ID_PREFIX = 'date/'
 export const SNAPSHOT_ID_PREFIX = 'snapshot/'

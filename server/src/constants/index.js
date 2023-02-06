@@ -52,12 +52,6 @@ export const ON_LOBBY_SEND_MESSAGE = 'ON_LOBBY_SEND_MESSAGE';
 // Update Redux LobbyStatus State
 export const ON_LOBBY_USER_STATUS_UPDATE = 'ON_LOBBY_USER_STATUS_UPDATE';
 
-// Socket ON_COBROWSING_STATUS_UPDATE
-// FROM Cobrowsing Publisher 
-// TO: Cobrowsing Subscribers.
-// Update Redux CobrowsingMouse and PhaserViews state
-export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
-
 // Socket ON_GAME_INSTANCE_UPDATE
 // FROM: Game Host 
 // TO: Game Clients 
@@ -89,15 +83,26 @@ export const ON_CODRAWING_STROKE = 'ON_CODRAWING_STROKE'
 
 // POST /codrawing/:id
 // FROM: Subscriber 
-// TO: Publisher
+// TO: Subscriber Host
 // Disabled
 export const ON_CODRAWING_SUBSCRIBED = 'ON_CODRAWING_SUBSCRIBED'
 
 // POST /codrawing/undo/:id
-// FROM: Publisher or Subscriber
-// TO: Publisher
+// FROM: Subscriber Host or Subscriber Clients
+// TO: Subscriber Host
 // Pops undo state and saves Phaser Canvas.
 export const ON_CODRAWING_UNDO = 'ON_CODRAWING_UNDO';
+
+// Socket ON_CODRAWING_STROKE_ACKNOWLEDGED
+// FROM: Subscriber Host
+// TO: Subscriber Clients
+// Acknowledges a stroke has been recorded
+export const ON_CODRAWING_STROKE_ACKNOWLEDGED = 'ON_CODRAWING_STROKE_ACKNOWLEDGED';
+
+// ON_CODRAWING_SUBSCRIBED
+// FROM: Subscriber Host
+// TO: A Subscriber Client
+export const ON_CODRAWING_INITIALIZE = 'ON_CODRAWING_INITIALIZE'
 
 //////////////////////////////////////////////
 //////////////////////////////////////////////
@@ -121,3 +126,15 @@ export const ON_COBROWSING_REMOTE_DISPATCH = 'ON_COBROWSING_REMOTE_DISPATCH';
 // TO: Subscriber
 // Updates Subscriber Redux RmmoteState
 export const ON_COBROWSING_UPDATE = 'ON_COBROWSING_UPDATE';
+
+// Socket ON_COBROWSING_STATUS_UPDATE
+// FROM Cobrowsing Publisher 
+// TO: Cobrowsing Subscribers.
+// Update Redux CobrowsingMouse and PhaserViews state
+export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
+
+
+
+export const CODRAWING_ROOM_PREFIX = 'codrawing@'
+export const COBROWSING_ROOM_PREFIX = 'cobrowsing@'
+export const ADMIN_ROOM_PREFIX = 'admins@'
