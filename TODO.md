@@ -27,8 +27,8 @@ UI
   Take snapshot without BG ( because when the BG is black ... ) ( or perhaps allow you to make background not visible just like other layers and only snapshot whats visible )
 
   Change width/height of the GamePreview when its full screen
-BUGS  
 
+BUGS  
   Scroll bar showing up in the class menu??
 
   Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?

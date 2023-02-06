@@ -623,6 +623,20 @@ export class GameInstance extends Phaser.Scene {
   unload() {
     // We want to keep the assets in the cache and leave the renderer for reuse.
     this.game.destroy(true);
+    
+    this.backgroundLayer.destroy()
+    this.playgroundLayer.destroy()
+    this.foregroundLayer.destroy()
+    this.objectInstances.forEach((instance) => {
+      instance.destroy()
+    })
+    this.objectInstances= []
+    this.projectileInstances.forEach((instance) => {
+      instance.destroy()
+    })
+    this.projectileInstances = []
+    this.playerInstance.destroy()
+    this.destroy()
   }
 
   pause() {

@@ -32,6 +32,12 @@ export class GameHostScene extends EditorScene {
   startRemoteClientUpdateLoop = () => {
     let updateInterval = 1000/12
     this.remoteClientUpdateInterval = setInterval(() => {
+      const gameInstanceId = store.getState().webPage.gameInstanceId
+      if(this.gameInstanceId !== gameInstanceId) {
+        console.error('host has incorrect game instance id', this.gameInstanceId, 'should be', gameInstanceId)
+        // this.unload()
+        // return
+      }
       const currentStageId = store.getState().gameModel.currentStageId
       if(this.stage.id !== currentStageId) return
       const objects = this.objectInstances.map(({sprite: { id, x, y, rotation}, isVisible, destroyAfterUpdate, reclassId, classId}) => {

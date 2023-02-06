@@ -21,7 +21,11 @@ export class PreloaderScene extends Phaser.Scene {
       isHost: props.isHost,
       isNetworked: props.isNetworked,
       isPlay: props.isPlay,
-      gameInstanceId: GAME_INSTANCE_ID_PREFIX + generateUniqueId()
+      gameInstanceId: props.gameInstanceId
+    }
+
+    if(store.getState().webPage.gameInstanceId) {
+      console.error('a new game has been loaded for some reason with id', this.sceneInstanceData.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)
     }
   }
 

@@ -1,5 +1,13 @@
 NOW
-  COBROWSING PUBLISHER CHECK!
+  COBROWSING PUBLISHER CHECK if its connected to the client? why is that? Theres some problem right ! COBROWSING_UPDATE_ACKNOWLEDGED? Perhaps...
+
+  TextureStrokeHistory model 
+    Load stroke history when you boot up a codrawing image, then allow local strokes when its loaded
+
+    Try to save stroke history ALL of the time actually, after every stroke..maybe. you can remove check before browser closes
+
+    Saving the image REPLACES the stroke history. For security - both should be done at the same time 
+
 
 SMALL THINGS
   Collides with self toggle

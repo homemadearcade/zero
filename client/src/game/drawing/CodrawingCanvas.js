@@ -32,7 +32,7 @@ export class CodrawingCanvas extends Canvas {
       })
     }
  
-    this.blockLocalStrokes = true
+    this.blockLocalStrokes = false
     store.dispatch(subscribeCodrawing(this.textureId))
 
     if(this.isHost) {

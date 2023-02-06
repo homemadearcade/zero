@@ -24,7 +24,7 @@ const ExperiencePreview = ({
   }, {})
 
   function renderExperiencePreview() {   
-    return <GamePreview gameId={lobby.currentGameId} userId={lobby.participantId}></GamePreview>
+    return <GamePreview userId={lobby.participantId}></GamePreview>
 
     if(lobby.experienceState === CHATROOM_UI) {
       return <LobbyChatroom hideAutomated></LobbyChatroom>

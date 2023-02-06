@@ -30,7 +30,12 @@ export class GameClientScene extends EditorScene {
     if(!this.gameInstanceId) {
       this.gameInstanceId = gameInstanceId
     }
-    if(gameInstanceId !== this.gameInstanceId) return
+    if(gameInstanceId !== this.gameInstanceId) {
+      console.error('Incorrect game instance', gameInstanceId, 'should be', this.gameInstanceId)
+      // this.unload()
+      // return
+      this.gameInstanceId = gameInstanceId
+    }
     if(this.stage.id !== stageId) return
 
     this.upsHost = upsHost

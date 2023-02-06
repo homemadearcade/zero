@@ -5,7 +5,7 @@ import Phaser from 'phaser';
 import { PreloaderScene } from '../scenes/PreloaderScene';
 
 import './GameView.scss';
-import { noPhaserUpdateDelta, PRELOADER_SCENE } from '../constants';
+import { GAME_INSTANCE_ID_PREFIX, noPhaserUpdateDelta, PRELOADER_SCENE } from '../constants';
 
 import { gameSize } from '../defaultData/general';
 import { getCurrentGameScene } from '../../utils/editorUtils';
@@ -18,6 +18,7 @@ import { PHASER_ERROR } from '../../lobby/constants';
 import ControlsPopup from '../ControlsPopup/ControlsPopup';
 import Icon from '../../ui/Icon/Icon';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
 const config= {
   type: Phaser.WEBGL,
@@ -80,12 +81,12 @@ const GameView = (props) => {
 const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeErrorState, clearErrorState }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked}), true);
-    setGameInstance(game)
-
+    const gameInstanceId =  GAME_INSTANCE_ID_PREFIX + generateUniqueId()
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked, gameInstanceId}), true);
+    setGameInstance(game, gameInstanceId)
     return () => {
       getCurrentGameScene(game)?.unload()
-      setGameInstance(null)
+      setGameInstance(null, null)
       game.destroy()
     }
   }, []);

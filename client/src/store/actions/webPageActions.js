@@ -9,11 +9,12 @@ export const setSpriteEditorGameInstance = (gameInstance) => (dispatch, getState
   })
 };
 
-export const setGameInstance = (gameInstance) => (dispatch, getState) => {
+export const setGameInstance = (gameInstance, id) => (dispatch, getState) => {
   dispatch({
     type: SET_GAME_INSTANCE,
     payload: {
-      gameInstance
+      gameInstance,
+      gameInstanceId: id
     }
   })
 };
