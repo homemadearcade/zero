@@ -22,7 +22,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     this.initialDraw()
 
-    this.isSavingToAws = false
+    this.blockLocalStrokes = false
 
     this.previousRenderTexture = null
     this.undoTextureStack = []
@@ -34,19 +34,21 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   save = async ()  => {
     if(!this.isHost) return
     return new Promise(async (resolve, reject) => {
-      try {
-        this.isSavingToAws = true
-    
+      try {    
         const fileId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
-        if(this.isHost) this.strokeHistory = []
-    
+
+        this.oldStrokes = this.strokeHistory
+        this.strokeHistory = []
+
         const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
        
         await addAwsImage(file, fileId, {
           name: fileId,
           type: 'layer'
         })
+
+        this.oldStrokes = []
 
         resolve(fileId)
       } catch(e) {
@@ -57,7 +59,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   debouncedSave = _.debounce(this.save, 180000);
 
-  updateTexture = () => {
+  updateTexture = (options) => {
     this.scene.textures.remove(this.textureId)
     this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
     this.scene.load.once('complete', () => {
@@ -67,7 +69,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
       // this.clear()
       // this.initialDraw()
 
-      this.isSavingToAws = false
+      if(options?.callback) {
+        options.callback()
+      }
     });
     this.scene.load.start();
   }
@@ -121,9 +125,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   draw(entries, x, y) {
-    if(this.isSavingToAws) {
-      return false
-    }
+    // if(this.blockLocalStrokes) {
+    //   return false
+    // }
 
     this.storeRenderTextureForUndoStack()
     this.unsavedChanges = true
@@ -131,9 +135,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   erase(entries, x, y) {
-    if(this.isSavingToAws) {
-      return false
-    }
+    // if(this.blockLocalStrokes) {
+    //   return false
+    // }
 
     this.storeRenderTextureForUndoStack()
     this.unsavedChanges = true

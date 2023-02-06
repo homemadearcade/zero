@@ -22,21 +22,7 @@ export class CodrawingCanvas extends Canvas {
 
     this.strokesPending = []
     if(!this.isHost) {
-      this.strokeCheckInterval = setInterval(() => {
-        if(this.strokesPending.length) {
-          const lastStroke = this.strokesPending[this.strokesPending.length - 1]
-          if(lastStroke.time + noCodrawingStrokeUpdateDelta < Date.now()) {
-            alert('your drawing is out of sync, tell jon')
-            // this.updateTexture(async () => {
-            //   await store.dispatch(unsubscribeCodrawing(this.textureId))
-            //   await store.dispatch(subscribeCodrawing(this.textureId))
-            //   this.clear()
-            //   this.initialDraw()
-            // })
-          }
-        }
-      }, noCodrawingStrokeUpdateDelta/5)
-      
+      this.strokeCheckInterval = setInterval(this.pendingStrokeCheck, noCodrawingStrokeUpdateDelta/5)
       window.socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, ({ strokeId, textureId }) => {
         if(this.textureId !== textureId) return
 
@@ -46,17 +32,20 @@ export class CodrawingCanvas extends Canvas {
       })
     }
  
+    this.blockLocalStrokes = true
     store.dispatch(subscribeCodrawing(this.textureId))
 
     if(this.isHost) {
+      this.blockLocalStrokes = false
       this.strokeHistory = []
+      this.oldStrokes = []
 
       window.socket.on(ON_CODRAWING_SUBSCRIBED, ({ userId, textureId  }) => {
         const state = store.getState()
         const me = state.auth.me 
         if(textureId !== this.textureId) return 
         if(userId === me.id) return 
-        window.socket.emit(ON_CODRAWING_INITIALIZE, { userId, textureId, strokeHistory: this.strokeHistory })
+        window.socket.emit(ON_CODRAWING_INITIALIZE, { userId, textureId, strokeHistory: [...this.oldStrokes, ...this.strokeHistory] })
       });
     }
 
@@ -68,6 +57,8 @@ export class CodrawingCanvas extends Canvas {
       strokeHistory.forEach((strokeData) => {
         this.executeRemoteStroke(strokeData)
       })
+      this.strokesPending = []
+      this.blockLocalStrokes = false
     })
   
     // event that is triggered if codrawing has been registered
@@ -93,6 +84,24 @@ export class CodrawingCanvas extends Canvas {
     });
 
     return this
+  }
+
+  pendingStrokeCheck = () => {
+    if(this.strokesPending.length) {
+      const lastStroke = this.strokesPending[this.strokesPending.length - 1]
+      if(lastStroke.time + noCodrawingStrokeUpdateDelta < Date.now()) {
+        this.blockLocalStrokes = true
+        clearInterval(this.strokeCheckInterval)
+        console.error('Your drawing is out of sync and it will now reset', this.textureId, this.canvasId)
+        store.dispatch(unsubscribeCodrawing(this.textureId))
+        this.updateTexture({ callback: async () => {
+          this.clear()
+          this.initialDraw()
+          await store.dispatch(subscribeCodrawing(this.textureId))
+          this.strokeCheckInterval = setInterval(this.pendingStrokeCheck, noCodrawingStrokeUpdateDelta/5)
+        }})
+      }
+    }
   }
 
   executeRemoteStroke({textureId, brushId, stroke}) {
@@ -121,6 +130,8 @@ export class CodrawingCanvas extends Canvas {
     window.socket.off(ON_CODRAWING_STROKE_ACKNOWLEDGED);
     window.socket.off(ON_CODRAWING_SUBSCRIBED);
     window.socket.off(ON_CODRAWING_STROKE);
+
+    clearInterval(this.strokeCheckInterval)
   }
 }
 

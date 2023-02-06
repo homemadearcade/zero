@@ -12,9 +12,7 @@ import { ANIMATION_CAMERA_SHAKE } from '../../store/types';
 import {  editLobby } from '../../store/actions/lobbyActions';
 import { changeGameState, changePlayerState, clearCutscenes  } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
-import { PHASER_ERROR } from '../../lobby/constants';
 import { defaultPlayerSpawnZone } from '../defaultData/stage';
-import { generateUniqueId } from '../../utils/webPageUtils';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 
 export class GameInstance extends Phaser.Scene {
@@ -686,9 +684,9 @@ export class GameInstance extends Phaser.Scene {
 
     if(objectClass.type === BASIC_CLASS || objectClass.type === NPC_CLASS || objectClass.type === PLAYER_CLASS) {
       const layerToDepth = {
-        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH,
-        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH,
-        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH
+        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH + 1,
+        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH + 1,
+        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH + 1
       }
 
       if(modifier !== undefined) {

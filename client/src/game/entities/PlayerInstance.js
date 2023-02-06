@@ -49,7 +49,7 @@ export class PlayerInstance extends ObjectInstance {
       console.error('no player class for id:' + classId)
     }
 
-    this.setDepth(PLAYGROUND_CANVAS_DEPTH + 1)
+    this.setDepth(PLAYGROUND_CANVAS_DEPTH + 2)
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 

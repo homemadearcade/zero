@@ -245,6 +245,7 @@ export class EditorScene extends GameInstance {
       this.brush.update(pointer)
     }
     if(this.canvas && pointer.isDown) {
+      // if(this.canvas.blockLocalStrokes) return
       this.brush.stroke(pointer, this.canvas)
     }
 
@@ -382,7 +383,7 @@ export class EditorScene extends GameInstance {
       ////////////////////////////////////////////////////////////
       if(this.brush) {
         const canvas = this.getLayerByCanvasId(this.brush.getCanvasId())
-        if(canvas.isSavingToAws) return
+        // if(canvas.blockLocalStrokes) return
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
       }

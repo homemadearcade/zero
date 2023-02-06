@@ -9,6 +9,8 @@ export class Eraser extends Brush {
     const depth = getDepthFromEraserId(brushId)
     super(scene, { brushId, textureId: DEFAULT_TEXTURE_ID, depth })
 
+    this.lowerLayerPreviews = []
+    this.lowerInstancePreviews = []
     this.createPreviewLayers()
     this.setBlendMode(BlendModes.ERASE)
 
@@ -65,8 +67,7 @@ export class Eraser extends Brush {
   }
 
   createPreviewLayers() {
-    this.lowerLayerPreviews = []
-    this.lowerInstancePreviews = []
+
 
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
@@ -84,6 +85,7 @@ export class Eraser extends Brush {
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.stage.backgroundColorLayer, 0, 0).setDepth(PLAYGROUND_CANVAS_DEPTH + 5),
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.backgroundLayer, 0, 0).setDepth(PLAYGROUND_CANVAS_DEPTH + 5),
       )
+      this.lowerInstancePreviews = this.createLowerInstancePreviews()
     } else if(eraserLayerId === FOREGROUND_CANVAS_ID) {
       this.lowerLayerPreviews.push(
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.stage.backgroundColorLayer, 0, 0).setDepth(FOREGROUND_CANVAS_DEPTH + 5),
@@ -105,6 +107,9 @@ export class Eraser extends Brush {
     super.destroy()
     this.border.destroy()
     this.lowerLayerPreviews.forEach((preview) => {
+      preview.destroy()
+    })
+    this.lowerInstancePreviews.forEach((preview) => {
       preview.destroy()
     })
   }
