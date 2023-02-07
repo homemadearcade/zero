@@ -22,6 +22,7 @@ import AgoraRTC from 'agora-rtc-react';
 import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../lobby/constants';
 import { sendLobbyMessage } from './lobbyActions';
 import store from '..';
+import { inIframe } from '../../utils/webPageUtils';
 
 const config = { 
   mode: "rtc", codec: "vp8",
@@ -146,7 +147,7 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
               return [...prevUsers, user];
             });
           }
-          if (mediaType === "audio") {
+          if (mediaType === "audio" && !inIframe()) {
             if(user.audioTrack) user.audioTrack.play();
           }
         });

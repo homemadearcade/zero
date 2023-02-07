@@ -39,7 +39,7 @@ export const checkIfTabAlreadyOpen = (callback) => {
 export const checkIfIncognito = (callback) => {
   var fs = window.RequestFileSystem || window.webkitRequestFileSystem;
   if (!fs) {
-
+    callback(true)
   } else {
     fs(window.TEMPORARY,
        100,

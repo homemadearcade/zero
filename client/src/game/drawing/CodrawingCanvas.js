@@ -10,15 +10,15 @@ export class CodrawingCanvas extends Canvas {
   constructor(scene, props){
     super(scene, props)
 
+    // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
+    this.isHost = props.isHost
+
     const state = store.getState()
     const lobby = state.lobby.lobby
     if(!lobby.id) return
 
     this.canvasId = props.canvasId
     this.scene = scene
-
-    // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
-    this.isHost = props.isHost
 
     this.strokesPending = []
     if(!this.isHost) {

@@ -97,6 +97,8 @@ export class GameHostScene extends EditorScene {
 
   create() {
     super.create()
+
+    console.error('creating again...', this.gameInstanceId)
     
     this.startRemoteClientUpdateLoop()
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)

@@ -351,6 +351,20 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             naming those as You did before.`),
         sendToStarsStep(),
         {
+          id: 'Load Demo World',
+          title: <Typography component="h5" variant="h5">Load Demo World</Typography>,
+          onClickNext: () => {
+            editLobby(lobby.id, {
+              currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
+              isGamePoweredOn: true,
+              experienceState: GAME_EDITOR_UI,
+              skipStageSave: true
+            })
+          },
+          nextButtonText: 'Load Demo World'
+        },
+        sendToStarsStep(),
+        {
           id: 'Load Editing Game',
           title: <Typography component="h5" variant="h5">Load Editing Game</Typography>,
           onClickNext: () => {
