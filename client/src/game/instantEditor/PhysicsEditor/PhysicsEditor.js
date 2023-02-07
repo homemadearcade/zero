@@ -97,11 +97,32 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
 
             if(oldColliderRelations.length < newColliderClasses.length) {
               oldColliderRelations.forEach((relation) => {
-                let index = newColliderClasses.indexOf(relation.event.classIdA)
-                if(index === -1) {
-                  index = newColliderClasses.indexOf(relation.event.classIdB)
+                if(relation.event.classIdA === relation.event.classIdB) {
+                  const index = newColliderClasses.indexOf(classId)
+                  if(index >= 0) {
+                    newColliderClasses.splice(index, 1)
+                  }
+                } else {
+                  let index = newColliderClasses.indexOf(relation.event.classIdA)
+
+                  // check for class b if we couldnt find the class a in the list OR if its our main class Id
+                  // we would rather find class id b in that case so we dont mistsake this for a self-collider
+                  if(index === -1 || newColliderClasses[index] === classId) {
+                    index = newColliderClasses.indexOf(relation.event.classIdB)
+                  }
+                  if(newColliderClasses[index] === classId) {
+                    //this is so we do not accidentally splice it when its new. All relations can be mistaken for a self-collision
+                    if(!oldColliderRelations.some(({event}) => {
+                      if(event.classIdA === event.classIdB) return true
+                      return false
+                    })) {
+                      // if we are here, we did not have a self-collision before, so do not splice it!
+                      return null
+                    }
+                  }
+                  newColliderClasses.splice(index, 1)
                 }
-                newColliderClasses.splice(index, 1)
+                
               })
   
               newColliderClasses.forEach((classIdB) => {
@@ -142,7 +163,6 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
       {classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>
         also collides with Player because this is on the Playground Layer
       </div>}
-      <ClassMemberTitle classId={classId} title="Collides with self?"></ClassMemberTitle>
       <Unlockable isDefaultUnlocked isSlider interfaceId="physics/sliders/bounce">
         <SliderNotched
           formLabel="Bounce"

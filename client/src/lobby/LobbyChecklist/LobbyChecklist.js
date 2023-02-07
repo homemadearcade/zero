@@ -9,6 +9,7 @@ import './LobbyChecklist.scss';
 import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
 import Icon from '../../ui/Icon/Icon';
+import { LOBBY_USER_PRESENT_DELTA } from '../constants';
 
 // {<Button
 //   type="button"
@@ -48,7 +49,7 @@ const LobbyChecklist = ({
     {
       text: 'Participant is present',
       test: () => {
-        return usersById[lobby.participantId]?.joined && usersById[lobby.participantId]?.connected
+        return lobbyUserStatuses[lobby.participantId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now()
       },
       required: true,
     },
@@ -62,7 +63,7 @@ const LobbyChecklist = ({
     {
       text: 'Guide is present',
       test: () => {
-        return usersById[lobby.guideId]?.joined && usersById[lobby.guideId]?.connected
+        return lobbyUserStatuses[lobby.guideId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now()
       },
       required: true,
     },

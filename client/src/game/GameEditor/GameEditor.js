@@ -32,11 +32,12 @@ import Unlockable from '../cobrowsing/Unlockable/Unlockable';
 import CreateBrushFlow from '../brush/CreateBrushFlow/CreateBrushFlow';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { editGameModel } from '../../store/actions/gameModelActions';
+import GridViewArrows from '../GridViewArrows/GridViewArrows';
 
 const GameEditor = ({ 
   classNames, 
   gameEditor: { isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
-  gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen }, 
+  gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen, isGridViewOn }, 
   gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
   gameFormEditor: { isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
@@ -80,6 +81,7 @@ const GameEditor = ({
       <div className="GameEditor__overlay">
         {isSectionEditorOpen && <SectionEditor/>}
         {isSnapshotTakerOpen && <SnapshotTaker/>}
+        {isGridViewOn && <GridViewArrows/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable hideLockToggle interfaceId="toolbar/*"><GameStateToolbar/></Unlockable>

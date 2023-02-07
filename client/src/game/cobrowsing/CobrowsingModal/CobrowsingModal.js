@@ -9,22 +9,22 @@ import { stopPropagation } from '../../../utils/webPageUtils';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import store from '../../../store';
 
 const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
   useEffect(() => {
     const scene = getCurrentGameScene(gameInstance)
     
     if(scene) {
-      console.log('disable key capture')
       if(scene.input.keyboard.manager.enabled) {
-        scene.input.keyboard.manager.enabled = false
+        console.log('disable key capture')
+        scene.input.keyboard.disableGlobalCapture()
         return () => {
           console.log('enable key capture')
-          getCurrentGameScene(gameInstance).input.keyboard.manager.enabled = true
+          getCurrentGameScene(store.getState().webPage.gameInstance)?.input?.keyboard.enableGlobalCapture();
         }
       }
     }
-
   }, [])
 
   // onClick={false && onClose}

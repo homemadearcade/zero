@@ -52,6 +52,8 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 
 On touch end. Instead of an array - plant a boolean on another collider? maybe? and like reset that boolean every loop. Once it doesnt need to be reset, thats when the touch stopped? right?
 
+COBROWSING PUBLISHER CHECK if its connected to the client? why is that? Theres some problem right ! COBROWSING_UPDATE_ACKNOWLEDGED? Perhaps...
+
 Automate some video - In monologue mode…Hovering over video creates… overlay
 
 ANALYTICS on each action?, on where on the screen? Save all records

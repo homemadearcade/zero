@@ -99,6 +99,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isUnsubscribing: false,
         cobrowsingUser: false,
         remoteStateUserId: null,
+        selectedTool: null,
         remoteState: initialState.remoteState
       };
     case SUBSCRIBE_COBROWSING_FAIL:
@@ -109,6 +110,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isSubscribing: false,
         cobrowsingUser: false,
         remoteStateUserId: null,
+        selectedTool: null,
         error: payload.error,
       };
     case START_COBROWSING_FAIL:
@@ -122,6 +124,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case TOGGLE_COBROWSING: 
       return {
         ...state,
+        selectedTool: null,
         isActivelyCobrowsing: payload.value
       }
     case TOGGLE_UNLOCKABLE_INTERFACE_LOCKS: 

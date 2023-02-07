@@ -20,3 +20,14 @@ Place objects on the map that are destroyed one at a time
 Transition Zone
 
 Make two zones! One for transitioning in, one for transitioning out
+
+
+--
+
+Top down view
+
+You have to write tons of dialogue and draw
+
+--
+
+Side view is for gameplay focused people

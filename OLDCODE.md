@@ -38,10 +38,6 @@
         // this.cameraDragStart = { x: pointer.x, y: pointer.y, startScrollX: editorCamera.scrollX, startScrollY: editorCamera.scrollY }
 
 
-
-
-
-
 ZOOM INTO X
 
           onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -107,7 +103,18 @@ ZOOM INTO X
     this.editorCamera.startFollow(this.mouseFollower, false, 1, 1)
 
 
-
+    var keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
+    const controlConfig = {
+      camera: this.editorCamera,
+      left: keys.left,
+      right: keys.right,
+      up: keys.up,
+      down: keys.down,
+      acceleration: 0.03,
+      drag: 0.001,
+      maxSpeed: 0.5
+    };
+    this.cameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
 
 
 STICKY KEYS

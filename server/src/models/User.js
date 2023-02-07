@@ -36,7 +36,7 @@ const userSchema = new Schema(
       minlength: 6,
       maxlength: 60,
     },
-    // avatar: String,
+    avatarUrl: String,
     role: { type: String, default: 'USER' },
     bio: String,
     // google

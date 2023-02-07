@@ -47,6 +47,7 @@ import { editGameModel } from './gameModelActions';
 import store from '..';
 import { PHASER_ERROR } from '../../lobby/constants';
 import { clearErrorState } from './errorsActions';
+import { date } from 'yup';
 
 let pingInterval;
 
@@ -370,6 +371,7 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
     pingInterval = window.setInterval(async () => {
       const pingDelta = await ping(window.location.origin)
       window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
+        lastSeen: Date.now(),
         pingDelta, isFocused, isFullscreen: document.fullscreenElement,
       }, userId, lobbyId })
     }, 3000);

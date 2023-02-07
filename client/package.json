@@ -41,11 +41,13 @@
     "react-scripts": "^5.0.0",
     "react-spritesheet": "^1.0.1",
     "react-swipeable-views": "^0.14.0",
+    "react-textfit": "^1.1.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sass": "^1.45.2",
     "socket.io-client": "^4.4.1",
     "tinycolor2": "^1.4.2",
+    "use-fit-text": "^2.4.0",
     "uuid": "^8.3.2",
     "web-pingjs": "^1.0.1",
     "yup": "^0.28.3"

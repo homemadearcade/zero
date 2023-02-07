@@ -32,9 +32,9 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
   })
 
   const options = Object.keys(gameModel.classes).map(mapClassToOption).filter(({value}) => {
-    if(classId === value) {
-      return false
-    }
+    // if(classId === value) {
+    //   return false
+    // }
     return true
   })
 

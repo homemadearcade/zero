@@ -664,6 +664,7 @@ export class EditorScene extends GameInstance {
         })
       }
 
+
       if(classUpdate.movement?.drag >= 0) {
         this.forAllObjectInstancesMatchingClassId(id, (object) => {
           object.setDrag(classUpdate.movement.drag)
@@ -754,7 +755,7 @@ export class EditorScene extends GameInstance {
         classUpdate.movement?.pattern !== undefined ||
         classUpdate.movement?.velocityX !== undefined ||
         classUpdate.movement?.velocityY !== undefined ||
-        classUpdate.collisionResponse?.ignoreWorldBounds !== undefined
+        classUpdate.collisionResponse?.ignoreBoundaries !== undefined
       ) {
         // setTimeout(() => {
           this.forAllObjectInstancesMatchingClassId(id, (object) => {
@@ -860,19 +861,6 @@ export class EditorScene extends GameInstance {
 
     this.editorCamera = this.cameras.getCamera('editor')
   
-    var keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
-    const controlConfig = {
-      camera: this.editorCamera,
-      left: keys.left,
-      right: keys.right,
-      up: keys.up,
-      down: keys.down,
-      acceleration: 0.03,
-      drag: 0.001,
-      maxSpeed: 0.5
-    };
-    this.cameraControls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
-
     this.input.on('pointerover', this.onPointerOver);
     this.input.on('pointerout', this.onPointerOut);
     this.input.on('pointerdown', this.onPointerDown, this);
@@ -904,7 +892,7 @@ export class EditorScene extends GameInstance {
   update(time, delta) {
     super.update(time, delta)
 
-    this.cameraControls.update(delta)
+    // this.cameraControls.update(delta)
 
     if(this.escKey.isDown) {
       store.dispatch(clearBrush())

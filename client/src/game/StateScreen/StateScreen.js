@@ -13,8 +13,11 @@ import './StateScreen.scss';
 import ControlsCard from '../ui/ControlsCard/ControlsCard';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import store from '../../store';
+import useFitText from "use-fit-text";
 
 function StateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {
+  const { fontSize, ref } = useFitText();
+
   useEffect(() => {
     window.addEventListener('keydown', progressIfX)
     return () => {
@@ -39,7 +42,9 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
       const playerClass = gameModel.classes[gameModel.stages[gameModel.player.initialStageId].playerClassId]
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
-          <Typography font="2P" component="h2" variant="h2">{gameModel.metadata.title}</Typography>
+          <Typography font="2P" component="h2" variant="h2"><div ref={ref} style={{fontSize}} className='StateScreen__title'>
+              {gameModel.metadata.title}
+          </div></Typography>
           <div className="StateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h5" variant="h5">To Start</Typography>
           </div>
@@ -55,7 +60,9 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
-          {gameStateMessage && <Typography component="h3" variant="h3">{gameStateMessage}</Typography>}
+          {gameStateMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='StateScreen__title' >
+          {gameStateMessage}
+        </div></Typography>}
           <div className="StateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
           </div>
@@ -67,7 +74,10 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">You won!</Typography>
-          {gameStateMessage && <Typography component="h3" variant="h3">{gameStateMessage}</Typography>}
+           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
+          {gameStateMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='StateScreen__title'>
+          {gameStateMessage}
+        </div></Typography>}
           <div className="StateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
           </div>
