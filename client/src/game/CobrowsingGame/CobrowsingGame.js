@@ -17,7 +17,7 @@ const CobrowsingGame = ({ auth: { me }, cobrowsing: { cobrowsingUser, selectedTo
   return <GameEditor 
       classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool})}
       leftColumn={<>
-        {isInsideVideoCall && <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>}
+        <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>
       </>}
       rightColumn={<>
       </>}

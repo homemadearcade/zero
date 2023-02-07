@@ -117,6 +117,17 @@ function onArcadeGameModelUpdate(gameUpdate) {
   })
   
   const gameData = mergeDeep(oldGameData, gameUpdate)
+  Object.keys(gameData.classes).forEach((id) => {
+    const objectClass = gameData.classes[id]
+    
+    if(objectClass.graphics.textureId) {
+      gameData.brushes[BRUSH_ID_PREFIX + objectClass.classId] = {
+        canvasId: COMMON_BRUSH_ID,
+        textureId: objectClass.graphics.textureId,
+        tint: objectClass.graphics.tint
+      }
+    }
+  })
 
   Object.keys(gameData.cutscenes).forEach(key => {
     if (gameData.cutscenes[key] === null || gameData.cutscenes[key] === undefined) {

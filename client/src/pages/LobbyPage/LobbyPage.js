@@ -118,13 +118,13 @@ const LobbyPage = ({
 
     if(lobby.experienceState === MONOLOGUE_UI) {
       return <div className="MonologueView">
-        {isInsideVideoCall && <AgoraUserVideo
+        <AgoraUserVideo
           hideOverlay
           className="MonologueView__speaker"
           myTracks={myTracks}
           userTracks={userTracks}
           userId={lobby.guideId}
-        ></AgoraUserVideo>}
+        ></AgoraUserVideo>
       </div>
     }
   }

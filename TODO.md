@@ -12,8 +12,6 @@ SMALL UPATES
 UI
   Aggregate Color menu for brushes when you’ve added like 1 color already
 
-  Move with arrow panels on side of game during grid mode
-
   When a class is highlighted, you should be able to see all of them highlighted on the map?
 
   UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
@@ -27,6 +25,8 @@ UI
   Take snapshot without BG ( because when the BG is black ... ) ( or perhaps allow you to make background not visible just like other layers and only snapshot whats visible )
 
   Change width/height of the GamePreview when its full screen
+
+  Agora User Video, have it load a user and have it like upload it as a profile pic??
 
 BUGS  
   Scroll bar showing up in the class menu??

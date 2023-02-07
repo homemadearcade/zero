@@ -177,6 +177,7 @@ export class CodrawingScene extends Phaser.Scene {
     const textureIds = [this.textureId]
     Object.keys(brushes).forEach((brushId) => {
       const brush = brushes[brushId]
+      console.log(brush, brushId)
       if(brush.textureId) {
         textureIds.push(brush.textureId)
       }
@@ -209,7 +210,12 @@ export class CodrawingScene extends Phaser.Scene {
     
     this.load.on('complete', this.onSpriteSheetsLoaded);
     
-    this.backgroundLayer = new CodrawingCanvas(this, {isHost: true, canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId, stageId: 'spriteeditor', boundaries: this.boundaries})
+    this.backgroundLayer = new CodrawingCanvas(this, {
+      isHost: true, 
+      canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId,
+      stageId: 'spriteeditor',
+      boundaries: this.boundaries
+    })
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
 
     this.input.on('pointerdown', this.onPointerDown, this);

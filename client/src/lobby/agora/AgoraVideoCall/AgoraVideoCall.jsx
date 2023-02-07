@@ -30,6 +30,7 @@ const AgoraVideoCall = (props) => {
   } else {
     return <AgoraVideoCallPreview  {...props}/>
   }
+  
 };
 
 //      <img className="AgoraVideoCallPreview__demo" src="/assets/images/camera-permission.png" alt="cam"/>
@@ -83,6 +84,7 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
 
 const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, video: { videoTrackId, audioTrackId }, render}) => {
   let [tracks, users] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
+
   return (
     <div className="AgoraVideoCall">
       {tracks ? render({ myTracks: tracks, userTracks: users }) : render({})}

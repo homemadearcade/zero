@@ -5,7 +5,11 @@ import './AgoraUserVideo.scss'
 
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 
-const AgoraUserVideo = ({ hideOverlay, className, userId, label, auth: { me }, myTracks, userTracks, width, height }) => {
+const AgoraUserVideo = ({ video: { isInsideVideoCall}, hideOverlay, className, userId, label, auth: { me }, myTracks, userTracks, width, height }) => {
+  if(!isInsideVideoCall) {
+    return <div className={className}></div>
+  }
+
   if(!myTracks || !userTracks) {
     return <div style={{width, height}} className={className}/>
   }
@@ -32,6 +36,7 @@ const AgoraUserVideo = ({ hideOverlay, className, userId, label, auth: { me }, m
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  video: state.video,
 });
 
 export default connect(mapStateToProps, { })(AgoraUserVideo);

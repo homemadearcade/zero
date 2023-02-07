@@ -6,7 +6,7 @@ import { openClassNameModal, openLiveEditor } from '../../../store/actions/gameE
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -108,15 +108,39 @@ const ClassContextMenu = ({
     </Unlockable>
     {!insideObjectInstanceContextMenu && <Unlockable interfaceId="contextMenu/class/duplicate">
       <MenuItem onClick={() => {  
-        const classId = OBJECT_CLASS_ID_PREFIX+generateUniqueId()
+        const newClassId = OBJECT_CLASS_ID_PREFIX+generateUniqueId()
+
+        const relations = Object.keys(gameModel.relations).map((relationId) => {
+          const relation = gameModel.relations[relationId]
+          if(relation.event.classIdA === classId) {
+            return {
+              ...relation,
+              event: {
+                ...relation.event,
+                classIdA: newClassId
+              },
+              relationId: RELATION_ID_PREFIX + generateUniqueId()
+            }
+          }
+        }).filter((relation) => {
+          return !!relation
+        }).reduce((prev, relation) => {
+          const relationId = relation.relationId
+          prev[relationId] = relation
+          return prev
+        }, {})
+
         editGameModel({
           classes: {
-            [classId]: {
+            [newClassId]: {
               ...objectClass,
-              classId,
+              classId: newClassId,
               name: objectClass.name + ' Duplicate',
               isNew: false
             }
+          },
+          relations: {
+            ...relations
           }
         })
         onMenuItemClick()

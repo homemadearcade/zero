@@ -80,15 +80,10 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
     clearBrush()
   }
   
-  const brushList = Object.keys(brushes).map((brushId, i) => {
+  let brushList = Object.keys(brushes).map((brushId, i) => {
     return <BrushItem key={i} brushId={brushId}/>
-  }).slice(0, 42) || []
+  })
 
-
-  // Object.keys(classes).forEach((classId) => {
-  //   const textureId = classes[classId].graphics.textureId;
-  //   brushList.push()
-  // })
 
   // cannot happen here cuz. of ... recursion?
   // brushList.push(<Unlockable isTiny interfaceId='addBrush'>

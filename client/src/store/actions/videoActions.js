@@ -147,7 +147,7 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
               return [...prevUsers, user];
             });
           }
-          if (mediaType === "audio" && !inIframe()) {
+          if (mediaType === "audio") {
             if(user.audioTrack) user.audioTrack.play();
           }
         });

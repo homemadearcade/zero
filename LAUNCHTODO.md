@@ -8,8 +8,9 @@ NOW
 
     Saving the image REPLACES the stroke history. For security - both should be done at the same time 
 
-
 SMALL THINGS
+  Move with arrow panels on side of game during grid mode
+
   Collides with self toggle
 
   Fit all titles into the box with TextFit thing from before

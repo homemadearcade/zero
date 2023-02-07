@@ -43,6 +43,7 @@
   &__speaker {
     width: 50vh;
     height: 50vh;
+    background-color: #444;
   }
 }
 
@@ -70,7 +71,9 @@
   &__speaker {
     width: 50vh;
     height: 50vh;
+    background-color: #444;
   }
+
   &__listener {
     width: 20%;
     height: 100%;

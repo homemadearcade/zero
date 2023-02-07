@@ -99,7 +99,7 @@ const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeErrorSt
         if(lastUpdate + noPhaserUpdateDelta < Date.now()) {
           changeErrorState(PHASER_ERROR, {})
           scene.lastUpdate = null
-        } else {
+        } else if(store.getState().errors.errorStates[PHASER_ERROR].on){
           clearErrorState(PHASER_ERROR)
         }
       }

@@ -13,7 +13,7 @@ Enemy Projectiles
 
 Jump Only boolean ( allows controlling during jumps only )
 
-Change gravity/boundaries effect ( basically change stage but?? )
+Change gravity/boundaries effect ( basically change stage but wihout switching the objects?? )
 
 --------------------------------------------------------------------------------------
 --
@@ -44,7 +44,6 @@ Attribute to make the left side the 'front' of a sprite. For.. projectiles and f
 
 --------------------------------------------------------------------------------------
 
-
 TODO FEATURES ( MAYBE ) BACKlog
 
 Spray Can, Paintbrush, Crayon?
@@ -61,21 +60,15 @@ onCutsceneEnd Event, onStageEntered
 
 Destroyed By Message ( You lost because... )
 
-Sprite Editor when loading up, you cant see previous strokes
-
 Camera change options for 'cutscene'
 
 Make Key Diagrams Responsive
 
 Soccerball ( attach to hero on collide and allow hero to shoot out again )
 
-Interact area based on the size of the camera?
-
 View to lock to cobrowsers camera
 
 If an item within an accordian is selected, the accordian is open
-
-Right click -> snap camera to section? regardless if you are in section or not?
 
 Interface Preset Update
   Need to make an interface tree component to seperate user tree and a preset tree
@@ -155,3 +148,16 @@ I think so yes. Basically we can... turn Game Model into a class that has the Sc
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+GAME INSTANCE ID for NO DOUBLE GAMES
+
+If I have it so that we subscribe to game updates… as soon as a game is loaded…. then… yeah its like
+
+Someone is like ok im listening in on this id… 
+
+The game host is alright time to publish from this host id 
+
+The game host perhaps has to be like ‘yo here’s the id of the game’ 
+
+And tell it to the lobby and the lobby is like alright we will have all clients listen to this specific instance id 
+
+If a second update interval gets made with THE SAME INSTNACE ID? This kinda crazy

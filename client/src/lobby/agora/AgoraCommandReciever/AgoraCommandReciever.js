@@ -6,8 +6,8 @@ import { mapCobrowsingState } from "../../../utils/cobrowsingUtils";
 function AgoraVideoCommandReciever({tracks, video: { cutVideo, cutAudio }}) {
   useEffect(() => {
     if(tracks) {
-    tracks[1].setEnabled(!cutVideo);
-    tracks[0].setEnabled(!cutAudio);
+      tracks[1].setEnabled(!cutVideo);
+      tracks[0].setEnabled(!cutAudio);
     }
   }, [cutVideo, cutAudio, tracks])
 
