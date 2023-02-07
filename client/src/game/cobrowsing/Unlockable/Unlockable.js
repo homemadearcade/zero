@@ -26,6 +26,7 @@ const Unlockable = ({
   cobrowsing: { mouseOverInterfaceId, selectedTool }, 
   width,
   height,
+  isDefaultUnlocked,
 }) => {
   const { isUnlocked, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
   window.allInterfaceIds.push(interfaceId)
@@ -42,6 +43,8 @@ const Unlockable = ({
       return <Fade in><div>{React.cloneElement(child, {width, height})}</div></Fade>
     })
   }
+
+  if(!isDefaultUnlocked) return renderChildren()
 
   function renderCover() {
     return <div 

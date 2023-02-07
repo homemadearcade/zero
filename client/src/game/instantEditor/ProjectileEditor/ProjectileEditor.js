@@ -26,6 +26,17 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
       </Unlockable>
       {classSelected.movement.controls && <ControlsCard objectClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
       {projectileClass && <>
+          <Unlockable isSlider isDefaultUnlocked interfaceId="projectile/speed">
+          <SliderNotched
+            formLabel="Speed"
+            options={[1, 10, 100, 200, 300, 500, 1000]}
+            step={10}
+            onChangeCommitted={(value) => {
+              editGameModel({ classes: { [classId]: { projectile: { speed: value }}}})        
+            }}
+            value={classSelected.projectile.speed}
+          />
+        </Unlockable>
         <Unlockable isSlider interfaceId="projectile/cooldown">
           <SliderNotched
             formLabel="Cooldown"
@@ -48,17 +59,6 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             value={classSelected.projectile.lifetime}
           />
         </Unlockable>      
-        <Unlockable isSlider interfaceId="projectile/speed">
-          <SliderNotched
-            formLabel="Speed"
-            options={[1, 10, 100, 200, 300, 500, 1000]}
-            step={10}
-            onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { projectile: { speed: value }}}})        
-            }}
-            value={classSelected.projectile.speed}
-          />
-        </Unlockable>
         {false && <Unlockable isSlider interfaceId="projectile/Ammo">
           <SliderNotched
             formLabel="Ammo"

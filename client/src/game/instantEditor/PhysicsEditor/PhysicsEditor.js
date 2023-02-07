@@ -143,22 +143,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
         also collides with Player because this is on the Playground Layer
       </div>}
       <ClassMemberTitle classId={classId} title="Collides with self?"></ClassMemberTitle>
-
-      <Unlockable interfaceId="physics/ignoreSides">
-        <SelectSides
-          formLabel="Ignore Sides"
-          value={classSelected.collisionResponse.ignoreSides ? classSelected.collisionResponse.ignoreSides : []}
-          onChange={(event, sides) => {
-            editGameModel({
-              classes: { 
-                [classId]: { 
-                  collisionResponse: { ignoreSides: sides } 
-                } 
-              }
-            })
-         }}/>
-      </Unlockable>
-      <Unlockable isSlider interfaceId="physics/sliders/bounce">
+      <Unlockable isDefaultUnlocked isSlider interfaceId="physics/sliders/bounce">
         <SliderNotched
           formLabel="Bounce"
           step={0.05}
@@ -221,6 +206,20 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={classSelected.collisionResponse.ignoreBoundaries}
          />
       </Unlockable>}
+      <Unlockable interfaceId="physics/ignoreSides">
+        <SelectSides
+          formLabel="Ignore Sides"
+          value={classSelected.collisionResponse.ignoreSides ? classSelected.collisionResponse.ignoreSides : []}
+          onChange={(event, sides) => {
+            editGameModel({
+              classes: { 
+                [classId]: { 
+                  collisionResponse: { ignoreSides: sides } 
+                } 
+              }
+            })
+         }}/>
+      </Unlockable>
 
     </div>
   );

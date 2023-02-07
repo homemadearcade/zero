@@ -189,7 +189,7 @@ const LobbyPage = ({
           {experienceState === GAME_EDITOR_UI && <CobrowsingIndicator/>}
           {experienceState === GAME_EDITOR_UI && <LobbyPowerIndicator/>}
           {experienceState === GAME_EDITOR_UI && isGamePoweredOn && <ConstellationToggle/>}
-          {skipStageSave && <div className="LobbyPage__not-saving-stage">
+          {experienceState === GAME_EDITOR_UI && skipStageSave && <div className="LobbyPage__not-saving-stage">
             <Icon icon="faFloppyDisk"></Icon>
             <Typography variant="subtitle2">Not Saving<br/>Map Objects</Typography>
             <Switch

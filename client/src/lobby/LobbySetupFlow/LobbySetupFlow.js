@@ -363,6 +363,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Load Demo World'
         },
+        returnFromStarsStep(),
         sendToStarsStep(),
         {
           id: 'Load Editing Game',

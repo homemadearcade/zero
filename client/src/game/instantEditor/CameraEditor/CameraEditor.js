@@ -45,7 +45,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editG
 
   return (
     <div className="CameraEditor">
-      <Unlockable isSlider interfaceId="camera/zoom">
+      <Unlockable isSlider interfaceId="camera/zoom" isDefaultUnlocked>
         <SliderNotched
           formLabel="Zoom -/+"
           options={zooms}

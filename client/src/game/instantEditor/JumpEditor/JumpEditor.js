@@ -101,7 +101,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           }}/>
       </Unlockable>}
       {classSelected.movement.controls && <ControlsCard objectClass={classSelected} jumpStyle={classSelected.jump.style}></ControlsCard>}
-      {jumpParameters.ground && <Unlockable interfaceId="jump/ground">
+      {jumpParameters.ground && <Unlockable isDefaultUnlocked interfaceId="jump/ground">
         <SliderNotched
           formLabel={jumpParameters.ground.length ? jumpParameters.ground : "Ground Jump Speed"}
           options={[50, 100, 200, 300, 400, 500]}
@@ -112,7 +112,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           value={classSelected.jump.ground}
         />
       </Unlockable>}
-      {jumpParameters.air && <Unlockable interfaceId="jump/air">
+      {jumpParameters.air && <Unlockable isDefaultUnlocked  interfaceId="jump/air">
         <SliderNotched
           formLabel={jumpParameters.air.length ? jumpParameters.air : "Air Jump Speed"}
           options={[10, 50, 100, 200, 300, 400, 500]}

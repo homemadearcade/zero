@@ -15,6 +15,17 @@ const GravityEditor = ({ gameModel: { gameModel, currentStageId }, editGameModel
   return (
     <div className="GravityEditor">
       <Typography component="h5" variant="h5">Editing Stage</Typography>
+      <Unlockable interfaceId="stage/gravityY" isDefaultUnlocked>
+        <SliderNotched
+          formLabel="Gravity ⇵"
+          step={0.5}
+          options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
+          onChangeCommitted={(value) => {
+            editGameModel({ stages: { [currentStageId] : { gravity: { y: value } }} })        
+          }}
+          value={stage.gravity.y}
+        />
+      </Unlockable>
       <Unlockable interfaceId="stage/gravityX">
         <SliderNotched
           formLabel="Gravity ⇆"
@@ -26,17 +37,7 @@ const GravityEditor = ({ gameModel: { gameModel, currentStageId }, editGameModel
           value={stage.gravity.x}
         />
       </Unlockable>
-      <Unlockable interfaceId="stage/gravityY">
-        <SliderNotched
-          formLabel="Gravity ⇵"
-          step={0.5}
-          options={[-10, -5, -2.5, -1, -0.5, 0, 0.5, 1, 2.5, 5, 10]}
-          onChangeCommitted={(value) => {
-            editGameModel({ stages: { [currentStageId] : { gravity: { y: value } }} })        
-          }}
-          value={stage.gravity.y}
-        />
-      </Unlockable>
+
     </div>
   );
 };

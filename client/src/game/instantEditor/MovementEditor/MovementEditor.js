@@ -62,7 +62,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
 
   return (
     <div className="MovementEditor">
-      {classSelected.type === PLAYER_CLASS && <Unlockable interfaceId="movement/controls/type">
+      {classSelected.type === PLAYER_CLASS && <Unlockable isDefaultUnlocked  interfaceId="movement/controls/type">
         <SelectControls
           formLabel="Controls"
           value={classSelected.movement.controls ? [classSelected.movement.controls] : []}
@@ -70,7 +70,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
             editGameModel({ classes: { [classId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
-      {classSelected.type !== PLAYER_CLASS && <Unlockable interfaceId="movement/pattern">
+      {classSelected.type !== PLAYER_CLASS && <Unlockable isDefaultUnlocked  interfaceId="movement/pattern">
         <SelectMovementPattern
           formLabel="Pattern"
           value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}
@@ -79,7 +79,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           }}/>
       </Unlockable>}
       {classSelected.movement.controls && <ControlsCard objectClass={classSelected} controlScheme={classSelected.movement.controls} jumpStyle={classSelected.jump.style}></ControlsCard>}
-      {movementParameters.speed &&<Unlockable interfaceId="movement/speed">
+      {movementParameters.speed &&<Unlockable isDefaultUnlocked interfaceId="movement/speed">
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}
           options={[1, 5, 20, 100]}
