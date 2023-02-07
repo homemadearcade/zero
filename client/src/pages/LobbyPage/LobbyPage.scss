@@ -1,98 +1,55 @@
 .LobbyPage {
-  &__drawer-toggle {
-    font-size: 24px;
-    z-index: 1002;
-    cursor: pointer;
-  }
 
-  &__drawer-close {
-    top: 1%;
-    right: 12px;
-    position: absolute;
-    cursor: pointer;
-    font-size: 24px;
-  }
-
-  &__not-saving-stage {
-    text-align: center;
-  }
-
-  &__admin-tools {
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    bottom: 1%;
-    right: 1%;
-    font-size: 24px;
-    z-index: 1002;
-    cursor: pointer;
-  }
 }
 
-.MonologueView {
-  width: 100%;
-  height: 100vh;
-  background-color: black;
-  justify-content: center;
-  display: flex;
-  align-items: center;
 
-  &__speaker {
-    width: 50vh;
-    height: 50vh;
-    background-color: #444;
-  }
-}
 
-.LobbyMonologueView {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.7);
-  z-index: 2;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+// .LobbyMonologueView {
+//   width: 100vw;
+//   height: 100vh;
+//   background-color: rgba(0,0,0,0.7);
+//   z-index: 2;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   display: flex;
+//   align-items: center;
+//   flex-direction: column;
+//   justify-content: center;
 
-  &__body {
-    width: 100%;
-      display: flex;
-      justify-content: center;
-          height: 20%;
-          position: relative;
-  }
+//   &__body {
+//     width: 100%;
+//       display: flex;
+//       justify-content: center;
+//           height: 20%;
+//           position: relative;
+//   }
 
-  &__speaker {
-    width: 50vh;
-    height: 50vh;
-    background-color: #444;
-  }
+//   &__speaker {
+//     width: 50vh;
+//     height: 50vh;
+//     background-color: #444;
+//   }
 
-  &__listener {
-    width: 20%;
-    height: 100%;
-  }
+//   &__listener {
+//     width: 20%;
+//     height: 100%;
+//   }
 
-  &__dialogue-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    width: 50vw;
-    height: 20vh;
-    overflow-y: scroll;
-    background-color: black;
+//   &__dialogue-text {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     margin: 0 auto;
+//     width: 50vw;
+//     height: 20vh;
+//     overflow-y: scroll;
+//     background-color: black;
 
-    &:hover {
-      opacity: 0.4;
-    }
-  }
+//     &:hover {
+//       opacity: 0.4;
+//     }
+//   }
   
-}
+// }

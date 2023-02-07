@@ -25,35 +25,8 @@ const ExperiencePreview = ({
 
   function renderExperiencePreview() {   
     return <GamePreview userId={lobby.participantId}></GamePreview>
-
-    if(lobby.experienceState === CHATROOM_UI) {
-      return <LobbyChatroom hideAutomated></LobbyChatroom>
-    }
-
-    if(lobby.experienceState === WAITING_UI) {
-      return <>
-        <Typography variant="h5">{experienceStateKeyToDisplayName[lobby.experienceState]}</Typography>
-        <Typography variant="subtitle2">Your experience will start shortly...</Typography>
-      </>
-    }
-
-    if(lobby.experienceState === GAME_EDITOR_UI) {
-    }
-
-    if(lobby.experienceState === MONOLOGUE_UI) {
-      return <>
-        <Typography variant="h5">{experienceStateKeyToDisplayName[lobby.experienceState]}</Typography>
-      </>
-    }
   }
-  // <Typography variant="h5">Preview</Typography>
-
-        //   {isConstellationOpen && lobby.experienceState !== GAME_EDITOR_UI && 
-        //   <div className="ExperiencePreview__star">
-        //     <Icon size="lg" icon="faStar"></Icon>
-        //     <br/>Star View is overlaying {experienceStateKeyToDisplayName[lobby.experienceState]}
-        //   </div>
-        // }
+  
   return (
     <div className="ExperiencePreview">
 

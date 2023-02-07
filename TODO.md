@@ -10,6 +10,8 @@ SMALL UPATES
 -----
 
 UI
+  set Interval for keyboard capture issue?
+
   Aggregate Color menu for brushes when you’ve added like 1 color already
 
   When a class is highlighted, you should be able to see all of them highlighted on the map?

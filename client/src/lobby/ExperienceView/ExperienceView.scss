@@ -1,0 +1,14 @@
+.MonologueView {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+
+  &__speaker {
+    width: 50vh;
+    height: 50vh;
+    background-color: #444;
+  }
+}
