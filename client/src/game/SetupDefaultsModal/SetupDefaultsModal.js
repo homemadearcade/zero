@@ -23,6 +23,8 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
     closeSetupDefaultsModal()
   }
 
+  //                canvasId={STAGE_BACKGROUND_CANVAS_ID} 
+
   return <CobrowsingModal open onClose={handleClose}>
     <div className="SetupDefaultsModal">
       <CobrowsingVerticalLinearStepper
@@ -34,7 +36,6 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
             instructions: <>
               <AggregateColorSelect 
                 selectedColor={gameModel.stages[currentStageId].backgroundColor}
-                canvasId={STAGE_BACKGROUND_CANVAS_ID} 
                 onSelectColor={(hex) => {
                   editGameModel({
                     stages: {

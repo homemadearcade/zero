@@ -44,7 +44,7 @@ const Unlockable = ({
     })
   }
 
-  if(!isDefaultUnlocked) return renderChildren()
+  if(isDefaultUnlocked) return renderChildren()
 
   function renderCover() {
     return <div 

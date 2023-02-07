@@ -1,10 +1,13 @@
 
-The player is on a solitary single layer, the playground, and it never changes. Anything on the playground collides with the player. All objects, except zones, are on the playground by default, but can be changed.
+RULE 1
+
+The player is on a solitary single layer called the playground, this never changes no matter what. Anything on the playground layer collides with the player. All objects, except zones, are on the playground layer by default, but can be changed.
 
 --
 
-Drag must be unlocked
-Adding a new color must be unlocked
+RULE 2
+
+The first slider of every 'Live Menu' is unlocked by default
 
 --
 
