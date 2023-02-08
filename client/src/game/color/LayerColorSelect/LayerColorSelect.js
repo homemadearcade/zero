@@ -49,7 +49,7 @@ const LayerColorSelect = ({
       })
     }
 
-    selectBrush(COLOR_BRUSH_ID + '/' + canvasId + '/' + hex)
+    selectBrush(COLOR_BRUSH_ID + '/' + canvasId + '/' + hex, canvasId)
   }
 
   function onUnselectColor() {
@@ -112,7 +112,7 @@ const LayerColorSelect = ({
             }
           }
         })
-        selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex)
+        selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex, color.canvasId)
       }}
     />}
   </>

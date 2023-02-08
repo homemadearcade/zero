@@ -26,7 +26,7 @@ const EraserSelect = ({
         clearBrush()
       } else {
         clearClass()
-        selectBrush(eraserId)
+        selectBrush(eraserId, canvasId)
       }
     }}
     className={classNames("EraserSelect", { 'EraserSelect--selected': brushIdSelectedBrushList === eraserId})}

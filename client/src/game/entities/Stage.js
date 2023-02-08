@@ -1,8 +1,9 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, OBJECT_INSTANCE_ID_PREFIX, STAGE_BACKGROUND_CANVAS_DEPTH } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, OBJECT_INSTANCE_ID_PREFIX, STAGE_BACKGROUND_CANVAS_DEPTH, STAGE_BACKGROUND_CANVAS_ID } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { generateUniqueId } from "../../utils/webPageUtils";
+import { getCobrowsingState } from "../../utils/cobrowsingUtils";
 
 export class Stage {
   constructor(scene, id, { boundaries, gravity }){
@@ -12,12 +13,12 @@ export class Stage {
 
     this.setGravity(gravity.x, gravity.y)
     this.setBoundaries(boundaries)
-    this.createWorldBackgroundColorLayer()
+    this.createStageBackgroundColorLayer()
 
     return this
   }
 
-  createWorldBackgroundColorLayer() {    
+  createStageBackgroundColorLayer() {    
     const gameModel = store.getState().gameModel.gameModel
     const stage = gameModel.stages[this.id]
     const boundaries = stage.boundaries
@@ -58,5 +59,10 @@ export class Stage {
     if(!spawnZones.length) {
       this.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, classId: stage.spawnZoneClassId}, true)
     }
+  }
+
+  update() {
+    const isBackgroundVisible = getCobrowsingState().gameViewEditor.layerVisibility[STAGE_BACKGROUND_CANVAS_ID]
+    this.backgroundColorLayer.setVisible(isBackgroundVisible)
   }
 }

@@ -89,7 +89,7 @@ const GameEditor = ({
       <div className="GameEditor__overlay">
         {isSectionEditorOpen && <SectionEditor/>}
         {isSnapshotTakerOpen && <SnapshotTaker/>}
-        {isGridViewOn && <GridViewArrows/>}
+        {isGridViewOn && !isSectionEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable hideLockToggle interfaceId="toolbar/*"><GameStateToolbar/></Unlockable>

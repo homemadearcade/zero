@@ -165,7 +165,7 @@ const CreateCutscene = ({
         <Button onClick={handleClose}>
           Cancel
         </Button>
-        {!cutscene.isNew && <Button onClick={() => {
+        {!cutscene.isNew && !cutscene.isRemoved && <Button onClick={() => {
             editGameModel({
               cutscenes: {
                 [cutscene.cutsceneId]: {
@@ -174,7 +174,17 @@ const CreateCutscene = ({
               }
             })
             handleClose()
-      }}>Remove</Button>}
+        }}>Remove</Button>}
+        {cutscene.isRemoved && <Button onClick={() => {
+            editGameModel({
+              cutscenes: {
+                [cutscene.cutsceneId]: {
+                  isRemoved: false
+                }
+              }
+            })
+            handleClose()
+        }}>Restore</Button>}
       </div>
     </div>
     {isMySpritesModalOpen && <MySpritesModal onClickSprite={(textureId) => {

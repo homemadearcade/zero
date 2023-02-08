@@ -73,7 +73,7 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
           <Button onClick={handleClose}>
             Cancel
           </Button>
-          {!stage.isNew && <Button onClick={() => {
+          {!stage.isNew && !stage.isRemoved && <Button onClick={() => {
             editGameModel({
               stages: {
                 [stage.stageId]: {
@@ -83,6 +83,16 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
             })
             handleClose()
           }}>Remove</Button>}
+          {stage.isRemoved && <Button onClick={() => {
+            editGameModel({
+              stages: {
+                [stage.stageId]: {
+                  isRemoved: false
+                }
+              }
+            })
+            handleClose()
+          }}>Restore</Button>}
       </div>
     </div>
   </CobrowsingModal>

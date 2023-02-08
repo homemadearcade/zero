@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './StagesMenu.scss';
@@ -10,11 +10,15 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { changeCurrentStage } from '../../../store/actions/gameModelActions';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import Icon from '../../../ui/Icon/Icon';
 
 const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
   function handleClose() {
     closeStagesMenu()
   }
+
+  const [showRemovedStages, setShowRemovedStages] = useState()
 
   const stages = gameModel.stages
 
@@ -24,7 +28,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
       {Object.keys(stages).map((stageId) => {
 
         const stage = stages[stageId]
-        if(stage.isRemoved) return null 
+        if(stage.isRemoved && !showRemovedStages) return null 
 
         return <div key={stageId} className="StagesMenu__stage">
           <Typography component="h4" variant="h4">{stage.name}</Typography>
@@ -53,7 +57,12 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
         openCreateStage({
           name: 'Stage #' + (Object.keys(stages).length + 1).toString()
         })
-      }}>New Stage</Button>
+      }}><Icon icon="faPlus"/> New Stage</Button>
+      {!showRemovedStages && <Unlockable interfaceId="stages/showRemoved">
+        <Button onClick={() => {
+          setShowRemovedStages(true)
+        }}>Show Removed Stages</Button>
+      </Unlockable>}
     </div>
   </CobrowsingModal>
 }

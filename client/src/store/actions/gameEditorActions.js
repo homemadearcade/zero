@@ -1,4 +1,6 @@
 import { SPRITE_EDITOR_ID_PREFIX } from '../../game/constants';
+import { getCobrowsingState } from '../../utils/cobrowsingUtils';
+import { getCanvasIdFromColorId } from '../../utils/editorUtils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { 
   CLOSE_LIVE_EDITOR,
@@ -28,6 +30,7 @@ import {
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
+import { toggleLayerVisibility } from './gameViewEditorActions';
 
 export const selectClass = (classId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
@@ -58,7 +61,11 @@ export const clearClass = (classId) => (dispatch, getState) => {
   });
 }
 
-export const selectBrush = (brushId) => (dispatch, getState) => {
+export const selectBrush = (brushId, layerId) => (dispatch, getState) => {
+  if(!getCobrowsingState().gameViewEditor.layerVisibility[layerId]) {
+    dispatch(toggleLayerVisibility(layerId))
+  }
+
   dispatch({
     updateCobrowsing: true,
     type: SELECT_BRUSH,

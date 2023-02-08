@@ -8,6 +8,7 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { GAME_CONNECTION_LOST } from '../../lobby/constants';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
+import { changeCurrentStage } from '../../store/actions/gameModelActions';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
@@ -15,7 +16,7 @@ export class GameClientScene extends EditorScene {
 
     this.sceneInstanceData = props.sceneInstanceData
 
-    this.lastUpdate = null
+    this.lastHostUpdate = null
 
     this.lastUpsClientCount = null
     this.upsClientUpdates = 0
@@ -36,10 +37,17 @@ export class GameClientScene extends EditorScene {
       // return
       this.gameInstanceId = gameInstanceId
     }
-    if(this.stage.id !== stageId) return
 
+    this.updateNetworkStatus()
     this.upsHost = upsHost
     this.upsServer = upsServer
+
+    if(this.stage.id !== stageId) {
+      if(store.getState().cobrowsing.isActivelyCobrowsing)  {
+        store.dispatch(changeCurrentStage(stageId))
+      }
+      return
+    }
 
     objects.forEach((instanceUpdate) => {
       const objectId = instanceUpdate.id
@@ -76,7 +84,12 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.destroyAfterUpdate = player.destroyAfterUpdate 
     this.playerInstance.reclassId = player.reclassId
 
-    this.lastUpdate = Date.now()
+
+    this.afterGameInstanceUpdateEffects() 
+  }
+
+  updateNetworkStatus() {
+    this.lastHostUpdate = Date.now()
 
     const time = Date.now();
     this.upsClientUpdates++;
@@ -90,8 +103,6 @@ export class GameClientScene extends EditorScene {
       lobbyId: store.getState().lobby.lobby?.id,
       upsClient: this.upsClient,
     })
-
-    this.afterGameInstanceUpdateEffects() 
   }
 
   onGameInstanceAnimation = ({type, data}) => {
@@ -126,10 +137,10 @@ export class GameClientScene extends EditorScene {
       this.onStateChange(this.gameState, gameState)
     }
 
-    if(this.lastUpdate) {
-      if(this.lastUpdate + gameInstanceDisconnectedDelta < Date.now()) {
-        store.dispatch(changeErrorState(GAME_CONNECTION_LOST, 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'))
-        this.lastUpdate = null
+    if(this.lastHostUpdate) {
+      if(this.lastHostUpdate + gameInstanceDisconnectedDelta < Date.now()) {
+        store.dispatch(changeErrorState(GAME_CONNECTION_LOST, {message: 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'}))
+        this.lastHostUpdate = null
       } else if(store.getState().errors.errorStates[GAME_CONNECTION_LOST].on) {
         store.dispatch(clearErrorState(GAME_CONNECTION_LOST))
       }

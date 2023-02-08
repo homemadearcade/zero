@@ -25,6 +25,7 @@ import portfolioReducer from './portfolioReducer';
 import ticketedEventReducer from './ticketedEventReducer';
 import checkoutReducer from './checkoutReducer';
 import interfacePresetReducer from './interfacePresetReducer';
+import snackbarReducer from './snackbarReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -51,5 +52,6 @@ export default combineReducers({
   portfolio: portfolioReducer,
   ticketedEvent: ticketedEventReducer,
   interfacePreset: interfacePresetReducer,
-  checkout: checkoutReducer
+  checkout: checkoutReducer,
+  snackbar: snackbarReducer
 });

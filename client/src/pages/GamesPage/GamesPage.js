@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -13,8 +13,10 @@ import requireAuth from '../../hoc/requireAuth';
 import GameCopyForm from '../../app/homemadeArcade/arcadeGame/GameCopyForm/GameCopyForm';
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import GameList from '../../app/homemadeArcade/arcadeGame/GameList/GameList';
+import Button from '../../ui/Button/Button';
 
-const GamesPage = ({ getArcadeGames, auth: { me }}) => {
+const GamesPage = ({ getArcadeGames}) => {
+  const [showRemovedGames, setShowRemovedGames] = useState()
   return (
     <Layout>
       <div className="GamesPage">
@@ -24,9 +26,12 @@ const GamesPage = ({ getArcadeGames, auth: { me }}) => {
         ></PageHeader>
         <GameForm onSubmit={getArcadeGames}/>
         <GameCopyForm onSubmit={getArcadeGames}/>
+        {!showRemovedGames &&  <Button onClick={() => {
+          setShowRemovedGames(true)
+        }}>Show Removed Games</Button>}
         <div className="GamesPage__list">
           <GameList>{(game) => {
-            if(game.isRemoved) return
+            if(game.isRemoved && !showRemovedGames) return
             return <GameCard width={300} game={game} canPlay canEdit canPublish canRemove></GameCard>
           }}</GameList>
         </div>
@@ -36,7 +41,7 @@ const GamesPage = ({ getArcadeGames, auth: { me }}) => {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+
 });
 
 export default compose(

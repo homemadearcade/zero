@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColor } from '../../../store/actions/gameEditorActions';
-import { toggleGridView, openSectionEditor, openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
+import { toggleGridView, openSectionEditor, openSnapshotTaker, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { SNAPSHOT_ID_PREFIX, STAGE_EDITOR } from '../../constants';
+import { SNAPSHOT_ID_PREFIX, STAGE_BACKGROUND_CANVAS_ID, STAGE_EDITOR } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/gameFormEditorActions';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -20,10 +20,10 @@ const StageContextMenu = ({
   openCutscenesMenu, 
   openStagesMenu,
   toggleGridView, 
+  toggleLayerVisibility,
   gameModel: { gameModel }, 
-  gameViewEditor: { isGridViewOn }
+  gameViewEditor: { isGridViewOn, layerVisibility }
 }) => {
-
   return <>
     <ContextMenuTitle onClick={() => {
         openGameMetadataModal()
@@ -45,7 +45,7 @@ const StageContextMenu = ({
       <MenuItem onClick={() => {
         openSelectBackgroundColor()
         onMenuItemClick()
-      }}>Edit Background Color</MenuItem>
+      }}>Edit Default Background Color</MenuItem>
     </Unlockable>
     <Unlockable interfaceId="contextMenu/metadata">
       <MenuItem onClick={() => {
@@ -77,6 +77,12 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Playtest Game</MenuItem>
     </Unlockable>
+    {<Unlockable adminOnly interfaceId="contextMenu/toggleGrid">
+      <MenuItem onClick={() => {
+        toggleLayerVisibility(STAGE_BACKGROUND_CANVAS_ID)
+        onMenuItemClick()
+      }}>{layerVisibility[STAGE_BACKGROUND_CANVAS_ID] ? 'Hide Default Background Layer' : 'Show Default Background Layer'}</MenuItem>
+    </Unlockable>}
     {false && <Unlockable interfaceId="contextMenu/toggleGrid">
       <MenuItem onClick={() => {
         toggleGridView()
@@ -100,4 +106,5 @@ export default connect(mapStateToProps, {
   openGameMetadataModal, 
   openCutscenesMenu,
   openStagesMenu,
+  toggleLayerVisibility,
 })( StageContextMenu );

@@ -6,7 +6,7 @@ import { openContextMenuFromGameObject, openStageContextMenu } from '../../store
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, BASIC_CLASS, PLAYGROUND_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -18,6 +18,7 @@ import { urlToFile } from '../../utils/utils';
 import { generateUniqueId, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
+import { addSnackbar } from '../../store/actions/snackbarActions';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -36,6 +37,7 @@ export class EditorScene extends GameInstance {
 
     this.snapshotSquare = null 
     this.snapshotStartPos = null
+    this.snapshotEndPos = null
     this.isEditor = true
   }
   
@@ -216,7 +218,7 @@ export class EditorScene extends GameInstance {
     ////////////////////////////////////////////////////////////
     // SNAPSHOT
     ////////////////////////////////////////////////////////////
-    if(this.snapshotSquare) {
+    if(this.snapshotSquare && !this.snapshotSquare.finalized) {
       if(!gameViewEditor.isSnapshotTakerOpen) {
         this.snapshotSquare.clear()
         this.snapshotSquare = null 
@@ -224,7 +226,9 @@ export class EditorScene extends GameInstance {
        } else {
         this.snapshotSquare.clear()
         this.snapshotSquare.lineStyle(2, 0xffffff);
-        this.snapshotSquare.strokeRect(this.snapshotStartPos.x - 2, this.snapshotStartPos.y - 2, (pointer.worldX - this.snapshotStartPos.x) + 2, (pointer.worldY - this.snapshotStartPos.y) + 2);
+        this.snapshotEndPos.x = (pointer.worldX - this.snapshotStartPos.x) + 2
+        this.snapshotEndPos.y = (pointer.worldY - this.snapshotStartPos.y) + 2
+        this.snapshotSquare.strokeRect(this.snapshotStartPos.x - 2, this.snapshotStartPos.y - 2, this.snapshotEndPos.x, this.snapshotEndPos.y);
        }
     }
 
@@ -268,7 +272,7 @@ export class EditorScene extends GameInstance {
 
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
-    entitySprite[0].editorHighlight.setVisible(true)
+    entitySprite[0].isHoveringOver = true
     const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
     if(isObscured) {
       return
@@ -283,6 +287,62 @@ export class EditorScene extends GameInstance {
         this.onResizeEnd()
       }
     }
+  }
+
+  takeSnapshotWithSquare() {
+    if(!this.snapshotSquare.finalized) return false
+    const gameModel = store.getState().gameModel.gameModel
+    const gameViewEditor = getCobrowsingState().gameViewEditor
+    const boundaries = gameModel.stages[this.stage.id].boundaries
+    const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
+    
+    if(gameViewEditor.layerVisibility[STAGE_BACKGROUND_CANVAS_ID]) {
+      snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
+    }
+    if(gameViewEditor.layerVisibility[BACKGROUND_CANVAS_ID]) {
+      snapCanvas.draw(this.backgroundLayer, 0,0)
+    }
+    if(gameViewEditor.layerVisibility[PLAYGROUND_CANVAS_ID]) {
+      snapCanvas.draw(this.playgroundLayer, 0,0)
+    }
+    // if(gameViewEditor.layerVisibility[PLAYER_INSTANCE_CANVAS_ID] && gameViewEditor.layerVisibility[BASIC_CLASS] && gameViewEditor.layerVisibility[NPC_CLASS] ) {
+      snapCanvas.draw(this.objectInstanceGroup, 0,0)
+    // }
+    if(gameViewEditor.layerVisibility[FOREGROUND_CANVAS_ID]) {
+      snapCanvas.draw(this.foregroundLayer, 0,0)
+    }
+    snapCanvas.snapshotArea(
+      Math.floor(this.snapshotStartPos.x - 2), Math.floor(this.snapshotStartPos.y - 2), 
+      Math.floor((this.snapshotEndPos.x)), 
+      Math.floor((this.snapshotEndPos.y)), 
+      async function (image) {
+        const fileId = gameViewEditor.snapshotFileId
+    
+        var imgCanvas = document.createElement("canvas"),
+        imgContext = imgCanvas.getContext("2d");
+        imgCanvas.width = image.width;
+        imgCanvas.height = image.height;
+        imgContext.drawImage(image, 0, 0, image.width, image.height);
+
+        const file = await urlToFile(imgCanvas.toDataURL(), fileId, 'image/png')
+
+        await addAwsImage(file, fileId, {
+          name: fileId,
+          type: 'layer'
+        })
+
+        store.dispatch(addSnackbar({
+          message: 'Snapshot Saved!',
+          imageUrl: window.awsUrl + fileId
+        }))
+      }
+    );
+    this.snapshotSquare.clear()
+    this.snapshotSquare = null
+    this.snapshotStartPos = null
+    this.snapshotEndPos = null
+    store.dispatch(closeSnapshotTaker())
+    return true
   }
 
   onPointerDown = (pointer, gameObjects) => {
@@ -333,45 +393,23 @@ export class EditorScene extends GameInstance {
       // SNAPSHOT
       ////////////////////////////////////////////////////////////
       const gameViewEditor = getCobrowsingState().gameViewEditor
-      const gameModel = store.getState().gameModel.gameModel
       if(gameViewEditor.isSnapshotTakerOpen) {
-        if(this.snapshotSquare) {
-          const boundaries = gameModel.stages[this.stage.id].boundaries
-          const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
-          snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
-          snapCanvas.draw(this.backgroundLayer, 0,0)
-          snapCanvas.draw(this.playgroundLayer, 0,0)
-          snapCanvas.draw(this.objectInstanceGroup, 0,0)
-          snapCanvas.draw(this.foregroundLayer, 0,0)
-          snapCanvas.snapshotArea(
-            Math.floor(this.snapshotStartPos.x - 2), Math.floor(this.snapshotStartPos.y - 2), 
-            Math.floor((pointer.worldX - this.snapshotStartPos.x) + 2), 
-            Math.floor((pointer.worldY - this.snapshotStartPos.y) + 2), 
-            async function (image) {
-              const fileId = gameViewEditor.snapshotFileId
-          
-              var imgCanvas = document.createElement("canvas"),
-              imgContext = imgCanvas.getContext("2d");
-              imgCanvas.width = image.width;
-              imgCanvas.height = image.height;
-              imgContext.drawImage(image, 0, 0, image.width, image.height);
-
-              const file = await urlToFile(imgCanvas.toDataURL(), fileId, 'image/png')
-
-              addAwsImage(file, fileId, {
-                name: fileId,
-                type: 'layer'
-              })
-            }
-          );
-          this.snapshotSquare.clear()
-          this.snapshotSquare = null
-          this.snapshotStartPos = null
-          store.dispatch(closeSnapshotTaker())
+        if(this.snapshotSquare && !this.snapshotSquare.finalized) {
+          this.snapshotSquare.finalized = true 
           return
         }
+
+        // restarting new square
+        if(this.snapshotSquare?.finalized) {
+          this.snapshotSquare.clear()
+          this.snapshotSquare.destroy()
+          this.snapshotSquare = null
+        }
+
         this.snapshotSquare = this.add.graphics().setDepth(UI_CANVAS_DEPTH);
         this.snapshotStartPos = { x: pointer.worldX, y: pointer.worldY }
+        this.snapshotEndPos = { x: pointer.worldX, y: pointer.worldY }
+
         return
       }
 
@@ -443,7 +481,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, entitySprite) => {
-    entitySprite[0].editorHighlight.setVisible(false)
+    entitySprite[0].isHoveringOver = false
     const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
     if(isObscured) {
       return
@@ -571,7 +609,7 @@ export class EditorScene extends GameInstance {
       }
 
       if(stageUpdate?.backgroundColor) {
-        this.stage.createWorldBackgroundColorLayer()
+        this.stage.createStageBackgroundColorLayer()
       }
 
       if(stageUpdate?.boundaries) {

@@ -81,18 +81,21 @@ export class GameHostScene extends EditorScene {
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
         reclassId: this.playerInstance.reclassId
       }
-
-      const time = Date.now();
-      this.upsHostUpdates++;
-      if (time > this.lastUpsHostCount + 1000) {
-        this.upsHost = Math.round( ( this.upsHostUpdates * 1000 ) / ( time - this.lastUpsHostCount ) );
-        this.lastUpsHostCount = time;
-        this.upsHostUpdates = 0;
-      }
       
+      this.updateNetworkStatus()
       window.socket.emit(ON_GAME_INSTANCE_UPDATE, { gameInstanceId: this.gameInstanceId, lobbyId: store.getState().lobby.lobby.id, objects, player, projectiles, stageId: currentStageId, upsHost: this.upsHost })
       this.afterGameInstanceUpdateEffects() 
     }, updateInterval)
+  }
+
+  updateNetworkStatus() {
+    const time = Date.now();
+    this.upsHostUpdates++;
+    if (time > this.lastUpsHostCount + 1000) {
+      this.upsHost = Math.round( ( this.upsHostUpdates * 1000 ) / ( time - this.lastUpsHostCount ) );
+      this.lastUpsHostCount = time;
+      this.upsHostUpdates = 0;
+    }
   }
 
   onGameInstanceUpdateAcknowledged = ({ upsClient, upsServer }) => {

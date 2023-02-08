@@ -6,11 +6,13 @@ import { connect } from 'react-redux';
 import './ClassItem.scss';
 import classNames from 'classnames';
 import { clearClass, selectClass } from '../../../store/actions/gameEditorActions';
-import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import { getCobrowsingState, mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import Sprite from '../../sprites/Sprite/Sprite';
 import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
+import { changeClassIdHovering, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
+import { getLayerIdFromClass } from '../../../utils/gameUtils';
 
 const ClassItem = ({
   gameModel: { gameModel: { classes } },
@@ -21,8 +23,9 @@ const ClassItem = ({
   openContextMenuFromClassId,
   width, height,
   gameContext: { player},
+  toggleLayerVisibility,
+  changeClassIdHovering
 }) => {
-
   const objectClass = classes[classId]
   const [isHovering, setIsHovering] = useState(false)
   const isSelected = classIdSelectedClassList === classId
@@ -36,13 +39,19 @@ const ClassItem = ({
         clearClass()
       } else {
         selectClass(classId)
+        const layerId = getLayerIdFromClass(objectClass)
+        if(!getCobrowsingState().gameViewEditor.layerVisibility[layerId]) {
+          toggleLayerVisibility(layerId)
+        }
       }
     }}
     onMouseEnter={() => {
       setIsHovering(true)
+      changeClassIdHovering(classId)
     }}
     onMouseLeave={() => {
       setIsHovering(false)
+      changeClassIdHovering(null)
     }}
     onContextMenu={(e) => {
       e.preventDefault();
@@ -65,5 +74,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, selectClass, clearClass }),
+  connect(mapStateToProps, { changeClassIdHovering, openContextMenuFromClassId, selectClass, clearClass, toggleLayerVisibility }),
 )(ClassItem);

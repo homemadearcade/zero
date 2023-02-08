@@ -13,6 +13,7 @@ import { getBoundaryRelationLabel } from '../../defaultData/stage';
 import { EFFECT_COLLIDE, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import Icon from '../../../ui/Icon/Icon';
 
 const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel }, gameContext: { player } }) => {
   function handleClose() {
@@ -72,7 +73,7 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
             classIdA: classIdRelationsMenu
           } 
         })
-      }}>Add Relationship</Button>
+      }}><Icon icon="faPlus"/> New Relationship</Button>
     </div>
   </CobrowsingModal>
 }

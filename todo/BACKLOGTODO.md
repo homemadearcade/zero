@@ -7,11 +7,9 @@ TODO TIME PERMITTING BACKLOG
 SMALL FEATURES
 --
 
-Following, Advanced Pathfinding
-
-Enemy Projectiles
-
 Jump Only boolean ( allows controlling during jumps only )
+
+Timeline..timers - A whole timer interface like at the bottom like an editor?
 
 Change gravity/boundaries effect ( basically change stage but wihout switching the objects?? )
 
@@ -20,7 +18,7 @@ Change gravity/boundaries effect ( basically change stage but wihout switching t
 BIG FEATURES
 --
 
-Timeline..timers - A whole timer interface like at the bottom like an editor?
+Following, Advanced Pathfinding
 
 Choices in dialogue
 
@@ -50,13 +48,13 @@ UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 
 TODO FEATURES ( MAYBE ) BACKlog
 
+Its all floating action buttons? Theres recently used brushes, recently used classes, then theres recently edited ( stages, dialogues ) I guess thats baiscally what we have? Hmm not sure...yeah maybe all those things are sorted by recently used... and then PLUS is outside of that scope as a FAB. And then The last item in the grids is like Open Modal for More which gives you a grid modal view of infinite items
+
 Spray Can, Paintbrush, Crayon?
 
 For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
 
 On touch end. Instead of an array - plant a boolean on another collider? maybe? and like reset that boolean every loop. Once it doesnt need to be reset, thats when the touch stopped? right?
-
-COBROWSING PUBLISHER CHECK if its connected to the client? why is that? Theres some problem right ! COBROWSING_UPDATE_ACKNOWLEDGED? Perhaps...
 
 Automate some video - In monologue mode…Hovering over video creates… overlay
 
@@ -88,13 +86,17 @@ and also therefore, its inherited?? omg thats so dope! So like yeah create their
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-Fix with Cobrowsing?? right now broken af when switching between two different users
-
-if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
-
 TODO CHORES BACKLOG
 
 Admin, Creator, Marketing Folders
+
+swap all the objects to correct layers when it changes so we can use the layers correctly for visibility and for taking pictures...
+
+COBROWSING PUBLISHER CHECK if its connected to the client? why is that? Theres some problem right ! COBROWSING_UPDATE_ACKNOWLEDGED? Perhaps...
+
+Fix with Cobrowsing?? right now broken af when switching between two different users
+
+if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
 
 popup if the player has switched stages and you want to follow them to that scene 
 
@@ -167,3 +169,5 @@ The game host perhaps has to be like ‘yo here’s the id of the game’
 And tell it to the lobby and the lobby is like alright we will have all clients listen to this specific instance id 
 
 If a second update interval gets made with THE SAME INSTNACE ID? This kinda crazy
+
+ACTUALy i think basically if EACH time you power on the game, a new game instance is given to the lobby, it should work a lot like reset. Host always does it and they send the new id to everyone. If clients get a new id theyll be like 'oh shit alright'

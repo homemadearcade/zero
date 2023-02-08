@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Link from '../../ui/Link/Link';
@@ -21,6 +21,8 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
     getUsers();
   }, []);
 
+  const [showRemovedUsers, setShowRemovedUsers] = useState()
+
   return (
     <Layout>
       <div className="UserListPage">
@@ -30,14 +32,16 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
         ></PageHeader>
         <p>
         </p>
+        {!showRemovedUsers && <Button onClick={() => {
+          setShowRemovedUsers(true)
+        }}>Show Removed Users</Button>}
         <div className="list">
           {isLoading ? (
             <Loader text="Loading Users..."/>
           ) : (
             <>
               {users.map((user, index) => {
-                console.log(user)
-                if(user.isRemoved) return null
+                if(user.isRemoved && !showRemovedUsers) return null
                 return (
                   <div key={index} className="profile">
                     {null && <img src={user.avatar} className="avatar" />}
@@ -70,14 +74,22 @@ const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
                           {moment(user.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
                         </span>
                       </div>
-                      <Button onClick={async () => {
+                      {!user.isRemoved && <Button onClick={async () => {
                         await editUser(user.id, {
                           isRemoved: true
                         })
                         getUsers()
                       }}>
                         Remove
-                      </Button>
+                      </Button>}
+                       {user.isRemoved && <Button onClick={async () => {
+                        await editUser(user.id, {
+                          isRemoved: false
+                        })
+                        getUsers()
+                      }}>
+                        Restore
+                      </Button>}
                     </div>
                   </div>
                 );

@@ -7,7 +7,9 @@ TEXTURE STROKE HISTORY
 
   Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?
 
-INFO BOX 
+  Should be a arcadeGame route not an aws route, attempt the user profile pic upload first
+
+INFO BOX
   Right Click, Left Click, Name of Class
   You should be able to ^ highlight for the cobrowsing user any thing that is an INFOBOX
   TOOL TIP sort of thing.  We need to be able to HIGHLIGHT a div or UNLOCKABLE
@@ -24,3 +26,9 @@ TICKETING
     Create Lobby with sold ticket
   Ticket Receipt Page
   Open Ticket Modal effect
+
+CLASS LIBRARY BOX
+  TOWERS
+  Enemy Projectiles.. Towers. Different kinds of Towers... Area Effect
+  Some that face you
+  yes very smart, very very smart

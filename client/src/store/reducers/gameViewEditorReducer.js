@@ -1,4 +1,4 @@
-import { BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, BASIC_CLASS, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS } from '../../game/constants';
+import { BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, BASIC_CLASS, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, STAGE_BACKGROUND_CANVAS_ID } from '../../game/constants';
 import {
   CLEAR_GAME_VIEW_EDITOR,
   TOGGLE_CANVAS_VISIBILITY,
@@ -8,10 +8,12 @@ import {
   OPEN_SNAPSHOT_TAKER,
   CLOSE_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
+  CHANGE_CLASS_ID_HOVERING,
 } from '../types';
 
 const initialState = {
   layerVisibility: {
+    [STAGE_BACKGROUND_CANVAS_ID]: true,
     [BACKGROUND_CANVAS_ID]: true,
     [ZONE_INSTANCE_CANVAS_ID]: false,
     [BASIC_CLASS]: true,
@@ -26,13 +28,19 @@ const initialState = {
   isSnapshotTakerOpen: false,
   snapshotFileId: null,
   cameraShakeIntensity: null,
-  cameraShakeEndTime: 0
+  cameraShakeEndTime: 0,
+  classIdHovering: null
 };
 
 export const initialGameViewEditorState = initialState
 
 export default function gameViewEditorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case CHANGE_CLASS_ID_HOVERING:
+      return {
+        ...state,
+        classIdHovering: payload.classId
+      }
     case CHANGE_EDITOR_CAMERA_ZOOM: {
       return {
         ...state,
@@ -49,7 +57,6 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
       };
     case CLOSE_SNAPSHOT_TAKER:
       document.body.style.cursor = null 
-      
       return {
         ...state,
         isSnapshotTakerOpen: false,

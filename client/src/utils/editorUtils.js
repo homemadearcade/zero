@@ -23,8 +23,16 @@ import { getCobrowsingState } from "./cobrowsingUtils";
 
 
 export function getCurrentGameScene(gameInstance) {
-  const scene = gameInstance?.scene?.scenes[0]
-  return scene
+  const scenes = gameInstance?.scene?.scenes
+  const currentStageId = store.getState().gameModel.currentStageId
+
+  let currentScene
+  scenes.forEach((scene) => {
+    if(currentStageId === scene.stage?.id) currentScene = scene
+  })
+
+  if(!currentScene) currentScene = scenes[0]
+  return currentScene
 }
 
 export function snapFreeXY({x, y, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {

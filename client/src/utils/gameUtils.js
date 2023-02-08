@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, PLAY_STATE, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX, ZONE_INSTANCE_CANVAS_ID, ZONE_CLASS, PLAYER_INSTANCE_CANVAS_ID, PLAYER_CLASS, BASIC_CLASS, NPC_CLASS } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -134,6 +134,21 @@ export function createGameSceneInstance(key, sceneInstanceData) {
     }
   } else {
     return new GameLocalScene({ sceneInstanceData: sceneInstanceData, key})
+  }
+}
+
+export function getLayerIdFromClass(objectClass) {
+  if(objectClass.type === NPC_CLASS) {
+    return NPC_CLASS
+  }
+  if(objectClass.type === BASIC_CLASS) {
+    return BASIC_CLASS
+  }
+  if(objectClass.type === PLAYER_CLASS) {
+    return PLAYER_INSTANCE_CANVAS_ID
+  }
+  if(objectClass.type === ZONE_CLASS) {
+    return ZONE_INSTANCE_CANVAS_ID
   }
 }
 

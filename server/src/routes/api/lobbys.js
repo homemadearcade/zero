@@ -24,7 +24,7 @@ function requireLobby(req, res, next) {
     res.status(400).json({ message: 'No lobbies found. Looking for lobby with id: ' + req.params.id });
   }
 
-  const lobbyFound = lobbys.filter((l, i) => {
+  const lobbyFound = lobbys?.filter((l, i) => {
     if(l.id.toString() === req.params.id) {
       index = i
       return true

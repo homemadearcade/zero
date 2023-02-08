@@ -7,7 +7,6 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { shuffleArray } from '../../../utils/arrayUtils';
 
 const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => {
-  console.log(value)
   return <SelectChipsAuto 
     onChange={onChange}
     formLabel={formLabel}

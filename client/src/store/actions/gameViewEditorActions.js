@@ -10,6 +10,7 @@ import {
   CLOSE_SECTION_EDITOR,
   OPEN_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
+  CHANGE_CLASS_ID_HOVERING,
   // UNDO_INSTANCE_CHANGE_FAIL,
   // UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../types';
@@ -21,6 +22,15 @@ export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
     type: CHANGE_EDITOR_CAMERA_ZOOM,
     payload: {
       cameraZoom: zoom
+    }
+  });
+}
+
+export const changeClassIdHovering = (classId) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_CLASS_ID_HOVERING,
+    payload: {
+      classId
     }
   });
 }

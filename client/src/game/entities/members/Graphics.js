@@ -1,7 +1,7 @@
 import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
-import { BASIC_CLASS, NPC_CLASS, PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from "../../constants"
+import { getLayerIdFromClass } from "../../../utils/gameUtils"
 
 export class Graphics {
   constructor(scene, objectInstance){
@@ -51,22 +51,6 @@ export class Graphics {
     }
 
     this.createInteractBorder()
-  }
-
-
-  getObjectGroup(objectClass) {
-    if(objectClass.type === NPC_CLASS) {
-      return NPC_CLASS
-    }
-    if(objectClass.type === BASIC_CLASS) {
-      return BASIC_CLASS
-    }
-    if(objectClass.type === PLAYER_CLASS) {
-      return PLAYER_INSTANCE_CANVAS_ID
-    }
-    if(objectClass.type === ZONE_CLASS) {
-      return ZONE_INSTANCE_CANVAS_ID
-    }
   }
 
   setInvisible() {
@@ -142,12 +126,12 @@ export class Graphics {
       }
     }
 
-
+    const classIdHovering = store.getState().gameViewEditor.classIdHovering
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[this.objectInstance.classId]
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerVisibility = gameViewEditor.layerVisibility
-    const isLayerVisible = layerVisibility[this.getObjectGroup(objectClass)]
+    const isLayerVisible = layerVisibility[getLayerIdFromClass(objectClass)]
     if(!isLayerVisible) {
       this.objectInstance.setVisible(false)
     } else {
@@ -160,6 +144,11 @@ export class Graphics {
     if(sprite.editorHighlight) {
       sprite.editorHighlight.setPosition(sprite.x, sprite.y)
       sprite.editorHighlight.setRotation(sprite.rotation)
+      if(this.objectInstance.classId === classIdHovering || sprite.isHoveringOver) {
+        sprite.editorHighlight.setVisible(true)
+      } else {
+        sprite.editorHighlight.setVisible(false)
+      }
     }
   }
 
