@@ -199,17 +199,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           checked={!classSelected.movement.ignoreGravity}
          />
       </Unlockable>}
-      {false && <Unlockable interfaceId="physics/toggle/immovable">
-        <Switch
-          labels={['Collisions', 'No Collisions']}
-          size="small"
-          onChange={(e) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        
-          }}
-          checked={classSelected.collisionResponse.immovable}
-         />
-      </Unlockable>}
-      {movementParameters.disableDownKey && <Unlockable interfaceId="advanced/disableDownKey">
+      {movementParameters.disableDownKey && <Unlockable interfaceId="movement/controls/disableDownKey">
         <Switch
           labels={['Enable Down', 'Disable Down']}
           size="small"
@@ -219,7 +209,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           checked={classSelected.movement.disableDownKey}
          />
       </Unlockable>}
-      <Unlockable interfaceId="toggleAllParams">
+      <Unlockable interfaceId="toggleAllParams" adminOnly>
         <Button onClick={() => {
           setSeeAllParameters(!seeAllParameters)
         }}>See All Parameters</Button>

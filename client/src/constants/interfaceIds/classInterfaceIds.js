@@ -1,0 +1,23 @@
+export const classInterfaceIds = {
+  "ZONE_CLASS": {},
+  "ZONE_CLASS/*": {},
+  "ZONE_CLASS/addZone": {},
+  "ZONE_CLASS/select": {},
+  "BASIC_CLASS": {},
+  "BASIC_CLASS/*": {},
+  "BASIC_CLASS/addBasic": {},
+  "BASIC_CLASS/select": {},
+  "NPC_CLASS": {},
+  "NPC_CLASS/*": {},
+  "NPC_CLASS/select": {},
+  "NPC_CLASS/addNPC": {},
+  "PLAYER_CLASS": {},
+  "PLAYER_CLASS/*": {},
+  "PLAYER_CLASS/select": {},
+  "PLAYER_CLASS/addPlayer": {},
+  "class": {},
+  "class/layer": {},
+  "class/invisibleClass": {},
+  "class/interfaceLockedClass": {},
+
+}

@@ -1,0 +1,16 @@
+export const physicsInterfaceIds = {
+  "physics": {},
+  "physics/select": {},
+  "physics/select/colliders": {},
+  "physics/ignoreSides": {},
+  "physics/sliders": {},
+  "physics/sliders/bounce": {},
+  "physics/sliders/friction": {},
+  "physics/sliders/friction/ground": {},
+  "physics/sliders/weight": {},
+  "physics/sliders/weight/mass": {},
+  "physics/toggle": {},
+  "physics/toggle/notPushable": {},
+  "physics/toggle/immovable": {},
+  "physics/toggle/ignoreBoundaries": {},
+}

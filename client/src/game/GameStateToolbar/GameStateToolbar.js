@@ -17,7 +17,7 @@ const color = 'rgb(144, 202, 249)'
 
 const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameContext: { gameState }, lobby: { lobby }, onInstanceUndo}) => {
   function renderStop() {
-    return <Unlockable isTiny interfaceId="toolbar/stop">
+    return <Unlockable isTiny interfaceId="gameInstance/stop">
       <ToolbarIcon 
         size="lg"
         icon="faStop"
@@ -35,10 +35,10 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
     </div>
   }
 
-  //   <Unlockable isTiny interfaceId="toolbar/undo">
+  //   <Unlockable isTiny interfaceId="gameInstance/undo">
   //   <UndoButton onClick={lobby.id ? lobbyUndo : onInstanceUndo}/>
   // </Unlockable>
-  // <Unlockable interfaceId="toolbar/undo">
+  // <Unlockable interfaceId="gameInstance/undo">
   //   <Divider orientation="vertical" variant="middle" flexItem sx={{
   //     mx: 0,
   //     my: 0,
@@ -47,7 +47,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
   // </Unlockable>
  return <div className="GameStateToolbar">
   {renderStop()}
-  <Unlockable isTiny interfaceId="toolbar/pause">
+  <Unlockable isTiny interfaceId="gameInstance/pause">
     <ToolbarIcon 
       size="lg"
       icon="faPause"
@@ -57,7 +57,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
       }}
     />
   </Unlockable>
-  <Unlockable isTiny interfaceId="toolbar/play">
+  <Unlockable isTiny interfaceId="gameInstance/play">
     <ToolbarIcon 
       size="lg"
       icon="faPlay"
@@ -67,7 +67,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
       }}
     />
   </Unlockable>
-  <Unlockable isTiny interfaceId="toolbar/playthrough">
+  <Unlockable isTiny interfaceId="gameInstance/playthrough">
     <ToolbarIcon 
       size="lg"
       icon="faCirclePlay"

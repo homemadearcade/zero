@@ -145,7 +145,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           value={1 - classSelected.movement.dragY}
         />
        </Unlockable>}
-      <Unlockable interfaceId="toggleAllParams">
+      <Unlockable interfaceId="toggleAllParams" adminOnly>
         <Button onClick={() => {
         setSeeAllParameters(!seeAllParameters)
         }}>See All Parameters</Button>

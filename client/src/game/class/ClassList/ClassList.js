@@ -90,7 +90,7 @@ const ClassList = ({
 
   const objectClasses = Object.keys(classes).filter(filterClasses(BASIC_CLASS)).map(renderClassItem(BASIC_CLASS))
 
-  objectClasses.push(<Unlockable interfaceId={BASIC_CLASS + '/addObject'}>
+  objectClasses.push(<Unlockable interfaceId={BASIC_CLASS + '/addBasic'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultObjectClass)
     }}>

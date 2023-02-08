@@ -314,7 +314,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           }}/>
         }
         {relation.effect.type && renderEffectForms(relation.effect.type)}
-        {advancedOptions.length > 0 && <Unlockable interfaceId="relation/advanced">
+        {advancedOptions.length > 0 && <Unlockable interfaceId="relation/advanced/*">
           <Typography variant="h5">Advanced</Typography>
           {advancedOptions}
         </Unlockable>}

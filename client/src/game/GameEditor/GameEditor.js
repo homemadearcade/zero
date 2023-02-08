@@ -92,7 +92,7 @@ const GameEditor = ({
         {isGridViewOn && !isSectionEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        <Unlockable hideLockToggle interfaceId="toolbar/*"><GameStateToolbar/></Unlockable>
+        <Unlockable hideLockToggle interfaceId="gameInstance/*"><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
           <ClassList/>
         </>}

@@ -7,7 +7,7 @@ import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
 import Collapse from '@mui/material/Collapse';
 // web.cjs is required for IE11 support
 import { useSpring, animated } from '@react-spring/web';
-import allInterfaceIds from './allInterfaceIds.json'
+import { interfaceIds } from '../../../constants/interfaceIds';
 
 import './UnlockableInterfaceTree.scss'
 import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../../utils/unlockableInterfaceUtils';
@@ -110,7 +110,7 @@ const StyledTreeItem = styled((props) => {
     //   ],
     // },
 
-window.allInterfaceIds = Object.keys(allInterfaceIds)
+window.allInterfaceIds = Object.keys(interfaceIds)
 const nodeIdsWithChildren = []
 
 function structureAllInterfaceIds() {

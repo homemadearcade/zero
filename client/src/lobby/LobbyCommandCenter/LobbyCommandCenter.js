@@ -76,7 +76,7 @@ const LobbyCommandCenter = ({
           }),
         unlockThis('Add Object', 
           {
-            [BASIC_CLASS+'/addObject']: true,
+            [BASIC_CLASS+'/addBasic']: true,
             ['chooseSprites']: true,
           }
         ),
