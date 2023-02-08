@@ -422,12 +422,15 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
         },
         breakTitle('After they leave'),
         {
-          id: 'Open Game Metadata Modal',
-          title: <Typography component="h5" variant="h5">Open Game Metadata Modal</Typography>,
+          id: 'Save a copy for the archive',
+          title: <Typography component="h5" variant="h5">Save a copy for the archive</Typography>,
+          instructions: <>
+            We preserve a copy of each game after a session for demonstration and archival purposes
+          </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ gameId: lobby.game.id }))
+            store.dispatch(copyArcadeGameToUser({ gameId: lobby.game.id, archival: true }))
           },
-          nextButtonText: 'Open'
+          nextButtonText: 'Archive'
         },
       ]}
       completed={<>

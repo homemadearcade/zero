@@ -7,8 +7,6 @@ NOW
     Saving the image REPLACES the stroke history. For security - both should be done at the same time
 
 WRAPPING UP
-  Copy game when homemade arcade is completed and put it in a different database
-
   Another Lobby View - Arcade View. We send them to the main page inside of an iframe or just a game list?. MAKE THIS A CREDITS VIEW
 
 INFO BOX 
