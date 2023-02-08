@@ -1,3 +1,5 @@
+import { SPRITE_EDITOR_ID_PREFIX } from '../../game/constants';
+import { generateUniqueId } from '../../utils/webPageUtils';
 import { 
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
@@ -93,7 +95,8 @@ export const openSpriteEditor= (textureId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: OPEN_SPRITE_EDITOR,
     payload: {
-      textureId: textureId
+      textureId: textureId,
+      spriteEditorAwsId: SPRITE_EDITOR_ID_PREFIX + generateUniqueId()
     }
   });
 }

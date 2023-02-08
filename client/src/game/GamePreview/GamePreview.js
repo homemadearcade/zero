@@ -29,7 +29,7 @@ const GamePreview = ({lobby: { lobby }}) => {
   })
 
   return (
-    <div ref={previewRef} className={classNames("GamePreview", {'GamePreview--not-focused': !isFocused , 'GamePreview--fullscreen': isFullscreen })}>
+    <div ref={previewRef} className={classNames("GamePreview", {'GamePreview--not-focused': !isFocused})}>
       <div className="GamePreview__fullscreen"><IconButton icon={isFullscreen ? "faCompress" : "faExpand"} onClick={() => {
         if(document.fullscreenElement) {
           closeFullscreen()

@@ -146,12 +146,18 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Duplicate {classTypeToDisplayName[objectClass.type]}</MenuItem>
       </Unlockable>}
-      {false && 'before doing this I need to clean up a lot of stuff in relations' && !insideObjectInstanceContextMenu && 
+      {!insideObjectInstanceContextMenu && 
         <Unlockable interfaceId="contextMenu/class/delete">
           <MenuItem onClick={() => {
-        
+            editGameModel({
+              classes: {
+                [classId]: {
+                  isRemoved: true
+                }
+              },
+            })
             onMenuItemClick()
-          }}>Delete</MenuItem>
+          }}>Remove</MenuItem>
         </Unlockable>}
   </>
 };

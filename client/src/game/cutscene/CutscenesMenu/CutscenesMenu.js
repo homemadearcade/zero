@@ -23,7 +23,10 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { ga
     <div className="CutscenesMenu">
       <Typography component="h2" variant="h2">Cutscenes</Typography>
       {Object.keys(cutscenes).map((cutsceneId) => {
+
         const cutscene = cutscenes[cutsceneId]
+        if(cutscene.isRemoved) return null
+
         return <div key={cutsceneId} className="CutscenesMenu__cutscene">
           <Typography component="h4" variant="h4">{cutscene.name}</Typography>
           <Button onClick={() => {

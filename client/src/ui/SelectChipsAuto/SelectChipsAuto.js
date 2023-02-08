@@ -168,7 +168,7 @@ const Listbox = styled('ul')(
 `,
 );
 
-export default function SelectChipsAuto({onChange, value, options, disabled, formLabel}) {
+export default function SelectChipsAuto({onChange, value, hideRemoved, options, disabled, formLabel, freeSolo}) {
   const [inheritedValue, setInheritedValue] = useState([])
 
   function onValueChanged(value) {
@@ -177,6 +177,11 @@ export default function SelectChipsAuto({onChange, value, options, disabled, for
         if(option.value === val) return option
         else return null
       })
+
+      if(freeSolo) {
+        if(!filtered[0] && val) return { label: val, value: val }
+      }
+
       return filtered[0]
     }))
   }
@@ -189,12 +194,12 @@ export default function SelectChipsAuto({onChange, value, options, disabled, for
 
   if(inheritedValue === undefined) return null
 
-  return <SelectChipsAutoForm onChange={onChange} disabled={disabled} inheritedValue={inheritedValue} options={options.filter(({label}) => {
+  return <SelectChipsAutoForm hideRemoved={hideRemoved} freeSolo={freeSolo} onChange={onChange} disabled={disabled} inheritedValue={inheritedValue} options={options.filter(({label}) => {
     return !!label
   })} formLabel={formLabel}/>
 }
 
-function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formLabel}) {
+function SelectChipsAutoForm({onChange, hideRemoved, inheritedValue, disabled, options, formLabel, freeSolo}) {
   const {
     getRootProps,
     getInputLabelProps,
@@ -210,6 +215,7 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
     value: inheritedValue,
     multiple: true,
     options,
+    freeSolo,
     // disabled: !!disabled,
     // disableClearable: !!disabled,
     // disableListWrap: !!disabled,
@@ -217,7 +223,14 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
     getOptionLabel: (option) => option.label,
     onChange: (event, selected) => {
       document.activeElement.blur();
-      onChange(event, selected.map(({value}) => value))
+      onChange(event, selected.map((option) => {
+        if(freeSolo) {
+          // when doing a free solo option, you dont get an object here, just a string
+          return option.value ? option.value : option
+        } else {
+          return option.value
+        }
+      }))
     }
   });
 
@@ -252,6 +265,9 @@ function SelectChipsAutoForm({onChange, inheritedValue, disabled, options, formL
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
           {groupedOptions.map((option, index) => {
+            if(hideRemoved) {
+              if(option.isRemoved) return null
+            }
             return <li {...getOptionProps({ option, index })}>
               <span>
                 {renderSprite(option)}

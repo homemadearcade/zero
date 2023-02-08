@@ -13,7 +13,7 @@ const ArcadePage = () => {
   function getGameData(game) {
     let visible = false 
 
-    if(game.metadata.isPublished ) {
+    if(!game.isRemoved && game.metadata.isPublished ) {
       visible = true 
     }
 

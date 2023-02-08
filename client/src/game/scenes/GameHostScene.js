@@ -25,8 +25,14 @@ export class GameHostScene extends EditorScene {
   }
 
   callAnimation({type, data}) {
-    window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { lobbyId: store.getState().lobby.lobby.id, type, data})
+    window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { lobbyId: store.getState().lobby.lobby.id, type, data: {...data, fromHost: true}})
     this.runAnimation({type, data})
+  }
+
+  onGameInstanceAnimation = ({type, data}) => {
+    if(!data.fromHost) {
+      this.runAnimation({type, data})
+    }
   }
 
   startRemoteClientUpdateLoop = () => {
@@ -101,11 +107,13 @@ export class GameHostScene extends EditorScene {
     console.error('creating again...', this.gameInstanceId)
     
     this.startRemoteClientUpdateLoop()
+    window.socket.on(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
     window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     window.socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
   }
 
   unregisterEvents() {
+    window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
     window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     window.socket.off(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
     window.clearInterval(this.remoteClientUpdateInterval)

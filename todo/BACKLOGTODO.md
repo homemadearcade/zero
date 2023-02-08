@@ -34,6 +34,8 @@ Blockchain NFT editing thing
 
 Custom coding - collision, events? paths? etc
 
+SPRITE SHEET EDITOR
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -41,6 +43,8 @@ Custom coding - collision, events? paths? etc
 TODO FEATURES BACKLOG
 
 Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode
+
+UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 
 --------------------------------------------------------------------------------------
 

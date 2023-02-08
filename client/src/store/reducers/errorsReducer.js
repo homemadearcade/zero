@@ -1,4 +1,5 @@
 import { COBROWSING_CONNECTION_LOST, CODRAWING_CONNECTION_LOST, GAME_CONNECTION_LOST, INTERNET_SPEED_TEST_FAIL, PHASER_ERROR, SOCKET_CONNECTION_LOST } from '../../lobby/constants';
+import { generateUniqueId } from '../../utils/webPageUtils';
 import {
   ME_FAIL,
   ADD_ARCADE_GAME_FAIL,
@@ -133,13 +134,13 @@ export default function errorReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         errors: 
-        [...state.errors, {message: payload.error, type}]
+        [...state.errors, {message: payload.error, type, id: generateUniqueId()}]
       }
     case CLEAR_ERROR:
       return {
         ...state,
-        errors: state.errors.filter((m, i) => {
-          if (i === payload.index) return false;
+        errors: state.errors.filter(({id}) => {
+          if (id === payload.id) return false;
           return true
         })
       }

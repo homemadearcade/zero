@@ -344,7 +344,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
               }
             })
             handleClose()
-          }}>Remove</Button>}
+          }}>Delete</Button>}
       </div>
     </div>
   </CobrowsingModal>

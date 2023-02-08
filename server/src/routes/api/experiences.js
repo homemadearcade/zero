@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const experiences = await Experience.find().sort({ createdAt: 'desc' }).select('user metadata').populate('user');
+    const experiences = await Experience.find().sort({ createdAt: 'desc' }).select('user metadata isRemoved').populate('user');
 
     res.json({
       experiences: experiences.map((m) => {

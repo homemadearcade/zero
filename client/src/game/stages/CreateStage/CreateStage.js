@@ -77,7 +77,7 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
             editGameModel({
               stages: {
                 [stage.stageId]: {
-                  hidden: true
+                  isRemoved: true
                 }
               }
             })

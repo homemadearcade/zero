@@ -18,7 +18,10 @@ const arcadeGameSchema = new Schema(
       // },
       type: Object,
       required: true,
-      default: {}
+      default: {
+        objects: {},
+        boundaries: {}
+      }
     },
 
     metadata: {
@@ -71,6 +74,7 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
+    isRemoved: Boolean,
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -97,6 +101,7 @@ export const validateArcadeGame = (game) => {
     relations: Joi.object(),
     cutscenes: Joi.object(),
     awsImages: Joi.object(),
+    isRemoved: Joi.bool()
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };
@@ -118,6 +123,7 @@ arcadeGameSchema.methods.toJSON = function () {
     user: this.user?.toJSON(),
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
+    isRemoved: this.isRemoved
   };
 };
 

@@ -33,7 +33,7 @@ const ClassList = ({
     return null
   }
 
-  const renderClassItem = (parentId) =>  (currentClassId, i) => {
+  const renderClassItem = (classType) =>  (currentClassId, i) => {
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
     if(currentClass.interfaceLocked) {
@@ -41,10 +41,17 @@ const ClassList = ({
         {el}
       </Unlockable>
     } else {
-      return <Unlockable interfaceId={parentId + '/select'}>
+      return <Unlockable interfaceId={classType + '/select'}>
         {el}
       </Unlockable>
     }
+  }
+
+  const filterClasses = (classType) => (currentClassId) => {
+    const currentClass = classes[currentClassId]
+    if(currentClass.isRemoved) return false
+    if(currentClass.type === classType) return true
+    return false
   }
 
   function addDefaultValuesToPlayerClass(objectClass) {
@@ -60,11 +67,7 @@ const ClassList = ({
     return objectClass
   }
 
-  const playerClasses = Object.keys(classes).filter((currentClassId) => {
-  const currentClass = classes[currentClassId]
-    if(currentClass.type === PLAYER_CLASS) return true
-    return false
-  }).map(renderClassItem(PLAYER_CLASS))
+  const playerClasses = Object.keys(classes).filter(filterClasses(PLAYER_CLASS)).map(renderClassItem(PLAYER_CLASS))
   
   playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS + '/addPlayer'}>
     <Button size="fit" 
@@ -75,11 +78,7 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const npcClasses = Object.keys(classes).filter((currentClassId) => {
-    const currentClass = classes[currentClassId]
-    if(currentClass.type === NPC_CLASS) return true
-    return false
-  }).map(renderClassItem(NPC_CLASS))
+  const npcClasses = Object.keys(classes).filter(filterClasses(NPC_CLASS)).map(renderClassItem(NPC_CLASS))
 
   npcClasses.push(<Unlockable interfaceId={NPC_CLASS + '/addNPC'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
@@ -89,11 +88,7 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const objectClasses = Object.keys(classes).filter((currentClassId) => {
-  const currentClass = classes[currentClassId]
-    if(currentClass.type === BASIC_CLASS) return true
-    return false
-  }).map(renderClassItem(BASIC_CLASS))
+  const objectClasses = Object.keys(classes).filter(filterClasses(BASIC_CLASS)).map(renderClassItem(BASIC_CLASS))
 
   objectClasses.push(<Unlockable interfaceId={BASIC_CLASS + '/addObject'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
@@ -103,11 +98,7 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const zoneClasses = Object.keys(classes).filter((currentClassId) => {
-    const currentClass = classes[currentClassId]
-    if(currentClass.type === ZONE_CLASS) return true
-    return false
-  }).map(renderClassItem(ZONE_CLASS))
+  const zoneClasses = Object.keys(classes).filter(filterClasses(ZONE_CLASS)).map(renderClassItem(ZONE_CLASS))
 
   zoneClasses.push(<Unlockable interfaceId={ZONE_CLASS + '/addZone'}>
     <Button size="fit" className="ClassList__add" onClick={() => {
@@ -119,6 +110,7 @@ const ClassList = ({
 
   const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
     const currentCutscene = cutscenes[currentCutsceneId]
+    if(currentCutscene.isRemoved) return false
     if(currentCutscene.inDialogueMenu) return true
     return false
   }).map((currentCutsceneId, i) => {

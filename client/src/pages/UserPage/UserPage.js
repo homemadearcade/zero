@@ -20,6 +20,9 @@ import Typography from '../../ui/Typography/Typography';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
 import UnlockableInterfaceTree from '../../ui/connected/UnlockableInterfaceTree/UnlockableInterfaceTree';
 import PageHeader from '../../ui/PageHeader/PageHeader';
+import GameList from '../../app/homemadeArcade/arcadeGame/GameList/GameList';
+import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
+import { Divider } from '@mui/material';
 
 const UserPage = ({
   getUserByUsername,
@@ -245,8 +248,21 @@ const UserPage = ({
           </div>
         )}
       </div>
-      <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
-      {user.id && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_ID} userId={user.id}></UnlockableInterfaceTree>}
+      
+      {user.role === ADMIN_ROLE && <>
+        <Divider sx={{my: '2rem'}}></Divider>
+        <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
+        {user.id && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_ID} userId={user.id}></UnlockableInterfaceTree>}
+      </>}
+
+        <Divider sx={{my: '2rem'}}></Divider>
+      <Typography component="h5" variant="h5">My Games</Typography>
+      <GameList>
+        {(game) => {
+          if(game.user?.id !== user.id) return null
+          return <GameCard game={game} canPlay canPublish canEdit></GameCard>
+        }}
+      </GameList>
     </Layout>
   );
 };

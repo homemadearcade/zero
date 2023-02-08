@@ -5,12 +5,13 @@ import Navbar from './Navbar/Navbar';
 import Footer from './Footer/Footer';
 import './Layout.scss';
 import AdminNavbar from './AdminNavbar/AdminNavbar';
+import { Container } from '@mui/material';
 
 const Layout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <div className="Layout__container">{children}</div>
+        <Container><div className="Layout__container">{children}</div></Container>
       <Footer />
     </>
   );

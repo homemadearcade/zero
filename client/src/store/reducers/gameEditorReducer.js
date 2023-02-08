@@ -116,7 +116,7 @@ export default function gameEditorReducer(state = initialState, { type, payload 
         ...state,
         isSpriteEditorOpen: true,
         spriteEditorTextureId: payload.textureId,
-        spriteEditorAwsId: SPRITE_EDITOR_ID_PREFIX + generateUniqueId()
+        spriteEditorAwsId: payload.spriteEditorAwsId
       }
     case CLOSE_SPRITE_EDITOR: 
       return {

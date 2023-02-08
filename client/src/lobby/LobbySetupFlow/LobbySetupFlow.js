@@ -19,12 +19,15 @@ import { changeGameState, completeCloseConstellation, openConstellation } from '
 import { openGameMetadataModal, openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
 import { CREDITS_EXPERIENCE, GAME_EDITOR_EXPERIENCE, MONOLOGUE_EXPERIENCE } from '../../constants';
-import { PAUSED_STATE, PLAY_STATE } from '../../game/constants';
+import { ANIMATION_CONFETTI, PAUSED_STATE, PLAY_STATE } from '../../game/constants';
 import LobbyVerticalLinearStepper from '../LobbyVerticalLinearStepper/LobbyVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import Icon from '../../ui/Icon/Icon';
 import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
+import { openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
+import { ON_GAME_INSTANCE_ANIMATION } from '../../store/types';
+import { editGameModel } from '../../store/actions/gameModelActions';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -416,12 +419,36 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
         },
         breakTitle('Wrapping Up (10 mins)'),
         {
-          id: 'Open Game Metadata Modal',
-          title: <Typography component="h5" variant="h5">Open Game Metadata Modal</Typography>,
+          id: 'Take a Cover Photo',
+          title: <Typography component="h5" variant="h5">Take a Cover Photo</Typography>,
+          onClickNext: () => {
+            store.dispatch(forceCobrowsingUpdateDispatch(openSnapshotTaker()))
+          },
+          nextButtonText: 'Open Snapshot Taker'
+        },
+        {
+          id: 'Fill Out Game Metadata',
+          title: <Typography component="h5" variant="h5">Fill Out Game Metadata</Typography>,
           onClickNext: () => {
             store.dispatch(forceCobrowsingUpdateDispatch(openGameMetadataModal()))
+            editGameModel({
+              metadata: {
+                isPublished: true
+              }
+            })
           },
-          nextButtonText: 'Open'
+          nextButtonText: 'Open Game Metadata Modal'
+        },
+        {
+          id: 'Congrats!',
+          title: <Typography component="h5" variant="h5">Congrats!</Typography>,
+          instructions: <>
+            They finished making a game! Congrats to both of you
+          </>,
+          onClickNext: () => {
+            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { lobbyId: lobby.id, type: ANIMATION_CONFETTI, data: {}})
+          },
+          nextButtonText: 'Blow Confetti'
         },
         {
           id: 'Send To Credits',
@@ -433,13 +460,15 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Open'
         },
-        sayThis(`Thank them for coming!`),
+        sayThis(`Thank them for coming! Its now time to say goobye`),
         {
-          id: 'Turn off Video/Audio',
-          title: <Typography component="h5" variant="h5">Turn off Video/Audio</Typography>,
+          id: 'Turn off everyones Video/Audio',
+          title: <Typography component="h5" variant="h5">Turn off everyones Video/Audio</Typography>,
           onClickNext: () => {
             setCutVideo(true)
             setCutAudio(true)
+            setCutVideo(true, true)
+            setCutAudio(true, true)
           },
           nextButtonText: 'Turn off my Video and Audio'
         },
@@ -451,7 +480,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ gameId: lobby.game.id, archival: true }))
+            store.dispatch(copyArcadeGameToUser({ gameId: lobby.game.id, isArchival: true }))
           },
           nextButtonText: 'Archive'
         },
@@ -470,5 +499,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState, setCutAudio, setCutVideo }),
+  connect(mapStateToProps, { editLobby,addArcadeGame, editGameModel, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState, setCutAudio, setCutVideo }),
 )(LobbySetupFlow);

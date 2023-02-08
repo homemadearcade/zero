@@ -53,6 +53,7 @@ const userSchema = new Schema(
       type: Object,
       default: {}
     },
+    isRemoved: Boolean,
     // fb
     // facebookId: {
     //   type: String,
@@ -86,7 +87,8 @@ userSchema.methods.toJSON = function () {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     preferences: this.preferences,
-    unlockableInterfaceIds: this.unlockableInterfaceIds
+    unlockableInterfaceIds: this.unlockableInterfaceIds,
+    isRemoved: this.isRemoved
   };
 };
 

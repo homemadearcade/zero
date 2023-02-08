@@ -15,7 +15,8 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
       label: objectClass.name,
       value: collidingClassId,
       textureId: objectClass.graphics.textureId,
-      tint: objectClass.graphics.tint
+      tint: objectClass.graphics.tint,
+      isRemoved: objectClass.isRemoved
     }
   }
   
@@ -42,6 +43,7 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
     onChange={(event, classIds) => {
       onChange(event,  classIds)
     }}
+    hideRemoved
     formLabel={formLabel}
     value={value}
     options={options}

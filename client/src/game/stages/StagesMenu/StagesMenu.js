@@ -22,7 +22,10 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
     <div className="StagesMenu">
       <Typography component="h2" variant="h2">Stages</Typography>
       {Object.keys(stages).map((stageId) => {
+
         const stage = stages[stageId]
+        if(stage.isRemoved) return null 
+
         return <div key={stageId} className="StagesMenu__stage">
           <Typography component="h4" variant="h4">{stage.name}</Typography>
           <Button onClick={() => {

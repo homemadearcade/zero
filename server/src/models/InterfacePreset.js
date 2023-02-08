@@ -15,6 +15,7 @@ const interfacePreset = new Schema(
       type: Object,
       default: {}
     },
+    isRemoved: Boolean,
   },
   { timestamps: true },
 );
@@ -25,6 +26,7 @@ interfacePreset.methods.toJSON = function () {
     description: this.description,
     ids: this.ids,
     name: this.name,
+    isRemoved: this.isRemoved
   };
 };
 

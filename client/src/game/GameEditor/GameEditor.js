@@ -66,7 +66,7 @@ const GameEditor = ({
     }
   }, [])
 
-  const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE)
+  const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
 
   function renderBody() {
     if(!gameModel) {

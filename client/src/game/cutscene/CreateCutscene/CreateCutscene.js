@@ -165,6 +165,16 @@ const CreateCutscene = ({
         <Button onClick={handleClose}>
           Cancel
         </Button>
+        {!cutscene.isNew && <Button onClick={() => {
+            editGameModel({
+              cutscenes: {
+                [cutscene.cutsceneId]: {
+                  isRemoved: true
+                }
+              }
+            })
+            handleClose()
+      }}>Remove</Button>}
       </div>
     </div>
     {isMySpritesModalOpen && <MySpritesModal onClickSprite={(textureId) => {

@@ -9,7 +9,7 @@ window.instanceUndoStack = []
 window.spriteEditorUndoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
-  constructor(scene, { canvasId, boundaries, stageId }){
+  constructor(scene, { canvasId, boundaries, stageId, autoSave }){
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
     super(scene, 0, 0, boundaries.maxWidth, boundaries.maxHeight)
@@ -27,6 +27,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.previousRenderTexture = null
     this.undoTextureStack = []
     this.boundaries = boundaries
+
+    this.autoSave = autoSave
 
     return this
   }
@@ -146,7 +148,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   onStrokeReleased() {
     this.addRenderTextureToUndoStack()
-    this.debouncedSave()
+    if(this.autoSave) this.debouncedSave()
   }
 
   initialDraw() {

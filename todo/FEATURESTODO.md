@@ -24,5 +24,3 @@ TICKETING
     Create Lobby with sold ticket
   Ticket Receipt Page
   Open Ticket Modal effect
-
-SPRITE SHEET EDITOR

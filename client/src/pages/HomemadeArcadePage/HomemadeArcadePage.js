@@ -8,6 +8,7 @@ import Button from '../../ui/Button/Button';
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import Navbar from '../../layout/Navbar/Navbar';
 import ConstellationHero from '../../app/homemadeArcade/ConstellationHero/ConstellationHero';
+import { Container } from '@mui/material';
 
 // {!auth.isAuthenticated ? (
 //   <div>
@@ -37,10 +38,11 @@ const HomemadeArcadePage = () => {
           gameListRef.current.scrollIntoView({ behavior: "smooth" })
         }}>Play Now</Button>
       </ConstellationHero>
-      <div ref={gameListRef}><GameList>{(game) => {
+      <Container><div ref={gameListRef}><GameList>{(game) => {
         if(!game.metadata.isPublished) return
+        if(game.isRemoved) return
         return <GameCard canPlay game={game}/>
-      }}</GameList></div>
+      }}</GameList></div></Container>
     </div>
   </>
 };

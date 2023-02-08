@@ -127,6 +127,22 @@ function onArcadeGameModelUpdate(gameUpdate) {
     }
   })
 
+  Object.keys(gameData.stages).forEach((stageId) => {
+    const stage = gameData.stages[stageId]
+    if (gameData.stages[stageId] === null || gameData.stages[stageId] === undefined) {
+      console.log('deleting stage', stageId)
+      delete gameData.stages[stageId];
+    }
+
+    // the default stage doesnt start with objects because its virtual so gotta check
+    if(stage.objects) Object.keys(stage.objects).forEach(key => {
+      if (stage.objects[key] === null || stage.objects[key] === undefined) {
+        console.log('deleting object', key)
+        delete stage.objects[key];
+      }
+    });
+  })
+
   Object.keys(gameData.cutscenes).forEach(key => {
     if (gameData.cutscenes[key] === null || gameData.cutscenes[key] === undefined) {
       console.log('deleting cutscene', key)
@@ -269,12 +285,12 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
   }
 };
 
-export const copyArcadeGameToUser = ({gameId, userId, archival}) => async (dispatch, getState) => {
+export const copyArcadeGameToUser = ({gameId, userId, isArchival}) => async (dispatch, getState) => {
   const options = attachTokenToHeaders(getState);
   const response = await axios.get('/api/arcadeGames/' + gameId, options);
   const gameData = response.data.game
   gameData.user = null
-  gameData.metadata.archivel = archival
+  gameData.metadata.isArchival = isArchival
   gameData.metadata.isPublished = false
   gameData.userId = userId
 

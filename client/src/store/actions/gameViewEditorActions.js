@@ -1,3 +1,5 @@
+import { SNAPSHOT_ID_PREFIX } from '../../game/constants';
+import { generateUniqueId } from '../../utils/webPageUtils';
 import { 
   TOGGLE_CANVAS_VISIBILITY,
   CLEAR_GAME_VIEW_EDITOR,
@@ -30,16 +32,12 @@ export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: OPEN_SNAPSHOT_TAKER,
     payload: {
-      snapshotFileId: fileId
-  }
+      snapshotFileId: SNAPSHOT_ID_PREFIX+generateUniqueId()
+    }
   });
-
-  document.body.style.cursor = 'cell'
 }
 
 export const closeSnapshotTaker = () => (dispatch, getState) => {
-  document.body.style.cursor = null
-
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SNAPSHOT_TAKER,

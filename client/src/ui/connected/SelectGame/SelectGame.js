@@ -38,7 +38,9 @@ const SelectGame = ({ onSelect, userId, getArcadeGames, arcadeGames: { arcadeGam
       return
     }
 
-    const options = arcadeGames.map(sortByFirstName);
+    const options = arcadeGames.map(sortByFirstName).filter((game) => {
+      return !game.isRemoved
+    })
 
     setOptions(options) 
   }, [arcadeGames])

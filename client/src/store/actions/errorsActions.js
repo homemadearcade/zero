@@ -7,12 +7,12 @@ import {
 } from '../types';
 import { subscribeCobrowsing, unsubscribeCobrowsing } from './cobrowsingActions';
 
-export const clearError = (index) => (dispatch, getState) => {
+export const clearError = (id) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLEAR_ERROR,
     payload: {
-      index
+      id
     }
   });
 }

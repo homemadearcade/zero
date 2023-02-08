@@ -10,7 +10,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const games = await ArcadeGame.find().sort({ createdAt: 'desc' }).select('user createdAt updatedAt metadata').populate('user');
+    const games = await ArcadeGame.find().sort({ createdAt: 'desc' }).select('user createdAt isRemoved updatedAt metadata').populate('user');
 
     res.json({
       games: games.map((m) => {
@@ -182,6 +182,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       awsImages: updatedGame.awsImages,
       nodeSize: updatedGame.nodeSize, 
       relations: updatedGame.relations, 
+      isRemoved: updatedGame.isRemoved
       // user: tempGame.user ? tempGame.user.id : Math.random()
     }
 

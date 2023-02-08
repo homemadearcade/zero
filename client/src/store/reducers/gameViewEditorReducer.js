@@ -40,12 +40,16 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
       }
     }
     case OPEN_SNAPSHOT_TAKER:
+      document.body.style.cursor = 'cell'
+
       return {
         ...state,
         isSnapshotTakerOpen: true,
         snapshotFileId: payload.snapshotFileId
       };
     case CLOSE_SNAPSHOT_TAKER:
+      document.body.style.cursor = null 
+      
       return {
         ...state,
         isSnapshotTakerOpen: false,

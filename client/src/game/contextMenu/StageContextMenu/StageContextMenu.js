@@ -67,7 +67,7 @@ const StageContextMenu = ({
     </Unlockable>
     <Unlockable interfaceId="contextMenu/takeSnapshot">
       <MenuItem onClick={() => {
-        openSnapshotTaker(SNAPSHOT_ID_PREFIX+generateUniqueId())
+        openSnapshotTaker()
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
     </Unlockable>

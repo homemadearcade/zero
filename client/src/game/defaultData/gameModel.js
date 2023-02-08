@@ -9,7 +9,9 @@ export const defaultGameModel = {
     "title": "",
     "description": "",
     "authorPseudonym": "",
-    "imageUrl": ""
+    "imageUrl": "",
+    isArchival: false,
+    isFeatured: false
   },
   "stages": {
     'stage/default': {
@@ -57,4 +59,5 @@ export const defaultGameModel = {
       }
     }
   },
+  isRemoved: false
 }

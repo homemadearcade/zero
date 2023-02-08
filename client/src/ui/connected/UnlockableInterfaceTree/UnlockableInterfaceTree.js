@@ -129,7 +129,7 @@ function structureAllInterfaceIds() {
     return true
   })
 
-  console.log(window.allInterfaceIds)
+  // console.log(window.allInterfaceIds)
 
   window.allInterfaceIds.forEach((id) => {
     const idAliases = getInterfaceIdAliases(id)

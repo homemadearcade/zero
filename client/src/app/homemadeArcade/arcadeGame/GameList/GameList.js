@@ -38,10 +38,10 @@ const GameList = ({ getArcadeGames, children, arcadeGames: { arcadeGames, isLoad
 
   return (
     <div className="GameList">
-        <TextField onChange={handleSearchChange} value={searchTerm} label={"Search"} />
-        {isLoading ? (
-          <Loader />
-        ) : (gamesList.map(children))}
+      <TextField onChange={handleSearchChange} value={searchTerm} label={"Search"} />
+      {isLoading ? (
+        <Loader />
+      ) : <div className="GameList__list">{gamesList.map(children)}</div>}
     </div>
   );
 };

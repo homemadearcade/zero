@@ -20,13 +20,12 @@ const SelectUsers = ({ onSelect, usersSelected, getUsers, users: { users, isLoad
   const mapUserToOption = (user) => {
     return {
       label: user.username + ', ' + user.email,
-      value: user.id
+      value: user.id,
+      isRemoved: user.isRemoved
     }
   }
 
   const options = users.map(mapUserToOption)
-
-  console.log(usersSelected)
 
   return (
     <div className="SelectUsers">
@@ -34,6 +33,7 @@ const SelectUsers = ({ onSelect, usersSelected, getUsers, users: { users, isLoad
         onChange={(event, usersSelected) => {
           onSelect(usersSelected)
         }}
+        hideRemoved
         formLabel="Users"
         value={usersSelected}
         options={options}

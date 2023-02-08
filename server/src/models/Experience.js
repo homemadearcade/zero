@@ -12,6 +12,7 @@ const experience = new Schema(
         title: 'New Experience',
       }
     },
+    isRemoved: Boolean,
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -22,6 +23,7 @@ experience.methods.toJSON = function () {
     id: this._id.toString(),
     metadata: this.metadata,
     user: this.user?.toJSON(),
+    isRemoved: this.isRemoved,
   };
 };
 

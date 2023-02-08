@@ -1,8 +1,7 @@
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
+import { ANIMATION_CAMERA_SHAKE, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { changeGameState, clearCutscenes, openCutscene } from "../../../store/actions/gameContextActions";
-import { ANIMATION_CAMERA_SHAKE } from "../../../store/types";
 import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../defaultData/relationship";
 import { isZoneClassId } from "../../../utils/gameUtils";
@@ -167,7 +166,7 @@ export class Effects {
       this.scene.callAnimation({
         type: ANIMATION_CAMERA_SHAKE,
         data: {
-          intensity: 400,
+          intensity: 200,
         }
       })
     }

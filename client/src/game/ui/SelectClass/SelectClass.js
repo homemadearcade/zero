@@ -15,12 +15,14 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
       label: objectClass.name,
       value: classId,
       textureId: objectClass.graphics.textureId,
-      tint: objectClass.graphics.tint
+      tint: objectClass.graphics.tint,
+      isRemoved: objectClass.isRemoved
     }
   }
 
   const options = Object.keys(gameModel.classes).filter((classId) => {
     const objectClass = gameModel.classes[classId]
+    // if(objectClass.isRemoved) return false
     if(!classType) return true
     if(classType === objectClass.type) return true
     return false
@@ -38,6 +40,7 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
     onChange={(event, descriptors) => {
       onChange(event,  descriptors)
     }}
+    hideRemoved
     formLabel={formLabel}
     value={value}
     options={options}

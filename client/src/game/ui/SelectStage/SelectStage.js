@@ -13,6 +13,7 @@ const SelectStage = ({ onChange, value, formLabel, gameModel}) => {
     return {
       label: stage.name,
       value: stageId,
+      isRemoved: stage.isRemoved
     }
   }
 
@@ -22,6 +23,7 @@ const SelectStage = ({ onChange, value, formLabel, gameModel}) => {
     onChange={(event, stages) => {
       onChange(event,  stages)
     }}
+    hideRemoved
     formLabel={formLabel}
     value={value}
     options={options}

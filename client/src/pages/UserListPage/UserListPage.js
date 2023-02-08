@@ -13,8 +13,10 @@ import requireAdmin from '../../hoc/requireAdmin';
 import './styles.css';
 import Typography from '../../ui/Typography/Typography';
 import PageHeader from '../../ui/PageHeader/PageHeader';
+import Button from '../../ui/Button/Button';
+import { editUser } from '../../store/actions/userActions';
 
-const UserListPage = ({ getUsers, users: { users, isLoading } }) => {
+const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
   useEffect(() => {
     getUsers();
   }, []);
@@ -34,11 +36,11 @@ const UserListPage = ({ getUsers, users: { users, isLoading } }) => {
           ) : (
             <>
               {users.map((user, index) => {
+                console.log(user)
+                if(user.isRemoved) return null
                 return (
                   <div key={index} className="profile">
-                    {null && <Link to={`/user/${user.username}`}>
-                      <img src={user.avatar} className="avatar" />
-                    </Link>}
+                    {null && <img src={user.avatar} className="avatar" />}
                     <div className="info-container">
                       <div>
                         <span className="label">id: </span>
@@ -54,7 +56,7 @@ const UserListPage = ({ getUsers, users: { users, isLoading } }) => {
                       </div>
                       <div>
                         <span className="label">Username: </span>
-                        <Link to={`/${user.username}`}>
+                        <Link to={`/user/${user.username}`}>
                           {user.username}
                         </Link>
                       </div>
@@ -68,6 +70,14 @@ const UserListPage = ({ getUsers, users: { users, isLoading } }) => {
                           {moment(user.createdAt).format('dddd, MMMM Do YYYY, H:mm:ss')}
                         </span>
                       </div>
+                      <Button onClick={async () => {
+                        await editUser(user.id, {
+                          isRemoved: true
+                        })
+                        getUsers()
+                      }}>
+                        Remove
+                      </Button>
                     </div>
                   </div>
                 );
@@ -84,4 +94,4 @@ const mapStateToProps = (state) => ({
   users: state.users,
 });
 
-export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { getUsers }))(UserListPage);
+export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { getUsers, editUser }))(UserListPage);

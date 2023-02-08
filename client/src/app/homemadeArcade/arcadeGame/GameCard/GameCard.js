@@ -15,7 +15,7 @@ import { editArcadeGame, getArcadeGames } from '../../../../store/actions/arcade
 import Button from '../../../../ui/Button/Button';
 import { ADMIN_ROLE } from '../../../../game/constants';
 
-const GameCard = ({game, game: { metadata }, canEdit, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
+const GameCard = ({width, game, game: { metadata }, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
   const isEditor = me?.role === ADMIN_ROLE || me?.id === game.user?.id
 
   function renderPublishButton() {
@@ -40,6 +40,28 @@ const GameCard = ({game, game: { metadata }, canEdit, canPlay, canPublish, editA
         getArcadeGames()
       }}>
         Publish
+      </Button>
+    }
+  }
+
+  function renderRemoveButton() {
+    if(game.isRemoved) {
+      return <Button size="small" onClick={async () => {
+        await editArcadeGame(game.id, {
+          isRemoved: false
+        })
+        getArcadeGames()
+      }}>
+        Restore
+      </Button>
+    } else {
+      return <Button size="small" onClick={async () => {
+        await editArcadeGame(game.id, {
+          isRemoved: true
+        })
+        getArcadeGames()
+      }}>
+        Remove
       </Button>
     }
   }
@@ -69,6 +91,7 @@ const GameCard = ({game, game: { metadata }, canEdit, canPlay, canPublish, editA
         Edit
       </Link>}
       {canPublish && isEditor && renderPublishButton()}
+      {canRemove && isEditor && renderRemoveButton()}
     </CardActions>
   </Card>
 };

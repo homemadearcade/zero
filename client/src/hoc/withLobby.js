@@ -54,9 +54,6 @@ export default (ChildComponent) => {
           if(isConnectingToVideoCall && !bypass) {
             return <>
               <Loader text="Connecting your video to other users..."/>
-              {isLocalHost() && <Button onClick={() => {
-                bypassAgoraVideoCall()
-              }}>bypass video</Button>}
             </>
           }
         

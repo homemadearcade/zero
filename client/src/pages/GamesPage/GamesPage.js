@@ -26,7 +26,8 @@ const GamesPage = ({ getArcadeGames, auth: { me }}) => {
         <GameCopyForm onSubmit={getArcadeGames}/>
         <div className="GamesPage__list">
           <GameList>{(game) => {
-            return <GameCard game={game} canPlay canEdit canPublish></GameCard>
+            if(game.isRemoved) return
+            return <GameCard width={300} game={game} canPlay canEdit canPublish canRemove></GameCard>
           }}</GameList>
         </div>
       </div>

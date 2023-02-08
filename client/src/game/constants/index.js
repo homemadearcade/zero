@@ -16,6 +16,9 @@ export const noPhaserUpdateDelta = 15000
 export const noCobrowsingUpdateDelta = 15000
 export const noCodrawingStrokeUpdateDelta = 15000
 
+export const ANIMATION_CAMERA_SHAKE = 'ANIMATION_CAMERA_SHAKE'
+export const ANIMATION_CONFETTI = 'ANIMATION_CONFETTI'
+
 /////////////////////////////////////
 /////////////////////////////////////
 // GAME

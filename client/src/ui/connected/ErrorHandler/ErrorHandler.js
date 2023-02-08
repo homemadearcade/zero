@@ -7,36 +7,33 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearError } from '../../../store/actions/errorsActions';
-import Button from '../../Button/Button'
-import Icon from '../../Icon/Icon';
+import { Snackbar } from '@mui/material';
 
 const ErrorHandler = ({ 
   errors: { errors },
   clearError
  }) => {  
 
-  function renderError(type, message, index) {
-    return <Alert severity="error">
-      <Button onClick={() => {
-        clearError(index)
-      }}><Icon icon="faClose"/></Button>
-      <AlertTitle>{type}</AlertTitle>
-      {message.toString()}
-    </Alert>
+  function renderSnackbar() {
+    const error = errors[errors.length-1]
+    function handleClose() {
+      clearError(error.id)
+    }
+    return <Snackbar
+      open
+      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+      autoHideDuration={12000}
+      onClose={handleClose}
+    >
+      <Alert onClose={handleClose} severity="error">
+      <AlertTitle>{error.type}</AlertTitle>
+      {error.message?.toString()}
+      </Alert>
+    </Snackbar>
   }
 
-  // console.log(
-  //   authError, editorError, cobrowsingError, 
-  //   cobrowsingLobbyError, cobrowsingEditorError, cobrowsingVideoError,
-  //   gameError, lobbyError, lobbysError, statusError, registerError,
-  //   videoError, userError, usersError
-  // )
-
   return <div className="ErrorHandler">
-    {errors.map(({type, message}, index) => {
-      if(!message) return null
-      return renderError(type, message, index)
-    })}
+    {errors.length > 0 && renderSnackbar()}
   </div>
 }
 
