@@ -1,15 +1,11 @@
 .GamesPage {
   min-height: 100%;
 
-  &__game {
+  .GameCard {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px 0;
-    border-bottom: 1px solid black;
-    &:last-child {
-      border-bottom: 0;
-    }
+    margin: 20px 0;
   }
 
   &__label {

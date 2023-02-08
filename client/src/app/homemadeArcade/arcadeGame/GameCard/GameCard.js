@@ -11,9 +11,37 @@ import Typography from '../../../../ui/Typography/Typography';
 import './GameCard.scss';
 import { CardActions } from '@mui/material';
 import Link from '../../../../ui/Link/Link';
+import { editArcadeGame, getArcadeGames } from '../../../../store/actions/arcadeGameActions';
+import Button from '../../../../ui/Button/Button';
 
-const GameCard = ({game, game: { metadata }, canEdit, canPlay}) => {
- return <Card sx={{ width: 200 }}>
+const GameCard = ({game, game: { metadata }, canEdit, canPlay, canPublish, editArcadeGame, getArcadeGames}) => {
+  function renderPublishButton() {
+    if(game.metadata.isPublished) {
+      return <Button size="small" onClick={async () => {
+        await editArcadeGame(game.id, {
+          metadata: {
+            isPublished: false
+          }
+        })
+        getArcadeGames()
+      }}>
+        Unpublish
+      </Button>
+    } else {
+      return <Button size="small" onClick={async () => {
+        await editArcadeGame(game.id, {
+          metadata: {
+            isPublished: true
+          }
+        })
+        getArcadeGames()
+      }}>
+        Publish
+      </Button>
+    }
+  }
+
+ return <Card className="GameCard" sx={{ width: 200 }}>
     <CardMedia
       component="img"
       image={metadata.imageUrl ? window.awsUrl + metadata.imageUrl : ""}
@@ -37,6 +65,7 @@ const GameCard = ({game, game: { metadata }, canEdit, canPlay}) => {
       {canEdit &&<Link to={`/edit/${game.id}`}>
         Edit
       </Link>}
+      {canPublish && renderPublishButton()}
     </CardActions>
   </Card>
 };
@@ -46,4 +75,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { }))(GameCard);
+  connect(mapStateToProps, { editArcadeGame, getArcadeGames }))(GameCard);

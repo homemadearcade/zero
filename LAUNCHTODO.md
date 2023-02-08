@@ -9,8 +9,6 @@ NOW
 WRAPPING UP
   Copy game when homemade arcade is completed and put it in a different database
 
-  Copy game for someone else to edit
-
   Another Lobby View - Arcade View. We send them to the main page inside of an iframe or just a game list?. MAKE THIS A CREDITS VIEW
 
 INFO BOX 

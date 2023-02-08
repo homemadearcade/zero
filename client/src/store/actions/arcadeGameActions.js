@@ -18,7 +18,6 @@ import {
   ON_GAME_MODEL_UPDATE,
   ON_GAME_CHARACTER_UPDATE,
   INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
-  INITIALIZE_COBROWSING_STATE,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -26,8 +25,7 @@ import { defaultGameModel } from '../../game/defaultData/gameModel';
 import { defaultObjectInstance } from '../../game/defaultData/object';
 import { defaultClass } from '../../game/defaultData/class';
 import store from '..';
-import { ARCADE_EXPERIENCE_ID, BRUSH_ID_PREFIX, COMMON_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
-import { initializeUnlockableInterfaceIds } from './unlockableInterfaceActions';
+import {  BRUSH_ID_PREFIX, COMMON_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
@@ -270,6 +268,18 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
     });
   }
 };
+
+export const copyArcadeGameToUser = ({gameId, userId}) => async (dispatch, getState) => {
+  const options = attachTokenToHeaders(getState);
+  const response = await axios.get('/api/arcadeGames/' + gameId, options);
+  const gameData = response.data.game
+  gameData.user = null
+  gameData.metadata.isPublished = false
+  gameData.userId = userId
+
+  dispatch(addArcadeGame(gameData))
+};
+
 
 // export const deleteGame = (id) => async (dispatch, getState) => {
 //   dispatch({

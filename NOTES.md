@@ -49,30 +49,6 @@ GAME INSTANCE
 Object Instance
 Player
 Collision Grid
-
-OLD DISCUSSION TOPICS
-
-ARCADE VS MATTER
-  - Matter can do rotational collisions. Shit gets hit and spins around and stuff
-  - Arcade can NOT rotate
-  - Arcade can check easily where a collision occured - upleftrightdown
-  - Static objects in matter can only move position, not via velocity or thrust or force
-  - Arcade has immovable vs pushable. These are two different concepts
-
-  Have to decide what to do... would suck to have to do two interfaces for everything. Unless we limited it to just what Arcade Physics can do...What can arcade physics do that matter physics toggle that matter physics cant?
-
-  Does having 'path system' do anything? Does that resolve movement?
-
-  What sort of games will come out of Matter JS, what sort of games will come out of Arcade? What are the real design strengths?
-  What sort of gameplays? What sort of stories, What sort of world is this?
-
-  POSSIBLE MATTER ADDITIONS
-
-  Set Initial Velocity
-  Rope
-  'shoot'
-  Create Force ( like a bomb type thing )
-
 ---
 
 Default Class, Default Object get placed onto all classes and instance objects when loading the game model
@@ -82,7 +58,6 @@ Default Game Model gets placed onto the game model when loading up, it has a def
 Default stage gets put on the create stage flow
 
 Default relation gets placed onto relation ( in create relation menu ) data when resetting it
-
 
 ----
 
@@ -106,7 +81,7 @@ Player is controlled by the game host and broadcasts to all clients from the hos
 
 --
 
-Phaser keeps spawned object in some sort of memory pool between 'reloading' the scene. I tested via profifile. Even if you destory all objects, phaser still is slower next time you boot. You have to turn game off and turn it on again
+Phaser keeps spawned object in some sort of memory pool between 'reloading' the scene. I tested via profiler. Even if you destroy all objects, phaser still is slower next time you boot. You have to turn game off and turn it on again.
 
 
 --
@@ -124,3 +99,30 @@ ui
 hoc
 constants
 state
+
+
+---
+
+
+OLD DISCUSSION TOPICS
+
+ARCADE VS MATTER
+  - Matter can do rotational collisions. Shit gets hit and spins around and stuff
+  - Arcade can NOT rotate
+  - Arcade can check easily where a collision occured - upleftrightdown
+  - Static objects in matter can only move position, not via velocity or thrust or force
+  - Arcade has immovable vs pushable. These are two different concepts
+
+  Have to decide what to do... would suck to have to do two interfaces for everything. Unless we limited it to just what Arcade Physics can do...What can arcade physics do that matter physics toggle that matter physics cant?
+
+  Does having 'path system' do anything? Does that resolve movement?
+
+  What sort of games will come out of Matter JS, what sort of games will come out of Arcade? What are the real design strengths?
+  What sort of gameplays? What sort of stories, What sort of world is this?
+
+  POSSIBLE MATTER ADDITIONS
+
+  Set Initial Velocity
+  Rope
+  'shoot'
+  Create Force ( like a bomb type thing )

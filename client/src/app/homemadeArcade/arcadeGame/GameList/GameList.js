@@ -10,7 +10,7 @@ import Loader from '../../../../ui/Loader/Loader';
 import { getArcadeGames } from '../../../../store/actions/arcadeGameActions';
 import GameCard from '../GameCard/GameCard';
 
-const GameList = ({ getArcadeGames, publishedOnly, arcadeGames: { arcadeGames, isLoading }}) => {
+const GameList = ({ getArcadeGames, children, arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
   }, [getArcadeGames]);
@@ -32,18 +32,6 @@ const GameList = ({ getArcadeGames, publishedOnly, arcadeGames: { arcadeGames, i
     }
   }, [searchTerm, arcadeGames])
 
-  function getPublishData(game) {
-    let visible = true 
-
-    if(publishedOnly && !game.metadata.isPublished) {
-      visible = false
-    }
-
-    return {
-      visible,
-    }
-  }
-
   function handleSearchChange(e) {
     setSearchTerm(e.target.value)
   }
@@ -53,23 +41,7 @@ const GameList = ({ getArcadeGames, publishedOnly, arcadeGames: { arcadeGames, i
         <TextField onChange={handleSearchChange} value={searchTerm} label={"Search"} />
         {isLoading ? (
           <Loader />
-        ) : (
-          <>
-            {gamesList.map((game) => {
-              const { user } = game
-
-              const { visible } = getPublishData(game)
-
-              if(!visible) return null
-              
-              return (
-                <div key={game.id} className="GameList__game">
-                  <GameCard canPlay game={game}/>
-                </div>
-              );
-            })}
-          </>
-        )}
+        ) : (gamesList.map(children))}
     </div>
   );
 };

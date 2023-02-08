@@ -2,14 +2,14 @@ import React, { useState, useEffect} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './GameSelect.scss';
+import './SelectGame.scss';
 
-import { getArcadeGames } from '../../../../store/actions/arcadeGameActions';
-import Loader from '../../../../ui/Loader/Loader';
+import { getArcadeGames } from '../../../store/actions/arcadeGameActions';
+import Loader from '../../Loader/Loader';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-const GameSelect = ({ onSelect, userId, getArcadeGames, arcadeGames: { arcadeGames, isLoading }}) => {
+const SelectGame = ({ onSelect, userId, getArcadeGames, arcadeGames: { arcadeGames, isLoading }}) => {
   const [options, setOptions] = useState()
 
   useEffect(() => {
@@ -44,8 +44,8 @@ const GameSelect = ({ onSelect, userId, getArcadeGames, arcadeGames: { arcadeGam
   }, [arcadeGames])
 
   return (
-    <div className="GameSelect">
-      <div className="GameSelect__list">
+    <div className="SelectGame">
+      <div className="SelectGame__list">
         {isLoading ? (
           <Loader />
         ) : (options && <Autocomplete
@@ -69,4 +69,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { getArcadeGames }))(GameSelect);
+  connect(mapStateToProps, { getArcadeGames }))(SelectGame);

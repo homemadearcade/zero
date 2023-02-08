@@ -57,11 +57,7 @@ export default (ChildComponent) => {
       const gameInstance = store.getState().webPage.gameInstance
       if(gameInstance) {
         const scene = getCurrentGameScene(gameInstance)
-
-        console.log(scene.backgroundLayer?.unsavedChanges ,
-            scene.playgroundLayer?.unsavedChanges ,
-            scene.foregroundLayer?.unsavedChanges)
-
+        
         if(scene?.sceneInstanceData.isHost) {
           if(scene.backgroundLayer?.unsavedChanges ||
             scene.playgroundLayer?.unsavedChanges ||

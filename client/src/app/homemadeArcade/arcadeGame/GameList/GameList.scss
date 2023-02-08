@@ -5,18 +5,6 @@
   align-items: center;
   justify-content: center;
   
-  &__game {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 0;
-    border-bottom: 1px solid black;
-
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-
   &__label {
     font-size: 18px;
     font-weight: bold;

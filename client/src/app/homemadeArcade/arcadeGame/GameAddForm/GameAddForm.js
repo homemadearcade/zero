@@ -8,8 +8,9 @@ import { gameFormSchema } from './validation';
 import './styles.css';
 import Button from '../../../../ui/Button/Button';
 import Typography from '../../../../ui/Typography/Typography';
+import Icon from '../../../../ui/Icon/Icon';
 
-const GameForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
+const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
   const formik = useFormik({
     initialValues: {
       player: {},
@@ -62,10 +63,10 @@ const GameForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
 // </div>
 
   return (
-    <div className="GameForm">
+    <div className="GameAddForm">
       <Typography variant="h2" component="h2">Add a game</Typography> 
       <form onSubmit={formik.handleSubmit}>
-        <Button type="submit" className="btn">Add Game</Button>
+        <Button startIcon={<Icon icon="faPlus"/>} type="submit" className="btn">Add Game</Button>
       </form>
     </div>
   );
@@ -75,4 +76,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { addArcadeGame })(GameForm);
+export default connect(mapStateToProps, { addArcadeGame })(GameAddForm);

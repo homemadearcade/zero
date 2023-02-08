@@ -12,6 +12,7 @@ import Typography from '../../ui/Typography/Typography';
 import { Fade, useMediaQuery } from '@mui/material';
 import GameList from '../../app/homemadeArcade/arcadeGame/GameList/GameList';
 import Button from '../../ui/Button/Button';
+import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 
 // {!auth.isAuthenticated ? (
 //   <div>
@@ -50,7 +51,10 @@ const HomemadeArcadePage = ({ auth, reseedDatabase }) => {
           </Fade>
         </Constellation></div></Fade>
         </div>
-        <div  ref={gameListRef}><GameList publishedOnly></GameList></div>
+        <div  ref={gameListRef}><GameList>{(game) => {
+          if(!game.metadata.isPublished) return
+          return <GameCard canPlay game={game}/>
+        }}</GameList></div>
       </div>
     </Layout>
   );

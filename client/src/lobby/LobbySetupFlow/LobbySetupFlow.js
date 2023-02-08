@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { assignLobbyRole, editLobby } from '../../store/actions/lobbyActions';
 
 import './LobbySetupFlow.scss';
-import { addArcadeGame, unloadArcadeGame, updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
-import GameSelect from '../../app/homemadeArcade/arcadeGame/GameSelect/GameSelect';
+import { addArcadeGame, copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
+import SelectGame from '../../ui/connected/SelectGame/SelectGame';
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
@@ -166,7 +166,7 @@ const LobbySetupFlow = ({
       {lobby?.game?.id && 
       <GameCard game={lobby.game}/>}
       Select a pre-existing game that was created by the participant:
-      {lobby.participantId && <GameSelect userId={lobby.participantId} onSelect={(game) => {
+      {lobby.participantId && <SelectGame userId={lobby.participantId} onSelect={(game) => {
         editLobby(lobby.id, {
           game
         })
@@ -417,6 +417,15 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Open Game Metadata Modal</Typography>,
           onClickNext: () => {
             store.dispatch(forceCobrowsingUpdateDispatch(openGameMetadataModal()))
+          },
+          nextButtonText: 'Open'
+        },
+        breakTitle('After they leave'),
+        {
+          id: 'Open Game Metadata Modal',
+          title: <Typography component="h5" variant="h5">Open Game Metadata Modal</Typography>,
+          onClickNext: () => {
+            store.dispatch(copyArcadeGameToUser({ gameId: lobby.game.id }))
           },
           nextButtonText: 'Open'
         },
