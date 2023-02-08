@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './GamesPage.scss';
+import './ArcadePage.scss';
 
 import Layout from '../../layout/Layout';
 import { getArcadeGames } from '../../store/actions/arcadeGameActions';
@@ -16,19 +16,27 @@ import GameCopyForm from '../../app/homemadeArcade/arcadeGame/GameCopyForm/GameC
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import GameList from '../../app/homemadeArcade/arcadeGame/GameList/GameList';
 
-const GamesPage = ({ getArcadeGames, auth: { me }}) => {
+const ArcadePage = () => {
+  function getGameData(game) {
+    let visible = false 
+
+    if(game.metadata.isPublished ) {
+      visible = true 
+    }
+
+    return {
+      visible,
+    }
+  }
+
   return (
     <Layout>
-      <div className="GamesPage">
-        <PageHeader 
-          title="Games page"
-          description="This is the Games page. Here are listed all of the games. Click the play link to play the game."
-        ></PageHeader>
-        <GameForm onSubmit={getArcadeGames}/>
-        <GameCopyForm onSubmit={getArcadeGames}/>
-        <div className="GamesPage__list">
+      <div className="ArcadePage">
+        <div className="ArcadePage__list">
           <GameList>{(game) => {
-            return <GameCard game={game} canPlay canEdit canPublish></GameCard>
+            const { visible } = getGameData(game)
+            if(!visible) return
+            return <GameCard game={game} canPlay canEdit></GameCard>
           }}</GameList>
         </div>
       </div>
@@ -37,10 +45,8 @@ const GamesPage = ({ getArcadeGames, auth: { me }}) => {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  auth: state.auth
 });
 
 export default compose(
-  requireAuth,
-  requireAdmin,
-  connect(mapStateToProps, { getArcadeGames }))(GamesPage);
+  connect(mapStateToProps, { getArcadeGames }))(ArcadePage);

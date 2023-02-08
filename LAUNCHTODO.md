@@ -1,10 +1,9 @@
-NOW
-  TextureStrokeHistory model 
-    Load stroke history when you boot up a codrawing image, then allow local strokes when its loaded
+TEXTURE STROKE HISTORY
+  Load stroke history when you boot up a codrawing image, then allow local strokes when its loaded
 
-    Try to save stroke history ALL of the time actually, after every stroke..maybe. you can remove check before browser closes
+  Try to save stroke history ALL of the time actually, after every stroke..maybe. you can remove check before browser closes
 
-    Saving the image REPLACES the stroke history. For security - both should be done at the same time
+  Saving the image REPLACES the stroke history. For security - both should be done at the same time
 
 WRAPPING UP
   Another Lobby View - Arcade View. We send them to the main page inside of an iframe or just a game list?. MAKE THIS A CREDITS VIEW

@@ -16,9 +16,8 @@ import PlayGamePage from './pages/PlayGamePage/PlayGamePage';
 import EditGamePage from './pages/EditGamePage/EditGamePage';
 
 import HomemadeArcadePage from './pages/HomemadeArcadePage/HomemadeArcadePage';
-import Account from './pages/User/User';
+import UserPage from './pages/UserPage/UserPage';
 import UserListPage from './pages/UserListPage/UserListPage';
-import Admin from './pages/Admin/Admin';
 import Lobbys from './pages/LobbyListPage/LobbyListPage';
 import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
@@ -33,6 +32,7 @@ import HATicketsPage from './pages/HATicketsPage/HATicketsPage';
 import TicketedEventCalendarPage from './pages/TicketedEventCalendarPage/TicketedEventCalendarPage';
 import store from './store';
 import InterfaceListPage from './pages/InterfaceListPage/InterfaceListPage';
+import ArcadePage from './pages/ArcadePage/ArcadePage';
 
 const LinkBehavior = React.forwardRef((props, ref) => {
   const { href, ...other } = props;
@@ -202,6 +202,7 @@ const App = ({ }) => {
           <Route path="/buy-tickets" children={wrapComponentInAppIfAuthenticated(HATicketsPage)}/>
           <Route path="/calendar" children={wrapComponentInApp(TicketedEventCalendarPage)} />
           <Route path="/games" children={wrapComponentInApp(GamesPage)} />
+          <Route path="/arcade" children={wrapComponentInApp(ArcadePage)} />
           <Route path="/edit/:gameId" children={wrapComponentInApp(EditGamePage)} />
           <Route path="/play/:gameId" children={wrapComponentInApp(PlayGamePage)} />
           <Route path="/login" children={wrapComponentInApp(Login)} />
@@ -209,10 +210,9 @@ const App = ({ }) => {
           <Route path="/users" children={wrapComponentInApp(UserListPage)} />
           <Route path="/interface" children={wrapComponentInApp(InterfaceListPage)} />
           <Route path="/notfound" children={wrapComponentInAppIfAuthenticated(NotFound)} />
-          <Route path="/admin" children={wrapComponentInApp(Admin)} />
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
           <Route path="/lobby/:id" children={wrapComponentInApp(LobbyPage)} />
-          <Route exact path="/:username" children={wrapComponentInApp(Account)} />
+          <Route exact path="/user/:username" children={wrapComponentInApp(UserPage)} />
           <Route path="/OAuthSuccess" children={wrapComponentInApp(HomemadeArcadePage)} />
           <Route exact path="/" children={wrapComponentInAppIfAuthenticated(HomemadeArcadePage)} />
           <Route children={wrapComponentInAppIfAuthenticated(NotFound)} />

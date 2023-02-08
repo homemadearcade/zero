@@ -7,7 +7,7 @@ import './ExperiencePreview.scss';
 import GamePreview from '../../game/GamePreview/GamePreview';
 import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
-import { CHATROOM_UI, experienceStateKeyToDisplayName, GAME_EDITOR_UI, MONOLOGUE_UI, WAITING_UI } from '../../constants';
+import { CHATROOM_EXPERIENCE, experienceStateKeyToDisplayName, GAME_EDITOR_EXPERIENCE, MONOLOGUE_EXPERIENCE, WAITING_EXPERIENCE } from '../../constants';
 import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperienceState';
 import { editLobby } from '../../store/actions/lobbyActions';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';

@@ -21,7 +21,7 @@ import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
 import UnlockableInterfaceTree from '../../ui/connected/UnlockableInterfaceTree/UnlockableInterfaceTree';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 
-const User = ({
+const UserPage = ({
   getUserByUsername,
   user: { user, isLoading },
   auth: { me },
@@ -260,4 +260,4 @@ export default compose(
   requireAuth,
   withRouter,
   connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, logOutUser }),
-)(User);
+)(UserPage);

@@ -24,6 +24,10 @@ export default (props) => {
     );
   } else if(props.href) {
     // eslint-disable-next-line react/jsx-no-target-blank
-    return <MuiLink target={props.newTab && '_blank'} rel={props.newTab && 'noreferrer'} {...props}/>
+    return <a href={props.href} target={props.newTab && '_blank'} rel={props.newTab && 'noreferrer'}>
+      <MuiLink className={props.className} component="span">
+        {props.children}
+      </MuiLink>
+    </a>
   }
 };

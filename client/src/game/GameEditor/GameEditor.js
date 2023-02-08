@@ -33,6 +33,7 @@ import CreateBrushFlow from '../brush/CreateBrushFlow/CreateBrushFlow';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { editGameModel } from '../../store/actions/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
+import Icon from '../../ui/Icon/Icon';
 
 const GameEditor = ({ 
   classNames, 
@@ -67,9 +68,16 @@ const GameEditor = ({
 
   const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE)
 
-  return <>
-    {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
-    <div className={"GameEditor " + classNames}>
+  function renderBody() {
+    if(!gameModel) {
+      return <div className="GameView__empty">
+        <Icon icon="faCircleQuestion"></Icon>
+        No Game Loaded
+      </div>
+    }
+
+    return <>
+      {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
         {showColumns && <>
@@ -130,6 +138,12 @@ const GameEditor = ({
             })
           }
      }}/>}
+    </>
+  }
+
+  return <>
+    <div className={"GameEditor " + classNames}>
+      {renderBody()}
     </div>
   </>
 };

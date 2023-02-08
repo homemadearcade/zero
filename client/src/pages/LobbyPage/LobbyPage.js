@@ -54,9 +54,7 @@ const LobbyPage = ({
         {me.role === ADMIN_ROLE && <LobbyGuideToolbar myTracks={myTracks} userTracks={userTracks}></LobbyGuideToolbar>}
         <WithCobrowsing>
           <AskFullscreen>
-            <Container>
-              <ExperienceView myTracks={myTracks} userTracks={userTracks}/>
-            </Container>
+            <ExperienceView myTracks={myTracks} userTracks={userTracks}/>
           </AskFullscreen>
         </WithCobrowsing>
         <LobbyErrorStates/>

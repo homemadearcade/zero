@@ -8,7 +8,7 @@ import Drawer from '../../ui/Drawer/Drawer';
 import Icon from '../../ui/Icon/Icon';
 import LobbyDetail from '../LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
-import { GAME_EDITOR_UI } from '../../constants';
+import { GAME_EDITOR_EXPERIENCE } from '../../constants';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
@@ -32,10 +32,10 @@ const LobbyGuideToolbar = ({
         }}>
           <Icon icon="faBars"/>
         </div>}
-        {experienceState === GAME_EDITOR_UI && <CobrowsingIndicator/>}
-        {experienceState === GAME_EDITOR_UI && <LobbyPowerIndicator/>}
-        {experienceState === GAME_EDITOR_UI && isGamePoweredOn && <ConstellationToggle/>}
-        {experienceState === GAME_EDITOR_UI && skipStageSave && <div className="LobbyGuideToolbar__not-saving-stage">
+        {experienceState === GAME_EDITOR_EXPERIENCE && <CobrowsingIndicator/>}
+        {experienceState === GAME_EDITOR_EXPERIENCE && <LobbyPowerIndicator/>}
+        {experienceState === GAME_EDITOR_EXPERIENCE && isGamePoweredOn && <ConstellationToggle/>}
+        {experienceState === GAME_EDITOR_EXPERIENCE && skipStageSave && <div className="LobbyGuideToolbar__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Not Saving<br/>Map Objects</Typography>
           <Switch

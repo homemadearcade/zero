@@ -33,7 +33,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
           <>
             <li className="flex-1" />
             <li className="nav-item">
-              <Link ignoreDefaultStyle to={`/${auth.me.username}`}>My Account</Link>
+              <Link ignoreDefaultStyle to={`/user/${auth.me.username}`}>My Account</Link>
             </li>
           </>
         ) : (

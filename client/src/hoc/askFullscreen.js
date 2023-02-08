@@ -11,8 +11,6 @@ class AskFullscreen extends Component {
     this.state = {
       fullscreenDecision: inIframe() || isLocalHost() || (document.fullscreenElement ? 'fullscreen' : null)
     }
-
-    console.log('fullscreen', isLocalHost() || document.fullscreenElement, document.fullscreenElement)
   }
 
   componentDidMount() {

@@ -1,5 +1,5 @@
 import store from '..';
-import { GAME_EDITOR_UI } from '../../constants';
+import { GAME_EDITOR_EXPERIENCE } from '../../constants';
 import { PAUSED_STATE, PLAYTHROUGH_PAUSED_STATE, PLAY_STATE } from '../../game/constants';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { changeGameState } from '../actions/gameContextActions';
@@ -40,7 +40,7 @@ export default function gameContextReducer(state = initialState, { type, payload
     async function attemptConstellation() {
       const state = store.getState()
 
-      if(state.lobby.lobby?.experienceState === GAME_EDITOR_UI && state.lobby.lobby?.isGamePoweredOn) {
+      if(state.lobby.lobby?.experienceState === GAME_EDITOR_EXPERIENCE && state.lobby.lobby?.isGamePoweredOn) {
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
 

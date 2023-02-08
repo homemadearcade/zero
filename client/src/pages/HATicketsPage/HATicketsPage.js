@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Link from '../../ui/Link/Link';
 
 import './HATicketsPage.scss';
 import { playBackgroundMusic } from '../../store/actions/portfolioActions';
@@ -10,7 +9,7 @@ import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import Icon from '../../ui/Icon/Icon';
 import { Container } from '@mui/system';
-import { Dialog, Divider, IconButton } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import EventDatePicker from '../../ticketing/EventDatePicker/EventDatePicker';
 import TicketTypePicker from '../../ticketing/TicketTypePicker/TicketTypePicker';
 import ScrollDialog from '../../ui/ScrollDialog/ScrollDialog';

@@ -18,12 +18,13 @@ import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { changeGameState, completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
 import { openGameMetadataModal, openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
-import { GAME_EDITOR_UI, MONOLOGUE_UI } from '../../constants';
+import { CREDITS_EXPERIENCE, GAME_EDITOR_EXPERIENCE, MONOLOGUE_EXPERIENCE } from '../../constants';
 import { PAUSED_STATE, PLAY_STATE } from '../../game/constants';
 import LobbyVerticalLinearStepper from '../LobbyVerticalLinearStepper/LobbyVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import Icon from '../../ui/Icon/Icon';
+import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -34,6 +35,8 @@ const LobbySetupFlow = ({
   completeCloseConstellation, 
   openConstellation,
   changeGameState,
+  setCutAudio,
+  setCutVideo
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -255,7 +258,7 @@ const LobbySetupFlow = ({
           </>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              experienceState: MONOLOGUE_UI,
+              experienceState: MONOLOGUE_EXPERIENCE,
               monologueText: `More and more, the world interacts with reflections made on the screen in front of you. These began as pixels. So we begin with our relationship to pixels, through the tools of the keyboard you know so well.
 We’ll use it to create - a story, a piece of art, a game… however You feel inspired.`
             })
@@ -269,7 +272,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
               isGamePoweredOn: true,
-              experienceState: GAME_EDITOR_UI,
+              experienceState: GAME_EDITOR_EXPERIENCE,
               skipStageSave: true
             })
             changeGameState(PAUSED_STATE)
@@ -336,7 +339,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63c5e24c90a58a00531f4c1a',
               isGamePoweredOn: true,
-              experienceState: GAME_EDITOR_UI,
+              experienceState: GAME_EDITOR_EXPERIENCE,
               skipStageSave: true
             })
           },
@@ -357,7 +360,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             editLobby(lobby.id, {
               currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
               isGamePoweredOn: true,
-              experienceState: GAME_EDITOR_UI,
+              experienceState: GAME_EDITOR_EXPERIENCE,
               skipStageSave: true
             })
           },
@@ -372,7 +375,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             editLobby(lobby.id, {
               currentGameId: lobby.game.id,
               isGamePoweredOn: true,
-              experienceState: GAME_EDITOR_UI,
+              experienceState: GAME_EDITOR_EXPERIENCE,
               skipStageSave: false
             })
           },
@@ -420,7 +423,27 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Open'
         },
-        breakTitle('After they leave'),
+        {
+          id: 'Send To Credits',
+          title: <Typography component="h5" variant="h5">Send To Credits</Typography>,
+          onClickNext: () => {
+            editLobby(lobby.id, {
+              experienceState: CREDITS_EXPERIENCE
+            })
+          },
+          nextButtonText: 'Open'
+        },
+        sayThis(`Thank them for coming!`),
+        {
+          id: 'Turn off Video/Audio',
+          title: <Typography component="h5" variant="h5">Turn off Video/Audio</Typography>,
+          onClickNext: () => {
+            setCutVideo(true)
+            setCutAudio(true)
+          },
+          nextButtonText: 'Turn off my Video and Audio'
+        },
+        breakTitle('After the experience'),
         {
           id: 'Save a copy for the archive',
           title: <Typography component="h5" variant="h5">Save a copy for the archive</Typography>,
@@ -447,5 +470,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState }),
+  connect(mapStateToProps, { editLobby,addArcadeGame, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState, setCutAudio, setCutVideo }),
 )(LobbySetupFlow);

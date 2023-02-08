@@ -52,4 +52,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { getArcadeGames }))(GameList);
+  connect(mapStateToProps, { getArcadeGames })
+)(GameList);

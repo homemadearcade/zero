@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import GetChromePage from '../pages/GetChromePage/GetChromePage';
-import { setRedirect } from '../store/actions/authActions';
+import Link from '../ui/Link/Link';
+import Typography from '../ui/Typography/Typography';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -14,20 +14,15 @@ export default (ChildComponent) => {
       }
     }
 
-    // // Our component just got updated
-    // componentDidUpdate() {
-    //   this.shouldNavigateAway();
-    // }
-
-    // //token ima auth nema, prepisi ga sa func component i useefect
-    // shouldNavigateAway() {
-    //     this.props.history.push('/');
-    //   }
-    // }
-
     render() {
       if(!this.state.isChrome) {
-        return <GetChromePage/>
+        return <div>
+          <Typography component="h1" variant="h1">You must use Google Chrome or a chromium browser to play</Typography>
+          Go back to{' '}
+          <Link to="/">
+            Home
+          </Link>
+      </div>
       } else {
         return <ChildComponent {...this.props} />;
       }

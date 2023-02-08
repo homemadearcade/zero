@@ -11,7 +11,7 @@ import AgoraToolbar from '../agora/AgoraToolbar/AgoraToolbar';
 import Tabs from '../../ui/Tabs/Tabs';
 import LobbyCommandCenter from '../LobbyCommandCenter/LobbyCommandCenter';
 import AgoraUserVideo from '../agora/AgoraUserVideo/AgoraUserVideo';
-import { MONOLOGUE_UI } from '../../constants';
+import { MONOLOGUE_EXPERIENCE } from '../../constants';
 
 const LobbyDashboard = ({
   lobby: { lobby },
@@ -25,7 +25,7 @@ const LobbyDashboard = ({
       <div className="LobbyDashboard__content">
         <div className="LobbyDashboard__preview">
           <div className="LobbyDashboard__video-container">
-            {lobby.experienceState === MONOLOGUE_UI && <div className='LobbyDashboard__monologue-text'>
+            {lobby.experienceState === MONOLOGUE_EXPERIENCE && <div className='LobbyDashboard__monologue-text'>
               {lobby.monologueText}
             </div>}
             <AgoraUserVideo className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}/>

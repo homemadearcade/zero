@@ -36,7 +36,7 @@ const UserListPage = ({ getUsers, users: { users, isLoading } }) => {
               {users.map((user, index) => {
                 return (
                   <div key={index} className="profile">
-                    {null && <Link to={`/${user.username}`}>
+                    {null && <Link to={`/user/${user.username}`}>
                       <img src={user.avatar} className="avatar" />
                     </Link>}
                     <div className="info-container">

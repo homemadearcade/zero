@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import GetChromePage from '../pages/GetChromePage/GetChromePage';
-import { setRedirect } from '../store/actions/authActions';
 import Loader from '../ui/Loader/Loader';
-import { checkIfTabAlreadyOpen } from '../utils/webPageUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {

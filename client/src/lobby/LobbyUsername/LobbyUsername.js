@@ -15,7 +15,7 @@ import { closeInterfaceTree, openInterfaceTree } from '../../store/actions/userA
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
-import { GAME_EDITOR_UI } from '../../constants';
+import { GAME_EDITOR_EXPERIENCE } from '../../constants';
 
 const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, auth: {me}, setCutAudio, setCutVideo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -83,7 +83,7 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
   }}>
     <div className="LobbyUsername__modal">
       {renderConnectionInfo()}
-      {lobby.experienceState === GAME_EDITOR_UI && <>
+      {lobby.experienceState === GAME_EDITOR_EXPERIENCE && <>
         <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
         <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
       </>}

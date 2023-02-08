@@ -13,8 +13,11 @@ import { CardActions } from '@mui/material';
 import Link from '../../../../ui/Link/Link';
 import { editArcadeGame, getArcadeGames } from '../../../../store/actions/arcadeGameActions';
 import Button from '../../../../ui/Button/Button';
+import { ADMIN_ROLE } from '../../../../game/constants';
 
-const GameCard = ({game, game: { metadata }, canEdit, canPlay, canPublish, editArcadeGame, getArcadeGames}) => {
+const GameCard = ({game, game: { metadata }, canEdit, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
+  const isEditor = me?.role === ADMIN_ROLE || me?.id === game.user?.id
+
   function renderPublishButton() {
     if(game.metadata.isPublished) {
       return <Button size="small" onClick={async () => {
@@ -59,19 +62,19 @@ const GameCard = ({game, game: { metadata }, canEdit, canPlay, canPublish, editA
       </Typography>
     </CardContent>
     <CardActions>
-      {canPlay && <Link to={`/play/${game.id}`}>
+      {canPlay && <Link newTab href={`/play/${game.id}`}>
         Play
       </Link>}
-      {canEdit &&<Link to={`/edit/${game.id}`}>
+      {canEdit && isEditor && < Link to={`/edit/${game.id}`}>
         Edit
       </Link>}
-      {canPublish && renderPublishButton()}
+      {canPublish && isEditor && renderPublishButton()}
     </CardActions>
   </Card>
 };
 
 const mapStateToProps = (state) => ({
-
+  auth: state.auth
 });
 
 export default compose(
