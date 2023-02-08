@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -6,9 +6,7 @@ import './GamesPage.scss';
 
 import Layout from '../../layout/Layout';
 import { getArcadeGames } from '../../store/actions/arcadeGameActions';
-import Loader from '../../ui/Loader/Loader';
 import GameForm from '../../app/homemadeArcade/arcadeGame/GameAddForm/GameAddForm';
-import { ADMIN_ROLE } from '../../game/constants';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import requireAdmin from '../../hoc/requireAdmin';
 import requireAuth from '../../hoc/requireAuth';

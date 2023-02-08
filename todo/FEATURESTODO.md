@@ -5,8 +5,7 @@ TEXTURE STROKE HISTORY
 
   Saving the image REPLACES the stroke history. For security - both should be done at the same time
 
-WRAPPING UP
-  Another Lobby View - Arcade View. We send them to the main page inside of an iframe or just a game list?. MAKE THIS A CREDITS VIEW
+  Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?
 
 INFO BOX 
   Right Click, Left Click, Name of Class
@@ -25,3 +24,5 @@ TICKETING
     Create Lobby with sold ticket
   Ticket Receipt Page
   Open Ticket Modal effect
+
+SPRITE SHEET EDITOR

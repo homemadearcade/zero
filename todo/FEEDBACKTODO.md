@@ -1,14 +1,3 @@
----------
-BIG FEATURES
----------
-
-FEATURES
-  Sprite sheet editor page
-
------
-SMALL UPATES
------
-
 UI
   set Interval for keyboard capture issue?
 
@@ -29,9 +18,3 @@ UI
   Change width/height of the GamePreview when its full screen
 
   Agora User Video, have it load a user and have it like upload it as a profile pic??
-
-BUGS  
-  Scroll bar showing up in the class menu??
-
-  Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?
-

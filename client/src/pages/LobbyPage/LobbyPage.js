@@ -1,6 +1,6 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Switch as RouterSwitch } from 'react-router-dom';
@@ -16,7 +16,6 @@ import withLobby from '../../hoc/withLobby';
 import LobbyDashboard from '../../lobby/LobbyDashboard/LobbyDashboard';
 import { ADMIN_ROLE } from '../../game/constants';
 import withSpeedTest from '../../hoc/withSpeedTest';
-import { Container } from '@mui/system';
 import WithCobrowsing from '../../hoc/withCobrowsing';
 import AskFullscreen from '../../hoc/askFullscreen';
 import LobbyErrorStates from '../../lobby/LobbyErrorStates/LobbyErrorStates';

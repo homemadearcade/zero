@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -26,7 +26,7 @@ import ConstellationHero from '../../app/homemadeArcade/ConstellationHero/Conste
 //   </>
 // )}
 
-const HomemadeArcadePage = ({}) => {
+const HomemadeArcadePage = () => {
   const gameListRef = useRef()
   
   return <>

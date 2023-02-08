@@ -1,10 +1,8 @@
 import store from '..';
 import { GAME_EDITOR_EXPERIENCE } from '../../constants';
-import { PAUSED_STATE, PLAYTHROUGH_PAUSED_STATE, PLAY_STATE } from '../../game/constants';
+import { PLAY_STATE } from '../../game/constants';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { changeGameState } from '../actions/gameContextActions';
 import {
-  CHANGE_CURRENT_STAGE,
   CHANGE_GAME_STATE,
   CHANGE_PLAYER_STATE,
   CLEAR_CUTSCENES,
