@@ -106,7 +106,7 @@ const CreateCutscene = ({
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateCutscene">
-       <Unlockable adminOnly interfaceId={DIALOGUE_SHORTCUT_IID}>
+       <Unlockable interfaceId={DIALOGUE_SHORTCUT_IID}>
         <Switch
           labels={['Only In Cutscene Menu', 'In Dialogue Menu']}
           size="small"

@@ -1,3 +1,4 @@
+import { interfaceIdData } from "../constants/interfaceIdData"
 import { ADMIN_ROLE } from "../game/constants"
 import store from "../store"
 import { getCobrowsingState } from "./cobrowsingUtils"
@@ -50,44 +51,34 @@ export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
   })
 }
 
-export function getInterfaceIdData(interfaceId, options) {
+export function getInterfaceIdData(interfaceId, interfaceIdToUnlock) {
+  if(!interfaceIdToUnlock) interfaceIdToUnlock = interfaceId
   const state = getCobrowsingState()
   const unlockableInterfaceIds = state.unlockableInterfaceIds
-  const idAliases = getInterfaceIdAliases(interfaceId)
+  const idAliases = getInterfaceIdAliases(interfaceIdToUnlock)
   const me = state.auth.me
 
-  // dont let non admins see ever :)
-  if(me?.role !== ADMIN_ROLE) {
-    if(idAliases.some((aliases) => {
-      return aliases.indexOf('adminOnly') === 0
-    })) {
-      return {
-        isUnlocked: false,
-        idAliases,
-        isObscured: true,
-        isLockToggleable: false
-      }
-    }
-  }
+  const { isDefaultUnlocked, adminOnly, ignoreTools } = interfaceIdData[interfaceId]
 
-  const showLockedInterfaces = !!store.getState().cobrowsing.selectedTool
+  const isToolOpen = !!store.getState().cobrowsing.selectedTool
 
-  const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
-  const isObscured = !showLockedInterfaces && isInterfaceIdObscured(interfaceId, options) && !isUnlocked
+  const isUnlocked = isDefaultUnlocked || areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
+  const isObscured = !isToolOpen && isObscuringInterfaces() && !isUnlocked
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
-  const isLockToggleable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing && showLockedInterfaces
+  const isToolInteractable = me?.role === ADMIN_ROLE && isSubscribedCobrowsing && isToolOpen && !ignoreTools
 
   return {
     isUnlocked,
     idAliases,
     isObscured,
-    isLockToggleable
+    isToolInteractable,
+    adminOnly,
   }
 }
 
-export function isInterfaceIdObscured(interfaceId, options) {
-  const state = getCobrowsingState(options)
+export function isObscuringInterfaces(interfaceId) {
+  const state = getCobrowsingState()
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing
   const isActivelyCobrowsing = state.cobrowsing.isActivelyCobrowsing
   const me = state.auth.me

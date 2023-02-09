@@ -189,7 +189,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           checked={classSelected.movement.disableDownKey}
          />
       </Unlockable>}
-      <Unlockable interfaceId={TOGGLE_ALL_PARAMS_IID} adminOnly>
+      <Unlockable interfaceId={TOGGLE_ALL_PARAMS_IID}>
         <Button onClick={() => {
           setSeeAllParameters(!seeAllParameters)
         }}>See All Parameters</Button>

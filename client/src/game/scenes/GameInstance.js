@@ -550,35 +550,39 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
   }
 
-  sendReloadGameEvent() {
+  sendResetGameEvent() {
     // this updates here because all players are watching the current stage right now
     const initialStageId = store.getState().gameModel.gameModel.player.initialStageId
     store.dispatch(changeCurrentStage(initialStageId))
 
     if(store.getState().lobby.lobby?.id) {
       store.dispatch(editLobby(store.getState().lobby.lobby.id, {
-        gameReloadDate: Date.now()
+        gameResetDate: Date.now()
       }))
     } else {
-      this.reload()
+      this.reset()
     }
   }
 
-  reload = () => {
-    // this.registry.destroy(); // destroy registry
-    // this.events.off(); // disable all active events
-    // this.scene.restart(); // restart current scene
-    // this.unregisterEvents()
-
+  destroyInstances() {
     this.objectInstances.forEach((instance) => {
       instance.destroy()
     })
-    this.objectInstances= []
     this.projectileInstances.forEach((instance) => {
       instance.destroy()
     })
     this.projectileInstances = []
+    this.objectInstances= []
     this.playerInstance.destroy()
+    this.playerInstance = null
+  }
+
+  reset = () => {
+    // this.registry.destroy(); // destroy registry
+    // this.events.off(); // disable all active events
+    // this.scene.restart(); // restart current scene
+    // this.unregisterEvents()
+    this.destroyInstances()
 
     this.initializeObjectInstances()
     this.initializePlayerInstance()
@@ -629,19 +633,10 @@ export class GameInstance extends Phaser.Scene {
   unload() {
     // We want to keep the assets in the cache and leave the renderer for reuse.
     this.game.destroy(true);
-
+    this.destroyInstances()
     this.backgroundLayer.destroy()
     this.playgroundLayer.destroy()
     this.foregroundLayer.destroy()
-    this.objectInstances.forEach((instance) => {
-      instance.destroy()
-    })
-    this.objectInstances= []
-    this.projectileInstances.forEach((instance) => {
-      instance.destroy()
-    })
-    this.projectileInstances = []
-    this.playerInstance.destroy()
   }
 
   pause() {
@@ -666,7 +661,7 @@ export class GameInstance extends Phaser.Scene {
     if(gameState === START_STATE) {
       this.isPaused = true
       this.isPlaythrough = true
-      if(this.hasLoadedOnce) this.sendReloadGameEvent()
+      if(this.hasLoadedOnce) this.sendResetGameEvent()
     }
     if(gameState === PLAYTHROUGH_PAUSED_STATE) {
       this.isPaused = true
@@ -681,7 +676,7 @@ export class GameInstance extends Phaser.Scene {
     if(gameState === STOPPED_STATE) {
       this.isPaused = true
       this.isPlaythrough = false
-      this.sendReloadGameEvent()
+      this.sendResetGameEvent()
     }
     if(gameState === PLAYTHROUGH_PLAY_STATE) {
       this.isPaused = false

@@ -71,13 +71,13 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
     </Unlockable>
-    <Unlockable adminOnly interfaceId={CONTEXT_MENU_PLAYTEST_IID}>
+    <Unlockable interfaceId={CONTEXT_MENU_PLAYTEST_IID}>
       <MenuItem onClick={() => {
         window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
         onMenuItemClick()
       }}>Playtest Game</MenuItem>
     </Unlockable>
-    {<Unlockable adminOnly interfaceId={LAYER_VISIBILITY_IID}>
+    {<Unlockable interfaceId={LAYER_VISIBILITY_IID}>
       <MenuItem onClick={() => {
         toggleLayerVisibility(STAGE_BACKGROUND_CANVAS_ID)
         onMenuItemClick()

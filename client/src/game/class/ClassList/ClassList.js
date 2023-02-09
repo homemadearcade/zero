@@ -18,7 +18,7 @@ import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_C
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 import { directionalClass, jumperClass } from '../../defaultData/players';
-import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_LOCKED_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 
 const ClassList = ({
   gameModel: { gameModel },
@@ -38,7 +38,7 @@ const ClassList = ({
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
     if(currentClass.interfaceLocked) {
-      return <Unlockable interfaceId={CLASS_LOCKED_IID +  '/' + currentClass.name.replace(/\s+/g, '')}>
+      return <Unlockable interfaceIdPrefix={classType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentClass.name.replace(/\s+/g, '')}>
         {el}
       </Unlockable>
     } else {

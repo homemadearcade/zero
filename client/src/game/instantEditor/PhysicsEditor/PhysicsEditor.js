@@ -162,7 +162,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
-      {<Unlockable adminOnly interfaceId={PHYSICS_IGNORE_BOUNDARIES_IID}>
+      {<Unlockable interfaceId={PHYSICS_IGNORE_BOUNDARIES_IID}>
         <Switch
           labels={['Boundaried', 'No Boundaries']}
           size="small"

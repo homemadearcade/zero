@@ -27,6 +27,7 @@ import { initialGameContextState } from './gameContextReducer';
 import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
 import { initialVideoState } from './videoReducer';
 import { inIframe } from '../../utils/webPageUtils';
+import { initialSnackbarState } from './snackbarReducer';
 
 function getDefaultIsActiveCobrowsing() {
   return inIframe()
@@ -50,6 +51,7 @@ const initialState = {
     contextMenu: initialContextMenuState,
     unlockableInterfaceIds: initialUnlockableInterfaceState,
     errors: initialErrorState,
+    snackbar: initialSnackbarState
   },
 };
 

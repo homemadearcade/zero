@@ -2,7 +2,9 @@ import { INSTANCE_TOOLBAR_CONTAINER_IID, INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TO
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  [INSTANCE_TOOLBAR_CONTAINER_IID]: {},
+  [INSTANCE_TOOLBAR_CONTAINER_IID]: {
+    ignoreTools: true
+  },
   [INSTANCE_TOOLBAR_PAUSE_IID]: {},
   [INSTANCE_TOOLBAR_UNDO_IID]: {},
   [INSTANCE_TOOLBAR_STOP_IID]: {},

@@ -18,7 +18,8 @@ export const PLAYER_CLASS_SELECT_IID = "PLAYER_CLASS/select";
 
 export const CLASS_LAYER_IID = 'class/layer'
 export const CLASS_VISIBILITY_IID = 'class/visibility'
-export const CLASS_LOCKED_IID = 'class/locked'
+export const CLASS_LOCK_IID = 'class/lock'
+export const CLASS_UNLOCKABLE_IID = 'class/unlockable'
 
 export function getSelectClassFromClassType(type) {
   if(type === PLAYER_CLASS) return PLAYER_CLASS_SELECT_IID

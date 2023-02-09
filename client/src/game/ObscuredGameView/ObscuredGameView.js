@@ -48,15 +48,16 @@ const ObscuredGameView = ({
     </div>
 
     if(isObscured) {
-      return <div className="GameView__empty GameView__empty--overlay">
+      return <div className="GameView__empty">
         {me.role === ADMIN_ROLE && <>
           <Icon icon="faLock"></Icon>
           Game View Locked
         </>}
       </div>
-    } else if(selectedTool === UNLOCK_TOOL) {
-      return <div className="ObscuredGameView__unlock">
-        <Unlockable interfaceId={GAME_VIEW_IID}><div></div></Unlockable>
+    } else if(selectedTool === UNLOCK_TOOL && !isUnlocked) {
+      return <div className="GameView__empty">
+        <Unlockable className="ObscuredGameView__unlock" interfaceId={GAME_VIEW_IID}>
+        </Unlockable>
       </div>
     }
   }

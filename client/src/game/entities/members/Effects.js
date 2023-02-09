@@ -173,10 +173,10 @@ export class Effects {
 
     if(effect.type === EFFECT_WIN_GAME) {
       store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
-      this.scene.sendReloadGameEvent()
+      this.scene.sendResetGameEvent()
     } else if(effect.type === EFFECT_GAME_OVER) {
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
-      this.scene.sendReloadGameEvent()
+      this.scene.sendResetGameEvent()
     } else if(effect.type === EFFECT_SWITCH_STAGE) {
       store.dispatch(changeCurrentStage(effect.stageId))
       store.dispatch(clearCutscenes())

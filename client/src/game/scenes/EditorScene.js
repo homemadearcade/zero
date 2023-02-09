@@ -31,7 +31,7 @@ export class EditorScene extends GameInstance {
     this.canvas = null
     this.brush = null 
     this.stamper = null
-    this.gameReloadDate = Date.now()
+    this.gameResetDate = Date.now()
     this.isGridViewOn = true
     this.editorCamera = null
     this.remoteEditors = []
@@ -614,11 +614,6 @@ export class EditorScene extends GameInstance {
       }
 
       if(stageUpdate?.boundaries) {
-        // if(stageUpdate.boundaries.loop) {
-        //   this.sendReloadGameEvent()
-        //   return
-        // }
-        
         // set camera previews zoom
         // set camera bounds
         // set world bounds
@@ -956,9 +951,9 @@ export class EditorScene extends GameInstance {
 
     const lobby = store.getState().lobby.lobby
     if(lobby.id) {
-      const gameReloadDate = lobby.gameReloadDate
-      if(gameReloadDate > this.gameReloadDate) {
-        this.gameReloadDate = gameReloadDate
+      const gameResetDate = lobby.gameResetDate
+      if(gameResetDate > this.gameResetDate) {
+        this.gameResetDate = gameResetDate
         this.reload()
       }
     }

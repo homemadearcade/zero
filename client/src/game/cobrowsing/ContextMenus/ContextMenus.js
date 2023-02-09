@@ -37,7 +37,7 @@ const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isActivel
     </>
   }
   
-  return <Unlockable interfaceId={CONTEXT_MENU_CONTAINER_IID} hideLockToggle>
+  return <Unlockable interfaceId={CONTEXT_MENU_CONTAINER_IID}>
     {renderContextMenus()}
   </Unlockable>
 }

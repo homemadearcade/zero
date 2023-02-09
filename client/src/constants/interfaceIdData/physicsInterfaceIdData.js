@@ -11,5 +11,7 @@ export default {
   [PHYSICS_MASS_IID]: {},
   [PHYSICS_PUSHABLE_IID]: {},
   [PHYSICS_IMMOVABLE_IID]: {},
-  [PHYSICS_IGNORE_BOUNDARIES_IID]: {},
+  [PHYSICS_IGNORE_BOUNDARIES_IID]: {
+    adminOnly: true
+  },
 }

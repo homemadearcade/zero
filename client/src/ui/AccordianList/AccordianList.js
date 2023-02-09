@@ -77,7 +77,7 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
     </Accordion>
 
     if(interfaceId) {
-      return <Unlockable key={id} hideLockToggle interfaceId={interfaceId}>
+      return <Unlockable key={id} interfaceId={interfaceId}>
         {el}
       </Unlockable>
     } else {

@@ -21,7 +21,7 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS, classTypeToPrefix, COMMON_COLOR_ID } from '../../constants';
 import { Alert } from '@mui/material';
-import { CLASS_LAYER_IID, CLASS_LOCKED_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
+import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
 
 const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
   function handleClose() {
@@ -39,7 +39,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
     <div className="CreateClassFlow">
       {objectClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
       {objectClass.isNew === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
-      <Unlockable adminOnly interfaceId={CLASS_VISIBILITY_IID}>
+      <Unlockable interfaceId={CLASS_VISIBILITY_IID}>
         <Switch
           labels={['Visible', 'Invisible']}
           size="small"
@@ -124,7 +124,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
         }}
         objectClass={objectClass}
       />}
-      {objectClass.isNew && <Unlockable adminOnly interfaceId={CLASS_LOCKED_IID}>
+      {objectClass.isNew && <Unlockable interfaceId={CLASS_LOCK_IID}>
         <Switch
           labels={['Normal', 'Player cannot see unless unlocked']}
           size="small"

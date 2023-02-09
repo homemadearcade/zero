@@ -92,6 +92,10 @@ Create index folder for lobby, game, redux, etc
 
 Admin, Creator, Marketing Folders
 
+respawn on GameInstance -> spawn ( use this when initializting game too )
+
+edit class type
+
 swap all the objects to correct layers when it changes so we can use the layers correctly for visibility and for taking pictures...
 
 COBROWSING PUBLISHER CHECK if its connected to the client? why is that? Theres some problem right ! COBROWSING_UPDATE_ACKNOWLEDGED? Perhaps...
@@ -172,4 +176,6 @@ And tell it to the lobby and the lobby is like alright we will have all clients 
 
 If a second update interval gets made with THE SAME INSTNACE ID? This kinda crazy
 
-ACTUALy i think basically if EACH time you power on the game, a new game instance is given to the lobby, it should work a lot like reset. Host always does it and they send the new id to everyone. If clients get a new id theyll be like 'oh shit alright'
+ACTUALy i think basically if EACH time you power on the game, a new game instance is given to the lobby, it should work a lot like reset. Host always does it and they send the new id to everyone. If clients get a new id theyll be like 'oh shit alright' Yes similar to sendResetGameEvent is sendPowerCycleGameEvent
+
+--

@@ -10,14 +10,14 @@ import { Fade } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
 import { ADMIN_ROLE, OPEN_TOOL, UNLOCK_TOOL } from '../../constants';
-import { interfaceIdData } from '../../../constants/interfaceIdData';
 
 const Unlockable = ({
   auth: { me },
-  adminOnly,
+  className,
   setMouseOverInterfaceId,
-  hideLockToggle,
   lockInterfaceId,
+  interfaceIdPrefix,
+  interfaceIdExtension,
   selectCobrowsingTool,
   unlockInterfaceId,
   interfaceId,
@@ -27,14 +27,19 @@ const Unlockable = ({
   width,
   height,
 }) => {
-  const { isUnlocked, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
-  window.allInterfaceIds.push(interfaceId)
+  let interfaceIdToUnlock = interfaceIdExtension ? interfaceId + '/' + interfaceIdExtension : interfaceId
+  interfaceIdToUnlock = interfaceIdPrefix ? interfaceIdPrefix + '/' + interfaceIdToUnlock : interfaceIdToUnlock
+
+  const { 
+    isUnlocked, 
+    isObscured,
+    isToolInteractable,
+    adminOnly 
+  } = getInterfaceIdData(interfaceId, interfaceIdToUnlock)
 
   if(adminOnly && me?.role !== ADMIN_ROLE) {
     return null
   }
-
-  const { isDefaultUnlocked } = interfaceIdData[interfaceId]
 
   function renderChildren() {
     return React.Children.map(children, (child, index) => {
@@ -42,22 +47,33 @@ const Unlockable = ({
     })
   }
 
-  if(isDefaultUnlocked) return renderChildren()
+  function renderUnlockedChildren() {
+    return <div 
+      className={classNames(className)}
+      onMouseEnter={() => {
+        setMouseOverInterfaceId(interfaceId)
+      }}
+      onMouseLeave={() => {
+        setMouseOverInterfaceId(null)
+      }}>
+      {renderChildren()}
+    </div>
+  }
 
-  function renderCover() {
+  function renderUnlockCover() {
     return <div 
       className={
         classNames(
-          "Unlockable__cover", 
+          "Unlockable__unlock-cover", 
           { 
-            'Unlockable__cover--mouse-over': mouseOverInterfaceId === interfaceId, 
-            'Unlockable__cover--slider': isSlider 
+            'Unlockable__unlock-cover--mouse-over': mouseOverInterfaceId === interfaceId, 
+            'Unlockable__unlock-cover--slider': isSlider 
           }
         )
       }
       onClick={(e) => {
         if(selectedTool === UNLOCK_TOOL) {
-          unlockInterfaceId(interfaceId)
+          unlockInterfaceId(interfaceIdToUnlock)
         }
 
         if(!e.shiftKey) {
@@ -65,7 +81,7 @@ const Unlockable = ({
         }
       }}
       onMouseEnter={() => {
-        setMouseOverInterfaceId(interfaceId)
+        setMouseOverInterfaceId(interfaceIdToUnlock)
       }}
       onMouseLeave={() => {
         setMouseOverInterfaceId(null)
@@ -77,36 +93,30 @@ const Unlockable = ({
 
   if(isObscured) return null
 
-  function shouldShowCover() {
+  function shouldShowUnlockCover() {
     if(selectedTool === UNLOCK_TOOL) {
-      return !hideLockToggle && !adminOnly && !isUnlocked
+      return !adminOnly && !isUnlocked
     }
     if(selectedTool === OPEN_TOOL) {
       return false
     }
   }
 
-  function isOpenable() {
-    if(!hideLockToggle && selectedTool=== OPEN_TOOL) {
-      return !hideLockToggle
-    }
-  }
-
-  if(isLockToggleable) {
+  if(isToolInteractable) {
     return <div 
       onClick={(e) => {
-        if(!hideLockToggle && selectedTool === OPEN_TOOL && !e.shiftKey) {
+        if(selectedTool === OPEN_TOOL && !e.shiftKey) {
           selectCobrowsingTool(null)
         }
       }}
-      className={classNames("Unlockable", { 'Unlockable--openable': isOpenable() })}
+      className={classNames(className, "Unlockable", { 'Unlockable--openable': selectedTool=== OPEN_TOOL })}
     >
       {renderChildren()}
-      {shouldShowCover() && renderCover()}
+      {shouldShowUnlockCover() && renderUnlockCover()}
     </div>
   }
 
-  return renderChildren()
+  return renderUnlockedChildren()
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

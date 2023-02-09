@@ -77,7 +77,7 @@ const LobbyChecklist = ({
     {
       text: 'Game Host is present',
       test: () => {
-        return usersById[lobby.gameHostId]?.joined && usersById[lobby.gameHostId]?.connected
+        return lobbyUserStatuses[lobby.gameHostId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now()
       },
       required: true,
     },
