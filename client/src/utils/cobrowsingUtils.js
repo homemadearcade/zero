@@ -9,7 +9,8 @@ export function getRemoteStatePackage(state) {
     unlockableInterfaceIds: state.unlockableInterfaceIds,
     contextMenu: state.contextMenu,
     errors: state.errors,
-    gameContext: state.gameContext
+    gameContext: state.gameContext,
+    snackbar: state.snackbar
   }
 }
 
@@ -34,8 +35,10 @@ export function mapCobrowsingState(state, props, options) {
         prev[propName] = remoteState.errors
       } else if(propName === 'gameContext') {
         prev[propName] = remoteState.gameContext
-      }     
-      
+      } else if(propName === 'snackbar') {
+        prev[propName] = remoteState.snackbar
+      }
+            
       // else if(propName === 'contextMenu') {
       //   prev[propName] = remoteState.contextMenu
       // }
@@ -73,7 +76,8 @@ export function getCobrowsingState(options) {
       video: remoteState.video,
       gameContext: remoteState.gameContext,
       unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
-      errors: remoteState.errors
+      errors: remoteState.errors,
+      snackbar: remoteState.snackbar
     }
   }
 

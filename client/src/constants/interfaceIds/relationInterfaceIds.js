@@ -1,9 +1,5 @@
-export const relationInterfaceIds = {
-  "relation": {},
-  "relation/advanced/*": {},
-  "relation/advanced": {},
-  "relation/advanced/ignoreSides": {},
-  "relation/advanced/effected": {},
-  "relation/delayInterval": {},
-  "relation/onlyOnce": {},
-}
+export const RELATION_ADVANCED_CONTAINER = 'relation/advanced/*'
+export const RELATION_ADVANCED_IGNORE_SIDES = 'relation/advanced/ignoreSides'
+export const RELATION_ADVANCED_REMOTE_EFFECTED = 'relation/advanced/remoteEffected'
+export const RELATION_DELAY_INTERVAL = 'relation/delayInterval'
+export const RELATION_ONLY_ONCE = 'relation/onlyOnce'

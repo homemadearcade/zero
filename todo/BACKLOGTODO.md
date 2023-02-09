@@ -88,6 +88,8 @@ and also therefore, its inherited?? omg thats so dope! So like yeah create their
 
 TODO CHORES BACKLOG
 
+Create index folder for lobby, game, redux, etc
+
 Admin, Creator, Marketing Folders
 
 swap all the objects to correct layers when it changes so we can use the layers correctly for visibility and for taking pictures...

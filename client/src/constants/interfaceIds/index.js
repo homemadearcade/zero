@@ -1,34 +1,12 @@
-import { brushInterfaceIds } from "./brushInterfaceIds";
-import { cameraInterfaceIds } from "./cameraInterfaceIds";
-import { classInterfaceIds } from "./classInterfaceIds";
-import { contextMenuInterfaceIds } from "./contextMenuInterfaceIds";
-import { gameInstanceInterfaceIds } from "./gameInstanceInterfaceIds";
-import { jumpInterfaceIds } from "./jumpInterfaceIds";
-import { movementInterfaceIds } from "./movementInterfaceIds";
-import { physicsInterfaceIds } from "./physicsInterfaceIds";
-import { projectileInterfaceIds } from "./projectileInterfaceIds";
-import { relationInterfaceIds } from "./relationInterfaceIds";
-import { stageInterfaceIds } from "./stageInterfaceIds";
-
-export const interfaceIds = {
-  "layerVisibility": {},
-  "toggleAllParams": {},
-  "gameView": {},
-  "drawNewSprite": {},
-  "chooseSprites": {},
-  "eraser": {},
-  "addColor": {},
-
-  ...jumpInterfaceIds,
-  ...cameraInterfaceIds,
-  ...stageInterfaceIds,
-  ...relationInterfaceIds,
-  ...gameInstanceInterfaceIds,
-  ...brushInterfaceIds,
-  ...classInterfaceIds,
-  ...physicsInterfaceIds,
-  ...movementInterfaceIds,
-  ...projectileInterfaceIds,
-  ...contextMenuInterfaceIds,
-
-}
+export * from "./cameraInterfaceIds";
+export * from "./classInterfaceIds";
+export * from "./contextMenuInterfaceIds";
+export * from "./instanceToolbarInterfaceIds";
+export * from "./jumpInterfaceIds";
+export * from "./movementInterfaceIds";
+export * from "./physicsInterfaceIds";
+export * from "./projectileInterfaceIds";
+export * from "./relationInterfaceIds";
+export * from "./stageInterfaceIds";
+export * from "./brushInterfaceIds";
+export * from "./rootInterfaceIds";

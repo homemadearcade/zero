@@ -10,6 +10,8 @@ Hover Over the eye to see only that layer? Click it to toggle it on or off. Wher
 
 add Snackbar to cobrowsing
 
+Finish lobby cleaup with user video and usernames, etc
+
 IF KEY ISSUES PERSIST
 set Interval for keyboard capture issue?
 

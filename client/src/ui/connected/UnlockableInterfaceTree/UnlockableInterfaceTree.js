@@ -7,7 +7,6 @@ import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
 import Collapse from '@mui/material/Collapse';
 // web.cjs is required for IE11 support
 import { useSpring, animated } from '@react-spring/web';
-import { interfaceIds } from '../../../constants/interfaceIds';
 
 import './UnlockableInterfaceTree.scss'
 import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../../utils/unlockableInterfaceUtils';
@@ -21,6 +20,7 @@ import Button from '../../Button/Button';
 import Loader from '../../Loader/Loader';
 import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/interfacePresetActions';
 import Dialog from '../../Dialog/Dialog';
+import { interfaceIdData } from '../../../constants/interfaceIdData';
 
 function MinusSquare(props) {
   return (
@@ -110,7 +110,7 @@ const StyledTreeItem = styled((props) => {
     //   ],
     // },
 
-window.allInterfaceIds = Object.keys(interfaceIds)
+window.allInterfaceIds = Object.keys(interfaceIdData)
 const nodeIdsWithChildren = []
 
 function structureAllInterfaceIds() {

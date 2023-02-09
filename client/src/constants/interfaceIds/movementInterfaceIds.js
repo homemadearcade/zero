@@ -1,20 +1,11 @@
-export const movementInterfaceIds = {
-  "movement": {},
-  "movement/toggle": {},
-  "movement/toggle/ignoreGravity": {},
-  "movement/speed": {},
-  "movement/gravity": {},
-  "movement/gravity/vertical": {},
-  "movement/gravity/horizontal": {},
-  "movement/sliders": {},
-  "movement/sliders/drag": {},
-  "movement/sliders/drag/vertical": {},
-  "movement/sliders/drag/horizontal": {},
-  "movement/pattern": {},
-  "movement/velocity": {},
-  "movement/velocity/vertical": {},
-  "movement/velocity/horizontal": {},
-  "movement/controls": {},
-  "movement/controls/type": {},
-  "movement/controls/disableDownKey": {},
-}
+export const MOVEMENT_IGNORE_GRAVITY_IID = 'movement/ignoreGravity'
+export const MOVEMENT_SPEED_IID = 'movement/speed'
+export const MOVEMENT_PATTERN_IID = 'movement/pattern'
+export const MOVEMENT_GRAVITY_Y_IID = 'movement/gravity/vertical'
+export const MOVEMENT_GRAVITY_X_IID = 'movement/gravity/horizontal'
+export const MOVEMENT_DRAG_Y_IID = 'movement/drag/vertical'
+export const MOVEMENT_DRAG_X_IID = 'movement/drag/horizontal'
+export const MOVEMENT_VELOCITY_Y_IID = 'movement/velocity/vertical'
+export const MOVEMENT_VELOCITY_X_IID = 'movement/velocity/horizontal'
+export const MOVEMENT_CONTROLS_TYPE_IID = 'movement/controls/type'
+export const MOVEMENT_CONTROLS_DOWN_IID = 'movement/controls/disableDownKey'

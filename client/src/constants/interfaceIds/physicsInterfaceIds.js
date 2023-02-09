@@ -1,16 +1,8 @@
-export const physicsInterfaceIds = {
-  "physics": {},
-  "physics/select": {},
-  "physics/select/colliders": {},
-  "physics/ignoreSides": {},
-  "physics/sliders": {},
-  "physics/sliders/bounce": {},
-  "physics/sliders/friction": {},
-  "physics/sliders/friction/ground": {},
-  "physics/sliders/weight": {},
-  "physics/sliders/weight/mass": {},
-  "physics/toggle": {},
-  "physics/toggle/notPushable": {},
-  "physics/toggle/immovable": {},
-  "physics/toggle/ignoreBoundaries": {},
-}
+export const PHYSICS_COLLIDERS = 'physics/colliders'
+export const PHYSICS_IGNORE_SIDES = 'physics/ignoreSides'
+export const PHYSICS_BOUNCE = 'physics/bounce'
+export const PHYSICS_FRICTION = 'physics/friction'
+export const PHYSICS_MASS = 'physics/mass'
+export const PHYSICS_PUSHABLE = 'physics/pushable'
+export const PHYSICS_IMMOVABLE = 'physics/immovable'
+export const PHYSICS_IGNORE_BOUNDARIES = 'physics/ignoreBoundaries'

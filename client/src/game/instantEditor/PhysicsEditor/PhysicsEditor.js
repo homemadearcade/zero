@@ -17,7 +17,7 @@ import SelectSides from '../../ui/SelectSides/SelectSides';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 
 
-// {false && <Unlockable interfaceId="physics/toggle/useMass">
+// {false && <Unlockable interfaceId="physics/useMass">
 // <FormLabel>Use Mass For Weight</FormLabel>
 // <Switch
 //   size="small"
@@ -27,7 +27,7 @@ import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 //   checked={classSelected.collisionResponse.useMass}
 // />
 // </Unlockable>}
-// {false && <Unlockable interfaceId="physics/toggle/fixedRotation">
+// {false && <Unlockable interfaceId="physics/fixedRotation">
 // <FormLabel>Fixed Rotation</FormLabel>
 // <Switch
 //   size="small"
@@ -38,7 +38,7 @@ import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 //  />
 // </Unlockable>}
 // {false && !classSelected.useMass &&  
-//   <Unlockable isSlider interfaceId="physics/sliders/weight/density">
+//   <Unlockable isSlider interfaceId="physics/weight/density">
 //    <SliderNotched
 //      formLabel="Weight (Density)"
 //      step={0.001}
@@ -76,7 +76,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
 
   return (
     <div className="PhysicsEditor">
-      <Unlockable interfaceId="physics/select/colliders">
+      <Unlockable interfaceId="physics/colliders">
         <SelectColliders
           formLabel="Colliders"
           classId={classId}
@@ -163,7 +163,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
       {classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>
         also collides with Player because this is on the Playground Layer
       </div>}
-      <Unlockable isDefaultUnlocked isSlider interfaceId="physics/sliders/bounce">
+      <Unlockable isDefaultUnlocked isSlider interfaceId="physics/bounce">
         <SliderNotched
           formLabel="Bounce"
           step={0.05}
@@ -174,7 +174,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.bounciness}
         />
       </Unlockable>
-      <Unlockable isSlider interfaceId="physics/sliders/friction/ground">
+      <Unlockable isSlider interfaceId="physics/friction">
         <SliderNotched
           formLabel="Friction"
           step={0.05}
@@ -185,7 +185,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.friction}
         />
       </Unlockable>
-      <Unlockable isSlider interfaceId="physics/sliders/weight/mass">
+      <Unlockable isSlider interfaceId="physics/mass">
         <SliderNotched
           formLabel="Weight"
           step={0.1}
@@ -196,7 +196,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.mass}
         />
       </Unlockable>
-      <Unlockable interfaceId="physics/toggle/notPushable">
+      <Unlockable interfaceId="physics/notPushable">
         <Switch
           labels={['Not Pushable', 'Pushable']}
           size="small"
@@ -206,7 +206,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={!classSelected.collisionResponse.notPushable}
          />
       </Unlockable>
-      {false && <Unlockable interfaceId="physics/toggle/immovable">
+      {false && <Unlockable interfaceId="physics/immovable">
         <Switch
           labels={['Collisions', 'No Collisions']}
           size="small"
@@ -216,7 +216,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
-      {<Unlockable adminOnly interfaceId="physics/toggle/ignoreBoundaries">
+      {<Unlockable adminOnly interfaceId="physics/ignoreBoundaries">
         <Switch
           labels={['Boundaried', 'No Boundaries']}
           size="small"

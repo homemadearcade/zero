@@ -15,7 +15,7 @@ const GridToggle = ({
   gameViewEditor: { isGridViewOn}, 
   toggleGridView
 }) => {
-  return <Unlockable interfaceId="gameInstance/toggleGrid">
+  return <Unlockable interfaceId="instanceToolbar/toggleGrid">
     <div
       className="GridToggle"
       onClick={() => {
