@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -140,14 +140,14 @@ const LobbyChecklist = ({
     },
   ]
 
-  const isAllRequiredPassing = checklist.every((item, i) => {
-    if(!item.required) return true
-    return !!item.test();
-  })
+  // const isAllRequiredPassing = checklist.every((item, i) => {
+  //   if(!item.required) return true
+  //   return !!item.test();
+  // })
 
-  const isAllPassing = checklist.every((item, i) => {
-    return !!item.test();
-  })
+  // const isAllPassing = checklist.every((item, i) => {
+  //   return !!item.test();
+  // })
 
   // useEffect(() => {
   //   if(me.id === lobby.guideId) {

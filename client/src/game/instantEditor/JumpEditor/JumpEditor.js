@@ -7,11 +7,9 @@ import './JumpEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovementPattern';
-import SelectControls from '../../ui/SelectControls/SelectControls';
-import { advancedDirectionalDefaults, movementToParemeters } from '../../defaultData/movement';
+import { advancedDirectionalDefaults } from '../../defaultData/movement';
 import Button from '../../../ui/Button/Button';
-import { PLAYER_CLASS, JUMP_CONSTANT, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
+import { PLAYER_CLASS, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumping from '../../ui/SelectJump/SelectJumping';
 import { jumpStyleToParemeters } from '../../defaultData/jumping';

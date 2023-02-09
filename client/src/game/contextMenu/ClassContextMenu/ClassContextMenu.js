@@ -110,6 +110,7 @@ const ClassContextMenu = ({
               relationId: RELATION_ID_PREFIX + generateUniqueId()
             }
           }
+          return null
         }).filter((relation) => {
           return !!relation
         }).reduce((prev, relation) => {

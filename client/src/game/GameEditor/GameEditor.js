@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import './GameEditor.scss';
@@ -65,6 +65,7 @@ const GameEditor = ({
       clearGameViewEditor()
       document.documentElement.style = ogStyle
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen

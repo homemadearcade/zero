@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateRelation.scss';
@@ -20,7 +20,6 @@ import { EFFECT_SPAWN, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, RELA
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import { getClassAandB } from '../../../utils/gameUtils';
-import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Switch from '../../../ui/Switch/Switch';
 import Typography from '../../../ui/Typography/Typography';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
@@ -89,10 +88,10 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     return false 
   }
 
-  const handleEventChange = (prop, value) => {
-    relation.event[prop] = value
-    updateCreateRelation(relation)
-  }
+  // const handleEventChange = (prop, value) => {
+  //   relation.event[prop] = value
+  //   updateCreateRelation(relation)
+  // }
 
   const handleEffectChange = (prop, value) => {
     relation.effect[prop] = value

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Phaser from 'phaser';
 
 import './SpriteEditor.scss';
-import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID } from '../../constants';
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
@@ -22,11 +22,9 @@ import { setSpriteEditorGameInstance } from '../../../store/actions/webPageActio
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import BrushItem from '../../brush/BrushItem/BrushItem';
-import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import { Divider } from '@mui/material';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes, classes } }, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes } }, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -62,6 +60,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
       getCurrentGameScene(game).unload()
       game.destroy()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function onSelectColor(hex) {

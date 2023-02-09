@@ -11,6 +11,7 @@ import Loader from '../../Loader/Loader';
 const SelectUsers = ({ onSelect, usersSelected, getUsers, users: { users, isLoading }}) => {
   useEffect(() => {
     getUsers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if(isLoading || !users.length) {

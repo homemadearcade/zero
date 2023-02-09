@@ -14,7 +14,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, CUTSCENE_ID_PREFIX } from '../../constants';
+import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 import { directionalClass, jumperClass } from '../../defaultData/players';

@@ -16,7 +16,7 @@ const BrushControl = ({
   updateBrushSize,
   gameEditor: { brushSize, brushIdSelectedBrushList },
 }) => {
-  const brush = brushes[brushIdSelectedBrushList]
+  // const brush = brushes[brushIdSelectedBrushList]
 
   const boundaries = stages[currentStageId].boundaries
   const minZoomWidth = Math.floor((boundaries.width/boundaries.maxWidth) * 3)

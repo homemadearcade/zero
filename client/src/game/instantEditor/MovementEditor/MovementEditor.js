@@ -11,7 +11,7 @@ import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovement
 import SelectControls from '../../ui/SelectControls/SelectControls';
 import { movementToParemeters } from '../../defaultData/movement';
 import Button from '../../../ui/Button/Button';
-import { PLAYER_CLASS, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from '../../constants';
+import { PLAYER_CLASS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_TYPE_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_PATTERN_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, PHYSICS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 

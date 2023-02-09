@@ -6,7 +6,7 @@ import { openContextMenuFromGameObject, openStageContextMenu } from '../../store
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, BASIC_CLASS, PLAYGROUND_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';

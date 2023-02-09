@@ -5,7 +5,6 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 
 import './CameraEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
-import { Typography } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../constants/interfaceIds';
 

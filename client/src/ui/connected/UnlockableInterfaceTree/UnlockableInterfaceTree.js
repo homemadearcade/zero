@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -12,7 +13,7 @@ import './UnlockableInterfaceTree.scss'
 import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../../utils/unlockableInterfaceUtils';
 import MenuIconButton from '../../MenuIconButton/MenuIconButton';
 import Icon from '../../Icon/Icon';
-import { DialogActions, DialogContent, DialogTitle,  List, ListItem, ListItemButton, ListItemText, MenuItem, TextareaAutosize, TextField } from '@mui/material';
+import { DialogActions, DialogContent, DialogTitle,  List, ListItem, ListItemButton, ListItemText, MenuItem, TextField } from '@mui/material';
 import { connect } from 'react-redux';
 import { updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
 import { getUserById } from '../../../store/actions/userActions';

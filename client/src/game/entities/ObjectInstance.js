@@ -60,7 +60,7 @@ export class ObjectInstance extends Sprite {
     Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
     }).forEach((relation) => {
-      const {event, effect} = relation
+      const {event} = relation
 
       if(event.type === ON_SPAWN && event.classIdA === this.classId) {
         this.runAccuteEffect(relation)
@@ -167,7 +167,7 @@ export class ObjectInstance extends Sprite {
     Object.keys(gameModel.relations).map((relationId) => {
       return gameModel.relations[relationId]
     }).forEach((relation) => {
-      const {event, effect} = relation
+      const {event} = relation
       if(event.type === ON_DESTROY_ONE && event.classIdA === classId) {
         this.runAccuteEffect(relation)
       }
@@ -178,7 +178,7 @@ export class ObjectInstance extends Sprite {
       Object.keys(gameModel.relations).map((relationId) => {
         return gameModel.relations[relationId]
       }).forEach((relation) => {
-        const {event, effect} = relation
+        const {event} = relation
         if(event.type === ON_DESTROY_ALL && event.classIdA === classId) {
           this.runAccuteEffect(relation)
         }

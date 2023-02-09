@@ -123,7 +123,6 @@ export class Effects {
   runAccuteEffect(relation, instanceSpriteB, sides = []) {
     const effect = relation.effect
     const sprite = this.objectInstance.sprite
-    const instanceId = this.objectInstance.id
     const classId = this.objectInstance.classId
 
     // spawning does not effect existing instances so it cannot run here
