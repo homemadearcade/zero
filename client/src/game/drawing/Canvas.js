@@ -17,7 +17,12 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene = scene
     this.scene.add.existing(this)
 
-    this.textureId = gameModel.id+'/' + stageId + '/' + canvasId
+    if(stageId) {
+      this.textureId = gameModel.id+'/' + stageId + '_' + canvasId
+    } else {
+      this.textureId = gameModel.id+'/' + canvasId
+    }
+
     this.canvasId = canvasId
 
     this.initialDraw()

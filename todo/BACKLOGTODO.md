@@ -44,6 +44,8 @@ Attribute to make the left side the 'front' of a sprite. For.. projectiles and f
 
 UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 
+add cobrowsing color to ui system
+
 --------------------------------------------------------------------------------------
 
 TODO FEATURES ( MAYBE ) BACKlog
@@ -102,6 +104,8 @@ edit class type
 
 swap all the objects to correct layers when it changes so we can use the layers correctly for visibility and for taking pictures...
 
+TOUR component for admins? There this 'tour component' I found when searching ui libraries, its dope!
+
 COBROWSING PUBLISHER CHECK if its connected to the client? why is that? Theres some problem right ! COBROWSING_UPDATE_ACKNOWLEDGED? Perhaps...
 
 Fix with Cobrowsing?? right now broken af when switching between two different users
@@ -109,8 +113,6 @@ Fix with Cobrowsing?? right now broken af when switching between two different u
 if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
 
 popup if the player has switched stages and you want to follow them to that scene 
-
-UI COLOR needs and ...If you have a white background, if you have a grey background, Still issues!! Two border colors instead of ui color change
 
 Auto hide live editor when using keys?
 
@@ -183,3 +185,7 @@ If a second update interval gets made with THE SAME INSTNACE ID? This kinda craz
 ACTUALy i think basically if EACH time you power on the game, a new game instance is given to the lobby, it should work a lot like reset. Host always does it and they send the new id to everyone. If clients get a new id theyll be like 'oh shit alright' Yes similar to sendResetGameEvent is sendPowerCycleGameEvent
 
 --
+
+Lobby.lobbyId
+game.gameId 
+these can be my own custom ids and use them for urls instead of the mongodb ids

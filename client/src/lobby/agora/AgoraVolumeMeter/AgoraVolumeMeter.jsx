@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { getThemePrimaryColor } from "../../../utils/webPageUtils";
 
 import './AgoraVolumeMeter.scss'
 
@@ -22,11 +23,13 @@ const AgoraVolumeMeter = ({ audioTrack, username }) => {
   useEffect(() => {
     var bars = volumeBar.current?.children
 
+    const style = 'background-color: ' + getThemePrimaryColor().hexString + ';';
+
     for (var i = 0; i < bars.length; i++) {
       if(volume / (100 / bars.length) > i) {
-        bars[i].classList.add("on");
+        bars[i].style = style
       } else {
-        bars[i].classList.remove("on");
+        bars[i].style = null
       }
     }
   }, [volume]);

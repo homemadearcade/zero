@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link as RouterLink, MemoryRouter } from 'react-router-dom';
-import './utils/webPageUtils'
 
 // import Cookies from 'js-cookie';
 
@@ -34,15 +32,9 @@ import store from './store';
 import InterfaceListPage from './pages/InterfaceListPage/InterfaceListPage';
 import ArcadePage from './pages/ArcadePage/ArcadePage';
 
-const LinkBehavior = React.forwardRef((props, ref) => {
-  const { href, ...other } = props;
-  // Map href (MUI) -> to (react-router)
-  return <RouterLink data-testid="custom-link" ref={ref} to={href} {...other} />;
-});
+window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
-window.awsUrl = window.location.origin + "/api/aws/" //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
-
-const theme = createTheme({
+const themeDefaults = {
   palette: {
     mode: 'dark',
   },
@@ -63,9 +55,6 @@ const theme = createTheme({
       //       margin: 'unset',
       //     }
       //   }
-      defaultProps: {
-        component: LinkBehavior,
-      },
     },
     MuiTypography: {
       styleOverrides: {
@@ -148,9 +137,6 @@ const theme = createTheme({
           borderRadius: 0
         }
       },
-      defaultProps: {
-        LinkComponent: LinkBehavior,
-      },
     },
     MuiButton: {
       styleOverrides: {
@@ -185,11 +171,25 @@ const theme = createTheme({
           padding: '0px',
         }
       }
-    }
+    },
   },
-});
+};
 
-const App = ({ }) => {
+const App = ({ theme: { primaryColor } }) => {
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        ...themeDefaults,
+        palette: {
+          ...themeDefaults.palette,
+          primary: { 
+            main: primaryColor,
+          },
+        },
+      }),
+    [primaryColor],
+  );
+
   const wrapComponentInApp = (Component) => (props) => {
     return <AppPage>
       <Component {...props} />
@@ -234,6 +234,8 @@ const App = ({ }) => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  theme: state.theme
+});
 
 export default compose(connect(mapStateToProps, {}))(App);

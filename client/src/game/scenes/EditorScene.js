@@ -15,7 +15,7 @@ import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../defaultData/general';
 import { urlToFile } from '../../utils/utils';
-import { generateUniqueId, isLocalHost } from '../../utils/webPageUtils';
+import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
@@ -221,12 +221,10 @@ export class EditorScene extends GameInstance {
     ////////////////////////////////////////////////////////////
     if(this.snapshotSquare && !this.snapshotSquare.finalized) {
       if(!gameViewEditor.isSnapshotTakerOpen) {
-        this.snapshotSquare.clear()
-        this.snapshotSquare = null 
-        this.snapshotStartPos = null
+        this.clearSnapshotSquare()
        } else {
         this.snapshotSquare.clear()
-        this.snapshotSquare.lineStyle(2, 0xffffff);
+        this.snapshotSquare.lineStyle(2, getThemePrimaryColor().hexCode);
         this.snapshotEndPos.x = (pointer.worldX - this.snapshotStartPos.x) + 2
         this.snapshotEndPos.y = (pointer.worldY - this.snapshotStartPos.y) + 2
         this.snapshotSquare.strokeRect(this.snapshotStartPos.x - 2, this.snapshotStartPos.y - 2, this.snapshotEndPos.x, this.snapshotEndPos.y);
@@ -273,11 +271,11 @@ export class EditorScene extends GameInstance {
 
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
-    entitySprite[0].isHoveringOver = true
     const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
-    if(isObscured) {
+    if(isObscured || this.brush || this.stamper || this.snapshotSquare) {
       return
     }
+    entitySprite[0].isHoveringOver = true
     if(entitySprite.effectSpawned) return
     if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
@@ -288,6 +286,13 @@ export class EditorScene extends GameInstance {
         this.onResizeEnd()
       }
     }
+  }
+
+  clearSnapshotSquare() {
+    this.snapshotSquare.clear()
+    this.snapshotSquare.destroy()
+    this.snapshotSquare = null 
+    this.snapshotStartPos = null
   }
 
   takeSnapshotWithSquare() {
@@ -338,10 +343,7 @@ export class EditorScene extends GameInstance {
         }))
       }
     );
-    this.snapshotSquare.clear()
-    this.snapshotSquare = null
-    this.snapshotStartPos = null
-    this.snapshotEndPos = null
+    this.clearSnapshotSquare()
     store.dispatch(closeSnapshotTaker())
     return true
   }
@@ -402,9 +404,7 @@ export class EditorScene extends GameInstance {
 
         // restarting new square
         if(this.snapshotSquare?.finalized) {
-          this.snapshotSquare.clear()
-          this.snapshotSquare.destroy()
-          this.snapshotSquare = null
+          this.clearSnapshotSquare()
         }
 
         this.snapshotSquare = this.add.graphics().setDepth(UI_CANVAS_DEPTH);
@@ -769,20 +769,7 @@ export class EditorScene extends GameInstance {
         })
       }
 
-      // if(classUpdate.unspawned !== undefined) {
-      //   if(classUpdate.unspawned) {
-      //     this.forAllObjectInstancesMatchingClassId(id, (object) => {
-      //       object.unspawn()
-      //     })
-      //   } else {
-      //     this.forAllObjectInstancesMatchingClassId(id, (object) => {
-      //       object.spawn()
-      //     })
-      //   }
-      // }
-
       if(
-        // classUpdate.unspawned !== undefined ||
         classUpdate.graphics?.invisibile !== undefined ||
         classUpdate.boundaryRelation || 
         classUpdate.graphics?.textureId ||

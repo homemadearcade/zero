@@ -4,6 +4,7 @@ import store from "../../store";
 import { getCanvasIdFromEraserId, getDepthFromEraserId, snapFreeXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
 import { throttle } from "lodash";
+import { getThemePrimaryColor } from "../../utils/webPageUtils";
 
 export class Eraser extends Brush {
   constructor(scene, { brushId }){
@@ -17,7 +18,7 @@ export class Eraser extends Brush {
     this.setBlendMode(BlendModes.ERASE)
 
     this.border = scene.add.graphics();
-    this.border.lineStyle(4, 0xffffff, 1);
+    this.border.lineStyle(4, getThemePrimaryColor().hexCode, 1);
     this.border.strokeRect(0, 0, this.width, this.height);
     this.border.setDepth(UI_CANVAS_DEPTH)
 

@@ -1,3 +1,4 @@
+
 .AgoraVolumeMeter {
   display: flex;
   width: 100%;
@@ -10,10 +11,6 @@
     
     &:last-child{
       margin-right: 0px;
-    }
-
-    &.on {
-      background-color: rgb(144, 202, 249);
     }
   }
 }

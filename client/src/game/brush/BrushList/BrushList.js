@@ -86,7 +86,7 @@ const BrushList = ({
     id: 'Background',
     interfaceId: BACKGROUND_CANVAS_CONTAINER_IID,
     title: <>
-      <Typography sx={!layerVisibility[BACKGROUND_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Background</Typography>
+      <Typography sx={!layerVisibility[BACKGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Background</Typography>
     </>,
     body: <>
       <div className="BrushList__tools">
@@ -107,7 +107,7 @@ const BrushList = ({
     id: 'Playground',
     interfaceId: PLAYGROUND_CANVAS_CONTAINER_IID,
     title: <>
-      <Typography  sx={!layerVisibility[PLAYGROUND_CANVAS_ID] && {opacity: hiddenOpacity}}  component="div" variant="subtitle1">Playground</Typography>
+      <Typography  sx={!layerVisibility[PLAYGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {}}  component="div" variant="subtitle1">Playground</Typography>
     </>,
     body: <>
      <div className="BrushList__tools">
@@ -128,7 +128,7 @@ const BrushList = ({
     id: 'Foreground',
     interfaceId: FOREGROUND_CANVAS_CONTAINER_IID,
     title: <>
-      <Typography  sx={!layerVisibility[FOREGROUND_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Foreground</Typography>
+      <Typography  sx={!layerVisibility[FOREGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Foreground</Typography>
     </>,
     body: <>
       <div className="BrushList__tools">

@@ -13,6 +13,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
 import { changeClassIdHovering, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import { getLayerIdFromClass } from '../../../utils/gameUtils';
+import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 
 const ClassItem = ({
   gameModel: { gameModel: { classes } },
@@ -30,8 +31,9 @@ const ClassItem = ({
   const [isHovering, setIsHovering] = useState(false)
   const isSelected = classIdSelectedClassList === classId
 
+  const border = '1px solid ' + getThemePrimaryColor().hexString
   return <div
-    style={{width: width? width: null, height: height? height: null}}
+    style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}
     onClick={() => {
       if(objectClass.type === PLAYER_CLASS) return
 
@@ -57,7 +59,7 @@ const ClassItem = ({
       e.preventDefault();
       openContextMenuFromClassId(classId, e)
     }}
-    className={classNames("ClassItem", { 'ClassItem--selected': isSelected, 'ClassItem--isPlayer': classId === player.classId })}
+    className={classNames("ClassItem", { 'ClassItem--isPlayer': classId === player.classId })}
   >
     {isSelected && isHovering && <Icon className="ClassItem__unselect" icon="faClose"/>}
     <div className="ClassItem__sprite">

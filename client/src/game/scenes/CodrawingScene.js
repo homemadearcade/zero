@@ -1,11 +1,10 @@
 import Phaser from 'phaser';
 import { isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
-import { Eraser } from '../drawing/Eraser';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { nodeSize } from '../defaultData/general';
-import { BACKGROUND_CANVAS_DEPTH, DEFAULT_CLEAR_TEXTURE_ID, DEFAULT_TEXTURE_ID, SPRITE_EDITOR_CANVAS_ID, UI_CANVAS_DEPTH } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, SPRITE_EDITOR_CANVAS_ID, UI_CANVAS_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
 import { getTextureMetadata } from '../../utils/utils';
@@ -213,7 +212,7 @@ export class CodrawingScene extends Phaser.Scene {
     this.backgroundLayer = new CodrawingCanvas(this, {
       isHost: true, 
       canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId,
-      stageId: 'spriteeditor',
+      stageId: null,
       boundaries: this.boundaries
     })
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)

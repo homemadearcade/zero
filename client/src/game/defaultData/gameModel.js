@@ -28,7 +28,8 @@ export const defaultGameModel = {
   },
   defaults: {
     playerClass: '',
-    boundaryRelation: ''
+    boundaryRelation: '',
+    uiThemeColor: ''
   },
   cutscenes: {
 

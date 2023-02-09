@@ -10,6 +10,7 @@ import { openContextMenuFromClassId } from '../../../store/actions/contextMenuAc
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Sprite from '../../sprites/Sprite/Sprite';
 import Icon from '../../../ui/Icon/Icon';
+import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 
 const BrushItem = ({
   gameModel: { gameModel: { brushes } },
@@ -24,8 +25,9 @@ const BrushItem = ({
   
   const isSelected = brushIdSelectedBrushList === brushId
 
+  const border = '1px solid ' + getThemePrimaryColor().hexString
   return <div
-      style={{width: width? width: null, height: height? height: null}}
+      style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null }}
       onClick={() => {
         if(brushId === brushIdSelectedBrushList) {
           clearBrush()
@@ -39,7 +41,7 @@ const BrushItem = ({
       onMouseLeave={() => {
         setIsHovering(false)
       }}
-      className={classNames("BrushItem", { 'BrushItem--selected': isSelected })}
+      className="BrushItem"
     >
       {isSelected && isHovering && <Icon className="BrushItem__unselect" icon="faClose"/>}
       <div className="BrushItem__sprite">

@@ -58,7 +58,7 @@ const LobbyErrorStates = ({
         </Typography>
       </ConstellationHero>
       <GameCard canPlay game={game}/>
-      <Link newTab to="/arcade">Browse Other Games To Play</Link>
+      <Link newTab href={`${window.location.origin}/arcade`}>Browse Other Games To Play</Link>
     </div>
   }
 

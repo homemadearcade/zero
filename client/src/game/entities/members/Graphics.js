@@ -2,6 +2,7 @@ import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
 import { getLayerIdFromClass } from "../../../utils/gameUtils"
+import { getThemePrimaryColor } from "../../../utils/webPageUtils"
 
 export class Graphics {
   constructor(scene, objectInstance){
@@ -20,15 +21,7 @@ export class Graphics {
     // scene.addSpriteToTypeGroup(objectInstance.classId, sprite)
 
     if(objectClass.graphics.glowing) {
-      var pipeline = scene.plugins.get('rexglowfilterpipelineplugin').add(sprite);
-      sprite.glowTask = sprite.scene.tweens.add({
-        targets: pipeline,
-        intensity: 0.05,
-        ease: 'Linear',
-        duration: 500,
-        repeat: -1,
-        yoyo: true
-      });
+      this.setGlowing()
     }
 
     // EDITOR
@@ -40,7 +33,7 @@ export class Graphics {
       } else {
         sprite.editorHighlight = scene.add.image(sprite.x,sprite.y, sprite.texture.key, sprite.frame.name)
       }
-      sprite.editorHighlight.setTintFill(0xffffff)
+      sprite.editorHighlight.setTintFill(getThemePrimaryColor().hexCode)
       .setDisplaySize(this.objectInstance.width + 10, this.objectInstance.height + 10)
       .setVisible(false)
       scene.addSpriteToTypeLayer(objectInstance.classId, sprite.editorHighlight, -1)
@@ -56,6 +49,25 @@ export class Graphics {
   setInvisible() {
     this.objectInstance.isVisible = true
     this.objectInstance.setAlpha(0.1)
+  }
+
+  setGlowing() {
+    if(this.sprite.glowTask) return
+    const sprite = this.sprite
+    var pipeline = this.scene.plugins.get('rexglowfilterpipelineplugin').add(sprite);
+    sprite.glowTask = sprite.scene.tweens.add({
+      targets: pipeline,
+      intensity: 0.05,
+      ease: 'Linear',
+      duration: 500,
+      repeat: -1,
+      yoyo: true
+    });
+  }
+
+  clearGlowing() {
+    if(!this.sprite.glowTask) return 
+    this.sprite.glowTask.destroy()
   }
 
   setSize(w, h) {
@@ -86,7 +98,7 @@ export class Graphics {
     const cornerX = -width/2
     const cornerY = -height/2
     sprite.interactBorder = this.scene.add.graphics();
-    sprite.interactBorder.lineStyle(4, 0xffffff, 1);
+    sprite.interactBorder.lineStyle(4, getThemePrimaryColor().hexCode, 1);
     sprite.interactBorder.strokeRect(cornerX, cornerY, width, height);
     sprite.interactBorder.setVisible(false)
     this.scene.uiLayer.add(sprite.interactBorder)

@@ -101,7 +101,7 @@ export const validateArcadeGame = (game) => {
     relations: Joi.object(),
     cutscenes: Joi.object(),
     awsImages: Joi.object(),
-    isRemoved: Joi.bool()
+    isRemoved: Joi.bool(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };
@@ -123,7 +123,7 @@ arcadeGameSchema.methods.toJSON = function () {
     user: this.user?.toJSON(),
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
-    isRemoved: this.isRemoved
+    isRemoved: this.isRemoved,
   };
 };
 

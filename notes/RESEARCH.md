@@ -1,6 +1,8 @@
 
 TO RESEARCH
 
+https://primereact.org/terminal/
+
 https://www.authorize.net/en-us/sign-up/pricing.html
 
 https://codepen.io/ko-yelie/pen/LqXWWx

@@ -12,6 +12,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ADD_COLOR_IID, getColorSelectFromCanvasId } from '../../../constants/interfaceIds';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
+import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 
 const ColorSelect = ({
   colors = [],
@@ -28,6 +29,7 @@ const ColorSelect = ({
     '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
   ]
 
+  const border = '1px solid ' + getThemePrimaryColor().hexString
   function ColorItem({width, height, hex}) {
     const isSelected = selectedColorHex === hex
     const isHovering = isHoveringHex === hex
@@ -47,8 +49,11 @@ const ColorSelect = ({
         setIsHoveringHex(null)
       }}
       key={hex} 
-      className={classNames("ColorSelect__color", {' ColorSelect__color--selected': isSelected })} 
-      style={{backgroundColor: hex, width: width? width: null, height: height? height: null}}>
+      className={classNames("ColorSelect__color")} 
+      style={{
+        backgroundColor: hex, width: width? width: null, height: height? height: null.ADD_COLOR_IID,
+        border: isSelected ? border : null,
+      }}>
         {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
     </div>
   }

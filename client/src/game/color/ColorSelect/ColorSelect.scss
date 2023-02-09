@@ -1,3 +1,4 @@
+@use '../../../theme.scss';
 
 .ColorSelect {
   display: flex;
@@ -8,9 +9,7 @@
     height: 100%;
     position: relative;
     cursor: pointer;
-    &--selected {
-      border: 1px solid rgb(144, 202, 249);
-    }
+
     &_unselect {
       position: absolute;
       left: 0;

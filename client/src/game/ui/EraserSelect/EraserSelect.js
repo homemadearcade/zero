@@ -11,6 +11,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ERASER_IID } from '../../../constants/interfaceIds';
+import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 
 const EraserSelect = ({
   gameEditor: { brushIdSelectedBrushList },
@@ -22,7 +23,9 @@ const EraserSelect = ({
   height
 }) => {
   const eraserId = ERASER_BRUSH_ID + '/' +  canvasId;
-
+  
+  const isSelected = brushIdSelectedBrushList === eraserId
+  const border = '1px solid ' + getThemePrimaryColor().hexString
   return <Unlockable isTiny interfaceId={ERASER_IID}><div
     onClick={() => {
       if(eraserId === brushIdSelectedBrushList) {
@@ -32,7 +35,8 @@ const EraserSelect = ({
         selectBrush(eraserId, canvasId)
       }
     }}
-    className={classNames("EraserSelect", { 'EraserSelect--selected': brushIdSelectedBrushList === eraserId})}
+    style={isSelected ? { border }  : {}}
+    className={classNames("EraserSelect")}
   >
      <Icon sx={{width, height}} icon="faEraser"/>
   </div></Unlockable>

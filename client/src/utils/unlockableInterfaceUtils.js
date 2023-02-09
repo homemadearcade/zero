@@ -22,7 +22,7 @@ export function getInterfaceIdAliases(interfaceId) {
       }
 
       if(prefix.length) {
-        const idSection = prefix +'/'+ idLayer
+        const idSection = prefix + '/' + idLayer
         return idSection
       } else {
         return idLayer

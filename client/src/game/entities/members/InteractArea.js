@@ -96,7 +96,7 @@ export class InteractArea extends Sprite {
     Object.keys(relations).map((relationId) => {
 	    return relations[relationId]
     }).forEach((relation) => {
-      const {event, effect} = relation
+      const {event} = relation
 
       if(event.type === ON_INTERACT) {
         this.scene.matterCollision.addOnCollideActive({

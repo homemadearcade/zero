@@ -11,10 +11,12 @@ import { changeGameState } from '../../store/actions/gameContextActions';
 import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE } from '../constants';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_STOP_IID } from '../../constants/interfaceIds';
+import { getThemePrimaryColor } from '../../utils/webPageUtils';
 
-const color = 'rgb(144, 202, 249)'
 
 const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameContext: { gameState }, lobby: { lobby }, onInstanceUndo}) => {
+  const color = getThemePrimaryColor().hexString
+
   function renderStop() {
     return <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_STOP_IID}>
       <ToolbarIcon 

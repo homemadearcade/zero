@@ -141,7 +141,7 @@ const ClassList = ({
     id: 'players',
     interfaceId: PLAYER_CLASS_CONTAINER_IID,
     title: <>
-      <Typography sx={!layerVisibility[PLAYER_INSTANCE_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Players</Typography>
+      <Typography sx={!layerVisibility[PLAYER_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Players</Typography>
     </>,
     body: <>
       <div className="ClassList__tools">
@@ -160,7 +160,7 @@ const ClassList = ({
     id: 'NPCs',
     interfaceId: NPC_CLASS_CONTAINER_IID,
     title: <>
-      <Typography sx={!layerVisibility[NPC_CLASS] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">NPCs</Typography>
+      <Typography sx={!layerVisibility[NPC_CLASS] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">NPCs</Typography>
     </>,
     body: <>
       <div className="ClassList__tools">
@@ -180,7 +180,7 @@ const ClassList = ({
 
     interfaceId: BASIC_CLASS_CONTAINER_IID,
     title: <>
-      <Typography sx={!layerVisibility[BASIC_CLASS] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Objects</Typography>
+      <Typography sx={!layerVisibility[BASIC_CLASS] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Objects</Typography>
     </>,
     body: <>
       <div className="ClassList__tools">
@@ -199,7 +199,7 @@ const ClassList = ({
     id: 'Zones',
     interfaceId: ZONE_CLASS_CONTAINER_IID,
     title: <>
-      <Typography sx={!layerVisibility[ZONE_INSTANCE_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Zones</Typography>
+      <Typography sx={!layerVisibility[ZONE_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Zones</Typography>
     </>,
     body: <>
       <div className="ClassList__tools">

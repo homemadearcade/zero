@@ -6,28 +6,27 @@ import './Link.scss';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => {
+  const propers = {...props}
+  const newTab = propers.newTab
+  delete propers.newTab
 
-  if(props.to && props.href) {
+  if(propers.to && propers.href) {
     console.error('link has both to and href, bad!')
     return null
   }
 
-  if(props.to) {
-    if(props.ignoreDefaultStyle) {
-      return <RouterLink to={props.to}>{props.children}</RouterLink>
+  if(propers.to) {
+    if(propers.ignoreDefaultStyle) {
+      return <RouterLink to={propers.to}>{propers.children}</RouterLink>
     }
 
     return (
-      <RouterLink to={props.to}>
-        <MuiLink component="span" {...props}/>
+      <RouterLink to={propers.to}>
+        <MuiLink component="span" {...propers}/>
       </RouterLink>
     );
-  } else if(props.href) {
+  } else if(propers.href) {
     // eslint-disable-next-line react/jsx-no-target-blank
-    return <a href={props.href} target={props.newTab && '_blank'} rel={props.newTab && 'noreferrer'}>
-      <MuiLink className={props.className} component="span">
-        {props.children}
-      </MuiLink>
-    </a>
+    return <MuiLink target={newTab && '_blank'} rel={newTab && 'noreferrer'} {...propers}/>
   }
 };
