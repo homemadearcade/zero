@@ -53,7 +53,7 @@ const GameEditor = ({
   clearGameViewEditor,
   closeJsonViewer,
   gameContext: { gameState },
-  gameModel: { gameModel },
+  gameModel: { gameModel, isLoading },
 }) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
@@ -71,7 +71,7 @@ const GameEditor = ({
   const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
 
   function renderBody() {
-    if(!gameModel) {
+    if(!gameModel && !isLoading) {
       return <div className="GameView__empty">
         <Icon icon="faCircleQuestion"></Icon>
         No Game Loaded

@@ -23,3 +23,5 @@ Lobby Animations?
 Also like use the BACKGROUND BACKGROUND as like an animation space where we give sorts of feedback. Color, animations, sprites show up there? Not sure. MAKE IT FEEL GOOD. JUICY. What the admin is hovering over? Get what you are hovering over? 
 
 https://phaser-particle-editor.firebaseapp.com/
+
+Can an object you DONT collide with allow you to jump again? Any object?

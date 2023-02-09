@@ -71,8 +71,6 @@ const config= {
 const GameView = (props) => {
   if(!props.gameModel.gameModel) {
     return <div className="GameView__empty">
-      <Icon icon="faCircleQuestion"></Icon>
-      No Game Loaded
     </div>
   }
 

@@ -63,10 +63,10 @@ const ObscuredGameView = ({
   }
 
   if(!gameModel.gameModel) {
-     return <div className="GameView__empty">
-        <Icon icon="faCircleQuestion"></Icon>
-        No Game Loaded
-      </div>
+    return <div className="GameView__empty">
+      <Icon icon="faCircleQuestion"></Icon>
+      No Game Loaded
+    </div>
   }
 
   if(!lobby.isGamePoweredOn) return <div className="GameView__empty">

@@ -6,24 +6,10 @@ const { Schema } = mongoose;
 const arcadeGameSchema = new Schema(
   {
     stages: {
-      // objects: {
-      //   type: Object,
-      //   required: true,
-      //   default: {}
-      // },
-      // world: {
-      //   type: Object,
-      //   required: true,
-      //   default: {}
-      // },
       type: Object,
       required: true,
-      default: {
-        objects: {},
-        boundaries: {}
-      }
+      default: {}
     },
-
     metadata: {
       type: Object,
       required: true,
@@ -74,7 +60,11 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
-    isRemoved: Boolean,
+    isRemoved: {
+      required: false,
+      default: false,
+      type: Boolean,
+    },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },

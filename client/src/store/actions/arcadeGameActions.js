@@ -81,7 +81,7 @@ function onArcadeGameModelUpdate(gameUpdate) {
     if(gameUpdate.stages) {
       const stage = gameUpdate.stages[stageId]
       if(stage) {
-        const objects = gameUpdate.stages[stageId].objects 
+        const objects = stage.objects 
         const oldObjects = oldGameData.stages[stageId].objects
         if(objects) {
           window.instanceUndoStack.push(...Object.keys(objects).map((id) => {
@@ -102,7 +102,7 @@ function onArcadeGameModelUpdate(gameUpdate) {
   if(gameUpdate.stages) {
     const stage = gameUpdate.stages[stageId]
     if(stage) {
-      const objects = gameUpdate.stages[stageId].objects 
+      const objects = stage.objects 
       const oldObjects = oldGameData.stages[stageId].objects
       if(objects) Object.keys(objects).forEach((id) => {
         if(!oldObjects[id]) objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
@@ -217,7 +217,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
       Object.keys(objects).forEach((id) => {
         objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
       })
-    })  
+    })
     Object.keys(gameData.classes).forEach((id) => {
       gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
       

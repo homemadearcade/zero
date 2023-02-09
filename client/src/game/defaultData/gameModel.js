@@ -14,9 +14,9 @@ export const defaultGameModel = {
     isFeatured: false
   },
   "stages": {
-    'stage/default': {
+    'stage-default': {
       name: 'Stage # 1',
-      'playerClassId': 'oc/pl/vehicle',
+      'playerClassId': 'oc-pl-vehicle',
       ...defaultStage,
       boundaries: {...defaultStage.boundaries}, 
       gravity: {...defaultStage.gravity}
@@ -44,16 +44,26 @@ export const defaultGameModel = {
   },
   "player": {
     "lives": 1,
-    'initialStageId': 'stage/default'
+    'initialStageId': 'stage-default'
   },
   "classes": {
-    "oc/pl/vehicle": vehicleClass,
-    "oc/pl/jumper": jumperClass,
-    "oc/pl/directional": directionalClass,
+    "oc-pl-vehicle": vehicleClass,
+    "oc-pl-jumper": jumperClass,
+    "oc-pl-directional": directionalClass,
+    'oc-z-playerspawnzone': {
+      name: 'Player Spawn Zone',
+      ...defaultZoneClass,
+      classId: 'oc-z-playerspawnzone',
+      graphics: {
+        ...defaultZoneClass.graphics,
+        tint: '#FFFFFF'
+      }
+    },
+    // this is in here for legacy...
     'oc/z/playerspawnzone': {
       name: 'Player Spawn Zone',
       ...defaultZoneClass,
-      classId: 'oc/z/playerspawnzone',
+      classId: 'oc-z-playerspawnzone',
       graphics: {
         ...defaultZoneClass.graphics,
         tint: '#FFFFFF'
