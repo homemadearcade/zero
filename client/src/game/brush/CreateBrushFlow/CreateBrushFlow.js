@@ -11,6 +11,7 @@ import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import { CHOOSE_SPRITES_IID } from '../../../constants/interfaceIds';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow,  gameFormEditor: { brush }}) => {
   function handleClose() {
@@ -21,7 +22,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
-      <Unlockable interfaceId="chooseSprites"><SelectDescriptors 
+      <Unlockable interfaceId={CHOOSE_SPRITES_IID}><SelectDescriptors 
         onChange={(event, descriptors) => {
           updateCreateBrush({ descriptors })
         }}

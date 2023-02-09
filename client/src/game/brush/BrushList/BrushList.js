@@ -17,6 +17,7 @@ import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import { ADD_BRUSH_IID } from '../../../constants/interfaceIds';
 
 const BrushList = ({
   gameModel: { gameModel },
@@ -46,7 +47,7 @@ const BrushList = ({
     renderBrushItem(BACKGROUND_CANVAS_ID)
   ).slice(0, 14) || []
   
-  bgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
+  bgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
     <Button size="fit" onClick={() => {
       openCreateBrushFlow(BACKGROUND_CANVAS_ID)
     }}>
@@ -58,7 +59,7 @@ const BrushList = ({
     renderBrushItem(PLAYGROUND_CANVAS_ID)
   ).slice(0, 14) || []
 
-  pgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
+  pgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
     <Button size="fit" onClick={() => {
       openCreateBrushFlow(PLAYGROUND_CANVAS_ID)
     }}>
@@ -70,7 +71,7 @@ const BrushList = ({
     renderBrushItem(FOREGROUND_CANVAS_ID)
   ).slice(0, 14) || []
 
-  fgBrushes.push(<Unlockable isTiny interfaceId='addBrush'>
+  fgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
     <Button size="fit" onClick={() => {
       openCreateBrushFlow(FOREGROUND_CANVAS_ID)
     }}>

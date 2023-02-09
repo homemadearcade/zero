@@ -8,6 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../../ui/SelectClass/SelectClass';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
+import { PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
 
 const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
@@ -15,7 +16,7 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
 
   return (
     <div className="ProjectileEditor">
-      <Unlockable interfaceId="projectile/class">
+      <Unlockable interfaceId={PROJECTILE_CLASS_IID}>
         <SelectClass 
           formLabel="Projectile Class"
           value={classSelected.projectile.classId ? [classSelected.projectile.classId] : []}
@@ -26,7 +27,7 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
       </Unlockable>
       {classSelected.movement.controls && <ControlsCard objectClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
       {projectileClass && <>
-          <Unlockable isSlider isDefaultUnlocked interfaceId="projectile/speed">
+          <Unlockable isSlider isDefaultUnlocked interfaceId={PROJECTILE_SPEED_IID}>
           <SliderNotched
             formLabel="Speed"
             options={[1, 10, 100, 200, 300, 500, 1000]}
@@ -37,7 +38,7 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             value={classSelected.projectile.speed}
           />
         </Unlockable>
-        <Unlockable isSlider interfaceId="projectile/cooldown">
+        <Unlockable isSlider interfaceId={PROJECTILE_COOLDOWN_IID}>
           <SliderNotched
             formLabel="Cooldown"
             options={[1, 5, 20, 50, 100, 200, 500]}
@@ -48,7 +49,7 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             value={classSelected.projectile.cooldown}
           />
         </Unlockable>
-        <Unlockable isSlider interfaceId="projectile/lifetime">
+        <Unlockable isSlider interfaceId={PROJECTILE_LIFETIME_IID}>
           <SliderNotched
             formLabel="Lifetime"
             step={10}

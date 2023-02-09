@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import Icon from '../../../ui/Icon/Icon';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import { ADD_COLOR_IID } from '../../../constants/interfaceIds';
 
 const ColorSelect = ({
   colors = [],
@@ -66,7 +67,7 @@ const ColorSelect = ({
     return el
   }).slice(0, maxColors)
 
-  items.push(<Unlockable isTiny interfaceId="addColor"><Button size="fit" onClick={onAddColor}>
+  items.push(<Unlockable isTiny interfaceId={ADD_COLOR_IID}><Button size="fit" onClick={onAddColor}>
     +
   </Button></Unlockable>)
 

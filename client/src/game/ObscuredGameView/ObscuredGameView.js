@@ -15,6 +15,7 @@ import { PHASER_ERROR } from '../../lobby/constants';
 import { clearErrorState } from '../../store/actions/errorsActions';
 import Button from '../../ui/Button/Button';
 import { editLobby } from '../../store/actions/lobbyActions';
+import { GAME_VIEW_IID } from '../../constants/interfaceIds';
 
 const ObscuredGameView = ({
   auth: { me },
@@ -55,7 +56,7 @@ const ObscuredGameView = ({
       </div>
     } else if(selectedTool === UNLOCK_TOOL) {
       return <div className="ObscuredGameView__unlock">
-        <Unlockable interfaceId="gameView"><div></div></Unlockable>
+        <Unlockable interfaceId={GAME_VIEW_IID}><div></div></Unlockable>
       </div>
     }
   }

@@ -18,6 +18,7 @@ import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_C
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 import { directionalClass, jumperClass } from '../../defaultData/players';
+import { BASIC_CLASS_ADD_IID, CLASS_LOCKED_IID, DIALOGUE_ADD_IID, DIALOGUE_SELECT_IID, NPC_CLASS_ADD_IID, PLAYER_CLASS_ADD_IID, ZONE_CLASS_ADD_IID } from '../../../constants/interfaceIds';
 
 const ClassList = ({
   gameModel: { gameModel },
@@ -37,7 +38,7 @@ const ClassList = ({
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
     if(currentClass.interfaceLocked) {
-      return <Unlockable interfaceId={'lockedClass/' + currentClass.name.replace(/\s+/g, '')}>
+      return <Unlockable interfaceId={CLASS_LOCKED_IID +  '/' + currentClass.name.replace(/\s+/g, '')}>
         {el}
       </Unlockable>
     } else {
@@ -69,7 +70,7 @@ const ClassList = ({
 
   const playerClasses = Object.keys(classes).filter(filterClasses(PLAYER_CLASS)).map(renderClassItem(PLAYER_CLASS))
   
-  playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS + '/addPlayer'}>
+  playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS_ADD_IID}>
     <Button size="fit" 
       onClick={() => {
         openCreateClassFlow(addDefaultValuesToPlayerClass({...defaultPlayerClass}))
@@ -80,7 +81,7 @@ const ClassList = ({
 
   const npcClasses = Object.keys(classes).filter(filterClasses(NPC_CLASS)).map(renderClassItem(NPC_CLASS))
 
-  npcClasses.push(<Unlockable interfaceId={NPC_CLASS + '/addNPC'}>
+  npcClasses.push(<Unlockable interfaceId={NPC_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultNpcClass)
     }}>
@@ -90,7 +91,7 @@ const ClassList = ({
 
   const objectClasses = Object.keys(classes).filter(filterClasses(BASIC_CLASS)).map(renderClassItem(BASIC_CLASS))
 
-  objectClasses.push(<Unlockable interfaceId={BASIC_CLASS + '/addBasic'}>
+  objectClasses.push(<Unlockable interfaceId={BASIC_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultObjectClass)
     }}>
@@ -100,7 +101,7 @@ const ClassList = ({
 
   const zoneClasses = Object.keys(classes).filter(filterClasses(ZONE_CLASS)).map(renderClassItem(ZONE_CLASS))
 
-  zoneClasses.push(<Unlockable interfaceId={ZONE_CLASS + '/addZone'}>
+  zoneClasses.push(<Unlockable interfaceId={ZONE_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultZoneClass)
     }}>
@@ -115,14 +116,14 @@ const ClassList = ({
     return false
   }).map((currentCutsceneId, i) => {
     const currentCutscene = cutscenes[currentCutsceneId]
-    return <Unlockable interfaceId="dialogue/select">
+    return <Unlockable interfaceId={DIALOGUE_SELECT_IID}>
       <div style={{cursor:'hover'}} onClick={() => {openCreateCutscene(currentCutscene)}}>
         <Typography variant="subtitle2">{currentCutscene.name}</Typography>
       </div>
     </Unlockable>
   })
 
-  dialogueScenes.push(<Unlockable interfaceId={'dialogue/addDialogue'}>
+  dialogueScenes.push(<Unlockable interfaceId={DIALOGUE_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateCutscene({
         inDialogueMenu: true

@@ -19,6 +19,7 @@ import { COMMON_COLOR_ID, DEFAULT_CLEAR_TEXTURE_ID, DEFAULT_TEXTURE_ID } from '.
 import MySprites from '../MySprites/MySprites';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
+import { CHOOSE_SPRITES_IID, DRAW_NEW_SPRITE_IID } from '../../../constants/interfaceIds';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -59,7 +60,7 @@ const SelectSpriteInline = ({
 
       {renderSpriteStage()}
 
-      <Unlockable interfaceId="drawNewSprite"><Button onClick={() => {
+      <Unlockable interfaceId={DRAW_NEW_SPRITE_IID}><Button onClick={() => {
         openSpriteEditor(textureIdSelected)
       }}>
         Draw New Sprite
@@ -75,7 +76,7 @@ const SelectSpriteInline = ({
           openCreateColorFlow('SelectSpriteInline')
         }}
       />
-      <Unlockable interfaceId="chooseSprites">
+      <Unlockable interfaceId={CHOOSE_SPRITES_IID}>
         <div className="SelectSpriteInline__sprite-list">
           <DescriptorSprites onClickSprite={onSelect} descriptors={descriptors}/>
           <MySprites onClickSprite={onSelect} descriptors={descriptors}/>

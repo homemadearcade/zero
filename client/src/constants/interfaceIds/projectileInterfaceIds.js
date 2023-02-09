@@ -1,4 +1,4 @@
-export const PROJECTILE_CLASS = 'projectile/class'
-export const PROJECTILE_COOLDOWN = 'projectile/cooldown'
-export const PROJECTILE_LIFETIME= 'projectile/lifetime'
-export const PROJECTILE_SPEED= 'projectile/speed'
+export const PROJECTILE_CLASS_IID = 'projectile/class'
+export const PROJECTILE_COOLDOWN_IID = 'projectile/cooldown'
+export const PROJECTILE_LIFETIME_IID = 'projectile/lifetime'
+export const PROJECTILE_SPEED_IID = 'projectile/speed'

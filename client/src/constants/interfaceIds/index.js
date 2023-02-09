@@ -10,3 +10,4 @@ export * from "./relationInterfaceIds";
 export * from "./stageInterfaceIds";
 export * from "./brushInterfaceIds";
 export * from "./rootInterfaceIds";
+export * from "./dialogueInterfaceIds";

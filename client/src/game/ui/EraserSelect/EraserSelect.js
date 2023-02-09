@@ -10,6 +10,7 @@ import { ERASER_BRUSH_ID } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import { ERASER_IID } from '../../../constants/interfaceIds';
 
 const EraserSelect = ({
   gameEditor: { brushIdSelectedBrushList },
@@ -20,7 +21,7 @@ const EraserSelect = ({
 }) => {
   const eraserId = ERASER_BRUSH_ID + '/' +  canvasId;
 
-  return <Unlockable isTiny interfaceId="eraser"><div
+  return <Unlockable isTiny interfaceId={ERASER_IID}><div
     onClick={() => {
       if(eraserId === brushIdSelectedBrushList) {
         clearBrush()

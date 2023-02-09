@@ -15,6 +15,7 @@ import _, { last } from 'lodash';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
+import { PHYSICS_BOUNCE_IID, PHYSICS_COLLIDERS_IID, PHYSICS_FRICTION_IID, PHYSICS_IGNORE_BOUNDARIES_IID, PHYSICS_IGNORE_SIDES_IID, PHYSICS_IMMOVABLE_IID, PHYSICS_MASS_IID, PHYSICS_PUSHABLE_IID } from '../../../constants/interfaceIds';
 
 
 // {false && <Unlockable interfaceId="physics/useMass">
@@ -76,7 +77,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
 
   return (
     <div className="PhysicsEditor">
-      <Unlockable interfaceId="physics/colliders">
+      <Unlockable interfaceId={PHYSICS_COLLIDERS_IID}>
         <SelectColliders
           formLabel="Colliders"
           classId={classId}
@@ -163,7 +164,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
       {classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>
         also collides with Player because this is on the Playground Layer
       </div>}
-      <Unlockable isDefaultUnlocked isSlider interfaceId="physics/bounce">
+      <Unlockable isDefaultUnlocked isSlider interfaceId={PHYSICS_BOUNCE_IID}>
         <SliderNotched
           formLabel="Bounce"
           step={0.05}
@@ -174,7 +175,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.bounciness}
         />
       </Unlockable>
-      <Unlockable isSlider interfaceId="physics/friction">
+      <Unlockable isSlider interfaceId={PHYSICS_FRICTION_IID}>
         <SliderNotched
           formLabel="Friction"
           step={0.05}
@@ -185,7 +186,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.friction}
         />
       </Unlockable>
-      <Unlockable isSlider interfaceId="physics/mass">
+      <Unlockable isSlider interfaceId={PHYSICS_MASS_IID}>
         <SliderNotched
           formLabel="Weight"
           step={0.1}
@@ -196,7 +197,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.mass}
         />
       </Unlockable>
-      <Unlockable interfaceId="physics/notPushable">
+      <Unlockable interfaceId={PHYSICS_PUSHABLE_IID}>
         <Switch
           labels={['Not Pushable', 'Pushable']}
           size="small"
@@ -206,7 +207,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={!classSelected.collisionResponse.notPushable}
          />
       </Unlockable>
-      {false && <Unlockable interfaceId="physics/immovable">
+      {false && <Unlockable interfaceId={PHYSICS_IMMOVABLE_IID}>
         <Switch
           labels={['Collisions', 'No Collisions']}
           size="small"
@@ -216,7 +217,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={classSelected.collisionResponse.immovable}
          />
       </Unlockable>}
-      {<Unlockable adminOnly interfaceId="physics/ignoreBoundaries">
+      {<Unlockable adminOnly interfaceId={PHYSICS_IGNORE_BOUNDARIES_IID}>
         <Switch
           labels={['Boundaried', 'No Boundaries']}
           size="small"
@@ -226,7 +227,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           checked={classSelected.collisionResponse.ignoreBoundaries}
          />
       </Unlockable>}
-      <Unlockable interfaceId="physics/ignoreSides">
+      <Unlockable interfaceId={PHYSICS_IGNORE_SIDES_IID}>
         <SelectSides
           formLabel="Ignore Sides"
           value={classSelected.collisionResponse.ignoreSides ? classSelected.collisionResponse.ignoreSides : []}

@@ -5,6 +5,7 @@ import GameContextMenuBody from '../../../game/contextMenu/GameContextMenuBody/G
 import './ContextMenus.scss'
 import ContextMenu from '../../../ui/connected/ContextMenu/ContextMenu';
 import Unlockable from '../Unlockable/Unlockable';
+import { CONTEXT_MENU_CONTAINER_IID } from '../../../constants/interfaceIds';
 
 const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isActivelyCobrowsing }}) => {  
 
@@ -36,7 +37,7 @@ const ContextMenus = ({ contextMenu, remoteContextMenu, cobrowsing : { isActivel
     </>
   }
   
-  return <Unlockable interfaceId="contextMenu/*" hideLockToggle>
+  return <Unlockable interfaceId={CONTEXT_MENU_CONTAINER_IID} hideLockToggle>
     {renderContextMenus()}
   </Unlockable>
 }

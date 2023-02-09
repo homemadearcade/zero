@@ -42,7 +42,7 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { ga
           name: 'Cutscene #' + (Object.keys(cutscenes).length + 1).toString()
         })
       }}><Icon icon="faPlus"/> New Cutscene</Button>
-      {!showRemovedCutscenes && <Unlockable interfaceId="cutscenes/showRemoved">
+      {!showRemovedCutscenes && <Unlockable interfaceId="showRemoved">
         <Button onClick={() => {
           setShowRemovedCutscenes(true)
         }}>Show Removed Cutscenes</Button>

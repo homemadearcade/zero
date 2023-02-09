@@ -10,6 +10,7 @@ import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { openClassNameModal, selectClass, openJsonViewer } from '../../../store/actions/gameEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import { CONTEXT_MENU_INSTANCE_DELETE_IID, CONTEXT_MENU_INSTANCE_JSON_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID, CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID } from '../../../constants/interfaceIds';
 
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openClassNameModal, selectClass, openJsonViewer }) => {
   return <>
@@ -17,25 +18,25 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
       openClassNameModal(classId)
       onMenuItemClick()
     }}>{gameModel.classes[classId].name}</ContextMenuTitle>
-    <Unlockable interfaceId="contextMenu/instance/move">
+    <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_MOVE_IID}>
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(objectId)
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>
-    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId="contextMenu/instance/move">
+    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID}>
       <MenuItem onClick={() => {
         selectClass(classId)
         onMenuItemClick()
       }}>Copy</MenuItem>
     </Unlockable>}
-    <Unlockable interfaceId="contextMenu/instance/resize">
+    <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID}>
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(objectId)
         onMenuItemClick()
       }}>Resize{objectId === PLAYER_INSTANCE_ID_PREFIX ? '' : ' All'}</MenuItem>
     </Unlockable>
-    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId="contextMenu/instance/delete">
+    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_DELETE_IID}>
       <MenuItem onClick={() => {
         editGameModel({ 
           stages: {
@@ -47,7 +48,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
         onMenuItemClick()
       }}>Delete</MenuItem>
     </Unlockable>}
-    {<Unlockable adminOnly interfaceId="contextMenu/instance/viewInstanceJson">
+    {<Unlockable adminOnly interfaceId={CONTEXT_MENU_INSTANCE_JSON_IID}>
       <MenuItem onClick={() => {
         openJsonViewer(getCurrentGameScene(gameInstance).getObjectInstance(objectId))
       }}>View Json</MenuItem>

@@ -1,12 +1,13 @@
-import { ADD_COLOR, CHOOSE_SPRITES, DRAW_NEW_SPRITE, ERASER, GAME_VIEW, LAYER_VISIBILITY, TOGGLE_ALL_PARAMS } from "../interfaceIds";
+import { ADD_COLOR_IID, CHOOSE_SPRITES_IID, DRAW_NEW_SPRITE_IID, ERASER_IID, GAME_VIEW_IID, LAYER_VISIBILITY_IID, SEE_REMOVED_IID, TOGGLE_ALL_PARAMS_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  [LAYER_VISIBILITY]: {},
-  [TOGGLE_ALL_PARAMS]: {},
-  [GAME_VIEW]: {},
-  [DRAW_NEW_SPRITE]: {},
-  [CHOOSE_SPRITES]: {},
-  [ERASER]: {},
-  [ADD_COLOR]: {}
+  [LAYER_VISIBILITY_IID]: {},
+  [TOGGLE_ALL_PARAMS_IID]: {},
+  [GAME_VIEW_IID]: {},
+  [DRAW_NEW_SPRITE_IID]: {},
+  [CHOOSE_SPRITES_IID]: {},
+  [ERASER_IID]: {},
+  [ADD_COLOR_IID]: {},
+  [SEE_REMOVED_IID]: {}
 }
