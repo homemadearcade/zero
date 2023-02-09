@@ -9,6 +9,7 @@ import Icon from '../../../ui/Icon/Icon';
 import {  stopPropagation } from '../../../utils/webPageUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { LAYER_VISIBILITY_IID } from '../../../constants/interfaceIds';
+import Button from '../../../ui/Button/Button';
 
 const LayerVisibility = ({
   gameViewEditor: { layerVisibility },
@@ -20,9 +21,11 @@ const LayerVisibility = ({
       stopPropagation(e)
       toggleLayerVisibility(canvasId)
     }}
-  >
-     {layerVisibility[canvasId] && <div><Icon icon="faEye"/></div>}
-     {!layerVisibility[canvasId] && <div><Icon icon="faEyeSlash"/></div>}
+  > 
+    <Button size="tiny">
+     {layerVisibility[canvasId] && 'Hide'}
+     {!layerVisibility[canvasId] && 'Show'}
+    </Button>
   </div></Unlockable>
 };
 

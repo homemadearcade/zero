@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 export function getServiceFee(price) {
   return price * .03
 } 

@@ -155,6 +155,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
+
           ...(ownerState.size === 'fit' && {
             width: '100%',
             lineHeight: 'normal',
@@ -164,7 +165,18 @@ const theme = createTheme({
             alignSelf: 'middle',
             height: '100%'
           }),
+
+          ...(ownerState.size === 'tiny' && {
+            lineHeight: 'normal',
+            padding: '0rem',
+            margin: '.2rem',
+            minWidth: 'auto',
+            display: 'flex',
+            alignSelf: 'middle',
+            height: '1rem',
+          }),
         }),
+        
       },
     },
     MuiAccordionDetails: {

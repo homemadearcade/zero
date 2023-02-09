@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 export default function BorderedGrid({maxItems, items, size, width, height}) {
+  if(!maxItems) maxItems = items.length
   return (
     <Box sx={{ p: 1 }}>
       <Grid

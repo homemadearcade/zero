@@ -3,4 +3,10 @@
     display: flex;
     flex-wrap: wrap;
   }
+
+  &__tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

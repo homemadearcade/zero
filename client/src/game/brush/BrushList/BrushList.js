@@ -10,7 +10,6 @@ import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
-import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
@@ -21,6 +20,7 @@ import { ADD_BRUSH_IID, BACKGROUND_CANVAS_CONTAINER_IID, FOREGROUND_CANVAS_CONTA
 
 const BrushList = ({
   gameModel: { gameModel },
+  gameViewEditor: { layerVisibility },
   openCreateBrushFlow,
 }) => {
   const brushes = gameModel?.brushes
@@ -81,16 +81,18 @@ const BrushList = ({
 
   const accordians = []
 
+  const hiddenOpacity = 0.5
   accordians.push({
     id: 'Background',
     interfaceId: BACKGROUND_CANVAS_CONTAINER_IID,
     title: <>
-      <Typography component="div" variant="subtitle1">Background</Typography>
-      <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
+      <Typography sx={!layerVisibility[BACKGROUND_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Background</Typography>
     </>,
     body: <>
-      <EraserSelect canvasId={BACKGROUND_CANVAS_ID}/>
-      <LayerColorSelect canvasId={BACKGROUND_CANVAS_ID}/>
+      <div className="BrushList__tools">
+        <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
+      </div>
+      <LayerColorSelect withEraser canvasId={BACKGROUND_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
         maxItems={15} 
@@ -105,12 +107,13 @@ const BrushList = ({
     id: 'Playground',
     interfaceId: PLAYGROUND_CANVAS_CONTAINER_IID,
     title: <>
-      <Typography component="div" variant="subtitle1">Playground</Typography>
-      <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
+      <Typography  sx={!layerVisibility[PLAYGROUND_CANVAS_ID] && {opacity: hiddenOpacity}}  component="div" variant="subtitle1">Playground</Typography>
     </>,
     body: <>
-      <EraserSelect canvasId={PLAYGROUND_CANVAS_ID}/>
-      <LayerColorSelect canvasId={PLAYGROUND_CANVAS_ID}/>
+     <div className="BrushList__tools">
+        <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
+      </div>
+      <LayerColorSelect withEraser canvasId={PLAYGROUND_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
           maxItems={15} 
@@ -125,12 +128,13 @@ const BrushList = ({
     id: 'Foreground',
     interfaceId: FOREGROUND_CANVAS_CONTAINER_IID,
     title: <>
-      <Typography component="div" variant="subtitle1">Foreground</Typography>
-      <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
+      <Typography  sx={!layerVisibility[FOREGROUND_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Foreground</Typography>
     </>,
     body: <>
-      <EraserSelect canvasId={FOREGROUND_CANVAS_ID}/>
-      <LayerColorSelect canvasId={FOREGROUND_CANVAS_ID}/>
+      <div className="BrushList__tools">
+        <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
+      </div>
+      <LayerColorSelect withEraser canvasId={FOREGROUND_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
         maxItems={15} 
@@ -152,6 +156,7 @@ const BrushList = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  gameViewEditor: state.gameViewEditor,
   // for the unlockability to show up
   cobrowsing: state.cobrowsing
 })

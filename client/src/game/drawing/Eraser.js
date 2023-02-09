@@ -3,6 +3,7 @@ import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, DEFAULT_TEXTURE_ID, FORE
 import store from "../../store";
 import { getCanvasIdFromEraserId, getDepthFromEraserId, snapFreeXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
+import { throttle } from "lodash";
 
 export class Eraser extends Brush {
   constructor(scene, { brushId }){
@@ -12,6 +13,7 @@ export class Eraser extends Brush {
     this.lowerLayerPreviews = []
     this.lowerInstancePreviews = []
     this.createPreviewLayers()
+    this.createLowerInstancePreviews()
     this.setBlendMode(BlendModes.ERASE)
 
     this.border = scene.add.graphics();
@@ -34,12 +36,20 @@ export class Eraser extends Brush {
     this.border.setPosition(this.x, this.y)
 
     if(this.x === this.lastUpdateX && this.y === this.lastUpdateY) return
-    
+
+    this.throttledUpdatePreviews()
+  }
+
+  updatePreviews() {
+    this.lastTime = Date.now()
+
     this.lastUpdateX = this.x
     this.lastUpdateY = this.y
 
-    this.lowerLayerPreviews.forEach((preview) => {
-      preview.setCrop(this.x, this.y, this.width, this.height)
+    const borderSize = 200
+
+    this.lowerLayerPreviews.forEach((preview, index) => {
+      preview.setCrop(this.x - borderSize, this.y - borderSize, this.width + (borderSize * 2), this.height + (borderSize * 2))
     })
     if(this.lowerInstancePreviews.length) {
       this.lowerInstancePreviews.forEach((preview) => {
@@ -48,12 +58,12 @@ export class Eraser extends Brush {
       this.lowerInstancePreviews = this.createLowerInstancePreviews()
       this.lowerInstancePreviews.forEach((preview) => {
         this.scene.add.existing(preview)
-        preview.setCrop(this.x, this.y, this.width, this.height)
+        preview.setCrop(this.x - borderSize, this.y - borderSize, this.width + (borderSize * 2), this.height + (borderSize * 2))
       })
     }
   }
 
-  createLowerInstancePreviews() {
+  createLowerInstancePreviews = ()  => {
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
     const stage = gameModel.stages[this.scene.stage.id]
@@ -66,9 +76,9 @@ export class Eraser extends Brush {
     ]
   }
 
+  throttledUpdatePreviews = throttle(this.updatePreviews, 100)
+
   createPreviewLayers() {
-
-
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
     const stage = gameModel.stages[this.scene.stage.id]

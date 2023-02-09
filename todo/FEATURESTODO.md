@@ -11,8 +11,6 @@ TEXTURE STROKE HISTORY
 
 INFO BOX
   Right Click, Left Click, Name of Class
-  You should be able to ^ highlight for the cobrowsing user any thing that is an INFOBOX
-  TOOL TIP sort of thing.  We need to be able to HIGHLIGHT a div or UNLOCKABLE
 
   ALSO What you currently have selected with your mouse, and perhaps the current game state, and title of game?
 

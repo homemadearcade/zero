@@ -12,7 +12,6 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, selectBrush } from '../../../store/actions/gameEditorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
-import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 
 const LayerColorSelect = ({
   gameModel: { gameModel : { colors }},
@@ -22,7 +21,8 @@ const LayerColorSelect = ({
   selectBrush,
   clearBrush,
   gameEditor: { brushIdSelectedBrushList },
-  gameFormEditor: { isCreateColorFlowOpen }
+  gameFormEditor: { isCreateColorFlowOpen },
+  withEraser
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
     const color = colors[hex]
@@ -68,6 +68,7 @@ const LayerColorSelect = ({
 
     if(canvasId === BACKGROUND_CANVAS_ID) {
       return <ColorSelect 
+        withEraser={withEraser}
         canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === BACKGROUND_CANVAS_ID && selectedColorHex} 
@@ -79,6 +80,7 @@ const LayerColorSelect = ({
     }
     if(canvasId === PLAYGROUND_CANVAS_ID) {
       return <ColorSelect 
+        withEraser={withEraser}
         canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === PLAYGROUND_CANVAS_ID && selectedColorHex} 
@@ -90,6 +92,7 @@ const LayerColorSelect = ({
     }
     if(canvasId === FOREGROUND_CANVAS_ID) {
       return <ColorSelect 
+        withEraser={withEraser}
         canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === FOREGROUND_CANVAS_ID && selectedColorHex} 

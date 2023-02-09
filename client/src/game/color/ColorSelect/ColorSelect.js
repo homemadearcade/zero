@@ -11,6 +11,7 @@ import Icon from '../../../ui/Icon/Icon';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ADD_COLOR_IID, getColorSelectFromCanvasId } from '../../../constants/interfaceIds';
+import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 
 const ColorSelect = ({
   colors = [],
@@ -20,6 +21,7 @@ const ColorSelect = ({
   onUnselectColor,
   maxColors,
   canvasId,
+  withEraser,
 }) => {
 
   const defaultColors = [
@@ -70,6 +72,10 @@ const ColorSelect = ({
   items.push(<Unlockable isTiny interfaceId={ADD_COLOR_IID}><Button size="fit" onClick={onAddColor}>
     +
   </Button></Unlockable>)
+
+  if(withEraser && canvasId) {
+    items.unshift(<EraserSelect canvasId={canvasId}/>)
+  }
 
   return <div className="ColorSelect">
     <BorderedGrid

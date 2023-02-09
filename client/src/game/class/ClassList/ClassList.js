@@ -26,6 +26,7 @@ const ClassList = ({
   editGameModel,
   openCreateClassFlow,
   openCreateCutscene,
+  gameViewEditor: {layerVisibility}
 }) => {
   const classes = gameModel?.classes
   const cutscenes = gameModel?.cutscenes
@@ -135,64 +136,82 @@ const ClassList = ({
 
   const accordians = []
 
+  const hiddenOpacity = 0.5
   accordians.push({
     id: 'players',
     interfaceId: PLAYER_CLASS_CONTAINER_IID,
     title: <>
-      <Typography component="div" variant="subtitle1">Players</Typography>
-      <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
+      <Typography sx={!layerVisibility[PLAYER_INSTANCE_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Players</Typography>
     </>,
-    body: <BorderedGrid
-      maxItems={16} 
-      height="7vh"
-      width="9.2vh"
-      items={playerClasses}
-    />
+    body: <>
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
+      </div>
+      <BorderedGrid
+        maxItems={16} 
+        height="7vh"
+        width="9.2vh"
+        items={playerClasses}
+      />
+    </>
   })
 
   accordians.push({
     id: 'NPCs',
     interfaceId: NPC_CLASS_CONTAINER_IID,
     title: <>
-      <Typography component="div" variant="subtitle1">NPCs</Typography>
-      <LayerVisibility canvasId={NPC_CLASS} />
+      <Typography sx={!layerVisibility[NPC_CLASS] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">NPCs</Typography>
     </>,
-    body: <BorderedGrid
+    body: <>
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={NPC_CLASS} />
+      </div>
+      <BorderedGrid
       maxItems={16} 
       height="7vh"
       width="9.2vh"
       items={npcClasses}
-    />
+      />
+    </>
   })
 
   accordians.push({
     id: 'objects',
+
     interfaceId: BASIC_CLASS_CONTAINER_IID,
     title: <>
-      <Typography component="div" variant="subtitle1">Objects</Typography>
-      <LayerVisibility canvasId={BASIC_CLASS} />
+      <Typography sx={!layerVisibility[BASIC_CLASS] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Objects</Typography>
     </>,
-    body: <BorderedGrid
-      maxItems={16} 
-      height="7vh"
-      width="9.2vh"
-      items={objectClasses}
-    />
+    body: <>
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={BASIC_CLASS} />
+      </div>
+      <BorderedGrid
+        maxItems={16} 
+        height="7vh"
+        width="9.2vh"
+        items={objectClasses}
+      />
+    </>
   })
 
   accordians.push({
     id: 'Zones',
     interfaceId: ZONE_CLASS_CONTAINER_IID,
     title: <>
-      <Typography component="div" variant="subtitle1">Zones</Typography>
-      <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
+      <Typography sx={!layerVisibility[ZONE_INSTANCE_CANVAS_ID] && {opacity: hiddenOpacity}} component="div" variant="subtitle1">Zones</Typography>
     </>,
-    body: <BorderedGrid
-      maxItems={16} 
-      height="7vh"
-      width="9.2vh"
-      items={zoneClasses}
-    />
+    body: <>
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
+      </div>
+      <BorderedGrid
+        maxItems={16} 
+        height="7vh"
+        width="9.2vh"
+        items={zoneClasses}
+      />
+    </>
   })
 
   accordians.push({
@@ -238,6 +257,7 @@ const ClassList = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
+  gameViewEditor: state.gameViewEditor,
   // for the unlockability to show up
   cobrowsing: state.cobrowsing
 })

@@ -7,7 +7,7 @@ import { getCurrentGameScene } from '../../utils/editorUtils';
 import Icon from '../../ui/Icon/Icon';
 import store from '../../store';
 
-const scrollDelta = 3
+const scrollDelta = 3;
 
 const GridViewArrows = () => {
   const [overArrow, setOverArrow] = useState(null)

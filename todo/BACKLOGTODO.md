@@ -48,6 +48,10 @@ UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 
 TODO FEATURES ( MAYBE ) BACKlog
 
+You should be able to ^ highlight for the cobrowsing user any thing  We need to be able to HIGHLIGHT a div or UNLOCKABLE
+
+Most recently used. Just have a > chevron right to open the entire set of classes, brushes, colors, etc. Every time a brush or color is selected, set a lastUsedDate on it and sort by that :)
+
 Its all floating action buttons? Theres recently used brushes, recently used classes, then theres recently edited ( stages, dialogues ) I guess thats baiscally what we have? Hmm not sure...yeah maybe all those things are sorted by recently used... and then PLUS is outside of that scope as a FAB. And then The last item in the grids is like Open Modal for More which gives you a grid modal view of infinite items
 
 Spray Can, Paintbrush, Crayon?

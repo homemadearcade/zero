@@ -18,6 +18,8 @@ const EraserSelect = ({
   selectBrush,
   clearClass,
   clearBrush,
+  width,
+  height
 }) => {
   const eraserId = ERASER_BRUSH_ID + '/' +  canvasId;
 
@@ -32,7 +34,7 @@ const EraserSelect = ({
     }}
     className={classNames("EraserSelect", { 'EraserSelect--selected': brushIdSelectedBrushList === eraserId})}
   >
-     <Icon icon="faEraser"/>
+     <Icon sx={{width, height}} icon="faEraser"/>
   </div></Unlockable>
 };
 
