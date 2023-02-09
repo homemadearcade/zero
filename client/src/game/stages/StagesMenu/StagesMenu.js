@@ -12,6 +12,7 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import { changeCurrentStage } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
+import { SHOW_REMOVED_IID } from '../../../constants/interfaceIds';
 
 const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
   function handleClose() {
@@ -58,7 +59,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
           name: 'Stage #' + (Object.keys(stages).length + 1).toString()
         })
       }}><Icon icon="faPlus"/> New Stage</Button>
-      {!showRemovedStages && <Unlockable interfaceId="stages/showRemoved">
+      {!showRemovedStages && <Unlockable interfaceId={SHOW_REMOVED_IID}>
         <Button onClick={() => {
           setShowRemovedStages(true)
         }}>Show Removed Stages</Button>

@@ -34,6 +34,7 @@ import { generateUniqueId } from '../../utils/webPageUtils';
 import { editGameModel } from '../../store/actions/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import Icon from '../../ui/Icon/Icon';
+import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../constants/interfaceIds';
 
 const GameEditor = ({ 
   classNames, 
@@ -92,7 +93,7 @@ const GameEditor = ({
         {isGridViewOn && !isSectionEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
       </div>
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
-        <Unlockable hideLockToggle interfaceId="instanceToolbar/*"><GameStateToolbar/></Unlockable>
+        <Unlockable hideLockToggle interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
           <ClassList/>
         </>}

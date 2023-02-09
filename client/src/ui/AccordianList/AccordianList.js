@@ -54,7 +54,7 @@ export default function AccordianList({accordians, initialExpandedId = null}) {
 
 export function AccordionListBody({expanded, onChange, accordianList}) {
 
-  function renderSummary({title, interfaceId}) {
+  function renderSummary({title}) {
 
     const summaryEl = <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
       {title}
@@ -63,13 +63,13 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
     return summaryEl
   }
 
-  function renderBody({body, interfaceId}) {
+  function renderBody({body}) {
     const bodyEl = <AccordionDetails>{body}</AccordionDetails>
 
     return bodyEl
   }
 
-  function renderAccordian({id, title, body, interfaceId, lockBody}) {
+  function renderAccordian({id, title, body, interfaceId}) {
 
     const el = <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
       {renderSummary({title, interfaceId})}

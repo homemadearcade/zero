@@ -1,3 +1,5 @@
+import { BASIC_CLASS, NPC_CLASS, PLAYER_CLASS, ZONE_CLASS } from "../../game/constants";
+
 export const ZONE_CLASS_CONTAINER_IID = "ZONE_CLASS/*";
 export const ZONE_CLASS_ADD_IID = "ZONE_CLASS/addZone";
 export const ZONE_CLASS_SELECT_IID = "ZONE_CLASS/select";
@@ -17,3 +19,10 @@ export const PLAYER_CLASS_SELECT_IID = "PLAYER_CLASS/select";
 export const CLASS_LAYER_IID = 'class/layer'
 export const CLASS_VISIBILITY_IID = 'class/visibility'
 export const CLASS_LOCKED_IID = 'class/locked'
+
+export function getSelectClassFromClassType(type) {
+  if(type === PLAYER_CLASS) return PLAYER_CLASS_SELECT_IID
+  if(type === ZONE_CLASS) return ZONE_CLASS_SELECT_IID
+  if(type === BASIC_CLASS) return BASIC_CLASS_SELECT_IID
+  if(type === NPC_CLASS) return NPC_CLASS_SELECT_IID
+}

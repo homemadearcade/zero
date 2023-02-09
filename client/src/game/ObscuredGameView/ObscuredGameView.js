@@ -26,7 +26,7 @@ const ObscuredGameView = ({
   editLobby,
   clearErrorState
 }) => {
-  const { isObscured, isUnlocked } = getInterfaceIdData('gameView')
+  const { isObscured, isUnlocked } = getInterfaceIdData(GAME_VIEW_IID)
 
   function renderOverlay() {
     if(cobrowsingUser.role === ADMIN_ROLE) return

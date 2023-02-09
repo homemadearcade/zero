@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './BrushList.scss';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import { BACKGROUND_CANVAS_ID, BRUSH_ID_PREFIX, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
@@ -17,7 +17,7 @@ import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ADD_BRUSH_IID } from '../../../constants/interfaceIds';
+import { ADD_BRUSH_IID, BACKGROUND_CANVAS_CONTAINER_IID, FOREGROUND_CANVAS_CONTAINER_IID, getBrushSelectFromCanvasId, PLAYGROUND_CANVAS_CONTAINER_IID } from '../../../constants/interfaceIds';
 
 const BrushList = ({
   gameModel: { gameModel },
@@ -29,9 +29,9 @@ const BrushList = ({
     return null
   }
 
-  const renderBrushItem = (parentId) =>  ({brushId}, i) => {
+  const renderBrushItem = (canvasId) =>  ({brushId}, i) => {
     const el = <BrushItem key={i} brushId={brushId}/>
-    return <Unlockable interfaceId={parentId + '/brushSelect'}>
+    return <Unlockable interfaceId={getBrushSelectFromCanvasId(canvasId)}>
       {el}
     </Unlockable>
   }
@@ -83,7 +83,7 @@ const BrushList = ({
 
   accordians.push({
     id: 'Background',
-    interfaceId: BACKGROUND_CANVAS_ID + '/*',
+    interfaceId: BACKGROUND_CANVAS_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Background</Typography>
       <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
@@ -103,7 +103,7 @@ const BrushList = ({
 
   accordians.push({
     id: 'Playground',
-    interfaceId: PLAYGROUND_CANVAS_ID + '/*',
+    interfaceId: PLAYGROUND_CANVAS_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Playground</Typography>
       <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
@@ -123,7 +123,7 @@ const BrushList = ({
 
   accordians.push({
     id: 'Foreground',
-    interfaceId: FOREGROUND_CANVAS_ID + '/*',
+    interfaceId: FOREGROUND_CANVAS_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Foreground</Typography>
       <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />

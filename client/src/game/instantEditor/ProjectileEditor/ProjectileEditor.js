@@ -10,6 +10,18 @@ import SelectClass from '../../ui/SelectClass/SelectClass';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
 
+        // {false && <Unlockable isSlider interfaceId={PROJECTILE_AMMO_IID}>
+        //   <SliderNotched
+        //     formLabel="Ammo"
+        //     options={[1, 5, 10, 20, 50, 1000, 2000]}
+        //     step={1}
+        //     onChangeCommitted={(value) => {
+        //       editGameModel({ classes: { [classId]: { projectile: { ammo: value }}}})        
+        //     }}
+        //     value={classSelected.projectile.ammo}
+        //   />
+        // </Unlockable>}
+
 const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
   const projectileClass = gameModel.classes[classSelected.projectile?.classId]
@@ -27,7 +39,7 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
       </Unlockable>
       {classSelected.movement.controls && <ControlsCard objectClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
       {projectileClass && <>
-          <Unlockable isSlider isDefaultUnlocked interfaceId={PROJECTILE_SPEED_IID}>
+          <Unlockable isSlider interfaceId={PROJECTILE_SPEED_IID}>
           <SliderNotched
             formLabel="Speed"
             options={[1, 10, 100, 200, 300, 500, 1000]}
@@ -60,17 +72,6 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             value={classSelected.projectile.lifetime}
           />
         </Unlockable>      
-        {false && <Unlockable isSlider interfaceId="projectile/Ammo">
-          <SliderNotched
-            formLabel="Ammo"
-            options={[1, 5, 10, 20, 50, 1000, 2000]}
-            step={1}
-            onChangeCommitted={(value) => {
-              editGameModel({ classes: { [classId]: { projectile: { ammo: value }}}})        
-            }}
-            value={classSelected.projectile.ammo}
-          />
-        </Unlockable>}
       </>}
     </div>
   );

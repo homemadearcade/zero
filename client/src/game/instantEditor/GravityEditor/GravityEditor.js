@@ -8,6 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Typography from '../../../ui/Typography/Typography';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import { STAGE_GRAVITY_X_IID, STAGE_GRAVITY_Y_IID } from '../../../constants/interfaceIds';
 
 const GravityEditor = ({ gameModel: { gameModel, currentStageId }, editGameModel }) => {
   const stage = gameModel.stages[currentStageId]
@@ -15,7 +16,7 @@ const GravityEditor = ({ gameModel: { gameModel, currentStageId }, editGameModel
   return (
     <div className="GravityEditor">
       <Typography component="h5" variant="h5">Editing Stage</Typography>
-      <Unlockable interfaceId="stage/gravityY" isDefaultUnlocked>
+      <Unlockable interfaceId={STAGE_GRAVITY_Y_IID}>
         <SliderNotched
           formLabel="Gravity ⇵"
           step={0.5}
@@ -26,7 +27,7 @@ const GravityEditor = ({ gameModel: { gameModel, currentStageId }, editGameModel
           value={stage.gravity.y}
         />
       </Unlockable>
-      <Unlockable interfaceId="stage/gravityX">
+      <Unlockable interfaceId={STAGE_GRAVITY_X_IID}>
         <SliderNotched
           formLabel="Gravity ⇆"
           step={0.5}

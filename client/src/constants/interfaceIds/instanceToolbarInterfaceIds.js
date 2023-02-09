@@ -1,5 +1,4 @@
 export const INSTANCE_TOOLBAR_CONTAINER_IID = 'instanceToolbar/*'
-export const INSTANCE_TOOLBAR_GRID_IID = 'instanceToolbar/gridView'
 export const INSTANCE_TOOLBAR_UNDO_IID = 'instanceToolbar/undo'
 export const INSTANCE_TOOLBAR_PAUSE_IID = 'instanceToolbar/pause'
 export const INSTANCE_TOOLBAR_STOP_IID = 'instanceToolbar/stop'

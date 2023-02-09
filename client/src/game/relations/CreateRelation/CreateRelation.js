@@ -25,6 +25,7 @@ import Switch from '../../../ui/Switch/Switch';
 import Typography from '../../../ui/Typography/Typography';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import SelectStage from '../../ui/SelectStage/SelectStage';
+import { RELATION_ADVANCED_CONTAINER_IID, RELATION_ADVANCED_DELAY_INTERVAL_IID, RELATION_ADVANCED_IGNORE_SIDES_IID, RELATION_ADVANCED_REMOTE_EFFECTED_IID, RELATION_DELAY_EFFECT_IID, RELATION_ONLY_ONCE_IID, RELATION_PICK_RANDOM_ZONE_IID } from '../../../constants/interfaceIds';
 
 /*
 
@@ -159,7 +160,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
 
     if(editForms.onlyOnce) {
-      forms.push(<Unlockable key={"relation/onlyOnce"} interfaceId="relation/onlyOnce">
+      forms.push(<Unlockable key={"relation/onlyOnce"} interfaceId={RELATION_ONLY_ONCE_IID}>
         <Switch
           labels={['Recurring', 'Only Occurs Once']}
           size="small"
@@ -172,7 +173,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
 
     if(editForms.delayEffect) {
-      forms.push(<Unlockable key={"relation/delayEffect"} interfaceId="relation/delayEffect">
+      forms.push(<Unlockable key={"relation/delayEffect"} interfaceId={RELATION_DELAY_EFFECT_IID}>
         <SliderNotched
           formLabel="Delay Effect (ms)"
           step={10}
@@ -186,7 +187,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
 
     if(editForms.pickRandomZone && classA.classId === relation.effect.zoneClassId) {
-      forms.push(<Unlockable key={"relation/pickRandomZone"} interfaceId="relation/pickRandomZone">
+      forms.push(<Unlockable key={"relation/pickRandomZone"} interfaceId={RELATION_PICK_RANDOM_ZONE_IID}>
         <Switch
           labels={['Use this zone', 'Pick Random Zone']}
           size="small"
@@ -202,7 +203,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
   }
 
   const advancedOptions = [
-    classB && relation.effect.type && !nonRemoteEffects[relation.effect.type] && <Unlockable interfaceId="relation/advanced/effected">
+    classB && relation.effect.type && !nonRemoteEffects[relation.effect.type] && <Unlockable interfaceId={RELATION_ADVANCED_REMOTE_EFFECTED_IID}>
       <SelectClass 
         key="relation/remoteClass"
         includePlayerInstance
@@ -213,7 +214,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           handleEffectChange('remoteEffectedClassId', newClassId)
       }}/>
     </Unlockable>,
-    classB && !relation.onlyOnce && effectEditInterface[relation.effect.type]?.delayInterval && <Unlockable interfaceId="relation/advanced/delayInterval">
+    classB && !relation.onlyOnce && effectEditInterface[relation.effect.type]?.delayInterval && <Unlockable interfaceId={RELATION_ADVANCED_DELAY_INTERVAL_IID}>
       <SliderNotched
               key="relation/delayInterval"
         formLabel="Delay Interval (ms)"
@@ -225,7 +226,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         value={relation.delayInterval || 200}
       />
     </Unlockable>,
-    classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId="relation/advanced/ignoreSides">
+    classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId={RELATION_ADVANCED_IGNORE_SIDES_IID}>
       <SelectSides
        key="relation/sides"
       formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
@@ -314,7 +315,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           }}/>
         }
         {relation.effect.type && renderEffectForms(relation.effect.type)}
-        {advancedOptions.length > 0 && <Unlockable interfaceId="relation/advanced/*">
+        {advancedOptions.length > 0 && <Unlockable interfaceId={RELATION_ADVANCED_CONTAINER_IID}>
           <Typography variant="h5">Advanced</Typography>
           {advancedOptions}
         </Unlockable>}

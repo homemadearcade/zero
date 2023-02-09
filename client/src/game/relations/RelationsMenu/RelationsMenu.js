@@ -14,6 +14,7 @@ import { EFFECT_COLLIDE, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
+import { RELATION_BOUNDARY_IID } from '../../../constants/interfaceIds';
 
 const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel }, gameContext: { player } }) => {
   function handleClose() {
@@ -35,7 +36,7 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="RelationsMenu">
       <ClassMemberTitle classId={classIdRelationsMenu} title="Relationships"/>
-      <Unlockable interfaceId="relations/boundary">
+      <Unlockable interfaceId={RELATION_BOUNDARY_IID}>
         <ClassMemberTitle classId={classIdRelationsMenu} title={getBoundaryRelationLabel(objectClass.boundaryRelation, objectClass)}/>
         <Button onClick={() => {
           openBoundaryRelation(objectClass)

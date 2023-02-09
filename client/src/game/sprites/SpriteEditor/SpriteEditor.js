@@ -86,7 +86,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
 
 
   // cannot happen here cuz. of ... recursion?
-  // brushList.push(<Unlockable isTiny interfaceId='addBrush'>
+  // brushList.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
   //     <Button size="fit" onClick={() => {
   //       openCreateBrushFlow(SPRITE_EDITOR_CANVAS_ID)
   //     }}>

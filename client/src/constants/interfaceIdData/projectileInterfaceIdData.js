@@ -5,5 +5,7 @@ export default {
   [PROJECTILE_CLASS_IID]: {},
   [PROJECTILE_COOLDOWN_IID]: {},
   [PROJECTILE_LIFETIME_IID]: {},
-  [PROJECTILE_SPEED_IID]: {},
+  [PROJECTILE_SPEED_IID]: {
+    isDefaultUnlocked: true
+  },
 }

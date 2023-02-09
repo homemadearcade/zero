@@ -12,19 +12,6 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_NAME_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID } from '../../../constants/interfaceIds';
 
-    // {false && <Unlockable interfaceId="contextMenu/class/spawn">
-    //   <MenuItem onClick={() => {
-    //     editGameModel({
-    //       classes: {
-    //         [classId]: {
-    //           unspawned: !objectClass.unspawned
-    //         }
-    //       }
-    //     })
-    //     onMenuItemClick()
-    //   }}>{objectClass.unspawned ? 'Set as Spawned' : 'Set as Unspawned'}</MenuItem>
-    // </Unlockable>}
-
 const ClassContextMenu = ({ 
   editGameModel, 
   openCreateClassFlow, 

@@ -17,7 +17,7 @@ import {
 // }
 
 export const openStageContextMenu = (event) => (dispatch, getState) => {
-  // if(getInterfaceIdData('contextMenu/*').isObscured) return 
+  // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
     updateCobrowsing: true,
@@ -31,7 +31,7 @@ export const openStageContextMenu = (event) => (dispatch, getState) => {
 }
 
 export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, getState) => {
-  // if(getInterfaceIdData('contextMenu/*').isObscured) return 
+  // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   if(gameObjects[0].effectSpawned) return
 
@@ -50,7 +50,7 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
 }
 
 export const openContextMenuFromClassId= (classId, event) => (dispatch, getState) => {
-  // if(getInterfaceIdData('contextMenu/*').isObscured) return 
+  // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
     updateCobrowsing: true,
@@ -66,7 +66,7 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
 }
 
 export const openContextMenuFromObjectInstanceId= (objectId, classId, event) => (dispatch, getState) => {
-  // if(getInterfaceIdData('contextMenu/*').isObscured) return 
+  // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
     updateCobrowsing: true,
@@ -83,7 +83,7 @@ export const openContextMenuFromObjectInstanceId= (objectId, classId, event) => 
 }
 
 export const closeContextMenu = () => (dispatch, getState) => {
-  // if(getInterfaceIdData('contextMenu/*').isObscured) return 
+  // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
     updateCobrowsing: true,

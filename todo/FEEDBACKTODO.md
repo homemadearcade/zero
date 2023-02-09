@@ -12,6 +12,8 @@ add Snackbar to cobrowsing
 
 Finish lobby cleaup with user video and usernames, etc
 
+Create Class Modal -> Edit Name Modal instead of having edit name inside of Create Class
+
 IF KEY ISSUES PERSIST
 set Interval for keyboard capture issue?
 

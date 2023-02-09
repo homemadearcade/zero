@@ -19,6 +19,7 @@ import { generateUniqueId, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
+import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -53,7 +54,7 @@ export class EditorScene extends GameInstance {
   }
 
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
-    const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
+    const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     if(isObscured) {
       return
     }
@@ -273,7 +274,7 @@ export class EditorScene extends GameInstance {
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
     entitySprite[0].isHoveringOver = true
-    const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
+    const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     if(isObscured) {
       return
     }
@@ -482,7 +483,7 @@ export class EditorScene extends GameInstance {
 
   onPointerOut = (pointer, entitySprite) => {
     entitySprite[0].isHoveringOver = false
-    const { isObscured } = getInterfaceIdData('contextMenu/instance/move')
+    const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     if(isObscured) {
       return
     }

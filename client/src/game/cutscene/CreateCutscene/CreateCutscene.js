@@ -17,6 +17,7 @@ import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
+import { DIALOGUE_SHORTCUT_IID } from '../../../constants/interfaceIds';
 
 const CreateCutscene = ({ 
   closeCreateCutscene, 
@@ -105,7 +106,7 @@ const CreateCutscene = ({
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateCutscene">
-       <Unlockable adminOnly interfaceId="dialogue/inShortcutMenu">
+       <Unlockable adminOnly interfaceId={DIALOGUE_SHORTCUT_IID}>
         <Switch
           labels={['Only In Cutscene Menu', 'In Dialogue Menu']}
           size="small"

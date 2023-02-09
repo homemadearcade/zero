@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import Icon from '../../../ui/Icon/Icon';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ADD_COLOR_IID } from '../../../constants/interfaceIds';
+import { ADD_COLOR_IID, getColorSelectFromCanvasId } from '../../../constants/interfaceIds';
 
 const ColorSelect = ({
   colors = [],
@@ -59,7 +59,7 @@ const ColorSelect = ({
     const el = <ColorItem hex={hex}></ColorItem>
 
     if(canvasId) {
-      return <Unlockable interfaceId={canvasId + '/colorSelect'}>
+      return <Unlockable interfaceId={getColorSelectFromCanvasId(canvasId)}>
         {el}
       </Unlockable>
     }

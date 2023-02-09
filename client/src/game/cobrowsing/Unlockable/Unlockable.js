@@ -10,13 +10,13 @@ import { Fade } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
 import { ADMIN_ROLE, OPEN_TOOL, UNLOCK_TOOL } from '../../constants';
+import { interfaceIdData } from '../../../constants/interfaceIdData';
 
 const Unlockable = ({
   auth: { me },
   adminOnly,
   setMouseOverInterfaceId,
   hideLockToggle,
-  className,
   lockInterfaceId,
   selectCobrowsingTool,
   unlockInterfaceId,
@@ -26,7 +26,6 @@ const Unlockable = ({
   cobrowsing: { mouseOverInterfaceId, selectedTool }, 
   width,
   height,
-  isDefaultUnlocked,
 }) => {
   const { isUnlocked, isObscured, isLockToggleable } = getInterfaceIdData(interfaceId)
   window.allInterfaceIds.push(interfaceId)
@@ -35,8 +34,7 @@ const Unlockable = ({
     return null
   }
 
-  const customClassName = className + ' id-' + interfaceId
-
+  const { isDefaultUnlocked } = interfaceIdData[interfaceId]
 
   function renderChildren() {
     return React.Children.map(children, (child, index) => {
@@ -101,7 +99,7 @@ const Unlockable = ({
           selectCobrowsingTool(null)
         }
       }}
-      className={classNames(customClassName + " Unlockable Unlockable--unlocked", { 'Unlockable--openable': isOpenable() })}
+      className={classNames("Unlockable", { 'Unlockable--openable': isOpenable() })}
     >
       {renderChildren()}
       {shouldShowCover() && renderCover()}

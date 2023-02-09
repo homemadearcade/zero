@@ -12,12 +12,13 @@ import { changeGameState } from '../../store/actions/gameContextActions';
 import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE } from '../constants';
 import { Divider } from '@mui/material';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
+import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_STOP_IID } from '../../constants/interfaceIds';
 
 const color = 'rgb(144, 202, 249)'
 
 const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameContext: { gameState }, lobby: { lobby }, onInstanceUndo}) => {
   function renderStop() {
-    return <Unlockable isTiny interfaceId="instanceToolbar/stop">
+    return <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_STOP_IID}>
       <ToolbarIcon 
         size="lg"
         icon="faStop"
@@ -35,10 +36,10 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
     </div>
   }
 
-  //   <Unlockable isTiny interfaceId="instanceToolbar/undo">
+  //   <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_UNDO_IID}>
   //   <UndoButton onClick={lobby.id ? lobbyUndo : onInstanceUndo}/>
   // </Unlockable>
-  // <Unlockable interfaceId="instanceToolbar/undo">
+  // <Unlockable interfaceId={INSTANCE_TOOLBAR_UNDO_IID}>
   //   <Divider orientation="vertical" variant="middle" flexItem sx={{
   //     mx: 0,
   //     my: 0,
@@ -47,7 +48,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
   // </Unlockable>
  return <div className="GameStateToolbar">
   {renderStop()}
-  <Unlockable isTiny interfaceId="instanceToolbar/pause">
+  <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_PAUSE_IID}>
     <ToolbarIcon 
       size="lg"
       icon="faPause"
@@ -57,7 +58,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
       }}
     />
   </Unlockable>
-  <Unlockable isTiny interfaceId="instanceToolbar/play">
+  <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_PLAY_IID}>
     <ToolbarIcon 
       size="lg"
       icon="faPlay"
@@ -67,7 +68,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
       }}
     />
   </Unlockable>
-  <Unlockable isTiny interfaceId="instanceToolbar/playthrough">
+  <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_PLAYTHROUGH_IID}>
     <ToolbarIcon 
       size="lg"
       icon="faCirclePlay"

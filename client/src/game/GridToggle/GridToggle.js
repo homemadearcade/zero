@@ -10,12 +10,13 @@ import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Switch from '../../ui/Switch/Switch';
+import { GRID_VIEW_TOGGLE_IID } from '../../constants/interfaceIds';
 
 const GridToggle = ({
   gameViewEditor: { isGridViewOn}, 
   toggleGridView
 }) => {
-  return <Unlockable interfaceId="instanceToolbar/toggleGrid">
+  return <Unlockable interfaceId={GRID_VIEW_TOGGLE_IID}>
     <div
       className="GridToggle"
       onClick={() => {

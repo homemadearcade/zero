@@ -1,5 +1,7 @@
 export const MOVEMENT_IGNORE_GRAVITY_IID = 'movement/ignoreGravity'
 export const MOVEMENT_SPEED_IID = 'movement/speed'
+export const MOVEMENT_SPEED_ANGULAR_IID = 'movement/speedAngular'
+export const MOVEMENT_DRAG_ANGULAR_IID = 'movement/dragAngular'
 export const MOVEMENT_PATTERN_IID = 'movement/pattern'
 export const MOVEMENT_GRAVITY_Y_IID = 'movement/gravityY'
 export const MOVEMENT_GRAVITY_X_IID = 'movement/gravityX'

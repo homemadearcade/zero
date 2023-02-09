@@ -3,7 +3,9 @@ import {  MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_TYPE_IID, MOVEMENT_DRAG_
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [MOVEMENT_IGNORE_GRAVITY_IID]: {},
-  [MOVEMENT_SPEED_IID]: {},
+  [MOVEMENT_SPEED_IID]: {
+    isDefaultUnlocked: true
+  },
   [MOVEMENT_PATTERN_IID]: {},
   [MOVEMENT_GRAVITY_Y_IID]: {},
   [MOVEMENT_GRAVITY_X_IID]: {},

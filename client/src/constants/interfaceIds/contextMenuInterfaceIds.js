@@ -24,6 +24,8 @@ export const CONTEXT_MENU_INSTANCE_DELETE_IID = 'contextMenu/instance/delete'
 export const CONTEXT_MENU_INSTANCE_JSON_IID = 'contextMenu/instance/json'
 
 export const CONTEXT_MENU_METADATA_IID = 'contextMenu/metadata'
-export const CONTEXT_MENU_GRID_IID = 'contextMenu/gridView'
 export const CONTEXT_MENU_SNAPSHOT_IID = 'contextMenu/snapshot'
 export const CONTEXT_MENU_CUTSCENES_IID = 'contextMenu/cutscenes'
+
+export const CONTEXT_MENU_STAGES_IID = 'contextMenu/stages'
+export const CONTEXT_MENU_PLAYTEST_IID = 'contextMenu/playTest'

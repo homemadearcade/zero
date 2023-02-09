@@ -7,6 +7,7 @@ import './CameraEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import { Typography } from '@mui/material';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
+import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../constants/interfaceIds';
 
 const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
@@ -45,7 +46,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editG
 
   return (
     <div className="CameraEditor">
-      <Unlockable isSlider interfaceId="camera/zoom" isDefaultUnlocked>
+      <Unlockable isSlider interfaceId={CAMERA_ZOOM_IID}>
         <SliderNotched
           formLabel="Zoom -/+"
           options={zooms}
@@ -56,7 +57,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editG
           value={classSelected.camera.zoom}
       />
       </Unlockable>
-      <Unlockable isSlider interfaceId="camera/lerp/horizontal">
+      <Unlockable isSlider interfaceId={CAMERA_LERP_X_IID}>
         <SliderNotched
           formLabel="Lerp ⇆"
           options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
@@ -67,7 +68,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editG
           value={classSelected.camera.lerpX}
       />
       </Unlockable>
-      <Unlockable isSlider interfaceId="camera/lerp/vertical">
+      <Unlockable isSlider interfaceId={CAMERA_LERP_Y_IID}>
         <SliderNotched
           formLabel="Lerp ⇵"
           step={0.01}

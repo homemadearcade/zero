@@ -18,7 +18,7 @@ import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_C
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 import { directionalClass, jumperClass } from '../../defaultData/players';
-import { BASIC_CLASS_ADD_IID, CLASS_LOCKED_IID, DIALOGUE_ADD_IID, DIALOGUE_SELECT_IID, NPC_CLASS_ADD_IID, PLAYER_CLASS_ADD_IID, ZONE_CLASS_ADD_IID } from '../../../constants/interfaceIds';
+import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_LOCKED_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 
 const ClassList = ({
   gameModel: { gameModel },
@@ -42,7 +42,7 @@ const ClassList = ({
         {el}
       </Unlockable>
     } else {
-      return <Unlockable interfaceId={classType + '/select'}>
+      return <Unlockable interfaceId={getSelectClassFromClassType(classType)}>
         {el}
       </Unlockable>
     }
@@ -137,7 +137,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'players',
-    interfaceId: PLAYER_CLASS + '/*',
+    interfaceId: PLAYER_CLASS_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Players</Typography>
       <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
@@ -152,7 +152,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'NPCs',
-    interfaceId: NPC_CLASS + '/*',
+    interfaceId: NPC_CLASS_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">NPCs</Typography>
       <LayerVisibility canvasId={NPC_CLASS} />
@@ -167,7 +167,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'objects',
-    interfaceId: BASIC_CLASS + '/*',
+    interfaceId: BASIC_CLASS_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Objects</Typography>
       <LayerVisibility canvasId={BASIC_CLASS} />
@@ -182,7 +182,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'Zones',
-    interfaceId: ZONE_CLASS + '/*',
+    interfaceId: ZONE_CLASS_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Zones</Typography>
       <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
@@ -197,7 +197,7 @@ const ClassList = ({
 
   accordians.push({
     id: 'Dialogue',
-    interfaceId: 'dialogue/*',
+    interfaceId: DIALOGUE_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Dialogue</Typography>
     </>,

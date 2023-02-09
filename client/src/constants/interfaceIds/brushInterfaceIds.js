@@ -1,3 +1,5 @@
+import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from "../../game/constants";
+
 export const BRUSH_SIZE_IID = 'brushSize';
 export const ADD_BRUSH_IID = 'addBrush';
 
@@ -15,3 +17,14 @@ export const FOREGROUND_CANVAS_CONTAINER_IID = 'FOREGROUND_CANVAS/*';
 export const FOREGROUND_CANVAS_ADD_BRUSH_IID = 'FOREGROUND_CANVAS/addBrush'
 export const FOREGROUND_CANVAS_COLOR_SELECT_IID = 'FOREGROUND_CANVAS/colorSelect'
 export const FOREGROUND_CANVAS_BRUSH_SELECT_IID = 'FOREGROUND_CANVAS/brushSelect'
+
+export function getBrushSelectFromCanvasId(canvasId) {
+  if(canvasId === BACKGROUND_CANVAS_ID) return BACKGROUND_CANVAS_BRUSH_SELECT_IID
+  if(canvasId === FOREGROUND_CANVAS_ID) return FOREGROUND_CANVAS_BRUSH_SELECT_IID
+  if(canvasId === PLAYGROUND_CANVAS_ID) return PLAYGROUND_CANVAS_BRUSH_SELECT_IID
+}
+export function getColorSelectFromCanvasId(canvasId) {
+  if(canvasId === BACKGROUND_CANVAS_ID) return BACKGROUND_CANVAS_COLOR_SELECT_IID
+  if(canvasId === FOREGROUND_CANVAS_ID) return FOREGROUND_CANVAS_COLOR_SELECT_IID
+  if(canvasId === PLAYGROUND_CANVAS_ID) return PLAYGROUND_CANVAS_COLOR_SELECT_IID
+}

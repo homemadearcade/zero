@@ -15,28 +15,8 @@ import { PLAYER_CLASS, JUMP_CONSTANT, ADVANCED_DIRECTIONAL_CONTROLS, VEHICLE_CON
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumping from '../../ui/SelectJump/SelectJumping';
 import { jumpStyleToParemeters } from '../../defaultData/jumping';
+import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_STYLE_IID, MOVEMENT_CONTROLS_TYPE_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 
-{/* <Unlockable interfaceId="physics/toggle/ignoreGravity">
-<FormLabel>Ignore Gravity</FormLabel>
-<Switch
-  size="small"
-  onChange={(e) => {
-    editGameModel({ classes: { [classId]: { attributes: { ignoreGravity: e.target.checked }}}})        
-  }}
-  checked={classSelected.attributes.ignoreGravity}
- />
-</Unlockable> */}
-
-{/* <Unlockable interfaceId="movement/toggle/movingPlatform">
-<FormLabel>Moving Platform</FormLabel>
-<Switch
-  size="small"
-  onChange={(e) => {
-    editGameModel({ classes: { [classId]: { movement: { movingPlatform: e.target.checked }}}})        
-  }}
-  checked={classSelected.movement.movingPlatform}
- />
-</Unlockable> */}
 
 const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
@@ -46,7 +26,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
 
   if(classSelected.movement.controls !== ADVANCED_DIRECTIONAL_CONTROLS) {
     incompatibleErrors.push('Movement control scheme must be the Advanced Directional scheme to use Jump')
-    incompatibleErrors.push(<Unlockable interfaceId="movement/toggle/ignoreGravity">
+    incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_CONTROLS_TYPE_IID}>
         <Button
           onClick={(e) => {
             editGameModel({ classes: { [classId]:  {...advancedDirectionalDefaults } }})        
@@ -57,7 +37,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
 
   if(classSelected.movement.ignoreGravity) {
     incompatibleErrors.push('Gravity must be turned on in order to use Jump')
-    incompatibleErrors.push(<Unlockable interfaceId="movement/toggle/ignoreGravity">
+    incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_IGNORE_GRAVITY_IID}>
         <Switch
           size="small"
           labels={['No Gravity', 'Gravity']}
@@ -92,7 +72,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
 
   return (
     <div className="JumpEditor">
-      {classSelected.type === PLAYER_CLASS && <Unlockable interfaceId="jump/style">
+      {classSelected.type === PLAYER_CLASS && <Unlockable interfaceId={JUMP_STYLE_IID}>
         <SelectJumping
           formLabel="Style"
           value={classSelected.jump.style ? [classSelected.jump.style] : []}
@@ -101,7 +81,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           }}/>
       </Unlockable>}
       {classSelected.movement.controls && <ControlsCard objectClass={classSelected} jumpStyle={classSelected.jump.style}></ControlsCard>}
-      {jumpParameters.ground && <Unlockable isDefaultUnlocked interfaceId="jump/ground">
+      {jumpParameters.ground && <Unlockable interfaceId={JUMP_GROUND_IID}>
         <SliderNotched
           formLabel={jumpParameters.ground.length ? jumpParameters.ground : "Ground Jump Speed"}
           options={[50, 100, 200, 300, 400, 500]}
@@ -112,7 +92,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           value={classSelected.jump.ground}
         />
       </Unlockable>}
-      {jumpParameters.air && <Unlockable isDefaultUnlocked  interfaceId="jump/air">
+      {jumpParameters.air && <Unlockable  interfaceId={JUMP_AIR_IID}>
         <SliderNotched
           formLabel={jumpParameters.air.length ? jumpParameters.air : "Air Jump Speed"}
           options={[10, 50, 100, 200, 300, 400, 500]}
@@ -123,7 +103,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           value={classSelected.jump.air}
         />
       </Unlockable>}
-      {jumpParameters.cooldown && <Unlockable isSlider interfaceId="jump/cooldown">
+      {jumpParameters.cooldown && <Unlockable isSlider interfaceId={JUMP_COOLDOWN_IID}>
         <SliderNotched
           formLabel={jumpParameters.cooldown.length ? jumpParameters.cooldown : "Air Jump Cooldown"}
           options={[50, 100, 200, 500, 1000, 2000, 5000]}
@@ -134,7 +114,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           value={classSelected.jump.cooldown}
         />
       </Unlockable>}
-      {jumpParameters.dragY && <Unlockable isSlider interfaceId="movement/sliders/drag/vertical">
+      {jumpParameters.dragY && <Unlockable isSlider interfaceId={MOVEMENT_DRAG_Y_IID}>
         <SliderNotched
           formLabel="Speed Decrease ⇵"
           step={0.01}
@@ -145,7 +125,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
           value={1 - classSelected.movement.dragY}
         />
        </Unlockable>}
-      <Unlockable interfaceId="toggleAllParams" adminOnly>
+      <Unlockable interfaceId={TOGGLE_ALL_PARAMS_IID} adminOnly>
         <Button onClick={() => {
         setSeeAllParameters(!seeAllParameters)
         }}>See All Parameters</Button>

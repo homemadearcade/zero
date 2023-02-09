@@ -1,6 +1,7 @@
 export const RELATION_ADVANCED_CONTAINER_IID = 'relation/advanced/*'
 export const RELATION_ADVANCED_IGNORE_SIDES_IID = 'relation/advanced/ignoreSides'
 export const RELATION_ADVANCED_REMOTE_EFFECTED_IID = 'relation/advanced/remoteEffected'
+export const RELATION_ADVANCED_DELAY_INTERVAL_IID = 'relation/advanced/delayInterval'
 export const RELATION_DELAY_INTERVAL_IID = 'relation/delayInterval'
 export const RELATION_DELAY_EFFECT_IID = 'relation/delayEffect'
 export const RELATION_PICK_RANDOM_ZONE_IID = 'relation/pickRandomZone'
