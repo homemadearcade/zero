@@ -26,11 +26,11 @@ export function getCurrentGameScene(gameInstance) {
   const currentStageId = store.getState().gameModel.currentStageId
 
   let currentScene
-  scenes.forEach((scene) => {
+  if(scenes) scenes.forEach((scene) => {
     if(currentStageId === scene.stage?.id) currentScene = scene
   })
 
-  if(!currentScene) currentScene = scenes[0]
+  if(!currentScene && scenes) currentScene = scenes[0]
   return currentScene
 }
 
