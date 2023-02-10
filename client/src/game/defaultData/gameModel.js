@@ -2,7 +2,7 @@
 import { defaultZoneClass } from "./class";
 import { nodeSize } from "./general";
 import { directionalClass, jumperClass, vehicleClass } from "./players";
-import { defaultStage } from "./stage";
+import { initialStage } from "./stage";
 
 export const defaultGameModel = {
   "metadata": {
@@ -11,16 +11,13 @@ export const defaultGameModel = {
     "authorPseudonym": "",
     "imageUrl": "",
     isArchival: false,
-    isFeatured: false
+    isFeatured: false,
+    isPublished: false
   },
   "stages": {
     'stage-default': {
-      name: 'Stage # 1',
-      'playerClassId': 'oc-pl-vehicle',
-      ...defaultStage,
-      boundaries: {...defaultStage.boundaries}, 
-      gravity: {...defaultStage.gravity}
-    },
+      ...initialStage
+    }
   },
   "nodeSize": nodeSize,
   colors: {
@@ -59,7 +56,7 @@ export const defaultGameModel = {
         tint: '#FFFFFF'
       }
     },
-    // this is in here for legacy...
+    // LEGACY this is in here for legacy...
     'oc/z/playerspawnzone': {
       name: 'Player Spawn Zone',
       ...defaultZoneClass,

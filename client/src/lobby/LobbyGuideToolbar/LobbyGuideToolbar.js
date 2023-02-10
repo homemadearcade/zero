@@ -25,6 +25,14 @@ const LobbyGuideToolbar = ({
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
+        //     <div className="LobbyGuideToolbar__close" 
+        //   onClick={() => {
+        //     setIsDrawerOpen(false)
+        //   }}>
+        //   <Icon
+        //     icon="faClose"
+        //   />
+        // </div>
     return <>
       <div className="LobbyGuideToolbar">
         {!inIframe() && <div className="LobbyGuideToolbar__toggle" onClick={() => {
@@ -52,14 +60,6 @@ const LobbyGuideToolbar = ({
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
       }>
-        <div className="LobbyGuideToolbar__close" 
-          onClick={() => {
-            setIsDrawerOpen(false)
-          }}>
-          <Icon
-            icon="faClose"
-          />
-        </div>
         <br/>
         <br/>
         <br/>

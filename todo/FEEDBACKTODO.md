@@ -24,4 +24,44 @@ Also like use the BACKGROUND BACKGROUND as like an animation space where we give
 
 https://phaser-particle-editor.firebaseapp.com/
 
-Can an object you DONT collide with allow you to jump again? Any object?
+BUG - Can an object you DONT collide with allow you to jump again? Any object?
+
+---
+
+Instead of confetti, throw their sprites out like that
+
+-- 
+
+Take Snapshot Button should only appear once youve selected
+
+If mouse leaves game area, then consider that the square 
+
+--
+
+when you manually create a new game, you need to name it
+
+when a ticketing makes a game, name it ( guest name + date )
+
+---
+
+Catch all React Errors and also catch all utils errors, and even phaser errors?
+
+---
+
+Video view in corner?
+
+---
+
+Prevent leaving tab and coming back causing an error
+
+---
+
+Experience is waiting to start - close all other tabs, other applications, put your notifications on quiet, 
+
+
+--
+
+Not closing the lobby admin toolbar on the right correctly WITH THE X button, it doesnt work
+
+--
+

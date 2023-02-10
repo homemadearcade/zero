@@ -11,7 +11,7 @@ import { Stage } from '../entities/Stage';
 import {  editLobby } from '../../store/actions/lobbyActions';
 import { changePlayerState } from '../../store/actions/gameContextActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
-import { defaultPlayerSpawnZone } from '../defaultData/stage';
+import { defaultPlayerSpawnZone, initialPlayerSpawnZone } from '../defaultData/stage';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
 
@@ -412,8 +412,9 @@ export class GameInstance extends Phaser.Scene {
     Object.keys(objects).forEach((gameObjectId) => {
       const objectInstanceData = objects[gameObjectId]
       if(!objectInstanceData) {
+        // LEGACY
         if(gameObjectId === 'oi/playspawnzone') {
-          this.initializeObjectInstance(gameObjectId, defaultPlayerSpawnZone)
+          this.initializeObjectInstance(gameObjectId, initialPlayerSpawnZone)
           return
         } else {
           return console.error('Object missing!', gameObjectId)

@@ -27,6 +27,7 @@ import { defaultClass } from '../../game/defaultData/class';
 import store from '..';
 import {  BRUSH_ID_PREFIX, COMMON_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
+import { defaultStage } from '../../game/defaultData/stage';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
   const me = store.getState().auth.me 
@@ -129,6 +130,7 @@ function onArcadeGameModelUpdate(gameUpdate) {
 
   Object.keys(gameData.stages).forEach((stageId) => {
     const stage = gameData.stages[stageId]
+    gameData.stages[stageId] = mergeDeep(_.cloneDeep(defaultStage), gameData.stages[stageId])
     if (gameData.stages[stageId] === null || gameData.stages[stageId] === undefined) {
       console.log('deleting stage', stageId)
       delete gameData.stages[stageId];
@@ -210,6 +212,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     dispatch(changeCurrentStage(gameData.player.initialStageId))
     
     const stages = Object.keys(gameData.stages).map((stageId) => {
+      gameData.stages[stageId] = mergeDeep(_.cloneDeep(defaultStage), gameData.stages[stageId])
       return gameData.stages[stageId]
     })
 
