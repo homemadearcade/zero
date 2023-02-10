@@ -78,7 +78,7 @@ export default function videoReducer(state = initialState, { type, payload }) {
       };
     case SET_VIDEO_TRACK_ID:
       agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
-      agoraPreferences?.videoTrackId = payload.videoTrackId
+      agoraPreferences.videoTrackId = payload.videoTrackId
       window.LocalStorageSession.setItem("agoraPreferences", agoraPreferences);
       return {
         ...state,
@@ -86,7 +86,7 @@ export default function videoReducer(state = initialState, { type, payload }) {
       };
     case SET_AUDIO_TRACK_ID:
       agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
-      agoraPreferences?.audioTrackId = payload.audioTrackId
+      agoraPreferences.audioTrackId = payload.audioTrackId
       window.LocalStorageSession.setItem("agoraPreferences", agoraPreferences);
       return {
         ...state,
