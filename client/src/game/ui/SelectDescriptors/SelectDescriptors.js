@@ -7,12 +7,21 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { shuffleArray } from '../../../utils/arrayUtils';
 
 const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => {
+
+  const options = shuffleArray(descriptorOptions)
+
+  // options.unshift({
+  //   label: value,
+  //   value
+  // })
+
+
   return <SelectChipsAuto 
     onChange={onChange}
     formLabel={formLabel}
     value={value}
     freeSolo
-    options={shuffleArray(descriptorOptions)}
+    options={options}
   />
 }
 

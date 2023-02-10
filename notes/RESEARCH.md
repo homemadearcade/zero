@@ -1,11 +1,17 @@
 
 TO RESEARCH
 
+https://github.com/peers/peerjs
+
 https://github.com/nkholski/phaser-grid-physics/blob/master/example/js/scenes/game.js
 
-https://primereact.org/terminal/
+https://primereact.org/knob/
+
+https://primereact.org/hooks/usemove/
 
 https://www.authorize.net/en-us/sign-up/pricing.html
+
+https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/
 
 https://codepen.io/ko-yelie/pen/LqXWWx
 https://codepen.io/shubniggurath/pen/OEeMOd

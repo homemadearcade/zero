@@ -125,8 +125,8 @@ const themeDefaults = {
           paddingRight: '.75rem'
         },
         content: {
-          marginTop: '.75rem',
-          marginBottom: '.75rem',
+          marginTop: '.25rem',
+          marginBottom: '.25rem',
           textAlign: 'left'
         }
       }

@@ -24,7 +24,7 @@ const LobbyErrorStates = ({
 
   if(experienceState === WAITING_EXPERIENCE) {
     return <Container><div className="LobbyWaiting">
-      <Typography variant="h4">Your experience will start shortly. For the best experience please close all other browser tabs, close other applications, and put your notifications on quiet while you are waiting.</Typography>
+      <Typography variant="h4">Your experience will start shortly. For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
     </div></Container>
   }
 

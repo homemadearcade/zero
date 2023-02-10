@@ -8,6 +8,26 @@ import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 import FormLabel from '../FormLabel/FormLabel';
 import Sprite from '../../game/sprites/Sprite/Sprite';
+import { lighten, darken } from '@mui/system';
+
+const GroupHeader = styled('div')(({ theme }) => ({
+  position: 'sticky',
+  top: '-8px',
+  padding: '4px 10px',
+  color: theme.palette.primary.main,
+  backgroundColor:
+    theme.palette.mode === 'light'
+      ? lighten(theme.palette.primary.light, 0.85)
+      : darken(theme.palette.primary.main, 0.8),
+}));
+
+const GroupItems = styled('ul')({
+  padding: 0,
+});
+
+const GroupContainer = styled('ul')({
+  padding: 0,
+});
 
 /* eslint-disable react/prop-types */
 const Root = styled('div')(
@@ -16,6 +36,7 @@ const Root = styled('div')(
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
   };
   font-size: 1rem;
+  position: relative;
 `,
 );
 
@@ -168,7 +189,16 @@ const Listbox = styled('ul')(
 `,
 );
 
-export default function SelectChipsAuto({onChange, value, hideRemoved, options, disabled, formLabel, freeSolo}) {
+export default function SelectChipsAuto({
+  onChange,
+  groupBy,
+  value,
+  hideRemoved,
+  options,
+  disabled,
+  formLabel,
+  freeSolo
+}) {
   const [inheritedValue, setInheritedValue] = useState([])
 
   function onValueChanged(value) {
@@ -194,12 +224,30 @@ export default function SelectChipsAuto({onChange, value, hideRemoved, options, 
 
   if(inheritedValue === undefined) return null
 
-  return <SelectChipsAutoForm hideRemoved={hideRemoved} freeSolo={freeSolo} onChange={onChange} disabled={disabled} inheritedValue={inheritedValue} options={options.filter(({label}) => {
-    return !!label
-  })} formLabel={formLabel}/>
+  return <SelectChipsAutoForm 
+    hideRemoved={hideRemoved} 
+    groupBy={groupBy} 
+    freeSolo={freeSolo} 
+    onChange={onChange} 
+    disabled={disabled} 
+    inheritedValue={inheritedValue} 
+    options={options.filter(({label}) => {
+      return !!label
+    })} 
+    formLabel={formLabel}
+  />
 }
 
-function SelectChipsAutoForm({onChange, hideRemoved, inheritedValue, disabled, options, formLabel, freeSolo}) {
+function SelectChipsAutoForm({
+  onChange,
+  groupBy,
+  hideRemoved,
+  inheritedValue,
+  disabled,
+  options,
+  formLabel,
+  freeSolo
+}) {
   const {
     getRootProps,
     getInputLabelProps,
@@ -216,6 +264,8 @@ function SelectChipsAutoForm({onChange, hideRemoved, inheritedValue, disabled, o
     multiple: true,
     options,
     freeSolo,
+    includeInputInList: freeSolo,
+    groupBy,
     // disabled: !!disabled,
     // disableClearable: !!disabled,
     // disableListWrap: !!disabled,
@@ -244,6 +294,32 @@ function SelectChipsAutoForm({onChange, hideRemoved, inheritedValue, disabled, o
     return null
   }
 
+  function renderOption (option, index) {
+    if(hideRemoved) {
+      if(option.isRemoved) return null
+    }
+    return <li {...getOptionProps({ option, index })}>
+      <span>
+        {renderSprite(option)}
+        {option.label}
+      </span>
+      <CheckIcon fontSize="small" />
+    </li>
+  }
+
+  function renderGroup(group, groupIndex) {
+      const previousIndextotal = groupedOptions.reduce((prev, current, index) => {
+      if(index >= groupIndex) return prev
+      return current.options.length + prev
+    }, 0)
+    return <GroupContainer>
+      <GroupHeader>{group.group}</GroupHeader>
+      {group.options.map((option, optionIndex) => {
+        return renderOption(option, previousIndextotal + optionIndex)
+      })}
+    </GroupContainer>
+  }
+
   return (
     <Root>
       <div {...getRootProps()}>
@@ -264,17 +340,12 @@ function SelectChipsAutoForm({onChange, hideRemoved, inheritedValue, disabled, o
       </div>
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
-          {groupedOptions.map((option, index) => {
-            if(hideRemoved) {
-              if(option.isRemoved) return null
+          {groupedOptions.map((options, groupIndex) => {
+            if(groupBy) {
+              return renderGroup(options, groupIndex)
+            } else {
+              return renderOption(options, groupIndex)
             }
-            return <li {...getOptionProps({ option, index })}>
-              <span>
-                {renderSprite(option)}
-                {option.label}
-              </span>
-              <CheckIcon fontSize="small" />
-            </li>
           })}
         </Listbox>
       ) : null}

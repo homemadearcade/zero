@@ -4,19 +4,20 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectClass.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { PLAYER_CLASS, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
+import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
+import { classTypeToDisplayName } from '../../defaultData/class';
 
 const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classType, includePlayerInstance }) => {
 
   const mapClassToOption = (classId) => {
     const objectClass = gameModel.classes[classId]
-
     return {
       label: objectClass.name,
       value: classId,
       textureId: objectClass.graphics.textureId,
       tint: objectClass.graphics.tint,
-      isRemoved: objectClass.isRemoved
+      isRemoved: objectClass.isRemoved,
+      type: objectClass.type
     }
   }
 
@@ -26,7 +27,7 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
     if(!classType) return true
     if(classType === objectClass.type) return true
     return false
-  }).map(mapClassToOption)
+  }).map(mapClassToOption).sort((a, b) => -b.type.localeCompare(a.type))
 
   if(includePlayerInstance) {
     options.push({
@@ -39,6 +40,9 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
     disabled={disabled}
     onChange={(event, descriptors) => {
       onChange(event,  descriptors)
+    }}
+    groupBy={option => {
+      return classTypeToDisplayName[option.type]
     }}
     hideRemoved
     formLabel={formLabel}
