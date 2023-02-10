@@ -31,7 +31,6 @@ const ClassItem = ({
   const [isHovering, setIsHovering] = useState(false)
   const isSelected = classIdSelectedClassList === classId
 
-  console.log(classId)
   const border = '1px solid ' + getThemePrimaryColor().hexString
   return <div
     style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}

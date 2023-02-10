@@ -4,20 +4,20 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-import { ON_LOBBY_UPDATE, ON_LOBBY_UNDO } from '../../constants';
+import { ON_LOBBY_UPDATE, ON_LOBBY_UNDO, ADMIN_ROOM_PREFIX, LOBBYS_STORE } from '../../constants';
 import Lobby from '../../models/Lobby';
 
 const router = Router();
 
 function requireLobbys(req, res, next) {
-  req.lobbys = req.app.get('lobbys');
+  req.lobbys = req.app.get(LOBBYS_STORE);
   next()
 }
 
 function requireLobby(req, res, next) {
   let index
 
-  const lobbys = req.app.get('lobbys');
+  const lobbys = req.app.get(LOBBYS_STORE);
   req.lobbys = lobbys
 
   if(!lobbys) {
@@ -179,7 +179,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async
 
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     req.socket.leave(req.lobby.id)
-    if(req.user.role === 'ADMIN') req.socket.leave('admins@'+req.lobby.id);
+    if(req.user.role === 'ADMIN') req.socket.leave(ADMIN_ROOM_PREFIX+req.lobby.id);
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
@@ -274,7 +274,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
       })
       
       req.socket.join(req.lobby.id);
-      if(req.user.role === 'ADMIN') req.socket.join('admins@'+req.lobby.id);
+      if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobby.id);
       userFound.joined = true;
       req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
       return res.status(200).json({ lobby: req.lobby });
@@ -295,7 +295,8 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
       username: req.user.username,
       role: req.user.role,
       joined: true,
-      connected: true
+      connected: true,
+      inConstellationView: false
     }
 
     req.lobby.messages.push({
@@ -318,7 +319,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 
     // listen for all of this lobbies events
     req.socket.join(req.lobby.id);
-    if(req.user.role === 'ADMIN') req.socket.join('admins@'+req.lobby.id);
+    if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobby.id);
 
     // remove from all other lobbies
     req.lobbys.forEach((lobby) => {
@@ -365,7 +366,6 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
-
 
 router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {

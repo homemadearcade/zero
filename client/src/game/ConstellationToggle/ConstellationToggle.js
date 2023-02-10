@@ -6,36 +6,48 @@ import { connect } from 'react-redux';
 import Icon from '../../ui/Icon/Icon';
 import './ConstellationToggle.scss'
 import Switch from '../../ui/Switch/Switch';
-import { openConstellation, completeCloseConstellation } from '../../store/actions/gameContextActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
+import { updateLobbyUser } from '../../store/actions/lobbyActions';
 
 const ConstellationToggle = ({
-  gameContext: { isConstellationOpen, isConstellationClosing },
-  completeCloseConstellation,
-  openConstellation,
-}) => {  
+  lobby: { lobby: { id, users } },
+  cobrowsing: { cobrowsingUser },
+  updateLobbyUser
+}) => {
+  const user = users.filter(({id}) => {
+    if(cobrowsingUser?.id === id) {
+      return true
+    }
+    return false;
+  })[0]
+
+  const inConstellationView = user.inConstellationView
+
   return <div
     className="ConstellationToggle"
     onClick={async () => {
-      if(isConstellationOpen) {
-        completeCloseConstellation({})
-      } else {
-        openConstellation({})
-      }
+      updateLobbyUser({
+        lobbyId: id,
+        userId: cobrowsingUser.id, 
+        user: {
+          inConstellationView: !inConstellationView
+        }
+      })
     }}
   > 
     <Icon icon="faStar"/>
     <Switch
       size="small"
-      checked={isConstellationOpen}
+      checked={inConstellationView}
       />
   </div>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameContext: state.gameContext
+  lobby: state.lobby,
+  cobrowsing: state.cobrowsing
 });
 
 export default compose(
-  connect(mapStateToProps, { completeCloseConstellation, openConstellation }),
+  connect(mapStateToProps, { updateLobbyUser }),
 )(ConstellationToggle);

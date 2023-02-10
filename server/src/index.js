@@ -16,10 +16,11 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE } from './constants';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_SESSION_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBYS_STORE, CODRAWING_ROOM_PREFIX, GAME_SESSIONS_STORE } from './constants';
 import Lobby from './models/Lobby';
 import TicketedEvent from './models/TicketedEvent';
 import TicketPurchase from './models/TicketPurchase';
+import GameSession from './models/GameSession';
 
 const app = express();
 
@@ -146,8 +147,8 @@ const io = new Server(server, { /* options */ });
 
 const socketSessions = new InMemorySessionStore()
 
-app.set('socketio', io);
-app.set('socketSessions', socketSessions);
+app.set(SOCKET_IO_STORE, io);
+app.set(SOCKET_SESSIONS_STORE, socketSessions);
 
 server.listen(port, () => console.log(`Server started on port ${port}`));
 
@@ -169,7 +170,7 @@ io.on("connection", (socket) => {
           username: user.username,
         }
 
-        const lobbys = app.get('lobbys')
+        const lobbys = app.get(LOBBYS_STORE)
         lobbys?.forEach((lobby) => {
           lobby.users.forEach((user) => {
             if(user.id === socket.user.id) {
@@ -184,6 +185,25 @@ io.on("connection", (socket) => {
               })
               socket.join(lobby.id);
               io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
+            }
+          })
+        })
+
+        const gameSessions = app.get(GAME_SESSIONS_STORE)
+        gameSessions?.forEach((gameSession) => {
+          gameSession.players.forEach((user) => {
+            if(user.id === socket.user.id) {
+              user.connected = true
+              gameSession.messages.push({
+                user: {
+                  id: user.id,
+                  username: user.username
+                },
+                message: 'has connected',
+                automated: true
+              })
+              socket.join(gameSession.id);
+              io.to(gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession});
             }
           })
         })
@@ -247,11 +267,11 @@ io.on("connection", (socket) => {
   })
 
   socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, (payload) => {
-    io.to('codrawing@' + payload.textureId).emit(ON_CODRAWING_STROKE_ACKNOWLEDGED, payload)
+    io.to(CODRAWING_ROOM_PREFIX + payload.textureId).emit(ON_CODRAWING_STROKE_ACKNOWLEDGED, payload)
   })
 
   socket.on(ON_CODRAWING_INITIALIZE, (payload) => {
-    const socketSession = app.get('socketSessions').findSession(payload.userId)
+    const socketSession = app.get(SOCKET_SESSIONS_STORE).findSession(payload.userId)
     if(!socketSession) {
       return
     }
@@ -260,7 +280,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", async () => {
     if(socket.user?.id) {
-      const lobbys = app.get('lobbys')
+      const lobbys = app.get(LOBBYS_STORE)
       lobbys.forEach((lobby) => {
         lobby.users.forEach((user) => {
           if(user.id === socket.user.id) {
@@ -319,14 +339,44 @@ async function onMongoDBConnected() {
             role: user.role,
             joined: false,
             connected: false,
+            inConstellationView: false,
           }
         })
       }
     })
 
-    app.set('lobbys', lobbys);  
+    app.set(LOBBYS_STORE, lobbys);  
   } else {
-    app.set('lobbys', []);  
+    app.set(LOBBYS_STORE, []);  
+
+  }
+
+  let gameSessions = await GameSession.find().populate('players').populate()
+
+  if(gameSessions) {
+    gameSessions =  gameSessions.map((gam) => {
+      const gameSession = gam.toJSON()
+      return {
+        ...gameSession,
+        gameState: null,
+        messages: [],
+        players: gameSession.players.map((user) => {
+          return {
+            email: user.email,
+            id: user.id,
+            username: user.username,
+            role: user.role,
+            joined: false,
+            connected: false,
+          }
+        })
+      }
+    })
+    
+
+    app.set(GAME_SESSIONS_STORE, gameSessions);  
+  } else {
+    app.set(GAME_SESSIONS_STORE, []);  
 
   }
 }

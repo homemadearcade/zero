@@ -25,7 +25,7 @@ import {
   CLOSE_JSON_VIEWER
 } from '../types';
 
-// this could be called gameSelectorEditor
+// this could be called gameSelectorEditor, is about selecting
 const initialState = {
   error: null,
   colorIdSelected: null,

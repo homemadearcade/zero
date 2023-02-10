@@ -27,7 +27,7 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
     if(!classType) return true
     if(classType === objectClass.type) return true
     return false
-  }).map(mapClassToOption).sort((a, b) => -b.type.localeCompare(a.type))
+  }).map(mapClassToOption)
 
   if(includePlayerInstance) {
     options.push({
@@ -36,6 +36,8 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
       type: PLAYER_CLASS
     })
   }
+
+  options.sort((a, b) => -b.type.localeCompare(a.type))
 
   return <SelectChipsAuto 
     disabled={disabled}

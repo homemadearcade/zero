@@ -4,7 +4,7 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-import { ON_COBROWSING_UPDATE, ON_COBROWSING_SUBSCRIBED, ON_COBROWSING_REMOTE_DISPATCH } from '../../constants';
+import { ON_COBROWSING_UPDATE, ON_COBROWSING_SUBSCRIBED, ON_COBROWSING_REMOTE_DISPATCH, SOCKET_SESSIONS_STORE } from '../../constants';
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
 
     req.socket.join('cobrowsing@'+req.params.id);
 
-    const socketSession = req.app.get('socketSessions').findSession(req.params.id)
+    const socketSession = req.app.get(SOCKET_SESSIONS_STORE).findSession(req.params.id)
     if(socketSession) {
       socketSession.emit(ON_COBROWSING_SUBSCRIBED);
     }
@@ -64,7 +64,7 @@ router.put('/dispatch/:id', requireJwtAuth, requireSocketAuth, async (req, res) 
       return res.status(400).json({ message: 'You do not have privelages to update this users cobrowse state.' });
     }
     
-    const socketSession = req.app.get('socketSessions').findSession(req.params.id)
+    const socketSession = req.app.get(SOCKET_SESSIONS_STORE).findSession(req.params.id)
     if(!socketSession) {
       res.status(400).json({ message: 'User not connected to socket, cannot dispatch: ' + req.body.dispatchData.type });
       return

@@ -11,7 +11,6 @@ import { clearGameViewEditor } from '../../store/actions/gameViewEditorActions';
 import SectionEditor from '../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../sprites/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColor from '../stages/SelectBackgroundColor/SelectBackgroundColor';
-import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
 import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../constants';
 import GameMetadataModal from '../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../cutscene/CutscenesMenu/CutscenesMenu';
@@ -40,7 +39,6 @@ const GameEditor = ({
   classNames, 
   gameEditor: { isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen, isGridViewOn }, 
-  gameContext: { isConstellationOpen, isConstellationClosing, constellationZoomImageFile }, 
   gameFormEditor: { isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
   rightColumnRef, 
@@ -142,20 +140,17 @@ const GameEditor = ({
     </>
   }
 
-  return <>
-    {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
-    <div className={"GameEditor " + classNames}>
-      {renderBody()}
-    </div>
-  </>
+  return <div className={"GameEditor " + classNames}>
+    {renderBody()}
+  </div>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameEditor: state.gameEditor,
   gameViewEditor: state.gameViewEditor,
   gameFormEditor: state.gameFormEditor,
-  gameContext: state.gameContext,
-  gameModel: state.gameModel
+  gameModel: state.gameModel,
+  gameContext: state.gameContext
 })
 
 export default connect(mapStateToProps, { 

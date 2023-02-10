@@ -104,9 +104,16 @@ SET for actions that will likely/ideally happen once
 
 TOGGLE 
 
+EDIT
+
 honestly i dont know what any of these mean...
 
 --
 
 remove for hidding objects from UI, 
 delete for actuallt removing from atlasDB
+
+
+---
+
+You only leave lobbies and game session when you join a different lobby or game session

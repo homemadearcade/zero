@@ -51,6 +51,13 @@ import {
   GET_TICKETED_EVENT_FAIL,
   CHANGE_ERROR_STATE,
   CLEAR_ERROR_STATE,
+  GET_GAME_SESSION_FAIL,
+  EDIT_GAME_SESSION_FAIL,
+  DELETE_GAME_SESSION_FAIL,
+  UPDATE_GAME_SESSION_USER_FAIL,
+  SEND_GAME_SESSION_MESSAGE_FAIL,
+  LEAVE_GAME_SESSION_FAIL,
+  
 } from '../types';
 
 const initialState = {
@@ -84,6 +91,12 @@ export const initialErrorState = initialState
 
 export default function errorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case GET_GAME_SESSION_FAIL:
+    case EDIT_GAME_SESSION_FAIL:
+    case DELETE_GAME_SESSION_FAIL:
+    case LEAVE_GAME_SESSION_FAIL:
+    case UPDATE_GAME_SESSION_USER_FAIL:
+    case SEND_GAME_SESSION_MESSAGE_FAIL:
     case ADD_INTERFACE_PRESET_FAIL:
     case EDIT_INTERFACE_PRESET_FAIL:
     case GET_INTERFACE_PRESET_FAIL:

@@ -27,6 +27,7 @@ import checkoutReducer from './checkoutReducer';
 import interfacePresetReducer from './interfacePresetReducer';
 import snackbarReducer from './snackbarReducer';
 import themeReducer from './themeReducer';
+import gameSessionReducer from './gameSessionReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -55,5 +56,6 @@ export default combineReducers({
   interfacePreset: interfacePresetReducer,
   checkout: checkoutReducer,
   snackbar: snackbarReducer,
-  theme: themeReducer
+  theme: themeReducer,
+  gameSession: gameSessionReducer
 });

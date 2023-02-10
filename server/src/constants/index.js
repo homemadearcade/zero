@@ -40,11 +40,11 @@ export const ON_GAME_MODEL_UPDATE = 'ON_GAME_MODEL_UPDATE';
 export const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE';
 
 
-// PUT /lobby/:id, Many Other Places
-// FROM: Lobby Member 
-// TO: Lobby Members
-// Pushes to Lobby chat
-export const ON_LOBBY_SEND_MESSAGE = 'ON_LOBBY_SEND_MESSAGE';
+// // PUT /lobby/:id, Many Other Places
+// // FROM: Lobby Member 
+// // TO: Lobby Members
+// // Pushes to Lobby chat
+// export const ON_LOBBY_SEND_MESSAGE = 'ON_LOBBY_SEND_MESSAGE';
 
 // Socket ON_LOBBY_USER_STATUS_UPDATE
 // FROM Lobby Mamber 
@@ -135,6 +135,20 @@ export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 
 
 
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+//// GAME SESSION
+export const ON_GAME_SESSION_UPDATE = 'ON_GAME_SESSION_UPDATE';
+
+
+
 export const CODRAWING_ROOM_PREFIX = 'codrawing@'
 export const COBROWSING_ROOM_PREFIX = 'cobrowsing@'
 export const ADMIN_ROOM_PREFIX = 'admins@'
+
+
+export const SOCKET_SESSIONS_STORE = 'SOCKET_SESSIONS_STORE'
+export const GAME_SESSIONS_STORE = 'GAME_SESSIONS_STORE'
+export const LOBBYS_STORE = 'LOBBYS_STORE'
+export const SOCKET_IO_STORE = 'SOCKET_IO_STORE'

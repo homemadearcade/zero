@@ -29,7 +29,6 @@ import {
   ON_LOBBY_UPDATE,
   ON_LOBBY_USER_STATUS_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
-  UPDATE_ONBOARDING_STEP,
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
@@ -44,8 +43,6 @@ import { getCurrentGameScene } from '../../utils/editorUtils';
 import { BACKGROUND_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../game/constants';
 import { editGameModel } from './gameModelActions';
 import store from '..';
-import { PHASER_ERROR } from '../../lobby/constants';
-import { clearErrorState } from './errorsActions';
 import { setRecentlyFocused } from './webPageActions';
 
 let pingInterval;
@@ -272,7 +269,6 @@ export const updateLobbyUser = ({userId, lobbyId, user}) => async (dispatch, get
   }
 };
 
-
 export const getLobbyById = (id, history) => async (dispatch, getState) => {
   dispatch({
     type: GET_LOBBY_LOADING,
@@ -376,9 +372,6 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
 
     // event is triggered to all users in this lobby when lobby is updated
     window.socket.on(ON_LOBBY_UPDATE, ({lobby}) => {
-      if(lobby.isGamePoweredOn === false && getState().errors.errorStates[PHASER_ERROR].on) {
-        dispatch(clearErrorState(PHASER_ERROR))
-      }
       dispatch({
         type: ON_LOBBY_UPDATE,
         payload: { lobby },

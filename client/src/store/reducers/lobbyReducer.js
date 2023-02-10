@@ -17,12 +17,9 @@ import {
   DELETE_LOBBY_FAIL,
   ASSIGN_LOBBY_ROLE_FAIL,
   ON_LOBBY_UPDATE,
-  START_VIDEO_CALL_SUCCESS,
-  UPDATE_ONBOARDING_STEP,
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
-  CHANGE_ERROR_STATE,
   SEND_LOBBY_MESSAGE_FAIL
 } from '../types';
 
@@ -35,8 +32,6 @@ const initialState = {
   isJoining: false,
   joinError: null,
   isUndoing: false,
-  connectionState: null,
-  connectionMessage: null
 };
 
 export default function lobbyReducer(state = initialState, { type, payload }) {
@@ -96,10 +91,6 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         isLoading: false,
         lobby: initialState.lobby,
       };
-    case START_VIDEO_CALL_SUCCESS:
-      return {
-        ...state,
-      };
     case JOIN_LOBBY_FAIL:
       return {
         ...state,
@@ -127,18 +118,6 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         lobby: {...payload.lobby, users: payload.lobby.users.slice()}
       };
-    case UPDATE_ONBOARDING_STEP: 
-      return {
-        ...state,
-        onboardingStep: payload.onboardingStep
-      };
-
-    case CHANGE_ERROR_STATE: 
-      return {
-        ...state,
-        connectionState: payload.connectionState,
-        connectionMessage: payload.connectionMessage
-      }
     default:
       return state;
   }
