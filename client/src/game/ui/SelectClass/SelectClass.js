@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectClass.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
+import { PLAYER_CLASS, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
 
 const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classType, includePlayerInstance }) => {
@@ -32,7 +32,8 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
   if(includePlayerInstance) {
     options.push({
       label: 'Player',
-      value: PLAYER_INSTANCE_ID_PREFIX
+      value: PLAYER_INSTANCE_ID_PREFIX,
+      type: PLAYER_CLASS
     })
   }
 

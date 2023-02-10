@@ -21,10 +21,6 @@ const GroupHeader = styled('div')(({ theme }) => ({
       : darken(theme.palette.primary.main, 0.8),
 }));
 
-const GroupItems = styled('ul')({
-  padding: 0,
-});
-
 const GroupContainer = styled('ul')({
   padding: 0,
 });

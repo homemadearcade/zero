@@ -6,6 +6,7 @@ import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
+import { classTypeToDisplayName } from '../../defaultData/class';
 
 const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType }) => {
   const mapClassToOption = (collidingClassId) => {
@@ -16,7 +17,8 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
       value: collidingClassId,
       textureId: objectClass.graphics.textureId,
       tint: objectClass.graphics.tint,
-      isRemoved: objectClass.isRemoved
+      isRemoved: objectClass.isRemoved,
+      type: objectClass.type
     }
   }
   
@@ -37,11 +39,14 @@ const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType })
     //   return false
     // }
     return true
-  })
+  }).sort((a, b) => -b.type.localeCompare(a.type))
 
   return <SelectChipsAuto 
     onChange={(event, classIds) => {
       onChange(event,  classIds)
+    }}
+    groupBy={option => {
+      return classTypeToDisplayName[option.type]
     }}
     hideRemoved
     formLabel={formLabel}
