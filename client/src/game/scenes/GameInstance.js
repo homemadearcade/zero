@@ -413,7 +413,7 @@ export class GameInstance extends Phaser.Scene {
       const objectInstanceData = objects[gameObjectId]
       if(!objectInstanceData) {
         // LEGACY
-        if(gameObjectId === 'oi/playspawnzone') {
+        if(gameObjectId === 'oi/playspawnzone' || gameObjectId === 'oi-playspawnzone') {
           this.initializeObjectInstance(gameObjectId, initialPlayerSpawnZone)
           return
         } else {

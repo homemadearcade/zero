@@ -941,7 +941,7 @@ export class EditorScene extends GameInstance {
       const gameResetDate = lobby.gameResetDate
       if(gameResetDate > this.gameResetDate) {
         this.gameResetDate = gameResetDate
-        this.reload()
+        this.reset()
       }
     }
 

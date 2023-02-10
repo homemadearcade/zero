@@ -2,8 +2,8 @@ import { BOUNDARY_COLLIDE, BOUNDARY_DESTROY, BOUNDARY_WRAP } from "../constants"
 import { gameSize } from "./general";
 
 export const initialPlayerSpawnZone = {
-  id: 'oi/playerspawnzone',
-  classId: 'oc/z/playerspawnzone',
+  id: 'oi-playerspawnzone',
+  classId: 'oc-z-playerspawnzone',
   spawnX: gameSize/2,
   spawnY: gameSize/2,
 }
@@ -33,9 +33,9 @@ export const initialStage = {
   ...defaultStage,
   name: 'Stage # 1',
   'playerClassId': 'oc-pl-vehicle',
-  'spawnZoneClassId': 'oc/z/playerspawnzone',
+  'spawnZoneClassId': 'oc-z-playerspawnzone',
   objects: {
-    'oi/playerspawnzone': {
+    'oi-playerspawnzone': {
       ...initialPlayerSpawnZone
     }
   },
