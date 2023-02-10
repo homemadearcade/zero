@@ -40,10 +40,10 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
 
   useEffect(() => {
     const agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
-    if(agoraPreferences.videoTrackId) {
+    if(agoraPreferences?.videoTrackId) {
       setVideoTrackId(agoraPreferences.videoTrackId)
     }
-    if(agoraPreferences.audioTrackId) {
+    if(agoraPreferences?.audioTrackId) {
       setAudioTrackId(agoraPreferences.audioTrackId)
     }
   }, [])

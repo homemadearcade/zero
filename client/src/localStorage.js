@@ -17,7 +17,8 @@ window.LocalStorageSession =
     //retrieve an item from localStorage
     getItem : function (key)
     {
-        if(localStorage.getItem(key) === undefined)
+        // eslint-disable-next-line eqeqeq
+        if(localStorage.getItem(key) == undefined)
             return {};
 
         return JSON.parse(localStorage.getItem(key));
