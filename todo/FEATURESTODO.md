@@ -14,6 +14,15 @@ INFO BOX
 
   ALSO What you currently have selected with your mouse, and perhaps the current game state, and title of game?
 
+CLASS LIBRARY BOX
+  TOWERS
+  Enemy Projectiles.. Towers. Different kinds of Towers... Area Effect
+  Some that face you
+  yes very smart, very very smart
+  Select Class for Follow Movement 
+
+----
+
 EMAILS
   Forgot Password - email Flow
   All sorts of emails for tickets
@@ -24,9 +33,6 @@ TICKETING
     Create Lobby with sold ticket
   Ticket Receipt Page
   Open Ticket Modal effect
+  when a ticketing service makes a game, name it ( guest name + date )
 
-CLASS LIBRARY BOX
-  TOWERS
-  Enemy Projectiles.. Towers. Different kinds of Towers... Area Effect
-  Some that face you
-  yes very smart, very very smart
+

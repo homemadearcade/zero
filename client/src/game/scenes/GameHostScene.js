@@ -11,7 +11,7 @@ export class GameHostScene extends EditorScene {
   constructor(props) {
     super(props);
 
-    this.sceneInstanceData = props.sceneInstanceData
+    this.gameSession = props.gameSession
 
     this.lastAcknowledgement = null
     
@@ -21,7 +21,7 @@ export class GameHostScene extends EditorScene {
     this.upsClient = 0
     this.upsServer = 0
 
-    this.gameInstanceId = props.sceneInstanceData.gameInstanceId
+    this.gameInstanceId = props.gameSession.gameInstanceId
   }
 
   callAnimation({type, data}) {

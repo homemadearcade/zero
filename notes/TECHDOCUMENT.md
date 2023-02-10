@@ -88,3 +88,25 @@ ui
 hoc
 constants
 state
+
+-----
+
+- for continuing words
+_ for seperating words
+
+---
+
+UPDATE for changes that were made remotely, not by you
+
+CHANGE for actions that YOU made that will happen occasionally
+
+SET for actions that will likely/ideally happen once
+
+TOGGLE 
+
+honestly i dont know what any of these mean...
+
+--
+
+remove for hidding objects from UI, 
+delete for actuallt removing from atlasDB

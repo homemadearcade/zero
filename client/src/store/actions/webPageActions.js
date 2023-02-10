@@ -1,4 +1,4 @@
-import { SET_GAME_INSTANCE, SET_SPRITE_EDITOR_GAME_INSTANCE } from '../types';
+import { SET_GAME_INSTANCE, SET_RECENTLY_FOCUSED, SET_SPRITE_EDITOR_GAME_INSTANCE } from '../types';
 
 export const setSpriteEditorGameInstance = (gameInstance) => (dispatch, getState) => {
   dispatch({
@@ -18,3 +18,12 @@ export const setGameInstance = (gameInstance, id) => (dispatch, getState) => {
     }
   })
 };
+
+export const setRecentlyFocused = (value) => (dispatch, getState) => {
+  dispatch({
+    type: SET_RECENTLY_FOCUSED,
+    payload: {
+      value
+    }
+  });
+}

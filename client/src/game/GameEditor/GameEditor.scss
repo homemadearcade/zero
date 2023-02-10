@@ -11,19 +11,21 @@
 
   transition: background-color .2s;
 
+  &--cobrowsing-border {
+    border: 1px solid red;
+    .CobrowsingModal__body {
+      background-color: rgba(25, 0, 0);
+      border: 1px solid red;
+    }
+  }
+
   &--cobrowsing {
     height: calc(100vh - 2px);
     width: calc(100vh + 40vh - 2px);
     background-color: rgba(25,0,0);
-    border: 1px solid red;
-
-      .CobrowsingModal__body {
-            background-color: rgba(25, 0, 0);
-              border: 1px solid red;
-      }
-
-      .MuiPaper-root {
-            background-color: rgba(25, 0, 0);      }
+    .MuiPaper-root {
+      background-color: rgba(25, 0, 0);      
+    }
   }
 
   &__left-column {

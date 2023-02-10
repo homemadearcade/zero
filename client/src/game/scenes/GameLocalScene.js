@@ -6,7 +6,7 @@ export class GameLocalScene extends EditorScene {
   constructor(props) {
     super(props);
 
-    this.sceneInstanceData = props.sceneInstanceData
+    this.gameSession = props.gameSession
 
   }
 

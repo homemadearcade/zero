@@ -12,7 +12,7 @@ import { EraserSingleLayer } from '../drawing/EraserSingleLayer';
 import store from '../../store';
 
 export class CodrawingScene extends Phaser.Scene {
-  constructor({key, textureId, newAwsImageId, awsImageId, tint, size}) {
+  constructor({key, textureId, newAwsImageId, tint, size}) {
     super({
       key: key,
     });
@@ -210,7 +210,7 @@ export class CodrawingScene extends Phaser.Scene {
     this.load.on('complete', this.onSpriteSheetsLoaded);
     
     this.backgroundLayer = new CodrawingCanvas(this, {
-      isHost: true, 
+      isCodrawingHost: true, 
       canvasId: SPRITE_EDITOR_CANVAS_ID + '/' + this.newAwsImageId,
       stageId: null,
       boundaries: this.boundaries

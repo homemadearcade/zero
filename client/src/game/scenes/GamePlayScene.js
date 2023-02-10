@@ -9,7 +9,7 @@ export class GamePlayScene extends GameInstance {
   constructor(props) {
     super(props);
 
-    this.sceneInstanceData = props.sceneInstanceData
+    this.gameSession = props.gameSession
   }
 
   callAnimation({type, data}) {

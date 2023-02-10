@@ -14,7 +14,7 @@ import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_
 import { getThemePrimaryColor } from '../../utils/webPageUtils';
 
 
-const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameContext: { gameState }, lobby: { lobby }, onInstanceUndo}) => {
+const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameContext: { gameState }}) => {
   const color = getThemePrimaryColor().hexString
 
   function renderStop() {

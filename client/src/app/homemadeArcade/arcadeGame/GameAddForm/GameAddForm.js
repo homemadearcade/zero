@@ -64,7 +64,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
 
   return (
     <div className="GameAddForm">
-      <Typography variant="h2" component="h2">Add a game</Typography> 
+      <Typography variant="h5" component="h5">Add a game</Typography> 
       <form onSubmit={formik.handleSubmit}>
         <Button startIcon={<Icon icon="faPlus"/>} type="submit" className="btn">Add Game</Button>
       </form>

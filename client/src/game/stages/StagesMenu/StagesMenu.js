@@ -42,10 +42,10 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
               name: stage.name + 'copy'
             })
           }}>Copy</Button>
-          {gameModel.player.initialStageId !== stageId && stage.playerClassId && <Button onClick={() => {
+          {gameModel.player.startingStageId !== stageId && stage.playerClassId && <Button onClick={() => {
             editGameModel({
               player: {
-                initialStageId: stageId
+                startingStageId: stageId
               }
             })
           }}>Set as Start Stage</Button>}

@@ -16,6 +16,8 @@ import {
   CHANGE_CONTROL_POPUP,
 } from '../types';
 
+// these are things that are only shared if you are cobrowsing!!, 
+// player interfaceReducer
 const initialState = {
   cutsceneId: null,
   cutsceneClassId: null,

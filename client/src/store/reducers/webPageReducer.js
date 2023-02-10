@@ -1,9 +1,10 @@
-import { CLOSE_SPRITE_EDITOR, SET_GAME_INSTANCE, SET_SPRITE_EDITOR_GAME_INSTANCE } from '../types';
+import { CLOSE_SPRITE_EDITOR, SET_GAME_INSTANCE, SET_RECENTLY_FOCUSED, SET_SPRITE_EDITOR_GAME_INSTANCE } from '../types';
 
 const initialState = {
   gameInstance: null,
   gameInstanceId: null,
   spriteEditorGameInstance: null,
+  recentlyFocused: null
 };
 
 export default function pageReducer(state = initialState, { type, payload }) {
@@ -23,6 +24,11 @@ export default function pageReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         spriteEditorGameInstance: payload.gameInstance
+      }
+    case SET_RECENTLY_FOCUSED: 
+      return {
+        ...state,
+        recentlyFocused: payload.value
       }
     default:
       return state;

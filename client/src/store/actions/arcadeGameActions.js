@@ -209,7 +209,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
 
     const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
-    dispatch(changeCurrentStage(gameData.player.initialStageId))
+    dispatch(changeCurrentStage(gameData.player.startingStageId))
     
     const stages = Object.keys(gameData.stages).map((stageId) => {
       gameData.stages[stageId] = mergeDeep(_.cloneDeep(defaultStage), gameData.stages[stageId])

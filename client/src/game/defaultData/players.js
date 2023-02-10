@@ -1,17 +1,23 @@
-import { PLAYER_CLASS } from "../constants"
+import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS, PLAYER_CLASS_TYPE_PREFIX } from "../constants"
 import { defaultClass } from "./class"
 import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from "./movement"
 import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"
+
+export const vehiclePlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'vehicle'
+export const jumperPlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'jumper'
+export const directionalPlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'directional'
 
 export const defaultPlayerClass = {
   ...defaultClass,
   type: PLAYER_CLASS,
 }
 
+
+
 export const vehicleClass = {
   ...defaultPlayerClass,
   interfaceLocked: true,
-  classId: 'oc/pl/vehicle',
+  classId: vehiclePlayerClassId,
   name: 'vehicle',
   graphics: {
     tint: '#FFFFFF',
@@ -28,7 +34,7 @@ export const vehicleClass = {
 export const jumperClass = {
   ...defaultPlayerClass,
   interfaceLocked: true,
-  classId: 'oc/pl/jumper',
+  classId: jumperPlayerClassId,
   name: 'jumper',
   graphics: {
     tint: '#FFFFFF',
@@ -48,7 +54,7 @@ export const jumperClass = {
 export const directionalClass = {
   ...defaultPlayerClass,
   interfaceLocked: true,
-  classId: 'oc/pl/directional',
+  classId: directionalPlayerClassId,
   name: 'directional',
   graphics: {
     tint: '#FFFFFF',

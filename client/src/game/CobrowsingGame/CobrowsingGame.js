@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -15,7 +15,7 @@ import Typography from '../../ui/Typography/Typography';
 const CobrowsingGame = ({ auth: { me }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserId }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => {   
 
   return <GameEditor 
-      classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool})}
+      classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}
       leftColumn={<>
         <AgoraVideoLayoutHA myTracks={myTracks} userTracks={userTracks}/>
       </>}

@@ -33,6 +33,7 @@ import {
   CLOSE_CREATE_STAGE,
 } from '../types';
 
+// game create editor
 const initialState = {
   isCreateBrushFlowOpen: false,
   brush: {

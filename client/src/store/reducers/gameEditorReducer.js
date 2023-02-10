@@ -25,9 +25,7 @@ import {
   CLOSE_JSON_VIEWER
 } from '../types';
 
-import { generateUniqueId } from '../../utils/webPageUtils';
-import { SPRITE_EDITOR_ID_PREFIX } from '../../game/constants';
-
+// this could be called gameSelectorEditor
 const initialState = {
   error: null,
   colorIdSelected: null,

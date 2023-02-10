@@ -39,7 +39,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
 
   function renderStateScreen() {
     if(gameState === START_STATE) {
-      const playerClass = gameModel.classes[gameModel.stages[gameModel.player.initialStageId].playerClassId]
+      const playerClass = gameModel.classes[gameModel.stages[gameModel.player.startingStageId].playerClassId]
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2"><div ref={ref} style={{fontSize}} className='StateScreen__title'>
@@ -66,7 +66,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
           <div className="StateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
           </div>
-          <Link to="/games"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>
+          {!store.getState().lobby.lobby.id && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>
       </Constellation>
     }
@@ -74,14 +74,13 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
       return <Constellation notInteractive>
         <Fade in><div className="StateScreen__content">
           <Typography font="2P" component="h2" variant="h2">You won!</Typography>
-           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
           {gameStateMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='StateScreen__title'>
           {gameStateMessage}
         </div></Typography>}
           <div className="StateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
           </div>
-          <Link to="/games"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>
+          {!store.getState().lobby.lobby.id && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>
       </Constellation>
     }

@@ -24,14 +24,15 @@ const ObscuredGameView = ({
   gameModel,
   errors: { errorStates },
   editLobby,
-  clearErrorState
+  clearErrorState,
+  webPage: { recentlyFocused }
 }) => {
   const { isObscured, isUnlocked } = getInterfaceIdData(GAME_VIEW_IID)
 
   function renderOverlay() {
     if(cobrowsingUser.role === ADMIN_ROLE) return
 
-    if(errorStates[PHASER_ERROR].on) return <div className="GameView__empty">
+    if(errorStates[PHASER_ERROR].on && !recentlyFocused) return <div className="GameView__empty">
       <Icon icon="faTriangleExclamation"></Icon>
       Game Error
       {me.role === ADMIN_ROLE && <Button onClick={async () => {
@@ -92,6 +93,7 @@ const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
   unlockableInterfaceIds: state.unlockableInterfaceIds,
   errors: state.errors,
+  webPage: state.webPage
 });
 
 export default compose(

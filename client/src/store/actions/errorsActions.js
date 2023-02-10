@@ -3,7 +3,7 @@ import {
   CHANGE_ERROR_STATE,
   CLEAR_ERROR,
   CLEAR_ERROR_STATE,
-  ON_CLEAR_COBROWSING_STATUS
+  ON_CLEAR_COBROWSING_STATUS,
 } from '../types';
 import { subscribeCobrowsing, unsubscribeCobrowsing } from './cobrowsingActions';
 

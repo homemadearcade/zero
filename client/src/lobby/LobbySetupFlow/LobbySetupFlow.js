@@ -460,7 +460,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Open'
         },
-        sayThis(`Thank them for coming! Its now time to say goobye`),
+        sayThis(`Thank them for coming! Its now time to say goodbye`),
         {
           id: 'Turn off everyones Video/Audio',
           title: <Typography component="h5" variant="h5">Turn off everyones Video/Audio</Typography>,

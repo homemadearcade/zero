@@ -34,7 +34,6 @@ import {
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
   ON_LOBBY_UNDO,
-  CHANGE_ERROR_STATE,
   SEND_LOBBY_MESSAGE_LOADING,
   SEND_LOBBY_MESSAGE_SUCCESS,
   SEND_LOBBY_MESSAGE_FAIL
@@ -47,9 +46,11 @@ import { editGameModel } from './gameModelActions';
 import store from '..';
 import { PHASER_ERROR } from '../../lobby/constants';
 import { clearErrorState } from './errorsActions';
-import { date } from 'yup';
+import { setRecentlyFocused } from './webPageActions';
 
 let pingInterval;
+
+const recentlyFocusedDelta = 3000
 
 export function onSpriteEditorUndo() {
   const state = store.getState()
@@ -100,14 +101,6 @@ export function onInstanceUndo() {
     }
   }
 }
-
-export const updateOnboardingStep = (step) => async (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: UPDATE_ONBOARDING_STEP,
-    payload: { onboardingStep: step },
-  });
-};
 
 export const lobbyUndo = () => async (dispatch, getState) => {
   dispatch({
@@ -360,19 +353,24 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
     const options = attachTokenToHeaders(getState);
     const response = await axios.post(`/api/lobbys/join/${lobbyId}`, { userId }, options);
 
-    let isFocused = false
-    window.addEventListener('focus', () => {
-      isFocused = true
-    })
-    window.addEventListener('blur', () => {
-      isFocused = false
-    })
-    
+    window.lastIsFocused = true
     pingInterval = window.setInterval(async () => {
       const pingDelta = await ping(window.location.origin)
+
+      window.isFocused= !document.hidden
+      if(!window.lastIsFocused && !window.isFocused) {
+        dispatch(setRecentlyFocused(true))
+      }
+      if(window.lastIsFocused === false && window.isFocused) {
+        setTimeout(() => {
+          dispatch(setRecentlyFocused(false))
+        }, recentlyFocusedDelta)
+      }
+      window.lastIsFocused = window.isFocused
+
       window.socket.emit(ON_LOBBY_USER_STATUS_UPDATE, { status: {
         lastSeen: Date.now(),
-        pingDelta, isFocused, isFullscreen: document.fullscreenElement,
+        pingDelta, isFocused: !document.hidden, isFullscreen: document.fullscreenElement,
       }, userId, lobbyId })
     }, 3000);
 

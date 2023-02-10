@@ -79,7 +79,6 @@ const GameEditor = ({
     }
 
     return <>
-      {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
         {showColumns && <>
@@ -144,6 +143,7 @@ const GameEditor = ({
   }
 
   return <>
+    {isConstellationOpen && <Constellation className="Constellation--overlay" zoomOut zoomIn={isConstellationClosing} zoomOutImage={constellationZoomImageFile} />}
     <div className={"GameEditor " + classNames}>
       {renderBody()}
     </div>

@@ -33,7 +33,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.physicsType = ARCADE_PHYSICS
 
-    this.sceneInstanceData = props.sceneInstanceData
+    this.gameSession = props.gameSession
 
     this.lastUpdate = null
   }
@@ -441,10 +441,10 @@ export class GameInstance extends Phaser.Scene {
     const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
 
-    this.backgroundLayer = new CodrawingCanvas(this, {isHost: this.sceneInstanceData.isHost, canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
+    this.backgroundLayer = new CodrawingCanvas(this, {isCodrawingHost: this.gameSession.isHost, canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {isHost: this.sceneInstanceData.isHost, canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
+    this.playgroundLayer = new CollisionCanvas(this, {isCodrawingHost: this.gameSession.isHost, canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
     this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
     this.objectInstanceGroup = this.add.group()
@@ -460,7 +460,7 @@ export class GameInstance extends Phaser.Scene {
     this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {isHost: this.sceneInstanceData.isHost, canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
+    this.foregroundLayer = new CodrawingCanvas(this, {isCodrawingHost: this.gameSession.isHost, canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
     this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
@@ -553,8 +553,8 @@ export class GameInstance extends Phaser.Scene {
 
   sendResetGameEvent() {
     // this updates here because all players are watching the current stage right now
-    const initialStageId = store.getState().gameModel.gameModel.player.initialStageId
-    store.dispatch(changeCurrentStage(initialStageId))
+    const startingStageId = store.getState().gameModel.gameModel.player.startingStageId
+    store.dispatch(changeCurrentStage(startingStageId))
 
     if(store.getState().lobby.lobby?.id) {
       store.dispatch(editLobby(store.getState().lobby.lobby.id, {

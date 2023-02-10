@@ -9,17 +9,16 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 const LobbyErrorStates = ({
   errors: { errorStates },
-  clearErrorState
+  clearErrorState,
+  webPage: { recentlyFocused }
 }) => {
   function renderErrors() {
-    if(errorStates[GAME_CONNECTION_LOST].on) return <Dialog open onClose={() => {
-      clearErrorState(GAME_CONNECTION_LOST)
-    }}>
+    if(errorStates[GAME_CONNECTION_LOST].on && !recentlyFocused) return <Dialog open>
       <DialogTitle>Game Connection Lost</DialogTitle>
       <DialogContent>{errorStates[GAME_CONNECTION_LOST].message}</DialogContent>
     </Dialog>
 
-   if(errorStates[COBROWSING_CONNECTION_LOST].on) {
+   if(errorStates[COBROWSING_CONNECTION_LOST].on && !recentlyFocused) {
       return <Dialog open>
         <DialogTitle>Cobrowsing Connection Lost</DialogTitle>
         <DialogContent>{errorStates[COBROWSING_CONNECTION_LOST].message ? errorStates[COBROWSING_CONNECTION_LOST].message : 'Attempting to reconnect...'}</DialogContent>
@@ -32,6 +31,7 @@ const LobbyErrorStates = ({
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  webPage: state.webPage
 });
 
 export default compose(

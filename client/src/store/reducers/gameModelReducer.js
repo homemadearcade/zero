@@ -9,6 +9,7 @@ import {
   CHANGE_CURRENT_STAGE,
 } from '../types';
 
+// these things are game session oriented, but not controlled by the game session
 const initialState = {
   currentStageId: null,
   isLoading: false,

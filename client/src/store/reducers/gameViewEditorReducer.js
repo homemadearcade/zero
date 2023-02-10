@@ -11,6 +11,7 @@ import {
   CHANGE_CLASS_ID_HOVERING,
 } from '../types';
 
+// these are editor things that take place within the game view
 const initialState = {
   layerVisibility: {
     [STAGE_BACKGROUND_CANVAS_ID]: true,
@@ -27,6 +28,7 @@ const initialState = {
   isSectionEditorOpen: false,
   isSnapshotTakerOpen: false,
   snapshotFileId: null,
+  // this could be on the playerInterface reducer
   cameraShakeIntensity: null,
   cameraShakeEndTime: 0,
   classIdHovering: null

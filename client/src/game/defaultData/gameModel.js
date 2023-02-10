@@ -1,8 +1,8 @@
 // import { BACKGROUND_CANVAS_ID } from "../constants";
 import { defaultZoneClass } from "./class";
 import { nodeSize } from "./general";
-import { directionalClass, jumperClass, vehicleClass } from "./players";
-import { initialStage } from "./stage";
+import { directionalClass, directionalPlayerClassId, jumperClass, jumperPlayerClassId, vehicleClass, vehiclePlayerClassId } from "./players";
+import { initialSpawnZoneClassId, initialStage, initialStageId } from "./stage";
 
 export const defaultGameModel = {
   "metadata": {
@@ -15,7 +15,7 @@ export const defaultGameModel = {
     isPublished: false
   },
   "stages": {
-    'stage-default': {
+     [initialStageId]: {
       ...initialStage
     }
   },
@@ -41,16 +41,16 @@ export const defaultGameModel = {
   },
   "player": {
     "lives": 1,
-    'initialStageId': 'stage-default'
+    'startingStageId': initialStageId
   },
   "classes": {
-    "oc-pl-vehicle": vehicleClass,
-    "oc-pl-jumper": jumperClass,
-    "oc-pl-directional": directionalClass,
-    'oc-z-playerspawnzone': {
+    [vehiclePlayerClassId]: vehicleClass,
+    [jumperPlayerClassId]: jumperClass,
+    [directionalPlayerClassId]: directionalClass,
+    [initialSpawnZoneClassId]: {
       name: 'Player Spawn Zone',
       ...defaultZoneClass,
-      classId: 'oc-z-playerspawnzone',
+      classId: [initialSpawnZoneClassId],
       graphics: {
         ...defaultZoneClass.graphics,
         tint: '#FFFFFF'
@@ -60,7 +60,7 @@ export const defaultGameModel = {
     'oc/z/playerspawnzone': {
       name: 'Legacy Player Spawn Zone',
       ...defaultZoneClass,
-      classId: 'oc-z-playerspawnzone',
+      classId: [initialSpawnZoneClassId],
       graphics: {
         ...defaultZoneClass.graphics,
         tint: '#FFFFFF'

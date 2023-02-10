@@ -14,7 +14,7 @@ export class PreloaderScene extends Phaser.Scene {
       key: PRELOADER_SCENE,
     });
 
-    this.sceneInstanceData = {
+    this.gameSession = {
       isHost: props.isHost,
       isNetworked: props.isNetworked,
       isPlay: props.isPlay,
@@ -22,7 +22,7 @@ export class PreloaderScene extends Phaser.Scene {
     }
 
     if(store.getState().webPage.gameInstanceId) {
-      console.error('a new game has been loaded for some reason with id', this.sceneInstanceData.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)
+      console.error('a new game has been loaded for some reason with id', this.gameSession.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)
     }
   }
 
@@ -99,7 +99,7 @@ export class PreloaderScene extends Phaser.Scene {
   };
 
   addGameScene(key) {
-    this.scene.add(key, createGameSceneInstance(key, this.sceneInstanceData));
+    this.scene.add(key, createGameSceneInstance(key, this.gameSession));
   }
 
   playGame = () => {
@@ -108,7 +108,7 @@ export class PreloaderScene extends Phaser.Scene {
       this.addGameScene(stageId)
     })
     
-    this.scene.start(gameModel.player.initialStageId, { firstStage: true })
+    this.scene.start(gameModel.player.startingStageId, { firstStage: true })
 
     this.game.scene.remove(PRELOADER_SCENE);
     this.destroy();

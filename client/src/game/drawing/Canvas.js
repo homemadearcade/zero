@@ -39,7 +39,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   save = async ()  => {
-    if(!this.isHost) return
+    if(!this.isCodrawingHost) return
     return new Promise(async (resolve, reject) => {
       try {    
         const fileId = this.textureId

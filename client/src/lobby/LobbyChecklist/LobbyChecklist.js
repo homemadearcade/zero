@@ -49,7 +49,7 @@ const LobbyChecklist = ({
     {
       text: 'Participant is present',
       test: () => {
-        return lobbyUserStatuses[lobby.participantId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now()
+        return lobbyUserStatuses[lobby.participantId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyUserStatuses[lobby.participantId]?.isFocused
       },
       required: true,
     },
@@ -63,7 +63,7 @@ const LobbyChecklist = ({
     {
       text: 'Guide is present',
       test: () => {
-        return lobbyUserStatuses[lobby.guideId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now()
+        return lobbyUserStatuses[lobby.guideId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyUserStatuses[lobby.guideId]?.isFocused
       },
       required: true,
     },
@@ -77,7 +77,7 @@ const LobbyChecklist = ({
     {
       text: 'Game Host is present',
       test: () => {
-        return lobbyUserStatuses[lobby.gameHostId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now()
+        return lobbyUserStatuses[lobby.gameHostId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyUserStatuses[lobby.gameHostId]?.isFocused
       },
       required: true,
     },

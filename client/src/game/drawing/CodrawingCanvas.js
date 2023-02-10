@@ -11,17 +11,14 @@ export class CodrawingCanvas extends Canvas {
     super(scene, props)
 
     // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
-    this.isHost = props.isHost
-
-    const state = store.getState()
-    const lobby = state.lobby.lobby
-    if(!lobby.id) return
-
+    this.isCodrawingHost = props.isCodrawingHost
     this.canvasId = props.canvasId
     this.scene = scene
 
+    if(!this.scene.gameSession.isNetworked) return
+
     this.strokesPending = []
-    if(!this.isHost) {
+    if(!this.isCodrawingHost) {
       this.strokeCheckInterval = setInterval(this.pendingStrokeCheck, noCodrawingStrokeUpdateDelta/5)
       window.socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, ({ strokeId, textureId }) => {
         if(this.textureId !== textureId) return
@@ -35,7 +32,7 @@ export class CodrawingCanvas extends Canvas {
     this.blockLocalStrokes = false
     store.dispatch(subscribeCodrawing(this.textureId))
 
-    if(this.isHost) {
+    if(this.isCodrawingHost) {
       this.blockLocalStrokes = false
       this.strokeHistory = []
       this.oldStrokes = []
@@ -69,7 +66,7 @@ export class CodrawingCanvas extends Canvas {
 
       if(textureId !== this.textureId) return 
 
-      if(this.isHost) this.strokeHistory.push(strokeData)
+      if(this.isCodrawingHost) this.strokeHistory.push(strokeData)
 
       if(userId === me.id) return 
 
@@ -77,7 +74,7 @@ export class CodrawingCanvas extends Canvas {
 
       const canvas = this.scene.getLayerById(textureId)
       if(canvas.createCollisionBody) canvas.createCollisionBody()
-      if(this.isHost) {
+      if(this.isCodrawingHost) {
         this.onStrokeReleased()
         window.socket.emit(ON_CODRAWING_STROKE_ACKNOWLEDGED, { strokeId, userId, textureId })
       }
@@ -118,9 +115,7 @@ export class CodrawingCanvas extends Canvas {
   }
 
   destroy() {
-    const state = store.getState()
-    const lobby = state.lobby.lobby
-    if(!lobby.id) return
+    if(!this.scene.gameSession.isNetworked) return
     
     super.destroy()
 

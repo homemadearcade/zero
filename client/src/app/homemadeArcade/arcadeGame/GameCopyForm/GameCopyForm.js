@@ -15,7 +15,7 @@ const GameCopyForm = ({ copyArcadeGameToUser, onSubmit }) => {
 
   return (
     <div className="GameCopyForm">
-      <Typography variant="h2" component="h2">Copy Game To User</Typography> 
+      <Typography variant="h5" component="h5">Copy Game To User</Typography> 
       <SelectGame onSelect={(game) => {
         setGameId(game)
       }}></SelectGame>

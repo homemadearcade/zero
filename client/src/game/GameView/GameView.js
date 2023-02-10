@@ -77,7 +77,14 @@ const GameView = (props) => {
   return <PhaserGame {...props}></PhaserGame>
 }
 
-const PhaserGame = ({isHost, isNetworked, isPlay, setGameInstance, changeErrorState, clearErrorState }) => {
+const PhaserGame = ({
+  isHost, 
+  isNetworked, 
+  isPlay,
+  setGameInstance, 
+  changeErrorState, 
+  clearErrorState 
+}) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     const gameInstanceId =  GAME_INSTANCE_ID_PREFIX + generateUniqueId()

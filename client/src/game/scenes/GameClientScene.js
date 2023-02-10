@@ -14,7 +14,7 @@ export class GameClientScene extends EditorScene {
   constructor(props) {
     super(props);
 
-    this.sceneInstanceData = props.sceneInstanceData
+    this.gameSession = props.gameSession
 
     this.lastHostUpdate = null
 

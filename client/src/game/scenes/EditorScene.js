@@ -25,7 +25,7 @@ export class EditorScene extends GameInstance {
   constructor(props) {
     super(props);
 
-    this.sceneInstanceData = props.sceneInstanceData
+    this.gameSession = props.gameSession
 
     this.draggingObjectInstanceId = null
     this.canvas = null
@@ -493,6 +493,11 @@ export class EditorScene extends GameInstance {
   onPointerUpOutside = (pointer)  => {
     this.draggingObjectInstanceId = null
 
+    if(this.snapshotSquare && !this.snapshotSquare.finalized) {
+      this.snapshotSquare.finalized = true 
+      return
+    }
+
     if(this.canvas) {
       this.onStrokeComplete()
     }
@@ -590,7 +595,7 @@ export class EditorScene extends GameInstance {
         const sceneKeys = this.scene.manager.keys
         if(stageId && !sceneKeys[stageId]) {
           const key = stageId
-          this.scene.add(key, createGameSceneInstance(key, this.sceneInstanceData));
+          this.scene.add(key, createGameSceneInstance(key, this.gameSession));
         }
       })
 
@@ -917,9 +922,16 @@ export class EditorScene extends GameInstance {
 
     if(this.escKey.isDown) {
       store.dispatch(clearBrush())
-      if(this.brush) this.destroyBrush()
       store.dispatch(clearClass())
-      if(this.stamper) this.destroyStamper()
+      if(this.brush) {
+        this.destroyBrush()
+      } else if(this.stamper) {
+        this.destroyStamper()
+      } else if(this.snapshotSquare) {
+        this.clearSnapshotSquare()
+      } else {
+        // escape game?
+      }
 
       this.canvas = null
     }

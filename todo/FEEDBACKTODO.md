@@ -2,73 +2,75 @@ Spawn inside of hero camera effect from the lobby setup flow
 
 Agora User Video, have it load a user and have it like upload it as a profile pic??
 
-Fix how modals work...Youve got ALL THESE MODALS STACKED ON TOP OF EACHOTHER IN game Editor. Sometimes we want to open a modal on top of another, how can we let this happen? We need to be able to open Cutscene maker, and class maker inside of another modal
-
-Aggregate Color menu for brushes when you’ve added like 1 color already
-
-Finish lobby cleaup with user video and usernames, etc
-
-Create Class Modal -> Edit Name Modal instead of having edit name inside of Create Class
+Fix how modals work...Youve got ALL THESE MODALS STACKED ON TOP OF EACHOTHER IN game Editor. Sometimes we want to open a modal on top of another, how can we let this happen? We need to be able to open Cutscene maker, and class maker inside of another modal ( mainly from the relations menu )
 
 IF KEY ISSUES PERSIST
 set Interval for keyboard capture issue?
 
-Chart of data from the experience at the end?
-
-https://particles.js.org/samples/presets/fireworks.html
-https://github.com/matteobruni/tsparticles/blob/main/components/react/README.md
-
-Lobby Animations?
-
-Also like use the BACKGROUND BACKGROUND as like an animation space where we give sorts of feedback. Color, animations, sprites show up there? Not sure. MAKE IT FEEL GOOD. JUICY. What the admin is hovering over? Get what you are hovering over? 
-
-https://phaser-particle-editor.firebaseapp.com/
-
 BUG - Can an object you DONT collide with allow you to jump again? Any object?
 
----
+HostCanvas
+ClientCanvas
+  CodrawingCanvas
+  Canvas
 
-Instead of confetti, throw their sprites out like that
+game state changing doesnt work
+ESCAPE EXPERIENCE KEY - SAFETY KEY
 
--- 
+heres how game state will work for now
+...
 
-Take Snapshot Button should only appear once youve selected
+1. Lobby is joined
+2. Host creates a game session
+3. Host sets a game instance with a game instance id, and a game session id. Host gives the lobby the game session id
+4. User in lobby wants to join this game session, they ask the game host to join
+5. Game host responds back to lobby user with { gameInstanceId, playerId, initial gameData }
+6. User in lobby becomes a game client, and begins recieving updates
+7. Any user at any time can suggest a game state change
+8. All users in the session recieve this 
 
-If mouse leaves game area, then consider that the square 
+GameContext reducer -> PlayerInterfaceReducer
 
---
+Ok so you have a session on redux, the lobby just assumes u got ur session taken care of, doesnt ask about it. In the future in a multiplayer game, lobby will have to keep track of some things...
 
-when you manually create a new game, you need to name it
+or no so....
 
-when a ticketing makes a game, name it ( guest name + date )
+// set initially
+hostUserId
+isNetworked
+isEdit
+gameSessionId
 
----
+// set each time its powered on
+gameInstanceId
+gameId
 
-Catch all React Errors and also catch all utils errors, and even phaser errors?
+// set based on user action
+gameState
+isPoweredOn
+skipSave
 
----
+and the way this would work is...
+everyone gets an event listener ON_GAME_SESSION_UPDATE
+it works the same as ON_GAME_INSTANCE_UPDATE!
 
-Video view in corner?
+youll have a withGameSession thing as well
 
----
+withMultiPlayerGameSession would mean it needs a lobby id but its lower level than withLobby. It gets the game id and host id from the lobby. Itll like do the whole 8 step process I described above
 
-Prevent leaving tab and coming back causing an error
+withGameSession needs a game id, it created a session with that gameId, sets the host id as this user of course, a
 
----
+and both
+it IT SENDS UPDATES OUT ( as any good computer host would ) and then IT RECIEVES THEM BACK AND THATS WHEN IT IMPLEMENETS THEM, the same exact thing as ON_GAME_MODEL_UPDATE, which is the real issue of host vs client right now. This will be a duplicate. This is one of the ONLY things you have to solve when going multiplayer
 
-Experience is waiting to start - close all other tabs, other applications, put your notifications on quiet, 
+( which Im now realizing if I just solve interpolation and if I implement webRTC then... ive created the most ultimate light weight metaverse ever )
 
+its blowing me timbers
 
---
+omg wait
 
-Not closing the lobby admin toolbar on the right correctly WITH THE X button, it doesnt work
+so yeah like actually....You WANT a client to be able to run the game, and in a serverless system you want the host to also be a client basically!! so yeah hrmphty durmpty
+its perfect
 
---
+----
 
-Decide - what does default mean, what does initial mean?
-
----
-
-Initial Data vs Default data...?
-Initial Data initializes
-Default data fallsback

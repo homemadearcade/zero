@@ -10,20 +10,16 @@ import CobrowsingVerticalLinearStepper from '../cobrowsing/CobrowsingVerticalLin
 import Typography from '../../ui/Typography/Typography';
 import AggregateColorSelect from '../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../store/actions/gameModelActions';
-import { BOUNDARY_COLLIDE, BOUNDARY_DESTROY, BOUNDARY_WRAP, STAGE_BACKGROUND_CANVAS_ID } from '../constants';
+import { BOUNDARY_COLLIDE, BOUNDARY_WRAP } from '../constants';
 import Button from '../../ui/Button/Button';
 import RadioGroupColumn from '../../ui/RadioGroupColumn/RadioGroupColumn';
+import { directionalPlayerClassId, jumperPlayerClassId } from '../defaultData/players';
+import { initialStageId } from '../defaultData/stage';
 
-
-            // <Typography component="h5" variant="h5">
-                
-            //   </Typography>
 const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel: { gameModel, currentStageId }}) => {
   function handleClose() {
     closeSetupDefaultsModal()
   }
-
-  //                canvasId={STAGE_BACKGROUND_CANVAS_ID} 
 
   return <CobrowsingModal open onClose={handleClose}>
     <div className="SetupDefaultsModal">
@@ -113,14 +109,14 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
             if(gameModel.defaults.playerClass === 'JUMPER_PLAYER') {
               await editGameModel({
                 stages: {
-                 ['stage/default']: {
-                    playerClassId: 'oc/pl/jumper'
+                 [initialStageId]: {
+                    playerClassId: jumperPlayerClassId
                  }
                 }
               })
               editGameModel({
                 classes: {
-                 ['oc/pl/jumper']: {
+                 [jumperPlayerClassId]: {
                     boundaryRelation: gameModel.defaults.boundaryRelation
                  }
                 }
@@ -128,14 +124,14 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
             } else {
               await editGameModel({
                 stages: {
-                 ['stage/default']: {
-                    playerClassId: 'oc/pl/directional'
+                 [initialStageId]: {
+                    playerClassId: directionalPlayerClassId
                  }
                 }
               })
               editGameModel({
                 classes: {
-                 ['oc/pl/directional']: {
+                 [directionalPlayerClassId]: {
                     boundaryRelation: gameModel.defaults.boundaryRelation
                  }
                 }

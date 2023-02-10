@@ -1,9 +1,15 @@
-import { BOUNDARY_COLLIDE, BOUNDARY_DESTROY, BOUNDARY_WRAP } from "../constants";
+import { BOUNDARY_COLLIDE, BOUNDARY_DESTROY, BOUNDARY_WRAP, OBJECT_CLASS_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, STAGE_ID_PREFIX, ZONE_CLASS_TYPE_PREFIX } from "../constants";
 import { gameSize } from "./general";
+import { vehiclePlayerClassId } from "./players";
+
+export const initialStageId =  STAGE_ID_PREFIX+'default'
+export const initialSpawnZoneClassId = OBJECT_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playerspawnzone'
+export const initialSpawnZoneInstanceId = OBJECT_CLASS_ID_PREFIX+OBJECT_INSTANCE_ID_PREFIX+'playerspawnzone'
+export const initialPlayerClassId = vehiclePlayerClassId
 
 export const initialPlayerSpawnZone = {
-  id: 'oi-playerspawnzone',
-  classId: 'oc-z-playerspawnzone',
+  id: initialSpawnZoneInstanceId,
+  classId: initialSpawnZoneClassId,
   spawnX: gameSize/2,
   spawnY: gameSize/2,
 }
@@ -32,10 +38,10 @@ export const defaultStage = {
 export const initialStage = {
   ...defaultStage,
   name: 'Stage # 1',
-  'playerClassId': 'oc-pl-vehicle',
-  'spawnZoneClassId': 'oc-z-playerspawnzone',
+  'playerClassId': initialPlayerClassId,
+  'spawnZoneClassId': initialSpawnZoneClassId,
   objects: {
-    'oi-playerspawnzone': {
+    [initialSpawnZoneInstanceId]: {
       ...initialPlayerSpawnZone
     }
   },
