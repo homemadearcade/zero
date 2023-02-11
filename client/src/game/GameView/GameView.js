@@ -78,17 +78,17 @@ const GameView = (props) => {
 }
 
 const PhaserGame = ({
-  isHost, 
-  isNetworked, 
-  isPlay,
   setGameInstance, 
   changeErrorState, 
-  clearErrorState 
+  clearErrorState,
+  gameSession: { gameSession },
+  isEdit,
+  isNetworked
 }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     const gameInstanceId =  GAME_INSTANCE_ID_PREFIX + generateUniqueId()
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({ isPlay, isHost, isNetworked, gameInstanceId}), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameSession, isEdit, isNetworked}), true);
     setGameInstance(game, gameInstanceId)
     return () => {
       getCurrentGameScene(game)?.unload()
@@ -129,6 +129,7 @@ const PhaserGame = ({
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
+  gameSession: state.gameSession
 });
 
 export default connect(mapStateToProps, { setGameInstance, changeErrorState, clearErrorState })(GameView);

@@ -33,22 +33,47 @@ import {
 import { PHASER_ERROR } from '../../lobby/constants';
 import { clearErrorState } from './errorsActions';
 
+export const changeGameState = (gameState, message) => (dispatch, getState) => {
+  // saveAllCurrentCanvases()
+
+  const gameSession = getState().gameSession.gameSession
+
+  if(gameSession.isNetworked) {
+    dispatch(editGameSession(gameSession.id, {
+      gameState,
+      gameStateMessage: message
+    }))
+  } else {
+    dispatch({
+      updateCobrowsing: true,
+      forceCobrowsingUpdate: true,
+      type: ON_GAME_SESSION_UPDATE,
+      payload: {
+        gameSession: {
+          gameState,
+          gameStateMessage: message
+        }
+      }
+    })
+  }
+};
+
 export const sendGameSessionMessage = (messageData) => async (dispatch, getState) => {
   dispatch({
     type: SEND_GAME_SESSION_MESSAGE_LOADING,
   });
   
-  const lobbyId = getState().lobby.lobby?.id
+  const gameSessionId = getState().gameSession.gameSession?.id
 
-  if(!lobbyId) return
+  if(!gameSessionId) return
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/gameSession/' + lobbyId + '/message', messageData, options);
+    const response = await axios.post('/api/gameSession/' + gameSessionId + '/message', messageData, options);
 
     dispatch({
       type: SEND_GAME_SESSION_MESSAGE_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     console.error(err)
@@ -60,18 +85,18 @@ export const sendGameSessionMessage = (messageData) => async (dispatch, getState
   }
 };
 
-export const clearGameSessionMessages = (lobbyId, messageData) => async (dispatch, getState) => {
+export const clearGameSessionMessages = (gameSessionId, messageData) => async (dispatch, getState) => {
   dispatch({
     type: SEND_GAME_SESSION_MESSAGE_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/gameSession/' + lobbyId + '/clearMessages', messageData, options);
+    const response = await axios.post('/api/gameSession/' + gameSessionId + '/clearMessages', messageData, options);
 
     dispatch({
       type: SEND_GAME_SESSION_MESSAGE_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     console.error(err)
@@ -96,8 +121,11 @@ export const addGameSession = (formData) => async (dispatch, getState) => {
 
     dispatch({
       type: ADD_GAME_SESSION_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
+
+
+    return response
   } catch (err) {
     console.error(err)
 
@@ -119,7 +147,7 @@ export const editGameSession = (id, data) => async (dispatch, getState) => {
 
     dispatch({
       type: EDIT_GAME_SESSION_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     console.error(err)
@@ -131,17 +159,17 @@ export const editGameSession = (id, data) => async (dispatch, getState) => {
   }
 };
 
-export const updateGameSessionPlayer = ({userId, lobbyId, user}) => async (dispatch, getState) => {
+export const updateGameSessionPlayer = ({userId, gameSessionId, user}) => async (dispatch, getState) => {
   dispatch({
     type: UPDATE_GAME_SESSION_USER_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/gameSession/user/${lobbyId}`, {userId, user}, options);
+    const response = await axios.put(`/api/gameSession/user/${gameSessionId}`, {userId, user}, options);
 
     dispatch({
       type: UPDATE_GAME_SESSION_USER_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     console.error(err)
@@ -164,7 +192,7 @@ export const getGameSessionById = (id, history) => async (dispatch, getState) =>
 
     dispatch({
       type: GET_GAME_SESSION_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     console.error(err)
@@ -187,7 +215,7 @@ export const deleteGameSession = (id) => async (dispatch, getState) => {
 
     dispatch({
       type: DELETE_GAME_SESSION_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     console.error(err)
@@ -199,17 +227,16 @@ export const deleteGameSession = (id) => async (dispatch, getState) => {
   }
 };
 
-export const joinGameSession = ({ lobbyId, userId }) => async (dispatch, getState) => {
+export const joinGameSession = ({ gameSessionId, userId }) => async (dispatch, getState) => {
   dispatch({
     type: JOIN_GAME_SESSION_LOADING,
-    payload: { id: lobbyId },
+    payload: { id: gameSessionId },
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/gameSession/join/${lobbyId}`, { userId }, options);
 
-    // event is triggered to all users in this lobby when lobby is updated
+        // event is triggered to all users in this gameSession when gameSession is updated
     window.socket.on(ON_GAME_SESSION_UPDATE, ({gameSession}) => {
       if(gameSession.isPoweredOn === false && getState().errors.errorStates[PHASER_ERROR].on) {
         dispatch(clearErrorState(PHASER_ERROR))
@@ -220,7 +247,7 @@ export const joinGameSession = ({ lobbyId, userId }) => async (dispatch, getStat
       });
     });
 
-    // event is triggered to all users in this lobby when lobby is updated
+    // event is triggered to all users in this gameSession when gameSession is updated
     window.socket.on(ON_GAME_SESSION_USER_STATUS_UPDATE, (payload) => {
       dispatch({
         type: ON_GAME_SESSION_USER_STATUS_UPDATE,
@@ -228,9 +255,11 @@ export const joinGameSession = ({ lobbyId, userId }) => async (dispatch, getStat
       });
     });
 
+    const response = await axios.post(`/api/gameSession/join/${gameSessionId}`, { userId }, options);
+
     dispatch({
       type: JOIN_GAME_SESSION_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     dispatch({
@@ -240,22 +269,22 @@ export const joinGameSession = ({ lobbyId, userId }) => async (dispatch, getStat
   }
 };
 
-export const leaveGameSession = ({ lobbyId, userId }) => async (dispatch, getState) => {
+export const leaveGameSession = ({ gameSessionId, userId }) => async (dispatch, getState) => {
   dispatch({
     type: LEAVE_GAME_SESSION_LOADING,
-    payload: { id: lobbyId },
+    payload: { id: gameSessionId },
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/gameSession/leave/${lobbyId}`, { userId }, options);
+    const response = await axios.post(`/api/gameSession/leave/${gameSessionId}`, { userId }, options);
 
     window.socket.off(ON_GAME_SESSION_UPDATE);
     window.socket.off(ON_GAME_SESSION_USER_STATUS_UPDATE);
 
     dispatch({
       type: LEAVE_GAME_SESSION_SUCCESS,
-      payload: { lobby: response.data.lobby },
+      payload: { gameSession: response.data.gameSession },
     });
   } catch (err) {
     console.error(err)

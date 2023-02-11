@@ -20,7 +20,7 @@ import contextMenuReducer from './contextMenuReducer';
 import codrawingReducer from './codrawingReducer';
 import errorsReducer from './errorsReducer';
 import webPageReducer from './webPageReducer';
-import gameContextReducer from './gameContextReducer';
+import playerInterfaceReducer from './playerInterfaceReducer';
 import portfolioReducer from './portfolioReducer';
 import ticketedEventReducer from './ticketedEventReducer';
 import checkoutReducer from './checkoutReducer';
@@ -47,7 +47,7 @@ export default combineReducers({
   gameViewEditor: gameViewEditorReducer,
   contextMenu: contextMenuReducer,
   unlockableInterfaceIds: unlockableInterfaceReducer,
-  gameContext: gameContextReducer,
+  playerInterface: playerInterfaceReducer,
   codrawing: codrawingReducer,
   errors: errorsReducer,
   webPage: webPageReducer,

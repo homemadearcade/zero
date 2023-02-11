@@ -6,7 +6,6 @@ import { Constellation } from '../../app/homemadeArcade/Constellation/Constellat
 import Link from '../../ui/Link/Link';
 import Typography from '../../ui/Typography/Typography';
 import { GAME_OVER_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../constants';
-import { changeGameState } from '../../store/actions/gameContextActions';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import KeyIndicator from '../ui/KeyIndicator/KeyIndicator';
 import './StateScreen.scss';
@@ -14,6 +13,7 @@ import ControlsCard from '../ui/ControlsCard/ControlsCard';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import store from '../../store';
 import useFitText from "use-fit-text";
+import { changeGameState } from '../../store/actions/gameSessionActions';
 
 function StateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {
   const { fontSize, ref } = useFitText();
@@ -66,7 +66,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
           <div className="StateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
           </div>
-          {!store.getState().lobby.lobby.id && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
+          {!store.getState().gameSession.gameSession.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>
       </Constellation>
     }
@@ -80,7 +80,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
           <div className="StateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
           </div>
-          {!store.getState().lobby.lobby.id && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
+          {!store.getState().gameSession.gameSession.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>
       </Constellation>
     }
@@ -93,7 +93,7 @@ function StateScreenBody({changeGameState, gameStateMessage, gameState, gameMode
   );
 }
 
-function StateScreen({gameContext: { gameState, gameStateMessage}, changeGameState, gameModel}) {
+function StateScreen({gameSession: { gameSession: { gameState, gameStateMessage }}, changeGameState, gameModel}) {
   if(gameState !== START_STATE && gameState !== WIN_GAME_STATE && gameState !== GAME_OVER_STATE) {
     return null
   }
@@ -102,7 +102,7 @@ function StateScreen({gameContext: { gameState, gameStateMessage}, changeGameSta
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameContext: state.gameContext,
+  gameSession: state.gameSession,
   gameModel: state.gameModel,
 });
 

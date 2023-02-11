@@ -15,7 +15,6 @@ import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import LobbyUserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
-import { changeGameState, completeCloseConstellation, openConstellation } from '../../store/actions/gameContextActions';
 import { openGameMetadataModal, openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
 import { ADMIN_ROLE } from '../constants';
 import { CREDITS_EXPERIENCE, GAME_EDITOR_EXPERIENCE, MONOLOGUE_EXPERIENCE } from '../../constants';
@@ -28,6 +27,8 @@ import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
 import { openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import { ON_GAME_INSTANCE_ANIMATION } from '../../store/types';
 import { editGameModel } from '../../store/actions/gameModelActions';
+import { updateLobbyUser } from '../../store/actions/lobbyActions';
+import { editGameSession, changeGameState } from '../../store/actions/gameSessionActions';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -35,12 +36,12 @@ const LobbySetupFlow = ({
   assignLobbyRole,
   updateArcadeGameCharacter,
   lobby: { lobby },
-  completeCloseConstellation, 
-  openConstellation,
+  updateLobbyUser,
   changeGameState,
   setCutAudio,
-  setCutVideo
-}) => {
+  setCutVideo,
+  editGameSession,
+}) => {  
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -52,7 +53,13 @@ const LobbySetupFlow = ({
       id: 'Return Participant From Stars' + returnFromStarsStepIndex++,
       title: <Typography component="h5" variant="h5">Return Participant From Stars</Typography>,
       onClickNext: () => {
-        completeCloseConstellation({ forceCobrowsingUpdate: true })
+        updateLobbyUser({
+          lobbyId: lobby.id,
+          userId: lobby.participantId, 
+          user: {
+            inConstellationView: false
+          }
+        })
       },
       nextButtonText: 'Return Participant From Stars'
     }
@@ -64,7 +71,13 @@ const LobbySetupFlow = ({
       id: 'Send Participant to Stars' + sendToStarsStepIndex++,
       title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
       onClickNext: () => {
-        openConstellation({ forceCobrowsingUpdate: true })
+        updateLobbyUser({
+          lobbyId: lobby.id,
+          userId: lobby.participantId, 
+          user: {
+            inConstellationView: true
+          }
+        })
       },
       nextButtonText: 'Send Participant to Stars'
     }
@@ -200,12 +213,12 @@ const LobbySetupFlow = ({
         {
           id: 'Assign User Roles',
           title: <Typography component="h5" variant="h5">Assign User Roles</Typography>,
-          instructions: !lobby.isGamePoweredOn ? renderAssignRoles() : <Typography component="h5" variant="h5">You can not assign roles while the game is powered on</Typography>
+          instructions: renderAssignRoles()
         },
         {
           id: 'Select Game to be Edited',
           title: <Typography component="h5" variant="h5">Select Game to be Edited</Typography>,
-          instructions: !lobby.isGamePoweredOn ? renderSelectGame() : <Typography component="h5" variant="h5">You can not change the selected game when the game is powered on</Typography>
+          instructions: renderSelectGame()
         },
         breakTitle('Setup (5mins)'),
         {
@@ -273,12 +286,14 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
           onClickNext: async () => {
             await editLobby(lobby.id, {
-              currentGameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
-              isGamePoweredOn: true,
               experienceState: GAME_EDITOR_EXPERIENCE,
-              skipStageSave: true
             })
-            changeGameState(PAUSED_STATE)
+            await editGameSession(lobby.gameSession.id, {
+              gameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
+              isPoweredOn: true,
+              isSaveDisabled: true,
+              gameState: PAUSED_STATE
+            })
           },
           nextButtonText: 'Load Prologue 1'
         },
@@ -338,12 +353,14 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
         {
           id: 'Load Prologue 2',
           title: <Typography component="h5" variant="h5">Load Prologue 2</Typography>,
-          onClickNext: () => {
-            editLobby(lobby.id, {
-              currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63c5e24c90a58a00531f4c1a',
-              isGamePoweredOn: true,
+          onClickNext: async () => {
+            await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
-              skipStageSave: true
+            })
+            await editGameSession(lobby.gameSession.id, {
+              gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63c5e24c90a58a00531f4c1a',
+              isPoweredOn: true,
+              isSaveDisabled: true,
             })
           },
           nextButtonText: 'Load Prologue 2'
@@ -359,12 +376,13 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
         {
           id: 'Load Demo World',
           title: <Typography component="h5" variant="h5">Load Demo World</Typography>,
-          onClickNext: () => {
-            editLobby(lobby.id, {
-              currentGameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
-              isGamePoweredOn: true,
+          onClickNext: async () => {
+            await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
-              skipStageSave: true
+            })
+            await editGameSession(lobby.gameSession.id, {
+              gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
+              isSaveDisabled: true,
             })
           },
           nextButtonText: 'Load Demo World'
@@ -374,12 +392,14 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
         {
           id: 'Load Editing Game',
           title: <Typography component="h5" variant="h5">Load Editing Game</Typography>,
-          onClickNext: () => {
-            editLobby(lobby.id, {
-              currentGameId: lobby.game.id,
-              isGamePoweredOn: true,
+          onClickNext: async () => {
+            await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
-              skipStageSave: false
+            })
+            await editGameSession(lobby.gameSession.id, {
+              gameId: lobby.game.id,
+              isSaveDisabled: false,
+              isPoweredOn: true,
             })
           },
           nextButtonText: 'Load Editing Game'
@@ -496,8 +516,9 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
+  gameSession: state.gameSession
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby,addArcadeGame, editGameModel, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, openConstellation, completeCloseConstellation, changeGameState, setCutAudio, setCutVideo }),
+  connect(mapStateToProps, { editGameSession, editLobby,addArcadeGame, editGameModel, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyUser, changeGameState, setCutAudio, setCutVideo }),
 )(LobbySetupFlow);

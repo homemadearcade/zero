@@ -14,14 +14,15 @@ import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import Typography from '../../ui/Typography/Typography';
 import Switch from '../../ui/Switch/Switch';
-import { editLobby } from '../../store/actions/lobbyActions';
 import './LobbyGuideToolbar.scss'
+import { editGameSession } from '../../store/actions/gameSessionActions';
 
 const LobbyGuideToolbar = ({
-  lobby: { lobby, lobby: { experienceState, isGamePoweredOn, skipStageSave } },
+  lobby: { lobby, lobby: { experienceState } },
+  gameSession: { gameSession, gameSession: { isPoweredOn, isSaveDisabled }},
   myTracks,
   userTracks,
-  editLobby
+  editGameSession
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
@@ -42,18 +43,18 @@ const LobbyGuideToolbar = ({
         </div>}
         {experienceState === GAME_EDITOR_EXPERIENCE && <CobrowsingIndicator/>}
         {experienceState === GAME_EDITOR_EXPERIENCE && <LobbyPowerIndicator/>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && isGamePoweredOn && <ConstellationToggle/>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && skipStageSave && <div className="LobbyGuideToolbar__not-saving-stage">
+        {experienceState === GAME_EDITOR_EXPERIENCE && isPoweredOn && <ConstellationToggle/>}
+        {experienceState === GAME_EDITOR_EXPERIENCE && isSaveDisabled && <div className="LobbyGuideToolbar__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
-          <Typography variant="subtitle2">Not Saving<br/>Map Objects</Typography>
+          <Typography variant="subtitle2">Save Disabled</Typography>
           <Switch
             size="small"
             onChange={() => {
-              editLobby(lobby.id, {
-                skipStageSave: false,
+              editGameSession(gameSession.id, {
+                isSaveDisabled: false
               })
             }}
-            checked={skipStageSave}
+            checked={isSaveDisabled}
           />
         </div>}
       </div>
@@ -74,9 +75,10 @@ const LobbyGuideToolbar = ({
 };
 
 const mapStateToProps = (state) => ({
+  gameSession: state.gameSession,
   lobby: state.lobby,
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby }),
+  connect(mapStateToProps, { editGameSession }),
 )(LobbyGuideToolbar);

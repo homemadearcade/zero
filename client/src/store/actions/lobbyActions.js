@@ -269,52 +269,52 @@ export const updateLobbyUser = ({userId, lobbyId, user}) => async (dispatch, get
   }
 };
 
-export const getLobbyById = (id, history) => async (dispatch, getState) => {
-  dispatch({
-    type: GET_LOBBY_LOADING,
-  });
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.get(`/api/lobbys/${id}`, options);
+// export const getLobbyById = (id, history) => async (dispatch, getState) => {
+//   dispatch({
+//     type: GET_LOBBY_LOADING,
+//   });
+//   try {
+//     const options = attachTokenToHeaders(getState);
+//     const response = await axios.get(`/api/lobbys/${id}`, options);
 
-    dispatch({
-      type: GET_LOBBY_SUCCESS,
-      payload: { lobby: response.data.lobby },
-    });
-  } catch (err) {
-    console.error(err)
+//     dispatch({
+//       type: GET_LOBBY_SUCCESS,
+//       payload: { lobby: response.data.lobby },
+//     });
+//   } catch (err) {
+//     console.error(err)
 
-    if (err?.response.status === 404) {
-      history.push('/notfound');
-    }
-    dispatch({
-      type: GET_LOBBY_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-};
+//     if (err?.response.status === 404) {
+//       history.push('/notfound');
+//     }
+//     dispatch({
+//       type: GET_LOBBY_FAIL,
+//       payload: { error: err?.response?.data.message || err.message },
+//     });
+//   }
+// };
 
-export const getLobbyByEmail = (email) => async (dispatch, getState) => {
-  dispatch({
-    type: GET_LOBBY_LOADING,
-  });
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.get(`/api/lobbys/byEmail/${email}`, options);
+// export const getLobbyByEmail = (email) => async (dispatch, getState) => {
+//   dispatch({
+//     type: GET_LOBBY_LOADING,
+//   });
+//   try {
+//     const options = attachTokenToHeaders(getState);
+//     const response = await axios.get(`/api/lobbys/byEmail/${email}`, options);
 
-    dispatch({
-      type: GET_LOBBY_SUCCESS,
-      payload: { lobby: response.data.lobby },
-    });
-  } catch (err) {
-    console.error(err)
+//     dispatch({
+//       type: GET_LOBBY_SUCCESS,
+//       payload: { lobby: response.data.lobby },
+//     });
+//   } catch (err) {
+//     console.error(err)
 
-    dispatch({
-      type: GET_LOBBY_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-};
+//     dispatch({
+//       type: GET_LOBBY_FAIL,
+//       payload: { error: err?.response?.data.message || err.message },
+//     });
+//   }
+// };
 
 export const deleteLobby = (id) => async (dispatch, getState) => {
   dispatch({

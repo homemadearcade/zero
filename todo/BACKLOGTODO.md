@@ -170,28 +170,6 @@ For all these util functions, I need to rethink how utils are done, is there obj
 I think so yes. Basically we can... turn Game Model into a class that has the Scene on it.. yes :)
 
 
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
-
-GAME INSTANCE ID for NO DOUBLE GAMES
-
-If I have it so that we subscribe to game updates… as soon as a game is loaded…. then… yeah its like
-
-Someone is like ok im listening in on this id… 
-
-The game host is alright time to publish from this host id 
-
-The game host perhaps has to be like ‘yo here’s the id of the game’ 
-
-And tell it to the lobby and the lobby is like alright we will have all clients listen to this specific instance id
-
-If a second update interval gets made with THE SAME INSTNACE ID? This kinda crazy
-
-ACTUALy i think basically if EACH time you power on the game, a new game instance is given to the lobby, it should work a lot like reset. Host always does it and they send the new id to everyone. If clients get a new id theyll be like 'oh shit alright' Yes similar to sendResetGameEvent is sendPowerCycleGameEvent
-
-Cuz right now if a game host reload or switches pages it will send an entirely new game instance id over to the clients... I see!! So game hosts cant really refresh without resetting the game instance and game session
-
-
 --
 
 Lobby.lobbyId

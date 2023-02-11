@@ -49,9 +49,7 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   stroke(pointer, canvas) {
-    console.log(canvas.blockLocalStrokes)
     if(canvas.blockLocalStrokes) {
-      console.log('preventing...?')
       return false
     }
     

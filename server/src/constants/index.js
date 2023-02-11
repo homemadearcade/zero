@@ -140,8 +140,7 @@ export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 //////////////////////////////////////////////
 //// GAME SESSION
 export const ON_GAME_SESSION_UPDATE = 'ON_GAME_SESSION_UPDATE';
-
-
+export const ON_GAME_SESSION_USER_STATUS_UPDATE = 'ON_GAME_SESSION_USER_STATUS_UPDATE';
 
 export const CODRAWING_ROOM_PREFIX = 'codrawing@'
 export const COBROWSING_ROOM_PREFIX = 'cobrowsing@'

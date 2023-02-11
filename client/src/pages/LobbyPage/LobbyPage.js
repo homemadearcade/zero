@@ -25,6 +25,7 @@ import ExperienceView from '../../lobby/ExperienceView/ExperienceView';
 const LobbyPage = ({
   lobby: { lobby },
   auth: { me },
+  gameSession: { gameSession },
   myTracks,
   userTracks,
   assignLobbyRole,
@@ -32,7 +33,7 @@ const LobbyPage = ({
   let { path } = useRouteMatch();
 
   useEffect(() => {
-    if(lobby.isGamePoweredOn) return 
+    if(gameSession.isPoweredOn) return 
     
     if(me.role === ADMIN_ROLE && (!lobby.guideId)) {
       assignLobbyRole(lobby.id, {
@@ -64,6 +65,7 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
+  gameSession: state.gameSession
 });
 
 export default compose(

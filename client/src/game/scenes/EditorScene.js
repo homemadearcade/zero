@@ -948,9 +948,9 @@ export class EditorScene extends GameInstance {
       }
     })
 
-    const lobby = store.getState().lobby.lobby
-    if(lobby.id) {
-      const gameResetDate = lobby.gameResetDate
+    const gameSession = store.getState().gameSession.gameSession
+    if(gameSession.id) {
+      const gameResetDate = gameSession.gameResetDate
       if(gameResetDate > this.gameResetDate) {
         this.gameResetDate = gameResetDate
         this.reset()

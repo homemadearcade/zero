@@ -116,4 +116,16 @@ delete for actuallt removing from atlasDB
 
 ---
 
-You only leave lobbies and game session when you join a different lobby or game session
+You only leave the users array of a lobby or game session when you join a different lobby or game session
+
+
+---
+
+1. Lobby is joined
+2. Host creates a game session
+3. Host sets a game instance with a game instance id, and a game session id. Host gives the lobby the game session id
+4. User in lobby wants to join this game session, they ask the game host to join
+5. Game host responds back to lobby user with { gameInstanceId, playerId, initial gameData }
+6. User in lobby becomes a game client, and begins recieving updates
+7. Any user at any time can suggest a game state change
+8. All users in the session recieve this 

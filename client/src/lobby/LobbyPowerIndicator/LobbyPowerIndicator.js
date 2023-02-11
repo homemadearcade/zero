@@ -4,37 +4,37 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import Icon from '../../ui/Icon/Icon';
-import { editLobby } from '../../store/actions/lobbyActions';
+import { editGameSession } from '../../store/actions/gameSessionActions';
 
 import './LobbyPowerIndicator.scss'
 import Switch from '../../ui/Switch/Switch';
 
 const LobbyPowerIndicator = ({
-  lobby : { lobby, lobby: { isGamePoweredOn }},
-  editLobby
+  gameSession : { gameSession, gameSession: { isPoweredOn, gameId }},
+  editGameSession
 }) => {
   return <div
     className="LobbyPowerIndicator"
     onClick={() => {
-      if(!lobby.currentGameId) return
-      editLobby(lobby.id, {
-        isGamePoweredOn: !isGamePoweredOn,
+      if(!gameSession.gameId) return
+      editGameSession(gameSession.id, {
+        isPoweredOn: !isPoweredOn,
       })
     }}
   > 
     <Icon icon="faPowerOff"/>
     <Switch
-      disabled={!lobby.currentGameId}
+      disabled={!gameId}
       size="small"
-      checked={isGamePoweredOn}
+      checked={isPoweredOn}
     />
   </div>
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby,
+  gameSession: state.gameSession,
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby }),
+  connect(mapStateToProps, { editGameSession }),
 )(LobbyPowerIndicator);

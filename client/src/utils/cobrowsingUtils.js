@@ -9,7 +9,7 @@ export function getRemoteStatePackage(state) {
     unlockableInterfaceIds: state.unlockableInterfaceIds,
     contextMenu: state.contextMenu,
     errors: state.errors,
-    gameContext: state.gameContext,
+    playerInterface: state.playerInterface,
     snackbar: state.snackbar
   }
 }
@@ -33,8 +33,8 @@ export function mapCobrowsingState(state, props, options) {
         prev[propName] = remoteState.unlockableInterfaceIds
       } else if(propName === 'errors') {
         prev[propName] = remoteState.errors
-      } else if(propName === 'gameContext') {
-        prev[propName] = remoteState.gameContext
+      } else if(propName === 'playerInterface') {
+        prev[propName] = remoteState.playerInterface
       } else if(propName === 'snackbar') {
         prev[propName] = remoteState.snackbar
       }
@@ -74,7 +74,7 @@ export function getCobrowsingState(options) {
       gameViewEditor: remoteState.gameViewEditor,
       gameFormEditor: remoteState.gameFormEditor,
       video: remoteState.video,
-      gameContext: remoteState.gameContext,
+      playerInterface: remoteState.playerInterface,
       unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
       errors: remoteState.errors,
       snackbar: remoteState.snackbar

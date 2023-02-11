@@ -71,7 +71,6 @@ export default (ChildComponent) => {
   });
 
   return compose(
-    requireOneTab,
     withRouter, 
     connect(mapStateToProps, { joinLobby, leaveLobby, leaveAgoraVideoCall, bypassAgoraVideoCall })
   )(WithLobby)

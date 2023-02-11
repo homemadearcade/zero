@@ -1,8 +1,4 @@
-import {
-  GAME_SCENE,
-} from '../constants';
 import store from '../../store';
-import { isGameContextPausing } from '../../utils/gameUtils';
 import { GameInstance } from './GameInstance';
 
 export class GamePlayScene extends GameInstance {
@@ -23,7 +19,7 @@ export class GamePlayScene extends GameInstance {
   update(time, delta) {
     super.update(time, delta) 
     this.afterGameInstanceUpdateEffects()
-    const gameState = store.getState().gameContext.gameState
+    const gameState = store.getState().gameSession.gameSession.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }

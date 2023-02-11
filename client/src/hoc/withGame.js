@@ -6,7 +6,7 @@ import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
 import { loadArcadeGame, unloadArcadeGame } from '../store/actions/arcadeGameActions';
 import { getCurrentGameScene } from '../utils/editorUtils';
 import { getSpritesheetData } from '../store/actions/gameModelActions';
-import { changeGameState, clearCutscenes } from '../store/actions/gameContextActions';
+import { clearCutscenes } from '../store/actions/playerInterfaceActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -37,11 +37,10 @@ export default (ChildComponent) => {
     }
 
     async unloadGame() {
-      const { unloadArcadeGame, clearCutscenes, changeGameState } = this.props
+      const { unloadArcadeGame, clearCutscenes } = this.props
      
       unloadArcadeGame()
       clearCutscenes()
-      // changeGameState(null)
     }
 
     async switchGame(oldProps, newProps) {
@@ -98,5 +97,5 @@ export default (ChildComponent) => {
     gameModel: state.gameModel
   });
 
-  return connect(mapStateToProps, { loadArcadeGame, unloadArcadeGame, getSpritesheetData, clearCutscenes, changeGameState })(WithGame)
+  return connect(mapStateToProps, { loadArcadeGame, unloadArcadeGame, getSpritesheetData, clearCutscenes })(WithGame)
 };

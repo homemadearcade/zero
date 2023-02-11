@@ -110,10 +110,11 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       gameHostId: req.body.gameHostId,
       participantId: req.body.participantId,
       guideId: req.body.guideId,
-      game: req.body.game
+      game: req.body.game,
+      gameSession: req.body.gameSession
     });
 
-    lobby = await lobby.populate('participants game').populate({
+    lobby = await lobby.populate('participants game gameSession').populate({
       path: 'game',
       populate: {
         path: 'user',
@@ -199,9 +200,9 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     }
   })[0]
 
-  if(req.lobby.isGamePoweredOn) {
-    return res.status(400).json({ message: 'You cannot assign a role when the lobby game is powered on' });
-  }
+  // if(req.lobby.isGamePoweredOn) {
+  //   return res.status(400).json({ message: 'You cannot assign a role when the lobby game is powered on' });
+  // }
 
   if(req.body.role === 'gameHost') {
     if(req.body.userId === 'unassigned') {
@@ -413,18 +414,18 @@ router.post('/undo/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
 
-    if(req.lobby.isGamePoweredOn && req.body.game?.id) {
-      return res.status(400).json({ message: 'You cannot change the editing game id of a lobby when game is powered on' });
-    }
+    // if(req.lobby.isGamePoweredOn && req.body.game?.id) {
+    //   return res.status(400).json({ message: 'You cannot change the editing game id of a lobby when game is powered on' });
+    // }
 
     // actually currently needed to be able to switch while game is on to function
     // if(req.lobby.isGamePoweredOn && req.body.currentGameId) {
     //   return res.status(400).json({ message: 'You cannot change the current game id of a lobby when game is powered on' });
     // }
 
-    if(req.body.isGamePoweredOn && req.user.role !== 'ADMIN') {
-      return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
-    }
+    // if(req.body.isGamePoweredOn && req.user.role !== 'ADMIN') {
+    //   return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
+    // }
 
     Object.assign(req.lobby,req.body)
 
@@ -438,7 +439,8 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
         gameHostId: req.lobby.gameHostId,
         participantId: req.lobby.participantId,
         guideId: req.lobby.guideId,
-        game: req.lobby.game?.id
+        game: req.lobby.game?.id,
+        gameSession: req.lobby.gameSession?.id
       },
       { new: true },
     );

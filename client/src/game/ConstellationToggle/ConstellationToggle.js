@@ -21,6 +21,8 @@ const ConstellationToggle = ({
     return false;
   })[0]
 
+  if(!user) return
+
   const inConstellationView = user.inConstellationView
 
   return <div

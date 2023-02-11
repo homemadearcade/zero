@@ -14,16 +14,16 @@ import Icon from '../../ui/Icon/Icon';
 import { PHASER_ERROR } from '../../lobby/constants';
 import { clearErrorState } from '../../store/actions/errorsActions';
 import Button from '../../ui/Button/Button';
-import { editLobby } from '../../store/actions/lobbyActions';
 import { GAME_VIEW_IID } from '../../constants/interfaceIds';
+import { editGameSession } from '../../store/actions/gameSessionActions';
 
 const ObscuredGameView = ({
   auth: { me },
-  lobby: { lobby },
   cobrowsing: { cobrowsingUser, selectedTool },
   gameModel,
   errors: { errorStates },
-  editLobby,
+  editGameSession,
+  gameSession: { gameSession },
   clearErrorState,
   webPage: { recentlyFocused }
 }) => {
@@ -36,12 +36,12 @@ const ObscuredGameView = ({
       <Icon icon="faTriangleExclamation"></Icon>
       Game Error
       {me.role === ADMIN_ROLE && <Button onClick={async () => {
-        await editLobby(lobby.id, {
-          isGamePoweredOn: false
+        await editGameSession(gameSession.id, {
+          isPoweredOn: false
         })
         setTimeout(async () => {
-          await editLobby(lobby.id, {
-            isGamePoweredOn: true
+          await editGameSession(gameSession.id, {
+            isPoweredOn: true
           })
           clearErrorState(PHASER_ERROR)
         }, 100)
@@ -70,17 +70,17 @@ const ObscuredGameView = ({
     </div>
   }
 
-  if(!lobby.isGamePoweredOn) return <div className="GameView__empty">
+  if(!gameSession.isPoweredOn) return <div className="GameView__empty">
     <Icon icon="faPowerOff"></Icon>
     Not Powered On
   </div>
 
-  if(lobby.isGamePoweredOn) {
+  if(gameSession.isPoweredOn) {
     return <>
       {renderOverlay()}
-      <GameView
-        isHost={lobby.gameHostId === me.id}
+      <GameView 
         isNetworked
+        isEdit
       />
     </>
   }
@@ -88,15 +88,15 @@ const ObscuredGameView = ({
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  lobby: state.lobby,
   cobrowsing: state.cobrowsing,
   gameModel: state.gameModel,
   unlockableInterfaceIds: state.unlockableInterfaceIds,
   errors: state.errors,
-  webPage: state.webPage
+  webPage: state.webPage,
+  gameSession: state.gameSession
 });
 
 export default compose(
   requireAuth,
-  connect(mapStateToProps, { editLobby, clearErrorState }),
+  connect(mapStateToProps, { editGameSession, clearErrorState }),
 )(ObscuredGameView);

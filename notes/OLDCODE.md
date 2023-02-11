@@ -351,8 +351,8 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
   initializeLayers() {
     const gameModel = store.getState().gameModel.gameModel
-    const gameContext = getCobrowsingState().gameContext
-    const stageId = gameContext.currentStageId
+    const playerInterface = getCobrowsingState().playerInterface
+    const stageId = playerInterface.currentStageId
     const currentStage = gameModel.stages[stageId]
 
     this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})

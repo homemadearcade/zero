@@ -16,7 +16,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { RELATION_BOUNDARY_IID } from '../../../constants/interfaceIds';
 
-const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel }, gameContext: { player } }) => {
+const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRelation, gameFormEditor: { classIdRelationsMenu }, gameModel: { gameModel }, playerInterface: { playerClassId } }) => {
   function handleClose() {
     closeRelationsMenu()
   }
@@ -44,8 +44,6 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
       </Unlockable>
       {relations.map((relation) => {
         const { event, effect: { type, remoteEffectedClassId }} = relation
-
-        const playerClassId = player.classId
 
         // if the class dont exist, its the player class ( as of now thats the only generalized one)
         let effectedClass = gameModel.classes[remoteEffectedClassId];
@@ -82,7 +80,7 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
   gameModel: state.gameModel,
-  gameContext: state.gameContext
+  playerInterface: state.playerInterface
 })
 
 export default compose(

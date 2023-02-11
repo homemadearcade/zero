@@ -33,7 +33,7 @@ export class GameLocalScene extends EditorScene {
     super.update(time, delta) 
     this.afterGameInstanceUpdateEffects()
 
-    const gameState = store.getState().gameContext.gameState
+    const gameState = store.getState().gameSession.gameSession.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }

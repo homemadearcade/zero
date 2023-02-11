@@ -59,28 +59,7 @@ router.get('/:id', requireGameSession, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
-});
-
-router.get('/byEmail/:playerEmail', requireGameSessions, async (req, res) => {
-  try {
-
-    const gameSessionFound = req.gameSessions.filter((l, i) => {
-      if(l.playerEmail === req.params.playerEmail) {
-        return true
-      } else {
-        return false
-      }
-    })[0]
-
-    if(!gameSessionFound) {
-      res.status(400).json({ message: 'No gameSession found for: ' + req.params.playerEmail, });
-    }
-      
-    res.json({ gameSession: gameSessionFound });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong. ' + err });
-  }
-});
+});;
 
 router.post('/:id/message', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
   req.gameSession.messages.push({
@@ -108,6 +87,7 @@ router.post('/', requireJwtAuth, requireGameSessions, async (req, res) => {
       players: req.body.players,
       hostUserId: req.body.hostUserId,
       gameId: req.body.gameId,
+
       isSaveDisabled: req.body.isSaveDisabled,
       isEdit: req.body.isEdit,
       isNetworked: req.body.isNetworked,
@@ -128,12 +108,13 @@ router.post('/', requireJwtAuth, requireGameSessions, async (req, res) => {
       }
     })
 
+    gameSession.resetDate = Date.now()
     gameSession.messages = []
-    gameSession.gameState = null
+    gameSession.gameState = 'PLAY_STATE'
 
     req.gameSessions.push(gameSession)
 
-    res.status(200).json({ gameSessions: req.gameSessions });
+    res.status(200).json({ gameSession: gameSession });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }

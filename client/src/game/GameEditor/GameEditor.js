@@ -50,7 +50,7 @@ const GameEditor = ({
   clearGameFormEditor, 
   clearGameViewEditor,
   closeJsonViewer,
-  gameContext: { gameState },
+  gameSession: { gameSession: { gameState } },
   gameModel: { gameModel, isLoading },
 }) => {
   useEffect(() => {
@@ -150,7 +150,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
   gameFormEditor: state.gameFormEditor,
   gameModel: state.gameModel,
-  gameContext: state.gameContext
+  gameSession: state.gameSession
 })
 
 export default connect(mapStateToProps, { 

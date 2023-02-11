@@ -87,7 +87,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
           textureIdSelected={objectClass.graphics.textureId}
         />
       </>}
-      {objectClass.graphics.invisible && 
+      {objectClass.type === ZONE_CLASS && 
         <AggregateColorSelect
           canvasId={COMMON_COLOR_ID}
           selectedColor={objectClass.graphics.tint}
@@ -102,7 +102,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
             }})
           }}
       />}
-      {objectClass.type !== ZONE_CLASS && objectClass.type !== PLAYER_CLASS && <Unlockable  interfaceId={CLASS_LAYER_IID}>
+      {objectClass.type !== ZONE_CLASS && objectClass.type !== PLAYER_CLASS && <Unlockable interfaceId={CLASS_LAYER_IID}>
         <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_CANVAS_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateClass({ graphics: {

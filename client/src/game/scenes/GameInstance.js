@@ -9,11 +9,12 @@ import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import {  editLobby } from '../../store/actions/lobbyActions';
-import { changePlayerState } from '../../store/actions/gameContextActions';
+import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import { defaultPlayerSpawnZone, initialPlayerSpawnZone } from '../defaultData/stage';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
+import { editGameSession } from '../../store/actions/gameSessionActions';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -111,7 +112,7 @@ export class GameInstance extends Phaser.Scene {
     if(!classData) {
       const state = store.getState()
       const gameModel = state.gameModel.gameModel
-      const gameContext = getCobrowsingState().gameContext
+      const playerInterface = getCobrowsingState().playerInterface
       const stageId = state.gameModel.currentStageId
       const currentStage = gameModel.stages[stageId]
       const zoneId = gameModel.stages[stageId].spawnZoneClassId
@@ -119,7 +120,7 @@ export class GameInstance extends Phaser.Scene {
 
       const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
 
-      let lastPlayerClassId = gameContext.player.classId ? gameContext.player.classId : 'oc/p/directional';
+      let lastPlayerClassId = playerInterface.player.classId ? playerInterface.player.classId : 'oc/p/directional';
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
         classId: currentStage.playerClassId ? currentStage.playerClassId : lastPlayerClassId,
@@ -556,8 +557,8 @@ export class GameInstance extends Phaser.Scene {
     const startingStageId = store.getState().gameModel.gameModel.player.startingStageId
     store.dispatch(changeCurrentStage(startingStageId))
 
-    if(store.getState().lobby.lobby?.id) {
-      store.dispatch(editLobby(store.getState().lobby.lobby.id, {
+    if(store.getState().gameSession.gameSession?.isNetworked) {
+      store.dispatch(editGameSession(store.getState().gameSession.gameSession.id, {
         gameResetDate: Date.now()
       }))
     } else {
@@ -624,9 +625,9 @@ export class GameInstance extends Phaser.Scene {
     }
 
     if(store.getState().cobrowsing.isActivelyCobrowsing === false) {
-      let currentPlayerId = store.getState().gameContext.player.classId
+      let currentPlayerId = store.getState().playerInterface.player.classId
       if(this.playerInstance.classId !== currentPlayerId) {
-        store.dispatch(changePlayerState({classId: this.playerInstance.classId}))
+        store.dispatch(changePlayerClass({classId: this.playerInstance.classId}))
       }
     }
   }

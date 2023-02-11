@@ -16,9 +16,11 @@ import ConstellationHero from '../../app/homemadeArcade/ConstellationHero/Conste
 import Link from '../../ui/Link/Link';
 import { Container } from '@mui/system';
 import ConstellationZoom from '../../app/homemadeArcade/ConstellationZoom/ConstellationZoom';
+import GameSessionContext from '../../hoc/GameSessionContext';
 
 const ExperienceView = ({
-  lobby: { lobby: { users, experienceState, guideId, currentGameId, game } },
+  lobby: { lobby: { users, experienceState, guideId, game } },
+  gameSession: { gameSession },
   myTracks,
   userTracks,
   cobrowsing: { cobrowsingUser }
@@ -38,9 +40,11 @@ const ExperienceView = ({
     }
 
     if(experienceState === GAME_EDITOR_EXPERIENCE) {
-      return <CobrowsingGame gameId={currentGameId} myTracks={myTracks} userTracks={userTracks}>
-        <ObscuredGameView/>
-      </CobrowsingGame>
+      return <GameSessionContext>
+        <CobrowsingGame gameId={gameSession.gameId} myTracks={myTracks} userTracks={userTracks}>
+          <ObscuredGameView/>
+        </CobrowsingGame>
+      </GameSessionContext>
     }
 
     if(experienceState === CHATROOM_EXPERIENCE) {
@@ -92,7 +96,8 @@ const ExperienceView = ({
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
-  cobrowsing: state.cobrowsing
+  cobrowsing: state.cobrowsing,
+  gameSession: state.gameSession
 });
 
 export default compose(

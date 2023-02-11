@@ -15,7 +15,7 @@ export class PreloaderScene extends Phaser.Scene {
     });
 
     this.gameSession = {
-      isHost: props.isHost,
+      isHost: props.isNetworked ? props.hostUserId === store.getState().auth.me?.id : true,
       isNetworked: props.isNetworked,
       isPlay: props.isPlay,
       gameInstanceId: props.gameInstanceId

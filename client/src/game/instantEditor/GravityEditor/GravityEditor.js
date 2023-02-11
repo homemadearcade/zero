@@ -45,7 +45,7 @@ const GravityEditor = ({ gameModel: { gameModel, currentStageId }, editGameModel
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameContext: state.gameContext
+  playerInterface: state.playerInterface
 });
 
 export default connect(mapStateToProps, { editGameModel })(GravityEditor);

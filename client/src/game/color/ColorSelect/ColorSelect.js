@@ -13,6 +13,7 @@ import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ADD_COLOR_IID, getColorSelectFromCanvasId } from '../../../constants/interfaceIds';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
+import { COMMON_COLOR_ID } from '../../constants';
 
 const ColorSelect = ({
   colors = [],
@@ -65,7 +66,7 @@ const ColorSelect = ({
 
     const el = <ColorItem hex={hex}></ColorItem>
 
-    if(canvasId) {
+    if(canvasId && canvasId !== COMMON_COLOR_ID) {
       return <Unlockable interfaceId={getColorSelectFromCanvasId(canvasId)}>
         {el}
       </Unlockable>

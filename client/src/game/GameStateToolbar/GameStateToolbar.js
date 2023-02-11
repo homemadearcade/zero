@@ -5,16 +5,14 @@ import './GameStateToolbar.scss';
 import ToolbarIcon from '../../ui/ToolbarIcon/ToolbarIcon';
 import { lobbyUndo } from '../../store/actions/lobbyActions';
 import { toggleGridView } from '../../store/actions/gameViewEditorActions'
-import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
-import { changeGameState } from '../../store/actions/gameContextActions';
 import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE } from '../constants';
 import { onInstanceUndo } from '../../store/actions/lobbyActions';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_STOP_IID } from '../../constants/interfaceIds';
 import { getThemePrimaryColor } from '../../utils/webPageUtils';
+import { changeGameState } from '../../store/actions/gameSessionActions';
 
-
-const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameContext: { gameState }}) => {
+const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameSession: { gameSession: { gameState } } }) => {
   const color = getThemePrimaryColor().hexString
 
   function renderStop() {
@@ -82,10 +80,9 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameCont
  </div>
 };
 
-const mapStateToProps = (state) => mapCobrowsingState(state, {
-  lobby: state.lobby,
-  gameContext: state.gameContext
-}, { forceActiveCobrowsing: true });
+const mapStateToProps = (state) => ({
+  gameSession: state.gameSession
+});
 
 export default compose(
   connect(mapStateToProps, { lobbyUndo, toggleGridView, changeGameState, onInstanceUndo }))(GameStateToolbar);

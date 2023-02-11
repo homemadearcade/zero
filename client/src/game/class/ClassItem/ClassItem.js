@@ -23,7 +23,7 @@ const ClassItem = ({
   clearClass,
   openContextMenuFromClassId,
   width, height,
-  gameContext: { player},
+  playerInterface: { playerClassId },
   toggleLayerVisibility,
   changeClassIdHovering
 }) => {
@@ -59,7 +59,7 @@ const ClassItem = ({
       e.preventDefault();
       openContextMenuFromClassId(classId, e)
     }}
-    className={classNames("ClassItem", { 'ClassItem--isPlayer': classId === player.classId })}
+    className={classNames("ClassItem", { 'ClassItem--isPlayer': classId === playerClassId })}
   >
     {isSelected && isHovering && <Icon className="ClassItem__unselect" icon="faClose"/>}
     <div className="ClassItem__sprite">
@@ -72,7 +72,7 @@ const ClassItem = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameEditor: state.gameEditor,
-  gameContext: state.gameContext
+  playerInterface: state.playerInterface
 })
 
 export default compose(

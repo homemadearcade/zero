@@ -1,19 +1,11 @@
-import store from '..';
-import { GAME_EDITOR_EXPERIENCE } from '../../constants';
-import { PLAY_STATE } from '../../game/constants';
-import { getCurrentGameScene } from '../../utils/editorUtils';
 import {
-  CHANGE_GAME_STATE,
   CHANGE_PLAYER_STATE,
   CLEAR_CUTSCENES,
   CLOSE_CUTSCENE,
-  COMPLETE_CLOSE_CONSTELLATION,
-  START_OPEN_CONSTELLATION,
   OPEN_CUTSCENE, 
   PROGRESS_CUTSCENE,
-  START_CLOSE_CONSTELLATION,
-  OPEN_CONSTELLATION,
   CHANGE_CONTROL_POPUP,
+  CHANGE_PLAYER_CLASS,
 } from '../types';
 
 // these are things that are only shared if you are cobrowsing!!, 
@@ -22,17 +14,17 @@ const initialState = {
   cutsceneId: null,
   cutsceneClassId: null,
   cutsceneIndex: 0,
-  gameState: PLAY_STATE,
-  gameStateMessage: null,
+  playerState: null,
+  playerStateMessage: null,
   player: {
     classId: null,
   },
   controlsToPress: null
 };
 
-export const initialGameContextState = initialState
+export const initialPlayerInterfaceState = initialState
 
-export default function gameContextReducer(state = initialState, { type, payload }) {
+export default function playerInterfaceReducer(state = initialState, { type, payload }) {
   switch (type) {
     case OPEN_CUTSCENE:
       return {
@@ -53,11 +45,11 @@ export default function gameContextReducer(state = initialState, { type, payload
         cutsceneClassId: null,
         cutsceneIndex: 0,
       }
-    case CHANGE_GAME_STATE: 
+    case CHANGE_PLAYER_STATE: 
       return {
         ...state,
-        gameState: payload.gameState,
-        gameStateMessage: payload.gameStateMessage
+        playerState: payload.playerState,
+        playerStateMessage: payload.playerStateMessage
       }
     case CLOSE_CUTSCENE:
       return {
@@ -66,13 +58,10 @@ export default function gameContextReducer(state = initialState, { type, payload
         cutsceneClassId: null,
         cutsceneIndex: 0
       };
-    case CHANGE_PLAYER_STATE: 
+    case CHANGE_PLAYER_CLASS: 
       return {
         ...state,
-        player: {
-          ...state.player,
-          ...payload.player
-        }
+        playerClassId: payload.playerClassId
       }
     case CHANGE_CONTROL_POPUP: 
       return {

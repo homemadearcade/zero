@@ -87,16 +87,17 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const lobby = getState().lobby.lobby
   const lobbyId = lobby.id
   const gameId = getState().gameModel.gameModel.id
+  const gameSession = getState().gameSession.gameSession
 
   dispatch({
     type: EDIT_GAME_MODEL_LOADING,
   });
 
-  const skipStageSave = lobby?.skipStageSave
+  const isSaveDisabled = gameSession?.isSaveDisabled
 
   try {
     const options = attachTokenToHeaders(getState);
-    await axios.put(`/api/arcadeGames/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate, skipStageSave}, options);
+    await axios.put(`/api/arcadeGames/${gameId}`, { lobbyId: lobbyId, gameUpdate: gameUpdate, isSaveDisabled}, options);
 
     // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event in this scenario so we need a local EDIT_GAME_SUCCESS
     // if(!lobbyId) {

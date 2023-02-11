@@ -8,9 +8,9 @@ import { requestFullscreen } from '../../utils/webPageUtils';
 import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/GameView/GameView';
-import { changeGameState } from '../../store/actions/gameContextActions';
 import { START_STATE } from '../../game/constants';
 import { unloadArcadeGame } from '../../store/actions/arcadeGameActions';
+import { changeGameState } from '../../store/actions/gameSessionActions';
 
 const PlayGamePage = ({ gameModel: { gameModel }, changeGameState, requestFullscreen, unloadArcadeGame}) => {
   useEffect(() => {

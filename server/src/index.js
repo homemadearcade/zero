@@ -16,7 +16,7 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_SESSION_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBYS_STORE, CODRAWING_ROOM_PREFIX, GAME_SESSIONS_STORE } from './constants';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_SESSION_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBYS_STORE, CODRAWING_ROOM_PREFIX, GAME_SESSIONS_STORE, ON_GAME_SESSION_USER_STATUS_UPDATE } from './constants';
 import Lobby from './models/Lobby';
 import TicketedEvent from './models/TicketedEvent';
 import TicketPurchase from './models/TicketPurchase';
@@ -227,6 +227,10 @@ io.on("connection", (socket) => {
     io.to(payload.lobbyId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
   })
 
+  socket.on(ON_GAME_SESSION_USER_STATUS_UPDATE, (payload) => {
+    io.to(payload.gameSessionId).emit(ON_GAME_SESSION_USER_STATUS_UPDATE, payload)
+  })
+
   socket.on(ON_GAME_INSTANCE_ANIMATION, (payload) => {
     io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
   })
@@ -314,7 +318,7 @@ async function onMongoDBConnected() {
   
   // await TicketPurchase.create(ticketPurchase)
 
-  let lobbys = (await Lobby.find().populate('participants game').populate({
+  let lobbys = (await Lobby.find().populate('participants game gameSession').populate({
     path: 'game',
     populate: {
       path: 'user',
@@ -329,7 +333,6 @@ async function onMongoDBConnected() {
         ...lobby,
         experienceState: 'WAITING_EXPERIENCE',
         currentStep: 2,
-        currentGameId: null,
         messages: [],
         users: lobby.participants.map((user) => {
           return {
@@ -358,8 +361,9 @@ async function onMongoDBConnected() {
       const gameSession = gam.toJSON()
       return {
         ...gameSession,
-        gameState: null,
+        gameState: 'PLAY_STATE',
         messages: [],
+        resetDate: Date.now(),
         players: gameSession.players.map((user) => {
           return {
             email: user.email,

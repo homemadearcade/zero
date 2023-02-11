@@ -10,8 +10,9 @@ import Typography from '../../ui/Typography/Typography';
 import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
 import { TextField } from '@mui/material';
 import { addArcadeGame } from '../../store/actions/arcadeGameActions';
+import { addGameSession } from '../../store/actions/gameSessionActions';
 
-const LobbyForm = ({ addLobby, onSubmit, addArcadeGame }) => {
+const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameSession }) => {
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
       startTime: '',
@@ -24,18 +25,31 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame }) => {
       stages: {},
       classes: {},
       cutscenes: {},
-      relations: {}
+      relations: {},
+      // metadata: {
+      //   title: ''
+      // }
     });
+    
     const game = gameResponse.data.game
+
+    const gameSessionResponse = await addGameSession({
+      players: data.participants,
+      isNetworked: true,
+      isEdit: true,
+      gameId: game.id,
+      hostUserId: data.participants
+    });
+    const gameSession = gameSessionResponse.data.gameSession
     const participantId = data.participants
-    await addLobby({ game: game.id, participants: [data.participants], participantId: participantId, gameHostId: participantId, startTime: data.startTime });
+    await addLobby({ game: game.id, participants: [data.participants], participantId: participantId, gameHostId: participantId, startTime: data.startTime, gameSession: gameSession.id });
     reset();
     onSubmit()
   }
 
   return (
     <div className="LobbyForm">
-      <Typography variant="h2" component="h2">Add a lobby</Typography>
+      <Typography variant="h5" component="h5">Add a lobby</Typography>
       <form>
         <Controller
           name={"participants"}
@@ -68,4 +82,4 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
 });
 
-export default connect(mapStateToProps, { addLobby, addArcadeGame })(LobbyForm);
+export default connect(mapStateToProps, { addLobby, addArcadeGame, addGameSession })(LobbyForm);

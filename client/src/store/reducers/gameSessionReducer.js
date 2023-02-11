@@ -97,7 +97,7 @@ export default function gameSessionReducer(state = initialState, { type, payload
     case ON_GAME_SESSION_UPDATE:
       return {
         ...state,
-        gameSession: {...payload.gameSession, users: payload.gameSession.players.slice()}
+        gameSession: {...state.gameSession, ...payload.gameSession, users: payload.gameSession.players?.slice()}
       };
     default:
       return state;

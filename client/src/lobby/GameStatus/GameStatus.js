@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import store from '../../store';
 
-const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameState }, gameModel: { gameModel } }) => {
+const GameStatus = ({ gameSession: { gameSession: { isPoweredOn, gameState } }, gameModel: { gameModel } }) => {
   const [ups, setUps] = useState({})
   
   useEffect(() => {
@@ -53,7 +53,7 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
         {gameModel.metadata.name || gameModel.user?.username + "'s game"}
       </span>,
       body: <span className="GameStatus__icons">
-        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPowerOff"/></span>{(isGamePoweredOn) ? 'Powered On' : 'Not Powered On'}</span>
+        <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPowerOff"/></span>{(isPoweredOn) ? 'Powered On' : 'Not Powered On'}</span>
         <span className="GameStatus__fullscreen"><span className="GameStatus__icon"></span>{gameState}</span>
         {scene && renderGameInstanceSceneStatus()}
       </span>
@@ -62,8 +62,7 @@ const GameStatus = ({ lobby: { lobby: { isGamePoweredOn}}, gameContext: { gameSt
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  lobby: state.lobby,
-  gameContext: state.gameContext,
+  gameSession: state.gameSession,
   gameModel: state.gameModel
 });
 

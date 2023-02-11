@@ -22,7 +22,7 @@ import { initialGameFormEditorState } from './gameFormEditorReducer';
 import { initialGameViewEditorState } from './gameViewEditorReducer';
 import { initialGameEditorState } from './gameEditorReducer';
 import { initialErrorState } from './errorsReducer';
-import { initialGameContextState } from './gameContextReducer';
+import { initialPlayerInterfaceState } from './playerInterfaceReducer';
 import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
 import { initialVideoState } from './videoReducer';
 import { inIframe } from '../../utils/webPageUtils';
@@ -46,7 +46,7 @@ const initialState = {
     gameEditor: initialGameEditorState,
     gameFormEditor: initialGameFormEditorState,
     gameViewEditor: initialGameViewEditorState,
-    gameContext: initialGameContextState,
+    playerInterface: initialPlayerInterfaceState,
     contextMenu: initialContextMenuState,
     unlockableInterfaceIds: initialUnlockableInterfaceState,
     errors: initialErrorState,

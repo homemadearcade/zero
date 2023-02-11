@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import KeyIndicator from '../ui/KeyIndicator/KeyIndicator';
 import './ControlsPopup.scss';
 
-const ControlsPopup = ({ gameContext: { controlsToPress }}) => {
+const ControlsPopup = ({ playerInterface: { controlsToPress }}) => {
   if(!controlsToPress) return 
 
   return <div className="ControlsPopup">
@@ -18,7 +18,7 @@ const ControlsPopup = ({ gameContext: { controlsToPress }}) => {
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameContext: state.gameContext,
+  playerInterface: state.playerInterface,
 });
 
 export default compose(

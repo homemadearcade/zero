@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { progressActiveCutscene } from '../../../store/actions/gameContextActions';
+import { progressActiveCutscene } from '../../../store/actions/playerInterfaceActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './Cutscene.scss';
@@ -32,7 +32,7 @@ function CutsceneBody({imageUrl, text, progressActiveCutscene}) {
   );
 }
 
-const Cutscene = ({ gameModel: { gameModel }, gameContext: { cutsceneId, cutsceneIndex }, progressActiveCutscene}) => {
+const Cutscene = ({ gameModel: { gameModel }, playerInterface: { cutsceneId, cutsceneIndex }, progressActiveCutscene}) => {
   if(!cutsceneId) return null
   if(!gameModel) return null 
 
@@ -48,7 +48,7 @@ const Cutscene = ({ gameModel: { gameModel }, gameContext: { cutsceneId, cutscen
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameContext: state.gameContext,
+  playerInterface: state.playerInterface,
   gameModel: state.gameModel,
 });
 

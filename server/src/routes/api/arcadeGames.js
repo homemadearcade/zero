@@ -182,19 +182,18 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       awsImages: updatedGame.awsImages,
       nodeSize: updatedGame.nodeSize, 
       relations: updatedGame.relations, 
-      isRemoved: updatedGame.isRemoved
+      isRemoved: updatedGame.isRemoved,
+      stages: updatedGame.stages
       // user: tempGame.user ? tempGame.user.id : Math.random()
     }
 
-    if(!req.body.skipStageSave) {
-      update.stages = updatedGame.stages
+    if(!req.body.isSaveDisabled) {
+      await ArcadeGame.findByIdAndUpdate(
+        req.params.id,
+        update,
+        { new: true },
+      );
     }
-
-    await ArcadeGame.findByIdAndUpdate(
-      req.params.id,
-      update,
-      { new: true },
-    );
 
     if(req.body.lobbyId) {
       req.io.to(req.body.lobbyId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)

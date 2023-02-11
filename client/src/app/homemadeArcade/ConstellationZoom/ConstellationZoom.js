@@ -8,7 +8,7 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { GAME_EDITOR_EXPERIENCE } from '../../../constants';
 import store from '../../../store';
 
-const ConstellationZoom = () => {
+const ConstellationZoom = ({gameSession: { gameSession }}) => {
   const [zoomOutImage, setZoomOutImage] = useState()
 
   useEffect(() => {
@@ -17,13 +17,13 @@ const ConstellationZoom = () => {
     async function attemptConstellation() {
       const state = store.getState()
 
-      if(state.lobby.lobby?.experienceState === GAME_EDITOR_EXPERIENCE && state.lobby.lobby?.isGamePoweredOn) {
+      if(state.lobby.lobby?.experienceState === GAME_EDITOR_EXPERIENCE && gameSession.isPoweredOn) {
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
       
         const { imgCanvas } = await scene.getImageFromGame('constellation')
 
-        setZoomOutImage(imgCanvas)
+        setZoomOutImage(imgCanvas.toDataURL())
       } else {
         console.log('not in correct state, redoing attemptConstellation')
         timeout = setTimeout(attemptConstellation, 1000)
@@ -33,7 +33,7 @@ const ConstellationZoom = () => {
     return () => {
       clearTimeout(timeout)
     }
-  }, [])
+  }, [gameSession.isPoweredOn])
 
  return <div className="ConstellationZoom">
     {zoomOutImage && <Constellation className="Constellation--overlay" zoomOut zoomOutImage={zoomOutImage}>
@@ -41,7 +41,9 @@ const ConstellationZoom = () => {
  </div>
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  gameSession: state.gameSession
+});
 
 export default compose(
   connect(mapStateToProps, { }))(ConstellationZoom);
