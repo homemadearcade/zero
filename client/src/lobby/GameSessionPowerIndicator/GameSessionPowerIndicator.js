@@ -6,15 +6,15 @@ import { connect } from 'react-redux';
 import Icon from '../../ui/Icon/Icon';
 import { editGameSession } from '../../store/actions/gameSessionActions';
 
-import './LobbyPowerIndicator.scss'
+import './GameSessionPowerIndicator.scss'
 import Switch from '../../ui/Switch/Switch';
 
-const LobbyPowerIndicator = ({
+const GameSessionPowerIndicator = ({
   gameSession : { gameSession, gameSession: { isPoweredOn, gameId }},
   editGameSession
 }) => {
   return <div
-    className="LobbyPowerIndicator"
+    className="GameSessionPowerIndicator"
     onClick={() => {
       if(!gameSession.gameId) return
       editGameSession(gameSession.id, {
@@ -37,4 +37,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { editGameSession }),
-)(LobbyPowerIndicator);
+)(GameSessionPowerIndicator);

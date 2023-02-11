@@ -4,7 +4,7 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-import { ON_COBROWSING_UPDATE, ON_COBROWSING_SUBSCRIBED, ON_COBROWSING_REMOTE_DISPATCH, SOCKET_SESSIONS_STORE } from '../../constants';
+import { ON_COBROWSING_UPDATE, ON_COBROWSING_SUBSCRIBED, ON_COBROWSING_REMOTE_DISPATCH, SOCKET_SESSIONS_STORE, COBROWSING_ROOM_PREFIX } from '../../constants';
 
 const router = Router();
 
@@ -14,7 +14,7 @@ router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       return res.status(400).json({ message: 'You do not have privelages to register cobrowse.' });
     }
 
-    req.socket.join('cobrowsing@'+req.params.id);
+    req.socket.join(COBROWSING_ROOM_PREFIX+req.params.id);
 
     const socketSession = req.app.get(SOCKET_SESSIONS_STORE).findSession(req.params.id)
     if(socketSession) {
@@ -34,7 +34,7 @@ router.post('/stop/:id', requireJwtAuth, requireSocketAuth, async (req, res) => 
       return res.status(400).json({ message: 'You do not have privelages to unregister this cobrowse.' });
     }
 
-    req.socket.leave('cobrowsing@'+req.params.id);    
+    req.socket.leave(COBROWSING_ROOM_PREFIX+req.params.id);    
     res.status(200).send()
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
@@ -47,7 +47,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       return res.status(400).json({ message: 'You do not have privelages to update this users cobrowse state.' });
     }
 
-    req.io.to('cobrowsing@'+req.params.id).emit(ON_COBROWSING_UPDATE, {
+    req.io.to(COBROWSING_ROOM_PREFIX+req.params.id).emit(ON_COBROWSING_UPDATE, {
       userId: req.params.id,
       remoteState: req.body.remoteState
     });

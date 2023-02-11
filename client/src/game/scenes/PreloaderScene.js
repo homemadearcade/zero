@@ -9,16 +9,17 @@ import {
 import { createGameSceneInstance } from '../../utils/gameUtils';
 
 export class PreloaderScene extends Phaser.Scene {
-  constructor(props) {
+  constructor({ isNetworked, isEdit, hostUserId, gameInstanceId, id}) {
     super({
       key: PRELOADER_SCENE,
     });
 
     this.gameSession = {
-      isHost: props.isNetworked ? props.hostUserId === store.getState().auth.me?.id : true,
-      isNetworked: props.isNetworked,
-      isPlay: props.isPlay,
-      gameInstanceId: props.gameInstanceId
+      isHost: isNetworked ? hostUserId === store.getState().auth.me?.id : true,
+      isNetworked,
+      isEdit,
+      gameInstanceId,
+      id: id
     }
 
     if(store.getState().webPage.gameInstanceId) {

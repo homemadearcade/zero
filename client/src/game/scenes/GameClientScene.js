@@ -100,7 +100,7 @@ export class GameClientScene extends EditorScene {
     }
 
     window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
-      lobbyId: store.getState().lobby.lobby?.id,
+      gameSessionId: this.gameSession.id,
       upsClient: this.upsClient,
     })
   }

@@ -8,7 +8,7 @@ const { Schema } = mongoose;
     // });
     // const game = gameResponse.data.game
     // const participantId = data.participants
-    // const lobbyResponse = await addLobby({ game: game.id, participants: [data.participants], participantId: participantId, gameHostId: participantId, startTime: data.startTime });
+    // const lobbyResponse = await addLobby({ game: game.id, participants: [data.participants], participantId: participantId,  startTime: data.startTime });
     // const lobby =lobbyResponse.data.lobby
 
 const ticketPurchase = new Schema(

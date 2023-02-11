@@ -25,7 +25,11 @@ export class GameHostScene extends EditorScene {
   }
 
   callAnimation({type, data}) {
-    window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { lobbyId: store.getState().lobby.lobby.id, type, data: {...data, fromHost: true}})
+    window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { 
+      gameSessionId: this.gameSession.id,
+      type, 
+      data: {...data, fromHost: true}
+    })
     this.runAnimation({type, data})
   }
 
@@ -83,7 +87,16 @@ export class GameHostScene extends EditorScene {
       }
       
       this.updateNetworkStatus()
-      window.socket.emit(ON_GAME_INSTANCE_UPDATE, { gameInstanceId: this.gameInstanceId, lobbyId: store.getState().lobby.lobby.id, objects, player, projectiles, stageId: currentStageId, upsHost: this.upsHost })
+      window.socket.emit(ON_GAME_INSTANCE_UPDATE, 
+        { 
+          gameInstanceId: this.gameInstanceId, 
+          gameSessionId: this.gameSession.id,
+          objects, 
+          player, 
+          projectiles, 
+          stageId: currentStageId, 
+          upsHost: this.upsHost
+        })
       this.afterGameInstanceUpdateEffects() 
     }, updateInterval)
   }

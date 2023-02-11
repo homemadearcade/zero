@@ -8,7 +8,7 @@ import { getUsers } from '../../../store/actions/usersActions';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 import Loader from '../../Loader/Loader';
 
-const SelectUsers = ({ onSelect, usersSelected, getUsers, users: { users, isLoading }}) => {
+const SelectUsers = ({ onSelect, groupBy, usersSelected, getUsers, users: { users, isLoading }}) => {
   useEffect(() => {
     getUsers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -26,7 +26,7 @@ const SelectUsers = ({ onSelect, usersSelected, getUsers, users: { users, isLoad
     }
   }
 
-  const options = users.map(mapUserToOption)
+  let options = users.map(mapUserToOption)
 
   return (
     <div className="SelectUsers">
@@ -34,6 +34,7 @@ const SelectUsers = ({ onSelect, usersSelected, getUsers, users: { users, isLoad
         onChange={(event, usersSelected) => {
           onSelect(usersSelected)
         }}
+        groupBy={groupBy}
         hideRemoved
         formLabel="Users"
         value={usersSelected}

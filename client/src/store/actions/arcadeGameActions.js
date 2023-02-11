@@ -51,11 +51,11 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
 
   try {
     const state = store.getState()
-    const lobbyId = state.lobby.lobby?.id 
+    const gameSessionId = state.lobby.lobby?.gameSession.id
 
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/arcadeGames/character', {
-      lobbyId,
+      gameSessionId,
       userId,
       unlockableInterfaceIds,
       merge
@@ -74,6 +74,7 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
 }
 
 function onArcadeGameModelUpdate(gameUpdate) {
+  console.log(gameUpdate)
   const state = store.getState()
   const oldGameData = _.cloneDeep(state.gameModel.gameModel)
   const stageId = state.gameModel.currentStageId

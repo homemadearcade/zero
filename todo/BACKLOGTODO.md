@@ -52,9 +52,7 @@ TODO FEATURES ( MAYBE ) BACKlog
 
 You should be able to ^ highlight for the cobrowsing user any thing  We need to be able to HIGHLIGHT a div or UNLOCKABLE
 
-Most recently used. Just have a > chevron right to open the entire set of classes, brushes, colors, etc. Every time a brush or color is selected, set a lastUsedDate on it and sort by that :)
-
-Its all floating action buttons? Theres recently used brushes, recently used classes, then theres recently edited ( stages, dialogues ) I guess thats baiscally what we have? Hmm not sure...yeah maybe all those things are sorted by recently used... and then PLUS is outside of that scope as a FAB. And then The last item in the grids is like Open Modal for More which gives you a grid modal view of infinite items
+--
 
 Spray Can, Paintbrush, Crayon?
 
@@ -62,7 +60,7 @@ For paintbrush, use opacity, have it slowly layer on itself, square or circle pa
 
 On touch end. Instead of an array - plant a boolean on another collider? maybe? and like reset that boolean every loop. Once it doesnt need to be reset, thats when the touch stopped? right?
 
-Automate some video - In monologue mode…Hovering over video creates… overlay
+Automate some video - In monologue mode …Hovering over video creates… overlay
 
 ANALYTICS on each action?, on where on the screen? Save all records
 
@@ -111,8 +109,6 @@ COBROWSING PUBLISHER CHECK if its connected to the client? why is that? Theres s
 Fix with Cobrowsing?? right now broken af when switching between two different users
 
 if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
-
-popup if the player has switched stages and you want to follow them to that scene 
 
 Auto hide live editor when using keys?
 
@@ -172,6 +168,7 @@ I think so yes. Basically we can... turn Game Model into a class that has the Sc
 
 --
 
+
 Lobby.lobbyId
 game.gameId 
 these can be my own custom ids and use them for urls instead of the mongodb ids
@@ -183,3 +180,8 @@ Decide - what does default mean, what does initial mean?
 Initial Data vs Default data...?
 Initial Data initializes
 Default data fallsback
+
+--
+
+ADD TO GAME SESSION SYSTEM
+gameInstanceId system. If your not the host, you ASK to join, you dont just JOIN. you are given player id/gameInstance Id by the host

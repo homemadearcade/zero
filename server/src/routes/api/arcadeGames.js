@@ -55,8 +55,8 @@ router.post('/character', requireJwtAuth, requireSocketAuth, async (req, res) =>
 
     const user = await User.findByIdAndUpdate(req.body.userId, { $set: updatedUser }, { new: true });
 
-    if(req.body.lobbyId) {
-      req.io.to(req.body.lobbyId).emit(ON_GAME_CHARACTER_UPDATE, {
+    if(req.body.gameSessionId) {
+      req.io.to(req.body.gameSessionId).emit(ON_GAME_CHARACTER_UPDATE, {
         id: req.body.userId,
         data: {
           unlockableInterfaceIds: user.unlockableInterfaceIds[ARCADE_EXPERIENCE_ID]
@@ -195,8 +195,10 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       );
     }
 
-    if(req.body.lobbyId) {
-      req.io.to(req.body.lobbyId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
+          console.log(req.body.gameSessionId)
+
+    if(req.body.gameSessionId) {
+      req.io.to(req.body.gameSessionId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
     } else {
       //local edit mode
       req.socket.emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)

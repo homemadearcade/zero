@@ -107,7 +107,6 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
     let lobby = await Lobby.create({
       participants: req.body.participants,
       startTime: req.body.startTime,
-      gameHostId: req.body.gameHostId,
       participantId: req.body.participantId,
       guideId: req.body.guideId,
       game: req.body.game,
@@ -200,19 +199,6 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     }
   })[0]
 
-  // if(req.lobby.isGamePoweredOn) {
-  //   return res.status(400).json({ message: 'You cannot assign a role when the lobby game is powered on' });
-  // }
-
-  if(req.body.role === 'gameHost') {
-    if(req.body.userId === 'unassigned') {
-      req.lobby.gameHostId = null
-    } else {
-      req.lobby.gameHostId = req.body.userId
-    }
-
-  }
-
   if(req.body.role === 'participant') {
     if(req.body.userId === 'unassigned') {
       req.lobby.participantId = null
@@ -237,7 +223,6 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
   const updatedLobby = await Lobby.findByIdAndUpdate(
     req.params.id,
     { 
-      gameHostId: req.lobby.gameHostId,
       participantId: req.lobby.participantId,
       guideId: req.lobby.guideId,
     },
@@ -436,10 +421,9 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
           return id
         }),
         startTime: req.lobby.startTime,
-        gameHostId: req.lobby.gameHostId,
         participantId: req.lobby.participantId,
         guideId: req.lobby.guideId,
-        game: req.lobby.game?.id,
+        editingGameId: req.lobby.editingGameId,
         gameSession: req.lobby.gameSession?.id
       },
       { new: true },

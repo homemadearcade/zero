@@ -30,11 +30,7 @@ const PlayGamePage = ({ gameModel: { gameModel }, changeGameState, requestFullsc
 
   return (
     <div className="PlayGamePage">
-        <GameView
-          isHost
-          isNetworked={false}
-          isPlay
-        />
+        <GameView/>
     </div>
   );
 };

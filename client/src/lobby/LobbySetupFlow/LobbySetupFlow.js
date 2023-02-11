@@ -29,6 +29,7 @@ import { ON_GAME_INSTANCE_ANIMATION } from '../../store/types';
 import { editGameModel } from '../../store/actions/gameModelActions';
 import { updateLobbyUser } from '../../store/actions/lobbyActions';
 import { editGameSession, changeGameState } from '../../store/actions/gameSessionActions';
+import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -94,7 +95,7 @@ const LobbySetupFlow = ({
     }
   }
 
-    function unlockThis(description, ids) {
+  function unlockThis(description, ids) {
      return {
       id: description,
       title: <Typography component="h5" variant="h5">{description}</Typography>,
@@ -112,68 +113,19 @@ const LobbySetupFlow = ({
     }
   }
 
-    function breakTitle(title) {
-          return {
-          id:title,
-          title: <Typography component="h3" variant="h3">{title}</Typography>,
-          break: true
-        }
+  function breakTitle(title) {
+    return {
+      id: title,
+      title: <Typography component="h3" variant="h3">{title}</Typography>,
+      break: true
+    }
   }
 
-
   function renderAssignRoles() {
-
-    function getRoles(userId) {
-      const roles = []
-
-     if(lobby.gameHostId === userId) {
-      roles.push('Game Host')
-     }
-
-     if(lobby.participantId === userId) {
-      roles.push('Participant')
-     }
-
-    if(lobby.guideId === userId) {
-      roles.push('Guide')
-     }
-
-     return roles.join(' ,')
-    }
-
     return <>
       <div>
         Roles are assigned automatically. By default, the participant is the Game Host and the Participant role and the first admin into the lobby is assiged the Guide role. If this does not need to be changed, click Continue.
       </div><br/>
-      <div className="LobbySetupFlow__roles">
-
-      {lobby.users.map((user) => {
-        return <LobbyUserStatus titleOnly key={user.id} userId={user.id}
-          titleChildren={<>
-            <br/>
-            <div>Current Roles: {getRoles(user.id)}</div><br/>
-            <Button onClick={() => {
-              assignLobbyRole(lobby.id, {
-                userId: user.id, 
-                role: 'gameHost'
-              });
-            }}>Assign as Game Host</Button>
-            <Button onClick={() => {
-              assignLobbyRole(lobby.id, {
-                userId: user.id, 
-                role: 'participant'
-              });
-            }}>Assign as Participant</Button>
-            {user.role === ADMIN_ROLE && <Button onClick={() => {
-              assignLobbyRole(lobby.id, {
-                userId: user.id, 
-                role: 'guide'
-              });
-            }}>Assign as Guide</Button>}
-          </>}
-        />
-      })}
-      </div>
     </>
   }
 
@@ -187,7 +139,7 @@ const LobbySetupFlow = ({
       Select a pre-existing game that was created by the participant:
       {lobby.participantId && <SelectGame userId={lobby.participantId} onSelect={(game) => {
         editLobby(lobby.id, {
-          game
+          editingGameId: game.id
         })
       }}/>}
       Create a new game for the particpant
@@ -196,7 +148,7 @@ const LobbySetupFlow = ({
           userId: lobby.participantId
         })
         editLobby(lobby.id, {
-          game: response.data.game
+          editingGameId: response.data.game.id
         })
       }}
       startIcon={<Icon icon="faPlus"/>}>
@@ -397,7 +349,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
             await editGameSession(lobby.gameSession.id, {
-              gameId: lobby.game.id,
+              gameId: lobby.gameSession.gameId,
               isSaveDisabled: false,
               isPoweredOn: true,
             })
@@ -466,7 +418,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { lobbyId: lobby.id, type: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { gameSessionId: lobby.gameSession.id, type: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },
@@ -500,7 +452,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ gameId: lobby.game.id, isArchival: true }))
+            store.dispatch(copyArcadeGameToUser({ gameId: lobby.editingGameId, isArchival: true }))
           },
           nextButtonText: 'Archive'
         },

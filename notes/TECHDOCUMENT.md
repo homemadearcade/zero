@@ -124,8 +124,12 @@ You only leave the users array of a lobby or game session when you join a differ
 1. Lobby is joined
 2. Host creates a game session
 3. Host sets a game instance with a game instance id, and a game session id. Host gives the lobby the game session id
-4. User in lobby wants to join this game session, they ask the game host to join
+4. User in lobby wants to join this game session, they ask the game host to join, they can edit the game regardless, the ( game model )
+  The game boots anyways, but it doesnt not listen for uppates, player can edit but cant play or... get updates or anything with a game Instance id, they can update the model tho!
 5. Game host responds back to lobby user with { gameInstanceId, playerId, initial gameData }
-6. User in lobby becomes a game client, and begins recieving updates
+  Now it listens for updates
+6. User begins recieving updates
 7. Any user at any time can suggest a game state change
 8. All users in the session recieve this 
+
+---

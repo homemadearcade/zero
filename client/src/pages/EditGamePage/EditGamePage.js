@@ -11,8 +11,10 @@ import { loadArcadeGame, unloadArcadeGame } from '../../store/actions/arcadeGame
 import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/GameView/GameView';
+import { changeGameState } from '../../store/actions/gameSessionActions';
+import { PLAY_STATE } from '../../game/constants';
 
-const EditGamePage = ({ unloadArcadeGame }) => {
+const EditGamePage = ({changeGameState }) => {
   // <div>{!window.isFullscreen && <div onClick={() => {
   //   requestFullscreen()
   //    }}>
@@ -21,6 +23,7 @@ const EditGamePage = ({ unloadArcadeGame }) => {
   // </div>
 
   useEffect(() => {
+    changeGameState(PLAY_STATE)
 
     return () => {
       // unloadArcadeGame()
@@ -36,8 +39,7 @@ const EditGamePage = ({ unloadArcadeGame }) => {
         </>}
       >
         <GameView
-          isHost
-          isNetworked={false}
+          isEdit
         />
       </GameEditor>
     </div>
@@ -51,5 +53,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireChrome,
   withGame,
-  connect(mapStateToProps, { unloadArcadeGame })
+  connect(mapStateToProps, { changeGameState })
 )(EditGamePage);

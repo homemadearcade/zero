@@ -26,9 +26,9 @@ const LobbyDetail = ({
       <div className="LobbyDetail__roles">
         <div className="LobbyDetail__role">
         <Typography component="div" variant="subtitle1">Game Host:</Typography>
-          {lobby.gameHostId && !usersById[lobby.gameHostId] && <Typography component="div" variant="subtitle2">User is not in room</Typography>}
-          {lobby.gameHostId && usersById[lobby.gameHostId] && <LobbyUserStatus myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.gameHostId]?.id}/>}
-          {!lobby.gameHostId && <Typography component="div" variant="subtitle2">No Game Host Selected</Typography>}
+          {lobby.gameSession.hostUserId && !usersById[lobby.gameSession.hostUserId] && <Typography component="div" variant="subtitle2">User is not in room</Typography>}
+          {lobby.gameSession.hostUserId && usersById[lobby.gameSession.hostUserId] && <LobbyUserStatus myTracks={myTracks} userTracks={userTracks} userId={usersById[lobby.gameSession.hostUserId]?.id}/>}
+          {!lobby.gameSession.hostUserId && <Typography component="div" variant="subtitle2">No Game Host Selected</Typography>}
         </div>
         <div className="LobbyDetail__role">
           <Typography component="div" variant="subtitle1">Participant:</Typography>
@@ -45,11 +45,11 @@ const LobbyDetail = ({
         <div className="LobbyDetail__others">
           <Typography component="div" variant="subtitle1">Watchers:</Typography>
           <div>{lobby.users.filter((user) => {
-            if(user.id ===lobby.guideId || user.id === lobby.participantId || user.id === lobby.gameHostId) return null
+            if(user.id ===lobby.guideId || user.id === lobby.participantId || user.id === lobby.gameSession.hostUserId) return null
             return true
           }).length === 0 && <Typography component="div" variant="subtitle2">No one watching</Typography>}</div>
           <div>{lobby.users.map((user) => {
-            if(user.id ===lobby.guideId || user.id === lobby.participantId || user.id === lobby.gameHostId) return null
+            if(user.id ===lobby.guideId || user.id === lobby.participantId || user.id === lobby.gameSession.hostUserId) return null
             return <LobbyUserStatus hasJoinLink key={user.id} myTracks={myTracks} userTracks={userTracks} userId={user.id}/>
           })}</div>
         </div>

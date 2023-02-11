@@ -10,7 +10,7 @@ import LobbyDetail from '../LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
 import { GAME_EDITOR_EXPERIENCE } from '../../constants';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import LobbyPowerIndicator from '../LobbyPowerIndicator/LobbyPowerIndicator';
+import GameSessionPowerIndicator from '../GameSessionPowerIndicator/GameSessionPowerIndicator';
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import Typography from '../../ui/Typography/Typography';
 import Switch from '../../ui/Switch/Switch';
@@ -42,8 +42,8 @@ const LobbyGuideToolbar = ({
           <Icon icon="faBars"/>
         </div>}
         {experienceState === GAME_EDITOR_EXPERIENCE && <CobrowsingIndicator/>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && <LobbyPowerIndicator/>}
         {experienceState === GAME_EDITOR_EXPERIENCE && isPoweredOn && <ConstellationToggle/>}
+        {experienceState === GAME_EDITOR_EXPERIENCE && <GameSessionPowerIndicator/>}
         {experienceState === GAME_EDITOR_EXPERIENCE && isSaveDisabled && <div className="LobbyGuideToolbar__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Save Disabled</Typography>

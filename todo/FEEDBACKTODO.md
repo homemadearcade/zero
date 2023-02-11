@@ -16,18 +16,6 @@ ClientCanvas
 
 ESCAPE EXPERIENCE KEY - SAFETY KEY
 
+Change Game and Change Roles in Lobby Setup... they dont work no more
 
-GAME SESSION UPDATE
-
-REMOVE FROM LOBBY
-lobby game Host ID 
-lobby game
-
-CHANGE TO GAME SESSION
-connections that use lobbyId t 
-LobbyGuidetoolbar
-LobbyPower
-
-ADD TO GAME SESSION SYSTEM
-gameInstanceId system. If your not the host, you ASK to join, you dont just JOIN. you are given player id/gameInstance Id by the host
-
+By default a game is not networked and is not an editor. You add those funcionalities throuhght the game session or through where the game View is defined. Right now its based on where the game View is defined, but defaults to the game session, must fix this! Who decides??? Perhaps withGame vs withGameSession? vs withEditingGame? 

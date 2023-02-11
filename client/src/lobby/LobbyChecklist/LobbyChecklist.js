@@ -70,14 +70,14 @@ const LobbyChecklist = ({
     {
       text: 'Game Host role is set',
       test: () => {
-        return lobby.gameHostId
+        return lobby.gameSession.hostUserId
       },
       required: true,
     },
     {
       text: 'Game Host is present',
       test: () => {
-        return lobbyUserStatuses[lobby.gameHostId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyUserStatuses[lobby.gameHostId]?.isFocused
+        return lobbyUserStatuses[lobby.gameSession.hostUserId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyUserStatuses[lobby.gameSession.hostUserId]?.isFocused
       },
       required: true,
     },
@@ -91,7 +91,7 @@ const LobbyChecklist = ({
     {
       text: 'Game has been selected',
       test: () => {
-        return !!lobby.game
+        return !!lobby.gameSession.gameId
       },
       required: true
     },

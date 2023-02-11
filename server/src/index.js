@@ -232,7 +232,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on(ON_GAME_INSTANCE_ANIMATION, (payload) => {
-    io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
+    io.to(payload.gameSessionId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
   })
 
   let upsServer = {}
@@ -241,33 +241,33 @@ io.on("connection", (socket) => {
 
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
 
-    const lobbyId = payload.lobbyId
+    const gameSessionId = payload.gameSessionId
     const time = Date.now();
     
-    if(!lastUpsServerCounts[lobbyId]) lastUpsServerCounts[lobbyId] = 0
-    if(!upsServerUpdates[lobbyId]) upsServerUpdates[lobbyId] = 0
+    if(!lastUpsServerCounts[gameSessionId]) lastUpsServerCounts[gameSessionId] = 0
+    if(!upsServerUpdates[gameSessionId]) upsServerUpdates[gameSessionId] = 0
 
-    upsServerUpdates[lobbyId]++;
+    upsServerUpdates[gameSessionId]++;
 
-    if (time > lastUpsServerCounts[lobbyId] + 1000) {
-      upsServer[lobbyId] = Math.round( ( upsServerUpdates[lobbyId] * 1000 ) / ( time - lastUpsServerCounts[lobbyId] ) );
-      lastUpsServerCounts[lobbyId] = time;
-      upsServerUpdates[lobbyId] = 0;
+    if (time > lastUpsServerCounts[gameSessionId] + 1000) {
+      upsServer[gameSessionId] = Math.round( ( upsServerUpdates[gameSessionId] * 1000 ) / ( time - lastUpsServerCounts[gameSessionId] ) );
+      lastUpsServerCounts[gameSessionId] = time;
+      upsServerUpdates[gameSessionId] = 0;
     }
 
-    payload.upsServer = upsServer[lobbyId]
+    payload.upsServer = upsServer[gameSessionId]
       
-    io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE, payload)
+    io.to(payload.gameSessionId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, (payload) => {
-    payload.upsServer = upsServer[payload.lobbyId]
+    payload.upsServer = upsServer[payload.gameSessionId]
 
-    io.to(payload.lobbyId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
+    io.to(payload.gameSessionId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
   })
 
   socket.on(ON_GAME_CHARACTER_UPDATE, (payload) => {
-    io.to(payload.lobbyId).emit(ON_GAME_CHARACTER_UPDATE, payload)
+    io.to(payload.gameSessionId).emit(ON_GAME_CHARACTER_UPDATE, payload)
   })
 
   socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, (payload) => {
