@@ -8,16 +8,12 @@ import {
   GET_SPRITESHEET_DATA_LOADING,
   GET_SPRITESHEET_DATA_SUCCESS,
   GET_SPRITESHEET_DATA_FAIL,
-  UNLOAD_GAME_MODEL,
-  ON_GAME_MODEL_UPDATE,
   CHANGE_CURRENT_STAGE,
 } from '../types';
 import _ from 'lodash';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
-import { PLAYTHROUGH_PAUSED_STATE, PLAYTHROUGH_PLAY_STATE } from '../../game/constants';
-import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 
 export const changeCurrentStage = (stageId) => (dispatch, getState) => {
   dispatch({

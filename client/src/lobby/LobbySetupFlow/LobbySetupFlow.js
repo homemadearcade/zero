@@ -134,8 +134,8 @@ const LobbySetupFlow = ({
       <div>
        A Game is created automatically when a lobby is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
       </div><br/>
-      {lobby?.game?.id && 
-      <GameCard game={lobby.game}/>}
+      {false && lobby?.editGameId && 
+      <GameCard gameId={lobby.editingGameId}/>}
       Select a pre-existing game that was created by the participant:
       {lobby.participantId && <SelectGame userId={lobby.participantId} onSelect={(game) => {
         editLobby(lobby.id, {
@@ -240,7 +240,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
-            await editGameSession(lobby.gameSession.id, {
+            await editGameSession(lobby.gameSessionId, {
               gameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
               isPoweredOn: true,
               isSaveDisabled: true,
@@ -309,7 +309,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
-            await editGameSession(lobby.gameSession.id, {
+            await editGameSession(lobby.gameSessionId, {
               gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63c5e24c90a58a00531f4c1a',
               isPoweredOn: true,
               isSaveDisabled: true,
@@ -332,7 +332,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
-            await editGameSession(lobby.gameSession.id, {
+            await editGameSession(lobby.gameSessionId, {
               gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
               isSaveDisabled: true,
             })
@@ -348,8 +348,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
-            await editGameSession(lobby.gameSession.id, {
-              gameId: lobby.gameSession.gameId,
+            await editGameSession(lobby.gameSessionId, {
+              gameId: lobby.editingGameId,
               isSaveDisabled: false,
               isPoweredOn: true,
             })
@@ -418,7 +418,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { gameSessionId: lobby.gameSession.id, type: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { gameSessionId: lobby.gameSessionId, type: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },

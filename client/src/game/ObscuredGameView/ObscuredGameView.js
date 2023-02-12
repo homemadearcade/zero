@@ -78,10 +78,7 @@ const ObscuredGameView = ({
   if(gameSession.isPoweredOn) {
     return <>
       {renderOverlay()}
-      <GameView 
-        isNetworked
-        isEdit
-      />
+      <GameView/>
     </>
   }
 };

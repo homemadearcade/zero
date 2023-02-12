@@ -27,7 +27,8 @@ import {
   ON_GAME_SESSION_USER_STATUS_UPDATE,
   SEND_GAME_SESSION_MESSAGE_LOADING,
   SEND_GAME_SESSION_MESSAGE_SUCCESS,
-  SEND_GAME_SESSION_MESSAGE_FAIL
+  SEND_GAME_SESSION_MESSAGE_FAIL,
+  END_GAME_SESSION
 } from '../types';
 
 import { PHASER_ERROR } from '../../lobby/constants';
@@ -141,14 +142,22 @@ export const editGameSession = (id, data) => async (dispatch, getState) => {
     type: EDIT_GAME_SESSION_LOADING,
   });
   try {
-    const options = attachTokenToHeaders(getState);
 
-    const response = await axios.put(`/api/gameSession/${id}`, data, options);
+    if(id) {
+      const options = attachTokenToHeaders(getState);
 
-    dispatch({
-      type: EDIT_GAME_SESSION_SUCCESS,
-      payload: { gameSession: response.data.gameSession },
-    });
+      const response = await axios.put(`/api/gameSession/${id}`, data, options);
+      dispatch({
+        type: EDIT_GAME_SESSION_SUCCESS,
+        payload: { gameSession: response.data.gameSession },
+      });
+    } else {
+      dispatch({
+        type: EDIT_GAME_SESSION_SUCCESS,
+        payload: { gameSession: data },
+      });
+    }
+
   } catch (err) {
     console.error(err)
 
@@ -294,4 +303,10 @@ export const leaveGameSession = ({ gameSessionId, userId }) => async (dispatch, 
       payload: { error: err?.response?.data.message || err.message },
     });
   }
+};
+
+export const endGameSession = () => async (dispatch, getState) => {
+  dispatch({
+    type: END_GAME_SESSION,
+  });
 };

@@ -68,20 +68,6 @@ const LobbyChecklist = ({
       required: true,
     },
     {
-      text: 'Game Host role is set',
-      test: () => {
-        return lobby.gameSession.hostUserId
-      },
-      required: true,
-    },
-    {
-      text: 'Game Host is present',
-      test: () => {
-        return lobbyUserStatuses[lobby.gameSession.hostUserId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyUserStatuses[lobby.gameSession.hostUserId]?.isFocused
-      },
-      required: true,
-    },
-    {
       text: 'Participant role is set to different user than guide',
       test: () => {
         return lobby.participantId !== lobby.guideId
@@ -91,7 +77,7 @@ const LobbyChecklist = ({
     {
       text: 'Game has been selected',
       test: () => {
-        return !!lobby.gameSession.gameId
+        return !!lobby.editingGameId
       },
       required: true
     },

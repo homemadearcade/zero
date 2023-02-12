@@ -8,35 +8,23 @@ import { requestFullscreen } from '../../utils/webPageUtils';
 import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/GameView/GameView';
-import { START_STATE } from '../../game/constants';
 import { unloadArcadeGame } from '../../store/actions/arcadeGameActions';
 import { changeGameState } from '../../store/actions/gameSessionActions';
+import LocalGameSessionContext from '../../hoc/LocalGameSessionContext';
+import { START_STATE } from '../../game/constants';
 
-const PlayGamePage = ({ gameModel: { gameModel }, changeGameState, requestFullscreen, unloadArcadeGame}) => {
-  useEffect(() => {
-    changeGameState(START_STATE)
-
-    return () => {
-      // unloadArcadeGame()
-    }
-  }, [])
-
-  // <div>{!window.isFullscreen && <div onClick={() => {
-  //   requestFullscreen()
-  //    }}>
-  //   <i className="fas fa-expand PlayGamePage__fullscreen"/>
-  //  </div>
-  // </div>
-
+const PlayGamePage = () => {
   return (
     <div className="PlayGamePage">
+      <LocalGameSessionContext session={{gameState: START_STATE}}>
         <GameView/>
+      </LocalGameSessionContext>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  gameModel: state.gameModel,
+
 });
 
 export default compose(

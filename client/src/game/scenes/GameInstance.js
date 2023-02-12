@@ -557,7 +557,7 @@ export class GameInstance extends Phaser.Scene {
     const startingStageId = store.getState().gameModel.gameModel.player.startingStageId
     store.dispatch(changeCurrentStage(startingStageId))
 
-    if(store.getState().gameSession.gameSession?.isNetworked) {
+    if(store.getState().gameSession.gameSession?.id) {
       store.dispatch(editGameSession(store.getState().gameSession.gameSession.id, {
         gameResetDate: Date.now()
       }))

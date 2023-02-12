@@ -109,6 +109,7 @@ export class ControlledMovement {
     if(isJumpAllowed) {
       if(objectClass.jump.style === JUMP_GROUND) {
         if(this.cursors.up.isDown) {
+          console.log(sprite.body.touching.down || sprite.body.blocked.down)
           if(sprite.body.touching.down || sprite.body.blocked.down) {
             this.objectInstance.setVelocityY(-objectClass.jump.ground)
           }

@@ -15,6 +15,7 @@ import {
   DELETE_GAME_SESSION_FAIL,
   ON_GAME_SESSION_UPDATE,
   SEND_GAME_SESSION_MESSAGE_FAIL,
+  END_GAME_SESSION,
 } from '../types';
 
 const initialState = {
@@ -48,20 +49,20 @@ export default function gameSessionReducer(state = initialState, { type, payload
         gameSession: payload.gameSession,
       };
     case JOIN_GAME_SESSION_SUCCESS:
+      console.log(payload)
       return {
         ...state,
         isJoining: false,
-        isInsideLobby: true,
         gameSession: {...payload.gameSession, users: payload.gameSession.players.slice()}
       };
     case LEAVE_GAME_SESSION_SUCCESS:
     return {
       ...state,
       isJoining: false,
-      isInsideLobby: false,
       gameSession: initialState.gameSession,
     };
     case EDIT_GAME_SESSION_SUCCESS:
+      console.log(payload)
       return {
         ...state,
         isLoading: false,
@@ -99,6 +100,11 @@ export default function gameSessionReducer(state = initialState, { type, payload
         ...state,
         gameSession: {...state.gameSession, ...payload.gameSession, users: payload.gameSession.players?.slice()}
       };
+    case END_GAME_SESSION: 
+      return {
+        ...state,
+        gameSession: initialState.gameSession,
+      }
     default:
       return state;
   }

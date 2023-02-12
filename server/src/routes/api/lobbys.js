@@ -109,17 +109,11 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       startTime: req.body.startTime,
       participantId: req.body.participantId,
       guideId: req.body.guideId,
-      game: req.body.game,
-      gameSession: req.body.gameSession
+      editingGameId: req.body.editingGameId,
+      gameSessionId: req.body.gameSessionId
     });
 
-    lobby = await lobby.populate('participants game gameSession').populate({
-      path: 'game',
-      populate: {
-        path: 'user',
-        model: 'User'
-      }
-    }).execPopulate();
+    lobby = await lobby.populate('participants').execPopulate();
 
     lobby = lobby.toJSON()
 
@@ -342,9 +336,9 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
     try {
       const lobby = await Lobby.findByIdAndRemove(req.params.id).populate('participants');
       req.lobbys.splice(req.lobbyIndex, 1);
-      if (!lobby) return res.status(404).json({ game: 'No game found.' });
+      if (!lobby) return res.status(404).json({ lobby: 'No lobby found.' });
     } catch (err) {
-      res.status(500).json({ game: 'Something went wrong.' });
+      res.status(500).json({ lobby: 'Something went wrong.' });
     }
 
     res.status(200).json({ lobby: req.lobby });
@@ -424,7 +418,7 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
         participantId: req.lobby.participantId,
         guideId: req.lobby.guideId,
         editingGameId: req.lobby.editingGameId,
-        gameSession: req.lobby.gameSession?.id
+        gameSessionId: req.lobby.gameSessionId
       },
       { new: true },
     );

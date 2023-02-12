@@ -16,10 +16,10 @@ import ConstellationHero from '../../app/homemadeArcade/ConstellationHero/Conste
 import Link from '../../ui/Link/Link';
 import { Container } from '@mui/system';
 import ConstellationZoom from '../../app/homemadeArcade/ConstellationZoom/ConstellationZoom';
-import GameSessionContext from '../../hoc/GameSessionContext';
+import MultiplayerGameSessionContext from '../../hoc/MultiplayerGameSessionContext';
 
 const ExperienceView = ({
-  lobby: { lobby: { users, experienceState, guideId, game } },
+  lobby: { lobby: { users, experienceState, guideId, editingGameId }, lobby },
   gameSession: { gameSession },
   myTracks,
   userTracks,
@@ -40,11 +40,11 @@ const ExperienceView = ({
     }
 
     if(experienceState === GAME_EDITOR_EXPERIENCE) {
-      return <GameSessionContext>
+      return <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
         <CobrowsingGame gameId={gameSession.gameId} myTracks={myTracks} userTracks={userTracks}>
           <ObscuredGameView/>
         </CobrowsingGame>
-      </GameSessionContext>
+      </MultiplayerGameSessionContext>
     }
 
     if(experienceState === CHATROOM_EXPERIENCE) {
@@ -70,7 +70,7 @@ const ExperienceView = ({
             </Link>
           </Typography>
         </ConstellationHero>
-        <GameCard canPlay game={game}/>
+        <GameCard canPlay gameId={editingGameId}/>
         <Link newTab href={`${window.location.origin}/arcade`}>Browse Other Games To Play</Link>
       </div>
     }

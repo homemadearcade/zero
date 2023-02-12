@@ -82,13 +82,11 @@ const PhaserGame = ({
   changeErrorState, 
   clearErrorState,
   gameSession: { gameSession },
-  isEdit,
-  isNetworked
 }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     const gameInstanceId =  GAME_INSTANCE_ID_PREFIX + generateUniqueId()
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameSession, isEdit, isNetworked, gameInstanceId}), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameSession, gameInstanceId}), true);
     setGameInstance(game, gameInstanceId)
     return () => {
       getCurrentGameScene(game)?.unload()

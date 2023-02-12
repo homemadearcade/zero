@@ -318,13 +318,7 @@ async function onMongoDBConnected() {
   
   // await TicketPurchase.create(ticketPurchase)
 
-  let lobbys = (await Lobby.find().populate('participants game gameSession').populate({
-    path: 'game',
-    populate: {
-      path: 'user',
-      model: 'User'
-    }
-  }))
+  let lobbys = (await Lobby.find().populate('participants').execPopulate())
   
   if(lobbys) {
     lobbys =  lobbys.map((lob) => {

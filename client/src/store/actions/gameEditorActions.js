@@ -1,6 +1,5 @@
 import { SPRITE_EDITOR_ID_PREFIX } from '../../game/constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
-import { getCanvasIdFromColorId } from '../../utils/editorUtils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { 
   CLOSE_LIVE_EDITOR,
