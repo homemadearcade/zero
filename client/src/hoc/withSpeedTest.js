@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateLobbyUser } from '../store/actions/lobbyActions';
-import Button from '../ui/Button/Button';
+import { addUserSpeedTest } from '../store/actions/userActions';
 import Loader from '../ui/Loader/Loader';
-import Typography from '../ui/Typography/Typography';
-import { testInternetSpeed } from '../utils/networkUtils';
 import { inIframe, isLocalHost } from '../utils/webPageUtils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -17,12 +15,13 @@ export default (ChildComponent) => {
           downloadSpeed: 1000,
           uploadSpeed: 100,
         } : null
+        // testResults: null
       }
     }
 
     async componentDidMount() {
-      const { lobby: { lobby }, auth: { me }, updateLobbyUser} = this.props
-      const [downloadSpeed, uploadSpeed] = await testInternetSpeed()
+      const { lobby: { lobby }, auth: { me }, updateLobbyUser, addUserSpeedTest} = this.props
+      const {downloadSpeed, uploadSpeed} = await addUserSpeedTest()
     
       if(lobby?.id) {
         updateLobbyUser({
@@ -59,11 +58,11 @@ export default (ChildComponent) => {
 
     render() {
       
-      //  if(!this.state.testResults && !inIframe()) {
-      //   return <Loader text="Checking internet speed..."></Loader>
-      // } else {
+       if(!this.state.testResults && !inIframe()) {
+        return <Loader text="Checking internet speed..."></Loader>
+      } else {
         return <ChildComponent {...this.props} />;
-      // }
+      }
     }
   }
 
@@ -74,5 +73,5 @@ export default (ChildComponent) => {
     }
   }
 
-  return connect(mapStateToProps, { updateLobbyUser })(ComposedComponent);
+  return connect(mapStateToProps, { updateLobbyUser, addUserSpeedTest })(ComposedComponent);
 };

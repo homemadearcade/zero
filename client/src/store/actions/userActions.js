@@ -13,9 +13,68 @@ import {
   DELETE_USER_FAIL,
   OPEN_INTERFACE_TREE,
   CLOSE_INTERFACE_TREE,
+  ADD_USER_SPEED_TEST_LOADING,
+  ADD_USER_SPEED_TEST_SUCCESS,
+  ADD_USER_SPEED_TEST_FAIL,
 } from '../types';
 
 import { logOutUser, loadMe } from './authActions';
+import { testInternetSpeed } from '../../utils/networkUtils';
+import { getDeviceData } from '../../utils/webPageUtils';
+
+export const addUserSpeedTest = () => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_USER_SPEED_TEST_LOADING,
+  });
+
+  try {
+    const [downloadSpeed, uploadSpeed] = await testInternetSpeed()
+
+    const { osName, browserName, userAgent } = getDeviceData()
+
+    const speedTest = {
+      uploadSpeed,
+      downloadSpeed,
+      date: Date.now(),
+      url: window.location.pathname,
+      timedOut: !downloadSpeed && !uploadSpeed,
+      osName,
+      browserName,
+      userAgent
+    }
+
+    const me = getState().auth.me
+
+    dispatch({
+      type: ADD_USER_SPEED_TEST_SUCCESS,
+      payload: {
+        speedTest
+      }
+    })
+
+    const speedTests = []
+    if(me.speedTests) {
+      speedTests.push(...me.speedTests)
+    } 
+
+    await dispatch(editUser(me.id, {
+      speedTests: [
+        ...speedTests,
+        speedTest
+      ]
+    }))
+
+    return speedTest
+
+  } catch(e) {
+    console.error(e)
+    dispatch({
+      type: ADD_USER_SPEED_TEST_FAIL
+    })
+  }
+
+
+}
 
 export const editUser = (id, data) => async (dispatch, getState) => {
   dispatch({
@@ -24,8 +83,6 @@ export const editUser = (id, data) => async (dispatch, getState) => {
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/users/${id}`, data, options);
-
-    console.log(response)
 
     dispatch({
       type: EDIT_USER_SUCCESS,

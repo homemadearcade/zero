@@ -22,6 +22,10 @@ const userSchema = new Schema(
       match: [/^[a-zA-Z0-9_]+$/, 'is invalid'],
       index: true,
     },
+    speedTests: {
+      type: [Object],
+      default : []
+    },
     email: {
       type: String,
       lowercase: true,
@@ -83,6 +87,7 @@ userSchema.methods.toJSON = function () {
     username: this.username,
     // avatar: avatar,
     // name: this.name,
+    speedTests: this.speedTests,
     role: this.role,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

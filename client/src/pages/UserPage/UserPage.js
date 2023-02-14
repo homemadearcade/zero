@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
-import { getUserByUsername, editUser, deleteUser } from '../../store/actions/userActions';
+import { getUserByUsername, editUser, deleteUser, addUserSpeedTest } from '../../store/actions/userActions';
 import { logOutUser } from '../../store/actions/authActions';
 
 import Layout from '../../layout/Layout';
@@ -23,6 +23,8 @@ import PageHeader from '../../ui/PageHeader/PageHeader';
 import GameList from '../../app/homemadeArcade/arcadeGame/GameList/GameList';
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import { Divider } from '@mui/material';
+import SpeedTestTable from '../../ui/SpeedTestTable/SpeedTestTable';
+import Icon from '../../ui/Icon/Icon';
 
 const UserPage = ({
   getUserByUsername,
@@ -33,7 +35,9 @@ const UserPage = ({
   logOutUser,
   history,
   match,
+  addUserSpeedTest
 }) => {
+
   const onLogOut = (event) => {
     event.preventDefault();
     logOutUser(history);
@@ -248,7 +252,14 @@ const UserPage = ({
           </div>
         )}
       </div>
-      
+
+      <Divider sx={{my: '2rem'}}></Divider>
+      <Typography component="h5" variant="h5">Device Speed Tests</Typography>
+      {user.speedTests?.length > 0 && <SpeedTestTable rows={user.speedTests}></SpeedTestTable>}
+      <Button onClick={async () => {
+        await addUserSpeedTest()
+      }}><Icon icon="faPlus"></Icon> Test Internet Speed</Button>
+
       {user.role === ADMIN_ROLE && <>
         <Divider sx={{my: '2rem'}}></Divider>
         <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
@@ -275,5 +286,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, logOutUser }),
+  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, logOutUser, addUserSpeedTest }),
 )(UserPage);

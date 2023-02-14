@@ -21,6 +21,7 @@ import AskFullscreen from '../../hoc/askFullscreen';
 import LobbyErrorStates from '../../lobby/LobbyErrorStates/LobbyErrorStates';
 import LobbyGuideToolbar from '../../lobby/LobbyGuideToolbar/LobbyGuideToolbar';
 import ExperienceView from '../../lobby/ExperienceView/ExperienceView';
+import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -73,5 +74,6 @@ export default compose(
   requireAuth,
   withLobby,
   withSpeedTest,
+  withAgoraVideoCall,
   connect(mapStateToProps, { assignLobbyRole, editLobby }),
 )(LobbyPage);

@@ -108,7 +108,7 @@ export const leaveAgoraVideoCall = () => (dispatch) => {
       client.leave();
       client.removeAllListeners();
     }
-    
+
     dispatch({
       type: LEAVE_VIDEO_CALL_SUCCESS,
       payload:{}
@@ -127,7 +127,7 @@ export const useAgoraVideoCallClient = () => {
   return useClient()
 }
 
-export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId, userId, lobbyId}) => {  
+export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId, userId, videoCallId}) => {  
   const [users, setUsers] = useState([]);
   // using the hook to get access to the client object
   const client = useClient();
@@ -192,7 +192,7 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
           tracks[0].setDevice(audioTrackId)
         }
 
-        await client.join(appId, lobbyId, token, userId);
+        await client.join(appId, videoCallId, token, userId);
         await client.publish([tracks[0], tracks[1]]);
 
         store.dispatch(sendLobbyMessage({message: 'has connected video and audio', automated: true}))

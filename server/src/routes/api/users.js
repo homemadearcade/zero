@@ -74,6 +74,8 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
     //avatar: avatarPath
     const updatedUser = {  ...req.body, password };
 
+    console.log(updatedUser)
+
     if(req.body.preferences) {
       updatedUser.preferences = { ...tempUser.preferences, ...req.body.preferences }
     }
@@ -87,6 +89,7 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
     // console.log(req.body, updatedUser);
     const user = await User.findByIdAndUpdate(tempUser.id, { $set: updatedUser }, { new: true });
 
+    console.log(user)
     res.status(200).json({ user });
   } catch (err) {
     console.log(err)

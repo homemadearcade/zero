@@ -56,6 +56,9 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
       {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[userId].audioTrack} username={user?.username}/>}
       <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
         {isMe ? 'Play' : 'Join'}
+      </Link><br/>
+      <Link newTab href={`/user/${user.username}`}>
+        View User
       </Link>
       <div className="LobbyUsername__icons">
         <div className="LobbyUsername__fullscreen">{user.email}</div>

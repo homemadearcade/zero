@@ -1,34 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import Loader from '../ui/Loader/Loader';
 import AgoraVideoCall from '../lobby/agora/AgoraVideoCall/AgoraVideoCall';
-import { leaveAgoraVideoCall, setAudioTrackId, setVideoTrackId } from '../store/actions/videoActions';
+import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class WithAgoraVideoCall extends Component {
-    constructor(props) {
-      const agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
-      if(agoraPreferences.videoTrackId) {
-        props.setVideoTrackId(agoraPreferences.videoTrackId)
-      }
-      if(agoraPreferences.audioTrackId) {
-        props.setAudioTrackId(agoraPreferences.audioTrackId)
-      }
-    }
-
     componentWillUnmount() {
-      const { leaveAgoraVideoCall } = this.props;
+     const { leaveAgoraVideoCall } = this.props
+
       leaveAgoraVideoCall()
     }
 
     render() {
-      return <AgoraVideoCall render={(props) => <ChildComponent {...props} />}/>
+      const { lobby: { lobby }, video: { bypass, isConnectingToVideoCall } } = this.props;
+
+      return <AgoraVideoCall
+        videoCallId={lobby.id}
+        render={(props) => {
+          if(isConnectingToVideoCall && !bypass) {
+            return <>
+              <Loader text="Connecting your video to other users..."/>
+            </>
+          }
+        
+          return <ChildComponent {...props } {...this.props} />
+        }}
+      />
     }
   }
 
   const mapStateToProps = (state) => ({
-    auth: state.auth
+    lobby: state.lobby,
+    video: state.video,
+    // cobrowsing: state.cobrowsing
   });
 
-  return connect(mapStateToProps, { leaveAgoraVideoCall, setVideoTrackId, setAudioTrackId })(WithAgoraVideoCall)
+  return compose(
+    connect(mapStateToProps, { leaveAgoraVideoCall, bypassAgoraVideoCall })
+  )(WithAgoraVideoCall)
 };

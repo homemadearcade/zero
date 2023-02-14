@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { joinLobby, leaveLobby } from '../store/actions/lobbyActions';
 import Loader from '../ui/Loader/Loader';
-import AgoraVideoCall from '../lobby/agora/AgoraVideoCall/AgoraVideoCall';
-import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
 import { withRouter } from 'react-router-dom';
-import Button from '../ui/Button/Button';
-import requireOneTab from './requireOneTab';
-import { isLocalHost } from '../utils/webPageUtils';
+import { leaveAgoraVideoCall } from '../store/actions/videoActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -33,14 +29,14 @@ export default (ChildComponent) => {
     }
 
     withLobbyCleaup() {
-      const { auth: { me }, leaveLobby, leaveAgoraVideoCall, lobby: { lobby } } = this.props
+      const { auth: { me }, leaveLobby, lobby: { lobby }, leaveAgoraVideoCall } = this.props
 
       leaveAgoraVideoCall()
       leaveLobby({lobbyId: lobby.id, userId: me?.id})
     }
 
     render() {
-      const { lobby: { isLoading, isJoining, lobby }, video: { bypass, isConnectingToVideoCall }, bypassAgoraVideoCall } = this.props;
+      const { lobby: { isLoading, isJoining, lobby } } = this.props;
       if(isLoading) {
         return <Loader text="Loading Lobby..."/>
       }
@@ -49,29 +45,18 @@ export default (ChildComponent) => {
         return <Loader text="Joining Lobby..."/>
       }
 
-      return <AgoraVideoCall
-        render={(props) => {
-          if(isConnectingToVideoCall && !bypass) {
-            return <>
-              <Loader text="Connecting your video to other users..."/>
-            </>
-          }
-        
-          return <ChildComponent {...props } {...this.props} />
-        }}
-      />
+      return <ChildComponent {...this.props} />
     }
   }
 
   const mapStateToProps = (state) => ({
     auth: state.auth,
     lobby: state.lobby,
-    video: state.video,
     // cobrowsing: state.cobrowsing
   });
 
   return compose(
     withRouter, 
-    connect(mapStateToProps, { joinLobby, leaveLobby, leaveAgoraVideoCall, bypassAgoraVideoCall })
+    connect(mapStateToProps, { joinLobby, leaveLobby, leaveAgoraVideoCall })
   )(WithLobby)
 };

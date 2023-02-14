@@ -44,7 +44,6 @@ function requireLobby(req, res, next) {
 }
 
 router.get('/', requireLobbys, async (req, res) => {
-  console.log(req.lobbys)
   try {    
     res.json({
       lobbys: req.lobbys

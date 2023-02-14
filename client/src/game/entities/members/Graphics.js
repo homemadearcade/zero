@@ -168,7 +168,6 @@ export class Graphics {
     const sprite = this.objectInstance.sprite
 
     if(sprite.invisibleIndicator) sprite.invisibleIndicator.destroy()
-    // if(sprite.unspawnedImage) sprite.unspawnedImage.destroy()
     if(sprite.editorHighlight) sprite.editorHighlight.destroy()
     sprite.interactBorder.destroy()
   }

@@ -63,6 +63,7 @@ const LobbyDetail = ({
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
+  gameSession: state.gameSession
 });
 
 export default compose(

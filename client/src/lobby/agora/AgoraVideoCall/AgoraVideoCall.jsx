@@ -19,18 +19,17 @@ import AgoraCommandReciever from "../AgoraCommandReciever/AgoraCommandReciever";
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 const AgoraVideoCall = (props) => {
-  const { video : {bypass, isConnectingToVideoCall, isInsideVideoCall}, render } = props
+  const { video : {bypass, isConnectingToVideoCall, isInsideVideoCall, videoCallId }, render } = props
 
   if(bypass) {
     return <div className="AgoraVideoCall">
       {render({})}
     </div>
   } else if(isInsideVideoCall || isConnectingToVideoCall) {
-    return <AgoraVideoCallContext {...props}/>
+    return <AgoraVideoCallContext videoCallId={videoCallId} {...props}/>
   } else {
     return <AgoraVideoCallPreview  {...props}/>
   }
-  
 };
 
 //      <img className="AgoraVideoCallPreview__demo" src="/assets/images/camera-permission.png" alt="cam"/>
@@ -82,8 +81,8 @@ const AgoraVideoCallPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVide
   </div>
 }
 
-const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, lobbyId, auth: { me }, video: { videoTrackId, audioTrackId }, render}) => {
-  let [tracks, users] = useAgoraVideoCall({userId: me.id, lobbyId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
+const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoCallId, auth: { me }, video: { videoTrackId, audioTrackId }, render}) => {
+  let [tracks, users] = useAgoraVideoCall({userId: me.id, videoCallId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
 
   return (
     <div className="AgoraVideoCall">
@@ -95,7 +94,6 @@ const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCall
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  lobbyId: state.lobby.lobby.id,
   video: state.video
 });
 
