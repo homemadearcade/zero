@@ -113,6 +113,11 @@ DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
 Try to remove getState() and getCobrowsingState() inside of game... standardize this better
 
+ExperienceSession
+  Lobby
+  GameSession
+-> LOBBY IS ONE OF THE STATES OF EXPERIENCE SESSION :). So when you go to a game session you actually DO leave the lobby.
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

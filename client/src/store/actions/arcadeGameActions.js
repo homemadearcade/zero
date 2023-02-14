@@ -51,7 +51,7 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
 
   try {
     const state = store.getState()
-    const gameSessionId = state.lobby.lobby?.gameSession.id
+    const gameSessionId = state.lobby.lobby?.gameSessionId
 
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/arcadeGames/character', {

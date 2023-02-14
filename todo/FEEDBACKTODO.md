@@ -13,3 +13,5 @@ IF KEY ISSUES PERSIST
 set Interval for keyboard capture issue?
 
 ESCAPE EXPERIENCE KEY - SAFETY KEY
+
+Game Card without game loaded
