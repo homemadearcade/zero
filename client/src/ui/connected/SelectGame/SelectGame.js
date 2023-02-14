@@ -8,7 +8,7 @@ import { getArcadeGames } from '../../../store/actions/arcadeGameActions';
 import Loader from '../../Loader/Loader';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 
-const SelectGame = ({ onSelect, userId, getArcadeGames, gamesSelected, arcadeGames: { arcadeGames, isLoading }}) => {
+const SelectGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected, arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
   }, []);
@@ -44,7 +44,7 @@ const SelectGame = ({ onSelect, userId, getArcadeGames, gamesSelected, arcadeGam
         }}
         groupBy={(option) => option.firstLetter}
         hideRemoved
-        formLabel="Games"
+        formLabel={label ? label : "Games"}
         value={gamesSelected}
         options={options}
       />

@@ -49,7 +49,7 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
     return <div className="LobbyUsername__connection">
       <div className="LobbyUsername__title">
         <div className="LobbyUsername__username">{user.username}{isMe && ' (me)'}</div>
-        <div className={classnames("LobbyUsername__connection-dot", {'LobbyUsername__connection-dot--bad' : userStatus?.pingDelta && userStatus.pingDelta > 150, 'LobbyUsername__connection-dot--none': !user.connected})}/>
+        <div className={classnames("LobbyUsername__connection-dot", {'LobbyUsername__connection-dot--bad' : userStatus?.pingDelta && userStatus.pingDelta > 60, 'LobbyUsername__connection-dot--none': !user.connected})}/>
         <div className="LobbyUsername__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
         {user.role === ADMIN_ROLE && <div className="LobbyUsername__admin"><Icon icon="faCrown"/></div>}
       </div>
@@ -69,7 +69,6 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
         <div className="LobbyUsername__download"><div className="LobbyUsername__icon"><Icon icon="faDownload"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
         <div className="LobbyUsername__video-call"><div className="LobbyUsername__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[user.id] ? 'Connected' : 'Not Connected'}</div>
       </div>
-
     </div>
   }
 
@@ -86,7 +85,7 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
   }}>
     <div className="LobbyUsername__modal">
       {renderConnectionInfo()}
-      {lobby.experienceState === GAME_EDITOR_EXPERIENCE && <>
+      {false && lobby.experienceState === GAME_EDITOR_EXPERIENCE && <>
         <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
         <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
       </>}

@@ -124,6 +124,8 @@ ExperienceSession
 APP ORGANIZATION
 --------------------------------------------------------------------------------------
 
+players vs participants vs users inside of a lobby. I think perhaps its 'invitedMembers' and 'invitedPlayers' and them 'members' and 'players'
+
 comebine withGame with GameSessionContext
 
 Create index folder for lobby, game, redux, etc

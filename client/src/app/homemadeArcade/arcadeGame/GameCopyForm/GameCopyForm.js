@@ -16,12 +16,12 @@ const GameCopyForm = ({ copyArcadeGameToUser, onSubmit }) => {
   return (
     <div className="GameCopyForm">
       <Typography variant="h5" component="h5">Copy Game To User</Typography> 
-      <SelectGame onSelect={(game) => {
-        setGameId(game)
+      <SelectGame gamesSelected={gameId? [gameId] : []} onSelect={(games) => {
+        setGameId(games[games.length -1])
       }}></SelectGame>
       <SelectUsers
-        onSelect={(user) => {
-          setUserId(user[0])
+        onSelect={(users) => {
+          setUserId(users[users.length -1])
         }}
         usersSelected={userId ? [userId] : []}
       ></SelectUsers>

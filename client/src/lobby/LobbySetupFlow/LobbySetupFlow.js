@@ -30,6 +30,7 @@ import { editGameModel } from '../../store/actions/gameModelActions';
 import { updateLobbyUser } from '../../store/actions/lobbyActions';
 import { editGameSession, changeGameState } from '../../store/actions/gameSessionActions';
 import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
+import GameAddForm from '../../app/homemadeArcade/arcadeGame/GameAddForm/GameAddForm';
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -126,14 +127,14 @@ const LobbySetupFlow = ({
       <div>
         Roles are assigned automatically. If this does not need to be changed, click Continue.
       </div><br/>
-      {lobby.participantId && <SelectUsers userIds={lobby.users.map(({id}) => id)} title="Participant" usersSelected={lobby.participantId ? [lobby.participantId] : []} onSelect={(users) => {
+      {lobby.participantId && <SelectUsers userIds={lobby.users.map(({id}) => id)} label="Participant" usersSelected={lobby.participantId ? [lobby.participantId] : []} onSelect={(users) => {
         if(users[0]) {
           editLobby(lobby.id, {
             participantId: users[users.length - 1]
           })
         }
       }}/>}
-      {lobby.guideId && <SelectUsers userIds={lobby.users.map(({id}) => id)} title="Guide" usersSelected={lobby.guideId ? [lobby.guideId] : []} onSelect={(users) => {
+      {lobby.guideId && <SelectUsers userIds={lobby.users.map(({id}) => id)} label="Guide" usersSelected={lobby.guideId ? [lobby.guideId] : []} onSelect={(users) => {
         if(users[0]) {
           editLobby(lobby.id, {
             guideId: users[users.length - 1]
@@ -150,8 +151,7 @@ const LobbySetupFlow = ({
       </div><br/>
       {false && lobby?.editGameId && 
       <GameCard gameId={lobby.editingGameId}/>}
-      Select a pre-existing game that was created by the participant:
-      {lobby.participantId && <SelectGame userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
+      {lobby.participantId && <SelectGame label="Games by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
           editLobby(lobby.id, {
             editingGameId: games[games.length - 1]
@@ -159,18 +159,7 @@ const LobbySetupFlow = ({
         }
 
       }}/>}
-      Create a new game for the particpant
-      <Button disabled={!lobby.participantId} onClick={async () => {
-        const response = await addArcadeGame({
-          userId: lobby.participantId
-        })
-        editLobby(lobby.id, {
-          editingGameId: response.data.game.id
-        })
-      }}
-      startIcon={<Icon icon="faPlus"/>}>
-        New Game
-      </Button>
+      <GameAddForm defaultValues={{userId: lobby.participantId}}></GameAddForm>
     </>
   }
 

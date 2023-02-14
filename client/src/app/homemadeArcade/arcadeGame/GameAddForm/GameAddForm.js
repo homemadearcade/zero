@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useFormik } from 'formik';
 
 import { addArcadeGame } from '../../../../store/actions/arcadeGameActions';
-import { gameFormSchema } from './validation';
 
 import './styles.css';
 import Button from '../../../../ui/Button/Button';
-import Typography from '../../../../ui/Typography/Typography';
 import Icon from '../../../../ui/Icon/Icon';
+import Dialog from '../../../../ui/Dialog/Dialog';
+import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
+import SelectUsers from '../../../../ui/connected/SelectUsers/SelectUsers';
 
-const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
-  const formik = useFormik({
-    initialValues: {
+const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {} }) => {
+  const [isAddGameFormOpen, setIsAddGameFormOpen] = useState(false)
+
+  const { handleSubmit, reset, control } = useForm({
+    defaultValues: {
       player: {},
       stages: {},
       defaults: {},
@@ -21,53 +24,52 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me } }) => {
       brushes: {},
       colors: {},
       awsImages: {},
-      userId: me.id
-    },
-    validationSchema: gameFormSchema,
-    onSubmit: async (values, { resetForm }) => {
-      resetForm();
-      await addArcadeGame(values);
-      onSubmit()
+      userId: me.id,
+      ...defaultValues
     },
   });
 
-//   <div className="input-div">
-//   <label>Participant Email:</label>
-//   <input
-//     placeholder="Participant Email"
-//     name="participantEmail"
-//     className=""
-//     type="text"
-//     onChange={formik.handleChange}
-//     onBlur={formik.handleBlur}
-//     value={formik.values.participantEmail}
-//   />
-//   {formik.touched.participantEmail && formik.errors.participantEmail ? (
-//     <p className="error">{formik.errors.participantEmail}</p>
-//   ) : null}
-// </div>
-// <div className="input-div">
-//   <label>Start Time:</label>
-//   <input
-//     placeholder="Start Time"
-//     name="startTime"
-//     className=""
-//     type="text"
-//     onChange={formik.handleChange}
-//     onBlur={formik.handleBlur}
-//     value={formik.values.startTime}
-//   />
-//   {formik.touched.startTime && formik.errors.startTime ? (
-//     <p className="error">{formik.errors.startTime}</p>
-//   ) : null}
-// </div>
+  const submit = async (data) => {
+    await addArcadeGame(data);
+    reset();
+    onSubmit()
+    setIsAddGameFormOpen(false)
+  }
 
   return (
     <div className="GameAddForm">
-      <Typography variant="h5" component="h5">Add a game</Typography> 
-      <form onSubmit={formik.handleSubmit}>
-        <Button startIcon={<Icon icon="faPlus"/>} type="submit" className="btn">Add Game</Button>
-      </form>
+      <Button onClick={() => {
+        setIsAddGameFormOpen(true)
+      }} startIcon={<Icon icon="faPlus"/>} type="submit" className="btn">New Game</Button>
+      <Dialog onClose={() => {
+        setIsAddGameFormOpen(false)
+      }} open={isAddGameFormOpen}>
+        <DialogTitle>New Game</DialogTitle>
+        <DialogContent>
+          <form>
+          <Controller
+            name={"metadata.title"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField onChange={onChange} value={value} label={"Title"} />
+            )}
+          />
+          <br></br><br/>
+          <Controller
+            name={"userId"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SelectUsers onChange={(users) => {
+                onChange(users[users.length-1])
+              }} usersSelected={value ? [value] : []} label={"User ( game owner )"} />
+            )}
+          />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" onClick={handleSubmit(submit)}>Add Game</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

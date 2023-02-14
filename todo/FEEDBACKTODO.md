@@ -1,8 +1,5 @@
 Spawn inside of hero camera effect from the lobby setup flow
 
-Change Game and Change Roles in Lobby Setup... they dont work no more
-  when you manually create a new game, you need to name it
-
 Game Card without game loaded
 --
 Agora User Video, have it load a user and have it like upload it as a profile pic??
@@ -14,3 +11,5 @@ set Interval for keyboard capture issue?
 
 ESCAPE EXPERIENCE KEY - SAFETY KEY
 
+No Game Loaded - Load Game
+Not Powered On - Power On, Load Game

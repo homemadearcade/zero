@@ -45,7 +45,7 @@ const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceT
   function renderTitle() {
     return <div className="LobbyUserStatus__title">
       <div className="LobbyUserStatus__username">{user.username}{isMe && ' (me)'}</div>
-      <div className={classnames("LobbyUserStatus__connection", {'LobbyUserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 150, 'LobbyUserStatus__connection--none': !user.connected})}/>
+      <div className={classnames("LobbyUserStatus__connection", {'LobbyUserStatus__connection--bad' : userStatus?.pingDelta && userStatus.pingDelta > 60, 'LobbyUserStatus__connection--none': !user.connected})}/>
       <div className="LobbyUserStatus__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
       {user.role === ADMIN_ROLE && <div className="LobbyUserStatus__admin"><Icon icon="faCrown"/></div>}
       {(hasJoinLink) && <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
@@ -72,8 +72,6 @@ const LobbyUserStatus = ({ closeInterfaceTree, match: { params }, openInterfaceT
         <div className="LobbyUserStatus__upload"><div className="LobbyUserStatus__icon"><Icon icon="faUpload"/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
         <div className="LobbyUserStatus__download"><div className="LobbyUserStatus__icon"><Icon icon="faDownload"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
         <div className="LobbyUserStatus__video-call"><div className="LobbyUserStatus__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[user.id] ? 'Connected' : 'Not Connected'}</div></div>
-        <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
-        <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
       </>
     }]}/>
   </div>
