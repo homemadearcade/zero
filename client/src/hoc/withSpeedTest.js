@@ -59,11 +59,11 @@ export default (ChildComponent) => {
 
     render() {
       
-       if(!this.state.testResults && !inIframe()) {
-        return <Loader text="Checking internet speed..."></Loader>
-      } else {
+      //  if(!this.state.testResults && !inIframe()) {
+      //   return <Loader text="Checking internet speed..."></Loader>
+      // } else {
         return <ChildComponent {...this.props} />;
-      }
+      // }
     }
   }
 
