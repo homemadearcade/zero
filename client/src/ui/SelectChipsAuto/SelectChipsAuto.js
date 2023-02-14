@@ -323,7 +323,7 @@ function SelectChipsAutoForm({
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {inheritedValue.map((option, index) => {
             return <StyledTag 
-              key={option.label}
+              key={option.value}
               label={<>
                 {renderSprite(option)}
                 {option.label}
