@@ -21,6 +21,7 @@ const LobbyErrorStates = ({
    if(errorStates[COBROWSING_CONNECTION_LOST].on && !recentlyFocused) {
       return <Dialog open>
         <DialogTitle>Cobrowsing Connection Lost</DialogTitle>
+        <DialogContent>The user you are cobrowsing cannot see this error</DialogContent>
         <DialogContent>{errorStates[COBROWSING_CONNECTION_LOST].message ? errorStates[COBROWSING_CONNECTION_LOST].message : 'Attempting to reconnect...'}</DialogContent>
       </Dialog>
    }

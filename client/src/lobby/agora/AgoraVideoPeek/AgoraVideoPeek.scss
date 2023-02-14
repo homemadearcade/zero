@@ -1,0 +1,16 @@
+.AgoraVideoPeek {
+    position: fixed;
+      bottom: 0;
+      left: 0;
+  z-index: 2;
+  cursor: pointer;
+      &__video {
+              width: 100px;
+              height: 100px;
+      }
+
+      &__audio {
+      height: 10px;
+        width: 100px;
+      }
+}

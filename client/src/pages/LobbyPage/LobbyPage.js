@@ -22,6 +22,7 @@ import LobbyErrorStates from '../../lobby/LobbyErrorStates/LobbyErrorStates';
 import LobbyGuideToolbar from '../../lobby/LobbyGuideToolbar/LobbyGuideToolbar';
 import ExperienceView from '../../lobby/ExperienceView/ExperienceView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
+import AgoraVideoPeek from '../../lobby/agora/AgoraVideoPeek/AgoraVideoPeek';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -50,6 +51,8 @@ const LobbyPage = ({
           <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
         </WithCobrowsing>
         <LobbyErrorStates/>
+        <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
+
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <LobbyGuideToolbar myTracks={myTracks} userTracks={userTracks}></LobbyGuideToolbar>}
@@ -59,6 +62,7 @@ const LobbyPage = ({
           </AskFullscreen>
         </WithCobrowsing>
         <LobbyErrorStates/>
+        <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
       </Route>
     </RouterSwitch>
 };

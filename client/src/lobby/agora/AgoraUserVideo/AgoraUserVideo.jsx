@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux';
 
 import './AgoraUserVideo.scss'
 
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
+import { generateUniqueId, inIframe } from "../../../utils/webPageUtils";
+import { useEffect } from "react";
+import { setMyVideoTrackComponent } from "../../../store/actions/videoActions";
 
-const AgoraUserVideo = ({ video: { isInsideVideoCall}, hideOverlay, className, userId, label, auth: { me }, myTracks, userTracks, width, height }) => {
+const AgoraUserVideo = ({ video: { isInsideVideoCall, myVideoTrackComponentId}, hideOverlay, className, userId, label, auth: { me }, myTracks, userTracks, width, height, setMyVideoTrackComponent }) => {
+  const [componentId] = useState(generateUniqueId())
+  
+  useEffect(() => {
+    if(!myVideoTrackComponentId && me.id === userId) {
+      setMyVideoTrackComponent(componentId)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myVideoTrackComponentId])
+
+  useEffect(() => {
+
+    return () => {
+      if(componentId === myVideoTrackComponentId) {
+              if(!inIframe()) console.log('unsetting')
+        setMyVideoTrackComponent(null)
+      }
+    }
+  }, [myVideoTrackComponentId])
+
+  if(me.id === userId && (!myVideoTrackComponentId || myVideoTrackComponentId !== componentId)) return <div className={className}></div>
+
   if(!isInsideVideoCall) {
     return <div className={className}></div>
   }
@@ -39,4 +63,4 @@ const mapStateToProps = (state) => ({
   video: state.video,
 });
 
-export default connect(mapStateToProps, { })(AgoraUserVideo);
+export default connect(mapStateToProps, { setMyVideoTrackComponent })(AgoraUserVideo);

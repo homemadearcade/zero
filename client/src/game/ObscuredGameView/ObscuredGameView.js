@@ -19,7 +19,7 @@ import { editGameSession } from '../../store/actions/gameSessionActions';
 
 const ObscuredGameView = ({
   auth: { me },
-  cobrowsing: { cobrowsingUser, selectedTool },
+  cobrowsing: { cobrowsingUser, selectedTool, isActivelyCobrowsing },
   gameModel,
   errors: { errorStates },
   editGameSession,
@@ -48,7 +48,7 @@ const ObscuredGameView = ({
       }}>Restart Game</Button>}
     </div>
 
-    if(isObscured) {
+    if(isObscured && !isActivelyCobrowsing) {
       return <div className="GameView__empty">
         {me.role === ADMIN_ROLE && <>
           <Icon icon="faLock"></Icon>
