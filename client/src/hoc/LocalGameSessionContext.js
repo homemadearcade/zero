@@ -6,7 +6,7 @@ import Loader from '../ui/Loader/Loader';
 
 class LocalGameSessionContext extends Component {
   componentWillMount() {
-    const { session } = this.props
+    const { session, editGameSession } = this.props
     editGameSession(null, session)
   }
 

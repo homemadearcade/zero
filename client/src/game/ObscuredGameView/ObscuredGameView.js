@@ -48,11 +48,11 @@ const ObscuredGameView = ({
       }}>Restart Game</Button>}
     </div>
 
-    if(isObscured && !isActivelyCobrowsing) {
+    if(isObscured) {
       return <div className="GameView__empty">
         {me.role === ADMIN_ROLE && <>
           <Icon icon="faLock"></Icon>
-          Game View Locked
+          Game View Locked<br/> ( Participant only sees a black box )
         </>}
       </div>
     } else if(selectedTool === UNLOCK_TOOL && !isUnlocked) {

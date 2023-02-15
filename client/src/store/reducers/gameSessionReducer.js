@@ -49,7 +49,6 @@ export default function gameSessionReducer(state = initialState, { type, payload
         gameSession: payload.gameSession,
       };
     case JOIN_GAME_SESSION_SUCCESS:
-      console.log(payload)
       return {
         ...state,
         isJoining: false,
@@ -62,11 +61,10 @@ export default function gameSessionReducer(state = initialState, { type, payload
       gameSession: initialState.gameSession,
     };
     case EDIT_GAME_SESSION_SUCCESS:
-      console.log(payload)
       return {
         ...state,
         isLoading: false,
-        gameSession: {...payload.gameSession, users: payload.gameSession.players.slice()}
+        gameSession: {...payload.gameSession, users: payload.gameSession.players?.slice()}
       };
     case DELETE_GAME_SESSION_SUCCESS:
       return {

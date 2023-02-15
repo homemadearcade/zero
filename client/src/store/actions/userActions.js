@@ -37,10 +37,10 @@ export const addUserSpeedTest = () => async (dispatch, getState) => {
       downloadSpeed,
       date: Date.now(),
       url: window.location.pathname,
-      timedOut: !downloadSpeed && !uploadSpeed,
       osName,
       browserName,
-      userAgent
+      userAgent,
+      isPassing: uploadSpeed >= 3
     }
 
     const me = getState().auth.me

@@ -17,6 +17,7 @@ export const noCodrawingStrokeUpdateDelta = 15000
 
 export const ANIMATION_CAMERA_SHAKE = 'ANIMATION_CAMERA_SHAKE'
 export const ANIMATION_CONFETTI = 'ANIMATION_CONFETTI'
+export const ANIMATION_SPAWN_CLASS_IN_CAMERA = 'ANIMATION_SPAWN_CLASS_IN_CAMERA'
 
 /////////////////////////////////////
 /////////////////////////////////////

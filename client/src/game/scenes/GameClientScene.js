@@ -106,6 +106,7 @@ export class GameClientScene extends EditorScene {
   }
 
   onGameInstanceAnimation = ({type, data}) => {
+    if(data.hostOnly) return
     this.runAnimation({type, data})
   }
 

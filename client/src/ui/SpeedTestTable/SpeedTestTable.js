@@ -19,14 +19,13 @@ function Row(props) {
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {moment(row.date).format('dddd, MMMM Do YYYY, H:mm:ss')}
+          {moment(row.date).format('MMMM Do YYYY, H:mm:ss')}
         </TableCell>
         <TableCell align="right" sx={{wordBreak: 'break-all', width: '100px'}}>{row.url}</TableCell>
         <TableCell align="right">{row.uploadSpeed}</TableCell>
         <TableCell align="right">{row.downloadSpeed}</TableCell>
         <TableCell align="right">{row.browserName}</TableCell>
         <TableCell align="right">{row.osName}</TableCell>
-        <TableCell align="right">{row.timedOut ? 'Yes' : 'No'}</TableCell>
       </TableRow>
     </React.Fragment>
   );
@@ -38,9 +37,8 @@ Row.propTypes = {
     date: PropTypes.number.isRequired,
     browserName: PropTypes.string.isRequired,
     osName: PropTypes.string.isRequired,
-    uploadSpeed: PropTypes.number.isRequired,
-    downloadSpeed: PropTypes.number.isRequired,
-    timedOut: PropTypes.bool.isRequired
+    // uploadSpeed: PropTypes.number.isRequired,
+    // downloadSpeed: PropTypes.number.isRequired,
   }).isRequired,
 };
 
@@ -56,7 +54,6 @@ export default function SpeedTestTable({rows}) {
             <TableCell>Download</TableCell>
             <TableCell>Browser</TableCell>
             <TableCell>System</TableCell>
-            <TableCell>Timed Out</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -10,19 +10,16 @@ import { addArcadeGame, copyArcadeGameToUser, unloadArcadeGame, updateArcadeGame
 import SelectGame from '../../ui/connected/SelectGame/SelectGame';
 import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import Typography from '../../ui/Typography/Typography';
-import Button from '../../ui/Button/Button';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import LobbyUserStatus from '../LobbyUserStatus/LobbyUserStatus';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
 import { openGameMetadataModal, openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
-import { ADMIN_ROLE } from '../constants';
 import { CREDITS_EXPERIENCE, GAME_EDITOR_EXPERIENCE, MONOLOGUE_EXPERIENCE } from '../../constants';
-import { ANIMATION_CONFETTI, PAUSED_STATE, PLAY_STATE } from '../../game/constants';
+import { ANIMATION_CONFETTI, ANIMATION_SPAWN_CLASS_IN_CAMERA, PAUSED_STATE, PLAY_STATE } from '../../game/constants';
 import LobbyVerticalLinearStepper from '../LobbyVerticalLinearStepper/LobbyVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../utils/cobrowsingUtils';
 import store from '../../store';
-import Icon from '../../ui/Icon/Icon';
 import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
 import { openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import { ON_GAME_INSTANCE_ANIMATION } from '../../store/types';
@@ -31,6 +28,45 @@ import { updateLobbyUser } from '../../store/actions/lobbyActions';
 import { editGameSession, changeGameState } from '../../store/actions/gameSessionActions';
 import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
 import GameAddForm from '../../app/homemadeArcade/arcadeGame/GameAddForm/GameAddForm';
+
+const ARCHIVE_USER_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
+
+const GAME_IDS = {
+  prologue1: isLocalHost() ? '63c3420b6a61ac00539b0dc5' : '63c3420b6a61ac00539b0dc5',
+  prologue2: isLocalHost() ? '63c5e24c90a58a00531f4c1a' : '63c5e24c90a58a00531f4c1a',
+}
+
+const PROLOGUE_CLASS_IDS = {
+  immoveablePixel: 'd39c037e-d7dd-47d0-8083-ef2edf98a573',
+  movingPixel: '22098c1a-a6c4-448d-9e0d-5cc6a58c6d71',
+  barPixel: '30e42315-88e0-4b75-b722-acd83069a879',
+  byePixel: '5e1a3d02-ddfd-4df9-8a15-fb1dfe20b6da',
+}
+
+const PROLOGUE_2_CLASS_IDS = {
+  barPixel2: 'd1a02b13-7636-49b9-b814-33629e6dac78',
+  redJumpChanger: '72290fc4-67cc-4532-932b-b6f8c580701b',
+  yellowFlyChanger: 'oc/n/0e6390fb-6e1c-41c7-8353-638d4669038c',
+  byePixel2: 'oc/n/ed37c2cc-7b26-43f0-bcee-f0d9657ee5e7'
+}
+
+
+        // sendToStarsStep(),
+        // {
+        //   id: 'Load Demo World',
+        //   title: <Typography component="h5" variant="h5">Load Demo World</Typography>,
+        //   onClickNext: async () => {
+        //     await editLobby(lobby.id, {
+        //       experienceState: GAME_EDITOR_EXPERIENCE,
+        //     })
+        //     await editGameSession(lobby.gameSessionId, {
+        //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
+        //       isSaveDisabled: true,
+        //     })
+        //   },
+        //   nextButtonText: 'Load Demo World'
+        // },
+        // returnFromStarsStep(),
 
 const LobbySetupFlow = ({
   addArcadeGame,
@@ -93,6 +129,27 @@ const LobbySetupFlow = ({
         {text}
       </>,
       nextButtonText: 'I said it'
+    }
+  }
+
+  function spawnThis(classId, name) {
+    return {
+      id: classId,
+      title: <Typography component="h5" variant="h5">Spawn {name}</Typography>,
+      instructions: <>
+        This will spawn {name} inside of the Players camera view
+      </>,
+      onClickNext: () => {
+        window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { 
+          gameSessionId: lobby.gameSessionId, 
+          type: ANIMATION_SPAWN_CLASS_IN_CAMERA, 
+          data: {
+            classId,
+            hostOnly: true
+          }
+        })
+      },
+      nextButtonText: 'Spawn'
     }
   }
 
@@ -223,7 +280,7 @@ const LobbySetupFlow = ({
           //   return !window.lobby?.isAllRequiredPassing
           // }
         },
-        breakTitle('Experience Begins (20mins)'),
+        breakTitle('Prologue 1 (10 mins)'),
         {
           id: 'Starting Monologue',
           title: <Typography component="h5" variant="h5">Starting Monologue</Typography>,
@@ -247,7 +304,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
             await editGameSession(lobby.gameSessionId, {
-              gameId: isLocalHost() ? '63af7a2acd7df2644a508245' : '63c3420b6a61ac00539b0dc5',
+              gameId: GAME_IDS.prologue1,
               isPoweredOn: true,
               isSaveDisabled: true,
               gameState: PAUSED_STATE
@@ -256,7 +313,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           nextButtonText: 'Load Prologue 1'
         },
         {
-          id: 'Show Pixel',
+          id: 'Show Player Pixel',
           title: <Typography component="h5" variant="h5">Show Pixel</Typography>,
           instructions: <>
             This will set the participants UI to be able to see the Game View.
@@ -282,26 +339,35 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           `
         ),
         {
-          id: 'Allow Pixel Movement',
+          id: 'Allow Player Pixel Movement',
           title: <Typography component="h5" variant="h5">Allow Pixel Movement</Typography>,
-          onClickNext: () => {
-            changeGameState(PLAY_STATE)
+          onClickNext: async () => {
+            await editGameSession(lobby.gameSessionId, {
+              gameState: PLAY_STATE
+            })
           },
           nextButtonText: 'Unpause'
         },
+        spawnThis(PROLOGUE_CLASS_IDS.immoveablePixel, 'Immoveable Pixel'),
         sayThis(`
           What do you encounter? What could it be?
-
           You answer as You interact.
-
+        `),
+        spawnThis(PROLOGUE_CLASS_IDS.movingPixel, 'Moving Pixel'),
+        sayThis(`
           We repeat this answer, support and clarify it.
-
+        `),
+        spawnThis(PROLOGUE_CLASS_IDS.barPixel, 'Platform Pixel'),
+        sayThis(`
           Another, larger block appears.
 
           And what is this?...
 
           You answer.  We affirm.
-            Another image appears…
+        `),
+        spawnThis(PROLOGUE_CLASS_IDS.byePixel, 'Bye Pixel'),
+        sayThis(`
+          Another image appears…
 
           …And this?
 
@@ -316,36 +382,25 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
             await editGameSession(lobby.gameSessionId, {
-              gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63c5e24c90a58a00531f4c1a',
+              gameId: GAME_IDS.prologue2,
               isPoweredOn: true,
               isSaveDisabled: true,
             })
           },
           nextButtonText: 'Load Prologue 2'
         },
+        breakTitle('Prologue 2 (10 mins)'),
         sayThis(`And so you remind yourself, how simple instincts can lead to worlds of discovery.
              As many worlds as there are imaginative moments in the universe.  
              You take a breath, and dive in again, to connect with another world…`),
         returnFromStarsStep(),
+        spawnThis(PROLOGUE_2_CLASS_IDS.barPixel2, 'Platform Pixel'),
+        spawnThis(PROLOGUE_2_CLASS_IDS.redJumpChanger, 'Red Jump Pixel'),
+        spawnThis(PROLOGUE_2_CLASS_IDS.yellowFlyChanger,'Yellow Fly Pixel'),
+        spawnThis(PROLOGUE_2_CLASS_IDS.byePixel2,'Bye Pixel'),
         sayThis(`You encounter the world that loops, 
             adds color and individual powers, 
             naming those as You did before.`),
-        sendToStarsStep(),
-        {
-          id: 'Load Demo World',
-          title: <Typography component="h5" variant="h5">Load Demo World</Typography>,
-          onClickNext: async () => {
-            await editLobby(lobby.id, {
-              experienceState: GAME_EDITOR_EXPERIENCE,
-            })
-            await editGameSession(lobby.gameSessionId, {
-              gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
-              isSaveDisabled: true,
-            })
-          },
-          nextButtonText: 'Load Demo World'
-        },
-        returnFromStarsStep(),
         sendToStarsStep(),
         {
           id: 'Load Editing Game',
@@ -458,7 +513,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ gameId: lobby.editingGameId, isArchival: true }))
+            store.dispatch(copyArcadeGameToUser({ userId: ARCHIVE_USER_ID, gameId: lobby.editingGameId, isArchival: true }))
           },
           nextButtonText: 'Archive'
         },

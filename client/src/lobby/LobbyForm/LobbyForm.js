@@ -11,6 +11,7 @@ import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
 import { TextField } from '@mui/material';
 import { addArcadeGame } from '../../store/actions/arcadeGameActions';
 import { addGameSession } from '../../store/actions/gameSessionActions';
+import moment from 'moment';
 
 const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameSession }) => {
   const { handleSubmit, reset, control } = useForm({
@@ -26,9 +27,9 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameSession }) => {
       classes: {},
       cutscenes: {},
       relations: {},
-      // metadata: {
-      //   title: ''
-      // }
+      metadata: {
+        title: 'Lobby Game ' + moment(Date.now()).format('dddd, MMMM Do YYYY, H:mm:ss')
+      }
     });
     
     const game = gameResponse.data.game

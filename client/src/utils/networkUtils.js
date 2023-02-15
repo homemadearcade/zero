@@ -63,12 +63,12 @@ export const testInternetSpeed = async () => {
       })
     }
 
-    let downloadSpeed = 0;
-    let uploadSpeed = 0;
+    let downloadSpeed = 'Timed out';
+    let uploadSpeed = 'Timed out'
 
     setTimeout(() => {
       resolve([downloadSpeed, uploadSpeed])
-    }, 15000)
+    }, 30000)
 
     downloadSpeed = await detectDownloadSpeed()
     uploadSpeed = await detectUploadSpeed()

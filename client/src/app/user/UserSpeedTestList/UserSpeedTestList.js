@@ -1,0 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import SpeedTestTable from '../../../ui/SpeedTestTable/SpeedTestTable';
+import Typography from '../../../ui/Typography/Typography';
+import Button from '../../../ui/Button/Button';
+import Icon from '../../../ui/Icon/Icon';
+import UserSpeedTestButton from '../UserSpeedTestButton/UserSpeedTestButton';
+
+const UserSpeedTest = ({
+  user,
+}) => {
+    return <div className="UserSpeedTest">
+      <Typography component="h5" variant="h5">Device Speed Tests</Typography>
+      {user.speedTests?.length > 0 && <SpeedTestTable rows={user.speedTests}></SpeedTestTable>}
+      <UserSpeedTestButton></UserSpeedTestButton>
+    </div>
+};
+
+const mapStateToProps = (state) => ({
+});
+
+export default compose(
+  connect(mapStateToProps, { }),
+)(UserSpeedTest);

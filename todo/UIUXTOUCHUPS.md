@@ -24,8 +24,6 @@ TOUCHUPS
 
 Aggregate Color menu for brushes when you’ve added like 1 color already
 
-Finish lobby cleaup with user video and usernames, etc
-
 Create Class Modal -> Edit Name Modal instead of having edit name inside of Create Class
 
 PRevent Cobrowsing form editing the other USER UNLESS you have the tool open. Its simply a mouse tool

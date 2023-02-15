@@ -7,6 +7,7 @@ import { loadArcadeGame, unloadArcadeGame } from '../store/actions/arcadeGameAct
 import { getCurrentGameScene } from '../utils/editorUtils';
 import { getSpritesheetData } from '../store/actions/gameModelActions';
 import { clearCutscenes } from '../store/actions/playerInterfaceActions';
+import { closeContextMenu } from '../store/actions/contextMenuActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -37,10 +38,11 @@ export default (ChildComponent) => {
     }
 
     async unloadGame() {
-      const { unloadArcadeGame, clearCutscenes } = this.props
+      const { unloadArcadeGame, clearCutscenes, closeContextMenu } = this.props
      
       unloadArcadeGame()
       clearCutscenes()
+      closeContextMenu()
     }
 
     async switchGame(oldProps, newProps) {
@@ -97,5 +99,5 @@ export default (ChildComponent) => {
     gameModel: state.gameModel
   });
 
-  return connect(mapStateToProps, { loadArcadeGame, unloadArcadeGame, getSpritesheetData, clearCutscenes })(WithGame)
+  return connect(mapStateToProps, { closeContextMenu, loadArcadeGame, unloadArcadeGame, getSpritesheetData, clearCutscenes })(WithGame)
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/gameModelActions'
-import { openClassNameModal, openLiveEditor } from '../../../store/actions/gameEditorActions';
+import { openClassNameModal, openJsonViewer, openLiveEditor } from '../../../store/actions/gameEditorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -10,7 +10,7 @@ import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS
 import { classTypeToDisplayName } from '../../defaultData/class';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_NAME_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID } from '../../../constants/interfaceIds';
+import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_NAME_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID, CONTEXT_MENU_INSTANCE_JSON_IID } from '../../../constants/interfaceIds';
 
 const ClassContextMenu = ({ 
   editGameModel, 
@@ -21,7 +21,8 @@ const ClassContextMenu = ({
   gameModel: { gameModel, currentStageId }, 
   openClassNameModal,
   classId, 
-  insideObjectInstanceContextMenu
+  insideObjectInstanceContextMenu,
+  openJsonViewer
 }) => {
   const objectClass = gameModel.classes[classId]
 
@@ -148,6 +149,12 @@ const ClassContextMenu = ({
             onMenuItemClick()
           }}>Remove</MenuItem>
         </Unlockable>}
+        {<Unlockable interfaceId={CONTEXT_MENU_INSTANCE_JSON_IID}>
+      <MenuItem onClick={() => {
+        openJsonViewer(objectClass)
+        onMenuItemClick()
+      }}>View Json</MenuItem>
+    </Unlockable>}
   </>
 };
 
@@ -156,6 +163,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default connect(mapStateToProps, { 
+  openJsonViewer,
   editGameModel, 
   openCreateClassFlow, 
   openLiveEditor, 

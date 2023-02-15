@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import './GameEditor.scss';
+import ReactJson from 'react-json-view'
 
 import LiveEditor from '../instantEditor/LiveEditor/LiveEditor';
 import { clearEditor, closeJsonViewer } from '../../store/actions/gameEditorActions';
@@ -109,12 +110,7 @@ const GameEditor = ({
       {isSetupDefaultsModalOpen && <SetupDefaultsModal/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
-        {viewingJson.sprite.x}<br/><br/>
-        {viewingJson.sprite.y}<br/><br/>
-        {viewingJson.reclassId}<br/><br/>
-        {viewingJson.destroyAfterUpdate}<br/><br/>
-        {viewingJson.id}<br/><br/>
-        {viewingJson.classId}<br/><br/>
+        <ReactJson src={viewingJson} theme="monokai" />
       </Dialog>}
       {isCreateBrushFlowOpen && <CreateBrushFlow 
         onComplete={(brush) => {

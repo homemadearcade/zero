@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_CLASS, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_CLASS, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, OBJECT_INSTANCE_ID_PREFIX, ANIMATION_SPAWN_CLASS_IN_CAMERA } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -15,6 +15,7 @@ import { defaultPlayerSpawnZone, initialPlayerSpawnZone } from '../defaultData/s
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
 import { editGameSession } from '../../store/actions/gameSessionActions';
+import { generateUniqueId } from '../../utils/webPageUtils';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -51,6 +52,9 @@ export class GameInstance extends Phaser.Scene {
       case ANIMATION_CONFETTI:
         const jsConfetti = new JSConfetti()
         jsConfetti.addConfetti();
+        return
+      case ANIMATION_SPAWN_CLASS_IN_CAMERA: 
+        this.spawnObjectInstanceInsidePlayerCamera(data)
         return
       default: 
         return
@@ -550,6 +554,16 @@ export class GameInstance extends Phaser.Scene {
     const zoneId = gameModel.stages[this.stage.id].spawnZoneClassId
     const zone = this.scene.getRandomInstanceOfClassId(zoneId)
     this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
+  }
+
+  spawnObjectInstanceInsidePlayerCamera({classId}) {
+    const [x, y, width, height] = this.playerInstance.getCameraBoundaries()
+    const xMix = Math.random() * width;
+    const yMix = Math.random() * height;
+    const spawnX = x + (yMix);
+    const spawnY = y + (xMix);
+    console.log(xMix, yMix)
+    this.addObjectInstance(OBJECT_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, classId}, true)
   }
 
   sendResetGameEvent() {

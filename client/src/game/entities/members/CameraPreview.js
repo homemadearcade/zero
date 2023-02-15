@@ -26,8 +26,11 @@ export class CameraPreview extends Phaser.GameObjects.Graphics {
 
     this.cameraSize = cameraSize 
 
+    this.width = cameraSize - (CAMERA_PREVIEW_BORDER_SIZE)
+    this.height = cameraSize - (CAMERA_PREVIEW_BORDER_SIZE)
+
     this.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, this.color, 1);
-    this.strokeRect(0, 0, cameraSize - (CAMERA_PREVIEW_BORDER_SIZE), cameraSize - (CAMERA_PREVIEW_BORDER_SIZE));
+    this.strokeRect(0, 0, this.width, this.height);
     this.setVisible(true)
 
     this.zoom = zoom

@@ -22,9 +22,7 @@ const EditGamePage = ({changeGameState }) => {
           rightColumn={<>
           </>}
         >
-          <GameView
-            isEdit
-          />
+          <GameView/>
         </GameEditor>
       </LocalGameSessionContext>
     </div>

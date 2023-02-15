@@ -63,6 +63,18 @@ export class PlayerInstance extends ObjectInstance {
     return this
   }
 
+  getCameraBoundaries() {
+    const cameraPreview = this.cameraPreview   
+    // const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
+
+    const x = cameraPreview.x
+    const y = cameraPreview.y
+    const width = cameraPreview.width
+    const height = cameraPreview.height
+
+    return [ x, y, width, height]
+  }
+
   setSize(width, height) {
     super.setSize(width, height)
 

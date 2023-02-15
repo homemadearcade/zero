@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -16,8 +16,20 @@ import ContextMenus from '../../game/cobrowsing/ContextMenus/ContextMenus';
 import io from 'socket.io-client'
 import { ON_GAME_INSTANCE_UPDATE } from '../../store/types';
 import { withRouter } from 'react-router-dom';
+import Dialog from '../../ui/Dialog/Dialog';
+import UserSpeedTestRequest from '../../app/user/UserSpeedTestRequest/UserSpeedTestRequest';
 
 const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
+  const [needsSpeedTest, setNeedsSpeedTest] = useState()
+
+  useEffect(() => {
+    if(auth.me) {
+      if(auth.me?.speedTests?.length < 10) {
+        setNeedsSpeedTest(true)
+      }
+    }
+  }, [auth.me])
+
   useEffect(() => {
     // window.socket = io(window.location.host, { autoConnect: false })
     if(!window.socket) {
@@ -57,6 +69,13 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
       <ErrorHandler/>
       <SnackbarHandler/>
       <ContextMenus/>
+      {needsSpeedTest && 
+        <Dialog open>
+          <UserSpeedTestRequest isOptional onContinue={() => {
+            setNeedsSpeedTest(false)
+          }}/>
+        </Dialog>
+      }
       {renderBody()}
     </>
   );

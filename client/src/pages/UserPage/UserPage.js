@@ -25,6 +25,7 @@ import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
 import { Divider } from '@mui/material';
 import SpeedTestTable from '../../ui/SpeedTestTable/SpeedTestTable';
 import Icon from '../../ui/Icon/Icon';
+import UserSpeedTestList from '../../app/user/UserSpeedTestList/UserSpeedTestList';
 
 const UserPage = ({
   getUserByUsername,
@@ -252,13 +253,9 @@ const UserPage = ({
           </div>
         )}
       </div>
-
+      
       <Divider sx={{my: '2rem'}}></Divider>
-      <Typography component="h5" variant="h5">Device Speed Tests</Typography>
-      {user.speedTests?.length > 0 && <SpeedTestTable rows={user.speedTests}></SpeedTestTable>}
-      <Button onClick={async () => {
-        await addUserSpeedTest()
-      }}><Icon icon="faPlus"></Icon> Test Internet Speed</Button>
+      <UserSpeedTestList user={user}></UserSpeedTestList>
 
       {user.role === ADMIN_ROLE && <>
         <Divider sx={{my: '2rem'}}></Divider>
