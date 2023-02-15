@@ -23,6 +23,7 @@ import LobbyGuideToolbar from '../../lobby/LobbyGuideToolbar/LobbyGuideToolbar';
 import ExperienceView from '../../lobby/ExperienceView/ExperienceView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../lobby/agora/AgoraVideoPeek/AgoraVideoPeek';
+import MultiplayerGameSessionContext from '../../hoc/MultiplayerGameSessionContext';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -47,20 +48,23 @@ const LobbyPage = ({
 
   return <RouterSwitch>
       <Route exact path={path}>
-        <WithCobrowsing userId={lobby.participantId}>
-          <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
-        </WithCobrowsing>
+        <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
+          <WithCobrowsing userId={lobby.participantId}>
+            <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
+          </WithCobrowsing>
+        </MultiplayerGameSessionContext>
         <LobbyErrorStates/>
         <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
-
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <LobbyGuideToolbar myTracks={myTracks} userTracks={userTracks}></LobbyGuideToolbar>}
-        <WithCobrowsing>
-          <AskFullscreen>
-            <ExperienceView myTracks={myTracks} userTracks={userTracks}/>
-          </AskFullscreen>
-        </WithCobrowsing>
+        <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
+          <WithCobrowsing>
+            <AskFullscreen>
+              <ExperienceView myTracks={myTracks} userTracks={userTracks}/>
+            </AskFullscreen>
+          </WithCobrowsing>
+        </MultiplayerGameSessionContext>
         <LobbyErrorStates/>
         <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
       </Route>

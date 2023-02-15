@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import GameSessionErrorStates from '../lobby/GameSessionErrorStates/GameSessionErrorStates';
 import { addGameSession, endGameSession, joinGameSession, leaveGameSession } from '../store/actions/gameSessionActions';
 import Loader from '../ui/Loader/Loader';
 
@@ -35,7 +36,7 @@ class MultiplayerGameSessionContext extends Component {
     leaveGameSession({gameSessionId: gameSession.id, userId: me?.id})
   }
 
-  render() {
+  renderBody() {
     const { children, gameSession: { isLoading, isJoining }, gameSession} = this.props;
     
     if(isLoading) {
@@ -47,6 +48,13 @@ class MultiplayerGameSessionContext extends Component {
     }
 
     return children instanceof Function ? children(this.props) : children
+  }
+
+  render() {
+    return <>
+      <GameSessionErrorStates/>
+      {this.renderBody()}
+    </>
   }
 }
 

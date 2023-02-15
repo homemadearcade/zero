@@ -42,6 +42,7 @@ export const changeErrorState  = (errorState, data) => (dispatch, getState) => {
   }
 
   if(errorState === COBROWSING_CONNECTION_LOST) {
+    console.log('doing it again??')
     reconnectCobrowsing()
     dispatch({
       type: ON_CLEAR_COBROWSING_STATUS,

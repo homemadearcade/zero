@@ -29,6 +29,10 @@ and also therefore, its inherited?? omg thats so dope! So like yeah create their
 
 edit class type
 
+Stand alone drawing experience
+
+This admin view ( specifically the instructions ) should change depending on if you are in a game session or not. I dont think the game session should be joined while you are in the lobby...it should be a seperate set of instructions. Experience Session Instructions. Game Session instructions, Drawing Session instructions
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

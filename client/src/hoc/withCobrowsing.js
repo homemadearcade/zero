@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
 import { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing } from '../store/actions/cobrowsingActions';
+import CobrowsingErrorStates from '../game/cobrowsing/CobrowsingErrorStates/CobrowsingErrorStates';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 class WithCobrowsing extends Component {
@@ -58,14 +59,23 @@ class WithCobrowsing extends Component {
     }
   }
 
-  render() {
+  renderBody() {
     const { cobrowsing: { cobrowsingUser }, children} = this.props
 
     if(cobrowsingUser) {
-      return <>{children instanceof Function ? children(this.props) : children}</>
+      return <>
+        {children instanceof Function ? children(this.props) : children}
+      </>
     }
 
     return <Loader text="Joining User..."/>
+  }
+
+  render() {
+    return <>
+      <CobrowsingErrorStates></CobrowsingErrorStates>
+      {this.renderBody()}
+    </>
   }
 }
 

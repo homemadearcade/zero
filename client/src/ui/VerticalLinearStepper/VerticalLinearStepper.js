@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 import './VerticalLinearStepper.scss';
-import { Divider } from '@mui/material';
+import { Alert, AlertTitle, Divider } from '@mui/material';
 
 export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange}) {
 
@@ -48,16 +48,25 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
     }
   }
 
+  function renderContinueError(step) {
+     return step.isContinueDisabledWarning && <Alert severity='warning'><AlertTitle>Warning</AlertTitle>{step.isContinueDisabledWarning}</Alert>
+  }
+
   return (
     <Box>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => {
 
+          let disabled = false;
+          if(step.shouldContinueBeDisabledCheck) {
+            disabled = step.shouldContinueBeDisabledCheck()
+          }
+
           if(step.break) return <Step key={step.id} >
             {step.title}
             <StepContent>
               <Button
-                disabled={step.disableContinueButtonCheck ? step.disableContinueButtonCheck() : false}
+                disabled={disabled}
                 variant="contained"
                 onClick={() => {
                   if(step.onClickNext) {
@@ -67,6 +76,7 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
                 }}
                 sx={{ mt: 1, mr: 1 }}
               >Next</Button>
+              {disabled && renderContinueError(step)}
             </StepContent>
           </Step>
 
@@ -89,7 +99,7 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button
-                    disabled={step.disableContinueButtonCheck ? step.disableContinueButtonCheck() : false}
+                    disabled={disabled}
                     variant="contained"
                     onClick={() => {
                       if(step.onClickNext) {
@@ -109,7 +119,9 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
                     Back
                   </Button>
                 </div>
+                {disabled && renderContinueError(step)}
               </Box>
+              
             </StepContent>
           </Step>
         })}

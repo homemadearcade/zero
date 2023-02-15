@@ -15,6 +15,7 @@ import {
   INITIALIZE_COBROWSING_STATE,
   SET_MOUSE_OVER_INTERFACE_ID,
   SELECT_COBROWSING_TOOL,
+  ON_CLEAR_COBROWSING_STATUS,
 } from '../types';
 
 import { initialContextMenuState } from './contextMenuReducer';
@@ -149,6 +150,13 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         ...state,
         selectedTool: payload.toolId
       }
+    // case ON_CLEAR_COBROWSING_STATUS: {
+    //   return {
+    //     ...state,
+    //     remoteStateUserId: null,
+    //     cobrowsingUser: null
+    //   }
+    // }
     default:
       return state;
   }

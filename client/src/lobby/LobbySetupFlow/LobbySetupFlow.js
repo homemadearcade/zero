@@ -28,6 +28,7 @@ import { updateLobbyUser } from '../../store/actions/lobbyActions';
 import { editGameSession, changeGameState } from '../../store/actions/gameSessionActions';
 import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
 import GameAddForm from '../../app/homemadeArcade/arcadeGame/GameAddForm/GameAddForm';
+import Button from '../../ui/Button/Button';
 
 const ARCHIVE_USER_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
@@ -76,14 +77,25 @@ const LobbySetupFlow = ({
   lobby: { lobby },
   updateLobbyUser,
   changeGameState,
+  gameSession: { gameSession },
   setCutAudio,
   setCutVideo,
   editGameSession,
+  cobrowsing: { remoteStateUserId }
 }) => {  
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
+
+  const requireCobrowsingConnection = {
+    shouldContinueBeDisabledCheck: () => {
+      return !remoteStateUserId
+    },
+    isContinueDisabledWarning: <>
+      Participant has not interacted with the experience
+    </>,
+  }
 
   let returnFromStarsStepIndex = 0
   function returnFromStarsStep() {
@@ -132,12 +144,23 @@ const LobbySetupFlow = ({
     }
   }
 
-  function spawnThis(classId, name) {
+  function spawnThis({classId, className, gameId}) {
     return {
       id: classId,
-      title: <Typography component="h5" variant="h5">Spawn {name}</Typography>,
+      title: <Typography component="h5" variant="h5">Spawn {className}</Typography>,
       instructions: <>
-        This will spawn {name} inside of the Players camera view
+        This will spawn {className} inside of the Players camera view
+      </>,
+      shouldContinueBeDisabledCheck: () => {
+        return gameSession.gameId !== gameId
+      },
+      isContinueDisabledWarning: <>
+        Incorrect game loaded!
+        <Button onClick={async () => {
+          await editGameSession(lobby.gameSessionId, {
+            gameId: gameId,
+          })
+        }}>Load Correct Game</Button>
       </>,
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { 
@@ -262,6 +285,7 @@ const LobbySetupFlow = ({
           instructions: <>
             This will set the participants UI to not see any thing including the Game View
           </>,
+
           onClickNext: () => {
             updateArcadeGameCharacter({
               userId: lobby.participantId,
@@ -276,7 +300,7 @@ const LobbySetupFlow = ({
           instructions: <>
             <LobbyChecklist/>
           </>,
-          // disableContinueButtonCheck: () => {
+          // shouldContinueBeDisabledCheck: () => {
           //   return !window.lobby?.isAllRequiredPassing
           // }
         },
@@ -348,16 +372,16 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Unpause'
         },
-        spawnThis(PROLOGUE_CLASS_IDS.immoveablePixel, 'Immoveable Pixel'),
+        spawnThis({ classId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           What do you encounter? What could it be?
           You answer as You interact.
         `),
-        spawnThis(PROLOGUE_CLASS_IDS.movingPixel, 'Moving Pixel'),
+        spawnThis({ classId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           We repeat this answer, support and clarify it.
         `),
-        spawnThis(PROLOGUE_CLASS_IDS.barPixel, 'Platform Pixel'),
+        spawnThis({ classId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           Another, larger block appears.
 
@@ -365,7 +389,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           You answer.  We affirm.
         `),
-        spawnThis(PROLOGUE_CLASS_IDS.byePixel, 'Bye Pixel'),
+        spawnThis({ classId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           Another image appears…
 
@@ -394,10 +418,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
              As many worlds as there are imaginative moments in the universe.  
              You take a breath, and dive in again, to connect with another world…`),
         returnFromStarsStep(),
-        spawnThis(PROLOGUE_2_CLASS_IDS.barPixel2, 'Platform Pixel'),
-        spawnThis(PROLOGUE_2_CLASS_IDS.redJumpChanger, 'Red Jump Pixel'),
-        spawnThis(PROLOGUE_2_CLASS_IDS.yellowFlyChanger,'Yellow Fly Pixel'),
-        spawnThis(PROLOGUE_2_CLASS_IDS.byePixel2,'Bye Pixel'),
+        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', gameId: GAME_IDS.prologue2}),
         sayThis(`You encounter the world that loops, 
             adds color and individual powers, 
             naming those as You did before.`),
@@ -425,7 +449,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           onClickNext: () => {
             store.dispatch(forceCobrowsingUpdateDispatch(openSetupDefaultsModal()))
           },
-          nextButtonText: 'Open'
+          nextButtonText: 'Open',
+          ...requireCobrowsingConnection,
         },
         returnFromStarsStep(),
         sayThis(`
@@ -457,7 +482,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           onClickNext: () => {
             store.dispatch(forceCobrowsingUpdateDispatch(openSnapshotTaker()))
           },
-          nextButtonText: 'Open Snapshot Taker'
+          nextButtonText: 'Open Snapshot Taker',
+          ...requireCobrowsingConnection
         },
         {
           id: 'Fill Out Game Metadata',
@@ -470,7 +496,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
               }
             })
           },
-          nextButtonText: 'Open Game Metadata Modal'
+          nextButtonText: 'Open Game Metadata Modal',
+          ...requireCobrowsingConnection,
         },
         {
           id: 'Congrats!',
@@ -498,10 +525,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Turn off everyones Video/Audio',
           title: <Typography component="h5" variant="h5">Turn off everyones Video/Audio</Typography>,
           onClickNext: () => {
-            setCutVideo(true)
-            setCutAudio(true)
-            setCutVideo(true, true)
-            setCutAudio(true, true)
+            // setCutVideo(true)
+            // setCutAudio(true)
+            // setCutVideo(true, true)
+            // setCutAudio(true, true)
           },
           nextButtonText: 'Turn off my Video and Audio'
         },
@@ -529,7 +556,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
-  gameSession: state.gameSession
+  gameSession: state.gameSession,
+  cobrowsing: state.cobrowsing
 });
 
 export default compose(

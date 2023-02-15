@@ -40,11 +40,9 @@ const ExperienceView = ({
     }
 
     if(experienceState === GAME_EDITOR_EXPERIENCE) {
-      return <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
-        <CobrowsingGame gameId={gameSession.gameId} myTracks={myTracks} userTracks={userTracks}>
-          <ObscuredGameView/>
-        </CobrowsingGame>
-      </MultiplayerGameSessionContext>
+      return <CobrowsingGame gameId={gameSession.gameId} myTracks={myTracks} userTracks={userTracks}>
+        <ObscuredGameView/>
+      </CobrowsingGame>
     }
 
     if(experienceState === CHATROOM_EXPERIENCE) {

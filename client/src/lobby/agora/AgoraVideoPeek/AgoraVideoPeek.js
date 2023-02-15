@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './AgoraVideoPeek.scss';
 import AgoraUserVideo from '../AgoraUserVideo/AgoraUserVideo';
-import AgoraVolumeMeter from '../AgoraVolumeMeter/AgoraVolumeMeter';
+import AgoraToolbar from '../AgoraToolbar/AgoraToolbar';
 
 const AgoraVideoPeek = ({
   myTracks,
@@ -14,6 +14,8 @@ const AgoraVideoPeek = ({
   video: { isInsideVideoCall },
 }) => {
   const [isHovering, setIsHovering] = useState()
+
+  if(!isInsideVideoCall || !myTracks) return null
 
   return (
     <div className="AgoraVideoPeek" onMouseLeave={() => {
@@ -24,7 +26,7 @@ const AgoraVideoPeek = ({
         setIsHovering(true)
       }} 
        className="AgoraVideoPeek__audio">
-        {isInsideVideoCall && myTracks && <AgoraVolumeMeter audioTrack={myTracks[0]}/>}
+        {isInsideVideoCall && myTracks && <AgoraToolbar tracks={myTracks}/>}
       </div>
     </div>
   );

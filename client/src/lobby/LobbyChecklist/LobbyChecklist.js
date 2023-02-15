@@ -30,7 +30,8 @@ const LobbyChecklist = ({
   editLobby,
   lobby: { lobby },
   auth: { me },
-  status: { lobbyUserStatuses }
+  status: { lobbyUserStatuses },
+  cobrowsing: { remoteStateUserId }
 }) => {
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -81,6 +82,13 @@ const LobbyChecklist = ({
         return !!lobby.editingGameId
       },
       required: true
+    },
+    {
+      text: 'Participant has interacted with experience',
+      test: () => {
+        return !!remoteStateUserId
+      },
+      required: true,
     },
     {
       text: 'Participant has connected camera',
@@ -162,7 +170,8 @@ const LobbyChecklist = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
-  status: state.status
+  status: state.status,
+  cobrowsing: state.cobrowsing
 });
 
 export default compose(

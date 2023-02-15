@@ -49,7 +49,7 @@ const ObscuredGameView = ({
     </div>
 
     if(isObscured) {
-      return <div className="GameView__empty">
+      return <div className="GameView__empty" style={{color: 'red'}}>
         {me.role === ADMIN_ROLE && <>
           <Icon icon="faLock"></Icon>
           Game View Locked<br/> ( Participant only sees a black box )

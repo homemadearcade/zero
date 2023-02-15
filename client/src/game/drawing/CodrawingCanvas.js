@@ -5,6 +5,8 @@ import { Canvas } from "./Canvas";
 import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE } from "../../store/types";
 import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/codrawingActions";
 import { noCodrawingStrokeUpdateDelta } from "../constants";
+import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
+import { CODRAWING_CONNECTION_LOST } from "../../lobby/constants";
 
 export class CodrawingCanvas extends Canvas {
   constructor(scene, props){
@@ -15,7 +17,7 @@ export class CodrawingCanvas extends Canvas {
     this.canvasId = props.canvasId
     this.scene = scene
 
-    if(!!this.scene.gameSession.isLocal) return
+    if(!this.scene.gameSession.isNetworked) return
 
     this.strokesPending = []
     if(!this.isCodrawingHost) {
@@ -89,12 +91,14 @@ export class CodrawingCanvas extends Canvas {
       if(lastStroke.time + noCodrawingStrokeUpdateDelta < Date.now()) {
         this.blockLocalStrokes = true
         clearInterval(this.strokeCheckInterval)
+        store.dispatch(changeErrorState(CODRAWING_CONNECTION_LOST, { textureId: this.textureId }))
         console.error('Your drawing is out of sync and it will now reset', this.textureId, this.canvasId)
         store.dispatch(unsubscribeCodrawing(this.textureId))
         this.updateTexture({ callback: async () => {
           this.clear()
           this.initialDraw()
           await store.dispatch(subscribeCodrawing(this.textureId))
+          store.dispatch(clearErrorState(CODRAWING_CONNECTION_LOST))
           this.strokeCheckInterval = setInterval(this.pendingStrokeCheck, noCodrawingStrokeUpdateDelta/5)
         }})
       }
@@ -115,7 +119,7 @@ export class CodrawingCanvas extends Canvas {
   }
 
   destroy() {
-    if(!!this.scene.gameSession.isLocal) return
+    if(!this.scene.gameSession.isNetworked) return
     
     super.destroy()
 

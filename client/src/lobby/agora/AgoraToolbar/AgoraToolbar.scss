@@ -1,10 +1,26 @@
 .AgoraToolbar {
   display: flex;
   justify-content: space-evenly;
-  width: 100%;
-  padding: 1vh 0px;
+  align-items: center;
+  width: 90px;
+  height: 20px;
 
   &__control {
     cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .AgoraVolumeMeter {
+    width: 50px;
+    height: 20px;
+    display: flex;
+    align-items: center;
   }
 }

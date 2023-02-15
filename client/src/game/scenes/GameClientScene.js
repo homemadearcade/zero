@@ -4,9 +4,8 @@ import {
 } from '../constants';
 import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
-import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
-import { GAME_CONNECTION_LOST } from '../../lobby/constants';
+import { GAME_SESSION_CONNECTION_LOST } from '../../lobby/constants';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 
@@ -140,10 +139,10 @@ export class GameClientScene extends EditorScene {
 
     if(this.lastHostUpdate) {
       if(this.lastHostUpdate + gameInstanceDisconnectedDelta < Date.now()) {
-        store.dispatch(changeErrorState(GAME_CONNECTION_LOST, {message: 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'}))
+        store.dispatch(changeErrorState(GAME_SESSION_CONNECTION_LOST, {message: 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'}))
         this.lastHostUpdate = null
-      } else if(store.getState().errors.errorStates[GAME_CONNECTION_LOST].on) {
-        store.dispatch(clearErrorState(GAME_CONNECTION_LOST))
+      } else if(store.getState().errors.errorStates[GAME_SESSION_CONNECTION_LOST].on) {
+        store.dispatch(clearErrorState(GAME_SESSION_CONNECTION_LOST))
       }
     }
   }

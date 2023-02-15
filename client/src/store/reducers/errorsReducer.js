@@ -1,4 +1,4 @@
-import { COBROWSING_CONNECTION_LOST, CODRAWING_CONNECTION_LOST, GAME_CONNECTION_LOST, INTERNET_SPEED_TEST_FAIL, PHASER_ERROR, SOCKET_CONNECTION_LOST } from '../../lobby/constants';
+import { COBROWSING_CONNECTION_LOST, CODRAWING_CONNECTION_LOST, GAME_SESSION_CONNECTION_LOST, INTERNET_SPEED_TEST_FAIL, PHASER_ERROR, SOCKET_CONNECTION_LOST } from '../../lobby/constants';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import {
   ME_FAIL,
@@ -66,7 +66,7 @@ const initialState = {
     [PHASER_ERROR]: {
       on: false,
     },
-    [GAME_CONNECTION_LOST]: {
+    [GAME_SESSION_CONNECTION_LOST]: {
       on: false,
       message: ''
     },
@@ -75,7 +75,7 @@ const initialState = {
       userId: null
     },
     [CODRAWING_CONNECTION_LOST]: {
-      canvasId: null,
+      textureId: null,
       on: false,
     },
     [SOCKET_CONNECTION_LOST]: {

@@ -7,7 +7,6 @@ import './LobbyDashboard.scss';
 import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
-import AgoraToolbar from '../agora/AgoraToolbar/AgoraToolbar';
 import Tabs from '../../ui/Tabs/Tabs';
 import LobbyCommandCenter from '../LobbyCommandCenter/LobbyCommandCenter';
 import AgoraUserVideo from '../agora/AgoraUserVideo/AgoraUserVideo';
@@ -41,7 +40,6 @@ const LobbyDashboard = ({
             label: 'Chatlog',
             body: <div className="LobbyDashboard__chatroom">
               <LobbyChatroom/>
-              {isInsideVideoCall && myTracks && <AgoraToolbar tracks={myTracks}></AgoraToolbar>}
             </div>
           },
           {

@@ -52,16 +52,13 @@ LOBBY UPDATE
   
   Can we change where the power buttons, etc are? Disable star button instead of hide it? Same with the save button..
 
-  Warnings for pixel spawning things when you dont have the right game loaded
-
-  Area to see all users videos ( change the myTracksComponentId system to an object that keeps track of user Ids and which component their video is showing up in )
+  Area to see all users videos ( change the myTracksComponentId system to an object that keeps track of user Ids and which component their video is showing up in ) and also to mute users/cut video.  basically just keep an array of users Ids and if their video/audio is cut or not w a boolean
 
   No Game Loaded - Load Game
   Not Powered On - Power On, Load Game
 
   Game Card without game loaded
   End Call for everyone in lobby
-
 ----
 
 EMAILS

@@ -24,7 +24,7 @@ const CobrowsingGame = ({ auth: { me }, cobrowsing: { cobrowsingUser, selectedTo
     >
       {children}
       {isActivelyCobrowsing && !remoteStateUserId && <div className="CobrowsingGame__no-state">
-        <Typography variant="h5">{cobrowsingUser.username} has not interacted with the app yet.</Typography> 
+        <Typography variant="h5">{cobrowsingUser.username} has not interacted with the experience yet.</Typography> 
       </div>}
       {isActivelyCobrowsing && remoteStateUserId && <CobrowsingToolbar/>}
       {isActivelyCobrowsing && remoteStateUserId && <RemoteMouse userId={cobrowsingUser.id}/>}

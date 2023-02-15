@@ -27,29 +27,29 @@ const AgoraToolbar = ({ tracks, video: { cutVideo, cutAudio }, setCutVideo, setC
 
   function Controls() {    
      return <>
-      {!cutAudio ? <div className="AgoraToolbar__control" onClick={muteAudio}>
-          <Icon size="lg" icon="faMicrophone"/>
-        </div> : 
-        <div className="AgoraToolbar__control" onClick={muteAudio}>
-           <Icon  size="lg" icon="faMicrophoneSlash"/>
-        </div>
-      }
-      {!cutVideo ? <div className="AgoraToolbar__control" onClick={muteVideo}>
-          <Icon size="lg" icon="faVideo"/>
+        {!cutVideo ? <div className="AgoraToolbar__control" onClick={muteVideo}>
+          <Icon size="sm" icon="faVideo"/>
         </div> : 
         <div className="AgoraToolbar__control" onClick={muteVideo}>
-          <Icon size="lg" icon="faVideoSlash"/>
+          <Icon size="sm" icon="faVideoSlash"/>
+        </div>
+      }
+      {!cutAudio ? <div className="AgoraToolbar__control" onClick={muteAudio}>
+          <Icon size="sm" icon="faMicrophone"/>
+        </div> : 
+        <div className="AgoraToolbar__control" onClick={muteAudio}>
+           <Icon  size="sm" icon="faMicrophoneSlash"/>
         </div>
       }
     </>
   }
 
- return <>
-  <div className="AgoraToolbar">
+ return <div className="AgoraToolbar">
+  <div className="AgoraToolbar__controls">
     <Controls></Controls>
   </div>
   <AgoraVolumeMeter audioTrack={audioTrack}/>
-  </>
+  </div>
 };
 
 const mapStateToProps = (state) => ({
