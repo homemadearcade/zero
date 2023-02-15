@@ -40,7 +40,6 @@ export const addUserSpeedTest = () => async (dispatch, getState) => {
       osName,
       browserName,
       userAgent,
-      isPassing: uploadSpeed >= 3
     }
 
     const me = getState().auth.me

@@ -7,6 +7,7 @@ import SpeedTestTable from '../../../ui/SpeedTestTable/SpeedTestTable';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import UserSpeedTestButton from '../UserSpeedTestButton/UserSpeedTestButton';
+import { isSpeedTestPassing } from '../../../utils/networkUtils';
 
 const UserSpeedTestRequest = ({
   addUserSpeedTest,
@@ -51,7 +52,7 @@ const UserSpeedTestRequest = ({
           
           setSpeedTest(speedTest)
 
-          if(speedTest.uploadSpeed > 3) {
+          if(isSpeedTestPassing(speedTest)) {
             setDidPass(true)
           } else {
             setDidPass(false)

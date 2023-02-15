@@ -21,26 +21,20 @@ export default (ChildComponent) => {
 
     async componentDidMount() {
       const { lobby: { lobby }, auth: { me }, updateLobbyUser, addUserSpeedTest} = this.props
-      const {downloadSpeed, uploadSpeed} = await addUserSpeedTest()
+      const speedTest = await addUserSpeedTest()
     
       if(lobby?.id) {
         updateLobbyUser({
           lobbyId: lobby?.id,
           userId: me.id, 
           user: {
-            internetSpeedTestResults: {
-              downloadSpeed,
-              uploadSpeed
-            }
+            internetSpeedTestResults: speedTest
           }
         })
       }
-
+      
       this.setState( {
-        testResults: {
-          downloadSpeed,
-          uploadSpeed
-        }
+        testResults: speedTest
       })
 
       // this.clearTimeout = setInterval(() => {
@@ -57,8 +51,7 @@ export default (ChildComponent) => {
     }
 
     render() {
-      
-       if(!this.state.testResults && !inIframe()) {
+      if(!this.state.testResults && !inIframe()) {
         return <Loader text="Checking internet speed..."></Loader>
       } else {
         return <ChildComponent {...this.props} />;

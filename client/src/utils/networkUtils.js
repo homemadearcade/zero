@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export function isSpeedTestPassing({uploadSpeed, downloadSpeed}) {
+  if(uploadSpeed > 3 && downloadSpeed > 10) return true 
+  else return false
+}
+
 export const testInternetSpeed = async () => {
   return new Promise(async (resolve, reject) => {
     var downloadSize = 499537; //bytes

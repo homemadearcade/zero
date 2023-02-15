@@ -47,7 +47,6 @@ Most recently used. Just have a > chevron right to open the entire set of classe
 
 Its all floating action buttons? Theres recently used brushes, recently used classes, then theres recently edited ( stages, dialogues ) I guess thats baiscally what we have? Hmm not sure...yeah maybe all those things are sorted by recently used... and then PLUS is outside of that scope as a FAB. And then The last item in the grids is like Open Modal for More which gives you a grid modal view of infinite items
 
-
 LOBBY UPDATE
   Finish lobby cleaup with user video and usernames, etc. What menus do we use? What information is needed in what view? Yes have a Lobby Details Tab of the Right hand side thing. The same thing that would be inside the ... hamburger menu
   
@@ -62,6 +61,7 @@ LOBBY UPDATE
 
   Game Card without game loaded
   End Call for everyone in lobby
+
 ----
 
 EMAILS

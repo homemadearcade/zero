@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../store/actions/videoActions';
 import Icon from '../../ui/Icon/Icon';
 import { LOBBY_USER_PRESENT_DELTA } from '../constants';
+import { isSpeedTestPassing } from '../../utils/networkUtils';
 
 // {<Button
 //   type="button"
@@ -113,14 +114,16 @@ const LobbyChecklist = ({
     {
       text: 'Participant has passed internet speed test',
       test: () => {
-        return usersById[lobby.participantId]?.internetSpeedTestResults?.downloadSpeed >= 10 && usersById[lobby.participantId]?.internetSpeedTestResults?.uploadSpeed >= 3
+        const speedTest = usersById[lobby.participantId]?.internetSpeedTestResults
+        return speedTest && isSpeedTestPassing(usersById[lobby.participantId]?.internetSpeedTestResults)
       },
       required: false,
     },
     {
       text: 'Guide has passed internet speed test',
       test: () => {
-        return usersById[lobby.guideId]?.internetSpeedTestResults?.downloadSpeed >= 10 && usersById[lobby.guideId]?.internetSpeedTestResults?.uploadSpeed >= 3
+        const speedTest = usersById[lobby.guideId]?.internetSpeedTestResults
+        return speedTest && isSpeedTestPassing(usersById[lobby.guideId]?.internetSpeedTestResults)
       },
       required: false,
     },
