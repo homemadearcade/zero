@@ -1,0 +1,7 @@
+.LobbySetupFlow {
+  margin-left: 2rem;
+
+  &__roles, &__users {
+    display: flex;
+  }
+}

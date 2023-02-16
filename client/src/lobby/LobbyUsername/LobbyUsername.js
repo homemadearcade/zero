@@ -6,8 +6,7 @@ import './LobbyUsername.scss';
 import Link from '../../ui/Link/Link';
 import Dialog from '../../ui/Dialog/Dialog';
 import UnlockableInterfaceTree from '../../ui/connected/UnlockableInterfaceTree/UnlockableInterfaceTree';
-import AgoraVolumeMeter from '../agora/AgoraVolumeMeter/AgoraVolumeMeter';
-import { Divider, Paper } from '@mui/material';
+import { Divider } from '@mui/material';
 import Icon from '../../ui/Icon/Icon';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
 import Button from '../../ui/Button/Button';
@@ -16,10 +15,23 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { setCutAudio, setCutVideo } from '../../store/actions/videoActions';
 import { GAME_EDITOR_EXPERIENCE } from '../../constants';
+import AgoraUserVideo from '../agora/AgoraUserVideo/AgoraUserVideo';
 
-const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, lobby: { lobby }, status : { lobbyUserStatuses, cobrowsingMouses }, auth: {me}, setCutAudio, setCutVideo }) => {
+const LobbyUsername = ({ 
+  match: { params }, 
+  myTracks, 
+  userTracks, 
+  userId, 
+  key, 
+  lobby: { lobby }, 
+  status : { lobbyUserStatuses, cobrowsingMouses }, 
+  auth: {me}, 
+  setCutAudio, 
+  setCutVideo
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showUnlockedUI, setShowUnlockedUI] = useState(false)
+  const [isVideoOpen, setIsVideoOpen] = useState(false)
 
   const userStatus = lobbyUserStatuses[userId];
   const userCobrowsingStatus = cobrowsingMouses[userId]
@@ -53,15 +65,13 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
         <div className="LobbyUsername__ping">{userStatus?.pingDelta > -1 ? userStatus?.pingDelta : 0}</div>
         {user.role === ADMIN_ROLE && <div className="LobbyUsername__admin"><Icon icon="faCrown"/></div>}
       </div>
-      {userTracksById && userTracksById[user.id] && <AgoraVolumeMeter audioTrack={userTracksById[userId].audioTrack} username={user?.username}/>}
-      <Link to={`/lobby/${lobby.id}/join/${user.id}`}>
-        {isMe ? 'Play' : 'Join'}
-      </Link><br/>
-      <Link newTab href={`/user/${user.username}`}>
-        View User
-      </Link>
+      <Divider></Divider>
+      {userId === lobby.participantId && <Link to ={`/lobby/${lobby.id}/join/${user.id}`}>
+        <Button variant="contained">{isMe ? 'Play' : 'Join'}</Button>
+      </Link>}
+      <Divider></Divider>
       <div className="LobbyUsername__icons">
-        <div className="LobbyUsername__fullscreen">{user.email}</div>
+        <div className="LobbyUsername__fullscreen">Email: <a href={'mailto::' + user.email}>{user.email}</a></div>
         <div className="LobbyUsername__fullscreen"><div className="LobbyUsername__icon"><Icon icon="faWindowMaximize"/></div>{(userStatus?.isFullscreen) ? 'Fullscreen' : 'Windowed'}</div>
         <div className="LobbyUsername__focus"><div className="LobbyUsername__icon"><Icon icon="faEye"/></div>{(!userStatus || userStatus?.isFocused) ? 'On Tab' : 'Away'}</div>
         <div className="LobbyUsername__cobrowsing"><div className="LobbyUsername__icon"><Icon icon="faArrowPointer"/></div>{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</span> : 'Never'}</div>
@@ -69,6 +79,15 @@ const LobbyUsername = ({  match: { params }, myTracks, userTracks, userId, key, 
         <div className="LobbyUsername__download"><div className="LobbyUsername__icon"><Icon icon="faDownload"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
         <div className="LobbyUsername__video-call"><div className="LobbyUsername__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[user.id] ? 'Connected' : 'Not Connected'}</div>
       </div>
+      <Divider></Divider>
+      <Link newTab href={`/user/${user.username}`}>
+        More Info
+      </Link>
+      <Divider></Divider>
+       {!isVideoOpen && <Button onClick={() => {
+        setIsVideoOpen(true)
+      }}>Show Users Video</Button>}
+      {isVideoOpen && <AgoraUserVideo userId={userId} myTracks={myTracks} userTracks={userTracks} width="200px" height="200px"></AgoraUserVideo>}
     </div>
   }
 

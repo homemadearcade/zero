@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { inIframe } from '../../utils/webPageUtils';
 import Drawer from '../../ui/Drawer/Drawer';
 import Icon from '../../ui/Icon/Icon';
-import LobbyDetail from '../LobbyDetail/LobbyDetail';
 import Link from '../../ui/Link/Link';
 import { GAME_EDITOR_EXPERIENCE } from '../../constants';
 import CobrowsingIndicator from '../../game/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
@@ -14,10 +13,13 @@ import GameSessionPowerIndicator from '../GameSessionPowerIndicator/GameSessionP
 import ConstellationToggle from '../../game/ConstellationToggle/ConstellationToggle';
 import Typography from '../../ui/Typography/Typography';
 import Switch from '../../ui/Switch/Switch';
-import './LobbyGuideToolbar.scss'
+import './GameSessionDrawer.scss'
 import { editGameSession } from '../../store/actions/gameSessionActions';
+import GameSessionOverview from '../GameSessionOverview/GameSessionOverview';
+import Tabs from '../../ui/Tabs/Tabs';
+import LobbyOverview from '../LobbyOverview/LobbyOverview';
 
-const LobbyGuideToolbar = ({
+const GameSessionDrawer = ({
   lobby: { lobby, lobby: { experienceState } },
   gameSession: { gameSession, gameSession: { isPoweredOn, isSaveDisabled }},
   myTracks,
@@ -26,17 +28,9 @@ const LobbyGuideToolbar = ({
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-        //     <div className="LobbyGuideToolbar__close" 
-        //   onClick={() => {
-        //     setIsDrawerOpen(false)
-        //   }}>
-        //   <Icon
-        //     icon="faClose"
-        //   />
-        // </div>
     return <>
-      <div className="LobbyGuideToolbar">
-        {!inIframe() && <div className="LobbyGuideToolbar__toggle" onClick={() => {
+      <div className="GameSessionDrawer">
+        {!inIframe() && <div className="GameSessionDrawer__toggle" onClick={() => {
           setIsDrawerOpen(true)
         }}>
           <Icon icon="faBars"/>
@@ -44,7 +38,7 @@ const LobbyGuideToolbar = ({
         {experienceState === GAME_EDITOR_EXPERIENCE && <CobrowsingIndicator/>}
         {experienceState === GAME_EDITOR_EXPERIENCE && isPoweredOn && <ConstellationToggle/>}
         {experienceState === GAME_EDITOR_EXPERIENCE && <GameSessionPowerIndicator/>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && isSaveDisabled && <div className="LobbyGuideToolbar__not-saving-stage">
+        {experienceState === GAME_EDITOR_EXPERIENCE && isSaveDisabled && <div className="GameSessionDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Save Disabled</Typography>
           <Switch
@@ -61,15 +55,25 @@ const LobbyGuideToolbar = ({
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)
       }>
-        <br/>
-        <br/>
-        <br/>
-        <LobbyDetail myTracks={myTracks} userTracks={userTracks} 
-        />
-        <Link onClick={() => {
-          setIsDrawerOpen(false)
-        }} to={`/lobby/${lobby.id}`}>Go to Lobby</Link>
-        <Link to="/lobbys">Exit Lobby</Link>
+        <div className="GameSessionDrawer__drawer">
+          <Tabs tabs={[
+            {
+              label: 'Game',
+              body: <GameSessionOverview myTracks={myTracks} userTracks={userTracks}/>
+            },
+            {
+              label: 'Lobby',
+              body: <>
+                <LobbyOverview myTracks={myTracks} userTracks={userTracks}></LobbyOverview>
+                <Link onClick={() => {
+                  setIsDrawerOpen(false)
+                }} to={`/lobby/${lobby.id}`}>Go to Lobby</Link>
+                <br/><br/>
+                <Link to="/lobbys">Exit Lobby</Link>
+              </>
+            },
+          ]} />
+        </div>
       </Drawer>
     </>
 };
@@ -81,4 +85,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { editGameSession }),
-)(LobbyGuideToolbar);
+)(GameSessionDrawer);

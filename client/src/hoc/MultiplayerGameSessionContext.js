@@ -9,6 +9,13 @@ class MultiplayerGameSessionContext extends Component {
   componentWillMount() {
     const { gameSessionId } = this.props
 
+    if(gameSessionId === this.props.gameSession.gameSession.id) {
+      // 'already cobrowsing this user :)
+      window.preventGameSessionUnmount = true
+      return 
+    } 
+
+
     this.joinMultiplayerGameSession(gameSessionId)
   }
 
@@ -27,13 +34,20 @@ class MultiplayerGameSessionContext extends Component {
   }
 
   componentWillUnmount() {
-    this.leaveMultiplayerGameSession()
+    setTimeout(() => {
+      if(window.preventGameSessionUnmount) {
+        return 
+      }
+      this.leaveMultiplayerGameSession()
+    }, 1000)
   }
 
   leaveMultiplayerGameSession() {
     const { auth: { me }, leaveGameSession, gameSession: { gameSession }} = this.props
 
-    leaveGameSession({gameSessionId: gameSession.id, userId: me?.id})
+    if(gameSession.id) {
+      leaveGameSession({gameSessionId: gameSession.id, userId: me?.id})
+    }
   }
 
   renderBody() {

@@ -18,6 +18,7 @@ import { ON_GAME_INSTANCE_UPDATE } from '../../store/types';
 import { withRouter } from 'react-router-dom';
 import Dialog from '../../ui/Dialog/Dialog';
 import UserSpeedTestRequest from '../../app/user/UserSpeedTestRequest/UserSpeedTestRequest';
+import { inIframe } from '../../utils/webPageUtils';
 
 const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   const [needsSpeedTest, setNeedsSpeedTest] = useState()
@@ -41,7 +42,7 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
 
     window.socket.onAny((event, ...args) => {
       if(event.indexOf('STATUS') >= 0 || event.indexOf(ON_GAME_INSTANCE_UPDATE) >= 0) return 
-      console.log(event, args);
+      console.log(event, args, inIframe());
     });
 
     const cookieJwt = Cookies.get('x-auth-cookie');

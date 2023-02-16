@@ -50,7 +50,7 @@ const GameStatus = ({ gameSession: { gameSession: { isPoweredOn, gameState } }, 
     <AccordianList accordians={[{
       id: gameModel.id,
       title: <span className="GameStatus__title">
-        {gameModel.metadata.name || gameModel.user?.username + "'s game"}
+        {gameModel.metadata.title || gameModel.user?.username + "'s game"}
       </span>,
       body: <span className="GameStatus__icons">
         <span className="GameStatus__fullscreen"><span className="GameStatus__icon"><Icon icon="faPowerOff"/></span>{(isPoweredOn) ? 'Powered On' : 'Not Powered On'}</span>

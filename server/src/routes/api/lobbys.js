@@ -301,20 +301,21 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     req.socket.join(req.lobby.id);
     if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobby.id);
 
-    // remove from all other lobbies
-    req.lobbys.forEach((lobby) => {
-      let index;
-      lobby.users.forEach((user, i) => {
-        if(newLobbyUser.id === user.id) {
-          index = i
-        }
-      })
-      if(index >= -1) {
-        lobby.users.splice(index, 1)
-        req.socket.leave(lobby.id);
-        req.io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby: lobby});
-      }
-    })
+    // NOT ANYMORE FOR NOW: remove from all other lobbies
+    // CAUSES BUGS WITH SELEECT FORMS
+    // req.lobbys.forEach((lobby) => {
+    //   let index;
+    //   lobby.users.forEach((user, i) => {
+    //     if(newLobbyUser.id === user.id) {
+    //       index = i
+    //     }
+    //   })
+    //   if(index >= -1) {
+    //     lobby.users.splice(index, 1)
+    //     req.socket.leave(lobby.id);
+    //     req.io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby: lobby});
+    //   }
+    // })
 
     // add to new lobby
     req.lobby.users.push(newLobbyUser)

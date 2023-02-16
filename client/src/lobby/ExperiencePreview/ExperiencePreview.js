@@ -12,6 +12,8 @@ import SelectExperienceState from '../../ui/SelectExperienceState/SelectExperien
 import { editLobby } from '../../store/actions/lobbyActions';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
 import LobbyUserStatus from '../LobbyUserStatus/LobbyUserStatus';
+import Link from '../../ui/Link/Link';
+import Button from '../../ui/Button/Button';
 
 const ExperiencePreview = ({
   lobby: { lobby },
@@ -44,7 +46,11 @@ const ExperiencePreview = ({
           }}/>
       </div>
       <div className="ExperiencePreview__user">
-        <LobbyUserStatus hasJoinLink hasUIButton userId={usersById[lobby.participantId]?.id}/>
+        <Link to ={`/lobby/${lobby.id}/join/${lobby.participantId}`}>
+          <Button variant="contained">
+            Join Participant
+          </Button>
+        </Link>
       </div>
     </div>
   );

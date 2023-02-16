@@ -8,7 +8,7 @@ import { getUsers } from '../../../store/actions/usersActions';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 import Loader from '../../Loader/Loader';
 
-const SelectUsers = ({ userIds, label, onSelect, groupBy, usersSelected, getUsers, users: { users, isLoading }}) => {
+const SelectUsers = ({ userIds, label, onSelect, groupBy, usersSelected = [], getUsers, users: { users, isLoading }}) => {
   useEffect(() => {
     getUsers();
   // eslint-disable-next-line react-hooks/exhaustive-deps

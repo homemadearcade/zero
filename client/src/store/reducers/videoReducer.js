@@ -10,11 +10,11 @@ import {
   BYPASS_VIDEO_CALL,
   SET_CUT_VIDEO,
   SET_CUT_AUDIO,
-  SET_MY_VIDEO_TRACK_COMPONENT
+  SET_VIDEO_TRACK_COMPONENT
 } from '../types';
 
 function defaultBypass() {
-  return inIframe() || isLocalHost()// || 
+  return inIframe() //|| isLocalHost()// || 
 }
 
 const initialState = {
@@ -26,7 +26,7 @@ const initialState = {
   cutAudio: false,
   error: null,
   bypass: defaultBypass(),
-  myVideoTrackComponentId: null
+  videoTrackComponentIds: {}
 };
 
 export const initialVideoState = initialState
@@ -94,10 +94,14 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         audioTrackId: payload.audioTrackId
       };
-    case SET_MY_VIDEO_TRACK_COMPONENT: 
+    case SET_VIDEO_TRACK_COMPONENT: 
+    console.log(payload)
       return {
         ...state,
-        myVideoTrackComponentId: payload.id
+        videoTrackComponentIds:{
+          ...state.videoTrackComponentIds,
+          [payload.userId]: payload.componentId
+        }
       }
     default:
       return state;

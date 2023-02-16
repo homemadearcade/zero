@@ -11,7 +11,7 @@ import {
   BYPASS_VIDEO_CALL,
   SET_CUT_VIDEO,
   SET_CUT_AUDIO,
-  SET_MY_VIDEO_TRACK_COMPONENT
+  SET_VIDEO_TRACK_COMPONENT
 } from '../types';
 
 import {
@@ -282,11 +282,12 @@ export const setCutAudio = (value, forceCobrowsingUpdate) => (dispatch, getState
   })
 }
 
-export const setMyVideoTrackComponent = (id) => (dispatch, getState) => {
+export const setVideoTrackComponent = ({componentId, userId}) => (dispatch, getState) => {
   dispatch({
-    type: SET_MY_VIDEO_TRACK_COMPONENT,
+    type: SET_VIDEO_TRACK_COMPONENT,
     payload: {
-      id
+      componentId,
+      userId
     }
   })
 }

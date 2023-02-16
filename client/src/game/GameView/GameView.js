@@ -86,7 +86,6 @@ const PhaserGame = ({
   useEffect(() => {
     const game = new Phaser.Game(config);
     const gameInstanceId =  GAME_INSTANCE_ID_PREFIX + generateUniqueId()
-    console.log(gameSession)
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameSession, gameInstanceId}), true);
     setGameInstance(game, gameInstanceId)
     return () => {

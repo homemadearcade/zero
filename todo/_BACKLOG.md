@@ -27,7 +27,7 @@ how to update and view cobrowsing when they aint logged on?
 should an entire cobrowsing state be.... shared/editable when the user is not logged on
 and also therefore, its inherited?? omg thats so dope! So like yeah create their full interface before they log on, like add a couple popups
 
-edit class type
+Select class type 
 
 Stand alone drawing experience
 
@@ -128,6 +128,8 @@ ExperienceSession
 APP ORGANIZATION
 --------------------------------------------------------------------------------------
 
+updateCobrowsing wrapper that only occurs when you use the target icon in the cobrowsing toolbar
+
 players vs participants vs users inside of a lobby. I think perhaps its 'invitedMembers' and 'invitedPlayers' and them 'members' and 'players'
 
 comebine withGame with GameSessionContext
@@ -141,6 +143,8 @@ Interface Preset Update
   Create a list component
 
 VALIDATION ON ALL FORMS
+
+game.user = game.owner
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

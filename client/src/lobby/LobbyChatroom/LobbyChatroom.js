@@ -18,6 +18,7 @@ const LobbyChatroom = ({
   clearLobbyMessages,
   hideAutomated,
   name,
+  myTracks, userTracks,
 }) => {
   const [text, setText] = useState('')
 
@@ -40,7 +41,7 @@ const LobbyChatroom = ({
     const {user, automated} = messageData
 
     if(me?.role === ADMIN_ROLE) {
-      return <LobbyUsername userId={messageData.user.id}></LobbyUsername>
+      return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={messageData.user.id}></LobbyUsername>
     }
 
     if(automated) return user.username

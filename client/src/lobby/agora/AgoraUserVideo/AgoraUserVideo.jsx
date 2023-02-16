@@ -6,37 +6,55 @@ import './AgoraUserVideo.scss'
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 import { generateUniqueId, inIframe } from "../../../utils/webPageUtils";
 import { useEffect } from "react";
-import { setMyVideoTrackComponent } from "../../../store/actions/videoActions";
+import { setVideoTrackComponent } from "../../../store/actions/videoActions";
 
-const AgoraUserVideo = ({ video: { isInsideVideoCall, myVideoTrackComponentId}, hideOverlay, className, userId, label, auth: { me }, myTracks, userTracks, width, height, setMyVideoTrackComponent }) => {
+const AgoraUserVideo = ({ 
+  video: { isInsideVideoCall, videoTrackComponentIds}, 
+  hideOverlay, 
+  className, 
+  userId, 
+  label, 
+  auth: { me }, 
+  myTracks, 
+  userTracks, 
+  width, 
+  height, 
+  setVideoTrackComponent
+ }) => {
   const [componentId] = useState(generateUniqueId())
   
   useEffect(() => {
-    if(!myVideoTrackComponentId && me.id === userId) {
-      setMyVideoTrackComponent(componentId)
+    if(!videoTrackComponentIds[userId]) {
+      // if(!inIframe()) console.log('setting')
+      setVideoTrackComponent({componentId, userId})
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [myVideoTrackComponentId])
+  }, [videoTrackComponentIds[userId]])
 
   useEffect(() => {
-
     return () => {
-      if(componentId === myVideoTrackComponentId) {
-              if(!inIframe()) console.log('unsetting')
-        setMyVideoTrackComponent(null)
+      if(componentId === videoTrackComponentIds[userId]) {
+              // if(!inIframe()) console.log('unsetting')
+        setVideoTrackComponent({componentId: null, userId})
       }
     }
-  }, [myVideoTrackComponentId])
+  }, [videoTrackComponentIds[userId]])
 
-  if(me.id === userId && (!myVideoTrackComponentId || myVideoTrackComponentId !== componentId)) return <div className={className}></div>
+  console.log('?')
+  if(!videoTrackComponentIds[userId] || videoTrackComponentIds[userId] !== componentId) return <div className={className}></div>
+
+    console.log('??', isInsideVideoCall, inIframe())
 
   if(!isInsideVideoCall) {
     return <div className={className}></div>
   }
 
+   console.log('xx', myTracks, userTracks)
   if(!myTracks || !userTracks) {
     return <div style={{width, height}} className={className}/>
   }
+    console.log('????')
+
 
   const tracks = [...userTracks]
   if(myTracks) tracks.unshift({ uid: me.id, videoTrack: myTracks[1], audioTrack: myTracks[0] })
@@ -47,6 +65,7 @@ const AgoraUserVideo = ({ video: { isInsideVideoCall, myVideoTrackComponentId}, 
   }, {})
 
   if(!userTracksById[userId]) {
+    console.log('no user tracks!', userId)
     return <div style={{width, height}} className={className}/>
   }
 
@@ -55,6 +74,8 @@ const AgoraUserVideo = ({ video: { isInsideVideoCall, myVideoTrackComponentId}, 
     hideOverlay={hideOverlay}
     tracks={userTracksById[userId]}
     label={label}
+    width={width}
+    height={height}
   /></div>
 }
 
@@ -63,4 +84,4 @@ const mapStateToProps = (state) => ({
   video: state.video,
 });
 
-export default connect(mapStateToProps, { setMyVideoTrackComponent })(AgoraUserVideo);
+export default connect(mapStateToProps, { setVideoTrackComponent })(AgoraUserVideo);

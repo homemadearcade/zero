@@ -8,16 +8,17 @@ import LobbySetupFlow from '../LobbySetupFlow/LobbySetupFlow';
 import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
 import LobbyChatroom from '../LobbyChatroom/LobbyChatroom';
 import Tabs from '../../ui/Tabs/Tabs';
-import LobbyCommandCenter from '../LobbyCommandCenter/LobbyCommandCenter';
 import AgoraUserVideo from '../agora/AgoraUserVideo/AgoraUserVideo';
 import { MONOLOGUE_EXPERIENCE } from '../../constants';
+import LobbyOverview from '../LobbyOverview/LobbyOverview';
 
 const LobbyDashboard = ({
   lobby: { lobby },
   myTracks,
   userTracks,
-  video: { isInsideVideoCall },
 }) => {
+
+  console.log(myTracks, userTracks)
   
   return (
     <div className="LobbyDashboard">
@@ -34,17 +35,17 @@ const LobbyDashboard = ({
         <Tabs tabs={[
           {
             label: 'Instructions',
-            body: <LobbySetupFlow/>
+            body: <LobbySetupFlow myTracks={myTracks} userTracks={userTracks}/>
           },
           {
             label: 'Chatlog',
             body: <div className="LobbyDashboard__chatroom">
-              <LobbyChatroom/>
+              <LobbyChatroom myTracks={myTracks} userTracks={userTracks} />
             </div>
           },
           {
-            label: 'Command Center',
-            body: <LobbyCommandCenter></LobbyCommandCenter>
+            label: 'Users',
+            body: <LobbyOverview myTracks={myTracks} userTracks={userTracks} ></LobbyOverview>
           },
         ]}></Tabs>
       </div>
@@ -55,7 +56,6 @@ const LobbyDashboard = ({
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
-  video: state.video
 });
 
 export default compose(

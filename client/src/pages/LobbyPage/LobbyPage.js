@@ -19,7 +19,7 @@ import withSpeedTest from '../../hoc/withSpeedTest';
 import WithCobrowsing from '../../hoc/withCobrowsing';
 import AskFullscreen from '../../hoc/askFullscreen';
 import LobbyErrorStates from '../../lobby/LobbyErrorStates/LobbyErrorStates';
-import LobbyGuideToolbar from '../../lobby/LobbyGuideToolbar/LobbyGuideToolbar';
+import GameSessionDrawer from '../../lobby/GameSessionDrawer/GameSessionDrawer';
 import ExperienceView from '../../lobby/ExperienceView/ExperienceView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../lobby/agora/AgoraVideoPeek/AgoraVideoPeek';
@@ -57,7 +57,7 @@ const LobbyPage = ({
         <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
-        {me.role === ADMIN_ROLE && <LobbyGuideToolbar myTracks={myTracks} userTracks={userTracks}></LobbyGuideToolbar>}
+        {me.role === ADMIN_ROLE && <GameSessionDrawer myTracks={myTracks} userTracks={userTracks}/>}
         <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
           <WithCobrowsing>
             <AskFullscreen>

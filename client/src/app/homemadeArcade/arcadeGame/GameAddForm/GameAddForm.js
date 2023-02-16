@@ -30,9 +30,12 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
   });
 
   const submit = async (data) => {
-    await addArcadeGame(data);
+    const gameResponse = await addArcadeGame(data);
+
+    const game = gameResponse.data.game
+
     reset();
-    onSubmit()
+    if(onSubmit) onSubmit(game)
     setIsAddGameFormOpen(false)
   }
 

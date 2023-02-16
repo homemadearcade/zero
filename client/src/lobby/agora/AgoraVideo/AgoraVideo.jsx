@@ -39,7 +39,7 @@ function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hide
   </div>
 }
 
-const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
+const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay, width, height}) => {
   let [showInfo, setShowInfo] = useState(false)
   let [showChangeInput, setShowChangeInput] = useState(false)
 
@@ -73,6 +73,8 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay}) => {
       showInfo={showInfo} 
       me={me}
       controls={<Controls/>}
+      width={width}
+      height={height}
      />}
     {!tracks && <div className="AgoraVideo"/>}
   </>

@@ -29,6 +29,8 @@ import { editGameSession, changeGameState } from '../../store/actions/gameSessio
 import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
 import GameAddForm from '../../app/homemadeArcade/arcadeGame/GameAddForm/GameAddForm';
 import Button from '../../ui/Button/Button';
+import LobbySelectRoles from '../LobbySelectRoles/LobbySelectRoles';
+import Divider from '../../ui/Divider/Divider';
 
 const ARCHIVE_USER_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
@@ -81,7 +83,9 @@ const LobbySetupFlow = ({
   setCutAudio,
   setCutVideo,
   editGameSession,
-  cobrowsing: { remoteStateUserId }
+  cobrowsing: { remoteStateUserId },
+  myTracks,
+  userTracks
 }) => {  
   const usersById = lobby.users.reduce((prev, next) => {
     prev[next.id] = next
@@ -202,28 +206,6 @@ const LobbySetupFlow = ({
     }
   }
 
-  function renderAssignRoles() {
-    return <>
-      <div>
-        Roles are assigned automatically. If this does not need to be changed, click Continue.
-      </div><br/>
-      {lobby.participantId && <SelectUsers userIds={lobby.users.map(({id}) => id)} label="Participant" usersSelected={lobby.participantId ? [lobby.participantId] : []} onSelect={(users) => {
-        if(users[0]) {
-          editLobby(lobby.id, {
-            participantId: users[users.length - 1]
-          })
-        }
-      }}/>}
-      {lobby.guideId && <SelectUsers userIds={lobby.users.map(({id}) => id)} label="Guide" usersSelected={lobby.guideId ? [lobby.guideId] : []} onSelect={(users) => {
-        if(users[0]) {
-          editLobby(lobby.id, {
-            guideId: users[users.length - 1]
-          })
-        }
-      }}/>}
-    </>
-  }
-
   function renderSelectGame() {
     return <>
       <div>
@@ -231,15 +213,19 @@ const LobbySetupFlow = ({
       </div><br/>
       {false && lobby?.editGameId && 
       <GameCard gameId={lobby.editingGameId}/>}
-      {lobby.participantId && <SelectGame label="Games by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
+      {lobby.participantId && <SelectGame label="Games owned by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
           editLobby(lobby.id, {
             editingGameId: games[games.length - 1]
           })
         }
-
       }}/>}
-      <GameAddForm defaultValues={{userId: lobby.participantId}}></GameAddForm>
+      <Divider></Divider>
+      <GameAddForm onSubmit={(game) => {
+        editLobby(lobby.id, {
+          editingGameId: game.id
+        })
+      }} defaultValues={{userId: lobby.participantId}}></GameAddForm>
     </>
   }
 
@@ -251,11 +237,16 @@ const LobbySetupFlow = ({
         {
           id: 'Assign User Roles',
           title: <Typography component="h5" variant="h5">Assign User Roles</Typography>,
-          instructions: renderAssignRoles()
+          instructions: <>
+              <div>
+                Roles are assigned automatically. If this does not need to be changed, click Continue.
+              </div><br/>
+              <LobbySelectRoles myTracks={myTracks} userTracks={userTracks}></LobbySelectRoles>
+          </>
         },
         {
-          id: 'Select Game to be Edited',
-          title: <Typography component="h5" variant="h5">Select Game to be Edited</Typography>,
+          id: 'Select Game to edit this session',
+          title: <Typography component="h5" variant="h5">Select Game to edit this session</Typography>,
           instructions: renderSelectGame()
         },
         breakTitle('Setup (5mins)'),
@@ -265,8 +256,7 @@ const LobbySetupFlow = ({
           instructions: <>
             The participant will automatically have recieved this link in the email for their ticket. You may also manually share this link with them if needed
             <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobby/' + lobby.id + '/join/' + lobby.participantId}></input>
-            When they have joined, the card below will be lit up and have a green dot in the corner
-            <LobbyUserStatus userId={usersById[lobby.participantId]?.id}/>
+            The Chatlog will show you if they have joined
           </>
         },
         {
@@ -452,7 +442,6 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           nextButtonText: 'Open',
           ...requireCobrowsingConnection,
         },
-        returnFromStarsStep(),
         sayThis(`
           As you know, not every world exists with the black background of the original pixel.  What is the background color we begin with today?
           You choose a BG color...
@@ -467,11 +456,12 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           What is your perspective?
         `),
+        returnFromStarsStep(),
         {
-          id: 'Open Command Center',
-          title: <Typography component="h5" variant="h5">Open Command Center</Typography>,
+          id: 'Build a game!',
+          title: <Typography component="h5" variant="h5">Build a game!</Typography>,
           instructions: <>
-            Click the command center at the top right and build a game with the user! Come back when you are ready to wrap up
+            Build a game with the user! Come back when you are ready to wrap up
           </>,
           nextButtonText: 'Ready to Wrap up'
         },

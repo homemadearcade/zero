@@ -1,4 +1,4 @@
-.LobbyGuideToolbar {
+.GameSessionDrawer {
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -10,6 +10,11 @@
   font-size: 24px;
   z-index: 1302;
   cursor: pointer;
+
+  &__drawer{ 
+    width: 250px;
+    padding-right: 80px;
+  }
 
   &__toggle {
     font-size: 24px;

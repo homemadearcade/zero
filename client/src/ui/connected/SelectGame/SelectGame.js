@@ -8,12 +8,12 @@ import { getArcadeGames } from '../../../store/actions/arcadeGameActions';
 import Loader from '../../Loader/Loader';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 
-const SelectGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected, arcadeGames: { arcadeGames, isLoading }}) => {
+const SelectGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
   }, []);
 
-  if(isLoading) return <Loader></Loader>
+  if(isLoading || !arcadeGames.length) return <Loader></Loader>
 
    const mapGameToOption = (game) => {
     const firstLetter = game.user ? game.user.username[0].toUpperCase() : 'fromprod'
@@ -32,10 +32,12 @@ const SelectGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected, ar
     options = options.filter((option) => {
       if(option.user && option.user.id === userId) {
         return true
+      } else if(gamesSelected.indexOf(option.value) >= 0) {
+        return true
       }
     })
   }
-
+  
   return (
     <div className="SelectGame">
       <SelectChipsAuto
