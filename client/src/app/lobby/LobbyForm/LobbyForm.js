@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addLobby } from '../../store/actions/lobbyActions';
+import { addLobby } from '../../../store/actions/lobbyActions';
 // import { lobbyFormSchema } from './validation';
 import { Controller, useForm } from "react-hook-form";
 
 import './styles.css';
-import Button from '../../ui/Button/Button';
-import Typography from '../../ui/Typography/Typography';
-import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
+import Button from '../../../ui/Button/Button';
+import Typography from '../../../ui/Typography/Typography';
+import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import { TextField } from '@mui/material';
-import { addArcadeGame } from '../../store/actions/arcadeGameActions';
-import { addGameSession } from '../../store/actions/gameSessionActions';
+import { addArcadeGame } from '../../../store/actions/arcadeGameActions';
+import { addGameSession } from '../../../store/actions/gameSessionActions';
 import moment from 'moment';
 
 const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameSession }) => {

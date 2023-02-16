@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Link from '../../ui/Link/Link';
 
 import './AdminNavbar.scss';
-import { ADMIN_ROLE } from '../../game/constants';
+import { ADMIN_ROLE } from '../../constants';
 
 const AdminNavbar = ({ auth, history }) => {
   if(auth.me?.role !== ADMIN_ROLE) return null

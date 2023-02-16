@@ -10,13 +10,13 @@ import { useFormik } from 'formik';
 
 import { registerUserWithEmail } from '../../store/actions/registerActions';
 import { registerSchema } from './validation';
-import { GOOGLE_AUTH_LINK } from '../../game/constants';
 import { getUrlParameter } from '../../utils/utils';
 
 import './styles.css';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
+import { GOOGLE_AUTH_LINK } from '../../constants';
 
 const Register = ({ auth, register: { isLoading, error }, history, registerUserWithEmail}) => {
   const participantEmail = getUrlParameter('participantEmail')

@@ -8,7 +8,7 @@ import Typography from '../../ui/Typography/Typography';
 import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
 import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/lobbyActions';
-import LobbyUsername from '../LobbyUsername/LobbyUsername';
+import LobbyUsername from '../room/RoomMember/RoomMember';
 import { ADMIN_ROLE } from '../../constants';
 
 const Chatroom = ({

@@ -9,14 +9,14 @@ import './GameViewObscured.scss';
 import GameView from '../GameView/GameView';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
-import { ADMIN_ROLE, UNLOCK_TOOL } from '../../constants';
+import { UNLOCK_TOOL } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { clearErrorState } from '../../../store/actions/errorsActions';
 import Button from '../../../ui/Button/Button';
 import { GAME_VIEW_IID } from '../../../constants/interfaceIds';
 import { editGameSession } from '../../../store/actions/gameSessionActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
-import { PHASER_ERROR } from '../../../constants';
+import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 
 const GameViewObscured = ({
   auth: { me },

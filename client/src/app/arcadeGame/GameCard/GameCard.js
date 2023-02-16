@@ -13,7 +13,7 @@ import { CardActions } from '@mui/material';
 import Link from '../../../ui/Link/Link';
 import { editArcadeGame, getArcadeGames } from '../../../store/actions/arcadeGameActions';
 import Button from '../../../ui/Button/Button';
-import { ADMIN_ROLE } from '../../../game/constants';
+import { ADMIN_ROLE } from '../../../constants';
 
 const GameCard = ({width, game, game: { metadata }, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
   const isEditor = me?.role === ADMIN_ROLE || me?.id === game.user?.id

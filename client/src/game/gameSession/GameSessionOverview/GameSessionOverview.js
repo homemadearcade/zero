@@ -10,7 +10,7 @@ import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
 import { editGameSession } from '../../../store/actions/gameSessionActions';
 import Divider from '../../../ui/Divider/Divider';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
-import LobbyUsername from '../../../experience/LobbyUsername/LobbyUsername';
+import LobbyUsername from '../../../experience/room/RoomMember/RoomMember';
 
 const GameSessionOverview = ({
   gameSession: { gameSession },

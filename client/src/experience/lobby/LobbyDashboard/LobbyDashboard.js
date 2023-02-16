@@ -4,12 +4,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LobbyDashboard.scss';
-import ExperienceInstructions from '../ExperienceInstructions/ExperienceInstructions';
-import ExperiencePreview from '../ExperiencePreview/ExperiencePreview';
-import Chatroom from '../Chatroom/Chatroom';
-import Tabs from '../../ui/Tabs/Tabs';
-import AgoraUserVideo from '../agora/AgoraUserVideo/AgoraUserVideo';
-import { MONOLOGUE_EXPERIENCE } from '../../constants';
+import ExperienceInstructions from '../../ExperienceInstructions/ExperienceInstructions';
+import ExperiencePreview from '../../ExperiencePreview/ExperiencePreview';
+import Chatroom from '../../Chatroom/Chatroom';
+import Tabs from '../../../ui/Tabs/Tabs';
+import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
+import { MONOLOGUE_EXPERIENCE } from '../../../constants';
 import LobbyOverview from '../LobbyOverview/LobbyOverview';
 
 const LobbyDashboard = ({

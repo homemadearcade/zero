@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LobbyOverview.scss';
-import Typography from '../../ui/Typography/Typography';
-import LobbyUsername from '../LobbyUsername/LobbyUsername';
+import Typography from '../../../ui/Typography/Typography';
+import LobbyUsername from '../../room/RoomMember/RoomMember';
 import LobbySelectRoles from '../LobbySelectRoles/LobbySelectRoles';
-import Divider from '../../ui/Divider/Divider';
+import Divider from '../../../ui/Divider/Divider';
 
 const LobbyOverview = ({
   lobby: { lobby },

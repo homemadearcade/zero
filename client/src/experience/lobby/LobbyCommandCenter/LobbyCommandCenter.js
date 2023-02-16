@@ -5,12 +5,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LobbyCommandCenter.scss';
-import { updateArcadeGameCharacter } from '../../store/actions/arcadeGameActions';
-import Button from '../../ui/Button/Button';
-import { openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
-import BorderedGrid from '../../ui/BorderedGrid/BorderedGrid';
-import Icon from '../../ui/Icon/Icon';
-import { ADD_BRUSH_IID, BASIC_CLASS_ADD_IID, CHOOSE_SPRITES_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, DRAW_NEW_SPRITE_IID, ERASER_IID, NPC_CLASS_ADD_IID, PLAYER_CLASS_ADD_IID, PLAYGROUND_CANVAS_BRUSH_SELECT_IID, PLAYGROUND_CANVAS_COLOR_SELECT_IID } from '../../constants/interfaceIds';
+import { updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
+import Button from '../../../ui/Button/Button';
+import { openSetupDefaultsModal } from '../../../store/actions/gameEditorActions';
+import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
+import Icon from '../../../ui/Icon/Icon';
+import { ADD_BRUSH_IID, BASIC_CLASS_ADD_IID, CHOOSE_SPRITES_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, DRAW_NEW_SPRITE_IID, ERASER_IID, NPC_CLASS_ADD_IID, PLAYER_CLASS_ADD_IID, PLAYGROUND_CANVAS_BRUSH_SELECT_IID, PLAYGROUND_CANVAS_COLOR_SELECT_IID } from '../../../constants/interfaceIds';
 
 const LobbyCommandCenter = ({
   updateArcadeGameCharacter,

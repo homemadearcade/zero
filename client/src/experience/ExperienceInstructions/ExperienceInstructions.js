@@ -27,7 +27,7 @@ import { updateLobbyUser } from '../../store/actions/lobbyActions';
 import { editGameSession, changeGameState } from '../../store/actions/gameSessionActions';
 import GameAddForm from '../../app/arcadeGame/GameAddForm/GameAddForm';
 import Button from '../../ui/Button/Button';
-import LobbySelectRoles from '../LobbySelectRoles/LobbySelectRoles';
+import LobbySelectRoles from '../lobby/LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../ui/Divider/Divider';
 
 const ARCHIVE_USER_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'

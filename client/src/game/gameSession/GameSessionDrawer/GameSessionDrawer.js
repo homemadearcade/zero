@@ -17,7 +17,7 @@ import './GameSessionDrawer.scss'
 import { editGameSession } from '../../../store/actions/gameSessionActions';
 import GameSessionOverview from '../GameSessionOverview/GameSessionOverview';
 import Tabs from '../../../ui/Tabs/Tabs';
-import LobbyOverview from '../../../experience/LobbyOverview/LobbyOverview';
+import LobbyOverview from '../../../experience/lobby/LobbyOverview/LobbyOverview';
 
 const GameSessionDrawer = ({
   lobby: { lobby, lobby: { experienceState } },

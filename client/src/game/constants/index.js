@@ -1,10 +1,6 @@
-export const GOOGLE_AUTH_LINK = 'https://homemadearcade.herokuapp.com/auth/google';
-export const ADMIN_ROLE = 'ADMIN'
 
 export const DEFAULT_TEXTURE_ID = 'square10x10'
 export const DEFAULT_CLEAR_TEXTURE_ID = 'eraser10x10'
-
-export const ARCADE_EXPERIENCE_ID = 'homemadeArcade'
 
 export const CAMERA_PREVIEW_BORDER_SIZE = 4
 

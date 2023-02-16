@@ -13,17 +13,17 @@ import requireChrome from '../../hoc/requireChrome';
 
 import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
-import LobbyDashboard from '../../experience/LobbyDashboard/LobbyDashboard';
-import { ADMIN_ROLE } from '../../game/constants';
+import LobbyDashboard from '../../experience/lobby/LobbyDashboard/LobbyDashboard';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import CobrowsingSession from '../../hoc/CobrowsingSession';
 import AskFullscreen from '../../hoc/askFullscreen';
-import LobbyErrorStates from '../../experience/LobbyErrorStates/LobbyErrorStates';
+import LobbyErrorStates from '../../experience/lobby/LobbyErrorStates/LobbyErrorStates';
 import GameSessionDrawer from '../../game/gameSession/GameSessionDrawer/GameSessionDrawer';
 import ExperienceView from '../../experience/ExperienceView/ExperienceView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
 import MultiplayerGameSessionContext from '../../hoc/MultiplayerGameSessionContext';
+import { ADMIN_ROLE } from '../../constants';
 
 const LobbyPage = ({
   lobby: { lobby },

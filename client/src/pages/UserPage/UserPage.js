@@ -17,7 +17,6 @@ import { userSchema } from './validation';
 import './styles.scss';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
-import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../game/constants';
 import UnlockableInterfaceTree from '../../ui/connected/UnlockableInterfaceTree/UnlockableInterfaceTree';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import GameList from '../../app/arcadeGame/GameList/GameList';
@@ -26,6 +25,7 @@ import { Divider } from '@mui/material';
 import SpeedTestTable from '../../ui/SpeedTestTable/SpeedTestTable';
 import Icon from '../../ui/Icon/Icon';
 import UserSpeedTestList from '../../app/user/UserSpeedTestList/UserSpeedTestList';
+import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../constants';
 
 const UserPage = ({
   getUserByUsername,

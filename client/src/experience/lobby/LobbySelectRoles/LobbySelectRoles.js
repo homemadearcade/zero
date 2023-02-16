@@ -3,13 +3,13 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../store/actions/lobbyActions';
+import { editLobby } from '../../../store/actions/lobbyActions';
 
 import './LobbySelectRoles.scss';
-import SelectUsers from '../../ui/connected/SelectUsers/SelectUsers';
-import Typography from '../../ui/Typography/Typography';
-import LobbyUsername from '../LobbyUsername/LobbyUsername';
-import Divider from '../../ui/Divider/Divider';
+import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
+import Typography from '../../../ui/Typography/Typography';
+import LobbyUsername from '../../room/RoomMember/RoomMember';
+import Divider from '../../../ui/Divider/Divider';
 
 const LobbySelectRoles = ({
   editLobby,

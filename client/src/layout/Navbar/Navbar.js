@@ -6,9 +6,9 @@ import Link from '../../ui/Link/Link';
 
 import { logOutUser } from '../../store/actions/authActions';
 import './Navbar.scss';
-import { ADMIN_ROLE } from '../../game/constants';
 import Button from '../../ui/Button/Button';
 import AdminNavbar from '../AdminNavbar/AdminNavbar';
+import { ADMIN_ROLE } from '../../constants';
 
 const Navbar = ({ auth, logOutUser, history }) => {
   const onLogOut = (event) => {

@@ -1,3 +1,9 @@
+export const GOOGLE_AUTH_LINK = 'https://homemadearcade.herokuapp.com/auth/google';
+
+export const ADMIN_ROLE = 'ADMIN'
+export const ON_MY_VIDEO_QUALITY_STATUS_UPDATE = 'ON_MY_VIDEO_QUALITY_STATUS_UPDATE'
+export const ARCADE_EXPERIENCE_ID = 'homemadeArcade'
+
 export const GAME_EDITOR_EXPERIENCE = 'GAME_EDITOR_EXPERIENCE'
 export const WAITING_EXPERIENCE = 'WAITING_EXPERIENCE'
 export const MONOLOGUE_EXPERIENCE = 'MONOLOGUE_EXPERIENCE'
@@ -13,9 +19,6 @@ export const experienceStateKeyToDisplayName = {
   [GAME_EDITOR_EXPERIENCE]: 'Game',
   [CREDITS_EXPERIENCE]: 'Credits',
 }
-
-export const ADMIN_ROLE = 'ADMIN'
-export const ON_MY_VIDEO_QUALITY_STATUS_UPDATE = 'ON_MY_VIDEO_QUALITY_STATUS_UPDATE'
 
 export const PHASER_ERROR = 'PHASER_ERROR'
 export const GAME_SESSION_CONNECTION_LOST = 'GAME_SESSION_CONNECTION_LOST'

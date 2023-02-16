@@ -8,12 +8,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { loginUserWithEmail } from '../../store/actions/authActions';
-import { GOOGLE_AUTH_LINK } from '../../game/constants';
 import { loginSchema } from './validation';
 import './styles.css';
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
+import { GOOGLE_AUTH_LINK } from '../../constants';
 
 const Login = ({ auth, history, loginUserWithEmail }) => {
   const formik = useFormik({

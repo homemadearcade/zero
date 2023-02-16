@@ -8,7 +8,7 @@ import { deleteLobby } from '../../store/actions/lobbyActions';
 
 import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';
-import LobbyForm from '../../experience/LobbyForm/LobbyForm';
+import LobbyForm from '../../app/lobby/LobbyForm/LobbyForm';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 

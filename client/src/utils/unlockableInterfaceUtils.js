@@ -1,5 +1,5 @@
+import { ADMIN_ROLE } from "../constants"
 import { interfaceIdData } from "../constants/interfaceIdData"
-import { ADMIN_ROLE } from "../game/constants"
 import store from "../store"
 import { getCobrowsingState } from "./cobrowsingUtils"
 

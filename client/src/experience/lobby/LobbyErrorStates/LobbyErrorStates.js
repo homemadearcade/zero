@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { clearErrorState } from '../../store/actions/errorsActions';
+import { clearErrorState } from '../../../store/actions/errorsActions';
 
 const LobbyErrorStates = ({
   errors: { errorStates },
