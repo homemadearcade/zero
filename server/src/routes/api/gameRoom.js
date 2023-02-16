@@ -4,27 +4,27 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-import { ON_GAME_SESSION_UPDATE, ADMIN_ROOM_PREFIX, GAME_SESSIONS_STORE } from '../../constants';
-import GameSession from '../../models/GameSession';
+import { ON_GAME_ROOM_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE } from '../../constants';
+import GameRoom from '../../models/GameRoom';
 
 const router = Router();
 
-function requireGameSessions(req, res, next) {
-  req.gameSessions = req.app.get(GAME_SESSIONS_STORE);
+function requireGameRooms(req, res, next) {
+  req.gameRooms = req.app.get(GAME_ROOMS_STORE);
   next()
 }
 
-function requireGameSession(req, res, next) {
+function requireGameRoom(req, res, next) {
   let index
 
-  const gameSessions = req.app.get(GAME_SESSIONS_STORE);
-  req.gameSessions = gameSessions
+  const gameRooms = req.app.get(GAME_ROOMS_STORE);
+  req.gameRooms = gameRooms
 
-  if(!gameSessions) {
-    res.status(400).json({ message: 'No game sessions found. Looking for gameSession with id: ' + req.params.id });
+  if(!gameRooms) {
+    res.status(400).json({ message: 'No game sessions found. Looking for gameRoom with id: ' + req.params.id });
   }
 
-  const gameSessionFound = gameSessions?.filter((l, i) => {
+  const gameRoomFound = gameRooms?.filter((l, i) => {
     if(l.id.toString() === req.params.id) {
       index = i
       return true
@@ -33,36 +33,36 @@ function requireGameSession(req, res, next) {
     }
   })[0]
 
-  if(!gameSessionFound) {
-    res.status(400).json({ message: 'No gameSession found with id: ' + req.params.id });
+  if(!gameRoomFound) {
+    res.status(400).json({ message: 'No gameRoom found with id: ' + req.params.id });
     return 
   }
 
-  req.gameSession = gameSessionFound
-  req.gameSessionIndex = index
+  req.gameRoom = gameRoomFound
+  req.gameRoomIndex = index
   next()
 }
 
-router.get('/', requireGameSessions, async (req, res) => {
+router.get('/', requireGameRooms, async (req, res) => {
   try {    
     res.json({
-      gameSessions: req.gameSessions
+      gameRooms: req.gameRooms
     });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
-router.get('/:id', requireGameSession, async (req, res) => {
+router.get('/:id', requireGameRoom, async (req, res) => {
   try {
-    res.json({ gameSession: req.gameSession });
+    res.json({ gameRoom: req.gameRoom });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });;
 
-router.post('/:id/message', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
-  req.gameSession.messages.push({
+router.post('/:id/message', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
+  req.gameRoom.messages.push({
     user: {
       id: req.user.id,
       username: req.user.username
@@ -71,19 +71,19 @@ router.post('/:id/message', requireJwtAuth, requireGameSession, requireSocketAut
     automated: req.body.automated
   })
 
-  req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-  res.status(200).json({ gameSession: req.gameSession });
+  req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+  res.status(200).json({ gameRoom: req.gameRoom });
 })
 
-router.post('/:id/clearMessages', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
-  req.gameSession.messages = []
-  req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-  res.status(200).json({ gameSession: req.gameSession });
+router.post('/:id/clearMessages', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
+  req.gameRoom.messages = []
+  req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+  res.status(200).json({ gameRoom: req.gameRoom });
 })
 
-router.post('/', requireJwtAuth, requireGameSessions, async (req, res) => {
+router.post('/', requireJwtAuth, requireGameRooms, async (req, res) => {
   try {
-    let gameSession = await GameSession.create({
+    let gameRoom = await GameRoom.create({
       players: req.body.players,
       hostUserId: req.body.hostUserId,
       gameId: req.body.gameId,
@@ -93,11 +93,11 @@ router.post('/', requireJwtAuth, requireGameSessions, async (req, res) => {
       isNetworked: req.body.isNetworked,
     });
 
-    gameSession = await gameSession.populate('players').execPopulate();
+    gameRoom = await gameRoom.populate('players').execPopulate();
 
-    gameSession = gameSession.toJSON()
+    gameRoom = gameRoom.toJSON()
 
-    gameSession.players = gameSession.players.map((user) => {
+    gameRoom.players = gameRoom.players.map((user) => {
       return {
         email: user.email,
         id: user.id,
@@ -108,26 +108,26 @@ router.post('/', requireJwtAuth, requireGameSessions, async (req, res) => {
       }
     })
 
-    gameSession.resetDate = Date.now()
-    gameSession.messages = []
-    gameSession.gameState = 'PLAY_STATE'
+    gameRoom.resetDate = Date.now()
+    gameRoom.messages = []
+    gameRoom.gameState = 'PLAY_STATE'
 
-    req.gameSessions.push(gameSession)
+    req.gameRooms.push(gameRoom)
 
-    res.status(200).json({ gameSession: gameSession });
+    res.status(200).json({ gameRoom: gameRoom });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
-router.post('/leave/:id', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
+router.post('/leave/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
-      return res.status(400).json({ message: 'You do not have privelages to remove user from that gameSession.' });
+      return res.status(400).json({ message: 'You do not have privelages to remove user from that gameRoom.' });
     }
 
     // let index;
-    const userFound = req.gameSession.players.filter((u, i) => {
+    const userFound = req.gameRoom.players.filter((u, i) => {
       if(u.id === req.body.userId) {
         // index = i
         return true
@@ -137,24 +137,24 @@ router.post('/leave/:id', requireJwtAuth, requireGameSession, requireSocketAuth,
     })[0]
 
     if(!userFound) {
-      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameSession' });
+      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameRoom' });
     }
 
     userFound.joined = false
 
-    req.gameSession.messages.push({
+    req.gameRoom.messages.push({
       user: {
         id: userFound.id,
         username: userFound.username
       },
       automated: true,
-      message: 'has left the gameSession',
+      message: 'has left the gameRoom',
     })
 
-    req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-    req.socket.leave(req.gameSession.id)
-    if(req.user.role === 'ADMIN') req.socket.leave(ADMIN_ROOM_PREFIX + req.gameSession.id);
-    res.status(200).json({ gameSession: req.gameSession });
+    req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+    req.socket.leave(req.gameRoom.id)
+    if(req.user.role === 'ADMIN') req.socket.leave(ADMIN_ROOM_PREFIX + req.gameRoom.id);
+    res.status(200).json({ gameRoom: req.gameRoom });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
@@ -165,12 +165,12 @@ router.post('/leave/:id', requireJwtAuth, requireGameSession, requireSocketAuth,
 // a Player should be assigned perhaps an object Instance Id? 
 // this is how you assign yourself to another object instance?
 
-// router.post('/assign/:id', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
+// router.post('/assign/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
 //   if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userId)) {
 //     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
 //   }
 
-//   const userFound = req.gameSession.players.filter((u, i) => {
+//   const userFound = req.gameRoom.players.filter((u, i) => {
 //     if(u.id === req.body.userId) {
 //       return true
 //     } else {
@@ -178,61 +178,61 @@ router.post('/leave/:id', requireJwtAuth, requireGameSession, requireSocketAuth,
 //     }
 //   })[0]
 
-//   if(req.gameSession.isPoweredOn) {
-//     return res.status(400).json({ message: 'You cannot assign a role when the gameSession game is powered on' });
+//   if(req.gameRoom.isPoweredOn) {
+//     return res.status(400).json({ message: 'You cannot assign a role when the gameRoom game is powered on' });
 //   }
 
 //   if(req.body.role === 'gameHost') {
 //     if(req.body.userId === 'unassigned') {
-//       req.gameSession.hostUserId = null
+//       req.gameRoom.hostUserId = null
 //     } else {
-//       req.gameSession.hostUserId = req.body.userId
+//       req.gameRoom.hostUserId = req.body.userId
 //     }
 
 //   }
 
 //   if(req.body.role === 'player') {
 //     if(req.body.userId === 'unassigned') {
-//       req.gameSession.playerId = null
+//       req.gameRoom.playerId = null
 //     } else {
-//       req.gameSession.playerId = req.body.userId
+//       req.gameRoom.playerId = req.body.userId
 //     }
 //   }
 
 //   if(req.body.role === 'guide') {
 //     if(req.body.userId === 'unassigned') {
-//       req.gameSession.guideId = null
+//       req.gameRoom.guideId = null
 //     } else {
 //       const user = await User.findById(req.body.userId)
 //       if(user.role == 'ADMIN') {
-//         req.gameSession.guideId = req.body.userId
+//         req.gameRoom.guideId = req.body.userId
 //       } else {
 //         return res.status(400).json({ message: 'Guide must be admin role' });
 //       }
 //     }
 //   }
 
-//   const updatedGameSession = await GameSession.findByIdAndUpdate(
+//   const updatedGameRoom = await GameRoom.findByIdAndUpdate(
 //     req.params.id,
 //     { 
-//       hostUserId: req.gameSession.hostUserId,
-//       playerId: req.gameSession.playerId,
-//       guideId: req.gameSession.guideId,
+//       hostUserId: req.gameRoom.hostUserId,
+//       playerId: req.gameRoom.playerId,
+//       guideId: req.gameRoom.guideId,
 //     },
 //     { new: true },
 //   );
 
 //   // if(!userFound) {
-//   //   return res.status(400).json({ message: 'You are not a member of this gameSession' });
+//   //   return res.status(400).json({ message: 'You are not a member of this gameRoom' });
 //   // }
 
-//   req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-//   return res.status(200).json({ gameSession: req.gameSession });
+//   req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+//   return res.status(200).json({ gameRoom: req.gameRoom });
 // })
 
-router.post('/join/:id', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
+router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
   try {
-    const userFound = req.gameSession.players.filter((u, i) => {
+    const userFound = req.gameRoom.players.filter((u, i) => {
       if(u.id === req.user.id) {
         return true
       } else {
@@ -243,35 +243,35 @@ router.post('/join/:id', requireJwtAuth, requireGameSession, requireSocketAuth, 
 
     if(userFound) {
 
-      req.gameSession.messages.push({
+      req.gameRoom.messages.push({
         user: {
           id: userFound.id,
           username: userFound.username
         },
-        message: 'has re-joined the gameSession',
+        message: 'has re-joined the gameRoom',
         automated: true
       })
       
-      req.socket.join(req.gameSession.id);
-      if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX + req.gameSession.id);
+      req.socket.join(req.gameRoom.id);
+      if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX + req.gameRoom.id);
       userFound.joined = true;
-      req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-      return res.status(200).json({ gameSession: req.gameSession });
+      req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+      return res.status(200).json({ gameRoom: req.gameRoom });
     }
 
 
     // security... lobby can set the game session stuff
 
-    // const isParticipant = req.gameSession.players.some((user) => {
+    // const isParticipant = req.gameRoom.players.some((user) => {
     //   return user.id === req.user.id
     // })
 
     // if (!(req.user.role === 'ADMIN' || isParticipant)) {
-    //   return res.status(400).json({ message: 'You do not have permission to join that gameSession.' });
+    //   return res.status(400).json({ message: 'You do not have permission to join that gameRoom.' });
     // }
 
-    // generate a gameSession formatted user
-    const newGameSessionPlayer = { 
+    // generate a gameRoom formatted user
+    const newGameRoomPlayer = { 
       email: req.user.email,
       id: req.user.id,
       username: req.user.username,
@@ -280,83 +280,83 @@ router.post('/join/:id', requireJwtAuth, requireGameSession, requireSocketAuth, 
       connected: true
     }
 
-    req.gameSession.messages.push({
+    req.gameRoom.messages.push({
       user: {
-        id: newGameSessionPlayer.id,
-        username: newGameSessionPlayer.username
+        id: newGameRoomPlayer.id,
+        username: newGameRoomPlayer.username
       },
       message: 'has connected',
       automated: true
     })
-    req.gameSession.messages.push({
+    req.gameRoom.messages.push({
       user: {
-        id: newGameSessionPlayer.id,
-        username: newGameSessionPlayer.username
+        id: newGameRoomPlayer.id,
+        username: newGameRoomPlayer.username
       },
-      message: 'has joined the gameSession',
+      message: 'has joined the gameRoom',
       automated: true
     })
       
 
     // listen for all of this game sessions events
-    req.socket.join(req.gameSession.id);
-    if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.gameSession.id);
+    req.socket.join(req.gameRoom.id);
+    if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.gameRoom.id);
 
     // remove from all other game sessions
-    req.gameSessions.forEach((gameSession) => {
+    req.gameRooms.forEach((gameRoom) => {
       let index;
-      gameSession.players.forEach((user, i) => {
-        if(newGameSessionPlayer.id === user.id) {
+      gameRoom.players.forEach((user, i) => {
+        if(newGameRoomPlayer.id === user.id) {
           index = i
         }
       })
       if(index >= -1) {
-        gameSession.players.splice(index, 1)
-        req.socket.leave(gameSession.id);
-        req.io.to(gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: gameSession});
+        gameRoom.players.splice(index, 1)
+        req.socket.leave(gameRoom.id);
+        req.io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: gameRoom});
       }
     })
 
-    // add to new gameSession
-    req.gameSession.players.push(newGameSessionPlayer)
+    // add to new gameRoom
+    req.gameRoom.players.push(newGameRoomPlayer)
 
     // update the game sessions with this information
-    req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-    return res.status(200).json({ gameSession: req.gameSession });
+    req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+    return res.status(200).json({ gameRoom: req.gameRoom });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong: ' + err });
   }
 });
 
-router.delete('/:id', requireJwtAuth, requireGameSession, async (req, res) => {
+router.delete('/:id', requireJwtAuth, requireGameRoom, async (req, res) => {
   try {
     if (req.user.role !== 'ADMIN') {
-      return res.status(400).json({ message: 'You do not have privelages to delete that gameSession.' });
+      return res.status(400).json({ message: 'You do not have privelages to delete that gameRoom.' });
     }
 
     try {
-      const gameSession = await GameSession.findByIdAndRemove(req.params.id).populate('players');
-      req.gameSessions.splice(req.gameSessionIndex, 1);
-      if (!gameSession) return res.status(404).json({ game: 'No game found.' });
+      const gameRoom = await GameRoom.findByIdAndRemove(req.params.id).populate('players');
+      req.gameRooms.splice(req.gameRoomIndex, 1);
+      if (!gameRoom) return res.status(404).json({ game: 'No game found.' });
     } catch (err) {
       res.status(500).json({ game: 'Something went wrong.' });
     }
 
-    res.status(200).json({ gameSession: req.gameSession });
+    res.status(200).json({ gameRoom: req.gameRoom });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
 
-router.put('/user/:id', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
+router.put('/user/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
   try {
     if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
-      return res.status(400).json({ message: 'You do not have privelages to update that user in that gameSession.' });
+      return res.status(400).json({ message: 'You do not have privelages to update that user in that gameRoom.' });
     }
 
     let index;
-    const userFound = req.gameSession.players.filter((u, i) => {
+    const userFound = req.gameRoom.players.filter((u, i) => {
       if(u.id === req.body.userId) {
         index = i
         return true
@@ -366,53 +366,53 @@ router.put('/user/:id', requireJwtAuth, requireGameSession, requireSocketAuth, a
     })[0]
 
     if(!userFound) {
-      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameSession' });
+      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameRoom' });
     }
 
-    req.gameSession.players[index] = { ...req.gameSession.players[index], ...req.body.user}
-    req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-    res.status(200).json({ gameSession: req.gameSession });
+    req.gameRoom.players[index] = { ...req.gameRoom.players[index], ...req.body.user}
+    req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+    res.status(200).json({ gameRoom: req.gameRoom });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
 
-// router.post('/undo/:id', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
-//   const isParticipant = req.gameSession.players.some((user) => {
+// router.post('/undo/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
+//   const isParticipant = req.gameRoom.players.some((user) => {
 //     return user.id === req.user.id
 //   })
 
 //   if (!(req.user.role === 'ADMIN' || isParticipant)) {
-//     return res.status(400).json({ message: 'You do not have permission to undo in that gameSession.' });
+//     return res.status(400).json({ message: 'You do not have permission to undo in that gameRoom.' });
 //   }
 
-//   req.io.to(req.gameSession.id).emit(ON_LOBBY_UNDO);
+//   req.io.to(req.gameRoom.id).emit(ON_LOBBY_UNDO);
   
 //   res.status(200).json({});
 // })
 
-router.put('/:id', requireJwtAuth, requireGameSession, requireSocketAuth, async (req, res) => {
+router.put('/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
   try {
     if(req.body.isPoweredOn && req.user.role !== 'ADMIN') {
       return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
     }
 
-    Object.assign(req.gameSession,req.body)
+    Object.assign(req.gameRoom,req.body)
 
-    const updatedGameSession = await GameSession.findByIdAndUpdate(
+    const updatedGameRoom = await GameRoom.findByIdAndUpdate(
       req.params.id,
       { 
-        players: req.gameSession.players.map(({id}) => {
+        players: req.gameRoom.players.map(({id}) => {
           return id
         }),
-        gameState: req.gameSession.gameState,
-        hostUserId: req.gameSession.hostUserId,
+        gameState: req.gameRoom.gameState,
+        hostUserId: req.gameRoom.hostUserId,
       },
       { new: true },
     );
 
-    req.io.to(req.gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession: req.gameSession});
-    res.status(200).json({ gameSession: req.gameSession });
+    req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
+    res.status(200).json({ gameRoom: req.gameRoom });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }

@@ -23,7 +23,7 @@ export class Brush extends Phaser.GameObjects.Image {
     this.scene = scene
     this.scene.add.existing(this)
 
-    const brushSize = getCobrowsingState().gameEditor.brushSize
+    const brushSize = getCobrowsingState().gameSelector.brushSize
     const nodeSize = store.getState().gameModel.gameModel.nodeSize
     this.width = nodeSize * brushSize
     this.height = nodeSize * brushSize
@@ -87,7 +87,7 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   releaseStroke() {
-    if(this.scene.gameSession.isNetworked) {
+    if(this.scene.gameRoom.isNetworked) {
       const strokeData = { strokeId: STROKE_ID_PREFIX + generateUniqueId(), textureId: this.canvas.textureId, time: Date.now() }
       store.dispatch(publishCodrawingStrokes({ ...strokeData, brushId: this.brushId, stroke: this.strokeMemory }))
       if(!this.canvas.isCodrawingHost) this.canvas.strokesPending.push(strokeData)

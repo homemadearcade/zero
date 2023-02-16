@@ -17,7 +17,7 @@ export class CodrawingCanvas extends Canvas {
     this.canvasId = props.canvasId
     this.scene = scene
 
-    if(!this.scene.gameSession.isNetworked) return
+    if(!this.scene.gameRoom.isNetworked) return
 
     this.strokesPending = []
     if(!this.isCodrawingHost) {
@@ -119,7 +119,7 @@ export class CodrawingCanvas extends Canvas {
   }
 
   destroy() {
-    if(!this.scene.gameSession.isNetworked) return
+    if(!this.scene.gameRoom.isNetworked) return
     
     super.destroy()
 

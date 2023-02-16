@@ -51,7 +51,7 @@ const recentlyFocusedDelta = 3000
 
 export function onSpriteEditorUndo() {
   const state = store.getState()
-  const isHost = state.auth.me.id === state.gameSession.gameSession.hostUserId
+  const isHost = state.auth.me.id === state.gameRoom.gameRoom.hostUserId
   
   if(!window.spriteEditorUndoStack.length) return
 
@@ -64,7 +64,7 @@ export function onSpriteEditorUndo() {
 
 export function onInstanceUndo() {
   const state = store.getState()
-  const isHost = state.auth.me.id === state.gameSession.gameSession.hostUserId
+  const isHost = state.auth.me.id === state.gameRoom.gameRoom.hostUserId
   
   if(!window.instanceUndoStack.length) return
 

@@ -10,10 +10,10 @@ import Typography from '../../../ui/Typography/Typography';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import { TextField } from '@mui/material';
 import { addArcadeGame } from '../../../store/actions/arcadeGameActions';
-import { addGameSession } from '../../../store/actions/gameSessionActions';
+import { addGameRoom } from '../../../store/actions/gameRoomActions';
 import moment from 'moment';
 
-const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameSession }) => {
+const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
       startTime: '',
@@ -34,16 +34,16 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameSession }) => {
     
     const game = gameResponse.data.game
 
-    const gameSessionResponse = await addGameSession({
+    const gameRoomResponse = await addGameRoom({
       players: data.participants,
       isNetworked: true,
       isEdit: true,
       gameId: game.id,
       hostUserId: data.participants
     });
-    const gameSession = gameSessionResponse.data.gameSession
+    const gameRoom = gameRoomResponse.data.gameRoom
     const participantId = data.participants
-    await addLobby({ editingGameId: game.id, participants: [data.participants], participantId: participantId, startTime: data.startTime, gameSessionId: gameSession.id });
+    await addLobby({ editingGameId: game.id, participants: [data.participants], participantId: participantId, startTime: data.startTime, gameRoomId: gameRoom.id });
     reset();
     onSubmit()
   }
@@ -83,4 +83,4 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
 });
 
-export default connect(mapStateToProps, { addLobby, addArcadeGame, addGameSession })(LobbyForm);
+export default connect(mapStateToProps, { addLobby, addArcadeGame, addGameRoom })(LobbyForm);

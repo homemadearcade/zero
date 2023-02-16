@@ -42,7 +42,7 @@ SPRITE SHEET EDITOR
 
 CUSTOM CODING
 
-WEBRTC for GameSession
+WEBRTC for GameRoom
 https://github.com/peers/peerjs
 
 --------------------------------------------------------------------------------------

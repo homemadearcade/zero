@@ -10,7 +10,7 @@ import ticketPurchaseRoutes from './ticketPurchases'
 import interfacePresetRoutes from './interfacePresets'
 import experienceRoutes from './experiences'
 import codrawingRoutes from './codrawing'
-import gameSessionRoutes from './gameSession'
+import gameRoomRoutes from './gameRoom'
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router.use('/messages', messagesRoutes);
 router.use('/lobbys', lobbysRoutes);
 router.use('/cobrowsing', cobrowsingRoutes);
 router.use('/codrawing', codrawingRoutes);
-router.use('/gameSession', gameSessionRoutes);
+router.use('/gameRoom', gameRoomRoutes);
 router.use('/arcadeGames', arcadeGameRoutes);
 router.use('/ticketedEvents', ticketedEventRoutes);
 router.use('/ticketPurchases', ticketPurchaseRoutes);

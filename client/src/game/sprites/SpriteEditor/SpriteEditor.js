@@ -12,7 +12,7 @@ import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/Cobrowsing
 import { nodeSize } from '../../defaultData/general';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../../brush/BrushControl/BrushControl';
-import { clearBrush, closeSpriteEditor, selectBrush } from '../../../store/actions/gameEditorActions';
+import { clearBrush, closeSpriteEditor, selectBrush } from '../../../store/actions/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
@@ -24,7 +24,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes } }, tintSelected, setSpriteEditorGameInstance, gameEditor: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
+const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes } }, tintSelected, setSpriteEditorGameInstance, gameSelector: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -133,7 +133,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
   webPage: state.webPage,
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor

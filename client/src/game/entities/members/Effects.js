@@ -6,7 +6,7 @@ import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../defaultData/relationship";
 import { isZoneClassId } from "../../../utils/gameUtils";
 import { changeCurrentStage } from "../../../store/actions/gameModelActions";
-import { changeGameState } from "../../../store/actions/gameSessionActions";
+import { changeGameState } from "../../../store/actions/gameRoomActions";
 import _ from "lodash";
 
 export class Effects {

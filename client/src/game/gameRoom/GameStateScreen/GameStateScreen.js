@@ -13,7 +13,7 @@ import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import store from '../../../store';
 import useFitText from "use-fit-text";
-import { changeGameState } from '../../../store/actions/gameSessionActions';
+import { changeGameState } from '../../../store/actions/gameRoomActions';
 
 function GameStateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {
   const { fontSize, ref } = useFitText();
@@ -66,7 +66,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
           <div className="GameStateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
           </div>
-          {!store.getState().gameSession.gameSession.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
+          {!store.getState().gameRoom.gameRoom.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>
       </Constellation>
     }
@@ -80,7 +80,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
           <div className="GameStateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
           </div>
-          {!store.getState().gameSession.gameSession.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
+          {!store.getState().gameRoom.gameRoom.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>
       </Constellation>
     }
@@ -93,7 +93,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
   );
 }
 
-function GameStateScreen({gameSession: { gameSession: { gameState, gameStateMessage }}, changeGameState, gameModel}) {
+function GameStateScreen({gameRoom: { gameRoom: { gameState, gameStateMessage }}, changeGameState, gameModel}) {
   if(gameState !== START_STATE && gameState !== WIN_GAME_STATE && gameState !== GAME_OVER_STATE) {
     return null
   }
@@ -102,7 +102,7 @@ function GameStateScreen({gameSession: { gameSession: { gameState, gameStateMess
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameSession: state.gameSession,
+  gameRoom: state.gameRoom,
   gameModel: state.gameModel,
 });
 

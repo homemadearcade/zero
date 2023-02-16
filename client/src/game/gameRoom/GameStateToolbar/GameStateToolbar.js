@@ -10,9 +10,9 @@ import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_
 import { onInstanceUndo } from '../../../store/actions/lobbyActions';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_STOP_IID } from '../../../constants/interfaceIds';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
-import { changeGameState } from '../../../store/actions/gameSessionActions';
+import { changeGameState } from '../../../store/actions/gameRoomActions';
 
-const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameSession: { gameSession: { gameState } } }) => {
+const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom: { gameRoom: { gameState } } }) => {
   const color = getThemePrimaryColor().hexString
 
   function renderStop() {
@@ -81,7 +81,7 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameSess
 };
 
 const mapStateToProps = (state) => ({
-  gameSession: state.gameSession
+  gameRoom: state.gameRoom
 });
 
 export default compose(

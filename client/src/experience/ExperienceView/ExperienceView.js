@@ -8,7 +8,7 @@ import { CHATROOM_EXPERIENCE, CREDITS_EXPERIENCE, GAME_EDITOR_EXPERIENCE, MONOLO
 import CobrowsingGame from '../../game/CobrowsingGame/CobrowsingGame';
 import Typography from '../../ui/Typography/Typography';
 import GameViewObscured from '../../game/view/GameViewObscured/GameViewObscured';
-import Chatroom from '../Chatroom/Chatroom';
+import ChatRoom from '../ChatRoom/ChatRoom';
 import AgoraUserVideo from '../agora/AgoraUserVideo/AgoraUserVideo';
 import './ExperienceView.scss'
 import GameCard from '../../app/arcadeGame/GameCard/GameCard';
@@ -19,7 +19,7 @@ import ConstellationZoom from '../../marketing/homemadeArcade/ConstellationZoom/
 
 const ExperienceView = ({
   lobby: { lobby: { users, experienceState, guideId, editingGameId }, lobby },
-  gameSession: { gameSession },
+  gameRoom: { gameRoom },
   myTracks,
   userTracks,
   cobrowsing: { cobrowsingUser }
@@ -39,13 +39,13 @@ const ExperienceView = ({
     }
 
     if(experienceState === GAME_EDITOR_EXPERIENCE) {
-      return <CobrowsingGame gameId={gameSession.gameId} myTracks={myTracks} userTracks={userTracks}>
+      return <CobrowsingGame gameId={gameRoom.gameId} myTracks={myTracks} userTracks={userTracks}>
         <GameViewObscured/>
       </CobrowsingGame>
     }
 
     if(experienceState === CHATROOM_EXPERIENCE) {
-      return <Container><Chatroom hideAutomated></Chatroom></Container>
+      return <Container><ChatRoom hideAutomated></ChatRoom></Container>
     }
 
     if(experienceState === CREDITS_EXPERIENCE) {
@@ -94,7 +94,7 @@ const ExperienceView = ({
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
   cobrowsing: state.cobrowsing,
-  gameSession: state.gameSession
+  gameRoom: state.gameRoom
 });
 
 export default compose(

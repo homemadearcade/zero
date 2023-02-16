@@ -6,7 +6,7 @@ import './SelectBackgroundColor.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { closeSelectBackgroundColor } from '../../../store/actions/gameEditorActions';
+import { closeSelectBackgroundColor } from '../../../store/actions/gameSelectorActions';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 

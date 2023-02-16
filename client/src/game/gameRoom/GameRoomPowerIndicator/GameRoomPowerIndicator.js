@@ -4,20 +4,20 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import Icon from '../../../ui/Icon/Icon';
-import { editGameSession } from '../../../store/actions/gameSessionActions';
+import { editGameRoom } from '../../../store/actions/gameRoomActions';
 
-import './GameSessionPowerIndicator.scss'
+import './GameRoomPowerIndicator.scss'
 import Switch from '../../../ui/Switch/Switch';
 
-const GameSessionPowerIndicator = ({
-  gameSession : { gameSession, gameSession: { isPoweredOn, gameId }},
-  editGameSession
+const GameRoomPowerIndicator = ({
+  gameRoom : { gameRoom, gameRoom: { isPoweredOn, gameId }},
+  editGameRoom
 }) => {
   return <div
-    className="GameSessionPowerIndicator"
+    className="GameRoomPowerIndicator"
     onClick={() => {
-      if(!gameSession.gameId) return
-      editGameSession(gameSession.id, {
+      if(!gameRoom.gameId) return
+      editGameRoom(gameRoom.id, {
         isPoweredOn: !isPoweredOn,
       })
     }}
@@ -32,9 +32,9 @@ const GameSessionPowerIndicator = ({
 };
 
 const mapStateToProps = (state) => ({
-  gameSession: state.gameSession,
+  gameRoom: state.gameRoom,
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameSession }),
-)(GameSessionPowerIndicator);
+  connect(mapStateToProps, { editGameRoom }),
+)(GameRoomPowerIndicator);

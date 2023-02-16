@@ -13,7 +13,7 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import { CUTSCENE_ID_PREFIX, IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import MySpritesModal from '../../sprites/MySpritesModal/MySpritesModal';
-import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameEditorActions';
+import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameSelectorActions';
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
@@ -26,7 +26,7 @@ const CreateCutscene = ({
   closeMySpritesModal,
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
-  gameEditor: { isMySpritesModalOpen },
+  gameSelector: { isMySpritesModalOpen },
   gameModel: { gameModel },
 }) => {
   const [editScene, setEditScene] = useState(null)
@@ -201,7 +201,7 @@ const CreateCutscene = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor,
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
   gameModel: state.gameModel,
 })
 

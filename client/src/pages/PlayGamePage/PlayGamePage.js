@@ -9,16 +9,16 @@ import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/view/GameView/GameView';
 import { unloadArcadeGame } from '../../store/actions/arcadeGameActions';
-import { changeGameState } from '../../store/actions/gameSessionActions';
-import LocalGameSessionContext from '../../hoc/LocalGameSessionContext';
+import { changeGameState } from '../../store/actions/gameRoomActions';
+import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
 import { START_STATE } from '../../game/constants';
 
 const PlayGamePage = () => {
   return (
     <div className="PlayGamePage">
-      <LocalGameSessionContext session={{gameState: START_STATE}}>
+      <LocalGameRoomContext room={{gameState: START_STATE}}>
         <GameView/>
-      </LocalGameSessionContext>
+      </LocalGameRoomContext>
     </div>
   );
 };

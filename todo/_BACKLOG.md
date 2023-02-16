@@ -119,7 +119,7 @@ Try to remove getState() and getCobrowsingState() inside of game... standardize 
 
 ExperienceSession
   Lobby
-  GameSession
+  GameRoom
 -> LOBBY IS ONE OF THE STATES OF EXPERIENCE SESSION :). So when you go to a game session you actually DO leave the lobby.
 
 --------------------------------------------------------------------------------------
@@ -132,9 +132,7 @@ updateCobrowsing wrapper that only occurs when you use the target icon in the co
 
 players vs participants vs users inside of a lobby. I think perhaps its 'invitedMembers' and 'invitedPlayers' and them 'members' and 'players'
 
-comebine withGame with GameSessionContext
-
-Create index folder for lobby, game, redux, etc
+comebine withGame with GameRoomContext
 
 Interface Preset Update
   Need to make an interface tree component to seperate user tree and a preset tree
@@ -144,7 +142,27 @@ VALIDATION ON ALL FORMS
 
 game.user = game.owner
 
-A LOBBY can have many ROOMS Yes. A lobby is where you meet to go back and forth between rooms. The lobby itself is a room
+Experience has Activitys
+  Activity has instructions
+  Activitys are type Drawing Activity, Game Activity, Chat Activity, or Video Activity, Lobby Door, AcitivityDoor 
+    VideoActivity can be Browse, Group, Monologue, Teams, Pair, Chat
+    ChatActivity is just a chat room no video
+    DrawingAcitivity is Codrwaing
+    GameAcitivity is GameRoom
+    DoorAcitivity (lobby or activity) is a way out of the Lobby that participants can self select, it must have one or more LobbyIds attached to it 
+Experience has Lobbyss
+  Lobbys has ActivityIds
+  Lobbys can be public, tickets only, invite only, or friends only
+  Lobbys has a VideoActivity by default ( if part of an experience )
+  Lobbys has an inviteList
+
+Experience example
+Homemade Arcade
+  1 Lobby
+    1 Video Activity
+    3 Game Activitys
+
+All the components called Experience now need to be called Activity
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

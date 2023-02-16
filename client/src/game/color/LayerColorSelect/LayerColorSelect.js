@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
-import { clearBrush, selectBrush } from '../../../store/actions/gameEditorActions';
+import { clearBrush, selectBrush } from '../../../store/actions/gameSelectorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
 
 const LayerColorSelect = ({
@@ -20,7 +20,7 @@ const LayerColorSelect = ({
   editGameModel,
   selectBrush,
   clearBrush,
-  gameEditor: { brushIdSelectedBrushList },
+  gameSelector: { brushIdSelectedBrushList },
   gameFormEditor: { isCreateColorFlowOpen },
   withEraser
 }) => {
@@ -124,7 +124,7 @@ const LayerColorSelect = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
 });
 
 export default compose(

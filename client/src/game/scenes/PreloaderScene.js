@@ -14,7 +14,7 @@ export class PreloaderScene extends Phaser.Scene {
       key: PRELOADER_SCENE,
     });
 
-    this.gameSession = {
+    this.gameRoom = {
       isHost: isNetworked ? hostUserId === store.getState().auth.me?.id : true,
       isNetworked,
       isEdit,
@@ -23,7 +23,7 @@ export class PreloaderScene extends Phaser.Scene {
     }
 
     if(store.getState().webPage.gameInstanceId) {
-      console.error('a new game has been loaded for some reason with id', this.gameSession.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)
+      console.error('a new game has been loaded for some reason with id', this.gameRoom.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)
     }
   }
 
@@ -100,7 +100,7 @@ export class PreloaderScene extends Phaser.Scene {
   };
 
   addGameScene(key) {
-    this.scene.add(key, createGameSceneInstance(key, this.gameSession));
+    this.scene.add(key, createGameSceneInstance(key, this.gameRoom));
   }
 
   playGame = () => {

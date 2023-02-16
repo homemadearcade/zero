@@ -19,7 +19,7 @@ const AggregateColorSelect = ({
   editGameModel,
   onSelectColor,
   onUnselectColor,
-  gameEditor: { brushIdSelectedBrushList },
+  gameSelector: { brushIdSelectedBrushList },
   gameFormEditor: { isCreateColorFlowOpen },
   selectedColor
 }) => {
@@ -68,7 +68,7 @@ const AggregateColorSelect = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
 });
 
 export default compose(

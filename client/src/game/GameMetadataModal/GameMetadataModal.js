@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './GameMetadataModal.scss';
 import CobrowsingModal from '../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import { closeGameMetadataModal } from '../../store/actions/gameEditorActions';
+import { closeGameMetadataModal } from '../../store/actions/gameSelectorActions';
 import GameMetadataForm from '../../app/arcadeGame/GameMetadataForm/GameMetadataForm';
 
 const GameMetadataModal = ({ closeGameMetadataModal, gameViewEditor: { isSnapshotTakerOpen } }) => {

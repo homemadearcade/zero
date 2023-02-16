@@ -18,17 +18,17 @@ import withSpeedTest from '../../hoc/withSpeedTest';
 import CobrowsingSession from '../../hoc/CobrowsingSession';
 import AskFullscreen from '../../hoc/askFullscreen';
 import LobbyErrorStates from '../../experience/lobby/LobbyErrorStates/LobbyErrorStates';
-import GameSessionDrawer from '../../game/gameSession/GameSessionDrawer/GameSessionDrawer';
+import GameRoomDrawer from '../../game/gameRoom/GameRoomDrawer/GameRoomDrawer';
 import ExperienceView from '../../experience/ExperienceView/ExperienceView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
-import MultiplayerGameSessionContext from '../../hoc/MultiplayerGameSessionContext';
+import MultiplayerGameRoomContext from '../../hoc/MultiplayerGameRoomContext';
 import { ADMIN_ROLE } from '../../constants';
 
 const LobbyPage = ({
   lobby: { lobby },
   auth: { me },
-  gameSession: { gameSession },
+  gameRoom: { gameRoom },
   myTracks,
   userTracks,
   assignLobbyRole,
@@ -36,7 +36,7 @@ const LobbyPage = ({
   let { path } = useRouteMatch();
 
   useEffect(() => {
-    if(gameSession.isPoweredOn) return 
+    if(gameRoom.isPoweredOn) return 
     
     if(me.role === ADMIN_ROLE && (!lobby.guideId)) {
       assignLobbyRole(lobby.id, {
@@ -48,23 +48,23 @@ const LobbyPage = ({
 
   return <RouterSwitch>
       <Route exact path={path}>
-        <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
+        <MultiplayerGameRoomContext gameRoomId={lobby.gameRoomId}>
           <CobrowsingSession userId={lobby.participantId}>
             <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
           </CobrowsingSession>
-        </MultiplayerGameSessionContext>
+        </MultiplayerGameRoomContext>
         <LobbyErrorStates/>
         <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
       </Route>
       <Route path={`${path}/join/:cobrowsingUserId`}>
-        {me.role === ADMIN_ROLE && <GameSessionDrawer myTracks={myTracks} userTracks={userTracks}/>}
-        <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
+        {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
+        <MultiplayerGameRoomContext gameRoomId={lobby.gameRoomId}>
           <CobrowsingSession>
             <AskFullscreen>
               <ExperienceView myTracks={myTracks} userTracks={userTracks}/>
             </AskFullscreen>
           </CobrowsingSession>
-        </MultiplayerGameSessionContext>
+        </MultiplayerGameRoomContext>
         <LobbyErrorStates/>
         <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
       </Route>
@@ -74,7 +74,7 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobby: state.lobby,
-  gameSession: state.gameSession
+  gameRoom: state.gameRoom
 });
 
 export default compose(

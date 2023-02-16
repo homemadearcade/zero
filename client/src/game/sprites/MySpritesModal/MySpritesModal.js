@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './MySpritesModal.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeMySpritesModal } from '../../../store/actions/gameEditorActions';
+import { closeMySpritesModal } from '../../../store/actions/gameSelectorActions';
 import MySprites from '../MySprites/MySprites';
 import Typography from '../../../ui/Typography/Typography';
 

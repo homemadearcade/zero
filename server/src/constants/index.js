@@ -139,8 +139,8 @@ export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 //////////////////////////////////////////////
 //////////////////////////////////////////////
 //// GAME SESSION
-export const ON_GAME_SESSION_UPDATE = 'ON_GAME_SESSION_UPDATE';
-export const ON_GAME_SESSION_USER_STATUS_UPDATE = 'ON_GAME_SESSION_USER_STATUS_UPDATE';
+export const ON_GAME_ROOM_UPDATE = 'ON_GAME_ROOM_UPDATE';
+export const ON_GAME_ROOM_USER_STATUS_UPDATE = 'ON_GAME_ROOM_USER_STATUS_UPDATE';
 
 export const CODRAWING_ROOM_PREFIX = 'codrawing@'
 export const COBROWSING_ROOM_PREFIX = 'cobrowsing@'
@@ -148,6 +148,6 @@ export const ADMIN_ROOM_PREFIX = 'admins@'
 
 
 export const SOCKET_SESSIONS_STORE = 'SOCKET_SESSIONS_STORE'
-export const GAME_SESSIONS_STORE = 'GAME_SESSIONS_STORE'
+export const GAME_ROOMS_STORE = 'GAME_ROOMS_STORE'
 export const LOBBYS_STORE = 'LOBBYS_STORE'
 export const SOCKET_IO_STORE = 'SOCKET_IO_STORE'

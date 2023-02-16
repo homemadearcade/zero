@@ -14,7 +14,7 @@ import { ProjectileInstance } from '../entities/ProjectileInstance';
 import { defaultPlayerSpawnZone, initialPlayerSpawnZone } from '../defaultData/stage';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
-import { editGameSession } from '../../store/actions/gameSessionActions';
+import { editGameRoom } from '../../store/actions/gameRoomActions';
 import { generateUniqueId } from '../../utils/webPageUtils';
 
 export class GameInstance extends Phaser.Scene {
@@ -35,7 +35,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.physicsType = ARCADE_PHYSICS
 
-    this.gameSession = props.gameSession
+    this.gameRoom = props.gameRoom
 
     this.lastUpdate = null
   }
@@ -446,10 +446,10 @@ export class GameInstance extends Phaser.Scene {
     const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
 
-    this.backgroundLayer = new CodrawingCanvas(this, {isCodrawingHost: this.gameSession.isHost, canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
+    this.backgroundLayer = new CodrawingCanvas(this, {isCodrawingHost: this.gameRoom.isHost, canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
     this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {isCodrawingHost: this.gameSession.isHost, canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
+    this.playgroundLayer = new CollisionCanvas(this, {isCodrawingHost: this.gameRoom.isHost, canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
     this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
 
     this.objectInstanceGroup = this.add.group()
@@ -465,7 +465,7 @@ export class GameInstance extends Phaser.Scene {
     this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {isCodrawingHost: this.gameSession.isHost, canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
+    this.foregroundLayer = new CodrawingCanvas(this, {isCodrawingHost: this.gameRoom.isHost, canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries, autoSave: true})
     this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
@@ -571,8 +571,8 @@ export class GameInstance extends Phaser.Scene {
     const startingStageId = store.getState().gameModel.gameModel.player.startingStageId
     store.dispatch(changeCurrentStage(startingStageId))
 
-    if(store.getState().gameSession.gameSession?.id) {
-      store.dispatch(editGameSession(store.getState().gameSession.gameSession.id, {
+    if(store.getState().gameRoom.gameRoom?.id) {
+      store.dispatch(editGameRoom(store.getState().gameRoom.gameRoom.id, {
         gameResetDate: Date.now()
       }))
     } else {

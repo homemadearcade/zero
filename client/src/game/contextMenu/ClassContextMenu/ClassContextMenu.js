@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/gameModelActions'
-import { openClassNameModal, openJsonViewer, openLiveEditor } from '../../../store/actions/gameEditorActions';
+import { openClassNameModal, openJsonViewer, openLiveEditor } from '../../../store/actions/gameSelectorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';

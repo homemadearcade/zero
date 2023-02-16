@@ -50,8 +50,8 @@ export class CodrawingScene extends Phaser.Scene {
   onPointerMove = (pointer)  => {
     window.pointer = pointer
 
-    const gameEditor = getCobrowsingState().gameEditor
-    const brushId = gameEditor.brushIdSelectedBrushList
+    const gameSelector = getCobrowsingState().gameSelector
+    const brushId = gameSelector.brushIdSelectedBrushList
 
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////

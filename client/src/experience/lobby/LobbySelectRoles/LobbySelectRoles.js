@@ -8,7 +8,7 @@ import { editLobby } from '../../../store/actions/lobbyActions';
 import './LobbySelectRoles.scss';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import Typography from '../../../ui/Typography/Typography';
-import LobbyUsername from '../../room/RoomMember/RoomMember';
+import LobbyUsername from '../../LobbyMember/LobbyMember';
 import Divider from '../../../ui/Divider/Divider';
 
 const LobbySelectRoles = ({

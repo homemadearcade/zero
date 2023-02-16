@@ -21,7 +21,7 @@ import {
 import { initialContextMenuState } from './contextMenuReducer';
 import { initialGameFormEditorState } from './gameFormEditorReducer';
 import { initialGameViewEditorState } from './gameViewEditorReducer';
-import { initialGameEditorState } from './gameEditorReducer';
+import { initialGameSelectorState } from './gameSelectorReducer';
 import { initialErrorState } from './errorsReducer';
 import { initialPlayerInterfaceState } from './playerInterfaceReducer';
 import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
@@ -44,7 +44,7 @@ const initialState = {
   remoteStateUserId: null,
   remoteState: {
     video: initialVideoState,
-    gameEditor: initialGameEditorState,
+    gameSelector: initialGameSelectorState,
     gameFormEditor: initialGameFormEditorState,
     gameViewEditor: initialGameViewEditorState,
     playerInterface: initialPlayerInterfaceState,

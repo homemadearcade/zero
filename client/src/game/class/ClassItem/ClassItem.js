@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './ClassItem.scss';
 import classNames from 'classnames';
-import { clearClass, selectClass } from '../../../store/actions/gameEditorActions';
+import { clearClass, selectClass } from '../../../store/actions/gameSelectorActions';
 import { getCobrowsingState, mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import Sprite from '../../sprites/Sprite/Sprite';
@@ -18,7 +18,7 @@ import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 const ClassItem = ({
   gameModel: { gameModel: { classes } },
   classId,
-  gameEditor: { classIdSelectedClassList },
+  gameSelector: { classIdSelectedClassList },
   selectClass,
   clearClass,
   openContextMenuFromClassId,
@@ -71,7 +71,7 @@ const ClassItem = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
   playerInterface: state.playerInterface
 })
 

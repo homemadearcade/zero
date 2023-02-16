@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './LobbyOverview.scss';
 import Typography from '../../../ui/Typography/Typography';
-import LobbyUsername from '../../room/RoomMember/RoomMember';
+import LobbyUsername from '../../LobbyMember/LobbyMember';
 import LobbySelectRoles from '../LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
 

@@ -5,7 +5,7 @@ export class GamePlayScene extends GameInstance {
   constructor(props) {
     super(props);
 
-    this.gameSession = props.gameSession
+    this.gameRoom = props.gameRoom
   }
 
   callAnimation({type, data}) {
@@ -19,7 +19,7 @@ export class GamePlayScene extends GameInstance {
   update(time, delta) {
     super.update(time, delta) 
     this.afterGameInstanceUpdateEffects()
-    const gameState = store.getState().gameSession.gameSession.gameState
+    const gameState = store.getState().gameRoom.gameRoom.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }

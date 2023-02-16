@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColor } from '../../../store/actions/gameEditorActions';
+import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColor } from '../../../store/actions/gameSelectorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { STAGE_BACKGROUND_CANVAS_ID, STAGE_EDITOR } from '../../constants';

@@ -122,20 +122,20 @@ export function isZoneClassId(id) {
   }
 }
 
-export function createGameSceneInstance(key, gameSession) {
-  const { isEdit, isNetworked, isHost } = gameSession
+export function createGameSceneInstance(key, gameRoom) {
+  const { isEdit, isNetworked, isHost } = gameRoom
   if(isEdit) {
     if(isNetworked) {
       if(isHost) {
-        return new GameHostScene({ gameSession: gameSession, key})
+        return new GameHostScene({ gameRoom: gameRoom, key})
       } else {
-        return new GameClientScene({ gameSession: gameSession, key})
+        return new GameClientScene({ gameRoom: gameRoom, key})
       }
     } else {
-      return new GameLocalScene({ gameSession: gameSession, key})
+      return new GameLocalScene({ gameRoom: gameRoom, key})
     }
   } else {
-    return new GamePlayScene({ gameSession: gameSession, key})
+    return new GamePlayScene({ gameRoom: gameRoom, key})
   }
 }
 

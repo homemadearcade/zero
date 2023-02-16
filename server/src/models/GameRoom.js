@@ -3,7 +3,7 @@ import Joi from 'joi';
 
 const { Schema } = mongoose;
 
-const gameSessionSchema = new Schema(
+const gameRoomSchema = new Schema(
   {
     isNetworked: {
       type: Boolean,
@@ -56,7 +56,7 @@ export const validateLobby = (lobby) => {
   // return Joi.validate(game, schema, { allowUnknown: true });
 };
 
-gameSessionSchema.methods.toJSON = function () {
+gameRoomSchema.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     hostUserId: this.hostUserId,
@@ -70,6 +70,6 @@ gameSessionSchema.methods.toJSON = function () {
   };
 };
 
-const GameSession = mongoose.model('GameSession', gameSessionSchema);
+const GameRoom = mongoose.model('GameRoom', gameRoomSchema);
 
-export default GameSession;
+export default GameRoom;

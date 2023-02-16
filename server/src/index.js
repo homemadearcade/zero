@@ -16,11 +16,11 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_SESSION_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBYS_STORE, CODRAWING_ROOM_PREFIX, GAME_SESSIONS_STORE, ON_GAME_SESSION_USER_STATUS_UPDATE } from './constants';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_ROOM_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBYS_STORE, CODRAWING_ROOM_PREFIX, GAME_ROOMS_STORE, ON_GAME_ROOM_USER_STATUS_UPDATE } from './constants';
 import Lobby from './models/Lobby';
 import TicketedEvent from './models/TicketedEvent';
 import TicketPurchase from './models/TicketPurchase';
-import GameSession from './models/GameSession';
+import GameRoom from './models/GameRoom';
 
 const app = express();
 
@@ -189,12 +189,12 @@ io.on("connection", (socket) => {
           })
         })
 
-        const gameSessions = app.get(GAME_SESSIONS_STORE)
-        gameSessions?.forEach((gameSession) => {
-          gameSession.players.forEach((user) => {
+        const gameRooms = app.get(GAME_ROOMS_STORE)
+        gameRooms?.forEach((gameRoom) => {
+          gameRoom.players.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
-              gameSession.messages.push({
+              gameRoom.messages.push({
                 user: {
                   id: user.id,
                   username: user.username
@@ -202,8 +202,8 @@ io.on("connection", (socket) => {
                 message: 'has connected',
                 automated: true
               })
-              socket.join(gameSession.id);
-              io.to(gameSession.id).emit(ON_GAME_SESSION_UPDATE, {gameSession});
+              socket.join(gameRoom.id);
+              io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom});
             }
           })
         })
@@ -227,12 +227,12 @@ io.on("connection", (socket) => {
     io.to(payload.lobbyId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
   })
 
-  socket.on(ON_GAME_SESSION_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.gameSessionId).emit(ON_GAME_SESSION_USER_STATUS_UPDATE, payload)
+  socket.on(ON_GAME_ROOM_USER_STATUS_UPDATE, (payload) => {
+    io.to(payload.gameRoomId).emit(ON_GAME_ROOM_USER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_ANIMATION, (payload) => {
-    io.to(payload.gameSessionId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
+    io.to(payload.gameRoomId).emit(ON_GAME_INSTANCE_ANIMATION, payload)
   })
 
   let upsServer = {}
@@ -241,33 +241,33 @@ io.on("connection", (socket) => {
 
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
 
-    const gameSessionId = payload.gameSessionId
+    const gameRoomId = payload.gameRoomId
     const time = Date.now();
     
-    if(!lastUpsServerCounts[gameSessionId]) lastUpsServerCounts[gameSessionId] = 0
-    if(!upsServerUpdates[gameSessionId]) upsServerUpdates[gameSessionId] = 0
+    if(!lastUpsServerCounts[gameRoomId]) lastUpsServerCounts[gameRoomId] = 0
+    if(!upsServerUpdates[gameRoomId]) upsServerUpdates[gameRoomId] = 0
 
-    upsServerUpdates[gameSessionId]++;
+    upsServerUpdates[gameRoomId]++;
 
-    if (time > lastUpsServerCounts[gameSessionId] + 1000) {
-      upsServer[gameSessionId] = Math.round( ( upsServerUpdates[gameSessionId] * 1000 ) / ( time - lastUpsServerCounts[gameSessionId] ) );
-      lastUpsServerCounts[gameSessionId] = time;
-      upsServerUpdates[gameSessionId] = 0;
+    if (time > lastUpsServerCounts[gameRoomId] + 1000) {
+      upsServer[gameRoomId] = Math.round( ( upsServerUpdates[gameRoomId] * 1000 ) / ( time - lastUpsServerCounts[gameRoomId] ) );
+      lastUpsServerCounts[gameRoomId] = time;
+      upsServerUpdates[gameRoomId] = 0;
     }
 
-    payload.upsServer = upsServer[gameSessionId]
+    payload.upsServer = upsServer[gameRoomId]
       
-    io.to(payload.gameSessionId).emit(ON_GAME_INSTANCE_UPDATE, payload)
+    io.to(payload.gameRoomId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, (payload) => {
-    payload.upsServer = upsServer[payload.gameSessionId]
+    payload.upsServer = upsServer[payload.gameRoomId]
 
-    io.to(payload.gameSessionId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
+    io.to(payload.gameRoomId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
   })
 
   socket.on(ON_GAME_CHARACTER_UPDATE, (payload) => {
-    io.to(payload.gameSessionId).emit(ON_GAME_CHARACTER_UPDATE, payload)
+    io.to(payload.gameRoomId).emit(ON_GAME_CHARACTER_UPDATE, payload)
   })
 
   socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, (payload) => {
@@ -348,17 +348,17 @@ async function onMongoDBConnected() {
 
   }
 
-  let gameSessions = await GameSession.find().populate('players').populate()
+  let gameRooms = await GameRoom.find().populate('players').populate()
 
-  if(gameSessions) {
-    gameSessions =  gameSessions.map((gam) => {
-      const gameSession = gam.toJSON()
+  if(gameRooms) {
+    gameRooms =  gameRooms.map((gam) => {
+      const gameRoom = gam.toJSON()
       return {
-        ...gameSession,
+        ...gameRoom,
         gameState: 'PLAY_STATE',
         messages: [],
         resetDate: Date.now(),
-        players: gameSession.players.map((user) => {
+        players: gameRoom.players.map((user) => {
           return {
             email: user.email,
             id: user.id,
@@ -372,9 +372,9 @@ async function onMongoDBConnected() {
     })
     
 
-    app.set(GAME_SESSIONS_STORE, gameSessions);  
+    app.set(GAME_ROOMS_STORE, gameRooms);  
   } else {
-    app.set(GAME_SESSIONS_STORE, []);  
+    app.set(GAME_ROOMS_STORE, []);  
 
   }
 }

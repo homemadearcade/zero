@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './EraserSelect.scss';
 import classNames from 'classnames';
-import { clearClass, selectBrush, clearBrush } from '../../../store/actions/gameEditorActions';
+import { clearClass, selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
 import { ERASER_BRUSH_ID } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
@@ -14,7 +14,7 @@ import { ERASER_IID } from '../../../constants/interfaceIds';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 
 const EraserSelect = ({
-  gameEditor: { brushIdSelectedBrushList },
+  gameSelector: { brushIdSelectedBrushList },
   canvasId,
   selectBrush,
   clearClass,
@@ -43,7 +43,7 @@ const EraserSelect = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
 })
 
 export default compose(

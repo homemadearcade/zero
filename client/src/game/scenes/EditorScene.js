@@ -4,7 +4,7 @@ import store from '../../store';
 import { addAwsImage, editGameModel } from '../../store/actions/gameModelActions';
 import { openContextMenuFromGameObject, openStageContextMenu } from '../../store/actions/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
-import { clearBrush, clearClass } from '../../store/actions/gameEditorActions';
+import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
 import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
@@ -25,7 +25,7 @@ export class EditorScene extends GameInstance {
   constructor(props) {
     super(props);
 
-    this.gameSession = props.gameSession
+    this.gameRoom = props.gameRoom
 
     this.draggingObjectInstanceId = null
     this.canvas = null
@@ -198,9 +198,9 @@ export class EditorScene extends GameInstance {
     window.pointer = pointer
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
-    const gameEditor = getCobrowsingState().gameEditor
-    const brushId = gameEditor.brushIdSelectedBrushList
-    const classId = gameEditor.classIdSelectedClassList
+    const gameSelector = getCobrowsingState().gameSelector
+    const brushId = gameSelector.brushIdSelectedBrushList
+    const classId = gameSelector.classIdSelectedClassList
     const gameModel = store.getState().gameModel.gameModel
 
     if(this.resizingObjectInstance) {
@@ -595,7 +595,7 @@ export class EditorScene extends GameInstance {
         const sceneKeys = this.scene.manager.keys
         if(stageId && !sceneKeys[stageId]) {
           const key = stageId
-          this.scene.add(key, createGameSceneInstance(key, this.gameSession));
+          this.scene.add(key, createGameSceneInstance(key, this.gameRoom));
         }
       })
 
@@ -948,9 +948,9 @@ export class EditorScene extends GameInstance {
       }
     })
 
-    const gameSession = store.getState().gameSession.gameSession
-    if(gameSession.id) {
-      const gameResetDate = gameSession.gameResetDate
+    const gameRoom = store.getState().gameRoom.gameRoom
+    if(gameRoom.id) {
+      const gameResetDate = gameRoom.gameResetDate
       if(gameResetDate > this.gameResetDate) {
         this.gameResetDate = gameResetDate
         this.reset()

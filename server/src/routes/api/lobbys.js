@@ -110,7 +110,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       participantId: req.body.participantId,
       guideId: req.body.guideId,
       editingGameId: req.body.editingGameId,
-      gameSessionId: req.body.gameSessionId
+      gameRoomId: req.body.gameRoomId
     });
 
     lobby = await lobby.populate('participants').execPopulate();
@@ -419,7 +419,7 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
         participantId: req.lobby.participantId,
         guideId: req.lobby.guideId,
         editingGameId: req.lobby.editingGameId,
-        gameSessionId: req.lobby.gameSessionId
+        gameRoomId: req.lobby.gameRoomId
       },
       { new: true },
     );

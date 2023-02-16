@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { AccordionListBody } from '../../../ui/AccordianList/AccordianList';
-import { updateAccordianList } from '../../../store/actions/gameEditorActions';
+import { updateAccordianList } from '../../../store/actions/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-function CobrowsingAccordianList({listId, accordians, updateAccordianList, gameEditor}) {
-  if(!gameEditor.accordianLists) return 
+function CobrowsingAccordianList({listId, accordians, updateAccordianList, gameSelector}) {
+  if(!gameSelector.accordianLists) return 
 
-  const expanded = gameEditor.accordianLists[listId]
+  const expanded = gameSelector.accordianLists[listId]
 
   const handleChange = (panel) => (event, newExpanded) => {
     updateAccordianList(listId, newExpanded ? panel : false);
@@ -18,7 +18,7 @@ function CobrowsingAccordianList({listId, accordians, updateAccordianList, gameE
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
 });
 
 export default compose(

@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { VerticalLinearStepperBody } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
-import { updateVerticalLinearStepper } from '../../../store/actions/gameEditorActions';
+import { updateVerticalLinearStepper } from '../../../store/actions/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-function CobrowsingVerticalLinearStepper({stepperId, steps, updateVerticalLinearStepper, gameEditor, completed}) {
-  if(!gameEditor.verticalLinearSteppers) return 
+function CobrowsingVerticalLinearStepper({stepperId, steps, updateVerticalLinearStepper, gameSelector, completed}) {
+  if(!gameSelector.verticalLinearSteppers) return 
 
-  const activeStep = gameEditor.verticalLinearSteppers[stepperId]
+  const activeStep = gameSelector.verticalLinearSteppers[stepperId]
 
   const handleNext = () => {
     updateVerticalLinearStepper(stepperId, activeStep + 1);
@@ -28,7 +28,7 @@ function CobrowsingVerticalLinearStepper({stepperId, steps, updateVerticalLinear
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
 });
 
 export default compose(

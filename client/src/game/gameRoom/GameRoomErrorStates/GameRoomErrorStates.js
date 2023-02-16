@@ -6,17 +6,17 @@ import { connect } from 'react-redux';
 import Dialog from '../../../ui/Dialog/Dialog';
 import { DialogContent, DialogTitle } from '@mui/material';
 import { clearErrorState } from '../../../store/actions/errorsActions';
-import { GAME_SESSION_CONNECTION_LOST } from '../../../constants';
+import { GAME_ROOM_CONNECTION_LOST } from '../../../constants';
 
-const GameSessionErrorStates = ({
+const GameRoomErrorStates = ({
   errors: { errorStates },
   clearErrorState,
   webPage: { recentlyFocused }
 }) => {
   function renderErrors() {
-    if(errorStates[GAME_SESSION_CONNECTION_LOST].on && !recentlyFocused) return <Dialog open>
+    if(errorStates[GAME_ROOM_CONNECTION_LOST].on && !recentlyFocused) return <Dialog open>
       <DialogTitle>Game Connection Lost</DialogTitle>
-      <DialogContent>{errorStates[GAME_SESSION_CONNECTION_LOST].message}</DialogContent>
+      <DialogContent>{errorStates[GAME_ROOM_CONNECTION_LOST].message}</DialogContent>
     </Dialog>
   }
 
@@ -30,4 +30,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { clearErrorState }),
-)(GameSessionErrorStates);
+)(GameRoomErrorStates);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './BrushItem.scss';
 import classNames from 'classnames';
-import { selectBrush, clearBrush } from '../../../store/actions/gameEditorActions';
+import { selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Sprite from '../../sprites/Sprite/Sprite';
@@ -15,7 +15,7 @@ import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 const BrushItem = ({
   gameModel: { gameModel: { brushes } },
   brushId,
-  gameEditor: { brushIdSelectedBrushList },
+  gameSelector: { brushIdSelectedBrushList },
   selectBrush,
   clearBrush,
   width, height
@@ -52,7 +52,7 @@ const BrushItem = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
 })
 
 export default compose(

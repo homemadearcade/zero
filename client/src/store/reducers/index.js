@@ -12,7 +12,7 @@ import lobbyReducer from './lobbyReducer';
 import statusReducer from './statusReducer';
 import videoReducer from './videoReducer';
 import gameModelReducer from './gameModelReducer';
-import gameEditorReducer from './gameEditorReducer';
+import gameSelectorReducer from './gameSelectorReducer';
 import gameFormEditorReducer from './gameFormEditorReducer';
 import gameViewEditorReducer from './gameViewEditorReducer';
 import unlockableInterfaceReducer from './unlockableInterfaceReducer';
@@ -27,7 +27,7 @@ import checkoutReducer from './checkoutReducer';
 import interfacePresetReducer from './interfacePresetReducer';
 import snackbarReducer from './snackbarReducer';
 import themeReducer from './themeReducer';
-import gameSessionReducer from './gameSessionReducer';
+import gameRoomReducer from './gameRoomReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -42,7 +42,7 @@ export default combineReducers({
   status: statusReducer,
   video: videoReducer,
   gameModel: gameModelReducer,
-  gameEditor: gameEditorReducer,
+  gameSelector: gameSelectorReducer,
   gameFormEditor: gameFormEditorReducer,
   gameViewEditor: gameViewEditorReducer,
   contextMenu: contextMenuReducer,
@@ -57,5 +57,5 @@ export default combineReducers({
   checkout: checkoutReducer,
   snackbar: snackbarReducer,
   theme: themeReducer,
-  gameSession: gameSessionReducer
+  gameRoom: gameRoomReducer
 });

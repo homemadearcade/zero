@@ -3,15 +3,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './Chatroom.scss';
+import './ChatRoom.scss';
 import Typography from '../../ui/Typography/Typography';
 import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
 import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/lobbyActions';
-import LobbyUsername from '../room/RoomMember/RoomMember';
+import LobbyUsername from '../LobbyMember/LobbyMember';
 import { ADMIN_ROLE } from '../../constants';
 
-const Chatroom = ({
+const ChatRoom = ({
   lobby: { lobby },
   auth: { me },
   sendLobbyMessage,
@@ -37,7 +37,7 @@ const Chatroom = ({
   //   prev[next.id] = next
   //   return prev
   // }, {})
-  function getChatroomName(messageData) {
+  function getChatRoomName(messageData) {
     const {user, automated} = messageData
 
     if(me?.role === ADMIN_ROLE) {
@@ -54,15 +54,15 @@ const Chatroom = ({
   }
 
   return (
-    <div className="Chatroom">
+    <div className="ChatRoom">
       {name && <Typography variant="h5">{name}</Typography>}
-      <List className="Chatroom__messages">
+      <List className="ChatRoom__messages">
         {lobby.messages.map((messageData) => {
           const {user, message, automated} = messageData
           if(automated && hideAutomated) return null
 
-          return <ListItem classes={{root: 'Chatroom__message'}}>
-            {getChatroomName(messageData)}
+          return <ListItem classes={{root: 'ChatRoom__message'}}>
+            {getChatRoomName(messageData)}
             {message}
           </ListItem>
         })}
@@ -93,4 +93,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { sendLobbyMessage, clearLobbyMessages }),
-)(Chatroom);
+)(ChatRoom);

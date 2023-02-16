@@ -9,13 +9,13 @@ import './EditGamePage.scss';
 import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/view/GameView/GameView';
-import LocalGameSessionContext from '../../hoc/LocalGameSessionContext';
+import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
 import { PLAY_STATE } from '../../game/constants';
 
 const EditGamePage = ({changeGameState }) => {
   return (
     <div className="EditGamePage">
-      <LocalGameSessionContext session={{isEdit: true, gameState: PLAY_STATE}}>
+      <LocalGameRoomContext room={{isEdit: true, gameState: PLAY_STATE}}>
         <GameEditor 
           leftColumn={<>
           </>}
@@ -24,7 +24,7 @@ const EditGamePage = ({changeGameState }) => {
         >
           <GameView/>
         </GameEditor>
-      </LocalGameSessionContext>
+      </LocalGameRoomContext>
     </div>
   );
 };

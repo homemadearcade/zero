@@ -49,9 +49,9 @@ const initialState = {
   isSpriteEditorOpen: false
 };
 
-export const initialGameEditorState = initialState
+export const initialGameSelectorState = initialState
 
-export default function gameEditorReducer(state = initialState, { type, payload }) {
+export default function gameSelectorReducer(state = initialState, { type, payload }) {
   switch (type) {
     case UPDATE_BRUSH_SIZE: {
       return {

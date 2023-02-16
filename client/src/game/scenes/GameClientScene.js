@@ -7,13 +7,13 @@ import { EditorScene } from './EditorScene';
 import store from '../../store';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
-import { GAME_SESSION_CONNECTION_LOST } from '../../constants';
+import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {
     super(props);
 
-    this.gameSession = props.gameSession
+    this.gameRoom = props.gameRoom
 
     this.lastHostUpdate = null
 
@@ -99,7 +99,7 @@ export class GameClientScene extends EditorScene {
     }
 
     window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
-      gameSessionId: this.gameSession.id,
+      gameRoomId: this.gameRoom.id,
       upsClient: this.upsClient,
     })
   }
@@ -132,17 +132,17 @@ export class GameClientScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta)
 
-    const gameState = store.getState().gameSession.gameSession.gameState
+    const gameState = store.getState().gameRoom.gameRoom.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }
 
     if(this.lastHostUpdate) {
       if(this.lastHostUpdate + gameInstanceDisconnectedDelta < Date.now()) {
-        store.dispatch(changeErrorState(GAME_SESSION_CONNECTION_LOST, {message: 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'}))
+        store.dispatch(changeErrorState(GAME_ROOM_CONNECTION_LOST, {message: 'Your connection to your participant has been lost. This may resolve shortly. If it doesnt please refresh the page. If the problem continues further, please contact your participant'}))
         this.lastHostUpdate = null
-      } else if(store.getState().errors.errorStates[GAME_SESSION_CONNECTION_LOST].on) {
-        store.dispatch(clearErrorState(GAME_SESSION_CONNECTION_LOST))
+      } else if(store.getState().errors.errorStates[GAME_ROOM_CONNECTION_LOST].on) {
+        store.dispatch(clearErrorState(GAME_ROOM_CONNECTION_LOST))
       }
     }
   }

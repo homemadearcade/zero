@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SetupDefaultsModal.scss';
 import CobrowsingModal from '../cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
-import { closeSetupDefaultsModal } from '../../store/actions/gameEditorActions';
+import { closeSetupDefaultsModal } from '../../store/actions/gameSelectorActions';
 import CobrowsingVerticalLinearStepper from '../cobrowsing/CobrowsingVerticalLinearStepper/CobrowsingVerticalLinearStepper';
 import Typography from '../../ui/Typography/Typography';
 import AggregateColorSelect from '../color/AggregateColorSelect/AggregateColorSelect';

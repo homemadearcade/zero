@@ -14,7 +14,7 @@ const lobbySchema = new Schema(
       type: String,
       // required: true,
     },
-    gameSessionId: {
+    gameRoomId: {
       type: String
     },
     editingGameId: {
@@ -66,7 +66,7 @@ lobbySchema.methods.toJSON = function () {
     editingGameId: this.editingGameId,
     participantId: this.participantId,
     experience: this.experience,
-    gameSessionId: this.gameSessionId
+    gameRoomId: this.gameRoomId
     // guideId: this.guideId
   };
 };

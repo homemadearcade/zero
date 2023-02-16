@@ -8,9 +8,9 @@ import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import MySpritesModal from '../../../game/sprites/MySpritesModal/MySpritesModal';
-import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameEditorActions';
+import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameSelectorActions';
 
-const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openMySpritesModal, closeMySpritesModal, gameEditor: { isMySpritesModalOpen} }) => {
+const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openMySpritesModal, closeMySpritesModal, gameSelector: { isMySpritesModalOpen} }) => {
   const metadata = gameModel.metadata
 
   const { title, description, authorPseudonym } = metadata
@@ -90,7 +90,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
-  gameEditor: state.gameEditor
+  gameSelector: state.gameSelector
 });
 
 export default connect(mapStateToProps, { editGameModel, closeMySpritesModal, openMySpritesModal })(GameMetadataForm);

@@ -59,7 +59,7 @@ export default (ChildComponent) => {
       if(gameInstance) {
         const scene = getCurrentGameScene(gameInstance)
         
-        if(scene?.gameSession.isHost) {
+        if(scene?.gameRoom.isHost) {
           if(scene.backgroundLayer?.unsavedChanges ||
             scene.playgroundLayer?.unsavedChanges ||
             scene.foregroundLayer?.unsavedChanges

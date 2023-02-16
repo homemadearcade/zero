@@ -13,7 +13,7 @@ import Typography from '../../ui/Typography/Typography';
 import LobbyChecklist from '../lobby/LobbyChecklist/LobbyChecklist';
 import { unlockInterfaceId } from '../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../utils/webPageUtils';
-import { openGameMetadataModal, openSetupDefaultsModal } from '../../store/actions/gameEditorActions';
+import { openGameMetadataModal, openSetupDefaultsModal } from '../../store/actions/gameSelectorActions';
 import { CREDITS_EXPERIENCE, GAME_EDITOR_EXPERIENCE, MONOLOGUE_EXPERIENCE } from '../../constants';
 import { ANIMATION_CONFETTI, ANIMATION_SPAWN_CLASS_IN_CAMERA, PAUSED_STATE, PLAY_STATE } from '../../game/constants';
 import LobbyVerticalLinearStepper from '../ExperienceVerticalLinearStepper/ExperienceVerticalLinearStepper';
@@ -24,7 +24,7 @@ import { openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import { ON_GAME_INSTANCE_ANIMATION } from '../../store/types';
 import { editGameModel } from '../../store/actions/gameModelActions';
 import { updateLobbyUser } from '../../store/actions/lobbyActions';
-import { editGameSession, changeGameState } from '../../store/actions/gameSessionActions';
+import { editGameRoom, changeGameState } from '../../store/actions/gameRoomActions';
 import GameAddForm from '../../app/arcadeGame/GameAddForm/GameAddForm';
 import Button from '../../ui/Button/Button';
 import LobbySelectRoles from '../lobby/LobbySelectRoles/LobbySelectRoles';
@@ -60,7 +60,7 @@ const PROLOGUE_2_CLASS_IDS = {
         //     await editLobby(lobby.id, {
         //       experienceState: GAME_EDITOR_EXPERIENCE,
         //     })
-        //     await editGameSession(lobby.gameSessionId, {
+        //     await editGameRoom(lobby.gameRoomId, {
         //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
         //       isSaveDisabled: true,
         //     })
@@ -77,10 +77,10 @@ const ExperienceInstructions = ({
   lobby: { lobby },
   updateLobbyUser,
   changeGameState,
-  gameSession: { gameSession },
+  gameRoom: { gameRoom },
   setCutAudio,
   setCutVideo,
-  editGameSession,
+  editGameRoom,
   cobrowsing: { remoteStateUserId },
   myTracks,
   userTracks
@@ -154,19 +154,19 @@ const ExperienceInstructions = ({
         This will spawn {className} inside of the Players camera view
       </>,
       shouldContinueBeDisabledCheck: () => {
-        return gameSession.gameId !== gameId
+        return gameRoom.gameId !== gameId
       },
       isContinueDisabledWarning: <>
         Incorrect game loaded!
         <Button onClick={async () => {
-          await editGameSession(lobby.gameSessionId, {
+          await editGameRoom(lobby.gameRoomId, {
             gameId: gameId,
           })
         }}>Load Correct Game</Button>
       </>,
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { 
-          gameSessionId: lobby.gameSessionId, 
+          gameRoomId: lobby.gameRoomId, 
           type: ANIMATION_SPAWN_CLASS_IN_CAMERA, 
           data: {
             classId,
@@ -315,7 +315,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
-            await editGameSession(lobby.gameSessionId, {
+            await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue1,
               isPoweredOn: true,
               isSaveDisabled: true,
@@ -354,7 +354,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Allow Player Pixel Movement',
           title: <Typography component="h5" variant="h5">Allow Pixel Movement</Typography>,
           onClickNext: async () => {
-            await editGameSession(lobby.gameSessionId, {
+            await editGameRoom(lobby.gameRoomId, {
               gameState: PLAY_STATE
             })
           },
@@ -393,7 +393,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
-            await editGameSession(lobby.gameSessionId, {
+            await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue2,
               isPoweredOn: true,
               isSaveDisabled: true,
@@ -421,7 +421,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobby.id, {
               experienceState: GAME_EDITOR_EXPERIENCE,
             })
-            await editGameSession(lobby.gameSessionId, {
+            await editGameRoom(lobby.gameRoomId, {
               gameId: lobby.editingGameId,
               isSaveDisabled: false,
               isPoweredOn: true,
@@ -494,7 +494,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { gameSessionId: lobby.gameSessionId, type: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { gameRoomId: lobby.gameRoomId, type: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },
@@ -544,10 +544,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
-  gameSession: state.gameSession,
+  gameRoom: state.gameRoom,
   cobrowsing: state.cobrowsing
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameSession, editLobby,addArcadeGame, editGameModel, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyUser, changeGameState, setCutAudio, setCutVideo }),
+  connect(mapStateToProps, { editGameRoom, editLobby,addArcadeGame, editGameModel, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyUser, changeGameState, setCutAudio, setCutVideo }),
 )(ExperienceInstructions);

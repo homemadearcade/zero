@@ -6,7 +6,7 @@ export class GameLocalScene extends EditorScene {
   constructor(props) {
     super(props);
 
-    this.gameSession = props.gameSession
+    this.gameRoom = props.gameRoom
 
   }
 
@@ -33,7 +33,7 @@ export class GameLocalScene extends EditorScene {
     super.update(time, delta) 
     this.afterGameInstanceUpdateEffects()
 
-    const gameState = store.getState().gameSession.gameSession.gameState
+    const gameState = store.getState().gameRoom.gameRoom.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }

@@ -5,7 +5,7 @@ import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
-import { clearEditor, closeJsonViewer } from '../../../store/actions/gameEditorActions';
+import { clearEditor, closeJsonViewer } from '../../../store/actions/gameSelectorActions';
 import { clearGameFormEditor } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
@@ -22,7 +22,7 @@ import BoundaryRelation from '../../relations/BoundaryRelation/BoundaryRelation'
 import ClassNameModal from '../../class/ClassNameModal/ClassNameModal';
 import SetupDefaultsModal from '../../SetupDefaultsModal/SetupDefaultsModal';
 import GridToggle from '../GridToggle/GridToggle';
-import GameStateToolbar from '../../gameSession/GameStateToolbar/GameStateToolbar';
+import GameStateToolbar from '../../gameRoom/GameStateToolbar/GameStateToolbar';
 import ClassList from '../../class/ClassList/ClassList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
@@ -39,7 +39,7 @@ import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 
 const GameEditor = ({ 
   classNames, 
-  gameEditor: { isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
+  gameSelector: { isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen, isGridViewOn }, 
   gameFormEditor: { isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
@@ -52,7 +52,7 @@ const GameEditor = ({
   clearGameFormEditor, 
   clearGameViewEditor,
   closeJsonViewer,
-  gameSession: { gameSession: { gameState } },
+  gameRoom: { gameRoom: { gameState } },
   gameModel: { gameModel, isLoading },
 }) => {
   useEffect(() => {
@@ -143,11 +143,11 @@ const GameEditor = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
   gameViewEditor: state.gameViewEditor,
   gameFormEditor: state.gameFormEditor,
   gameModel: state.gameModel,
-  gameSession: state.gameSession
+  gameRoom: state.gameRoom
 })
 
 export default connect(mapStateToProps, { 

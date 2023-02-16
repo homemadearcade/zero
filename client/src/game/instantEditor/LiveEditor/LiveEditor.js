@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { editGameModel } from '../../../store/actions/gameModelActions';
-import { closeLiveEditor, openLiveEditor } from '../../../store/actions/gameEditorActions';
+import { closeLiveEditor, openLiveEditor } from '../../../store/actions/gameSelectorActions';
 
 import './LiveEditor.scss'
 import Button from '../../../ui/Button/Button';
@@ -19,7 +19,7 @@ import { MenuItem } from '@mui/material';
 import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, STAGE_EDITOR } from '../../constants';
 import JumpEditor from '../JumpEditor/JumpEditor';
 
-const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSelectedLiveEditor, liveEditingCategory }, gameModel: { gameModel } }) => {
+const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { classIdSelectedLiveEditor, liveEditingCategory }, gameModel: { gameModel } }) => {
   const objectClass = gameModel.classes[classIdSelectedLiveEditor]
 
   let title = null
@@ -81,7 +81,7 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameEditor: { classIdSele
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameEditor: state.gameEditor,
+  gameSelector: state.gameSelector,
 })
 
 export default connect(mapStateToProps, { editGameModel, closeLiveEditor, openLiveEditor })(LiveEditor);

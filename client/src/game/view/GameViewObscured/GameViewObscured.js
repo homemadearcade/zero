@@ -14,7 +14,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { clearErrorState } from '../../../store/actions/errorsActions';
 import Button from '../../../ui/Button/Button';
 import { GAME_VIEW_IID } from '../../../constants/interfaceIds';
-import { editGameSession } from '../../../store/actions/gameSessionActions';
+import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 
@@ -23,8 +23,8 @@ const GameViewObscured = ({
   cobrowsing: { cobrowsingUser, selectedTool, isActivelyCobrowsing },
   gameModel,
   errors: { errorStates },
-  editGameSession,
-  gameSession: { gameSession },
+  editGameRoom,
+  gameRoom: { gameRoom },
   clearErrorState,
   webPage: { recentlyFocused }
 }) => {
@@ -37,11 +37,11 @@ const GameViewObscured = ({
       <Icon icon="faTriangleExclamation"></Icon>
       Game Error
       {me.role === ADMIN_ROLE && <Button onClick={async () => {
-        await editGameSession(gameSession.id, {
+        await editGameRoom(gameRoom.id, {
           isPoweredOn: false
         })
         setTimeout(async () => {
-          await editGameSession(gameSession.id, {
+          await editGameRoom(gameRoom.id, {
             isPoweredOn: true
           })
           clearErrorState(PHASER_ERROR)
@@ -71,12 +71,12 @@ const GameViewObscured = ({
     </GameViewEmpty>
   }
 
-  if(!gameSession.isPoweredOn) return <GameViewEmpty>
+  if(!gameRoom.isPoweredOn) return <GameViewEmpty>
     <Icon icon="faPowerOff"></Icon>
     Not Powered On
   </GameViewEmpty>
 
-  if(gameSession.isPoweredOn) {
+  if(gameRoom.isPoweredOn) {
     return <>
       {renderOverlay()}
       <GameView/>
@@ -91,10 +91,10 @@ const mapStateToProps = (state) => ({
   unlockableInterfaceIds: state.unlockableInterfaceIds,
   errors: state.errors,
   webPage: state.webPage,
-  gameSession: state.gameSession
+  gameRoom: state.gameRoom
 });
 
 export default compose(
   requireAuth,
-  connect(mapStateToProps, { editGameSession, clearErrorState }),
+  connect(mapStateToProps, { editGameRoom, clearErrorState }),
 )(GameViewObscured);

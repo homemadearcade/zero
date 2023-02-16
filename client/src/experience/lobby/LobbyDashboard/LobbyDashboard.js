@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './LobbyDashboard.scss';
 import ExperienceInstructions from '../../ExperienceInstructions/ExperienceInstructions';
 import ExperiencePreview from '../../ExperiencePreview/ExperiencePreview';
-import Chatroom from '../../Chatroom/Chatroom';
+import ChatRoom from '../../ChatRoom/ChatRoom';
 import Tabs from '../../../ui/Tabs/Tabs';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { MONOLOGUE_EXPERIENCE } from '../../../constants';
@@ -38,7 +38,7 @@ const LobbyDashboard = ({
           {
             label: 'Chatlog',
             body: <div className="LobbyDashboard__chatroom">
-              <Chatroom myTracks={myTracks} userTracks={userTracks} />
+              <ChatRoom myTracks={myTracks} userTracks={userTracks} />
             </div>
           },
           {

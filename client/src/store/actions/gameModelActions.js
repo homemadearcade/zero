@@ -81,17 +81,17 @@ export const addAwsImage = (file, fileId, imageData) => {
  
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const gameId = getState().gameModel.gameModel.id
-  const gameSession = getState().gameSession.gameSession
+  const gameRoom = getState().gameRoom.gameRoom
 
   dispatch({
     type: EDIT_GAME_MODEL_LOADING,
   });
 
-  const isSaveDisabled = gameSession?.isSaveDisabled
+  const isSaveDisabled = gameRoom?.isSaveDisabled
 
   try {
     const options = attachTokenToHeaders(getState);
-    await axios.put(`/api/arcadeGames/${gameId}`, { gameSessionId: gameSession.id, gameUpdate: gameUpdate, isSaveDisabled}, options);
+    await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomId: gameRoom.id, gameUpdate: gameUpdate, isSaveDisabled}, options);
 
     // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event in this scenario so we need a local EDIT_GAME_SUCCESS
     // if(!lobbyId) {

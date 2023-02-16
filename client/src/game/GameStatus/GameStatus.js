@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import store from '../../store';
 
-const GameStatus = ({ gameSession: { gameSession: { isPoweredOn, gameState } }, gameModel: { gameModel } }) => {
+const GameStatus = ({ gameRoom: { gameRoom: { isPoweredOn, gameState } }, gameModel: { gameModel } }) => {
   const [ups, setUps] = useState({})
   
   useEffect(() => {
@@ -62,7 +62,7 @@ const GameStatus = ({ gameSession: { gameSession: { isPoweredOn, gameState } }, 
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameSession: state.gameSession,
+  gameRoom: state.gameRoom,
   gameModel: state.gameModel
 });
 

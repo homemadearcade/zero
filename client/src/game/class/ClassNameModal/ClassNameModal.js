@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import './ClassNameModal.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { closeClassNameModal } from '../../../store/actions/gameEditorActions';
+import { closeClassNameModal } from '../../../store/actions/gameSelectorActions';
 import ClassNameForm from '../ClassNameForm/ClassNameForm';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { Alert } from '@mui/material';
 import Button from '../../../ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 
-const ClassNameModal = ({ closeClassNameModal, editGameModel, gameModel: { gameModel }, gameEditor: { classIdEditingName } }) => {
+const ClassNameModal = ({ closeClassNameModal, editGameModel, gameModel: { gameModel }, gameSelector: { classIdEditingName } }) => {
   const objectClass = gameModel.classes[classIdEditingName]
   const [error, setError] = useState()
   const [name, setName] = useState(objectClass.name)
@@ -66,7 +66,7 @@ const ClassNameModal = ({ closeClassNameModal, editGameModel, gameModel: { gameM
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameEditor: state.gameEditor
+  gameSelector: state.gameSelector
 })
 
 export default compose(
