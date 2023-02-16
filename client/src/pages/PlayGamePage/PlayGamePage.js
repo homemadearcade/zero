@@ -7,7 +7,7 @@ import './PlayGamePage.scss';
 import { requestFullscreen } from '../../utils/webPageUtils';
 import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
-import GameView from '../../game/GameView/GameView';
+import GameView from '../../game/view/GameView/GameView';
 import { unloadArcadeGame } from '../../store/actions/arcadeGameActions';
 import { changeGameState } from '../../store/actions/gameSessionActions';
 import LocalGameSessionContext from '../../hoc/LocalGameSessionContext';

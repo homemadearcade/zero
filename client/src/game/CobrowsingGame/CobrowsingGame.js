@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import './CobrowsingGame.scss';
 import RemoteMouse from '../../game/cobrowsing/RemoteMouse/RemoteMouse';
-import GameEditor from '../GameEditor/GameEditor';
-import AgoraVideoLayoutHA from '../../lobby/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
+import GameEditor from '../view/GameEditor/GameEditor';
+import AgoraVideoLayoutHA from '../../experience/agora/AgoraVideoLayoutHA/AgoraVideoLayoutHA';
 import withGame from '../../hoc/withGame';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import CobrowsingToolbar from '../cobrowsing/CobrowsingToolbar/CobrowsingToolbar';
@@ -13,7 +13,6 @@ import classNames from 'classnames';
 import Typography from '../../ui/Typography/Typography';
 
 const CobrowsingGame = ({ auth: { me }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserId }, video: { isInsideVideoCall }, myTracks, userTracks, children}) => {   
-
   return <GameEditor 
       classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}
       leftColumn={<>

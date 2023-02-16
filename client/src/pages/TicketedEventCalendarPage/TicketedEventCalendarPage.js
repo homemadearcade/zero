@@ -8,7 +8,7 @@ import Layout from '../../layout/Layout';
 import Typography from '../../ui/Typography/Typography';
 
 import { getTicketedEvents, editTicketedEvent } from '../../store/actions/ticketedEventActions';
-import ProjectHeader from '../../app/wishLabs/ProjectHeader/ProjectHeader';
+import ProjectHeader from '../../marketing/wishLabs/ProjectHeader/ProjectHeader';
 import Loader from '../../ui/Loader/Loader';
 import AddEventDateForm from '../../ticketing/AddEventDateForm/AddEventDateForm';
 import requireAuth from '../../hoc/requireAuth';

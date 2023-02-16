@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
-import { COBROWSING_CONNECTION_LOST } from '../../../lobby/constants';
 import { clearErrorState, changeErrorState } from '../../../store/actions/errorsActions';
 import store from '../../../store';
 import { noCobrowsingUpdateDelta } from '../../constants';
+import { COBROWSING_CONNECTION_LOST } from '../../../constants';
 
 const CobrowsingErrorStates = ({
   errors: { errorStates },

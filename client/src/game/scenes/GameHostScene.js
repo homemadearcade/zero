@@ -4,8 +4,8 @@ import {
 import store from '../../store';
 import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED } from '../../store/types';
 import { EditorScene } from './EditorScene';
-import { GAME_SESSION_CONNECTION_LOST } from '../../lobby/constants';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
+import { GAME_SESSION_CONNECTION_LOST } from '../../constants';
 
 export class GameHostScene extends EditorScene {
   constructor(props) {

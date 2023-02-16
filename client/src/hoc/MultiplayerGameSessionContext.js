@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import GameSessionErrorStates from '../lobby/GameSessionErrorStates/GameSessionErrorStates';
+import GameSessionErrorStates from '../game/gameSession/GameSessionErrorStates/GameSessionErrorStates';
 import { addGameSession, endGameSession, joinGameSession, leaveGameSession } from '../store/actions/gameSessionActions';
 import Loader from '../ui/Loader/Loader';
 

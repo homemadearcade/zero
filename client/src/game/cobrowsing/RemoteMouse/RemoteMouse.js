@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './RemoteMouse.scss';
-import { noCobrowsingUpdateDelta } from '../../constants';
 import { clearErrorState, changeErrorState } from '../../../store/actions/errorsActions';
-import { COBROWSING_CONNECTION_LOST } from '../../../lobby/constants';
-import store from '../../../store';
 
 const RemoteMouse = ({userId, status: { cobrowsingMouses}}) => {
   const mouseData = cobrowsingMouses[userId];

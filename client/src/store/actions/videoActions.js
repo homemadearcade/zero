@@ -20,10 +20,10 @@ import {
 } from "agora-rtc-react";
 import AgoraRTC from 'agora-rtc-react';
 
-import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../lobby/constants';
 import { sendLobbyMessage } from './lobbyActions';
 import store from '..';
 import { inIframe } from '../../utils/webPageUtils';
+import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../constants';
 
 const config = { 
   mode: "rtc", codec: "vp8",

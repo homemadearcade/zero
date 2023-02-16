@@ -6,7 +6,7 @@ import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNO
 import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/codrawingActions";
 import { noCodrawingStrokeUpdateDelta } from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
-import { CODRAWING_CONNECTION_LOST } from "../../lobby/constants";
+import { CODRAWING_CONNECTION_LOST } from "../../constants";
 
 export class CodrawingCanvas extends Canvas {
   constructor(scene, props){

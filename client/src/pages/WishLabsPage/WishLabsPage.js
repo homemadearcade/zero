@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import Link from '../../ui/Link/Link';
 
 import './WishLabsPage.scss';
-import ShootingStarSky from '../../app/wishLabs/ShootingStarSky/ShootingStarSky';
+import ShootingStarSky from '../../marketing/wishLabs/ShootingStarSky/ShootingStarSky';
 import { Fade, Slide } from '@mui/material';
 import classNames from 'classnames';
-import Portfolio from '../../app/wishLabs/Portfolio/Portfolio';
-import JumboDescription from '../../app/wishLabs/JumboDescription/JumboDescription';
+import Portfolio from '../../marketing/wishLabs/Portfolio/Portfolio';
+import JumboDescription from '../../marketing/wishLabs/JumboDescription/JumboDescription';
 import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
 import AudioPlayerMicro from '../../ui/AudioPlayerMicro/AudioPlayerMicro';

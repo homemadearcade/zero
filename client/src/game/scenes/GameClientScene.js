@@ -5,9 +5,9 @@ import {
 import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 import store from '../../store';
-import { GAME_SESSION_CONNECTION_LOST } from '../../lobby/constants';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
+import { GAME_SESSION_CONNECTION_LOST } from '../../constants';
 
 export class GameClientScene extends EditorScene {
   constructor(props) {

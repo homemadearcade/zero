@@ -2,7 +2,7 @@ import { Fade } from '@mui/material';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Constellation } from '../../app/homemadeArcade/Constellation/Constellation';
+import { Constellation } from '../../marketing/homemadeArcade/Constellation/Constellation';
 import Link from '../../ui/Link/Link';
 import Typography from '../../ui/Typography/Typography';
 import { GAME_OVER_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../constants';

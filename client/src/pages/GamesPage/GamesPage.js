@@ -6,13 +6,13 @@ import './GamesPage.scss';
 
 import Layout from '../../layout/Layout';
 import { getArcadeGames } from '../../store/actions/arcadeGameActions';
-import GameForm from '../../app/homemadeArcade/arcadeGame/GameAddForm/GameAddForm';
+import GameForm from '../../app/arcadeGame/GameAddForm/GameAddForm';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import requireAdmin from '../../hoc/requireAdmin';
 import requireAuth from '../../hoc/requireAuth';
-import GameCopyForm from '../../app/homemadeArcade/arcadeGame/GameCopyForm/GameCopyForm';
-import GameCard from '../../app/homemadeArcade/arcadeGame/GameCard/GameCard';
-import GameList from '../../app/homemadeArcade/arcadeGame/GameList/GameList';
+import GameCopyForm from '../../app/arcadeGame/GameCopyForm/GameCopyForm';
+import GameCard from '../../app/arcadeGame/GameCard/GameCard';
+import GameList from '../../app/arcadeGame/GameList/GameList';
 import Button from '../../ui/Button/Button';
 
 const GamesPage = ({ getArcadeGames}) => {

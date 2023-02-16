@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './HATicketsPage.scss';
 import { playBackgroundMusic } from '../../store/actions/portfolioActions';
-import ProjectHeader from '../../app/wishLabs/ProjectHeader/ProjectHeader';
+import ProjectHeader from '../../marketing/wishLabs/ProjectHeader/ProjectHeader';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
 import Icon from '../../ui/Icon/Icon';

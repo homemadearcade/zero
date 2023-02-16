@@ -136,8 +136,6 @@ comebine withGame with GameSessionContext
 
 Create index folder for lobby, game, redux, etc
 
-Admin, Creator, Marketing Folders
-
 Interface Preset Update
   Need to make an interface tree component to seperate user tree and a preset tree
   Create a list component

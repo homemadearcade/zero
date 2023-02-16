@@ -1,4 +1,4 @@
-import { COBROWSING_CONNECTION_LOST } from '../../lobby/constants';
+import { COBROWSING_CONNECTION_LOST } from '../../constants';
 import { 
   CHANGE_ERROR_STATE,
   CLEAR_ERROR,

@@ -31,8 +31,8 @@ import {
   END_GAME_SESSION
 } from '../types';
 
-import { PHASER_ERROR } from '../../lobby/constants';
 import { clearErrorState } from './errorsActions';
+import { PHASER_ERROR } from '../../constants';
 
 export const changeGameState = (gameState, message) => (dispatch, getState) => {
   // saveAllCurrentCanvases()

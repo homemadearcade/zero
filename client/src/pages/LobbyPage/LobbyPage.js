@@ -13,16 +13,16 @@ import requireChrome from '../../hoc/requireChrome';
 
 import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
-import LobbyDashboard from '../../lobby/LobbyDashboard/LobbyDashboard';
+import LobbyDashboard from '../../experience/LobbyDashboard/LobbyDashboard';
 import { ADMIN_ROLE } from '../../game/constants';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import WithCobrowsing from '../../hoc/withCobrowsing';
 import AskFullscreen from '../../hoc/askFullscreen';
-import LobbyErrorStates from '../../lobby/LobbyErrorStates/LobbyErrorStates';
-import GameSessionDrawer from '../../lobby/GameSessionDrawer/GameSessionDrawer';
-import ExperienceView from '../../lobby/ExperienceView/ExperienceView';
+import LobbyErrorStates from '../../experience/LobbyErrorStates/LobbyErrorStates';
+import GameSessionDrawer from '../../game/gameSession/GameSessionDrawer/GameSessionDrawer';
+import ExperienceView from '../../experience/ExperienceView/ExperienceView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
-import AgoraVideoPeek from '../../lobby/agora/AgoraVideoPeek/AgoraVideoPeek';
+import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
 import MultiplayerGameSessionContext from '../../hoc/MultiplayerGameSessionContext';
 
 const LobbyPage = ({
