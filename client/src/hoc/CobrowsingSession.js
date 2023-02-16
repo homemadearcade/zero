@@ -7,7 +7,7 @@ import { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscrib
 import CobrowsingErrorStates from '../game/cobrowsing/CobrowsingErrorStates/CobrowsingErrorStates';
 
 // eslint-disable-next-line import/no-anonymous-default-export
-class WithCobrowsing extends Component {
+class CobrowsingSession extends Component {
   componentDidMount() {
     const { match } = this.props
     const cobrowsingUserId = this.props.userId ? this.props.userId : match.params.cobrowsingUserId;
@@ -91,4 +91,4 @@ const mapStateToProps = (state) => ({
 export default compose(
   withRouter, 
   connect(mapStateToProps, { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing })
-)(WithCobrowsing)
+)(CobrowsingSession)

@@ -144,6 +144,8 @@ VALIDATION ON ALL FORMS
 
 game.user = game.owner
 
+A LOBBY can have many ROOMS Yes. A lobby is where you meet to go back and forth between rooms. The lobby itself is a room
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

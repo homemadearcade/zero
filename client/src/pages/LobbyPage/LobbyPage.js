@@ -16,7 +16,7 @@ import withLobby from '../../hoc/withLobby';
 import LobbyDashboard from '../../experience/LobbyDashboard/LobbyDashboard';
 import { ADMIN_ROLE } from '../../game/constants';
 import withSpeedTest from '../../hoc/withSpeedTest';
-import WithCobrowsing from '../../hoc/withCobrowsing';
+import CobrowsingSession from '../../hoc/CobrowsingSession';
 import AskFullscreen from '../../hoc/askFullscreen';
 import LobbyErrorStates from '../../experience/LobbyErrorStates/LobbyErrorStates';
 import GameSessionDrawer from '../../game/gameSession/GameSessionDrawer/GameSessionDrawer';
@@ -49,9 +49,9 @@ const LobbyPage = ({
   return <RouterSwitch>
       <Route exact path={path}>
         <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
-          <WithCobrowsing userId={lobby.participantId}>
+          <CobrowsingSession userId={lobby.participantId}>
             <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
-          </WithCobrowsing>
+          </CobrowsingSession>
         </MultiplayerGameSessionContext>
         <LobbyErrorStates/>
         <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
@@ -59,11 +59,11 @@ const LobbyPage = ({
       <Route path={`${path}/join/:cobrowsingUserId`}>
         {me.role === ADMIN_ROLE && <GameSessionDrawer myTracks={myTracks} userTracks={userTracks}/>}
         <MultiplayerGameSessionContext gameSessionId={lobby.gameSessionId}>
-          <WithCobrowsing>
+          <CobrowsingSession>
             <AskFullscreen>
               <ExperienceView myTracks={myTracks} userTracks={userTracks}/>
             </AskFullscreen>
-          </WithCobrowsing>
+          </CobrowsingSession>
         </MultiplayerGameSessionContext>
         <LobbyErrorStates/>
         <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
