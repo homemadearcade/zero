@@ -49,7 +49,7 @@ export class GameHostScene extends EditorScene {
         // return
       }
       const currentStageId = store.getState().gameModel.currentStageId
-      if(this.stage.id !== currentStageId) return
+      if(this.stage.stageId !== currentStageId) return
       const objects = this.objectInstances.map(({sprite: { instanceId, x, y, rotation}, isVisible, destroyAfterUpdate, reclassId, classId}) => {
         return {
           instanceId,

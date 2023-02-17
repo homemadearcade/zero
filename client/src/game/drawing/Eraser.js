@@ -67,7 +67,7 @@ export class Eraser extends Brush {
   createLowerInstancePreviews = ()  => {
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
-    const stage = gameModel.stages[this.scene.stage.id]
+    const stage = gameModel.stages[this.scene.stage.stageId]
     const previewWidth = stage.boundaries.maxWidth
     const previewHeight = stage.boundaries.maxHeight
 
@@ -82,7 +82,7 @@ export class Eraser extends Brush {
   createPreviewLayers() {
     const state = store.getState()
     const gameModel = state.gameModel.gameModel
-    const stage = gameModel.stages[this.scene.stage.id]
+    const stage = gameModel.stages[this.scene.stage.stageId]
     const eraserLayerId = getCanvasIdFromEraserId(this.brushId)
     const previewWidth = stage.boundaries.maxWidth
     const previewHeight = stage.boundaries.maxHeight

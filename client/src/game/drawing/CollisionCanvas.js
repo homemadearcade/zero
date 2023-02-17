@@ -40,7 +40,7 @@ export class CollisionCanvas extends CodrawingCanvas {
       alphaNodes.push({ alpha: data[i], touched: false });
     }
 
-    const stage = gameModel.stages[this.scene.stage.id]
+    const stage = gameModel.stages[this.scene.stage.stageId]
 
     const alphaGrid = splitIntoSubarrays(alphaNodes, stage.boundaries.maxWidth)
     for(let y = halfNodeSize; y < alphaGrid.length; y+= nodeSize) {

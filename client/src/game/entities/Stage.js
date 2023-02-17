@@ -6,10 +6,10 @@ import { generateUniqueId } from "../../utils/webPageUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
 
 export class Stage {
-  constructor(scene, id, { boundaries, gravity }){
+  constructor(scene, stageId, { boundaries, gravity }){
     this.scene = scene
     this.physicsType = scene.physicsType
-    this.id = id
+    this.stageId = stageId
 
     this.setGravity(gravity.x, gravity.y)
     this.setBoundaries(boundaries)
@@ -20,7 +20,7 @@ export class Stage {
 
   createStageBackgroundColorLayer() {    
     const gameModel = store.getState().gameModel.gameModel
-    const stage = gameModel.stages[this.id]
+    const stage = gameModel.stages[this.stageId]
     const boundaries = stage.boundaries
     const colorInt = getHexIntFromHexString(stage.backgroundColor || '#000000')
     if(this.backgroundColorLayer) this.backgroundColorLayer.destroy()
@@ -54,7 +54,7 @@ export class Stage {
 
   ensureSpawnZoneExists() {
     const gameModel = store.getState().gameModel.gameModel
-    const stage = gameModel.stages[this.id]
+    const stage = gameModel.stages[this.stageId]
     const spawnZones = this.scene.getAllInstancesOfClassId(stage.spawnZoneClassId) 
     if(!spawnZones.length) {
       this.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, classId: stage.spawnZoneClassId}, true)

@@ -92,7 +92,7 @@ export class EditorScene extends GameInstance {
     } else {
       store.dispatch(editGameModel({ 
         stages: {
-          [this.stage.id]: {
+          [this.stage.stageId]: {
             objects: {
               [entitySprite.instanceId]: {
                 spawnX: entitySprite.x,
@@ -121,7 +121,7 @@ export class EditorScene extends GameInstance {
 
   onResizeMove = (pointer) => {
     const sprite = this.resizingObjectInstance.sprite
-    const boundaries = store.getState().gameModel.gameModel.stages[this.stage.id].boundaries
+    const boundaries = store.getState().gameModel.gameModel.stages[this.stage.stageId].boundaries
     // const distance = Phaser.Math.Distance.Between(sprite.x, sprite.y, pointer.worldX, pointer.worldY)
     const distanceW = Phaser.Math.Snap.To(Math.abs(sprite.x - pointer.worldX), nodeSize)
     const distanceH = Phaser.Math.Snap.To(Math.abs(sprite.y - pointer.worldY), nodeSize)
@@ -165,7 +165,7 @@ export class EditorScene extends GameInstance {
     } else {
       store.dispatch(editGameModel({ 
         stages: {
-          [this.stage.id]: {
+          [this.stage.stageId]: {
             objects: {
               [sprite.instanceId]: {
                 spawnX: sprite.x,
@@ -306,7 +306,7 @@ export class EditorScene extends GameInstance {
     if(!this.snapshotSquare.finalized) return false
     const gameModel = store.getState().gameModel.gameModel
     const gameViewEditor = getCobrowsingState().gameViewEditor
-    const boundaries = gameModel.stages[this.stage.id].boundaries
+    const boundaries = gameModel.stages[this.stage.stageId].boundaries
     const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
     
     if(gameViewEditor.layerVisibility[STAGE_BACKGROUND_CANVAS_ID]) {
@@ -441,7 +441,7 @@ export class EditorScene extends GameInstance {
 
       try {
         const gameModel = store.getState().gameModel.gameModel
-        const boundaries = gameModel.stages[this.stage.id].boundaries
+        const boundaries = gameModel.stages[this.stage.stageId].boundaries
         const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
         snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
         snapCanvas.draw(this.backgroundLayer, 0,0)
@@ -581,7 +581,7 @@ export class EditorScene extends GameInstance {
 
     store.dispatch(editGameModel({
       stages: {
-        [this.stage.id]: {
+        [this.stage.stageId]: {
           objects: {
             [instanceId]: gameObject
           }
@@ -608,11 +608,11 @@ export class EditorScene extends GameInstance {
         }
       })
 
-      const stageUpdate = gameUpdate.stages[this.stage.id]
+      const stageUpdate = gameUpdate.stages[this.stage.stageId]
 
       if(stageUpdate?.gravity) {
         const gravity = stageUpdate.gravity
-        const currentGravity = store.getState().gameModel.gameModel.stages[this.stage.id].gravity
+        const currentGravity = store.getState().gameModel.gameModel.stages[this.stage.stageId].gravity
 
         if(typeof gravity?.x === 'number' && typeof gravity?.y === 'number') {
           this.stage.setGravity(gravity.x, gravity.y)
@@ -839,8 +839,8 @@ export class EditorScene extends GameInstance {
 
   createGrids() {
     // const gameModel = store.getState().gameModel.gameModel
-    // const gameMaxWidth = gameModel.stages[this.stage.id].boundaries.maxWidth
-    // const gameMaxHeight = gameModel.stages[this.stage.id].boundaries.maxHeight
+    // const gameMaxWidth = gameModel.stages[this.stage.stageId].boundaries.maxWidth
+    // const gameMaxHeight = gameModel.stages[this.stage.stageId].boundaries.maxHeight
     // this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
     // this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
@@ -850,7 +850,7 @@ export class EditorScene extends GameInstance {
     if(this.grid) this.grid.destroy()
     if(this.grid2) this.grid2.destroy()
 
-    const boundaries = store.getState().gameModel.gameModel.stages[this.stage.id].boundaries
+    const boundaries = store.getState().gameModel.gameModel.stages[this.stage.stageId].boundaries
 
     const gameWidth = boundaries.width
     const gameHeight = boundaries.height
@@ -869,7 +869,7 @@ export class EditorScene extends GameInstance {
     this.createGrids()
 
     const gameModel = store.getState().gameModel.gameModel
-    const boundaries = gameModel.stages[this.stage.id].boundaries
+    const boundaries = gameModel.stages[this.stage.stageId].boundaries
     const gameMaxWidth = boundaries.maxWidth
     const gameMaxHeight = boundaries.maxHeight
     

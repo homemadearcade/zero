@@ -41,7 +41,7 @@ export class GameClientScene extends EditorScene {
     this.upsHost = upsHost
     this.upsServer = upsServer
 
-    if(this.stage.id !== stageId) {
+    if(this.stage.stageId !== stageId) {
       if(store.getState().cobrowsing.isActivelyCobrowsing)  {
         store.dispatch(changeCurrentStage(stageId))
       }
