@@ -84,7 +84,7 @@ router.post('/:id/clearMessages', requireJwtAuth, requireGameRoom, requireSocket
 router.post('/', requireJwtAuth, requireGameRooms, async (req, res) => {
   try {
     let gameRoom = await GameRoom.create({
-      players: req.body.players,
+      invitedUsers: req.body.invitedUsers,
       hostUserId: req.body.hostUserId,
       gameId: req.body.gameId,
 
@@ -93,11 +93,11 @@ router.post('/', requireJwtAuth, requireGameRooms, async (req, res) => {
       isNetworked: req.body.isNetworked,
     });
 
-    gameRoom = await gameRoom.populate('players').execPopulate();
+    gameRoom = await gameRoom.populate('invitedUsers').execPopulate();
 
     gameRoom = gameRoom.toJSON()
 
-    gameRoom.players = gameRoom.players.map((user) => {
+    gameRoom.members = gameRoom.invitedUsers.map((user) => {
       return {
         email: user.email,
         id: user.id,
@@ -127,7 +127,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, as
     }
 
     // let index;
-    const userFound = req.gameRoom.players.filter((u, i) => {
+    const userFound = req.gameRoom.members.filter((u, i) => {
       if(u.id === req.body.userId) {
         // index = i
         return true
@@ -170,7 +170,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, as
 //     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
 //   }
 
-//   const userFound = req.gameRoom.players.filter((u, i) => {
+//   const userFound = req.gameRoom.invitedUsers.filter((u, i) => {
 //     if(u.id === req.body.userId) {
 //       return true
 //     } else {
@@ -232,7 +232,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, as
 
 router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
   try {
-    const userFound = req.gameRoom.players.filter((u, i) => {
+    const userFound = req.gameRoom.members.filter((u, i) => {
       if(u.id === req.user.id) {
         return true
       } else {
@@ -262,7 +262,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asy
 
     // security... lobby can set the game session stuff
 
-    // const isParticipant = req.gameRoom.players.some((user) => {
+    // const isParticipant = req.gameRoom.members.some((user) => {
     //   return user.id === req.user.id
     // })
 
@@ -271,7 +271,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asy
     // }
 
     // generate a gameRoom formatted user
-    const newGameRoomPlayer = { 
+    const newGameRoomMember = { 
       email: req.user.email,
       id: req.user.id,
       username: req.user.username,
@@ -282,16 +282,16 @@ router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asy
 
     req.gameRoom.messages.push({
       user: {
-        id: newGameRoomPlayer.id,
-        username: newGameRoomPlayer.username
+        id: newGameRoomMember.id,
+        username: newGameRoomMember.username
       },
       message: 'has connected',
       automated: true
     })
     req.gameRoom.messages.push({
       user: {
-        id: newGameRoomPlayer.id,
-        username: newGameRoomPlayer.username
+        id: newGameRoomMember.id,
+        username: newGameRoomMember.username
       },
       message: 'has joined the gameRoom',
       automated: true
@@ -302,23 +302,24 @@ router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asy
     req.socket.join(req.gameRoom.id);
     if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.gameRoom.id);
 
+    // remove for now
     // remove from all other game sessions
-    req.gameRooms.forEach((gameRoom) => {
-      let index;
-      gameRoom.players.forEach((user, i) => {
-        if(newGameRoomPlayer.id === user.id) {
-          index = i
-        }
-      })
-      if(index >= -1) {
-        gameRoom.players.splice(index, 1)
-        req.socket.leave(gameRoom.id);
-        req.io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: gameRoom});
-      }
-    })
+    // req.gameRooms.forEach((gameRoom) => {
+    //   let index;
+    //   gameRoom.members.forEach((user, i) => {
+    //     if(newGameRoomMember.id === user.id) {
+    //       index = i
+    //     }
+    //   })
+    //   if(index >= -1) {
+    //     gameRoom.members.splice(index, 1)
+    //     req.socket.leave(gameRoom.id);
+    //     req.io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: gameRoom});
+    //   }
+    // })
 
     // add to new gameRoom
-    req.gameRoom.players.push(newGameRoomPlayer)
+    req.gameRoom.members.push(newGameRoomMember)
 
     // update the game sessions with this information
     req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
@@ -335,7 +336,7 @@ router.delete('/:id', requireJwtAuth, requireGameRoom, async (req, res) => {
     }
 
     try {
-      const gameRoom = await GameRoom.findByIdAndRemove(req.params.id).populate('players');
+      const gameRoom = await GameRoom.findByIdAndRemove(req.params.id).populate('invitedUsers');
       req.gameRooms.splice(req.gameRoomIndex, 1);
       if (!gameRoom) return res.status(404).json({ game: 'No game found.' });
     } catch (err) {
@@ -356,7 +357,7 @@ router.put('/user/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asyn
     }
 
     let index;
-    const userFound = req.gameRoom.players.filter((u, i) => {
+    const userFound = req.gameRoom.members.filter((u, i) => {
       if(u.id === req.body.userId) {
         index = i
         return true
@@ -369,7 +370,7 @@ router.put('/user/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asyn
       return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameRoom' });
     }
 
-    req.gameRoom.players[index] = { ...req.gameRoom.players[index], ...req.body.user}
+    req.gameRoom.members[index] = { ...req.gameRoom.members[index], ...req.body.user}
     req.io.to(req.gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: req.gameRoom});
     res.status(200).json({ gameRoom: req.gameRoom });
   } catch (err) {
@@ -378,7 +379,7 @@ router.put('/user/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asyn
 });
 
 // router.post('/undo/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
-//   const isParticipant = req.gameRoom.players.some((user) => {
+//   const isParticipant = req.gameRoom.invitedUsers.some((user) => {
 //     return user.id === req.user.id
 //   })
 
@@ -402,7 +403,7 @@ router.put('/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (re
     const updatedGameRoom = await GameRoom.findByIdAndUpdate(
       req.params.id,
       { 
-        players: req.gameRoom.players.map(({id}) => {
+        invitedUsers: req.gameRoom.invitedUsers.map(({id}) => {
           return id
         }),
         gameState: req.gameRoom.gameState,

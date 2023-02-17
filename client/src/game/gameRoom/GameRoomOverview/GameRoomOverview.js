@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 
 import './GameRoomOverview.scss';
 import Typography from '../../../ui/Typography/Typography';
-import GameStatus from '../../GameStatus/GameStatus';
+import GameStatus from '../GameStatus/GameStatus';
 import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
 import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import Divider from '../../../ui/Divider/Divider';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
-import LobbyUsername from '../../../experience/LobbyMember/LobbyMember';
+import LobbyUsername from '../../../experience/lobby/LobbyMember/LobbyMember';
 
 const GameRoomOverview = ({
   gameRoom: { gameRoom },
@@ -33,7 +33,7 @@ const GameRoomOverview = ({
       <Divider></Divider>
       <Typography component="span" variant="subtitle1">Game Host:</Typography>
       <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={gameRoom.hostUserId}></LobbyUsername>
-      {gameRoom.hostUserId && <SelectUsers userIds={lobby.users.map(({id}) => id)} label="Select Host" onSelect={(users) => {
+      {gameRoom.hostUserId && <SelectUsers userIds={lobby.members.map(({id}) => id)} label="Select Host" onSelect={(users) => {
         if(users[0]) {
           editGameRoom(gameRoom.id, {
             hostUserId: users[users.length - 1],

@@ -8,7 +8,7 @@ import Typography from '../../ui/Typography/Typography';
 import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
 import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/lobbyActions';
-import LobbyUsername from '../LobbyMember/LobbyMember';
+import LobbyUsername from '../lobby/LobbyMember/LobbyMember';
 import { ADMIN_ROLE } from '../../constants';
 
 const ChatRoom = ({
@@ -33,7 +33,7 @@ const ChatRoom = ({
     scrollToBottom()
   }, [lobby.messages])
 
-  // const usersById = lobby.users.reduce((prev, next) => {
+  // const membersById = lobby.members.reduce((prev, next) => {
   //   prev[next.id] = next
   //   return prev
   // }, {})

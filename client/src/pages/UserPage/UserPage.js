@@ -267,7 +267,7 @@ const UserPage = ({
       <Typography component="h5" variant="h5">My Games</Typography>
       <GameList>
         {(game) => {
-          if(game.user?.id !== user.id) return null
+          if(game.owner?.id !== user.id) return null
           return <GameCard game={game} canPlay canPublish canEdit></GameCard>
         }}
       </GameList>

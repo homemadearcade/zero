@@ -21,7 +21,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
     defaultValues: {
       title,
       description,
-      authorPseudonym : authorPseudonym ? authorPseudonym : gameModel.user?.username,
+      authorPseudonym : authorPseudonym ? authorPseudonym : gameModel.owner?.username,
       imageUrl
     },
   });

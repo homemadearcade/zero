@@ -22,7 +22,7 @@ const GameList = ({ getArcadeGames, children, arcadeGames: { arcadeGames, isLoad
     if(searchTerm) {
       setGamesList(arcadeGames.filter((game) => {
         if(game.metadata.title?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
-        if(game.user?.username.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
+        if(game.owner?.username.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         if(game.metadata.description?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         if(game.metadata.authorPseudonym?.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0) return true
         return false

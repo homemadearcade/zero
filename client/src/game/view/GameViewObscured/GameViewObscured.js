@@ -1,6 +1,6 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import requireAuth from '../../../hoc/requireAuth';
@@ -9,7 +9,7 @@ import './GameViewObscured.scss';
 import GameView from '../GameView/GameView';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
-import { UNLOCK_TOOL } from '../../constants';
+import { UNLOCK_TOOL } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { clearErrorState } from '../../../store/actions/errorsActions';
 import Button from '../../../ui/Button/Button';
@@ -17,6 +17,7 @@ import { GAME_VIEW_IID } from '../../../constants/interfaceIds';
 import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
+import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
 
 const GameViewObscured = ({
   auth: { me },
@@ -68,12 +69,18 @@ const GameViewObscured = ({
     return <GameViewEmpty>
       <Icon icon="faCircleQuestion"></Icon>
       No Game Loaded
+      <GameLoadButton></GameLoadButton>
     </GameViewEmpty>
   }
 
-  if(!gameRoom.isPoweredOn) return <GameViewEmpty>
+  if(!gameRoom.isPoweredOn && !gameModel.isLoading) return <GameViewEmpty>
     <Icon icon="faPowerOff"></Icon>
     Not Powered On
+    <Button onClick={async () => {
+        await editGameRoom(gameRoom.id, {
+        isPoweredOn: true
+      })
+    }}>Power On</Button>
   </GameViewEmpty>
 
   if(gameRoom.isPoweredOn) {

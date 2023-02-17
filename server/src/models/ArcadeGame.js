@@ -65,7 +65,7 @@ const arcadeGameSchema = new Schema(
       default: false,
       type: Boolean,
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
 );
@@ -110,7 +110,7 @@ arcadeGameSchema.methods.toJSON = function () {
     relations: this.relations,
     cutscenes: this.cutscenes,
     awsImages: this.awsImages,
-    user: this.user?.toJSON(),
+    owner: this.owner ? this.owner.toJSON() : this.user?.toJSON(),
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     isRemoved: this.isRemoved,

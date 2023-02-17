@@ -16,7 +16,7 @@ import { setGameInstance } from '../../../store/actions/webPageActions';
 import Cutscene from '../../cutscene/Cutscene/Cutscene';
 import StateScreen from '../../gameRoom/GameStateScreen/GameStateScreen';
 import store from '../../../store';
-import ControlsPopup from '../../ControlsPopup/ControlsPopup';
+import ControlsPopup from '../ControlsPopup/ControlsPopup';
 import Icon from '../../../ui/Icon/Icon';
 import { changeErrorState, clearErrorState } from '../../../store/actions/errorsActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';

@@ -105,7 +105,7 @@ router.post('/:id/clearMessages', requireJwtAuth, requireLobby, requireSocketAut
 router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
   try {
     let lobby = await Lobby.create({
-      participants: req.body.participants,
+      invitedUsers: req.body.invitedUsers,
       startTime: req.body.startTime,
       participantId: req.body.participantId,
       guideId: req.body.guideId,
@@ -113,11 +113,11 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       gameRoomId: req.body.gameRoomId
     });
 
-    lobby = await lobby.populate('participants').execPopulate();
+    lobby = await lobby.populate('invitedUsers').execPopulate();
 
     lobby = lobby.toJSON()
 
-    lobby.users = lobby.participants.map((user) => {
+    lobby.members = lobby.invitedUsers.map((user) => {
       return {
         email: user.email,
         id: user.id,
@@ -129,7 +129,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
     })
 
     lobby.currentStep = 2
-    lobby.experienceState = 'WAITING_EXPERIENCE'
+    lobby.experienceActivity = 'WAITING_ACTIVITY'
     lobby.messages = []
 
     req.lobbys.push(lobby)
@@ -147,7 +147,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobby, requireSocketAuth, async
     }
 
     // let index;
-    const userFound = req.lobby.users.filter((u, i) => {
+    const userFound = req.lobby.members.filter((u, i) => {
       if(u.id === req.body.userId) {
         // index = i
         return true
@@ -185,7 +185,7 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
   }
 
-  const userFound = req.lobby.users.filter((u, i) => {
+  const userFound = req.lobby.members.filter((u, i) => {
     if(u.id === req.body.userId) {
       return true
     } else {
@@ -233,7 +233,7 @@ router.post('/assign/:id', requireJwtAuth, requireLobby, requireSocketAuth, asyn
 
 router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
   try {
-    const userFound = req.lobby.users.filter((u, i) => {
+    const userFound = req.lobby.members.filter((u, i) => {
       if(u.id === req.user.id) {
         return true
       } else {
@@ -260,7 +260,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
       return res.status(200).json({ lobby: req.lobby });
     }
 
-    const isParticipant = req.lobby.participants.some((user) => {
+    const isParticipant = req.lobby.invitedUsers.some((user) => {
       return user.id === req.user.id
     })
 
@@ -269,7 +269,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
     }
 
     // generate a lobby formatted user
-    const newLobbyUser = { 
+    const newLobbyMember = { 
       email: req.user.email,
       id: req.user.id,
       username: req.user.username,
@@ -281,44 +281,41 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
 
     req.lobby.messages.push({
       user: {
-        id: newLobbyUser.id,
-        username: newLobbyUser.username
+        id: newLobbyMember.id,
+        username: newLobbyMember.username
       },
       message: 'has connected',
       automated: true
     })
     req.lobby.messages.push({
       user: {
-        id: newLobbyUser.id,
-        username: newLobbyUser.username
+        id: newLobbyMember.id,
+        username: newLobbyMember.username
       },
       message: 'has joined the lobby',
       automated: true
     })
-      
 
-    // listen for all of this lobbies events
     req.socket.join(req.lobby.id);
     if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobby.id);
 
-    // NOT ANYMORE FOR NOW: remove from all other lobbies
-    // CAUSES BUGS WITH SELEECT FORMS
+    // REMOVE FOR NOW...
     // req.lobbys.forEach((lobby) => {
     //   let index;
-    //   lobby.users.forEach((user, i) => {
-    //     if(newLobbyUser.id === user.id) {
+    //   lobby.members.forEach((user, i) => {
+    //     if(newLobbyMember.id === user.id) {
     //       index = i
     //     }
     //   })
     //   if(index >= -1) {
-    //     lobby.users.splice(index, 1)
+    //     lobby.members.splice(index, 1)
     //     req.socket.leave(lobby.id);
     //     req.io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby: lobby});
     //   }
     // })
 
     // add to new lobby
-    req.lobby.users.push(newLobbyUser)
+    req.lobby.members.push(newLobbyMember)
 
     // update the lobbies with this information
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
@@ -335,7 +332,7 @@ router.delete('/:id', requireJwtAuth, requireLobby, async (req, res) => {
     }
 
     try {
-      const lobby = await Lobby.findByIdAndRemove(req.params.id).populate('participants');
+      const lobby = await Lobby.findByIdAndRemove(req.params.id).populate('invitedUsers');
       req.lobbys.splice(req.lobbyIndex, 1);
       if (!lobby) return res.status(404).json({ lobby: 'No lobby found.' });
     } catch (err) {
@@ -355,7 +352,7 @@ router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
     }
 
     let index;
-    const userFound = req.lobby.users.filter((u, i) => {
+    const userFound = req.lobby.members.filter((u, i) => {
       if(u.id === req.body.userId) {
         index = i
         return true
@@ -368,7 +365,7 @@ router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
       return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in lobby' });
     }
 
-    req.lobby.users[index] = { ...req.lobby.users[index], ...req.body.user}
+    req.lobby.members[index] = { ...req.lobby.members[index], ...req.body.user}
     req.io.to(req.lobby.id).emit(ON_LOBBY_UPDATE, {lobby: req.lobby});
     res.status(200).json({ lobby: req.lobby });
   } catch (err) {
@@ -377,7 +374,7 @@ router.put('/user/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (
 });
 
 router.post('/undo/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, res) => {
-  const isParticipant = req.lobby.participants.some((user) => {
+  const isParticipant = req.lobby.invitedUsers.some((user) => {
     return user.id === req.user.id
   })
 
@@ -412,7 +409,7 @@ router.put('/:id', requireJwtAuth, requireLobby, requireSocketAuth, async (req, 
     const updatedLobby = await Lobby.findByIdAndUpdate(
       req.params.id,
       { 
-        participants: req.lobby.participants.map(({id}) => {
+        invitedUsers: req.lobby.invitedUsers.map(({id}) => {
           return id
         }),
         startTime: req.lobby.startTime,

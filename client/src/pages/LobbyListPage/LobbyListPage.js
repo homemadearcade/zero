@@ -40,18 +40,18 @@ const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbys: { lobbys, isLo
                   <div key={index} className="LobbyListPage__lobby">
 
                     <div className="LobbyListPage__info-container">
-                      <Typography component="h5" variant="h5">{lobby.participants[0]?.username}'s Lobby</Typography>
+                      <Typography component="h5" variant="h5">{lobby.invitedUsers[0]?.username}'s Lobby</Typography>
                       <div>
                         <span className="LobbyListPage__label">Lobby ID: </span>
                         <span className="LobbyListPage__info">{lobby.id}</span>
                       </div>
                       <div>
                         <span className="LobbyListPage__label">Participants Email: </span>
-                        <span className="LobbyListPage__info">{lobby.participants[0]?.email}</span>
+                        <span className="LobbyListPage__info">{lobby.invitedUsers[0]?.email}</span>
                       </div>
                       <div>
                         <span className="LobbyListPage__label">Participants Username: </span>
-                        <span className="LobbyListPage__info">{lobby.participants[0]?.username}</span>
+                        <span className="LobbyListPage__info">{lobby.invitedUsers[0]?.username}</span>
                       </div>
                       <div>
                         <span className="LobbyListPage__label">Start Time: </span>

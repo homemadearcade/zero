@@ -9,7 +9,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
 import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
-import { OPEN_TOOL, UNLOCK_TOOL } from '../../constants';
+import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 import { ADMIN_ROLE } from '../../../constants';
 
 const Unlockable = ({

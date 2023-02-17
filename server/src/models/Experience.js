@@ -13,7 +13,7 @@ const experience = new Schema(
       }
     },
     isRemoved: Boolean,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
 );
@@ -22,7 +22,7 @@ experience.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     metadata: this.metadata,
-    user: this.user?.toJSON(),
+    owner: this.owner?.toJSON(),
     isRemoved: this.isRemoved,
   };
 };

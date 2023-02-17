@@ -17,12 +17,13 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
       startTime: '',
-      participants: null,
+      invitedUsers: null,
     },
   });
+
   const submit = async (data) => {
     const gameResponse = await addArcadeGame({
-      userId: data.participants,
+      userId: data.invitedUsers,
       stages: {},
       classes: {},
       cutscenes: {},
@@ -35,15 +36,15 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
     const game = gameResponse.data.game
 
     const gameRoomResponse = await addGameRoom({
-      players: data.participants,
+      invitedUsers: data.invitedUsers,
       isNetworked: true,
       isEdit: true,
       gameId: game.id,
-      hostUserId: data.participants
+      hostUserId: data.invitedUsers
     });
     const gameRoom = gameRoomResponse.data.gameRoom
-    const participantId = data.participants
-    await addLobby({ editingGameId: game.id, participants: [data.participants], participantId: participantId, startTime: data.startTime, gameRoomId: gameRoom.id });
+    const participantId = data.invitedUsers
+    await addLobby({ editingGameId: game.id, invitedUsers: [data.invitedUsers], participantId: participantId, startTime: data.startTime, gameRoomId: gameRoom.id });
     reset();
     onSubmit()
   }
@@ -53,13 +54,13 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
       <Typography variant="h5" component="h5">Add a lobby</Typography>
       <form>
         <Controller
-          name={"participants"}
+          name={"invitedUsers"}
           control={control}
           render={({ field: { onChange, value } }) => {
             return <SelectUsers 
               usersSelected={value ? [value] : []} 
-              onSelect={(participants) => {
-                onChange(participants[participants.length-1])
+              onSelect={(invitedUsers) => {
+                onChange(invitedUsers[invitedUsers.length-1])
               }}
             />
           }}

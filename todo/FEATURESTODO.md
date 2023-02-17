@@ -50,14 +50,7 @@ Its all floating action buttons? Theres recently used brushes, recently used cla
 LOBBY UPDATE
   Can we change where the power buttons, etc are? Disable star button instead of hide it? Same with the save button..
 
-  Mute and cut user video should be an object
-
-  GAME VIEW EMPTY
-  No Game Loaded - Load Game
-  Not Powered On - Power On, Load Game. 
-
   Game Card without game loaded
-  End Call for everyone in lobby
 ----
 
 EMAILS

@@ -36,6 +36,7 @@ import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import Icon from '../../../ui/Icon/Icon';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
+import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
 
 const GameEditor = ({ 
   classNames, 
@@ -75,6 +76,7 @@ const GameEditor = ({
       return <GameViewEmpty>
         <Icon icon="faCircleQuestion"></Icon>
         No Game Loaded
+        <GameLoadButton></GameLoadButton>
       </GameViewEmpty>
     }
 

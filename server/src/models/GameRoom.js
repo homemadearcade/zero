@@ -28,7 +28,7 @@ const gameRoomSchema = new Schema(
       type: String,
       required: true,
     },
-    players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    invitedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true },
 );
@@ -63,7 +63,7 @@ gameRoomSchema.methods.toJSON = function () {
     isEdit: this.isEdit,
     isNetworked: this.isNetworked,
     isSaveDisabled: this.isSaveDisabled,
-    players: this.players ? this.players.map((user) => {
+    invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
     gameId: this.gameId

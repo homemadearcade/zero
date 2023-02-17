@@ -1,7 +1,7 @@
 import {
-  GET_EXPERIENCES_LOADING,
-  GET_EXPERIENCES_SUCCESS,
-  GET_EXPERIENCES_FAIL,
+  GET_ACTIVITYS_LOADING,
+  GET_ACTIVITYS_SUCCESS,
+  GET_ACTIVITYS_FAIL,
   GET_EXPERIENCE_LOADING,
   GET_EXPERIENCE_SUCCESS,
   GET_EXPERIENCE_FAIL,
@@ -29,7 +29,7 @@ export default function experienceReducer(state = initialState, { type, payload 
         ...state,
         isLoading: true,
       };
-    case GET_EXPERIENCES_LOADING:
+    case GET_ACTIVITYS_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -54,7 +54,7 @@ export default function experienceReducer(state = initialState, { type, payload 
         isLoading: false,
         experience: payload.experience,
       };
-    case GET_EXPERIENCES_SUCCESS:
+    case GET_ACTIVITYS_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -84,7 +84,7 @@ export default function experienceReducer(state = initialState, { type, payload 
         isLoading: false,
         error: payload.error,
       };
-    case GET_EXPERIENCES_FAIL:
+    case GET_ACTIVITYS_FAIL:
       return {
         ...state,
         isLoading: false,

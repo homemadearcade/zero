@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './GameMetadataModal.scss';
-import CobrowsingModal from '../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingModal from '../cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { closeGameMetadataModal } from '../../store/actions/gameSelectorActions';
 import GameMetadataForm from '../../app/arcadeGame/GameMetadataForm/GameMetadataForm';

@@ -14,7 +14,7 @@ import {
 } from '../types';
 
 function defaultBypass() {
-  return inIframe() //|| isLocalHost()// || 
+  return inIframe() || isLocalHost()// || 
 }
 
 const initialState = {
@@ -95,7 +95,6 @@ export default function videoReducer(state = initialState, { type, payload }) {
         audioTrackId: payload.audioTrackId
       };
     case SET_VIDEO_TRACK_COMPONENT: 
-    console.log(payload)
       return {
         ...state,
         videoTrackComponentIds:{

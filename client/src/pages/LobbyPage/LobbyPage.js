@@ -19,7 +19,7 @@ import CobrowsingSession from '../../hoc/CobrowsingSession';
 import AskFullscreen from '../../hoc/askFullscreen';
 import LobbyErrorStates from '../../experience/lobby/LobbyErrorStates/LobbyErrorStates';
 import GameRoomDrawer from '../../game/gameRoom/GameRoomDrawer/GameRoomDrawer';
-import ExperienceView from '../../experience/ExperienceView/ExperienceView';
+import ActivityView from '../../experience/activity/ActivityView/ActivityView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
 import MultiplayerGameRoomContext from '../../hoc/MultiplayerGameRoomContext';
@@ -61,7 +61,7 @@ const LobbyPage = ({
         <MultiplayerGameRoomContext gameRoomId={lobby.gameRoomId}>
           <CobrowsingSession>
             <AskFullscreen>
-              <ExperienceView myTracks={myTracks} userTracks={userTracks}/>
+              <ActivityView myTracks={myTracks} userTracks={userTracks}/>
             </AskFullscreen>
           </CobrowsingSession>
         </MultiplayerGameRoomContext>

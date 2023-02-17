@@ -8,7 +8,6 @@ export const UNDO_MEMORY_MAX = 10
 
 export const gameInstanceDisconnectedDelta = 15000
 export const noPhaserUpdateDelta = 15000
-export const noCobrowsingUpdateDelta = 15000
 export const noCodrawingStrokeUpdateDelta = 15000
 
 export const ANIMATION_CAMERA_SHAKE = 'ANIMATION_CAMERA_SHAKE'
@@ -226,8 +225,3 @@ export const classTypeToPrefix = {
   [BASIC_CLASS]: BASIC_CLASS_TYPE_PREFIX,
   [NPC_CLASS]: NPC_CLASS_TYPE_PREFIX
 }
-
-
-// COBROWSING TOOLS
-export const UNLOCK_TOOL = 'UNLOCK_TOOL'
-export const OPEN_TOOL = 'OPEN_TOOL'

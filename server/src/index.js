@@ -172,7 +172,7 @@ io.on("connection", (socket) => {
 
         const lobbys = app.get(LOBBYS_STORE)
         lobbys?.forEach((lobby) => {
-          lobby.users.forEach((user) => {
+          lobby.members.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
               lobby.messages.push({
@@ -191,7 +191,7 @@ io.on("connection", (socket) => {
 
         const gameRooms = app.get(GAME_ROOMS_STORE)
         gameRooms?.forEach((gameRoom) => {
-          gameRoom.players.forEach((user) => {
+          gameRoom.invitedUsers.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
               gameRoom.messages.push({
@@ -286,7 +286,7 @@ io.on("connection", (socket) => {
     if(socket.user?.id) {
       const lobbys = app.get(LOBBYS_STORE)
       lobbys.forEach((lobby) => {
-        lobby.users.forEach((user) => {
+        lobby.members.forEach((user) => {
           if(user.id === socket.user.id) {
             user.connected = false
             socket.emit(ON_SOCKET_DISCONNECT)
@@ -318,17 +318,17 @@ async function onMongoDBConnected() {
   
   // await TicketPurchase.create(ticketPurchase)
 
-  let lobbys = await Lobby.find().populate('participants')
+  let lobbys = await Lobby.find().populate('invitedUsers')
   
   if(lobbys) {
     lobbys =  lobbys.map((lob) => {
       const lobby = lob.toJSON()
       return {
         ...lobby,
-        experienceState: 'WAITING_EXPERIENCE',
+        experienceActivity: 'WAITING_ACTIVITY',
         currentStep: 2,
         messages: [],
-        users: lobby.participants.map((user) => {
+        members: lobby.invitedUsers.map((user) => {
           return {
             email: user.email,
             id: user.id,
@@ -348,7 +348,7 @@ async function onMongoDBConnected() {
 
   }
 
-  let gameRooms = await GameRoom.find().populate('players').populate()
+  let gameRooms = await GameRoom.find().populate('invitedUsers').populate()
 
   if(gameRooms) {
     gameRooms =  gameRooms.map((gam) => {
@@ -358,7 +358,7 @@ async function onMongoDBConnected() {
         gameState: 'PLAY_STATE',
         messages: [],
         resetDate: Date.now(),
-        players: gameRoom.players.map((user) => {
+        members: gameRoom.invitedUsers.map((user) => {
           return {
             email: user.email,
             id: user.id,

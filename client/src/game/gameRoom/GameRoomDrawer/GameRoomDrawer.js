@@ -7,8 +7,8 @@ import { inIframe } from '../../../utils/webPageUtils';
 import Drawer from '../../../ui/Drawer/Drawer';
 import Icon from '../../../ui/Icon/Icon';
 import Link from '../../../ui/Link/Link';
-import { GAME_EDITOR_EXPERIENCE } from '../../../constants';
-import CobrowsingIndicator from '../../cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
+import { GAME_EDITOR_ACTIVITY } from '../../../constants';
+import CobrowsingIndicator from '../../../experience/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import GameRoomPowerIndicator from '../GameRoomPowerIndicator/GameRoomPowerIndicator';
 import ConstellationToggle from '../../ConstellationToggle/ConstellationToggle';
 import Typography from '../../../ui/Typography/Typography';
@@ -20,7 +20,7 @@ import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobby/LobbyOverview/LobbyOverview';
 
 const GameRoomDrawer = ({
-  lobby: { lobby, lobby: { experienceState } },
+  lobby: { lobby, lobby: { experienceActivity } },
   gameRoom: { gameRoom, gameRoom: { isPoweredOn, isSaveDisabled }},
   myTracks,
   userTracks,
@@ -35,10 +35,10 @@ const GameRoomDrawer = ({
         }}>
           <Icon icon="faBars"/>
         </div>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && <CobrowsingIndicator/>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && isPoweredOn && <ConstellationToggle/>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && <GameRoomPowerIndicator/>}
-        {experienceState === GAME_EDITOR_EXPERIENCE && isSaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
+        {experienceActivity === GAME_EDITOR_ACTIVITY && <CobrowsingIndicator/>}
+        {experienceActivity === GAME_EDITOR_ACTIVITY && isPoweredOn && <ConstellationToggle/>}
+        {experienceActivity === GAME_EDITOR_ACTIVITY && <GameRoomPowerIndicator/>}
+        {experienceActivity === GAME_EDITOR_ACTIVITY && isSaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Save Disabled</Typography>
           <Switch

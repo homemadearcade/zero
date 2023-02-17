@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const lobbySchema = new Schema(
   {
-    participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    invitedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     participantId: {
       type: String,
       // required: true,
@@ -60,7 +60,7 @@ lobbySchema.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     startTime: this.startTime,
-    participants: this.participants ? this.participants.map((user) => {
+    invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
     editingGameId: this.editingGameId,

@@ -16,9 +16,9 @@ const SelectGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected = [
   if(isLoading || !arcadeGames.length) return <Loader></Loader>
 
    const mapGameToOption = (game) => {
-    const firstLetter = game.user ? game.user.username[0].toUpperCase() : 'fromprod'
+    const firstLetter = game.owner ? game.owner.username[0].toUpperCase() : 'fromprod'
     return {
-      user: game.user,
+      user: game.owner,
       firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
       label: game.metadata.title,
       value: game.id,
@@ -30,7 +30,7 @@ const SelectGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected = [
 
   if(userId) {
     options = options.filter((option) => {
-      if(option.user && option.user.id === userId) {
+      if(option.owner && option.owner.id === userId) {
         return true
       } else if(gamesSelected.indexOf(option.value) >= 0) {
         return true
@@ -46,7 +46,7 @@ const SelectGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected = [
         }}
         groupBy={(option) => option.firstLetter}
         hideRemoved
-        formLabel={label ? label : "Games"}
+        formLabel={label ? label : "Games by Owner name"}
         value={gamesSelected}
         options={options}
       />

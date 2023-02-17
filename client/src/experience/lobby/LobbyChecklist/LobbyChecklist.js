@@ -33,7 +33,7 @@ const LobbyChecklist = ({
   status: { lobbyUserStatuses },
   cobrowsing: { remoteStateUserId }
 }) => {
-  const usersById = lobby.users.reduce((prev, next) => {
+  const membersById = lobby.members.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
@@ -122,16 +122,16 @@ const LobbyChecklist = ({
     {
       text: 'Participant has passed internet speed test',
       test: () => {
-        const speedTest = usersById[lobby.participantId]?.internetSpeedTestResults
-        return speedTest && isSpeedTestPassing(usersById[lobby.participantId]?.internetSpeedTestResults)
+        const speedTest = membersById[lobby.participantId]?.internetSpeedTestResults
+        return speedTest && isSpeedTestPassing(membersById[lobby.participantId]?.internetSpeedTestResults)
       },
       required: false,
     },
     {
       text: 'Guide has passed internet speed test',
       test: () => {
-        const speedTest = usersById[lobby.guideId]?.internetSpeedTestResults
-        return speedTest && isSpeedTestPassing(usersById[lobby.guideId]?.internetSpeedTestResults)
+        const speedTest = membersById[lobby.guideId]?.internetSpeedTestResults
+        return speedTest && isSpeedTestPassing(membersById[lobby.guideId]?.internetSpeedTestResults)
       },
       required: false,
     },

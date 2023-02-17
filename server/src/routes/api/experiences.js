@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const experiences = await Experience.find().sort({ createdAt: 'desc' }).select('user metadata isRemoved').populate('user');
+    const experiences = await Experience.find().sort({ createdAt: 'desc' }).select('owner metadata isRemoved').populate('owner');
 
     res.json({
       experiences: experiences.map((m) => {
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const experience = await Experience.findById(req.params.id).populate('user');
+    const experience = await Experience.findById(req.params.id).populate('owner');
     if (!experience) return res.status(404).json({ message: 'No experience found.' });
     res.json({ experience: experience.toJSON() });
   } catch (err) {
@@ -39,10 +39,10 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let experience = await Experience.create({
       ...req.body,
-      user: req.body.userId,
+      owner: req.body.userId,
     });
 
-    experience = await experience.populate('user').execPopulate();
+    experience = await experience.populate('owner').execPopulate();
 
     res.status(200).json({ experience: experience.toJSON() });
   } catch (err) {
@@ -53,11 +53,11 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
-    const tempExperience = await Experience.findById(req.params.id).populate('user');
-    if (!(tempExperience.user.id === req.user.id || req.user.role === 'ADMIN'))
+    const tempExperience = await Experience.findById(req.params.id).populate('owner');
+    if (!(tempExperience.owner.id === req.user.id || req.user.role === 'ADMIN'))
       return res.status(400).json({ experience: 'Not the experience owner or admin.' });
 
-    const experience = await Experience.findByIdAndRemove(req.params.id).populate('user');
+    const experience = await Experience.findByIdAndRemove(req.params.id).populate('owner');
     if (!experience) return res.status(404).json({ message: 'No experience found.' });
     res.status(200).json({ experience });
   } catch (err) {
@@ -67,9 +67,9 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
 
 router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
-    const tempExperience = await Experience.findById(req.params.id).populate('user');
+    const tempExperience = await Experience.findById(req.params.id).populate('owner');
     if (!tempExperience) return res.status(404).json({ message: 'No experience found.' });
-    if (!(tempExperience.user.id === req.user.id || req.user.role === 'ADMIN'))
+    if (!(tempExperience.owner.id === req.user.id || req.user.role === 'ADMIN'))
       return res.status(400).json({ message: 'Not updated by the experience owner or admin.' });
 
     const updatedExperience = mergeDeep(tempExperience, req.body)

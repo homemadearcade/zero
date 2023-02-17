@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
 import { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing } from '../store/actions/cobrowsingActions';
-import CobrowsingErrorStates from '../game/cobrowsing/CobrowsingErrorStates/CobrowsingErrorStates';
+import CobrowsingErrorStates from '../experience/cobrowsing/CobrowsingErrorStates/CobrowsingErrorStates';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 class CobrowsingSession extends Component {

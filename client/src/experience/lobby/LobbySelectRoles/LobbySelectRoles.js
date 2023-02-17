@@ -8,7 +8,7 @@ import { editLobby } from '../../../store/actions/lobbyActions';
 import './LobbySelectRoles.scss';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import Typography from '../../../ui/Typography/Typography';
-import LobbyUsername from '../../LobbyMember/LobbyMember';
+import LobbyUsername from '../LobbyMember/LobbyMember';
 import Divider from '../../../ui/Divider/Divider';
 
 const LobbySelectRoles = ({
@@ -19,7 +19,7 @@ const LobbySelectRoles = ({
   return <>
       <Typography component="span" variant="subtitle1">Participant:</Typography>
       <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={lobby.participantId}></LobbyUsername>
-      {lobby.participantId && <SelectUsers userIds={lobby.users.map(({id}) => id)} label="Select Participant" onSelect={(users) => {
+      {lobby.participantId && <SelectUsers userIds={lobby.members.map(({id}) => id)} label="Select Participant" onSelect={(users) => {
         if(users[0]) {
           editLobby(lobby.id, {
             participantId: users[users.length - 1]
@@ -29,7 +29,7 @@ const LobbySelectRoles = ({
     <Divider></Divider>
       <Typography component="span" variant="subtitle1">Guide:</Typography>
       <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={lobby.guideId}></LobbyUsername>
-      {lobby.guideId && <SelectUsers userIds={lobby.users.map(({id}) => id)} label="Select Guide" onSelect={(users) => {
+      {lobby.guideId && <SelectUsers userIds={lobby.members.map(({id}) => id)} label="Select Guide" onSelect={(users) => {
         if(users[0]) {
           editLobby(lobby.id, {
             guideId: users[users.length - 1]

@@ -25,7 +25,7 @@ import {
 
 const initialState = {
   lobby: {
-    users: []
+    members: []
   },
   isLoading: false,
   error: null,
@@ -70,7 +70,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
         ...state,
         isJoining: false,
         isInsideLobby: true,
-        lobby: {...payload.lobby, users: payload.lobby.users.slice()}
+        lobby: {...payload.lobby, members: payload.lobby.members.slice()}
       };
     case LEAVE_LOBBY_SUCCESS:
     return {
@@ -83,7 +83,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLoading: false,
-        lobby: {...payload.lobby, users: payload.lobby.users.slice()}
+        lobby: {...payload.lobby, members: payload.lobby.members.slice()}
       };
     case DELETE_LOBBY_SUCCESS:
       return {
@@ -116,7 +116,7 @@ export default function lobbyReducer(state = initialState, { type, payload }) {
     case ON_LOBBY_UPDATE:
       return {
         ...state,
-        lobby: {...payload.lobby, users: payload.lobby.users.slice()}
+        lobby: {...payload.lobby, members: payload.lobby.members.slice()}
       };
     default:
       return state;

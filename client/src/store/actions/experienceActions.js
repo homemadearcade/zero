@@ -2,9 +2,9 @@ import axios from 'axios';
 
 import { attachTokenToHeaders } from './authActions';
 import {
-  GET_EXPERIENCES_LOADING,
-  GET_EXPERIENCES_SUCCESS,
-  GET_EXPERIENCES_FAIL,
+  GET_ACTIVITYS_LOADING,
+  GET_ACTIVITYS_SUCCESS,
+  GET_ACTIVITYS_FAIL,
   GET_EXPERIENCE_LOADING,
   GET_EXPERIENCE_SUCCESS,
   GET_EXPERIENCE_FAIL,
@@ -21,21 +21,21 @@ import {
 
 export const getInterfacePresets = () => async (dispatch, getState) => {
   dispatch({
-    type: GET_EXPERIENCES_LOADING,
+    type: GET_ACTIVITYS_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/experiences', options);
 
     dispatch({
-      type: GET_EXPERIENCES_SUCCESS,
+      type: GET_ACTIVITYS_SUCCESS,
       payload: { experiences: response.data.experiences },
     });
   } catch (err) {
     console.error(err)
 
     dispatch({
-      type: GET_EXPERIENCES_FAIL,
+      type: GET_ACTIVITYS_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }

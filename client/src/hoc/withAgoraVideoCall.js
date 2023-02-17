@@ -22,7 +22,7 @@ export default (ChildComponent) => {
         render={(props) => {
           if(isConnectingToVideoCall && !bypass) {
             return <>
-              <Loader text="Connecting your video to other users..."/>
+              <Loader text="Connecting your video to other members..."/>
             </>
           }
         

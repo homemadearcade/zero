@@ -1,7 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -15,8 +14,8 @@ import { editArcadeGame, getArcadeGames } from '../../../store/actions/arcadeGam
 import Button from '../../../ui/Button/Button';
 import { ADMIN_ROLE } from '../../../constants';
 
-const GameCard = ({width, game, game: { metadata }, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
-  const isEditor = me?.role === ADMIN_ROLE || me?.id === game.user?.id
+const GameCard = ({game, game: { metadata }, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
+  const isEditor = me?.role === ADMIN_ROLE || me?.id === game.owner?.id
 
   function renderPublishButton() {
     if(game.metadata.isPublished) {
@@ -77,7 +76,7 @@ const GameCard = ({width, game, game: { metadata }, canEdit, canRemove, canPlay,
         {metadata.title}
       </Typography>
       <Typography gutterBottom variant="subtitle2" component="div">
-        {'by ' + (metadata.author ? metadata.author : game.user?.username)}
+        {'by ' + (metadata.author ? metadata.author : game.owner?.username)}
       </Typography>
       <Typography variant="body2" color="text.secondary">
           {metadata.description}

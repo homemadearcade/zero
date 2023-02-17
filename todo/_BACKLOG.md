@@ -29,10 +29,40 @@ and also therefore, its inherited?? omg thats so dope! So like yeah create their
 
 Select class type 
 
-Stand alone drawing experience
+VIDEO CALL BLOCKING
+  End Call for everyone in lobby, End call for self
+  Mute and cut user video should be an object. I think theres both, admin muting someone in side a lobby. Kick out of experience, etc. Mute someone at an experience level. Also a user can mute someone if they dont like them
 
-This admin view ( specifically the instructions ) should change depending on if you are in a game session or not. I dont think the game session should be joined while you are in the lobby...it should be a seperate set of instructions. Experience Session Instructions. Game Session instructions, Drawing Session instructions
+BETTER NAVIGATION
+( Not Logged In )
+  Marketing
+( Loggged In )
+  Arcade
+  Public Game Rooms
+  Public Lobbys
+  Me
 
+User
+  InterfaceIds
+  SpeedTests
+  Games
+Creator
+  Classes
+  Roles
+  Experiences
+    Activities
+    Lobbys
+Events
+  Details
+  Calendar
+  Sold
+Admin
+  Users
+  Ticketing
+  Games
+  Lobbys
+  Game Rooms
+  
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -103,11 +133,6 @@ Outline Class ( for eraser and objectInstance, and camerapreview? )
 
 respawn on GameInstance -> spawn ( use this when initializting game too )
 
-Decide - what does default mean, what does initial mean?
-  Initial Data vs Default data...?
-  Initial Data initializes
-  Default data fallsback
-
 HostCanvas
 ClientCanvas
   CodrawingCanvas
@@ -117,11 +142,6 @@ DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
 Try to remove getState() and getCobrowsingState() inside of game... standardize this better
 
-ExperienceSession
-  Lobby
-  GameRoom
--> LOBBY IS ONE OF THE STATES OF EXPERIENCE SESSION :). So when you go to a game session you actually DO leave the lobby.
-
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -130,8 +150,6 @@ APP ORGANIZATION
 
 updateCobrowsing wrapper that only occurs when you use the target icon in the cobrowsing toolbar
 
-players vs participants vs users inside of a lobby. I think perhaps its 'invitedMembers' and 'invitedPlayers' and them 'members' and 'players'
-
 comebine withGame with GameRoomContext
 
 Interface Preset Update
@@ -139,30 +157,6 @@ Interface Preset Update
   Create a list component
 
 VALIDATION ON ALL FORMS
-
-game.user = game.owner
-
-Experience has Activitys
-  Activity has instructions
-  Activitys are type Drawing Activity, Game Activity, Chat Activity, or Video Activity, Lobby Door, AcitivityDoor 
-    VideoActivity can be Browse, Group, Monologue, Teams, Pair, Chat
-    ChatActivity is just a chat room no video
-    DrawingAcitivity is Codrwaing
-    GameAcitivity is GameRoom
-    DoorAcitivity (lobby or activity) is a way out of the Lobby that participants can self select, it must have one or more LobbyIds attached to it 
-Experience has Lobbyss
-  Lobbys has ActivityIds
-  Lobbys can be public, tickets only, invite only, or friends only
-  Lobbys has a VideoActivity by default ( if part of an experience )
-  Lobbys has an inviteList
-
-Experience example
-Homemade Arcade
-  1 Lobby
-    1 Video Activity
-    3 Game Activitys
-
-All the components called Experience now need to be called Activity
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

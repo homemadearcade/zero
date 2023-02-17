@@ -15,7 +15,6 @@ class MultiplayerGameRoomContext extends Component {
       return 
     } 
 
-
     this.joinMultiplayerGameRoom(gameRoomId)
   }
 

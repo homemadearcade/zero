@@ -40,21 +40,14 @@ const AgoraUserVideo = ({
     }
   }, [videoTrackComponentIds[userId]])
 
-  console.log('?')
   if(!videoTrackComponentIds[userId] || videoTrackComponentIds[userId] !== componentId) return <div className={className}></div>
-
-    console.log('??', isInsideVideoCall, inIframe())
 
   if(!isInsideVideoCall) {
     return <div className={className}></div>
   }
-
-   console.log('xx', myTracks, userTracks)
   if(!myTracks || !userTracks) {
     return <div style={{width, height}} className={className}/>
   }
-    console.log('????')
-
 
   const tracks = [...userTracks]
   if(myTracks) tracks.unshift({ uid: me.id, videoTrack: myTracks[1], audioTrack: myTracks[0] })

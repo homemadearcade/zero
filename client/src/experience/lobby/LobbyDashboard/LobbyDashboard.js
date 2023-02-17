@@ -4,12 +4,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LobbyDashboard.scss';
-import ExperienceInstructions from '../../ExperienceInstructions/ExperienceInstructions';
-import ExperiencePreview from '../../ExperiencePreview/ExperiencePreview';
+import ActivityInstructions from '../../activity/ActivityInstructions/ActivityInstructions';
+import ActivitySwitcher from '../../activity/ActivitySwitcher/ActivitySwitcher';
 import ChatRoom from '../../ChatRoom/ChatRoom';
 import Tabs from '../../../ui/Tabs/Tabs';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { MONOLOGUE_EXPERIENCE } from '../../../constants';
+import { MONOLOGUE_ACTIVITY } from '../../../constants';
 import LobbyOverview from '../LobbyOverview/LobbyOverview';
 
 const LobbyDashboard = ({
@@ -23,17 +23,17 @@ const LobbyDashboard = ({
       <div className="LobbyDashboard__content">
         <div className="LobbyDashboard__preview">
           <div className="LobbyDashboard__video-container">
-            {lobby.experienceState === MONOLOGUE_EXPERIENCE && <div className='LobbyDashboard__monologue-text'>
+            {lobby.experienceActivity === MONOLOGUE_ACTIVITY && <div className='LobbyDashboard__monologue-text'>
               {lobby.monologueText}
             </div>}
             <AgoraUserVideo className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}/>
           </div>
-          <ExperiencePreview userId={lobby.participantId}/>
+          <ActivitySwitcher userId={lobby.participantId}/>
         </div>
         <Tabs tabs={[
           {
             label: 'Instructions',
-            body: <ExperienceInstructions myTracks={myTracks} userTracks={userTracks}/>
+            body: <ActivityInstructions myTracks={myTracks} userTracks={userTracks}/>
           },
           {
             label: 'Chatlog',

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './ConstellationZoom.scss';
 import { Constellation } from '../Constellation/Constellation';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
-import { GAME_EDITOR_EXPERIENCE } from '../../../constants';
+import { GAME_EDITOR_ACTIVITY } from '../../../constants';
 import store from '../../../store';
 
 const ConstellationZoom = ({gameRoom: { gameRoom }}) => {
@@ -17,7 +17,7 @@ const ConstellationZoom = ({gameRoom: { gameRoom }}) => {
     async function attemptConstellation() {
       const state = store.getState()
 
-      if(state.lobby.lobby?.experienceState === GAME_EDITOR_EXPERIENCE && gameRoom.isPoweredOn) {
+      if(state.lobby.lobby?.experienceActivity === GAME_EDITOR_ACTIVITY && gameRoom.isPoweredOn) {
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
       

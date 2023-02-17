@@ -142,15 +142,9 @@ export const editGameRoom = (id, data) => async (dispatch, getState) => {
     type: EDIT_GAME_ROOM_LOADING,
   });
   try {
-
     if(id) {
       const options = attachTokenToHeaders(getState);
-
       const response = await axios.put(`/api/gameRoom/${id}`, data, options);
-      dispatch({
-        type: EDIT_GAME_ROOM_SUCCESS,
-        payload: { gameRoom: response.data.gameRoom },
-      });
     } else {
       dispatch({
         type: EDIT_GAME_ROOM_SUCCESS,
@@ -245,18 +239,19 @@ export const joinGameRoom = ({ gameRoomId, userId }) => async (dispatch, getStat
   try {
     const options = attachTokenToHeaders(getState);
 
-        // event is triggered to all users in this gameRoom when gameRoom is updated
+        // event is triggered to all members in this gameRoom when gameRoom is updated
     window.socket.on(ON_GAME_ROOM_UPDATE, ({gameRoom}) => {
       if(gameRoom.isPoweredOn === false && getState().errors.errorStates[PHASER_ERROR].on) {
         dispatch(clearErrorState(PHASER_ERROR))
       }
+      console.log('??')
       dispatch({
         type: ON_GAME_ROOM_UPDATE,
         payload: { gameRoom },
       });
     });
 
-    // event is triggered to all users in this gameRoom when gameRoom is updated
+    // event is triggered to all members in this gameRoom when gameRoom is updated
     window.socket.on(ON_GAME_ROOM_USER_STATUS_UPDATE, (payload) => {
       dispatch({
         type: ON_GAME_ROOM_USER_STATUS_UPDATE,

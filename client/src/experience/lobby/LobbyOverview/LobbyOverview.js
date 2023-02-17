@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './LobbyOverview.scss';
 import Typography from '../../../ui/Typography/Typography';
-import LobbyUsername from '../../LobbyMember/LobbyMember';
+import LobbyUsername from '../LobbyMember/LobbyMember';
 import LobbySelectRoles from '../LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
 
@@ -13,12 +13,12 @@ const LobbyOverview = ({
   lobby: { lobby },
   myTracks, userTracks,
 }) => {
-  // const usersById = lobby.users.reduce((prev, next) => {
+  // const membersById = lobby.members.reduce((prev, next) => {
   //   prev[next.id] = next
   //   return prev
   // }, {})
 
-  const otherUsers = lobby.users.filter((user) => {
+  const otherMembers = lobby.members.filter((user) => {
     if(user.id ===lobby.guideId || user.id === lobby.participantId) return null
     return true
   })
@@ -30,9 +30,9 @@ const LobbyOverview = ({
       <Divider></Divider>
       <LobbySelectRoles myTracks={myTracks} userTracks={userTracks}></LobbySelectRoles>
       <Divider></Divider>
-      {otherUsers.length > 0 && <div className="LobbyOverview__others">
+      {otherMembers.length > 0 && <div className="LobbyOverview__others">
         <Typography component="div" variant="subtitle1">Others:</Typography>
-        <div>{otherUsers.map((user) => {
+        <div>{otherMembers.map((user) => {
           return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={user.id}></LobbyUsername>
         })}</div>
       </div>}

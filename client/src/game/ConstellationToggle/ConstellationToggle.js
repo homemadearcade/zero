@@ -10,11 +10,11 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { updateLobbyUser } from '../../store/actions/lobbyActions';
 
 const ConstellationToggle = ({
-  lobby: { lobby: { id, users } },
+  lobby: { lobby: { id, members } },
   cobrowsing: { cobrowsingUser },
   updateLobbyUser
 }) => {
-  const user = users.filter(({id}) => {
+  const user = members.filter(({id}) => {
     if(cobrowsingUser?.id === id) {
       return true
     }
