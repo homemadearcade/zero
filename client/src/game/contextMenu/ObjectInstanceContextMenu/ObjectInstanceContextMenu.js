@@ -56,7 +56,7 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
           y: instance.sprite.y, 
           reclassId: instance.reclassId,
           destroyAfterUpdate: instance.destroyAfterUpdate,
-          id: instance.id,
+          instanceId: instance.instanceId,
           classId: instance.classId,
         }
 

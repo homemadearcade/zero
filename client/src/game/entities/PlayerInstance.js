@@ -10,8 +10,8 @@ import { PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
 import { nodeSize } from "../defaultData/general";
 
 export class PlayerInstance extends ObjectInstance {
-  constructor(scene, id, instanceData){
-    super(scene, id, instanceData)
+  constructor(scene, instanceId, instanceData){
+    super(scene, instanceId, instanceData)
 
     // this.particles = scene.add.particles('blue');
 
@@ -46,7 +46,7 @@ export class PlayerInstance extends ObjectInstance {
     const { classId } = instanceData
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
     if(!objectClass) {
-      console.error('no player class for id:' + classId)
+      console.error('no player class for classId:' + classId)
     }
 
     this.setDepth(PLAYGROUND_CANVAS_DEPTH + 2)

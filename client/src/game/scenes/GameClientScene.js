@@ -49,23 +49,24 @@ export class GameClientScene extends EditorScene {
     }
 
     objects.forEach((instanceUpdate) => {
-      const objectId = instanceUpdate.id
-      if(objectId === this.draggingObjectInstanceId) {
+      const instanceId = instanceUpdate.instanceId
+      if(instanceId === this.draggingObjectInstanceId) {
         return
       }
-      const objectInstance = this.objectInstancesById[instanceUpdate.id]
+      const objectInstance = this.objectInstancesById[instanceId]
       if(!objectInstance) {
         const modifiedClassData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, classId: instanceUpdate.classId }
-        this.addObjectInstance(instanceUpdate.id, modifiedClassData, true)
+        this.addObjectInstance(instanceId, modifiedClassData, true)
         return
       };
       this.updateObjectInstance(objectInstance, instanceUpdate)
     })
 
     projectiles.forEach((instanceUpdate) => {
-      const projectileInstance = this.projectileInstancesById[instanceUpdate.id]
+      const instanceId = instanceUpdate.instanceId
+      const projectileInstance = this.projectileInstancesById[instanceId]
       if(!projectileInstance) {
-        this.addProjectileInstance(instanceUpdate.id, instanceUpdate.classId)
+        this.addProjectileInstance(instanceId, instanceUpdate.classId)
         return
       };
       this.updateObjectInstance(projectileInstance, instanceUpdate)

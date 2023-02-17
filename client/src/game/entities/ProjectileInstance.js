@@ -4,8 +4,8 @@ import { VEHICLE_CONTROLS } from "../constants";
 import store from "../../store";
 
 export class ProjectileInstance extends ObjectInstance {
-  constructor(scene, id, instanceData){
-    super(scene, id, instanceData, true)
+  constructor(scene, instanceId, instanceData){
+    super(scene, instanceId, instanceData, true)
 
     const { classId } = instanceData
     const objectClass = store.getState().gameModel.gameModel.classes[classId]

@@ -10,25 +10,34 @@ import { layerToDisplayName } from '../constants';
 import Icon from '../../ui/Icon/Icon';
 import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
 
+// const INSTANCE_PREVIEW = 'INSTANCE_PREVIEW'
+// const CLASS_PREVIEW = 'CLASS_PREVIEW'
+// const COLOR_PREVIEW = 'COLOR_PREVIEW'
+// const BRUSH_PREVIEW = 'BRUSH_PREVIEW'
+
 const MousePreview = ({ 
   gameViewEditor: { 
     brushIdHovering, 
-    classIdHovering 
-  }, 
+    classIdHovering,
+    instanceIdHovering,
+    instanceClassIdHovering,
+  },
   gameSelector: {
     brushIdSelectedBrushList,
     classIdSelectedClassList
   },
   gameModel: { 
     gameModel: { 
-      classes, brushes, colors
-     }
+      classes,
+      brushes,
+      colors
     }
-  }) => {
+  }
+}) => {
 
-  let objectClass 
+  let objectClass
 
-  const classId = classIdSelectedClassList || classIdHovering
+  const classId = instanceClassIdHovering || classIdHovering || classIdSelectedClassList 
   if(classId) {
     objectClass = classes[classId]
   }
@@ -38,7 +47,7 @@ const MousePreview = ({
   let colorClass
   let isEraser;
 
-  const brushId = brushIdSelectedBrushList || brushIdHovering
+  const brushId = brushIdHovering || brushIdSelectedBrushList
   if(brushId) {
     brushClass = brushes[brushId]
     
@@ -52,10 +61,9 @@ const MousePreview = ({
 
   function renderStageTitle(title) {
     return <Typography variant="div" sx={{fontSize:'.8rem'}} font="2P">{title}</Typography>
-
   }
 
-  function renderStage({tint, textureId, title, spriteOverlay}){
+  function renderStage({tint, textureId, title, spriteOverlay}) {
     return <>
       <div className="MousePreview__stage">
         <div className="MousePreview__stage-item">
@@ -70,40 +78,65 @@ const MousePreview = ({
     </>
   }
 
-  function renderBody() {
-    if(isEraser) {
-        const layerName = layerToDisplayName[getCanvasIdFromEraserId(brushId)]
-       return <><div className="MousePreview__stage">
-          <div className="MousePreview__stage-item">
-            <Icon icon="faEraser"/>
-          </div>
+  function renderClassPreview() {
+    return renderStage({
+      tint: objectClass.graphics.tint,
+      textureId: objectClass.graphics.textureId,
+      title: objectClass.name
+    })   
+  }
+
+  function renderBrushPreview() {
+    return renderStage({
+      tint: brushClass.tint,
+      textureId: brushClass.textureId,
+      title: layerToDisplayName[brushClass.canvasId]
+    })
+  }
+
+  function renderColorPreview() {
+    const layerName = layerToDisplayName[getCanvasIdFromColorId(brushId)]
+    return renderStage({
+      tint: hex,
+      spriteOverlay: <ColorNameFit hex={hex}/>,
+      title:<>
+        {layerName && <>
+          <br/>{layerName}
+        </>}
+      </> 
+    })
+  }
+
+  function renderEraserPreview() {
+    const layerName = layerToDisplayName[getCanvasIdFromEraserId(brushId)]
+    return <><div className="MousePreview__stage">
+        <div className="MousePreview__stage-item">
+          <Icon icon="faEraser"/>
         </div>
-        {renderStageTitle(layerName)}
-      </>
-    }
-    if(objectClass) {
-       return renderStage({
-        tint: objectClass.graphics.tint,
-        textureId: objectClass.graphics.textureId,
-        title: objectClass.name
-      })   
-    } else if(brushClass) {
-      return renderStage({
-        tint: brushClass.tint,
-        textureId: brushClass.textureId,
-        title: layerToDisplayName[brushClass.canvasId]
-      })
-    } else if(colorClass) {
-      const layerName = layerToDisplayName[getCanvasIdFromColorId(brushId)]
-      return renderStage({
-        tint: hex,
-        spriteOverlay: <ColorNameFit hex={hex}/>,
-        title:<>
-          {layerName && <>
-            <br/>{layerName}
-          </>}
-        </> 
-      })
+      </div>
+      {renderStageTitle(layerName)}
+    </>
+  }
+
+  function renderBody() {
+
+    // hovering 
+    if(instanceClassIdHovering) {
+      return renderClassPreview()
+    } else if(classIdHovering) {
+      return renderClassPreview()
+    } else if(brushIdHovering) {
+      if(colorClass) return renderColorPreview()
+      return renderBrushPreview()
+    } 
+    
+    // selected
+    if(classIdSelectedClassList) {
+      return renderClassPreview()
+    } else if(brushIdSelectedBrushList) {
+      if(isEraser) return renderEraserPreview()
+      if(colorClass) return renderColorPreview()
+      return renderBrushPreview()
     }
   }
 

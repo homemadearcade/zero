@@ -33,7 +33,7 @@ const GameRoomOverview = ({
       <Divider></Divider>
       <Typography component="span" variant="subtitle1">Game Host:</Typography>
       <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={gameRoom.hostUserId}></LobbyUsername>
-      {gameRoom.hostUserId && <SelectUsers userIds={lobby.members.map(({id}) => id)} label="Select Host" onSelect={(users) => {
+      {<SelectUsers userIds={lobby.members.map(({id}) => id)} label="Select Host" onSelect={(users) => {
         if(users[0]) {
           editGameRoom(gameRoom.id, {
             hostUserId: users[users.length - 1],

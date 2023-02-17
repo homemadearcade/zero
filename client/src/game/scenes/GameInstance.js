@@ -63,7 +63,7 @@ export class GameInstance extends Phaser.Scene {
 
   getAllInstancesOfClassId(classId) {
     let instances = [...this.objectInstances]
-    if(classId === this.playerInstance?.id || classId === this.playerInstance?.classId) {
+    if(classId === this.playerInstance?.instanceId || classId === this.playerInstance?.classId) {
       instances.push(this.playerInstance)
     }
     instances = instances.filter((instance) => {
@@ -87,19 +87,19 @@ export class GameInstance extends Phaser.Scene {
    [this.playerInstance, ...this.objectInstances, ...this.projectileInstances].forEach((object) => {
       if(object.classId === classId) {
         fx(object)
-      } else if(object.id === classId) {
+      } else if(object.instanceId === classId) {
         //player class
         fx(object)
       }
     })
   }
 
-  getObjectInstance(id) {
-    if(id === PLAYER_INSTANCE_ID_PREFIX) {
+  getObjectInstance(instanceId) {
+    if(instanceId === PLAYER_INSTANCE_ID_PREFIX) {
       return this.playerInstance
     }
     
-    return this.objectInstancesById[id]
+    return this.objectInstancesById[instanceId]
   }
 
   getRandomPosition(x, y, w, h) {
@@ -158,35 +158,35 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstance = null
   }
 
-  initializeObjectInstance(id, gameObject, effectSpawned) {
-    const newPhaserObject = new ObjectInstance(this, id, gameObject, effectSpawned)
+  initializeObjectInstance(instanceId, gameObject, effectSpawned) {
+    const newPhaserObject = new ObjectInstance(this, instanceId, gameObject, effectSpawned)
     this.objectInstances.push(newPhaserObject)
-    this.objectInstancesById[id] = newPhaserObject
+    this.objectInstancesById[instanceId] = newPhaserObject
 
     return newPhaserObject
   }
 
-  addProjectileInstance(id, classId) {
-    const projectile = new ProjectileInstance(this, id, { classId })
+  addProjectileInstance(instanceId, classId) {
+    const projectile = new ProjectileInstance(this, instanceId, { classId })
     this.projectileInstances.push(projectile)
-    this.projectileInstancesById[id] = projectile
+    this.projectileInstancesById[instanceId] = projectile
     this.unregisterRelations()
     this.registerRelations()
     return projectile
   }
 
-  addObjectInstance(id, gameObject, effectSpawned) {
-    const instance = this.initializeObjectInstance(id, gameObject, effectSpawned)
+  addObjectInstance(instanceId, gameObject, effectSpawned) {
+    const instance = this.initializeObjectInstance(instanceId, gameObject, effectSpawned)
     this.unregisterRelations()
     this.registerRelations()
     return instance
   }
 
-  removeObjectInstance(id) {
+  removeObjectInstance(instanceId) {
     this.objectInstances = this.objectInstances.filter((object) => {
-      return id !== object.id
+      return instanceId !== object.instanceId
     })
-    this.getObjectInstance(id).destroy()
+    this.getObjectInstance(instanceId).destroy()
   }
 
   updateObjectInstance(objectInstance, {x, y, rotation, isVisible, destroyAfterUpdate, reclassId}) {

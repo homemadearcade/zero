@@ -44,15 +44,12 @@ export const changeInstanceHovering = (instanceId, classId) => (dispatch, getSta
     type: CHANGE_INSTANCE_HOVERING,
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
-    payload: {
-      instanceHover: {
-        instanceId,
-        classId
-      }
+    payload:  {
+      instanceId,
+      classId
     }
   });
 }
-
 
 export const changeBrushIdHovering = (brushId) => (dispatch, getState) => {
   dispatch({

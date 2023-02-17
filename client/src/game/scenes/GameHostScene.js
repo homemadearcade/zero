@@ -50,9 +50,9 @@ export class GameHostScene extends EditorScene {
       }
       const currentStageId = store.getState().gameModel.currentStageId
       if(this.stage.id !== currentStageId) return
-      const objects = this.objectInstances.map(({sprite: { id, x, y, rotation}, isVisible, destroyAfterUpdate, reclassId, classId}) => {
+      const objects = this.objectInstances.map(({sprite: { instanceId, x, y, rotation}, isVisible, destroyAfterUpdate, reclassId, classId}) => {
         return {
-          id,
+          instanceId,
           x,
           y,
           rotation,
@@ -63,9 +63,9 @@ export class GameHostScene extends EditorScene {
         }
       })
 
-      const projectiles = this.projectileInstances.map(({sprite: { id, x, y, rotation}, isVisible, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
+      const projectiles = this.projectileInstances.map(({sprite: { instanceId, x, y, rotation}, isVisible, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
         return {
-          id,
+          instanceId,
           x,
           y,
           rotation,

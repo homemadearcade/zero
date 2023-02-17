@@ -55,16 +55,16 @@ export class Collider {
     const effect = relation.effect 
     const event = relation.event
 
-    const isOnEnter = this.lastCollidingWith?.indexOf(instanceB?.id) === -1 // -> this would mean that instances couldnt do two effects.. && this.collidingWith?.indexOf(instanceB?.id) === -1
+    const isOnEnter = this.lastCollidingWith?.indexOf(instanceB?.instanceId) === -1 // -> this would mean that instances couldnt do two effects.. && this.collidingWith?.indexOf(instanceB?.instanceId) === -1
 
-    const alreadyCollidingWith = this.collidingWith.indexOf(instanceB?.id) >= 0
+    const alreadyCollidingWith = this.collidingWith.indexOf(instanceB?.instanceId) >= 0
     if(!alreadyCollidingWith) {
-      this.collidingWith.push(instanceB?.id)
+      this.collidingWith.push(instanceB?.instanceId)
     }
     
     if(event.type === ON_COLLIDE_ACTIVE) {
       // if(swapWhoRunsEffect) {
-      //   this.scene.getObjectInstance(instanceB.id).effects.runPersistentEffect(relation, this.objectInstance.sprite, sides)
+      //   this.scene.getObjectInstance(instanceB.instanceId).effects.runPersistentEffect(relation, this.objectInstance.sprite, sides)
       // } else {
         this.objectInstance.effects.runPersistentEffect(relation, instanceB, sides)
       // }
@@ -72,7 +72,7 @@ export class Collider {
 
     if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
       // if(swapWhoRunsEffect) {
-      //   this.scene.getObjectInstance(instanceB.id).runAccuteEffect(relation, this.objectInstance.sprite, sides)
+      //   this.scene.getObjectInstance(instanceB.instanceId).runAccuteEffect(relation, this.objectInstance.sprite, sides)
       // } else {
         this.objectInstance.runAccuteEffect(relation, instanceB, sides)
       // }

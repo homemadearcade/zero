@@ -204,7 +204,7 @@ export class Effects {
         if(isZoneClassId(this.objectInstance.classId)) {
           zone = this.objectInstance
         } else {
-          zone = this.scene.getObjectInstance(instanceSpriteB.id)
+          zone = this.scene.getObjectInstance(instanceSpriteB.instanceId)
         }
       }
       if(!zone) return console.log('no zone exists for that')
@@ -213,7 +213,7 @@ export class Effects {
       const objectClass = gameModel.classes[spawningClassId]
       spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
     } else if(effect.type === EFFECT_RECLASS) {
-      if(this.objectInstance.id === PLAYER_INSTANCE_ID_PREFIX) {
+      if(this.objectInstance.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
         this.objectInstance.reclassId = effect.classId
       } else {
         this.objectInstance.reclassId = effect.classId

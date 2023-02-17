@@ -8,7 +8,7 @@ import { Effects } from "./members/Effects";
 import { Movement } from "./members/Movement";
 
 export class ObjectInstance extends Sprite {
-  constructor(scene, id, {spawnX, spawnY, classId}, effectSpawned){
+  constructor(scene, instanceId, {spawnX, spawnY, classId}, effectSpawned){
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
@@ -19,12 +19,12 @@ export class ObjectInstance extends Sprite {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // STORE
-    this.id = id
+    this.instanceId = instanceId
     this.classId = classId
     this.scene = scene
     this.width = objectClass.graphics.width
     this.height = objectClass.graphics.height
-    this.sprite.id = id
+    this.sprite.instanceId = instanceId
     this.effectSpawned = effectSpawned
     this.sprite.classId = classId
     scene.objectInstanceGroup.add(this.sprite)
@@ -103,7 +103,7 @@ export class ObjectInstance extends Sprite {
       return gameModel.relations[relationId]
     }).filter(({event: { classIdA, classIdB, type }, effect}) => {
       if(effect.type === EFFECT_COLLIDE) return false
-      if(classIdB === PLAYER_INSTANCE_ID_PREFIX && this.id === PLAYER_INSTANCE_ID_PREFIX) return true
+      if(classIdB === PLAYER_INSTANCE_ID_PREFIX && this.instanceId === PLAYER_INSTANCE_ID_PREFIX) return true
       if(type === ON_INTERACT) {
         return classIdA === this.classId || classIdB === this.classId
       } else {
@@ -151,16 +151,16 @@ export class ObjectInstance extends Sprite {
     const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
 
     //issue because as soon as we destroy it, we lose acces to 'this'!
-    const id = this.id
+    const instanceId = this.instanceId
     setTimeout(() => { 
-      this.scene.addObjectInstance(id, modifiedClassData)
+      this.scene.addObjectInstance(instanceId, modifiedClassData)
     })
 
-    this.scene.removeObjectInstance(this.id)
+    this.scene.removeObjectInstance(this.instanceId)
   }
 
   destroyInGame() {
-    const instanceId = this.id
+    const instanceId = this.instanceId
     const classId = this.classId
     const gameModel = store.getState().gameModel.gameModel
 
