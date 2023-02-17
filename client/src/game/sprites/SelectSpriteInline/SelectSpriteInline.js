@@ -15,12 +15,13 @@ import Sprite from '../Sprite/Sprite';
 import Button from '../../../ui/Button/Button';
 import SpriteEditor from '../SpriteEditor/SpriteEditor';
 import { openSpriteEditor } from '../../../store/actions/gameSelectorActions';
-import { COMMON_COLOR_ID, SPRITE_EDITOR_CANVAS_ID } from '../../constants';
+import { NON_LAYER_COLOR_ID, SPRITE_EDITOR_CANVAS_ID } from '../../constants';
 import MySprites from '../MySprites/MySprites';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { CHOOSE_SPRITES_IID, DRAW_NEW_SPRITE_IID } from '../../../constants/interfaceIds';
 import { sortColorByLastSelectedDate } from '../../../utils/editorUtils';
+import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -66,13 +67,10 @@ const SelectSpriteInline = ({
       }}>
         Draw New Sprite
       </Button></Unlockable>
-
-      <ColorSelect
-        maxColors={50}
+      <AggregateColorSelect
         selectedColorHex={tintSelected} 
-        colors={Object.keys(colors).sort(sortColorByLastSelectedDate(colors, SPRITE_EDITOR_CANVAS_ID))} 
         onSelectColor={onSelectTint} 
-        onUnselectColor={onClearTint}
+        onClearColor={onClearTint}
         onAddColor={() => {
           openCreateColorFlow('SelectSpriteInline')
         }}
@@ -90,7 +88,7 @@ const SelectSpriteInline = ({
         editGameModel({
           colors: {
             [color.hex]: {
-              [COMMON_COLOR_ID]: Date.now()
+              [NON_LAYER_COLOR_ID]: Date.now()
             }
           }
         })

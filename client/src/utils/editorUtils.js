@@ -12,8 +12,8 @@ import {
   UI_CANVAS_ID,
   SPRITE_EDITOR_CANVAS_ID,
   SPRITE_EDITOR_CANVAS_DEPTH,
-  COMMON_BRUSH_ID,
-  COMMON_BRUSH_DEPTH,
+  NON_LAYER_BRUSH_ID,
+  NON_LAYER_BRUSH_DEPTH,
 } from "../game/constants";
 import { COLOR_BRUSH_ID } from "../game/constants";
 import Phaser from 'phaser'
@@ -120,7 +120,7 @@ export function getDepthFromCanvasId(canvasId) {
   if(canvasId === PLAYER_INSTANCE_CANVAS_ID) return PLAYER_INSTANCE_CANVAS_DEPTH
   if(canvasId === FOREGROUND_CANVAS_ID) return FOREGROUND_CANVAS_DEPTH
   if(canvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
-  if(canvasId === COMMON_BRUSH_ID) return COMMON_BRUSH_DEPTH
+  if(canvasId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
 }
 
 export const sortColorByLastSelectedDate = (colors, canvasId) => (a, b) => {
@@ -128,6 +128,8 @@ export const sortColorByLastSelectedDate = (colors, canvasId) => (a, b) => {
   const colorB = colors[b]
   if(!colorA) return -1 
   if(!colorB) return 1
+  if(!colorA[canvasId]) return 1
+  if(!colorB[canvasId]) return -1
   if(colorA[canvasId] < colorB[canvasId]) {
     return -1
   } else return 1

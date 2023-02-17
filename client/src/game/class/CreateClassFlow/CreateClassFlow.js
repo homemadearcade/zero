@@ -19,7 +19,7 @@ import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS, classTypeToPrefix, COMMON_COLOR_ID } from '../../constants';
+import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
 import { Alert } from '@mui/material';
 import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
 
@@ -89,7 +89,6 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
       </>}
       {objectClass.type === ZONE_CLASS && 
         <AggregateColorSelect
-          canvasId={COMMON_COLOR_ID}
           selectedColor={objectClass.graphics.tint}
           onSelectColor={(tint) => {
             updateCreateClass({ graphics: {

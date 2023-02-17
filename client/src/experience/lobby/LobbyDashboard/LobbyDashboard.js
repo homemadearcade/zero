@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './LobbyDashboard.scss';
 import ActivityInstructions from '../../activity/ActivityInstructions/ActivityInstructions';
 import ActivitySwitcher from '../../activity/ActivitySwitcher/ActivitySwitcher';
-import ChatRoom from '../../ChatRoom/ChatRoom';
+import Chatroom from '../../Chatroom/Chatroom';
 import Tabs from '../../../ui/Tabs/Tabs';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { MONOLOGUE_ACTIVITY } from '../../../constants';
@@ -17,7 +17,6 @@ const LobbyDashboard = ({
   myTracks,
   userTracks,
 }) => {
-  
   return (
     <div className="LobbyDashboard">
       <div className="LobbyDashboard__content">
@@ -38,7 +37,7 @@ const LobbyDashboard = ({
           {
             label: 'Chatlog',
             body: <div className="LobbyDashboard__chatroom">
-              <ChatRoom myTracks={myTracks} userTracks={userTracks} />
+              <Chatroom myTracks={myTracks} userTracks={userTracks} />
             </div>
           },
           {

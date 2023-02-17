@@ -155,7 +155,7 @@ const BrushList = ({
   return <div className="BrushList">
     <BrushControl/>
     <CobrowsingAccordianList
-      listId="BrushList"
+      listId="LeftColumn"
       accordians={accordians}
     />
   </div>

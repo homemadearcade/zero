@@ -25,7 +25,7 @@ import { defaultGameModel } from '../../game/defaultData/gameModel';
 import { defaultObjectInstance } from '../../game/defaultData/object';
 import { defaultClass } from '../../game/defaultData/class';
 import store from '..';
-import {  BRUSH_ID_PREFIX, COMMON_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
+import {  BRUSH_ID_PREFIX, NON_LAYER_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { defaultStage } from '../../game/defaultData/stage';
 
@@ -121,7 +121,7 @@ function onArcadeGameModelUpdate(gameUpdate) {
     
     if(objectClass.graphics.textureId) {
       gameData.brushes[BRUSH_ID_PREFIX + objectClass.classId] = {
-        canvasId: COMMON_BRUSH_ID,
+        canvasId: NON_LAYER_BRUSH_ID,
         textureId: objectClass.graphics.textureId,
         tint: objectClass.graphics.tint
       }
@@ -228,7 +228,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
       
       if(objectClass.graphics.textureId) {
         gameData.brushes[BRUSH_ID_PREFIX + objectClass.classId] = {
-          canvasId: COMMON_BRUSH_ID,
+          canvasId: NON_LAYER_BRUSH_ID,
           textureId: objectClass.graphics.textureId,
           tint: objectClass.graphics.tint
         }

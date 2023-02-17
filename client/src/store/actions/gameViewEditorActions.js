@@ -11,6 +11,8 @@ import {
   OPEN_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
   CHANGE_CLASS_ID_HOVERING,
+  CHANGE_BRUSH_ID_HOVERING,
+  CHANGE_INSTANCE_HOVERING,
   // UNDO_INSTANCE_CHANGE_FAIL,
   // UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../types';
@@ -29,8 +31,36 @@ export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
 export const changeClassIdHovering = (classId) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_CLASS_ID_HOVERING,
+    updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
     payload: {
       classId
+    }
+  });
+}
+
+export const changeInstanceHovering = (instanceId, classId) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_INSTANCE_HOVERING,
+    updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
+    payload: {
+      instanceHover: {
+        instanceId,
+        classId
+      }
+    }
+  });
+}
+
+
+export const changeBrushIdHovering = (brushId) => (dispatch, getState) => {
+  dispatch({
+    type: CHANGE_BRUSH_ID_HOVERING,
+    updateCobrowsing: true,
+    cobrowsingPublisherOnly: true,
+    payload: {
+      brushId
     }
   });
 }

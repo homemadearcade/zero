@@ -6,14 +6,15 @@ import { connect } from 'react-redux';
 import './ColorSelect.scss';
 import Button from '../../../ui/Button/Button';
 import _ from 'lodash';
-import classNames from 'classnames';
 import Icon from '../../../ui/Icon/Icon';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ADD_COLOR_IID, getColorSelectFromCanvasId } from '../../../constants/interfaceIds';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
-import { COMMON_COLOR_ID } from '../../constants';
+import { COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
+import { changeBrushIdHovering } from '../../../store/actions/gameViewEditorActions';
+import { updateBrushLastUsedDate } from '../../../store/actions/gameSelectorActions';
 
 const ColorSelect = ({
   colors = [],
@@ -24,6 +25,8 @@ const ColorSelect = ({
   maxColors,
   canvasId,
   withEraser,
+  changeBrushIdHovering,
+  updateBrushLastUsedDate
 }) => {
 
   const defaultColors = [
@@ -31,28 +34,40 @@ const ColorSelect = ({
   ]
 
   const border = '1px solid ' + getThemePrimaryColor().hexString
-  function ColorItem({width, height, hex}) {
+  function ColorItem({width, height, hex, onClick}) {
+    const [isHoveringHex, setIsHoveringHex] = useState()
+
     const isSelected = selectedColorHex === hex
     const isHovering = isHoveringHex === hex
+    const brushId = COLOR_BRUSH_ID + '/' + canvasId + '/' + hex
+
+    function handleClick(e) {
+      if(onClick) onClick(e)
+      if(isSelected) {
+        if(onUnselectColor) {
+          onUnselectColor(hex)
+        }
+      } else {
+        if(canvasId) {
+          updateBrushLastUsedDate(brushId)
+        }
+        onSelectColor(hex)
+      }
+    }
 
     return <div 
-      onClick={() => {
-        if(isSelected) {
-          if(onUnselectColor) onUnselectColor(hex)
-        } else {
-          onSelectColor(hex)
-        }
-      }} 
+      onMouseDown={handleClick} 
       onMouseEnter={() => {
         setIsHoveringHex(hex)
+        changeBrushIdHovering(brushId)
       }}
       onMouseLeave={() => {
         setIsHoveringHex(null)
+        changeBrushIdHovering(null)
       }}
-      key={hex} 
-      className={classNames("ColorSelect__color")} 
+      className={"ColorSelect__color"} 
       style={{
-        backgroundColor: hex, width: width? width: null, height: height? height: null.ADD_COLOR_IID,
+        backgroundColor: hex, width: width? width: null, height: height? height: null,
         border: isSelected ? border : null,
       }}>
         {isSelected && isHovering && <Icon className="ColorSelect__color_unselect" icon="faClose"/>}
@@ -60,20 +75,18 @@ const ColorSelect = ({
   }
 
   const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors]).slice(0, maxColors)
-  const [isHoveringHex, setIsHoveringHex] = useState()
-
   const items = suggestedColors.map((hex) => {
 
-    const el = <ColorItem hex={hex}></ColorItem>
+    const el = <ColorItem key={hex} hex={hex}></ColorItem>
 
-    if(canvasId && canvasId !== COMMON_COLOR_ID) {
+    if(canvasId !== NON_LAYER_COLOR_ID) {
       return <Unlockable interfaceId={getColorSelectFromCanvasId(canvasId)}>
         {el}
       </Unlockable>
     }
 
     return el
-  }).slice(0, maxColors)
+  }).slice(0, maxColors - 1)
 
   items.push(<Unlockable isTiny interfaceId={ADD_COLOR_IID}><Button size="fit" onClick={onAddColor}>
     +
@@ -97,5 +110,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { }),
+  connect(mapStateToProps, { changeBrushIdHovering, updateBrushLastUsedDate }),
 )(ColorSelect);

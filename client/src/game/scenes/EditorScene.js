@@ -5,7 +5,7 @@ import { addAwsImage, editGameModel } from '../../store/actions/gameModelActions
 import { openContextMenuFromGameObject, openStageContextMenu } from '../../store/actions/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
-import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
+import { closeSnapshotTaker, changeEditorCameraZoom, changeInstanceHovering } from '../../store/actions/gameViewEditorActions';
 import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
@@ -275,7 +275,14 @@ export class EditorScene extends GameInstance {
     if(isObscured || this.brush || this.stamper || this.snapshotSquare) {
       return
     }
-    entitySprite[0].isHoveringOver = true
+
+    const instanceIdHovering = getCobrowsingState().gameViewEditor.instanceIdHovering
+    const sprite = entitySprite[0]
+    if(sprite.instanceId !== instanceIdHovering) {
+      store.dispatch(changeInstanceHovering(sprite.id, sprite.classId))
+    }
+
+    sprite.isHoveringOver = true
     if(entitySprite.effectSpawned) return
     if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
@@ -482,7 +489,8 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, entitySprite) => {
-    entitySprite[0].isHoveringOver = false
+    const sprite = entitySprite[0]
+    sprite.isHoveringOver = false
     const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     if(isObscured) {
       return

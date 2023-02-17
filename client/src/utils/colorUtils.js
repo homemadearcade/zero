@@ -1,7 +1,7 @@
 import nearestColor from 'nearest-color';
 import colorNameList from 'color-name-list';
 import colorNames from './colorNames.json'
-import { splitIntoSubarrays } from './arrays';
+import { splitIntoSubarrays } from './arrayUtils';
 // nearestColor need objects {name => hex} as input
 function swapKeysAndValues(obj) {
   // 👇️ [['color', 'blue'], ['fruit', 'apple']]

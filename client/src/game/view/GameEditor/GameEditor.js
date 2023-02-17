@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
-import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import { clearEditor, closeJsonViewer } from '../../../store/actions/gameSelectorActions';
 import { clearGameFormEditor } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -33,11 +32,10 @@ import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
-import Icon from '../../../ui/Icon/Icon';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
-import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
-import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
 import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
+import SideEditor from '../../instantEditor/SideEditor/SideEditor';
+import MousePreview from '../../MousePreview/MousePreview';
 
 const GameEditor = ({ 
   classNames, 
@@ -86,7 +84,7 @@ const GameEditor = ({
         {leftColumn}
         {showColumns && <>
           <GridToggle/>
-          {gameModel && <BrushList/>}
+          {gameModel && <SideEditor></SideEditor>}
         </>}
       </div>
       {children}
@@ -98,11 +96,12 @@ const GameEditor = ({
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
-          <ClassList/>
+            <MousePreview></MousePreview>
+            <BrushList/>
+            <ClassList/>
         </>}
       </div>
       {isClassBoxModalOpen && <ClassBoxModal/>}
-      {liveEditingCategory && <LiveEditor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
       {classIdEditingName && <ClassNameModal/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}

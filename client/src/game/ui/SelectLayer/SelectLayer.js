@@ -4,13 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectLayer.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
-
-const layerToDisplayName = {
-  [BACKGROUND_CANVAS_ID]: 'Background',
-  [PLAYGROUND_CANVAS_ID]: 'Playground',
-  [FOREGROUND_CANVAS_ID]: 'Foreground',
-}
+import { BACKGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, layerToDisplayName, PLAYGROUND_CANVAS_ID } from '../../constants';
 
 const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
   const mapControlsToOption = (layerId) => {

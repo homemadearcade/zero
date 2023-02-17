@@ -23,6 +23,10 @@ export class CodrawingScene extends Phaser.Scene {
     this.size = size
     this.tint = tint
 
+    this.gameRoom = {
+      isNetworked: true
+    }
+
     if(textureId) {
       this.textureId = textureId
       const { spriteIndex, spriteSheetName } = getTextureMetadata(this.textureId)
@@ -176,7 +180,6 @@ export class CodrawingScene extends Phaser.Scene {
     const textureIds = [this.textureId]
     Object.keys(brushes).forEach((brushId) => {
       const brush = brushes[brushId]
-      console.log(brush, brushId)
       if(brush.textureId) {
         textureIds.push(brush.textureId)
       }

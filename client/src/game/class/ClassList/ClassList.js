@@ -178,7 +178,7 @@ const ClassList = ({
       <BorderedGrid
         maxItems={CLASS_MAX} 
         height="7vh"
-        width="9.2vh"
+        width="8.3vh"
         items={playerClasses}
       />
       <div className="ClassList__tools">
@@ -199,7 +199,7 @@ const ClassList = ({
       <BorderedGrid
       maxItems={CLASS_MAX} 
       height="7vh"
-      width="9.2vh"
+        width="8.3vh"
       items={npcClasses}
       />
       <div className="ClassList__tools">
@@ -220,7 +220,7 @@ const ClassList = ({
       <BorderedGrid
         maxItems={CLASS_MAX} 
         height="7vh"
-        width="9.2vh"
+        width="8.3vh"
         items={basicClasses}
       />
       <div className="ClassList__tools">
@@ -241,7 +241,7 @@ const ClassList = ({
       <BorderedGrid
         maxItems={CLASS_MAX} 
         height="7vh"
-        width="9.2vh"
+        width="8.3vh"
         items={zoneClasses}
       />
       <div className="ClassList__tools">
@@ -260,14 +260,14 @@ const ClassList = ({
     body: <BorderedGrid
       maxItems={CLASS_MAX} 
       height="7vh"
-      width="9.2vh"
+      width="8.3vh"
       items={dialogueScenes}
     />
   })
 
   return <div className="ClassList">
     <CobrowsingAccordianList
-      listId="ClassList"
+      listId="LeftColumn"
       accordians={accordians}
     />
     {isCreateClassFlowOpen && <CreateClassFlow 

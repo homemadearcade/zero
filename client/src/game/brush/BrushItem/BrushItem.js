@@ -11,14 +11,15 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Sprite from '../../sprites/Sprite/Sprite';
 import Icon from '../../../ui/Icon/Icon';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
-
+import { changeBrushIdHovering } from '../../../store/actions/gameViewEditorActions';
 const BrushItem = ({
   gameModel: { gameModel: { brushes } },
   brushId,
   gameSelector: { brushIdSelectedBrushList },
   selectBrush,
   clearBrush,
-  width, height
+  width, height,
+  changeBrushIdHovering,
 }) => {
   const [isHovering, setIsHovering] = useState(false)
   const brush = brushes[brushId]
@@ -37,9 +38,11 @@ const BrushItem = ({
       }}
       onMouseEnter={() => {
         setIsHovering(true)
+        changeBrushIdHovering(brushId)
       }}
       onMouseLeave={() => {
         setIsHovering(false)
+        changeBrushIdHovering(null)
       }}
       className="BrushItem"
     >
@@ -56,5 +59,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, selectBrush, clearBrush }),
+  connect(mapStateToProps, { openContextMenuFromClassId, selectBrush, clearBrush, changeBrushIdHovering }),
 )(BrushItem);

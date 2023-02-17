@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Phaser from 'phaser';
 
 import './SpriteEditor.scss';
-import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID } from '../../constants';
+import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
@@ -64,15 +64,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
   }, []);
 
   function onSelectColor(hex) {
-    editGameModel({
-      colors: {
-        [hex]: {
-          [SPRITE_EDITOR_CANVAS_ID]: Date.now()
-        }
-      }
-    })
-
-    selectBrush(COLOR_BRUSH_ID + '/' + SPRITE_EDITOR_CANVAS_ID + '/' + hex, SPRITE_EDITOR_CANVAS_ID)
+    selectBrush(COLOR_BRUSH_ID + '/' + SPRITE_EDITOR_CANVAS_ID + '/' + hex)
   }
 
   function onUnselectColor() {

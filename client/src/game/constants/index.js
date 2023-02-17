@@ -215,13 +215,19 @@ export const BASIC_CLASS_TYPE_PREFIX = 'o-'
 export const NPC_CLASS_TYPE_PREFIX = 'n-'
 export const ZONE_CLASS_TYPE_PREFIX = 'z-'
 
-export const COMMON_COLOR_ID = 'COMMON_COLOR';
-export const COMMON_BRUSH_ID = 'COMMON_BRUSH'
-export const COMMON_BRUSH_DEPTH = 71
+export const NON_LAYER_COLOR_ID = 'NON_LAYER_COLOR_ID';
+export const NON_LAYER_BRUSH_ID = 'NON_LAYER_BRUSH_ID'
+export const NON_LAYER_BRUSH_DEPTH = 71
 
 export const classTypeToPrefix = {
   [ZONE_CLASS]: ZONE_CLASS_TYPE_PREFIX,
   [PLAYER_CLASS]: PLAYER_CLASS_TYPE_PREFIX,
   [BASIC_CLASS]: BASIC_CLASS_TYPE_PREFIX,
   [NPC_CLASS]: NPC_CLASS_TYPE_PREFIX
+}
+
+export const layerToDisplayName = {
+  [BACKGROUND_CANVAS_ID]: 'Background',
+  [PLAYGROUND_CANVAS_ID]: 'Playground',
+  [FOREGROUND_CANVAS_ID]: 'Foreground',
 }

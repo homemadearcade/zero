@@ -1,0 +1,22 @@
+.SideEditor {
+  overflow-y: scroll;
+  // background-color: rgba(34,34,34, 0.6);
+  padding: 1rem;
+  min-height: 30vh;
+  width: calc(100% - 2rem);
+  position: relative;
+  padding-top: 2rem;
+
+  .ClassMemberTitle {
+    flex-direction: column;
+  }
+
+  &__close {
+    position:absolute;
+    right: 0; 
+    top: 0;
+  }
+  &__title {
+    margin-right: 1vh;
+  }
+}

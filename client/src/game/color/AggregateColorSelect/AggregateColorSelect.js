@@ -10,7 +10,7 @@ import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { getHexFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
-import { COMMON_COLOR_ID } from '../../constants';
+import { NON_LAYER_COLOR_ID } from '../../constants';
 
 const AggregateColorSelect = ({
   gameModel: { gameModel : { colors }},
@@ -38,16 +38,16 @@ const AggregateColorSelect = ({
     }
 
     return <ColorSelect 
-      canvasId={canvasId}
+      canvasId={canvasId || NON_LAYER_COLOR_ID}
       maxColors={50}
       selectedColorHex={selectedColorHex || selectedColor} 
-      colors={aggregateColors.sort(sortColorByLastSelectedDate(colors, COMMON_COLOR_ID))} 
+      colors={aggregateColors.sort(sortColorByLastSelectedDate(colors, NON_LAYER_COLOR_ID))} 
       onSelectColor={onSelectColor} 
       onUnselectColor={onUnselectColor}
       onAddColor={onAddColor}
     />
   }
-
+  
   return <>
     {renderColorSelect()}
     {isCreateColorFlowOpen === ('AggregateColorSelect' + canvasId) && <CreateColorFlow
@@ -55,7 +55,7 @@ const AggregateColorSelect = ({
         editGameModel({
           colors: {
             [color.hex]: {
-              [COMMON_COLOR_ID]: Date.now()
+              [NON_LAYER_COLOR_ID]: Date.now()
             }
           }
         })

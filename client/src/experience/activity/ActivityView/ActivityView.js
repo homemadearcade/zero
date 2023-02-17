@@ -8,7 +8,7 @@ import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_EDITOR_ACTIVITY, MONOLOGUE_AC
 import CobrowsingGame from '../../cobrowsing/CobrowsingGame/CobrowsingGame';
 import Typography from '../../../ui/Typography/Typography';
 import GameViewObscured from '../../../game/view/GameViewObscured/GameViewObscured';
-import ChatRoom from '../../ChatRoom/ChatRoom';
+import Chatroom from '../../Chatroom/Chatroom';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import './ActivityView.scss'
 import GameCard from '../../../app/arcadeGame/GameCard/GameCard';
@@ -45,7 +45,7 @@ const ActivityView = ({
     }
 
     if(currentActivity === CHATROOM_ACTIVITY) {
-      return <Container><ChatRoom hideAutomated></ChatRoom></Container>
+      return <Container><Chatroom hideAutomated></Chatroom></Container>
     }
 
     if(currentActivity === CREDITS_ACTIVITY) {

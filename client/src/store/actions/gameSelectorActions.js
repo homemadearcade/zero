@@ -72,11 +72,7 @@ export const clearClass = (classId) => (dispatch, getState) => {
   });
 }
 
-export const selectBrush = (brushId, layerId) => (dispatch, getState) => {
-  if(!getCobrowsingState().gameViewEditor.layerVisibility[layerId]) {
-    dispatch(toggleLayerVisibility(layerId))
-  }
-
+export const updateBrushLastUsedDate = (brushId) => (dispatch, getState) => {
   if(isBrushIdColor(brushId)) {
     dispatch(editGameModel({
       colors: {
@@ -89,15 +85,19 @@ export const selectBrush = (brushId, layerId) => (dispatch, getState) => {
     // nothing, always in the same place
   } else {
     dispatch(editGameModel({
-      colors: {
+      brushes: {
         [brushId]: {
           lastSelectedDate: Date.now()
         }
       }
     }))
   }
+}
 
-
+export const selectBrush = (brushId, layerId) => (dispatch, getState) => {
+  if(layerId && !getCobrowsingState().gameViewEditor.layerVisibility[layerId]) {
+    dispatch(toggleLayerVisibility(layerId))
+  }
 
   dispatch({
     updateCobrowsing: true,
