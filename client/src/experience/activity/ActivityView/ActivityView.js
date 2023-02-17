@@ -18,7 +18,7 @@ import { Container } from '@mui/system';
 import ConstellationZoom from '../../../marketing/homemadeArcade/ConstellationZoom/ConstellationZoom';
 
 const ActivityView = ({
-  lobby: { lobby: { members, experienceActivity, guideId, editingGameId }, lobby },
+  lobby: { lobby: { members, currentActivity, guideId, editingGameId }, lobby },
   gameRoom: { gameRoom },
   myTracks,
   userTracks,
@@ -32,23 +32,23 @@ const ActivityView = ({
   })[0]
 
   function renderExperience() {
-    if(experienceActivity === WAITING_ACTIVITY) {
+    if(currentActivity === WAITING_ACTIVITY) {
       return <Container><div className="LobbyWaiting">
         <Typography variant="h4">Your experience will start shortly. For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
       </div></Container>
     }
 
-    if(experienceActivity === GAME_EDITOR_ACTIVITY) {
+    if(currentActivity === GAME_EDITOR_ACTIVITY) {
       return <CobrowsingGame gameId={gameRoom.gameId} myTracks={myTracks} userTracks={userTracks}>
         <GameViewObscured/>
       </CobrowsingGame>
     }
 
-    if(experienceActivity === CHATROOM_ACTIVITY) {
+    if(currentActivity === CHATROOM_ACTIVITY) {
       return <Container><ChatRoom hideAutomated></ChatRoom></Container>
     }
 
-    if(experienceActivity === CREDITS_ACTIVITY) {
+    if(currentActivity === CREDITS_ACTIVITY) {
       return <div className="CreditsExperience"><ConstellationHero>
           <br></br>
           <br></br>
@@ -72,7 +72,7 @@ const ActivityView = ({
       </div>
     }
 
-    if(experienceActivity === MONOLOGUE_ACTIVITY) {
+    if(currentActivity === MONOLOGUE_ACTIVITY) {
       return <div className="MonologueExperience">
         <AgoraUserVideo
           hideOverlay

@@ -22,6 +22,8 @@ UI system for changing ui based on ArcadeGame vs Simulation VS PapaBearGame...
 
 TOUCHUPS 
 
+Game Card without game loaded
+
 Aggregate Color menu for brushes when you’ve added like 1 color already
 
 Create Class Modal -> Edit Name Modal instead of having edit name inside of Create Class

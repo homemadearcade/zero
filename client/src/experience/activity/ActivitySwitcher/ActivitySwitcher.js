@@ -33,10 +33,10 @@ const ActivitySwitcher = ({
       </div>
       <div className="ActivitySwitcher__state">
         <SelectActivity 
-          value={[lobby.experienceActivity]}
-          onChange={(event, experienceActivity) => {
+          value={[lobby.currentActivity]}
+          onChange={(event, currentActivity) => {
             editLobby(lobby.id, {
-              experienceActivity: experienceActivity
+              currentActivity: currentActivity
             })       
           }}/>
       </div>

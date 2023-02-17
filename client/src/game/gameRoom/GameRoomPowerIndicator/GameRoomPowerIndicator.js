@@ -15,18 +15,18 @@ const GameRoomPowerIndicator = ({
 }) => {
   return <div
     className="GameRoomPowerIndicator"
-    onClick={() => {
-      if(!gameRoom.gameId) return
-      editGameRoom(gameRoom.id, {
-        isPoweredOn: !isPoweredOn,
-      })
-    }}
   > 
     <Icon icon="faPowerOff"/>
     <Switch
       disabled={!gameId}
       size="small"
       checked={isPoweredOn}
+      onChange={() => {
+        if(!gameRoom.gameId) return
+        editGameRoom(gameRoom.id, {
+          isPoweredOn: !isPoweredOn,
+        })
+      }}
     />
   </div>
 };

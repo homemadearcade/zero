@@ -72,13 +72,13 @@ const GameEditor = ({
   const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
 
   function renderBody() {
-    if(!gameModel && !isLoading) {
-      return <GameViewEmpty>
-        <Icon icon="faCircleQuestion"></Icon>
-        No Game Loaded
-        <GameLoadButton></GameLoadButton>
-      </GameViewEmpty>
-    }
+    // if(!gameModel && !isLoading) {
+    //   return <GameViewEmpty>
+    //     <Icon icon="faCircleQuestion"></Icon>
+    //     No Game Loaded
+    //     <GameLoadButton></GameLoadButton>
+    //   </GameViewEmpty>
+    // }
 
     return <>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
@@ -122,7 +122,7 @@ const GameEditor = ({
               editGameModel({
                 colors: {
                   [brush.tint]: {
-                    [brush.canvasId]: true
+                    [brush.canvasId]: Date.now()
                   }
                 }
               })

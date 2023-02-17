@@ -39,7 +39,7 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
       invitedUsers: data.invitedUsers,
       isNetworked: true,
       isEdit: true,
-      gameId: game.id,
+      gameId: null,
       hostUserId: data.invitedUsers
     });
     const gameRoom = gameRoomResponse.data.gameRoom

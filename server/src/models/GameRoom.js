@@ -22,7 +22,7 @@ const gameRoomSchema = new Schema(
     },
     gameId: {
       type: String,
-      required: true,
+      required: false,
     },
     hostUserId: {
       type: String,

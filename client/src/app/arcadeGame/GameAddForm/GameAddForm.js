@@ -62,7 +62,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
             name={"userId"}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <SelectUsers onChange={(users) => {
+              <SelectUsers onSelect={(users) => {
                 onChange(users[users.length-1])
               }} usersSelected={value ? [value] : []} label={"User ( game owner )"} />
             )}

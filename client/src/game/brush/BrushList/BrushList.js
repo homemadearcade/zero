@@ -17,6 +17,7 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ADD_BRUSH_IID, BACKGROUND_CANVAS_CONTAINER_IID, FOREGROUND_CANVAS_CONTAINER_IID, getBrushSelectFromCanvasId, PLAYGROUND_CANVAS_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { sortByLastSelectedDate } from '../../../utils/editorUtils';
 
 const BrushList = ({
   gameModel: { gameModel },
@@ -43,9 +44,10 @@ const BrushList = ({
     return prev
   }, {})
 
-  const bgBrushes = brushesByLayer[BACKGROUND_CANVAS_ID]?.map(
-    renderBrushItem(BACKGROUND_CANVAS_ID)
-  ).slice(0, 14) || []
+  const bgBrushes = brushesByLayer[BACKGROUND_CANVAS_ID]?.
+    sort(sortByLastSelectedDate(brushesByLayer[BACKGROUND_CANVAS_ID])).
+    map(renderBrushItem(BACKGROUND_CANVAS_ID)).
+    slice(0, 14) || []
   
   bgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
     <Button size="fit" onClick={() => {
@@ -55,9 +57,10 @@ const BrushList = ({
     </Button>
   </Unlockable>)
 
-  const pgBrushes = brushesByLayer[PLAYGROUND_CANVAS_ID]?.map(
-    renderBrushItem(PLAYGROUND_CANVAS_ID)
-  ).slice(0, 14) || []
+  const pgBrushes = brushesByLayer[PLAYGROUND_CANVAS_ID]?.
+    sort(sortByLastSelectedDate(brushesByLayer[PLAYGROUND_CANVAS_ID])).
+    map(renderBrushItem(PLAYGROUND_CANVAS_ID)).
+    slice(0, 14) || []
 
   pgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
     <Button size="fit" onClick={() => {
@@ -67,9 +70,10 @@ const BrushList = ({
     </Button>
   </Unlockable>)
 
-  const fgBrushes = brushesByLayer[FOREGROUND_CANVAS_ID]?.map(
-    renderBrushItem(FOREGROUND_CANVAS_ID)
-  ).slice(0, 14) || []
+  const fgBrushes = brushesByLayer[FOREGROUND_CANVAS_ID]?.
+    sort(sortByLastSelectedDate(brushesByLayer[FOREGROUND_CANVAS_ID])).
+    map(renderBrushItem(FOREGROUND_CANVAS_ID)).
+    slice(0, 14) || []
 
   fgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
     <Button size="fit" onClick={() => {

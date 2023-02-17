@@ -1,5 +1,6 @@
 import { SPRITE_EDITOR_ID_PREFIX } from '../../game/constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
+import { getCanvasIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { 
   CLOSE_LIVE_EDITOR,
@@ -29,10 +30,19 @@ import {
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
+import { editGameModel } from './gameModelActions';
 import { toggleLayerVisibility } from './gameViewEditorActions';
 
 export const selectClass = (classId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
+
+  dispatch(editGameModel({
+    classes: {
+      [classId]: {
+        lastSelectedDate: Date.now()
+      }
+    }
+  }))
 
   dispatch({
     updateCobrowsing: true,
@@ -64,6 +74,28 @@ export const selectBrush = (brushId, layerId) => (dispatch, getState) => {
   if(!getCobrowsingState().gameViewEditor.layerVisibility[layerId]) {
     dispatch(toggleLayerVisibility(layerId))
   }
+
+  if(isBrushIdColor(brushId)) {
+    dispatch(editGameModel({
+      colors: {
+        [getHexFromColorId(brushId)]: {
+          [getCanvasIdFromColorId(brushId)]: Date.now()
+        }
+      }
+    }))
+  } else if(isBrushIdEraser(brushId)) {
+    // nothing, always in the same place
+  } else {
+    dispatch(editGameModel({
+      colors: {
+        [brushId]: {
+          lastSelectedDate: Date.now()
+        }
+      }
+    }))
+  }
+
+
 
   dispatch({
     updateCobrowsing: true,

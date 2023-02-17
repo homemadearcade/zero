@@ -11,7 +11,7 @@ import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, selectBrush } from '../../../store/actions/gameSelectorActions';
-import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
+import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 
 const LayerColorSelect = ({
   gameModel: { gameModel : { colors }},
@@ -43,7 +43,7 @@ const LayerColorSelect = ({
       editGameModel({
         colors: {
           [hex]: {
-            [canvasId]: true
+            [canvasId]: Date.now()
           }
         }
       })
@@ -72,7 +72,7 @@ const LayerColorSelect = ({
         canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === BACKGROUND_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[BACKGROUND_CANVAS_ID]} 
+        colors={colorsByLayer[BACKGROUND_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, BACKGROUND_CANVAS_ID))} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor}
@@ -84,7 +84,7 @@ const LayerColorSelect = ({
         canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === PLAYGROUND_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[PLAYGROUND_CANVAS_ID]} 
+        colors={colorsByLayer[PLAYGROUND_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, PLAYGROUND_CANVAS_ID))} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor} 
@@ -96,7 +96,7 @@ const LayerColorSelect = ({
         canvasId={canvasId}
         maxColors={16}
         selectedColorHex={selectedColorLayer === FOREGROUND_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[FOREGROUND_CANVAS_ID]} 
+        colors={colorsByLayer[FOREGROUND_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, FOREGROUND_CANVAS_ID))} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor}
@@ -111,7 +111,7 @@ const LayerColorSelect = ({
         editGameModel({
           colors: {
             [color.hex]: {
-              [color.canvasId]: true
+              [color.canvasId]: Date.now()
             }
           }
         })

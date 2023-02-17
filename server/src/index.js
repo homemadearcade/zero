@@ -325,7 +325,7 @@ async function onMongoDBConnected() {
       const lobby = lob.toJSON()
       return {
         ...lobby,
-        experienceActivity: 'WAITING_ACTIVITY',
+        currentActivity: 'WAITING_ACTIVITY',
         currentStep: 2,
         messages: [],
         members: lobby.invitedUsers.map((user) => {

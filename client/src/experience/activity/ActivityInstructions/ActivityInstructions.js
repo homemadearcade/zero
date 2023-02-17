@@ -58,7 +58,7 @@ const PROLOGUE_2_CLASS_IDS = {
         //   title: <Typography component="h5" variant="h5">Load Demo World</Typography>,
         //   onClickNext: async () => {
         //     await editLobby(lobby.id, {
-        //       experienceActivity: GAME_EDITOR_ACTIVITY,
+        //       currentActivity: GAME_EDITOR_ACTIVITY,
         //     })
         //     await editGameRoom(lobby.gameRoomId, {
         //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
@@ -301,7 +301,7 @@ const ExperienceInstructions = ({
           </>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              experienceActivity: MONOLOGUE_ACTIVITY,
+              currentActivity: MONOLOGUE_ACTIVITY,
               monologueText: `More and more, the world interacts with reflections made on the screen in front of you. These began as pixels. So we begin with our relationship to pixels, through the tools of the keyboard you know so well.
 We’ll use it to create - a story, a piece of art, a game… however You feel inspired.`
             })
@@ -313,7 +313,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
           onClickNext: async () => {
             await editLobby(lobby.id, {
-              experienceActivity: GAME_EDITOR_ACTIVITY,
+              currentActivity: GAME_EDITOR_ACTIVITY,
             })
             await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue1,
@@ -391,7 +391,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Load Prologue 2</Typography>,
           onClickNext: async () => {
             await editLobby(lobby.id, {
-              experienceActivity: GAME_EDITOR_ACTIVITY,
+              currentActivity: GAME_EDITOR_ACTIVITY,
             })
             await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue2,
@@ -419,7 +419,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Load Editing Game</Typography>,
           onClickNext: async () => {
             await editLobby(lobby.id, {
-              experienceActivity: GAME_EDITOR_ACTIVITY,
+              currentActivity: GAME_EDITOR_ACTIVITY,
             })
             await editGameRoom(lobby.gameRoomId, {
               gameId: lobby.editingGameId,
@@ -503,7 +503,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Send To Credits</Typography>,
           onClickNext: () => {
             editLobby(lobby.id, {
-              experienceActivity: CREDITS_ACTIVITY
+              currentActivity: CREDITS_ACTIVITY
             })
           },
           nextButtonText: 'Open'

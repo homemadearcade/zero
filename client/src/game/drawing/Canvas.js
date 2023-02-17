@@ -153,7 +153,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   onStrokeReleased() {
     this.addRenderTextureToUndoStack()
-    console.log(this.autoSave)
     if(this.autoSave) this.debouncedSave()
   }
 

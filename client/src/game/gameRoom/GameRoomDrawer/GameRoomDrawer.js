@@ -20,7 +20,7 @@ import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobby/LobbyOverview/LobbyOverview';
 
 const GameRoomDrawer = ({
-  lobby: { lobby, lobby: { experienceActivity } },
+  lobby: { lobby, lobby: { currentActivity } },
   gameRoom: { gameRoom, gameRoom: { isPoweredOn, isSaveDisabled }},
   myTracks,
   userTracks,
@@ -35,10 +35,7 @@ const GameRoomDrawer = ({
         }}>
           <Icon icon="faBars"/>
         </div>}
-        {experienceActivity === GAME_EDITOR_ACTIVITY && <CobrowsingIndicator/>}
-        {experienceActivity === GAME_EDITOR_ACTIVITY && isPoweredOn && <ConstellationToggle/>}
-        {experienceActivity === GAME_EDITOR_ACTIVITY && <GameRoomPowerIndicator/>}
-        {experienceActivity === GAME_EDITOR_ACTIVITY && isSaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
+        {currentActivity === GAME_EDITOR_ACTIVITY && isSaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Save Disabled</Typography>
           <Switch
@@ -51,6 +48,9 @@ const GameRoomDrawer = ({
             checked={isSaveDisabled}
           />
         </div>}
+        <GameRoomPowerIndicator/>
+        <CobrowsingIndicator/>
+        <ConstellationToggle/>
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)

@@ -36,6 +36,7 @@ export const defaultCollisionResponse = {
 
 export const defaultClass = {
   interfaceLocked: false,
+  lastSelectedDate: 0,
   boundaryRelation: BOUNDARY_COLLIDE,
   classId: null,
   movement: {

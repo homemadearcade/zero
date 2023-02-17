@@ -104,7 +104,7 @@ const LobbyMember = ({
   }}>
     <div className="LobbyMember__modal">
       {renderConnectionInfo()}
-      {false && lobby.experienceActivity === GAME_EDITOR_ACTIVITY && <>
+      {false && lobby.currentActivity === GAME_EDITOR_ACTIVITY && <>
         <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
         <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
       </>}

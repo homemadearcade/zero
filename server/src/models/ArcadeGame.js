@@ -110,7 +110,7 @@ arcadeGameSchema.methods.toJSON = function () {
     relations: this.relations,
     cutscenes: this.cutscenes,
     awsImages: this.awsImages,
-    owner: this.owner ? this.owner.toJSON() : this.user?.toJSON(),
+    owner: this.owner?.toJSON(),
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     isRemoved: this.isRemoved,

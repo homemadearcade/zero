@@ -10,9 +10,7 @@ TEXTURE STROKE HISTORY
   Should be a arcadeGame route not an aws route, attempt the user profile pic upload first
 
 INFO BOX
-  Right Click, Left Click, Name of Class
-
-  ALSO What you currently have selected with your mouse, and perhaps the current game state, and title of game?
+  Right Click/Left Click Action. Infomration about the thing you are hovering on.
 
 CLASS LIBRARY BOX
   TOWERS
@@ -22,8 +20,6 @@ CLASS LIBRARY BOX
   Select Class for Follow Movement 
 
 BIG MOUSE SELECTOR CHANGE
-
-Most recently used. Just have a > chevron right to open the entire set of classes, brushes, colors, etc. Every time a brush or color is selected, set a lastUsedDate on it and sort by that :). Actually its like 
   > Brush 
     BG
     PG
@@ -45,12 +41,8 @@ Most recently used. Just have a > chevron right to open the entire set of classe
     Images
   ? Idk
 
-Its all floating action buttons? Theres recently used brushes, recently used classes, then theres recently edited ( stages, dialogues ) I guess thats baiscally what we have? Hmm not sure...yeah maybe all those things are sorted by recently used... and then PLUS is outside of that scope as a FAB. And then The last item in the grids is like Open Modal for More which gives you a grid modal view of infinite items
+'Add' and 'More', Where do they appear?
 
-LOBBY UPDATE
-  Can we change where the power buttons, etc are? Disable star button instead of hide it? Same with the save button..
-
-  Game Card without game loaded
 ----
 
 EMAILS

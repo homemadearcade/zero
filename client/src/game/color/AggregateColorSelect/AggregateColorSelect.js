@@ -9,7 +9,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
-import { getHexFromColorId, isBrushIdColor } from '../../../utils/editorUtils';
+import { getHexFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 import { COMMON_COLOR_ID } from '../../constants';
 
 const AggregateColorSelect = ({
@@ -41,7 +41,7 @@ const AggregateColorSelect = ({
       canvasId={canvasId}
       maxColors={50}
       selectedColorHex={selectedColorHex || selectedColor} 
-      colors={aggregateColors} 
+      colors={aggregateColors.sort(sortColorByLastSelectedDate(colors, COMMON_COLOR_ID))} 
       onSelectColor={onSelectColor} 
       onUnselectColor={onUnselectColor}
       onAddColor={onAddColor}
@@ -55,7 +55,7 @@ const AggregateColorSelect = ({
         editGameModel({
           colors: {
             [color.hex]: {
-              [COMMON_COLOR_ID]: true
+              [COMMON_COLOR_ID]: Date.now()
             }
           }
         })

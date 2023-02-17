@@ -129,7 +129,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
     })
 
     lobby.currentStep = 2
-    lobby.experienceActivity = 'WAITING_ACTIVITY'
+    lobby.currentActivity = 'WAITING_ACTIVITY'
     lobby.messages = []
 
     req.lobbys.push(lobby)

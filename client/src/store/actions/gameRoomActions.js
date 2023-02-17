@@ -244,7 +244,7 @@ export const joinGameRoom = ({ gameRoomId, userId }) => async (dispatch, getStat
       if(gameRoom.isPoweredOn === false && getState().errors.errorStates[PHASER_ERROR].on) {
         dispatch(clearErrorState(PHASER_ERROR))
       }
-      console.log('??')
+
       dispatch({
         type: ON_GAME_ROOM_UPDATE,
         payload: { gameRoom },

@@ -74,7 +74,6 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
 }
 
 function onArcadeGameModelUpdate(gameUpdate) {
-  console.log(gameUpdate)
   const state = store.getState()
   const oldGameData = _.cloneDeep(state.gameModel.gameModel)
   const stageId = state.gameModel.currentStageId

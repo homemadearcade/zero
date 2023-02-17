@@ -123,6 +123,25 @@ export function getDepthFromCanvasId(canvasId) {
   if(canvasId === COMMON_BRUSH_ID) return COMMON_BRUSH_DEPTH
 }
 
+export const sortColorByLastSelectedDate = (colors, canvasId) => (a, b) => {
+  const colorA = colors[a]
+  const colorB = colors[b]
+  console.log(a, b, colors)
+  if(!colorA) return -1 
+  if(!colorB) return 1
+  console.log(colorA, colorB)
+  if(colorA[canvasId].lastSelectedDate > colorB[canvasId].lastSelectedDate) return 1
+  else return -1
+}
+
+export const sortByLastSelectedDate = (objects) => (a, b) => {
+  const objectA = objects[a]
+  const objectB = objects[b]
+  if(objectA.lastSelectedDate > objectB.lastSelectedDate) return 1
+  else return -1
+}
+
+
 const HEX_CODE_LENGTH = 7
 export function getCanvasIdFromColorId(colorId) {
   return colorId.slice(COLOR_BRUSH_ID.length + 1, - (HEX_CODE_LENGTH + 1)) 

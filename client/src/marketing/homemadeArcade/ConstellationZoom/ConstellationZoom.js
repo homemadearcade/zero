@@ -17,7 +17,7 @@ const ConstellationZoom = ({gameRoom: { gameRoom }}) => {
     async function attemptConstellation() {
       const state = store.getState()
 
-      if(state.lobby.lobby?.experienceActivity === GAME_EDITOR_ACTIVITY && gameRoom.isPoweredOn) {
+      if(state.lobby.lobby?.currentActivity === GAME_EDITOR_ACTIVITY && gameRoom.isPoweredOn) {
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
       

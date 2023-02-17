@@ -15,11 +15,12 @@ import Sprite from '../Sprite/Sprite';
 import Button from '../../../ui/Button/Button';
 import SpriteEditor from '../SpriteEditor/SpriteEditor';
 import { openSpriteEditor } from '../../../store/actions/gameSelectorActions';
-import { COMMON_COLOR_ID } from '../../constants';
+import { COMMON_COLOR_ID, SPRITE_EDITOR_CANVAS_ID } from '../../constants';
 import MySprites from '../MySprites/MySprites';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { CHOOSE_SPRITES_IID, DRAW_NEW_SPRITE_IID } from '../../../constants/interfaceIds';
+import { sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 
 const SelectSpriteInline = ({
   textureIdSelected,
@@ -69,7 +70,7 @@ const SelectSpriteInline = ({
       <ColorSelect
         maxColors={50}
         selectedColorHex={tintSelected} 
-        colors={Object.keys(colors)} 
+        colors={Object.keys(colors).sort(sortColorByLastSelectedDate(colors, SPRITE_EDITOR_CANVAS_ID))} 
         onSelectColor={onSelectTint} 
         onUnselectColor={onClearTint}
         onAddColor={() => {
@@ -89,7 +90,7 @@ const SelectSpriteInline = ({
         editGameModel({
           colors: {
             [color.hex]: {
-              [COMMON_COLOR_ID]: true
+              [COMMON_COLOR_ID]: Date.now()
             }
           }
         })

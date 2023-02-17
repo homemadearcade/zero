@@ -67,7 +67,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
     editGameModel({
       colors: {
         [hex]: {
-          [SPRITE_EDITOR_CANVAS_ID]: true
+          [SPRITE_EDITOR_CANVAS_ID]: Date.now()
         }
       }
     })

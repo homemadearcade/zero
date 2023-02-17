@@ -96,7 +96,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
               tint
             }})
           }}
-          onClearcoloronSelectColor={() => {
+          onClearColor={() => {
             updateCreateClass({ graphics: {
               tint: null
             }})
