@@ -22,7 +22,9 @@ import {
   CLOSE_SETUP_CHOICES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   OPEN_JSON_VIEWER,
-  CLOSE_JSON_VIEWER
+  CLOSE_JSON_VIEWER,
+  OPEN_CLASS_BOX_MODAL,
+  CLOSE_CLASS_BOX_MODAL
 } from '../types';
 
 // this could be called gameSelectorEditor, is about selecting
@@ -46,7 +48,9 @@ const initialState = {
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
   },
-  isSpriteEditorOpen: false
+  isSpriteEditorOpen: false,
+  isClassBoxModalOpen: false,
+  classBoxClassType: null
 };
 
 export const initialGameSelectorState = initialState
@@ -151,6 +155,18 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         isGameMetadataModalOpen: false
+      }
+    case OPEN_CLASS_BOX_MODAL: 
+      return {
+        ...state,
+        isClassBoxModalOpen: true,
+        classBoxClassType: payload.classType
+      }
+    case CLOSE_CLASS_BOX_MODAL:
+      return {
+        ...state,
+        isClassBoxModalOpen: false,
+        classBoxClassType: null
       }
     case OPEN_CLASS_NAME_MODAL: 
       return {

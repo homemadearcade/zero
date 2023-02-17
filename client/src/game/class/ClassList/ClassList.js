@@ -18,7 +18,11 @@ import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_C
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultObjectClass } from '../../defaultData/class';
 import { directionalClass, jumperClass } from '../../defaultData/players';
-import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
+import { sortByLastSelectedDate } from '../../../utils/editorUtils';
+
+const CLASS_MAX = 16
 
 const ClassList = ({
   gameModel: { gameModel },
@@ -26,7 +30,8 @@ const ClassList = ({
   editGameModel,
   openCreateClassFlow,
   openCreateCutscene,
-  gameViewEditor: {layerVisibility}
+  gameViewEditor: {layerVisibility},
+  openClassBoxModal
 }) => {
   const classes = gameModel?.classes
   const cutscenes = gameModel?.cutscenes
@@ -49,6 +54,17 @@ const ClassList = ({
     }
   }
 
+  function renderClassBoxButton(classType){
+    return <Unlockable interfaceId={OPEN_CLASS_BOX_IID}>
+      <Button size="fit" className="ClassList__more" onClick={() => {
+        openClassBoxModal(classType)
+      }}>
+        More
+      </Button>
+    </Unlockable>
+  }
+
+
   const filterClasses = (classType) => (currentClassId) => {
     const currentClass = classes[currentClassId]
     if(currentClass.isRemoved) return false
@@ -69,7 +85,10 @@ const ClassList = ({
     return objectClass
   }
 
-  const playerClasses = Object.keys(classes).filter(filterClasses(PLAYER_CLASS)).map(renderClassItem(PLAYER_CLASS))
+  const playerClasses = Object.keys(classes).
+    filter(filterClasses(PLAYER_CLASS)). 
+    sort(sortByLastSelectedDate(classes)).
+    map(renderClassItem(PLAYER_CLASS)).slice(0, CLASS_MAX -1)
   
   playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS_ADD_IID}>
     <Button size="fit" 
@@ -80,7 +99,10 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const npcClasses = Object.keys(classes).filter(filterClasses(NPC_CLASS)).map(renderClassItem(NPC_CLASS))
+  const npcClasses = Object.keys(classes).
+    filter(filterClasses(NPC_CLASS)).
+    sort(sortByLastSelectedDate(classes)).
+    map(renderClassItem(NPC_CLASS)).slice(0, CLASS_MAX -1)
 
   npcClasses.push(<Unlockable interfaceId={NPC_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
@@ -90,9 +112,13 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const objectClasses = Object.keys(classes).filter(filterClasses(BASIC_CLASS)).map(renderClassItem(BASIC_CLASS))
+  const basicClasses = Object.keys(classes).
+    filter(filterClasses(BASIC_CLASS)).
+    sort(sortByLastSelectedDate(classes)).
+    map(renderClassItem(BASIC_CLASS)).slice(0, CLASS_MAX -1)
 
-  objectClasses.push(<Unlockable interfaceId={BASIC_CLASS_ADD_IID}>
+
+  basicClasses.push(<Unlockable interfaceId={BASIC_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
       openCreateClassFlow(defaultObjectClass)
     }}>
@@ -100,7 +126,11 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const zoneClasses = Object.keys(classes).filter(filterClasses(ZONE_CLASS)).map(renderClassItem(ZONE_CLASS))
+  const zoneClasses = Object.keys(classes).
+    filter(filterClasses(ZONE_CLASS)).
+    sort(sortByLastSelectedDate(classes)).
+    map(renderClassItem(ZONE_CLASS)).
+    slice(0, CLASS_MAX -1)
 
   zoneClasses.push(<Unlockable interfaceId={ZONE_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
@@ -140,88 +170,95 @@ const ClassList = ({
   accordians.push({
     id: 'players',
     interfaceId: PLAYER_CLASS_CONTAINER_IID,
+    sx: !layerVisibility[PLAYER_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography sx={!layerVisibility[PLAYER_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Players</Typography>
     </>,
     body: <>
-      <div className="ClassList__tools">
-        <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
-      </div>
       <BorderedGrid
-        maxItems={16} 
+        maxItems={CLASS_MAX} 
         height="7vh"
         width="9.2vh"
         items={playerClasses}
       />
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
+        {Object.keys(playerClasses).length >= CLASS_MAX && renderClassBoxButton(PLAYER_CLASS)}
+      </div>
     </>
   })
 
   accordians.push({
     id: 'NPCs',
     interfaceId: NPC_CLASS_CONTAINER_IID,
+    sx: !layerVisibility[NPC_CLASS] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography sx={!layerVisibility[NPC_CLASS] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">NPCs</Typography>
+      <Typography component="div" variant="subtitle1">NPCs</Typography>
     </>,
     body: <>
-      <div className="ClassList__tools">
-        <LayerVisibility canvasId={NPC_CLASS} />
-      </div>
       <BorderedGrid
-      maxItems={16} 
+      maxItems={CLASS_MAX} 
       height="7vh"
       width="9.2vh"
       items={npcClasses}
       />
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={NPC_CLASS} />
+        {Object.keys(npcClasses).length >= CLASS_MAX && renderClassBoxButton(NPC_CLASS)}
+      </div>
     </>
   })
 
   accordians.push({
     id: 'objects',
-
     interfaceId: BASIC_CLASS_CONTAINER_IID,
+    sx: !layerVisibility[BASIC_CLASS] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography sx={!layerVisibility[BASIC_CLASS] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Objects</Typography>
+      <Typography component="div" variant="subtitle1">Objects</Typography>
     </>,
     body: <>
-      <div className="ClassList__tools">
-        <LayerVisibility canvasId={BASIC_CLASS} />
-      </div>
       <BorderedGrid
-        maxItems={16} 
+        maxItems={CLASS_MAX} 
         height="7vh"
         width="9.2vh"
-        items={objectClasses}
+        items={basicClasses}
       />
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={BASIC_CLASS} />
+        {Object.keys(basicClasses).length >= CLASS_MAX && renderClassBoxButton(BASIC_CLASS)}
+      </div>
     </>
   })
 
   accordians.push({
-    id: 'Zones',
+    id: 'zones',
     interfaceId: ZONE_CLASS_CONTAINER_IID,
+    sx: !layerVisibility[ZONE_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography sx={!layerVisibility[ZONE_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Zones</Typography>
+      <Typography  component="div" variant="subtitle1">Zones</Typography>
     </>,
     body: <>
-      <div className="ClassList__tools">
-        <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
-      </div>
       <BorderedGrid
-        maxItems={16} 
+        maxItems={CLASS_MAX} 
         height="7vh"
         width="9.2vh"
         items={zoneClasses}
       />
+      <div className="ClassList__tools">
+        <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
+        {Object.keys(zoneClasses).length >= CLASS_MAX && renderClassBoxButton(ZONE_CLASS)}
+      </div>
     </>
   })
 
   accordians.push({
-    id: 'Dialogue',
+    id: 'dialogue',
     interfaceId: DIALOGUE_CONTAINER_IID,
     title: <>
       <Typography component="div" variant="subtitle1">Dialogue</Typography>
     </>,
     body: <BorderedGrid
-      maxItems={16} 
+      maxItems={CLASS_MAX} 
       height="7vh"
       width="9.2vh"
       items={dialogueScenes}
@@ -262,5 +299,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateClassFlow, openCreateCutscene }),
+  connect(mapStateToProps, { editGameModel, openCreateClassFlow, openCreateCutscene, openClassBoxModal }),
 )(ClassList);

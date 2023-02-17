@@ -27,6 +27,8 @@ import {
   UPDATE_VERTICAL_LINEAR_STEPPER,
   CLOSE_JSON_VIEWER,
   OPEN_JSON_VIEWER,
+  OPEN_CLASS_BOX_MODAL,
+  CLOSE_CLASS_BOX_MODAL,
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
@@ -143,6 +145,24 @@ export const closeSpriteEditor= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SPRITE_EDITOR,
+    payload: {}
+  });
+}
+
+export const openClassBoxModal = (classType) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CLASS_BOX_MODAL,
+    payload: {
+      classType
+    }
+  });
+}
+
+export const closeClassBoxModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CLASS_BOX_MODAL,
     payload: {}
   });
 }

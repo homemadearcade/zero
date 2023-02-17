@@ -48,8 +48,8 @@ const GameRoomDrawer = ({
             checked={isSaveDisabled}
           />
         </div>}
-        <GameRoomPowerIndicator/>
         <CobrowsingIndicator/>
+        <GameRoomPowerIndicator/>
         <ConstellationToggle/>
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 

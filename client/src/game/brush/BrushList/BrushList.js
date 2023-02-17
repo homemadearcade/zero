@@ -89,13 +89,11 @@ const BrushList = ({
   accordians.push({
     id: 'Background',
     interfaceId: BACKGROUND_CANVAS_CONTAINER_IID,
+    sx:  !layerVisibility[BACKGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography sx={!layerVisibility[BACKGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Background</Typography>
+      <Typography  component="div" variant="subtitle1">Background</Typography>
     </>,
     body: <>
-      <div className="BrushList__tools">
-        <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
-      </div>
       <LayerColorSelect withEraser canvasId={BACKGROUND_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
@@ -104,19 +102,20 @@ const BrushList = ({
         height="3.5vh"
         items={bgBrushes}/>
       </div>
+      <div className="BrushList__tools">
+        <LayerVisibility canvasId={BACKGROUND_CANVAS_ID} />
+      </div>
     </>
   })
 
   accordians.push({
     id: 'Playground',
     interfaceId: PLAYGROUND_CANVAS_CONTAINER_IID,
+    sx: !layerVisibility[PLAYGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography  sx={!layerVisibility[PLAYGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {}}  component="div" variant="subtitle1">Playground</Typography>
+      <Typography component="div" variant="subtitle1">Playground</Typography>
     </>,
     body: <>
-     <div className="BrushList__tools">
-        <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
-      </div>
       <LayerColorSelect withEraser canvasId={PLAYGROUND_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
@@ -125,19 +124,20 @@ const BrushList = ({
           height="3.5vh"
           items={pgBrushes}/>
       </div>
+      <div className="BrushList__tools">
+        <LayerVisibility canvasId={PLAYGROUND_CANVAS_ID} />
+      </div>
     </>
   })
 
   accordians.push({
     id: 'Foreground',
     interfaceId: FOREGROUND_CANVAS_CONTAINER_IID,
+    sx: !layerVisibility[FOREGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography  sx={!layerVisibility[FOREGROUND_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Foreground</Typography>
+      <Typography component="div" variant="subtitle1">Foreground</Typography>
     </>,
     body: <>
-      <div className="BrushList__tools">
-        <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
-      </div>
       <LayerColorSelect withEraser canvasId={FOREGROUND_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
@@ -145,6 +145,9 @@ const BrushList = ({
         width="3.5vh"
         height="3.5vh"
         items={fgBrushes}/>
+      </div>
+      <div className="BrushList__tools">
+        <LayerVisibility canvasId={FOREGROUND_CANVAS_ID} />
       </div>
     </>
   })

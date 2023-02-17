@@ -7,3 +7,4 @@ export const ERASER_IID = 'eraser'
 export const ADD_COLOR_IID = 'addColor'
 export const SHOW_REMOVED_IID = 'showRemoved'
 export const GRID_VIEW_TOGGLE_IID = 'gridViewToggle'
+export const OPEN_CLASS_BOX_IID = "openClassBox";

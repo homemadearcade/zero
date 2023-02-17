@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from '../../../store';
 
-const CobrowsingModal = ({ onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
+const CobrowsingModal = ({ withCloseButton, onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
   useEffect(() => {
     const scene = getCurrentGameScene(gameInstance)
     

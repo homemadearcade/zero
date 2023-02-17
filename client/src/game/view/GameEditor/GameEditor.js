@@ -37,10 +37,11 @@ import Icon from '../../../ui/Icon/Icon';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
+import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
 
 const GameEditor = ({ 
   classNames, 
-  gameSelector: { isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
+  gameSelector: { isClassBoxModalOpen, isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen, isGridViewOn }, 
   gameFormEditor: { isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
@@ -100,6 +101,7 @@ const GameEditor = ({
           <ClassList/>
         </>}
       </div>
+      {isClassBoxModalOpen && <ClassBoxModal/>}
       {liveEditingCategory && <LiveEditor/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
       {classIdEditingName && <ClassNameModal/>}

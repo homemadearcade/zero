@@ -25,7 +25,8 @@ const ClassItem = ({
   width, height,
   playerInterface: { playerClassId },
   toggleLayerVisibility,
-  changeClassIdHovering
+  changeClassIdHovering,
+  onClick,
 }) => {
   const objectClass = classes[classId]
   const [isHovering, setIsHovering] = useState(false)
@@ -34,7 +35,8 @@ const ClassItem = ({
   const border = '1px solid ' + getThemePrimaryColor().hexString
   return <div
     style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}
-    onClick={() => {
+    onClick={(e) => {
+      if(onClick) onClick(e)
       if(objectClass.type === PLAYER_CLASS) return
 
       if(classId === classIdSelectedClassList) {

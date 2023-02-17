@@ -69,13 +69,12 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
     return bodyEl
   }
 
-  function renderAccordian({id, title, body, interfaceId}) {
+  function renderAccordian({id, title, body, interfaceId, sx}) {
 
-    const el = <Accordion key={id} expanded={expanded === id} onChange={onChange(id)}>
+    const el = <Accordion sx={sx} key={id} expanded={expanded === id} onChange={onChange(id)}>
       {renderSummary({title, interfaceId})}
       {renderBody({body, interfaceId})}
     </Accordion>
-
     if(interfaceId) {
       return <Unlockable key={id} interfaceId={interfaceId}>
         {el}

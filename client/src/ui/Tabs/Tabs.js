@@ -37,18 +37,25 @@ function a11yProps(index) {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function({ tabs }) {
+  const [value, setValue] = React.useState(0)
+
+  function handleChange(newValue) {
+    setValue(newValue)
+  }
+
+  return <TabsBody tabs={tabs} value={value} onChange={handleChange}/>
+}
+
+function TabsBody({ tabs, value, onChange }) {
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    onChange(newValue);
   };
 
-  // const handleChangeIndex = (index) => {
-  //       console.log(index)
-
-  //   setValue(index);
-  // };
+  const handleChangeIndex = (index) => {
+    onChange(index);
+  };
 
   return (
     <div className="Tabs">

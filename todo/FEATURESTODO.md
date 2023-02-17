@@ -9,22 +9,29 @@ TEXTURE STROKE HISTORY
 
   Should be a arcadeGame route not an aws route, attempt the user profile pic upload first
 
-INFO BOX
-  Right Click/Left Click Action. Infomration about the thing you are hovering on.
-
-CLASS LIBRARY BOX
-  TOWERS
+TOWERS
   Enemy Projectiles.. Towers. Different kinds of Towers... Area Effect
   Some that face you
   yes very smart, very very smart
   Select Class for Follow Movement 
 
+MODALS
+  Fix how modals work...Youve got ALL THESE MODALS STACKED ON TOP OF EACHOTHER IN game Editor. Sometimes we want to open a modal on top of another, how can we let this happen? We need to be able to open Cutscene maker, and class maker inside of another modal ( mainly from the relations menu )
+
+INFO BOX
+  Right Click/Left Click Action. Infomration about the thing you are hovering on. What else?
+  Or.. a stage type thing. That shows what you are currently highlighting over
+
+  Im too high but like so what its all on one side??
+  Theres a stage and then theres tabs underneath
+  Tabs are. Brush, Class, Game
+
 BIG MOUSE SELECTOR CHANGE
-  > Brush 
+> Brush 
     BG
     PG
     FG
-  > Game Objects 
+> Game Objects 
     Characters
       > Instances
     Objects
@@ -33,15 +40,12 @@ BIG MOUSE SELECTOR CHANGE
       > Instances
     Lights
       > Instances
-  > Other(?)
+> Game(?)
     Dialogue
     Stages
     Cutscenes
     Relations
     Images
-  ? Idk
-
-'Add' and 'More', Where do they appear?
 
 ----
 

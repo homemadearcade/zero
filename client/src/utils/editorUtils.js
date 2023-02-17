@@ -126,18 +126,17 @@ export function getDepthFromCanvasId(canvasId) {
 export const sortColorByLastSelectedDate = (colors, canvasId) => (a, b) => {
   const colorA = colors[a]
   const colorB = colors[b]
-  console.log(a, b, colors)
   if(!colorA) return -1 
   if(!colorB) return 1
-  console.log(colorA, colorB)
-  if(colorA[canvasId].lastSelectedDate > colorB[canvasId].lastSelectedDate) return 1
-  else return -1
+  if(colorA[canvasId] < colorB[canvasId]) {
+    return -1
+  } else return 1
 }
 
 export const sortByLastSelectedDate = (objects) => (a, b) => {
   const objectA = objects[a]
   const objectB = objects[b]
-  if(objectA.lastSelectedDate > objectB.lastSelectedDate) return 1
+  if(objectA.lastSelectedDate < objectB.lastSelectedDate) return 1
   else return -1
 }
 
