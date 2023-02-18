@@ -33,6 +33,12 @@ VIDEO CALL BLOCKING
   End Call for everyone in lobby, End call for self
   Mute and cut user video should be an object. I think theres both, admin muting someone in side a lobby. Kick out of experience, etc. Mute someone at an experience level. Also a user can mute someone if they dont like them
 
+MODALS
+  Create Brush/Class -> Edit Sprite -> ( Create Brush -> Edit Sprite )...
+    Perhaps make Sprite Editor a root level modal?
+  Make add Color Not a Modal?
+
+
 BETTER NAVIGATION
 ( Not Logged In )
   Marketing

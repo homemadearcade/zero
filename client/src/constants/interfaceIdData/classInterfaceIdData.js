@@ -5,26 +5,37 @@ export default {
   [ZONE_CLASS_CONTAINER_IID]: {
     ignoreTools: true
   },
-  [ZONE_CLASS_ADD_IID]: {},
+  [ZONE_CLASS_ADD_IID]: {
+    previewText: 'Add Zone'
+  },
   [ZONE_CLASS_SELECT_IID]: {},
   [BASIC_CLASS_CONTAINER_IID]: {
     ignoreTools: true
   },
-  [BASIC_CLASS_ADD_IID]: {},
+  [BASIC_CLASS_ADD_IID]: {
+    previewText: 'Add Object'
+  },
   [BASIC_CLASS_SELECT_IID]: {},
   [NPC_CLASS_CONTAINER_IID]: {
     ignoreTools: true
   },
   [NPC_CLASS_SELECT_IID]: {},
-  [NPC_CLASS_ADD_IID]: {},
+  [NPC_CLASS_ADD_IID]: {
+    previewText: 'Add NPC'
+  },
   [PLAYER_CLASS_CONTAINER_IID]: {
     ignoreTools: true
   },
   [PLAYER_CLASS_SELECT_IID]: {},
-  [PLAYER_CLASS_ADD_IID]: {},
-  [CLASS_LAYER_IID]: {},
+  [PLAYER_CLASS_ADD_IID]: {
+    previewText: 'Add Player'
+  },
+  [CLASS_LAYER_IID]: {
+    
+  },
   [CLASS_VISIBILITY_IID]: {
-    adminOnly: true
+    adminOnly: true,
+    previewText: 'Hide/Show'
   },
   [CLASS_LOCK_IID]: {
     adminOnly: true

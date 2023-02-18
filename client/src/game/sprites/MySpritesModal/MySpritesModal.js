@@ -8,12 +8,12 @@ import { closeMySpritesModal } from '../../../store/actions/gameSelectorActions'
 import MySprites from '../MySprites/MySprites';
 import Typography from '../../../ui/Typography/Typography';
 
-const MySpritesModal = ({ closeMySpritesModal, onClickSprite }) => {
+const MySpritesModal = ({ closeMySpritesModal, onClickSprite, gameViewEditor: { isSnapshotTakerOpen } }) => {
   function handleClose() {
     closeMySpritesModal()
   }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingModal open={!isSnapshotTakerOpen} onClose={handleClose}>
     <Typography component="h2" variant="h2">My Images</Typography>
     <div className="MySpritesModal">
       <MySprites onClickSprite={onClickSprite}/>
@@ -22,7 +22,7 @@ const MySpritesModal = ({ closeMySpritesModal, onClickSprite }) => {
 }
 
 const mapStateToProps = (state) => ({
-
+  gameViewEditor: state.gameViewEditor
 })
 
 export default compose(

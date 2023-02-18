@@ -9,6 +9,7 @@ import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isB
 import { layerToDisplayName } from '../constants';
 import Icon from '../../ui/Icon/Icon';
 import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
+import { interfaceIdData } from '../../constants/interfaceIdData';
 
 // const INSTANCE_PREVIEW = 'INSTANCE_PREVIEW'
 // const CLASS_PREVIEW = 'CLASS_PREVIEW'
@@ -16,6 +17,9 @@ import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
 // const BRUSH_PREVIEW = 'BRUSH_PREVIEW'
 
 const MousePreview = ({ 
+  cobrowsing: {
+    mouseOverInterfaceId
+  },
   gameViewEditor: { 
     brushIdHovering, 
     classIdHovering,
@@ -28,6 +32,7 @@ const MousePreview = ({
   },
   gameModel: { 
     gameModel: { 
+      metadata,
       classes,
       brushes,
       colors
@@ -58,6 +63,8 @@ const MousePreview = ({
       colorClass = colors[hex]
     }
   }
+
+  const interfaceData = interfaceIdData[mouseOverInterfaceId]
 
   function renderStageTitle(title) {
     return <Typography variant="div" sx={{fontSize:'.8rem'}} font="2P">{title}</Typography>
@@ -119,6 +126,11 @@ const MousePreview = ({
   }
 
   function renderBody() {
+    if(interfaceData?.previewText) {
+      return <div className="MousePreview__title">
+        <Typography font="2P" variant="subtitle2">{interfaceData.previewText}</Typography>
+      </div>
+    }
 
     // hovering 
     if(instanceClassIdHovering) {
@@ -138,6 +150,11 @@ const MousePreview = ({
       if(colorClass) return renderColorPreview()
       return renderBrushPreview()
     }
+
+
+    return <div className="MousePreview__title">
+        <Typography font="2P" variant="subtitle2">{metadata.title}</Typography>
+      </div>
   }
 
   return <div className="MousePreview">
@@ -149,8 +166,8 @@ const MousePreview = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
   gameModel: state.gameModel,
-  gameSelector: state.gameSelector
-
+  gameSelector: state.gameSelector,
+  cobrowsing: state.cobrowsing,
 })
 
 export default connect(mapStateToProps, { })(MousePreview);

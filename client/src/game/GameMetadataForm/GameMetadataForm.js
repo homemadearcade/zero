@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import './GameMetadataForm.scss';
 import { TextField } from '@mui/material';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../store/actions/gameModelActions';
 import { Controller, useForm } from 'react-hook-form';
-import Button from '../../../ui/Button/Button';
-import Typography from '../../../ui/Typography/Typography';
-import MySpritesModal from '../../../game/sprites/MySpritesModal/MySpritesModal';
-import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameSelectorActions';
+import Button from '../../ui/Button/Button';
+import Typography from '../../ui/Typography/Typography';
+import MySpritesModal from '../sprites/MySpritesModal/MySpritesModal';
+import { closeMySpritesModal, openMySpritesModal } from '../../store/actions/gameSelectorActions';
 
 const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openMySpritesModal, closeMySpritesModal, gameSelector: { isMySpritesModalOpen} }) => {
   const metadata = gameModel.metadata

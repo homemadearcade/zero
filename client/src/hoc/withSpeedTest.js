@@ -20,6 +20,8 @@ export default (ChildComponent) => {
     }
 
     async componentDidMount() {
+      if(isLocalHost()) return 
+      
       const { lobby: { lobby }, auth: { me }, updateLobbyUser, addUserSpeedTest} = this.props
       const speedTest = await addUserSpeedTest()
     

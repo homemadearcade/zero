@@ -3,23 +3,31 @@ import { ADD_BRUSH_IID, BACKGROUND_CANVAS_ADD_BRUSH_IID, BACKGROUND_CANVAS_BRUSH
 
 export default {
   [BRUSH_SIZE_IID]: {},
-  [ADD_BRUSH_IID]: {},
+  [ADD_BRUSH_IID]: {
+    previewText: 'Add a Brush'
+  },
   [BACKGROUND_CANVAS_CONTAINER_IID]: {
     ignoreTools: true
   },
-  [BACKGROUND_CANVAS_ADD_BRUSH_IID]: {},
+  [BACKGROUND_CANVAS_ADD_BRUSH_IID]: {
+    previewText: 'Add Background Brush'
+  },
   [BACKGROUND_CANVAS_COLOR_SELECT_IID]: {},
   [BACKGROUND_CANVAS_BRUSH_SELECT_IID]: {},
   [PLAYGROUND_CANVAS_CONTAINER_IID]: {
     ignoreTools: true
   },
-  [PLAYGROUND_CANVAS_ADD_BRUSH_IID]: {},
+  [PLAYGROUND_CANVAS_ADD_BRUSH_IID]: {
+    previewText: 'Add Playground Brush'
+  },
   [PLAYGROUND_CANVAS_COLOR_SELECT_IID]: {},
   [PLAYGROUND_CANVAS_BRUSH_SELECT_IID]: {},
   [FOREGROUND_CANVAS_CONTAINER_IID]: {
     ignoreTools: true
   },
-  [FOREGROUND_CANVAS_ADD_BRUSH_IID]: {},
+  [FOREGROUND_CANVAS_ADD_BRUSH_IID]: {
+    previewText: 'Add Foreground Brush'
+  },
   [FOREGROUND_CANVAS_COLOR_SELECT_IID]: {},
   [FOREGROUND_CANVAS_BRUSH_SELECT_IID]: {},
 }

@@ -13,15 +13,6 @@ ENTITY MEMBERS
 
 ---
 
-Everything is the same class
-Camera, Controls are all on the class object, not based on the hero object
-
-Front end fills in the blanks of every class, object, brush, stage, and player based on the default model. It also makes a brush for every class id!
-
-The back end only stores what’s different than the default model and will delete any null key -> value pairs given to it
-
-Never send an update with more data than you need! A deep merge takes place on the back end
-
 GAME MODEL
 
 Object ( Game Object )
@@ -40,6 +31,18 @@ Layers
 Collision Grid
 ---
 
+GAME MODEL DDATA
+
+Everything is the same class
+Camera, Controls are all on the class object, not based on the hero object
+
+Front end fills in the blanks of every class, object, brush, stage, and player based on the default model. It also makes a brush for every class id!
+
+The back end only stores what’s different than the default model and will delete any null key -> value pairs given to it
+
+Never send an update with more data than you need! A deep merge takes place on the back end
+
+
 Default Class, Default Object get placed onto all classes and instance objects when loading the game model
 
 Default Game Model gets placed onto the game model when loading up, it has a default stage on it
@@ -49,6 +52,8 @@ Default stage gets put on the create stage flow
 Default relation gets placed onto relation ( in create relation menu ) data when resetting it
 
 ----
+
+PHASER EFFECTS
 
 Order of EFFECTS are
 
@@ -61,40 +66,28 @@ AFTER PACKAGE UPDATE
   Reclass
 
 ---
+MULTIPLAYER GAME INSTANCE
 
 Current Stage is controlled by UI, by one effect, and when cobrowsing. Its the local users choice and experience when not cobrowsing. When cobrowsing it is automatically updated to where the game hosts player is 
-
-Current Game State is controlled by cobrowsing. Its a shared experience. Perhaps it should be on the lobby?. Its not on the lobby so it can also be used in single player as well
 
 Player is controlled by the game host and broadcasts to all clients from the host. It also updates redux when the current cobrowsing player state is different than the redux state
 
 --
+PHASER
 
 Phaser keeps spawned object in some sort of memory pool between 'reloading' the scene. I tested via profiler. Even if you destroy all objects, phaser still is slower next time you boot. You have to turn game off and turn it on again.
 
 
---
-
-SECTIONS
-Admin
-Marketing
-Creator
-Game
-Lobby
-Layout
-Ticketing
-Pages
-ui
-hoc
-constants
-state
-
 -----
+
+CONSTANTS
 
 - for continuing words
 _ for seperating words
 
 ---
+
+ACTIONS
 
 UPDATE for changes that were made remotely, not by you
 
@@ -110,16 +103,21 @@ honestly i dont know what any of these mean...
 
 --
 
+MONGOOSE 
+
 remove for hidding objects from UI, 
 delete for actuallt removing from atlasDB
 
 
 ---
 
+LOBBYS/GAME ROOMS
 You only leave the users array of a lobby or game session when you join a different lobby or game session
 
 
 ---
+
+GAME ROOMS
 
 1. Lobby is joined
 2. Host creates a game session
@@ -133,3 +131,18 @@ You only leave the users array of a lobby or game session when you join a differ
 8. All users in the session recieve this 
 
 ---
+
+MODALS 
+
+ROOT LEVEL
+  Sprite Editor
+  Metadata
+  Cutscene
+  Stage
+  Relation
+  Background Color
+  Defaults
+SECOND LEVEL
+  Class
+  Brush
+  My Images

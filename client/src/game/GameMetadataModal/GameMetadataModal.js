@@ -6,7 +6,7 @@ import './GameMetadataModal.scss';
 import CobrowsingModal from '../cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import { closeGameMetadataModal } from '../../store/actions/gameSelectorActions';
-import GameMetadataForm from '../../app/arcadeGame/GameMetadataForm/GameMetadataForm';
+import GameMetadataForm from '../GameMetadataForm/GameMetadataForm';
 
 const GameMetadataModal = ({ closeGameMetadataModal, gameViewEditor: { isSnapshotTakerOpen } }) => {
   function handleClose() {

@@ -8,7 +8,7 @@ import Sprite from '../Sprite/Sprite';
 
 const MySprites = ({
   awsImages,
-  onClickSprite
+  onClickSprite,
 }) => {
 
   const textureIds = Object.keys(awsImages).map((awsId) => {
@@ -23,7 +23,7 @@ const MySprites = ({
 };
 
 const mapStateToProps = (state) => ({
-  awsImages: state.gameModel.gameModel.awsImages
+  awsImages: state.gameModel.gameModel.awsImages,
 });
 
 export default compose(

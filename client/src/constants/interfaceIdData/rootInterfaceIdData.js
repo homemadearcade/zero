@@ -2,7 +2,9 @@ import { ADD_COLOR_IID, CHOOSE_SPRITES_IID, DRAW_NEW_SPRITE_IID, ERASER_IID, GAM
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  [LAYER_VISIBILITY_IID]: {},
+  [LAYER_VISIBILITY_IID]: {
+    previewText: 'Hide/Show on Map',
+  },
   [TOGGLE_ALL_PARAMS_IID]: {
     adminOnly: true
   },

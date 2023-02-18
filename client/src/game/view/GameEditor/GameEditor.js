@@ -36,6 +36,7 @@ import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds'
 import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
 import SideEditor from '../../instantEditor/SideEditor/SideEditor';
 import MousePreview from '../../MousePreview/MousePreview';
+import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 
 const GameEditor = ({ 
   classNames, 
@@ -78,13 +79,14 @@ const GameEditor = ({
     //     <GameLoadButton></GameLoadButton>
     //   </GameViewEmpty>
     // }
+          // {gameModel && <SideEditor></SideEditor>}
 
     return <>
       <div id="GameEditor__left-column" ref={leftColumnRef} className="GameEditor__left-column">
         {leftColumn}
         {showColumns && <>
           <GridToggle/>
-          {gameModel && <SideEditor></SideEditor>}
+          <BrushList/>
         </>}
       </div>
       {children}
@@ -97,10 +99,10 @@ const GameEditor = ({
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
             <MousePreview></MousePreview>
-            <BrushList/>
             <ClassList/>
         </>}
       </div>
+      {liveEditingCategory && <LiveEditor></LiveEditor>}
       {isClassBoxModalOpen && <ClassBoxModal/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
       {classIdEditingName && <ClassNameModal/>}
