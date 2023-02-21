@@ -35,7 +35,6 @@ const MousePreview = ({
       metadata,
       classes,
       brushes,
-      colors
     }
   }
 }) => {
@@ -49,7 +48,6 @@ const MousePreview = ({
   
   let brushClass
   let hex; 
-  let colorClass
   let isEraser;
 
   const brushId = brushIdHovering || brushIdSelectedBrushList
@@ -60,7 +58,6 @@ const MousePreview = ({
       isEraser = true
     } else if(isBrushIdColor(brushId)) {
       hex = getHexFromColorId(brushId)
-      colorClass = colors[hex]
     }
   }
 
@@ -138,7 +135,7 @@ const MousePreview = ({
     } else if(classIdHovering) {
       return renderClassPreview()
     } else if(brushIdHovering) {
-      if(colorClass) return renderColorPreview()
+      if(hex) return renderColorPreview()
       return renderBrushPreview()
     } 
     
@@ -147,7 +144,7 @@ const MousePreview = ({
       return renderClassPreview()
     } else if(brushIdSelectedBrushList) {
       if(isEraser) return renderEraserPreview()
-      if(colorClass) return renderColorPreview()
+      if(hex) return renderColorPreview()
       return renderBrushPreview()
     }
 

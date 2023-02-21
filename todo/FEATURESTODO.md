@@ -25,9 +25,6 @@ MODALS
   Hide both of these modals when snapshot editor is open
     Game Metadata -> My Images
 
-INFO BOX
-  If you are not hovering over anything, it shows the game/stage info??
-
 Can Phaser just register keys without taking them over??
 
 ----
