@@ -57,20 +57,20 @@ export default (ChildComponent) => {
     askBeforeClosing = (e) => {
       const gameInstance = store.getState().webPage.gameInstance
       if(gameInstance) {
-        const scene = getCurrentGameScene(gameInstance)
+        // const scene = getCurrentGameScene(gameInstance)
         
-        if(scene?.gameRoom.isHost) {
-          if(scene.backgroundLayer?.unsavedChanges ||
-            scene.playgroundLayer?.unsavedChanges ||
-            scene.foregroundLayer?.unsavedChanges
-          ) {
-            setTimeout(() => {
-              saveAllCurrentCanvases()
-            })
-            e.returnValue = ''
-            return
-          }
-        }
+        // if(scene?.gameRoom.isHost) {
+        //   if(scene.backgroundLayer?.unsavedChanges ||
+        //     scene.playgroundLayer?.unsavedChanges ||
+        //     scene.foregroundLayer?.unsavedChanges
+        //   ) {
+        //     setTimeout(() => {
+        //       saveAllCurrentCanvases()
+        //     })
+        //     e.returnValue = ''
+        //     return
+        //   }
+        // }
 
       }
     }

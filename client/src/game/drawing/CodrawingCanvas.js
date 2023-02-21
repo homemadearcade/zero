@@ -75,6 +75,9 @@ export class CodrawingCanvas extends Canvas {
       const texture = await this.getStrokeHistory()
       this.strokeHistory = texture.strokeHistory
       this.textureIdMongo = texture.id
+      this.strokeHistory.forEach((strokeData) => {
+        this.executeRemoteStroke(strokeData)
+      })
     } catch(e) {
       console.log('couldnt find texture')
       if(this.isCodrawingHost) {

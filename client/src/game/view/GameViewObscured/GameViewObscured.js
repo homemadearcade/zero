@@ -81,6 +81,7 @@ const GameViewObscured = ({
         isPoweredOn: true
       })
     }}>Power On</Button>
+    <GameLoadButton></GameLoadButton>
   </GameViewEmpty>
 
   if(gameRoom.isPoweredOn) {

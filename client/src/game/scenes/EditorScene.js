@@ -270,12 +270,13 @@ export class EditorScene extends GameInstance {
 
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingObjectInstanceId) return
-    const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
-    if(isObscured || this.brush || this.stamper || this.snapshotSquare) {
+    // const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
+    //isObscured ||
+    if(this.brush || this.stamper || this.snapshotSquare) {
       return
     }
 
-    const instanceIdHovering = getCobrowsingState().gameViewEditor.instanceIdHovering
+    const instanceIdHovering = store.getState().gameViewEditor.instanceIdHovering
     const sprite = entitySprite[0]
     if(sprite.instanceId !== instanceIdHovering) {
       store.dispatch(changeInstanceHovering(sprite.instanceId, sprite.classId))
