@@ -1,4 +1,4 @@
-.StateScreen {
+.GameStateScreen {
   position: absolute;
   z-index: 2;
   left: 0;
@@ -17,11 +17,11 @@
 
   &__content {
     width: 100vh;
-      display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .KeyIndicator {
@@ -30,5 +30,6 @@
   }
 
   &__controls {
+    
   }
 }

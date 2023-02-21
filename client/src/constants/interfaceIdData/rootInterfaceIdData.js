@@ -11,8 +11,12 @@ export default {
   [GAME_VIEW_IID]: {},
   [DRAW_NEW_SPRITE_IID]: {},
   [CHOOSE_SPRITES_IID]: {},
-  [ERASER_IID]: {},
-  [ADD_COLOR_IID]: {},
+  [ERASER_IID]: {
+    previewText: 'Eraser',
+  },
+  [ADD_COLOR_IID]: {
+    previewText: 'Add Color'
+  },
   [SHOW_REMOVED_IID]: {},
   [GRID_VIEW_TOGGLE_IID]: {},
   [OPEN_CLASS_BOX_IID]: {}

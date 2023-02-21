@@ -75,7 +75,6 @@ export class CodrawingScene extends Phaser.Scene {
     }
 
     if(this.canvas && pointer.isDown) {
-      // if(this.canvas.blockLocalStrokes) return
       this.brush.stroke(pointer, this.canvas)
     }
   }
@@ -89,7 +88,6 @@ export class CodrawingScene extends Phaser.Scene {
       ////////////////////////////////////////////////////////////
       if(this.brush) {
         const canvas = this.getLayerById(this.brush.getCanvasId())
-        // if(canvas.blockLocalStrokes) return
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
       }

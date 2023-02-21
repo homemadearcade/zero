@@ -67,6 +67,11 @@ VERSION BREAKING FEATURES
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+BETTER TEXTURE/LAYER SYSTEM
+
+A layer either has colliders or it doesnt. A layer is given a texture id. 
+Layers is an object on GameModel. A Layer has a texture Id. You can look up the depth  a brush/eraser is supposed to be on by finding its Layer object. The layer object also
+
 BETTER DATA MODEL
   Decide - what does default mean, what does initial mean?
     Initial Data vs Default data...?

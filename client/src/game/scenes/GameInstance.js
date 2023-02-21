@@ -8,10 +8,9 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
-import {  editLobby } from '../../store/actions/lobbyActions';
 import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
-import { defaultPlayerSpawnZone, initialPlayerSpawnZone } from '../defaultData/stage';
+import { initialPlayerSpawnZone } from '../defaultData/stage';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
 import { editGameRoom } from '../../store/actions/gameRoomActions';
@@ -281,7 +280,6 @@ export class GameInstance extends Phaser.Scene {
     this.projectileInstances.forEach((instance) => {
       instance.registerRelations()
     })
-
 
     /// COLLIDERS
     this.playerInstance.registerColliders()

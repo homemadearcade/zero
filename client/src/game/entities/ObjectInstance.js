@@ -143,7 +143,7 @@ export class ObjectInstance extends Sprite {
     const width = sprite.displayWidth -  objectClass.graphics.width/2
     const height = sprite.displayHeight-  objectClass.graphics.height/2
 
-    return [ x, y, width, height]
+    return [x, y, width, height]
   }
 
   reclass(classId) {

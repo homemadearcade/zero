@@ -6,10 +6,11 @@ import Typography from '../../ui/Typography/Typography';
 import Sprite from '../sprites/Sprite/Sprite';
 import { getThemePrimaryColor } from '../../utils/webPageUtils';
 import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
-import { layerToDisplayName } from '../constants';
+import { layerToDisplayName, PAUSED_STATE, PLAY_STATE, STOPPED_STATE } from '../constants';
 import Icon from '../../ui/Icon/Icon';
 import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../constants/interfaceIdData';
+import { classTypeToDisplayName } from '../defaultData/class';
 
 // const INSTANCE_PREVIEW = 'INSTANCE_PREVIEW'
 // const CLASS_PREVIEW = 'CLASS_PREVIEW'
@@ -36,7 +37,10 @@ const MousePreview = ({
       classes,
       brushes,
     }
-  }
+  },
+  gameRoom: {
+    gameRoom
+  },
 }) => {
 
   let objectClass
@@ -86,7 +90,7 @@ const MousePreview = ({
     return renderStage({
       tint: objectClass.graphics.tint,
       textureId: objectClass.graphics.textureId,
-      title: objectClass.name
+      title: objectClass.name + ' - ' + classTypeToDisplayName[objectClass.type]
     })   
   }
 
@@ -117,8 +121,8 @@ const MousePreview = ({
         <div className="MousePreview__stage-item">
           <Icon icon="faEraser"/>
         </div>
+        {renderStageTitle(layerName)}
       </div>
-      {renderStageTitle(layerName)}
     </>
   }
 
@@ -137,7 +141,7 @@ const MousePreview = ({
     } else if(brushIdHovering) {
       if(hex) return renderColorPreview()
       return renderBrushPreview()
-    } 
+    }
     
     // selected
     if(classIdSelectedClassList) {
@@ -148,6 +152,9 @@ const MousePreview = ({
       return renderBrushPreview()
     }
 
+    if(gameRoom.gameState === PAUSED_STATE || gameRoom.gameState === STOPPED_STATE) {
+      return renderStageTitle('Paused')
+    }
 
     return <div className="MousePreview__title">
         <Typography font="2P" variant="subtitle2">{metadata.title}</Typography>
@@ -155,7 +162,7 @@ const MousePreview = ({
   }
 
   return <div className="MousePreview">
-    <div className="MousePreview__background" style={{backgroundColor: getThemePrimaryColor().hexString}}/>
+    <div className="MousePreview__background" style={{backgroundColor: '#222', color: 'white'}}/>
     {renderBody()}
   </div>
 };
@@ -165,6 +172,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
   cobrowsing: state.cobrowsing,
+  gameRoom: state.gameRoom
 })
 
 export default connect(mapStateToProps, { })(MousePreview);

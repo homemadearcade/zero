@@ -54,12 +54,6 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
         brushIdHovering: payload.brushId
       }
     case CHANGE_INSTANCE_HOVERING:
-      console.log(payload)
-      console.log({
-        ...state,
-        instanceClassIdHovering: payload.classId,
-        instanceIdHovering: payload.instanceId
-      })
       return {
         ...state,
         instanceClassIdHovering: payload.classId,

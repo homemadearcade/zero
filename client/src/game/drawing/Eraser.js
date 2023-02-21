@@ -47,7 +47,7 @@ export class Eraser extends Brush {
     this.lastUpdateX = this.x
     this.lastUpdateY = this.y
 
-    const borderSize = 200
+    const borderSize = 0
 
     this.lowerLayerPreviews.forEach((preview, index) => {
       preview.setCrop(this.x - borderSize, this.y - borderSize, this.width + (borderSize * 2), this.height + (borderSize * 2))

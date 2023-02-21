@@ -49,7 +49,7 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   stroke(pointer, canvas) {
-    if(canvas.blockLocalStrokes) {
+    if(!canvas.strokeHistory) {
       return false
     }
     
@@ -87,11 +87,21 @@ export class Brush extends Phaser.GameObjects.Image {
   }
 
   releaseStroke() {
-    if(this.scene.gameRoom.isNetworked) {
-      const strokeData = { strokeId: STROKE_ID_PREFIX + generateUniqueId(), textureId: this.canvas.textureId, time: Date.now() }
-      store.dispatch(publishCodrawingStrokes({ ...strokeData, brushId: this.brushId, stroke: this.strokeMemory }))
-      if(!this.canvas.isCodrawingHost) this.canvas.strokesPending.push(strokeData)
+    const strokeData = { 
+      strokeId: STROKE_ID_PREFIX + generateUniqueId(),
+      textureId: this.canvas.textureId,
+      time: Date.now(),
+      brushId: this.brushId,
+      stroke: this.strokeMemory
     }
+    
+    if(this.scene.gameRoom.isNetworked) {
+      store.dispatch(publishCodrawingStrokes(strokeData))
+      if(!this.canvas.isCodrawingHost) this.canvas.strokesPending.push(strokeData)
+    } else {
+      this.canvas.addStrokeHistory(strokeData)
+    }
+    
     this.canvas.onStrokeReleased()
     this.canvas = null
     this.strokeMemory = []

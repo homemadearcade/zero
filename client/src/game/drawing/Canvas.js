@@ -4,6 +4,7 @@ import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
 import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
 import { addAwsImage } from "../../store/actions/gameModelActions";
+import { editTexture } from "../../store/actions/textureActions";
 
 window.instanceUndoStack = []
 window.spriteEditorUndoStack = []
@@ -27,8 +28,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
     this.initialDraw()
 
-    this.blockLocalStrokes = false
-
     this.previousRenderTexture = null
     this.undoTextureStack = []
     this.boundaries = boundaries
@@ -45,7 +44,11 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         const fileId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 
-        this.oldStrokes = this.strokeHistory
+        if(this.textureIdMongo) {
+          store.dispatch(editTexture(this.textureIdMongo, {
+            strokeHistory: []
+          }))
+        }
         this.strokeHistory = []
 
         const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
@@ -54,8 +57,6 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
           name: fileId,
           type: 'layer'
         })
-
-        this.oldStrokes = []
 
         resolve(fileId)
       } catch(e) {
@@ -132,20 +133,12 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   draw(entries, x, y) {
-    // if(this.blockLocalStrokes) {
-    //   return false
-    // }
-
     this.storeRenderTextureForUndoStack()
     this.unsavedChanges = true
     super.draw(entries, x, y)
   }
 
   erase(entries, x, y) {
-    // if(this.blockLocalStrokes) {
-    //   return false
-    // }
-
     this.storeRenderTextureForUndoStack()
     this.unsavedChanges = true
     super.erase(entries, x, y)

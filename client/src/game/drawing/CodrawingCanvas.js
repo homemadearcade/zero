@@ -7,6 +7,7 @@ import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/co
 import { noCodrawingStrokeUpdateDelta } from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
 import { CODRAWING_CONNECTION_LOST } from "../../constants";
+import { addTexture, editTexture, getTextureByTextureId } from "../../store/actions/textureActions";
 
 export class CodrawingCanvas extends Canvas {
   constructor(scene, props){
@@ -17,6 +18,8 @@ export class CodrawingCanvas extends Canvas {
     this.canvasId = props.canvasId
     this.scene = scene
 
+    this.strokeHistory = null
+    this.initializeStrokeHistory()
     if(!this.scene.gameRoom.isNetworked) return
 
     this.strokesPending = []
@@ -24,42 +27,15 @@ export class CodrawingCanvas extends Canvas {
       this.strokeCheckInterval = setInterval(this.pendingStrokeCheck, noCodrawingStrokeUpdateDelta/5)
       window.socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, ({ strokeId, textureId }) => {
         if(this.textureId !== textureId) return
-
         this.strokesPending = this.strokesPending.filter((stroke) => {
           return stroke.strokeId !== strokeId
         })
       })
     }
  
-    this.blockLocalStrokes = false
     store.dispatch(subscribeCodrawing(this.textureId))
 
-    if(this.isCodrawingHost) {
-      this.blockLocalStrokes = false
-      this.strokeHistory = []
-      this.oldStrokes = []
 
-      window.socket.on(ON_CODRAWING_SUBSCRIBED, ({ userId, textureId  }) => {
-        const state = store.getState()
-        const me = state.auth.me 
-        if(textureId !== this.textureId) return 
-        if(userId === me.id) return 
-        window.socket.emit(ON_CODRAWING_INITIALIZE, { userId, textureId, strokeHistory: [...this.oldStrokes, ...this.strokeHistory] })
-      });
-    }
-
-    window.socket.on(ON_CODRAWING_INITIALIZE, ({ userId, textureId, strokeHistory  }) => {
-      const state = store.getState()
-      const me = state.auth.me 
-      if(textureId !== this.textureId) return 
-      if(userId !== me.id) return 
-      strokeHistory.forEach((strokeData) => {
-        this.executeRemoteStroke(strokeData)
-      })
-      this.strokesPending = []
-      this.blockLocalStrokes = false
-    })
-  
     // event that is triggered if codrawing has been registered
     window.socket.on(ON_CODRAWING_STROKE, (strokeData) => {
       const {userId, textureId, strokeId } = strokeData
@@ -68,7 +44,9 @@ export class CodrawingCanvas extends Canvas {
 
       if(textureId !== this.textureId) return 
 
-      if(this.isCodrawingHost) this.strokeHistory.push(strokeData)
+      if(this.isCodrawingHost) {
+        this.addStrokeHistory(strokeData)
+      }
 
       if(userId === me.id) return 
 
@@ -85,11 +63,45 @@ export class CodrawingCanvas extends Canvas {
     return this
   }
 
+  async addStrokeHistory(strokeData) {
+    this.strokeHistory.push(strokeData)
+    store.dispatch(editTexture(this.textureIdMongo, {
+      strokeHistory: this.strokeHistory
+    }))
+  }
+
+  async initializeStrokeHistory() {
+    try{
+      const texture = await this.getStrokeHistory()
+      this.strokeHistory = texture.strokeHistory
+      this.textureIdMongo = texture.id
+    } catch(e) {
+      console.log('couldnt find texture')
+      if(this.isCodrawingHost) {
+        const texture = await this.createStrokeHistory()
+        this.textureIdMongo = texture.id
+      }
+      this.strokeHistory = []
+    }
+  }
+
+  async getStrokeHistory() {
+    return await store.dispatch(getTextureByTextureId(this.textureId))
+  }
+
+  async createStrokeHistory() {
+    return await store.dispatch(addTexture({
+      textureId: this.textureId, 
+      userId: store.getState().auth.me.id,
+      arcadeGame: store.getState().gameModel.gameModel?.id
+    }))
+  }
+
   pendingStrokeCheck = () => {
     if(this.strokesPending.length) {
       const lastStroke = this.strokesPending[this.strokesPending.length - 1]
       if(lastStroke.time + noCodrawingStrokeUpdateDelta < Date.now()) {
-        this.blockLocalStrokes = true
+        this.strokeHistory = null
         clearInterval(this.strokeCheckInterval)
         store.dispatch(changeErrorState(CODRAWING_CONNECTION_LOST, { textureId: this.textureId }))
         console.error('Your drawing is out of sync and it will now reset', this.textureId, this.canvasId)

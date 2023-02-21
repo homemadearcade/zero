@@ -66,7 +66,11 @@ export const defaultGameModel = {
         tint: '#FFFFFF'
       },
       isRemoved: true
-    }
+    },
+    
+    textures: {
+
+    },
   },
   isRemoved: false
 }

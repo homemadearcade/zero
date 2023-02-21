@@ -6,6 +6,7 @@ import './GridViewArrows.scss';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Icon from '../../../ui/Icon/Icon';
 import store from '../../../store';
+import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 
 const scrollDelta = 3;
 
@@ -37,10 +38,12 @@ const GridViewArrows = () => {
       clearInterval(cameraMoveInterval)
     }
   })
-
+  const color = getThemePrimaryColor().hexString
 
   return <>
-    <div className="GridViewArrows__arrow GridViewArrows__left" 
+    <div 
+      style={{color}}
+      className="GridViewArrows__arrow GridViewArrows__left" 
       onMouseEnter={() => {
         setOverArrow('left')
       }}
@@ -48,9 +51,11 @@ const GridViewArrows = () => {
         setOverArrow(null)
       }}
     >
-      <Icon icon="faArrowLeft" size="lg"></Icon>
+      <Icon icon="faArrowLeft" size="sm"></Icon>
     </div>
-    <div className="GridViewArrows__arrow GridViewArrows__right"
+    <div 
+      style={{color}}
+      className="GridViewArrows__arrow GridViewArrows__right"
       onMouseEnter={() => {
         setOverArrow('right')
       }}
@@ -58,9 +63,11 @@ const GridViewArrows = () => {
         setOverArrow(null)
       }}
     >
-      <Icon icon="faArrowRight" size="lg"></Icon>
+      <Icon icon="faArrowRight" size="sm"></Icon>
     </div>
-    <div className="GridViewArrows__arrow GridViewArrows__top"
+    <div 
+      style={{color}}
+      className="GridViewArrows__arrow GridViewArrows__top"
       onMouseEnter={() => {
         setOverArrow('top')
       }}
@@ -68,9 +75,11 @@ const GridViewArrows = () => {
         setOverArrow(null)
       }}
     >
-      <Icon icon="faArrowUp" size="lg"></Icon>
+      <Icon icon="faArrowUp" size="sm"></Icon>
     </div>
-    <div className="GridViewArrows__arrow GridViewArrows__bottom"
+    <div 
+      style={{color}}
+      className="GridViewArrows__arrow GridViewArrows__bottom"
       onMouseEnter={() => {
         setOverArrow('bottom')
       }}
@@ -78,7 +87,7 @@ const GridViewArrows = () => {
         setOverArrow(null)
       }}
     >
-      <Icon icon="faArrowDown" size="lg"></Icon>
+      <Icon icon="faArrowDown" size="sm"></Icon>
     </div>
   </>
 }
