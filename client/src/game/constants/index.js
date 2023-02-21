@@ -131,7 +131,7 @@ export const MOVEMENT_NONE = 'MOVEMENT_NONE'
 
 /////////////////////////////////////
 /////////////////////////////////////
-// PROJECTILE STYLEs
+// PROJECTILE STYLES
 export const PROJECTILE_RANDOM_DIRECTION = 'PROJECTILE_RANDOM_DIRECTION'
 export const PROJECTILE_RANDOM_ANGLE = 'PROJECTILE_RANDOM_ANGLE'
 export const PROJECTILE_TARGET_PLAYER = 'PROJECTILE_TARGET_PLAYER'
@@ -141,6 +141,14 @@ export const PROJECTILE_RIGHT = 'PROJECTILE_RIGHT'
 export const PROJECTILE_DOWN = 'PROJECTILE_DOWN'
 export const PROJECTILE_UP = 'PROJECTILE_UP'
 export const PROJECTILE_NONE = 'PROJECTILE_NONE'
+
+/////////////////////////////////////
+/////////////////////////////////////
+// DIRECTIONS
+export const DIRECTION_LEFT = 'DIRECTION_LEFT'
+export const DIRECTION_RIGHT = 'DIRECTION_RIGHT'
+export const DIRECTION_DOWN = 'DIRECTION_DOWN'
+export const DIRECTION_UP = 'DIRECTION_UP'
 
 /////////////////////////////////////
 /////////////////////////////////////

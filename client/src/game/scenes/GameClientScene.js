@@ -26,7 +26,7 @@ export class GameClientScene extends EditorScene {
     this.gameInstanceId = null
   }
 
-  onGameInstanceUpdate = ({gameInstanceId, objects, player, projectiles, stageId, upsHost, upsServer}) => {
+  onGameInstanceUpdate = ({gameInstanceId, objectInstances, playerInstance, projectiles, stageId, upsHost, upsServer}) => {
     if(!this.gameInstanceId) {
       this.gameInstanceId = gameInstanceId
     }
@@ -48,7 +48,7 @@ export class GameClientScene extends EditorScene {
       return
     }
 
-    objects.forEach((instanceUpdate) => {
+    objectInstances.forEach((instanceUpdate) => {
       const instanceId = instanceUpdate.instanceId
       if(instanceId === this.draggingObjectInstanceId) {
         return
@@ -75,14 +75,13 @@ export class GameClientScene extends EditorScene {
 
     if(this.draggingObjectInstanceId === PLAYER_INSTANCE_ID_PREFIX) return
 
-    this.playerInstance.sprite.x = player.x 
-    this.playerInstance.sprite.y = player.y
-    this.playerInstance.sprite.rotation = player.rotation
-    this.playerInstance.setVisible(player.isVisible);
-    this.playerInstance.setVisible(player.isVisible);
-    this.playerInstance.isVisible = player.isVisible
-    this.playerInstance.destroyAfterUpdate = player.destroyAfterUpdate 
-    this.playerInstance.reclassId = player.reclassId
+    this.playerInstance.sprite.x = playerInstance.x 
+    this.playerInstance.sprite.y = playerInstance.y
+    this.playerInstance.sprite.rotation = playerInstance.rotation
+    this.playerInstance.setVisible(playerInstance.isVisible);
+    this.playerInstance.isVisible = playerInstance.isVisible
+    this.playerInstance.destroyAfterUpdate = playerInstance.destroyAfterUpdate 
+    this.playerInstance.reclassId = playerInstance.reclassId
 
 
     this.afterGameInstanceUpdateEffects() 

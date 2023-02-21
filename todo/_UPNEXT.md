@@ -6,7 +6,6 @@ BIG FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-
 DIALOGUE CHOICES
 
 PARTICLE EFFECTS
@@ -16,12 +15,6 @@ https://koreezgames.github.io/phaser3-particle-editor/
 LIGHT SYSTEM
 https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/
 
-SPRITE SHEET EDITOR
-
-PATHFINDING
-
-CUSTOM CODING
-
 WEBRTC for GameRoom
 https://github.com/peers/peerjs
 
@@ -29,6 +22,13 @@ BETTER BRUSHES
   Spray Can, Paintbrush, Crayon?
 
   For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
+
+SPRITE SHEET EDITOR
+
+PATHFINDING
+
+CUSTOM CODING
+
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -44,9 +44,14 @@ Timeline..timers - A whole timer interface like at the bottom like an editor?
 
 Change gravity/boundaries effect ( basically change stage but wihout switching the objects?? )
 
-Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode
+Attribute to make the left side the 'front' of a sprite. For.. projectiles and for vehicle mode - not THAT hard... just has to do with movement yeah? and projectile stuff?
 
-inPlaythrough mode you can check the class of a player interface Ids and those ids are what are allowed to be shown. ! So then we can have game powers :)
+GAME POWERS
+  inPlaythrough mode you can check the class of a player interface Ids and those ids are what are allowed to be shown. ! So then we can have game powers :)
+
+  Limit the amount of clasees that can be made by your character. Or perhaps they cost resources or take time
+
+  For example - Yes, you can create a class, but how much does it cost to create? Can this information be on a class? Like is a spell.. a..Class? Like you can place it on the map? Or perhaps the spell is to like switch Heros
 
 MORE EVENTS
   onCutsceneEnd Event, onStageEntered

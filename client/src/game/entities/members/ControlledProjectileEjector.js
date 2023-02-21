@@ -1,13 +1,13 @@
 import store from "../../../store"
 import { generateUniqueId } from "../../../utils/webPageUtils"
 import { PROJECTILE_INSTANCE_ID_PREFIX } from "../../constants"
-import { ProjectileInstance } from "../ProjectileInstance"
 
 export class ControlledProjectileEjector {
   constructor(scene, objectInstance){
     this.objectInstance = objectInstance
     this.cursors = objectInstance.cursors
     this.scene = scene
+    this.nextFire = 0
   }
 
   update(time, delta) {

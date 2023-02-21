@@ -9,12 +9,12 @@ import StageContextMenu from '../StageContextMenu/StageContextMenu';
 import ObjectInstanceListContextMenu from '../ObjectInstanceListContextMenu/ObjectInstanceListContextMenu';
 import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 
-const GameContextMenuBody = ({ selectableObjectInstances, objectIdSelectedContextMenu, classIdSelectedContextMenu, closeContextMenu }) => { 
+const GameContextMenuBody = ({ selectableObjectInstances, instanceIdSelectedContextMenu, classIdSelectedContextMenu, closeContextMenu }) => { 
   if(selectableObjectInstances) {
     return <ObjectInstanceListContextMenu selectableObjectInstances={selectableObjectInstances} onMenuItemClick={closeContextMenu}/>
-  } else if(objectIdSelectedContextMenu) {
-    return <ObjectInstanceContextMenu onMenuItemClick={closeContextMenu} objectId={objectIdSelectedContextMenu} classId={classIdSelectedContextMenu} />
-  } else if(classIdSelectedContextMenu || objectIdSelectedContextMenu === PLAYER_INSTANCE_ID_PREFIX) {
+  } else if(instanceIdSelectedContextMenu) {
+    return <ObjectInstanceContextMenu onMenuItemClick={closeContextMenu} objectId={instanceIdSelectedContextMenu} classId={classIdSelectedContextMenu} />
+  } else if(classIdSelectedContextMenu || instanceIdSelectedContextMenu === PLAYER_INSTANCE_ID_PREFIX) {
     return <ClassContextMenu classId={classIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>
   }
 

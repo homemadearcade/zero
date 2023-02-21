@@ -6,6 +6,7 @@ import { Collider } from "./members/Collider";
 import { Graphics } from "./members/Graphics";
 import { Effects } from "./members/Effects";
 import { Movement } from "./members/Movement";
+import { ProjectileEjector } from "./members/ProjectileEjector";
 
 export class ObjectInstance extends Sprite {
   constructor(scene, instanceId, {spawnX, spawnY, classId}, effectSpawned){
@@ -67,6 +68,8 @@ export class ObjectInstance extends Sprite {
       }
     })
 
+    this.projectileEjector = new ProjectileEjector(scene, this)
+
     return this
   }
 
@@ -83,7 +86,6 @@ export class ObjectInstance extends Sprite {
     const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
 
     this.graphics.update()
-    this.collider.update()
 
     ////////////////////////////////////////
     ////////////////////////////////////////
@@ -92,6 +94,10 @@ export class ObjectInstance extends Sprite {
       this.scene.physics.world.wrap(this.sprite.body, objectClass.graphics.width)
     }
 
+    if(this.scene.isPaused) return 
+
+    this.collider.update()
+    this.projectileEjector.update(time, delta)
     this.effects.update()
     this.movement.update(time, delta)
   }
@@ -160,8 +166,7 @@ export class ObjectInstance extends Sprite {
     this.scene.removeObjectInstance(this.instanceId)
   }
 
-  destroyInGame() {
-    const instanceId = this.instanceId
+  runDestroyEvents() {
     const classId = this.classId
     const gameModel = store.getState().gameModel.gameModel
 
@@ -185,7 +190,11 @@ export class ObjectInstance extends Sprite {
         }
       })
     }
+  }
 
+  destroyInGame() {
+    const instanceId = this.instanceId
+    this.runDestroyEvents()
     // calls .destroy()
     this.scene.removeObjectInstance(instanceId)
   }

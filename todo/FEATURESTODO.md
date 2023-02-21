@@ -3,9 +3,6 @@ TEXTURE STROKE HISTORY
   attempt the user profile pic upload first
   Should be a /texture route not an aws route
   
-TOWERS
-  Enemy Projectiles Functionality
-
 COMPENDIUM BOX
   Goomba
   Flying Goomba

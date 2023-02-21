@@ -40,7 +40,7 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: gameObjects[0].classId, 
-      objectIdSelectedContextMenu: gameObjects.length === 1 ? gameObjects[0].instanceId : null, 
+      instanceIdSelectedContextMenu: gameObjects.length === 1 ? gameObjects[0].instanceId : null, 
       selectableObjectInstances: gameObjects.length > 1 ? gameObjects.map(({instanceId, classId}) => { return {objectId: instanceId, classId}}) : null, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
@@ -64,7 +64,7 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
   });
 }
 
-export const openContextMenuFromObjectInstanceId= (objectId, classId, event) => (dispatch, getState) => {
+export const openContextMenuFromObjectInstanceId= (instanceId, classId, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
@@ -72,7 +72,7 @@ export const openContextMenuFromObjectInstanceId= (objectId, classId, event) => 
     cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      objectIdSelectedContextMenu: objectId,
+      instanceIdSelectedContextMenu: instanceId,
       classIdSelectedContextMenu: classId,
       selectableObjectInstances: null,
       contextMenuX: event.pageX,

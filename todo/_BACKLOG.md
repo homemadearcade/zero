@@ -148,6 +148,8 @@ DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
 Try to remove getState() and getCobrowsingState() inside of game... standardize this better
 
+Object Entity
+on stages, call objects -> instances
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

@@ -1,26 +1,25 @@
 import store from "../../../store"
 import { generateUniqueId } from "../../../utils/webPageUtils"
-import { PROJECTILE_INSTANCE_ID_PREFIX } from "../../constants"
-import { ProjectileInstance } from "../ProjectileInstance"
+import { PROJECTILE_INSTANCE_ID_PREFIX, PROJECTILE_NONE } from "../../constants"
 
-export class ControlledProjectileEjector {
+export class ProjectileEjector {
   constructor(scene, objectInstance){
     this.objectInstance = objectInstance
     this.scene = scene
-    this.nextFire = Infinity
+    this.nextFire = 0
   }
 
   update(time, delta) {
     const classId = this.objectInstance.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
-    if(time < this.nextFire) { 
+    if(time < this.nextFire || !objectClass.projectile.classId || objectClass.projectile.style === PROJECTILE_NONE) { 
       return
     }
 
     const projectile = this.scene.addProjectileInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
-    projectile.fire(this.objectInstance, time, this.cursors)
+    projectile.fireAutomatic(this.objectInstance, time)
 
-    this.nextFire = time + objectClass.projectile.cooldown;
+    this.nextFire = time + (objectClass.projectile.cooldown * 6) + 200;
   }
 }

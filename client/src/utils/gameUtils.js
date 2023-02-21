@@ -6,6 +6,7 @@ import { GamePlayScene } from "../game/scenes/GamePlayScene";
 import store from "../store";
 import { getCobrowsingState } from "./cobrowsingUtils";
 import { getCurrentGameScene } from "./editorUtils";
+import Phaser from 'phaser'
 
 export function isGameBoundaryWall(world, body) {
   if(body === world.walls.left || body === world.walls.right || body === world.walls.up || body === world.walls.down) {
@@ -13,6 +14,27 @@ export function isGameBoundaryWall(world, body) {
   }
 
   return false
+}
+
+export function getAngleBetweenInstances(obj1, obj2) {
+  let sprite1 = obj1.sprite ? obj1.sprite : obj1
+  let sprite2 = obj2.sprite ? obj2.sprite : obj2
+
+    //I use the offset because the ship is pointing down
+    //at the 6 o'clock position
+    //set to 0 if your sprite is facing 3 o'clock
+    //set to 180 if your sprite is facing 9 o'clock
+    //set to 270 if your sprite is facing 12 o'clock
+    //
+    // let offSet = 90;
+    // angle in radians
+    // let angleRadians = Math.atan2(obj2.y - obj1.y, obj2.x - obj1.x);
+    // angle in degrees
+    let angleDeg = (Math.atan2(sprite2.y - sprite1.y, sprite2.x - sprite1.x) * 180 / Math.PI);
+    //add the offset
+    // angleDeg += offSet;
+
+    return Phaser.Math.DegToRad(angleDeg)
 }
 
 export function getClassAandB(classIdA, classIdB) {

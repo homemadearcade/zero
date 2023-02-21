@@ -50,12 +50,12 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             }}/>
         </Unlockable>}
         {classSelected.projectile.style === PROJECTILE_TARGET_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
-        <SelectClass
+          <SelectClass
             formLabel="Target Class"
-            value={classSelected.projectile.targetId ? [classSelected.projectile.targetId] : []}
+            value={classSelected.projectile.targetClassId ? [classSelected.projectile.targetClassId] : []}
             onChange={(event, classes) => {
               const newClassId = classes[classes.length-1]
-              editGameModel({ classes: { [classId]: { projectile: { targetId: newClassId ? newClassId : null  }}}})        
+              editGameModel({ classes: { [classId]: { projectile: { targetClassId: newClassId ? newClassId : null  }}}})        
           }}/>
         </Unlockable>}
         <Unlockable isSlider interfaceId={PROJECTILE_SPEED_IID}>

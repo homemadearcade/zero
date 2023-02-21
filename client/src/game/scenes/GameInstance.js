@@ -83,12 +83,12 @@ export class GameInstance extends Phaser.Scene {
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
-   [this.playerInstance, ...this.objectInstances, ...this.projectileInstances].forEach((object) => {
-      if(object.classId === classId) {
-        fx(object)
-      } else if(object.instanceId === classId) {
+   [this.playerInstance, ...this.objectInstances, ...this.projectileInstances].forEach((objectInstance) => {
+      if(objectInstance.classId === classId) {
+        fx(objectInstance)
+      } else if(objectInstance.instanceId === classId) {
         //player class
-        fx(object)
+        fx(objectInstance)
       }
     })
   }
@@ -139,7 +139,6 @@ export class GameInstance extends Phaser.Scene {
         spawnX,
         spawnY
       });
-
     }
 
     this.playerInstance.setLerp()
@@ -161,7 +160,6 @@ export class GameInstance extends Phaser.Scene {
     const newPhaserObject = new ObjectInstance(this, instanceId, gameObject, effectSpawned)
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[instanceId] = newPhaserObject
-
     return newPhaserObject
   }
 
@@ -172,6 +170,14 @@ export class GameInstance extends Phaser.Scene {
     this.unregisterRelations()
     this.registerRelations()
     return projectile
+  }
+
+  removeProjectileInstance(instanceId) {
+    this.projectileInstances = this.projectileInstances.filter((projectile) => {
+      return instanceId !== projectile.instanceId
+    })
+    this.projectileInstancesById[instanceId].destroy()
+    this.projectileInstancesById[instanceId] = null
   }
 
   addObjectInstance(instanceId, gameObject, effectSpawned) {
@@ -186,6 +192,7 @@ export class GameInstance extends Phaser.Scene {
       return instanceId !== object.instanceId
     })
     this.getObjectInstance(instanceId).destroy()
+    this.objectInstancesById[instanceId] = null
   }
 
   updateObjectInstance(objectInstance, {x, y, rotation, isVisible, destroyAfterUpdate, reclassId}) {
@@ -332,18 +339,18 @@ export class GameInstance extends Phaser.Scene {
     if(this.playerInstance.destroyAfterUpdate) {
       this.playerInstance.destroyInGame()
     }
-    
-    this.objectInstances.forEach((instance) => {
-      if(instance.reclassId && instance.reclassId !== instance.classId) {
-        instance.reclass(instance.reclassId)
-      } else if(instance.destroyAfterUpdate) {
-        instance.destroyInGame()
-      }
-    })
 
     this.projectileInstances.forEach((projectile) => {
       if(projectile.destroyTime < Date.now()) {
-        projectile.destroy()
+        projectile.destroyAfterUpdate = true
+      }
+    });
+    
+    [...this.projectileInstances, ...this.objectInstances].forEach((objectInstance) => {
+      if(objectInstance.reclassId && objectInstance.reclassId !== objectInstance.classId) {
+        objectInstance.reclass(objectInstance.reclassId)
+      } else if(objectInstance.destroyAfterUpdate) {
+        objectInstance.destroyInGame()
       }
     })
 
@@ -542,9 +549,9 @@ export class GameInstance extends Phaser.Scene {
   }
 
   respawn() {
-    this.objectInstances.forEach((object) => {
-      object.x = object.spawnX
-      object.y = object.spawnY
+    this.objectInstances.forEach((objectInstance) => {
+      objectInstance.x = objectInstance.spawnX
+      objectInstance.y = objectInstance.spawnY
     })
     const state = store.getState()
     const gameModel = state.gameModel
@@ -583,10 +590,13 @@ export class GameInstance extends Phaser.Scene {
       instance.destroy()
     })
     this.projectileInstances.forEach((instance) => {
+      instance.destroyAfterUpdate = true
       instance.destroy()
     })
     this.projectileInstances = []
+    this.projectileInstancesById = {}
     this.objectInstances= []
+    this.objectInstancesById = {}
     this.playerInstance.destroy()
     this.playerInstance = null
   }
@@ -621,8 +631,8 @@ export class GameInstance extends Phaser.Scene {
 
     this.stage.update()
 
-    this.objectInstances.forEach((object) => {
-      object.update(time, delta);
+    this.objectInstances.forEach((objectInstance) => {
+      objectInstance.update(time, delta);
     })
 
     this.projectileInstances.forEach((projectile) => {

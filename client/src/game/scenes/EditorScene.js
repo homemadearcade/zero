@@ -695,90 +695,91 @@ export class EditorScene extends GameInstance {
       const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
       if(classUpdate.collisionResponse?.bounciness >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setBounce(classUpdate.collisionResponse.bounciness)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setBounce(classUpdate.collisionResponse.bounciness)
         })
       }
+
       if(classUpdate.collisionResponse?.friction >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setFriction(classUpdate.collisionResponse.friction)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setFriction(classUpdate.collisionResponse.friction)
         })
       }
 
       if(classUpdate.collisionResponse?.notPushable !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setPushable(!classUpdate.collisionResponse.notPushable)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setPushable(!classUpdate.collisionResponse.notPushable)
         })
       }
 
 
       if(classUpdate.movement?.drag >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setDrag(classUpdate.movement.drag)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setDrag(classUpdate.movement.drag)
         })
       }
 
       if(classUpdate.movement?.dragX >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setDragX(classUpdate.movement.dragX)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setDragX(classUpdate.movement.dragX)
         })
       }
 
       if(classUpdate.movement?.dragAngular >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setAngularDrag(classUpdate.movement.dragAngular)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setAngularDrag(classUpdate.movement.dragAngular)
         })
       }
 
       if(classUpdate.movement?.dragY >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setDragY(classUpdate.movement.dragY)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setDragY(classUpdate.movement.dragY)
         })
       }
 
       if(classUpdate.movement?.gravityY !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setGravityY(classUpdate.movement?.gravityY)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setGravityY(classUpdate.movement?.gravityY)
         })
       }
       if(classUpdate.movement?.gravityX !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setGravityX(classUpdate.movement?.gravityX)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setGravityX(classUpdate.movement?.gravityX)
         })
       }
 
       // if(classUpdate.frictionStatic >= 0) {
-      //   this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-      //     object.setFrictionStatic(classUpdate.frictionStatic)
+      //   this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+      //     objectInstance.setFrictionStatic(classUpdate.frictionStatic)
       //   })
       // }
 
       // if(objectClass.collisionResponse.useMass && classUpdate.mass >= 0) {
-      //   this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-      //     object.setMass(classUpdate.mass)
+      //   this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+      //     objectInstance.setMass(classUpdate.mass)
       //   })
       // }
       // if(!objectClass.collisionResponse.useMass && classUpdate.density >= 0) {
-      //   this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-      //     object.setDensity(classUpdate.density)
+      //   this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+      //     objectInstance.setDensity(classUpdate.density)
       //   })
       // }
 
       if(classUpdate.movement?.controls) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.resetPhysics()
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.resetPhysics()
         })
       }
 
       if(classUpdate.movement?.ignoreGravity !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setIgnoreGravity(classUpdate.movement?.ignoreGravity)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setIgnoreGravity(classUpdate.movement?.ignoreGravity)
         })
       }
 
       if(classUpdate.collisionResponse?.ignoreSides) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setCollideIgnoreSides(classUpdate.collisionResponse?.ignoreSides)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setCollideIgnoreSides(classUpdate.collisionResponse?.ignoreSides)
         })
       }
 
@@ -792,30 +793,30 @@ export class EditorScene extends GameInstance {
         classUpdate.collisionResponse?.ignoreBoundaries !== undefined
       ) {
         // setTimeout(() => {
-          this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-            if(object.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
+          this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+            if(objectInstance.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
               this.removePlayerInstance()
               this.addPlayerInstance()
               return
             }
-            const gameObject = this.getGameObjectById(object.instanceId)
-            this.removeObjectInstance(object.instanceId)
-            this.addObjectInstance(object.instanceId, gameObject)
+            const gameObject = this.getGameObjectById(objectInstance.instanceId)
+            this.removeObjectInstance(objectInstance.instanceId)
+            this.addObjectInstance(objectInstance.instanceId, gameObject)
           })
         // })
       }
 
       if(classUpdate.graphics?.width && classUpdate.graphics?.height) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setSize(classUpdate.graphics?.width, classUpdate.graphics?.height)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setSize(classUpdate.graphics?.width, classUpdate.graphics?.height)
         })
       } else if(classUpdate.graphics?.width) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setSize(classUpdate.graphics?.width, objectClass.graphics?.height)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setSize(classUpdate.graphics?.width, objectClass.graphics?.height)
         })
       } else if(classUpdate.graphics?.height) {
-        this.forAllObjectInstancesMatchingClassId(classId, (object) => {
-          object.setSize(objectClass.graphics?.width, classUpdate.graphics?.height)
+        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
+          objectInstance.setSize(objectClass.graphics?.width, classUpdate.graphics?.height)
         })
       }
 
@@ -939,7 +940,6 @@ export class EditorScene extends GameInstance {
       } else {
         // escape game?
       }
-
       this.canvas = null
     }
 
