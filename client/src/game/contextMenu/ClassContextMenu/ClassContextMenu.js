@@ -71,12 +71,12 @@ const ClassContextMenu = ({
         }}>Edit Camera</MenuItem>
       </Unlockable>
     }
-    {objectClass.type === PLAYER_CLASS && <Unlockable interfaceId={CONTEXT_MENU_CLASS_PROJECTILE_IID}>
+    <Unlockable interfaceId={CONTEXT_MENU_CLASS_PROJECTILE_IID}>
       <MenuItem onClick={() => {
         openLiveEditor(PROJECTILE_EDITOR, classId)
         onMenuItemClick()
       }}>Edit Projectile</MenuItem>
-    </Unlockable>}
+    </Unlockable>
     {objectClass.type === PLAYER_CLASS && <Unlockable interfaceId={CONTEXT_MENU_CLASS_JUMP_IID}>
       <MenuItem onClick={() => {
         openLiveEditor(JUMP_EDITOR, classId)

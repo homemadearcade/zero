@@ -6,7 +6,6 @@ BIG FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-PATHFINDING
 
 DIALOGUE CHOICES
 
@@ -18,6 +17,8 @@ LIGHT SYSTEM
 https://blog.ourcade.co/posts/2020/phaser3-fog-of-war-field-of-view-roguelike/
 
 SPRITE SHEET EDITOR
+
+PATHFINDING
 
 CUSTOM CODING
 
@@ -69,8 +70,10 @@ VERSION BREAKING FEATURES
 
 BETTER TEXTURE/LAYER SYSTEM
 
+LAYERS property on ArcadeGame
 A layer either has colliders or it doesnt. A layer is given a texture id. 
 Layers is an object on GameModel. A Layer has a texture Id. You can look up the depth  a brush/eraser is supposed to be on by finding its Layer object. The layer object also
+Save BG PG FG to the aws images object
 
 BETTER DATA MODEL
   Decide - what does default mean, what does initial mean?

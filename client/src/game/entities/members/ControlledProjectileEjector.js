@@ -6,21 +6,23 @@ import { ProjectileInstance } from "../ProjectileInstance"
 export class ControlledProjectileEjector {
   constructor(scene, objectInstance){
     this.objectInstance = objectInstance
+    this.cursors = objectInstance.cursors
     this.scene = scene
-    this.nextFire = Infinity
   }
 
   update(time, delta) {
     const classId = this.objectInstance.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
-    if(time < this.nextFire) { 
-      return
+    if(this.cursors.space.isDown && objectClass.projectile?.classId) {
+      if(time < this.nextFire) { 
+        return
+      }
+
+      const projectile = this.scene.addProjectileInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
+      projectile.fireControlled(this.objectInstance, time, this.cursors)
+
+      this.nextFire = time + objectClass.projectile.cooldown;
     }
-
-    const projectile = this.scene.addProjectileInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
-    projectile.fire(this.objectInstance, time, this.cursors)
-
-    this.nextFire = time + objectClass.projectile.cooldown;
   }
 }

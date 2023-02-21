@@ -53,7 +53,7 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { classIdSe
                   openLiveEditor(PHYSICS_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Collisions</MenuItem>,
-                objectClass.type === PLAYER_CLASS && <MenuItem key="Projectile" onClick={() => {
+                <MenuItem key="Projectile" onClick={() => {
                   openLiveEditor(PROJECTILE_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,

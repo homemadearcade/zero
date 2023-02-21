@@ -1,5 +1,6 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS } from "../constants";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS, PROJECTILE_NONE } from "../constants";
 import { nodeSize } from "./general";
+import { defaultProjectile } from "./projectile";
 
 export const defaultMovement = {
   controls: null,
@@ -15,6 +16,7 @@ export const defaultMovement = {
   gravityY: 0,
   gravityX: 0,
   disableDownKey: false,
+  // classId: null,
 }
 
 export const defaultJump = {
@@ -58,11 +60,7 @@ export const defaultClass = {
     layerId: PLAYGROUND_CANVAS_ID,
   },
   projectile: {
-    classId: null,
-    cooldown: 200,
-    lifetime: 3000,
-    ammo: 0,
-    speed: 300,
+    ...defaultProjectile
   },
   camera: {
     zoom: 3,

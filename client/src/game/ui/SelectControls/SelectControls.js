@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectControls.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import {  DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
-import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from '../../defaultData/movement';
+import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from '../../defaultData/controlledMovement';
 
 const controlsValues = {
   [DIRECTIONAL_CONTROLS]: directionalDefaults,

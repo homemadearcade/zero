@@ -9,6 +9,8 @@ import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectClass from '../../ui/SelectClass/SelectClass';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
+import { PLAYER_CLASS, PROJECTILE_TARGET_CLASS } from '../../constants';
+import SelectProjectileStyle from '../../ui/SelectProjectileStyle/SelectProjectileStyle';
 
         // {false && <Unlockable isSlider interfaceId={PROJECTILE_AMMO_IID}>
         //   <SliderNotched
@@ -39,7 +41,24 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
       </Unlockable>
       {classSelected.movement.controls && <ControlsCard objectClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
       {projectileClass && <>
-          <Unlockable isSlider interfaceId={PROJECTILE_SPEED_IID}>
+        {classSelected.type !== PLAYER_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+          <SelectProjectileStyle
+            formLabel="Style"
+            value={classSelected.projectile.style ? [classSelected.projectile.style] : []}
+            onChange={(event, styles) => {
+              editGameModel({ classes: { [classId]: { projectile: { style: styles[styles.length-1] } } }})    
+            }}/>
+        </Unlockable>}
+        {classSelected.projectile.style === PROJECTILE_TARGET_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+        <SelectClass
+            formLabel="Target Class"
+            value={classSelected.projectile.targetId ? [classSelected.projectile.targetId] : []}
+            onChange={(event, classes) => {
+              const newClassId = classes[classes.length-1]
+              editGameModel({ classes: { [classId]: { projectile: { targetId: newClassId ? newClassId : null  }}}})        
+          }}/>
+        </Unlockable>}
+        <Unlockable isSlider interfaceId={PROJECTILE_SPEED_IID}>
           <SliderNotched
             formLabel="Speed"
             options={[1, 10, 100, 200, 300, 500, 1000]}

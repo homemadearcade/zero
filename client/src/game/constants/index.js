@@ -18,12 +18,7 @@ export const ANIMATION_SPAWN_CLASS_IN_CAMERA = 'ANIMATION_SPAWN_CLASS_IN_CAMERA'
 /////////////////////////////////////
 // GAME
 export const PRELOADER_SCENE = 'Preloader';
-export const GAME_SCENE = 'Game';
-export const PLAY_GAME_SCENE = 'PLAY_GAME_SCENE'
 export const POPUP_SCENE = 'PopupScene';
-export const PROLOGUE_SCENE_1 = 'Prologue 1';
-export const PROLOGUE_SCENE_2 = 'Prologue 2';
-export const PROLOGUE_SCENE_3 = 'Prologue 3';
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -54,11 +49,11 @@ export const UI_CANVAS_DEPTH = 100;
 
 export const STAGE_BACKGROUND_CANVAS_ID = 'STAGE_BACKGROUND_CANVAS';
 export const BACKGROUND_CANVAS_ID = 'BACKGROUND_CANVAS';
-export const ZONE_INSTANCE_CANVAS_ID = 'ZONE_INSTANCE_CANVAS';
 export const SPRITE_EDITOR_CANVAS_ID = 'SPRITE_EDITOR_CANVAS';
 export const PLAYGROUND_CANVAS_ID = 'PLAYGROUND_CANVAS';
 export const PLAYER_INSTANCE_CANVAS_ID = 'PLAYER_INSTANCE_CANVAS';
 export const FOREGROUND_CANVAS_ID = 'FOREGROUND_CANVAS';
+export const ZONE_INSTANCE_CANVAS_ID = 'ZONE_INSTANCE_CANVAS';
 export const UI_CANVAS_ID = 'UI_CANVAS';
 
 /////////////////////////////////////
@@ -131,7 +126,21 @@ export const MOVEMENT_JUMP = 'MOVEMENT_JUMP'
 export const MOVEMENT_TURN_ON_COLLIDE = 'MOVEMENT_TURN_ON_COLLIDE'
 export const MOVEMENT_TURN_RANDOMLY = 'MOVEMENT_TURN_RANDOMLY'
 export const MOVEMENT_FOLLOW_PLAYER = 'MOVEMENT_FOLLOW_PLAYER'
+export const MOVEMENT_FOLLOW_CLASS = 'MOVEMENT_FOLLOW_CLASS'
 export const MOVEMENT_NONE = 'MOVEMENT_NONE'
+
+/////////////////////////////////////
+/////////////////////////////////////
+// PROJECTILE STYLEs
+export const PROJECTILE_RANDOM_DIRECTION = 'PROJECTILE_RANDOM_DIRECTION'
+export const PROJECTILE_RANDOM_ANGLE = 'PROJECTILE_RANDOM_ANGLE'
+export const PROJECTILE_TARGET_PLAYER = 'PROJECTILE_TARGET_PLAYER'
+export const PROJECTILE_TARGET_CLASS = 'PROJECTILE_TARGET_CLASS'
+export const PROJECTILE_LEFT = 'PROJECTILE_LEFT'
+export const PROJECTILE_RIGHT = 'PROJECTILE_RIGHT'
+export const PROJECTILE_DOWN = 'PROJECTILE_DOWN'
+export const PROJECTILE_UP = 'PROJECTILE_UP'
+export const PROJECTILE_NONE = 'PROJECTILE_NONE'
 
 /////////////////////////////////////
 /////////////////////////////////////

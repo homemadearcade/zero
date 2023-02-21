@@ -156,6 +156,7 @@ export class ObjectInstance extends Sprite {
       this.scene.addObjectInstance(instanceId, modifiedClassData)
     })
 
+    // calls .destroy()
     this.scene.removeObjectInstance(this.instanceId)
   }
 
@@ -185,7 +186,7 @@ export class ObjectInstance extends Sprite {
       })
     }
 
-    this.destroyed = true
+    // calls .destroy()
     this.scene.removeObjectInstance(instanceId)
   }
 
@@ -194,6 +195,7 @@ export class ObjectInstance extends Sprite {
   }
 
   destroy() {
+    this.destroyed = true
     this.scene.objectInstanceGroup.remove(this.sprite)
     // this.scene.removeInstanceFromSpriteGroup(this.classId, this.sprite)
     this.graphics.destroy()

@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectMovementPattern.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { followPlayerDefaults, jumpDefaults, noneDefaults, sideToSideDefaults,turnOnCollideDefaults, turnRandomlyDefaults, upAndDownDefaults } from '../../defaultData/movement';
-import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_UP_AND_DOWN } from '../../constants';
+import { followClassDefaults, followPlayerDefaults, jumpDefaults, noneDefaults, sideToSideDefaults,turnOnCollideDefaults, turnRandomlyDefaults, upAndDownDefaults } from '../../defaultData/movement';
+import { MOVEMENT_FOLLOW_CLASS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_UP_AND_DOWN } from '../../constants';
 
 const movementPatterns = {
   [MOVEMENT_UP_AND_DOWN]: upAndDownDefaults,
@@ -14,6 +14,7 @@ const movementPatterns = {
   [MOVEMENT_TURN_RANDOMLY]: turnRandomlyDefaults,
   [MOVEMENT_JUMP]: jumpDefaults,
   [MOVEMENT_FOLLOW_PLAYER]: followPlayerDefaults,
+  [MOVEMENT_FOLLOW_CLASS]: followClassDefaults,
   [MOVEMENT_NONE]: noneDefaults,
 }
 
@@ -24,6 +25,7 @@ const movementPatternToLabel = {
   [MOVEMENT_TURN_RANDOMLY]: 'Turn Randomly',
   [MOVEMENT_JUMP]: 'Jumper',
   [MOVEMENT_FOLLOW_PLAYER]: 'Follow Player',
+  [MOVEMENT_FOLLOW_CLASS]: 'Follow Class',
   [MOVEMENT_NONE]: 'Doesnt move by itself'
 }
 

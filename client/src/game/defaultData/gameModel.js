@@ -67,10 +67,6 @@ export const defaultGameModel = {
       },
       isRemoved: true
     },
-    
-    textures: {
-
-    },
   },
   isRemoved: false
 }

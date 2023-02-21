@@ -1,4 +1,4 @@
-import { DIRECTIONAL_CONTROLS, CAR_CONTROLS, JUMP_COMBO, JUMP_CONSTANT, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, JUMP_GROUND, VEHICLE_CONTROLS, ADVANCED_DIRECTIONAL_CONTROLS, JUMP_NONE, MOVEMENT_TURN_RANDOMLY } from "../constants"
+import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, MOVEMENT_TURN_RANDOMLY, MOVEMENT_FOLLOW_CLASS } from "../constants"
 import { defaultMovement } from "./class"
 
 //////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,11 @@ export const movementToParemeters = {
     velocityX: true,
   },
   [MOVEMENT_FOLLOW_PLAYER]: {
-    speed: true
+    speed: true,
+  },
+  [MOVEMENT_FOLLOW_CLASS]: {
+    speed: true,
+    class: true
   },
   [MOVEMENT_NONE]: {
     gravityY: false,
@@ -34,29 +38,7 @@ export const movementToParemeters = {
     velocityY: false,
     velocityX: false,
     ignoreGravity: true
-  },
-  [VEHICLE_CONTROLS]: {
-    speed: 'Thrust Speed',
-    dragX: true,
-    dragY: true,
-    bounce: true,
-    ignoreGravity: true,
-    disableDownKey: true,
-    dragAngular: true,
-    speedAngular: true,
-  },
-  [DIRECTIONAL_CONTROLS]: {
-    speed: 'Move Speed',
-    dragX: false,
-    dragY: false
-  },
-  [ADVANCED_DIRECTIONAL_CONTROLS]: {
-    speed: 'Move Speed',
-    dragX: true,
-    dragY: true,
-    bounce: true,
-    ignoreGravity: true
-  },
+  }
 }
 
 
@@ -139,6 +121,20 @@ export const followPlayerDefaults = {
   },
 }
 
+export const followClassDefaults = {
+  movement: {
+    pattern: MOVEMENT_FOLLOW_CLASS,
+    velocityX: 0,
+    velocityY: 0,
+    gravityY: 0,
+    gravityX: 0,
+    dragX: 1,
+    dragY: 1,
+    speed: 100,
+    ignoreGravity: true
+  },
+}
+
 export const jumpDefaults = {
   movement: {
     pattern: MOVEMENT_JUMP,
@@ -159,94 +155,3 @@ export const noneDefaults = {
     ...defaultMovement
   }
 }
-
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-// CONTROLS
-export const vehicleDefaults = {
-  movement: {
-    controls: VEHICLE_CONTROLS,
-    dragX: 0.25,
-    dragY: 0.25,
-    disableDownKey: true,
-    dragAngular: 100,
-    speedAngular: 100,
-  },
-  jump: {
-    style: JUMP_NONE
-  }
-}
-
-export const directionalDefaults = {
-  movement: {
-    controls: DIRECTIONAL_CONTROLS,
-    disableDownKey: false,
-    dragX: 0,
-    dragY: 0,
-    ignoreGravity: true
-  },
-  jump: {
-    style: JUMP_NONE
-  }
-}
-
-export const advancedDirectionalDefaults = {
-  movement: {
-    controls: ADVANCED_DIRECTIONAL_CONTROLS,
-    disableDownKey: false,
-    dragX: 0.25,
-    dragY: 0.25,
-  },
-  jump: {
-    style: JUMP_GROUND
-  },
-}
-
-export const carDefaults = {
-  movement: {
-    controls: CAR_CONTROLS,
-    disableDownKey: false,
-    dragX: 0.25,
-    dragY: 0.25,
-  },
-  jump: {
-    style: JUMP_NONE
-  }
-}
-
-export const movementControlsToKeys = {
-  [VEHICLE_CONTROLS]: {
-    up: 'Thrust Forward',
-    left: 'Rotate Left',
-    right: 'Rotate Right',
-    down: function(objectClass) {
-      if(!objectClass.movement.disableDownKey) {
-        return 'Thrust Backwards'
-      } else {
-        return null
-      }
-    },
-  },
-  [DIRECTIONAL_CONTROLS]: {
-    up: 'Move Up',
-    left: 'Move Left',
-    right: 'Move Right',
-    down: 'Move Down'
-  },
-  [ADVANCED_DIRECTIONAL_CONTROLS]: {
-    up: 'Accelerate Up',
-    left: 'Accelerate Left',
-    right: 'Accelerate Right',
-    down: 'Accelerate Down'
-  },
-  // [CAR_CONTROLS]: {
-  //   up: 'Accelerate',
-  //   left: 'Turn Left',
-  //   right: 'Turn Right',
-  //   down: 'Reverse'
-  // },
-}
-

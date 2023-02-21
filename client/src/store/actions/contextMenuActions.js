@@ -40,8 +40,8 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: gameObjects[0].classId, 
-      objectIdSelectedContextMenu: gameObjects.length === 1 ? gameObjects[0].id : null, 
-      selectableObjectInstances: gameObjects.length > 1 ? gameObjects.map(({id, classId}) => { return {objectId: id, classId}}) : null, 
+      objectIdSelectedContextMenu: gameObjects.length === 1 ? gameObjects[0].instanceId : null, 
+      selectableObjectInstances: gameObjects.length > 1 ? gameObjects.map(({instanceId, classId}) => { return {objectId: instanceId, classId}}) : null, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }

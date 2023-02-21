@@ -28,12 +28,11 @@ Aggregate Color menu for brushes when you’ve added like 1 color already
 
 Create Class Modal -> Edit Name Modal instead of having edit name inside of Create Class
 
-PRevent Cobrowsing form editing the other USER UNLESS you have the tool open. Its simply a mouse tool
-
 You should be able to ^ highlight for the cobrowsing user any thing  We need to be able to HIGHLIGHT a div or UNLOCKABLE
 
 Scroll with cobrowser, scroll FOR cobrowser using a sldier, View to lock to cobrowsers camera
 
+Edit base UI Color
 add cobrowsing color to ui system
 
 Auto hide live editor when using keys?

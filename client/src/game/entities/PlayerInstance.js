@@ -5,7 +5,7 @@ import { ObjectInstance } from "./ObjectInstance";
 import { CameraPreview } from "./members/CameraPreview";
 import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
-import { ProjectileEjector } from "./members/ProjectileEjector";
+import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
 import { PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
 import { nodeSize } from "../defaultData/general";
 
@@ -58,7 +58,7 @@ export class PlayerInstance extends ObjectInstance {
     this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: objectClass.graphics.width + (nodeSize * 3), height: objectClass.graphics.height + (nodeSize * 3) }) 
 
     this.controlledMovement = new ControlledMovement(scene, this)
-    this.projectileEjector = new ProjectileEjector(scene, this)
+    this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
     return this
   }
@@ -102,7 +102,7 @@ export class PlayerInstance extends ObjectInstance {
     if(this.scene.isPaused) return
 
     this.controlledMovement.update(time, delta)
-    this.projectileEjector.update(time, delta)
+    this.controlledProjectileEjector.update(time, delta)
   }
 
   registerRelations() {

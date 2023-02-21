@@ -36,11 +36,23 @@ export class ProjectileInstance extends ObjectInstance {
     return this
   }
 
+  fire(shooter, time, style) {
+      // [PROJECTILE_DOWN]: 'Eject Down',
+      // [PROJECTILE_UP]: 'Eject Up',
+      // [PROJECTILE_LEFT]: 'Eject Left',
+      // [PROJECTILE_RIGHT]: 'Eject Right',
+      // [PROJECTILE_RANDOM_DIRECTION]: 'Eject Random Direction',
+      // [PROJECTILE_RANDOM_ANGLE]: 'Eject Random Angle',
+      // [PROJECTILE_TARGET_CLASS]: 'Eject at Class',
+      // [PROJECTILE_TARGET_PLAYER]: 'Eject at Player',
+      // [PROJECTILE_NONE]: 'Does not eject'
+  }
+
   // update(time, delta) {
   //   super.update(time, delta) 
   // }
 
-  fire(shooter, time, cursors) {
+  fireControlled(shooter, time, cursors) {
     const shooterClass = store.getState().gameModel.gameModel.classes[shooter.classId]
     this.lifespan = shooterClass.projectile.lifespan;
 

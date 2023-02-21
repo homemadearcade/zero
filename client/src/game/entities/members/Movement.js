@@ -1,5 +1,6 @@
 import store from "../../../store"
-import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY } from "../../constants"
+import { isPlayerId } from "../../../utils/gameUtils"
+import { MOVEMENT_FOLLOW_CLASS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY } from "../../constants"
 
 export class Movement {
   constructor(scene, objectInstance){
@@ -69,21 +70,31 @@ export class Movement {
       }
     }
 
-    if(pattern === MOVEMENT_FOLLOW_PLAYER) {
-      const speed = objectClass.movement.speed
-      const player = this.scene.playerInstance.sprite
-      
-      if(Math.abs(sprite.x - player.x) < (speed/2)) {
+    if(!this.followingInstance || this.followingInstance.destroyed || ( pattern === MOVEMENT_FOLLOW_CLASS && this.followingInstance.classId !== objectClass.movement.classId ) || (pattern === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.instanceId) ) ) {
+      if(pattern === MOVEMENT_FOLLOW_PLAYER) {
+        this.followingInstance = this.scene.playerInstance
+      } else if(pattern === MOVEMENT_FOLLOW_CLASS && objectClass.movement.classId) {
+        const instances = this.scene.getAllInstancesOfClassId(objectClass.movement.classId)
+        if(instances.length) this.followingInstance = instances[0]
+      } else {
+        this.followingInstance = null
+      }
+    }
 
-      } else if(sprite.x > player.x) {
+    if(this.followingInstance) {
+      const speed = objectClass.movement.speed
+      const followingSprite = this.followingInstance.sprite
+      if(Math.abs(sprite.x - followingSprite.x) < (speed/4) + 10) {
+
+      } else if(sprite.x > followingSprite.x) {
         this.objectInstance.setVelocityX(-speed)
       } else {
         this.objectInstance.setVelocityX(speed)
       }
 
-      if(Math.abs(sprite.y - player.y) < (speed/2)) {
+      if(Math.abs(sprite.y - followingSprite.y) < (speed/4) + 10) {
 
-      } else if(sprite.y > player.y) {
+      } else if(sprite.y > followingSprite.y) {
         this.objectInstance.setVelocityY(-speed)
       } else {
         this.objectInstance.setVelocityY(speed)

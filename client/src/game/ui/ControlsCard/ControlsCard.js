@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { jumpControlsToKeys } from '../../defaultData/jumping'
-import { movementControlsToKeys } from '../../defaultData/movement'
+import { movementControlsToKeys } from '../../defaultData/controlledMovement'
 import KeyIndicator from '../KeyIndicator/KeyIndicator'
 import './ControlsCard.scss'
 

@@ -1,7 +1,8 @@
 import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS, PLAYER_CLASS_TYPE_PREFIX } from "../constants"
 import { defaultClass } from "./class"
-import { directionalDefaults, vehicleDefaults, advancedDirectionalDefaults } from "./movement"
+import { directionalDefaults, advancedDirectionalDefaults } from "./controlledMovement"
 import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"
+import { vehicleDefaults } from "./controlledMovement"
 
 export const vehiclePlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'vehicle'
 export const jumperPlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'jumper'
@@ -11,8 +12,6 @@ export const defaultPlayerClass = {
   ...defaultClass,
   type: PLAYER_CLASS,
 }
-
-
 
 export const vehicleClass = {
   ...defaultPlayerClass,
