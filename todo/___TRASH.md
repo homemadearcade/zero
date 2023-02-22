@@ -3,6 +3,7 @@
 --------------------------------------------------------------------------------------
 SMALL FEATURES
 --------------------------------------------------------------------------------------
+
 ANALYTICS on each action?, on where on the screen? Save all records
 
 how to update and view cobrowsing when they aint logged on?
@@ -26,6 +27,14 @@ LAYERS property on ArcadeGame
   A layer either has colliders or it doesnt. A layer is given a texture id. 
   Layers is an object on GameModel. A Layer has a texture Id. You can look up the depth  a brush/eraser is supposed to be on by finding its Layer object. The layer object also
   Save BG PG FG to the aws images object
+
+INSTANCES IN RELATIONSHIP MENU
+  Choose instances in relation editor
+  Effect Instance id? Create a generelized id structure for everything.
+    event.classIdB, classIdA would actually just be idA, idB, and then that id will relate to like objectclass/adsoasd98/ or objectinstance/oiasdljkasdna or playerinstance/kj.hasdkhjasd
+    ID system for objects vs player vs project, etc? is that smart? Like be able to figure out what anything is based on its id?
+  Also like basically effects should not use ClassA and ClassB
+  effect Suffix shouldnt really be a thing. Its like just Whats effected, an instance or a class?? or what??
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

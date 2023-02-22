@@ -50,11 +50,3 @@ BETTER DATA MODEL
     Initial Data initializes
     Default data fallsback
   Put this on BACK END, not front end? Not sure, think about this. It will cause arcade games to break
-
-INSTANCES IN RELATIONSHIP MENU
-  Choose instances in relation editor
-  Effect Instance id? Create a generelized id structure for everything.
-    event.classIdB, classIdA would actually just be idA, idB, and then that id will relate to like objectclass/adsoasd98/ or objectinstance/oiasdljkasdna or playerinstance/kj.hasdkhjasd
-    ID system for objects vs player vs project, etc? is that smart? Like be able to figure out what anything is based on its id?
-  Also like basically effects should not use ClassA and ClassB
-  effect Suffix shouldnt really be a thing. Its like just Whats effected, an instance or a class?? or what??
