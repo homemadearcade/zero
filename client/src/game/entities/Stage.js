@@ -57,7 +57,7 @@ export class Stage {
     const stage = gameModel.stages[this.stageId]
     const spawnZones = this.scene.getAllInstancesOfClassId(stage.spawnZoneClassId) 
     if(!spawnZones.length) {
-      this.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, classId: stage.spawnZoneClassId}, true)
+      this.scene.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, classId: stage.spawnZoneClassId}, true)
     }
   }
 

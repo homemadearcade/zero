@@ -11,6 +11,7 @@ import Icon from '../../ui/Icon/Icon';
 import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../constants/interfaceIdData';
 import { classTypeToDisplayName } from '../defaultData/class';
+import { initialStageId } from '../defaultData';
 
 // const INSTANCE_PREVIEW = 'INSTANCE_PREVIEW'
 // const CLASS_PREVIEW = 'CLASS_PREVIEW'
@@ -32,10 +33,12 @@ const MousePreview = ({
     classIdSelectedClassList
   },
   gameModel: { 
+    currentStageId,
     gameModel: { 
       metadata,
       classes,
       brushes,
+      stages,
     }
   },
   gameRoom: {
@@ -126,6 +129,15 @@ const MousePreview = ({
     </>
   }
 
+  function renderGameTitlePreview() {
+    const stageName = currentStageId === initialStageId ? null : stages[currentStageId].name
+
+   return  <div className="MousePreview__title">
+      <Typography font="2P" variant="subtitle2">{metadata.title}</Typography>
+      {stageName && <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{stageName}</Typography>}
+    </div>
+  }
+
   function renderBody() {
     if(interfaceData?.previewText) {
       return <div className="MousePreview__title">
@@ -156,9 +168,7 @@ const MousePreview = ({
       return renderStageTitle('Paused')
     }
 
-    return <div className="MousePreview__title">
-        <Typography font="2P" variant="subtitle2">{metadata.title}</Typography>
-      </div>
+    return renderGameTitlePreview()
   }
 
   return <div className="MousePreview">

@@ -15,6 +15,7 @@ import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
 import { editGameRoom } from '../../store/actions/gameRoomActions';
 import { generateUniqueId } from '../../utils/webPageUtils';
+import { directionalPlayerClassId } from '../defaultData';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -123,7 +124,7 @@ export class GameInstance extends Phaser.Scene {
 
       const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.classes[zoneId]))
 
-      let lastPlayerClassId = playerInterface.player.classId ? playerInterface.player.classId : 'oc/p/directional';
+      let lastPlayerClassId = playerInterface.playerClassId ? playerInterface.playerClassId : directionalPlayerClassId;
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
         classId: currentStage.playerClassId ? currentStage.playerClassId : lastPlayerClassId,
@@ -649,8 +650,8 @@ export class GameInstance extends Phaser.Scene {
     }
 
     if(store.getState().cobrowsing.isActivelyCobrowsing === false) {
-      let currentPlayerId = store.getState().playerInterface.player.classId
-      if(this.playerInstance.classId !== currentPlayerId) {
+      let currentPlayerClassId = store.getState().playerInterface.playerClassId
+      if(this.playerInstance.classId !== currentPlayerClassId) {
         store.dispatch(changePlayerClass({classId: this.playerInstance.classId}))
       }
     }
