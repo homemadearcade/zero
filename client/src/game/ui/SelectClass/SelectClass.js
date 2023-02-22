@@ -37,8 +37,6 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
     })
   }
 
-  console.log(options)
-
   options.sort((a, b) => -b.type.localeCompare(a.type))
 
   return <SelectChipsAuto 

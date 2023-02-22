@@ -98,7 +98,7 @@ export const defaultPlayerClass = {
   }
 }
 
-export const defaultObjectClass = { 
+export const defaultBasicClass = { 
   type: BASIC_CLASS,
   movement: {
     pattern: MOVEMENT_NONE,

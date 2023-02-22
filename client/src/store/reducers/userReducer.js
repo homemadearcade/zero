@@ -48,6 +48,10 @@ export default function userReducer(state = initialState, { type, payload }) {
     case ADD_USER_SPEED_TEST_SUCCESS: 
     return {
       ...state,
+      user: {
+        ...state.user,
+        speedTests: [...state.user.speedTests, payload.speedTest]
+      },
       isTestingInternetSpeed: false
     }
     case GET_USER_LOADING:

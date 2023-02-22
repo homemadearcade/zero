@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { defaultRelationship } from '../../game/defaultData';
 import { defaultStage } from '../../game/defaultData/stage';
 import { mergeDeep } from '../../utils/utils';
 import {
@@ -39,6 +40,7 @@ const initialState = {
   brush: {
     canvasId: null,
     textureId: null,
+    tint: null,
     descriptors: []
   },
 
@@ -66,6 +68,7 @@ const initialState = {
   cutscene: {
     name: '',
     scenes: [],
+    cutsceneId: null
   },
 
   isStagesMenuOpen: false,
@@ -80,26 +83,7 @@ const initialState = {
   isCreateRelationOpen: false,
   classIdRelationsMenu: null,
   relation: {
-    event: {
-      type: '',
-      classIdA: null,
-      classIdB: null,
-    },
-    effect: {
-      effectedType: null,
-      remoteEffectedClassId: null,
-      spawnClassId: null,
-      type: '',
-      classId: null,
-      zoneClassId: null,
-      cutsceneId: null,
-      text: '',
-      pickRandomZone: false
-    },
-    onlyOnce: false,
-    delayInterval: null,
-    relationId: null,
-    sides: []
+    ...defaultRelationship,
   },
   isBoundaryRelationMenuOpen: false,
   objectClass: {

@@ -206,7 +206,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       <SelectClass 
         key="relation/remoteClass"
         includePlayerInstance
-        formLabel={"What class is effected remotely? ( " + classA.name + " will no longer be effected"}
+        formLabel={"What class is effected remotely? ( " + classA.name + " will no longer be effected )"}
         value={relation.effect.remoteEffectedClassId ? [relation.effect.remoteEffectedClassId] : []}
         onChange={(event, classes) => {
           const newClassId = classes[classes.length-1]
@@ -227,12 +227,21 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     </Unlockable>,
     classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId={RELATION_ADVANCED_IGNORE_SIDES_IID}>
       <SelectSides
-       key="relation/sides"
-      formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
-      value={relation.sides ? relation.sides : []}
+       key="relation/sidesA"
+      formLabel={"Touching which side of " + classA.name + '? ( leave blank for all sides )'}
+      value={relation.sidesA ? relation.sidesA : []}
       onChange={(event, sides) => {
         updateCreateRelation({
-          sides
+          sidesA: sides
+        })
+      }}/>
+            <SelectSides
+       key="relation/sidesB"
+      formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
+      value={relation.sidesB ? relation.sidesB : []}
+      onChange={(event, sides) => {
+        updateCreateRelation({
+          sidesB: sides
         })
       }}/>
     </Unlockable>,

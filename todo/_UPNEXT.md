@@ -23,12 +23,13 @@ BETTER BRUSHES
 
   For paintbrush, use opacity, have it slowly layer on itself, square or circle paintbrush. Thats what pencil is. Or perhaps its like you can change the opacity of any brush, also you can change whether its circle or square
 
+AUDIO :)
+
 SPRITE SHEET EDITOR
 
 PATHFINDING
 
 CUSTOM CODING
-
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -73,13 +74,6 @@ VERSION BREAKING FEATURES
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-BETTER TEXTURE/LAYER SYSTEM
-
-LAYERS property on ArcadeGame
-A layer either has colliders or it doesnt. A layer is given a texture id. 
-Layers is an object on GameModel. A Layer has a texture Id. You can look up the depth  a brush/eraser is supposed to be on by finding its Layer object. The layer object also
-Save BG PG FG to the aws images object
-
 BETTER DATA MODEL
   Decide - what does default mean, what does initial mean?
     Initial Data vs Default data...?
@@ -106,6 +100,15 @@ ACTIVITIES
     Each user can have its own different activity it is viewing
     Activities have their own instructions
   
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+THE BIG UPGRADE
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+
+
 EXPERIENCES
   Experience has Roles
     Roles can be invited to activities and lobbys with certain privelages
@@ -128,3 +131,9 @@ EXPERIENCES
     1 Lobby
       1 Video Activity
       3 Game Activitys
+
+  A Drawing and a Game have various privacy settings - Room Members Only, Approved Users, Owner Only
+    Sandbox Editor Mode, Character Editor Mode, 
+
+  That means I can make one room Game Owner only privacy settings. and then I can move to another room thats Room Members Only. and it can be edited by everyone... OMG? So likE EVERYONE could make a game like The Hotel. EVeryone can make their own collaboritive game making system lmao.... yes. ITs true. EVeryone could make their own homemade arcade
+

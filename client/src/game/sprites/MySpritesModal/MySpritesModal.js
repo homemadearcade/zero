@@ -7,8 +7,10 @@ import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/Cobrowsing
 import { closeMySpritesModal } from '../../../store/actions/gameSelectorActions';
 import MySprites from '../MySprites/MySprites';
 import Typography from '../../../ui/Typography/Typography';
+import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
+import Button from '../../../ui/Button/Button';
 
-const MySpritesModal = ({ closeMySpritesModal, onClickSprite, gameViewEditor: { isSnapshotTakerOpen } }) => {
+const MySpritesModal = ({ openSnapshotTaker, closeMySpritesModal, onClickSprite, gameViewEditor: { isSnapshotTakerOpen } }) => {
   function handleClose() {
     closeMySpritesModal()
   }
@@ -18,6 +20,9 @@ const MySpritesModal = ({ closeMySpritesModal, onClickSprite, gameViewEditor: { 
     <div className="MySpritesModal">
       <MySprites onClickSprite={onClickSprite}/>
     </div>
+    <Button onClick={() => {
+      openSnapshotTaker()
+    }}>Open Snapshot Taker</Button>
   </CobrowsingModal>
 }
 
@@ -26,5 +31,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(
-  connect(mapStateToProps, { closeMySpritesModal }),
+  connect(mapStateToProps, { closeMySpritesModal, openSnapshotTaker }),
 )(MySpritesModal);

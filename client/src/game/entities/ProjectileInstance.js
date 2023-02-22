@@ -63,14 +63,11 @@ export class ProjectileInstance extends ObjectInstance {
 
     if(style === PROJECTILE_TARGET_CLASS) {
       const instances = this.scene.getAllInstancesOfClassId(shooterClass.projectile.targetClassId)
-      console.log(shooterClass.projectile.targetClassId)
       if(instances.length) {
-        console.log(getAngleBetweenInstances(shooter, instances[0]))
         rotation = getAngleBetweenInstances(shooter, instances[0])
       }
     } else if(style === PROJECTILE_TARGET_PLAYER) {
       if(this.scene.playerInstance) {
-        console.log(getAngleBetweenInstances(shooter, this.scene.playerInstance))
         rotation = getAngleBetweenInstances(shooter, this.scene.playerInstance)
       }
     } else if(style === PROJECTILE_RANDOM_DIRECTION) {

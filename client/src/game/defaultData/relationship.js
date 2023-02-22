@@ -22,7 +22,8 @@ export const defaultRelationship = {
   onlyOnce: false,
   delayInterval: null,
   // relationId: null,
-  sides: []
+  sidesA: [],
+  sidesB: []
 }
 
 export const effectedTypesDisplayNames = {

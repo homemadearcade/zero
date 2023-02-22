@@ -29,7 +29,7 @@ import StagesMenu from '../../stages/StagesMenu/StagesMenu';
 import CreateStage from '../../stages/CreateStage/CreateStage';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
-import { generateUniqueId } from '../../../utils/webPageUtils';
+import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
@@ -37,6 +37,7 @@ import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
 import SideEditor from '../../instantEditor/SideEditor/SideEditor';
 import MousePreview from '../../MousePreview/MousePreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
+import Button from '../../../ui/Button/Button';
 
 const GameEditor = ({ 
   classNames, 
@@ -116,6 +117,9 @@ const GameEditor = ({
       {isSetupDefaultsModalOpen && <SetupDefaultsModal/>}
       {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
+        <Button onClick={() => {
+          copyToClipboard(JSON.stringify(viewingJson))
+        }} >Copy to clipboard</Button>
         <ReactJson src={viewingJson} theme="monokai" />
       </Dialog>}
       {isCreateBrushFlowOpen && <CreateBrushFlow 

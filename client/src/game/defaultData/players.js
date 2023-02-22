@@ -1,20 +1,21 @@
 import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS, PLAYER_CLASS_TYPE_PREFIX } from "../constants"
-import { defaultClass } from "./class"
+import { defaultClass, defaultPlayerClass } from "./class"
 import { directionalDefaults, advancedDirectionalDefaults } from "./controlledMovement"
 import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"
 import { vehicleDefaults } from "./controlledMovement"
+import { mergeDeep } from "../../utils/utils"
 
 export const vehiclePlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'vehicle'
 export const jumperPlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'jumper'
 export const directionalPlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'directional'
 
-export const defaultPlayerClass = {
-  ...defaultClass,
-  type: PLAYER_CLASS,
-}
+const defaultProps = mergeDeep(
+  defaultClass,
+  defaultPlayerClass,
+)
 
 export const vehicleClass = {
-  ...defaultPlayerClass,
+  ...defaultProps,
   interfaceLocked: true,
   classId: vehiclePlayerClassId,
   name: 'vehicle',
@@ -31,7 +32,7 @@ export const vehicleClass = {
 }
 
 export const jumperClass = {
-  ...defaultPlayerClass,
+  ...defaultProps,
   interfaceLocked: true,
   classId: jumperPlayerClassId,
   name: 'jumper',
@@ -51,7 +52,7 @@ export const jumperClass = {
 }
 
 export const directionalClass = {
-  ...defaultPlayerClass,
+  ...defaultProps,
   interfaceLocked: true,
   classId: directionalPlayerClassId,
   name: 'directional',
@@ -68,7 +69,7 @@ export const directionalClass = {
 }
 
 // export const carClass = {
-//   ...defaultPlayerClass,
+//   ...defaultProps,
 //   classId: 'car',
 //   name: 'car',
 //   graphics: {
@@ -83,7 +84,7 @@ export const directionalClass = {
 // }
 
 // export const floaterClass = {
-//   ...defaultPlayerClass,
+//   ...defaultProps,
 //   classId: 'floater',
 //   name: 'floater',
 //   graphics: {

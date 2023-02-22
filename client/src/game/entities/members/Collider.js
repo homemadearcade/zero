@@ -51,7 +51,7 @@ export class Collider {
     this.collidingWith = []
   }
 
-  testForEffect(relation, instanceB, sides, swapWhoRunsEffect) {
+  testForEffect(relation, instanceB, sidesB, swapWhoRunsEffect) {
     const effect = relation.effect 
     const event = relation.event
 
@@ -64,17 +64,17 @@ export class Collider {
     
     if(event.type === ON_COLLIDE_ACTIVE) {
       // if(swapWhoRunsEffect) {
-      //   this.scene.getObjectInstance(instanceB.instanceId).effects.runPersistentEffect(relation, this.objectInstance.sprite, sides)
+      //   this.scene.getObjectInstance(instanceB.instanceId).effects.runPersistentEffect(relation, this.objectInstance.sprite, sidesA, sidesB)
       // } else {
-        this.objectInstance.effects.runPersistentEffect(relation, instanceB, sides)
+        this.objectInstance.effects.runPersistentEffect(relation, instanceB, sidesB)
       // }
     }
 
     if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
       // if(swapWhoRunsEffect) {
-      //   this.scene.getObjectInstance(instanceB.instanceId).runAccuteEffect(relation, this.objectInstance.sprite, sides)
+      //   this.scene.getObjectInstance(instanceB.instanceId).runAccuteEffect(relation, this.objectInstance.sprite, sidesB)
       // } else {
-        this.objectInstance.runAccuteEffect(relation, instanceB, sides)
+        this.objectInstance.runAccuteEffect(relation, instanceB, sidesB)
       // }
     }
   }
@@ -104,8 +104,7 @@ export class Collider {
 
   registerArcadeRelations(relations) {
     relations.forEach((relation) => {
-
-      const {event, effect, sides} = relation
+      const {event, effect, sidesA, sidesB} = relation
 
       if(event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_START) {
         const releventInstancesB = [this.scene.playerInstance, ...this.scene.objectInstances, ...this.scene.projectileInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
@@ -125,11 +124,15 @@ export class Collider {
         } else {
           this.unregisters.push(
             this.scene.physics.add.overlap(this.sensor.sprite, releventInstancesB, (a, b) => {
-              if(sides.length) {
-                if(areBSidesHit(sides, a, b)) this.testForEffect(relation, b, sides)
-              } else  {
-                this.testForEffect(relation, b, sides)
+              if(sidesB.length) {
+                if(!areBSidesHit(sidesB, a, b)) return
               }
+              if(sidesA.length) {
+                if(!areBSidesHit(sidesA, b, a)) return
+              }
+              
+              this.testForEffect(relation, b, sidesB)
+
             })
           )
         }

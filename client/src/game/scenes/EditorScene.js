@@ -566,7 +566,7 @@ export class EditorScene extends GameInstance {
     if(instanceId === PLAYER_INSTANCE_ID_PREFIX) {
       return gameModel.player
     }
-    return gameModel.stages[this.stage.iId].objects[instanceId]
+    return gameModel.stages[this.stage.stageId].objects[instanceId]
   }
 
   addGameObject(classId, {spawnX, spawnY}) {
@@ -663,7 +663,6 @@ export class EditorScene extends GameInstance {
         this.playerInstance.reclassId = stageUpdate?.playerClassId
       }
     }
-    
 
     if(gameUpdate.awsImages) {
       if(gameUpdate.awsImages[this.backgroundLayer.textureId]) {
@@ -681,13 +680,14 @@ export class EditorScene extends GameInstance {
           });
           this.load.start();
         })
-  
       }
     }
 
     if(gameUpdate.relations) {
-      this.unregisterRelations()
-      this.registerRelations()
+      // setTimeout(() => {
+        this.unregisterRelations()
+        this.registerRelations()
+      // }, 100)
     }
 
     if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((classId) => {

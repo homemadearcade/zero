@@ -91,14 +91,14 @@ export class Effects {
     }
   }
   
-  runPersistentEffect(relation, instanceSpriteB, sides) {
+  runPersistentEffect(relation, instanceSpriteB, sidesB = []) {
     const effect = relation.effect
     const sprite = this.objectInstance.sprite
 
     // spawning does not effect existing instances
     if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
-        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sides)
+        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sidesB)
       })
       return
     }
@@ -115,13 +115,13 @@ export class Effects {
 
     if(effect.type === EFFECT_STICK_TO) {
       sprite.lockedTo = instanceSpriteB;   
-      sprite.lockedReleaseSides = sides
+      sprite.lockedReleaseSides = sidesB
       this.isIgnoreGravityModified = true
       this.objectInstance.setIgnoreGravity(true)
     }
   }
 
-  runAccuteEffect(relation, instanceSpriteB, sides = []) {
+  runAccuteEffect(relation, instanceSpriteB, sidesB = []) {
     const effect = relation.effect
     const sprite = this.objectInstance.sprite
     const classId = this.objectInstance.classId
@@ -129,7 +129,7 @@ export class Effects {
     // spawning does not effect existing instances so it cannot run here
     if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
       this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
-        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sides)
+        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sidesB)
       })
       return
     }
@@ -152,7 +152,7 @@ export class Effects {
       setTimeout(() => {
         const delayedRelation = _.cloneDeep(relation)
         delayedRelation.effect.delayEffect = null
-        this.runAccuteEffect(delayedRelation, instanceSpriteB, sides)
+        this.runAccuteEffect(delayedRelation, instanceSpriteB, sidesB)
       }, relation.effect.delayEffect)
       return
     }

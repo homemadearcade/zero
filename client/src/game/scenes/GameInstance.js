@@ -276,7 +276,8 @@ export class GameInstance extends Phaser.Scene {
 
   registerRelations() {
     // this.createRelationsMap()
-
+    // console.log(store.getState().gameModel.gameModel.relations)
+    
     /// RELATIONS
     this.playerInstance.registerRelations()
 
@@ -424,6 +425,7 @@ export class GameInstance extends Phaser.Scene {
       if(!objectInstanceData) {
         // LEGACY
         if(gameObjectId === 'oi/playspawnzone' || gameObjectId === 'oi-playspawnzone') {
+          console.log('ding this thing?')
           this.initializeObjectInstance(gameObjectId, initialPlayerSpawnZone)
           return
         } else {

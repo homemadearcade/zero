@@ -31,6 +31,36 @@ const upload = multer({
   },
 });
 
+router.put('/:id/speedTest', requireJwtAuth, async (req, res, next) => {
+  try {
+    const tempUser = await User.findById(req.params.id);
+    if (!tempUser) return res.status(404).json({ message: 'No such user.' });
+    if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN'))
+      return res.status(400).json({ message: 'You do not have privelages to edit this user.' });
+
+    //       //validate name, username and password
+    // const { error } = validateUser();
+    // if (error) return res.status(400).json({ message: error.details[0].message });
+
+    // let avatarPath = null;
+    // if (req.file) {
+    //   avatarPath = req.file.filename;
+    // }
+
+    if(!tempUser.speedTests) tempUser.speedTests = []
+
+    tempUser.speedTests.push(req.body)
+    
+    const user = await User.findByIdAndUpdate(tempUser.id, { $set: tempUser }, { new: true });
+
+    res.status(200).json({ user });
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+})
+
 router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, next) => {
   try {
     const tempUser = await User.findById(req.params.id);

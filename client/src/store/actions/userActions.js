@@ -43,6 +43,8 @@ export const addUserSpeedTest = () => async (dispatch, getState) => {
     }
 
     const me = getState().auth.me
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(`/api/users/${me.id}/speedTest`, speedTest, options);
 
     dispatch({
       type: ADD_USER_SPEED_TEST_SUCCESS,
@@ -51,20 +53,8 @@ export const addUserSpeedTest = () => async (dispatch, getState) => {
       }
     })
 
-    const speedTests = []
-    if(me.speedTests) {
-      speedTests.push(...me.speedTests)
-    } 
-
-    await dispatch(editUser(me.id, {
-      speedTests: [
-        ...speedTests,
-        speedTest
-      ]
-    }))
-
+    console.log(response)
     return speedTest
-
   } catch(e) {
     console.error(e)
     dispatch({

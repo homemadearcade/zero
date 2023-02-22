@@ -66,13 +66,13 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
           }}>Edit</Button>
         </div>
       })}
-      <Button onClick={() => {
+      <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
         openCreateRelation({
           event: {
             classIdA: classIdRelationsMenu
           } 
         })
-      }}><Icon icon="faPlus"/> New Relationship</Button>
+      }}>New Relationship</Button>
     </div>
   </CobrowsingModal>
 }

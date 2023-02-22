@@ -38,6 +38,11 @@ MODALS
     Perhaps make Sprite Editor a root level modal?
   Make add Color Not a Modal?
 
+BETTER TEXTURE/LAYER SYSTEM
+LAYERS property on ArcadeGame
+  A layer either has colliders or it doesnt. A layer is given a texture id. 
+  Layers is an object on GameModel. A Layer has a texture Id. You can look up the depth  a brush/eraser is supposed to be on by finding its Layer object. The layer object also
+  Save BG PG FG to the aws images object
 
 BETTER NAVIGATION
 ( Not Logged In )

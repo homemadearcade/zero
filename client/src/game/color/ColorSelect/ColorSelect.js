@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -20,14 +20,19 @@ const ColorSelect = ({
   colors = [],
   onSelectColor,
   onAddColor,
+  changeBrushIdHovering,
   selectedColorHex,
   onUnselectColor,
   maxColors,
   canvasId,
   withEraser,
-  changeBrushIdHovering,
   updateBrushLastUsedDate
 }) => {
+  useEffect(() => {
+    return () => {
+      changeBrushIdHovering(null)
+    }
+  }, [])
 
   const defaultColors = [
     '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
@@ -62,8 +67,8 @@ const ColorSelect = ({
         changeBrushIdHovering(brushId)
       }}
       onMouseLeave={() => {
-        setIsHoveringHex(null)
         changeBrushIdHovering(null)
+        setIsHoveringHex(null)
       }}
       className={"ColorSelect__color"} 
       style={{

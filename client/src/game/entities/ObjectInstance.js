@@ -73,8 +73,8 @@ export class ObjectInstance extends Sprite {
     return this
   }
 
-  runAccuteEffect(relation, instanceB, sides = []) {
-    this.effects.runAccuteEffect(relation, instanceB, sides)
+  runAccuteEffect(relation, instanceB, sidesB = []) {
+    this.effects.runAccuteEffect(relation, instanceB, sidesB)
   }
 
   setSize(w, h) {

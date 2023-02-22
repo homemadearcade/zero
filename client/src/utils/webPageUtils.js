@@ -17,6 +17,18 @@ export function getThemePrimaryColor() {
   }
 }
 
+export async function copyToClipboard(text) {
+  if (!navigator.clipboard) {
+    // Clipboard API not available
+    console.error('clipboard api not availble')
+    return
+  }
+  try {
+    await navigator.clipboard.writeText(text)
+  } catch (err) {
+    console.error('Failed to copy!', err)
+  }}
+
 export function getDeviceData() {
  var module = {
     options: [],

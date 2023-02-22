@@ -106,7 +106,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
             editGameModel({ relations })        
          }}/>
       </Unlockable>
-      {classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>
+      {false && classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>
         also collides with Player because this is on the Playground Layer
       </div>}
       <Unlockable isSlider interfaceId={PHYSICS_BOUNCE_IID}>
