@@ -47,10 +47,12 @@ const Chatroom = ({
     if(automated) return user.username
 
     if(lobby.guideId === user.id) {
-      return 'Your Guide'
+      return <>Your Guide<br/></>
     }
 
-    return user.username
+    return <>
+    {user.username}<br/>
+    </>
   }
 
   return (
@@ -62,8 +64,8 @@ const Chatroom = ({
           if(automated && hideAutomated) return null
 
           return <ListItem classes={{root: 'Chatroom__message'}}>
-            {getChatroomName(messageData)}
-            {message}
+            <Typography variant="body">{getChatroomName(messageData)}</Typography>
+            <Typography variant="subtitle1">{message}</Typography>
           </ListItem>
         })}
         <div style={{ float:"left", clear: "both" }}

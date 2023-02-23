@@ -5,13 +5,9 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-
-UPLOAD PHOTOS
-  Textures
-    Security for changing the game textures.... Any user can really edit those textures now because amazon isnt checking. Perhaps it has to go through our check?
-    attempt the user profile pic upload first
-    Should be a /texture route not an aws route
-  Agora User Video, have it load a user and have it like upload it as a profile pic??
+TAGS
+  Implement/TRANSFORM the Relation editor into a tags system. Without breaking changes
+  Each class has its own tag automatically
 
 LIBRARY
   Be able to open class library classes from some sort of class bucket thing. Start with context menu?
@@ -25,17 +21,24 @@ SMALL FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+isGameLoading property and overlay with a check that prevents game actions from being sent unless game is fully loaded
+
 Game Card without game loaded
 
 Edit Game Model Locally without having to wait for the.. thing. is the issue because of the socket events? Do we need to have a mock socket event?
+  Basically yes I need the GameScenes to be listening to a local event when the game model is updated
+  onArcadeGame Update is called and then onArcadeGameUpdate then calls a local event!
 
-Instead of confetti, throw their sprites out like that
+Make Confetti with the images from the game
 
 Edit base UI Color
 
 Show key/click info inside the Mouse Preview ( raname is Hover Preview )
+  Edit name from Mouse Preview
 
 Create Class Modal -> Edit Name Modal instead of having edit name inside of Create Class
+  Select class type ( for admins only ) ( inside of Edit name Modal )
 
 ESCAPE EXPERIENCE KEY - SAFETY KEY
 
+Send To Game Overlay Effect

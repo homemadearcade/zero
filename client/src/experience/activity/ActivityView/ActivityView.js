@@ -22,7 +22,7 @@ const ActivityView = ({
   gameRoom: { gameRoom },
   myTracks,
   userTracks,
-  cobrowsing: { cobrowsingUser }
+  cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
   const user = members.filter(({id}) => {
     if(cobrowsingUser?.id === id) {
@@ -86,7 +86,7 @@ const ActivityView = ({
   }
 
   return <div className="ActivityView">
-    {user.inConstellationView && <ConstellationZoom/>}
+    {user.inConstellationView && isActivelyCobrowsing && <ConstellationZoom/>}
     {renderExperience()}
   </div>
 };

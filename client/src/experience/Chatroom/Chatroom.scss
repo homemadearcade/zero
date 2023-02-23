@@ -4,6 +4,8 @@
 
   display: flex;
   flex-direction: column;
+  align-items: center;
+
 
   &__messages {
     height: calc(100% - 100px);
@@ -12,5 +14,7 @@
 
   &__message {
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
