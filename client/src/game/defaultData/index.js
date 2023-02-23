@@ -10,3 +10,4 @@ export * from './object';
 export * from './players';
 export * from './relationship';
 export * from './stage';
+export * from './tags'

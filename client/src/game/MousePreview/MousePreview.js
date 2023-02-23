@@ -13,11 +13,6 @@ import { interfaceIdData } from '../../constants/interfaceIdData';
 import { classTypeToDisplayName } from '../defaultData/class';
 import { initialStageId } from '../defaultData';
 
-// const INSTANCE_PREVIEW = 'INSTANCE_PREVIEW'
-// const CLASS_PREVIEW = 'CLASS_PREVIEW'
-// const COLOR_PREVIEW = 'COLOR_PREVIEW'
-// const BRUSH_PREVIEW = 'BRUSH_PREVIEW'
-
 const MousePreview = ({ 
   cobrowsing: {
     mouseOverInterfaceId

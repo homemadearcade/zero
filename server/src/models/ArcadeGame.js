@@ -60,6 +60,11 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
+    tags: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     isRemoved: {
       required: false,
       default: false,

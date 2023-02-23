@@ -10,7 +10,7 @@ export const defaultGameModel = {
     "description": "",
     "authorPseudonym": "",
     "imageUrl": "",
-    isArchival: false,
+    isArchived: false,
     isFeatured: false,
     isPublished: false
   },

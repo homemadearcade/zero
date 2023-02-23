@@ -528,7 +528,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ userId: ARCHIVE_USER_ID, gameId: lobby.editingGameId, isArchival: true }))
+            store.dispatch(copyArcadeGameToUser({ userId: ARCHIVE_USER_ID, gameId: lobby.editingGameId, isArchived: true }))
           },
           nextButtonText: 'Archive'
         },

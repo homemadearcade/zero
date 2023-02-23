@@ -288,12 +288,12 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
   }
 };
 
-export const copyArcadeGameToUser = ({gameId, userId, isArchival}) => async (dispatch, getState) => {
+export const copyArcadeGameToUser = ({gameId, userId, isArchived}) => async (dispatch, getState) => {
   const options = attachTokenToHeaders(getState);
   const response = await axios.get('/api/arcadeGames/' + gameId, options);
   const gameData = response.data.game
   gameData.owner = null
-  gameData.metadata.isArchival = isArchival
+  gameData.metadata.isArchived = isArchived
   gameData.metadata.isPublished = false
   gameData.userId = userId
 

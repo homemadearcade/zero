@@ -226,6 +226,7 @@ export const SPRITE_EDITOR_ID_PREFIX = 'sprite-'
 export const STAGE_ID_PREFIX = 'stage-'
 export const GAME_INSTANCE_ID_PREFIX = 'gi-'
 export const OBJECT_CLASS_ID_PREFIX = 'oc-'
+export const TAG_ID_PREFIX = 'tag-'
 
 export const PLAYER_CLASS_TYPE_PREFIX = 'pl-'
 export const BASIC_CLASS_TYPE_PREFIX = 'o-'

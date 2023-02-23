@@ -20,6 +20,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       stages: {},
       defaults: {},
       metadata: {},
+      tags: {},
       classes: {},
       brushes: {},
       colors: {},

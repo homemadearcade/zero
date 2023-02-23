@@ -29,16 +29,6 @@ Performance huge upgrade - sort all instances into class Id. Use for relations
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-SECURITY
---------------------------------------------------------------------------------------
-
-security for redux state stuff. Since cobrowsers can edit the redux state, they could potentially change the users redux state for their user, their password for example, and then they could try to get them to save their account and save that new password.
-
-security for codrawing and cobrowsing, make sure they are in the lobby!
-
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
 GAME ORGANIZATION
 --------------------------------------------------------------------------------------
 
