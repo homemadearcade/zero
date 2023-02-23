@@ -24,8 +24,8 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   const [needsSpeedTest, setNeedsSpeedTest] = useState()
 
   useEffect(() => {
-    if(auth.me && !window.location.pathname.indexOf('lobby/') >= 0) {
-      if(auth.me?.speedTests?.length < 10) {
+    if(auth.me && window.location.pathname.indexOf('lobby/')  === -1) {
+      if(auth.me?.speedTests?.length < 1) {
         setNeedsSpeedTest(true)
       }
     }

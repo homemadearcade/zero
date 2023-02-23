@@ -1,5 +1,6 @@
 BUGS
 When the game is stopped, it doesnt change relations ( when editing them ) until the next reload?
+  If game is stopped and theres a relation update then reload the game... again
 
 --
 
