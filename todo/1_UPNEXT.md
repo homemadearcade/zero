@@ -3,9 +3,6 @@ TAGS
   Each class has its own tag automatically
 
 // Should tags be part of a global database?
-// Will tags defeat the purpose of class type
-    // Class type seems to really just be for the sake of the UI anyways
-  Do Players and Zones need to truly be seperated? Beyond UI?
 --
 
 EMAILS

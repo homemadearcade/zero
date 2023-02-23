@@ -21,8 +21,6 @@ Destroyed By Message ( You lost because... )
 
 Select class type ( for admins only )
 
-swap all the objects to correct game layers when it changes so we can use the layers correctly for visibility and for taking pictures...
-
 MORE EVENTS
   onCutsceneEnd Event, onStageEntered
   On touch end. Instead of an array - plant a boolean on another collider? maybe? and like reset that boolean every loop. Once it doesnt need to be reset, thats when the touch stopped? right?
