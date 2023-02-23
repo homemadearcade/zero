@@ -23,11 +23,12 @@ import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import { defaultGameModel } from '../../game/defaultData/gameModel';
 import { defaultObjectInstance } from '../../game/defaultData/object';
-import { defaultClass } from '../../game/defaultData/class';
+import { defaultClass, libraryClassAugment } from '../../game/defaultData/class';
 import store from '..';
 import {  BRUSH_ID_PREFIX, NON_LAYER_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { defaultStage } from '../../game/defaultData/stage';
+import { classLibrary } from '../../game/classLibrary';
 
 function onArcadeGameCharacterUpdate({ id, data }) {
   const me = store.getState().auth.me 
@@ -100,6 +101,7 @@ function onArcadeGameModelUpdate(gameUpdate) {
   }
 
   window.nextGameModelUpdateIsUndo = false
+  
   if(gameUpdate.stages) {
     const stage = gameUpdate.stages[stageId]
     if(stage) {
@@ -116,6 +118,15 @@ function onArcadeGameModelUpdate(gameUpdate) {
   })
   
   const gameData = mergeDeep(oldGameData, gameUpdate)
+
+  // classLibrary.forEach((libraryObjectClass) => {
+  //   if(!gameData.classes[libraryObjectClass.classId]) {
+  //     gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryClassAugment), _.cloneDeep(libraryObjectClass))
+  //   } else {
+  //     gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryClassAugment), _.cloneDeep(libraryObjectClass), gameData.classes[libraryObjectClass.classId])
+  //   }
+  // })
+  
   Object.keys(gameData.classes).forEach((id) => {
     const objectClass = gameData.classes[id]
     
@@ -125,6 +136,14 @@ function onArcadeGameModelUpdate(gameUpdate) {
         textureId: objectClass.graphics.textureId,
         tint: objectClass.graphics.tint
       }
+    }
+    gameData.tags[objectClass.classId] = {
+      textureId: objectClass.graphics.textureId,
+      tint: objectClass.graphics.tint,
+      isClassTag: null,
+      isSystemTag: null,
+      tagId: objectClass.classId,
+      name: objectClass.name,
     }
   })
 
@@ -221,6 +240,15 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
         objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
       })
     })
+
+    classLibrary.forEach((libraryObjectClass) => {
+      if(!gameData.classes[libraryObjectClass.classId]) {
+        gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment))
+      } else {
+        gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment), gameData.classes[libraryObjectClass.classId])
+      }
+    })
+
     Object.keys(gameData.classes).forEach((id) => {
       gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
       
@@ -232,6 +260,15 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
           textureId: objectClass.graphics.textureId,
           tint: objectClass.graphics.tint
         }
+      }
+
+      gameData.tags[objectClass.classId] = {
+        textureId: objectClass.graphics.textureId,
+        tint: objectClass.graphics.tint,
+        isClassTag: null,
+        isSystemTag: null,
+        tagId: objectClass.classId,
+        name: objectClass.name,
       }
     })
 

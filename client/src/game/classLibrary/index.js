@@ -5,7 +5,7 @@ import elevator from "./elevator"
 import hammerBros from "./hammerBros"
 import movingPlatform from "./movingPlatform"
 import tower from "./tower"
-import bullet_gravity from "./bullet_gravity"
+import bulletWithGravity from "./bulletWithGravity"
 import bullet from "./bullet"
 
 // Zombie
@@ -15,6 +15,12 @@ import bullet from "./bullet"
 export const classLibrary = [
   flyingGoomba,
   goomba,
-  octorok
+  octorok,
+  elevator,
+  hammerBros,
+  movingPlatform,
+  tower,
+  bulletWithGravity,
+  bullet
 ]
 

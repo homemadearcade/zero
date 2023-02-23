@@ -39,6 +39,7 @@ export const defaultCollisionResponse = {
 export const defaultClass = {
   interfaceLocked: false,
   lastSelectedDate: 0,
+  isRemoved: false,
   boundaryRelation: BOUNDARY_COLLIDE,
   classId: null,
   movement: {
@@ -95,7 +96,14 @@ export const defaultPlayerClass = {
   type: PLAYER_CLASS, 
   movement: { 
     controls: DIRECTIONAL_CONTROLS
+  },
+  collisionResponse: {
+    notPushable: false
   }
+}
+
+export const libraryClassAugment = {
+  interfaceLocked: true
 }
 
 export const defaultBasicClass = { 

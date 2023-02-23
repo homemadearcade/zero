@@ -53,7 +53,6 @@ export const addUserSpeedTest = () => async (dispatch, getState) => {
       }
     })
 
-    console.log(response)
     return speedTest
   } catch(e) {
     console.error(e)

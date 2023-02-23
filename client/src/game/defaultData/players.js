@@ -4,14 +4,15 @@ import { directionalDefaults, advancedDirectionalDefaults } from "./controlledMo
 import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"
 import { vehicleDefaults } from "./controlledMovement"
 import { mergeDeep } from "../../utils/utils"
+import _ from "lodash"
 
 export const vehiclePlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'vehicle'
 export const jumperPlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'jumper'
 export const directionalPlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'directional'
 
 const defaultProps = mergeDeep(
-  defaultClass,
-  defaultPlayerClass,
+  _.cloneDeep(defaultClass),
+  _.cloneDeep(defaultPlayerClass),
 )
 
 export const vehicleClass = {

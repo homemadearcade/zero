@@ -17,13 +17,11 @@ const arcadeGameSchema = new Schema(
         title: 'New Game',
       }
     },
-
-     defaults: {
+    defaults: {
       type: Object,
       required: true,
       default: {}
     },
-
     // THESE ARE GLOBAL, perhaps player -> initialScene
     player: {
       type: Object,
@@ -97,6 +95,7 @@ export const validateArcadeGame = (game) => {
     cutscenes: Joi.object(),
     awsImages: Joi.object(),
     isRemoved: Joi.bool(),
+    tags: Joi.object(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };
@@ -119,6 +118,7 @@ arcadeGameSchema.methods.toJSON = function () {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     isRemoved: this.isRemoved,
+    tags: this.tags ? this.tags : {},
   };
 };
 

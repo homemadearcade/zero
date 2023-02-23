@@ -52,7 +52,7 @@ const Unlockable = ({
     return <div 
       className={classNames(className)}
       onMouseEnter={() => {
-        setMouseOverInterfaceId(interfaceId)
+        setMouseOverInterfaceId(interfaceIdToUnlock)
       }}
       onMouseLeave={() => {
         setMouseOverInterfaceId(null)
@@ -67,7 +67,7 @@ const Unlockable = ({
         classNames(
           "Unlockable__unlock-cover", 
           { 
-            'Unlockable__unlock-cover--mouse-over': mouseOverInterfaceId === interfaceId, 
+            'Unlockable__unlock-cover--mouse-over': mouseOverInterfaceId === interfaceIdToUnlock, 
             'Unlockable__unlock-cover--slider': isSlider 
           }
         )
