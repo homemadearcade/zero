@@ -87,7 +87,7 @@ const ActivityView = ({
   }
 
   return <div className="ActivityView">
-    {user.inConstellationView && (isActivelyCobrowsing || cobrowsingUser.id === auth.me.id) && <ConstellationZoom/>}
+    {user.inConstellationView && (isActivelyCobrowsing || cobrowsingUser.id === me.id) && <ConstellationZoom/>}
     {renderExperience()}
   </div>
 };
