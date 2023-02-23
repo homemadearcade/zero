@@ -42,6 +42,9 @@ export class GameHostScene extends EditorScene {
   startRemoteClientUpdateLoop = () => {
     let updateInterval = 1000/12
     this.remoteClientUpdateInterval = setInterval(() => {
+
+            console.log('updating')
+
       const gameInstanceId = store.getState().webPage.gameInstanceId
       if(this.gameInstanceId !== gameInstanceId) {
         console.error('host has incorrect game instance id', this.gameInstanceId, 'should be', gameInstanceId)
@@ -98,6 +101,7 @@ export class GameHostScene extends EditorScene {
           upsHost: this.upsHost
         })
       this.afterGameInstanceUpdateEffects() 
+
     }, updateInterval)
   }
 
