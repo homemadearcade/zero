@@ -30,7 +30,6 @@ export class Collider {
     } 
   }
 
-
   update() {
     // if(this.lastCollidingWith) {
     //   this.lastCollidingWith.forEach((classId) => {
@@ -51,7 +50,7 @@ export class Collider {
     this.collidingWith = []
   }
 
-  testForEffect(relation, instanceB, sidesB, swapWhoRunsEffect) {
+  testForEffect(relation, instanceB, sidesB = [], swapWhoRunsEffect) {
     const effect = relation.effect 
     const event = relation.event
 
@@ -124,15 +123,14 @@ export class Collider {
         } else {
           this.unregisters.push(
             this.scene.physics.add.overlap(this.sensor.sprite, releventInstancesB, (a, b) => {
-              if(sidesB.length) {
+              if(sidesB?.length) {
                 if(!areBSidesHit(sidesB, a, b)) return
               }
-              if(sidesA.length) {
+              if(sidesA?.length) {
                 if(!areBSidesHit(sidesA, b, a)) return
               }
               
               this.testForEffect(relation, b, sidesB)
-
             })
           )
         }

@@ -30,7 +30,7 @@ import Button from '../../../ui/Button/Button';
 import LobbySelectRoles from '../../lobby/LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
 
-const ARCHIVE_USER_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
+const ARCHIVE_USER_ID = isLocalHost() ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
 const GAME_IDS = {
   prologue1: isLocalHost() ? '63c3420b6a61ac00539b0dc5' : '63c3420b6a61ac00539b0dc5',

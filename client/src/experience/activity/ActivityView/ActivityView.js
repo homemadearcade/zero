@@ -22,6 +22,7 @@ const ActivityView = ({
   gameRoom: { gameRoom },
   myTracks,
   userTracks,
+  auth: { me },
   cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
   const user = members.filter(({id}) => {
@@ -86,7 +87,7 @@ const ActivityView = ({
   }
 
   return <div className="ActivityView">
-    {user.inConstellationView && isActivelyCobrowsing && <ConstellationZoom/>}
+    {user.inConstellationView && (isActivelyCobrowsing || cobrowsingUser.id === auth.me.id) && <ConstellationZoom/>}
     {renderExperience()}
   </div>
 };
@@ -94,7 +95,8 @@ const ActivityView = ({
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
   cobrowsing: state.cobrowsing,
-  gameRoom: state.gameRoom
+  gameRoom: state.gameRoom,
+  auth: state.auth,
 });
 
 export default compose(
