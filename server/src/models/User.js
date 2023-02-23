@@ -87,7 +87,7 @@ userSchema.methods.toJSON = function () {
     username: this.username,
     // avatar: avatar,
     // name: this.name,
-    speedTests: this.speedTests,
+    speedTests: this.speedTests ? this.speedTests : [],
     role: this.role,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

@@ -302,12 +302,12 @@ const ExperienceInstructions = ({
           onClickNext: () => {
             editLobby(lobby.id, {
               currentActivity: MONOLOGUE_ACTIVITY,
-              monologueText: `More and more, the world interacts with reflections made on the screen in front of you. These began as pixels. So we begin with our relationship to pixels, through the tools of the keyboard you know so well.
-We’ll use it to create - a story, a piece of art, a game… however You feel inspired.`
             })
           },
           nextButtonText: 'Open Monologue View'
         },
+        sayThis(`More and more, the world interacts with reflections made on the screen in front of you. These began as pixels. So we begin with our relationship to pixels, through the tools of the keyboard you know so well.
+We’ll use it to create - a story, a piece of art, a game… however You feel inspired.`),
         {
           id: 'Load Prologue 1',
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,

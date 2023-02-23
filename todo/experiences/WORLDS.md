@@ -33,6 +33,15 @@ Hey heres this thing, its a simulation. You can make one, play in it. etc.
 
 You can check on your dude, its lots of fun!
 
---
+---
 
-PORTALS begins
+Its my OWN rules to start off before you can make your own world with its own rules. First you can just join my world with its own rules
+
+The rules are geared towards eventually kingdom play...towards game stuff. Towards having a large scale digital game mastered experience
+
+
+
+The Portal from Digital -> Physical will be later and the rules of the universe will have to be rewritten
+
+---
+

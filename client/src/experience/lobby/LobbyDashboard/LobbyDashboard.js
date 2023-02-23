@@ -22,9 +22,6 @@ const LobbyDashboard = ({
       <div className="LobbyDashboard__content">
         <div className="LobbyDashboard__preview">
           <div className="LobbyDashboard__video-container">
-            {lobby.currentActivity === MONOLOGUE_ACTIVITY && <div className='LobbyDashboard__monologue-text'>
-              {lobby.monologueText}
-            </div>}
             <AgoraUserVideo className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}/>
           </div>
           <ActivitySwitcher userId={lobby.participantId}/>
