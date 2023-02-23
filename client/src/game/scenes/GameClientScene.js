@@ -27,7 +27,6 @@ export class GameClientScene extends EditorScene {
   }
 
   onGameInstanceUpdate = ({gameInstanceId, objectInstances, playerInstance, projectiles, stageId, upsHost, upsServer}) => {
-    console.log('recieving')
     if(!this.gameInstanceId) {
       this.gameInstanceId = gameInstanceId
     }
@@ -49,8 +48,6 @@ export class GameClientScene extends EditorScene {
       }
       return
     }
-
-    console.log('recieving2')
 
     objectInstances.forEach((instanceUpdate) => {
       const instanceId = instanceUpdate.instanceId
