@@ -1,6 +1,6 @@
 export const INSTANCE_TOOLBAR_CONTAINER_IID = 'instanceToolbar/*'
 export const INSTANCE_TOOLBAR_UNDO_IID = 'instanceToolbar/undo'
 export const INSTANCE_TOOLBAR_PAUSE_IID = 'instanceToolbar/pause'
-export const INSTANCE_TOOLBAR_STOP_IID = 'instanceToolbar/stop'
+export const INSTANCE_TOOLBAR_RESET_IID = 'instanceToolbar/stop'
 export const INSTANCE_TOOLBAR_PLAY_IID = 'instanceToolbar/play'
 export const INSTANCE_TOOLBAR_PLAYTHROUGH_IID = 'instanceToolbar/playthrough'

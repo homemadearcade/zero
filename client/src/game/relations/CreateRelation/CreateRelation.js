@@ -59,7 +59,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
     }
   }, [])
 
-  function isSaveDisabled() {
+  function isAutosaveDisabled() {
     const editForms = effectEditInterface[relation.effect.type]
 
     if(editForms?.classId) {
@@ -329,7 +329,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
         </Unlockable>}
         <div className="CreateRelation__buttons">
           <Button 
-            disabled={isSaveDisabled()}
+            disabled={isAutosaveDisabled()}
             onClick={() => {
             editGameModel({
               relations: {

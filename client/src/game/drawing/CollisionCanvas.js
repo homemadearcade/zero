@@ -2,6 +2,7 @@ import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
 import { splitIntoSubarrays } from "../../utils/arrayUtils";
 import { CodrawingCanvas } from "./CodrawingCanvas";
+import { PLAYGROUND_CANVAS_ID } from "../constants";
 
 export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
@@ -79,8 +80,18 @@ export class CollisionCanvas extends CodrawingCanvas {
     if(this.collisionBody) {
       // console.log('body arrived')
 
+      const classes = store.getState().gameModel.gameModel.classes
+
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.sprite)
-      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.map(({sprite}) => {
+      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.filter(({classId}) => {
+        return classes[classId].graphics.layerId === PLAYGROUND_CANVAS_ID
+      }).map(({sprite}) => {
+        return sprite
+      }))
+
+      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.projectileInstances.filter(({classId}) => {
+        return classes[classId].graphics.layerId === PLAYGROUND_CANVAS_ID
+      }).map(({sprite}) => {
         return sprite
       }))
     } else {

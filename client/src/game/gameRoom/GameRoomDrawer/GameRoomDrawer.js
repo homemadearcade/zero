@@ -21,7 +21,7 @@ import LobbyOverview from '../../../experience/lobby/LobbyOverview/LobbyOverview
 
 const GameRoomDrawer = ({
   lobby: { lobby, lobby: { currentActivity } },
-  gameRoom: { gameRoom, gameRoom: { isPoweredOn, isSaveDisabled }},
+  gameRoom: { gameRoom, gameRoom: { isPoweredOn, isAutosaveDisabled }},
   myTracks,
   userTracks,
   editGameRoom
@@ -35,17 +35,17 @@ const GameRoomDrawer = ({
         }}>
           <Icon icon="faBars"/>
         </div>}
-        {currentActivity === GAME_EDITOR_ACTIVITY && isSaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
+        {currentActivity === GAME_EDITOR_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
-          <Typography variant="subtitle2">Save Disabled</Typography>
+          <Typography variant="subtitle2">Autosave Disabled</Typography>
           <Switch
             size="small"
             onChange={() => {
               editGameRoom(gameRoom.id, {
-                isSaveDisabled: false
+                isAutosaveDisabled: false
               })
             }}
-            checked={isSaveDisabled}
+            checked={isAutosaveDisabled}
           />
         </div>}
         <CobrowsingIndicator/>

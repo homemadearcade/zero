@@ -189,7 +189,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 
-    if(!req.body.isSaveDisabled) {
+    if(!req.body.isAutosaveDisabled) {
       await ArcadeGame.findByIdAndUpdate(
         req.params.id,
         update,

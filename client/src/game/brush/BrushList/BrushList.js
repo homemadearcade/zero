@@ -30,7 +30,7 @@ const BrushList = ({
     return null
   }
 
-  const renderBrushItem = (canvasId) =>  ({brushId}, i) => {
+  const renderBrushItem = (canvasId) =>  (brushId, i) => {
     const el = <BrushItem key={i} brushId={brushId}/>
     return <Unlockable interfaceId={getBrushSelectFromCanvasId(canvasId)}>
       {el}
@@ -40,7 +40,7 @@ const BrushList = ({
   const brushesByLayer = Object.keys(brushes).reduce((prev, brushId) => {
     const brush = brushes[brushId]
     if(!prev[brush.canvasId]) prev[brush.canvasId] = []
-    prev[brush.canvasId].push({ brushId, brush })
+    prev[brush.canvasId].push(brushId)
     return prev
   }, {})
 

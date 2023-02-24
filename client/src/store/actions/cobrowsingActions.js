@@ -30,6 +30,7 @@ import store from '..';
 import { getRemoteStatePackage } from '../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../utils/editorUtils';
 import { updateArcadeGameCharacter } from './arcadeGameActions';
+import { mergeDeep } from '../../utils/utils';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()
@@ -319,10 +320,10 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
         type: ON_COBROWSING_UPDATE,
         payload: { 
           remoteStateUserId: userId,
-          remoteState: {
-            ...getState().cobrowsing.remoteState,
-            ...remoteState,
-          }
+          remoteState: mergeDeep(
+            getState().cobrowsing.remoteState,
+            remoteState
+          )
         },
       });
     });

@@ -15,10 +15,10 @@ export function getRemoteStatePackage(state) {
 }
 
 export function mapCobrowsingState(state, props, options) {
-  const isCobrowsing = state.cobrowsing.isActivelyCobrowsing
+  const isActivelyCobrowsing = state.cobrowsing.isActivelyCobrowsing
   const isSubscribed = state.cobrowsing.isSubscribedCobrowsing
 
-  if((options?.forceActiveCobrowsing && isSubscribed) || isCobrowsing) {
+  if((options?.forceActiveCobrowsing && isSubscribed) || isActivelyCobrowsing) {
     const remoteState = Object.keys(props).reduce((prev, propName) => {
       const remoteState = state.cobrowsing.remoteState
       if(propName === 'gameSelector') {
@@ -56,18 +56,18 @@ export function mapCobrowsingState(state, props, options) {
 
   return {
     ...props,
-    unlockableInterfaceIds: isSubscribed ? state.cobrowsing.remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
+    // unlockableInterfaceIds: isSubscribed ? state.cobrowsing.remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
   }
 }
 
 export function getCobrowsingState(options) {
   const state = store.getState()
-  const isCobrowsing = state.cobrowsing.isActivelyCobrowsing
+  const isActivelyCobrowsing = state.cobrowsing.isActivelyCobrowsing
   const isSubscribed = state.cobrowsing.isSubscribedCobrowsing
 
   const remoteState = state.cobrowsing.remoteState
 
-  if(isCobrowsing || (isSubscribed && options?.forceActiveCobrowsing)) {
+  if(isActivelyCobrowsing || (isSubscribed && options?.forceActiveCobrowsing)) {
     return {
       ...state,
       gameSelector: remoteState.gameSelector,

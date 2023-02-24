@@ -39,7 +39,7 @@ AgoraRTC.setLogLevel(2)
 // this hook can be used the get the client/stream in any component
 const useClient = createClient(config);
 
-const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+export const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 export const setVideoTrackId = (trackId) => (dispatch, getState) => {
   dispatch({

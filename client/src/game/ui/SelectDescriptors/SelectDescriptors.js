@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectDescriptors.scss';
@@ -7,14 +7,13 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { shuffleArray } from '../../../utils/arrayUtils';
 
 const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => {
+  const [options, setOptions] = useState()
 
-  const options = shuffleArray(descriptorOptions)
+  useEffect(() => {
+    setOptions(shuffleArray(descriptorOptions))
+  }, [])
 
-  // options.unshift({
-  //   label: value,
-  //   value
-  // })
-
+  if(!options) return
 
   return <SelectChipsAuto 
     onChange={onChange}

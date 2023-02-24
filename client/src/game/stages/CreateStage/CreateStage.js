@@ -25,7 +25,7 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
     }
   }, [])
 
-  function isSaveDisabled() {
+  function isAutosaveDisabled() {
     if(stage.error) return false
     if(!stage.spawnZoneClassId) return true
     return false 
@@ -56,7 +56,7 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
          }}/>
         <div className="CreateStage__buttons">
           <Button 
-            disabled={isSaveDisabled()}
+            disabled={isAutosaveDisabled()}
             onClick={() => {
             editGameModel({
               stages: {

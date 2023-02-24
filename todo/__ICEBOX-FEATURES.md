@@ -42,3 +42,5 @@ You should be able to ^ highlight for the cobrowsing user any thing  We need to 
 Scroll with cobrowser, scroll FOR cobrowser using a sldier, View to lock to cobrowsers camera
 
 Auto hide live editor when using keys?
+
+Show which page they are on in their lobby username status

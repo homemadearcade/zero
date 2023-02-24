@@ -4,6 +4,9 @@ CREATIVE
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+REDUX PERSIST ACROSS PAGE LOAD
+https://github.com/rt2zz/redux-persist
+
 TOUR component for admins? There this 'tour component' I found when searching ui libraries, its dope!
 
 AUDIO :)

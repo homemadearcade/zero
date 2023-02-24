@@ -8,29 +8,30 @@ import { toggleGridView } from '../../../store/actions/gameViewEditorActions'
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE } from '../../constants';
 import { onInstanceUndo } from '../../../store/actions/lobbyActions';
-import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_STOP_IID } from '../../../constants/interfaceIds';
+import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_RESET_IID } from '../../../constants/interfaceIds';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { changeGameState } from '../../../store/actions/gameRoomActions';
+import { getCurrentGameScene } from '../../../utils/editorUtils';
+import store from '../../../store';
 
 const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom: { gameRoom: { gameState } } }) => {
   const color = getThemePrimaryColor().hexString
-
-  function renderStop() {
-    return <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_STOP_IID}>
-      <ToolbarIcon 
-        size="lg"
-        icon="faStop"
-        color={gameState === STOPPED_STATE ? color: null}
-        onClick={() => {
-          changeGameState(STOPPED_STATE)
-        }}
-      />
-    </Unlockable>
-  }
+        // color={gameState === STOPPED_STATE ? color: null}
 
   if(gameState === START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
     return <div className="GameStateToolbar">
-      {renderStop()}
+      <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_RESET_IID}>
+          <ToolbarIcon 
+            size="lg"
+            icon="faStop"
+            onClick={() => {
+              changeGameState(STOPPED_STATE)
+              setTimeout(() => {
+                changeGameState(PAUSED_STATE)
+              }, 100)
+            }}
+          />
+      </Unlockable>
     </div>
   }
 
@@ -45,7 +46,18 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom
   //   }}/>
   // </Unlockable>
  return <div className="GameStateToolbar">
-  {renderStop()}
+  <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_RESET_IID}>
+      <ToolbarIcon 
+        size="lg"
+        icon="faRepeat"
+        onClick={() => {
+          changeGameState(STOPPED_STATE)
+          setTimeout(() => {
+            changeGameState(PAUSED_STATE)
+          }, 100)
+        }}
+      />
+  </Unlockable>
   <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_PAUSE_IID}>
     <ToolbarIcon 
       size="lg"

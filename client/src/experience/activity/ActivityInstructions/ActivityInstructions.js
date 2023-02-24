@@ -62,7 +62,7 @@ const PROLOGUE_2_CLASS_IDS = {
         //     })
         //     await editGameRoom(lobby.gameRoomId, {
         //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
-        //       isSaveDisabled: true,
+        //       isAutosaveDisabled: true,
         //     })
         //   },
         //   nextButtonText: 'Load Demo World'
@@ -318,7 +318,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue1,
               isPoweredOn: true,
-              isSaveDisabled: true,
+              isAutosaveDisabled: true,
               gameState: PAUSED_STATE
             })
           },
@@ -396,7 +396,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue2,
               isPoweredOn: true,
-              isSaveDisabled: true,
+              isAutosaveDisabled: true,
             })
           },
           nextButtonText: 'Load Prologue 2'
@@ -423,7 +423,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             })
             await editGameRoom(lobby.gameRoomId, {
               gameId: lobby.editingGameId,
-              isSaveDisabled: false,
+              isAutosaveDisabled: false,
               isPoweredOn: true,
             })
           },

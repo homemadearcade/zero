@@ -702,7 +702,6 @@ export class GameInstance extends Phaser.Scene {
     }
     if(gameState === STOPPED_STATE) {
       this.isPaused = true
-      this.isPlaythrough = false
       this.sendResetGameEvent()
     }
     if(gameState === PLAYTHROUGH_PLAY_STATE) {

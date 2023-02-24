@@ -16,6 +16,7 @@ import ConstellationHero from '../../../marketing/homemadeArcade/ConstellationHe
 import Link from '../../../ui/Link/Link';
 import { Container } from '@mui/system';
 import ConstellationZoom from '../../../marketing/homemadeArcade/ConstellationZoom/ConstellationZoom';
+import AgoraVideoPreview from '../../agora/AgoraVideoPreview/AgoraVideoPreview';
 
 const ActivityView = ({
   lobby: { lobby: { members, currentActivity, guideId, editingGameId }, lobby },
@@ -36,6 +37,7 @@ const ActivityView = ({
     if(currentActivity === WAITING_ACTIVITY) {
       return <Container><div className="LobbyWaiting">
         <Typography variant="h4">Your experience will start shortly. For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
+        <AgoraVideoPreview/>
       </div></Container>
     }
 

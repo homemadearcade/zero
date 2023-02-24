@@ -88,7 +88,7 @@ router.post('/', requireJwtAuth, requireGameRooms, async (req, res) => {
       hostUserId: req.body.hostUserId,
       gameId: req.body.gameId,
 
-      isSaveDisabled: req.body.isSaveDisabled,
+      isAutosaveDisabled: req.body.isAutosaveDisabled,
       isEdit: req.body.isEdit,
       isNetworked: req.body.isNetworked,
     });

@@ -15,7 +15,7 @@ const gameRoomSchema = new Schema(
       required: false,
       default: false
     },
-    isSaveDisabled: {
+    isAutosaveDisabled: {
       type: Boolean,
       required: false,
       default: false
@@ -62,7 +62,7 @@ gameRoomSchema.methods.toJSON = function () {
     hostUserId: this.hostUserId,
     isEdit: this.isEdit,
     isNetworked: this.isNetworked,
-    isSaveDisabled: this.isSaveDisabled,
+    isAutosaveDisabled: this.isAutosaveDisabled,
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],

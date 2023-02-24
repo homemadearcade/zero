@@ -1,19 +1,39 @@
-BUGS
-When the game is stopped, it doesnt change relations ( when editing them ) until the next reload?
-  If game is stopped and theres a relation update then reload the game... again
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+KNOWN BUGS
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 
---
+When the game is paused, it doesnt change relations ( when editing them ) until the next reload?
+  If game is paused and theres a relation update then reload the game... again
+
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+WATCHING THESE BUGS
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+
+Stopping a bunch destroyed the playground
+
+BETTER REDIRECT ( cuz its broken sometimes )
+  So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
 
 IF KEY ISSUES PERSIST
 set Interval for keyboard capture issue?
 Can Phaser just register keys without taking them over??
 
---
 
-BETTER REDIRECT ( cuz its broken sometimes )
-  So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
-
---
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+LOW PRIORITY
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 
 Fix with Cobrowsing?? right now broken af when switching between two different users
 

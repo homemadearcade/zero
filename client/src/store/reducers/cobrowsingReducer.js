@@ -28,6 +28,7 @@ import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
 import { initialVideoState } from './videoReducer';
 import { inIframe } from '../../utils/webPageUtils';
 import { initialSnackbarState } from './snackbarReducer';
+import { mergeDeep } from '../../utils/utils';
 
 function getDefaultIsActiveCobrowsing() {
   return inIframe()
@@ -143,7 +144,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         remoteStateUserId: payload.remoteStateUserId,
-        remoteState: {...payload.remoteState }
+        remoteState: mergeDeep(state.remoteState, payload.remoteState)
       };
     case SELECT_COBROWSING_TOOL:
       return {

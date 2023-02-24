@@ -1,0 +1,23 @@
+.AgoraVideoSetup {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+    &__preview {
+        overflow-y: scroll;
+        margin: 0 auto;
+        height: calc(100vh);
+        width: calc(100vh + 40vh);
+      }
+      
+  &__popup {
+    width: 300px;
+    align-self: flex-end;
+    text-align: center;
+    margin-right: 5%;
+    margin-top: 5%;
+  }
+}
