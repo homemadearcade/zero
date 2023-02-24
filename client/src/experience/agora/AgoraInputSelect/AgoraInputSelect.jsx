@@ -10,7 +10,6 @@ import Select from "../../../ui/Select/Select";
 const AgoraInputSelect = ({ auth: { me }, tracks = null, editUser, setVideoTrackId, setAudioTrackId, video: { videoTrackId, audioTrackId } }) => {
   const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio(tracks)
 
-  
   return <>
       <Select
         value={videoTrackId || ""}

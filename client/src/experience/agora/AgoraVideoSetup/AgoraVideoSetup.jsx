@@ -3,22 +3,34 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoSetup.scss'
-import { bypassAgoraVideoCall, useMicrophoneAndCameraTracks } from "../../../store/actions/videoActions";
+import { bypassAgoraVideoCall, useChangeAgoraVideoAudio, useMicrophoneAndCameraTracks } from "../../../store/actions/videoActions";
 import { startAgoraVideoCall } from "../../../store/actions/videoActions";
 import Button from "../../../ui/Button/Button";
 import Typography from "../../../ui/Typography/Typography";
 import { isLocalHost } from "../../../utils/webPageUtils";
 import AgoraVideoPreview from "../AgoraVideoPreview/AgoraVideoPreview";
 
-const AgoraVideoSetup = ({startAgoraVideoCall, bypassAgoraVideoCall}) => {
+const AgoraVideoSetup = ({startAgoraVideoCall, bypassAgoraVideoCall, video: { videoTrackId, audioTrackId }}) => {
   const { tracks, ready } = useMicrophoneAndCameraTracks();
+  const userTracks = { videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
+  const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio(userTracks)
+
+  useEffect(() => {
+    if(!ready) return 
+    if(videoTrackId) {
+      setVideoDevice(videoTrackId)
+    }
+    if(audioTrackId) {
+      setAudioDevice(audioTrackId)
+    }
+  }, [videoTrackId, audioTrackId, ready])
 
   return <div className="AgoraVideoSetup">
     {!ready && <div className="AgoraVideoSetup__popup">
       <Typography component="h5" variant="h5">A window should popup in your browser asking permission to use your camera. Please click 'Allow'.</Typography>
     </div>}
     {ready && <div className="AgoraVideoSetup__preview">
-      <AgoraVideoPreview/>
+      <AgoraVideoPreview tracks={tracks}/>
       <Button onClick={() => {
         startAgoraVideoCall(tracks)
       }}>
@@ -36,7 +48,7 @@ const AgoraVideoSetup = ({startAgoraVideoCall, bypassAgoraVideoCall}) => {
 
 
 const mapStateToProps = (state) => ({
-
+  video: state.video
 });
 
 export default compose(

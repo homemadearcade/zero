@@ -3,29 +3,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoPreview.scss'
-import { bypassAgoraVideoCall, setAudioTrackId, setVideoTrackId, useMicrophoneAndCameraTracks } from "../../../store/actions/videoActions";
+import { bypassAgoraVideoCall, setAudioTrackId, setVideoTrackId } from "../../../store/actions/videoActions";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from "../../../store/actions/videoActions";
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
 import Typography from "../../../ui/Typography/Typography";
 
-const AgoraVideoPreview = ({setVideoTrackId, setAudioTrackId, startAgoraVideoCall, bypassAgoraVideoCall, auth: { me }}) => {
-  const { tracks, ready } = useMicrophoneAndCameraTracks();
-
-  useEffect(() => {
-    const agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
-    if(agoraPreferences?.videoTrackId) {
-      setVideoTrackId(agoraPreferences.videoTrackId)
-    }
-    if(agoraPreferences?.audioTrackId) {
-      setAudioTrackId(agoraPreferences.audioTrackId)
-    }
-  }, [])
-
-
-  if(!ready) return
-  
+const AgoraVideoPreview = ({tracks, auth: { me }}) => {
   const userTracks = { uid: me.id, videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
 
   return <div className="AgoraVideoPreview">

@@ -3,22 +3,23 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoCall.scss'
-import { bypassAgoraVideoCall, setAudioTrackId, setVideoTrackId, useAgoraVideoCall } from "../../../store/actions/videoActions";
-import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
+import { bypassAgoraVideoCall, setAudioTrackId, setVideoTrackId, useAgoraVideoCall, useChangeAgoraVideoAudio } from "../../../store/actions/videoActions";
 import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from "../../../store/actions/videoActions";
-import {
-  createMicrophoneAndCameraTracks,
-} from "agora-rtc-react";
-import AgoraVideo from "../AgoraVideo/AgoraVideo";
-import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
-import Button from "../../../ui/Button/Button";
-import Typography from "../../../ui/Typography/Typography";
-import { isLocalHost } from "../../../utils/webPageUtils";
 import AgoraCommandReciever from "../AgoraCommandReciever/AgoraCommandReciever";
 import AgoraVideoSetup from "../AgoraVideoSetup/AgoraVideoSetup";
 
 const AgoraVideoCall = (props) => {
   const { video : {bypass, isConnectingToVideoCall, isInsideVideoCall, videoCallId }, render } = props
+
+  useEffect(() => {
+    const agoraPreferences = window.LocalStorageSession.getItem("agoraPreferences");
+    if(agoraPreferences?.videoTrackId) {
+      props.setVideoTrackId(agoraPreferences.videoTrackId)
+    }
+    if(agoraPreferences?.audioTrackId) {
+      props.setAudioTrackId(agoraPreferences.audioTrackId)
+    }
+  }, [])
 
   if(bypass) {
     return <div className="AgoraVideoCall">

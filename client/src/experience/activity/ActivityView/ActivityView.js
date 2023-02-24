@@ -37,7 +37,7 @@ const ActivityView = ({
     if(currentActivity === WAITING_ACTIVITY) {
       return <Container><div className="LobbyWaiting">
         <Typography variant="h4">Your experience will start shortly. For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
-        <AgoraVideoPreview/>
+        <AgoraVideoPreview tracks={myTracks}/>
       </div></Container>
     }
 
