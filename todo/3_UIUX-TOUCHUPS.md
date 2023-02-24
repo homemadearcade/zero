@@ -24,3 +24,5 @@ MODALS
     Relations -> Create Relation,
     Cutscene -> Create Cutscene, 
     Stages -> Create Stages
+
+Change height width of the snackbar to fit with...vh/vw

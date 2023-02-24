@@ -45,7 +45,7 @@ const BrushList = ({
   }, {})
 
   const bgBrushes = brushesByLayer[BACKGROUND_CANVAS_ID]?.
-    sort(sortByLastSelectedDate(brushesByLayer[BACKGROUND_CANVAS_ID])).
+    sort(sortByLastSelectedDate(brushes)).
     map(renderBrushItem(BACKGROUND_CANVAS_ID)).
     slice(0, 14) || []
   
@@ -58,7 +58,7 @@ const BrushList = ({
   </Unlockable>)
 
   const pgBrushes = brushesByLayer[PLAYGROUND_CANVAS_ID]?.
-    sort(sortByLastSelectedDate(brushesByLayer[PLAYGROUND_CANVAS_ID])).
+    sort(sortByLastSelectedDate(brushes)).
     map(renderBrushItem(PLAYGROUND_CANVAS_ID)).
     slice(0, 14) || []
 
@@ -71,7 +71,7 @@ const BrushList = ({
   </Unlockable>)
 
   const fgBrushes = brushesByLayer[FOREGROUND_CANVAS_ID]?.
-    sort(sortByLastSelectedDate(brushesByLayer[FOREGROUND_CANVAS_ID])).
+    sort(sortByLastSelectedDate(brushes)).
     map(renderBrushItem(FOREGROUND_CANVAS_ID)).
     slice(0, 14) || []
 
