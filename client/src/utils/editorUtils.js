@@ -27,7 +27,7 @@ export function getCurrentGameScene(gameInstance) {
 
   let currentScene
   if(scenes) scenes.forEach((scene) => {
-    if(currentStageId === scene.stage?.id) currentScene = scene
+    if(currentStageId === scene.stage?.stageId) currentScene = scene
   })
 
   if(!currentScene && scenes) currentScene = scenes[0]

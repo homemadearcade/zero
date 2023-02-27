@@ -24,7 +24,22 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 
-const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: { gameModel: { brushes } }, tintSelected, setSpriteEditorGameInstance, gameSelector: { spriteEditorTextureId, spriteEditorAwsId }, webPage: { gameInstance, spriteEditorGameInstance }, closeSpriteEditor, onSaveSprite, openCreateBrushFlow, gameFormEditor: { isCreateBrushFlowOpen } }) => {
+const SpriteEditor = ({
+  clearBrush,
+  selectBrush,
+  gameModel: { gameModel, gameModel: { brushes } },
+  tintSelected,
+  setSpriteEditorGameInstance,
+  gameSelector: { spriteEditorTextureId, spriteEditorAwsId },
+  webPage: { gameInstance, spriteEditorGameInstance },
+  closeSpriteEditor,
+  onSaveSprite,
+  openCreateBrushFlow,
+  gameFormEditor: { isCreateBrushFlowOpen },
+  texture: { textureIdSaving }
+ }) => {
+
+  const textureId = gameModel.id + '/' + SPRITE_EDITOR_CANVAS_ID + '_' + spriteEditorAwsId
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -51,7 +66,7 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
     }
     
     const game = new Phaser.Game(config);
-    game.scene.add(POPUP_SCENE, new CodrawingScene({ isHost, isNetworked, textureId: spriteEditorTextureId, newAwsImageId: spriteEditorAwsId, tint: tintSelected, key: POPUP_SCENE, size }), true);
+    game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId: spriteEditorTextureId, textureId, tint: tintSelected, key: POPUP_SCENE, size }), true);
     setSpriteEditorGameInstance(game)
 
     console.log('load sprite edit ')
@@ -86,6 +101,8 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
   // </Unlockable>)
 
 
+  const isSaving = textureIdSaving === textureId
+  console.log(isSaving, textureIdSaving, textureId)
   return (
     <CobrowsingModal open={true} width="110vh" zIndexIncrease={10} height="70vh" onClose={handleClose}>
       <div className="SpriteEditor">
@@ -101,21 +118,23 @@ const SpriteEditor = ({isHost, isNetworked, clearBrush, selectBrush, gameModel: 
             size="3.5vh"
             items={brushList}/>
           <UndoButton onClick={onSpriteEditorUndo}></UndoButton>
-          <Button onClick={async () => {
-            const spriteEditorScene = getCurrentGameScene(spriteEditorGameInstance)
-            const textureId = await spriteEditorScene.backgroundLayer.save()
-            const gameInstanceScene = getCurrentGameScene(gameInstance)
-            if(!gameInstanceScene) {
-              handleSave(textureId)
-              return
-            }
-            gameInstanceScene.load.image(textureId, window.awsUrl + textureId);
-            gameInstanceScene.load.once('complete', () => {
-              handleSave(textureId)
-            });
-            gameInstanceScene.load.start();
-          }}>
-            Save
+          <Button 
+            disabled={isSaving}
+            onClick={async () => {
+              const spriteEditorScene = getCurrentGameScene(spriteEditorGameInstance)
+              const textureId = await spriteEditorScene.backgroundLayer.save()
+              const gameInstanceScene = getCurrentGameScene(gameInstance)
+              if(!gameInstanceScene) {
+                handleSave(textureId)
+                return
+              }
+              gameInstanceScene.load.image(textureId, window.awsUrl + textureId);
+              gameInstanceScene.load.once('complete', () => {
+                handleSave(textureId)
+              });
+              gameInstanceScene.load.start();
+            }}>
+            {isSaving ? 'Saving...' : 'Save'}
           </Button>
         </div>
       </div>
@@ -128,7 +147,8 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameSelector: state.gameSelector,
   webPage: state.webPage,
   gameModel: state.gameModel,
-  gameFormEditor: state.gameFormEditor
+  gameFormEditor: state.gameFormEditor,
+  texture: state.texture
 });
 
 export default connect(mapStateToProps, { clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance, openCreateBrushFlow })(SpriteEditor);

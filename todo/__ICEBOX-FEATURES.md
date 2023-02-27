@@ -44,3 +44,5 @@ Scroll with cobrowser, scroll FOR cobrowser using a sldier, View to lock to cobr
 Auto hide live editor when using keys?
 
 Show which page they are on in their lobby username status
+
+Agora video peek ( when you hover over it ) in waiting view needs to also return to the preview thing afterwards?? Issue with how agora works here

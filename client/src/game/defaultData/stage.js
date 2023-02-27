@@ -19,7 +19,11 @@ export const defaultStage = {
   "playerClassId": null,
   'spawnZoneClassId': null,
   "imageUrl": "",
-  objects: {},
+  objects: {
+    [initialSpawnZoneInstanceId]: {
+      ...initialPlayerSpawnZone
+    }
+  },
   "boundaries": {
     loop: false,
     "maxWidth": gameSize,
@@ -40,14 +44,7 @@ export const initialStage = {
   name: 'Stage # 1',
   'playerClassId': initialPlayerClassId,
   'spawnZoneClassId': initialSpawnZoneClassId,
-  objects: {
-    [initialSpawnZoneInstanceId]: {
-      ...initialPlayerSpawnZone
-    }
-  },
 }
-
-
 
 export const boundaryRelationsDisplayNames = {
   [BOUNDARY_COLLIDE]: ' stops ',

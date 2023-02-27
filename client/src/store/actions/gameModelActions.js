@@ -9,6 +9,9 @@ import {
   GET_SPRITESHEET_DATA_SUCCESS,
   GET_SPRITESHEET_DATA_FAIL,
   CHANGE_CURRENT_STAGE,
+  SAVE_TEXTURE_LOADING,
+  SAVE_TEXTURE_SUCCESS,
+  SAVE_TEXTURE_FAIL,
 } from '../types';
 import _ from 'lodash';
 import { uploadToAws } from '../../utils/networkUtils';
@@ -53,32 +56,6 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
     });
   }
 }
-
-
-export const addAwsImage = (file, fileId, imageData) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await uploadToAws(fileId, file)
-      
-      store.dispatch(editGameModel({
-        awsImages: { 
-          [fileId] : {
-            name: imageData.name,
-            url: fileId,
-            type: imageData.type
-          }
-        }
-      }))
-
-      resolve()
-    } catch (err) {
-      console.error(err)
-      reject(err)
-    }
-  })
-
-}
- 
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const gameId = getState().gameModel.gameModel.id
   const gameRoom = getState().gameRoom.gameRoom

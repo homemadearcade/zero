@@ -28,6 +28,7 @@ import interfacePresetReducer from './interfacePresetReducer';
 import snackbarReducer from './snackbarReducer';
 import themeReducer from './themeReducer';
 import gameRoomReducer from './gameRoomReducer';
+import textureReducer from './textureReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -57,5 +58,6 @@ export default combineReducers({
   checkout: checkoutReducer,
   snackbar: snackbarReducer,
   theme: themeReducer,
-  gameRoom: gameRoomReducer
+  gameRoom: gameRoomReducer,
+  texture: textureReducer
 });

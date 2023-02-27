@@ -56,6 +56,7 @@ const GameEditor = ({
   closeJsonViewer,
   gameRoom: { gameRoom: { gameState } },
   gameModel: { gameModel, isLoading },
+  playerInterface: { cutsceneId }
 }) => {
   useEffect(() => {
     const ogStyle = document.documentElement.style
@@ -70,7 +71,7 @@ const GameEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const showColumns = !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
+  const showColumns = !cutsceneId && !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
 
   function renderBody() {
     // if(!gameModel && !isLoading) {
@@ -156,7 +157,8 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
   gameFormEditor: state.gameFormEditor,
   gameModel: state.gameModel,
-  gameRoom: state.gameRoom
+  gameRoom: state.gameRoom,
+  playerInterface: state.playerInterface
 })
 
 export default connect(mapStateToProps, { 

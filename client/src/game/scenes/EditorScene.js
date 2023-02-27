@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
-import { addAwsImage, editGameModel } from '../../store/actions/gameModelActions';
+import { editGameModel } from '../../store/actions/gameModelActions';
 import { openContextMenuFromGameObject, openStageContextMenu } from '../../store/actions/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
@@ -20,6 +20,7 @@ import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
+import { addAwsImage } from '../../store/actions/textureActions';
 
 export class EditorScene extends GameInstance {
   constructor(props) {

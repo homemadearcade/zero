@@ -62,15 +62,17 @@ const SelectSpriteInline = ({
 
       {renderSpriteStage()}
 
-      <Unlockable interfaceId={DRAW_NEW_SPRITE_IID}><Button onClick={() => {
-        openSpriteEditor(textureIdSelected)
-      }}>
-        Draw New Sprite
-      </Button></Unlockable>
+      <Unlockable interfaceId={DRAW_NEW_SPRITE_IID}>
+        <Button onClick={() => {
+          openSpriteEditor(textureIdSelected)
+        }}>
+          Draw New Sprite
+        </Button>
+      </Unlockable>
       <AggregateColorSelect
-        selectedColorHex={tintSelected} 
+        selectedColor={tintSelected} 
         onSelectColor={onSelectTint} 
-        onClearColor={onClearTint}
+        onUnselectColor={onClearTint}
         onAddColor={() => {
           openCreateColorFlow('SelectSpriteInline')
         }}

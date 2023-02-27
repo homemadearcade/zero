@@ -15,7 +15,6 @@ export class CodrawingCanvas extends Canvas {
 
     // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
     this.isCodrawingHost = props.isCodrawingHost
-    this.canvasId = props.canvasId
     this.scene = scene
 
     this.strokeHistory = null
@@ -113,7 +112,7 @@ export class CodrawingCanvas extends Canvas {
         this.strokeHistory = null
         clearInterval(this.strokeCheckInterval)
         store.dispatch(changeErrorState(CODRAWING_CONNECTION_LOST, { textureId: this.textureId }))
-        console.error('Your drawing is out of sync and it will now reset', this.textureId, this.canvasId)
+        console.error('Your drawing is out of sync and it will now reset', this.textureId)
         store.dispatch(unsubscribeCodrawing(this.textureId))
         this.updateTexture({ callback: async () => {
           this.clear()

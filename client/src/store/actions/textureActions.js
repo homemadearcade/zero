@@ -17,7 +17,59 @@ import {
   EDIT_TEXTURE_LOADING,
   EDIT_TEXTURE_SUCCESS,
   EDIT_TEXTURE_FAIL,
+  SAVE_TEXTURE_LOADING,
+  SAVE_TEXTURE_SUCCESS,
+  SAVE_TEXTURE_FAIL,
 } from '../types';
+import { uploadToAws } from '../../utils/networkUtils';
+import { editGameModel } from './gameModelActions';
+import store from '..';
+
+export const saveTexture  = (file, fileId, imageData) => async (dispatch, getState) => {
+  dispatch({
+    type: SAVE_TEXTURE_LOADING,
+    payload: {
+      textureId: fileId,
+    }
+  });
+
+  try {
+    await addAwsImage(file, fileId, imageData)
+    dispatch({
+      type: SAVE_TEXTURE_SUCCESS,
+    });
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: SAVE_TEXTURE_FAIL,
+    });
+  }
+}
+
+export const addAwsImage = (file, fileId, imageData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await uploadToAws(fileId, file)
+      
+      store.dispatch(editGameModel({
+        awsImages: { 
+          [fileId] : {
+            name: imageData.name,
+            url: fileId,
+            type: imageData.type
+          }
+        }
+      }))
+
+      resolve()
+    } catch (err) {
+      console.error(err)
+      reject(err)
+    }
+  })
+
+}
+ 
 
 export const getTextures = () => async (dispatch, getState) => {
   dispatch({

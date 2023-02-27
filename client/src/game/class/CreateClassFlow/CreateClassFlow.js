@@ -69,7 +69,8 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
         <SelectSpriteInline
           onSelect={(textureId) => {
             updateCreateClass({ graphics: {
-              textureId 
+              textureId,
+              tint: null,
             }})
           }}
           tintSelected={objectClass.graphics.tint}
@@ -95,7 +96,7 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
               tint
             }})
           }}
-          onClearColor={() => {
+          onUnselectColor={() => {
             updateCreateClass({ graphics: {
               tint: null
             }})
