@@ -56,6 +56,7 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
     });
   }
 }
+
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const gameId = getState().gameModel.gameModel.id
   const gameRoom = getState().gameRoom.gameRoom

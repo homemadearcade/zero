@@ -48,8 +48,8 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
     }
   }
 
-  function renderContinueError(step) {
-     return step.isContinueDisabledWarning && <Alert severity='warning'><AlertTitle>Warning</AlertTitle>{step.isContinueDisabledWarning}</Alert>
+  function renderContinueError(disabledEl) {
+     return disabledEl && <Alert severity='warning'><AlertTitle>Warning</AlertTitle>{disabledEl}</Alert>
   }
 
   return (
@@ -58,8 +58,10 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
         {steps.map((step, index) => {
 
           let disabled = false;
+          let disabledEl;
           if(step.shouldContinueBeDisabledCheck) {
-            disabled = step.shouldContinueBeDisabledCheck()
+            disabledEl = step.shouldContinueBeDisabledCheck()
+            disabled = !!disabledEl
           }
 
           if(step.break) return <Step key={step.id} >
@@ -76,7 +78,7 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
                 }}
                 sx={{ mt: 1, mr: 1 }}
               >Next</Button>
-              {disabled && renderContinueError(step)}
+              {disabled && renderContinueError(disabledEl)}
             </StepContent>
           </Step>
 
@@ -119,9 +121,8 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
                     Back
                   </Button>
                 </div>
-                {disabled && renderContinueError(step)}
+                {disabled && renderContinueError(disabledEl)}
               </Box>
-              
             </StepContent>
           </Step>
         })}

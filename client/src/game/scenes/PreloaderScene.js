@@ -9,7 +9,7 @@ import {
 import { createGameSceneInstance } from '../../utils/gameUtils';
 
 export class PreloaderScene extends Phaser.Scene {
-  constructor({ isNetworked, isEdit, hostUserId, gameInstanceId, id}) {
+  constructor({ isNetworked, isEdit, hostUserId, gameInstanceId, id, gameId}) {
     super({
       key: PRELOADER_SCENE,
     });
@@ -19,6 +19,7 @@ export class PreloaderScene extends Phaser.Scene {
       isNetworked,
       isEdit,
       gameInstanceId,
+      gameId,
       id: id
     }
 

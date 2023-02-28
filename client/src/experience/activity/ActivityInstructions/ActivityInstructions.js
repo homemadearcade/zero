@@ -3,10 +3,10 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { assignLobbyRole, editLobby } from '../../../store/actions/lobbyActions';
+import { editLobby } from '../../../store/actions/lobbyActions';
 
 import './ActivityInstructions.scss';
-import { addArcadeGame, copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
+import { copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
 import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
 import GameCard from '../../../app/arcadeGame/GameCard/GameCard';
 import Typography from '../../../ui/Typography/Typography';
@@ -24,7 +24,7 @@ import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions'
 import { ON_GAME_INSTANCE_ANIMATION } from '../../../store/types';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { updateLobbyUser } from '../../../store/actions/lobbyActions';
-import { editGameRoom, changeGameState } from '../../../store/actions/gameRoomActions';
+import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import GameAddForm from '../../../app/arcadeGame/GameAddForm/GameAddForm';
 import Button from '../../../ui/Button/Button';
 import LobbySelectRoles from '../../lobby/LobbySelectRoles/LobbySelectRoles';
@@ -70,33 +70,43 @@ const PROLOGUE_2_CLASS_IDS = {
         // returnFromStarsStep(),
 
 const ExperienceInstructions = ({
-  addArcadeGame,
   editLobby,
-  assignLobbyRole,
   updateArcadeGameCharacter,
   lobby: { lobby },
   updateLobbyUser,
-  changeGameState,
   gameRoom: { gameRoom },
   setCutAudio,
   setCutVideo,
   editGameRoom,
   cobrowsing: { remoteStateUserId },
   myTracks,
-  userTracks
+  userTracks,
 }) => {  
-  const membersById = lobby.members.reduce((prev, next) => {
+  const playersById = gameRoom.members.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
+  console.log(gameRoom.members)
+  const hostPlayer = playersById[gameRoom.hostUserId]
+
+  console.log(playersById, hostPlayer)
 
   const requireCobrowsingConnection = {
     shouldContinueBeDisabledCheck: () => {
-      return !remoteStateUserId
+      if(!remoteStateUserId) {
+        return <>
+          Participant has not interacted with the experience
+        </>
+      }
     },
-    isContinueDisabledWarning: <>
-      Participant has not interacted with the experience
-    </>,
+  }
+
+  const requireGameLoaded = {
+    shouldContinueBeDisabledCheck: () => {
+      if(!hostPlayer?.loadedGameId) return <>
+        Game Host is not present or is still loading Game
+      </>
+    }
   }
 
   let returnFromStarsStepIndex = 0
@@ -131,7 +141,8 @@ const ExperienceInstructions = ({
           }
         })
       },
-      nextButtonText: 'Send Participant to Stars'
+      nextButtonText: 'Send Participant to Stars',
+      ...requireGameLoaded
     }
   }
 
@@ -154,16 +165,22 @@ const ExperienceInstructions = ({
         This will spawn {className} inside of the Players camera view
       </>,
       shouldContinueBeDisabledCheck: () => {
-        return gameRoom.gameId !== gameId
+        if(gameRoom.gameId !== gameId) {
+          return <>
+            Incorrect game loaded!
+            <Button onClick={async () => {
+              await editGameRoom(lobby.gameRoomId, {
+                gameId: gameId,
+              })
+            }}>Load Correct Game</Button>
+          </>
+        }
+        if(hostPlayer?.loadedGameId !== gameId) {
+          return <>
+            Game Host is not present or is still loading Game
+          </>
+        }
       },
-      isContinueDisabledWarning: <>
-        Incorrect game loaded!
-        <Button onClick={async () => {
-          await editGameRoom(lobby.gameRoomId, {
-            gameId: gameId,
-          })
-        }}>Load Correct Game</Button>
-      </>,
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { 
           gameRoomId: lobby.gameRoomId, 
@@ -545,9 +562,9 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
   gameRoom: state.gameRoom,
-  cobrowsing: state.cobrowsing
+  cobrowsing: state.cobrowsing,
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameRoom, editLobby,addArcadeGame, editGameModel, assignLobbyRole, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyUser, changeGameState, setCutAudio, setCutVideo }),
+  connect(mapStateToProps, { editGameRoom, editLobby, editGameModel, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyUser, setCutAudio, setCutVideo }),
 )(ExperienceInstructions);

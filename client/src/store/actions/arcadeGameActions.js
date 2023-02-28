@@ -30,6 +30,98 @@ import { changeCurrentStage } from './gameModelActions';
 import { defaultStage } from '../../game/defaultData/stage';
 import { classLibrary } from '../../game/classLibrary';
 
+function addDefaultsToGameModel(gameData) {
+  if(gameData.classes) {
+    Object.keys(gameData.classes).forEach((id) => {
+      gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
+    })
+  }
+
+  if(gameData.stages) {
+    Object.keys(gameData.stages).forEach((stageId) => {
+      const stage = gameData.stages[stageId]
+      gameData.stages[stageId] = mergeDeep(_.cloneDeep(defaultStage), gameData.stages[stageId])
+      const objects = stage.objects 
+      const oldObjects = gameData.stages[stageId].objects
+      if(objects) Object.keys(objects).forEach((id) => {
+        if(!oldObjects[id]) objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
+      })
+    })
+  }
+}
+
+function addLibraryToGameModel(gameData) {
+  classLibrary.forEach((libraryObjectClass) => {
+    if(!gameData.classes[libraryObjectClass.classId]) {
+      gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment))
+    } else {
+      gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment), gameData.classes[libraryObjectClass.classId])
+    }
+  })
+}
+
+function enrichGameModel(gameData) {
+  Object.keys(gameData.classes).forEach((id) => {
+    const objectClass = gameData.classes[id]
+    
+    if(objectClass.graphics.textureId) {
+      gameData.brushes[BRUSH_ID_PREFIX + objectClass.classId] = {
+        canvasId: NON_LAYER_BRUSH_ID,
+        textureId: objectClass.graphics.textureId,
+        tint: objectClass.graphics.tint
+      }
+    }
+    gameData.tags[objectClass.classId] = {
+      textureId: objectClass.graphics.textureId,
+      tint: objectClass.graphics.tint,
+      isClassTag: null,
+      isSystemTag: null,
+      tagId: objectClass.classId,
+      name: objectClass.name,
+    }
+  })
+}
+
+function cleanGameModel(gameData) {
+  Object.keys(gameData.stages).forEach((stageId) => {
+    const stage = gameData.stages[stageId]
+    if (gameData.stages[stageId] === null || gameData.stages[stageId] === undefined) {
+      console.log('deleting stage', stageId)
+      delete gameData.stages[stageId];
+    }
+
+    // the default stage doesnt start with objects because its virtual so gotta check
+    if(stage.objects) Object.keys(stage.objects).forEach(key => {
+      if (stage.objects[key] === null || stage.objects[key] === undefined) {
+        console.log('deleting object', key)
+        delete stage.objects[key];
+      }
+    });
+  })
+
+  Object.keys(gameData.cutscenes).forEach(key => {
+    if (gameData.cutscenes[key] === null || gameData.cutscenes[key] === undefined) {
+      console.log('deleting cutscene', key)
+      delete gameData.cutscenes[key];
+    }
+  });
+
+  Object.keys(gameData.classes).forEach(key => {
+    if (gameData.classes[key] === null || gameData.classes[key] === undefined) {
+      console.log('deleting class', key)
+      delete gameData.classes[key];
+      return
+    }
+  });
+
+  Object.keys(gameData.relations).forEach(key => {
+    if (gameData.relations[key] === null || gameData.relations[key] === undefined) {
+      console.log('deleting relation', key)
+      delete gameData.relations[key];
+    }
+  });
+}
+
 function onArcadeGameCharacterUpdate({ id, data }) {
   const me = store.getState().auth.me 
   const cobrowsing = store.getState().cobrowsing
@@ -102,89 +194,12 @@ function onArcadeGameModelUpdate(gameUpdate) {
 
   window.nextGameModelUpdateIsUndo = false
   
-  if(gameUpdate.stages) {
-    const stage = gameUpdate.stages[stageId]
-    if(stage) {
-      const objects = stage.objects 
-      const oldObjects = oldGameData.stages[stageId].objects
-      if(objects) Object.keys(objects).forEach((id) => {
-        if(!oldObjects[id]) objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
-      })
-    }
-  }
+  addDefaultsToGameModel(gameUpdate) 
+  enrichGameModel(gameUpdate)
 
-  if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((id) => {
-    if(!oldGameData.classes[id]) gameUpdate.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameUpdate.classes[id])
-  })
-  
   const gameData = mergeDeep(oldGameData, gameUpdate)
 
-  // classLibrary.forEach((libraryObjectClass) => {
-  //   if(!gameData.classes[libraryObjectClass.classId]) {
-  //     gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryClassAugment), _.cloneDeep(libraryObjectClass))
-  //   } else {
-  //     gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryClassAugment), _.cloneDeep(libraryObjectClass), gameData.classes[libraryObjectClass.classId])
-  //   }
-  // })
-  
-  Object.keys(gameData.classes).forEach((id) => {
-    const objectClass = gameData.classes[id]
-    
-    if(objectClass.graphics.textureId) {
-      gameData.brushes[BRUSH_ID_PREFIX + objectClass.classId] = {
-        canvasId: NON_LAYER_BRUSH_ID,
-        textureId: objectClass.graphics.textureId,
-        tint: objectClass.graphics.tint
-      }
-    }
-    gameData.tags[objectClass.classId] = {
-      textureId: objectClass.graphics.textureId,
-      tint: objectClass.graphics.tint,
-      isClassTag: null,
-      isSystemTag: null,
-      tagId: objectClass.classId,
-      name: objectClass.name,
-    }
-  })
-
-  Object.keys(gameData.stages).forEach((stageId) => {
-    const stage = gameData.stages[stageId]
-    gameData.stages[stageId] = mergeDeep(_.cloneDeep(defaultStage), gameData.stages[stageId])
-    if (gameData.stages[stageId] === null || gameData.stages[stageId] === undefined) {
-      console.log('deleting stage', stageId)
-      delete gameData.stages[stageId];
-    }
-
-    // the default stage doesnt start with objects because its virtual so gotta check
-    if(stage.objects) Object.keys(stage.objects).forEach(key => {
-      if (stage.objects[key] === null || stage.objects[key] === undefined) {
-        console.log('deleting object', key)
-        delete stage.objects[key];
-      }
-    });
-  })
-
-  Object.keys(gameData.cutscenes).forEach(key => {
-    if (gameData.cutscenes[key] === null || gameData.cutscenes[key] === undefined) {
-      console.log('deleting cutscene', key)
-      delete gameData.cutscenes[key];
-    }
-  });
-
-  Object.keys(gameData.classes).forEach(key => {
-    if (gameData.classes[key] === null || gameData.classes[key] === undefined) {
-      console.log('deleting class', key)
-      delete gameData.classes[key];
-      return
-    }
-  });
-
-  Object.keys(gameData.relations).forEach(key => {
-    if (gameData.relations[key] === null || gameData.relations[key] === undefined) {
-      console.log('deleting relation', key)
-      delete gameData.relations[key];
-    }
-  });
+  cleanGameModel(gameData)
   
   store.dispatch({
     type: ON_GAME_MODEL_UPDATE,
@@ -229,52 +244,10 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
     dispatch(changeCurrentStage(gameData.player.startingStageId))
-    
-    const stages = Object.keys(gameData.stages).map((stageId) => {
-      gameData.stages[stageId] = mergeDeep(_.cloneDeep(defaultStage), gameData.stages[stageId])
-      return gameData.stages[stageId]
-    })
 
-    stages.forEach(({objects}) => {
-      Object.keys(objects).forEach((id) => {
-        objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
-      })
-    })
-
-    classLibrary.forEach((libraryObjectClass) => {
-      if(!gameData.classes[libraryObjectClass.classId]) {
-        gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment))
-      } else {
-        gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment), gameData.classes[libraryObjectClass.classId])
-      }
-    })
-
-    Object.keys(gameData.classes).forEach((id) => {
-      gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
-      
-      const objectClass = gameData.classes[id]
-      
-      if(objectClass.graphics.textureId) {
-        gameData.brushes[BRUSH_ID_PREFIX + objectClass.classId] = {
-          canvasId: NON_LAYER_BRUSH_ID,
-          textureId: objectClass.graphics.textureId,
-          tint: objectClass.graphics.tint
-        }
-      }
-
-      gameData.tags[objectClass.classId] = {
-        textureId: objectClass.graphics.textureId,
-        tint: objectClass.graphics.tint,
-        isClassTag: null,
-        isSystemTag: null,
-        tagId: objectClass.classId,
-        name: objectClass.name,
-      }
-    })
-
-    // Object.keys(gameData.brushes).forEach((id) => {
-
-    // })
+    addDefaultsToGameModel(gameData) 
+    addLibraryToGameModel(gameData)
+    enrichGameModel(gameData)
 
     dispatch({
       type: LOAD_GAME_MODEL_SUCCESS,

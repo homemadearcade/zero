@@ -21,8 +21,6 @@ SMALL FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-isGameLoading property and overlay with a check that prevents game actions from being sent unless game is fully loaded
-
 Game Card without game loaded
 
 ENRICH GAME

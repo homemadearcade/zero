@@ -11,6 +11,8 @@ import {
   CHANGE_CLASS_ID_HOVERING,
   CHANGE_BRUSH_ID_HOVERING,
   CHANGE_INSTANCE_HOVERING,
+  GAME_VIEW_LOADING_START,
+  GAME_VIEW_LOADING_COMPLETED,
 } from '../types';
 
 // these are editor things that take place within the game view

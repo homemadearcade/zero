@@ -13,9 +13,10 @@ import { ProjectileInstance } from '../entities/ProjectileInstance';
 import { initialPlayerSpawnZone } from '../defaultData/stage';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
-import { editGameRoom } from '../../store/actions/gameRoomActions';
+import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomActions';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { directionalPlayerClassId } from '../defaultData';
+import { GAME_VIEW_LOADING_COMPLETED } from '../../store/types';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -504,6 +505,7 @@ export class GameInstance extends Phaser.Scene {
   create() {
     const state = store.getState()
     const gameModel = store.getState().gameModel.gameModel
+    const gameRoom = store.getState().gameRoom.gameRoom
     const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
     ////////////////////////////////////////////////////////////
@@ -569,7 +571,17 @@ export class GameInstance extends Phaser.Scene {
       })
     }
     
-    setTimeout(() => {this.hasLoadedOnce = true})
+    setTimeout(() => {
+      console.log('xxxxx')
+      store.dispatch(updateGameRoomPlayer({
+        gameRoomId: this.gameRoom.id,
+        userId: store.getState().auth.me.id,
+        user: {
+          loadedGameId: this.gameRoom.gameId
+        }
+      }))
+      this.hasLoadedOnce = true
+    })
   }
 
   respawn() {
