@@ -23,6 +23,7 @@ import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
+import Icon from '../../../ui/Icon/Icon';
 
 const SpriteEditor = ({
   clearBrush,
@@ -102,7 +103,6 @@ const SpriteEditor = ({
 
 
   const isSaving = textureIdSaving === textureId
-  console.log(isSaving, textureIdSaving, textureId)
   return (
     <CobrowsingModal open={true} width="110vh" zIndexIncrease={10} height="70vh" onClose={handleClose}>
       <div className="SpriteEditor">
@@ -118,6 +118,12 @@ const SpriteEditor = ({
             size="3.5vh"
             items={brushList}/>
           <UndoButton onClick={onSpriteEditorUndo}></UndoButton>
+          <Button>
+            <Icon icon="faCameraRotate" onClick={() => {
+              const spriteEditorScene = getCurrentGameScene(spriteEditorGameInstance)
+              spriteEditorScene.backgroundLayer.rotate()
+            }}></Icon>
+          </Button>
           <Button 
             disabled={isSaving}
             onClick={async () => {

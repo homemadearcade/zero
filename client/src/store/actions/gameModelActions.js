@@ -12,11 +12,13 @@ import {
   SAVE_TEXTURE_LOADING,
   SAVE_TEXTURE_SUCCESS,
   SAVE_TEXTURE_FAIL,
+  ON_GAME_MODEL_UPDATE,
 } from '../types';
 import _ from 'lodash';
 import { uploadToAws } from '../../utils/networkUtils';
 import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
 import store from '..';
+import { onArcadeGameModelUpdate } from './arcadeGameActions';
 
 export const changeCurrentStage = (stageId) => (dispatch, getState) => {
   dispatch({
@@ -71,13 +73,10 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomId: gameRoom.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
 
-    // DEPRECATED for local editing mode, there will be no ON_GAME_MODEL_UPDATED event in this scenario so we need a local EDIT_GAME_SUCCESS
-    // if(!lobbyId) {
-    //   dispatch({
-    //     type: EDIT_GAME_MODEL_SUCCESS,
-    //     payload: { game: response.data.game },
-    //   });
-    // }
+    // local edit mode, skip right to it!
+    if(!gameRoom.id) {
+      onArcadeGameModelUpdate(gameUpdate)
+    }
 
   } catch (err) {
     console.error(err)

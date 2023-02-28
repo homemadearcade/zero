@@ -197,13 +197,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       );
     }
 
-          console.log(req.body.gameRoomId)
-
     if(req.body.gameRoomId) {
       req.io.to(req.body.gameRoomId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
-    } else {
-      //local edit mode
-      req.socket.emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
     }
     
     res.status(200).json({ game: updatedGame });

@@ -142,7 +142,7 @@ export const editGameRoom = (id, data) => async (dispatch, getState) => {
     type: EDIT_GAME_ROOM_LOADING,
   });
   try {
-    if(id) {
+    if(!!id) {
       const options = attachTokenToHeaders(getState);
       const response = await axios.put(`/api/gameRoom/${id}`, data, options);
     } else {
@@ -163,6 +163,8 @@ export const editGameRoom = (id, data) => async (dispatch, getState) => {
 };
 
 export const updateGameRoomPlayer = ({userId, gameRoomId, user}) => async (dispatch, getState) => {
+  if(!gameRoomId) return 
+  
   dispatch({
     type: UPDATE_GAME_ROOM_USER_LOADING,
   });

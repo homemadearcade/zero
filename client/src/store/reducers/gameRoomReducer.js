@@ -52,7 +52,7 @@ export default function gameRoomReducer(state = initialState, { type, payload })
       return {
         ...state,
         isJoining: false,
-        gameRoom: {...payload.gameRoom, members: payload.gameRoom.members.slice()}
+        gameRoom: {...payload.gameRoom, members: payload.gameRoom.members?.slice()}
       };
     case LEAVE_GAME_ROOM_SUCCESS:
     return {
@@ -64,7 +64,7 @@ export default function gameRoomReducer(state = initialState, { type, payload })
       return {
         ...state,
         isLoading: false,
-        gameRoom: {...state.gameRoom, ...payload.gameRoom, members: payload.gameRoom.members.slice()}
+        gameRoom: {...state.gameRoom, ...payload.gameRoom, members: payload.gameRoom.members?.slice()}
       };
     case DELETE_GAME_ROOM_SUCCESS:
       return {
@@ -96,7 +96,7 @@ export default function gameRoomReducer(state = initialState, { type, payload })
     case ON_GAME_ROOM_UPDATE:
       return {
         ...state,
-        gameRoom: {...state.gameRoom, ...payload.gameRoom, members: payload.gameRoom.members.slice()}
+        gameRoom: {...state.gameRoom, ...payload.gameRoom, members: payload.gameRoom.members?.slice()}
       };
     case END_GAME_ROOM: 
       return {

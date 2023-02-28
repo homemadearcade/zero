@@ -24,10 +24,12 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom
           <ToolbarIcon 
             size="lg"
             icon="faStop"
+            color={gameState === STOPPED_STATE ? color: null}
             onClick={() => {
+              const lastGameState = gameState
               changeGameState(STOPPED_STATE)
               setTimeout(() => {
-                changeGameState(PAUSED_STATE)
+                changeGameState(lastGameState)
               }, 100)
             }}
           />
@@ -50,10 +52,12 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom
       <ToolbarIcon 
         size="lg"
         icon="faRepeat"
+        color={gameState === STOPPED_STATE ? color: null}
         onClick={() => {
+          const lastGameState = gameState
           changeGameState(STOPPED_STATE)
           setTimeout(() => {
-            changeGameState(PAUSED_STATE)
+            changeGameState(lastGameState)
           }, 100)
         }}
       />

@@ -28,6 +28,15 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     return this
   }
 
+  rotate() {
+    const renderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
+    renderTexture.draw(this, 0,0)
+    this.camera.setAngle(90);
+    this.clear()
+    super.draw(renderTexture, 0, 0)
+    this.camera.setAngle(0)
+  }
+
   save = async ()  => {
     if(!this.isCodrawingHost) return
     return new Promise(async (resolve, reject) => {

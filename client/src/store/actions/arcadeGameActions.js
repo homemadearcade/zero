@@ -30,7 +30,29 @@ import { changeCurrentStage } from './gameModelActions';
 import { defaultStage } from '../../game/defaultData/stage';
 import { classLibrary } from '../../game/classLibrary';
 
-function addDefaultsToGameModel(gameData) {
+function addDefaultsToGameModel(gameData, oldGameData) {
+  if(oldGameData) {
+    if(gameData.stages) {
+      Object.keys(gameData.stages).forEach((stageId) => {
+
+        const stage = gameData.stages[stageId]
+        if(stage) {
+          const objects = stage.objects 
+          const oldObjects = oldGameData.stages[stageId].objects
+          if(objects) Object.keys(objects).forEach((id) => {
+            if(!oldObjects[id]) objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
+          })
+        }
+      })
+    }
+
+    if(gameData.classes) Object.keys(gameData.classes).forEach((id) => {
+      if(!oldGameData.classes[id]) gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
+    })
+
+    return 
+  }
+
   if(gameData.classes) {
     Object.keys(gameData.classes).forEach((id) => {
       gameData.classes[id] = mergeDeep(_.cloneDeep(defaultClass), gameData.classes[id])
@@ -168,7 +190,7 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
   }
 }
 
-function onArcadeGameModelUpdate(gameUpdate) {
+export function onArcadeGameModelUpdate(gameUpdate) {
   const state = store.getState()
   const oldGameData = _.cloneDeep(state.gameModel.gameModel)
   const stageId = state.gameModel.currentStageId
@@ -197,19 +219,19 @@ function onArcadeGameModelUpdate(gameUpdate) {
   window.nextGameModelUpdateIsUndo = false
   
 
-  window.events.emit(ON_GAME_MODEL_UPDATE, gameUpdate)
-
+  addDefaultsToGameModel(gameUpdate, oldGameData) 
 
   const gameData = mergeDeep(oldGameData, gameUpdate)
   
-  enrichGameModel(gameUpdate)
-  addDefaultsToGameModel(gameUpdate) 
+  enrichGameModel(gameData)
   cleanGameModel(gameData)
   
   store.dispatch({
     type: ON_GAME_MODEL_UPDATE,
     payload: { gameModel: gameData },
   })
+
+  window.events.emit(ON_GAME_MODEL_UPDATE, gameUpdate)
 }
 
 export const getArcadeGames = () => async (dispatch, getState) => {
@@ -251,8 +273,8 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
 
     dispatch(changeCurrentStage(gameData.player.startingStageId))
 
-    addDefaultsToGameModel(gameData) 
     addLibraryToGameModel(gameData)
+    addDefaultsToGameModel(gameData) 
     enrichGameModel(gameData)
 
 
