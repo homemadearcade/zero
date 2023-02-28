@@ -71,25 +71,21 @@ const HoverPreview = ({
 
 
   function renderEditableIcon(onEdit) {
-    return isHoveringOverTitle && <div onClick={onEdit}><Icon icon="faPen"></Icon></div>
+    return isHoveringOverTitle && <span className="HoverPreview__editable" onClick={() => {
+      onEdit()
+    }}><Icon icon="faPen"></Icon></span>
   }
 
   function renderDisplayTitle(title, onEdit) {
-    if(onEdit) {
-      return <Typography 
+    return <>
+      <Typography 
         variant="div" 
         sx={{fontSize:'.8rem'}}
         font="2P">
         {title}
-        {renderEditableIcon()}
+        {onEdit && renderEditableIcon(onEdit)}
       </Typography>
-    }
-    return <Typography 
-      variant="div" 
-      sx={{fontSize:'.8rem'}}
-      font="2P">
-       {title}
-    </Typography>
+    </>
   }
 
   function renderDisplay({tint, textureId, title, spriteOverlay, onEdit}) {
@@ -113,7 +109,7 @@ const HoverPreview = ({
       textureId: objectClass.graphics.textureId,
       title: objectClass.name + ' - ' + classTypeToDisplayName[objectClass.type],
       onEdit: () => {
-        openClassNameModal(objectClass.id)
+        openClassNameModal(objectClass.classId)
       }
     })   
   }
@@ -156,6 +152,9 @@ const HoverPreview = ({
    return  <div className="HoverPreview__title">
       <Typography font="2P" variant="subtitle2">
         {metadata.title}
+        {renderEditableIcon(() => {
+          openGameMetadataModal()
+        })}
       </Typography>
       {stageName && <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{stageName}</Typography>}
     </div>
@@ -195,6 +194,7 @@ const HoverPreview = ({
   }
 
   return <div className="HoverPreview"
+    style={{backgroundColor: '#222', color: 'white'}}
     onMouseEnter={() => {
       setIsHoveringOverTitle(true)
     }} 
@@ -202,7 +202,6 @@ const HoverPreview = ({
       setIsHoveringOverTitle(false)
     }}
   >
-    <div className="HoverPreview__background" style={{backgroundColor: '#222', color: 'white'}}/>
     {renderBody()}
   </div>
 };
