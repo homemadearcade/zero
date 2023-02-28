@@ -21,8 +21,6 @@ SMALL FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-Game Card without game loaded
-
 ESCAPE EXPERIENCE KEY - SAFETY KEY
 
 Show key/click info inside the Mouse Preview ( raname is Hover Preview )

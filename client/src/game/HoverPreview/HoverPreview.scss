@@ -20,7 +20,7 @@
     opacity: 0.4;
   }
   
-  &__stage {
+  &__display {
     display: flex;
     width: 100%;
     height: 100%;
@@ -30,7 +30,7 @@
     text-align: center;
   }
 
-  &__stage-item {
+  &__display-item {
     margin: 0 auto;
     margin-bottom: .5rem;
     height: 8vh;
@@ -43,7 +43,7 @@
     position: relative;
   }
 
-  &__stage-item-overlay {
+  &__display-item-overlay {
     .ColorNameFit {
       padding: .2rem;
     }
