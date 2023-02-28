@@ -12,7 +12,7 @@ const AgoraVideoStatus = ({ userId, me }) => {
   const [myNetworkQuality, setMyNetworkQuality] = useState({})
 
   useEffect(() => {
-    const clearEvent1 = window.events.on(ON_MY_VIDEO_QUALITY_STATUS_UPDATE, (networkQuality) => {
+    const clearMyVideoQualityEvent = window.events.on(ON_MY_VIDEO_QUALITY_STATUS_UPDATE, (networkQuality) => {
       setMyNetworkQuality(networkQuality)
     })
 
@@ -21,7 +21,7 @@ const AgoraVideoStatus = ({ userId, me }) => {
     }, 1000)
 
     return () => {
-      clearEvent1()
+      clearMyVideoQualityEvent()
       clearInterval(updateQualityInterval)
     }
   })

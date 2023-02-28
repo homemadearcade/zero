@@ -42,9 +42,8 @@ function addDefaultsToGameModel(gameData) {
       const stage = gameData.stages[stageId]
       gameData.stages[stageId] = mergeDeep(_.cloneDeep(defaultStage), gameData.stages[stageId])
       const objects = stage.objects 
-      const oldObjects = gameData.stages[stageId].objects
       if(objects) Object.keys(objects).forEach((id) => {
-        if(!oldObjects[id]) objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
+        objects[id] = mergeDeep(_.cloneDeep(defaultObjectInstance), objects[id])
       })
     })
   }
@@ -61,6 +60,9 @@ function addLibraryToGameModel(gameData) {
 }
 
 function enrichGameModel(gameData) {
+  if(!gameData.brushes) gameData.brushes = {}
+  if(!gameData.tags) gameData.tags = {}
+
   Object.keys(gameData.classes).forEach((id) => {
     const objectClass = gameData.classes[id]
     
@@ -194,17 +196,20 @@ function onArcadeGameModelUpdate(gameUpdate) {
 
   window.nextGameModelUpdateIsUndo = false
   
-  addDefaultsToGameModel(gameUpdate) 
-  enrichGameModel(gameUpdate)
+
+  window.events.emit(ON_GAME_MODEL_UPDATE, gameUpdate)
+
 
   const gameData = mergeDeep(oldGameData, gameUpdate)
-
+  
+  enrichGameModel(gameUpdate)
+  addDefaultsToGameModel(gameUpdate) 
   cleanGameModel(gameData)
   
   store.dispatch({
     type: ON_GAME_MODEL_UPDATE,
     payload: { gameModel: gameData },
-  });
+  })
 }
 
 export const getArcadeGames = () => async (dispatch, getState) => {
@@ -241,6 +246,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
     window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
 
+    console.log(response.data.game)
     const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
     dispatch(changeCurrentStage(gameData.player.startingStageId))
@@ -249,6 +255,8 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     addLibraryToGameModel(gameData)
     enrichGameModel(gameData)
 
+
+    console.log(gameData)
     dispatch({
       type: LOAD_GAME_MODEL_SUCCESS,
       payload: { gameModel: gameData },

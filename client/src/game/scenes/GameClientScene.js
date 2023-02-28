@@ -113,7 +113,8 @@ export class GameClientScene extends EditorScene {
   unregisterEvents() {
     window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
     window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
-    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+        this.clearGameModelUpdate()
+
   }
 
   create() {
@@ -122,7 +123,7 @@ export class GameClientScene extends EditorScene {
     this.isPaused = true
     window.socket.on(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
     window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
-    window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
 
   unload() {

@@ -572,7 +572,6 @@ export class GameInstance extends Phaser.Scene {
     }
     
     setTimeout(() => {
-      console.log('xxxxx')
       store.dispatch(updateGameRoomPlayer({
         gameRoomId: this.gameRoom.id,
         userId: store.getState().auth.me.id,

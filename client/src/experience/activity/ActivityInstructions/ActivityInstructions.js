@@ -86,10 +86,7 @@ const ExperienceInstructions = ({
     prev[next.id] = next
     return prev
   }, {})
-  console.log(gameRoom.members)
   const hostPlayer = playersById[gameRoom.hostUserId]
-
-  console.log(playersById, hostPlayer)
 
   const requireCobrowsingConnection = {
     shouldContinueBeDisabledCheck: () => {

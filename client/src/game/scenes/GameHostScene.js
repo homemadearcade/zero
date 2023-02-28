@@ -126,13 +126,13 @@ export class GameHostScene extends EditorScene {
     
     this.startRemoteClientUpdateLoop()
     window.socket.on(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
-    window.socket.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     window.socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
   }
 
   unregisterEvents() {
     window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
-    window.socket.off(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+    this.clearGameModelUpdate()
     window.socket.off(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
     window.clearInterval(this.remoteClientUpdateInterval)
   }
