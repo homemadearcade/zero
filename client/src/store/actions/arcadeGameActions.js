@@ -18,6 +18,9 @@ import {
   ON_GAME_MODEL_UPDATE,
   ON_GAME_CHARACTER_UPDATE,
   INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+  GET_ARCADE_GAME_LOADING,
+  GET_ARCADE_GAME_SUCCESS,
+  GET_ARCADE_GAME_FAIL,
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
@@ -255,6 +258,31 @@ export const getArcadeGames = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const getArcadeGame = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_ARCADE_GAME_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/arcadeGames/' + id, options);
+
+    dispatch({
+      type: GET_ARCADE_GAME_SUCCESS,
+      payload: { arcadeGame: response.data.game },
+    });
+
+    return response.data.game
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_ARCADE_GAME_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 
 export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
   dispatch({

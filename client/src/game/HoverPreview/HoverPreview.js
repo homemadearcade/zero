@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import './MousePreview.scss'
+import './HoverPreview.scss'
 import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Typography from '../../ui/Typography/Typography';
 import Sprite from '../sprites/Sprite/Sprite';
@@ -13,7 +13,7 @@ import { interfaceIdData } from '../../constants/interfaceIdData';
 import { classTypeToDisplayName } from '../defaultData/class';
 import { initialStageId } from '../defaultData';
 
-const MousePreview = ({ 
+const HoverPreview = ({ 
   cobrowsing: {
     mouseOverInterfaceId
   },
@@ -71,11 +71,11 @@ const MousePreview = ({
 
   function renderStage({tint, textureId, title, spriteOverlay}) {
     return <>
-      <div className="MousePreview__stage">
-        <div className="MousePreview__stage-item">
+      <div className="HoverPreview__stage">
+        <div className="HoverPreview__stage-item">
           <Sprite tint={tint} textureId={textureId}>
           </Sprite>
-          {spriteOverlay && <div className="MousePreview__stage-item-overlay">
+          {spriteOverlay && <div className="HoverPreview__stage-item-overlay">
             {spriteOverlay}
           </div>}
         </div>
@@ -115,8 +115,8 @@ const MousePreview = ({
 
   function renderEraserPreview() {
     const layerName = layerToDisplayName[getCanvasIdFromEraserId(brushId)]
-    return <><div className="MousePreview__stage">
-        <div className="MousePreview__stage-item">
+    return <><div className="HoverPreview__stage">
+        <div className="HoverPreview__stage-item">
           <Icon icon="faEraser"/>
         </div>
         {renderStageTitle(layerName)}
@@ -127,7 +127,7 @@ const MousePreview = ({
   function renderGameTitlePreview() {
     const stageName = currentStageId === initialStageId ? null : stages[currentStageId].name
 
-   return  <div className="MousePreview__title">
+   return  <div className="HoverPreview__title">
       <Typography font="2P" variant="subtitle2">{metadata.title}</Typography>
       {stageName && <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{stageName}</Typography>}
     </div>
@@ -135,7 +135,7 @@ const MousePreview = ({
 
   function renderBody() {
     if(interfaceData?.previewText) {
-      return <div className="MousePreview__title">
+      return <div className="HoverPreview__title">
         <Typography font="2P" variant="subtitle2">{interfaceData.previewText}</Typography>
       </div>
     }
@@ -166,8 +166,8 @@ const MousePreview = ({
     return renderGameTitlePreview()
   }
 
-  return <div className="MousePreview">
-    <div className="MousePreview__background" style={{backgroundColor: '#222', color: 'white'}}/>
+  return <div className="HoverPreview">
+    <div className="HoverPreview__background" style={{backgroundColor: '#222', color: 'white'}}/>
     {renderBody()}
   </div>
 };
@@ -180,4 +180,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoom: state.gameRoom
 })
 
-export default connect(mapStateToProps, { })(MousePreview);
+export default connect(mapStateToProps, { })(HoverPreview);

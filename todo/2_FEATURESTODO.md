@@ -36,6 +36,3 @@ Create Class Modal -> Edit Name Modal instead of having edit name inside of Crea
   Select class type ( for admins only ) ( inside of Edit name Modal )
 
 Send To Game Overlay Effect
-
-Rotate Sprite Editor/Sprite?
-rt.camera.setAngle(angle);  // angle in degrees

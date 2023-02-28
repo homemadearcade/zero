@@ -17,6 +17,7 @@ import Link from '../../../ui/Link/Link';
 import { Container } from '@mui/system';
 import ConstellationZoom from '../../../marketing/homemadeArcade/ConstellationZoom/ConstellationZoom';
 import AgoraVideoPreview from '../../agora/AgoraVideoPreview/AgoraVideoPreview';
+import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
 
 const ActivityView = ({
   lobby: { lobby: { members, currentActivity, guideId, editingGameId }, lobby },
@@ -70,7 +71,7 @@ const ActivityView = ({
             </Link>
           </Typography>
         </ConstellationHero>
-       {false && <GameCard canPlay gameId={editingGameId}/>}
+        <GameCardLoad canPlay gameId={editingGameId}/>
         <Link newTab href={`${window.location.origin}/arcade`}>Browse Other Games To Play</Link>
       </div>
     }

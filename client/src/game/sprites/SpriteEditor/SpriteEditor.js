@@ -118,11 +118,11 @@ const SpriteEditor = ({
             size="3.5vh"
             items={brushList}/>
           <UndoButton onClick={onSpriteEditorUndo}></UndoButton>
-          <Button>
-            <Icon icon="faCameraRotate" onClick={() => {
+          <Button onClick={() => {
               const spriteEditorScene = getCurrentGameScene(spriteEditorGameInstance)
               spriteEditorScene.backgroundLayer.rotate()
-            }}></Icon>
+            }}>
+              Rotate
           </Button>
           <Button 
             disabled={isSaving}

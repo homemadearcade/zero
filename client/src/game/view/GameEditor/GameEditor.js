@@ -35,7 +35,7 @@ import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
 import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
 import SideEditor from '../../instantEditor/SideEditor/SideEditor';
-import MousePreview from '../../MousePreview/MousePreview';
+import HoverPreview from '../../HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
 
@@ -100,8 +100,8 @@ const GameEditor = ({
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
-            <MousePreview></MousePreview>
-            <ClassList/>
+          <HoverPreview></HoverPreview>
+          <ClassList/>
         </>}
       </div>
       {liveEditingCategory && <LiveEditor></LiveEditor>}

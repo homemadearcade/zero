@@ -8,7 +8,6 @@ import { editLobby } from '../../../store/actions/lobbyActions';
 import './ActivityInstructions.scss';
 import { copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
 import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
-import GameCard from '../../../app/arcadeGame/GameCard/GameCard';
 import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../../lobby/LobbyChecklist/LobbyChecklist';
 import { unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
@@ -29,6 +28,7 @@ import GameAddForm from '../../../app/arcadeGame/GameAddForm/GameAddForm';
 import Button from '../../../ui/Button/Button';
 import LobbySelectRoles from '../../lobby/LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
+import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
 
 const ARCHIVE_USER_ID = isLocalHost() ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
@@ -223,8 +223,9 @@ const ExperienceInstructions = ({
       <div>
        A Game is created automatically when a lobby is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
       </div><br/>
-      {false && lobby?.editGameId && 
-      <GameCard gameId={lobby.editingGameId}/>}
+      {lobby?.editingGameId && 
+        <GameCardLoad gameId={lobby.editingGameId}/>
+      }
       {lobby.participantId && <SelectGame label="Games owned by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
           editLobby(lobby.id, {

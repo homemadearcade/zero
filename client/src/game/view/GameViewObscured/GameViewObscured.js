@@ -18,6 +18,7 @@ import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
+import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
 
 const GameViewObscured = ({
   auth: { me },
@@ -74,14 +75,17 @@ const GameViewObscured = ({
   }
 
   if(!gameRoom.isPoweredOn && !gameModel.isLoading) return <GameViewEmpty>
+    <GameCardLoad gameId={gameRoom.gameId}/>
     <Icon icon="faPowerOff"></Icon>
     Not Powered On
-    <Button onClick={async () => {
-        await editGameRoom(gameRoom.id, {
-        isPoweredOn: true
-      })
-    }}>Power On</Button>
-    <GameLoadButton></GameLoadButton>
+    {me.role === ADMIN_ROLE && <>
+      <Button onClick={async () => {
+          await editGameRoom(gameRoom.id, {
+          isPoweredOn: true
+        })
+      }}>Power On</Button>
+      <GameLoadButton></GameLoadButton>
+    </>}
   </GameViewEmpty>
 
   if(gameRoom.isPoweredOn) {
