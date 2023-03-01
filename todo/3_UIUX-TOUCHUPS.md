@@ -14,11 +14,6 @@ Also like use the BACKGROUND BACKGROUND as like an animation space where we give
 
 Themed animations all around the newly freed up areas
 
-LOBBY ANIMATIONS
-
-https://particles.js.org/samples/presets/fireworks.html
-https://github.com/matteobruni/tsparticles/blob/main/components/react/README.md
-
 MODALS
   Remove these root level modals and put into a list somewhere
     Relations -> Create Relation,

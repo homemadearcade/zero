@@ -54,6 +54,8 @@ Try to remove getState() and getCobrowsingState() from inside of game... standar
 Object Entity
 on stages, call objects -> instances
 
+metadata.interfaceColor -> Theme property on the game
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

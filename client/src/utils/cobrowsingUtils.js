@@ -7,7 +7,7 @@ export function getRemoteStatePackage(state) {
     gameFormEditor: state.gameFormEditor,
     gameViewEditor: state.gameViewEditor,
     unlockableInterfaceIds: state.unlockableInterfaceIds,
-    contextMenu: state.contextMenu,
+    // contextMenu: state.contextMenu,
     errors: state.errors,
     playerInterface: state.playerInterface,
     snackbar: state.snackbar

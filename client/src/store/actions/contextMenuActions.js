@@ -19,8 +19,8 @@ export const openStageContextMenu = (event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
-    updateCobrowsing: true,
-    cobrowsingPublisherOnly: true,
+    // updateCobrowsing: true,
+    // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       contextMenuX: event.pageX,
@@ -35,8 +35,8 @@ export const openContextMenuFromGameObject = (gameObjects, event) => (dispatch, 
   if(gameObjects[0].effectSpawned) return
 
   dispatch({
-    updateCobrowsing: true,
-    cobrowsingPublisherOnly: true,
+    // updateCobrowsing: true,
+    // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: gameObjects[0].classId, 
@@ -52,8 +52,8 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
-    updateCobrowsing: true,
-    cobrowsingPublisherOnly: true,
+    // updateCobrowsing: true,
+    // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       classIdSelectedContextMenu: classId, 
@@ -68,8 +68,8 @@ export const openContextMenuFromObjectInstanceId= (instanceId, classId, event) =
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
-    updateCobrowsing: true,
-    cobrowsingPublisherOnly: true,
+    // updateCobrowsing: true,
+    // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
       instanceIdSelectedContextMenu: instanceId,
@@ -85,8 +85,8 @@ export const closeContextMenu = () => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
-    updateCobrowsing: true,
-    cobrowsingPublisherOnly: true,
+    // updateCobrowsing: true,
+    // cobrowsingPublisherOnly: true,
     type: CLOSE_CONTEXT_MENU
   });
 }

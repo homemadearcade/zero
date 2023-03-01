@@ -152,6 +152,16 @@ const themeDefaults = {
             height: '100%'
           }),
 
+          ...(ownerState.size === 'xs' && {
+            padding: '.5rem',
+            lineHeight: 'normal',
+            margin: '.2rem',
+            minWidth: 'auto',
+            display: 'flex',
+            alignSelf: 'middle',
+            height: 'auto'
+         }),
+
           ...(ownerState.size === 'tiny' && {
             lineHeight: 'normal',
             padding: '0rem',

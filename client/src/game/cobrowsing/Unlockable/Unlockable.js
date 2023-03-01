@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -11,7 +11,10 @@ import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unloc
 import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
 import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 import { ADMIN_ROLE } from '../../../constants';
+import { confetti } from 'tsparticles-confetti'
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
+const noAnimInterfaces = ['contextMenu/*']
 const Unlockable = ({
   auth: { me },
   className,
@@ -28,6 +31,10 @@ const Unlockable = ({
   width,
   height,
 }) => {
+  const [wasComponentLocked, setWasComponentLocked] = useState(false)
+  const unlockableRef = useRef()
+  const theme = useWishTheme()
+
   let interfaceIdToUnlock = interfaceIdExtension ? interfaceId + '/' + interfaceIdExtension : interfaceId
   interfaceIdToUnlock = interfaceIdPrefix ? interfaceIdPrefix + '/' + interfaceIdToUnlock : interfaceIdToUnlock
 
@@ -38,13 +45,37 @@ const Unlockable = ({
     adminOnly 
   } = getInterfaceIdData(interfaceId, interfaceIdToUnlock)
 
+  useEffect(() => {
+    if(wasComponentLocked && isUnlocked) {
+      var rect = unlockableRef.current.getBoundingClientRect();
+      if(noAnimInterfaces.indexOf(interfaceId) >= 0) return 
+      confetti({
+        origin: {
+          x: (rect.left + (rect.width/2))/window.innerWidth,
+          y: (rect.top + (rect.height/2))/window.innerHeight,
+        },
+        spread: 10,
+        ticks: 300,
+        gravity: .3,
+        decay: 0.94,
+        startVelocity: 10,
+        particleCount: 100,
+        scalar: 1,
+        shapes: ['square'],
+        colors: ['#333', '#222', '#000', '#333', '#222', '#000', '#333', '#222', '#000', '#333', '#222', '#000', '#333', '#222', '#000', '#333', '#222', '#000', '#FFF', theme.primaryColor.hexString]
+      });
+    }
+
+    setWasComponentLocked(isUnlocked === false)
+  }, [isUnlocked])
+
   if(adminOnly && me?.role !== ADMIN_ROLE) {
     return null
   }
 
   function renderChildren() {
     return React.Children.map(children, (child, index) => {
-      return <Fade in><div>{React.cloneElement(child, {width, height})}</div></Fade>
+      return <Fade in><div ref={unlockableRef}>{React.cloneElement(child, {width, height})}</div></Fade>
     })
   }
 

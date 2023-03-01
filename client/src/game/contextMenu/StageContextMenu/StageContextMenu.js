@@ -24,11 +24,12 @@ const StageContextMenu = ({
   gameModel: { gameModel }, 
   gameViewEditor: { isGridViewOn, layerVisibility }
 }) => {
+  console.log(gameModel)
   return <>
     <ContextMenuTitle onClick={() => {
         openGameMetadataModal()
         onMenuItemClick()
-    }}>{gameModel.metadata.title}</ContextMenuTitle>
+    }}>{gameModel?.metadata.title}</ContextMenuTitle>
     <Unlockable interfaceId={CONTEXT_MENU_STAGE_GRAVITY_IID}>
       <MenuItem onClick={() => {
         openLiveEditor(STAGE_EDITOR)

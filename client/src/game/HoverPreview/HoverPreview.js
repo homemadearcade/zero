@@ -78,7 +78,7 @@ const HoverPreview = ({
   const interfaceData = interfaceIdData[mouseOverInterfaceId]
 
   function renderEditableIcon(onEdit) {
-    return <Button className="HoverPreview__editable" onClick={() => {
+    return <Button size="xs" className="HoverPreview__editable" onClick={() => {
       onEdit()
     }}><Icon icon="faPen"></Icon></Button>
   }
@@ -172,7 +172,7 @@ const HoverPreview = ({
       {isHoveringOverTitle && 
         <div className="HoverPreview__actions">
           <Unlockable interfaceId={GAME_SNAPSHOT_IID}>
-            <Button  onClick={() => {
+            <Button size="xs" onClick={() => {
               openSnapshotTaker()
             }}><Icon icon="faCameraRetro"/></Button>
           </Unlockable>
@@ -183,9 +183,9 @@ const HoverPreview = ({
       {currentStageId === initialStageId ? null : <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{currentStage.name}</Typography>}
       {isHoveringOverTitle && <div className="HoverPreview__actions">
         <Unlockable interfaceId={STAGE_BACKGROUND_COLOR_IID}>
-          <Button className="HoverPreview__actions-color" onClick={() => {
+          <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
             openSelectBackgroundColorModal()
-          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.backgroundColor, height: '20px'}}/>
+          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.backgroundColor, height: '1.2em', width: '4rem'}}/>
         </Unlockable>
       </div>}
     </div>
