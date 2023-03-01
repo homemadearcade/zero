@@ -12,7 +12,6 @@ const initialState = {
 export default function pageReducer(state = initialState, { type, payload }) {
   switch (type) {
     case UPDATE_THEME:
-      console.log(payload)
       return {
         ...initialState,
         ...payload

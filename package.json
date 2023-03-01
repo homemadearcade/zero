@@ -12,8 +12,7 @@
   "author": "Nemanja Mitic (https://github.com/nemanjam)",
   "license": "MIT",
   "dependencies": {
-    "react-mailchimp-subscribe": "^2.1.3",
-    "tsparticles-confetti": "^2.9.3"
+
   },
   "devDependencies": {}
 }

@@ -13,7 +13,6 @@ export const initialUnlockableInterfaceState = initialState
 export default function unlockableInterfaceReducer(state = initialState, { type, payload }) {
   switch (type) {
     case INITIALIZE_UNLOCKABLE_INTERFACE_IDS: 
-    console.log(payload)
       return payload.unlockableInterfaceIds
     case LOCK_INTERFACE:
       return {

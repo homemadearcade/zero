@@ -144,7 +144,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         remoteStateUserId: payload.remoteStateUserId,
-        remoteState: mergeDeep(state.remoteState, payload.remoteState)
+        remoteState: payload.remoteState
       };
     case SELECT_COBROWSING_TOOL:
       return {

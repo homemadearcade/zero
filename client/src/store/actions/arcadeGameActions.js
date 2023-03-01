@@ -154,6 +154,7 @@ function onArcadeGameCharacterUpdate({ id, data }) {
   const cobrowsing = store.getState().cobrowsing
 
   if(me.id === id || (cobrowsing.isSubscribedCobrowsing)) {  
+    // needs to do update cobrowsing or else ur just locking ur own...
     store.dispatch({
       type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
       updateCobrowsing: true,

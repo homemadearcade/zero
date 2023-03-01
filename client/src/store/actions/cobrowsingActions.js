@@ -320,10 +320,7 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
         type: ON_COBROWSING_UPDATE,
         payload: { 
           remoteStateUserId: userId,
-          remoteState: mergeDeep(
-            getState().cobrowsing.remoteState,
-            remoteState
-          )
+          remoteState
         },
       });
     });
