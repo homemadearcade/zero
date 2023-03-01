@@ -12,6 +12,7 @@ import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ERASER_IID } from '../../../constants/interfaceIds';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const EraserSelect = ({
   gameSelector: { brushIdSelectedBrushList },
@@ -23,9 +24,10 @@ const EraserSelect = ({
   height
 }) => {
   const eraserId = ERASER_BRUSH_ID + '/' +  canvasId;
-  
+
   const isSelected = brushIdSelectedBrushList === eraserId
-  const border = '1px solid ' + getThemePrimaryColor().hexString
+  const border = '1px solid ' + useWishTheme().primaryColor.hexString
+  
   return <Unlockable isTiny interfaceId={ERASER_IID}><div
     onClick={() => {
       if(eraserId === brushIdSelectedBrushList) {

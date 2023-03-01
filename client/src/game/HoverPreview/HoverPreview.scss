@@ -10,12 +10,47 @@
 
   &__editable {
     cursor: pointer;
-    margin-left: .5rem;
+    // margin-left: .5rem;
   }
 
   &__title {
-    padding: 1em;
     text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+  }
+
+  &__actions-color {
+    cursor: pointer;
+    border: 1px solid; 
+    transition: border .5s;
+    &:hover {
+      border: 2px solid;
+    }
+  }
+
+  &__image-background {
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .5);
+    filter: blur(16px);
+    -webkit-filter: blur(16px);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
   }
   
   &__display {

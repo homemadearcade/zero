@@ -7,6 +7,7 @@ import {
   DEFAULT_CLEAR_TEXTURE_ID,
 } from '../constants';
 import { createGameSceneInstance } from '../../utils/gameUtils';
+import { updateTheme } from '../../store/actions/themeActions';
 
 export class PreloaderScene extends Phaser.Scene {
   constructor({ isNetworked, isEdit, hostUserId, gameInstanceId, id, gameId}) {
@@ -23,6 +24,9 @@ export class PreloaderScene extends Phaser.Scene {
       id: id
     }
 
+    store.dispatch(updateTheme({
+      primaryColor: store.getState().gameModel.gameModel.metadata.interfaceColor
+    }))
     if(store.getState().webPage.gameInstanceId) {
       console.error('a new game has been loaded for some reason with id', this.gameRoom.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)
     }

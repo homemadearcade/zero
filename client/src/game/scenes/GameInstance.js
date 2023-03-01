@@ -16,7 +16,6 @@ import JSConfetti from 'js-confetti'
 import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomActions';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { directionalPlayerClassId } from '../defaultData';
-import { GAME_VIEW_LOADING_COMPLETED } from '../../store/types';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {

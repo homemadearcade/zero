@@ -11,6 +11,7 @@ import relationInterfaceIdData from "./relationInterfaceIdData";
 import rootInterfaceIdData from "./rootInterfaceIdData";
 import stageInterfaceIdData from "./stageInterfaceIdData";
 import dialogueInterfaceIdData from "./dialogueInterfaceIdData";
+import gameInterfaceIdData from "./gameInterfaceIdData";
 
 export const interfaceIdData = {
   ...rootInterfaceIdData,
@@ -25,5 +26,6 @@ export const interfaceIdData = {
   ...movementInterfaceIdData,
   ...projectileInterfaceIdData,
   ...contextMenuInterfaceIdData,
-  ...dialogueInterfaceIdData
+  ...dialogueInterfaceIdData,
+  ...gameInterfaceIdData
 }

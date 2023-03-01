@@ -38,10 +38,12 @@ const SnackbarHandler= ({
       onClose={handleClose}
       action={action}>
         <SnackbarContent 
-        message={<div>
-        {snackbar.imageUrl && <img alt={snackbar.message} src={snackbar.imageUrl} width="100%"/>}
-        {snackbar.message}
-        </div>}/>
+          message={<div>
+            {snackbar.imageUrl && <img alt={snackbar.message} src={snackbar.imageUrl} width="100px"/>}
+            {snackbar.message}
+            {action}
+          </div>}
+        />
     </Snackbar>
   }
 

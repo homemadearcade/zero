@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 import './CreateClassFlow.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
-import { clearGameFormEditor, closeCreateClassFlow, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
+import { clearGameFormEditor, closeCreateClassFlow, updateCreateClass, openClassNameModal } from '../../../store/actions/gameFormEditorActions';
 import SelectSpriteInline from '../../sprites/SelectSpriteInline/SelectSpriteInline';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import ClassNameForm from '../ClassNameForm/ClassNameForm';
 import { getClassDisplayName } from '../../../utils/gameUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
@@ -22,8 +21,16 @@ import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
 import { Alert } from '@mui/material';
 import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
+import ClassNameForm from '../ClassNameForm/ClassNameForm';
 
-const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, closeCreateClassFlow, gameFormEditor: { class: objectClass } }) => {
+const CreateClassFlow = ({ 
+  onComplete,
+  clearGameFormEditor,
+  updateCreateClass,
+  closeCreateClassFlow,
+  gameFormEditor: { objectClass },
+  openClassNameModal
+}) => {
   function handleClose() {
     closeCreateClassFlow()
     clearGameFormEditor()
@@ -110,23 +117,10 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
           }})
         }}/>
       </Unlockable>}
-      {objectClass.isNew && <ClassNameForm
-        onChangeName={(name) => {
-          updateCreateClass({
-            error: null,
-            name
-          })
-        }}
-        onError={(error) => {
-          updateCreateClass({
-            error
-          })
-        }}
-        objectClass={objectClass}
-      />}
+      {objectClass.isNew && <ClassNameForm></ClassNameForm>}
       {objectClass.isNew && <Unlockable interfaceId={CLASS_LOCK_IID}>
         <Switch
-          labels={['Normal', 'Player cannot see unless unlocked']}
+          labels={['Normal', 'Hide from UI unless unlocked']}
           size="small"
           onChange={(e) => {
             updateCreateClass({ interfaceLocked: e.target.checked })          
@@ -134,7 +128,6 @@ const CreateClassFlow = ({ onComplete, clearGameFormEditor, updateCreateClass, c
           checked={objectClass.interfaceLocked}
          />
       </Unlockable>}
-      {objectClass.error && <Alert severity="error">{objectClass.error}</Alert>}
       <Button
         disabled={!!objectClass.error || !objectClass.name.length}
         onClick={() => {
@@ -155,5 +148,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateClass, closeCreateClassFlow, clearGameFormEditor }),
+  connect(mapStateToProps, { updateCreateClass, closeCreateClassFlow, clearGameFormEditor, openClassNameModal }),
 )(CreateClassFlow);

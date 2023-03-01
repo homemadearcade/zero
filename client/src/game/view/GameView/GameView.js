@@ -7,7 +7,7 @@ import { PreloaderScene } from '../../scenes/PreloaderScene';
 
 import './GameView.scss';
 import { GAME_INSTANCE_ID_PREFIX, noPhaserUpdateDelta, PRELOADER_SCENE } from '../../constants';
-import { PHASER_ERROR } from '../../../constants';
+import { DEFAULT_THEME_COLOR, PHASER_ERROR } from '../../../constants';
 
 import { gameSize } from '../../defaultData/general';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
@@ -21,6 +21,8 @@ import Icon from '../../../ui/Icon/Icon';
 import { changeErrorState, clearErrorState } from '../../../store/actions/errorsActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
+import { updateTheme } from '../../../store/actions/themeActions';
+import { editGameRoom } from '../../../store/actions/gameRoomActions';
 
 const config= {
   type: Phaser.WEBGL,
@@ -70,6 +72,14 @@ const config= {
 }
 
 const GameView = (props) => {
+  useEffect(() => {
+    return () => {
+      props.updateTheme({
+        primaryColor: DEFAULT_THEME_COLOR
+      })
+    }
+  }, [])
+
   if(!props.gameModel.gameModel) {
     return <GameViewEmpty></GameViewEmpty>
   }
@@ -127,7 +137,7 @@ const PhaserGame = ({
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
-  gameRoom: state.gameRoom
+  gameRoom: state.gameRoom,
 });
 
-export default connect(mapStateToProps, { setGameInstance, changeErrorState, clearErrorState })(GameView);
+export default connect(mapStateToProps, { setGameInstance, changeErrorState, clearErrorState, updateTheme })(GameView);

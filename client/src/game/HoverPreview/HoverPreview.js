@@ -11,7 +11,14 @@ import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../constants/interfaceIdData';
 import { classTypeToDisplayName } from '../defaultData/class';
 import { initialStageId } from '../defaultData';
-import { openClassNameModal, openGameMetadataModal } from '../../store/actions/gameSelectorActions';
+import { openGameMetadataModal, openSelectBackgroundColorModal } from '../../store/actions/gameSelectorActions';
+import Button from '../../ui/Button/Button';
+import { getThemePrimaryColor } from '../../utils/webPageUtils';
+import { openClassNameModal } from '../../store/actions/gameFormEditorActions';
+import Unlockable from '../cobrowsing/Unlockable/Unlockable';
+import { GAME_METADATA_IID, GAME_SNAPSHOT_IID, STAGE_BACKGROUND_COLOR_IID } from '../../constants/interfaceIds';
+import { openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
+import { useWishTheme } from '../../hooks/useWishTheme';
 
 const HoverPreview = ({ 
   cobrowsing: {
@@ -39,12 +46,13 @@ const HoverPreview = ({
   gameRoom: {
     gameRoom
   },
-
   openGameMetadataModal,
-  openClassNameModal
+  openClassNameModal,
+  openSelectBackgroundColorModal,
+  openSnapshotTaker,
 }) => {
   const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
-
+  const theme = useWishTheme()
   let objectClass
 
   const classId = instanceClassIdHovering || classIdHovering || classIdSelectedClassList 
@@ -69,11 +77,10 @@ const HoverPreview = ({
 
   const interfaceData = interfaceIdData[mouseOverInterfaceId]
 
-
   function renderEditableIcon(onEdit) {
-    return isHoveringOverTitle && <span className="HoverPreview__editable" onClick={() => {
+    return <Button className="HoverPreview__editable" onClick={() => {
       onEdit()
-    }}><Icon icon="faPen"></Icon></span>
+    }}><Icon icon="faPen"></Icon></Button>
   }
 
   function renderDisplayTitle(title, onEdit) {
@@ -83,7 +90,7 @@ const HoverPreview = ({
         sx={{fontSize:'.8rem'}}
         font="2P">
         {title}
-        {onEdit && renderEditableIcon(onEdit)}
+        {onEdit && isHoveringOverTitle && renderEditableIcon(onEdit)}
       </Typography>
     </>
   }
@@ -109,9 +116,9 @@ const HoverPreview = ({
       textureId: objectClass.graphics.textureId,
       title: objectClass.name + ' - ' + classTypeToDisplayName[objectClass.type],
       onEdit: () => {
-        openClassNameModal(objectClass.classId)
+        openClassNameModal(objectClass)
       }
-    })   
+    })
   }
 
   function renderBrushDisplay() {
@@ -147,17 +154,42 @@ const HoverPreview = ({
   }
 
   function renderGameTitleDisplay() {
-    const stageName = currentStageId === initialStageId ? null : stages[currentStageId].name
+    const currentStage = stages[currentStageId]
+    const imageBackground = metadata.imageUrl;
 
-   return  <div className="HoverPreview__title">
+    // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
+    //   <MenuItem onClick={() => {
+    //     openSnapshotTaker()
+    //     onMenuItemClick()
+    //   }}>Take Snapshot</MenuItem>
+    // </Unlockable>
+   return  <>
+    {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${window.awsUrl + imageBackground}"` : ''}}></div>}
+    <div className="HoverPreview__title">
       <Typography font="2P" variant="subtitle2">
         {metadata.title}
-        {renderEditableIcon(() => {
-          openGameMetadataModal()
-        })}
-      </Typography>
-      {stageName && <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{stageName}</Typography>}
+       </Typography>
+      {isHoveringOverTitle && 
+        <div className="HoverPreview__actions">
+          <Unlockable interfaceId={GAME_SNAPSHOT_IID}>
+            <Button  onClick={() => {
+              openSnapshotTaker()
+            }}><Icon icon="faCameraRetro"/></Button>
+          </Unlockable>
+          <Unlockable interfaceId={GAME_METADATA_IID}>{renderEditableIcon(() => {
+            openGameMetadataModal()
+          })}</Unlockable>
+      </div>}
+      {currentStageId === initialStageId ? null : <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{currentStage.name}</Typography>}
+      {isHoveringOverTitle && <div className="HoverPreview__actions">
+        <Unlockable interfaceId={STAGE_BACKGROUND_COLOR_IID}>
+          <Button className="HoverPreview__actions-color" onClick={() => {
+            openSelectBackgroundColorModal()
+          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.backgroundColor, height: '20px'}}/>
+        </Unlockable>
+      </div>}
     </div>
+   </>
   }
 
   function renderBody() {
@@ -214,4 +246,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoom: state.gameRoom
 })
 
-export default connect(mapStateToProps, { openGameMetadataModal, openClassNameModal })(HoverPreview);
+export default connect(mapStateToProps, { openGameMetadataModal, openClassNameModal, openSelectBackgroundColorModal, openSnapshotTaker })(HoverPreview);

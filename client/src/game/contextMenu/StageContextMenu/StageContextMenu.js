@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColor } from '../../../store/actions/gameSelectorActions';
+import { openGameMetadataModal, openLiveEditor, openSelectBackgroundColorModal } from '../../../store/actions/gameSelectorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { STAGE_BACKGROUND_CANVAS_ID, STAGE_EDITOR } from '../../constants';
@@ -14,7 +14,7 @@ const StageContextMenu = ({
   openLiveEditor,
   openSectionEditor, 
   onMenuItemClick, 
-  openSelectBackgroundColor,
+  openSelectBackgroundColorModal,
   openGameMetadataModal, 
   openSnapshotTaker, 
   openCutscenesMenu, 
@@ -41,18 +41,6 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Boundaries</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_STAGE_COLOR_IID}>
-      <MenuItem onClick={() => {
-        openSelectBackgroundColor()
-        onMenuItemClick()
-      }}>Edit Default Background Color</MenuItem>
-    </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_METADATA_IID}>
-      <MenuItem onClick={() => {
-        openGameMetadataModal()
-        onMenuItemClick()
-      }}>Edit Metadata</MenuItem>
-    </Unlockable>
     <Unlockable interfaceId={CONTEXT_MENU_CUTSCENES_IID}>
       <MenuItem onClick={() => {
         openCutscenesMenu()
@@ -65,24 +53,12 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Stages</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>
-      <MenuItem onClick={() => {
-        openSnapshotTaker()
-        onMenuItemClick()
-      }}>Take Snapshot</MenuItem>
-    </Unlockable>
     <Unlockable interfaceId={CONTEXT_MENU_PLAYTEST_IID}>
       <MenuItem onClick={() => {
         window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
         onMenuItemClick()
       }}>Playtest Game</MenuItem>
     </Unlockable>
-    {<Unlockable interfaceId={LAYER_VISIBILITY_IID}>
-      <MenuItem onClick={() => {
-        toggleLayerVisibility(STAGE_BACKGROUND_CANVAS_ID)
-        onMenuItemClick()
-      }}>{layerVisibility[STAGE_BACKGROUND_CANVAS_ID] ? 'Hide Default Background Layer' : 'Show Default Background Layer'}</MenuItem>
-    </Unlockable>}
     {false && <Unlockable interfaceId={GRID_VIEW_TOGGLE_IID}>
       <MenuItem onClick={() => {
         toggleGridView()
@@ -100,7 +76,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 export default connect(mapStateToProps, { 
   openLiveEditor, 
   openSectionEditor, 
-  openSelectBackgroundColor, 
+  openSelectBackgroundColorModal, 
   openSnapshotTaker, 
   toggleGridView, 
   openGameMetadataModal, 

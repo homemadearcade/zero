@@ -15,7 +15,6 @@ export const CONTEXT_MENU_CLASS_REMOVE_IID= 'contextMenu/class/remove'
 
 export const CONTEXT_MENU_STAGE_GRAVITY_IID = 'contextMenu/stage/gravity'
 export const CONTEXT_MENU_STAGE_SECTIONS_IID = 'contextMenu/stage/sections'
-export const CONTEXT_MENU_STAGE_COLOR_IID = 'contextMenu/stage/color'
 
 export const CONTEXT_MENU_INSTANCE_MOVE_IID = 'contextMenu/instance/move'
 export const CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID = 'contextMenu/instance/resizeClass'
@@ -23,8 +22,6 @@ export const CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID = 'contextMenu/instance/sele
 export const CONTEXT_MENU_INSTANCE_DELETE_IID = 'contextMenu/instance/delete'
 export const CONTEXT_MENU_INSTANCE_JSON_IID = 'contextMenu/instance/json'
 
-export const CONTEXT_MENU_METADATA_IID = 'contextMenu/metadata'
-export const CONTEXT_MENU_SNAPSHOT_IID = 'contextMenu/snapshot'
 export const CONTEXT_MENU_CUTSCENES_IID = 'contextMenu/cutscenes'
 
 export const CONTEXT_MENU_STAGES_IID = 'contextMenu/stages'

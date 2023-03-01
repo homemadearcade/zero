@@ -13,9 +13,10 @@ import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { changeGameState } from '../../../store/actions/gameRoomActions';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import store from '../../../store';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom: { gameRoom: { gameState } } }) => {
-  const color = getThemePrimaryColor().hexString
+  const color = useWishTheme().primaryColor.hexString
         // color={gameState === STOPPED_STATE ? color: null}
 
   if(gameState === START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
@@ -26,10 +27,9 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom
             icon="faStop"
             color={gameState === STOPPED_STATE ? color: null}
             onClick={() => {
-              const lastGameState = gameState
               changeGameState(STOPPED_STATE)
               setTimeout(() => {
-                changeGameState(lastGameState)
+                changeGameState(PLAY_STATE)
               }, 100)
             }}
           />

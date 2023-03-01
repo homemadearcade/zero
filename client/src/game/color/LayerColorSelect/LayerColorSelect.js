@@ -10,17 +10,19 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
-import { clearBrush, selectBrush } from '../../../store/actions/gameSelectorActions';
+import { clearBrush, openSelectAggregateColor, selectBrush } from '../../../store/actions/gameSelectorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
+import AggregateColorSelectModal from '../AggregateColorSelectModal/AggregateColorSelectModal';
 
 const LayerColorSelect = ({
   gameModel: { gameModel : { colors }},
   canvasId,
   openCreateColorFlow,
+  openSelectAggregateColor,
   editGameModel,
   selectBrush,
   clearBrush,
-  gameSelector: { brushIdSelectedBrushList },
+  gameSelector: { brushIdSelectedBrushList, isSelectAggregateColorOpen },
   gameFormEditor: { isCreateColorFlowOpen },
   withEraser
 }) => {
@@ -35,7 +37,11 @@ const LayerColorSelect = ({
   }, {})
 
   function onAddColor() {
-    openCreateColorFlow('LayerColorSelect' + canvasId, canvasId)
+    if(Object.keys(colors).length) {
+      openSelectAggregateColor('LayerColorSelect' + canvasId)
+    } else {
+      openCreateColorFlow('LayerColorSelect' + canvasId, canvasId)
+    }
   }
 
   function onSelectColor(hex) {
@@ -118,6 +124,18 @@ const LayerColorSelect = ({
         selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex, color.canvasId)
       }}
     />}
+    {isSelectAggregateColorOpen === ('LayerColorSelect' + canvasId) && <AggregateColorSelectModal
+      onSelectColor={(hex) => {
+        editGameModel({
+          colors: {
+            [hex]: {
+              [canvasId]: Date.now()
+            }
+          }
+        })
+        selectBrush(COLOR_BRUSH_ID + '/' + canvasId + '/' + hex, canvasId)
+      }}
+    />}
   </>
 };
 
@@ -128,5 +146,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { openCreateColorFlow, clearBrush, selectBrush, editGameModel }),
+  connect(mapStateToProps, { openCreateColorFlow, clearBrush, selectBrush, editGameModel, openSelectAggregateColor }),
 )(LayerColorSelect);

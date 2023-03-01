@@ -16,7 +16,7 @@ const StageNameForm = ({ initialName, updateCreateStage, gameModel: { gameModel 
       list.push(gameModel.stages[stageId].name)
     })
     setNameList(list)
-    setIgnoreName(ignoreName)
+    setIgnoreName(initialName)
   }, [])
 
   useEffect(() => {

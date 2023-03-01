@@ -8,14 +8,15 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-import { openClassNameModal, selectClass, openJsonViewer } from '../../../store/actions/gameSelectorActions';
+import { selectClass, openJsonViewer } from '../../../store/actions/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CONTEXT_MENU_INSTANCE_DELETE_IID, CONTEXT_MENU_INSTANCE_JSON_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID, CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID } from '../../../constants/interfaceIds';
+import { openClassNameModal } from '../../../store/actions/gameFormEditorActions';
 
 const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openClassNameModal, selectClass, openJsonViewer }) => {
   return <>
     <ContextMenuTitle onClick={() => {
-      openClassNameModal(classId)
+      openClassNameModal(gameModel.classes[classId])
       onMenuItemClick()
     }}>{gameModel.classes[classId].name}</ContextMenuTitle>
     <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_MOVE_IID}>

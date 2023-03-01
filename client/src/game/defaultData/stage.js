@@ -16,6 +16,7 @@ export const initialPlayerSpawnZone = {
 
 export const defaultStage = {
   name: '',
+  backgroundColor: '#000000',
   "playerClassId": null,
   'spawnZoneClassId': null,
   "imageUrl": "",

@@ -13,7 +13,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
 import { changeClassIdHovering, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import { getLayerIdFromClass } from '../../../utils/gameUtils';
-import { getThemePrimaryColor } from '../../../utils/webPageUtils';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const ClassItem = ({
   gameModel: { gameModel: { classes } },
@@ -32,7 +32,7 @@ const ClassItem = ({
   const [isHovering, setIsHovering] = useState(false)
   const isSelected = classIdSelectedClassList === classId
 
-  const border = '1px solid ' + getThemePrimaryColor().hexString
+  const border = '1px solid ' + useWishTheme().primaryColor.hexString
   return <div
     style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}
     onClick={(e) => {

@@ -643,6 +643,12 @@ export function getDescriptors() {
   }
 
   global.humanDescriptors = {
+    'Male': {
+      audioRelated: true,
+    },
+    "Female": {
+      audioRelated: true,
+    },
     Human: {
       dontShowAdminsInSpriteSheetEditor: true,
       children: ['Pirate', 'Barbarian','Baby','Astronaut','Soldier','Space','Wizard','King','Queen','Archer','Warrior','Rogue','Angel','Thief','Ninja','Musician','Engineer','Athlete','Priest','Nun','Cop','Citizen','Villager','Detective','Knight',
@@ -985,8 +991,6 @@ export function getDescriptors() {
     'Mythical': {},
     'Magical': {},
     'Child': {},
-    'Male': {},
-    "Female": {},
     'Horned': {},
     'Evil': {},
     'Dead': {},

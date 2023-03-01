@@ -15,7 +15,7 @@ const CutsceneNameForm = ({ initialName, updateCreateCutscene, gameModel: { game
     Object.keys(gameModel.cutscenes).forEach((cutsceneId) => {
       list.push(gameModel.cutscenes[cutsceneId].name)
     })
-    setIgnoreName(ignoreName)
+    setIgnoreName(initialName)
     setNameList(list)
   }, [])
 

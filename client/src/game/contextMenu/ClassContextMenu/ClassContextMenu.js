@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/gameModelActions'
-import { openClassNameModal, openJsonViewer, openLiveEditor } from '../../../store/actions/gameSelectorActions';
+import { openJsonViewer, openLiveEditor } from '../../../store/actions/gameSelectorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { openCreateClassFlow, openRelationsMenu } from '../../../store/actions/gameFormEditorActions';
+import { openCreateClassFlow, openRelationsMenu, openClassNameModal } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, classTypeToPrefix } from '../../constants';
 import { classTypeToDisplayName } from '../../defaultData/class';
@@ -28,9 +28,9 @@ const ClassContextMenu = ({
 
   return <>
     {!insideObjectInstanceContextMenu && <ContextMenuTitle onClick={() => {
-      openClassNameModal(classId)
+      openClassNameModal(objectClass)
       onMenuItemClick()
-    }}>{gameModel.classes[classId].name}</ContextMenuTitle>}
+    }}>{objectClass.name}</ContextMenuTitle>}
     {objectClass.type === PLAYER_CLASS && classId !== gameModel.stages[currentStageId].playerClassId && 
       <Unlockable interfaceId={CONTEXT_MENU_CLASS_SELECT_PLAYER_IID}>
           <MenuItem onClick={() => {
@@ -47,7 +47,7 @@ const ClassContextMenu = ({
     }
     <Unlockable interfaceId={CONTEXT_MENU_CLASS_NAME_IID}>
       <MenuItem onClick={() => {
-        openClassNameModal(classId)
+        openClassNameModal(objectClass)
         onMenuItemClick()
       }}>Edit Name</MenuItem>
     </Unlockable>

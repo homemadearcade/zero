@@ -15,6 +15,7 @@ import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
 import { changeBrushIdHovering } from '../../../store/actions/gameViewEditorActions';
 import { updateBrushLastUsedDate } from '../../../store/actions/gameSelectorActions';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const ColorSelect = ({
   colors = [],
@@ -38,7 +39,7 @@ const ColorSelect = ({
     '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
   ]
 
-  const border = '1px solid ' + getThemePrimaryColor().hexString
+  const border = '1px solid ' + useWishTheme().primaryColor.hexString
   function ColorItem({width, height, hex, onClick}) {
     const [isHoveringHex, setIsHoveringHex] = useState()
 

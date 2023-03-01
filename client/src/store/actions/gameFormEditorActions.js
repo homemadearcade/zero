@@ -4,7 +4,7 @@ import {
   UPDATE_CREATE_CLASS,
   OPEN_CREATE_COLOR_FLOW,
   CLOSE_CREATE_COLOR_FLOW,
-  UPDATE_CREATE_COLOR,
+  TOGGLE_EYE_DROPPER,
   CLOSE_CREATE_BRUSH_FLOW,
   OPEN_CREATE_BRUSH_FLOW,
   UPDATE_CREATE_BRUSH,
@@ -28,6 +28,8 @@ import {
   OPEN_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
+  OPEN_CLASS_NAME_MODAL,
+  CLOSE_CLASS_NAME_MODAL,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
@@ -48,13 +50,13 @@ export const clearGameFormEditor = () => (dispatch, getState) => {
   });
 }
 
-export const openCreateClassFlow = (initialClass) => (dispatch, getState) => {
+export const openCreateClassFlow = (objectClass) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_CLASS_FLOW,
-    payload: { initialClass }
+    payload: { objectClass }
   });
 }
 
@@ -70,7 +72,7 @@ export const updateCreateClass = (objectClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: UPDATE_CREATE_CLASS,
-    payload: { class: objectClass }
+    payload: { objectClass }
   });
 }
 
@@ -87,6 +89,25 @@ export const openCreateColorFlow = (componentName, canvasId) => (dispatch, getSt
   });
 }
 
+export const openClassNameModal = (objectClass) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CLASS_NAME_MODAL,
+    payload: {
+      objectClass
+    }
+  });
+}
+
+export const closeClassNameModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CLASS_NAME_MODAL,
+    payload: {}
+  });
+}
+
+
 export const closeCreateColorFlow = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
@@ -95,11 +116,11 @@ export const closeCreateColorFlow = () => (dispatch, getState) => {
   });
 }
 
-export const updateCreateColor = (color) => (dispatch, getState) => {
+export const toggleEyeDropper = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: UPDATE_CREATE_COLOR,
-    payload: { color }
+    type: TOGGLE_EYE_DROPPER,
+    payload: {}
   });
 }
 

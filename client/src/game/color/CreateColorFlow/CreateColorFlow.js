@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateColorFlow.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeCreateColorFlow, updateCreateColor } from '../../../store/actions/gameFormEditorActions';
+import { closeCreateColorFlow, toggleEyeDropper } from '../../../store/actions/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -12,35 +12,32 @@ import ColorGrid from '../ColorGrid/ColorGrid';
 import Icon from '../../../ui/Icon/Icon';
 import tinycolor from 'tinycolor2';
 
-const CreateColorFlow = ({ onComplete, closeCreateColorFlow, updateCreateColor, gameFormEditor: { color }}) => {
+const CreateColorFlow = ({ onComplete, closeCreateColorFlow, toggleEyeDropper, gameFormEditor: { color, isEyeDropping }}) => {
   function handleClose() {
     closeCreateColorFlow()
   }
 
-  // onChange={(event, descriptors) => {
-  //   updateCreateColor({ descriptors })
-  // }}
-
-  return <CobrowsingModal open={!color.isEyeDropping} onClose={handleClose}>
+  return <CobrowsingModal open={!isEyeDropping} onClose={handleClose}>
     <div className="CreateColorFlow">
       <Typography component="h2" variant="h2">Add Color</Typography>
       <Icon icon="faEyeDropper" onClick={() => {
         const eyeDropper = new window.EyeDropper();
         eyeDropper.open().then((result) => {
+          toggleEyeDropper()
           const hex = '#' + tinycolor(result.sRGBHex).toHex()
           onComplete({ canvasId: color.canvasId, hex })
+          handleClose()
         }).catch((e) => {
           console.error(e)
+          toggleEyeDropper()
+          handleClose()
         });
 
-        updateCreateColor({
-          isEyeDropping: true
-        })
+        toggleEyeDropper()
       }}/>
       <ColorGrid onClick={(hex) => {
           onComplete({ canvasId: color.canvasId, hex})
           handleClose()
-          // updateCreateColor({hex})
       }}/>
       <div className="CreateColorFlow__buttons">
 
@@ -62,5 +59,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateColor, closeCreateColorFlow }),
+  connect(mapStateToProps, { toggleEyeDropper, closeCreateColorFlow }),
 )(CreateColorFlow);

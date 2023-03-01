@@ -1,4 +1,5 @@
 // import { BACKGROUND_CANVAS_ID } from "../constants";
+import { DEFAULT_THEME_COLOR } from "../../constants";
 import { defaultZoneClass } from "./class";
 import { nodeSize } from "./general";
 import { directionalClass, directionalPlayerClassId, jumperClass, jumperPlayerClassId, vehicleClass, vehiclePlayerClassId } from "./players";
@@ -12,7 +13,8 @@ export const defaultGameModel = {
     "imageUrl": "",
     isArchived: false,
     isFeatured: false,
-    isPublished: false
+    isPublished: false,
+    interfaceColor: DEFAULT_THEME_COLOR
   },
   "stages": {
      [initialStageId]: {

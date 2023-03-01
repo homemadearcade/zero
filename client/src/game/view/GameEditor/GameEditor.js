@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../sprites/SnapshotTaker/SnapshotTaker';
-import SelectBackgroundColor from '../../stages/SelectBackgroundColor/SelectBackgroundColor';
+import SelectBackgroundColorModal from '../../stages/SelectBackgroundColorModal/SelectBackgroundColorModal';
 import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../../constants';
 import GameMetadataModal from '../../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
@@ -34,16 +34,15 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
 import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
-import SideEditor from '../../instantEditor/SideEditor/SideEditor';
 import HoverPreview from '../../HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
 
 const GameEditor = ({ 
   classNames, 
-  gameSelector: { isClassBoxModalOpen, isSetupDefaultsModalOpen, isSelectBackgroundColorOpen, classIdEditingName, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
+  gameSelector: { isClassBoxModalOpen, isSetupDefaultsModalOpen, isSelectBackgroundColorModalOpen, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen, isGridViewOn }, 
-  gameFormEditor: { isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
+  gameFormEditor: { isClassNameModalOpen, isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
@@ -107,7 +106,7 @@ const GameEditor = ({
       {liveEditingCategory && <LiveEditor></LiveEditor>}
       {isClassBoxModalOpen && <ClassBoxModal/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
-      {classIdEditingName && <ClassNameModal/>}
+      {isClassNameModalOpen && <ClassNameModal/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isRelationsMenuOpen && <RelationsMenu/>}
@@ -116,7 +115,7 @@ const GameEditor = ({
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageOpen && <CreateStage/>}
       {isSetupDefaultsModalOpen && <SetupDefaultsModal/>}
-      {isSelectBackgroundColorOpen && <SelectBackgroundColor/>}
+      {isSelectBackgroundColorModalOpen && <SelectBackgroundColorModal/>}
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {
           copyToClipboard(JSON.stringify(viewingJson))

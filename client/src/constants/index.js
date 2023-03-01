@@ -1,5 +1,7 @@
 export const GOOGLE_AUTH_LINK = 'https://homemadearcade.herokuapp.com/auth/google';
 
+export const DEFAULT_THEME_COLOR = '#90CAF9';
+
 export const ADMIN_ROLE = 'ADMIN'
 export const ON_MY_VIDEO_QUALITY_STATUS_UPDATE = 'ON_MY_VIDEO_QUALITY_STATUS_UPDATE'
 export const ARCADE_EXPERIENCE_ID = 'homemadeArcade'

@@ -11,3 +11,4 @@ export * from "./stageInterfaceIds";
 export * from "./brushInterfaceIds";
 export * from "./rootInterfaceIds";
 export * from "./dialogueInterfaceIds";
+export * from "./gameInterfaceIds";

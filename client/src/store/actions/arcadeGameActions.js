@@ -39,7 +39,7 @@ function addDefaultsToGameModel(gameData, oldGameData) {
       Object.keys(gameData.stages).forEach((stageId) => {
 
         const stage = gameData.stages[stageId]
-        if(stage) {
+        if(stage && oldGameData.stages[stageId]) {
           const objects = stage.objects 
           const oldObjects = oldGameData.stages[stageId].objects
           if(objects) Object.keys(objects).forEach((id) => {

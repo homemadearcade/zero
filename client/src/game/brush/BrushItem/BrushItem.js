@@ -10,8 +10,8 @@ import { openContextMenuFromClassId } from '../../../store/actions/contextMenuAc
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Sprite from '../../sprites/Sprite/Sprite';
 import Icon from '../../../ui/Icon/Icon';
-import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { changeBrushIdHovering } from '../../../store/actions/gameViewEditorActions';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 const BrushItem = ({
   gameModel: { gameModel: { brushes } },
   brushId,
@@ -26,7 +26,7 @@ const BrushItem = ({
   
   const isSelected = brushIdSelectedBrushList === brushId
 
-  const border = '1px solid ' + getThemePrimaryColor().hexString
+  const border = '1px solid ' + useWishTheme().primaryColor.hexString
   return <div
       style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null }}
       onClick={() => {

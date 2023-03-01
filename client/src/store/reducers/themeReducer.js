@@ -1,3 +1,4 @@
+import { DEFAULT_THEME_COLOR } from '../../constants';
 import { UPDATE_THEME } from '../types';
 
 // green #008F11
@@ -5,12 +6,13 @@ import { UPDATE_THEME } from '../types';
 // default blue #90CAF9
 
 const initialState = {
-  primaryColor: '#90CAF9',
+  primaryColor: DEFAULT_THEME_COLOR,
 };
 
 export default function pageReducer(state = initialState, { type, payload }) {
   switch (type) {
     case UPDATE_THEME:
+      console.log(payload)
       return {
         ...initialState,
         ...payload

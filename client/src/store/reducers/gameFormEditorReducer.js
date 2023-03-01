@@ -9,7 +9,7 @@ import {
   UPDATE_CREATE_CLASS,
   OPEN_CREATE_COLOR_FLOW,
   CLOSE_CREATE_COLOR_FLOW,
-  UPDATE_CREATE_COLOR,
+  TOGGLE_EYE_DROPPER,
   CLOSE_CREATE_BRUSH_FLOW,
   OPEN_CREATE_BRUSH_FLOW,
   UPDATE_CREATE_BRUSH,
@@ -32,6 +32,8 @@ import {
   OPEN_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
+  OPEN_CLASS_NAME_MODAL,
+  CLOSE_CLASS_NAME_MODAL,
 } from '../types';
 
 // game create editor
@@ -45,7 +47,8 @@ const initialState = {
   },
 
   isCreateClassFlowOpen: false,
-  class: {
+  isClassNameModalOpen: false,
+  objectClass: {
     descriptors: [],
     graphics : {
       textureId: null,
@@ -60,8 +63,8 @@ const initialState = {
     hex: null,
     canvasId: null,
     tint: null,
-    isEyeDropping: false
   },
+  isEyeDropping: false,
 
   isCutscenesMenuOpen: false,
   isCreateCutsceneOpen: false,
@@ -79,27 +82,23 @@ const initialState = {
   },
 
 
+  isBoundaryRelationMenuOpen: false,
   isRelationsMenuOpen: false,
   isCreateRelationOpen: false,
   classIdRelationsMenu: null,
   relation: {
     ...defaultRelationship,
   },
-  isBoundaryRelationMenuOpen: false,
-  objectClass: {
-    classId: null,
-    boundaryRelation: null,
-  }
 };
 
 export const initialGameFormEditorState = initialState
 
 export default function gameFormEditorReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case UPDATE_CREATE_COLOR: 
+    case TOGGLE_EYE_DROPPER: 
       return {
         ...state,
-        color: {...state.color, ...payload.color }
+        isEyeDropping: !state.isEyeDropping
       }
     case OPEN_CREATE_COLOR_FLOW: 
       return {
@@ -110,6 +109,18 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
           canvasId: payload.canvasId
         },
       }
+    case OPEN_CLASS_NAME_MODAL: 
+      return {
+        ...state,
+        isClassNameModalOpen: true,
+        objectClass: payload.objectClass
+      }
+    case CLOSE_CLASS_NAME_MODAL:
+      return {
+        ...state,
+        isClassNameModalOpen: false,
+        objectClass: null
+      }
     case CLOSE_CREATE_COLOR_FLOW: 
       return {
         ...state,
@@ -119,14 +130,14 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case UPDATE_CREATE_CLASS: 
       return {
         ...state,
-        class: mergeDeep(state.class, payload.class)
+        objectClass: mergeDeep(state.objectClass, payload.objectClass)
       }
     case OPEN_CREATE_CLASS_FLOW: 
       return {
         ...state,
-        class: {
-          ..._.cloneDeep(initialState.class),
-          ...payload.initialClass ? _.cloneDeep(payload.initialClass) : {}
+        objectClass: {
+          ..._.cloneDeep(initialState.objectClass),
+          ...payload.objectClass ? _.cloneDeep(payload.objectClass) : {}
         },
         isCreateClassFlowOpen: true
       }

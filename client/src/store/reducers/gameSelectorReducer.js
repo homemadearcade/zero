@@ -16,15 +16,15 @@ import {
   CLOSE_GAME_METADATA_MODAL,
   OPEN_MY_SPRITES_MODAL,
   CLOSE_MY_SPRITES_MODAL,
-  OPEN_CLASS_NAME_MODAL,
-  CLOSE_CLASS_NAME_MODAL,
   OPEN_SETUP_CHOICES_MODAL,
   CLOSE_SETUP_CHOICES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   OPEN_JSON_VIEWER,
   CLOSE_JSON_VIEWER,
   OPEN_CLASS_BOX_MODAL,
-  CLOSE_CLASS_BOX_MODAL
+  CLOSE_CLASS_BOX_MODAL,
+  OPEN_SELECT_AGGREGATE_COLOR,
+  CLOSE_SELECT_AGGREGATE_COLOR
 } from '../types';
 
 // this could be called gameSelectorEditor, is about selecting
@@ -37,10 +37,9 @@ const initialState = {
   classIdSelectedLiveEditor: null,
   liveEditingCategory: null,
   spriteEditorTextureId: null,
-  isSelectBackgroundColorOpen: false,
+  isSelectBackgroundColorModalOpen: false,
   isGameMetadataModalOpen: false,
   isSetupDefaultsModalOpen: false,
-  classIdEditingName: null,
   accordianLists: {
     'BrushList': null,
     'ClassList': null
@@ -50,7 +49,8 @@ const initialState = {
   },
   isSpriteEditorOpen: false,
   isClassBoxModalOpen: false,
-  classBoxClassType: null
+  classBoxClassType: null,
+  isSelectAggregateColorOpen: null
 };
 
 export const initialGameSelectorState = initialState
@@ -129,12 +129,22 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {
         ...state,
-        isSelectBackgroundColorOpen: true
+        isSelectBackgroundColorModalOpen: true
       }
     case CLOSE_SELECT_BACKGROUND_COLOR:
       return {
         ...state,
-        isSelectBackgroundColorOpen: false
+        isSelectBackgroundColorModalOpen: false
+      }
+    case OPEN_SELECT_AGGREGATE_COLOR: 
+      return {
+        ...state,
+        isSelectAggregateColorOpen: payload.componentName,
+      }
+    case CLOSE_SELECT_AGGREGATE_COLOR:
+      return {
+        ...state,
+        isSelectAggregateColorOpen: false
       }
     case OPEN_MY_SPRITES_MODAL: 
       return {
@@ -167,16 +177,6 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isClassBoxModalOpen: false,
         classBoxClassType: null
-      }
-    case OPEN_CLASS_NAME_MODAL: 
-      return {
-        ...state,
-        classIdEditingName: payload.classId
-      }
-    case CLOSE_CLASS_NAME_MODAL:
-      return {
-        ...state,
-        classIdEditingName: null
       }
     case OPEN_SETUP_CHOICES_MODAL: 
       return {

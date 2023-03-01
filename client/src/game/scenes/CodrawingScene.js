@@ -252,7 +252,7 @@ export class CodrawingScene extends Phaser.Scene {
       this.brush.setVisible(true)
     }
 
-    if(getCobrowsingState().gameFormEditor.color.isEyeDropping) {
+    if(getCobrowsingState().gameFormEditor.isEyeDropping) {
       this.input.setDefaultCursor('url(/assets/images/eyedropper.png)');
     } else {
       this.input.setDefaultCursor('default')

@@ -7,6 +7,7 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Icon from '../../../ui/Icon/Icon';
 import store from '../../../store';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
+import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const scrollDelta = 3;
 
@@ -38,7 +39,7 @@ const GridViewArrows = () => {
       clearInterval(cameraMoveInterval)
     }
   })
-  const color = getThemePrimaryColor().hexString
+  const color = useWishTheme().primaryColor.hexString
 
   return <>
     <div 

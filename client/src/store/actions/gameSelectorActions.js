@@ -29,6 +29,8 @@ import {
   OPEN_JSON_VIEWER,
   OPEN_CLASS_BOX_MODAL,
   CLOSE_CLASS_BOX_MODAL,
+  OPEN_SELECT_AGGREGATE_COLOR,
+  CLOSE_SELECT_AGGREGATE_COLOR,
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
@@ -183,24 +185,6 @@ export const closeGameMetadataModal = () => (dispatch, getState) => {
   });
 }
 
-export const openClassNameModal = (classId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_CLASS_NAME_MODAL,
-    payload: {
-      classId
-    }
-  });
-}
-
-export const closeClassNameModal = () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_CLASS_NAME_MODAL,
-    payload: {}
-  });
-}
-
 export const openSetupDefaultsModal = () => (dispatch, getState) => {
   // externalForceCobrowsingUpdateUserId
   
@@ -220,7 +204,7 @@ export const closeSetupDefaultsModal = () => (dispatch, getState) => {
   });
 }
 
-export const openSelectBackgroundColor= () => (dispatch, getState) => {
+export const openSelectBackgroundColorModal= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SELECT_BACKGROUND_COLOR,
@@ -228,10 +212,29 @@ export const openSelectBackgroundColor= () => (dispatch, getState) => {
   });
 }
 
-export const closeSelectBackgroundColor= () => (dispatch, getState) => {
+export const closeSelectBackgroundColorModal= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SELECT_BACKGROUND_COLOR,
+    payload: {}
+  });
+}
+
+export const openSelectAggregateColor= (componentName, canvasId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_SELECT_AGGREGATE_COLOR,
+    payload: {
+      componentName,
+      canvasId,
+    }
+  });
+}
+
+export const closeSelectAggregateColor= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_SELECT_AGGREGATE_COLOR,
     payload: {}
   });
 }

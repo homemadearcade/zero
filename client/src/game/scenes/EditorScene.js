@@ -6,7 +6,7 @@ import { openContextMenuFromGameObject, openStageContextMenu } from '../../store
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom, changeInstanceHovering } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PAUSED_STATE } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -21,6 +21,8 @@ import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
 import { addAwsImage } from '../../store/actions/textureActions';
+import { editGameRoom } from '../../store/actions/gameRoomActions';
+import { updateTheme } from '../../store/actions/themeActions';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -41,6 +43,7 @@ export class EditorScene extends GameInstance {
     this.snapshotStartPos = null
     this.snapshotEndPos = null
     this.isEditor = true
+    this.readyForNextEscapeKey = true
   }
   
   ////////////////////////////////////////////////////////////
@@ -144,6 +147,15 @@ export class EditorScene extends GameInstance {
     this.forAllObjectInstancesMatchingClassId(sprite.classId, (object) => {
       object.setSize(width, height)
     })
+  }
+
+  clearResize() {
+    const sprite = this.resizingObjectInstance.sprite
+    const objectClass = store.getState().gameModel.gameModel.classes[sprite.classId];
+    this.forAllObjectInstancesMatchingClassId(sprite.classId, (object) => {
+      object.setSize(objectClass.graphics.width, objectClass.graphics.height)
+    })
+    this.resizingObjectInstance = null
   }
 
   onResizeEnd = (pointer) => {
@@ -598,6 +610,14 @@ export class EditorScene extends GameInstance {
   // NETWORK UPDATE
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
+
+    if(gameUpdate.metadata?.interfaceColor) {
+      store.dispatch(updateTheme({
+        primaryColor: gameUpdate.metadata.interfaceColor
+      }))
+      this.reset()
+    }
+
     if(gameUpdate.stages) {
 
       Object.keys(gameUpdate.stages).forEach((stageId) => {
@@ -930,18 +950,27 @@ export class EditorScene extends GameInstance {
     // this.cameraControls.update(delta)
 
     if(this.escKey.isDown) {
-      store.dispatch(clearBrush())
-      store.dispatch(clearClass())
-      if(this.brush) {
-        this.destroyBrush()
-      } else if(this.stamper) {
-        this.destroyStamper()
-      } else if(this.snapshotSquare) {
-        this.clearSnapshotSquare()
-      } else {
-        // escape game?
+      if(this.readyForNextEscapeKey) {
+        this.readyForNextEscapeKey = false
+        store.dispatch(clearBrush())
+        store.dispatch(clearClass())
+        if(this.brush) {
+          this.destroyBrush()
+        } else if(this.stamper) {
+          this.destroyStamper()
+        } else if(this.snapshotSquare) {
+          this.clearSnapshotSquare()
+        } else if(this.resizingObjectInstance) {
+          this.clearResize()
+        } else {
+          store.dispatch(editGameRoom(this.gameRoom.id, {
+            gameState: PAUSED_STATE
+          }))
+        }
+        this.canvas = null
       }
-      this.canvas = null
+    } else {
+      this.readyForNextEscapeKey = true
     }
 
     this.remoteEditors.forEach((remoteEditor) => {

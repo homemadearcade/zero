@@ -19,5 +19,5 @@ export default {
   },
   [SHOW_REMOVED_IID]: {},
   [GRID_VIEW_TOGGLE_IID]: {},
-  [OPEN_CLASS_BOX_IID]: {}
+  [OPEN_CLASS_BOX_IID]: {},
 }

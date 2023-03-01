@@ -2,6 +2,20 @@ import nearestColor from 'nearest-color';
 import colorNameList from 'color-name-list';
 import colorNames from './colorNames.json'
 import { splitIntoSubarrays } from './arrayUtils';
+import { getHexIntFromHexString } from './editorUtils';
+import tinycolor from 'tinycolor2';
+
+export function enrichHexStringColor(color) {
+  return {hexString: color,
+    hexCode: getHexIntFromHexString(color),
+    rgba: function(alpha) {
+      const tcolor = tinycolor(color)
+      const { r, g, b } = tcolor.toRgb()
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`
+    }
+  }
+}
+
 // nearestColor need objects {name => hex} as input
 function swapKeysAndValues(obj) {
   // 👇️ [['color', 'blue'], ['fruit', 'apple']]

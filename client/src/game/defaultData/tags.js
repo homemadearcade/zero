@@ -2,7 +2,8 @@ import { TAG_ID_PREFIX } from "../constants"
 
 export const defaultTag = {
   isClassTag: null,
-  isSystemTag: null,
+  isLibraryTag: null,
+  isAutomaticTag: null,
   tagId: null,
   name: null,
   tint: null,
@@ -11,13 +12,13 @@ export const defaultTag = {
 
 export const defaultSystemTag = {
   ...defaultTag,
-  isSystemTag: true,
+  isLibraryTag: true,
 }
 
-function createSystemTag(tagId, name) {
+function createLibraryTag(tagId, name) {
   return {
     ...defaultTag,
-    isSystemTag: true,
+    isLibraryTag: true,
     tagId,
     name
   }
@@ -38,12 +39,12 @@ export const transformBackTagId = TAG_ID_PREFIX+'-transformBack'
 export const explodeOnDestroyTagId = TAG_ID_PREFIX+'-explodeOnDestroy'
 
 export const initialTags = {
-  [enemyTagId]: createSystemTag(enemyTagId, 'Enemy'),
-  [doorTagId]: createSystemTag(doorTagId, 'Door'),
-  [keyTagId]: createSystemTag(keyTagId, 'Key'),
-  [towerTagId]: createSystemTag(towerTagId, 'Tower'),
-  [movingPlatformTagId]: createSystemTag(movingPlatformTagId, 'Moving Platform'),
-  [transformIntoTagId]: createSystemTag(transformIntoTagId, 'Transform Into'),
-  [transformBackTagId]: createSystemTag(transformBackTagId, 'Transform Back'),
-  [explodeOnDestroyTagId]: createSystemTag(explodeOnDestroyTagId, 'Explode On Destroy')
+  [enemyTagId]: createLibraryTag(enemyTagId, 'Enemy'),
+  [doorTagId]: createLibraryTag(doorTagId, 'Door'),
+  [keyTagId]: createLibraryTag(keyTagId, 'Key'),
+  [towerTagId]: createLibraryTag(towerTagId, 'Tower'),
+  [movingPlatformTagId]: createLibraryTag(movingPlatformTagId, 'Moving Platform'),
+  [transformIntoTagId]: createLibraryTag(transformIntoTagId, 'Transform Into'),
+  [transformBackTagId]: createLibraryTag(transformBackTagId, 'Transform Back'),
+  [explodeOnDestroyTagId]: createLibraryTag(explodeOnDestroyTagId, 'Explode On Destroy')
 }
