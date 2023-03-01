@@ -8,16 +8,6 @@ UIUX TOUCHUPS
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-BACKGROUND ANIMATION
-
-Also like use the BACKGROUND BACKGROUND as like an animation space where we give sorts of feedback. Color, animations, sprites show up there? Not sure. MAKE IT FEEL GOOD. JUICY. What the admin is hovering over? Get what you are hovering over? 
-
-Themed animations all around the newly freed up areas
-
-MODALS
-  Remove these root level modals and put into a list somewhere
-    Relations -> Create Relation,
-    Cutscene -> Create Cutscene, 
-    Stages -> Create Stages
+When layer is saving show it!
 
 Change height width of the snackbar to fit with??...vh/vw

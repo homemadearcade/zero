@@ -25,6 +25,7 @@ const ActivityView = ({
   myTracks,
   userTracks,
   auth: { me },
+  video: { isInsideVideoCall},
   cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
   const user = members.filter(({id}) => {
@@ -38,7 +39,7 @@ const ActivityView = ({
     if(currentActivity === WAITING_ACTIVITY) {
       return <Container><div className="LobbyWaiting">
         <Typography variant="h4">Your experience will start shortly. For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
-        <AgoraVideoPreview tracks={myTracks}/>
+        {isInsideVideoCall && <AgoraVideoPreview tracks={myTracks}/>}
       </div></Container>
     }
 
@@ -99,6 +100,7 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
   cobrowsing: state.cobrowsing,
   gameRoom: state.gameRoom,
+  video: state.video,
   auth: state.auth,
 });
 

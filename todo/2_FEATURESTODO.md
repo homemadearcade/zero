@@ -22,8 +22,4 @@ SMALL FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-Make Confetti with the images from the game
-
 Send To Game Overlay Effect
-
-When layer is saving show it!

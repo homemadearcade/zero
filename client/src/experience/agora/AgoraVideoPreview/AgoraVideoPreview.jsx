@@ -13,8 +13,6 @@ import Typography from "../../../ui/Typography/Typography";
 const AgoraVideoPreview = ({tracks, auth: { me }, video: { isInsideVideoCall }}) => {
   const userTracks = { uid: me.id, videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
 
-  if(!isInsideVideoCall) return null
-
   return <div className="AgoraVideoPreview">
     <Typography component="h5" variant="h5">Select a camera and microphone</Typography>
     <AgoraInputSelect tracks={userTracks}/>

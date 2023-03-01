@@ -88,7 +88,7 @@ export function isObscuringInterfaces(interfaceId) {
     else return false
   }
 
-  if(me?.role === ADMIN_ROLE) return false
+  // if(me?.role === ADMIN_ROLE) return false
   
   return true
 }

@@ -9,6 +9,8 @@ KNOWN BUGS
 When the game is paused, it doesnt change relations ( when editing them ) until the next reload?
   If game is paused and theres a relation update then reload the game... again
 
+Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
