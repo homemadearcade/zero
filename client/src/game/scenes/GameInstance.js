@@ -606,6 +606,13 @@ export class GameInstance extends Phaser.Scene {
     const yMix = Math.random() * height;
     const spawnX = x + (yMix);
     const spawnY = y + (xMix);
+    console.log({
+      spawnX,
+      spawnY,
+      xMix,
+      yMix,
+      x,y,width,height
+    })
     this.addObjectInstance(OBJECT_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, classId}, true)
   }
 
