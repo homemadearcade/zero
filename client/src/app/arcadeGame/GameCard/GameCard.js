@@ -14,7 +14,7 @@ import { editArcadeGame, getArcadeGames } from '../../../store/actions/arcadeGam
 import Button from '../../../ui/Button/Button';
 import { ADMIN_ROLE } from '../../../constants';
 
-const GameCard = ({game, game: { metadata }, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
+const GameCard = ({game, game: { metadata }, width, canEdit, canRemove, canPlay, canPublish, editArcadeGame, getArcadeGames, auth: { me }}) => {
   const isEditor = me?.role === ADMIN_ROLE || me?.id === game.owner?.id
 
   function renderPublishButton() {
@@ -65,7 +65,7 @@ const GameCard = ({game, game: { metadata }, canEdit, canRemove, canPlay, canPub
     }
   }
 
- return <Card className="GameCard" sx={{ width: 200 }}>
+ return <Card className="GameCard" sx={{ width: width? width : 200 }}>
     <CardMedia
       component="img"
       image={metadata.imageUrl ? window.awsUrl + metadata.imageUrl : ""}

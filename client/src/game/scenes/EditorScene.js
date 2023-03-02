@@ -297,7 +297,7 @@ export class EditorScene extends GameInstance {
 
     sprite.isHoveringOver = true
     if(entitySprite.effectSpawned) return
-    if(!document.body.style.cursor) document.body.style.cursor = 'grab'
+    // if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
 
   onPointerDownOutside = (pointer) => {
@@ -508,7 +508,7 @@ export class EditorScene extends GameInstance {
     if(isObscured) {
       return
     }
-    if(document.body.style.cursor === 'grab') document.body.style.cursor = null
+    // if(document.body.style.cursor === 'grab') document.body.style.cursor = null
   }
 
   onPointerUpOutside = (pointer)  => {
@@ -963,9 +963,9 @@ export class EditorScene extends GameInstance {
         } else if(this.resizingObjectInstance) {
           this.clearResize()
         } else {
-          store.dispatch(editGameRoom(this.gameRoom.id, {
-            gameState: PAUSED_STATE
-          }))
+          // store.dispatch(editGameRoom(this.gameRoom.id, {
+          //   gameState: PAUSED_STATE
+          // }))
         }
         this.canvas = null
       }

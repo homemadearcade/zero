@@ -183,7 +183,7 @@ io.on("connection", (socket) => {
                 message: 'has connected',
                 automated: true
               })
-              socket.join(lobby.id);
+              if(user.joined) socket.join(lobby.id);
               io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
             }
           })
@@ -191,7 +191,7 @@ io.on("connection", (socket) => {
 
         const gameRooms = app.get(GAME_ROOMS_STORE)
         gameRooms?.forEach((gameRoom) => {
-          gameRoom.invitedUsers.forEach((user) => {
+          gameRoom.members.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
               gameRoom.messages.push({
@@ -202,7 +202,7 @@ io.on("connection", (socket) => {
                 message: 'has connected',
                 automated: true
               })
-              socket.join(gameRoom.id);
+              if(user.joined) socket.join(gameRoom.id);
               io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom});
             }
           })

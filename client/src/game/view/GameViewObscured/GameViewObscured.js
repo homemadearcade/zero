@@ -1,4 +1,5 @@
 
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { compose } from 'redux';
@@ -33,7 +34,7 @@ const GameViewObscured = ({
   const { isObscured, isUnlocked } = getInterfaceIdData(GAME_VIEW_IID)
 
   function renderOverlay() {
-    if(cobrowsingUser.role === ADMIN_ROLE) return
+    // if(cobrowsingUser.role === ADMIN_ROLE) return
 
     if(errorStates[PHASER_ERROR].on && !recentlyFocused) return <GameViewEmpty>
       <Icon icon="faTriangleExclamation"></Icon>
@@ -75,7 +76,7 @@ const GameViewObscured = ({
   }
 
   if(!gameRoom.isPoweredOn && !gameModel.isLoading) return <GameViewEmpty>
-    <GameCardLoad gameId={gameRoom.gameId}/>
+    <GameCardLoad width="30%" gameId={gameRoom.gameId}/>
     <Icon icon="faPowerOff"></Icon>
     Not Powered On
     {me.role === ADMIN_ROLE && <>

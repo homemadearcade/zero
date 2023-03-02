@@ -372,10 +372,12 @@ export const joinLobby = ({ lobbyId, userId }) => async (dispatch, getState) => 
 
     // event is triggered to all members in this lobby when lobby is updated
     window.socket.on(ON_LOBBY_UPDATE, ({lobby}) => {
-      dispatch({
-        type: ON_LOBBY_UPDATE,
-        payload: { lobby },
-      });
+      if(lobby.id === lobbyId) {
+        dispatch({
+          type: ON_LOBBY_UPDATE,
+          payload: { lobby },
+        });
+      }
     });
 
     window.socket.on(ON_LOBBY_UNDO, onInstanceUndo)

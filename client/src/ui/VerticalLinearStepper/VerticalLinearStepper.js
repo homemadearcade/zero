@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import './VerticalLinearStepper.scss';
 import { Alert, AlertTitle, Divider } from '@mui/material';
 
-export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange}) {
+export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange, canSkipStep}) {
 
   const [activeStep, setActiveStep] = React.useState(initialStep);
 
@@ -30,13 +30,13 @@ export default function VerticalLinearStepper({initialStep = 0, steps, completed
     onStepChange(0)
   };
 
-  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} onChangeStep={(step) => {
+  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} canSkipStep={canSkipStep} onClickPrev={handlePrev} onClickReset={handleReset} onChangeStep={(step) => {
     setActiveStep(step);
     onStepChange(step)
   }} />
 }
 
-export function VerticalLinearStepperBody({ onChangeStep, completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
+export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
 
   function renderStepText(step, index) {
     if(step.nextButtonText) {
@@ -85,7 +85,7 @@ export function VerticalLinearStepperBody({ onChangeStep, completed, steps, acti
           return <Step key={step.id} >
             <StepLabel
               onClick={() => {
-                onChangeStep(index)
+                if(canSkipStep) onChangeStep(index)
               }}
               classes={{root: "VerticalLinearStepper__step-number"}} 
               optional={

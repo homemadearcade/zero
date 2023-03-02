@@ -1,5 +1,3 @@
-What to do if lobby user fails speed test the day of
-
 PRevent Cobrowsing form editing the other USER UNLESS you have the tool open. Its simply a mouse tool
 
 BACKGROUND ANIMATION
@@ -7,6 +5,10 @@ BACKGROUND ANIMATION
 Also like use the BACKGROUND BACKGROUND as like an animation space where we give sorts of feedback. Color, animations, sprites show up there? Not sure. MAKE IT FEEL GOOD. JUICY. What the admin is hovering over? Get what you are hovering over? 
 
 Themed animations all around the newly freed up areas
+
+----
+
+Look through MUI for... New Stepper for game defaults
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

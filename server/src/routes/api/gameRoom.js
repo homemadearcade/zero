@@ -304,19 +304,29 @@ router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asy
 
     // remove for now
     // remove from all other game sessions
-    // req.gameRooms.forEach((gameRoom) => {
-    //   let index;
-    //   gameRoom.members.forEach((user, i) => {
-    //     if(newGameRoomMember.id === user.id) {
-    //       index = i
-    //     }
-    //   })
-    //   if(index >= -1) {
-    //     gameRoom.members.splice(index, 1)
-    //     req.socket.leave(gameRoom.id);
-    //     req.io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: gameRoom});
-    //   }
-    // })
+    req.gameRooms.forEach((gameRoom) => {
+      let index;
+      gameRoom.members.forEach((user, i) => {
+        if(newGameRoomMember.id === user.id) {
+          index = i
+        }
+      })
+      if(index >= -1) {
+        // gameRoom.members.splice(index, 1)
+        const member = gameRoom.members[index]
+        member.joined = false
+        gameRoom.messages.push({
+          user: {
+            id: member.id,
+            username: member.username
+          },
+          message: 'has joined another gameRoom',
+          automated: true
+        })
+        req.socket.leave(gameRoom.id);
+        req.io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom: gameRoom});
+      }
+    })
 
     // add to new gameRoom
     req.gameRoom.members.push(newGameRoomMember)

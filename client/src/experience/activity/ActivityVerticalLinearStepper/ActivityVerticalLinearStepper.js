@@ -5,7 +5,7 @@ import { editLobby } from '../../../store/actions/lobbyActions';
 import { VerticalLinearStepperBody } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-function ActivityVerticalLinearStepper({steps, lobby: { lobby }, completed, editLobby }) {
+function ActivityVerticalLinearStepper({steps, lobby: { lobby }, completed, editLobby, canSkipStep }) {
   function updateStep(step) {
     editLobby(lobby.id, {
       currentStep: step
@@ -26,7 +26,7 @@ function ActivityVerticalLinearStepper({steps, lobby: { lobby }, completed, edit
     updateStep(0);
   };
 
-  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} onChangeStep={(step) => {
+  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} canSkipStep={canSkipStep} onChangeStep={(step) => {
     updateStep(step);
   }} />
 }

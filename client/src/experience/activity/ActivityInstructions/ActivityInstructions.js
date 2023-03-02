@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -29,6 +29,7 @@ import Button from '../../../ui/Button/Button';
 import LobbySelectRoles from '../../lobby/LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
 import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
+import Switch from '../../../ui/Switch/Switch';
 
 const ARCHIVE_USER_ID = isLocalHost() ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
@@ -82,6 +83,8 @@ const ExperienceInstructions = ({
   myTracks,
   userTracks,
 }) => {  
+  const [canSkipStep, setCanSkipStep] = useState()
+
   const playersById = gameRoom.members.reduce((prev, next) => {
     prev[next.id] = next
     return prev
@@ -245,7 +248,16 @@ const ExperienceInstructions = ({
   return (
     <div className="ExperienceInstructions">
       <div className="ExperienceInstructions__stepper">
+      <Switch
+        labels={['Steps In Order', 'Can Skip Steps']}
+          size="small"
+          onChange={(e) => {
+            setCanSkipStep(e.target.checked)
+          }}
+          checked={canSkipStep}
+      ></Switch>
       <ActivityVerticalLinearStepper 
+      canSkipStep={canSkipStep}
       steps={[
         {
           id: 'Assign User Roles',
