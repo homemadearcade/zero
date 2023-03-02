@@ -18,10 +18,10 @@ export class ClassStamper extends Phaser.GameObjects.Image {
 
     this.scene = scene
     this.classId = classId
-    this.class = objectClass
+    this.objectClass = objectClass
     this.scene.add.existing(this)
     
-    this.setDisplaySize(this.class.graphics.width, this.class.graphics.height)
+    this.setDisplaySize(this.objectClass.graphics.width, this.objectClass.graphics.height)
     this.scene.addSpriteToTypeLayer(classId, this)
 
     if(objectClass.graphics.tint) {
@@ -33,12 +33,12 @@ export class ClassStamper extends Phaser.GameObjects.Image {
   }
 
   update(pointer) {
-    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.class})
+    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.objectClass})
     this.setPosition(clampedX, clampedY)
   }
 
   stamp(pointer) {
-    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.class})
+    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.objectClass})
     this.scene.addGameObject(this.classId, {
       spawnX: clampedX, 
       spawnY: clampedY
@@ -46,7 +46,7 @@ export class ClassStamper extends Phaser.GameObjects.Image {
   }
 
   getCanvasId() {
-    return this.class.canvasId
+    return this.objectClass.graphics.layerId
   }
 }
 

@@ -56,6 +56,7 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
     case CHANGE_INSTANCE_HOVERING:
       return {
         ...state,
+        instanceDataHovering: payload.data,
         instanceClassIdHovering: payload.classId,
         instanceIdHovering: payload.instanceId
       }

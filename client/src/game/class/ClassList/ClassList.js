@@ -20,7 +20,7 @@ import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClas
 import { directionalClass, jumperClass } from '../../defaultData/players';
 import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
-import { sortByLastSelectedDate } from '../../../utils/editorUtils';
+import { sortByLastEdi, sortByLastEditedDate, sortByLastEditedDatetedDate } from '../../../utils/editorUtils';
 
 const CLASS_MAX = 16
 
@@ -87,7 +87,7 @@ const ClassList = ({
 
   const playerClasses = Object.keys(classes).
     filter(filterClasses(PLAYER_CLASS)). 
-    sort(sortByLastSelectedDate(classes)).
+    sort(sortByLastEditedDate(classes)).
     map(renderClassItem(PLAYER_CLASS)).slice(0, CLASS_MAX -1)
   
   playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS_ADD_IID}>
@@ -101,7 +101,7 @@ const ClassList = ({
 
   const npcClasses = Object.keys(classes).
     filter(filterClasses(NPC_CLASS)).
-    sort(sortByLastSelectedDate(classes)).
+    sort(sortByLastEditedDate(classes)).
     map(renderClassItem(NPC_CLASS)).slice(0, CLASS_MAX -1)
 
   npcClasses.push(<Unlockable interfaceId={NPC_CLASS_ADD_IID}>
@@ -114,7 +114,7 @@ const ClassList = ({
 
   const basicClasses = Object.keys(classes).
     filter(filterClasses(BASIC_CLASS)).
-    sort(sortByLastSelectedDate(classes)).
+    sort(sortByLastEditedDate(classes)).
     map(renderClassItem(BASIC_CLASS)).slice(0, CLASS_MAX -1)
 
 
@@ -128,7 +128,7 @@ const ClassList = ({
 
   const zoneClasses = Object.keys(classes).
     filter(filterClasses(ZONE_CLASS)).
-    sort(sortByLastSelectedDate(classes)).
+    sort(sortByLastEditedDate(classes)).
     map(renderClassItem(ZONE_CLASS)).
     slice(0, CLASS_MAX -1)
 

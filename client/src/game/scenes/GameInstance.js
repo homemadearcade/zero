@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_CLASS, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, OBJECT_INSTANCE_ID_PREFIX, ANIMATION_SPAWN_CLASS_IN_CAMERA } from '../constants';
+import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_CLASS, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, OBJECT_INSTANCE_ID_PREFIX, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -44,7 +44,7 @@ export class GameInstance extends Phaser.Scene {
     this.firstStage = data.firstStage
   }
 
-  runAnimation({type, data}) {
+  runGameInstanceEvent({type, data}) {
     switch(type) {
       case ANIMATION_CAMERA_SHAKE: 
         this.cameras.main.shake(data.intensity)
@@ -53,8 +53,13 @@ export class GameInstance extends Phaser.Scene {
         const jsConfetti = new JSConfetti()
         jsConfetti.addConfetti();
         return
-      case ANIMATION_SPAWN_CLASS_IN_CAMERA: 
+      case EVENT_SPAWN_CLASS_IN_CAMERA: 
         this.spawnObjectInstanceInsidePlayerCamera(data)
+        return
+      case EVENT_SPAWN_CLASS_DRAG_FINISH: 
+        const objectInstance = this.objectInstancesById[data.instanceId]
+        objectInstance.sprite.x = data.x;
+        objectInstance.sprite.y = data.y;
         return
       default: 
         return
@@ -601,7 +606,6 @@ export class GameInstance extends Phaser.Scene {
     const yMix = Math.random() * height;
     const spawnX = x + (yMix);
     const spawnY = y + (xMix);
-    console.log(xMix, yMix)
     this.addObjectInstance(OBJECT_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, classId}, true)
   }
 
@@ -656,11 +660,13 @@ export class GameInstance extends Phaser.Scene {
     if(!this.isPaused) super.update(time, delta)
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
+
     const layerVisibility = gameViewEditor.layerVisibility
 
     this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
     this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
     this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
+
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
     this.stage.update()

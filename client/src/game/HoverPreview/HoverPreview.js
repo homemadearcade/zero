@@ -13,10 +13,9 @@ import { classTypeToDisplayName } from '../defaultData/class';
 import { initialStageId } from '../defaultData';
 import { openGameMetadataModal, openSelectBackgroundColorModal } from '../../store/actions/gameSelectorActions';
 import Button from '../../ui/Button/Button';
-import { getThemePrimaryColor } from '../../utils/webPageUtils';
 import { openClassNameModal } from '../../store/actions/gameFormEditorActions';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
-import { GAME_METADATA_IID, GAME_SNAPSHOT_IID, STAGE_BACKGROUND_COLOR_IID } from '../../constants/interfaceIds';
+import { GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, STAGE_BACKGROUND_COLOR_IID } from '../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import { useWishTheme } from '../../hooks/useWishTheme';
 
@@ -29,6 +28,7 @@ const HoverPreview = ({
     classIdHovering,
     instanceIdHovering,
     instanceClassIdHovering,
+    instanceDataHovering
   },
   gameSelector: {
     brushIdSelectedBrushList,
@@ -111,10 +111,12 @@ const HoverPreview = ({
   }
 
   function renderClassDisplay() {
+    let title = objectClass.name + ' - ' + classTypeToDisplayName[objectClass.type]
+    if(instanceDataHovering?.isSpawned) title += ' (Spawned)'
     return renderDisplay({
       tint: objectClass.graphics.tint,
       textureId: objectClass.graphics.textureId,
-      title: objectClass.name + ' - ' + classTypeToDisplayName[objectClass.type],
+      title,
       onEdit: () => {
         openClassNameModal(objectClass)
       }
@@ -225,17 +227,19 @@ const HoverPreview = ({
     return renderGameTitleDisplay()
   }
 
-  return <div className="HoverPreview"
-    style={{backgroundColor: '#222', color: 'white'}}
-    onMouseEnter={() => {
-      setIsHoveringOverTitle(true)
-    }} 
-    onMouseLeave={() => {
-      setIsHoveringOverTitle(false)
-    }}
-  >
-    {renderBody()}
-  </div>
+  return <Unlockable interfaceId={HOVER_PREVIEW_IID}>
+    <div className="HoverPreview"
+      style={{backgroundColor: '#222', color: 'white'}}
+      onMouseEnter={() => {
+        setIsHoveringOverTitle(true)
+      }} 
+      onMouseLeave={() => {
+        setIsHoveringOverTitle(false)
+      }}
+    >
+      {renderBody()}
+    </div>
+  </Unlockable>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

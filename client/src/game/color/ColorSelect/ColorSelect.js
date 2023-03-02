@@ -55,7 +55,7 @@ const ColorSelect = ({
         }
       } else {
         if(canvasId) {
-          updateBrushLastUsedDate(brushId)
+          // updateBrushLastUsedDate(brushId)
         }
         onSelectColor(hex)
       }

@@ -4,6 +4,7 @@ import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
 import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
 import { editTexture, saveTexture } from "../../store/actions/textureActions";
+import { MARK_TEXTURE_UNSAVED } from "../../store/types";
 
 window.instanceUndoStack = []
 window.spriteEditorUndoStack = []
@@ -16,6 +17,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene.add.existing(this)
 
     this.textureId = textureId
+    this.textureIdMongo = null
 
     this.initialDraw()
 
@@ -39,6 +41,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   save = async ()  => {
     if(!this.isCodrawingHost) return
+    if(!this.strokeHistory.length) return
     return new Promise(async (resolve, reject) => {
       try {    
         const fileId = this.textureId
@@ -50,9 +53,9 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
           }))
         }
         this.strokeHistory = []
-
         const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
-       
+        if(!this.strokeHistory.length) this.markSaved()
+
         await store.dispatch(saveTexture(file, fileId, {
           name: fileId,
           type: 'layer'
@@ -65,13 +68,12 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     })
   }
 
-  debouncedSave = _.debounce(this.save, 180000);
+  debouncedSave = _.debounce(this.save, 6000);
 
   updateTexture = (options) => {
     this.scene.textures.remove(this.textureId)
     this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
     this.scene.load.once('complete', () => {
-      this.unsavedChanges = false
 
       // //sometimes this bugs out
       // this.clear()
@@ -132,15 +134,35 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     }
   }
 
+  markSaved() {
+    this.unsavedChanges = false
+    store.dispatch({
+      type: MARK_TEXTURE_UNSAVED,
+      payload: {
+        textureId: this.textureId,
+        unsaved: false
+      }
+    })
+  }
+
+  markUnsaved() {
+    this.unsavedChanges = true
+    store.dispatch({
+      type: MARK_TEXTURE_UNSAVED,
+      payload: {
+        textureId: this.textureId,
+        unsaved: true
+      }
+    })
+  }
+
   draw(entries, x, y) {
     this.storeRenderTextureForUndoStack()
-    this.unsavedChanges = true
     super.draw(entries, x, y)
   }
 
   erase(entries, x, y) {
     this.storeRenderTextureForUndoStack()
-    this.unsavedChanges = true
     super.erase(entries, x, y)
   }
 

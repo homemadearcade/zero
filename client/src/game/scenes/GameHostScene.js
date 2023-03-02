@@ -2,7 +2,7 @@ import {
   gameInstanceDisconnectedDelta,
 } from '../constants';
 import store from '../../store';
-import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED } from '../../store/types';
+import { ON_GAME_INSTANCE_UPDATE, ON_GAME_MODEL_UPDATE, ON_GAME_INSTANCE_EVENT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED } from '../../store/types';
 import { EditorScene } from './EditorScene';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
 import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
@@ -24,18 +24,18 @@ export class GameHostScene extends EditorScene {
     this.gameInstanceId = props.gameRoom.gameInstanceId
   }
 
-  callAnimation({type, data}) {
-    window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { 
+  callGameInstanceEvent({type, data}) {
+    window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
       gameRoomId: this.gameRoom.id,
       type, 
       data: {...data, fromHost: true}
     })
-    this.runAnimation({type, data})
+    this.runGameInstanceEvent({type, data})
   }
 
-  onGameInstanceAnimation = ({type, data}) => {
+  onGameInstanceEvent = ({type, data}) => {
     if(!data.fromHost) {
-      this.runAnimation({type, data})
+      this.runGameInstanceEvent({type, data})
     }
   }
 
@@ -125,13 +125,13 @@ export class GameHostScene extends EditorScene {
     console.error('creating again...', this.gameInstanceId)
     
     this.startRemoteClientUpdateLoop()
-    window.socket.on(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
+    window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
     window.socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
   }
 
   unregisterEvents() {
-    window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
+    window.socket.off(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     this.clearGameModelUpdate()
     window.socket.off(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
     window.clearInterval(this.remoteClientUpdateInterval)

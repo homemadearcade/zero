@@ -13,6 +13,7 @@ export class ObjectInstance extends Sprite {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
+
     const textureId = objectClass.graphics.textureId || DEFAULT_TEXTURE_ID
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName })
@@ -26,6 +27,7 @@ export class ObjectInstance extends Sprite {
     this.width = objectClass.graphics.width
     this.height = objectClass.graphics.height
     this.sprite.instanceId = instanceId
+    this.sprite.effectSpawned = effectSpawned
     this.effectSpawned = effectSpawned
     this.sprite.classId = classId
     scene.objectInstanceGroup.add(this.sprite)

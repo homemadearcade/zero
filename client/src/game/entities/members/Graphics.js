@@ -25,7 +25,8 @@ export class Graphics {
     }
 
     // EDITOR
-    if(!objectInstance.effectSpawned && this.scene.isEditor) {
+    //!objectInstance.effectSpawned &&
+    if(this.scene.isEditor) {
       sprite.setInteractive();
       scene.input.setDraggable(sprite)
       if(!sprite.frame.name) {

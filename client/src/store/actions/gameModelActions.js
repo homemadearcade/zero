@@ -70,6 +70,13 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const isAutosaveDisabled = gameRoom?.isAutosaveDisabled
 
   try {
+    if(gameUpdate.classes) {
+      Object.keys(gameUpdate.classes).forEach((classId) => {
+        const objectClass = gameUpdate.classes[classId]
+        objectClass.lastEditedDate = Date.now()
+      })
+    }
+
     const options = attachTokenToHeaders(getState);
     await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomId: gameRoom.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
 

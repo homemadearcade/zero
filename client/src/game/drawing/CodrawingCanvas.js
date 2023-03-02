@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import store from "../../store";
 import { Canvas } from "./Canvas";
 
-import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE } from "../../store/types";
+import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_TEXTURE_STROKES_PENDING } from "../../store/types";
 import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/codrawingActions";
 import { noCodrawingStrokeUpdateDelta } from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
@@ -26,14 +26,11 @@ export class CodrawingCanvas extends Canvas {
       this.strokeCheckInterval = setInterval(this.pendingStrokeCheck, noCodrawingStrokeUpdateDelta/5)
       window.socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, ({ strokeId, textureId }) => {
         if(this.textureId !== textureId) return
-        this.strokesPending = this.strokesPending.filter((stroke) => {
-          return stroke.strokeId !== strokeId
-        })
+        this.removePendingStroke(strokeId)
       })
     }
  
     store.dispatch(subscribeCodrawing(this.textureId))
-
 
     // event that is triggered if codrawing has been registered
     window.socket.on(ON_CODRAWING_STROKE, (strokeData) => {
@@ -62,19 +59,50 @@ export class CodrawingCanvas extends Canvas {
     return this
   }
 
-  async addStrokeHistory(strokeData) {
+  removePendingStroke(strokeId) {
+    this.strokesPending = this.strokesPending.filter((stroke) => {
+      return stroke.strokeId !== strokeId
+    })
+    if(this.strokesPending.length === 0) {
+      store.dispatch({
+        type: MARK_TEXTURE_STROKES_PENDING,
+        payload: {
+          textureId: this.textureId,
+          pending: false
+        }
+      })
+    }
+  }
+
+  addPendingStrokes(strokeData) {
+    this.strokesPending.push(strokeData)
+    store.dispatch({
+      type: MARK_TEXTURE_STROKES_PENDING,
+      payload: {
+        textureId: this.textureId,
+        pending: true
+      }
+    })
+  } 
+
+  addStrokeHistory(strokeData) {
     this.strokeHistory.push(strokeData)
+    this.markUnsaved()
     store.dispatch(editTexture(this.textureIdMongo, {
       strokeHistory: this.strokeHistory
     }))
   }
 
   async initializeStrokeHistory() {
+    this.strokeHistory = []
     try{
       const texture = await this.getStrokeHistory()
-      this.strokeHistory = texture.strokeHistory
       this.textureIdMongo = texture.id
-      this.strokeHistory.forEach((strokeData) => {
+      if(texture.strokeHistory.length && this.isCodrawingHost) {
+        this.addStrokeHistory(texture.strokeHistory)
+        this.debouncedSave()
+      }
+      texture.strokeHistory.forEach((strokeData) => {
         this.executeRemoteStroke(strokeData)
       })
     } catch(e) {
@@ -83,11 +111,9 @@ export class CodrawingCanvas extends Canvas {
         if(this.isCodrawingHost) {
           const texture = await this.createStrokeHistory()
           this.textureIdMongo = texture.id
-          this.strokeHistory = []
         } 
       } catch(e) {
         console.log(e, 'couldnt create texture')
-        this.strokeHistory = []
       }
 
     }

@@ -46,8 +46,6 @@ export const changeGameState = (gameState, message) => (dispatch, getState) => {
     }))
   } else {
     dispatch({
-      updateCobrowsing: true,
-      forceCobrowsingUpdate: true,
       type: ON_GAME_ROOM_UPDATE,
       payload: {
         gameRoom: {
@@ -164,7 +162,7 @@ export const editGameRoom = (id, data) => async (dispatch, getState) => {
 
 export const updateGameRoomPlayer = ({userId, gameRoomId, user}) => async (dispatch, getState) => {
   if(!gameRoomId) return 
-  
+
   dispatch({
     type: UPDATE_GAME_ROOM_USER_LOADING,
   });

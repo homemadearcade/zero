@@ -58,11 +58,11 @@ export const ON_LOBBY_USER_STATUS_UPDATE = 'ON_LOBBY_USER_STATUS_UPDATE';
 // Updates Phaser GameClient GameInstance, checks to make sure connection is still established
 export const ON_GAME_INSTANCE_UPDATE = 'ON_GAME_INSTANCE_UPDATE';
 
-// Socket ON_GAME_INSTANCE_ANIMATION
+// Socket ON_GAME_INSTANCE_EVENT
 // FROM: Game Host 
 // TO: Game Client
 // Updates Phaser GameClient Game Instance
-export const ON_GAME_INSTANCE_ANIMATION = 'ON_GAME_INSTANCE_ANIMATION';
+export const ON_GAME_INSTANCE_EVENT = 'ON_GAME_INSTANCE_EVENT';
 
 // Socket ON_GAME_INSTANCE_ACKNOWLEDGED
 // FROM: Game Client

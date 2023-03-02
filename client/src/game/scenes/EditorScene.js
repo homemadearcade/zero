@@ -6,7 +6,7 @@ import { openContextMenuFromGameObject, openStageContextMenu } from '../../store
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom, changeInstanceHovering } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PAUSED_STATE } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -21,8 +21,8 @@ import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
 import { addAwsImage } from '../../store/actions/textureActions';
-import { editGameRoom } from '../../store/actions/gameRoomActions';
 import { updateTheme } from '../../store/actions/themeActions';
+import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -44,6 +44,7 @@ export class EditorScene extends GameInstance {
     this.snapshotEndPos = null
     this.isEditor = true
     this.readyForNextEscapeKey = true
+    this.isMouseOverGame = false
   }
   
   ////////////////////////////////////////////////////////////
@@ -63,7 +64,7 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(entitySprite.effectSpawned) return
+    // if(entitySprite.effectSpawned) return
 
     this.isDragFromContext = false
     if(!document.body.style.cursor) document.body.style.cursor = 'grab'
@@ -85,6 +86,20 @@ export class EditorScene extends GameInstance {
 
   finishDrag(entitySprite) {
     document.body.style.cursor = null
+    if(entitySprite.effectSpawned) {
+      window.socket.emit(ON_GAME_INSTANCE_EVENT, {
+        gameRoomId: this.gameRoom.id, 
+        type: EVENT_SPAWN_CLASS_DRAG_FINISH,
+        data: {
+          x: entitySprite.x,
+          y: entitySprite.y,
+          instanceId: entitySprite.instanceId,
+          hostOnly: true
+        }
+      })
+
+      return
+    }
 
     if(entitySprite.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
       // store.dispatch(editGameModel({ 
@@ -292,11 +307,11 @@ export class EditorScene extends GameInstance {
     const instanceIdHovering = store.getState().gameViewEditor.instanceIdHovering
     const sprite = entitySprite[0]
     if(sprite.instanceId !== instanceIdHovering) {
-      store.dispatch(changeInstanceHovering(sprite.instanceId, sprite.classId))
+      store.dispatch(changeInstanceHovering(sprite.instanceId, sprite.classId, { isSpawned: sprite.effectSpawned }))
     }
 
     sprite.isHoveringOver = true
-    if(entitySprite.effectSpawned) return
+    // if(entitySprite.effectSpawned) return
     // if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
 
@@ -494,10 +509,15 @@ export class EditorScene extends GameInstance {
     }
   }
 
+  onPointerOverGame = () => {
+    this.isMouseOverGame = true
+  }
+
   onPointerLeaveGame = () => {
     // without !this.canvas check we end up with discrepencies in codrawing
     if(this.brush && !this.canvas) this.destroyBrush()
     if(this.stamper) this.destroyStamper()
+    this.isMouseOverGame = false
   }
 
   onPointerOut = (pointer, entitySprite) => {
@@ -924,6 +944,7 @@ export class EditorScene extends GameInstance {
     this.input.on('pointerdownoutside', this.onPointerDownOutside);
     this.input.on('pointermove', this.onPointerMove, this);
     this.input.on('gameout', this.onPointerLeaveGame, this);
+    this.input.on('gameover', this.onPointerOverGame, this);
     this.input.dragDistanceThreshold = 16;
     this.input.on('drag', this.onDragStart);
     this.input.on('dragend', this.onDragEnd);
@@ -1005,6 +1026,16 @@ export class EditorScene extends GameInstance {
       this.isGridViewOn = true
     } else {
       this.isGridViewOn = false
+    }
+
+    const gameSelector = getCobrowsingState().gameSelector
+    if(!this.isMouseOverGame && gameSelector.brushIdSelectedBrushList) {
+      const brush = this.getBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
+      this.backgroundLayer.setVisible(false)
+      this.playgroundLayer.setVisible(false)
+      this.foregroundLayer.setVisible(false)
+      const canvas = this.getLayerByCanvasId(brush.getCanvasId())
+      canvas.setVisible(true)
     }
 
     if(this.isGridViewOn) {

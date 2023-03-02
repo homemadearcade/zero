@@ -23,3 +23,8 @@ SMALL FEATURES TODO
 --------------------------------------------------------------------------------------
 
 Send To Game Overlay Effect
+
+SNACKBARS
+  Change height width of the snackbar to fit with??...vh/vw
+  If internet speed failed, give a shared snackbar. LOBBY EVENT or just messages for now...
+  

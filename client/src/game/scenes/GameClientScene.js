@@ -2,7 +2,7 @@ import {
   gameInstanceDisconnectedDelta,
   PLAYER_INSTANCE_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, STOPPED_STATE,
 } from '../constants';
-import { ON_GAME_INSTANCE_ANIMATION, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
+import { ON_GAME_INSTANCE_EVENT, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
 import store from '../../store';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
@@ -105,23 +105,22 @@ export class GameClientScene extends EditorScene {
     })
   }
 
-  onGameInstanceAnimation = ({type, data}) => {
+  onGameInstanceEvent = ({type, data}) => {
     if(data.hostOnly) return
-    this.runAnimation({type, data})
+    this.runGameInstanceEvent({type, data})
   }
 
   unregisterEvents() {
-    window.socket.off(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
+    window.socket.off(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
         this.clearGameModelUpdate()
-
   }
 
   create() {
     super.create()
     this.pause()
     this.isPaused = true
-    window.socket.on(ON_GAME_INSTANCE_ANIMATION, this.onGameInstanceAnimation)
+    window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
     this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }

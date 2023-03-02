@@ -38,7 +38,8 @@ export const defaultCollisionResponse = {
 
 export const defaultClass = {
   interfaceLocked: false,
-  lastSelectedDate: 0,
+  // lastSelectedDate: 0,
+  lastEditedDate: 0,
   isRemoved: false,
   boundaryRelation: BOUNDARY_COLLIDE,
   classId: null,

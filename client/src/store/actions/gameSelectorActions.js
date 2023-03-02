@@ -40,13 +40,13 @@ import { toggleLayerVisibility } from './gameViewEditorActions';
 export const selectClass = (classId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
-  dispatch(editGameModel({
-    classes: {
-      [classId]: {
-        lastSelectedDate: Date.now()
-      }
-    }
-  }))
+  // dispatch(editGameModel({
+  //   classes: {
+  //     [classId]: {
+  //       lastSelectedDate: Date.now()
+  //     }
+  //   }
+  // }))
 
   dispatch({
     updateCobrowsing: true,
@@ -186,12 +186,10 @@ export const closeGameMetadataModal = () => (dispatch, getState) => {
 }
 
 export const openSetupDefaultsModal = () => (dispatch, getState) => {
-  // externalForceCobrowsingUpdateUserId
   
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SETUP_CHOICES_MODAL,
-    // externalForceCobrowsingUpdateUserId: externalForceCobrowsingUpdateUserId ? externalForceCobrowsingUpdateUserId : null,
     payload: {}
   });
 }

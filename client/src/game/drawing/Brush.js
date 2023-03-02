@@ -97,7 +97,9 @@ export class Brush extends Phaser.GameObjects.Image {
     
     if(this.scene.gameRoom.isNetworked) {
       store.dispatch(publishCodrawingStrokes(strokeData))
-      if(!this.canvas.isCodrawingHost) this.canvas.strokesPending.push(strokeData)
+      if(!this.canvas.isCodrawingHost) {
+        this.canvas.addPendingStrokes(strokeData)
+      }
     } else {
       this.canvas.addStrokeHistory(strokeData)
     }

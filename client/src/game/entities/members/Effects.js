@@ -163,7 +163,7 @@ export class Effects {
     }
 
     if(effect.type === EFFECT_CAMERA_SHAKE) {
-      this.scene.callAnimation({
+      this.scene.callGameInstanceEvent({
         type: ANIMATION_CAMERA_SHAKE,
         data: {
           intensity: 200,

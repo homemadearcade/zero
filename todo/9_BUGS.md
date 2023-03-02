@@ -11,6 +11,8 @@ When the game is paused, it doesnt change relations ( when editing them ) until 
 
 Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
 
+the size of the game edges messes up the mouse preview I believe
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

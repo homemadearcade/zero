@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 const iconMap = {
+  faArrowPointer,
   faPen,
   faCameraRetro,
   faRepeat,
@@ -42,7 +43,6 @@ const iconMap = {
   faCheck,
   faEye,
   faEyeSlash,
-  faArrowPointer,
   faCrown,
   faDownload,
   faUpload,

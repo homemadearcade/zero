@@ -101,8 +101,7 @@ const SpriteEditor = ({
   //     </Button>
   // </Unlockable>)
 
-
-  const isSaving = textureIdSaving === textureId
+  const isSaving = !!textureIdSaving[textureId]
   return (
     <CobrowsingModal open={true} width="110vh" zIndexIncrease={10} height="70vh" onClose={handleClose}>
       <div className="SpriteEditor">

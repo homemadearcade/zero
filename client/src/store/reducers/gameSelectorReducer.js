@@ -27,7 +27,6 @@ import {
   CLOSE_SELECT_AGGREGATE_COLOR
 } from '../types';
 
-// this could be called gameSelectorEditor, is about selecting
 const initialState = {
   error: null,
   colorIdSelected: null,

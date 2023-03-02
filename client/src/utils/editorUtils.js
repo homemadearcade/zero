@@ -142,6 +142,12 @@ export const sortByLastSelectedDate = (objects) => (a, b) => {
   else return -1
 }
 
+export const sortByLastEditedDate = (objects) => (a, b) => {
+  const objectA = objects[a]
+  const objectB = objects[b]
+  if(objectA.lastEditedDate < objectB.lastEditedDate) return 1
+  else return -1
+}
 
 const HEX_CODE_LENGTH = 7
 export function getCanvasIdFromColorId(colorId) {

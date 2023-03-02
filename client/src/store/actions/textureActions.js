@@ -37,11 +37,17 @@ export const saveTexture  = (file, fileId, imageData) => async (dispatch, getSta
     await addAwsImage(file, fileId, imageData)
     dispatch({
       type: SAVE_TEXTURE_SUCCESS,
+      payload: {
+        textureId: fileId,
+      }
     });
   } catch (err) {
     console.error(err)
     dispatch({
       type: SAVE_TEXTURE_FAIL,
+      payload: {
+        textureId: fileId,
+      }
     });
   }
 }
@@ -133,6 +139,7 @@ export const addTexture = (texture) => async (dispatch, getState) => {
       payload: { texture: response.data.texture },
     });
 
+    console.log(response.data)
     return response.data.texture
   } catch (err) {
     console.error(err)

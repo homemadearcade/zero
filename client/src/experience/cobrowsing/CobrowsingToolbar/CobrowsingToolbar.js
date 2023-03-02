@@ -9,7 +9,7 @@ import IconButton from '../../../ui/IconButton/IconButton';
 
 const toolToIcon = {
   [UNLOCK_TOOL]: 'faLockOpen',
-  [OPEN_TOOL]: 'faCrosshairs'
+  [OPEN_TOOL]: 'faArrowPointer'
 }
 
 // faExclamation for notify tool?
@@ -34,7 +34,7 @@ const CobrowsingToolbar = ({cobrowsing: { selectedTool }, selectCobrowsingTool }
     }
 
     return <>
-      <IconButton size="large" icon="faCrosshairs" onClick={() => {
+      <IconButton size="large" icon="faArrowPointer" onClick={() => {
         selectCobrowsingTool(OPEN_TOOL)
         setIsOverClose(false)
       }}/>

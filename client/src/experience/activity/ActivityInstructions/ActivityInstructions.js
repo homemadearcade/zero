@@ -14,13 +14,13 @@ import { unlockInterfaceId } from '../../../store/actions/unlockableInterfaceAct
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
 import { openGameMetadataModal, openSetupDefaultsModal } from '../../../store/actions/gameSelectorActions';
 import { CREDITS_ACTIVITY, GAME_EDITOR_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
-import { ANIMATION_CONFETTI, ANIMATION_SPAWN_CLASS_IN_CAMERA, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
+import { ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../../utils/cobrowsingUtils';
 import store from '../../../store';
 import { setCutAudio, setCutVideo } from '../../../store/actions/videoActions';
 import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
-import { ON_GAME_INSTANCE_ANIMATION } from '../../../store/types';
+import { ON_GAME_INSTANCE_EVENT } from '../../../store/types';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 import { editGameRoom } from '../../../store/actions/gameRoomActions';
@@ -182,9 +182,9 @@ const ExperienceInstructions = ({
         }
       },
       onClickNext: () => {
-        window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { 
+        window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
           gameRoomId: lobby.gameRoomId, 
-          type: ANIMATION_SPAWN_CLASS_IN_CAMERA, 
+          type: EVENT_SPAWN_CLASS_IN_CAMERA, 
           data: {
             classId,
             hostOnly: true
@@ -521,7 +521,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_ANIMATION, { gameRoomId: lobby.gameRoomId, type: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomId: lobby.gameRoomId, type: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },

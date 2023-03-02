@@ -9,8 +9,9 @@ import Button from "../../../ui/Button/Button";
 import Typography from "../../../ui/Typography/Typography";
 import { isLocalHost } from "../../../utils/webPageUtils";
 import AgoraVideoPreview from "../AgoraVideoPreview/AgoraVideoPreview";
+import { ADMIN_ROLE } from "../../../constants";
 
-const AgoraVideoSetup = ({startAgoraVideoCall, bypassAgoraVideoCall, video: { videoTrackId, audioTrackId }}) => {
+const AgoraVideoSetup = ({ auth: { me }, startAgoraVideoCall, bypassAgoraVideoCall, video: { videoTrackId, audioTrackId }}) => {
   const { tracks, ready } = useMicrophoneAndCameraTracks();
   const userTracks = { videoTrack: tracks && tracks[1], audioTrack: tracks && tracks[0] }
   const [videoDevices, audioDevices, setVideoDevice, setAudioDevice] = useChangeAgoraVideoAudio(userTracks)
@@ -36,10 +37,10 @@ const AgoraVideoSetup = ({startAgoraVideoCall, bypassAgoraVideoCall, video: { vi
       }}>
         Enter Lobby with Video
       </Button>
-      {isLocalHost() && <Button onClick={() => {
+      {me?.role === ADMIN_ROLE && <Button onClick={() => {
         bypassAgoraVideoCall()
       }}>
-        Bypass Video
+        Bypass Video Call
       </Button>}
     </div>
   }
@@ -48,7 +49,8 @@ const AgoraVideoSetup = ({startAgoraVideoCall, bypassAgoraVideoCall, video: { vi
 
 
 const mapStateToProps = (state) => ({
-  video: state.video
+  video: state.video,
+  auth: state.auth
 });
 
 export default compose(

@@ -39,14 +39,15 @@ export const changeClassIdHovering = (classId) => (dispatch, getState) => {
   });
 }
 
-export const changeInstanceHovering = (instanceId, classId) => (dispatch, getState) => {
+export const changeInstanceHovering = (instanceId, classId, data) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_INSTANCE_HOVERING,
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
     payload:  {
       instanceId,
-      classId
+      classId,
+      data
     }
   });
 }
