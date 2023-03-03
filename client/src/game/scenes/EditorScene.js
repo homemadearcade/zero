@@ -545,9 +545,9 @@ export class EditorScene extends GameInstance {
   }
 
   onDoubleClick = (pointer) => {
-    store.dispatch(changeEditorCameraZoom(5))
-    this.editorCamera.setZoom(5)
-    this.editorCamera.pan(pointer.worldX, pointer.worldY, 0)
+    // store.dispatch(changeEditorCameraZoom(5))
+    // this.editorCamera.setZoom(5)
+    // this.editorCamera.pan(pointer.worldX, pointer.worldY, 0)
   }
 
   onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -1030,12 +1030,16 @@ export class EditorScene extends GameInstance {
 
     const gameSelector = getCobrowsingState().gameSelector
     if(!this.isMouseOverGame && gameSelector.brushIdSelectedBrushList) {
-      const brush = this.getBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
-      this.backgroundLayer.setVisible(false)
-      this.playgroundLayer.setVisible(false)
-      this.foregroundLayer.setVisible(false)
-      const canvas = this.getLayerByCanvasId(brush.getCanvasId())
-      canvas.setVisible(true)
+      if(!isBrushIdEraser(gameSelector.brushIdSelectedBrushList)) {
+        console.log('??')
+        const brush = this.getBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
+        this.backgroundLayer.setVisible(false)
+        this.playgroundLayer.setVisible(false)
+        this.foregroundLayer.setVisible(false)
+        const canvas = this.getLayerByCanvasId(brush.getCanvasId())
+        canvas.setVisible(true)
+        brush.destroy()
+      }
     }
 
     if(this.isGridViewOn) {
