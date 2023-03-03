@@ -7,13 +7,15 @@ import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import Icon from '../../../ui/Icon/Icon';
 import UserSpeedTestButton from '../UserSpeedTestButton/UserSpeedTestButton';
+import './UserSpeedTestList.scss'
+import { reverse } from 'lodash';
 
-const UserSpeedTest = ({
+const UserSpeedTestList = ({
   user,
 }) => {
-    return <div className="UserSpeedTest">
+    return <div className="UserSpeedTestList">
       <Typography component="h5" variant="h5">Device Speed Tests</Typography>
-      {user.speedTests?.length > 0 && <SpeedTestTable rows={user.speedTests}></SpeedTestTable>}
+      {user.speedTests?.length > 0 && <SpeedTestTable rows={reverse(user.speedTests)}></SpeedTestTable>}
       <UserSpeedTestButton></UserSpeedTestButton>
     </div>
 };
@@ -23,4 +25,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { }),
-)(UserSpeedTest);
+)(UserSpeedTestList);

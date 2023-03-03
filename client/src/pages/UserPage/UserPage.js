@@ -255,7 +255,6 @@ const UserPage = ({
       </div>
       
       <Divider sx={{my: '2rem'}}></Divider>
-      <UserSpeedTestList user={user}></UserSpeedTestList>
 
       {user.role === ADMIN_ROLE && <>
         <Divider sx={{my: '2rem'}}></Divider>
@@ -263,7 +262,7 @@ const UserPage = ({
         {user.id && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_ID} userId={user.id}></UnlockableInterfaceTree>}
       </>}
 
-        <Divider sx={{my: '2rem'}}></Divider>
+      <Divider sx={{my: '2rem'}}></Divider>
       <Typography component="h5" variant="h5">My Games</Typography>
       <GameList>
         {(game) => {
@@ -271,6 +270,10 @@ const UserPage = ({
           return <GameCard game={game} canPlay canPublish canEdit></GameCard>
         }}
       </GameList>
+
+      <Divider sx={{my: '2rem'}}></Divider>
+      <UserSpeedTestList user={user}></UserSpeedTestList>
+
     </Layout>
   );
 };

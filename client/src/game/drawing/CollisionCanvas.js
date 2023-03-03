@@ -89,11 +89,11 @@ export class CollisionCanvas extends CodrawingCanvas {
         return sprite
       }))
 
-      this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.projectileInstances.filter(({classId}) => {
-        return classes[classId].graphics.layerId === PLAYGROUND_CANVAS_ID
-      }).map(({sprite}) => {
-        return sprite
-      }))
+      // this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.projectileInstances.filter(({classId}) => {
+      //   return classes[classId].graphics.layerId === PLAYGROUND_CANVAS_ID
+      // }).map(({sprite}) => {
+      //   return sprite
+      // }))
     } else {
       // console.log('no body yet')
     }
@@ -103,7 +103,7 @@ export class CollisionCanvas extends CodrawingCanvas {
   unregisterColliders() {
     this.scene.physics.world.removeCollider(this.unregisterPlayerCollisions)
     this.scene.physics.world.removeCollider(this.unregisterObjectCollisions)
-    this.scene.physics.world.removeCollider(this.unregisterProjectileCollisions)
+    // this.scene.physics.world.removeCollider(this.unregisterProjectileCollisions)
   }
 }
 

@@ -106,7 +106,8 @@ export class Collider {
       const {event, effect, sidesA, sidesB} = relation
 
       if(event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_START) {
-        const releventInstancesB = [this.scene.playerInstance, ...this.scene.objectInstances, ...this.scene.projectileInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
+        //...this.scene.projectileInstances
+        const releventInstancesB = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
         if(event.classIdB === PLAYER_INSTANCE_ID_PREFIX) {
           releventInstancesB.push(this.scene.playerInstance.sprite)
         }

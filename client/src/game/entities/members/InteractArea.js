@@ -69,17 +69,19 @@ export class InteractArea extends Sprite {
     }).forEach((relation) => {
       const {event, effect} = relation
       if(event.type === ON_INTERACT) {
-        const releventInstancesB = [...this.scene.objectInstances, ...this.scene.projectileInstances].filter((objectInstance) => objectInstance.classId === event.classIdB)
+        //[...this.scene.objectInstances, ...this.scene.projectileInstances]
+        const releventInstancesB = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdB)
         const releventSpritesB = releventInstancesB.map(({sprite}) => sprite)
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesB, (a, b) => {
             if(this.paused) return
             if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
-            this.interactables.push({entitySprite: b, relation: { ...relation, effect: {...effect, effectInteractable: false}}})
+            this.interactables.push({entitySprite: b, relation: { relation, effect: {...effect, effectInteractable: false}}})
           })
         )
 
-        const releventInstancesA = [...this.scene.objectInstances, ...this.scene.projectileInstances].filter((objectInstance) => objectInstance.classId === event.classIdA)
+        //[...this.scene.objectInstances, ...this.scene.projectileInstances]
+        const releventInstancesA = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdA)
         const releventSpritesA = releventInstancesA.map(({sprite}) => sprite)
         this.unregisters.push(
           this.scene.physics.add.overlap(this.sprite, releventSpritesA, (a, b) => {

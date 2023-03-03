@@ -173,8 +173,8 @@ export class GameInstance extends Phaser.Scene {
     const projectile = new ProjectileInstance(this, instanceId, { classId })
     this.projectileInstances.push(projectile)
     this.projectileInstancesById[instanceId] = projectile
-    this.unregisterRelations()
-    this.registerRelations()
+    // this.unregisterRelations()
+    // this.registerRelations()
     return projectile
   }
 
@@ -291,9 +291,9 @@ export class GameInstance extends Phaser.Scene {
       instance.registerRelations()
     })
 
-    this.projectileInstances.forEach((instance) => {
-      instance.registerRelations()
-    })
+    // this.projectileInstances.forEach((instance) => {
+    //   instance.registerRelations()
+    // })
 
     /// COLLIDERS
     this.playerInstance.registerColliders()
@@ -331,9 +331,9 @@ export class GameInstance extends Phaser.Scene {
       instance.unregister()
     })
 
-    this.projectileInstances.forEach((instance) => {
-      instance.unregister()
-    })
+    // this.projectileInstances.forEach((instance) => {
+    //   instance.unregister()
+    // })
 
     this.unregisterColliders.forEach((fx) =>  {
       this.physics.world.removeCollider(fx)

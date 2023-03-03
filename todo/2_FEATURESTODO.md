@@ -24,6 +24,8 @@ SMALL FEATURES TODO
 
 Send To Game Overlay Effect
 
+Add the Edit _, Edit _ underneath the Hover Preview when an object is selected, maybe also give that a border
+
 SNACKBARS
   Change height width of the snackbar to fit with??...vh/vw
   If internet speed failed, give a shared snackbar. LOBBY EVENT or just messages for now...

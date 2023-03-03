@@ -16,6 +16,16 @@ the size of the game edges messes up the mouse preview I believe
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
+PERFORMANCE
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+
+I think potentially we need to the limit the amount of projectiles or like you can turn projectiles into active objects or not. Some projectiles just straight up dont do anything. Object Instance vs Projectile Instance. It was only when I added projectiles that there was a problem.
+
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 WATCHING THESE BUGS
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -44,3 +54,4 @@ Fix with Cobrowsing?? right now broken af when switching between two different u
 if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
 
 undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by texture Id not ... canvas id?
+
