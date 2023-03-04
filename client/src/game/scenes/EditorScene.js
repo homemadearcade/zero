@@ -1031,8 +1031,8 @@ export class EditorScene extends GameInstance {
     const gameSelector = getCobrowsingState().gameSelector
     if(!this.isMouseOverGame && gameSelector.brushIdSelectedBrushList) {
       if(!isBrushIdEraser(gameSelector.brushIdSelectedBrushList)) {
-        console.log('??')
         const brush = this.getBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
+        this.stage.backgroundColorLayer.setVisible(false)
         this.backgroundLayer.setVisible(false)
         this.playgroundLayer.setVisible(false)
         this.foregroundLayer.setVisible(false)

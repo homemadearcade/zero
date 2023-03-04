@@ -44,7 +44,7 @@ const ClassList = ({
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
     if(currentClass.interfaceLocked) {
-      return <Unlockable interfaceIdPrefix={classType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentClass.name.replace(/\s+/g, '')}>
+      return <Unlockable interfaceIdPrefix={classType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentClass.classId}>
         {el}
       </Unlockable>
     } else {

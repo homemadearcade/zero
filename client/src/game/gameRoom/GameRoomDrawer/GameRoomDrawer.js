@@ -35,6 +35,9 @@ const GameRoomDrawer = ({
         }}>
           <Icon icon="faBars"/>
         </div>}
+        <CobrowsingIndicator/>
+        <GameRoomPowerIndicator/>
+        <ConstellationToggle/>
         {currentActivity === GAME_EDITOR_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Autosave Disabled</Typography>
@@ -48,9 +51,6 @@ const GameRoomDrawer = ({
             checked={isAutosaveDisabled}
           />
         </div>}
-        <CobrowsingIndicator/>
-        <GameRoomPowerIndicator/>
-        <ConstellationToggle/>
       </div>
       <Drawer anchor="right" isOpen={isDrawerOpen} onClose={() => 
         setIsDrawerOpen(false)

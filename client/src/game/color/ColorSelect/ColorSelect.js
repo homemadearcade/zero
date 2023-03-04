@@ -36,7 +36,7 @@ const ColorSelect = ({
   }, [])
 
   const defaultColors = [
-    '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
+    '#FFFFFF', '#000000', '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
   ]
 
   const border = '1px solid ' + useWishTheme().primaryColor.hexString

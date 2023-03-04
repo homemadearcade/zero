@@ -7,11 +7,19 @@ KNOWN BUGS
 --------------------------------------------------------------------------------------
 
 When the game is paused, it doesnt change relations ( when editing them ) until the next reload?
-  If game is paused and theres a relation update then reload the game... again
+  If game is paused and theres a relation update then reload the game... again?
 
 Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
 
-the size of the game edges messes up the mouse preview I believe
+the size of the game edges messes up the cobrowsing mouse
+
+---
+
+Just have a thing that prevents it from spawning near the edge?
+Wtf is up with this spawning bs?? Why the corner??
+Have Player Camera Area be a Zone?
+
+---
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -20,8 +28,6 @@ PERFORMANCE
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-
-I think potentially we need to the limit the amount of projectiles or like you can turn projectiles into active objects or not. Some projectiles just straight up dont do anything. Object Instance vs Projectile Instance. It was only when I added projectiles that there was a problem.
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -35,11 +41,6 @@ Stopping a bunch destroyed the playground
 
 BETTER REDIRECT ( cuz its broken sometimes )
   So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
-
-IF KEY ISSUES PERSIST
-set Interval for keyboard capture issue?
-Can Phaser just register keys without taking them over??
-
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

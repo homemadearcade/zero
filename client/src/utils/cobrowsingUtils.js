@@ -2,7 +2,7 @@ import store from "../store"
 
 export function getRemoteStatePackage(state) {
   return {
-    video: state.video,
+    // video: state.video,
     gameSelector: state.gameSelector,
     gameFormEditor: state.gameFormEditor,
     gameViewEditor: state.gameViewEditor,
@@ -25,8 +25,8 @@ export function mapCobrowsingState(state, props, options) {
         prev[propName] = remoteState.gameSelector
       } else if(propName === 'gameFormEditor') {
         prev[propName] = remoteState.gameFormEditor
-      } else if(propName === 'video') {
-        prev[propName] = remoteState.video
+      // } else if(propName === 'video') {
+        // prev[propName] = remoteState.video
       } else if(propName === 'gameViewEditor') {
         prev[propName] = remoteState.gameViewEditor
       } else if(propName === 'unlockableInterfaceIds') {
@@ -73,7 +73,7 @@ export function getCobrowsingState(options) {
       gameSelector: remoteState.gameSelector,
       gameViewEditor: remoteState.gameViewEditor,
       gameFormEditor: remoteState.gameFormEditor,
-      video: remoteState.video,
+      // video: remoteState.video,
       playerInterface: remoteState.playerInterface,
       unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
       errors: remoteState.errors,

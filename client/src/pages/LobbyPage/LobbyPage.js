@@ -23,7 +23,7 @@ import ActivityView from '../../experience/activity/ActivityView/ActivityView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
 import MultiplayerGameRoomContext from '../../hoc/MultiplayerGameRoomContext';
-import { ADMIN_ROLE } from '../../constants';
+import { ADMIN_ROLE, WAITING_ACTIVITY } from '../../constants';
 
 const LobbyPage = ({
   lobby: { lobby },
@@ -66,7 +66,7 @@ const LobbyPage = ({
           </CobrowsingSession>
         </MultiplayerGameRoomContext>
         <LobbyErrorStates/>
-        <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
+       {lobby.currentActivity !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
       </Route>
     </RouterSwitch>
 };

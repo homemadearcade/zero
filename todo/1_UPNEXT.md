@@ -6,7 +6,7 @@ UPLOAD PHOTOS
   Agora User Video, have it load a user and have it like upload it as a profile pic??
 
 VIDEO CALL BLOCKING
-  End Call for everyone in lobby, End call for self
+  End Call for everyone in lobby, End call for self also
 
 PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A CLASS
 

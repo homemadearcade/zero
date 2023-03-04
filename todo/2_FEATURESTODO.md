@@ -6,9 +6,22 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-TAGS
+RELATIONS v2 - Tags
   Implement/TRANSFORM the Relation editor into a tags system. Without breaking changes
   Each class has its own tag automatically
+  Also - Relations Effect Array instead of just one effeect
+  Send To Game Overlay Effect
+  Better Shorthand for relations
+
+  PROJECTILES/SPAWNED
+  Relationship level
+    None
+    Player
+    All
+  Collison Level
+    None
+    Player
+    All
 
 LIBRARY
   Be able to open class library classes from some sort of class bucket thing. Start with context menu?
@@ -22,11 +35,15 @@ SMALL FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-Send To Game Overlay Effect
+KEY ISSUES HAVE PERSISTED
+  set Interval for keyboard capture issue?
+  Can Phaser just register keys without taking them over??
+  Do we have to release inputs?
 
-Add the Edit _, Edit _ underneath the Hover Preview when an object is selected, maybe also give that a border
+TYPE
+  Change .type to .interface. Thats what they are... things that tell you how to interface with the class. Think about other interface options such as movementInterface, controlledMovementInterface, jumpInterface, effectInterface, cutsceneInterface, effectInterface
+  REMOVE .type === from any GAME LOGIC, Class.type is PURELY FOR UI
+  swap all the objects to correct game layers when it changes so we can use the layers correctly for visibility and for taking pictures...
 
-SNACKBARS
-  Change height width of the snackbar to fit with??...vh/vw
-  If internet speed failed, give a shared snackbar. LOBBY EVENT or just messages for now...
-  
+LAYERS
+  Layer textures need to be created when a game is created. FOR SURE. Because I think thats why it was out of sync? I at least want to remove that from being a possibility

@@ -1,4 +1,3 @@
-import Phaser from "phaser";
 import store from "../../store";
 import { Canvas } from "./Canvas";
 

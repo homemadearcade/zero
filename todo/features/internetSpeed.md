@@ -3,6 +3,13 @@ INTERNET SPEED STUFF
 
 Internet speed stuff
 
+--
+
+PERFORMANCE TEST 
+Run other games in the background during test….? Performance test?
+
+--
+
 Warning, if this is the internet connection you are using. Its not fast enough
 
 The internet you are using right now, works great! 
