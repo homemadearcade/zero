@@ -6,7 +6,7 @@ import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
 import { getOppositeRelationClassId } from '../../../utils/gameUtils';
-import { classTypeToDisplayName } from '../../defaultData/class';
+import { classTypeToDisplayName } from '../../constants';
 
 const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType }) => {
   const mapClassToOption = (collidingClassId) => {

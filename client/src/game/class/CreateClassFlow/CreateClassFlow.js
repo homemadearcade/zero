@@ -13,7 +13,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getClassDisplayName } from '../../../utils/gameUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { classTypeToDisplayName } from '../../defaultData/class';
+import { classTypeToDisplayName } from '../../constants';
 import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';

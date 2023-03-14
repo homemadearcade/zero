@@ -9,13 +9,13 @@ import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovementPattern';
 import SelectControls from '../../ui/SelectControls/SelectControls';
-import { movementToParemeters } from '../../defaultData/movement';
+import { movementToParemeters } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import { PLAYER_CLASS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_TYPE_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_PATTERN_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, PHYSICS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 import SelectClass from '../../ui/SelectClass/SelectClass';
-import { controlledMovementToParemeters } from '../../defaultData';
+import { controlledMovementToParemeters } from '../../constants';
 
 const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()

@@ -1,4 +1,4 @@
-import { DIRECTIONAL_CONTROLS, CAR_CONTROLS, JUMP_GROUND, VEHICLE_CONTROLS, ADVANCED_DIRECTIONAL_CONTROLS, JUMP_NONE } from "../constants"
+import { DIRECTIONAL_CONTROLS, CAR_CONTROLS, JUMP_GROUND, VEHICLE_CONTROLS, ADVANCED_DIRECTIONAL_CONTROLS, JUMP_NONE } from "../"
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

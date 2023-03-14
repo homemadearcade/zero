@@ -1,4 +1,4 @@
-import { IMAGE_AND_TEXT_CUTSCENE } from "../constants";
+import { IMAGE_AND_TEXT_CUTSCENE } from "../";
 
 export const defaultCutscene = {
   // pauseGame: true,

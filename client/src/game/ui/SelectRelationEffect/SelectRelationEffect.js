@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { persistentEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../defaultData/relationship';
+import { persistentEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../constants';
 import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 

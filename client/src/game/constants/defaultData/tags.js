@@ -1,4 +1,4 @@
-import { TAG_ID_PREFIX } from "../constants"
+import { TAG_ID_PREFIX } from "../"
 
 export const defaultTag = {
   isClassTag: null,

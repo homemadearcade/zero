@@ -1,13 +1,14 @@
 import store from "../../../store"
-import { ANIMATION_CAMERA_SHAKE, EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
+import { ANIMATION_CAMERA_SHAKE, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
-import { nonRemoteEffects } from "../../defaultData/relationship";
+import { nonRemoteEffects } from "../../constants";
 import { isZoneClassId } from "../../../utils/gameUtils";
 import { changeCurrentStage } from "../../../store/actions/gameModelActions";
-import { changeGameState } from "../../../store/actions/gameRoomActions";
+import { changeGameState, editGameRoom } from "../../../store/actions/gameRoomActions";
 import _ from "lodash";
+import { updateLobbyUser } from "../../../store/actions/lobbyActions"
 
 export class Effects {
   constructor(scene, objectInstance){
@@ -180,7 +181,16 @@ export class Effects {
     } else if(effect.type === EFFECT_SWITCH_STAGE) {
       store.dispatch(changeCurrentStage(effect.stageId))
       store.dispatch(clearCutscenes())
-    }
+    } else if(effect.type === EFFECT_CHANGE_GAME) {
+      store.dispatch(editGameRoom(this.scene.gameRoom.id, {
+        gameId: effect.gameId
+      }))
+    } else if(effect.type === EFFECT_OPEN_OVERLAY) {
+      const state = store.getState()
+      store.dispatch(updateLobbyUser(state.auth.me?.id, {
+        inConstellationView: true
+      }))
+    } 
 
     if(effect.type === EFFECT_TELEPORT) {
       const gameModel = store.getState().gameModel.gameModel

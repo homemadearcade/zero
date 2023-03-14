@@ -9,7 +9,7 @@ import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID, NON_LAYER_COLOR_I
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { nodeSize } from '../../defaultData/general';
+import { nodeSize } from '../../constants';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../../brush/BrushControl/BrushControl';
 import { clearBrush, closeSpriteEditor, selectBrush } from '../../../store/actions/gameSelectorActions';

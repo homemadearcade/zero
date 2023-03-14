@@ -93,6 +93,9 @@ router.post('/', requireJwtAuth, async (req, res) => {
       tags: req.body.tags,
       cutscenes: req.body.cutscenes,
       relations: req.body.relations,
+      tags: req.body.tags,
+      events: req.body.events,
+      effects: req.body.effects,
       awsImages: req.body.awsImages,
       nodeSize: req.body.nodeSize, 
       owner: req.body.userId,
@@ -169,6 +172,27 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       }
     });
 
+    Object.keys(updatedGame.events).forEach(key => {
+      if (updatedGame.events[key] === null || updatedGame.events[key] === undefined) {
+        console.log('deleting event', key)
+        delete updatedGame.events[key];
+      }
+    });
+
+    Object.keys(updatedGame.effects).forEach(key => {
+      if (updatedGame.effects[key] === null || updatedGame.effects[key] === undefined) {
+        console.log('deleting effect', key)
+        delete updatedGame.effects[key];
+      }
+    });
+
+    Object.keys(updatedGame.tags).forEach(key => {
+      if (updatedGame.tags[key] === null || updatedGame.tags[key] === undefined) {
+        console.log('deleting effect', key)
+        delete updatedGame.tags[key];
+      }
+    });
+
     const { error } = validateArcadeGame(updatedGame);
     if (error) return res.status(400).json({ message: error.details[0].message });
   
@@ -183,7 +207,10 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       cutscenes: updatedGame.cutscenes,
       awsImages: updatedGame.awsImages,
       nodeSize: updatedGame.nodeSize, 
+      tags: updatedGame.tags,
       relations: updatedGame.relations, 
+      events: updatedGame.events, 
+      effects: updatedGame.effects, 
       isRemoved: updatedGame.isRemoved,
       stages: updatedGame.stages
       // user: tempGame.owner ? tempGame.owner.id : Math.random()

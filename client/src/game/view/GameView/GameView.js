@@ -9,7 +9,7 @@ import './GameView.scss';
 import { GAME_INSTANCE_ID_PREFIX, noPhaserUpdateDelta, PRELOADER_SCENE } from '../../constants';
 import { DEFAULT_THEME_COLOR, PHASER_ERROR } from '../../../constants';
 
-import { gameSize } from '../../defaultData/general';
+import { gameSize } from '../../constants';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { setGameInstance } from '../../../store/actions/webPageActions';
 

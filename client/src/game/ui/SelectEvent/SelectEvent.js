@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEvent.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { eventDisplayNames, getEventLabel, singleClassEvents } from '../../defaultData/relationship';
+import { eventDisplayNames, getEventLabel, singleClassEvents } from '../../constants';
 import { capitalize } from '../../../utils/utils';
 import { getClassAandB } from '../../../utils/gameUtils';
 import { ON_INTERACT } from '../../constants';

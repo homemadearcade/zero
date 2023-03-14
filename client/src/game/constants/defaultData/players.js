@@ -1,9 +1,9 @@
-import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS, PLAYER_CLASS_TYPE_PREFIX } from "../constants"
+import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS, PLAYER_CLASS_TYPE_PREFIX } from "../"
 import { defaultClass, defaultPlayerClass } from "./class"
 import { directionalDefaults, advancedDirectionalDefaults } from "./controlledMovement"
 import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"
 import { vehicleDefaults } from "./controlledMovement"
-import { mergeDeep } from "../../utils/utils"
+import { mergeDeep } from "../../../utils/utils"
 import _ from "lodash"
 
 export const vehiclePlayerClassId = OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'vehicle'

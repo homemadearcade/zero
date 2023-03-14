@@ -13,8 +13,8 @@ import { editGameModel } from '../../store/actions/gameModelActions';
 import { BOUNDARY_COLLIDE, BOUNDARY_WRAP } from '../constants';
 import Button from '../../ui/Button/Button';
 import RadioGroupColumn from '../../ui/RadioGroupColumn/RadioGroupColumn';
-import { directionalPlayerClassId, jumperPlayerClassId } from '../defaultData/players';
-import { initialStageId } from '../defaultData/stage';
+import { directionalPlayerClassId, jumperPlayerClassId } from '../constants';
+import { initialStageId } from '../constants';
 
 const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel: { gameModel, currentStageId }}) => {
   function handleClose() {

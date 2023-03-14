@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectClassType.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { classTypeToDisplayName } from '../../defaultData';
+import { classTypeToDisplayName } from '../../constants';
 
 const SelectClassType = ({ onChange, value, formLabel }) => {
   const mapClassTypeToOption = (classType) => {

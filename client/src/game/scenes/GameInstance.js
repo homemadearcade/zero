@@ -10,12 +10,12 @@ import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
-import { initialPlayerSpawnZone } from '../defaultData/stage';
+import { initialPlayerSpawnZone } from '../constants';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
 import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomActions';
 import { generateUniqueId } from '../../utils/webPageUtils';
-import { directionalPlayerClassId } from '../defaultData';
+import { directionalPlayerClassId } from '../constants';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {

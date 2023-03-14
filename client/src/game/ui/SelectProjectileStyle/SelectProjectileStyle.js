@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectProjectileStyle.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { PROJECTILE_DOWN, PROJECTILE_UP, PROJECTILE_LEFT, PROJECTILE_RIGHT, PROJECTILE_RANDOM_DIRECTION, PROJECTILE_TARGET_CLASS, PROJECTILE_TARGET_PLAYER, PROJECTILE_NONE, PROJECTILE_RANDOM_ANGLE } from '../../constants';
-// import { defaultProjectile } from '../../defaultData/projectile';
+// import { defaultProjectile } from '../../constants';
 
 // const projectileValues = {
 //   [PROJECTILE_DOWN]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_DOWN } },

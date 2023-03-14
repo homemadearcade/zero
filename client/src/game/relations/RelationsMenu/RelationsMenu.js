@@ -8,8 +8,8 @@ import { closeRelationsMenu, openCreateRelation, openBoundaryRelation } from '..
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
-import { getEffectLabel, getEventPreviewLabel } from '../../defaultData/relationship';
-import { getBoundaryRelationLabel } from '../../defaultData/stage';
+import { getEffectLabel, getEventPreviewLabel } from '../../constants';
+import { getBoundaryRelationLabel } from '../../constants';
 import { EFFECT_COLLIDE, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';

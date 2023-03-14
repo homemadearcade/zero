@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectBoundaryEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { } from '../../defaultData/relationship';
-import { getBoundaryRelationLabel, boundaryRelationsDisplayNames } from '../../defaultData/stage';
+import { } from '../../constants';
+import { getBoundaryRelationLabel, boundaryRelationsDisplayNames } from '../../constants';
 
 const SelectBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
   const objectClass = gameModel.classes[classId]

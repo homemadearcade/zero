@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { defaultRelationship } from '../../game/defaultData';
-import { defaultStage } from '../../game/defaultData/stage';
+import { defaultRelationship } from '../../game/constants';
+import { defaultStage } from '../../game/constants';
 import { mergeDeep } from '../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,

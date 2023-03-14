@@ -14,7 +14,7 @@ import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import SelectEvent from '../../ui/SelectEvent/SelectEvent';
 import SelectRelationEffect from '../../ui/SelectRelationEffect/SelectRelationEffect';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultRelationship, effectEditInterface, nonRemoteEffects } from '../../defaultData/relationship';
+import { defaultRelationship, effectEditInterface, nonRemoteEffects } from '../../constants';
 import { TextField } from '@mui/material';
 import { EFFECT_SPAWN, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, RELATION_ID_PREFIX, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
@@ -25,6 +25,7 @@ import Typography from '../../../ui/Typography/Typography';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import SelectStage from '../../ui/SelectStage/SelectStage';
 import { RELATION_ADVANCED_CONTAINER_IID, RELATION_ADVANCED_DELAY_INTERVAL_IID, RELATION_ADVANCED_IGNORE_SIDES_IID, RELATION_ADVANCED_REMOTE_EFFECTED_IID, RELATION_DELAY_EFFECT_IID, RELATION_ONLY_ONCE_IID, RELATION_PICK_RANDOM_ZONE_IID } from '../../../constants/interfaceIds';
+import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
 
 /*
 
@@ -151,6 +152,18 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
       )
     }
 
+    if(editForms.gameId) {
+      forms.push(<SelectGame
+        key={relation.event.classIdA + 'effectGameId'}
+        formLabel={editForms.gameId}
+        value={relation.effect.gameId ? [relation.effect.gameId] : []}
+        onChange={(event, games) => {
+          const newGameId = games[games.length-1]
+          handleEffectChange('gameId', newGameId)
+        }}/>
+      )
+    }
+
     if(editForms.text) {
       forms.push(<TextField key={"relation/text"}  multiline value={relation.effect.text} onChange={(e) => {
         handleEffectChange('text', e.target.value)
@@ -235,7 +248,7 @@ const CreateRelation = ({ closeCreateRelation, editGameModel, updateCreateRelati
           sidesA: sides
         })
       }}/>
-            <SelectSides
+      <SelectSides
        key="relation/sidesB"
       formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
       value={relation.sidesB ? relation.sidesB : []}

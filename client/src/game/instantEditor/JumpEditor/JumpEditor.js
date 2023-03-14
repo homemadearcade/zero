@@ -7,12 +7,12 @@ import './JumpEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import { advancedDirectionalDefaults } from '../../defaultData/controlledMovement';
+import { advancedDirectionalDefaults } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import { PLAYER_CLASS, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumping from '../../ui/SelectJump/SelectJumping';
-import { jumpStyleToParemeters } from '../../defaultData/jumping';
+import { jumpStyleToParemeters } from '../../constants';
 import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_STYLE_IID, MOVEMENT_CONTROLS_TYPE_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 
 const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {

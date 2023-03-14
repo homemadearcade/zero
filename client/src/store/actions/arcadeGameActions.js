@@ -24,13 +24,13 @@ import {
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
-import { defaultGameModel } from '../../game/defaultData/gameModel';
-import { defaultObjectInstance } from '../../game/defaultData/object';
-import { defaultClass, libraryClassAugment } from '../../game/defaultData/class';
+import { defaultGameModel } from '../../game/constants';
+import { defaultObjectInstance } from '../../game/constants';
+import { defaultClass, libraryClassAugment } from '../../game/constants';
 import store from '..';
 import {  BRUSH_ID_PREFIX, NON_LAYER_BRUSH_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
-import { defaultStage } from '../../game/defaultData/stage';
+import { defaultStage } from '../../game/constants';
 import { classLibrary } from '../../game/classLibrary';
 
 function addDefaultsToGameModel(gameData, oldGameData) {
@@ -145,6 +145,20 @@ function cleanGameModel(gameData) {
     if (gameData.relations[key] === null || gameData.relations[key] === undefined) {
       console.log('deleting relation', key)
       delete gameData.relations[key];
+    }
+  });
+
+  Object.keys(gameData.effects).forEach(key => {
+    if (gameData.effects[key] === null || gameData.effects[key] === undefined) {
+      console.log('deleting effect', key)
+      delete gameData.effects[key];
+    }
+  });
+  
+  Object.keys(gameData.events).forEach(key => {
+    if (gameData.events[key] === null || gameData.events[key] === undefined) {
+      console.log('deleting event', key)
+      delete gameData.events[key];
     }
   });
 }

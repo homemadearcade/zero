@@ -4,8 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SpeedTestTable from '../../../ui/SpeedTestTable/SpeedTestTable';
 import Typography from '../../../ui/Typography/Typography';
-import Button from '../../../ui/Button/Button';
-import Icon from '../../../ui/Icon/Icon';
 import UserSpeedTestButton from '../UserSpeedTestButton/UserSpeedTestButton';
 import './UserSpeedTestList.scss'
 import { reverse } from 'lodash';

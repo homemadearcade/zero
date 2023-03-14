@@ -1,4 +1,4 @@
-import { JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE, JUMP_AIR, ADVANCED_DIRECTIONAL_CONTROLS } from "../constants"
+import { JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE, JUMP_AIR, ADVANCED_DIRECTIONAL_CONTROLS } from "../"
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

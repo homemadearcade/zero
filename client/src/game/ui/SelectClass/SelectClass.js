@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectClass.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { PLAYER_CLASS, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
-import { classTypeToDisplayName } from '../../defaultData/class';
+import { classTypeToDisplayName } from '../../constants';
 
 const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classType, includePlayerInstance }) => {
 

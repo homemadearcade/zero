@@ -16,8 +16,8 @@ import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordia
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClass } from '../../defaultData/class';
-import { directionalClass, jumperClass } from '../../defaultData/players';
+import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClass } from '../../constants';
+import { directionalClass, jumperClass } from '../../constants';
 import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
 import { sortByLastEdi, sortByLastEditedDate, sortByLastEditedDatetedDate } from '../../../utils/editorUtils';

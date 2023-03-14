@@ -13,7 +13,7 @@ import { ClassStamper } from '../drawing/ClassStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { gameSize, nodeSize } from '../defaultData/general';
+import { gameSize, nodeSize } from '../constants';
 import { urlToFile } from '../../utils/utils';
 import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';

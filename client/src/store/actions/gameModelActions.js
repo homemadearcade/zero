@@ -16,7 +16,7 @@ import {
 } from '../types';
 import _ from 'lodash';
 import { uploadToAws } from '../../utils/networkUtils';
-import { getSpritesByDescriptor } from '../../game/defaultData/descriptors';
+import { getSpritesByDescriptor } from '../../game/constants';
 import store from '..';
 import { onArcadeGameModelUpdate } from './arcadeGameActions';
 

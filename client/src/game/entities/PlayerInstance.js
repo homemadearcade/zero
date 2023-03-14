@@ -7,7 +7,7 @@ import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
 import { PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
-import { nodeSize } from "../defaultData/general";
+import { nodeSize } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
   constructor(scene, instanceId, instanceData){

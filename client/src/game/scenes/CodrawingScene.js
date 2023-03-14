@@ -3,7 +3,7 @@ import { isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { nodeSize } from '../defaultData/general';
+import { nodeSize } from '../constants';
 import { BACKGROUND_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, UI_CANVAS_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
