@@ -6,7 +6,8 @@ import {
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  UPDATE_ACCORDIAN_LIST,
+  UPDATE_OPEN_LIST,
+  UPDATE_NESTED_LIST,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
   OPEN_SELECT_BACKGROUND_COLOR,
@@ -39,9 +40,7 @@ const initialState = {
   isSelectBackgroundColorModalOpen: false,
   isGameMetadataModalOpen: false,
   isSetupDefaultsModalOpen: false,
-  accordianLists: {
-    'BrushList': null,
-    'ClassList': null
+  openLists: {
   },
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
@@ -84,12 +83,12 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         brushIdSelectedBrushList: null
       }
-    case UPDATE_ACCORDIAN_LIST:
+    case UPDATE_OPEN_LIST:
       return {
         ...state,
-        accordianLists: {
-          ...state.accordianLists,
-          [payload.accordianListId]: payload.accordianListValue
+        openLists: {
+          ...state.openLists,
+          [payload.openListId]: payload.openListValue
         }
       };
     case UPDATE_VERTICAL_LINEAR_STEPPER:

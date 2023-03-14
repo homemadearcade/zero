@@ -10,7 +10,7 @@ import {
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  UPDATE_ACCORDIAN_LIST,
+  UPDATE_OPEN_LIST,
   OPEN_SPRITE_EDITOR,
   CLOSE_SPRITE_EDITOR,
   OPEN_SELECT_BACKGROUND_COLOR,
@@ -18,8 +18,6 @@ import {
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
-  OPEN_CLASS_NAME_MODAL,
-  CLOSE_CLASS_NAME_MODAL,
   OPEN_SETUP_CHOICES_MODAL,
   CLOSE_SETUP_CHOICES_MODAL,
   OPEN_MY_SPRITES_MODAL,
@@ -244,16 +242,17 @@ export const closeLiveEditor = () => (dispatch, getState) => {
   });
 }
 
-export const updateAccordianList = (id, value) => (dispatch, getState) => {
+export const updateOpenList = (id, value) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: UPDATE_ACCORDIAN_LIST,
+    type: UPDATE_OPEN_LIST,
     payload: {
-      accordianListId: id,
-      accordianListValue: value
+      openListId: id,
+      openListValue: value
     }
   });
 }
+
 
 export const updateVerticalLinearStepper = (id, value) => (dispatch, getState) => {
   dispatch({

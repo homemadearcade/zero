@@ -28,7 +28,9 @@ export const EFFECT_CHANGE_GAME = 'EFFECT_CHANGE_GAME'
 export const defaultEffect = {
   type: '',
   effectedType: null,
-  remoteEffectedClassId: null,
+  effectInstanceA: false,
+  effectInstanceB: false,
+  remoteEffectedTag: null,
   spawnClassId: null,
   classId: null,
   zoneClassId: null,

@@ -13,8 +13,8 @@ export const ON_CUTSCENE_END = 'ON_CUTSCENE_END'
 
 export const defaultEvent = {
   type: '',
-  classIdA: null,
-  classIdB: null,
+  tagIdA: null,
+  tagIdB: null,
   onlyOnce: false,
   delayInterval: null,
   // relationId: null,

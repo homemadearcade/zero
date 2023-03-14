@@ -37,7 +37,8 @@ import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
 import HoverPreview from '../../HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
-import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
+import GameplayDataList from '../../gameplay/GameplayDataList/GameplayDataList';
+// import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
   classNames, 
@@ -102,6 +103,7 @@ const GameEditor = ({
         {showColumns && gameModel && <>
           <HoverPreview></HoverPreview>
           <ClassList/>
+          <GameplayDataList/>
         </>}
       </div>
       {liveEditingCategory && <LiveEditor></LiveEditor>}

@@ -18,9 +18,9 @@ import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_C
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClass } from '../../constants';
 import { directionalClass, jumperClass } from '../../constants';
-import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
-import { sortByLastEdi, sortByLastEditedDate, sortByLastEditedDatetedDate } from '../../../utils/editorUtils';
+import { sortByLastEditedDate } from '../../../utils/editorUtils';
 
 const CLASS_MAX = 16
 
@@ -29,12 +29,10 @@ const ClassList = ({
   gameFormEditor: { isCreateClassFlowOpen },
   editGameModel,
   openCreateClassFlow,
-  openCreateCutscene,
   gameViewEditor: {layerVisibility},
   openClassBoxModal
 }) => {
   const classes = gameModel?.classes
-  const cutscenes = gameModel?.cutscenes
 
   if(!classes) {
     return null
@@ -140,30 +138,6 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
-  const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
-    const currentCutscene = cutscenes[currentCutsceneId]
-    if(currentCutscene.isRemoved) return false
-    if(currentCutscene.inDialogueMenu) return true
-    return false
-  }).map((currentCutsceneId, i) => {
-    const currentCutscene = cutscenes[currentCutsceneId]
-    return <Unlockable interfaceId={DIALOGUE_SELECT_IID}>
-      <div style={{cursor:'hover'}} onClick={() => {openCreateCutscene(currentCutscene)}}>
-        <Typography variant="subtitle2">{currentCutscene.name}</Typography>
-      </div>
-    </Unlockable>
-  })
-
-  dialogueScenes.push(<Unlockable interfaceId={DIALOGUE_ADD_IID}>
-    <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateCutscene({
-        inDialogueMenu: true
-      })
-    }}>
-      +
-    </Button>
-  </Unlockable>)
-
   const accordians = []
 
   const hiddenOpacity = 0.5
@@ -251,19 +225,6 @@ const ClassList = ({
     </>
   })
 
-  accordians.push({
-    id: 'dialogue',
-    interfaceId: DIALOGUE_CONTAINER_IID,
-    title: <>
-      <Typography component="div" variant="subtitle1">Dialogue</Typography>
-    </>,
-    body: <BorderedGrid
-      maxItems={CLASS_MAX} 
-      height="7vh"
-      width="8.3vh"
-      items={dialogueScenes}
-    />
-  })
 
   return <div className="ClassList">
     <CobrowsingAccordianList

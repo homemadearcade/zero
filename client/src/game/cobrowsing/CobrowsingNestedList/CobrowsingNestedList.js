@@ -1,20 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { AccordionListBody } from '../../../ui/AccordianList/AccordianList';
+import { NestedListBody } from '../../../ui/NestedList/NestedList';
 import { updateOpenList } from '../../../store/actions/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-function CobrowsingAccordianList({listId, accordians, updateOpenList, gameSelector}) {
+function CobrowsingNestedList({listId, id, children, onClick, updateOpenList, gameSelector, title, interfaceId}) {
   if(!gameSelector.openLists) return 
 
   const expanded = gameSelector.openLists[listId]
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    updateOpenList(listId, newExpanded ? panel : false);
+  const handleChange = (panel) => (event) => {
+    updateOpenList(listId, expanded === id ? null : id);
   };
 
-  return <AccordionListBody accordianList={accordians} expanded={expanded} onChange={handleChange}/>
+  return <NestedListBody listId={listId} id={id} onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
@@ -23,4 +23,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 
 export default compose(
   connect(mapStateToProps, { updateOpenList }),
-)(CobrowsingAccordianList);
+)(CobrowsingNestedList);
