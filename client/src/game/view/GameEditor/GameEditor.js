@@ -38,13 +38,14 @@ import HoverPreview from '../../HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
 import GameplayDataList from '../../gameplay/GameplayDataList/GameplayDataList';
+import CreateTag from '../../tags/CreateTag/CreateTag';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
   classNames, 
   gameSelector: { isClassBoxModalOpen, isSetupDefaultsModalOpen, isSelectBackgroundColorModalOpen, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
   gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen, isGridViewOn }, 
-  gameFormEditor: { isClassNameModalOpen, isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
+  gameFormEditor: { isClassNameModalOpen, isCreateTagOpen, isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
@@ -115,6 +116,7 @@ const GameEditor = ({
       {isRelationsMenuOpen && <RelationsMenu/>}
       {isCreateRelationOpen && <CreateRelation/>}
       {isBoundaryRelationOpen && <BoundaryRelation/>}
+      {isCreateTagOpen && <CreateTag/>}
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageOpen && <CreateStage/>}
       {isSetupDefaultsModalOpen && <SetupDefaultsModal/>}

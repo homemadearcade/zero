@@ -101,8 +101,8 @@ function enrichGameModel(gameData) {
     gameData.tags[objectClass.classId] = {
       textureId: objectClass.graphics.textureId,
       tint: objectClass.graphics.tint,
-      isClassTag: null,
-      isSystemTag: null,
+      isClassTag: true,
+      isSystemTag: false,
       tagId: objectClass.classId,
       name: objectClass.name,
     }
@@ -154,7 +154,7 @@ function cleanGameModel(gameData) {
       delete gameData.effects[key];
     }
   });
-  
+
   Object.keys(gameData.events).forEach(key => {
     if (gameData.events[key] === null || gameData.events[key] === undefined) {
       console.log('deleting event', key)

@@ -149,7 +149,7 @@ const themeDefaults = {
             minWidth: 'auto',
             display: 'flex',
             alignSelf: 'middle',
-            height: '100%'
+            height: '100%',
           }),
 
           ...(ownerState.size === 'xs' && {

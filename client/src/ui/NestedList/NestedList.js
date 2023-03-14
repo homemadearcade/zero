@@ -5,7 +5,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { ListItemButton, ListSubheader } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListSubheader } from '@mui/material';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 
 export default function NestedList({listItems}) {
@@ -19,11 +19,12 @@ export default function NestedList({listItems}) {
 }
 
 export function NestedListBody({expanded, onChange, title, children, id, interfaceId}) {
-    const el = <><ListItemButton onClick={onChange(id)}>
+    const isOpen = expanded === id
+    const el = <><ListItemButton dense onClick={onChange(id)}>
         <ListItemText primary={title} />
-        {expanded ? <ExpandLess /> : <ExpandMore />}
+        {isOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={expanded === id} unmountOnExit>
+      <Collapse in={isOpen} unmountOnExit>
         <List component="div" disablePadding>
           {children}
         </List>
@@ -51,11 +52,26 @@ export function NestedListContainer({children, title}) {
   >{children}</List>
 }
 
-export function NestedListItem({children, title, onClick}) {
-    console.log(title, onClick)
+function ColorSquare({color}) {
+  if(!color) {
+    return <ListItemIcon><div style={{width: '.5rem', height:'.5rem', border: '1px solid white'}}/></ListItemIcon> 
+  } else {
+    return <ListItemIcon><div style={{width: '.5rem', height:'.5rem', backgroundColor: color}}/></ListItemIcon> 
+  }
+}
 
-  return <ListItemButton onClick={onClick} sx={{ pl: 4 }}>
+export function NestedListItem({children, title, onClick, color, useColor}) {
+  return <ListItemButton dense onClick={onClick} sx={{ pl: 4 }}>
+    {useColor && <ColorSquare color={color}></ColorSquare>}
     {title && <ListItemText primary={title} />}
     {children}
   </ListItemButton>
+}
+
+export function NestedListItemButton({children, title, onClick, useColor, color}) {
+  return <ListItem dense onClick={onClick} sx={{ pl: 4 }}>
+    {useColor && <ColorSquare color={color}></ColorSquare>}
+    {title && <ListItemText primary={title} />}
+    {children}
+  </ListItem>
 }

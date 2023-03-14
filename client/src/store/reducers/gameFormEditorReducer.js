@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { defaultRelationship } from '../../game/constants';
+import { defaultEffect, defaultRelationship, defaultTag } from '../../game/constants';
 import { defaultStage } from '../../game/constants';
 import { mergeDeep } from '../../utils/utils';
 import {
@@ -34,6 +34,15 @@ import {
   CLOSE_CREATE_STAGE,
   OPEN_CLASS_NAME_MODAL,
   CLOSE_CLASS_NAME_MODAL,
+  OPEN_CREATE_EFFECT,
+  UPDATE_CREATE_EFFECT,
+  CLOSE_CREATE_EFFECT,
+  OPEN_CREATE_TAG,
+  UPDATE_CREATE_TAG,
+  CLOSE_CREATE_TAG,
+  OPEN_CREATE_EVENT,
+  UPDATE_CREATE_EVENT,
+  CLOSE_CREATE_EVENT,
 } from '../types';
 
 // game create editor
@@ -79,6 +88,22 @@ const initialState = {
   stage: {
     ...defaultStage,
     name: '',
+  },
+
+  isCreateTagOpen: false,
+  tag: {
+
+  },
+
+  isCreateEventOpen: false,
+  event: {
+    sidesA: [],
+    sidesB: []
+  },
+
+  isCreateEffectOpen: false,
+  effect: {
+
   },
 
 
@@ -211,6 +236,63 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         isRelationsMenuOpen: false,
         classIdRelationsMenu: null
+      }
+    case OPEN_CREATE_EFFECT:
+      return {
+        ...state,
+        isCreateEffectOpen: true,
+        effect: {
+          ..._.cloneDeep(initialState.effect),
+          ...payload.initialEffect ? _.cloneDeep(payload.initialEffect) : {}
+        },
+      }
+    case UPDATE_CREATE_EFFECT:
+      return {
+        ...state,
+        effect: {...state.effect, ...payload.effect }
+      }
+    case CLOSE_CREATE_EFFECT:
+      return {
+        ...state,
+        isCreateEffectOpen: false
+      }
+    case OPEN_CREATE_TAG: 
+      return {
+        ...state,
+        isCreateTagOpen: true,
+        tag: {
+          ..._.cloneDeep(initialState.tag),
+          ...payload.initialTag ? _.cloneDeep(payload.initialTag) : {}
+        },
+      }
+    case UPDATE_CREATE_TAG:
+      return {
+        ...state,
+        tag: {...state.tag, ...payload.tag }
+      }
+    case CLOSE_CREATE_TAG:
+      return {
+        ...state,
+        isCreateTagOpen: false
+      }
+    case OPEN_CREATE_EVENT: 
+      return {
+        ...state,
+        isCreateEventOpen: true,
+        event: {
+          ..._.cloneDeep(initialState.event),
+          ...payload.initialEvent ? _.cloneDeep(payload.initialEvent) : {}
+        },
+      }
+    case UPDATE_CREATE_EVENT:
+      return {
+        ...state,
+        event: {...state.event, ...payload.event }
+      }
+    case CLOSE_CREATE_EVENT:
+      return {
+        ...state,
+        isCreateEventOpen: false
       }
     case OPEN_CREATE_RELATION: 
       return {

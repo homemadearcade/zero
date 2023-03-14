@@ -30,6 +30,15 @@ import {
   UPDATE_CREATE_STAGE,
   OPEN_CLASS_NAME_MODAL,
   CLOSE_CLASS_NAME_MODAL,
+  OPEN_CREATE_TAG,
+  CLOSE_CREATE_TAG,
+  UPDATE_CREATE_TAG,
+  OPEN_CREATE_EFFECT,
+  CLOSE_CREATE_EFFECT,
+  UPDATE_CREATE_EFFECT,
+  OPEN_CREATE_EVENT,
+  CLOSE_CREATE_EVENT,
+  UPDATE_CREATE_EVENT,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
@@ -306,5 +315,85 @@ export const updateBoundaryRelation = (objectClass) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: UPDATE_BOUNDARY_RELATION,
     payload: { objectClass }
+  });
+}
+
+
+
+
+
+
+export const openCreateTag = (initialTag) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CREATE_TAG,
+    payload: { initialTag }
+  });
+}
+export const closeCreateTag= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_TAG,
+    payload: {}
+  });
+}
+export const updateCreateTag = (tag) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_TAG,
+    payload: { tag }
+  });
+}
+
+
+
+
+
+export const openCreateEffect = (initialEffect) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CREATE_EFFECT,
+    payload: { initialEffect }
+  });
+}
+export const closeCreateEffect= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_EFFECT,
+    payload: {}
+  });
+}
+export const updateCreateEffect = (effect) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_EFFECT,
+    payload: { effect }
+  });
+}
+
+
+
+
+export const openCreateEvent = (initialEvent) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_CREATE_EVENT,
+    payload: { initialEvent }
+  });
+}
+
+export const closeCreateEvent= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_EVENT,
+    payload: {}
+  });
+}
+
+export const updateCreateEvent = (event) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_CREATE_EVENT,
+    payload: { event }
   });
 }
