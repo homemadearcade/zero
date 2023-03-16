@@ -10,22 +10,16 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import SelectClass from '../../ui/SelectClass/SelectClass';
-import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
-import SelectEvent from '../../ui/SelectEvent/SelectEvent';
-import SelectRelationEffect from '../../ui/SelectRelationEffect/SelectRelationEffect';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultRelationship, effectEditInterface, nonRemoteEffects } from '../../constants';
+import { effectEditInterface, EFFECT_ID_PREFIX, nonRemoteEffects } from '../../constants';
 import { TextField } from '@mui/material';
-import { EFFECT_SPAWN, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, RELATION_ID_PREFIX, ZONE_CLASS } from '../../constants';
+import { EFFECT_SPAWN, ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
-import SelectSides from '../../ui/SelectSides/SelectSides';
-import { getClassAandB } from '../../../utils/gameUtils';
-import Switch from '../../../ui/Switch/Switch';
 import Typography from '../../../ui/Typography/Typography';
-import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import SelectStage from '../../ui/SelectStage/SelectStage';
-import { RELATION_ADVANCED_CONTAINER_IID, RELATION_ADVANCED_DELAY_INTERVAL_IID, RELATION_ADVANCED_IGNORE_SIDES_IID, RELATION_ADVANCED_REMOTE_EFFECTED_IID, RELATION_DELAY_EFFECT_IID, RELATION_ONLY_ONCE_IID, RELATION_PICK_RANDOM_ZONE_IID } from '../../../constants/interfaceIds';
 import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
+import { EFFECT_REMOTE_IID, EVENT_ADVANCED_CONTAINER_IID } from '../../../constants/interfaceIds';
+import SelectEffectType from '../../ui/SelectEffectType/SelectEffectType';
 
 /*
 
@@ -47,67 +41,66 @@ import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
 
 */
 
-const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, gameFormEditor: { relation }, gameModel: { gameModel} }) => {
+const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, gameFormEditor: { effects }, effectId, gameModel: { gameModel } }) => {
   function handleClose() {
     closeCreateEffect()
   }
 
-  const { classA, classB } = getClassAandB(relation.event.classIdA, relation.event.classIdB)
+  const effect = effects[effectId]
 
   useEffect(() => {
-    if(!relation.relationId) {
-      updateCreateEffect({ relationId: RELATION_ID_PREFIX+generateUniqueId(), isNew: true })
+    if(!effect.effectId) {
+      updateCreateEffect(effectId, { effectId: EFFECT_ID_PREFIX+generateUniqueId(), isNew: true })
     }
   }, [])
 
   function isAutosaveDisabled() {
-    const editForms = effectEditInterface[relation.effect.type]
+    const effectForms = effectEditInterface[effect.type]
 
-    if(editForms?.classId) {
-      if(!relation.effect.classId) return true
+    if(effectForms?.classId) {
+      if(!effect.classId) return true
     }
 
-    if(editForms?.zoneClassId) {
-      if(!relation.effect.zoneClassId) return true
+    if(effectForms?.zoneClassId) {
+      if(!effect.zoneClassId) return true
     }
 
-    if(editForms?.cutsceneId) {
-      if(!relation.effect.cutsceneId) return true
+    if(effectForms?.cutsceneId) {
+      if(!effect.cutsceneId) return true
     }
 
-    if(editForms?.stageId) {
-      if(!relation.effect.stageId) return true
+    if(effectForms?.stageId) {
+      if(!effect.stageId) return true
     }
 
-
-    if(editForms?.text) {
-      if(!relation.effect.text) return true
+    if(effectForms?.text) {
+      if(!effect.text) return true
     }
 
-    if(!relation.effect.type || !relation.event.type || !relation.event.classIdA || !relation.event.classIdB) return true
+    if(!effect.type) return true
     
     return false 
   }
 
   // const handleEventChange = (prop, value) => {
-  //   relation.event[prop] = value
-  //   updateCreateEffect(relation)
+  //   effect.event[prop] = value
+  //   updateCreateEffect(effectId, effect)
   // }
 
   const handleEffectChange = (prop, value) => {
-    relation.effect[prop] = value
-    updateCreateEffect(relation)
+    effect[prop] = value
+    updateCreateEffect(effectId, effect)
   }
 
   function renderEffectForms(effect, effectedClass) {
-    const editForms = effectEditInterface[effect]
+    const effectForms = effectEditInterface[effect]
 
     const forms = []
-    if(editForms.classId) {
+    if(effectForms.classId) {
       forms.push(<SelectClass 
-        key={relation.event.classIdA + 'effectClassId'}
-        formLabel={editForms.classId}
-        value={relation.effect.classId ? [relation.effect.classId] : []}
+        key={'effectClassId'}
+        formLabel={effectForms.classId}
+        value={effect.classId ? [effect.classId] : []}
         onChange={(event, classes) => {
           const newClassId = classes[classes.length-1]
           handleEffectChange('classId', newClassId)
@@ -115,12 +108,12 @@ const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, ga
       )
     }
 
-    if(editForms.zoneClassId) {
+    if(effectForms.zoneClassId) {
       forms.push(<SelectClass 
-        key={relation.event.classIdA + 'zoneClassId'}
+        key={'zoneClassId'}
         classType={ZONE_CLASS}
-        formLabel={editForms.zoneClassId}
-        value={relation.effect.zoneClassId ? [relation.effect.zoneClassId] : []}
+        formLabel={effectForms.zoneClassId}
+        value={effect.zoneClassId ? [effect.zoneClassId] : []}
         onChange={(event, classes) => {
           const newClassId = classes[classes.length-1]
           handleEffectChange('zoneClassId', newClassId)
@@ -128,11 +121,11 @@ const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, ga
       )
     }
 
-    if(editForms.cutsceneId) {
+    if(effectForms.cutsceneId) {
       forms.push(<SelectCutscene
-        key={relation.event.classIdA + 'effectCutsceneId'}
-        formLabel={editForms.cutsceneId}
-        value={relation.effect.cutsceneId ? [relation.effect.cutsceneId] : []}
+        key={'effectCutsceneId'}
+        formLabel={effectForms.cutsceneId}
+        value={effect.cutsceneId ? [effect.cutsceneId] : []}
         onChange={(event, cutscenes) => {
           const newCutsceneId = cutscenes[cutscenes.length-1]
           handleEffectChange('cutsceneId', newCutsceneId)
@@ -140,11 +133,11 @@ const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, ga
       )
     }
 
-    if(editForms.stageId) {
+    if(effectForms.stageId) {
       forms.push(<SelectStage
-        key={relation.event.classIdA + 'effectStageId'}
-        formLabel={editForms.stageId}
-        value={relation.effect.stageId ? [relation.effect.stageId] : []}
+        key={'effectStageId'}
+        formLabel={effectForms.stageId}
+        value={effect.stageId ? [effect.stageId] : []}
         onChange={(event, stages) => {
           const newStageId = stages[stages.length-1]
           handleEffectChange('stageId', newStageId)
@@ -152,11 +145,11 @@ const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, ga
       )
     }
 
-    if(editForms.gameId) {
+    if(effectForms.gameId) {
       forms.push(<SelectGame
-        key={relation.event.classIdA + 'effectGameId'}
-        formLabel={editForms.gameId}
-        value={relation.effect.gameId ? [relation.effect.gameId] : []}
+        key={'effectGameId'}
+        formLabel={effectForms.gameId}
+        value={effect.gameId ? [effect.gameId] : []}
         onChange={(event, games) => {
           const newGameId = games[games.length-1]
           handleEffectChange('gameId', newGameId)
@@ -164,179 +157,55 @@ const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, ga
       )
     }
 
-    if(editForms.text) {
-      forms.push(<TextField key={"relation/text"}  multiline value={relation.effect.text} onChange={(e) => {
+    if(effectForms.text) {
+      forms.push(<TextField key={"effect/text"}  multiline value={effect.text} onChange={(e) => {
         handleEffectChange('text', e.target.value)
-      }} label={editForms.text}/>
+      }} label={effectForms.text}/>
       )
-    }
-
-    if(editForms.onlyOnce) {
-      forms.push(<Unlockable key={"relation/onlyOnce"} interfaceId={RELATION_ONLY_ONCE_IID}>
-        <Switch
-          labels={['Recurring', 'Only Occurs Once']}
-          size="small"
-          onChange={(e) => {
-            updateCreateEffect({ onlyOnce: e.target.checked })
-          }}
-          checked={relation.onlyOnce}
-         />
-      </Unlockable>)
-    }
-
-    if(editForms.delayEffect) {
-      forms.push(<Unlockable key={"relation/delayEffect"} interfaceId={RELATION_DELAY_EFFECT_IID}>
-        <SliderNotched
-          formLabel="Delay Effect (ms)"
-          step={10}
-          options={[0, 10, 50, 100, 200, 400, 1000, 3000, 6000, 9000, 15000, 20000]}
-          onChangeCommitted={(value) => {
-            handleEffectChange('delayEffect', value)
-          }}
-          value={relation.delayEffect || 0}
-        />
-      </Unlockable>)
-    }
-
-    if(editForms.pickRandomZone && classA.classId === relation.effect.zoneClassId) {
-      forms.push(<Unlockable key={"relation/pickRandomZone"} interfaceId={RELATION_PICK_RANDOM_ZONE_IID}>
-        <Switch
-          labels={['Use this zone', 'Pick Random Zone']}
-          size="small"
-          onChange={(e) => {
-            handleEffectChange('pickRandomZone', e.target.value)
-          }}
-          checked={relation.effect.pickRandomZone}
-         />
-      </Unlockable>)
     }
 
     return forms
   }
 
   const advancedOptions = [
-    classB && relation.effect.type && !nonRemoteEffects[relation.effect.type] && <Unlockable interfaceId={RELATION_ADVANCED_REMOTE_EFFECTED_IID}>
+    effect.type && !nonRemoteEffects[effect.type] && <Unlockable interfaceId={EFFECT_REMOTE_IID}>
       <SelectClass 
-        key="relation/remoteClass"
+        key="effect/remoteClass"
         includePlayerInstance
-        formLabel={"What class is effected remotely? ( " + classA.name + " will no longer be effected )"}
-        value={relation.effect.remoteEffectedClassId ? [relation.effect.remoteEffectedClassId] : []}
+        formLabel={"What tag is effected?"}
+        value={effect.remoteEffectedTagId ? [effect.remoteEffectedTagId] : []}
         onChange={(event, classes) => {
           const newClassId = classes[classes.length-1]
-          handleEffectChange('remoteEffectedClassId', newClassId)
-      }}/>
-    </Unlockable>,
-    classB && !relation.onlyOnce && effectEditInterface[relation.effect.type]?.delayInterval && <Unlockable interfaceId={RELATION_ADVANCED_DELAY_INTERVAL_IID}>
-      <SliderNotched
-              key="relation/delayInterval"
-        formLabel="Delay Interval (ms)"
-        step={10}
-        options={[100, 200, 400, 1000, 3000]}
-        onChangeCommitted={(value) => {
-          updateCreateEffect({delayInterval: value})
-        }}
-        value={relation.delayInterval || 200}
-      />
-    </Unlockable>,
-    classB && (relation.event.type === ON_COLLIDE_START || relation.event.type === ON_COLLIDE_ACTIVE || relation.event.type === ON_COLLIDE_END) && <Unlockable interfaceId={RELATION_ADVANCED_IGNORE_SIDES_IID}>
-      <SelectSides
-       key="relation/sidesA"
-      formLabel={"Touching which side of " + classA.name + '? ( leave blank for all sides )'}
-      value={relation.sidesA ? relation.sidesA : []}
-      onChange={(event, sides) => {
-        updateCreateEffect({
-          sidesA: sides
-        })
-      }}/>
-      <SelectSides
-       key="relation/sidesB"
-      formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
-      value={relation.sidesB ? relation.sidesB : []}
-      onChange={(event, sides) => {
-        updateCreateEffect({
-          sidesB: sides
-        })
+          handleEffectChange('remoteEffectedTagId', newClassId)
       }}/>
     </Unlockable>,
   ].filter((i) => {
     return !!i
   })
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
-    <div className="CreateEffect">
-      <ClassMemberTitle classId={relation.event.classIdA} title="Relation"/>
-        <SelectClass
-          disabled={relation.event.classIdB}
-          includePlayerInstance
-          formLabel="With what objects?"
-          value={relation.event.classIdB ? [relation.event.classIdB] : []}
-          onChange={(event, classes) => {
-            const newClassId = classes[classes.length-1]
-            updateCreateEffect({
-              ...defaultRelationship,
-              event: {
-                classIdA: classA.classId,
-                classIdB: newClassId
-              }, 
-              effect: {
-
-              }
-            })
-            // handleEventChange('classIdB', newClassId)
-         }}/>
-        <SelectEvent
-          classIdA={relation.event.classIdA}
-          classIdB={relation.event.classIdB}
-          formLabel="When?"
-          disabled={relation.event.type}
-          value={relation.event.type ? [relation.event.type] : []}
-          onChange={(event, events) => {
-            const newEvent = events[events.length-1]
-            updateCreateEffect({
-              ...defaultRelationship,
-              event: {
-                classIdA: classA.classId,
-                classIdB: relation.event.classIdB,
-                type: newEvent
-              },
-              effect: {
-
-              }
-            })
-        }}/>
-        <SelectRelationEffect
-          effect={relation.effect}
-          event={relation.event}
-          disabled={relation.effect.type}
-          classIdA={relation.effect.remoteEffectedClassId || relation.event.classIdA}
-          classIdB={relation.event.classIdB}
+  return  <div className="CreateEffect">
+        <SelectEffectType
+          effect={effect}
+          disabled={effect.type}
           formLabel={`What is the effect?`}
-          value={relation.effect.type ? [relation.effect.type] : []}
+          value={effect.type ? [effect.type] : []}
           onChange={(event, effects) => {
             const effect = effects[effects.length-1]
-            updateCreateEffect({
-              ...defaultRelationship,
-              event: {
-                classIdA: classA.classId,
-                classIdB: relation.event.classIdB,
-                type: relation.event.type
-              },
-              effect: {
-                type: effect
-              }
+            updateCreateEffect(effectId, {
+              type: effect
             })
         }}/>
-        {classB && relation.effect.type === EFFECT_SPAWN &&
+        {effect.type === EFFECT_SPAWN &&
           <SelectClass
-            formLabel={"What class is spawned? ( If different than " + classA.name  + ')'}
-            value={relation.effect.spawnClassId ? [relation.effect.spawnClassId] : []}
+            formLabel={"What class is spawned?"}
+            value={effect.spawnClassId ? [effect.spawnClassId] : []}
             onChange={(event, classes) => {
               const newClassId = classes[classes.length-1]
               handleEffectChange('spawnClassId', newClassId)
           }}/>
         }
-        {relation.effect.type && renderEffectForms(relation.effect.type)}
-        {advancedOptions.length > 0 && <Unlockable interfaceId={RELATION_ADVANCED_CONTAINER_IID}>
+        {effect.type && renderEffectForms(effect.type)}
+        {advancedOptions.length > 0 && <Unlockable interfaceId={EVENT_ADVANCED_CONTAINER_IID}>
           <Typography variant="h5">Advanced</Typography>
           {advancedOptions}
         </Unlockable>}
@@ -345,9 +214,9 @@ const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, ga
             disabled={isAutosaveDisabled()}
             onClick={() => {
             editGameModel({
-              relations: {
-                [relation.relationId] : {
-                  ...relation,
+              effects: {
+                [effect.effectId] : {
+                  ...effect,
                   isNew: false,
                 }
               }
@@ -359,17 +228,16 @@ const CreateEffect = ({ closeCreateEffect, editGameModel, updateCreateEffect, ga
           <Button onClick={handleClose}>
             Cancel
           </Button>
-          {!relation.isNew && <Button onClick={() => {
+          {!effect.isNew && <Button onClick={() => {
             editGameModel({
-              relations: {
-                [relation.relationId]: null
+              effects: {
+                [effect.effectId]: null
               }
             })
             handleClose()
           }}>Delete</Button>}
       </div>
     </div>
-  </CobrowsingModal>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

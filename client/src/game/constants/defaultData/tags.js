@@ -6,21 +6,29 @@ export const defaultTag = {
   isAutomaticTag: null,
   tagId: null,
   name: null,
-  tint: null,
-  textureId: null
+  color: null,
+  textureId: null,
+  isInterfaceLocked: false,
 }
 
-export const defaultSystemTag = {
+export const defaultLibraryTag = {
   ...defaultTag,
   isLibraryTag: true,
+  isAutomaticTag: true
 }
 
-function createLibraryTag(tagId, name) {
+export const defaultClassTag = {
+  ...defaultTag,
+  isClassTag: true,
+  isAutomaticTag: true
+}
+
+function createLibraryTag(tagId, name, color) {
   return {
-    ...defaultTag,
-    isLibraryTag: true,
+    ...defaultLibraryTag,
     tagId,
-    name
+    name,
+    color
   }
 }
 
@@ -39,12 +47,14 @@ export const transformBackTagId = TAG_ID_PREFIX+'-transformBack'
 export const explodeOnDestroyTagId = TAG_ID_PREFIX+'-explodeOnDestroy'
 
 export const initialTags = {
-  [enemyTagId]: createLibraryTag(enemyTagId, 'Enemy'),
-  [doorTagId]: createLibraryTag(doorTagId, 'Door'),
-  [keyTagId]: createLibraryTag(keyTagId, 'Key'),
-  [towerTagId]: createLibraryTag(towerTagId, 'Tower'),
-  [movingPlatformTagId]: createLibraryTag(movingPlatformTagId, 'Moving Platform'),
-  [transformIntoTagId]: createLibraryTag(transformIntoTagId, 'Transform Into'),
-  [transformBackTagId]: createLibraryTag(transformBackTagId, 'Transform Back'),
-  [explodeOnDestroyTagId]: createLibraryTag(explodeOnDestroyTagId, 'Explode On Destroy')
+  [playerTagId]: createLibraryTag(towerTagId, 'Player', '#FFFF00'),
+  [playgroundTagId]: createLibraryTag(towerTagId, 'Playground Layer', '#FFFF00'),
+  [enemyTagId]: createLibraryTag(enemyTagId, 'Enemy', '#FF0000'),
+  [towerTagId]: createLibraryTag(towerTagId, 'Tower', '#FF0000'),
+  [doorTagId]: createLibraryTag(doorTagId, 'Door', '#FFFFFF'),
+  [keyTagId]: createLibraryTag(keyTagId, 'Key', '#FFFFFF'),
+  [movingPlatformTagId]: createLibraryTag(movingPlatformTagId, 'Moving Platform', '#FFFFFF'),
+  [transformIntoTagId]: createLibraryTag(transformIntoTagId, 'Transform Into', '#FFFFFF'),
+  [transformBackTagId]: createLibraryTag(transformBackTagId, 'Transform Back', '#FFFFFF'),
+  [explodeOnDestroyTagId]: createLibraryTag(explodeOnDestroyTagId, 'Explode On Destroy', '#FFFFFF')
 }

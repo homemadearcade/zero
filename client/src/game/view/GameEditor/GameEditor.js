@@ -5,7 +5,7 @@ import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
 import { clearEditor, closeJsonViewer } from '../../../store/actions/gameSelectorActions';
-import { clearGameFormEditor } from '../../../store/actions/gameFormEditorActions';
+import { clearGameFormEditor, closeCreateEffect, closeCreateEvent } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
@@ -15,8 +15,6 @@ import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../../cons
 import GameMetadataModal from '../../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
-import CreateRelation from '../../relations/CreateRelation/CreateRelation';
-import RelationsMenu from '../../relations/RelationsMenu/RelationsMenu';
 import BoundaryRelation from '../../relations/BoundaryRelation/BoundaryRelation';
 import ClassNameModal from '../../class/ClassNameModal/ClassNameModal';
 import SetupDefaultsModal from '../../SetupDefaultsModal/SetupDefaultsModal';
@@ -39,13 +37,38 @@ import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
 import GameplayDataList from '../../gameplay/GameplayDataList/GameplayDataList';
 import CreateTag from '../../tags/CreateTag/CreateTag';
+import CreateEffect from '../../relations/CreateEffect/CreateEffect';
+import CreateEvent from '../../relations/CreateEvent/CreateEvent';
+import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
+import CreateRelation from '../../relations/CreateRelation/CreateRelation';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
   classNames, 
-  gameSelector: { isClassBoxModalOpen, isSetupDefaultsModalOpen, isSelectBackgroundColorModalOpen, liveEditingCategory, isGameMetadataModalOpen, viewingJson }, 
-  gameViewEditor: { isSectionEditorOpen, isSnapshotTakerOpen, isGridViewOn }, 
-  gameFormEditor: { isClassNameModalOpen, isCreateTagOpen, isCreateCutsceneOpen, isCreateBrushFlowOpen, isCreateStageOpen, isCutscenesMenuOpen, isCreateRelationOpen, isRelationsMenuOpen, isBoundaryRelationOpen, isStagesMenuOpen },
+  gameSelector: { 
+    isClassBoxModalOpen, 
+    isSetupDefaultsModalOpen, 
+    isSelectBackgroundColorModalOpen, 
+    liveEditingCategory, 
+    isGameMetadataModalOpen, 
+    viewingJson }, 
+  gameViewEditor: { 
+    isSectionEditorOpen, 
+    isSnapshotTakerOpen, 
+    isGridViewOn }, 
+  gameFormEditor: { 
+    isClassNameModalOpen, 
+    isCreateTagOpen, 
+    isCreateRelationOpen,
+    isCreateCutsceneOpen, 
+    isCreateBrushFlowOpen, 
+    isCreateStageOpen, 
+    isCutscenesMenuOpen, 
+    isBoundaryRelationOpen, 
+    isCreateEffectOpen,
+    isStagesMenuOpen,
+    isCreateEventOpen
+  },
   leftColumnRef, 
   rightColumnRef, 
   leftColumn, 
@@ -56,6 +79,8 @@ const GameEditor = ({
   clearGameFormEditor, 
   clearGameViewEditor,
   closeJsonViewer,
+  closeCreateEffect,
+  closeCreateEvent,
   gameRoom: { gameRoom: { gameState } },
   gameModel: { gameModel, isLoading },
   playerInterface: { cutsceneId }
@@ -113,9 +138,10 @@ const GameEditor = ({
       {isClassNameModalOpen && <ClassNameModal/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}
-      {isRelationsMenuOpen && <RelationsMenu/>}
-      {isCreateRelationOpen && <CreateRelation/>}
       {isBoundaryRelationOpen && <BoundaryRelation/>}
+      {isCreateRelationOpen && <CreateRelation/>}
+      {isCreateEffectOpen && <CobrowsingModal open={true} onClose={closeCreateEffect}><CreateEffect/></CobrowsingModal>}
+      {isCreateEventOpen && <CobrowsingModal open={true} onClose={closeCreateEvent}><CreateEvent/></CobrowsingModal>}
       {isCreateTagOpen && <CreateTag/>}
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageOpen && <CreateStage/>}
@@ -170,5 +196,7 @@ export default connect(mapStateToProps, {
   clearGameFormEditor, 
   clearGameViewEditor, 
   closeJsonViewer,
+  closeCreateEvent,
+  closeCreateEffect,
   editGameModel,
 })(GameEditor);

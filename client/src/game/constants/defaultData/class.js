@@ -69,6 +69,7 @@ export const defaultClass = {
     lerpX: 0.09,
     lerpY: 0.09,
   },
+  tags: {}
 }
 
 export const defaultNpcClass = { 

@@ -2,18 +2,15 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectRelationEffect.scss';
+import './SelectEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { persistentEffects, effectDisplayNames, getEffectLabel, nonRemoteEffects } from '../../constants';
+import { persistentEffects } from '../../constants';
 import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
-import { getClassAandB } from '../../../utils/gameUtils';
 
-const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disabled, classIdA, classIdB}) => {
-  const { classA, classB } = getClassAandB(classIdA, classIdB)
-
+const SelectEffect = ({ event, onChange, value, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effect) => {
     return {
-      label: getEffectLabel(effect, classA, classB),
+      label: effect,
       value: effect
     }
   }
@@ -22,15 +19,12 @@ const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disab
     if(effectType === EFFECT_COLLIDE) return false
     if(event.type !== ON_COLLIDE_ACTIVE && persistentEffects[effectType]) return false
     if(!persistentEffects[effectType] && (event.type === ON_COLLIDE_ACTIVE)) return false
-    if(effect?.remoteEffectedClassId && nonRemoteEffects[effectType]) {
-      return false
-    }
-
     return true
   }
 
-  const options = Object.keys(effectDisplayNames).filter((effectType) => {
-    if(isUsuableEffect(effectType)) return true
+  const options = Object.keys(gameModel.effects).filter((effectId) => {
+    const effect = gameModel.effects[effectId]
+    if(isUsuableEffect(effect.type)) return true
     return false
   }).map(mapControlsToOption)
 
@@ -47,9 +41,10 @@ const SelectRelationEffect = ({ event, effect, onChange, value, formLabel, disab
 
 const mapStateToProps = (state) => {
   return {
+    gameModel: state.gameModel.gameModel
   }
 };
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectRelationEffect);
+)(SelectEffect);

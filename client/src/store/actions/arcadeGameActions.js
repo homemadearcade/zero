@@ -24,7 +24,7 @@ import {
 } from '../types';
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
-import { defaultGameModel } from '../../game/constants';
+import { defaultClassTag, defaultGameModel, initialTags } from '../../game/constants';
 import { defaultObjectInstance } from '../../game/constants';
 import { defaultClass, libraryClassAugment } from '../../game/constants';
 import store from '..';
@@ -37,7 +37,6 @@ function addDefaultsToGameModel(gameData, oldGameData) {
   if(oldGameData) {
     if(gameData.stages) {
       Object.keys(gameData.stages).forEach((stageId) => {
-
         const stage = gameData.stages[stageId]
         if(stage && oldGameData.stages[stageId]) {
           const objects = stage.objects 
@@ -82,6 +81,11 @@ function addLibraryToGameModel(gameData) {
       gameData.classes[libraryObjectClass.classId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment), gameData.classes[libraryObjectClass.classId])
     }
   })
+
+  gameData.tags = {
+    ..._.cloneDeep(initialTags),
+    ...gameData.tags
+  }
 }
 
 function enrichGameModel(gameData) {
@@ -98,12 +102,14 @@ function enrichGameModel(gameData) {
         tint: objectClass.graphics.tint
       }
     }
+
     gameData.tags[objectClass.classId] = {
+      ...defaultClassTag,
       textureId: objectClass.graphics.textureId,
-      tint: objectClass.graphics.tint,
-      isClassTag: true,
-      isSystemTag: false,
+      interfaceLocked: objectClass.interfaceLocked,
+      color: objectClass.graphics.tint,
       tagId: objectClass.classId,
+      isRemoved: objectClass.isRemoved,
       name: objectClass.name,
     }
   })

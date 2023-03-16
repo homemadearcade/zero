@@ -2,36 +2,31 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectEvent.scss';
+import './SelectTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { eventDisplayNames, getEventLabel, singleClassEvents } from '../../constants';
-import { capitalize } from '../../../utils/utils';
-import { getClassAandB } from '../../../utils/gameUtils';
-import { ON_INTERACT } from '../../constants';
 
-const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA }) => {
-  const { classA, classB } = getClassAandB(classIdA, classIdB)
+const SelectEvent = ({ onChange, disabled, value, formLabel, gameModel }) => {
 
-  const mapControlsToOption = (event) => {
+  const mapTagToOption = (eventId) => {
+    const event = gameModel.events[eventId]
     return {
-      label: capitalize(getEventLabel(event, classA, classB)),
-      value: event
+      label: event.name,
+      value: eventId,
     }
   }
 
-  const options = Object.keys(eventDisplayNames).filter((eventType) => {
-    if(classIdB !== classIdA) {
-      if(singleClassEvents[eventType]) return false
-    } else if(classIdA === classIdB && eventType === ON_INTERACT) {
-      return false
-    }
-
+  const options = Object.keys(gameModel.events).filter((eventId) => {
+    const event = gameModel.events[eventId]
+    if(event.isRemoved) return false
     return true
-  }).map(mapControlsToOption)
+  }).map(mapTagToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}
-    onChange={onChange}
+    onChange={(event, descriptors) => {
+      onChange(event,  descriptors)
+    }}
+    hideRemoved
     formLabel={formLabel}
     value={value}
     options={options}
@@ -40,6 +35,7 @@ const SelectEvent = ({ onChange, value, formLabel, classIdB, disabled, classIdA 
 
 const mapStateToProps = (state) => {
   return {
+    gameModel: state.gameModel.gameModel,
   }
 };
 

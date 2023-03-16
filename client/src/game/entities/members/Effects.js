@@ -97,9 +97,9 @@ export class Effects {
     const sprite = this.objectInstance.sprite
 
     // spawning does not effect existing instances
-    if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
-      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
-        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sidesB)
+    if(effect.remoteEffectedTagId && !nonRemoteEffects[effect.type]) {
+      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedTagId, (object) => {
+        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedTagId: null}}, instanceSpriteB, sidesB)
       })
       return
     }
@@ -128,9 +128,9 @@ export class Effects {
     const classId = this.objectInstance.classId
 
     // spawning does not effect existing instances so it cannot run here
-    if(effect.remoteEffectedClassId && !nonRemoteEffects[effect.type]) {
-      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedClassId, (object) => {
-        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedClassId: null}}, instanceSpriteB, sidesB)
+    if(effect.remoteEffectedTagId && !nonRemoteEffects[effect.type]) {
+      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedTagId, (object) => {
+        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedTagId: null}}, instanceSpriteB, sidesB)
       })
       return
     }
@@ -208,7 +208,7 @@ export class Effects {
       const spawnedObjectInstance =  this.scene.addObjectInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
       
       let zone 
-      if(effect.pickRandomZone) {
+      if(effect.spawnZoneSelectorType) {
         zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
       } else {
         if(isZoneClassId(this.objectInstance.classId)) {

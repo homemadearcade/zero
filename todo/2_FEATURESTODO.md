@@ -8,7 +8,6 @@ FEATURES TODO
 
 RELATIONS v2 - Tags
   Implement/TRANSFORM the Relation editor into a tags system. Without breaking changes
-  Each class has its own tag automatically
   Also - Relations Effect Array instead of just one effeect
   Send To Game Overlay Effect
   Better Shorthand for relations

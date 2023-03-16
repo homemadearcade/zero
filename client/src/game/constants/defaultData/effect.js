@@ -25,21 +25,34 @@ export const EFFECT_WIN_GAME = 'EFFECT_WIN_GAME'
 export const EFFECT_OPEN_OVERLAY = 'EFFECT_OPEN_OVERLAY'
 export const EFFECT_CHANGE_GAME = 'EFFECT_CHANGE_GAME'
 
+// WHAT HAPPENS
 export const defaultEffect = {
   type: '',
-  effectedType: null,
+  effectId: null,
+
   effectInstanceA: false,
   effectInstanceB: false,
-  remoteEffectedTag: null,
+  remoteEffectedTagId: null,
+
+  spawnZoneSelectorType: false,
+
+  stageId: null,
   spawnClassId: null,
   classId: null,
+  gameId: null,
   zoneClassId: null,
   cutsceneId: null,
   text: '',
-  stageId: null,
-  pickRandomZone: false,
-  delayEffect: null,
-  effectId: null,
+}
+
+export const SPAWN_ZONE_A_SELECT = 'SPAWN_ZONE_A_SELECT';
+export const SPAWN_ZONE_B_SELECT = 'SPAWN_ZONE_B_SELECT';
+export const SPAWN_ZONE_RANDOM_SELECT = 'SPAWN_ZONE_RANDOM_SELECT';
+
+export const spawnZoneSelectorTypeToDisplayName = {
+  [SPAWN_ZONE_A_SELECT]: 'Spawn in Tag A Zone',
+  [SPAWN_ZONE_B_SELECT]: 'Spawn in Tag B Zone',
+  [SPAWN_ZONE_RANDOM_SELECT]: 'Spawn in Random Zone',
 }
 
 export const effectDisplayNames = {
@@ -78,8 +91,6 @@ export const effectEditInterface = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneClassId: 'Teleport to which zone?',
-    onlyOnce: true,
-    delayEffect: true
   },
   [EFFECT_COLLIDE]: {
 
@@ -94,40 +105,32 @@ export const effectEditInterface = {
   // Lifecycle
   [EFFECT_RECLASS]: {
     classId: 'Transform into which object?',
-    onlyOnce: true,
-    delayEffect: true
   },
   [EFFECT_SPAWN]: {
     zoneClassId: 'Spawn in which Zone?',
-    onlyOnce: true,
     delayInterval: true,
-    pickRandomZone: true,
+    spawnZoneSelectorType: true,
     // delayEffect: true
     
   },
   [EFFECT_DESTROY]: {
-    delayEffect: true
+
   },
 
   // Narrative
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',
-    onlyOnce: true,
-    delayEffect: true
   },
   [EFFECT_GAME_OVER]: {
     text: 'Message',
-    delayEffect: true
   },
   [EFFECT_WIN_GAME]: {
     text: 'Message',
-    delayEffect: true
   },
 
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
     // number: 'How intense is the camera shake?',
-    onlyOnce: true,
     // delayInterval: true
   },
   [EFFECT_INVISIBLE]: {},
@@ -137,14 +140,11 @@ export const effectEditInterface = {
   // Meta
   [EFFECT_SWITCH_STAGE]: {
     stageId: 'Which stage?',
-    delayEffect: true
   },
   [EFFECT_CHANGE_GAME]: {
     gameId: 'Which game?',
-    delayEffect: true
   },
   [EFFECT_OPEN_OVERLAY]: {
-    delayEffect: true
   },
 }
 

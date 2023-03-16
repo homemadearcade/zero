@@ -102,7 +102,7 @@ const initialState = {
   },
 
   isCreateEffectOpen: false,
-  effect: {
+  effects: {
 
   },
 
@@ -241,20 +241,29 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCreateEffectOpen: true,
-        effect: {
-          ..._.cloneDeep(initialState.effect),
-          ...payload.initialEffect ? _.cloneDeep(payload.initialEffect) : {}
+        effects: {
+          ...state.effects,
+          [payload.effectId]: {
+            ..._.cloneDeep(initialState.effect),
+            ...payload.initialEffect ? _.cloneDeep(payload.initialEffect) : {}
+          }
         },
       }
     case UPDATE_CREATE_EFFECT:
       return {
         ...state,
-        effect: {...state.effect, ...payload.effect }
+        effects: {
+          ...state.effects,
+          [payload.effectId]: {
+            ...state.effects[payload.effectId], ...payload.effect
+          }
+        }
       }
     case CLOSE_CREATE_EFFECT:
       return {
         ...state,
-        isCreateEffectOpen: false
+        isCreateEffectOpen: false,
+        effects: {}
       }
     case OPEN_CREATE_TAG: 
       return {

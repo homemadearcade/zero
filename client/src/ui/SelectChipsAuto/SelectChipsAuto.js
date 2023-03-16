@@ -9,6 +9,7 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 import FormLabel from '../FormLabel/FormLabel';
 import Sprite from '../../game/sprites/Sprite/Sprite';
 import { lighten, darken } from '@mui/system';
+import Typography from '../Typography/Typography';
 
 const GroupHeader = styled('div')(({ theme }) => ({
   position: 'sticky',
@@ -58,7 +59,7 @@ const InputWrapper = styled('div')(
     color: ${
       theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
     };
-    height: 30px;
+    min-height: 30px;
     box-sizing: border-box;
     padding: 4px 6px;
     width: 0;
@@ -90,7 +91,7 @@ const StyledTag = styled(Tag)(
   ({ theme }) => `
   display: flex;
   align-items: center;
-  height: 24px;
+  min-height: 24px;
   margin: 2px;
   line-height: 22px;
   background-color: ${
@@ -290,17 +291,32 @@ function SelectChipsAutoForm({
     return null
   }
 
+  function renderLabelText(option) {
+    if(option.shortLabel) {
+      return <>
+        <Typography sx={{ fontWeight: 'bold', fontSize: '1.25rem' }} component="div" varient="subtitle2">{option.shortLabel}</Typography>
+        <Typography sx={{ fontSize: '1rem' }} component="div">{option.label}</Typography>
+      </>
+    } else {
+      return option.label
+    }
+  }
+
+  function renderLabel(option, index) {
+    return <li {...getOptionProps({ option, index })}>
+        <span>
+          {renderSprite(option)}
+          {renderLabelText(option)}
+        </span>
+      <CheckIcon fontSize="small" />
+    </li>
+  }
+
   function renderOption (option, index) {
     if(hideRemoved) {
       if(option.isRemoved) return null
     }
-    return <li {...getOptionProps({ option, index })}>
-      <span>
-        {renderSprite(option)}
-        {option.label}
-      </span>
-      <CheckIcon fontSize="small" />
-    </li>
+    return renderLabel(option, index)
   }
 
   function renderGroup(group, groupIndex) {
@@ -326,8 +342,8 @@ function SelectChipsAutoForm({
               key={option.value}
               label={<>
                 {renderSprite(option)}
-                {option.label}
-              </>} 
+                {renderLabelText(option)}
+              </>}
               {...getTagProps({ index })}
             />
           })}
