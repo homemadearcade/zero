@@ -6,7 +6,7 @@ import { effectEditInterface } from "../game/constants"
 
   useEffect(() => {
     function isSaveDisabled() {
-      if(!effect) return
+      if(!effect ||!effect.type) return
 
       const effectForms = effectEditInterface[effect.type]
 

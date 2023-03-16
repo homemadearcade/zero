@@ -15,9 +15,6 @@ const SelectSpawnZoneSelectorType = ({ useA, useB, onChange, value, formLabel, d
     }
   }
 
-
-  console.log(useA, useB)
-
   const options = Object.keys(spawnZoneSelectorTypeToDisplayName).map(mapControlsToOption).filter((option) => {
     if(!useA && option.value === SPAWN_ZONE_A_SELECT) return false
     if(!useB && option.value === SPAWN_ZONE_B_SELECT) return false

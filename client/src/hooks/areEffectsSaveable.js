@@ -46,7 +46,5 @@ import { effectEditInterface } from "../game/constants"
     }))
   }, [effects])
 
-  console.log(isSaveable)
-
   return isSaveable
 } 

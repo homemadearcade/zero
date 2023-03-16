@@ -285,8 +285,6 @@ export const openCreateRelation = (initialRelation) => (dispatch, getState) => {
     event = gameModel.events[initialRelation.event]
   }
 
-  console.log(effects, event)
-
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_RELATION,

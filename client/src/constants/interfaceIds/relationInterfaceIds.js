@@ -1,7 +1,6 @@
 export const EVENT_ADVANCED_CONTAINER_IID = 'event/advanced/*'
 export const EVENT_IGNORE_SIDES_IID = 'event/ignoreSides'
-export const EVENT_DELAY_INTERVAL_IID = 'event/delayInterval'
-export const EVENT_DELAY_IID = 'event/delay'
+
 export const EVENT_ONLY_ONCE_IID = 'event/onlyOnce'
 export const EVENT_BOUNDARY_IID = 'event/boundary'
 
@@ -16,3 +15,6 @@ export const EFFECT_ADD_IID = 'effect/add'
 export const EFFECT_SELECT_IID = 'effect/select'
 export const EFFECT_CONTAINER_IID = 'effect/*'
 export const EFFECT_ADVANCED_CONTAINER_IID = 'effect/advanced/*'
+
+export const EFFECT_COOLDOWN_IID = 'effect/cooldown'
+export const EFFECT_DELAY_IID = 'effect/delay'

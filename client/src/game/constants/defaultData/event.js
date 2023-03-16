@@ -26,8 +26,6 @@ export const defaultEvent = {
   eventId: null,
 
   onlyOnce: false,
-  delayInterval: null,
-  delayEffect: null,
 }
 
 export const eventShortNames = {
@@ -68,9 +66,9 @@ export const eventEditInterface = {
   },
   [ON_COLLIDE_START]: {
     tagSelectType: TWO_TAG_EVENT,
-    delayEffect: true,
+    effectDelay: true,
     onlyOnce: true,
-    delayInterval: true,
+    effectCooldown: true,
   },
   // [ON_COLLIDE_END]: {},
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
@@ -78,26 +76,26 @@ export const eventEditInterface = {
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
   [ON_PLAYTHROUGH]: {
     tagSelectType: NO_TAG_EVENT,
-    delayEffect: true
+    effectDelay: true
   },
   [ON_SPAWN]: {
     tagSelectType: SINGLE_TAG_EVENT,
-    delayEffect: true,
+    effectDelay: true,
     onlyOnce: true
   },
   [ON_DESTROY_ONE]: {
     tagSelectType: SINGLE_TAG_EVENT,
-    delayEffect: true,
+    effectDelay: true,
     onlyOnce: true
   },
   [ON_DESTROY_ALL]: {
     tagSelectType: SINGLE_TAG_EVENT,
-    delayEffect: true,
+    effectDelay: true,
   },
   [ON_INTERACT]: {
     tagSelectType: SINGLE_TAG_EVENT,
     onlyOnce: true,
-    delayInterval: true
+    effectCooldown: true
   },
 }
 

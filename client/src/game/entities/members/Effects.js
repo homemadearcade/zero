@@ -144,17 +144,17 @@ export class Effects {
     if(relation.onlyOnce) {
       this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
     } else {
-      if(relation.delayInterval) {
-        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.delayInterval
+      if(relation.effectCooldown) {
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effectCooldown
       }
     }
 
-    if(relation.effect.delayEffect) {
+    if(relation.effect.effectDelay) {
       setTimeout(() => {
         const delayedRelation = _.cloneDeep(relation)
-        delayedRelation.effect.delayEffect = null
+        delayedRelation.effect.effectDelay = null
         this.runAccuteEffect(delayedRelation, instanceSpriteB, sidesB)
-      }, relation.effect.delayEffect)
+      }, relation.effect.effectDelay)
       return
     }
     

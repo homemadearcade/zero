@@ -6,17 +6,14 @@ import './CreateEvent.scss';
 import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { eventEditInterface, NO_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
+import { defaultEvent, eventEditInterface, NO_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
 import { ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
-import { getClassAandB } from '../../../utils/gameUtils';
 import Switch from '../../../ui/Switch/Switch';
-import Typography from '../../../ui/Typography/Typography';
-import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
-import { EFFECT_ADVANCED_CONTAINER_IID, EVENT_DELAY_IID, EVENT_DELAY_INTERVAL_IID, EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID } from '../../../constants/interfaceIds';
+import { EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID } from '../../../constants/interfaceIds';
 import SelectTag from '../../ui/SelectTag/SelectTag';
 import SelectEventType from '../../ui/SelectEventType/SelectEventType';
-import { Collapse } from '@mui/material';
+import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 
 /*
 
@@ -39,13 +36,14 @@ import { Collapse } from '@mui/material';
 */
 
 const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
-  function renderEventForms() {
-    const eventInterface = eventEditInterface[event.type]
+  function renderAdvancedOptions() {
     if(!event.type) return
+    const correctEvent = event.type === ON_COLLIDE_START || event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_END
+    const advancedOptions = []
+    const eventInterface = eventEditInterface[event.type]
 
-    const forms = []
     if(eventInterface.onlyOnce) {
-      forms.push(<Unlockable key={"event/onlyOnce"} interfaceId={EVENT_ONLY_ONCE_IID}>
+      advancedOptions.push(<Unlockable key={"event/onlyOnce"} interfaceId={EVENT_ONLY_ONCE_IID}>
         <Switch
           labels={['Recurring', 'Only Occurs Once']}
           size="small"
@@ -57,61 +55,38 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       </Unlockable>)
     }
 
-    if(eventInterface.delayEffect) {
-      forms.push(<Unlockable key={"event/delayEffect"} interfaceId={EVENT_DELAY_IID}>
-        <SliderNotched
-          formLabel="Delay Effect (ms)"
-          step={10}
-          options={[0, 10, 50, 100, 200, 400, 1000, 3000, 6000, 9000, 15000, 20000]}
-          onChangeCommitted={(value) => {
-            updateCreateEvent({
-              'delayEffect': value
-            })
-          }}
-          value={event.delayEffect || 0}
-        />
-      </Unlockable>)
+    if(event.tagIdA && correctEvent && !eventInterface.tagSelectType != NO_TAG_EVENT) {
+      advancedOptions.push(
+        <Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
+          <SelectSides
+            key="event/sidesA"
+            formLabel={"Touching which side of Tag A? ( leave blank for all sides )"}
+            value={event.sidesA ? event.sidesA : []}
+            onChange={(event, sides) => {
+              updateCreateEvent({
+                sidesA: sides
+              })
+            }}
+          />
+        </Unlockable>
+      )
     }
 
-    return forms
-  }
-
-  function renderAdvancedOptions() {
-    if(!event.type) return
-    const { classA, classB } = getClassAandB(event.tagIdA, event.tagIdB)
-    const correctEvent = event.type === ON_COLLIDE_START || event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_END
-    const advancedOptions = [
-      classA && correctEvent && <Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
-        <SelectSides
-          key="event/sidesA"
-          formLabel={"Touching which side of " + classA.name + '? ( leave blank for all sides )'}
-          value={event.sidesA ? event.sidesA : []}
-          onChange={(event, sides) => {
-            updateCreateEvent({
-              sidesA: sides
-            })
-          }}
-        />
-      </Unlockable>,
-      classB && correctEvent && <Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
+    if(event.tagIdB && correctEvent && !eventInterface.tagSelectType != SINGLE_TAG_EVENT && !eventInterface.tagSelectType != NO_TAG_EVENT) {
+      advancedOptions.push(<Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
         <SelectSides
           key="event/sidesB"
-          formLabel={"Touching which side of " + classB.name + '? ( leave blank for all sides )'}
+          formLabel={"Touching which side of Tag B? ( leave blank for all sides )"}
           value={event.sidesB ? event.sidesB : []}
           onChange={(event, sides) => {
             updateCreateEvent({
               sidesB: sides
             })
         }}/>
-      </Unlockable>
-    ].filter((i) => {
-      return !!i
-    })
+    </Unlockable>)
+    }
 
-    return advancedOptions.length > 0 && <Unlockable interfaceId={EFFECT_ADVANCED_CONTAINER_IID}>
-      <Typography variant="h5">Advanced</Typography>
-      {advancedOptions}
-    </Unlockable>
+    return advancedOptions
   }
 
 
@@ -169,15 +144,16 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
     <SelectEventType
       formLabel="When?"
       value={event.type ? [event.type] : []}
-      onChange={(event, events) => {
-        const newEvent = events[events.length-1]
+      onChange={(event, eventTypes) => {
+        const eventType = eventTypes[eventTypes.length-1]
         updateCreateEvent({
-          type: newEvent
+          ...defaultEvent,
+          type: eventType,
+          eventId: event.effectId
         })
     }}/>
     {renderTagSelect()}
-    {renderEventForms()}
-    {renderAdvancedOptions()}
+    <CobrowsingNestedList id="CreateEvent" title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>
   </div>
 }
 

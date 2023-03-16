@@ -4,8 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { persistentEffects } from '../../constants';
-import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
+import { isUseableEffect} from '../../constants'
 
 const SelectEffect = ({ event, onChange, value, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effect) => {
@@ -15,27 +14,22 @@ const SelectEffect = ({ event, onChange, value, formLabel, disabled, gameModel})
     }
   }
 
-  function isUsuableEffect(effectId) {
-    const effectType = gameModel.effects[effectId]
-    if(effectType === EFFECT_COLLIDE) return false
-    if(event.type !== ON_COLLIDE_ACTIVE && persistentEffects[effectType]) return false
-    if(!persistentEffects[effectType] && (event.type === ON_COLLIDE_ACTIVE)) return false
-    return true
-  }
-
   const options = Object.keys(gameModel.effects).filter((effectId) => {
     const effect = gameModel.effects[effectId]
-    if(isUsuableEffect(effect.type)) return true
+    if(isUseableEffect(effect.type, event.type)) return true
     return false
   }).map(mapControlsToOption)
 
-  const useableValue = value.filter(isUsuableEffect)
+  // const useableValue = value.filter((effectId) => {
+  //   const effect = gameModel.effects[effectId]
+  //   return isUseableEffect(effect.type, event.type)
+  // })
 
   return <SelectChipsAuto 
     disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}
-    value={useableValue}
+    value={value}
     options={options}
   />
 }

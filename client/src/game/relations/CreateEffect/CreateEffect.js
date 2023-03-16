@@ -3,19 +3,19 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateEffect.scss';
-import { closeCreateEffect, updateCreateEffect } from '../../../store/actions/gameFormEditorActions';
+import { closeCreateEffect, updateCreateEffect} from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import SelectClass from '../../ui/SelectClass/SelectClass';
-import { effectEditInterface } from '../../constants';
+import { defaultEffect, effectEditInterface } from '../../constants';
 import { TextField } from '@mui/material';
-import { EFFECT_SPAWN, ZONE_CLASS } from '../../constants';
+import { ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
 import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
 import SelectEffectType from '../../ui/SelectEffectType/SelectEffectType';
 
-const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effects }, effectId}) => {
+const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effects, event }, effectId}) => {
   const effect = effects[effectId]
 
   const handleEffectChange = (prop, value) => {
@@ -105,7 +105,6 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effects }, effectI
         }}/>
       )
     }
-    
 
     return forms
   }
@@ -113,16 +112,19 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effects }, effectI
   return  <div className="CreateEffect">
     <SelectEffectType
       effect={effect}
-      disabled={effect.type}
+      event={event.type}
       formLabel={`What is the effect?`}
       value={effect.type ? [effect.type] : []}
-      onChange={(event, effects) => {
-        const effect = effects[effects.length-1]
+      onChange={(event, effectTypes) => {
+        const effectType = effectTypes[effectTypes.length-1]
         updateCreateEffect(effectId, {
-          type: effect
+          ...defaultEffect,
+          type: effectType,
+          effectId,
         })
     }}/>
     {effect.type && renderEffectForms(effect.type)}
+
     </div>
 }
 

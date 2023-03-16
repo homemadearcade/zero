@@ -6,7 +6,7 @@ import { eventEditInterface, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from "../game/con
 
   useEffect(() => {
   function isSaveDisabled() {
-    if(!event.type) return true
+    if(!event ||!event.type) return true
     
     const eventInterface = eventEditInterface[event.type]
 
@@ -17,12 +17,12 @@ import { eventEditInterface, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from "../game/con
     if(eventInterface.tagSelectType === TWO_TAG_EVENT) {
       if(!event.tagIdA || !event.tagIdB) return true
     }
-    
+
     return false 
   }
 
+  setIsSaveable(!isSaveDisabled())
 
-    setIsSaveable(!isSaveDisabled())
   }, [event])
 
   return isSaveable

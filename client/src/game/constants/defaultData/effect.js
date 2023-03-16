@@ -1,5 +1,8 @@
 /////////////////////////////////////
 /////////////////////////////////////
+
+import { ON_COLLIDE_ACTIVE } from "./event"
+
 // EFFECTS
 export const EFFECT_TELEPORT = 'EFFECT_TELEPORT'
 export const EFFECT_FOLLOW_START = 'EFFECT_FOLLOW_START'
@@ -34,11 +37,7 @@ export const defaultEffect = {
   type: '',
   effectId: null,
 
-  effectTagA: false,
-  effectTagB: false,
-  remoteEffectedTagId: null,
-
-  spawnZoneSelectorType: false,
+  remoteEffectedTagIds: [],
 
   stageId: null,
   spawnClassId: null,
@@ -54,9 +53,9 @@ export const SPAWN_ZONE_B_SELECT = 'SPAWN_ZONE_B_SELECT';
 export const SPAWN_ZONE_RANDOM_SELECT = 'SPAWN_ZONE_RANDOM_SELECT';
 
 export const spawnZoneSelectorTypeToDisplayName = {
-  [SPAWN_ZONE_A_SELECT]: 'Spawn in Tag A Zone',
-  [SPAWN_ZONE_B_SELECT]: 'Spawn in Tag B Zone',
-  [SPAWN_ZONE_RANDOM_SELECT]: 'Spawn in Random Zone',
+  [SPAWN_ZONE_A_SELECT]: 'Spawn in Tag A Instance',
+  [SPAWN_ZONE_B_SELECT]: 'Spawn in Tag B Instance',
+  [SPAWN_ZONE_RANDOM_SELECT]: 'Spawn in Random Instance of Zone',
 }
 
 export const effectDisplayNames = {
@@ -114,7 +113,7 @@ export const effectEditInterface = {
   },
   [EFFECT_SPAWN]: {
     zoneClassId: 'Spawn in which Zone?',
-    delayInterval: true,
+    effectCooldown: true,
     spawnClassId: 'Which Class will be spawned?',
     spawnZoneSelectorType: true,  
     effectableType: NO_TAG_EFFECT
@@ -140,7 +139,7 @@ export const effectEditInterface = {
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
     // number: 'How intense is the camera shake?',
-    // delayInterval: true
+    effectCooldown: true,
     effectableType: NO_TAG_EFFECT
   },
   [EFFECT_INVISIBLE]: {
@@ -217,3 +216,10 @@ export const nonRemoteEffects  = {
   [EFFECT_OPEN_OVERLAY]: true
 
 }
+
+export function isUseableEffect(effectType, eventType) {
+    if(effectType === EFFECT_COLLIDE) return false
+    if(eventType !== ON_COLLIDE_ACTIVE && persistentEffects[effectType]) return false
+    if(!persistentEffects[effectType] && (eventType === ON_COLLIDE_ACTIVE)) return false
+    return true
+  }
