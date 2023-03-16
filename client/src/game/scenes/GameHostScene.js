@@ -64,7 +64,7 @@ export class GameHostScene extends EditorScene {
         }
       })
 
-      const projectiles = this.projectileInstances.map(({sprite: { instanceId, x, y, rotation}, isVisible, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
+      const temporaryInstances = this.temporaryInstances.map(({sprite: { instanceId, x, y, rotation}, isVisible, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
         return {
           instanceId,
           x,
@@ -94,7 +94,7 @@ export class GameHostScene extends EditorScene {
           gameRoomId: this.gameRoom.id,
           objectInstances, 
           playerInstance, 
-          projectiles, 
+          temporaryInstances, 
           stageId: currentStageId, 
           upsHost: this.upsHost
         })

@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { editGameModel } from '../../../store/actions/gameModelActions'
 import { openJsonViewer, openLiveEditor } from '../../../store/actions/gameSelectorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { openCreateClassFlow, openRelationsMenu, openClassNameModal } from '../../../store/actions/gameFormEditorActions';
+import { openCreateClassFlow, openClassNameModal } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, classTypeToPrefix } from '../../constants';
 import { classTypeToDisplayName } from '../../constants';
@@ -12,12 +12,18 @@ import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_NAME_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID, CONTEXT_MENU_INSTANCE_JSON_IID } from '../../../constants/interfaceIds';
 
+    // <Unlockable interfaceId={CONTEXT_MENU_CLASS_RELATIONS_IID}>
+    //   <MenuItem onClick={() => {
+    //     openRelationsMenu(classId)
+    //     onMenuItemClick()
+    //   }}>Edit Relationships</MenuItem>
+    // </Unlockable>
+
 const ClassContextMenu = ({ 
   editGameModel, 
   openCreateClassFlow, 
   openLiveEditor, 
   onMenuItemClick, 
-  openRelationsMenu,
   gameModel: { gameModel, currentStageId }, 
   openClassNameModal,
   classId, 
@@ -89,36 +95,9 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Edit Movement</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_CLASS_RELATIONS_IID}>
-      <MenuItem onClick={() => {
-        openRelationsMenu(classId)
-        onMenuItemClick()
-      }}>Edit Relationships</MenuItem>
-    </Unlockable>
     {!insideObjectInstanceContextMenu && <Unlockable interfaceId={CONTEXT_MENU_CLASS_DUPLICATE_IID}>
       <MenuItem onClick={() => {  
         const newClassId = OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[objectClass.type]+generateUniqueId()
-
-        const relations = Object.keys(gameModel.relations).map((relationId) => {
-          const relation = gameModel.relations[relationId]
-          if(relation.event.classIdA === classId) {
-            return {
-              ...relation,
-              event: {
-                ...relation.event,
-                classIdA: newClassId
-              },
-              relationId: RELATION_ID_PREFIX + generateUniqueId()
-            }
-          }
-          return null
-        }).filter((relation) => {
-          return !!relation
-        }).reduce((prev, relation) => {
-          const relationId = relation.relationId
-          prev[relationId] = relation
-          return prev
-        }, {})
 
         editGameModel({
           classes: {
@@ -128,9 +107,6 @@ const ClassContextMenu = ({
               name: objectClass.name + ' Duplicate',
               isNew: false
             }
-          },
-          relations: {
-            ...relations
           }
         })
         onMenuItemClick()
@@ -167,6 +143,5 @@ export default connect(mapStateToProps, {
   editGameModel, 
   openCreateClassFlow, 
   openLiveEditor, 
-  openRelationsMenu,
   openClassNameModal,
 })(ClassContextMenu);

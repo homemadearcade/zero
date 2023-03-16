@@ -114,12 +114,12 @@ const GameplayDataList = ({
     </NestedListItemButton>
   </Unlockable>)
 
-  nestedLists.push({
-    interfaceId: EVENT_CONTAINER_IID,
-    title: 'Events',
-    id: 'Events',
-    children: events
-  })
+  // nestedLists.push({
+  //   interfaceId: EVENT_CONTAINER_IID,
+  //   title: 'Events',
+  //   id: 'Events',
+  //   children: events
+  // })
 
   const effects = Object.keys(gameModel.effects).filter((currentEffectId) => {
     const currentEffect = gameModel.effects[currentEffectId]
@@ -144,12 +144,12 @@ const GameplayDataList = ({
     </NestedListItemButton>
   </Unlockable>)
 
-  nestedLists.push({
-    interfaceId: EFFECT_CONTAINER_IID,
-    title: 'Effects',
-    id: 'Effects',
-    children: effects
-  })
+  // nestedLists.push({
+  //   interfaceId: EFFECT_CONTAINER_IID,
+  //   title: 'Effects',
+  //   id: 'Effects',
+  //   children: effects
+  // })
 
   const relations = Object.keys(gameModel.relations).filter((currentRelationId) => {
     const currentRelation = gameModel.relations[currentRelationId]

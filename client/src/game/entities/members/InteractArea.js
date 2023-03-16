@@ -69,7 +69,7 @@ export class InteractArea extends Sprite {
     }).forEach((relation) => {
       const {event, effect} = relation
       if(event.type === ON_INTERACT) {
-        //[...this.scene.objectInstances, ...this.scene.projectileInstances]
+        //[...this.scene.objectInstances, ...this.scene.temporaryInstances]
         const releventInstancesB = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdB)
         const releventSpritesB = releventInstancesB.map(({sprite}) => sprite)
         this.unregisters.push(
@@ -80,7 +80,7 @@ export class InteractArea extends Sprite {
           })
         )
 
-        //[...this.scene.objectInstances, ...this.scene.projectileInstances]
+        //[...this.scene.objectInstances, ...this.scene.temporaryInstances]
         const releventInstancesA = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdA)
         const releventSpritesA = releventInstancesA.map(({sprite}) => sprite)
         this.unregisters.push(

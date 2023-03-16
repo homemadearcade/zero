@@ -4,46 +4,62 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE } from '../../constants';
-import { getOppositeRelationClassId } from '../../../utils/gameUtils';
+import { getOppositeColliderTagId } from '../../../utils/gameUtils';
 import { classTypeToDisplayName } from '../../constants';
+import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
+import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 
-const SelectColliders = ({ onChange, classId, formLabel, gameModel, classType }) => {
-  const mapClassToOption = (collidingClassId) => {
-    const objectClass = gameModel.classes[collidingClassId]
+const SelectColliders = ({ onChange, tagId, formLabel, gameModel }) => {
+  const mapTagToOption = (collidingTagId) => {
+    const tag = gameModel.tags[collidingTagId]
+
+    let type = 'My Tags'
+
+    if(tag.isLibraryTag) {
+      type = 'Library'
+    }
+
+    if(tag.isClassTag) {
+      const tagClass = gameModel.classes[tag.tagId]
+      const interfaceId = tagClass.type + CLASS_UNLOCKABLE_IID + tag.tagId
+      const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
+
+      return {
+        label: tag.name,
+        value: collidingTagId,
+        textureId: tag.textureId,
+        tint: tag.color,
+        isRemoved: tag.isRemoved || (isObscured && tag.interfaceLocked),
+        type: classTypeToDisplayName[tagClass.type]
+      }
+    }
 
     return {
-      label: objectClass.name,
-      value: collidingClassId,
-      textureId: objectClass.graphics.textureId,
-      tint: objectClass.graphics.tint,
-      isRemoved: objectClass.isRemoved,
-      type: objectClass.type
+      label: tag.name,
+      value: collidingTagId,
+      tint: tag.color,
+      isRemoved: tag.isRemoved,
+      type: type
     }
   }
   
-  const value = Object.keys(gameModel.relations).map((relationId) => {
-    const relation = gameModel.relations[relationId]
-    return relation
-  }).filter(({event, effect}) => {
-    if((event.type === ON_COLLIDE_ACTIVE) && effect.type === EFFECT_COLLIDE) return true
-    else return false
-  }).map((relation) => {
-    return getOppositeRelationClassId(classId, relation)
-  }).filter((classId) => {
-    return !!classId
+  const value = Object.keys(gameModel.collisions).map((collisionId) => {
+    const collision = gameModel.collisions[collisionId]
+    console.log(collision, collisionId)
+    return collision
+  }).map((collision) => {
+    return getOppositeColliderTagId(tagId, collision)
+  }).filter((tagId) => {
+    return !!tagId
   })
 
-  const options = Object.keys(gameModel.classes).map(mapClassToOption).filter(({value}) => {
-    // if(classId === value) {
-    //   return false
-    // }
-    return true
-  }).sort((a, b) => -b.type.localeCompare(a.type))
+  const options = Object.keys(gameModel.classes).
+  map(mapTagToOption).
+  sort((a, b) => -b.type.localeCompare(a.type))
 
   return <SelectChipsAuto 
-    onChange={(event, classIds) => {
-      onChange(event,  classIds)
+    onChange={(event, tagIds) => {
+      onChange(event,  tagIds)
     }}
     groupBy={option => {
       return classTypeToDisplayName[option.type]

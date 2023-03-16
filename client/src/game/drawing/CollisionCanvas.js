@@ -89,7 +89,7 @@ export class CollisionCanvas extends CodrawingCanvas {
         return sprite
       }))
 
-      // this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.projectileInstances.filter(({classId}) => {
+      // this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.temporaryInstances.filter(({classId}) => {
       //   return classes[classId].graphics.layerId === PLAYGROUND_CANVAS_ID
       // }).map(({sprite}) => {
       //   return sprite

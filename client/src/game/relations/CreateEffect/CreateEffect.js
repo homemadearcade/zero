@@ -112,7 +112,7 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effects, event }, 
   return  <div className="CreateEffect">
     <SelectEffectType
       effect={effect}
-      event={event.type}
+      eventType={event.type}
       formLabel={`What is the effect?`}
       value={effect.type ? [effect.type] : []}
       onChange={(event, effectTypes) => {

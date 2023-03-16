@@ -26,7 +26,7 @@ export class GameClientScene extends EditorScene {
     this.gameInstanceId = null
   }
 
-  onGameInstanceUpdate = ({gameInstanceId, objectInstances, playerInstance, projectiles, stageId, upsHost, upsServer}) => {
+  onGameInstanceUpdate = ({gameInstanceId, objectInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer}) => {
     if(!this.gameInstanceId) {
       this.gameInstanceId = gameInstanceId
     }
@@ -54,7 +54,7 @@ export class GameClientScene extends EditorScene {
       if(instanceId === this.draggingObjectInstanceId) {
         return
       }
-      const objectInstance = this.objectInstancesById[instanceId]
+      const objectInstance = this.getObjectInstance(instanceId)
       if(!objectInstance) {
         const modifiedClassData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, classId: instanceUpdate.classId }
         this.addObjectInstance(instanceId, modifiedClassData, true)
@@ -63,15 +63,15 @@ export class GameClientScene extends EditorScene {
       this.updateObjectInstance(objectInstance, instanceUpdate)
     })
 
-    projectiles.forEach((instanceUpdate) => {
+    temporaryInstances.forEach((instanceUpdate) => {
       const instanceId = instanceUpdate.instanceId
-      const projectileInstance = this.projectileInstancesById[instanceId]
-      if(!projectileInstance) {
-        this.addProjectileInstance(instanceId, instanceUpdate.classId)
+      const temporaryInstance = this.temporaryInstancesById[instanceId]
+      if(!temporaryInstance) {
+        this.addTemporaryInstance(instanceId, instanceUpdate.classId)
         return
       };
-      this.updateObjectInstance(projectileInstance, instanceUpdate)
-      projectileInstance.destroyTime = instanceUpdate.destroyTime
+      this.updateObjectInstance(temporaryInstance, instanceUpdate)
+      temporaryInstance.destroyTime = instanceUpdate.destroyTime
     })
 
     if(this.draggingObjectInstanceId === PLAYER_INSTANCE_ID_PREFIX) return

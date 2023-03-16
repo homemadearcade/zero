@@ -28,6 +28,7 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
       classes: {},
       cutscenes: {},
       relations: {},
+      collisions: {},
       tags: {},
       events: {},
       effects: {},

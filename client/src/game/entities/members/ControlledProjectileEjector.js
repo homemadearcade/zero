@@ -19,7 +19,7 @@ export class ControlledProjectileEjector {
         return
       }
 
-      const projectile = this.scene.addProjectileInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
+      const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
       projectile.fireControlled(this.objectInstance, time, this.cursors)
 
       this.nextFire = time + objectClass.projectile.cooldown;

@@ -48,6 +48,9 @@ export const defaultGameModel = {
     "lives": 1,
     'startingStageId': initialStageId
   },
+  "collisions": {
+
+  },
   "classes": {
     [vehiclePlayerClassId]: vehicleClass,
     [jumperPlayerClassId]: jumperClass,

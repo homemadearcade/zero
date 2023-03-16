@@ -85,9 +85,11 @@ const CreateRelation = ({
 
     if(!isEventSaveable || !areEffectsSaveable) return true
 
-    if(Object.keys(relation.effects).some((effectId) => {
-      return isUseableEffect(effects[effectId].type, event.type)
-    })) return true
+    const isAnEffectNotUseable = Object.keys(relation.effects).some((effectId) => {
+      return !isUseableEffect(effects[effectId].type, event.type)
+    })
+
+    if(isAnEffectNotUseable) return true
 
     return false 
   }
@@ -116,7 +118,6 @@ const CreateRelation = ({
   function renderRelationForms(effect) {
     if(!event || !effect.type) return 
     
-
     const effectInterface = effectEditInterface[effect.type]
     const eventInterface = eventEditInterface[event.type]
     const effectData = relation.effects[effect.effectId]
@@ -255,13 +256,13 @@ const CreateRelation = ({
           <Divider/>
           <Typography variant="h4">{'Effect #' + (index + 1)}</Typography>
           {!isUseableEffect(effects[effectId].type, event.type) && <Alert severity='error'>
-            <AlertTitle>This Effect is not Compatible with the Event. Remove it to save</AlertTitle>
+            <AlertTitle>This Effect is not compatible with the Event. Change or remove it to save</AlertTitle>
           </Alert>}
           <CreateEffect effectId={effectId}/>
-          {renderRelationForms(effects[effectId])}
-          <CobrowsingNestedList id={effectId} title="More Options" listId={effectId} >
+          {effects[effectId].type && renderRelationForms(effects[effectId])}
+          {effects[effectId].type &&<CobrowsingNestedList id={effectId} title="More Options" listId={effectId} >
             {renderOptionalRelationForms(effects[effectId])}
-          </CobrowsingNestedList>
+          </CobrowsingNestedList>}
           <Button onClick={() => {
             updateCreateRelation({
               effects: {

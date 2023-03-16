@@ -24,8 +24,6 @@ also like... event listeners, make sure they are getting turned off right. It ca
 
 Unauthenticate socket when logging out
 
-Performance huge upgrade - sort all instances into class Id. Use for relations
-
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

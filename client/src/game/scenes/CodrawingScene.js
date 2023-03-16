@@ -79,7 +79,7 @@ export class CodrawingScene extends Phaser.Scene {
     }
   }
 
-  onPointerDown = (pointer, gameObjects) => {
+  onPointerDown = (pointer, objectInstances) => {
     if(pointer.leftButtonDown()) {
       ////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////

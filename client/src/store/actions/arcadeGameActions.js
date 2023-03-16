@@ -154,6 +154,14 @@ function cleanGameModel(gameData) {
     }
   });
 
+  Object.keys(gameData.collisions).forEach(key => {
+    if (gameData.collisions[key] === null || gameData.collisions[key] === undefined) {
+      console.log('deleting collision', key)
+      delete gameData.collisions[key];
+    }
+  });
+
+
   Object.keys(gameData.effects).forEach(key => {
     if (gameData.effects[key] === null || gameData.effects[key] === undefined) {
       console.log('deleting effect', key)

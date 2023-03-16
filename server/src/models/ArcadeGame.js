@@ -48,6 +48,11 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
+    collisions: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     relations: {
       type: Object,
       required: true,
@@ -107,6 +112,7 @@ export const validateArcadeGame = (game) => {
     brushes: Joi.object(),
     colors: Joi.object(),
     relations: Joi.object(),
+    collisions: Joi.object(),
     events: Joi.object(),
     effects: Joi.object(),
     cutscenes: Joi.object(),
@@ -129,6 +135,7 @@ arcadeGameSchema.methods.toJSON = function () {
     brushes: this.brushes,
     colors: this.colors,
     relations: this.relations,
+    collisions: this.collisions,
     events: this.events,
     effects: this.effects,
     cutscenes: this.cutscenes,

@@ -10,7 +10,6 @@ import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
-import { initialPlayerSpawnZone } from '../constants';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
 import JSConfetti from 'js-confetti'
 import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomActions';
@@ -25,11 +24,18 @@ export class GameInstance extends Phaser.Scene {
     this.backgroundLayer = null
     this.playgroundLayer = null
     this.foregroundLayer = null
+
     this.objectInstances = []
     this.objectInstancesById = {}
+    this.objectInstancesByTag = {}
+
+    this.temporaryInstances = []
+    this.temporaryInstancesById = {}
+    this.temporaryInstancesByTag = {}
 
     this.gameState = null
-    this.relationMap = {}
+
+    this.relationsPopulated = {}
 
     this.unregisterColliders = []
 
@@ -57,7 +63,7 @@ export class GameInstance extends Phaser.Scene {
         this.spawnObjectInstanceInsidePlayerCamera(data)
         return
       case EVENT_SPAWN_CLASS_DRAG_FINISH: 
-        const objectInstance = this.objectInstancesById[data.instanceId]
+        const objectInstance = this.getObjectInstance(data.instanceId)
         objectInstance.sprite.x = data.x;
         objectInstance.sprite.y = data.y;
         return
@@ -75,7 +81,7 @@ export class GameInstance extends Phaser.Scene {
       return instance.classId === classId
     })
     
-    const projectiles= this.projectileInstances.filter((instance) => {
+    const projectiles= this.temporaryInstances.filter((instance) => {
       return instance.classId === classId
     })
 
@@ -89,7 +95,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   forAllObjectInstancesMatchingClassId(classId, fx) {
-   [this.playerInstance, ...this.objectInstances, ...this.projectileInstances].forEach((objectInstance) => {
+   [this.playerInstance, ...this.objectInstances, ...this.temporaryInstances].forEach((objectInstance) => {
       if(objectInstance.classId === classId) {
         fx(objectInstance)
       } else if(objectInstance.instanceId === classId) {
@@ -162,32 +168,32 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstance = null
   }
 
-  initializeObjectInstance(instanceId, gameObject, effectSpawned) {
-    const newPhaserObject = new ObjectInstance(this, instanceId, gameObject, effectSpawned)
+  initializeObjectInstance(instanceId, objectInstanceData, effectSpawned) {
+    const newPhaserObject = new ObjectInstance(this, instanceId, objectInstanceData, effectSpawned)
     this.objectInstances.push(newPhaserObject)
     this.objectInstancesById[instanceId] = newPhaserObject
     return newPhaserObject
   }
 
-  addProjectileInstance(instanceId, classId) {
-    const projectile = new ProjectileInstance(this, instanceId, { classId })
-    this.projectileInstances.push(projectile)
-    this.projectileInstancesById[instanceId] = projectile
+  addTemporaryInstance(instanceId, classId) {
+    const temporaryInstance = new ProjectileInstance(this, instanceId, { classId })
+    this.temporaryInstances.push(temporaryInstance)
+    this.temporaryInstancesById[instanceId] = temporaryInstance
     // this.unregisterRelations()
     // this.registerRelations()
-    return projectile
+    return temporaryInstance
   }
 
-  removeProjectileInstance(instanceId) {
-    this.projectileInstances = this.projectileInstances.filter((projectile) => {
-      return instanceId !== projectile.instanceId
+  removeTemporaryInstance(instanceId) {
+    this.temporaryInstances = this.temporaryInstances.filter((temporaryInstance) => {
+      return instanceId !== temporaryInstance.instanceId
     })
-    this.projectileInstancesById[instanceId].destroy()
-    this.projectileInstancesById[instanceId] = null
+    this.temporaryInstancesById[instanceId].destroy()
+    this.temporaryInstancesById[instanceId] = null
   }
 
-  addObjectInstance(instanceId, gameObject, effectSpawned) {
-    const instance = this.initializeObjectInstance(instanceId, gameObject, effectSpawned)
+  addObjectInstance(instanceId, objectInstanceData, effectSpawned) {
+    const instance = this.initializeObjectInstance(instanceId, objectInstanceData, effectSpawned)
     this.unregisterRelations()
     this.registerRelations()
     return instance
@@ -291,7 +297,7 @@ export class GameInstance extends Phaser.Scene {
       instance.registerRelations()
     })
 
-    // this.projectileInstances.forEach((instance) => {
+    // this.temporaryInstances.forEach((instance) => {
     //   instance.registerRelations()
     // })
 
@@ -302,7 +308,7 @@ export class GameInstance extends Phaser.Scene {
       instance.registerColliders()
     })
 
-    this.projectileInstances.forEach((instance) => {
+    this.temporaryInstances.forEach((instance) => {
       instance.registerColliders()
     })
 
@@ -331,7 +337,7 @@ export class GameInstance extends Phaser.Scene {
       instance.unregister()
     })
 
-    // this.projectileInstances.forEach((instance) => {
+    // this.temporaryInstances.forEach((instance) => {
     //   instance.unregister()
     // })
 
@@ -347,13 +353,13 @@ export class GameInstance extends Phaser.Scene {
       this.playerInstance.destroyInGame()
     }
 
-    this.projectileInstances.forEach((projectile) => {
-      if(projectile.destroyTime < Date.now()) {
-        projectile.destroyAfterUpdate = true
+    this.temporaryInstances.forEach((temporaryInstance) => {
+      if(temporaryInstance.destroyTime < Date.now()) {
+        temporaryInstance.destroyAfterUpdate = true
       }
     });
     
-    [...this.projectileInstances, ...this.objectInstances].forEach((objectInstance) => {
+    [...this.temporaryInstances, ...this.objectInstances].forEach((objectInstance) => {
       if(objectInstance.reclassId && objectInstance.reclassId !== objectInstance.classId) {
         objectInstance.reclass(objectInstance.reclassId)
       } else if(objectInstance.destroyAfterUpdate) {
@@ -426,26 +432,26 @@ export class GameInstance extends Phaser.Scene {
     const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
     const objects = currentStage.objects
-    Object.keys(objects).forEach((gameObjectId) => {
-      const objectInstanceData = objects[gameObjectId]
+    Object.keys(objects).forEach((objectInstanceId) => {
+      const objectInstanceData = objects[objectInstanceId]
       if(!objectInstanceData) {
         // LEGACY
-        // if(gameObjectId === 'oi/playspawnzone' || gameObjectId === 'oi-playspawnzone') {
+        // if(objectInstanceId === 'oi/playspawnzone' || objectInstanceId === 'oi-playspawnzone') {
         //   console.log('ding this thing?')
-        //   this.initializeObjectInstance(gameObjectId, initialPlayerSpawnZone)
+        //   this.initializeObjectInstance(objectInstanceId, initialPlayerSpawnZone)
         //   return
         // } else {
-          return console.error('Object missing!', gameObjectId)
+          return console.error('Object missing!', objectInstanceId)
         // }
       } 
-      if(gameObjectId === PLAYER_INSTANCE_ID_PREFIX) {
+      if(objectInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
         return console.error('hero got in?!')
       }
       if(!objectInstanceData.classId) {
         return console.error('missing classId!!', objectInstanceData)
       }
 
-      this.initializeObjectInstance(gameObjectId, objectInstanceData)
+      this.initializeObjectInstance(objectInstanceId, objectInstanceData)
     });
 
     this.objectInstances = this.objectInstances.filter((objectInstance) => {
@@ -482,7 +488,7 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstanceGroup = this.add.group()
     // this.basicClassGroup = this.add.group()
     // this.npcClassGroup = this.add.group()
-    // this.projectileInstanceGroup = this.add.group()
+    // this.temporaryInstanceGroup = this.add.group()
 
     this.playerInstanceLayer = this.add.layer();
     this.playerInstanceLayer.setDepth(PLAYER_INSTANCE_CANVAS_DEPTH)
@@ -533,8 +539,8 @@ export class GameInstance extends Phaser.Scene {
     ////////////////////////////////////////////////////////////
     this.objectInstances = []
     this.objectInstancesById = {}
-    this.projectileInstances = []
-    this.projectileInstancesById = {}
+    this.temporaryInstances = []
+    this.temporaryInstancesById = {}
 
     this.initializeObjectInstances()
 
@@ -634,12 +640,12 @@ export class GameInstance extends Phaser.Scene {
     this.objectInstances.forEach((instance) => {
       instance.destroy()
     })
-    this.projectileInstances.forEach((instance) => {
+    this.temporaryInstances.forEach((instance) => {
       instance.destroyAfterUpdate = true
       instance.destroy()
     })
-    this.projectileInstances = []
-    this.projectileInstancesById = {}
+    this.temporaryInstances = []
+    this.temporaryInstancesById = {}
     this.objectInstances= []
     this.objectInstancesById = {}
     this.playerInstance.destroy()
@@ -682,7 +688,7 @@ export class GameInstance extends Phaser.Scene {
       objectInstance.update(time, delta);
     })
 
-    this.projectileInstances.forEach((projectile) => {
+    this.temporaryInstances.forEach((projectile) => {
       projectile.update(time, delta)
     })
 

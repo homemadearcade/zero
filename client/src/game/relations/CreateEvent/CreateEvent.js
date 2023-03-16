@@ -153,7 +153,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
         })
     }}/>
     {renderTagSelect()}
-    <CobrowsingNestedList id="CreateEvent" title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>
+    {event.type && <CobrowsingNestedList id="CreateEvent" title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
   </div>
 }
 

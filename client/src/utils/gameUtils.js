@@ -50,7 +50,7 @@ export function getClassAandB(classIdA, classIdB) {
   }
 }
 
-export function isEventMatch({effect, classId, world, gameObject, body}) {
+export function isEventMatch({effect, classId, world, objectClass, body}) {
   if(
     (classId === BOUNDARY_DOWN_WALL_ID && body === world.walls.down) ||
     (classId === BOUNDARY_UP_WALL_ID && body === world.walls.up) ||
@@ -61,14 +61,14 @@ export function isEventMatch({effect, classId, world, gameObject, body}) {
     return true
   }
 
-  if(!gameObject) return false
+  if(!objectClass) return false
   
-  if(gameObject.classId === classId) {
+  if(objectClass.classId === classId) {
     return true
   }
 
   if(classId === PLAYER_INSTANCE_ID_PREFIX) {
-    return gameObject.type === PLAYER_INSTANCE_ID_PREFIX
+    return objectClass.type === PLAYER_INSTANCE_ID_PREFIX
   }
 
   return false
@@ -104,12 +104,12 @@ export function getClassDisplayName(descriptors, classId) {
   return descriptors ? descriptors[0] : classId
 }
 
-export function getOppositeRelationClassId(classId, relation) {
-  if(classId === relation.event.classIdA) {
-    return relation.event.classIdB
+export function getOppositeColliderTagId(tagId, collision) {
+  if(tagId === collision.event.tagIdA) {
+    return collision.event.tagIdB
   }
-  if(classId === relation.event.classIdB) {
-    return relation.event.classIdA
+  if(tagId === collision.event.tagIdB) {
+    return collision.event.tagIdA
   }
 
   return null

@@ -11,7 +11,7 @@ import SelectColliders from '../../ui/SelectColliders/SelectColliders';
 import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE, PLAYGROUND_CANVAS_ID, RELATION_ID_PREFIX } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
-import { getOppositeRelationClassId } from '../../../utils/gameUtils';
+import { getOppositeColliderTagId } from '../../../utils/gameUtils';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import { PHYSICS_BOUNCE_IID, PHYSICS_COLLIDERS_IID, PHYSICS_FRICTION_IID, PHYSICS_IGNORE_BOUNDARIES_IID, PHYSICS_IGNORE_SIDES_IID, PHYSICS_IMMOVABLE_IID, PHYSICS_MASS_IID, PHYSICS_PUSHABLE_IID } from '../../../constants/interfaceIds';
 
@@ -19,66 +19,66 @@ import { PHYSICS_BOUNCE_IID, PHYSICS_COLLIDERS_IID, PHYSICS_FRICTION_IID, PHYSIC
 const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
   const classSelected = gameModel.classes[classId]
 
-
+  const tagId = classId
   return (
     <div className="PhysicsEditor">
       <Unlockable interfaceId={PHYSICS_COLLIDERS_IID}>
         <SelectColliders
           formLabel="Colliders"
-          classId={classId}
-          onChange={(event, newColliderClasses) => {
-            const oldColliderRelations = Object.keys(gameModel.relations).map((relationId) => {
-              return gameModel.relations[relationId]
-            }).filter((relation) => {
-              if((relation.event.type === ON_COLLIDE_ACTIVE) &&
-                 relation.effect.type === EFFECT_COLLIDE &&
-                 (relation.event.classIdA === classId || relation.event.classIdB === classId)
+          tagId={tagId}
+          onChange={(event, newColliderTags) => {
+            const oldColliders = Object.keys(gameModel.collisions).map((collisionId) => {
+              return gameModel.collisions[collisionId]
+            }).filter((collision) => {
+              if((collision.event.type === ON_COLLIDE_ACTIVE) &&
+                 collision.effect.type === EFFECT_COLLIDE &&
+                 (collision.event.tagIdA === tagId || collision.event.tagIdB === tagId)
               ) {
                 return true
               }
               return false
             })
 
-            const relations = _.cloneDeep(gameModel.relations)
+            const collisions = _.cloneDeep(gameModel.collisions)
 
-            if(oldColliderRelations.length < newColliderClasses.length) {
-              oldColliderRelations.forEach((relation) => {
-                if(relation.event.classIdA === relation.event.classIdB) {
-                  const index = newColliderClasses.indexOf(classId)
+            if(oldColliders.length < newColliderTags.length) {
+              oldColliders.forEach((collision) => {
+                if(collision.event.tagIdA === collision.event.tagIdB) {
+                  const index = newColliderTags.indexOf(tagId)
                   if(index >= 0) {
-                    newColliderClasses.splice(index, 1)
+                    newColliderTags.splice(index, 1)
                   }
                 } else {
-                  let index = newColliderClasses.indexOf(relation.event.classIdA)
+                  let index = newColliderTags.indexOf(collision.event.tagIdA)
 
                   // check for class b if we couldnt find the class a in the list OR if its our main class Id
                   // we would rather find class id b in that case so we dont mistsake this for a self-collider
-                  if(index === -1 || newColliderClasses[index] === classId) {
-                    index = newColliderClasses.indexOf(relation.event.classIdB)
+                  if(index === -1 || newColliderTags[index] === tagId) {
+                    index = newColliderTags.indexOf(collision.event.tagIdB)
                   }
-                  if(newColliderClasses[index] === classId) {
-                    //this is so we do not accidentally splice it when its new. All relations can be mistaken for a self-collision
-                    if(!oldColliderRelations.some(({event}) => {
-                      if(event.classIdA === event.classIdB) return true
+                  if(newColliderTags[index] === tagId) {
+                    //this is so we do not accidentally splice it when its new. All collisions can be mistaken for a self-collision
+                    if(!oldColliders.some(({event}) => {
+                      if(event.tagIdA === event.tagIdB) return true
                       return false
                     })) {
                       // if we are here, we did not have a self-collision before, so do not splice it!
                       return null
                     }
                   }
-                  newColliderClasses.splice(index, 1)
+                  newColliderTags.splice(index, 1)
                 }
                 
               })
   
-              newColliderClasses.forEach((classIdB) => {
+              newColliderTags.forEach((tagIdB) => {
                 const newId = RELATION_ID_PREFIX+generateUniqueId()
-                relations[newId] = {
-                  relationId: newId,
+                collisions[newId] = {
+                  collisionId: newId,
                   event: {
                     type: ON_COLLIDE_ACTIVE,
-                    classIdA: classId,
-                    classIdB,
+                    tagIdA: tagId,
+                    tagIdB,
                   },
                   effect: {
                     type: EFFECT_COLLIDE
@@ -88,22 +88,29 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
 
             } else {
 
-              const oldColliderClassIds = oldColliderRelations.map((relation) => getOppositeRelationClassId(classId, relation))
+              const oldColliderTagIds = oldColliders.map((collision) => {
+                return getOppositeColliderTagId(tagId, collision)
+              })
 
               const toSplice = []
-              newColliderClasses.forEach((classId) => {
-                const index = oldColliderClassIds.indexOf(classId)
+              newColliderTags.forEach((tagId) => {
+                const index = oldColliderTagIds.indexOf(tagId)
                 toSplice.push(index)
               })
 
-              oldColliderRelations.filter((relation, index) => {
+              console.log(toSplice)
+              console.log(oldColliderTagIds, newColliderTags)
+
+              oldColliders.filter((collision, index) => {
                 return toSplice.indexOf(index) === -1
-              }).forEach((relation) => {
-                relations[relation.relationId] = null
+              }).forEach((collision) => {
+                collisions[collision.collisionId] = null
               })
+
+              console.log(oldColliders, collisions)
             }
             
-            editGameModel({ relations })        
+            editGameModel({ collisions })        
          }}/>
       </Unlockable>
       {false && classSelected.graphics.layerId === PLAYGROUND_CANVAS_ID && <div>

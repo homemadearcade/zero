@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
 import { editGameModel } from '../../store/actions/gameModelActions';
-import { openContextMenuFromGameObject, openStageContextMenu } from '../../store/actions/contextMenuActions';
+import { openContextMenuFromObjectInstance, openStageContextMenu } from '../../store/actions/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom, changeInstanceHovering } from '../../store/actions/gameViewEditorActions';
@@ -383,7 +383,7 @@ export class EditorScene extends GameInstance {
     return true
   }
 
-  onPointerDown = (pointer, gameObjects) => {
+  onPointerDown = (pointer, objectInstance) => {
     const clickDelay = this.time.now - this.lastClick;
     this.lastClick = this.time.now;
     if(clickDelay < 350) {
@@ -408,8 +408,8 @@ export class EditorScene extends GameInstance {
         document.body.removeEventListener('contextmenu', disableContextMenue)
       })
 
-      if(gameObjects.length) {
-        store.dispatch(openContextMenuFromGameObject(gameObjects, pointer.event))
+      if(objectInstance.length) {
+        store.dispatch(openContextMenuFromObjectInstance(objectInstance, pointer.event))
       } else {
         store.dispatch(openStageContextMenu(pointer.event))
       }
@@ -550,7 +550,7 @@ export class EditorScene extends GameInstance {
     // this.editorCamera.pan(pointer.worldX, pointer.worldY, 0)
   }
 
-  onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+  onMouseWheel = (pointer, objectInstance, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId) return
     if(!getCobrowsingState().gameViewEditor.isGridViewOn) return
     
@@ -593,7 +593,7 @@ export class EditorScene extends GameInstance {
     this.canvas = null;
   }
 
-  getGameObjectById(instanceId) {
+  getObjectInstanceData(instanceId) {
     const gameModel = store.getState().gameModel.gameModel
 
     if(instanceId === PLAYER_INSTANCE_ID_PREFIX) {
@@ -602,10 +602,10 @@ export class EditorScene extends GameInstance {
     return gameModel.stages[this.stage.stageId].objects[instanceId]
   }
 
-  addGameObject(classId, {spawnX, spawnY}) {
+  addObjectInstanceData(classId, {spawnX, spawnY}) {
     const instanceId = OBJECT_INSTANCE_ID_PREFIX+generateUniqueId()
 
-    const gameObject = {
+    const objectInstanceData = {
       classId,
       spawnX,
       spawnY,
@@ -615,13 +615,13 @@ export class EditorScene extends GameInstance {
       stages: {
         [this.stage.stageId]: {
           objects: {
-            [instanceId]: gameObject
+            [instanceId]: objectInstanceData
           }
         }
       }
     }))
 
-    this.addObjectInstance(instanceId, gameObject)
+    this.addObjectInstance(instanceId, objectInstanceData)
   }
 
   ////////////////////////////////////////////////////////////
@@ -840,9 +840,9 @@ export class EditorScene extends GameInstance {
               this.addPlayerInstance()
               return
             }
-            const gameObject = this.getGameObjectById(objectInstance.instanceId)
-            this.removeObjectInstance(objectInstance.instanceId)
-            this.addObjectInstance(objectInstance.instanceId, gameObject)
+            const objectInstanceData = this.getObjectInstanceData(objectInstance.instanceId)
+            this.removeObjectInstance(objectInstanceData.instanceId)
+            this.addObjectInstance(objectInstanceData.instanceId, objectInstanceData)
           })
         // })
       }

@@ -8,7 +8,7 @@ import { classTypeToDisplayName } from '../../constants';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
 
-const SelectTag = ({ noClassTags, onChange, disabled, value, formLabel, gameModel, classType }) => {
+const SelectTag = ({ noClassTags, onChange, disabled, value, formLabel, gameModel }) => {
 
   const mapTagToOption = (classId) => {
     const tag = gameModel.tags[classId]
@@ -21,7 +21,7 @@ const SelectTag = ({ noClassTags, onChange, disabled, value, formLabel, gameMode
 
     if(tag.isClassTag) {
       const tagClass = gameModel.classes[tag.tagId]
-      const interfaceId = classType + CLASS_UNLOCKABLE_IID + tag.tagId
+      const interfaceId = tagClass.type + CLASS_UNLOCKABLE_IID + tag.tagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
 
       return {
@@ -43,14 +43,7 @@ const SelectTag = ({ noClassTags, onChange, disabled, value, formLabel, gameMode
     }
   }
 
-  const options = Object.keys(gameModel.tags).filter((classId) => {
-    const tag = gameModel.tags[classId]
-    if(tag.isClassTag && classType) {
-      const tagClass = gameModel.classes[tag.tagId]
-      if(classType !== tagClass.type) return false
-    }
-    return true
-  }).map(mapTagToOption)
+  const options = Object.keys(gameModel.tags).map(mapTagToOption)
 
   options.sort((a, b) => -b.type.localeCompare(a.type))
 

@@ -94,6 +94,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       cutscenes: req.body.cutscenes,
       relations: req.body.relations,
       tags: req.body.tags,
+      collisions: req.body.collisions,
       events: req.body.events,
       effects: req.body.effects,
       awsImages: req.body.awsImages,
@@ -172,6 +173,13 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       }
     });
 
+    Object.keys(updatedGame.collisions).forEach(key => {
+      if (updatedGame.collisions[key] === null || updatedGame.collisions[key] === undefined) {
+        console.log('deleting collisions', key)
+        delete updatedGame.collisions[key];
+      }
+    });
+
     Object.keys(updatedGame.events).forEach(key => {
       if (updatedGame.events[key] === null || updatedGame.events[key] === undefined) {
         console.log('deleting event', key)
@@ -210,6 +218,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       tags: updatedGame.tags,
       relations: updatedGame.relations, 
       events: updatedGame.events, 
+      collisions: updatedGame.collisions, 
       effects: updatedGame.effects, 
       isRemoved: updatedGame.isRemoved,
       stages: updatedGame.stages

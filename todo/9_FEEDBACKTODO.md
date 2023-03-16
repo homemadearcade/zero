@@ -20,13 +20,12 @@ Spawn bar when selecting gravity
 
 ---
 
-Player in editing game starts of invisible so we can make it invisible after BG color select
+Player in editing game starts off invisible so we can make it invisible after BG color select
 
 
 --
 
 Credits Links are broken 
-
 
 --
 

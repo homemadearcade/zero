@@ -131,7 +131,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
         return
       }
 
-      const projectile = new ProjectileInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
+      const projectile = new TemporaryInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
       projectile.fire(this)
 
       this.nextFire = this.scene.game.loop.time + projectile.cooldown;
@@ -326,10 +326,10 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
       instance.destroy()
     })
     this.objectInstances= []
-    this.projectileInstances.forEach((instance) => {
+    this.temporaryInstances.forEach((instance) => {
       instance.destroy()
     })
-    this.projectileInstances = []
+    this.temporaryInstances = []
     this.playerInstance.destroy()
 
     this.objectInstanceGroup.destroy()
@@ -364,7 +364,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     this.objectInstanceGroup = this.add.group()
     // this.basicClassGroup = this.add.group()
     // this.npcClassGroup = this.add.group()
-    // this.projectileInstanceGroup = this.add.group()
+    // this.temporaryInstanceGroup = this.add.group()
 
     this.playerInstanceLayer = this.add.layer();
     this.playerInstanceLayer.setDepth(PLAYER_INSTANCE_CANVAS_DEPTH)

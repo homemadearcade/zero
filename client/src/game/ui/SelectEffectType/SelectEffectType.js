@@ -19,16 +19,15 @@ const SelectEffectType = ({ onChange, value, eventType, formLabel, disabled, gam
     return false
   }).map(mapEffectsToOption)
 
-  // const useableValue = value.filter((effectId) => {
-  //   const effect = gameModel.effects[effectId]
-  //   return isUseableEffect(effect.type, event.type)
-  // })
+  const useableValue = value.filter((effectType) => {
+    return isUseableEffect(effectType, eventType)
+  })
 
   return <SelectChipsAuto 
     disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}
-    value={value}
+    value={useableValue}
     options={options}
   />
 }

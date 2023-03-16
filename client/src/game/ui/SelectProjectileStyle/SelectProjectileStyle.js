@@ -38,8 +38,6 @@ const SelectProjectileStyle = ({ onChange, value, formLabel }) => {
     }
   }
 
-  console.log(value)
-
   const options = Object.keys(projectileValueToLabel).map(mapControlsToOption)
 
   return <SelectChipsAuto 

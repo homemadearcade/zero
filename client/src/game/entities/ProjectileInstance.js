@@ -26,7 +26,7 @@ export class ProjectileInstance extends ObjectInstance {
       console.error('no projectile data in class id:' + classId)
     }
 
-    // scene.projectileInstanceGroup.add(this.sprite)
+    // scene.temporaryInstanceGroup.add(this.sprite)
 
     this.scene = scene
     
@@ -153,7 +153,7 @@ export class ProjectileInstance extends ObjectInstance {
     const instanceId = this.instanceId
     this.runDestroyEvents()
     // calls .destroy()
-    this.scene.removeProjectileInstance(instanceId)
+    this.scene.removeTemporaryInstance(instanceId)
 
   }
 }
