@@ -25,7 +25,6 @@ export const defaultEvent = {
   sidesB: [],
   eventId: null,
 
-  effects: {},
   onlyOnce: false,
   delayInterval: null,
   delayEffect: null,
@@ -48,17 +47,17 @@ export const eventShortNames = {
 }
 
 export const eventDisplayNames = {
-  [ON_COLLIDE_START]: 'When two tagged objects start touching',
+  [ON_COLLIDE_START]: 'When Tag A starts touching Tag B',
   // [ON_COLLIDE_END]: 'stop touching',
-  [ON_COLLIDE_ACTIVE]: 'While two tagged objects are touching',
+  [ON_COLLIDE_ACTIVE]: 'While Tag A is touching Tag B',
   [ON_PLAYTHROUGH]: 'When game playthrough begins',
   //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
-  [ON_SPAWN]: 'When the tagged object is spawned',
-  [ON_DESTROY_ONE]: 'When the tagged object is destroyed',
-  [ON_DESTROY_ALL]: 'When all of the tagged objects are destroyed',
-  [ON_INTERACT]: 'When a player interacts with a tagged object',
+  [ON_SPAWN]: 'When Tag A is spawned',
+  [ON_DESTROY_ONE]: 'When Tag A is destroyed',
+  [ON_DESTROY_ALL]: 'When all instances of Tag A are destroyed',
+  [ON_INTERACT]: 'When a player presses X near Tag A',
 
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }

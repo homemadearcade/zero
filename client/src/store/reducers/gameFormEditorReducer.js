@@ -43,6 +43,7 @@ import {
   OPEN_CREATE_EVENT,
   UPDATE_CREATE_EVENT,
   CLOSE_CREATE_EVENT,
+  UPDATE_EDITING_EFFECT,
 } from '../types';
 
 // game create editor
@@ -102,10 +103,10 @@ const initialState = {
   },
 
   isCreateEffectOpen: false,
+  editingEffectId: null,
   effects: {
 
   },
-
 
   isBoundaryRelationMenuOpen: false,
   isRelationsMenuOpen: false,
@@ -237,10 +238,16 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isRelationsMenuOpen: false,
         classIdRelationsMenu: null
       }
+    case UPDATE_EDITING_EFFECT:
+      return {
+        ...state,
+        editingEffectId: payload.effectId
+      }
     case OPEN_CREATE_EFFECT:
       return {
         ...state,
         isCreateEffectOpen: true,
+        editingEffectId: payload.effectId,
         effects: {
           ...state.effects,
           [payload.effectId]: {
@@ -263,6 +270,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCreateEffectOpen: false,
+        editingEffectId: null,
         effects: {}
       }
     case OPEN_CREATE_TAG: 
@@ -311,6 +319,8 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
           ..._.cloneDeep(initialState.relation),
           ...payload.initialRelation ? _.cloneDeep(payload.initialRelation) : {}
         },
+        effects: payload.effects,
+        event: payload.event
       }
     case UPDATE_CREATE_RELATION:
       return {

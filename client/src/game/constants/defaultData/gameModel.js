@@ -55,22 +55,11 @@ export const defaultGameModel = {
     [initialSpawnZoneClassId]: {
       name: 'Player Spawn Zone',
       ...defaultZoneClass,
-      classId: [initialSpawnZoneClassId],
+      classId: initialSpawnZoneClassId,
       graphics: {
         ...defaultZoneClass.graphics,
         tint: '#FFFFFF'
       }
-    },
-    // LEGACY this is in here for legacy...
-    'oc/z/playerspawnzone': {
-      name: 'Legacy Player Spawn Zone',
-      ...defaultZoneClass,
-      classId: [initialSpawnZoneClassId],
-      graphics: {
-        ...defaultZoneClass.graphics,
-        tint: '#FFFFFF'
-      },
-      isRemoved: true
     },
   },
   isRemoved: false

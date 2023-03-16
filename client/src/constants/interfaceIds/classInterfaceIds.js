@@ -21,6 +21,7 @@ export const CLASS_VISIBILITY_IID = 'class/visibility'
 export const CLASS_LOCK_IID = 'class/lock'
 export const CLASS_UNLOCKABLE_IID = 'class/unlockable'
 export const CHANGE_CLASS_TYPE_IID = "class/changeClassType";
+export const CLASS_TAGS_IID = "class/tags";
 
 export function getSelectClassFromClassType(type) {
   if(type === PLAYER_CLASS) return PLAYER_CLASS_SELECT_IID

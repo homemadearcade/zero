@@ -39,6 +39,7 @@ import {
   OPEN_CREATE_EVENT,
   CLOSE_CREATE_EVENT,
   UPDATE_CREATE_EVENT,
+  UPDATE_EDITING_EFFECT,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
@@ -271,10 +272,29 @@ export const closeRelationsMenu= () => (dispatch, getState) => {
 }
 
 export const openCreateRelation = (initialRelation) => (dispatch, getState) => {
+  const gameModel = getState().gameModel.gameModel
+
+  let effects = {}
+  if(initialRelation?.effects) {
+    Object.keys(initialRelation.effects).forEach((effectId) => {
+      effects[effectId] = gameModel.effects[effectId]
+    })
+  }
+  let event = null 
+  if(initialRelation?.event) {
+    event = gameModel.events[initialRelation.event]
+  }
+
+  console.log(effects, event)
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_RELATION,
-    payload: { initialRelation }
+    payload: { 
+      initialRelation,
+      event,
+      effects,
+    }
   });
 }
 export const closeCreateRelation= () => (dispatch, getState) => {
@@ -370,6 +390,16 @@ export const updateCreateEffect = (effectId, effect) => (dispatch, getState) => 
     payload: { 
       effectId,
       effect
+    }
+  });
+}
+
+export const updateEditingEffectId = (effectId) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: UPDATE_EDITING_EFFECT,
+    payload: { 
+      effectId,
     }
   });
 }

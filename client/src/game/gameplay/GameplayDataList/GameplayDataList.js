@@ -158,7 +158,7 @@ const GameplayDataList = ({
   }).map((currentRelationId, i) => {
     const currentRelation = gameModel.relations[currentRelationId]
     return <Unlockable interfaceId={EFFECT_SELECT_IID}>
-      <NestedListItem title={currentRelation.effectId} 
+      <NestedListItem title={currentRelation.relationId} 
         onClick={() => {openCreateRelation(currentRelation)}}
       >
       </NestedListItem>

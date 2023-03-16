@@ -12,7 +12,8 @@ import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import { closeClassNameModal, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import SelectClassType from '../../ui/SelectClassType/SelectClassType';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_CLASS_TYPE_IID } from '../../../constants/interfaceIds';
+import { CHANGE_CLASS_TYPE_IID, CLASS_TAGS_IID } from '../../../constants/interfaceIds';
+import SelectTag from '../../ui/SelectTag/SelectTag';
 
 const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel, gameFormEditor: { objectClass }, gameModel: { gameModel } }) => {
   if(!gameModel.classes[objectClass.classId]) return 
@@ -46,6 +47,31 @@ const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel,
         <SelectClassType formLabel="Type" value={objectClass.type ? [objectClass.type]: []} onChange={(event, type) => {
           updateCreateClass({
             type: type[type.length-1]
+          })
+        }}/>
+      </Unlockable>
+      <Unlockable interfaceId={CLASS_TAGS_IID}>
+        <SelectTag noClassTags formLabel="Tags" value={objectClass.tags ? Object.keys(objectClass.tags).filter((tagId) => {
+          return !!objectClass.tags[tagId]
+        }) : []} onChange={(event, tags) => {
+          
+          const currentTags = Object.keys(objectClass.tags).reduce((prev, tagId) => {
+            // const tag = objectClass.tags[tagId]
+            // if(tag.isAutomaticallyAdded) {
+            //   prev[tagId] = true
+            // } else {
+            prev[tagId] = false 
+            // }
+            return prev
+          }, {})
+
+          const newTags = tags.reduce((prev, tagId) => {
+              prev[tagId] = true 
+              return prev
+            }, currentTags)
+
+          updateCreateClass({
+            tags: newTags
           })
         }}/>
       </Unlockable>

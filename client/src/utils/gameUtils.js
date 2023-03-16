@@ -38,24 +38,11 @@ export function getAngleBetweenInstances(obj1, obj2) {
 }
 
 export function getClassAandB(classIdA, classIdB) {
- // if the class dont exist, its the playerclass ( as of now thats the only generalized one)
-
   const state = store.getState()
   const gameModel = state.gameModel.gameModel
 
   let classA = gameModel.classes[classIdA] 
   let classB = gameModel.classes[classIdB]
-
-  const playerClassId= getCurrentGameScene(state.webPage.gameInstance).playerInstance.classId
-
-  // if(classIdA === PLAYER_INSTANCE_ID_PREFIX) {
-  //   classA = gameModel.classes[stage.playerClassId].playerClassId]
-  //   classA.name = 'Player'
-  // }
-
-  if(classIdB === PLAYER_INSTANCE_ID_PREFIX) {
-    classB = {...gameModel.classes[playerClassId], name: 'Player'}
-  }
 
   return {
     classA, 

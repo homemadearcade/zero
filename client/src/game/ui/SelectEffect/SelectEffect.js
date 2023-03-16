@@ -15,7 +15,8 @@ const SelectEffect = ({ event, onChange, value, formLabel, disabled, gameModel})
     }
   }
 
-  function isUsuableEffect(effectType) {
+  function isUsuableEffect(effectId) {
+    const effectType = gameModel.effects[effectId]
     if(effectType === EFFECT_COLLIDE) return false
     if(event.type !== ON_COLLIDE_ACTIVE && persistentEffects[effectType]) return false
     if(!persistentEffects[effectType] && (event.type === ON_COLLIDE_ACTIVE)) return false
@@ -28,7 +29,7 @@ const SelectEffect = ({ event, onChange, value, formLabel, disabled, gameModel})
     return false
   }).map(mapControlsToOption)
 
-  const useableValue = isUsuableEffect(value) ? value : []
+  const useableValue = value.filter(isUsuableEffect)
 
   return <SelectChipsAuto 
     disabled={disabled}

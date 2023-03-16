@@ -25,13 +25,17 @@ export const EFFECT_WIN_GAME = 'EFFECT_WIN_GAME'
 export const EFFECT_OPEN_OVERLAY = 'EFFECT_OPEN_OVERLAY'
 export const EFFECT_CHANGE_GAME = 'EFFECT_CHANGE_GAME'
 
+export const NO_TAG_EFFECT = 'NO_TAG_EFFECT'
+export const SINGLE_TAG_EFFECT = 'SINGLE_TAG_EFFECT'
+export const TWO_TAG_EFFECT = 'TWO_TAG_EFFECT'
+
 // WHAT HAPPENS
 export const defaultEffect = {
   type: '',
   effectId: null,
 
-  effectInstanceA: false,
-  effectInstanceB: false,
+  effectTagA: false,
+  effectTagB: false,
   remoteEffectedTagId: null,
 
   spawnZoneSelectorType: false,
@@ -58,7 +62,7 @@ export const spawnZoneSelectorTypeToDisplayName = {
 export const effectDisplayNames = {
   // Movement
   [EFFECT_TELEPORT]: 'Teleport',
-  [EFFECT_COLLIDE]: 'Collide',
+  // [EFFECT_COLLIDE]: 'Collide',
   [EFFECT_IGNORE_GRAVITY]: 'Remove gravity from',
   [EFFECT_STICK_TO]: 'Hold',
 
@@ -91,60 +95,71 @@ export const effectEditInterface = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneClassId: 'Teleport to which zone?',
+    effectableType: TWO_TAG_EFFECT
   },
   [EFFECT_COLLIDE]: {
 
   },
   [EFFECT_IGNORE_GRAVITY]: {
-
+    effectableType: TWO_TAG_EFFECT
   },
   [EFFECT_STICK_TO]: {
-
+    effectableType: SINGLE_TAG_EFFECT
   },
 
   // Lifecycle
   [EFFECT_RECLASS]: {
     classId: 'Transform into which object?',
+    effectableType: TWO_TAG_EFFECT
   },
   [EFFECT_SPAWN]: {
     zoneClassId: 'Spawn in which Zone?',
     delayInterval: true,
-    spawnZoneSelectorType: true,
-    // delayEffect: true
-    
+    spawnClassId: 'Which Class will be spawned?',
+    spawnZoneSelectorType: true,  
+    effectableType: NO_TAG_EFFECT
   },
   [EFFECT_DESTROY]: {
-
+    effectableType: TWO_TAG_EFFECT
   },
 
   // Narrative
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',
+    effectableType: NO_TAG_EFFECT
   },
   [EFFECT_GAME_OVER]: {
     text: 'Message',
+    effectableType: NO_TAG_EFFECT
   },
   [EFFECT_WIN_GAME]: {
     text: 'Message',
+    effectableType: NO_TAG_EFFECT
   },
 
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
     // number: 'How intense is the camera shake?',
     // delayInterval: true
+    effectableType: NO_TAG_EFFECT
   },
-  [EFFECT_INVISIBLE]: {},
-
-
+  [EFFECT_INVISIBLE]: {
+    effectableType: TWO_TAG_EFFECT
+  },
 
   // Meta
   [EFFECT_SWITCH_STAGE]: {
     stageId: 'Which stage?',
+    // zoneClassId: 'Spawn in which Zone?',
+    // classId: 'Transform into which object? (Optional)',
+    effectableType: NO_TAG_EFFECT
   },
   [EFFECT_CHANGE_GAME]: {
     gameId: 'Which game?',
+    effectableType: NO_TAG_EFFECT
   },
   [EFFECT_OPEN_OVERLAY]: {
+    effectableType: NO_TAG_EFFECT
   },
 }
 

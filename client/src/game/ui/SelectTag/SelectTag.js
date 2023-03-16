@@ -8,7 +8,7 @@ import { classTypeToDisplayName } from '../../constants';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
 
-const SelectTag = ({ onChange, disabled, value, formLabel, gameModel, classType }) => {
+const SelectTag = ({ noClassTags, onChange, disabled, value, formLabel, gameModel, classType }) => {
 
   const mapTagToOption = (classId) => {
     const tag = gameModel.tags[classId]
@@ -29,7 +29,7 @@ const SelectTag = ({ onChange, disabled, value, formLabel, gameModel, classType 
         value: classId,
         textureId: tag.textureId,
         tint: tag.color,
-        isRemoved: tag.isRemoved || (isObscured && tag.interfaceLocked),
+        isRemoved: tag.isRemoved || (isObscured && tag.interfaceLocked) || noClassTags,
         type: classTypeToDisplayName[tagClass.type]
       }
     }

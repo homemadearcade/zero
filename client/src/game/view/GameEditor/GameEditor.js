@@ -37,10 +37,9 @@ import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
 import GameplayDataList from '../../gameplay/GameplayDataList/GameplayDataList';
 import CreateTag from '../../tags/CreateTag/CreateTag';
-import CreateEffect from '../../relations/CreateEffect/CreateEffect';
-import CreateEvent from '../../relations/CreateEvent/CreateEvent';
-import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
+import CreateEffectModal from '../../relations/CreateEffectModal/CreateEffectModal';
+import CreateEventModal from '../../relations/CreateEventModal/CreateEventModal';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -140,8 +139,8 @@ const GameEditor = ({
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isBoundaryRelationOpen && <BoundaryRelation/>}
       {isCreateRelationOpen && <CreateRelation/>}
-      {isCreateEffectOpen && <CobrowsingModal open={true} onClose={closeCreateEffect}><CreateEffect/></CobrowsingModal>}
-      {isCreateEventOpen && <CobrowsingModal open={true} onClose={closeCreateEvent}><CreateEvent/></CobrowsingModal>}
+      {isCreateEffectOpen && <CreateEffectModal/>}
+      {isCreateEventOpen && <CreateEventModal/>}
       {isCreateTagOpen && <CreateTag/>}
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageOpen && <CreateStage/>}

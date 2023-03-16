@@ -430,13 +430,13 @@ export class GameInstance extends Phaser.Scene {
       const objectInstanceData = objects[gameObjectId]
       if(!objectInstanceData) {
         // LEGACY
-        if(gameObjectId === 'oi/playspawnzone' || gameObjectId === 'oi-playspawnzone') {
-          console.log('ding this thing?')
-          this.initializeObjectInstance(gameObjectId, initialPlayerSpawnZone)
-          return
-        } else {
+        // if(gameObjectId === 'oi/playspawnzone' || gameObjectId === 'oi-playspawnzone') {
+        //   console.log('ding this thing?')
+        //   this.initializeObjectInstance(gameObjectId, initialPlayerSpawnZone)
+        //   return
+        // } else {
           return console.error('Object missing!', gameObjectId)
-        }
+        // }
       } 
       if(gameObjectId === PLAYER_INSTANCE_ID_PREFIX) {
         return console.error('hero got in?!')
