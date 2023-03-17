@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { classTypeToDisplayName } from '../../constants';
+import { classTypeToDisplayName, tagTypeToDisplayName, TAG_CLASS } from '../../constants';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
 
@@ -15,11 +15,11 @@ const SelectTag = ({ noClassTags, onChange, disabled, value, formLabel, gameMode
 
     let type = 'My Tags'
 
-    if(tag.isLibraryTag) {
-      type = 'Library'
+    if(tag.type) {
+      type = tagTypeToDisplayName[tag.type]
     }
 
-    if(tag.isClassTag) {
+    if(tag.type === TAG_CLASS) {
       const tagClass = gameModel.classes[tag.tagId]
       const interfaceId = tagClass.type + CLASS_UNLOCKABLE_IID + tag.tagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)

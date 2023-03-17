@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, initialEffectRelation, isUseableEffect, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
+import { effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, initialEffectRelation, isUseableEffect, ON_INTERACT, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import { EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID } from '../../../constants/interfaceIds';
@@ -41,6 +41,7 @@ const CreateRelation = ({
   editGameModel, 
   updateCreateRelation, 
   gameFormEditor: { relation, event, effects }, 
+  gameModel: { gameModel },
   updateCreateEffect,
   updateCreateEvent
  }) => {
@@ -95,16 +96,6 @@ const CreateRelation = ({
   }
 
   function updateEffectData(effectId, data) {
-    console.log({
-      effects: {
-        [effectId] : {
-          ...relation.effects[effectId],
-          ...data
-        }
-      }
-    })
-
-    console.log(relation)
     updateCreateRelation({
       effects: {
         [effectId] : {
@@ -123,10 +114,13 @@ const CreateRelation = ({
     const effectData = relation.effects[effect.effectId]
 
     const forms = []
-    
+
+    const tagA = gameModel.tags[event.tagIdA]
+    const tagB = gameModel.tags[event.tagIdB]
+
     if(effectInterface.effectableType === SINGLE_TAG_EFFECT) {
       if(event.tagIdA) forms.push(<Switch
-          labels={['Effect Tag A', 'Effect Tag B']}
+          labels={[`Effect ${tagA.name}`, `Effect ${tagB.name}`]}
           size="small"
           onChange={(e) => {
             if(e.target.checked) {
@@ -141,7 +135,7 @@ const CreateRelation = ({
 
     if(effectInterface.effectableType === TWO_TAG_EFFECT) {
       if(event.tagIdA) forms.push(<Switch
-          labels={['', 'Effect Tag A']}
+          labels={['', `Effect ${tagA.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagA: e.target.checked })
@@ -150,7 +144,7 @@ const CreateRelation = ({
       />)
       
       if(event.tagIdB) forms.push(<Switch
-          labels={['', 'Effect Tag B']}
+          labels={['', `Effect ${tagB.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagB: e.target.checked })
@@ -219,7 +213,7 @@ const CreateRelation = ({
                 effect.effectId,
                 {effectCooldown: value})
             }}
-            value={effectData.effectCooldown || 200}
+            value={effectData.effectCooldown}
           />
       </Unlockable>)
     }

@@ -1,4 +1,4 @@
-import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP,PLAYER_INSTANCE_ID_PREFIX,ON_INTERACT, ON_DESTROY_ONE, ON_DESTROY_ALL, EFFECT_COLLIDE } from "../constants";
+import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, ON_DESTROY_ONE, ON_DESTROY_ALL, ON_INTERACT, ON_COLLIDE_START, ON_COLLIDE_ACTIVE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -60,23 +60,52 @@ export class ObjectInstance extends Sprite {
     this.collider = new Collider(scene, this, this)
     this.effects = new Effects(scene, this)
 
-    Object.keys(gameModel.relations).map((relationId) => {
-      return gameModel.relations[relationId]
-    }).forEach((relation) => {
-      const {event} = relation
-
-      if(event.type === ON_SPAWN && event.classIdA === this.classId) {
-        this.runAccuteEffect(relation)
-      }
-    })
+    this.scene.relationsByEvent[ON_SPAWN]?.forEach(this.startRunEventEffects)
 
     this.projectileEjector = new ProjectileEjector(scene, this)
 
     return this
   }
 
-  runAccuteEffect(relation, instanceB, sidesB = []) {
-    this.effects.runAccuteEffect(relation, instanceB, sidesB)
+  startRunEventEffects(relation, instanceSpriteB) {
+    const { event } = relation
+    if(this.hasTag(event.tagIdA)) {
+      Object.keys(relation.effects).forEach((effectId) => {
+        const effect = relation.effects[effectId]
+        if(!effect) return
+        // if(effect.type === 'EFFECT_SPAWN') console.log('we runnin dis effect yo')
+        this.runAccuteEffect({
+          relation: {
+            ...relation,
+            effect,
+            effects: undefined
+          },
+          instanceSpriteA: this.sprite,
+          instanceSpriteB,
+        })
+      })
+    }
+  }
+
+  hasTag(tagId) {
+    const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
+    return !!objectClass.tags[tagId]
+  }
+
+  runAccuteEffect({
+    relation, 
+    instanceSpriteA,
+    instanceSpriteB,
+    sidesA =[],
+    sidesB = []
+  }) {
+    this.effects.runAccuteEffect({
+      relation,
+      instanceSpriteA,
+      instanceSpriteB,
+      sidesA,
+      sidesB
+    })
   }
 
   setSize(w, h) {
@@ -104,34 +133,31 @@ export class ObjectInstance extends Sprite {
     this.movement.update(time, delta)
   }
 
-  getRelations() {
-    const gameModel = store.getState().gameModel.gameModel
+  getTouchRelations() {
+    const relations = [] 
+    const collideStartRelations = this.scene.relationsByEvent[ON_COLLIDE_START]
+    if(collideStartRelations) relations.push(...collideStartRelations.filter(({event: { tagIdA }}) => {
+      return this.hasTag(tagIdA)
+    }))
 
-    return Object.keys(gameModel.relations).map((relationId) => {
-      return gameModel.relations[relationId]
-    }).filter(({event: { classIdA, classIdB, type }, effect}) => {
-      if(effect.type === EFFECT_COLLIDE) return false
-      if(classIdB === PLAYER_INSTANCE_ID_PREFIX && this.instanceId === PLAYER_INSTANCE_ID_PREFIX) return true
-      if(type === ON_INTERACT) {
-        return classIdA === this.classId || classIdB === this.classId
-      } else {
-        return classIdA === this.classId
-      }
-    })
+    const collideActiveRelations = this.scene.relationsByEvent[ON_COLLIDE_ACTIVE]
+    if(collideActiveRelations) relations.push(...collideActiveRelations.filter(({event: { tagIdA }}) => {
+      return this.hasTag(tagIdA)
+    }))
+    return relations
   }
 
   getColliders() {
     const gameModel = store.getState().gameModel.gameModel
-    return Object.keys(gameModel.relations).map((relationId) => {
-      return gameModel.relations[relationId]
-    }).filter(({event: { classIdA, classIdB, type }, effect}) => {
-      if(effect.type !== EFFECT_COLLIDE) return false
-      return classIdA === this.classId
+    return Object.keys(gameModel.collisions).map((collisionId) => {
+      return gameModel.collisions[collisionId]
+    }).filter(({event: { tagIdA }}) => {
+      return this.hasTag(tagIdA)
     })
   }
 
   registerRelations() {
-    this.collider.registerRelations(this.getRelations())
+    this.collider.registerRelations(this.getTouchRelations())
   }
 
   registerColliders() {
@@ -170,27 +196,10 @@ export class ObjectInstance extends Sprite {
 
   runDestroyEvents() {
     const classId = this.classId
-    const gameModel = store.getState().gameModel.gameModel
-
-    Object.keys(gameModel.relations).map((relationId) => {
-      return gameModel.relations[relationId]
-    }).forEach((relation) => {
-      const {event} = relation
-      if(event.type === ON_DESTROY_ONE && event.classIdA === classId) {
-        this.runAccuteEffect(relation)
-      }
-    })
-    
+    this.scene.relationsByEvent[ON_DESTROY_ONE]?.forEach(this.startRunEventEffects)
     const instances = this.scene.getAllInstancesOfClassId(classId)
     if(instances.length === 1) {
-      Object.keys(gameModel.relations).map((relationId) => {
-        return gameModel.relations[relationId]
-      }).forEach((relation) => {
-        const {event} = relation
-        if(event.type === ON_DESTROY_ALL && event.classIdA === classId) {
-          this.runAccuteEffect(relation)
-        }
-      })
+      this.scene.relationsByEvent[ON_DESTROY_ALL]?.forEach(this.startRunEventEffects)
     }
   }
 

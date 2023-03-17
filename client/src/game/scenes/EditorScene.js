@@ -724,10 +724,9 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    if(gameUpdate.relations) {
+    if(gameUpdate.relations || gameUpdate.effects || gameUpdate.events) {
       // setTimeout(() => {
-        this.unregisterRelations()
-        this.registerRelations()
+        this.reregisterRelationships()
       // }, 100)
     }
 
@@ -841,8 +840,8 @@ export class EditorScene extends GameInstance {
               return
             }
             const objectInstanceData = this.getObjectInstanceData(objectInstance.instanceId)
-            this.removeObjectInstance(objectInstanceData.instanceId)
-            this.addObjectInstance(objectInstanceData.instanceId, objectInstanceData)
+            this.removeObjectInstance(objectInstance.instanceId)
+            this.addObjectInstance(objectInstance.instanceId, objectInstanceData)
           })
         // })
       }
@@ -859,6 +858,10 @@ export class EditorScene extends GameInstance {
         this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
           objectInstance.setSize(objectClass.graphics?.width, classUpdate.graphics?.height)
         })
+      }
+      
+      if(classUpdate.tags) {
+        this.reregisterRelationships()
       }
 
       if(classUpdate.camera !== undefined) {

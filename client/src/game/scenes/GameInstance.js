@@ -69,7 +69,7 @@ export class GameInstance extends Phaser.Scene {
         return
       default: 
         return
-    } 
+    }
   }
 
   getAllInstancesOfClassId(classId) {
@@ -158,8 +158,7 @@ export class GameInstance extends Phaser.Scene {
 
   addPlayerInstance(classData) {
     this.initializePlayerInstance(classData)
-    this.unregisterRelations()
-    this.registerRelations()
+    this.reregisterRelationships()
   }
 
   removePlayerInstance() {
@@ -168,11 +167,62 @@ export class GameInstance extends Phaser.Scene {
     this.playerInstance = null
   }
 
-  initializeObjectInstance(instanceId, objectInstanceData, effectSpawned) {
-    const newPhaserObject = new ObjectInstance(this, instanceId, objectInstanceData, effectSpawned)
-    this.objectInstances.push(newPhaserObject)
-    this.objectInstancesById[instanceId] = newPhaserObject
-    return newPhaserObject
+  sortInstancesIntoTags() {
+    this.objectInstancesByTag = {}
+    const objectClasses = store.getState().gameModel.gameModel.classes
+    const allInstances = this.objectInstances.slice()
+    allInstances.push(this.playerInstance)
+    allInstances.forEach((objectInstance) => {
+      const objectClass = objectClasses[objectInstance.classId]
+      Object.keys(objectClass.tags).forEach((tagId) => {
+        if(objectClass.tags[tagId]) {
+          if(!this.objectInstancesByTag[tagId]) {
+            this.objectInstancesByTag[tagId] = [objectInstance]
+          } else {
+            this.objectInstancesByTag[tagId].push(objectInstance)
+          }
+        }
+      })
+    })
+  }
+
+  populateAndSortRelations() {
+    const relations = store.getState().gameModel.gameModel.relations
+    const effects = store.getState().gameModel.gameModel.effects
+    const events = store.getState().gameModel.gameModel.events
+
+    this.relationsByEvent = Object.keys(relations).reduce((relationsByEvent, relationId) => {
+      const relation = relations[relationId]
+      const populatedEvent = events[relation.event]
+      const populatedEffects = Object.keys(relation.effects).map((effectId) => {
+        const effect = {
+          ...relation.effects[effectId],
+          ...effects[effectId],
+        }
+        return effect
+      })
+
+      const populatedRelation = {
+        event: populatedEvent,
+        effects: populatedEffects,
+        relationId: relation.relationId
+      }
+
+      if(relationsByEvent[populatedEvent.type]) {
+        relationsByEvent[populatedEvent.type].push(populatedRelation)
+      } else {
+        relationsByEvent[populatedEvent.type] = [populatedRelation]
+      }
+
+      return relationsByEvent
+    }, {})
+  }
+  
+  reregisterRelationships() {
+    this.unregisterRelations()
+    // this.populateAndSortRelations()
+    // this.sortInstancesIntoTags()
+    this.registerRelations()
   }
 
   addTemporaryInstance(instanceId, classId) {
@@ -192,21 +242,27 @@ export class GameInstance extends Phaser.Scene {
     this.temporaryInstancesById[instanceId] = null
   }
 
+  initializeObjectInstance(instanceId, objectInstanceData, effectSpawned) {
+    const newPhaserObject = new ObjectInstance(this, instanceId, objectInstanceData, effectSpawned)
+    this.objectInstances.push(newPhaserObject)
+    this.objectInstancesById[instanceId] = newPhaserObject
+
+    return newPhaserObject
+  }
   addObjectInstance(instanceId, objectInstanceData, effectSpawned) {
     const instance = this.initializeObjectInstance(instanceId, objectInstanceData, effectSpawned)
-    this.unregisterRelations()
-    this.registerRelations()
+    this.reregisterRelationships()
+    console.log('spawned')
     return instance
   }
-
   removeObjectInstance(instanceId) {
     this.objectInstances = this.objectInstances.filter((object) => {
       return instanceId !== object.instanceId
     })
     this.getObjectInstance(instanceId).destroy()
     this.objectInstancesById[instanceId] = null
+    this.reregisterRelationships()
   }
-
   updateObjectInstance(objectInstance, {x, y, rotation, isVisible, destroyAfterUpdate, reclassId}) {
     if(x) objectInstance.sprite.x = x;
     if(y) objectInstance.sprite.y = y;
@@ -217,79 +273,7 @@ export class GameInstance extends Phaser.Scene {
     objectInstance.reclassId = reclassId
   }
 
-  // createRelationsMap() {
-  //   this.relationMap = {}
-  //   const state = store.getState()
-  //   const gameModel = state.gameModel.gameModel
-  //   const relations = gameModel.relations 
-
-  //   Object.keys(relations).forEach((relationId) => {
-  //     const relation = relations[relationId]
-  //     const classIds = [relation.event.classIdA, relation.event.classIdB] 
-  //     classIds.sort()
-  //     const classString = classIds.join()
-  //     if(!this.relationMap[classString]) {
-  //       this.relationMap[classString] = {
-  //         collideRelation: null,
-  //         otherRelations: []
-  //       }
-  //     }
-  //     if(relation.effect.type === EFFECT_COLLIDE) {
-  //       this.relationMap[classString].collideRelation = relation
-  //     } else {
-  //       this.relationMap[classString].otherRelations.push(relation)
-  //     }
-  //   })
-  // }
-
-  // findCollideInitiator(classes, relation) {
-  //   if(isPlayerId(classes[0])) {
-  //     const objectClass = store.getState().gameModel.gameModel.classes[classes[1]]
-  //     if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
-  //       return classes[0]
-  //     }
-  //   }
-  //   if(isPlayerId(classes[1])) {
-  //     const objectClass = store.getState().gameModel.gameModel.classes[classes[0]]
-  //     if(objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID) {
-  //       return classes[1]
-  //     }
-  //   }
-
-  //   if(relation) {
-  //     return relation.event.classIdA
-  //   }
-
-  //   return classes[0]
-  // }
-
-  // registerRelationMap() {
-
-  //   // relations
-  //   Object.keys(this.relationMap).forEach((classPair) => {
-  //     const relationMap = this.relationMap[classPair]
-  //     const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
-  //     this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
-  //       instance.registerRelations(relationMap.otherRelations)
-  //     })
-  //   })
-
-  //   //collisions
-  //   Object.keys(this.relationMap).forEach((classPair) => {
-  //     const relationMap = this.relationMap[classPair]
-  //     if(!relationMap.collideRelation) return
-  //     const collideInitiatorClassId = this.findCollideInitiator(classPair.split(','), relationMap.collideRelation)
-  //     this.forAllObjectInstancesMatchingClassId(collideInitiatorClassId, (instance) => {
-  //       instance.registerRelations([relationMap.collideRelation])
-  //     })
-  //   })
-    
-  // }
-
   registerRelations() {
-    // this.createRelationsMap()
-    // console.log(store.getState().gameModel.gameModel.relations)
-    
     /// RELATIONS
     this.playerInstance.registerRelations()
 
@@ -312,7 +296,7 @@ export class GameInstance extends Phaser.Scene {
       instance.registerColliders()
     })
 
-    // all sprites on playground layer collide with hero
+    // all sprites on playground layer collide with the player
     const gameModel = store.getState().gameModel.gameModel
     const releventInstances = this.objectInstances.filter((objectInstance) => {
       const objectClass = gameModel.classes[objectInstance.classId]
@@ -320,9 +304,9 @@ export class GameInstance extends Phaser.Scene {
     }).map(({sprite}) => sprite)
 
     this.unregisterColliders.push(
-      this.physics.add.collider(this.playerInstance.sprite, releventInstances, (instanceA, instanceB) => {
-        instanceA.justCollided = true
-        instanceB.justCollided = true
+      this.physics.add.collider(this.playerInstance.sprite, releventInstances, (instanceSpriteA, instanceSpriteB) => {
+        instanceSpriteA.justCollided = true
+        instanceSpriteB.justCollided = true
       })
     )
 
@@ -518,6 +502,9 @@ export class GameInstance extends Phaser.Scene {
     const gameRoom = store.getState().gameRoom.gameRoom
     const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
+
+    this.populateAndSortRelations()
+
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
@@ -552,6 +539,7 @@ export class GameInstance extends Phaser.Scene {
     // PLAYER
     ////////////////////////////////////////////////////////////
     this.initializePlayerInstance()
+    this.sortInstancesIntoTags()
 
     this.registerRelations()
 
@@ -571,13 +559,10 @@ export class GameInstance extends Phaser.Scene {
     this.cameras.main.setZoom(playerClass.camera.zoom);
 
     if(this.isPlaythrough && this.firstStage) {
-      Object.keys(gameModel.relations).map((relationId) => {
-        return gameModel.relations[relationId]
-      }).forEach((relation) => {
-        const {event} = relation
-        if(event.type === ON_PLAYTHROUGH) {
-          this.runAccuteEffect(relation)
-        }
+      this.relationsByEvent[ON_PLAYTHROUGH].forEach((relation) => {
+        this.runAccuteEffect({
+          relation,
+        })
       })
     }
     
@@ -646,8 +631,10 @@ export class GameInstance extends Phaser.Scene {
     })
     this.temporaryInstances = []
     this.temporaryInstancesById = {}
+    this.temporaryInstancesByTag = {}
     this.objectInstances= []
     this.objectInstancesById = {}
+    this.objectInstancesByTag = {}
     this.playerInstance.destroy()
     this.playerInstance = null
   }
@@ -662,8 +649,7 @@ export class GameInstance extends Phaser.Scene {
     this.initializeObjectInstances()
     this.initializePlayerInstance()
 
-    this.unregisterRelations()
-    this.registerRelations()
+    this.reregisterRelationships()
   }
   
   update(time, delta) {

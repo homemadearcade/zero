@@ -14,6 +14,7 @@ export const ON_CUTSCENE_END = 'ON_CUTSCENE_END'
 export const NO_TAG_EVENT = 'NO_TAG_EVENT'
 export const SINGLE_TAG_EVENT = 'SINGLE_TAG_EVENT'
 export const TWO_TAG_EVENT = 'TWO_TAG_EVENT'
+export const PLAYER_AND_TAG_EVENT = 'PLAYER_AND_TAG_EVENT'
 
 // WHEN, WHO, WHERE
 export const defaultEvent = {
@@ -55,7 +56,7 @@ export const eventDisplayNames = {
   [ON_SPAWN]: 'When Tag A is spawned',
   [ON_DESTROY_ONE]: 'When Tag A is destroyed',
   [ON_DESTROY_ALL]: 'When all instances of Tag A are destroyed',
-  [ON_INTERACT]: 'When a player presses X near Tag A',
+  [ON_INTERACT]: 'When a player presses X near Interactable Tag',
 
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
@@ -93,7 +94,7 @@ export const eventEditInterface = {
     effectDelay: true,
   },
   [ON_INTERACT]: {
-    tagSelectType: SINGLE_TAG_EVENT,
+    tagSelectType: PLAYER_AND_TAG_EVENT,
     onlyOnce: true,
     effectCooldown: true
   },

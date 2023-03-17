@@ -6,7 +6,7 @@ import './CreateEvent.scss';
 import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultEvent, eventEditInterface, NO_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
+import { defaultEvent, eventEditInterface, NO_TAG_EVENT, ON_INTERACT, playerTagId, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
 import { ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
@@ -112,6 +112,20 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       }}/>
     }
 
+    if(eventInterface.tagSelectType === PLAYER_AND_TAG_EVENT) {
+      return <SelectTag
+        disabled={event.tagIdB}
+        formLabel="Interactable Tag"
+        value={event.tagIdB ? [event.tagIdB] : []}
+        onChange={(event, classes) => {
+          const newClassId = classes[classes.length-1]
+          updateCreateEvent({
+            tagIdB: newClassId,
+          })
+          // handleEventChange('tagIdB', newClassId)
+      }}/>
+    }
+
     if(eventInterface.tagSelectType === TWO_TAG_EVENT) {
       return <>
         <SelectTag
@@ -146,11 +160,20 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       value={event.type ? [event.type] : []}
       onChange={(event, eventTypes) => {
         const eventType = eventTypes[eventTypes.length-1]
-        updateCreateEvent({
-          ...defaultEvent,
-          type: eventType,
-          eventId: event.effectId
-        })
+        if(eventType === ON_INTERACT) {
+          updateCreateEvent({
+            ...defaultEvent,
+            type: eventType,
+            tagIdA: playerTagId,
+            eventId: event.eventId
+          })
+        } else {
+          updateCreateEvent({
+            ...defaultEvent,
+            type: eventType,
+            eventId: event.eventId
+          })
+        }
     }}/>
     {renderTagSelect()}
     {event.type && <CobrowsingNestedList id="CreateEvent" title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}

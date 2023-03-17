@@ -6,11 +6,10 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-RELATIONS v2 - Tags
-  Send To Game Overlay Effect
-  Better Shorthand for relations
+COLLIDE_START -> TOUCH_START
+COLLIDE_ACTIVE -> TOUCH_ACTIVE
 
-  PROJECTILES/SPAWNED
+PROJECTILES/SPAWNED
   Relationship level
     None
     Player
@@ -44,3 +43,7 @@ TYPE
 
 LAYERS
   Layer textures need to be created when a game is created. FOR SURE. Because I think thats why it was out of sync? I at least want to remove that from being a possibility
+
+RELATIONS
+  Send To Game Overlay Effect
+  Better Shorthand for relations

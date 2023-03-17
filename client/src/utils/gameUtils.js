@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX, ZONE_INSTANCE_CANVAS_ID, ZONE_CLASS, PLAYER_INSTANCE_CANVAS_ID, PLAYER_CLASS, BASIC_CLASS, NPC_CLASS, EFFECT_COLLIDE, ON_COLLIDE_ACTIVE, persistentEffects } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX, ZONE_INSTANCE_CANVAS_ID, ZONE_CLASS, PLAYER_INSTANCE_CANVAS_ID, PLAYER_CLASS, BASIC_CLASS, NPC_CLASS } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -167,5 +167,6 @@ window.consoleTools = {
   getCurrentScene: () => { return getCurrentGameScene(store.getState().webPage.gameInstance) },
   getCurrentGameModel: () => { return store.getState().gameModel.gameModel },
   getCurrentState: () => { return store.getState() },
-  getCobrowsingState: () => { return getCobrowsingState({forceActiveCobrowsing: true }) }
+  getCobrowsingState: () => { return getCobrowsingState({forceActiveCobrowsing: true }) },
+  getCurrentPhaserWorld: () => { return getCurrentGameScene(store.getState().webPage.gameInstance).world }
 }

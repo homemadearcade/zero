@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import { getEffectLabel, getEventPreviewLabel } from '../../constants';
 import { getBoundaryRelationLabel } from '../../constants';
-import { EFFECT_COLLIDE, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
+import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
@@ -51,8 +51,6 @@ const RelationsMenu = ({ closeRelationsMenu, openBoundaryRelation,  openCreateRe
           effectedClass = {...gameModel.classes[playerClassId], name: 'Player'}
         }
         const { classA, classB } = getClassAandB(event.classIdA, event.classIdB)
-
-        if(type === EFFECT_COLLIDE) return null
 
         let classIdB  = event.classIdB
         if(classIdB === PLAYER_INSTANCE_ID_PREFIX) {

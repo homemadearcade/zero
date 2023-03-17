@@ -6,7 +6,7 @@ import { CameraPreview } from "./members/CameraPreview";
 import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
-import { PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
+import { ON_INTERACT, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
 import { nodeSize } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
@@ -24,7 +24,7 @@ export class PlayerInstance extends ObjectInstance {
     //   },
     //   lifespan: {
     //     onEmit: (particle, key, t, value) =>
-    //     {
+    //     {reg
     //       return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 40000;
     //     }
     //   },
@@ -106,9 +106,8 @@ export class PlayerInstance extends ObjectInstance {
   }
 
   registerRelations() {
-    const relations = this.getRelations()
-    super.registerRelations(relations)
-    this.interactArea.register(relations)
+    super.registerRelations()
+    this.interactArea.register(this.scene.relationsByEvent[ON_INTERACT])
   }
 
   unregister() {

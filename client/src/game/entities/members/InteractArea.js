@@ -56,6 +56,7 @@ export class InteractArea extends Sprite {
       this.unregisters.forEach((fx) =>  {
         this.scene.physics.world.removeCollider(fx)
       })
+      this.unregisters = []
     }
 
     if(this.scene.physicsType === MATTER_PHYSICS) {
@@ -64,40 +65,26 @@ export class InteractArea extends Sprite {
   }
 
   registerArcade(relations) {
-    Object.keys(relations).map((relationId) => {
-	    return relations[relationId]
-    }).forEach((relation) => {
-      const {event, effect} = relation
-      if(event.type === ON_INTERACT) {
-        //[...this.scene.objectInstances, ...this.scene.temporaryInstances]
-        const releventInstancesB = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdB)
-        const releventSpritesB = releventInstancesB.map(({sprite}) => sprite)
-        this.unregisters.push(
-          this.scene.physics.add.overlap(this.sprite, releventSpritesB, (a, b) => {
-            if(this.paused) return
-            if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
-            this.interactables.push({entitySprite: b, relation: { relation, effect: {...effect, effectInteractable: false}}})
-          })
-        )
-
-        //[...this.scene.objectInstances, ...this.scene.temporaryInstances]
-        const releventInstancesA = this.scene.objectInstances.filter((objectInstance) => objectInstance.classId === event.classIdA)
-        const releventSpritesA = releventInstancesA.map(({sprite}) => sprite)
-        this.unregisters.push(
-          this.scene.physics.add.overlap(this.sprite, releventSpritesA, (a, b) => {
-            if(this.paused) return
-            if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
-            this.interactables.push({entitySprite: b, relation: { ...relation, effect: {...effect, effectInteractable: true}}})
-          })
-        )
-      }
+    relations.forEach((relation) => {
+      const {event} = relation
+      const releventInstances = this.scene.objectInstances.filter((objectInstance) => {
+        return objectInstance.hasTag(event.tagIdB)
+      })
+      if(!releventInstances) return
+      const releventSprites = releventInstances.map(({sprite}) => sprite)
+      this.unregisters.push(
+        this.scene.physics.add.overlap(this.sprite, releventSprites, (a, b) => {
+          if(this.paused) return
+          if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
+          // console.log('event triggered')
+          this.interactables.push({entitySprite: b, relation})
+        })
+      )
     })
   }
 
   registerMatter(relations) {
-    Object.keys(relations).map((relationId) => {
-	    return relations[relationId]
-    }).forEach((relation) => {
+    relations.forEach((relation) => {
       const {event} = relation
 
       if(event.type === ON_INTERACT) {
@@ -177,21 +164,25 @@ export class InteractArea extends Sprite {
 
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
       interactPossibility.relations.forEach((relation) => {
-        if(relation.effect.effectInteractable) {
-          this.scene.getObjectInstance(closestInteractable.instanceId).runAccuteEffect(relation, this.objectInstance)
-        } else {
-          this.objectInstance.runAccuteEffect(relation, closestInteractable)
-        }
-
+        this.objectInstance.startRunEventEffects(
+          relation, 
+          closestInteractable
+        )
         this.xKey.isPressable = false
       })
     }
+
     if(closestInteractable && this.xKey.isUp) {
       this.xKey.isPressable = true
     }
 
     this.previousClosest = closestInteractable
     this.interactables = []
+  }
+
+  destroy() {
+    this.unregister()
+    super.destroy()
   }
 
   update(followingEntity) {

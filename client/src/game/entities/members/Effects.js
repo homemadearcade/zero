@@ -1,5 +1,5 @@
 import store from "../../../store"
-import { ANIMATION_CAMERA_SHAKE, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, WIN_GAME_STATE } from "../../constants"
+import { ANIMATION_CAMERA_SHAKE, effectEditInterface, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
@@ -91,77 +91,79 @@ export class Effects {
       );
     }
   }
-  
-  runPersistentEffect(relation, instanceSpriteB, sidesB = []) {
-    const effect = relation.effect
-    const sprite = this.objectInstance.sprite
 
-    // spawning does not effect existing instances
+  getEffectedInstances({instanceSpriteA, instanceSpriteB, sidesA, sidesB, effect}) {
+    const instanceSprites = []
+    const alternateSpriteData = {}
+
+    if(effect.effectTagA) {
+      instanceSprites.push(instanceSpriteA)
+      alternateSpriteData.sprite = instanceSpriteB
+      alternateSpriteData.sides = sidesB
+    }
+
+    if(effect.effectTagB) {
+      instanceSprites.push(instanceSpriteB)
+      alternateSpriteData.sprite = instanceSpriteA
+      alternateSpriteData.sides = sidesA
+    }
+
     if(effect.remoteEffectedTagId && !nonRemoteEffects[effect.type]) {
-      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedTagId, (object) => {
-        object.effects.runPersistentEffect({...relation, effect: {...effect, remoteEffectedTagId: null}}, instanceSpriteB, sidesB)
+      this.scene.objectInstancesByTag[effect.remoteEffectedTagId].forEach((objectInstance) => {
+        instanceSprites.push(objectInstance.sprite)
       })
       return
     }
 
-    if(effect.type === EFFECT_INVISIBLE && !this.isVisibilityModified) {
-      this.isVisibilityModified = true
-      this.objectInstance.isVisible = false
-    }
+    return [instanceSprites, alternateSpriteData]
+  }
+  
+  runCollideActiveEffect({
+    relation,
+    instanceSpriteA,
+    instanceSpriteB,
+    sidesA = [],
+    sidesB = []
+  }) {
+    const effect = relation.effect
+    const scene = this.scene
 
-    if(effect.type === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
-      this.isIgnoreGravityModified = true
-      this.objectInstance.setIgnoreGravity(true)
-    }
+    const [instanceSprites, alternateSpriteData] = this.getEffectedInstances({
+      instanceSpriteA,
+      instanceSpriteB,
+      sidesA,
+      sidesB,
+      effect: relation.effect
+    })
 
-    if(effect.type === EFFECT_STICK_TO) {
-      sprite.lockedTo = instanceSpriteB;   
-      sprite.lockedReleaseSides = sidesB
-      this.isIgnoreGravityModified = true
-      this.objectInstance.setIgnoreGravity(true)
+    instanceSprites.forEach((sprite) => {
+      runEffect(sprite)
+    })
+
+    function runEffect(sprite) {
+      const objectInstance = scene.getObjectInstance(sprite.instanceId)
+      if(effect.type === EFFECT_INVISIBLE && !objectInstance.effects.isVisibilityModified) {
+        objectInstance.effects.isVisibilityModified = true
+        objectInstance.isVisible = false
+      }
+
+      if(effect.type === EFFECT_IGNORE_GRAVITY && !objectInstance.effects.isIgnoreGravityModified) {
+        objectInstance.effects.isIgnoreGravityModified = true
+        objectInstance.setIgnoreGravity(true)
+      }
+
+      if(effect.type === EFFECT_STICK_TO) {
+        if(!alternateSpriteData.sprite) console.error('bad!, stick to will not work here')
+        sprite.lockedTo = alternateSpriteData.sprite;   
+        sprite.lockedReleaseSides = alternateSpriteData.sides
+        objectInstance.effects.isIgnoreGravityModified = true
+        objectInstance.setIgnoreGravity(true)
+      }
     }
   }
 
-  runAccuteEffect(relation, instanceSpriteB, sidesB = []) {
+  runTargetlessAccuteEffect({relation, instanceSpriteA, instanceSpriteB}) {
     const effect = relation.effect
-    const sprite = this.objectInstance.sprite
-    const classId = this.objectInstance.classId
-
-    // spawning does not effect existing instances so it cannot run here
-    if(effect.remoteEffectedTagId && !nonRemoteEffects[effect.type]) {
-      this.scene.forAllObjectInstancesMatchingClassId(effect.remoteEffectedTagId, (object) => {
-        object.effects.runAccuteEffect({...relation, effect: {...effect, remoteEffectedTagId: null}}, instanceSpriteB, sidesB)
-      })
-      return
-    }
-
-    if(this.timeToTriggerAgain[relation.relationId]) {
-      if(this.timeToTriggerAgain[relation.relationId] > Date.now()) {
-        return
-      }
-    }
-
-    if(relation.onlyOnce) {
-      this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
-    } else {
-      if(relation.effectCooldown) {
-        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effectCooldown
-      }
-    }
-
-    if(relation.effect.effectDelay) {
-      setTimeout(() => {
-        const delayedRelation = _.cloneDeep(relation)
-        delayedRelation.effect.effectDelay = null
-        this.runAccuteEffect(delayedRelation, instanceSpriteB, sidesB)
-      }, relation.effect.effectDelay)
-      return
-    }
-    
-    if(effect.type === EFFECT_STICK_TO) {
-      sprite.body.setVelocityY(0)
-      sprite.body.setVelocityX(0)
-    }
 
     if(effect.type === EFFECT_CAMERA_SHAKE) {
       this.scene.callGameInstanceEvent({
@@ -190,49 +192,119 @@ export class Effects {
       store.dispatch(updateLobbyUser(state.auth.me?.id, {
         inConstellationView: true
       }))
-    } 
-
-    if(effect.type === EFFECT_TELEPORT) {
-      const gameModel = store.getState().gameModel.gameModel
-      const objectClass = gameModel.classes[classId]
-      const zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
-      if(!zone) return
-      this.objectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
-    }
-    
-    if(effect.type === EFFECT_DESTROY) {
-      this.objectInstance.destroyAfterUpdate = true
-    } else if(effect.type === EFFECT_SPAWN) {
-      const spawningClassId = effect.spawnClassId ? effect.spawnClassId : classId
-      const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId: spawningClassId }
-      const spawnedObjectInstance =  this.scene.addObjectInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
-      
-      let zone 
-      if(effect.spawnZoneSelectorType) {
-        zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
-      } else {
-        if(isZoneClassId(this.objectInstance.classId)) {
-          zone = this.objectInstance
-        } else {
-          zone = this.scene.getObjectInstance(instanceSpriteB.instanceId)
-        }
-      }
-      if(!zone) return console.log('no zone exists for that')
-      
-      const gameModel = store.getState().gameModel.gameModel
-      const objectClass = gameModel.classes[spawningClassId]
-      spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
-    } else if(effect.type === EFFECT_RECLASS) {
-      if(this.objectInstance.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
-        this.objectInstance.reclassId = effect.classId
-      } else {
-        this.objectInstance.reclassId = effect.classId
-      }
     }
 
     // NARRATIVE
     if(effect.type === EFFECT_CUTSCENE) {
-      if(effect.cutsceneId) store.dispatch(openCutscene(instanceSpriteB?.classId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(instanceSpriteB.classId, effect.cutsceneId))
+    }
+
+    if(effect.type === EFFECT_SPAWN) {
+      const spawningClassId = effect.spawnClassId
+      const modifiedClassData = { spawnX: null, spawnY: null, classId: spawningClassId }
+      let zone 
+      if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
+        zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT) {
+        if(isZoneClassId(instanceSpriteA.classId)) {
+          zone = instanceSpriteA
+        } 
+      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT) {
+        if(isZoneClassId(instanceSpriteB.classId)) {
+          zone = instanceSpriteB
+        } 
+      }
+      if(!zone) return console.log('no zone exists for that')
+      const gameModel = store.getState().gameModel.gameModel
+      const objectClass = gameModel.classes[spawningClassId]
+      const spawnedObjectInstance =  this.scene.addObjectInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
+      spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
+    }
+  }
+
+  runAccuteEffect({
+    relation,
+    instanceSpriteA,
+    instanceSpriteB,
+    sidesA = [],
+    sidesB = []
+  }) {
+    const effect = relation.effect
+    const scene = this.scene
+
+    if(this.timeToTriggerAgain[relation.relationId]) {
+      if(this.timeToTriggerAgain[relation.relationId] > Date.now()) {
+        return
+      }
+    }
+
+    if(relation.event.onlyOnce) {
+      this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
+    } else {
+      if(relation.effect.effectCooldown) {
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effect.effectCooldown
+      } else if(relation.effect === EFFECT_SPAWN) {
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + 200
+      }
+    }
+    
+
+    if(relation.effect.effectDelay) {
+      setTimeout(() => {
+        const delayedRelation = _.cloneDeep(relation)
+        delayedRelation.effect.effectDelay = null
+        this.runAccuteEffect({
+          relation: delayedRelation,
+          instanceSpriteA,
+          instanceSpriteB,
+          sidesA,
+          sidesB
+        })
+      }, relation.effect.effectDelay)
+      return
+    }
+
+    if(effectEditInterface[effect.type].effectableType === NO_TAG_EFFECT) {
+      return this.runTargetlessAccuteEffect({
+        relation,
+        instanceSpriteA,
+        instanceSpriteB,
+      })
+    }
+
+    const [instanceSprites] = this.getEffectedInstances({
+      instanceSpriteA,
+      instanceSpriteB,
+      sidesA,
+      sidesB,
+      effect
+    })
+
+    instanceSprites.forEach((sprite) => {
+      runEffect(sprite)
+    })
+
+    function runEffect(sprite) {
+      if(effect.type === EFFECT_STICK_TO) {
+        sprite.body.setVelocityY(0)
+        sprite.body.setVelocityX(0)
+      }
+
+      if(effect.type === EFFECT_TELEPORT) {
+        const gameModel = store.getState().gameModel.gameModel
+        const objectClass = gameModel.classes[sprite.classId]
+        const zone = scene.getRandomInstanceOfClassId(effect.zoneClassId)
+        if(!zone) return
+        sprite.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
+      }
+      
+      if(effect.type === EFFECT_DESTROY) {
+        const objectInstance = scene.getObjectInstance(sprite.instanceId)
+        objectInstance.destroyAfterUpdate = true
+      } else if(effect.type === EFFECT_RECLASS) {
+        const objectInstance = scene.getObjectInstance(sprite.instanceId)
+        objectInstance.reclassId = effect.classId
+      }
     }
   }
 }

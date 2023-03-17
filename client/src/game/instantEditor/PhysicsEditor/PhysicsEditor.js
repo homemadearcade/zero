@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { EFFECT_COLLIDE, ON_COLLIDE_ACTIVE, PLAYGROUND_CANVAS_ID, RELATION_ID_PREFIX } from '../../constants';
+import { ON_COLLIDE_ACTIVE, PLAYGROUND_CANVAS_ID, RELATION_ID_PREFIX } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeColliderTagId } from '../../../utils/gameUtils';
@@ -31,7 +31,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
               return gameModel.collisions[collisionId]
             }).filter((collision) => {
               if((collision.event.type === ON_COLLIDE_ACTIVE) &&
-                 collision.effect.type === EFFECT_COLLIDE &&
+                //  collision.effect.type === EFFECT_COLLIDE &&
                  (collision.event.tagIdA === tagId || collision.event.tagIdB === tagId)
               ) {
                 return true
@@ -81,7 +81,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
                     tagIdB,
                   },
                   effect: {
-                    type: EFFECT_COLLIDE
+                    // type: EFFECT_COLLIDE
                   },
                 }
               })
