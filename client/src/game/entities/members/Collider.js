@@ -5,7 +5,8 @@ export class Collider {
   constructor(scene, objectInstance, sensor){
     this.objectInstance = objectInstance
     this.sensor = sensor
-    this.unregisters = []
+    this.overlaps = []
+    this.colliders = []
     this.scene = scene
 
     this.collidingWith = []
@@ -24,9 +25,9 @@ export class Collider {
     } 
   }
 
-  registerColliders(relations) {
+  registerColliders(colliders) {
     if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.registerArcadeColliders(relations)
+      this.registerArcadeColliders(colliders)
     } 
   }
 
@@ -95,31 +96,28 @@ export class Collider {
     })
   }
 
-  registerArcadeColliders(relations) {
-    relations.forEach((relation) => {
-      const {event} = relation
-      if(event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_START) {
-        const releventInstances = [this.scene.playerInstance, ...this.scene.objectInstances].filter((objectInstance) => objectInstance.classId === event.classIdB).map(({sprite}) => sprite)
-
-        this.unregisters.push(
-          this.scene.physics.add.collider(this.sensor.sprite, releventInstances, (instanceSpriteA, instanceSpriteB) => {
-            instanceSpriteA.justCollided = true
-            instanceSpriteB.justCollided = true
-          })
-        )
-      }
+  registerArcadeColliders(colliders) {
+    colliders.forEach((collider) => {
+      const { event } = collider
+      const releventInstances = this.scene.objectInstancesByTag[event.tagIdB]
+      if(!releventInstances || !releventInstances.length) return
+      const releventSprites = releventInstances.map(({sprite}) => sprite)
+      this.colliders.push(
+        this.scene.physics.add.collider(this.sensor.sprite, releventSprites, (instanceSpriteA, instanceSpriteB) => {
+          instanceSpriteA.justCollided = true
+          instanceSpriteB.justCollided = true
+        })
+      )
     })
   }
 
   registerArcadeRelations(relations) {
     relations.forEach((relation) => {
       const {event, sidesA, sidesB} = relation
-      const releventInstances = this.scene.objectInstances.filter((objectInstance) => {
-        return objectInstance.hasTag(event.tagIdB)
-      })
-      if(!releventInstances) return
+      const releventInstances = this.scene.objectInstancesByTag[event.tagIdB]
+      if(!releventInstances || !releventInstances.length) return
       const releventSprites = releventInstances.map(({sprite}) => sprite)
-      this.unregisters.push(
+      this.overlaps.push(
         this.scene.physics.add.overlap(this.sensor.sprite, releventSprites, (instanceSpriteA, instanceSpriteB) => {
           if(sidesB?.length) {
             if(!areBSidesHit(sidesB, instanceSpriteA, instanceSpriteB)) return
@@ -194,10 +192,15 @@ export class Collider {
 
   unregister() {
     if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.unregisters.forEach((fx) =>  {
-        this.scene.physics.world.removeCollider(fx)
+      this.overlaps.forEach((overlap) =>  {
+        overlap.destroy()
       })
-      this.unregisters = []
+      this.overlaps = []
+      this.colliders.forEach((collider) =>  {
+        collider.destroy()
+      })
+      this.colliders = []
+
       // this.onCollideEndRelations = {}
     } 
 

@@ -22,7 +22,7 @@ export class InteractArea extends Sprite {
     this.setImmovable(true)
     this.setVisible(false)
 
-    this.unregisters = []
+    this.overlaps = []
     this.interactables = []
     this.previousClosest = null
     this.paused = false
@@ -53,10 +53,10 @@ export class InteractArea extends Sprite {
 
   unregister() {
     if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.unregisters.forEach((fx) =>  {
-        this.scene.physics.world.removeCollider(fx)
+      this.overlaps.forEach((overlaps) =>  {
+        overlaps.destroy()
       })
-      this.unregisters = []
+      this.overlaps = []
     }
 
     if(this.scene.physicsType === MATTER_PHYSICS) {
@@ -67,12 +67,10 @@ export class InteractArea extends Sprite {
   registerArcade(relations) {
     relations.forEach((relation) => {
       const {event} = relation
-      const releventInstances = this.scene.objectInstances.filter((objectInstance) => {
-        return objectInstance.hasTag(event.tagIdB)
-      })
-      if(!releventInstances) return
+      const releventInstances = this.scene.objectInstancesByTag[event.tagIdB]
+      if(!releventInstances || !releventInstances.length) return
       const releventSprites = releventInstances.map(({sprite}) => sprite)
-      this.unregisters.push(
+      this.overlaps.push(
         this.scene.physics.add.overlap(this.sprite, releventSprites, (a, b) => {
           if(this.paused) return
           if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return

@@ -5,19 +5,24 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
+RELATIONS
+  Boundary Relations ( should not be in the relation system )
+  Remote Effects
+  Allow Selecting from already created effect in relation?
+  Better Shorthand for relations
 
-COLLIDE_START -> TOUCH_START
-COLLIDE_ACTIVE -> TOUCH_ACTIVE
+  COLLIDE_START -> TOUCH_START
+  COLLIDE_ACTIVE -> TOUCH_ACTIVE
 
-PROJECTILES/SPAWNED
-  Relationship level
-    None
-    Player
-    All
-  Collison Level
-    None
-    Player
-    All
+  PROJECTILES/SPAWNED
+    Relationship level
+      None
+      Player
+      All
+    Collison Level
+      None
+      Player
+      All
 
 LIBRARY
   Be able to open class library classes from some sort of class bucket thing. Start with context menu?
@@ -43,7 +48,3 @@ TYPE
 
 LAYERS
   Layer textures need to be created when a game is created. FOR SURE. Because I think thats why it was out of sync? I at least want to remove that from being a possibility
-
-RELATIONS
-  Send To Game Overlay Effect
-  Better Shorthand for relations

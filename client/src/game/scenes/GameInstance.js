@@ -37,7 +37,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.relationsPopulated = {}
 
-    this.unregisterColliders = []
+    this.colliderRegistrations = []
 
     this.physicsType = ARCADE_PHYSICS
 
@@ -220,8 +220,8 @@ export class GameInstance extends Phaser.Scene {
   
   reregisterRelationships() {
     this.unregisterRelations()
-    // this.populateAndSortRelations()
-    // this.sortInstancesIntoTags()
+    this.populateAndSortRelations()
+    this.sortInstancesIntoTags()
     this.registerRelations()
   }
 
@@ -252,7 +252,6 @@ export class GameInstance extends Phaser.Scene {
   addObjectInstance(instanceId, objectInstanceData, effectSpawned) {
     const instance = this.initializeObjectInstance(instanceId, objectInstanceData, effectSpawned)
     this.reregisterRelationships()
-    console.log('spawned')
     return instance
   }
   removeObjectInstance(instanceId) {
@@ -303,7 +302,7 @@ export class GameInstance extends Phaser.Scene {
       return objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID
     }).map(({sprite}) => sprite)
 
-    this.unregisterColliders.push(
+    this.colliderRegistrations.push(
       this.physics.add.collider(this.playerInstance.sprite, releventInstances, (instanceSpriteA, instanceSpriteB) => {
         instanceSpriteA.justCollided = true
         instanceSpriteB.justCollided = true
@@ -325,9 +324,11 @@ export class GameInstance extends Phaser.Scene {
     //   instance.unregister()
     // })
 
-    this.unregisterColliders.forEach((fx) =>  {
-      this.physics.world.removeCollider(fx)
+    this.colliderRegistrations.forEach((collider) =>  {
+      // this.physics.world.removeCollider(collider)
+      collider.destroy()
     })
+    this.colliderRegistrations = []
 
     this.playgroundLayer.unregisterColliders()
   }

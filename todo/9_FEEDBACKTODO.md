@@ -15,13 +15,12 @@ Buttons just ‘Cue the next segment’ so the button is based on the title of t
 ---
 
 
-Spawn bar when selecting gravity
+Spawn bar when you have selected gravity
 
 
 ---
 
 Player in editing game starts off invisible so we can make it invisible after BG color select
-
 
 --
 
