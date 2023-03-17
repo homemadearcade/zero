@@ -45,7 +45,6 @@ const SelectColliders = ({ onChange, tagId, formLabel, gameModel }) => {
   
   const value = Object.keys(gameModel.collisions).map((collisionId) => {
     const collision = gameModel.collisions[collisionId]
-    console.log(collision, collisionId)
     return collision
   }).map((collision) => {
     return getOppositeColliderTagId(tagId, collision)

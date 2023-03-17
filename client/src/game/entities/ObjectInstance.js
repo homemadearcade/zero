@@ -1,4 +1,4 @@
-import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, ON_DESTROY_ONE, ON_DESTROY_ALL, ON_INTERACT, ON_COLLIDE_START, ON_COLLIDE_ACTIVE } from "../constants";
+import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, ON_DESTROY_ONE, ON_DESTROY_ALL, ON_INTERACT, ON_TOUCH_START, ON_TOUCH_ACTIVE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
 import { Sprite } from "./members/Sprite";
@@ -135,12 +135,12 @@ export class ObjectInstance extends Sprite {
 
   getTouchRelations() {
     const relations = [] 
-    const collideStartRelations = this.scene.relationsByEvent[ON_COLLIDE_START]
+    const collideStartRelations = this.scene.relationsByEvent[ON_TOUCH_START]
     if(collideStartRelations) relations.push(...collideStartRelations.filter(({event: { tagIdA }}) => {
       return this.hasTag(tagIdA)
     }))
 
-    const collideActiveRelations = this.scene.relationsByEvent[ON_COLLIDE_ACTIVE]
+    const collideActiveRelations = this.scene.relationsByEvent[ON_TOUCH_ACTIVE]
     if(collideActiveRelations) relations.push(...collideActiveRelations.filter(({event: { tagIdA }}) => {
       return this.hasTag(tagIdA)
     }))

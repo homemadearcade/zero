@@ -196,8 +196,8 @@ export class GameInstance extends Phaser.Scene {
       const populatedEvent = events[relation.event]
       const populatedEffects = Object.keys(relation.effects).map((effectId) => {
         const effect = {
-          ...relation.effects[effectId],
           ...effects[effectId],
+          ...relation.effects[effectId],
         }
         return effect
       })

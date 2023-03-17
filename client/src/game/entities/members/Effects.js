@@ -108,11 +108,17 @@ export class Effects {
       alternateSpriteData.sides = sidesA
     }
 
-    if(effect.remoteEffectedTagId && !nonRemoteEffects[effect.type]) {
-      this.scene.objectInstancesByTag[effect.remoteEffectedTagId].forEach((objectInstance) => {
-        instanceSprites.push(objectInstance.sprite)
+    let remoteEffectedTagIds = effect.remoteEffectedTagIds.slice()
+    if(effect.remoteEffectedTagIds2) {
+      remoteEffectedTagIds.push(...effect.remoteEffectedTagIds2)
+    }
+
+    if(remoteEffectedTagIds && !nonRemoteEffects[effect.type]) {
+      remoteEffectedTagIds.forEach((tagId) => {
+        this.scene.objectInstancesByTag[tagId]?.forEach((objectInstance) => {
+          instanceSprites.push(objectInstance.sprite)
+        })
       })
-      return
     }
 
     return [instanceSprites, alternateSpriteData]
@@ -241,6 +247,7 @@ export class Effects {
     if(relation.event.onlyOnce) {
       this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
     } else {
+      console.log('??')
       if(relation.effect.effectCooldown) {
         this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effect.effectCooldown
       } else if(relation.effect === EFFECT_SPAWN) {
@@ -280,6 +287,8 @@ export class Effects {
       effect
     })
 
+    console.log(instanceSprites)
+
     instanceSprites.forEach((sprite) => {
       runEffect(sprite)
     })
@@ -299,6 +308,8 @@ export class Effects {
       }
       
       if(effect.type === EFFECT_DESTROY) {
+            console.log(sprite)
+
         const objectInstance = scene.getObjectInstance(sprite.instanceId)
         objectInstance.destroyAfterUpdate = true
       } else if(effect.type === EFFECT_RECLASS) {

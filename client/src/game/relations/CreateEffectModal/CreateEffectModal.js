@@ -18,6 +18,7 @@ const CreateEffectModal = ({
   gameFormEditor: { effects, editingEffectId },
   updateEditingEffectId,
   updateCreateEffect,
+  onComplete
 }) => {
   function handleClose() {
     closeCreateEffect()
@@ -52,6 +53,7 @@ const CreateEffectModal = ({
               }
             })
             handleClose()
+            if(onComplete) onComplete(effect.effectId)
           }}>
             Save
           </Button>

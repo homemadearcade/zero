@@ -9,11 +9,12 @@ import ClassNameForm from '../ClassNameForm/ClassNameForm';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Button from '../../../ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
-import { closeClassNameModal, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
+import { closeClassNameModal, updateBoundaryRelation, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import SelectClassType from '../../ui/SelectClassType/SelectClassType';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_CLASS_TYPE_IID, CLASS_TAGS_IID } from '../../../constants/interfaceIds';
 import SelectTag from '../../ui/SelectTag/SelectTag';
+import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 
 const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel, gameFormEditor: { objectClass }, gameModel: { gameModel } }) => {
   if(!gameModel.classes[objectClass.classId]) return 
@@ -79,6 +80,14 @@ const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel,
           })
         }}/>
       </Unlockable>
+      <SelectBoundaryEffect
+        classId={objectClass.classId}
+        formLabel={`What happens when touching the world boundary?`}
+        value={objectClass.boundaryRelation ? [objectClass.boundaryRelation] : []}
+        onChange={(event, BoundaryRelations) => {
+          const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
+          updateCreateClass({ boundaryRelation })
+      }}/>
       <Button disabled={objectClass.error} type="submit" onClick={handleSubmit}>Save</Button>
     </div>
   </CobrowsingModal>

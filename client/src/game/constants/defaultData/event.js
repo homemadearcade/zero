@@ -1,9 +1,9 @@
 /////////////////////////////////////
 /////////////////////////////////////
 // EVENTS
-export const ON_COLLIDE_START = 'ON_COLLIDE_START'
+export const ON_TOUCH_START = 'ON_TOUCH_START'
 export const ON_COLLIDE_END = 'ON_COLLIDE_END'
-export const ON_COLLIDE_ACTIVE = 'ON_COLLIDE_ACTIVE'
+export const ON_TOUCH_ACTIVE = 'ON_TOUCH_ACTIVE'
 export const ON_SPAWN = 'ON_SPAWN'
 export const ON_PLAYTHROUGH = 'ON_PLAYTHROUGH'
 export const ON_DESTROY_ONE = 'ON_DESTROY_ONE'
@@ -30,13 +30,13 @@ export const defaultEvent = {
 }
 
 export const eventShortNames = {
-  [ON_COLLIDE_START]: 'Touch Start',
+  [ON_TOUCH_START]: 'Touch Start',
   // [ON_COLLIDE_END]: 'stop touching',
-  [ON_COLLIDE_ACTIVE]: 'Touching',
+  [ON_TOUCH_ACTIVE]: 'Touching',
   [ON_PLAYTHROUGH]: 'Start',
-  //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
+  //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
-  //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
+  //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_SPAWN]: 'Spawn',
   [ON_DESTROY_ONE]: 'Destroyed',
   [ON_DESTROY_ALL]: 'All Destroyed',
@@ -46,13 +46,13 @@ export const eventShortNames = {
 }
 
 export const eventDisplayNames = {
-  [ON_COLLIDE_START]: 'When Tag A starts touching Tag B',
+  [ON_TOUCH_START]: 'When Tag A starts touching Tag B',
   // [ON_COLLIDE_END]: 'stop touching',
-  [ON_COLLIDE_ACTIVE]: 'While Tag A is touching Tag B',
+  [ON_TOUCH_ACTIVE]: 'While Tag A is touching Tag B',
   [ON_PLAYTHROUGH]: 'When game playthrough begins',
-  //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
+  //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
-  //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
+  //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_SPAWN]: 'When Tag A is spawned',
   [ON_DESTROY_ONE]: 'When Tag A is destroyed',
   [ON_DESTROY_ALL]: 'When all instances of Tag A are destroyed',
@@ -62,19 +62,19 @@ export const eventDisplayNames = {
 }
 
 export const eventEditInterface = {
-  [ON_COLLIDE_ACTIVE]: {
+  [ON_TOUCH_ACTIVE]: {
     tagSelectType: TWO_TAG_EVENT
   },
-  [ON_COLLIDE_START]: {
+  [ON_TOUCH_START]: {
     tagSelectType: TWO_TAG_EVENT,
     effectDelay: true,
     onlyOnce: true,
     effectCooldown: true,
   },
   // [ON_COLLIDE_END]: {},
-  //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
+  //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
-  //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
+  //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_PLAYTHROUGH]: {
     tagSelectType: NO_TAG_EVENT,
     effectDelay: true
@@ -103,12 +103,12 @@ export const eventEditInterface = {
 
 
 export const singleClassEvents = {
-  [ON_COLLIDE_ACTIVE]: false,
-  [ON_COLLIDE_START]: false,
+  [ON_TOUCH_ACTIVE]: false,
+  [ON_TOUCH_START]: false,
   // [ON_COLLIDE_END]: false,
-  //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
+  //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
-  //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
+  //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_PLAYTHROUGH]: true,
   [ON_SPAWN]: true,
   [ON_DESTROY_ONE]: true,
@@ -117,12 +117,12 @@ export const singleClassEvents = {
 }
 
 export const eventPrefix = {
-  [ON_COLLIDE_ACTIVE]: 'Class A And Class B',
-  [ON_COLLIDE_START]: 'Class A And Class B',
+  [ON_TOUCH_ACTIVE]: 'Class A And Class B',
+  [ON_TOUCH_START]: 'Class A And Class B',
   // [ON_COLLIDE_END]: 'Class A And Class B',
-  //  [ON_COLLIDE_START]: 'ON_COLLIDE_START',
+  //  [ON_TOUCH_START]: 'ON_TOUCH_START',
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
-  //  [ON_COLLIDE_ACTIVE]: 'ON_COLLIDE_ACTIVE',
+  //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_PLAYTHROUGH]: null,
   [ON_SPAWN]: 'ClassB',
   [ON_DESTROY_ONE]: 'ClassB',

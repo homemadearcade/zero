@@ -8,9 +8,6 @@ import {
   OPEN_SNAPSHOT_TAKER,
   CLOSE_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
-  CHANGE_CLASS_ID_HOVERING,
-  CHANGE_BRUSH_ID_HOVERING,
-  CHANGE_INSTANCE_HOVERING,
 } from '../types';
 
 // these are editor things that take place within the game view
@@ -33,33 +30,12 @@ const initialState = {
   // this could be on the playerInterface reducer
   cameraShakeIntensity: null,
   cameraShakeEndTime: 0,
-  classIdHovering: null,
-  brushIdHovering: null,
-  instanceClassIdHovering: null,
-  instanceIdHovering: null
 };
 
 export const initialGameViewEditorState = initialState
 
 export default function gameViewEditorReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case CHANGE_CLASS_ID_HOVERING:
-      return {
-        ...state,
-        classIdHovering: payload.classId
-      }
-    case CHANGE_BRUSH_ID_HOVERING:
-      return {
-        ...state,
-        brushIdHovering: payload.brushId
-      }
-    case CHANGE_INSTANCE_HOVERING:
-      return {
-        ...state,
-        instanceDataHovering: payload.data,
-        instanceClassIdHovering: payload.classId,
-        instanceIdHovering: payload.instanceId
-      }
     case CHANGE_EDITOR_CAMERA_ZOOM: {
       return {
         ...state,

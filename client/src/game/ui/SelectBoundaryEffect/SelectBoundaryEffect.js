@@ -10,10 +10,9 @@ import { getBoundaryRelationLabel, boundaryRelationsDisplayNames } from '../../c
 const SelectBoundaryEffect = ({ classId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
   const objectClass = gameModel.classes[classId]
 
-
   const mapEffectsToOption = (relation) => {
     return {
-      label: getBoundaryRelationLabel(relation, objectClass),
+      label: boundaryRelationsDisplayNames[relation],
       value: relation
     }
   }

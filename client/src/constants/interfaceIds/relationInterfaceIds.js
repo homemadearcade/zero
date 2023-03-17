@@ -18,3 +18,8 @@ export const EFFECT_ADVANCED_CONTAINER_IID = 'effect/advanced/*'
 
 export const EFFECT_COOLDOWN_IID = 'effect/cooldown'
 export const EFFECT_DELAY_IID = 'effect/delay'
+
+
+export const RELATION_ADD_IID = 'relation/add'
+export const RELATION_SELECT_IID = 'relation/select'
+export const RELATION_CONTAINER_IID = 'relation/*'

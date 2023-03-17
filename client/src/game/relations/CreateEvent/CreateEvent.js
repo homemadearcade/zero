@@ -7,7 +7,7 @@ import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/game
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { defaultEvent, eventEditInterface, NO_TAG_EVENT, ON_INTERACT, playerTagId, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
-import { ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START } from '../../constants';
+import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
 import { EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID } from '../../../constants/interfaceIds';
@@ -38,7 +38,7 @@ import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/Cobrowsi
 const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
   function renderAdvancedOptions() {
     if(!event.type) return
-    const correctEvent = event.type === ON_COLLIDE_START || event.type === ON_COLLIDE_ACTIVE || event.type === ON_COLLIDE_END
+    const correctEvent = event.type === ON_TOUCH_START || event.type === ON_TOUCH_ACTIVE || event.type === ON_COLLIDE_END
     const advancedOptions = []
     const eventInterface = eventEditInterface[event.type]
 

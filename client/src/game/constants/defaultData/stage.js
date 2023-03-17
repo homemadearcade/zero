@@ -48,9 +48,9 @@ export const initialStage = {
 }
 
 export const boundaryRelationsDisplayNames = {
-  [BOUNDARY_COLLIDE]: ' stops ',
-  [BOUNDARY_DESTROY]: ' is destroyed ',
-  [BOUNDARY_WRAP]:  ' flips to the other side '
+  [BOUNDARY_COLLIDE]: 'Stops at boundary',
+  // [BOUNDARY_DESTROY]: 'Is destroyed',
+  [BOUNDARY_WRAP]:  'Flips to the other side'
 }
 
 export function getBoundaryRelationLabel(type, objectClass) {

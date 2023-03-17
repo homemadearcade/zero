@@ -5,7 +5,7 @@ import { editGameModel } from '../../store/actions/gameModelActions';
 import { openContextMenuFromObjectInstance, openStageContextMenu } from '../../store/actions/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
-import { closeSnapshotTaker, changeEditorCameraZoom, changeInstanceHovering } from '../../store/actions/gameViewEditorActions';
+import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
 import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
@@ -23,6 +23,7 @@ import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
 import { addAwsImage } from '../../store/actions/textureActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
+import { changeInstanceHovering } from '../../store/actions/hoverPreviewActions';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -304,7 +305,7 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    const instanceIdHovering = store.getState().gameViewEditor.instanceIdHovering
+    const instanceIdHovering = store.getState().hoverPreview.instanceIdHovering
     const sprite = entitySprite[0]
     if(sprite.instanceId !== instanceIdHovering) {
       store.dispatch(changeInstanceHovering(sprite.instanceId, sprite.classId, { isSpawned: sprite.effectSpawned }))
@@ -724,7 +725,7 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    if(gameUpdate.relations || gameUpdate.effects || gameUpdate.events) {
+    if(gameUpdate.relations || gameUpdate.effects || gameUpdate.events || gameUpdate.collisions) {
       // setTimeout(() => {
         this.reregisterRelationships()
       // }, 100)

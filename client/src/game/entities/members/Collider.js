@@ -1,4 +1,4 @@
-import { ARCADE_PHYSICS, EFFECT_STICK_TO, PLAYER_INSTANCE_ID_PREFIX, MATTER_PHYSICS, ON_COLLIDE_ACTIVE, ON_COLLIDE_END, ON_COLLIDE_START, EFFECT_RECLASS } from "../../constants";
+import { ARCADE_PHYSICS, EFFECT_STICK_TO, PLAYER_INSTANCE_ID_PREFIX, MATTER_PHYSICS, ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, EFFECT_RECLASS } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {
@@ -74,7 +74,7 @@ export class Collider {
         this.collidingWith.push(instanceSpriteB?.instanceId)
       }
       
-      if(event.type === ON_COLLIDE_ACTIVE) {
+      if(event.type === ON_TOUCH_ACTIVE) {
         this.objectInstance.effects.runCollideActiveEffect({
           relation: newRelation,
           instanceSpriteA,
@@ -84,7 +84,7 @@ export class Collider {
         })
       }
 
-      if(isOnEnter && (event.type === ON_COLLIDE_START || effect.type === EFFECT_STICK_TO)) {
+      if(isOnEnter && (event.type === ON_TOUCH_START || effect.type === EFFECT_STICK_TO)) {
         this.objectInstance.runAccuteEffect({
           relation: newRelation,
           instanceSpriteA,
@@ -177,13 +177,13 @@ export class Collider {
         }
       }
 
-      if(event === ON_COLLIDE_START) {
+      if(event === ON_TOUCH_START) {
         this.scene.matterCollision.addOnCollideStart(eventEffect);
       }
       if(event === ON_COLLIDE_END) {
         this.scene.matterCollision.addOnCollideEnd(eventEffect);
       }
-      if(event === ON_COLLIDE_ACTIVE) {
+      if(event === ON_TOUCH_ACTIVE) {
         this.scene.matterCollision.addOnCollideActive(eventEffect);
         this.scene.matterCollision.addOnCollideEnd(eventRestore)
       }

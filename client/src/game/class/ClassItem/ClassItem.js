@@ -11,7 +11,8 @@ import { openContextMenuFromClassId } from '../../../store/actions/contextMenuAc
 import Sprite from '../../sprites/Sprite/Sprite';
 import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
-import { changeClassIdHovering, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
+import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
+import { changeClassIdHovering } from '../../../store/actions/hoverPreviewActions';
 import { getLayerIdFromClass } from '../../../utils/gameUtils';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 

@@ -1,7 +1,7 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
-import { ON_COLLIDE_ACTIVE } from "./event"
+import { ON_TOUCH_ACTIVE } from "./event"
 
 // EFFECTS
 export const EFFECT_TELEPORT = 'EFFECT_TELEPORT'
@@ -213,7 +213,7 @@ export const nonRemoteEffects  = {
 }
 
 export function isUseableEffect(effectType, eventType) {
-    if(eventType !== ON_COLLIDE_ACTIVE && persistentEffects[effectType]) return false
-    if(!persistentEffects[effectType] && (eventType === ON_COLLIDE_ACTIVE)) return false
+    if(eventType !== ON_TOUCH_ACTIVE && persistentEffects[effectType]) return false
+    if(!persistentEffects[effectType] && (eventType === ON_TOUCH_ACTIVE)) return false
     return true
   }

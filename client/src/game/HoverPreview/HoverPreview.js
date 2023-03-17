@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Typography from '../../ui/Typography/Typography';
 import Sprite from '../sprites/Sprite/Sprite';
 import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
-import { layerToDisplayName, PAUSED_STATE, STOPPED_STATE } from '../constants';
+import { effectDisplayNames, layerToDisplayName, PAUSED_STATE, STOPPED_STATE } from '../constants';
 import Icon from '../../ui/Icon/Icon';
 import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../constants/interfaceIdData';
@@ -23,12 +23,15 @@ const HoverPreview = ({
   cobrowsing: {
     mouseOverInterfaceId
   },
-  gameViewEditor: { 
+  hoverPreview: { 
     brushIdHovering, 
     classIdHovering,
     instanceIdHovering,
     instanceClassIdHovering,
-    instanceDataHovering
+    instanceDataHovering,
+    effectIdHovering,
+    relationIdHovering,
+    tagIdHovering
   },
   gameSelector: {
     brushIdSelectedBrushList,
@@ -41,6 +44,9 @@ const HoverPreview = ({
       classes,
       brushes,
       stages,
+      effects,
+      relations,
+      tags
     }
   },
   gameRoom: {
@@ -95,7 +101,19 @@ const HoverPreview = ({
     </>
   }
 
-  function renderDisplay({tint, textureId, title, spriteOverlay, onEdit}) {
+  function renderTextOnlyDisplay({title, subtitle, onEdit}) {
+      return <div className="HoverPreview__title">
+        {renderDisplayTitle(title, onEdit)}
+        <Typography 
+          variant="div" 
+          sx={{fontSize:'.4rem'}}
+        >
+          {subtitle}
+        </Typography>
+      </div>
+  }
+
+  function renderDisplayWithTexture({tint, textureId, title, spriteOverlay, onEdit}) {
     return <>
       <div className="HoverPreview__display">
         <div className="HoverPreview__display-item">
@@ -113,7 +131,7 @@ const HoverPreview = ({
   function renderClassDisplay() {
     let title = objectClass.name + ' - ' + classTypeToDisplayName[objectClass.type]
     if(instanceDataHovering?.isSpawned) title += ' (Spawned)'
-    return renderDisplay({
+    return renderDisplayWithTexture({
       tint: objectClass.graphics.tint,
       textureId: objectClass.graphics.textureId,
       title,
@@ -124,7 +142,7 @@ const HoverPreview = ({
   }
 
   function renderBrushDisplay() {
-    return renderDisplay({
+    return renderDisplayWithTexture({
       tint: brushClass.tint,
       textureId: brushClass.textureId,
       title: layerToDisplayName[brushClass.canvasId]
@@ -133,7 +151,7 @@ const HoverPreview = ({
 
   function renderColorDisplay() {
     const layerName = layerToDisplayName[getCanvasIdFromColorId(brushId)]
-    return renderDisplay({
+    return renderDisplayWithTexture({
       tint: hex,
       spriteOverlay: <ColorNameFit hex={hex}/>,
       title:<>
@@ -202,7 +220,19 @@ const HoverPreview = ({
     }
 
     // hovering 
-    if(instanceClassIdHovering) {
+    if(tagIdHovering) {
+      const tag = tags[tagIdHovering]
+      return renderDisplayWithTexture({
+        title: tag.name,
+        tint: tag.color,
+        textureId: tag.textureId,
+      })
+    } else if(effectIdHovering) {
+      const effect = effects[effectIdHovering]
+      return renderTextOnlyDisplay({
+        title: effectDisplayNames[effect.type]
+      })
+    } else if(instanceClassIdHovering) {
       return renderClassDisplay()
     } else if(classIdHovering) {
       return renderClassDisplay()
@@ -243,7 +273,7 @@ const HoverPreview = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  gameViewEditor: state.gameViewEditor,
+  hoverPreview: state.hoverPreview,
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
   cobrowsing: state.cobrowsing,

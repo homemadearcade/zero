@@ -6,23 +6,8 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 RELATIONS
-  Boundary Relations ( should not be in the relation system )
-  Remote Effects
   Allow Selecting from already created effect in relation?
-  Better Shorthand for relations
-
-  COLLIDE_START -> TOUCH_START
-  COLLIDE_ACTIVE -> TOUCH_ACTIVE
-
-  PROJECTILES/SPAWNED
-    Relationship level
-      None
-      Player
-      All
-    Collison Level
-      None
-      Player
-      All
+  Make imported effects the default effects in relations
 
 LIBRARY
   Be able to open class library classes from some sort of class bucket thing. Start with context menu?

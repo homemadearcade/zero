@@ -6,7 +6,7 @@ import './SelectEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { isUseableEffect} from '../../constants'
 
-const SelectEffect = ({ event, onChange, value, formLabel, disabled, gameModel}) => {
+const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effect) => {
     return {
       label: effect,
@@ -16,20 +16,20 @@ const SelectEffect = ({ event, onChange, value, formLabel, disabled, gameModel})
 
   const options = Object.keys(gameModel.effects).filter((effectId) => {
     const effect = gameModel.effects[effectId]
-    if(isUseableEffect(effect.type, event.type)) return true
+    if(isUseableEffect(effect.type, eventType)) return true
     return false
   }).map(mapControlsToOption)
 
-  // const useableValue = value.filter((effectId) => {
-  //   const effect = gameModel.effects[effectId]
-  //   return isUseableEffect(effect.type, event.type)
-  // })
+  const useableValue = value.filter((effectId) => {
+    const effect = gameModel.effects[effectId]
+    return isUseableEffect(effect.type, eventType)
+  })
 
   return <SelectChipsAuto 
     disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}
-    value={value}
+    value={useableValue}
     options={options}
   />
 }

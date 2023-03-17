@@ -4,6 +4,7 @@ UPLOAD PHOTOS
     attempt the user profile pic upload first
     Should be a /texture route not an aws route
   Agora User Video, have it load a user and have it like upload it as a profile pic??
+    Make it like Google Calls, or just first letter of name, with color
 
 VIDEO CALL BLOCKING
   End Call for everyone in lobby, End call for self also
@@ -13,3 +14,16 @@ PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A CLASS
 TREASURE CHEST UNLOCKS
 
 PUSH UI STATE ( Envelope Icon )
+
+RELATIONS
+  Better Shorthand for relations
+
+  PROJECTILES/SPAWNED
+    Relationship level
+      None
+      Player
+      All
+    Collison Level
+      None
+      Player
+      All

@@ -1,19 +1,20 @@
 import { effectDisplayNames, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, SPAWN_ZONE_RANDOM_SELECT } from "./effect"
 import { eventDisplayNames, eventPrefix } from "./event"
 
-
 export const initialEffectRelation = {
   effectTagA: true,
   effectTagB: false,
   spawnZoneSelectorType: SPAWN_ZONE_RANDOM_SELECT,
   effectCooldown: null,
   effectDelay: null,
-  remoteEffectedTagIds: [],
+  remoteEffectedTagIds2: [],
+  interfaceType: null
 }
 
 export const defaultRelationship = {
   event: null,
   effects: {},
+  importedEffects: [],
   relationId: '',
 }
 

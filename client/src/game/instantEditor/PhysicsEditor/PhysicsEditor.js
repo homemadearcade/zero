@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { ON_COLLIDE_ACTIVE, PLAYGROUND_CANVAS_ID, RELATION_ID_PREFIX } from '../../constants';
+import { ON_TOUCH_ACTIVE, PLAYGROUND_CANVAS_ID, RELATION_ID_PREFIX } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeColliderTagId } from '../../../utils/gameUtils';
@@ -30,7 +30,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
             const oldColliders = Object.keys(gameModel.collisions).map((collisionId) => {
               return gameModel.collisions[collisionId]
             }).filter((collision) => {
-              if((collision.event.type === ON_COLLIDE_ACTIVE) &&
+              if((collision.event.type === ON_TOUCH_ACTIVE) &&
                 //  collision.effect.type === EFFECT_COLLIDE &&
                  (collision.event.tagIdA === tagId || collision.event.tagIdB === tagId)
               ) {
@@ -76,7 +76,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
                 collisions[newId] = {
                   collisionId: newId,
                   event: {
-                    type: ON_COLLIDE_ACTIVE,
+                    type: ON_TOUCH_ACTIVE,
                     tagIdA: tagId,
                     tagIdB,
                   },
