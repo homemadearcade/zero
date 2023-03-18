@@ -16,8 +16,6 @@ TREASURE CHEST UNLOCKS
 PUSH UI STATE ( Envelope Icon )
 
 RELATIONS
-  Better Shorthand for relations
-
   PROJECTILES/SPAWNED
     Relationship level
       None

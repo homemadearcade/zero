@@ -6,7 +6,7 @@ import './CreateEvent.scss';
 import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultEvent, eventEditInterface, NO_TAG_EVENT, ON_INTERACT, playerTagId, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
+import { defaultEvent, eventEditInterface, playerTagId, PLAYER_AND_TAG_EVENT, PLAYER_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
 import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
@@ -55,7 +55,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       </Unlockable>)
     }
 
-    if(event.tagIdA && correctEvent && !eventInterface.tagSelectType != NO_TAG_EVENT) {
+    if(event.tagIdA && correctEvent && !eventInterface.tagSelectType != PLAYER_TAG_EVENT) {
       advancedOptions.push(
         <Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
           <SelectSides
@@ -72,7 +72,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       )
     }
 
-    if(event.tagIdB && correctEvent && !eventInterface.tagSelectType != SINGLE_TAG_EVENT && !eventInterface.tagSelectType != NO_TAG_EVENT) {
+    if(event.tagIdB && correctEvent && !eventInterface.tagSelectType != SINGLE_TAG_EVENT && !eventInterface.tagSelectType != PLAYER_TAG_EVENT) {
       advancedOptions.push(<Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
         <SelectSides
           key="event/sidesB"
@@ -94,7 +94,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
     if(!event.type) return
     const eventInterface = eventEditInterface[event.type]
 
-    if(eventInterface.tagSelectType === NO_TAG_EVENT) {
+    if(eventInterface.tagSelectType === PLAYER_TAG_EVENT) {
       return null
     }
 
@@ -160,7 +160,8 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       value={event.type ? [event.type] : []}
       onChange={(event, eventTypes) => {
         const eventType = eventTypes[eventTypes.length-1]
-        if(eventType === ON_INTERACT) {
+        const { tagSelectType } = eventEditInterface[eventType]
+        if(tagSelectType === PLAYER_AND_TAG_EVENT || tagSelectType === PLAYER_TAG_EVENT) {
           updateCreateEvent({
             ...defaultEvent,
             type: eventType,

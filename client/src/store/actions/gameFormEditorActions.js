@@ -13,8 +13,6 @@ import {
   UPDATE_CREATE_CUTSCENE,
   CLOSE_CREATE_CUTSCENE,
   OPEN_CREATE_CUTSCENE,
-  OPEN_RELATIONS_MENU,
-  CLOSE_RELATIONS_MENU,
   OPEN_CREATE_RELATION,
   CLOSE_CREATE_RELATION,
   UPDATE_CREATE_RELATION,
@@ -251,39 +249,15 @@ export const updateCreateCutscene = (cutscene) => (dispatch, getState) => {
   });
 }
 
-export const openRelationsMenu= (classId) => (dispatch, getState) => {
-  saveAllCurrentCanvases()
-
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_RELATIONS_MENU,
-    payload: {
-      classId
-    }
-  });
-}
-
-export const closeRelationsMenu= () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_RELATIONS_MENU,
-    payload: {}
-  });
-}
-
 export const openCreateRelation = (initialRelation) => (dispatch, getState) => {
   const gameModel = getState().gameModel.gameModel
 
-  let effects = {}
-  if(initialRelation?.effects) {
-    Object.keys(initialRelation.effects).forEach((effectId) => {
-      effects[effectId] = gameModel.effects[effectId]
-    })
-  }
   let event = null 
-  if(initialRelation?.event) {
-    event = gameModel.events[initialRelation.event]
+  if(initialRelation?.eventId) {
+    event = gameModel.events[initialRelation.eventId]
   }
+
+  console.log('??')
 
   dispatch({
     updateCobrowsing: true,
@@ -291,7 +265,6 @@ export const openCreateRelation = (initialRelation) => (dispatch, getState) => {
     payload: { 
       initialRelation,
       event,
-      effects,
     }
   });
 }

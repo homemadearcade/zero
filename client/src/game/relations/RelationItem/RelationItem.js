@@ -37,7 +37,10 @@ const RelationItem = ({
       changeRelationIdHovering(null)
     }}>
       <NestedListItem
-        onClick={() => {openCreateRelation(relation)}}
+        onClick={() => {
+          openCreateRelation(relation)
+          console.log('???', relation)
+        }}
       >
         <Typography variant="body2">
           <RelationShorthand relation={relation}/>

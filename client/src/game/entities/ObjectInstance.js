@@ -75,6 +75,7 @@ export class ObjectInstance extends Sprite {
       Object.keys(relation.effects).forEach((effectId) => {
         const effect = relation.effects[effectId]
         if(!effect) return
+
         // if(effect.type === 'EFFECT_SPAWN') console.log('we runnin dis effect yo')
         this.runAccuteEffect({
           relation: {

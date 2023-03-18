@@ -17,7 +17,7 @@ function renderTag(tag) {
 
 
 function RelationShorthand({relation, gameModel: { gameModel: { events, effects, tags } }}) {
-  const event = events[relation.event]
+  const event = events[relation.eventId]
 
   function renderEffectedTags(effect, effectId) {
     const effectInterface = effectEditInterface[effect.type]

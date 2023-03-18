@@ -193,7 +193,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.relationsByEvent = Object.keys(relations).reduce((relationsByEvent, relationId) => {
       const relation = relations[relationId]
-      const populatedEvent = events[relation.event]
+      const populatedEvent = events[relation.eventId]
       const populatedEffects = relation.effectIds.map((effectId) => {
         let effect 
         if(!relation.effects[effectId]) {
@@ -564,14 +564,8 @@ export class GameInstance extends Phaser.Scene {
     const playerClass = gameModel.classes[this.playerInstance.classId]
     this.cameras.main.setZoom(playerClass.camera.zoom);
 
-    if(this.isPlaythrough && this.firstStage) {
-      this.relationsByEvent[ON_PLAYTHROUGH].forEach((relation) => {
-        this.runAccuteEffect({
-          relation,
-        })
-      })
-    }
-    
+    this.startPlaythroughStartEffects()
+
     setTimeout(() => {
       store.dispatch(updateGameRoomPlayer({
         gameRoomId: this.gameRoom.id,
@@ -613,6 +607,16 @@ export class GameInstance extends Phaser.Scene {
     this.addObjectInstance(OBJECT_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, classId}, true)
   }
 
+  startPlaythroughStartEffects() {
+    if(this.isPlaythrough && this.firstStage) {
+      this.relationsByEvent[ON_PLAYTHROUGH].forEach((relation) => {
+        this.playerInstance.startRunEventEffects(
+          relation,
+        )
+      })
+    }
+  }
+
   sendResetGameEvent() {
     // this updates here because all players are watching the current stage right now
     const startingStageId = store.getState().gameModel.gameModel.player.startingStageId
@@ -625,6 +629,8 @@ export class GameInstance extends Phaser.Scene {
     } else {
       this.reset()
     }
+
+    this.startPlaythroughStartEffects()
   }
 
   destroyInstances() {
@@ -730,7 +736,9 @@ export class GameInstance extends Phaser.Scene {
     if(gameState === START_STATE) {
       this.isPaused = true
       this.isPlaythrough = true
-      if(this.hasLoadedOnce) this.sendResetGameEvent()
+      if(this.hasLoadedOnce) {
+        this.sendResetGameEvent()
+      }
     }
     if(gameState === PLAYTHROUGH_PAUSED_STATE) {
       this.isPaused = true
@@ -744,6 +752,7 @@ export class GameInstance extends Phaser.Scene {
     }
     if(gameState === STOPPED_STATE) {
       this.isPaused = true
+      this.isPlaythrough = false
       this.sendResetGameEvent()
     }
     if(gameState === PLAYTHROUGH_PLAY_STATE) {

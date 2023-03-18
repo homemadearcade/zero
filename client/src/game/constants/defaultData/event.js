@@ -20,6 +20,7 @@ export const NO_TAG_EVENT = 'NO_TAG_EVENT'
 export const SINGLE_TAG_EVENT = 'SINGLE_TAG_EVENT'
 export const TWO_TAG_EVENT = 'TWO_TAG_EVENT'
 export const PLAYER_AND_TAG_EVENT = 'PLAYER_AND_TAG_EVENT'
+export const PLAYER_TAG_EVENT = 'PLAYER_TAG_EVENT'
 
 // WHEN, WHO, WHERE
 export const defaultEvent = {
@@ -81,7 +82,7 @@ export const eventEditInterface = {
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_PLAYTHROUGH]: {
-    tagSelectType: NO_TAG_EVENT,
+    tagSelectType: PLAYER_TAG_EVENT,
     effectDelay: true
   },
   [ON_SPAWN]: {

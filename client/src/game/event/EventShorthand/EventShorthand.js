@@ -21,7 +21,6 @@ function renderEventName(event) {
 
 function EventShorthand({event, gameModel: { gameModel }}) {
   const type = event.type 
-  const displayName = eventShortNames[type]
   const tags = gameModel.tags 
   const tagA = tags[event.tagIdA]
   const tagB = tags[event.tagIdB] 
@@ -57,7 +56,7 @@ function EventShorthand({event, gameModel: { gameModel }}) {
       </>
     }
 
-    return displayName
+    return renderEventName(event)
   }
 
   return <span style={{display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'row'}}>

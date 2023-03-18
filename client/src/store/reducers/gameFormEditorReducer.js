@@ -22,8 +22,6 @@ import {
   CLOSE_CREATE_RELATION,
   OPEN_CUTSCENES_MENU,
   CLOSE_CUTSCENES_MENU,
-  OPEN_RELATIONS_MENU,
-  CLOSE_RELATIONS_MENU,
   OPEN_BOUNDARY_RELATION,
   UPDATE_BOUNDARY_RELATION,
   CLOSE_BOUNDARY_RELATION,
@@ -107,7 +105,6 @@ const initialState = {
   },
 
   isBoundaryRelationMenuOpen: false,
-  isRelationsMenuOpen: false,
   isCreateRelationOpen: false,
   classIdRelationsMenu: null,
   relation: {
@@ -224,18 +221,6 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         isCreateCutsceneOpen: false
       }
-    case OPEN_RELATIONS_MENU: 
-      return {
-        ...state,
-        isRelationsMenuOpen: true,
-        classIdRelationsMenu: payload.classId
-      }
-    case CLOSE_RELATIONS_MENU:
-      return {
-        ...state,
-        isRelationsMenuOpen: false,
-        classIdRelationsMenu: null
-      }
     case OPEN_CREATE_EFFECT:
       return {
         ...state,
@@ -304,7 +289,6 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
           ..._.cloneDeep(initialState.relation),
           ...payload.initialRelation ? _.cloneDeep(payload.initialRelation) : {}
         },
-        effects: payload.effects,
         event: payload.event
       }
     case UPDATE_CREATE_RELATION:

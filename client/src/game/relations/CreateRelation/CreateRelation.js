@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectDisplayNames, effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
+import { effectDisplayNames, effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import { EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
@@ -31,7 +31,7 @@ import EffectShorthand from '../../effect/EffectShorthand/EffectShorthand';
 // {event && <SelectEffect
 //         event={event}
 //         formLabel={"What effects happen?"}
-//         value={relation.effects ? relation.events : []}
+//         value={relation.effects ? relation.eventIds : []}
 //         onChange={(event, effects) => {
 //           // const newClassId = classes[classes.length-1]
 //           // handleEffectChange('spawnClassId', newClassId)
@@ -52,13 +52,13 @@ const CreateRelation = ({
   
   useEffect(() => {
     if(!relation.relationId) {
-      const initialEventId = EFFECT_ID_PREFIX +generateUniqueId()
+      const initialEventId = EVENT_ID_PREFIX +generateUniqueId()
       updateCreateRelation({ 
         relationId: RELATION_ID_PREFIX+generateUniqueId(), 
         isNew: true,
         effects: {},
         effectIds: [],
-        event: EFFECT_ID_PREFIX +generateUniqueId(),
+        eventId: initialEventId
       })
       updateCreateEvent({
         sidesA: [],
@@ -74,11 +74,10 @@ const CreateRelation = ({
 
   function isSaveDisabled() {
 
-    if(!relation.event) return true
+    if(!relation.eventId) return true
 
     if(!isEventSaveable) return true
     
-
     const isAnEffectNotUseable = relation.effectIds.some((effectId) => {
       const effect = gameModel.effects[effectId]
       if(!effect) return false
@@ -341,7 +340,7 @@ const CreateRelation = ({
               }
             },
             events: {
-              [relation.event]: event
+              [relation.eventId]: event
             },
           })
           handleClose()

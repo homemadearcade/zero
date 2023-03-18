@@ -119,7 +119,7 @@ function enrichGameModel(gameData) {
 
     gameData.relations[cutsceneId] = {
       relationId: cutsceneId,
-      event: cutsceneId,
+      eventId: cutsceneId,
       effects: {
         [cutsceneId]: {
           effectId: cutsceneId
