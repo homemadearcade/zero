@@ -1,3 +1,4 @@
+import { SELECTOR_COLUMN_MAP } from '../../game/constants';
 import {
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
@@ -25,7 +26,8 @@ import {
   OPEN_CLASS_BOX_MODAL,
   CLOSE_CLASS_BOX_MODAL,
   OPEN_SELECT_AGGREGATE_COLOR,
-  CLOSE_SELECT_AGGREGATE_COLOR
+  CLOSE_SELECT_AGGREGATE_COLOR,
+  CHANGE_SELECTOR_COLUMN
 } from '../types';
 
 const initialState = {
@@ -48,13 +50,19 @@ const initialState = {
   isSpriteEditorOpen: false,
   isClassBoxModalOpen: false,
   classBoxClassType: null,
-  isSelectAggregateColorOpen: null
+  isSelectAggregateColorOpen: null,
+  selectorColumnTab: SELECTOR_COLUMN_MAP,
 };
 
 export const initialGameSelectorState = initialState
 
 export default function gameSelectorReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case CHANGE_SELECTOR_COLUMN: 
+      return {
+        ...state,
+        selectorColumnTab: payload.selectorColumnTab
+      }
     case UPDATE_BRUSH_SIZE: {
       return {
         ...state,

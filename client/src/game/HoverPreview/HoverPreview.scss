@@ -26,6 +26,12 @@
     align-items: center;
   }
 
+  &__close {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
   &__actions {
     display: flex;
     align-items: center;

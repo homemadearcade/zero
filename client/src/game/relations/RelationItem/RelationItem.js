@@ -14,6 +14,7 @@ import { NestedListItem } from '../../../ui/NestedList/NestedList';
 import { openCreateRelation } from '../../../store/actions/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import { effectDisplayNames, eventDisplayNames, eventShortNames } from '../../constants';
+import RelationShorthand from '../RelationShorthand/RelationShorthand';
 
 const RelationItem = ({
   gameModel: { gameModel: { relations, effects, events } },
@@ -22,10 +23,10 @@ const RelationItem = ({
   openCreateRelation
 }) => {
   const relation= relations[relationId]
-  const relationEvent = events[relation.event]
-  const relationEffects = Object.keys(relation.effects).map((effectId) => {
-    return effects[effectId]
-  })
+  // const relationEvent = events[relation.event]
+  // const relationEffects = Object.keys(relation.effects).map((effectId) => {
+  //   return effects[effectId]
+  // })
 
   return <Unlockable interfaceId={RELATION_SELECT_IID}>
     <div
@@ -39,9 +40,7 @@ const RelationItem = ({
         onClick={() => {openCreateRelation(relation)}}
       >
         <Typography variant="body2">
-          {eventShortNames[relationEvent.type]}
-          
-          {relationEffects.length && effectDisplayNames[relationEffects[0].type]}
+          <RelationShorthand relation={relation}/>
         </Typography>
       </NestedListItem>
     </div>

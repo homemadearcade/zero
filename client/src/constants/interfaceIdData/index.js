@@ -10,7 +10,7 @@ import projectileInterfaceIdData from "./projectileInterfaceIdData";
 import relationInterfaceIdData from "./relationInterfaceIdData";
 import rootInterfaceIdData from "./rootInterfaceIdData";
 import stageInterfaceIdData from "./stageInterfaceIdData";
-import dialogueInterfaceIdData from "./dialogueInterfaceIdData";
+import cutsceneInterfaceIdData from "./cutsceneInterfaceIdData";
 import gameInterfaceIdData from "./gameInterfaceIdData";
 import tagInterfaceIdData from "./tagInterfaceIdData";
 
@@ -27,7 +27,7 @@ export const interfaceIdData = {
   ...movementInterfaceIdData,
   ...projectileInterfaceIdData,
   ...contextMenuInterfaceIdData,
-  ...dialogueInterfaceIdData,
+  ...cutsceneInterfaceIdData,
   ...gameInterfaceIdData,
   ...tagInterfaceIdData
 }

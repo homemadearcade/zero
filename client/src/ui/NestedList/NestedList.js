@@ -61,7 +61,7 @@ function ColorSquare({color}) {
 }
 
 export function NestedListItem({children, title, onClick, color, useColor}) {
-  return <ListItemButton dense onClick={onClick} sx={{ pl: 4 }}>
+  return <ListItemButton dense onClick={onClick} sx={{ pl: '2em' }}>
     {useColor && <ColorSquare color={color}></ColorSquare>}
     {title && <ListItemText primary={title} />}
     {children}
@@ -69,7 +69,7 @@ export function NestedListItem({children, title, onClick, color, useColor}) {
 }
 
 export function NestedListItemButton({children, title, onClick, useColor, color}) {
-  return <ListItem dense onClick={onClick} sx={{ pl: 4 }}>
+  return <ListItem dense onClick={onClick} sx={{ pl: '2em' }}>
     {useColor && <ColorSquare color={color}></ColorSquare>}
     {title && <ListItemText primary={title} />}
     {children}

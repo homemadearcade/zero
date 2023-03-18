@@ -5,10 +5,6 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-RELATIONS
-  Allow Selecting from already created effect in relation?
-  Make imported effects the default effects in relations
-
 LIBRARY
   Be able to open class library classes from some sort of class bucket thing. Start with context menu?
   When creating a class?, when selecting a class? From context menu?

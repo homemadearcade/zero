@@ -7,14 +7,12 @@ import { connect } from 'react-redux';
 import { selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Sprite from '../../sprites/Sprite/Sprite';
 import { changeEffectIdHovering } from '../../../store/actions/hoverPreviewActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { EFFECT_SELECT_IID } from '../../../constants/interfaceIds';
 import { NestedListItem } from '../../../ui/NestedList/NestedList';
 import { openCreateEffect } from '../../../store/actions/gameFormEditorActions';
-import Typography from '../../../ui/Typography/Typography';
-import { effectDisplayNames } from '../../constants';
+import EffectShorthand from '../EffectShorthand/EffectShorthand';
 
 const EffectItem = ({
   gameModel: { gameModel: { effects } },
@@ -35,9 +33,7 @@ const EffectItem = ({
       <NestedListItem
         onClick={() => {openCreateEffect(effect)}}
       >
-        <Typography variant="body2">
-          {effectDisplayNames[effect.type]}
-        </Typography>
+        <EffectShorthand effect={effect}></EffectShorthand>
       </NestedListItem>
     </div>
   </Unlockable>

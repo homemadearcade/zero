@@ -112,7 +112,7 @@ export class Collider {
   }
 
   registerArcadeRelations(relations) {
-    relations.forEach((relation) => {
+    relations?.forEach((relation) => {
       const {event, sidesA, sidesB} = relation
       const releventInstances = this.scene.objectInstancesByTag[event.tagIdB]
       if(!releventInstances || !releventInstances.length) return
@@ -140,7 +140,7 @@ export class Collider {
   registerMatter(relations) { 
     const world = this.scene.matter.world
 
-    relations.forEach((relation) => {
+    relations?.forEach((relation) => {
       const {event, effect} = relation
 
       const eventEffect = {

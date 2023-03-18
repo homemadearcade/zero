@@ -9,13 +9,15 @@ import { openCreateClassFlow, openCreateCutscene, openCreateEffect, openCreateEv
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EFFECT_SELECT_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, TAG_ADD_IID, TAG_CONTAINER_IID, TAG_SELECT_IID } from '../../../constants/interfaceIds';
+import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, TAG_ADD_IID, TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
-import EffectItem from '../../relations/EffectItem/EffectItem';
-import TagItem from '../../relations/TagItem/TagItem';
 import RelationItem from '../../relations/RelationItem/RelationItem';
+import { CUTSCENE_ADD_IID, CUTSCENE_CONTAINER_IID, CUTSCENE_SELECT_IID } from '../../../constants/interfaceIds/cutsceneInterfaceIds';
+import EventShorthand from '../../event/EventShorthand/EventShorthand';
+import TagItem from '../../tags/TagItem/TagItem';
+import EffectItem from '../../effect/EffectItem/EffectItem';
 
 const DATA_MAX = 16
 
@@ -27,21 +29,49 @@ const GameplayDataList = ({
   openCreateEvent,
   openCreateRelation
 }) => {
-  const cutscenes = gameModel?.cutscenes
-
-  if(!cutscenes) {
+  if(!gameModel.cutscenes) {
     return null
   }
 
   const nestedLists = []
 
-  const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
-    const currentCutscene = cutscenes[currentCutsceneId]
+  const cutscenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
+    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
     if(currentCutscene.isRemoved) return false
-    if(currentCutscene.inDialogueMenu) return true
-    return false
+    if(currentCutscene.inDialogueMenu) return false
+    return true
   }).map((currentCutsceneId, i) => {
-    const currentCutscene = cutscenes[currentCutsceneId]
+    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
+    return <Unlockable interfaceId={CUTSCENE_SELECT_IID}>
+      <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
+    </Unlockable>
+  })
+
+  cutscenes.push(<Unlockable interfaceId={CUTSCENE_ADD_IID}>
+    <NestedListItemButton>
+      <Button onClick={() => {
+        openCreateCutscene({
+          inDialogueMenu: false
+        })
+      }}>+</Button>
+    </NestedListItemButton>
+  </Unlockable>)
+
+  nestedLists.push({
+    interfaceId: CUTSCENE_CONTAINER_IID,
+    title: 'Cutscenes',
+    id: 'Cutscenes',
+    children: cutscenes
+  })
+
+
+  const dialogueScenes = Object.keys(gameModel.cutscenes).filter((currentCutsceneId) => {
+    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
+    if(currentCutscene.isRemoved) return false
+    if(!currentCutscene.inDialogueMenu) return false
+    return true
+  }).map((currentCutsceneId, i) => {
+    const currentCutscene = gameModel.cutscenes[currentCutsceneId]
     return <Unlockable interfaceId={DIALOGUE_SELECT_IID}>
       <NestedListItem title={currentCutscene.name} onClick={() => {openCreateCutscene(currentCutscene)}}/>
     </Unlockable>
@@ -97,9 +127,10 @@ const GameplayDataList = ({
   }).map((currentEventId, i) => {
     const currentEvent = gameModel.events[currentEventId]
     return <Unlockable interfaceId={EVENT_SELECT_IID}>
-      <NestedListItem title={currentEvent.eventId} 
+      <NestedListItem
         onClick={() => {openCreateEvent(currentEvent)}}
       >
+        <EventShorthand event={currentEvent}/>
       </NestedListItem>
     </Unlockable>
   })
@@ -137,12 +168,12 @@ const GameplayDataList = ({
     </NestedListItemButton>
   </Unlockable>)
 
-  nestedLists.push({
-    interfaceId: EFFECT_CONTAINER_IID,
-    title: 'Effects',
-    id: 'Effects',
-    children: effects
-  })
+  // nestedLists.push({
+  //   interfaceId: EFFECT_CONTAINER_IID,
+  //   title: 'Effects',
+  //   id: 'Effects',
+  //   children: effects
+  // })
 
   const relations = Object.keys(gameModel.relations).filter((currentRelationId) => {
     const currentRelation = gameModel.relations[currentRelationId]
@@ -153,7 +184,7 @@ const GameplayDataList = ({
     return <RelationItem relationId={currentRelationId}/>
   })
 
-  relations.push(<Unlockable interfaceId={EFFECT_ADD_IID}>
+  relations.push(<Unlockable interfaceId={RELATION_ADD_IID}>
     <NestedListItemButton
       >
       <Button onClick={() => {
@@ -163,7 +194,7 @@ const GameplayDataList = ({
   </Unlockable>)
 
   nestedLists.push({
-    interfaceId: EFFECT_CONTAINER_IID,
+    interfaceId: RELATION_CONTAINER_IID,
     title: 'Relationships',
     id: 'Relationships',
     children: relations

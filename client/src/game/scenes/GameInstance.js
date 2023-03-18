@@ -194,10 +194,15 @@ export class GameInstance extends Phaser.Scene {
     this.relationsByEvent = Object.keys(relations).reduce((relationsByEvent, relationId) => {
       const relation = relations[relationId]
       const populatedEvent = events[relation.event]
-      const populatedEffects = Object.keys(relation.effects).map((effectId) => {
-        const effect = {
-          ...effects[effectId],
-          ...relation.effects[effectId],
+      const populatedEffects = relation.effectIds.map((effectId) => {
+        let effect 
+        if(!relation.effects[effectId]) {
+          effect = {
+            ...effects[effectId],
+            ...relation.effects[effectId],
+          }
+        } else {
+          effect = effects[effectId]
         }
         return effect
       })

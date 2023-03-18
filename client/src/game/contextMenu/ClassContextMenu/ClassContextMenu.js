@@ -55,7 +55,7 @@ const ClassContextMenu = ({
       <MenuItem onClick={() => {
         openClassNameModal(objectClass)
         onMenuItemClick()
-      }}>Edit Name</MenuItem>
+      }}>Edit Class</MenuItem>
     </Unlockable>
     <Unlockable interfaceId={CONTEXT_MENU_CLASS_GRAPHICS_IID}>
       <MenuItem onClick={() => {

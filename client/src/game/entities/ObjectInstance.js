@@ -60,14 +60,16 @@ export class ObjectInstance extends Sprite {
     this.collider = new Collider(scene, this, this)
     this.effects = new Effects(scene, this)
 
-    this.scene.relationsByEvent[ON_SPAWN]?.forEach(this.startRunEventEffects)
+    setTimeout(() => {
+      this.scene.relationsByEvent[ON_SPAWN]?.forEach(this.startRunEventEffects)
+    })
 
     this.projectileEjector = new ProjectileEjector(scene, this)
 
     return this
   }
 
-  startRunEventEffects(relation, instanceSpriteB) {
+  startRunEventEffects = (relation, instanceSpriteB) => {
     const { event } = relation
     if(this.hasTag(event.tagIdA)) {
       Object.keys(relation.effects).forEach((effectId) => {

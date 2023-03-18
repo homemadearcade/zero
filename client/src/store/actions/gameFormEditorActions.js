@@ -381,27 +381,15 @@ export const closeCreateEffect= () => (dispatch, getState) => {
     payload: {}
   });
 }
-export const updateCreateEffect = (effectId, effect) => (dispatch, getState) => {
+export const updateCreateEffect = (effect) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: UPDATE_CREATE_EFFECT,
     payload: { 
-      effectId,
       effect
     }
   });
 }
-
-export const updateEditingEffectId = (effectId) => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: UPDATE_EDITING_EFFECT,
-    payload: { 
-      effectId,
-    }
-  });
-}
-
 
 export const openCreateEvent = (initialEvent) => (dispatch, getState) => {
   dispatch({

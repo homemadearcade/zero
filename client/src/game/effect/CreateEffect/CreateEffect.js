@@ -15,12 +15,10 @@ import SelectStage from '../../ui/SelectStage/SelectStage';
 import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
 import SelectEffectType from '../../ui/SelectEffectType/SelectEffectType';
 
-const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effects, event }, effectId}) => {
-  const effect = effects[effectId]
-
+const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) => {
   const handleEffectChange = (prop, value) => {
     effect[prop] = value
-    updateCreateEffect(effectId, effect)
+    updateCreateEffect(effect)
   }
   
   function renderEffectForms() {
@@ -117,10 +115,10 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effects, event }, 
       value={effect.type ? [effect.type] : []}
       onChange={(event, effectTypes) => {
         const effectType = effectTypes[effectTypes.length-1]
-        updateCreateEffect(effectId, {
+        updateCreateEffect({
           ...defaultEffect,
           type: effectType,
-          effectId,
+          effectId: effect.effectId,
         })
     }}/>
     {effect.type && renderEffectForms(effect.type)}

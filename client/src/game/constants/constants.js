@@ -112,6 +112,10 @@ export const BOUNDARY_WRAP = 'BOUNDARY_WRAP'
 export const BOUNDARY_COLLIDE = 'BOUNDARY_COLLIDE'
 export const BOUNDARY_DESTROY = 'BOUNDARY_DESTROY'
 
+export const SELECTOR_COLUMN_MAP = 'SELECTOR_COLUMN_MAP'
+export const SELECTOR_COLUMN_GAMEPLAY = 'SELECTOR_COLUMN_GAMEPLAY'
+export const SELECTOR_COLUMN_CLASS = 'SELECTOR_COLUMN_CLASS'
+
 /////////////////////////////////////
 /////////////////////////////////////
 // PHYSICS TYPES

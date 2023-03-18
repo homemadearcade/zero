@@ -11,11 +11,11 @@ import { clearGameViewEditor } from '../../../store/actions/gameViewEditorAction
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../sprites/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColorModal from '../../stages/SelectBackgroundColorModal/SelectBackgroundColorModal';
-import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../../constants';
+import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_COLUMN_GAMEPLAY, SELECTOR_COLUMN_MAP, START_STATE } from '../../constants';
 import GameMetadataModal from '../../GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
-import BoundaryRelation from '../../relations/BoundaryRelation/BoundaryRelation';
+import BoundaryRelation from '../../class/BoundaryRelation/BoundaryRelation';
 import ClassNameModal from '../../class/ClassNameModal/ClassNameModal';
 import SetupDefaultsModal from '../../SetupDefaultsModal/SetupDefaultsModal';
 import GridToggle from '../GridToggle/GridToggle';
@@ -38,8 +38,8 @@ import Button from '../../../ui/Button/Button';
 import GameplayDataList from '../../gameplay/GameplayDataList/GameplayDataList';
 import CreateTag from '../../tags/CreateTag/CreateTag';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
-import CreateEffectModal from '../../relations/CreateEffectModal/CreateEffectModal';
-import CreateEventModal from '../../relations/CreateEventModal/CreateEventModal';
+import CreateEffectModal from '../../effect/CreateEffectModal/CreateEffectModal';
+import CreateEventModal from '../../event/CreateEventModal/CreateEventModal';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -50,6 +50,7 @@ const GameEditor = ({
     isSelectBackgroundColorModalOpen, 
     liveEditingCategory, 
     isGameMetadataModalOpen, 
+    selectorColumnTab,
     viewingJson }, 
   gameViewEditor: { 
     isSectionEditorOpen, 
@@ -99,6 +100,16 @@ const GameEditor = ({
 
   const showColumns = !cutsceneId && !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
 
+  function renderSelectorColumn() {
+    if(selectorColumnTab === SELECTOR_COLUMN_GAMEPLAY) {
+      return <GameplayDataList/>
+    } 
+    if(selectorColumnTab === SELECTOR_COLUMN_MAP) {
+      return <ClassList/>
+    } 
+  }
+
+
   function renderBody() {
     // if(!gameModel && !isLoading) {
     //   return <GameViewEmpty>
@@ -127,8 +138,7 @@ const GameEditor = ({
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
           <HoverPreview></HoverPreview>
-          <ClassList/>
-          <GameplayDataList/>
+          {renderSelectorColumn()}
         </>}
       </div>
       {liveEditingCategory && <LiveEditor></LiveEditor>}

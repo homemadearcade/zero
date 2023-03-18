@@ -38,3 +38,6 @@ VIDEO UPGARADE
 
 CONFETTI
   Confetti running when im not cobrowsing lol… Make sure confetti doesn’t run. If I go from cobrowsing -> edit mode and then something is obscured? 
+
+SELECT FORMS
+  Never filter from select forms, create a new thing called unselectable and unselectable reason

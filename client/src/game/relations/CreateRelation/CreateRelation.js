@@ -4,30 +4,29 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateRelation.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeCreateRelation, updateCreateEffect, updateCreateEvent, updateCreateRelation } from '../../../store/actions/gameFormEditorActions';
+import { closeCreateRelation, openCreateEffect, updateCreateEvent, updateCreateRelation } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, initialEffectRelation, isUseableEffect, nonRemoteEffects, ON_INTERACT, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
+import { effectDisplayNames, effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import { EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
 import SelectSpawnZoneSelectorType from '../../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
-import CreateEvent from '../CreateEvent/CreateEvent';
-import CreateEffect from '../CreateEffect/CreateEffect';
+import CreateEvent from '../../event/CreateEvent/CreateEvent';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Switch from '../../../ui/Switch/Switch';
 import Typography from '../../../ui/Typography/Typography';
 import Divider from '../../../ui/Divider/Divider';
 import Icon from '../../../ui/Icon/Icon';
 import useIsEventSaveable from '../../../hooks/useIsEventSaveable';
-import useAreEffectsSaveable from '../../../hooks/areEffectsSaveable';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import { Alert, AlertTitle } from '@mui/material';
 import SelectTag from '../../ui/SelectTag/SelectTag';
 import SelectEffect from '../../ui/SelectEffect/SelectEffect';
+import EffectShorthand from '../../effect/EffectShorthand/EffectShorthand';
 
 // {event && <SelectEffect
 //         event={event}
@@ -42,10 +41,10 @@ const CreateRelation = ({
   closeCreateRelation, 
   editGameModel, 
   updateCreateRelation, 
-  gameFormEditor: { relation, event, effects }, 
+  gameFormEditor: { relation, event }, 
   gameModel: { gameModel },
-  updateCreateEffect,
-  updateCreateEvent
+  updateCreateEvent,
+  openCreateEffect
  }) => {
   function handleClose() {
     closeCreateRelation()
@@ -53,18 +52,12 @@ const CreateRelation = ({
   
   useEffect(() => {
     if(!relation.relationId) {
-      // const initialEffectId = EFFECT_ID_PREFIX +generateUniqueId()
       const initialEventId = EFFECT_ID_PREFIX +generateUniqueId()
       updateCreateRelation({ 
         relationId: RELATION_ID_PREFIX+generateUniqueId(), 
         isNew: true,
-        // effects: {
-        //   [initialEffectId]: {
-        //     effectId: initialEffectId,
-        //     ...initialEffectRelation
-        //   }
-        // },
         effects: {},
+        effectIds: [],
         event: EFFECT_ID_PREFIX +generateUniqueId(),
       })
       updateCreateEvent({
@@ -72,14 +65,10 @@ const CreateRelation = ({
         sidesB: [],
         eventId: initialEventId
       })
-      // updateCreateEffect(initialEffectId, {
-      //   effectId: initialEffectId
-      // })
     }
   }, [])
 
   const isEventSaveable = useIsEventSaveable(event)
-  const areEffectsSaveable = useAreEffectsSaveable(effects)
 
   if(!event) return null
 
@@ -87,10 +76,13 @@ const CreateRelation = ({
 
     if(!relation.event) return true
 
-    if(!isEventSaveable || !areEffectsSaveable) return true
+    if(!isEventSaveable) return true
+    
 
-    const isAnEffectNotUseable = Object.keys(relation.effects).some((effectId) => {
-      return !isUseableEffect(effects[effectId].type, event.type)
+    const isAnEffectNotUseable = relation.effectIds.some((effectId) => {
+      const effect = gameModel.effects[effectId]
+      if(!effect) return false
+      return !isUseableEffect(effect.type, event.type)
     })
 
     if(isAnEffectNotUseable) return true
@@ -121,7 +113,7 @@ const CreateRelation = ({
 
   }
 
-  function renderRelationForms(effect) {
+  function renderSelectEffectedTagInstances(effect) {
     if(!event || !effect.type) return 
     
     const effectInterface = effectEditInterface[effect.type]
@@ -133,10 +125,14 @@ const CreateRelation = ({
     const tagA = gameModel.tags[event.tagIdA]
     const tagB = gameModel.tags[event.tagIdB]
 
+    if(effect.remoteEffectedTagIds?.length) return
+
+    const effectShortName = effectDisplayNames[effect.type]
+
     if(effectInterface.effectableType === SINGLE_TAG_EFFECT) {
       if(event.tagIdA && event.tagIdB) {
         forms.push(<Switch
-            labels={[`Effect ${tagA.name}`, `Effect ${tagB.name}`]}
+            labels={[`${effectShortName} ${tagA.name}`, `${effectShortName} ${tagB.name}`]}
             size="small"
             onChange={(e) => {
               if(e.target.checked) {
@@ -149,7 +145,7 @@ const CreateRelation = ({
         />)
       } else if(event.tagIdA) {
         forms.push(<Switch
-          labels={['', `Effect ${tagA.name}`]}
+          labels={['', `${effectShortName} ${tagA.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagA: e.target.checked })
@@ -158,7 +154,7 @@ const CreateRelation = ({
         />) 
       } else if(event.tagIdB) {
         forms.push(<Switch
-          labels={['', `Effect ${tagB.name}`]}
+          labels={['', `${effectShortName} ${tagB.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagB: e.target.checked })
@@ -170,7 +166,7 @@ const CreateRelation = ({
 
     if(effectInterface.effectableType === TWO_TAG_EFFECT) {
       if(event.tagIdA) forms.push(<Switch
-          labels={['', `Effect ${tagA.name}`]}
+          labels={['', `${effectShortName} ${tagA.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagA: e.target.checked })
@@ -179,7 +175,7 @@ const CreateRelation = ({
       />)
       
       if(event.tagIdB) forms.push(<Switch
-          labels={['', `Effect ${tagB.name}`]}
+          labels={['', `${effectShortName} ${tagB.name}`]}
           size="small"
           onChange={(e) => {
             updateEffectData(effect.effectId, { effectTagB: e.target.checked })
@@ -222,7 +218,7 @@ const CreateRelation = ({
       </Unlockable>)
     }
 
-    if(!nonRemoteEffects[effect.type]) {
+    if(!nonRemoteEffects[effect.type] && !effect.remoteEffectedTagIds?.length) {
       forms.push(<Unlockable interfaceId={EFFECT_REMOTE_IID}>
         <SelectTag
           key="effect/remoteTag"
@@ -273,73 +269,70 @@ const CreateRelation = ({
   }
 
   function renderEffect(effectId, index) {
-    const isImported = relation.importedEffects.includes(effectId)
-    const effect = isImported ? gameModel.effects[effectId] : effects[effectId]
-
-    if(!isImported && !relation.effects[effectId]) return null
-
+    const effect = gameModel.effects[effectId]
+    if(!effect) return
     return <>
       <Divider/>
-      <Typography variant="h4">{effectId}</Typography>
+      <EffectShorthand effect={effect}/>
       {!isUseableEffect(effect.type, event.type) && <Alert severity='error'>
         <AlertTitle>This Effect is not compatible with the Event. Change or remove it to save</AlertTitle>
       </Alert>}
-      {!isImported && <CreateEffect effectId={effectId}/>}
-      {effect.type && renderRelationForms(effect)}
+      {effect.type && renderSelectEffectedTagInstances(effect)}
       {effect.type &&<CobrowsingNestedList id={effectId} title="More Options" listId={effectId} >
         {renderOptionalRelationForms(effect)}
       </CobrowsingNestedList>}
-      {!isImported && <Button onClick={() => {
-        updateCreateRelation({
-          effects: {
-            ...relation.effects,
-            [effectId]: null
-          }
-        })
-      }}>Remove Effect</Button>}
     </>
   }
 
   function handleAddEffectId(effectId) {
-    updateCreateEffect(effectId, {
-      effectId,
-    })
+    const newEffectsIds = [
+      ...relation.effectIds,
+      effectId
+    ]
     updateCreateRelation({
-      effects: {
-        ...relation.effects,
-        [effectId]: {
-          effectId,
-          ...initialEffectRelation
-        }
-      }
+      effectIds: newEffectsIds
+      // effects: {
+      //   ...relation.effects,
+      //   [effectId]: {
+      //     effectId,
+      //     ...initialEffectRelation
+      //   }
+      // }
     })
   }
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateEvent">
-      <Typography variant="h4">{'Event'}</Typography>
+      <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
       {event.type && <SelectEffect
         eventType={event.type}
         formLabel={"Effects"}
-        value={relation.importedEffects ? relation.importedEffects : []}
-        onChange={(event, effects) => {
+        value={relation.effectIds.filter((effectId) => {
+            return !!gameModel.effects[effectId]
+        })}
+        onChange={(event, effectIds) => {
           updateCreateRelation({
-            importedEffects: effects,
+            effectIds: effectIds,
           })
         }}/>
       }
-      {event.type && relation.importedEffects.map(renderEffect)}
-      {event.type && Object.keys(relation.effects).map(renderEffect)}
+      {event.type && relation.effectIds?.map(renderEffect)}
       <Divider/>
       {event.type && <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
-        const effectId = EFFECT_ID_PREFIX + generateUniqueId()
+        const effectId = EFFECT_ID_PREFIX+generateUniqueId()
+        openCreateEffect({
+          effectId
+        })
         handleAddEffectId(effectId)
-      }}>New Custom Effect</Button>}
+      }}>New Effect</Button>}
       <div className="CreateRelation__buttons">
         <Button 
           disabled={isSaveDisabled()}
           onClick={() => {
+          relation.effectIds = relation.effectIds.filter((effectId) => {
+            return !!gameModel.effects[effectId]
+          })
           editGameModel({
             relations: {
               [relation.relationId] : {
@@ -350,7 +343,6 @@ const CreateRelation = ({
             events: {
               [relation.event]: event
             },
-            effects
           })
           handleClose()
         }}>
@@ -378,5 +370,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateRelation, closeCreateRelation, editGameModel, updateCreateEffect, updateCreateEvent }),
+  connect(mapStateToProps, { updateCreateRelation, closeCreateRelation, editGameModel, updateCreateEvent, openCreateEffect }),
 )(CreateRelation);

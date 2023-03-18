@@ -1,0 +1,8 @@
+export const DIALOGUE_ADD_IID = 'dialogue/add'
+export const DIALOGUE_SELECT_IID = 'dialogue/select'
+export const DIALOGUE_SHORTCUT_IID = 'dialogue/inShortcutMenu'
+export const DIALOGUE_CONTAINER_IID = 'dialogue/*'
+
+export const CUTSCENE_ADD_IID = 'cutscene/add'
+export const CUTSCENE_SELECT_IID = 'cutscene/select'
+export const CUTSCENE_CONTAINER_IID = 'cutscene/*'

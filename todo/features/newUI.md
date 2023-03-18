@@ -25,12 +25,6 @@ Organize Classes into the background, playground, foreground sections
 
 Sort by by Layer, By Tag
 Turn on/off library items toggle
-Where goes game stuff go?
-  Relations
-  Stages
-  Images
-  Tags
-  Cutscenes
 
 Show key/click info inside the Hover Preview. Is there where it goes??
   Left Click, Right Click?
@@ -40,9 +34,3 @@ Show key/click info inside the Hover Preview. Is there where it goes??
   Arrow Keys - Move
   X - Interact 
   Spacebar - Shoot
-
-MODALS
-  Remove these root level modals and put into a list somewhere
-    Relations -> Create Relation,
-    Cutscene -> Create Cutscene, 
-    Stages -> Create Stages

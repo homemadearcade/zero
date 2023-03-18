@@ -10,11 +10,15 @@ export default {
   [EFFECT_REMOTE_IID]: {},
   [EFFECT_PICK_RANDOM_ZONE_IID]: {},
 
-  [EVENT_ADD_IID]: {}, 
+  [EVENT_ADD_IID]: {
+    previewText: 'Add Event'
+  }, 
   [EVENT_SELECT_IID]: {},
   [EVENT_CONTAINER_IID]: {}, 
 
-  [EFFECT_ADD_IID]: {},
+  [EFFECT_ADD_IID]: {
+    previewText: 'Add Effect'
+  },
   [EFFECT_SELECT_IID]: {},
   [EFFECT_CONTAINER_IID]: {},
   [EFFECT_ADVANCED_CONTAINER_IID]: {},
@@ -22,7 +26,9 @@ export default {
   [EFFECT_DELAY_IID]: {},
   [EFFECT_COOLDOWN_IID]: {},
 
-  [RELATION_ADD_IID]: {}, 
+  [RELATION_ADD_IID]: {
+    previewText: 'Add Relationship'
+  }, 
   [RELATION_SELECT_IID]: {},
   [RELATION_CONTAINER_IID]: {}, 
 

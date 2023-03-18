@@ -5,19 +5,20 @@ import { mapCobrowsingState } from '../../utils/cobrowsingUtils';
 import Typography from '../../ui/Typography/Typography';
 import Sprite from '../sprites/Sprite/Sprite';
 import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
-import { effectDisplayNames, layerToDisplayName, PAUSED_STATE, STOPPED_STATE } from '../constants';
+import { effectDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_COLUMN_CLASS, SELECTOR_COLUMN_GAMEPLAY, SELECTOR_COLUMN_MAP, STOPPED_STATE } from '../constants';
 import Icon from '../../ui/Icon/Icon';
 import ColorNameFit from '../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../constants/interfaceIdData';
 import { classTypeToDisplayName } from '../constants';
 import { initialStageId } from '../constants';
-import { openGameMetadataModal, openSelectBackgroundColorModal } from '../../store/actions/gameSelectorActions';
+import { changeSelectorColumn, openGameMetadataModal, openSelectBackgroundColorModal } from '../../store/actions/gameSelectorActions';
 import Button from '../../ui/Button/Button';
 import { openClassNameModal } from '../../store/actions/gameFormEditorActions';
 import Unlockable from '../cobrowsing/Unlockable/Unlockable';
-import { GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, STAGE_BACKGROUND_COLOR_IID } from '../../constants/interfaceIds';
+import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, STAGE_BACKGROUND_COLOR_IID } from '../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../store/actions/gameViewEditorActions';
 import { useWishTheme } from '../../hooks/useWishTheme';
+import IconButton from '../../ui/IconButton/IconButton';
 
 const HoverPreview = ({ 
   cobrowsing: {
@@ -35,7 +36,8 @@ const HoverPreview = ({
   },
   gameSelector: {
     brushIdSelectedBrushList,
-    classIdSelectedClassList
+    classIdSelectedClassList,
+    selectorColumnTab,
   },
   gameModel: { 
     currentStageId,
@@ -56,6 +58,7 @@ const HoverPreview = ({
   openClassNameModal,
   openSelectBackgroundColorModal,
   openSnapshotTaker,
+  changeSelectorColumn,
 }) => {
   const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
   const theme = useWishTheme()
@@ -185,10 +188,17 @@ const HoverPreview = ({
     // </Unlockable>
    return  <>
     {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${window.awsUrl + imageBackground}"` : ''}}></div>}
-    <div className="HoverPreview__title">
+    <div className="HoverPreview__title" onClick={() => {
+      // if(selectorColumnTab === SELECTOR_COLUMN_MAP) changeSelectorColumn(SELECTOR_COLUMN_GAMEPLAY)
+    }}>
       <Typography font="2P" variant="subtitle2">
         {metadata.title}
        </Typography>
+       {selectorColumnTab !== SELECTOR_COLUMN_MAP && <div className="HoverPreview__close">
+        <IconButton icon="faClose" onClick={() => {
+          changeSelectorColumn(SELECTOR_COLUMN_MAP)
+        }}></IconButton>
+      </div>}
       {isHoveringOverTitle && 
         <div className="HoverPreview__actions">
           <Unlockable interfaceId={GAME_SNAPSHOT_IID}>
@@ -199,6 +209,11 @@ const HoverPreview = ({
           <Unlockable interfaceId={GAME_METADATA_IID}>{renderEditableIcon(() => {
             openGameMetadataModal()
           })}</Unlockable>
+          {selectorColumnTab === SELECTOR_COLUMN_MAP && <Unlockable interfaceId={CHANGE_SELECTOR_TAB_IID}>
+            <Button size="xs" onClick={() => {
+              changeSelectorColumn(SELECTOR_COLUMN_GAMEPLAY)
+            }}><Icon icon="faTableList"/></Button>
+          </Unlockable>}
       </div>}
       {currentStageId === initialStageId ? null : <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{currentStage.name}</Typography>}
       {isHoveringOverTitle && <div className="HoverPreview__actions">
@@ -280,4 +295,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoom: state.gameRoom
 })
 
-export default connect(mapStateToProps, { openGameMetadataModal, openClassNameModal, openSelectBackgroundColorModal, openSnapshotTaker })(HoverPreview);
+export default connect(mapStateToProps, { openGameMetadataModal, openClassNameModal, openSelectBackgroundColorModal, openSnapshotTaker, changeSelectorColumn })(HoverPreview);

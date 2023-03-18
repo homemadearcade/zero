@@ -53,12 +53,6 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Metadata</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_CUTSCENES_IID}>
-      <MenuItem onClick={() => {
-        openCutscenesMenu()
-        onMenuItemClick()
-      }}>Edit Cutscenes</MenuItem>
-    </Unlockable>
     <Unlockable interfaceId={CONTEXT_MENU_STAGES_IID}>
       <MenuItem onClick={() => {
         openStagesMenu()

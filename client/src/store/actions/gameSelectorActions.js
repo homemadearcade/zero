@@ -29,6 +29,7 @@ import {
   CLOSE_CLASS_BOX_MODAL,
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
+  CHANGE_SELECTOR_COLUMN,
 } from '../types';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
@@ -61,6 +62,16 @@ export const updateBrushSize = (brushSize) => (dispatch, getState) => {
     type: UPDATE_BRUSH_SIZE,
     payload: {
       brushSize
+    }
+  });
+}
+
+export const changeSelectorColumn = (selectorColumnTab) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CHANGE_SELECTOR_COLUMN,
+    payload: {
+      selectorColumnTab
     }
   });
 }

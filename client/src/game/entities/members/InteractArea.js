@@ -65,7 +65,7 @@ export class InteractArea extends Sprite {
   }
 
   registerArcade(relations) {
-    relations.forEach((relation) => {
+    relations?.forEach((relation) => {
       const {event} = relation
       const releventInstances = this.scene.objectInstancesByTag[event.tagIdB]
       if(!releventInstances || !releventInstances.length) return
@@ -82,7 +82,7 @@ export class InteractArea extends Sprite {
   }
 
   registerMatter(relations) {
-    relations.forEach((relation) => {
+    relations?.forEach((relation) => {
       const {event} = relation
 
       if(event.type === ON_INTERACT) {

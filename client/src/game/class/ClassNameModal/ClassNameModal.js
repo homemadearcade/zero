@@ -28,7 +28,8 @@ const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel,
         [objectClass.classId] : {
           name: objectClass.name,
           tags: objectClass.tags,
-          type: objectClass.type
+          type: objectClass.type,
+          boundaryRelation: objectClass.boundaryRelation
         }
       }
     })
@@ -39,7 +40,7 @@ const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel,
     <ClassMemberTitle 
       classId={objectClass.classId} 
       title={<>
-        Edit Name
+        Edit Class
           </>
       }></ClassMemberTitle>
     <div className="ClassNameModal">

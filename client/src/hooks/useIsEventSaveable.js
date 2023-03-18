@@ -11,7 +11,7 @@ import { eventEditInterface, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from "../game/con
     const eventInterface = eventEditInterface[event.type]
 
     if(eventInterface.tagSelectType === SINGLE_TAG_EVENT) {
-      if(!event.tagId) return true
+      if(!event.tagIdA) return true
     }
 
     if(eventInterface.tagSelectType === TWO_TAG_EVENT) {
