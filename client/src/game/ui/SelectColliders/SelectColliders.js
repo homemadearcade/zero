@@ -13,15 +13,15 @@ const SelectColliders = ({ onChange, tagId, formLabel, gameModel }) => {
   const mapTagToOption = (collidingTagId) => {
     const tag = gameModel.tags[collidingTagId]
 
-    let type = 'My Tags'
+    // let tagInterfaceType = 'My Tags'
 
-    if(tag.type) {
-      type = tagTypeToDisplayName[tag.type]
-    }
+    // if(tag.tagInterfaceType) {
+    //   tagInterfaceType = tagTypeToDisplayName[tag.tagInterfaceType]
+    // }
 
-    if(tag.type === TAG_CLASS) {
+    if(tag.tagInterfaceType === TAG_CLASS) {
       const tagClass = gameModel.classes[tag.tagId]
-      const interfaceId = tagClass.type + CLASS_UNLOCKABLE_IID + tag.tagId
+      const interfaceId = tagClass.classInterfaceType + CLASS_UNLOCKABLE_IID + tag.tagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
 
       return {
@@ -30,17 +30,17 @@ const SelectColliders = ({ onChange, tagId, formLabel, gameModel }) => {
         textureId: tag.textureId,
         tint: tag.color,
         isRemoved: tag.isRemoved || (isObscured && tag.interfaceLocked),
-        type: classTypeToDisplayName[tagClass.type]
+        tagInterfaceType: classTypeToDisplayName[tagClass.classInterfaceType]
       }
     }
 
-    return {
-      label: tag.name,
-      value: collidingTagId,
-      tint: tag.color,
-      isRemoved: tag.isRemoved,
-      type: type
-    }
+    // return {
+    //   label: tag.name,
+    //   value: collidingTagId,
+    //   tint: tag.color,
+    //   isRemoved: tag.isRemoved,
+    //   tagInterfaceType
+    // }
   }
   
   const value = Object.keys(gameModel.collisions).map((collisionId) => {
@@ -54,14 +54,14 @@ const SelectColliders = ({ onChange, tagId, formLabel, gameModel }) => {
 
   const options = Object.keys(gameModel.classes).
   map(mapTagToOption).
-  sort((a, b) => -b.type.localeCompare(a.type))
+  sort((a, b) => -b.tagInterfaceType.localeCompare(a.tagInterfaceType))
 
   return <SelectChipsAuto 
     onChange={(event, tagIds) => {
       onChange(event,  tagIds)
     }}
     groupBy={option => {
-      return classTypeToDisplayName[option.type]
+      return classTypeToDisplayName[option.tagInterfaceType]
     }}
     hideRemoved
     formLabel={formLabel}

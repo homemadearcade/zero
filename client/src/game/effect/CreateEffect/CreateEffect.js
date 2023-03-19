@@ -7,13 +7,13 @@ import { closeCreateEffect, updateCreateEffect} from '../../../store/actions/gam
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import SelectClass from '../../ui/SelectClass/SelectClass';
-import { defaultEffect, effectEditInterface } from '../../constants';
+import { defaultEffect, effectBehaviorInterface } from '../../constants';
 import { TextField } from '@mui/material';
 import { ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
 import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
-import SelectEffectType from '../../ui/SelectEffectType/SelectEffectType';
+import SelectEffectBehavior from '../../ui/SelectEffectBehavior/SelectEffectBehavior';
 
 const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) => {
   const handleEffectChange = (prop, value) => {
@@ -22,7 +22,7 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
   }
   
   function renderEffectForms() {
-    const effectForms = effectEditInterface[effect.type]
+    const effectForms = effectBehaviorInterface[effect.effectBehavior]
 
     const forms = []
 
@@ -108,20 +108,20 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
   }
 
   return  <div className="CreateEffect">
-    <SelectEffectType
+    <SelectEffectBehavior
       effect={effect}
-      eventType={event.type}
+      eventType={event.eventType}
       formLabel={`What is the effect?`}
-      value={effect.type ? [effect.type] : []}
-      onChange={(event, effectTypes) => {
-        const effectType = effectTypes[effectTypes.length-1]
+      value={effect.effectBehavior ? [effect.effectBehavior] : []}
+      onChange={(event, effectBehaviors) => {
+        const effectBehavior = effectBehaviors[effectBehaviors.length-1]
         updateCreateEffect({
           ...defaultEffect,
-          type: effectType,
+          effectBehavior: effectBehavior,
           effectId: effect.effectId,
         })
     }}/>
-    {effect.type && renderEffectForms(effect.type)}
+    {effect.effectBehavior && renderEffectForms(effect.effectBehavior)}
 
     </div>
 }

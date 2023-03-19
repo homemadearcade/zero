@@ -30,36 +30,30 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
             const oldColliders = Object.keys(gameModel.collisions).map((collisionId) => {
               return gameModel.collisions[collisionId]
             }).filter((collision) => {
-              if((collision.event.type === ON_TOUCH_ACTIVE) &&
-                //  collision.effect.type === EFFECT_COLLIDE &&
-                 (collision.event.tagIdA === tagId || collision.event.tagIdB === tagId)
-              ) {
-                return true
-              }
-              return false
+              return collision.tagIdA === tagId || collision.tagIdB === tagId
             })
 
             const collisions = _.cloneDeep(gameModel.collisions)
 
             if(oldColliders.length < newColliderTags.length) {
               oldColliders.forEach((collision) => {
-                if(collision.event.tagIdA === collision.event.tagIdB) {
+                if(collision.tagIdA === collision.tagIdB) {
                   const index = newColliderTags.indexOf(tagId)
                   if(index >= 0) {
                     newColliderTags.splice(index, 1)
                   }
                 } else {
-                  let index = newColliderTags.indexOf(collision.event.tagIdA)
+                  let index = newColliderTags.indexOf(collision.tagIdA)
 
                   // check for class b if we couldnt find the class a in the list OR if its our main class Id
                   // we would rather find class id b in that case so we dont mistsake this for a self-collider
                   if(index === -1 || newColliderTags[index] === tagId) {
-                    index = newColliderTags.indexOf(collision.event.tagIdB)
+                    index = newColliderTags.indexOf(collision.tagIdB)
                   }
                   if(newColliderTags[index] === tagId) {
                     //this is so we do not accidentally splice it when its new. All collisions can be mistaken for a self-collision
-                    if(!oldColliders.some(({event}) => {
-                      if(event.tagIdA === event.tagIdB) return true
+                    if(!oldColliders.some(({tagIdA, tagIdB}) => {
+                      if(tagIdA === tagIdB) return true
                       return false
                     })) {
                       // if we are here, we did not have a self-collision before, so do not splice it!
@@ -75,14 +69,8 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
                 const newId = RELATION_ID_PREFIX+generateUniqueId()
                 collisions[newId] = {
                   collisionId: newId,
-                  event: {
-                    type: ON_TOUCH_ACTIVE,
-                    tagIdA: tagId,
-                    tagIdB,
-                  },
-                  effect: {
-                    // type: EFFECT_COLLIDE
-                  },
+                  tagIdA: tagId,
+                  tagIdB,
                 }
               })
 

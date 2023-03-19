@@ -61,7 +61,7 @@ export class ObjectInstance extends Sprite {
     this.effects = new Effects(scene, this)
 
     setTimeout(() => {
-      this.scene.relationsByEvent[ON_SPAWN]?.forEach(this.startRunEventEffects)
+      this.scene.relationsByEventType[ON_SPAWN]?.forEach(this.startRunEventEffects)
     })
 
     this.projectileEjector = new ProjectileEjector(scene, this)
@@ -76,7 +76,7 @@ export class ObjectInstance extends Sprite {
         const effect = relation.effects[effectId]
         if(!effect) return
 
-        // if(effect.type === 'EFFECT_SPAWN') console.log('we runnin dis effect yo')
+        // if(effect.effectBehavior === 'EFFECT_SPAWN') console.log('we runnin dis effect yo')
         this.runAccuteEffect({
           relation: {
             ...relation,
@@ -138,12 +138,12 @@ export class ObjectInstance extends Sprite {
 
   getTouchRelations() {
     const relations = [] 
-    const collideStartRelations = this.scene.relationsByEvent[ON_TOUCH_START]
+    const collideStartRelations = this.scene.relationsByEventType[ON_TOUCH_START]
     if(collideStartRelations) relations.push(...collideStartRelations.filter(({event: { tagIdA }}) => {
       return this.hasTag(tagIdA)
     }))
 
-    const collideActiveRelations = this.scene.relationsByEvent[ON_TOUCH_ACTIVE]
+    const collideActiveRelations = this.scene.relationsByEventType[ON_TOUCH_ACTIVE]
     if(collideActiveRelations) relations.push(...collideActiveRelations.filter(({event: { tagIdA }}) => {
       return this.hasTag(tagIdA)
     }))
@@ -154,7 +154,7 @@ export class ObjectInstance extends Sprite {
     const gameModel = store.getState().gameModel.gameModel
     return Object.keys(gameModel.collisions).map((collisionId) => {
       return gameModel.collisions[collisionId]
-    }).filter(({event: { tagIdA }}) => {
+    }).filter(({ tagIdA }) => {
       return this.hasTag(tagIdA)
     })
   }
@@ -199,10 +199,10 @@ export class ObjectInstance extends Sprite {
 
   runDestroyEvents() {
     const classId = this.classId
-    this.scene.relationsByEvent[ON_DESTROY_ONE]?.forEach(this.startRunEventEffects)
+    this.scene.relationsByEventType[ON_DESTROY_ONE]?.forEach(this.startRunEventEffects)
     const instances = this.scene.getAllInstancesOfClassId(classId)
     if(instances.length === 1) {
-      this.scene.relationsByEvent[ON_DESTROY_ALL]?.forEach(this.startRunEventEffects)
+      this.scene.relationsByEventType[ON_DESTROY_ALL]?.forEach(this.startRunEventEffects)
     }
   }
 

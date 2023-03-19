@@ -50,7 +50,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
           </div>
           <div className="GameStateScreen__controls">
             <Typography component="h5" variant="h5">Controls</Typography>
-            {playerClass && <ControlsCard showInteract objectClass={playerClass} projectileClass={playerClass.projectile.class} controlScheme={playerClass.movement.controls} jumpStyle={playerClass.jump.style}></ControlsCard>}
+            {playerClass && <ControlsCard showInteract objectClass={playerClass} projectileClass={playerClass.projectile.class} controlScheme={playerClass.movement.movementControlsBehavior} jumpBehavior={playerClass.jump.jumpBehavior}></ControlsCard>}
           </div>
         </div></Fade>
       </Constellation>

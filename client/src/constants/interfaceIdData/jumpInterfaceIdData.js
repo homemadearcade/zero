@@ -1,4 +1,4 @@
-import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_STYLE_IID } from "../interfaceIds";
+import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_BEHAVIOR_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -9,5 +9,5 @@ export default {
     isDefaultUnlocked: true
   },
   [JUMP_COOLDOWN_IID]: {},
-  [JUMP_STYLE_IID]: {}
+  [JUMP_BEHAVIOR_IID]: {}
 }

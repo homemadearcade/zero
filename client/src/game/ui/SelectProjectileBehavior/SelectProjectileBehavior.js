@@ -2,19 +2,19 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectProjectileStyle.scss';
+import './SelectProjectileBehavior.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { PROJECTILE_DOWN, PROJECTILE_UP, PROJECTILE_LEFT, PROJECTILE_RIGHT, PROJECTILE_RANDOM_DIRECTION, PROJECTILE_TARGET_CLASS, PROJECTILE_TARGET_PLAYER, PROJECTILE_NONE, PROJECTILE_RANDOM_ANGLE } from '../../constants';
 // import { defaultProjectile } from '../../constants';
 
 // const projectileValues = {
-//   [PROJECTILE_DOWN]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_DOWN } },
-//   [PROJECTILE_UP]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_UP } },
-//   [PROJECTILE_LEFT]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_LEFT } },
-//   [PROJECTILE_RIGHT]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_RIGHT } },
-//   [PROJECTILE_RANDOM_DIRECTION]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_RANDOM_DIRECTION } },
-//   [PROJECTILE_TARGET_CLASS]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_TARGET_CLASS } },
-//   [PROJECTILE_TARGET_PLAYER]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, style: PROJECTILE_TARGET_PLAYER } },
+//   [PROJECTILE_DOWN]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_DOWN } },
+//   [PROJECTILE_UP]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_UP } },
+//   [PROJECTILE_LEFT]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_LEFT } },
+//   [PROJECTILE_RIGHT]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_RIGHT } },
+//   [PROJECTILE_RANDOM_DIRECTION]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_RANDOM_DIRECTION } },
+//   [PROJECTILE_TARGET_CLASS]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_TARGET_CLASS } },
+//   [PROJECTILE_TARGET_PLAYER]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_TARGET_PLAYER } },
 //   [PROJECTILE_NONE]: {...defaultProjectile },
 // }
 
@@ -30,11 +30,11 @@ const projectileValueToLabel = {
   [PROJECTILE_NONE]: 'Does not eject'
 }
 
-const SelectProjectileStyle = ({ onChange, value, formLabel }) => {
-  const mapControlsToOption = (projectile) => {
+const SelectProjectileBehavior = ({ onChange, value, formLabel }) => {
+  const mapControlsToOption = (projectileBehavior) => {
     return {
-      label: projectileValueToLabel[projectile],
-      value: projectile
+      label: projectileValueToLabel[projectileBehavior],
+      value: projectileBehavior
     }
   }
 
@@ -42,8 +42,8 @@ const SelectProjectileStyle = ({ onChange, value, formLabel }) => {
 
   return <SelectChipsAuto 
     onChange={(event, descriptors) => {
-      onChange(event, descriptors.map((pattern) => {
-        return pattern
+      onChange(event, descriptors.map((projectileBehavior) => {
+        return projectileBehavior
       }))
     }}
     formLabel={formLabel}
@@ -60,4 +60,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectProjectileStyle);
+)(SelectProjectileBehavior);

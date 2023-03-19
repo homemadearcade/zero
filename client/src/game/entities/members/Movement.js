@@ -30,10 +30,10 @@ export class Movement {
 
   update(time, delta) {
     const objectClass = store.getState().gameModel.gameModel.classes[this.objectInstance.classId]
-    const pattern = objectClass.movement.pattern 
+    const movementBehavior = objectClass.movement.movementBehavior 
     const sprite = this.objectInstance.sprite
 
-    if(pattern === MOVEMENT_TURN_ON_COLLIDE) {
+    if(movementBehavior === MOVEMENT_TURN_ON_COLLIDE) {
       if(sprite.body.blocked.none === false || sprite.justCollided) {
         const speed = objectClass.movement.speed
         const check = Math.random()
@@ -50,7 +50,7 @@ export class Movement {
       }
     }
 
-    if(pattern === MOVEMENT_TURN_RANDOMLY) {
+    if(movementBehavior === MOVEMENT_TURN_RANDOMLY) {
       const speed = objectClass.movement.speed
 
       const check1 = Math.random()
@@ -70,10 +70,10 @@ export class Movement {
       }
     }
 
-    if(!this.followingInstance || this.followingInstance.destroyed || ( pattern === MOVEMENT_FOLLOW_CLASS && this.followingInstance.classId !== objectClass.movement.classId ) || (pattern === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.instanceId) ) ) {
-      if(pattern === MOVEMENT_FOLLOW_PLAYER) {
+    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_CLASS && this.followingInstance.classId !== objectClass.movement.classId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.instanceId) ) ) {
+      if(movementBehavior === MOVEMENT_FOLLOW_PLAYER) {
         this.followingInstance = this.scene.playerInstance
-      } else if(pattern === MOVEMENT_FOLLOW_CLASS && objectClass.movement.classId) {
+      } else if(movementBehavior === MOVEMENT_FOLLOW_CLASS && objectClass.movement.classId) {
         const instances = this.scene.getAllInstancesOfClassId(objectClass.movement.classId)
         if(instances.length) this.followingInstance = instances[0]
       } else {

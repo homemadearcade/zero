@@ -2,11 +2,11 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectClassType.scss';
+import './SelectClassInterfaceType.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { classTypeToDisplayName } from '../../constants';
 
-const SelectClassType = ({ onChange, value, formLabel }) => {
+const SelectClassInterfaceType = ({ onChange, value, formLabel }) => {
   const mapClassTypeToOption = (classType) => {
 
     return {
@@ -33,4 +33,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectClassType);
+)(SelectClassInterfaceType);

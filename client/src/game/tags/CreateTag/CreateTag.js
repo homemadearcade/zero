@@ -8,7 +8,6 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Button from '../../../ui/Button/Button';
 import { closeCreateTag, updateCreateTag } from '../../../store/actions/gameFormEditorActions';
-import SelectClassType from '../../ui/SelectClassType/SelectClassType';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_TAG_COLOR_IID } from '../../../constants/interfaceIds';
 import TagNameForm from '../TagNameForm/TagNameForm';

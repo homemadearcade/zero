@@ -34,7 +34,7 @@ export const TWO_TAG_EFFECT = 'TWO_TAG_EFFECT'
 
 // WHAT HAPPENS
 export const defaultEffect = {
-  type: '',
+  effectBehavior: '',
   effectId: null,
 
   remoteEffectedTagIds: [],
@@ -61,7 +61,7 @@ export const spawnZoneSelectorTypeToDisplayName = {
   [SPAWN_ZONE_RANDOM_SELECT]: 'Spawn in Random Instance of Zone',
 }
 
-export const effectDisplayNames = {
+export const effectBehaviorToDisplayNames = {
   // Movement
   [EFFECT_TELEPORT]: 'Teleport',
   [EFFECT_IGNORE_GRAVITY]: 'Remove gravity',
@@ -92,7 +92,7 @@ export const effectDisplayNames = {
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 //// EFFECT
-export const effectEditInterface = {
+export const effectBehaviorInterface = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneClassId: 'Teleport to which zone?',
@@ -213,37 +213,37 @@ export const nonRemoteEffects  = {
   [EFFECT_OPEN_OVERLAY]: true
 }
 
-export function isUseableEffect(effectType, eventType) {
-  if(eventType !== ON_TOUCH_ACTIVE && persistentEffects[effectType]) return false
-  if(!persistentEffects[effectType] && (eventType === ON_TOUCH_ACTIVE)) return false
+export function isUseableEffect(effectBehavior, eventType) {
+  if(eventType !== ON_TOUCH_ACTIVE && persistentEffects[effectBehavior]) return false
+  if(!persistentEffects[effectBehavior] && (eventType === ON_TOUCH_ACTIVE)) return false
   return true
 }
 
 export function getEffectShorthand(effect) {
-  const type = effect.type 
-  const displayName = effectDisplayNames[type]
+  const effectBehavior = effect.effectBehavior 
+  const displayName = effectBehaviorToDisplayNames[effectBehavior]
   const gameModel = store.getState().gameModel.gameModel
   const classes = gameModel.classes 
   const cutscenes = gameModel.cutscenes 
   const tags = gameModel.tags 
 
-  if(type === EFFECT_TELEPORT) {
+  if(effectBehavior === EFFECT_TELEPORT) {
     return displayName + ` to  ${classes[effect.zoneClassId].name}` 
   }
 
-  if(type === EFFECT_RECLASS) {
+  if(effectBehavior === EFFECT_RECLASS) {
     return displayName + ` into  ${classes[effect.classId].name}`
   }
 
-  if(type === EFFECT_SPAWN) {
-    return displayName + `${classes[effect.spawnClassId].name}  into  ${classes[effect.zoneClassId].name}`
+  if(effectBehavior === EFFECT_SPAWN) {
+    return displayName + ` ${classes[effect.spawnClassId].name}  into  ${classes[effect.zoneClassId].name}`
   }
 
-  if(type === EFFECT_CUTSCENE) {
+  if(effectBehavior === EFFECT_CUTSCENE) {
     return displayName + `  ${cutscenes[effect.cutsceneId].name}`
   }
 
-  if(type === EFFECT_DESTROY) {
+  if(effectBehavior === EFFECT_DESTROY) {
     if(effect.remoteEffectedTagIds.length) {
       const tagNames = effect.remoteEffectedTagIds.map((tagId) => tags[tagId].name)
       return displayName + ` all ${tagNames}`

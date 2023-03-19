@@ -107,7 +107,7 @@ export class PlayerInstance extends ObjectInstance {
 
   registerRelations() {
     super.registerRelations()
-    this.interactArea.register(this.scene.relationsByEvent[ON_INTERACT])
+    this.interactArea.register(this.scene.relationsByEventType[ON_INTERACT])
   }
 
   unregister() {

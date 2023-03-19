@@ -184,7 +184,7 @@ const ActivityInstructions = ({
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
           gameRoomId: lobby.gameRoomId, 
-          type: EVENT_SPAWN_CLASS_IN_CAMERA, 
+          gameInstanceEventType: EVENT_SPAWN_CLASS_IN_CAMERA, 
           data: {
             classId,
             hostOnly: true
@@ -521,7 +521,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomId: lobby.gameRoomId, type: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomId: lobby.gameRoomId, gameInstanceEventType: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },

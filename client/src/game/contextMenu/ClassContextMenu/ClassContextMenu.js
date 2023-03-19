@@ -37,7 +37,7 @@ const ClassContextMenu = ({
       openClassNameModal(objectClass)
       onMenuItemClick()
     }}>{objectClass.name}</ContextMenuTitle>}
-    {objectClass.type === PLAYER_CLASS && classId !== gameModel.stages[currentStageId].playerClassId && 
+    {objectClass.classInterfaceType === PLAYER_CLASS && classId !== gameModel.stages[currentStageId].playerClassId && 
       <Unlockable interfaceId={CONTEXT_MENU_CLASS_SELECT_PLAYER_IID}>
           <MenuItem onClick={() => {
             editGameModel({
@@ -55,7 +55,7 @@ const ClassContextMenu = ({
       <MenuItem onClick={() => {
         openClassNameModal(objectClass)
         onMenuItemClick()
-      }}>Edit Class</MenuItem>
+      }}>Edit {classTypeToDisplayName[objectClass.classInterfaceType]}</MenuItem>
     </Unlockable>
     <Unlockable interfaceId={CONTEXT_MENU_CLASS_GRAPHICS_IID}>
       <MenuItem onClick={() => {
@@ -69,7 +69,7 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Edit Collisions</MenuItem>
     </Unlockable>
-    {objectClass.type === PLAYER_CLASS &&
+    {objectClass.classInterfaceType === PLAYER_CLASS &&
       <Unlockable interfaceId={CONTEXT_MENU_CLASS_CAMERA_IID}>
         <MenuItem onClick={() => {
           openLiveEditor(CAMERA_EDITOR, classId)
@@ -83,7 +83,7 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Edit Projectile</MenuItem>
     </Unlockable>
-    {objectClass.type === PLAYER_CLASS && <Unlockable interfaceId={CONTEXT_MENU_CLASS_JUMP_IID}>
+    {objectClass.classInterfaceType === PLAYER_CLASS && <Unlockable interfaceId={CONTEXT_MENU_CLASS_JUMP_IID}>
       <MenuItem onClick={() => {
         openLiveEditor(JUMP_EDITOR, classId)
         onMenuItemClick()
@@ -97,7 +97,7 @@ const ClassContextMenu = ({
     </Unlockable>
     {!insideObjectInstanceContextMenu && <Unlockable interfaceId={CONTEXT_MENU_CLASS_DUPLICATE_IID}>
       <MenuItem onClick={() => {  
-        const newClassId = OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[objectClass.type]+generateUniqueId()
+        const newClassId = OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[objectClass.classInterfaceType]+generateUniqueId()
 
         editGameModel({
           classes: {
@@ -110,7 +110,7 @@ const ClassContextMenu = ({
           }
         })
         onMenuItemClick()
-      }}>Duplicate {classTypeToDisplayName[objectClass.type]}</MenuItem>
+      }}>Duplicate {classTypeToDisplayName[objectClass.classInterfaceType]}</MenuItem>
       </Unlockable>}
       {!insideObjectInstanceContextMenu && 
         <Unlockable interfaceId={CONTEXT_MENU_CLASS_REMOVE_IID}>

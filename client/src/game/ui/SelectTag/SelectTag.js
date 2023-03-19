@@ -13,17 +13,17 @@ const SelectTag = ({ hideClassTags, hideAutoapplied, onChange, disabled, value, 
   const mapTagToOption = (classId) => {
     const tag = gameModel.tags[classId]
 
-    let type = 'My Tags'
+    let tagInterfaceType = 'My Tags'
 
-    if(tag.type) {
-      type = tagTypeToDisplayName[tag.type]
+    if(tag.tagInterfaceType) {
+      tagInterfaceType = tagTypeToDisplayName[tag.tagInterfaceType]
     }
 
     const isRemoved = tag.isRemoved || (hideAutoapplied && tag.isAutoapplied)
 
-    if(tag.type === TAG_CLASS) {
+    if(tag.tagInterfaceType === TAG_CLASS) {
       const tagClass = gameModel.classes[tag.tagId]
-      const interfaceId = tagClass.type + CLASS_UNLOCKABLE_IID + tag.tagId
+      const interfaceId = tagClass.classInterfaceType + CLASS_UNLOCKABLE_IID + tag.tagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
 
       return {
@@ -32,7 +32,7 @@ const SelectTag = ({ hideClassTags, hideAutoapplied, onChange, disabled, value, 
         textureId: tag.textureId,
         tint: tag.color,
         isRemoved: (isObscured && tag.interfaceLocked) || hideClassTags || isRemoved,
-        type: classTypeToDisplayName[tagClass.type],
+        tagInterfaceType: classTypeToDisplayName[tagClass.classInterfaceType],
       }
     }
 
@@ -41,13 +41,15 @@ const SelectTag = ({ hideClassTags, hideAutoapplied, onChange, disabled, value, 
       value: classId,
       tint: tag.color,
       isRemoved,
-      type: type,
+      tagInterfaceType
     }
   }
 
   const options = Object.keys(gameModel.tags).map(mapTagToOption)
 
-  options.sort((a, b) => -b.type.localeCompare(a.type))
+  options.sort((a, b) => {
+   return  -b.tagInterfaceType.localeCompare(a.tagInterfaceType)
+  })
 
   return <SelectChipsAuto 
     disabled={disabled}
@@ -55,7 +57,7 @@ const SelectTag = ({ hideClassTags, hideAutoapplied, onChange, disabled, value, 
       onChange(event,  descriptors)
     }}
     groupBy={option => {
-      return option.type
+      return option.tagInterfaceType
     }}
     hideRemoved
     formLabel={formLabel}

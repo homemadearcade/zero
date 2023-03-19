@@ -15,17 +15,17 @@ function renderTag(tag) {
 }
 
 function renderEventName(event) {
-  const displayName = eventShortNames[event.type]
+  const displayName = eventShortNames[event.eventType]
   return  <Typography sx={{ fontWeight: 'bold' }} component="span">{displayName}</Typography>
 }
 
 function EventShorthand({event, gameModel: { gameModel }}) {
-  const type = event.type 
+  const eventType = event.eventType 
   const tags = gameModel.tags 
   const tagA = tags[event.tagIdA]
   const tagB = tags[event.tagIdB] 
 
-  const eventInterface = eventEditInterface[type]
+  const eventInterface = eventEditInterface[eventType]
 
   function renderBody() {
     if(eventInterface.tagSelectType === SINGLE_TAG_EVENT) {

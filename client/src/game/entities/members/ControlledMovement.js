@@ -13,7 +13,7 @@ export class ControlledMovement {
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
     const sprite = this.objectInstance.sprite
 
-    const isJumpAllowed = !objectClass.movement.ignoreGravity && objectClass.movement.controls === ADVANCED_DIRECTIONAL_CONTROLS
+    const isJumpAllowed = !objectClass.movement.ignoreGravity && objectClass.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
 
     const mod = (1/(delta * 5))
     const speed = objectClass.movement.speed * 100 * mod
@@ -21,8 +21,8 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE/CAR
-    // || objectClass.movement.controls === CAR_CONTROLS
-    if(objectClass.movement.controls === VEHICLE_CONTROLS) {
+    // || objectClass.movement.movementControlsBehavior === CAR_CONTROLS
+    if(objectClass.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
       if(this.cursors.left.isDown) {
         this.objectInstance.setAngularVelocity(-objectClass.movement.speedAngular);
       } else if(this.cursors.right.isDown) {
@@ -43,7 +43,7 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // DIRECTIONAL
-    if(objectClass.movement.controls === DIRECTIONAL_CONTROLS) {
+    if(objectClass.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -74,7 +74,7 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // ADVANCED_DIRECTIONAL
-    if(objectClass.movement.controls === ADVANCED_DIRECTIONAL_CONTROLS) {
+    if(objectClass.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -88,7 +88,7 @@ export class ControlledMovement {
         xTouched = true
       }
       
-      if((objectClass.jump.style === JUMP_NONE || !isJumpAllowed) && this.cursors.up.isDown) {
+      if((objectClass.jump.jumpBehavior === JUMP_NONE || !isJumpAllowed) && this.cursors.up.isDown) {
         this.objectInstance.setAccelerationY(-speed * 4)
         yTouched = true
       }
@@ -107,7 +107,7 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     // JUMP
     if(isJumpAllowed) {
-      if(objectClass.jump.style === JUMP_GROUND) {
+      if(objectClass.jump.jumpBehavior === JUMP_GROUND) {
         if(this.cursors.up.isDown) {
           if(sprite.body.touching.down || sprite.body.blocked.down) {
             this.objectInstance.setVelocityY(-objectClass.jump.ground)
@@ -115,7 +115,7 @@ export class ControlledMovement {
         }
       }
 
-      if(objectClass.jump.style === JUMP_COMBO) {
+      if(objectClass.jump.jumpBehavior === JUMP_COMBO) {
         if(this.cursors.up.isDown) {
           if(this.cursors.up.isPressable) {
             this.cursors.up.isPressable = false
@@ -131,7 +131,7 @@ export class ControlledMovement {
         }
       }
 
-      if(objectClass.jump.style === JUMP_AIR) {
+      if(objectClass.jump.jumpBehavior === JUMP_AIR) {
         if(this.cursors.up.isDown) {
           if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
             this.objectInstance.setVelocityY(-objectClass.jump.air * 5)
@@ -140,7 +140,7 @@ export class ControlledMovement {
         }
       }
 
-      if(objectClass.jump.style === JUMP_CONSTANT) {
+      if(objectClass.jump.jumpBehavior === JUMP_CONSTANT) {
         if(this.cursors.up.isDown) {
             this.objectInstance.thrust(objectClass.jump.ground * 4);
         } else {

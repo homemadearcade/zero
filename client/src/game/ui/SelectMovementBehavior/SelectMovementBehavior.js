@@ -2,12 +2,12 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectMovementPattern.scss';
+import './SelectMovementBehavior.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { followClassDefaults, followPlayerDefaults, jumpDefaults, noneDefaults, sideToSideDefaults,turnOnCollideDefaults, turnRandomlyDefaults, upAndDownDefaults } from '../../constants';
 import { MOVEMENT_FOLLOW_CLASS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_UP_AND_DOWN } from '../../constants';
 
-const movementPatterns = {
+const movementBehaviorDefaults = {
   [MOVEMENT_UP_AND_DOWN]: upAndDownDefaults,
   [MOVEMENT_SIDE_TO_SIDE]: sideToSideDefaults,
   [MOVEMENT_TURN_ON_COLLIDE]: turnOnCollideDefaults,
@@ -18,7 +18,7 @@ const movementPatterns = {
   [MOVEMENT_NONE]: noneDefaults,
 }
 
-const movementPatternToLabel = {
+const movementBehaviorToLabel = {
   [MOVEMENT_UP_AND_DOWN]: 'Up and Down',
   [MOVEMENT_SIDE_TO_SIDE]: 'Side to Side',
   [MOVEMENT_TURN_ON_COLLIDE]: 'Turn on Collide',
@@ -29,20 +29,20 @@ const movementPatternToLabel = {
   [MOVEMENT_NONE]: 'Doesnt move by itself'
 }
 
-const SelectMovementPattern = ({ onChange, value, formLabel }) => {
-  const mapMovementToOption = (movement) => {
+const SelectMovementBehavior = ({ onChange, value, formLabel }) => {
+  const mapMovementToOption = (movementBehavior) => {
     return {
-      label: movementPatternToLabel[movement],
-      value: movement
+      label: movementBehaviorToLabel[movementBehavior],
+      value: movementBehavior
     }
   }
 
-  const options = Object.keys(movementPatterns).map(mapMovementToOption)
+  const options = Object.keys(movementBehaviorDefaults).map(mapMovementToOption)
 
   return <SelectChipsAuto 
     onChange={(event, descriptors) => {
-      onChange(event,  descriptors.map((pattern) => {
-        return movementPatterns[pattern]
+      onChange(event,  descriptors.map((movementBehavior) => {
+        return movementBehaviorDefaults[movementBehavior]
       }))
     }}
     formLabel={formLabel}
@@ -59,4 +59,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectMovementPattern);
+)(SelectMovementBehavior);

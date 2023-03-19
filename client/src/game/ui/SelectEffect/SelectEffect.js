@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { effectDisplayNames, getEffectShorthand, isUseableEffect} from '../../constants'
+import { effectBehaviorToDisplayNames, getEffectShorthand, isUseableEffect} from '../../constants'
 
 const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effectId) => {
@@ -14,23 +14,23 @@ const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameMod
       label: getEffectShorthand(effect),
       value: effectId,
       isRemoved: effect.isRemoved,
-      type: effectDisplayNames[effect.type]
+      effectBehavior: effectBehaviorToDisplayNames[effect.effectBehavior]
     }
   }
 
   const options = Object.keys(gameModel.effects).filter((effectId) => {
     // const effect = gameModel.effects[effectId]
-    // if(isUseableEffect(effect.type, eventType)) return true
+    // if(isUseableEffect(effect.effectBehavior, eventType)) return true
     // return false
     return true
   }).map(mapControlsToOption)
 
   // const useableValue = value.filter((effectId) => {
   //   const effect = gameModel.effects[effectId]
-  //   return isUseableEffect(effect.type, eventType)
+  //   return isUseableEffect(effect.effectBehavior, eventType)
   // })
 
-  options.sort((a, b) => -b.type.localeCompare(a.type))
+  options.sort((a, b) => -b.effectBehavior.localeCompare(a.effectBehavior))
 
   return <SelectChipsAuto 
     disabled={disabled}
@@ -38,7 +38,7 @@ const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameMod
     formLabel={formLabel}
     value={value}
     groupBy={option => {
-      return option.type
+      return option.effectBehavior
     }}
     hideRemoved
     options={options}

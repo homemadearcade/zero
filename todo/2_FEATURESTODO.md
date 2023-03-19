@@ -7,8 +7,7 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 
 TYPE
-  Change .type to .interface. Thats what they are... things that tell you how to interface with the class. Think about other interface options such as movementInterface, controlledMovementInterface, jumpInterface, effectInterface, cutsceneInterface, effectInterface
-  REMOVE .type === from any GAME LOGIC, Class.type is PURELY FOR UI
+  REMOVE .interfaceType === from any GAME LOGIC, Class.classInterfaceType is PURELY FOR UI
   swap all the objects to correct game layers when it changes so we can use the layers correctly for visibility and for taking pictures...
 
 RELATIONS

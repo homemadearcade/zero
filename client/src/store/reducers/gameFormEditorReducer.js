@@ -62,7 +62,7 @@ const initialState = {
       tint: null,
     },
     name: "",
-    type: null,
+    classInterfaceType: null,
   },
 
   isCreateColorFlowOpen: false,

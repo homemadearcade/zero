@@ -7,21 +7,21 @@ import './MovementEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import SelectMovementPattern from '../../ui/SelectMovementPattern/SelectMovementPattern';
-import SelectControls from '../../ui/SelectControls/SelectControls';
-import { movementToParemeters } from '../../constants';
+import SelectMovementBehavior from '../../ui/SelectMovementBehavior/SelectMovementBehavior';
+import SelectMovementControlsBehavior from '../../ui/SelectMovementControlsBehavior/SelectMovementControlsBehavior';
+import { movementBehaviorToInterface } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import { PLAYER_CLASS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
-import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_TYPE_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_PATTERN_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, PHYSICS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
+import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_BEHAVIOR_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, PHYSICS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 import SelectClass from '../../ui/SelectClass/SelectClass';
-import { controlledMovementToParemeters } from '../../constants';
+import { movementControlsBehaviorToInterface } from '../../constants';
 
 const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
   const classSelected = gameModel.classes[classId]
 
-  let movementParameters = classSelected.movement.controls ? controlledMovementToParemeters[classSelected.movement.controls] : movementToParemeters[classSelected.movement.pattern]
+  let movementParameters = classSelected.movement.movementControlsBehavior ? movementControlsBehaviorToInterface[classSelected.movement.movementControlsBehavior] : movementBehaviorToInterface[classSelected.movement.movementBehavior]
 
   if(seeAllParameters) {
     movementParameters = {
@@ -44,20 +44,20 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
 
   return (
     <div className="MovementEditor">
-      {classSelected.type === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_TYPE_IID}>
-        <SelectControls
+      {classSelected.classInterfaceType === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
+        <SelectMovementControlsBehavior
           formLabel="Controls"
-          value={classSelected.movement.controls ? [classSelected.movement.controls] : []}
+          value={classSelected.movement.movementControlsBehavior ? [classSelected.movement.movementControlsBehavior] : []}
           onChange={(event, controls) => {
             editGameModel({ classes: { [classId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
-      {classSelected.type !== PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_PATTERN_IID}>
-        <SelectMovementPattern
-          formLabel="Pattern"
-          value={classSelected.movement.pattern ? [classSelected.movement.pattern] : []}
-          onChange={(event, pattern) => {
-            editGameModel({ classes: { [classId]: { ...pattern[pattern.length-1] } }})    
+      {classSelected.classInterfaceType !== PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
+        <SelectMovementBehavior
+          formLabel="Behavior"
+          value={classSelected.movement.movementBehavior ? [classSelected.movement.movementBehavior] : []}
+          onChange={(event, movementBehavior) => {
+            editGameModel({ classes: { [classId]: { ...movementBehavior[movementBehavior.length-1] } }})    
           }}/>
       </Unlockable>}
       {movementParameters.class && <SelectClass
@@ -67,7 +67,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
             const newClassId = classes[classes.length-1]
             editGameModel({ classes: { [classId]: { movement: { classId: newClassId ? newClassId : null  }}}})        
       }}/>}
-      {classSelected.movement.controls && <ControlsCard objectClass={classSelected} controlScheme={classSelected.movement.controls} jumpStyle={classSelected.jump.style}></ControlsCard>}
+      {classSelected.movement.movementControlsBehavior && <ControlsCard objectClass={classSelected} controlScheme={classSelected.movement.movementControlsBehavior} jumpBehavior={classSelected.jump.jumpBehavior}></ControlsCard>}
       {movementParameters.speed &&<Unlockable interfaceId={MOVEMENT_SPEED_IID}>
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}

@@ -140,7 +140,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE
-    if(objectClass.controls.type === VEHICLE_CONTROLS) {
+    if(objectClass.controls.interfaceType === VEHICLE_CONTROLS) {
       let hasAngularMovement = false
       if(this.cursors.left.isDown) {
         hasAngularMovement = true
@@ -169,7 +169,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // DIRECTIONAL
-    if(objectClass.controls.type === DIRECTIONAL_CONTROLS) {
+    if(objectClass.controls.interfaceType === DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -238,7 +238,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // JUMPER
-    if(objectClass.controls.type === JUMP_GROUND) {
+    if(objectClass.controls.interfaceType === JUMP_GROUND) {
       let xTouched = false 
 
       let xVelocityTouched = false

@@ -7,7 +7,7 @@ import { defaultMovement } from "./class"
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 // PARAMETERS
-export const movementToParemeters = {
+export const movementBehaviorToInterface = {
   [MOVEMENT_SIDE_TO_SIDE]: {
     velocityX: 'Speed',
   },
@@ -50,7 +50,7 @@ export const movementToParemeters = {
 // PATTERNS
 export const sideToSideDefaults = {
   movement: {
-    pattern: MOVEMENT_SIDE_TO_SIDE,
+    movementBehavior: MOVEMENT_SIDE_TO_SIDE,
     velocityX: 50,
     velocityY: 0,
     gravityY: 0,
@@ -67,7 +67,7 @@ export const sideToSideDefaults = {
 
 export const upAndDownDefaults = {
   movement: {
-    pattern: MOVEMENT_UP_AND_DOWN,
+    movementBehavior: MOVEMENT_UP_AND_DOWN,
     velocityX: 0,
     velocityY: 50,
     gravityY: 0,
@@ -84,7 +84,7 @@ export const upAndDownDefaults = {
 
 export const turnOnCollideDefaults = {
   movement: {
-    pattern: MOVEMENT_TURN_ON_COLLIDE,
+    movementBehavior: MOVEMENT_TURN_ON_COLLIDE,
     gravityY: 0,
     gravityX: 0,
     velocityX: 50,
@@ -96,7 +96,7 @@ export const turnOnCollideDefaults = {
 
 export const turnRandomlyDefaults = {
   movement: {
-    pattern: MOVEMENT_TURN_RANDOMLY,
+    movementBehavior: MOVEMENT_TURN_RANDOMLY,
     gravityY: 0,
     gravityX: 0,
     velocityX: 50,
@@ -109,7 +109,7 @@ export const turnRandomlyDefaults = {
 
 export const followPlayerDefaults = {
   movement: {
-    pattern: MOVEMENT_FOLLOW_PLAYER,
+    movementBehavior: MOVEMENT_FOLLOW_PLAYER,
     velocityX: 0,
     velocityY: 0,
     gravityY: 0,
@@ -123,7 +123,7 @@ export const followPlayerDefaults = {
 
 export const followClassDefaults = {
   movement: {
-    pattern: MOVEMENT_FOLLOW_CLASS,
+    movementBehavior: MOVEMENT_FOLLOW_CLASS,
     velocityX: 0,
     velocityY: 0,
     gravityY: 0,
@@ -137,7 +137,7 @@ export const followClassDefaults = {
 
 export const jumpDefaults = {
   movement: {
-    pattern: MOVEMENT_JUMP,
+    movementBehavior: MOVEMENT_JUMP,
     gravityY: 50,
     gravityX: 0,
     dragX: 1,

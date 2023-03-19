@@ -37,10 +37,10 @@ import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/Cobrowsi
 
 const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
   function renderAdvancedOptions() {
-    if(!event.type) return
-    const correctEvent = event.type === ON_TOUCH_START || event.type === ON_TOUCH_ACTIVE || event.type === ON_COLLIDE_END
+    if(!event.eventType) return
+    const correctEvent = event.eventType === ON_TOUCH_START || event.eventType === ON_TOUCH_ACTIVE || event.eventType === ON_COLLIDE_END
     const advancedOptions = []
-    const eventInterface = eventEditInterface[event.type]
+    const eventInterface = eventEditInterface[event.eventType]
 
     if(eventInterface.onlyOnce) {
       advancedOptions.push(<Unlockable key={"event/onlyOnce"} interfaceId={EVENT_ONLY_ONCE_IID}>
@@ -90,8 +90,8 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
   }
 
   function renderTagSelect() {
-    if(!event.type) return
-    const eventInterface = eventEditInterface[event.type]
+    if(!event.eventType) return
+    const eventInterface = eventEditInterface[event.eventType]
 
     if(eventInterface.tagSelectType === PLAYER_TAG_EVENT) {
       return null
@@ -156,27 +156,27 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
   return <div className="CreateEvent">
     <SelectEventType
       formLabel="When?"
-      value={event.type ? [event.type] : []}
+      value={event.eventType ? [event.eventType] : []}
       onChange={(event, eventTypes) => {
         const eventType = eventTypes[eventTypes.length-1]
         const { tagSelectType } = eventEditInterface[eventType]
         if(tagSelectType === PLAYER_AND_TAG_EVENT || tagSelectType === PLAYER_TAG_EVENT) {
           updateCreateEvent({
             ...defaultEvent,
-            type: eventType,
+            eventType: eventType,
             tagIdA: playerTagId,
             eventId: event.eventId
           })
         } else {
           updateCreateEvent({
             ...defaultEvent,
-            type: eventType,
+            eventType: eventType,
             eventId: event.eventId
           })
         }
     }}/>
     {renderTagSelect()}
-    {event.type && <CobrowsingNestedList interfaceId={EVENT_ADVANCED_CONTAINER_IID} id={event.eventId} title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
+    {event.eventType && <CobrowsingNestedList interfaceId={EVENT_ADVANCED_CONTAINER_IID} id={event.eventId} title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
   </div>
 }
 

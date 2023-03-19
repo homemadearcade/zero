@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Sprite from '../../sprites/Sprite/Sprite';
 import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { effectDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, STOPPED_STATE } from '../../constants';
+import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, STOPPED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
@@ -132,7 +132,7 @@ const HoverPreview = ({
   }
 
   function renderClassDisplay() {
-    let title = objectClass.name + ' - ' + classTypeToDisplayName[objectClass.type]
+    let title = objectClass.name + ' - ' + classTypeToDisplayName[objectClass.classInterfaceType]
     if(instanceDataHovering?.isSpawned) title += ' (Spawned)'
     return renderDisplayWithTexture({
       tint: objectClass.graphics.tint,
@@ -246,7 +246,7 @@ const HoverPreview = ({
     } else if(effectIdHovering) {
       const effect = effects[effectIdHovering]
       return renderTextOnlyDisplay({
-        title: effectDisplayNames[effect.type]
+        title: effectBehaviorToDisplayNames[effect.effectBehavior]
       })
     } else if(instanceClassIdHovering) {
       return renderClassDisplay()

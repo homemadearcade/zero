@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectDisplayNames, effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
+import { effectBehaviorToDisplayNames, effectBehaviorInterface, EFFECT_ID_PREFIX, eventEditInterface, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import { EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
@@ -81,7 +81,7 @@ const CreateRelation = ({
     const isAnEffectNotUseable = relation.effectIds.some((effectId) => {
       const effect = gameModel.effects[effectId]
       if(!effect) return false
-      return !isUseableEffect(effect.type, event.type)
+      return !isUseableEffect(effect.effectBehavior, event.eventType)
     })
 
     if(isAnEffectNotUseable) return true
@@ -113,10 +113,10 @@ const CreateRelation = ({
   }
 
   function renderSelectEffectedTagInstances(effect) {
-    if(!event || !effect.type) return 
+    if(!event || !effect.effectBehavior) return 
     
-    const effectInterface = effectEditInterface[effect.type]
-    const eventInterface = eventEditInterface[event.type]
+    const effectInterface = effectBehaviorInterface[effect.effectBehavior]
+    const eventInterface = eventEditInterface[event.eventType]
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
     const forms = []
@@ -126,7 +126,7 @@ const CreateRelation = ({
 
     if(effect.remoteEffectedTagIds?.length) return
 
-    const effectShortName = effectDisplayNames[effect.type]
+    const effectShortName = effectBehaviorToDisplayNames[effect.effectBehavior]
 
     if(effectInterface.effectableType === SINGLE_TAG_EFFECT) {
       if(event.tagIdA && event.tagIdB) {
@@ -187,12 +187,12 @@ const CreateRelation = ({
   }
 
   function renderOptionalRelationForms(effect) {
-    if(!event || !effect.type) return 
+    if(!event || !effect.effectBehavior) return 
     
     const { classA, classB } = getClassAandB(event.tagIdA, event.tagIdB)
 
-    const effectInterface = effectEditInterface[effect.type]
-    const eventInterface = eventEditInterface[event.type]
+    const effectInterface = effectBehaviorInterface[effect.effectBehavior]
+    const eventInterface = eventEditInterface[event.eventType]
 
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
@@ -217,7 +217,7 @@ const CreateRelation = ({
       </Unlockable>)
     }
 
-    if(!nonRemoteEffects[effect.type] && !effect.remoteEffectedTagIds?.length) {
+    if(!nonRemoteEffects[effect.effectBehavior] && !effect.remoteEffectedTagIds?.length) {
       forms.push(<Unlockable interfaceId={EFFECT_REMOTE_IID}>
         <SelectTag
           key="effect/remoteTag"
@@ -273,11 +273,11 @@ const CreateRelation = ({
     return <>
       <Divider/>
       <EffectShorthand effect={effect}/>
-      {!isUseableEffect(effect.type, event.type) && <Alert severity='error'>
+      {!isUseableEffect(effect.effectBehavior, event.eventType) && <Alert severity='error'>
         <AlertTitle>This Effect is not compatible with the Event. Change or remove it to save</AlertTitle>
       </Alert>}
-      {effect.type && renderSelectEffectedTagInstances(effect)}
-      {effect.type &&<CobrowsingNestedList interfaceId={EFFECT_ADVANCED_CONTAINER_IID} id={effectId} title="More Options" listId={effectId} >
+      {effect.effectBehavior && renderSelectEffectedTagInstances(effect)}
+      {effect.effectBehavior &&<CobrowsingNestedList interfaceId={EFFECT_ADVANCED_CONTAINER_IID} id={effectId} title="More Options" listId={effectId} >
         {renderOptionalRelationForms(effect)}
       </CobrowsingNestedList>}
     </>
@@ -304,8 +304,8 @@ const CreateRelation = ({
     <div className="CreateEvent">
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
-      {event.type && <SelectEffect
-        eventType={event.type}
+      {event.eventType && <SelectEffect
+        eventType={event.eventType}
         formLabel={"Effects"}
         value={relation.effectIds.filter((effectId) => {
             return !!gameModel.effects[effectId]
@@ -316,9 +316,9 @@ const CreateRelation = ({
           })
         }}/>
       }
-      {event.type && relation.effectIds?.map(renderEffect)}
+      {event.eventType && relation.effectIds?.map(renderEffect)}
       <Divider/>
-      {event.type && <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
+      {event.eventType && <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
         const effectId = EFFECT_ID_PREFIX+generateUniqueId()
         openCreateEffect({
           effectId,

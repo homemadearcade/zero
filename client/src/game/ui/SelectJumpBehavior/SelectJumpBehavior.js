@@ -2,13 +2,13 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectJumping.scss';
+import './SelectJumpBehavior.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { JUMP_GROUND,  JUMP_COMBO, JUMP_CONSTANT, JUMP_NONE, JUMP_AIR } from '../../constants';
 import { comboJumpDefaults, jetpackDefaults, groundJumpDefaults } from '../../constants';
 import { airJumpDefaults, noJumpDefaults } from '../../constants';
 
-const controlsValues = {
+const jumpBehaviorDefaults = {
   [JUMP_NONE]: noJumpDefaults,
   [JUMP_GROUND]: groundJumpDefaults,
   [JUMP_AIR]: airJumpDefaults,
@@ -16,7 +16,7 @@ const controlsValues = {
   [JUMP_CONSTANT]: jetpackDefaults,
 }
 
-const controlsValueToLabel = {
+const jumpBehaviorToLabel = {
   [JUMP_NONE]: 'None',
   [JUMP_GROUND]: 'Ground Jump',
   [JUMP_AIR]: 'Air Jump',
@@ -24,22 +24,22 @@ const controlsValueToLabel = {
   [JUMP_CONSTANT]: 'Jetpack',
 }
 
-const SelectJumping = ({ onChange, value, formLabel }) => {
-  const mapControlsToOption = (controls) => {
+const SelectJumpBehavior = ({ onChange, value, formLabel }) => {
+  const mapControlsToOption = (jumpBehavior) => {
 
     return {
-      label: controlsValueToLabel[controls],
-      value: controls
+      label: jumpBehaviorToLabel[jumpBehavior],
+      value: jumpBehavior
     }
   }
 
 
-  const options = Object.keys(controlsValues).map(mapControlsToOption)
+  const options = Object.keys(jumpBehaviorDefaults).map(mapControlsToOption)
 
   return <SelectChipsAuto 
     onChange={(event, descriptors) => {
-      onChange(event, descriptors.map((pattern) => {
-        return controlsValues[pattern]
+      onChange(event, descriptors.map((jumpBehavior) => {
+        return jumpBehaviorDefaults[jumpBehavior]
       }))
     }}
     formLabel={formLabel}
@@ -56,4 +56,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectJumping);
+)(SelectJumpBehavior);

@@ -3,8 +3,8 @@ import { nodeSize } from "./general";
 import { defaultProjectile } from "./projectile";
 
 export const defaultMovement = {
-  controls: null,
-  pattern: MOVEMENT_NONE,
+  movementControlsBehavior: null,
+  movementBehavior: MOVEMENT_NONE,
   velocityX: 0,
   velocityY: 0,
   speed: 100,
@@ -20,7 +20,7 @@ export const defaultMovement = {
 }
 
 export const defaultJump = {
-  style: JUMP_NONE,
+  jumpBehavior: JUMP_NONE,
   ground: 0,
   air: 0,
   cooldown: 100,
@@ -74,9 +74,9 @@ export const defaultClass = {
 }
 
 export const defaultNpcClass = { 
-  type: NPC_CLASS,
+  classInterfaceType: NPC_CLASS,
   // movement: {
-  //   pattern: MOVEMENT_TURN_ON_COLLIDE,
+  //   movementBehavior: MOVEMENT_TURN_ON_COLLIDE,
   //   velocityX: 50,
   // },
   // collisionResponse: {
@@ -85,7 +85,7 @@ export const defaultNpcClass = {
 }
 
 export const defaultZoneClass = {
-  type: ZONE_CLASS, 
+  classInterfaceType: ZONE_CLASS, 
   collisionResponse: {
     immovable: true,
   },
@@ -96,9 +96,9 @@ export const defaultZoneClass = {
 }
 
 export const defaultPlayerClass = {
-  type: PLAYER_CLASS, 
+  classInterfaceType: PLAYER_CLASS, 
   movement: { 
-    controls: DIRECTIONAL_CONTROLS
+    movementControlsBehavior: DIRECTIONAL_CONTROLS
   },
   collisionResponse: {
     notPushable: false
@@ -110,9 +110,9 @@ export const libraryClassAugment = {
 }
 
 export const defaultBasicClass = { 
-  type: BASIC_CLASS,
+  classInterfaceType: BASIC_CLASS,
   movement: {
-    pattern: MOVEMENT_NONE,
+    movementBehavior: MOVEMENT_NONE,
   },
   collisionResponse: {
     notPushable: true,

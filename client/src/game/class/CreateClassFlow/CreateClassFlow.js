@@ -36,13 +36,13 @@ const CreateClassFlow = ({
   
   useEffect(() => {
     if(!objectClass.classId) {
-      updateCreateClass({ classId: OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[objectClass.type]+generateUniqueId(), isNew: true })
+      updateCreateClass({ classId: OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[objectClass.classInterfaceType]+generateUniqueId(), isNew: true })
     }
   }, [])
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateClassFlow">
-      {objectClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.type]}</Typography>}
+      {objectClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[objectClass.classInterfaceType]}</Typography>}
       {objectClass.isNew === false && <ClassMemberTitle classId={objectClass.classId} title="Graphics"></ClassMemberTitle>}
       <Unlockable interfaceId={CLASS_VISIBILITY_IID}>
         <Switch
@@ -93,7 +93,7 @@ const CreateClassFlow = ({
           textureIdSelected={objectClass.graphics.textureId}
         />
       </>}
-      {objectClass.type === ZONE_CLASS && 
+      {objectClass.classInterfaceType === ZONE_CLASS && 
         <AggregateColorSelect
           selectedColor={objectClass.graphics.tint}
           onSelectColor={(tint) => {
@@ -107,7 +107,7 @@ const CreateClassFlow = ({
             }})
           }}
       />}
-      {objectClass.type !== ZONE_CLASS && objectClass.type !== PLAYER_CLASS && <Unlockable interfaceId={CLASS_LAYER_IID}>
+      {objectClass.classInterfaceType !== ZONE_CLASS && objectClass.classInterfaceType !== PLAYER_CLASS && <Unlockable interfaceId={CLASS_LAYER_IID}>
         <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_LAYER_CANVAS_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateClass({ graphics: {

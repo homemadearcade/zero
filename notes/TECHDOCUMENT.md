@@ -146,3 +146,9 @@ SECOND LEVEL
   Class
   Brush
   My Images
+
+
+---
+
+An interface type ONLY effects how an object is treated in the interface
+Behavior means there is code behind something, and likely a default property set, and then as well an interface to go long with it

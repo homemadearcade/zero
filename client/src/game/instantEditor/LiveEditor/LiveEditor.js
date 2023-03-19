@@ -57,11 +57,11 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { classIdSe
                   openLiveEditor(PROJECTILE_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,
-                objectClass.type === PLAYER_CLASS && <MenuItem key="Camera" onClick={() => {
+                objectClass.classInterfaceType === PLAYER_CLASS && <MenuItem key="Camera" onClick={() => {
                   openLiveEditor(CAMERA_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,
-                objectClass.type === PLAYER_CLASS && <MenuItem key="Jump" onClick={() => {
+                objectClass.classInterfaceType === PLAYER_CLASS && <MenuItem key="Jump" onClick={() => {
                   openLiveEditor(JUMP_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Jump</MenuItem>,

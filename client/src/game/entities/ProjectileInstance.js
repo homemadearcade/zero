@@ -46,31 +46,31 @@ export class ProjectileInstance extends ObjectInstance {
 
   fireAutomatic(shooter, time) {
     const shooterClass = store.getState().gameModel.gameModel.classes[shooter.classId]
-    const style = shooterClass.projectile.style
+    const projectileBehavior = shooterClass.projectile.projectileBehavior
     this.lifespan = shooterClass.projectile.lifespan;
 
     let rotation
 
-    if(style === PROJECTILE_DOWN) {
+    if(projectileBehavior === PROJECTILE_DOWN) {
       rotation = directionToRadians[DIRECTION_DOWN]
-    } else if(style === PROJECTILE_UP) {
+    } else if(projectileBehavior === PROJECTILE_UP) {
       rotation = directionToRadians[DIRECTION_UP]
-    } else if(style === PROJECTILE_RIGHT) {
+    } else if(projectileBehavior === PROJECTILE_RIGHT) {
       rotation = directionToRadians[DIRECTION_RIGHT]
-    } else if(style === PROJECTILE_LEFT) {
+    } else if(projectileBehavior === PROJECTILE_LEFT) {
       rotation = directionToRadians[DIRECTION_LEFT]
     }
 
-    if(style === PROJECTILE_TARGET_CLASS) {
+    if(projectileBehavior === PROJECTILE_TARGET_CLASS) {
       const instances = this.scene.getAllInstancesOfClassId(shooterClass.projectile.targetClassId)
       if(instances.length) {
         rotation = getAngleBetweenInstances(shooter, instances[0])
       }
-    } else if(style === PROJECTILE_TARGET_PLAYER) {
+    } else if(projectileBehavior === PROJECTILE_TARGET_PLAYER) {
       if(this.scene.playerInstance) {
         rotation = getAngleBetweenInstances(shooter, this.scene.playerInstance)
       }
-    } else if(style === PROJECTILE_RANDOM_DIRECTION) {
+    } else if(projectileBehavior === PROJECTILE_RANDOM_DIRECTION) {
       const direction = Math.random() * 4
       if(direction < 1) {
         rotation = directionToRadians[DIRECTION_DOWN]
@@ -81,7 +81,7 @@ export class ProjectileInstance extends ObjectInstance {
       } else if(direction < 4) {
         rotation = directionToRadians[DIRECTION_RIGHT]
       }
-    } else if(style === PROJECTILE_RANDOM_ANGLE) {
+    } else if(projectileBehavior === PROJECTILE_RANDOM_ANGLE) {
       const angle = Math.random() * 360 
       rotation = Phaser.Math.DegToRad(angle)
     }
@@ -112,7 +112,7 @@ export class ProjectileInstance extends ObjectInstance {
 
     let rotation
 
-    if(shooterClass.movement.controls === VEHICLE_CONTROLS) {
+    if(shooterClass.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
       rotation = shooter.sprite.rotation - Phaser.Math.DegToRad(90)
     } else {
       if(cursors.left.isDown) {

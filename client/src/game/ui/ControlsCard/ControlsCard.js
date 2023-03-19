@@ -9,12 +9,12 @@ import './ControlsCard.scss'
 
 const ControlsCard = ({
   controlScheme,
-  jumpStyle,
+  jumpBehavior,
   projectileClass,
   showInteract,
   objectClass
 }) => {
-  const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpStyle] }
+  const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpBehavior] }
 
   const list = []
 

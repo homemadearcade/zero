@@ -8,8 +8,8 @@ export class GamePlayScene extends GameInstance {
     this.gameRoom = props.gameRoom
   }
 
-  callGameInstanceEvent({type, data}) {
-    this.runGameInstanceEvent({type, data})
+  callGameInstanceEvent({gameInstanceEventType, data}) {
+    this.runGameInstanceEvent({gameInstanceEventType, data})
   }
 
   unregisterEvents() {

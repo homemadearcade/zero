@@ -49,11 +49,11 @@ const CreateCutscene = ({
     })
   }
 
-  function addScene(type) {
+  function addScene(sceneInterfaceType) {
     const scenes = cutscene.scenes.slice()
     scenes.push({
       id: SCENE_ID_PREFIX+generateUniqueId(),
-      type,
+      sceneInterfaceType,
       text: null,
       imageUrl: null,
     })

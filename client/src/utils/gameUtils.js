@@ -72,7 +72,7 @@ export function isEventMatch({effect, classId, world, objectClass, body}) {
   }
 
   if(classId === PLAYER_INSTANCE_ID_PREFIX) {
-    return objectClass.type === PLAYER_INSTANCE_ID_PREFIX
+    return objectClass.classInterfaceType === PLAYER_INSTANCE_ID_PREFIX
   }
 
   return false
@@ -153,16 +153,16 @@ export function createGameSceneInstance(key, gameRoom) {
 }
 
 export function getLayerIdFromClass(objectClass) {
-  if(objectClass.type === NPC_CLASS) {
+  if(objectClass.classInterfaceType === NPC_CLASS) {
     return NPC_CLASS
   }
-  if(objectClass.type === BASIC_CLASS) {
+  if(objectClass.classInterfaceType === BASIC_CLASS) {
     return BASIC_CLASS
   }
-  if(objectClass.type === PLAYER_CLASS) {
+  if(objectClass.classInterfaceType === PLAYER_CLASS) {
     return PLAYER_INSTANCE_CANVAS_ID
   }
-  if(objectClass.type === ZONE_CLASS) {
+  if(objectClass.classInterfaceType === ZONE_CLASS) {
     return ZONE_INSTANCE_CANVAS_ID
   }
 }

@@ -17,7 +17,7 @@ const ClassBoxModal = ({ closeClassBoxModal, gameSelector: { classBoxClassType }
   const classesToSelect = Object.keys(classes).map((classId) => {
     return classes[classId]
   }).filter((objectClass) => {
-    return objectClass.type === classBoxClassType
+    return objectClass.classInterfaceType === classBoxClassType
   }).map((objectClass) => {
     return <ClassItem onClick={handleClose} classId={objectClass.classId}></ClassItem>
   })

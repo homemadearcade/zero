@@ -10,11 +10,12 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import Button from '../../../ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
 import { closeClassNameModal, updateBoundaryRelation, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
-import SelectClassType from '../../ui/SelectClassType/SelectClassType';
+import SelectClassInterfaceType from '../../ui/SelectClassInterfaceType/SelectClassInterfaceType';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_CLASS_TYPE_IID, CLASS_TAGS_IID } from '../../../constants/interfaceIds';
 import SelectTag from '../../ui/SelectTag/SelectTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
+import { classTypeToDisplayName } from '../../constants';
 
 const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel, gameFormEditor: { objectClass }, gameModel: { gameModel } }) => {
   if(!gameModel.classes[objectClass.classId]) return 
@@ -28,7 +29,7 @@ const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel,
         [objectClass.classId] : {
           name: objectClass.name,
           tags: objectClass.tags,
-          type: objectClass.type,
+          classInterfaceType: objectClass.classInterfaceType,
           boundaryRelation: objectClass.boundaryRelation
         }
       }
@@ -40,7 +41,7 @@ const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel,
     <ClassMemberTitle 
       classId={objectClass.classId} 
       title={<>
-        Edit Class
+        {classTypeToDisplayName[objectClass.classInterfaceType]}
           </>
       }></ClassMemberTitle>
     <div className="ClassNameModal">
@@ -48,9 +49,9 @@ const ClassNameModal = ({ updateCreateClass, closeClassNameModal, editGameModel,
         initialName={objectClass.name}
       />
       <Unlockable interfaceId={CHANGE_CLASS_TYPE_IID}>
-        <SelectClassType formLabel="Type" value={objectClass.type ? [objectClass.type]: []} onChange={(event, type) => {
+        <SelectClassInterfaceType formLabel="Type" value={objectClass.classInterfaceType ? [objectClass.classInterfaceType]: []} onChange={(event, classInterfaceType) => {
           updateCreateClass({
-            type: type[type.length-1]
+            classInterfaceType: classInterfaceType[classInterfaceType.length-1]
           })
         }}/>
       </Unlockable>

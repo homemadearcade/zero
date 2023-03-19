@@ -55,15 +55,15 @@ const SideEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { classIdSe
                   openLiveEditor(PHYSICS_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Collisions</MenuItem>,
-                objectClass.type === PLAYER_CLASS && <MenuItem key="Projectile" onClick={() => {
+                objectClass.classInterfaceType === PLAYER_CLASS && <MenuItem key="Projectile" onClick={() => {
                   openLiveEditor(PROJECTILE_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,
-                objectClass.type === PLAYER_CLASS && <MenuItem key="Camera" onClick={() => {
+                objectClass.classInterfaceType === PLAYER_CLASS && <MenuItem key="Camera" onClick={() => {
                   openLiveEditor(CAMERA_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,
-                objectClass.type === PLAYER_CLASS && <MenuItem key="Jump" onClick={() => {
+                objectClass.classInterfaceType === PLAYER_CLASS && <MenuItem key="Jump" onClick={() => {
                   openLiveEditor(JUMP_EDITOR, classIdSelectedLiveEditor)
                   closeMenu()
                 }}>Jump</MenuItem>,

@@ -55,8 +55,8 @@ export class GameInstance extends Phaser.Scene {
     this.firstStage = data.firstStage
   }
 
-  runGameInstanceEvent({type, data}) {
-    switch(type) {
+  runGameInstanceEvent({gameInstanceEventType, data}) {
+    switch(gameInstanceEventType) {
       case ANIMATION_CAMERA_SHAKE: 
         this.cameras.main.shake(data.intensity)
         return
@@ -196,7 +196,7 @@ export class GameInstance extends Phaser.Scene {
     const effects = store.getState().gameModel.gameModel.effects
     const events = store.getState().gameModel.gameModel.events
 
-    this.relationsByEvent = Object.keys(relations).reduce((relationsByEvent, relationId) => {
+    this.relationsByEventType = Object.keys(relations).reduce((relationsByEvent, relationId) => {
       const relation = relations[relationId]
       const populatedEvent = events[relation.eventId]
       const populatedEffects = relation.effectIds.map((effectId) => {
@@ -218,14 +218,17 @@ export class GameInstance extends Phaser.Scene {
         relationId: relation.relationId
       }
 
-      if(relationsByEvent[populatedEvent.type]) {
-        relationsByEvent[populatedEvent.type].push(populatedRelation)
+      if(relationsByEvent[populatedEvent.eventType]) {
+        relationsByEvent[populatedEvent.eventType].push(populatedRelation)
       } else {
-        relationsByEvent[populatedEvent.type] = [populatedRelation]
+        relationsByEvent[populatedEvent.eventType] = [populatedRelation]
       }
+      
 
       return relationsByEvent
     }, {})
+
+    console.log(this.relationsByEventType)
   }
   
   reregisterRelationships() {
@@ -624,7 +627,7 @@ export class GameInstance extends Phaser.Scene {
 
   startPlaythroughStartEffects() {
     if(this.isPlaythrough && this.firstStage) {
-      this.relationsByEvent[ON_PLAYTHROUGH].forEach((relation) => {
+      this.relationsByEventType[ON_PLAYTHROUGH].forEach((relation) => {
         this.playerInstance.startRunEventEffects(
           relation,
         )
@@ -789,7 +792,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().gameModel.gameModel
     const objectClass = gameModel.classes[classId]
 
-    if(objectClass.type === BASIC_CLASS || objectClass.type === NPC_CLASS || objectClass.type === PLAYER_CLASS) {
+    if(objectClass.classInterfaceType === BASIC_CLASS || objectClass.classInterfaceType === NPC_CLASS || objectClass.classInterfaceType === PLAYER_CLASS) {
       const layerToDepth = {
         [BACKGROUND_LAYER_CANVAS_ID]: BACKGROUND_LAYER_CANVAS_DEPTH + 1,
         [PLAYGROUND_LAYER_CANVAS_ID]: PLAYGROUND_LAYER_CANVAS_DEPTH + 1,
@@ -801,7 +804,7 @@ export class GameInstance extends Phaser.Scene {
       } else {
         sprite.setDepth(layerToDepth[objectClass.graphics.layerId])
       }
-    } else if(objectClass.type === ZONE_CLASS) {
+    } else if(objectClass.classInterfaceType === ZONE_CLASS) {
       this.zoneInstanceLayer.add(sprite)
     }
   }
@@ -810,9 +813,9 @@ export class GameInstance extends Phaser.Scene {
   //   const gameModel = store.getState().gameModel.gameModel
   //   const objectClass = gameModel.classes[classId]
 
-  //   if(objectClass.type === BASIC_CLASS) {
+  //   if(objectClass.classInterfaceType === BASIC_CLASS) {
   //     this.basicClassGroup.add(sprite)
-  //   } else if(objectClass.type === NPC_CLASS) {
+  //   } else if(objectClass.classInterfaceType === NPC_CLASS) {
   //     this.npcClassGroup.add(sprite)
   //   }
   // }
@@ -821,9 +824,9 @@ export class GameInstance extends Phaser.Scene {
   //   const gameModel = store.getState().gameModel.gameModel
   //   const objectClass = gameModel.classes[classId]
 
-  //   if(objectClass.type === BASIC_CLASS) {
+  //   if(objectClass.classInterfaceType === BASIC_CLASS) {
   //     this.basicClassGroup.remove(sprite)
-  //   } else if(objectClass.type === NPC_CLASS) {
+  //   } else if(objectClass.classInterfaceType === NPC_CLASS) {
   //     this.npcClassGroup.remove(sprite)
   //   }
   // }

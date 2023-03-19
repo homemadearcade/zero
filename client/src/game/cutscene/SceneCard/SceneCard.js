@@ -18,7 +18,7 @@ const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeT
       <Typography gutterBottom variant="h5" component="div">
       #{index+1}
     </Typography>
-    {scene.type != TEXT_CUTSCENE && 
+    {scene.sceneInterfaceType != TEXT_CUTSCENE && 
       <>
       <CardMedia
         component="img"
@@ -27,7 +27,7 @@ const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeT
       />
       {isEditing && <Button onClick={onChooseNewImage}>Choose Image</Button>}
     </>}
-    {scene.type != IMAGE_CUTSCENE && <CardContent>
+    {scene.sceneInterfaceType != IMAGE_CUTSCENE && <CardContent>
       {scene.text && !isEditing && <Typography variant="body2" color="text.secondary">
         {scene.text}
       </Typography>}

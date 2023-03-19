@@ -86,7 +86,7 @@ export const MOVEMENT_NONE = 'MOVEMENT_NONE'
 
 /////////////////////////////////////
 /////////////////////////////////////
-// PROJECTILE STYLES
+// PROJECTILE TYPES
 export const PROJECTILE_RANDOM_DIRECTION = 'PROJECTILE_RANDOM_DIRECTION'
 export const PROJECTILE_RANDOM_ANGLE = 'PROJECTILE_RANDOM_ANGLE'
 export const PROJECTILE_TARGET_PLAYER = 'PROJECTILE_TARGET_PLAYER'

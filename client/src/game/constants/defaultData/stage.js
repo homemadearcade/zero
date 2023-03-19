@@ -52,7 +52,3 @@ export const boundaryRelationsDisplayNames = {
   // [BOUNDARY_DESTROY]: 'Is destroyed',
   [BOUNDARY_WRAP]:  'Flips to the other side'
 }
-
-export function getBoundaryRelationLabel(type, objectClass) {
-  return objectClass.name + boundaryRelationsDisplayNames[type] + ' when it hits the boundary'
-}

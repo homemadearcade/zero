@@ -1,7 +1,8 @@
 import { connect } from "react-redux"
 import { compose } from "redux"
+import Divider from "../../../ui/Divider/Divider"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectEditInterface, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from "../../constants"
+import { effectBehaviorInterface, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from "../../constants"
 import EffectShorthand from "../../effect/EffectShorthand/EffectShorthand"
 import EventShorthand from "../../event/EventShorthand/EventShorthand"
 import Sprite from "../../sprites/Sprite/Sprite"
@@ -20,7 +21,7 @@ function RelationShorthand({relation, gameModel: { gameModel: { events, effects,
   const event = events[relation.eventId]
 
   function renderEffectedTags(effect, effectId) {
-    const effectInterface = effectEditInterface[effect.type]
+    const effectInterface = effectBehaviorInterface[effect.effectBehavior]
     const relationEffect = relation.effects[effectId]
 
     if(!relationEffect) return 
@@ -47,6 +48,7 @@ function RelationShorthand({relation, gameModel: { gameModel: { events, effects,
 
   return <span style={{display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'column'}}>
     <EventShorthand event={event}/>
+    <Divider/>
     {relation.effectIds.map((effectId) => {
       const effect = effects[effectId]
       return <>

@@ -11,9 +11,9 @@ import { advancedDirectionalDefaults } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import { PLAYER_CLASS, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
-import SelectJumping from '../../ui/SelectJump/SelectJumping';
-import { jumpStyleToParemeters } from '../../constants';
-import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_STYLE_IID, MOVEMENT_CONTROLS_TYPE_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
+import SelectJumpBehavior from '../../ui/SelectJumpBehavior/SelectJumpBehavior';
+import { jumpBehaviorToParemeters } from '../../constants';
+import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_BEHAVIOR_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 
 const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
@@ -21,9 +21,9 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
 
   const incompatibleErrors = []
 
-  if(classSelected.movement.controls !== ADVANCED_DIRECTIONAL_CONTROLS) {
+  if(classSelected.movement.movementControlsBehavior !== ADVANCED_DIRECTIONAL_CONTROLS) {
     incompatibleErrors.push('Movement control scheme must be the Advanced Directional scheme to use Jump')
-    incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_CONTROLS_TYPE_IID}>
+    incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
         <Button
           onClick={(e) => {
             editGameModel({ classes: { [classId]:  {...advancedDirectionalDefaults } }})        
@@ -54,7 +54,7 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
     </div>
   }
 
-  let jumpParameters = jumpStyleToParemeters[classSelected.jump.style]
+  let jumpParameters = jumpBehaviorToParemeters[classSelected.jump.jumpBehavior]
 
   if(seeAllParameters) {
     jumpParameters = {
@@ -65,19 +65,18 @@ const JumpEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { 
       gravityY: true,
     }
   }
-  
 
   return (
     <div className="JumpEditor">
-      {classSelected.type === PLAYER_CLASS && <Unlockable interfaceId={JUMP_STYLE_IID}>
-        <SelectJumping
-          formLabel="Style"
-          value={classSelected.jump.style ? [classSelected.jump.style] : []}
-          onChange={(event, jumpStyle) => {
-            editGameModel({ classes: { [classId]: { ...jumpStyle[jumpStyle.length-1] } }})    
+      {classSelected.classInterfaceType === PLAYER_CLASS && <Unlockable interfaceId={JUMP_BEHAVIOR_IID}>
+        <SelectJumpBehavior
+          formLabel="Behavior"
+          value={classSelected.jump.jumpBehavior ? [classSelected.jump.jumpBehavior] : []}
+          onChange={(event, jumpBehavior) => {
+            editGameModel({ classes: { [classId]: { ...jumpBehavior[jumpBehavior.length-1] } }})    
           }}/>
       </Unlockable>}
-      {classSelected.movement.controls && <ControlsCard objectClass={classSelected} jumpStyle={classSelected.jump.style}></ControlsCard>}
+      {classSelected.movement.movementControlsBehavior && <ControlsCard objectClass={classSelected} jumpBehavior={classSelected.jump.jumpBehavior}></ControlsCard>}
       {jumpParameters.ground && <Unlockable interfaceId={JUMP_GROUND_IID}>
         <SliderNotched
           formLabel={jumpParameters.ground.length ? jumpParameters.ground : "Ground Jump Speed"}

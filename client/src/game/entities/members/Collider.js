@@ -74,7 +74,7 @@ export class Collider {
         this.collidingWith.push(instanceSpriteB?.instanceId)
       }
       
-      if(event.type === ON_TOUCH_ACTIVE) {
+      if(event.eventType === ON_TOUCH_ACTIVE) {
         this.objectInstance.effects.runCollideActiveEffect({
           relation: newRelation,
           instanceSpriteA,
@@ -84,7 +84,7 @@ export class Collider {
         })
       }
 
-      if(isOnEnter && (event.type === ON_TOUCH_START || effect.type === EFFECT_STICK_TO)) {
+      if(isOnEnter && (event.eventType === ON_TOUCH_START || effect.effectBehavior === EFFECT_STICK_TO)) {
         this.objectInstance.runAccuteEffect({
           relation: newRelation,
           instanceSpriteA,
@@ -98,8 +98,8 @@ export class Collider {
 
   registerArcadeColliders(colliders) {
     colliders.forEach((collider) => {
-      const { event } = collider
-      const releventInstances = this.scene.objectInstancesByTag[event.tagIdB]
+      const { tagIdB } = collider
+      const releventInstances = this.scene.objectInstancesByTag[tagIdB]
       if(!releventInstances || !releventInstances.length) return
       const releventSprites = releventInstances.map(({sprite}) => sprite)
       this.colliders.push(

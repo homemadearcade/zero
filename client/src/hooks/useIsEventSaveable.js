@@ -6,9 +6,9 @@ import { eventEditInterface, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from "../game/con
 
   useEffect(() => {
   function isSaveDisabled() {
-    if(!event ||!event.type) return true
+    if(!event ||!event.eventType) return true
     
-    const eventInterface = eventEditInterface[event.type]
+    const eventInterface = eventEditInterface[event.eventType]
 
     if(eventInterface.tagSelectType === SINGLE_TAG_EVENT) {
       if(!event.tagIdA) return true

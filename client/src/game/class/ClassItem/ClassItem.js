@@ -38,7 +38,7 @@ const ClassItem = ({
     style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}
     onClick={(e) => {
       if(onClick) onClick(e)
-      if(objectClass.type === PLAYER_CLASS) return
+      if(objectClass.classInterfaceType === PLAYER_CLASS) return
 
       if(classId === classIdSelectedClassList) {
         clearClass()

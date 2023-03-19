@@ -13,7 +13,7 @@ export class ProjectileEjector {
     const classId = this.objectInstance.classId
     const objectClass = store.getState().gameModel.gameModel.classes[classId]
 
-    if(time < this.nextFire || !objectClass.projectile.classId || objectClass.projectile.style === PROJECTILE_NONE) { 
+    if(time < this.nextFire || !objectClass.projectile.classId || objectClass.projectile.projectileBehavior === PROJECTILE_NONE) { 
       return
     }
 

@@ -2,7 +2,7 @@ import { connect } from "react-redux"
 import { compose } from "redux"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectDisplayNames, effectEditInterface, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, eventEditInterface, eventShortNames, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EFFECT, SINGLE_TAG_EVENT, TWO_TAG_EFFECT, TWO_TAG_EVENT } from "../../constants"
+import { effectBehaviorToDisplayNames, effectBehaviorInterface, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, eventEditInterface, eventShortNames, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EFFECT, SINGLE_TAG_EVENT, TWO_TAG_EFFECT, TWO_TAG_EVENT } from "../../constants"
 import Sprite from "../../sprites/Sprite/Sprite"
 
 function renderTag(tag) {
@@ -24,7 +24,7 @@ function renderClass(objectClass) {
 }
 
 function renderEffect(effect) {
-  const displayName = effectDisplayNames[effect.type]
+  const displayName = effectBehaviorToDisplayNames[effect.effectBehavior]
   return  <Typography sx={{ fontWeight: 'bold' }} component="span">{displayName}</Typography>
 }
 
@@ -34,13 +34,13 @@ function renderText(text) {
 
 
 function EffectShorthand({effect, gameModel: { gameModel }, children}) {
-  const type = effect.type 
+  const effectBehavior = effect.effectBehavior 
   const classes = gameModel.classes 
   const cutscenes = gameModel.cutscenes 
   const tags = gameModel.tags 
 
   function renderBody() {
-    if(type === EFFECT_TELEPORT) {
+    if(effectBehavior === EFFECT_TELEPORT) {
       return <>
         {renderEffect(effect)}
         {/* {` to`}   */}
@@ -48,7 +48,7 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       </>
     }
 
-    if(type === EFFECT_RECLASS) {
+    if(effectBehavior === EFFECT_RECLASS) {
       return <>
         {renderEffect(effect)}
         {/* {` into`} */}
@@ -56,7 +56,7 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       </>
     }
 
-    if(type === EFFECT_SPAWN) {
+    if(effectBehavior === EFFECT_SPAWN) {
       return <>
         {renderEffect(effect)}
         {renderClass(classes[effect.spawnClassId])}
@@ -65,14 +65,14 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       </>
     }
 
-    if(type === EFFECT_CUTSCENE) {
+    if(effectBehavior === EFFECT_CUTSCENE) {
       return <>
         {renderEffect(effect)}
         {`${cutscenes[effect.cutsceneId].name}`}
       </>
     }
 
-    if(type === EFFECT_DESTROY) {
+    if(effectBehavior === EFFECT_DESTROY) {
       if(effect.remoteEffectedTagIds.length) {
         return <>
           {renderEffect(effect)}

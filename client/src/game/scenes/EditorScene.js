@@ -90,7 +90,7 @@ export class EditorScene extends GameInstance {
     if(entitySprite.effectSpawned) {
       window.socket.emit(ON_GAME_INSTANCE_EVENT, {
         gameRoomId: this.gameRoom.id, 
-        type: EVENT_SPAWN_CLASS_DRAG_FINISH,
+        gameInstanceEventType: EVENT_SPAWN_CLASS_DRAG_FINISH,
         data: {
           x: entitySprite.x,
           y: entitySprite.y,
@@ -810,7 +810,7 @@ export class EditorScene extends GameInstance {
       //   })
       // }
 
-      if(classUpdate.movement?.controls) {
+      if(classUpdate.movement?.movementControlsBehavior) {
         this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
           objectInstance.resetPhysics()
         })
@@ -832,7 +832,7 @@ export class EditorScene extends GameInstance {
         classUpdate.graphics?.invisibile !== undefined ||
         classUpdate.boundaryRelation || 
         classUpdate.graphics?.textureId ||
-        classUpdate.movement?.pattern !== undefined ||
+        classUpdate.movement?.movementBehavior !== undefined ||
         classUpdate.movement?.velocityX !== undefined ||
         classUpdate.movement?.velocityY !== undefined ||
         classUpdate.collisionResponse?.ignoreBoundaries !== undefined

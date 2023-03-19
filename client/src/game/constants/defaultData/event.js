@@ -24,7 +24,7 @@ export const PLAYER_TAG_EVENT = 'PLAYER_TAG_EVENT'
 
 // WHEN, WHO, WHERE
 export const defaultEvent = {
-  type: '',
+  eventType: '',
   tagIdA: null,
   tagIdB: null,
 
@@ -51,7 +51,7 @@ export const eventShortNames = {
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
 
-export const eventDisplayNames = {
+export const eventTypeToDisplayNames = {
   [ON_TOUCH_START]: 'When Tag A starts touching Tag B',
   // [ON_COLLIDE_END]: 'stop touching',
   [ON_TOUCH_ACTIVE]: 'While Tag A is touching Tag B',

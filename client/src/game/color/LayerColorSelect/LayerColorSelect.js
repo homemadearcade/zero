@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
-import { clearBrush, openSelectAggregateColor, selectBrush } from '../../../store/actions/gameSelectorActions';
+import { clearBrush, closeSelectAggregateColor, openSelectAggregateColor, selectBrush } from '../../../store/actions/gameSelectorActions';
 import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 import AggregateColorSelectModal from '../AggregateColorSelectModal/AggregateColorSelectModal';
 
@@ -24,6 +24,7 @@ const LayerColorSelect = ({
   clearBrush,
   gameSelector: { brushIdSelectedBrushList, isSelectAggregateColorOpen },
   gameFormEditor: { isCreateColorFlowOpen },
+  closeSelectAggregateColor,
   withEraser
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
@@ -126,6 +127,7 @@ const LayerColorSelect = ({
     />}
     {isSelectAggregateColorOpen === ('LayerColorSelect' + layerCanvasId) && <AggregateColorSelectModal
       onSelectColor={(hex) => {
+        closeSelectAggregateColor()
         editGameModel({
           colors: {
             [hex]: {
@@ -146,5 +148,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { openCreateColorFlow, clearBrush, selectBrush, editGameModel, openSelectAggregateColor }),
+  connect(mapStateToProps, { openCreateColorFlow, closeSelectAggregateColor, clearBrush, selectBrush, editGameModel, openSelectAggregateColor }),
 )(LayerColorSelect);

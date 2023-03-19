@@ -13,7 +13,7 @@ import { RELATION_SELECT_IID, TAG_SELECT_IID } from '../../../constants/interfac
 import { NestedListItem } from '../../../ui/NestedList/NestedList';
 import { openCreateRelation } from '../../../store/actions/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
-import { effectDisplayNames, eventDisplayNames, eventShortNames } from '../../constants';
+import { effectBehaviorToDisplayNames, eventTypeToDisplayNames, eventShortNames } from '../../constants';
 import RelationShorthand from '../RelationShorthand/RelationShorthand';
 
 const RelationItem = ({

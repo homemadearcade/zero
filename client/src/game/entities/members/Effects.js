@@ -1,5 +1,5 @@
 import store from "../../../store"
-import { ANIMATION_CAMERA_SHAKE, effectEditInterface, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
+import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterface, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
@@ -113,7 +113,7 @@ export class Effects {
       remoteEffectedTagIds.push(...effect.remoteEffectedTagIds2)
     }
 
-    if(remoteEffectedTagIds && !nonRemoteEffects[effect.type]) {
+    if(remoteEffectedTagIds && !nonRemoteEffects[effect.effectBehavior]) {
       remoteEffectedTagIds.forEach((tagId) => {
         this.scene.objectInstancesByTag[tagId]?.forEach((objectInstance) => {
           instanceSprites.push(objectInstance.sprite)
@@ -148,17 +148,17 @@ export class Effects {
 
     function runEffect(sprite) {
       const objectInstance = scene.getObjectInstance(sprite.instanceId)
-      if(effect.type === EFFECT_INVISIBLE && !objectInstance.effects.isVisibilityModified) {
+      if(effect.effectBehavior === EFFECT_INVISIBLE && !objectInstance.effects.isVisibilityModified) {
         objectInstance.effects.isVisibilityModified = true
         objectInstance.isVisible = false
       }
 
-      if(effect.type === EFFECT_IGNORE_GRAVITY && !objectInstance.effects.isIgnoreGravityModified) {
+      if(effect.effectBehavior === EFFECT_IGNORE_GRAVITY && !objectInstance.effects.isIgnoreGravityModified) {
         objectInstance.effects.isIgnoreGravityModified = true
         objectInstance.setIgnoreGravity(true)
       }
 
-      if(effect.type === EFFECT_STICK_TO) {
+      if(effect.effectBehavior === EFFECT_STICK_TO) {
         if(!alternateSpriteData.sprite) console.error('bad!, stick to will not work here')
         sprite.lockedTo = alternateSpriteData.sprite;   
         sprite.lockedReleaseSides = alternateSpriteData.sides
@@ -171,29 +171,29 @@ export class Effects {
   runTargetlessAccuteEffect({relation, instanceSpriteA, instanceSpriteB}) {
     const effect = relation.effect
 
-    if(effect.type === EFFECT_CAMERA_SHAKE) {
+    if(effect.effectBehavior === EFFECT_CAMERA_SHAKE) {
       this.scene.callGameInstanceEvent({
-        type: ANIMATION_CAMERA_SHAKE,
+        gameInstanceEventType: ANIMATION_CAMERA_SHAKE,
         data: {
           intensity: 200,
         }
       })
     }
 
-    if(effect.type === EFFECT_WIN_GAME) {
+    if(effect.effectBehavior === EFFECT_WIN_GAME) {
       store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
       this.scene.sendResetGameEvent()
-    } else if(effect.type === EFFECT_GAME_OVER) {
+    } else if(effect.effectBehavior === EFFECT_GAME_OVER) {
       store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
       this.scene.sendResetGameEvent()
-    } else if(effect.type === EFFECT_SWITCH_STAGE) {
+    } else if(effect.effectBehavior === EFFECT_SWITCH_STAGE) {
       store.dispatch(changeCurrentStage(effect.stageId))
       store.dispatch(clearCutscenes())
-    } else if(effect.type === EFFECT_CHANGE_GAME) {
+    } else if(effect.effectBehavior === EFFECT_CHANGE_GAME) {
       store.dispatch(editGameRoom(this.scene.gameRoom.id, {
         gameId: effect.gameId
       }))
-    } else if(effect.type === EFFECT_OPEN_OVERLAY) {
+    } else if(effect.effectBehavior === EFFECT_OPEN_OVERLAY) {
       const state = store.getState()
       store.dispatch(updateLobbyUser(state.auth.me?.id, {
         inConstellationView: true
@@ -201,17 +201,17 @@ export class Effects {
     }
 
     // NARRATIVE
-    if(effect.type === EFFECT_CUTSCENE) {
+    if(effect.effectBehavior === EFFECT_CUTSCENE) {
       if(effect.cutsceneId) store.dispatch(openCutscene(instanceSpriteB.classId, effect.cutsceneId))
     }
 
-    if(effect.type === EFFECT_SPAWN) {
+    if(effect.effectBehavior === EFFECT_SPAWN) {
       const spawningClassId = effect.spawnClassId
       const modifiedClassData = { spawnX: null, spawnY: null, classId: spawningClassId }
       let zone 
-      if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
-        zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
-      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT) {
+
+
+    if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT) {
         if(isZoneClassId(instanceSpriteA.classId)) {
           zone = instanceSpriteA
         } 
@@ -219,7 +219,12 @@ export class Effects {
         if(isZoneClassId(instanceSpriteB.classId)) {
           zone = instanceSpriteB
         } 
+      } else {
+          //  if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
+        zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+      // } else
       }
+
       if(!zone) return console.log('no zone exists for that')
       const gameModel = store.getState().gameModel.gameModel
       const objectClass = gameModel.classes[spawningClassId]
@@ -270,13 +275,16 @@ export class Effects {
       return
     }
 
-    if(effectEditInterface[effect.type].effectableType === NO_TAG_EFFECT) {
+    if(effectBehaviorInterface[effect.effectBehavior].effectableType === NO_TAG_EFFECT) {
       return this.runTargetlessAccuteEffect({
         relation,
         instanceSpriteA,
         instanceSpriteB,
       })
     }
+
+
+    console.log(effect)
 
     const [instanceSprites] = this.getEffectedInstances({
       instanceSpriteA,
@@ -291,12 +299,12 @@ export class Effects {
     })
 
     function runEffect(sprite) {
-      if(effect.type === EFFECT_STICK_TO) {
+      if(effect.effectBehavior === EFFECT_STICK_TO) {
         sprite.body.setVelocityY(0)
         sprite.body.setVelocityX(0)
       }
 
-      if(effect.type === EFFECT_TELEPORT) {
+      if(effect.effectBehavior === EFFECT_TELEPORT) {
         const gameModel = store.getState().gameModel.gameModel
         const objectClass = gameModel.classes[sprite.classId]
         const zone = scene.getRandomInstanceOfClassId(effect.zoneClassId)
@@ -304,10 +312,10 @@ export class Effects {
         sprite.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
       }
       
-      if(effect.type === EFFECT_DESTROY) {
+      if(effect.effectBehavior === EFFECT_DESTROY) {
         const objectInstance = scene.getObjectInstance(sprite.instanceId)
         objectInstance.destroyAfterUpdate = true
-      } else if(effect.type === EFFECT_RECLASS) {
+      } else if(effect.effectBehavior === EFFECT_RECLASS) {
         const objectInstance = scene.getObjectInstance(sprite.instanceId)
         objectInstance.reclassId = effect.classId
       }

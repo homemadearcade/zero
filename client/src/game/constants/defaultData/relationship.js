@@ -1,5 +1,5 @@
-import { effectDisplayNames, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, SPAWN_ZONE_RANDOM_SELECT } from "./effect"
-import { eventDisplayNames, eventPrefix } from "./event"
+import { effectBehaviorToDisplayNames, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, SPAWN_ZONE_RANDOM_SELECT } from "./effect"
+import { eventTypeToDisplayNames, eventPrefix } from "./event"
 
 export const initialEffectRelation = {
   effectTagA: true,
@@ -8,13 +8,13 @@ export const initialEffectRelation = {
   effectCooldown: null,
   effectDelay: null,
   remoteEffectedTagIds2: [],
-  interfaceType: null
+  effectBehavior: null
 }
 
 export const defaultRelationship = {
   event: null,
   effects: {},
-  importedEffects: [],
+  effectIds: [],
   relationId: '',
 }
 
@@ -101,11 +101,11 @@ function getEffectSuffix(effect, classA, classB) {
 }
 
 export function getEffectLabel(effect, classA, classB) {
-  return effectDisplayNames[effect] + ' ' + getEffectSuffix(effect, classA, classB)
+  return effectBehaviorToDisplayNames[effect] + ' ' + getEffectSuffix(effect, classA, classB)
 }
 
 // export function getCompletedEffectLabel(effect, classA, classB) {
-//   return effectDisplayNames[effect.type] + ' ' + getEffectSuffix(effect, classA, classB)
+//   return effectBehaviorToDisplayNames[effect.effectBehavior] + ' ' + getEffectSuffix(effect, classA, classB)
 // }
 
 
@@ -142,9 +142,9 @@ function getEventPreviewPrefix(event, classA, classB) {
 }
 
 export function getEventPreviewLabel(event, classA, classB) {
-  return 'when ' + getEventPreviewPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
+  return 'when ' + getEventPreviewPrefix(event, classA, classB) + ' ' + eventTypeToDisplayNames[event]
 }
 
 export function getEventLabel(event, classA, classB) {
-  return 'when ' + getEventPrefix(event, classA, classB) + ' ' + eventDisplayNames[event]
+  return 'when ' + getEventPrefix(event, classA, classB) + ' ' + eventTypeToDisplayNames[event]
 }

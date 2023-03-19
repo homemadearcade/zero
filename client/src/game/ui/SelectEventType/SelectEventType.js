@@ -4,18 +4,18 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEventType.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { eventDisplayNames, eventShortNames } from '../../constants';
+import { eventTypeToDisplayNames, eventShortNames } from '../../constants';
 
 const SelectEventType = ({ onChange, value, formLabel, disabled}) => {
   const mapControlsToOption = (event) => {
     return {
       shortLabel: eventShortNames[event],
-      label: eventDisplayNames[event],
+      label: eventTypeToDisplayNames[event],
       value: event
     }
   }
 
-  const options = Object.keys(eventDisplayNames).filter((eventType) => {
+  const options = Object.keys(eventTypeToDisplayNames).filter((eventType) => {
     // if(classIdB !== classIdA) {
     //   if(singleClassEvents[eventType]) return false
     // } else if(classIdA === classIdB && eventType === ON_INTERACT) {

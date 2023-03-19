@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { 
   OPEN_CREATE_CLASS_FLOW,
   CLOSE_CREATE_CLASS_FLOW,
@@ -64,7 +65,7 @@ export const openCreateClassFlow = (objectClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_CLASS_FLOW,
-    payload: { objectClass }
+    payload: { objectClass: _.cloneDeep(objectClass) }
   });
 }
 
@@ -101,9 +102,7 @@ export const openClassNameModal = (objectClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CLASS_NAME_MODAL,
-    payload: {
-      objectClass
-    }
+    payload: { objectClass: _.cloneDeep(objectClass) }
   });
 }
 

@@ -17,7 +17,7 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
       textureId: objectClass.graphics.textureId,
       tint: objectClass.graphics.tint,
       isRemoved: objectClass.isRemoved,
-      type: objectClass.type
+      classInterfaceType: objectClass.classInterfaceType
     }
   }
 
@@ -25,19 +25,12 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
     const objectClass = gameModel.classes[classId]
     // if(objectClass.isRemoved) return false
     if(!classType) return true
-    if(classType === objectClass.type) return true
+    if(classType === objectClass.classInterfaceType) return true
     return false
   }).map(mapClassToOption)
 
-  if(includePlayerInstance) {
-    options.push({
-      label: 'Player',
-      value: PLAYER_INSTANCE_ID_PREFIX,
-      type: PLAYER_CLASS
-    })
-  }
 
-  options.sort((a, b) => -b.type.localeCompare(a.type))
+  options.sort((a, b) => -b.classInterfaceType.localeCompare(a.classInterfaceType))
 
   return <SelectChipsAuto 
     disabled={disabled}
@@ -45,7 +38,7 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
       onChange(event,  descriptors)
     }}
     groupBy={option => {
-      return classTypeToDisplayName[option.type]
+      return classTypeToDisplayName[option.classInterfaceType]
     }}
     hideRemoved
     formLabel={formLabel}

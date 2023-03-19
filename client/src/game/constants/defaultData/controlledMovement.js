@@ -6,7 +6,7 @@ import { DIRECTIONAL_CONTROLS, CAR_CONTROLS, JUMP_GROUND, VEHICLE_CONTROLS, ADVA
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 // PARAMETERS
-export const controlledMovementToParemeters = {
+export const movementControlsBehaviorToInterface = {
   [VEHICLE_CONTROLS]: {
     speed: 'Thrust Speed',
     dragX: true,
@@ -39,7 +39,7 @@ export const controlledMovementToParemeters = {
 // CONTROLS
 export const vehicleDefaults = {
   movement: {
-    controls: VEHICLE_CONTROLS,
+    movementControlsBehavior: VEHICLE_CONTROLS,
     dragX: 0.25,
     dragY: 0.25,
     disableDownKey: true,
@@ -47,44 +47,44 @@ export const vehicleDefaults = {
     speedAngular: 100,
   },
   jump: {
-    style: JUMP_NONE
+    jumpBehavior: JUMP_NONE
   }
 }
 
 export const directionalDefaults = {
   movement: {
-    controls: DIRECTIONAL_CONTROLS,
+    movementControlsBehavior: DIRECTIONAL_CONTROLS,
     disableDownKey: false,
     dragX: 0,
     dragY: 0,
     ignoreGravity: true
   },
   jump: {
-    style: JUMP_NONE
+    jumpBehavior: JUMP_NONE
   }
 }
 
 export const advancedDirectionalDefaults = {
   movement: {
-    controls: ADVANCED_DIRECTIONAL_CONTROLS,
+    movementControlsBehavior: ADVANCED_DIRECTIONAL_CONTROLS,
     disableDownKey: false,
     dragX: 0.25,
     dragY: 0.25,
   },
   jump: {
-    style: JUMP_GROUND
+    jumpBehavior: JUMP_GROUND
   },
 }
 
 export const carDefaults = {
   movement: {
-    controls: CAR_CONTROLS,
+    movementControlsBehavior: CAR_CONTROLS,
     disableDownKey: false,
     dragX: 0.25,
     dragY: 0.25,
   },
   jump: {
-    style: JUMP_NONE
+    jumpBehavior: JUMP_NONE
   }
 }
 

@@ -37,7 +37,7 @@ const CreateEffectModal = ({
         <CreateEffect/>
         <div className="CreateEffect__buttons">
           <Button 
-            disabled={!effect.type || !isEffectSaveable}
+            disabled={!effect.effectBehavior || !isEffectSaveable}
             onClick={() => {
               editGameModel({
                 effects: {

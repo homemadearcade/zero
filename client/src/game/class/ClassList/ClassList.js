@@ -45,7 +45,7 @@ const ClassList = ({
     if(currentClass.interfaceLocked) {
 
       // if this is uncommented thats great but it has extra fireworks in cobrowsing...
-      
+
       // const interfaceIdToUnlock = classType + '/' + CLASS_UNLOCKABLE_IID + '/' + currentClass.classId
       // const {isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceIdToUnlock)
       // if(isObscured) return null
@@ -73,7 +73,7 @@ const ClassList = ({
   const filterClasses = (classType) => (currentClassId) => {
     const currentClass = classes[currentClassId]
     if(currentClass.isRemoved) return false
-    if(currentClass.type === classType) return true
+    if(currentClass.classInterfaceType === classType) return true
     return false
   }
 
@@ -244,13 +244,14 @@ const ClassList = ({
           classes: {
             [objectClass.classId] : {
               ...objectClass,
-              isNew: false
-              // graphics: objectClass.graphics,
-              // descriptors: objectClass.descriptors,
-              // name: objectClass.name,
-              // classId: objectClass.classId,
-              // type: objectClass.type,
-              // interfaceLocked: objectClass.interfaceLocked
+              isNew: false,
+              graphics: objectClass.graphics,
+              descriptors: objectClass.descriptors,
+              name: objectClass.name,
+              classId: objectClass.classId,
+              classInterfaceType: objectClass.classInterfaceType,
+              interfaceLocked: objectClass.interfaceLocked,
+              layerId: objectClass.layerId
             }
           }
         })

@@ -24,18 +24,18 @@ export class GameHostScene extends EditorScene {
     this.gameInstanceId = props.gameRoom.gameInstanceId
   }
 
-  callGameInstanceEvent({type, data}) {
+  callGameInstanceEvent({gameInstanceEventType, data}) {
     window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
       gameRoomId: this.gameRoom.id,
-      type, 
+      gameInstanceEventType, 
       data: {...data, fromHost: true}
     })
-    this.runGameInstanceEvent({type, data})
+    this.runGameInstanceEvent({gameInstanceEventType, data})
   }
 
-  onGameInstanceEvent = ({type, data}) => {
+  onGameInstanceEvent = ({gameInstanceEventType, data}) => {
     if(!data.fromHost) {
-      this.runGameInstanceEvent({type, data})
+      this.runGameInstanceEvent({gameInstanceEventType, data})
     }
   }
 

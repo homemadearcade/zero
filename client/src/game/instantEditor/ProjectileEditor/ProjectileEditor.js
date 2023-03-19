@@ -10,7 +10,7 @@ import SelectClass from '../../ui/SelectClass/SelectClass';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
 import { PLAYER_CLASS, PROJECTILE_TARGET_CLASS } from '../../constants';
-import SelectProjectileStyle from '../../ui/SelectProjectileStyle/SelectProjectileStyle';
+import SelectProjectileBehavior from '../../ui/SelectProjectileBehavior/SelectProjectileBehavior';
 
         // {false && <Unlockable isSlider interfaceId={PROJECTILE_AMMO_IID}>
         //   <SliderNotched
@@ -39,17 +39,17 @@ const ProjectileEditor = ({ classId, gameModel: { gameModel }, editGameModel }) 
             editGameModel({ classes: { [classId]: { projectile: { classId: newClassId ? newClassId : null  }}}})        
          }}/>
       </Unlockable>
-      {classSelected.movement.controls && <ControlsCard objectClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
+      {classSelected.movement.movementControlsBehavior && <ControlsCard objectClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
       {projectileClass && <>
-        {classSelected.type !== PLAYER_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
-          <SelectProjectileStyle
-            formLabel="Style"
-            value={classSelected.projectile.style ? [classSelected.projectile.style] : []}
-            onChange={(event, styles) => {
-              editGameModel({ classes: { [classId]: { projectile: { style: styles[styles.length-1] } } }})    
+        {classSelected.classInterfaceType !== PLAYER_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+          <SelectProjectileBehavior
+            formLabel="Behavior"
+            value={classSelected.projectile.projectileBehavior ? [classSelected.projectile.projectileBehavior] : []}
+            onChange={(event, projectileBehavior) => {
+              editGameModel({ classes: { [classId]: { projectile: { projectileBehavior: projectileBehavior[projectileBehavior.length-1] } } }})    
             }}/>
         </Unlockable>}
-        {classSelected.projectile.style === PROJECTILE_TARGET_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+        {classSelected.projectile.projectileBehavior === PROJECTILE_TARGET_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
           <SelectClass
             formLabel="Target Class"
             value={classSelected.projectile.targetClassId ? [classSelected.projectile.targetClassId] : []}
