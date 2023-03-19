@@ -23,22 +23,32 @@ import {
 } from '../types';
 import { uploadToAws } from '../../utils/networkUtils';
 import { editGameModel } from './gameModelActions';
-import store from '..';
 
-export const saveTexture  = (file, fileId, imageData) => async (dispatch, getState) => {
+export const saveTexture  = ({imageFile, textureId, textureType}) => async (dispatch, getState) => {
   dispatch({
     type: SAVE_TEXTURE_LOADING,
     payload: {
-      textureId: fileId,
+      textureId: textureId,
     }
   });
 
   try {
-    await addAwsImage(file, fileId, imageData)
+    await addAwsImage(imageFile, textureId)
+
+    // this is good here because it sends an event out to update this texture/load it
+    // but do we need that anymore?
+    dispatch(editGameModel({
+      textures: { 
+        [textureId] : {
+          textureId: textureId,
+          type: textureType
+        }
+      }
+    }))
     dispatch({
       type: SAVE_TEXTURE_SUCCESS,
       payload: {
-        textureId: fileId,
+        textureId: textureId,
       }
     });
   } catch (err) {
@@ -46,34 +56,22 @@ export const saveTexture  = (file, fileId, imageData) => async (dispatch, getSta
     dispatch({
       type: SAVE_TEXTURE_FAIL,
       payload: {
-        textureId: fileId,
+        textureId: textureId,
       }
     });
   }
 }
 
-export const addAwsImage = (file, fileId, imageData) => {
+export const addAwsImage = (imageFile, textureId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await uploadToAws(fileId, file)
-      
-      store.dispatch(editGameModel({
-        awsImages: { 
-          [fileId] : {
-            name: imageData.name,
-            url: fileId,
-            type: imageData.type
-          }
-        }
-      }))
-
+      await uploadToAws(textureId, imageFile)
       resolve()
     } catch (err) {
       console.error(err)
       reject(err)
     }
   })
-
 }
  
 
@@ -139,7 +137,6 @@ export const addTexture = (texture) => async (dispatch, getState) => {
       payload: { texture: response.data.texture },
     });
 
-    console.log(response.data)
     return response.data.texture
   } catch (err) {
     console.error(err)

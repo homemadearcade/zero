@@ -81,7 +81,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
         <Button type="submit" onClick={handleSubmit(submit)}>Save</Button>
       </form>
       {isMySpritesModalOpen && <MySpritesModal onClickSprite={(textureId) => {
-        setImageUrl(gameModel.awsImages[textureId].url)
+        setImageUrl(textureId)
         closeMySpritesModal()
       }}/>}
     </div>

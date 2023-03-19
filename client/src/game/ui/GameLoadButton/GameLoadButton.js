@@ -23,7 +23,6 @@ const GameLoadButton = ({
       <DialogContent sx={{width: '200px', height: '200px'}}>
         <SelectGame userId={userId} onSelect={(games) => {
           setIsLoadGameModelOpen(false)
-          console.log(gameRoom)
           editGameRoom(gameRoom.id, {
             gameId: games[games.length-1]
           })

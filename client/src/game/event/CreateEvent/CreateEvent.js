@@ -89,7 +89,6 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
     return advancedOptions
   }
 
-
   function renderTagSelect() {
     if(!event.type) return
     const eventInterface = eventEditInterface[event.type]

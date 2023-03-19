@@ -6,7 +6,7 @@ import { CameraPreview } from "./members/CameraPreview";
 import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
-import { ON_INTERACT, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID } from "../constants";
+import { ON_INTERACT, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID } from "../constants";
 import { nodeSize } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
@@ -49,7 +49,7 @@ export class PlayerInstance extends ObjectInstance {
       console.error('no player class for classId:' + classId)
     }
 
-    this.setDepth(PLAYGROUND_CANVAS_DEPTH + 2)
+    this.setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH + 2)
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 

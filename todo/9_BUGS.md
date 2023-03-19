@@ -39,6 +39,7 @@ Stopping a bunch destroyed the playground
 BETTER REDIRECT ( cuz its broken sometimes )
   So for the redirect its possible we can just pass it as a prop to the 'login' component and the 'register' component. As well as have the 'onREgisterClick' button be a prop
 
+When I switched participant with admin things got messed up when trying to join
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

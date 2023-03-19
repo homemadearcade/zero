@@ -1,13 +1,13 @@
 import { 
-  BACKGROUND_CANVAS_DEPTH, 
-  BACKGROUND_CANVAS_ID, 
+  BACKGROUND_LAYER_CANVAS_DEPTH, 
+  BACKGROUND_LAYER_CANVAS_ID, 
   ERASER_BRUSH_ID , 
   PLAYER_INSTANCE_CANVAS_DEPTH, 
   PLAYER_INSTANCE_CANVAS_ID, 
-  FOREGROUND_CANVAS_DEPTH, 
-  FOREGROUND_CANVAS_ID, 
-  PLAYGROUND_CANVAS_DEPTH, 
-  PLAYGROUND_CANVAS_ID,
+  FOREGROUND_LAYER_CANVAS_DEPTH, 
+  FOREGROUND_LAYER_CANVAS_ID, 
+  PLAYGROUND_LAYER_CANVAS_DEPTH, 
+  PLAYGROUND_LAYER_CANVAS_ID,
   UI_CANVAS_DEPTH, 
   UI_CANVAS_ID,
   SPRITE_EDITOR_CANVAS_ID,
@@ -110,27 +110,27 @@ export function snapObjectXY({x, y, objectClass, boundaries = store.getState().g
 }
 
 export function getDepthFromEraserId(eraserId) {
-  return getDepthFromCanvasId(getCanvasIdFromEraserId(eraserId))
+  return getDepthFromLayerCanvasId(getCanvasIdFromEraserId(eraserId))
 }
 
-export function getDepthFromCanvasId(canvasId) {
-  if(canvasId === BACKGROUND_CANVAS_ID) return BACKGROUND_CANVAS_DEPTH
-  if(canvasId === SPRITE_EDITOR_CANVAS_ID) return SPRITE_EDITOR_CANVAS_DEPTH
-  if(canvasId === PLAYGROUND_CANVAS_ID) return PLAYGROUND_CANVAS_DEPTH
-  if(canvasId === PLAYER_INSTANCE_CANVAS_ID) return PLAYER_INSTANCE_CANVAS_DEPTH
-  if(canvasId === FOREGROUND_CANVAS_ID) return FOREGROUND_CANVAS_DEPTH
-  if(canvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
-  if(canvasId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
+export function getDepthFromLayerCanvasId(layerCanvasId) {
+  if(layerCanvasId === BACKGROUND_LAYER_CANVAS_ID) return BACKGROUND_LAYER_CANVAS_DEPTH
+  if(layerCanvasId === SPRITE_EDITOR_CANVAS_ID) return SPRITE_EDITOR_CANVAS_DEPTH
+  if(layerCanvasId === PLAYGROUND_LAYER_CANVAS_ID) return PLAYGROUND_LAYER_CANVAS_DEPTH
+  if(layerCanvasId === PLAYER_INSTANCE_CANVAS_ID) return PLAYER_INSTANCE_CANVAS_DEPTH
+  if(layerCanvasId === FOREGROUND_LAYER_CANVAS_ID) return FOREGROUND_LAYER_CANVAS_DEPTH
+  if(layerCanvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
+  if(layerCanvasId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
 }
 
-export const sortColorByLastSelectedDate = (colors, canvasId) => (a, b) => {
+export const sortColorByLastSelectedDate = (colors, layerCanvasId) => (a, b) => {
   const colorA = colors[a]
   const colorB = colors[b]
   if(!colorA) return -1 
   if(!colorB) return 1
-  if(!colorA[canvasId]) return 1
-  if(!colorB[canvasId]) return -1
-  if(colorA[canvasId] < colorB[canvasId]) {
+  if(!colorA[layerCanvasId]) return 1
+  if(!colorB[layerCanvasId]) return -1
+  if(colorA[layerCanvasId] < colorB[layerCanvasId]) {
     return -1
   } else return 1
 }

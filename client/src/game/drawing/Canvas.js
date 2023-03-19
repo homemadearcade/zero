@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import store from "../../store";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
-import { SPRITE_EDITOR_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
+import { SPRITE_EDITOR_CANVAS_ID, TEXTURE_TYPE_CANVAS, TEXTURE_TYPE_LAYER, UNDO_MEMORY_MAX } from "../constants";
 import { editTexture, saveTexture } from "../../store/actions/textureActions";
 import { MARK_TEXTURE_UNSAVED } from "../../store/types";
 
@@ -44,7 +44,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     if(!this.strokeHistory.length) return
     return new Promise(async (resolve, reject) => {
       try {    
-        const fileId = this.textureId
+        const textureId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 
         if(this.textureIdMongo) {
@@ -53,15 +53,12 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
           }))
         }
         this.strokeHistory = []
-        const file = await urlToFile(bufferCanvas.toDataURL(), fileId, 'image/png')
+        const imageFile = await urlToFile(bufferCanvas.toDataURL(), textureId, 'image/png')
         if(!this.strokeHistory.length) this.markSaved()
 
-        await store.dispatch(saveTexture(file, fileId, {
-          name: fileId,
-          type: 'layer'
-        }))
+        await store.dispatch(saveTexture({imageFile, textureId, textureType: this.textureType || TEXTURE_TYPE_CANVAS}))
 
-        resolve(fileId)
+        resolve(textureId)
       } catch(e) {
         reject(e)
       }

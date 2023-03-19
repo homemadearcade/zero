@@ -50,6 +50,10 @@ export function getClassAandB(classIdA, classIdB) {
   }
 }
 
+export function getTextureIdForLayerCanvasId(gameId, stageId, layerCanvasId) {
+   return gameId+'/' + stageId + '_' + layerCanvasId
+}
+
 export function isEventMatch({effect, classId, world, objectClass, body}) {
   if(
     (classId === BOUNDARY_DOWN_WALL_ID && body === world.walls.down) ||

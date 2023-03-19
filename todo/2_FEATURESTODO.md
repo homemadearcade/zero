@@ -6,9 +6,6 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-LAYERS
-  Layer textures need to be created when a game is created. FOR SURE. Because I think thats why it was out of sync? I at least want to remove that from being a possibility
-
 TYPE
   Change .type to .interface. Thats what they are... things that tell you how to interface with the class. Think about other interface options such as movementInterface, controlledMovementInterface, jumpInterface, effectInterface, cutsceneInterface, effectInterface
   REMOVE .type === from any GAME LOGIC, Class.type is PURELY FOR UI

@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import { ObjectInstance } from '../entities/ObjectInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
-import { BACKGROUND_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_CANVAS_DEPTH, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_DEPTH, PLAYGROUND_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_CLASS, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, OBJECT_INSTANCE_ID_PREFIX, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH } from '../constants';
+import { BACKGROUND_LAYER_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, PLAYER_INSTANCE_CANVAS_DEPTH, FOREGROUND_LAYER_CANVAS_DEPTH, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ZONE_INSTANCE_CANVAS_DEPTH, BASIC_CLASS, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, ZONE_CLASS, PLAYER_CLASS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, STOPPED_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, OBJECT_INSTANCE_ID_PREFIX, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
@@ -15,15 +15,20 @@ import JSConfetti from 'js-confetti'
 import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomActions';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { directionalPlayerClassId } from '../constants';
+import { getTextureIdForLayerCanvasId } from '../../utils';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
     super(props);
 
     this.playerInstance = null 
-    this.backgroundLayer = null
-    this.playgroundLayer = null
-    this.foregroundLayer = null
+    this.backgroundCanvasLayer = null
+    this.playgroundCanvasLayer = null
+    this.foregroundCanvasLayer = null
+
+    this.backgroundCanvasLayerTextureId = null
+    this.playgroundCanvasLayerTextureId = null
+    this.foregroundCanvasLayerTextureId = null
 
     this.objectInstances = []
     this.objectInstancesById = {}
@@ -304,7 +309,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = store.getState().gameModel.gameModel
     const releventInstances = this.objectInstances.filter((objectInstance) => {
       const objectClass = gameModel.classes[objectInstance.classId]
-      return objectClass.graphics.layerId === PLAYGROUND_CANVAS_ID
+      return objectClass.graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
     }).map(({sprite}) => sprite)
 
     this.colliderRegistrations.push(
@@ -314,7 +319,7 @@ export class GameInstance extends Phaser.Scene {
       })
     )
 
-    this.playgroundLayer.registerColliders()
+    this.playgroundCanvasLayer.registerColliders()
   }
 
   unregisterRelations() {
@@ -335,7 +340,7 @@ export class GameInstance extends Phaser.Scene {
     })
     this.colliderRegistrations = []
 
-    this.playgroundLayer.unregisterColliders()
+    this.playgroundCanvasLayer.unregisterColliders()
   }
 
   afterGameInstanceUpdateEffects() {
@@ -388,32 +393,32 @@ export class GameInstance extends Phaser.Scene {
   //   camera.zoomTo(zoomLevel, duration, easing);
   // }
 
-  getLayerById(textureId) {
-    if(textureId === this.backgroundLayer.textureId) {
-      return this.backgroundLayer
+  getLayerCanvasInstanceByTextureId(textureId) {
+    if(textureId === this.backgroundCanvasLayer.textureId) {
+      return this.backgroundCanvasLayer
     }
-    if(textureId === this.playgroundLayer.textureId) {
-      return this.playgroundLayer
+    if(textureId === this.playgroundCanvasLayer.textureId) {
+      return this.playgroundCanvasLayer
     }
-    if(textureId === this.foregroundLayer.textureId) {
-      return this.foregroundLayer
+    if(textureId === this.foregroundCanvasLayer.textureId) {
+      return this.foregroundCanvasLayer
     }
 
     console.error('didnt find layer with id', textureId, typeof textureId)
   }
   
-  getLayerByCanvasId(canvasId) {
-    if(canvasId === BACKGROUND_CANVAS_ID) {
-      return this.backgroundLayer
+  getLayerCanvasInstanceById(layerCanvasId) {
+    if(layerCanvasId === BACKGROUND_LAYER_CANVAS_ID) {
+      return this.backgroundCanvasLayer
     }
-    if(canvasId === PLAYGROUND_CANVAS_ID) {
-      return this.playgroundLayer
+    if(layerCanvasId === PLAYGROUND_LAYER_CANVAS_ID) {
+      return this.playgroundCanvasLayer
     }
-    if(canvasId === FOREGROUND_CANVAS_ID) {
-      return this.foregroundLayer
+    if(layerCanvasId === FOREGROUND_LAYER_CANVAS_ID) {
+      return this.foregroundCanvasLayer
     }
 
-    console.error('didnt find layer with id', canvasId, typeof canvasId)
+    console.error('didnt find layer with id', layerCanvasId, typeof layerCanvasId)
   }
 
   initializeObjectInstances() {
@@ -455,25 +460,29 @@ export class GameInstance extends Phaser.Scene {
     const stageId = state.gameModel.currentStageId
     const currentStage = gameModel.stages[stageId]
 
-    this.backgroundLayer = new CodrawingCanvas(
+    this.backgroundCanvasLayerTextureId = getTextureIdForLayerCanvasId(gameModel.id, stageId, BACKGROUND_LAYER_CANVAS_ID)
+    this.playgroundCanvasLayerTextureId = getTextureIdForLayerCanvasId(gameModel.id, stageId, PLAYGROUND_LAYER_CANVAS_ID)
+    this.foregroundCanvasLayerTextureId = getTextureIdForLayerCanvasId(gameModel.id, stageId, FOREGROUND_LAYER_CANVAS_ID)
+
+    this.backgroundCanvasLayer = new CodrawingCanvas(
       this, 
       {
         isCodrawingHost: this.gameRoom.isHost, 
-        textureId: gameModel.id+'/' + stageId + '_' + BACKGROUND_CANVAS_ID,
+        textureId: this.backgroundCanvasLayerTextureId,
         boundaries: currentStage.boundaries, 
         autoSave: true
       })
-    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
+    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(
+    this.playgroundCanvasLayer = new CollisionCanvas(
       this, 
       {
         isCodrawingHost: this.gameRoom.isHost,
-        textureId: gameModel.id+'/' + stageId + '_' + PLAYGROUND_CANVAS_ID,
+        textureId: this.playgroundCanvasLayerTextureId,
         boundaries: currentStage.boundaries,
         autoSave: true
       })
-    this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
+    this.playgroundCanvasLayer.setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH)
 
     this.objectInstanceGroup = this.add.group()
     // this.basicClassGroup = this.add.group()
@@ -488,19 +497,21 @@ export class GameInstance extends Phaser.Scene {
     this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(
+    this.foregroundCanvasLayer = new CodrawingCanvas(
       this, 
       {
         isCodrawingHost: this.gameRoom.isHost,
-        textureId: gameModel.id+'/' + stageId + '_' + FOREGROUND_CANVAS_ID,
+        textureId: this.foregroundCanvasLayerTextureId,
         boundaries: currentStage.boundaries,
         autoSave: true
       })
-    this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
+    this.foregroundCanvasLayer.setDepth(FOREGROUND_LAYER_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)
   }
+
+  
 
   create() {
     const state = store.getState()
@@ -567,15 +578,19 @@ export class GameInstance extends Phaser.Scene {
     this.startPlaythroughStartEffects()
 
     setTimeout(() => {
-      store.dispatch(updateGameRoomPlayer({
-        gameRoomId: this.gameRoom.id,
-        userId: store.getState().auth.me.id,
-        user: {
-          loadedGameId: this.gameRoom.gameId
-        }
-      }))
+      this.setPlayerGameLoaded(this.gameRoom.id)
       this.hasLoadedOnce = true
     })
+  }
+
+  setPlayerGameLoaded(gameId) {
+    store.dispatch(updateGameRoomPlayer({
+      gameRoomId: this.gameRoom.id,
+      userId: store.getState().auth.me.id,
+      user: {
+        loadedGameId: gameId
+      }
+    }))
   }
 
   respawn() {
@@ -674,9 +689,9 @@ export class GameInstance extends Phaser.Scene {
 
     const layerVisibility = gameViewEditor.layerVisibility
 
-    this.backgroundLayer.setVisible(layerVisibility[BACKGROUND_CANVAS_ID])
-    this.playgroundLayer.setVisible(layerVisibility[PLAYGROUND_CANVAS_ID])
-    this.foregroundLayer.setVisible(layerVisibility[FOREGROUND_CANVAS_ID])
+    this.backgroundCanvasLayer.setVisible(layerVisibility[BACKGROUND_LAYER_CANVAS_ID])
+    this.playgroundCanvasLayer.setVisible(layerVisibility[PLAYGROUND_LAYER_CANVAS_ID])
+    this.foregroundCanvasLayer.setVisible(layerVisibility[FOREGROUND_LAYER_CANVAS_ID])
 
     this.zoneInstanceLayer.setVisible(layerVisibility[ZONE_INSTANCE_CANVAS_ID])
 
@@ -709,9 +724,10 @@ export class GameInstance extends Phaser.Scene {
     // We want to keep the assets in the cache and leave the renderer for reuse.
     this.game.destroy(true);
     this.destroyInstances()
-    this.backgroundLayer.destroy()
-    this.playgroundLayer.destroy()
-    this.foregroundLayer.destroy()
+    this.backgroundCanvasLayer.destroy()
+    this.playgroundCanvasLayer.destroy()
+    this.foregroundCanvasLayer.destroy()
+    this.setPlayerGameLoaded(null)
   }
 
   pause() {
@@ -775,9 +791,9 @@ export class GameInstance extends Phaser.Scene {
 
     if(objectClass.type === BASIC_CLASS || objectClass.type === NPC_CLASS || objectClass.type === PLAYER_CLASS) {
       const layerToDepth = {
-        [BACKGROUND_CANVAS_ID]: BACKGROUND_CANVAS_DEPTH + 1,
-        [PLAYGROUND_CANVAS_ID]: PLAYGROUND_CANVAS_DEPTH + 1,
-        [FOREGROUND_CANVAS_ID]: FOREGROUND_CANVAS_DEPTH + 1
+        [BACKGROUND_LAYER_CANVAS_ID]: BACKGROUND_LAYER_CANVAS_DEPTH + 1,
+        [PLAYGROUND_LAYER_CANVAS_ID]: PLAYGROUND_LAYER_CANVAS_DEPTH + 1,
+        [FOREGROUND_LAYER_CANVAS_ID]: FOREGROUND_LAYER_CANVAS_DEPTH + 1
       }
 
       if(modifier !== undefined) {

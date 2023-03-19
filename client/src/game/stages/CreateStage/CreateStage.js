@@ -13,6 +13,7 @@ import SelectClass from '../../ui/SelectClass/SelectClass';
 import { STAGE_ID_PREFIX, ZONE_CLASS } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import StageNameForm from '../StageNameForm/StageNameForm';
+import { addLayerCanvasTexturesForArcadeGameStage } from '../../../store/actions/arcadeGameActions';
 
 const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameFormEditor: { stage }, gameModel: { gameModel} }) => {
   function handleClose() {
@@ -57,7 +58,7 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
         <div className="CreateStage__buttons">
           <Button 
             disabled={isAutosaveDisabled()}
-            onClick={() => {
+            onClick={async () => {
             editGameModel({
               stages: {
                 [stage.stageId] : {
@@ -66,6 +67,9 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
                 }
               }
             })
+            if(stage.isNew) {
+              await addLayerCanvasTexturesForArcadeGameStage(gameModel.id, stage.stageId)
+            }
             handleClose()
           }}>
             Save

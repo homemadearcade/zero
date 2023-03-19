@@ -1,4 +1,3 @@
-game defaults
 
 ----
 BACKGROUND ANIMATION
@@ -8,7 +7,3 @@ Also like use the BACKGROUND BACKGROUND as like an animation space where we give
 Themed animations all around the newly freed up areas
 
 ----
-
-Look through MUI for... New Stepper for game defaults
-
---

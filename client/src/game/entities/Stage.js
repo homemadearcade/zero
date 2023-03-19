@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, OBJECT_INSTANCE_ID_PREFIX, STAGE_BACKGROUND_CANVAS_DEPTH, STAGE_BACKGROUND_CANVAS_ID } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, OBJECT_INSTANCE_ID_PREFIX, STAGE_BACKGROUND_LAYER_CANVAS_DEPTH, STAGE_BACKGROUND_LAYER_CANVAS_ID } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { generateUniqueId } from "../../utils/webPageUtils";
@@ -25,7 +25,7 @@ export class Stage {
     const colorInt = getHexIntFromHexString(stage.backgroundColor || '#000000')
     if(this.backgroundColorLayer) this.backgroundColorLayer.destroy()
     this.backgroundColorLayer = this.scene.add.rectangle(0, 0, boundaries.maxWidth * 2, boundaries.maxHeight * 2, colorInt)
-    this.backgroundColorLayer.setDepth(STAGE_BACKGROUND_CANVAS_DEPTH)
+    this.backgroundColorLayer.setDepth(STAGE_BACKGROUND_LAYER_CANVAS_DEPTH)
   }
 
   setGravity(x, y) {
@@ -62,7 +62,7 @@ export class Stage {
   }
 
   update() {
-    const isBackgroundVisible = getCobrowsingState().gameViewEditor.layerVisibility[STAGE_BACKGROUND_CANVAS_ID]
+    const isBackgroundVisible = getCobrowsingState().gameViewEditor.layerVisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID]
     this.backgroundColorLayer.setVisible(isBackgroundVisible)
   }
 }

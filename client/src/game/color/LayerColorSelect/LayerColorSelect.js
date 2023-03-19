@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LayerColorSelect.scss';
-import { BACKGROUND_CANVAS_ID, COLOR_BRUSH_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../constants';
+import { BACKGROUND_LAYER_CANVAS_ID, COLOR_BRUSH_ID, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID } from '../../constants';
 import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
@@ -16,7 +16,7 @@ import AggregateColorSelectModal from '../AggregateColorSelectModal/AggregateCol
 
 const LayerColorSelect = ({
   gameModel: { gameModel : { colors }},
-  canvasId,
+  layerCanvasId,
   openCreateColorFlow,
   openSelectAggregateColor,
   editGameModel,
@@ -28,34 +28,34 @@ const LayerColorSelect = ({
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
     const color = colors[hex]
-    Object.keys(color).forEach((canvasId) => {
-      if(!color[canvasId]) return
-      if(!prev[canvasId]) prev[canvasId] = []
-      prev[canvasId].push(hex)
+    Object.keys(color).forEach((layerCanvasId) => {
+      if(!color[layerCanvasId]) return
+      if(!prev[layerCanvasId]) prev[layerCanvasId] = []
+      prev[layerCanvasId].push(hex)
     })
     return prev
   }, {})
 
   function onAddColor() {
     if(Object.keys(colors).length) {
-      openSelectAggregateColor('LayerColorSelect' + canvasId)
+      openSelectAggregateColor('LayerColorSelect' + layerCanvasId)
     } else {
-      openCreateColorFlow('LayerColorSelect' + canvasId, canvasId)
+      openCreateColorFlow('LayerColorSelect' + layerCanvasId, layerCanvasId)
     }
   }
 
   function onSelectColor(hex) {
-    if(!colors[hex] || !colors[hex][canvasId]) {
+    if(!colors[hex] || !colors[hex][layerCanvasId]) {
       editGameModel({
         colors: {
           [hex]: {
-            [canvasId]: Date.now()
+            [layerCanvasId]: Date.now()
           }
         }
       })
     }
 
-    selectBrush(COLOR_BRUSH_ID + '/' + canvasId + '/' + hex, canvasId)
+    selectBrush(COLOR_BRUSH_ID + '/' + layerCanvasId + '/' + hex, layerCanvasId)
   }
 
   function onUnselectColor() {
@@ -72,37 +72,37 @@ const LayerColorSelect = ({
       }
     }
 
-    if(canvasId === BACKGROUND_CANVAS_ID) {
+    if(layerCanvasId === BACKGROUND_LAYER_CANVAS_ID) {
       return <ColorSelect 
         withEraser={withEraser}
-        canvasId={canvasId}
+        layerCanvasId={layerCanvasId}
         maxColors={16}
-        selectedColorHex={selectedColorLayer === BACKGROUND_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[BACKGROUND_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, BACKGROUND_CANVAS_ID))} 
+        selectedColorHex={selectedColorLayer === BACKGROUND_LAYER_CANVAS_ID && selectedColorHex} 
+        colors={colorsByLayer[BACKGROUND_LAYER_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, BACKGROUND_LAYER_CANVAS_ID))} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor}
       />
     }
-    if(canvasId === PLAYGROUND_CANVAS_ID) {
+    if(layerCanvasId === PLAYGROUND_LAYER_CANVAS_ID) {
       return <ColorSelect 
         withEraser={withEraser}
-        canvasId={canvasId}
+        layerCanvasId={layerCanvasId}
         maxColors={16}
-        selectedColorHex={selectedColorLayer === PLAYGROUND_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[PLAYGROUND_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, PLAYGROUND_CANVAS_ID))} 
+        selectedColorHex={selectedColorLayer === PLAYGROUND_LAYER_CANVAS_ID && selectedColorHex} 
+        colors={colorsByLayer[PLAYGROUND_LAYER_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, PLAYGROUND_LAYER_CANVAS_ID))} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor} 
       />
     }
-    if(canvasId === FOREGROUND_CANVAS_ID) {
+    if(layerCanvasId === FOREGROUND_LAYER_CANVAS_ID) {
       return <ColorSelect 
         withEraser={withEraser}
-        canvasId={canvasId}
+        layerCanvasId={layerCanvasId}
         maxColors={16}
-        selectedColorHex={selectedColorLayer === FOREGROUND_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[FOREGROUND_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, FOREGROUND_CANVAS_ID))} 
+        selectedColorHex={selectedColorLayer === FOREGROUND_LAYER_CANVAS_ID && selectedColorHex} 
+        colors={colorsByLayer[FOREGROUND_LAYER_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, FOREGROUND_LAYER_CANVAS_ID))} 
         onSelectColor={onSelectColor} 
         onUnselectColor={onUnselectColor}
         onAddColor={onAddColor}
@@ -112,28 +112,28 @@ const LayerColorSelect = ({
 
   return <>
     {renderColorSelect()}
-    {isCreateColorFlowOpen === ('LayerColorSelect' + canvasId) && <CreateColorFlow
+    {isCreateColorFlowOpen === ('LayerColorSelect' + layerCanvasId) && <CreateColorFlow
       onComplete={(color) => {
         editGameModel({
           colors: {
             [color.hex]: {
-              [color.canvasId]: Date.now()
+              [color.layerCanvasId]: Date.now()
             }
           }
         })
-        selectBrush(COLOR_BRUSH_ID + '/' + color.canvasId + '/' + color.hex, color.canvasId)
+        selectBrush(COLOR_BRUSH_ID + '/' + color.layerCanvasId + '/' + color.hex, color.layerCanvasId)
       }}
     />}
-    {isSelectAggregateColorOpen === ('LayerColorSelect' + canvasId) && <AggregateColorSelectModal
+    {isSelectAggregateColorOpen === ('LayerColorSelect' + layerCanvasId) && <AggregateColorSelectModal
       onSelectColor={(hex) => {
         editGameModel({
           colors: {
             [hex]: {
-              [canvasId]: Date.now()
+              [layerCanvasId]: Date.now()
             }
           }
         })
-        selectBrush(COLOR_BRUSH_ID + '/' + canvasId + '/' + hex, canvasId)
+        selectBrush(COLOR_BRUSH_ID + '/' + layerCanvasId + '/' + hex, layerCanvasId)
       }}
     />}
   </>

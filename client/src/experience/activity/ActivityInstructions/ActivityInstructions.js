@@ -70,7 +70,7 @@ const PROLOGUE_2_CLASS_IDS = {
         // },
         // returnFromStarsStep(),
 
-const ExperienceInstructions = ({
+const ActivityInstructions = ({
   editLobby,
   updateArcadeGameCharacter,
   lobby: { lobby },
@@ -246,8 +246,8 @@ const ExperienceInstructions = ({
   }
 
   return (
-    <div className="ExperienceInstructions">
-      <div className="ExperienceInstructions__stepper">
+    <div className="ActivityInstructions">
+      <div className="ActivityInstructions__stepper">
       <Switch
         labels={['Steps In Order', 'Can Skip Steps']}
           size="small"
@@ -577,4 +577,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { editGameRoom, editLobby, editGameModel, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyUser, setCutAudio, setCutVideo }),
-)(ExperienceInstructions);
+)(ActivityInstructions);

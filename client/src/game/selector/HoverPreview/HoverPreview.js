@@ -148,7 +148,7 @@ const HoverPreview = ({
     return renderDisplayWithTexture({
       tint: brushClass.tint,
       textureId: brushClass.textureId,
-      title: layerToDisplayName[brushClass.canvasId]
+      title: layerToDisplayName[brushClass.layerCanvasId]
     })
   }
 
@@ -199,7 +199,7 @@ const HoverPreview = ({
           changeSelectorList(SELECTOR_MAP_LIST)
         }}></IconButton>
       </div>}
-      {(gameRoom.gameState === PAUSED_STATE || gameRoom.gameState === STOPPED_STATE) && renderDisplayTitle('Paused')}
+      {(gameRoom.gameState === PAUSED_STATE || gameRoom.gameState === STOPPED_STATE) && renderDisplayTitle('(Paused)')}
       {isHoveringOverTitle && 
         <div className="HoverPreview__actions">
           <Unlockable interfaceId={GAME_SNAPSHOT_IID}>

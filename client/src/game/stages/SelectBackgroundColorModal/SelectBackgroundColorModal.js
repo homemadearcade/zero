@@ -10,7 +10,7 @@ import { closeSelectBackgroundColorModal } from '../../../store/actions/gameSele
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { LAYER_VISIBILITY_IID } from '../../../constants/interfaceIds';
-import { STAGE_BACKGROUND_CANVAS_ID } from '../../constants';
+import { STAGE_BACKGROUND_LAYER_CANVAS_ID } from '../../constants';
 import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import Button from '../../../ui/Button/Button';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
@@ -42,8 +42,8 @@ const SelectBackgroundColorModal = ({
       }}/>
       {<Unlockable interfaceId={LAYER_VISIBILITY_IID}>
       <Button onClick={() => {
-        toggleLayerVisibility(STAGE_BACKGROUND_CANVAS_ID)
-      }}>{layerVisibility[STAGE_BACKGROUND_CANVAS_ID] ? 'Hide Default Background Layer' : 'Show Default Background Layer'}</Button>
+        toggleLayerVisibility(STAGE_BACKGROUND_LAYER_CANVAS_ID)
+      }}>{layerVisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID] ? 'Hide Default Background Layer' : 'Show Default Background Layer'}</Button>
     </Unlockable>}
     </div>
   </CobrowsingModal>

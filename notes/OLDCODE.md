@@ -333,9 +333,9 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     this.playerInstance.destroy()
 
     this.objectInstanceGroup.destroy()
-    this.backgroundLayer.destroy()
-    this.playgroundLayer.destroy()
-    this.foregroundLayer.destroy()
+    this.backgroundCanvasLayer.destroy()
+    this.playgroundCanvasLayer.destroy()
+    this.foregroundCanvasLayer.destroy()
     this.zoneInstanceLayer.destroy()
     this.uiLayer.destroy()
 
@@ -355,11 +355,11 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     const stageId = playerInterface.currentStageId
     const currentStage = gameModel.stages[stageId]
 
-    this.backgroundLayer = new CodrawingCanvas(this, {canvasId: BACKGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
+    this.backgroundCanvasLayer = new CodrawingCanvas(this, {layerCanvasId: BACKGROUND_LAYER_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_CANVAS_DEPTH)
     // layer zero
-    this.playgroundLayer = new CollisionCanvas(this, {canvasId: PLAYGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.playgroundLayer.setDepth(PLAYGROUND_CANVAS_DEPTH)
+    this.playgroundCanvasLayer = new CollisionCanvas(this, {layerCanvasId: PLAYGROUND_LAYER_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.playgroundCanvasLayer.setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH)
 
     this.objectInstanceGroup = this.add.group()
     // this.basicClassGroup = this.add.group()
@@ -374,8 +374,8 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
 
     // FOREGROUND layer
-    this.foregroundLayer = new CodrawingCanvas(this, {canvasId: FOREGROUND_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.foregroundLayer.setDepth(FOREGROUND_CANVAS_DEPTH)
+    this.foregroundCanvasLayer = new CodrawingCanvas(this, {layerCanvasId: FOREGROUND_LAYER_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
+    this.foregroundCanvasLayer.setDepth(FOREGROUND_LAYER_CANVAS_DEPTH)
 
     this.uiLayer = this.add.layer();
     this.uiLayer.setDepth(UI_CANVAS_DEPTH)

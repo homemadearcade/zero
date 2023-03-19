@@ -32,7 +32,7 @@ export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: OPEN_SNAPSHOT_TAKER,
     payload: {
-      snapshotFileId: SNAPSHOT_ID_PREFIX+generateUniqueId()
+      snapshotTextureId: SNAPSHOT_ID_PREFIX+generateUniqueId()
     }
   });
 }
@@ -81,11 +81,11 @@ export const clearGameViewEditor = () => (dispatch, getState) => {
   });
 }
 
-export const toggleLayerVisibility = (canvasId) => (dispatch, getState) => {
+export const toggleLayerVisibility = (layerCanvasId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: TOGGLE_CANVAS_VISIBILITY,
-    payload: { canvasId }
+    payload: { layerCanvasId }
   });
 }
 

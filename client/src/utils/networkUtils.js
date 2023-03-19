@@ -82,19 +82,19 @@ export const testInternetSpeed = async () => {
   })
 }
 
-export const uploadToAws = async (id, file) => {
-  const contentType = file.type; // eg. image/jpeg or image/svg+xml
+export const uploadToAws = async (textureId, imageFile) => {
+  const contentType = imageFile.type; // eg. image/jpeg or image/svg+xml
 
   const options = {
     params: {
-      Key: id,
+      Key: textureId,
       ContentType: contentType || 'image/png'
     }
   };
 
   try {
     const generatedPutUrl = await axios.get('/api/aws/generate-put-url', options);
-    return await axios.put('https://immense-fjord-18543.herokuapp.com/' + generatedPutUrl.data.url, file, {
+    return await axios.put('https://immense-fjord-18543.herokuapp.com/' + generatedPutUrl.data.url, imageFile, {
       ...options,
       headers: {
         'Content-Type': contentType || 'image/png',

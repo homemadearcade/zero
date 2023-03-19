@@ -1,4 +1,4 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS, PROJECTILE_NONE } from "../";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_LAYER_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS, PROJECTILE_NONE } from "../";
 import { nodeSize } from "./general";
 import { defaultProjectile } from "./projectile";
 
@@ -59,7 +59,7 @@ export const defaultClass = {
     tint: null,
     invisible: false,
     glowing: false,
-    layerId: PLAYGROUND_CANVAS_ID,
+    layerId: PLAYGROUND_LAYER_CANVAS_ID,
   },
   projectile: {
     ...defaultProjectile
@@ -70,7 +70,7 @@ export const defaultClass = {
     lerpY: 0.09,
   },
   tags: {},
-  descriptors: {}
+  descriptors: []
 }
 
 export const defaultNpcClass = { 

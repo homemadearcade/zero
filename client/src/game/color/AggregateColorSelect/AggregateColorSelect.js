@@ -14,7 +14,7 @@ import { NON_LAYER_COLOR_ID } from '../../constants';
 
 const AggregateColorSelect = ({
   gameModel: { gameModel : { colors }},
-  canvasId,
+  layerCanvasId,
   openCreateColorFlow,
   editGameModel,
   onSelectColor,
@@ -26,7 +26,7 @@ const AggregateColorSelect = ({
   const aggregateColors = Object.keys(colors)
 
   function onAddColor() {
-    openCreateColorFlow('AggregateColorSelect' + canvasId, canvasId)
+    openCreateColorFlow('AggregateColorSelect' + layerCanvasId, layerCanvasId)
   }
 
   function renderColorSelect() {
@@ -38,7 +38,7 @@ const AggregateColorSelect = ({
     }
 
     return <ColorSelect 
-      canvasId={canvasId || NON_LAYER_COLOR_ID}
+      layerCanvasId={layerCanvasId || NON_LAYER_COLOR_ID}
       maxColors={50}
       selectedColorHex={selectedColorHex || selectedColor} 
       colors={aggregateColors.sort(sortColorByLastSelectedDate(colors, NON_LAYER_COLOR_ID))} 
@@ -50,7 +50,7 @@ const AggregateColorSelect = ({
   
   return <>
     {renderColorSelect()}
-    {isCreateColorFlowOpen === ('AggregateColorSelect' + canvasId) && <CreateColorFlow
+    {isCreateColorFlowOpen === ('AggregateColorSelect' + layerCanvasId) && <CreateColorFlow
       onComplete={(color) => {
         editGameModel({
           colors: {

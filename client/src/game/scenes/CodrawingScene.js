@@ -4,7 +4,7 @@ import { TexturePencil } from '../drawing/TexturePencil';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { nodeSize } from '../constants';
-import { BACKGROUND_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, UI_CANVAS_DEPTH } from '../constants';
+import { BACKGROUND_LAYER_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, UI_CANVAS_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
 import { getTextureMetadata } from '../../utils/utils';
@@ -67,7 +67,7 @@ export class CodrawingScene extends Phaser.Scene {
     }
 
     if(brushId && !this.brush) {
-      this.brush = this.getBrushFromBrushId(brushId)
+      this.brush = this.createBrushFromBrushId(brushId)
     }
 
     if(this.brush) {
@@ -87,7 +87,7 @@ export class CodrawingScene extends Phaser.Scene {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        const canvas = this.getLayerById(this.brush.getCanvasId())
+        const canvas = this.getLayerCanvasInstanceByTextureId(this.brush.getCanvasId())
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
       }
@@ -121,7 +121,7 @@ export class CodrawingScene extends Phaser.Scene {
   ////////////////////////////////////////////////////////////
   // HELPERS
   ////////////////////////////////////////////////////////////
-  getBrushFromBrushId(brushId) {
+  createBrushFromBrushId(brushId) {
     if(isBrushIdEraser(brushId)) {
       return new EraserSingleLayer(this, { brushId })
     } else if(isBrushIdColor(brushId)) {
@@ -131,8 +131,8 @@ export class CodrawingScene extends Phaser.Scene {
     }
   }
 
-  getLayerById(canvasId) {
-    return this.backgroundLayer
+  getLayerCanvasInstanceByTextureId() {
+    return this.backgroundCanvasLayer
   }
 
   destroyBrush() {
@@ -153,8 +153,8 @@ export class CodrawingScene extends Phaser.Scene {
     }
     const texture = new Brush(this, { tint: this.tint, brushId: this.initialTextureId, textureId: this.initialTextureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
     texture.setDisplaySize(this.size, this.size)
-    this.backgroundLayer.draw(texture, 0, 0)
-    this.backgroundLayer.addRenderTextureToUndoStack()
+    this.backgroundCanvasLayer.draw(texture, 0, 0)
+    this.backgroundCanvasLayer.addRenderTextureToUndoStack()
     texture.destroy()
   }
 
@@ -198,8 +198,7 @@ export class CodrawingScene extends Phaser.Scene {
           this.spriteSheetsToLoad.push(spriteSheetName)
         }
       } else {
-        const awsImageData = gameModel.awsImages[textureId]
-        this.load.image(textureId, window.awsUrl + awsImageData.url)
+        this.load.image(textureId, window.awsUrl + textureId)
       }
     })
 
@@ -210,12 +209,12 @@ export class CodrawingScene extends Phaser.Scene {
     
     this.load.on('complete', this.onSpriteSheetsLoaded);
     
-    this.backgroundLayer = new CodrawingCanvas(this, {
+    this.backgroundCanvasLayer = new CodrawingCanvas(this, {
       isCodrawingHost: true, 
       textureId: this.textureId,
       boundaries: this.boundaries
     })
-    this.backgroundLayer.setDepth(BACKGROUND_CANVAS_DEPTH)
+    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_CANVAS_DEPTH)
 
     this.input.on('pointerdown', this.onPointerDown, this);
     this.input.on('pointerup', this.onPointerUp);

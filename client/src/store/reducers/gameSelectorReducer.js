@@ -124,7 +124,7 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isSpriteEditorOpen: true,
         spriteEditorTextureId: payload.textureId,
-        spriteEditorAwsId: payload.spriteEditorAwsId
+        spriteEditorNewTextureId: payload.spriteEditorNewTextureId
       }
     case CLOSE_SPRITE_EDITOR: 
       return {

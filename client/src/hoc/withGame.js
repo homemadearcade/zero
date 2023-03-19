@@ -60,9 +60,9 @@ export default (ChildComponent) => {
         // const scene = getCurrentGameScene(gameInstance)
         
         // if(scene?.gameRoom.isHost) {
-        //   if(scene.backgroundLayer?.unsavedChanges ||
-        //     scene.playgroundLayer?.unsavedChanges ||
-        //     scene.foregroundLayer?.unsavedChanges
+        //   if(scene.backgroundCanvasLayer?.unsavedChanges ||
+        //     scene.playgroundCanvasLayer?.unsavedChanges ||
+        //     scene.foregroundCanvasLayer?.unsavedChanges
         //   ) {
         //     setTimeout(() => {
         //       saveAllCurrentCanvases()

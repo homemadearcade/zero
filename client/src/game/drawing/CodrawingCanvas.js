@@ -3,7 +3,7 @@ import { Canvas } from "./Canvas";
 
 import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_TEXTURE_STROKES_PENDING } from "../../store/types";
 import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/codrawingActions";
-import { noCodrawingStrokeUpdateDelta } from "../constants";
+import { noCodrawingStrokeUpdateDelta, TEXTURE_TYPE_LAYER } from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
 import { CODRAWING_CONNECTION_LOST } from "../../constants";
 import { addTexture, editTexture, getTextureByTextureId } from "../../store/actions/textureActions";
@@ -15,6 +15,7 @@ export class CodrawingCanvas extends Canvas {
     // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
     this.isCodrawingHost = props.isCodrawingHost
     this.scene = scene
+    this.textureType = null
 
     this.strokeHistory = null
     this.initializeStrokeHistory()
@@ -47,7 +48,7 @@ export class CodrawingCanvas extends Canvas {
 
       this.executeRemoteStroke(strokeData)
 
-      const canvas = this.scene.getLayerById(textureId)
+      const canvas = this.scene.getLayerCanvasInstanceByTextureId(textureId)
       if(canvas.createCollisionBody) canvas.createCollisionBody()
       if(this.isCodrawingHost) {
         this.onStrokeReleased()
@@ -97,6 +98,7 @@ export class CodrawingCanvas extends Canvas {
     try{
       const texture = await this.getStrokeHistory()
       this.textureIdMongo = texture.id
+      this.textureType = texture.textureType
       if(texture.strokeHistory.length && this.isCodrawingHost) {
         this.addStrokeHistory(texture.strokeHistory)
         this.debouncedSave()
@@ -106,15 +108,6 @@ export class CodrawingCanvas extends Canvas {
       })
     } catch(e) {
       console.log(e, 'couldnt find texture')
-      try {
-        if(this.isCodrawingHost) {
-          const texture = await this.createStrokeHistory()
-          this.textureIdMongo = texture.id
-        } 
-      } catch(e) {
-        console.log(e, 'couldnt create texture')
-      }
-
     }
   }
 
@@ -122,13 +115,6 @@ export class CodrawingCanvas extends Canvas {
     return await store.dispatch(getTextureByTextureId(this.textureId))
   }
 
-  async createStrokeHistory() {
-    return await store.dispatch(addTexture({
-      textureId: this.textureId, 
-      userId: store.getState().auth.me.id,
-      arcadeGame: store.getState().gameModel.gameModel?.id
-    }))
-  }
 
   pendingStrokeCheck = () => {
     if(this.strokesPending.length) {
@@ -139,6 +125,7 @@ export class CodrawingCanvas extends Canvas {
         store.dispatch(changeErrorState(CODRAWING_CONNECTION_LOST, { textureId: this.textureId }))
         console.error('Your drawing is out of sync and it will now reset', this.textureId)
         store.dispatch(unsubscribeCodrawing(this.textureId))
+        this.strokesPending = []
         this.updateTexture({ callback: async () => {
           this.clear()
           this.initialDraw()
@@ -151,8 +138,8 @@ export class CodrawingCanvas extends Canvas {
   }
 
   executeRemoteStroke({textureId, brushId, stroke}) {
-    const canvas = this.scene.getLayerById(textureId)
-    const brush = this.scene.getBrushFromBrushId(brushId)
+    const canvas = this.scene.getLayerCanvasInstanceByTextureId(textureId)
+    const brush = this.scene.createBrushFromBrushId(brushId)
     brush.setVisible(false)
 
     stroke.forEach(({x, y, width, height}) => {

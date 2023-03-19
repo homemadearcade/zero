@@ -140,15 +140,25 @@ export const editGameRoom = (id, data) => async (dispatch, getState) => {
     type: EDIT_GAME_ROOM_LOADING,
   });
   try {
-    if(!!id) {
+
+    const gameRoom = getState().gameRoom.gameRoom
+
+    if(gameRoom.isNetworked) {
       const options = attachTokenToHeaders(getState);
       const response = await axios.put(`/api/gameRoom/${id}`, data, options);
     } else {
+      // dispatch({
+      //   type: EDIT_GAME_ROOM_SUCCESS,
+      //   payload: { gameRoom: data },
+      // });
       dispatch({
-        type: EDIT_GAME_ROOM_SUCCESS,
-        payload: { gameRoom: data },
-      });
+        type: ON_GAME_ROOM_UPDATE,
+        payload: {
+          gameRoom: {...gameRoom, ...data}
+        }
+      })
     }
+
 
   } catch (err) {
     console.error(err)

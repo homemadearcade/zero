@@ -8,6 +8,9 @@ FEATURES BACKLOG
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+REDUX PERSIST ACROSS PAGE LOAD
+https://github.com/rt2zz/redux-persist
+
 ARCADE PATHFINDING
 
 CUSTOM CODING

@@ -147,7 +147,7 @@ export const openSpriteEditor= (textureId) => (dispatch, getState) => {
     type: OPEN_SPRITE_EDITOR,
     payload: {
       textureId: textureId,
-      spriteEditorAwsId: SPRITE_EDITOR_ID_PREFIX + generateUniqueId()
+      spriteEditorNewTextureId: SPRITE_EDITOR_ID_PREFIX + generateUniqueId()
     }
   });
 }
@@ -227,13 +227,13 @@ export const closeSelectBackgroundColorModal= () => (dispatch, getState) => {
   });
 }
 
-export const openSelectAggregateColor= (componentName, canvasId) => (dispatch, getState) => {
+export const openSelectAggregateColor= (componentName, layerCanvasId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SELECT_AGGREGATE_COLOR,
     payload: {
       componentName,
-      canvasId,
+      layerCanvasId,
     }
   });
 }

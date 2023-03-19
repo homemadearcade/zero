@@ -7,13 +7,11 @@ import './MySprites.scss';
 import Sprite from '../Sprite/Sprite';
 
 const MySprites = ({
-  awsImages,
+  textures,
   onClickSprite,
 }) => {
 
-  const textureIds = Object.keys(awsImages).map((awsId) => {
-    return awsImages[awsId].url
-  })
+  const textureIds = Object.keys(textures)
 
   return <div className="MySprites">
     {textureIds.map((textureId) => {
@@ -23,7 +21,7 @@ const MySprites = ({
 };
 
 const mapStateToProps = (state) => ({
-  awsImages: state.gameModel.gameModel.awsImages,
+  textures: state.gameModel.gameModel.textures,
 });
 
 export default compose(

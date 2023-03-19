@@ -16,14 +16,14 @@ import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const EraserSelect = ({
   gameSelector: { brushIdSelectedBrushList },
-  canvasId,
+  layerCanvasId,
   selectBrush,
   clearClass,
   clearBrush,
   width,
   height
 }) => {
-  const eraserId = ERASER_BRUSH_ID + '/' +  canvasId;
+  const eraserId = ERASER_BRUSH_ID + '/' +  layerCanvasId;
 
   const isSelected = brushIdSelectedBrushList === eraserId
   const border = '1px solid ' + useWishTheme().primaryColor.hexString
@@ -34,7 +34,7 @@ const EraserSelect = ({
         clearBrush()
       } else {
         clearClass()
-        selectBrush(eraserId, canvasId)
+        selectBrush(eraserId, layerCanvasId)
       }
     }}
     style={isSelected ? { border }  : {}}

@@ -33,7 +33,7 @@ const BrushItem = ({
         if(brushId === brushIdSelectedBrushList) {
           clearBrush()
         } else {
-          selectBrush(brushId, brush.canvasId)
+          selectBrush(brushId, brush.layerCanvasId)
         }
       }}
       onMouseEnter={() => {

@@ -21,6 +21,7 @@ import { directionalClass, jumperClass } from '../../constants';
 import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
+import { getInterfaceIdData } from '../../../utils';
 
 const CLASS_MAX = 16
 
@@ -42,6 +43,12 @@ const ClassList = ({
     const el = <ClassItem key={i} classId={currentClassId}/>
     const currentClass = classes[currentClassId]
     if(currentClass.interfaceLocked) {
+
+      // if this is uncommented thats great but it has extra fireworks in cobrowsing...
+      
+      // const interfaceIdToUnlock = classType + '/' + CLASS_UNLOCKABLE_IID + '/' + currentClass.classId
+      // const {isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceIdToUnlock)
+      // if(isObscured) return null
       return <Unlockable interfaceIdPrefix={classType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentClass.classId}>
         {el}
       </Unlockable>
@@ -86,7 +93,7 @@ const ClassList = ({
   const playerClasses = Object.keys(classes).
     filter(filterClasses(PLAYER_CLASS)). 
     sort(sortByLastEditedDate(classes)).
-    map(renderClassItem(PLAYER_CLASS)).slice(0, CLASS_MAX -1)
+    map(renderClassItem(PLAYER_CLASS)).filter((item) => !!item).slice(0, CLASS_MAX -1)
   
   playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS_ADD_IID}>
     <Button size="fit" 
@@ -100,7 +107,7 @@ const ClassList = ({
   const npcClasses = Object.keys(classes).
     filter(filterClasses(NPC_CLASS)).
     sort(sortByLastEditedDate(classes)).
-    map(renderClassItem(NPC_CLASS)).slice(0, CLASS_MAX -1)
+    map(renderClassItem(NPC_CLASS)).filter((item) => !!item).slice(0, CLASS_MAX -1)
 
   npcClasses.push(<Unlockable interfaceId={NPC_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
@@ -113,7 +120,7 @@ const ClassList = ({
   const basicClasses = Object.keys(classes).
     filter(filterClasses(BASIC_CLASS)).
     sort(sortByLastEditedDate(classes)).
-    map(renderClassItem(BASIC_CLASS)).slice(0, CLASS_MAX -1)
+    map(renderClassItem(BASIC_CLASS)).filter((item) => !!item).slice(0, CLASS_MAX -1)
 
 
   basicClasses.push(<Unlockable interfaceId={BASIC_CLASS_ADD_IID}>
@@ -127,7 +134,7 @@ const ClassList = ({
   const zoneClasses = Object.keys(classes).
     filter(filterClasses(ZONE_CLASS)).
     sort(sortByLastEditedDate(classes)).
-    map(renderClassItem(ZONE_CLASS)).
+    map(renderClassItem(ZONE_CLASS)).filter((item) => !!item).
     slice(0, CLASS_MAX -1)
 
   zoneClasses.push(<Unlockable interfaceId={ZONE_CLASS_ADD_IID}>
@@ -156,7 +163,7 @@ const ClassList = ({
         items={playerClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility canvasId={PLAYER_INSTANCE_CANVAS_ID} />
+        <LayerVisibility layerCanvasId={PLAYER_INSTANCE_CANVAS_ID} />
         {Object.keys(playerClasses).length >= CLASS_MAX && renderClassBoxButton(PLAYER_CLASS)}
       </div>
     </>
@@ -177,7 +184,7 @@ const ClassList = ({
       items={npcClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility canvasId={NPC_CLASS} />
+        <LayerVisibility layerCanvasId={NPC_CLASS} />
         {Object.keys(npcClasses).length >= CLASS_MAX && renderClassBoxButton(NPC_CLASS)}
       </div>
     </>
@@ -198,7 +205,7 @@ const ClassList = ({
         items={basicClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility canvasId={BASIC_CLASS} />
+        <LayerVisibility layerCanvasId={BASIC_CLASS} />
         {Object.keys(basicClasses).length >= CLASS_MAX && renderClassBoxButton(BASIC_CLASS)}
       </div>
     </>
@@ -219,7 +226,7 @@ const ClassList = ({
         items={zoneClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility canvasId={ZONE_INSTANCE_CANVAS_ID} />
+        <LayerVisibility layerCanvasId={ZONE_INSTANCE_CANVAS_ID} />
         {Object.keys(zoneClasses).length >= CLASS_MAX && renderClassBoxButton(ZONE_CLASS)}
       </div>
     </>

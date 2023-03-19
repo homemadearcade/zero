@@ -60,6 +60,7 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
       return res.status(400).json({ message: 'Not updated by the texture owner or admin.' });
     const updatedTexture = mergeDeep(tempTexture, req.body)
 
+    console.log(req.params.id, updatedTexture)
     await Texture.findByIdAndUpdate(
       req.params.id,
       { 

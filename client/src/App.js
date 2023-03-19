@@ -97,6 +97,28 @@ const themeDefaults = {
         }
       },
     },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          padding: '0'
+        },
+      }
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          padding: '0 .5rem'
+        },
+      }
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        root: {
+          marginTop: '0.25rem',
+          marginBottom: '0.25rem'
+        },
+      }
+    },
     MuiSwitch: {
       styleOverrides: {
         thumb: {

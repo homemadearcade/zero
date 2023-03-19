@@ -18,8 +18,7 @@ import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_CANVAS_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
-import { Alert } from '@mui/material';
+import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
 import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import ClassNameForm from '../ClassNameForm/ClassNameForm';
 
@@ -29,7 +28,6 @@ const CreateClassFlow = ({
   updateCreateClass,
   closeCreateClassFlow,
   gameFormEditor: { objectClass },
-  openClassNameModal
 }) => {
   function handleClose() {
     closeCreateClassFlow()
@@ -110,7 +108,7 @@ const CreateClassFlow = ({
           }}
       />}
       {objectClass.type !== ZONE_CLASS && objectClass.type !== PLAYER_CLASS && <Unlockable interfaceId={CLASS_LAYER_IID}>
-        <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_CANVAS_ID]} onChange={(e, value) => {
+        <SelectLayer formLabel={"Layer"} value={objectClass.graphics.layerId ? [objectClass.graphics.layerId] : [PLAYGROUND_LAYER_CANVAS_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateClass({ graphics: {
             layerId: newValue
@@ -148,5 +146,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateClass, closeCreateClassFlow, clearGameFormEditor, openClassNameModal }),
+  connect(mapStateToProps, { updateCreateClass, closeCreateClassFlow, clearGameFormEditor }),
 )(CreateClassFlow);

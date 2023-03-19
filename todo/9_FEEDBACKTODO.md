@@ -30,3 +30,7 @@ Credits Links are broken
 
 
 Map size increase by a few blocks option 
+
+--
+
+Put game defaults into the instructions

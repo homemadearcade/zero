@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Phaser from 'phaser';
 
 import './SpriteEditor.scss';
-import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
+import { SPRITE_EDITOR_CANVAS_ID, POPUP_SCENE, COLOR_BRUSH_ID, NON_LAYER_COLOR_ID, TEXTURE_TYPE_SPRITE } from '../../constants';
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
@@ -17,13 +17,12 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
 import { onSpriteEditorUndo } from '../../../store/actions/lobbyActions';
-import { editGameModel } from '../../../store/actions/gameModelActions';
 import { setSpriteEditorGameInstance } from '../../../store/actions/webPageActions';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import Icon from '../../../ui/Icon/Icon';
+import { addTexture } from '../../../store/actions/textureActions';
 
 const SpriteEditor = ({
   clearBrush,
@@ -31,16 +30,31 @@ const SpriteEditor = ({
   gameModel: { gameModel, gameModel: { brushes } },
   tintSelected,
   setSpriteEditorGameInstance,
-  gameSelector: { spriteEditorTextureId, spriteEditorAwsId },
+  gameSelector: { spriteEditorTextureId, spriteEditorNewTextureId },
   webPage: { gameInstance, spriteEditorGameInstance },
   closeSpriteEditor,
   onSaveSprite,
   openCreateBrushFlow,
   gameFormEditor: { isCreateBrushFlowOpen },
-  texture: { textureIdSaving }
+  texture: { textureIdSaving },
+  addTexture,
+  auth: { me }
  }) => {
+  const [textureId] = useState(gameModel.id + '/' + spriteEditorNewTextureId)
 
-  const textureId = gameModel.id + '/' + SPRITE_EDITOR_CANVAS_ID + '_' + spriteEditorAwsId
+  useEffect(() => {
+    async function goAddTexture() {
+      await addTexture({
+        textureId: textureId, 
+        textureType: TEXTURE_TYPE_SPRITE,
+        userId: me?.id,
+        arcadeGame: gameModel.id
+      })
+    }
+
+    goAddTexture()
+  }, [])
+
   function handleClose(){
     closeSpriteEditor()
     clearBrush()
@@ -107,7 +121,7 @@ const SpriteEditor = ({
       <div className="SpriteEditor">
         <div className="SpriteEditor__left-column">
           <BrushControl/>
-          <EraserSelect canvasId={SPRITE_EDITOR_CANVAS_ID}></EraserSelect>
+          <EraserSelect layerCanvasId={SPRITE_EDITOR_CANVAS_ID}></EraserSelect>
           <AggregateColorSelect onSelectColor={onSelectColor} onUnselectColor={onUnselectColor}/>
         </div>
         <div id="PhaserPopupGame"/>
@@ -119,7 +133,7 @@ const SpriteEditor = ({
           <UndoButton onClick={onSpriteEditorUndo}></UndoButton>
           <Button onClick={() => {
               const spriteEditorScene = getCurrentGameScene(spriteEditorGameInstance)
-              spriteEditorScene.backgroundLayer.rotate()
+              spriteEditorScene.backgroundCanvasLayer.rotate()
             }}>
               Rotate
           </Button>
@@ -127,7 +141,7 @@ const SpriteEditor = ({
             disabled={isSaving}
             onClick={async () => {
               const spriteEditorScene = getCurrentGameScene(spriteEditorGameInstance)
-              const textureId = await spriteEditorScene.backgroundLayer.save()
+              const textureId = await spriteEditorScene.backgroundCanvasLayer.save()
               const gameInstanceScene = getCurrentGameScene(gameInstance)
               if(!gameInstanceScene) {
                 handleSave(textureId)
@@ -153,7 +167,8 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   webPage: state.webPage,
   gameModel: state.gameModel,
   gameFormEditor: state.gameFormEditor,
-  texture: state.texture
+  texture: state.texture,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance, openCreateBrushFlow })(SpriteEditor);
+export default connect(mapStateToProps, { addTexture, clearBrush, selectBrush, closeSpriteEditor, setSpriteEditorGameInstance, openCreateBrushFlow })(SpriteEditor);

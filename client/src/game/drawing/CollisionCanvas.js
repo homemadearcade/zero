@@ -2,7 +2,7 @@ import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
 import { splitIntoSubarrays } from "../../utils/arrayUtils";
 import { CodrawingCanvas } from "./CodrawingCanvas";
-import { PLAYGROUND_CANVAS_ID } from "../constants";
+import { PLAYGROUND_LAYER_CANVAS_ID } from "../constants";
 
 export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
@@ -84,13 +84,13 @@ export class CollisionCanvas extends CodrawingCanvas {
 
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.sprite)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.filter(({classId}) => {
-        return classes[classId].graphics.layerId === PLAYGROUND_CANVAS_ID
+        return classes[classId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
       }).map(({sprite}) => {
         return sprite
       }))
 
       // this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.temporaryInstances.filter(({classId}) => {
-      //   return classes[classId].graphics.layerId === PLAYGROUND_CANVAS_ID
+      //   return classes[classId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
       // }).map(({sprite}) => {
       //   return sprite
       // }))

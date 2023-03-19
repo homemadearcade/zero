@@ -1,4 +1,4 @@
-// import { BACKGROUND_CANVAS_ID } from "../constants";
+// import { BACKGROUND_LAYER_CANVAS_ID } from "../constants";
 import { DEFAULT_THEME_COLOR } from "../../../constants";
 import { defaultZoneClass } from "./class";
 import { nodeSize } from "./general";
@@ -39,7 +39,7 @@ export const defaultGameModel = {
   tags: {},
   effects: {},
   events: {},
-  "awsImages": {
+  "texture": {
     // "url": "xxx",
     // "name": 'name'
     // "type": "layer"

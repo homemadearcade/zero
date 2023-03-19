@@ -24,14 +24,14 @@ function requireGameRoom(req, res, next) {
     res.status(400).json({ message: 'No game sessions found. Looking for gameRoom with id: ' + req.params.id });
   }
 
-  const gameRoomFound = gameRooms?.filter((l, i) => {
+  const gameRoomFound = gameRooms?.find((l, i) => {
     if(l.id.toString() === req.params.id) {
       index = i
       return true
     } else {
       return false
     }
-  })[0]
+  })
 
   if(!gameRoomFound) {
     res.status(400).json({ message: 'No gameRoom found with id: ' + req.params.id });
@@ -127,14 +127,14 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, as
     }
 
     // let index;
-    const userFound = req.gameRoom.members.filter((u, i) => {
+    const userFound = req.gameRoom.members.find((u, i) => {
       if(u.id === req.body.userId) {
         // index = i
         return true
       } else {
         return false
       }
-    })[0]
+    })
 
     if(!userFound) {
       return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameRoom' });
@@ -170,13 +170,13 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, as
 //     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
 //   }
 
-//   const userFound = req.gameRoom.invitedUsers.filter((u, i) => {
+//   const userFound = req.gameRoom.invitedUsers.find((u, i) => {
 //     if(u.id === req.body.userId) {
 //       return true
 //     } else {
 //       return false
 //     }
-//   })[0]
+//   })
 
 //   if(req.gameRoom.isPoweredOn) {
 //     return res.status(400).json({ message: 'You cannot assign a role when the gameRoom game is powered on' });
@@ -232,13 +232,13 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, as
 
 router.post('/join/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, async (req, res) => {
   try {
-    const userFound = req.gameRoom.members.filter((u, i) => {
+    const userFound = req.gameRoom.members.find((u, i) => {
       if(u.id === req.user.id) {
         return true
       } else {
         return false
       }
-    })[0]
+    })
 
 
     if(userFound) {
@@ -367,14 +367,14 @@ router.put('/user/:id', requireJwtAuth, requireGameRoom, requireSocketAuth, asyn
     }
 
     let index;
-    const userFound = req.gameRoom.members.filter((u, i) => {
+    const userFound = req.gameRoom.members.find((u, i) => {
       if(u.id === req.body.userId) {
         index = i
         return true
       } else {
         return false
       }
-    })[0]
+    })
 
     if(!userFound) {
       return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameRoom' });

@@ -51,7 +51,7 @@ export const validateLobby = (lobby) => {
   //   objects: Joi.object(),
   //   classes: Joi.object(),
   //   brushes: Joi.object(),
-  //   awsImages: Joi.object(),
+  //   textures: Joi.object(),
   // };
   // return Joi.validate(game, schema, { allowUnknown: true });
 };

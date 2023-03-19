@@ -84,7 +84,7 @@ export const updateCreateClass = (objectClass) => (dispatch, getState) => {
   });
 }
 
-export const openCreateColorFlow = (componentName, canvasId) => (dispatch, getState) => {
+export const openCreateColorFlow = (componentName, layerCanvasId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
@@ -92,7 +92,7 @@ export const openCreateColorFlow = (componentName, canvasId) => (dispatch, getSt
     type: OPEN_CREATE_COLOR_FLOW,
     payload: {
       componentName,
-      canvasId,
+      layerCanvasId,
     }
   });
 }
@@ -132,14 +132,14 @@ export const toggleEyeDropper = () => (dispatch, getState) => {
   });
 }
 
-export const openCreateBrushFlow = (canvasId) => (dispatch, getState) => {
+export const openCreateBrushFlow = (layerCanvasId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_BRUSH_FLOW,
     payload: {
-      canvasId
+      layerCanvasId
     }
   });
 }

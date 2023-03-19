@@ -12,3 +12,6 @@ PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A CLASS
 TREASURE CHEST UNLOCKS
 
 PUSH UI STATE ( Envelope Icon )
+
+AUTOGENERATE TAGS
+  <!-- [transformIntoTagId]: createLibraryTag(transformIntoTagId, 'Transform Into', '#FFFFFF'),

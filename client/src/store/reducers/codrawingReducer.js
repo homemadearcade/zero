@@ -10,16 +10,16 @@ import {
   CODRAWING_UNDO_FAIL,
 } from '../types';
 
-// import { BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID } from '../../constants';
+// import { BACKGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID } from '../../constants';
 
 const initialState = {
   error: null,
   isSubscribingCodrawing: false,
   isUndoing: false
   // codrawingCanvasIds: {
-  //   [BACKGROUND_CANVAS_ID]: false,
-  //   [PLAYGROUND_CANVAS_ID]: false,
-  //   [FOREGROUND_CANVAS_ID]: false
+  //   [BACKGROUND_LAYER_CANVAS_ID]: false,
+  //   [PLAYGROUND_LAYER_CANVAS_ID]: false,
+  //   [FOREGROUND_LAYER_CANVAS_ID]: false
   // }
 };
 

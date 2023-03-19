@@ -9,6 +9,10 @@ const texture = new Schema(
       required: true,
       unique: true,
     },
+    textureType: {
+      type: String,
+      required: true,
+    },
     strokeHistory: {
       type: Array,
       default: []
@@ -24,6 +28,7 @@ texture.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     textureId: this.textureId,
+    textureType: this.textureType,
     strokeHistory: this.strokeHistory,
     owner: this.owner?.toJSON(),
     arcadeGame: this.arcadeGame?.toJSON(),

@@ -24,7 +24,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       classes: {},
       brushes: {},
       colors: {},
-      awsImages: {},
+      texture: {},
       userId: me.id,
       ...defaultValues
     },

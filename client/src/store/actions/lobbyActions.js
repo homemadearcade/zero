@@ -40,7 +40,7 @@ import {
 
 import ping from 'web-pingjs';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { BACKGROUND_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID } from '../../game/constants';
+import { BACKGROUND_LAYER_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID } from '../../game/constants';
 import { editGameModel } from './gameModelActions';
 import store from '..';
 import { setRecentlyFocused } from './webPageActions';
@@ -59,7 +59,7 @@ export function onSpriteEditorUndo() {
 
   if(!isHost && state.lobby.id) return
 
-  getCurrentGameScene(state.webPage.spriteEditorGameInstance).backgroundLayer.undo()
+  getCurrentGameScene(state.webPage.spriteEditorGameInstance).backgroundCanvasLayer.undo()
 }
 
 export function onInstanceUndo() {
@@ -74,12 +74,12 @@ export function onInstanceUndo() {
   if(!isHost && state.lobby.id) return
   
   const scene = getCurrentGameScene(state.webPage.gameInstance)
-  if(undoAction === BACKGROUND_CANVAS_ID) {
-    scene.backgroundLayer.undo()
-  } else if(undoAction === PLAYGROUND_CANVAS_ID) {
-    scene.playgroundLayer.undo()
-  } else if(undoAction === FOREGROUND_CANVAS_ID) {
-    scene.foregroundLayer.undo()
+  if(undoAction === BACKGROUND_LAYER_CANVAS_ID) {
+    scene.backgroundCanvasLayer.undo()
+  } else if(undoAction === PLAYGROUND_LAYER_CANVAS_ID) {
+    scene.playgroundCanvasLayer.undo()
+  } else if(undoAction === FOREGROUND_LAYER_CANVAS_ID) {
+    scene.foregroundCanvasLayer.undo()
   } else if(undoAction === SPRITE_EDITOR_CANVAS_ID) {
     console.log('BASE CANVAS oddly got into undo there...')
   } else { 

@@ -190,7 +190,7 @@ const CreateCutscene = ({
     </div>
     {isMySpritesModalOpen && <MySpritesModal onClickSprite={(textureId) => {
       const scenes = cutscene.scenes.slice()
-      scenes[cutscene.indexSelected].imageUrl = gameModel.awsImages[textureId].url
+      scenes[cutscene.indexSelected].imageUrl = textureId
       updateCreateCutscene({
         scenes,
       })

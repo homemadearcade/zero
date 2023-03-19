@@ -96,7 +96,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       collisions: req.body.collisions,
       events: req.body.events,
       effects: req.body.effects,
-      awsImages: req.body.awsImages,
+      textures: req.body.textures,
       nodeSize: req.body.nodeSize, 
       owner: req.body.userId,
     });
@@ -212,7 +212,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       colors: updatedGame.colors,
       tags: updatedGame.tags,
       cutscenes: updatedGame.cutscenes,
-      awsImages: updatedGame.awsImages,
+      textures: updatedGame.textures,
       nodeSize: updatedGame.nodeSize, 
       tags: updatedGame.tags,
       relations: updatedGame.relations, 

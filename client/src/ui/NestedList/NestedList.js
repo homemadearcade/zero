@@ -21,7 +21,16 @@ export default function NestedList({listItems}) {
 export function NestedListBody({expanded, onChange, title, children, id, interfaceId}) {
     const isOpen = expanded === id
     const el = <><ListItemButton dense onClick={onChange(id)}>
-        <ListItemText primary={title} />
+      <ListItemText primaryTypographyProps={{
+          variant:"subtitle2", 
+          sx:{
+            fontFamily: `"Roboto","Helvetica","Arial",sans-serif`,
+            fontWeight: 400,
+            fontSize: '1rem',
+            lineHeight: 1.75,
+            letterSpacing: '0.00938em'
+          }
+      }} primary={title} />
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={isOpen} unmountOnExit>

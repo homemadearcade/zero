@@ -169,7 +169,7 @@ const GameEditor = ({
               editGameModel({
                 colors: {
                   [brush.tint]: {
-                    [brush.canvasId]: Date.now()
+                    [brush.layerCanvasId]: Date.now()
                   }
                 }
               })

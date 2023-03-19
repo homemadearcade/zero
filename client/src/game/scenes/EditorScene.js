@@ -6,7 +6,7 @@ import { openContextMenuFromObjectInstance, openStageContextMenu } from '../../s
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_CANVAS_ID, STAGE_BACKGROUND_CANVAS_ID, PLAYGROUND_CANVAS_ID, FOREGROUND_CANVAS_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, STAGE_BACKGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, TEXTURE_TYPE_SNAPSHOT } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -20,7 +20,7 @@ import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
-import { addAwsImage } from '../../store/actions/textureActions';
+import { addTexture, saveTexture } from '../../store/actions/textureActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
 import { changeInstanceHovering } from '../../store/actions/hoverPreviewActions';
@@ -270,7 +270,7 @@ export class EditorScene extends GameInstance {
     }
 
     if(brushId && !this.brush) {
-      this.brush = this.getBrushFromBrushId(brushId)
+      this.brush = this.createBrushFromBrushId(brushId)
     }
 
     if(this.brush) {
@@ -338,27 +338,27 @@ export class EditorScene extends GameInstance {
     const boundaries = gameModel.stages[this.stage.stageId].boundaries
     const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
     
-    if(gameViewEditor.layerVisibility[STAGE_BACKGROUND_CANVAS_ID]) {
+    if(gameViewEditor.layerVisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID]) {
       snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
     }
-    if(gameViewEditor.layerVisibility[BACKGROUND_CANVAS_ID]) {
-      snapCanvas.draw(this.backgroundLayer, 0,0)
+    if(gameViewEditor.layerVisibility[BACKGROUND_LAYER_CANVAS_ID]) {
+      snapCanvas.draw(this.backgroundCanvasLayer, 0,0)
     }
-    if(gameViewEditor.layerVisibility[PLAYGROUND_CANVAS_ID]) {
-      snapCanvas.draw(this.playgroundLayer, 0,0)
+    if(gameViewEditor.layerVisibility[PLAYGROUND_LAYER_CANVAS_ID]) {
+      snapCanvas.draw(this.playgroundCanvasLayer, 0,0)
     }
     // if(gameViewEditor.layerVisibility[PLAYER_INSTANCE_CANVAS_ID] && gameViewEditor.layerVisibility[BASIC_CLASS] && gameViewEditor.layerVisibility[NPC_CLASS] ) {
       snapCanvas.draw(this.objectInstanceGroup, 0,0)
     // }
-    if(gameViewEditor.layerVisibility[FOREGROUND_CANVAS_ID]) {
-      snapCanvas.draw(this.foregroundLayer, 0,0)
+    if(gameViewEditor.layerVisibility[FOREGROUND_LAYER_CANVAS_ID]) {
+      snapCanvas.draw(this.foregroundCanvasLayer, 0,0)
     }
     snapCanvas.snapshotArea(
       Math.floor(this.snapshotStartPos.x - 2), Math.floor(this.snapshotStartPos.y - 2), 
       Math.floor((this.snapshotEndPos.x)), 
       Math.floor((this.snapshotEndPos.y)), 
       async function (image) {
-        const fileId = gameViewEditor.snapshotFileId
+        const textureId = gameViewEditor.snapshotTextureId
     
         var imgCanvas = document.createElement("canvas"),
         imgContext = imgCanvas.getContext("2d");
@@ -366,16 +366,20 @@ export class EditorScene extends GameInstance {
         imgCanvas.height = image.height;
         imgContext.drawImage(image, 0, 0, image.width, image.height);
 
-        const file = await urlToFile(imgCanvas.toDataURL(), fileId, 'image/png')
+        const imageFile = await urlToFile(imgCanvas.toDataURL(), textureId, 'image/png')
 
-        await addAwsImage(file, fileId, {
-          name: fileId,
-          type: 'layer'
-        })
+        await store.dispatch(addTexture({
+          textureId: textureId, 
+          textureType: TEXTURE_TYPE_SNAPSHOT,
+          userId: store.getState().auth.me.id,
+          arcadeGame: store.getState().gameModel.gameModel?.id
+        }))
+
+        await store.dispatch(saveTexture({imageFile, textureId, textureType: TEXTURE_TYPE_SNAPSHOT}))
 
         store.dispatch(addSnackbar({
           message: 'Snapshot Saved!',
-          imageUrl: window.awsUrl + fileId
+          imageUrl: window.awsUrl + textureId
         }))
       }
     );
@@ -457,7 +461,7 @@ export class EditorScene extends GameInstance {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        const canvas = this.getLayerByCanvasId(this.brush.getCanvasId())
+        const canvas = this.getLayerCanvasInstanceById(this.brush.getCanvasId())
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
       }
@@ -472,10 +476,10 @@ export class EditorScene extends GameInstance {
         const boundaries = gameModel.stages[this.stage.stageId].boundaries
         const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
         snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
-        snapCanvas.draw(this.backgroundLayer, 0,0)
-        snapCanvas.draw(this.playgroundLayer, 0,0)
+        snapCanvas.draw(this.backgroundCanvasLayer, 0,0)
+        snapCanvas.draw(this.playgroundCanvasLayer, 0,0)
         snapCanvas.draw(this.objectInstanceGroup, 0,0)
-        snapCanvas.draw(this.foregroundLayer, 0,0)
+        snapCanvas.draw(this.foregroundCanvasLayer, 0,0)
     
         snapCanvas.snapshot(async function (image) {    
           var imgCanvas = document.createElement("canvas"),
@@ -568,7 +572,7 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   // HELPERS
   ////////////////////////////////////////////////////////////
-  getBrushFromBrushId(brushId) {
+  createBrushFromBrushId(brushId) {
     if(isBrushIdEraser(brushId)) {
       return new Eraser(this, { brushId })
     } else if(isBrushIdColor(brushId)) {
@@ -706,16 +710,16 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    if(gameUpdate.awsImages) {
-      if(gameUpdate.awsImages[this.backgroundLayer.textureId]) {
-        this.backgroundLayer.updateTexture()
-      } else if(gameUpdate.awsImages[this.playgroundLayer.textureId]) {
-        this.playgroundLayer.updateTexture()
-      } else if(gameUpdate.awsImages[this.foregroundLayer.textureId]) {
-        this.foregroundLayer.updateTexture()
+    if(gameUpdate.textures) {
+      if(gameUpdate.textures[this.backgroundCanvasLayer.textureId]) {
+        this.backgroundCanvasLayer.updateTexture()
+      } else if(gameUpdate.textures[this.playgroundCanvasLayer.textureId]) {
+        this.playgroundCanvasLayer.updateTexture()
+      } else if(gameUpdate.textures[this.foregroundCanvasLayer.textureId]) {
+        this.foregroundCanvasLayer.updateTexture()
       } else {
-        Object.keys(gameUpdate.awsImages).forEach((id) => {
-          const textureId = gameUpdate.awsImages[id].url
+        Object.keys(gameUpdate.textures).forEach((id) => {
+          const textureId = gameUpdate.textures[id].textureId
           this.load.image(textureId, window.awsUrl + textureId);
           this.load.once('complete', (idk) => {
             console.log('loaded', textureId)
@@ -1011,12 +1015,10 @@ export class EditorScene extends GameInstance {
     })
 
     const gameRoom = store.getState().gameRoom.gameRoom
-    if(gameRoom.id) {
-      const gameResetDate = gameRoom.gameResetDate
-      if(gameResetDate > this.gameResetDate) {
-        this.gameResetDate = gameResetDate
-        this.reset()
-      }
+    const gameResetDate = gameRoom.gameResetDate
+    if(gameResetDate > this.gameResetDate) {
+      this.gameResetDate = gameResetDate
+      this.reset()
     }
 
     const cameraZoom = store.getState().gameViewEditor.cameraZoom
@@ -1035,12 +1037,12 @@ export class EditorScene extends GameInstance {
     const gameSelector = getCobrowsingState().gameSelector
     if(!this.isMouseOverGame && gameSelector.brushIdSelectedBrushList) {
       if(!isBrushIdEraser(gameSelector.brushIdSelectedBrushList)) {
-        const brush = this.getBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
+        const brush = this.createBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
         this.stage.backgroundColorLayer.setVisible(false)
-        this.backgroundLayer.setVisible(false)
-        this.playgroundLayer.setVisible(false)
-        this.foregroundLayer.setVisible(false)
-        const canvas = this.getLayerByCanvasId(brush.getCanvasId())
+        this.backgroundCanvasLayer.setVisible(false)
+        this.playgroundCanvasLayer.setVisible(false)
+        this.foregroundCanvasLayer.setVisible(false)
+        const canvas = this.getLayerCanvasInstanceById(brush.getCanvasId())
         canvas.setVisible(true)
         brush.destroy()
       }
