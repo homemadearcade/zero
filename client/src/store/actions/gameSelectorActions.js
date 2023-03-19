@@ -66,12 +66,12 @@ export const updateBrushSize = (brushSize) => (dispatch, getState) => {
   });
 }
 
-export const changeSelectorColumn = (selectorColumnTab) => (dispatch, getState) => {
+export const changeSelectorList = (currentSelectorList) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CHANGE_SELECTOR_COLUMN,
     payload: {
-      selectorColumnTab
+      currentSelectorList
     }
   });
 }

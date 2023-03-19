@@ -8,15 +8,17 @@ When you copy a class, you should have to rename it at same time
 
 Add Brush -> Add Tile
 
-HOVER PREVIEW
-Layer on the top right
-Color name on bottom
-
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 CREDITS VIEW
   Add the other arcade games below theirs
+
+HOVER PREVIEW
+  Layer on the top right
+  Color name on bottom
+  Tags
+  Full Relation view? Only show event in list?
 
 SNACKBARS
   Change height width of the snackbar to fit with??...vh/vw
@@ -24,13 +26,6 @@ SNACKBARS
 
 NEW UI
   Add the Edit _, Edit _ underneath the Hover Preview when an object is selected, maybe also give that a border
-
-LOBBY UPDATE
-  Lobby Join Sound
-  Lobby Member Count in /lobbys page
-  Prevent someone from joining a lobby if they are already in one
-  Skippable option in a step
-  Collapsible steps??
 
 VIDEO UPGARADE
   The Credits has everyones Video

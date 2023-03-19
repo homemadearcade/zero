@@ -27,7 +27,7 @@ const CobrowsingToolbar = ({cobrowsing: { selectedTool }, selectCobrowsingTool }
           setIsOverClose(false)
         }} 
       >
-        <IconButton size="large" icon={isOverClose ? "faClose" :toolToIcon[selectedTool]} onClick={() => {
+        <IconButton size="large" sx={{backgroundColor: 'red'}} icon={isOverClose ? "faClose" :toolToIcon[selectedTool]} onClick={() => {
             selectCobrowsingTool()
         }}/>
       </div>

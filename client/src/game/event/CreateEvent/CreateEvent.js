@@ -10,7 +10,7 @@ import { defaultEvent, eventEditInterface, playerTagId, PLAYER_AND_TAG_EVENT, PL
 import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
-import { EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID } from '../../../constants/interfaceIds';
+import { EVENT_ADVANCED_CONTAINER_IID, EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID } from '../../../constants/interfaceIds';
 import SelectTag from '../../ui/SelectTag/SelectTag';
 import SelectEventType from '../../ui/SelectEventType/SelectEventType';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
@@ -177,7 +177,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
         }
     }}/>
     {renderTagSelect()}
-    {event.type && <CobrowsingNestedList id="CreateEvent" title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
+    {event.type && <CobrowsingNestedList interfaceId={EVENT_ADVANCED_CONTAINER_IID} id={event.eventId} title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
   </div>
 }
 

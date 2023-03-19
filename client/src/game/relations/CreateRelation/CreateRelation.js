@@ -13,7 +13,7 @@ import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { effectDisplayNames, effectEditInterface, EFFECT_ID_PREFIX, eventEditInterface, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
-import { EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
+import { EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
 import SelectSpawnZoneSelectorType from '../../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
 import CreateEvent from '../../event/CreateEvent/CreateEvent';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
@@ -277,7 +277,7 @@ const CreateRelation = ({
         <AlertTitle>This Effect is not compatible with the Event. Change or remove it to save</AlertTitle>
       </Alert>}
       {effect.type && renderSelectEffectedTagInstances(effect)}
-      {effect.type &&<CobrowsingNestedList id={effectId} title="More Options" listId={effectId} >
+      {effect.type &&<CobrowsingNestedList interfaceId={EFFECT_ADVANCED_CONTAINER_IID} id={effectId} title="More Options" listId={effectId} >
         {renderOptionalRelationForms(effect)}
       </CobrowsingNestedList>}
     </>
@@ -321,7 +321,8 @@ const CreateRelation = ({
       {event.type && <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
         const effectId = EFFECT_ID_PREFIX+generateUniqueId()
         openCreateEffect({
-          effectId
+          effectId,
+          isNew: true,
         })
         handleAddEffectId(effectId)
       }}>New Effect</Button>}

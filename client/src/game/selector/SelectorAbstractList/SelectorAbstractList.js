@@ -3,13 +3,13 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './GameplayDataList.scss';
+import './SelectorAbstractList.scss';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { openCreateClassFlow, openCreateCutscene, openCreateEffect, openCreateEvent, openCreateRelation, openCreateTag } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, TAG_ADD_IID, TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
+import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ADD_IID, EVENT_ADD_IID, EVENT_SELECT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, TAG_ADD_IID, TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
@@ -21,7 +21,7 @@ import EffectItem from '../../effect/EffectItem/EffectItem';
 
 const DATA_MAX = 16
 
-const GameplayDataList = ({
+const SelectorAbstractList = ({
   gameModel: { gameModel },
   openCreateTag,
   openCreateCutscene,
@@ -200,7 +200,7 @@ const GameplayDataList = ({
     children: relations
   })
 
-  return <div className="GameplayDataList">
+  return <div className="SelectorAbstractList">
     <NestedListContainer>
       {nestedLists.map((props) => {
         return <CobrowsingNestedList
@@ -219,4 +219,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 export default compose(
   connect(mapStateToProps, { editGameModel, openCreateClassFlow, openCreateEvent, openCreateEffect, openCreateTag, openCreateCutscene, openCreateRelation, openClassBoxModal }),
-)(GameplayDataList);
+)(SelectorAbstractList);

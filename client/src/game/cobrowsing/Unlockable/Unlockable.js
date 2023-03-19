@@ -27,7 +27,7 @@ const Unlockable = ({
   interfaceId,
   children,
   isSlider,
-  cobrowsing: { mouseOverInterfaceId, selectedTool }, 
+  cobrowsing: { mouseOverInterfaceId, selectedTool, remoteStateUserId }, 
   width,
   height,
 }) => {
@@ -46,9 +46,11 @@ const Unlockable = ({
   } = getInterfaceIdData(interfaceId, interfaceIdToUnlock)
 
   useEffect(() => {
+    if(!remoteStateUserId) return 
+
     if(wasComponentLocked && isUnlocked) {
       var rect = unlockableRef.current.getBoundingClientRect();
-      if(noAnimInterfaces.indexOf(interfaceId) >= 0) return 
+      if(noAnimInterfaces.includes(interfaceId)) return 
       confetti({
         origin: {
           x: (rect.left + (rect.width/2))/window.innerWidth,
@@ -67,7 +69,7 @@ const Unlockable = ({
     }
 
     setWasComponentLocked(isUnlocked === false)
-  }, [isUnlocked])
+  }, [isUnlocked, remoteStateUserId])
 
   if(adminOnly && me?.role !== ADMIN_ROLE) {
     return null

@@ -9,10 +9,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE } from '../../constants';
 import { onInstanceUndo } from '../../../store/actions/lobbyActions';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_RESET_IID } from '../../../constants/interfaceIds';
-import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { changeGameState } from '../../../store/actions/gameRoomActions';
-import { getCurrentGameScene } from '../../../utils/editorUtils';
-import store from '../../../store';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom: { gameRoom: { gameState } } }) => {
@@ -49,18 +46,18 @@ const GameStateToolbar = ({ changeGameState, lobbyUndo, toggleGridView, gameRoom
   // </Unlockable>
  return <div className="GameStateToolbar">
   <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_RESET_IID}>
-      <ToolbarIcon 
-        size="lg"
-        icon="faRepeat"
-        color={gameState === STOPPED_STATE ? color: null}
-        onClick={() => {
-          const lastGameState = gameState
-          changeGameState(STOPPED_STATE)
-          setTimeout(() => {
-            changeGameState(lastGameState)
-          }, 100)
-        }}
-      />
+    <ToolbarIcon 
+      size="lg"
+      icon="faRepeat"
+      color={gameState === STOPPED_STATE ? color: null}
+      onClick={() => {
+        const lastGameState = gameState
+        changeGameState(STOPPED_STATE)
+        setTimeout(() => {
+          changeGameState(lastGameState)
+        }, 100)
+      }}
+    />
   </Unlockable>
   <Unlockable isTiny interfaceId={INSTANCE_TOOLBAR_PAUSE_IID}>
     <ToolbarIcon 

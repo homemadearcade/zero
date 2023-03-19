@@ -3,7 +3,7 @@ import React from 'react';
 import './GameViewEmpty.scss'
 
 const GameViewEmpty = ({
-  children
+  children,
 }) => {
   return <div
     className="GameViewEmpty"

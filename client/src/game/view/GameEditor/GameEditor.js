@@ -11,8 +11,8 @@ import { clearGameViewEditor } from '../../../store/actions/gameViewEditorAction
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../sprites/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColorModal from '../../stages/SelectBackgroundColorModal/SelectBackgroundColorModal';
-import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_COLUMN_GAMEPLAY, SELECTOR_COLUMN_MAP, START_STATE } from '../../constants';
-import GameMetadataModal from '../../GameMetadataModal/GameMetadataModal';
+import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, START_STATE } from '../../constants';
+import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import BoundaryRelation from '../../class/BoundaryRelation/BoundaryRelation';
@@ -32,10 +32,10 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
 import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
-import HoverPreview from '../../HoverPreview/HoverPreview';
+import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
-import GameplayDataList from '../../gameplay/GameplayDataList/GameplayDataList';
+import SelectorAbstractList from '../../selector/SelectorAbstractList/SelectorAbstractList';
 import CreateTag from '../../tags/CreateTag/CreateTag';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
 import CreateEffectModal from '../../effect/CreateEffectModal/CreateEffectModal';
@@ -50,7 +50,7 @@ const GameEditor = ({
     isSelectBackgroundColorModalOpen, 
     liveEditingCategory, 
     isGameMetadataModalOpen, 
-    selectorColumnTab,
+    currentSelectorList,
     viewingJson }, 
   gameViewEditor: { 
     isSectionEditorOpen, 
@@ -101,10 +101,10 @@ const GameEditor = ({
   const showColumns = !cutsceneId && !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
 
   function renderSelectorColumn() {
-    if(selectorColumnTab === SELECTOR_COLUMN_GAMEPLAY) {
-      return <GameplayDataList/>
+    if(currentSelectorList === SELECTOR_ABSTRACT_LIST) {
+      return <SelectorAbstractList/>
     } 
-    if(selectorColumnTab === SELECTOR_COLUMN_MAP) {
+    if(currentSelectorList === SELECTOR_MAP_LIST) {
       return <ClassList/>
     } 
   }

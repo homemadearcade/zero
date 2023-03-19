@@ -1,4 +1,4 @@
-import { SELECTOR_COLUMN_MAP } from '../../game/constants';
+import { SELECTOR_MAP_LIST } from '../../game/constants';
 import {
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
@@ -51,7 +51,7 @@ const initialState = {
   isClassBoxModalOpen: false,
   classBoxClassType: null,
   isSelectAggregateColorOpen: null,
-  selectorColumnTab: SELECTOR_COLUMN_MAP,
+  currentSelectorList: SELECTOR_MAP_LIST,
 };
 
 export const initialGameSelectorState = initialState
@@ -61,7 +61,7 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case CHANGE_SELECTOR_COLUMN: 
       return {
         ...state,
-        selectorColumnTab: payload.selectorColumnTab
+        currentSelectorList: payload.currentSelectorList
       }
     case UPDATE_BRUSH_SIZE: {
       return {

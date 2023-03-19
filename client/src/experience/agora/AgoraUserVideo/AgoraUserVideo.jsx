@@ -7,6 +7,10 @@ import AgoraVideo from "../AgoraVideo/AgoraVideo";
 import { generateUniqueId, inIframe } from "../../../utils/webPageUtils";
 import { useEffect } from "react";
 import { setVideoTrackComponent } from "../../../store/actions/videoActions";
+import axios from "axios";
+import { attachTokenToHeaders } from "../../../store/actions/authActions";
+import store from "../../../store";
+import { stringToColour } from "../../../utils/colorUtils";
 
 const AgoraUserVideo = ({ 
   video: { isInsideVideoCall, videoTrackComponentIds}, 
@@ -22,6 +26,7 @@ const AgoraUserVideo = ({
   setVideoTrackComponent
  }) => {
   const [componentId] = useState(generateUniqueId())
+  const [user, setUser] = useState()
   
   useEffect(() => {
     if(!videoTrackComponentIds[userId]) {
@@ -40,10 +45,34 @@ const AgoraUserVideo = ({
     }
   }, [videoTrackComponentIds[userId]])
 
-  if(!videoTrackComponentIds[userId] || videoTrackComponentIds[userId] !== componentId) return <div className={className}></div>
+  useEffect(() => {
+    async function goGetUser() {
+      const options = attachTokenToHeaders(store.getState);
+      const user = await axios.get(`/api/users/byId/${userId}`, options);
+      setUser(user.data.user)
+    }
+    if(userId) {
+      goGetUser()
+    }
+  }, [userId])
+
+  function renderPlaceholder() {
+    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
+      {user && <div style={{position: 'relative', backgroundColor: stringToColour(user.id), padding: '1rem'}}>
+       <div style={{opacity: 0}}>{user.username}</div>
+        <div style={{position: 'absolute', top: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', display: 'flex', alignItems: 'center', width: '100%', height: '100%'}}>
+          {user.username}
+        </div>
+      </div>}
+    </div>
+  }
+
+  if(!videoTrackComponentIds[userId] || videoTrackComponentIds[userId] !== componentId) {
+    return renderPlaceholder()
+  }
 
   if(!isInsideVideoCall) {
-    return <div className={className}></div>
+    return renderPlaceholder()
   }
   if(!myTracks || !userTracks) {
     return <div style={{width, height}} className={className}/>
@@ -59,7 +88,7 @@ const AgoraUserVideo = ({
 
   if(!userTracksById[userId]) {
     console.log('no user tracks!', userId)
-    return <div style={{width, height}} className={className}/>
+    return renderPlaceholder()
   }
 
   return <div className={className} style={{width, height}}>

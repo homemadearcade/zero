@@ -8,7 +8,7 @@ import { deleteLobby } from '../../store/actions/lobbyActions';
 
 import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';
-import LobbyForm from '../../app/lobby/LobbyForm/LobbyForm';
+import LobbyAddForm from '../../app/lobby/LobbyAddForm/LobbyAddForm';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
 
@@ -81,7 +81,7 @@ const LobbyListPage = ({ history, getLobbys, deleteLobby, lobbys: { lobbys, isLo
                   </div>
                 );
               })} 
-              <LobbyForm onSubmit={() => {
+              <LobbyAddForm onSubmit={() => {
                 getLobbys()
               }}/>
             </>

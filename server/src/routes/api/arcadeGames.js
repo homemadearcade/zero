@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/character', requireJwtAuth, requireSocketAuth, async (req, res) => {
+router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => {
   const tempUser = await User.findById(req.body.userId);
   if (!tempUser) return res.status(404).json({ message: 'No such user.' });
   if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN')) {
@@ -77,8 +77,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
-    return
-     res.status(400).json({ message: 'Not created by the game owner or admin.' });
+    return res.status(400).json({ message: 'Not created by the game owner or admin.' });
   }
 
   try {

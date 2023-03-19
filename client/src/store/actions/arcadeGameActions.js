@@ -291,7 +291,7 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
     const gameRoomId = state.lobby.lobby?.gameRoomId
 
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/arcadeGames/character', {
+    const response = await axios.put('/api/arcadeGames/character', {
       gameRoomId,
       userId,
       unlockableInterfaceIds,

@@ -13,7 +13,7 @@ import { addArcadeGame } from '../../../store/actions/arcadeGameActions';
 import { addGameRoom } from '../../../store/actions/gameRoomActions';
 import moment from 'moment';
 
-const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
+const LobbyAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
       startTime: '',
@@ -54,7 +54,7 @@ const LobbyForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
   }
 
   return (
-    <div className="LobbyForm">
+    <div className="LobbyAddForm">
       <Typography variant="h5" component="h5">Add a lobby</Typography>
       <form>
         <Controller
@@ -88,4 +88,4 @@ const mapStateToProps = (state) => ({
   lobby: state.lobby,
 });
 
-export default connect(mapStateToProps, { addLobby, addArcadeGame, addGameRoom })(LobbyForm);
+export default connect(mapStateToProps, { addLobby, addArcadeGame, addGameRoom })(LobbyAddForm);
