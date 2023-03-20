@@ -19,6 +19,7 @@ import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PR
 import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
+import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
 const HoverPreview = ({ 
   cobrowsing: {
@@ -96,7 +97,7 @@ const HoverPreview = ({
     return <>
       <Typography 
         variant="div" 
-        sx={{fontSize:'.8rem'}}
+        sx={{fontSize:'.8em'}}
         font="2P">
         {title}
         {onEdit && isHoveringOverTitle && renderEditableIcon(onEdit)}
@@ -109,7 +110,7 @@ const HoverPreview = ({
         {renderDisplayTitle(title, onEdit)}
         <Typography 
           variant="div" 
-          sx={{fontSize:'.4rem'}}
+          sx={{fontSize:'.4em'}}
         >
           {subtitle}
         </Typography>
@@ -217,13 +218,13 @@ const HoverPreview = ({
           </Unlockable>}
       </div>}
       {currentStageId === initialStageId ? null : <>
-        <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{currentStage.name}</Typography>
+        <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5em'}} >{currentStage.name}</Typography>
       </>}
       {isHoveringOverTitle && <div className="HoverPreview__actions">
         <Unlockable interfaceId={STAGE_BACKGROUND_COLOR_IID}>
           <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
             openSelectBackgroundColorModal()
-          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.backgroundColor, height: '1.2em', width: '4rem'}}/>
+          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.backgroundColor, height: '1.2em', width: '4em'}}/>
         </Unlockable>
       </div>}
     </div>
@@ -272,9 +273,11 @@ const HoverPreview = ({
     return renderGameTitleDisplay()
   }
 
+    const { gameEditorHeight } = useGameEditorSize()
+
   return <Unlockable interfaceId={HOVER_PREVIEW_IID}>
     <div className="HoverPreview"
-      style={{backgroundColor: '#222', color: 'white'}}
+      style={{backgroundColor: '#222', color: 'white', height: gameEditorHeight * 0.2}}
       onMouseEnter={() => {
         setIsHoveringOverTitle(true)
       }} 

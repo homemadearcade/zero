@@ -7,8 +7,8 @@ import { effectBehaviorToDisplayNames, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_T
 import Sprite from "../../images/Texture/Texture"
 
 function renderTag(tag) {
-  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
-    <span style={{width: '10px', height: '10px'}}>
+  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
+    <span style={{width: '.6em', height: '.6em'}}>
       <Sprite textureId={tag.textureId} textureTint={tag.textureTint}/>
     </span>
     <span>{tag.name}</span>
@@ -16,8 +16,8 @@ function renderTag(tag) {
 }
 
 function renderClass(entityClass) {
-  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
-    <span style={{width: '10px', height: '10px'}}>
+  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
+    <span style={{width: '.6em', height: '.6em'}}>
       <Sprite textureId={entityClass.graphics.textureId} textureTint={entityClass.graphics.textureTint}/>
     </span>
     <span>{entityClass.name}</span>

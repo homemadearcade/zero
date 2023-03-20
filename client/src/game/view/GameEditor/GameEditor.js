@@ -5,7 +5,7 @@ import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
 import { clearEditor, closeJsonViewer } from '../../../store/actions/gameSelectorActions';
-import { clearGameFormEditor, closeCreateEffect, closeCreateEvent } from '../../../store/actions/gameFormEditorActions';
+import { clearGameFormEditor } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
@@ -39,6 +39,8 @@ import CreateTag from '../../tags/CreateTag/CreateTag';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
 import CreateEffectModal from '../../effect/CreateEffectModal/CreateEffectModal';
 import CreateEventModal from '../../event/CreateEventModal/CreateEventModal';
+import GameViewObscured from '../GameViewObscured/GameViewObscured';
+import GameView from '../GameView/GameView';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -71,27 +73,29 @@ const GameEditor = ({
   rightColumnRef, 
   leftColumn, 
   rightColumn, 
-  children, 
   editGameModel,
   clearEditor, 
   clearGameFormEditor, 
   clearGameViewEditor,
   closeJsonViewer,
-  closeCreateEffect,
-  closeCreateEvent,
+  isObscured,
+  rootFontSize,
   gameRoom: { gameRoom: { gameState } },
   gameModel: { gameModel, isLoading },
   playerInterface: { cutsceneId }
 }) => {
   useEffect(() => {
-    const ogStyle = document.documentElement.style
-    document.documentElement.style="font-size: 2vh";
+    const ogStyle = document.getElementById('GameEditor').style 
+   
+    setTimeout(() => {
+      document.getElementById('GameEditor').style =`font-size: ${rootFontSize || '2vh'}`;
+    })
     
     return () => {
       clearEditor()
       clearGameFormEditor()
       clearGameViewEditor()
-      document.documentElement.style = ogStyle
+      document.getElementById('GameEditor').style  = ogStyle
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -105,6 +109,14 @@ const GameEditor = ({
     if(currentSelectorList === SELECTOR_MAP_LIST) {
       return <ClassList/>
     } 
+  }
+
+  function renderOverlay() {
+    return <>
+      {isSectionEditorOpen && <SectionEditor/>}
+      {isSnapshotTakerOpen && <SnapshotTaker/>}
+      {isGridViewOn && !isSectionEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
+    </>
   }
 
 
@@ -126,12 +138,11 @@ const GameEditor = ({
           <BrushList/>
         </>}
       </div>
-      {children}
-      <div className="GameEditor__overlay">
-        {isSectionEditorOpen && <SectionEditor/>}
-        {isSnapshotTakerOpen && <SnapshotTaker/>}
-        {isGridViewOn && !isSectionEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
-      </div>
+      {isObscured ? <GameViewObscured>
+        {renderOverlay()}
+      </GameViewObscured> : <GameView>
+        {renderOverlay()}
+      </GameView>}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>
@@ -183,7 +194,7 @@ const GameEditor = ({
     </>
   }
 
-  return <div className={"GameEditor " + classNames}>
+  return <div id="GameEditor" className={"GameEditor " + classNames}>
     {renderBody()}
   </div>
 };
@@ -202,7 +213,5 @@ export default connect(mapStateToProps, {
   clearGameFormEditor, 
   clearGameViewEditor, 
   closeJsonViewer,
-  closeCreateEvent,
-  closeCreateEffect,
   editGameModel,
 })(GameEditor);

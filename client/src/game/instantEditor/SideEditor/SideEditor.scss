@@ -1,11 +1,10 @@
 .SideEditor {
   overflow-y: scroll;
   // background-color: rgba(34,34,34, 0.6);
-  padding: 1rem;
-  min-height: 30vh;
-  width: calc(100% - 2rem);
+  padding: 1em;
+  width: calc(100% - 2em);
   position: relative;
-  padding-top: 2rem;
+  padding-top: 2em;
 
   .ClassMemberTitle {
     flex-direction: column;
@@ -17,6 +16,6 @@
     top: 0;
   }
   &__title {
-    margin-right: 1vh;
+    margin-right: 1em;
   }
 }

@@ -29,6 +29,7 @@ const GameViewObscured = ({
   editGameRoom,
   gameRoom: { gameRoom },
   clearErrorState,
+  children,
   webPage: { recentlyFocused }
 }) => {
   const { isObscured, isUnlocked } = getInterfaceIdData(GAME_VIEW_IID)
@@ -92,7 +93,9 @@ const GameViewObscured = ({
   if(gameRoom.isPoweredOn) {
     return <>
       {renderOverlay()}
-      <GameView/>
+      <GameView>
+        {children}
+      </GameView> 
     </>
   }
 };

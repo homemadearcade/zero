@@ -105,8 +105,8 @@ const ColorSelect = ({
   return <div className="ColorSelect">
     <BorderedGrid
     maxItems={maxColors} 
-    width="2.15vh"
-    height="2.15vh"
+    width="1em"
+    height="1em"
     items={items}
     />
   </div>

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../../ui/Button/Button';
 import { Backdrop } from '@mui/material';
 
@@ -10,8 +10,9 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from '../../../store';
+import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
-const CobrowsingModal = ({ withCloseButton, onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
+const CobrowsingModal = ({ widthModifier, onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
   useEffect(() => {
     const scene = getCurrentGameScene(gameInstance)
     
@@ -27,14 +28,13 @@ const CobrowsingModal = ({ withCloseButton, onClose, children, open, zIndexIncre
     }
   }, [])
 
-  // onClick={false && onClose}
-
+  const { gameEditorHeight, gameEditorWidth } = useGameEditorSize()
   //z-index
   return <Backdrop
     sx={{ color: '#fff', zIndex: 1000 + zIndexIncrease}}
     open={open}
   >
-    <div className="CobrowsingModal__safe-area">
+    <div className="CobrowsingModal__safe-area" style={{width: gameEditorHeight * (widthModifier ? widthModifier : .7) }}>
       <div className="CobrowsingModal__body" style={{width: width, height: height}} onClick={stopPropagation}>
         {children}
         <div className="CobrowsingModal__close" onClick={onClose}>

@@ -26,12 +26,12 @@ export function NestedListBody({expanded, onChange, title, children, id, interfa
           sx:{
             fontFamily: `"Roboto","Helvetica","Arial",sans-serif`,
             fontWeight: 400,
-            fontSize: '1rem',
+            fontSize: '1em',
             lineHeight: 1.75,
             letterSpacing: '0.00938em'
           }
       }} primary={title} />
-        {isOpen ? <ExpandLess /> : <ExpandMore />}
+        {isOpen ? <ExpandLess  sx={{ fontSize: '1.5' }} /> : <ExpandMore  sx={{ fontSize: '1.5' }} />}
       </ListItemButton>
       <Collapse in={isOpen} unmountOnExit>
         <List component="div" disablePadding>
@@ -63,9 +63,9 @@ export function NestedListContainer({children, title}) {
 
 function ColorSquare({color}) {
   if(!color) {
-    return <ListItemIcon><div style={{width: '.5rem', height:'.5rem', border: '1px solid white'}}/></ListItemIcon> 
+    return <ListItemIcon><div style={{width: '.5em', height:'.5em', border: '1px solid white'}}/></ListItemIcon> 
   } else {
-    return <ListItemIcon><div style={{width: '.5rem', height:'.5rem', backgroundColor: color}}/></ListItemIcon> 
+    return <ListItemIcon><div style={{width: '.5em', height:'.5em', backgroundColor: color}}/></ListItemIcon> 
   }
 }
 

@@ -56,8 +56,52 @@ const themeDefaults = {
       //     }
       //   }
     },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          fontSize: '1.5em'
+        }
+      }
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1.5em'
+        }
+      }
+    },
     MuiTypography: {
       styleOverrides: {
+        h1: {
+          fontSize: '6em'
+        },
+        h2: {
+          fontSize: '3.37em'
+        },
+        h3: {
+          fontSize: '3em'
+        },
+        h4: {
+          fontSize: '2.125em'
+        },
+        h5: {
+          fontSize: '1.5em'
+        },
+        h6: {
+          fontSize: '1.25em'
+        },
+        subtitle1: {
+          fontSize: '1em'
+        },
+        subtitle2: {
+          fontSize: '0.875em'
+        },
+        body1: {
+          fontSize: '1em'
+        },
+        body2: {
+          fontSize: '0.875em'
+        },
         root: ({ ownerState, theme }) => ({
 
           ...(ownerState.font === '2P' && {
@@ -71,16 +115,34 @@ const themeDefaults = {
         }),
       }
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          fontSize: '1em'
+        }
+      }
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          fontSize: '1em',
+        },
+        root: {
+          marginTop: '0.25em',
+          marginBottom: '0.25em'
+        },
+      }
+    },
     MuiSlider: {
       styleOverrides: {
         root: {
           borderRadius: 0,
-          padding: '.6rem 0'
+          padding: '.6em 0'
         },
         thumb: {
           borderRadius: 0,
-          width: '1rem',
-          height: '1rem',
+          width: '1em',
+          height: '1em',
         },
         valueLabel: {
           borderRadius: 0
@@ -107,15 +169,7 @@ const themeDefaults = {
     MuiListItemButton: {
       styleOverrides: {
         root: {
-          padding: '0 .5rem'
-        },
-      }
-    },
-    MuiListItemText: {
-      styleOverrides: {
-        root: {
-          marginTop: '0.25rem',
-          marginBottom: '0.25rem'
+          padding: '0 .5em',
         },
       }
     },
@@ -123,32 +177,32 @@ const themeDefaults = {
       styleOverrides: {
         thumb: {
           borderRadius: 0,
-          // width: '1rem',
-          // height: '1rem',
+          // width: '1em',
+          // height: '1em',
         },
         track: {
-          // height: '.4rem',
+          // height: '.4em',
           borderRadius: 0,
         },
         switchBase: {
           borderRadius: 0
         },
         // root: {
-        //   paddingTop: '1rem',
-        //   paddingBottom: '1rem'
+        //   paddingTop: '1em',
+        //   paddingBottom: '1em'
         // }
       },
     },
     MuiAccordionSummary: {
       styleOverrides: {
         root: {
-          minHeight: '0rem',
-          paddingLeft: '.75rem',
-          paddingRight: '.75rem'
+          minHeight: '0em',
+          paddingLeft: '.75em',
+          paddingRight: '.75em'
         },
         content: {
-          marginTop: '.25rem',
-          marginBottom: '.25rem',
+          marginTop: '.25em',
+          marginBottom: '.25em',
           textAlign: 'left'
         }
       }
@@ -156,12 +210,16 @@ const themeDefaults = {
     MuiButtonBase: {
       styleOverrides: {
         root: {
-          borderRadius: 0
-        }
+          borderRadius: 0,
+          fontSize: '1em'
+        },
       },
     },
     MuiButton: {
       styleOverrides: {
+        text: {
+          fontSize: '.875em'
+        },
         root: ({ ownerState, theme }) => ({
 
           ...(ownerState.size === 'fit' && {
@@ -175,9 +233,9 @@ const themeDefaults = {
           }),
 
           ...(ownerState.size === 'xs' && {
-            padding: '.5rem',
+            padding: '.5em',
             lineHeight: 'normal',
-            margin: '.2rem',
+            margin: '.2em',
             minWidth: 'auto',
             display: 'flex',
             alignSelf: 'middle',
@@ -186,12 +244,12 @@ const themeDefaults = {
 
           ...(ownerState.size === 'tiny' && {
             lineHeight: 'normal',
-            padding: '0rem',
-            margin: '.2rem',
+            padding: '0em',
+            margin: '.2em',
             minWidth: 'auto',
             display: 'flex',
             alignSelf: 'middle',
-            height: '1rem',
+            height: '1em',
           }),
         }),
         

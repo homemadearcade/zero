@@ -12,7 +12,9 @@ import Button from '../../../ui/Button/Button';
 
 const ActivitySwitcher = ({
   lobby: { lobby },
-  editLobby
+  editLobby,
+  myTracks,
+  userTracks
 }) => {
 
   // const membersById = lobby.members.reduce((prev, next) => {
@@ -21,7 +23,7 @@ const ActivitySwitcher = ({
   // }, {})
 
   function renderActivitySwitcher() {   
-    return <ActivityPreview userId={lobby.participantId}></ActivityPreview>
+    return <ActivityPreview myTracks={myTracks} userTracks={userTracks} userId={lobby.participantId}></ActivityPreview>
   }
   
   return (

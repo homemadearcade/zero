@@ -99,7 +99,6 @@ export class PlayerInstance extends ObjectInstance {
     this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle})
 
     if(this.scene.isPaused) return
-
     this.controlledMovement.update(time, delta)
     this.controlledProjectileEjector.update(time, delta)
   }

@@ -9,8 +9,8 @@ const ClassMemberTitle = ({ title, entityClassId }) => {
   return (
     <div className="ClassMemberTitle">
       <ClassItem entityClassId={entityClassId} 
-        height="7vh"
-        width="9.2vh"
+        height="3.3em"
+        width="4.5em"
       />
       <Typography component="h5" variant="h5">{title}</Typography>
     </div>

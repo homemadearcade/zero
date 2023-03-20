@@ -118,8 +118,8 @@ const BrushList = ({
       <div className="BrushList__brushes">
         <BorderedGrid 
         maxItems={15} 
-        width="3.5vh"
-        height="3.5vh"
+        width="2em"
+        height="2em"
         items={bgBrushes}/>
       </div>
       <div className="BrushList__tools">
@@ -146,8 +146,8 @@ const BrushList = ({
       <div className="BrushList__brushes">
         <BorderedGrid 
           maxItems={15} 
-          width="3.5vh"
-          height="3.5vh"
+          width="2em"
+          height="2em"
           items={pgBrushes}/>
       </div>
       <div className="BrushList__tools">
@@ -172,8 +172,8 @@ const BrushList = ({
       <div className="BrushList__brushes">
         <BorderedGrid 
         maxItems={15} 
-        width="3.5vh"
-        height="3.5vh"
+        width="2em"
+        height="2em"
         items={fgBrushes}/>
       </div>
       <div className="BrushList__tools">

@@ -5,7 +5,7 @@
     position: relative;
     width: 50%;
     text-align: center;
-    padding: 1rem;
+    padding: 1em;
   }
 
   &__username {
@@ -21,7 +21,7 @@
   }
 
   &__icons {
-    font-size: .8rem;
+    font-size: .8em;
     margin-top: 5px;
     color: white;
     display: flex;
@@ -29,14 +29,14 @@
   }
 
   &__ping {
-    font-size: .5rem;
+    font-size: .5em;
     position: absolute;
     top: 1.7px;
     right: 12px;
   }
 
   &__admin {
-    font-size: .5rem;
+    font-size: .5em;
     position: absolute;
     top: 2px;
     left: 2px;
@@ -44,7 +44,7 @@
 
   &__icon {
     text-align: center;
-    font-size: 1rem;
+    font-size: 1em;
     margin-right: 5px;
     display: inline-block;
 
@@ -72,7 +72,7 @@
   }
 
   &__modal {
-    padding: 1rem;
+    padding: 1em;
     position: relative;
   }
   

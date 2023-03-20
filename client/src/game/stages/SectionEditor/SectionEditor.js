@@ -131,7 +131,7 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentS
   return (
     <div className="SectionEditor">
 
-      <BorderedGrid size="33vh" maxItems={9} items={[...Array(9)].map((_, i) => {
+      <div className="SectionEditor__sections">{[...Array(9)].map((_, i) => {
       if(sections[i+1]) {
         return <div className='SectionEditor__section' onClick={() => {
           setSections({
@@ -148,9 +148,8 @@ const SectionEditor = ({closeSectionEditor, editGameModel, gameModel: { currentS
 
         </div>  
       }
-    })}>
-
-    </BorderedGrid>
+    })}</div>
+  
     <div className="SectionEditor__controls">
         <Button
           onClick={() => {

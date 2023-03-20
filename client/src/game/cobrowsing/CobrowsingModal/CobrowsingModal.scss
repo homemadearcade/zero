@@ -2,8 +2,7 @@
   &__safe-area {
     overflow-y: scroll;
     margin: 0 auto;
-    height: calc(100vh);
-    width: calc(100vh + 40vh);
+    height: 100%;
     position: relative;
   }
 
@@ -15,12 +14,12 @@
   }
 
   &__body {
-    width: 50%;
+    width: 100%;
     height: auto;
     position: absolute;
     left: 0;
     right: 0;
-    margin: 6rem auto 0 auto;
+    margin: 6em auto 0 auto;
     background: #111;
   }
 }

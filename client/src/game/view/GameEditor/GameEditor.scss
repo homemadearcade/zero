@@ -2,10 +2,8 @@
   display: flex;
   justify-content: center;
   position: relative;
-  height: calc(100vh);
-  width: calc(100vh + 65vh);
-  margin: 0 auto;
-  background-color: #111;
+  height: 100%;
+  width: 100%;
   // &--not-cobrowsing {
   // }
 
@@ -20,9 +18,7 @@
   }
 
   &--cobrowsing {
-    height: calc(100vh - 2px);
-    width: calc(100vh + 65vh - 2px);
-    background-color: rgba(25,0,0);
+    height: calc(100% - 2px);
     .MuiPaper-root {
       background-color: rgba(25, 0, 0);      
     }
@@ -32,10 +28,15 @@
   }
 
   &__left-column {
-    width: 30vh;
+    width: 15%;
     overflow-y: scroll;
     position: relative;
+    background-color: #111;
+    height: 100%;
 
+    &--cobrowsing {
+      background-color: rgba(25, 0, 0);
+    }
     // display: flex;
     // justify-content: center;
     // flex-direction: column;
@@ -49,23 +50,22 @@
 
   &__toolbar {
     position: absolute;
-      bottom: 0;
-      width: 100%;
+    bottom: 0;
+    width: 100%;
   }
 
   &__right-column {
-    width: 35vh;
+    width: 20%;
+    height: 100%;
+
+    background-color: #111;    
+    &--cobrowsing {
+      background-color: rgba(25, 0, 0);
+    }
+
     overflow-y: scroll;
     &::-webkit-scrollbar {
       display: none;
     }
   }
-
-  &__overlay {
-    position: absolute;
-    left: 30vh;
-    width: calc(100vh);
-  }
-
-
 }

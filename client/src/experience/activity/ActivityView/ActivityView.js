@@ -7,11 +7,9 @@ import { clearErrorState } from '../../../store/actions/errorsActions';
 import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_EDITOR_ACTIVITY, MONOLOGUE_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import CobrowsingGame from '../../cobrowsing/CobrowsingGame/CobrowsingGame';
 import Typography from '../../../ui/Typography/Typography';
-import GameViewObscured from '../../../game/view/GameViewObscured/GameViewObscured';
 import Chatroom from '../../Chatroom/Chatroom';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import './ActivityView.scss'
-import GameCard from '../../../app/arcadeGame/GameCard/GameCard';
 import ConstellationHero from '../../../marketing/homemadeArcade/ConstellationHero/ConstellationHero';
 import Link from '../../../ui/Link/Link';
 import { Container } from '@mui/system';
@@ -44,8 +42,7 @@ const ActivityView = ({
     }
 
     if(currentActivity === GAME_EDITOR_ACTIVITY) {
-      return <CobrowsingGame gameId={gameRoom.gameId} myTracks={myTracks} userTracks={userTracks}>
-        <GameViewObscured/>
+      return <CobrowsingGame rootFontSize="2vh" gameId={gameRoom.gameId} myTracks={myTracks} userTracks={userTracks}>
       </CobrowsingGame>
     }
 

@@ -82,6 +82,7 @@ const EditClassModal = ({ openEditClassGraphics, updateCreateClass, closeEditCla
   function renderSelectCategory() {
     return <Unlockable interfaceId={CHANGE_CLASS_TYPE_IID}>
         <SelectClassInterfaceCategory formLabel="Category" value={entityClass.classInterfaceCategory ? [entityClass.classInterfaceCategory]: []} onChange={(event, classInterfaceCategory) => {
+          if(!classInterfaceCategory.length) return
           updateCreateClass({
             classInterfaceCategory: classInterfaceCategory[classInterfaceCategory.length-1]
           })
@@ -110,7 +111,7 @@ const EditClassModal = ({ openEditClassGraphics, updateCreateClass, closeEditCla
               
           </TextureStage>
         </div>
-        <div>
+        <div className="EditClassModal__primary-options">
  
           {renderTagSelect()}
           {renderSelectCategory()}

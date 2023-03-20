@@ -2,15 +2,21 @@
   display: flex;
   justify-content: center;
   position: relative;
-  height: calc(70vh);
-  width: calc(70vh + 40vh);
+  // height: 100%;
+  // width: calc(100vh);
+  width: 100%;
   margin: 0 auto;
+
+  // .PhaserPopupGame {
+  //   width: 100%;
+  //   height: 100%;
+  // }
 
   &__left-column {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    width: 20vh;
+    gap: 1em;
+    width: 30%;
     // background-color: #111;
     overflow-y: scroll;
     &::-webkit-scrollbar {
@@ -22,9 +28,9 @@
     display: flex;
     flex-direction: column;
     justify-content: end;
-    gap: 1rem;
+    gap: 1em;
     align-items: center;
-    width: 20vh;
+    width: 30%;
     // background-color: #111;
     overflow-y: scroll;
     &::-webkit-scrollbar {

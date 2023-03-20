@@ -1,14 +1,14 @@
 .CreateTexture {
   &__no-sprite {
     position: absolute;
-    top: .4rem;
-    right: .4rem;
+    top: .4em;
+    right: .4em;
     cursor: pointer;
   }
 
   &__stage {
-    width: 150px;
-    height: 150px
+    width: 15em;
+    height: 15em;
   }
 
   &__texture-list {

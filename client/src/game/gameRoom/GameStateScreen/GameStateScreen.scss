@@ -9,24 +9,24 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-iems: center;
 
   &__title {
-    max-height: 50vh;
+    max-height: 50%;
   }
 
   &__content {
-    width: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2em;
   }
 
   .KeyIndicator {
     transform: scale(4);
-    padding: 3vh 0vh;
+    padding: 1.5em 0em;
   }
 
   &__controls {

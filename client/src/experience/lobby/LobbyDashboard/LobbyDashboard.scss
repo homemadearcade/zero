@@ -12,12 +12,6 @@
     justify-content: flex-end;
   }
 
-  &__monologue-text {
-    height: 100%;
-    width: calc(100% - 11vh);
-    overflow-y: scroll;
-  }
-
   &__participant-video {
     width: 15vh;
     height: 15vh;

@@ -32,14 +32,14 @@ const Root = styled('div')(
   color: ${
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
   };
-  font-size: 1rem;
+  font-size: 1em;
   position: relative;
 `,
 );
 
 const InputWrapper = styled('div')(
   ({ theme }) => `
-  width: calc(100% -2px);
+  width: calc(100% - 2px);
   border: 1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.23)' : '#d9d9d9'};
   background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
   display: flex;
@@ -91,15 +91,13 @@ const StyledTag = styled(Tag)(
   ({ theme }) => `
   display: flex;
   align-items: center;
-  min-height: 24px;
   margin: 2px;
-  line-height: 22px;
   background-color: ${
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#fafafa'
   };
   border: 1px solid ${theme.palette.mode === 'dark' ? '#303030' : '#e8e8e8'};
   box-sizing: content-box;
-  padding: 0 4px 0 10px;
+  padding: 0 .2em 0 .5em;
   outline: 0;
   overflow: hidden;
 
@@ -112,12 +110,15 @@ const StyledTag = styled(Tag)(
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    display: flex;
+    align-items:center;
+    justify-content:center;
   }
 
   & svg {
-    font-size: 12px;
+    font-size: 1em;
     cursor: pointer;
-    padding: 4px;
+    padding: .25em;
   }
 
   .Texture {
@@ -129,9 +130,9 @@ const StyledTag = styled(Tag)(
 const SpriteWrapper = styled('div')(
   ({ theme }) => `
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: .5em;
   `
 )
 
@@ -157,8 +158,8 @@ const Listbox = styled('ul')(
     }
 
     .Texture {
-      width: 20px;
-      height: 20px;
+      width: 1.2em;
+      height: 1.2em;
     }
 
     & svg {
@@ -294,8 +295,8 @@ function SelectChipsAutoForm({
   function renderLabelText(option) {
     if(option.shortLabel) {
       return <>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.25rem' }} component="div" varient="subtitle2">{option.shortLabel}</Typography>
-        <Typography sx={{ fontSize: '1rem' }} component="div">{option.label}</Typography>
+        <Typography sx={{ fontWeight: 'bold', fontSize: '1.25em' }} component="div" varient="subtitle2">{option.shortLabel}</Typography>
+        <Typography sx={{ fontSize: '1em' }} component="div">{option.label}</Typography>
       </>
     } else {
       return option.label

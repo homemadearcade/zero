@@ -68,7 +68,6 @@ const ClassList = ({
     </Unlockable>
   }
 
-
   const filterClasses = (classType) => (currentClassId) => {
     const currentClass = entityClasses[currentClassId]
     if(currentClass.isRemoved) return false
@@ -77,8 +76,10 @@ const ClassList = ({
   }
 
   function addDefaultValuesToPlayerClass(entityClass) {
-    const defaultTypeProperties = stageDefaultTypeProperties[gameModel.stages[currentStageId].defaultType]
-    const defaultEntityClass = entityClasses[defaultTypeProperties.playerClassId]
+    const defaultType = gameModel.stages[currentStageId].defaultType
+    if(!defaultType) return entityClass
+    const defaultTypeProperties = stageDefaultTypeProperties[defaultType]
+    const defaultEntityClass = entityClasses[defaultTypeProperties].playerClassId
     return {...entityClass, ...defaultEntityClass}
   }
 
@@ -150,8 +151,8 @@ const ClassList = ({
     body: <>
       <BorderedGrid
         maxItems={CLASS_MAX} 
-        height="7vh"
-        width="8.3vh"
+        height="3.3em"
+        width="4em"
         items={playerClasses}
       />
       <div className="ClassList__tools">
@@ -171,8 +172,8 @@ const ClassList = ({
     body: <>
       <BorderedGrid
       maxItems={CLASS_MAX} 
-      height="7vh"
-        width="8.3vh"
+      height="3.3em"
+        width="4em"
       items={npcClasses}
       />
       <div className="ClassList__tools">
@@ -192,8 +193,8 @@ const ClassList = ({
     body: <>
       <BorderedGrid
         maxItems={CLASS_MAX} 
-        height="7vh"
-        width="8.3vh"
+        height="3.3em"
+        width="4em"
         items={basicClasses}
       />
       <div className="ClassList__tools">
@@ -213,8 +214,8 @@ const ClassList = ({
     body: <>
       <BorderedGrid
         maxItems={CLASS_MAX} 
-        height="7vh"
-        width="8.3vh"
+        height="3.3em"
+        width="4em"
         items={zoneClasses}
       />
       <div className="ClassList__tools">

@@ -25,9 +25,8 @@ const ClassBoxModal = ({ closeClassBoxModal, gameSelector: { classBoxClassType }
   return <CobrowsingModal open onClose={handleClose}>
     <div className="ClassBoxModal">
       <BorderedGrid
-      
-        height="7vh"
-        width="9.2vh"
+     height="3.3em"
+        width="4em"
         items={entityClassesToSelect}
       />
     </div>

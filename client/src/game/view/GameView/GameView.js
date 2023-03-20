@@ -91,6 +91,7 @@ const PhaserGame = ({
   setGameInstance, 
   changeErrorState, 
   clearErrorState,
+  children,
   gameRoom: { gameRoom },
 }) => {
   useEffect(() => {
@@ -127,6 +128,7 @@ const PhaserGame = ({
 
   return (
     <div className="GameView">
+      {children}
       <Cutscene/>
       <StateScreen/>
       <ControlsPopup/>

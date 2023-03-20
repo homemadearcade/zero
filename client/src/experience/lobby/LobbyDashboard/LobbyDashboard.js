@@ -24,7 +24,7 @@ const LobbyDashboard = ({
           <div className="LobbyDashboard__video-container">
             <AgoraUserVideo className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}/>
           </div>
-          <ActivitySwitcher userId={lobby.participantId}/>
+          <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userId={lobby.participantId}/>
         </div>
         <Tabs tabs={[
           {

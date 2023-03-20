@@ -24,6 +24,7 @@ import BrushItem from '../../brush/BrushItem/BrushItem';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
 import { addCanvasImage } from '../../../store/actions/canvasImageActions';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
+import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
 const CanvasImageModal = ({
   clearBrush,
@@ -65,28 +66,33 @@ const CanvasImageModal = ({
     onSaveCanvasImage(textureId)
     handleClose()
   }
+  const { gameEditorHeight } = useGameEditorSize()
 
   useEffect(() => {
     const size = nodeSize * (3 * 10);
 
-    const config= {
-      type: Phaser.WEBGL,
-      pixelArt: true,
-      scale: {
-        mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
-        parent: 'PhaserPopupGame',
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: size,
-        height: size
-      },
-    }
-    
-    const game = new Phaser.Game(config);
-    game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId: imageCanvasTextureId, textureId, textureTint: textureTintSelected, key: POPUP_SCENE, size }), true);
-    setCanvasImageModalGameInstance(game)
+    let game;
+    setTimeout(() => {
+      const config= {
+        type: Phaser.WEBGL,
+        pixelArt: true,
+        scale: {
+          mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
+          parent: 'PhaserPopupGame',
+          autoCenter: Phaser.Scale.CENTER_BOTH,
+          width: size,
+          height: size
+        },
+      }
+      
+      game = new Phaser.Game(config);
+      game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId: imageCanvasTextureId, textureId, textureTint: textureTintSelected, key: POPUP_SCENE, size }), true);
+      setCanvasImageModalGameInstance(game)
+    })
 
     console.log('load sprite edit ')
     return () => {
+      if(!game) return
       console.log('unload sprite edit ')
       getCurrentGameScene(game).unload()
       game.destroy()
@@ -118,8 +124,8 @@ const CanvasImageModal = ({
 
   const isSaving = !!textureIdSaving[textureId]
   return (
-    <CobrowsingModal open={true} width="110vh" zIndexIncrease={10} height="70vh" onClose={handleClose}>
-      <div className="CanvasImageModal">
+    <CobrowsingModal widthModifier={1} open={true} zIndexIncrease={10}  onClose={handleClose}>
+      <div className="CanvasImageModal" style={{height: gameEditorHeight * 0.7}}>
         <div className="CanvasImageModal__left-column">
           <BrushControl/>
           <EraserSelect layerCanvasId={IMAGE_CANVAS_MODAL_CANVAS_ID}></EraserSelect>
@@ -129,7 +135,7 @@ const CanvasImageModal = ({
         <div className="CanvasImageModal__right-column">
           <BorderedGrid 
             maxItems={42} 
-            size="3.5vh"
+            size="1.75em"
             items={brushList}/>
           <UndoButton onClick={onCanvasImageModalUndo}></UndoButton>
           <Button onClick={() => {

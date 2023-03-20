@@ -8,7 +8,7 @@ import EventShorthand from "../../event/EventShorthand/EventShorthand"
 import Sprite from "../../images/Texture/Texture"
 
 function renderTag(tag) {
-  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
+  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
     <span style={{width: '10px', height: '10px'}}>
       <Sprite textureId={tag.textureId} textureTint={tag.textureTint}/>
     </span>
@@ -48,7 +48,6 @@ function RelationShorthand({relation, gameModel: { gameModel: { events, effects,
 
   return <span style={{display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'column'}}>
     <EventShorthand event={event}/>
-    <Divider/>
     {relation.effectIds.map((effectId) => {
       const effect = effects[effectId]
       return <>
