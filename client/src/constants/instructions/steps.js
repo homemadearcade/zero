@@ -6,6 +6,12 @@ export const defaultStep = {
   requirements: {}
 }
 
+// activeCobrowsing
+
+// Open Interface
+// Run Effect
+// Run Animation Lobby Event
+
 export const defaultPrompt = {
   role: '',
   text: '',

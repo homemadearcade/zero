@@ -33,6 +33,8 @@ STEPS UPDATE
   Buttons just ‘Cue the next segment’ so the button is based on the title of the next section
 
 LOBBY UPDATE
+  Perhaps its time to... Get rid of the iframe
+  I need to be able to open up cobrowsing, close cobrowsing, not all this fake sht. 
   Lobby Join Sound
   Lobby Member Count in /lobbys page
   Prevent someone from joining a lobby if they are already in one
