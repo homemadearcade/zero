@@ -201,8 +201,8 @@ export function getTextureMetadata(textureId) {
   const endOfSpritesheetNameIndex = textureId.indexOf(spriteIndexIdentifier);
 
   if(endOfSpritesheetNameIndex === -1) {
-    const textures = store.getState().gameModel.gameModel.textures
-    if(textures[textureId]) {
+    const canvasImages = store.getState().gameModel.gameModel.canvasImages
+    if(canvasImages[textureId]) {
       return {
         isAwsImage: true
       }
@@ -217,7 +217,7 @@ export function getTextureMetadata(textureId) {
   }
 }
 
-export function getSpriteData(textureId) {
+export function getTextureData(textureId) {
   const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
   return window.spriteSheets[spriteSheetName]?.sprites[spriteIndex]
 }

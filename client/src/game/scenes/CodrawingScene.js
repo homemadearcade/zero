@@ -12,7 +12,7 @@ import { EraserSingleLayer } from '../drawing/EraserSingleLayer';
 import store from '../../store';
 
 export class CodrawingScene extends Phaser.Scene {
-  constructor({key, initialTextureId, textureId, tint, size}) {
+  constructor({key, initialTextureId, textureId, textureTint, size}) {
     super({
       key: key,
     });
@@ -21,7 +21,7 @@ export class CodrawingScene extends Phaser.Scene {
     this.canvas= null
 
     this.size = size
-    this.tint = tint
+    this.textureTint = textureTint
 
     this.gameRoom = {
       isNetworked: true
@@ -79,7 +79,7 @@ export class CodrawingScene extends Phaser.Scene {
     }
   }
 
-  onPointerDown = (pointer, objectInstances) => {
+  onPointerDown = (pointer, entityInstances) => {
     if(pointer.leftButtonDown()) {
       ////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////
@@ -148,14 +148,14 @@ export class CodrawingScene extends Phaser.Scene {
   initialDraw = () => {
     this.loadingText.destroy()
     this.createGrids()
-    if(!this.initialTextureId && !this.tint) {
+    if(!this.initialTextureId && !this.textureTint) {
       return 
     }
-    const texture = new Brush(this, { tint: this.tint, brushId: this.initialTextureId, textureId: this.initialTextureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
-    texture.setDisplaySize(this.size, this.size)
-    this.backgroundCanvasLayer.draw(texture, 0, 0)
-    this.backgroundCanvasLayer.addRenderTextureToUndoStack()
-    texture.destroy()
+    const brush = new Brush(this, { textureTint: this.textureTint, brushId: this.initialTextureId, textureId: this.initialTextureId, spriteSheetName: this.spriteSheetName, spriteIndex: this.spriteIndex })
+    brush.setDisplaySize(this.size, this.size)
+    this.backgroundCanvasLayer.draw(brush, 0, 0)
+    this.backgroundCanvasLayer.addCanvasToUndoStack()
+    brush.destroy()
   }
 
   onSpriteSheetsLoaded = () => {

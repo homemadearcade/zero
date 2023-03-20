@@ -2,16 +2,14 @@ import {
   BACKGROUND_LAYER_CANVAS_DEPTH, 
   BACKGROUND_LAYER_CANVAS_ID, 
   ERASER_BRUSH_ID , 
-  PLAYER_INSTANCE_CANVAS_DEPTH, 
-  PLAYER_INSTANCE_CANVAS_ID, 
   FOREGROUND_LAYER_CANVAS_DEPTH, 
   FOREGROUND_LAYER_CANVAS_ID, 
   PLAYGROUND_LAYER_CANVAS_DEPTH, 
   PLAYGROUND_LAYER_CANVAS_ID,
   UI_CANVAS_DEPTH, 
   UI_CANVAS_ID,
-  SPRITE_EDITOR_CANVAS_ID,
-  SPRITE_EDITOR_CANVAS_DEPTH,
+  IMAGE_CANVAS_MODAL_CANVAS_ID,
+  IMAGE_CANVAS_MODAL_CANVAS_DEPTH,
   NON_LAYER_BRUSH_ID,
   NON_LAYER_BRUSH_DEPTH,
 } from "../game/constants";
@@ -86,7 +84,7 @@ export function snapSectionalXY({x, y, boundaries = store.getState().gameModel.g
   }
 }
 
-export function snapObjectXY({x, y, objectClass, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
+export function snapObjectXY({x, y, entityClass, boundaries = store.getState().gameModel.gameModel.stages[store.getState().gameModel.currentStageId].boundaries}) {
   const gameModel = store.getState().gameModel.gameModel
   const nodeSize = gameModel.nodeSize
   const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
@@ -97,9 +95,9 @@ export function snapObjectXY({x, y, objectClass, boundaries = store.getState().g
   const height = isGridViewOn ? boundaries.maxHeight : gridy + boundaries.height
 
   const snappedX = Phaser.Math.Snap.To(x, nodeSize)
-  const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (objectClass.graphics.width/2), width - (objectClass.graphics.width/2))
+  const clampedX =  Phaser.Math.Clamp(snappedX, gridx + (entityClass.graphics.width/2), width - (entityClass.graphics.width/2))
   const snappedY = Phaser.Math.Snap.To(y, nodeSize)
-  const clampedY = Phaser.Math.Clamp(snappedY, gridy + (objectClass.graphics.height/2), height - (objectClass.graphics.height/2))
+  const clampedY = Phaser.Math.Clamp(snappedY, gridy + (entityClass.graphics.height/2), height - (entityClass.graphics.height/2))
   
   return {
     clampedX,
@@ -115,9 +113,8 @@ export function getDepthFromEraserId(eraserId) {
 
 export function getDepthFromLayerCanvasId(layerCanvasId) {
   if(layerCanvasId === BACKGROUND_LAYER_CANVAS_ID) return BACKGROUND_LAYER_CANVAS_DEPTH
-  if(layerCanvasId === SPRITE_EDITOR_CANVAS_ID) return SPRITE_EDITOR_CANVAS_DEPTH
+  if(layerCanvasId === IMAGE_CANVAS_MODAL_CANVAS_ID) return IMAGE_CANVAS_MODAL_CANVAS_DEPTH
   if(layerCanvasId === PLAYGROUND_LAYER_CANVAS_ID) return PLAYGROUND_LAYER_CANVAS_DEPTH
-  if(layerCanvasId === PLAYER_INSTANCE_CANVAS_ID) return PLAYER_INSTANCE_CANVAS_DEPTH
   if(layerCanvasId === FOREGROUND_LAYER_CANVAS_ID) return FOREGROUND_LAYER_CANVAS_DEPTH
   if(layerCanvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
   if(layerCanvasId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
@@ -135,16 +132,16 @@ export const sortColorByLastSelectedDate = (colors, layerCanvasId) => (a, b) => 
   } else return 1
 }
 
-export const sortByLastSelectedDate = (objects) => (a, b) => {
-  const objectA = objects[a]
-  const objectB = objects[b]
+export const sortByLastSelectedDate = (entityInstance) => (a, b) => {
+  const objectA = entityInstance[a]
+  const objectB = entityInstance[b]
   if(objectA.lastSelectedDate < objectB.lastSelectedDate) return 1
   else return -1
 }
 
-export const sortByLastEditedDate = (objects) => (a, b) => {
-  const objectA = objects[a]
-  const objectB = objects[b]
+export const sortByLastEditedDate = (entityInstance) => (a, b) => {
+  const objectA = entityInstance[a]
+  const objectB = entityInstance[b]
   if(objectA.lastEditedDate < objectB.lastEditedDate) return 1
   else return -1
 }

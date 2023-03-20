@@ -17,7 +17,7 @@ const initialState = {
   playerState: null,
   playerStateMessage: null,
   player: {
-    classId: null,
+    entityClassId: null,
   },
   controlsToPress: null
 };
@@ -30,7 +30,7 @@ export default function playerInterfaceReducer(state = initialState, { type, pay
       return {
         ...state,
         cutsceneId: payload.cutsceneId,
-        cutsceneClassId: payload.classId,
+        cutsceneClassId: payload.entityClassId,
         cutsceneIndex: 0
       };
     case PROGRESS_CUTSCENE:

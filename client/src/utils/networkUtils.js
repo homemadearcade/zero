@@ -82,12 +82,12 @@ export const testInternetSpeed = async () => {
   })
 }
 
-export const uploadToAws = async (textureId, imageFile) => {
+export const uploadToAws = async (imageUrl, imageFile) => {
   const contentType = imageFile.type; // eg. image/jpeg or image/svg+xml
 
   const options = {
     params: {
-      Key: textureId,
+      Key: imageUrl,
       ContentType: contentType || 'image/png'
     }
   };

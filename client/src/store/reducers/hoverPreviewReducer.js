@@ -10,10 +10,10 @@ import {
 
 // these are editor things that take place within the game view
 const initialState = {
-  classIdHovering: null,
+  entityClassIdHovering: null,
   brushIdHovering: null,
   instanceClassIdHovering: null,
-  instanceIdHovering: null,
+  entityInstanceIdHovering: null,
   tagIdHovering: null,
   relationIdHovering: null,
   eventIdHovering: null,
@@ -47,7 +47,7 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
     case CHANGE_CLASS_ID_HOVERING:
       return {
         ...state,
-        classIdHovering: payload.classId
+        entityClassIdHovering: payload.entityClassId
       }
     case CHANGE_BRUSH_ID_HOVERING:
       return {
@@ -58,8 +58,8 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         instanceDataHovering: payload.data,
-        instanceClassIdHovering: payload.classId,
-        instanceIdHovering: payload.instanceId
+        instanceClassIdHovering: payload.entityClassId,
+        entityInstanceIdHovering: payload.entityInstanceId
       }
     default:
       return state;

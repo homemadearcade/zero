@@ -7,7 +7,7 @@ import { closeCreateEffect, updateCreateEffect} from '../../../store/actions/gam
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import SelectClass from '../../ui/SelectClass/SelectClass';
-import { defaultEffect, effectBehaviorInterface } from '../../constants';
+import { defaultEffect, effectBehaviorInterfaces } from '../../constants';
 import { TextField } from '@mui/material';
 import { ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
@@ -22,7 +22,7 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
   }
   
   function renderEffectForms() {
-    const effectForms = effectBehaviorInterface[effect.effectBehavior]
+    const effectForms = effectBehaviorInterfaces[effect.effectBehavior]
 
     const forms = []
 
@@ -69,14 +69,14 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
       )
     }
 
-    if(effectForms.classId) {
+    if(effectForms.entityClassId) {
       forms.push(<SelectClass 
         key={'effectClassId'}
-        formLabel={effectForms.classId}
-        value={effect.classId ? [effect.classId] : []}
-        onChange={(event, classes) => {
-          const newClassId = classes[classes.length-1]
-          handleEffectChange('classId', newClassId)
+        formLabel={effectForms.entityClassId}
+        value={effect.entityClassId ? [effect.entityClassId] : []}
+        onChange={(event, entityClasses) => {
+          const newClassId = entityClasses[entityClasses.length-1]
+          handleEffectChange('entityClassId', newClassId)
         }}/>
       )
     }
@@ -85,8 +85,8 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
       forms.push(<SelectClass
         formLabel={effectForms.spawnClassId}
         value={effect.spawnClassId ? [effect.spawnClassId] : []}
-        onChange={(event, classes) => {
-          const newClassId = classes[classes.length-1]
+        onChange={(event, entityClasses) => {
+          const newClassId = entityClasses[entityClasses.length-1]
           handleEffectChange('spawnClassId', newClassId)
       }}/>)
     }
@@ -97,8 +97,8 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
         classType={ZONE_CLASS}
         formLabel={effectForms.zoneClassId}
         value={effect.zoneClassId ? [effect.zoneClassId] : []}
-        onChange={(event, classes) => {
-          const newClassId = classes[classes.length-1]
+        onChange={(event, entityClasses) => {
+          const newClassId = entityClasses[entityClasses.length-1]
           handleEffectChange('zoneClassId', newClassId)
         }}/>
       )

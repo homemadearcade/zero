@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './HoverPreview.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
-import Sprite from '../../sprites/Sprite/Sprite';
+import Sprite from '../../sprites/Texture/Texture';
 import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, STOPPED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
@@ -13,7 +13,7 @@ import { classTypeToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
 import { changeSelectorList, openGameMetadataModal, openSelectBackgroundColorModal } from '../../../store/actions/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
-import { openClassNameModal } from '../../../store/actions/gameFormEditorActions';
+import { openEditClassModal } from '../../../store/actions/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, STAGE_BACKGROUND_COLOR_IID } from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
@@ -26,8 +26,8 @@ const HoverPreview = ({
   },
   hoverPreview: { 
     brushIdHovering, 
-    classIdHovering,
-    instanceIdHovering,
+    entityClassIdHovering,
+    entityInstanceIdHovering,
     instanceClassIdHovering,
     instanceDataHovering,
     effectIdHovering,
@@ -36,14 +36,14 @@ const HoverPreview = ({
   },
   gameSelector: {
     brushIdSelectedBrushList,
-    classIdSelectedClassList,
+    entityClassIdSelectedClassList,
     currentSelectorList,
   },
   gameModel: { 
     currentStageId,
     gameModel: { 
       metadata,
-      classes,
+      entityClasses,
       brushes,
       stages,
       effects,
@@ -55,18 +55,18 @@ const HoverPreview = ({
     gameRoom
   },
   openGameMetadataModal,
-  openClassNameModal,
+  openEditClassModal,
   openSelectBackgroundColorModal,
   openSnapshotTaker,
   changeSelectorList,
 }) => {
   const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
   const theme = useWishTheme()
-  let objectClass
+  let entityClass
 
-  const classId = instanceClassIdHovering || classIdHovering || classIdSelectedClassList 
-  if(classId) {
-    objectClass = classes[classId]
+  const entityClassId = instanceClassIdHovering || entityClassIdHovering || entityClassIdSelectedClassList 
+  if(entityClassId) {
+    entityClass = entityClasses[entityClassId]
   }
   
   let brushClass
@@ -116,11 +116,11 @@ const HoverPreview = ({
       </div>
   }
 
-  function renderDisplayWithTexture({tint, textureId, title, spriteOverlay, onEdit}) {
+  function renderDisplayWithTexture({textureTint, textureId, title, spriteOverlay, onEdit}) {
     return <>
       <div className="HoverPreview__display">
         <div className="HoverPreview__display-item">
-          <Sprite tint={tint} textureId={textureId}>
+          <Sprite textureTint={textureTint} textureId={textureId}>
           </Sprite>
           {spriteOverlay && <div className="HoverPreview__display-item-overlay">
             {spriteOverlay}
@@ -132,21 +132,21 @@ const HoverPreview = ({
   }
 
   function renderClassDisplay() {
-    let title = objectClass.name + ' - ' + classTypeToDisplayName[objectClass.classInterfaceType]
+    let title = entityClass.name + ' - ' + classTypeToDisplayName[entityClass.classInterfaceCategory]
     if(instanceDataHovering?.isSpawned) title += ' (Spawned)'
     return renderDisplayWithTexture({
-      tint: objectClass.graphics.tint,
-      textureId: objectClass.graphics.textureId,
+      textureTint: entityClass.graphics.textureTint,
+      textureId: entityClass.graphics.textureId,
       title,
       onEdit: () => {
-        openClassNameModal(objectClass)
+        openEditClassModal(entityClass)
       }
     })
   }
 
   function renderBrushDisplay() {
     return renderDisplayWithTexture({
-      tint: brushClass.tint,
+      textureTint: brushClass.textureTint,
       textureId: brushClass.textureId,
       title: layerToDisplayName[brushClass.layerCanvasId]
     })
@@ -155,7 +155,7 @@ const HoverPreview = ({
   function renderColorDisplay() {
     const layerName = layerToDisplayName[getCanvasIdFromColorId(brushId)]
     return renderDisplayWithTexture({
-      tint: hex,
+      textureTint: hex,
       spriteOverlay: <ColorNameFit hex={hex}/>,
       title:<>
         {layerName && <>
@@ -240,7 +240,7 @@ const HoverPreview = ({
       const tag = tags[tagIdHovering]
       return renderDisplayWithTexture({
         title: tag.name,
-        tint: tag.color,
+        textureTint: tag.textureTint,
         textureId: tag.textureId,
       })
     } else if(effectIdHovering) {
@@ -250,7 +250,7 @@ const HoverPreview = ({
       })
     } else if(instanceClassIdHovering) {
       return renderClassDisplay()
-    } else if(classIdHovering) {
+    } else if(entityClassIdHovering) {
       return renderClassDisplay()
     } else if(brushIdHovering) {
       if(hex) return renderColorDisplay()
@@ -258,7 +258,7 @@ const HoverPreview = ({
     }
     
     // selected
-    if(classIdSelectedClassList) {
+    if(entityClassIdSelectedClassList) {
       return renderClassDisplay()
     } else if(brushIdSelectedBrushList) {
       if(isEraser) return renderEraserDisplay()
@@ -293,4 +293,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoom: state.gameRoom
 })
 
-export default connect(mapStateToProps, { openGameMetadataModal, openClassNameModal, openSelectBackgroundColorModal, openSnapshotTaker, changeSelectorList })(HoverPreview);
+export default connect(mapStateToProps, { openGameMetadataModal, openEditClassModal, openSelectBackgroundColorModal, openSnapshotTaker, changeSelectorList })(HoverPreview);

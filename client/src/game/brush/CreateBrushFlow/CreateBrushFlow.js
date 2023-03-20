@@ -6,7 +6,7 @@ import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import SelectSpriteInline from '../../sprites/SelectSpriteInline/SelectSpriteInline';
+import CreateTexture from '../../sprites/CreateTexture/CreateTexture';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -29,16 +29,16 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
         formLabel="Search sprites"
         value={brush.descriptors}
       /></Unlockable>
-      <SelectSpriteInline
+      <CreateTexture
         onSelect={(textureId) => {
           updateCreateBrush({ textureId })
         }}
         onClearTint={() => {
-          updateCreateBrush({ tint: null })
+          updateCreateBrush({ textureTint: null })
         }}
-        tintSelected={brush.tint}
-        onSelectTint={(tint) => {
-          updateCreateBrush({ tint })
+        textureTintSelected={brush.textureTint}
+        onSelectTint={(textureTint) => {
+          updateCreateBrush({ textureTint })
         }}
         descriptors={brush.descriptors}
         textureIdSelected={brush.textureId}

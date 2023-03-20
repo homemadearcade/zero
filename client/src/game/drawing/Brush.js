@@ -7,14 +7,14 @@ import { publishCodrawingStrokes } from "../../store/actions/codrawingActions";
 import { generateUniqueId } from "../../utils/webPageUtils";
 
 export class Brush extends Phaser.GameObjects.Image {
-  constructor(scene, { brushId, tint, depth, textureId, spriteSheetName, spriteIndex }){
+  constructor(scene, { brushId, textureTint, depth, textureId, spriteSheetName, spriteIndex }){
     
     if(!spriteSheetName && textureId) {
       super(scene, 0, 0, textureId, 0)
     } else if(spriteSheetName, spriteIndex){
       super(scene, 0, 0, spriteSheetName, spriteIndex)
     }  else {
-      //'make a MISSING TEXTURE ID
+      //'make a MISSING CANVAS_IMAGE ID
       super(scene, 0, 0, DEFAULT_TEXTURE_ID, 0)
     }
     
@@ -31,7 +31,7 @@ export class Brush extends Phaser.GameObjects.Image {
     this.setOrigin(0, 0)
     this.setSize(this.width, this.height)
 
-    if(tint) this.setTint(getHexIntFromHexString(tint))
+    if(textureTint) this.setTint(getHexIntFromHexString(textureTint))
     this.setDepth(depth)
     
     this.lastStrokeX = null 

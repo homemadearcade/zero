@@ -51,7 +51,7 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
             id: 'Overhead or Platformer',
             title: <Typography component="h5" variant="h5">Overhead or Platformer</Typography>,
             instructions: <>
-              <Typography component="subtitle1" variant="subtitle1">From what perspective are we viewing all of the objects?</Typography><br/>
+              <Typography component="subtitle1" variant="subtitle1">From what perspective are we viewing all of the entityInstance?</Typography><br/>
               <RadioGroupColumn
                 value={gameModel.defaults?.playerClass}
                 onChange={(e, value) => {
@@ -115,7 +115,7 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
                 }
               })
               editGameModel({
-                classes: {
+                entityClasses: {
                  [jumperPlayerClassId]: {
                     boundaryRelation: gameModel.defaults.boundaryRelation
                  }
@@ -130,7 +130,7 @@ const SetupDefaultsModal = ({ closeSetupDefaultsModal, editGameModel, gameModel:
                 }
               })
               editGameModel({
-                classes: {
+                entityClasses: {
                  [directionalPlayerClassId]: {
                     boundaryRelation: gameModel.defaults.boundaryRelation
                  }

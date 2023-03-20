@@ -8,18 +8,17 @@ import classNames from 'classnames';
 import { clearClass, selectClass } from '../../../store/actions/gameSelectorActions';
 import { getCobrowsingState, mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
-import Sprite from '../../sprites/Sprite/Sprite';
+import Sprite from '../../sprites/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
 import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
 import { changeClassIdHovering } from '../../../store/actions/hoverPreviewActions';
-import { getLayerIdFromClass } from '../../../utils/gameUtils';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const ClassItem = ({
-  gameModel: { gameModel: { classes } },
-  classId,
-  gameSelector: { classIdSelectedClassList },
+  gameModel: { gameModel: { entityClasses } },
+  entityClassId,
+  gameSelector: { entityClassIdSelectedClassList },
   selectClass,
   clearClass,
   openContextMenuFromClassId,
@@ -29,30 +28,30 @@ const ClassItem = ({
   changeClassIdHovering,
   onClick,
 }) => {
-  const objectClass = classes[classId]
+  const entityClass = entityClasses[entityClassId]
   const [isHovering, setIsHovering] = useState(false)
-  const isSelected = classIdSelectedClassList === classId
+  const isSelected = entityClassIdSelectedClassList === entityClassId
 
+  
   const border = '1px solid ' + useWishTheme().primaryColor.hexString
   return <div
     style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}
     onClick={(e) => {
       if(onClick) onClick(e)
-      if(objectClass.classInterfaceType === PLAYER_CLASS) return
+      if(entityClass.classInterfaceCategory === PLAYER_CLASS) return
 
-      if(classId === classIdSelectedClassList) {
+      if(entityClassId === entityClassIdSelectedClassList) {
         clearClass()
       } else {
-        selectClass(classId)
-        const layerId = getLayerIdFromClass(objectClass)
-        if(!getCobrowsingState().gameViewEditor.layerVisibility[layerId]) {
-          toggleLayerVisibility(layerId)
+        selectClass(entityClassId)
+        if(getCobrowsingState().gameViewEditor.layerInvisibility[entityClass.classInterfaceCategory]) {
+          toggleLayerVisibility(entityClass.classInterfaceCategory)
         }
       }
     }}
     onMouseEnter={() => {
       setIsHovering(true)
-      changeClassIdHovering(classId)
+      changeClassIdHovering(entityClassId)
     }}
     onMouseLeave={() => {
       setIsHovering(false)
@@ -60,15 +59,15 @@ const ClassItem = ({
     }}
     onContextMenu={(e) => {
       e.preventDefault();
-      openContextMenuFromClassId(classId, e)
+      openContextMenuFromClassId(entityClassId, e)
     }}
-    className={classNames("ClassItem", { 'ClassItem--isPlayer': classId === playerClassId })}
+    className={classNames("ClassItem", { 'ClassItem--isPlayer': entityClassId === playerClassId })}
   >
     {isSelected && isHovering && <Icon className="ClassItem__unselect" icon="faClose"/>}
     <div className="ClassItem__sprite">
-      <Sprite tint={objectClass.graphics.tint} textureId={objectClass.graphics.textureId}/>
+      <Sprite textureTint={entityClass.graphics.textureTint} textureId={entityClass.graphics.textureId}/>
     </div>
-    <div className="ClassItem__name">{objectClass.name}</div>
+    <div className="ClassItem__name">{entityClass.name}</div>
   </div>
 };
 

@@ -9,25 +9,25 @@ import {
 } from '../types';
 
 
-export const changeClassIdHovering = (classId) => (dispatch, getState) => {
+export const changeClassIdHovering = (entityClassId) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_CLASS_ID_HOVERING,
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
     payload: {
-      classId
+      entityClassId
     }
   });
 }
 
-export const changeInstanceHovering = (instanceId, classId, data) => (dispatch, getState) => {
+export const changeInstanceHovering = (entityInstanceId, entityClassId, data) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_INSTANCE_HOVERING,
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
     payload:  {
-      instanceId,
-      classId,
+      entityInstanceId,
+      entityClassId,
       data
     }
   });

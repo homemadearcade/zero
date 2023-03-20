@@ -5,10 +5,10 @@ import ClassItem from '../ClassItem/ClassItem';
 
 import './ClassMemberTitle.scss'
 
-const ClassMemberTitle = ({ title, classId }) => {
+const ClassMemberTitle = ({ title, entityClassId }) => {
   return (
     <div className="ClassMemberTitle">
-      <ClassItem classId={classId} 
+      <ClassItem entityClassId={entityClassId} 
         height="7vh"
         width="9.2vh"
       />

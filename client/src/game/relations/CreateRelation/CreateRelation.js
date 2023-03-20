@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectBehaviorToDisplayNames, effectBehaviorInterface, EFFECT_ID_PREFIX, eventEditInterface, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from '../../constants';
+import { effectBehaviorToDisplayNames, EFFECT_ID_PREFIX, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT, effectBehaviorInterfaces, eventTypeInterfaces } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import { EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
@@ -33,7 +33,7 @@ import EffectShorthand from '../../effect/EffectShorthand/EffectShorthand';
 //         formLabel={"What effects happen?"}
 //         value={relation.effects ? relation.eventIds : []}
 //         onChange={(event, effects) => {
-//           // const newClassId = classes[classes.length-1]
+//           // const newClassId = entityClasses[entityClasses.length-1]
 //           // handleEffectChange('spawnClassId', newClassId)
 //       }}/>}
 
@@ -115,8 +115,8 @@ const CreateRelation = ({
   function renderSelectEffectedTagInstances(effect) {
     if(!event || !effect.effectBehavior) return 
     
-    const effectInterface = effectBehaviorInterface[effect.effectBehavior]
-    const eventInterface = eventEditInterface[event.eventType]
+    const effectBehaviorInterface = effectBehaviorInterfaces[effect.effectBehavior]
+    const eventTypeInterface = eventTypeInterfaces[event.eventType]
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
     const forms = []
@@ -128,7 +128,7 @@ const CreateRelation = ({
 
     const effectShortName = effectBehaviorToDisplayNames[effect.effectBehavior]
 
-    if(effectInterface.effectableType === SINGLE_TAG_EFFECT) {
+    if(effectBehaviorInterface.effectableType === SINGLE_TAG_EFFECT) {
       if(event.tagIdA && event.tagIdB) {
         forms.push(<Switch
             labels={[`${effectShortName} ${tagA.name}`, `${effectShortName} ${tagB.name}`]}
@@ -163,7 +163,7 @@ const CreateRelation = ({
       }
     }
 
-    if(effectInterface.effectableType === TWO_TAG_EFFECT) {
+    if(effectBehaviorInterface.effectableType === TWO_TAG_EFFECT) {
       if(event.tagIdA) forms.push(<Switch
           labels={['', `${effectShortName} ${tagA.name}`]}
           size="small"
@@ -191,16 +191,16 @@ const CreateRelation = ({
     
     const { classA, classB } = getClassAandB(event.tagIdA, event.tagIdB)
 
-    const effectInterface = effectBehaviorInterface[effect.effectBehavior]
-    const eventInterface = eventEditInterface[event.eventType]
+    const effectBehaviorInterface = effectBehaviorInterfaces[effect.effectBehavior]
+    const eventTypeInterface = eventTypeInterfaces[event.eventType]
 
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
     const forms = []
-    const useA = effect.zoneClassId && classA?.classId === effect.zoneClassId
-    const useB = effect.zoneClassId && classB?.classId === effect.zoneClassId
+    const useA = effect.zoneClassId && classA?.entityClassId === effect.zoneClassId
+    const useB = effect.zoneClassId && classB?.entityClassId === effect.zoneClassId
 
-    if(effectInterface.spawnZoneSelectorType && (useA || useB)) {
+    if(effectBehaviorInterface.spawnZoneSelectorType && (useA || useB)) {
       forms.push(<Unlockable
         key={"effect/spawnZoneSelectorType"} 
         interfaceId={EFFECT_PICK_RANDOM_ZONE_IID}>
@@ -247,7 +247,7 @@ const CreateRelation = ({
       />
     </Unlockable>)
 
-    if(!event.onlyOnce && eventInterface.effectCooldown && effectInterface.effectCooldown) {
+    if(!event.onlyOnce && eventTypeInterface.effectCooldown && effectBehaviorInterface.effectCooldown) {
       forms.push(<Unlockable interfaceId={EFFECT_COOLDOWN_IID}>
           <SliderNotched
             key="effect/cooldown"

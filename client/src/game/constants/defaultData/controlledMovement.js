@@ -47,7 +47,7 @@ export const vehicleDefaults = {
     speedAngular: 100,
   },
   jump: {
-    jumpBehavior: JUMP_NONE
+    jumpControlsBehavior: JUMP_NONE
   }
 }
 
@@ -60,7 +60,7 @@ export const directionalDefaults = {
     ignoreGravity: true
   },
   jump: {
-    jumpBehavior: JUMP_NONE
+    jumpControlsBehavior: JUMP_NONE
   }
 }
 
@@ -72,7 +72,7 @@ export const advancedDirectionalDefaults = {
     dragY: 0.25,
   },
   jump: {
-    jumpBehavior: JUMP_GROUND
+    jumpControlsBehavior: JUMP_GROUND
   },
 }
 
@@ -84,7 +84,7 @@ export const carDefaults = {
     dragY: 0.25,
   },
   jump: {
-    jumpBehavior: JUMP_NONE
+    jumpControlsBehavior: JUMP_NONE
   }
 }
 
@@ -93,8 +93,8 @@ export const movementControlsToKeys = {
     up: 'Thrust Forward',
     left: 'Rotate Left',
     right: 'Rotate Right',
-    down: function(objectClass) {
-      if(!objectClass.movement.disableDownKey) {
+    down: function(entityClass) {
+      if(!entityClass.movement.disableDownKey) {
         return 'Thrust Backwards'
       } else {
         return null

@@ -10,8 +10,8 @@ import { ON_INTERACT, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID 
 import { nodeSize } from "../constants";
 
 export class PlayerInstance extends ObjectInstance {
-  constructor(scene, instanceId, instanceData){
-    super(scene, instanceId, instanceData)
+  constructor(scene, entityInstanceId, instanceData){
+    super(scene, entityInstanceId, instanceData)
 
     // this.particles = scene.add.particles('blue');
 
@@ -19,43 +19,42 @@ export class PlayerInstance extends ObjectInstance {
     //   speed: {
     //     onEmit: (particle, key, t, value) =>
     //     {
-    //       return this.sprite.body.speed/10;
+    //       return this.phaserInstance.body.speed/10;
     //     }
     //   },
     //   lifespan: {
     //     onEmit: (particle, key, t, value) =>
     //     {reg
-    //       return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 40000;
+    //       return Phaser.Math.Percent(this.phaserInstance.body.speed/50, 0, 300) * 40000;
     //     }
     //   },
     //   alpha: {
     //     onEmit: (particle, key, t, value) =>
     //     {
-    //       return Phaser.Math.Percent(this.sprite.body.speed/50, 0, 300) * 1000;
+    //       return Phaser.Math.Percent(this.phaserInstance.body.speed/50, 0, 300) * 1000;
     //     }
     //   },
     //   scale: { start: 1.0, end: 0 },
     //   blendMode: 'ADD'
     // });
 
-    // this.emitter.startFollow(this.sprite);
+    // this.emitter.startFollow(this.phaserInstance);
 
     this.scene = scene
-    scene.playerInstanceGroup.add(this.sprite)
 
-    const { classId } = instanceData
-    const objectClass = store.getState().gameModel.gameModel.classes[classId]
-    if(!objectClass) {
-      console.error('no player class for classId:' + classId)
+    const { entityClassId } = instanceData
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    if(!entityClass) {
+      console.error('no player class for entityClassId:' + entityClassId)
     }
 
     this.setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH + 2)
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 
-    this.cameraPreview = new CameraPreview(this.scene, {color: 0x00FF00, zoom: objectClass.camera.zoom})
+    this.cameraPreview = new CameraPreview(this.scene, {color: 0x00FF00, zoom: entityClass.camera.zoom})
     this.cameraPreview.setVisible(false)
-    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: objectClass.graphics.width + (nodeSize * 3), height: objectClass.graphics.height + (nodeSize * 3) }) 
+    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityClass.graphics.width + (nodeSize * 3), height: entityClass.graphics.height + (nodeSize * 3) }) 
 
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
@@ -65,7 +64,7 @@ export class PlayerInstance extends ObjectInstance {
 
   getCameraBoundaries() {
     const cameraPreview = this.cameraPreview   
-    // const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
+    // const entityClass = store.getState().gameModel.gameModel.entityClasses[this.entityClassId]
 
     const x = cameraPreview.x
     const y = cameraPreview.y
@@ -88,16 +87,16 @@ export class PlayerInstance extends ObjectInstance {
   update(time, delta) {  
     super.update()
     
-    const classId = this.classId
-    const objectClass = store.getState().gameModel.gameModel.classes[classId]
+    const entityClassId = this.entityClassId
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
 
     const gameModel = store.getState().gameModel.gameModel
     const gameMaxWidth = gameModel.stages[this.scene.stage.stageId].boundaries.maxWidth
 
-    const cameraSize = gameMaxWidth/objectClass.camera.zoom
+    const cameraSize = gameMaxWidth/entityClass.camera.zoom
 
-    this.cameraPreview.update({x: this.sprite.x - cameraSize/2, y: this.sprite.y - cameraSize/2}, true)
-    this.interactArea.update({x: this.sprite.x, y: this.sprite.y, angle: this.sprite.angle})
+    this.cameraPreview.update({x: this.phaserInstance.x - cameraSize/2, y: this.phaserInstance.y - cameraSize/2}, true)
+    this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle})
 
     if(this.scene.isPaused) return
 
@@ -115,9 +114,9 @@ export class PlayerInstance extends ObjectInstance {
     this.interactArea.unregister()
   }
 
-  reclass(classId) {
-    const sprite = this.sprite
-    const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
+  reclass(entityClassId) {
+    const phaserInstance = this.phaserInstance
+    const modifiedClassData = { spawnX: phaserInstance.x, spawnY: phaserInstance.y, entityClassId }
 
     const scene = this.scene
     this.scene.removePlayerInstance()
@@ -125,11 +124,11 @@ export class PlayerInstance extends ObjectInstance {
   }
 
   setLerp() {
-    const classId = this.classId
-    const objectClass = store.getState().gameModel.gameModel.classes[classId]
-    let lerpX = objectClass.camera.lerpX
-    let lerpY = objectClass.camera.lerpY
-    this.scene.cameras.main.startFollow(this.sprite, false, lerpX, lerpY)
+    const entityClassId = this.entityClassId
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    let lerpX = entityClass.camera.lerpX
+    let lerpY = entityClass.camera.lerpY
+    this.scene.cameras.main.startFollow(this.phaserInstance, false, lerpX, lerpY)
   }
 
   destroyInGame() {

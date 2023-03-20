@@ -21,7 +21,6 @@
     // this.minimapCamera.ignore(this.grid2)
 
 
-
         this.editorCamera.setDeadzone(700, 700)
     if (this.editorCamera.deadzone)
     {
@@ -126,12 +125,12 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // PROJECTILE
-    if(this.cursors.space.isDown && objectClass.projectile?.classId) {
+    if(this.cursors.space.isDown && entityClass.projectile?.entityClassId) {
       if(this.scene.game.loop.time < this.nextFire) { 
         return
       }
 
-      const projectile = new TemporaryInstance(this.scene, 'hero-'+Math.random(), { classId: objectClass.projectile?.classId } )
+      const projectile = new TemporaryInstance(this.scene, 'hero-'+Math.random(), { entityClassId: entityClass.projectile?.entityClassId } )
       projectile.fire(this)
 
       this.nextFire = this.scene.game.loop.time + projectile.cooldown;
@@ -140,26 +139,26 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE
-    if(objectClass.controls.interfaceType === VEHICLE_CONTROLS) {
+    if(entityClass.controls.interfaceType === VEHICLE_CONTROLS) {
       let hasAngularMovement = false
       if(this.cursors.left.isDown) {
         hasAngularMovement = true
-        this.setAngularVelocity(-objectClass.speed);
+        this.setAngularVelocity(-entityClass.speed);
       } else if(this.cursors.right.isDown) {
         hasAngularMovement = true
-        this.setAngularVelocity(objectClass.speed);
+        this.setAngularVelocity(entityClass.speed);
       }
 
-      if(objectClass.controls.sticky && !hasAngularMovement) {
+      if(entityClass.controls.sticky && !hasAngularMovement) {
         this.setAngularVelocity(false)
       }
   
-      if(!objectClass.controls.ignoreUpKey) {
+      if(!entityClass.controls.ignoreUpKey) {
         if(this.cursors.up.isDown) {
-          this.thrust(objectClass.speed * 2);
+          this.thrust(entityClass.speed * 2);
         } else {
           this.setAcceleration(0)
-          // if(objectClass.controls.sticky) {
+          // if(entityClass.controls.sticky) {
           //   this.setVelocity(0, 0)
           // }
         }
@@ -169,7 +168,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // DIRECTIONAL
-    if(objectClass.controls.interfaceType === DIRECTIONAL_CONTROLS) {
+    if(entityClass.controls.interfaceType === DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -177,54 +176,54 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
       let yVelocityTouched = false
 
       if(this.cursors.left.isDown) {
-        if(objectClass.controls.sticky) {
+        if(entityClass.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(-objectClass.speed)
+            this.setVelocityX(-entityClass.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.sprite.x - objectClass.speed * mod, this.sprite.y)
+            this.setPosition(this.phaserInstance.x - entityClass.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(-objectClass.speed)
+        } else this.setAccelerationX(-entityClass.speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        if(objectClass.controls.sticky) {
+        if(entityClass.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(objectClass.speed)
+            this.setVelocityX(entityClass.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.sprite.x + objectClass.speed * mod, this.sprite.y)
+            this.setPosition(this.phaserInstance.x + entityClass.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(objectClass.speed)
+        } else this.setAccelerationX(entityClass.speed)
         xTouched = true
       }
       
       if(this.cursors.up.isDown) {
-        if(objectClass.controls.sticky) {
+        if(entityClass.controls.sticky) {
           if(gravity.y === 0) {
-            this.setVelocityY(-objectClass.speed)
+            this.setVelocityY(-entityClass.speed)
             yVelocityTouched = true
           } else {
-            this.setPosition(this.sprite.x, this.sprite.y - objectClass.speed * mod)
+            this.setPosition(this.phaserInstance.x, this.phaserInstance.y - entityClass.speed * mod)
           }
-        } else this.setAccelerationY(-objectClass.speed)
+        } else this.setAccelerationY(-entityClass.speed)
         yTouched = true
       }
 
       if(this.cursors.down.isDown) {
-        if(objectClass.controls.sticky) {
+        if(entityClass.controls.sticky) {
           if(gravity.y === 0) {
-            this.setVelocityY(objectClass.speed)
+            this.setVelocityY(entityClass.speed)
             yVelocityTouched = true
           } else {
-            this.setPosition(this.sprite.x, this.sprite.y +  objectClass.speed * mod)
+            this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityClass.speed * mod)
           }
-        } else this.setAccelerationY(objectClass.speed)
+        } else this.setAccelerationY(entityClass.speed)
         yTouched = true
       }
 
-      if(objectClass.controls.sticky) {
+      if(entityClass.controls.sticky) {
         console.log(gravity, xVelocityTouched, yVelocityTouched)
         if(gravity.y === 0 && !yVelocityTouched) this.setVelocityY(0)
         if(gravity.x === 0 && !xVelocityTouched) this.setVelocityX(0)
@@ -238,58 +237,58 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // JUMPER
-    if(objectClass.controls.interfaceType === JUMP_GROUND) {
+    if(entityClass.controls.interfaceType === JUMP_GROUND) {
       let xTouched = false 
 
       let xVelocityTouched = false
       let yVelocityTouched = false
 
       if(this.cursors.left.isDown) {
-        if(objectClass.controls.sticky) {
+        if(entityClass.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(-objectClass.speed)
+            this.setVelocityX(-entityClass.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.sprite.x - objectClass.speed * mod, this.sprite.y)
+            this.setPosition(this.phaserInstance.x - entityClass.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(-objectClass.speed)
+        } else this.setAccelerationX(-entityClass.speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        if(objectClass.controls.sticky) {
+        if(entityClass.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(objectClass.speed)
+            this.setVelocityX(entityClass.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.sprite.x + objectClass.speed * mod, this.sprite.y)
+            this.setPosition(this.phaserInstance.x + entityClass.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(objectClass.speed)
+        } else this.setAccelerationX(entityClass.speed)
         xTouched = true
       }
 
       if(this.cursors.down.isDown) {
         if(gravity.y === 0) {
-          this.setVelocityY(objectClass.speed)
+          this.setVelocityY(entityClass.speed)
           yVelocityTouched = true
         } else {
-          this.setPosition(this.sprite.x, this.sprite.y +  objectClass.speed * mod)
+          this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityClass.speed * mod)
         }
       }
 
-      if(this.cursors.space.isDown && this.sprite.body.touching.down) {
-        this.setVelocityY(-objectClass.ground)
+      if(this.cursors.space.isDown && this.phaserInstance.body.touching.down) {
+        this.setVelocityY(-entityClass.ground)
       }
 
-      if(objectClass.controls.sticky) {
+      if(entityClass.controls.sticky) {
         if(gravity.y === 0 && !yVelocityTouched) this.setVelocityY(0)
         if(gravity.x === 0 && !xVelocityTouched) this.setVelocityX(0)
       } else {
-        if(!xTouched && !objectClass.controls.sticky) this.setAccelerationX(0)
+        if(!xTouched && !entityClass.controls.sticky) this.setAccelerationX(0)
       }
     }
 
-    if(objectClass.attributes.rotationFollowKeys) {
+    if(entityClass.attributes.rotationFollowKeys) {
       if(this.cursors.left.isDown) {
         this.setAngle(270)
       } else if(this.cursors.right.isDown) {
@@ -305,9 +304,9 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     // BOUNCE ON COLLIDE
 
         if(pattern === MOVEMENT_JUMP_ON_COLLIDE) {
-      if(this.sprite.body.touching.none === false || this.sprite.body.blocked.none === false) {
-        console.log('...', objectClass.movement.velocityX, objectClass.movement.velocityY)
-        this.setVelocity(objectClass.movement.velocityX, objectClass.movement.velocityY)
+      if(this.phaserInstance.body.touching.none === false || this.phaserInstance.body.blocked.none === false) {
+        console.log('...', entityClass.movement.velocityX, entityClass.movement.velocityY)
+        this.setVelocity(entityClass.movement.velocityX, entityClass.movement.velocityY)
       }
     }
     export const jumpOnCollide = {
@@ -318,68 +317,6 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 }
 
 
-
-//////
-
-
-    this.objectInstances.forEach((instance) => {
-      instance.destroy()
-    })
-    this.objectInstances= []
-    this.temporaryInstances.forEach((instance) => {
-      instance.destroy()
-    })
-    this.temporaryInstances = []
-    this.playerInstance.destroy()
-
-    this.objectInstanceGroup.destroy()
-    this.backgroundCanvasLayer.destroy()
-    this.playgroundCanvasLayer.destroy()
-    this.foregroundCanvasLayer.destroy()
-    this.zoneInstanceLayer.destroy()
-    this.uiLayer.destroy()
-
-    this.initializeLayers()
-    this.initializeObjectInstances()
-    this.initializePlayerInstance()
-
-    this.unregisterRelations()
-    this.registerRelations()
-
-
-
-
-  initializeLayers() {
-    const gameModel = store.getState().gameModel.gameModel
-    const playerInterface = getCobrowsingState().playerInterface
-    const stageId = playerInterface.currentStageId
-    const currentStage = gameModel.stages[stageId]
-
-    this.backgroundCanvasLayer = new CodrawingCanvas(this, {layerCanvasId: BACKGROUND_LAYER_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_CANVAS_DEPTH)
-    // layer zero
-    this.playgroundCanvasLayer = new CollisionCanvas(this, {layerCanvasId: PLAYGROUND_LAYER_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.playgroundCanvasLayer.setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH)
-
-    this.objectInstanceGroup = this.add.group()
-    // this.basicClassGroup = this.add.group()
-    // this.npcClassGroup = this.add.group()
-    // this.temporaryInstanceGroup = this.add.group()
-
-    this.playerInstanceLayer = this.add.layer();
-    this.playerInstanceLayer.setDepth(PLAYER_INSTANCE_CANVAS_DEPTH)
-    this.playerInstanceGroup = this.add.group()
-
-    this.zoneInstanceLayer = this.add.layer();
-    this.zoneInstanceLayer.setDepth(ZONE_INSTANCE_CANVAS_DEPTH)
-
-    // FOREGROUND layer
-    this.foregroundCanvasLayer = new CodrawingCanvas(this, {layerCanvasId: FOREGROUND_LAYER_CANVAS_ID, stageId, boundaries: currentStage.boundaries})
-    this.foregroundCanvasLayer.setDepth(FOREGROUND_LAYER_CANVAS_DEPTH)
-
-    this.uiLayer = this.add.layer();
-    this.uiLayer.setDepth(UI_CANVAS_DEPTH)
-  }
 
 
   export const uploadToAws = async (id, file) => {
@@ -408,8 +345,6 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
 
 };
-
-
 
 
 

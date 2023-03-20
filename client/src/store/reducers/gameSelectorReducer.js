@@ -9,8 +9,8 @@ import {
   CLEAR_EDITOR,
   UPDATE_OPEN_LIST,
   UPDATE_NESTED_LIST,
-  OPEN_SPRITE_EDITOR,
-  CLOSE_SPRITE_EDITOR,
+  OPEN_IMAGE_CANVAS_MODAL,
+  CLOSE_IMAGE_CANVAS_MODAL,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
@@ -34,11 +34,11 @@ const initialState = {
   error: null,
   colorIdSelected: null,
   brushIdSelectedBrushList: null,
-  classIdSelectedClassList: null,
+  entityClassIdSelectedClassList: null,
   brushSize: 3,
-  classIdSelectedLiveEditor: null,
+  entityClassIdSelectedLiveEditor: null,
   liveEditingCategory: null,
-  spriteEditorTextureId: null,
+  imageCanvasTextureId: null,
   isSelectBackgroundColorModalOpen: false,
   isGameMetadataModalOpen: false,
   isSetupDefaultsModalOpen: false,
@@ -47,7 +47,7 @@ const initialState = {
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
   },
-  isSpriteEditorOpen: false,
+  isCanvasImageModalOpen: false,
   isClassBoxModalOpen: false,
   classBoxClassType: null,
   isSelectAggregateColorOpen: null,
@@ -73,17 +73,17 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         brushIdSelectedBrushList: null,
-        classIdSelectedClassList: payload.classIdSelectedClassList
+        entityClassIdSelectedClassList: payload.entityClassIdSelectedClassList
       }
     case CLEAR_CLASS:
        return {
          ...state,
-          classIdSelectedClassList: null
+          entityClassIdSelectedClassList: null
        }
     case SELECT_BRUSH: 
       return {
         ...state,
-        classIdSelectedClassList: null,
+        entityClassIdSelectedClassList: null,
         brushIdSelectedBrushList: payload.brushIdSelectedBrushList
       }
     case CLEAR_BRUSH:
@@ -111,26 +111,26 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         liveEditingCategory: payload.type,
-        classIdSelectedLiveEditor: payload.classIdSelectedLiveEditor,
+        entityClassIdSelectedLiveEditor: payload.entityClassIdSelectedLiveEditor,
       };
     case CLOSE_LIVE_EDITOR:
       return {
           ...state,
-        classIdSelectedLiveEditor: null,
+        entityClassIdSelectedLiveEditor: null,
         liveEditingCategory: null
       };
-    case OPEN_SPRITE_EDITOR:
+    case OPEN_IMAGE_CANVAS_MODAL:
       return {
         ...state,
-        isSpriteEditorOpen: true,
-        spriteEditorTextureId: payload.textureId,
-        spriteEditorNewTextureId: payload.spriteEditorNewTextureId
+        isCanvasImageModalOpen: true,
+        imageCanvasTextureId: payload.textureId,
+        imageCanvasNewTextureId: payload.imageCanvasNewTextureId
       }
-    case CLOSE_SPRITE_EDITOR: 
+    case CLOSE_IMAGE_CANVAS_MODAL: 
       return {
         ...state,
-        isSpriteEditorOpen: false,
-        spriteEditorTextureId: null,
+        isCanvasImageModalOpen: false,
+        imageCanvasTextureId: null,
       }
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {
@@ -155,12 +155,12 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case OPEN_MY_SPRITES_MODAL: 
       return {
         ...state,
-        isMySpritesModalOpen: true
+        isMyImagesModalOpen: true
       }
     case CLOSE_MY_SPRITES_MODAL:
       return {
         ...state,
-        isMySpritesModalOpen: false
+        isMyImagesModalOpen: false
       }
     case OPEN_GAME_METADATA_MODAL: 
       return {

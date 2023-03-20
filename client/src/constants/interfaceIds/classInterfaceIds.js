@@ -23,9 +23,9 @@ export const CLASS_UNLOCKABLE_IID = 'class/unlockable'
 export const CHANGE_CLASS_TYPE_IID = "class/changeClassType";
 export const CLASS_TAGS_IID = "class/tags";
 
-export function getSelectClassFromClassType(classInterfaceType) {
-  if(classInterfaceType === PLAYER_CLASS) return PLAYER_CLASS_SELECT_IID
-  if(classInterfaceType === ZONE_CLASS) return ZONE_CLASS_SELECT_IID
-  if(classInterfaceType === BASIC_CLASS) return BASIC_CLASS_SELECT_IID
-  if(classInterfaceType === NPC_CLASS) return NPC_CLASS_SELECT_IID
+export function getSelectClassFromClassType(classInterfaceCategory) {
+  if(classInterfaceCategory === PLAYER_CLASS) return PLAYER_CLASS_SELECT_IID
+  if(classInterfaceCategory === ZONE_CLASS) return ZONE_CLASS_SELECT_IID
+  if(classInterfaceCategory === BASIC_CLASS) return BASIC_CLASS_SELECT_IID
+  if(classInterfaceCategory === NPC_CLASS) return NPC_CLASS_SELECT_IID
 }

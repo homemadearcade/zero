@@ -276,7 +276,7 @@ router.post('/join/:id', requireJwtAuth, requireLobby, requireSocketAuth, async 
       role: req.user.role,
       joined: true,
       connected: true,
-      inConstellationView: false
+      inOverlayView: false
     }
 
     req.lobby.messages.push({

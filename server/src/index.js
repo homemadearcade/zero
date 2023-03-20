@@ -336,7 +336,7 @@ async function onMongoDBConnected() {
             role: user.role,
             joined: false,
             connected: false,
-            inConstellationView: false,
+            inOverlayView: false,
           }
         })
       }

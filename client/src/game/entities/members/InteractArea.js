@@ -3,10 +3,10 @@ import Phaser from "phaser";
 import store from "../../../store";
 import { changeControlPopup } from "../../../store/actions/playerInterfaceActions";
 import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../constants";
-import { Sprite } from "./Sprite";
+import { PhaserInstance } from "./PhaserInstance";
 
-export class InteractArea extends Sprite {
-  constructor(scene, objectInstance, { color, width, height }){
+export class InteractArea extends PhaserInstance {
+  constructor(scene, entityInstance, { color, width, height }){
     super(scene, { spawnX: 0, spawnY: 0, textureId: DEFAULT_TEXTURE_ID })
 
     this.scene = scene
@@ -27,9 +27,9 @@ export class InteractArea extends Sprite {
     this.previousClosest = null
     this.paused = false
 
-    scene.uiLayer.add(this.sprite)
+    scene.uiLayer.add(this.phaserInstance)
 
-    this.objectInstance = objectInstance
+    this.entityInstance = entityInstance
 
     this.xKey = scene.input.keyboard.addKey('X');  // Get key object
 
@@ -67,13 +67,13 @@ export class InteractArea extends Sprite {
   registerArcade(relations) {
     relations?.forEach((relation) => {
       const {event} = relation
-      const releventInstances = this.scene.objectInstancesByTag[event.tagIdB]
-      if(!releventInstances || !releventInstances.length) return
-      const releventSprites = releventInstances.map(({sprite}) => sprite)
+      const releventEntityInstances = this.scene.entityInstancesByTag[event.tagIdB]
+      if(!releventEntityInstances || !releventEntityInstances.length) return
+      const releventPhaserInstances = releventEntityInstances.map(({phaserInstance}) => phaserInstance)
       this.overlaps.push(
-        this.scene.physics.add.overlap(this.sprite, releventSprites, (a, b) => {
+        this.scene.physics.add.overlap(this.phaserInstance, releventPhaserInstances, (a, b) => {
           if(this.paused) return
-          if(this.objectInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
+          if(this.entityInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
           // console.log('event triggered')
           this.interactables.push({entitySprite: b, relation})
         })
@@ -92,7 +92,7 @@ export class InteractArea extends Sprite {
             const { gameObjectB } = eventData;
             if(gameObjectB === this) return
             if(!gameObjectB) return
-            if(event.classIdB === gameObjectB.classId) {
+            if(event.entityClassIdB === gameObjectB.entityClassId) {
               this.interactables.push({gameObject: gameObjectB, relation})
             }
           }
@@ -103,7 +103,7 @@ export class InteractArea extends Sprite {
             const { gameObjectB } = eventData;
             if(gameObjectB === this) return
             if(!gameObjectB) return
-            if(event.classId === gameObjectB.classId) {
+            if(event.entityClassId === gameObjectB.entityClassId) {
               gameObjectB.interactBorder.setVisible(false)
             }
           }
@@ -142,7 +142,7 @@ export class InteractArea extends Sprite {
 
     this.interactables.forEach(({entitySprite}) => {
       // entitySprite.interactBorder.setVisible(false)
-      const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.sprite.x, this.sprite.y)
+      const distance = Phaser.Math.Distance.Between(entitySprite.x, entitySprite.y, this.phaserInstance.x, this.phaserInstance.y)
       const { closestDistance } = interactPossibility
       if(distance < closestDistance) {
         interactPossibility.closestDistance = distance
@@ -162,7 +162,7 @@ export class InteractArea extends Sprite {
 
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
       interactPossibility.relations.forEach((relation) => {
-        this.objectInstance.startRunEventEffects(
+        this.entityInstance.startRunEventEffects(
           relation, 
           closestInteractable
         )
@@ -202,9 +202,9 @@ export class InteractArea extends Sprite {
       this.setVisible(false)
     }
 
-    // const sprite = this.objectInstance.sprite
+    // const phaserInstance = this.entityInstance.phaserInstance
     // this.lastInteractedWithClassId = this.interactedWithClassId
-    // if(sprite.body.touching.none && sprite.body.blocked.none) {
+    // if(phaserInstance.body.touching.none && phaserInstance.body.blocked.none) {
     //   this.interactedWithClassId = null
     // }
   }

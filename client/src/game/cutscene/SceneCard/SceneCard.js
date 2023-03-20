@@ -11,7 +11,7 @@ import CardMedia from '@mui/material/CardMedia';
 import { CardActions, TextField } from '@mui/material';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
-import { IMAGE_CUTSCENE, TEXT_CUTSCENE } from '../../constants';
+import { CANVAS_IMAGE_CUTSCENE, TEXT_CUTSCENE } from '../../constants';
 
 const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeText, onRemoveScene, onEditScene, index}) => {
  return <Card sx={{ width: 200 }}>
@@ -27,7 +27,7 @@ const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeT
       />
       {isEditing && <Button onClick={onChooseNewImage}>Choose Image</Button>}
     </>}
-    {scene.sceneInterfaceType != IMAGE_CUTSCENE && <CardContent>
+    {scene.sceneInterfaceType != CANVAS_IMAGE_CUTSCENE && <CardContent>
       {scene.text && !isEditing && <Typography variant="body2" color="text.secondary">
         {scene.text}
       </Typography>}

@@ -1,5 +1,5 @@
 import store from "../../../store"
-import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterface, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
+import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterfaces, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
@@ -11,8 +11,8 @@ import _ from "lodash";
 import { updateLobbyUser } from "../../../store/actions/lobbyActions"
 
 export class Effects {
-  constructor(scene, objectInstance){
-    this.objectInstance = objectInstance
+  constructor(scene, entityInstance){
+    this.entityInstance = entityInstance
     this.scene = scene
 
     this.isVisibilityModified = null
@@ -24,22 +24,22 @@ export class Effects {
   }
 
   update() {
-    const classId = this.objectInstance.classId
-    const objectClass = store.getState().gameModel.gameModel.classes[classId]
-    const sprite = this.objectInstance.sprite
+    const entityClassId = this.entityInstance.entityClassId
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    const phaserInstance = this.entityInstance.phaserInstance
 
     ////////////////////////////////////////
     ////////////////////////////////////////
     // VISIBLITY AND IGNORE GRAVITY EFFECTS
     if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
-      this.objectInstance.setIgnoreGravity(objectClass.movement.ignoreGravity)
+      this.entityInstance.setIgnoreGravity(entityClass.movement.ignoreGravity)
     }
 
     this.wasIgnoreGravityModified = this.isIgnoreGravityModified
     this.isIgnoreGravityModified = false
 
     if(this.wasVisibilityModified && !this.isVisibilityModified) {
-      this.objectInstance.isVisible = !objectClass.graphics.invisible
+      this.entityInstance.isVisible = !entityClass.graphics.invisible
     }
 
     this.wasVisibilityModified = this.isVisibilityModified
@@ -48,21 +48,21 @@ export class Effects {
     ////////////////////////////////////////
     ////////////////////////////////////////
     // STICK TO EFFECT
-    if (sprite.lockedTo) {
-      sprite.body.position.x += sprite.lockedTo.body.deltaX();
-      sprite.body.position.y += sprite.lockedTo.body.deltaY();   
+    if (phaserInstance.lockedTo) {
+      phaserInstance.body.position.x += phaserInstance.lockedTo.body.deltaX();
+      phaserInstance.body.position.y += phaserInstance.lockedTo.body.deltaY();   
     }
     
-    if (sprite.lockedTo && this.fallenOff(sprite, sprite.lockedTo, sprite.lockedReleaseSides)) {
-      sprite.lockedTo = null;   
-      sprite.lockedReleaseSides = null
-      this.objectInstance.setIgnoreGravity(objectClass.movement.ignoreGravity);
+    if (phaserInstance.lockedTo && this.fallenOff(phaserInstance, phaserInstance.lockedTo, phaserInstance.lockedReleaseSides)) {
+      phaserInstance.lockedTo = null;   
+      phaserInstance.lockedReleaseSides = null
+      this.entityInstance.setIgnoreGravity(entityClass.movement.ignoreGravity);
     }
   }
 
   unregister() {
-    const sprite = this.objectInstance.sprite
-    sprite.lockedTo = null
+    const phaserInstance = this.entityInstance.phaserInstance
+    phaserInstance.lockedTo = null
   }
 
   fallenOff(player, platform, sides) {
@@ -92,20 +92,20 @@ export class Effects {
     }
   }
 
-  getEffectedInstances({instanceSpriteA, instanceSpriteB, sidesA, sidesB, effect}) {
-    const instanceSprites = []
-    const alternateSpriteData = {}
+  getEffectedPhaserInstances({phaserInstanceA, phaserInstanceB, sidesA, sidesB, effect}) {
+    const phaserInstances = []
+    const alternatePhaserInstanceData = {}
 
     if(effect.effectTagA) {
-      instanceSprites.push(instanceSpriteA)
-      alternateSpriteData.sprite = instanceSpriteB
-      alternateSpriteData.sides = sidesB
+      phaserInstances.push(phaserInstanceA)
+      alternatePhaserInstanceData.phaserInstance = phaserInstanceB
+      alternatePhaserInstanceData.sides = sidesB
     }
 
     if(effect.effectTagB) {
-      instanceSprites.push(instanceSpriteB)
-      alternateSpriteData.sprite = instanceSpriteA
-      alternateSpriteData.sides = sidesA
+      phaserInstances.push(phaserInstanceB)
+      alternatePhaserInstanceData.phaserInstance = phaserInstanceA
+      alternatePhaserInstanceData.sides = sidesA
     }
 
     let remoteEffectedTagIds = effect.remoteEffectedTagIds.slice()
@@ -115,60 +115,60 @@ export class Effects {
 
     if(remoteEffectedTagIds && !nonRemoteEffects[effect.effectBehavior]) {
       remoteEffectedTagIds.forEach((tagId) => {
-        this.scene.objectInstancesByTag[tagId]?.forEach((objectInstance) => {
-          instanceSprites.push(objectInstance.sprite)
+        this.scene.entityInstancesByTag[tagId]?.forEach((entityInstance) => {
+          phaserInstances.push(entityInstance.phaserInstance)
         })
       })
     }
 
-    return [instanceSprites, alternateSpriteData]
+    return [phaserInstances, alternatePhaserInstanceData]
   }
   
   runCollideActiveEffect({
     relation,
-    instanceSpriteA,
-    instanceSpriteB,
+    phaserInstanceA,
+    phaserInstanceB,
     sidesA = [],
     sidesB = []
   }) {
     const effect = relation.effect
     const scene = this.scene
 
-    const [instanceSprites, alternateSpriteData] = this.getEffectedInstances({
-      instanceSpriteA,
-      instanceSpriteB,
+    const [phaserInstances, alternatePhaserInstanceData] = this.getEffectedPhaserInstances({
+      phaserInstanceA,
+      phaserInstanceB,
       sidesA,
       sidesB,
       effect: relation.effect
     })
 
-    instanceSprites.forEach((sprite) => {
-      runEffect(sprite)
+    phaserInstances.forEach((phaserInstance) => {
+      runEffect(phaserInstance)
     })
 
-    function runEffect(sprite) {
-      const objectInstance = scene.getObjectInstance(sprite.instanceId)
-      if(effect.effectBehavior === EFFECT_INVISIBLE && !objectInstance.effects.isVisibilityModified) {
-        objectInstance.effects.isVisibilityModified = true
-        objectInstance.isVisible = false
+    function runEffect(phaserInstance) {
+      const entityInstance = scene.getObjectInstance(phaserInstance.entityInstanceId)
+      if(effect.effectBehavior === EFFECT_INVISIBLE && !entityInstance.effects.isVisibilityModified) {
+        entityInstance.effects.isVisibilityModified = true
+        entityInstance.isVisible = false
       }
 
-      if(effect.effectBehavior === EFFECT_IGNORE_GRAVITY && !objectInstance.effects.isIgnoreGravityModified) {
-        objectInstance.effects.isIgnoreGravityModified = true
-        objectInstance.setIgnoreGravity(true)
+      if(effect.effectBehavior === EFFECT_IGNORE_GRAVITY && !entityInstance.effects.isIgnoreGravityModified) {
+        entityInstance.effects.isIgnoreGravityModified = true
+        entityInstance.setIgnoreGravity(true)
       }
 
       if(effect.effectBehavior === EFFECT_STICK_TO) {
-        if(!alternateSpriteData.sprite) console.error('bad!, stick to will not work here')
-        sprite.lockedTo = alternateSpriteData.sprite;   
-        sprite.lockedReleaseSides = alternateSpriteData.sides
-        objectInstance.effects.isIgnoreGravityModified = true
-        objectInstance.setIgnoreGravity(true)
+        if(!alternatePhaserInstanceData.phaserInstance) console.error('bad!, stick to will not work here')
+        phaserInstance.lockedTo = alternatePhaserInstanceData.phaserInstance;   
+        phaserInstance.lockedReleaseSides = alternatePhaserInstanceData.sides
+        entityInstance.effects.isIgnoreGravityModified = true
+        entityInstance.setIgnoreGravity(true)
       }
     }
   }
 
-  runTargetlessAccuteEffect({relation, instanceSpriteA, instanceSpriteB}) {
+  runTargetlessAccuteEffect({relation, phaserInstanceA, phaserInstanceB}) {
     const effect = relation.effect
 
     if(effect.effectBehavior === EFFECT_CAMERA_SHAKE) {
@@ -196,28 +196,28 @@ export class Effects {
     } else if(effect.effectBehavior === EFFECT_OPEN_OVERLAY) {
       const state = store.getState()
       store.dispatch(updateLobbyUser(state.auth.me?.id, {
-        inConstellationView: true
+        inOverlayView: true
       }))
     }
 
     // NARRATIVE
     if(effect.effectBehavior === EFFECT_CUTSCENE) {
-      if(effect.cutsceneId) store.dispatch(openCutscene(instanceSpriteB.classId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(phaserInstanceB.entityClassId, effect.cutsceneId))
     }
 
     if(effect.effectBehavior === EFFECT_SPAWN) {
       const spawningClassId = effect.spawnClassId
-      const modifiedClassData = { spawnX: null, spawnY: null, classId: spawningClassId }
+      const modifiedClassData = { spawnX: null, spawnY: null, entityClassId: spawningClassId }
       let zone 
 
 
     if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT) {
-        if(isZoneClassId(instanceSpriteA.classId)) {
-          zone = instanceSpriteA
+        if(isZoneClassId(phaserInstanceA.entityClassId)) {
+          zone = phaserInstanceA
         } 
       } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT) {
-        if(isZoneClassId(instanceSpriteB.classId)) {
-          zone = instanceSpriteB
+        if(isZoneClassId(phaserInstanceB.entityClassId)) {
+          zone = phaserInstanceB
         } 
       } else {
           //  if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
@@ -227,16 +227,16 @@ export class Effects {
 
       if(!zone) return console.log('no zone exists for that')
       const gameModel = store.getState().gameModel.gameModel
-      const objectClass = gameModel.classes[spawningClassId]
+      const entityClass = gameModel.entityClasses[spawningClassId]
       const spawnedObjectInstance =  this.scene.addObjectInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
-      spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
+      spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityClass))
     }
   }
 
   runAccuteEffect({
     relation,
-    instanceSpriteA,
-    instanceSpriteB,
+    phaserInstanceA,
+    phaserInstanceB,
     sidesA = [],
     sidesB = []
   }) {
@@ -266,8 +266,8 @@ export class Effects {
         delayedRelation.effect.effectDelay = null
         this.runAccuteEffect({
           relation: delayedRelation,
-          instanceSpriteA,
-          instanceSpriteB,
+          phaserInstanceA,
+          phaserInstanceB,
           sidesA,
           sidesB
         })
@@ -275,49 +275,46 @@ export class Effects {
       return
     }
 
-    if(effectBehaviorInterface[effect.effectBehavior].effectableType === NO_TAG_EFFECT) {
+    if(effectBehaviorInterfaces[effect.effectBehavior].effectableType === NO_TAG_EFFECT) {
       return this.runTargetlessAccuteEffect({
         relation,
-        instanceSpriteA,
-        instanceSpriteB,
+        phaserInstanceA,
+        phaserInstanceB,
       })
     }
 
-
-    console.log(effect)
-
-    const [instanceSprites] = this.getEffectedInstances({
-      instanceSpriteA,
-      instanceSpriteB,
+    const [phaserInstances] = this.getEffectedPhaserInstances({
+      phaserInstanceA,
+      phaserInstanceB,
       sidesA,
       sidesB,
       effect
     })
 
-    instanceSprites.forEach((sprite) => {
-      runEffect(sprite)
+    phaserInstances.forEach((phaserInstance) => {
+      runEffect(phaserInstance)
     })
 
-    function runEffect(sprite) {
+    function runEffect(phaserInstance) {
       if(effect.effectBehavior === EFFECT_STICK_TO) {
-        sprite.body.setVelocityY(0)
-        sprite.body.setVelocityX(0)
+        phaserInstance.body.setVelocityY(0)
+        phaserInstance.body.setVelocityX(0)
       }
 
       if(effect.effectBehavior === EFFECT_TELEPORT) {
         const gameModel = store.getState().gameModel.gameModel
-        const objectClass = gameModel.classes[sprite.classId]
+        const entityClass = gameModel.entityClasses[phaserInstance.entityClassId]
         const zone = scene.getRandomInstanceOfClassId(effect.zoneClassId)
         if(!zone) return
-        sprite.setRandomPosition(...zone.getInnerCoordinateBoundaries(objectClass))
+        phaserInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityClass))
       }
       
       if(effect.effectBehavior === EFFECT_DESTROY) {
-        const objectInstance = scene.getObjectInstance(sprite.instanceId)
-        objectInstance.destroyAfterUpdate = true
-      } else if(effect.effectBehavior === EFFECT_RECLASS) {
-        const objectInstance = scene.getObjectInstance(sprite.instanceId)
-        objectInstance.reclassId = effect.classId
+        const entityInstance = scene.getObjectInstance(phaserInstance.entityInstanceId)
+        entityInstance.destroyAfterUpdate = true
+      } else if(effect.effectBehavior === EFFECT_TRANSFORM) {
+        const entityInstance = scene.getObjectInstance(phaserInstance.entityInstanceId)
+        entityInstance.transformEntityClassId = effect.entityClassId
       }
     }
   }

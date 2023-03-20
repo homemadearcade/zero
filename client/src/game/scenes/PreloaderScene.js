@@ -45,7 +45,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image(DEFAULT_CLEAR_TEXTURE_ID, '/assets/images/eraser10x10.png')
 
     const gameModel = store.getState().gameModel.gameModel
-    Object.keys(gameModel.textures).forEach((textureId) => {
+    Object.keys(gameModel.canvasImages).forEach((textureId) => {
       this.load.image(textureId, window.awsUrl + textureId)
     })
 
@@ -93,9 +93,9 @@ export class PreloaderScene extends Phaser.Scene {
       const ss = window.spriteSheets[spriteSheetId]
       if(!ss.serverImageUrl) return
       
-      ss.sprites.forEach((tile) => {
-        const tileNamePrefix = 'sprite'
-        this.textures.get(ss.id).add(tile.id.slice(tileNamePrefix.length), 0, tile.x, tile.y, tile.width, tile.height)
+      ss.sprites.forEach((sprite) => {
+        const spriteNamePrefix = 'sprite'
+        this.textures.get(ss.id).add(sprite.id.slice(spriteNamePrefix.length), 0, sprite.x, sprite.y, sprite.width, sprite.height)
       })
     })
 

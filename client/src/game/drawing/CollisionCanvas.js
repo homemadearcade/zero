@@ -80,19 +80,19 @@ export class CollisionCanvas extends CodrawingCanvas {
     if(this.collisionBody) {
       // console.log('body arrived')
 
-      const classes = store.getState().gameModel.gameModel.classes
+      const entityClasses = store.getState().gameModel.gameModel.entityClasses
 
-      this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.sprite)
-      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.objectInstances.filter(({classId}) => {
-        return classes[classId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
-      }).map(({sprite}) => {
-        return sprite
+      this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.phaserInstance)
+      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.entityInstances.filter(({entityClassId}) => {
+        return entityClasses[entityClassId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
+      }).map(({phaserInstance}) => {
+        return phaserInstance
       }))
 
-      // this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.temporaryInstances.filter(({classId}) => {
-      //   return classes[classId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
-      // }).map(({sprite}) => {
-      //   return sprite
+      // this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.temporaryInstances.filter(({entityClassId}) => {
+      //   return entityClasses[entityClassId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
+      // }).map(({phaserInstance}) => {
+      //   return phaserInstance
       // }))
     } else {
       // console.log('no body yet')

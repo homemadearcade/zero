@@ -11,38 +11,38 @@ import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { selectClass, openJsonViewer } from '../../../store/actions/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CONTEXT_MENU_INSTANCE_DELETE_IID, CONTEXT_MENU_INSTANCE_JSON_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID, CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID } from '../../../constants/interfaceIds';
-import { openClassNameModal } from '../../../store/actions/gameFormEditorActions';
+import { openEditClassModal } from '../../../store/actions/gameFormEditorActions';
 
-const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, objectId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openClassNameModal, selectClass, openJsonViewer }) => {
+const ObjectInstanceContextMenu = ({ editGameModel, entityClassId, onMenuItemClick, entityInstanceId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openEditClassModal, selectClass, openJsonViewer }) => {
   return <>
     <ContextMenuTitle onClick={() => {
-      openClassNameModal(gameModel.classes[classId])
+      openEditClassModal(gameModel.entityClasses[entityClassId])
       onMenuItemClick()
-    }}>{gameModel.classes[classId].name}</ContextMenuTitle>
+    }}>{gameModel.entityClasses[entityClassId].name}</ContextMenuTitle>
     <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_MOVE_IID}>
       <MenuItem onClick={() => {
-        getCurrentGameScene(gameInstance).onDragStartContextMenu(objectId)
+        getCurrentGameScene(gameInstance).onDragStartContextMenu(entityInstanceId)
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>
-    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID}>
+    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID}>
       <MenuItem onClick={() => {
-        selectClass(classId)
+        selectClass(entityClassId)
         onMenuItemClick()
       }}>Copy</MenuItem>
     </Unlockable>}
     <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID}>
       <MenuItem onClick={() => {
-        getCurrentGameScene(gameInstance).onResizeStart(objectId)
+        getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
         onMenuItemClick()
-      }}>Resize{objectId === PLAYER_INSTANCE_ID_PREFIX ? '' : ' All'}</MenuItem>
+      }}>Resize{entityInstanceId === PLAYER_INSTANCE_ID_PREFIX ? '' : ' All'}</MenuItem>
     </Unlockable>
-    {objectId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_DELETE_IID}>
+    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_DELETE_IID}>
       <MenuItem onClick={() => {
         editGameModel({ 
           stages: {
             [currentStageId] : {
-              objects: { [objectId]: null } 
+              entityInstances: { [entityInstanceId]: null } 
             }
           }
         })
@@ -51,21 +51,21 @@ const ObjectInstanceContextMenu = ({ editGameModel, classId, onMenuItemClick, ob
     </Unlockable>}
     {<Unlockable interfaceId={CONTEXT_MENU_INSTANCE_JSON_IID}>
       <MenuItem onClick={() => {
-        const instance = getCurrentGameScene(gameInstance).getObjectInstance(objectId)
+        const entityInstance = getCurrentGameScene(gameInstance).getObjectInstance(entityInstanceId)
         const json = {
-          x: instance.sprite.x,
-          y: instance.sprite.y, 
-          reclassId: instance.reclassId,
-          destroyAfterUpdate: instance.destroyAfterUpdate,
-          instanceId: instance.instanceId,
-          classId: instance.classId,
+          x: entityInstance.phaserInstance.x,
+          y: entityInstance.phaserInstance.y, 
+          transformEntityClassId: entityInstance.transformEntityClassId,
+          destroyAfterUpdate: entityInstance.destroyAfterUpdate,
+          entityInstanceId: entityInstance.entityInstanceId,
+          entityClassId: entityInstance.entityClassId,
         }
 
         openJsonViewer(json)
         onMenuItemClick()
       }}>View Json</MenuItem>
     </Unlockable>}
-    <ClassContextMenu onMenuItemClick={onMenuItemClick} classId={classId} insideObjectInstanceContextMenu />
+    <ClassContextMenu onMenuItemClick={onMenuItemClick} entityClassId={entityClassId} insideObjectInstanceContextMenu />
   </>
 };
 
@@ -74,4 +74,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
 })
 
-export default connect(mapStateToProps, { editGameModel, openClassNameModal, selectClass, openJsonViewer })(ObjectInstanceContextMenu);
+export default connect(mapStateToProps, { editGameModel, openEditClassModal, selectClass, openJsonViewer })(ObjectInstanceContextMenu);

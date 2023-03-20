@@ -5,8 +5,8 @@ import { confetti } from 'tsparticles-confetti'
 
       // shapes: ["image"],
       // shapeOptions: {
-      //   image: Object.keys(gameModel.textures).map((awsImageId) => {
-      //     const awsImageData = gameModel.textures[awsImageId]
+      //   image: Object.keys(gameModel.images).map((awsImageId) => {
+      //     const awsImageData = gameModel.images[awsImageId]
       //     return {
       //       src: window.awsUrl + awsImageData.url,
       //       width: 32,

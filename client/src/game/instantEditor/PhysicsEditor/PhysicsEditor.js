@@ -16,10 +16,10 @@ import SelectSides from '../../ui/SelectSides/SelectSides';
 import { PHYSICS_BOUNCE_IID, PHYSICS_COLLIDERS_IID, PHYSICS_FRICTION_IID, PHYSICS_IGNORE_BOUNDARIES_IID, PHYSICS_IGNORE_SIDES_IID, PHYSICS_IMMOVABLE_IID, PHYSICS_MASS_IID, PHYSICS_PUSHABLE_IID } from '../../../constants/interfaceIds';
 
 
-const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => {
-  const classSelected = gameModel.classes[classId]
+const PhysicsEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel }) => {
+  const classSelected = gameModel.entityClasses[entityClassId]
 
-  const tagId = classId
+  const tagId = entityClassId
   return (
     <div className="PhysicsEditor">
       <Unlockable interfaceId={PHYSICS_COLLIDERS_IID}>
@@ -110,7 +110,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           step={0.05}
           options={[0, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { bounciness: value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { bounciness: value } }}})        
           }}
           value={classSelected.collisionResponse.bounciness}
         />
@@ -121,7 +121,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           step={0.05}
           options={[0, 0.1, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { friction: value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { friction: value } }}})        
           }}
           value={classSelected.collisionResponse.friction}
         />
@@ -132,7 +132,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           step={0.1}
           options={[.1, 1, 5, 10, 20, 50, 100, 200, 500]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { mass: value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { mass: value } }}})        
           }}
           value={classSelected.collisionResponse.mass}
         />
@@ -142,7 +142,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           labels={['Not Pushable', 'Pushable']}
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { notPushable: !e.target.checked } } } })        
+            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { notPushable: !e.target.checked } } } })        
           }}
           checked={!classSelected.collisionResponse.notPushable}
          />
@@ -152,7 +152,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           labels={['Collisions', 'No Collisions']}
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { immovable: e.target.checked } } } })        
+            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { immovable: e.target.checked } } } })        
           }}
           checked={classSelected.collisionResponse.immovable}
          />
@@ -162,7 +162,7 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           labels={['Boundaried', 'No Boundaries']}
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { ignoreBoundaries: e.target.checked } } } })        
+            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { ignoreBoundaries: e.target.checked } } } })        
           }}
           checked={classSelected.collisionResponse.ignoreBoundaries}
          />
@@ -173,8 +173,8 @@ const PhysicsEditor = ({ classId, gameModel: { gameModel }, editGameModel }) => 
           value={classSelected.collisionResponse.ignoreSides ? classSelected.collisionResponse.ignoreSides : []}
           onChange={(event, sides) => {
             editGameModel({
-              classes: { 
-                [classId]: { 
+              entityClasses: { 
+                [entityClassId]: { 
                   collisionResponse: { ignoreSides: sides } 
                 } 
               }

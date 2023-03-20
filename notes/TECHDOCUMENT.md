@@ -43,7 +43,7 @@ The back end only stores what’s different than the default model and will dele
 Never send an update with more data than you need! A deep merge takes place on the back end
 
 
-Default Class, Default Object get placed onto all classes and instance objects when loading the game model
+Default Class, Default Object get placed onto all entityClasses and instance entityInstance when loading the game model
 
 Default Game Model gets placed onto the game model when loading up, it has a default stage on it
 
@@ -75,7 +75,7 @@ Player is controlled by the game host and broadcasts to all clients from the hos
 --
 PHASER
 
-Phaser keeps spawned object in some sort of memory pool between 'reloading' the scene. I tested via profiler. Even if you destroy all objects, phaser still is slower next time you boot. You have to turn game off and turn it on again.
+Phaser keeps spawned object in some sort of memory pool between 'reloading' the scene. I tested via profiler. Even if you destroy all entityInstance, phaser still is slower next time you boot. You have to turn game off and turn it on again.
 
 
 -----
@@ -105,7 +105,7 @@ honestly i dont know what any of these mean...
 
 MONGOOSE 
 
-remove for hidding objects from UI, 
+remove for hidding entityInstance from UI, 
 delete for actuallt removing from atlasDB
 
 

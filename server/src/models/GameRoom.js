@@ -48,8 +48,8 @@ export const validateLobby = (lobby) => {
   //   metadata: Joi.object({
 
   //   }),
-  //   objects: Joi.object(),
-  //   classes: Joi.object(),
+  //   entityInstance: Joi.object(),
+  //   entityClasses: Joi.object(),
   //   brushes: Joi.object(),
   //   textures: Joi.object(),
   // };

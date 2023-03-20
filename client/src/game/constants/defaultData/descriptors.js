@@ -24,11 +24,11 @@ export async function getSpritesByDescriptor() {
   }, {})
   window.spriteSheetIds = spriteSheetIds
 
-  global.textureIdsByDescriptor = {}
+  global.spriteIdsByDescriptor = {}
   global.missingComplexDescriptors = {}
   
   function generateTextureIdsByDescriptors() {
-    global.textureIdsByDescriptor = {}
+    global.spriteIdsByDescriptor = {}
   
     Object.keys(window.spriteSheets).forEach((spriteSheetId) => {
       const ss = window.spriteSheets[spriteSheetId]
@@ -49,10 +49,10 @@ export async function getSpritesByDescriptor() {
   
           spriteMatchesComplex = true
   
-          if(!global.textureIdsByDescriptor[desc]) {
-            global.textureIdsByDescriptor[desc] = []
+          if(!global.spriteIdsByDescriptor[desc]) {
+            global.spriteIdsByDescriptor[desc] = []
           }
-          global.textureIdsByDescriptor[desc].push({...s, author: ss.author})
+          global.spriteIdsByDescriptor[desc].push({...s, author: ss.author})
         })
   
         // if it matches a complex descriptor, you can get it from there, easy
@@ -80,10 +80,10 @@ export async function getSpritesByDescriptor() {
               if(!global.complexityModifiers[desc].searchable) {
                 return
               } else {
-                if(!global.textureIdsByDescriptor[desc]) {
-                  global.textureIdsByDescriptor[desc] = []
+                if(!global.spriteIdsByDescriptor[desc]) {
+                  global.spriteIdsByDescriptor[desc] = []
                 }
-                global.textureIdsByDescriptor[desc].push({...s, author: ss.author})
+                global.spriteIdsByDescriptor[desc].push({...s, author: ss.author})
               }
             }
   
@@ -102,10 +102,10 @@ export async function getSpritesByDescriptor() {
           // if its not a modified sprite we can just add it to all of the categories it has listed
           if(!hasModifer) {
             spriteAdditions.forEach(({desc, sprite}) => {
-              if(!global.textureIdsByDescriptor[desc]) {
-                global.textureIdsByDescriptor[desc] = []
+              if(!global.spriteIdsByDescriptor[desc]) {
+                global.spriteIdsByDescriptor[desc] = []
               }
-              global.textureIdsByDescriptor[desc].push(sprite)
+              global.spriteIdsByDescriptor[desc].push(sprite)
             })
           }
         }
@@ -115,12 +115,12 @@ export async function getSpritesByDescriptor() {
     Object.keys(global.allDescriptors).forEach((desc) => {
       if(!global.allDescriptors[desc]) return
       if(global.allDescriptors[desc].children) {
-        if(!global.textureIdsByDescriptor[desc]) {
-          global.textureIdsByDescriptor[desc] = []
+        if(!global.spriteIdsByDescriptor[desc]) {
+          global.spriteIdsByDescriptor[desc] = []
         }
         global.allDescriptors[desc].children.forEach((child) => {
-          if(global.textureIdsByDescriptor[child]) {
-            global.textureIdsByDescriptor[desc].push(...global.textureIdsByDescriptor[child])
+          if(global.spriteIdsByDescriptor[child]) {
+            global.spriteIdsByDescriptor[desc].push(...global.spriteIdsByDescriptor[child])
           }
         })
       }
@@ -142,22 +142,22 @@ export async function getSpritesByDescriptor() {
         if(!nonModifier) return
   
         let name = nonModifier + ` (${modifier})`
-        if(!global.textureIdsByDescriptor[name]) {
+        if(!global.spriteIdsByDescriptor[name]) {
           global.allDescriptors[name] = {
             withDescriptors: sprite.descriptors,
             dontShowAdminsInSpriteSheetEditor: true,
             generated: true,
           }
-          global.textureIdsByDescriptor[name] = []
+          global.spriteIdsByDescriptor[name] = []
         }
-        global.textureIdsByDescriptor[name].push(sprite)
+        global.spriteIdsByDescriptor[name].push(sprite)
       })
     })
   }
 
   generateTextureIdsByDescriptors()
 
-  return global.textureIdsByDescriptor
+  return global.spriteIdsByDescriptor
 }
 
 

@@ -3,26 +3,26 @@ import { generateUniqueId } from "../../../utils/webPageUtils"
 import { PROJECTILE_INSTANCE_ID_PREFIX } from "../../constants"
 
 export class ControlledProjectileEjector {
-  constructor(scene, objectInstance){
-    this.objectInstance = objectInstance
-    this.cursors = objectInstance.cursors
+  constructor(scene, entityInstance){
+    this.entityInstance = entityInstance
+    this.cursors = entityInstance.cursors
     this.scene = scene
     this.nextFire = 0
   }
 
   update(time, delta) {
-    const classId = this.objectInstance.classId
-    const objectClass = store.getState().gameModel.gameModel.classes[classId]
+    const entityClassId = this.entityInstance.entityClassId
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
 
-    if(this.cursors.space.isDown && objectClass.projectile?.classId) {
+    if(this.cursors.space.isDown && entityClass.projectile?.entityClassId) {
       if(time < this.nextFire) { 
         return
       }
 
-      const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
-      projectile.fireControlled(this.objectInstance, time, this.cursors)
+      const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), entityClass.projectile?.entityClassId)
+      projectile.fireControlled(this.entityInstance, time, this.cursors)
 
-      this.nextFire = time + objectClass.projectile.cooldown;
+      this.nextFire = time + entityClass.projectile.cooldown;
     }
   }
 }

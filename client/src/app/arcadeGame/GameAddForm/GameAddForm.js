@@ -21,10 +21,10 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       defaults: {},
       metadata: {},
       tags: {},
-      classes: {},
+      entityClasses: {},
       brushes: {},
       colors: {},
-      texture: {},
+      canvasImages: {},
       userId: me.id,
       ...defaultValues
     },

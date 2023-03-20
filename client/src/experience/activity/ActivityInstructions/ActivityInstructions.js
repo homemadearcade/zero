@@ -119,7 +119,7 @@ const ActivityInstructions = ({
           lobbyId: lobby.id,
           userId: lobby.participantId, 
           user: {
-            inConstellationView: false
+            inOverlayView: false
           }
         })
       },
@@ -137,7 +137,7 @@ const ActivityInstructions = ({
           lobbyId: lobby.id,
           userId: lobby.participantId, 
           user: {
-            inConstellationView: true
+            inOverlayView: true
           }
         })
       },
@@ -157,9 +157,9 @@ const ActivityInstructions = ({
     }
   }
 
-  function spawnThis({classId, className, gameId}) {
+  function spawnThis({entityClassId, className, gameId}) {
     return {
-      id: classId,
+      id: entityClassId,
       title: <Typography component="h5" variant="h5">Spawn {className}</Typography>,
       instructions: <>
         This will spawn {className} inside of the Players camera view
@@ -186,7 +186,7 @@ const ActivityInstructions = ({
           gameRoomId: lobby.gameRoomId, 
           gameInstanceEventType: EVENT_SPAWN_CLASS_IN_CAMERA, 
           data: {
-            classId,
+            entityClassId,
             hostOnly: true
           }
         })
@@ -387,16 +387,16 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Unpause'
         },
-        spawnThis({ classId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           What do you encounter? What could it be?
           You answer as You interact.
         `),
-        spawnThis({ classId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           We repeat this answer, support and clarify it.
         `),
-        spawnThis({ classId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           Another, larger block appears.
 
@@ -404,7 +404,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           You answer.  We affirm.
         `),
-        spawnThis({ classId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', gameId:  GAME_IDS.prologue1}),
         sayThis(`
           Another image appears…
 
@@ -433,10 +433,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
              As many worlds as there are imaginative moments in the universe.  
              You take a breath, and dive in again, to connect with another world…`),
         returnFromStarsStep(),
-        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', gameId: GAME_IDS.prologue2}),
-        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', gameId: GAME_IDS.prologue2}),
-        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', gameId: GAME_IDS.prologue2}),
-        spawnThis({ classId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', gameId: GAME_IDS.prologue2}),
         sayThis(`You encounter the world that loops, 
             adds color and individual powers, 
             naming those as You did before.`),

@@ -10,8 +10,8 @@ import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
 
 const SelectTag = ({ hideClassTags, hideAutoapplied, onChange, disabled, value, formLabel, gameModel }) => {
 
-  const mapTagToOption = (classId) => {
-    const tag = gameModel.tags[classId]
+  const mapTagToOption = (entityClassId) => {
+    const tag = gameModel.tags[entityClassId]
 
     let tagInterfaceType = 'My Tags'
 
@@ -22,24 +22,24 @@ const SelectTag = ({ hideClassTags, hideAutoapplied, onChange, disabled, value, 
     const isRemoved = tag.isRemoved || (hideAutoapplied && tag.isAutoapplied)
 
     if(tag.tagInterfaceType === TAG_CLASS) {
-      const tagClass = gameModel.classes[tag.tagId]
-      const interfaceId = tagClass.classInterfaceType + CLASS_UNLOCKABLE_IID + tag.tagId
+      const tagClass = gameModel.entityClasses[tag.tagId]
+      const interfaceId = tagClass.classInterfaceCategory + CLASS_UNLOCKABLE_IID + tag.tagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
 
       return {
         label: tag.name,
-        value: classId,
+        value: entityClassId,
         textureId: tag.textureId,
-        tint: tag.color,
+        textureTint: tag.textureTint,
         isRemoved: (isObscured && tag.interfaceLocked) || hideClassTags || isRemoved,
-        tagInterfaceType: classTypeToDisplayName[tagClass.classInterfaceType],
+        tagInterfaceType: classTypeToDisplayName[tagClass.classInterfaceCategory],
       }
     }
 
     return {
       label: tag.name,
-      value: classId,
-      tint: tag.color,
+      value: entityClassId,
+      textureTint: tag.textureTint,
       isRemoved,
       tagInterfaceType
     }

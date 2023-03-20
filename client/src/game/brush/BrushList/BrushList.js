@@ -18,12 +18,13 @@ import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordia
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { ADD_BRUSH_IID, BACKGROUND_LAYER_CANVAS_CONTAINER_IID, FOREGROUND_LAYER_CANVAS_CONTAINER_IID, getBrushSelectFromLayerCanvasId, PLAYGROUND_LAYER_CANVAS_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { sortByLastSelectedDate } from '../../../utils/editorUtils';
+import { getTextureIdForLayerCanvasId } from '../../../utils';
 
 const BrushList = ({
   gameModel: { gameModel, currentStageId },
-  gameViewEditor: { layerVisibility },
+  gameViewEditor: { layerInvisibility },
   openCreateBrushFlow,
-  texture: { textureIdSaving, textureIdUnsaved, textureIdStrokesPending },
+  canvasImage: { textureIdSaving, textureIdUnsaved, textureIdStrokesPending },
 }) => {
   const brushes = gameModel?.brushes
 
@@ -101,11 +102,11 @@ const BrushList = ({
 
   const hiddenOpacity = 0.5
 
-  const backgroundTextureId = gameModel.id+'/' + currentStageId + '_' + BACKGROUND_LAYER_CANVAS_ID
+  const backgroundTextureId = getTextureIdForLayerCanvasId(gameModel.id, currentStageId, BACKGROUND_LAYER_CANVAS_ID)
   accordians.push({
     id: 'Background',
     interfaceId: BACKGROUND_LAYER_CANVAS_CONTAINER_IID,
-    sx:  !layerVisibility[BACKGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
+    sx:  layerInvisibility[BACKGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography  component="div" variant="subtitle1">Background</Typography>
       {renderUnsaved(backgroundTextureId)}
@@ -121,16 +122,16 @@ const BrushList = ({
         items={bgBrushes}/>
       </div>
       <div className="BrushList__tools">
-        <LayerVisibility layerCanvasId={BACKGROUND_LAYER_CANVAS_ID} />
+        <LayerVisibility layerId={BACKGROUND_LAYER_CANVAS_ID} />
       </div>
     </>
   })
 
-  const playgroundTextureId = gameModel.id+'/' + currentStageId + '_' + PLAYGROUND_LAYER_CANVAS_ID
+  const playgroundTextureId = getTextureIdForLayerCanvasId(gameModel.id, currentStageId, PLAYGROUND_LAYER_CANVAS_ID)
   accordians.push({
     id: 'Playground',
     interfaceId: PLAYGROUND_LAYER_CANVAS_CONTAINER_IID,
-    sx: !layerVisibility[PLAYGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
+    sx: layerInvisibility[PLAYGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">
         Playground
@@ -148,16 +149,16 @@ const BrushList = ({
           items={pgBrushes}/>
       </div>
       <div className="BrushList__tools">
-        <LayerVisibility layerCanvasId={PLAYGROUND_LAYER_CANVAS_ID} />
+        <LayerVisibility layerId={PLAYGROUND_LAYER_CANVAS_ID} />
       </div>
     </>
   })
 
-  const foregroundTextureId = gameModel.id+'/' + currentStageId + '_' + FOREGROUND_LAYER_CANVAS_ID
+  const foregroundTextureId = getTextureIdForLayerCanvasId(gameModel.id, currentStageId, FOREGROUND_LAYER_CANVAS_ID)
   accordians.push({
     id: 'Foreground',
     interfaceId: FOREGROUND_LAYER_CANVAS_CONTAINER_IID,
-    sx: !layerVisibility[FOREGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
+    sx: layerInvisibility[FOREGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">Foreground</Typography>
       {renderUnsaved(foregroundTextureId)}
@@ -173,7 +174,7 @@ const BrushList = ({
         items={fgBrushes}/>
       </div>
       <div className="BrushList__tools">
-        <LayerVisibility layerCanvasId={FOREGROUND_LAYER_CANVAS_ID} />
+        <LayerVisibility layerId={FOREGROUND_LAYER_CANVAS_ID} />
       </div>
     </>
   })
@@ -192,7 +193,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
   // for the unlockability to show up
   cobrowsing: state.cobrowsing,
-  texture: state.texture 
+  canvasImage: state.canvasImage 
 })
 
 

@@ -12,7 +12,7 @@ export const EFFECT_FOLLOW_END = 'EFFECT_FOLLOW_END'
 export const EFFECT_IGNORE_GRAVITY = 'EFFECT_IGNORE_GRAVITY'
 export const EFFECT_STICK_TO = 'EFFECT_STICK_TO'
 
-export const EFFECT_RECLASS = 'EFFECT_RECLASS'
+export const EFFECT_TRANSFORM = 'EFFECT_TRANSFORM'
 export const EFFECT_SPAWN = 'EFFECT_SPAWN'
 export const EFFECT_DESTROY = 'EFFECT_DESTROY'
 
@@ -41,7 +41,7 @@ export const defaultEffect = {
 
   stageId: null,
   spawnClassId: null,
-  classId: null,
+  entityClassId: null,
   gameId: null,
   zoneClassId: null,
   cutsceneId: null,
@@ -68,7 +68,7 @@ export const effectBehaviorToDisplayNames = {
   [EFFECT_STICK_TO]: 'Hold',
 
   // Lifecycle
-  [EFFECT_RECLASS]: 'Transform',
+  [EFFECT_TRANSFORM]: 'Transform',
   [EFFECT_SPAWN]: 'Spawn',
   [EFFECT_DESTROY]: 'Destroy',
 
@@ -92,7 +92,7 @@ export const effectBehaviorToDisplayNames = {
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 //// EFFECT
-export const effectBehaviorInterface = {
+export const effectBehaviorInterfaces = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneClassId: 'Teleport to which zone?',
@@ -106,8 +106,8 @@ export const effectBehaviorInterface = {
   },
 
   // Lifecycle
-  [EFFECT_RECLASS]: {
-    classId: 'Transform into which object?',
+  [EFFECT_TRANSFORM]: {
+    entityClassId: 'Transform into which object?',
     effectableType: TWO_TAG_EFFECT
   },
   [EFFECT_SPAWN]: {
@@ -149,7 +149,7 @@ export const effectBehaviorInterface = {
   [EFFECT_SWITCH_STAGE]: {
     stageId: 'Which stage?',
     // zoneClassId: 'Spawn in which Zone?',
-    // classId: 'Transform into which object? (Optional)',
+    // entityClassId: 'Transform into which object? (Optional)',
     effectableType: NO_TAG_EFFECT
   },
   [EFFECT_CHANGE_GAME]: {
@@ -161,7 +161,7 @@ export const effectBehaviorInterface = {
   },
 }
 
-// EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_CUTSCENE
+// EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
 export const persistentEffects  = {
   // Movement
   [EFFECT_TELEPORT]: false,
@@ -169,7 +169,7 @@ export const persistentEffects  = {
   [EFFECT_STICK_TO]: true,
 
   // Lifecycle
-  [EFFECT_RECLASS]: false,
+  [EFFECT_TRANSFORM]: false,
   [EFFECT_SPAWN]: false,
   [EFFECT_DESTROY]: false,
 
@@ -195,7 +195,7 @@ export const nonRemoteEffects  = {
   [EFFECT_STICK_TO]: true,
 
   // Lifecycle
-  [EFFECT_RECLASS]: false,
+  [EFFECT_TRANSFORM]: false,
   [EFFECT_SPAWN]: true,
   [EFFECT_DESTROY]: false,
 
@@ -223,20 +223,20 @@ export function getEffectShorthand(effect) {
   const effectBehavior = effect.effectBehavior 
   const displayName = effectBehaviorToDisplayNames[effectBehavior]
   const gameModel = store.getState().gameModel.gameModel
-  const classes = gameModel.classes 
+  const entityClasses = gameModel.entityClasses 
   const cutscenes = gameModel.cutscenes 
   const tags = gameModel.tags 
 
   if(effectBehavior === EFFECT_TELEPORT) {
-    return displayName + ` to  ${classes[effect.zoneClassId].name}` 
+    return displayName + ` to  ${entityClasses[effect.zoneClassId].name}` 
   }
 
-  if(effectBehavior === EFFECT_RECLASS) {
-    return displayName + ` into  ${classes[effect.classId].name}`
+  if(effectBehavior === EFFECT_TRANSFORM) {
+    return displayName + ` into  ${entityClasses[effect.entityClassId].name}`
   }
 
   if(effectBehavior === EFFECT_SPAWN) {
-    return displayName + ` ${classes[effect.spawnClassId].name}  into  ${classes[effect.zoneClassId].name}`
+    return displayName + ` ${entityClasses[effect.spawnClassId].name}  into  ${entityClasses[effect.zoneClassId].name}`
   }
 
   if(effectBehavior === EFFECT_CUTSCENE) {

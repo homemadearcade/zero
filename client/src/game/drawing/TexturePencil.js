@@ -9,11 +9,11 @@ export class TexturePencil extends Brush {
     const gameModel = store.getState().gameModel.gameModel
     const brush = gameModel.brushes[brushId]
     const depth = getDepthFromLayerCanvasId(brush.layerCanvasId)
-    const tint = brush.tint
+    const textureTint = brush.textureTint
 
     const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
 
-    super(scene, {brushId, depth, tint, spriteSheetName, spriteIndex, textureId: brush.textureId})
+    super(scene, {brushId, depth, textureTint, spriteSheetName, spriteIndex, textureId: brush.textureId})
 
     this.snapMethod = snapFreeXY
 

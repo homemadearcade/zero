@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX, ZONE_INSTANCE_CANVAS_ID, ZONE_CLASS, PLAYER_INSTANCE_CANVAS_ID, PLAYER_CLASS, BASIC_CLASS, NPC_CLASS } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX, PLAYER_CLASS, BASIC_CLASS, NPC_CLASS } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -37,12 +37,12 @@ export function getAngleBetweenInstances(obj1, obj2) {
     return Phaser.Math.DegToRad(angleDeg)
 }
 
-export function getClassAandB(classIdA, classIdB) {
+export function getClassAandB(entityClassIdA, entityClassIdB) {
   const state = store.getState()
   const gameModel = state.gameModel.gameModel
 
-  let classA = gameModel.classes[classIdA] 
-  let classB = gameModel.classes[classIdB]
+  let classA = gameModel.entityClasses[entityClassIdA] 
+  let classB = gameModel.entityClasses[entityClassIdB]
 
   return {
     classA, 
@@ -54,25 +54,21 @@ export function getTextureIdForLayerCanvasId(gameId, stageId, layerCanvasId) {
    return gameId+'/' + stageId + '_' + layerCanvasId
 }
 
-export function isEventMatch({effect, classId, world, objectClass, body}) {
+export function isEventMatch({effect, entityClassId, world, entityClass, body}) {
   if(
-    (classId === BOUNDARY_DOWN_WALL_ID && body === world.walls.down) ||
-    (classId === BOUNDARY_UP_WALL_ID && body === world.walls.up) ||
-    (classId === BOUNDARY_LEFT_WALL_ID && body === world.walls.left) ||
-    (classId === BOUNDARY_RIGHT_WALL_ID && body === world.walls.right) ||
-    (classId === BOUNDARY_WALL_ID && isGameBoundaryWall(world, body))
+    (entityClassId === BOUNDARY_DOWN_WALL_ID && body === world.walls.down) ||
+    (entityClassId === BOUNDARY_UP_WALL_ID && body === world.walls.up) ||
+    (entityClassId === BOUNDARY_LEFT_WALL_ID && body === world.walls.left) ||
+    (entityClassId === BOUNDARY_RIGHT_WALL_ID && body === world.walls.right) ||
+    (entityClassId === BOUNDARY_WALL_ID && isGameBoundaryWall(world, body))
   ) {
     return true
   }
 
-  if(!objectClass) return false
+  if(!entityClass) return false
   
-  if(objectClass.classId === classId) {
+  if(entityClass.entityClassId === entityClassId) {
     return true
-  }
-
-  if(classId === PLAYER_INSTANCE_ID_PREFIX) {
-    return objectClass.classInterfaceType === PLAYER_INSTANCE_ID_PREFIX
   }
 
   return false
@@ -104,8 +100,8 @@ export function areBSidesHit(sidesList, a, b) {
   return verdict
 }
 
-export function getClassDisplayName(descriptors, classId) {
-  return descriptors ? descriptors[0] : classId
+export function getClassDisplayName(descriptors, entityClassId) {
+  return descriptors ? descriptors[0] : entityClassId
 }
 
 export function getOppositeColliderTagId(tagId, collision) {
@@ -149,21 +145,6 @@ export function createGameSceneInstance(key, gameRoom) {
     }
   } else {
     return new GamePlayScene({ gameRoom: gameRoom, key})
-  }
-}
-
-export function getLayerIdFromClass(objectClass) {
-  if(objectClass.classInterfaceType === NPC_CLASS) {
-    return NPC_CLASS
-  }
-  if(objectClass.classInterfaceType === BASIC_CLASS) {
-    return BASIC_CLASS
-  }
-  if(objectClass.classInterfaceType === PLAYER_CLASS) {
-    return PLAYER_INSTANCE_CANVAS_ID
-  }
-  if(objectClass.classInterfaceType === ZONE_CLASS) {
-    return ZONE_INSTANCE_CANVAS_ID
   }
 }
 

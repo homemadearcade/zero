@@ -6,15 +6,15 @@ import { connect } from 'react-redux';
 import './ClassList.scss';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassItem from '../ClassItem/ClassItem';
-import CreateClassFlow from '../CreateClassFlow/CreateClassFlow';
-import { openCreateClassFlow, openCreateCutscene } from '../../../store/actions/gameFormEditorActions';
+import EditClassGraphics from '../EditClassGraphics/EditClassGraphics';
+import { openEditClassGraphics, openCreateCutscene } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_CLASS, PLAYER_INSTANCE_CANVAS_ID, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID } from '../../constants';
+import { PLAYER_CLASS, NPC_CLASS, BASIC_CLASS, ZONE_CLASS } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClass } from '../../constants';
 import { directionalClass, jumperClass } from '../../constants';
@@ -27,29 +27,29 @@ const CLASS_MAX = 16
 
 const ClassList = ({
   gameModel: { gameModel },
-  gameFormEditor: { isCreateClassFlowOpen },
+  gameFormEditor: { isEditClassGraphicsOpen },
   editGameModel,
-  openCreateClassFlow,
-  gameViewEditor: {layerVisibility},
+  openEditClassGraphics,
+  gameViewEditor: {layerInvisibility},
   openClassBoxModal
 }) => {
-  const classes = gameModel?.classes
+  const entityClasses = gameModel?.entityClasses
 
-  if(!classes) {
+  if(!entityClasses) {
     return null
   }
 
   const renderClassItem = (classType) =>  (currentClassId, i) => {
-    const el = <ClassItem key={i} classId={currentClassId}/>
-    const currentClass = classes[currentClassId]
+    const el = <ClassItem key={i} entityClassId={currentClassId}/>
+    const currentClass = entityClasses[currentClassId]
     if(currentClass.interfaceLocked) {
 
       // if this is uncommented thats great but it has extra fireworks in cobrowsing...
 
-      // const interfaceIdToUnlock = classType + '/' + CLASS_UNLOCKABLE_IID + '/' + currentClass.classId
+      // const interfaceIdToUnlock = classType + '/' + CLASS_UNLOCKABLE_IID + '/' + currentClass.entityClassId
       // const {isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceIdToUnlock)
       // if(isObscured) return null
-      return <Unlockable interfaceIdPrefix={classType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentClass.classId}>
+      return <Unlockable interfaceIdPrefix={classType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentClass.entityClassId}>
         {el}
       </Unlockable>
     } else {
@@ -71,75 +71,75 @@ const ClassList = ({
 
 
   const filterClasses = (classType) => (currentClassId) => {
-    const currentClass = classes[currentClassId]
+    const currentClass = entityClasses[currentClassId]
     if(currentClass.isRemoved) return false
-    if(currentClass.classInterfaceType === classType) return true
+    if(currentClass.classInterfaceCategory === classType) return true
     return false
   }
 
-  function addDefaultValuesToPlayerClass(objectClass) {
-    if(gameModel.defaults?.boundaryRelation) objectClass.boundaryRelation = gameModel.defaults?.boundaryRelation
+  function addDefaultValuesToPlayerClass(entityClass) {
+    if(gameModel.defaults?.boundaryRelation) entityClass.boundaryRelation = gameModel.defaults?.boundaryRelation
     if(gameModel.defaults?.playerClass === 'JUMPER_PLAYER') {
-      objectClass.movement = { ...jumperClass.movement }
-      objectClass.jump = { ...jumperClass.jump }
+      entityClass.movement = { ...jumperClass.movement }
+      entityClass.jump = { ...jumperClass.jump }
     } else {
-      objectClass.movement = { ...directionalClass.movement }
-      objectClass.jump = { ...directionalClass.jump }
+      entityClass.movement = { ...directionalClass.movement }
+      entityClass.jump = { ...directionalClass.jump }
     }
 
-    return objectClass
+    return entityClass
   }
 
-  const playerClasses = Object.keys(classes).
+  const playerClasses = Object.keys(entityClasses).
     filter(filterClasses(PLAYER_CLASS)). 
-    sort(sortByLastEditedDate(classes)).
+    sort(sortByLastEditedDate(entityClasses)).
     map(renderClassItem(PLAYER_CLASS)).filter((item) => !!item).slice(0, CLASS_MAX -1)
   
   playerClasses.push(<Unlockable interfaceId={PLAYER_CLASS_ADD_IID}>
     <Button size="fit" 
       onClick={() => {
-        openCreateClassFlow(addDefaultValuesToPlayerClass({...defaultPlayerClass}))
+        openEditClassGraphics(addDefaultValuesToPlayerClass({...defaultPlayerClass}))
       }}>
       +
     </Button>
   </Unlockable>)
 
-  const npcClasses = Object.keys(classes).
+  const npcClasses = Object.keys(entityClasses).
     filter(filterClasses(NPC_CLASS)).
-    sort(sortByLastEditedDate(classes)).
+    sort(sortByLastEditedDate(entityClasses)).
     map(renderClassItem(NPC_CLASS)).filter((item) => !!item).slice(0, CLASS_MAX -1)
 
   npcClasses.push(<Unlockable interfaceId={NPC_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateClassFlow(defaultNpcClass)
+      openEditClassGraphics(defaultNpcClass)
     }}>
       +
     </Button>
   </Unlockable>)
 
-  const basicClasses = Object.keys(classes).
+  const basicClasses = Object.keys(entityClasses).
     filter(filterClasses(BASIC_CLASS)).
-    sort(sortByLastEditedDate(classes)).
+    sort(sortByLastEditedDate(entityClasses)).
     map(renderClassItem(BASIC_CLASS)).filter((item) => !!item).slice(0, CLASS_MAX -1)
 
 
   basicClasses.push(<Unlockable interfaceId={BASIC_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateClassFlow(defaultBasicClass)
+      openEditClassGraphics(defaultBasicClass)
     }}>
       +
     </Button>
   </Unlockable>)
 
-  const zoneClasses = Object.keys(classes).
+  const zoneClasses = Object.keys(entityClasses).
     filter(filterClasses(ZONE_CLASS)).
-    sort(sortByLastEditedDate(classes)).
+    sort(sortByLastEditedDate(entityClasses)).
     map(renderClassItem(ZONE_CLASS)).filter((item) => !!item).
     slice(0, CLASS_MAX -1)
 
   zoneClasses.push(<Unlockable interfaceId={ZONE_CLASS_ADD_IID}>
     <Button size="fit" className="ClassList__add" onClick={() => {
-      openCreateClassFlow(defaultZoneClass)
+      openEditClassGraphics(defaultZoneClass)
     }}>
       +
     </Button>
@@ -151,9 +151,9 @@ const ClassList = ({
   accordians.push({
     id: 'players',
     interfaceId: PLAYER_CLASS_CONTAINER_IID,
-    sx: !layerVisibility[PLAYER_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
+    sx: layerInvisibility[PLAYER_CLASS] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography sx={!layerVisibility[PLAYER_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {}} component="div" variant="subtitle1">Players</Typography>
+      <Typography component="div" variant="subtitle1">Players</Typography>
     </>,
     body: <>
       <BorderedGrid
@@ -163,7 +163,7 @@ const ClassList = ({
         items={playerClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility layerCanvasId={PLAYER_INSTANCE_CANVAS_ID} />
+        <LayerVisibility layerId={PLAYER_CLASS} />
         {Object.keys(playerClasses).length >= CLASS_MAX && renderClassBoxButton(PLAYER_CLASS)}
       </div>
     </>
@@ -172,7 +172,7 @@ const ClassList = ({
   accordians.push({
     id: 'NPCs',
     interfaceId: NPC_CLASS_CONTAINER_IID,
-    sx: !layerVisibility[NPC_CLASS] ? {opacity: hiddenOpacity} : {},
+    sx: layerInvisibility[NPC_CLASS] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">NPCs</Typography>
     </>,
@@ -184,7 +184,7 @@ const ClassList = ({
       items={npcClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility layerCanvasId={NPC_CLASS} />
+        <LayerVisibility layerId={NPC_CLASS} />
         {Object.keys(npcClasses).length >= CLASS_MAX && renderClassBoxButton(NPC_CLASS)}
       </div>
     </>
@@ -193,7 +193,7 @@ const ClassList = ({
   accordians.push({
     id: 'objects',
     interfaceId: BASIC_CLASS_CONTAINER_IID,
-    sx: !layerVisibility[BASIC_CLASS] ? {opacity: hiddenOpacity} : {},
+    sx: layerInvisibility[BASIC_CLASS] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">Objects</Typography>
     </>,
@@ -205,7 +205,7 @@ const ClassList = ({
         items={basicClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility layerCanvasId={BASIC_CLASS} />
+        <LayerVisibility layerId={BASIC_CLASS} />
         {Object.keys(basicClasses).length >= CLASS_MAX && renderClassBoxButton(BASIC_CLASS)}
       </div>
     </>
@@ -214,9 +214,9 @@ const ClassList = ({
   accordians.push({
     id: 'zones',
     interfaceId: ZONE_CLASS_CONTAINER_IID,
-    sx: !layerVisibility[ZONE_INSTANCE_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
+    sx: layerInvisibility[ZONE_CLASS] ? {opacity: hiddenOpacity} : {},
     title: <>
-      <Typography  component="div" variant="subtitle1">Zones</Typography>
+      <Typography component="div" variant="subtitle1">Zones</Typography>
     </>,
     body: <>
       <BorderedGrid
@@ -226,7 +226,7 @@ const ClassList = ({
         items={zoneClasses}
       />
       <div className="ClassList__tools">
-        <LayerVisibility layerCanvasId={ZONE_INSTANCE_CANVAS_ID} />
+        <LayerVisibility layerId={ZONE_CLASS} />
         {Object.keys(zoneClasses).length >= CLASS_MAX && renderClassBoxButton(ZONE_CLASS)}
       </div>
     </>
@@ -238,20 +238,20 @@ const ClassList = ({
       listId="LeftColumn"
       accordians={accordians}
     />
-    {isCreateClassFlowOpen && <CreateClassFlow 
-      onComplete={(objectClass) => {
+    {isEditClassGraphicsOpen && <EditClassGraphics 
+      onComplete={(entityClass) => {
         editGameModel({
-          classes: {
-            [objectClass.classId] : {
-              ...objectClass,
+          entityClasses: {
+            [entityClass.entityClassId] : {
+              ...entityClass,
               isNew: false,
-              graphics: objectClass.graphics,
-              descriptors: objectClass.descriptors,
-              name: objectClass.name,
-              classId: objectClass.classId,
-              classInterfaceType: objectClass.classInterfaceType,
-              interfaceLocked: objectClass.interfaceLocked,
-              layerId: objectClass.layerId
+              graphics: entityClass.graphics,
+              descriptors: entityClass.descriptors,
+              name: entityClass.name,
+              entityClassId: entityClass.entityClassId,
+              classInterfaceCategory: entityClass.classInterfaceCategory,
+              interfaceLocked: entityClass.interfaceLocked,
+              layerId: entityClass.layerId
             }
           }
         })
@@ -268,5 +268,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateClassFlow, openCreateCutscene, openClassBoxModal }),
+  connect(mapStateToProps, { editGameModel, openEditClassGraphics, openCreateCutscene, openClassBoxModal }),
 )(ClassList);

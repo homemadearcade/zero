@@ -40,7 +40,7 @@ import {
 
 import ping from 'web-pingjs';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { BACKGROUND_LAYER_CANVAS_ID, SPRITE_EDITOR_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID } from '../../game/constants';
+import { BACKGROUND_LAYER_CANVAS_ID, IMAGE_CANVAS_MODAL_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID } from '../../game/constants';
 import { editGameModel } from './gameModelActions';
 import store from '..';
 import { setRecentlyFocused } from './webPageActions';
@@ -49,17 +49,17 @@ let pingInterval;
 
 const recentlyFocusedDelta = 3000
 
-export function onSpriteEditorUndo() {
+export function onCanvasImageModalUndo() {
   const state = store.getState()
   const isHost = state.auth.me.id === state.gameRoom.gameRoom.hostUserId
   
-  if(!window.spriteEditorUndoStack.length) return
+  if(!window.imageCanvasUndoStack.length) return
 
-  const undoAction = window.spriteEditorUndoStack.pop()
+  const undoAction = window.imageCanvasUndoStack.pop()
 
   if(!isHost && state.lobby.id) return
 
-  getCurrentGameScene(state.webPage.spriteEditorGameInstance).backgroundCanvasLayer.undo()
+  getCurrentGameScene(state.webPage.imageCanvasGameInstance).backgroundCanvasLayer.undo()
 }
 
 export function onInstanceUndo() {
@@ -80,15 +80,15 @@ export function onInstanceUndo() {
     scene.playgroundCanvasLayer.undo()
   } else if(undoAction === FOREGROUND_LAYER_CANVAS_ID) {
     scene.foregroundCanvasLayer.undo()
-  } else if(undoAction === SPRITE_EDITOR_CANVAS_ID) {
+  } else if(undoAction === IMAGE_CANVAS_MODAL_CANVAS_ID) {
     console.log('BASE CANVAS oddly got into undo there...')
   } else { 
-    if(undoAction.objectInstanceId) {
+    if(undoAction.entityInstanceId) {
       store.dispatch(editGameModel({
         stages: {
-          [undoAction.objectInstanceStageId]: {
-            objects: {
-            [undoAction.objectInstanceId]: undoAction.data
+          [undoAction.entityInstanceStageId]: {
+            entityInstance: {
+            [undoAction.entityInstanceId]: undoAction.data
             }
           }
         }

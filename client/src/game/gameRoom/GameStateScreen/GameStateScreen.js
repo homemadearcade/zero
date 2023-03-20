@@ -39,7 +39,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
 
   function renderGameStateScreen() {
     if(gameState === START_STATE) {
-      const playerClass = gameModel.classes[gameModel.stages[gameModel.player.startingStageId].playerClassId]
+      const playerClass = gameModel.entityClasses[gameModel.stages[gameModel.player.startingStageId].playerClassId]
       return <Constellation notInteractive>
         <Fade in><div className="GameStateScreen__content">
           <Typography font="2P" component="h2" variant="h2"><div ref={ref} style={{fontSize}} className='GameStateScreen__title'>
@@ -50,7 +50,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
           </div>
           <div className="GameStateScreen__controls">
             <Typography component="h5" variant="h5">Controls</Typography>
-            {playerClass && <ControlsCard showInteract objectClass={playerClass} projectileClass={playerClass.projectile.class} controlScheme={playerClass.movement.movementControlsBehavior} jumpBehavior={playerClass.jump.jumpBehavior}></ControlsCard>}
+            {playerClass && <ControlsCard showInteract entityClass={playerClass} projectileClass={playerClass.projectile.class} controlScheme={playerClass.movement.movementControlsBehavior} jumpControlsBehavior={playerClass.jump.jumpControlsBehavior}></ControlsCard>}
           </div>
         </div></Fade>
       </Constellation>

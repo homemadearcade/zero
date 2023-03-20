@@ -2,24 +2,25 @@ import { connect } from "react-redux"
 import { compose } from "redux"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectBehaviorToDisplayNames, effectBehaviorInterface, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_TELEPORT, eventEditInterface, eventShortNames, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EFFECT, SINGLE_TAG_EVENT, TWO_TAG_EFFECT, TWO_TAG_EVENT } from "../../constants"
-import Sprite from "../../sprites/Sprite/Sprite"
+import { effectBehaviorToDisplayNames, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT,
+} from "../../constants"
+import Sprite from "../../sprites/Texture/Texture"
 
 function renderTag(tag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
     <span style={{width: '10px', height: '10px'}}>
-      <Sprite textureId={tag.textureId} tint={tag.color}/>
+      <Sprite textureId={tag.textureId} textureTint={tag.textureTint}/>
     </span>
     <span>{tag.name}</span>
   </span>
 }
 
-function renderClass(objectClass) {
+function renderClass(entityClass) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
     <span style={{width: '10px', height: '10px'}}>
-      <Sprite textureId={objectClass.graphics.textureId} tint={objectClass.graphics.tint}/>
+      <Sprite textureId={entityClass.graphics.textureId} textureTint={entityClass.graphics.textureTint}/>
     </span>
-    <span>{objectClass.name}</span>
+    <span>{entityClass.name}</span>
   </span>
 }
 
@@ -35,7 +36,7 @@ function renderText(text) {
 
 function EffectShorthand({effect, gameModel: { gameModel }, children}) {
   const effectBehavior = effect.effectBehavior 
-  const classes = gameModel.classes 
+  const entityClasses = gameModel.entityClasses 
   const cutscenes = gameModel.cutscenes 
   const tags = gameModel.tags 
 
@@ -44,24 +45,24 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       return <>
         {renderEffect(effect)}
         {/* {` to`}   */}
-        {renderClass(classes[effect.zoneClassId])}
+        {renderClass(entityClasses[effect.zoneClassId])}
       </>
     }
 
-    if(effectBehavior === EFFECT_RECLASS) {
+    if(effectBehavior === EFFECT_TRANSFORM) {
       return <>
         {renderEffect(effect)}
         {/* {` into`} */}
-        {renderClass(classes[effect.classId])}
+        {renderClass(entityClasses[effect.entityClassId])}
       </>
     }
 
     if(effectBehavior === EFFECT_SPAWN) {
       return <>
         {renderEffect(effect)}
-        {renderClass(classes[effect.spawnClassId])}
+        {renderClass(entityClasses[effect.spawnClassId])}
         {/* {'into'} */}
-        {/* {renderClass(classes[effect.zoneClassId])} */}
+        {/* {renderClass(entityClasses[effect.zoneClassId])} */}
       </>
     }
 

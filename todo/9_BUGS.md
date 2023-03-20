@@ -52,6 +52,6 @@ Fix with Cobrowsing?? right now broken af when switching between two different u
 
 if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
 
-undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by texture Id not ... canvas id?
+undo canvas stuff doesnt work now between stages... Codrawing system needs to undo by image Id not ... canvas id?
 
 You shouldn’t be able to test your internet speed on someone else’s user page…

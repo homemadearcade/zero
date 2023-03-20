@@ -20,24 +20,24 @@ const SelectColliders = ({ onChange, tagId, formLabel, gameModel }) => {
     // }
 
     if(tag.tagInterfaceType === TAG_CLASS) {
-      const tagClass = gameModel.classes[tag.tagId]
-      const interfaceId = tagClass.classInterfaceType + CLASS_UNLOCKABLE_IID + tag.tagId
+      const tagClass = gameModel.entityClasses[tag.tagId]
+      const interfaceId = tagClass.classInterfaceCategory + CLASS_UNLOCKABLE_IID + tag.tagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
 
       return {
         label: tag.name,
         value: collidingTagId,
         textureId: tag.textureId,
-        tint: tag.color,
+        textureTint: tag.textureTint,
         isRemoved: tag.isRemoved || (isObscured && tag.interfaceLocked),
-        tagInterfaceType: classTypeToDisplayName[tagClass.classInterfaceType]
+        tagInterfaceType: classTypeToDisplayName[tagClass.classInterfaceCategory]
       }
     }
 
     // return {
     //   label: tag.name,
     //   value: collidingTagId,
-    //   tint: tag.color,
+    //   textureTint: tag.textureTint,
     //   isRemoved: tag.isRemoved,
     //   tagInterfaceType
     // }
@@ -52,7 +52,7 @@ const SelectColliders = ({ onChange, tagId, formLabel, gameModel }) => {
     return !!tagId
   })
 
-  const options = Object.keys(gameModel.classes).
+  const options = Object.keys(gameModel.entityClasses).
   map(mapTagToOption).
   sort((a, b) => -b.tagInterfaceType.localeCompare(a.tagInterfaceType))
 

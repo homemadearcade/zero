@@ -12,11 +12,11 @@ import {
 import { saveAllCurrentCanvases } from './codrawingActions';
 import { changeGameState } from './gameRoomActions';
 
-export const changePlayerClass = ({classId}) => (dispatch, getState) => {
+export const changePlayerClass = ({entityClassId}) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_PLAYER_CLASS,
     payload: {
-      playerClassId: classId
+      playerClassId: entityClassId
     }
   })
 };
@@ -31,7 +31,7 @@ export const changeControlPopup = (controlsToPress) => (dispatch, getState) => {
   })
 };
 
-export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
+export const openCutscene = (entityClassId, cutsceneId) => (dispatch, getState) => {
   dispatch(changeGameState(PAUSED_STATE))
 
   const scene = getCurrentGameScene(getState().webPage.gameInstance)
@@ -49,7 +49,7 @@ export const openCutscene = (classId, cutsceneId) => (dispatch, getState) => {
     type: OPEN_CUTSCENE,
     payload: {
       cutsceneId: cutsceneId,
-      classId: classId,
+      entityClassId: entityClassId,
     }
   });
 }

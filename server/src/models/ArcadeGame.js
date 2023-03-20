@@ -28,7 +28,7 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
-    classes: {
+    entityClasses: {
       type: Object,
       required: true,
       default: {}
@@ -73,7 +73,7 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
-    textures: {
+    canvasImages: {
       type: Object,
       required: true,
       default: {}
@@ -108,7 +108,7 @@ export const validateArcadeGame = (game) => {
     }),
     nodeSize: Joi.number(),
     stages: Joi.object(),
-    classes: Joi.object(),
+    entityClasses: Joi.object(),
     brushes: Joi.object(),
     colors: Joi.object(),
     relations: Joi.object(),
@@ -116,7 +116,7 @@ export const validateArcadeGame = (game) => {
     events: Joi.object(),
     effects: Joi.object(),
     cutscenes: Joi.object(),
-    textures: Joi.object(),
+    canvasImages: Joi.object(),
     isRemoved: Joi.bool(),
     tags: Joi.object(),
   };
@@ -131,7 +131,7 @@ arcadeGameSchema.methods.toJSON = function () {
     stages: this.stages,
     nodeSize: this.nodeSize,
     player: this.player,
-    classes: this.classes,
+    entityClasses: this.entityClasses,
     brushes: this.brushes,
     colors: this.colors,
     relations: this.relations,
@@ -139,7 +139,7 @@ arcadeGameSchema.methods.toJSON = function () {
     events: this.events,
     effects: this.effects,
     cutscenes: this.cutscenes,
-    textures: this.textures,
+    canvasImages: this.canvasImages,
     owner: this.owner?.toJSON(),
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

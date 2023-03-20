@@ -16,7 +16,7 @@ import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModa
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import BoundaryRelation from '../../class/BoundaryRelation/BoundaryRelation';
-import ClassNameModal from '../../class/ClassNameModal/ClassNameModal';
+import EditClassModal from '../../class/EditClassModal/EditClassModal';
 import SetupDefaultsModal from '../../SetupDefaultsModal/SetupDefaultsModal';
 import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../../gameRoom/GameStateToolbar/GameStateToolbar';
@@ -57,7 +57,7 @@ const GameEditor = ({
     isSnapshotTakerOpen, 
     isGridViewOn }, 
   gameFormEditor: { 
-    isClassNameModalOpen, 
+    isEditClassModalOpen, 
     isCreateTagOpen, 
     isCreateRelationOpen,
     isCreateCutsceneOpen, 
@@ -144,7 +144,7 @@ const GameEditor = ({
       {liveEditingCategory && <LiveEditor></LiveEditor>}
       {isClassBoxModalOpen && <ClassBoxModal/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
-      {isClassNameModalOpen && <ClassNameModal/>}
+      {isEditClassModalOpen && <EditClassModal/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isBoundaryRelationOpen && <BoundaryRelation/>}
@@ -165,10 +165,10 @@ const GameEditor = ({
       {isCreateBrushFlowOpen && <CreateBrushFlow 
         onComplete={(brush) => {
           if(!brush.textureId) {   
-            if(brush.tint) {
+            if(brush.textureTint) {
               editGameModel({
                 colors: {
-                  [brush.tint]: {
+                  [brush.textureTint]: {
                     [brush.layerCanvasId]: Date.now()
                   }
                 }

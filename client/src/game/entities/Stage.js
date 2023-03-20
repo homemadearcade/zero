@@ -55,14 +55,14 @@ export class Stage {
   ensureSpawnZoneExists() {
     const gameModel = store.getState().gameModel.gameModel
     const stage = gameModel.stages[this.stageId]
-    const spawnZones = this.scene.getAllInstancesOfClassId(stage.spawnZoneClassId) 
+    const spawnZones = this.scene.getAllObjectInstancesOfClassId(stage.spawnZoneClassId) 
     if(!spawnZones.length) {
-      this.scene.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, classId: stage.spawnZoneClassId}, true)
+      this.scene.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityClassId: stage.spawnZoneClassId}, true)
     }
   }
 
   update() {
-    const isBackgroundVisible = getCobrowsingState().gameViewEditor.layerVisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID]
+    const isBackgroundVisible = !getCobrowsingState().gameViewEditor.layerInvisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID]
     this.backgroundColorLayer.setVisible(isBackgroundVisible)
   }
 }

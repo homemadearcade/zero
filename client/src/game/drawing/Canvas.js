@@ -2,12 +2,13 @@ import Phaser from "phaser";
 import store from "../../store";
 import { urlToFile } from "../../utils/utils";
 import _ from "lodash";
-import { SPRITE_EDITOR_CANVAS_ID, TEXTURE_TYPE_CANVAS, TEXTURE_TYPE_LAYER, UNDO_MEMORY_MAX } from "../constants";
-import { editTexture, saveTexture } from "../../store/actions/textureActions";
-import { MARK_TEXTURE_UNSAVED } from "../../store/types";
+import { IMAGE_CANVAS_MODAL_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
+import { editCanvasImage, saveCanvasImage } from "../../store/actions/canvasImageActions";
+import { MARK_CANVAS_IMAGE_UNSAVED } from "../../store/types";
+import { IMAGE_TYPE_CANVAS } from "../../constants";
 
 window.instanceUndoStack = []
-window.spriteEditorUndoStack = []
+window.imageCanvasUndoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
   constructor(scene, { textureId, boundaries, autoSave }){
@@ -22,7 +23,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.initialDraw()
 
     this.previousRenderTexture = null
-    this.undoTextureStack = []
+    this.undoCanvasStack = []
     this.boundaries = boundaries
 
     this.autoSave = autoSave
@@ -48,7 +49,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 
         if(this.textureIdMongo) {
-          store.dispatch(editTexture(this.textureIdMongo, {
+          store.dispatch(editCanvasImage(this.textureIdMongo, {
             strokeHistory: []
           }))
         }
@@ -56,7 +57,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         const imageFile = await urlToFile(bufferCanvas.toDataURL(), textureId, 'image/png')
         if(!this.strokeHistory.length) this.markSaved()
 
-        await store.dispatch(saveTexture({imageFile, textureId, textureType: this.textureType || TEXTURE_TYPE_CANVAS}))
+        await store.dispatch(saveCanvasImage({imageFile, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
 
         resolve(textureId)
       } catch(e) {
@@ -102,13 +103,13 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     })
   }
 
-  storeRenderTextureForUndoStack() {
+  storeCanvasForUndoStack() {
     if(!this.previousRenderTexture) {
       this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
       this.previousRenderTexture.draw(this, 0,0)
-      if(this.textureId.indexOf(SPRITE_EDITOR_CANVAS_ID) > -1) {
-        window.spriteEditorUndoStack.push(this.textureId)
-        window.spriteEditorUndoStack = window.spriteEditorUndoStack.slice(-UNDO_MEMORY_MAX)
+      if(this.textureId.indexOf(IMAGE_CANVAS_MODAL_CANVAS_ID) > -1) {
+        window.imageCanvasUndoStack.push(this.textureId)
+        window.imageCanvasUndoStack = window.imageCanvasUndoStack.slice(-UNDO_MEMORY_MAX)
       } else {
         window.instanceUndoStack.push(this.textureId)
         window.instanceUndoStack = window.instanceUndoStack.slice(-UNDO_MEMORY_MAX)
@@ -116,17 +117,17 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     }
   }
 
-  addRenderTextureToUndoStack() {
-    this.undoTextureStack.push(this.previousRenderTexture)
-    this.undoTextureStack = this.undoTextureStack.slice(-UNDO_MEMORY_MAX)
+  addCanvasToUndoStack() {
+    this.undoCanvasStack.push(this.previousRenderTexture)
+    this.undoCanvasStack = this.undoCanvasStack.slice(-UNDO_MEMORY_MAX)
     this.previousRenderTexture = null
   }
 
   undo() {
-    const texture = this.undoTextureStack.pop()
+    const canvas = this.undoCanvasStack.pop()
     this.clear()
-    super.draw(texture, 0,0)
-    if(this.textureId.indexOf(SPRITE_EDITOR_CANVAS_ID) === -1) {
+    super.draw(canvas, 0,0)
+    if(this.textureId.indexOf(IMAGE_CANVAS_MODAL_CANVAS_ID) === -1) {
       this.debouncedSave()
     }
   }
@@ -134,7 +135,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   markSaved() {
     this.unsavedChanges = false
     store.dispatch({
-      type: MARK_TEXTURE_UNSAVED,
+      type: MARK_CANVAS_IMAGE_UNSAVED,
       payload: {
         textureId: this.textureId,
         unsaved: false
@@ -145,7 +146,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   markUnsaved() {
     this.unsavedChanges = true
     store.dispatch({
-      type: MARK_TEXTURE_UNSAVED,
+      type: MARK_CANVAS_IMAGE_UNSAVED,
       payload: {
         textureId: this.textureId,
         unsaved: true
@@ -154,17 +155,17 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
   }
 
   draw(entries, x, y) {
-    this.storeRenderTextureForUndoStack()
+    this.storeCanvasForUndoStack()
     super.draw(entries, x, y)
   }
 
   erase(entries, x, y) {
-    this.storeRenderTextureForUndoStack()
+    this.storeCanvasForUndoStack()
     super.erase(entries, x, y)
   }
 
   onStrokeReleased() {
-    this.addRenderTextureToUndoStack()
+    this.addCanvasToUndoStack()
     if(this.autoSave) this.debouncedSave()
   }
 

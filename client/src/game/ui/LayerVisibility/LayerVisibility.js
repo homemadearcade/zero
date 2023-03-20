@@ -12,19 +12,19 @@ import { LAYER_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import Button from '../../../ui/Button/Button';
 
 const LayerVisibility = ({
-  gameViewEditor: { layerVisibility },
+  gameViewEditor: { layerInvisibility },
   toggleLayerVisibility,
-  layerCanvasId
+  layerId
 }) => {
   return <Unlockable isTiny interfaceId={LAYER_VISIBILITY_IID}><div
     onClick={(e) => {
       stopPropagation(e)
-      toggleLayerVisibility(layerCanvasId)
+      toggleLayerVisibility(layerId)
     }}
   > 
     <Button size="tiny">
-     {layerVisibility[layerCanvasId] && 'Hide'}
-     {!layerVisibility[layerCanvasId] && 'Show'}
+     {!layerInvisibility[layerId] && 'Hide'}
+     {layerInvisibility[layerId] && 'Show'}
     </Button>
   </div></Unlockable>
 };

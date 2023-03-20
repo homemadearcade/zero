@@ -9,17 +9,17 @@ import ClassItem from '../ClassItem/ClassItem';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import './ClassBoxModal.scss'
 
-const ClassBoxModal = ({ closeClassBoxModal, gameSelector: { classBoxClassType }, gameModel : { gameModel : { classes }} }) => {
+const ClassBoxModal = ({ closeClassBoxModal, gameSelector: { classBoxClassType }, gameModel : { gameModel : { entityClasses }} }) => {
   function handleClose() {
     closeClassBoxModal()
   }
 
-  const classesToSelect = Object.keys(classes).map((classId) => {
-    return classes[classId]
-  }).filter((objectClass) => {
-    return objectClass.classInterfaceType === classBoxClassType
-  }).map((objectClass) => {
-    return <ClassItem onClick={handleClose} classId={objectClass.classId}></ClassItem>
+  const entityClassesToSelect = Object.keys(entityClasses).map((entityClassId) => {
+    return entityClasses[entityClassId]
+  }).filter((entityClass) => {
+    return entityClass.classInterfaceCategory === classBoxClassType
+  }).map((entityClass) => {
+    return <ClassItem onClick={handleClose} entityClassId={entityClass.entityClassId}></ClassItem>
   })
 
   return <CobrowsingModal open onClose={handleClose}>
@@ -28,7 +28,7 @@ const ClassBoxModal = ({ closeClassBoxModal, gameSelector: { classBoxClassType }
       
         height="7vh"
         width="9.2vh"
-        items={classesToSelect}
+        items={entityClassesToSelect}
       />
     </div>
   </CobrowsingModal>

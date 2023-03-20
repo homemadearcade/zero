@@ -37,3 +37,8 @@ export const noCobrowsingUpdateDelta = 15000
 // COBROWSING TOOLS
 export const UNLOCK_TOOL = 'UNLOCK_TOOL'
 export const OPEN_TOOL = 'OPEN_TOOL'
+
+export const IMAGE_TYPE_SNAPSHOT = 'IMAGE_TYPE_SNAPSHOT'
+export const IMAGE_TYPE_LAYER = 'IMAGE_TYPE_LAYER'
+export const IMAGE_TYPE_CANVAS = 'IMAGE_TYPE_CANVAS'
+export const IMAGE_TYPE_SPRITE = 'IMAGE_TYPE_SPRITE'

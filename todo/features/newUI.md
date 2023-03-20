@@ -26,6 +26,8 @@ Organize Classes into the background, playground, foreground sections
 Sort by by Layer, By Tag
 Turn on/off library items toggle
 
+Brush Icon, Map Icon, List Icon. Those are the 3 tabs
+
 Show key/click info inside the Hover Preview. Is there where it goes??
   Left Click, Right Click?
   
@@ -34,3 +36,6 @@ Show key/click info inside the Hover Preview. Is there where it goes??
   Arrow Keys - Move
   X - Interact 
   Spacebar - Shoot
+  
+Class Detail View
+  Edit Collision/Camera/ -> Edit Behavior?

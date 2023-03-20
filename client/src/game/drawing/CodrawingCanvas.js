@@ -1,12 +1,12 @@
 import store from "../../store";
 import { Canvas } from "./Canvas";
 
-import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_TEXTURE_STROKES_PENDING } from "../../store/types";
+import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_CANVAS_IMAGE_STROKES_PENDING } from "../../store/types";
 import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/codrawingActions";
-import { noCodrawingStrokeUpdateDelta, TEXTURE_TYPE_LAYER } from "../constants";
+import { noCodrawingStrokeUpdateDelta} from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
 import { CODRAWING_CONNECTION_LOST } from "../../constants";
-import { addTexture, editTexture, getTextureByTextureId } from "../../store/actions/textureActions";
+import { addCanvasImage, editCanvasImage, getCanvasImageByTextureId } from "../../store/actions/canvasImageActions";
 
 export class CodrawingCanvas extends Canvas {
   constructor(scene, props){
@@ -15,7 +15,7 @@ export class CodrawingCanvas extends Canvas {
     // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
     this.isCodrawingHost = props.isCodrawingHost
     this.scene = scene
-    this.textureType = null
+    this.imageType = null
 
     this.strokeHistory = null
     this.initializeStrokeHistory()
@@ -65,7 +65,7 @@ export class CodrawingCanvas extends Canvas {
     })
     if(this.strokesPending.length === 0) {
       store.dispatch({
-        type: MARK_TEXTURE_STROKES_PENDING,
+        type: MARK_CANVAS_IMAGE_STROKES_PENDING,
         payload: {
           textureId: this.textureId,
           pending: false
@@ -77,7 +77,7 @@ export class CodrawingCanvas extends Canvas {
   addPendingStrokes(strokeData) {
     this.strokesPending.push(strokeData)
     store.dispatch({
-      type: MARK_TEXTURE_STROKES_PENDING,
+      type: MARK_CANVAS_IMAGE_STROKES_PENDING,
       payload: {
         textureId: this.textureId,
         pending: true
@@ -88,7 +88,7 @@ export class CodrawingCanvas extends Canvas {
   addStrokeHistory(strokeData) {
     this.strokeHistory.push(strokeData)
     this.markUnsaved()
-    store.dispatch(editTexture(this.textureIdMongo, {
+    store.dispatch(editCanvasImage(this.canvasImageId, {
       strokeHistory: this.strokeHistory
     }))
   }
@@ -96,23 +96,23 @@ export class CodrawingCanvas extends Canvas {
   async initializeStrokeHistory() {
     this.strokeHistory = []
     try{
-      const texture = await this.getStrokeHistory()
-      this.textureIdMongo = texture.id
-      this.textureType = texture.textureType
-      if(texture.strokeHistory.length && this.isCodrawingHost) {
-        this.addStrokeHistory(texture.strokeHistory)
+      const canvasImage = await this.getStrokeHistory()
+      this.canvasImageId = canvasImage.id
+      this.imageType = canvasImage.imageType
+      if(canvasImage.strokeHistory.length && this.isCodrawingHost) {
+        this.addStrokeHistory(canvasImage.strokeHistory)
         this.debouncedSave()
       }
-      texture.strokeHistory.forEach((strokeData) => {
+      canvasImage.strokeHistory.forEach((strokeData) => {
         this.executeRemoteStroke(strokeData)
       })
     } catch(e) {
-      console.log(e, 'couldnt find texture')
+      console.log(e, 'couldnt find image')
     }
   }
 
   async getStrokeHistory() {
-    return await store.dispatch(getTextureByTextureId(this.textureId))
+    return await store.dispatch(getCanvasImageByTextureId(this.textureId))
   }
 
 

@@ -59,17 +59,17 @@ export const clearGameFormEditor = () => (dispatch, getState) => {
   });
 }
 
-export const openCreateClassFlow = (objectClass) => (dispatch, getState) => {
+export const openEditClassGraphics = (entityClass) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_CLASS_FLOW,
-    payload: { objectClass: _.cloneDeep(objectClass) }
+    payload: { entityClass: _.cloneDeep(entityClass) }
   });
 }
 
-export const closeCreateClassFlow = () => (dispatch, getState) => {
+export const closeEditClassGraphics = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CREATE_CLASS_FLOW,
@@ -77,11 +77,11 @@ export const closeCreateClassFlow = () => (dispatch, getState) => {
   });
 }
 
-export const updateCreateClass = (objectClass) => (dispatch, getState) => {
+export const updateCreateClass = (entityClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: UPDATE_CREATE_CLASS,
-    payload: { objectClass }
+    payload: { entityClass }
   });
 }
 
@@ -98,15 +98,15 @@ export const openCreateColorFlow = (componentName, layerCanvasId) => (dispatch, 
   });
 }
 
-export const openClassNameModal = (objectClass) => (dispatch, getState) => {
+export const openEditClassModal = (entityClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CLASS_NAME_MODAL,
-    payload: { objectClass: _.cloneDeep(objectClass) }
+    payload: { entityClass: _.cloneDeep(entityClass) }
   });
 }
 
-export const closeClassNameModal = () => (dispatch, getState) => {
+export const closeEditClassModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CLASS_NAME_MODAL,
@@ -300,11 +300,11 @@ export const closeBoundaryRelation= () => (dispatch, getState) => {
   });
 }
 
-export const updateBoundaryRelation = (objectClass) => (dispatch, getState) => {
+export const updateBoundaryRelation = (entityClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: UPDATE_BOUNDARY_RELATION,
-    payload: { objectClass }
+    payload: { entityClass }
   });
 }
 

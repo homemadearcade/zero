@@ -72,8 +72,7 @@ export class Eraser extends Brush {
     const previewHeight = stage.boundaries.maxHeight
 
     return [
-      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.objectInstanceGroup, 0, 0).setDepth(FOREGROUND_LAYER_CANVAS_DEPTH + 5),
-      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.playerInstanceGroup, 0, 0).setDepth(FOREGROUND_LAYER_CANVAS_DEPTH + 5)    
+      new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.entityInstanceGroup, 0, 0).setDepth(FOREGROUND_LAYER_CANVAS_DEPTH + 5),
     ]
   }
 

@@ -2,7 +2,7 @@ import { PROJECTILE_TARGET_CLASS, PROJECTILE_TARGET_PLAYER, PROJECTILE_UP, PROJE
 
 export const defaultProjectile = {
   projectileBehavior: PROJECTILE_NONE,
-  classId: null,
+  entityClassId: null,
   cooldown: 200,
   lifetime: 3000,
   ammo: 0,

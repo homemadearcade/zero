@@ -86,7 +86,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       metadata: req.body.metadata, 
       defaults: req.body.defaults, 
       player: req.body.player, 
-      classes: req.body.classes,
+      entityClasses: req.body.entityClasses,
       brushes: req.body.brushes,
       colors: req.body.colors,
       tags: req.body.tags,
@@ -96,7 +96,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       collisions: req.body.collisions,
       events: req.body.events,
       effects: req.body.effects,
-      textures: req.body.textures,
+      canvasImages: req.body.canvasImages,
       nodeSize: req.body.nodeSize, 
       owner: req.body.userId,
     });
@@ -141,11 +141,11 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
         delete updatedGame.stages[stageId];
       }
 
-      // the default stage doesnt start with objects because its virtual so gotta check
-      if(stage.objects) Object.keys(stage.objects).forEach(key => {
-        if (stage.objects[key] === null || stage.objects[key] === undefined) {
+      // the default stage doesnt start with entityInstance because its virtual so gotta check
+      if(stage.entityInstances) Object.keys(stage.entityInstances).forEach(key => {
+        if (stage.entityInstances[key] === null || stage.entityInstances[key] === undefined) {
           console.log('deleting object', key)
-          delete stage.objects[key];
+          delete stage.entityInstances[key];
         }
       });
     })
@@ -157,10 +157,10 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       }
     });
 
-    Object.keys(updatedGame.classes).forEach(key => {
-      if (updatedGame.classes[key] === null || updatedGame.classes[key] === undefined) {
+    Object.keys(updatedGame.entityClasses).forEach(key => {
+      if (updatedGame.entityClasses[key] === null || updatedGame.entityClasses[key] === undefined) {
         console.log('deleting class', key)
-        delete updatedGame.classes[key];
+        delete updatedGame.entityClasses[key];
         return
       }
     });
@@ -207,12 +207,12 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       metadata: updatedGame.metadata, 
       defaults: updatedGame.defaults, 
       player: updatedGame.player, 
-      classes: updatedGame.classes,
+      entityClasses: updatedGame.entityClasses,
       brushes: updatedGame.brushes,
       colors: updatedGame.colors,
       tags: updatedGame.tags,
       cutscenes: updatedGame.cutscenes,
-      textures: updatedGame.textures,
+      canvasImages: updatedGame.canvasImages,
       nodeSize: updatedGame.nodeSize, 
       tags: updatedGame.tags,
       relations: updatedGame.relations, 

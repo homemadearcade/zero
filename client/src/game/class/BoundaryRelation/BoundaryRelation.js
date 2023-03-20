@@ -11,18 +11,18 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 
-const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundaryRelation, gameFormEditor: { objectClass }}) => {
+const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundaryRelation, gameFormEditor: { entityClass }}) => {
   function handleClose() {
     closeBoundaryRelation()
   }
 
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="BoundaryRelation">
-      <ClassMemberTitle classId={objectClass.classId} title="Boundary Relation"/>
+      <ClassMemberTitle entityClassId={entityClass.entityClassId} title="Boundary Relation"/>
         <SelectBoundaryEffect
-          classId={objectClass.classId}
+          entityClassId={entityClass.entityClassId}
           formLabel={`What happens when touching the world boundary?`}
-          value={objectClass.boundaryRelation ? [objectClass.boundaryRelation] : []}
+          value={entityClass.boundaryRelation ? [entityClass.boundaryRelation] : []}
           onChange={(event, BoundaryRelations) => {
             const boundaryRelation = BoundaryRelations[BoundaryRelations.length-1]
             updateBoundaryRelation({ boundaryRelation })
@@ -31,9 +31,9 @@ const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundary
           <Button 
           onClick={() => {
             editGameModel({
-              classes: {
-                [objectClass.classId] : {
-                  boundaryRelation: objectClass.boundaryRelation
+              entityClasses: {
+                [entityClass.entityClassId] : {
+                  boundaryRelation: entityClass.boundaryRelation
                 }
               }
             })

@@ -18,7 +18,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 const SelectBackgroundColorModal = ({ 
   closeSelectBackgroundColorModal, 
   editGameModel, 
-  gameViewEditor: { layerVisibility }, 
+  gameViewEditor: { layerInvisibility }, 
   gameFormEditor: { isEyeDropping },
   gameModel: { currentStageId },
   toggleLayerVisibility,
@@ -43,7 +43,7 @@ const SelectBackgroundColorModal = ({
       {<Unlockable interfaceId={LAYER_VISIBILITY_IID}>
       <Button onClick={() => {
         toggleLayerVisibility(STAGE_BACKGROUND_LAYER_CANVAS_ID)
-      }}>{layerVisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID] ? 'Hide Default Background Layer' : 'Show Default Background Layer'}</Button>
+      }}>{!layerInvisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID] ? 'Hide Default Background Layer' : 'Show Default Background Layer'}</Button>
     </Unlockable>}
     </div>
   </CobrowsingModal>

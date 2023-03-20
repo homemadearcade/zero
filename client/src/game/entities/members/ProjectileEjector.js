@@ -3,23 +3,23 @@ import { generateUniqueId } from "../../../utils/webPageUtils"
 import { PROJECTILE_INSTANCE_ID_PREFIX, PROJECTILE_NONE } from "../../constants"
 
 export class ProjectileEjector {
-  constructor(scene, objectInstance){
-    this.objectInstance = objectInstance
+  constructor(scene, entityInstance){
+    this.entityInstance = entityInstance
     this.scene = scene
     this.nextFire = 0
   }
 
   update(time, delta) {
-    const classId = this.objectInstance.classId
-    const objectClass = store.getState().gameModel.gameModel.classes[classId]
+    const entityClassId = this.entityInstance.entityClassId
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
 
-    if(time < this.nextFire || !objectClass.projectile.classId || objectClass.projectile.projectileBehavior === PROJECTILE_NONE) { 
+    if(time < this.nextFire || !entityClass.projectile.entityClassId || entityClass.projectile.projectileBehavior === PROJECTILE_NONE) { 
       return
     }
 
-    const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), objectClass.projectile?.classId)
-    projectile.fireAutomatic(this.objectInstance, time)
+    const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), entityClass.projectile?.entityClassId)
+    projectile.fireAutomatic(this.entityInstance, time)
 
-    this.nextFire = time + (objectClass.projectile.cooldown * 6) + 200;
+    this.nextFire = time + (entityClass.projectile.cooldown * 6) + 200;
   }
 }

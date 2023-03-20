@@ -5,18 +5,9 @@ Spaceship
 Mario
 Zelda
 
-
 ---
-
-
-Buttons just ‘Cue the next segment’ so the button is based on the title of the next section
-
-
----
-
 
 Spawn bar when you have selected gravity
-
 
 ---
 
@@ -24,13 +15,6 @@ Player in editing game starts off invisible so we can make it invisible after BG
 
 --
 
-Credits Links are broken 
-
---
-
-
 Map size increase by a few blocks option 
 
 --
-
-Put game defaults into the instructions

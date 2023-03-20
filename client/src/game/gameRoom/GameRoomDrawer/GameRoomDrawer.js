@@ -10,7 +10,6 @@ import Link from '../../../ui/Link/Link';
 import { GAME_EDITOR_ACTIVITY } from '../../../constants';
 import CobrowsingIndicator from '../../../experience/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import GameRoomPowerIndicator from '../GameRoomPowerIndicator/GameRoomPowerIndicator';
-import ConstellationToggle from '../../ConstellationToggle/ConstellationToggle';
 import Typography from '../../../ui/Typography/Typography';
 import Switch from '../../../ui/Switch/Switch';
 import './GameRoomDrawer.scss'
@@ -18,6 +17,7 @@ import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import GameRoomOverview from '../GameRoomOverview/GameRoomOverview';
 import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobby/LobbyOverview/LobbyOverview';
+import ActivityOverlayToggle from '../../../experience/activity/ActivityOverlayToggle/ActivityOverlayToggle';
 
 const GameRoomDrawer = ({
   lobby: { lobby, lobby: { currentActivity } },
@@ -37,7 +37,7 @@ const GameRoomDrawer = ({
         </div>}
         <CobrowsingIndicator/>
         <GameRoomPowerIndicator/>
-        <ConstellationToggle/>
+        <ActivityOverlayToggle/>
         {currentActivity === GAME_EDITOR_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Autosave Disabled</Typography>

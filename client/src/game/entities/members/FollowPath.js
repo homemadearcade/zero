@@ -1,8 +1,8 @@
 // Based on this: https://phaser.discourse.group/t/riding-moving-platforms/7330/6
 
 class Follower extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, path, x, y, texture) {
-    super(scene, x, y, texture);
+  constructor(scene, path, x, y, image) {
+    super(scene, x, y, image);
     scene.add.existing(this);
     scene.physics.add.existing(this);   
     this.scene = scene;

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './SelectorAbstractList.scss';
 import { editGameModel } from '../../../store/actions/gameModelActions';
-import { openCreateClassFlow, openCreateCutscene, openCreateEffect, openCreateEvent, openCreateRelation, openCreateTag } from '../../../store/actions/gameFormEditorActions';
+import { openEditClassGraphics, openCreateCutscene, openCreateEffect, openCreateEvent, openCreateRelation, openCreateTag } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
@@ -218,5 +218,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openCreateClassFlow, openCreateEvent, openCreateEffect, openCreateTag, openCreateCutscene, openCreateRelation, openClassBoxModal }),
+  connect(mapStateToProps, { editGameModel, openEditClassGraphics, openCreateEvent, openCreateEffect, openCreateTag, openCreateCutscene, openCreateRelation, openClassBoxModal }),
 )(SelectorAbstractList);

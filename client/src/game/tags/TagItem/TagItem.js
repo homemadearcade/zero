@@ -30,7 +30,7 @@ const TagItem = ({
       changeTagIdHovering(null)
     }}>
       <NestedListItem
-        useColor color={tag.color}
+        useColor color={tag.textureTint}
         onClick={() => {openCreateTag(tag)}}
       >
         <Typography variant="body2">

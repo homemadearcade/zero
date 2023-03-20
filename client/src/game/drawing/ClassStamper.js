@@ -4,9 +4,9 @@ import { DEFAULT_TEXTURE_ID } from "../constants";
 import { getHexIntFromHexString, snapObjectXY } from "../../utils/editorUtils";
 
 export class ClassStamper extends Phaser.GameObjects.Image {
-  constructor(scene, classId, objectClass){
+  constructor(scene, entityClassId, entityClass){
 
-    const textureId = objectClass.graphics.textureId || DEFAULT_TEXTURE_ID
+    const textureId = entityClass.graphics.textureId || DEFAULT_TEXTURE_ID
 
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
 
@@ -17,15 +17,15 @@ export class ClassStamper extends Phaser.GameObjects.Image {
     }
 
     this.scene = scene
-    this.classId = classId
-    this.objectClass = objectClass
+    this.entityClassId = entityClassId
+    this.entityClass = entityClass
     this.scene.add.existing(this)
     
-    this.setDisplaySize(this.objectClass.graphics.width, this.objectClass.graphics.height)
-    this.scene.addSpriteToTypeLayer(classId, this)
+    this.setDisplaySize(this.entityClass.graphics.width, this.entityClass.graphics.height)
+    this.scene.addSpriteToTypeLayer(entityClassId, this)
 
-    if(objectClass.graphics.tint) {
-      const colorInt = getHexIntFromHexString(objectClass.graphics.tint)
+    if(entityClass.graphics.textureTint) {
+      const colorInt = getHexIntFromHexString(entityClass.graphics.textureTint)
       this.setTint(colorInt)
     }
 
@@ -33,20 +33,20 @@ export class ClassStamper extends Phaser.GameObjects.Image {
   }
 
   update(pointer) {
-    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.objectClass})
+    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityClass: this.entityClass})
     this.setPosition(clampedX, clampedY)
   }
 
   stamp(pointer) {
-    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, objectClass: this.objectClass})
-    this.scene.addObjectInstanceData(this.classId, {
+    const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityClass: this.entityClass})
+    this.scene.addObjectInstanceData(this.entityClassId, {
       spawnX: clampedX, 
       spawnY: clampedY
     })
   }
 
   getCanvasId() {
-    return this.objectClass.graphics.layerId
+    return this.entityClass.graphics.layerId
   }
 }
 

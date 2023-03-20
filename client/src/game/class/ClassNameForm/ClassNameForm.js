@@ -6,7 +6,7 @@ import { Alert, TextField } from '@mui/material';
 import { updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const ClassNameForm = ({ initialName, updateCreateClass, gameModel: { gameModel }, gameFormEditor: { objectClass } }) => {
+const ClassNameForm = ({ initialName, updateCreateClass, gameModel: { gameModel }, gameFormEditor: { entityClass } }) => {
   const [nameList, setNameList] = useState([])
   const [ignoreName, setIgnoreName] = useState([])
 
@@ -14,17 +14,17 @@ const ClassNameForm = ({ initialName, updateCreateClass, gameModel: { gameModel 
 
   useEffect(() => {
     const list = []
-    Object.keys(gameModel.classes).forEach((classId) => {
-      list.push(gameModel.classes[classId].name)
+    Object.keys(gameModel.entityClasses).forEach((entityClassId) => {
+      list.push(gameModel.entityClasses[entityClassId].name)
     })
     setNameList(list)
     setIgnoreName(initialName)
   }, [])
 
   useEffect(() => {
-    testName(objectClass.name)
+    testName(entityClass.name)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [objectClass.name])
+  }, [entityClass.name])
 
   function testName(name) {
     if(!name || !name.length) {
@@ -57,8 +57,8 @@ const ClassNameForm = ({ initialName, updateCreateClass, gameModel: { gameModel 
 
   return (
     <div className="ClassNameForm">
-      <TextField onChange={handleChange} value={objectClass.name} label={"Name"} />
-      {objectClass.error && <Alert severity="error">{objectClass.error}</Alert>}
+      <TextField onChange={handleChange} value={entityClass.name} label={"Name"} />
+      {entityClass.error && <Alert severity="error">{entityClass.error}</Alert>}
     </div>
   );
 };

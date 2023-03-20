@@ -9,9 +9,9 @@ import {
   GET_SPRITESHEET_DATA_SUCCESS,
   GET_SPRITESHEET_DATA_FAIL,
   CHANGE_CURRENT_STAGE,
-  SAVE_TEXTURE_LOADING,
-  SAVE_TEXTURE_SUCCESS,
-  SAVE_TEXTURE_FAIL,
+  SAVE_CANVAS_IMAGE_LOADING,
+  SAVE_CANVAS_IMAGE_SUCCESS,
+  SAVE_CANVAS_IMAGE_FAIL,
   ON_GAME_MODEL_UPDATE,
 } from '../types';
 import _ from 'lodash';
@@ -70,20 +70,21 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const isAutosaveDisabled = gameRoom?.isAutosaveDisabled
 
   try {
-    if(gameUpdate.classes) {
-      Object.keys(gameUpdate.classes).forEach((classId) => {
-        const objectClass = gameUpdate.classes[classId]
-        objectClass.lastEditedDate = Date.now()
+    if(gameUpdate.entityClasses) {
+      Object.keys(gameUpdate.entityClasses).forEach((entityClassId) => {
+        const entityClass = gameUpdate.entityClasses[entityClassId]
+        entityClass.lastEditedDate = Date.now()
       })
+    }
+
+    // local edit mode, skip right to it ( optimistically ) !
+    if(!gameRoom.id) {
+      onArcadeGameModelUpdate(gameUpdate)
     }
 
     const options = attachTokenToHeaders(getState);
     await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomId: gameRoom.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
 
-    // local edit mode, skip right to it!
-    if(!gameRoom.id) {
-      onArcadeGameModelUpdate(gameUpdate)
-    }
 
   } catch (err) {
     console.error(err)

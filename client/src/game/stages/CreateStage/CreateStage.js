@@ -40,8 +40,8 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
           classType={ZONE_CLASS}
           formLabel={"Into which zone should the Player spawn?"}
           value={stage.spawnZoneClassId ? [stage.spawnZoneClassId] : []}
-          onChange={(event, classes) => {
-            const newClassId = classes[classes.length-1]
+          onChange={(event, entityClasses) => {
+            const newClassId = entityClasses[entityClasses.length-1]
             updateCreateStage({
               spawnZoneClassId: newClassId
             })
@@ -49,8 +49,8 @@ const CreateStage = ({ closeCreateStage, editGameModel, updateCreateStage, gameF
         <SelectClass
           formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
           value={stage.playerClassId ? [stage.playerClassId] : []}
-          onChange={(event, classes) => {
-            const newClassId = classes[classes.length-1]
+          onChange={(event, entityClasses) => {
+            const newClassId = entityClasses[entityClasses.length-1]
             updateCreateStage({
               playerClassId: newClassId
             })

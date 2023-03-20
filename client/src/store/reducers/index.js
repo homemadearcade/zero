@@ -28,7 +28,7 @@ import interfacePresetReducer from './interfacePresetReducer';
 import snackbarReducer from './snackbarReducer';
 import themeReducer from './themeReducer';
 import gameRoomReducer from './gameRoomReducer';
-import textureReducer from './textureReducer';
+import canvasImageReducer from './canvasImageReducer';
 import hoverPreviewReducer from './hoverPreviewReducer';
 
 export default combineReducers({
@@ -60,6 +60,6 @@ export default combineReducers({
   snackbar: snackbarReducer,
   theme: themeReducer,
   gameRoom: gameRoomReducer,
-  texture: textureReducer,
+  canvasImage: canvasImageReducer,
   hoverPreview: hoverPreviewReducer
 });

@@ -49,27 +49,27 @@ const initialState = {
   brush: {
     layerCanvasId: null,
     textureId: null,
-    tint: null,
+    textureTint: null,
     descriptors: []
   },
 
-  isCreateClassFlowOpen: false,
-  isClassNameModalOpen: false,
-  objectClass: {
+  isEditClassGraphicsOpen: false,
+  isEditClassModalOpen: false,
+  entityClass: {
     descriptors: [],
     graphics : {
       textureId: null,
-      tint: null,
+      textureTint: null,
     },
     name: "",
-    classInterfaceType: null,
+    classInterfaceCategory: null,
   },
 
   isCreateColorFlowOpen: false,
   color: {
     hex: null,
     layerCanvasId: null,
-    tint: null,
+    textureTint: null,
   },
   isEyeDropping: false,
 
@@ -106,7 +106,7 @@ const initialState = {
 
   isBoundaryRelationMenuOpen: false,
   isCreateRelationOpen: false,
-  classIdRelationsMenu: null,
+  entityClassIdRelationsMenu: null,
   relation: {
     ...defaultRelationship,
   },
@@ -133,14 +133,14 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case OPEN_CLASS_NAME_MODAL: 
       return {
         ...state,
-        isClassNameModalOpen: true,
-        objectClass: payload.objectClass
+        isEditClassModalOpen: true,
+        entityClass: payload.entityClass
       }
     case CLOSE_CLASS_NAME_MODAL:
       return {
         ...state,
-        isClassNameModalOpen: false,
-        objectClass: null
+        isEditClassModalOpen: false,
+        entityClass: null
       }
     case CLOSE_CREATE_COLOR_FLOW: 
       return {
@@ -151,21 +151,21 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case UPDATE_CREATE_CLASS: 
       return {
         ...state,
-        objectClass: mergeDeep(state.objectClass, payload.objectClass)
+        entityClass: mergeDeep(state.entityClass, payload.entityClass)
       }
     case OPEN_CREATE_CLASS_FLOW: 
       return {
         ...state,
-        objectClass: {
-          ..._.cloneDeep(initialState.objectClass),
-          ...payload.objectClass ? _.cloneDeep(payload.objectClass) : {}
+        entityClass: {
+          ..._.cloneDeep(initialState.entityClass),
+          ...payload.entityClass ? _.cloneDeep(payload.entityClass) : {}
         },
-        isCreateClassFlowOpen: true
+        isEditClassGraphicsOpen: true
       }
     case CLOSE_CREATE_CLASS_FLOW: 
       return {
         ...state,
-        isCreateClassFlowOpen: false
+        isEditClassGraphicsOpen: false
       }
     case UPDATE_CREATE_BRUSH_STEP: 
       return {
@@ -305,15 +305,15 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isBoundaryRelationOpen: true,
-        objectClass: {
-          ..._.cloneDeep(initialState.objectClass),
+        entityClass: {
+          ..._.cloneDeep(initialState.entityClass),
           ...payload.initialObjectClass ? _.cloneDeep(payload.initialObjectClass) : {}
         },
       }
     case UPDATE_BOUNDARY_RELATION: 
       return {
         ...state,
-        objectClass: {...state.objectClass, ...payload.objectClass }
+        entityClass: {...state.entityClass, ...payload.entityClass }
       }
     case CLOSE_BOUNDARY_RELATION: 
       return {

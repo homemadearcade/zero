@@ -26,7 +26,7 @@ export class GameClientScene extends EditorScene {
     this.gameInstanceId = null
   }
 
-  onGameInstanceUpdate = ({gameInstanceId, objectInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer}) => {
+  onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer}) => {
     if(!this.gameInstanceId) {
       this.gameInstanceId = gameInstanceId
     }
@@ -49,25 +49,25 @@ export class GameClientScene extends EditorScene {
       return
     }
 
-    objectInstances.forEach((instanceUpdate) => {
-      const instanceId = instanceUpdate.instanceId
-      if(instanceId === this.draggingObjectInstanceId) {
+    entityInstances.forEach((instanceUpdate) => {
+      const entityInstanceId = instanceUpdate.entityInstanceId
+      if(entityInstanceId === this.draggingObjectInstanceId) {
         return
       }
-      const objectInstance = this.getObjectInstance(instanceId)
-      if(!objectInstance) {
-        const modifiedClassData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, classId: instanceUpdate.classId }
-        this.addObjectInstance(instanceId, modifiedClassData, true)
+      const entityInstance = this.getObjectInstance(entityInstanceId)
+      if(!entityInstance) {
+        const modifiedClassData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, entityClassId: instanceUpdate.entityClassId }
+        this.addObjectInstance(entityInstanceId, modifiedClassData, true)
         return
       };
-      this.updateObjectInstance(objectInstance, instanceUpdate)
+      this.updateObjectInstance(entityInstance, instanceUpdate)
     })
 
     temporaryInstances.forEach((instanceUpdate) => {
-      const instanceId = instanceUpdate.instanceId
-      const temporaryInstance = this.temporaryInstancesById[instanceId]
+      const entityInstanceId = instanceUpdate.entityInstanceId
+      const temporaryInstance = this.temporaryInstancesById[entityInstanceId]
       if(!temporaryInstance) {
-        this.addTemporaryInstance(instanceId, instanceUpdate.classId)
+        this.addTemporaryInstance(entityInstanceId, instanceUpdate.entityClassId)
         return
       };
       this.updateObjectInstance(temporaryInstance, instanceUpdate)
@@ -76,14 +76,13 @@ export class GameClientScene extends EditorScene {
 
     if(this.draggingObjectInstanceId === PLAYER_INSTANCE_ID_PREFIX) return
 
-    this.playerInstance.sprite.x = playerInstance.x 
-    this.playerInstance.sprite.y = playerInstance.y
-    this.playerInstance.sprite.rotation = playerInstance.rotation
+    this.playerInstance.phaserInstance.x = playerInstance.x 
+    this.playerInstance.phaserInstance.y = playerInstance.y
+    this.playerInstance.phaserInstance.rotation = playerInstance.rotation
     this.playerInstance.setVisible(playerInstance.isVisible);
     this.playerInstance.isVisible = playerInstance.isVisible
     this.playerInstance.destroyAfterUpdate = playerInstance.destroyAfterUpdate 
-    this.playerInstance.reclassId = playerInstance.reclassId
-
+    this.playerInstance.transformEntityClassId = playerInstance.transformEntityClassId
 
     this.afterGameInstanceUpdateEffects() 
   }

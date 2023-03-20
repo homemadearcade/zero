@@ -29,26 +29,26 @@ export const openStageContextMenu = (event) => (dispatch, getState) => {
   });
 }
 
-export const openContextMenuFromObjectInstance = (objectInstances, event) => (dispatch, getState) => {
+export const openContextMenuFromObjectInstance = (entityInstances, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
-  if(objectInstances[0].effectSpawned) return
+  if(entityInstances[0].effectSpawned) return
 
   dispatch({
     // updateCobrowsing: true,
     // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      classIdSelectedContextMenu: objectInstances[0].classId, 
-      instanceIdSelectedContextMenu: objectInstances.length === 1 ? objectInstances[0].instanceId : null, 
-      selectableObjectInstances: objectInstances.length > 1 ? objectInstances.map(({instanceId, classId}) => { return {objectId: instanceId, classId}}) : null, 
+      entityClassIdSelectedContextMenu: entityInstances[0].entityClassId, 
+      entityInstanceIdSelectedContextMenu: entityInstances.length === 1 ? entityInstances[0].entityInstanceId : null, 
+      selectableObjectInstances: entityInstances.length > 1 ? entityInstances.map(({entityInstanceId, entityClassId}) => { return {objectId: entityInstanceId, entityClassId}}) : null, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }
   });
 }
 
-export const openContextMenuFromClassId= (classId, event) => (dispatch, getState) => {
+export const openContextMenuFromClassId= (entityClassId, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
@@ -56,7 +56,7 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
     // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      classIdSelectedContextMenu: classId, 
+      entityClassIdSelectedContextMenu: entityClassId, 
       selectableObjectInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
@@ -64,7 +64,7 @@ export const openContextMenuFromClassId= (classId, event) => (dispatch, getState
   });
 }
 
-export const openContextMenuFromObjectInstanceId= (instanceId, classId, event) => (dispatch, getState) => {
+export const openContextMenuFromObjectInstanceId= (entityInstanceId, entityClassId, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
@@ -72,8 +72,8 @@ export const openContextMenuFromObjectInstanceId= (instanceId, classId, event) =
     // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      instanceIdSelectedContextMenu: instanceId,
-      classIdSelectedContextMenu: classId,
+      entityInstanceIdSelectedContextMenu: entityInstanceId,
+      entityClassIdSelectedContextMenu: entityClassId,
       selectableObjectInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY

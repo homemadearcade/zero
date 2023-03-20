@@ -1,36 +1,35 @@
 import { DEFAULT_TEXTURE_ID, ON_SPAWN, BOUNDARY_COLLIDE, BOUNDARY_WRAP, ON_DESTROY_ONE, ON_DESTROY_ALL, ON_INTERACT, ON_TOUCH_START, ON_TOUCH_ACTIVE } from "../constants";
 import store from "../../store";
 import { getTextureMetadata } from "../../utils/utils";
-import { Sprite } from "./members/Sprite";
+import { PhaserInstance } from "./members/PhaserInstance";
 import { Collider } from "./members/Collider";
 import { Graphics } from "./members/Graphics";
 import { Effects } from "./members/Effects";
 import { Movement } from "./members/Movement";
 import { ProjectileEjector } from "./members/ProjectileEjector";
 
-export class ObjectInstance extends Sprite {
-  constructor(scene, instanceId, {spawnX, spawnY, classId}, effectSpawned){
+export class ObjectInstance extends PhaserInstance {
+  constructor(scene, entityInstanceId, {spawnX, spawnY, entityClassId}, effectSpawned){
     const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[classId]
+    const entityClass = gameModel.entityClasses[entityClassId]
 
-
-    const textureId = objectClass.graphics.textureId || DEFAULT_TEXTURE_ID
+    const textureId = entityClass.graphics.textureId || DEFAULT_TEXTURE_ID
     const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
     super(scene, { spawnX, spawnY, textureId, spriteIndex, spriteSheetName })
     
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // STORE
-    this.instanceId = instanceId
-    this.classId = classId
+    this.entityInstanceId = entityInstanceId
+    this.entityClassId = entityClassId
     this.scene = scene
-    this.width = objectClass.graphics.width
-    this.height = objectClass.graphics.height
-    this.sprite.instanceId = instanceId
-    this.sprite.effectSpawned = effectSpawned
+    this.width = entityClass.graphics.width
+    this.height = entityClass.graphics.height
+    this.phaserInstance.entityInstanceId = entityInstanceId
+    this.phaserInstance.effectSpawned = effectSpawned
     this.effectSpawned = effectSpawned
-    this.sprite.classId = classId
-    scene.objectInstanceGroup.add(this.sprite)
+    this.phaserInstance.entityClassId = entityClassId
+    scene.entityInstanceGroup.add(this.phaserInstance)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -41,18 +40,18 @@ export class ObjectInstance extends Sprite {
     //////////////////////////////////////////////////////////////
     // PHYSICS
     this.movement = new Movement(scene, this)
-    this.setBounce(objectClass.collisionResponse.bounciness)
-    this.setImmovable(objectClass.collisionResponse.immovable)
-    this.setPushable(!objectClass.collisionResponse.notPushable)
-    this.setMass(objectClass.collisionResponse.mass)
-    this.setFriction(objectClass.collisionResponse.friction)
-    const boundaryRelation = objectClass.boundaryRelation
-    if(objectClass.collisionResponse.ignoreBoundaries) {
+    this.setBounce(entityClass.collisionResponse.bounciness)
+    this.setImmovable(entityClass.collisionResponse.immovable)
+    this.setPushable(!entityClass.collisionResponse.notPushable)
+    this.setMass(entityClass.collisionResponse.mass)
+    this.setFriction(entityClass.collisionResponse.friction)
+    const boundaryRelation = entityClass.boundaryRelation
+    if(entityClass.collisionResponse.ignoreBoundaries) {
       this.setCollideWorldBounds(false)
     } else if(boundaryRelation === BOUNDARY_COLLIDE) {
       this.setCollideWorldBounds(true)
     }
-    this.setCollideIgnoreSides(objectClass.collisionResponse.ignoreSides)
+    this.setCollideIgnoreSides(entityClass.collisionResponse.ignoreSides)
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
@@ -69,43 +68,42 @@ export class ObjectInstance extends Sprite {
     return this
   }
 
-  startRunEventEffects = (relation, instanceSpriteB) => {
+  startRunEventEffects = (relation, phaserInstanceB) => {
     const { event } = relation
     if(this.hasTag(event.tagIdA)) {
       Object.keys(relation.effects).forEach((effectId) => {
         const effect = relation.effects[effectId]
         if(!effect) return
 
-        // if(effect.effectBehavior === 'EFFECT_SPAWN') console.log('we runnin dis effect yo')
         this.runAccuteEffect({
           relation: {
             ...relation,
             effect,
             effects: undefined
           },
-          instanceSpriteA: this.sprite,
-          instanceSpriteB,
+          phaserInstanceA: this.phaserInstance,
+          phaserInstanceB,
         })
       })
     }
   }
 
   hasTag(tagId) {
-    const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
-    return !!objectClass.tags[tagId]
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[this.entityClassId]
+    return !!entityClass.tags[tagId]
   }
 
   runAccuteEffect({
     relation, 
-    instanceSpriteA,
-    instanceSpriteB,
+    phaserInstanceA,
+    phaserInstanceB,
     sidesA =[],
     sidesB = []
   }) {
     this.effects.runAccuteEffect({
       relation,
-      instanceSpriteA,
-      instanceSpriteB,
+      phaserInstanceA,
+      phaserInstanceB,
       sidesA,
       sidesB
     })
@@ -117,15 +115,15 @@ export class ObjectInstance extends Sprite {
   }
 
   update(time, delta) {
-    const objectClass = store.getState().gameModel.gameModel.classes[this.classId]
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[this.entityClassId]
 
     this.graphics.update()
 
     ////////////////////////////////////////
     ////////////////////////////////////////
     // RELATIONS
-    if(objectClass.boundaryRelation === BOUNDARY_WRAP) {
-      this.scene.physics.world.wrap(this.sprite.body, objectClass.graphics.width)
+    if(entityClass.boundaryRelation === BOUNDARY_WRAP) {
+      this.scene.physics.world.wrap(this.phaserInstance.body, entityClass.graphics.width)
     }
 
     if(this.scene.isPaused) return 
@@ -172,45 +170,45 @@ export class ObjectInstance extends Sprite {
     this.effects.unregister()
   }
 
-  getInnerCoordinateBoundaries(objectClass) {
-    const sprite = this.sprite   
+  getInnerCoordinateBoundaries(entityClass) {
+    const phaserInstance = this.phaserInstance   
 
-    const x = sprite.x - (sprite.displayWidth/2) +  objectClass.graphics.width/4
-    const y = sprite.y - (sprite.displayHeight/2) + objectClass.graphics.height/4
-    const width = sprite.displayWidth -  objectClass.graphics.width/2
-    const height = sprite.displayHeight-  objectClass.graphics.height/2
+    const x = phaserInstance.x - (phaserInstance.displayWidth/2) +  entityClass.graphics.width/4
+    const y = phaserInstance.y - (phaserInstance.displayHeight/2) + entityClass.graphics.height/4
+    const width = phaserInstance.displayWidth -  entityClass.graphics.width/2
+    const height = phaserInstance.displayHeight-  entityClass.graphics.height/2
 
     return [x, y, width, height]
   }
 
-  reclass(classId) {
-    const sprite = this.sprite
-    const modifiedClassData = { spawnX: sprite.x, spawnY: sprite.y, classId }
+  reclass(entityClassId) {
+    const phaserInstance = this.phaserInstance
+    const modifiedClassData = { spawnX: phaserInstance.x, spawnY: phaserInstance.y, entityClassId }
 
     //issue because as soon as we destroy it, we lose acces to 'this'!
-    const instanceId = this.instanceId
+    const entityInstanceId = this.entityInstanceId
     setTimeout(() => { 
-      this.scene.addObjectInstance(instanceId, modifiedClassData)
+      this.scene.addObjectInstance(entityInstanceId, modifiedClassData)
     })
 
     // calls .destroy()
-    this.scene.removeObjectInstance(this.instanceId)
+    this.scene.removeObjectInstance(this.entityInstanceId)
   }
 
   runDestroyEvents() {
-    const classId = this.classId
+    const entityClassId = this.entityClassId
     this.scene.relationsByEventType[ON_DESTROY_ONE]?.forEach(this.startRunEventEffects)
-    const instances = this.scene.getAllInstancesOfClassId(classId)
+    const instances = this.scene.getAllObjectInstancesOfClassId(entityClassId)
     if(instances.length === 1) {
       this.scene.relationsByEventType[ON_DESTROY_ALL]?.forEach(this.startRunEventEffects)
     }
   }
 
   destroyInGame() {
-    const instanceId = this.instanceId
+    const entityInstanceId = this.entityInstanceId
     this.runDestroyEvents()
     // calls .destroy()
-    this.scene.removeObjectInstance(instanceId)
+    this.scene.removeObjectInstance(entityInstanceId)
   }
 
   resetPhysics() {
@@ -219,8 +217,8 @@ export class ObjectInstance extends Sprite {
 
   destroy() {
     this.destroyed = true
-    this.scene.objectInstanceGroup.remove(this.sprite)
-    // this.scene.removeInstanceFromSpriteGroup(this.classId, this.sprite)
+    this.scene.entityInstanceGroup.remove(this.phaserInstance)
+    // this.scene.removeInstanceFromPhaserInstanceGroup(this.entityClassId, this.phaserInstance)
     this.graphics.destroy()
     super.destroy()
   }

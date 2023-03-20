@@ -9,7 +9,7 @@ export const initialPlayerClassId = vehiclePlayerClassId
 
 export const initialPlayerSpawnZone = {
   id: initialSpawnZoneInstanceId,
-  classId: initialSpawnZoneClassId,
+  entityClassId: initialSpawnZoneClassId,
   spawnX: gameSize/2,
   spawnY: gameSize/2,
 }
@@ -20,7 +20,7 @@ export const defaultStage = {
   "playerClassId": null,
   'spawnZoneClassId': null,
   "imageUrl": "",
-  objects: {
+  entityInstances: {
     [initialSpawnZoneInstanceId]: {
       ...initialPlayerSpawnZone
     }

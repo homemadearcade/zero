@@ -1,4 +1,4 @@
-import { SPRITE_EDITOR_ID_PREFIX } from '../../game/constants';
+import { IMAGE_CANVAS_MODAL_ID_PREFIX } from '../../game/constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { getCanvasIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
 import { generateUniqueId } from '../../utils/webPageUtils';
@@ -11,8 +11,8 @@ import {
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
   UPDATE_OPEN_LIST,
-  OPEN_SPRITE_EDITOR,
-  CLOSE_SPRITE_EDITOR,
+  OPEN_IMAGE_CANVAS_MODAL,
+  CLOSE_IMAGE_CANVAS_MODAL,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
@@ -36,12 +36,12 @@ import { saveAllCurrentCanvases } from './codrawingActions';
 import { editGameModel } from './gameModelActions';
 import { toggleLayerVisibility } from './gameViewEditorActions';
 
-export const selectClass = (classId) => (dispatch, getState) => {
+export const selectClass = (entityClassId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   // dispatch(editGameModel({
-  //   classes: {
-  //     [classId]: {
+  //   entityClasses: {
+  //     [entityClassId]: {
   //       lastSelectedDate: Date.now()
   //     }
   //   }
@@ -51,7 +51,7 @@ export const selectClass = (classId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: SELECT_CLASS,
     payload: {
-      classIdSelectedClassList: classId, 
+      entityClassIdSelectedClassList: entityClassId, 
     }
   });
 }
@@ -76,7 +76,7 @@ export const changeSelectorList = (currentSelectorList) => (dispatch, getState) 
   });
 }
 
-export const clearClass = (classId) => (dispatch, getState) => {
+export const clearClass = (entityClassId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLEAR_CLASS,
@@ -106,7 +106,7 @@ export const updateBrushLastUsedDate = (brushId) => (dispatch, getState) => {
 }
 
 export const selectBrush = (brushId, layerId) => (dispatch, getState) => {
-  if(layerId && !getCobrowsingState().gameViewEditor.layerVisibility[layerId]) {
+  if(layerId && getCobrowsingState().gameViewEditor.layerInvisibility[layerId]) {
     dispatch(toggleLayerVisibility(layerId))
   }
 
@@ -128,7 +128,7 @@ export const clearBrush = (brushId) => (dispatch, getState) => {
   });
 }
 
-export const openLiveEditor = (type, classId) => (dispatch, getState) => {
+export const openLiveEditor = (type, entityClassId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
@@ -136,26 +136,26 @@ export const openLiveEditor = (type, classId) => (dispatch, getState) => {
     type: OPEN_LIVE_EDITOR,
     payload: {
       type,
-      classIdSelectedLiveEditor: classId, 
+      entityClassIdSelectedLiveEditor: entityClassId, 
     }
   });
 }
 
-export const openSpriteEditor= (textureId) => (dispatch, getState) => {
+export const openCanvasImageModal= (textureId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_SPRITE_EDITOR,
+    type: OPEN_IMAGE_CANVAS_MODAL,
     payload: {
       textureId: textureId,
-      spriteEditorNewTextureId: SPRITE_EDITOR_ID_PREFIX + generateUniqueId()
+      imageCanvasNewTextureId: IMAGE_CANVAS_MODAL_ID_PREFIX + generateUniqueId()
     }
   });
 }
 
-export const closeSpriteEditor= () => (dispatch, getState) => {
+export const closeCanvasImageModal= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_SPRITE_EDITOR,
+    type: CLOSE_IMAGE_CANVAS_MODAL,
     payload: {}
   });
 }
@@ -283,7 +283,7 @@ export const clearEditor = () => (dispatch, getState) => {
   });
 }
 
-export const openMySpritesModal = () => (dispatch, getState) => {
+export const openMyImagesModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_MY_SPRITES_MODAL,
@@ -291,7 +291,7 @@ export const openMySpritesModal = () => (dispatch, getState) => {
   });
 }
 
-export const closeMySpritesModal = () => (dispatch, getState) => {
+export const closeMyImagesModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_MY_SPRITES_MODAL,

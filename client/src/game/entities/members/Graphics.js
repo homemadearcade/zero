@@ -1,45 +1,44 @@
 import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
-import { getLayerIdFromClass } from "../../../utils/gameUtils"
 import { getThemePrimaryColor } from "../../../utils/webPageUtils"
 
 export class Graphics {
-  constructor(scene, objectInstance){
-    this.objectInstance = objectInstance
+  constructor(scene, entityInstance){
+    this.entityInstance = entityInstance
     this.scene = scene
 
     const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[objectInstance.classId]
-    const sprite = this.objectInstance.sprite
+    const entityClass = gameModel.entityClasses[entityInstance.entityClassId]
+    const phaserInstance = this.entityInstance.phaserInstance
 
-    if(objectClass.graphics.tint) objectInstance.setTint(objectClass.graphics.tint)
-    objectInstance.isVisible = !objectClass.graphics.invisible
-    sprite.setDisplaySize(objectClass.graphics.width, objectClass.graphics.height)
-    this.setSize(objectClass.graphics.width, objectClass.graphics.height)
-    scene.addSpriteToTypeLayer(objectInstance.classId, sprite)
-    // scene.addSpriteToTypeGroup(objectInstance.classId, sprite)
+    if(entityClass.graphics.textureTint) entityInstance.setTint(entityClass.graphics.textureTint)
+    entityInstance.isVisible = !entityClass.graphics.invisible
+    phaserInstance.setDisplaySize(entityClass.graphics.width, entityClass.graphics.height)
+    this.setSize(entityClass.graphics.width, entityClass.graphics.height)
+    scene.addSpriteToTypeLayer(entityInstance.entityClassId, phaserInstance)
+    // scene.addSpriteToTypeGroup(entityInstance.entityClassId, phaserInstance)
 
-    if(objectClass.graphics.glowing) {
+    if(entityClass.graphics.glowing) {
       this.setGlowing()
     }
 
     // EDITOR
-    //!objectInstance.effectSpawned &&
+    //!entityInstance.effectSpawned &&
     if(this.scene.isEditor) {
-      sprite.setInteractive();
-      scene.input.setDraggable(sprite)
-      if(!sprite.frame.name) {
-        sprite.editorHighlight = scene.add.image(sprite.x,sprite.y, sprite.texture.key)
+      phaserInstance.setInteractive();
+      scene.input.setDraggable(phaserInstance)
+      if(!phaserInstance.frame.name) {
+        phaserInstance.editorHighlight = scene.add.image(phaserInstance.x,phaserInstance.y, phaserInstance.texture.key)
       } else {
-        sprite.editorHighlight = scene.add.image(sprite.x,sprite.y, sprite.texture.key, sprite.frame.name)
+        phaserInstance.editorHighlight = scene.add.image(phaserInstance.x,phaserInstance.y, phaserInstance.texture.key, phaserInstance.frame.name)
       }
-      sprite.editorHighlight.setTintFill(getThemePrimaryColor().hexCode)
-      .setDisplaySize(this.objectInstance.width + 10, this.objectInstance.height + 10)
+      phaserInstance.editorHighlight.setTintFill(getThemePrimaryColor().hexCode)
+      .setDisplaySize(this.entityInstance.width + 10, this.entityInstance.height + 10)
       .setVisible(false)
-      scene.addSpriteToTypeLayer(objectInstance.classId, sprite.editorHighlight, -1)
+      scene.addSpriteToTypeLayer(entityInstance.entityClassId, phaserInstance.editorHighlight, -1)
     }
-    if(objectClass.graphics.invisible && this.scene.isEditor) {
+    if(entityClass.graphics.invisible && this.scene.isEditor) {
       this.createInvisiblilityIndicator()
       this.setInvisible()
     }
@@ -48,15 +47,15 @@ export class Graphics {
   }
 
   setInvisible() {
-    this.objectInstance.isVisible = true
-    this.objectInstance.setAlpha(0.1)
+    this.entityInstance.isVisible = true
+    this.entityInstance.setAlpha(0.1)
   }
 
   setGlowing() {
-    if(this.sprite.glowTask) return
-    const sprite = this.sprite
-    var pipeline = this.scene.plugins.get('rexglowfilterpipelineplugin').add(sprite);
-    sprite.glowTask = sprite.scene.tweens.add({
+    if(this.phaserInstance.glowTask) return
+    const phaserInstance = this.phaserInstance
+    var pipeline = this.scene.plugins.get('rexglowfilterpipelineplugin').add(phaserInstance);
+    phaserInstance.glowTask = phaserInstance.scene.tweens.add({
       targets: pipeline,
       intensity: 0.05,
       ease: 'Linear',
@@ -67,22 +66,22 @@ export class Graphics {
   }
 
   clearGlowing() {
-    if(!this.sprite.glowTask) return 
-    this.sprite.glowTask.destroy()
+    if(!this.phaserInstance.glowTask) return 
+    this.phaserInstance.glowTask.destroy()
   }
 
   setSize(w, h) {
-    const sprite = this.objectInstance.sprite
-    const classId = this.objectInstance.classId
+    const phaserInstance = this.entityInstance.phaserInstance
+    const entityClassId = this.entityInstance.entityClassId
 
-    if(sprite.editorHighlight) {
-      sprite.editorHighlight.setDisplaySize(w + 10, h + 10)
+    if(phaserInstance.editorHighlight) {
+      phaserInstance.editorHighlight.setDisplaySize(w + 10, h + 10)
     }
 
     if(this.scene.isEditor) {
       const gameModel = store.getState().gameModel.gameModel
-      const objectClass = gameModel.classes[classId]
-      if(objectClass.graphics.invisible) {
+      const entityClass = gameModel.entityClasses[entityClassId]
+      if(entityClass.graphics.invisible) {
         this.createInvisiblilityIndicator()
       }
     }
@@ -91,85 +90,85 @@ export class Graphics {
   }
 
   createInteractBorder() {
-    const sprite = this.objectInstance.sprite
+    const phaserInstance = this.entityInstance.phaserInstance
 
-    if(sprite.interactBorder) sprite.interactBorder.destroy()
-    const width = sprite.displayWidth
-    const height = sprite.displayHeight
+    if(phaserInstance.interactBorder) phaserInstance.interactBorder.destroy()
+    const width = phaserInstance.displayWidth
+    const height = phaserInstance.displayHeight
     const cornerX = -width/2
     const cornerY = -height/2
-    sprite.interactBorder = this.scene.add.graphics();
-    sprite.interactBorder.lineStyle(4, getThemePrimaryColor().hexCode, 1);
-    sprite.interactBorder.strokeRect(cornerX, cornerY, width, height);
-    sprite.interactBorder.setVisible(false)
-    this.scene.uiLayer.add(sprite.interactBorder)
+    phaserInstance.interactBorder = this.scene.add.graphics();
+    phaserInstance.interactBorder.lineStyle(4, getThemePrimaryColor().hexCode, 1);
+    phaserInstance.interactBorder.strokeRect(cornerX, cornerY, width, height);
+    phaserInstance.interactBorder.setVisible(false)
+    this.scene.uiLayer.add(phaserInstance.interactBorder)
   }
 
   createInvisiblilityIndicator() {
-    const sprite = this.objectInstance.sprite
+    const phaserInstance = this.entityInstance.phaserInstance
 
     const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.objectInstance.classId]
+    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
 
-    if(sprite.invisibleIndicator) sprite.invisibleIndicator.destroy()
-    const width = sprite.displayWidth
-    const height = sprite.displayHeight
+    if(phaserInstance.invisibleIndicator) phaserInstance.invisibleIndicator.destroy()
+    const width = phaserInstance.displayWidth
+    const height = phaserInstance.displayHeight
     const cornerX = -width/2
     const cornerY = -height/2
-    sprite.invisibleIndicator = this.scene.add.graphics();
-    const colorInt = getHexIntFromHexString(objectClass.graphics.tint || '#FFFFFF')
-    sprite.invisibleIndicator.lineStyle(4, colorInt, 1);
-    sprite.invisibleIndicator.setAlpha(0.5)
-    sprite.invisibleIndicator.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    this.scene.addSpriteToTypeLayer(this.objectInstance.classId, sprite.invisibleIndicator)
+    phaserInstance.invisibleIndicator = this.scene.add.graphics();
+    const colorInt = getHexIntFromHexString(entityClass.graphics.textureTint || '#FFFFFF')
+    phaserInstance.invisibleIndicator.lineStyle(4, colorInt, 1);
+    phaserInstance.invisibleIndicator.setAlpha(0.5)
+    phaserInstance.invisibleIndicator.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
+    this.scene.addSpriteToTypeLayer(this.entityInstance.entityClassId, phaserInstance.invisibleIndicator, 2)
   }
 
   update() {
-    const sprite = this.objectInstance.sprite
+    const phaserInstance = this.entityInstance.phaserInstance
 
-    if(sprite.invisibleIndicator) {
+    const entityClassIdHovering = store.getState().gameViewEditor.entityClassIdHovering
+    const gameModel = store.getState().gameModel.gameModel
+    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
+    const gameViewEditor = getCobrowsingState().gameViewEditor
+    const layerInvisibility = gameViewEditor.layerInvisibility
+    const isLayerInvisible = layerInvisibility[entityClass.classInterfaceCategory]
+    if(isLayerInvisible) {
+      this.entityInstance.setVisible(false)
+    } else {
+      this.entityInstance.setVisible(this.entityInstance.isVisible)
+    }
+
+    if(phaserInstance.invisibleIndicator) {
       if(this.scene.isPlaythrough) {
-        sprite.invisibleIndicator.setVisible(false)
-        this.objectInstance.isVisible = false
+        phaserInstance.invisibleIndicator.setVisible(false)
+        this.entityInstance.isVisible = false
       } else {
-        sprite.invisibleIndicator.setPosition(sprite.x, sprite.y)
-        sprite.invisibleIndicator.setRotation(sprite.rotation)
-        sprite.invisibleIndicator.setVisible(true)
+        phaserInstance.invisibleIndicator.setPosition(phaserInstance.x, phaserInstance.y)
+        phaserInstance.invisibleIndicator.setRotation(phaserInstance.rotation)
+        phaserInstance.invisibleIndicator.setVisible(!isLayerInvisible)
         this.setInvisible()
       }
     }
 
-    const classIdHovering = store.getState().gameViewEditor.classIdHovering
-    const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.objectInstance.classId]
-    const gameViewEditor = getCobrowsingState().gameViewEditor
-    const layerVisibility = gameViewEditor.layerVisibility
-    const isLayerVisible = layerVisibility[getLayerIdFromClass(objectClass)]
-    if(!isLayerVisible) {
-      this.objectInstance.setVisible(false)
-    } else {
-      this.objectInstance.setVisible(this.objectInstance.isVisible)
-    }
+    phaserInstance.interactBorder.setPosition(phaserInstance.x, phaserInstance.y)
+    phaserInstance.interactBorder.setRotation(phaserInstance.rotation)
 
-    sprite.interactBorder.setPosition(sprite.x, sprite.y)
-    sprite.interactBorder.setRotation(sprite.rotation)
-
-    if(sprite.editorHighlight) {
-      sprite.editorHighlight.setPosition(sprite.x, sprite.y)
-      sprite.editorHighlight.setRotation(sprite.rotation)
-      if(this.objectInstance.classId === classIdHovering || sprite.isHoveringOver) {
-        sprite.editorHighlight.setVisible(true)
+    if(phaserInstance.editorHighlight) {
+      phaserInstance.editorHighlight.setPosition(phaserInstance.x, phaserInstance.y)
+      phaserInstance.editorHighlight.setRotation(phaserInstance.rotation)
+      if(this.entityInstance.entityClassId === entityClassIdHovering || phaserInstance.isHoveringOver) {
+        phaserInstance.editorHighlight.setVisible(true)
       } else {
-        sprite.editorHighlight.setVisible(false)
+        phaserInstance.editorHighlight.setVisible(false)
       }
     }
   }
 
   destroy() {
-    const sprite = this.objectInstance.sprite
+    const phaserInstance = this.entityInstance.phaserInstance
 
-    if(sprite.invisibleIndicator) sprite.invisibleIndicator.destroy()
-    if(sprite.editorHighlight) sprite.editorHighlight.destroy()
-    sprite.interactBorder.destroy()
+    if(phaserInstance.invisibleIndicator) phaserInstance.invisibleIndicator.destroy()
+    if(phaserInstance.editorHighlight) phaserInstance.editorHighlight.destroy()
+    phaserInstance.interactBorder.destroy()
   }
 }

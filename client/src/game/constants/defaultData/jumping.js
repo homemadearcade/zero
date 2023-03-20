@@ -6,7 +6,7 @@ import { JUMP_COMBO, JUMP_CONSTANT, JUMP_GROUND, JUMP_NONE, JUMP_AIR, ADVANCED_D
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 // PARAMETERS
-export const jumpBehaviorToParemeters = {
+export const jumpControlsBehaviorToParemeters = {
   [JUMP_NONE]: {
     ground: false,
     speed: false,
@@ -50,7 +50,7 @@ export const jumpBehaviorToParemeters = {
 // CONTROLS
 export const noJumpDefaults = {
   jump: {
-    jumpBehavior: JUMP_NONE,
+    jumpControlsBehavior: JUMP_NONE,
     ground: 0,
     air: 0,
   }
@@ -58,7 +58,7 @@ export const noJumpDefaults = {
 
 export const airJumpDefaults = {
   jump: {
-    jumpBehavior: JUMP_AIR,
+    jumpControlsBehavior: JUMP_AIR,
     ground: 0,
     air: 50,
     cooldown: 200,
@@ -67,7 +67,7 @@ export const airJumpDefaults = {
 
 export const comboJumpDefaults = {
   jump: {
-    jumpBehavior: JUMP_COMBO,
+    jumpControlsBehavior: JUMP_COMBO,
     ground: 100,
     air: 50,
     cooldown: 200,
@@ -76,7 +76,7 @@ export const comboJumpDefaults = {
 
 export const groundJumpDefaults = {
   jump: {
-    jumpBehavior: JUMP_GROUND,
+    jumpControlsBehavior: JUMP_GROUND,
     ground: 200,
     air: 0,
   },
@@ -84,7 +84,7 @@ export const groundJumpDefaults = {
 
 export const jetpackDefaults = {
   jump: {
-    jumpBehavior: JUMP_CONSTANT,
+    jumpControlsBehavior: JUMP_CONSTANT,
     ground: 100,
     air: 0,
   },

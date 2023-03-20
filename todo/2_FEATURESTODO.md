@@ -6,10 +6,6 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-TYPE
-  REMOVE .interfaceType === from any GAME LOGIC, Class.classInterfaceType is PURELY FOR UI
-  swap all the objects to correct game layers when it changes so we can use the layers correctly for visibility and for taking pictures...
-
 RELATIONS
   PROJECTILES/SPAWNED
     Relationship level
@@ -21,19 +17,23 @@ RELATIONS
       Player
       All
 
---
+Put game defaults into the instructions. Change defaults to be on the stage object. 
+physicsType == ARCADE_GRAVITY
 
 LIBRARY
   Turn library on and off ( both in Selects and in the ClassList )
-  Easy system for saving library classes and relations
-  Be able to open class library classes from some sort of class bucket thing. Start with context menu?
+  Easy system for saving library entityClasses and relations
+  Be able to open class library entityClasses from some sort of class bucket thing. Start with context menu?
   When creating a class?, when selecting a class? From context menu?
+
+---
 
 STEPS UPDATE
   Prompts, Next Steps...
   A bit more automated is needed..
   Skippable option in a step
   Collapsible steps??
+  Buttons just ‘Cue the next segment’ so the button is based on the title of the next section
 
 LOBBY UPDATE
   Lobby Join Sound

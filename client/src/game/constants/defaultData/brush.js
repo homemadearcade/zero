@@ -3,6 +3,6 @@ import { DEFAULT_TEXTURE_ID } from "../";
 export const defaultBrush = {
   lastSelectedDate: 0,
   "layerCanvasId": null,
-  'tint': '#FFFFFF',
+  'textureTint': '#FFFFFF',
   'textureId': DEFAULT_TEXTURE_ID
 }

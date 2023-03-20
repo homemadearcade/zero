@@ -25,10 +25,11 @@ import {
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import store from '..';
-import {  BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_ID, initialStageId, PLAYGROUND_LAYER_CANVAS_ID, TEXTURE_TYPE_LAYER, UNDO_MEMORY_MAX } from '../../game/constants';
+import {  BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_ID, initialStageId, PLAYGROUND_LAYER_CANVAS_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { addDefaultsToGameModel, addLibraryToGameModel, cleanGameModel, enrichGameModel, getTextureIdForLayerCanvasId } from '../../utils';
-import { addTexture } from './textureActions';
+import { addCanvasImage } from './canvasImageActions';
+import { IMAGE_TYPE_LAYER } from '../../constants';
 
 export function onArcadeGameModelUpdate(gameUpdate) {
   const state = store.getState()
@@ -39,14 +40,14 @@ export function onArcadeGameModelUpdate(gameUpdate) {
     if(gameUpdate.stages) {
       const stage = gameUpdate.stages[stageId]
       if(stage) {
-        const objects = stage.objects 
-        const oldObjects = oldGameData.stages[stageId].objects
-        if(objects) {
-          window.instanceUndoStack.push(...Object.keys(objects).map((id) => {
+        const entityInstances = stage.entityInstances 
+        const oldObjects = oldGameData.stages[stageId].entityInstances
+        if(entityInstances) {
+          window.instanceUndoStack.push(...Object.keys(entityInstances).map((entityInstanceId) => {
             return {
-              objectInstanceStageId: stageId,
-              objectInstanceId: id,
-              data: _.cloneDeep(oldObjects[id])
+              entityInstanceStageId: stageId,
+              entityInstanceId: entityInstanceId,
+              data: _.cloneDeep(oldObjects[entityInstanceId])
             }
           }))
         }
@@ -211,20 +212,20 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
 };
 
 export async function addLayerCanvasTexturesForArcadeGameStage(gameId, stageId) {
-  await store.dispatch(addTexture({
-    textureType: TEXTURE_TYPE_LAYER,
+  await store.dispatch(addCanvasImage({
+    imageType: IMAGE_TYPE_LAYER,
     textureId: getTextureIdForLayerCanvasId(gameId, stageId, BACKGROUND_LAYER_CANVAS_ID), 
     userId: store.getState().auth.me.id,
     arcadeGame: gameId
   }))
-  await store.dispatch(addTexture({
-    textureType: TEXTURE_TYPE_LAYER,
+  await store.dispatch(addCanvasImage({
+    imageType: IMAGE_TYPE_LAYER,
     textureId: getTextureIdForLayerCanvasId(gameId, stageId, PLAYGROUND_LAYER_CANVAS_ID), 
     userId: store.getState().auth.me.id,
     arcadeGame: gameId
   }))
-  await store.dispatch(addTexture({
-    textureType: TEXTURE_TYPE_LAYER,
+  await store.dispatch(addCanvasImage({
+    imageType: IMAGE_TYPE_LAYER,
     textureId: getTextureIdForLayerCanvasId(gameId, stageId, FOREGROUND_LAYER_CANVAS_ID), 
     userId: store.getState().auth.me.id,
     arcadeGame: gameId

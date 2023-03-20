@@ -8,10 +8,10 @@ import { effectBehaviorInterface } from "../game/constants"
     function isSaveDisabled(effect) {
       if(!effect) return
       
-      const effectForms = effectBehaviorInterface[effect.effectBehavior]
+      const effectForms = effectBehaviorInterfaces[effect.effectBehavior]
 
-      if(effectForms?.classId) {
-        if(!effect.classId) return true
+      if(effectForms?.entityClassId) {
+        if(!effect.entityClassId) return true
       }
 
       if(effectForms?.zoneClassId) {

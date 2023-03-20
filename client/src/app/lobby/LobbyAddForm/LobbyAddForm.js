@@ -25,7 +25,7 @@ const LobbyAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
     const gameResponse = await addArcadeGame({
       userId: data.invitedUsers,
       stages: {},
-      classes: {},
+      entityClasses: {},
       cutscenes: {},
       relations: {},
       collisions: {},

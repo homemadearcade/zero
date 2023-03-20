@@ -9,19 +9,19 @@ import './ControlsCard.scss'
 
 const ControlsCard = ({
   controlScheme,
-  jumpBehavior,
+  jumpControlsBehavior,
   projectileClass,
   showInteract,
-  objectClass
+  entityClass
 }) => {
-  const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpBehavior] }
+  const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpControlsBehavior] }
 
   const list = []
 
   function renderKey({keyName, action}) {
     return <div className="ControlsCard__key" key={keyName}>
       <KeyIndicator className="ControlsCard__key-indicator" keyName={keyName}></KeyIndicator>
-      {action instanceof Function ? action(objectClass) : action}
+      {action instanceof Function ? action(entityClass) : action}
     </div>
   }
 
@@ -51,7 +51,7 @@ const ControlsCard = ({
   if(keys.right) {
     list.push(renderKey({keyName: 'right', action: keys.right}))
   }
-  if(keys.down instanceof Function ? keys.down(objectClass) : keys.down) {
+  if(keys.down instanceof Function ? keys.down(entityClass) : keys.down) {
     list.push(renderKey({keyName: 'down', action: keys.down}))
   }
 

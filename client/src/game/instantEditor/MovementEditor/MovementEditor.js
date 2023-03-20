@@ -17,9 +17,9 @@ import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DR
 import SelectClass from '../../ui/SelectClass/SelectClass';
 import { movementControlsBehaviorToInterface } from '../../constants';
 
-const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
+const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
-  const classSelected = gameModel.classes[classId]
+  const classSelected = gameModel.entityClasses[entityClassId]
 
   let movementParameters = classSelected.movement.movementControlsBehavior ? movementControlsBehaviorToInterface[classSelected.movement.movementControlsBehavior] : movementBehaviorToInterface[classSelected.movement.movementBehavior]
 
@@ -44,37 +44,37 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
 
   return (
     <div className="MovementEditor">
-      {classSelected.classInterfaceType === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
+      {classSelected.classInterfaceCategory === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
         <SelectMovementControlsBehavior
           formLabel="Controls"
           value={classSelected.movement.movementControlsBehavior ? [classSelected.movement.movementControlsBehavior] : []}
           onChange={(event, controls) => {
-            editGameModel({ classes: { [classId]: { ...controls[controls.length-1] } }})    
+            editGameModel({ entityClasses: { [entityClassId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
-      {classSelected.classInterfaceType !== PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
+      {classSelected.classInterfaceCategory !== PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
         <SelectMovementBehavior
           formLabel="Behavior"
           value={classSelected.movement.movementBehavior ? [classSelected.movement.movementBehavior] : []}
           onChange={(event, movementBehavior) => {
-            editGameModel({ classes: { [classId]: { ...movementBehavior[movementBehavior.length-1] } }})    
+            editGameModel({ entityClasses: { [entityClassId]: { ...movementBehavior[movementBehavior.length-1] } }})    
           }}/>
       </Unlockable>}
       {movementParameters.class && <SelectClass
           formLabel="Following Class"
-          value={classSelected.movement.classId ? [classSelected.movement.classId] : []}
-          onChange={(event, classes) => {
-            const newClassId = classes[classes.length-1]
-            editGameModel({ classes: { [classId]: { movement: { classId: newClassId ? newClassId : null  }}}})        
+          value={classSelected.movement.entityClassId ? [classSelected.movement.entityClassId] : []}
+          onChange={(event, entityClasses) => {
+            const newClassId = entityClasses[entityClasses.length-1]
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { entityClassId: newClassId ? newClassId : null  }}}})        
       }}/>}
-      {classSelected.movement.movementControlsBehavior && <ControlsCard objectClass={classSelected} controlScheme={classSelected.movement.movementControlsBehavior} jumpBehavior={classSelected.jump.jumpBehavior}></ControlsCard>}
+      {classSelected.movement.movementControlsBehavior && <ControlsCard entityClass={classSelected} controlScheme={classSelected.movement.movementControlsBehavior} jumpControlsBehavior={classSelected.jump.jumpControlsBehavior}></ControlsCard>}
       {movementParameters.speed &&<Unlockable interfaceId={MOVEMENT_SPEED_IID}>
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}
           options={[1, 5, 20, 100]}
           step={0.1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { speed: value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { speed: value } }}})        
           }}
           value={classSelected.movement.speed}
         />
@@ -85,7 +85,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { velocityY: value} }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { velocityY: value} }}})        
           }}
           value={classSelected.movement.velocityY}
         />
@@ -96,7 +96,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { velocityX: value} }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { velocityX: value} }}})        
           }}
           value={classSelected.movement.velocityX}
         />
@@ -107,7 +107,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           options={[1, 20, 100, 200, 400]}
           step={0.1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { speedAngular: value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { speedAngular: value } }}})        
           }}
           value={classSelected.movement.speedAngular}
         />
@@ -118,7 +118,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           step={0.01}
           options={[0, 20, 100, 200, 400]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { dragAngular: value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { dragAngular: value } }}})        
           }}
           value={classSelected.movement.dragAngular}
         />
@@ -129,7 +129,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { dragY: 1 - value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { dragY: 1 - value } }}})        
           }}
           value={1 - classSelected.movement.dragY}
         />
@@ -140,7 +140,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { dragX: 1 - value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { dragX: 1 - value } }}})        
           }}
           value={1 - classSelected.movement.dragX}
         />
@@ -151,7 +151,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { gravityY: value} }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { gravityY: value} }}})        
           }}
           value={classSelected.movement.gravityY}
         />
@@ -162,7 +162,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { movement: { gravityX: value} }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { gravityX: value} }}})        
           }}
           value={classSelected.movement.gravityX}
         />
@@ -173,7 +173,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           step={0.05}
           options={[0, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { collisionResponse: { bounciness: value } }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { bounciness: value } }}})        
           }}
           value={classSelected.collisionResponse.bounciness}
         />
@@ -183,7 +183,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           size="small"
           labels={['No Gravity', 'Gravity']}
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { movement: { ignoreGravity: !e.target.checked }}}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { ignoreGravity: !e.target.checked }}}})        
           }}
           checked={!classSelected.movement.ignoreGravity}
          />
@@ -193,7 +193,7 @@ const MovementEditor = ({ classId, gameModel: { gameModel }, editGameModel, auth
           labels={['Enable Down', 'Disable Down']}
           size="small"
           onChange={(e) => {
-            editGameModel({ classes: { [classId]: { movement: { disableDownKey: e.target.checked }}}})        
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { disableDownKey: e.target.checked }}}})        
           }}
           checked={classSelected.movement.disableDownKey}
          />

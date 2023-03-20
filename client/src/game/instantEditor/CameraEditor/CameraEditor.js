@@ -8,8 +8,8 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../constants/interfaceIds';
 
-const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editGameModel }) => {
-  const classSelected = gameModel.classes[classId]
+const CameraEditor = ({ entityClassId, gameModel: { gameModel, currentStageId }, editGameModel }) => {
+  const classSelected = gameModel.entityClasses[entityClassId]
 
   if(!classSelected?.camera) {
     console.error('opened camera editor on a class with no camera')
@@ -51,7 +51,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editG
           options={zooms}
           step={0.1}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { camera: { zoom: value }  }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { camera: { zoom: value }  }}})        
           }}
           value={classSelected.camera.zoom}
       />
@@ -62,7 +62,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editG
           options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
           step={0.01}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { camera: { lerpX: value }  }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { camera: { lerpX: value }  }}})        
           }}
           value={classSelected.camera.lerpX}
       />
@@ -73,7 +73,7 @@ const CameraEditor = ({ classId, gameModel: { gameModel, currentStageId }, editG
           step={0.01}
           options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ classes: { [classId]: { camera: { lerpY: value }  }}})        
+            editGameModel({ entityClasses: { [entityClassId]: { camera: { lerpY: value }  }}})        
           }}
           value={classSelected.camera.lerpY}
       />

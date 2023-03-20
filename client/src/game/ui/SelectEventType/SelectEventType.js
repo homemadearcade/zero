@@ -16,9 +16,9 @@ const SelectEventType = ({ onChange, value, formLabel, disabled}) => {
   }
 
   const options = Object.keys(eventTypeToDisplayNames).filter((eventType) => {
-    // if(classIdB !== classIdA) {
+    // if(entityClassIdB !== entityClassIdA) {
     //   if(singleClassEvents[eventType]) return false
-    // } else if(classIdA === classIdB && eventType === ON_INTERACT) {
+    // } else if(entityClassIdA === entityClassIdB && eventType === ON_INTERACT) {
     //   return false
     // }
 

@@ -6,8 +6,8 @@ import {
 const initialState = {
   contextMenuX: null,
   contextMenuY: null,
-  instanceIdSelectedContextMenu: null,
-  classIdSelectedContextMenu: null,
+  entityInstanceIdSelectedContextMenu: null,
+  entityClassIdSelectedContextMenu: null,
   selectableObjectIds: null,
   unlockableIds: null,
   isContextMenuOpen: false,
@@ -24,8 +24,8 @@ export default function contextMenuReducer(state = initialState, { type, payload
         contextMenuX: payload.contextMenuX,
         contextMenuY: payload.contextMenuY,
         isContextMenuOpen: true,
-        classIdSelectedContextMenu: payload.classIdSelectedContextMenu,
-        instanceIdSelectedContextMenu: payload.instanceIdSelectedContextMenu,
+        entityClassIdSelectedContextMenu: payload.entityClassIdSelectedContextMenu,
+        entityInstanceIdSelectedContextMenu: payload.entityInstanceIdSelectedContextMenu,
         selectableObjectInstances: payload.selectableObjectInstances
       };
     case CLOSE_CONTEXT_MENU:
@@ -33,8 +33,8 @@ export default function contextMenuReducer(state = initialState, { type, payload
         ...state,
         contextMenuX: null,
         contextMenuY: null,
-        classIdSelectedContextMenu: null,
-        instanceIdSelectedContextMenu: null,
+        entityClassIdSelectedContextMenu: null,
+        entityInstanceIdSelectedContextMenu: null,
         selectableObjectInstances: null,
         isContextMenuOpen: false
       };

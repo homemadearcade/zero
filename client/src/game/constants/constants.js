@@ -40,20 +40,16 @@ export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 // LAYERS
 export const STAGE_BACKGROUND_LAYER_CANVAS_DEPTH = 0;
 export const BACKGROUND_LAYER_CANVAS_DEPTH = 5;
-export const SPRITE_EDITOR_CANVAS_DEPTH = 19;
+export const IMAGE_CANVAS_MODAL_CANVAS_DEPTH = 19;
 export const PLAYGROUND_LAYER_CANVAS_DEPTH = 20;
-export const PLAYER_INSTANCE_CANVAS_DEPTH = 50;
 export const FOREGROUND_LAYER_CANVAS_DEPTH = 70;
-export const ZONE_INSTANCE_CANVAS_DEPTH = 80;
 export const UI_CANVAS_DEPTH = 100;
 
 export const STAGE_BACKGROUND_LAYER_CANVAS_ID = 'STAGE_BACKGROUND_LAYER_CANVAS';
 export const BACKGROUND_LAYER_CANVAS_ID = 'BACKGROUND_LAYER_CANVAS';
-export const SPRITE_EDITOR_CANVAS_ID = 'SPRITE_EDITOR_CANVAS';
+export const IMAGE_CANVAS_MODAL_CANVAS_ID = 'IMAGE_CANVAS_MODAL_CANVAS';
 export const PLAYGROUND_LAYER_CANVAS_ID = 'PLAYGROUND_LAYER_CANVAS';
-export const PLAYER_INSTANCE_CANVAS_ID = 'PLAYER_INSTANCE_CANVAS';
 export const FOREGROUND_LAYER_CANVAS_ID = 'FOREGROUND_LAYER_CANVAS';
-export const ZONE_INSTANCE_CANVAS_ID = 'ZONE_INSTANCE_CANVAS';
 export const UI_CANVAS_ID = 'UI_CANVAS';
 
 /////////////////////////////////////
@@ -139,8 +135,8 @@ export const JUMP_AIR = 'JUMP_AIR'
 /////////////////////////////////////
 // CUTSCENES
 export const TEXT_CUTSCENE = 'TEXT_CUTSCENE'
-export const IMAGE_CUTSCENE = 'IMAGE_CUTSCENE'
-export const IMAGE_AND_TEXT_CUTSCENE = 'IMAGE_AND_TEXT_CUTSCENE'
+export const CANVAS_IMAGE_CUTSCENE = 'CANVAS_IMAGE_CUTSCENE'
+export const CANVAS_IMAGE_AND_TEXT_CUTSCENE = 'CANVAS_IMAGE_AND_TEXT_CUTSCENE'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -181,7 +177,7 @@ export const BRUSH_ID_PREFIX = 'brush-'
 export const DATE_ID_PREFIX = 'date-'
 export const SNAPSHOT_ID_PREFIX = 'snapshot-'
 export const SCENE_ID_PREFIX = 'scene-'
-export const SPRITE_EDITOR_ID_PREFIX = 'sprite-'
+export const IMAGE_CANVAS_MODAL_ID_PREFIX = 'sprite-'
 export const STAGE_ID_PREFIX = 'stage-'
 export const GAME_INSTANCE_ID_PREFIX = 'gi-'
 export const OBJECT_CLASS_ID_PREFIX = 'oc-'

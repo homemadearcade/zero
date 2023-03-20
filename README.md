@@ -62,7 +62,7 @@ SERVER_URL_DEV=https://localhost:5000
 SERVER_URL_PROD=https://homemadearcade.herokuapp.com
 
 #img folder path
-IMAGES_FOLDER_PATH=/public/images/
+CANVAS_IMAGES_FOLDER_PATH=/public/images/
 ```
 
 #### Generate certificates

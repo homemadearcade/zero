@@ -3,7 +3,7 @@
 
 import store from "../../../store"
 import Typography from "../../../ui/Typography/Typography"
-import Sprite from "../../sprites/Sprite/Sprite"
+import Sprite from "../../sprites/Texture/Texture"
 
 // EVENTS
 export const ON_TOUCH_START = 'ON_TOUCH_START'
@@ -67,7 +67,7 @@ export const eventTypeToDisplayNames = {
   // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }
 
-export const eventEditInterface = {
+export const eventTypeInterfaces = {
   [ON_TOUCH_ACTIVE]: {
     tagSelectType: TWO_TAG_EVENT
   },

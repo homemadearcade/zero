@@ -39,7 +39,7 @@ export const defaultGameModel = {
   tags: {},
   effects: {},
   events: {},
-  "texture": {
+  "canvasImages": {
     // "url": "xxx",
     // "name": 'name'
     // "type": "layer"
@@ -51,17 +51,17 @@ export const defaultGameModel = {
   "collisions": {
 
   },
-  "classes": {
+  "entityClasses": {
     [vehiclePlayerClassId]: vehicleClass,
     [jumperPlayerClassId]: jumperClass,
     [directionalPlayerClassId]: directionalClass,
     [initialSpawnZoneClassId]: {
       name: 'Player Spawn Zone',
       ...defaultZoneClass,
-      classId: initialSpawnZoneClassId,
+      entityClassId: initialSpawnZoneClassId,
       graphics: {
         ...defaultZoneClass.graphics,
-        tint: '#FFFFFF'
+        textureTint: '#FFFFFF'
       }
     },
   },

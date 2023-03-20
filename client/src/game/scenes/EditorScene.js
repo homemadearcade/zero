@@ -6,7 +6,7 @@ import { openContextMenuFromObjectInstance, openStageContextMenu } from '../../s
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, STAGE_BACKGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, TEXTURE_TYPE_SNAPSHOT } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, STAGE_BACKGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -20,10 +20,11 @@ import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
-import { addTexture, saveTexture } from '../../store/actions/textureActions';
+import { addCanvasImage, saveCanvasImage } from '../../store/actions/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
 import { changeInstanceHovering } from '../../store/actions/hoverPreviewActions';
+import { IMAGE_TYPE_SNAPSHOT } from '../../constants';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -53,8 +54,8 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   // DRAG
   ////////////////////////////////////////////////////////////
-  onDragStartContextMenu = (objectInstanceId) => {
-    this.draggingObjectInstanceId = objectInstanceId
+  onDragStartContextMenu = (entityInstanceId) => {
+    this.draggingObjectInstanceId = entityInstanceId
     this.isDragFromContext = true
     if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
@@ -73,16 +74,16 @@ export class EditorScene extends GameInstance {
     if(this.draggingObjectInstanceId) {
       this.continueDrag(entitySprite, {x: dragX, y: dragY})
     } else if(!this.brush && !this.stamper){
-      this.draggingObjectInstanceId = entitySprite.instanceId
+      this.draggingObjectInstanceId = entitySprite.entityInstanceId
     }
   }
 
-  continueDrag(sprite, {x, y}) {
-    const classId = this.getObjectInstance(this.draggingObjectInstanceId).classId
-    const objectClass= store.getState().gameModel.gameModel.classes[classId]
-    const { clampedX, clampedY } = snapObjectXY({x, y,  objectClass})
-    sprite.x = clampedX;
-    sprite.y = clampedY;
+  continueDrag(phaserInstance, {x, y}) {
+    const entityClassId = this.getObjectInstance(this.draggingObjectInstanceId).entityClassId
+    const entityClass= store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    const { clampedX, clampedY } = snapObjectXY({x, y,  entityClass})
+    phaserInstance.x = clampedX;
+    phaserInstance.y = clampedY;
   }
 
   finishDrag(entitySprite) {
@@ -94,7 +95,7 @@ export class EditorScene extends GameInstance {
         data: {
           x: entitySprite.x,
           y: entitySprite.y,
-          instanceId: entitySprite.instanceId,
+          entityInstanceId: entitySprite.entityInstanceId,
           hostOnly: true
         }
       })
@@ -102,7 +103,7 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(entitySprite.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
+    if(entitySprite.entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
       // store.dispatch(editGameModel({ 
       //   player: {
       //     spawnX: entitySprite.x,
@@ -113,8 +114,8 @@ export class EditorScene extends GameInstance {
       store.dispatch(editGameModel({ 
         stages: {
           [this.stage.stageId]: {
-            objects: {
-              [entitySprite.instanceId]: {
+            entityInstances: {
+              [entitySprite.entityInstanceId]: {
                 spawnX: entitySprite.x,
                 spawnY: entitySprite.y
               }
@@ -135,16 +136,16 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   // RESIZE
   ////////////////////////////////////////////////////////////
-  onResizeStart = (instanceId) => {
-    this.resizingObjectInstance = this.getObjectInstance(instanceId)
+  onResizeStart = (entityInstanceId) => {
+    this.resizingObjectInstance = this.getObjectInstance(entityInstanceId)
   }
 
   onResizeMove = (pointer) => {
-    const sprite = this.resizingObjectInstance.sprite
+    const phaserInstance = this.resizingObjectInstance.phaserInstance
     const boundaries = store.getState().gameModel.gameModel.stages[this.stage.stageId].boundaries
-    // const distance = Phaser.Math.Distance.Between(sprite.x, sprite.y, pointer.worldX, pointer.worldY)
-    const distanceW = Phaser.Math.Snap.To(Math.abs(sprite.x - pointer.worldX), nodeSize)
-    const distanceH = Phaser.Math.Snap.To(Math.abs(sprite.y - pointer.worldY), nodeSize)
+    // const distance = Phaser.Math.Distance.Between(phaserInstance.x, phaserInstance.y, pointer.worldX, pointer.worldY)
+    const distanceW = Phaser.Math.Snap.To(Math.abs(phaserInstance.x - pointer.worldX), nodeSize)
+    const distanceH = Phaser.Math.Snap.To(Math.abs(phaserInstance.y - pointer.worldY), nodeSize)
     // const gridx = boundaries.x
     // const gridy = boundaries.y
     // const gridwidth = gridx + boundaries.width
@@ -160,33 +161,33 @@ export class EditorScene extends GameInstance {
       height = Phaser.Math.Clamp(distanceH * 2, nodeSize, boundaries.height)
     }
 
-    this.forAllObjectInstancesMatchingClassId(sprite.classId, (object) => {
+    this.forAllObjectInstancesMatchingClassId(phaserInstance.entityClassId, (object) => {
       object.setSize(width, height)
     })
   }
 
   clearResize() {
-    const sprite = this.resizingObjectInstance.sprite
-    const objectClass = store.getState().gameModel.gameModel.classes[sprite.classId];
-    this.forAllObjectInstancesMatchingClassId(sprite.classId, (object) => {
-      object.setSize(objectClass.graphics.width, objectClass.graphics.height)
+    const phaserInstance = this.resizingObjectInstance.phaserInstance
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[phaserInstance.entityClassId];
+    this.forAllObjectInstancesMatchingClassId(phaserInstance.entityClassId, (object) => {
+      object.setSize(entityClass.graphics.width, entityClass.graphics.height)
     })
     this.resizingObjectInstance = null
   }
 
   onResizeEnd = (pointer) => {
-    const sprite = this.resizingObjectInstance.sprite
-    if(sprite.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
+    const phaserInstance = this.resizingObjectInstance.phaserInstance
+    if(phaserInstance.entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
       store.dispatch(editGameModel({ 
         // player: {
-        //   spawnX: sprite.x,
-        //   spawnY: sprite.y
+        //   spawnX: phaserInstance.x,
+        //   spawnY: phaserInstance.y
         // },
-        classes: {
-          [sprite.classId]: {
+        entityClasses: {
+          [phaserInstance.entityClassId]: {
             graphics: {
-              width: sprite.displayWidth,
-              height: sprite.displayHeight
+              width: phaserInstance.displayWidth,
+              height: phaserInstance.displayHeight
             }
           }
         }
@@ -195,19 +196,19 @@ export class EditorScene extends GameInstance {
       store.dispatch(editGameModel({ 
         stages: {
           [this.stage.stageId]: {
-            objects: {
-              [sprite.instanceId]: {
-                spawnX: sprite.x,
-                spawnY: sprite.y
+            entityInstances: {
+              [phaserInstance.entityInstanceId]: {
+                spawnX: phaserInstance.x,
+                spawnY: phaserInstance.y
               }
             },
           }
         },
-        classes: {
-          [sprite.classId]: {
+        entityClasses: {
+          [phaserInstance.entityClassId]: {
             graphics: {
-              width: sprite.displayWidth,
-              height: sprite.displayHeight
+              width: phaserInstance.displayWidth,
+              height: phaserInstance.displayHeight
             }
           } 
         }
@@ -229,7 +230,7 @@ export class EditorScene extends GameInstance {
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const gameSelector = getCobrowsingState().gameSelector
     const brushId = gameSelector.brushIdSelectedBrushList
-    const classId = gameSelector.classIdSelectedClassList
+    const entityClassId = gameSelector.entityClassIdSelectedClassList
     const gameModel = store.getState().gameModel.gameModel
 
     if(this.resizingObjectInstance) {
@@ -239,7 +240,7 @@ export class EditorScene extends GameInstance {
 
     if(this.isDragFromContext && this.draggingObjectInstanceId) {
       const instance = this.getObjectInstance(this.draggingObjectInstanceId)
-      this.continueDrag(instance.sprite, {x: pointer.worldX, y: pointer.worldY})
+      this.continueDrag(instance.phaserInstance, {x: pointer.worldX, y: pointer.worldY})
     }
     
 
@@ -285,12 +286,12 @@ export class EditorScene extends GameInstance {
     ////////////////////////////////////////////////////////////
     // STAMPERS
     ////////////////////////////////////////////////////////////
-    if((!classId && this.stamper) || (this.stamper && (this.stamper.classId !== classId))) {
+    if((!entityClassId && this.stamper) || (this.stamper && (this.stamper.entityClassId !== entityClassId))) {
       this.destroyStamper()
     }
-    if(classId && !this.stamper) {
-      const objectClass = gameModel.classes[classId]
-      this.stamper = new ClassStamper(this, classId, objectClass)
+    if(entityClassId && !this.stamper) {
+      const entityClass = gameModel.entityClasses[entityClassId]
+      this.stamper = new ClassStamper(this, entityClassId, entityClass)
     }
     if(this.stamper) {
       this.stamper.update(pointer)
@@ -305,13 +306,13 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    const instanceIdHovering = store.getState().hoverPreview.instanceIdHovering
-    const sprite = entitySprite[0]
-    if(sprite.instanceId !== instanceIdHovering) {
-      store.dispatch(changeInstanceHovering(sprite.instanceId, sprite.classId, { isSpawned: sprite.effectSpawned }))
+    const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
+    const phaserInstance = entitySprite[0]
+    if(phaserInstance.entityInstanceId !== entityInstanceIdHovering) {
+      store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityClassId, { isSpawned: phaserInstance.effectSpawned }))
     }
 
-    sprite.isHoveringOver = true
+    phaserInstance.isHoveringOver = true
     // if(entitySprite.effectSpawned) return
     // if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
@@ -338,19 +339,19 @@ export class EditorScene extends GameInstance {
     const boundaries = gameModel.stages[this.stage.stageId].boundaries
     const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
     
-    if(gameViewEditor.layerVisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID]) {
+    if(!gameViewEditor.layerInvisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID]) {
       snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
     }
-    if(gameViewEditor.layerVisibility[BACKGROUND_LAYER_CANVAS_ID]) {
+    if(!gameViewEditor.layerInvisibility[BACKGROUND_LAYER_CANVAS_ID]) {
       snapCanvas.draw(this.backgroundCanvasLayer, 0,0)
     }
-    if(gameViewEditor.layerVisibility[PLAYGROUND_LAYER_CANVAS_ID]) {
+    if(!gameViewEditor.layerInvisibility[PLAYGROUND_LAYER_CANVAS_ID]) {
       snapCanvas.draw(this.playgroundCanvasLayer, 0,0)
     }
-    // if(gameViewEditor.layerVisibility[PLAYER_INSTANCE_CANVAS_ID] && gameViewEditor.layerVisibility[BASIC_CLASS] && gameViewEditor.layerVisibility[NPC_CLASS] ) {
-      snapCanvas.draw(this.objectInstanceGroup, 0,0)
+    // if(!gameViewEditor.layerInvisibility[PLAYER_INSTANCE_CANVAS_ID] && !gameViewEditor.layerInvisibility[BASIC_CLASS] && !gameViewEditor.layerInvisibility[NPC_CLASS] ) {
+      snapCanvas.draw(this.entityInstanceGroup, 0,0)
     // }
-    if(gameViewEditor.layerVisibility[FOREGROUND_LAYER_CANVAS_ID]) {
+    if(!gameViewEditor.layerInvisibility[FOREGROUND_LAYER_CANVAS_ID]) {
       snapCanvas.draw(this.foregroundCanvasLayer, 0,0)
     }
     snapCanvas.snapshotArea(
@@ -368,14 +369,14 @@ export class EditorScene extends GameInstance {
 
         const imageFile = await urlToFile(imgCanvas.toDataURL(), textureId, 'image/png')
 
-        await store.dispatch(addTexture({
+        await store.dispatch(addCanvasImage({
           textureId: textureId, 
-          textureType: TEXTURE_TYPE_SNAPSHOT,
+          imageType: IMAGE_TYPE_SNAPSHOT,
           userId: store.getState().auth.me.id,
           arcadeGame: store.getState().gameModel.gameModel?.id
         }))
 
-        await store.dispatch(saveTexture({imageFile, textureId, textureType: TEXTURE_TYPE_SNAPSHOT}))
+        await store.dispatch(saveCanvasImage({imageFile, textureId, imageType: IMAGE_TYPE_SNAPSHOT}))
 
         store.dispatch(addSnackbar({
           message: 'Snapshot Saved!',
@@ -388,7 +389,7 @@ export class EditorScene extends GameInstance {
     return true
   }
 
-  onPointerDown = (pointer, objectInstance) => {
+  onPointerDown = (pointer, entityInstances) => {
     const clickDelay = this.time.now - this.lastClick;
     this.lastClick = this.time.now;
     if(clickDelay < 350) {
@@ -413,8 +414,8 @@ export class EditorScene extends GameInstance {
         document.body.removeEventListener('contextmenu', disableContextMenue)
       })
 
-      if(objectInstance.length) {
-        store.dispatch(openContextMenuFromObjectInstance(objectInstance, pointer.event))
+      if(entityInstances.length) {
+        store.dispatch(openContextMenuFromObjectInstance(entityInstances, pointer.event))
       } else {
         store.dispatch(openStageContextMenu(pointer.event))
       }
@@ -423,7 +424,7 @@ export class EditorScene extends GameInstance {
     if(pointer.leftButtonDown()) {
 
       if(this.draggingObjectInstanceId && this.isDragFromContext) {
-        this.finishDrag(this.getObjectInstance(this.draggingObjectInstanceId).sprite)
+        this.finishDrag(this.getObjectInstance(this.draggingObjectInstanceId).phaserInstance)
       }
 
       if(this.resizingObjectInstance) {
@@ -478,7 +479,7 @@ export class EditorScene extends GameInstance {
         snapCanvas.draw(this.stage.backgroundColorLayer, 0,0)
         snapCanvas.draw(this.backgroundCanvasLayer, 0,0)
         snapCanvas.draw(this.playgroundCanvasLayer, 0,0)
-        snapCanvas.draw(this.objectInstanceGroup, 0,0)
+        snapCanvas.draw(this.entityInstanceGroup, 0,0)
         snapCanvas.draw(this.foregroundCanvasLayer, 0,0)
     
         snapCanvas.snapshot(async function (image) {    
@@ -526,8 +527,8 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOut = (pointer, entitySprite) => {
-    const sprite = entitySprite[0]
-    sprite.isHoveringOver = false
+    const phaserInstance = entitySprite[0]
+    phaserInstance.isHoveringOver = false
     store.dispatch(changeInstanceHovering(null, null))
     const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     if(isObscured) {
@@ -555,7 +556,7 @@ export class EditorScene extends GameInstance {
     // this.editorCamera.pan(pointer.worldX, pointer.worldY, 0)
   }
 
-  onMouseWheel = (pointer, objectInstance, deltaX, deltaY, deltaZ) => {
+  onMouseWheel = (pointer, entityInstance, deltaX, deltaY, deltaZ) => {
     if(this.draggingObjectInstanceId) return
     if(!getCobrowsingState().gameViewEditor.isGridViewOn) return
     
@@ -598,20 +599,20 @@ export class EditorScene extends GameInstance {
     this.canvas = null;
   }
 
-  getObjectInstanceData(instanceId) {
+  getObjectInstanceData(entityInstanceId) {
     const gameModel = store.getState().gameModel.gameModel
 
-    if(instanceId === PLAYER_INSTANCE_ID_PREFIX) {
+    if(entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
       return gameModel.player
     }
-    return gameModel.stages[this.stage.stageId].objects[instanceId]
+    return gameModel.stages[this.stage.stageId].entityInstances[entityInstanceId]
   }
 
-  addObjectInstanceData(classId, {spawnX, spawnY}) {
-    const instanceId = OBJECT_INSTANCE_ID_PREFIX+generateUniqueId()
+  addObjectInstanceData(entityClassId, {spawnX, spawnY}) {
+    const entityInstanceId = OBJECT_INSTANCE_ID_PREFIX+generateUniqueId()
 
-    const objectInstanceData = {
-      classId,
+    const entityInstanceData = {
+      entityClassId,
       spawnX,
       spawnY,
     }
@@ -619,14 +620,14 @@ export class EditorScene extends GameInstance {
     store.dispatch(editGameModel({
       stages: {
         [this.stage.stageId]: {
-          objects: {
-            [instanceId]: objectInstanceData
+          entityInstances: {
+            [entityInstanceId]: entityInstanceData
           }
         }
       }
     }))
 
-    this.addObjectInstance(instanceId, objectInstanceData)
+    this.addObjectInstance(entityInstanceId, entityInstanceData)
   }
 
   ////////////////////////////////////////////////////////////
@@ -687,39 +688,39 @@ export class EditorScene extends GameInstance {
         this.createGrids()
       }
 
-      const objects = stageUpdate?.objects
-      if(objects) Object.keys(objects).forEach((instanceId) => {
-        const objectUpdate = objects[instanceId]
-        const objectInstance = this.getObjectInstance(instanceId)
-        if(!objectInstance) {
-          this.addObjectInstance(instanceId, objectUpdate)
+      const entityInstances = stageUpdate?.entityInstances
+      if(entityInstances) Object.keys(entityInstances).forEach((entityInstanceId) => {
+        const objectUpdate = entityInstances[entityInstanceId]
+        const entityInstance = this.getObjectInstance(entityInstanceId)
+        if(!entityInstance) {
+          this.addObjectInstance(entityInstanceId, objectUpdate)
           return
         }
         if(objectUpdate === null) {
-          this.removeObjectInstance(instanceId)
+          this.removeObjectInstance(entityInstanceId)
           return
         }
         
         if(typeof objectUpdate.spawnX === 'number' || typeof objectUpdate.spawnY === 'number') {
-          objectInstance.sprite.x = objectUpdate.spawnX
-          objectInstance.sprite.y = objectUpdate.spawnY
+          entityInstance.phaserInstance.x = objectUpdate.spawnX
+          entityInstance.phaserInstance.y = objectUpdate.spawnY
         }
       })
       if(stageUpdate?.playerClassId) {
-        this.playerInstance.reclassId = stageUpdate?.playerClassId
+        this.playerInstance.transformEntityClassId = stageUpdate?.playerClassId
       }
     }
 
-    if(gameUpdate.textures) {
-      if(gameUpdate.textures[this.backgroundCanvasLayer.textureId]) {
+    if(gameUpdate.canvasImages) {
+      if(gameUpdate.canvasImages[this.backgroundCanvasLayer.textureId]) {
         this.backgroundCanvasLayer.updateTexture()
-      } else if(gameUpdate.textures[this.playgroundCanvasLayer.textureId]) {
+      } else if(gameUpdate.canvasImages[this.playgroundCanvasLayer.textureId]) {
         this.playgroundCanvasLayer.updateTexture()
-      } else if(gameUpdate.textures[this.foregroundCanvasLayer.textureId]) {
+      } else if(gameUpdate.canvasImages[this.foregroundCanvasLayer.textureId]) {
         this.foregroundCanvasLayer.updateTexture()
       } else {
-        Object.keys(gameUpdate.textures).forEach((id) => {
-          const textureId = gameUpdate.textures[id].textureId
+        Object.keys(gameUpdate.canvasImages).forEach((id) => {
+          const textureId = gameUpdate.canvasImages[id].textureId
           this.load.image(textureId, window.awsUrl + textureId);
           this.load.once('complete', (idk) => {
             console.log('loaded', textureId)
@@ -735,96 +736,96 @@ export class EditorScene extends GameInstance {
       // }, 100)
     }
 
-    if(gameUpdate.classes) Object.keys(gameUpdate.classes).forEach((classId) => {
-      const classUpdate = gameUpdate.classes[classId]
-      const objectClass = store.getState().gameModel.gameModel.classes[classId]
+    if(gameUpdate.entityClasses) Object.keys(gameUpdate.entityClasses).forEach((entityClassId) => {
+      const classUpdate = gameUpdate.entityClasses[entityClassId]
+      const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
 
       if(classUpdate.collisionResponse?.bounciness >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setBounce(classUpdate.collisionResponse.bounciness)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setBounce(classUpdate.collisionResponse.bounciness)
         })
       }
 
       if(classUpdate.collisionResponse?.friction >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setFriction(classUpdate.collisionResponse.friction)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setFriction(classUpdate.collisionResponse.friction)
         })
       }
 
       if(classUpdate.collisionResponse?.notPushable !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setPushable(!classUpdate.collisionResponse.notPushable)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setPushable(!classUpdate.collisionResponse.notPushable)
         })
       }
 
 
       if(classUpdate.movement?.drag >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setDrag(classUpdate.movement.drag)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setDrag(classUpdate.movement.drag)
         })
       }
 
       if(classUpdate.movement?.dragX >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setDragX(classUpdate.movement.dragX)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setDragX(classUpdate.movement.dragX)
         })
       }
 
       if(classUpdate.movement?.dragAngular >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setAngularDrag(classUpdate.movement.dragAngular)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setAngularDrag(classUpdate.movement.dragAngular)
         })
       }
 
       if(classUpdate.movement?.dragY >= 0) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setDragY(classUpdate.movement.dragY)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setDragY(classUpdate.movement.dragY)
         })
       }
 
       if(classUpdate.movement?.gravityY !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setGravityY(classUpdate.movement?.gravityY)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setGravityY(classUpdate.movement?.gravityY)
         })
       }
       if(classUpdate.movement?.gravityX !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setGravityX(classUpdate.movement?.gravityX)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setGravityX(classUpdate.movement?.gravityX)
         })
       }
 
       // if(classUpdate.frictionStatic >= 0) {
-      //   this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-      //     objectInstance.setFrictionStatic(classUpdate.frictionStatic)
+      //   this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+      //     entityInstance.setFrictionStatic(classUpdate.frictionStatic)
       //   })
       // }
 
-      // if(objectClass.collisionResponse.useMass && classUpdate.mass >= 0) {
-      //   this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-      //     objectInstance.setMass(classUpdate.mass)
+      // if(entityClass.collisionResponse.useMass && classUpdate.mass >= 0) {
+      //   this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+      //     entityInstance.setMass(classUpdate.mass)
       //   })
       // }
-      // if(!objectClass.collisionResponse.useMass && classUpdate.density >= 0) {
-      //   this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-      //     objectInstance.setDensity(classUpdate.density)
+      // if(!entityClass.collisionResponse.useMass && classUpdate.density >= 0) {
+      //   this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+      //     entityInstance.setDensity(classUpdate.density)
       //   })
       // }
 
       if(classUpdate.movement?.movementControlsBehavior) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.resetPhysics()
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.resetPhysics()
         })
       }
 
       if(classUpdate.movement?.ignoreGravity !== undefined) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setIgnoreGravity(classUpdate.movement?.ignoreGravity)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setIgnoreGravity(classUpdate.movement?.ignoreGravity)
         })
       }
 
       if(classUpdate.collisionResponse?.ignoreSides) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setCollideIgnoreSides(classUpdate.collisionResponse?.ignoreSides)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setCollideIgnoreSides(classUpdate.collisionResponse?.ignoreSides)
         })
       }
 
@@ -838,30 +839,30 @@ export class EditorScene extends GameInstance {
         classUpdate.collisionResponse?.ignoreBoundaries !== undefined
       ) {
         // setTimeout(() => {
-          this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-            if(objectInstance.instanceId === PLAYER_INSTANCE_ID_PREFIX) {
+          this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+            if(entityInstance.entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
               this.removePlayerInstance()
               this.addPlayerInstance()
               return
             }
-            const objectInstanceData = this.getObjectInstanceData(objectInstance.instanceId)
-            this.removeObjectInstance(objectInstance.instanceId)
-            this.addObjectInstance(objectInstance.instanceId, objectInstanceData)
+            const entityInstanceData = this.getObjectInstanceData(entityInstance.entityInstanceId)
+            this.removeObjectInstance(entityInstance.entityInstanceId)
+            this.addObjectInstance(entityInstance.entityInstanceId, entityInstanceData)
           })
         // })
       }
 
       if(classUpdate.graphics?.width && classUpdate.graphics?.height) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setSize(classUpdate.graphics?.width, classUpdate.graphics?.height)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setSize(classUpdate.graphics?.width, classUpdate.graphics?.height)
         })
       } else if(classUpdate.graphics?.width) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setSize(classUpdate.graphics?.width, objectClass.graphics?.height)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setSize(classUpdate.graphics?.width, entityClass.graphics?.height)
         })
       } else if(classUpdate.graphics?.height) {
-        this.forAllObjectInstancesMatchingClassId(classId, (objectInstance) => {
-          objectInstance.setSize(objectClass.graphics?.width, classUpdate.graphics?.height)
+        this.forAllObjectInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setSize(entityClass.graphics?.width, classUpdate.graphics?.height)
         })
       }
       
@@ -870,16 +871,16 @@ export class EditorScene extends GameInstance {
       }
 
       if(classUpdate.camera !== undefined) {
-        if(this.playerInstance.classId === classId) {
+        if(this.playerInstance.entityClassId === entityClassId) {
           if(classUpdate.camera.zoom) {
             this.cameras.main.setZoom(classUpdate.camera.zoom)
             this.playerInstance.setZoom(classUpdate.camera.zoom)
           }
           if(classUpdate.camera.lerpX || classUpdate.camera.lerpY) {
-            let lerpX = classUpdate.camera.lerpX ? classUpdate.camera.lerpX : objectClass.camera.lerpX
-            let lerpY = classUpdate.camera.lerpY ? classUpdate.camera.lerpY : objectClass.camera.lerpY
+            let lerpX = classUpdate.camera.lerpX ? classUpdate.camera.lerpX : entityClass.camera.lerpX
+            let lerpY = classUpdate.camera.lerpY ? classUpdate.camera.lerpY : entityClass.camera.lerpY
             this.cameras.main.setLerp(lerpX, lerpY)
-            // this.cameras.main.startFollow(this.playerInstance.sprite, false, classUpdate.camera.lerpX ? classUpdate.camera.lerpX : objectClass.camera.lerpX, classUpdate.camera.lerpY ? classUpdate.camera.lerpY : objectClass.camera.lerpY);
+            // this.cameras.main.startFollow(this.playerInstance.phaserInstance, false, classUpdate.camera.lerpX ? classUpdate.camera.lerpX : entityClass.camera.lerpX, classUpdate.camera.lerpY ? classUpdate.camera.lerpY : entityClass.camera.lerpY);
           }
         } 
       }
@@ -1034,19 +1035,19 @@ export class EditorScene extends GameInstance {
       this.isGridViewOn = false
     }
 
-    const gameSelector = getCobrowsingState().gameSelector
-    if(!this.isMouseOverGame && gameSelector.brushIdSelectedBrushList) {
-      if(!isBrushIdEraser(gameSelector.brushIdSelectedBrushList)) {
-        const brush = this.createBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
-        this.stage.backgroundColorLayer.setVisible(false)
-        this.backgroundCanvasLayer.setVisible(false)
-        this.playgroundCanvasLayer.setVisible(false)
-        this.foregroundCanvasLayer.setVisible(false)
-        const canvas = this.getLayerCanvasInstanceById(brush.getCanvasId())
-        canvas.setVisible(true)
-        brush.destroy()
-      }
-    }
+    // const gameSelector = getCobrowsingState().gameSelector
+    // if(!this.isMouseOverGame && gameSelector.brushIdSelectedBrushList) {
+    //   if(!isBrushIdEraser(gameSelector.brushIdSelectedBrushList)) {
+    //     const brush = this.createBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
+    //     this.stage.backgroundColorLayer.setVisible(false)
+    //     this.backgroundCanvasLayer.setVisible(false)
+    //     this.playgroundCanvasLayer.setVisible(false)
+    //     this.foregroundCanvasLayer.setVisible(false)
+    //     const canvas = this.getLayerCanvasInstanceById(brush.getCanvasId())
+    //     canvas.setVisible(true)
+    //     brush.destroy()
+    //   }
+    // }
 
     if(this.isGridViewOn) {
       this.grid.setVisible(true)

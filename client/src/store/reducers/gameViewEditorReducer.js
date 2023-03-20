@@ -1,4 +1,4 @@
-import { BACKGROUND_LAYER_CANVAS_ID, PLAYER_INSTANCE_CANVAS_ID, BASIC_CLASS, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID, ZONE_INSTANCE_CANVAS_ID, NPC_CLASS, STAGE_BACKGROUND_LAYER_CANVAS_ID } from '../../game/constants';
+import { ZONE_CLASS } from '../../game/constants';
 import {
   CLEAR_GAME_VIEW_EDITOR,
   TOGGLE_CANVAS_VISIBILITY,
@@ -12,15 +12,8 @@ import {
 
 // these are editor things that take place within the game view
 const initialState = {
-  layerVisibility: {
-    [STAGE_BACKGROUND_LAYER_CANVAS_ID]: true,
-    [BACKGROUND_LAYER_CANVAS_ID]: true,
-    [ZONE_INSTANCE_CANVAS_ID]: false,
-    [BASIC_CLASS]: true,
-    [PLAYGROUND_LAYER_CANVAS_ID]: true,
-    [NPC_CLASS]: true,
-    [PLAYER_INSTANCE_CANVAS_ID]: true,
-    [FOREGROUND_LAYER_CANVAS_ID]: true
+  layerInvisibility: {
+    [ZONE_CLASS]: true,
   },
   cameraZoom: 3,
   isGridViewOn: false,
@@ -83,9 +76,9 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
     case TOGGLE_CANVAS_VISIBILITY:
       return {
         ...state,
-        layerVisibility: {
-          ...state.layerVisibility,
-          [payload.layerCanvasId]: !state.layerVisibility[payload.layerCanvasId]
+        layerInvisibility: {
+          ...state.layerInvisibility,
+          [payload.layerCanvasId]: !state.layerInvisibility[payload.layerCanvasId]
         }
       }
     case CLEAR_GAME_VIEW_EDITOR:

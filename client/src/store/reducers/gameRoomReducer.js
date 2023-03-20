@@ -96,7 +96,7 @@ export default function gameRoomReducer(state = initialState, { type, payload })
     case ON_GAME_ROOM_UPDATE:
       return {
         ...state,
-        gameRoom: {...state.gameRoom, ...payload.gameRoom, members: payload.gameRoom.members.slice() }
+        gameRoom: {...state.gameRoom, ...payload.gameRoom, members: payload.gameRoom.members?.slice() }
       };
     case END_GAME_ROOM: 
       return {

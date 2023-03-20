@@ -9,28 +9,28 @@ import { classTypeToDisplayName } from '../../constants';
 
 const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classType, includePlayerInstance }) => {
 
-  const mapClassToOption = (classId) => {
-    const objectClass = gameModel.classes[classId]
+  const mapClassToOption = (entityClassId) => {
+    const entityClass = gameModel.entityClasses[entityClassId]
     return {
-      label: objectClass.name,
-      value: classId,
-      textureId: objectClass.graphics.textureId,
-      tint: objectClass.graphics.tint,
-      isRemoved: objectClass.isRemoved,
-      classInterfaceType: objectClass.classInterfaceType
+      label: entityClass.name,
+      value: entityClassId,
+      textureId: entityClass.graphics.textureId,
+      textureTint: entityClass.graphics.textureTint,
+      isRemoved: entityClass.isRemoved,
+      classInterfaceCategory: entityClass.classInterfaceCategory
     }
   }
 
-  const options = Object.keys(gameModel.classes).filter((classId) => {
-    const objectClass = gameModel.classes[classId]
-    // if(objectClass.isRemoved) return false
+  const options = Object.keys(gameModel.entityClasses).filter((entityClassId) => {
+    const entityClass = gameModel.entityClasses[entityClassId]
+    // if(entityClass.isRemoved) return false
     if(!classType) return true
-    if(classType === objectClass.classInterfaceType) return true
+    if(classType === entityClass.classInterfaceCategory) return true
     return false
   }).map(mapClassToOption)
 
 
-  options.sort((a, b) => -b.classInterfaceType.localeCompare(a.classInterfaceType))
+  options.sort((a, b) => -b.classInterfaceCategory.localeCompare(a.classInterfaceCategory))
 
   return <SelectChipsAuto 
     disabled={disabled}
@@ -38,7 +38,7 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
       onChange(event,  descriptors)
     }}
     groupBy={option => {
-      return classTypeToDisplayName[option.classInterfaceType]
+      return classTypeToDisplayName[option.classInterfaceCategory]
     }}
     hideRemoved
     formLabel={formLabel}

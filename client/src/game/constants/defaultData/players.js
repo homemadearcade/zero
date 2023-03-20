@@ -18,10 +18,10 @@ const defaultProps = mergeDeep(
 export const vehicleClass = {
   ...defaultProps,
   interfaceLocked: true,
-  classId: vehiclePlayerClassId,
+  entityClassId: vehiclePlayerClassId,
   name: 'vehicle',
   graphics: {
-    tint: '#FFFFFF',
+    textureTint: '#FFFFFF',
     // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
   },
   "movement": {
@@ -35,10 +35,10 @@ export const vehicleClass = {
 export const jumperClass = {
   ...defaultProps,
   interfaceLocked: true,
-  classId: jumperPlayerClassId,
+  entityClassId: jumperPlayerClassId,
   name: 'jumper',
   graphics: {
-    tint: '#FFFFFF',
+    textureTint: '#FFFFFF',
 
     // "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
@@ -55,10 +55,10 @@ export const jumperClass = {
 export const directionalClass = {
   ...defaultProps,
   interfaceLocked: true,
-  classId: directionalPlayerClassId,
+  entityClassId: directionalPlayerClassId,
   name: 'directional',
   graphics: {
-    tint: '#FFFFFF',
+    textureTint: '#FFFFFF',
     // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
   },
   movement: {
@@ -71,7 +71,7 @@ export const directionalClass = {
 
 // export const carClass = {
 //   ...defaultProps,
-//   classId: 'car',
+//   entityClassId: 'car',
 //   name: 'car',
 //   graphics: {
 //     "textureId": "kenney-roguelike-environment-16px-sprite1112",
@@ -86,7 +86,7 @@ export const directionalClass = {
 
 // export const floaterClass = {
 //   ...defaultProps,
-//   classId: 'floater',
+//   entityClassId: 'floater',
 //   name: 'floater',
 //   graphics: {
 //     "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite206",

@@ -11,7 +11,7 @@ import interfacePresetRoutes from './interfacePresets'
 import experienceRoutes from './experiences'
 import codrawingRoutes from './codrawing'
 import gameRoomRoutes from './gameRoom'
-import texturesRoutes from './textures'
+import canvasImagesRoutes from './canvasImages'
 
 const router = Router();
 
@@ -27,7 +27,7 @@ router.use('/ticketPurchases', ticketPurchaseRoutes);
 router.use('/interfacePresets', interfacePresetRoutes);
 router.use('/experience', experienceRoutes);
 router.use('/aws', awsRoutes);
-router.use('/textures', texturesRoutes);
+router.use('/canvasImages', canvasImagesRoutes);
 
 'routes register', router.stack.map((router) => {
   // console.log(router.regexp)

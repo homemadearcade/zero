@@ -83,7 +83,7 @@ TransitionComponent.propTypes = {
 
 const StyledTreeItem = styled((props) => {
   return (
-    <TreeItem classes={{
+    <TreeItem entityClasses={{
       content: props.contentClass,
     }} {...props} TransitionComponent={TransitionComponent} />
   )})(({ theme }) => ({

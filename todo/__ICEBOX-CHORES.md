@@ -30,13 +30,11 @@ Unauthenticate socket when logging out
 GAME ORGANIZATION
 --------------------------------------------------------------------------------------
 
-Look up x, y, on sprite should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
+Look up x, y, on phaser instance should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 
-Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the sprite?
+Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the phaser instance??
 
-Wrap Sprite in another class called like...object instance... lol, phaser objectinstance??
-
-Outline Class ( for eraser and objectInstance, and camerapreview? )
+Outline Class ( for eraser and entityInstance, and camerapreview? )
 
 respawn on GameInstance -> spawn ( use this when initializting game too )
 
@@ -48,9 +46,6 @@ ClientCanvas
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 
 Try to remove getState() and getCobrowsingState() from inside of game... standardize this better
-
-Object Entity
-on stages, call objects -> instances
 
 metadata.interfaceColor -> Theme property on the game
 

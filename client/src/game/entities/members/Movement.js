@@ -3,55 +3,55 @@ import { isPlayerId } from "../../../utils/gameUtils"
 import { MOVEMENT_FOLLOW_CLASS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY } from "../../constants"
 
 export class Movement {
-  constructor(scene, objectInstance){
-    this.objectInstance = objectInstance
+  constructor(scene, entityInstance){
+    this.entityInstance = entityInstance
     this.scene = scene
 
     const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.objectInstance.classId]
+    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
 
-    this.objectInstance.setAngularDrag(objectClass.movement.dragAngular)
-    this.objectInstance.setDamping(true)
-    this.objectInstance.setDragX(objectClass.movement.dragX)
-    this.objectInstance.setDragY(objectClass.movement.dragY)
-    this.objectInstance.setGravityX(objectClass.movement.gravityX)
-    this.objectInstance.setGravityY(objectClass.movement.gravityY)
-    this.objectInstance.setIgnoreGravity(objectClass.movement.ignoreGravity)
-    this.objectInstance.setVelocity(objectClass.movement.velocityX, objectClass.movement.velocityY)
+    this.entityInstance.setAngularDrag(entityClass.movement.dragAngular)
+    this.entityInstance.setDamping(true)
+    this.entityInstance.setDragX(entityClass.movement.dragX)
+    this.entityInstance.setDragY(entityClass.movement.dragY)
+    this.entityInstance.setGravityX(entityClass.movement.gravityX)
+    this.entityInstance.setGravityY(entityClass.movement.gravityY)
+    this.entityInstance.setIgnoreGravity(entityClass.movement.ignoreGravity)
+    this.entityInstance.setVelocity(entityClass.movement.velocityX, entityClass.movement.velocityY)
   }
 
   resetPhysics() {
     const gameModel = store.getState().gameModel.gameModel
-    const objectClass = gameModel.classes[this.objectInstance.classId]
-    this.objectInstance.setAcceleration(0,0)
-    this.objectInstance.setVelocity(objectClass.movement.velocityX, objectClass.movement.velocityY)
-    this.objectInstance.setRotation(0)
+    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
+    this.entityInstance.setAcceleration(0,0)
+    this.entityInstance.setVelocity(entityClass.movement.velocityX, entityClass.movement.velocityY)
+    this.entityInstance.setRotation(0)
   }
 
   update(time, delta) {
-    const objectClass = store.getState().gameModel.gameModel.classes[this.objectInstance.classId]
-    const movementBehavior = objectClass.movement.movementBehavior 
-    const sprite = this.objectInstance.sprite
+    const entityClass = store.getState().gameModel.gameModel.entityClasses[this.entityInstance.entityClassId]
+    const movementBehavior = entityClass.movement.movementBehavior 
+    const phaserInstance = this.entityInstance.phaserInstance
 
     if(movementBehavior === MOVEMENT_TURN_ON_COLLIDE) {
-      if(sprite.body.blocked.none === false || sprite.justCollided) {
-        const speed = objectClass.movement.speed
+      if(phaserInstance.body.blocked.none === false || phaserInstance.justCollided) {
+        const speed = entityClass.movement.speed
         const check = Math.random()
     
         if(check < 0.25) {
-          this.objectInstance.setVelocity(speed, 0)
+          this.entityInstance.setVelocity(speed, 0)
         } else if(check < 0.5) {
-          this.objectInstance.setVelocity(0, speed)
+          this.entityInstance.setVelocity(0, speed)
         } else if(check < 0.75) {
-          this.objectInstance.setVelocity(-speed, 0)
+          this.entityInstance.setVelocity(-speed, 0)
         } else {
-          this.objectInstance.setVelocity(0, -speed)
+          this.entityInstance.setVelocity(0, -speed)
         }      
       }
     }
 
     if(movementBehavior === MOVEMENT_TURN_RANDOMLY) {
-      const speed = objectClass.movement.speed
+      const speed = entityClass.movement.speed
 
       const check1 = Math.random()
 
@@ -59,22 +59,22 @@ export class Movement {
         const check2 = Math.random()
         
         if(check2 < 0.25) {
-          this.objectInstance.setVelocity(speed, 0)
+          this.entityInstance.setVelocity(speed, 0)
         } else if(check2 < 0.5) {
-          this.objectInstance.setVelocity(0, speed)
+          this.entityInstance.setVelocity(0, speed)
         } else if(check2 < 0.75) {
-          this.objectInstance.setVelocity(-speed, 0)
+          this.entityInstance.setVelocity(-speed, 0)
         } else {
-          this.objectInstance.setVelocity(0, -speed)
+          this.entityInstance.setVelocity(0, -speed)
         }  
       }
     }
 
-    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_CLASS && this.followingInstance.classId !== objectClass.movement.classId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.instanceId) ) ) {
+    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_CLASS && this.followingInstance.entityClassId !== entityClass.movement.entityClassId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.entityInstanceId) ) ) {
       if(movementBehavior === MOVEMENT_FOLLOW_PLAYER) {
         this.followingInstance = this.scene.playerInstance
-      } else if(movementBehavior === MOVEMENT_FOLLOW_CLASS && objectClass.movement.classId) {
-        const instances = this.scene.getAllInstancesOfClassId(objectClass.movement.classId)
+      } else if(movementBehavior === MOVEMENT_FOLLOW_CLASS && entityClass.movement.entityClassId) {
+        const instances = this.scene.getAllObjectInstancesOfClassId(entityClass.movement.entityClassId)
         if(instances.length) this.followingInstance = instances[0]
       } else {
         this.followingInstance = null
@@ -82,25 +82,25 @@ export class Movement {
     }
 
     if(this.followingInstance) {
-      const speed = objectClass.movement.speed
-      const followingSprite = this.followingInstance.sprite
-      if(Math.abs(sprite.x - followingSprite.x) < (speed/4) + 10) {
+      const speed = entityClass.movement.speed
+      const followingSprite = this.followingInstance.phaserInstance
+      if(Math.abs(phaserInstance.x - followingSprite.x) < (speed/4) + 10) {
 
-      } else if(sprite.x > followingSprite.x) {
-        this.objectInstance.setVelocityX(-speed)
+      } else if(phaserInstance.x > followingSprite.x) {
+        this.entityInstance.setVelocityX(-speed)
       } else {
-        this.objectInstance.setVelocityX(speed)
+        this.entityInstance.setVelocityX(speed)
       }
 
-      if(Math.abs(sprite.y - followingSprite.y) < (speed/4) + 10) {
+      if(Math.abs(phaserInstance.y - followingSprite.y) < (speed/4) + 10) {
 
-      } else if(sprite.y > followingSprite.y) {
-        this.objectInstance.setVelocityY(-speed)
+      } else if(phaserInstance.y > followingSprite.y) {
+        this.entityInstance.setVelocityY(-speed)
       } else {
-        this.objectInstance.setVelocityY(speed)
+        this.entityInstance.setVelocityY(speed)
       }
     }
 
-    sprite.justCollided = false
+    phaserInstance.justCollided = false
   }
 }

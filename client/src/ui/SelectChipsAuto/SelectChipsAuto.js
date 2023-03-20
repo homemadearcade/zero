@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 import FormLabel from '../FormLabel/FormLabel';
-import Sprite from '../../game/sprites/Sprite/Sprite';
+import Sprite from '../../game/sprites/Texture/Texture';
 import { lighten, darken } from '@mui/system';
 import Typography from '../Typography/Typography';
 
@@ -120,7 +120,7 @@ const StyledTag = styled(Tag)(
     padding: 4px;
   }
 
-  .Sprite {
+  .Texture {
     margin-right: 0px;
   }
 `,
@@ -156,7 +156,7 @@ const Listbox = styled('ul')(
       flex-grow: 1;
     }
 
-    .Sprite {
+    .Texture {
       width: 20px;
       height: 20px;
     }
@@ -284,8 +284,8 @@ function SelectChipsAutoForm({
   function renderSprite(option) {
     if(!option) return null
 
-    if(option.textureId || option.tint) {
-      return <SpriteWrapper><Sprite textureId={option.textureId} tint={option.tint}/></SpriteWrapper>
+    if(option.textureId || option.textureTint) {
+      return <SpriteWrapper><Sprite textureId={option.textureId} textureTint={option.textureTint}/></SpriteWrapper>
     }
 
     return null

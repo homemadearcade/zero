@@ -51,40 +51,40 @@ export class GameHostScene extends EditorScene {
       }
       const currentStageId = store.getState().gameModel.currentStageId
       if(this.stage.stageId !== currentStageId) return
-      const objectInstances = this.objectInstances.map(({sprite: { instanceId, x, y, rotation}, isVisible, destroyAfterUpdate, reclassId, classId}) => {
+      const entityInstances = this.entityInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityClassId, entityClassId}) => {
         return {
-          instanceId,
+          entityInstanceId,
           x,
           y,
           rotation,
           isVisible,
           destroyAfterUpdate, 
-          reclassId,
-          classId
+          transformEntityClassId,
+          entityClassId
         }
       })
 
-      const temporaryInstances = this.temporaryInstances.map(({sprite: { instanceId, x, y, rotation}, isVisible, destroyTime, classId, destroyAfterUpdate, reclassId}) => {
+      const temporaryInstances = this.temporaryInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyTime, entityClassId, destroyAfterUpdate, transformEntityClassId}) => {
         return {
-          instanceId,
+          entityInstanceId,
           x,
           y,
           rotation,
           isVisible,
-          classId,
+          entityClassId,
           destroyTime,
           destroyAfterUpdate, 
-          reclassId,
+          transformEntityClassId,
         }
       })
       
       const playerInstance = {
-        x: this.playerInstance.sprite.x,
-        y: this.playerInstance.sprite.y,
-        rotation: this.playerInstance.sprite.rotation,
+        x: this.playerInstance.phaserInstance.x,
+        y: this.playerInstance.phaserInstance.y,
+        rotation: this.playerInstance.phaserInstance.rotation,
         isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
-        reclassId: this.playerInstance.reclassId
+        transformEntityClassId: this.playerInstance.transformEntityClassId
       }
       
       this.updateNetworkStatus()
@@ -92,7 +92,7 @@ export class GameHostScene extends EditorScene {
         { 
           gameInstanceId: this.gameInstanceId, 
           gameRoomId: this.gameRoom.id,
-          objectInstances, 
+          entityInstances, 
           playerInstance, 
           temporaryInstances, 
           stageId: currentStageId, 

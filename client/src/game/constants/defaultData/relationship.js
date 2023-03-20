@@ -1,4 +1,4 @@
-import { effectBehaviorToDisplayNames, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_RECLASS, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, SPAWN_ZONE_RANDOM_SELECT } from "./effect"
+import { effectBehaviorToDisplayNames, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, SPAWN_ZONE_RANDOM_SELECT } from "./effect"
 import { eventTypeToDisplayNames, eventPrefix } from "./event"
 
 export const initialEffectRelation = {
@@ -35,7 +35,7 @@ export const defaultRelationship = {
 //   },
 
 //   // Lifecycle
-//   [EFFECT_RECLASS]: {},
+//   [EFFECT_TRANSFORM]: {},
 //   [EFFECT_SPAWN]: {},
 //   [EFFECT_DESTROY]: {},
 
@@ -65,7 +65,7 @@ export const effectSuffixes = {
   [EFFECT_STICK_TO]: 'ClassA',
 
   // Lifecycle
-  [EFFECT_RECLASS]: 'ClassA',
+  [EFFECT_TRANSFORM]: 'ClassA',
   [EFFECT_SPAWN]: null,//'spawnClassId',
   [EFFECT_DESTROY]: 'ClassA',
 
@@ -92,7 +92,7 @@ function getEffectSuffix(effect, classA, classB) {
   
   // if(effectSuffixes[effect]) {
   //   if(effect.spawnClassId) {
-  //     const classSpawn = store.getState().gameModel.gameModel.classes[effect.spawnClassId]
+  //     const classSpawn = store.getState().gameModel.gameModel.entityClasses[effect.spawnClassId]
   //     return classSpawn.name
   //   }
   // }

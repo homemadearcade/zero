@@ -1,6 +1,7 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_LAYER_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, ZONE_INSTANCE_CANVAS_ID, DIRECTIONAL_CONTROLS, PROJECTILE_NONE } from "../";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_LAYER_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, DIRECTIONAL_CONTROLS } from "../";
 import { nodeSize } from "./general";
 import { defaultProjectile } from "./projectile";
+import { FOREGROUND_LAYER_CANVAS_ID } from "../";
 
 export const defaultMovement = {
   movementControlsBehavior: null,
@@ -16,11 +17,11 @@ export const defaultMovement = {
   gravityY: 0,
   gravityX: 0,
   disableDownKey: false,
-  // classId: null,
+  // entityClassId: null,
 }
 
 export const defaultJump = {
-  jumpBehavior: JUMP_NONE,
+  jumpControlsBehavior: JUMP_NONE,
   ground: 0,
   air: 0,
   cooldown: 100,
@@ -42,7 +43,7 @@ export const defaultClass = {
   lastEditedDate: 0,
   isRemoved: false,
   boundaryRelation: BOUNDARY_COLLIDE,
-  classId: null,
+  entityClassId: null,
   movement: {
     ...defaultMovement
   },
@@ -56,7 +57,7 @@ export const defaultClass = {
     textureId: null,
     width: nodeSize * 2,
     height: nodeSize * 2,
-    tint: null,
+    textureTint: null,
     invisible: false,
     glowing: false,
     layerId: PLAYGROUND_LAYER_CANVAS_ID,
@@ -74,7 +75,7 @@ export const defaultClass = {
 }
 
 export const defaultNpcClass = { 
-  classInterfaceType: NPC_CLASS,
+  classInterfaceCategory: NPC_CLASS,
   // movement: {
   //   movementBehavior: MOVEMENT_TURN_ON_COLLIDE,
   //   velocityX: 50,
@@ -85,18 +86,18 @@ export const defaultNpcClass = {
 }
 
 export const defaultZoneClass = {
-  classInterfaceType: ZONE_CLASS, 
+  classInterfaceCategory: ZONE_CLASS, 
   collisionResponse: {
     immovable: true,
   },
   graphics: {
     invisible: true,
-    layerId: ZONE_INSTANCE_CANVAS_ID
+    layerId: FOREGROUND_LAYER_CANVAS_ID
   }
 }
 
 export const defaultPlayerClass = {
-  classInterfaceType: PLAYER_CLASS, 
+  classInterfaceCategory: PLAYER_CLASS, 
   movement: { 
     movementControlsBehavior: DIRECTIONAL_CONTROLS
   },
@@ -110,7 +111,7 @@ export const libraryClassAugment = {
 }
 
 export const defaultBasicClass = { 
-  classInterfaceType: BASIC_CLASS,
+  classInterfaceCategory: BASIC_CLASS,
   movement: {
     movementBehavior: MOVEMENT_NONE,
   },

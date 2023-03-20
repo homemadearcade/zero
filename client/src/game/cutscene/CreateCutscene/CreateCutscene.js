@@ -10,10 +10,10 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CutsceneNameForm from '../../cutscene/CutsceneNameForm/CutsceneNameForm';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { CUTSCENE_ID_PREFIX, IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
+import { CUTSCENE_ID_PREFIX, CANVAS_IMAGE_AND_TEXT_CUTSCENE, CANVAS_IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import MySpritesModal from '../../sprites/MySpritesModal/MySpritesModal';
-import { closeMySpritesModal, openMySpritesModal } from '../../../store/actions/gameSelectorActions';
+import MyImagesModal from '../../sprites/MyImagesModal/MyImagesModal';
+import { closeMyImagesModal, openMyImagesModal } from '../../../store/actions/gameSelectorActions';
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
@@ -22,11 +22,11 @@ import { DIALOGUE_SHORTCUT_IID } from '../../../constants/interfaceIds';
 const CreateCutscene = ({ 
   closeCreateCutscene, 
   editGameModel, 
-  openMySpritesModal,
-  closeMySpritesModal,
+  openMyImagesModal,
+  closeMyImagesModal,
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
-  gameSelector: { isMySpritesModalOpen },
+  gameSelector: { isMyImagesModalOpen },
   gameModel: { gameModel },
 }) => {
   const [editScene, setEditScene] = useState(null)
@@ -92,12 +92,12 @@ const CreateCutscene = ({
         Add Text Scene
       </Button>
       <Button onClick={() => {
-        addScene(IMAGE_CUTSCENE)
+        addScene(CANVAS_IMAGE_CUTSCENE)
       }}>
         Add Image Scene
       </Button>
       <Button onClick={() => {
-        addScene(IMAGE_AND_TEXT_CUTSCENE)
+        addScene(CANVAS_IMAGE_AND_TEXT_CUTSCENE)
       }}>
         Add Image and Text Scene
       </Button>
@@ -137,7 +137,7 @@ const CreateCutscene = ({
               setEditScene(null)
             }}
             onChooseNewImage={() => {
-              openMySpritesModal()
+              openMyImagesModal()
               updateCreateCutscene({
                 indexSelected: index
               })
@@ -188,13 +188,13 @@ const CreateCutscene = ({
         }}>Restore</Button>}
       </div>
     </div>
-    {isMySpritesModalOpen && <MySpritesModal onClickSprite={(textureId) => {
+    {isMyImagesModalOpen && <MyImagesModal onClickTexture={(textureId) => {
       const scenes = cutscene.scenes.slice()
       scenes[cutscene.indexSelected].imageUrl = textureId
       updateCreateCutscene({
         scenes,
       })
-      closeMySpritesModal()
+      closeMyImagesModal()
     }}/>}
   </CobrowsingModal>
 }
@@ -206,5 +206,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateCutscene, closeCreateCutscene, editGameModel, openMySpritesModal, closeMySpritesModal }),
+  connect(mapStateToProps, { updateCreateCutscene, closeCreateCutscene, editGameModel, openMyImagesModal, closeMyImagesModal }),
 )(CreateCutscene);
