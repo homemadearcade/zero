@@ -100,7 +100,7 @@ export class CodrawingCanvas extends Canvas {
       this.canvasImageId = canvasImage.id
       this.imageType = canvasImage.imageType
       if(canvasImage.strokeHistory.length && this.isCodrawingHost) {
-        this.addStrokeHistory(canvasImage.strokeHistory)
+        this.strokeHistory = canvasImage.strokeHistory
         this.debouncedSave()
       }
       canvasImage.strokeHistory.forEach((strokeData) => {

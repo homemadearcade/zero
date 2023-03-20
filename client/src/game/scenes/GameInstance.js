@@ -227,8 +227,6 @@ export class GameInstance extends Phaser.Scene {
 
       return relationsByEvent
     }, {})
-
-    console.log(this.relationsByEventType)
   }
   
   reregisterRelationships() {

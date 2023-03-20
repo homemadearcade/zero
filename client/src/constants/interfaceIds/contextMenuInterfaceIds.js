@@ -1,6 +1,6 @@
 export const CONTEXT_MENU_CONTAINER_IID = 'contextMenu/*'
 
-export const CONTEXT_MENU_CLASS_NAME_IID = 'contextMenu/class/name'
+export const CONTEXT_MENU_CLASS_EDIT_IID = 'contextMenu/class/name'
 export const CONTEXT_MENU_CLASS_JUMP_IID = 'contextMenu/class/jump'
 export const CONTEXT_MENU_CLASS_GRAPHICS_IID = 'contextMenu/class/graphics'
 export const CONTEXT_MENU_CLASS_PHYSICS_IID = 'contextMenu/class/physics'

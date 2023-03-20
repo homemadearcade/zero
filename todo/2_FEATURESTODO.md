@@ -17,9 +17,6 @@ RELATIONS
       Player
       All
 
-Put game defaults into the instructions. Change defaults to be on the stage object. 
-physicsType == ARCADE_GRAVITY
-
 LIBRARY
   Turn library on and off ( both in Selects and in the ClassList )
   Easy system for saving library entityClasses and relations

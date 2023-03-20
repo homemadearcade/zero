@@ -4,7 +4,7 @@ import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { effectBehaviorToDisplayNames, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT,
 } from "../../constants"
-import Sprite from "../../sprites/Texture/Texture"
+import Sprite from "../../images/Texture/Texture"
 
 function renderTag(tag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>

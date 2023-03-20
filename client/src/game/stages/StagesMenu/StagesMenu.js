@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './StagesMenu.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeStagesMenu, openCreateStage, updateCreateCutscene } from '../../../store/actions/gameFormEditorActions';
+import { closeStagesMenu, openCreateStageModal, updateCreateCutscene } from '../../../store/actions/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -13,8 +13,9 @@ import { changeCurrentStage } from '../../../store/actions/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
 import { SHOW_REMOVED_IID } from '../../../constants/interfaceIds';
+import { initialStage } from '../../constants';
 
-const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
+const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
   function handleClose() {
     closeStagesMenu()
   }
@@ -34,10 +35,10 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
         return <div key={stageId} className="StagesMenu__stage">
           <Typography component="h4" variant="h4">{stage.name}</Typography>
           <Button onClick={() => {
-            openCreateStage(stage)
+            openCreateStageModal(stage)
           }}>Edit</Button>
           <Button onClick={() => {
-            openCreateStage({
+            openCreateStageModal({
               ...stage,
               name: stage.name + 'copy'
             })
@@ -55,8 +56,9 @@ const StagesMenu = ({ closeStagesMenu, openCreateStage, changeCurrentStage, game
         </div>
       })}
       <Button onClick={() => {
-        openCreateStage({
-          name: 'Stage #' + (Object.keys(stages).length + 1).toString()
+        openCreateStageModal({
+          ...initialStage,
+          name: 'Stage #' + (Object.keys(stages).length + 1).toString(),
         })
       }}><Icon icon="faPlus"/> New Stage</Button>
       {!showRemovedStages && <Unlockable interfaceId={SHOW_REMOVED_IID}>
@@ -74,5 +76,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 
 
 export default compose(
-  connect(mapStateToProps, { updateCreateCutscene, closeStagesMenu, openCreateStage, editGameModel, changeCurrentStage }),
+  connect(mapStateToProps, { updateCreateCutscene, closeStagesMenu, openCreateStageModal, editGameModel, changeCurrentStage }),
 )(StagesMenu);

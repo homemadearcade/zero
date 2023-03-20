@@ -51,7 +51,7 @@ export class GameClientScene extends EditorScene {
 
     entityInstances.forEach((instanceUpdate) => {
       const entityInstanceId = instanceUpdate.entityInstanceId
-      if(entityInstanceId === this.draggingObjectInstanceId) {
+      if(entityInstanceId === this.draggingEntityInstanceId) {
         return
       }
       const entityInstance = this.getObjectInstance(entityInstanceId)
@@ -74,7 +74,7 @@ export class GameClientScene extends EditorScene {
       temporaryInstance.destroyTime = instanceUpdate.destroyTime
     })
 
-    if(this.draggingObjectInstanceId === PLAYER_INSTANCE_ID_PREFIX) return
+    if(this.draggingEntityInstanceId === PLAYER_INSTANCE_ID_PREFIX) return
 
     this.playerInstance.phaserInstance.x = playerInstance.x 
     this.playerInstance.phaserInstance.y = playerInstance.y

@@ -113,7 +113,7 @@ export class GameHostScene extends EditorScene {
     }
   }
 
-  onGameInstanceUpdateAcknowledged = ({ upsClient, upsServer }) => {
+  onGameInstanceUpdateAcknowledged = ({ upsClient, upsServer, tageId }) => {
     this.lastAcknowledgement = Date.now()
     this.upsClient = upsClient
     this.upsServer = upsServer

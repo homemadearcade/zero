@@ -40,7 +40,7 @@
 ZOOM INTO X
 
           onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
-    if(this.draggingObjectInstanceId || this.cameraDragStart) return
+    if(this.draggingEntityInstanceId || this.cameraDragStart) return
     if(!getCobrowsingState().editor.isGridViewOn) return
     
     window.pointer = pointer

@@ -113,6 +113,7 @@ const BrushList = ({
       {renderPending(backgroundTextureId)}
     </>,
     body: <>
+      <BrushControl/>
       <LayerColorSelect withEraser layerCanvasId={BACKGROUND_LAYER_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
@@ -140,6 +141,7 @@ const BrushList = ({
       {renderPending(playgroundTextureId)}
     </>,
     body: <>
+      <BrushControl/>
       <LayerColorSelect withEraser layerCanvasId={PLAYGROUND_LAYER_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
@@ -165,6 +167,7 @@ const BrushList = ({
       {renderPending(foregroundTextureId)}
     </>,
     body: <>
+      <BrushControl/>
       <LayerColorSelect withEraser layerCanvasId={FOREGROUND_LAYER_CANVAS_ID}/>
       <div className="BrushList__brushes">
         <BorderedGrid 
@@ -180,7 +183,6 @@ const BrushList = ({
   })
 
   return <div className="BrushList">
-    <BrushControl/>
     <CobrowsingAccordianList
       listId="LeftColumn"
       accordians={accordians}

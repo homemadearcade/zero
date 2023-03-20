@@ -25,11 +25,6 @@ export const defaultGameModel = {
   colors: {
 
   },
-  defaults: {
-    playerClass: '',
-    boundaryRelation: '',
-    uiThemeColor: ''
-  },
   cutscenes: {
 
   },

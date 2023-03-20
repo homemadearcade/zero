@@ -9,7 +9,7 @@ import { clearGameFormEditor, closeCreateEffect, closeCreateEvent } from '../../
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
-import SnapshotTaker from '../../sprites/SnapshotTaker/SnapshotTaker';
+import SnapshotTaker from '../../images/SnapshotTaker/SnapshotTaker';
 import SelectBackgroundColorModal from '../../stages/SelectBackgroundColorModal/SelectBackgroundColorModal';
 import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, START_STATE } from '../../constants';
 import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModal';
@@ -17,14 +17,13 @@ import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import BoundaryRelation from '../../class/BoundaryRelation/BoundaryRelation';
 import EditClassModal from '../../class/EditClassModal/EditClassModal';
-import SetupDefaultsModal from '../../SetupDefaultsModal/SetupDefaultsModal';
 import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../../gameRoom/GameStateToolbar/GameStateToolbar';
 import ClassList from '../../class/ClassList/ClassList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
 import StagesMenu from '../../stages/StagesMenu/StagesMenu';
-import CreateStage from '../../stages/CreateStage/CreateStage';
+import CreateStageModal from '../../stages/CreateStageModal/CreateStageModal';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
@@ -46,7 +45,6 @@ const GameEditor = ({
   classNames, 
   gameSelector: { 
     isClassBoxModalOpen, 
-    isSetupDefaultsModalOpen, 
     isSelectBackgroundColorModalOpen, 
     liveEditingCategory, 
     isGameMetadataModalOpen, 
@@ -62,7 +60,7 @@ const GameEditor = ({
     isCreateRelationOpen,
     isCreateCutsceneOpen, 
     isCreateBrushFlowOpen, 
-    isCreateStageOpen, 
+    isCreateStageModalOpen, 
     isCutscenesMenuOpen, 
     isBoundaryRelationOpen, 
     isCreateEffectOpen,
@@ -153,8 +151,7 @@ const GameEditor = ({
       {isCreateEventOpen && <CreateEventModal/>}
       {isCreateTagOpen && <CreateTag/>}
       {isStagesMenuOpen && <StagesMenu/>}
-      {isCreateStageOpen && <CreateStage/>}
-      {isSetupDefaultsModalOpen && <SetupDefaultsModal/>}
+      {isCreateStageModalOpen && <CreateStageModal/>}
       {isSelectBackgroundColorModalOpen && <SelectBackgroundColorModal/>}
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {

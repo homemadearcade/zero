@@ -12,7 +12,7 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { CUTSCENE_ID_PREFIX, CANVAS_IMAGE_AND_TEXT_CUTSCENE, CANVAS_IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import MyImagesModal from '../../sprites/MyImagesModal/MyImagesModal';
+import MyImagesModal from '../../images/MyImagesModal/MyImagesModal';
 import { closeMyImagesModal, openMyImagesModal } from '../../../store/actions/gameSelectorActions';
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';

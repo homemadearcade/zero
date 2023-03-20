@@ -18,8 +18,9 @@ import { NON_LAYER_COLOR_ID } from '../../constants';
 import MyImages from '../MyImages/MyImages';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { CHOOSE_SPRITES_IID, DRAW_NEW_SPRITE_IID } from '../../../constants/interfaceIds';
+import { CHOOSE_TEXTURES_IID, DRAW_NEW_TEXTURE_IID } from '../../../constants/interfaceIds';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
+import TextureStage from '../TextureStage/TextureStage';
 
 const CreateTexture = ({
   textureIdSelected,
@@ -36,21 +37,6 @@ const CreateTexture = ({
   openCanvasImageModal,
   gameFormEditor: { isCreateColorFlowOpen }
 }) => {
-  function renderTextureStage() {
-
-    if(!textureIdSelected && !textureTintSelected) {
-      return <div className="CreateTexture__sprite-missing CreateTexture__sprite"></div>
-    }
-
-    return <div className="CreateTexture__sprite">
-      <Texture textureTint={textureTintSelected} textureId={textureIdSelected}/>
-     {textureIdSelected && <div className="CreateTexture__no-sprite" onClick={() => {
-        onSelect(null)
-      }}>
-        <Icon size="lg" icon="faClose"></Icon>
-      </div>}
-    </div>
-  }
 
   return <>
     <div className="CreateTexture">
@@ -58,9 +44,15 @@ const CreateTexture = ({
         {formLabel}
       </FormLabel>}
 
-      {renderTextureStage()}
+      <div className="CreateTexture__stage"><TextureStage textureId={textureIdSelected} textureTint={textureTintSelected}>
+        {textureIdSelected && <div className="CreateTexture__no-sprite" onClick={() => {
+          onSelect(null)
+        }}>
+          <Icon size="lg" icon="faClose"></Icon>
+        </div>}
+      </TextureStage></div>
 
-      <Unlockable interfaceId={DRAW_NEW_SPRITE_IID}>
+      <Unlockable interfaceId={DRAW_NEW_TEXTURE_IID}>
         <Button onClick={() => {
           openCanvasImageModal(textureIdSelected)
         }}>
@@ -75,8 +67,8 @@ const CreateTexture = ({
           openCreateColorFlow('CreateTexture')
         }}
       />
-      <Unlockable interfaceId={CHOOSE_SPRITES_IID}>
-        <div className="CreateTexture__sprite-list">
+      <Unlockable interfaceId={CHOOSE_TEXTURES_IID}>
+        <div className="CreateTexture__texture-list">
           <DescriptorTextures onClickTexture={onSelect} descriptors={descriptors}/>
           <MyImages onClickTexture={onSelect} descriptors={descriptors}/>
         </div>

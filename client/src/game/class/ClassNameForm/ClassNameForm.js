@@ -5,12 +5,14 @@ import './ClassNameForm.scss';
 import { Alert, TextField } from '@mui/material';
 import { updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
+import Typography from '../../../ui/Typography/Typography';
+import IconButton from '../../../ui/IconButton/IconButton';
 
-const ClassNameForm = ({ initialName, updateCreateClass, gameModel: { gameModel }, gameFormEditor: { entityClass } }) => {
+const ClassNameForm = ({ isEditingInitially, initialName, updateCreateClass, gameModel: { gameModel }, gameFormEditor: { entityClass } }) => {
   const [nameList, setNameList] = useState([])
   const [ignoreName, setIgnoreName] = useState([])
-
-
+  const [isEditing, setIsEditing] = useState(isEditingInitially)
+  const [isHovering, setIsHovering] = useState(false)
 
   useEffect(() => {
     const list = []
@@ -55,12 +57,33 @@ const ClassNameForm = ({ initialName, updateCreateClass, gameModel: { gameModel 
     })
   }
 
-  return (
-    <div className="ClassNameForm">
-      <TextField onChange={handleChange} value={entityClass.name} label={"Name"} />
-      {entityClass.error && <Alert severity="error">{entityClass.error}</Alert>}
+  if(isEditing) {
+    return (
+      <div className="ClassNameForm">
+        <TextField onChange={handleChange} label="Name" value={entityClass.name} />
+        {entityClass.error && <Alert severity="error">{entityClass.error}</Alert>}
+        {<IconButton icon="faCheck" onClick={() => {
+          setIsEditing(false)
+        }}></IconButton>}
+      </div>
+    );
+  } else {
+    return <div
+      onMouseEnter={() => {
+        setIsHovering(true)
+      }}
+      onMouseLeave={() => {
+        setIsHovering(false)
+      }}
+    >
+        <Typography variant="h4">
+        {entityClass.name}
+        {isHovering && <IconButton icon="faPen" onClick={() => {
+          setIsEditing(true)
+        }}></IconButton>}
+      </Typography>
     </div>
-  );
+  }
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

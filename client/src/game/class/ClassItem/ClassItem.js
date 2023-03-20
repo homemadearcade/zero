@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { clearClass, selectClass } from '../../../store/actions/gameSelectorActions';
 import { getCobrowsingState, mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
-import Sprite from '../../sprites/Texture/Texture';
+import Texture from '../../images/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
 import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
@@ -64,8 +64,8 @@ const ClassItem = ({
     className={classNames("ClassItem", { 'ClassItem--isPlayer': entityClassId === playerClassId })}
   >
     {isSelected && isHovering && <Icon className="ClassItem__unselect" icon="faClose"/>}
-    <div className="ClassItem__sprite">
-      <Sprite textureTint={entityClass.graphics.textureTint} textureId={entityClass.graphics.textureId}/>
+    <div className="ClassItem__texture">
+      <Texture textureTint={entityClass.graphics.textureTint} textureId={entityClass.graphics.textureId}/>
     </div>
     <div className="ClassItem__name">{entityClass.name}</div>
   </div>

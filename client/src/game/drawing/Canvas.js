@@ -18,7 +18,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     this.scene.add.existing(this)
 
     this.textureId = textureId
-    this.textureIdMongo = null
+    this.canvasImageId = null
 
     this.initialDraw()
 
@@ -48,8 +48,8 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         const textureId = this.textureId
         const { bufferCanvas } = await this.getBufferCanvasFromRenderTexture(this)
 
-        if(this.textureIdMongo) {
-          store.dispatch(editCanvasImage(this.textureIdMongo, {
+        if(this.canvasImageId) {
+          store.dispatch(editCanvasImage(this.canvasImageId, {
             strokeHistory: []
           }))
         }

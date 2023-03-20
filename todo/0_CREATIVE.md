@@ -17,13 +17,16 @@ Randomizations
 
 Jump, Movement, Collisions, Projectile property librarys
   or Perhaps just add it to the interface system that already exists? Add a property object to it?
+  The thing is that also properties themselelves. The very .zoneClassId, .speed will need to be gamified eventually. We will want a way of expressing how this property can be gamified, who can change it, etc
 
 TOUR component for admins? There this 'tour component' I found when searching ui libraries, its dope!
 
 AUDIO EFFECTS :)
 
-LOOK @ TWEENS?
+
 
 TIMER SYSTEM
  - A whole timer interface like at the bottom like an editor?
   It would be awesome to also be able to have a timer for the properties of an object. Where u can morph their property over time.
+
+  LOOK @ TWEENS?

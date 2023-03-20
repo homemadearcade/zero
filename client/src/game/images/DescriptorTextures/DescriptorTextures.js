@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './DescriptorTextures.scss';
-import Texture from '../../sprites/Texture/Texture';
+import Texture from '../../images/Texture/Texture';
 
 const DescriptorTextures = ({
   descriptors,

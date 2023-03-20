@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { defaultEffect, defaultRelationship, defaultTag } from '../../game/constants';
-import { defaultStage } from '../../game/constants';
+import { defaultRelationship } from '../../game/constants';
 import { mergeDeep } from '../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,
@@ -30,8 +29,8 @@ import {
   OPEN_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
-  OPEN_CLASS_NAME_MODAL,
-  CLOSE_CLASS_NAME_MODAL,
+  OPEN_CLASS_EDIT_MODAL,
+  CLOSE_CLASS_EDIT_MODAL,
   OPEN_CREATE_EFFECT,
   UPDATE_CREATE_EFFECT,
   CLOSE_CREATE_EFFECT,
@@ -82,9 +81,8 @@ const initialState = {
   },
 
   isStagesMenuOpen: false,
-  isCreateStageOpen: false,
+  isCreateStageModalOpen: false,
   stage: {
-    ...defaultStage,
     name: '',
   },
 
@@ -130,17 +128,17 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
           layerCanvasId: payload.layerCanvasId
         },
       }
-    case OPEN_CLASS_NAME_MODAL: 
+    case OPEN_CLASS_EDIT_MODAL: 
       return {
         ...state,
         isEditClassModalOpen: true,
         entityClass: payload.entityClass
       }
-    case CLOSE_CLASS_NAME_MODAL:
+    case CLOSE_CLASS_EDIT_MODAL:
       return {
         ...state,
         isEditClassModalOpen: false,
-        entityClass: null
+        // entityClass: null
       }
     case CLOSE_CREATE_COLOR_FLOW: 
       return {
@@ -333,7 +331,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case OPEN_CREATE_STAGE: 
       return {
         ...state,
-        isCreateStageOpen: true,
+        isCreateStageModalOpen: true,
         stage: {
           ..._.cloneDeep(initialState.stage),
           ...payload.initialStage ? _.cloneDeep(payload.initialStage) : {}
@@ -347,7 +345,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case CLOSE_CREATE_STAGE: 
       return {
         ...state,
-        isCreateStageOpen: false
+        isCreateStageModalOpen: false
       }
     case CLEAR_EDITOR_FORMS:
       return initialState

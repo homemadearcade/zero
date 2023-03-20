@@ -1,11 +1,4 @@
-Make the player choice a 4 part choice
-
-Mario Underwater
-Spaceship
-Mario
-Zelda
-
----
+--
 
 Spawn bar when you have selected gravity
 

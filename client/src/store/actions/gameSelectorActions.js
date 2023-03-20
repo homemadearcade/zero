@@ -20,8 +20,8 @@ import {
   CLOSE_GAME_METADATA_MODAL,
   OPEN_SETUP_CHOICES_MODAL,
   CLOSE_SETUP_CHOICES_MODAL,
-  OPEN_MY_SPRITES_MODAL,
-  CLOSE_MY_SPRITES_MODAL,
+  OPEN_MY_IMAGES_MODAL,
+  CLOSE_MY_IMAGES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   CLOSE_JSON_VIEWER,
   OPEN_JSON_VIEWER,
@@ -194,23 +194,6 @@ export const closeGameMetadataModal = () => (dispatch, getState) => {
   });
 }
 
-export const openSetupDefaultsModal = () => (dispatch, getState) => {
-  
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_SETUP_CHOICES_MODAL,
-    payload: {}
-  });
-}
-
-export const closeSetupDefaultsModal = () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_SETUP_CHOICES_MODAL,
-    payload: {}
-  });
-}
-
 export const openSelectBackgroundColorModal= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
@@ -286,7 +269,7 @@ export const clearEditor = () => (dispatch, getState) => {
 export const openMyImagesModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_MY_SPRITES_MODAL,
+    type: OPEN_MY_IMAGES_MODAL,
     payload: {}
   });
 }
@@ -294,7 +277,7 @@ export const openMyImagesModal = () => (dispatch, getState) => {
 export const closeMyImagesModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_MY_SPRITES_MODAL,
+    type: CLOSE_MY_IMAGES_MODAL,
     payload: {}
   });
 }

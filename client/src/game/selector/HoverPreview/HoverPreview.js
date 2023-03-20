@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './HoverPreview.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
-import Sprite from '../../sprites/Texture/Texture';
+import Sprite from '../../images/Texture/Texture';
 import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, STOPPED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
@@ -216,7 +216,9 @@ const HoverPreview = ({
             }}><Icon icon="faTableList"/></Button>
           </Unlockable>}
       </div>}
-      {currentStageId === initialStageId ? null : <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{currentStage.name}</Typography>}
+      {currentStageId === initialStageId ? null : <>
+        <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5rem'}} >{currentStage.name}</Typography>
+      </>}
       {isHoveringOverTitle && <div className="HoverPreview__actions">
         <Unlockable interfaceId={STAGE_BACKGROUND_COLOR_IID}>
           <Button size="xs" className="HoverPreview__actions-color" onClick={() => {

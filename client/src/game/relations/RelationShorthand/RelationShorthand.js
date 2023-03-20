@@ -5,7 +5,7 @@ import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { effectBehaviorInterfaces, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from "../../constants"
 import EffectShorthand from "../../effect/EffectShorthand/EffectShorthand"
 import EventShorthand from "../../event/EventShorthand/EventShorthand"
-import Sprite from "../../sprites/Texture/Texture"
+import Sprite from "../../images/Texture/Texture"
 
 function renderTag(tag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>

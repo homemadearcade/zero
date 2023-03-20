@@ -7,7 +7,7 @@ import './BrushItem.scss';
 import { selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Sprite from '../../sprites/Texture/Texture';
+import Texture from '../../images/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
 import { changeBrushIdHovering } from '../../../store/actions/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
@@ -47,8 +47,8 @@ const BrushItem = ({
       className="BrushItem"
     >
       {isSelected && isHovering && <Icon className="BrushItem__unselect" icon="faClose"/>}
-      <div className="BrushItem__sprite">
-        <Sprite textureTint={brush.textureTint} textureId={brush.textureId}/>
+      <div className="BrushItem__texture">
+        <Texture textureTint={brush.textureTint} textureId={brush.textureId}/>
       </div>
     </div>
 };

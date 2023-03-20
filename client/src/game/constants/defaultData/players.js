@@ -1,4 +1,4 @@
-import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS, PLAYER_CLASS_TYPE_PREFIX } from "../"
+import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from "../"
 import { defaultClass, defaultPlayerClass } from "./class"
 import { directionalDefaults, advancedDirectionalDefaults } from "./controlledMovement"
 import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"

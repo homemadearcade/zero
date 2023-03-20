@@ -1,15 +1,4 @@
 .CreateTexture {
-  &__sprite-missing {
-    background-color: #111;
-  }
-
-  &__sprite {
-    width: 150px;
-    height: 150px;
-    border: 1px solid white;
-    position: relative;
-  }
-
   &__no-sprite {
     position: absolute;
     top: .4rem;
@@ -17,8 +6,13 @@
     cursor: pointer;
   }
 
-  &__sprite-list {
-    .Sprite {
+  &__stage {
+    width: 150px;
+    height: 150px
+  }
+
+  &__texture-list {
+    .Texture {
       cursor: pointer;
       opacity: 0.5;
       &:hover{

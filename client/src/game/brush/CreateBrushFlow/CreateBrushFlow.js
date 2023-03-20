@@ -6,12 +6,12 @@ import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import CreateTexture from '../../sprites/CreateTexture/CreateTexture';
+import CreateTexture from '../../images/CreateTexture/CreateTexture';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { CHOOSE_SPRITES_IID } from '../../../constants/interfaceIds';
+import { CHOOSE_TEXTURES_IID } from '../../../constants/interfaceIds';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow,  gameFormEditor: { brush }}) => {
   function handleClose() {
@@ -22,7 +22,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
-      <Unlockable interfaceId={CHOOSE_SPRITES_IID}><SelectDescriptors 
+      <Unlockable interfaceId={CHOOSE_TEXTURES_IID}><SelectDescriptors 
         onChange={(event, descriptors) => {
           updateCreateBrush({ descriptors })
         }}

@@ -27,8 +27,8 @@ import {
   OPEN_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
-  OPEN_CLASS_NAME_MODAL,
-  CLOSE_CLASS_NAME_MODAL,
+  OPEN_CLASS_EDIT_MODAL,
+  CLOSE_CLASS_EDIT_MODAL,
   OPEN_CREATE_TAG,
   CLOSE_CREATE_TAG,
   UPDATE_CREATE_TAG,
@@ -101,7 +101,7 @@ export const openCreateColorFlow = (componentName, layerCanvasId) => (dispatch, 
 export const openEditClassModal = (entityClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_CLASS_NAME_MODAL,
+    type: OPEN_CLASS_EDIT_MODAL,
     payload: { entityClass: _.cloneDeep(entityClass) }
   });
 }
@@ -109,7 +109,7 @@ export const openEditClassModal = (entityClass) => (dispatch, getState) => {
 export const closeEditClassModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_CLASS_NAME_MODAL,
+    type: CLOSE_CLASS_EDIT_MODAL,
     payload: {}
   });
 }
@@ -196,7 +196,7 @@ export const closeStagesMenu= () => (dispatch, getState) => {
   });
 }
 
-export const openCreateStage = (initialStage) => (dispatch, getState) => {
+export const openCreateStageModal = (initialStage) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
@@ -206,7 +206,7 @@ export const openCreateStage = (initialStage) => (dispatch, getState) => {
   });
 }
 
-export const closeCreateStage= () => (dispatch, getState) => {
+export const closeCreateStageModal= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CREATE_STAGE,
@@ -214,7 +214,7 @@ export const closeCreateStage= () => (dispatch, getState) => {
   });
 }
 
-export const updateCreateStage = (stage) => (dispatch, getState) => {
+export const updateCreateStageModal = (stage) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: UPDATE_CREATE_STAGE,

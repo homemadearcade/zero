@@ -17,11 +17,6 @@ const arcadeGameSchema = new Schema(
         title: 'New Game',
       }
     },
-    defaults: {
-      type: Object,
-      required: true,
-      default: {}
-    },
     // THESE ARE GLOBAL, perhaps player -> initialScene
     player: {
       type: Object,
@@ -103,9 +98,6 @@ export const validateArcadeGame = (game) => {
     metadata: Joi.object({
 
     }),
-    defaults: Joi.object({
-
-    }),
     nodeSize: Joi.number(),
     stages: Joi.object(),
     entityClasses: Joi.object(),
@@ -127,7 +119,6 @@ arcadeGameSchema.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     metadata: this.metadata,
-    defaults: this.defaults,
     stages: this.stages,
     nodeSize: this.nodeSize,
     player: this.player,

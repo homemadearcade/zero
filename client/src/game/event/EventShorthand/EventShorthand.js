@@ -3,7 +3,7 @@ import { compose } from "redux"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { eventShortNames, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT, eventTypeInterfaces } from "../../constants"
-import Sprite from "../../sprites/Texture/Texture"
+import Sprite from "../../images/Texture/Texture"
 
 function renderTag(tag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>

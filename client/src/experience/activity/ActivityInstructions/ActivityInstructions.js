@@ -12,7 +12,7 @@ import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../../lobby/LobbyChecklist/LobbyChecklist';
 import { unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
-import { openGameMetadataModal, openSetupDefaultsModal } from '../../../store/actions/gameSelectorActions';
+import { openGameMetadataModal } from '../../../store/actions/gameSelectorActions';
 import { CREDITS_ACTIVITY, GAME_EDITOR_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
@@ -30,6 +30,7 @@ import LobbySelectRoles from '../../lobby/LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
 import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
 import Switch from '../../../ui/Switch/Switch';
+import CreateStage from '../../../game/stages/CreateStage/CreateStage';
 
 const ARCHIVE_USER_ID = isLocalHost() ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
@@ -76,6 +77,7 @@ const ActivityInstructions = ({
   lobby: { lobby },
   updateLobbyUser,
   gameRoom: { gameRoom },
+  gameModel: { gameModel, currentStageId },
   setCutAudio,
   setCutVideo,
   editGameRoom,
@@ -459,11 +461,21 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
         sayThis(`And now, We hope, unless you need a moment, are you ready to begin?`),
         breakTitle('Game Creation Begins (40 mins)'),
         {
-          id: 'Open Game Defaults Selector',
-          title: <Typography component="h5" variant="h5">Open Game Defaults Selector</Typography>,
-          onClickNext: () => {
-            store.dispatch(forceCobrowsingUpdateDispatch(openSetupDefaultsModal()))
-          },
+          id: 'Setup Stage',
+          title: <CreateStage 
+              stage={gameModel.stages[currentStageId]}
+              onUpdate={(props) => {
+                editGameModel({
+                  stages: {
+                    [currentStageId]: props
+                  }
+                })
+            }}>
+
+          </CreateStage>,
+          // onClickNext: () => {
+          //   store.dispatch(forceCobrowsingUpdateDispatch(openSetupDefaultsModal()))
+          // },
           nextButtonText: 'Open',
           ...requireCobrowsingConnection,
         },
@@ -572,6 +584,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 const mapStateToProps = (state) => ({
   lobby: state.lobby,
   gameRoom: state.gameRoom,
+  gameModel: state.gameModel,
   cobrowsing: state.cobrowsing,
 });
 

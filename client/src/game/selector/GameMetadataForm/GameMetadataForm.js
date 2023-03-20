@@ -7,7 +7,7 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
-import MyImagesModal from '../../sprites/MyImagesModal/MyImagesModal';
+import MyImagesModal from '../../images/MyImagesModal/MyImagesModal';
 import { closeMyImagesModal, openMyImagesModal } from '../../../store/actions/gameSelectorActions';
 
 const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openMyImagesModal, closeMyImagesModal, gameSelector: { isMyImagesModalOpen} }) => {

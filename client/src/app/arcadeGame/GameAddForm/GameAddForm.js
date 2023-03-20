@@ -18,7 +18,6 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
     defaultValues: {
       player: {},
       stages: {},
-      defaults: {},
       metadata: {},
       tags: {},
       entityClasses: {},

@@ -32,7 +32,7 @@ export class EditorScene extends GameInstance {
 
     this.gameRoom = props.gameRoom
 
-    this.draggingObjectInstanceId = null
+    this.draggingEntityInstanceId = null
     this.canvas = null
     this.brush = null 
     this.stamper = null
@@ -55,7 +55,7 @@ export class EditorScene extends GameInstance {
   // DRAG
   ////////////////////////////////////////////////////////////
   onDragStartContextMenu = (entityInstanceId) => {
-    this.draggingObjectInstanceId = entityInstanceId
+    this.draggingEntityInstanceId = entityInstanceId
     this.isDragFromContext = true
     if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
@@ -71,15 +71,15 @@ export class EditorScene extends GameInstance {
     this.isDragFromContext = false
     if(!document.body.style.cursor) document.body.style.cursor = 'grab'
 
-    if(this.draggingObjectInstanceId) {
+    if(this.draggingEntityInstanceId) {
       this.continueDrag(entitySprite, {x: dragX, y: dragY})
     } else if(!this.brush && !this.stamper){
-      this.draggingObjectInstanceId = entitySprite.entityInstanceId
+      this.draggingEntityInstanceId = entitySprite.entityInstanceId
     }
   }
 
   continueDrag(phaserInstance, {x, y}) {
-    const entityClassId = this.getObjectInstance(this.draggingObjectInstanceId).entityClassId
+    const entityClassId = this.getObjectInstance(this.draggingEntityInstanceId).entityClassId
     const entityClass= store.getState().gameModel.gameModel.entityClasses[entityClassId]
     const { clampedX, clampedY } = snapObjectXY({x, y,  entityClass})
     phaserInstance.x = clampedX;
@@ -238,8 +238,8 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(this.isDragFromContext && this.draggingObjectInstanceId) {
-      const instance = this.getObjectInstance(this.draggingObjectInstanceId)
+    if(this.isDragFromContext && this.draggingEntityInstanceId) {
+      const instance = this.getObjectInstance(this.draggingEntityInstanceId)
       this.continueDrag(instance.phaserInstance, {x: pointer.worldX, y: pointer.worldY})
     }
     
@@ -299,7 +299,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerOver = (pointer, entitySprite) => {
-    if(this.draggingObjectInstanceId) return
+    if(this.draggingEntityInstanceId) return
     // const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     //isObscured ||
     if(this.brush || this.stamper || this.snapshotSquare) {
@@ -423,8 +423,8 @@ export class EditorScene extends GameInstance {
 
     if(pointer.leftButtonDown()) {
 
-      if(this.draggingObjectInstanceId && this.isDragFromContext) {
-        this.finishDrag(this.getObjectInstance(this.draggingObjectInstanceId).phaserInstance)
+      if(this.draggingEntityInstanceId && this.isDragFromContext) {
+        this.finishDrag(this.getObjectInstance(this.draggingEntityInstanceId).phaserInstance)
       }
 
       if(this.resizingObjectInstance) {
@@ -500,7 +500,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerUp = (pointer) => {
-    if(this.stamper && pointer.leftButtonReleased() && !this.draggingObjectInstanceId) {
+    if(this.stamper && pointer.leftButtonReleased() && !this.draggingEntityInstanceId) {
       this.stamper.stamp(pointer)
       if(!pointer.event.shiftKey) {
         this.destroyStamper()
@@ -508,7 +508,7 @@ export class EditorScene extends GameInstance {
       }
     }
     
-    this.draggingObjectInstanceId = null
+    this.draggingEntityInstanceId = null
 
     if(this.canvas) {
       this.onStrokeComplete()
@@ -538,7 +538,7 @@ export class EditorScene extends GameInstance {
   }
 
   onPointerUpOutside = (pointer)  => {
-    this.draggingObjectInstanceId = null
+    this.draggingEntityInstanceId = null
 
     if(this.snapshotSquare && !this.snapshotSquare.finalized) {
       this.snapshotSquare.finalized = true 
@@ -557,7 +557,7 @@ export class EditorScene extends GameInstance {
   }
 
   onMouseWheel = (pointer, entityInstance, deltaX, deltaY, deltaZ) => {
-    if(this.draggingObjectInstanceId) return
+    if(this.draggingEntityInstanceId) return
     if(!getCobrowsingState().gameViewEditor.isGridViewOn) return
     
     window.pointer = pointer
@@ -636,6 +636,7 @@ export class EditorScene extends GameInstance {
   // NETWORK UPDATE
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
+    if(!this.scene.isActive(this.scene.key)) return 
 
     if(gameUpdate.metadata?.interfaceColor) {
       store.dispatch(updateTheme({
@@ -984,7 +985,9 @@ export class EditorScene extends GameInstance {
         this.readyForNextEscapeKey = false
         store.dispatch(clearBrush())
         store.dispatch(clearClass())
-        if(this.brush) {
+        if(this.draggingEntityInstanceId) {
+          this.draggingEntityInstanceId = null
+        } else if(this.brush) {
           this.destroyBrush()
         } else if(this.stamper) {
           this.destroyStamper()

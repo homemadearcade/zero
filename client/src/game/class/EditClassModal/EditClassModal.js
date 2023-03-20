@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './EditClassModal.scss';
@@ -9,7 +9,7 @@ import ClassNameForm from '../ClassNameForm/ClassNameForm';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import Button from '../../../ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
-import { closeEditClassModal, updateBoundaryRelation, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
+import { closeEditClassModal, openEditClassGraphics, updateBoundaryRelation, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import SelectClassInterfaceCategory from '../../ui/SelectClassInterfaceCategory/SelectClassInterfaceCategory';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_CLASS_TYPE_IID, CLASS_TAGS_IID } from '../../../constants/interfaceIds';
@@ -17,8 +17,10 @@ import SelectTag from '../../ui/SelectTag/SelectTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 import { classTypeToDisplayName, classTypeToPrefix, OBJECT_CLASS_ID_PREFIX } from '../../constants';
 import { generateUniqueId } from '../../../utils';
+import Typography from '../../../ui/Typography/Typography';
+import TextureStage from '../../images/TextureStage/TextureStage';
 
-const EditClassModal = ({ updateCreateClass, closeEditClassModal, editGameModel, gameFormEditor: { entityClass }, gameModel: { gameModel } }) => {
+const EditClassModal = ({ openEditClassGraphics, updateCreateClass, closeEditClassModal, editGameModel, gameFormEditor: { entityClass }, gameModel: { gameModel } }) => {
   function handleClose() {
     closeEditClassModal()
   }
@@ -45,26 +47,9 @@ const EditClassModal = ({ updateCreateClass, closeEditClassModal, editGameModel,
     handleClose()
   }
 
-  return <CobrowsingModal open onClose={handleClose}>
-    <ClassMemberTitle 
-      entityClassId={entityClass.entityClassId} 
-      title={<>
-          {entityClass.isNew ? 'New ' : ''} {classTypeToDisplayName[entityClass.classInterfaceCategory]}
-        </>
-      }></ClassMemberTitle>
-      <div className="EditClassModal">
-      <ClassNameForm
-        initialName={entityClass.name}
-      />
-      <Unlockable interfaceId={CHANGE_CLASS_TYPE_IID}>
-        <SelectClassInterfaceCategory formLabel="Type" value={entityClass.classInterfaceCategory ? [entityClass.classInterfaceCategory]: []} onChange={(event, classInterfaceCategory) => {
-          updateCreateClass({
-            classInterfaceCategory: classInterfaceCategory[classInterfaceCategory.length-1]
-          })
-        }}/>
-      </Unlockable>
-      <Unlockable interfaceId={CLASS_TAGS_IID}>
-        <SelectTag hideClassTags hideAutoapplied formLabel="Tags" value={entityClass.tags ? Object.keys(entityClass.tags).filter((tagId) => {
+  function renderTagSelect() {
+    return <Unlockable interfaceId={CLASS_TAGS_IID}>
+        <SelectTag hideClassTags hideAutoapplied formLabel="Relations" value={entityClass.tags ? Object.keys(entityClass.tags).filter((tagId) => {
           return !!entityClass.tags[tagId]
         }) : []} onChange={(event, tags) => {
 
@@ -92,6 +77,45 @@ const EditClassModal = ({ updateCreateClass, closeEditClassModal, editGameModel,
           })
         }}/>
       </Unlockable>
+  }
+
+  function renderSelectCategory() {
+    return <Unlockable interfaceId={CHANGE_CLASS_TYPE_IID}>
+        <SelectClassInterfaceCategory formLabel="Category" value={entityClass.classInterfaceCategory ? [entityClass.classInterfaceCategory]: []} onChange={(event, classInterfaceCategory) => {
+          updateCreateClass({
+            classInterfaceCategory: classInterfaceCategory[classInterfaceCategory.length-1]
+          })
+        }}/>
+      </Unlockable>
+  }
+
+  
+  return <CobrowsingModal open onClose={handleClose}>
+    <div className="EditClassModal">
+       <div className="EditClassModal__name"><Typography variant="h5">
+        {entityClass.isNew && 'New ' + classTypeToDisplayName[entityClass.classInterfaceCategory]}
+        {!entityClass.isNew && <div>
+          <ClassNameForm
+            initialName={entityClass.name}
+          />
+        </div>}
+        </Typography>
+      </div>
+      <div className="EditClassModal__header">
+        <div className="EditClassModal__texture-stage">
+          <TextureStage onClickIcon={() => {
+            openEditClassGraphics(entityClass)
+            closeEditClassModal()
+          }} overlayIcon={'faPenToSquare'} textureId={entityClass.graphics.textureId} textureTint={entityClass.graphics.textureTint}>
+              
+          </TextureStage>
+        </div>
+        <div>
+ 
+          {renderTagSelect()}
+          {renderSelectCategory()}
+        </div>
+      </div>
       <SelectBoundaryEffect
         entityClassId={entityClass.entityClassId}
         formLabel={`What happens when touching the world boundary?`}
@@ -111,5 +135,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { closeEditClassModal, editGameModel, updateCreateClass }),
+  connect(mapStateToProps, { openEditClassGraphics, closeEditClassModal, editGameModel, updateCreateClass }),
 )(EditClassModal);

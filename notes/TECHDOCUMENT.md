@@ -152,3 +152,11 @@ SECOND LEVEL
 
 An interface type ONLY effects how an object is treated in the interface
 Behavior means there is code behind something, and likely a default property set, and then as well an interface to go long with it
+
+--
+
+Sprite comes from a sprite sheet
+A texture id is a univeral id applied to an Entity
+A canvas image is an aws image that can be drawn on
+
+--

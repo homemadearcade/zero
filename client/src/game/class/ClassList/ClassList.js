@@ -14,10 +14,9 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_CLASS, NPC_CLASS, BASIC_CLASS, ZONE_CLASS } from '../../constants';
+import { PLAYER_CLASS, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, stageDefaultTypeProperties } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClass } from '../../constants';
-import { directionalClass, jumperClass } from '../../constants';
 import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
@@ -26,7 +25,7 @@ import { getInterfaceIdData } from '../../../utils';
 const CLASS_MAX = 16
 
 const ClassList = ({
-  gameModel: { gameModel },
+  gameModel: { gameModel, currentStageId },
   gameFormEditor: { isEditClassGraphicsOpen },
   editGameModel,
   openEditClassGraphics,
@@ -78,16 +77,9 @@ const ClassList = ({
   }
 
   function addDefaultValuesToPlayerClass(entityClass) {
-    if(gameModel.defaults?.boundaryRelation) entityClass.boundaryRelation = gameModel.defaults?.boundaryRelation
-    if(gameModel.defaults?.playerClass === 'JUMPER_PLAYER') {
-      entityClass.movement = { ...jumperClass.movement }
-      entityClass.jump = { ...jumperClass.jump }
-    } else {
-      entityClass.movement = { ...directionalClass.movement }
-      entityClass.jump = { ...directionalClass.jump }
-    }
-
-    return entityClass
+    const defaultTypeProperties = stageDefaultTypeProperties[gameModel.stages[currentStageId].defaultType]
+    const defaultEntityClass = entityClasses[defaultTypeProperties.playerClassId]
+    return {...entityClass, ...defaultEntityClass}
   }
 
   const playerClasses = Object.keys(entityClasses).
@@ -245,13 +237,13 @@ const ClassList = ({
             [entityClass.entityClassId] : {
               ...entityClass,
               isNew: false,
-              graphics: entityClass.graphics,
-              descriptors: entityClass.descriptors,
-              name: entityClass.name,
-              entityClassId: entityClass.entityClassId,
-              classInterfaceCategory: entityClass.classInterfaceCategory,
-              interfaceLocked: entityClass.interfaceLocked,
-              layerId: entityClass.layerId
+              // graphics: entityClass.graphics,
+              // descriptors: entityClass.descriptors,
+              // name: entityClass.name,
+              // entityClassId: entityClass.entityClassId,
+              // classInterfaceCategory: entityClass.classInterfaceCategory,
+              // interfaceLocked: entityClass.interfaceLocked,
+              // layerId: entityClass.layerId
             }
           }
         })

@@ -1,10 +1,6 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
-import store from "../../../store"
-import Typography from "../../../ui/Typography/Typography"
-import Sprite from "../../sprites/Texture/Texture"
-
 // EVENTS
 export const ON_TOUCH_START = 'ON_TOUCH_START'
 export const ON_COLLIDE_END = 'ON_COLLIDE_END'

@@ -16,8 +16,8 @@ import {
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
-  OPEN_MY_SPRITES_MODAL,
-  CLOSE_MY_SPRITES_MODAL,
+  OPEN_MY_IMAGES_MODAL,
+  CLOSE_MY_IMAGES_MODAL,
   OPEN_SETUP_CHOICES_MODAL,
   CLOSE_SETUP_CHOICES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
@@ -41,7 +41,6 @@ const initialState = {
   imageCanvasTextureId: null,
   isSelectBackgroundColorModalOpen: false,
   isGameMetadataModalOpen: false,
-  isSetupDefaultsModalOpen: false,
   openLists: {
   },
   verticalLinearSteppers: {
@@ -152,12 +151,12 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isSelectAggregateColorOpen: false
       }
-    case OPEN_MY_SPRITES_MODAL: 
+    case OPEN_MY_IMAGES_MODAL: 
       return {
         ...state,
         isMyImagesModalOpen: true
       }
-    case CLOSE_MY_SPRITES_MODAL:
+    case CLOSE_MY_IMAGES_MODAL:
       return {
         ...state,
         isMyImagesModalOpen: false
@@ -183,16 +182,6 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isClassBoxModalOpen: false,
         classBoxClassType: null
-      }
-    case OPEN_SETUP_CHOICES_MODAL: 
-      return {
-        ...state,
-        isSetupDefaultsModalOpen: true,
-      }
-    case CLOSE_SETUP_CHOICES_MODAL:
-      return {
-        ...state,
-        isSetupDefaultsModalOpen: false
       }
     case OPEN_JSON_VIEWER: 
       return {
