@@ -49,7 +49,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
     return
   }
 
-  const viewWidth = (window.innerHeight + (window.innerHeight * .4) - 4);
+  const viewWidth = (window.innerHeight + (window.innerHeight * .65) - 4);
   const viewPadding = (window.innerWidth - viewWidth)/2
   const xPercent = (e.clientX - viewPadding)/viewWidth
 

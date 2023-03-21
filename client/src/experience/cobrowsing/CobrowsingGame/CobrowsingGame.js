@@ -13,7 +13,7 @@ import CobrowsingToolbar from '../CobrowsingToolbar/CobrowsingToolbar';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { GAME_EDITOR_VIDEO_IID } from '../../../constants/interfaceIds';
 
-const CobrowsingGame = ({ rootFontSize, lobby: { lobby: { guideId } }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserId }, video: { isInsideVideoCall }, myTracks, userTracks}) => {   
+const CobrowsingGame = ({ rootFontSize, lobby: { lobby: { guideId } }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
   return <GameEditor 
     rootFontSize={rootFontSize}
     isObscured

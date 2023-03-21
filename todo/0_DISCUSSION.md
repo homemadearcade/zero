@@ -6,4 +6,6 @@ Also like use the BACKGROUND BACKGROUND as like an animation space where we give
 
 Themed animations all around the newly freed up areas
 
+YES HOW TO MAKE IT JUICEY....JUIECTY JUICEY. Voice to text thin that comes down from spencer??
+
 ----

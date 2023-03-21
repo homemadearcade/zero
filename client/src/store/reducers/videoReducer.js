@@ -16,7 +16,7 @@ import {
 } from '../types';
 
 function defaultBypass() {
-  return false //inIframe() || isLocalHost()// || 
+  return inIframe() || isLocalHost()// || 
 }
 
 const initialState = {
@@ -120,7 +120,6 @@ export default function videoReducer(state = initialState, { type, payload }) {
         }
       }
     case SET_CURRENT_VIDEO_TRACK_INTERFACE_ID: {
-      console.log(payload.interfaceId)
       return {
         ...state,
         currentVideoTrackInterfaceId: {

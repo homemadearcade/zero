@@ -4,6 +4,16 @@
 
 CHORES BACKLOG
 
+
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+DEBUGGING
+
+--------------------------------------------------------------------------------------
+
+if theres no player spawn zone it leads to the camrea not being destroyed thing? so thats a way to reproduce the bug FYI
+
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -32,15 +42,9 @@ GAME ORGANIZATION
 
 window.socket -> import sockets like the way the store is imported
 
-Look up x, y, on phaser instance should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
-
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the phaser instance??
 
-Outline Class ( for eraser and entityInstance, and camerapreview? )
-
 respawn on GameInstance -> spawn ( use this when initializting game too )
-
-only load spritesheets that are added for 'play game' mode
 
 HostCanvas
 ClientCanvas
@@ -48,11 +52,6 @@ ClientCanvas
   Canvas
 
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
-
-Try to remove getState() and getCobrowsingState() from inside of game... standardize this better
-
-metadata.interfaceColor -> Theme property on the game
-
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

@@ -11,7 +11,6 @@ Randomizations
       Map based, density, total items, etc
   I think its called ( Spawn Group )
     And yeah I think maybe you make a spawn group first before you can call 'spawn'
-    Player View should be a zone, Another zone option for the 'Whole game'
   and then it also becomes 'Spawn Instance' once you run it
 
 TOUR component for admins? There this 'tour component' I found when searching ui libraries, its dope!
@@ -40,3 +39,5 @@ TIMER SYSTEM
   It would be awesome to also be able to have a timer for the properties of an object. Where u can morph their property over time.
 
   LOOK @ TWEENS?
+
+Voice to TExt? NLP Tab? Create 2 X with 8 layers, etc, eetc

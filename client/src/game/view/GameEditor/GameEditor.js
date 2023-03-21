@@ -80,6 +80,7 @@ const GameEditor = ({
   closeJsonViewer,
   isObscured,
   rootFontSize,
+  children,
   gameRoom: { gameRoom: { gameState } },
   gameModel: { gameModel, isLoading },
   playerInterface: { cutsceneId }
@@ -141,6 +142,7 @@ const GameEditor = ({
       </GameViewObscured> : <GameView>
         {renderOverlay()}
       </GameView>}
+      {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
         {showColumns && gameModel && <>

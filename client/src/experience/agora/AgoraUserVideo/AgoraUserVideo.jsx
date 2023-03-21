@@ -49,8 +49,6 @@ const AgoraUserVideo = ({
     }
   }, [userId])
 
-  console.log(currentVideoTrackInterfaceId[userId])
-
   function renderPlaceholder() {
     return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
       {user && <div style={{position: 'relative', backgroundColor: stringToColour(user.id), padding: '1em'}}>
