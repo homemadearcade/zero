@@ -7,7 +7,7 @@ import { nodeSize } from '../constants';
 import { BACKGROUND_LAYER_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, UI_CANVAS_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
-import { getTextureMetadata } from '../../utils/utils';
+import { getImageUrlFromTextureId, getTextureMetadata } from '../../utils/utils';
 import { EraserSingleLayer } from '../drawing/EraserSingleLayer';
 import store from '../../store';
 
@@ -198,7 +198,7 @@ export class CodrawingScene extends Phaser.Scene {
           this.spriteSheetsToLoad.push(spriteSheetName)
         }
       } else {
-        this.load.image(textureId, window.awsUrl + textureId)
+        this.load.image(textureId, getImageUrlFromTextureId(textureId))
       }
     })
 

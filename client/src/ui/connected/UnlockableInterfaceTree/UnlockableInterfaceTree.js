@@ -311,7 +311,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
             addInterfacePreset({
               name: presetName,
               description: presetDescription,
-              ids: unlockableInterfaceIds
+              interfaceIds: unlockableInterfaceIds
             })
             setIsAddPresetModalOpen(false)
           }}>Save</Button>
@@ -334,7 +334,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
                     onClick={async () => {
                       await updateArcadeGameCharacter({
                         userId: userId,
-                        unlockableInterfaceIds : interfacePreset.ids
+                        unlockableInterfaceIds : interfacePreset.interfaceIds
                       })
                       setIsMorphPresetModalOpen(false)
                       await getUserById(userId)

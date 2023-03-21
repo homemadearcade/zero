@@ -27,7 +27,7 @@ import _ from 'lodash';
 import store from '..';
 import {  BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_ID, initialStageId, PLAYGROUND_LAYER_CANVAS_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
-import { addDefaultsToGameModel, addLibraryToGameModel, cleanGameModel, enrichGameModel, getTextureIdForLayerCanvasId } from '../../utils';
+import { addDefaultsToGameModel, addLibraryToGameModel, cleanGameModel, enrichGameModel, getImageUrlFromTextureId, getTextureIdForLayerCanvasId } from '../../utils';
 import { addCanvasImage } from './canvasImageActions';
 import { IMAGE_TYPE_LAYER } from '../../constants';
 
@@ -212,20 +212,27 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
 };
 
 export async function addLayerCanvasTexturesForArcadeGameStage(gameId, stageId) {
+  const backgroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, BACKGROUND_LAYER_CANVAS_ID)
+  const playgroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, PLAYGROUND_LAYER_CANVAS_ID)
+  const foregroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, FOREGROUND_LAYER_CANVAS_ID)
+
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
-    textureId: getTextureIdForLayerCanvasId(gameId, stageId, BACKGROUND_LAYER_CANVAS_ID), 
+    imageUrl: getImageUrlFromTextureId(backgroundTextureId),
+    textureId: backgroundTextureId, 
     userId: store.getState().auth.me.id,
     arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
+    imageUrl: getImageUrlFromTextureId(playgroundTextureId),
     textureId: getTextureIdForLayerCanvasId(gameId, stageId, PLAYGROUND_LAYER_CANVAS_ID), 
     userId: store.getState().auth.me.id,
     arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
+    imageUrl: getImageUrlFromTextureId(foregroundTextureId),
     textureId: getTextureIdForLayerCanvasId(gameId, stageId, FOREGROUND_LAYER_CANVAS_ID), 
     userId: store.getState().auth.me.id,
     arcadeGame: gameId

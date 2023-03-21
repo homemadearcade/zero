@@ -30,6 +30,8 @@ Unauthenticate socket when logging out
 GAME ORGANIZATION
 --------------------------------------------------------------------------------------
 
+window.socket -> import sockets like the way the store is imported
+
 Look up x, y, on phaser instance should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 
 Physics member? Cuz right now movement is like two members and like ok physics and graphics for an object can maybe just be on the phaser instance??
@@ -37,6 +39,8 @@ Physics member? Cuz right now movement is like two members and like ok physics a
 Outline Class ( for eraser and entityInstance, and camerapreview? )
 
 respawn on GameInstance -> spawn ( use this when initializting game too )
+
+only load spritesheets that are added for 'play game' mode
 
 HostCanvas
 ClientCanvas
@@ -65,3 +69,5 @@ SHORT URLS
   Lobby.lobbyId
   game.gameId
   these can be my own custom ids and use them for urls instead of the mongodb ids
+
+OPEN/CLOSE should all be TOGGLE with a value prop

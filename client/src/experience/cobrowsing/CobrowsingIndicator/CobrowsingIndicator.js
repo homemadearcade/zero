@@ -11,7 +11,6 @@ import { GAME_EDITOR_ACTIVITY } from '../../../constants';
 
 const CobrowsingIndicator = ({
   cobrowsing: { isSubscribedCobrowsing, isActivelyCobrowsing },
-  lobby: { lobby: { currentActivity }},
   toggleActiveCobrowsing
 }) => {
   
@@ -22,7 +21,6 @@ const CobrowsingIndicator = ({
   > 
     <Icon icon="faPenToSquare"/>
     <Switch
-      disabled={currentActivity !== GAME_EDITOR_ACTIVITY}
       onChange={async () => {
         toggleActiveCobrowsing()
       }}
@@ -34,7 +32,6 @@ const CobrowsingIndicator = ({
 
 const mapStateToProps = (state) => ({
   cobrowsing: state.cobrowsing,
-  lobby: state.lobby
 });
 
 export default compose(

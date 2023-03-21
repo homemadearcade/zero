@@ -1,6 +1,7 @@
 --
 
-Spawn bar when you have selected gravity
+Destroy Tagged Player
+Destroy Tagged X
 
 ---
 

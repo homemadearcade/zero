@@ -8,20 +8,18 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { GAME_EDITOR_ACTIVITY } from '../../../constants';
 import store from '../../../store';
 
-const ConstellationZoom = ({gameRoom: { gameRoom }}) => {
+const ConstellationZoom = ({gameRoom: { gameRoom }, width, height}) => {
   const [zoomOutImage, setZoomOutImage] = useState()
 
   useEffect(() => {
     let timeout =  setTimeout(() => {attemptConstellation()}, 0)
 
     async function attemptConstellation() {
-      const state = store.getState()
-
-      if(state.lobby.lobby?.currentActivity === GAME_EDITOR_ACTIVITY && gameRoom.isPoweredOn) {
+      if(gameRoom.isPoweredOn) {
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
       
-        const { imgCanvas } = await scene.getImageFromGame('constellation')
+        const { imgCanvas } = await scene.getImageOfCurrentView('constellation')
 
         setZoomOutImage(imgCanvas.toDataURL())
       } else {
@@ -35,8 +33,12 @@ const ConstellationZoom = ({gameRoom: { gameRoom }}) => {
     }
   }, [gameRoom.isPoweredOn])
 
+  if(zoomOutImage === false) {
+    return <Constellation width={width} height={height} className="Constellation--overlay"></Constellation>
+  }
+
  return <div className="ConstellationZoom">
-    {zoomOutImage && <Constellation className="Constellation--overlay" zoomOut zoomOutImage={zoomOutImage}>
+    {zoomOutImage && <Constellation width={width} height={height} className="Constellation--overlay" zoomOut zoomOutImage={zoomOutImage}>
     </Constellation>}
  </div>
 };

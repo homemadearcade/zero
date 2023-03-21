@@ -8,6 +8,7 @@ import {
 } from '../constants';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { updateTheme } from '../../store/actions/themeActions';
+import { getImageUrlFromTextureId } from '../../utils';
 
 export class PreloaderScene extends Phaser.Scene {
   constructor({ isNetworked, isEdit, hostUserId, gameInstanceId, id, gameId}) {
@@ -45,8 +46,8 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image(DEFAULT_CLEAR_TEXTURE_ID, '/assets/images/eraser10x10.png')
 
     const gameModel = store.getState().gameModel.gameModel
-    Object.keys(gameModel.canvasImages).forEach((textureId) => {
-      this.load.image(textureId, window.awsUrl + textureId)
+    Object.keys(gameModel.textures).forEach((textureId) => {
+      this.load.image(textureId, getImageUrlFromTextureId(textureId))
     })
 
     Object.keys(window.spriteSheets).forEach((spriteSheetId) => {

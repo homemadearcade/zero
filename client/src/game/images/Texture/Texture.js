@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { getTextureMetadata, getTextureData } from '../../../utils/utils'
+import { getTextureMetadata, getSpriteSheetData, getImageUrlFromTextureId } from '../../../utils/utils'
 import './Texture.scss'
 
 export default function Texture(props) {
@@ -69,7 +69,8 @@ export default function Texture(props) {
 
     const { spriteSheetName } = getTextureMetadata(props.textureId)
     if(spriteSheetName) {
-      const texture = getTextureData(props.textureId) 
+      const texture = getSpriteSheetData
+(props.textureId) 
       if(!texture) return console.log('something messed up in Texture')
       x = texture.x
       y = texture.y
@@ -91,7 +92,7 @@ export default function Texture(props) {
       };
     } else {
       const loadingImage = new Image();
-      loadingImage.src = window.awsUrl + props.textureId;
+      loadingImage.src = getImageUrlFromTextureId(props.textureId);
   
       loadingImage.onload = () => {
         context.clearRect(0, 0, canvas.width, canvas.height);

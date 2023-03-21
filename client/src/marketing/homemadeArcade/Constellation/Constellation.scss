@@ -2,10 +2,10 @@
   position: relative;
 
   &--overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    z-index: 3;
   }
 
   &__zoom-out-image {
@@ -19,9 +19,9 @@
     right: 0;
     top: 0;    
     height: 100%;
-    width: 100%;
+    width: auto;
     transition: all 3s ease;
-    z-index: 2;
+    z-index: 3;
   }
 
   .shrink {

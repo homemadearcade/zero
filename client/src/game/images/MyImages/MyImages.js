@@ -7,11 +7,11 @@ import './MyImages.scss';
 import Texture from '../Texture/Texture';
 
 const MyImages = ({
-  canvasImages,
+  textures,
   onClickTexture,
 }) => {
 
-  const textureIds = Object.keys(canvasImages)
+  const textureIds = Object.keys(textures)
 
   return <div className="MyImages">
     {textureIds.map((textureId) => {
@@ -21,7 +21,7 @@ const MyImages = ({
 };
 
 const mapStateToProps = (state) => ({
-  canvasImages: state.gameModel.gameModel.canvasImages,
+  textures: state.gameModel.gameModel.textures,
 });
 
 export default compose(

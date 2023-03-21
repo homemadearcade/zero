@@ -9,21 +9,23 @@ import ActivitySwitcher from '../../activity/ActivitySwitcher/ActivitySwitcher';
 import Chatroom from '../../Chatroom/Chatroom';
 import Tabs from '../../../ui/Tabs/Tabs';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { MONOLOGUE_ACTIVITY } from '../../../constants';
 import LobbyOverview from '../LobbyOverview/LobbyOverview';
+import ActivityView from '../../activity/ActivityView/ActivityView';
+import classNames from 'classnames';
 
 const LobbyDashboard = ({
-  lobby: { lobby },
+  lobby: { lobby, isLobbyDashboardOpen },
   myTracks,
   userTracks,
 }) => {
   return (
-    <div className="LobbyDashboard">
+    <div className={classNames("LobbyDashboard", { 'LobbyDashboard--preview': isLobbyDashboardOpen, 'LobbyDashboard--view': !isLobbyDashboardOpen})}>
       <div className="LobbyDashboard__content">
         <div className="LobbyDashboard__preview">
           <div className="LobbyDashboard__video-container">
             <AgoraUserVideo className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}/>
           </div>
+          <ActivityView myTracks={myTracks} userTracks={userTracks}/>
           <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userId={lobby.participantId}/>
         </div>
         <Tabs tabs={[

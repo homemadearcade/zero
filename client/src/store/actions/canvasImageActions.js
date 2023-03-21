@@ -24,7 +24,7 @@ import {
 import { uploadToAws } from '../../utils/networkUtils';
 import { editGameModel } from './gameModelActions';
 
-export const saveCanvasImage  = ({imageFile, textureId, imageType}) => async (dispatch, getState) => {
+export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, imageType}) => async (dispatch, getState) => {
   dispatch({
     type: SAVE_CANVAS_IMAGE_LOADING,
     payload: {
@@ -38,7 +38,7 @@ export const saveCanvasImage  = ({imageFile, textureId, imageType}) => async (di
     // this is good here because it sends an event out to update this image/load it
     // but do we need that anymore?
     dispatch(editGameModel({
-      canvasImages: { 
+      textures: { 
         [textureId] : {
           textureId: textureId,
           imageType: imageType

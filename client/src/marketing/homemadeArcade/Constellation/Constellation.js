@@ -10,21 +10,24 @@ import './Constellation.scss'
 const stars = 350
 
 export class Constellation extends React.Component {
-  state = {}
-  xVel = Array(stars);
-  yVel = Array(stars);
-  xPos = Array(stars);
-  yPos = Array(stars);
-  s = Array(stars);
-  a = 0;
-  b = 0;
-  c = 100;
-  p = 10;
-  sf = 1;
-  width = window.innerWidth - 2;
-  height = window.innerHeight - 2;
-  zoom = 1;
-  maxZoom = 32;
+  constructor(props) {
+    super(props)
+    this.state = {}
+    this.xVel = Array(stars);
+    this.yVel = Array(stars);
+    this.xPos = Array(stars);
+    this.yPos = Array(stars);
+    this.s = Array(stars);
+    this.a = 0;
+    this.b = 0;
+    this.c = 100;
+    this.p = 10;
+    this.sf = 1;
+    this.width = props.width ? props.width : (window.innerWidth - 2);
+    this.height = props.height ? props.height : (window.innerHeight - 2);
+    this.zoom = 1;
+    this.maxZoom = 32;
+  }
 
 	setup = (p5, parentRef) => {
     if(this.props.zoomOut) { 

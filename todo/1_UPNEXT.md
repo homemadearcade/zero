@@ -15,6 +15,11 @@ PUSH UI STATE ( Envelope Icon )
 
 AUTOGENERATE TAGS
   <!-- [transformIntoTagId]: createLibraryTag(transformIntoTagId, 'Transform Into', '#FFFFFF'),-->
+  spawn into hero camera, spawn into game
+    MAKE HERO CAMERA A ZONE. The zone selected for the heros camera can be resized and the camera will change based on that. That zone gets a tag. Player Camera
+    Another Zone for the whole world. It is NEVER visible. isDeeplyHidden
+    Run effects inside of the Spawn bar when you have selected gravity
+  Remove Tag, Add Tag Effect
 
 Filter object instances that are not visible in the snapshot taker and eraser
 

@@ -9,6 +9,7 @@ import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import MyImagesModal from '../../images/MyImagesModal/MyImagesModal';
 import { closeMyImagesModal, openMyImagesModal } from '../../../store/actions/gameSelectorActions';
+import { getImageUrlFromTextureId } from '../../../utils';
 
 const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openMyImagesModal, closeMyImagesModal, gameSelector: { isMyImagesModalOpen} }) => {
   const metadata = gameModel.metadata
@@ -39,7 +40,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
 
   function renderImageSelect() {
     return <>
-      {imageUrl  && <img className="GameMetadataForm__image" alt={title + ' image'} src={window.awsUrl + imageUrl}/>}
+      {imageUrl  && <img className="GameMetadataForm__image" alt={title + ' image'} src={imageUrl}/>}
       <Button onClick={() => {
         openMyImagesModal()
       }}>Select Image</Button>
@@ -81,7 +82,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
         <Button type="submit" onClick={handleSubmit(submit)}>Save</Button>
       </form>
       {isMyImagesModalOpen && <MyImagesModal onClickTexture={(textureId) => {
-        setImageUrl(textureId)
+        setImageUrl(getImageUrlFromTextureId(textureId))
         closeMyImagesModal()
       }}/>}
     </div>

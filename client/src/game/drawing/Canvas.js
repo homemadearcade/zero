@@ -1,9 +1,9 @@
 import Phaser from "phaser";
 import store from "../../store";
-import { urlToFile } from "../../utils/utils";
+import { getImageUrlFromTextureId, urlToFile } from "../../utils/utils";
 import _ from "lodash";
 import { IMAGE_CANVAS_MODAL_CANVAS_ID, UNDO_MEMORY_MAX } from "../constants";
-import { editCanvasImage, saveCanvasImage } from "../../store/actions/canvasImageActions";
+import { editCanvasImage, uploadCanvasImageAndAddToGameModel } from "../../store/actions/canvasImageActions";
 import { MARK_CANVAS_IMAGE_UNSAVED } from "../../store/types";
 import { IMAGE_TYPE_CANVAS } from "../../constants";
 
@@ -57,7 +57,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
         const imageFile = await urlToFile(bufferCanvas.toDataURL(), textureId, 'image/png')
         if(!this.strokeHistory.length) this.markSaved()
 
-        await store.dispatch(saveCanvasImage({imageFile, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
+        await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, textureId, imageType: this.imageType || IMAGE_TYPE_CANVAS}))
 
         resolve(textureId)
       } catch(e) {
@@ -70,7 +70,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
 
   updateTexture = (options) => {
     this.scene.textures.remove(this.textureId)
-    this.scene.load.image(this.textureId, window.awsUrl + this.textureId);
+    this.scene.load.image(this.textureId, getImageUrlFromTextureId(this.textureId));
     this.scene.load.once('complete', () => {
 
       // //sometimes this bugs out

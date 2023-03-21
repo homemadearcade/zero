@@ -14,13 +14,13 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { gameSize, nodeSize } from '../constants';
-import { urlToFile } from '../../utils/utils';
+import { getImageUrlFromTextureId, urlToFile } from '../../utils/utils';
 import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
-import { addCanvasImage, saveCanvasImage } from '../../store/actions/canvasImageActions';
+import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
 import { changeInstanceHovering } from '../../store/actions/hoverPreviewActions';
@@ -369,18 +369,20 @@ export class EditorScene extends GameInstance {
 
         const imageFile = await urlToFile(imgCanvas.toDataURL(), textureId, 'image/png')
 
+        const imageUrl = getImageUrlFromTextureId(textureId)
         await store.dispatch(addCanvasImage({
           textureId: textureId, 
           imageType: IMAGE_TYPE_SNAPSHOT,
+          imageUrl,
           userId: store.getState().auth.me.id,
           arcadeGame: store.getState().gameModel.gameModel?.id
         }))
 
-        await store.dispatch(saveCanvasImage({imageFile, textureId, imageType: IMAGE_TYPE_SNAPSHOT}))
+        await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, textureId, imageType: IMAGE_TYPE_SNAPSHOT}))
 
         store.dispatch(addSnackbar({
           message: 'Snapshot Saved!',
-          imageUrl: window.awsUrl + textureId
+          imageUrl
         }))
       }
     );
@@ -469,7 +471,7 @@ export class EditorScene extends GameInstance {
     }
   }
 
-  getImageFromGame(fileId) {
+  getImageOfCurrentView(fileId) {
     return new Promise((resolve, reject) => {
 
       try {
@@ -482,7 +484,10 @@ export class EditorScene extends GameInstance {
         snapCanvas.draw(this.entityInstanceGroup, 0,0)
         snapCanvas.draw(this.foregroundCanvasLayer, 0,0)
     
-        snapCanvas.snapshot(async function (image) {    
+        snapCanvas.snapshotArea(
+          Math.floor(boundaries.x), Math.floor(boundaries.y), 
+          Math.floor((boundaries.width)), 
+           Math.floor((boundaries.height)), async function (image) {    
           var imgCanvas = document.createElement("canvas"),
           imgContext = imgCanvas.getContext("2d");
           imgCanvas.width = image.width;
@@ -722,7 +727,7 @@ export class EditorScene extends GameInstance {
       } else {
         Object.keys(gameUpdate.canvasImages).forEach((id) => {
           const textureId = gameUpdate.canvasImages[id].textureId
-          this.load.image(textureId, window.awsUrl + textureId);
+          this.load.image(textureId, getImageUrlFromTextureId(textureId));
           this.load.once('complete', (idk) => {
             console.log('loaded', textureId)
           });

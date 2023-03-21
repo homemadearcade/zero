@@ -68,7 +68,7 @@ const GameCard = ({game, game: { metadata }, width, canEdit, canRemove, canPlay,
  return <Card className="GameCard" sx={{ width: width? width : 200 }}>
     <CardMedia
       component="img"
-      image={metadata.imageUrl ? window.awsUrl + metadata.imageUrl : ""}
+      image={metadata.imageUrl ? metadata.imageUrl : ""}
       alt={metadata.title}
     />
     <CardContent>

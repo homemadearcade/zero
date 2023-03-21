@@ -3,6 +3,7 @@ import store from '../store';
 import tinycolor from "tinycolor2";
 import { getHexIntFromHexString } from './editorUtils';
 import { nanoid } from 'nanoid'
+import html2canvas from 'html2canvas'
 
 export function getThemePrimaryColor() {
   const color = store.getState().theme.primaryColor
@@ -15,6 +16,29 @@ export function getThemePrimaryColor() {
       return `rgba(${r}, ${g}, ${b}, ${alpha})`
     }
   }
+}
+
+export function getScreenshotOfElement(element, posX, posY, width, height, callback) {
+    html2canvas(element, {
+        onrendered: function (canvas) {
+            var context = canvas.getContext('2d');
+            var imageData = context.getImageData(posX, posY, width, height).data;
+            var outputCanvas = document.createElement('canvas');
+            var outputContext = outputCanvas.getContext('2d');
+            outputCanvas.width = width;
+            outputCanvas.height = height;
+
+            var idata = outputContext.createImageData(width, height);
+            idata.data.set(imageData);
+            outputContext.putImageData(idata, 0, 0);
+            callback(outputCanvas.toDataURL().replace("data:image/png;base64,", ""));
+        },
+        width: width,
+        height: height,
+        useCORS: true,
+        taintTest: false,
+        allowTaint: false
+    });
 }
 
 export async function copyToClipboard(text) {

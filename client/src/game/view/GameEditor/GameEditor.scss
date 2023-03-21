@@ -3,7 +3,7 @@
   justify-content: center;
   position: relative;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 2px);
   // &--not-cobrowsing {
   // }
 
@@ -25,6 +25,12 @@
     .MuiList-root {
       background-color: rgba(25, 0, 0);
     }
+    .GameEditor__left-column {
+      background-color: rgba(25, 0, 0);
+    }
+    .GameEditor__right-column {
+      background-color: rgba(25, 0, 0);
+    }
   }
 
   &__left-column {
@@ -34,9 +40,6 @@
     background-color: #111;
     height: 100%;
 
-    &--cobrowsing {
-      background-color: rgba(25, 0, 0);
-    }
     // display: flex;
     // justify-content: center;
     // flex-direction: column;
@@ -59,9 +62,6 @@
     height: 100%;
 
     background-color: #111;    
-    &--cobrowsing {
-      background-color: rgba(25, 0, 0);
-    }
 
     overflow-y: scroll;
     &::-webkit-scrollbar {

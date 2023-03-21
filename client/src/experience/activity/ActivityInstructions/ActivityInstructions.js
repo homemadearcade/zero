@@ -198,7 +198,7 @@ const ActivityInstructions = ({
     }
   }
 
-  function unlockThis(description, ids) {
+  function unlockThis(description, interfaceIds) {
      return {
       id: description,
       title: <Typography component="h5" variant="h5">{description}</Typography>,
@@ -208,7 +208,7 @@ const ActivityInstructions = ({
       onClickNext: () => {
         updateArcadeGameCharacter({
           userId: lobby.participantId,
-          unlockableInterfaceIds: ids,
+          unlockableInterfaceIds: interfaceIds,
           merge: true
         })
       },

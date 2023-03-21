@@ -14,9 +14,9 @@ import {
   JOIN_LOBBY_LOADING,
   JOIN_LOBBY_SUCCESS,
   JOIN_LOBBY_FAIL,
-  GET_LOBBY_LOADING,
-  GET_LOBBY_SUCCESS,
-  GET_LOBBY_FAIL,
+  // GET_LOBBY_LOADING,
+  // GET_LOBBY_SUCCESS,
+  // GET_LOBBY_FAIL,
   EDIT_LOBBY_LOADING,
   EDIT_LOBBY_SUCCESS,
   EDIT_LOBBY_FAIL,
@@ -35,7 +35,8 @@ import {
   ON_LOBBY_UNDO,
   SEND_LOBBY_MESSAGE_LOADING,
   SEND_LOBBY_MESSAGE_SUCCESS,
-  SEND_LOBBY_MESSAGE_FAIL
+  SEND_LOBBY_MESSAGE_FAIL,
+  TOGGLE_LOBBY_DASHBOARD
 } from '../types';
 
 import ping from 'web-pingjs';
@@ -222,6 +223,15 @@ export const addLobby = (formData) => async (dispatch, getState) => {
       payload: { error: err?.response?.data.message || err.message },
     });
   }
+};
+
+export const toggleLobbyDashboard = (value) => (dispatch, getState) => {
+  dispatch({
+    type: TOGGLE_LOBBY_DASHBOARD,
+    payload: {
+      value
+    }
+  })
 };
 
 export const editLobby = (id, data) => async (dispatch, getState) => {

@@ -201,14 +201,13 @@ export function getTextureMetadata(textureId) {
   const endOfSpritesheetNameIndex = textureId.indexOf(spriteIndexIdentifier);
 
   if(endOfSpritesheetNameIndex === -1) {
-    const canvasImages = store.getState().gameModel.gameModel.canvasImages
-    if(canvasImages[textureId]) {
-      return {
-        isAwsImage: true
-      }
-    } else {
-      return {}
-    }
+    return {}
+    // const textures = store.getState().gameModel.gameModel.textures
+    // if(textures[textureId]) {
+    //   return {}
+    // } else {
+    //   return {}
+    // }
   }
 
   return {
@@ -217,10 +216,15 @@ export function getTextureMetadata(textureId) {
   }
 }
 
-export function getTextureData(textureId) {
+export function getSpriteSheetData
+(textureId) {
   const { spriteSheetName, spriteIndex } = getTextureMetadata(textureId)
   return window.spriteSheets[spriteSheetName]?.sprites[spriteIndex]
 }
+
+export function getImageUrlFromTextureId(textureId) {
+  return window.awsUrl + textureId
+} 
 
 
 export function closestToZero(numbers)

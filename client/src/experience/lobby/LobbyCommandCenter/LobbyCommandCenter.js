@@ -24,7 +24,7 @@ const LobbyCommandCenter = ({
     </div>
   }
 
-  function unlockThis(title, ids) {
+  function unlockThis(title, interfaceIds) {
     return <CommandItem
     id={title}
     title={title}
@@ -32,7 +32,7 @@ const LobbyCommandCenter = ({
     onClick={() => {
       updateArcadeGameCharacter({
         userId: lobby.participantId,
-        unlockableInterfaceIds: ids,
+        unlockableInterfaceIds: interfaceIds,
         merge: true
       })
     }}/>

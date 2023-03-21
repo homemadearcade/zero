@@ -4,6 +4,14 @@ import './Switch.scss'
 
 export default function({checked, onChange, labels, disabled}) {
   const switchEl = <Switch
+    sx={{
+      '& .MuiSwitch-switchBase.Mui-checked': {
+        transform: 'translateX(0.9em)'
+      },
+      '& .MuiSwitch-switchBase': {
+        padding: '0.2em'
+      }
+    }}
     disabled={disabled}
     size="small"
     onChange={onChange ? onChange : null}

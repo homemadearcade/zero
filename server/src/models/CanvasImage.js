@@ -9,6 +9,11 @@ const canvasImage = new Schema(
       required: true,
       unique: true,
     },
+    imageUrl : {
+      type: String,
+      required: true,
+      unique: true,
+    },
     imageType: {
       type: String,
       required: true,

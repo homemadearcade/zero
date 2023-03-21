@@ -14,9 +14,11 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import store from '../../../store';
 import useFitText from "use-fit-text";
 import { changeGameState } from '../../../store/actions/gameRoomActions';
+import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
 function GameStateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {
   const { fontSize, ref } = useFitText();
+  const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
 
   useEffect(() => {
     window.addEventListener('keydown', progressIfX)
@@ -40,7 +42,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
   function renderGameStateScreen() {
     if(gameState === START_STATE) {
       const playerClass = gameModel.entityClasses[gameModel.stages[gameModel.player.startingStageId].playerClassId]
-      return <Constellation notInteractive>
+      return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
         <Fade in><div className="GameStateScreen__content">
           <Typography font="2P" component="h2" variant="h2"><div ref={ref} style={{fontSize}} className='GameStateScreen__title'>
               {gameModel.metadata.title}
@@ -57,7 +59,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
     }
 
     if(gameState === GAME_OVER_STATE) {
-      return <Constellation notInteractive>
+      return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
         <Fade in><div className="GameStateScreen__content">
           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
           {gameStateMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='GameStateScreen__title' >
@@ -71,7 +73,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
       </Constellation>
     }
     if(gameState === WIN_GAME_STATE) {
-      return <Constellation notInteractive>
+      return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
         <Fade in><div className="GameStateScreen__content">
           <Typography font="2P" component="h2" variant="h2">You won!</Typography>
           {gameStateMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='GameStateScreen__title'>

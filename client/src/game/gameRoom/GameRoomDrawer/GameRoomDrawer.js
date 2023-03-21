@@ -18,6 +18,7 @@ import GameRoomOverview from '../GameRoomOverview/GameRoomOverview';
 import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobby/LobbyOverview/LobbyOverview';
 import ActivityOverlayToggle from '../../../experience/activity/ActivityOverlayToggle/ActivityOverlayToggle';
+import LobbyDashboardToggle from '../../../experience/lobby/LobbyDashboardToggle/LobbyDashboardToggle';
 
 const GameRoomDrawer = ({
   lobby: { lobby, lobby: { currentActivity } },
@@ -35,6 +36,7 @@ const GameRoomDrawer = ({
         }}>
           <Icon icon="faBars"/>
         </div>}
+        <LobbyDashboardToggle/>
         <CobrowsingIndicator/>
         <GameRoomPowerIndicator/>
         <ActivityOverlayToggle/>
@@ -65,10 +67,6 @@ const GameRoomDrawer = ({
               label: 'Lobby',
               body: <>
                 <LobbyOverview myTracks={myTracks} userTracks={userTracks}></LobbyOverview>
-                <Link onClick={() => {
-                  setIsDrawerOpen(false)
-                }} to={`/lobby/${lobby.id}`}>Go to Lobby</Link>
-                <br/><br/>
                 <Link to="/lobbys">Exit Lobby</Link>
               </>
             },

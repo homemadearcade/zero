@@ -11,7 +11,7 @@ const interfacePreset = new Schema(
     description: {
       type: String,
     },
-    ids: {
+    interfaceIds: {
       type: Object,
       default: {}
     },
@@ -24,7 +24,7 @@ interfacePreset.methods.toJSON = function () {
   return {
     id: this._id.toString(),
     description: this.description,
-    ids: this.ids,
+    interfaceIds: this.interfaceIds,
     name: this.name,
     isRemoved: this.isRemoved
   };

@@ -84,20 +84,19 @@ const GameEditor = ({
   gameModel: { gameModel, isLoading },
   playerInterface: { cutsceneId }
 }) => {
-  useEffect(() => {
-    const ogStyle = document.getElementById('GameEditor').style 
-   
+  useEffect(() => {   
     setTimeout(() => {
       document.getElementById('GameEditor').style =`font-size: ${rootFontSize || '2vh'}`;
     })
-    
+  }, [rootFontSize])
+
+  useEffect(() => {
     return () => {
       clearEditor()
       clearGameFormEditor()
       clearGameViewEditor()
-      document.getElementById('GameEditor').style  = ogStyle
+      // document.getElementById('GameEditor').style  = ogStyle
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const showColumns = !cutsceneId && !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
@@ -118,7 +117,6 @@ const GameEditor = ({
       {isGridViewOn && !isSectionEditorOpen && !isSnapshotTakerOpen && <GridViewArrows/>}
     </>
   }
-
 
   function renderBody() {
     // if(!gameModel && !isLoading) {

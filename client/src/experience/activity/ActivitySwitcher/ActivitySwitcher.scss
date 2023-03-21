@@ -2,31 +2,10 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 85%;
   overflow-y: scroll;
-
-  &__window {
-    position: relative;
-    width: 100%;
-    height: 60%;
-    // border: 1px solid white;
-  }
 
   &__state {
     width: auto;
     position: relative;
-  }
-
-  &__star {
-    background-color: rgba(0,0,0,0.2);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    padding-bottom: 10%;
-    align-items: end;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 }

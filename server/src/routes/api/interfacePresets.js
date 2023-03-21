@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const interfacePresets = await InterfacePreset.find().sort({ createdAt: 'desc' }).select('name ids isRemoved description');
+    const interfacePresets = await InterfacePreset.find().sort({ createdAt: 'desc' }).select('name interfaceIds isRemoved description');
 
     res.json({
       interfacePresets: interfacePresets.map((m) => {

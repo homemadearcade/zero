@@ -16,17 +16,15 @@ import withLobby from '../../hoc/withLobby';
 import LobbyDashboard from '../../experience/lobby/LobbyDashboard/LobbyDashboard';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import CobrowsingSession from '../../hoc/CobrowsingSession';
-import AskFullscreen from '../../hoc/askFullscreen';
 import LobbyErrorStates from '../../experience/lobby/LobbyErrorStates/LobbyErrorStates';
 import GameRoomDrawer from '../../game/gameRoom/GameRoomDrawer/GameRoomDrawer';
-import ActivityView from '../../experience/activity/ActivityView/ActivityView';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
 import MultiplayerGameRoomContext from '../../hoc/MultiplayerGameRoomContext';
 import { ADMIN_ROLE, WAITING_ACTIVITY } from '../../constants';
 
 const LobbyPage = ({
-  lobby: { lobby },
+  lobby: { lobby, isLobbyDashboardOpen },
   auth: { me },
   gameRoom: { gameRoom },
   myTracks,
@@ -48,25 +46,14 @@ const LobbyPage = ({
 
   return <RouterSwitch>
       <Route exact path={path}>
+        {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
         <MultiplayerGameRoomContext gameRoomId={lobby.gameRoomId}>
           <CobrowsingSession userId={lobby.participantId}>
             <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
           </CobrowsingSession>
         </MultiplayerGameRoomContext>
         <LobbyErrorStates/>
-        <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>
-      </Route>
-      <Route path={`${path}/join/:cobrowsingUserId`}>
-        {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
-        <MultiplayerGameRoomContext gameRoomId={lobby.gameRoomId}>
-          <CobrowsingSession>
-            <AskFullscreen>
-              <ActivityView myTracks={myTracks} userTracks={userTracks}/>
-            </AskFullscreen>
-          </CobrowsingSession>
-        </MultiplayerGameRoomContext>
-        <LobbyErrorStates/>
-       {lobby.currentActivity !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
+        {lobby.currentActivity !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
       </Route>
     </RouterSwitch>
 };

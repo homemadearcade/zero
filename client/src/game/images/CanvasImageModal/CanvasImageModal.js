@@ -25,6 +25,7 @@ import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorAction
 import { addCanvasImage } from '../../../store/actions/canvasImageActions';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
+import { getImageUrlFromTextureId } from '../../../utils';
 
 const CanvasImageModal = ({
   clearBrush,
@@ -48,6 +49,7 @@ const CanvasImageModal = ({
     async function goAddTexture() {
       await addCanvasImage({
         textureId: textureId, 
+        imageUrl: getImageUrlFromTextureId(textureId),
         imageType: IMAGE_TYPE_SPRITE,
         userId: me?.id,
         arcadeGame: gameModel.id
@@ -154,7 +156,7 @@ const CanvasImageModal = ({
                 handleSave(textureId)
                 return
               }
-              gameInstanceScene.load.image(textureId, window.awsUrl + textureId);
+              gameInstanceScene.load.image(textureId, getImageUrlFromTextureId(textureId));
               gameInstanceScene.load.once('complete', () => {
                 handleSave(textureId)
               });

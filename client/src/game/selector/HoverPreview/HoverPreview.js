@@ -188,7 +188,7 @@ const HoverPreview = ({
     //   }}>Take Snapshot</MenuItem>
     // </Unlockable>
    return  <>
-    {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${window.awsUrl + imageBackground}"` : ''}}></div>}
+    {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${imageBackground}"` : ''}}></div>}
     <div className="HoverPreview__title" onClick={() => {
       // if(currentSelectorList === SELECTOR_MAP_LIST) changeSelectorList(SELECTOR_ABSTRACT_LIST)
     }}>

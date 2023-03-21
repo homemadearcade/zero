@@ -18,6 +18,7 @@ import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import { DIALOGUE_SHORTCUT_IID } from '../../../constants/interfaceIds';
+import { getImageUrlFromTextureId } from '../../../utils';
 
 const CreateCutscene = ({ 
   closeCreateCutscene, 
@@ -190,7 +191,7 @@ const CreateCutscene = ({
     </div>
     {isMyImagesModalOpen && <MyImagesModal onClickTexture={(textureId) => {
       const scenes = cutscene.scenes.slice()
-      scenes[cutscene.indexSelected].imageUrl = textureId
+      scenes[cutscene.indexSelected].imageUrl = getImageUrlFromTextureId(textureId)
       updateCreateCutscene({
         scenes,
       })

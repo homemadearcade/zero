@@ -4,9 +4,9 @@ import store from "../store"
 import { getCobrowsingState } from "./cobrowsingUtils"
 
 export function getInterfaceIdAliases(interfaceId) {
-  const ids = interfaceId.split(' ')
+  const interfaceIds = interfaceId.split(' ')
 
-  const idLayers = ids.map((id) => {
+  const idLayers = interfaceIds.map((id) => {
     return id.split('/')
   })
 

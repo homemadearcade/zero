@@ -20,13 +20,15 @@ import {
   LOBBY_UNDO_LOADING,
   LOBBY_UNDO_SUCCESS,
   LOBBY_UNDO_FAIL,
-  SEND_LOBBY_MESSAGE_FAIL
+  SEND_LOBBY_MESSAGE_FAIL,
+  TOGGLE_LOBBY_DASHBOARD
 } from '../types';
 
 const initialState = {
   lobby: {
     members: []
   },
+  isLobbyDashboardOpen: true,
   isLoading: false,
   error: null,
   isJoining: false,
@@ -36,6 +38,11 @@ const initialState = {
 
 export default function lobbyReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case TOGGLE_LOBBY_DASHBOARD: 
+      return {
+        ...state,
+        isLobbyDashboardOpen: payload.value
+      }
     case LOBBY_UNDO_LOADING: 
       return {
         ...state,

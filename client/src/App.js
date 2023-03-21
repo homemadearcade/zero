@@ -175,10 +175,15 @@ const themeDefaults = {
     },
     MuiSwitch: {
       styleOverrides: {
+        root: {
+          width: '2.5em',
+          height: '1.5em',
+          padding: '0.3em',
+        },
         thumb: {
           borderRadius: 0,
-          // width: '1em',
-          // height: '1em',
+          width: '1em !important',
+          height: '1em !important',
         },
         track: {
           // height: '.4em',

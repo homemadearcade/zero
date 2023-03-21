@@ -1,32 +1,13 @@
-.MonologueExperience {
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-
-  &__speaker {
-    width: 50%;
-    height: 50%;
-    background-color: #444;
-  }
-}
-
-.CreditsExperience {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
-  padding-bottom: 2em;
-
-  .GameCard {
-    margin: 0 auto;
-  }
-}
-
 .ActivityView {
   width: 165vh;
   height: 100vh;
   margin: 0 auto;
+  // transition: width 1s, height 1s;
+  position: relative;
+  overflow-y: scroll;
+
+  &--preview {
+    width: 82.5vh;
+    height: 50vh;
+  }
 }

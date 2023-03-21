@@ -22,7 +22,7 @@ const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeT
       <>
       <CardMedia
         component="img"
-        image={scene.imageUrl ? window.awsUrl + scene.imageUrl : ""}
+        image={scene.imageUrl ? scene.imageUrl : ""}
         alt={scene.title}
       />
       {isEditing && <Button onClick={onChooseNewImage}>Choose Image</Button>}

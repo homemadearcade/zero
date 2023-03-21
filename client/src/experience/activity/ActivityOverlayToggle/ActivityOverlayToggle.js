@@ -8,13 +8,14 @@ import './ActivityOverlayToggle.scss'
 import Switch from '../../../ui/Switch/Switch';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { updateLobbyUser } from '../../../store/actions/lobbyActions';
-import { GAME_EDITOR_ACTIVITY } from '../../../constants';
+import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
 
 const ActivityOverlayToggle = ({
-  lobby: { lobby: { id, members, currentActivity } },
+  lobby: { lobby: { id, members } },
   cobrowsing: { cobrowsingUser },
   gameRoom: { gameRoom: { isPoweredOn } },
-  updateLobbyUser
+  updateLobbyUser,
+  toggleActiveCobrowsing
 }) => {
   const user = members.filter(({id}) => {
     if(cobrowsingUser?.id === id) {
@@ -32,10 +33,11 @@ const ActivityOverlayToggle = ({
   > 
     <Icon icon="faStar"/>
     <Switch
-      disabled={currentActivity !== GAME_EDITOR_ACTIVITY || !isPoweredOn}
+      disabled={!isPoweredOn}
       size="small"
       checked={inOverlayView}
       onChange={async () => {
+        if(!inOverlayView) toggleActiveCobrowsing(true)
         updateLobbyUser({
           lobbyId: id,
           userId: cobrowsingUser.id, 
@@ -55,5 +57,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { updateLobbyUser }),
+  connect(mapStateToProps, { updateLobbyUser, toggleActiveCobrowsing }),
 )(ActivityOverlayToggle);
