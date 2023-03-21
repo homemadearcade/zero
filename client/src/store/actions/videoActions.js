@@ -11,7 +11,9 @@ import {
   BYPASS_VIDEO_CALL,
   SET_CUT_VIDEO,
   SET_CUT_AUDIO,
-  SET_VIDEO_TRACK_COMPONENT
+  SET_VIDEO_TRACK_INTERFACE_ID_OPEN,
+  SET_VIDEO_TRACK_INTERFACE_ID_CLOSED,
+  SET_CURRENT_VIDEO_TRACK_INTERFACE_ID
 } from '../types';
 
 import {
@@ -24,6 +26,7 @@ import { sendLobbyMessage } from './lobbyActions';
 import store from '..';
 import { inIframe } from '../../utils/webPageUtils';
 import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../constants';
+import { getHighestPriorityInterfaceId } from '../../utils';
 
 const config = { 
   mode: "rtc", codec: "vp8",
@@ -282,13 +285,49 @@ export const setCutAudio = (value, forceCobrowsingUpdate) => (dispatch, getState
   })
 }
 
-export const setVideoTrackComponent = ({componentId, userId}) => (dispatch, getState) => {
+export const setCurrentVideoTrackId = (userId, openIds) => (dispatch, getState) => {
+  const highestPriorityId  = getHighestPriorityInterfaceId(openIds)
+
   dispatch({
-    type: SET_VIDEO_TRACK_COMPONENT,
+    type: SET_CURRENT_VIDEO_TRACK_INTERFACE_ID,
     payload: {
-      componentId,
+      userId,
+      interfaceId: null
+    }
+  })
+
+  setTimeout(() => {
+    dispatch({
+      type: SET_CURRENT_VIDEO_TRACK_INTERFACE_ID,
+      payload: {
+        userId,
+        interfaceId: highestPriorityId
+      }
+    }, 300)
+  })
+}
+
+export const setVideoTrackInterfaceIdOpen = ({interfaceId, userId}) => (dispatch, getState) => {
+  dispatch({
+    type: SET_VIDEO_TRACK_INTERFACE_ID_OPEN,
+    payload: {
+      interfaceId,
       userId
     }
   })
+
+  dispatch(setCurrentVideoTrackId(userId, getState().video.videoTrackInterfaceIdsOpen[userId]))
+}
+
+export const setVideoTrackInterfaceIdClosed = ({interfaceId, userId}) => (dispatch, getState) => {
+  dispatch({
+    type: SET_VIDEO_TRACK_INTERFACE_ID_CLOSED,
+    payload: {
+      interfaceId,
+      userId
+    }
+  })
+
+  dispatch(setCurrentVideoTrackId(userId, getState().video.videoTrackInterfaceIdsOpen[userId]))
 }
 

@@ -10,11 +10,13 @@ import {
   BYPASS_VIDEO_CALL,
   SET_CUT_VIDEO,
   SET_CUT_AUDIO,
-  SET_VIDEO_TRACK_COMPONENT
+  SET_VIDEO_TRACK_INTERFACE_ID_OPEN,
+  SET_VIDEO_TRACK_INTERFACE_ID_CLOSED,
+  SET_CURRENT_VIDEO_TRACK_INTERFACE_ID
 } from '../types';
 
 function defaultBypass() {
-  return inIframe() || isLocalHost()// || 
+  return false //inIframe() || isLocalHost()// || 
 }
 
 const initialState = {
@@ -26,7 +28,8 @@ const initialState = {
   cutAudio: false,
   error: null,
   bypass: defaultBypass(),
-  videoTrackComponentIds: {}
+  videoTrackInterfaceIdsOpen: {},
+  currentVideoTrackInterfaceId: {}
 };
 
 export const initialVideoState = initialState
@@ -94,14 +97,38 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         audioTrackId: payload.audioTrackId
       };
-    case SET_VIDEO_TRACK_COMPONENT: 
+    case SET_VIDEO_TRACK_INTERFACE_ID_OPEN: 
       return {
         ...state,
-        videoTrackComponentIds:{
-          ...state.videoTrackComponentIds,
-          [payload.userId]: payload.componentId
+        videoTrackInterfaceIdsOpen: {
+          ...state.videoTrackInterfaceIdsOpen,
+          [payload.userId]: {
+            ...state.videoTrackInterfaceIdsOpen[payload.userId],
+            [payload.interfaceId]: true
+          }
         }
       }
+    case SET_VIDEO_TRACK_INTERFACE_ID_CLOSED: 
+      return {
+        ...state,
+        videoTrackInterfaceIdsOpen: {
+          ...state.videoTrackInterfaceIdsOpen,
+          [payload.userId]: {
+            ...state.videoTrackInterfaceIdsOpen[payload.userId],
+            [payload.interfaceId]: false
+          }
+        }
+      }
+    case SET_CURRENT_VIDEO_TRACK_INTERFACE_ID: {
+      console.log(payload.interfaceId)
+      return {
+        ...state,
+        currentVideoTrackInterfaceId: {
+          ...state.currentVideoTrackInterfaceId,
+          [payload.userId]: payload.interfaceId
+        }
+      }
+    }
     default:
       return state;
   }

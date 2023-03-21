@@ -12,6 +12,7 @@ import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import LobbyOverview from '../LobbyOverview/LobbyOverview';
 import ActivityView from '../../activity/ActivityView/ActivityView';
 import classNames from 'classnames';
+import { PARTICIPANT_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const LobbyDashboard = ({
   lobby: { lobby, isLobbyDashboardOpen },
@@ -23,7 +24,7 @@ const LobbyDashboard = ({
       <div className="LobbyDashboard__content">
         <div className="LobbyDashboard__preview">
           <div className="LobbyDashboard__video-container">
-            <AgoraUserVideo className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}/>
+            <AgoraUserVideo interfaceId={PARTICIPANT_VIDEO_IID} className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobby.participantId}/>
           </div>
           <ActivityView myTracks={myTracks} userTracks={userTracks}/>
           <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userId={lobby.participantId}/>

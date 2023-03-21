@@ -20,7 +20,6 @@ const ActivityOverlay = ({
   })[0]
 
   const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
-  console.log(gameEditorWidth)
 
   if(gameEditorHeight && gameEditorWidth && user.inOverlayView && (isActivelyCobrowsing || cobrowsingUser.id === me.id)) {
     return <ConstellationZoom width={gameEditorWidth} height={gameEditorHeight}/>

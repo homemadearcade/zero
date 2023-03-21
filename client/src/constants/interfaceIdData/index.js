@@ -13,6 +13,7 @@ import stageInterfaceIdData from "./stageInterfaceIdData";
 import cutsceneInterfaceIdData from "./cutsceneInterfaceIdData";
 import gameInterfaceIdData from "./gameInterfaceIdData";
 import tagInterfaceIdData from "./tagInterfaceIdData";
+import videoInterfaceIdData from "./videoInterfaceIdData";
 
 export const interfaceIdData = {
   ...rootInterfaceIdData,
@@ -29,5 +30,6 @@ export const interfaceIdData = {
   ...contextMenuInterfaceIdData,
   ...cutsceneInterfaceIdData,
   ...gameInterfaceIdData,
-  ...tagInterfaceIdData
+  ...tagInterfaceIdData,
+  ...videoInterfaceIdData
 }

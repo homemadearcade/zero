@@ -14,6 +14,7 @@ import { Container } from '@mui/system';
 import AgoraVideoPreview from '../../agora/AgoraVideoPreview/AgoraVideoPreview';
 import ExperienceCredits from '../ExperienceCredits/ExperienceCredits';
 import ActivityOverlay from '../ActivityOverlay/ActivityOverlay';
+import { MONOLOGUE_ACTIVITY_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const ActivityCurrent = ({
   lobby: { lobby: { currentActivity, guideId }},
@@ -43,6 +44,7 @@ const ActivityCurrent = ({
     if(currentActivity === MONOLOGUE_ACTIVITY) {
       return <div className="MonologueExperience">
         <AgoraUserVideo
+          interfaceId={MONOLOGUE_ACTIVITY_VIDEO_IID} 
           hideOverlay
           className="MonologueExperience__speaker"
           myTracks={myTracks}

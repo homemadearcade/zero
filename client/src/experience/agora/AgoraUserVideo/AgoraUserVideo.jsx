@@ -6,14 +6,14 @@ import './AgoraUserVideo.scss'
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 import { generateUniqueId, inIframe } from "../../../utils/webPageUtils";
 import { useEffect } from "react";
-import { setVideoTrackComponent } from "../../../store/actions/videoActions";
+import { setVideoTrackInterfaceIdClosed, setVideoTrackInterfaceIdOpen } from "../../../store/actions/videoActions";
 import axios from "axios";
 import { attachTokenToHeaders } from "../../../store/actions/authActions";
 import store from "../../../store";
 import { stringToColour } from "../../../utils/colorUtils";
 
 const AgoraUserVideo = ({ 
-  video: { isInsideVideoCall, videoTrackComponentIds}, 
+  video: { isInsideVideoCall, currentVideoTrackInterfaceId }, 
   hideOverlay, 
   className, 
   userId, 
@@ -23,27 +23,20 @@ const AgoraUserVideo = ({
   userTracks, 
   width, 
   height, 
-  setVideoTrackComponent
+  setVideoTrackInterfaceIdOpen,
+  setVideoTrackInterfaceIdClosed,
+  interfaceId
  }) => {
-  const [componentId] = useState(generateUniqueId())
   const [user, setUser] = useState()
-  
-  useEffect(() => {
-    if(!videoTrackComponentIds[userId]) {
-      // if(!inIframe()) console.log('setting')
-      setVideoTrackComponent({componentId, userId})
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [videoTrackComponentIds[userId]])
 
   useEffect(() => {
+    setTimeout(() => {
+      setVideoTrackInterfaceIdOpen({interfaceId, userId})
+    },100)
     return () => {
-      if(componentId === videoTrackComponentIds[userId]) {
-              // if(!inIframe()) console.log('unsetting')
-        setVideoTrackComponent({componentId: null, userId})
-      }
+      setVideoTrackInterfaceIdClosed({interfaceId, userId})
     }
-  }, [videoTrackComponentIds[userId]])
+  }, [])
 
   useEffect(() => {
     async function goGetUser() {
@@ -56,6 +49,8 @@ const AgoraUserVideo = ({
     }
   }, [userId])
 
+  console.log(currentVideoTrackInterfaceId[userId])
+
   function renderPlaceholder() {
     return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
       {user && <div style={{position: 'relative', backgroundColor: stringToColour(user.id), padding: '1em'}}>
@@ -67,7 +62,7 @@ const AgoraUserVideo = ({
     </div>
   }
 
-  if(!videoTrackComponentIds[userId] || videoTrackComponentIds[userId] !== componentId) {
+  if(!currentVideoTrackInterfaceId[userId] || currentVideoTrackInterfaceId[userId] !== interfaceId) {
     return renderPlaceholder()
   }
 
@@ -87,7 +82,6 @@ const AgoraUserVideo = ({
   }, {})
 
   if(!userTracksById[userId]) {
-    console.log('no user tracks!', userId)
     return renderPlaceholder()
   }
 
@@ -106,4 +100,4 @@ const mapStateToProps = (state) => ({
   video: state.video,
 });
 
-export default connect(mapStateToProps, { setVideoTrackComponent })(AgoraUserVideo);
+export default connect(mapStateToProps, { setVideoTrackInterfaceIdOpen, setVideoTrackInterfaceIdClosed })(AgoraUserVideo);

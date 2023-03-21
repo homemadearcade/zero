@@ -24,7 +24,6 @@ export default function useGameEditorSize() {
         return 
       }
       const size = elem.getBoundingClientRect()
-      console.log('setting', size.width, size.height)
       setWindowSize({
         gameEditorWidth: size.width,
         gameEditorHeight: size.height,

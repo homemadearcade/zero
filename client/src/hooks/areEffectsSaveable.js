@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { effectBehaviorInterface } from "../game/constants"
+import { effectBehaviorInterface, effectBehaviorInterfaces } from "../game/constants"
 
  export default function useAreEffectsSaveable(effects) {
   const [isSaveable, setIsSaveable] = useState();

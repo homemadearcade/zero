@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import './AgoraVideoPeek.scss';
 import AgoraUserVideo from '../AgoraUserVideo/AgoraUserVideo';
 import AgoraToolbar from '../AgoraToolbar/AgoraToolbar';
+import { PEEK_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const AgoraVideoPeek = ({
   myTracks,
@@ -21,7 +22,7 @@ const AgoraVideoPeek = ({
     <div className="AgoraVideoPeek" onMouseLeave={() => {
       setIsHovering(false)
     }}>
-      {isHovering && <AgoraUserVideo className="AgoraVideoPeek__video" myTracks={myTracks} userTracks={userTracks} userId={me.id}></AgoraUserVideo>}
+      {isHovering && <AgoraUserVideo interfaceId={PEEK_VIDEO_IID}  className="AgoraVideoPeek__video" myTracks={myTracks} userTracks={userTracks} userId={me.id}></AgoraUserVideo>}
       <div onMouseEnter={() => {
         setIsHovering(true)
       }} 

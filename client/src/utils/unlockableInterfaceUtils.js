@@ -3,6 +3,21 @@ import { interfaceIdData } from "../constants/interfaceIdData"
 import store from "../store"
 import { getCobrowsingState } from "./cobrowsingUtils"
 
+export function getHighestPriorityInterfaceId(interfaceIdsOpen) {
+  let highestPriority = -1;
+  let highestPriorityId = null
+  Object.keys(interfaceIdsOpen).forEach((interfaceId) => {
+    if(!interfaceIdsOpen[interfaceId]) return false
+    const nextPriority = interfaceIdData[interfaceId].contentPriority
+    if(nextPriority > highestPriority) {
+      highestPriority = nextPriority
+      highestPriorityId = interfaceId
+    }
+  })
+
+  return highestPriorityId
+}
+
 export function getInterfaceIdAliases(interfaceId) {
   const interfaceIds = interfaceId.split(' ')
 

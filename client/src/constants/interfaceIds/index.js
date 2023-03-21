@@ -13,3 +13,4 @@ export * from "./rootInterfaceIds";
 export * from "./cutsceneInterfaceIds";
 export * from "./gameInterfaceIds";
 export * from "./tagInterfaceIds";
+export * from "./videoInterfaceIds";

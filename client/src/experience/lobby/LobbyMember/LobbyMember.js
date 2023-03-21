@@ -16,6 +16,7 @@ import { setCutAudio, setCutVideo } from '../../../store/actions/videoActions';
 import { GAME_EDITOR_ACTIVITY } from '../../../constants';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../../constants';
+import { LOBBY_MEMBER_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const LobbyMember = ({ 
   match: { params }, 
@@ -87,7 +88,7 @@ const LobbyMember = ({
        {!isVideoOpen && <Button onClick={() => {
         setIsVideoOpen(true)
       }}>Show Users Video</Button>}
-      {isVideoOpen && <AgoraUserVideo userId={userId} myTracks={myTracks} userTracks={userTracks} width="200px" height="200px"></AgoraUserVideo>}
+      {isVideoOpen && <AgoraUserVideo interfaceId={LOBBY_MEMBER_VIDEO_IID} userId={userId} myTracks={myTracks} userTracks={userTracks} width="200px" height="200px"></AgoraUserVideo>}
     </div>
   }
 
