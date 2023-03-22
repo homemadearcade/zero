@@ -84,19 +84,18 @@ router.post('/', requireJwtAuth, async (req, res) => {
     let game = await ArcadeGame.create({
       stages: req.body.stages, 
       metadata: req.body.metadata, 
+      theme: req.body.theme, 
       player: req.body.player, 
       entityClasses: req.body.entityClasses,
       brushes: req.body.brushes,
       colors: req.body.colors,
-      tags: req.body.tags,
+      relationTags: req.body.relationTags,
       cutscenes: req.body.cutscenes,
       relations: req.body.relations,
-      tags: req.body.tags,
       collisions: req.body.collisions,
       events: req.body.events,
       effects: req.body.effects,
       textures: req.body.textures,
-      spriteSheets: req.body.spriteSheets,
       nodeSize: req.body.nodeSize, 
       owner: req.body.userId,
     });
@@ -193,10 +192,10 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       }
     });
 
-    Object.keys(updatedGame.tags).forEach(key => {
-      if (updatedGame.tags[key] === null || updatedGame.tags[key] === undefined) {
+    Object.keys(updatedGame.relationTags).forEach(key => {
+      if (updatedGame.relationTags[key] === null || updatedGame.relationTags[key] === undefined) {
         console.log('deleting effect', key)
-        delete updatedGame.tags[key];
+        delete updatedGame.relationTags[key];
       }
     });
 
@@ -205,16 +204,15 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   
     const update = { 
       metadata: updatedGame.metadata, 
+      theme: updatedGame.theme, 
       player: updatedGame.player, 
       entityClasses: updatedGame.entityClasses,
       brushes: updatedGame.brushes,
       colors: updatedGame.colors,
-      tags: updatedGame.tags,
+      relationTags: updatedGame.relationTags,
       cutscenes: updatedGame.cutscenes,
       textures: updatedGame.textures,
-      spriteSheets: updatedGame.spriteSheets,
       nodeSize: updatedGame.nodeSize, 
-      tags: updatedGame.tags,
       relations: updatedGame.relations, 
       events: updatedGame.events, 
       collisions: updatedGame.collisions, 

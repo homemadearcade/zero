@@ -12,17 +12,17 @@ export const ON_DESTROY_ALL = 'ON_DESTROY_ALL'
 export const ON_INTERACT = 'ON_INTERACT'
 export const ON_CUTSCENE_END = 'ON_CUTSCENE_END'
 
-export const NO_TAG_EVENT = 'NO_TAG_EVENT'
-export const SINGLE_TAG_EVENT = 'SINGLE_TAG_EVENT'
-export const TWO_TAG_EVENT = 'TWO_TAG_EVENT'
-export const PLAYER_AND_TAG_EVENT = 'PLAYER_AND_TAG_EVENT'
-export const PLAYER_TAG_EVENT = 'PLAYER_TAG_EVENT'
+export const NO_RELATION_TAG_EVENT = 'NO_RELATION_TAG_EVENT'
+export const SINGLE_RELATION_TAG_EVENT = 'SINGLE_RELATION_TAG_EVENT'
+export const TWO_RELATION_TAG_EVENT = 'TWO_RELATION_TAG_EVENT'
+export const PLAYER_AND_RELATION_TAG_EVENT = 'PLAYER_AND_RELATION_TAG_EVENT'
+export const PLAYER_RELATION_TAG_EVENT = 'PLAYER_RELATION_TAG_EVENT'
 
 // WHEN, WHO, WHERE
 export const defaultEvent = {
   eventType: '',
-  tagIdA: null,
-  tagIdB: null,
+  relationTagIdA: null,
+  relationTagIdB: null,
 
   sidesA: [],
   sidesB: [],
@@ -65,10 +65,10 @@ export const eventTypeToDisplayNames = {
 
 export const eventTypeInterfaces = {
   [ON_TOUCH_ACTIVE]: {
-    tagSelectType: TWO_TAG_EVENT
+    relationTagSelectType: TWO_RELATION_TAG_EVENT
   },
   [ON_TOUCH_START]: {
-    tagSelectType: TWO_TAG_EVENT,
+    relationTagSelectType: TWO_RELATION_TAG_EVENT,
     effectDelay: true,
     onlyOnce: true,
     effectCooldown: true,
@@ -78,25 +78,25 @@ export const eventTypeInterfaces = {
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_PLAYTHROUGH]: {
-    tagSelectType: PLAYER_TAG_EVENT,
+    relationTagSelectType: PLAYER_RELATION_TAG_EVENT,
     effectDelay: true
   },
   [ON_SPAWN]: {
-    tagSelectType: SINGLE_TAG_EVENT,
+    relationTagSelectType: SINGLE_RELATION_TAG_EVENT,
     effectDelay: true,
     onlyOnce: true
   },
   [ON_DESTROY_ONE]: {
-    tagSelectType: SINGLE_TAG_EVENT,
+    relationTagSelectType: SINGLE_RELATION_TAG_EVENT,
     effectDelay: true,
     onlyOnce: true
   },
   [ON_DESTROY_ALL]: {
-    tagSelectType: SINGLE_TAG_EVENT,
+    relationTagSelectType: SINGLE_RELATION_TAG_EVENT,
     effectDelay: true,
   },
   [ON_INTERACT]: {
-    tagSelectType: PLAYER_AND_TAG_EVENT,
+    relationTagSelectType: PLAYER_AND_RELATION_TAG_EVENT,
     onlyOnce: true,
     effectCooldown: true
   },

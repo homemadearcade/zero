@@ -1,5 +1,5 @@
 import Phaser, { BlendModes } from "phaser";
-import { BACKGROUND_LAYER_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, DEFAULT_TEXTURE_ID, FOREGROUND_LAYER_CANVAS_DEPTH, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID, UI_CANVAS_DEPTH } from "../constants";
+import { BACKGROUND_LAYER_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, DEFAULT_TEXTURE_ID, FOREGROUND_LAYER_CANVAS_DEPTH, FOREGROUND_LAYER_CANVAS_ID, LAYER_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID, UI_CANVAS_DEPTH } from "../constants";
 import store from "../../store";
 import { getCanvasIdFromEraserId, getDepthFromEraserId, snapFreeXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
@@ -8,7 +8,7 @@ import { getThemePrimaryColor } from "../../utils/webPageUtils";
 
 export class Eraser extends Brush {
   constructor(scene, { brushId }){
-    const depth = getDepthFromEraserId(brushId)
+    const depth = scene.getDepthFromEraserId(brushId)
     super(scene, { brushId, textureId: DEFAULT_TEXTURE_ID, depth })
 
     this.lowerLayerPreviews = []
@@ -86,17 +86,17 @@ export class Eraser extends Brush {
     const previewWidth = stage.boundaries.maxWidth
     const previewHeight = stage.boundaries.maxHeight
 
-    if(eraserLayerId === BACKGROUND_LAYER_CANVAS_ID) {
+    if(eraserLayerId === (LAYER_ID_PREFIX + BACKGROUND_LAYER_CANVAS_ID)) {
       this.lowerLayerPreviews.push(
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.stage.backgroundColorLayer, 0, 0).setDepth(BACKGROUND_LAYER_CANVAS_DEPTH + 5),
       )
-    } else if(eraserLayerId === PLAYGROUND_LAYER_CANVAS_ID) {
+    } else if(eraserLayerId === (LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID)) {
       this.lowerLayerPreviews.push(
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.stage.backgroundColorLayer, 0, 0).setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH + 5),
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.backgroundCanvasLayer, 0, 0).setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH + 5),
       )
       this.lowerInstancePreviews = this.createLowerInstancePreviews()
-    } else if(eraserLayerId === FOREGROUND_LAYER_CANVAS_ID) {
+    } else if(eraserLayerId === (LAYER_ID_PREFIX + FOREGROUND_LAYER_CANVAS_ID)) {
       this.lowerLayerPreviews.push(
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.stage.backgroundColorLayer, 0, 0).setDepth(FOREGROUND_LAYER_CANVAS_DEPTH + 5),
         new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, previewWidth, previewHeight).draw(this.scene.backgroundCanvasLayer, 0, 0).setDepth(FOREGROUND_LAYER_CANVAS_DEPTH + 5),

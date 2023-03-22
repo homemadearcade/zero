@@ -7,7 +7,7 @@ export const initialEffectRelation = {
   spawnZoneSelectorType: SPAWN_ZONE_RANDOM_SELECT,
   effectCooldown: null,
   effectDelay: null,
-  remoteEffectedTagIds2: [],
+  remoteEffectedRelationTagIds2: [],
   effectBehavior: null
 }
 

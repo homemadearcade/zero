@@ -18,8 +18,8 @@ const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interface
 
   return <SelectChipsAuto 
     disabled={disabled}
-    onChange={(event, descriptors) => {
-      onChange(event,  descriptors)
+    onChange={(event, visualTags) => {
+      onChange(event,  visualTags)
     }}
     formLabel={formLabel}
     value={value}

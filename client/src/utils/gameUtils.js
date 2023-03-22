@@ -100,16 +100,16 @@ export function areBSidesHit(sidesList, a, b) {
   return verdict
 }
 
-export function getClassDisplayName(descriptors, entityClassId) {
-  return descriptors ? descriptors[0] : entityClassId
+export function getClassDisplayName(visualTags, entityClassId) {
+  return visualTags ? visualTags[0] : entityClassId
 }
 
-export function getOppositeColliderTagId(tagId, collision) {
-  if(tagId === collision.event.tagIdA) {
-    return collision.event.tagIdB
+export function getOppositeColliderRelationTagId(relationTagId, collision) {
+  if(relationTagId === collision.event.relationTagIdA) {
+    return collision.event.relationTagIdB
   }
-  if(tagId === collision.event.tagIdB) {
-    return collision.event.tagIdA
+  if(relationTagId === collision.event.relationTagIdB) {
+    return collision.event.relationTagIdA
   }
 
   return null

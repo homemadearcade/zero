@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { effectBehaviorToDisplayNames, getEffectShorthand, isUseableEffect} from '../../constants'
+import { effectBehaviorInterfaces, effectBehaviorToDisplayNames, getEffectShorthand, isUseableEffect} from '../../constants'
 
 const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effectId) => {
@@ -14,7 +14,7 @@ const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameMod
       label: getEffectShorthand(effect),
       value: effectId,
       isRemoved: effect.isRemoved,
-      effectBehavior: effectBehaviorToDisplayNames[effect.effectBehavior]
+      group: effect.customCategory || effectBehaviorToDisplayNames[effect.effectBehavior]
     }
   }
 
@@ -30,7 +30,9 @@ const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameMod
   //   return isUseableEffect(effect.effectBehavior, eventType)
   // })
 
-  options.sort((a, b) => -b.effectBehavior.localeCompare(a.effectBehavior))
+  options.sort((a, b) => {
+    return -b.group.localeCompare(a.group)
+  })
 
   return <SelectChipsAuto 
     disabled={disabled}
@@ -38,7 +40,7 @@ const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameMod
     formLabel={formLabel}
     value={value}
     groupBy={option => {
-      return option.effectBehavior
+      return option.group
     }}
     hideRemoved
     options={options}

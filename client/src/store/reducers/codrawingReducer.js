@@ -10,17 +10,10 @@ import {
   CODRAWING_UNDO_FAIL,
 } from '../types';
 
-// import { BACKGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID } from '../../constants';
-
 const initialState = {
   error: null,
   isSubscribingCodrawing: false,
   isUndoing: false
-  // codrawingCanvasIds: {
-  //   [BACKGROUND_LAYER_CANVAS_ID]: false,
-  //   [PLAYGROUND_LAYER_CANVAS_ID]: false,
-  //   [FOREGROUND_LAYER_CANVAS_ID]: false
-  // }
 };
 
 export default function codrawingReducer(state = initialState, { type, payload }) {

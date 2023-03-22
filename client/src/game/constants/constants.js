@@ -39,11 +39,13 @@ export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 /////////////////////////////////////
 // LAYERS
 export const STAGE_BACKGROUND_LAYER_CANVAS_DEPTH = 0;
-export const BACKGROUND_LAYER_CANVAS_DEPTH = 5;
-export const IMAGE_CANVAS_MODAL_CANVAS_DEPTH = 19;
-export const PLAYGROUND_LAYER_CANVAS_DEPTH = 20;
-export const FOREGROUND_LAYER_CANVAS_DEPTH = 70;
-export const UI_CANVAS_DEPTH = 100;
+
+export const BACKGROUND_LAYER_CANVAS_DEPTH = 100;
+export const PLAYGROUND_LAYER_CANVAS_DEPTH = 300;
+export const FOREGROUND_LAYER_CANVAS_DEPTH = 500;
+
+export const IMAGE_CANVAS_MODAL_CANVAS_DEPTH = 700;
+export const UI_CANVAS_DEPTH = 900;
 
 export const STAGE_BACKGROUND_LAYER_CANVAS_ID = 'STAGE_BACKGROUND_LAYER_CANVAS';
 export const BACKGROUND_LAYER_CANVAS_ID = 'BACKGROUND_LAYER_CANVAS';
@@ -67,18 +69,6 @@ export const SIDE_UP = 'SIDE_UP'
 export const SIDE_DOWN = 'SIDE_DOWN'
 export const SIDE_LEFT = 'SIDE_LEFT'
 export const SIDE_RIGHT = 'SIDE_RIGHT'
-
-/////////////////////////////////////
-/////////////////////////////////////
-// MOVEMENT PATTERNS
-export const MOVEMENT_SIDE_TO_SIDE = 'MOVEMENT_SIDE_TO_SIDE'
-export const MOVEMENT_UP_AND_DOWN = 'MOVEMENT_UP_AND_DOWN'
-export const MOVEMENT_JUMP = 'MOVEMENT_JUMP'
-export const MOVEMENT_TURN_ON_COLLIDE = 'MOVEMENT_TURN_ON_COLLIDE'
-export const MOVEMENT_TURN_RANDOMLY = 'MOVEMENT_TURN_RANDOMLY'
-export const MOVEMENT_FOLLOW_PLAYER = 'MOVEMENT_FOLLOW_PLAYER'
-export const MOVEMENT_FOLLOW_CLASS = 'MOVEMENT_FOLLOW_CLASS'
-export const MOVEMENT_NONE = 'MOVEMENT_NONE'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -153,7 +143,6 @@ export const PROJECTILE_EDITOR = 'PROJECTILE_EDITOR'
 // GAME STATE
 export const START_STATE = 'START_STATE'
 
-export const STOPPED_STATE = 'STOPPED_STATE'
 export const PAUSED_STATE = 'PAUSED_STATE'
 export const PLAYTHROUGH_PAUSED_STATE = 'PLAYTHROUGH_PAUSED_STATE'
 
@@ -181,9 +170,10 @@ export const IMAGE_CANVAS_MODAL_ID_PREFIX = 'sprite-'
 export const STAGE_ID_PREFIX = 'stage-'
 export const GAME_INSTANCE_ID_PREFIX = 'gi-'
 export const OBJECT_CLASS_ID_PREFIX = 'oc-'
-export const TAG_ID_PREFIX = 'tag-'
+export const RELATION_TAG_ID_PREFIX = 'relationTag-'
 export const EVENT_ID_PREFIX = 'event-'
 export const EFFECT_ID_PREFIX = 'effect-'
+export const LAYER_ID_PREFIX = 'layer-'
 
 export const PLAYER_CLASS_TYPE_PREFIX = 'pl-'
 export const BASIC_CLASS_TYPE_PREFIX = 'o-'
@@ -202,7 +192,7 @@ export const classTypeToPrefix = {
 }
 
 export const layerToDisplayName = {
-  [BACKGROUND_LAYER_CANVAS_ID]: 'Background',
-  [PLAYGROUND_LAYER_CANVAS_ID]: 'Playground',
-  [FOREGROUND_LAYER_CANVAS_ID]: 'Foreground',
+  [LAYER_ID_PREFIX + BACKGROUND_LAYER_CANVAS_ID]: 'Background',
+  [LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID]: 'Playground',
+  [LAYER_ID_PREFIX + FOREGROUND_LAYER_CANVAS_ID]: 'Foreground',
 }

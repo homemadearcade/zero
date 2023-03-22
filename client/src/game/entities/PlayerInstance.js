@@ -1,15 +1,15 @@
 import Phaser from "phaser";
 import store from "../../store";
 
-import { ObjectInstance } from "./ObjectInstance";
+import { EntityInstance } from "./EntityInstance";
 import { CameraPreview } from "./members/CameraPreview";
 import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
-import { ON_INTERACT, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID } from "../constants";
+import { ON_INTERACT, PLAYGROUND_LAYER_CANVAS_DEPTH } from "../constants";
 import { nodeSize } from "../constants";
 
-export class PlayerInstance extends ObjectInstance {
+export class PlayerInstance extends EntityInstance {
   constructor(scene, entityInstanceId, instanceData){
     super(scene, entityInstanceId, instanceData)
 
@@ -52,26 +52,12 @@ export class PlayerInstance extends ObjectInstance {
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 
-    this.cameraPreview = new CameraPreview(this.scene, {color: 0x00FF00, zoom: entityClass.camera.zoom})
-    this.cameraPreview.setVisible(false)
-    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityClass.graphics.width + (nodeSize * 3), height: entityClass.graphics.height + (nodeSize * 3) }) 
+    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityClass.graphics.width + (nodeSize * 4), height: entityClass.graphics.height + (nodeSize * 4) }) 
 
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
 
     return this
-  }
-
-  getCameraBoundaries() {
-    const cameraPreview = this.cameraPreview   
-    // const entityClass = store.getState().gameModel.gameModel.entityClasses[this.entityClassId]
-
-    const x = cameraPreview.x
-    const y = cameraPreview.y
-    const width = cameraPreview.width
-    const height = cameraPreview.height
-
-    return [ x, y, width, height]
   }
 
   setSize(width, height) {
@@ -80,22 +66,9 @@ export class PlayerInstance extends ObjectInstance {
     this.interactArea.setSize(width, height)
   }
 
-  setZoom(zoom) {
-    this.cameraPreview.setZoom(zoom)
-  }
-
   update(time, delta) {  
     super.update()
     
-    const entityClassId = this.entityClassId
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
-
-    const gameModel = store.getState().gameModel.gameModel
-    const gameMaxWidth = gameModel.stages[this.scene.stage.stageId].boundaries.maxWidth
-
-    const cameraSize = gameMaxWidth/entityClass.camera.zoom
-
-    this.cameraPreview.update({x: this.phaserInstance.x - cameraSize/2, y: this.phaserInstance.y - cameraSize/2}, true)
     this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle})
 
     if(this.scene.isPaused) return
@@ -148,7 +121,6 @@ export class PlayerInstance extends ObjectInstance {
 
   destroy() {
     // this.particles.destroy()
-    this.cameraPreview.destroy()
     this.interactArea.destroy()
     super.destroy()
   }

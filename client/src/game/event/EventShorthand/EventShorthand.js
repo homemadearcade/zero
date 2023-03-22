@@ -2,15 +2,15 @@ import { connect } from "react-redux"
 import { compose } from "redux"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { eventShortNames, PLAYER_AND_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT, eventTypeInterfaces } from "../../constants"
+import { eventShortNames, PLAYER_AND_RELATION_TAG_EVENT, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT, eventTypeInterfaces } from "../../constants"
 import Sprite from "../../images/Texture/Texture"
 
-function renderTag(tag) {
+function renderRelationTag(relationTag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
     <span style={{width: '10px', height: '10px'}}>
-      <Sprite textureId={tag.textureId} textureTint={tag.textureTint}/>
+      <Sprite textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>
-    <span>{tag.name}</span>
+    <span>{relationTag.name}</span>
   </span>
 }
 
@@ -21,37 +21,37 @@ function renderEventName(event) {
 
 function EventShorthand({event, gameModel: { gameModel }}) {
   const eventType = event.eventType 
-  const tags = gameModel.tags 
-  const tagA = tags[event.tagIdA]
-  const tagB = tags[event.tagIdB] 
+  const relationTags = gameModel.relationTags 
+  const relationTagA = relationTags[event.relationTagIdA]
+  const relationTagB = relationTags[event.relationTagIdB] 
 
   const eventTypeInterface = eventTypeInterfaces[eventType]
 
   function renderBody() {
-    if(eventTypeInterface.tagSelectType === SINGLE_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT) {
       return <>
         {renderEventName(event)}
-        {renderTag(tagA)}
+        {renderRelationTag(relationTagA)}
 
       </>
     }
 
-    if(eventTypeInterface.tagSelectType === TWO_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT) {
       return <>
         {renderEventName(event)}
         <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          {renderTag(tagA)}
-          {renderTag(tagB)}
+          {renderRelationTag(relationTagA)}
+          {renderRelationTag(relationTagB)}
         </span>
       </>
     }
     
-    if(eventTypeInterface.tagSelectType === PLAYER_AND_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT) {
       return <>
         {renderEventName(event)}
         <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          {renderTag(tagA)}
-          {renderTag(tagB)}
+          {renderRelationTag(relationTagA)}
+          {renderRelationTag(relationTagB)}
         </span>
       </>
     }

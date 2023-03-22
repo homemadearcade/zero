@@ -25,7 +25,7 @@ import {
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import store from '..';
-import {  BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_ID, initialStageId, PLAYGROUND_LAYER_CANVAS_ID, UNDO_MEMORY_MAX } from '../../game/constants';
+import {  BACKGROUND_LAYER_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_DEPTH, FOREGROUND_LAYER_CANVAS_ID, initialStageId, LAYER_DEPTH_CATEGORY_BACKGROUND, LAYER_DEPTH_CATEGORY_FOREGROUND, LAYER_DEPTH_CATEGORY_PLAYGROUND, LAYER_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { addDefaultsToGameModel, addLibraryToGameModel, cleanGameModel, enrichGameModel, getImageUrlFromTextureId, getTextureIdForLayerCanvasId } from '../../utils';
 import { addCanvasImage } from './canvasImageActions';
@@ -111,7 +111,7 @@ export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge
 
     // dispatch({
     //   type: GET_SPRITESHEET_DATA_SUCCESS,
-    //   payload: { spritesByDescriptor, descriptorOptions },
+    //   payload: { spritesByDescriptor, visualTagOptions },
     // });
 
   } catch(e) {
@@ -178,7 +178,7 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
     window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
 
-    console.log(response.data.game)
+    console.log('raw', response.data.game)
     const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
     dispatch(changeCurrentStage(gameData.player.startingStageId))
@@ -186,6 +186,8 @@ export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
     addLibraryToGameModel(gameData)
     addDefaultsToGameModel(gameData) 
     enrichGameModel(gameData)
+
+    console.log('fully enriched', gameData)
 
     dispatch({
       type: LOAD_GAME_MODEL_SUCCESS,
@@ -211,7 +213,7 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
   })
 };
 
-export async function addLayerCanvasTexturesForArcadeGameStage(gameId, stageId) {
+export async function addLayersForArcadeGameStage(gameId, stageId) {
   const backgroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, BACKGROUND_LAYER_CANVAS_ID)
   const playgroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, PLAYGROUND_LAYER_CANVAS_ID)
   const foregroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, FOREGROUND_LAYER_CANVAS_ID)
@@ -226,17 +228,42 @@ export async function addLayerCanvasTexturesForArcadeGameStage(gameId, stageId) 
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(playgroundTextureId),
-    textureId: getTextureIdForLayerCanvasId(gameId, stageId, PLAYGROUND_LAYER_CANVAS_ID), 
+    textureId: playgroundTextureId, 
     userId: store.getState().auth.me.id,
     arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(foregroundTextureId),
-    textureId: getTextureIdForLayerCanvasId(gameId, stageId, FOREGROUND_LAYER_CANVAS_ID), 
+    textureId: foregroundTextureId,
     userId: store.getState().auth.me.id,
     arcadeGame: gameId
   }))
+
+  store.dispatch(editArcadeGame(gameId, {
+    stages: {
+      [stageId] : {
+        layers: {
+          [LAYER_ID_PREFIX+BACKGROUND_LAYER_CANVAS_ID]: {
+            textureId: backgroundTextureId,
+            name: 'Background',
+            depthCategory: LAYER_DEPTH_CATEGORY_BACKGROUND
+          },
+          [LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID]: {
+            textureId: playgroundTextureId,
+            hasCollisionBody: true,
+            depthCategory: LAYER_DEPTH_CATEGORY_PLAYGROUND,
+            name: 'Playground'
+          },
+          [LAYER_ID_PREFIX+FOREGROUND_LAYER_CANVAS_ID]: {
+            depthCategory: LAYER_DEPTH_CATEGORY_FOREGROUND,
+            textureId: foregroundTextureId,
+            name: 'Foreground'
+          }
+        }
+      }
+    }
+  })) 
 }
 
 export const addArcadeGame = (gameData) => async (dispatch, getState) => {
@@ -250,7 +277,7 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
 
     const gameId = response.data.game.id
 
-    await addLayerCanvasTexturesForArcadeGameStage(gameId, initialStageId)
+    await addLayersForArcadeGameStage(gameId, initialStageId)
 
     dispatch({
       type: ADD_ARCADE_GAME_SUCCESS,

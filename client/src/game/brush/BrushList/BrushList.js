@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import './BrushList.scss';
 import BrushItem from '../../brush/BrushItem/BrushItem';
 import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import { BACKGROUND_LAYER_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';
@@ -16,9 +15,8 @@ import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ADD_BRUSH_IID, BACKGROUND_LAYER_CANVAS_CONTAINER_IID, FOREGROUND_LAYER_CANVAS_CONTAINER_IID, getBrushSelectFromLayerCanvasId, PLAYGROUND_LAYER_CANVAS_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { ADD_BRUSH_IID, getBrushSelectFromLayerCanvasId, getLayerContainerId } from '../../../constants/interfaceIds';
 import { sortByLastSelectedDate } from '../../../utils/editorUtils';
-import { getTextureIdForLayerCanvasId } from '../../../utils';
 
 const BrushList = ({
   gameModel: { gameModel, currentStageId },
@@ -31,6 +29,8 @@ const BrushList = ({
   if(!brushes) {
     return null
   }
+
+  const stage = gameModel.stages[currentStageId]
 
   function renderUnsaved(textureId) {
     if(textureIdUnsaved[textureId] || textureIdSaving[textureId]) {
@@ -59,127 +59,48 @@ const BrushList = ({
     return prev
   }, {})
 
-  const bgBrushes = brushesByLayer[BACKGROUND_LAYER_CANVAS_ID]?.
+  const accordians = []
+  const hiddenOpacity = 0.5
+  Object.keys(stage.layers).forEach((layerId) => {
+    const layer = stage.layers[layerId]
+
+    const layerBrushes = brushesByLayer[layerId]?.
     sort(sortByLastSelectedDate(brushes)).
-    map(renderBrushItem(BACKGROUND_LAYER_CANVAS_ID)).
+    map(renderBrushItem(layerId)).
     slice(0, 14) || []
   
-  bgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
-    <Button size="fit" onClick={() => {
-      openCreateBrushFlow(BACKGROUND_LAYER_CANVAS_ID)
-    }}>
-    +
-    </Button>
-  </Unlockable>)
-
-  const pgBrushes = brushesByLayer[PLAYGROUND_LAYER_CANVAS_ID]?.
-    sort(sortByLastSelectedDate(brushes)).
-    map(renderBrushItem(PLAYGROUND_LAYER_CANVAS_ID)).
-    slice(0, 14) || []
-
-  pgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
-    <Button size="fit" onClick={() => {
-      openCreateBrushFlow(PLAYGROUND_LAYER_CANVAS_ID)
-    }}>
+    layerBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
+      <Button size="fit" onClick={() => {
+        openCreateBrushFlow(layerId)
+      }}>
       +
-    </Button>
-  </Unlockable>)
+      </Button>
+    </Unlockable>)
 
-  const fgBrushes = brushesByLayer[FOREGROUND_LAYER_CANVAS_ID]?.
-    sort(sortByLastSelectedDate(brushes)).
-    map(renderBrushItem(FOREGROUND_LAYER_CANVAS_ID)).
-    slice(0, 14) || []
-
-  fgBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
-    <Button size="fit" onClick={() => {
-      openCreateBrushFlow(FOREGROUND_LAYER_CANVAS_ID)
-    }}>
-      +
-    </Button>
-  </Unlockable>)
-
-  const accordians = []
-
-  const hiddenOpacity = 0.5
-
-  const backgroundTextureId = getTextureIdForLayerCanvasId(gameModel.id, currentStageId, BACKGROUND_LAYER_CANVAS_ID)
-  accordians.push({
-    id: 'Background',
-    interfaceId: BACKGROUND_LAYER_CANVAS_CONTAINER_IID,
-    sx:  layerInvisibility[BACKGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography  component="div" variant="subtitle1">Background</Typography>
-      {renderUnsaved(backgroundTextureId)}
-      {renderPending(backgroundTextureId)}
-    </>,
-    body: <>
-      <BrushControl/>
-      <LayerColorSelect withEraser layerCanvasId={BACKGROUND_LAYER_CANVAS_ID}/>
-      <div className="BrushList__brushes">
-        <BorderedGrid 
-        maxItems={15} 
-        width="2em"
-        height="2em"
-        items={bgBrushes}/>
-      </div>
-      <div className="BrushList__tools">
-        <LayerVisibility layerId={BACKGROUND_LAYER_CANVAS_ID} />
-      </div>
-    </>
-  })
-
-  const playgroundTextureId = getTextureIdForLayerCanvasId(gameModel.id, currentStageId, PLAYGROUND_LAYER_CANVAS_ID)
-  accordians.push({
-    id: 'Playground',
-    interfaceId: PLAYGROUND_LAYER_CANVAS_CONTAINER_IID,
-    sx: layerInvisibility[PLAYGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography component="div" variant="subtitle1">
-        Playground
-      </Typography>
-      {renderUnsaved(playgroundTextureId)}
-      {renderPending(playgroundTextureId)}
-    </>,
-    body: <>
-      <BrushControl/>
-      <LayerColorSelect withEraser layerCanvasId={PLAYGROUND_LAYER_CANVAS_ID}/>
-      <div className="BrushList__brushes">
-        <BorderedGrid 
+    accordians.push({
+      id: layerId,
+      interfaceId: getLayerContainerId(layerId),
+      sx:  layerInvisibility[layerId] ? {opacity: hiddenOpacity} : {},
+      title: <>
+        <Typography  component="div" variant="subtitle1">{layer.name}</Typography>
+        {renderUnsaved(layer.textureId)}
+        {renderPending(layer.textureId)}
+      </>,
+      body: <>
+        <BrushControl/>
+        <LayerColorSelect withEraser layerCanvasId={layerId}/>
+        <div className="BrushList__brushes">
+          <BorderedGrid 
           maxItems={15} 
           width="2em"
           height="2em"
-          items={pgBrushes}/>
-      </div>
-      <div className="BrushList__tools">
-        <LayerVisibility layerId={PLAYGROUND_LAYER_CANVAS_ID} />
-      </div>
-    </>
-  })
-
-  const foregroundTextureId = getTextureIdForLayerCanvasId(gameModel.id, currentStageId, FOREGROUND_LAYER_CANVAS_ID)
-  accordians.push({
-    id: 'Foreground',
-    interfaceId: FOREGROUND_LAYER_CANVAS_CONTAINER_IID,
-    sx: layerInvisibility[FOREGROUND_LAYER_CANVAS_ID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography component="div" variant="subtitle1">Foreground</Typography>
-      {renderUnsaved(foregroundTextureId)}
-      {renderPending(foregroundTextureId)}
-    </>,
-    body: <>
-      <BrushControl/>
-      <LayerColorSelect withEraser layerCanvasId={FOREGROUND_LAYER_CANVAS_ID}/>
-      <div className="BrushList__brushes">
-        <BorderedGrid 
-        maxItems={15} 
-        width="2em"
-        height="2em"
-        items={fgBrushes}/>
-      </div>
-      <div className="BrushList__tools">
-        <LayerVisibility layerId={FOREGROUND_LAYER_CANVAS_ID} />
-      </div>
-    </>
+          items={layerBrushes}/>
+        </div>
+        <div className="BrushList__tools">
+          <LayerVisibility layerId={layerId} />
+        </div>
+      </>
+    })
   })
 
   return <div className="BrushList">

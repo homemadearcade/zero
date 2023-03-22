@@ -6,7 +6,7 @@ import { openJsonViewer, openLiveEditor } from '../../../store/actions/gameSelec
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openEditClassGraphics, openEditClassModal } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, classTypeToPrefix } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, classTypeToPrefix, initialCameraZoneClassId } from '../../constants';
 import { classTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -27,13 +27,17 @@ const ClassContextMenu = ({
   gameModel: { gameModel, currentStageId }, 
   openEditClassModal,
   entityClassId, 
-  insideObjectInstanceContextMenu,
+  insideEntityInstanceContextMenu,
   openJsonViewer
 }) => {
   const entityClass = gameModel.entityClasses[entityClassId]
 
+  if(entityClassId === initialCameraZoneClassId) {
+    return null
+  }
+
   return <>
-    {!insideObjectInstanceContextMenu && <ContextMenuTitle onClick={() => {
+    {!insideEntityInstanceContextMenu && <ContextMenuTitle onClick={() => {
       openEditClassModal(entityClass)
       onMenuItemClick()
     }}>{entityClass.name}</ContextMenuTitle>}
@@ -95,10 +99,9 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Edit Movement</MenuItem>
     </Unlockable>
-    {!insideObjectInstanceContextMenu && <Unlockable interfaceId={CONTEXT_MENU_CLASS_DUPLICATE_IID}>
+    {!insideEntityInstanceContextMenu && <Unlockable interfaceId={CONTEXT_MENU_CLASS_DUPLICATE_IID}>
       <MenuItem onClick={() => {  
         const newClassId = OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[entityClass.classInterfaceCategory]+generateUniqueId()
-
         editGameModel({
           entityClasses: {
             [newClassId]: {
@@ -112,7 +115,7 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>Duplicate {classTypeToDisplayName[entityClass.classInterfaceCategory]}</MenuItem>
       </Unlockable>}
-      {!insideObjectInstanceContextMenu && 
+      {!insideEntityInstanceContextMenu && 
         <Unlockable interfaceId={CONTEXT_MENU_CLASS_REMOVE_IID}>
           <MenuItem onClick={() => {
             editGameModel({

@@ -7,7 +7,7 @@ export class ColorPencil extends Brush {
   constructor(scene, { brushId }){
 
     const textureTint = getHexFromColorId(brushId)
-    const depth = getDepthFromLayerCanvasId(getCanvasIdFromColorId(brushId))
+    const depth = scene.getDepthFromLayerCanvasId(getCanvasIdFromColorId(brushId))
 
     super(scene, { brushId, textureTint, depth, textureId: DEFAULT_TEXTURE_ID })
 

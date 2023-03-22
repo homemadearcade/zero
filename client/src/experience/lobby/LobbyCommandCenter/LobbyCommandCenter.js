@@ -9,7 +9,7 @@ import { updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActi
 import Button from '../../../ui/Button/Button';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Icon from '../../../ui/Icon/Icon';
-import { ADD_BRUSH_IID, BASIC_CLASS_ADD_IID, CHOOSE_TEXTURES_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, DRAW_NEW_TEXTURE_IID, ERASER_IID, NPC_CLASS_ADD_IID, PLAYER_CLASS_ADD_IID, PLAYGROUND_LAYER_CANVAS_BRUSH_SELECT_IID, PLAYGROUND_LAYER_CANVAS_COLOR_SELECT_IID } from '../../../constants/interfaceIds';
+import { ADD_BRUSH_IID, BASIC_CLASS_ADD_IID, CHOOSE_TEXTURES_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, DRAW_NEW_TEXTURE_IID, ERASER_IID, NPC_CLASS_ADD_IID, PLAYER_CLASS_ADD_IID } from '../../../constants/interfaceIds';
 
 const LobbyCommandCenter = ({
   updateArcadeGameCharacter,
@@ -48,15 +48,6 @@ const LobbyCommandCenter = ({
         unlockThis('Add Color', {
           addColor: true
         }),
-        unlockThis('Playground Color Brush', {
-           [PLAYGROUND_LAYER_CANVAS_COLOR_SELECT_IID]: true
-        }),
-        unlockThis('Playground Sprite Brush', 
-          {
-            [ADD_BRUSH_IID]: true,
-            [PLAYGROUND_LAYER_CANVAS_BRUSH_SELECT_IID]: true,
-            [CHOOSE_TEXTURES_IID]: true,
-          }),
         unlockThis('Eraser', 
           {
             [ERASER_IID]: true,

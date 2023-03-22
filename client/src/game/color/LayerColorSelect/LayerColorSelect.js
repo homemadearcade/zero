@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LayerColorSelect.scss';
-import { BACKGROUND_LAYER_CANVAS_ID, COLOR_BRUSH_ID, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID } from '../../constants';
+import {  COLOR_BRUSH_ID } from '../../constants';
 import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
@@ -73,42 +73,16 @@ const LayerColorSelect = ({
       }
     }
 
-    if(layerCanvasId === BACKGROUND_LAYER_CANVAS_ID) {
-      return <ColorSelect 
-        withEraser={withEraser}
-        layerCanvasId={layerCanvasId}
-        maxColors={16}
-        selectedColorHex={selectedColorLayer === BACKGROUND_LAYER_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[BACKGROUND_LAYER_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, BACKGROUND_LAYER_CANVAS_ID))} 
-        onSelectColor={onSelectColor} 
-        onUnselectColor={onUnselectColor}
-        onAddColor={onAddColor}
-      />
-    }
-    if(layerCanvasId === PLAYGROUND_LAYER_CANVAS_ID) {
-      return <ColorSelect 
-        withEraser={withEraser}
-        layerCanvasId={layerCanvasId}
-        maxColors={16}
-        selectedColorHex={selectedColorLayer === PLAYGROUND_LAYER_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[PLAYGROUND_LAYER_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, PLAYGROUND_LAYER_CANVAS_ID))} 
-        onSelectColor={onSelectColor} 
-        onUnselectColor={onUnselectColor}
-        onAddColor={onAddColor} 
-      />
-    }
-    if(layerCanvasId === FOREGROUND_LAYER_CANVAS_ID) {
-      return <ColorSelect 
-        withEraser={withEraser}
-        layerCanvasId={layerCanvasId}
-        maxColors={16}
-        selectedColorHex={selectedColorLayer === FOREGROUND_LAYER_CANVAS_ID && selectedColorHex} 
-        colors={colorsByLayer[FOREGROUND_LAYER_CANVAS_ID]?.sort(sortColorByLastSelectedDate(colors, FOREGROUND_LAYER_CANVAS_ID))} 
-        onSelectColor={onSelectColor} 
-        onUnselectColor={onUnselectColor}
-        onAddColor={onAddColor}
-      />
-    }
+    return <ColorSelect 
+      withEraser={withEraser}
+      layerCanvasId={layerCanvasId}
+      maxColors={16}
+      selectedColorHex={selectedColorLayer === layerCanvasId && selectedColorHex} 
+      colors={colorsByLayer[layerCanvasId]?.sort(sortColorByLastSelectedDate(colors, layerCanvasId))} 
+      onSelectColor={onSelectColor} 
+      onUnselectColor={onUnselectColor}
+      onAddColor={onAddColor}
+    />
   }
 
   return <>

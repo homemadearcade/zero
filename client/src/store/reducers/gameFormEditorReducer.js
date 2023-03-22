@@ -34,9 +34,9 @@ import {
   OPEN_CREATE_EFFECT,
   UPDATE_CREATE_EFFECT,
   CLOSE_CREATE_EFFECT,
-  OPEN_CREATE_TAG,
-  UPDATE_CREATE_TAG,
-  CLOSE_CREATE_TAG,
+  OPEN_CREATE_RELATION_TAG,
+  UPDATE_CREATE_RELATION_TAG,
+  CLOSE_CREATE_RELATION_TAG,
   OPEN_CREATE_EVENT,
   UPDATE_CREATE_EVENT,
   CLOSE_CREATE_EVENT,
@@ -49,13 +49,13 @@ const initialState = {
     layerCanvasId: null,
     textureId: null,
     textureTint: null,
-    descriptors: []
+    visualTags: []
   },
 
   isEditClassGraphicsOpen: false,
   isEditClassModalOpen: false,
   entityClass: {
-    descriptors: [],
+    visualTags: [],
     graphics : {
       textureId: null,
       textureTint: null,
@@ -86,8 +86,8 @@ const initialState = {
     name: '',
   },
 
-  isCreateTagOpen: false,
-  tag: {
+  isCreateRelationTagOpen: false,
+  relationTag: {
 
   },
 
@@ -241,24 +241,24 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isCreateEffectOpen: false,
         effect: {}
       }
-    case OPEN_CREATE_TAG: 
+    case OPEN_CREATE_RELATION_TAG: 
       return {
         ...state,
-        isCreateTagOpen: true,
-        tag: {
-          ..._.cloneDeep(initialState.tag),
-          ...payload.initialTag ? _.cloneDeep(payload.initialTag) : {}
+        isCreateRelationTagOpen: true,
+        relationTag: {
+          ..._.cloneDeep(initialState.relationTag),
+          ...payload.initialRelationTag ? _.cloneDeep(payload.initialRelationTag) : {}
         },
       }
-    case UPDATE_CREATE_TAG:
+    case UPDATE_CREATE_RELATION_TAG:
       return {
         ...state,
-        tag: {...state.tag, ...payload.tag }
+        relationTag: {...state.relationTag, ...payload.relationTag }
       }
-    case CLOSE_CREATE_TAG:
+    case CLOSE_CREATE_RELATION_TAG:
       return {
         ...state,
-        isCreateTagOpen: false
+        isCreateRelationTagOpen: false
       }
     case OPEN_CREATE_EVENT: 
       return {

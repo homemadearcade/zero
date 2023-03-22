@@ -40,7 +40,7 @@ export default function gameReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         spritesByDescriptor: payload.spritesByDescriptor,
-        descriptorOptions: payload.descriptorOptions,
+        visualTagOptions: payload.visualTagOptions,
         isSpriteSheetDataLoaded: true,
       };
     case ON_GAME_MODEL_UPDATE: 

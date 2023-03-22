@@ -2,22 +2,22 @@ import { connect } from "react-redux"
 import { compose } from "redux"
 import Divider from "../../../ui/Divider/Divider"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectBehaviorInterfaces, SINGLE_TAG_EFFECT, TWO_TAG_EFFECT } from "../../constants"
+import { effectBehaviorInterfaces, SINGLE_RELATION_TAG_EFFECT, TWO_RELATION_TAG_EFFECT } from "../../constants"
 import EffectShorthand from "../../effect/EffectShorthand/EffectShorthand"
 import EventShorthand from "../../event/EventShorthand/EventShorthand"
 import Sprite from "../../images/Texture/Texture"
 
-function renderTag(tag) {
+function renderRelationTag(relationTag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
     <span style={{width: '10px', height: '10px'}}>
-      <Sprite textureId={tag.textureId} textureTint={tag.textureTint}/>
+      <Sprite textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>
-    <span>{tag.name}</span>
+    <span>{relationTag.name}</span>
   </span>
 }
 
 
-function RelationShorthand({relation, gameModel: { gameModel: { events, effects, tags } }}) {
+function RelationShorthand({relation, gameModel: { gameModel: { events, effects, relationTags } }}) {
   const event = events[relation.eventId]
 
   function renderEffectedTags(effect, effectId) {
@@ -26,21 +26,21 @@ function RelationShorthand({relation, gameModel: { gameModel: { events, effects,
 
     if(!relationEffect) return 
 
-    const tagA = tags[event.tagIdA]
-    const tagB = tags[event.tagIdB]
+    const relationTagA = relationTags[event.relationTagIdA]
+    const relationTagB = relationTags[event.relationTagIdB]
 
-    if(effectBehaviorInterface.effectableType === SINGLE_TAG_EFFECT) {
+    if(effectBehaviorInterface.effectableType === SINGLE_RELATION_TAG_EFFECT) {
       if(relationEffect.effectTagA) {
-        return renderTag(tagA)
+        return renderRelationTag(relationTagA)
       } else {
-        return renderTag(tagB)
+        return renderRelationTag(relationTagB)
       }
     }
 
-    if(effectBehaviorInterface.effectableType === TWO_TAG_EFFECT) {
+    if(effectBehaviorInterface.effectableType === TWO_RELATION_TAG_EFFECT) {
       return <>
-        {relationEffect.effectTagA && renderTag(tagA)}
-        {relationEffect.effectTagB && renderTag(tagB)}
+        {relationEffect.effectTagA && renderRelationTag(relationTagA)}
+        {relationEffect.effectTagB && renderRelationTag(relationTagB)}
       </>
     }
   }

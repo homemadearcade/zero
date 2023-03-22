@@ -12,9 +12,6 @@ const SnackbarHandler= ({
   snackbar: { snackbars },
   clearSnackbar
  }) => {  
-
-
-
   function renderSnackbar() {
     const snackbar = snackbars[snackbars.length-1]
     function handleClose() {

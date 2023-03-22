@@ -7,6 +7,7 @@ TOP RIGHT CORNER SELECTOR
     x
     y
     z
+    
 HOVER PREVIEW
   Layer on the top right
   Color name on bottom

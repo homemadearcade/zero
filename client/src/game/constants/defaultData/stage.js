@@ -3,13 +3,32 @@ import { gameSize } from "./general";
 import { directionalPlayerClassId, jumperPlayerClassId, vehiclePlayerClassId } from "./players";
 
 export const initialStageId =  STAGE_ID_PREFIX+'default'
-export const initialSpawnZoneClassId = OBJECT_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playerspawnzone'
-export const initialSpawnZoneInstanceId = OBJECT_CLASS_ID_PREFIX+OBJECT_INSTANCE_ID_PREFIX+'playerspawnzone'
+export const initialPlayerSpawnZoneClassId = OBJECT_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playerspawnzone'
+export const initialPlayerSpawnZoneInstanceId = OBJECT_CLASS_ID_PREFIX+OBJECT_INSTANCE_ID_PREFIX+'playerspawnzone'
+export const initialCameraZoneClassId = OBJECT_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playercamerazone'
+export const initialCameraZoneInstanceId = OBJECT_CLASS_ID_PREFIX+OBJECT_INSTANCE_ID_PREFIX+'playercamerazone'
+export const initialStageZoneClassId = OBJECT_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'stagezone'
+export const initialStageZoneInstanceId = OBJECT_CLASS_ID_PREFIX+OBJECT_INSTANCE_ID_PREFIX+'stagezone'
+
 export const initialPlayerClassId = directionalPlayerClassId
 
-export const initialPlayerSpawnZone = {
-  id: initialSpawnZoneInstanceId,
-  entityClassId: initialSpawnZoneClassId,
+export const initialPlayerSpawnZoneInstance = {
+  id: initialPlayerSpawnZoneInstanceId,
+  entityClassId: initialPlayerSpawnZoneClassId,
+  spawnX: gameSize/2,
+  spawnY: gameSize/2,
+}
+
+export const initialPlayerCameraZoneInstance = {
+  id: initialCameraZoneInstanceId,
+  entityClassId: initialCameraZoneClassId,
+  spawnX: 0,
+  spawnY: 0,
+}
+
+export const initialStageZoneInstance = {
+  id: initialStageZoneInstanceId,
+  entityClassId: initialStageZoneClassId,
   spawnX: gameSize/2,
   spawnY: gameSize/2,
 }
@@ -53,11 +72,19 @@ export const defaultStage = {
   name: '',
   backgroundColor: '#000000',
   "playerClassId": null,
-  'spawnZoneClassId': null,
+  'playerSpawnZoneClassId': null,
   "imageUrl": "",
+  stageId: initialStageId,
+  layers: {},
   entityInstances: {
-    [initialSpawnZoneInstanceId]: {
-      ...initialPlayerSpawnZone
+    [initialPlayerSpawnZoneInstanceId]: {
+      ...initialPlayerSpawnZoneInstance
+    },
+    [initialCameraZoneInstanceId]: {
+      ...initialPlayerCameraZoneInstance
+    },
+    [initialStageZoneInstanceId]: {
+      ...initialStageZoneInstance
     }
   },
   "boundaries": {
@@ -79,7 +106,7 @@ export const initialStage = {
   ...defaultStage,
   name: 'Stage # 1',
   'playerClassId': initialPlayerClassId,
-  'spawnZoneClassId': initialSpawnZoneClassId,
+  'playerSpawnZoneClassId': initialPlayerSpawnZoneClassId,
 }
 
 export const boundaryRelationsDisplayNames = {

@@ -1,6 +1,6 @@
 import {
   gameInstanceDisconnectedDelta,
-  PLAYER_INSTANCE_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, STOPPED_STATE,
+  PLAYER_INSTANCE_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, PLAY_STATE,
 } from '../constants';
 import { ON_GAME_INSTANCE_EVENT, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
@@ -54,13 +54,13 @@ export class GameClientScene extends EditorScene {
       if(entityInstanceId === this.draggingEntityInstanceId) {
         return
       }
-      const entityInstance = this.getObjectInstance(entityInstanceId)
+      const entityInstance = this.getEntityInstance(entityInstanceId)
       if(!entityInstance) {
         const modifiedClassData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, entityClassId: instanceUpdate.entityClassId }
-        this.addObjectInstance(entityInstanceId, modifiedClassData, true)
+        this.addEntityInstance(entityInstanceId, modifiedClassData, true)
         return
       };
-      this.updateObjectInstance(entityInstance, instanceUpdate)
+      this.updateEntityInstance(entityInstance, instanceUpdate)
     })
 
     temporaryInstances.forEach((instanceUpdate) => {
@@ -70,7 +70,7 @@ export class GameClientScene extends EditorScene {
         this.addTemporaryInstance(entityInstanceId, instanceUpdate.entityClassId)
         return
       };
-      this.updateObjectInstance(temporaryInstance, instanceUpdate)
+      this.updateEntityInstance(temporaryInstance, instanceUpdate)
       temporaryInstance.destroyTime = instanceUpdate.destroyTime
     })
 
@@ -153,9 +153,6 @@ export class GameClientScene extends EditorScene {
     }
     if(gameState === PLAYTHROUGH_PLAY_STATE) {
       this.isPlaythrough = true
-    }
-    if(gameState === STOPPED_STATE) {
-      this.isPlaythrough = false
     }
 
     this.gameState = gameState

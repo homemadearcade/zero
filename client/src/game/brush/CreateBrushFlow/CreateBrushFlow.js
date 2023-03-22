@@ -23,11 +23,11 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
       <Unlockable interfaceId={CHOOSE_TEXTURES_IID}><SelectDescriptors 
-        onChange={(event, descriptors) => {
-          updateCreateBrush({ descriptors })
+        onChange={(event, visualTags) => {
+          updateCreateBrush({ visualTags })
         }}
         formLabel="Search sprites"
-        value={brush.descriptors}
+        value={brush.visualTags}
       /></Unlockable>
       <CreateTexture
         onSelect={(textureId) => {
@@ -40,7 +40,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
         onSelectTint={(textureTint) => {
           updateCreateBrush({ textureTint })
         }}
-        descriptors={brush.descriptors}
+        visualTags={brush.visualTags}
         textureIdSelected={brush.textureId}
       />
       <div className="CreateBrushFlow__buttons">

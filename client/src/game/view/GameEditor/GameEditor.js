@@ -15,11 +15,11 @@ import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_ABSTRACT_LIST, SELECT
 import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
-import BoundaryRelation from '../../class/BoundaryRelation/BoundaryRelation';
-import EditClassModal from '../../class/EditClassModal/EditClassModal';
+import BoundaryRelation from '../../entityClass/BoundaryRelation/BoundaryRelation';
+import EditClassModal from '../../entityClass/EditClassModal/EditClassModal';
 import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../../gameRoom/GameStateToolbar/GameStateToolbar';
-import ClassList from '../../class/ClassList/ClassList';
+import ClassList from '../../entityClass/ClassList/ClassList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
 import StagesMenu from '../../stages/StagesMenu/StagesMenu';
@@ -30,12 +30,12 @@ import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
-import ClassBoxModal from '../../class/ClassBoxModal/ClassBoxModal';
+import ClassBoxModal from '../../entityClass/ClassBoxModal/ClassBoxModal';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
 import SelectorAbstractList from '../../selector/SelectorAbstractList/SelectorAbstractList';
-import CreateTag from '../../tags/CreateTag/CreateTag';
+import CreateRelationTag from '../../tags/CreateRelationTag/CreateRelationTag';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
 import CreateEffectModal from '../../effect/CreateEffectModal/CreateEffectModal';
 import CreateEventModal from '../../event/CreateEventModal/CreateEventModal';
@@ -58,7 +58,7 @@ const GameEditor = ({
     isGridViewOn }, 
   gameFormEditor: { 
     isEditClassModalOpen, 
-    isCreateTagOpen, 
+    isCreateRelationTagOpen, 
     isCreateRelationOpen,
     isCreateCutsceneOpen, 
     isCreateBrushFlowOpen, 
@@ -160,7 +160,7 @@ const GameEditor = ({
       {isCreateRelationOpen && <CreateRelation/>}
       {isCreateEffectOpen && <CreateEffectModal/>}
       {isCreateEventOpen && <CreateEventModal/>}
-      {isCreateTagOpen && <CreateTag/>}
+      {isCreateRelationTagOpen && <CreateRelationTag/>}
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageModalOpen && <CreateStageModal/>}
       {isSelectBackgroundColorModalOpen && <SelectBackgroundColorModal/>}

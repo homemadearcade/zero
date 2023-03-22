@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { eventTypeInterfaces, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from "../game/constants";
+import { eventTypeInterfaces, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT } from "../game/constants";
 
  export default function useIsEventSaveable(event) {
   const [isSaveable, setIsSaveable] = useState();
@@ -10,12 +10,12 @@ import { eventTypeInterfaces, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from "../game/co
     
     const eventTypeInterface = eventTypeInterfaces[event.eventType]
 
-    if(eventTypeInterface.tagSelectType === SINGLE_TAG_EVENT) {
-      if(!event.tagIdA) return true
+    if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT) {
+      if(!event.relationTagIdA) return true
     }
 
-    if(eventTypeInterface.tagSelectType === TWO_TAG_EVENT) {
-      if(!event.tagIdA || !event.tagIdB) return true
+    if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT) {
+      if(!event.relationTagIdA || !event.relationTagIdB) return true
     }
 
     return false 

@@ -1,17 +1,5 @@
 import { 
-  BACKGROUND_LAYER_CANVAS_DEPTH, 
-  BACKGROUND_LAYER_CANVAS_ID, 
   ERASER_BRUSH_ID , 
-  FOREGROUND_LAYER_CANVAS_DEPTH, 
-  FOREGROUND_LAYER_CANVAS_ID, 
-  PLAYGROUND_LAYER_CANVAS_DEPTH, 
-  PLAYGROUND_LAYER_CANVAS_ID,
-  UI_CANVAS_DEPTH, 
-  UI_CANVAS_ID,
-  IMAGE_CANVAS_MODAL_CANVAS_ID,
-  IMAGE_CANVAS_MODAL_CANVAS_DEPTH,
-  NON_LAYER_BRUSH_ID,
-  NON_LAYER_BRUSH_DEPTH,
 } from "../game/constants";
 import { COLOR_BRUSH_ID } from "../game/constants";
 import Phaser from 'phaser'
@@ -106,20 +94,6 @@ export function snapObjectXY({x, y, entityClass, boundaries = store.getState().g
     snappedY
   }
 }
-
-export function getDepthFromEraserId(eraserId) {
-  return getDepthFromLayerCanvasId(getCanvasIdFromEraserId(eraserId))
-}
-
-export function getDepthFromLayerCanvasId(layerCanvasId) {
-  if(layerCanvasId === BACKGROUND_LAYER_CANVAS_ID) return BACKGROUND_LAYER_CANVAS_DEPTH
-  if(layerCanvasId === IMAGE_CANVAS_MODAL_CANVAS_ID) return IMAGE_CANVAS_MODAL_CANVAS_DEPTH
-  if(layerCanvasId === PLAYGROUND_LAYER_CANVAS_ID) return PLAYGROUND_LAYER_CANVAS_DEPTH
-  if(layerCanvasId === FOREGROUND_LAYER_CANVAS_ID) return FOREGROUND_LAYER_CANVAS_DEPTH
-  if(layerCanvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
-  if(layerCanvasId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
-}
-
 export const sortColorByLastSelectedDate = (colors, layerCanvasId) => (a, b) => {
   const colorA = colors[a]
   const colorB = colors[b]

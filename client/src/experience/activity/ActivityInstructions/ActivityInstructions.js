@@ -465,7 +465,6 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Setup Stage',
           title: <Typography component="h5" variant="h5">Setup Stage</Typography>,
           onClickNext: () => {
-            console.log('??')
             store.dispatch(toggleActiveCobrowsing(false))
             store.dispatch(openCreateStageModal({...defaultStage, stageId: initialStageId}))
           },

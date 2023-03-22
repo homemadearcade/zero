@@ -29,9 +29,11 @@ const LobbyAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
       cutscenes: {},
       relations: {},
       collisions: {},
-      tags: {},
+      relationTags: {},
       events: {},
       effects: {},
+      theme: {},
+      player: {},
       metadata: {
         title: 'Lobby Game ' + moment(Date.now()).format('MMMM Do YYYY, H:mm:ss')
       }

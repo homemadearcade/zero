@@ -28,10 +28,10 @@ const GameMetadataModal = ({ editGameModel, closeGameMetadataModal, gameViewEdit
           Interface Color
         </FormLabel>
         <AggregateColorSelect
-          selectedColor={gameModel.metadata.interfaceColor}
+          selectedColor={gameModel.theme.primaryColor}
           onSelectColor={(hexString) => {
-            editGameModel({ metadata: {
-              interfaceColor: hexString
+            editGameModel({ theme: {
+              primaryColor: hexString
             }})
           }}
         />

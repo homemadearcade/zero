@@ -2,7 +2,7 @@ import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
 import { splitIntoSubarrays } from "../../utils/arrayUtils";
 import { CodrawingCanvas } from "./CodrawingCanvas";
-import { PLAYGROUND_LAYER_CANVAS_ID } from "../constants";
+import { LAYER_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID } from "../constants";
 
 export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
@@ -13,6 +13,7 @@ export class CollisionCanvas extends CodrawingCanvas {
       this.createCollisionBody()
     }
 
+    this.isCollisionCanvas = true
     this.collisionBody = null
     this.scene = scene
 
@@ -84,16 +85,10 @@ export class CollisionCanvas extends CodrawingCanvas {
 
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.phaserInstance)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.entityInstances.filter(({entityClassId}) => {
-        return entityClasses[entityClassId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
+        return entityClasses[entityClassId].graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID
       }).map(({phaserInstance}) => {
         return phaserInstance
       }))
-
-      // this.unregisterProjectileCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.temporaryInstances.filter(({entityClassId}) => {
-      //   return entityClasses[entityClassId].graphics.layerId === PLAYGROUND_LAYER_CANVAS_ID
-      // }).map(({phaserInstance}) => {
-      //   return phaserInstance
-      // }))
     } else {
       // console.log('no body yet')
     }

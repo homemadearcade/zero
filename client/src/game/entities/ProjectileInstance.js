@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ObjectInstance } from "./ObjectInstance";
+import { EntityInstance } from "./EntityInstance";
 import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, PROJECTILE_DOWN, PROJECTILE_LEFT, PROJECTILE_RANDOM_ANGLE, PROJECTILE_RANDOM_DIRECTION, PROJECTILE_RIGHT, PROJECTILE_TARGET_CLASS, PROJECTILE_TARGET_PLAYER, PROJECTILE_UP, VEHICLE_CONTROLS } from "../constants";
 import store from "../../store";
 import { getAngleBetweenInstances } from "../../utils/gameUtils";
@@ -11,7 +11,7 @@ const directionToRadians = {
   [DIRECTION_UP]: Phaser.Math.DegToRad(270),
 }
 
-export class ProjectileInstance extends ObjectInstance {
+export class ProjectileInstance extends EntityInstance {
   constructor(scene, entityInstanceId, instanceData){
     super(scene, entityInstanceId, instanceData, true)
 
@@ -62,7 +62,7 @@ export class ProjectileInstance extends ObjectInstance {
     }
 
     if(projectileBehavior === PROJECTILE_TARGET_CLASS) {
-      const entityInstances = this.scene.getAllObjectInstancesOfClassId(shooterClass.projectile.targetClassId)
+      const entityInstances = this.scene.getAllEntityInstancesOfClassId(shooterClass.projectile.targetClassId)
       if(entityInstances.length) {
         rotation = getAngleBetweenInstances(shooter, entityInstances[0])
       }

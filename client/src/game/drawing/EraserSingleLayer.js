@@ -6,7 +6,7 @@ import { getThemePrimaryColor } from "../../utils/webPageUtils";
 
 export class EraserSingleLayer extends Brush {
   constructor(scene, { brushId }){
-    const depth = getDepthFromEraserId(brushId)
+    const depth = scene.getDepthFromEraserId(brushId)
     super(scene, { brushId, textureId: DEFAULT_TEXTURE_ID, depth })
 
     this.setBlendMode(BlendModes.ERASE)

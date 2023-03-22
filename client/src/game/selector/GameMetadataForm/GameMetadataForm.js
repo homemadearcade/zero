@@ -32,7 +32,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
       metadata: {
         ...data,
         imageUrl
-      }
+      },
     })
     reset();
     onSubmit()

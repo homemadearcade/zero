@@ -37,16 +37,16 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
   try {
     const spritesByDescriptor = await getSpritesByDescriptor()
 
-    const descriptorOptions = Object.keys(spritesByDescriptor).map((descriptor) => {
+    const visualTagOptions = Object.keys(spritesByDescriptor).map((visualTag) => {
       return {
-        label: descriptor,
-        value: descriptor
+        label: visualTag,
+        value: visualTag
       }
     })
 
     dispatch({
       type: GET_SPRITESHEET_DATA_SUCCESS,
-      payload: { spritesByDescriptor, descriptorOptions },
+      payload: { spritesByDescriptor, visualTagOptions },
     });
 
   } catch (err) {

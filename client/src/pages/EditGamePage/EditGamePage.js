@@ -15,18 +15,17 @@ import requireAuth from '../../hoc/requireAuth';
 
 const EditGamePage = ({}) => {
   return (
-    <div className="EditGamePage">
-      <LocalGameRoomContext room={{isEdit: true, gameState: PLAY_STATE}}>
-        <GameEditor 
-          leftColumn={<>
-          </>}
-          rightColumn={<>
-          </>}
-        >
-          <GameView/>
-        </GameEditor>
-      </LocalGameRoomContext>
-    </div>
+    <LocalGameRoomContext room={{isEdit: true, gameState: PLAY_STATE}}>
+      <div className="EditGamePage">
+          <GameEditor 
+            leftColumn={<>
+            </>}
+            rightColumn={<>
+            </>}
+          >
+          </GameEditor>
+      </div>
+    </LocalGameRoomContext>
   );
 };
 

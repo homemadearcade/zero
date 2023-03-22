@@ -17,7 +17,11 @@ const arcadeGameSchema = new Schema(
         title: 'New Game',
       }
     },
-    // THESE ARE GLOBAL, perhaps player -> initialScene
+    theme: {
+      type: Object,
+      required: true,
+      default: {}
+    },  
     player: {
       type: Object,
       required: true,
@@ -63,22 +67,12 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
-    tags: {
+    relationTags: {
       type: Object,
       required: true,
       default: {}
     },
     textures: {
-      type: Object,
-      required: true,
-      default: {}
-    },
-    spriteSheets: {
-      type: Object,
-      required: true,
-      default: {}
-    },
-    tags: {
       type: Object,
       required: true,
       default: {}
@@ -114,9 +108,8 @@ export const validateArcadeGame = (game) => {
     effects: Joi.object(),
     cutscenes: Joi.object(),
     textures: Joi.object(),
-    spriteSheets: Joi.object(),
     isRemoved: Joi.bool(),
-    tags: Joi.object(),
+    relationTags: Joi.object(),
   };
   return Joi.validate(game, schema, { allowUnknown: true });
 };
@@ -137,12 +130,11 @@ arcadeGameSchema.methods.toJSON = function () {
     effects: this.effects,
     cutscenes: this.cutscenes,
     textures: this.textures,
-    spriteSheets: this.spriteSheets,
     owner: this.owner?.toJSON(),
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     isRemoved: this.isRemoved,
-    tags: this.tags ? this.tags : {},
+    relationTags: this.relationTags ? this.relationTags : {},
   };
 };
 

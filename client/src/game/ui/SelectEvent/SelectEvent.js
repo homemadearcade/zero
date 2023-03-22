@@ -2,7 +2,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectTag.scss';
+import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 
 const SelectEvent = ({ onChange, disabled, value, formLabel, gameModel }) => {
@@ -23,8 +23,8 @@ const SelectEvent = ({ onChange, disabled, value, formLabel, gameModel }) => {
 
   return <SelectChipsAuto 
     disabled={disabled}
-    onChange={(event, descriptors) => {
-      onChange(event,  descriptors)
+    onChange={(event, visualTags) => {
+      onChange(event,  visualTags)
     }}
     hideRemoved
     formLabel={formLabel}

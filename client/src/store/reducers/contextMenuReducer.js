@@ -26,7 +26,7 @@ export default function contextMenuReducer(state = initialState, { type, payload
         isContextMenuOpen: true,
         entityClassIdSelectedContextMenu: payload.entityClassIdSelectedContextMenu,
         entityInstanceIdSelectedContextMenu: payload.entityInstanceIdSelectedContextMenu,
-        selectableObjectInstances: payload.selectableObjectInstances
+        selectableEntityInstances: payload.selectableEntityInstances
       };
     case CLOSE_CONTEXT_MENU:
       return {
@@ -35,7 +35,7 @@ export default function contextMenuReducer(state = initialState, { type, payload
         contextMenuY: null,
         entityClassIdSelectedContextMenu: null,
         entityInstanceIdSelectedContextMenu: null,
-        selectableObjectInstances: null,
+        selectableEntityInstances: null,
         isContextMenuOpen: false
       };
     default:

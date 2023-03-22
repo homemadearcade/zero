@@ -67,7 +67,7 @@ export class InteractArea extends PhaserInstance {
   registerArcade(relations) {
     relations?.forEach((relation) => {
       const {event} = relation
-      const releventEntityInstances = this.scene.entityInstancesByTag[event.tagIdB]
+      const releventEntityInstances = this.scene.entityInstancesByTag[event.relationTagIdB]
       if(!releventEntityInstances || !releventEntityInstances.length) return
       const releventPhaserInstances = releventEntityInstances.map(({phaserInstance}) => phaserInstance)
       this.overlaps.push(
@@ -162,7 +162,7 @@ export class InteractArea extends PhaserInstance {
 
     if(closestInteractable && this.xKey.isDown && this.xKey.isPressable) {
       interactPossibility.relations.forEach((relation) => {
-        this.entityInstance.startRunEventEffects(
+        this.entityInstance.runRelation(
           relation, 
           closestInteractable
         )

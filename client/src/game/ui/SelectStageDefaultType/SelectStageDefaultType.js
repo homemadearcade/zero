@@ -17,8 +17,8 @@ const SelectStageDefaultType = ({ onChange, value, formLabel }) => {
   const options = Object.keys(stageDefaultTypeLabels).map(mapControlsToOption)
 
   return <SelectChipsAuto 
-    onChange={(event, descriptors) => {
-      onChange(event, descriptors.map((stageDefaultType) => {
+    onChange={(event, visualTags) => {
+      onChange(event, visualTags.map((stageDefaultType) => {
         return stageDefaultTypeProperties[stageDefaultType]
       }))
     }}

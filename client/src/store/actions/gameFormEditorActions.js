@@ -29,9 +29,9 @@ import {
   UPDATE_CREATE_STAGE,
   OPEN_CLASS_EDIT_MODAL,
   CLOSE_CLASS_EDIT_MODAL,
-  OPEN_CREATE_TAG,
-  CLOSE_CREATE_TAG,
-  UPDATE_CREATE_TAG,
+  OPEN_CREATE_RELATION_TAG,
+  CLOSE_CREATE_RELATION_TAG,
+  UPDATE_CREATE_RELATION_TAG,
   OPEN_CREATE_EFFECT,
   CLOSE_CREATE_EFFECT,
   UPDATE_CREATE_EFFECT,
@@ -256,8 +256,6 @@ export const openCreateRelation = (initialRelation) => (dispatch, getState) => {
     event = gameModel.events[initialRelation.eventId]
   }
 
-  console.log('??')
-
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_RELATION,
@@ -308,30 +306,25 @@ export const updateBoundaryRelation = (entityClass) => (dispatch, getState) => {
   });
 }
 
-
-
-
-
-
-export const openCreateTag = (initialTag) => (dispatch, getState) => {
+export const openCreateRelationTag = (initialRelationTag) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_CREATE_TAG,
-    payload: { initialTag }
+    type: OPEN_CREATE_RELATION_TAG,
+    payload: { initialRelationTag }
   });
 }
-export const closeCreateTag= () => (dispatch, getState) => {
+export const closeCreateRelationTag= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_CREATE_TAG,
+    type: CLOSE_CREATE_RELATION_TAG,
     payload: {}
   });
 }
-export const updateCreateTag = (tag) => (dispatch, getState) => {
+export const updateCreateRelationTag = (relationTag) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: UPDATE_CREATE_TAG,
-    payload: { tag }
+    type: UPDATE_CREATE_RELATION_TAG,
+    payload: { relationTag }
   });
 }
 

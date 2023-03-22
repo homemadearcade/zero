@@ -6,12 +6,12 @@ import './CreateEvent.scss';
 import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultEvent, eventTypeInterfaces, playerTagId, PLAYER_AND_TAG_EVENT, PLAYER_TAG_EVENT, SINGLE_TAG_EVENT, TWO_TAG_EVENT } from '../../constants';
+import { defaultEvent, eventTypeInterfaces, playerRelationTagId, PLAYER_AND_RELATION_TAG_EVENT, PLAYER_RELATION_TAG_EVENT, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT } from '../../constants';
 import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
 import { EVENT_ADVANCED_CONTAINER_IID, EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID } from '../../../constants/interfaceIds';
-import SelectTag from '../../ui/SelectTag/SelectTag';
+import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectEventType from '../../ui/SelectEventType/SelectEventType';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 
@@ -55,7 +55,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       </Unlockable>)
     }
 
-    if(event.tagIdA && correctEvent && !eventTypeInterface.tagSelectType != PLAYER_TAG_EVENT) {
+    if(event.relationTagIdA && correctEvent && !eventTypeInterface.relationTagSelectType != PLAYER_RELATION_TAG_EVENT) {
       advancedOptions.push(
         <Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
           <SelectSides
@@ -72,7 +72,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       )
     }
 
-    if(event.tagIdB && correctEvent && !eventTypeInterface.tagSelectType != SINGLE_TAG_EVENT && !eventTypeInterface.tagSelectType != PLAYER_TAG_EVENT) {
+    if(event.relationTagIdB && correctEvent && !eventTypeInterface.relationTagSelectType != SINGLE_RELATION_TAG_EVENT && !eventTypeInterface.relationTagSelectType != PLAYER_RELATION_TAG_EVENT) {
       advancedOptions.push(<Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
         <SelectSides
           key="event/sidesB"
@@ -93,61 +93,61 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
     if(!event.eventType) return
     const eventTypeInterface = eventTypeInterfaces[event.eventType]
 
-    if(eventTypeInterface.tagSelectType === PLAYER_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === PLAYER_RELATION_TAG_EVENT) {
       return null
     }
 
-    if(eventTypeInterface.tagSelectType === SINGLE_TAG_EVENT) {
-      return <SelectTag
-        disabled={event.tagIdA}
+    if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT) {
+      return <SelectRelationTag
+        disabled={event.relationTagIdA}
         formLabel="Tag A"
-        value={event.tagIdA ? [event.tagIdA] : []}
+        value={event.relationTagIdA ? [event.relationTagIdA] : []}
         onChange={(event, entityClasses) => {
           const newClassId = entityClasses[entityClasses.length-1]
           updateCreateEvent({
-            tagIdA: newClassId,
+            relationTagIdA: newClassId,
           })
-          // handleEventChange('tagIdB', newClassId)
+          // handleEventChange('relationTagIdB', newClassId)
       }}/>
     }
 
-    if(eventTypeInterface.tagSelectType === PLAYER_AND_TAG_EVENT) {
-      return <SelectTag
-        disabled={event.tagIdB}
+    if(eventTypeInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT) {
+      return <SelectRelationTag
+        disabled={event.relationTagIdB}
         formLabel="Interactable Tag"
-        value={event.tagIdB ? [event.tagIdB] : []}
+        value={event.relationTagIdB ? [event.relationTagIdB] : []}
         onChange={(event, entityClasses) => {
           const newClassId = entityClasses[entityClasses.length-1]
           updateCreateEvent({
-            tagIdB: newClassId,
+            relationTagIdB: newClassId,
           })
-          // handleEventChange('tagIdB', newClassId)
+          // handleEventChange('relationTagIdB', newClassId)
       }}/>
     }
 
-    if(eventTypeInterface.tagSelectType === TWO_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT) {
       return <>
-        <SelectTag
-          disabled={event.tagIdA}
+        <SelectRelationTag
+          disabled={event.relationTagIdA}
           formLabel="Tag A"
-          value={event.tagIdA ? [event.tagIdA] : []}
+          value={event.relationTagIdA ? [event.relationTagIdA] : []}
           onChange={(event, entityClasses) => {
             const newClassId = entityClasses[entityClasses.length-1]
             updateCreateEvent({
-              tagIdA: newClassId,
+              relationTagIdA: newClassId,
             })
-            // handleEventChange('tagIdB', newClassId)
+            // handleEventChange('relationTagIdB', newClassId)
         }}/>
-        <SelectTag
-          disabled={event.tagIdB}
+        <SelectRelationTag
+          disabled={event.relationTagIdB}
           formLabel="Tag B"
-          value={event.tagIdB ? [event.tagIdB] : []}
+          value={event.relationTagIdB ? [event.relationTagIdB] : []}
           onChange={(event, entityClasses) => {
             const newClassId = entityClasses[entityClasses.length-1]
             updateCreateEvent({
-              tagIdB: newClassId
+              relationTagIdB: newClassId
             })
-            // handleEventChange('tagIdB', newClassId)
+            // handleEventChange('relationTagIdB', newClassId)
         }}/>
       </>
     }
@@ -159,24 +159,22 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       value={event.eventType ? [event.eventType] : []}
       onChange={(event, eventTypes) => {
         const eventType = eventTypes[eventTypes.length-1]
-        const { tagSelectType } = eventTypeInterfaces[eventType]
-        if(tagSelectType === PLAYER_AND_TAG_EVENT || tagSelectType === PLAYER_TAG_EVENT) {
+        const { relationTagSelectType } = eventTypeInterfaces[eventType]
+        if(relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT || relationTagSelectType === PLAYER_RELATION_TAG_EVENT) {
           updateCreateEvent({
             ...defaultEvent,
             eventType: eventType,
-            tagIdA: playerTagId,
-            eventId: event.eventId
+            relationTagIdA: playerRelationTagId,
           })
         } else {
           updateCreateEvent({
             ...defaultEvent,
             eventType: eventType,
-            eventId: event.eventId
           })
         }
     }}/>
     {renderTagSelect()}
-    {event.eventType && <CobrowsingNestedList interfaceId={EVENT_ADVANCED_CONTAINER_IID} id={event.eventId} title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
+    {event.eventType && <CobrowsingNestedList interfaceId={EVENT_ADVANCED_CONTAINER_IID} id={"CreateEvent"} title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
   </div>
 }
 

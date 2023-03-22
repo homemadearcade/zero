@@ -73,7 +73,16 @@ export function getInterfaceIdData(interfaceId, interfaceIdToUnlock) {
   const idAliases = getInterfaceIdAliases(interfaceIdToUnlock)
   const me = state.auth.me
 
-  const { isDefaultUnlocked, adminOnly, ignoreTools } = interfaceIdData[interfaceId]
+  
+  const data = interfaceIdData[interfaceId]
+  let isDefaultUnlocked = false
+  let adminOnly = false
+  let ignoreTools = false
+  if(data) {
+    isDefaultUnlocked = data.isDefaultUnlocked
+    adminOnly = data.adminOnly
+    ignoreTools = data.ignoreTools
+  }
 
   const isToolOpen = !!store.getState().cobrowsing.selectedTool
 

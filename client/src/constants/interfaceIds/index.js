@@ -1,5 +1,5 @@
 export * from "./cameraInterfaceIds";
-export * from "./classInterfaceIds";
+export * from "./entityClassInterfaceIds";
 export * from "./contextMenuInterfaceIds";
 export * from "./instanceToolbarInterfaceIds";
 export * from "./jumpInterfaceIds";
@@ -12,5 +12,5 @@ export * from "./brushInterfaceIds";
 export * from "./rootInterfaceIds";
 export * from "./cutsceneInterfaceIds";
 export * from "./gameInterfaceIds";
-export * from "./tagInterfaceIds";
+export * from "./relationTagInterfaceIds";
 export * from "./videoInterfaceIds";

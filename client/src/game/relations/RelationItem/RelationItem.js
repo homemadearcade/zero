@@ -9,11 +9,10 @@ import { openContextMenuFromClassId } from '../../../store/actions/contextMenuAc
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { changeRelationIdHovering } from '../../../store/actions/hoverPreviewActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { RELATION_SELECT_IID, TAG_SELECT_IID } from '../../../constants/interfaceIds';
+import { RELATION_SELECT_IID, RELATION_TAG_SELECT_IID } from '../../../constants/interfaceIds';
 import { NestedListItem } from '../../../ui/NestedList/NestedList';
 import { openCreateRelation } from '../../../store/actions/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
-import { effectBehaviorToDisplayNames, eventTypeToDisplayNames, eventShortNames } from '../../constants';
 import RelationShorthand from '../RelationShorthand/RelationShorthand';
 
 const RelationItem = ({
@@ -39,7 +38,6 @@ const RelationItem = ({
       <NestedListItem
         onClick={() => {
           openCreateRelation(relation)
-          console.log('???', relation)
         }}
       >
         <Typography variant="body2">

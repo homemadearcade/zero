@@ -1,3 +1,6 @@
+export const STEP_CATEGORY_GAME = 'SET_CATEGORY_GAME'
+
+
 export const defaultStep = {
   skippable: false,
   prompts: {},

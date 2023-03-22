@@ -6,11 +6,11 @@ import './SelectDescriptors.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { shuffleArray } from '../../../utils/arrayUtils';
 
-const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => {
+const SelectDescriptors = ({ onChange, value, formLabel, visualTagOptions}) => {
   const [options, setOptions] = useState()
 
   useEffect(() => {
-    setOptions(shuffleArray(descriptorOptions))
+    setOptions(shuffleArray(visualTagOptions))
   }, [])
 
   if(!options) return
@@ -26,7 +26,7 @@ const SelectDescriptors = ({ onChange, value, formLabel, descriptorOptions}) => 
 
 const mapStateToProps = (state) => {
   return {
-    descriptorOptions: state.gameModel.descriptorOptions,
+    visualTagOptions: state.gameModel.visualTagOptions,
   }
 };
 

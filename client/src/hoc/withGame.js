@@ -59,18 +59,11 @@ export default (ChildComponent) => {
       if(gameInstance) {
         // const scene = getCurrentGameScene(gameInstance)
         
-        // if(scene?.gameRoom.isHost) {
-        //   if(scene.backgroundCanvasLayer?.unsavedChanges ||
-        //     scene.playgroundCanvasLayer?.unsavedChanges ||
-        //     scene.foregroundCanvasLayer?.unsavedChanges
-        //   ) {
-        //     setTimeout(() => {
-        //       saveAllCurrentCanvases()
-        //     })
+
+
         //     e.returnValue = ''
         //     return
-        //   }
-        // }
+
 
       }
     }

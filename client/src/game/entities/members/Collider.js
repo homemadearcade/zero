@@ -98,8 +98,8 @@ export class Collider {
 
   registerArcadeColliders(colliders) {
     colliders.forEach((collider) => {
-      const { tagIdB } = collider
-      const releventInstances = this.scene.entityInstancesByTag[tagIdB]
+      const { relationTagIdB } = collider
+      const releventInstances = this.scene.entityInstancesByTag[relationTagIdB]
       if(!releventInstances || !releventInstances.length) return
       const releventSprites = releventInstances.map(({phaserInstance}) => phaserInstance)
       this.colliders.push(
@@ -114,7 +114,7 @@ export class Collider {
   registerArcadeRelations(relations) {
     relations?.forEach((relation) => {
       const {event, sidesA, sidesB} = relation
-      const releventInstances = this.scene.entityInstancesByTag[event.tagIdB]
+      const releventInstances = this.scene.entityInstancesByTag[event.relationTagIdB]
       if(!releventInstances || !releventInstances.length) return
       const releventSprites = releventInstances.map(({phaserInstance}) => phaserInstance)
       this.overlaps.push(

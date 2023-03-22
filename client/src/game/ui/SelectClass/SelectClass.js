@@ -34,8 +34,8 @@ const SelectClass = ({ onChange, disabled, value, formLabel, gameModel, classTyp
 
   return <SelectChipsAuto 
     disabled={disabled}
-    onChange={(event, descriptors) => {
-      onChange(event,  descriptors)
+    onChange={(event, visualTags) => {
+      onChange(event,  visualTags)
     }}
     groupBy={option => {
       return classTypeToDisplayName[option.classInterfaceCategory]

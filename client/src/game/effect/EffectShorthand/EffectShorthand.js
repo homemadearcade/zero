@@ -38,7 +38,7 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
   const effectBehavior = effect.effectBehavior 
   const entityClasses = gameModel.entityClasses 
   const cutscenes = gameModel.cutscenes 
-  const tags = gameModel.tags 
+  const relationTags = gameModel.relationTags 
 
   function renderBody() {
     if(effectBehavior === EFFECT_TELEPORT) {
@@ -74,11 +74,11 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
     }
 
     if(effectBehavior === EFFECT_DESTROY) {
-      if(effect.remoteEffectedTagIds.length) {
+      if(effect.remoteEffectedRelationTagIds?.length) {
         return <>
           {renderEffect(effect)}
           {/* {` all`} */}
-          {effect.remoteEffectedTagIds.map((tagId) => tags[tagId]).map(renderTag)}
+          {effect.remoteEffectedRelationTagIds.map((relationTagId) => relationTags[relationTagId]).map(renderTag)}
         </>
       }
     }

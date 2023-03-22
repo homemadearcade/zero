@@ -4,7 +4,7 @@ import {
   CHANGE_INSTANCE_HOVERING,
   CHANGE_EFFECT_ID_HOVERING,
   CHANGE_EVENT_ID_HOVERING,
-  CHANGE_TAG_ID_HOVERING,
+  CHANGE_RELATION_TAG_ID_HOVERING,
   CHANGE_RELATION_ID_HOVERING,
 } from '../types';
 
@@ -64,13 +64,13 @@ export const changeEventIdHovering = (eventId) => (dispatch, getState) => {
     }
   });
 }
-export const changeTagIdHovering = (tagId) => (dispatch, getState) => {
+export const changeRelationTagIdHovering = (relationTagId) => (dispatch, getState) => {
   dispatch({
-    type: CHANGE_TAG_ID_HOVERING,
+    type: CHANGE_RELATION_TAG_ID_HOVERING,
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
     payload: {
-      tagId
+      relationTagId
     }
   });
 }

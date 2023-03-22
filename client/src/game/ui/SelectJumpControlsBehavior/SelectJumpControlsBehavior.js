@@ -37,8 +37,8 @@ const SelectJumpControlsBehavior = ({ onChange, value, formLabel }) => {
   const options = Object.keys(jumpControlsBehaviorDefaults).map(mapControlsToOption)
 
   return <SelectChipsAuto 
-    onChange={(event, descriptors) => {
-      onChange(event, descriptors.map((jumpControlsBehavior) => {
+    onChange={(event, visualTags) => {
+      onChange(event, visualTags.map((jumpControlsBehavior) => {
         return jumpControlsBehaviorDefaults[jumpControlsBehavior]
       }))
     }}

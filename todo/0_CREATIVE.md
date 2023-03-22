@@ -17,6 +17,10 @@ TOUR component for admins? There this 'tour component' I found when searching ui
 
 AUDIO EFFECTS :)
 
+BEHAVIORS
+  I think you like 'add behaviors' and you can tweak these behaviors. Behaviors is an object like tags. Behaviors are also part of a game. A game can create behaviors. oh fuck. Yeah we can auto generate a lot of them. Behaviors understand conflicts between eachother. You can only have one movement behavior... Hmm yeah thats the thing like it kinda works the right way already. 
+  Non conflicting behaviors??? im not certain
+
 CHOICE EVENT
   On Choice Made
     Choice Can then run effects

@@ -13,7 +13,6 @@ const ErrorHandler = ({
   errors: { errors },
   clearError
  }) => {  
-
   function renderSnackbar() {
     const error = errors[errors.length-1]
     function handleClose() {

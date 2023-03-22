@@ -6,7 +6,7 @@ import ToolbarIcon from '../../../ui/ToolbarIcon/ToolbarIcon';
 import { lobbyUndo } from '../../../store/actions/lobbyActions';
 import { toggleGridView } from '../../../store/actions/gameViewEditorActions'
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, STOPPED_STATE } from '../../constants';
+import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../../constants';
 import { onInstanceUndo } from '../../../store/actions/lobbyActions';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_RESET_IID } from '../../../constants/interfaceIds';
 import { changeGameState, editGameRoom } from '../../../store/actions/gameRoomActions';
@@ -14,7 +14,6 @@ import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const GameStateToolbar = ({ editGameRoom, changeGameState, lobbyUndo, toggleGridView, gameRoom: { gameRoom: { gameState }, gameRoom } }) => {
   const color = useWishTheme().primaryColor.hexString
-        // color={gameState === STOPPED_STATE ? color: null}
 
   if(gameState === START_STATE || gameState === PLAYTHROUGH_PLAY_STATE) {
     return <div className="GameStateToolbar">
@@ -22,7 +21,6 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, lobbyUndo, toggleGrid
           <ToolbarIcon 
             size="lg"
             icon="faStop"
-            color={gameState === STOPPED_STATE ? color: null}
             onClick={() => {
               editGameRoom(gameRoom.id, {
                 gameResetDate: Date.now()
@@ -49,7 +47,6 @@ const GameStateToolbar = ({ editGameRoom, changeGameState, lobbyUndo, toggleGrid
     <ToolbarIcon 
       size="lg"
       icon="faRepeat"
-      color={gameState === STOPPED_STATE ? color: null}
       onClick={() => {
         editGameRoom(gameRoom.id, {
           gameResetDate: Date.now()

@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 
 const canvasImage = new Schema(
   {
+    visualTags: {
+      type: Array,
+      default: []
+    },
     textureId: {
       type: String,
       required: true,

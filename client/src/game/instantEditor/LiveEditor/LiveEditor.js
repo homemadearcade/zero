@@ -13,7 +13,7 @@ import Icon from '../../../ui/Icon/Icon';
 import CameraEditor from '../CameraEditor/CameraEditor';
 import ProjectileEditor from '../ProjectileEditor/ProjectileEditor';
 import MovementEditor from '../MovementEditor/MovementEditor';
-import ClassMemberTitle from '../../class/ClassMemberTitle/ClassMemberTitle';
+import ClassMemberTitle from '../../entityClass/ClassMemberTitle/ClassMemberTitle';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
 import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, STAGE_EDITOR } from '../../constants';

@@ -1,5 +1,17 @@
-import { MOVEMENT_FOLLOW_PLAYER, MOVEMENT_JUMP, MOVEMENT_NONE, MOVEMENT_SIDE_TO_SIDE, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_UP_AND_DOWN, MOVEMENT_TURN_RANDOMLY, MOVEMENT_FOLLOW_CLASS } from "../"
-import { defaultMovement } from "./class"
+import { defaultMovement } from "./entityClass"
+
+/////////////////////////////////////
+/////////////////////////////////////
+// MOVEMENT PATTERNS
+export const MOVEMENT_SIDE_TO_SIDE = 'MOVEMENT_SIDE_TO_SIDE'
+export const MOVEMENT_UP_AND_DOWN = 'MOVEMENT_UP_AND_DOWN'
+export const MOVEMENT_JUMP = 'MOVEMENT_JUMP'
+export const MOVEMENT_TURN_ON_COLLIDE = 'MOVEMENT_TURN_ON_COLLIDE'
+export const MOVEMENT_TURN_RANDOMLY = 'MOVEMENT_TURN_RANDOMLY'
+export const MOVEMENT_FOLLOW_PLAYER = 'MOVEMENT_FOLLOW_PLAYER'
+export const MOVEMENT_FOLLOW_RELATION_TAG = 'MOVEMENT_FOLLOW_RELATION_TAG'
+export const MOVEMENT_NONE = 'MOVEMENT_NONE'
+export const MOVEMENT_MIRROR_PLAYER = 'MOVEMENT_MIRROR_PLAYER'
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -8,6 +20,9 @@ import { defaultMovement } from "./class"
 //////////////////////////////////////////////////////////////////////////
 // PARAMETERS
 export const movementBehaviorToInterface = {
+  [MOVEMENT_FOLLOW_PLAYER] : {
+
+  },
   [MOVEMENT_SIDE_TO_SIDE]: {
     velocityX: 'Speed',
   },
@@ -28,9 +43,9 @@ export const movementBehaviorToInterface = {
   [MOVEMENT_FOLLOW_PLAYER]: {
     speed: true,
   },
-  [MOVEMENT_FOLLOW_CLASS]: {
+  [MOVEMENT_FOLLOW_RELATION_TAG]: {
     speed: true,
-    class: true
+    relationTag: true
   },
   [MOVEMENT_NONE]: {
     gravityY: false,
@@ -121,9 +136,28 @@ export const followPlayerDefaults = {
   },
 }
 
+export const mirrorPlayerDefaults = {
+  movement: {
+    movementBehavior: MOVEMENT_MIRROR_PLAYER,
+    velocityX: 0,
+    velocityY: 0,
+    gravityY: 0,
+    gravityX: 0,
+    dragX: 1,
+    dragY: 1,
+    speed: 100,
+    ignoreGravity: true
+  },
+  collisionResponse: {
+    notPushable: true,
+    bounciness: 0
+  }
+}
+
+
 export const followClassDefaults = {
   movement: {
-    movementBehavior: MOVEMENT_FOLLOW_CLASS,
+    movementBehavior: MOVEMENT_FOLLOW_RELATION_TAG,
     velocityX: 0,
     velocityY: 0,
     gravityY: 0,

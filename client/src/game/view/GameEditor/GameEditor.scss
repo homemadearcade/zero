@@ -1,9 +1,12 @@
 .GameEditor {
   display: flex;
   justify-content: center;
-  position: relative;
+  // position: relative;
   height: 100%;
   width: calc(100% - 2px);
+    position: absolute;
+      top: 0;
+      left: 0;
   // &--not-cobrowsing {
   // }
 
@@ -14,6 +17,7 @@
     .CobrowsingModal__body {
       background-color: rgba(25, 0, 0);
       border: 1px solid red;
+      width: calc(100% - 4px);
     }
   }
 

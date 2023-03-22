@@ -1,5 +1,5 @@
 import { OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX } from "../"
-import { defaultClass, defaultPlayerClass } from "./class"
+import { defaultClass, defaultPlayerClass } from "./entityClass"
 import { directionalDefaults, advancedDirectionalDefaults } from "./controlledMovement"
 import { groundJumpDefaults, jumpMovementDefaults, noJumpDefaults } from "./jumping"
 import { vehicleDefaults } from "./controlledMovement"

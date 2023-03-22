@@ -29,7 +29,7 @@ export const openStageContextMenu = (event) => (dispatch, getState) => {
   });
 }
 
-export const openContextMenuFromObjectInstance = (entityInstances, event) => (dispatch, getState) => {
+export const openContextMenuFromEntityInstance = (entityInstances, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   if(entityInstances[0].effectSpawned) return
@@ -41,7 +41,7 @@ export const openContextMenuFromObjectInstance = (entityInstances, event) => (di
     payload: {
       entityClassIdSelectedContextMenu: entityInstances[0].entityClassId, 
       entityInstanceIdSelectedContextMenu: entityInstances.length === 1 ? entityInstances[0].entityInstanceId : null, 
-      selectableObjectInstances: entityInstances.length > 1 ? entityInstances.map(({entityInstanceId, entityClassId}) => { return {objectId: entityInstanceId, entityClassId}}) : null, 
+      selectableEntityInstances: entityInstances.length > 1 ? entityInstances.map(({entityInstanceId, entityClassId}) => { return {objectId: entityInstanceId, entityClassId}}) : null, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }
@@ -57,14 +57,14 @@ export const openContextMenuFromClassId= (entityClassId, event) => (dispatch, ge
     type: OPEN_CONTEXT_MENU,
     payload: {
       entityClassIdSelectedContextMenu: entityClassId, 
-      selectableObjectInstances: null,
+      selectableEntityInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }
   });
 }
 
-export const openContextMenuFromObjectInstanceId= (entityInstanceId, entityClassId, event) => (dispatch, getState) => {
+export const openContextMenuFromEntityInstanceId= (entityInstanceId, entityClassId, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
@@ -74,7 +74,7 @@ export const openContextMenuFromObjectInstanceId= (entityInstanceId, entityClass
     payload: {
       entityInstanceIdSelectedContextMenu: entityInstanceId,
       entityClassIdSelectedContextMenu: entityClassId,
-      selectableObjectInstances: null,
+      selectableEntityInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }

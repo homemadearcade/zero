@@ -26,7 +26,7 @@ export class PreloaderScene extends Phaser.Scene {
     }
 
     store.dispatch(updateTheme({
-      primaryColor: store.getState().gameModel.gameModel.metadata.interfaceColor
+      primaryColor: store.getState().gameModel.gameModel.theme.primaryColor
     }))
     if(store.getState().webPage.gameInstanceId) {
       console.error('a new game has been loaded for some reason with id', this.gameRoom.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)

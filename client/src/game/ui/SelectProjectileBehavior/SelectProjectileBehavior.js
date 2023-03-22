@@ -41,8 +41,8 @@ const SelectProjectileBehavior = ({ onChange, value, formLabel }) => {
   const options = Object.keys(projectileValueToLabel).map(mapControlsToOption)
 
   return <SelectChipsAuto 
-    onChange={(event, descriptors) => {
-      onChange(event, descriptors.map((projectileBehavior) => {
+    onChange={(event, visualTags) => {
+      onChange(event, visualTags.map((projectileBehavior) => {
         return projectileBehavior
       }))
     }}

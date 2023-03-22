@@ -2,7 +2,7 @@ import {
   CHANGE_CLASS_ID_HOVERING,
   CHANGE_BRUSH_ID_HOVERING,
   CHANGE_INSTANCE_HOVERING,
-  CHANGE_TAG_ID_HOVERING,
+  CHANGE_RELATION_TAG_ID_HOVERING,
   CHANGE_EVENT_ID_HOVERING,
   CHANGE_EFFECT_ID_HOVERING,
   CHANGE_RELATION_ID_HOVERING,
@@ -14,7 +14,7 @@ const initialState = {
   brushIdHovering: null,
   instanceClassIdHovering: null,
   entityInstanceIdHovering: null,
-  tagIdHovering: null,
+  relationTagIdHovering: null,
   relationIdHovering: null,
   eventIdHovering: null,
   effectIdHovering: null
@@ -39,10 +39,10 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
         ...state,
         relationIdHovering: payload.relationId
       }
-    case CHANGE_TAG_ID_HOVERING:
+    case CHANGE_RELATION_TAG_ID_HOVERING:
       return {
         ...state,
-        tagIdHovering: payload.tagId
+        relationTagIdHovering: payload.relationTagId
       }
     case CHANGE_CLASS_ID_HOVERING:
       return {

@@ -14,14 +14,14 @@ import Button from '../../../ui/Button/Button';
 import { PLAYER_CLASS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_BEHAVIOR_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, PHYSICS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
-import SelectClass from '../../ui/SelectClass/SelectClass';
 import { movementControlsBehaviorToInterface } from '../../constants';
+import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 
 const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
   const classSelected = gameModel.entityClasses[entityClassId]
 
-  let movementParameters = classSelected.movement.movementControlsBehavior ? movementControlsBehaviorToInterface[classSelected.movement.movementControlsBehavior] : movementBehaviorToInterface[classSelected.movement.movementBehavior]
+  let movementParameters = classSelected.classInterfaceCategory === PLAYER_CLASS ? movementControlsBehaviorToInterface[classSelected.movement.movementControlsBehavior] : movementBehaviorToInterface[classSelected.movement.movementBehavior]
 
   if(seeAllParameters) {
     movementParameters = {
@@ -42,6 +42,8 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
     }
   }
 
+  console.log(movementParameters)
+
   return (
     <div className="MovementEditor">
       {classSelected.classInterfaceCategory === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
@@ -60,12 +62,12 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
             editGameModel({ entityClasses: { [entityClassId]: { ...movementBehavior[movementBehavior.length-1] } }})    
           }}/>
       </Unlockable>}
-      {movementParameters.class && <SelectClass
-          formLabel="Following Class"
-          value={classSelected.movement.entityClassId ? [classSelected.movement.entityClassId] : []}
-          onChange={(event, entityClasses) => {
-            const newClassId = entityClasses[entityClasses.length-1]
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { entityClassId: newClassId ? newClassId : null  }}}})        
+      {movementParameters.relationTag&& <SelectRelationTag
+          formLabel="Following Tag"
+          value={classSelected.movement.relationTagId ? [classSelected.movement.relationTagId] : []}
+          onChange={(event, relationTags) => {
+            const newTagId = relationTags[relationTags.length-1]
+            editGameModel({ entityClasses: { [entityClassId]: { movement: { relationTagId: newTagId ? newTagId : null  }}}})        
       }}/>}
       {classSelected.movement.movementControlsBehavior && <ControlsCard entityClass={classSelected} controlScheme={classSelected.movement.movementControlsBehavior} jumpControlsBehavior={classSelected.jump.jumpControlsBehavior}></ControlsCard>}
       {movementParameters.speed &&<Unlockable interfaceId={MOVEMENT_SPEED_IID}>

@@ -8,7 +8,7 @@ export class TexturePencil extends Brush {
   constructor(scene, {brushId}){
     const gameModel = store.getState().gameModel.gameModel
     const brush = gameModel.brushes[brushId]
-    const depth = getDepthFromLayerCanvasId(brush.layerCanvasId)
+    const depth = scene.getDepthFromLayerCanvasId(brush.layerCanvasId)
     const textureTint = brush.textureTint
 
     const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)

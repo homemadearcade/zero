@@ -56,8 +56,7 @@ import {
   DELETE_GAME_ROOM_FAIL,
   UPDATE_GAME_ROOM_USER_FAIL,
   SEND_GAME_ROOM_MESSAGE_FAIL,
-  LEAVE_GAME_ROOM_FAIL,
-  
+  LEAVE_GAME_ROOM_FAIL,  
 } from '../types';
 
 const initialState = {

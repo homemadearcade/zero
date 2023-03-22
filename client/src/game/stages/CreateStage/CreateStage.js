@@ -57,11 +57,11 @@ const CreateStage = ({ stage, onUpdate }) => {
           {false && <SelectClass 
             classType={ZONE_CLASS}
             formLabel={"Into which zone should the Player spawn?"}
-            value={stage.spawnZoneClassId ? [stage.spawnZoneClassId] : []}
+            value={stage.playerSpawnZoneClassId ? [stage.playerSpawnZoneClassId] : []}
             onChange={(event, entityClasses) => {
               const newClassId = entityClasses[entityClasses.length-1]
               onUpdate({
-                spawnZoneClassId: newClassId
+                playerSpawnZoneClassId: newClassId
               })
           }}/>}
         <CobrowsingNestedList id={'stage'} title="Customize" listId="StageCustomize">

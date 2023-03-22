@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Sprite from '../../images/Texture/Texture';
 import { getCanvasIdFromColorId, getCanvasIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, STOPPED_STATE } from '../../constants';
+import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST} from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
@@ -33,7 +33,7 @@ const HoverPreview = ({
     instanceDataHovering,
     effectIdHovering,
     relationIdHovering,
-    tagIdHovering
+    relationTagIdHovering
   },
   gameSelector: {
     brushIdSelectedBrushList,
@@ -49,7 +49,7 @@ const HoverPreview = ({
       stages,
       effects,
       relations,
-      tags
+      relationTags
     }
   },
   gameRoom: {
@@ -200,7 +200,7 @@ const HoverPreview = ({
           changeSelectorList(SELECTOR_MAP_LIST)
         }}></IconButton>
       </div>}
-      {(gameRoom.gameState === PAUSED_STATE || gameRoom.gameState === STOPPED_STATE) && renderDisplayTitle('(Paused)')}
+      {(gameRoom.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
       {isHoveringOverTitle && 
         <div className="HoverPreview__actions">
           <Unlockable interfaceId={GAME_SNAPSHOT_IID}>
@@ -239,12 +239,12 @@ const HoverPreview = ({
     }
 
     // hovering 
-    if(tagIdHovering) {
-      const tag = tags[tagIdHovering]
+    if(relationTagIdHovering) {
+      const relationTag = relationTags[relationTagIdHovering]
       return renderDisplayWithTexture({
-        title: tag.name,
-        textureTint: tag.textureTint,
-        textureId: tag.textureId,
+        title: relationTag.name,
+        textureTint: relationTag.textureTint,
+        textureId: relationTag.textureId,
       })
     } else if(effectIdHovering) {
       const effect = effects[effectIdHovering]

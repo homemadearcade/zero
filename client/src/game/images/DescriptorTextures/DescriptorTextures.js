@@ -7,13 +7,13 @@ import './DescriptorTextures.scss';
 import Texture from '../../images/Texture/Texture';
 
 const DescriptorTextures = ({
-  descriptors,
+  visualTags,
   spritesByDescriptor,
   onClickTexture
 }) => {
 
-  const sprites = descriptors.reduce((prev, descriptor) => {
-    if(spritesByDescriptor[descriptor]) prev.push(...spritesByDescriptor[descriptor])
+  const sprites = visualTags.reduce((prev, visualTag) => {
+    if(spritesByDescriptor[visualTag]) prev.push(...spritesByDescriptor[visualTag])
 
     return prev
   }, [])

@@ -69,17 +69,17 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
       )
     }
 
-    if(effectForms.entityClassId) {
-      forms.push(<SelectClass 
-        key={'effectClassId'}
-        formLabel={effectForms.entityClassId}
-        value={effect.entityClassId ? [effect.entityClassId] : []}
-        onChange={(event, entityClasses) => {
-          const newClassId = entityClasses[entityClasses.length-1]
-          handleEffectChange('entityClassId', newClassId)
-        }}/>
-      )
-    }
+    // if(effectForms.entityClassId) {
+    //   forms.push(<SelectClass 
+    //     key={'entityClassId'}
+    //     formLabel={effectForms.entityClassId}
+    //     value={effect.entityClassId ? [effect.entityClassId] : []}
+    //     onChange={(event, entityClasses) => {
+    //       const newClassId = entityClasses[entityClasses.length-1]
+    //       handleEffectChange('entityClassId', newClassId)
+    //     }}/>
+    //   )
+    // }
 
     if(effectForms.spawnClassId) {
       forms.push(<SelectClass

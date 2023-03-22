@@ -19,8 +19,7 @@ export class Stage {
   }
 
   createStageBackgroundColorLayer() {    
-    const gameModel = store.getState().gameModel.gameModel
-    const stage = gameModel.stages[this.stageId]
+    const stage = this.scene.getCurrentStage()
     const boundaries = stage.boundaries
     const colorInt = getHexIntFromHexString(stage.backgroundColor || '#000000')
     if(this.backgroundColorLayer) this.backgroundColorLayer.destroy()
@@ -53,11 +52,10 @@ export class Stage {
   }
 
   ensureSpawnZoneExists() {
-    const gameModel = store.getState().gameModel.gameModel
-    const stage = gameModel.stages[this.stageId]
-    const spawnZones = this.scene.getAllObjectInstancesOfClassId(stage.spawnZoneClassId) 
+    const stage = this.scene.getCurrentStage()
+    const spawnZones = this.scene.getAllEntityInstancesOfClassId(stage.playerSpawnZoneClassId) 
     if(!spawnZones.length) {
-      this.scene.initializeObjectInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityClassId: stage.spawnZoneClassId}, true)
+      this.scene.initializeEntityInstance(OBJECT_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityClassId: stage.playerSpawnZoneClassId}, true)
     }
   }
 

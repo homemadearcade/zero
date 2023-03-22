@@ -26,7 +26,7 @@ const CreateTexture = ({
   textureIdSelected,
   textureTintSelected,
   formLabel,
-  descriptors,
+  visualTags,
   onSelect,
   onSelectTint,
   onClearTint,
@@ -69,8 +69,8 @@ const CreateTexture = ({
       />
       <Unlockable interfaceId={CHOOSE_TEXTURES_IID}>
         <div className="CreateTexture__texture-list">
-          <DescriptorTextures onClickTexture={onSelect} descriptors={descriptors}/>
-          <MyImages onClickTexture={onSelect} descriptors={descriptors}/>
+          <DescriptorTextures onClickTexture={onSelect} visualTags={visualTags}/>
+          <MyImages onClickTexture={onSelect} visualTags={visualTags}/>
         </div>
       </Unlockable>
     </div>

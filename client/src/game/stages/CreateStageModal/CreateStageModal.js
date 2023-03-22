@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import {  STAGE_ID_PREFIX} from '../../constants';
-import { addLayerCanvasTexturesForArcadeGameStage } from '../../../store/actions/arcadeGameActions';
+import { addLayersForArcadeGameStage } from '../../../store/actions/arcadeGameActions';
 import CreateStage from '../CreateStage/CreateStage';
 
         // {/* <RadioGroupColumn
@@ -44,7 +44,7 @@ const CreateStageModal = ({ closeCreateStageModal, editGameModel, updateCreateSt
 
   function isAutosaveDisabled() {
     if(stage.error) return false
-    if(!stage.spawnZoneClassId) return true
+    if(!stage.playerSpawnZoneClassId) return true
     return false 
   }
 
@@ -66,7 +66,7 @@ const CreateStageModal = ({ closeCreateStageModal, editGameModel, updateCreateSt
               }
             })
             if(stage.isNew) {
-              await addLayerCanvasTexturesForArcadeGameStage(gameModel.id, stage.stageId)
+              await addLayersForArcadeGameStage(gameModel.id, stage.stageId)
             }
             handleClose()
           }}>

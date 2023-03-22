@@ -1,5 +1,5 @@
 import store from "../../../store"
-import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterfaces, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
+import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterfaces, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_RELATION_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
@@ -108,14 +108,14 @@ export class Effects {
       alternatePhaserInstanceData.sides = sidesA
     }
 
-    let remoteEffectedTagIds = effect.remoteEffectedTagIds.slice()
-    if(effect.remoteEffectedTagIds2) {
-      remoteEffectedTagIds.push(...effect.remoteEffectedTagIds2)
+    let remoteEffectedRelationTagIds = effect.remoteEffectedRelationTagIds?.slice()
+    if(effect.remoteEffectedRelationTagIds2) {
+      remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIds2)
     }
 
-    if(remoteEffectedTagIds && !nonRemoteEffects[effect.effectBehavior]) {
-      remoteEffectedTagIds.forEach((tagId) => {
-        this.scene.entityInstancesByTag[tagId]?.forEach((entityInstance) => {
+    if(remoteEffectedRelationTagIds && !nonRemoteEffects[effect.effectBehavior]) {
+      remoteEffectedRelationTagIds?.forEach((relationTagId) => {
+        this.scene.entityInstancesByTag[relationTagId]?.forEach((entityInstance) => {
           phaserInstances.push(entityInstance.phaserInstance)
         })
       })
@@ -147,7 +147,7 @@ export class Effects {
     })
 
     function runEffect(phaserInstance) {
-      const entityInstance = scene.getObjectInstance(phaserInstance.entityInstanceId)
+      const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
       if(effect.effectBehavior === EFFECT_INVISIBLE && !entityInstance.effects.isVisibilityModified) {
         entityInstance.effects.isVisibilityModified = true
         entityInstance.isVisible = false
@@ -228,8 +228,8 @@ export class Effects {
       if(!zone) return console.log('no zone exists for that')
       const gameModel = store.getState().gameModel.gameModel
       const entityClass = gameModel.entityClasses[spawningClassId]
-      const spawnedObjectInstance =  this.scene.addObjectInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
-      spawnedObjectInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityClass))
+      const spawnedEntityInstance =  this.scene.addEntityInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
+      spawnedEntityInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityClass))
     }
   }
 
@@ -275,7 +275,7 @@ export class Effects {
       return
     }
 
-    if(effectBehaviorInterfaces[effect.effectBehavior].effectableType === NO_TAG_EFFECT) {
+    if(effectBehaviorInterfaces[effect.effectBehavior].effectableType === NO_RELATION_TAG_EFFECT) {
       return this.runTargetlessAccuteEffect({
         relation,
         phaserInstanceA,
@@ -310,10 +310,10 @@ export class Effects {
       }
       
       if(effect.effectBehavior === EFFECT_DESTROY) {
-        const entityInstance = scene.getObjectInstance(phaserInstance.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
         entityInstance.destroyAfterUpdate = true
       } else if(effect.effectBehavior === EFFECT_TRANSFORM) {
-        const entityInstance = scene.getObjectInstance(phaserInstance.entityInstanceId)
+        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
         entityInstance.transformEntityClassId = effect.entityClassId
       }
     }

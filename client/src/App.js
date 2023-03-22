@@ -173,6 +173,13 @@ const themeDefaults = {
         },
       }
     },
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          position: 'absolute'
+        }
+      }
+    },
     MuiSwitch: {
       styleOverrides: {
         root: {

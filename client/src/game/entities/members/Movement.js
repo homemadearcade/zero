@@ -1,6 +1,6 @@
 import store from "../../../store"
 import { isPlayerId } from "../../../utils/gameUtils"
-import { MOVEMENT_FOLLOW_CLASS, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY } from "../../constants"
+import { MOVEMENT_FOLLOW_RELATION_TAG, MOVEMENT_FOLLOW_PLAYER, MOVEMENT_TURN_ON_COLLIDE, MOVEMENT_TURN_RANDOMLY, MOVEMENT_MIRROR_PLAYER } from "../../constants"
 
 export class Movement {
   constructor(scene, entityInstance){
@@ -69,32 +69,46 @@ export class Movement {
         }  
       }
     }
+    
+    if(!this.mirroringInstance || (movementBehavior === MOVEMENT_MIRROR_PLAYER)) {
+      if(movementBehavior === MOVEMENT_MIRROR_PLAYER) {
+        this.mirroringInstance = this.scene.playerInstance
+      } else {
+        this.mirroringInstance = null
+      }
+    }
 
-    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_CLASS && this.followingInstance.entityClassId !== entityClass.movement.entityClassId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.entityInstanceId) ) ) {
+    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && this.followingInstance.entityClassId !== entityClass.movement.relationTagId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.entityInstanceId) ) ) {
       if(movementBehavior === MOVEMENT_FOLLOW_PLAYER) {
         this.followingInstance = this.scene.playerInstance
-      } else if(movementBehavior === MOVEMENT_FOLLOW_CLASS && entityClass.movement.entityClassId) {
-        const instances = this.scene.getAllObjectInstancesOfClassId(entityClass.movement.entityClassId)
+      } else if(movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && entityClass.movement.relationTagId) {
+        const instances = this.scene.entityInstancesByTag[entityClass.movement.relationTagId]
         if(instances.length) this.followingInstance = instances[0]
       } else {
         this.followingInstance = null
       }
     }
 
+    if(this.mirroringInstance) {
+      const mirroringPhaserInstance = this.mirroringInstance.phaserInstance
+      phaserInstance.x = mirroringPhaserInstance.x 
+      phaserInstance.y = mirroringPhaserInstance.y
+    }
+
     if(this.followingInstance) {
       const speed = entityClass.movement.speed
-      const followingSprite = this.followingInstance.phaserInstance
-      if(Math.abs(phaserInstance.x - followingSprite.x) < (speed/4) + 10) {
+      const followingPhaserInstance = this.followingInstance.phaserInstance
+      if(Math.abs(phaserInstance.x - followingPhaserInstance.x) < (speed/4) + 10) {
 
-      } else if(phaserInstance.x > followingSprite.x) {
+      } else if(phaserInstance.x > followingPhaserInstance.x) {
         this.entityInstance.setVelocityX(-speed)
       } else {
         this.entityInstance.setVelocityX(speed)
       }
 
-      if(Math.abs(phaserInstance.y - followingSprite.y) < (speed/4) + 10) {
+      if(Math.abs(phaserInstance.y - followingPhaserInstance.y) < (speed/4) + 10) {
 
-      } else if(phaserInstance.y > followingSprite.y) {
+      } else if(phaserInstance.y > followingPhaserInstance.y) {
         this.entityInstance.setVelocityY(-speed)
       } else {
         this.entityInstance.setVelocityY(speed)

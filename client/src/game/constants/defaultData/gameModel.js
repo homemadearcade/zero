@@ -1,9 +1,11 @@
 // import { BACKGROUND_LAYER_CANVAS_ID } from "../constants";
 import { DEFAULT_THEME_COLOR } from "../../../constants";
-import { defaultZoneClass } from "./class";
-import { nodeSize } from "./general";
+import { PLAYGROUND_LAYER_CANVAS_DEPTH } from "../constants";
+import { defaultZoneClass } from "./entityClass";
+import { gameSize, nodeSize } from "./general";
+import { mirrorPlayerDefaults } from "./movement";
 import { directionalClass, directionalPlayerClassId, jumperClass, jumperPlayerClassId, vehicleClass, vehiclePlayerClassId } from "./players";
-import { initialSpawnZoneClassId, initialStage, initialStageId } from "./stage";
+import { initialCameraZoneClassId, initialPlayerSpawnZoneClassId, initialStage, initialStageId, initialStageZoneClassId } from "./stage";
 
 export const defaultGameModel = {
   "metadata": {
@@ -14,7 +16,9 @@ export const defaultGameModel = {
     isArchived: false,
     isFeatured: false,
     isPublished: false,
-    interfaceColor: DEFAULT_THEME_COLOR
+  },
+  theme: {
+    primaryColor: DEFAULT_THEME_COLOR
   },
   "stages": {
      [initialStageId]: {
@@ -31,7 +35,7 @@ export const defaultGameModel = {
   relations: {
 
   },
-  tags: {},
+  relationTags: {},
   effects: {},
   events: {},
   "canvasImages": {
@@ -50,15 +54,78 @@ export const defaultGameModel = {
     [vehiclePlayerClassId]: vehicleClass,
     [jumperPlayerClassId]: jumperClass,
     [directionalPlayerClassId]: directionalClass,
-    [initialSpawnZoneClassId]: {
-      name: 'Player Spawn Zone',
+    [initialPlayerSpawnZoneClassId]: {
+      name: 'Player Spawn',
       ...defaultZoneClass,
-      entityClassId: initialSpawnZoneClassId,
+      entityClassId: initialPlayerSpawnZoneClassId,
+      editorInterface: {
+        ...defaultZoneClass.editor,
+        notVisibleInSelector: true,
+        noDestroyAllEffect: true,
+        noTransformEffect: true,
+        noSpawnAnywhereEffect: true
+      },
       graphics: {
         ...defaultZoneClass.graphics,
-        textureTint: '#FFFFFF'
+        textureTint: '#FFFFFF',
       }
     },
+    [initialCameraZoneClassId]: {
+      name: 'Player Camera',
+      ...defaultZoneClass,
+      movement: {
+        ...mirrorPlayerDefaults.movement
+      },
+      editorInterface: {
+        ...defaultZoneClass.editor,
+        notVisibleInSelector: true,
+        fixedAspectRatio: true,
+        noDestroyAllEffect: true,
+        noTransformEffect: true,
+        noSpawnAnywhereTag: true
+      },
+      collisionResponse: {
+        ...mirrorPlayerDefaults.collisionResponse,
+        ignoreStageBoundaries: true
+      },
+      entityClassId: initialCameraZoneClassId,
+      graphics: {
+        ...defaultZoneClass.graphics,
+        textureTint: '#00FF00',
+        customDepth: PLAYGROUND_LAYER_CANVAS_DEPTH - 5,
+        width: nodeSize * 28,
+        height: nodeSize * 28
+      },
+    },
+    [initialStageZoneClassId]: {
+      name: 'Stage',
+      ...defaultZoneClass,
+      editorInterface: {
+        ...defaultZoneClass.editor,
+        notVisibleInSelector: true,
+        notSelectableInStage: true,
+        noDestroyAllEffect: true,
+        noTransformEffect: true,
+        noTeleportEffect: true,
+        noSpawnAnywhereEffect: true
+      },
+      collisionResponse: {
+        ...mirrorPlayerDefaults.collisionResponse,
+        ignoreStageBoundaries: true
+      },
+      entityClassId: initialStageZoneClassId,
+      graphics: {
+        ...defaultZoneClass.graphics,
+        textureTint: '#000000',
+        customDepth: 1,
+        width: gameSize,
+        height: gameSize
+      },
+      isRemoved: true
+    }
   },
   isRemoved: false
 }
+
+  // spawnX: gameSize/2,
+  // spawnY: gameSize/2,

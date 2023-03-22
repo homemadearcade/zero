@@ -22,7 +22,7 @@ export class ClassStamper extends Phaser.GameObjects.Image {
     this.scene.add.existing(this)
     
     this.setDisplaySize(this.entityClass.graphics.width, this.entityClass.graphics.height)
-    this.scene.addSpriteToTypeLayer(entityClassId, this)
+    this.setDepth(this.scene.getEntityClassDepth(entityClassId, entityClass.graphics.depthModifer))
 
     if(entityClass.graphics.textureTint) {
       const colorInt = getHexIntFromHexString(entityClass.graphics.textureTint)
@@ -39,7 +39,7 @@ export class ClassStamper extends Phaser.GameObjects.Image {
 
   stamp(pointer) {
     const { clampedX, clampedY } = snapObjectXY({x: pointer.worldX, y: pointer.worldY, entityClass: this.entityClass})
-    this.scene.addObjectInstanceData(this.entityClassId, {
+    this.scene.addEntityInstanceData(this.entityClassId, {
       spawnX: clampedX, 
       spawnY: clampedY
     })

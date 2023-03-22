@@ -24,6 +24,7 @@ import {
   UNLOCK_INTERFACE,
   SET_MOUSE_OVER_INTERFACE_ID,
   SELECT_COBROWSING_TOOL,
+  COBROWSING_REMOTE_DISPATCH_FAIL,
 } from '../types';
 
 import store from '..';
@@ -171,6 +172,8 @@ export const handleCobrowsingUpdates = store => next => action => {
       // this means you are cobrowsing but you dont have a tool selected
       // without this, the local users state will be updated silently behind the cobrowsing view
       if(state.cobrowsing.isActivelyCobrowsing) {
+        if(action.type.includes('HOVERING') || action.type.includes('UPDATE_CREATE')) return 
+        alert('When cobrowsing you must select the mouse tool before clicking the interface')
         return 
       }
 
