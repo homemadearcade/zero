@@ -451,23 +451,20 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
-  getEntityClassDepth(entityClassId, modifier) {
+  getEntityClassDepth(entityClassId) {
     const gameModel = this.getGameModel()
     const entityClass = gameModel.entityClasses[entityClassId]
 
-    if(entityClass.graphics.customDepth) return entityClass.graphics.customDepth
+    if(entityClass.graphics.depthOverride) return entityClass.graphics.depthOverride
 
     const layerToDepth = {
-      [LAYER_ID_PREFIX + BACKGROUND_LAYER_CANVAS_ID]: BACKGROUND_LAYER_CANVAS_DEPTH + 1,
+      [LAYER_ID_PREFIX+BACKGROUND_LAYER_CANVAS_ID]: BACKGROUND_LAYER_CANVAS_DEPTH + 1,
       [LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID]: PLAYGROUND_LAYER_CANVAS_DEPTH + 1,
-      [LAYER_ID_PREFIX + FOREGROUND_LAYER_CANVAS_ID]: FOREGROUND_LAYER_CANVAS_DEPTH + 1
+      [LAYER_ID_PREFIX+FOREGROUND_LAYER_CANVAS_ID]: FOREGROUND_LAYER_CANVAS_DEPTH + 1
     }
 
-    if(modifier !== undefined) {
-      return layerToDepth[entityClass.graphics.layerId] + modifier
-    } else {
-      return layerToDepth[entityClass.graphics.layerId]
-    }
+    const modifier = entityClass.graphics.depthModifier
+    return layerToDepth[entityClass.graphics.layerId] + modifier
   }
 
   getEntityInstance(entityInstanceId) {
@@ -636,7 +633,7 @@ export class GameInstance extends Phaser.Scene {
       const layerInstance = this.layersById[layerId]
       layerInstance.setVisible(!layerInvisibility[layerId])
     })
-    
+
     this.stage.update()
 
     this.entityInstances.forEach((entityInstance) => {

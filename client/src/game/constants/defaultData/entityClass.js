@@ -1,7 +1,7 @@
 import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_LAYER_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, DIRECTIONAL_CONTROLS } from "../";
 import { nodeSize } from "./general";
 import { defaultProjectile } from "./projectile";
-import { FOREGROUND_LAYER_CANVAS_ID, LAYER_ID_PREFIX } from "../";
+import { FOREGROUND_LAYER_CANVAS_ID, LAYER_ID_PREFIX , playerDepthModifier} from "../";
 
 export const defaultMovement = {
   movementControlsBehavior: null,
@@ -61,7 +61,8 @@ export const defaultClass = {
     invisible: false,
     glowing: false,
     layerId: LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID,
-    customDepth: 0,
+    depthOverride: 0,
+    depthModifier: 0,
   },
   editorInterface: {
     fixedAspectRatio: false,
@@ -102,7 +103,7 @@ export const defaultZoneClass = {
   },
   graphics: {
     invisible: true,
-    layerId: FOREGROUND_LAYER_CANVAS_ID
+    layerId: LAYER_ID_PREFIX+FOREGROUND_LAYER_CANVAS_ID
   },
   editorInterface: {
     noTransformEffect: true,
@@ -111,6 +112,9 @@ export const defaultZoneClass = {
 
 export const defaultPlayerClass = {
   classInterfaceCategory: PLAYER_CLASS, 
+  graphics: {
+    depthModifier: playerDepthModifier
+  },
   movement: { 
     movementControlsBehavior: DIRECTIONAL_CONTROLS
   },

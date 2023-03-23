@@ -259,6 +259,10 @@ export class PhaserInstance {
     }
   }
 
+  setInteractive(value) {
+    this.phaserInstance.setInteractive(value)
+  }
+
   setIgnoreGravity(ignore) {
     if(this.physicsType === ARCADE_PHYSICS) {
       this.phaserInstance.body.setAllowGravity(!ignore)

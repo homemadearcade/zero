@@ -48,8 +48,6 @@ export class PlayerInstance extends EntityInstance {
       console.error('no player class for entityClassId:' + entityClassId)
     }
 
-    this.setDepth(PLAYGROUND_LAYER_CANVAS_DEPTH + 2)
-
     this.cursors = scene.input.keyboard.createCursorKeys();
 
     this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityClass.graphics.width + (nodeSize * 4), height: entityClass.graphics.height + (nodeSize * 4) }) 

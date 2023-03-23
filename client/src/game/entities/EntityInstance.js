@@ -114,6 +114,11 @@ export class EntityInstance extends PhaserInstance {
     this.graphics.setSize(w, h)
   }
 
+  setDepth(depth) {
+    super.setDepth(depth)
+    this.graphics.setDepth(depth)
+  }
+
   update(time, delta) {
     const entityClass = store.getState().gameModel.gameModel.entityClasses[this.entityClassId]
 

@@ -22,7 +22,7 @@ export class ClassStamper extends Phaser.GameObjects.Image {
     this.scene.add.existing(this)
     
     this.setDisplaySize(this.entityClass.graphics.width, this.entityClass.graphics.height)
-    this.setDepth(this.scene.getEntityClassDepth(entityClassId, entityClass.graphics.depthModifer))
+    this.setDepth(this.scene.getEntityClassDepth(entityClassId))
 
     if(entityClass.graphics.textureTint) {
       const colorInt = getHexIntFromHexString(entityClass.graphics.textureTint)

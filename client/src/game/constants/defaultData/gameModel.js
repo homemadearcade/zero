@@ -92,7 +92,7 @@ export const defaultGameModel = {
       graphics: {
         ...defaultZoneClass.graphics,
         textureTint: '#00FF00',
-        customDepth: PLAYGROUND_LAYER_CANVAS_DEPTH - 5,
+        depthModifier: PLAYGROUND_LAYER_CANVAS_DEPTH - 5,
         width: nodeSize * 28,
         height: nodeSize * 28
       },
@@ -117,7 +117,7 @@ export const defaultGameModel = {
       graphics: {
         ...defaultZoneClass.graphics,
         textureTint: '#000000',
-        customDepth: 1,
+        depthOverride: 1,
         width: gameSize,
         height: gameSize
       },

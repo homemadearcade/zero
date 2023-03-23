@@ -2,7 +2,8 @@ import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
 import { getThemePrimaryColor } from "../../../utils/webPageUtils"
-import { directionalPlayerClassId, initialStageZoneClassId } from "../../constants"
+import { directionalPlayerClassId, editorHighlightDepthModifier, initialStageZoneClassId, invisibleIndicatorDepthModifer } from "../../constants"
+
 
 export class Graphics {
   constructor(scene, entityInstance){
@@ -29,8 +30,7 @@ export class Graphics {
     if(entityClass.editorInterface.notSelectableInStage) return
 
     if(entityClass.graphics.textureTint) entityInstance.setTint(entityClass.graphics.textureTint)
-
-    const depth = scene.getEntityClassDepth(entityInstance.entityClassId)
+    const depth = this.scene.getEntityClassDepth(entityInstance.entityClassId)
     phaserInstance.setDepth(depth)
     // scene.addSpriteToTypeGroup(entityInstance.entityClassId, phaserInstance)
 
@@ -41,7 +41,7 @@ export class Graphics {
     // EDITOR
     //!entityInstance.effectSpawned &&
     if(this.scene.isEditor) {
-      phaserInstance.setInteractive();
+      entityInstance.setInteractive();
       scene.input.setDraggable(phaserInstance)
       if(!phaserInstance.frame.name) {
         phaserInstance.editorHighlight = scene.add.image(phaserInstance.x,phaserInstance.y, phaserInstance.texture.key)
@@ -51,8 +51,9 @@ export class Graphics {
       phaserInstance.editorHighlight.setTintFill(getThemePrimaryColor().hexCode)
       .setDisplaySize(this.entityInstance.width + 10, this.entityInstance.height + 10)
       .setVisible(false)
-      const depth = scene.getEntityClassDepth(entityInstance.entityClassId, -1)
-      phaserInstance.editorHighlight.setDepth(depth)
+
+      const depth = this.scene.getEntityClassDepth(entityInstance.entityClassId)
+      phaserInstance.editorHighlight.setDepth(depth + editorHighlightDepthModifier)
     }
     if(entityClass.graphics.invisible && this.scene.isEditor) {
       this.createInvisiblilityIndicator()
@@ -65,6 +66,12 @@ export class Graphics {
   setInvisible() {
     this.entityInstance.isVisible = true
     this.entityInstance.setAlpha(0.02)
+  }
+
+  setDepth(depth) {
+    this.entityInstance.setDepth(depth)
+    this.phaserInstance.editorHighlight?.setDepth(depth + editorHighlightDepthModifier)
+    this.phaserInstance.invisibleIndicator?.setDepth(depth + invisibleIndicatorDepthModifer)
   }
 
   setGlowing() {
@@ -154,8 +161,8 @@ export class Graphics {
     phaserInstance.invisibleIndicator.lineStyle(4, colorInt, 1);
     phaserInstance.invisibleIndicator.setAlpha(0.5)
     phaserInstance.invisibleIndicator.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    const depth = this.scene.getEntityClassDepth(this.entityInstance.entityClassId, 2)
-    phaserInstance.invisibleIndicator.setDepth(depth)
+    const depth = this.scene.getEntityClassDepth(this.entityInstance.entityClassId)
+    phaserInstance.invisibleIndicator.setDepth(depth + invisibleIndicatorDepthModifer)
   }
 
   update() {
