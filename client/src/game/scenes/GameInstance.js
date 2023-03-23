@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, UI_CANVAS_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_ID_PREFIX, depthCategoryToDepth } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_ID_PREFIX, layerGroupIdToDepth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
@@ -14,7 +14,7 @@ import { Stage } from '../entities/Stage';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import JSConfetti from 'js-confetti'
 import { directionalPlayerClassId } from '../constants';
-import { getCanvasIdFromEraserId } from '../../utils';
+import { getLayerIdFromEraserId } from '../../utils';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -25,12 +25,12 @@ export class GameInstance extends Phaser.Scene {
     this.entityInstances = []
     this.entityInstancesById = {}
     this.entityInstancesByTag = {}
-
-    this.layersById = {}
-
     this.temporaryInstances = []
     this.temporaryInstancesById = {}
     this.temporaryInstancesByTag = {}
+
+    this.layerInstancesById = {}
+    this.layerInstancesByLayerGroupId = {}
 
     this.gameState = null
 
@@ -183,7 +183,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = this.getGameModel()
     const releventInstances = this.entityInstances.filter((entityInstance) => {
       const entityClass = gameModel.entityClasses[entityInstance.entityClassId]
-      return entityClass.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID
+      return entityClass.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID
     }).map(({phaserInstance}) => phaserInstance)
 
     this.colliderRegistrations.push(
@@ -193,8 +193,8 @@ export class GameInstance extends Phaser.Scene {
       })
     )
 
-    Object.keys(this.layersById).forEach((layerId) => {
-      const layerInstance = this.layersById[layerId]
+    Object.keys(this.layerInstancesById).forEach((layerId) => {
+      const layerInstance = this.layerInstancesById[layerId]
       if(layerInstance.isCollisionCanvas) layerInstance.registerColliders()
     })
   }
@@ -217,8 +217,8 @@ export class GameInstance extends Phaser.Scene {
     })
     this.colliderRegistrations = []
 
-    Object.keys(this.layersById).forEach((layerId) => {
-      const layerInstance = this.layersById[layerId]
+    Object.keys(this.layerInstancesById).forEach((layerId) => {
+      const layerInstance = this.layerInstancesById[layerId]
       if(layerInstance.isCollisionCanvas) layerInstance.unregisterColliders()
     })
   }
@@ -234,13 +234,15 @@ export class GameInstance extends Phaser.Scene {
     const currentStage = this.getCurrentStage()
     const layers = currentStage.layers
 
-    this.layersById = {}
+    this.layerInstancesById = {}
     Object.keys(layers).forEach((layerId) => {
       const layer = layers[layerId]
       if(layer.hasCollisionBody) {
-        this.layersById[layerId] = new CollisionCanvas(
+        this.layerInstancesById[layerId] = new CollisionCanvas(
           this, 
           {
+            layerId: layerId,
+            layerGroupId: layer.layerGroupId,
             isCodrawingHost: this.gameRoom.isHost,
             textureId: layer.textureId,
             boundaries: currentStage.boundaries,
@@ -248,9 +250,11 @@ export class GameInstance extends Phaser.Scene {
           }
         )
       } else {
-        this.layersById[layerId] = new CodrawingCanvas(
+        this.layerInstancesById[layerId] = new CodrawingCanvas(
           this, 
           {
+            layerId: layerId,
+            layerGroupId: layer.layerGroupId,
             isCodrawingHost: this.gameRoom.isHost, 
             textureId: layer.textureId,
             boundaries: currentStage.boundaries, 
@@ -258,37 +262,42 @@ export class GameInstance extends Phaser.Scene {
           }
         )
       }
-      const depth = this.getDepthFromLayerCanvasId(layerId)
-      this.layersById[layerId].setDepth(depth)
+      const depth = this.getDepthFromLayerId(layerId)
+      this.layerInstancesById[layerId].setDepth(depth)
+      if(!this.layerInstancesByLayerGroupId[layer.layerGroupId]) this.layerInstancesByLayerGroupId[layer.layerGroupId] = [this.layerInstancesById[layerId]]
+      else this.layerInstancesByLayerGroupId[layer.layerGroupId].push(this.layerInstancesById[layerId])
     })
 
     this.entityInstanceGroup = this.add.group()
     this.uiLayer = this.add.layer();
-    this.uiLayer.setDepth(UI_CANVAS_DEPTH)
+    this.uiLayer.setDepth(UI_LAYER_DEPTH)
   }
 
-  getLayerCanvasInstanceByTextureId(textureId) {
-    const layerInstance = Object.keys(this.layersById).find((layerId) => {
-      const layerInstance = this.layersById[layerId]
+  getLayerInstanceByTextureId(textureId) {
+    const layerInstanceId = Object.keys(this.layerInstancesById).find((layerId) => {
+      const layerInstance = this.layerInstancesById[layerId]
       if(layerInstance.textureId === textureId) return true
     })
 
-    if(!layerInstance) console.error('didnt find layer with id', textureId, typeof textureId)
+    if(!layerInstanceId) console.error('didnt find layer with id', textureId, typeof textureId)
+
+    console.log(textureId, layerInstanceId)
+    return this.layerInstancesById[layerInstanceId]
   }
   
-  getLayerCanvasInstanceById(layerCanvasId) {
-    return this.layersById[layerCanvasId]
+  getLayerInstanceById(layerId) {
+    return this.layerInstancesById[layerId]
   }
 
   getDepthFromEraserId(eraserId) {
-    return this.getDepthFromLayerCanvasId(getCanvasIdFromEraserId(eraserId))
+    return this.getDepthFromLayerId(getLayerIdFromEraserId(eraserId))
   }
 
-  getDepthFromLayerCanvasId(layerCanvasId) {
-    if(layerCanvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
-    if(layerCanvasId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
-    const layer = this.getCurrentStage().layers[layerCanvasId]
-    return depthCategoryToDepth[layer.depthCategory]
+  getDepthFromLayerId(layerId) {
+    if(layerId === UI_LAYER_ID) return UI_LAYER_DEPTH
+    if(layerId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
+    const layer = this.getCurrentStage().layers[layerId]
+    return layerGroupIdToDepth[layer.layerGroupId]
   }
 
 
@@ -450,8 +459,8 @@ export class GameInstance extends Phaser.Scene {
     const entityClass = gameModel.entityClasses[entityClassId]
 
     if(entityClass.graphics.depthOverride) return entityClass.graphics.depthOverride
-    const depthCategory =  layers[entityClass.graphics.layerId].depthCategory
-    return depthCategoryToDepth[depthCategory] + entityClass.graphics.depthModifier
+    const layerGroupId =  layers[entityClass.graphics.layerId].layerGroupId
+    return layerGroupIdToDepth[layerGroupId] + entityClass.graphics.depthModifier
   }
 
   getEntityInstance(entityInstanceId) {
@@ -616,8 +625,8 @@ export class GameInstance extends Phaser.Scene {
 
     const layerInvisibility = gameViewEditor.layerInvisibility
 
-    Object.keys(this.layersById).forEach((layerId) => {
-      const layerInstance = this.layersById[layerId]
+    Object.keys(this.layerInstancesById).forEach((layerId) => {
+      const layerInstance = this.layerInstancesById[layerId]
       layerInstance.setVisible(!layerInvisibility[layerId])
     })
 
@@ -699,10 +708,12 @@ export class GameInstance extends Phaser.Scene {
     // We want to keep the assets in the cache and leave the renderer for reuse.
     this.game.destroy(true);
     this.destroyInstances()
-    Object.keys(this.layersById).forEach((layerId) => {
-      const layerInstance = this.layersById[layerId]
+    Object.keys(this.layerInstancesById).forEach((layerId) => {
+      const layerInstance = this.layerInstancesById[layerId]
       layerInstance.destroy()
     })
+    this.layerInstancesById = {}
+    this.layerInstancesByLayerGroupId = {}
     this.setPlayerGameLoaded(null)
   }
 

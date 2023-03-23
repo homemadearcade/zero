@@ -46,7 +46,7 @@ import {
 const initialState = {
   isCreateBrushFlowOpen: false,
   brush: {
-    layerCanvasId: null,
+    layerId: null,
     textureId: null,
     textureTint: null,
     visualTags: []
@@ -67,7 +67,7 @@ const initialState = {
   isCreateColorFlowOpen: false,
   color: {
     hex: null,
-    layerCanvasId: null,
+    layerId: null,
     textureTint: null,
   },
   isEyeDropping: false,
@@ -125,7 +125,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isCreateColorFlowOpen: payload.componentName,
         color: {
           ...initialState.color,
-          layerCanvasId: payload.layerCanvasId
+          layerId: payload.layerId
         },
       }
     case OPEN_CLASS_EDIT_MODAL: 
@@ -176,7 +176,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isCreateBrushFlowOpen: true,
         brush: {
           ...initialState.brush,
-          layerCanvasId: payload.layerCanvasId
+          layerId: payload.layerId
         }
       }
     case UPDATE_CREATE_BRUSH: 

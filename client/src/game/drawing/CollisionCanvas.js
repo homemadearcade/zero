@@ -2,13 +2,13 @@ import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
 import { splitIntoSubarrays } from "../../utils/arrayUtils";
 import { CodrawingCanvas } from "./CodrawingCanvas";
-import { LAYER_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID } from "../constants";
+import { LAYER_ID_PREFIX, PLAYGROUND_LAYER_ID } from "../constants";
 
 export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
     super(scene, props)
 
-    //for some reasion the initial draw in the super is the LayerCanvas version
+    //for some reasion the initial draw in the super is the Layer version
     if(this.scene.textures.exists(this.textureId)) {
       this.createCollisionBody()
     }
@@ -85,7 +85,7 @@ export class CollisionCanvas extends CodrawingCanvas {
 
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.phaserInstance)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.entityInstances.filter(({entityClassId}) => {
-        return entityClasses[entityClassId].graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID
+        return entityClasses[entityClassId].graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID
       }).map(({phaserInstance}) => {
         return phaserInstance
       }))

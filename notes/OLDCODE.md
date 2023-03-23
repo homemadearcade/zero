@@ -95,7 +95,7 @@ ZOOM INTO X
     this.editorCamera.setDeadzone(700, 700)
 
     this.mouseFollower = this.add.image(0,0,DEFAULT_TEXTURE_ID).setScrollFactor(0)
-    this.mouseFollower.setDisplaySize(40, 40).setTint(0xFFFFFF).setDepth(UI_CANVAS_DEPTH)
+    this.mouseFollower.setDisplaySize(40, 40).setTint(0xFFFFFF).setDepth(UI_LAYER_DEPTH)
     this.mouseFollower.width = 40
     this.mouseFollower.height = 40
 

@@ -25,7 +25,7 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, toggleEyeDropper, g
         eyeDropper.open().then((result) => {
           toggleEyeDropper()
           const hex = '#' + tinycolor(result.sRGBHex).toHex()
-          onComplete({ layerCanvasId: color.layerCanvasId, hex })
+          onComplete({ layerId: color.layerId, hex })
           handleClose()
         }).catch((e) => {
           console.error(e)
@@ -36,7 +36,7 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, toggleEyeDropper, g
         toggleEyeDropper()
       }}/>
       <ColorGrid onClick={(hex) => {
-          onComplete({ layerCanvasId: color.layerCanvasId, hex})
+          onComplete({ layerId: color.layerId, hex})
           handleClose()
       }}/>
       <div className="CreateColorFlow__buttons">

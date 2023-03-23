@@ -25,9 +25,9 @@ import {
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import store from '..';
-import {  BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_ID, initialStageId, LAYER_DEPTH_CATEGORY_BACKGROUND, LAYER_DEPTH_CATEGORY_FOREGROUND, LAYER_DEPTH_CATEGORY_PLAYGROUND, LAYER_ID_PREFIX,  PLAYGROUND_LAYER_CANVAS_ID, UNDO_MEMORY_MAX } from '../../game/constants';
+import {  BACKGROUND_LAYER_ID, defaultGameModel, FOREGROUND_LAYER_ID, initialStageId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_FOREGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_ID_PREFIX,  PLAYGROUND_LAYER_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
-import { addDefaultsToGameModel, addLibraryToGameModel, cleanGameModel, enrichGameModel, getImageUrlFromTextureId, getTextureIdForLayerCanvasId } from '../../utils';
+import { addDefaultsToGameModel, addLibraryToGameModel, cleanGameModel, enrichGameModel, getImageUrlFromTextureId, getTextureIdForLayerId } from '../../utils';
 import { addCanvasImage } from './canvasImageActions';
 import { IMAGE_TYPE_LAYER } from '../../constants';
 
@@ -214,9 +214,9 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
 };
 
 export async function addLayersForArcadeGameStage(gameId, stageId) {
-  const backgroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, BACKGROUND_LAYER_CANVAS_ID)
-  const playgroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, PLAYGROUND_LAYER_CANVAS_ID)
-  const foregroundTextureId = getTextureIdForLayerCanvasId(gameId, stageId, FOREGROUND_LAYER_CANVAS_ID)
+  const backgroundTextureId = getTextureIdForLayerId(gameId, stageId, BACKGROUND_LAYER_ID)
+  const playgroundTextureId = getTextureIdForLayerId(gameId, stageId, PLAYGROUND_LAYER_ID)
+  const foregroundTextureId = getTextureIdForLayerId(gameId, stageId, FOREGROUND_LAYER_ID)
 
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
@@ -247,19 +247,19 @@ export async function addLayersForArcadeGameStage(gameId, stageId) {
     stages: {
       [stageId] : {
         layers: {
-          [LAYER_ID_PREFIX+BACKGROUND_LAYER_CANVAS_ID]: {
+          [LAYER_ID_PREFIX+BACKGROUND_LAYER_ID]: {
             textureId: backgroundTextureId,
             name: 'Background',
-            depthCategory: LAYER_DEPTH_CATEGORY_BACKGROUND
+            layerGroupId: LAYER_GROUP_ID_BACKGROUND
           },
-          [LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID]: {
+          [LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID]: {
             textureId: playgroundTextureId,
             hasCollisionBody: true,
-            depthCategory: LAYER_DEPTH_CATEGORY_PLAYGROUND,
+            layerGroupId: LAYER_GROUP_ID_PLAYGROUND,
             name: 'Playground'
           },
-          [LAYER_ID_PREFIX+FOREGROUND_LAYER_CANVAS_ID]: {
-            depthCategory: LAYER_DEPTH_CATEGORY_FOREGROUND,
+          [LAYER_ID_PREFIX+FOREGROUND_LAYER_ID]: {
+            layerGroupId: LAYER_GROUP_ID_FOREGROUND,
             textureId: foregroundTextureId,
             name: 'Foreground'
           }

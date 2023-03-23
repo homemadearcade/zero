@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../images/SnapshotTaker/SnapshotTaker';
-import SelectBackgroundColorModal from '../../stages/SelectBackgroundColorModal/SelectBackgroundColorModal';
+import SelectStageColorModal from '../../stages/SelectStageColorModal/SelectStageColorModal';
 import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, START_STATE } from '../../constants';
 import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
@@ -47,7 +47,7 @@ const GameEditor = ({
   classNames, 
   gameSelector: { 
     isClassBoxModalOpen, 
-    isSelectBackgroundColorModalOpen, 
+    isSelectStageColorModalOpen, 
     liveEditingCategory, 
     isGameMetadataModalOpen, 
     currentSelectorList,
@@ -163,7 +163,7 @@ const GameEditor = ({
       {isCreateRelationTagOpen && <CreateRelationTag/>}
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageModalOpen && <CreateStageModal/>}
-      {isSelectBackgroundColorModalOpen && <SelectBackgroundColorModal/>}
+      {isSelectStageColorModalOpen && <SelectStageColorModal/>}
       <div id="CobrowsingModal"></div>
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {
@@ -178,7 +178,7 @@ const GameEditor = ({
               editGameModel({
                 colors: {
                   [brush.textureTint]: {
-                    [brush.layerCanvasId]: Date.now()
+                    [brush.layerId]: Date.now()
                   }
                 }
               })

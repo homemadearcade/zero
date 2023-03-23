@@ -1,7 +1,7 @@
 import { SNAPSHOT_ID_PREFIX } from '../../game/constants';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { 
-  TOGGLE_CANVAS_VISIBILITY,
+  TOGGLE_LAYER_VISIBILITY,
   CLEAR_GAME_VIEW_EDITOR,
   // TOGGLE_GAME_INSTANCE_PAUSED,
   TOGGLE_GRID_VIEW,
@@ -81,11 +81,11 @@ export const clearGameViewEditor = () => (dispatch, getState) => {
   });
 }
 
-export const toggleLayerVisibility = (layerCanvasId) => (dispatch, getState) => {
+export const toggleLayerVisibility = (layerId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: TOGGLE_CANVAS_VISIBILITY,
-    payload: { layerCanvasId }
+    type: TOGGLE_LAYER_VISIBILITY,
+    payload: { layerId }
   });
 }
 

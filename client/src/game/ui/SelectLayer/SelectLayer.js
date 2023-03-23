@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectLayer.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { BACKGROUND_LAYER_CANVAS_ID, FOREGROUND_LAYER_CANVAS_ID, layerToDisplayName, LAYER_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID } from '../../constants';
+import { BACKGROUND_LAYER_ID, FOREGROUND_LAYER_ID, layerToDisplayName, LAYER_ID_PREFIX, PLAYGROUND_LAYER_ID } from '../../constants';
 
 const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
   const mapControlsToOption = (layerId) => {
@@ -14,7 +14,7 @@ const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
     }
   }
 
-  const options = [LAYER_ID_PREFIX + BACKGROUND_LAYER_CANVAS_ID, LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID, LAYER_ID_PREFIX + FOREGROUND_LAYER_CANVAS_ID].map(mapControlsToOption)
+  const options = [LAYER_ID_PREFIX + BACKGROUND_LAYER_ID, LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID, LAYER_ID_PREFIX + FOREGROUND_LAYER_ID].map(mapControlsToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}

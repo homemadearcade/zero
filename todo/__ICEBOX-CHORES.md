@@ -51,6 +51,7 @@ ClientCanvas
   CodrawingCanvas
   Canvas
 Also a Layers Class. Because Layers is common across CodrawingScene and Game Instance
+Maybe even a LayerGroup class?
 
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 --------------------------------------------------------------------------------------

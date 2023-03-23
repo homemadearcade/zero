@@ -27,7 +27,8 @@ import {
   CLOSE_CLASS_BOX_MODAL,
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
-  CHANGE_SELECTOR_COLUMN
+  CHANGE_SELECTOR_COLUMN,
+  OPEN_IMAGE_CANVAS_MODAL_LOADING
 } from '../types';
 
 const initialState = {
@@ -39,13 +40,14 @@ const initialState = {
   entityClassIdSelectedLiveEditor: null,
   liveEditingCategory: null,
   imageCanvasTextureId: null,
-  isSelectBackgroundColorModalOpen: false,
+  isSelectStageColorModalOpen: false,
   isGameMetadataModalOpen: false,
   openLists: {
   },
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
   },
+  isCanvasImageModalLoading: false,
   isCanvasImageModalOpen: false,
   isClassBoxModalOpen: false,
   classBoxClassType: null,
@@ -123,23 +125,30 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isCanvasImageModalOpen: true,
         imageCanvasTextureId: payload.textureId,
-        imageCanvasNewTextureId: payload.imageCanvasNewTextureId
+        imageCanvasNewTextureId: payload.imageCanvasNewTextureId,
+        isCanvasImageModalLoading: false
       }
     case CLOSE_IMAGE_CANVAS_MODAL: 
       return {
         ...state,
         isCanvasImageModalOpen: false,
         imageCanvasTextureId: null,
+        isCanvasImageModalLoading: false
+      }
+    case OPEN_IMAGE_CANVAS_MODAL_LOADING: 
+      return {
+        ...state,
+        isCanvasImageModalLoading: true
       }
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {
         ...state,
-        isSelectBackgroundColorModalOpen: true
+        isSelectStageColorModalOpen: true
       }
     case CLOSE_SELECT_BACKGROUND_COLOR:
       return {
         ...state,
-        isSelectBackgroundColorModalOpen: false
+        isSelectStageColorModalOpen: false
       }
     case OPEN_SELECT_AGGREGATE_COLOR: 
       return {

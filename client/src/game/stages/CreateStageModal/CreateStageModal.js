@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateStageModal.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeCreateStageModal, updateCreateStageModal } from '../../../store/actions/gameFormEditorActions';
+import { closeCreateStageModal, updateCreateStage } from '../../../store/actions/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
@@ -17,7 +17,7 @@ import CreateStage from '../CreateStage/CreateStage';
         //   formLabel={"Perspective"}
         //   value={stage.playerClassId}
         //   onChange={(e, value) => {
-        //     updateCreateStageModal({
+        //     updateCreateStage({
         //       playerClassId: value
         //     })
         //   }}
@@ -31,14 +31,14 @@ import CreateStage from '../CreateStage/CreateStage';
         //     },
         //   ]}
         // /> */}
-const CreateStageModal = ({ closeCreateStageModal, editGameModel, updateCreateStageModal, gameFormEditor: { stage }, gameModel: { gameModel} }) => {
+const CreateStageModal = ({ closeCreateStageModal, editGameModel, updateCreateStage, gameFormEditor: { stage }, gameModel: { gameModel} }) => {
   function handleClose() {
     closeCreateStageModal()
   }
 
   useEffect(() => {
     if(!stage.stageId) {
-      updateCreateStageModal({ stageId: STAGE_ID_PREFIX+generateUniqueId(), isNew: true })
+      updateCreateStage({ stageId: STAGE_ID_PREFIX+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -51,7 +51,7 @@ const CreateStageModal = ({ closeCreateStageModal, editGameModel, updateCreateSt
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateStageModal">
         <CreateStage stage={stage} onUpdate={(props) => {
-          updateCreateStageModal(props)
+          updateCreateStage(props)
         }}/>
         <div className="CreateStageModal__buttons">
           <Button 
@@ -108,5 +108,5 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { updateCreateStageModal, closeCreateStageModal, editGameModel }),
+  connect(mapStateToProps, { updateCreateStage, closeCreateStageModal, editGameModel }),
 )(CreateStageModal);

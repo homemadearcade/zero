@@ -6,7 +6,7 @@ import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../s
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_CANVAS_DEPTH, STAGE_BACKGROUND_LAYER_CANVAS_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, initialStageZoneClassId, LAYER_DEPTH_CATEGORY_BACKGROUND, LAYER_DEPTH_CATEGORY_PLAYGROUND, LAYER_DEPTH_CATEGORY_FOREGROUND } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, initialStageZoneClassId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -338,43 +338,29 @@ export class EditorScene extends GameInstance {
     this.snapshotStartPos = null
   }
 
-  drawVisibleInstancesToRenderTexture(renderTexture) {
+  drawVisibleLayerGroupToRenderTexture(layerGroupId, renderTexture) {
     const gameViewEditor = getCobrowsingState().gameViewEditor
-    const layers = this.getCurrentStage().layers
+    this.layerInstancesByLayerGroupId[layerGroupId].forEach((layerInstance) => {
+      if(!gameViewEditor.layerInvisibility[layerInstance.layerId]) {
+        renderTexture.draw(layerInstance, 0,0)
+      }
+    })
+  }
 
-    if(!gameViewEditor.layerInvisibility[STAGE_BACKGROUND_LAYER_CANVAS_ID]) {
-      renderTexture.draw(this.stage.backgroundColorLayer, 0,0)
+  drawVisibleSceneToRenderTexture(renderTexture) {
+    const gameViewEditor = getCobrowsingState().gameViewEditor
+
+    if(!gameViewEditor.layerInvisibility[STAGE_LAYER_ID]) {
+      renderTexture.draw(this.stage.colorLayer, 0,0)
     }
 
-    Object.keys(layers).forEach((layerId) => {
-      const layer = layers[layerId]
-      if(layer.depthCategory === LAYER_DEPTH_CATEGORY_BACKGROUND) {
-        if(!gameViewEditor.layerInvisibility[layerId]) {
-          renderTexture.draw(this.layersById[layerId], 0,0)
-        }
-      }
-    })
-    Object.keys(layers).forEach((layerId) => {
-      const layer = layers[layerId]
-      if(layer.depthCategory === LAYER_DEPTH_CATEGORY_PLAYGROUND) {
-        if(!gameViewEditor.layerInvisibility[layerId]) {
-          renderTexture.draw(this.layersById[layerId], 0,0)
-        }
-      }
-    })
+    this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_BACKGROUND, renderTexture)
+    this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_PLAYGROUND, renderTexture)
 
     // if(!gameViewEditor.layerInvisibility[PLAYER_INSTANCE_CANVAS_ID] && !gameViewEditor.layerInvisibility[BASIC_CLASS] && !gameViewEditor.layerInvisibility[NPC_CLASS] ) {
       renderTexture.draw(this.entityInstanceGroup, 0,0)
     // }
-
-    Object.keys(layers).forEach((layerId) => {
-      const layer = layers[layerId]
-      if(layer.depthCategory === LAYER_DEPTH_CATEGORY_FOREGROUND) {
-        if(!gameViewEditor.layerInvisibility[layerId]) {
-          renderTexture.draw(this.layersById[layerId], 0,0)
-        }
-      }
-    })
+    this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_FOREGROUND, renderTexture)
   }
 
   takeSnapshotWithSquare() {
@@ -384,7 +370,7 @@ export class EditorScene extends GameInstance {
     const boundaries = gameModel.stages[this.stage.stageId].boundaries
     const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
 
-    this.drawVisibleInstancesToRenderTexture(snapCanvas)
+    this.drawVisibleSceneToRenderTexture(snapCanvas)
 
     snapCanvas.snapshotArea(
       Math.floor(this.snapshotStartPos.x - 2), Math.floor(this.snapshotStartPos.y - 2), 
@@ -483,7 +469,7 @@ export class EditorScene extends GameInstance {
           this.clearSnapshotSquare()
         }
 
-        this.snapshotSquare = this.add.graphics().setDepth(UI_CANVAS_DEPTH);
+        this.snapshotSquare = this.add.graphics().setDepth(UI_LAYER_DEPTH);
         this.snapshotStartPos = { x: pointer.worldX, y: pointer.worldY }
         this.snapshotEndPos = { x: pointer.worldX, y: pointer.worldY }
 
@@ -497,7 +483,7 @@ export class EditorScene extends GameInstance {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        const canvas = this.getLayerCanvasInstanceById(this.brush.getCanvasId())
+        const canvas = this.getLayerInstanceById(this.brush.getLayerId())
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
       }
@@ -511,7 +497,7 @@ export class EditorScene extends GameInstance {
         const gameModel = store.getState().gameModel.gameModel
         const boundaries = gameModel.stages[this.stage.stageId].boundaries
         const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
-        this.drawVisibleInstancesToRenderTexture(snapCanvas)
+        this.drawVisibleSceneToRenderTexture(snapCanvas)
     
         snapCanvas.snapshotArea(
           Math.floor(boundaries.x), Math.floor(boundaries.y), 
@@ -705,8 +691,8 @@ export class EditorScene extends GameInstance {
         }
       }
 
-      if(stageUpdate?.backgroundColor) {
-        this.stage.createStageBackgroundColorLayer()
+      if(stageUpdate?.color) {
+        this.stage.createStageColorLayer()
       }
 
       if(stageUpdate?.boundaries) {
@@ -755,9 +741,9 @@ export class EditorScene extends GameInstance {
     if(gameUpdate.canvasImages) {
       Object.keys(gameUpdate.canvasImages).forEach((id) => {
         const textureId = gameUpdate.canvasImages[id].textureId
-        const layerCanvasInstance = this.getLayerCanvasInstanceByTextureId(textureId)
-        if(layerCanvasInstance) {
-          layerCanvasInstance.updateTexture()
+        const layerInstance = this.getLayerInstanceByTextureId(textureId)
+        if(layerInstance) {
+          layerInstance.updateTexture()
         } else {
           this.load.image(textureId, getImageUrlFromTextureId(textureId));
           this.load.once('complete', (idk) => {
@@ -941,8 +927,8 @@ export class EditorScene extends GameInstance {
     // this.grid = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize, nodeSize, null, null, 0x222222, 0.2)
     // this.grid2 = this.add.grid(0, 0, gameMaxWidth * 4, gameMaxHeight * 4, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
-    // this.grid.setDepth(UI_CANVAS_DEPTH)
-    // this.grid2.setDepth(UI_CANVAS_DEPTH)
+    // this.grid.setDepth(UI_LAYER_DEPTH)
+    // this.grid2.setDepth(UI_LAYER_DEPTH)
 
     if(this.grid) this.grid.destroy()
     if(this.grid2) this.grid2.destroy()
@@ -956,8 +942,8 @@ export class EditorScene extends GameInstance {
     this.grid = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize, nodeSize, null, null, 0x222222, 0.2)
     this.grid2 = this.add.grid(gameX + gameWidth/2, gameY + gameHeight/2, gameWidth, gameHeight, nodeSize * 3, nodeSize * 3, null, null, 0x222222, 0.5)
 
-    this.grid.setDepth(UI_CANVAS_DEPTH)
-    this.grid2.setDepth(UI_CANVAS_DEPTH)
+    this.grid.setDepth(UI_LAYER_DEPTH)
+    this.grid2.setDepth(UI_LAYER_DEPTH)
   }
 
   create() {
@@ -1090,11 +1076,11 @@ export class EditorScene extends GameInstance {
     // if(!this.isMouseOverGame && gameSelector.brushIdSelectedBrushList) {
     //   if(!isBrushIdEraser(gameSelector.brushIdSelectedBrushList)) {
     //     const brush = this.createBrushFromBrushId(gameSelector.brushIdSelectedBrushList)
-    //     this.stage.backgroundColorLayer.setVisible(false)
+    //     this.stage.colorLayer.setVisible(false)
     //     this.backgroundCanvasLayer.setVisible(false)
     //     this.playgroundCanvasLayer.setVisible(false)
     //     this.foregroundCanvasLayer.setVisible(false)
-    //     const canvas = this.getLayerCanvasInstanceById(brush.getCanvasId())
+    //     const canvas = this.getLayerInstanceById(brush.getLayerId())
     //     canvas.setVisible(true)
     //     brush.destroy()
     //   }

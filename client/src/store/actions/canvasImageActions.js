@@ -125,7 +125,7 @@ export const getCanvasImageByTextureId = (textureId) => async (dispatch, getStat
 export const addCanvasImage = (canvasImage) => async (dispatch, getState) => {
   dispatch({
     type: ADD_CANVAS_IMAGE_LOADING,
-    payload: { me: { ...getState().auth.me } },
+    payload: { textureId: canvasImage.textureId },
   });
 
   try {

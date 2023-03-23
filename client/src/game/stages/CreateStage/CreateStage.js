@@ -8,7 +8,7 @@ import SelectClass from '../../ui/SelectClass/SelectClass';
 import { ZONE_CLASS } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import StageNameForm from '../StageNameForm/StageNameForm';
-import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
+import SelectStageColor from '../SelectStageColor/SelectStageColor';
 import Divider from '../../../ui/Divider/Divider';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import SelectStageDefaultType from '../../ui/SelectStageDefaultType/SelectStageDefaultType';
@@ -39,9 +39,9 @@ const CreateStage = ({ stage, onUpdate }) => {
       
          <Divider></Divider>
 
-         <SelectBackgroundColor selectedColor={stage.backgroundColor} onSelectColor={(hex) => {
+         <SelectStageColor selectedColor={stage.color} onSelectColor={(hex) => {
             onUpdate({
-              backgroundColor: hex
+              color: hex
             })
          }}/>
 

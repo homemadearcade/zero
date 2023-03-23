@@ -8,14 +8,14 @@ import { STAGE_EDITOR } from '../../constants';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/gameFormEditorActions';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CONTEXT_MENU_CUTSCENES_IID, CONTEXT_MENU_PLAYTEST_IID, CONTEXT_MENU_STAGES_IID,CONTEXT_MENU_STAGE_GRAVITY_IID, CONTEXT_MENU_STAGE_SECTIONS_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_BACKGROUND_COLOR_IID } from '../../../constants/interfaceIds';
-import { openSelectBackgroundColorModal } from '../../../store/actions/gameSelectorActions';
+import { CONTEXT_MENU_CUTSCENES_IID, CONTEXT_MENU_PLAYTEST_IID, CONTEXT_MENU_STAGES_IID,CONTEXT_MENU_STAGE_GRAVITY_IID, CONTEXT_MENU_STAGE_SECTIONS_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
+import { openSelectStageColorModal } from '../../../store/actions/gameSelectorActions';
 
 const StageContextMenu = ({ 
   openLiveEditor,
   openSectionEditor, 
   onMenuItemClick, 
-  openSelectBackgroundColorModal,
+  openSelectStageColorModal,
   openGameMetadataModal, 
   openSnapshotTaker, 
   openCutscenesMenu, 
@@ -41,9 +41,9 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Boundaries</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={STAGE_BACKGROUND_COLOR_IID}>
+    <Unlockable interfaceId={STAGE_COLOR_IID}>
       <MenuItem onClick={() => {
-        openSelectBackgroundColorModal()
+        openSelectStageColorModal()
         onMenuItemClick()
       }}>Edit Default Background Color</MenuItem>
     </Unlockable>
@@ -88,7 +88,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 export default connect(mapStateToProps, { 
   openLiveEditor, 
   openSectionEditor, 
-  openSelectBackgroundColorModal, 
+  openSelectStageColorModal, 
   openSnapshotTaker, 
   toggleGridView, 
   openGameMetadataModal, 

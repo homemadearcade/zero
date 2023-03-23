@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 import './StageNameForm.scss';
 import { Alert, TextField } from '@mui/material';
-import { updateCreateStageModal } from '../../../store/actions/gameFormEditorActions';
+import { updateCreateStage } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-const StageNameForm = ({ initialName, updateCreateStageModal, gameModel: { gameModel }, gameFormEditor: { stage } }) => {
+const StageNameForm = ({ initialName, updateCreateStage, gameModel: { gameModel }, gameFormEditor: { stage } }) => {
   const [nameList, setNameList] = useState([])
   const [ignoreName, setIgnoreName] = useState([])
 
@@ -27,7 +27,7 @@ const StageNameForm = ({ initialName, updateCreateStageModal, gameModel: { gameM
   function testName(name) {
     if(ignoreName && name === ignoreName) return true
     if(nameList.indexOf(name) >= 0) {
-      updateCreateStageModal({
+      updateCreateStage({
         error: 'That name is already in use'
       })
       return false
@@ -38,7 +38,7 @@ const StageNameForm = ({ initialName, updateCreateStageModal, gameModel: { gameM
 
   function handleChange(e) {
     const newVal = e.target.value
-    updateCreateStageModal({
+    updateCreateStage({
       name: newVal,
       error: null
     })
@@ -57,4 +57,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameFormEditor: state.gameFormEditor
 });
 
-export default connect(mapStateToProps, { updateCreateStageModal })(StageNameForm);
+export default connect(mapStateToProps, { updateCreateStage })(StageNameForm);

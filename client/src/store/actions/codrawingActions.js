@@ -21,8 +21,8 @@ export function saveAllCurrentCanvases() {
   const state = store.getState()
   const scene = getCurrentGameScene(state.webPage.gameInstance)
   if(!scene) return
-  Object.keys(scene.layersById).forEach((layerId) => {
-    const layerInstance = scene.layersById[layerId]
+  Object.keys(scene.layerInstancesById).forEach((layerId) => {
+    const layerInstance = scene.layerInstancesById[layerId]
     if(layerInstance.unsavedChanges) layerInstance.save()
   })
 }

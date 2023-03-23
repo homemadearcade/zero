@@ -70,7 +70,7 @@ export const stageDefaultTypeProperties = {
 
 export const defaultStage = {
   name: '',
-  backgroundColor: '#000000',
+  color: '#000000',
   "playerClassId": null,
   'playerSpawnZoneClassId': null,
   "imageUrl": "",

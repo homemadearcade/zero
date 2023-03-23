@@ -2,34 +2,34 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectBackgroundColorModal.scss';
+import './SelectStageColorModal.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { closeSelectBackgroundColorModal } from '../../../store/actions/gameSelectorActions';
+import { closeSelectStageColorModal } from '../../../store/actions/gameSelectorActions';
 import { editGameModel } from '../../../store/actions/gameModelActions';
-import SelectBackgroundColor from '../SelectBackgroundColor/SelectBackgroundColor';
+import SelectStageColor from '../SelectStageColor/SelectStageColor';
 
-const SelectBackgroundColorModal = ({ 
-  closeSelectBackgroundColorModal, 
+const SelectStageColorModal = ({ 
+  closeSelectStageColorModal, 
   editGameModel, 
   gameFormEditor: { isEyeDropping },
   gameModel: { currentStageId },
 }) => {
   function handleClose() {
-    closeSelectBackgroundColorModal()
+    closeSelectStageColorModal()
   }
 
   return <CobrowsingModal open={!isEyeDropping} onClose={handleClose}>
-    <div className="SelectBackgroundColorModal">
-      <SelectBackgroundColor onSelectColor={(hex) => {
+    <div className="SelectStageColorModal">
+      <SelectStageColor onSelectColor={(hex) => {
         editGameModel({
           stages: {
             [currentStageId]: {
-              backgroundColor: hex
+              color: hex
             }
           }
         })
-        closeSelectBackgroundColorModal()
+        closeSelectStageColorModal()
       }}/>
     </div>
   </CobrowsingModal>
@@ -41,5 +41,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { closeSelectBackgroundColorModal, editGameModel }),
-)(SelectBackgroundColorModal);
+  connect(mapStateToProps, { closeSelectStageColorModal, editGameModel }),
+)(SelectStageColorModal);

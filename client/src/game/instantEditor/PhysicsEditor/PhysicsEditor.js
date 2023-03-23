@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { LAYER_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID, RELATION_ID_PREFIX } from '../../constants';
+import { LAYER_ID_PREFIX, PLAYGROUND_LAYER_ID, RELATION_ID_PREFIX } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
@@ -101,7 +101,7 @@ const PhysicsEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel 
             editGameModel({ collisions })        
          }}/>
       </Unlockable>
-      {false && classSelected.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID && <div>
+      {false && classSelected.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID && <div>
         also collides with Player because this is on the Playground Layer
       </div>}
       <Unlockable isSlider interfaceId={PHYSICS_BOUNCE_IID}>

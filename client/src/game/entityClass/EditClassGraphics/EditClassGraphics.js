@@ -18,7 +18,7 @@ import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
+import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_LAYER_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
 import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import ClassNameForm from '../ClassNameForm/ClassNameForm';
 
@@ -108,7 +108,7 @@ const EditClassGraphics = ({
           }}
       />}
       {entityClass.classInterfaceCategory !== ZONE_CLASS && entityClass.classInterfaceCategory !== PLAYER_CLASS && <Unlockable interfaceId={CLASS_LAYER_IID}>
-        <SelectLayer formLabel={"Layer"} value={entityClass.graphics.layerId ? [entityClass.graphics.layerId] : [LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID]} onChange={(e, value) => {
+        <SelectLayer formLabel={"Layer"} value={entityClass.graphics.layerId ? [entityClass.graphics.layerId] : [LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateClass({ graphics: {
             layerId: newValue

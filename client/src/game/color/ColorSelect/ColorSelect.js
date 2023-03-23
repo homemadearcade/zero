@@ -9,7 +9,7 @@ import _ from 'lodash';
 import Icon from '../../../ui/Icon/Icon';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ADD_COLOR_IID, getColorSelectFromLayerCanvasId } from '../../../constants/interfaceIds';
+import { ADD_COLOR_IID, getColorSelectFromLayerId } from '../../../constants/interfaceIds';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
@@ -25,7 +25,7 @@ const ColorSelect = ({
   selectedColorHex,
   onUnselectColor,
   maxColors,
-  layerCanvasId,
+  layerId,
   withEraser,
   updateBrushLastUsedDate
 }) => {
@@ -45,7 +45,7 @@ const ColorSelect = ({
 
     const isSelected = selectedColorHex === hex
     const isHovering = isHoveringHex === hex
-    const brushId = COLOR_BRUSH_ID + '/' + layerCanvasId + '/' + hex
+    const brushId = COLOR_BRUSH_ID + '/' + layerId + '/' + hex
 
     function handleClick(e) {
       if(onClick) onClick(e)
@@ -54,7 +54,7 @@ const ColorSelect = ({
           onUnselectColor(hex)
         }
       } else {
-        if(layerCanvasId) {
+        if(layerId) {
           // updateBrushLastUsedDate(brushId)
         }
         onSelectColor(hex)
@@ -85,8 +85,8 @@ const ColorSelect = ({
 
     const el = <ColorItem key={hex} hex={hex}></ColorItem>
 
-    if(layerCanvasId !== NON_LAYER_COLOR_ID) {
-      return <Unlockable interfaceId={getColorSelectFromLayerCanvasId(layerCanvasId)}>
+    if(layerId !== NON_LAYER_COLOR_ID) {
+      return <Unlockable interfaceId={getColorSelectFromLayerId(layerId)}>
         {el}
       </Unlockable>
     }
@@ -98,8 +98,8 @@ const ColorSelect = ({
     +
   </Button></Unlockable>)
 
-  if(withEraser && layerCanvasId) {
-    items.unshift(<EraserSelect layerCanvasId={layerCanvasId}/>)
+  if(withEraser && layerId) {
+    items.unshift(<EraserSelect layerId={layerId}/>)
   }
 
   return <div className="ColorSelect">

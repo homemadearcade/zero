@@ -45,7 +45,7 @@ export class ClassStamper extends Phaser.GameObjects.Image {
     })
   }
 
-  getCanvasId() {
+  getLayerId() {
     return this.entityClass.graphics.layerId
   }
 }

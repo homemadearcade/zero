@@ -1,6 +1,8 @@
-import { IMAGE_CANVAS_MODAL_ID_PREFIX } from '../../game/constants';
+import { IMAGE_TYPE_SPRITE } from '../../constants';
+import { IMAGE_CANVAS_ID_PREFIX } from '../../game/constants';
+import { getImageUrlFromTextureId } from '../../utils';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
-import { getCanvasIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
+import { getLayerIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
 import { generateUniqueId } from '../../utils/webPageUtils';
 import { 
   CLOSE_LIVE_EDITOR,
@@ -30,7 +32,9 @@ import {
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
+  OPEN_IMAGE_CANVAS_MODAL_LOADING,
 } from '../types';
+import { addCanvasImage } from './canvasImageActions';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
 import { editGameModel } from './gameModelActions';
@@ -88,7 +92,7 @@ export const updateBrushLastUsedDate = (brushId) => (dispatch, getState) => {
     dispatch(editGameModel({
       colors: {
         [getHexFromColorId(brushId)]: {
-          [getCanvasIdFromColorId(brushId)]: Date.now()
+          [getLayerIdFromColorId(brushId)]: Date.now()
         }
       }
     }))
@@ -141,13 +145,34 @@ export const openLiveEditor = (type, entityClassId) => (dispatch, getState) => {
   });
 }
 
-export const openCanvasImageModal= (textureId) => (dispatch, getState) => {
+export const openCanvasImageModal= (textureId) => async (dispatch, getState) => {
+  const state = getState()
+  const newTextureId = IMAGE_CANVAS_ID_PREFIX + generateUniqueId()
+  
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_IMAGE_CANVAS_MODAL_LOADING,
+    payload: {
+      textureId: textureId,
+      imageCanvasNewTextureId: newTextureId
+    }
+  });
+
+  await dispatch(addCanvasImage({
+    textureId: newTextureId, 
+    visualTags: [],
+    imageUrl: getImageUrlFromTextureId(textureId),
+    imageType: IMAGE_TYPE_SPRITE,
+    userId: state.auth.me?.id,
+    arcadeGame: state.gameModel.gameModel.id
+  }))
+
   dispatch({
     updateCobrowsing: true,
     type: OPEN_IMAGE_CANVAS_MODAL,
     payload: {
       textureId: textureId,
-      imageCanvasNewTextureId: IMAGE_CANVAS_MODAL_ID_PREFIX + generateUniqueId()
+      imageCanvasNewTextureId: newTextureId
     }
   });
 }
@@ -194,7 +219,7 @@ export const closeGameMetadataModal = () => (dispatch, getState) => {
   });
 }
 
-export const openSelectBackgroundColorModal= () => (dispatch, getState) => {
+export const openSelectStageColorModal= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SELECT_BACKGROUND_COLOR,
@@ -202,7 +227,7 @@ export const openSelectBackgroundColorModal= () => (dispatch, getState) => {
   });
 }
 
-export const closeSelectBackgroundColorModal= () => (dispatch, getState) => {
+export const closeSelectStageColorModal= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SELECT_BACKGROUND_COLOR,
@@ -210,13 +235,13 @@ export const closeSelectBackgroundColorModal= () => (dispatch, getState) => {
   });
 }
 
-export const openSelectAggregateColor= (componentName, layerCanvasId) => (dispatch, getState) => {
+export const openSelectAggregateColor= (componentName, layerId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SELECT_AGGREGATE_COLOR,
     payload: {
       componentName,
-      layerCanvasId,
+      layerId,
     }
   });
 }

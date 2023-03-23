@@ -163,7 +163,7 @@ export function enrichGameModel(gameData) {
 
     if(entityClass.graphics.textureId) {
       gameData.brushes[BRUSH_ID_PREFIX + entityClass.entityClassId] = {
-        layerCanvasId: NON_LAYER_BRUSH_ID,
+        layerId: NON_LAYER_BRUSH_ID,
         textureId: entityClass.graphics.textureId,
         textureTint: entityClass.graphics.textureTint
       }

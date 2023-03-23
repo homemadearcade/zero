@@ -15,7 +15,7 @@ import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ADD_BRUSH_IID, getBrushSelectFromLayerCanvasId, getLayerContainerId } from '../../../constants/interfaceIds';
+import { ADD_BRUSH_IID, getBrushSelectFromLayerId, getLayerContainerId } from '../../../constants/interfaceIds';
 import { sortByLastSelectedDate } from '../../../utils/editorUtils';
 
 const BrushList = ({
@@ -45,17 +45,17 @@ const BrushList = ({
     }
   }
 
-  const renderBrushItem = (layerCanvasId) =>  (brushId, i) => {
+  const renderBrushItem = (layerId) =>  (brushId, i) => {
     const el = <BrushItem key={i} brushId={brushId}/>
-    return <Unlockable interfaceId={getBrushSelectFromLayerCanvasId(layerCanvasId)}>
+    return <Unlockable interfaceId={getBrushSelectFromLayerId(layerId)}>
       {el}
     </Unlockable>
   }
 
   const brushesByLayer = Object.keys(brushes).reduce((prev, brushId) => {
     const brush = brushes[brushId]
-    if(!prev[brush.layerCanvasId]) prev[brush.layerCanvasId] = []
-    prev[brush.layerCanvasId].push(brushId)
+    if(!prev[brush.layerId]) prev[brush.layerId] = []
+    prev[brush.layerId].push(brushId)
     return prev
   }, {})
 
@@ -88,7 +88,7 @@ const BrushList = ({
       </>,
       body: <>
         <BrushControl/>
-        <LayerColorSelect withEraser layerCanvasId={layerId}/>
+        <LayerColorSelect withEraser layerId={layerId}/>
         <div className="BrushList__brushes">
           <BorderedGrid 
           maxItems={15} 

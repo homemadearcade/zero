@@ -1,7 +1,7 @@
 import { ZONE_CLASS } from '../../game/constants';
 import {
   CLEAR_GAME_VIEW_EDITOR,
-  TOGGLE_CANVAS_VISIBILITY,
+  TOGGLE_LAYER_VISIBILITY,
   TOGGLE_GRID_VIEW,
   OPEN_SECTION_EDITOR,
   CLOSE_SECTION_EDITOR,
@@ -73,12 +73,12 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
         ...state,
         isGridViewOn: !state.isGridViewOn,
       }
-    case TOGGLE_CANVAS_VISIBILITY:
+    case TOGGLE_LAYER_VISIBILITY:
       return {
         ...state,
         layerInvisibility: {
           ...state.layerInvisibility,
-          [payload.layerCanvasId]: !state.layerInvisibility[payload.layerCanvasId]
+          [payload.layerId]: !state.layerInvisibility[payload.layerId]
         }
       }
     case CLEAR_GAME_VIEW_EDITOR:

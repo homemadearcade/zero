@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
-import { getCanvasIdFromEraserId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
+import { getLayerIdFromEraserId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { IMAGE_CANVAS_MODAL_CANVAS_DEPTH, IMAGE_CANVAS_MODAL_CANVAS_ID, nodeSize } from '../constants';
-import { BACKGROUND_LAYER_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, UI_CANVAS_DEPTH } from '../constants';
+import { IMAGE_CANVAS_MODAL_LAYER_DEPTH, IMAGE_CANVAS_LAYER_ID, nodeSize } from '../constants';
+import { BACKGROUND_LAYER_DEPTH, DEFAULT_TEXTURE_ID, UI_LAYER_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
 import { getImageUrlFromTextureId, getTextureMetadata } from '../../utils/utils';
@@ -87,7 +87,7 @@ export class CodrawingScene extends Phaser.Scene {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        const canvas = this.getLayerCanvasInstanceByTextureId(this.brush.getCanvasId())
+        const canvas = this.getLayerInstanceByTextureId(this.brush.getLayerId())
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
       }
@@ -130,17 +130,17 @@ export class CodrawingScene extends Phaser.Scene {
     }
   }
 
-  getDepthFromLayerCanvasId(layerCanvasId) {
-    if(layerCanvasId === IMAGE_CANVAS_MODAL_CANVAS_ID) return IMAGE_CANVAS_MODAL_CANVAS_DEPTH
-    else return IMAGE_CANVAS_MODAL_CANVAS_DEPTH
+  getDepthFromLayerId(layerId) {
+    if(layerId === IMAGE_CANVAS_LAYER_ID) return IMAGE_CANVAS_MODAL_LAYER_DEPTH
+    else return IMAGE_CANVAS_MODAL_LAYER_DEPTH
   }
 
   getDepthFromEraserId(eraserId) {
-    return this.getDepthFromLayerCanvasId(getCanvasIdFromEraserId(eraserId))
+    return this.getDepthFromLayerId(getLayerIdFromEraserId(eraserId))
   }
 
 
-  getLayerCanvasInstanceByTextureId() {
+  getLayerInstanceByTextureId() {
     return this.backgroundCanvasLayer
   }
 
@@ -223,7 +223,7 @@ export class CodrawingScene extends Phaser.Scene {
       textureId: this.textureId,
       boundaries: this.boundaries
     })
-    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_CANVAS_DEPTH)
+    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_DEPTH)
 
     this.input.on('pointerdown', this.onPointerDown, this);
     this.input.on('pointerup', this.onPointerUp);
@@ -239,8 +239,8 @@ export class CodrawingScene extends Phaser.Scene {
     this.grid = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize, nodeSize, null, null, 0x1111, 0.2)
     // this.grid2 = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize * 3, nodeSize * 3, null, null, 0x1111, 0.2)
 
-    this.grid.setDepth(UI_CANVAS_DEPTH)
-    // this.grid2.setDepth(UI_CANVAS_DEPTH)
+    this.grid.setDepth(UI_LAYER_DEPTH)
+    // this.grid2.setDepth(UI_LAYER_DEPTH)
 
     this.grid3 = this.add.grid(0, 0, this.size * 2, this.size * 2, nodeSize, nodeSize, null, null, 0xFFFFFF, 0.2)
 

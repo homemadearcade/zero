@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CutsceneNameForm from '../../cutscene/CutsceneNameForm/CutsceneNameForm';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { CUTSCENE_ID_PREFIX, CANVAS_IMAGE_AND_TEXT_CUTSCENE, CANVAS_IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
+import { CUTSCENE_ID_PREFIX, IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import MyImagesModal from '../../images/MyImagesModal/MyImagesModal';
 import { closeMyImagesModal, openMyImagesModal } from '../../../store/actions/gameSelectorActions';
@@ -93,12 +93,12 @@ const CreateCutscene = ({
         Add Text Scene
       </Button>
       <Button onClick={() => {
-        addScene(CANVAS_IMAGE_CUTSCENE)
+        addScene(IMAGE_CUTSCENE)
       }}>
         Add Image Scene
       </Button>
       <Button onClick={() => {
-        addScene(CANVAS_IMAGE_AND_TEXT_CUTSCENE)
+        addScene(IMAGE_AND_TEXT_CUTSCENE)
       }}>
         Add Image and Text Scene
       </Button>

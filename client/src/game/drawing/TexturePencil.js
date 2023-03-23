@@ -1,14 +1,14 @@
 import Phaser from "phaser";
 import { getTextureMetadata } from "../../utils/utils";
 import store from "../../store";
-import { getDepthFromLayerCanvasId, snapFreeXY } from "../../utils/editorUtils";
+import { getDepthFromLayerId, snapFreeXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
 
 export class TexturePencil extends Brush {
   constructor(scene, {brushId}){
     const gameModel = store.getState().gameModel.gameModel
     const brush = gameModel.brushes[brushId]
-    const depth = scene.getDepthFromLayerCanvasId(brush.layerCanvasId)
+    const depth = scene.getDepthFromLayerId(brush.layerId)
     const textureTint = brush.textureTint
 
     const { spriteSheetName, spriteIndex } = getTextureMetadata(brush.textureId)
@@ -20,10 +20,10 @@ export class TexturePencil extends Brush {
     return this
   }
 
-  getCanvasId() {
+  getLayerId() {
     const gameModel = store.getState().gameModel.gameModel
     const brush = gameModel.brushes[this.brushId]
-    return brush.layerCanvasId
+    return brush.layerId
   }
 }
 

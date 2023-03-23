@@ -1,6 +1,6 @@
 import Phaser, { BlendModes } from "phaser";
-import { DEFAULT_TEXTURE_ID, UI_CANVAS_DEPTH } from "../constants";
-import { getCanvasIdFromEraserId, getDepthFromEraserId, snapFreeXY } from "../../utils/editorUtils";
+import { DEFAULT_TEXTURE_ID, UI_LAYER_DEPTH } from "../constants";
+import { getLayerIdFromEraserId, getDepthFromEraserId, snapFreeXY } from "../../utils/editorUtils";
 import { Brush } from "./Brush";
 import { getThemePrimaryColor } from "../../utils/webPageUtils";
 
@@ -14,7 +14,7 @@ export class EraserSingleLayer extends Brush {
     this.border = scene.add.graphics();
     this.border.lineStyle(4, getThemePrimaryColor().hexCode, 1);
     this.border.strokeRect(0, 0, this.width, this.height);
-    this.border.setDepth(UI_CANVAS_DEPTH - 1)
+    this.border.setDepth(UI_LAYER_DEPTH - 1)
 
     this.isEraser = true
     this.snapMethod = snapFreeXY
@@ -36,8 +36,8 @@ export class EraserSingleLayer extends Brush {
     this.border.destroy()
   }
 
-  getCanvasId() {
-    return getCanvasIdFromEraserId(this.brushId)
+  getLayerId() {
+    return getLayerIdFromEraserId(this.brushId)
   }
 }
 

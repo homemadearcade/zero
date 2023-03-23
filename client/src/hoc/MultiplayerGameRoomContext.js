@@ -8,13 +8,6 @@ import Loader from '../ui/Loader/Loader';
 class MultiplayerGameRoomContext extends Component {
   componentWillMount() {
     const { gameRoomId } = this.props
-
-    if(gameRoomId === this.props.gameRoom.gameRoom.id) {
-      // 'already cobrowsing this user :)
-      window.preventGameRoomUnmount = true
-      return 
-    } 
-
     this.joinMultiplayerGameRoom(gameRoomId)
   }
 
@@ -33,12 +26,7 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   componentWillUnmount() {
-    setTimeout(() => {
-      if(window.preventGameRoomUnmount) {
-        return 
-      }
-      this.leaveMultiplayerGameRoom()
-    }, 1000)
+    this.leaveMultiplayerGameRoom()
   }
 
   leaveMultiplayerGameRoom() {

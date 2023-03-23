@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { getDepthFromLayerCanvasId, getHexFromColorId, getCanvasIdFromColorId, snapFreeXY } from "../../utils/editorUtils";
+import { getDepthFromLayerId, getHexFromColorId, getLayerIdFromColorId, snapFreeXY } from "../../utils/editorUtils";
 import { DEFAULT_TEXTURE_ID } from "../constants";
 import { Brush } from "./Brush";
 
@@ -7,8 +7,8 @@ export class ColorPencil extends Brush {
   constructor(scene, { brushId }){
 
     const textureTint = getHexFromColorId(brushId)
-    console.log(getCanvasIdFromColorId(brushId))
-    const depth = scene.getDepthFromLayerCanvasId(getCanvasIdFromColorId(brushId))
+    console.log(getLayerIdFromColorId(brushId))
+    const depth = scene.getDepthFromLayerId(getLayerIdFromColorId(brushId))
     console.log(depth)
     super(scene, { brushId, textureTint, depth, textureId: DEFAULT_TEXTURE_ID })
 
@@ -17,8 +17,8 @@ export class ColorPencil extends Brush {
     return this
   }
 
-  getCanvasId() {
-    return getCanvasIdFromColorId(this.brushId)
+  getLayerId() {
+    return getLayerIdFromColorId(this.brushId)
   }
 }
 

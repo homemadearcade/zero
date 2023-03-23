@@ -106,8 +106,8 @@ export const JUMP_AIR = 'JUMP_AIR'
 /////////////////////////////////////
 // CUTSCENES
 export const TEXT_CUTSCENE = 'TEXT_CUTSCENE'
-export const CANVAS_IMAGE_CUTSCENE = 'CANVAS_IMAGE_CUTSCENE'
-export const CANVAS_IMAGE_AND_TEXT_CUTSCENE = 'CANVAS_IMAGE_AND_TEXT_CUTSCENE'
+export const IMAGE_CUTSCENE = 'IMAGE_CUTSCENE'
+export const IMAGE_AND_TEXT_CUTSCENE = 'IMAGE_AND_TEXT_CUTSCENE'
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -147,7 +147,7 @@ export const BRUSH_ID_PREFIX = 'brush-'
 export const DATE_ID_PREFIX = 'date-'
 export const SNAPSHOT_ID_PREFIX = 'snapshot-'
 export const SCENE_ID_PREFIX = 'scene-'
-export const IMAGE_CANVAS_MODAL_ID_PREFIX = 'sprite-'
+export const IMAGE_CANVAS_ID_PREFIX = 'sprite-'
 export const STAGE_ID_PREFIX = 'stage-'
 export const GAME_INSTANCE_ID_PREFIX = 'gi-'
 export const OBJECT_CLASS_ID_PREFIX = 'oc-'

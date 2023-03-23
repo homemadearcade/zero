@@ -4,14 +4,14 @@ export const ADD_BRUSH_IID = 'addBrush';
 export const BRUSH_SELECT_IID = 'brushSelect'
 export const COLOR_SELECT_IID = 'colorSelect'
 
-export function getLayerContainerId(layerCanvasId) {
-  return layerCanvasId + '/*'
+export function getLayerContainerId(layerId) {
+  return layerId + '/*'
 }
 
-export function getBrushSelectFromLayerCanvasId(layerCanvasId) {
-  return layerCanvasId + "/" + BRUSH_SELECT_IID
+export function getBrushSelectFromLayerId(layerId) {
+  return layerId + "/" + BRUSH_SELECT_IID
 }
 
-export function getColorSelectFromLayerCanvasId(layerCanvasId) {
-  return layerCanvasId + "/" + COLOR_SELECT_IID
+export function getColorSelectFromLayerId(layerId) {
+  return layerId + "/" + COLOR_SELECT_IID
 }

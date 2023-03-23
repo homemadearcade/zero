@@ -88,11 +88,11 @@ const ActivityInstructions = ({
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
 
-  const playersById = gameRoom.members.reduce((prev, next) => {
+  const playerInstancesById = gameRoom.members.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
-  const hostPlayer = playersById[gameRoom.hostUserId]
+  const hostPlayer = playerInstancesById[gameRoom.hostUserId]
 
   const requireCobrowsingConnection = {
     shouldContinueBeDisabledCheck: () => {

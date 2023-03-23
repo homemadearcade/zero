@@ -24,7 +24,6 @@ import {
   UNLOCK_INTERFACE,
   SET_MOUSE_OVER_INTERFACE_ID,
   SELECT_COBROWSING_TOOL,
-  COBROWSING_REMOTE_DISPATCH_FAIL,
 } from '../types';
 
 import store from '..';

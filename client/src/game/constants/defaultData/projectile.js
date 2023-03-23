@@ -7,7 +7,11 @@ export const defaultProjectile = {
   lifetime: 3000,
   ammo: 0,
   speed: 300,
-  targetClassId: null
+  targetClassId: null,
+  relationTagOverride: false,
+  collisionTagOverride: false,
+  relationTags: [],
+  collisionTags: []
 }
 
 //////////////////////////////////////////////////////////////////////////

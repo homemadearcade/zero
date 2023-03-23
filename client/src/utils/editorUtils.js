@@ -94,14 +94,14 @@ export function snapObjectXY({x, y, entityClass, boundaries = store.getState().g
     snappedY
   }
 }
-export const sortColorByLastSelectedDate = (colors, layerCanvasId) => (a, b) => {
+export const sortColorByLastSelectedDate = (colors, layerId) => (a, b) => {
   const colorA = colors[a]
   const colorB = colors[b]
   if(!colorA) return -1 
   if(!colorB) return 1
-  if(!colorA[layerCanvasId]) return 1
-  if(!colorB[layerCanvasId]) return -1
-  if(colorA[layerCanvasId] < colorB[layerCanvasId]) {
+  if(!colorA[layerId]) return 1
+  if(!colorB[layerId]) return -1
+  if(colorA[layerId] < colorB[layerId]) {
     return -1
   } else return 1
 }
@@ -121,7 +121,7 @@ export const sortByLastEditedDate = (entityInstance) => (a, b) => {
 }
 
 const HEX_CODE_LENGTH = 7
-export function getCanvasIdFromColorId(colorId) {
+export function getLayerIdFromColorId(colorId) {
   return colorId.slice(COLOR_BRUSH_ID.length + 1, - (HEX_CODE_LENGTH + 1)) 
 }
 
@@ -137,7 +137,7 @@ export function isBrushIdColor(colorId) {
   return colorId.indexOf(COLOR_BRUSH_ID) >= 0
 }
 
-export function getCanvasIdFromEraserId(eraserId) {
+export function getLayerIdFromEraserId(eraserId) {
   return eraserId.slice(ERASER_BRUSH_ID.length + 1)
 }
 

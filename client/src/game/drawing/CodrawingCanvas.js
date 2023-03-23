@@ -48,7 +48,7 @@ export class CodrawingCanvas extends Canvas {
 
       this.executeRemoteStroke(strokeData)
 
-      const canvas = this.scene.getLayerCanvasInstanceByTextureId(textureId)
+      const canvas = this.scene.getLayerInstanceByTextureId(textureId)
       if(canvas.createCollisionBody) canvas.createCollisionBody()
       if(this.isCodrawingHost) {
         this.onStrokeReleased()
@@ -138,7 +138,7 @@ export class CodrawingCanvas extends Canvas {
   }
 
   executeRemoteStroke({textureId, brushId, stroke}) {
-    const canvas = this.scene.getLayerCanvasInstanceByTextureId(textureId)
+    const canvas = this.scene.getLayerInstanceByTextureId(textureId)
     const brush = this.scene.createBrushFromBrushId(brushId)
     brush.setVisible(false)
 

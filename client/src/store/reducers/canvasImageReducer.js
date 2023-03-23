@@ -1,9 +1,10 @@
-import { SAVE_CANVAS_IMAGE_FAIL, SAVE_CANVAS_IMAGE_LOADING, SAVE_CANVAS_IMAGE_SUCCESS, MARK_CANVAS_IMAGE_UNSAVED, MARK_CANVAS_IMAGE_STROKES_PENDING } from '../types';
+import { SAVE_CANVAS_IMAGE_FAIL, SAVE_CANVAS_IMAGE_LOADING, SAVE_CANVAS_IMAGE_SUCCESS, MARK_CANVAS_IMAGE_UNSAVED, MARK_CANVAS_IMAGE_STROKES_PENDING, ADD_CANVAS_IMAGE_LOADING, ADD_CANVAS_IMAGE_SUCCESS, ADD_CANVAS_IMAGE_FAIL } from '../types';
 
 const initialState = {
   textureIdStrokesPending: {},
   textureIdSaving: {},
-  textureIdUnsaved: {}
+  textureIdUnsaved: {},
+  isLoadingTextureId: null
 };
 
 export default function cobrowsingReducer(state = initialState, { type, payload }) {

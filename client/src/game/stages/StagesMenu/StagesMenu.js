@@ -48,7 +48,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage,
               player: {
                 startingStageId: stageId
               }
-            })
+          })
           }}>Set as Start Stage</Button>}
           {currentStageId !== stageId && <Button onClick={() => {
             changeCurrentStage(stageId)

@@ -12,12 +12,12 @@ import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, closeSelectAggregateColor, openSelectAggregateColor, selectBrush } from '../../../store/actions/gameSelectorActions';
-import { getHexFromColorId, getCanvasIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
+import { getHexFromColorId, getLayerIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 import AggregateColorSelectModal from '../AggregateColorSelectModal/AggregateColorSelectModal';
 
 const LayerColorSelect = ({
   gameModel: { gameModel : { colors }},
-  layerCanvasId,
+  layerId,
   openCreateColorFlow,
   openSelectAggregateColor,
   editGameModel,
@@ -30,34 +30,34 @@ const LayerColorSelect = ({
 }) => {
   const colorsByLayer = Object.keys(colors).reduce((prev, hex) => {
     const color = colors[hex]
-    Object.keys(color).forEach((layerCanvasId) => {
-      if(!color[layerCanvasId]) return
-      if(!prev[layerCanvasId]) prev[layerCanvasId] = []
-      prev[layerCanvasId].push(hex)
+    Object.keys(color).forEach((layerId) => {
+      if(!color[layerId]) return
+      if(!prev[layerId]) prev[layerId] = []
+      prev[layerId].push(hex)
     })
     return prev
   }, {})
 
   function onAddColor() {
     if(Object.keys(colors).length) {
-      openSelectAggregateColor('LayerColorSelect' + layerCanvasId)
+      openSelectAggregateColor('LayerColorSelect' + layerId)
     } else {
-      openCreateColorFlow('LayerColorSelect' + layerCanvasId, layerCanvasId)
+      openCreateColorFlow('LayerColorSelect' + layerId, layerId)
     }
   }
 
   function onSelectColor(hex) {
-    if(!colors[hex] || !colors[hex][layerCanvasId]) {
+    if(!colors[hex] || !colors[hex][layerId]) {
       editGameModel({
         colors: {
           [hex]: {
-            [layerCanvasId]: Date.now()
+            [layerId]: Date.now()
           }
         }
       })
     }
 
-    selectBrush(COLOR_BRUSH_ID + '/' + layerCanvasId + '/' + hex, layerCanvasId)
+    selectBrush(COLOR_BRUSH_ID + '/' + layerId + '/' + hex, layerId)
   }
 
   function onUnselectColor() {
@@ -70,16 +70,16 @@ const LayerColorSelect = ({
     if(brushIdSelectedBrushList) {
       if(isBrushIdColor(brushIdSelectedBrushList)) {
         selectedColorHex = getHexFromColorId(brushIdSelectedBrushList)
-        selectedColorLayer = getCanvasIdFromColorId(brushIdSelectedBrushList)
+        selectedColorLayer = getLayerIdFromColorId(brushIdSelectedBrushList)
       }
     }
 
     return <ColorSelect 
       withEraser={withEraser}
-      layerCanvasId={layerCanvasId}
+      layerId={layerId}
       maxColors={16}
-      selectedColorHex={selectedColorLayer === layerCanvasId && selectedColorHex} 
-      colors={colorsByLayer[layerCanvasId]?.sort(sortColorByLastSelectedDate(colors, layerCanvasId))} 
+      selectedColorHex={selectedColorLayer === layerId && selectedColorHex} 
+      colors={colorsByLayer[layerId]?.sort(sortColorByLastSelectedDate(colors, layerId))} 
       onSelectColor={onSelectColor} 
       onUnselectColor={onUnselectColor}
       onAddColor={onAddColor}
@@ -88,29 +88,29 @@ const LayerColorSelect = ({
 
   return <>
     {renderColorSelect()}
-    {isCreateColorFlowOpen === ('LayerColorSelect' + layerCanvasId) && <CreateColorFlow
+    {isCreateColorFlowOpen === ('LayerColorSelect' + layerId) && <CreateColorFlow
       onComplete={(color) => {
         editGameModel({
           colors: {
             [color.hex]: {
-              [color.layerCanvasId]: Date.now()
+              [color.layerId]: Date.now()
             }
           }
         })
-        selectBrush(COLOR_BRUSH_ID + '/' + color.layerCanvasId + '/' + color.hex, color.layerCanvasId)
+        selectBrush(COLOR_BRUSH_ID + '/' + color.layerId + '/' + color.hex, color.layerId)
       }}
     />}
-    {isSelectAggregateColorOpen === ('LayerColorSelect' + layerCanvasId) && <AggregateColorSelectModal
+    {isSelectAggregateColorOpen === ('LayerColorSelect' + layerId) && <AggregateColorSelectModal
       onSelectColor={(hex) => {
         closeSelectAggregateColor()
         editGameModel({
           colors: {
             [hex]: {
-              [layerCanvasId]: Date.now()
+              [layerId]: Date.now()
             }
           }
         })
-        selectBrush(COLOR_BRUSH_ID + '/' + layerCanvasId + '/' + hex, layerCanvasId)
+        selectBrush(COLOR_BRUSH_ID + '/' + layerId + '/' + hex, layerId)
       }}
     />}
   </>
