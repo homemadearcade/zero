@@ -6,7 +6,8 @@ const canvasImage = new Schema(
   {
     visualTags: {
       type: Array,
-      default: []
+      default: [],
+      required: true,
     },
     textureId: {
       type: String,
@@ -39,6 +40,7 @@ canvasImage.methods.toJSON = function () {
     textureId: this.textureId,
     imageType: this.imageType,
     strokeHistory: this.strokeHistory,
+    visualTags: this.visualTags,
     owner: this.owner?.toJSON(),
     arcadeGame: this.arcadeGame?.toJSON(),
     experience: this.experience?.toJSON(),

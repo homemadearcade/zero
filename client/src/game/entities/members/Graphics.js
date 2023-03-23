@@ -127,10 +127,13 @@ export class Graphics {
     this.scene.uiLayer.add(phaserInstance.interactBorder)
   }
 
-  setIsHovering(isHovering) {
+  setEditorHighlightVisibility(isMouseOver) {
     const phaserInstance = this.entityInstance.phaserInstance
 
-    if(isHovering) {
+    if(isMouseOver === this.lastIsMouseOver) return 
+    
+    this.lastIsMouseOver = isMouseOver
+    if(isMouseOver) {
       if(phaserInstance.invisibleIndicator) {
         this.createInvisiblilityIndicator(getThemePrimaryColor().hexString)
       } else {
@@ -191,9 +194,9 @@ export class Graphics {
     if(phaserInstance.editorHighlight) {
       phaserInstance.editorHighlight.setPosition(phaserInstance.x, phaserInstance.y)
       phaserInstance.editorHighlight.setRotation(phaserInstance.rotation)
-      this.setIsHovering(
+      this.setEditorHighlightVisibility(
         this.entityInstance.entityClassId === entityClassIdHovering ||
-         phaserInstance.isHoveringOver
+         phaserInstance.isMouseOver
       )
     }
 

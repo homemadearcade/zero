@@ -155,6 +155,8 @@ const Listbox = styled('ul')(
 
     & span {
       flex-grow: 1;
+      display: flex;
+      align-items: center;
     }
 
     .Texture {
@@ -294,10 +296,10 @@ function SelectChipsAutoForm({
 
   function renderLabelText(option) {
     if(option.shortLabel) {
-      return <>
+      return <div>
         <Typography sx={{ fontWeight: 'bold', fontSize: '1.25em' }} component="div" varient="subtitle2">{option.shortLabel}</Typography>
         <Typography sx={{ fontSize: '1em' }} component="div">{option.label}</Typography>
-      </>
+      </div>
     } else {
       return option.label
     }

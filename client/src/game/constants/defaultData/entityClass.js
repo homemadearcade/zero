@@ -1,7 +1,8 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, PLAYGROUND_LAYER_CANVAS_ID, BOUNDARY_COLLIDE, ZONE_CLASS, DIRECTIONAL_CONTROLS } from "../";
+import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, BOUNDARY_COLLIDE, ZONE_CLASS, DIRECTIONAL_CONTROLS } from "../";
 import { nodeSize } from "./general";
 import { defaultProjectile } from "./projectile";
-import { FOREGROUND_LAYER_CANVAS_ID, LAYER_ID_PREFIX , playerDepthModifier} from "../";
+import { LAYER_ID_PREFIX ,  playerDepthModifier} from "../";
+import { FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_ID} from './layers'
 
 export const defaultMovement = {
   movementControlsBehavior: null,

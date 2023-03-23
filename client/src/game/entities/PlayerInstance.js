@@ -6,7 +6,7 @@ import { CameraPreview } from "./members/CameraPreview";
 import { InteractArea } from "./members/InteractArea";
 import { ControlledMovement } from "./members/ControlledMovement";
 import { ControlledProjectileEjector } from "./members/ControlledProjectileEjector";
-import { ON_INTERACT, PLAYGROUND_LAYER_CANVAS_DEPTH } from "../constants";
+import { ON_INTERACT } from "../constants";
 import { nodeSize } from "../constants";
 
 export class PlayerInstance extends EntityInstance {

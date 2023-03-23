@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { BACKGROUND_LAYER_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, PLAYER_INSTANCE_ID_PREFIX, FOREGROUND_LAYER_CANVAS_DEPTH, FOREGROUND_LAYER_CANVAS_ID, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, IMAGE_CANVAS_MODAL_CANVAS_ID, UI_CANVAS_ID, NON_LAYER_BRUSH_ID, IMAGE_CANVAS_MODAL_CANVAS_DEPTH, NON_LAYER_BRUSH_DEPTH, LAYER_DEPTH_CATEGORY_BACKGROUND, LAYER_DEPTH_CATEGORY_PLAYGROUND, LAYER_DEPTH_CATEGORY_FOREGROUND, LAYER_ID_PREFIX } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_ID, UI_CANVAS_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, UI_CANVAS_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_ID_PREFIX, depthCategoryToDepth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
@@ -14,7 +14,7 @@ import { Stage } from '../entities/Stage';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import JSConfetti from 'js-confetti'
 import { directionalPlayerClassId } from '../constants';
-import { getCanvasIdFromEraserId, getTextureIdForLayerCanvasId } from '../../utils';
+import { getCanvasIdFromEraserId } from '../../utils';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -285,16 +285,10 @@ export class GameInstance extends Phaser.Scene {
   }
 
   getDepthFromLayerCanvasId(layerCanvasId) {
-    if(layerCanvasId === IMAGE_CANVAS_MODAL_CANVAS_ID) return IMAGE_CANVAS_MODAL_CANVAS_DEPTH
     if(layerCanvasId === UI_CANVAS_ID) return UI_CANVAS_DEPTH
     if(layerCanvasId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
     const layer = this.getCurrentStage().layers[layerCanvasId]
-    if(layer) {
-      const depthCategory = layer.depthCategory
-      if(depthCategory === LAYER_DEPTH_CATEGORY_BACKGROUND) return BACKGROUND_LAYER_CANVAS_DEPTH
-      if(depthCategory === LAYER_DEPTH_CATEGORY_PLAYGROUND) return PLAYGROUND_LAYER_CANVAS_DEPTH
-      if(depthCategory === LAYER_DEPTH_CATEGORY_FOREGROUND) return FOREGROUND_LAYER_CANVAS_DEPTH
-    }
+    return depthCategoryToDepth[layer.depthCategory]
   }
 
 
@@ -441,8 +435,7 @@ export class GameInstance extends Phaser.Scene {
     this.entityInstancesByTag = {}
     this.playerInstance.destroy()
     this.playerInstance = null
-  }
-
+}
 
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
@@ -452,19 +445,13 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
   getEntityClassDepth(entityClassId) {
+    const layers = this.getCurrentStage().layers
     const gameModel = this.getGameModel()
     const entityClass = gameModel.entityClasses[entityClassId]
 
     if(entityClass.graphics.depthOverride) return entityClass.graphics.depthOverride
-
-    const layerToDepth = {
-      [LAYER_ID_PREFIX+BACKGROUND_LAYER_CANVAS_ID]: BACKGROUND_LAYER_CANVAS_DEPTH + 1,
-      [LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID]: PLAYGROUND_LAYER_CANVAS_DEPTH + 1,
-      [LAYER_ID_PREFIX+FOREGROUND_LAYER_CANVAS_ID]: FOREGROUND_LAYER_CANVAS_DEPTH + 1
-    }
-
-    const modifier = entityClass.graphics.depthModifier
-    return layerToDepth[entityClass.graphics.layerId] + modifier
+    const depthCategory =  layers[entityClass.graphics.layerId].depthCategory
+    return depthCategoryToDepth[depthCategory] + entityClass.graphics.depthModifier
   }
 
   getEntityInstance(entityInstanceId) {

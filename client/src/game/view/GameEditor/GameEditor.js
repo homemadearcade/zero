@@ -164,6 +164,7 @@ const GameEditor = ({
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageModalOpen && <CreateStageModal/>}
       {isSelectBackgroundColorModalOpen && <SelectBackgroundColorModal/>}
+      <div id="CobrowsingModal"></div>
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {
           copyToClipboard(JSON.stringify(viewingJson))

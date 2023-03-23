@@ -318,7 +318,7 @@ export class EditorScene extends GameInstance {
       store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityClassId, { isSpawned: phaserInstance.effectSpawned }))
     }
 
-    phaserInstance.isHoveringOver = true
+    phaserInstance.isMouseOver = true
     // if(entitySprite.effectSpawned) return
     // if(!document.body.style.cursor) document.body.style.cursor = 'grab'
   }
@@ -406,6 +406,7 @@ export class EditorScene extends GameInstance {
           textureId: textureId, 
           imageType: IMAGE_TYPE_SNAPSHOT,
           imageUrl,
+          visualTags: [],
           userId: store.getState().auth.me.id,
           arcadeGame: store.getState().gameModel.gameModel?.id
         }))
@@ -562,7 +563,7 @@ export class EditorScene extends GameInstance {
 
   onPointerOut = (pointer, entitySprite) => {
     const phaserInstance = entitySprite[0]
-    phaserInstance.isHoveringOver = false
+    phaserInstance.isMouseOver = false
     store.dispatch(changeInstanceHovering(null, null))
     const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     if(isObscured) {

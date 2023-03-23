@@ -50,6 +50,7 @@ HostCanvas
 ClientCanvas
   CodrawingCanvas
   Canvas
+Also a Layers Class. Because Layers is common across CodrawingScene and Game Instance
 
 DATA VALIDATIN FOR CLASSES, BRUSHES, ETC
 --------------------------------------------------------------------------------------

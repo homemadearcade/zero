@@ -53,11 +53,11 @@ const CreateTexture = ({
       </TextureStage></div>
 
       <Unlockable interfaceId={DRAW_NEW_TEXTURE_IID}>
-        <Button onClick={() => {
+        { !isCanvasImageModalOpen && <Button onClick={() => {
           openCanvasImageModal(textureIdSelected)
         }}>
           Draw New Texture
-        </Button>
+        </Button>}
       </Unlockable>
       <AggregateColorSelect
         selectedColor={textureTintSelected} 

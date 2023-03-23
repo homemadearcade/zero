@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from '../../../store';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
+import { createPortal } from 'react-dom';
 
 const CobrowsingModal = ({ widthModifier, onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
   useEffect(() => {
@@ -30,7 +31,7 @@ const CobrowsingModal = ({ widthModifier, onClose, children, open, zIndexIncreas
 
   const { gameEditorHeight, gameEditorWidth } = useGameEditorSize()
   //z-index
-  return <Backdrop
+  return createPortal(<Backdrop
     sx={{ color: '#fff', zIndex: 1000 + zIndexIncrease}}
     open={open}
   >
@@ -42,7 +43,7 @@ const CobrowsingModal = ({ widthModifier, onClose, children, open, zIndexIncreas
         </div>
       </div>
     </div>
-  </Backdrop>
+  </Backdrop>, document.getElementById('CobrowsingModal'))
 };
 
 const mapStateToProps = (state) => ({

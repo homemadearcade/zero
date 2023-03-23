@@ -1,8 +1,8 @@
 // import { BACKGROUND_LAYER_CANVAS_ID } from "../constants";
 import { DEFAULT_THEME_COLOR } from "../../../constants";
-import { PLAYGROUND_LAYER_CANVAS_DEPTH } from "../constants";
 import { defaultZoneClass } from "./entityClass";
 import { gameSize, nodeSize } from "./general";
+import { PLAYGROUND_LAYER_CANVAS_DEPTH } from "./layers";
 import { mirrorPlayerDefaults } from "./movement";
 import { directionalClass, directionalPlayerClassId, jumperClass, jumperPlayerClassId, vehicleClass, vehiclePlayerClassId } from "./players";
 import { initialCameraZoneClassId, initialPlayerSpawnZoneClassId, initialStage, initialStageId, initialStageZoneClassId } from "./stage";
@@ -92,7 +92,7 @@ export const defaultGameModel = {
       graphics: {
         ...defaultZoneClass.graphics,
         textureTint: '#00FF00',
-        depthModifier: PLAYGROUND_LAYER_CANVAS_DEPTH - 5,
+        depthOverride: PLAYGROUND_LAYER_CANVAS_DEPTH - 5,
         width: nodeSize * 28,
         height: nodeSize * 28
       },

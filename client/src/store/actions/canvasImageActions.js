@@ -127,7 +127,6 @@ export const addCanvasImage = (canvasImage) => async (dispatch, getState) => {
     type: ADD_CANVAS_IMAGE_LOADING,
     payload: { me: { ...getState().auth.me } },
   });
-    console.log(canvasImage)
 
   try {
     const options = attachTokenToHeaders(getState);

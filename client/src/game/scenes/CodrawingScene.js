@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
-import { isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
+import { getCanvasIdFromEraserId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { nodeSize } from '../constants';
+import { IMAGE_CANVAS_MODAL_CANVAS_DEPTH, IMAGE_CANVAS_MODAL_CANVAS_ID, nodeSize } from '../constants';
 import { BACKGROUND_LAYER_CANVAS_DEPTH, DEFAULT_TEXTURE_ID, UI_CANVAS_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
@@ -114,7 +114,6 @@ export class CodrawingScene extends Phaser.Scene {
       this.onStrokeComplete()
     }
   }
-
   
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
@@ -130,6 +129,16 @@ export class CodrawingScene extends Phaser.Scene {
       return new TexturePencil(this, { brushId })
     }
   }
+
+  getDepthFromLayerCanvasId(layerCanvasId) {
+    if(layerCanvasId === IMAGE_CANVAS_MODAL_CANVAS_ID) return IMAGE_CANVAS_MODAL_CANVAS_DEPTH
+    else return IMAGE_CANVAS_MODAL_CANVAS_DEPTH
+  }
+
+  getDepthFromEraserId(eraserId) {
+    return this.getDepthFromLayerCanvasId(getCanvasIdFromEraserId(eraserId))
+  }
+
 
   getLayerCanvasInstanceByTextureId() {
     return this.backgroundCanvasLayer

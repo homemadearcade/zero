@@ -37,25 +37,6 @@ export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 
 /////////////////////////////////////
 /////////////////////////////////////
-// LAYERS
-export const STAGE_BACKGROUND_LAYER_CANVAS_DEPTH = 0;
-
-export const BACKGROUND_LAYER_CANVAS_DEPTH = 100;
-export const PLAYGROUND_LAYER_CANVAS_DEPTH = 300;
-export const FOREGROUND_LAYER_CANVAS_DEPTH = 500;
-
-export const IMAGE_CANVAS_MODAL_CANVAS_DEPTH = 700;
-export const UI_CANVAS_DEPTH = 900;
-
-export const STAGE_BACKGROUND_LAYER_CANVAS_ID = 'STAGE_BACKGROUND_LAYER_CANVAS';
-export const BACKGROUND_LAYER_CANVAS_ID = 'BACKGROUND_LAYER_CANVAS';
-export const IMAGE_CANVAS_MODAL_CANVAS_ID = 'IMAGE_CANVAS_MODAL_CANVAS';
-export const PLAYGROUND_LAYER_CANVAS_ID = 'PLAYGROUND_LAYER_CANVAS';
-export const FOREGROUND_LAYER_CANVAS_ID = 'FOREGROUND_LAYER_CANVAS';
-export const UI_CANVAS_ID = 'UI_CANVAS';
-
-/////////////////////////////////////
-/////////////////////////////////////
 // CLASSES
 export const PLAYER_CLASS = 'PLAYER_CLASS'
 export const BASIC_CLASS = 'BASIC_CLASS'
@@ -189,10 +170,4 @@ export const classTypeToPrefix = {
   [PLAYER_CLASS]: PLAYER_CLASS_TYPE_PREFIX,
   [BASIC_CLASS]: BASIC_CLASS_TYPE_PREFIX,
   [NPC_CLASS]: NPC_CLASS_TYPE_PREFIX
-}
-
-export const layerToDisplayName = {
-  [LAYER_ID_PREFIX + BACKGROUND_LAYER_CANVAS_ID]: 'Background',
-  [LAYER_ID_PREFIX+PLAYGROUND_LAYER_CANVAS_ID]: 'Playground',
-  [LAYER_ID_PREFIX + FOREGROUND_LAYER_CANVAS_ID]: 'Foreground',
 }

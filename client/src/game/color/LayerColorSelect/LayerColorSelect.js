@@ -2,6 +2,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { createPortal } from 'react-dom';
 
 import './LayerColorSelect.scss';
 import {  COLOR_BRUSH_ID } from '../../constants';

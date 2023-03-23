@@ -26,6 +26,8 @@ import { addCanvasImage } from '../../../store/actions/canvasImageActions';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { getImageUrlFromTextureId } from '../../../utils';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
+import { ADD_BRUSH_IID } from '../../../constants/interfaceIds';
 
 const CanvasImageModal = ({
   clearBrush,
@@ -46,17 +48,50 @@ const CanvasImageModal = ({
   const [textureId] = useState(gameModel.id + '/' + imageCanvasNewTextureId)
 
   useEffect(() => {
+    let game;
+
     async function goAddTexture() {
       await addCanvasImage({
         textureId: textureId, 
+        visualTags: [],
         imageUrl: getImageUrlFromTextureId(textureId),
         imageType: IMAGE_TYPE_SPRITE,
         userId: me?.id,
         arcadeGame: gameModel.id
       })
+
+      const size = nodeSize * (3 * 10);
+
+      setTimeout(() => {
+        const config= {
+          type: Phaser.WEBGL,
+          pixelArt: true,
+          scale: {
+            mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
+            parent: 'PhaserPopupGame',
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            width: size,
+            height: size
+          },
+        }
+        
+        game = new Phaser.Game(config);
+        game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId: imageCanvasTextureId, textureId, textureTint: textureTintSelected, key: POPUP_SCENE, size }), true);
+        setCanvasImageModalGameInstance(game)
+      })
+
     }
 
     goAddTexture()
+
+    console.log('load sprite edit ')
+    return () => {
+      if(!game) return
+      console.log('unload sprite edit ')
+      getCurrentGameScene(game).unload()
+      game.destroy()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function handleClose(){
@@ -70,38 +105,6 @@ const CanvasImageModal = ({
   }
   const { gameEditorHeight } = useGameEditorSize()
 
-  useEffect(() => {
-    const size = nodeSize * (3 * 10);
-
-    let game;
-    setTimeout(() => {
-      const config= {
-        type: Phaser.WEBGL,
-        pixelArt: true,
-        scale: {
-          mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
-          parent: 'PhaserPopupGame',
-          autoCenter: Phaser.Scale.CENTER_BOTH,
-          width: size,
-          height: size
-        },
-      }
-      
-      game = new Phaser.Game(config);
-      game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId: imageCanvasTextureId, textureId, textureTint: textureTintSelected, key: POPUP_SCENE, size }), true);
-      setCanvasImageModalGameInstance(game)
-    })
-
-    console.log('load sprite edit ')
-    return () => {
-      if(!game) return
-      console.log('unload sprite edit ')
-      getCurrentGameScene(game).unload()
-      game.destroy()
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   function onSelectColor(hex) {
     selectBrush(COLOR_BRUSH_ID + '/' + IMAGE_CANVAS_MODAL_CANVAS_ID + '/' + hex)
   }
@@ -114,8 +117,6 @@ const CanvasImageModal = ({
     return <BrushItem key={i} brushId={brushId}/>
   })
 
-
-  // cannot happen here cuz. of ... recursion?
   // brushList.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
   //     <Button size="fit" onClick={() => {
   //       openCreateBrushFlow(IMAGE_CANVAS_MODAL_CANVAS_ID)

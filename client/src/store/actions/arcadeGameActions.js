@@ -25,7 +25,7 @@ import {
 import { mergeDeep } from '../../utils/utils';
 import _ from 'lodash';
 import store from '..';
-import {  BACKGROUND_LAYER_CANVAS_DEPTH, BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_DEPTH, FOREGROUND_LAYER_CANVAS_ID, initialStageId, LAYER_DEPTH_CATEGORY_BACKGROUND, LAYER_DEPTH_CATEGORY_FOREGROUND, LAYER_DEPTH_CATEGORY_PLAYGROUND, LAYER_ID_PREFIX, PLAYGROUND_LAYER_CANVAS_DEPTH, PLAYGROUND_LAYER_CANVAS_ID, UNDO_MEMORY_MAX } from '../../game/constants';
+import {  BACKGROUND_LAYER_CANVAS_ID, defaultGameModel, FOREGROUND_LAYER_CANVAS_ID, initialStageId, LAYER_DEPTH_CATEGORY_BACKGROUND, LAYER_DEPTH_CATEGORY_FOREGROUND, LAYER_DEPTH_CATEGORY_PLAYGROUND, LAYER_ID_PREFIX,  PLAYGROUND_LAYER_CANVAS_ID, UNDO_MEMORY_MAX } from '../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { addDefaultsToGameModel, addLibraryToGameModel, cleanGameModel, enrichGameModel, getImageUrlFromTextureId, getTextureIdForLayerCanvasId } from '../../utils';
 import { addCanvasImage } from './canvasImageActions';
@@ -223,6 +223,7 @@ export async function addLayersForArcadeGameStage(gameId, stageId) {
     imageUrl: getImageUrlFromTextureId(backgroundTextureId),
     textureId: backgroundTextureId, 
     userId: store.getState().auth.me.id,
+    visualTags: [],
     arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
@@ -230,6 +231,7 @@ export async function addLayersForArcadeGameStage(gameId, stageId) {
     imageUrl: getImageUrlFromTextureId(playgroundTextureId),
     textureId: playgroundTextureId, 
     userId: store.getState().auth.me.id,
+    visualTags: [],
     arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
@@ -237,6 +239,7 @@ export async function addLayersForArcadeGameStage(gameId, stageId) {
     imageUrl: getImageUrlFromTextureId(foregroundTextureId),
     textureId: foregroundTextureId,
     userId: store.getState().auth.me.id,
+    visualTags: [],
     arcadeGame: gameId
   }))
 
