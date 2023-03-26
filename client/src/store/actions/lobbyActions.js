@@ -41,7 +41,7 @@ import {
 
 import ping from 'web-pingjs';
 import { getCurrentGameScene } from '../../utils/editorUtils';
-import { BACKGROUND_LAYER_ID, IMAGE_CANVAS_LAYER_ID, FOREGROUND_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../game/constants';
+import { BACKGROUND_LAYER_ID, CANVAS_IMAGE_LAYER_ID, FOREGROUND_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../game/constants';
 import { editGameModel } from './gameModelActions';
 import store from '..';
 import { setRecentlyFocused } from './webPageActions';
@@ -81,7 +81,7 @@ export function onInstanceUndo() {
     scene.playgroundCanvasLayer.undo()
   } else if(undoAction === FOREGROUND_LAYER_ID) {
     scene.foregroundCanvasLayer.undo()
-  } else if(undoAction === IMAGE_CANVAS_LAYER_ID) {
+  } else if(undoAction === CANVAS_IMAGE_LAYER_ID) {
     console.log('BASE CANVAS oddly got into undo there...')
   } else { 
     if(undoAction.entityInstanceId) {

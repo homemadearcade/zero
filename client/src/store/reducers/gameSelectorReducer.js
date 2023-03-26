@@ -8,9 +8,6 @@ import {
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
   UPDATE_OPEN_LIST,
-  UPDATE_NESTED_LIST,
-  OPEN_IMAGE_CANVAS_MODAL,
-  CLOSE_IMAGE_CANVAS_MODAL,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
@@ -18,8 +15,6 @@ import {
   CLOSE_GAME_METADATA_MODAL,
   OPEN_MY_IMAGES_MODAL,
   CLOSE_MY_IMAGES_MODAL,
-  OPEN_SETUP_CHOICES_MODAL,
-  CLOSE_SETUP_CHOICES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   OPEN_JSON_VIEWER,
   CLOSE_JSON_VIEWER,
@@ -28,7 +23,7 @@ import {
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
-  OPEN_IMAGE_CANVAS_MODAL_LOADING
+  
 } from '../types';
 
 const initialState = {
@@ -39,7 +34,6 @@ const initialState = {
   brushSize: 3,
   entityClassIdSelectedLiveEditor: null,
   liveEditingCategory: null,
-  imageCanvasTextureId: null,
   isSelectStageColorModalOpen: false,
   isGameMetadataModalOpen: false,
   openLists: {
@@ -47,8 +41,7 @@ const initialState = {
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
   },
-  isCanvasImageModalLoading: false,
-  isCanvasImageModalOpen: false,
+
   isClassBoxModalOpen: false,
   classBoxClassType: null,
   isSelectAggregateColorOpen: null,
@@ -120,26 +113,6 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         entityClassIdSelectedLiveEditor: null,
         liveEditingCategory: null
       };
-    case OPEN_IMAGE_CANVAS_MODAL:
-      return {
-        ...state,
-        isCanvasImageModalOpen: true,
-        imageCanvasTextureId: payload.textureId,
-        imageCanvasNewTextureId: payload.imageCanvasNewTextureId,
-        isCanvasImageModalLoading: false
-      }
-    case CLOSE_IMAGE_CANVAS_MODAL: 
-      return {
-        ...state,
-        isCanvasImageModalOpen: false,
-        imageCanvasTextureId: null,
-        isCanvasImageModalLoading: false
-      }
-    case OPEN_IMAGE_CANVAS_MODAL_LOADING: 
-      return {
-        ...state,
-        isCanvasImageModalLoading: true
-      }
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {
         ...state,

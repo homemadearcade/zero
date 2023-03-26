@@ -161,7 +161,7 @@ export const handleCobrowsingUpdates = store => next => action => {
     if(state.cobrowsing.isSubscribedCobrowsing) {
       // is the cobrowsing currently active and you have a tool selected - we send the action to the publishers computer
       // some actions can bypass this (forceCobrowsingUpdate) and some actions ignore this (cobrowsingPublisherOnly)
-      if(((state.cobrowsing.isActivelyCobrowsing && state.cobrowsing.selectedTool) || action.forceCobrowsingUpdate) && !action.cobrowsingPublisherOnly) {
+      if(((state.cobrowsing.isActivelyCobrowsing && (state.cobrowsing.selectedTool || action.noCobrowsingToolNeeded)) || action.forceCobrowsingUpdate) && !action.cobrowsingPublisherOnly) {
         // UPDATE PUBLISHER
         const options = attachTokenToHeaders(store.getState);
         axios.put('/api/cobrowsing/dispatch/' + state.cobrowsing.cobrowsingUser.id, { dispatchData: action }, options);
@@ -171,9 +171,10 @@ export const handleCobrowsingUpdates = store => next => action => {
       // this means you are cobrowsing but you dont have a tool selected
       // without this, the local users state will be updated silently behind the cobrowsing view
       if(state.cobrowsing.isActivelyCobrowsing) {
-        if(action.type.includes('HOVERING') || action.type.includes('UPDATE_CREATE')) return 
-        alert('When cobrowsing you must select the mouse tool before clicking the interface')
-        return 
+        // if this action is meant to just be for the publisher to do, dont throw an alert, its not expected
+        if(action.cobrowsingPublisherOnly) return 
+        alert('When cobrowsing you must select the mouse tool before clicking the interface. Action:' + action.type)
+        throw new Error(action.type)
       }
 
       // NORMAL ACTION

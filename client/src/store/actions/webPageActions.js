@@ -1,8 +1,8 @@
-import { SET_GAME_INSTANCE, SET_RECENTLY_FOCUSED, SET_IMAGE_CANVAS_MODAL_GAME_INSTANCE } from '../types';
+import { SET_GAME_INSTANCE, SET_RECENTLY_FOCUSED, SET_CANVAS_IMAGE_MODAL_GAME_INSTANCE } from '../types';
 
 export const setCanvasImageModalGameInstance = (gameInstance) => (dispatch, getState) => {
   dispatch({
-    type: SET_IMAGE_CANVAS_MODAL_GAME_INSTANCE,
+    type: SET_CANVAS_IMAGE_MODAL_GAME_INSTANCE,
     payload: {
       gameInstance
     }

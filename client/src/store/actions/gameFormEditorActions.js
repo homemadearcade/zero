@@ -1,4 +1,8 @@
 import _ from 'lodash';
+import { IMAGE_TYPE_SPRITE } from '../../constants';
+import { CANVAS_IMAGE_ID_PREFIX } from '../../game/constants';
+import { generateUniqueId, getImageUrlFromTextureId } from '../../utils';
+
 import { 
   OPEN_CREATE_CLASS_FLOW,
   CLOSE_CREATE_CLASS_FLOW,
@@ -39,7 +43,12 @@ import {
   CLOSE_CREATE_EVENT,
   UPDATE_CREATE_EVENT,
   UPDATE_EDITING_EFFECT,
+  UPDATE_CREATE_CANVAS_IMAGE,
+  OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING,
+  OPEN_CREATE_CANVAS_IMAGE_MODAL,
+  CLOSE_CREATE_CANVAS_IMAGE_MODAL,
 } from '../types';
+import { addCanvasImage } from './canvasImageActions';
 import { saveAllCurrentCanvases } from './codrawingActions';
 
 export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
@@ -80,10 +89,67 @@ export const closeEditClassGraphics = () => (dispatch, getState) => {
 export const updateCreateClass = (entityClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_CLASS,
     payload: { entityClass }
   });
 }
+
+export const openCreateCanvasImageModal= (textureId) => async (dispatch, getState) => {
+  const state = getState()
+  const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_ID_PREFIX + generateUniqueId()
+ console.log(textureId)
+  try {
+    dispatch({
+      updateCobrowsing: true,
+      type: OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING,
+    });
+
+    const canvasImage = await dispatch(addCanvasImage({
+      textureId: newTextureId, 
+      visualTags: [],
+      imageUrl: getImageUrlFromTextureId(textureId),
+      imageType: IMAGE_TYPE_SPRITE,
+      userId: state.auth.me?.id,
+      arcadeGame: state.gameModel.gameModel.id
+    }))
+
+    console.log(canvasImage)
+
+    dispatch({
+      updateCobrowsing: true,
+      noCobrowsingToolNeeded: true,
+      type: OPEN_CREATE_CANVAS_IMAGE_MODAL,
+      payload: {
+        textureId: textureId,
+        canvasImage,
+      }
+    });
+  } catch(e) {
+    console.error(e)
+  }
+
+
+}
+
+export const closeCreateCanvasImageModal = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_CREATE_CANVAS_IMAGE_MODAL,
+    payload: {}
+  });
+}
+
+
+export const updateCreateCanvasImage = (canvasImage) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
+    type: UPDATE_CREATE_CANVAS_IMAGE,
+    payload: { canvasImage }
+  });
+}
+
 
 export const openCreateColorFlow = (componentName, layerId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
@@ -154,6 +220,7 @@ export const closeCreateBrushFlow = () => (dispatch, getState) => {
 export const updateCreateBrush = (brush) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_BRUSH,
     payload: { brush }
   });
@@ -217,6 +284,7 @@ export const closeCreateStageModal= () => (dispatch, getState) => {
 export const updateCreateStage = (stage) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_STAGE,
     payload: { stage }
   });
@@ -243,6 +311,7 @@ export const closeCreateCutscene= () => (dispatch, getState) => {
 export const updateCreateCutscene = (cutscene) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_CUTSCENE,
     payload: { cutscene }
   });
@@ -275,6 +344,7 @@ export const closeCreateRelation= () => (dispatch, getState) => {
 export const updateCreateRelation = (relation) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_RELATION,
     payload: { relation }
   });
@@ -323,6 +393,7 @@ export const closeCreateRelationTag= () => (dispatch, getState) => {
 export const updateCreateRelationTag = (relationTag) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_RELATION_TAG,
     payload: { relationTag }
   });
@@ -349,6 +420,7 @@ export const closeCreateEffect= () => (dispatch, getState) => {
 export const updateCreateEffect = (effect) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_EFFECT,
     payload: { 
       effect
@@ -375,6 +447,7 @@ export const closeCreateEvent= () => (dispatch, getState) => {
 export const updateCreateEvent = (event) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_EVENT,
     payload: { event }
   });

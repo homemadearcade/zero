@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import store from "../../store";
 import { getImageUrlFromTextureId, urlToFile } from "../../utils/utils";
 import _ from "lodash";
-import { IMAGE_CANVAS_LAYER_ID, UNDO_MEMORY_MAX } from "../constants";
+import { CANVAS_IMAGE_LAYER_ID, UNDO_MEMORY_MAX } from "../constants";
 import { editCanvasImage, uploadCanvasImageAndAddToGameModel } from "../../store/actions/canvasImageActions";
 import { MARK_CANVAS_IMAGE_UNSAVED } from "../../store/types";
 import { IMAGE_TYPE_CANVAS } from "../../constants";
@@ -109,7 +109,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     if(!this.previousRenderTexture) {
       this.previousRenderTexture = new Phaser.GameObjects.RenderTexture(this.scene, 0, 0, this.boundaries.maxWidth, this.boundaries.maxHeight);
       this.previousRenderTexture.draw(this, 0,0)
-      if(this.textureId.indexOf(IMAGE_CANVAS_LAYER_ID) > -1) {
+      if(this.textureId.indexOf(CANVAS_IMAGE_LAYER_ID) > -1) {
         window.imageCanvasUndoStack.push(this.textureId)
         window.imageCanvasUndoStack = window.imageCanvasUndoStack.slice(-UNDO_MEMORY_MAX)
       } else {
@@ -129,7 +129,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     const canvas = this.undoCanvasStack.pop()
     this.clear()
     super.draw(canvas, 0,0)
-    if(this.textureId.indexOf(IMAGE_CANVAS_LAYER_ID) === -1) {
+    if(this.textureId.indexOf(CANVAS_IMAGE_LAYER_ID) === -1) {
       this.debouncedSave()
     }
   }

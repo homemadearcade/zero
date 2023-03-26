@@ -1,6 +1,5 @@
 export * from './brush'
 export * from './entityClass'
-export * from './constants'
 export * from './gameRoom'
 export * from './view'
 export * from './ui'

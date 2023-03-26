@@ -1,5 +1,5 @@
 import { IMAGE_TYPE_SPRITE } from '../../constants';
-import { IMAGE_CANVAS_ID_PREFIX } from '../../game/constants';
+import { CANVAS_IMAGE_ID_PREFIX } from '../../game/constants';
 import { getImageUrlFromTextureId } from '../../utils';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { getLayerIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../utils/editorUtils';
@@ -13,15 +13,11 @@ import {
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
   UPDATE_OPEN_LIST,
-  OPEN_IMAGE_CANVAS_MODAL,
-  CLOSE_IMAGE_CANVAS_MODAL,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
-  OPEN_SETUP_CHOICES_MODAL,
-  CLOSE_SETUP_CHOICES_MODAL,
   OPEN_MY_IMAGES_MODAL,
   CLOSE_MY_IMAGES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
@@ -32,9 +28,7 @@ import {
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
-  OPEN_IMAGE_CANVAS_MODAL_LOADING,
 } from '../types';
-import { addCanvasImage } from './canvasImageActions';
 
 import { saveAllCurrentCanvases } from './codrawingActions';
 import { editGameModel } from './gameModelActions';
@@ -142,46 +136,6 @@ export const openLiveEditor = (type, entityClassId) => (dispatch, getState) => {
       type,
       entityClassIdSelectedLiveEditor: entityClassId, 
     }
-  });
-}
-
-export const openCanvasImageModal= (textureId) => async (dispatch, getState) => {
-  const state = getState()
-  const newTextureId = IMAGE_CANVAS_ID_PREFIX + generateUniqueId()
-  
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_IMAGE_CANVAS_MODAL_LOADING,
-    payload: {
-      textureId: textureId,
-      imageCanvasNewTextureId: newTextureId
-    }
-  });
-
-  await dispatch(addCanvasImage({
-    textureId: newTextureId, 
-    visualTags: [],
-    imageUrl: getImageUrlFromTextureId(textureId),
-    imageType: IMAGE_TYPE_SPRITE,
-    userId: state.auth.me?.id,
-    arcadeGame: state.gameModel.gameModel.id
-  }))
-
-  dispatch({
-    updateCobrowsing: true,
-    type: OPEN_IMAGE_CANVAS_MODAL,
-    payload: {
-      textureId: textureId,
-      imageCanvasNewTextureId: newTextureId
-    }
-  });
-}
-
-export const closeCanvasImageModal= () => (dispatch, getState) => {
-  dispatch({
-    updateCobrowsing: true,
-    type: CLOSE_IMAGE_CANVAS_MODAL,
-    payload: {}
   });
 }
 

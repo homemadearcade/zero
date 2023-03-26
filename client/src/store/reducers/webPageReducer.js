@@ -1,4 +1,4 @@
-import { CLOSE_IMAGE_CANVAS_MODAL, SET_GAME_INSTANCE, SET_RECENTLY_FOCUSED, SET_IMAGE_CANVAS_MODAL_GAME_INSTANCE } from '../types';
+import { CLOSE_CREATE_CANVAS_IMAGE_MODAL, SET_GAME_INSTANCE, SET_RECENTLY_FOCUSED, SET_CANVAS_IMAGE_MODAL_GAME_INSTANCE } from '../types';
 
 const initialState = {
   gameInstance: null,
@@ -15,12 +15,12 @@ export default function pageReducer(state = initialState, { type, payload }) {
         gameInstance: payload.gameInstance,
         gameInstanceId: payload.gameInstanceId
       };
-    case CLOSE_IMAGE_CANVAS_MODAL: 
+    case CLOSE_CREATE_CANVAS_IMAGE_MODAL: 
       return {
         ...state,
         imageCanvasGameInstance: null
       }
-    case SET_IMAGE_CANVAS_MODAL_GAME_INSTANCE: 
+    case SET_CANVAS_IMAGE_MODAL_GAME_INSTANCE: 
       return {
         ...state,
         imageCanvasGameInstance: payload.gameInstance

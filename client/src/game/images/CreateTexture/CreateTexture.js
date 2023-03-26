@@ -9,11 +9,9 @@ import DescriptorTextures from '../DescriptorTextures/DescriptorTextures';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/gameModelActions';
-import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 import Texture from '../Texture/Texture';
 import Button from '../../../ui/Button/Button';
 import CanvasImageModal from '../CanvasImageModal/CanvasImageModal';
-import { openCanvasImageModal } from '../../../store/actions/gameSelectorActions';
 import { NON_LAYER_COLOR_ID } from '../../constants';
 import MyImages from '../MyImages/MyImages';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
@@ -21,6 +19,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { CHOOSE_TEXTURES_IID, DRAW_NEW_TEXTURE_IID } from '../../../constants/interfaceIds';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import TextureStage from '../TextureStage/TextureStage';
+import { openCreateCanvasImageModal, openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
 
 const CreateTexture = ({
   textureIdSelected,
@@ -33,11 +32,9 @@ const CreateTexture = ({
   openCreateColorFlow,
   editGameModel,
   gameModel: { gameModel : { colors }},
-  gameSelector: { isCanvasImageModalOpen },
-  openCanvasImageModal,
-  gameFormEditor: { isCreateColorFlowOpen }
+  openCreateCanvasImageModal,
+  gameFormEditor: { isCreateColorFlowOpen, isCanvasImageModalOpen }
 }) => {
-
   return <>
     <div className="CreateTexture">
       {formLabel && <FormLabel>
@@ -54,7 +51,7 @@ const CreateTexture = ({
 
       { !isCanvasImageModalOpen && <Unlockable interfaceId={DRAW_NEW_TEXTURE_IID}>
         <Button onClick={() => {
-          openCanvasImageModal(textureIdSelected)
+          openCreateCanvasImageModal(textureIdSelected)
         }}>
           Draw New Texture
         </Button>
@@ -92,10 +89,9 @@ const CreateTexture = ({
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  gameSelector: state.gameSelector,
   gameFormEditor: state.gameFormEditor,
 });
 
 export default compose(
-  connect(mapStateToProps, { openCreateColorFlow, editGameModel, openCanvasImageModal  }),
+  connect(mapStateToProps, { openCreateColorFlow, editGameModel, openCreateCanvasImageModal  }),
 )(CreateTexture);

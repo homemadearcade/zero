@@ -7,9 +7,7 @@ export class ColorPencil extends Brush {
   constructor(scene, { brushId }){
 
     const textureTint = getHexFromColorId(brushId)
-    console.log(getLayerIdFromColorId(brushId))
     const depth = scene.getDepthFromLayerId(getLayerIdFromColorId(brushId))
-    console.log(depth)
     super(scene, { brushId, textureTint, depth, textureId: DEFAULT_TEXTURE_ID })
 
     this.snapMethod = snapFreeXY

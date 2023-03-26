@@ -40,6 +40,10 @@ import {
   OPEN_CREATE_EVENT,
   UPDATE_CREATE_EVENT,
   CLOSE_CREATE_EVENT,
+  UPDATE_CREATE_CANVAS_IMAGE,
+  OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING,
+  CLOSE_CREATE_CANVAS_IMAGE_MODAL,
+  OPEN_CREATE_CANVAS_IMAGE_MODAL,
 } from '../types';
 
 // game create editor
@@ -108,6 +112,12 @@ const initialState = {
   relation: {
     ...defaultRelationship,
   },
+
+  isCanvasImageModalLoading: false,
+  isCanvasImageModalOpen: false,
+  canvasImage: {
+    visualTags: []
+  }
 };
 
 export const initialGameFormEditorState = initialState
@@ -346,6 +356,31 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCreateStageModalOpen: false
+      }
+    case UPDATE_CREATE_CANVAS_IMAGE: 
+      return {
+        ...state,
+        canvasImage: mergeDeep(state.canvasImage, payload.canvasImage)
+      }
+    case OPEN_CREATE_CANVAS_IMAGE_MODAL:
+      return {
+        ...state,
+        isCanvasImageModalOpen: true,
+        imageCanvasTextureId: payload.textureId,
+        canvasImage: payload.canvasImage,
+        isCanvasImageModalLoading: false
+      }
+    case CLOSE_CREATE_CANVAS_IMAGE_MODAL: 
+      return {
+        ...state,
+        isCanvasImageModalOpen: false,
+        imageCanvasTextureId: null,
+        isCanvasImageModalLoading: false
+      }
+    case OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING: 
+      return {
+        ...state,
+        isCanvasImageModalLoading: true
       }
     case CLEAR_EDITOR_FORMS:
       return initialState

@@ -738,15 +738,14 @@ export class EditorScene extends GameInstance {
       }
     }
 
-    if(gameUpdate.canvasImages) {
-      Object.keys(gameUpdate.canvasImages).forEach((id) => {
-        const textureId = gameUpdate.canvasImages[id].textureId
+    if(gameUpdate.textures) {
+      Object.keys(gameUpdate.textures).forEach((textureId) => {
         const layerInstance = this.getLayerInstanceByTextureId(textureId)
         if(layerInstance) {
           layerInstance.updateTexture()
         } else {
           this.load.image(textureId, getImageUrlFromTextureId(textureId));
-          this.load.once('complete', (idk) => {
+          this.load.once('complete', (textureIdk) => {
             console.log('loaded', textureId)
           });
           this.load.start();

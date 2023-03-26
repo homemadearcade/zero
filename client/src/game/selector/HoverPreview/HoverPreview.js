@@ -224,7 +224,7 @@ const HoverPreview = ({
         <Unlockable interfaceId={STAGE_COLOR_IID}>
           <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
             openSelectStageColorModal()
-          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.backgroundColor, height: '1.2em', width: '4em'}}/>
+          }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.color, height: '1.2em', width: '4em'}}/>
         </Unlockable>
       </div>}
     </div>

@@ -17,8 +17,6 @@ const CanvasImageView = ({
   initialTextureId,
   textureId
  }) => {
-
-  console.log(textureId, initialTextureId, textureTint)
   useEffect(() => {
     let game;
 
@@ -40,7 +38,7 @@ const CanvasImageView = ({
       game = new Phaser.Game(config);
       game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId, textureId, textureTint, key: POPUP_SCENE, size }), true);
       setCanvasImageModalGameInstance(game)
-    })
+    }, 100)
 
     console.log('load sprite edit ')
     return () => {
@@ -52,7 +50,7 @@ const CanvasImageView = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return <div id="PhaserPopupGame" className="CanvasImageView"/>
+  return <div id="PhaserPopupGame" className='CanvasImageView'/>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

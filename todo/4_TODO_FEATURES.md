@@ -23,3 +23,4 @@ STEPS UPDATE
   Buttons just ‘Cue the next segment’ so the button is based on the title of the next section
   Player in editing game starts off invisible so we can make it invisible after BG color select
   Spawn bar inside the Spawn bar when you have selected gravity
+  

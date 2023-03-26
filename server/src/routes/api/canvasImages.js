@@ -67,8 +67,8 @@ router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
     const tempImage = await CanvasImage.findById(req.params.id).populate('owner');
     if (!tempImage) return res.status(404).json({ message: 'No canvasImage found.' });
-    if (!(tempImage.owner?.id === req.user.id || req.user.role === 'ADMIN'))
-      return res.status(400).json({ message: 'Not updated by the canvasImage owner or admin.' });
+    // if (!(tempImage.owner?.id === req.user.id || req.user.role === 'ADMIN'))
+    //   return res.status(400).json({ message: 'Not updated by the canvasImage owner or admin.' });
     const updatedImage = mergeDeep(tempImage, req.body)
 
     await CanvasImage.findByIdAndUpdate(

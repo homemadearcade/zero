@@ -3,6 +3,7 @@ UPLOAD PHOTOS
     Security for changing the game images.... Any user can really edit those images now because amazon isnt checking. Perhaps it has to go through our check?
     attempt the user profile pic upload first
     Should be a /image route not an aws route
+Games and CanvasImages that anyone in a lobby can edit!
 
 VIDEO CALL BLOCKING
   End Call for everyone in lobby, End call for self also
@@ -42,3 +43,5 @@ EFFECTS
 SNAPSHOT TAKER
   Filter object instances that are not visible in the snapshot taker and eraser
 
+INTERFACE IDS
+  Generate interfaceIds based on the game model
