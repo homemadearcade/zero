@@ -8,7 +8,9 @@ import {
 export const initializeUnlockableInterfaceIds = (unlockableInterfaceIds = {}) => async (dispatch, getState) => {
   dispatch({
     type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
-    payload: { unlockableInterfaceIds },
+    payload: { 
+      unlockableInterfaceIds,
+     },
   });
 };
 

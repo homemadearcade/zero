@@ -4,9 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { classTypeToDisplayName, relationTagTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
+import { classTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
+import { relationTagTypeToDisplayName } from '../../constants/defaultData/relationTags';
 
 const SelectRelationTag = ({ removeClassTags, hideAutoapplied, onChange, disabled, value, formLabel, gameModel }) => {
 
@@ -16,7 +17,7 @@ const SelectRelationTag = ({ removeClassTags, hideAutoapplied, onChange, disable
     let relationTagInterfaceType = 'My Tags'
 
     if(relationTag.relationTagInterfaceType) {
-      relationTagInterfaceType = relationTagTypeToDisplayName[relationTag.relationTagInterfaceType]
+    relationTagInterfaceType = relationTagTypeToDisplayName[relationTag.relationTagInterfaceType]
     }
 
     const isRemoved = relationTag.isRemoved || (hideAutoapplied && relationTag.isAutoapplied)

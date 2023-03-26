@@ -83,6 +83,7 @@ function onArcadeGameCharacterUpdate({ id, data }) {
     store.dispatch({
       type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
       updateCobrowsing: true,
+      noCobrowsingToolNeeded: true,
       payload: {
         unlockableInterfaceIds: data.unlockableInterfaceIds
       }

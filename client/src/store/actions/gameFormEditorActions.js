@@ -98,7 +98,7 @@ export const updateCreateClass = (entityClass) => (dispatch, getState) => {
 export const openCreateCanvasImageModal= (textureId) => async (dispatch, getState) => {
   const state = getState()
   const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_ID_PREFIX + generateUniqueId()
- console.log(textureId)
+
   try {
     dispatch({
       updateCobrowsing: true,
@@ -113,8 +113,6 @@ export const openCreateCanvasImageModal= (textureId) => async (dispatch, getStat
       userId: state.auth.me?.id,
       arcadeGame: state.gameModel.gameModel.id
     }))
-
-    console.log(canvasImage)
 
     dispatch({
       updateCobrowsing: true,

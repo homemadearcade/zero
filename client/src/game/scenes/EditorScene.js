@@ -410,7 +410,7 @@ export class EditorScene extends GameInstance {
     return true
   }
 
-  onPointerDown = (pointer, entityInstances) => {
+  onPointerDown = (pointer, phaserInstances) => {
     const clickDelay = this.time.now - this.lastClick;
     this.lastClick = this.time.now;
     if(clickDelay < 350) {
@@ -435,8 +435,11 @@ export class EditorScene extends GameInstance {
         document.body.removeEventListener('contextmenu', disableContextMenue)
       })
 
-      if(entityInstances.length) {
-        store.dispatch(openContextMenuFromEntityInstance(entityInstances, pointer.event))
+      // .filter((phaserInstance) => {
+      //   return !!phaserInstance.entityInstance.isVisible
+      // })
+      if(phaserInstances.length) {
+        store.dispatch(openContextMenuFromEntityInstance(phaserInstances, pointer.event))
       } else {
         store.dispatch(openStageContextMenu(pointer.event))
       }

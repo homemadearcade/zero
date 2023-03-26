@@ -22,7 +22,8 @@ export const defaultGameModel = {
   },
   "stages": {
      [initialStageId]: {
-      ...initialStage
+      ...initialStage,
+      stageId: initialStageId
     }
   },
   "nodeSize": nodeSize,

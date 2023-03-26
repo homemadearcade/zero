@@ -7,7 +7,8 @@ TOP RIGHT CORNER SELECTOR
     x
     y
     z
-    
+Other corner things like in each section, like 'fine tune size' for brushes, grid mode for the view, other things. This should be expected and common
+
 HOVER PREVIEW
   Layer on the top right
   Color name on bottom

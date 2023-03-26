@@ -74,7 +74,7 @@ export const defaultStage = {
   "playerClassId": null,
   'playerSpawnZoneClassId': null,
   "imageUrl": "",
-  stageId: initialStageId,
+  stageId: null,
   layers: {},
   entityInstances: {
     [initialPlayerSpawnZoneInstanceId]: {

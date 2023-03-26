@@ -4,11 +4,18 @@ export const RELATION_TAG_LIBRARY = 'RELATION_TAG_LIBRARY';
 export const RELATION_TAG_DIALOGUE = 'RELATION_TAG_DIALOGUE';
 export const RELATION_TAG_CUTSCENE = 'RELATION_TAG_CUTSCENE';
 export const RELATION_TAG_CLASS = 'RELATION_TAG_CLASS';
+export const RELATION_TAG_TELEPORT = 'RELATION_TAG_TELEPORT';
+export const RELATION_TAG_TRANSFORM = 'RELATION_TAG_TRANSFORM';
+export const RELATION_TAG_SPAWN = 'RELATION_TAG_SPAWN';
 
-export const tagTypeToDisplayName = {
+
+export const relationTagTypeToDisplayName = {
   RELATION_TAG_LIBRARY: 'Library',
   RELATION_TAG_DIALOGUE: 'Dialogue',
-  RELATION_TAG_CUTSCENE: 'Cutscene'
+  RELATION_TAG_CUTSCENE: 'Cutscene',
+  RELATION_TAG_TELEPORT: 'Teleport',
+  RELATION_TAG_TRANSFORM: 'Transform',
+  RELATION_TAG_SPAWN: 'Spawn'
 }
 
 export const defaultTag = {

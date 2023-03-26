@@ -27,11 +27,11 @@ const Unlockable = ({
   interfaceId,
   children,
   isSlider,
-  cobrowsing: { mouseOverInterfaceId, selectedTool, remoteStateUserId }, 
+  cobrowsing: { mouseOverInterfaceId, selectedTool, remoteStateUserId, isSubscribedCobrowsing }, 
   width,
   height,
 }) => {
-  const [wasComponentLocked, setWasComponentLocked] = useState(false)
+  const [wasComponentLockedUserId, setWasComponentLockedUserId] = useState(false)
   const unlockableRef = useRef()
   const theme = useWishTheme()
 
@@ -46,9 +46,9 @@ const Unlockable = ({
   } = getInterfaceIdData(interfaceId, interfaceIdToUnlock)
 
   useEffect(() => {
-    if(!remoteStateUserId) return 
+    if(!remoteStateUserId && isSubscribedCobrowsing) return 
 
-    if(wasComponentLocked && isUnlocked) {
+    if(wasComponentLockedUserId === remoteStateUserId && isUnlocked) {
       var rect = unlockableRef.current.getBoundingClientRect();
       if(noAnimInterfaces.includes(interfaceId)) return 
       confetti({
@@ -68,8 +68,8 @@ const Unlockable = ({
       });
     }
 
-    setWasComponentLocked(isUnlocked === false)
-  }, [isUnlocked, remoteStateUserId])
+    setWasComponentLockedUserId(isUnlocked === false ? remoteStateUserId : false)
+  }, [isUnlocked, remoteStateUserId, isSubscribedCobrowsing])
 
   if(adminOnly && me?.role !== ADMIN_ROLE) {
     return null

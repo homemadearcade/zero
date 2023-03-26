@@ -3,7 +3,9 @@ UPLOAD PHOTOS
     Security for changing the game images.... Any user can really edit those images now because amazon isnt checking. Perhaps it has to go through our check?
     attempt the user profile pic upload first
     Should be a /image route not an aws route
+
 Games and CanvasImages that anyone in a lobby can edit!
+  Does that mean we want to keep track of what lobby you are in? on the user object? lobbyId === ? Also then we can just be like 'yo we got a lobby starting'
 
 VIDEO CALL BLOCKING
   End Call for everyone in lobby, End call for self also
