@@ -1,4 +1,3 @@
-
 Resize by hovering over the edges of the instance...?
 
 BOUNDARIES UPDATE
@@ -7,3 +6,4 @@ BOUNDARIES UPDATE
 
 UNDO
   undo canvas stuff doesnt work now between stages
+  undo doent work at all really Need to undo by textureId

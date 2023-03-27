@@ -1,7 +1,13 @@
 import fs from 'fs';
 import { promisify } from 'util';
+import { nanoid } from 'nanoid'
+
 const readdir = promisify(fs.readdir);
 const unlink = promisify(fs.unlink);
+
+export function generateUniqueId() {
+  return nanoid(10) + "_1"
+}
 
 export const deleteAllAvatars = async (absoluteFolderPath) => {
   try {

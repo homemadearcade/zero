@@ -214,33 +214,34 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
   })
 };
 
-export async function addLayersForArcadeGameStage(gameId, stageId) {
+export async function addLayersForArcadeGameStage(gameId, userId, stageId) {
   const backgroundTextureId = getTextureIdForLayerId(gameId, stageId, BACKGROUND_LAYER_ID)
   const playgroundTextureId = getTextureIdForLayerId(gameId, stageId, PLAYGROUND_LAYER_ID)
   const foregroundTextureId = getTextureIdForLayerId(gameId, stageId, FOREGROUND_LAYER_ID)
 
+  console.log(userId)
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(backgroundTextureId),
     textureId: backgroundTextureId, 
-    userId: store.getState().auth.me.id,
-    visualTags: [],
+    userId,
+    visualTags: ['Layer'],
     arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(playgroundTextureId),
     textureId: playgroundTextureId, 
-    userId: store.getState().auth.me.id,
-    visualTags: [],
+    userId,
+    visualTags: ['Layer'],
     arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(foregroundTextureId),
     textureId: foregroundTextureId,
-    userId: store.getState().auth.me.id,
-    visualTags: [],
+    userId,
+    visualTags: ['Layer'],
     arcadeGame: gameId
   }))
 
@@ -281,7 +282,7 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
 
     const gameId = response.data.game.id
 
-    await addLayersForArcadeGameStage(gameId, initialStageId)
+    await addLayersForArcadeGameStage(gameId, response.data.game.owner.id, initialStageId)
 
     dispatch({
       type: ADD_ARCADE_GAME_SUCCESS,

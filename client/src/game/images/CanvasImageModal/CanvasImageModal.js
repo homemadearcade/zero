@@ -22,7 +22,7 @@ import { IMAGE_TYPE_SPRITE } from '../../../constants';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { getImageUrlFromTextureId } from '../../../utils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { ADD_BRUSH_IID } from '../../../constants/interfaceIds';
+import { ADD_BRUSH_IID, CANVAS_IMAGE_VISUAL_TAGS_IID } from '../../../constants/interfaceIds';
 import Loader from '../../../ui/Loader/Loader';
 import CanvasImageView from '../CanvasImageView/CanvasImageView';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
@@ -96,13 +96,13 @@ const CanvasImageModal = ({
           size="1.75em"
           items={brushList}/>
         <UndoButton onClick={onCanvasImageModalUndo}></UndoButton>
-        <SelectDescriptors 
+        <Unlockable interfaceId={CANVAS_IMAGE_VISUAL_TAGS_IID}><SelectDescriptors 
           onChange={(event, visualTags) => {
             updateCreateCanvasImage({ visualTags })
           }}
           formLabel="Descriptors"
           value={canvasImage.visualTags}
-        />
+        /></Unlockable> 
         <Button onClick={() => {
             const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
             imageCanvasScene.backgroundCanvasLayer.rotate()
@@ -112,7 +112,6 @@ const CanvasImageModal = ({
         <Button 
           disabled={isSaving}
           onClick={async () => {
- 
             const imageCanvasScene = getCurrentGameScene(imageCanvasGameInstance)
             const textureId = imageCanvasScene.backgroundCanvasLayer.textureId
             await imageCanvasScene.backgroundCanvasLayer.save()

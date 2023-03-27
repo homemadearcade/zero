@@ -10,4 +10,4 @@ LOCK DATA
 in preloader
   only load spritesheets that are added for 'play game' mode
 
-Interface Ids themselves may have to be auto generated, for dynamic lookup
+Better tag generation data. the data is a bit strange now, perhaps an object defined what tags and relations are generated. I dont know the patterns yet

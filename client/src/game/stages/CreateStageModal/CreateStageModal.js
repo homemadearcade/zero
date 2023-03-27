@@ -66,7 +66,7 @@ const CreateStageModal = ({ closeCreateStageModal, editGameModel, updateCreateSt
               }
             })
             if(stage.isNew) {
-              await addLayersForArcadeGameStage(gameModel.id, stage.stageId)
+              await addLayersForArcadeGameStage(gameModel.id, gameModel.owner.id, stage.stageId)
             }
             handleClose()
           }}>

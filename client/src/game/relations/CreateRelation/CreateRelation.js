@@ -23,10 +23,11 @@ import Divider from '../../../ui/Divider/Divider';
 import Icon from '../../../ui/Icon/Icon';
 import useIsEventSaveable from '../../../hooks/useIsEventSaveable';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
-import { Alert, AlertTitle } from '@mui/material';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectEffect from '../../ui/SelectEffect/SelectEffect';
 import EffectShorthand from '../../effect/EffectShorthand/EffectShorthand';
+import { AlertTitle } from '@mui/material';
+import Alert from '../../../ui/Alert/Alert';
 
 // {event && <SelectEffect
 //         event={event}

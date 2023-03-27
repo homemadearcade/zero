@@ -5,6 +5,7 @@ import ArcadeGame, { validateArcadeGame } from '../../models/ArcadeGame';
 import { mergeDeep } from '../../utils/utils';
 import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, ARCADE_EXPERIENCE_ID } from '../../constants';
 import User from '../../models/User';
+import { generateUniqueId } from '../../utils/utils';
 
 const router = Router();
 
@@ -98,6 +99,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       textures: req.body.textures,
       nodeSize: req.body.nodeSize, 
       owner: req.body.userId,
+      gameShortId: generateUniqueId()
     });
 
     game = await game.populate('owner').execPopulate();

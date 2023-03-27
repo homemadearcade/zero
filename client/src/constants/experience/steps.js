@@ -24,3 +24,5 @@ export const defaultPrompt = {
   gameEvent: '',
   lobbyEvent: '',
 }
+
+

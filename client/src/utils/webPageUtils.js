@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid'
+
 import store from '../store';
 import tinycolor from "tinycolor2";
 import { getHexIntFromHexString } from './editorUtils';
-import { nanoid } from 'nanoid'
 import html2canvas from 'html2canvas'
 
 export function getThemePrimaryColor() {

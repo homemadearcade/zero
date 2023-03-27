@@ -70,6 +70,8 @@ export const defaultClass = {
     notVisibleInSelector: false,
     notSelectableInStage: false,
     noTeleportEffect: false,
+    noPlayerTeleportRelation: false,
+    noPlayerTransformRelation: false,
     noDestroyAllEffect: false,
     noTransformEffect: false,
     noSpawnAnywhereEffect: false

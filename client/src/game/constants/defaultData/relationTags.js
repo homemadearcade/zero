@@ -54,8 +54,8 @@ export const transformBackRelationTagId = RELATION_TAG_ID_PREFIX+'transformBack'
 export const explodeOnDestroyRelationTagId = RELATION_TAG_ID_PREFIX+'explodeOnDestroy'
 
 export const initialTags = {
-  [playerRelationTagId]: createLibraryTag(towerRelationTagId, 'Player', '#FFFF00', true),
-  [playgroundRelationTagId]: createLibraryTag(towerRelationTagId, 'Playground Layer', '#FFFF00', true),
+  [playerRelationTagId]: createLibraryTag(playerRelationTagId, 'Player', '#FFFF00', true),
+  [playgroundRelationTagId]: createLibraryTag(playgroundRelationTagId, 'Playground Layer', '#FFFF00', true),
   [enemyRelationTagId]: createLibraryTag(enemyRelationTagId, 'Enemy', '#FF0000'),
   // [towerRelationTagId]: createLibraryTag(towerRelationTagId, 'Tower', '#FF0000'),
   [doorRelationTagId]: createLibraryTag(doorRelationTagId, 'Door', '#FFFFFF'),

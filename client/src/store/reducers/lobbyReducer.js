@@ -28,7 +28,7 @@ const initialState = {
   lobby: {
     members: []
   },
-  isLobbyDashboardOpen: true,
+  isLobbyDashboardOpen: false,
   isLoading: false,
   error: null,
   isJoining: false,

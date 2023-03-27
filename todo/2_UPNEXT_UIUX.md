@@ -14,6 +14,3 @@ HOVER PREVIEW
   Color name on bottom
   Tags
   for Relations - show the full Relation view in the preview - Only show event in the list?
-
-You shouldn’t be able to test your internet speed on someone else’s user page
-Also change it to an object so it dont get all fuxxed up. or maybe only keep X amount of the last. ( the last ten speed tests maybe? idk ). Last 20 is good

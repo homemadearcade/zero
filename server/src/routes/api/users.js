@@ -50,7 +50,9 @@ router.put('/:id/speedTest', requireJwtAuth, async (req, res, next) => {
     if(!tempUser.speedTests) tempUser.speedTests = []
 
     tempUser.speedTests.push(req.body)
-    
+
+    if(tempUser.speedTests.length > 10) tempUser.speedTests = tempUser.speedTests.slice(-10)
+
     const user = await User.findByIdAndUpdate(tempUser.id, { $set: tempUser }, { new: true });
 
     res.status(200).json({ user });

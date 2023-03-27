@@ -6,9 +6,6 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-TAGS
-  Auto generate some more tags and relationshios
-
 LIBRARY
   Turn library on and off ( both in Selects and in the ClassList )
   Easy system for saving library entityClasses and relations

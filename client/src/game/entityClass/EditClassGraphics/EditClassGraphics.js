@@ -40,6 +40,8 @@ const EditClassGraphics = ({
     }
   }, [])
 
+  console.log(entityClass)
+
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="EditClassGraphics">
       {entityClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[entityClass.classInterfaceCategory]}</Typography>}
@@ -115,7 +117,7 @@ const EditClassGraphics = ({
           }})
         }}/>
       </Unlockable>}
-      {entityClass.isNew && <ClassNameForm></ClassNameForm>}
+      {entityClass.isNew && <ClassNameForm isEditingInitially></ClassNameForm>}
       {entityClass.isNew && <Unlockable interfaceId={CLASS_LOCK_IID}>
         <Switch
           labels={['Normal', 'Hide from UI unless unlocked']}

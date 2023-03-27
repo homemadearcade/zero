@@ -13,7 +13,7 @@ import { generateUniqueId } from '../../utils/webPageUtils';
 import { DATE_ID_PREFIX } from '../../game/constants';
 
 const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticketedEvent } }) => {
- 
+ console.log(ticketedEvent)
 
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {

@@ -2,6 +2,15 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
+// prompt = {
+// promptId,
+// text,
+// style, 
+// suffix
+// prefix
+// textureId
+// visualTags?
+// }
 const dallESession = new Schema(
   {
     type: {
@@ -9,6 +18,11 @@ const dallESession = new Schema(
       required: true,
     },
     prompts: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    textureIds: {
       type: Object,
       required: true,
       default: {}

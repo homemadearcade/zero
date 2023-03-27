@@ -83,7 +83,8 @@ export const defaultGameModel = {
         fixedAspectRatio: true,
         noDestroyAllEffect: true,
         noTransformEffect: true,
-        noSpawnAnywhereTag: true
+        noSpawnAnywhereTag: true,
+        noPlayerTeleportRelation: true
       },
       collisionResponse: {
         ...mirrorPlayerDefaults.collisionResponse,

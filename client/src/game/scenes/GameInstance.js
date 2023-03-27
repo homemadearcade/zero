@@ -120,7 +120,7 @@ export class GameInstance extends Phaser.Scene {
       const populatedEvent = events[relation.eventId]
       const populatedEffects = relation.effectIds.map((effectId) => {
         let effect 
-        if(!relation.effects[effectId]) {
+        if(relation.effects[effectId]) {
           effect = {
             ...effects[effectId],
             ...relation.effects[effectId],
@@ -128,6 +128,7 @@ export class GameInstance extends Phaser.Scene {
         } else {
           effect = effects[effectId]
         }
+
         return effect
       })
 
@@ -281,7 +282,6 @@ export class GameInstance extends Phaser.Scene {
 
     if(!layerInstanceId) console.error('didnt find layer with id', textureId, typeof textureId)
 
-    console.log(textureId, layerInstanceId)
     return this.layerInstancesById[layerInstanceId]
   }
   

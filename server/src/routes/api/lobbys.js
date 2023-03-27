@@ -6,6 +6,7 @@ import User from '../../models/User';
 
 import { ON_LOBBY_UPDATE, ON_LOBBY_UNDO, ADMIN_ROOM_PREFIX, LOBBYS_STORE } from '../../constants';
 import Lobby from '../../models/Lobby';
+import { generateUniqueId } from '../../utils/utils';
 
 const router = Router();
 
@@ -110,7 +111,8 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       participantId: req.body.participantId,
       guideId: req.body.guideId,
       editingGameId: req.body.editingGameId,
-      gameRoomId: req.body.gameRoomId
+      gameRoomId: req.body.gameRoomId,
+      lobbyShortId: generateUniqueId()
     });
 
     lobby = await lobby.populate('invitedUsers').execPopulate();

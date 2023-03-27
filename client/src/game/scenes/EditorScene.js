@@ -314,7 +314,7 @@ export class EditorScene extends GameInstance {
 
     const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
     const phaserInstance = entitySprite[0]
-    if(phaserInstance.entityInstanceId !== entityInstanceIdHovering) {
+    if(phaserInstance.entityInstanceId !== entityInstanceIdHovering && phaserInstance.visible) {
       store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityClassId, { isSpawned: phaserInstance.effectSpawned }))
     }
 
@@ -393,7 +393,7 @@ export class EditorScene extends GameInstance {
           imageType: IMAGE_TYPE_SNAPSHOT,
           imageUrl,
           visualTags: [],
-          userId: store.getState().auth.me.id,
+          userId: gameModel.owner.id,
           arcadeGame: store.getState().gameModel.gameModel?.id
         }))
 
@@ -435,10 +435,11 @@ export class EditorScene extends GameInstance {
         document.body.removeEventListener('contextmenu', disableContextMenue)
       })
 
-      // .filter((phaserInstance) => {
-      //   return !!phaserInstance.entityInstance.isVisible
-      // })
-      if(phaserInstances.length) {
+      const hoveringInstances = phaserInstances.filter((phaserInstance) => {
+        return !!phaserInstance.visible
+      })
+      
+      if(hoveringInstances.length) {
         store.dispatch(openContextMenuFromEntityInstance(phaserInstances, pointer.event))
       } else {
         store.dispatch(openStageContextMenu(pointer.event))

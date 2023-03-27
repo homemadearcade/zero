@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
-import { mergeDeep } from '../../utils/utils';
+import { generateUniqueId, mergeDeep } from '../../utils/utils';
 import Experience from '../../models/Experience';
 
 const router = Router();
@@ -39,6 +39,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let experience = await Experience.create({
       ...req.body,
+      experienceShortId: generateUniqueId(),
       owner: req.body.userId,
     });
 

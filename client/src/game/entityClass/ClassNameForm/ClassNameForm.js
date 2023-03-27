@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import './ClassNameForm.scss';
-import { Alert, TextField } from '@mui/material';
 import { updateCreateClass } from '../../../store/actions/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import IconButton from '../../../ui/IconButton/IconButton';
+import Alert from '../../../ui/Alert/Alert';
+import TextField from '../../../ui/TextField/TextField';
 
 const ClassNameForm = ({ isEditingInitially, initialName, updateCreateClass, gameModel: { gameModel }, gameFormEditor: { entityClass } }) => {
   const [nameList, setNameList] = useState([])
@@ -56,13 +57,14 @@ const ClassNameForm = ({ isEditingInitially, initialName, updateCreateClass, gam
       error: null
     })
   }
+  
 
   if(isEditing) {
     return (
       <div className="ClassNameForm">
         <TextField onChange={handleChange} label="Name" value={entityClass.name} />
         {entityClass.error && <Alert severity="error">{entityClass.error}</Alert>}
-        {<IconButton icon="faCheck" onClick={() => {
+        {!isEditingInitially && <IconButton icon="faCheck" onClick={() => {
           setIsEditing(false)
         }}></IconButton>}
       </div>

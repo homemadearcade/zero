@@ -42,8 +42,9 @@ EFFECTS
   Remove Tag, Add Tag Effect
   Camera Shake is bad because of the size of the map. it works best when zoomed out, why is that?
 
-SNAPSHOT TAKER
-  Filter object instances that are not visible in the snapshot taker and eraser
+OBJECT INSTANCE VISIBILITY
+  Filter object instances that are not visible in the snapshot taker and eraser, and other snapshot thing?
 
 INTERFACE IDS
   Generate interfaceIds based on the game model
+  Interface Ids themselves may have to be auto generated, for dynamic lookup

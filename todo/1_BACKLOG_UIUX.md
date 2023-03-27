@@ -12,8 +12,6 @@ When you copy a class, you should have to rename it at same time
 
 EDIT CLASS MODAL
   All Edit Class stuff in same place
-  Sprite -> Edit Graphics
-  Tags
   Dialogues
   Behavior -> Side Editor Stuff
 

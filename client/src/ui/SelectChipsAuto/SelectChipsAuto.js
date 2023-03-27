@@ -59,7 +59,8 @@ const InputWrapper = styled('div')(
     color: ${
       theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
     };
-    min-height: 30px;
+    min-height: 1em;
+    padding: 0.25em 0.3em;
     box-sizing: border-box;
     padding: 4px 6px;
     width: 0;

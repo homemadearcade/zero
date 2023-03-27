@@ -21,6 +21,7 @@ const lobbySchema = new Schema(
       type: String
     },
     experience: { type: mongoose.Schema.Types.ObjectId, ref: 'Experience' },
+    activitys: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Activity' }],
     // guideId: {
     //   type: String,
     //   required: true,
@@ -28,6 +29,12 @@ const lobbySchema = new Schema(
     startTime: {
       type: String,
       // required: true,
+    },
+    lobbyShortId: {
+      immuteable: true,
+      type: String,
+      unique: true,
+      required: true,
     },
   },
   { timestamps: true },
@@ -63,10 +70,14 @@ lobbySchema.methods.toJSON = function () {
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
+    activitys: this.activitys ? this.activitys.map((activity) => {
+      return activity?.toJSON()
+    }) : [],
     editingGameId: this.editingGameId,
     participantId: this.participantId,
-    experience: this.experience,
-    gameRoomId: this.gameRoomId
+    experience: this.experience?.toJSON(),
+    gameRoomId: this.gameRoomId,
+    lobbyShortId: this.lobbyShortId,
     // guideId: this.guideId
   };
 };

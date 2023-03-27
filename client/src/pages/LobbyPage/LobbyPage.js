@@ -7,7 +7,7 @@ import { Switch as RouterSwitch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
-import { assignLobbyRole, editLobby} from '../../store/actions/lobbyActions';
+import { assignLobbyRole, editLobby, toggleLobbyDashboard} from '../../store/actions/lobbyActions';
 import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 
@@ -24,16 +24,19 @@ import MultiplayerGameRoomContext from '../../hoc/MultiplayerGameRoomContext';
 import { ADMIN_ROLE, WAITING_ACTIVITY } from '../../constants';
 
 const LobbyPage = ({
-  lobby: { lobby, isLobbyDashboardOpen },
+  lobby: { lobby },
   auth: { me },
   gameRoom: { gameRoom },
   myTracks,
   userTracks,
   assignLobbyRole,
+  toggleLobbyDashboard
 }) => {
   let { path } = useRouteMatch();
 
   useEffect(() => {
+    if(me.role === ADMIN_ROLE) toggleLobbyDashboard(true)
+
     if(gameRoom.isPoweredOn) return 
     
     if(me.role === ADMIN_ROLE && (!lobby.guideId)) {
@@ -70,5 +73,5 @@ export default compose(
   withLobby,
   withSpeedTest,
   withAgoraVideoCall,
-  connect(mapStateToProps, { assignLobbyRole, editLobby }),
+  connect(mapStateToProps, { assignLobbyRole, editLobby, toggleLobbyDashboard }),
 )(LobbyPage);

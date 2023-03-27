@@ -82,6 +82,12 @@ const arcadeGameSchema = new Schema(
       default: false,
       type: Boolean,
     },
+    gameShortId: {
+      required: true,
+      immuteable: true,
+      type: String,
+      unique: true,
+    },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },
@@ -97,6 +103,7 @@ export const validateArcadeGame = (game) => {
     metadata: Joi.object({
 
     }),
+    gameShortId: Joi.string(),
     nodeSize: Joi.number(),
     stages: Joi.object(),
     entityClasses: Joi.object(),
@@ -131,6 +138,7 @@ arcadeGameSchema.methods.toJSON = function () {
     cutscenes: this.cutscenes,
     textures: this.textures,
     owner: this.owner?.toJSON(),
+    gameShortId: this.gameShortId,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     isRemoved: this.isRemoved,
