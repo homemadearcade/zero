@@ -31,6 +31,8 @@ import TicketedEventCalendarPage from './pages/TicketedEventCalendarPage/Tickete
 import store from './store';
 import InterfaceListPage from './pages/InterfaceListPage/InterfaceListPage';
 import ArcadePage from './pages/ArcadePage/ArcadePage';
+import ExperienceCreatorPage from './pages/ExperienceCreatorPage/ExperienceCreatorPage';
+import ExperiencesPage from './pages/ExperiencesPage/ExperiencesPage';
 
 window.awsUrl = window.location.origin + '/api/aws/' //'https://homemadearcade.s3-us-west-1.amazonaws.com/'
 
@@ -233,7 +235,10 @@ const themeDefaults = {
           fontSize: '.875em'
         },
         root: ({ ownerState, theme }) => ({
-
+          ...(ownerState.size === 'wide' && {
+            width: '100%',
+          }),
+          
           ...(ownerState.size === 'fit' && {
             width: '100%',
             lineHeight: 'normal',
@@ -325,7 +330,9 @@ const App = ({ theme: { primaryColor } }) => {
           <Route path="/interface" children={wrapComponentInApp(InterfaceListPage)} />
           <Route path="/notfound" children={wrapComponentInAppIfAuthenticated(NotFound)} />
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
-          <Route path="/lobby/:id" children={wrapComponentInApp(LobbyPage)} />
+          <Route path="/experiences" children={wrapComponentInApp(ExperiencesPage)} />
+          <Route path="/experience/:experienceId" children={wrapComponentInApp(ExperienceCreatorPage)} />
+          <Route path="/lobby/:lobbyId" children={wrapComponentInApp(LobbyPage)} />
           <Route exact path="/user/:username" children={wrapComponentInApp(UserPage)} />
           <Route path="/OAuthSuccess" children={wrapComponentInApp(HomemadeArcadePage)} />
           <Route exact path="/" children={wrapComponentInAppIfAuthenticated(HomemadeArcadePage)} />

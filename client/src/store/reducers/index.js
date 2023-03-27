@@ -30,6 +30,7 @@ import themeReducer from './themeReducer';
 import gameRoomReducer from './gameRoomReducer';
 import canvasImageReducer from './canvasImageReducer';
 import hoverPreviewReducer from './hoverPreviewReducer';
+import experienceReducer from './experienceReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -61,5 +62,6 @@ export default combineReducers({
   theme: themeReducer,
   gameRoom: gameRoomReducer,
   canvasImage: canvasImageReducer,
-  hoverPreview: hoverPreviewReducer
+  hoverPreview: hoverPreviewReducer,
+  experience: experienceReducer
 });

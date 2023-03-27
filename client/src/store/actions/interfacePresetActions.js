@@ -52,7 +52,7 @@ export const getInterfacePresetById = (interfacePresetId) => async (dispatch, ge
 
     dispatch({
       type: GET_INTERFACE_PRESET_SUCCESS,
-      payload: { interfacePreset: response.interfacePreset },
+      payload: { interfacePreset: response.data.interfacePreset },
     });
     
   } catch (err) {
@@ -75,7 +75,6 @@ export const addInterfacePreset = (interfacePreset) => async (dispatch, getState
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/interfacePresets', interfacePreset, options);
 
-    console.log(response.data)
     dispatch({
       type: ADD_INTERFACE_PRESET_SUCCESS,
       payload: { interfacePreset: response.data.interfacePreset },

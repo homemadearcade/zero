@@ -52,7 +52,7 @@ export const getTicketedEventById = (ticketedEventId) => async (dispatch, getSta
 
     dispatch({
       type: GET_TICKETED_EVENT_SUCCESS,
-      payload: { ticketedEvent: response.ticketedEvent },
+      payload: { ticketedEvent: response.data.ticketedEvent },
     });
     
   } catch (err) {

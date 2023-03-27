@@ -14,7 +14,6 @@ export const defaultPerspectivePrompt = PROMPT_PERSPECTIVE_NONE
 
 export const defaultDallESession = {
   interfaceCategory: DALL_E_SPRITE
-
 }
 
 export const defaultPrompt = {

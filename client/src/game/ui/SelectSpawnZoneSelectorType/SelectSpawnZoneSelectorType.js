@@ -4,8 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectSpawnZoneSelectorType.scss';
 
-import RadioGroupColumn from '../RadioGroupColumn/RadioGroupColumn';
-import { spawnZoneSelectorTypeToDisplayName, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT } from '../../game/constants';
+import { spawnZoneSelectorTypeToDisplayName, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT } from '../../constants';
+import RadioGroupColumn from '../../../ui/RadioGroupColumn/RadioGroupColumn';
 
 const SelectSpawnZoneSelectorType = ({ useA, useB, onChange, value, formLabel, disabled }) => {
   const mapControlsToOption = (spawnZoneSelectorType) => {

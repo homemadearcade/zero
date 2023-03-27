@@ -1,4 +1,5 @@
 export const defaultLobby = {
+  name: null,
   roles: {},
-  activities: {}
+  activitys: {}
 }

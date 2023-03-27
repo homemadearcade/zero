@@ -12,7 +12,7 @@ export default (ChildComponent) => {
     componentWillMount() {
       const {joinLobby,  match, auth: { me } } = this.props
 
-      const matchId = match.params.id;
+      const matchId = match.params.lobbyId;
       const doJoinLobby = async () => {   
         try {
           await joinLobby({lobbyId: matchId, userId: me?.id});

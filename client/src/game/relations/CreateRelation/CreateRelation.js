@@ -14,7 +14,6 @@ import { effectBehaviorToDisplayNames, EFFECT_ID_PREFIX, EVENT_ID_PREFIX, initia
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getClassAandB } from '../../../utils/gameUtils';
 import { EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
-import SelectSpawnZoneSelectorType from '../../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
 import CreateEvent from '../../event/CreateEvent/CreateEvent';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Switch from '../../../ui/Switch/Switch';
@@ -28,6 +27,7 @@ import SelectEffect from '../../ui/SelectEffect/SelectEffect';
 import EffectShorthand from '../../effect/EffectShorthand/EffectShorthand';
 import { AlertTitle } from '@mui/material';
 import Alert from '../../../ui/Alert/Alert';
+import SelectSpawnZoneSelectorType from '../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
 
 // {event && <SelectEffect
 //         event={event}
