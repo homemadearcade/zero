@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import Button from '../../../ui/Button/Button';
-import Icon from '../../../ui/Icon/Icon';
-import Dialog from '../../../ui/Dialog/Dialog';
+import Button from '../../../../ui/Button/Button';
+import Icon from '../../../../ui/Icon/Icon';
+import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { generateUniqueId } from '../../../utils';
-import { LOBBY_ID_PREFIX } from '../../../constants';
+import { generateUniqueId } from '../../../../utils';
+import { LOBBY_ID_PREFIX } from '../../../../constants';
 
 const ExperienceLobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isLobbyAddOpen, setIsLobbyAddOpen] = useState(false)

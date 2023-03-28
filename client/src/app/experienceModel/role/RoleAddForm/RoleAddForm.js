@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import Button from '../../../ui/Button/Button';
-import Icon from '../../../ui/Icon/Icon';
-import Dialog from '../../../ui/Dialog/Dialog';
+import Button from '../../../../ui/Button/Button';
+import Icon from '../../../../ui/Icon/Icon';
+import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { generateUniqueId } from '../../../utils';
-import { ROLE_ID_PREFIX } from '../../../constants';
-import FormLabel from '../../../ui/FormLabel/FormLabel';
+import { generateUniqueId } from '../../../../utils';
+import { ROLE_ID_PREFIX } from '../../../../constants';
+import FormLabel from '../../../../ui/FormLabel/FormLabel';
 
 const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isRoleAddOpen, setIsRoleAddOpen] = useState(false)

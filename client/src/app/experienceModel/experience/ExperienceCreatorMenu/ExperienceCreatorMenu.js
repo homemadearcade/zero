@@ -8,9 +8,9 @@ import Icon from '../../../../ui/Icon/Icon';
 import ActivityAddForm from '../../activity/ActivityAddForm/ActivityAddForm';
 import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
 import { activityToInterfaceData, instructionToInterfaceData } from '../../../../constants';
-import LobbyAddForm from '../../LobbyAddForm/LobbyAddForm';
-import RoleAddForm from '../../RoleAddForm/RoleAddForm';
-import InstructionAddForm from '../../InstructionAddForm/InstructionAddForm';
+import LobbyAddForm from '../../lobby/LobbyAddForm/LobbyAddForm';
+import RoleAddForm from '../../role/RoleAddForm/RoleAddForm';
+import InstructionAddForm from '../../instruction/InstructionAddForm/InstructionAddForm';
 
 const ExperienceCreatorMenu = ({
   experienceModel: { experienceModel },

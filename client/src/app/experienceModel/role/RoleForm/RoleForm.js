@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 import './RoleForm.scss';
 import { TextField } from '@mui/material';
-import { editExperienceModel } from '../../../store/actions/experienceModelActions';
+import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
 import { Controller, useForm } from 'react-hook-form';
-import Button from '../../../ui/Button/Button';
-import FormLabel from '../../../ui/FormLabel/FormLabel';
+import Button from '../../../../ui/Button/Button';
+import FormLabel from '../../../../ui/FormLabel/FormLabel';
 
 const RoleForm = ({ editExperienceModel, roleId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const role = experienceModel.roles[roleId]

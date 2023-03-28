@@ -1,4 +1,4 @@
-import Icon from "../../../ui/Icon/Icon"
+import Icon from "../../../../ui/Icon/Icon"
 import './RoleChip.scss'
 export function RoleChip  ({ role }) {
   return <div>

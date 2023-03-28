@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import './LobbyForm.scss';
 import { TextField } from '@mui/material';
-import { editExperienceModel } from '../../../store/actions/experienceModelActions';
+import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
 import { Controller, useForm } from 'react-hook-form';
-import Button from '../../../ui/Button/Button';
-import { RoleChip } from '../RoleChip/RoleChip';
-import SelectInstructions from '../../../ui/connected/SelectInstructions/SelectInstructions';
-import { INSTRUCTION_LOBBY } from '../../../constants';
-import Typography from '../../../ui/Typography/Typography';
+import Button from '../../../../ui/Button/Button';
+import { RoleChip } from '../../RoleChip/RoleChip';
+import SelectInstructions from '../../../../ui/connected/SelectInstructions/SelectInstructions';
+import { INSTRUCTION_LOBBY } from '../../../../constants';
+import Typography from '../../../../ui/Typography/Typography';
 
 const LobbyForm = ({ editExperienceModel, lobbyId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const lobby = experienceModel.lobbys[lobbyId]

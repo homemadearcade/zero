@@ -8,9 +8,9 @@ import { getIdInformation } from '../../../../utils';
 import ExperienceMetadataForm from '../ExperienceMetadataForm/ExperienceMetadataForm';
 import { activityToInterfaceData, instructionToInterfaceData } from '../../../../constants';
 import Icon from '../../../../ui/Icon/Icon';
-import LobbyForm from '../../LobbyForm/LobbyForm';
-import { RoleChip } from '../../RoleChip/RoleChip';
-import RoleForm from '../../RoleForm/RoleForm';
+import LobbyForm from '../../lobby/LobbyForm/LobbyForm';
+import { RoleChip } from '../../role/RoleChip/RoleChip';
+import RoleForm from '../../role/RoleForm/RoleForm';
 
 const ExperienceCreatorBody = ({
   experienceModel: { experienceModel },
