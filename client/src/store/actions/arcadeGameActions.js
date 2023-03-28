@@ -219,7 +219,6 @@ export async function addLayersForArcadeGameStage(gameId, userId, stageId) {
   const playgroundTextureId = getTextureIdForLayerId(gameId, stageId, PLAYGROUND_LAYER_ID)
   const foregroundTextureId = getTextureIdForLayerId(gameId, stageId, FOREGROUND_LAYER_ID)
 
-  console.log(userId)
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(backgroundTextureId),

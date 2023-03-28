@@ -13,6 +13,12 @@ const { Schema } = mongoose;
 
 const ticketPurchase = new Schema(
   {
+    ticketPurchaseShortId: {
+      immuteable: true,
+      type: String,
+      unique: true,
+      index: true,
+    },
     ticketId: {
       type: String,
       required: true,
@@ -33,6 +39,7 @@ ticketPurchase.methods.toJSON = function () {
     id: this._id.toString(),
     dateId: this.dateId,
     ticketId: this.ticketId,
+    ticketPurchaseShortId: this.ticketPurchaseShortId,
     lobby: this.lobby?.toJSON(),
     user: this.user?.toJSON(),
     ticketedEvent: this.ticketedEvent?.toJSON(),

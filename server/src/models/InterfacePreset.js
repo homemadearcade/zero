@@ -4,6 +4,12 @@ const { Schema } = mongoose;
 
 const interfacePreset = new Schema(
   {
+    interfacePresetShortId: {
+      immuteable: true,
+      type: String,
+      unique: true,
+      index: true,
+    },
     name: {
       type: String,
       default: 'New Interface'
@@ -26,7 +32,8 @@ interfacePreset.methods.toJSON = function () {
     description: this.description,
     interfaceIds: this.interfaceIds,
     name: this.name,
-    isRemoved: this.isRemoved
+    isRemoved: this.isRemoved,
+    interfacePresetShortId: this.interfacePresetShortId,
   };
 };
 

@@ -2,6 +2,8 @@ import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../utils/utils';
 import InterfacePreset from '../../models/InterfacePreset';
+import { generateUniqueId } from '../../utils/utils';
+import { INTERFACE_PRESET_ID_PREFIX } from '../../constants';
 
 const router = Router();
 
@@ -38,6 +40,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
   try {
     let interfacePreset = await InterfacePreset.create({
+      interfacePresetShortId: INTERFACE_PRESET_ID_PREFIX + generateUniqueId(),
       ...req.body,
     });
 

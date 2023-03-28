@@ -56,8 +56,10 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
         formLabel={effectForms.gameId}
         value={effect.gameId ? [effect.gameId] : []}
         onChange={(event, games) => {
-          const newGameId = games[games.length-1]
-          handleEffectChange('gameId', newGameId)
+          if(games[0]) {
+            const newGameId = games[games.length-1].id
+            handleEffectChange('gameId', newGameId)
+          }
         }}/>
       )
     }

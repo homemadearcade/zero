@@ -5,6 +5,12 @@ const { Schema } = mongoose;
 
 const ticketedEventSchema = new Schema(
   {
+    ticketedEventShortId: {
+      immuteable: true,
+      type: String,
+      unique: true,
+      index: true,
+    },
     title: {
       type: String,
       required: true,
@@ -70,6 +76,7 @@ ticketedEventSchema.methods.toJSON = function () {
     experienceModel: this.experienceModel,
     tickets: this.tickets,
     dates: this.dates,
+    ticketedEventShortId: this.ticketedEventShortId,
   };
 };
 

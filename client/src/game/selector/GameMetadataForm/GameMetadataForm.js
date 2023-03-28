@@ -50,7 +50,6 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
   return (
     <div className="GameMetadataform">
       <Typography variant="h2" component="h2">Game Metadata</Typography>
-      <form>
         {renderImageSelect()}
         <div>
           <Controller
@@ -80,7 +79,6 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
           />
         </div>
         <Button type="submit" onClick={handleSubmit(submit)}>Save</Button>
-      </form>
       {isGameTexturesModalOpen && <GameTexturesModal onClickTexture={(textureId) => {
         setImageUrl(getImageUrlFromTextureId(textureId))
         closeGameTexturesModal()

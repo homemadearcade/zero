@@ -34,11 +34,12 @@ const lobbySchema = new Schema(
       type: String,
       // required: true,
     },
-    lobbyShortId: {
+    lobbyInstanceShortId: {
       immuteable: true,
       type: String,
       unique: true,
       required: true,
+      index: true,
     },
   },
   { timestamps: true },
@@ -81,7 +82,7 @@ lobbySchema.methods.toJSON = function () {
     participantId: this.participantId,
     experienceModel: this.experienceModel?.toJSON(),
     gameRoomId: this.gameRoomId,
-    lobbyShortId: this.lobbyShortId,
+    lobbyInstanceShortId: this.lobbyInstanceShortId,
     // guideId: this.guideId
   };
 };

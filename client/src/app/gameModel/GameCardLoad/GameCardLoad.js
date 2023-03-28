@@ -3,22 +3,22 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import GameCard from '../GameCard/GameCard';
 import { getArcadeGame } from '../../../store/actions/arcadeGameActions';
+import Loader from '../../../ui/Loader/Loader';
 
 
 const GameCardLoad = (props) => {
   const [game, setGame] = useState(null)
 
   useEffect(() => {
-
     async function goGetArcadeGame() {
       const arcadeGame = await props.getArcadeGame(props.gameId)
       setGame(arcadeGame)
     }
 
     goGetArcadeGame()
-  }, [])
+  }, [props.gameId])
 
-  if(!game) return
+  if(!game) return <Loader/>
 
   return <GameCard {...props} game={game}/>
 };

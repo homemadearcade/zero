@@ -235,7 +235,7 @@ const ActivityInstructions = ({
       {lobby.participantId && <SelectArcadeGame label="Games owned by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
           editLobby(lobby.id, {
-            editingGameId: games[games.length - 1]
+            editingGameId: games[games.length - 1].id
           })
         }
       }}/>}

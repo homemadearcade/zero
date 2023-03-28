@@ -9,7 +9,7 @@ import ActivityForm from '../ActivityForm/ActivityForm';
 const ActivityEditForm = ({ editExperienceModel, activityId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const activity = experienceModel.activitys[activityId]
   
-  const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
+  const { handleSubmit, trigger, setValue, control, formState: { isValid }, register } = useForm({
     defaultValues: activity
   });
 
@@ -27,7 +27,7 @@ const ActivityEditForm = ({ editExperienceModel, activityId, experienceModel: { 
   return (
     <div className="ActivityEditForm">
       <form>
-        <ActivityForm isEdit control={control} register={register} />
+        <ActivityForm trigger={trigger} setValue={setValue} isEdit control={control} register={register} />
         <br/>
         <Button disabled={isSaving || !isValid} type="submit" onClick={handleSubmit(submit)}>Save</Button>
         <Button disabled={activity.isNotRemoveable} onClick={() => {

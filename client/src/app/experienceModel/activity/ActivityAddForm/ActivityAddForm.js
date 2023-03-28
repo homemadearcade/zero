@@ -10,13 +10,15 @@ import { generateUniqueId } from '../../../../utils';
 import { ACTIVITY_ID_PREFIX } from '../../../../constants';
 import ActivityForm from '../ActivityForm/ActivityForm';
 
-const ActivityAddForm = ({ onSubmit, defaultValues = {}, auth: { me }}) => {
+const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isActivityAddOpen, setIsActivityAddOpen] = useState(false)
 
-  const { handleSubmit, reset, control, formState: { isValid }, register, getValues } = useForm({
+  const { handleSubmit, reset, trigger, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
       name: '',
-      activityId: ACTIVITY_ID_PREFIX + generateUniqueId(),
+      gameRoom: {
+        isAutosaveDisabled: true
+      },
       ...defaultValues
     },
   });
@@ -30,15 +32,14 @@ const ActivityAddForm = ({ onSubmit, defaultValues = {}, auth: { me }}) => {
     <div className="ActivityAddForm">
       <Button onClick={() => {
         setIsActivityAddOpen(true)
+        setValue('activityId', ACTIVITY_ID_PREFIX + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} type="submit" size="wide" className="btn">New Activity</Button>
       <Dialog onClose={() => {
         setIsActivityAddOpen(false)
       }} open={isActivityAddOpen}>
         <DialogTitle>New Activity</DialogTitle>
         <DialogContent>
-          <form>
-            <ActivityForm control={control} register={register} />
-          </form>
+          <ActivityForm trigger={trigger} setValue={setValue} control={control} register={register} />
         </DialogContent>
         <DialogActions>
           <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Activity</Button>
@@ -49,7 +50,6 @@ const ActivityAddForm = ({ onSubmit, defaultValues = {}, auth: { me }}) => {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
 });
 
 export default connect(mapStateToProps, { })(ActivityAddForm);

@@ -68,7 +68,6 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
   return (
     <div className="ExperienceInstanceAddForm">
       <Typography variant="h5" component="h5">Add an Experience Instance</Typography>
-      <form>
         <Controller
           name={"invitedUsers"}
           control={control}
@@ -91,7 +90,6 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
           />
         </div>
         <Button type="submit" onClick={handleSubmit(submit)}>Add Experience Instance</Button>
-      </form>
     </div>
   );
 };

@@ -5,6 +5,12 @@ const { Schema } = mongoose;
 
 const gameRoomSchema = new Schema(
   {
+    gameRoomInstanceShortId: {
+      immuteable: true,
+      type: String,
+      unique: true,
+      index: true,
+    },
     isNetworked: {
       type: Boolean,
       required: false,
@@ -66,7 +72,8 @@ gameRoomSchema.methods.toJSON = function () {
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
-    gameId: this.gameId
+    gameId: this.gameId,
+    gameRoomInstanceShortId: this.gameRoomInstanceShortId,
   };
 };
 

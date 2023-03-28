@@ -22,8 +22,6 @@ import PageHeader from '../../ui/PageHeader/PageHeader';
 import GameList from '../../app/gameModel/GameList/GameList';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
 import { Divider } from '@mui/material';
-import SpeedTestTable from '../../ui/SpeedTestTable/SpeedTestTable';
-import Icon from '../../ui/Icon/Icon';
 import UserSpeedTestList from '../../app/user/UserSpeedTestList/UserSpeedTestList';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_MODEL_ID } from '../../constants';
 

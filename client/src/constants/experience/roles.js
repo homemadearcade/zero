@@ -1,14 +1,14 @@
 export const ROLE_ID_PREFIX = 'role-'
 
-export const ROLE_TEAM = 'ROLE_TEAM'
-export const ROLE_PARTICIPANT = 'ROLE_PARTICIPANT'
+export const EXPERIENCE_ROLE_TEAM = 'EXPERIENCE_ROLE_TEAM'
+export const EXPERIENCE_ROLE_PARTICIPANT = 'EXPERIENCE_ROLE_PARTICIPANT'
 
 export const roleToInterfaceData = {
-  [ROLE_TEAM]: {
+  [EXPERIENCE_ROLE_TEAM]: {
     displayName: 'Team',
     icon: 'faCrown',
   },
-  [ROLE_PARTICIPANT]: {
+  [EXPERIENCE_ROLE_PARTICIPANT]: {
     displayName: 'Participant',
     icon: 'faCircle',
   },
@@ -19,5 +19,5 @@ export const defaultRole = {
   interfaceId: null,
   color: '#FFFFFF',
   isRemoved: false,
-  roleCategory: ROLE_PARTICIPANT,
+  roleCategory: EXPERIENCE_ROLE_PARTICIPANT,
 }

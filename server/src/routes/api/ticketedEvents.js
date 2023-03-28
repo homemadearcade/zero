@@ -2,6 +2,8 @@ import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../utils/utils';
 import TicketedEvent from '../../models/TicketedEvent';
+import { generateUniqueId } from '../../utils/utils';
+import { TICKETED_EVENT_ID_PREFIX } from '../../constants';
 
 const router = Router();
 
@@ -40,6 +42,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
     let ticketedEvent = await TicketedEvent.create({
       ...req.body,
       user: req.body.userId,
+      ticketedEventShortId: TICKETED_EVENT_ID_PREFIX + generateUniqueId(),
     });
 
     ticketedEvent = await ticketedEvent.populate('user').execPopulate();

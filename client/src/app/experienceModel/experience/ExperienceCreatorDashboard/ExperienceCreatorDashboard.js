@@ -25,7 +25,7 @@ const ExperienceCreatorDashboard = ({
             {experienceModel.metadata.title}
           </div>}
         body={<ExperienceCreatorBody idEditing={idEditing}/>}
-        drawer={<ExperienceCreatorMenu onNodeSelect={(e, nodeId) => {
+        drawer={<ExperienceCreatorMenu onNodeSelect={(nodeId) => {
           const { isNotValid } = getIdInformation(nodeId)
           if(!isNotValid) {
             setIdEditing(null)

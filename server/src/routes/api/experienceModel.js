@@ -2,6 +2,7 @@ import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { generateUniqueId, mergeDeep } from '../../utils/utils';
 import ExperienceModel from '../../models/ExperienceModel';
+import { EXPERIENCE_MODEL_ID_PREFIX } from '../../constants';
 
 const router = Router();
 
@@ -39,7 +40,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let experienceModel = await ExperienceModel.create({
       ...req.body,
-      experienceModelShortId: generateUniqueId(),
+      experienceModelShortId: EXPERIENCE_MODEL_ID_PREFIX + generateUniqueId(),
       owner: req.body.userId,
     });
 

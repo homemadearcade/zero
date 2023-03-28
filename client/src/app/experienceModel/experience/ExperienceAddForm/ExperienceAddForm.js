@@ -44,7 +44,6 @@ const ExperienceAddForm = ({ addExperienceModel, onSubmit, auth: { me }, default
       }} open={isExperienceAddOpen}>
         <DialogTitle>New Experience</DialogTitle>
         <DialogContent>
-          <form>
           <Controller
             name={"metadata.title"}
             control={control}
@@ -62,7 +61,6 @@ const ExperienceAddForm = ({ addExperienceModel, onSubmit, auth: { me }, default
               }} usersSelected={value ? [value] : []} label={"User ( experience owner )"} />
             )}
           />
-          </form>
         </DialogContent>
         <DialogActions>
           <Button type="submit" onClick={handleSubmit(submit)}>Add Experience</Button>

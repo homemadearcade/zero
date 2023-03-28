@@ -7,7 +7,7 @@ import { GAME_ROOM_ACTIVITY } from '../../../../constants';
 import Typography from '../../../../ui/Typography/Typography';
 import ActivityGameRoomForm from '../ActivityGameRoomForm/ActivityGameRoomForm';
 
-const ActivityForm = ({ control, register, isEdit }) => {
+const ActivityForm = ({ control, register, setValue, trigger, isEdit }) => {
   const activityCategory = useWatch({
     control,
     name: "activityCategory",
@@ -40,7 +40,7 @@ const ActivityForm = ({ control, register, isEdit }) => {
     <br/>
     {activityCategory === GAME_ROOM_ACTIVITY && <>
       <Typography variant="h6">Game Room</Typography>
-      <ActivityGameRoomForm isEdit={isEdit} control={control} register={register}/>
+      <ActivityGameRoomForm trigger={trigger} setValue={setValue} isEdit={isEdit} control={control} register={register}/>
     </>}
   </>
 };

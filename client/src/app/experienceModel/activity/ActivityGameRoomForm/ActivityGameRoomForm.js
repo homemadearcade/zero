@@ -9,11 +9,12 @@ import SelectInstructions from '../../../../ui/connected/SelectInstructions/Sele
 import { INSTRUCTION_GAME_ROOM } from '../../../../constants';
 import { RoleChip } from '../../role/RoleChip/RoleChip';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
+import GameAddForm from '../../../gameModel/GameAddForm/GameAddForm';
 
-const ActivityGameRoomForm = ({ isEdit, register, control, auth: { me }, experienceModel: { experienceModel }}) => {
-  const createNewGame = useWatch({
+const ActivityGameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me }, experienceModel: { experienceModel }}) => {
+  const copyGame = useWatch({
     control,
-    name: "gameRoom.createNewGame",
+    name: "gameRoom.copyGame",
   });
 
   const gameId = useWatch({
@@ -61,7 +62,7 @@ const ActivityGameRoomForm = ({ isEdit, register, control, auth: { me }, experie
   }
 
   function renderGameSelect() {
-    if(!createNewGame && !isEdit) return <Controller
+    if(!isEdit) return <Controller
       {...register("gameRoom.gameId", {
         required: true,
         // shouldUnregister: true,
@@ -71,35 +72,56 @@ const ActivityGameRoomForm = ({ isEdit, register, control, auth: { me }, experie
       render={({ field: { onChange, value } }) => (
         <SelectArcadeGame disabled={isEdit} label="My Games" userId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
           if(games[0]) {
-            onChange(games[games.length - 1])
+            const game = games[games.length - 1]
+            onChange(game.id)
+            setValue("gameRoom.gameMetadata", game.metadata)
+            trigger("gameRoom.gameId")
           }
         }}/>
       )}
     />
   }
 
-  return <>
-    <Controller
-      {...register("gameRoom.createNewGame", {
+  function renderCopyGame() {
+    if(isEdit) {
+      if(copyGame) return <div>Makes a new copy of the game for each experience session</div>
+      return
+    }
+    return <Controller
+      {...register("gameRoom.copyGame", {
         // shouldUnregister: true,
       })}
-      name={"gameRoom.createNewGame"}
+      name={"gameRoom.copyGame"}
       control={control}
       render={({ field: { onChange, value } }) => (
         <Switch
           disabled={isEdit}
-          labels={['Choose Existing Game', 'Create New Game Each Time']}
+          labels={['', 'Make a new copy of the game for each experience session']}
           size="small"
           checked={value}
           onChange={(e) => {
+            if(e.target.checked) {
+              setValue("gameRoom.isAutosaveDisabled", false)
+            } else {
+              setValue("gameRoom.isAutosaveDisabled", true)
+            }
             onChange(e.target.checked)
           }}
         />
       )}
     />
+  }
+
+  return <>
     {renderGameSelect()}
-    {gameId && !createNewGame && <GameCardLoad gameId={gameId} />}
-    <Controller
+    {!isEdit && <GameAddForm onSubmit={(game) => {
+      setValue("gameRoom.gameId", game.id)
+      setValue("gameRoom.gameMetadata", game.metadata)
+      trigger("gameRoom.gameId")
+    }} defaultValues={{userId: me.id}}></GameAddForm>}
+    {gameId && <GameCardLoad gameId={gameId} />}
+    {renderCopyGame()}
+    {isEdit && <Controller
       {...register("gameRoom.isAutosaveDisabled", {
         // shouldUnregister: true,
       })}
@@ -107,15 +129,15 @@ const ActivityGameRoomForm = ({ isEdit, register, control, auth: { me }, experie
       control={control}
       render={({ field: { onChange, value } }) => (
         <Switch
-          labels={['Do not save', 'Autosave']}
+          labels={['', `Permanently save changes to the ${copyGame ?  'Game Copy' : 'Game'} from the experience session`]}
           size="small"
           checked={!value}
           onChange={(e) => {
-            onChange(e.target.checked)
+            onChange(!e.target.checked)
           }}
         />
       )}
-    />
+    />}
    {isEdit && renderRoleSelect()}
   </>
 };

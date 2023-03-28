@@ -3,6 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../utils/utils';
 import CanvasImage from '../../models/CanvasImage';
 import User from '../../models/User';
+import { generateUniqueId } from '../../utils/utils';
 
 const router = Router();
 

@@ -50,7 +50,6 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       }} open={isAddGameFormOpen}>
         <DialogTitle>New Game</DialogTitle>
         <DialogContent>
-          <form>
           <Controller
             name={"metadata.title"}
             control={control}
@@ -68,7 +67,6 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
               }} usersSelected={value ? [value] : []} label={"User ( game owner )"} />
             )}
           />
-          </form>
         </DialogContent>
         <DialogActions>
           <Button type="submit" onClick={handleSubmit(submit)}>Add Game</Button>

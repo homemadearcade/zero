@@ -3,7 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 import ArcadeGame, { validateArcadeGame } from '../../models/ArcadeGame';
 import { mergeDeep } from '../../utils/utils';
-import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, ARCADE_EXPERIENCE_MODEL_ID } from '../../constants';
+import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, ARCADE_EXPERIENCE_MODEL_ID, GAME_MODEL_ID_PREFIX } from '../../constants';
 import User from '../../models/User';
 import { generateUniqueId } from '../../utils/utils';
 
@@ -99,7 +99,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       textures: req.body.textures,
       nodeSize: req.body.nodeSize, 
       owner: req.body.userId,
-      gameShortId: generateUniqueId()
+      gameModelShortId: GAME_MODEL_ID_PREFIX + generateUniqueId()
     });
 
     game = await game.populate('owner').execPopulate();

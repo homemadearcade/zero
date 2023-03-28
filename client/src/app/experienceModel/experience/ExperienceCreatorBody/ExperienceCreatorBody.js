@@ -13,18 +13,21 @@ import { RoleChip } from '../../role/RoleChip/RoleChip';
 import RoleEditForm from '../../role/RoleEditForm/RoleEditForm';
 import InstructionEditForm from '../../instruction/InstructionEditForm/InstructionEditForm';
 import ActivityEditForm from '../../activity/ActivityEditForm/ActivityEditForm';
+import Loader from '../../../../ui/Loader/Loader';
 
 const ExperienceCreatorBody = ({
   experienceModel: { experienceModel },
   idEditing,
 }) => {
-  if(!idEditing) return null
+  if(!idEditing) return <Loader/>
 
   const { isActivityId, isLobbyId, isRoleId, isInstructionId } = getIdInformation(idEditing)
 
   function renderBody() {
     if(isActivityId) {
+      console.log(idEditing)
       const activity = experienceModel.activitys[idEditing]
+      if(!activity) return <Loader/>
       const activityInterfaceData = activityToInterfaceData[activity.activityCategory]
       return <div>
         <div className="ExperienceCreatorBody__title">
@@ -37,6 +40,7 @@ const ExperienceCreatorBody = ({
 
     if(isLobbyId) {
       const lobby = experienceModel.lobbys[idEditing]
+      if(!lobby) return <Loader/>
        return <div>
         <div className="ExperienceCreatorBody__title">
           <div className="ExperienceCreatorBody__title-icon"><Icon icon="faDoorOpen"/></div>
@@ -48,6 +52,7 @@ const ExperienceCreatorBody = ({
 
     if(isRoleId) {
       const role = experienceModel.roles[idEditing]
+      if(!role) return <Loader/>
        return <div>
         <div className="ExperienceCreatorBody__title">
           <RoleChip role={role}/>
@@ -58,6 +63,7 @@ const ExperienceCreatorBody = ({
 
     if(isInstructionId) {
       const instruction = experienceModel.instructions[idEditing]
+      if(!instruction) return <Loader/>
       const instructionInterfaceData = instructionToInterfaceData[instruction.instructionCategory]
       return <div>
         <div className="ExperienceCreatorBody__title">

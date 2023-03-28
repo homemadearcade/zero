@@ -17,6 +17,11 @@ const experienceModel = new Schema(
       required: true,
       default: {}
     },
+    games: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     lobbys: {
       type: Object,
       required: true,
@@ -37,6 +42,7 @@ const experienceModel = new Schema(
       immuteable: true,
       type: String,
       unique: true,
+      index: true,
     },
     isRemoved: Boolean,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

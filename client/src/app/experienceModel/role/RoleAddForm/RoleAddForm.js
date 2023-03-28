@@ -4,20 +4,18 @@ import { connect } from 'react-redux';
 import Button from '../../../../ui/Button/Button';
 import Icon from '../../../../ui/Icon/Icon';
 import Dialog from '../../../../ui/Dialog/Dialog';
-import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
+import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
 import { ROLE_ID_PREFIX } from '../../../../constants';
-import FormLabel from '../../../../ui/FormLabel/FormLabel';
 import RoleForm from '../RoleForm/RoleForm';
 
 const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isRoleAddOpen, setIsRoleAddOpen] = useState(false)
 
-  const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
+  const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
       name: '',
-      roleId: ROLE_ID_PREFIX + generateUniqueId(),
       ...defaultValues
     },
   });
@@ -32,15 +30,14 @@ const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="RoleAddForm">
       <Button onClick={() => {
         setIsRoleAddOpen(true)
+        setValue('roleId', ROLE_ID_PREFIX + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} type="submit" size="wide" className="btn">New Role</Button>
       <Dialog onClose={() => {
         setIsRoleAddOpen(false)
       }} open={isRoleAddOpen}>
         <DialogTitle>New Role</DialogTitle>
         <DialogContent>
-          <form>
           <RoleForm control={control} register={register} />
-          </form>
         </DialogContent>
         <DialogActions>
           <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Role</Button>

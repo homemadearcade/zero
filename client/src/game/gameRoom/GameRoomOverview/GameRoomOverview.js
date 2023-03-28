@@ -26,7 +26,7 @@ const GameRoomOverview = ({
       <SelectArcadeGame label="Select from games owned by host" userId={gameRoom.hostUserId} onSelect={(games) => {
         if(games[0]) {
           editGameRoom(gameRoom.id, {
-            gameId: games[games.length - 1]
+            gameId: games[games.length - 1].id
           })
         }
       }}/>

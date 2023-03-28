@@ -37,7 +37,6 @@ const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticket
   return (
     <div className="AddEventDateForm">
       <Typography variant="h2" component="h2">Add a date</Typography>
-      <form>
         <div>
           <Controller
             name={"day"}
@@ -57,7 +56,6 @@ const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticket
           />
         </div>
         <Button type="submit" onClick={handleSubmit(submit)}>Add Date</Button>
-      </form>
     </div>
   );
 };

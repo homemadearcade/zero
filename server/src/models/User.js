@@ -58,6 +58,12 @@ const userSchema = new Schema(
       default: {}
     },
     isRemoved: Boolean,
+    userShortId: {
+      immuteable: true,
+      type: String,
+      unique: true,
+      index: true,
+    },
     // fb
     // facebookId: {
     //   type: String,
@@ -87,6 +93,7 @@ userSchema.methods.toJSON = function () {
     username: this.username,
     // avatar: avatar,
     // name: this.name,
+    userShortId: this.userShortId,
     speedTests: this.speedTests ? this.speedTests : [],
     role: this.role,
     createdAt: this.createdAt,

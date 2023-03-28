@@ -30,6 +30,12 @@ const dallESession = new Schema(
     currentPromptId: {
       type: String,
     },
+    dallESessionShortId: {
+      immuteable: true,
+      type: String,
+      unique: true,
+      index: true,
+    },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true },

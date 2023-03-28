@@ -4,7 +4,7 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-import { ON_LOBBY_UPDATE, ON_LOBBY_UNDO, ADMIN_ROOM_PREFIX, LOBBYS_STORE } from '../../constants';
+import { ON_LOBBY_UPDATE, ON_LOBBY_UNDO, ADMIN_ROOM_PREFIX, LOBBYS_STORE, LOBBY_INSTANCE_ID_PREFIX } from '../../constants';
 import Lobby from '../../models/Lobby';
 import { generateUniqueId } from '../../utils/utils';
 
@@ -113,7 +113,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       editingGameId: req.body.editingGameId,
       gameRoomId: req.body.gameRoomId,
       experienceInstanceId: req.body.experienceInstanceId,
-      lobbyShortId: generateUniqueId()
+      lobbyInstanceShortId: LOBBY_INSTANCE_ID_PREFIX + generateUniqueId()
     });
 
     lobby = await lobby.populate('invitedUsers').execPopulate();

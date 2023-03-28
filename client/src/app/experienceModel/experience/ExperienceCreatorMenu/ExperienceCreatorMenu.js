@@ -21,7 +21,11 @@ const ExperienceCreatorMenu = ({
   editExperienceModel,
   onNodeSelect
 }) => {
-  const lobbyNodes = Object.keys(experienceModel.lobbys).map((lobbyId, index) => {
+  const notRemovedLobbies = Object.keys(experienceModel.lobbys).filter((lobbyId) => {
+    const lobby = experienceModel.lobbys[lobbyId]
+    return !lobby.isRemoved || lobby.isNotRemoveable
+  })
+  const lobbyNodes = notRemovedLobbies.map((lobbyId, index) => {
     const lobby = experienceModel.lobbys[lobbyId]
     if(lobby.isRemoved && !lobby.isNotRemoveable) return null
     const activityNodes = Object.keys(lobby.activitys).map((activityId) => {
@@ -38,12 +42,13 @@ const ExperienceCreatorMenu = ({
       id: lobbyId,
       label: lobby.name,
       icon: <Icon icon='faDoorOpen'></Icon>,
-      button: index === (Object.keys(experienceModel.lobbys).length-1) && <LobbyAddForm key={'lobbyAdd'}  onSubmit={(lobby) => {
-        editExperienceModel(experienceModel.id, {
+      button: index === (notRemovedLobbies.length-1) && <LobbyAddForm key={'lobbyAdd'}  onSubmit={(lobby) => {
+          editExperienceModel(experienceModel.id, {
             lobbys: {
               [lobby.lobbyId]: lobby
             }
           })
+          onNodeSelect(lobby.lobbyId)
         }}
       />,
       children: activityNodes,
@@ -82,6 +87,7 @@ const ExperienceCreatorMenu = ({
           activityUpdate.gameRoom.hostRoleId = defaultParticipantRoleId
         }
         editExperienceModel(experienceModel.id, experienceModelUpdate)
+        onNodeSelect(activity.activityId)
       }}/>
     }
   }).filter(isTruthy)
@@ -107,6 +113,7 @@ const ExperienceCreatorMenu = ({
           [role.roleId]: role
         }
       })
+      onNodeSelect(role.roleId)
     }}/>
   }
 
@@ -131,14 +138,36 @@ const ExperienceCreatorMenu = ({
           [instruction.instructionId]: instruction
         }
       })
+      onNodeSelect(instruction.instructionId)
     }}/>
   }
 
-  const nodes = [...lobbyNodes, roleNode, instructionNode]
+
+  const gameChildren = Object.keys(experienceModel.games).map((gameId) => {
+    const game = experienceModel.games[gameId]
+    console.log(gameId)
+    if(game.isRemoved && !game.isNotRemoveable) return null
+    return {
+      id: gameId,
+      label: experienceModel.games[gameId].metadata.title,
+    }
+  }).filter(isTruthy)
+
+  const gameNode = {
+    id: 'games',
+    label: 'Games',
+    icon: <Icon icon='faGamepad'></Icon>,
+    children: gameChildren,
+  }
+
+  const nodes = [instructionNode, gameNode, roleNode, ...lobbyNodes]
 
   return (
     <div className="ExperienceCreatorMenu">
-      <IconTree nodes={nodes} onNodeSelect={onNodeSelect}>
+      <IconTree nodes={nodes} onNodeSelect={(e, nodeId) => {
+        console.log(nodeId)
+        onNodeSelect(nodeId)
+      }}>
       </IconTree>
     </div>
   );

@@ -13,10 +13,9 @@ import LobbyForm from '../LobbyForm/LobbyForm';
 const ExperienceLobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isLobbyAddOpen, setIsLobbyAddOpen] = useState(false)
 
-  const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
+  const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
       name: '',
-      lobbyId: LOBBY_ID_PREFIX + generateUniqueId(),
       ...defaultValues
     },
   });
@@ -31,15 +30,14 @@ const ExperienceLobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="ExperienceLobbyAddForm">
       <Button onClick={() => {
         setIsLobbyAddOpen(true)
+        setValue('lobbyId', LOBBY_ID_PREFIX + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} type="submit" size="wide" className="btn">New Lobby</Button>
       <Dialog onClose={() => {
         setIsLobbyAddOpen(false)
       }} open={isLobbyAddOpen}>
         <DialogTitle>New Lobby</DialogTitle>
         <DialogContent>
-          <form>
-            <LobbyForm control={control} register={register} />
-          </form>
+          <LobbyForm control={control} register={register} />
         </DialogContent>
         <DialogActions>
           <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Lobby</Button>

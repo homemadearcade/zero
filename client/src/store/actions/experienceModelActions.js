@@ -21,13 +21,14 @@ import {
 } from '../types';
 import { mergeDeep } from '../../utils';
 import _ from 'lodash';
-import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../constants';
+import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, GAME_ROOM_ACTIVITY, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../constants';
 import { defaultExperienceModel } from '../../constants';
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
+  
     Object.keys(experienceModel.lobbys).forEach((id) => {
-      const presetLobby = _.cloneDeep(experienceModel.lobbys[id])
+      const presetLobby =  mergeDeep(_.cloneDeep(defaultLobby), _.cloneDeep(experienceModel.lobbys[id]))
       const waitingRoomId = ACTIVITY_ID_PREFIX+'_waiting'+id
       presetLobby.activitys[waitingRoomId] = {
         activityId: waitingRoomId,
@@ -38,7 +39,8 @@ function addDefaultsToExperienceModel(experienceModel) {
         activityId: waitingRoomId,
         activityCategory: WAITING_ACTIVITY,
         name: `${presetLobby.name} Waiting Room`,
-        isNotRemoveable: true
+        isNotRemoveable: true,
+        isRemoved: presetLobby.isRemoved
       }
       if(!experienceModel.activitys[waitingRoomId]) experienceModel.activitys[waitingRoomId] = presetWaitingRoom
       else experienceModel.activitys[waitingRoomId] = mergeDeep(presetWaitingRoom, experienceModel.activitys[waitingRoomId])
@@ -51,7 +53,8 @@ function addDefaultsToExperienceModel(experienceModel) {
         activityId: videoRoomId,
         activityCategory: VIDEO_ACTIVITY,
         name: `${presetLobby.name} Video Room`,
-        isNotRemoveable: true
+        isNotRemoveable: true,
+        isRemoved: presetLobby.isRemoved
       }
       if(!experienceModel.activitys[videoRoomId]) experienceModel.activitys[videoRoomId] = presetVideoRoom
       else experienceModel.activitys[videoRoomId] = mergeDeep(presetVideoRoom, experienceModel.activitys[videoRoomId])
@@ -64,7 +67,8 @@ function addDefaultsToExperienceModel(experienceModel) {
         activityId: creditsRoomId,
         activityCategory: CREDITS_ACTIVITY,
         name: `${presetLobby.name} Credits`,
-        isNotRemoveable: true
+        isNotRemoveable: true,
+        isRemoved: presetLobby.isRemoved
       }
       if(!experienceModel.activitys[creditsRoomId]) experienceModel.activitys[creditsRoomId] = presetCredits
       else experienceModel.activitys[creditsRoomId] = mergeDeep(presetCredits, experienceModel.activitys[creditsRoomId])
@@ -73,9 +77,10 @@ function addDefaultsToExperienceModel(experienceModel) {
       const presetLobbyInstruction = {
         instructionId: lobbyInstructionsId,
         instructionCategory: INSTRUCTION_LOBBY,
-        name: `${presetLobby.name} Instructions`,
+        name: `${presetLobby.name} Guide Instructions`,
         description: 'Instructions for the lobby',
-        isNotRemoveable: true
+        // isNotRemoveable: true,
+        isRemoved: presetLobby.isRemoved
       }
       if(!experienceModel.instructions[lobbyInstructionsId]) experienceModel.instructions[lobbyInstructionsId] = presetLobbyInstruction
       else experienceModel.instructions[lobbyInstructionsId] = mergeDeep(presetLobbyInstruction, experienceModel.instructions[lobbyInstructionsId])
@@ -84,7 +89,7 @@ function addDefaultsToExperienceModel(experienceModel) {
         [defaultGuideRoleId]: lobbyInstructionsId
       }
 
-      experienceModel.lobbys[id] = mergeDeep(_.cloneDeep(defaultLobby), presetLobby, experienceModel.lobbys[id])
+      experienceModel.lobbys[id] = mergeDeep(presetLobby, experienceModel.lobbys[id])
     })
   }
 
@@ -97,6 +102,13 @@ function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.activitys) {
     Object.keys(experienceModel.activitys).forEach((id) => {
       experienceModel.activitys[id] = mergeDeep(_.cloneDeep(defaultActivity), experienceModel.activitys[id])
+      const activity = experienceModel.activitys[id]
+      if(activity.isRemoved && !activity.isNotRemoveable) return
+      if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
+        experienceModel.games[activity.gameRoom.gameId] = {
+          metadata: activity.gameRoom.gameMetadata,
+        }
+      }
     })
   }
 

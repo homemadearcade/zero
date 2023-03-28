@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
+import { generateUniqueId } from '../../utils/utils';
 
 import User from '../../models/User';
 
-import { ON_GAME_ROOM_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE } from '../../constants';
+import { ON_GAME_ROOM_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE, GAME_ROOM_ID_PREFIX } from '../../constants';
 import GameRoom from '../../models/GameRoom';
 
 const router = Router();
@@ -91,6 +92,7 @@ router.post('/', requireJwtAuth, requireGameRooms, async (req, res) => {
       isAutosaveDisabled: req.body.isAutosaveDisabled,
       isEdit: req.body.isEdit,
       isNetworked: req.body.isNetworked,
+      gameRoomInstanceShortId: GAME_ROOM_ID_PREFIX + generateUniqueId(),
     });
 
     gameRoom = await gameRoom.populate('invitedUsers').execPopulate();

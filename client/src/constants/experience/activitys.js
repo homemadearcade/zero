@@ -21,7 +21,7 @@ export const activityToInterfaceData = {
   },
   [WAITING_ACTIVITY]: {
     displayName: 'Waiting Room',
-    icon: 'faHourglassHalf',
+    icon: 'faHourglassStart',
     initialView: ACTIVITY_VIEW_TEXT,
     viewOptions:[],
   },
@@ -34,7 +34,7 @@ export const activityToInterfaceData = {
   },
   [CREDITS_ACTIVITY]: {
     displayName: 'Credits',
-    icon: 'faSignature',
+    icon: 'faHourglassEnd',
     initialView: ACTIVITY_VIEW_BROWSE,
     viewOptions: [ACTIVITY_VIEW_BROWSE]
   },
@@ -53,6 +53,7 @@ export const activityToInterfaceData = {
   //   viewOptions: [ACTIVITY_VIEW_DRAWING]
   // },
 }
+
 export const defaultActivity = {
   activityCategory: null,
   activityId: null,
@@ -60,7 +61,7 @@ export const defaultActivity = {
   instructions: {},
   name: null,
   gameRoom: {
-    createNewGame: false,
+    copyGame: false,
     gameId: null,
     isAutosaveDisabled: false,
     hostRoleId: null,
