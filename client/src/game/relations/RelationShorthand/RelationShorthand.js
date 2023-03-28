@@ -5,7 +5,7 @@ import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { effectBehaviorInterfaces, SINGLE_RELATION_TAG_EFFECT, TWO_RELATION_TAG_EFFECT } from "../../constants"
 import EffectShorthand from "../../effect/EffectShorthand/EffectShorthand"
 import EventShorthand from "../../event/EventShorthand/EventShorthand"
-import Sprite from "../../images/Texture/Texture"
+import Sprite from "../../textures/Texture/Texture"
 
 function renderRelationTag(relationTag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>

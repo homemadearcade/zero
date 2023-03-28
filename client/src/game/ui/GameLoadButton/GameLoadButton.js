@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import Button from '../../../ui/Button/Button';
-import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
+import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Dialog from '../../../ui/Dialog/Dialog';
 
 const GameLoadButton = ({
@@ -21,13 +21,13 @@ const GameLoadButton = ({
     }}>
       <DialogTitle>Load Game</DialogTitle>
       <DialogContent sx={{width: '200px', height: '200px'}}>
-        <SelectGame userId={userId} onSelect={(games) => {
+        <SelectArcadeGame userId={userId} onSelect={(games) => {
           setIsLoadGameModelOpen(false)
           editGameRoom(gameRoom.id, {
             gameId: games[games.length-1]
           })
         }}>
-        </SelectGame>
+        </SelectArcadeGame>
       </DialogContent>
     </Dialog>}
     <Button onClick={() => {

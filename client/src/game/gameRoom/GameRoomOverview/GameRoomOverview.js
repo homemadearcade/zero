@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './GameRoomOverview.scss';
 import Typography from '../../../ui/Typography/Typography';
 import GameStatus from '../GameStatus/GameStatus';
-import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
+import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import Divider from '../../../ui/Divider/Divider';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
@@ -23,7 +23,7 @@ const GameRoomOverview = ({
       <Typography component="div" variant="subtitle1">Game:</Typography>
       <GameStatus/>
       <Divider></Divider>
-      <SelectGame label="Select from games owned by host" userId={gameRoom.hostUserId} onSelect={(games) => {
+      <SelectArcadeGame label="Select from games owned by host" userId={gameRoom.hostUserId} onSelect={(games) => {
         if(games[0]) {
           editGameRoom(gameRoom.id, {
             gameId: games[games.length - 1]

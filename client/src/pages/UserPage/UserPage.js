@@ -19,13 +19,13 @@ import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
 import UnlockableInterfaceTree from '../../ui/connected/UnlockableInterfaceTree/UnlockableInterfaceTree';
 import PageHeader from '../../ui/PageHeader/PageHeader';
-import GameList from '../../app/arcadeGame/GameList/GameList';
-import GameCard from '../../app/arcadeGame/GameCard/GameCard';
+import GameList from '../../app/gameModel/GameList/GameList';
+import GameCard from '../../app/gameModel/GameCard/GameCard';
 import { Divider } from '@mui/material';
 import SpeedTestTable from '../../ui/SpeedTestTable/SpeedTestTable';
 import Icon from '../../ui/Icon/Icon';
 import UserSpeedTestList from '../../app/user/UserSpeedTestList/UserSpeedTestList';
-import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../constants';
+import { ADMIN_ROLE, ARCADE_EXPERIENCE_MODEL_ID } from '../../constants';
 
 const UserPage = ({
   getUserByUsername,
@@ -259,7 +259,7 @@ const UserPage = ({
       {user.role === ADMIN_ROLE && <>
         <Divider sx={{my: '2rem'}}></Divider>
         <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
-        {user.id && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_ID} userId={user.id}></UnlockableInterfaceTree>}
+        {user.id && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_MODEL_ID} userId={user.id}></UnlockableInterfaceTree>}
       </>}
 
       <Divider sx={{my: '2rem'}}></Divider>

@@ -7,7 +7,7 @@ import { inIframe } from '../../../utils/webPageUtils';
 import Drawer from '../../../ui/Drawer/Drawer';
 import Icon from '../../../ui/Icon/Icon';
 import Link from '../../../ui/Link/Link';
-import { GAME_EDITOR_ACTIVITY } from '../../../constants';
+import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import CobrowsingIndicator from '../../../experience/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
 import GameRoomPowerIndicator from '../GameRoomPowerIndicator/GameRoomPowerIndicator';
 import Typography from '../../../ui/Typography/Typography';
@@ -40,7 +40,7 @@ const GameRoomDrawer = ({
         <CobrowsingIndicator/>
         <GameRoomPowerIndicator/>
         <ActivityOverlayToggle/>
-        {currentActivity === GAME_EDITOR_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
+        {currentActivity === GAME_ROOM_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Autosave Disabled</Typography>
           <Switch

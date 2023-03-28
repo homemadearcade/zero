@@ -56,7 +56,7 @@ function IconTreeNode(props) {
     <StyledTreeItemRoot
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
-          <Box color="inherit" sx={{ mr: 1 }}>{labelIcon}</Box>
+          <Box color="inherit" sx={labelIcon ? { mr: 1, minWidth: '1.5em', textAlign: 'center' } : {}}>{labelIcon}</Box>
           <Typography variant="body2" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
             {labelText}
           </Typography>
@@ -81,42 +81,48 @@ IconTreeNode.propTypes = {
   labelText: PropTypes.string.isRequired,
 };
 
-export default function IconTree({nodes}) {
+export default function IconTree({nodes, onNodeSelect}) {
   return (
     <TreeView
+      key="icon-tree"
       aria-label="icon tree"
+      onNodeSelect={onNodeSelect}
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
     >
-      {nodes.map(({icon, id, label, children, onClick}) => {
-        return <IconTreeNode key={id} nodeId={id} onClick={onClick} labelText={label} labelIcon={icon}>
-          {children?.map(({icon, id, label, onClick, children}) => {
-            return <IconTreeNode
-             key={id}
-              nodeId={id}
-              onClick={onClick}
-              labelText={label}
-              labelIcon={icon}
-              color="#1a73e8"
-              bgColor="#e8f0fe"
-            >
-              {children?.map(({icon, label, onClick, id}) => {
-                return <IconTreeNode
-                 key={id}
-                  nodeId={id}
-                  onClick={onClick}
-                  labelText={label}
-                  labelIcon={icon}
-                  color="#1a73e8"
-                  bgColor="#e8f0fe"
-                >
-                
-                </IconTreeNode>}
-              )}
-            </IconTreeNode>
-        })}</IconTreeNode>
+      {nodes.map(({icon, id, label, children, childrenButton, button, onClick}) => {
+    // color="#1a73e8"
+    //             bgColor="#e8f0fe"
+        return <>
+          <IconTreeNode key={id} nodeId={id} onClick={onClick} labelText={label} labelIcon={icon}>
+            {children?.map(({icon, id, label, onClick, children}) => {
+              console.log(id)
+              return <IconTreeNode
+                key={id}
+                nodeId={id}
+                onClick={onClick}
+                labelText={label}
+                labelIcon={icon}
+            
+              >
+                {children?.map(({icon, label, onClick, id}) => {
+                  return <IconTreeNode
+                    key={id}
+                    nodeId={id}
+                    onClick={onClick}
+                    labelText={label}
+                    labelIcon={icon}
+                  >
+                  </IconTreeNode>}
+                )}
+              </IconTreeNode>
+          })}
+          {childrenButton}
+          </IconTreeNode>
+        {button}
+      </>
       })}
     </TreeView>
   );

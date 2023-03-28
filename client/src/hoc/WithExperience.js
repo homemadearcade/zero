@@ -3,20 +3,20 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
-import { getExperienceById } from '../store/actions/experienceActions';
+import { getExperienceModelById } from '../store/actions/experienceModelActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 class WithExperience extends Component {
   componentWillMount() {
-    const { getExperienceById, match } = this.props
+    const { getExperienceModelById, match } = this.props
 
     const matchId = match.params.experienceId;
-    getExperienceById(matchId)
+    getExperienceModelById(matchId)
   }
 
   render() {
-    const { experience: { isLoading, experience }, children } = this.props;
-    if(isLoading || !experience) {
+    const { experienceModel: { isLoading, experienceModel }, children } = this.props;
+    if(isLoading || !experienceModel) {
       return <Loader text="Loading Experience..."/>
     }
 
@@ -25,11 +25,11 @@ class WithExperience extends Component {
 };
 
 const mapStateToProps = (state) => ({
-  experience: state.experience,
+  experienceModel: state.experienceModel,
   // cobrowsing: state.cobrowsing
 });
 
 export default compose(
   withRouter, 
-  connect(mapStateToProps, { getExperienceById })
+  connect(mapStateToProps, { getExperienceModelById })
 )(WithExperience)

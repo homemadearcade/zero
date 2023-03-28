@@ -1,0 +1,10 @@
+.GameTextures {
+  display: flex;
+  flex-wrap: wrap;
+
+  .Texture {
+    margin: .2em;
+    width: 40px;
+    height: 40px;
+  }
+}

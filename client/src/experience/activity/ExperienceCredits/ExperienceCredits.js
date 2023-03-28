@@ -8,7 +8,7 @@ import Typography from '../../../ui/Typography/Typography';
 import './ExperienceCredits.scss'
 import ConstellationHero from '../../../marketing/homemadeArcade/ConstellationHero/ConstellationHero';
 import Link from '../../../ui/Link/Link';
-import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
+import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
 const ExperienceCredits = ({

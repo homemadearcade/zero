@@ -13,8 +13,8 @@ import {
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
-  OPEN_MY_IMAGES_MODAL,
-  CLOSE_MY_IMAGES_MODAL,
+  OPEN_GAME_TEXTURES_MODAL,
+  CLOSE_GAME_TEXTURES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   OPEN_JSON_VIEWER,
   CLOSE_JSON_VIEWER,
@@ -133,15 +133,15 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isSelectAggregateColorOpen: false
       }
-    case OPEN_MY_IMAGES_MODAL: 
+    case OPEN_GAME_TEXTURES_MODAL: 
       return {
         ...state,
-        isMyImagesModalOpen: true
+        isGameTexturesModalOpen: true
       }
-    case CLOSE_MY_IMAGES_MODAL:
+    case CLOSE_GAME_TEXTURES_MODAL:
       return {
         ...state,
-        isMyImagesModalOpen: false
+        isGameTexturesModalOpen: false
       }
     case OPEN_GAME_METADATA_MODAL: 
       return {

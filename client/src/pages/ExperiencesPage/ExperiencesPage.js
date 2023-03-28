@@ -9,12 +9,12 @@ import PageHeader from '../../ui/PageHeader/PageHeader';
 import requireAdmin from '../../hoc/requireAdmin';
 import requireAuth from '../../hoc/requireAuth';
 import Button from '../../ui/Button/Button';
-import ExperienceList from '../../app/experienceCreator/ExperienceList/ExperienceList';
-import ExperienceCard from '../../app/experienceCreator/ExperienceCard/ExperienceCard';
-import { getExperiences } from '../../store/actions/experienceActions';
-import ExperienceAddForm from '../../app/experienceCreator/ExperienceAddForm/ExperienceAddForm';
+import ExperienceList from '../../app/experienceModel/ExperienceList/ExperienceList';
+import ExperienceCard from '../../app/experienceModel/ExperienceCard/ExperienceCard';
+import { getExperienceModels } from '../../store/actions/experienceModelActions';
+import ExperienceAddForm from '../../app/experienceModel/ExperienceAddForm/ExperienceAddForm';
 
-const ExperiencesPage = ({getExperiences}) => {
+const ExperiencesPage = ({getExperienceModels}) => {
   const [showRemovedExperiences, setShowRemovedExperiences] = useState()
   return (
     <Layout>
@@ -23,14 +23,14 @@ const ExperiencesPage = ({getExperiences}) => {
           title="Experiences page"
           description="This is the Experiences page. Here are listed all of the experiences."
         ></PageHeader>
-        <ExperienceAddForm onSubmit={getExperiences}></ExperienceAddForm>
+        <ExperienceAddForm onSubmit={getExperienceModels}></ExperienceAddForm>
         {!showRemovedExperiences &&  <Button onClick={() => {
           setShowRemovedExperiences(true)
         }}>Show Removed Experiences</Button>}
         <div className="ExperiencesPage__list">
-          <ExperienceList>{(experience) => {
-            if(experience.isRemoved && !showRemovedExperiences) return
-            return <ExperienceCard width={300} experience={experience} canPlay canEdit canPublish canRemove></ExperienceCard>
+          <ExperienceList>{(experienceModel) => {
+            if(experienceModel.isRemoved && !showRemovedExperiences) return
+            return <ExperienceCard width={300} experienceModel={experienceModel} canPlay canEdit canPublish canRemove></ExperienceCard>
           }}</ExperienceList>
         </div>
       </div>
@@ -45,4 +45,4 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   requireAdmin,
-  connect(mapStateToProps, { getExperiences }))(ExperiencesPage);
+  connect(mapStateToProps, { getExperienceModels }))(ExperiencesPage);

@@ -7,7 +7,7 @@ import Icon from '../../../ui/Icon/Icon';
 import './CobrowsingIndicator.scss'
 import Switch from '../../../ui/Switch/Switch';
 import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
-import { GAME_EDITOR_ACTIVITY } from '../../../constants';
+import { GAME_ROOM_ACTIVITY } from '../../../constants';
 
 const CobrowsingIndicator = ({
   cobrowsing: { isSubscribedCobrowsing, isActivelyCobrowsing },

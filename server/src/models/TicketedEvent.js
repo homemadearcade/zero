@@ -21,7 +21,7 @@ const ticketedEventSchema = new Schema(
       type: String,
       required: true, 
     },
-    experience: { type: mongoose.Schema.Types.ObjectId, ref: 'Experience' },
+    experienceModel: { type: mongoose.Schema.Types.ObjectId, ref: 'ExperienceModel' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     tickets: [{
       id: {
@@ -67,7 +67,7 @@ ticketedEventSchema.methods.toJSON = function () {
     location: this.location,
     description: this.description,
     user: this.user?.toJSON(),
-    experience: this.experience,
+    experienceModel: this.experienceModel,
     tickets: this.tickets,
     dates: this.dates,
   };

@@ -9,7 +9,7 @@ import { clearGameFormEditor } from '../../../store/actions/gameFormEditorAction
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
-import SnapshotTaker from '../../images/SnapshotTaker/SnapshotTaker';
+import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
 import SelectStageColorModal from '../../stages/SelectStageColorModal/SelectStageColorModal';
 import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, START_STATE } from '../../constants';
 import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModal';

@@ -6,12 +6,13 @@ import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/co
 import { noCodrawingStrokeUpdateDelta} from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
 import { CODRAWING_CONNECTION_LOST } from "../../constants";
-import { addCanvasImage, editCanvasImage, getCanvasImageByTextureId } from "../../store/actions/canvasImageActions";
+import { editCanvasImage, getCanvasImageByTextureId } from "../../store/actions/canvasImageActions";
 
 export class CodrawingCanvas extends Canvas {
   constructor(scene, props){
     super(scene, props)
 
+    
     // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
     this.isCodrawingHost = props.isCodrawingHost
     this.scene = scene

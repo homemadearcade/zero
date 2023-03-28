@@ -28,8 +28,6 @@ const canvasImage = new Schema(
       default: []
     },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    arcadeGame: { type: mongoose.Schema.Types.ObjectId, ref: 'ArcadeGame' },
-    experience: { type: mongoose.Schema.Types.ObjectId, ref: 'Experience' },
   },
   { timestamps: true },
 );
@@ -42,8 +40,6 @@ canvasImage.methods.toJSON = function () {
     strokeHistory: this.strokeHistory,
     visualTags: this.visualTags,
     owner: this.owner?.toJSON(),
-    arcadeGame: this.arcadeGame?.toJSON(),
-    experience: this.experience?.toJSON(),
   };
 };
 

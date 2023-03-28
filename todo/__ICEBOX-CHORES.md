@@ -1,13 +1,6 @@
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-
-CHORES BACKLOG
-
-
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
 DEBUGGING
 
 --------------------------------------------------------------------------------------
@@ -67,8 +60,6 @@ comebine withGame with GameRoomContext
 TicketedEvent/TicketPurchase need to change user to owner/purchaser
 
 SHORT URLS
-  Lobby.lobbyId
-  game.gameId
-  these can be my own custom ids and use them for urls instead of the mongodb ids
+  implement short Ids into the urls and other things
 
 OPEN/CLOSE should all be TOGGLE with a value prop

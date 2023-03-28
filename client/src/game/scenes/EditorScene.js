@@ -394,7 +394,6 @@ export class EditorScene extends GameInstance {
           imageUrl,
           visualTags: [],
           userId: gameModel.owner.id,
-          arcadeGame: store.getState().gameModel.gameModel?.id
         }))
 
         await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, textureId, imageType: IMAGE_TYPE_SNAPSHOT}))

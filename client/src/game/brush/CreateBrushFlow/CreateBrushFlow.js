@@ -6,7 +6,7 @@ import './CreateBrushFlow.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
-import CreateTexture from '../../images/CreateTexture/CreateTexture';
+import CreateTexture from '../../textures/CreateTexture/CreateTexture';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';

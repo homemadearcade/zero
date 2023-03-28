@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import Typography from '../../../ui/Typography/Typography';
 import CobrowsingToolbar from '../CobrowsingToolbar/CobrowsingToolbar';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { GAME_EDITOR_VIDEO_IID } from '../../../constants/interfaceIds';
+import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const CobrowsingGame = ({ rootFontSize, lobby: { lobby: { guideId } }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
   return <GameEditor 
@@ -20,7 +20,7 @@ const CobrowsingGame = ({ rootFontSize, lobby: { lobby: { guideId } }, cobrowsin
     classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}
     leftColumn={<>
      <AgoraUserVideo
-        interfaceId={GAME_EDITOR_VIDEO_IID}
+        interfaceId={GAME_ROOM_VIDEO_IID}
         userId={guideId}
         className="AgoraVideo__guide"
         label="Guide"

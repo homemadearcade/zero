@@ -17,7 +17,7 @@ This is like, you can hop on whenever single player stuff, and its persistent, w
 
 ---
 
-MAKE YOUR OWN WORLD EXPERIENCE, kinda like homemade arcade. Whats it like to be able to make your own world that runs without you?
+MAKE YOUR OWN WORLD EXPERIENCE_MODEL, kinda like homemade arcade. Whats it like to be able to make your own world that runs without you?
 
 MAKE YOUR OWN AI that exists within the WORLD
 

@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { clearErrorState } from '../../../store/actions/errorsActions';
-import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_EDITOR_ACTIVITY, MONOLOGUE_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import CobrowsingGame from '../../cobrowsing/CobrowsingGame/CobrowsingGame';
 import Typography from '../../../ui/Typography/Typography';
 import Chatroom from '../../Chatroom/Chatroom';
@@ -57,7 +57,7 @@ const ActivityCurrent = ({
 
   return <div className="ActivityCurrent">
     <ActivityOverlay/>
-    {currentActivity !== GAME_EDITOR_ACTIVITY && <div className="ActivityCurrent__activity">{renderCurrentActivity()}</div>}
+    {currentActivity !== GAME_ROOM_ACTIVITY && <div className="ActivityCurrent__activity">{renderCurrentActivity()}</div>}
     <CobrowsingGame rootFontSize={rootFontSize} gameId={gameRoom.gameId} myTracks={myTracks} userTracks={userTracks}/>
   </div>
 };

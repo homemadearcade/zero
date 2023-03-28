@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { clearClass, selectClass } from '../../../store/actions/gameSelectorActions';
 import { getCobrowsingState, mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
-import Texture from '../../images/Texture/Texture';
+import Texture from '../../textures/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
 import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';

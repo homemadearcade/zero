@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './HoverPreview.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
-import Sprite from '../../images/Texture/Texture';
+import Sprite from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST} from '../../constants';
 import Icon from '../../../ui/Icon/Icon';

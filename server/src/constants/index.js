@@ -1,4 +1,4 @@
-export const ARCADE_EXPERIENCE_ID = 'homemadeArcade'
+export const ARCADE_EXPERIENCE_MODEL_ID = 'homemadeArcade'
 
 export const ON_SOCKET_CONNECT = 'connect';
 export const ON_SOCKET_DISCONNECT = 'ON_SOCKET_DISCONNECT';

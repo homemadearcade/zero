@@ -13,9 +13,9 @@ import { closeInterfaceTree, openInterfaceTree } from '../../../store/actions/us
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { setCutAudio, setCutVideo } from '../../../store/actions/videoActions';
-import { GAME_EDITOR_ACTIVITY } from '../../../constants';
+import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { ADMIN_ROLE, ARCADE_EXPERIENCE_ID } from '../../../constants';
+import { ADMIN_ROLE, ARCADE_EXPERIENCE_MODEL_ID } from '../../../constants';
 import { LOBBY_MEMBER_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const LobbyMember = ({ 
@@ -105,7 +105,7 @@ const LobbyMember = ({
   }}>
     <div className="LobbyMember__modal">
       {renderConnectionInfo()}
-      {false && lobby.currentActivity === GAME_EDITOR_ACTIVITY && <>
+      {false && lobby.currentActivity === GAME_ROOM_ACTIVITY && <>
         <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
         <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
       </>}
@@ -113,7 +113,7 @@ const LobbyMember = ({
       {!showUnlockedUI && <Button onClick={() => {
         setShowUnlockedUI(true)
       }}>Show Unlocked UI Tree</Button>}
-      {showUnlockedUI && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_ID} userId={userId}></UnlockableInterfaceTree>}
+      {showUnlockedUI && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_MODEL_ID} userId={userId}></UnlockableInterfaceTree>}
     </div>
   </Dialog>}
   </>

@@ -7,13 +7,13 @@ import { editLobby } from '../../../store/actions/lobbyActions';
 
 import './ActivityInstructions.scss';
 import { copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
-import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
+import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../../lobby/LobbyChecklist/LobbyChecklist';
 import { unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
 import { openGameMetadataModal } from '../../../store/actions/gameSelectorActions';
-import { CREDITS_ACTIVITY, GAME_EDITOR_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
+import { CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, defaultStage, EVENT_SPAWN_CLASS_IN_CAMERA, initialStageId, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../../utils/cobrowsingUtils';
@@ -24,11 +24,11 @@ import { ON_GAME_INSTANCE_EVENT } from '../../../store/types';
 import { editGameModel } from '../../../store/actions/gameModelActions';
 import { updateLobbyUser } from '../../../store/actions/lobbyActions';
 import { editGameRoom } from '../../../store/actions/gameRoomActions';
-import GameAddForm from '../../../app/arcadeGame/GameAddForm/GameAddForm';
+import GameAddForm from '../../../app/gameModel/GameAddForm/GameAddForm';
 import Button from '../../../ui/Button/Button';
 import LobbySelectRoles from '../../lobby/LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
-import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
+import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 import Switch from '../../../ui/Switch/Switch';
 import CreateStage from '../../../game/stages/CreateStage/CreateStage';
 import { openCreateStageModal } from '../../../store/actions/gameFormEditorActions';
@@ -62,7 +62,7 @@ const PROLOGUE_2_CLASS_IDS = {
         //   title: <Typography component="h5" variant="h5">Load Demo World</Typography>,
         //   onClickNext: async () => {
         //     await editLobby(lobby.id, {
-        //       currentActivity: GAME_EDITOR_ACTIVITY,
+        //       currentActivity: GAME_ROOM_ACTIVITY,
         //     })
         //     await editGameRoom(lobby.gameRoomId, {
         //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
@@ -224,7 +224,7 @@ const ActivityInstructions = ({
     }
   }
 
-  function renderSelectGame() {
+  function renderSelectArcadeGame() {
     return <>
       <div>
        A Game is created automatically when a lobby is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
@@ -232,7 +232,7 @@ const ActivityInstructions = ({
       {lobby?.editingGameId && 
         <GameCardLoad gameId={lobby.editingGameId}/>
       }
-      {lobby.participantId && <SelectGame label="Games owned by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
+      {lobby.participantId && <SelectArcadeGame label="Games owned by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
           editLobby(lobby.id, {
             editingGameId: games[games.length - 1]
@@ -275,7 +275,7 @@ const ActivityInstructions = ({
         {
           id: 'Select Game to edit this session',
           title: <Typography component="h5" variant="h5">Select Game to edit this session</Typography>,
-          instructions: renderSelectGame()
+          instructions: renderSelectArcadeGame()
         },
         breakTitle('Setup (5mins)'),
         {
@@ -343,7 +343,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
           onClickNext: async () => {
             await editLobby(lobby.id, {
-              currentActivity: GAME_EDITOR_ACTIVITY,
+              currentActivity: GAME_ROOM_ACTIVITY,
             })
             await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue1,
@@ -421,7 +421,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Load Prologue 2</Typography>,
           onClickNext: async () => {
             await editLobby(lobby.id, {
-              currentActivity: GAME_EDITOR_ACTIVITY,
+              currentActivity: GAME_ROOM_ACTIVITY,
             })
             await editGameRoom(lobby.gameRoomId, {
               gameId: GAME_IDS.prologue2,
@@ -449,7 +449,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Load Editing Game</Typography>,
           onClickNext: async () => {
             await editLobby(lobby.id, {
-              currentActivity: GAME_EDITOR_ACTIVITY,
+              currentActivity: GAME_ROOM_ACTIVITY,
             })
             await editGameRoom(lobby.gameRoomId, {
               gameId: lobby.editingGameId,

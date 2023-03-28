@@ -18,7 +18,7 @@ import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEf
 import { classTypeToDisplayName, classTypeToPrefix, OBJECT_CLASS_ID_PREFIX } from '../../constants';
 import { generateUniqueId } from '../../../utils';
 import Typography from '../../../ui/Typography/Typography';
-import TextureStage from '../../images/TextureStage/TextureStage';
+import TextureStage from '../../textures/TextureStage/TextureStage';
 
 const EditClassModal = ({ openEditClassGraphics, updateCreateClass, closeEditClassModal, editGameModel, gameFormEditor: { entityClass }, gameModel: { gameModel } }) => {
   function handleClose() {

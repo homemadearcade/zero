@@ -16,7 +16,7 @@ export const defaultStep = {
 // Run Effect
 // Run Animation Lobby Event
 
-// WHAT ARE THE ROLES IN YOUR EXPERIENCE
+// WHAT ARE THE ROLES IN YOUR EXPERIENCE_MODEL
 
 export const defaultPrompt = {
   role: '',

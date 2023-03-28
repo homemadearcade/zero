@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './ConstellationZoom.scss';
 import { Constellation } from '../Constellation/Constellation';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
-import { GAME_EDITOR_ACTIVITY } from '../../../constants';
+import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import store from '../../../store';
 
 const ConstellationZoom = ({gameRoom: { gameRoom }, width, height}) => {

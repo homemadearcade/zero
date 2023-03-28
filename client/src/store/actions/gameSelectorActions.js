@@ -18,8 +18,8 @@ import {
   OPEN_LIVE_EDITOR,
   OPEN_GAME_METADATA_MODAL,
   CLOSE_GAME_METADATA_MODAL,
-  OPEN_MY_IMAGES_MODAL,
-  CLOSE_MY_IMAGES_MODAL,
+  OPEN_GAME_TEXTURES_MODAL,
+  CLOSE_GAME_TEXTURES_MODAL,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   CLOSE_JSON_VIEWER,
   OPEN_JSON_VIEWER,
@@ -245,18 +245,18 @@ export const clearEditor = () => (dispatch, getState) => {
   });
 }
 
-export const openMyImagesModal = () => (dispatch, getState) => {
+export const openGameTexturesModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_MY_IMAGES_MODAL,
+    type: OPEN_GAME_TEXTURES_MODAL,
     payload: {}
   });
 }
 
-export const closeMyImagesModal = () => (dispatch, getState) => {
+export const closeGameTexturesModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_MY_IMAGES_MODAL,
+    type: CLOSE_GAME_TEXTURES_MODAL,
     payload: {}
   });
 }

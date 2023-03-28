@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import requireAuth from '../../hoc/requireAuth';
 
 import './ExperienceCreatorPage.scss';
-import ExperienceCreatorDashboard from '../../app/experienceCreator/ExperienceCreatorDashboard/ExperienceCreatorDashboard';
+import ExperienceCreatorDashboard from '../../app/experienceModel/ExperienceCreatorDashboard/ExperienceCreatorDashboard';
 import WithExperience from '../../hoc/WithExperience';
 
 const ExperienceCreatorPage = ({

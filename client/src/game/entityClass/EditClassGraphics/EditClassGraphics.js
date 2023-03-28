@@ -6,7 +6,7 @@ import './EditClassGraphics.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { clearGameFormEditor, closeEditClassGraphics, updateCreateClass, openEditClassModal } from '../../../store/actions/gameFormEditorActions';
-import CreateTexture from '../../images/CreateTexture/CreateTexture';
+import CreateTexture from '../../textures/CreateTexture/CreateTexture';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';

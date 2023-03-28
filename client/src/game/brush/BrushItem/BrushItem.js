@@ -7,7 +7,7 @@ import './BrushItem.scss';
 import { selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
 import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import Texture from '../../images/Texture/Texture';
+import Texture from '../../textures/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
 import { changeBrushIdHovering } from '../../../store/actions/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';

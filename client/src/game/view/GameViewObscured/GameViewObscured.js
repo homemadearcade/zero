@@ -19,7 +19,7 @@ import { editGameRoom } from '../../../store/actions/gameRoomActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
-import GameCardLoad from '../../../app/arcadeGame/GameCardLoad/GameCardLoad';
+import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 
 const GameViewObscured = ({
   auth: { me },

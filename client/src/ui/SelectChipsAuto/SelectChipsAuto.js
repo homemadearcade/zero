@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 import FormLabel from '../FormLabel/FormLabel';
-import Sprite from '../../game/images/Texture/Texture';
+import Sprite from '../../game/textures/Texture/Texture';
 import { lighten, darken } from '@mui/system';
 import Typography from '../Typography/Typography';
 

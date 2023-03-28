@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './ActivitySwitcher.scss';
-import SelectActivity from '../../../ui/SelectActivity/SelectActivity';
+import SelectActivityCategory from '../../../ui/SelectActivityCategory/SelectActivityCategory';
 import { editLobby, toggleLobbyDashboard } from '../../../store/actions/lobbyActions';
 import Button from '../../../ui/Button/Button';
 
@@ -16,7 +16,7 @@ const ActivitySwitcher = ({
   return (
     <div className="ActivitySwitcher">
       <div className="ActivitySwitcher__state">
-        <SelectActivity 
+        <SelectActivityCategory 
           value={[lobby.currentActivity]}
           onChange={(event, currentActivity) => {
             editLobby(lobby.id, {

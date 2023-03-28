@@ -226,7 +226,6 @@ export async function addLayersForArcadeGameStage(gameId, userId, stageId) {
     textureId: backgroundTextureId, 
     userId,
     visualTags: ['Layer'],
-    arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
@@ -234,7 +233,6 @@ export async function addLayersForArcadeGameStage(gameId, userId, stageId) {
     textureId: playgroundTextureId, 
     userId,
     visualTags: ['Layer'],
-    arcadeGame: gameId
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
@@ -242,7 +240,6 @@ export async function addLayersForArcadeGameStage(gameId, userId, stageId) {
     textureId: foregroundTextureId,
     userId,
     visualTags: ['Layer'],
-    arcadeGame: gameId
   }))
 
   store.dispatch(editArcadeGame(gameId, {

@@ -6,8 +6,8 @@ import './ArcadePage.scss';
 
 import Layout from '../../layout/Layout';
 import { getArcadeGames } from '../../store/actions/arcadeGameActions';
-import GameCard from '../../app/arcadeGame/GameCard/GameCard';
-import GameList from '../../app/arcadeGame/GameList/GameList';
+import GameCard from '../../app/gameModel/GameCard/GameCard';
+import GameList from '../../app/gameModel/GameList/GameList';
 
 const ArcadePage = () => {
   function getGameData(game) {

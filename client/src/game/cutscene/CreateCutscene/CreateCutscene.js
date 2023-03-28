@@ -12,8 +12,8 @@ import { editGameModel } from '../../../store/actions/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { CUTSCENE_ID_PREFIX, IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import MyImagesModal from '../../images/MyImagesModal/MyImagesModal';
-import { closeMyImagesModal, openMyImagesModal } from '../../../store/actions/gameSelectorActions';
+import GameTexturesModal from '../../textures/GameTexturesModal/GameTexturesModal';
+import { closeGameTexturesModal, openGameTexturesModal } from '../../../store/actions/gameSelectorActions';
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
@@ -23,11 +23,11 @@ import { getImageUrlFromTextureId } from '../../../utils';
 const CreateCutscene = ({ 
   closeCreateCutscene, 
   editGameModel, 
-  openMyImagesModal,
-  closeMyImagesModal,
+  openGameTexturesModal,
+  closeGameTexturesModal,
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
-  gameSelector: { isMyImagesModalOpen },
+  gameSelector: { isGameTexturesModalOpen },
   gameModel: { gameModel },
 }) => {
   const [editScene, setEditScene] = useState(null)
@@ -138,7 +138,7 @@ const CreateCutscene = ({
               setEditScene(null)
             }}
             onChooseNewImage={() => {
-              openMyImagesModal()
+              openGameTexturesModal()
               updateCreateCutscene({
                 indexSelected: index
               })
@@ -189,13 +189,13 @@ const CreateCutscene = ({
         }}>Restore</Button>}
       </div>
     </div>
-    {isMyImagesModalOpen && <MyImagesModal onClickTexture={(textureId) => {
+    {isGameTexturesModalOpen && <GameTexturesModal onClickTexture={(textureId) => {
       const scenes = cutscene.scenes.slice()
       scenes[cutscene.indexSelected].imageUrl = getImageUrlFromTextureId(textureId)
       updateCreateCutscene({
         scenes,
       })
-      closeMyImagesModal()
+      closeGameTexturesModal()
     }}/>}
   </CobrowsingModal>
 }
@@ -207,5 +207,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateCutscene, closeCreateCutscene, editGameModel, openMyImagesModal, closeMyImagesModal }),
+  connect(mapStateToProps, { updateCreateCutscene, closeCreateCutscene, editGameModel, openGameTexturesModal, closeGameTexturesModal }),
 )(CreateCutscene);

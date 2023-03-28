@@ -6,6 +6,7 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+
 LIBRARY
   Turn library on and off ( both in Selects and in the ClassList )
   Easy system for saving library entityClasses and relations
@@ -21,3 +22,4 @@ STEPS UPDATE
   Player in editing game starts off invisible so we can make it invisible after BG color select
   Spawn bar inside the Spawn bar when you have selected gravity
   
+If the instructions could be smart and understand if the requirements of their context has been and have a checkmark if it is, and a check mark if it isnt, and also it would really cool if it could really understand previous steps and what to do to match context menu

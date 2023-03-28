@@ -1,6 +1,23 @@
-export const INSTRUCTION_CATEGORY_GAME_INSTANCE = 'INSTRUCTION_CATEGORY_GAME_INSTANCE'
-export const INSTRUCTION_CATEGORY_LOBBY = 'INSTRUCTION_CATEGORY_LOBBY'
-export const INSTRUCTION_CATEGORY_GAME_ROOM = 'INSTRUCTION_CATEGORY_GAME_ROOM'
+export const INSTRUCTION_GAME_ROOM = 'INSTRUCTION_GAME_ROOM'
+export const INSTRUCTION_LOBBY = 'INSTRUCTION_LOBBY'
+export const INSTRUCTION_DRAWING_ROOM = 'INSTRUCTION_DRAWING_ROOM'
+
+export const instructionToInterfaceData = {
+  [INSTRUCTION_GAME_ROOM]: {
+    displayName: 'Game',
+    icon: 'faGamepad',
+  },
+  [INSTRUCTION_LOBBY]: {
+    displayName: 'Lobby',
+    icon: 'faDoorOpen',
+  },
+  // [INSTRUCTION_DRAWING_ROOM]: {
+  //   displayName: 'Drawing',
+  //   icon: 'faPaintbrush',
+  // },
+}
+
+export const INSTRUCTION_ID_PREFIX = 'instruction-'
 
 export const defaultInstructions = {
   name: null,

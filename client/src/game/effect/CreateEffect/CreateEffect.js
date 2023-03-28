@@ -12,7 +12,7 @@ import { TextField } from '@mui/material';
 import { ZONE_CLASS } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
-import SelectGame from '../../../ui/connected/SelectGame/SelectGame';
+import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import SelectEffectBehavior from '../../ui/SelectEffectBehavior/SelectEffectBehavior';
 
 const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) => {
@@ -51,7 +51,7 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
     }
 
     if(effectForms.gameId) {
-      forms.push(<SelectGame
+      forms.push(<SelectArcadeGame
         key={'effectGameId'}
         formLabel={effectForms.gameId}
         value={effect.gameId ? [effect.gameId] : []}
