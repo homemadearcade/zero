@@ -112,6 +112,7 @@ router.post('/', requireJwtAuth, requireLobbys, async (req, res) => {
       guideId: req.body.guideId,
       editingGameId: req.body.editingGameId,
       gameRoomId: req.body.gameRoomId,
+      experienceInstanceId: req.body.experienceInstanceId,
       lobbyShortId: generateUniqueId()
     });
 

@@ -44,13 +44,13 @@ const themeDefaults = {
     borderRadius: 0
   },
   components: {
-    // MuiRadio: {
-    //   styleOverrides: {
-    //     root: {
-    //       borderRadius: 0
-    //     }
-    //   }
-    // },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          paddingRight: '4px'
+        }
+      }
+    },
     MuiLink: {
       //   styleOverrides: {
       //     root: {

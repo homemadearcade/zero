@@ -37,14 +37,6 @@ export const COLOR_BRUSH_ID = 'COLOR_BRUSH'
 
 /////////////////////////////////////
 /////////////////////////////////////
-// CLASSES
-export const PLAYER_CLASS = 'PLAYER_CLASS'
-export const BASIC_CLASS = 'BASIC_CLASS'
-export const NPC_CLASS = 'NPC_CLASS'
-export const ZONE_CLASS = 'ZONE_CLASS'
-
-/////////////////////////////////////
-/////////////////////////////////////
 // SIDES
 export const SIDE_UP = 'SIDE_UP'
 export const SIDE_DOWN = 'SIDE_DOWN'
@@ -135,10 +127,8 @@ export const GAME_OVER_STATE = 'GAME_OVER_STATE'
 export const WIN_GAME_STATE = 'WIN_GAME_STATE'
 
 ////----
-export const PROJECTILE_INSTANCE_ID_PREFIX = 'oi-pr-'
-export const SPAWNED_INSTANCE_ID_PREFIX = 'oi-s-'
-export const PLAYER_INSTANCE_ID_PREFIX = 'oi-pl-'
-export const OBJECT_INSTANCE_ID_PREFIX = 'oi-'
+
+
 export const CUTSCENE_ID_PREFIX = 'cutscene-'
 export const RELATION_ID_PREFIX = 'relation-'
 export const COLLISION_ID_PREFIX = 'collision-'
@@ -156,18 +146,7 @@ export const EVENT_ID_PREFIX = 'event-'
 export const EFFECT_ID_PREFIX = 'effect-'
 export const LAYER_ID_PREFIX = 'layer-'
 
-export const PLAYER_CLASS_TYPE_PREFIX = 'pl-'
-export const BASIC_CLASS_TYPE_PREFIX = 'o-'
-export const NPC_CLASS_TYPE_PREFIX = 'n-'
-export const ZONE_CLASS_TYPE_PREFIX = 'z-'
-
 export const NON_LAYER_COLOR_ID = 'NON_LAYER_COLOR_ID';
 export const NON_LAYER_BRUSH_ID = 'NON_LAYER_BRUSH_ID'
 export const NON_LAYER_BRUSH_DEPTH = 71
 
-export const classTypeToPrefix = {
-  [ZONE_CLASS]: ZONE_CLASS_TYPE_PREFIX,
-  [PLAYER_CLASS]: PLAYER_CLASS_TYPE_PREFIX,
-  [BASIC_CLASS]: BASIC_CLASS_TYPE_PREFIX,
-  [NPC_CLASS]: NPC_CLASS_TYPE_PREFIX
-}

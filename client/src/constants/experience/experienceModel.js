@@ -8,19 +8,24 @@ export const defaultGuideRoleId = ROLE_ID_PREFIX+ 'guide';
 export const defaultExperienceModel = {
   lobbys: {
     [defaultLobbyId]: {
-      name: 'Default Lobby',
+      name: 'Welcome',
       lobbyId: defaultLobbyId,
-      activitys: {}
+      activitys: {},
     }
   },
+  activitys: {},
   roles: {
     [defaultParticipantRoleId]: {
       name: 'Participant',
       roleId: defaultParticipantRoleId,
+      color: '#00FF00'
     },
     [defaultGuideRoleId]: {
       name: 'Guide',
       roleId: defaultGuideRoleId,
+      color: '#0000FF'
     }
-  }
+  },
+  instructions: {},
+  isRemoved: false,
 }

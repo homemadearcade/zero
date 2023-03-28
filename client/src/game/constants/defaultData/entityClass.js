@@ -1,8 +1,35 @@
-import { PLAYER_CLASS, JUMP_NONE, MOVEMENT_NONE, NPC_CLASS, BASIC_CLASS, BOUNDARY_COLLIDE, ZONE_CLASS, DIRECTIONAL_CONTROLS } from "../";
+import { JUMP_NONE, MOVEMENT_NONE, BOUNDARY_COLLIDE,  DIRECTIONAL_CONTROLS } from "../";
 import { nodeSize } from "./general";
 import { defaultProjectile } from "./projectile";
 import { LAYER_ID_PREFIX ,  playerDepthModifier} from "../";
 import { FOREGROUND_LAYER_ID, PLAYGROUND_LAYER_ID} from './layers'
+
+export const PROJECTILE_INSTANCE_ID_PREFIX = 'oi-pr-'
+export const SPAWNED_INSTANCE_ID_PREFIX = 'oi-s-'
+export const PLAYER_INSTANCE_ID_PREFIX = 'oi-pl-'
+export const OBJECT_INSTANCE_ID_PREFIX = 'oi-'
+
+export const PLAYER_CLASS_TYPE_PREFIX = 'pl-'
+export const BASIC_CLASS_TYPE_PREFIX = 'o-'
+export const NPC_CLASS_TYPE_PREFIX = 'n-'
+export const ZONE_CLASS_TYPE_PREFIX = 'z-'
+
+/////////////////////////////////////
+/////////////////////////////////////
+// CLASSES
+export const PLAYER_CLASS = 'PLAYER_CLASS'
+export const BASIC_CLASS = 'BASIC_CLASS'
+export const NPC_CLASS = 'NPC_CLASS'
+export const ZONE_CLASS = 'ZONE_CLASS'
+export const POWERUP_CLASS = 'POWERUP_CLASS'
+
+
+export const classTypeToPrefix = {
+  [ZONE_CLASS]: ZONE_CLASS_TYPE_PREFIX,
+  [PLAYER_CLASS]: PLAYER_CLASS_TYPE_PREFIX,
+  [BASIC_CLASS]: BASIC_CLASS_TYPE_PREFIX,
+  [NPC_CLASS]: NPC_CLASS_TYPE_PREFIX
+}
 
 export const defaultMovement = {
   movementControlsBehavior: null,
@@ -146,5 +173,6 @@ export const classTypeToDisplayName = {
   [PLAYER_CLASS]: 'Player',
   [BASIC_CLASS]: 'Object',
   [ZONE_CLASS]: 'Zone',
-  [NPC_CLASS]: 'NPC'
+  [NPC_CLASS]: 'NPC',
+  [POWERUP_CLASS]: 'Powerup',
 }

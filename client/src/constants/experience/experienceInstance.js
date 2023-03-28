@@ -1,0 +1,1 @@
+export const EXPERIENCE_INSTANCE_ID_PREFIX = 'ei-';

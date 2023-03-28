@@ -20,6 +20,10 @@ const lobbySchema = new Schema(
     editingGameId: {
       type: String
     },
+    experienceInstanceId: {
+      type: String,
+      required: true,
+    },
     experienceModel: { type: mongoose.Schema.Types.ObjectId, ref: 'ExperienceModel' },
     activitys: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Activity' }],
     // guideId: {

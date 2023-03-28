@@ -9,8 +9,10 @@ import RadioGroupColumn from '../RadioGroupColumn/RadioGroupColumn';
 
 const SelectInstructionCategory = ({ onChange, value, formLabel, disabled }) => {
   const mapControlsToOption = (instructionCategory) => {
+    const instructionData = instructionToInterfaceData[instructionCategory]
     return {
-      label: instructionToInterfaceData[instructionCategory].displayName,
+      icon: instructionData.icon,
+      label: instructionData.displayName,
       value: instructionCategory
     }
   }

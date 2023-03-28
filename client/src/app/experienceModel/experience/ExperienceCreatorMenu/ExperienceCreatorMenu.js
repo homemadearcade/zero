@@ -3,14 +3,14 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import IconTree from '../../../ui/IconTree/IconTree';
-import Icon from '../../../ui/Icon/Icon';
-import ActivityAddForm from '../ActivityAddForm/ActivityAddForm';
-import { editExperienceModel } from '../../../store/actions/experienceModelActions';
-import { activityToInterfaceData, instructionToInterfaceData } from '../../../constants';
-import LobbyAddForm from '../LobbyAddForm/LobbyAddForm';
-import RoleAddForm from '../RoleAddForm/RoleAddForm';
-import InstructionAddForm from '../InstructionAddForm/InstructionAddForm';
+import IconTree from '../../../../ui/IconTree/IconTree';
+import Icon from '../../../../ui/Icon/Icon';
+import ActivityAddForm from '../../activity/ActivityAddForm/ActivityAddForm';
+import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
+import { activityToInterfaceData, instructionToInterfaceData } from '../../../../constants';
+import LobbyAddForm from '../../LobbyAddForm/LobbyAddForm';
+import RoleAddForm from '../../RoleAddForm/RoleAddForm';
+import InstructionAddForm from '../../InstructionAddForm/InstructionAddForm';
 
 const ExperienceCreatorMenu = ({
   experienceModel: { experienceModel },
@@ -20,8 +20,7 @@ const ExperienceCreatorMenu = ({
   const lobbyNodes = Object.keys(experienceModel.lobbys).map((lobbyId, index) => {
     const lobby = experienceModel.lobbys[lobbyId]
     const activityNodes = Object.keys(lobby.activitys).map((activityId) => {
-      const activity = lobby.activitys[activityId]
-      
+      const activity = experienceModel.activitys[activityId]
       return {
         icon: <Icon icon={activityToInterfaceData[activity.activityCategory].icon}></Icon>,
         label: activity.name,
@@ -47,9 +46,14 @@ const ExperienceCreatorMenu = ({
           lobbys: {
             [lobbyId]: {
               activitys: {
-                [activity.activityId]: activity
+                [activity.activityId]: {
+                  activityId: activity.activityId,
+                }
               }
             }
+          },
+          activitys: { 
+            [activity.activityId]: activity
           }
         })
       }}/>
@@ -57,9 +61,11 @@ const ExperienceCreatorMenu = ({
   })
 
   const roleChildren = Object.keys(experienceModel.roles).map((roleId) => {
+    const role = experienceModel.roles[roleId]
     return {
       id: roleId,
-      label: experienceModel.roles[roleId].name,
+      icon: <Icon icon='faCircle' color={role.color}></Icon>,
+      label: role.name,
     }
   })
 

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { addExperienceModel } from '../../../store/actions/experienceModelActions';
+import { addExperienceModel } from '../../../../store/actions/experienceModelActions';
 
 import './ExperienceAddForm.scss';
-import Button from '../../../ui/Button/Button';
-import Icon from '../../../ui/Icon/Icon';
-import Dialog from '../../../ui/Dialog/Dialog';
+import Button from '../../../../ui/Button/Button';
+import Icon from '../../../../ui/Icon/Icon';
+import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
+import SelectUsers from '../../../../ui/connected/SelectUsers/SelectUsers';
 
 const ExperienceAddForm = ({ addExperienceModel, onSubmit, auth: { me }, defaultValues = {} }) => {
   const [isExperienceAddOpen, setIsExperienceAddOpen] = useState(false)

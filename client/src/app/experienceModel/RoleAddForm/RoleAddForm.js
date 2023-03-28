@@ -8,6 +8,7 @@ import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/mater
 import { Controller, useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../utils';
 import { ROLE_ID_PREFIX } from '../../../constants';
+import FormLabel from '../../../ui/FormLabel/FormLabel';
 
 const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isRoleAddOpen, setIsRoleAddOpen] = useState(false)
@@ -46,6 +47,18 @@ const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
             render={({ field: { onChange, value } }) => (
               <TextField onChange={onChange} value={value} label={"Name"} />
             )}
+          />
+          <Controller
+            name={"color"}
+            control={control}
+            {...register("color", {
+              required: true
+            })}
+            render={({ field: { onChange, value } }) => {
+            return <>
+              <FormLabel htmlFor="color">Color</FormLabel>
+              <input type="color" onChange={onChange} value={value} />
+            </>}}
           />
           </form>
         </DialogContent>

@@ -9,8 +9,10 @@ import RadioGroupColumn from '../RadioGroupColumn/RadioGroupColumn';
 
 const SelectActivityCategory = ({ onChange, value, formLabel, disabled }) => {
   const mapControlsToOption = (activityCategory) => {
+    const activityData = activityToInterfaceData[activityCategory]
     return {
-      label: activityToInterfaceData[activityCategory].displayName,
+      icon: activityData.icon,
+      label: activityData.displayName,
       value: activityCategory
     }
   }

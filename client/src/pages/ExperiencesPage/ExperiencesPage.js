@@ -9,10 +9,10 @@ import PageHeader from '../../ui/PageHeader/PageHeader';
 import requireAdmin from '../../hoc/requireAdmin';
 import requireAuth from '../../hoc/requireAuth';
 import Button from '../../ui/Button/Button';
-import ExperienceList from '../../app/experienceModel/ExperienceList/ExperienceList';
-import ExperienceCard from '../../app/experienceModel/ExperienceCard/ExperienceCard';
+import ExperienceList from '../../app/experienceModel/experience/ExperienceList/ExperienceList';
+import ExperienceCard from '../../app/experienceModel/experience/ExperienceCard/ExperienceCard';
 import { getExperienceModels } from '../../store/actions/experienceModelActions';
-import ExperienceAddForm from '../../app/experienceModel/ExperienceAddForm/ExperienceAddForm';
+import ExperienceAddForm from '../../app/experienceModel/experience/ExperienceAddForm/ExperienceAddForm';
 
 const ExperiencesPage = ({getExperienceModels}) => {
   const [showRemovedExperiences, setShowRemovedExperiences] = useState()

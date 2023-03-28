@@ -288,6 +288,10 @@ function SelectChipsAutoForm({
   function renderSprite(option) {
     if(!option) return null
 
+    if(option.icon) {
+      <SpriteWrapper>{option.icon}</SpriteWrapper>
+    }
+
     if(option.textureId || option.textureTint) {
       return <SpriteWrapper><Sprite textureId={option.textureId} textureTint={option.textureTint}/></SpriteWrapper>
     }

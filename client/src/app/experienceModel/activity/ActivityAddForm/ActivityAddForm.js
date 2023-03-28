@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import Button from '../../../ui/Button/Button';
-import Icon from '../../../ui/Icon/Icon';
-import Dialog from '../../../ui/Dialog/Dialog';
+import Button from '../../../../ui/Button/Button';
+import Icon from '../../../../ui/Icon/Icon';
+import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import SelectActivityCategory from '../../../ui/SelectActivityCategory/SelectActivityCategory';
-import { generateUniqueId } from '../../../utils';
-import { ACTIVITY_ID_PREFIX } from '../../../constants';
+import SelectActivityCategory from '../../../../ui/SelectActivityCategory/SelectActivityCategory';
+import { generateUniqueId } from '../../../../utils';
+import { ACTIVITY_ID_PREFIX } from '../../../../constants';
 
 const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isActivityAddOpen, setIsActivityAddOpen] = useState(false)

@@ -10,12 +10,14 @@ import {
   ADD_EXPERIENCE_MODEL_FAIL,
   EDIT_EXPERIENCE_MODEL_FAIL,
   EDIT_EXPERIENCE_MODEL_SUCCESS,
+  EDIT_EXPERIENCE_MODEL_LOADING,
 } from '../types';
 
 const initialState = {
   experienceModels: [],
   experienceModel: null,
   isLoading: false,
+  isSaving: false,
   error: null,
 };
 
@@ -66,14 +68,21 @@ export default function experienceModelReducer(state = initialState, { type, pay
           return m;
         }),
       };
+    case EDIT_EXPERIENCE_MODEL_LOADING: 
+      return {
+        ...state,
+        isSaving: true,
+      };
     case EDIT_EXPERIENCE_MODEL_SUCCESS:
       return {
         ...state,
+        isSaving: false,
         experienceModel: payload.experienceModel,
       };
     case EDIT_EXPERIENCE_MODEL_FAIL:
       return {
         ...state,
+        isSaving: false,
         error: payload.error,
       };
     case GET_EXPERIENCE_MODEL_FAIL:

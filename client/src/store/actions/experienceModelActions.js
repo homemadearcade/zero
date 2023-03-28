@@ -17,39 +17,64 @@ import {
   EDIT_EXPERIENCE_MODEL_LOADING,
   EDIT_EXPERIENCE_MODEL_SUCCESS,
   EDIT_EXPERIENCE_MODEL_FAIL,
+  CLEAR_EXPERIENCE_MODEL,
 } from '../types';
 import { mergeDeep } from '../../utils';
 import _ from 'lodash';
-import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultInstructions, defaultLobby, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, WAITING_ACTIVITY } from '../../constants';
+import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../constants';
 import { defaultExperienceModel } from '../../constants';
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
     Object.keys(experienceModel.lobbys).forEach((id) => {
-      experienceModel.lobbys[id] = mergeDeep(_.cloneDeep(defaultLobby), experienceModel.lobbys[id])
-      const lobby = experienceModel.lobbys[id]
-      const waitingRoomId = ACTIVITY_ID_PREFIX+'waiting'+id
-      lobby.activitys[waitingRoomId] = {
+      const presetLobby = _.cloneDeep(experienceModel.lobbys[id])
+      const waitingRoomId = ACTIVITY_ID_PREFIX+'_waiting'+id
+      presetLobby.activitys[waitingRoomId] = {
+        activityId: waitingRoomId,
+      }
+
+      if(!presetLobby.initialActivityId) presetLobby.initialActivityId = waitingRoomId
+      experienceModel.activitys[waitingRoomId] = {
         activityId: waitingRoomId,
         activityCategory: WAITING_ACTIVITY,
-        name: `${lobby.name} Waiting Room`,
+        name: `${presetLobby.name} Waiting Room`,
       }
-      if(!lobby.initialActivityId) lobby.initialActivityId = waitingRoomId
 
-      const creditsRoomId = ACTIVITY_ID_PREFIX+'credits'+id
-      lobby.activitys[creditsRoomId] = {
+      const videoRoomId = ACTIVITY_ID_PREFIX+'_video'+id
+      presetLobby.activitys[videoRoomId] = {
+        activityId: videoRoomId,
+      }
+      experienceModel.activitys[videoRoomId] = {
+        activityId: videoRoomId,
+        activityCategory: VIDEO_ACTIVITY,
+        name: `${presetLobby.name} Video Room`,
+      }
+
+
+
+      const creditsRoomId = ACTIVITY_ID_PREFIX+'_credits'+id
+      presetLobby.activitys[creditsRoomId] = {
+        activityId: creditsRoomId,
+      }
+      experienceModel.activitys[creditsRoomId] = {
         activityId: creditsRoomId,
         activityCategory: CREDITS_ACTIVITY,
-        name: `${lobby.name} Credits`,
+        name: `${presetLobby.name} Credits`,
       }
 
       const lobbyInstructionsId = INSTRUCTION_ID_PREFIX+id
       experienceModel.instructions[lobbyInstructionsId] = {
         instructionId: lobbyInstructionsId,
         instructionCategory: INSTRUCTION_LOBBY,
-        name: `${lobby.name} Instructions`,
+        name: `${presetLobby.name} Instructions`,
         description: 'Instructions for the lobby',
       }
+
+      presetLobby.roleInstructionByRoleId = {
+        [defaultGuideRoleId]: lobbyInstructionsId
+      }
+
+      experienceModel.lobbys[id] = mergeDeep(_.cloneDeep(defaultLobby), presetLobby, experienceModel.lobbys[id])
     })
   }
 
@@ -64,6 +89,7 @@ function addDefaultsToExperienceModel(experienceModel) {
       experienceModel.activitys[id] = mergeDeep(_.cloneDeep(defaultActivity), experienceModel.activitys[id])
     })
   }
+
 }
 
 function enrichExperienceModel(experienceModel) {
@@ -184,6 +210,7 @@ export const deleteExperienceModel = (id) => async (dispatch, getState) => {
     type: DELETE_EXPERIENCE_MODEL_LOADING,
     payload: { id },
   });
+
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.delete(`/api/experienceModel/${id}`, options);
@@ -210,13 +237,12 @@ export const editExperienceModel = (id, experienceModelData) => async (dispatch,
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/experienceModel/${id}`,experienceModelData, options);
+    const response = await axios.put(`/api/experienceModel/${id}`, experienceModelData, options);
 
     const experienceModel = mergeDeep(defaultExperienceModel, response.data.experienceModel)
     // addLibraryToExperience(experienceModel)
     addDefaultsToExperienceModel(experienceModel) 
     enrichExperienceModel(experienceModel)
-
 
     dispatch({
       type: EDIT_EXPERIENCE_MODEL_SUCCESS,
@@ -231,3 +257,10 @@ export const editExperienceModel = (id, experienceModelData) => async (dispatch,
     });
   }
 };
+
+export const clearExperienceModel = () =>  (dispatch, getState) => {
+  dispatch({
+    type: CLEAR_EXPERIENCE_MODEL,
+  });
+
+}

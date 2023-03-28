@@ -4,17 +4,22 @@ import { GAME_ROOM_VIDEO_IID, LOBBY_MEMBER_VIDEO_IID, MONOLOGUE_ACTIVITY_VIDEO_I
 export default {
   [GAME_ROOM_VIDEO_IID]: {
     contentPriority: 0,
+    isDefaultUnlocked: true
   },
   [PEEK_VIDEO_IID] : {
     contentPriority: 100,
+    isDefaultUnlocked: true
   },
   [MONOLOGUE_ACTIVITY_VIDEO_IID] : {
-    contentPriority: 10
+    contentPriority: 10,
+    isDefaultUnlocked: true
   },
   [PARTICIPANT_VIDEO_IID]: {
-    contentPriority: 1
+    contentPriority: 1,
+    isDefaultUnlocked: true
   },
   [LOBBY_MEMBER_VIDEO_IID] : {
-    contentPriority: 101
+    contentPriority: 101,
+    isDefaultUnlocked: true
   }
 }

@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import './ExperienceCreatorDashboard.scss';
 import ExperienceCreatorMenu from '../ExperienceCreatorMenu/ExperienceCreatorMenu';
-import PersistentDrawer from '../../../ui/PersistentDrawer/PersistentDrawer';
+import PersistentDrawer from '../../../../ui/PersistentDrawer/PersistentDrawer';
 import ExperienceCreatorBody from '../ExperienceCreatorBody/ExperienceCreatorBody';
-import { getIdInformation } from '../../../utils';
+import { getIdInformation } from '../../../../utils';
 
 const ExperienceCreatorDashboard = ({
   experienceModel: { experienceModel }

@@ -48,5 +48,10 @@ OBJECT INSTANCE VISIBILITY
 INTERFACE IDS
   Generate interfaceIds based on the game model
   Interface Ids themselves may have to be auto generated, for dynamic lookup
+  Default unlocked interface ids need to be not shown in the unlockables list
 
-Finish DallEGenerator
+DALL E GENERATOR
+
+EXPERIENCE MODEL
+  Experience Thumbnail, Experience Image, etc
+

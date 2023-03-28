@@ -32,7 +32,7 @@ const experienceModel = new Schema(
       required: true,
       default: {}
     },
-    experienceShortId: {
+    experienceModelShortId: {
       required: true,
       immuteable: true,
       type: String,
@@ -54,7 +54,7 @@ experienceModel.methods.toJSON = function () {
     lobbys: this.lobbys,
     roles: this.roles,
     isRemoved: this.isRemoved,
-    experienceShortId: this.experienceShortId,
+    experienceModelShortId: this.experienceModelShortId,
   };
 };
 

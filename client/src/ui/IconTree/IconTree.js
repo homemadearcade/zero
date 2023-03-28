@@ -98,7 +98,6 @@ export default function IconTree({nodes, onNodeSelect}) {
         return <>
           <IconTreeNode key={id} nodeId={id} onClick={onClick} labelText={label} labelIcon={icon}>
             {children?.map(({icon, id, label, onClick, children}) => {
-              console.log(id)
               return <IconTreeNode
                 key={id}
                 nodeId={id}

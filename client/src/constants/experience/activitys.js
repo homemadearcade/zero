@@ -1,3 +1,4 @@
+import { INSTRUCTION_GAME_ROOM } from "./instructions"
 import { ACTIVITY_VIEW_CHATROOM, ACTIVITY_VIEW_DRAWING, ACTIVITY_VIEW_GALLERY, ACTIVITY_VIEW_BROWSE, ACTIVITY_VIEW_MONOLOGUE, ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_SPEAKER, ACTIVITY_VIEW_TEXT } from "./views"
 
 export const ACTIVITY_ID_PREFIX = 'activity-'
@@ -18,19 +19,22 @@ export const activityToInterfaceData = {
     icon: 'faComments',
     initialView: ACTIVITY_VIEW_CHATROOM,
     viewOptions: [ACTIVITY_VIEW_CHATROOM, ACTIVITY_VIEW_MONOLOGUE],
+    instructionsCategory: null
   },
   [WAITING_ACTIVITY]: {
     displayName: 'Waiting Room',
     icon: 'faHourglassHalf',
     initialView: ACTIVITY_VIEW_TEXT,
-    viewOptions:[]
+    viewOptions:[],
+    instructionsCategory: null
   },
   [GAME_ROOM_ACTIVITY]: {
     displayName: 'Game',
     isCreateable: true,
     icon: 'faGamepad',
     initialView: ACTIVITY_VIEW_PLAY_GAME,
-    viewOptions: [ACTIVITY_VIEW_PLAY_GAME]
+    viewOptions: [ACTIVITY_VIEW_PLAY_GAME],
+    instructionsCategory: INSTRUCTION_GAME_ROOM
   },
   [CREDITS_ACTIVITY]: {
     displayName: 'Credits',
@@ -62,5 +66,6 @@ export const defaultActivity = {
   gameRoom: {},
   drawingRoom: {},
   iframes: {},
-  initialView: {}
+  initialView: {},
+  isRemoved: false
 }

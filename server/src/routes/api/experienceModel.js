@@ -39,7 +39,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let experienceModel = await ExperienceModel.create({
       ...req.body,
-      experienceShortId: generateUniqueId(),
+      experienceModelShortId: generateUniqueId(),
       owner: req.body.userId,
     });
 

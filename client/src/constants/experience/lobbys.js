@@ -8,5 +8,6 @@ export const defaultLobby = {
   name: null,
   visibility: LOBBY_VISIBILITY_INVITE_ONLY,
   activitys: {},
-  initialActivityId: null
+  initialActivityId: null,
+  roleInstructionByRoleId: {},
 }

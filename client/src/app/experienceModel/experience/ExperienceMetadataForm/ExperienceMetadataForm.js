@@ -3,18 +3,17 @@ import { connect } from 'react-redux';
 
 import './ExperienceMetadataForm.scss';
 import { TextField } from '@mui/material';
-import { editExperienceModel } from '../../../store/actions/experienceModelActions';
+import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
 import { Controller, useForm } from 'react-hook-form';
-import Button from '../../../ui/Button/Button';
+import Button from '../../../../ui/Button/Button';
 // import MyImagesModal from '../../textures/MyImagesModal/MyImagesModal';
-import { getImageUrlFromTextureId } from '../../../utils';
 
       // {isMyImagesModalOpen && <MyImagesModal onClickTexture={(textureId) => {
       //   setImageUrl(getImageUrlFromTextureId(textureId))
       //   setIsMyImagesModalOpen(false)
       // }}/>}
 
-const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experienceModel }, onSubmit}) => {
+const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const metadata = experienceModel.metadata
 
   const { title, description, authorPseudonym } = metadata
@@ -83,7 +82,7 @@ const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experi
             )}
           />
         </div>
-        <Button type="submit" onClick={handleSubmit(submit)}>Save</Button>
+        <Button type="submit" disabled={isSaving} onClick={handleSubmit(submit)}>Save</Button>
       </form>
 
     </div>

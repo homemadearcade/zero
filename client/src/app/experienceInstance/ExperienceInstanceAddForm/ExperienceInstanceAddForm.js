@@ -12,6 +12,8 @@ import { TextField } from '@mui/material';
 import { addArcadeGame } from '../../../store/actions/arcadeGameActions';
 import { addGameRoom } from '../../../store/actions/gameRoomActions';
 import moment from 'moment';
+import { EXPERIENCE_INSTANCE_ID_PREFIX } from '../../../constants/experience/experienceInstance';
+import { generateUniqueId } from '../../../utils';
 
 const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
   const { handleSubmit, reset, control } = useForm({
@@ -50,7 +52,15 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
     });
     const gameRoom = gameRoomResponse.data.gameRoom
     const participantId = data.invitedUsers
-    await addLobby({ editingGameId: game.id, invitedUsers: [data.invitedUsers], participantId: participantId, startTime: data.startTime, gameRoomId: gameRoom.id });
+    const experienceInstanceId = EXPERIENCE_INSTANCE_ID_PREFIX + generateUniqueId()
+    await addLobby({ 
+      editingGameId: game.id,
+      invitedUsers: [data.invitedUsers],
+      participantId: participantId,
+      startTime: data.startTime,
+      gameRoomId: gameRoom.id,
+      experienceInstanceId: experienceInstanceId
+    });
     reset();
     onSubmit()
   }
@@ -80,7 +90,7 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
             )}
           />
         </div>
-        <Button type="submit" onClick={handleSubmit(submit)}>Add Lobby</Button>
+        <Button type="submit" onClick={handleSubmit(submit)}>Add Experience Instance</Button>
       </form>
     </div>
   );

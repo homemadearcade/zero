@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Typography from '../../../ui/Typography/Typography';
+import Typography from '../../../../ui/Typography/Typography';
 
 import './ExperienceCard.scss';
 import { CardActions } from '@mui/material';
-import Link from '../../../ui/Link/Link';
-import { editExperienceModel, getExperienceModels } from '../../../store/actions/experienceModelActions';
-import Button from '../../../ui/Button/Button';
-import { ADMIN_ROLE } from '../../../constants';
+import Link from '../../../../ui/Link/Link';
+import { editExperienceModel, getExperienceModels } from '../../../../store/actions/experienceModelActions';
+import Button from '../../../../ui/Button/Button';
+import { ADMIN_ROLE } from '../../../../constants';
 
 const ExperienceCard = ({experienceModel, experienceModel: { metadata }, width, canEdit, canRemove, canPublish, editExperienceModel, getExperienceModels, auth: { me }}) => {
   const isEditor = me?.role === ADMIN_ROLE || me?.id === experienceModel.owner?.id

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import './ExperienceList.scss';
 
-import Loader from '../../../ui/Loader/Loader';
-import { getExperienceModels } from '../../../store/actions/experienceModelActions';
-import TextField from '../../../ui/TextField/TextField';
+import Loader from '../../../../ui/Loader/Loader';
+import { getExperienceModels } from '../../../../store/actions/experienceModelActions';
+import TextField from '../../../../ui/TextField/TextField';
 
 const ExperienceList = ({ getExperienceModels, children, experienceModel: { experienceModels, isLoading }}) => {
   useEffect(() => {
