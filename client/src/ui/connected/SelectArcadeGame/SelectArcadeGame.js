@@ -13,12 +13,14 @@ const SelectArcadeGame = ({ onSelect, label, userId, getArcadeGames, gamesSelect
     getArcadeGames();
   }, []);
 
-  if(isLoading || !arcadeGames.length) return <Loader></Loader>
+  if(isLoading) return <Loader></Loader>
+
+  if(!arcadeGames.length) return <div>No Games</div>;
 
    const mapGameToOption = (game) => {
     const firstLetter = game.owner ? game.owner.username[0].toUpperCase() : 'fromprod'
     return {
-      user: game.owner,
+      owner: game.owner,
       firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
       label: game.metadata.title,
       value: game.id,

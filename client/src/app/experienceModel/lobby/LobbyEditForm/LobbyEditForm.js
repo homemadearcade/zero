@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import './LobbyForm.scss';
+import './LobbyEditForm.scss';
 import { TextField } from '@mui/material';
 import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
-import { RoleChip } from '../../RoleChip/RoleChip';
+import { RoleChip } from '../../role/RoleChip/RoleChip';
 import SelectInstructions from '../../../../ui/connected/SelectInstructions/SelectInstructions';
 import { INSTRUCTION_LOBBY } from '../../../../constants';
 import Typography from '../../../../ui/Typography/Typography';
+import LobbyForm from '../LobbyForm/LobbyForm';
 
-const LobbyForm = ({ editExperienceModel, lobbyId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
+const LobbyEditForm = ({ editExperienceModel, lobbyId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const lobby = experienceModel.lobbys[lobbyId]
 
-  const { name, roleInstructionByRoleId } = lobby
+  const { name, instructionsByRoleId } = lobby
 
   const { handleSubmit, reset, register, control } = useForm({
     defaultValues: {
       name,
-      roleInstructionByRoleId
+      instructionsByRoleId
     },
   });
 
@@ -36,26 +37,18 @@ const LobbyForm = ({ editExperienceModel, lobbyId, experienceModel: { experience
   }
 
   return (
-    <div className="LobbyForm">
+    <div className="LobbyEditForm">
       <form>
         <div>
-          <Controller
-            name={"name"}
-            {...register(`name`, {
-                  required: true
-            })}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label={"Name"} />
-            )}
-          />
+          <LobbyForm control={control} register={register} />
           <Typography variant="h6">Role Instructions</Typography>
           {Object.keys(experienceModel.roles).map((roleId) => {
             const role = experienceModel.roles[roleId]
+            if(role.isRemoved && !role.isNotRemoveable) return null
             return <>
               <RoleChip role={role} />
               <Controller
-                name={`roleInstructionByRoleId.${role.roleId}`}
+                name={`instructionsByRoleId.${role.roleId}`}
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <SelectInstructions instructionCategory={INSTRUCTION_LOBBY}  onSelect={(instructionIds) => {
@@ -68,7 +61,17 @@ const LobbyForm = ({ editExperienceModel, lobbyId, experienceModel: { experience
           })}
 
         </div>
+        <br/>
         <Button disabled={isSaving} type="submit" onClick={handleSubmit(submit)}>Save</Button>
+        <Button disabled={lobby.isNotRemoveable} onClick={() => {
+          editExperienceModel(experienceModel.id, {
+            lobbys: {
+              [lobbyId]: {
+                isRemoved: true
+              }
+            }
+          })
+        }}>Remove</Button>
       </form>
 
     </div>
@@ -79,4 +82,4 @@ const mapStateToProps = (state) => ({
   experienceModel: state.experienceModel,
 });
 
-export default connect(mapStateToProps, { editExperienceModel })(LobbyForm);
+export default connect(mapStateToProps, { editExperienceModel })(LobbyEditForm);

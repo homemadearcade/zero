@@ -8,9 +8,11 @@ import { getIdInformation } from '../../../../utils';
 import ExperienceMetadataForm from '../ExperienceMetadataForm/ExperienceMetadataForm';
 import { activityToInterfaceData, instructionToInterfaceData } from '../../../../constants';
 import Icon from '../../../../ui/Icon/Icon';
-import LobbyForm from '../../lobby/LobbyForm/LobbyForm';
+import LobbyEditForm from '../../lobby/LobbyEditForm/LobbyEditForm';
 import { RoleChip } from '../../role/RoleChip/RoleChip';
-import RoleForm from '../../role/RoleForm/RoleForm';
+import RoleEditForm from '../../role/RoleEditForm/RoleEditForm';
+import InstructionEditForm from '../../instruction/InstructionEditForm/InstructionEditForm';
+import ActivityEditForm from '../../activity/ActivityEditForm/ActivityEditForm';
 
 const ExperienceCreatorBody = ({
   experienceModel: { experienceModel },
@@ -29,23 +31,28 @@ const ExperienceCreatorBody = ({
           <div className="ExperienceCreatorBody__title-icon"><Icon icon={activityInterfaceData.icon}/></div>
           {activity.name}
         </div>
+       <ActivityEditForm activityId={idEditing}/>
       </div>
     }
 
     if(isLobbyId) {
       const lobby = experienceModel.lobbys[idEditing]
-       return <div className="ExperienceCreatorBody__title">
-        <div className="ExperienceCreatorBody__title-icon"><Icon icon="faDoorOpen"/></div>
-        {lobby.name}
-        <LobbyForm lobbyId={idEditing} />
+       return <div>
+        <div className="ExperienceCreatorBody__title">
+          <div className="ExperienceCreatorBody__title-icon"><Icon icon="faDoorOpen"/></div>
+          {lobby.name}
+        </div>
+        <LobbyEditForm lobbyId={idEditing} />
       </div>
     }
 
     if(isRoleId) {
       const role = experienceModel.roles[idEditing]
-       return <div className="ExperienceCreatorBody__title">
-        <RoleChip role={role}/>
-        <RoleForm roleId={role.roleId}/>
+       return <div>
+        <div className="ExperienceCreatorBody__title">
+          <RoleChip role={role}/>
+        </div>
+        <RoleEditForm roleId={role.roleId}/>
       </div>
     }
 
@@ -57,6 +64,7 @@ const ExperienceCreatorBody = ({
           <div className="ExperienceCreatorBody__title-icon"><Icon icon={instructionInterfaceData.icon}/></div>
           {instruction.name}
         </div>
+        <InstructionEditForm instructionId={idEditing}/>
       </div>
     }
 
@@ -68,7 +76,7 @@ const ExperienceCreatorBody = ({
 
   return (
     <div className="ExperienceCreatorBody">
-      {renderBody()}
+     {renderBody()}
     </div>
   );
 };

@@ -34,43 +34,53 @@ function addDefaultsToExperienceModel(experienceModel) {
       }
 
       if(!presetLobby.initialActivityId) presetLobby.initialActivityId = waitingRoomId
-      experienceModel.activitys[waitingRoomId] = {
+       const presetWaitingRoom = {
         activityId: waitingRoomId,
         activityCategory: WAITING_ACTIVITY,
         name: `${presetLobby.name} Waiting Room`,
+        isNotRemoveable: true
       }
-
+      if(!experienceModel.activitys[waitingRoomId]) experienceModel.activitys[waitingRoomId] = presetWaitingRoom
+      else experienceModel.activitys[waitingRoomId] = mergeDeep(presetWaitingRoom, experienceModel.activitys[waitingRoomId])
+      
       const videoRoomId = ACTIVITY_ID_PREFIX+'_video'+id
       presetLobby.activitys[videoRoomId] = {
         activityId: videoRoomId,
       }
-      experienceModel.activitys[videoRoomId] = {
+      const presetVideoRoom  = {
         activityId: videoRoomId,
         activityCategory: VIDEO_ACTIVITY,
         name: `${presetLobby.name} Video Room`,
+        isNotRemoveable: true
       }
-
-
+      if(!experienceModel.activitys[videoRoomId]) experienceModel.activitys[videoRoomId] = presetVideoRoom
+      else experienceModel.activitys[videoRoomId] = mergeDeep(presetVideoRoom, experienceModel.activitys[videoRoomId])
 
       const creditsRoomId = ACTIVITY_ID_PREFIX+'_credits'+id
       presetLobby.activitys[creditsRoomId] = {
         activityId: creditsRoomId,
       }
-      experienceModel.activitys[creditsRoomId] = {
+      const presetCredits = {
         activityId: creditsRoomId,
         activityCategory: CREDITS_ACTIVITY,
         name: `${presetLobby.name} Credits`,
+        isNotRemoveable: true
       }
+      if(!experienceModel.activitys[creditsRoomId]) experienceModel.activitys[creditsRoomId] = presetCredits
+      else experienceModel.activitys[creditsRoomId] = mergeDeep(presetCredits, experienceModel.activitys[creditsRoomId])
 
       const lobbyInstructionsId = INSTRUCTION_ID_PREFIX+id
-      experienceModel.instructions[lobbyInstructionsId] = {
+      const presetLobbyInstruction = {
         instructionId: lobbyInstructionsId,
         instructionCategory: INSTRUCTION_LOBBY,
         name: `${presetLobby.name} Instructions`,
         description: 'Instructions for the lobby',
+        isNotRemoveable: true
       }
+      if(!experienceModel.instructions[lobbyInstructionsId]) experienceModel.instructions[lobbyInstructionsId] = presetLobbyInstruction
+      else experienceModel.instructions[lobbyInstructionsId] = mergeDeep(presetLobbyInstruction, experienceModel.instructions[lobbyInstructionsId])
 
-      presetLobby.roleInstructionByRoleId = {
+      presetLobby.instructionsByRoleId = {
         [defaultGuideRoleId]: lobbyInstructionsId
       }
 

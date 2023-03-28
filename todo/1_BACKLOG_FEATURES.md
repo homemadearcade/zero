@@ -7,3 +7,6 @@ BOUNDARIES UPDATE
 UNDO
   undo canvas stuff doesnt work now between stages
   undo doent work at all really Need to undo by textureId
+
+EXPERIENCE CREATOR
+  create reducer for experience creator so that we can at least change the selected is when we remove something

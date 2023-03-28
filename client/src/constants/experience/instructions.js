@@ -1,15 +1,23 @@
 export const INSTRUCTION_GAME_ROOM = 'INSTRUCTION_GAME_ROOM'
 export const INSTRUCTION_LOBBY = 'INSTRUCTION_LOBBY'
 export const INSTRUCTION_DRAWING_ROOM = 'INSTRUCTION_DRAWING_ROOM'
+export const INSTRUCTION_NEW_GAME = 'INSTRUCTION_NEW_GAME'
 
 export const instructionToInterfaceData = {
   [INSTRUCTION_GAME_ROOM]: {
     displayName: 'Game',
     icon: 'faGamepad',
+    // isCreateable: true,
   },
+  // [INSTRUCTION_NEW_GAME]: {
+  //   displayName: 'New Game',
+  //   icon: 'faGamepad',
+  //   isCreateable: false,
+  // },
   [INSTRUCTION_LOBBY]: {
     displayName: 'Lobby',
     icon: 'faDoorOpen',
+    // isCreateable: true,
   },
   // [INSTRUCTION_DRAWING_ROOM]: {
   //   displayName: 'Drawing',
@@ -24,7 +32,9 @@ export const defaultInstructions = {
   steps: {},
   stepOrder: [],
   instructionId: null,
-  instructionCategory: null
+  instructionCategory: null,
+  gameId: null,
+  isRemoved: false
 }
   // {
   //   name: {

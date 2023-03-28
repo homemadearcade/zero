@@ -9,6 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 import SelectInstructionCategory from '../../../../ui/SelectInstructionCategory/SelectInstructionCategory';
 import { generateUniqueId } from '../../../../utils';
 import { INSTRUCTION_ID_PREFIX } from '../../../../constants';
+import InstructionForm from '../InstructionForm/InstructionForm';
 
 const InstructionAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isInstructionAddOpen, setIsInstructionAddOpen] = useState(false)
@@ -38,29 +39,7 @@ const InstructionAddForm = ({ onSubmit, defaultValues = {}}) => {
         <DialogTitle>New Instruction</DialogTitle>
         <DialogContent>
           <form>
-          <Controller
-            name={"name"}
-            control={control}
-            {...register("name", {
-              required: true
-            })}
-            render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label={"Name"} />
-            )}
-          />
-          <br></br><br/>
-          <Controller
-            {...register("instructionCategory", {
-              required: true
-            })}
-            name={"instructionCategory"}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <SelectInstructionCategory onChange={(e) => {
-                onChange(e.target.value)
-              }} value={value ? [value] : []} label={"Category"} />
-            )}
-          />
+            <InstructionForm control={control} register={register} />
           </form>
         </DialogContent>
         <DialogActions>

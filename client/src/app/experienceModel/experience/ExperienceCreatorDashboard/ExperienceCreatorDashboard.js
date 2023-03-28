@@ -27,7 +27,12 @@ const ExperienceCreatorDashboard = ({
         body={<ExperienceCreatorBody idEditing={idEditing}/>}
         drawer={<ExperienceCreatorMenu onNodeSelect={(e, nodeId) => {
           const { isNotValid } = getIdInformation(nodeId)
-          if(!isNotValid) setIdEditing(nodeId)
+          if(!isNotValid) {
+            setIdEditing(null)
+            setTimeout(() => {
+              setIdEditing(nodeId)
+            }, 2)
+          }
         }}/>}
       />
     </div>

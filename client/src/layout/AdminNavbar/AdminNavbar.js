@@ -21,10 +21,13 @@ const AdminNavbar = ({ auth, history }) => {
         </li>
         <li className="nav-item">
           <Link ignoreDefaultStyle to="/games">Games</Link>
-          </li>
+        </li>
+        <li className="nav-item">
+          <Link ignoreDefaultStyle to="/experiences">Experiences</Link>
+        </li>
         <li className="nav-item">
           <Link ignoreDefaultStyle to="/calendar">Calendar</Link>
-          </li>
+        </li>
         <li className="nav-item">
           <Link ignoreDefaultStyle to="/interface">Interface</Link>
         </li>

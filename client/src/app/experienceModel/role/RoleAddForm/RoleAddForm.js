@@ -9,6 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
 import { ROLE_ID_PREFIX } from '../../../../constants';
 import FormLabel from '../../../../ui/FormLabel/FormLabel';
+import RoleForm from '../RoleForm/RoleForm';
 
 const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isRoleAddOpen, setIsRoleAddOpen] = useState(false)
@@ -38,28 +39,7 @@ const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
         <DialogTitle>New Role</DialogTitle>
         <DialogContent>
           <form>
-          <Controller
-            name={"name"}
-            control={control}
-            {...register("name", {
-              required: true
-            })}
-            render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label={"Name"} />
-            )}
-          />
-          <Controller
-            name={"color"}
-            control={control}
-            {...register("color", {
-              required: true
-            })}
-            render={({ field: { onChange, value } }) => {
-            return <>
-              <FormLabel htmlFor="color">Color</FormLabel>
-              <input type="color" onChange={onChange} value={value} />
-            </>}}
-          />
+          <RoleForm control={control} register={register} />
           </form>
         </DialogContent>
         <DialogActions>

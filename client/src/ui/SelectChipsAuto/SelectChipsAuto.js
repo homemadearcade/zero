@@ -10,6 +10,7 @@ import FormLabel from '../FormLabel/FormLabel';
 import Sprite from '../../game/textures/Texture/Texture';
 import { lighten, darken } from '@mui/system';
 import Typography from '../Typography/Typography';
+import Icon from '../Icon/Icon';
 
 const GroupHeader = styled('div')(({ theme }) => ({
   position: 'sticky',
@@ -165,7 +166,7 @@ const Listbox = styled('ul')(
       height: 1.2em;
     }
 
-    & svg {
+    & .checkmark {
       color: transparent;
     }
   }
@@ -174,7 +175,7 @@ const Listbox = styled('ul')(
     background-color: ${theme.palette.mode === 'dark' ? '#2b2b2b' : '#fafafa'};
     font-weight: 600;
 
-    & svg {
+    & .checkmark {
       color: #1890ff;
     }
   }
@@ -183,7 +184,7 @@ const Listbox = styled('ul')(
     background-color: ${theme.palette.mode === 'dark' ? '#003b57' : '#e6f7ff'};
     cursor: pointer;
 
-    & svg {
+    & .checkmark {
       color: currentColor;
     }
   }
@@ -289,7 +290,9 @@ function SelectChipsAutoForm({
     if(!option) return null
 
     if(option.icon) {
-      <SpriteWrapper>{option.icon}</SpriteWrapper>
+      return <SpriteWrapper>
+        <Icon icon={option.icon} color={option.iconColor} />
+      </SpriteWrapper>
     }
 
     if(option.textureId || option.textureTint) {
@@ -316,7 +319,7 @@ function SelectChipsAutoForm({
           {renderSprite(option)}
           {renderLabelText(option)}
         </span>
-      <CheckIcon fontSize="small" />
+      <CheckIcon className='checkmark' fontSize="small" />
     </li>
   }
 

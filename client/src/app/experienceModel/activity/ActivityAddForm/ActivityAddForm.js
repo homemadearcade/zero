@@ -4,16 +4,16 @@ import { connect } from 'react-redux';
 import Button from '../../../../ui/Button/Button';
 import Icon from '../../../../ui/Icon/Icon';
 import Dialog from '../../../../ui/Dialog/Dialog';
-import { DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
-import SelectActivityCategory from '../../../../ui/SelectActivityCategory/SelectActivityCategory';
+import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
 import { ACTIVITY_ID_PREFIX } from '../../../../constants';
+import ActivityForm from '../ActivityForm/ActivityForm';
 
-const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
+const ActivityAddForm = ({ onSubmit, defaultValues = {}, auth: { me }}) => {
   const [isActivityAddOpen, setIsActivityAddOpen] = useState(false)
 
-  const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
+  const { handleSubmit, reset, control, formState: { isValid }, register, getValues } = useForm({
     defaultValues: {
       name: '',
       activityId: ACTIVITY_ID_PREFIX + generateUniqueId(),
@@ -26,7 +26,6 @@ const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
     reset();
     setIsActivityAddOpen(false)
   }
-
   return (
     <div className="ActivityAddForm">
       <Button onClick={() => {
@@ -38,29 +37,7 @@ const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
         <DialogTitle>New Activity</DialogTitle>
         <DialogContent>
           <form>
-          <Controller
-            name={"name"}
-            control={control}
-            {...register("name", {
-              required: true
-            })}
-            render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label={"Name"} />
-            )}
-          />
-          <br></br><br/>
-          <Controller
-            {...register("activityCategory", {
-              required: true
-            })}
-            name={"activityCategory"}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <SelectActivityCategory onChange={(e) => {
-                onChange(e.target.value)
-              }} value={value ? [value] : []} label={"Category"} />
-            )}
-          />
+            <ActivityForm control={control} register={register} />
           </form>
         </DialogContent>
         <DialogActions>
@@ -72,7 +49,7 @@ const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
 };
 
 const mapStateToProps = (state) => ({
-
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { })(ActivityAddForm);

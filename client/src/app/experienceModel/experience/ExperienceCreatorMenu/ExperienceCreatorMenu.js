@@ -7,10 +7,14 @@ import IconTree from '../../../../ui/IconTree/IconTree';
 import Icon from '../../../../ui/Icon/Icon';
 import ActivityAddForm from '../../activity/ActivityAddForm/ActivityAddForm';
 import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
-import { activityToInterfaceData, instructionToInterfaceData } from '../../../../constants';
+import { activityToInterfaceData, defaultGuideRoleId, defaultParticipantRoleId, GAME_ROOM_ACTIVITY, instructionToInterfaceData, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, roleToInterfaceData } from '../../../../constants';
 import LobbyAddForm from '../../lobby/LobbyAddForm/LobbyAddForm';
 import RoleAddForm from '../../role/RoleAddForm/RoleAddForm';
 import InstructionAddForm from '../../instruction/InstructionAddForm/InstructionAddForm';
+
+function isTruthy(item) {
+  return !!item
+}
 
 const ExperienceCreatorMenu = ({
   experienceModel: { experienceModel },
@@ -19,14 +23,16 @@ const ExperienceCreatorMenu = ({
 }) => {
   const lobbyNodes = Object.keys(experienceModel.lobbys).map((lobbyId, index) => {
     const lobby = experienceModel.lobbys[lobbyId]
+    if(lobby.isRemoved && !lobby.isNotRemoveable) return null
     const activityNodes = Object.keys(lobby.activitys).map((activityId) => {
       const activity = experienceModel.activitys[activityId]
+      if(activity.isRemoved && !activity.isNotRemoveable) return null
       return {
         icon: <Icon icon={activityToInterfaceData[activity.activityCategory].icon}></Icon>,
         label: activity.name,
         id: activityId,
       }
-    })
+    }).filter(isTruthy)
 
     return {
       id: lobbyId,
@@ -42,7 +48,7 @@ const ExperienceCreatorMenu = ({
       />,
       children: activityNodes,
       childrenButton: <ActivityAddForm key={'activity-add' + lobbyId} onSubmit={(activity) => {
-        editExperienceModel(experienceModel.id, {
+        const experienceModelUpdate = {
           lobbys: {
             [lobbyId]: {
               activitys: {
@@ -54,20 +60,41 @@ const ExperienceCreatorMenu = ({
           },
           activitys: { 
             [activity.activityId]: activity
+          },
+          instructions: {}
+        }
+        if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
+          const gameRoomInstructionsId = INSTRUCTION_ID_PREFIX+activity.activityId
+          experienceModelUpdate.instructions[gameRoomInstructionsId] = {
+            instructionId: gameRoomInstructionsId,
+            instructionCategory: INSTRUCTION_GAME_ROOM,
+            name: `${activity.name} Guide Instructions`,
+            gameId: activity.gameRoom.gameId,
           }
-        })
+          const activityUpdate = experienceModelUpdate.activitys[activity.activityId]
+          if(!activityUpdate.instructionsByRoleId) { 
+            activityUpdate.instructionsByRoleId = {}
+          }
+          activityUpdate.instructionsByRoleId[defaultGuideRoleId] = gameRoomInstructionsId
+          if(!activityUpdate.gameRoom) {
+            activityUpdate.gameRoom = {}
+          }
+          activityUpdate.gameRoom.hostRoleId = defaultParticipantRoleId
+        }
+        editExperienceModel(experienceModel.id, experienceModelUpdate)
       }}/>
     }
-  })
+  }).filter(isTruthy)
 
   const roleChildren = Object.keys(experienceModel.roles).map((roleId) => {
     const role = experienceModel.roles[roleId]
+    if(role.isRemoved && !role.isNotRemoveable) return null
     return {
       id: roleId,
-      icon: <Icon icon='faCircle' color={role.color}></Icon>,
+      icon: <Icon icon={roleToInterfaceData[role.roleCategory].icon} color={role.color}></Icon>,
       label: role.name,
     }
-  })
+  }).filter(isTruthy)
 
   const roleNode = {
     id: 'roles',
@@ -85,12 +112,13 @@ const ExperienceCreatorMenu = ({
 
   const instructionChildren = Object.keys(experienceModel.instructions).map((instructionId) => {
     const instruction = experienceModel.instructions[instructionId]
+    if(instruction.isRemoved && !instruction.isNotRemoveable) return null
     return {
       id: instructionId,
         icon: <Icon icon={instructionToInterfaceData[instruction.instructionCategory].icon}></Icon>,
       label: experienceModel.instructions[instructionId].name,
     }
-  })
+  }).filter(isTruthy)
 
   const instructionNode = {
     id: 'instructions',
