@@ -16,9 +16,6 @@ const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
   const { handleSubmit, reset, trigger, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
       name: '',
-      gameRoom: {
-        isAutosaveDisabled: true
-      },
       ...defaultValues
     },
   });

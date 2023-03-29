@@ -27,7 +27,7 @@ export default (ChildComponent) => {
     
       if(lobby?.id) {
         updateLobbyUser({
-          lobbyId: lobby?.id,
+          lobbyInstanceId: lobby?.id,
           userId: me.id, 
           user: {
             internetSpeedTestResults: speedTest

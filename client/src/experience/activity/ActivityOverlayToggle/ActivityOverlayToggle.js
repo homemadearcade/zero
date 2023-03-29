@@ -39,7 +39,7 @@ const ActivityOverlayToggle = ({
       onChange={async () => {
         if(!inOverlayView) toggleActiveCobrowsing(true)
         updateLobbyUser({
-          lobbyId: id,
+          lobbyInstanceId: id,
           userId: cobrowsingUser.id, 
           user: {
             inOverlayView: !inOverlayView

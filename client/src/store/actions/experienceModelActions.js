@@ -21,8 +21,9 @@ import {
 } from '../types';
 import { mergeDeep } from '../../utils';
 import _ from 'lodash';
-import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, GAME_ROOM_ACTIVITY, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../constants';
+import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../constants';
 import { defaultExperienceModel } from '../../constants';
+import { defaultGameRoom } from '../../constants/experience/gameRoom';
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
@@ -99,16 +100,31 @@ function addDefaultsToExperienceModel(experienceModel) {
     })
   }
 
+  if(experienceModel.gameRooms) {
+    Object.keys(experienceModel.gameRooms).forEach((id) => {
+      experienceModel.gameRooms[id] = mergeDeep(_.cloneDeep(defaultGameRoom), experienceModel.gameRooms[id])
+    })
+  }
+
   if(experienceModel.activitys) {
     Object.keys(experienceModel.activitys).forEach((id) => {
-      experienceModel.activitys[id] = mergeDeep(_.cloneDeep(defaultActivity), experienceModel.activitys[id])
-      const activity = experienceModel.activitys[id]
-      if(activity.isRemoved && !activity.isNotRemoveable) return
-      if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
-        experienceModel.games[activity.gameRoom.gameId] = {
-          metadata: activity.gameRoom.gameMetadata,
+      const presetActivity =  mergeDeep(_.cloneDeep(defaultActivity), _.cloneDeep(experienceModel.activitys[id]))
+
+      if(presetActivity.activityCategory === GAME_ROOM_ACTIVITY) {
+        const gameRoomInstructionsId = INSTRUCTION_ID_PREFIX+presetActivity.presetActivityId
+        experienceModel.instructions[gameRoomInstructionsId] = {
+          instructionId: gameRoomInstructionsId,
+          instructionCategory: INSTRUCTION_GAME_ROOM,
+          name: `${presetActivity.name} Guide Instructions`,
+          gameId: presetActivity.gameRoom.gameId,
         }
+        if(!presetActivity.instructionsByRoleId) { 
+          presetActivity.instructionsByRoleId = {}
+        }
+        presetActivity.instructionsByRoleId[defaultGuideRoleId] = gameRoomInstructionsId
       }
+
+      experienceModel.activitys[id] = mergeDeep(presetActivity, experienceModel.activitys[id])
     })
   }
 

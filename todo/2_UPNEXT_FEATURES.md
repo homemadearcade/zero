@@ -5,7 +5,7 @@ UPLOAD PHOTOS
     Should be a /image route not an aws route
 
 Games and CanvasImages that anyone in a lobby can edit!
-  Does that mean we want to keep track of what lobby you are in? on the user object? lobbyId === ? Also then we can just be like 'yo we got a lobby starting'
+  Does that mean we want to keep track of what lobby you are in? on the user object? lobbyInstanceId === ? Also then we can just be like 'yo we got a lobby starting'
 
 VIDEO CALL BLOCKING
   End Call for everyone in lobby, End call for self also

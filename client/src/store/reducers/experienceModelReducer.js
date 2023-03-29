@@ -11,6 +11,7 @@ import {
   EDIT_EXPERIENCE_MODEL_FAIL,
   EDIT_EXPERIENCE_MODEL_SUCCESS,
   EDIT_EXPERIENCE_MODEL_LOADING,
+  CLEAR_EXPERIENCE_MODEL,
 } from '../types';
 
 const initialState = {
@@ -53,6 +54,11 @@ export default function experienceModelReducer(state = initialState, { type, pay
         ...state,
         isLoading: false,
         experienceModel: payload.experienceModel,
+      };
+    case CLEAR_EXPERIENCE_MODEL: 
+      return {
+        ...state,
+        experienceModel: null,
       };
     case GET_EXPERIENCE_MODELS_SUCCESS:
       return {

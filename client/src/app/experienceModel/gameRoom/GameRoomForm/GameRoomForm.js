@@ -11,73 +11,53 @@ import { RoleChip } from '../../role/RoleChip/RoleChip';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import GameAddForm from '../../../gameModel/GameAddForm/GameAddForm';
 
-const ActivityGameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me }, experienceModel: { experienceModel }}) => {
+const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me }, experienceModel: { experienceModel }}) => {
   const copyGame = useWatch({
     control,
-    name: "gameRoom.copyGame",
+    name: "copyGame",
   });
 
   const gameId = useWatch({
     control,
-    name: "gameRoom.gameId",
+    name: "gameId",
   });
-
-  function renderRoleSelect() {
-    return <>
-      <Controller
-        {...register("gameRoom.hostRoleId", {
-          required: true,
-        })}
-        name={`gameRoom.hostRoleId`}
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <SelectRole 
-          formLabel="Game Host Role"
-          onSelect={(roleIds) => {
-            if(!roleIds || roleIds.length === 0) return
-            onChange(roleIds[roleIds.length - 1])
-          }} value={value ? [value] : []} />
-        )}
-      />
-      <br/>
-      <Typography variant="h6">Role Instructions</Typography>
-      {Object.keys(experienceModel.roles).map((roleId) => {
-        const role = experienceModel.roles[roleId]
-        if(role.isRemoved && !role.isNotRemoveable) return null
-        return <>
-          <RoleChip role={role} />
-          <Controller
-            name={`instructionsByRoleId.${role.roleId}`}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <SelectInstructions instructionCategory={INSTRUCTION_GAME_ROOM} gameId={gameId} onSelect={(instructionIds) => {
-                if(!instructionIds || instructionIds.length === 0) return onChange(null)
-                onChange(instructionIds[instructionIds.length - 1])
-              }} value={value ? [value] : []} />
-            )}
-          />
-        </>}
-      )}
-    </>
-  }
 
   function renderGameSelect() {
     if(!isEdit) return <Controller
-      {...register("gameRoom.gameId", {
+      {...register("gameId", {
         required: true,
         // shouldUnregister: true,
       })}
-      name={"gameRoom.gameId"}
+      name={"gameId"}
       control={control}
       render={({ field: { onChange, value } }) => (
         <SelectArcadeGame disabled={isEdit} label="My Games" userId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
           if(games[0]) {
             const game = games[games.length - 1]
             onChange(game.id)
-            setValue("gameRoom.gameMetadata", game.metadata)
-            trigger("gameRoom.gameId")
+            setValue("gameMetadata", game.metadata)
+            setValue("name", game.metadata.title)
+            trigger("gameId")
           }
         }}/>
+      )}
+    />
+  }
+
+  function renderHostRoleSelect() {
+    return <Controller
+      {...register("hostRoleId", {
+        required: true,
+      })}
+      name={`hostRoleId`}
+      control={control}
+      render={({ field: { onChange, value } }) => (
+        <SelectRole 
+        formLabel="Game Host Role"
+        onSelect={(roleIds) => {
+          if(!roleIds || roleIds.length === 0) return
+          onChange(roleIds[roleIds.length - 1])
+        }} value={value ? [value] : []} />
       )}
     />
   }
@@ -88,10 +68,10 @@ const ActivityGameRoomForm = ({ isEdit, setValue, register, control, trigger, au
       return
     }
     return <Controller
-      {...register("gameRoom.copyGame", {
+      {...register("copyGame", {
         // shouldUnregister: true,
       })}
-      name={"gameRoom.copyGame"}
+      name={"copyGame"}
       control={control}
       render={({ field: { onChange, value } }) => (
         <Switch
@@ -101,9 +81,9 @@ const ActivityGameRoomForm = ({ isEdit, setValue, register, control, trigger, au
           checked={value}
           onChange={(e) => {
             if(e.target.checked) {
-              setValue("gameRoom.isAutosaveDisabled", false)
+              setValue("isAutosaveDisabled", false)
             } else {
-              setValue("gameRoom.isAutosaveDisabled", true)
+              setValue("isAutosaveDisabled", true)
             }
             onChange(e.target.checked)
           }}
@@ -115,17 +95,17 @@ const ActivityGameRoomForm = ({ isEdit, setValue, register, control, trigger, au
   return <>
     {renderGameSelect()}
     {!isEdit && <GameAddForm onSubmit={(game) => {
-      setValue("gameRoom.gameId", game.id)
-      setValue("gameRoom.gameMetadata", game.metadata)
-      trigger("gameRoom.gameId")
+      setValue("gameId", game.id)
+      setValue("gameMetadata", game.metadata)
+      trigger("gameId")
     }} defaultValues={{userId: me.id}}></GameAddForm>}
     {gameId && <GameCardLoad gameId={gameId} />}
     {renderCopyGame()}
     {isEdit && <Controller
-      {...register("gameRoom.isAutosaveDisabled", {
+      {...register("isAutosaveDisabled", {
         // shouldUnregister: true,
       })}
-      name={"gameRoom.isAutosaveDisabled"}
+      name={"isAutosaveDisabled"}
       control={control}
       render={({ field: { onChange, value } }) => (
         <Switch
@@ -138,7 +118,7 @@ const ActivityGameRoomForm = ({ isEdit, setValue, register, control, trigger, au
         />
       )}
     />}
-   {isEdit && renderRoleSelect()}
+    {isEdit && renderHostRoleSelect()}
   </>
 };
 
@@ -147,4 +127,4 @@ const mapStateToProps = (state) => ({
   experienceModel: state.experienceModel,
 });
 
-export default connect(mapStateToProps, { })(ActivityGameRoomForm);
+export default connect(mapStateToProps, { })(GameRoomForm);

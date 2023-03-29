@@ -36,11 +36,11 @@ import { OPEN_TOOL } from '../../constants';
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()
   const userId = state.auth.me.id
-  const lobbyId = state.lobby.lobby.id 
+  const lobbyInstanceId = state.lobby.lobby.id 
 
   if(!e) {
     window.socket.emit(ON_COBROWSING_STATUS_UPDATE, {
-      lobbyId,
+      lobbyInstanceId,
       userId,
       cobrowsingMouse: {
         lastPing: Date.now()
@@ -54,7 +54,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
   const xPercent = (e.clientX - viewPadding)/viewWidth
 
   const cobrowsingStatus = {
-    lobbyId,
+    lobbyInstanceId,
     userId,
     cobrowsingMouse: {
       xPercent,

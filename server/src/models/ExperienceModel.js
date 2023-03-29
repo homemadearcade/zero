@@ -17,7 +17,12 @@ const experienceModel = new Schema(
       required: true,
       default: {}
     },
-    games: {
+    canvasRooms: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    gameRooms: {
       type: Object,
       required: true,
       default: {}
@@ -56,7 +61,9 @@ experienceModel.methods.toJSON = function () {
     metadata: this.metadata,
     owner: this.owner?.toJSON(),
     activitys: this.activitys,
+    gameRooms: this.gameRooms,
     instructions: this.instructions,
+    canvasRooms: this.canvasRooms,
     lobbys: this.lobbys,
     roles: this.roles,
     isRemoved: this.isRemoved,

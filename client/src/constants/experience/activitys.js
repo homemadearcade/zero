@@ -58,13 +58,11 @@ export const defaultActivity = {
   activityCategory: null,
   activityId: null,
   instructionsByRoleId: {},
-  instructions: {},
   name: null,
   gameRoom: {
-    copyGame: false,
     gameId: null,
-    isAutosaveDisabled: false,
-    hostRoleId: null,
+    gameRoomId: null,
+    gameMetadata: {}
   },
   drawingRoom: {},
   iframes: {},

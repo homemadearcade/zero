@@ -14,6 +14,7 @@ import RoleEditForm from '../../role/RoleEditForm/RoleEditForm';
 import InstructionEditForm from '../../instruction/InstructionEditForm/InstructionEditForm';
 import ActivityEditForm from '../../activity/ActivityEditForm/ActivityEditForm';
 import Loader from '../../../../ui/Loader/Loader';
+import GameRoomEditForm from '../../gameRoom/GameRoomEditForm/GameRoomEditForm';
 
 const ExperienceCreatorBody = ({
   experienceModel: { experienceModel },
@@ -21,7 +22,7 @@ const ExperienceCreatorBody = ({
 }) => {
   if(!idEditing) return <Loader/>
 
-  const { isActivityId, isLobbyId, isRoleId, isInstructionId } = getIdInformation(idEditing)
+  const { isActivityId, isLobbyId, isRoleId, isInstructionId, isGameRoomId } = getIdInformation(idEditing)
 
   function renderBody() {
     if(isActivityId) {
@@ -58,6 +59,18 @@ const ExperienceCreatorBody = ({
           <RoleChip role={role}/>
         </div>
         <RoleEditForm roleId={role.roleId}/>
+      </div>
+    }
+
+    if(isGameRoomId) {
+      const gameRoom = experienceModel.gameRooms[idEditing]
+      if(!gameRoom) return <Loader/>
+       return <div>
+        <div className="ExperienceCreatorBody__title">
+          <div className="ExperienceCreatorBody__title-icon"><Icon icon="faGamepad"/></div>
+          {gameRoom.name}
+        </div>
+        <GameRoomEditForm gameRoomId={gameRoom.gameRoomId}/>
       </div>
     }
 

@@ -332,7 +332,7 @@ const App = ({ theme: { primaryColor } }) => {
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
           <Route path="/experiences" children={wrapComponentInApp(ExperiencesPage)} />
           <Route path="/experience/:experienceId" children={wrapComponentInApp(ExperienceCreatorPage)} />
-          <Route path="/lobby/:lobbyId" children={wrapComponentInApp(LobbyPage)} />
+          <Route path="/lobby/:lobbyInstanceId" children={wrapComponentInApp(LobbyPage)} />
           <Route exact path="/user/:username" children={wrapComponentInApp(UserPage)} />
           <Route path="/OAuthSuccess" children={wrapComponentInApp(HomemadeArcadePage)} />
           <Route exact path="/" children={wrapComponentInAppIfAuthenticated(HomemadeArcadePage)} />

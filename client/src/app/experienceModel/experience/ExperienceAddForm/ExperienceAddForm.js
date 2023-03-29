@@ -20,6 +20,8 @@ const ExperienceAddForm = ({ addExperienceModel, onSubmit, auth: { me }, default
       activitys: {},
       instructions: {},
       roles: {},
+      gameRooms: {},
+      canvasRooms: {},
       metadata: {},
       userId: me.id,
       ...defaultValues

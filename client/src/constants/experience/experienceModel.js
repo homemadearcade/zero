@@ -5,11 +5,15 @@ export const defaultLobbyId = LOBBY_ID_PREFIX + 'default';
 export const defaultParticipantRoleId = ROLE_ID_PREFIX+ 'participant';
 export const defaultGuideRoleId = ROLE_ID_PREFIX+ 'guide';
 
-export const EXPERIENCE_CONVEYER_BELT = 'EXPERIENCE_CONVEYER_BELT';
-export const EXPERIENCE_CREATE_GAME = 'EXPERIENCE_CREATE_GAME';
-export const EXPERIENCE_CONVERGING_TRACKS = 'EXPERIENCE_CONVERGING_TRACKS';
-export const EXPERIENCE_BATTLE_ROYALE = 'EXPERIENCE_BATTLE_ROYALE';
-export const EXPERIENCE_ADVENTURE_GAME = 'EXPERIENCE_ADVENTURE_GAME';
+export const EXPERIENCE_PRESET_CONVEYER_BELT = 'EXPERIENCE_PRESET_CONVEYER_BELT';
+export const EXPERIENCE_PRESET_CREATE_GAME = 'EXPERIENCE_PRESET_CREATE_GAME';
+export const EXPERIENCE_PRESET_CONVERGING_TRACKS = 'EXPERIENCE_PRESET_CONVERGING_TRACKS';
+export const EXPERIENCE_PRESET_BATTLE_ROYALE = 'EXPERIENCE_PRESET_BATTLE_ROYALE';
+export const EXPERIENCE_PRESET_ADVENTURE_GAME = 'EXPERIENCE_PRESET_ADVENTURE_GAME';
+
+export const SINGLE_LOBBY_EXPERIENCE = 'SINGLE_LOBBY_EXPERIENCE';
+export const MULTI_LOBBY_EXPERIENCE = 'MULTI_LOBBY_EXPERIENCE';
+export const DYNAMIC_LOBBY_EXPERIENCE = 'DYNAMIC_LOBBY_EXPERIENCE';
 
 export const defaultExperienceModel = {
   lobbys: {
@@ -37,7 +41,8 @@ export const defaultExperienceModel = {
       roleCategory: EXPERIENCE_ROLE_TEAM
     }
   },
-  games: {},
+  gameRooms: {},
+  canvasRooms: {},
   instructions: {},
   isRemoved: false,
 }

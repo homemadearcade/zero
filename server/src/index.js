@@ -224,7 +224,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.lobbyId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
+    io.to(payload.lobbyInstanceId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_GAME_ROOM_USER_STATUS_UPDATE, (payload) => {

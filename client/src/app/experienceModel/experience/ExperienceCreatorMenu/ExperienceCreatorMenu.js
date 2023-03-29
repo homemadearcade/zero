@@ -11,6 +11,7 @@ import { activityToInterfaceData, defaultGuideRoleId, defaultParticipantRoleId, 
 import LobbyAddForm from '../../lobby/LobbyAddForm/LobbyAddForm';
 import RoleAddForm from '../../role/RoleAddForm/RoleAddForm';
 import InstructionAddForm from '../../instruction/InstructionAddForm/InstructionAddForm';
+import GameRoomAddForm from '../../gameRoom/GameRoomAddForm/GameRoomAddForm';
 
 function isTruthy(item) {
   return !!item
@@ -66,25 +67,6 @@ const ExperienceCreatorMenu = ({
           activitys: { 
             [activity.activityId]: activity
           },
-          instructions: {}
-        }
-        if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
-          const gameRoomInstructionsId = INSTRUCTION_ID_PREFIX+activity.activityId
-          experienceModelUpdate.instructions[gameRoomInstructionsId] = {
-            instructionId: gameRoomInstructionsId,
-            instructionCategory: INSTRUCTION_GAME_ROOM,
-            name: `${activity.name} Guide Instructions`,
-            gameId: activity.gameRoom.gameId,
-          }
-          const activityUpdate = experienceModelUpdate.activitys[activity.activityId]
-          if(!activityUpdate.instructionsByRoleId) { 
-            activityUpdate.instructionsByRoleId = {}
-          }
-          activityUpdate.instructionsByRoleId[defaultGuideRoleId] = gameRoomInstructionsId
-          if(!activityUpdate.gameRoom) {
-            activityUpdate.gameRoom = {}
-          }
-          activityUpdate.gameRoom.hostRoleId = defaultParticipantRoleId
         }
         editExperienceModel(experienceModel.id, experienceModelUpdate)
         onNodeSelect(activity.activityId)
@@ -143,22 +125,30 @@ const ExperienceCreatorMenu = ({
   }
 
 
-  const gameChildren = Object.keys(experienceModel.games).map((gameId) => {
-    const game = experienceModel.games[gameId]
-    console.log(gameId)
+  const gameChildren = Object.keys(experienceModel.gameRooms).map((gameRoomId) => {
+    const game = experienceModel.gameRooms[gameRoomId]
     if(game.isRemoved && !game.isNotRemoveable) return null
     return {
-      id: gameId,
-      label: experienceModel.games[gameId].metadata.title,
+      id: gameRoomId,
+      label: experienceModel.gameRooms[gameRoomId].name,
     }
   }).filter(isTruthy)
 
   const gameNode = {
-    id: 'games',
-    label: 'Games',
+    id: 'gamerooms',
+    label: 'Game Rooms',
     icon: <Icon icon='faGamepad'></Icon>,
     children: gameChildren,
+    childrenButton: <GameRoomAddForm key={'game-add'} onSubmit={(game) => {
+      editExperienceModel(experienceModel.id, {
+        gameRooms: {
+          [game.gameRoomId]: game
+        }
+      })
+      onNodeSelect(game.gameRoomId)
+    }}/>
   }
+
 
   const nodes = [instructionNode, gameNode, roleNode, ...lobbyNodes]
 
