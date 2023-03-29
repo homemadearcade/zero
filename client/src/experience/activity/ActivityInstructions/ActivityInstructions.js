@@ -119,7 +119,7 @@ const ActivityInstructions = ({
       title: <Typography component="h5" variant="h5">Return Participant From Stars</Typography>,
       onClickNext: () => {
         updateLobbyUser({
-          lobbyInstanceInstanceId: lobbyInstance.id,
+          lobbyInstanceId: lobbyInstance.id,
           userId: lobbyInstance.participantId, 
           user: {
             inOverlayView: false
@@ -137,7 +137,7 @@ const ActivityInstructions = ({
       title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
       onClickNext: () => {
         updateLobbyUser({
-          lobbyInstanceInstanceId: lobbyInstance.id,
+          lobbyInstanceId: lobbyInstance.id,
           userId: lobbyInstance.participantId, 
           user: {
             inOverlayView: true

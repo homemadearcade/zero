@@ -25,7 +25,7 @@ const LobbyMember = ({
   userId, 
   key, 
   lobbyInstance: { lobbyInstance }, 
-  status : { lobbyInstanceInstanceUserStatuses, cobrowsingMouses }, 
+  status : { lobbyInstanceUserStatuses, cobrowsingMouses }, 
   auth: {me}, 
   setCutAudio, 
   setCutVideo
@@ -34,7 +34,7 @@ const LobbyMember = ({
   const [showUnlockedUI, setShowUnlockedUI] = useState(false)
   const [isVideoOpen, setIsVideoOpen] = useState(false)
 
-  const userStatus = lobbyInstanceInstanceUserStatuses[userId];
+  const userStatus = lobbyInstanceUserStatuses[userId];
   const userCobrowsingStatus = cobrowsingMouses[userId]
   const user = lobbyInstance.members.filter(({id}) => {
     if(userId === id) {

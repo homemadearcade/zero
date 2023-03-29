@@ -30,7 +30,7 @@ const LobbyChecklist = ({
   editLobby,
   lobbyInstance: { lobbyInstance },
   auth: { me },
-  status: { lobbyInstanceInstanceUserStatuses },
+  status: { lobbyInstanceUserStatuses },
   cobrowsing: { remoteStateUserId }
 }) => {
   const membersById = lobbyInstance.members.reduce((prev, next) => {
@@ -51,7 +51,7 @@ const LobbyChecklist = ({
     {
       text: 'Participant is present',
       test: () => {
-        return lobbyInstanceInstanceUserStatuses[lobbyInstance.participantId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyInstanceInstanceUserStatuses[lobbyInstance.participantId]?.isFocused
+        return lobbyInstanceUserStatuses[lobbyInstance.participantId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyInstanceUserStatuses[lobbyInstance.participantId]?.isFocused
       },
       required: true,
     },
@@ -65,7 +65,7 @@ const LobbyChecklist = ({
     {
       text: 'Guide is present',
       test: () => {
-        return lobbyInstanceInstanceUserStatuses[lobbyInstance.guideId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyInstanceInstanceUserStatuses[lobbyInstance.guideId]?.isFocused
+        return lobbyInstanceUserStatuses[lobbyInstance.guideId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyInstanceUserStatuses[lobbyInstance.guideId]?.isFocused
       },
       required: true,
     },
@@ -115,7 +115,7 @@ const LobbyChecklist = ({
     {
       text: 'Participant is fullscreen',
       test: () => {
-        return lobbyInstanceInstanceUserStatuses[lobbyInstance.participantId]?.isFullscreen
+        return lobbyInstanceUserStatuses[lobbyInstance.participantId]?.isFullscreen
       },
       required: false,
     },
@@ -152,7 +152,7 @@ const LobbyChecklist = ({
   //       isAllPassing, isAllRequiredPassing
   //     }
   //   }
-  // }, [client, lobbyInstance, lobbyInstanceInstanceUserStatuses])
+  // }, [client, lobbyInstance, lobbyInstanceUserStatuses])
 
   return <div className="LobbyChecklist__checklist">
     {checklist.map((item, i) => {

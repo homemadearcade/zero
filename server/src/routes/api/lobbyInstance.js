@@ -113,7 +113,7 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
       editingGameId: req.body.editingGameId,
       gameRoomInstanceId: req.body.gameRoomInstanceId,
       experienceInstanceId: req.body.experienceInstanceId,
-      lobbyInstanceInstanceShortId: LOBBY_INSTANCE_ID_PREFIX + generateUniqueId()
+      lobbyInstanceShortId: LOBBY_INSTANCE_ID_PREFIX + generateUniqueId()
     });
 
     lobbyInstance = await lobbyInstance.populate('invitedUsers').execPopulate();

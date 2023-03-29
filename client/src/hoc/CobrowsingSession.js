@@ -33,9 +33,9 @@ class CobrowsingSession extends Component {
     const { auth: { me }, lobbyInstance: { lobbyInstance }, publishCobrowsing, subscribeCobrowsing } = this.props
     
     if(userId === me.id) {
-      await publishCobrowsing({lobbyInstanceInstanceId: lobbyInstance.id})
+      await publishCobrowsing({lobbyInstanceId: lobbyInstance.id})
     } else {
-      await subscribeCobrowsing({lobbyInstanceInstanceId: lobbyInstance.id, userId: userId})
+      await subscribeCobrowsing({lobbyInstanceId: lobbyInstance.id, userId: userId})
     }
   }
 
@@ -43,9 +43,9 @@ class CobrowsingSession extends Component {
     const { cobrowsing: { isSubscribedCobrowsing, cobrowsingUser }, lobbyInstance: { lobbyInstance }, unsubscribeCobrowsing, unpublishCobrowsing } = this.props
 
     if(isSubscribedCobrowsing) {
-      await unsubscribeCobrowsing({lobbyInstanceInstanceId: lobbyInstance.id, userId: cobrowsingUser.id})
+      await unsubscribeCobrowsing({lobbyInstanceId: lobbyInstance.id, userId: cobrowsingUser.id})
     } else {
-      await unpublishCobrowsing({lobbyInstanceInstanceId: lobbyInstance.id})
+      await unpublishCobrowsing({lobbyInstanceId: lobbyInstance.id})
     }
   }
 
