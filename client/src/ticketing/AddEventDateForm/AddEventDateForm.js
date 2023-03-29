@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { lobbyFormSchema } from './validation';
 import { Controller, useForm } from "react-hook-form";
 
 import Button from '../../ui/Button/Button';

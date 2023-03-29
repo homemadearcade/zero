@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { addGameRoom, editGameRoom, endGameRoom } from '../store/actions/gameRoomActions';
+import { addGameRoom, editGameRoom, endGameRoom } from '../store/actions/gameRoomInstanceActions';
 import Loader from '../ui/Loader/Loader';
 
 class LocalGameRoomContext extends Component {
@@ -16,7 +16,7 @@ class LocalGameRoomContext extends Component {
   }
 
   render() {
-    const { children, gameRoom: { isLoading, isJoining }} = this.props;
+    const { children, gameRoomInstance: { isLoading, isJoining }} = this.props;
   
     if(isJoining || isLoading) {
       return <Loader text="Starting Game Session..."/>
@@ -27,7 +27,7 @@ class LocalGameRoomContext extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  gameRoom: state.gameRoom
+  gameRoomInstance: state.gameRoomInstance
   // cobrowsing: state.cobrowsing
 });
 

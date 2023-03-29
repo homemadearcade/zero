@@ -56,8 +56,8 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
 
     const user = await User.findByIdAndUpdate(req.body.userId, { $set: updatedUser }, { new: true });
 
-    if(req.body.gameRoomId) {
-      req.io.to(req.body.gameRoomId).emit(ON_GAME_CHARACTER_UPDATE, {
+    if(req.body.gameRoomInstanceId) {
+      req.io.to(req.body.gameRoomInstanceId).emit(ON_GAME_CHARACTER_UPDATE, {
         id: req.body.userId,
         data: {
           unlockableInterfaceIds: user.unlockableInterfaceIds[ARCADE_EXPERIENCE_MODEL_ID]
@@ -232,8 +232,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       );
     }
 
-    if(req.body.gameRoomId) {
-      req.io.to(req.body.gameRoomId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
+    if(req.body.gameRoomInstanceId) {
+      req.io.to(req.body.gameRoomInstanceId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
     }
     
     res.status(200).json({ game: updatedGame });

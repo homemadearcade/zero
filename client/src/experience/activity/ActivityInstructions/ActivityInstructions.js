@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../../store/actions/lobbyActions';
+import { editLobby } from '../../../store/actions/lobbyInstanceActions';
 
 import './ActivityInstructions.scss';
 import { copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Typography from '../../../ui/Typography/Typography';
-import LobbyChecklist from '../../lobby/LobbyChecklist/LobbyChecklist';
+import LobbyChecklist from '../../lobbyInstance/LobbyChecklist/LobbyChecklist';
 import { unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
 import { openGameMetadataModal } from '../../../store/actions/gameSelectorActions';
@@ -22,11 +22,11 @@ import { setCutAudio, setCutVideo } from '../../../store/actions/videoActions';
 import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../../store/types';
 import { editGameModel } from '../../../store/actions/gameModelActions';
-import { updateLobbyUser } from '../../../store/actions/lobbyActions';
-import { editGameRoom } from '../../../store/actions/gameRoomActions';
+import { updateLobbyUser } from '../../../store/actions/lobbyInstanceActions';
+import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
 import GameAddForm from '../../../app/gameModel/GameAddForm/GameAddForm';
 import Button from '../../../ui/Button/Button';
-import LobbySelectRoles from '../../lobby/LobbySelectRoles/LobbySelectRoles';
+import LobbySelectRoles from '../../lobbyInstance/LobbySelectRoles/LobbySelectRoles';
 import Divider from '../../../ui/Divider/Divider';
 import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 import Switch from '../../../ui/Switch/Switch';
@@ -64,7 +64,7 @@ const PROLOGUE_2_CLASS_IDS = {
         //     await editLobby(lobby.id, {
         //       currentActivity: GAME_ROOM_ACTIVITY,
         //     })
-        //     await editGameRoom(lobby.gameRoomId, {
+        //     await editGameRoom(lobby.gameRoomInstanceId, {
         //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
         //       isAutosaveDisabled: true,
         //     })
@@ -76,9 +76,9 @@ const PROLOGUE_2_CLASS_IDS = {
 const ActivityInstructions = ({
   editLobby,
   updateArcadeGameCharacter,
-  lobby: { lobby },
+  lobbyInstance: { lobbyInstance },
   updateLobbyUser,
-  gameRoom: { gameRoom },
+  gameRoomInstance: { gameRoomInstance },
   setCutAudio,
   setCutVideo,
   editGameRoom,
@@ -88,11 +88,11 @@ const ActivityInstructions = ({
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
 
-  const playerInstancesById = gameRoom.members.reduce((prev, next) => {
+  const playerInstancesById = gameRoomInstance.members.reduce((prev, next) => {
     prev[next.id] = next
     return prev
   }, {})
-  const hostPlayer = playerInstancesById[gameRoom.hostUserId]
+  const hostPlayer = playerInstancesById[gameRoomInstance.hostUserId]
 
   const requireCobrowsingConnection = {
     shouldContinueBeDisabledCheck: () => {
@@ -119,8 +119,8 @@ const ActivityInstructions = ({
       title: <Typography component="h5" variant="h5">Return Participant From Stars</Typography>,
       onClickNext: () => {
         updateLobbyUser({
-          lobbyInstanceId: lobby.id,
-          userId: lobby.participantId, 
+          lobbyInstanceInstanceId: lobbyInstance.id,
+          userId: lobbyInstance.participantId, 
           user: {
             inOverlayView: false
           }
@@ -137,8 +137,8 @@ const ActivityInstructions = ({
       title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
       onClickNext: () => {
         updateLobbyUser({
-          lobbyInstanceId: lobby.id,
-          userId: lobby.participantId, 
+          lobbyInstanceInstanceId: lobbyInstance.id,
+          userId: lobbyInstance.participantId, 
           user: {
             inOverlayView: true
           }
@@ -168,11 +168,11 @@ const ActivityInstructions = ({
         This will spawn {className} inside of the Players camera view
       </>,
       shouldContinueBeDisabledCheck: () => {
-        if(gameRoom.gameId !== gameId) {
+        if(gameRoomInstance.gameId !== gameId) {
           return <>
             Incorrect game loaded!
             <Button onClick={async () => {
-              await editGameRoom(lobby.gameRoomId, {
+              await editGameRoom(lobbyInstance.gameRoomInstanceId, {
                 gameId: gameId,
               })
             }}>Load Correct Game</Button>
@@ -186,7 +186,7 @@ const ActivityInstructions = ({
       },
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
-          gameRoomId: lobby.gameRoomId, 
+          gameRoomInstanceId: lobbyInstance.gameRoomInstanceId, 
           gameInstanceEventType: EVENT_SPAWN_CLASS_IN_CAMERA, 
           data: {
             entityClassId,
@@ -207,7 +207,7 @@ const ActivityInstructions = ({
       </>,
       onClickNext: () => {
         updateArcadeGameCharacter({
-          userId: lobby.participantId,
+          userId: lobbyInstance.participantId,
           unlockableInterfaceIds: interfaceIds,
           merge: true
         })
@@ -227,24 +227,24 @@ const ActivityInstructions = ({
   function renderSelectArcadeGame() {
     return <>
       <div>
-       A Game is created automatically when a lobby is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
+       A Game is created automatically when a lobbyInstance is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
       </div><br/>
-      {lobby?.editingGameId && 
-        <GameCardLoad gameId={lobby.editingGameId}/>
+      {lobbyInstance?.editingGameId && 
+        <GameCardLoad gameId={lobbyInstance.editingGameId}/>
       }
-      {lobby.participantId && <SelectArcadeGame label="Games owned by Participant" userId={lobby.participantId} gamesSelected={lobby.editingGameId ? [lobby.editingGameId] : []} onSelect={(games) => {
+      {lobbyInstance.participantId && <SelectArcadeGame label="Games owned by Participant" userId={lobbyInstance.participantId} gamesSelected={lobbyInstance.editingGameId ? [lobbyInstance.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
-          editLobby(lobby.id, {
+          editLobby(lobbyInstance.id, {
             editingGameId: games[games.length - 1].id
           })
         }
       }}/>}
       <Divider></Divider>
       <GameAddForm onSubmit={(game) => {
-        editLobby(lobby.id, {
+        editLobby(lobbyInstance.id, {
           editingGameId: game.id
         })
-      }} defaultValues={{userId: lobby.participantId}}></GameAddForm>
+      }} defaultValues={{userId: lobbyInstance.participantId}}></GameAddForm>
     </>
   }
 
@@ -283,7 +283,7 @@ const ActivityInstructions = ({
           title: <Typography component="h5" variant="h5">Share Participant link</Typography>,
           instructions: <>
             The participant will automatically have recieved this link in the email for their ticket. You may also manually share this link with them if needed
-            <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobby/' + lobby.id + '/join/' + lobby.participantId}></input>
+            <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobbyInstance/' + lobbyInstance.id + '/join/' + lobbyInstance.participantId}></input>
             The Chatlog will show you if they have joined
           </>
         },
@@ -306,7 +306,7 @@ const ActivityInstructions = ({
 
           onClickNext: () => {
             updateArcadeGameCharacter({
-              userId: lobby.participantId,
+              userId: lobbyInstance.participantId,
               unlockableInterfaceIds: {}
             })
           },
@@ -319,7 +319,7 @@ const ActivityInstructions = ({
             <LobbyChecklist/>
           </>,
           // shouldContinueBeDisabledCheck: () => {
-          //   return !window.lobby?.isAllRequiredPassing
+          //   return !window.lobbyInstance?.isAllRequiredPassing
           // }
         },
         breakTitle('Prologue 1 (10 mins)'),
@@ -330,7 +330,7 @@ const ActivityInstructions = ({
             When you are ready to start experience, click the button bellow to start the monologue
           </>,
           onClickNext: () => {
-            editLobby(lobby.id, {
+            editLobby(lobbyInstance.id, {
               currentActivity: MONOLOGUE_ACTIVITY,
             })
           },
@@ -342,10 +342,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Load Prologue 1',
           title: <Typography component="h5" variant="h5">Load Prologue 1</Typography>,
           onClickNext: async () => {
-            await editLobby(lobby.id, {
+            await editLobby(lobbyInstance.id, {
               currentActivity: GAME_ROOM_ACTIVITY,
             })
-            await editGameRoom(lobby.gameRoomId, {
+            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
               gameId: GAME_IDS.prologue1,
               isPoweredOn: true,
               isAutosaveDisabled: true,
@@ -362,7 +362,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           </>,
           onClickNext: () => {
             updateArcadeGameCharacter({
-              userId: lobby.participantId,
+              userId: lobbyInstance.participantId,
               unlockableInterfaceIds: {
                 gameView: true,
               },
@@ -384,7 +384,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Allow Player Pixel Movement',
           title: <Typography component="h5" variant="h5">Allow Pixel Movement</Typography>,
           onClickNext: async () => {
-            await editGameRoom(lobby.gameRoomId, {
+            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
               gameState: PLAY_STATE
             })
           },
@@ -420,10 +420,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Load Prologue 2',
           title: <Typography component="h5" variant="h5">Load Prologue 2</Typography>,
           onClickNext: async () => {
-            await editLobby(lobby.id, {
+            await editLobby(lobbyInstance.id, {
               currentActivity: GAME_ROOM_ACTIVITY,
             })
-            await editGameRoom(lobby.gameRoomId, {
+            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
               gameId: GAME_IDS.prologue2,
               isPoweredOn: true,
               isAutosaveDisabled: true,
@@ -448,11 +448,11 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Load Editing Game',
           title: <Typography component="h5" variant="h5">Load Editing Game</Typography>,
           onClickNext: async () => {
-            await editLobby(lobby.id, {
+            await editLobby(lobbyInstance.id, {
               currentActivity: GAME_ROOM_ACTIVITY,
             })
-            await editGameRoom(lobby.gameRoomId, {
-              gameId: lobby.editingGameId,
+            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
+              gameId: lobbyInstance.editingGameId,
               isAutosaveDisabled: false,
               isPoweredOn: true,
             })
@@ -525,7 +525,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomId: lobby.gameRoomId, gameInstanceEventType: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomInstanceId: lobbyInstance.gameRoomInstanceId, gameInstanceEventType: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },
@@ -533,7 +533,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Send To Credits',
           title: <Typography component="h5" variant="h5">Send To Credits</Typography>,
           onClickNext: () => {
-            editLobby(lobby.id, {
+            editLobby(lobbyInstance.id, {
               currentActivity: CREDITS_ACTIVITY
             })
           },
@@ -559,7 +559,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ userId: ARCHIVE_USER_ID, gameId: lobby.editingGameId, isArchived: true }))
+            store.dispatch(copyArcadeGameToUser({ userId: ARCHIVE_USER_ID, gameId: lobbyInstance.editingGameId, isArchived: true }))
           },
           nextButtonText: 'Archive'
         },
@@ -574,8 +574,8 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby,
-  gameRoom: state.gameRoom,
+  lobbyInstance: state.lobbyInstance,
+  gameRoomInstance: state.gameRoomInstance,
   gameModel: state.gameModel,
   cobrowsing: state.cobrowsing,
 });

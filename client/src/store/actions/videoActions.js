@@ -22,7 +22,7 @@ import {
 } from "agora-rtc-react";
 import AgoraRTC from 'agora-rtc-react';
 
-import { sendLobbyMessage } from './lobbyActions';
+import { sendLobbyMessage } from './lobbyInstanceActions';
 import store from '..';
 import { inIframe } from '../../utils/webPageUtils';
 import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../constants';

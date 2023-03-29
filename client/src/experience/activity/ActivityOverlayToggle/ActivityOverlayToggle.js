@@ -7,13 +7,13 @@ import Icon from '../../../ui/Icon/Icon';
 import './ActivityOverlayToggle.scss'
 import Switch from '../../../ui/Switch/Switch';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { updateLobbyUser } from '../../../store/actions/lobbyActions';
+import { updateLobbyUser } from '../../../store/actions/lobbyInstanceActions';
 import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
 
 const ActivityOverlayToggle = ({
-  lobby: { lobby: { id, members } },
+  lobbyInstance: { lobbyInstance: { id, members } },
   cobrowsing: { cobrowsingUser },
-  gameRoom: { gameRoom: { isPoweredOn } },
+  gameRoomInstance: { gameRoomInstance: { isPoweredOn } },
   updateLobbyUser,
   toggleActiveCobrowsing
 }) => {
@@ -39,7 +39,7 @@ const ActivityOverlayToggle = ({
       onChange={async () => {
         if(!inOverlayView) toggleActiveCobrowsing(true)
         updateLobbyUser({
-          lobbyInstanceId: id,
+          lobbyInstanceInstanceId: id,
           userId: cobrowsingUser.id, 
           user: {
             inOverlayView: !inOverlayView
@@ -51,9 +51,9 @@ const ActivityOverlayToggle = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  lobby: state.lobby,
+  lobbyInstance: state.lobbyInstance,
   cobrowsing: state.cobrowsing,
-  gameRoom: state.gameRoom
+  gameRoomInstance: state.gameRoomInstance
 });
 
 export default compose(

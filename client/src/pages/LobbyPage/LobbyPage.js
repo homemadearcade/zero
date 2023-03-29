@@ -7,26 +7,26 @@ import { Switch as RouterSwitch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
-import { assignLobbyRole, editLobby, toggleLobbyDashboard} from '../../store/actions/lobbyActions';
+import { assignLobbyRole, editLobby, toggleLobbyDashboard} from '../../store/actions/lobbyInstanceActions';
 import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 
 import './LobbyPage.scss';
 import withLobby from '../../hoc/withLobby';
-import LobbyDashboard from '../../experience/lobby/LobbyDashboard/LobbyDashboard';
+import LobbyDashboard from '../../experience/lobbyInstance/LobbyDashboard/LobbyDashboard';
 import withSpeedTest from '../../hoc/withSpeedTest';
 import CobrowsingSession from '../../hoc/CobrowsingSession';
-import LobbyErrorStates from '../../experience/lobby/LobbyErrorStates/LobbyErrorStates';
-import GameRoomDrawer from '../../game/gameRoom/GameRoomDrawer/GameRoomDrawer';
+import LobbyErrorStates from '../../experience/lobbyInstance/LobbyErrorStates/LobbyErrorStates';
+import GameRoomDrawer from '../../game/gameRoomInstance/GameRoomDrawer/GameRoomDrawer';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
 import MultiplayerGameRoomContext from '../../hoc/MultiplayerGameRoomContext';
 import { ADMIN_ROLE, WAITING_ACTIVITY } from '../../constants';
 
 const LobbyPage = ({
-  lobby: { lobby },
+  lobbyInstance: { lobbyInstance },
   auth: { me },
-  gameRoom: { gameRoom },
+  gameRoomInstance: { gameRoomInstance },
   myTracks,
   userTracks,
   assignLobbyRole,
@@ -37,10 +37,10 @@ const LobbyPage = ({
   useEffect(() => {
     if(me.role === ADMIN_ROLE) toggleLobbyDashboard(true)
 
-    if(gameRoom.isPoweredOn) return 
+    if(gameRoomInstance.isPoweredOn) return 
     
-    if(me.role === ADMIN_ROLE && (!lobby.guideId)) {
-      assignLobbyRole(lobby.id, {
+    if(me.role === ADMIN_ROLE && (!lobbyInstance.guideId)) {
+      assignLobbyRole(lobbyInstance.id, {
         userId: me.id, 
         role: 'guide'
       });
@@ -50,21 +50,21 @@ const LobbyPage = ({
   return <RouterSwitch>
       <Route exact path={path}>
         {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
-        <MultiplayerGameRoomContext gameRoomId={lobby.gameRoomId}>
-          <CobrowsingSession userId={lobby.participantId}>
+        <MultiplayerGameRoomContext gameRoomInstanceId={lobbyInstance.gameRoomInstanceId}>
+          <CobrowsingSession userId={lobbyInstance.participantId}>
             <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
           </CobrowsingSession>
         </MultiplayerGameRoomContext>
         <LobbyErrorStates/>
-        {lobby.currentActivity !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
+        {lobbyInstance.currentActivity !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
       </Route>
     </RouterSwitch>
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  lobby: state.lobby,
-  gameRoom: state.gameRoom
+  lobbyInstance: state.lobbyInstance,
+  gameRoomInstance: state.gameRoomInstance
 });
 
 export default compose(

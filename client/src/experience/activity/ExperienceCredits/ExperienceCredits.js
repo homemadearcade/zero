@@ -12,7 +12,7 @@ import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
 const ExperienceCredits = ({
-  lobby: { lobby: { editingGameId }},
+  lobbyInstance: { lobbyInstance: { editingGameId }},
 }) => {
   const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
 
@@ -42,7 +42,7 @@ const ExperienceCredits = ({
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby,
+  lobbyInstance: state.lobbyInstance,
 });
 
 export default compose(

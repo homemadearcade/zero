@@ -15,10 +15,10 @@ export default (ChildComponent) => {
     }
 
     render() {
-      const { lobby: { lobby }, video: { bypass, isConnectingToVideoCall } } = this.props;
+      const { lobbyInstance: { lobbyInstance }, video: { bypass, isConnectingToVideoCall } } = this.props;
 
       return <AgoraVideoCall
-        videoCallId={lobby.id}
+        videoCallId={lobbyInstance.id}
         render={(props) => {
           if(isConnectingToVideoCall && !bypass) {
             return <>
@@ -33,7 +33,7 @@ export default (ChildComponent) => {
   }
 
   const mapStateToProps = (state) => ({
-    lobby: state.lobby,
+    lobbyInstance: state.lobbyInstance,
     video: state.video,
     // cobrowsing: state.cobrowsing
   });

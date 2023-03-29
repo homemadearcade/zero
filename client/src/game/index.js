@@ -1,6 +1,6 @@
 export * from './brush'
 export * from './entityClass'
-export * from './gameRoom'
+export * from './gameRoomInstance'
 export * from './view'
 export * from './ui'
 export * from './scenes'

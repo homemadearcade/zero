@@ -30,7 +30,7 @@ export class EditorScene extends GameInstance {
   constructor(props) {
     super(props);
 
-    this.gameRoom = props.gameRoom
+    this.gameRoomInstance = props.gameRoomInstance
 
     this.draggingEntityInstanceId = null
     this.canvas = null
@@ -90,7 +90,7 @@ export class EditorScene extends GameInstance {
     document.body.style.cursor = null
     if(entitySprite.effectSpawned) {
       window.socket.emit(ON_GAME_INSTANCE_EVENT, {
-        gameRoomId: this.gameRoom.id, 
+        gameRoomInstanceId: this.gameRoomInstance.id, 
         gameInstanceEventType: EVENT_SPAWN_CLASS_DRAG_FINISH,
         data: {
           x: entitySprite.x,
@@ -675,7 +675,7 @@ export class EditorScene extends GameInstance {
         const sceneKeys = this.scene.manager.keys
         if(stageId && !sceneKeys[stageId]) {
           const key = stageId
-          this.scene.add(key, createGameSceneInstance(key, this.gameRoom));
+          this.scene.add(key, createGameSceneInstance(key, this.gameRoomInstance));
         }
       })
 
@@ -996,11 +996,11 @@ export class EditorScene extends GameInstance {
     if(!isLocalHost()) this.input.mouse.disableContextMenu()
     this.escKey = this.input.keyboard.addKey('esc');  // Get key object
 
-    const lobby = store.getState().lobby.lobby
-    if(lobby.id) {
+    const lobbyInstance = store.getState().lobbyInstance.lobbyInstance
+    if(lobbyInstance.id) {
       const me = store.getState().auth.me
-      lobby.members.forEach(({id}) => {
-        if(id !== me.id && lobby.participantId === id) {
+      lobbyInstance.members.forEach(({id}) => {
+        if(id !== me.id && lobbyInstance.participantId === id) {
           this.remoteEditors.push(
             new RemoteEditor(this, { userId: id, color: 0xFF0000})
           )
@@ -1030,7 +1030,7 @@ export class EditorScene extends GameInstance {
         } else if(this.resizingEntityInstance) {
           this.clearResize()
         } else {
-          // store.dispatch(editGameRoom(this.gameRoom.id, {
+          // store.dispatch(editGameRoom(this.gameRoomInstance.id, {
           //   gameState: PAUSED_STATE
           // }))
         }
@@ -1052,8 +1052,8 @@ export class EditorScene extends GameInstance {
       }
     })
 
-    const gameRoom = store.getState().gameRoom.gameRoom
-    const gameResetDate = gameRoom.gameResetDate
+    const gameRoomInstance = store.getState().gameRoomInstance.gameRoomInstance
+    const gameResetDate = gameRoomInstance.gameResetDate
     if(gameResetDate > this.gameResetDate) {
       this.gameResetDate = gameResetDate
       this.reset()

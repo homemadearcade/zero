@@ -8,8 +8,8 @@ const { Schema } = mongoose;
     // });
     // const game = gameResponse.data.game
     // const participantId = data.participants
-    // const lobbyResponse = await addLobby({ game: game.id, participants: [data.participants], participantId: participantId,  startTime: data.startTime });
-    // const lobby =lobbyResponse.data.lobby
+    // const lobbyInstanceResponse = await addLobbyInstance({ game: game.id, participants: [data.participants], participantId: participantId,  startTime: data.startTime });
+    // const lobbyInstance =lobbyInstanceResponse.data.lobbyInstance
 
 const ticketPurchase = new Schema(
   {
@@ -29,7 +29,7 @@ const ticketPurchase = new Schema(
     },
     ticketedEvent: { type: mongoose.Schema.Types.ObjectId, ref: 'TicketedEvent' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    lobby: { type: mongoose.Schema.Types.ObjectId, ref: 'Lobby' },
+    lobbyInstance: { type: mongoose.Schema.Types.ObjectId, ref: 'LobbyInstance' },
   },
   { timestamps: true },
 );
@@ -40,7 +40,7 @@ ticketPurchase.methods.toJSON = function () {
     dateId: this.dateId,
     ticketId: this.ticketId,
     ticketPurchaseShortId: this.ticketPurchaseShortId,
-    lobby: this.lobby?.toJSON(),
+    lobbyInstance: this.lobbyInstance?.toJSON(),
     user: this.user?.toJSON(),
     ticketedEvent: this.ticketedEvent?.toJSON(),
   };

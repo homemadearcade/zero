@@ -7,14 +7,14 @@ import { Constellation } from '../Constellation/Constellation';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import store from '../../../store';
 
-const ConstellationZoom = ({gameRoom: { gameRoom }, width, height}) => {
+const ConstellationZoom = ({gameRoomInstance: { gameRoomInstance }, width, height}) => {
   const [zoomOutImage, setZoomOutImage] = useState()
 
   useEffect(() => {
     let timeout =  setTimeout(() => {attemptConstellation()}, 0)
 
     async function attemptConstellation() {
-      if(gameRoom.isPoweredOn) {
+      if(gameRoomInstance.isPoweredOn) {
         const gameInstance = store.getState().webPage.gameInstance
         const scene = getCurrentGameScene(gameInstance)
       
@@ -30,7 +30,7 @@ const ConstellationZoom = ({gameRoom: { gameRoom }, width, height}) => {
     return () => {
       clearTimeout(timeout)
     }
-  }, [gameRoom.isPoweredOn])
+  }, [gameRoomInstance.isPoweredOn])
 
   if(zoomOutImage === false) {
     return <Constellation width={width} height={height} className="Constellation--overlay"></Constellation>
@@ -43,7 +43,7 @@ const ConstellationZoom = ({gameRoom: { gameRoom }, width, height}) => {
 };
 
 const mapStateToProps = (state) => ({
-  gameRoom: state.gameRoom
+  gameRoomInstance: state.gameRoomInstance
 });
 
 export default compose(

@@ -17,8 +17,8 @@ import ActivityOverlay from '../ActivityOverlay/ActivityOverlay';
 import { MONOLOGUE_ACTIVITY_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const ActivityCurrent = ({
-  lobby: { lobby: { currentActivity, guideId }},
-  gameRoom: { gameRoom },
+  lobbyInstance: { lobbyInstance: { currentActivity, guideId }},
+  gameRoomInstance: { gameRoomInstance },
   myTracks,
   userTracks,
   video: { isInsideVideoCall},
@@ -58,13 +58,13 @@ const ActivityCurrent = ({
   return <div className="ActivityCurrent">
     <ActivityOverlay/>
     {currentActivity !== GAME_ROOM_ACTIVITY && <div className="ActivityCurrent__activity">{renderCurrentActivity()}</div>}
-    <CobrowsingGame rootFontSize={rootFontSize} gameId={gameRoom.gameId} myTracks={myTracks} userTracks={userTracks}/>
+    <CobrowsingGame rootFontSize={rootFontSize} gameId={gameRoomInstance.gameId} myTracks={myTracks} userTracks={userTracks}/>
   </div>
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby,
-  gameRoom: state.gameRoom,
+  lobbyInstance: state.lobbyInstance,
+  gameRoomInstance: state.gameRoomInstance,
   video: state.video,
   cobrowsing: state.cobrowsing,
   auth: state.auth,

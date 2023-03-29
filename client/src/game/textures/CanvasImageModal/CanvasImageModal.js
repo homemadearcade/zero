@@ -12,7 +12,7 @@ import { clearBrush, selectBrush } from '../../../store/actions/gameSelectorActi
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
-import { onCanvasImageModalUndo } from '../../../store/actions/lobbyActions';
+import { onCanvasImageModalUndo } from '../../../store/actions/lobbyInstanceActions';
 import { setCanvasImageModalGameInstance } from '../../../store/actions/webPageActions';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';

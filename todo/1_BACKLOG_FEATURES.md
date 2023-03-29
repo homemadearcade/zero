@@ -11,5 +11,3 @@ UNDO
 EXPERIENCE CREATOR REDUCER
   create reducer for experience creator so that we can at least change the selected node id via an action when we remove something
 
-SHORT URLS
-  implement short Ids into the urls and other things

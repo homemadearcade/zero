@@ -52,8 +52,8 @@ const HoverPreview = ({
       relationTags
     }
   },
-  gameRoom: {
-    gameRoom
+  gameRoomInstance: {
+    gameRoomInstance
   },
   openGameMetadataModal,
   openEditClassModal,
@@ -200,7 +200,7 @@ const HoverPreview = ({
           changeSelectorList(SELECTOR_MAP_LIST)
         }}></IconButton>
       </div>}
-      {(gameRoom.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
+      {(gameRoomInstance.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
       {isHoveringOverTitle && 
         <div className="HoverPreview__actions">
           <Unlockable interfaceId={GAME_SNAPSHOT_IID}>
@@ -295,7 +295,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
   gameSelector: state.gameSelector,
   cobrowsing: state.cobrowsing,
-  gameRoom: state.gameRoom
+  gameRoomInstance: state.gameRoomInstance
 })
 
 export default connect(mapStateToProps, { openGameMetadataModal, openEditClassModal, openSelectStageColorModal, openSnapshotTaker, changeSelectorList })(HoverPreview);

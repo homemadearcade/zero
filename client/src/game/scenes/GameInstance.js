@@ -5,7 +5,7 @@ import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
 import { changeCurrentStage } from '../../store/actions/gameModelActions';
-import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomActions';
+import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomInstanceActions';
 import { EntityInstance } from '../entities/EntityInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
@@ -40,7 +40,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.physicsType = ARCADE_PHYSICS
 
-    this.gameRoom = props.gameRoom
+    this.gameRoomInstance = props.gameRoomInstance
 
     this.lastUpdate = null
   }
@@ -244,7 +244,7 @@ export class GameInstance extends Phaser.Scene {
           {
             layerId: layerId,
             layerGroupId: layer.layerGroupId,
-            isCodrawingHost: this.gameRoom.isHost,
+            isCodrawingHost: this.gameRoomInstance.isHost,
             textureId: layer.textureId,
             boundaries: currentStage.boundaries,
             autoSave: true
@@ -256,7 +256,7 @@ export class GameInstance extends Phaser.Scene {
           {
             layerId: layerId,
             layerGroupId: layer.layerGroupId,
-            isCodrawingHost: this.gameRoom.isHost, 
+            isCodrawingHost: this.gameRoomInstance.isHost, 
             textureId: layer.textureId,
             boundaries: currentStage.boundaries, 
             autoSave: true
@@ -578,7 +578,7 @@ export class GameInstance extends Phaser.Scene {
     this.startPlaythroughStartEffects()
 
     setTimeout(() => {
-      this.setPlayerGameLoaded(this.gameRoom.id)
+      this.setPlayerGameLoaded(this.gameRoomInstance.id)
       this.hasLoadedOnce = true
     })
   }
@@ -782,8 +782,8 @@ export class GameInstance extends Phaser.Scene {
     const startingStageId = this.getGameModel().player.startingStageId
     store.dispatch(changeCurrentStage(startingStageId))
 
-    if(this.getState().gameRoom.gameRoom?.id) {
-      store.dispatch(editGameRoom(this.getState().gameRoom.gameRoom.id, {
+    if(this.getState().gameRoomInstance.gameRoomInstance?.id) {
+      store.dispatch(editGameRoom(this.getState().gameRoomInstance.gameRoomInstance.id, {
         gameResetDate: Date.now()
       }))
     } else {
@@ -824,7 +824,7 @@ export class GameInstance extends Phaser.Scene {
 
   setPlayerGameLoaded(gameId) {
     store.dispatch(updateGameRoomPlayer({
-      gameRoomId: this.gameRoom.id,
+      gameRoomInstanceId: this.gameRoomInstance.id,
       userId: store.getState().auth.me.id,
       user: {
         loadedGameId: gameId

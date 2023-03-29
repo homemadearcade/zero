@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addLobby } from '../../../store/actions/lobbyActions';
-// import { lobbyFormSchema } from './validation';
+import { addLobby } from '../../../store/actions/lobbyInstanceActions';
+// import { lobbyInstanceFormSchema } from './validation';
 import { Controller, useForm } from "react-hook-form";
 
 import './styles.css';
@@ -10,7 +10,7 @@ import Typography from '../../../ui/Typography/Typography';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import { TextField } from '@mui/material';
 import { addArcadeGame } from '../../../store/actions/arcadeGameActions';
-import { addGameRoom } from '../../../store/actions/gameRoomActions';
+import { addGameRoom } from '../../../store/actions/gameRoomInstanceActions';
 import moment from 'moment';
 import { EXPERIENCE_INSTANCE_ID_PREFIX } from '../../../constants/experience/experienceInstance';
 import { generateUniqueId } from '../../../utils';

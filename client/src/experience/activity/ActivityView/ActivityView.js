@@ -11,7 +11,7 @@ import classNames from 'classnames';
 const ActivityView = ({
   myTracks,
   userTracks,
-  lobby: { isLobbyDashboardOpen }
+  lobbyInstance: { isLobbyDashboardOpen }
 }) => {
   return <div id="ActivityView" className={classNames("ActivityView", {'ActivityView--preview': isLobbyDashboardOpen})}>
     <ActivityCurrent rootFontSize={isLobbyDashboardOpen ? '1vh' : "2vh"}  myTracks={myTracks} userTracks={userTracks}/>
@@ -19,7 +19,7 @@ const ActivityView = ({
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby
+  lobbyInstance: state.lobbyInstance
 });
 
 export default compose(

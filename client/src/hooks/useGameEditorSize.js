@@ -10,7 +10,7 @@ export default function useGameEditorSize() {
     gameEditorHeight: undefined,
   });
 
-  const isLobbyDashboardOpen = useSelector((state) => state.lobby.isLobbyDashboardOpen)
+  const isLobbyDashboardOpen = useSelector((state) => state.lobbyInstance.isLobbyDashboardOpen)
 
   useEffect(() => {
     // Handler to call on window resize

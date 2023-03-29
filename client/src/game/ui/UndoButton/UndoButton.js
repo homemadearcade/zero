@@ -6,7 +6,7 @@ import ToolbarIcon from '../../../ui/ToolbarIcon/ToolbarIcon';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import LoadingIcon from '../../../ui/LoadingIcon/LoadingIcon';
 
-const UndoButton = ({ onClick, lobby : { isUndoing }}) => {
+const UndoButton = ({ onClick, lobbyInstance : { isUndoing }}) => {
 
   if(isUndoing) {
     return <LoadingIcon
@@ -22,7 +22,7 @@ const UndoButton = ({ onClick, lobby : { isUndoing }}) => {
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  lobby: state.lobby,
+  lobbyInstance: state.lobbyInstance,
 });
 
 export default compose(

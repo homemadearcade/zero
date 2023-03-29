@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { joinLobby, leaveLobby } from '../store/actions/lobbyActions';
+import { joinLobby, leaveLobby } from '../store/actions/lobbyInstanceActions';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
 import { leaveAgoraVideoCall } from '../store/actions/videoActions';
@@ -29,19 +29,19 @@ export default (ChildComponent) => {
     }
 
     withLobbyCleaup() {
-      const { auth: { me }, leaveLobby, lobby: { lobby }, leaveAgoraVideoCall } = this.props
+      const { auth: { me }, leaveLobby, lobbyInstance: { lobbyInstance }, leaveAgoraVideoCall } = this.props
 
       leaveAgoraVideoCall()
-      leaveLobby({lobbyInstanceId: lobby.id, userId: me?.id})
+      leaveLobby({lobbyInstanceId: lobbyInstance.id, userId: me?.id})
     }
 
     render() {
-      const { lobby: { isLoading, isJoining, lobby } } = this.props;
+      const { lobbyInstance: { isLoading, isJoining, lobbyInstance } } = this.props;
       if(isLoading) {
         return <Loader text="Loading Lobby..."/>
       }
     
-      if(isJoining || !lobby.id) {
+      if(isJoining || !lobbyInstance.id) {
         return <Loader text="Joining Lobby..."/>
       }
 
@@ -51,7 +51,7 @@ export default (ChildComponent) => {
 
   const mapStateToProps = (state) => ({
     auth: state.auth,
-    lobby: state.lobby,
+    lobbyInstance: state.lobbyInstance,
     // cobrowsing: state.cobrowsing
   });
 

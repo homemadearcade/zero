@@ -23,7 +23,7 @@ export class CodrawingScene extends Phaser.Scene {
     this.size = size
     this.textureTint = textureTint
 
-    this.gameRoom = {
+    this.gameRoomInstance = {
       isNetworked: true
     }
 

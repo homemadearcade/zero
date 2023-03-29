@@ -61,13 +61,13 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
 
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const gameId = getState().gameModel.gameModel.id
-  const gameRoom = getState().gameRoom.gameRoom
+  const gameRoomInstance = getState().gameRoomInstance.gameRoomInstance
 
   dispatch({
     type: EDIT_GAME_MODEL_LOADING,
   });
 
-  const isAutosaveDisabled = gameRoom?.isAutosaveDisabled
+  const isAutosaveDisabled = gameRoomInstance?.isAutosaveDisabled
 
   try {
     if(gameUpdate.entityClasses) {
@@ -78,12 +78,12 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
     }
 
     // local edit mode, skip right to it ( optimistically ) !
-    if(!gameRoom.id) {
+    if(!gameRoomInstance.id) {
       onArcadeGameModelUpdate(gameUpdate)
     }
 
     const options = attachTokenToHeaders(getState);
-    await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomId: gameRoom.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
+    await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomInstanceId: gameRoomInstance.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
 
 
   } catch (err) {

@@ -9,7 +9,7 @@ import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/view/GameView/GameView';
 import { unloadArcadeGame } from '../../store/actions/arcadeGameActions';
-import { changeGameState } from '../../store/actions/gameRoomActions';
+import { changeGameState } from '../../store/actions/gameRoomInstanceActions';
 import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
 import { START_STATE } from '../../game/constants';
 

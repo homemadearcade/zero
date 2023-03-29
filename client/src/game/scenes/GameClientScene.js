@@ -13,7 +13,7 @@ export class GameClientScene extends EditorScene {
   constructor(props) {
     super(props);
 
-    this.gameRoom = props.gameRoom
+    this.gameRoomInstance = props.gameRoomInstance
 
     this.lastHostUpdate = null
 
@@ -99,7 +99,7 @@ export class GameClientScene extends EditorScene {
     }
 
     window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
-      gameRoomId: this.gameRoom.id,
+      gameRoomInstanceId: this.gameRoomInstance.id,
       upsClient: this.upsClient,
     })
   }
@@ -132,7 +132,7 @@ export class GameClientScene extends EditorScene {
   update(time, delta) {
     super.update(time, delta)
 
-    const gameState = store.getState().gameRoom.gameRoom.gameState
+    const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }

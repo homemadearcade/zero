@@ -11,7 +11,7 @@ export class GameHostScene extends EditorScene {
   constructor(props) {
     super(props);
 
-    this.gameRoom = props.gameRoom
+    this.gameRoomInstance = props.gameRoomInstance
 
     this.lastAcknowledgement = null
     
@@ -21,12 +21,12 @@ export class GameHostScene extends EditorScene {
     this.upsClient = 0
     this.upsServer = 0
 
-    this.gameInstanceId = props.gameRoom.gameInstanceId
+    this.gameInstanceId = props.gameRoomInstance.gameInstanceId
   }
 
   callGameInstanceEvent({gameInstanceEventType, data}) {
     window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
-      gameRoomId: this.gameRoom.id,
+      gameRoomInstanceId: this.gameRoomInstance.id,
       gameInstanceEventType, 
       data: {...data, fromHost: true}
     })
@@ -91,7 +91,7 @@ export class GameHostScene extends EditorScene {
       window.socket.emit(ON_GAME_INSTANCE_UPDATE, 
         { 
           gameInstanceId: this.gameInstanceId, 
-          gameRoomId: this.gameRoom.id,
+          gameRoomInstanceId: this.gameRoomInstance.id,
           entityInstances, 
           playerInstance, 
           temporaryInstances, 
@@ -146,7 +146,7 @@ export class GameHostScene extends EditorScene {
     super.update(time, delta)
 
     const state = store.getState()
-    const gameState = state.gameRoom.gameRoom.gameState
+    const gameState = state.gameRoomInstance.gameRoomInstance.gameState
     if(this.gameState !== gameState) {
       this.onStateChange(this.gameState, gameState)
     }

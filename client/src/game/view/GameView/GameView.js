@@ -14,7 +14,7 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { setGameInstance } from '../../../store/actions/webPageActions';
 
 import Cutscene from '../../cutscene/Cutscene/Cutscene';
-import StateScreen from '../../gameRoom/GameStateScreen/GameStateScreen';
+import StateScreen from '../../gameRoomInstance/GameStateScreen/GameStateScreen';
 import store from '../../../store';
 import ControlsPopup from '../ControlsPopup/ControlsPopup';
 import Icon from '../../../ui/Icon/Icon';
@@ -22,7 +22,7 @@ import { changeErrorState, clearErrorState } from '../../../store/actions/errors
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { updateTheme } from '../../../store/actions/themeActions';
-import { editGameRoom } from '../../../store/actions/gameRoomActions';
+import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
 
 const config= {
   type: Phaser.WEBGL,
@@ -92,12 +92,12 @@ const PhaserGame = ({
   changeErrorState, 
   clearErrorState,
   children,
-  gameRoom: { gameRoom },
+  gameRoomInstance: { gameRoomInstance },
 }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
     const gameInstanceId =  GAME_INSTANCE_ID_PREFIX + generateUniqueId()
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameRoom, gameInstanceId}), true);
+    game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameRoomInstance, gameInstanceId}), true);
     setGameInstance(game, gameInstanceId)
     return () => {
       getCurrentGameScene(game)?.unload()
@@ -139,7 +139,7 @@ const PhaserGame = ({
 
 const mapStateToProps = (state) => ({
   gameModel: state.gameModel,
-  gameRoom: state.gameRoom,
+  gameRoomInstance: state.gameRoomInstance,
 });
 
 export default connect(mapStateToProps, { setGameInstance, changeErrorState, clearErrorState, updateTheme })(GameView);

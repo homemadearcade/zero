@@ -9,7 +9,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const ticketPurchases = await TicketPurchase.find().sort({ createdAt: 'desc' }).select('ticketPurchase user lobby ticketId dateId').populate('user ticketedEvent lobby');
+    const ticketPurchases = await TicketPurchase.find().sort({ createdAt: 'desc' }).select('ticketPurchase user lobbyInstance ticketId dateId').populate('user ticketedEvent lobbyInstance');
 
     res.json({
       ticketPurchases: ticketPurchases.map((m) => {
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const ticketPurchase = await TicketPurchase.findById(req.params.id).populate('user ticketedEvent lobby');
+    const ticketPurchase = await TicketPurchase.findById(req.params.id).populate('user ticketedEvent lobbyInstance');
     if (!ticketPurchase) return res.status(404).json({ message: 'No ticket purchase found.' });
     res.json({ ticketPurchase: ticketPurchase.toJSON() });
   } catch (err) {
@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/byEvent/:eventId', async (req, res) => {
   try {
-    const ticketPurchases = await TicketPurchase.find({ ticketedEvent: req.params.eventId }).populate('user ticketedEvent lobby');
+    const ticketPurchases = await TicketPurchase.find({ ticketedEvent: req.params.eventId }).populate('user ticketedEvent lobbyInstance');
     if (!ticketPurchases) return res.status(404).json({ message: 'No ticket purchase found.' });
     res.json({ ticketPurchases: ticketPurchases.map((tp) => tp.toJSON() )});
   } catch (err) {

@@ -35,7 +35,7 @@ export const ON_GAME_CHARACTER_UPDATE = 'ON_GAME_CHARACTER_UPDATE';
 // FROM: Lobby User 
 // TO: Game Host
 // Pops undo state, sometimes saving Phaser Canvas. sometimes calling ON_GAME_MODEL_UPDATE
-export const ON_LOBBY_UNDO = 'ON_LOBBY_UNDO';
+export const ON_LOBBY_INSTANCE_UNDO = 'ON_LOBBY_INSTANCE_UNDO';
 
 // PUT /game/:id 
 // FROM: Game Client or Game Host 
@@ -47,20 +47,20 @@ export const ON_GAME_MODEL_UPDATE = 'ON_GAME_MODEL_UPDATE';
 // FROM: Lobby Member 
 // TO: Lobby Members
 //  Updates Redux Lobby state
-export const ON_LOBBY_UPDATE = 'ON_LOBBY_UPDATE';
+export const ON_LOBBY_INSTANCE_UPDATE = 'ON_LOBBY_INSTANCE_UPDATE';
 
 
 // // PUT /lobby/:id, Many Other Places
 // // FROM: Lobby Member 
 // // TO: Lobby Members
 // // Pushes to Lobby chat
-// export const ON_LOBBY_SEND_MESSAGE = 'ON_LOBBY_SEND_MESSAGE';
+// export const ON_LOBBY_INSTANCE_SEND_MESSAGE = 'ON_LOBBY_INSTANCE_SEND_MESSAGE';
 
-// Socket ON_LOBBY_USER_STATUS_UPDATE
+// Socket ON_LOBBY_INSTANCE_USER_STATUS_UPDATE
 // FROM Lobby Mamber 
 // TO: Lobby Members.
 // Update Redux LobbyStatus State
-export const ON_LOBBY_USER_STATUS_UPDATE = 'ON_LOBBY_USER_STATUS_UPDATE';
+export const ON_LOBBY_INSTANCE_USER_STATUS_UPDATE = 'ON_LOBBY_INSTANCE_USER_STATUS_UPDATE';
 
 // Socket ON_GAME_INSTANCE_UPDATE
 // FROM: Game Host 
@@ -149,8 +149,8 @@ export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 //////////////////////////////////////////////
 //////////////////////////////////////////////
 //// GAME SESSION
-export const ON_GAME_ROOM_UPDATE = 'ON_GAME_ROOM_UPDATE';
-export const ON_GAME_ROOM_USER_STATUS_UPDATE = 'ON_GAME_ROOM_USER_STATUS_UPDATE';
+export const ON_GAME_ROOM_INSTANCE_UPDATE = 'ON_GAME_ROOM_INSTANCE_UPDATE';
+export const ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE = 'ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE';
 
 export const CODRAWING_ROOM_PREFIX = 'codrawing@'
 export const COBROWSING_ROOM_PREFIX = 'cobrowsing@'
@@ -159,5 +159,5 @@ export const ADMIN_ROOM_PREFIX = 'admins@'
 
 export const SOCKET_SESSIONS_STORE = 'SOCKET_SESSIONS_STORE'
 export const GAME_ROOMS_STORE = 'GAME_ROOMS_STORE'
-export const LOBBYS_STORE = 'LOBBYS_STORE'
+export const LOBBY_INSTANCE_STORE = 'LOBBY_INSTANCE_STORE'
 export const SOCKET_IO_STORE = 'SOCKET_IO_STORE'

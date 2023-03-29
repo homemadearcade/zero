@@ -15,7 +15,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { clearErrorState } from '../../../store/actions/errorsActions';
 import Button from '../../../ui/Button/Button';
 import { GAME_VIEW_IID } from '../../../constants/interfaceIds';
-import { editGameRoom } from '../../../store/actions/gameRoomActions';
+import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
@@ -27,7 +27,7 @@ const GameViewObscured = ({
   gameModel,
   errors: { errorStates },
   editGameRoom,
-  gameRoom: { gameRoom },
+  gameRoomInstance: { gameRoomInstance },
   clearErrorState,
   children,
   webPage: { recentlyFocused }
@@ -41,11 +41,11 @@ const GameViewObscured = ({
       <Icon icon="faTriangleExclamation"></Icon>
       Game Error
       {me.role === ADMIN_ROLE && <Button onClick={async () => {
-        await editGameRoom(gameRoom.id, {
+        await editGameRoom(gameRoomInstance.id, {
           isPoweredOn: false
         })
         setTimeout(async () => {
-          await editGameRoom(gameRoom.id, {
+          await editGameRoom(gameRoomInstance.id, {
             isPoweredOn: true
           })
           clearErrorState(PHASER_ERROR)
@@ -76,13 +76,13 @@ const GameViewObscured = ({
     </GameViewEmpty>
   }
 
-  if(!gameRoom.isPoweredOn && !gameModel.isLoading) return <GameViewEmpty>
-    <GameCardLoad width="30%" gameId={gameRoom.gameId}/>
+  if(!gameRoomInstance.isPoweredOn && !gameModel.isLoading) return <GameViewEmpty>
+    <GameCardLoad width="30%" gameId={gameRoomInstance.gameId}/>
     <Icon icon="faPowerOff"></Icon>
     Not Powered On
     {me.role === ADMIN_ROLE && <>
       <Button onClick={async () => {
-          await editGameRoom(gameRoom.id, {
+          await editGameRoom(gameRoomInstance.id, {
           isPoweredOn: true
         })
       }}>Power On</Button>
@@ -90,7 +90,7 @@ const GameViewObscured = ({
     </>}
   </GameViewEmpty>
 
-  if(gameRoom.isPoweredOn) {
+  if(gameRoomInstance.isPoweredOn) {
     return <>
       {renderOverlay()}
       <GameView>
@@ -107,7 +107,7 @@ const mapStateToProps = (state) => ({
   unlockableInterfaceIds: state.unlockableInterfaceIds,
   errors: state.errors,
   webPage: state.webPage,
-  gameRoom: state.gameRoom
+  gameRoomInstance: state.gameRoomInstance
 });
 
 export default compose(

@@ -2,14 +2,14 @@ import { Router } from 'express';
 import usersRoutes from './users';
 import messagesRoutes from './messages';
 import cobrowsingRoutes from './cobrowsing';
-import lobbysRoutes from './lobbys';
+import lobbyInstanceRoutes from './lobbyInstance';
 import arcadeGameRoutes from './arcadeGames';
 import awsRoutes from './aws';
 import ticketedEventRoutes from './ticketedEvents'
 import ticketPurchaseRoutes from './ticketPurchases'
 import interfacePresetRoutes from './interfacePresets'
 import codrawingRoutes from './codrawing'
-import gameRoomRoutes from './gameRoom'
+import gameRoomInstanceRoutes from './gameRoomInstance'
 import canvasImagesRoutes from './canvasImages'
 import experienceModelRoutes from './experienceModel'
 
@@ -17,10 +17,10 @@ const router = Router();
 
 router.use('/users', usersRoutes);
 router.use('/messages', messagesRoutes);
-router.use('/lobbys', lobbysRoutes);
+router.use('/lobbyInstance', lobbyInstanceRoutes);
 router.use('/cobrowsing', cobrowsingRoutes);
 router.use('/codrawing', codrawingRoutes);
-router.use('/gameRoom', gameRoomRoutes);
+router.use('/gameRoomInstance', gameRoomInstanceRoutes);
 router.use('/arcadeGames', arcadeGameRoutes);
 router.use('/ticketedEvents', ticketedEventRoutes);
 router.use('/ticketPurchases', ticketPurchaseRoutes);

@@ -36,7 +36,7 @@ import { OPEN_TOOL } from '../../constants';
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()
   const userId = state.auth.me.id
-  const lobbyInstanceId = state.lobby.lobby.id 
+  const lobbyInstanceId = state.lobbyInstance.lobbyInstance.id 
 
   if(!e) {
     window.socket.emit(ON_COBROWSING_STATUS_UPDATE, {
@@ -155,7 +155,7 @@ export const handleCobrowsingUpdates = store => next => action => {
   // console.log(action)
 
   // is this action connected to cobrowsing?
-  if(action.updateCobrowsing && state.lobby.lobby?.id) {
+  if(action.updateCobrowsing && state.lobbyInstance.lobbyInstance?.id) {
 
     // is the user subscribed to cobrowse session?
     if(state.cobrowsing.isSubscribedCobrowsing) {

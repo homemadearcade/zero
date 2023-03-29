@@ -7,12 +7,12 @@ import './Chatroom.scss';
 import Typography from '../../ui/Typography/Typography';
 import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
-import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/lobbyActions';
-import LobbyUsername from '../lobby/LobbyMember/LobbyMember';
+import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/lobbyInstanceActions';
+import LobbyUsername from '../lobbyInstance/LobbyMember/LobbyMember';
 import { ADMIN_ROLE } from '../../constants';
 
 const Chatroom = ({
-  lobby: { lobby },
+  lobbyInstance: { lobbyInstance },
   auth: { me },
   sendLobbyMessage,
   clearLobbyMessages,
@@ -31,9 +31,9 @@ const Chatroom = ({
 
   useEffect(() => {
     scrollToBottom()
-  }, [lobby.messages])
+  }, [lobbyInstance.messages])
 
-  // const membersById = lobby.members.reduce((prev, next) => {
+  // const membersById = lobbyInstance.members.reduce((prev, next) => {
   //   prev[next.id] = next
   //   return prev
   // }, {})
@@ -46,7 +46,7 @@ const Chatroom = ({
 
     if(automated) return user.username
 
-    if(lobby.guideId === user.id) {
+    if(lobbyInstance.guideId === user.id) {
       return <>Your Guide<br/></>
     }
 
@@ -59,7 +59,7 @@ const Chatroom = ({
     <div className="Chatroom">
       {name && <Typography variant="h5">{name}</Typography>}
       <List className="Chatroom__messages">
-        {lobby.messages.map((messageData) => {
+        {lobbyInstance.messages.map((messageData) => {
           const {user, message, automated} = messageData
           if(automated && hideAutomated) return null
 
@@ -81,7 +81,7 @@ const Chatroom = ({
           setText('')
         }}>Send</Button>
         {me.role === ADMIN_ROLE && <Button onClick={() => {
-          clearLobbyMessages(lobby.id)
+          clearLobbyMessages(lobbyInstance.id)
         }}>Clear Log</Button>}
       </div>
     </div>
@@ -89,7 +89,7 @@ const Chatroom = ({
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby,
+  lobbyInstance: state.lobbyInstance,
   auth: state.auth,
 });
 

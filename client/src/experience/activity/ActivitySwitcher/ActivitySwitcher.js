@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 
 import './ActivitySwitcher.scss';
 import SelectActivityCategory from '../../../ui/SelectActivityCategory/SelectActivityCategory';
-import { editLobby, toggleLobbyDashboard } from '../../../store/actions/lobbyActions';
+import { editLobby, toggleLobbyDashboard } from '../../../store/actions/lobbyInstanceActions';
 import Button from '../../../ui/Button/Button';
 
 const ActivitySwitcher = ({
-  lobby: { lobby },
+  lobbyInstance: { lobbyInstance },
   editLobby,
   toggleLobbyDashboard
 }) => {
@@ -17,9 +17,9 @@ const ActivitySwitcher = ({
     <div className="ActivitySwitcher">
       <div className="ActivitySwitcher__state">
         <SelectActivityCategory 
-          value={[lobby.currentActivity]}
+          value={[lobbyInstance.currentActivity]}
           onChange={(event, currentActivity) => {
-            editLobby(lobby.id, {
+            editLobby(lobbyInstance.id, {
               currentActivity: currentActivity
             })       
           }}/>
@@ -36,7 +36,7 @@ const ActivitySwitcher = ({
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby,
+  lobbyInstance: state.lobbyInstance,
 });
 
 export default compose(

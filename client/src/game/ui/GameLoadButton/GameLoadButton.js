@@ -3,14 +3,14 @@ import { DialogContent, DialogTitle } from '@mui/material';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { editGameRoom } from '../../../store/actions/gameRoomActions';
+import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
 import Button from '../../../ui/Button/Button';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Dialog from '../../../ui/Dialog/Dialog';
 
 const GameLoadButton = ({
   userId,
-  gameRoom: { gameRoom },
+  gameRoomInstance: { gameRoomInstance },
   editGameRoom
 }) => {
   const [isLoadGameModelOpen, setIsLoadGameModelOpen] = useState()
@@ -23,7 +23,7 @@ const GameLoadButton = ({
       <DialogContent sx={{width: '200px', height: '200px'}}>
         <SelectArcadeGame userId={userId} onSelect={(games) => {
           setIsLoadGameModelOpen(false)
-          editGameRoom(gameRoom.id, {
+          editGameRoom(gameRoomInstance.id, {
             gameId: games[games.length-1]
           })
         }}>
@@ -37,7 +37,7 @@ const GameLoadButton = ({
 };
 
 const mapStateToProps = (state) => ({
-  gameRoom: state.gameRoom
+  gameRoomInstance: state.gameRoomInstance
 });
 
 export default compose(

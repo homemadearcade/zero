@@ -16,11 +16,11 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_USER_STATUS_UPDATE, ON_GAME_INSTANCE_EVENT, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_ROOM_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBYS_STORE, CODRAWING_ROOM_PREFIX, GAME_ROOMS_STORE, ON_GAME_ROOM_USER_STATUS_UPDATE } from './constants';
-import Lobby from './models/Lobby';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_INSTANCE_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, ON_GAME_INSTANCE_EVENT, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_ROOM_INSTANCE_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBY_INSTANCE_STORE, CODRAWING_ROOM_PREFIX, GAME_ROOMS_STORE, ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE } from './constants';
+import LobbyInstance from './models/LobbyInstance';
 import TicketedEvent from './models/TicketedEvent';
 import TicketPurchase from './models/TicketPurchase';
-import GameRoom from './models/GameRoom';
+import GameRoomInstance from './models/GameRoomInstance';
 
 const app = express();
 
@@ -170,12 +170,12 @@ io.on("connection", (socket) => {
           username: user.username,
         }
 
-        const lobbys = app.get(LOBBYS_STORE)
-        lobbys?.forEach((lobby) => {
-          lobby.members.forEach((user) => {
+        const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
+        lobbyInstances?.forEach((lobbyInstance) => {
+          lobbyInstance.members.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
-              lobby.messages.push({
+              lobbyInstance.messages.push({
                 user: {
                   id: user.id,
                   username: user.username
@@ -183,18 +183,18 @@ io.on("connection", (socket) => {
                 message: 'has connected',
                 automated: true
               })
-              if(user.joined) socket.join(lobby.id);
-              io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
+              if(user.joined) socket.join(lobbyInstance.id);
+              io.to(lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance});
             }
           })
         })
 
-        const gameRooms = app.get(GAME_ROOMS_STORE)
-        gameRooms?.forEach((gameRoom) => {
-          gameRoom.members.forEach((user) => {
+        const gameRoomInstances = app.get(GAME_ROOMS_STORE)
+        gameRoomInstances?.forEach((gameRoomInstance) => {
+          gameRoomInstance.members.forEach((user) => {
             if(user.id === socket.user.id) {
               user.connected = true
-              gameRoom.messages.push({
+              gameRoomInstance.messages.push({
                 user: {
                   id: user.id,
                   username: user.username
@@ -202,8 +202,8 @@ io.on("connection", (socket) => {
                 message: 'has connected',
                 automated: true
               })
-              if(user.joined) socket.join(gameRoom.id);
-              io.to(gameRoom.id).emit(ON_GAME_ROOM_UPDATE, {gameRoom});
+              if(user.joined) socket.join(gameRoomInstance.id);
+              io.to(gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance});
             }
           })
         })
@@ -223,16 +223,16 @@ io.on("connection", (socket) => {
     io.to('cobrowsing@'+payload.userId).emit(ON_COBROWSING_STATUS_UPDATE, payload)
   })
 
-  socket.on(ON_LOBBY_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.lobbyInstanceId).emit(ON_LOBBY_USER_STATUS_UPDATE, payload)
+  socket.on(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, (payload) => {
+    io.to(payload.lobbyInstanceId).emit(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, payload)
   })
 
-  socket.on(ON_GAME_ROOM_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.gameRoomId).emit(ON_GAME_ROOM_USER_STATUS_UPDATE, payload)
+  socket.on(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, (payload) => {
+    io.to(payload.gameRoomInstanceId).emit(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_EVENT, (payload) => {
-    io.to(payload.gameRoomId).emit(ON_GAME_INSTANCE_EVENT, payload)
+    io.to(payload.gameRoomInstanceId).emit(ON_GAME_INSTANCE_EVENT, payload)
   })
 
   let upsServer = {}
@@ -241,33 +241,33 @@ io.on("connection", (socket) => {
 
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
 
-    const gameRoomId = payload.gameRoomId
+    const gameRoomInstanceId = payload.gameRoomInstanceId
     const time = Date.now();
     
-    if(!lastUpsServerCounts[gameRoomId]) lastUpsServerCounts[gameRoomId] = 0
-    if(!upsServerUpdates[gameRoomId]) upsServerUpdates[gameRoomId] = 0
+    if(!lastUpsServerCounts[gameRoomInstanceId]) lastUpsServerCounts[gameRoomInstanceId] = 0
+    if(!upsServerUpdates[gameRoomInstanceId]) upsServerUpdates[gameRoomInstanceId] = 0
 
-    upsServerUpdates[gameRoomId]++;
+    upsServerUpdates[gameRoomInstanceId]++;
 
-    if (time > lastUpsServerCounts[gameRoomId] + 1000) {
-      upsServer[gameRoomId] = Math.round( ( upsServerUpdates[gameRoomId] * 1000 ) / ( time - lastUpsServerCounts[gameRoomId] ) );
-      lastUpsServerCounts[gameRoomId] = time;
-      upsServerUpdates[gameRoomId] = 0;
+    if (time > lastUpsServerCounts[gameRoomInstanceId] + 1000) {
+      upsServer[gameRoomInstanceId] = Math.round( ( upsServerUpdates[gameRoomInstanceId] * 1000 ) / ( time - lastUpsServerCounts[gameRoomInstanceId] ) );
+      lastUpsServerCounts[gameRoomInstanceId] = time;
+      upsServerUpdates[gameRoomInstanceId] = 0;
     }
 
-    payload.upsServer = upsServer[gameRoomId]
+    payload.upsServer = upsServer[gameRoomInstanceId]
       
-    io.to(payload.gameRoomId).emit(ON_GAME_INSTANCE_UPDATE, payload)
+    io.to(payload.gameRoomInstanceId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, (payload) => {
-    payload.upsServer = upsServer[payload.gameRoomId]
+    payload.upsServer = upsServer[payload.gameRoomInstanceId]
 
-    io.to(payload.gameRoomId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
+    io.to(payload.gameRoomInstanceId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
   })
 
   socket.on(ON_GAME_CHARACTER_UPDATE, (payload) => {
-    io.to(payload.gameRoomId).emit(ON_GAME_CHARACTER_UPDATE, payload)
+    io.to(payload.gameRoomInstanceId).emit(ON_GAME_CHARACTER_UPDATE, payload)
   })
 
   socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, (payload) => {
@@ -284,13 +284,13 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", async () => {
     if(socket.user?.id) {
-      const lobbys = app.get(LOBBYS_STORE)
-      lobbys.forEach((lobby) => {
-        lobby.members.forEach((user) => {
+      const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
+      lobbyInstances.forEach((lobbyInstance) => {
+        lobbyInstance.members.forEach((user) => {
           if(user.id === socket.user.id) {
             user.connected = false
             socket.emit(ON_SOCKET_DISCONNECT)
-            lobby.messages.push({
+            lobbyInstance.messages.push({
               user: {
                 id: user.id,
                 username: user.username
@@ -298,7 +298,7 @@ io.on("connection", (socket) => {
               message: 'has disconnected',
               automated: true
             })
-            io.to(lobby.id).emit(ON_LOBBY_UPDATE, {lobby});
+            io.to(lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance});
           }
         })
       })
@@ -311,24 +311,24 @@ async function onMongoDBConnected() {
   // const ticketPurchase = {
   //  ticketedEvent: '63af7a7e2196ea6520e100b7',
   //  user: '62143b5618ac51461e5ecf6c',
-  //  lobby: '63af254fe01d446c03c80f56',
+  //  lobbyInstance: '63af254fe01d446c03c80f56',
   //  ticketId: 'genadmin',
   //  dateId: 'a9f14b3e-90d3-423d-a3bf-b0682960ffc0'
   // }
   
   // await TicketPurchase.create(ticketPurchase)
 
-  let lobbys = await Lobby.find().populate('invitedUsers')
+  let lobbyInstances = await LobbyInstance.find().populate('invitedUsers')
   
-  if(lobbys) {
-    lobbys =  lobbys.map((lob) => {
-      const lobby = lob.toJSON()
+  if(lobbyInstances) {
+    lobbyInstances =  lobbyInstances.map((lob) => {
+      const lobbyInstance = lob.toJSON()
       return {
-        ...lobby,
+        ...lobbyInstance,
         currentActivity: 'WAITING_ACTIVITY',
         currentStep: 2,
         messages: [],
-        members: lobby.invitedUsers.map((user) => {
+        members: lobbyInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
             id: user.id,
@@ -342,23 +342,23 @@ async function onMongoDBConnected() {
       }
     })
 
-    app.set(LOBBYS_STORE, lobbys);  
+    app.set(LOBBY_INSTANCE_STORE, lobbyInstances);  
   } else {
-    app.set(LOBBYS_STORE, []);  
+    app.set(LOBBY_INSTANCE_STORE, []);  
 
   }
 
-  let gameRooms = await GameRoom.find().populate('invitedUsers').populate()
+  let gameRoomInstances = await GameRoomInstance.find().populate('invitedUsers').populate()
 
-  if(gameRooms) {
-    gameRooms =  gameRooms.map((gam) => {
-      const gameRoom = gam.toJSON()
+  if(gameRoomInstances) {
+    gameRoomInstances =  gameRoomInstances.map((gam) => {
+      const gameRoomInstance = gam.toJSON()
       return {
-        ...gameRoom,
+        ...gameRoomInstance,
         gameState: 'PLAY_STATE',
         messages: [],
         resetDate: Date.now(),
-        members: gameRoom.invitedUsers.map((user) => {
+        members: gameRoomInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
             id: user.id,
@@ -372,7 +372,7 @@ async function onMongoDBConnected() {
     })
     
 
-    app.set(GAME_ROOMS_STORE, gameRooms);  
+    app.set(GAME_ROOMS_STORE, gameRoomInstances);  
   } else {
     app.set(GAME_ROOMS_STORE, []);  
 

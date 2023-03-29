@@ -7,8 +7,8 @@ import registerReducer from './registerReducer';
 import userReducer from './userReducer';
 import usersReducer from './usersReducer';
 import messageReducer from './messageReducer';
-import lobbysReducer from './lobbysReducer';
-import lobbyReducer from './lobbyReducer';
+import lobbyInstancesReducer from './lobbyInstancesReducer';
+import lobbyInstanceReducer from './lobbyInstanceReducer';
 import statusReducer from './statusReducer';
 import videoReducer from './videoReducer';
 import gameModelReducer from './gameModelReducer';
@@ -27,7 +27,7 @@ import checkoutReducer from './checkoutReducer';
 import interfacePresetReducer from './interfacePresetReducer';
 import snackbarReducer from './snackbarReducer';
 import themeReducer from './themeReducer';
-import gameRoomReducer from './gameRoomReducer';
+import gameRoomInstanceReducer from './gameRoomInstanceReducer';
 import canvasImageReducer from './canvasImageReducer';
 import hoverPreviewReducer from './hoverPreviewReducer';
 import experienceModelReducer from './experienceModelReducer';
@@ -40,8 +40,8 @@ export default combineReducers({
   message: messageReducer,
   user: userReducer,
   users: usersReducer,
-  lobbys: lobbysReducer,
-  lobby: lobbyReducer,
+  lobbyInstances: lobbyInstancesReducer,
+  lobbyInstance: lobbyInstanceReducer,
   status: statusReducer,
   video: videoReducer,
   gameModel: gameModelReducer,
@@ -60,7 +60,7 @@ export default combineReducers({
   checkout: checkoutReducer,
   snackbar: snackbarReducer,
   theme: themeReducer,
-  gameRoom: gameRoomReducer,
+  gameRoomInstance: gameRoomInstanceReducer,
   canvasImage: canvasImageReducer,
   hoverPreview: hoverPreviewReducer,
   experienceModel: experienceModelReducer

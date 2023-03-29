@@ -8,7 +8,7 @@ import ConstellationZoom from '../../../marketing/homemadeArcade/ConstellationZo
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
 const ActivityOverlay = ({
-  lobby: { lobby: { members }},
+  lobbyInstance: { lobbyInstance: { members }},
   auth: { me },
   cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
@@ -27,7 +27,7 @@ const ActivityOverlay = ({
 };
 
 const mapStateToProps = (state) => ({
-  lobby: state.lobby,
+  lobbyInstance: state.lobbyInstance,
   cobrowsing: state.cobrowsing,
   auth: state.auth,
 });

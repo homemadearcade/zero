@@ -18,7 +18,7 @@ import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import BoundaryRelation from '../../entityClass/BoundaryRelation/BoundaryRelation';
 import EditClassModal from '../../entityClass/EditClassModal/EditClassModal';
 import GridToggle from '../GridToggle/GridToggle';
-import GameStateToolbar from '../../gameRoom/GameStateToolbar/GameStateToolbar';
+import GameStateToolbar from '../../gameRoomInstance/GameStateToolbar/GameStateToolbar';
 import ClassList from '../../entityClass/ClassList/ClassList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
@@ -81,7 +81,7 @@ const GameEditor = ({
   isObscured,
   rootFontSize,
   children,
-  gameRoom: { gameRoom: { gameState } },
+  gameRoomInstance: { gameRoomInstance: { gameState } },
   gameModel: { gameModel, isLoading },
   playerInterface: { cutsceneId }
 }) => {
@@ -205,7 +205,7 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameViewEditor: state.gameViewEditor,
   gameFormEditor: state.gameFormEditor,
   gameModel: state.gameModel,
-  gameRoom: state.gameRoom,
+  gameRoomInstance: state.gameRoomInstance,
   playerInterface: state.playerInterface
 })
 

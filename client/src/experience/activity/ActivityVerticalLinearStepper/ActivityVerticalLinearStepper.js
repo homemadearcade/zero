@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { editLobby } from '../../../store/actions/lobbyActions';
+import { editLobby } from '../../../store/actions/lobbyInstanceActions';
 import { VerticalLinearStepperBody } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-function ActivityVerticalLinearStepper({steps, lobby: { lobby }, completed, editLobby, canSkipStep }) {
+function ActivityVerticalLinearStepper({steps, lobbyInstance: { lobbyInstance }, completed, editLobby, canSkipStep }) {
   function updateStep(step) {
-    editLobby(lobby.id, {
+    editLobby(lobbyInstance.id, {
       currentStep: step
     })
   }
   
-  const activeStep = lobby.currentStep
+  const activeStep = lobbyInstance.currentStep
 
   const handleNext = () => {
     updateStep(activeStep + 1);
@@ -32,7 +32,7 @@ function ActivityVerticalLinearStepper({steps, lobby: { lobby }, completed, edit
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  lobby: state.lobby
+  lobbyInstance: state.lobbyInstance
 });
 
 export default compose(

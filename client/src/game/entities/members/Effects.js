@@ -6,9 +6,9 @@ import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../constants";
 import { isZoneClassId } from "../../../utils/gameUtils";
 import { changeCurrentStage } from "../../../store/actions/gameModelActions";
-import { changeGameState, editGameRoom } from "../../../store/actions/gameRoomActions";
+import { changeGameState, editGameRoom } from "../../../store/actions/gameRoomInstanceActions";
 import _ from "lodash";
-import { updateLobbyUser } from "../../../store/actions/lobbyActions"
+import { updateLobbyUser } from "../../../store/actions/lobbyInstanceActions"
 
 export class Effects {
   constructor(scene, entityInstance){
@@ -190,7 +190,7 @@ export class Effects {
       store.dispatch(changeCurrentStage(effect.stageId))
       store.dispatch(clearCutscenes())
     } else if(effect.effectBehavior === EFFECT_CHANGE_GAME) {
-      store.dispatch(editGameRoom(this.scene.gameRoom.id, {
+      store.dispatch(editGameRoom(this.scene.gameRoomInstance.id, {
         gameId: effect.gameId
       }))
     } else if(effect.effectBehavior === EFFECT_OPEN_OVERLAY) {

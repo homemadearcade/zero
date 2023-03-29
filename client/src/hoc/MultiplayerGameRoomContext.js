@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import GameRoomErrorStates from '../game/gameRoom/GameRoomErrorStates/GameRoomErrorStates';
-import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/gameRoomActions';
+import GameRoomErrorStates from '../game/gameRoomInstance/GameRoomErrorStates/GameRoomErrorStates';
+import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/gameRoomInstanceActions';
 import Loader from '../ui/Loader/Loader';
 
 class MultiplayerGameRoomContext extends Component {
   componentWillMount() {
-    const { gameRoomId } = this.props
-    this.joinMultiplayerGameRoom(gameRoomId)
+    const { gameRoomInstanceId } = this.props
+    this.joinMultiplayerGameRoom(gameRoomInstanceId)
   }
 
-  joinMultiplayerGameRoom(gameRoomId) {
+  joinMultiplayerGameRoom(gameRoomInstanceId) {
     const {joinGameRoom, auth: { me }} = this.props
     
     const doJoinMultiPlayerGameRoom = async () => {   
       try {
-        await joinGameRoom({gameRoomId, userId: me?.id});
+        await joinGameRoom({gameRoomInstanceId, userId: me?.id});
       } catch(error) {
         console.log(error)
       }
@@ -30,21 +30,21 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   leaveMultiplayerGameRoom() {
-    const { auth: { me }, leaveGameRoom, gameRoom: { gameRoom }} = this.props
+    const { auth: { me }, leaveGameRoom, gameRoomInstance: { gameRoomInstance }} = this.props
 
-    if(gameRoom.id) {
-      leaveGameRoom({gameRoomId: gameRoom.id, userId: me?.id})
+    if(gameRoomInstance.id) {
+      leaveGameRoom({gameRoomInstanceId: gameRoomInstance.id, userId: me?.id})
     }
   }
 
   renderBody() {
-    const { children, gameRoom: { isLoading, isJoining }, gameRoom} = this.props;
+    const { children, gameRoomInstance: { isLoading, isJoining }, gameRoomInstance} = this.props;
     
     if(isLoading) {
       return <Loader text="Loading Game Session..."/>
     }
   
-    if(isJoining && gameRoom.id) {
+    if(isJoining && gameRoomInstance.id) {
       return <Loader text="Joining Game Session..."/>
     }
 
@@ -61,7 +61,7 @@ class MultiplayerGameRoomContext extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  gameRoom: state.gameRoom
+  gameRoomInstance: state.gameRoomInstance
   // cobrowsing: state.cobrowsing
 });
 

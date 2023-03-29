@@ -10,7 +10,7 @@ import {
   CHANGE_PLAYER_CLASS,
 } from '../types';
 import { saveAllCurrentCanvases } from './codrawingActions';
-import { changeGameState } from './gameRoomActions';
+import { changeGameState } from './gameRoomInstanceActions';
 
 export const changePlayerClass = ({entityClassId}) => (dispatch, getState) => {
   dispatch({
