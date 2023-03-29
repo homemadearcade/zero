@@ -6,7 +6,6 @@ import {
   GET_LOBBYS_FAIL 
 } from '../types';
 
-
 export const getLobbys = () => async (dispatch, getState) => {
   dispatch({
     type: GET_LOBBYS_LOADING,
@@ -17,7 +16,7 @@ export const getLobbys = () => async (dispatch, getState) => {
 
     dispatch({
       type: GET_LOBBYS_SUCCESS,
-      payload: { lobbyInstance: response.data.lobbyInstance },
+      payload: { lobbyInstances: response.data.lobbyInstances },
     });
   } catch (err) {
     console.error(err)

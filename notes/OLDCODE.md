@@ -41,7 +41,7 @@ ZOOM INTO X
 
           onMouseWheel = (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
     if(this.draggingEntityInstanceId || this.cameraDragStart) return
-    if(!getCobrowsingState().editorInterfaceisGridViewOn) return
+    if(!getCobrowsingState().editorInterface.isGridViewOn) return
     
     window.pointer = pointer
     const zoomUpdate = (deltaY * 0.001)

@@ -16,7 +16,7 @@ import { openEditClassModal } from '../../../store/actions/gameFormEditorActions
 const EntityInstanceContextMenu = ({ editGameModel, entityClassId, onMenuItemClick, entityInstanceId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openEditClassModal, selectClass, openJsonViewer }) => {
 
   if(entityClassId === initialCameraZoneClassId) {
-    return     <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID}>
+    return <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID}>
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
         onMenuItemClick()

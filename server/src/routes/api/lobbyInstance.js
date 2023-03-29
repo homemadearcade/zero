@@ -171,7 +171,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAut
         username: userFound.username
       },
       automated: true,
-      message: 'has left the lobbyInstance',
+      message: 'has left the lobby',
     })
 
     req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
@@ -252,7 +252,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
           id: userFound.id,
           username: userFound.username
         },
-        message: 'has re-joined the lobbyInstance',
+        message: 'has re-joined the lobby',
         automated: true
       })
       
@@ -295,7 +295,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
         id: newLobbyInstanceMember.id,
         username: newLobbyInstanceMember.username
       },
-      message: 'has joined the lobbyInstance',
+      message: 'has joined the lobby',
       automated: true
     })
 

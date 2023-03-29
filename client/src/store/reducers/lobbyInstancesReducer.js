@@ -10,12 +10,12 @@ import {
   GET_LOBBYS_FAIL } from '../types';
 
 const initialState = {
-  lobbys: [],
+  lobbyInstances: [],
   isLoading: false,
   error: null,
 };
 
-export default function lobbysReducer(state = initialState, { type, payload }) {
+export default function lobbyInstancesReducer(state = initialState, { type, payload }) {
   switch (type) {
     case GET_LOBBYS_LOADING:
     case ADD_LOBBY_LOADING:
@@ -29,7 +29,7 @@ export default function lobbysReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLoading: false,
-        lobbys: payload.lobbys,
+        lobbyInstances: payload.lobbyInstances,
       };
     case ADD_LOBBY_SUCCESS:
     case DELETE_LOBBY_SUCCESS:
@@ -43,7 +43,7 @@ export default function lobbysReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLoading: false,
-        lobbys: [],
+        lobbyInstances: [],
         error: payload,
       };
     default:

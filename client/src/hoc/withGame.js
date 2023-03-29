@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from '../ui/Loader/Loader';
 import store from '../store';
-import { saveAllCurrentCanvases } from '../store/actions/codrawingActions';
 import { loadArcadeGame, unloadArcadeGame } from '../store/actions/arcadeGameActions';
-import { getCurrentGameScene } from '../utils/editorUtils';
 import { getSpritesheetData } from '../store/actions/gameModelActions';
 import { clearCutscenes } from '../store/actions/playerInterfaceActions';
 import { closeContextMenu } from '../store/actions/contextMenuActions';
+import { getEntityClassLibrary } from '../store/actions/entityClassLibraryActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -23,7 +22,9 @@ export default (ChildComponent) => {
     }
 
     async loadGame() {
-      const { match, gameId, loadArcadeGame, gameModel, getSpritesheetData } = this.props
+      const { match, gameId, loadArcadeGame, gameModel, getSpritesheetData, getEntityClassLibrary } = this.props
+
+      await getEntityClassLibrary()
 
       if(gameId) {
         await loadArcadeGame(gameId)
@@ -35,6 +36,7 @@ export default (ChildComponent) => {
       if(!gameModel.spritesByDescriptor) {
         getSpritesheetData()
       }
+
     }
 
     async unloadGame() {
@@ -74,11 +76,14 @@ export default (ChildComponent) => {
     }
 
     render() {
-      const { gameModel } = this.props
+      const { gameModel, entityClassLibrary } = this.props
 
       // if(!gameModel.gameModel) {
       //   return <Loader text="Loading Game Data..."/>
       // }
+      if(entityClassLibrary.isLoading || !entityClassLibrary.entityClassLibrary) {
+        return <Loader text="Loading Entity Library..."/>
+      }
 
       if(!gameModel.isSpriteSheetDataLoaded) {
         return <Loader text="Loading Sprites..."/>
@@ -89,8 +94,9 @@ export default (ChildComponent) => {
   }
 
   const mapStateToProps = (state) => ({
-    gameModel: state.gameModel
+    gameModel: state.gameModel,
+    entityClassLibrary: state.entityClassLibrary
   });
 
-  return connect(mapStateToProps, { closeContextMenu, loadArcadeGame, unloadArcadeGame, getSpritesheetData, clearCutscenes })(WithGame)
+  return connect(mapStateToProps, { closeContextMenu, loadArcadeGame, unloadArcadeGame, getSpritesheetData, clearCutscenes, getEntityClassLibrary })(WithGame)
 };

@@ -41,7 +41,7 @@ const ClassList = ({
   const renderClassItem = (classType) =>  (currentClassId, i) => {
     const el = <ClassItem key={i} entityClassId={currentClassId}/>
     const currentClass = entityClasses[currentClassId]
-    if(currentClass.interfaceLocked) {
+    if(currentClass.editorInterface.isSelectorObscured) {
 
       // if this is uncommented thats great but it has extra fireworks in cobrowsing...
 
@@ -244,7 +244,7 @@ const ClassList = ({
               // name: entityClass.name,
               // entityClassId: entityClass.entityClassId,
               // classInterfaceCategory: entityClass.classInterfaceCategory,
-              // interfaceLocked: entityClass.interfaceLocked,
+              // isSelectorObscured: entityClass.isSelectorObscured,
               // layerId: entityClass.layerId
             }
           }

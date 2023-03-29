@@ -29,7 +29,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
         value: collidingRelationTagId,
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
-        isRemoved: relationTag.isRemoved || (isObscured && relationTag.interfaceLocked),
+        isRemoved: relationTag.isRemoved || (isObscured && relationTag.isSelectorObscured),
         relationTagInterfaceType: classTypeToDisplayName[relationTagClass.classInterfaceCategory]
       }
     }

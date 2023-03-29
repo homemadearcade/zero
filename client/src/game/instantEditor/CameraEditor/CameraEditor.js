@@ -41,20 +41,18 @@ const CameraEditor = ({ entityClassId, gameModel: { gameModel, currentStageId },
     return !!num
   })
 
-// step={0.2} is like... perfect for grids
-
   return (
     <div className="CameraEditor">
       <Unlockable isSlider interfaceId={CAMERA_ZOOM_IID}>
-        <SliderNotched
+        {false && <SliderNotched
           formLabel="Zoom -/+"
           options={zooms}
-          step={0.1}
+          step={0.2}
           onChangeCommitted={(value) => {
             editGameModel({ entityClasses: { [entityClassId]: { camera: { zoom: value }  }}})        
           }}
           value={classSelected.camera.zoom}
-      />
+      />}
       </Unlockable>
       <Unlockable isSlider interfaceId={CAMERA_LERP_X_IID}>
         <SliderNotched

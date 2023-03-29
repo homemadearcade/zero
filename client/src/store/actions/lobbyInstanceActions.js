@@ -209,7 +209,7 @@ export const addLobby = (formData) => async (dispatch, getState) => {
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbyInstances', formData, options);
+    const response = await axios.post('/api/lobbyInstance', formData, options);
 
     dispatch({
       type: ADD_LOBBY_SUCCESS,

@@ -123,9 +123,11 @@ const EditClassGraphics = ({
           labels={['Normal', 'Hide from UI unless unlocked']}
           size="small"
           onChange={(e) => {
-            updateCreateClass({ interfaceLocked: e.target.checked })          
+            updateCreateClass({ editorInterface: {
+              isSelectorObscured: e.target.checked
+            } })          
           }}
-          checked={entityClass.interfaceLocked}
+          checked={entityClass.editorInterface.isSelectorObscured}
          />
       </Unlockable>}
       <Button

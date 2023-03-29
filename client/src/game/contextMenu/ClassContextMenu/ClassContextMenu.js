@@ -11,6 +11,7 @@ import { classTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_EDIT_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID, CONTEXT_MENU_INSTANCE_JSON_IID } from '../../../constants/interfaceIds';
+import { addEntityClassToLibrary } from '../../../store/actions/entityClassLibraryActions';
 
     // <Unlockable interfaceId={CONTEXT_MENU_CLASS_RELATIONS_IID}>
     //   <MenuItem onClick={() => {
@@ -28,9 +29,14 @@ const ClassContextMenu = ({
   openEditClassModal,
   entityClassId, 
   insideEntityInstanceContextMenu,
-  openJsonViewer
+  openJsonViewer,
+  addEntityClassToLibrary,
+  entityClassLibrary: {
+    entityClassLibrary
+  }
 }) => {
   const entityClass = gameModel.entityClasses[entityClassId]
+  const isInLibrary = entityClassLibrary.find(entityClass => entityClass.entityClassId === entityClassId)
 
   if(entityClassId === initialCameraZoneClassId) {
     return null
@@ -134,11 +140,18 @@ const ClassContextMenu = ({
         onMenuItemClick()
       }}>View Json</MenuItem>
     </Unlockable>}
+    {!isInLibrary && <Unlockable interfaceId={CONTEXT_MENU_CLASS_GRAPHICS_IID}>
+      <MenuItem onClick={() => {
+        addEntityClassToLibrary(entityClass)
+        onMenuItemClick()
+      }}>Add to Library</MenuItem>
+    </Unlockable>}
   </>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
+  entityClassLibrary: state.entityClassLibrary,
 })
 
 export default connect(mapStateToProps, { 
@@ -147,4 +160,5 @@ export default connect(mapStateToProps, {
   openEditClassGraphics, 
   openLiveEditor, 
   openEditClassModal,
+  addEntityClassToLibrary
 })(ClassContextMenu);

@@ -32,7 +32,7 @@ const SelectRelationTag = ({ removeClassTags, hideAutoapplied, onChange, disable
         value: entityClassId,
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
-        isRemoved: (isObscured && relationTag.interfaceLocked) || removeClassTags || isRemoved,
+        isRemoved: (isObscured && relationTag.isSelectorObscured) || removeClassTags || isRemoved,
         relationTagInterfaceType: classTypeToDisplayName[relationTagClass.classInterfaceCategory],
       }
     }

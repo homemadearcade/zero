@@ -43,14 +43,14 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
     
     const game = gameResponse.data.game
 
-    const gameRoomResponse = await addGameRoom({
+    const gameRoomInstanceResponse = await addGameRoom({
       invitedUsers: data.invitedUsers,
       isNetworked: true,
       isEdit: true,
       gameId: null,
       hostUserId: data.invitedUsers
     });
-    const gameRoom = gameRoomResponse.data.gameRoom
+    const gameRoomInstance = gameRoomInstanceResponse.data.gameRoomInstance
     const participantId = data.invitedUsers
     const experienceInstanceId = EXPERIENCE_INSTANCE_ID_PREFIX + generateUniqueId()
     await addLobby({ 
@@ -58,7 +58,7 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
       invitedUsers: [data.invitedUsers],
       participantId: participantId,
       startTime: data.startTime,
-      gameRoomId: gameRoom.id,
+      gameRoomInstanceId: gameRoomInstance.id,
       experienceInstanceId: experienceInstanceId
     });
     reset();

@@ -18,6 +18,7 @@ PUSH UI STATE ( Envelope Icon )
 
 ENTITY INSTANCE UPGRADE
   Compound Static Body for Entities
+  Filter object instances that are not visible in the snapshot taker and eraser, and other snapshot thing?
 
 LOBBY UPDATE
   Lobby Join Sound
@@ -42,16 +43,15 @@ EFFECTS
   Remove Tag, Add Tag Effect
   Camera Shake is bad because of the size of the map. it works best when zoomed out, why is that?
 
-OBJECT INSTANCE VISIBILITY
-  Filter object instances that are not visible in the snapshot taker and eraser, and other snapshot thing?
-
 INTERFACE IDS
   Generate interfaceIds based on the game model
   Interface Ids themselves may have to be auto generated, for dynamic lookup
-  Default unlocked interface ids need to be not shown in the unlockables list
+  Default unlocked interface ids need to be not shown in the unlockables tree
 
 DALL E GENERATOR
 
 EXPERIENCE MODEL
   Experience Thumbnail, Experience Image, etc
 
+GAME ROOM EXPANSION
+  I think maybe the game room manages loading interface ids and what not? or do games do that? WHO manages that? why when a game is loaded? troubling. Its hard to manage both at the same time... You need both states

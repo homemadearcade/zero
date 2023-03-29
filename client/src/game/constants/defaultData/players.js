@@ -17,12 +17,15 @@ const defaultProps = mergeDeep(
 
 export const vehicleClass = {
   ...defaultProps,
-  interfaceLocked: true,
   entityClassId: vehiclePlayerClassId,
   name: 'vehicle',
   graphics: {
     textureTint: '#FFFFFF',
     // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
+  },
+  editorInterface: {
+    ...defaultProps.editorInterface,
+    isSelectorObscured: true,
   },
   "movement": {
     ...vehicleDefaults.movement
@@ -34,13 +37,16 @@ export const vehicleClass = {
 
 export const jumperClass = {
   ...defaultProps,
-  interfaceLocked: true,
   entityClassId: jumperPlayerClassId,
   name: 'jumper',
   graphics: {
     textureTint: '#FFFFFF',
 
     // "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
+  },
+  editorInterface: {
+    ...defaultProps.editorInterface,
+    isSelectorObscured: true,
   },
   movement: {
     ...advancedDirectionalDefaults.movement,
@@ -54,12 +60,15 @@ export const jumperClass = {
 
 export const directionalClass = {
   ...defaultProps,
-  interfaceLocked: true,
   entityClassId: directionalPlayerClassId,
   name: 'directional',
   graphics: {
     textureTint: '#FFFFFF',
     // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
+  },
+  editorInterface: {
+    ...defaultProps.editorInterface,
+    isSelectorObscured: true,
   },
   movement: {
     ...directionalDefaults.movement

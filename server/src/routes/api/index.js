@@ -12,6 +12,7 @@ import codrawingRoutes from './codrawing'
 import gameRoomInstanceRoutes from './gameRoomInstance'
 import canvasImagesRoutes from './canvasImages'
 import experienceModelRoutes from './experienceModel'
+import entityClassRoutes from './entityClass'
 
 const router = Router();
 
@@ -26,6 +27,7 @@ router.use('/ticketedEvents', ticketedEventRoutes);
 router.use('/ticketPurchases', ticketPurchaseRoutes);
 router.use('/interfacePresets', interfacePresetRoutes);
 router.use('/experienceModel', experienceModelRoutes);
+router.use('/entityClass', entityClassRoutes);
 router.use('/aws', awsRoutes);
 router.use('/canvasImages', canvasImagesRoutes);
 
