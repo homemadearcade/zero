@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import requireJwtAuth from '../../middleware/requireJwtAuth';
-import { mergeDeep } from '../../utils/utils';
-import InterfacePreset from '../../models/InterfacePreset';
-import { generateUniqueId } from '../../utils/utils';
-import { INTERFACE_PRESET_ID_PREFIX } from '../../constants';
+import requireJwtAuth from '../../../middleware/requireJwtAuth';
+import { mergeDeep } from '../../../utils/utils';
+import InterfacePreset from '../../../models/library/InterfacePreset';
+import { generateUniqueId } from '../../../utils/utils';
+import { INTERFACE_PRESET_ID_PREFIX } from '../../../constants';
 
 const router = Router();
 

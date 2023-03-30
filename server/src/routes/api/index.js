@@ -7,14 +7,14 @@ import arcadeGameRoutes from './arcadeGames';
 import awsRoutes from './aws';
 import ticketedEventRoutes from './ticketedEvents'
 import ticketPurchaseRoutes from './ticketPurchases'
-import interfacePresetRoutes from './interfacePresets'
+import interfacePresetRoutes from './library/interfacePresets'
 import codrawingRoutes from './codrawing'
 import gameRoomInstanceRoutes from './gameRoomInstance'
 import canvasImagesRoutes from './canvasImages'
 import experienceModelRoutes from './experienceModel'
-import entityClassRoutes from './entityClass'
-import relationRoutes from './relation'
-import relationTagRoutes from './relationTag'
+import entityClassRoutes from './library/entityClass'
+import relationRoutes from './library/relation'
+import relationTagRoutes from './library/relationTag'
 
 const router = Router();
 

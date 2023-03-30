@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import requireJwtAuth from '../../middleware/requireJwtAuth';
-import { mergeDeep } from '../../utils/utils';
-import EntityClass from '../../models/library/EntityClass';
-import { ENTITY_CLASS_LIBRARY_ID_PREFIX } from '../../constants';
+import requireJwtAuth from '../../../middleware/requireJwtAuth';
+import { mergeDeep } from '../../../utils/utils';
+import EntityClass from '../../../models/library/EntityClass';
+import { ENTITY_CLASS_LIBRARY_ID_PREFIX } from '../../../constants';
 
 const router = Router();
 

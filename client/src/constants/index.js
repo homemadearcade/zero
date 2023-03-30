@@ -43,3 +43,4 @@ export const INTERFACE_PRESET_ID_PREFIX = 'ip-';
 export const GAME_ROOM_INSTANCE_ID_PREFIX = 'gri-';
 
 export * from './experience'
+export * from './interfacePresets.js'

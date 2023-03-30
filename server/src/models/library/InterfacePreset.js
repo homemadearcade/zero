@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 
 const interfacePreset = new Schema(
   {
+    interfacePresetSource: {
+      type: String,
+      required: true
+    },
     interfacePresetShortId: {
       immuteable: true,
       type: String,
