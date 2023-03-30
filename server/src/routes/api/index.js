@@ -7,7 +7,7 @@ import arcadeGameRoutes from './arcadeGames';
 import awsRoutes from './aws';
 import ticketedEventRoutes from './ticketedEvents'
 import ticketPurchaseRoutes from './ticketPurchases'
-import interfacePresetRoutes from './library/interfacePresets'
+import interfacePresetRoutes from './library/interfacePreset'
 import codrawingRoutes from './codrawing'
 import gameRoomInstanceRoutes from './gameRoomInstance'
 import canvasImagesRoutes from './canvasImages'
@@ -17,6 +17,7 @@ import relationRoutes from './library/relation'
 import relationTagRoutes from './library/relationTag'
 import effectRoutes from './library/effect'
 import eventRoutes from './library/event'
+import libraryRoutes from './library/library'
 
 const router = Router();
 
@@ -29,7 +30,7 @@ router.use('/gameRoomInstance', gameRoomInstanceRoutes);
 router.use('/arcadeGames', arcadeGameRoutes);
 router.use('/ticketedEvents', ticketedEventRoutes);
 router.use('/ticketPurchases', ticketPurchaseRoutes);
-router.use('/interfacePresets', interfacePresetRoutes);
+router.use('/interfacePreset', interfacePresetRoutes);
 router.use('/experienceModel', experienceModelRoutes);
 router.use('/entityClass', entityClassRoutes);
 router.use('/aws', awsRoutes);
@@ -38,6 +39,7 @@ router.use('/relationTag', relationTagRoutes);
 router.use('/effect', effectRoutes);
 router.use('/event', eventRoutes);
 router.use('/canvasImages', canvasImagesRoutes);
+router.use('/library', libraryRoutes);
 
 'routes register', router.stack.map((router) => {
   // console.log(router.regexp)

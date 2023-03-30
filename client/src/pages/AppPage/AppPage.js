@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Loader from '../../ui/Loader/Loader';
 
-import { logInUserWithOauth, loadMe } from '../../store/actions/auth/authActions';
+import { logInUserWithOauth, loadMe } from '../../store/actions/user/authActions';
 
 import ErrorHandler from '../../ui/connected/ErrorHandler/ErrorHandler';
 import SnackbarHandler from '../../ui/connected/SnackbarHandler/SnackbarHandler';

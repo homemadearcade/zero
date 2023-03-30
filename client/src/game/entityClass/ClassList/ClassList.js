@@ -14,10 +14,10 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_CLASS, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, stageDefaultTypeProperties } from '../../constants';
+import { PLAYER_CLASS, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, stageDefaultTypeProperties, POWERUP_CLASS, defaultPowerupClass } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClass } from '../../constants';
-import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, POWERUP_CLASS_ADD_IID, POWERUP_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openClassBoxModal } from '../../../store/actions/game/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
 import { getInterfaceIdData } from '../../../utils';
@@ -125,6 +125,20 @@ const ClassList = ({
     </Button>
   </Unlockable>)
 
+  const powerupClasses = Object.keys(entityClasses).
+    filter(filterClasses(POWERUP_CLASS)).
+    sort(sortByLastEditedDate(entityClasses)).
+    map(renderClassItem(POWERUP_CLASS)).filter((item) => !!item).slice(0, CLASS_MAX -1)
+
+
+  powerupClasses.push(<Unlockable interfaceId={POWERUP_CLASS_ADD_IID}>
+    <Button size="fit" className="ClassList__add" onClick={() => {
+      openEditClassGraphics(defaultPowerupClass)
+    }}>
+      +
+    </Button>
+  </Unlockable>)
+
   const zoneClasses = Object.keys(entityClasses).
     filter(filterClasses(ZONE_CLASS)).
     sort(sortByLastEditedDate(entityClasses)).
@@ -204,6 +218,28 @@ const ClassList = ({
       </div>
     </>
   })
+
+  accordians.push({
+    id: 'powerups',
+    interfaceId: POWERUP_CLASS_CONTAINER_IID,
+    sx: layerInvisibility[POWERUP_CLASS] ? {opacity: hiddenOpacity} : {},
+    title: <>
+      <Typography component="div" variant="subtitle1">Power Ups</Typography>
+    </>,
+    body: <>
+      <BorderedGrid
+        maxItems={CLASS_MAX} 
+        height="3.3em"
+        width="3.95em"
+        items={powerupClasses}
+      />
+      <div className="ClassList__tools">
+        <LayerVisibility layerId={POWERUP_CLASS} />
+        {Object.keys(powerupClasses).length >= CLASS_MAX && renderClassBoxButton(POWERUP_CLASS)}
+      </div>
+    </>
+  })
+
 
   accordians.push({
     id: 'zones',

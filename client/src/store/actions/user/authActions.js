@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getMessages } from '../user/messageActions';
+import { getMessages } from './messageActions';
 import {
   LOGIN_WITH_OAUTH_LOADING,
   LOGIN_WITH_OAUTH_SUCCESS,

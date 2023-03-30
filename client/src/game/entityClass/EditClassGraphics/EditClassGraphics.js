@@ -40,8 +40,6 @@ const EditClassGraphics = ({
     }
   }, [])
 
-  console.log(entityClass)
-
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="EditClassGraphics">
       {entityClass.isNew === true && <Typography component="h2" variant="h2">New {classTypeToDisplayName[entityClass.classInterfaceCategory]}</Typography>}

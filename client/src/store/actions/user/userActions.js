@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from './authActions';
 import {
   GET_USER_LOADING,
   GET_USER_SUCCESS,
@@ -18,7 +18,7 @@ import {
   ADD_USER_SPEED_TEST_FAIL,
 } from '../../types';
 
-import { logOutUser, loadMe } from '../auth/authActions';
+import { logOutUser, loadMe } from './authActions';
 import { testInternetSpeed } from '../../../utils/networkUtils';
 import { getDeviceData } from '../../../utils/webPageUtils';
 

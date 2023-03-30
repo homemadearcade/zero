@@ -172,6 +172,22 @@ export const defaultBasicClass = {
   }
 }
 
+export const defaultPowerupClass = { 
+  classInterfaceCategory: BASIC_CLASS,
+  graphics: {
+    glowing: true
+  },
+  movement: {
+    movementBehavior: MOVEMENT_NONE,
+  },
+  collisionResponse: {
+    notPushable: true,
+    mass: 100,
+    bounciness: 0,
+  }
+}
+
+
 export const classTypeToDisplayName = {
   [PLAYER_CLASS]: 'Player',
   [BASIC_CLASS]: 'Object',

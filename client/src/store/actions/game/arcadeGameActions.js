@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from '../user/authActions';
 import {
   GET_ARCADE_GAMES_LOADING,
   GET_ARCADE_GAMES_SUCCESS,

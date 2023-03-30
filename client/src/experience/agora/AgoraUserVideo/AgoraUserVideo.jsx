@@ -8,7 +8,7 @@ import { generateUniqueId, inIframe } from "../../../utils/webPageUtils";
 import { useEffect } from "react";
 import { setVideoTrackInterfaceIdClosed, setVideoTrackInterfaceIdOpen } from "../../../store/actions/experience/videoActions";
 import axios from "axios";
-import { attachTokenToHeaders } from "../../../store/actions/auth/authActions";
+import { attachTokenToHeaders } from "../../../store/actions/user/authActions";
 import store from "../../../store";
 import { stringToColour } from "../../../utils/colorUtils";
 

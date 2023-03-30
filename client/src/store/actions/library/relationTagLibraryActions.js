@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from '../user/authActions';
 import {
   GET_RELATION_TAG_LIBRARY_LOADING,
   GET_RELATION_TAG_LIBRARY_SUCCESS,
@@ -30,7 +30,7 @@ export const getRelationTagLibrary = () => async (dispatch, getState) => {
 
     dispatch({
       type: GET_RELATION_TAG_LIBRARY_SUCCESS,
-      payload: { relationTagTagLibrary: response.data.relationTagTagLibrary },
+      payload: { relationTagLibrary: response.data.relationTagLibrary },
     });
   } catch (err) {
     console.error(err)

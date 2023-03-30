@@ -8,14 +8,14 @@ import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
-import { deleteInterfacePreset, getInterfacePresets } from '../../store/actions/library/interfacePresetActions';
+import { deleteInterfacePreset, getInterfacePresets } from '../../store/actions/library/interfacePresetLibraryActions';
 
 import './styles.css';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import Button from '../../ui/Button/Button';
 
-const InterfaceListPage = ({ getInterfacePresets, deleteInterfacePreset, interfacePreset: { interfacePresets, isLoading } }) => {
+const InterfaceListPage = ({ getInterfacePresets, deleteInterfacePreset, interfacePresetLibrary: { interfacePresetLibrary, isLoading } }) => {
   useEffect(() => {
     getInterfacePresets();
   }, []);
@@ -28,7 +28,7 @@ const InterfaceListPage = ({ getInterfacePresets, deleteInterfacePreset, interfa
           description="This is the Interface Preset page. Here are listed all of the interface presets of the app. You can delete and edit interface presets. Only admin users can see this page."
         ></PageHeader>
         {isLoading ?  <Loader text="Loading Interface Presets..."/>
-           : interfacePresets.map((interfacePreset) => {
+           : interfacePresetLibrary.map((interfacePreset) => {
               return <List>
                 <ListItem divider  secondaryAction={<Button 
                     variant="contained" 
@@ -53,7 +53,7 @@ const InterfaceListPage = ({ getInterfacePresets, deleteInterfacePreset, interfa
 };
 
 const mapStateToProps = (state) => ({
-  interfacePreset: state.interfacePreset,
+  interfacePresetLibrary: state.interfacePresetLibrary,
 });
 
 export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { deleteInterfacePreset, getInterfacePresets }))(InterfaceListPage);

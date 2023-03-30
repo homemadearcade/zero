@@ -64,6 +64,9 @@ const initialState = {
       textureId: null,
       textureTint: null,
     },
+    editorInterface: {
+
+    },
     name: "",
     classInterfaceCategory: null,
   },

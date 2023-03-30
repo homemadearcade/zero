@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from './authActions';
 import {
   GET_MESSAGES_LOADING,
   GET_MESSAGES_SUCCESS,

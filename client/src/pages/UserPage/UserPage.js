@@ -7,7 +7,7 @@ import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
 import { getUserByUsername, editUser, deleteUser, addUserSpeedTest } from '../../store/actions/user/userActions';
-import { logOutUser } from '../../store/actions/auth/authActions';
+import { logOutUser } from '../../store/actions/user/authActions';
 
 import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';

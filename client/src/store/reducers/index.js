@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import arcadeGamesReducer from './game/arcadeGamesReducer';
-import authReducer from './auth/authReducer';
+import authReducer from './user/authReducer';
 import cobrowsingReducer from './game/cobrowsingReducer';
-import registerReducer from './auth/registerReducer';
+import registerReducer from './user/registerReducer';
 import userReducer from './user/userReducer';
 import usersReducer from './user/usersReducer';
 import messageReducer from './user/messageReducer';
@@ -25,7 +25,7 @@ import playerInterfaceReducer from './game/playerInterfaceReducer';
 import portfolioReducer from './marketing/portfolioReducer';
 import ticketedEventReducer from './ticketing/ticketedEventReducer';
 import checkoutReducer from './ticketing/checkoutReducer';
-import interfacePresetReducer from './library/interfacePresetReducer';
+import interfacePresetLibraryReducer from './library/interfacePresetLibraryReducer';
 import snackbarReducer from './snackbarReducer';
 import themeReducer from './themeReducer';
 import canvasImageReducer from './media/canvasImageReducer';
@@ -36,6 +36,7 @@ import relationLibraryReducer from './library/relationLibraryReducer';
 import relationTagLibraryReducer from './library/relationTagLibraryReducer';
 import effectLibraryReducer from './library/effectLibraryReducer';
 import eventLibraryReducer from './library/eventLibraryReducer';
+import libraryReducer from './library/libraryReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -61,7 +62,7 @@ export default combineReducers({
   webPage: webPageReducer,
   portfolio: portfolioReducer,
   ticketedEvent: ticketedEventReducer,
-  interfacePreset: interfacePresetReducer,
+  interfacePresetLibrary: interfacePresetLibraryReducer,
   checkout: checkoutReducer,
   snackbar: snackbarReducer,
   theme: themeReducer,
@@ -74,4 +75,5 @@ export default combineReducers({
   relationTagLibrary: relationTagLibraryReducer,
   effectLibrary: effectLibraryReducer,
   eventLibrary: eventLibraryReducer,
+  library: libraryReducer,
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from '../user/authActions';
 import {
   EDIT_GAME_MODEL_LOADING,
   // EDIT_GAME_MODEL_SUCCESS,

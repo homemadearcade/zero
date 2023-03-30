@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Link from '../../ui/Link/Link';
 
-import { logOutUser } from '../../store/actions/auth/authActions';
+import { logOutUser } from '../../store/actions/user/authActions';
 import './Navbar.scss';
 import Button from '../../ui/Button/Button';
 import AdminNavbar from '../AdminNavbar/AdminNavbar';

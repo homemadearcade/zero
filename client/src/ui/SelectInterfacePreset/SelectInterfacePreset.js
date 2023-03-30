@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectInterfacePreset.scss';
 import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
 
-const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interfacePresets }) => {
+const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interfacePresetLibrary }) => {
 
   const mapClassToOption = (interfacePreset) => {
     return {
@@ -14,7 +14,7 @@ const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interface
     }
   }
 
-  const options = interfacePresets.map(mapClassToOption)
+  const options = interfacePresetLibrary.map(mapClassToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}

@@ -1,7 +1,7 @@
 import {
-  GET_INTERFACE_PRESETS_LOADING,
-  GET_INTERFACE_PRESETS_SUCCESS,
-  GET_INTERFACE_PRESETS_FAIL,
+  GET_INTERFACE_PRESET_LIBRARY_LOADING,
+  GET_INTERFACE_PRESET_LIBRARY_SUCCESS,
+  GET_INTERFACE_PRESET_LIBRARY_FAIL,
   GET_INTERFACE_PRESET_LOADING,
   GET_INTERFACE_PRESET_SUCCESS,
   GET_INTERFACE_PRESET_FAIL,
@@ -16,7 +16,7 @@ import {
 } from '../../types';
 
 const initialState = {
-  interfacePresets: [],
+  interfacePresetLibrary: [],
   interfacePreset: null,
   ticketPurchases: null,
   isLoading: false,
@@ -30,7 +30,7 @@ export default function interfacePresetReducer(state = initialState, { type, pay
         ...state,
         isLoading: true,
       };
-    case GET_INTERFACE_PRESETS_LOADING:
+    case GET_INTERFACE_PRESET_LIBRARY_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -38,7 +38,7 @@ export default function interfacePresetReducer(state = initialState, { type, pay
     case ADD_INTERFACE_PRESET_LOADING:
       return {
         ...state,
-        interfacePresets: [
+        interfacePresetLibrary: [
           {
             id: 0,
             isLoading: true,
@@ -46,7 +46,7 @@ export default function interfacePresetReducer(state = initialState, { type, pay
             updatedAt: new Date().toISOString(),
             user: { ...payload.me },
           },
-          ...state.interfacePresets,
+          ...state.interfacePresetLibrary,
         ],
       };
     case GET_INTERFACE_PRESET_SUCCESS:
@@ -55,16 +55,16 @@ export default function interfacePresetReducer(state = initialState, { type, pay
         isLoading: false,
         interfacePreset: payload.interfacePreset,
       };
-    case GET_INTERFACE_PRESETS_SUCCESS:
+    case GET_INTERFACE_PRESET_LIBRARY_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        interfacePresets: payload.interfacePresets,
+        interfacePresetLibrary: payload.interfacePresetLibrary,
       };
     case ADD_INTERFACE_PRESET_SUCCESS:
       return {
         ...state,
-        interfacePresets: state.interfacePresets.map((m) => {
+        interfacePresetLibrary: state.interfacePresetLibrary.map((m) => {
           if (m.id === 0) return payload.interfacePreset;
           return m;
         }),
@@ -85,7 +85,7 @@ export default function interfacePresetReducer(state = initialState, { type, pay
         isLoading: false,
         error: payload.error,
       };
-    case GET_INTERFACE_PRESETS_FAIL:
+    case GET_INTERFACE_PRESET_LIBRARY_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -96,7 +96,7 @@ export default function interfacePresetReducer(state = initialState, { type, pay
         ...state,
         isLoading: false,
         error: payload.error,
-        interfacePresets: state.interfacePresets.filter((m) => m.id !== 0),
+        interfacePresetLibrary: state.interfacePresetLibrary.filter((m) => m.id !== 0),
       };
     default:
       return state;

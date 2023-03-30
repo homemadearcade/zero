@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from '../user/authActions';
 import {
-  GET_INTERFACE_PRESETS_LOADING,
-  GET_INTERFACE_PRESETS_SUCCESS,
-  GET_INTERFACE_PRESETS_FAIL,
+  GET_INTERFACE_PRESET_LIBRARY_LOADING,
+  GET_INTERFACE_PRESET_LIBRARY_SUCCESS,
+  GET_INTERFACE_PRESET_LIBRARY_FAIL,
   GET_INTERFACE_PRESET_LOADING,
   GET_INTERFACE_PRESET_SUCCESS,
   GET_INTERFACE_PRESET_FAIL,
@@ -21,21 +21,21 @@ import {
 
 export const getInterfacePresets = () => async (dispatch, getState) => {
   dispatch({
-    type: GET_INTERFACE_PRESETS_LOADING,
+    type: GET_INTERFACE_PRESET_LIBRARY_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/interfacePresets', options);
+    const response = await axios.get('/api/interfacePreset', options);
 
     dispatch({
-      type: GET_INTERFACE_PRESETS_SUCCESS,
-      payload: { interfacePresets: response.data.interfacePresets },
+      type: GET_INTERFACE_PRESET_LIBRARY_SUCCESS,
+      payload: { interfacePresetLibrary: response.data.interfacePresetLibrary },
     });
   } catch (err) {
     console.error(err)
 
     dispatch({
-      type: GET_INTERFACE_PRESETS_FAIL,
+      type: GET_INTERFACE_PRESET_LIBRARY_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
@@ -48,7 +48,7 @@ export const getInterfacePresetByMongoId = (interfacePresetMongoId) => async (di
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/interfacePresets/' + interfacePresetMongoId, options);
+    const response = await axios.get('/api/interfacePreset/' + interfacePresetMongoId, options);
 
     dispatch({
       type: GET_INTERFACE_PRESET_SUCCESS,
@@ -72,7 +72,7 @@ export const getInterfacePresetById = (interfacePresetId) => async (dispatch, ge
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/interfacePresets/interfacePresetId/' + interfacePresetId, options);
+    const response = await axios.get('/api/interfacePreset/interfacePresetId/' + interfacePresetId, options);
 
     dispatch({
       type: GET_INTERFACE_PRESET_SUCCESS,
@@ -98,7 +98,7 @@ export const addInterfacePreset = (interfacePreset) => async (dispatch, getState
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/interfacePresets', interfacePreset, options);
+    const response = await axios.post('/api/interfacePreset', interfacePreset, options);
 
     dispatch({
       type: ADD_INTERFACE_PRESET_SUCCESS,
@@ -123,7 +123,7 @@ export const deleteInterfacePreset = (id) => async (dispatch, getState) => {
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.delete(`/api/interfacePresets/${id}`, options);
+    const response = await axios.delete(`/api/interfacePreset/${id}`, options);
 
     dispatch({
       type: DELETE_INTERFACE_PRESET_SUCCESS,
@@ -147,7 +147,7 @@ export const editInterfacePreset = (id, interfacePreset) => async (dispatch, get
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/interfacePresets/${id}`,interfacePreset, options);
+    const response = await axios.put(`/api/interfacePreset/${id}`,interfacePreset, options);
 
     dispatch({
       type: EDIT_INTERFACE_PRESET_SUCCESS,

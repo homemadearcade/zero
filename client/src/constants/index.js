@@ -22,11 +22,6 @@ export const noCobrowsingUpdateDelta = 15000
 export const UNLOCK_TOOL = 'UNLOCK_TOOL'
 export const OPEN_TOOL = 'OPEN_TOOL'
 
-export const IMAGE_TYPE_SNAPSHOT = 'IMAGE_TYPE_SNAPSHOT'
-export const IMAGE_TYPE_LAYER = 'IMAGE_TYPE_LAYER'
-export const IMAGE_TYPE_CANVAS = 'IMAGE_TYPE_CANVAS'
-export const IMAGE_TYPE_SPRITE = 'IMAGE_TYPE_SPRITE'
-
 export const GAME_MODEL_ID_PREFIX = 'gm-';
 export const LOBBY_INSTANCE_ID_PREFIX = 'li-';
 export const EXPERIENCE_MODEL_ID_PREFIX = 'em-';
@@ -38,4 +33,4 @@ export const INTERFACE_PRESET_ID_PREFIX = 'ip-';
 export const GAME_ROOM_INSTANCE_ID_PREFIX = 'gri-';
 
 export * from './experience'
-export * from './interfacePresets.js'
+export * from './library'

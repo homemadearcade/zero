@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from '../user/authActions';
 import {
   GET_TICKETED_EVENTS_LOADING,
   GET_TICKETED_EVENTS_SUCCESS,

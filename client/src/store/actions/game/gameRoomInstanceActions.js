@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from '../user/authActions';
 
 import {
   ADD_GAME_ROOM_LOADING,

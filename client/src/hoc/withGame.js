@@ -6,7 +6,7 @@ import { loadArcadeGameByMongoId, unloadArcadeGame } from '../store/actions/game
 import { getSpritesheetData } from '../store/actions/game/gameModelActions';
 import { clearCutscenes } from '../store/actions/game/playerInterfaceActions';
 import { closeContextMenu } from '../store/actions/game/contextMenuActions';
-import { getEntityClassLibrary } from '../store/actions/library/entityClassLibraryActions';
+import { getLibrary } from '../store/actions/library/libraryActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -22,9 +22,16 @@ export default (ChildComponent) => {
     }
 
     async loadGame() {
-      const { match, arcadeGameMongoId, loadArcadeGameByMongoId, gameModel, getSpritesheetData, getEntityClassLibrary } = this.props
+      const { 
+        match,
+        arcadeGameMongoId,
+        loadArcadeGameByMongoId,
+        gameModel,
+        getSpritesheetData,
+        getLibrary,
+      } = this.props
 
-      await getEntityClassLibrary()
+      await getLibrary()
 
       if(arcadeGameMongoId) {
         await loadArcadeGameByMongoId(arcadeGameMongoId)
@@ -75,13 +82,26 @@ export default (ChildComponent) => {
     }
 
     render() {
-      const { gameModel, entityClassLibrary } = this.props
+      const { 
+        gameModel,
+        entityClassLibrary,
+        relationLibrary,
+        relationTagLibrary,
+        effectLibrary,
+        eventLibrary,
+        interfacePresetLibrary,
+        library
+       } = this.props
 
-      // if(!gameModel.gameModel) {
-      //   return <Loader text="Loading Game Data..."/>
-      // }
-      if(entityClassLibrary.isLoading || !entityClassLibrary.entityClassLibrary) {
-        return <Loader text="Loading Entity Library..."/>
+      if(library.isLoading ||
+        !entityClassLibrary.entityClassLibrary
+        || !relationLibrary.relationLibrary
+        || !relationTagLibrary.relationTagLibrary
+        || !effectLibrary.effectLibrary
+        || !eventLibrary.eventLibrary
+        || !interfacePresetLibrary.interfacePresetLibrary
+      ) {
+        return <Loader text="Loading Library..."/>
       }
 
       if(!gameModel.isSpriteSheetDataLoaded) {
@@ -94,8 +114,14 @@ export default (ChildComponent) => {
 
   const mapStateToProps = (state) => ({
     gameModel: state.gameModel,
-    entityClassLibrary: state.entityClassLibrary
+    entityClassLibrary: state.entityClassLibrary,
+    relationLibrary: state.relationLibrary,
+    relationTagLibrary: state.relationTagLibrary,
+    effectLibrary: state.effectLibrary,
+    eventLibrary: state.eventLibrary,
+    interfacePresetLibrary: state.interfacePresetLibrary,
+    library: state.library,
   });
 
-  return connect(mapStateToProps, { closeContextMenu, loadArcadeGameByMongoId, unloadArcadeGame, getSpritesheetData, clearCutscenes, getEntityClassLibrary })(WithGame)
+  return connect(mapStateToProps, { closeContextMenu, loadArcadeGameByMongoId, unloadArcadeGame, getSpritesheetData, clearCutscenes, getLibrary })(WithGame)
 };

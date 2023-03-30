@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { attachTokenToHeaders } from '../auth/authActions';
+import { attachTokenToHeaders } from '../user/authActions';
 import {
   GET_CANVAS_IMAGES_LOADING,
   GET_CANVAS_IMAGES_SUCCESS,

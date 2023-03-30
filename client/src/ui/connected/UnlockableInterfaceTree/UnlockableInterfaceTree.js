@@ -19,7 +19,7 @@ import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGam
 import { getUserByMongoId } from '../../../store/actions/user/userActions';
 import Button from '../../Button/Button';
 import Loader from '../../Loader/Loader';
-import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/library/interfacePresetActions';
+import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/library/interfacePresetLibraryActions';
 import Dialog from '../../Dialog/Dialog';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 
@@ -178,7 +178,7 @@ function getClassName(id, unlockableInterfaceIds) {
   if(isUnlocked) return 'TreeItem__unlocked'
 }
 
-function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceModelMongoId, userMongoId, getUserByMongoId, user: { user }, interfacePreset: { interfacePresets }, updateArcadeGameCharacter}) {
+function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceModelMongoId, userMongoId, getUserByMongoId, user: { user }, interfacePresetLibrary: { interfacePresetLibrary }, updateArcadeGameCharacter}) {
 
   const [presetName, setPresetName] = React.useState('');
   const [presetDescription, setPresetDescription] = React.useState('');
@@ -326,7 +326,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
       return <Dialog open={isMorphPresetModalOpen}>
         <DialogTitle>Morph Tree to Preset</DialogTitle>
         <DialogContent>
-          {interfacePresets.map((interfacePreset) => {
+          {interfacePresetLibrary.map((interfacePreset) => {
             return <>
               <List>
                 <ListItem divider secondaryAction={<Button 
@@ -363,7 +363,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
       <Button onClick={handleExpandClick}>
         {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
       </Button>
-      {interfacePresets &&  <Button onClick={() => {
+      {interfacePresetLibrary &&  <Button onClick={() => {
         setIsMorphPresetModalOpen(true)
       }}>Morph current tree to Preset</Button>}
       <Button onClick={() => {
@@ -389,7 +389,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  interfacePreset: state.interfacePreset
+  interfacePresetLibrary: state.interfacePresetLibrary
 })
 
 export default connect(mapStateToProps, { getUserByMongoId, updateArcadeGameCharacter, addInterfacePreset, getInterfacePresets })(UnlockableInterfaceTree);

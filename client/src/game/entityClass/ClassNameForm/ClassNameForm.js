@@ -61,16 +61,17 @@ const ClassNameForm = ({ isEditingInitially, initialName, updateCreateClass, gam
 
   if(isEditing) {
     return (
-      <div className="ClassNameForm">
-        <TextField onChange={handleChange} label="Name" value={entityClass.name} />
-        {entityClass.error && <Alert severity="error">{entityClass.error}</Alert>}
-        {!isEditingInitially && <IconButton icon="faCheck" onClick={() => {
-          setIsEditing(false)
+        <div className="ClassNameForm">
+          <TextField onChange={handleChange} label="Name" value={entityClass.name} />
+          {entityClass.error && <Alert severity="error">{entityClass.error}</Alert>}
+          {!isEditingInitially && <IconButton icon="faCheck" onClick={() => {
+            setIsEditing(false)
         }}></IconButton>}
-      </div>
-    );
+        </div>
+       );
   } else {
     return <div
+      className="ClassNameForm"
       onMouseEnter={() => {
         setIsHovering(true)
       }}
@@ -80,10 +81,10 @@ const ClassNameForm = ({ isEditingInitially, initialName, updateCreateClass, gam
     >
         <Typography variant="h4">
         {entityClass.name}
-        {isHovering && <IconButton icon="faPen" onClick={() => {
-          setIsEditing(true)
-        }}></IconButton>}
       </Typography>
+      {isHovering && <IconButton icon="faPen" onClick={() => {
+        setIsEditing(true)
+      }}></IconButton>}
     </div>
   }
 };

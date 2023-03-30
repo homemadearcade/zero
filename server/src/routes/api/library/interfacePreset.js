@@ -9,10 +9,10 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const interfacePresets = await InterfacePreset.find().sort({ createdAt: 'desc' }).select('name interfaceIds isRemoved description');
+    const interfacePresetLibrary = await InterfacePreset.find().sort({ createdAt: 'desc' }).select('name interfaceIds isRemoved description');
 
     res.json({
-      interfacePresets: interfacePresets.map((m) => {
+      interfacePresetLibrary: interfacePresetLibrary.map((m) => {
         return m.toJSON();
       }),
     });
@@ -64,8 +64,8 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
 router.delete('/:id', requireJwtAuth, async (req, res) => {
   try {
-    const tempinterfacePresets = await InterfacePreset.findById(req.params.id);
-    if (!tempinterfacePresets) return res.status(404).json({ message: 'No ticketed event found.' });
+    const tempinterfacePreset = await InterfacePreset.findById(req.params.id);
+    if (!tempinterfacePreset) return res.status(404).json({ message: 'No ticketed event found.' });
     if (!(req.user.role === 'ADMIN'))
       return res.status(400).json({ interfacePreset: 'Not admin' });
 
@@ -79,22 +79,22 @@ router.delete('/:id', requireJwtAuth, async (req, res) => {
 
 router.put('/:id', requireJwtAuth, async (req, res) => {
   try {
-    const tempinterfacePresets = await InterfacePreset.findById(req.params.id);
-    if (!tempinterfacePresets) return res.status(404).json({ message: 'No ticketed event found.' });
+    const tempinterfacePreset = await InterfacePreset.findById(req.params.id);
+    if (!tempinterfacePreset) return res.status(404).json({ message: 'No ticketed event found.' });
     if (!(req.user.role === 'ADMIN'))
       return res.status(400).json({ message: 'Not updated by admin.' });
 
-    const updatedinterfacePresets = mergeDeep(tempinterfacePresets, req.body)
+    const updatedinterfacePreset = mergeDeep(tempinterfacePreset, req.body)
 
-    await interfacePresets.findByIdAndUpdate(
+    await interfacePreset.findByIdAndUpdate(
       req.params.id,
       { 
-        ...updatedinterfacePresets
+        ...updatedinterfacePreset
       },
       { new: true },
     );
     
-    res.status(200).json({ interfacePreset: updatedinterfacePresets });
+    res.status(200).json({ interfacePreset: updatedinterfacePreset });
   } catch (err) {
     console.error(err)
     res.status(500).json({ message: 'Something went wrong.' });
