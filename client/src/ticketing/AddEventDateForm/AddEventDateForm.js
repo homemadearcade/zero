@@ -12,8 +12,6 @@ import { generateUniqueId } from '../../utils/webPageUtils';
 import { DATE_ID_PREFIX } from '../../game/constants';
 
 const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticketedEvent } }) => {
- console.log(ticketedEvent)
-
   const { handleSubmit, reset, control } = useForm({
     defaultValues: {
       day: '',
@@ -25,7 +23,7 @@ const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticket
     
     const startDate = dayjs(data.day.format('YYYY-MM-DD') + data.time.format('THH:mm:ssZ'))
     ticketedEvent.dates.push({
-      id: DATE_ID_PREFIX+generateUniqueId(),
+      dateId: DATE_ID_PREFIX+generateUniqueId(),
       startDate: startDate.toDate(),
       // endDate: 
     })

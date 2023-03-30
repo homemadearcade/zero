@@ -74,11 +74,11 @@ export function onArcadeGameModelUpdate(gameUpdate) {
   window.events.emit(ON_GAME_MODEL_UPDATE, gameUpdate)
 }
 
-function onArcadeGameCharacterUpdate({ id, data }) {
+function onArcadeGameCharacterUpdate({ userMongoId, data }) {
   const me = store.getState().auth.me 
   const cobrowsing = store.getState().cobrowsing
 
-  if(me.id === id || (cobrowsing.isSubscribedCobrowsing)) {  
+  if(me.id === userMongoId || (cobrowsing.isSubscribedCobrowsing)) {  
     // needs to do update cobrowsing or else ur just locking ur own...
     store.dispatch({
       type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
@@ -91,19 +91,19 @@ function onArcadeGameCharacterUpdate({ id, data }) {
   }
 }
 
-export const updateArcadeGameCharacter = ({userId, unlockableInterfaceIds, merge}) => async (dispatch, getState) => {
+export const updateArcadeGameCharacter = ({userMongoId, unlockableInterfaceIds, merge}) => async (dispatch, getState) => {
   // dispatch({
   //   type: GET_SPRITESHEET_DATA_LOADING,
   // });
 
   try {
     const state = store.getState()
-    const gameRoomInstanceId = state.lobbyInstnace.lobbyInstance?.gameRoomInstanceId
+    const gameRoomInstanceMongoId = state.lobbyInstnace.lobbyInstance?.gameRoomInstanceMongoId
 
     const options = attachTokenToHeaders(getState);
     const response = await axios.put('/api/arcadeGames/character', {
-      gameRoomInstanceId,
-      userId,
+      gameRoomInstanceMongoId,
+      userMongoId,
       unlockableInterfaceIds,
       merge
     }, options);
@@ -167,7 +167,7 @@ export const getArcadeGame = (id) => async (dispatch, getState) => {
 };
 
 
-export const loadArcadeGame = (gameId) => async (dispatch, getState) => {
+export const loadArcadeGameByMongoId = (gameId) => async (dispatch, getState) => {
   dispatch({
     type: LOAD_GAME_MODEL_LOADING,
   });
@@ -214,7 +214,7 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
   })
 };
 
-export async function addLayersForArcadeGameStage(gameId, userId, stageId) {
+export async function addLayersForArcadeGameStage(gameId, userMongoId, stageId) {
   const backgroundTextureId = getTextureIdForLayerId(gameId, stageId, BACKGROUND_LAYER_ID)
   const playgroundTextureId = getTextureIdForLayerId(gameId, stageId, PLAYGROUND_LAYER_ID)
   const foregroundTextureId = getTextureIdForLayerId(gameId, stageId, FOREGROUND_LAYER_ID)
@@ -223,21 +223,21 @@ export async function addLayersForArcadeGameStage(gameId, userId, stageId) {
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(backgroundTextureId),
     textureId: backgroundTextureId, 
-    userId,
+    userMongoId,
     visualTags: ['Layer'],
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(playgroundTextureId),
     textureId: playgroundTextureId, 
-    userId,
+    userMongoId,
     visualTags: ['Layer'],
   }))
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(foregroundTextureId),
     textureId: foregroundTextureId,
-    userId,
+    userMongoId,
     visualTags: ['Layer'],
   }))
 
@@ -296,14 +296,14 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
   }
 };
 
-export const copyArcadeGameToUser = ({gameId, userId, isArchived}) => async (dispatch, getState) => {
+export const copyArcadeGameToUser = ({gameId, userMongoId, isArchived}) => async (dispatch, getState) => {
   const options = attachTokenToHeaders(getState);
   const response = await axios.get('/api/arcadeGames/' + gameId, options);
   const gameData = response.data.game
   gameData.owner = null
   gameData.metadata.isArchived = isArchived
   gameData.metadata.isPublished = false
-  gameData.userId = userId
+  gameData.userMongoId = userMongoId
 
   dispatch(addArcadeGame(gameData))
 };

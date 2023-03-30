@@ -4,7 +4,7 @@ import Joi from 'joi';
 const { Schema } = mongoose;
 
     // const gameResponse = await addArcadeGame({
-    //   userId: data.participants
+    //   userMongoId: data.participants
     // });
     // const game = gameResponse.data.game
     // const participantId = data.participants
@@ -13,7 +13,7 @@ const { Schema } = mongoose;
 
 const ticketPurchase = new Schema(
   {
-    ticketPurchaseShortId: {
+    ticketPurchaseId: {
       immuteable: true,
       type: String,
       unique: true,
@@ -39,7 +39,7 @@ ticketPurchase.methods.toJSON = function () {
     id: this._id.toString(),
     dateId: this.dateId,
     ticketId: this.ticketId,
-    ticketPurchaseShortId: this.ticketPurchaseShortId,
+    ticketPurchaseId: this.ticketPurchaseId,
     lobbyInstance: this.lobbyInstance?.toJSON(),
     user: this.user?.toJSON(),
     ticketedEvent: this.ticketedEvent?.toJSON(),

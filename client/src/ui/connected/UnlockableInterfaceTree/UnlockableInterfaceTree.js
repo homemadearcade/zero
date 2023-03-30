@@ -16,7 +16,7 @@ import Icon from '../../Icon/Icon';
 import { DialogActions, DialogContent, DialogTitle,  List, ListItem, ListItemButton, ListItemText, MenuItem, TextField } from '@mui/material';
 import { connect } from 'react-redux';
 import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
-import { getUserById } from '../../../store/actions/user/userActions';
+import { getUserByMongoId } from '../../../store/actions/user/userActions';
 import Button from '../../Button/Button';
 import Loader from '../../Loader/Loader';
 import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/library/interfacePresetActions';
@@ -178,7 +178,7 @@ function getClassName(id, unlockableInterfaceIds) {
   if(isUnlocked) return 'TreeItem__unlocked'
 }
 
-function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceId, userId, getUserById, user: { user }, interfacePreset: { interfacePresets }, updateArcadeGameCharacter}) {
+function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceId, userMongoId, getUserByMongoId, user: { user }, interfacePreset: { interfacePresets }, updateArcadeGameCharacter}) {
 
   const [presetName, setPresetName] = React.useState('');
   const [presetDescription, setPresetDescription] = React.useState('');
@@ -198,10 +198,10 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
   };
 
   React.useEffect(() => {
-    if(user?.id !== userId) {
-      getUserById(userId)
+    if(user?.id !== userMongoId) {
+      getUserByMongoId(userMongoId)
     }
-  }, [userId, user?.id])
+  }, [userMongoId, user?.id])
 
   React.useEffect(() => {
     getInterfacePresets()
@@ -224,13 +224,13 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
         idAliases.forEach(alias => alias.slice().reverse().forEach((id) => {
           list.push(<MenuItem key={id + alias} onClick={async () => {
             await updateArcadeGameCharacter({
-              userId: userId,
+              userMongoId: userMongoId,
               unlockableInterfaceIds : {
                 ...unlockableInterfaceIds,
                 [id]: true
               }
             })
-            await getUserById(userId)
+            await getUserByMongoId(userMongoId)
             closeMenu()
           }}>Unlock {id}</MenuItem>)
         }))
@@ -239,13 +239,13 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
           if(unlockableInterfaceIds[id]) {
             list.push(<MenuItem key={id + alias} onClick={async () => {
               await updateArcadeGameCharacter({
-                userId: userId,
+                userMongoId: userMongoId,
                 unlockableInterfaceIds : {
                   ...unlockableInterfaceIds,
                   [id]: false
                 }
               })
-              await getUserById(userId)
+              await getUserByMongoId(userMongoId)
               closeMenu()
             }}>Lock {id}</MenuItem>)
           }
@@ -333,11 +333,11 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
                     variant="contained" 
                     onClick={async () => {
                       await updateArcadeGameCharacter({
-                        userId: userId,
+                        userMongoId: userMongoId,
                         unlockableInterfaceIds : interfacePreset.interfaceIds
                       })
                       setIsMorphPresetModalOpen(false)
-                      await getUserById(userId)
+                      await getUserByMongoId(userMongoId)
                   }}>
                     Morph
                   </Button>
@@ -392,4 +392,4 @@ const mapStateToProps = (state) => ({
   interfacePreset: state.interfacePreset
 })
 
-export default connect(mapStateToProps, { getUserById, updateArcadeGameCharacter, addInterfacePreset, getInterfacePresets })(UnlockableInterfaceTree);
+export default connect(mapStateToProps, { getUserByMongoId, updateArcadeGameCharacter, addInterfacePreset, getInterfacePresets })(UnlockableInterfaceTree);

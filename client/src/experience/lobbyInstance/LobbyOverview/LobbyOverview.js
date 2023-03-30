@@ -19,7 +19,7 @@ const LobbyOverview = ({
   // }, {})
 
   const otherMembers = lobbyInstance.members.filter((user) => {
-    if(user.id ===lobbyInstance.guideId || user.id === lobbyInstance.participantId) return null
+    if(user.userMongoId ===lobbyInstance.guideId || user.userMongoId === lobbyInstance.participantId) return null
     return true
   })
 
@@ -33,7 +33,7 @@ const LobbyOverview = ({
       {otherMembers.length > 0 && <div className="LobbyOverview__others">
         <Typography component="div" variant="subtitle1">Others:</Typography>
         <div>{otherMembers.map((user) => {
-          return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={user.id}></LobbyUsername>
+          return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={user.userMongoId}></LobbyUsername>
         })}</div>
       </div>}
     </div>

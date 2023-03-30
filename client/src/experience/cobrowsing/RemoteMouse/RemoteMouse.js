@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import './RemoteMouse.scss';
 import { clearErrorState, changeErrorState } from '../../../store/actions/errorsActions';
 
-const RemoteMouse = ({userId, status: { cobrowsingMouses}}) => {
-  const mouseData = cobrowsingMouses[userId];
+const RemoteMouse = ({userMongoId, status: { cobrowsingMouses}}) => {
+  const mouseData = cobrowsingMouses[userMongoId];
 
   if(!mouseData) {
     return null

@@ -33,16 +33,27 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/ticketedEventId/:ticketedEventId', async (req, res) => {
+  try {
+    const ticketedEvent = await TicketedEvent.findOne({ ticketedEventId: req.params.ticketedEventId }).populate('owner');
+    if (!ticketedEvent) return res.status(404).json({ message: 'No ticketedEvent found.' });
+    res.json({ ticketedEvent: ticketedEvent.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the ticketed event owner or admin.' });
   }
 
   try {
     let ticketedEvent = await TicketedEvent.create({
       ...req.body,
-      user: req.body.userId,
-      ticketedEventShortId: TICKETED_EVENT_ID_PREFIX + generateUniqueId(),
+      user: req.body.userMongoId,
+      ticketedEventId: TICKETED_EVENT_ID_PREFIX + generateUniqueId(),
     });
 
     ticketedEvent = await ticketedEvent.populate('user').execPopulate();

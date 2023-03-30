@@ -22,7 +22,7 @@ const AgoraVideoPeek = ({
     <div className="AgoraVideoPeek" onMouseLeave={() => {
       setIsHovering(false)
     }}>
-      {isHovering && <AgoraUserVideo interfaceId={PEEK_VIDEO_IID}  className="AgoraVideoPeek__video" myTracks={myTracks} userTracks={userTracks} userId={me.id}></AgoraUserVideo>}
+      {isHovering && <AgoraUserVideo interfaceId={PEEK_VIDEO_IID}  className="AgoraVideoPeek__video" myTracks={myTracks} userTracks={userTracks} userMongoId={me.id}></AgoraUserVideo>}
       <div onMouseEnter={() => {
         setIsHovering(true)
       }} 

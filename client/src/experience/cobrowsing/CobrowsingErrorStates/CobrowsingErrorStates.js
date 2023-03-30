@@ -26,7 +26,7 @@ const CobrowsingErrorStates = ({
         setLastPing(mouseData.lastPing)
         
         if(mouseData.lastPing + noCobrowsingUpdateDelta < Date.now()) {
-          changeErrorState(COBROWSING_CONNECTION_LOST, { userId: cobrowsingUser.id })
+          changeErrorState(COBROWSING_CONNECTION_LOST, { userMongoId: cobrowsingUser.id })
           setLastPing(null)
         } else if(errorStates[COBROWSING_CONNECTION_LOST].on) {
           clearErrorState(COBROWSING_CONNECTION_LOST)
@@ -34,7 +34,7 @@ const CobrowsingErrorStates = ({
         }
       } else if(lastPing) {
         if(lastPing + noCobrowsingUpdateDelta < Date.now()) {
-          changeErrorState(COBROWSING_CONNECTION_LOST, { userId: cobrowsingUser.id })
+          changeErrorState(COBROWSING_CONNECTION_LOST, { userMongoId: cobrowsingUser.id })
         }
       }
 

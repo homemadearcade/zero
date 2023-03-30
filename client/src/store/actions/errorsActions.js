@@ -31,8 +31,8 @@ export const changeErrorState  = (errorState, data) => (dispatch, getState) => {
     }
 
     try {
-      await dispatch(unsubscribeCobrowsing({userId: data.userId}))
-      await dispatch(subscribeCobrowsing({userId: data.userId}))
+      await dispatch(unsubscribeCobrowsing({userMongoId: data.userMongoId}))
+      await dispatch(subscribeCobrowsing({userMongoId: data.userMongoId}))
       setTimeout(() => {
         failReconnection()
       }, 15000)
@@ -47,7 +47,7 @@ export const changeErrorState  = (errorState, data) => (dispatch, getState) => {
     dispatch({
       type: ON_CLEAR_COBROWSING_STATUS,
       payload: {
-        userId: data.userId
+        userMongoId: data.userMongoId
       }
     })
   }

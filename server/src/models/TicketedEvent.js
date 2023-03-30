@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const ticketedEventSchema = new Schema(
   {
-    ticketedEventShortId: {
+    ticketedEventId: {
       immuteable: true,
       type: String,
       unique: true,
@@ -30,7 +30,7 @@ const ticketedEventSchema = new Schema(
     experienceModel: { type: mongoose.Schema.Types.ObjectId, ref: 'ExperienceModel' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     tickets: [{
-      id: {
+      ticketId: {
         type: String,
         required: true,
       },
@@ -48,7 +48,7 @@ const ticketedEventSchema = new Schema(
       },
     }],
     dates: [{ 
-      id: {
+      dateId: {
         type: String,
         required: true,
       },
@@ -76,7 +76,7 @@ ticketedEventSchema.methods.toJSON = function () {
     experienceModel: this.experienceModel,
     tickets: this.tickets,
     dates: this.dates,
-    ticketedEventShortId: this.ticketedEventShortId,
+    ticketedEventId: this.ticketedEventId,
   };
 };
 

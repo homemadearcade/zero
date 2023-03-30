@@ -11,7 +11,7 @@ import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 
 const GameCopyForm = ({ copyArcadeGameToUser, onSubmit }) => {
   const [gameId, setGameId] = useState()
-  const [userId, setUserId] = useState()
+  const [userMongoId, setUserId] = useState()
 
   return (
     <div className="GameCopyForm">
@@ -25,10 +25,10 @@ const GameCopyForm = ({ copyArcadeGameToUser, onSubmit }) => {
         onSelect={(users) => {
           setUserId(users[users.length -1])
         }}
-        usersSelected={userId ? [userId] : []}
+        usersSelected={userMongoId ? [userMongoId] : []}
       ></SelectUsers>
-      <Button disabled={!userId|| !gameId} onClick={() => {
-        copyArcadeGameToUser({userId: userId, gameId: gameId})
+      <Button disabled={!userMongoId|| !gameId} onClick={() => {
+        copyArcadeGameToUser({userMongoId: userMongoId, gameId: gameId})
         setGameId(null)
         setUserId(null)
         onSubmit()

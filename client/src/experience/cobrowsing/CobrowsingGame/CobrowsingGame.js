@@ -21,7 +21,7 @@ const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance: { guideI
     leftColumn={<>
      <AgoraUserVideo
         interfaceId={GAME_ROOM_VIDEO_IID}
-        userId={guideId}
+        userMongoId={guideId}
         className="AgoraVideo__guide"
         label="Guide"
         myTracks={myTracks}
@@ -35,7 +35,7 @@ const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance: { guideI
       <Typography variant="h5">{cobrowsingUser.username} has not interacted with the experience yet.</Typography> 
     </div>}
     {isActivelyCobrowsing && remoteStateUserId && <CobrowsingToolbar/>}
-    {isActivelyCobrowsing && remoteStateUserId && <RemoteMouse userId={cobrowsingUser.id}/>}
+    {isActivelyCobrowsing && remoteStateUserId && <RemoteMouse userMongoId={cobrowsingUser.id}/>}
   </GameEditor>
 };
 

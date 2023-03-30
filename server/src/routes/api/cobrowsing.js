@@ -48,7 +48,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
     }
 
     req.io.to(COBROWSING_ROOM_PREFIX+req.params.id).emit(ON_COBROWSING_UPDATE, {
-      userId: req.params.id,
+      userMongoId: req.params.id,
       remoteState: req.body.remoteState
     });
 

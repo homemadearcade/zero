@@ -10,15 +10,19 @@ import { reverse } from 'lodash';
 
 const UserSpeedTestList = ({
   user,
+  auth: { me }
 }) => {
-    return <div className="UserSpeedTestList">
-      <Typography component="h5" variant="h5">Device Speed Tests</Typography>
-      {user.speedTests?.length > 0 && <SpeedTestTable rows={reverse(user.speedTests)}></SpeedTestTable>}
-      <UserSpeedTestButton></UserSpeedTestButton>
-    </div>
+    return <>
+      <div className="UserSpeedTestList">
+        <Typography component="h5" variant="h5">Device Speed Tests</Typography>
+        {user.speedTests?.length > 0 && <SpeedTestTable rows={reverse(user.speedTests)}></SpeedTestTable>}
+      </div>
+      {me.id === user.id && <UserSpeedTestButton></UserSpeedTestButton>}
+    </>
 };
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default compose(

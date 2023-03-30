@@ -9,7 +9,7 @@ import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcad
 import Dialog from '../../../ui/Dialog/Dialog';
 
 const GameLoadButton = ({
-  userId,
+  userMongoId,
   gameRoomInstance: { gameRoomInstance },
   editGameRoom
 }) => {
@@ -21,7 +21,7 @@ const GameLoadButton = ({
     }}>
       <DialogTitle>Load Game</DialogTitle>
       <DialogContent sx={{width: '200px', height: '200px'}}>
-        <SelectArcadeGame userId={userId} onSelect={(games) => {
+        <SelectArcadeGame userMongoId={userMongoId} onSelect={(games) => {
           setIsLoadGameModelOpen(false)
           editGameRoom(gameRoomInstance.id, {
             gameId: games[games.length-1]

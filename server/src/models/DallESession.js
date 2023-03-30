@@ -30,7 +30,7 @@ const dallESession = new Schema(
     currentPromptId: {
       type: String,
     },
-    dallESessionShortId: {
+    dallESessionId: {
       immuteable: true,
       type: String,
       unique: true,

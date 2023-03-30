@@ -56,7 +56,7 @@ export const defaultInstructions = {
   //     type: String,
   //     required: false,
   //   },
-  //   instructionShortId: {
+  //   instructionId: {
   //     required: true,
   //     immuteable: true,
   //     type: String,

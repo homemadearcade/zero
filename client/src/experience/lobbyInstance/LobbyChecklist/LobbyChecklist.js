@@ -34,7 +34,7 @@ const LobbyChecklist = ({
   cobrowsing: { remoteStateUserId }
 }) => {
   const membersById = lobbyInstance.members.reduce((prev, next) => {
-    prev[next.id] = next
+    prev[next.userMongoId] = next
     return prev
   }, {})
 

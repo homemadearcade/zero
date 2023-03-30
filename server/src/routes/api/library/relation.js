@@ -32,16 +32,27 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/relationId/:relationId', async (req, res) => {
+  try {
+    const relation = await Relation.findOne({ relationId: req.params.relationId }).populate('owner');
+    if (!relation) return res.status(404).json({ message: 'No relation found.' });
+    res.json({ relation: relation.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the relation owner or admin.' });
   }
 
   try {
     let relation = await Relation.create({
       ...req.body,
-      // relationShortId: RELATION_LIBRARY_ID_PREFIX + generateUniqueId(),
-      owner: req.body.userId,
+      // relationId: RELATION_LIBRARY_ID_PREFIX + generateUniqueId(),
+      owner: req.body.userMongoId,
     });
 
     relation = await relation.populate('owner').execPopulate();

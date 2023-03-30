@@ -24,10 +24,10 @@ const LobbyDashboard = ({
       <div className="LobbyDashboard__content">
         <div className="LobbyDashboard__preview">
           <div className="LobbyDashboard__video-container">
-            <AgoraUserVideo interfaceId={PARTICIPANT_VIDEO_IID} className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userId={lobbyInstance.participantId}/>
+            <AgoraUserVideo interfaceId={PARTICIPANT_VIDEO_IID} className="LobbyDashboard__participant-video" myTracks={myTracks} userTracks={userTracks} label="Participant" userMongoId={lobbyInstance.participantId}/>
           </div>
           <ActivityView myTracks={myTracks} userTracks={userTracks}/>
-          <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userId={lobbyInstance.participantId}/>
+          <ActivitySwitcher myTracks={myTracks} userTracks={userTracks} userMongoId={lobbyInstance.participantId}/>
         </div>
         <Tabs tabs={[
           {

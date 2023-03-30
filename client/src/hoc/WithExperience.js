@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
-import { getExperienceModelById, clearExperienceModel } from '../store/actions/experience/experienceModelActions';
+import { getExperienceModelByMongoId, clearExperienceModel } from '../store/actions/experience/experienceModelActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 class WithExperience extends Component {
   componentWillMount() {
-    const { getExperienceModelById, match } = this.props
+    const { getExperienceModelByMongoId, match } = this.props
 
     const matchId = match.params.experienceId;
-    getExperienceModelById(matchId)
+    getExperienceModelByMongoId(matchId)
   }
 
   componentWillUnmount() {
@@ -36,5 +36,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withRouter, 
-  connect(mapStateToProps, { getExperienceModelById, clearExperienceModel })
+  connect(mapStateToProps, { getExperienceModelByMongoId, clearExperienceModel })
 )(WithExperience)

@@ -33,7 +33,7 @@ const AgoraVideoCall = (props) => {
 };
 
 const AgoraVideoCallContext = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoCallId, auth: { me }, video: { videoTrackId, audioTrackId }, render}) => {
-  let [tracks, users] = useAgoraVideoCall({userId: me.id, videoCallId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
+  let [tracks, users] = useAgoraVideoCall({userMongoId: me.id, videoCallId, onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId })
 
   return (
     <div className="AgoraVideoCall">

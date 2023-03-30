@@ -19,12 +19,12 @@ export function isDateSoldOut({dateId: relevantDateId, ticketPurchases, ticketed
 }
 
 export function getTicketPurchaseInfo({ticketedEvent, ticketPurchase}) {
-   const startTime = ticketedEvent.dates.find(({id}) => {
-    return id === ticketPurchase.dateId
+   const startTime = ticketedEvent.dates.find((date) => {
+    return date.dateId === ticketPurchase.dateId
   }).startTime
 
-  const ticket = ticketedEvent.tickets.find(({id}) => {
-    return id === ticketPurchase.ticketId
+  const ticket = ticketedEvent.tickets.find((ticket) => {
+    return ticket.ticketId === ticketPurchase.ticketId
   })
   
   return {
@@ -60,7 +60,7 @@ export function isTicketAtMaximum({quantity, ticketedEvent, ticketPurchases, tic
 
 export function getUnsoldTickets({ticketedEvent, ticketPurchases, ticketId: relevantTicketId, dateId: relevantDateId}) {
 
-  const ticketType = ticketedEvent.tickets.find(({id}) => id === relevantTicketId)
+  const ticketType = ticketedEvent.tickets.find((ticket) => ticket.ticketId === relevantTicketId)
   const quantity = ticketType.quantity
 
   const relevantPurchases = ticketPurchases.filter(({dateId, ticketId}) => {

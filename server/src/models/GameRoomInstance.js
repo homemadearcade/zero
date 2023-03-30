@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const gameRoomInstanceSchema = new Schema(
   {
-    gameRoomInstanceShortId: {
+    gameRoomInstanceId: {
       immuteable: true,
       type: String,
       unique: true,
@@ -51,7 +51,7 @@ gameRoomInstanceSchema.methods.toJSON = function () {
       return user?.toJSON()
     }) : [],
     gameId: this.gameId,
-    gameRoomInstanceShortId: this.gameRoomInstanceShortId,
+    gameRoomInstanceId: this.gameRoomInstanceId,
   };
 };
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from '../ui/Loader/Loader';
 import store from '../store';
-import { loadArcadeGame, unloadArcadeGame } from '../store/actions/game/arcadeGameActions';
+import { loadArcadeGameByMongoId, unloadArcadeGame } from '../store/actions/game/arcadeGameActions';
 import { getSpritesheetData } from '../store/actions/game/gameModelActions';
 import { clearCutscenes } from '../store/actions/game/playerInterfaceActions';
 import { closeContextMenu } from '../store/actions/game/contextMenuActions';
@@ -22,21 +22,20 @@ export default (ChildComponent) => {
     }
 
     async loadGame() {
-      const { match, gameId, loadArcadeGame, gameModel, getSpritesheetData, getEntityClassLibrary } = this.props
+      const { match, gameId, loadArcadeGameByMongoId, gameModel, getSpritesheetData, getEntityClassLibrary } = this.props
 
       await getEntityClassLibrary()
 
       if(gameId) {
-        await loadArcadeGame(gameId)
+        await loadArcadeGameByMongoId(gameId)
       } else if(match?.params?.gameId) {
         const matchId = match.params.gameId;
-        await loadArcadeGame(matchId);
+        await loadArcadeGameByMongoId(matchId);
       }
 
       if(!gameModel.spritesByDescriptor) {
         getSpritesheetData()
       }
-
     }
 
     async unloadGame() {
@@ -98,5 +97,5 @@ export default (ChildComponent) => {
     entityClassLibrary: state.entityClassLibrary
   });
 
-  return connect(mapStateToProps, { closeContextMenu, loadArcadeGame, unloadArcadeGame, getSpritesheetData, clearCutscenes, getEntityClassLibrary })(WithGame)
+  return connect(mapStateToProps, { closeContextMenu, loadArcadeGameByMongoId, unloadArcadeGame, getSpritesheetData, clearCutscenes, getEntityClassLibrary })(WithGame)
 };

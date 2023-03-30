@@ -62,13 +62,13 @@ export const sendGameRoomMessage = (messageData) => async (dispatch, getState) =
     type: SEND_GAME_ROOM_MESSAGE_LOADING,
   });
   
-  const gameRoomInstanceId = getState().gameRoomInstance.gameRoomInstance?.id
+  const gameRoomInstanceMongoId = getState().gameRoomInstance.gameRoomInstance?.id
 
-  if(!gameRoomInstanceId) return
+  if(!gameRoomInstanceMongoId) return
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/gameRoomInstance/' + gameRoomInstanceId + '/message', messageData, options);
+    const response = await axios.post('/api/gameRoomInstance/' + gameRoomInstanceMongoId + '/message', messageData, options);
 
     dispatch({
       type: SEND_GAME_ROOM_MESSAGE_SUCCESS,
@@ -84,14 +84,14 @@ export const sendGameRoomMessage = (messageData) => async (dispatch, getState) =
   }
 };
 
-export const clearGameRoomMessages = (gameRoomInstanceId, messageData) => async (dispatch, getState) => {
+export const clearGameRoomMessages = (gameRoomInstanceMongoId, messageData) => async (dispatch, getState) => {
   dispatch({
     type: SEND_GAME_ROOM_MESSAGE_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/gameRoomInstance/' + gameRoomInstanceId + '/clearMessages', messageData, options);
+    const response = await axios.post('/api/gameRoomInstance/' + gameRoomInstanceMongoId + '/clearMessages', messageData, options);
 
     dispatch({
       type: SEND_GAME_ROOM_MESSAGE_SUCCESS,
@@ -170,15 +170,15 @@ export const editGameRoom = (id, data) => async (dispatch, getState) => {
   }
 };
 
-export const updateGameRoomPlayer = ({userId, gameRoomInstanceId, user}) => async (dispatch, getState) => {
-  if(!gameRoomInstanceId) return 
+export const updateGameRoomPlayer = ({userMongoId, gameRoomInstanceMongoId, user}) => async (dispatch, getState) => {
+  if(!gameRoomInstanceMongoId) return 
 
   dispatch({
     type: UPDATE_GAME_ROOM_USER_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/gameRoomInstance/user/${gameRoomInstanceId}`, {userId, user}, options);
+    const response = await axios.put(`/api/gameRoomInstance/user/${gameRoomInstanceMongoId}`, {userMongoId, user}, options);
 
     dispatch({
       type: UPDATE_GAME_ROOM_USER_SUCCESS,
@@ -240,10 +240,10 @@ export const deleteGameRoom = (id) => async (dispatch, getState) => {
   }
 };
 
-export const joinGameRoom = ({ gameRoomInstanceId, userId }) => async (dispatch, getState) => {
+export const joinGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async (dispatch, getState) => {
   dispatch({
     type: JOIN_GAME_ROOM_LOADING,
-    payload: { id: gameRoomInstanceId },
+    payload: { id: gameRoomInstanceMongoId },
   });
 
   try {
@@ -269,7 +269,7 @@ export const joinGameRoom = ({ gameRoomInstanceId, userId }) => async (dispatch,
       });
     });
 
-    const response = await axios.post(`/api/gameRoomInstance/join/${gameRoomInstanceId}`, { userId }, options);
+    const response = await axios.post(`/api/gameRoomInstance/join/${gameRoomInstanceMongoId}`, { userMongoId }, options);
 
     dispatch({
       type: JOIN_GAME_ROOM_SUCCESS,
@@ -283,15 +283,15 @@ export const joinGameRoom = ({ gameRoomInstanceId, userId }) => async (dispatch,
   }
 };
 
-export const leaveGameRoom = ({ gameRoomInstanceId, userId }) => async (dispatch, getState) => {
+export const leaveGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async (dispatch, getState) => {
   dispatch({
     type: LEAVE_GAME_ROOM_LOADING,
-    payload: { id: gameRoomInstanceId },
+    payload: { id: gameRoomInstanceMongoId },
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/gameRoomInstance/leave/${gameRoomInstanceId}`, { userId }, options);
+    const response = await axios.post(`/api/gameRoomInstance/leave/${gameRoomInstanceMongoId}`, { userMongoId }, options);
 
     window.socket.off(ON_GAME_ROOM_INSTANCE_UPDATE);
     window.socket.off(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE);

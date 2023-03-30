@@ -7,16 +7,16 @@ import Loader from '../ui/Loader/Loader';
 
 class MultiplayerGameRoomContext extends Component {
   componentWillMount() {
-    const { gameRoomInstanceId } = this.props
-    this.joinMultiplayerGameRoom(gameRoomInstanceId)
+    const { gameRoomInstanceMongoId } = this.props
+    this.joinMultiplayerGameRoom(gameRoomInstanceMongoId)
   }
 
-  joinMultiplayerGameRoom(gameRoomInstanceId) {
+  joinMultiplayerGameRoom(gameRoomInstanceMongoId) {
     const {joinGameRoom, auth: { me }} = this.props
     
     const doJoinMultiPlayerGameRoom = async () => {   
       try {
-        await joinGameRoom({gameRoomInstanceId, userId: me?.id});
+        await joinGameRoom({gameRoomInstanceMongoId, userMongoId: me?.id});
       } catch(error) {
         console.log(error)
       }
@@ -33,7 +33,7 @@ class MultiplayerGameRoomContext extends Component {
     const { auth: { me }, leaveGameRoom, gameRoomInstance: { gameRoomInstance }} = this.props
 
     if(gameRoomInstance.id) {
-      leaveGameRoom({gameRoomInstanceId: gameRoomInstance.id, userId: me?.id})
+      leaveGameRoom({gameRoomInstanceMongoId: gameRoomInstance.id, userMongoId: me?.id})
     }
   }
 

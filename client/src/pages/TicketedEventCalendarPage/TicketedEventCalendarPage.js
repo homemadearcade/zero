@@ -89,8 +89,8 @@ const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticke
                 if(isSoldOut) return 
 
                 return <Button onClick={() => {
-                  const index = ticketedEvent.dates.findIndex(({id}) => {
-                    return id === dateId
+                  const index = ticketedEvent.dates.findIndex((date) => {
+                    return date.dateId === dateId
                   })
                   ticketedEvent.dates.splice(index, 1)
                   editTicketedEvent(ticketedEvent.id, ticketedEvent)

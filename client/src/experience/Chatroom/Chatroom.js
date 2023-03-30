@@ -41,12 +41,12 @@ const Chatroom = ({
     const {user, automated} = messageData
 
     if(me?.role === ADMIN_ROLE) {
-      return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={messageData.user.id}></LobbyUsername>
+      return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={messageData.user.userMongoId}></LobbyUsername>
     }
 
     if(automated) return user.username
 
-    if(lobbyInstance.guideId === user.id) {
+    if(lobbyInstance.guideId === user.userMongoId) {
       return <>Your Guide<br/></>
     }
 

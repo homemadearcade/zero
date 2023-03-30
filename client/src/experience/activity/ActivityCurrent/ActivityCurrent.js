@@ -49,7 +49,7 @@ const ActivityCurrent = ({
           className="MonologueExperience__speaker"
           myTracks={myTracks}
           userTracks={userTracks}
-          userId={guideId}
+          userMongoId={guideId}
         ></AgoraUserVideo>
       </div>
     }

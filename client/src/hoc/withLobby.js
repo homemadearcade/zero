@@ -12,10 +12,10 @@ export default (ChildComponent) => {
     componentWillMount() {
       const {joinLobby,  match, auth: { me } } = this.props
 
-      const matchId = match.params.lobbyInstanceId;
+      const matchId = match.params.lobbyInstanceMongoId;
       const doJoinLobby = async () => {   
         try {
-          await joinLobby({lobbyInstanceId: matchId, userId: me?.id});
+          await joinLobby({lobbyInstanceMongoId: matchId, userMongoId: me?.id});
             } catch(error) {
           console.log(error)
         }
@@ -32,7 +32,7 @@ export default (ChildComponent) => {
       const { auth: { me }, leaveLobby, lobbyInstance: { lobbyInstance }, leaveAgoraVideoCall } = this.props
 
       leaveAgoraVideoCall()
-      leaveLobby({lobbyInstanceId: lobbyInstance.id, userId: me?.id})
+      leaveLobby({lobbyInstanceMongoId: lobbyInstance.id, userMongoId: me?.id})
     }
 
     render() {

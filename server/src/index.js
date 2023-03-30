@@ -54,7 +54,7 @@ app.post('/uploadtest', (req, res) => {
 //   return {
 //     ...sprite,
 //     name: null,
-//     id: 'sprite'+index,
+//     userMongoId: 'sprite'+index,
 //     textureId: id + '-' + 'sprite' +index,
 //   }
 // })
@@ -166,18 +166,18 @@ io.on("connection", (socket) => {
       if (user) {
         socket.user = {
           email: user.email,
-          id: user.id,
+          userMongoId: user.id,
           username: user.username,
         }
 
         const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
         lobbyInstances?.forEach((lobbyInstance) => {
           lobbyInstance.members.forEach((user) => {
-            if(user.id === socket.user.id) {
+            if(user.userMongoId === socket.user.userMongoId) {
               user.connected = true
               lobbyInstance.messages.push({
                 user: {
-                  id: user.id,
+                  userMongoId: user.userMongoId,
                   username: user.username
                 },
                 message: 'has connected',
@@ -192,11 +192,11 @@ io.on("connection", (socket) => {
         const gameRoomInstances = app.get(GAME_ROOMS_STORE)
         gameRoomInstances?.forEach((gameRoomInstance) => {
           gameRoomInstance.members.forEach((user) => {
-            if(user.id === socket.user.id) {
+            if(user.userMongoId === socket.user.userMongoId) {
               user.connected = true
               gameRoomInstance.messages.push({
                 user: {
-                  id: user.id,
+                  userMongoId: user.userMongoId,
                   username: user.username
                 },
                 message: 'has connected',
@@ -220,19 +220,19 @@ io.on("connection", (socket) => {
   })
 
   socket.on(ON_COBROWSING_STATUS_UPDATE, (payload) => {
-    io.to('cobrowsing@'+payload.userId).emit(ON_COBROWSING_STATUS_UPDATE, payload)
+    io.to('cobrowsing@'+payload.userMongoId).emit(ON_COBROWSING_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.lobbyInstanceId).emit(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, payload)
+    io.to(payload.lobbyInstanceMongoId).emit(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, (payload) => {
-    io.to(payload.gameRoomInstanceId).emit(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, payload)
+    io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_EVENT, (payload) => {
-    io.to(payload.gameRoomInstanceId).emit(ON_GAME_INSTANCE_EVENT, payload)
+    io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_INSTANCE_EVENT, payload)
   })
 
   let upsServer = {}
@@ -241,33 +241,33 @@ io.on("connection", (socket) => {
 
   socket.on(ON_GAME_INSTANCE_UPDATE, (payload) => {
 
-    const gameRoomInstanceId = payload.gameRoomInstanceId
+    const gameRoomInstanceMongoId = payload.gameRoomInstanceMongoId
     const time = Date.now();
     
-    if(!lastUpsServerCounts[gameRoomInstanceId]) lastUpsServerCounts[gameRoomInstanceId] = 0
-    if(!upsServerUpdates[gameRoomInstanceId]) upsServerUpdates[gameRoomInstanceId] = 0
+    if(!lastUpsServerCounts[gameRoomInstanceMongoId]) lastUpsServerCounts[gameRoomInstanceMongoId] = 0
+    if(!upsServerUpdates[gameRoomInstanceMongoId]) upsServerUpdates[gameRoomInstanceMongoId] = 0
 
-    upsServerUpdates[gameRoomInstanceId]++;
+    upsServerUpdates[gameRoomInstanceMongoId]++;
 
-    if (time > lastUpsServerCounts[gameRoomInstanceId] + 1000) {
-      upsServer[gameRoomInstanceId] = Math.round( ( upsServerUpdates[gameRoomInstanceId] * 1000 ) / ( time - lastUpsServerCounts[gameRoomInstanceId] ) );
-      lastUpsServerCounts[gameRoomInstanceId] = time;
-      upsServerUpdates[gameRoomInstanceId] = 0;
+    if (time > lastUpsServerCounts[gameRoomInstanceMongoId] + 1000) {
+      upsServer[gameRoomInstanceMongoId] = Math.round( ( upsServerUpdates[gameRoomInstanceMongoId] * 1000 ) / ( time - lastUpsServerCounts[gameRoomInstanceMongoId] ) );
+      lastUpsServerCounts[gameRoomInstanceMongoId] = time;
+      upsServerUpdates[gameRoomInstanceMongoId] = 0;
     }
 
-    payload.upsServer = upsServer[gameRoomInstanceId]
+    payload.upsServer = upsServer[gameRoomInstanceMongoId]
       
-    io.to(payload.gameRoomInstanceId).emit(ON_GAME_INSTANCE_UPDATE, payload)
+    io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_INSTANCE_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, (payload) => {
-    payload.upsServer = upsServer[payload.gameRoomInstanceId]
+    payload.upsServer = upsServer[payload.gameRoomInstanceMongoId]
 
-    io.to(payload.gameRoomInstanceId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
+    io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, payload)
   })
 
   socket.on(ON_GAME_CHARACTER_UPDATE, (payload) => {
-    io.to(payload.gameRoomInstanceId).emit(ON_GAME_CHARACTER_UPDATE, payload)
+    io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_CHARACTER_UPDATE, payload)
   })
 
   socket.on(ON_CODRAWING_STROKE_ACKNOWLEDGED, (payload) => {
@@ -275,7 +275,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on(ON_CODRAWING_INITIALIZE, (payload) => {
-    const socketSession = app.get(SOCKET_SESSIONS_STORE).findSession(payload.userId)
+    const socketSession = app.get(SOCKET_SESSIONS_STORE).findSession(payload.userMongoId)
     if(!socketSession) {
       return
     }
@@ -287,12 +287,12 @@ io.on("connection", (socket) => {
       const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
       lobbyInstances.forEach((lobbyInstance) => {
         lobbyInstance.members.forEach((user) => {
-          if(user.id === socket.user.id) {
+          if(user.userMongoId === socket.user.userMongoId) {
             user.connected = false
             socket.emit(ON_SOCKET_DISCONNECT)
             lobbyInstance.messages.push({
               user: {
-                id: user.id,
+                userMongoId: user.userMongoId,
                 username: user.username
               },
               message: 'has disconnected',
@@ -331,7 +331,7 @@ async function onMongoDBConnected() {
         members: lobbyInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
-            id: user.id,
+            userMongoId: user.userMongoId,
             username: user.username,
             role: user.role,
             joined: false,
@@ -361,7 +361,7 @@ async function onMongoDBConnected() {
         members: gameRoomInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
-            id: user.id,
+            userMongoId: user.userMongoId,
             username: user.username,
             role: user.role,
             joined: false,

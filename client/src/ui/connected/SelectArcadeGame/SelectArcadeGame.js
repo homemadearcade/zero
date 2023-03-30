@@ -8,7 +8,7 @@ import { getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import Loader from '../../Loader/Loader';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 
-const SelectArcadeGame = ({ onSelect, label, userId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
+const SelectArcadeGame = ({ onSelect, label, userMongoId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
   }, []);
@@ -30,9 +30,9 @@ const SelectArcadeGame = ({ onSelect, label, userId, getArcadeGames, gamesSelect
 
   let options = arcadeGames.map(mapGameToOption).sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))
 
-  if(userId) {
+  if(userMongoId) {
     options = options.filter((option) => {
-      if(option.owner && option.owner.id === userId) {
+      if(option.owner && option.owner.id === userMongoId) {
         return true
       } else if(gamesSelected.indexOf(option.value) >= 0) {
         return true

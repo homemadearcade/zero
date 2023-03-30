@@ -110,7 +110,7 @@ export const openCreateCanvasImageModal= (textureId) => async (dispatch, getStat
       visualTags: [],
       imageUrl: getImageUrlFromTextureId(textureId),
       imageType: IMAGE_TYPE_SPRITE,
-      userId: state.gameModel.gameModel.owner.id,
+      userMongoId: state.gameModel.gameModel.owner.id,
     }))
 
     dispatch({

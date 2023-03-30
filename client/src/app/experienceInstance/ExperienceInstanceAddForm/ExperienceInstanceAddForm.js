@@ -25,7 +25,7 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
 
   const submit = async (data) => {
     const gameResponse = await addArcadeGame({
-      userId: data.invitedUsers,
+      userMongoId: data.invitedUsers,
       stages: {},
       entityClasses: {},
       cutscenes: {},
@@ -58,7 +58,7 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
       invitedUsers: [data.invitedUsers],
       participantId: participantId,
       startTime: data.startTime,
-      gameRoomInstanceId: gameRoomInstance.id,
+      gameRoomInstanceMongoId: gameRoomInstance.id,
       experienceInstanceId: experienceInstanceId
     });
     reset();

@@ -31,7 +31,7 @@ const LobbyCommandCenter = ({
     icon={'faLockOpen'}
     onClick={() => {
       updateArcadeGameCharacter({
-        userId: lobbyInstance.participantId,
+        userMongoId: lobbyInstance.participantId,
         unlockableInterfaceIds: interfaceIds,
         merge: true
       })

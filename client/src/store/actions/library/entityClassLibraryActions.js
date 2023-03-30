@@ -73,7 +73,7 @@ export const addEntityClassToLibrary = (entityClass) => async (dispatch, getStat
   });
 
   try {
-    entityClass.userId = getState().auth.me.id
+    entityClass.userMongoId = getState().auth.me.id
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/entityClass', entityClass, options);
 

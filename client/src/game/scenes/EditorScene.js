@@ -90,7 +90,7 @@ export class EditorScene extends GameInstance {
     document.body.style.cursor = null
     if(entitySprite.effectSpawned) {
       window.socket.emit(ON_GAME_INSTANCE_EVENT, {
-        gameRoomInstanceId: this.gameRoomInstance.id, 
+        gameRoomInstanceMongoId: this.gameRoomInstance.id, 
         gameInstanceEventType: EVENT_SPAWN_CLASS_DRAG_FINISH,
         data: {
           x: entitySprite.x,
@@ -393,7 +393,7 @@ export class EditorScene extends GameInstance {
           imageType: IMAGE_TYPE_SNAPSHOT,
           imageUrl,
           visualTags: [],
-          userId: gameModel.owner.id,
+          userMongoId: gameModel.owner.id,
         }))
 
         await store.dispatch(uploadCanvasImageAndAddToGameModel({imageFile, textureId, imageType: IMAGE_TYPE_SNAPSHOT}))
@@ -486,7 +486,7 @@ export class EditorScene extends GameInstance {
       // BRUSH
       ////////////////////////////////////////////////////////////
       if(this.brush) {
-        const canvas = this.getLayerInstanceById(this.brush.getLayerId())
+        const canvas = this.getLayerInstanceByLayerId(this.brush.getLayerId())
         this.canvas = canvas
         this.brush.stroke(pointer, this.canvas)
       }
@@ -999,10 +999,10 @@ export class EditorScene extends GameInstance {
     const lobbyInstance = store.getState().lobbyInstance.lobbyInstance
     if(lobbyInstance.id) {
       const me = store.getState().auth.me
-      lobbyInstance.members.forEach(({id}) => {
-        if(id !== me.id && lobbyInstance.participantId === id) {
+      lobbyInstance.members.forEach((member) => {
+        if(member.userMongoId !== me.id && lobbyInstance.participantId === member.userMongoId) {
           this.remoteEditors.push(
-            new RemoteEditor(this, { userId: id, color: 0xFF0000})
+            new RemoteEditor(this, { userMongoId: member.userMongoId, color: 0xFF0000})
           )
         }
       })
@@ -1041,7 +1041,7 @@ export class EditorScene extends GameInstance {
     }
 
     this.remoteEditors.forEach((remoteEditor) => {
-      const phaserView = store.getState().status.phaserViews[remoteEditor.userId]
+      const phaserView = store.getState().status.phaserViews[remoteEditor.userMongoId]
       if(!remoteEditor.cameraPreview && phaserView) {
         remoteEditor.onPhaserViewFound()
       } else if(remoteEditor.cameraPreview && phaserView) {
@@ -1082,7 +1082,7 @@ export class EditorScene extends GameInstance {
     //     this.backgroundCanvasLayer.setVisible(false)
     //     this.playgroundCanvasLayer.setVisible(false)
     //     this.foregroundCanvasLayer.setVisible(false)
-    //     const canvas = this.getLayerInstanceById(brush.getLayerId())
+    //     const canvas = this.getLayerInstanceByLayerId(brush.getLayerId())
     //     canvas.setVisible(true)
     //     brush.destroy()
     //   }

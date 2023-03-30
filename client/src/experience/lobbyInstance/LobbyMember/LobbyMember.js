@@ -22,7 +22,7 @@ const LobbyMember = ({
   match: { params }, 
   myTracks, 
   userTracks, 
-  userId, 
+  userMongoId, 
   key, 
   lobbyInstance: { lobbyInstance }, 
   status : { lobbyInstanceUserStatuses, cobrowsingMouses }, 
@@ -34,10 +34,10 @@ const LobbyMember = ({
   const [showUnlockedUI, setShowUnlockedUI] = useState(false)
   const [isVideoOpen, setIsVideoOpen] = useState(false)
 
-  const userStatus = lobbyInstanceUserStatuses[userId];
-  const userCobrowsingStatus = cobrowsingMouses[userId]
-  const user = lobbyInstance.members.filter(({id}) => {
-    if(userId === id) {
+  const userStatus = lobbyInstanceUserStatuses[userMongoId];
+  const userCobrowsingStatus = cobrowsingMouses[userMongoId]
+  const user = lobbyInstance.members.filter((member) => {
+    if(userMongoId === member.userMongoId) {
       return true
     }
     return false;
@@ -56,7 +56,7 @@ const LobbyMember = ({
     }, {})
   }
   
-  const isMe = me?.id === userId
+  const isMe = me?.id === userMongoId
 
   function renderConnectionInfo() {
     return <div className="LobbyMember__connection">
@@ -67,7 +67,7 @@ const LobbyMember = ({
         {user.role === ADMIN_ROLE && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
       </div>
       <Divider></Divider>
-      {userId === lobbyInstance.participantId && <Link to ={`/lobby/${lobbyInstance.id}/join/${user.id}`}>
+      {userMongoId === lobbyInstance.participantId && <Link to ={`/lobby/${lobbyInstance.id}/join/${user.userMongoId}`}>
         <Button variant="contained">{isMe ? 'Play' : 'Join'}</Button>
       </Link>}
       <Divider></Divider>
@@ -78,7 +78,7 @@ const LobbyMember = ({
         <div className="LobbyMember__cobrowsing"><div className="LobbyMember__icon"><Icon icon="faArrowPointer"/></div>{userCobrowsingStatus ? <span>{((Date.now() - userCobrowsingStatus.lastPing)/1000).toFixed(0)}s ago</span> : 'Never'}</div>
         <div className="LobbyMember__upload"><div className="LobbyMember__icon"><Icon icon="faUpload"/></div>{(user.internetSpeedTestResults?.uploadSpeed) ? user.internetSpeedTestResults?.uploadSpeed : 'Not Tested'}</div>
         <div className="LobbyMember__download"><div className="LobbyMember__icon"><Icon icon="faDownload"/></div>{(user.internetSpeedTestResults?.downloadSpeed) ? user.internetSpeedTestResults?.downloadSpeed : 'Not Tested'}</div>
-        <div className="LobbyMember__video-call"><div className="LobbyMember__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[user.id] ? 'Connected' : 'Not Connected'}</div>
+        <div className="LobbyMember__video-call"><div className="LobbyMember__icon"><Icon icon="faVideo"/></div>{userTracksById && userTracksById[user.userMongoId] ? 'Connected' : 'Not Connected'}</div>
       </div>
       <Divider></Divider>
       <Link newTab href={`/user/${user.username}`}>
@@ -88,11 +88,11 @@ const LobbyMember = ({
        {!isVideoOpen && <Button onClick={() => {
         setIsVideoOpen(true)
       }}>Show Users Video</Button>}
-      {isVideoOpen && <AgoraUserVideo interfaceId={LOBBY_MEMBER_VIDEO_IID} userId={userId} myTracks={myTracks} userTracks={userTracks} width="200px" height="200px"></AgoraUserVideo>}
+      {isVideoOpen && <AgoraUserVideo interfaceId={LOBBY_MEMBER_VIDEO_IID} userMongoId={userMongoId} myTracks={myTracks} userTracks={userTracks} width="200px" height="200px"></AgoraUserVideo>}
     </div>
   }
 
-  const isNavigatedToCobrowse = params.cobrowsingUserId === userId
+  const isNavigatedToCobrowse = params.cobrowsingUserId === userMongoId
 
   return <>
   <Button onClick={() => {
@@ -113,7 +113,7 @@ const LobbyMember = ({
       {!showUnlockedUI && <Button onClick={() => {
         setShowUnlockedUI(true)
       }}>Show Unlocked UI Tree</Button>}
-      {showUnlockedUI && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_MODEL_ID} userId={userId}></UnlockableInterfaceTree>}
+      {showUnlockedUI && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={userMongoId}></UnlockableInterfaceTree>}
     </div>
   </Dialog>}
   </>

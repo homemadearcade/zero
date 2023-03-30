@@ -12,8 +12,8 @@ const ActivityOverlay = ({
   auth: { me },
   cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
-  const user = members.filter(({id}) => {
-    if(cobrowsingUser?.id === id) {
+  const user = members.filter((member) => {
+    if(cobrowsingUser?.id === member.userMongoId) {
       return true
     }
     return false;

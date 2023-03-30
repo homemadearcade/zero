@@ -33,6 +33,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/ticketPurchaseId/:ticketPurchaseId', async (req, res) => {
+  try {
+    const ticketPurchase = await TicketPurchase.findOne({ ticketPurchaseId: req.params.ticketPurchaseId }).populate('owner');
+    if (!ticketPurchase) return res.status(404).json({ message: 'No ticketPurchase found.' });
+    res.json({ ticketPurchase: relationTag.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.get('/byEvent/:eventId', async (req, res) => {
   try {
     const ticketPurchases = await TicketPurchase.find({ ticketedEvent: req.params.eventId }).populate('user ticketedEvent lobbyInstance');
@@ -45,15 +56,15 @@ router.get('/byEvent/:eventId', async (req, res) => {
 });
 
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the ticket purchase owner or admin.' });
   }
 
   try {
     let ticketPurchase = await TicketPurchase.create({
       ...req.body,
-      ticketPurchaseShortId: TICKET_PURCHASE_ID_PREFIX + generateUniqueId(),
-      user: req.body.userId,
+      ticketPurchaseId: TICKET_PURCHASE_ID_PREFIX + generateUniqueId(),
+      user: req.body.userMongoId,
     });
 
     ticketPurchase = await ticketPurchase.populate('user').execPopulate();

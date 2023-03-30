@@ -99,7 +99,7 @@ export class GameClientScene extends EditorScene {
     }
 
     window.socket.emit(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, {
-      gameRoomInstanceId: this.gameRoomInstance.id,
+      gameRoomInstanceMongoId: this.gameRoomInstance.id,
       upsClient: this.upsClient,
     })
   }

@@ -32,16 +32,27 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/entityClassId/:entityClassId', async (req, res) => {
+  try {
+    const entityClass = await EntityClass.findOne({ entityClassId: req.params.entityClassId }).populate('owner');
+    if (!entityClass) return res.status(404).json({ message: 'No entityClass found.' });
+    res.json({ entityClass: entityClass.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the entityClass owner or admin.' });
   }
 
   try {
     let entityClass = await EntityClass.create({
       ...req.body,
-      // entityClassShortId: ENTITY_CLASS_LIBRARY_ID_PREFIX + generateUniqueId(),
-      owner: req.body.userId,
+      // entityClassId: ENTITY_CLASS_LIBRARY_ID_PREFIX + generateUniqueId(),
+      owner: req.body.userMongoId,
     });
 
     entityClass = await entityClass.populate('owner').execPopulate();

@@ -4,9 +4,9 @@ import store from "../../store";
 import { CameraPreview } from "./members/CameraPreview";
 
 export class RemoteEditor extends Phaser.GameObjects.Container {
-  constructor(scene, {userId, color}){
+  constructor(scene, {userMongoId, color}){
     super(scene, 0, 0)
-    this.userId = userId
+    this.userMongoId = userMongoId
     this.color = color
 
     scene.add.existing(this)
@@ -22,7 +22,7 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
   }
 
   onPhaserViewFound(scene) {
-    const phaserView = store.getState().status.phaserViews[this.userId]
+    const phaserView = store.getState().status.phaserViews[this.userMongoId]
     if(!this.scene) return console.log('we dont have a scene here... preventing phaser breakdown')
     this.cameraPreview = new CameraPreview(this.scene, { zoom: phaserView.cameraZoom, color: this.color})
 
@@ -41,7 +41,7 @@ export class RemoteEditor extends Phaser.GameObjects.Container {
   }
 
   update() {
-    const phaserView = store.getState().status.phaserViews[this.userId]
+    const phaserView = store.getState().status.phaserViews[this.userMongoId]
 
     if(phaserView)  {
       if(this.cameraPreview) {

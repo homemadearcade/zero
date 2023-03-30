@@ -14,7 +14,7 @@ const lobbyInstanceSchema = new Schema(
       type: String,
       // required: true,
     },
-    gameRoomInstanceId: {
+    gameRoomInstanceMongoId: {
       type: String
     },
     editingGameId: {
@@ -34,7 +34,7 @@ const lobbyInstanceSchema = new Schema(
       type: String,
       // required: true,
     },
-    lobbyInstanceShortId: {
+    lobbyInstanceId: {
       immuteable: true,
       type: String,
       unique: true,
@@ -81,8 +81,8 @@ lobbyInstanceSchema.methods.toJSON = function () {
     editingGameId: this.editingGameId,
     participantId: this.participantId,
     experienceModel: this.experienceModel?.toJSON(),
-    gameRoomInstanceId: this.gameRoomInstanceId,
-    lobbyInstanceShortId: this.lobbyInstanceShortId,
+    gameRoomInstanceMongoId: this.gameRoomInstanceMongoId,
+    lobbyInstanceId: this.lobbyInstanceId,
     // guideId: this.guideId
   };
 };

@@ -8,7 +8,7 @@ import { isZoneClassId } from "../../../utils/gameUtils";
 import { changeCurrentStage } from "../../../store/actions/game/gameModelActions";
 import { changeGameState, editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
 import _ from "lodash";
-import { updateLobbyUser } from "../../../store/actions/experience/lobbyInstanceActions"
+import { updateLobbyMember } from "../../../store/actions/experience/lobbyInstanceActions"
 
 export class Effects {
   constructor(scene, entityInstance){
@@ -195,8 +195,12 @@ export class Effects {
       }))
     } else if(effect.effectBehavior === EFFECT_OPEN_OVERLAY) {
       const state = store.getState()
-      store.dispatch(updateLobbyUser(state.auth.me?.id, {
-        inOverlayView: true
+      store.dispatch(updateLobbyMember({
+        lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
+        userMongoId: state.auth.me?.id, 
+        member: {
+          inOverlayView: true
+        }
       }))
     }
 

@@ -10,7 +10,7 @@ import CobrowsingErrorStates from '../experience/cobrowsing/CobrowsingErrorState
 class CobrowsingSession extends Component {
   componentDidMount() {
     const { match } = this.props
-    const cobrowsingUserId = this.props.userId ? this.props.userId : match.params.cobrowsingUserId;
+    const cobrowsingUserId = this.props.userMongoId ? this.props.userMongoId : match.params.cobrowsingUserId;
     this.startCobrowsing(cobrowsingUserId)
   }
 
@@ -29,13 +29,13 @@ class CobrowsingSession extends Component {
     } 
   }
 
-  async startCobrowsing(userId) {     
+  async startCobrowsing(userMongoId) {     
     const { auth: { me }, lobbyInstance: { lobbyInstance }, publishCobrowsing, subscribeCobrowsing } = this.props
     
-    if(userId === me.id) {
-      await publishCobrowsing({lobbyInstanceId: lobbyInstance.id})
+    if(userMongoId === me.id) {
+      await publishCobrowsing({lobbyInstanceMongoId: lobbyInstance.id})
     } else {
-      await subscribeCobrowsing({lobbyInstanceId: lobbyInstance.id, userId: userId})
+      await subscribeCobrowsing({lobbyInstanceMongoId: lobbyInstance.id, userMongoId: userMongoId})
     }
   }
 
@@ -43,9 +43,9 @@ class CobrowsingSession extends Component {
     const { cobrowsing: { isSubscribedCobrowsing, cobrowsingUser }, lobbyInstance: { lobbyInstance }, unsubscribeCobrowsing, unpublishCobrowsing } = this.props
 
     if(isSubscribedCobrowsing) {
-      await unsubscribeCobrowsing({lobbyInstanceId: lobbyInstance.id, userId: cobrowsingUser.id})
+      await unsubscribeCobrowsing({lobbyInstanceMongoId: lobbyInstance.id, userMongoId: cobrowsingUser.id})
     } else {
-      await unpublishCobrowsing({lobbyInstanceId: lobbyInstance.id})
+      await unpublishCobrowsing({lobbyInstanceMongoId: lobbyInstance.id})
     }
   }
 

@@ -35,13 +35,13 @@ import { OPEN_TOOL } from '../../../constants';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()
-  const userId = state.auth.me.id
-  const lobbyInstanceId = state.lobbyInstance.lobbyInstance.id 
+  const userMongoId = state.auth.me.id
+  const lobbyInstanceMongoId = state.lobbyInstance.lobbyInstance.id 
 
   if(!e) {
     window.socket.emit(ON_COBROWSING_STATUS_UPDATE, {
-      lobbyInstanceId,
-      userId,
+      lobbyInstanceMongoId,
+      userMongoId,
       cobrowsingMouse: {
         lastPing: Date.now()
       }
@@ -54,8 +54,8 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
   const xPercent = (e.clientX - viewPadding)/viewWidth
 
   const cobrowsingStatus = {
-    lobbyInstanceId,
-    userId,
+    lobbyInstanceMongoId,
+    userMongoId,
     cobrowsingMouse: {
       xPercent,
       // xPercent: e.clientX/window.innerWidth,
@@ -236,7 +236,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 
       if(dispatchData.type === UNLOCK_INTERFACE) {
         dispatch(updateArcadeGameCharacter({
-          userId: user.id,
+          userMongoId: user.id,
           unlockableInterfaceIds: {
             [dispatchData.payload.interfaceId]: true
           },
@@ -245,7 +245,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
       }
       if(dispatchData.type === LOCK_INTERFACE) {
         dispatch(updateArcadeGameCharacter({
-          userId: user.id,
+          userMongoId: user.id,
           unlockableInterfaceIds: {
             [dispatchData.payload.interfaceId]: false
           },
@@ -296,9 +296,9 @@ export const unpublishCobrowsing = () => (dispatch, getState) => {
 };
 
 export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
-  const userId = getState().cobrowsing.cobrowsingUser.id
+  const userMongoId = getState().cobrowsing.cobrowsingUser.id
 
-  if(!userId) {
+  if(!userMongoId) {
     return console.log('no user id in update cobrowsing')
   }
 
@@ -309,7 +309,7 @@ export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
     // });
     
     const options = attachTokenToHeaders(getState);
-    await axios.put('/api/cobrowsing/' + userId, { remoteState }, options);
+    await axios.put('/api/cobrowsing/' + userMongoId, { remoteState }, options);
   } catch (err) {
     console.error(err)
 
@@ -320,23 +320,23 @@ export const updateCobrowsing = (remoteState) => async (dispatch, getState) => {
   }
 };
 
-export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
+export const subscribeCobrowsing = ({userMongoId}) => async (dispatch, getState) => {
   dispatch({
     type: SUBSCRIBE_COBROWSING_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/cobrowsing/' + userId, {}, options);
+    const response = await axios.post('/api/cobrowsing/' + userMongoId, {}, options);
 
     window.addEventListener('keyup', onEditorKeyUp)
 
     // event that is triggered if cobrowsing has been registered
-    window.socket.on(ON_COBROWSING_UPDATE, ({userId, remoteState}) => {
+    window.socket.on(ON_COBROWSING_UPDATE, ({userMongoId, remoteState}) => {
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 
-          remoteStateUserId: userId,
+          remoteStateUserId: userMongoId,
           remoteState
         },
       });
@@ -358,14 +358,14 @@ export const subscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
   }
 };
 
-export const unsubscribeCobrowsing = ({userId}) => async (dispatch, getState) => {
+export const unsubscribeCobrowsing = ({userMongoId}) => async (dispatch, getState) => {
   dispatch({
     type: UNSUBSCRIBE_COBROWSING_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    await axios.post('/api/cobrowsing/stop/' + userId, {}, options);
+    await axios.post('/api/cobrowsing/stop/' + userMongoId, {}, options);
 
     window.removeEventListener('keyup', onEditorKeyUp)
     window.removeEventListener('mousedown', onEditorClick) 

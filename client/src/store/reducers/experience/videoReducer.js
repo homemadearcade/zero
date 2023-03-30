@@ -102,8 +102,8 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         videoTrackInterfaceIdsOpen: {
           ...state.videoTrackInterfaceIdsOpen,
-          [payload.userId]: {
-            ...state.videoTrackInterfaceIdsOpen[payload.userId],
+          [payload.userMongoId]: {
+            ...state.videoTrackInterfaceIdsOpen[payload.userMongoId],
             [payload.interfaceId]: true
           }
         }
@@ -113,8 +113,8 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         videoTrackInterfaceIdsOpen: {
           ...state.videoTrackInterfaceIdsOpen,
-          [payload.userId]: {
-            ...state.videoTrackInterfaceIdsOpen[payload.userId],
+          [payload.userMongoId]: {
+            ...state.videoTrackInterfaceIdsOpen[payload.userMongoId],
             [payload.interfaceId]: false
           }
         }
@@ -124,7 +124,7 @@ export default function videoReducer(state = initialState, { type, payload }) {
         ...state,
         currentVideoTrackInterfaceId: {
           ...state.currentVideoTrackInterfaceId,
-          [payload.userId]: payload.interfaceId
+          [payload.userMongoId]: payload.interfaceId
         }
       }
     }

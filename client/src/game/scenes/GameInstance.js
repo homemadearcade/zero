@@ -285,7 +285,7 @@ export class GameInstance extends Phaser.Scene {
     return this.layerInstancesById[layerInstanceId]
   }
   
-  getLayerInstanceById(layerId) {
+  getLayerInstanceByLayerId(layerId) {
     return this.layerInstancesById[layerId]
   }
 
@@ -825,7 +825,7 @@ export class GameInstance extends Phaser.Scene {
   setPlayerGameLoaded(gameId) {
     store.dispatch(updateGameRoomPlayer({
       gameRoomInstanceInstanceId: this.gameRoomInstance.id,
-      userId: store.getState().auth.me.id,
+      userMongoId: store.getState().auth.me.id,
       user: {
         loadedGameId: gameId
       }

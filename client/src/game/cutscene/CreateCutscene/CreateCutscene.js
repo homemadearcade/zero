@@ -53,7 +53,7 @@ const CreateCutscene = ({
   function addScene(sceneInterfaceType) {
     const scenes = cutscene.scenes.slice()
     scenes.push({
-      id: SCENE_ID_PREFIX+generateUniqueId(),
+      sceneId: SCENE_ID_PREFIX+generateUniqueId(),
       sceneInterfaceType,
       text: null,
       imageUrl: null,

@@ -19,7 +19,7 @@ const initialState = {
   user: {},
   isLoading: false,
   error: null,
-  userIdInterfaceTree: null,
+  userMongoIdInterfaceTree: null,
   isTestingInternetSpeed: false
 };
 
@@ -28,12 +28,12 @@ export default function userReducer(state = initialState, { type, payload }) {
     case OPEN_INTERFACE_TREE: 
       return {
         ...state,
-        userIdInterfaceTree: payload.userId
+        userMongoIdInterfaceTree: payload.userMongoId
       }
     case CLOSE_INTERFACE_TREE: 
       return {
         ...state,
-        userIdInterfaceTree: null
+        userMongoIdInterfaceTree: null
       }
     case ADD_USER_SPEED_TEST_LOADING: 
       return {

@@ -82,7 +82,7 @@ const arcadeGameSchema = new Schema(
       default: false,
       type: Boolean,
     },
-    gameModelShortId: {
+    gameModelId: {
       required: true,
       immuteable: true,
       type: String,
@@ -104,7 +104,7 @@ export const validateArcadeGame = (game) => {
     metadata: Joi.object({
 
     }),
-    gameModelShortId: Joi.string(),
+    gameModelId: Joi.string(),
     nodeSize: Joi.number(),
     stages: Joi.object(),
     entityClasses: Joi.object(),
@@ -139,7 +139,7 @@ arcadeGameSchema.methods.toJSON = function () {
     cutscenes: this.cutscenes,
     textures: this.textures,
     owner: this.owner?.toJSON(),
-    gameModelShortId: this.gameModelShortId,
+    gameModelId: this.gameModelId,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     isRemoved: this.isRemoved,

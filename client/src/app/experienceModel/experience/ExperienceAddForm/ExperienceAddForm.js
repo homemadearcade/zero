@@ -23,7 +23,7 @@ const ExperienceAddForm = ({ addExperienceModel, onSubmit, auth: { me }, default
       gameRooms: {},
       canvasRooms: {},
       metadata: {},
-      userId: me.id,
+      userMongoId: me.id,
       ...defaultValues
     },
   });
@@ -55,7 +55,7 @@ const ExperienceAddForm = ({ addExperienceModel, onSubmit, auth: { me }, default
           />
           <br/>
           <Controller
-            name={"userId"}
+            name={"userMongoId"}
             control={control}
             render={({ field: { onChange, value } }) => (
               <SelectUsers onSelect={(users) => {

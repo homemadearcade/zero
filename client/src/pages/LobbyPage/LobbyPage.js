@@ -41,7 +41,7 @@ const LobbyPage = ({
     
     if(me.role === ADMIN_ROLE && (!lobbyInstance.guideId)) {
       assignLobbyRole(lobbyInstance.id, {
-        userId: me.id, 
+        userMongoId: me.id, 
         role: 'guide'
       });
     }
@@ -50,8 +50,8 @@ const LobbyPage = ({
   return <RouterSwitch>
       <Route exact path={path}>
         {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
-        <MultiplayerGameRoomContext gameRoomInstanceId={lobbyInstance.gameRoomInstanceId}>
-          <CobrowsingSession userId={lobbyInstance.participantId}>
+        <MultiplayerGameRoomContext gameRoomInstanceMongoId={lobbyInstance.gameRoomInstanceMongoId}>
+          <CobrowsingSession userMongoId={lobbyInstance.participantId}>
             <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
           </CobrowsingSession>
         </MultiplayerGameRoomContext>

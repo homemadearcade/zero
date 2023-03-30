@@ -7,18 +7,18 @@ import Icon from '../../../ui/Icon/Icon';
 import './ActivityOverlayToggle.scss'
 import Switch from '../../../ui/Switch/Switch';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { updateLobbyUser } from '../../../store/actions/experience/lobbyInstanceActions';
+import { updateLobbyMember } from '../../../store/actions/experience/lobbyInstanceActions';
 import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 
 const ActivityOverlayToggle = ({
   lobbyInstance: { lobbyInstance: { id, members } },
   cobrowsing: { cobrowsingUser },
   gameRoomInstance: { gameRoomInstance: { isPoweredOn } },
-  updateLobbyUser,
+  updateLobbyMember,
   toggleActiveCobrowsing
 }) => {
-  const user = members.filter(({id}) => {
-    if(cobrowsingUser?.id === id) {
+  const user = members.filter((member) => {
+    if(cobrowsingUser?.id === member.userMongoId) {
       return true
     }
     return false;
@@ -38,10 +38,10 @@ const ActivityOverlayToggle = ({
       checked={inOverlayView}
       onChange={async () => {
         if(!inOverlayView) toggleActiveCobrowsing(true)
-        updateLobbyUser({
-          lobbyInstanceId: id,
-          userId: cobrowsingUser.id, 
-          user: {
+        updateLobbyMember({
+          lobbyInstanceMongoId: id,
+          userMongoId: cobrowsingUser.id, 
+          member: {
             inOverlayView: !inOverlayView
           }
         })
@@ -57,5 +57,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { updateLobbyUser, toggleActiveCobrowsing }),
+  connect(mapStateToProps, { updateLobbyMember, toggleActiveCobrowsing }),
 )(ActivityOverlayToggle);

@@ -3,8 +3,6 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 import { generateUniqueId } from '../../utils/utils';
 
-import User from '../../models/User';
-
 import { ON_GAME_ROOM_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE, GAME_ROOM_INSTANCE_ID_PREFIX } from '../../constants';
 import GameRoomInstance from '../../models/GameRoomInstance';
 
@@ -22,11 +20,11 @@ function requireGameRoomInstance(req, res, next) {
   req.gameRoomInstances = gameRoomInstances
 
   if(!gameRoomInstances) {
-    res.status(400).json({ message: 'No game sessions found. Looking for gameRoomInstance with id: ' + req.params.id });
+    res.status(400).json({ message: 'No game sessions found. Looking for gameRoomInstance with userMongoId: ' + req.params.id });
   }
 
-  const gameRoomInstanceFound = gameRoomInstances?.find((l, i) => {
-    if(l.id.toString() === req.params.id) {
+  const gameRoomInstanceFound = gameRoomInstances?.find((gameRoomInstance, i) => {
+    if(gameRoomInstance.id.toString() === req.params.id) {
       index = i
       return true
     } else {
@@ -35,7 +33,7 @@ function requireGameRoomInstance(req, res, next) {
   })
 
   if(!gameRoomInstanceFound) {
-    res.status(400).json({ message: 'No gameRoomInstance found with id: ' + req.params.id });
+    res.status(400).json({ message: 'No gameRoomInstance found with userMongoId: ' + req.params.id });
     return 
   }
 
@@ -62,10 +60,21 @@ router.get('/:id', requireGameRoomInstance, async (req, res) => {
   }
 });;
 
+router.get('/gameRoomInstanceId/:gameRoomInstanceId', async (req, res) => {
+  try {
+    const gameRoomInstance = await GameRoomInstance.findOne({ gameRoomInstanceId: req.params.gameRoomInstanceId }).populate('owner');
+    if (!gameRoomInstance) return res.status(404).json({ message: 'No gameRoomInstance found.' });
+    res.json({ gameRoomInstance: gameRoomInstance.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.post('/:id/message', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   req.gameRoomInstance.messages.push({
     user: {
-      id: req.user.id,
+      userMongoId: req.user.id,
       username: req.user.username
     },
     message: req.body.message,
@@ -92,7 +101,7 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
       isAutosaveDisabled: req.body.isAutosaveDisabled,
       isEdit: req.body.isEdit,
       isNetworked: req.body.isNetworked,
-      gameRoomInstanceShortId: GAME_ROOM_INSTANCE_ID_PREFIX + generateUniqueId(),
+      gameRoomInstanceId: GAME_ROOM_INSTANCE_ID_PREFIX + generateUniqueId(),
     });
 
     gameRoomInstance = await gameRoomInstance.populate('invitedUsers').execPopulate();
@@ -102,7 +111,7 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
     gameRoomInstance.members = gameRoomInstance.invitedUsers.map((user) => {
       return {
         email: user.email,
-        id: user.id,
+        userMongoId: user.id,
         username: user.username,
         role: user.role,
         joined: false,
@@ -124,13 +133,13 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
 
 router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privelages to remove user from that gameRoomInstance.' });
     }
 
     // let index;
     const userFound = req.gameRoomInstance.members.find((u, i) => {
-      if(u.id === req.body.userId) {
+      if(u.userMongoId === req.body.userMongoId) {
         // index = i
         return true
       } else {
@@ -139,14 +148,14 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
     })
 
     if(!userFound) {
-      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameRoomInstance' });
+      return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in gameRoomInstance' });
     }
 
     userFound.joined = false
 
     req.gameRoomInstance.messages.push({
       user: {
-        id: userFound.id,
+        userMongoId: userFound.id,
         username: userFound.username
       },
       automated: true,
@@ -163,17 +172,17 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 });
 
 
-// Assign userId to playerId?
+// Assign userMongoId to playerId?
 // a Player should be assigned perhaps an object Instance Id? 
 // this is how you assign yourself to another object instance?
 
 // router.post('/assign/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
-//   if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userId)) {
+//   if (!(req.user.role === 'ADMIN' || req.user.id === req.body.userMongoId)) {
 //     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
 //   }
 
 //   const userFound = req.gameRoomInstance.invitedUsers.find((u, i) => {
-//     if(u.id === req.body.userId) {
+//     if(u.userMongoId === req.body.userMongoId) {
 //       return true
 //     } else {
 //       return false
@@ -185,29 +194,29 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 //   }
 
 //   if(req.body.role === 'gameHost') {
-//     if(req.body.userId === 'unassigned') {
+//     if(req.body.userMongoId === 'unassigned') {
 //       req.gameRoomInstance.hostUserId = null
 //     } else {
-//       req.gameRoomInstance.hostUserId = req.body.userId
+//       req.gameRoomInstance.hostUserId = req.body.userMongoId
 //     }
 
 //   }
 
 //   if(req.body.role === 'player') {
-//     if(req.body.userId === 'unassigned') {
+//     if(req.body.userMongoId === 'unassigned') {
 //       req.gameRoomInstance.playerId = null
 //     } else {
-//       req.gameRoomInstance.playerId = req.body.userId
+//       req.gameRoomInstance.playerId = req.body.userMongoId
 //     }
 //   }
 
 //   if(req.body.role === 'guide') {
-//     if(req.body.userId === 'unassigned') {
+//     if(req.body.userMongoId === 'unassigned') {
 //       req.gameRoomInstance.guideId = null
 //     } else {
-//       const user = await User.findById(req.body.userId)
+//       const user = await User.findById(req.body.userMongoId)
 //       if(user.role == 'ADMIN') {
-//         req.gameRoomInstance.guideId = req.body.userId
+//         req.gameRoomInstance.guideId = req.body.userMongoId
 //       } else {
 //         return res.status(400).json({ message: 'Guide must be admin role' });
 //       }
@@ -235,7 +244,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
     const userFound = req.gameRoomInstance.members.find((u, i) => {
-      if(u.id === req.user.id) {
+      if(u.userMongoId === req.user.id) {
         return true
       } else {
         return false
@@ -247,7 +256,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
 
       req.gameRoomInstance.messages.push({
         user: {
-          id: userFound.id,
+          userMongoId: userFound.id,
           username: userFound.username
         },
         message: 'has re-joined the gameRoomInstance',
@@ -275,7 +284,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
     // generate a gameRoomInstance formatted user
     const newGameRoomInstanceMember = { 
       email: req.user.email,
-      id: req.user.id,
+      userMongoId: req.user.id,
       username: req.user.username,
       role: req.user.role,
       joined: true,
@@ -284,7 +293,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
 
     req.gameRoomInstance.messages.push({
       user: {
-        id: newGameRoomInstanceMember.id,
+        userMongoId: newGameRoomInstanceMember.userMongoId,
         username: newGameRoomInstanceMember.username
       },
       message: 'has connected',
@@ -292,7 +301,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
     })
     req.gameRoomInstance.messages.push({
       user: {
-        id: newGameRoomInstanceMember.id,
+        userMongoId: newGameRoomInstanceMember.userMongoId,
         username: newGameRoomInstanceMember.username
       },
       message: 'has joined the gameRoomInstance',
@@ -309,7 +318,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
     req.gameRoomInstances.forEach((gameRoomInstance) => {
       let index;
       gameRoomInstance.members.forEach((user, i) => {
-        if(newGameRoomInstanceMember.id === user.id) {
+        if(newGameRoomInstanceMember.userMongoId === user.userMongoId) {
           index = i
         }
       })
@@ -319,7 +328,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
         member.joined = false
         gameRoomInstance.messages.push({
           user: {
-            id: member.id,
+            userMongoId: member.userMongoId,
             username: member.username
           },
           message: 'has joined another gameRoomInstance',
@@ -364,13 +373,13 @@ router.delete('/:id', requireJwtAuth, requireGameRoomInstance, async (req, res) 
 
 router.put('/user/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
-    if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+    if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'You do not have privelages to update that user in that gameRoomInstance.' });
     }
 
     let index;
-    const userFound = req.gameRoomInstance.members.find((u, i) => {
-      if(u.id === req.body.userId) {
+    const userFound = req.gameRoomInstance.members.find((user, i) => {
+      if(user.userMongoId === req.body.userMongoId) {
         index = i
         return true
       } else {
@@ -379,7 +388,7 @@ router.put('/user/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAu
     })
 
     if(!userFound) {
-      return res.status(400).json({ message: 'No user with id ' + req.body.userId + ' found in gameRoomInstance' });
+      return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in gameRoomInstance' });
     }
 
     req.gameRoomInstance.members[index] = { ...req.gameRoomInstance.members[index], ...req.body.user}

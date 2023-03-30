@@ -11,17 +11,17 @@ import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
 import Icon from "../../../ui/Icon/Icon";
 import { ADMIN_ROLE } from "../../../constants";
 
-function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userId, controls}) {
-  const isMe = me.id === userId
+function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hideOverlay, className, label, me, tracks, userMongoId, controls}) {
+  const isMe = me.id === userMongoId
   return <div className={"AgoraVideo " + className} 
     onMouseEnter={() => {
-      setShowInfo(userId)
+      setShowInfo(userMongoId)
     }} 
     onMouseLeave={() => {
       setShowInfo(null)
       setShowChangeInput(false)
     }}>
-    {!hideOverlay && showInfo === userId && <div className="AgoraVideo__info">
+    {!hideOverlay && showInfo === userMongoId && <div className="AgoraVideo__info">
       {!showChangeInput && me.role === ADMIN_ROLE && <div className="AgoraVideo__details">
         <div>
           {label ? label : null}
@@ -29,7 +29,7 @@ function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hide
         </div>
         <div>
           Connection Speed:
-          <AgoraVideoStatus userId={userId} me={me}/>
+          <AgoraVideoStatus userMongoId={userMongoId} me={me}/>
         </div>
       </div>}
       {isMe && controls}
@@ -64,7 +64,7 @@ const AgoraVideo = ({ tracks, auth: { me }, label, className, hideOverlay, width
       label={label}
       tracks={tracks} 
       key={tracks.uid}
-      userId={tracks.uid} 
+      userMongoId={tracks.uid} 
       hideOverlay={hideOverlay}
       setShowInfo={setShowInfo} 
       setShowChangeInput={setShowChangeInput}

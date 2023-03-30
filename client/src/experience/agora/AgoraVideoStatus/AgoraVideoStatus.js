@@ -5,7 +5,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { ON_MY_VIDEO_QUALITY_STATUS_UPDATE } from '../../../constants';
 import './AgoraVideoStatus.scss';
 
-const AgoraVideoStatus = ({ userId, me }) => {
+const AgoraVideoStatus = ({ userMongoId, me }) => {
   const client = useAgoraVideoCallClient()
 
   const [remoteNetworkQuality, setRemoteNetworkQuality] = useState({})
@@ -67,10 +67,10 @@ const AgoraVideoStatus = ({ userId, me }) => {
     return [uplink, downlink]
   }
 
-  if(userId === me.id) {
+  if(userMongoId === me.id) {
     cameraStatus = getCameraStatus(myNetworkQuality)
-  } else if(remoteNetworkQuality && remoteNetworkQuality[userId]) {
-    cameraStatus = getCameraStatus(remoteNetworkQuality[userId])
+  } else if(remoteNetworkQuality && remoteNetworkQuality[userMongoId]) {
+    cameraStatus = getCameraStatus(remoteNetworkQuality[userMongoId])
   }
 
   return <div className="AgoraVideoStatus">

@@ -106,11 +106,11 @@ export const lobbyInstanceUndo = () => async (dispatch, getState) => {
   });
   
   const state = store.getState()
-  const lobbyInstanceId = state.lobbyInstance.lobbyInstance.id
+  const lobbyInstanceMongoId = state.lobbyInstance.lobbyInstance.id
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbyInstance/undo/' + lobbyInstanceId, {}, options);
+    const response = await axios.post('/api/lobbyInstance/undo/' + lobbyInstanceMongoId, {}, options);
 
     setTimeout(() => {
       dispatch({
@@ -127,14 +127,14 @@ export const lobbyInstanceUndo = () => async (dispatch, getState) => {
   }
 };
 
-export const assignLobbyRole = (lobbyInstanceId, formData) => async (dispatch, getState) => {
+export const assignLobbyRole = (lobbyInstanceMongoId, formData) => async (dispatch, getState) => {
   dispatch({
     type: ASSIGN_LOBBY_ROLE_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbyInstance/assign/' + lobbyInstanceId, formData, options);
+    const response = await axios.post('/api/lobbyInstance/assign/' + lobbyInstanceMongoId, formData, options);
 
     dispatch({
       type: ASSIGN_LOBBY_ROLE_SUCCESS,
@@ -155,13 +155,13 @@ export const sendLobbyMessage = (messageData) => async (dispatch, getState) => {
     type: SEND_LOBBY_MESSAGE_LOADING,
   });
   
-  const lobbyInstanceId = getState().lobbyInstance.lobbyInstance?.id
+  const lobbyInstanceMongoId = getState().lobbyInstance.lobbyInstance?.id
 
-  if(!lobbyInstanceId) return
+  if(!lobbyInstanceMongoId) return
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbyInstance/' + lobbyInstanceId + '/message', messageData, options);
+    const response = await axios.post('/api/lobbyInstance/' + lobbyInstanceMongoId + '/message', messageData, options);
 
     dispatch({
       type: SEND_LOBBY_MESSAGE_SUCCESS,
@@ -177,14 +177,14 @@ export const sendLobbyMessage = (messageData) => async (dispatch, getState) => {
   }
 };
 
-export const clearLobbyMessages = (lobbyInstanceId, messageData) => async (dispatch, getState) => {
+export const clearLobbyMessages = (lobbyInstanceMongoId, messageData) => async (dispatch, getState) => {
   dispatch({
     type: SEND_LOBBY_MESSAGE_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbyInstance/' + lobbyInstanceId + '/clearMessages', messageData, options);
+    const response = await axios.post('/api/lobbyInstance/' + lobbyInstanceMongoId + '/clearMessages', messageData, options);
 
     dispatch({
       type: SEND_LOBBY_MESSAGE_SUCCESS,
@@ -257,13 +257,13 @@ export const editLobby = (id, data) => async (dispatch, getState) => {
   }
 };
 
-export const updateLobbyUser = ({userId, lobbyInstanceId, user}) => async (dispatch, getState) => {
+export const updateLobbyMember = ({userMongoId, lobbyInstanceMongoId, member}) => async (dispatch, getState) => {
   dispatch({
     type: UPDATE_LOBBY_USER_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`/api/lobbyInstance/user/${lobbyInstanceId}`, {userId, user}, options);
+    const response = await axios.put(`/api/lobbyInstance/user/${lobbyInstanceMongoId}`, {userMongoId, member}, options);
 
     dispatch({
       type: UPDATE_LOBBY_USER_SUCCESS,
@@ -349,15 +349,15 @@ export const deleteLobby = (id) => async (dispatch, getState) => {
   }
 };
 
-export const joinLobby = ({ lobbyInstanceId, userId }) => async (dispatch, getState) => {
+export const joinLobby = ({ lobbyInstanceMongoId, userMongoId }) => async (dispatch, getState) => {
   dispatch({
     type: JOIN_LOBBY_LOADING,
-    payload: { id: lobbyInstanceId },
+    payload: { id: lobbyInstanceMongoId },
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/lobbyInstance/join/${lobbyInstanceId}`, { userId }, options);
+    const response = await axios.post(`/api/lobbyInstance/join/${lobbyInstanceMongoId}`, { userMongoId }, options);
 
     window.lastIsFocused = true
     pingInterval = window.setInterval(async () => {
@@ -377,12 +377,12 @@ export const joinLobby = ({ lobbyInstanceId, userId }) => async (dispatch, getSt
       window.socket.emit(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, { status: {
         lastSeen: Date.now(),
         pingDelta, isFocused: !document.hidden, isFullscreen: document.fullscreenElement,
-      }, userId, lobbyInstanceId })
+      }, userMongoId, lobbyInstanceMongoId })
     }, 3000);
 
     // event is triggered to all members in this lobbyInstance when lobbyInstance is updated
     window.socket.on(ON_LOBBY_INSTANCE_UPDATE, ({lobbyInstance}) => {
-      if(lobbyInstance.id === lobbyInstanceId) {
+      if(lobbyInstance.id === lobbyInstanceMongoId) {
         dispatch({
           type: ON_LOBBY_INSTANCE_UPDATE,
           payload: { lobbyInstance },
@@ -420,15 +420,15 @@ export const joinLobby = ({ lobbyInstanceId, userId }) => async (dispatch, getSt
   }
 };
 
-export const leaveLobby = ({ lobbyInstanceId, userId }, history) => async (dispatch, getState) => {
+export const leaveLobby = ({ lobbyInstanceMongoId, userMongoId }, history) => async (dispatch, getState) => {
   dispatch({
     type: LEAVE_LOBBY_LOADING,
-    payload: { id: lobbyInstanceId },
+    payload: { id: lobbyInstanceMongoId },
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/lobbyInstance/leave/${lobbyInstanceId}`, { userId }, options);
+    const response = await axios.post(`/api/lobbyInstance/leave/${lobbyInstanceMongoId}`, { userMongoId }, options);
 
     window.socket.off(ON_LOBBY_INSTANCE_UPDATE);
     window.socket.off(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE);

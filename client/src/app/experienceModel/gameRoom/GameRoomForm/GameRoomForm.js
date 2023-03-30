@@ -31,7 +31,7 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
       name={"gameId"}
       control={control}
       render={({ field: { onChange, value } }) => (
-        <SelectArcadeGame disabled={isEdit} label="My Games" userId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
+        <SelectArcadeGame disabled={isEdit} label="My Games" userMongoId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
           if(games[0]) {
             const game = games[games.length - 1]
             onChange(game.id)
@@ -98,7 +98,7 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
       setValue("gameId", game.id)
       setValue("gameMetadata", game.metadata)
       trigger("gameId")
-    }} defaultValues={{userId: me.id}}></GameAddForm>}
+    }} defaultValues={{userMongoId: me.id}}></GameAddForm>}
     {gameId && <GameCardLoad gameId={gameId} />}
     {renderCopyGame()}
     {isEdit && <Controller

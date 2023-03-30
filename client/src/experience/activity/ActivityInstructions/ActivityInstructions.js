@@ -22,7 +22,7 @@ import { setCutAudio, setCutVideo } from '../../../store/actions/experience/vide
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../../store/types';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import { updateLobbyUser } from '../../../store/actions/experience/lobbyInstanceActions';
+import { updateLobbyMember } from '../../../store/actions/experience/lobbyInstanceActions';
 import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import GameAddForm from '../../../app/gameModel/GameAddForm/GameAddForm';
 import Button from '../../../ui/Button/Button';
@@ -64,7 +64,7 @@ const PROLOGUE_2_CLASS_IDS = {
         //     await editLobby(lobby.id, {
         //       currentActivity: GAME_ROOM_ACTIVITY,
         //     })
-        //     await editGameRoom(lobby.gameRoomInstanceId, {
+        //     await editGameRoom(lobby.gameRoomInstanceMongoId, {
         //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
         //       isAutosaveDisabled: true,
         //     })
@@ -77,7 +77,7 @@ const ActivityInstructions = ({
   editLobby,
   updateArcadeGameCharacter,
   lobbyInstance: { lobbyInstance },
-  updateLobbyUser,
+  updateLobbyMember,
   gameRoomInstance: { gameRoomInstance },
   setCutAudio,
   setCutVideo,
@@ -89,7 +89,7 @@ const ActivityInstructions = ({
   const [canSkipStep, setCanSkipStep] = useState()
 
   const playerInstancesById = gameRoomInstance.members.reduce((prev, next) => {
-    prev[next.id] = next
+    prev[next.mongoUserId] = next
     return prev
   }, {})
   const hostPlayer = playerInstancesById[gameRoomInstance.hostUserId]
@@ -118,10 +118,10 @@ const ActivityInstructions = ({
       id: 'Return Participant From Stars' + returnFromStarsStepIndex++,
       title: <Typography component="h5" variant="h5">Return Participant From Stars</Typography>,
       onClickNext: () => {
-        updateLobbyUser({
-          lobbyInstanceId: lobbyInstance.id,
-          userId: lobbyInstance.participantId, 
-          user: {
+        updateLobbyMember({
+          lobbyInstanceMongoId: lobbyInstance.id,
+          userMongoId: lobbyInstance.participantId, 
+          member: {
             inOverlayView: false
           }
         })
@@ -136,10 +136,10 @@ const ActivityInstructions = ({
       id: 'Send Participant to Stars' + sendToStarsStepIndex++,
       title: <Typography component="h5" variant="h5">Send Participant to Stars</Typography>,
       onClickNext: () => {
-        updateLobbyUser({
-          lobbyInstanceId: lobbyInstance.id,
-          userId: lobbyInstance.participantId, 
-          user: {
+        updateLobbyMember({
+          lobbyInstanceMongoId: lobbyInstance.id,
+          userMongoId: lobbyInstance.participantId, 
+          member: {
             inOverlayView: true
           }
         })
@@ -172,7 +172,7 @@ const ActivityInstructions = ({
           return <>
             Incorrect game loaded!
             <Button onClick={async () => {
-              await editGameRoom(lobbyInstance.gameRoomInstanceId, {
+              await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
                 gameId: gameId,
               })
             }}>Load Correct Game</Button>
@@ -186,7 +186,7 @@ const ActivityInstructions = ({
       },
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
-          gameRoomInstanceId: lobbyInstance.gameRoomInstanceId, 
+          gameRoomInstanceMongoId: lobbyInstance.gameRoomInstanceMongoId, 
           gameInstanceEventType: EVENT_SPAWN_CLASS_IN_CAMERA, 
           data: {
             entityClassId,
@@ -207,7 +207,7 @@ const ActivityInstructions = ({
       </>,
       onClickNext: () => {
         updateArcadeGameCharacter({
-          userId: lobbyInstance.participantId,
+          userMongoId: lobbyInstance.participantId,
           unlockableInterfaceIds: interfaceIds,
           merge: true
         })
@@ -232,7 +232,7 @@ const ActivityInstructions = ({
       {lobbyInstance?.editingGameId && 
         <GameCardLoad gameId={lobbyInstance.editingGameId}/>
       }
-      {lobbyInstance.participantId && <SelectArcadeGame label="Games owned by Participant" userId={lobbyInstance.participantId} gamesSelected={lobbyInstance.editingGameId ? [lobbyInstance.editingGameId] : []} onSelect={(games) => {
+      {lobbyInstance.participantId && <SelectArcadeGame label="Games owned by Participant" userMongoId={lobbyInstance.participantId} gamesSelected={lobbyInstance.editingGameId ? [lobbyInstance.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
           editLobby(lobbyInstance.id, {
             editingGameId: games[games.length - 1].id
@@ -244,7 +244,7 @@ const ActivityInstructions = ({
         editLobby(lobbyInstance.id, {
           editingGameId: game.id
         })
-      }} defaultValues={{userId: lobbyInstance.participantId}}></GameAddForm>
+      }} defaultValues={{userMongoId: lobbyInstance.participantId}}></GameAddForm>
     </>
   }
 
@@ -306,7 +306,7 @@ const ActivityInstructions = ({
 
           onClickNext: () => {
             updateArcadeGameCharacter({
-              userId: lobbyInstance.participantId,
+              userMongoId: lobbyInstance.participantId,
               unlockableInterfaceIds: {}
             })
           },
@@ -345,7 +345,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobbyInstance.id, {
               currentActivity: GAME_ROOM_ACTIVITY,
             })
-            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
+            await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
               gameId: GAME_IDS.prologue1,
               isPoweredOn: true,
               isAutosaveDisabled: true,
@@ -362,7 +362,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           </>,
           onClickNext: () => {
             updateArcadeGameCharacter({
-              userId: lobbyInstance.participantId,
+              userMongoId: lobbyInstance.participantId,
               unlockableInterfaceIds: {
                 gameView: true,
               },
@@ -384,7 +384,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Allow Player Pixel Movement',
           title: <Typography component="h5" variant="h5">Allow Pixel Movement</Typography>,
           onClickNext: async () => {
-            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
+            await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
               gameState: PLAY_STATE
             })
           },
@@ -423,7 +423,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobbyInstance.id, {
               currentActivity: GAME_ROOM_ACTIVITY,
             })
-            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
+            await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
               gameId: GAME_IDS.prologue2,
               isPoweredOn: true,
               isAutosaveDisabled: true,
@@ -451,7 +451,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             await editLobby(lobbyInstance.id, {
               currentActivity: GAME_ROOM_ACTIVITY,
             })
-            await editGameRoom(lobbyInstance.gameRoomInstanceId, {
+            await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
               gameId: lobbyInstance.editingGameId,
               isAutosaveDisabled: false,
               isPoweredOn: true,
@@ -525,7 +525,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomInstanceId: lobbyInstance.gameRoomInstanceId, gameInstanceEventType: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomInstanceMongoId: lobbyInstance.gameRoomInstanceMongoId, gameInstanceEventType: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },
@@ -559,7 +559,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ userId: ARCHIVE_USER_ID, gameId: lobbyInstance.editingGameId, isArchived: true }))
+            store.dispatch(copyArcadeGameToUser({ userMongoId: ARCHIVE_USER_ID, gameId: lobbyInstance.editingGameId, isArchived: true }))
           },
           nextButtonText: 'Archive'
         },
@@ -581,5 +581,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameRoom, editLobby, editGameModel, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyUser, setCutAudio, setCutVideo }),
+  connect(mapStateToProps, { editGameRoom, editLobby, editGameModel, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyMember, setCutAudio, setCutVideo }),
 )(ActivityInstructions);

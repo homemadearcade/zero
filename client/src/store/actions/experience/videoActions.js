@@ -131,7 +131,7 @@ export const useAgoraVideoCallClient = () => {
   return useClient()
 }
 
-export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId, userId, videoCallId}) => {  
+export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, videoTrackId, audioTrackId, userMongoId, videoCallId}) => {  
   const [users, setUsers] = useState([]);
   // using the hook to get access to the client object
   const client = useClient();
@@ -196,7 +196,7 @@ export const useAgoraVideoCall = ({onStartAgoraVideoCallFail, onStartAgoraVideoC
           tracks[0].setDevice(audioTrackId)
         }
 
-        await client.join(appId, videoCallId, token, userId);
+        await client.join(appId, videoCallId, token, userMongoId);
         await client.publish([tracks[0], tracks[1]]);
 
         store.dispatch(sendLobbyMessage({message: 'has connected video and audio', automated: true}))
@@ -285,13 +285,13 @@ export const setCutAudio = (value, forceCobrowsingUpdate) => (dispatch, getState
   })
 }
 
-export const setCurrentVideoTrackId = (userId, openIds) => (dispatch, getState) => {
+export const setCurrentVideoTrackId = (userMongoId, openIds) => (dispatch, getState) => {
   const highestPriorityId  = getHighestPriorityInterfaceId(openIds)
 
   dispatch({
     type: SET_CURRENT_VIDEO_TRACK_INTERFACE_ID,
     payload: {
-      userId,
+      userMongoId,
       interfaceId: null
     }
   })
@@ -300,34 +300,34 @@ export const setCurrentVideoTrackId = (userId, openIds) => (dispatch, getState) 
     dispatch({
       type: SET_CURRENT_VIDEO_TRACK_INTERFACE_ID,
       payload: {
-        userId,
+        userMongoId,
         interfaceId: highestPriorityId
       }
     }, 300)
   })
 }
 
-export const setVideoTrackInterfaceIdOpen = ({interfaceId, userId}) => (dispatch, getState) => {
+export const setVideoTrackInterfaceIdOpen = ({interfaceId, userMongoId}) => (dispatch, getState) => {
   dispatch({
     type: SET_VIDEO_TRACK_INTERFACE_ID_OPEN,
     payload: {
       interfaceId,
-      userId
+      userMongoId
     }
   })
 
-  dispatch(setCurrentVideoTrackId(userId, getState().video.videoTrackInterfaceIdsOpen[userId]))
+  dispatch(setCurrentVideoTrackId(userMongoId, getState().video.videoTrackInterfaceIdsOpen[userMongoId]))
 }
 
-export const setVideoTrackInterfaceIdClosed = ({interfaceId, userId}) => (dispatch, getState) => {
+export const setVideoTrackInterfaceIdClosed = ({interfaceId, userMongoId}) => (dispatch, getState) => {
   dispatch({
     type: SET_VIDEO_TRACK_INTERFACE_ID_CLOSED,
     payload: {
       interfaceId,
-      userId
+      userMongoId
     }
   })
 
-  dispatch(setCurrentVideoTrackId(userId, getState().video.videoTrackInterfaceIdsOpen[userId]))
+  dispatch(setCurrentVideoTrackId(userMongoId, getState().video.videoTrackInterfaceIdsOpen[userMongoId]))
 }
 

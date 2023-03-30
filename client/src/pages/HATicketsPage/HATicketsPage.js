@@ -37,8 +37,8 @@ const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCou
     setIsDatePickerOpen(false)
   }
 
-  const selectedDate = ticketedEvent.dates.filter(({ id }) => {
-    return id === selectedDateId
+  const selectedDate = ticketedEvent.dates.filter((date) => {
+    return date.dateId === selectedDateId
   })[0]
 
   function LineItem({children}) {

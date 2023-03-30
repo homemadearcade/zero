@@ -63,6 +63,17 @@ router.put('/:id/speedTest', requireJwtAuth, async (req, res, next) => {
   }
 })
 
+router.get('/userId/:userId', async (req, res) => {
+  try {
+    const user = await User.findOne({ userId: req.params.userId }).populate('owner');
+    if (!user) return res.status(404).json({ message: 'No user found.' });
+    res.json({ user: user.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, next) => {
   try {
     const tempUser = await User.findById(req.params.id);

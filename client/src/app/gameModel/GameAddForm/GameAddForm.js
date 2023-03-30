@@ -25,7 +25,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       brushes: {},
       colors: {},
       textures: {},
-      userId: me.id,
+      userMongoId: me.id,
       ...defaultValues
     },
   });
@@ -59,7 +59,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
           />
           <br></br><br/>
           <Controller
-            name={"userId"}
+            name={"userMongoId"}
             control={control}
             render={({ field: { onChange, value } }) => (
               <SelectUsers onSelect={(users) => {

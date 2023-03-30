@@ -8,7 +8,7 @@ import { getUsers } from '../../../store/actions/user/usersActions';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 import Loader from '../../Loader/Loader';
 
-const SelectUsers = ({ userIds, label, onSelect, groupBy, usersSelected = [], getUsers, users: { users, isLoading }}) => {
+const SelectUsers = ({ userMongoIds, label, onSelect, groupBy, usersSelected = [], getUsers, users: { users, isLoading }}) => {
   useEffect(() => {
     getUsers();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,9 +28,9 @@ const SelectUsers = ({ userIds, label, onSelect, groupBy, usersSelected = [], ge
 
   let options = users.map(mapUserToOption)
 
-  if(userIds) {
+  if(userMongoIds) {
     options = options.filter(({value}) => {
-      if(userIds.indexOf(value) >= 0) return true
+      if(userMongoIds.indexOf(value) >= 0) return true
     })
   }
 

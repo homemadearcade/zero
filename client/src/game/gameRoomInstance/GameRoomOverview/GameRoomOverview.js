@@ -23,7 +23,7 @@ const GameRoomOverview = ({
       <Typography component="div" variant="subtitle1">Game:</Typography>
       <GameStatus/>
       <Divider></Divider>
-      <SelectArcadeGame label="Select from games owned by host" userId={gameRoomInstance.hostUserId} onSelect={(games) => {
+      <SelectArcadeGame label="Select from games owned by host" userMongoId={gameRoomInstance.hostUserId} onSelect={(games) => {
         if(games[0]) {
           editGameRoom(gameRoomInstance.id, {
             gameId: games[games.length - 1].id
@@ -32,8 +32,8 @@ const GameRoomOverview = ({
       }}/>
       <Divider></Divider>
       <Typography component="span" variant="subtitle1">Game Host:</Typography>
-      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={gameRoomInstance.hostUserId}></LobbyUsername>
-      {<SelectUsers userIds={lobbyInstance.members.map(({id}) => id)} label="Select Host" onSelect={(users) => {
+      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={gameRoomInstance.hostUserId}></LobbyUsername>
+      {<SelectUsers userMongoIds={lobbyInstance.members.map((member) => member.userMongoId)} label="Select Host" onSelect={(users) => {
         if(users[0]) {
           editGameRoom(gameRoomInstance.id, {
             hostUserId: users[users.length - 1],

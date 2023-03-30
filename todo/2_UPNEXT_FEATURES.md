@@ -5,7 +5,7 @@ UPLOAD PHOTOS
     Should be a /image route not an aws route
 
 Games and CanvasImages that anyone in a lobby can edit!
-  Does that mean we want to keep track of what lobby you are in? on the user object? lobbyInstanceId === ? Also then we can just be like 'yo we got a lobby starting'
+  Does that mean we want to keep track of what lobby you are in? on the user object? lobbyInstanceMongoId === ? Also then we can just be like 'yo we got a lobby starting'
 
 VIDEO CALL BLOCKING
   End Call for everyone in lobby, End call for self also
@@ -55,3 +55,5 @@ EXPERIENCE MODEL
 
 GAME ROOM EXPANSION
   I think maybe the game room manages loading interface ids and what not? or do games do that? WHO manages that? why when a game is loaded? troubling. Its hard to manage both at the same time... You need both states
+
+.id -> ___mongoId. Finish my id cleanup

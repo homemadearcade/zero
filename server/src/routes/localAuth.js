@@ -41,7 +41,7 @@ router.post('/register', async (req, res, next) => {
       const newUser = await new User({
         provider: 'email',
         email,
-        userShortId: USER_ID_PREFIX + generateUniqueId(),
+        userId: USER_ID_PREFIX + generateUniqueId(),
         password,
         username,
         name,

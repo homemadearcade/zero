@@ -90,11 +90,11 @@ export const editUser = (id, data) => async (dispatch, getState) => {
   }
 };
 
-export const openInterfaceTree = (userId) => (dispatch, getState) => {
+export const openInterfaceTree = (userMongoId) => (dispatch, getState) => {
   dispatch({
     type: OPEN_INTERFACE_TREE,
     payload: {
-      userId
+      userMongoId
     }
   });
 }
@@ -131,7 +131,7 @@ export const getUserByUsername = (username, history) => async (dispatch, getStat
   }
 };
 
-export const getUserById = (id) => async (dispatch, getState) => {
+export const getUserByMongoId = (id) => async (dispatch, getState) => {
   dispatch({
     type: GET_USER_LOADING,
   });

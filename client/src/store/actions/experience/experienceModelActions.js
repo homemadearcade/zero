@@ -186,14 +186,14 @@ export const getExperienceModels = () => async (dispatch, getState) => {
   }
 };
 
-export const getExperienceModelById = (experienceModelId) => async (dispatch, getState) => {
+export const getExperienceModelByMongoId = (experienceModelMongoId) => async (dispatch, getState) => {
   dispatch({
     type: GET_EXPERIENCE_MODEL_LOADING,
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/experienceModel/' + experienceModelId, options);
+    const response = await axios.get('/api/experienceModel/' + experienceModelMongoId, options);
 
     const experienceModel = mergeDeep(defaultExperienceModel, response.data.experienceModel)
     // addLibraryToExperience(experienceModel)

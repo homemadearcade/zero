@@ -17,21 +17,21 @@ export default function statusReducer(state = initialState, { type, payload }) {
     case ON_LOBBY_INSTANCE_USER_STATUS_UPDATE:
       return {
         ...state,
-        lobbyInstanceUserStatuses: {...state.lobbyInstanceUserStatuses, [payload.userId]: payload.status }
+        lobbyInstanceUserStatuses: {...state.lobbyInstanceUserStatuses, [payload.userMongoId]: payload.status }
       };
     case ON_COBROWSING_STATUS_UPDATE:
       return {
         ...state,
-        cobrowsingMouses: {...state.cobrowsingMouses, [payload.userId]: payload.cobrowsingMouse },
-        phaserViews: {...state.phaserViews, [payload.userId]: payload.phaserView },
-        cobrowsingScrolls: {...state.cobrowsingScrolls, [payload.userId]: payload.cobrowsingScroll }
+        cobrowsingMouses: {...state.cobrowsingMouses, [payload.userMongoId]: payload.cobrowsingMouse },
+        phaserViews: {...state.phaserViews, [payload.userMongoId]: payload.phaserView },
+        cobrowsingScrolls: {...state.cobrowsingScrolls, [payload.userMongoId]: payload.cobrowsingScroll }
       };
     case ON_CLEAR_COBROWSING_STATUS: {
       return {
         ...state,
-        cobrowsingMouses: {...state.cobrowsingMouses, [payload.userId]: null },
-        phaserViews: {...state.phaserViews, [payload.userId]: null },
-        cobrowsingScrolls: {...state.cobrowsingScrolls, [payload.userId]: null }
+        cobrowsingMouses: {...state.cobrowsingMouses, [payload.userMongoId]: null },
+        phaserViews: {...state.phaserViews, [payload.userMongoId]: null },
+        cobrowsingScrolls: {...state.cobrowsingScrolls, [payload.userMongoId]: null }
       };
     }
     default:

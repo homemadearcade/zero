@@ -71,7 +71,7 @@ const initialState = {
     },
     [COBROWSING_CONNECTION_LOST]: {
       on: false,
-      userId: null
+      userMongoId: null
     },
     [CODRAWING_CONNECTION_LOST]: {
       textureId: null,

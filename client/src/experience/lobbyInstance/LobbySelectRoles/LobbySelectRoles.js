@@ -18,8 +18,8 @@ const LobbySelectRoles = ({
 }) => {  
   return <>
       <Typography component="span" variant="subtitle1">Participant:</Typography>
-      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={lobbyInstance.participantId}></LobbyUsername>
-      {lobbyInstance.participantId && <SelectUsers userIds={lobbyInstance.members.map(({id}) => id)} label="Select Participant" onSelect={(users) => {
+      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={lobbyInstance.participantId}></LobbyUsername>
+      {lobbyInstance.participantId && <SelectUsers userMongoIds={lobbyInstance.members.map((member) => member.userMongoId)} label="Select Participant" onSelect={(users) => {
         if(users[0]) {
           editLobby(lobbyInstance.id, {
             participantId: users[users.length - 1]
@@ -28,8 +28,8 @@ const LobbySelectRoles = ({
       }}/>}
     <Divider></Divider>
       <Typography component="span" variant="subtitle1">Guide:</Typography>
-      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userId={lobbyInstance.guideId}></LobbyUsername>
-      {lobbyInstance.guideId && <SelectUsers userIds={lobbyInstance.members.map(({id}) => id)} label="Select Guide" onSelect={(users) => {
+      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={lobbyInstance.guideId}></LobbyUsername>
+      {lobbyInstance.guideId && <SelectUsers userMongoIds={lobbyInstance.members.map((member) => member.userMongoId)} label="Select Guide" onSelect={(users) => {
         if(users[0]) {
           editLobby(lobbyInstance.id, {
             guideId: users[users.length - 1]

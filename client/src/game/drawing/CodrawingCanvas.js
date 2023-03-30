@@ -35,7 +35,7 @@ export class CodrawingCanvas extends Canvas {
 
     // event that is triggered if codrawing has been registered
     window.socket.on(ON_CODRAWING_STROKE, (strokeData) => {
-      const {userId, textureId, strokeId } = strokeData
+      const {userMongoId, textureId, strokeId } = strokeData
       const state = store.getState()
       const me = state.auth.me 
 
@@ -45,7 +45,7 @@ export class CodrawingCanvas extends Canvas {
         this.addStrokeHistory(strokeData)
       }
 
-      if(userId === me.id) return 
+      if(userMongoId === me.id) return 
 
       this.executeRemoteStroke(strokeData)
 
@@ -53,7 +53,7 @@ export class CodrawingCanvas extends Canvas {
       if(canvas.createCollisionBody) canvas.createCollisionBody()
       if(this.isCodrawingHost) {
         this.onStrokeReleased()
-        window.socket.emit(ON_CODRAWING_STROKE_ACKNOWLEDGED, { strokeId, userId, textureId })
+        window.socket.emit(ON_CODRAWING_STROKE_ACKNOWLEDGED, { strokeId, userMongoId, textureId })
       }
     });
 
@@ -89,7 +89,7 @@ export class CodrawingCanvas extends Canvas {
   addStrokeHistory(strokeData) {
     this.strokeHistory.push(strokeData)
     this.markUnsaved()
-    store.dispatch(editCanvasImage(this.canvasImageId, {
+    store.dispatch(editCanvasImage(this.canvasImageMongoId, {
       strokeHistory: this.strokeHistory
     }))
   }
@@ -98,7 +98,7 @@ export class CodrawingCanvas extends Canvas {
     this.strokeHistory = []
     try{
       const canvasImage = await this.getStrokeHistory()
-      this.canvasImageId = canvasImage.id
+      this.canvasImageMongoId = canvasImage.id
       this.imageType = canvasImage.imageType
       if(canvasImage.strokeHistory.length && this.isCodrawingHost) {
         this.strokeHistory = canvasImage.strokeHistory

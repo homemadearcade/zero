@@ -18,25 +18,25 @@ const TicketTypePicker = ({
 }) => {
   return (
     <div className="TicketTypePicker">
-      {tickets.map(({id, name, price}) => {
+      {tickets.map(({ticketId, name, price}) => {
 
-        const { isSoldOut, isAtMax, unsold, remaining } = getTicketData({quantity: ticketCart.tickets[id]?.quantity, ticketId: id, dateId, ticketPurchases, ticketedEvent})
+        const { isSoldOut, isAtMax, unsold, remaining } = getTicketData({quantity: ticketCart.tickets[ticketId]?.quantity, ticketId, dateId, ticketPurchases, ticketedEvent})
 
         return <div className="TicketTypePicker__ticket">
           <div className="TicketTypePicker__ticket-header">
             <Typography variant="h4">{name}</Typography>
             <div className="TicketTypePicker__ticket-buttons">
-            <Button variant="outlined" disabled={!ticketCart.tickets[id]?.quantity} onClick={() => {
-              if(ticketCart.tickets[id]?.quantity > 0) {
-               onChangeTicketAmount(id, ticketCart.tickets[id]?.quantity - 1)
+            <Button variant="outlined" disabled={!ticketCart.tickets[ticketId]?.quantity} onClick={() => {
+              if(ticketCart.tickets[ticketId]?.quantity > 0) {
+               onChangeTicketAmount(ticketId, ticketCart.tickets[ticketId]?.quantity - 1)
               }
             }}>-</Button>
-            {ticketCart.tickets[id]?.quantity ? ticketCart.tickets[id].quantity : 0}
+            {ticketCart.tickets[ticketId]?.quantity ? ticketCart.tickets[ticketId].quantity : 0}
             <Button disabled={isAtMax || isSoldOut} variant="contained" onClick={() => {
-              if(!ticketCart.tickets[id]) {
-                onChangeTicketAmount(id, 1)
+              if(!ticketCart.tickets[ticketId]) {
+                onChangeTicketAmount(ticketId, 1)
               } else {
-                onChangeTicketAmount(id, ticketCart.tickets[id]?.quantity + 1)
+                onChangeTicketAmount(ticketId, ticketCart.tickets[ticketId]?.quantity + 1)
               }
             }}>+</Button>
             </div>

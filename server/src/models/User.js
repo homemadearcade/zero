@@ -58,7 +58,7 @@ const userSchema = new Schema(
       default: {}
     },
     isRemoved: Boolean,
-    userShortId: {
+    userId: {
       immuteable: true,
       type: String,
       unique: true,
@@ -93,7 +93,7 @@ userSchema.methods.toJSON = function () {
     username: this.username,
     // avatar: avatar,
     // name: this.name,
-    userShortId: this.userShortId,
+    userId: this.userId,
     speedTests: this.speedTests ? this.speedTests : [],
     role: this.role,
     createdAt: this.createdAt,

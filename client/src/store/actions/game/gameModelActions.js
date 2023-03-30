@@ -83,7 +83,7 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
     }
 
     const options = attachTokenToHeaders(getState);
-    await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomInstanceId: gameRoomInstance.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
+    await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomInstanceMongoId: gameRoomInstance.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
 
 
   } catch (err) {

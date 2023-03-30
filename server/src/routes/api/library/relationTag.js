@@ -32,16 +32,27 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/relationTagId/:relationTagId', async (req, res) => {
+  try {
+    const relationTag = await RelationTag.findOne({ relationTagId: req.params.relationTagId }).populate('owner');
+    if (!relationTag) return res.status(404).json({ message: 'No relationTag found.' });
+    res.json({ relationTag: relationTag.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.post('/', requireJwtAuth, async (req, res) => {
-  if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the relationTag owner or admin.' });
   }
 
   try {
     let relationTag = await RelationTag.create({
       ...req.body,
-      // relationTagShortId: RELATION_TAG_LIBRARY_ID_PREFIX + generateUniqueId(),
-      owner: req.body.userId,
+      // relationTagId: RELATION_TAG_LIBRARY_ID_PREFIX + generateUniqueId(),
+      owner: req.body.userMongoId,
     });
 
     relationTag = await relationTag.populate('owner').execPopulate();

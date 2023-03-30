@@ -36,7 +36,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => {
-  const tempUser = await User.findById(req.body.userId);
+  const tempUser = await User.findById(req.body.userMongoId);
   if (!tempUser) return res.status(404).json({ message: 'No such user.' });
   if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not updated by the user themself or an admin.' });
@@ -54,11 +54,11 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
       updatedUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_MODEL_ID]= req.body.unlockableInterfaceIds
     }
 
-    const user = await User.findByIdAndUpdate(req.body.userId, { $set: updatedUser }, { new: true });
+    const user = await User.findByIdAndUpdate(req.body.userMongoId, { $set: updatedUser }, { new: true });
 
-    if(req.body.gameRoomInstanceId) {
-      req.io.to(req.body.gameRoomInstanceId).emit(ON_GAME_CHARACTER_UPDATE, {
-        id: req.body.userId,
+    if(req.body.gameRoomInstanceMongoId) {
+      req.io.to(req.body.gameRoomInstanceMongoId).emit(ON_GAME_CHARACTER_UPDATE, {
+        userMongoId: req.body.userMongoId,
         data: {
           unlockableInterfaceIds: user.unlockableInterfaceIds[ARCADE_EXPERIENCE_MODEL_ID]
         }
@@ -72,12 +72,22 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
   }
 });
 
+router.get('/gameModelId/:gameModelId', async (req, res) => {
+  try {
+    const gameModel = await EntityClass.findOne({ gameModelId: req.params.gameModelId }).populate('owner');
+    if (!gameModel) return res.status(404).json({ message: 'No arcade game found.' });
+    res.json({ gameModel: gameModel.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
 
 router.post('/', requireJwtAuth, async (req, res) => {
   const { error } = validateArcadeGame(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
 
-  if (!(req.body.userId === req.user.id || req.user.role === 'ADMIN')) {
+  if (!(req.body.userMongoId === req.user.id || req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by the game owner or admin.' });
   }
 
@@ -98,8 +108,8 @@ router.post('/', requireJwtAuth, async (req, res) => {
       effects: req.body.effects,
       textures: req.body.textures,
       nodeSize: req.body.nodeSize, 
-      owner: req.body.userId,
-      gameModelShortId: GAME_MODEL_ID_PREFIX + generateUniqueId()
+      owner: req.body.userMongoId,
+      gameModelId: GAME_MODEL_ID_PREFIX + generateUniqueId()
     });
 
     game = await game.populate('owner').execPopulate();
@@ -232,8 +242,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       );
     }
 
-    if(req.body.gameRoomInstanceId) {
-      req.io.to(req.body.gameRoomInstanceId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
+    if(req.body.gameRoomInstanceMongoId) {
+      req.io.to(req.body.gameRoomInstanceMongoId).emit(ON_GAME_MODEL_UPDATE, req.body.gameUpdate)
     }
     
     res.status(200).json({ game: updatedGame });

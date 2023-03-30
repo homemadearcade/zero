@@ -16,7 +16,7 @@ const AgoraUserVideo = ({
   video: { isInsideVideoCall, currentVideoTrackInterfaceId }, 
   hideOverlay, 
   className, 
-  userId, 
+  userMongoId, 
   label, 
   auth: { me }, 
   myTracks, 
@@ -31,23 +31,23 @@ const AgoraUserVideo = ({
 
   useEffect(() => {
     setTimeout(() => {
-      setVideoTrackInterfaceIdOpen({interfaceId, userId})
+      setVideoTrackInterfaceIdOpen({interfaceId, userMongoId})
     },100)
     return () => {
-      setVideoTrackInterfaceIdClosed({interfaceId, userId})
+      setVideoTrackInterfaceIdClosed({interfaceId, userMongoId})
     }
   }, [])
 
   useEffect(() => {
     async function goGetUser() {
       const options = attachTokenToHeaders(store.getState);
-      const user = await axios.get(`/api/users/byId/${userId}`, options);
+      const user = await axios.get(`/api/users/byId/${userMongoId}`, options);
       setUser(user.data.user)
     }
-    if(userId) {
+    if(userMongoId) {
       goGetUser()
     }
-  }, [userId])
+  }, [userMongoId])
 
   function renderPlaceholder() {
     return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
@@ -60,7 +60,7 @@ const AgoraUserVideo = ({
     </div>
   }
 
-  if(!currentVideoTrackInterfaceId[userId] || currentVideoTrackInterfaceId[userId] !== interfaceId) {
+  if(!currentVideoTrackInterfaceId[userMongoId] || currentVideoTrackInterfaceId[userMongoId] !== interfaceId) {
     return renderPlaceholder()
   }
 
@@ -79,14 +79,14 @@ const AgoraUserVideo = ({
     return prev
   }, {})
 
-  if(!userTracksById[userId]) {
+  if(!userTracksById[userMongoId]) {
     return renderPlaceholder()
   }
 
   return <div className={className} style={{width, height}}>
     <AgoraVideo
     hideOverlay={hideOverlay}
-    tracks={userTracksById[userId]}
+    tracks={userTracksById[userMongoId]}
     label={label}
     width={width}
     height={height}

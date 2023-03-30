@@ -9,7 +9,7 @@ const router = Router();
 router.post('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     req.socket.join(CODRAWING_ROOM_PREFIX+req.params.id);
-    req.io.to(CODRAWING_ROOM_PREFIX+req.params.id).emit(ON_CODRAWING_SUBSCRIBED, { userId: req.user.id, textureId: req.params.id });
+    req.io.to(CODRAWING_ROOM_PREFIX+req.params.id).emit(ON_CODRAWING_SUBSCRIBED, { userMongoId: req.user.id, textureId: req.params.id });
     
     res.status(200).json({ });
   } catch (err) {
@@ -29,7 +29,7 @@ router.post('/stop/:id', requireJwtAuth, requireSocketAuth, async (req, res) => 
 router.put('/stroke/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
     req.io.to(CODRAWING_ROOM_PREFIX+req.params.id).emit(ON_CODRAWING_STROKE, {
-      userId: req.user.id,
+      userMongoId: req.user.id,
       textureId: req.params.id,
       brushId: req.body.brushId,
       stroke: req.body.stroke,

@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', requireJwtAuth, async (req, res) => {
   try {
-    const tempUser = await User.findById(req.body.userId);
+    const tempUser = await User.findById(req.body.userMongoId);
     if (!tempUser) return res.status(404).json({ message: 'No such user.' });
     if (!(tempUser.id === req.user.id || req.user.role === 'ADMIN')) {
       return res.status(400).json({ message: 'Not updated by the user themself or an admin.' });
@@ -39,7 +39,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
     
     let canvasImage = await CanvasImage.create({
       ...req.body,
-      owner: req.body.userId
+      owner: req.body.userMongoId
     });
 
     res.status(200).json({ canvasImage: canvasImage.toJSON() });

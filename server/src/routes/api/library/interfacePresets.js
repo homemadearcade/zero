@@ -33,6 +33,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/interfacePresetId/:interfacePresetId', async (req, res) => {
+  try {
+    const interfacePreset = await InterfacePreset.findOne({ interfacePresetId: req.params.interfacePresetId }).populate('owner');
+    if (!interfacePreset) return res.status(404).json({ message: 'No interfacePreset found.' });
+    res.json({ interfacePreset: interfacePreset.toJSON() });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
+
 router.post('/', requireJwtAuth, async (req, res) => {
   if (!(req.user.role === 'ADMIN')) {
     return res.status(400).json({ message: 'Not created by admin' });
@@ -40,7 +51,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
 
   try {
     let interfacePreset = await InterfacePreset.create({
-      interfacePresetShortId: INTERFACE_PRESET_ID_PREFIX + generateUniqueId(),
+      interfacePresetId: INTERFACE_PRESET_ID_PREFIX + generateUniqueId(),
       ...req.body,
     });
 

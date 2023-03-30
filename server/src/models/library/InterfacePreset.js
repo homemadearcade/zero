@@ -8,7 +8,7 @@ const interfacePreset = new Schema(
       type: String,
       required: true
     },
-    interfacePresetShortId: {
+    interfacePresetId: {
       immuteable: true,
       type: String,
       unique: true,
@@ -37,7 +37,7 @@ interfacePreset.methods.toJSON = function () {
     interfaceIds: this.interfaceIds,
     name: this.name,
     isRemoved: this.isRemoved,
-    interfacePresetShortId: this.interfacePresetShortId,
+    interfacePresetId: this.interfacePresetId,
   };
 };
 
