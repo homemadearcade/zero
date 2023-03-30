@@ -41,14 +41,14 @@ export const getInterfacePresets = () => async (dispatch, getState) => {
   }
 };
 
-export const getInterfacePresetById = (interfacePresetId) => async (dispatch, getState) => {
+export const getInterfacePresetByMongoId = (interfacePresetMongoId) => async (dispatch, getState) => {
   dispatch({
     type: GET_INTERFACE_PRESET_LOADING,
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/interfacePresets/' + interfacePresetId, options);
+    const response = await axios.get('/api/interfacePresets/' + interfacePresetMongoId, options);
 
     dispatch({
       type: GET_INTERFACE_PRESET_SUCCESS,
@@ -64,6 +64,31 @@ export const getInterfacePresetById = (interfacePresetId) => async (dispatch, ge
     });
   }
 };
+
+export const getInterfacePresetById = (interfacePresetId) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_INTERFACE_PRESET_LOADING,
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/interfacePresets/interfacePresetId/' + interfacePresetId, options);
+
+    dispatch({
+      type: GET_INTERFACE_PRESET_SUCCESS,
+      payload: { interfacePreset: response.data.interfacePreset },
+    });
+    
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_INTERFACE_PRESET_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 
 export const addInterfacePreset = (interfacePreset) => async (dispatch, getState) => {
   dispatch({

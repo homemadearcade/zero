@@ -59,6 +59,30 @@ export const getTicketedPurchaseByEventId = (ticketedEventId) => async (dispatch
   }
 };
 
+export const getTicketedPurchaseById = (ticketPurchaseId) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_TICKET_PURCHASES_BY_EVENT_LOADING,
+  });
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/ticketPurchases/ticketPurchaseId/' + ticketPurchaseId, options);
+
+    dispatch({
+      type: GET_TICKET_PURCHASES_BY_EVENT_SUCCESS,
+      payload: { ticketPurchases: response.data.ticketPurchases },
+    });
+    
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_TICKET_PURCHASES_BY_EVENT_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 // export const getTicketedPurchaseByMongoId = (ticketPurchaseMongoId) => async (dispatch, getState) => {
 //   dispatch({
 //     type: GET_TICKET_PURCHASE_LOADING,

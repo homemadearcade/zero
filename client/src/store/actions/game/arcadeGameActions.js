@@ -166,29 +166,60 @@ export const getArcadeGame = (id) => async (dispatch, getState) => {
   }
 };
 
+function loadArcadeGame(response, dispatch) {
+  window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
+  window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
 
-export const loadArcadeGameByMongoId = (gameId) => async (dispatch, getState) => {
+  console.log('raw', response.data.game)
+  const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
+
+  dispatch(changeCurrentStage(gameData.player.startingStageId))
+
+  addLibraryToGameModel(gameData)
+  addDefaultsToGameModel(gameData) 
+  enrichGameModel(gameData)
+
+  console.log('fully enriched', gameData)
+
+  return gameData
+}
+
+export const loadArcadeGameByGameModelId = (gameModelId) => async (dispatch, getState) => {
   dispatch({
     type: LOAD_GAME_MODEL_LOADING,
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/arcadeGames/' + gameId, options);
+    const response = await axios.get('/api/arcadeGames/gameModelId/' + gameModelId, options);
 
-    window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
-    window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
+   const gameData = loadArcadeGame(response, dispatch)
 
-    console.log('raw', response.data.game)
-    const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
+    dispatch({
+      type: LOAD_GAME_MODEL_SUCCESS,
+      payload: { gameModel: gameData },
+    });
+    
+  } catch (err) {
+    console.error(err)
 
-    dispatch(changeCurrentStage(gameData.player.startingStageId))
+    dispatch({
+      type: LOAD_GAME_MODEL_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
 
-    addLibraryToGameModel(gameData)
-    addDefaultsToGameModel(gameData) 
-    enrichGameModel(gameData)
+export const loadArcadeGameByMongoId = (arcadeGameMongoId) => async (dispatch, getState) => {
+  dispatch({
+    type: LOAD_GAME_MODEL_LOADING,
+  });
 
-    console.log('fully enriched', gameData)
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/arcadeGames/' + arcadeGameMongoId, options);
+
+   const gameData = loadArcadeGame(response, dispatch)
 
     dispatch({
       type: LOAD_GAME_MODEL_SUCCESS,

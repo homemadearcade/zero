@@ -186,6 +186,32 @@ export const getExperienceModels = () => async (dispatch, getState) => {
   }
 };
 
+export const getExperienceModelById = (experienceModelId) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_EXPERIENCE_MODEL_LOADING,
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/experienceModel/experienceModelId/' + experienceModelId, options);
+
+    const experienceModel = loadExperienceModel(response)
+
+    dispatch({
+      type: GET_EXPERIENCE_MODEL_SUCCESS,
+      payload: { experienceModel: experienceModel },
+    });
+    
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_EXPERIENCE_MODEL_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 export const getExperienceModelByMongoId = (experienceModelMongoId) => async (dispatch, getState) => {
   dispatch({
     type: GET_EXPERIENCE_MODEL_LOADING,
@@ -195,12 +221,7 @@ export const getExperienceModelByMongoId = (experienceModelMongoId) => async (di
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/experienceModel/' + experienceModelMongoId, options);
 
-    const experienceModel = mergeDeep(defaultExperienceModel, response.data.experienceModel)
-    // addLibraryToExperience(experienceModel)
-    addDefaultsToExperienceModel(experienceModel) 
-    enrichExperienceModel(experienceModel)
-
-    console.log('fully enriched', experienceModel)
+    const experienceModel = loadExperienceModel(response)
 
     dispatch({
       type: GET_EXPERIENCE_MODEL_SUCCESS,
@@ -267,6 +288,16 @@ export const deleteExperienceModel = (id) => async (dispatch, getState) => {
   }
 };
 
+function loadExperienceModel(response) {
+  const experienceModel = mergeDeep(defaultExperienceModel, response.data.experienceModel)
+  // addLibraryToExperience(experienceModel)
+  addDefaultsToExperienceModel(experienceModel) 
+  enrichExperienceModel(experienceModel)
+    console.log('fully enriched', experienceModel)
+
+  return experienceModel
+}
+
 export const editExperienceModel = (id, experienceModelData) => async (dispatch, getState) => {
   dispatch({
     type: EDIT_EXPERIENCE_MODEL_LOADING,
@@ -277,10 +308,7 @@ export const editExperienceModel = (id, experienceModelData) => async (dispatch,
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/experienceModel/${id}`, experienceModelData, options);
 
-    const experienceModel = mergeDeep(defaultExperienceModel, response.data.experienceModel)
-    // addLibraryToExperience(experienceModel)
-    addDefaultsToExperienceModel(experienceModel) 
-    enrichExperienceModel(experienceModel)
+    const experienceModel = loadExperienceModel(response)
 
     dispatch({
       type: EDIT_EXPERIENCE_MODEL_SUCCESS,

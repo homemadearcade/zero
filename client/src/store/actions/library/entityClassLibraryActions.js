@@ -49,7 +49,31 @@ export const getEntityClassByIdFromLibrary = (entityClassId) => async (dispatch,
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/entityClass/' + entityClassId, options);
+    const response = await axios.get('/api/entityClass/entityClassId/' + entityClassId, options);
+
+    dispatch({
+      type: GET_ENTITY_CLASS_SUCCESS,
+      payload: { entityClass: response.data.entityClass },
+    });
+    
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_ENTITY_CLASS_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const getEntityClassByMongoIdFromLibrary = (entityClassMongoId) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_ENTITY_CLASS_LOADING,
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/entityClass/' + entityClassMongoId, options);
 
     dispatch({
       type: GET_ENTITY_CLASS_SUCCESS,
@@ -145,5 +169,4 @@ export const clearEntityClass = () =>  (dispatch, getState) => {
   dispatch({
     type: CLEAR_ENTITY_CLASS,
   });
-
 }

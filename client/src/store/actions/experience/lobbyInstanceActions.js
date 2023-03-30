@@ -14,9 +14,9 @@ import {
   JOIN_LOBBY_LOADING,
   JOIN_LOBBY_SUCCESS,
   JOIN_LOBBY_FAIL,
-  // GET_LOBBY_LOADING,
-  // GET_LOBBY_SUCCESS,
-  // GET_LOBBY_FAIL,
+  GET_LOBBY_LOADING,
+  GET_LOBBY_SUCCESS,
+  GET_LOBBY_FAIL,
   EDIT_LOBBY_LOADING,
   EDIT_LOBBY_SUCCESS,
   EDIT_LOBBY_FAIL,
@@ -349,10 +349,39 @@ export const deleteLobby = (id) => async (dispatch, getState) => {
   }
 };
 
-export const joinLobby = ({ lobbyInstanceMongoId, userMongoId }) => async (dispatch, getState) => {
+export const getLobbyInstanceByIdFromLibrary = (lobbyInstanceId) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_LOBBY_LOADING,
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/lobbyInstance/lobbyInstanceId/' + lobbyInstanceId, options);
+
+    dispatch({
+      type: GET_LOBBY_SUCCESS,
+      payload: { lobbyInstance: response.data.lobbyInstance },
+    });
+    
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_LOBBY_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+
+export const joinLobbyById = ({ lobbyInstanceId, userMongoId }) => async (dispatch, getState) => {
+
+}
+
+export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => async (dispatch, getState) => {
   dispatch({
     type: JOIN_LOBBY_LOADING,
-    payload: { id: lobbyInstanceMongoId },
+    payload: {},
   });
 
   try {
@@ -420,10 +449,37 @@ export const joinLobby = ({ lobbyInstanceMongoId, userMongoId }) => async (dispa
   }
 };
 
-export const leaveLobby = ({ lobbyInstanceMongoId, userMongoId }, history) => async (dispatch, getState) => {
+function leaveLobby() {
+
+}
+
+export const leaveLobbyById = ({ lobbyInstanceId, userMongoId }, history) => async (dispatch, getState) => {
   dispatch({
     type: LEAVE_LOBBY_LOADING,
-    payload: { id: lobbyInstanceMongoId },
+    payload: { },
+  });
+
+  try {
+
+
+    // dispatch({
+    //   type: LEAVE_LOBBY_SUCCESS,
+    //   payload: { lobbyInstance: response.data.lobbyInstance },
+    // });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: LEAVE_LOBBY_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const leaveLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }, history) => async (dispatch, getState) => {
+  dispatch({
+    type: LEAVE_LOBBY_LOADING,
+    payload: { },
   });
 
   try {

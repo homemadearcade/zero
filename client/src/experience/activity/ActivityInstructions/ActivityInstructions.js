@@ -283,7 +283,7 @@ const ActivityInstructions = ({
           title: <Typography component="h5" variant="h5">Share Participant link</Typography>,
           instructions: <>
             The participant will automatically have recieved this link in the email for their ticket. You may also manually share this link with them if needed
-            <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobbyInstance/' + lobbyInstance.id + '/join/' + lobbyInstance.participantId}></input>
+            <input readOnly style={{width: '100%'}} value={window.location.origin + '/lobbyInstance/' + lobbyInstance.id}></input>
             The Chatlog will show you if they have joined
           </>
         },

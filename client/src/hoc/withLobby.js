@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { joinLobby, leaveLobby } from '../store/actions/experience/lobbyInstanceActions';
+import { joinLobbyByMongoId, leaveLobbyByMongoId } from '../store/actions/experience/lobbyInstanceActions';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
 import { leaveAgoraVideoCall } from '../store/actions/experience/videoActions';
@@ -10,12 +10,12 @@ import { leaveAgoraVideoCall } from '../store/actions/experience/videoActions';
 export default (ChildComponent) => {
   class WithLobby extends Component {
     componentWillMount() {
-      const {joinLobby,  match, auth: { me } } = this.props
+      const {joinLobbyByMongoId,  match, auth: { me } } = this.props
 
       const matchId = match.params.lobbyInstanceMongoId;
       const doJoinLobby = async () => {   
         try {
-          await joinLobby({lobbyInstanceMongoId: matchId, userMongoId: me?.id});
+          await joinLobbyByMongoId({lobbyInstanceMongoId: matchId, userMongoId: me?.id});
             } catch(error) {
           console.log(error)
         }
@@ -29,10 +29,10 @@ export default (ChildComponent) => {
     }
 
     withLobbyCleaup() {
-      const { auth: { me }, leaveLobby, lobbyInstance: { lobbyInstance }, leaveAgoraVideoCall } = this.props
+      const { auth: { me }, leaveLobbyByMongoId, lobbyInstance: { lobbyInstance }, leaveAgoraVideoCall } = this.props
 
       leaveAgoraVideoCall()
-      leaveLobby({lobbyInstanceMongoId: lobbyInstance.id, userMongoId: me?.id})
+      leaveLobbyByMongoId({lobbyInstanceMongoId: lobbyInstance.id, userMongoId: me?.id})
     }
 
     render() {
@@ -57,6 +57,6 @@ export default (ChildComponent) => {
 
   return compose(
     withRouter, 
-    connect(mapStateToProps, { joinLobby, leaveLobby, leaveAgoraVideoCall })
+    connect(mapStateToProps, { joinLobbyByMongoId, leaveLobbyByMongoId, leaveAgoraVideoCall })
   )(WithLobby)
 };

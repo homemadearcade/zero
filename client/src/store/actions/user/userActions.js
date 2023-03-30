@@ -131,13 +131,36 @@ export const getUserByUsername = (username, history) => async (dispatch, getStat
   }
 };
 
-export const getUserByMongoId = (id) => async (dispatch, getState) => {
+export const getUserById = (userId) => async (dispatch, getState) => {
   dispatch({
     type: GET_USER_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get(`/api/users/byId/${id}`, options);
+    const response = await axios.get(`/api/users/userId/${userId}`, options);
+
+    dispatch({
+      type: GET_USER_SUCCESS,
+      payload: { user: response.data.user },
+    });
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_USER_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+
+export const getUserByMongoId = (userMongoId) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_USER_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`/api/users/byId/${userMongoId}`, options);
 
     dispatch({
       type: GET_USER_SUCCESS,

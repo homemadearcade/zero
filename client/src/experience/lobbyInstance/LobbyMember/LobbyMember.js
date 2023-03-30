@@ -58,6 +58,9 @@ const LobbyMember = ({
   
   const isMe = me?.id === userMongoId
 
+      //   {userMongoId === lobbyInstance.participantId && <Link to ={`/lobby/${lobbyInstance.id}/join/${user.userMongoId}`}>
+      //   <Button variant="contained">{isMe ? 'Play' : 'Join'}</Button>
+      // </Link>}
   function renderConnectionInfo() {
     return <div className="LobbyMember__connection">
       <div className="LobbyMember__title">
@@ -67,9 +70,7 @@ const LobbyMember = ({
         {user.role === ADMIN_ROLE && <div className="LobbyMember__admin"><Icon icon="faCrown"/></div>}
       </div>
       <Divider></Divider>
-      {userMongoId === lobbyInstance.participantId && <Link to ={`/lobby/${lobbyInstance.id}/join/${user.userMongoId}`}>
-        <Button variant="contained">{isMe ? 'Play' : 'Join'}</Button>
-      </Link>}
+
       <Divider></Divider>
       <div className="LobbyMember__icons">
         <div className="LobbyMember__fullscreen">Email: <a href={'mailto::' + user.email}>{user.email}</a></div>

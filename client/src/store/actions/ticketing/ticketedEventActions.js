@@ -41,14 +41,14 @@ export const getTicketedEvents = () => async (dispatch, getState) => {
   }
 };
 
-export const getTicketedEventById = (ticketedEventId) => async (dispatch, getState) => {
+export const getTicketedEventByMongoId = (ticketedEventMongoId) => async (dispatch, getState) => {
   dispatch({
     type: GET_TICKETED_EVENT_LOADING,
   });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/ticketedEvents/' + ticketedEventId, options);
+    const response = await axios.get('/api/ticketedEvents/' + ticketedEventMongoId, options);
 
     dispatch({
       type: GET_TICKETED_EVENT_SUCCESS,
@@ -64,6 +64,32 @@ export const getTicketedEventById = (ticketedEventId) => async (dispatch, getSta
     });
   }
 };
+
+export const getTicketedEventById = (ticketedEventId) => async (dispatch, getState) => {
+  dispatch({
+    type: GET_TICKETED_EVENT_LOADING,
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get('/api/ticketedEvents/ticketedEventId/' + ticketedEventId, options);
+
+    dispatch({
+      type: GET_TICKETED_EVENT_SUCCESS,
+      payload: { ticketedEvent: response.data.ticketedEvent },
+    });
+    
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GET_TICKETED_EVENT_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+
 
 export const addTicketedEvent = (ticketedEvent) => async (dispatch, getState) => {
   dispatch({
