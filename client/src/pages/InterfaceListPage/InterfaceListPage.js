@@ -8,7 +8,7 @@ import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
-import { deleteInterfacePreset, getInterfacePresets } from '../../store/actions/game/interfacePresetActions';
+import { deleteInterfacePreset, getInterfacePresets } from '../../store/actions/library/interfacePresetActions';
 
 import './styles.css';
 import PageHeader from '../../ui/PageHeader/PageHeader';

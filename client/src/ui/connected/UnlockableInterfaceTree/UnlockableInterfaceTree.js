@@ -19,7 +19,7 @@ import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGam
 import { getUserById } from '../../../store/actions/user/userActions';
 import Button from '../../Button/Button';
 import Loader from '../../Loader/Loader';
-import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/game/interfacePresetActions';
+import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/library/interfacePresetActions';
 import Dialog from '../../Dialog/Dialog';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 

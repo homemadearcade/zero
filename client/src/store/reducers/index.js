@@ -25,7 +25,7 @@ import playerInterfaceReducer from './game/playerInterfaceReducer';
 import portfolioReducer from './marketing/portfolioReducer';
 import ticketedEventReducer from './ticketing/ticketedEventReducer';
 import checkoutReducer from './ticketing/checkoutReducer';
-import interfacePresetReducer from './game/interfacePresetReducer';
+import interfacePresetReducer from './library/interfacePresetReducer';
 import snackbarReducer from './snackbarReducer';
 import themeReducer from './themeReducer';
 import canvasImageReducer from './media/canvasImageReducer';
