@@ -137,7 +137,7 @@ const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCou
           </IconButton>
         </div>}
       </>}
-      actions={<Button size="large" variant="contained" disabled={!(ticketCart.dateId && ticketCart.ticketedEventId && enrichedTickets.length)}>
+      actions={<Button size="large" variant="contained" disabled={!(ticketCart.dateId && ticketCart.ticketedEventMongoId && enrichedTickets.length)}>
         Checkout
       </Button>}
       maxWidth={false} 
@@ -149,23 +149,23 @@ const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCou
           <div className='PurchaseDialog__picker'>
             {!selectedDateId && <EventDatePicker 
               event={ticketedEvent}
-              onClickTicket={(id) => {
-                setSelectedDateId(id)
+              onClickTicket={(dateId) => {
+                setSelectedDateId(dateId)
               }}
             />}
             {selectedDateId && <TicketTypePicker 
               dateId={selectedDateId}
               tickets={ticketedEvent.tickets}
-              onChangeTicketAmount={(id, amount) => {
+              onChangeTicketAmount={(ticketId, amount) => {
                 updateCartTicketCount({
                   tickets: {
-                    [id]: {
+                    [ticketId]: {
                       quantity: amount,
-                      ticketId: id
+                      ticketId: ticketId
                     }
                   },
                   dateId: selectedDateId,
-                  ticketedEventId: ticketedEvent.id
+                  ticketedEventMongoId: ticketedEvent.id
                 })
               }}
             />}

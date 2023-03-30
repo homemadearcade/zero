@@ -822,12 +822,12 @@ export class GameInstance extends Phaser.Scene {
     return this.getGameModel().entityClasses[entityClassId]
   }
 
-  setPlayerGameLoaded(gameId) {
+  setPlayerGameLoaded(arcadeGameMongoId) {
     store.dispatch(updateGameRoomPlayer({
       gameRoomInstanceInstanceId: this.gameRoomInstance.id,
       userMongoId: store.getState().auth.me.id,
       user: {
-        loadedGameId: gameId
+        loadedGameId: arcadeGameMongoId
       }
     }))
   }

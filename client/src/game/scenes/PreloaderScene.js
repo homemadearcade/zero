@@ -11,17 +11,17 @@ import { updateTheme } from '../../store/actions/themeActions';
 import { getImageUrlFromTextureId } from '../../utils';
 
 export class PreloaderScene extends Phaser.Scene {
-  constructor({ isNetworked, isEdit, hostUserId, gameInstanceId, id, gameId}) {
+  constructor({ isNetworked, isEdit, hostUserMongoId, gameInstanceId, id, arcadeGameMongoId}) {
     super({
       key: PRELOADER_SCENE,
     });
 
     this.gameRoomInstance = {
-      isHost: isNetworked ? hostUserId === store.getState().auth.me?.id : true,
+      isHost: isNetworked ? hostUserMongoId === store.getState().auth.me?.id : true,
       isNetworked,
       isEdit,
       gameInstanceId,
-      gameId,
+      arcadeGameMongoId,
       id: id
     }
 

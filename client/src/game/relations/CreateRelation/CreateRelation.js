@@ -35,7 +35,7 @@ import SelectSpawnZoneSelectorType from '../../ui/SelectSpawnZoneSelectorType/Se
 //         value={relation.effects ? relation.eventIds : []}
 //         onChange={(event, effects) => {
 //           // const newClassId = entityClasses[entityClasses.length-1]
-//           // handleEffectChange('spawnClassId', newClassId)
+//           // handleEffectChange('spawnEntityClassId', newClassId)
 //       }}/>}
 
 const CreateRelation = ({
@@ -199,8 +199,8 @@ const CreateRelation = ({
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
     const forms = []
-    const useA = effect.zoneClassId && classA?.entityClassId === effect.zoneClassId
-    const useB = effect.zoneClassId && classB?.entityClassId === effect.zoneClassId
+    const useA = effect.zoneEntityClassId && classA?.entityClassId === effect.zoneEntityClassId
+    const useB = effect.zoneEntityClassId && classB?.entityClassId === effect.zoneEntityClassId
 
     if(effectBehaviorInterface.spawnZoneSelectorType && (useA || useB)) {
       forms.push(<Unlockable
@@ -224,11 +224,11 @@ const CreateRelation = ({
         <SelectRelationTag
           key="effect/remoteTag"
           formLabel={"What other Tags are effected?"}
-          value={effectData.remoteEffectedRelationTagIds2 ? effectData.remoteEffectedRelationTagIds2 : []}
+          value={effectData.remoteEffectedRelationTagIdsExtension ? effectData.remoteEffectedRelationTagIdsExtension : []}
           onChange={(event, relationTags) => {
             updateEffectData(effect.effectId,
               {
-                'remoteEffectedRelationTagIds2': relationTags
+                'remoteEffectedRelationTagIdsExtension': relationTags
               }
             )
         }}/>

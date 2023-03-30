@@ -116,7 +116,7 @@ function addDefaultsToExperienceModel(experienceModel) {
           instructionId: gameRoomInstructionsId,
           instructionCategory: INSTRUCTION_GAME_ROOM,
           name: `${presetActivity.name} Guide Instructions`,
-          gameId: presetActivity.gameRoom.gameId,
+          arcadeGameMongoId: presetActivity.gameRoom.arcadeGameMongoId,
         }
         if(!presetActivity.instructionsByRoleId) { 
           presetActivity.instructionsByRoleId = {}

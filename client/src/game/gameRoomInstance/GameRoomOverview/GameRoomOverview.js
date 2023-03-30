@@ -23,20 +23,20 @@ const GameRoomOverview = ({
       <Typography component="div" variant="subtitle1">Game:</Typography>
       <GameStatus/>
       <Divider></Divider>
-      <SelectArcadeGame label="Select from games owned by host" userMongoId={gameRoomInstance.hostUserId} onSelect={(games) => {
+      <SelectArcadeGame label="Select from games owned by host" userMongoId={gameRoomInstance.hostUserMongoId} onSelect={(games) => {
         if(games[0]) {
           editGameRoom(gameRoomInstance.id, {
-            gameId: games[games.length - 1].id
+            arcadeGameMongoId: games[games.length - 1].id
           })
         }
       }}/>
       <Divider></Divider>
       <Typography component="span" variant="subtitle1">Game Host:</Typography>
-      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={gameRoomInstance.hostUserId}></LobbyUsername>
+      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={gameRoomInstance.hostUserMongoId}></LobbyUsername>
       {<SelectUsers userMongoIds={lobbyInstance.members.map((member) => member.userMongoId)} label="Select Host" onSelect={(users) => {
         if(users[0]) {
           editGameRoom(gameRoomInstance.id, {
-            hostUserId: users[users.length - 1],
+            hostUserMongoId: users[users.length - 1],
           })
         }
       }}/>}

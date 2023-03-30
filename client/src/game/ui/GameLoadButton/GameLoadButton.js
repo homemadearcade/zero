@@ -24,7 +24,7 @@ const GameLoadButton = ({
         <SelectArcadeGame userMongoId={userMongoId} onSelect={(games) => {
           setIsLoadGameModelOpen(false)
           editGameRoom(gameRoomInstance.id, {
-            gameId: games[games.length-1]
+            arcadeGameMongoId: games[games.length-1]
           })
         }}>
         </SelectArcadeGame>

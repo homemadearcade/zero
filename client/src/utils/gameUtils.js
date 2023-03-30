@@ -50,8 +50,8 @@ export function getClassAandB(entityClassIdA, entityClassIdB) {
   }
 }
 
-export function getTextureIdForLayerId(gameId, stageId, layerId) {
-   return gameId+'/' + stageId + '_' + layerId
+export function getTextureIdForLayerId(arcadeGameMongoId, stageId, layerId) {
+   return arcadeGameMongoId+'/' + stageId + '_' + layerId
 }
 
 export function isEventMatch({effect, entityClassId, world, entityClass, body}) {

@@ -50,15 +50,15 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
       )
     }
 
-    if(effectForms.gameId) {
+    if(effectForms.arcadeGameMongoId) {
       forms.push(<SelectArcadeGame
         key={'effectGameId'}
-        formLabel={effectForms.gameId}
-        value={effect.gameId ? [effect.gameId] : []}
+        formLabel={effectForms.arcadeGameMongoId}
+        value={effect.arcadeGameMongoId ? [effect.arcadeGameMongoId] : []}
         onChange={(event, games) => {
           if(games[0]) {
             const newGameId = games[games.length-1].id
-            handleEffectChange('gameId', newGameId)
+            handleEffectChange('arcadeGameMongoId', newGameId)
           }
         }}/>
       )
@@ -83,25 +83,25 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
     //   )
     // }
 
-    if(effectForms.spawnClassId) {
+    if(effectForms.spawnEntityClassId) {
       forms.push(<SelectClass
-        formLabel={effectForms.spawnClassId}
-        value={effect.spawnClassId ? [effect.spawnClassId] : []}
+        formLabel={effectForms.spawnEntityClassId}
+        value={effect.spawnEntityClassId ? [effect.spawnEntityClassId] : []}
         onChange={(event, entityClasses) => {
           const newClassId = entityClasses[entityClasses.length-1]
-          handleEffectChange('spawnClassId', newClassId)
+          handleEffectChange('spawnEntityClassId', newClassId)
       }}/>)
     }
 
-    if(effectForms.zoneClassId) {
+    if(effectForms.zoneEntityClassId) {
       forms.push(<SelectClass 
-        key={'zoneClassId'}
+        key={'zoneEntityClassId'}
         classType={ZONE_CLASS}
-        formLabel={effectForms.zoneClassId}
-        value={effect.zoneClassId ? [effect.zoneClassId] : []}
+        formLabel={effectForms.zoneEntityClassId}
+        value={effect.zoneEntityClassId ? [effect.zoneEntityClassId] : []}
         onChange={(event, entityClasses) => {
           const newClassId = entityClasses[entityClasses.length-1]
-          handleEffectChange('zoneClassId', newClassId)
+          handleEffectChange('zoneEntityClassId', newClassId)
         }}/>
       )
     }

@@ -35,14 +35,14 @@ import {
 //   }
 // };
 
-export const getTicketedPurchaseByEventId = (ticketedEventId) => async (dispatch, getState) => {
+export const getTicketedPurchaseByEventId = (ticketedEventMongoId) => async (dispatch, getState) => {
   dispatch({
     type: GET_TICKET_PURCHASES_BY_EVENT_LOADING,
   });
   
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get('/api/ticketPurchases/byEvent/' + ticketedEventId, options);
+    const response = await axios.get('/api/ticketPurchases/byEvent/' + ticketedEventMongoId, options);
 
     dispatch({
       type: GET_TICKET_PURCHASES_BY_EVENT_SUCCESS,

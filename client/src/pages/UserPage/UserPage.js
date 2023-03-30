@@ -255,7 +255,7 @@ const UserPage = ({
       {user.role === ADMIN_ROLE && <>
         <Divider sx={{my: '2rem'}}></Divider>
         <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
-        {user.id && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={user.id}></UnlockableInterfaceTree>}
+        {user.id && <UnlockableInterfaceTree experienceModelMongoId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={user.id}></UnlockableInterfaceTree>}
       </>}
 
       <Divider sx={{my: '2rem'}}></Divider>

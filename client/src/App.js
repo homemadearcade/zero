@@ -322,8 +322,8 @@ const App = ({ theme: { primaryColor } }) => {
           <Route path="/calendar" children={wrapComponentInApp(TicketedEventCalendarPage)} />
           <Route path="/games" children={wrapComponentInApp(GamesPage)} />
           <Route path="/arcade" children={wrapComponentInApp(ArcadePage)} />
-          <Route path="/edit/:gameId" children={wrapComponentInApp(EditGamePage)} />
-          <Route path="/play/:gameId" children={wrapComponentInApp(PlayGamePage)} />
+          <Route path="/edit/:arcadeGameMongoId" children={wrapComponentInApp(EditGamePage)} />
+          <Route path="/play/:arcadeGameMongoId" children={wrapComponentInApp(PlayGamePage)} />
           <Route path="/login" children={wrapComponentInApp(Login)} />
           <Route path="/register" children={wrapComponentInApp(Register)} />
           <Route path="/users" children={wrapComponentInApp(UserListPage)} />
@@ -331,7 +331,7 @@ const App = ({ theme: { primaryColor } }) => {
           <Route path="/notfound" children={wrapComponentInAppIfAuthenticated(NotFound)} />
           <Route path="/lobbys" children={wrapComponentInApp(Lobbys)} />
           <Route path="/experiences" children={wrapComponentInApp(ExperiencesPage)} />
-          <Route path="/experience/:experienceId" children={wrapComponentInApp(ExperienceCreatorPage)} />
+          <Route path="/experience/:experienceModelMongoId" children={wrapComponentInApp(ExperienceCreatorPage)} />
           <Route path="/lobby/:lobbyInstanceMongoId" children={wrapComponentInApp(LobbyPage)} />
           <Route exact path="/user/:username" children={wrapComponentInApp(UserPage)} />
           <Route path="/OAuthSuccess" children={wrapComponentInApp(HomemadeArcadePage)} />

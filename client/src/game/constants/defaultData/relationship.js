@@ -7,8 +7,7 @@ export const initialEffectRelation = {
   spawnZoneSelectorType: SPAWN_ZONE_RANDOM_SELECT,
   effectCooldown: null,
   effectDelay: null,
-  remoteEffectedRelationTagIds2: [],
-  effectBehavior: null
+  remoteEffectedRelationTagIdsExtension: [],
 }
 
 export const defaultRelationship = {
@@ -66,7 +65,7 @@ export const effectSuffixes = {
 
   // Lifecycle
   [EFFECT_TRANSFORM]: 'ClassA',
-  [EFFECT_SPAWN]: null,//'spawnClassId',
+  [EFFECT_SPAWN]: null,//'spawnEntityClassId',
   [EFFECT_DESTROY]: 'ClassA',
 
   // Narrative
@@ -91,8 +90,8 @@ function getEffectSuffix(effect, classA, classB) {
   }
   
   // if(effectSuffixes[effect]) {
-  //   if(effect.spawnClassId) {
-  //     const classSpawn = store.getState().gameModel.gameModel.entityClasses[effect.spawnClassId]
+  //   if(effect.spawnEntityClassId) {
+  //     const classSpawn = store.getState().gameModel.gameModel.entityClasses[effect.spawnEntityClassId]
   //     return classSpawn.name
   //   }
   // }

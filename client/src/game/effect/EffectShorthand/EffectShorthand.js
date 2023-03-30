@@ -45,7 +45,7 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       return <>
         {renderEffect(effect)}
         {/* {` to`}   */}
-        {renderClass(entityClasses[effect.zoneClassId])}
+        {renderClass(entityClasses[effect.zoneEntityClassId])}
       </>
     }
 
@@ -60,9 +60,9 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
     if(effectBehavior === EFFECT_SPAWN) {
       return <>
         {renderEffect(effect)}
-        {renderClass(entityClasses[effect.spawnClassId])}
+        {renderClass(entityClasses[effect.spawnEntityClassId])}
         {/* {'into'} */}
-        {/* {renderClass(entityClasses[effect.zoneClassId])} */}
+        {/* {renderClass(entityClasses[effect.zoneEntityClassId])} */}
       </>
     }
 

@@ -17,18 +17,18 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
     name: "copyGame",
   });
 
-  const gameId = useWatch({
+  const arcadeGameMongoId = useWatch({
     control,
-    name: "gameId",
+    name: "arcadeGameMongoId",
   });
 
   function renderGameSelect() {
     if(!isEdit) return <Controller
-      {...register("gameId", {
+      {...register("arcadeGameMongoId", {
         required: true,
         // shouldUnregister: true,
       })}
-      name={"gameId"}
+      name={"arcadeGameMongoId"}
       control={control}
       render={({ field: { onChange, value } }) => (
         <SelectArcadeGame disabled={isEdit} label="My Games" userMongoId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
@@ -37,7 +37,7 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
             onChange(game.id)
             setValue("gameMetadata", game.metadata)
             setValue("name", game.metadata.title)
-            trigger("gameId")
+            trigger("arcadeGameMongoId")
           }
         }}/>
       )}
@@ -95,11 +95,11 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
   return <>
     {renderGameSelect()}
     {!isEdit && <GameAddForm onSubmit={(game) => {
-      setValue("gameId", game.id)
+      setValue("arcadeGameMongoId", game.id)
       setValue("gameMetadata", game.metadata)
-      trigger("gameId")
+      trigger("arcadeGameMongoId")
     }} defaultValues={{userMongoId: me.id}}></GameAddForm>}
-    {gameId && <GameCardLoad gameId={gameId} />}
+    {arcadeGameMongoId && <GameCardLoad arcadeGameMongoId={arcadeGameMongoId} />}
     {renderCopyGame()}
     {isEdit && <Controller
       {...register("isAutosaveDisabled", {

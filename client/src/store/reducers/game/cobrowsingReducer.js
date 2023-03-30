@@ -42,7 +42,7 @@ const initialState = {
   error: null,
   cobrowsingUser: false,
   selectedTool: null,
-  remoteStateUserId: null,
+  remoteStateUserMongoId: null,
   remoteState: {
     video: initialVideoState,
     gameSelector: initialGameSelectorState,
@@ -71,7 +71,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case END_COBROWSING_SUCCESS:
       return {
         ...state,
-        remoteStateUserId: null,
+        remoteStateUserMongoId: null,
         cobrowsingUser: false,
       };
     case INITIALIZE_COBROWSING_STATE: 
@@ -101,7 +101,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isActivelyCobrowsing: false,
         isUnsubscribing: false,
         cobrowsingUser: false,
-        remoteStateUserId: null,
+        remoteStateUserMongoId: null,
         selectedTool: null,
         remoteState: initialState.remoteState
       };
@@ -112,7 +112,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isUnsubscribing: false,
         isSubscribing: false,
         cobrowsingUser: false,
-        remoteStateUserId: null,
+        remoteStateUserMongoId: null,
         selectedTool: null,
         error: payload.error,
       };
@@ -121,7 +121,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
       return {
         ...state,
         cobrowsingUser: false,
-        remoteStateUserId: null,
+        remoteStateUserMongoId: null,
         error: payload.error,
       };
     case TOGGLE_COBROWSING: 
@@ -143,7 +143,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     case ON_COBROWSING_UPDATE:
       return {
         ...state,
-        remoteStateUserId: payload.remoteStateUserId,
+        remoteStateUserMongoId: payload.remoteStateUserMongoId,
         remoteState: payload.remoteState
       };
     case SELECT_COBROWSING_TOOL:
@@ -154,7 +154,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
     // case ON_CLEAR_COBROWSING_STATUS: {
     //   return {
     //     ...state,
-    //     remoteStateUserId: null,
+    //     remoteStateUserMongoId: null,
     //     cobrowsingUser: null
     //   }
     // }

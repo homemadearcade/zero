@@ -10,7 +10,7 @@ import './GameRoomPowerIndicator.scss'
 import Switch from '../../../ui/Switch/Switch';
 
 const GameRoomPowerIndicator = ({
-  gameRoomInstance : { gameRoomInstance, gameRoomInstance: { isPoweredOn, gameId }},
+  gameRoomInstance : { gameRoomInstance, gameRoomInstance: { isPoweredOn, arcadeGameMongoId }},
   editGameRoom
 }) => {
   return <div
@@ -18,11 +18,11 @@ const GameRoomPowerIndicator = ({
   > 
     <Icon icon="faPowerOff"/>
     <Switch
-      disabled={!gameId}
+      disabled={!arcadeGameMongoId}
       size="small"
       checked={isPoweredOn}
       onChange={() => {
-        if(!gameRoomInstance.gameId) return
+        if(!gameRoomInstance.arcadeGameMongoId) return
         editGameRoom(gameRoomInstance.id, {
           isPoweredOn: !isPoweredOn,
         })

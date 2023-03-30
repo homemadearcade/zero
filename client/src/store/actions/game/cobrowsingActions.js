@@ -182,7 +182,7 @@ export const handleCobrowsingUpdates = store => next => action => {
     }
 
 
-    //  else if(action.externalForceCobrowsingUpdateUserId && action.externalForceCobrowsingUpdateUserId !== state.auth.me.id) {
+    //  else if(action.externalForceCobrowsingUpdateUserMongoId && action.externalForceCobrowsingUpdateUserMongoId !== state.auth.me.id) {
     //   // this happens when you arent currently cobrowsing or even subscribed to a cobrowsing
     //   // user. Its likely clicking a button outside of a cobrowsing context that is meant
     //   // to inflict a change on a users UI
@@ -193,7 +193,7 @@ export const handleCobrowsingUpdates = store => next => action => {
 
     //   // UPDATE PUBLISHER
     //   const options = attachTokenToHeaders(store.getState);
-    //   axios.put('/api/cobrowsing/dispatch/' + action.externalForceCobrowsingUpdateUserId, { dispatchData: action }, options);
+    //   axios.put('/api/cobrowsing/dispatch/' + action.externalForceCobrowsingUpdateUserMongoId, { dispatchData: action }, options);
     //   return null
     // }
 
@@ -336,7 +336,7 @@ export const subscribeCobrowsing = ({userMongoId}) => async (dispatch, getState)
       dispatch({
         type: ON_COBROWSING_UPDATE,
         payload: { 
-          remoteStateUserId: userMongoId,
+          remoteStateUserMongoId: userMongoId,
           remoteState
         },
       });

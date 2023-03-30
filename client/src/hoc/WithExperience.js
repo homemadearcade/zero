@@ -10,7 +10,7 @@ class WithExperience extends Component {
   componentWillMount() {
     const { getExperienceModelByMongoId, match } = this.props
 
-    const matchId = match.params.experienceId;
+    const matchId = match.params.experienceModelMongoId;
     getExperienceModelByMongoId(matchId)
   }
 

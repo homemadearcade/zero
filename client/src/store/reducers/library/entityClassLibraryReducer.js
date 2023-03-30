@@ -61,7 +61,6 @@ export default function entityClassLibraryReducer(state = initialState, { type, 
         entityClass: null,
       };
     case GET_ENTITY_CLASS_LIBRARY_SUCCESS:
-      console.log(payload)
       return {
         ...state,
         isLoading: false,

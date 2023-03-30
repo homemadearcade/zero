@@ -2,7 +2,6 @@ import { Router } from 'express';
 import requireJwtAuth from '../../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../../utils/utils';
 import Relation from '../../../models/library/Relation';
-import { RELATION_LIBRARY_ID_PREFIX } from '../../../constants';
 
 const router = Router();
 
@@ -51,7 +50,6 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let relation = await Relation.create({
       ...req.body,
-      // relationId: RELATION_LIBRARY_ID_PREFIX + generateUniqueId(),
       owner: req.body.userMongoId,
     });
 

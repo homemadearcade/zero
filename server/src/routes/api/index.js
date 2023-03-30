@@ -15,6 +15,8 @@ import experienceModelRoutes from './experienceModel'
 import entityClassRoutes from './library/entityClass'
 import relationRoutes from './library/relation'
 import relationTagRoutes from './library/relationTag'
+import effectRoutes from './library/effect'
+import eventRoutes from './library/event'
 
 const router = Router();
 
@@ -33,6 +35,8 @@ router.use('/entityClass', entityClassRoutes);
 router.use('/aws', awsRoutes);
 router.use('/relation', relationRoutes);
 router.use('/relationTag', relationTagRoutes);
+router.use('/effect', effectRoutes);
+router.use('/event', eventRoutes);
 router.use('/canvasImages', canvasImagesRoutes);
 
 'routes register', router.stack.map((router) => {

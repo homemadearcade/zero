@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const relation = new Schema({
+    dataSource: {
+      type: String,
+    },
     event: {
       type: Object,
       default: {},
@@ -40,6 +43,7 @@ const relation = new Schema({
 relation.methods.toJSON = function () {
   return {
     id: this._id,
+    dataSource: this.dataSource,
     event: this.event,
     effects: this.effects,
     effectIds: this.effectIds,

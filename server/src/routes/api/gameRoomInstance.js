@@ -95,9 +95,8 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
   try {
     let gameRoomInstance = await GameRoomInstance.create({
       invitedUsers: req.body.invitedUsers,
-      hostUserId: req.body.hostUserId,
-      gameId: req.body.gameId,
-
+      hostUserMongoId: req.body.hostUserMongoId,
+      arcadeGameMongoId: req.body.arcadeGameMongoId,
       isAutosaveDisabled: req.body.isAutosaveDisabled,
       isEdit: req.body.isEdit,
       isNetworked: req.body.isNetworked,
@@ -195,9 +194,9 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 
 //   if(req.body.role === 'gameHost') {
 //     if(req.body.userMongoId === 'unassigned') {
-//       req.gameRoomInstance.hostUserId = null
+//       req.gameRoomInstance.hostUserMongoId = null
 //     } else {
-//       req.gameRoomInstance.hostUserId = req.body.userMongoId
+//       req.gameRoomInstance.hostUserMongoId = req.body.userMongoId
 //     }
 
 //   }
@@ -226,7 +225,7 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
 //   const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
 //     req.params.id,
 //     { 
-//       hostUserId: req.gameRoomInstance.hostUserId,
+//       hostUserMongoId: req.gameRoomInstance.hostUserMongoId,
 //       playerId: req.gameRoomInstance.playerId,
 //       guideId: req.gameRoomInstance.guideId,
 //     },
@@ -428,7 +427,7 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
           return id
         }),
         gameState: req.gameRoomInstance.gameState,
-        hostUserId: req.gameRoomInstance.hostUserId,
+        hostUserMongoId: req.gameRoomInstance.hostUserMongoId,
       },
       { new: true },
     );

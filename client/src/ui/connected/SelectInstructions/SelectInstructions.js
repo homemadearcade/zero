@@ -7,7 +7,7 @@ import './SelectInstructions.scss';
 import { instructionToInterfaceData } from '../../../constants';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 
-const SelectInstructions = ({ onSelect, gameId,  value, formLabel, disabled, instructionCategory, experienceModel: { experienceModel } }) => {
+const SelectInstructions = ({ onSelect, arcadeGameMongoId,  value, formLabel, disabled, instructionCategory, experienceModel: { experienceModel } }) => {
   const mapControlsToOption = (instructionId) => {
    const instruction = experienceModel.instructions[instructionId]
     return {
@@ -21,7 +21,7 @@ const SelectInstructions = ({ onSelect, gameId,  value, formLabel, disabled, ins
   const options = Object.keys(experienceModel.instructions).filter((instructionId) => {
     const instruction = experienceModel.instructions[instructionId]
     if(instructionCategory !== undefined && instructionCategory !== instruction.instructionCategory) return false
-    if(gameId !== undefined && gameId !== instruction.gameId) return false
+    if(arcadeGameMongoId !== undefined && arcadeGameMongoId !== instruction.arcadeGameMongoId) return false
     return true
   }).map(mapControlsToOption)
 

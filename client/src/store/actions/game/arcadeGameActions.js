@@ -245,10 +245,10 @@ export const unloadArcadeGame = () => (dispatch, getState) => {
   })
 };
 
-export async function addLayersForArcadeGameStage(gameId, userMongoId, stageId) {
-  const backgroundTextureId = getTextureIdForLayerId(gameId, stageId, BACKGROUND_LAYER_ID)
-  const playgroundTextureId = getTextureIdForLayerId(gameId, stageId, PLAYGROUND_LAYER_ID)
-  const foregroundTextureId = getTextureIdForLayerId(gameId, stageId, FOREGROUND_LAYER_ID)
+export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId, stageId) {
+  const backgroundTextureId = getTextureIdForLayerId(arcadeGameMongoId, stageId, BACKGROUND_LAYER_ID)
+  const playgroundTextureId = getTextureIdForLayerId(arcadeGameMongoId, stageId, PLAYGROUND_LAYER_ID)
+  const foregroundTextureId = getTextureIdForLayerId(arcadeGameMongoId, stageId, FOREGROUND_LAYER_ID)
 
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
@@ -272,7 +272,7 @@ export async function addLayersForArcadeGameStage(gameId, userMongoId, stageId) 
     visualTags: ['Layer'],
   }))
 
-  store.dispatch(editArcadeGame(gameId, {
+  store.dispatch(editArcadeGame(arcadeGameMongoId, {
     stages: {
       [stageId] : {
         layers: {
@@ -307,9 +307,9 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/arcadeGames', gameData, options);
 
-    const gameId = response.data.game.id
+    const arcadeGameMongoId = response.data.game.id
 
-    await addLayersForArcadeGameStage(gameId, response.data.game.owner.id, initialStageId)
+    await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
 
     dispatch({
       type: ADD_ARCADE_GAME_SUCCESS,
@@ -327,9 +327,9 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
   }
 };
 
-export const copyArcadeGameToUser = ({gameId, userMongoId, isArchived}) => async (dispatch, getState) => {
+export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, isArchived}) => async (dispatch, getState) => {
   const options = attachTokenToHeaders(getState);
-  const response = await axios.get('/api/arcadeGames/' + gameId, options);
+  const response = await axios.get('/api/arcadeGames/' + arcadeGameMongoId, options);
   const gameData = response.data.game
   gameData.owner = null
   gameData.metadata.isArchived = isArchived

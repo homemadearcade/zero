@@ -65,7 +65,7 @@ const PROLOGUE_2_CLASS_IDS = {
         //       currentActivity: GAME_ROOM_ACTIVITY,
         //     })
         //     await editGameRoom(lobby.gameRoomInstanceMongoId, {
-        //       gameId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
+        //       arcadeGameMongoId: isLocalHost() ? '63af1a6717b22f6245d88269' : '63dc59d383cc8500539a24d9',
         //       isAutosaveDisabled: true,
         //     })
         //   },
@@ -82,21 +82,21 @@ const ActivityInstructions = ({
   setCutAudio,
   setCutVideo,
   editGameRoom,
-  cobrowsing: { remoteStateUserId },
+  cobrowsing: { remoteStateUserMongoId },
   myTracks,
   userTracks,
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
 
   const playerInstancesById = gameRoomInstance.members.reduce((prev, next) => {
-    prev[next.mongoUserId] = next
+    prev[next.userMongoId] = next
     return prev
   }, {})
-  const hostPlayer = playerInstancesById[gameRoomInstance.hostUserId]
+  const hostPlayer = playerInstancesById[gameRoomInstance.hostUserMongoId]
 
   const requireCobrowsingConnection = {
     shouldContinueBeDisabledCheck: () => {
-      if(!remoteStateUserId) {
+      if(!remoteStateUserMongoId) {
         return <>
           Participant has not interacted with the experience
         </>
@@ -160,7 +160,7 @@ const ActivityInstructions = ({
     }
   }
 
-  function spawnThis({entityClassId, className, gameId}) {
+  function spawnThis({entityClassId, className, arcadeGameMongoId}) {
     return {
       id: entityClassId,
       title: <Typography component="h5" variant="h5">Spawn {className}</Typography>,
@@ -168,17 +168,17 @@ const ActivityInstructions = ({
         This will spawn {className} inside of the Players camera view
       </>,
       shouldContinueBeDisabledCheck: () => {
-        if(gameRoomInstance.gameId !== gameId) {
+        if(gameRoomInstance.arcadeGameMongoId !== arcadeGameMongoId) {
           return <>
             Incorrect game loaded!
             <Button onClick={async () => {
               await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
-                gameId: gameId,
+                arcadeGameMongoId: arcadeGameMongoId,
               })
             }}>Load Correct Game</Button>
           </>
         }
-        if(hostPlayer?.loadedGameId !== gameId) {
+        if(hostPlayer?.loadedGameId !== arcadeGameMongoId) {
           return <>
             Game Host is not present or is still loading Game
           </>
@@ -230,7 +230,7 @@ const ActivityInstructions = ({
        A Game is created automatically when a lobbyInstance is created. Only edit this if you plan to edit a pre-existing game. If not click Continue.
       </div><br/>
       {lobbyInstance?.editingGameId && 
-        <GameCardLoad gameId={lobbyInstance.editingGameId}/>
+        <GameCardLoad arcadeGameMongoId={lobbyInstance.editingGameId}/>
       }
       {lobbyInstance.participantId && <SelectArcadeGame label="Games owned by Participant" userMongoId={lobbyInstance.participantId} gamesSelected={lobbyInstance.editingGameId ? [lobbyInstance.editingGameId] : []} onSelect={(games) => {
         if(games[0]) {
@@ -346,7 +346,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
               currentActivity: GAME_ROOM_ACTIVITY,
             })
             await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
-              gameId: GAME_IDS.prologue1,
+              arcadeGameMongoId: GAME_IDS.prologue1,
               isPoweredOn: true,
               isAutosaveDisabled: true,
               gameState: PAUSED_STATE
@@ -390,16 +390,16 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Unpause'
         },
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           What do you encounter? What could it be?
           You answer as You interact.
         `),
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           We repeat this answer, support and clarify it.
         `),
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           Another, larger block appears.
 
@@ -407,7 +407,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           You answer.  We affirm.
         `),
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', gameId:  GAME_IDS.prologue1}),
+        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           Another image appears…
 
@@ -424,7 +424,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
               currentActivity: GAME_ROOM_ACTIVITY,
             })
             await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
-              gameId: GAME_IDS.prologue2,
+              arcadeGameMongoId: GAME_IDS.prologue2,
               isPoweredOn: true,
               isAutosaveDisabled: true,
             })
@@ -436,10 +436,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
              As many worlds as there are imaginative moments in the universe.  
              You take a breath, and dive in again, to connect with another world…`),
         returnFromStarsStep(),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', gameId: GAME_IDS.prologue2}),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', gameId: GAME_IDS.prologue2}),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', gameId: GAME_IDS.prologue2}),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', gameId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
         sayThis(`You encounter the world that loops, 
             adds color and individual powers, 
             naming those as You did before.`),
@@ -452,7 +452,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
               currentActivity: GAME_ROOM_ACTIVITY,
             })
             await editGameRoom(lobbyInstance.gameRoomInstanceMongoId, {
-              gameId: lobbyInstance.editingGameId,
+              arcadeGameMongoId: lobbyInstance.editingGameId,
               isAutosaveDisabled: false,
               isPoweredOn: true,
             })
@@ -559,7 +559,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ userMongoId: ARCHIVE_USER_ID, gameId: lobbyInstance.editingGameId, isArchived: true }))
+            store.dispatch(copyArcadeGameToUser({ userMongoId: ARCHIVE_USER_ID, arcadeGameMongoId: lobbyInstance.editingGameId, isArchived: true }))
           },
           nextButtonText: 'Archive'
         },

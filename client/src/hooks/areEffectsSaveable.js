@@ -14,12 +14,12 @@ import { effectBehaviorInterface, effectBehaviorInterfaces } from "../game/const
         if(!effect.entityClassId) return true
       }
 
-      if(effectForms?.zoneClassId) {
-        if(!effect.zoneClassId) return true
+      if(effectForms?.zoneEntityClassId) {
+        if(!effect.zoneEntityClassId) return true
       }
 
-      if(effectForms?.spawnClassId) {
-        if(!effect.spawnClassId) return true
+      if(effectForms?.spawnEntityClassId) {
+        if(!effect.spawnEntityClassId) return true
       }
 
       if(effectForms?.cutsceneId) {

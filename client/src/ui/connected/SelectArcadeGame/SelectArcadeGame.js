@@ -43,8 +43,8 @@ const SelectArcadeGame = ({ onSelect, label, userMongoId, getArcadeGames, gamesS
   return (
     <div className="SelectArcadeGame">
       <SelectChipsAuto
-        onChange={(event, gameIds) => {
-          const games = arcadeGames.filter((game) => gameIds.indexOf(game.id) >= 0)
+        onChange={(event, arcadeGameMongoIds) => {
+          const games = arcadeGames.filter((game) => arcadeGameMongoIds.indexOf(game.id) >= 0)
           onSelect(games)
         }}
         groupBy={(option) => option.firstLetter}

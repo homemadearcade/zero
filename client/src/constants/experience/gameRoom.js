@@ -4,7 +4,7 @@ export const GAME_ROOM_ID_PREFIX = 'gr-';
 
 export const defaultGameRoom = {
   copyGame: false,
-  gameId: null,
+  arcadeGameMongoId: null,
   gameMetadata: {},
   isAutosaveDisabled: false,
   hostRoleId: defaultParticipantRoleId,

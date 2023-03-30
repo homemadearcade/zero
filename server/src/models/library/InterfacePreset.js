@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const interfacePreset = new Schema(
   {
-    interfacePresetSource: {
+    dataSource: {
       type: String,
       required: true
     },
@@ -25,6 +25,7 @@ const interfacePreset = new Schema(
       type: Object,
       default: {}
     },
+    isLocked: Boolean,
     isRemoved: Boolean,
   },
   { timestamps: true },
@@ -33,10 +34,12 @@ const interfacePreset = new Schema(
 interfacePreset.methods.toJSON = function () {
   return {
     id: this._id.toString(),
+    dataSource: this.dataSource,
     description: this.description,
     interfaceIds: this.interfaceIds,
     name: this.name,
     isRemoved: this.isRemoved,
+    isLocked: this.isLocked,
     interfacePresetId: this.interfacePresetId,
   };
 };

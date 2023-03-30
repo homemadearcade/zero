@@ -52,7 +52,7 @@ const recentlyFocusedDelta = 3000
 
 export function onCanvasImageModalUndo() {
   const state = store.getState()
-  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserId
+  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserMongoId
   
   if(!window.imageCanvasUndoStack.length) return
 
@@ -65,7 +65,7 @@ export function onCanvasImageModalUndo() {
 
 export function onInstanceUndo() {
   const state = store.getState()
-  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserId
+  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserMongoId
   
   if(!window.instanceUndoStack.length) return
 

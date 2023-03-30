@@ -3,7 +3,7 @@ Look up x, y, on phaser instance should be... getPosition(). Overall use Get Met
 Try to remove getState() and getCobrowsingState() from inside of game... standardize this better
 
 LOCK DATA
-  ArcadeGame.currentEditingSessionId == LobbyId/UserId
+  ArcadeGame.currentEditingSessionId == LobbyId/UserMongoId
   if(lobbyid !== currentEditingSessionId) not allowed to load
   Same with Classes, and all these other global data objects
 

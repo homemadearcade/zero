@@ -43,7 +43,7 @@ CHOICE EVENT
 
   Jump, Movement, Collisions, Projectile property librarys
     or Perhaps just add it to the interface system that already exists? Add a property object to it?
-    The thing is that also properties themselelves. The very .zoneClassId, .speed will need to be gamified eventually. We will want a way of expressing how this property can be gamified, who can change it, etc
+    The thing is that also properties themselelves. The very .zoneEntityClassId, .speed will need to be gamified eventually. We will want a way of expressing how this property can be gamified, who can change it, etc
     This is related to the CHOICE EVENT THING. "CHOICES HAVE PERMENANT CONSEQUENCES"
     soooo. Yeah what does a class look like after this. Is a Class like something that starts, and theres an EntityAugmentation after that? 
     Or does a class understand its own augmentations. Nah nah. It would be cool if an augmentation can be applied to any class. Yeah.. why not? The class defines how it is augmented. Maybe its by TAG actually yeah. 

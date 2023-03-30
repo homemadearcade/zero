@@ -14,7 +14,7 @@ const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameMod
       label: getEffectShorthand(effect),
       value: effectId,
       isRemoved: effect.isRemoved,
-      group: effect.customCategory || effectBehaviorToDisplayNames[effect.effectBehavior]
+      group: effect.customSelectorCategory || effectBehaviorToDisplayNames[effect.effectBehavior]
     }
   }
 

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const entityClass = new Schema({
-    entityClassSource: {
+    dataSource: {
       type: String,
     },
     boundaryRelation: {
@@ -79,7 +79,7 @@ entityClass.methods.toJSON = function () {
     name: this.name,  
     boundaryRelation: this.boundaryRelation,
     entityClassId: this.entityClassId,
-    entityClassSource: this.entityClassSource,
+    dataSource: this.dataSource,
     classInterfaceCategory: this.classInterfaceCategory,
     movement: this.movement,
     collisionResponse: this.collisionResponse,

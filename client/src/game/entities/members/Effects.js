@@ -109,8 +109,8 @@ export class Effects {
     }
 
     let remoteEffectedRelationTagIds = effect.remoteEffectedRelationTagIds?.slice()
-    if(effect.remoteEffectedRelationTagIds2) {
-      remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIds2)
+    if(effect.remoteEffectedRelationTagIdsExtension) {
+      remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIdsExtension)
     }
 
     if(remoteEffectedRelationTagIds && !nonRemoteEffects[effect.effectBehavior]) {
@@ -191,7 +191,7 @@ export class Effects {
       store.dispatch(clearCutscenes())
     } else if(effect.effectBehavior === EFFECT_CHANGE_GAME) {
       store.dispatch(editGameRoom(this.scene.gameRoomInstance.id, {
-        gameId: effect.gameId
+        arcadeGameMongoId: effect.arcadeGameMongoId
       }))
     } else if(effect.effectBehavior === EFFECT_OPEN_OVERLAY) {
       const state = store.getState()
@@ -210,7 +210,7 @@ export class Effects {
     }
 
     if(effect.effectBehavior === EFFECT_SPAWN) {
-      const spawningClassId = effect.spawnClassId
+      const spawningClassId = effect.spawnEntityClassId
       const modifiedClassData = { spawnX: null, spawnY: null, entityClassId: spawningClassId }
       let zone 
 
@@ -225,7 +225,7 @@ export class Effects {
         } 
       } else {
           //  if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
-        zone = this.scene.getRandomInstanceOfClassId(effect.zoneClassId)
+        zone = this.scene.getRandomInstanceOfClassId(effect.zoneEntityClassId)
       // } else
       }
 
@@ -308,7 +308,7 @@ export class Effects {
       if(effect.effectBehavior === EFFECT_TELEPORT) {
         const gameModel = store.getState().gameModel.gameModel
         const entityClass = gameModel.entityClasses[phaserInstance.entityClassId]
-        const zone = scene.getRandomInstanceOfClassId(effect.zoneClassId)
+        const zone = scene.getRandomInstanceOfClassId(effect.zoneEntityClassId)
         if(!zone) return
         phaserInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityClass))
       }

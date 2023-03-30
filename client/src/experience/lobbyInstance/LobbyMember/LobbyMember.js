@@ -9,7 +9,6 @@ import UnlockableInterfaceTree from '../../../ui/connected/UnlockableInterfaceTr
 import { Divider } from '@mui/material';
 import Icon from '../../../ui/Icon/Icon';
 import Button from '../../../ui/Button/Button';
-import { closeInterfaceTree, openInterfaceTree } from '../../../store/actions/user/userActions';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { setCutAudio, setCutVideo } from '../../../store/actions/experience/videoActions';
@@ -93,7 +92,7 @@ const LobbyMember = ({
     </div>
   }
 
-  const isNavigatedToCobrowse = params.cobrowsingUserId === userMongoId
+  const isNavigatedToCobrowse = params.cobrowsingUserMongoId === userMongoId
 
   return <>
   <Button onClick={() => {
@@ -114,7 +113,7 @@ const LobbyMember = ({
       {!showUnlockedUI && <Button onClick={() => {
         setShowUnlockedUI(true)
       }}>Show Unlocked UI Tree</Button>}
-      {showUnlockedUI && <UnlockableInterfaceTree experienceId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={userMongoId}></UnlockableInterfaceTree>}
+      {showUnlockedUI && <UnlockableInterfaceTree experienceModelMongoId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={userMongoId}></UnlockableInterfaceTree>}
     </div>
   </Dialog>}
   </>
@@ -130,5 +129,5 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   withRouter, 
-  connect(mapStateToProps, { openInterfaceTree, closeInterfaceTree, setCutAudio, setCutVideo })
+  connect(mapStateToProps, { setCutAudio, setCutVideo })
 )(LobbyMember);

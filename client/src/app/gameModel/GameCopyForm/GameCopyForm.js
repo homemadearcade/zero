@@ -10,27 +10,27 @@ import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcad
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 
 const GameCopyForm = ({ copyArcadeGameToUser, onSubmit }) => {
-  const [gameId, setGameId] = useState()
-  const [userMongoId, setUserId] = useState()
+  const [arcadeGameMongoId, setGameId] = useState()
+  const [userMongoId, setUserMongoId] = useState()
 
   return (
     <div className="GameCopyForm">
       <Typography variant="h5" component="h5">Copy Game To User</Typography> 
-      <SelectArcadeGame gamesSelected={gameId? [gameId] : []} onSelect={(games) => {
+      <SelectArcadeGame gamesSelected={arcadeGameMongoId? [arcadeGameMongoId] : []} onSelect={(games) => {
         if(games[0]) {
           setGameId(games[games.length -1].id)
         }
       }}></SelectArcadeGame>
       <SelectUsers
-        onSelect={(users) => {
-          setUserId(users[users.length -1])
+        onSelect={(userMongoIds) => {
+          setUserMongoId(userMongoIds[userMongoIds.length -1])
         }}
         usersSelected={userMongoId ? [userMongoId] : []}
       ></SelectUsers>
-      <Button disabled={!userMongoId|| !gameId} onClick={() => {
-        copyArcadeGameToUser({userMongoId: userMongoId, gameId: gameId})
+      <Button disabled={!userMongoId|| !arcadeGameMongoId} onClick={() => {
+        copyArcadeGameToUser({userMongoId: userMongoId, arcadeGameMongoId: arcadeGameMongoId})
         setGameId(null)
-        setUserId(null)
+        setUserMongoId(null)
         onSubmit()
       }} type="submit" className="btn">Copy Game</Button>
     </div>

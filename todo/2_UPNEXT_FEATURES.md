@@ -57,3 +57,5 @@ GAME ROOM EXPANSION
   I think maybe the game room manages loading interface ids and what not? or do games do that? WHO manages that? why when a game is loaded? troubling. Its hard to manage both at the same time... You need both states
 
 .id -> ___mongoId. Finish my id cleanup
+
+EXPERIENCE ONLY EFFECTS ( such as overlay effect )

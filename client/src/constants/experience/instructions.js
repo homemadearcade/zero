@@ -33,7 +33,7 @@ export const defaultInstructions = {
   stepOrder: [],
   instructionId: null,
   instructionCategory: null,
-  gameId: null,
+  arcadeGameMongoId: null,
   isRemoved: false
 }
   // {
@@ -52,7 +52,7 @@ export const defaultInstructions = {
   //     required: true,
   //     default: []
   //   },
-  //   gameId: {
+  //   arcadeGameMongoId: {
   //     type: String,
   //     required: false,
   //   },

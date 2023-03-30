@@ -2,7 +2,6 @@ import { Router } from 'express';
 import requireJwtAuth from '../../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../../utils/utils';
 import EntityClass from '../../../models/library/EntityClass';
-import { ENTITY_CLASS_LIBRARY_ID_PREFIX } from '../../../constants';
 
 const router = Router();
 
@@ -51,7 +50,6 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let entityClass = await EntityClass.create({
       ...req.body,
-      // entityClassId: ENTITY_CLASS_LIBRARY_ID_PREFIX + generateUniqueId(),
       owner: req.body.userMongoId,
     });
 

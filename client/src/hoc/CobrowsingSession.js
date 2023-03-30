@@ -10,8 +10,8 @@ import CobrowsingErrorStates from '../experience/cobrowsing/CobrowsingErrorState
 class CobrowsingSession extends Component {
   componentDidMount() {
     const { match } = this.props
-    const cobrowsingUserId = this.props.userMongoId ? this.props.userMongoId : match.params.cobrowsingUserId;
-    this.startCobrowsing(cobrowsingUserId)
+    const cobrowsingUserMongoId = this.props.userMongoId ? this.props.userMongoId : match.params.cobrowsingUserMongoId;
+    this.startCobrowsing(cobrowsingUserMongoId)
   }
 
   componentDidUpdate(oldProps) {
@@ -23,9 +23,9 @@ class CobrowsingSession extends Component {
   }
 
   async switchCobrowsing(oldProps, newProps) {
-    if(oldProps.match.params.cobrowsingUserId !== newProps.match.params.cobrowsingUserId) {
+    if(oldProps.match.params.cobrowsingUserMongoId !== newProps.match.params.cobrowsingUserMongoId) {
       await this.stopCobrowsing()
-      await this.startCobrowsing(newProps.match.params.cobrowsingUserId)
+      await this.startCobrowsing(newProps.match.params.cobrowsingUserMongoId)
     } 
   }
 

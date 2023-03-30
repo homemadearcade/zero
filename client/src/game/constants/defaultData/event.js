@@ -21,12 +21,12 @@ export const PLAYER_RELATION_TAG_EVENT = 'PLAYER_RELATION_TAG_EVENT'
 // WHEN, WHO, WHERE
 export const defaultEvent = {
   eventType: '',
+  eventId: null,
   relationTagIdA: null,
   relationTagIdB: null,
 
   sidesA: [],
   sidesB: [],
-  eventId: null,
 
   onlyOnce: false,
 }

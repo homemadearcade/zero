@@ -178,7 +178,7 @@ function getClassName(id, unlockableInterfaceIds) {
   if(isUnlocked) return 'TreeItem__unlocked'
 }
 
-function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceId, userMongoId, getUserByMongoId, user: { user }, interfacePreset: { interfacePresets }, updateArcadeGameCharacter}) {
+function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceModelMongoId, userMongoId, getUserByMongoId, user: { user }, interfacePreset: { interfacePresets }, updateArcadeGameCharacter}) {
 
   const [presetName, setPresetName] = React.useState('');
   const [presetDescription, setPresetDescription] = React.useState('');
@@ -209,7 +209,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
 
   if(!user.unlockableInterfaceIds) return <Loader text="Loading User..."></Loader>
 
-  let unlockableInterfaceIds = user.unlockableInterfaceIds[experienceId]
+  let unlockableInterfaceIds = user.unlockableInterfaceIds[experienceModelMongoId]
 
   if(!unlockableInterfaceIds) unlockableInterfaceIds = {}
 

@@ -60,7 +60,7 @@ export default function ticketedEventReducer(state = initialState, { type, paylo
       return {
         ...state,
         isLoading: false,
-        ticketedEvent: payload.ticketedEvents[0],
+        ticketedEvents: payload.ticketedEvents,
       };
     case GET_TICKET_PURCHASES_BY_EVENT_SUCCESS:
       return {

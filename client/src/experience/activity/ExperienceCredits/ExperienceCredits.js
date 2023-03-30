@@ -36,7 +36,7 @@ const ExperienceCredits = ({
         </Link>
       </Typography>
     </ConstellationHero>
-    <GameCardLoad canPlay gameId={editingGameId}/>
+    <GameCardLoad canPlay arcadeGameMongoId={editingGameId}/>
     <Link newTab href={`${window.location.origin}/arcade`}>Browse Other Games To Play</Link>
   </div>
 };

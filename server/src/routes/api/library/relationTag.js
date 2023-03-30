@@ -2,7 +2,6 @@ import { Router } from 'express';
 import requireJwtAuth from '../../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../../utils/utils';
 import RelationTag from '../../../models/library/RelationTag';
-import { RELATION_TAG_LIBRARY_ID_PREFIX } from '../../../constants';
 
 const router = Router();
 
@@ -51,7 +50,6 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let relationTag = await RelationTag.create({
       ...req.body,
-      // relationTagId: RELATION_TAG_LIBRARY_ID_PREFIX + generateUniqueId(),
       owner: req.body.userMongoId,
     });
 

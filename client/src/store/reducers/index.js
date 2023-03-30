@@ -32,6 +32,10 @@ import canvasImageReducer from './media/canvasImageReducer';
 import hoverPreviewReducer from './game/hoverPreviewReducer';
 import experienceModelReducer from './experience/experienceModelReducer';
 import entityClassLibraryReducer from './library/entityClassLibraryReducer';
+import relationLibraryReducer from './library/relationLibraryReducer';
+import relationTagLibraryReducer from './library/relationTagLibraryReducer';
+import effectLibraryReducer from './library/effectLibraryReducer';
+import eventLibraryReducer from './library/eventLibraryReducer';
 
 export default combineReducers({
   arcadeGames: arcadeGamesReducer,
@@ -65,5 +69,9 @@ export default combineReducers({
   canvasImage: canvasImageReducer,
   hoverPreview: hoverPreviewReducer,
   experienceModel: experienceModelReducer,
-  entityClassLibrary: entityClassLibraryReducer
+  entityClassLibrary: entityClassLibraryReducer,
+  relationLibrary: relationLibraryReducer,
+  relationTagLibrary: relationTagLibraryReducer,
+  effectLibrary: effectLibraryReducer,
+  eventLibrary: eventLibraryReducer,
 });

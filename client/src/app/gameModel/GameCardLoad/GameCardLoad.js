@@ -11,12 +11,12 @@ const GameCardLoad = (props) => {
 
   useEffect(() => {
     async function goGetArcadeGame() {
-      const arcadeGame = await props.getArcadeGame(props.gameId)
+      const arcadeGame = await props.getArcadeGame(props.arcadeGameMongoId)
       setGame(arcadeGame)
     }
 
     goGetArcadeGame()
-  }, [props.gameId])
+  }, [props.arcadeGameMongoId])
 
   if(!game) return <Loader/>
 

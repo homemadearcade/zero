@@ -23,10 +23,12 @@ import PageHeader from '../../ui/PageHeader/PageHeader';
           // renderCallToActionSection={(id) => {
             
           // }}
-const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticketedEvent: { ticketedEvent, isLoading }, auth: { me }}) => {
+const TicketedEventCalendarPage = ({ getTicketedEvents, editTicketedEvent, ticketedEvent: { ticketedEvents, isLoading }, auth: { me }}) => {
   useEffect(() => {
     getTicketedEvents();
   }, []);
+
+  const ticketedEvent = ticketedEvents[0]
 
   const [sortingBy, setSortingBy] = useState('upcoming')
 

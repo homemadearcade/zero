@@ -2,7 +2,7 @@ import { CLEAR_TICKET_CART, UPDATE_TICKET_CART } from '../../types';
 
 const initialState = {
   ticketCart: {
-    ticketedEventId: null,
+    ticketedEventMongoId: null,
     dateId: null,
     tickets: {}
   }

@@ -58,7 +58,7 @@ const ActivityCurrent = ({
   return <div className="ActivityCurrent">
     <ActivityOverlay/>
     {currentActivity !== GAME_ROOM_ACTIVITY && <div className="ActivityCurrent__activity">{renderCurrentActivity()}</div>}
-    <CobrowsingGame rootFontSize={rootFontSize} gameId={gameRoomInstance.gameId} myTracks={myTracks} userTracks={userTracks}/>
+    <CobrowsingGame rootFontSize={rootFontSize} arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId} myTracks={myTracks} userTracks={userTracks}/>
   </div>
 };
 

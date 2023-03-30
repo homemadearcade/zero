@@ -47,8 +47,8 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
       invitedUsers: data.invitedUsers,
       isNetworked: true,
       isEdit: true,
-      gameId: null,
-      hostUserId: data.invitedUsers
+      arcadeGameMongoId: null,
+      hostUserMongoId: data.invitedUsers
     });
     const gameRoomInstance = gameRoomInstanceResponse.data.gameRoomInstance
     const participantId = data.invitedUsers

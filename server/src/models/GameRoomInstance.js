@@ -26,11 +26,11 @@ const gameRoomInstanceSchema = new Schema(
       required: false,
       default: false
     },
-    gameId: {
+    arcadeGameMongoId: {
       type: String,
       required: false,
     },
-    hostUserId: {
+    hostUserMongoId: {
       type: String,
       required: true,
     },
@@ -43,14 +43,14 @@ const gameRoomInstanceSchema = new Schema(
 gameRoomInstanceSchema.methods.toJSON = function () {
   return {
     id: this._id.toString(),
-    hostUserId: this.hostUserId,
+    hostUserMongoId: this.hostUserMongoId,
     isEdit: this.isEdit,
     isNetworked: this.isNetworked,
     isAutosaveDisabled: this.isAutosaveDisabled,
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
-    gameId: this.gameId,
+    arcadeGameMongoId: this.arcadeGameMongoId,
     gameRoomInstanceId: this.gameRoomInstanceId,
   };
 };

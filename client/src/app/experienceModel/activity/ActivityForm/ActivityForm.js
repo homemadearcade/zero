@@ -16,9 +16,9 @@ const ActivityForm = ({ control, register, setValue, trigger, isEdit, experience
     name: "activityCategory",
   });
 
-  const gameId = useWatch({
+  const arcadeGameMongoId = useWatch({
     control,
-    name: "gameRoom.gameId",
+    name: "gameRoom.arcadeGameMongoId",
   });
 
   function renderGameRoomRoleInstructionSelect() {
@@ -33,7 +33,7 @@ const ActivityForm = ({ control, register, setValue, trigger, isEdit, experience
             name={`instructionsByRoleId.${role.roleId}`}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <SelectInstructions instructionCategory={INSTRUCTION_GAME_ROOM} gameId={gameId} onSelect={(instructionIds) => {
+              <SelectInstructions instructionCategory={INSTRUCTION_GAME_ROOM} arcadeGameMongoId={arcadeGameMongoId} onSelect={(instructionIds) => {
                 if(!instructionIds || instructionIds.length === 0) return onChange(null)
                 onChange(instructionIds[instructionIds.length - 1])
               }} value={value ? [value] : []} />
@@ -81,13 +81,13 @@ const ActivityForm = ({ control, register, setValue, trigger, isEdit, experience
             if(!gameRoomIds || gameRoomIds.length === 0) return onChange(null)
             const newGameRoomId = gameRoomIds[gameRoomIds.length - 1]
             onChange(newGameRoomId)
-            setValue("gameRoom.gameId", experienceModel.gameRooms[newGameRoomId].gameId)
+            setValue("gameRoom.arcadeGameMongoId", experienceModel.gameRooms[newGameRoomId].arcadeGameMongoId)
             trigger("gameRoom.gameRoomId")
             // setValue("gameRoom.gameMetadata", experienceModel.gameRooms[newGameRoomId].gameMetadata)
           }} value={value ? [value] : []} />
         )}
       />}
-      {gameId && <GameCardLoad gameId={gameId} />}
+      {arcadeGameMongoId && <GameCardLoad arcadeGameMongoId={arcadeGameMongoId} />}
       {isEdit && renderGameRoomRoleInstructionSelect()}
     </>}
   </>

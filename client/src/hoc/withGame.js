@@ -22,14 +22,14 @@ export default (ChildComponent) => {
     }
 
     async loadGame() {
-      const { match, gameId, loadArcadeGameByMongoId, gameModel, getSpritesheetData, getEntityClassLibrary } = this.props
+      const { match, arcadeGameMongoId, loadArcadeGameByMongoId, gameModel, getSpritesheetData, getEntityClassLibrary } = this.props
 
       await getEntityClassLibrary()
 
-      if(gameId) {
-        await loadArcadeGameByMongoId(gameId)
-      } else if(match?.params?.gameId) {
-        const matchId = match.params.gameId;
+      if(arcadeGameMongoId) {
+        await loadArcadeGameByMongoId(arcadeGameMongoId)
+      } else if(match?.params?.arcadeGameMongoId) {
+        const matchId = match.params.arcadeGameMongoId;
         await loadArcadeGameByMongoId(matchId);
       }
 
@@ -47,10 +47,10 @@ export default (ChildComponent) => {
     }
 
     async switchGame(oldProps, newProps) {
-      if(oldProps.gameId !== newProps.gameId) {
+      if(oldProps.arcadeGameMongoId !== newProps.arcadeGameMongoId) {
         await this.unloadGame()
         setTimeout(() => {
-          this.loadGame(newProps.gameId)
+          this.loadGame(newProps.arcadeGameMongoId)
         }, 100)
       }
     }

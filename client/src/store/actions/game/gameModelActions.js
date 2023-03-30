@@ -60,7 +60,7 @@ export const getSpritesheetData  = () => async (dispatch, getState) => {
 }
 
 export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
-  const gameId = getState().gameModel.gameModel.id
+  const arcadeGameMongoId = getState().gameModel.gameModel.id
   const gameRoomInstance = getState().gameRoomInstance.gameRoomInstance
 
   dispatch({
@@ -83,7 +83,7 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
     }
 
     const options = attachTokenToHeaders(getState);
-    await axios.put(`/api/arcadeGames/${gameId}`, { gameRoomInstanceMongoId: gameRoomInstance.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
+    await axios.put(`/api/arcadeGames/${arcadeGameMongoId}`, { gameRoomInstanceMongoId: gameRoomInstance.id, gameUpdate: gameUpdate, isAutosaveDisabled}, options);
 
 
   } catch (err) {

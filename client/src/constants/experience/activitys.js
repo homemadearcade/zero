@@ -60,7 +60,7 @@ export const defaultActivity = {
   instructionsByRoleId: {},
   name: null,
   gameRoom: {
-    gameId: null,
+    arcadeGameMongoId: null,
     gameRoomId: null,
     gameMetadata: {}
   },

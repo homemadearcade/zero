@@ -31,7 +31,7 @@ const LobbyChecklist = ({
   lobbyInstance: { lobbyInstance },
   auth: { me },
   status: { lobbyInstanceUserStatuses },
-  cobrowsing: { remoteStateUserId }
+  cobrowsing: { remoteStateUserMongoId }
 }) => {
   const membersById = lobbyInstance.members.reduce((prev, next) => {
     prev[next.userMongoId] = next
@@ -86,7 +86,7 @@ const LobbyChecklist = ({
     {
       text: 'Participant has interacted with experience',
       test: () => {
-        return !!remoteStateUserId
+        return !!remoteStateUserMongoId
       },
       required: true,
     },
