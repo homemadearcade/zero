@@ -18,7 +18,7 @@ import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { PLAYER_CLASS, OBJECT_CLASS_ID_PREFIX, PLAYGROUND_LAYER_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
+import { PLAYER_CLASS, ENTITY_CLASS_ID_PREFIX, PLAYGROUND_LAYER_ID, ZONE_CLASS, classTypeToPrefix } from '../../constants';
 import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import ClassNameForm from '../ClassNameForm/ClassNameForm';
 
@@ -36,7 +36,7 @@ const EditClassGraphics = ({
   
   useEffect(() => {
     if(!entityClass.entityClassId) {
-      updateCreateClass({ entityClassId: OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[entityClass.classInterfaceCategory]+generateUniqueId(), isNew: true })
+      updateCreateClass({ entityClassId: ENTITY_CLASS_ID_PREFIX+classTypeToPrefix[entityClass.classInterfaceCategory]+generateUniqueId(), isNew: true })
     }
   }, [])
 

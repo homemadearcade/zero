@@ -1,4 +1,3 @@
-import { defaultMovement } from "./entityClass"
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -12,6 +11,24 @@ export const MOVEMENT_FOLLOW_PLAYER = 'MOVEMENT_FOLLOW_PLAYER'
 export const MOVEMENT_FOLLOW_RELATION_TAG = 'MOVEMENT_FOLLOW_RELATION_TAG'
 export const MOVEMENT_NONE = 'MOVEMENT_NONE'
 export const MOVEMENT_MIRROR_PLAYER = 'MOVEMENT_MIRROR_PLAYER'
+
+export const defaultMovement = {
+  movementControlsBehavior: null,
+  movementBehavior: MOVEMENT_NONE,
+  velocityX: 0,
+  velocityY: 0,
+  speed: 100,
+  speedAngular: 100,
+  ignoreGravity: true,
+  dragY: 1,
+  dragX: 1,
+  dragAngular: 100,
+  gravityY: 0,
+  gravityX: 0,
+  disableDownKey: false,
+  // entityClassId: null,
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,3 @@
-export * from './gameModelUtils'
 export * from './gameUtils'
 export * from './arrayUtils'
 export * from './colorUtils'

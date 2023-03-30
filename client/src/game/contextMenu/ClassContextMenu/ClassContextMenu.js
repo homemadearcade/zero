@@ -6,7 +6,7 @@ import { openJsonViewer, openLiveEditor } from '../../../store/actions/game/game
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { openEditClassGraphics, openEditClassModal } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, classTypeToPrefix, initialCameraZoneClassId } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, ENTITY_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, classTypeToPrefix, initialCameraZoneClassId } from '../../constants';
 import { classTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -107,7 +107,7 @@ const ClassContextMenu = ({
     </Unlockable>
     {!insideEntityInstanceContextMenu && <Unlockable interfaceId={CONTEXT_MENU_CLASS_DUPLICATE_IID}>
       <MenuItem onClick={() => {  
-        const newClassId = OBJECT_CLASS_ID_PREFIX+classTypeToPrefix[entityClass.classInterfaceCategory]+generateUniqueId()
+        const newClassId = ENTITY_CLASS_ID_PREFIX+classTypeToPrefix[entityClass.classInterfaceCategory]+generateUniqueId()
         editGameModel({
           entityClasses: {
             [newClassId]: {

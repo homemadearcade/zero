@@ -1,4 +1,4 @@
-import { DEFAULT_TEXTURE_ID } from "../";
+import { DEFAULT_TEXTURE_ID } from "..";
 
 export const defaultBrush = {
   lastSelectedDate: 0,

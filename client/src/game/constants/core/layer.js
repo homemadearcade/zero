@@ -1,4 +1,11 @@
-import { LAYER_ID_PREFIX } from "../constants";
+export const editorHighlightDepthModifier = -1
+export const interactAreaDepthModifier = 1
+export const invisibleIndicatorDepthModifer = 2
+export const playerDepthModifier = 3 
+
+export const NON_LAYER_COLOR_ID = 'NON_LAYER_COLOR_ID';
+export const NON_LAYER_BRUSH_ID = 'NON_LAYER_BRUSH_ID'
+export const NON_LAYER_BRUSH_DEPTH = 71
 
 export const STAGE_LAYER_DEPTH = 0;
 
@@ -19,22 +26,3 @@ export const UI_LAYER_ID = 'UI_CANVAS';
 export const LAYER_GROUP_ID_BACKGROUND = 'LAYER_GROUP_ID_BACKGROUND'
 export const LAYER_GROUP_ID_PLAYGROUND = 'LAYER_GROUP_ID_PLAYGROUND'
 export const LAYER_GROUP_ID_FOREGROUND = 'LAYER_GROUP_ID_FOREGROUND'
-
-export const defaultLayer = {
-  layerId: null,
-  textureId: null,
-  hasCollisionBody: false,
-  layerGroupId: null
-}
-
-export const layerGroupIdToDepth = {
-  [LAYER_GROUP_ID_BACKGROUND] : BACKGROUND_LAYER_DEPTH,
-  [LAYER_GROUP_ID_FOREGROUND] : FOREGROUND_LAYER_GROUP_DEPTH,
-  [LAYER_GROUP_ID_PLAYGROUND] : PLAYGROUND_LAYER_GROUP_DEPTH
-}
-
-export const layerToDisplayName = {
-  [LAYER_ID_PREFIX+BACKGROUND_LAYER_ID]: 'Background',
-  [LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID]: 'Playground',
-  [LAYER_ID_PREFIX+FOREGROUND_LAYER_ID]: 'Foreground',
-}

@@ -1,0 +1,2 @@
+export const ERASER_BRUSH_ID = 'ERASER_BRUSH'
+export const COLOR_BRUSH_ID = 'COLOR_BRUSH'

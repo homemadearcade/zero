@@ -4,12 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { classTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
+import { classTypeToDisplayName, relationTagTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
-import { relationTagTypeToDisplayName } from '../../constants/defaultData/relationTags';
 
-const SelectRelationTag = ({ removeClassTags, hideAutoapplied, onChange, disabled, value, formLabel, gameModel }) => {
+const SelectRelationTag = ({ removeClassTags, isAddingToClass, onChange, disabled, value, formLabel, gameModel }) => {
 
   const mapTagToOption = (entityClassId) => {
     const relationTag = gameModel.relationTags[entityClassId]
@@ -20,7 +19,7 @@ const SelectRelationTag = ({ removeClassTags, hideAutoapplied, onChange, disable
     relationTagInterfaceType = relationTagTypeToDisplayName[relationTag.relationTagInterfaceType]
     }
 
-    const isRemoved = relationTag.isRemoved || (hideAutoapplied && relationTag.isAutoapplied)
+    const isRemoved = relationTag.isRemoved || (isAddingToClass && relationTag.hideIfAddingToClass)
 
     if(relationTag.relationTagInterfaceType === RELATION_TAG_CLASS) {
       const relationTagClass = gameModel.entityClasses[relationTag.relationTagId]

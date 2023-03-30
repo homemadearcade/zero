@@ -2,7 +2,7 @@ import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
 import { getThemePrimaryColor } from "../../../utils/webPageUtils"
-import { directionalPlayerClassId, editorHighlightDepthModifier, initialStageZoneClassId, invisibleIndicatorDepthModifer } from "../../constants"
+import { editorHighlightDepthModifier, initialStageZoneClassId, invisibleIndicatorDepthModifer } from "../../constants"
 
 
 export class Graphics {

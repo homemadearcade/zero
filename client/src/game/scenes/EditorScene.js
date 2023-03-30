@@ -6,7 +6,7 @@ import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../s
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearClass } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/game/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, initialStageZoneClassId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, ENTITY_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, initialStageZoneClassId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { ClassStamper } from '../drawing/ClassStamper';
@@ -633,7 +633,7 @@ export class EditorScene extends GameInstance {
   }
 
   addEntityInstanceData(entityClassId, {spawnX, spawnY}) {
-    const entityInstanceId = OBJECT_INSTANCE_ID_PREFIX+generateUniqueId()
+    const entityInstanceId = ENTITY_INSTANCE_ID_PREFIX+generateUniqueId()
 
     const entityInstanceData = {
       entityClassId,

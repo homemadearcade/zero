@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import './TicketTypePicker.scss';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
-import { dollarizer } from '../../utils/utils';
 import { getServiceFee, getTicketData } from '../../utils/ticketUtils';
+import { dollarizer } from '../../utils/ticketUtils';
 
 const TicketTypePicker = ({ 
   tickets,

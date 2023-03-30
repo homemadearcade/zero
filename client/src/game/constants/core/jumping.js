@@ -1,0 +1,5 @@
+export const JUMP_GROUND = 'JUMP_GROUND'
+export const JUMP_COMBO = 'JUMP_COMBO'
+export const JUMP_CONSTANT = 'JUMP_CONSTANT'
+export const JUMP_NONE = 'JUMP_NONE'
+export const JUMP_AIR = 'JUMP_AIR'

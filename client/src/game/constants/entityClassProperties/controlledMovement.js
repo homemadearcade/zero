@@ -1,4 +1,10 @@
-import { DIRECTIONAL_CONTROLS, CAR_CONTROLS, JUMP_GROUND, VEHICLE_CONTROLS, ADVANCED_DIRECTIONAL_CONTROLS, JUMP_NONE } from "../"
+
+/////////////////////////////////////
+/////////////////////////////////////
+
+import { JUMP_GROUND } from "../core"
+import { JUMP_NONE } from "../core"
+import { ADVANCED_DIRECTIONAL_CONTROLS, CAR_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../core"
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

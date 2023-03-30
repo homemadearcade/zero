@@ -19,7 +19,6 @@ import UserListPage from './pages/UserListPage/UserListPage';
 import Lobbys from './pages/LobbyListPage/LobbyListPage';
 import LobbyPage from './pages/LobbyPage/LobbyPage';
 import NotFound from './pages/NotFound/NotFound';
-import './events.js'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import WishLabsPage from './pages/WishLabsPage/WishLabsPage';

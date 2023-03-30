@@ -17,7 +17,7 @@ import { getTicketedEvents } from '../../store/actions/ticketing/ticketedEventAc
 import Loader from '../../ui/Loader/Loader';
 import { clearCartTicket, updateCartTicketCount } from '../../store/actions/ticketing/checkoutActions';
 import { getServiceFee, getTicketPurchaseInfo, getTotalWithFee } from '../../utils/ticketUtils';
-import { dollarizer } from '../../utils/utils';
+import { dollarizer } from '../../utils/ticketUtils';
 
 const HATicketsPage = ({ getTicketedEvents, clearCartTicket, updateCartTicketCount, ticketedEvent: { ticketedEvent }, checkout: { ticketCart } }) => {
   useEffect(() => {

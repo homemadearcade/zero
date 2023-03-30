@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import './localStorage.js'
+import './events.js'
 import './index.css';
+import './game/constants'
+import './constants'
 import App from './App';
 import store from './store'
 

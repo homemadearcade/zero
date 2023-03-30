@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, OBJECT_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -116,7 +116,7 @@ export function getOppositeColliderRelationTagId(relationTagId, collision) {
 }
 
 export function isPlayerId(id) {
-  if(id.indexOf(OBJECT_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX) === 0) {
+  if(id.indexOf(ENTITY_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX) === 0) {
     return true
   }
 
@@ -126,7 +126,7 @@ export function isPlayerId(id) {
 }
 
 export function isZoneClassId(id) {
-  if(id.indexOf(OBJECT_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX) === 0) {
+  if(id.indexOf(ENTITY_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX) === 0) {
     return true
   }
 }

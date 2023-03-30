@@ -321,7 +321,7 @@ export class GameInstance extends Phaser.Scene {
   //     yMix,
   //     x,y,width,height
   //   })
-  //   this.addEntityInstance(OBJECT_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, entityClassId}, true)
+  //   this.addEntityInstance(ENTITY_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, entityClassId}, true)
   // }
   initializeEntityInstances() {
     const currentStage = this.getCurrentStage()
