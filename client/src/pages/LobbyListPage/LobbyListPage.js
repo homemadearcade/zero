@@ -3,8 +3,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { getLobbys } from '../../store/actions/lobbyInstancesActions';
-import { deleteLobby } from '../../store/actions/lobbyInstanceActions';
+import { getLobbys } from '../../store/actions/experience/lobbyInstancesActions';
+import { deleteLobby } from '../../store/actions/experience/lobbyInstanceActions';
 
 import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';

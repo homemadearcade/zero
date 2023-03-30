@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AggregateColorSelect.scss';
-import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
+import { openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { getHexFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 import { NON_LAYER_COLOR_ID } from '../../constants';

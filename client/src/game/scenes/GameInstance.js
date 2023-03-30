@@ -3,9 +3,9 @@ import Phaser from 'phaser';
 import { PLAYER_INSTANCE_ID_PREFIX, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_ID_PREFIX, layerGroupIdToDepth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
-import { changePlayerClass } from '../../store/actions/playerInterfaceActions';
-import { changeCurrentStage } from '../../store/actions/gameModelActions';
-import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/gameRoomInstanceActions';
+import { changePlayerClass } from '../../store/actions/game/playerInterfaceActions';
+import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
+import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/game/gameRoomInstanceActions';
 import { EntityInstance } from '../entities/EntityInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
@@ -824,7 +824,7 @@ export class GameInstance extends Phaser.Scene {
 
   setPlayerGameLoaded(gameId) {
     store.dispatch(updateGameRoomPlayer({
-      gameRoomInstanceId: this.gameRoomInstance.id,
+      gameRoomInstanceInstanceId: this.gameRoomInstance.id,
       userId: store.getState().auth.me.id,
       user: {
         loadedGameId: gameId

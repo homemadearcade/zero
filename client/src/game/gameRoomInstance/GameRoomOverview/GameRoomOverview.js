@@ -7,7 +7,7 @@ import './GameRoomOverview.scss';
 import Typography from '../../../ui/Typography/Typography';
 import GameStatus from '../GameStatus/GameStatus';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
-import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import Divider from '../../../ui/Divider/Divider';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import LobbyUsername from '../../../experience/lobbyInstance/LobbyMember/LobbyMember';

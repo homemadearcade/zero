@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { addUserSpeedTest } from '../../../store/actions/userActions';
+import { addUserSpeedTest } from '../../../store/actions/user/userActions';
 import SpeedTestTable from '../../../ui/SpeedTestTable/SpeedTestTable';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';

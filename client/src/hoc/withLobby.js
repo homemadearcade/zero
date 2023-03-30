@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { joinLobby, leaveLobby } from '../store/actions/lobbyInstanceActions';
+import { joinLobby, leaveLobby } from '../store/actions/experience/lobbyInstanceActions';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
-import { leaveAgoraVideoCall } from '../store/actions/videoActions';
+import { leaveAgoraVideoCall } from '../store/actions/experience/videoActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {

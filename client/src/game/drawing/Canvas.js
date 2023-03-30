@@ -3,7 +3,7 @@ import store from "../../store";
 import { getImageUrlFromTextureId, urlToFile } from "../../utils/utils";
 import _ from "lodash";
 import { CANVAS_IMAGE_LAYER_ID, UNDO_MEMORY_MAX } from "../constants";
-import { editCanvasImage, uploadCanvasImageAndAddToGameModel } from "../../store/actions/canvasImageActions";
+import { editCanvasImage, uploadCanvasImageAndAddToGameModel } from "../../store/actions/media/canvasImageActions";
 import { MARK_CANVAS_IMAGE_UNSAVED } from "../../store/types";
 import { IMAGE_TYPE_CANVAS } from "../../constants";
 

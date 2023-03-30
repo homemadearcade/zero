@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './BrushList.scss';
 import BrushItem from '../../brush/BrushItem/BrushItem';
-import { openCreateBrushFlow } from '../../../store/actions/gameFormEditorActions';
+import { openCreateBrushFlow } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import BrushControl from '../BrushControl/BrushControl';

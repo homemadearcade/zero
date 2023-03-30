@@ -7,7 +7,7 @@ import { Switch as RouterSwitch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
-import { assignLobbyRole, editLobby, toggleLobbyDashboard} from '../../store/actions/lobbyInstanceActions';
+import { assignLobbyRole, editLobby, toggleLobbyDashboard} from '../../store/actions/experience/lobbyInstanceActions';
 import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Loader from '../ui/Loader/Loader';
 import AgoraVideoCall from '../experience/agora/AgoraVideoCall/AgoraVideoCall';
-import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/videoActions';
+import { bypassAgoraVideoCall, leaveAgoraVideoCall } from '../store/actions/experience/videoActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {

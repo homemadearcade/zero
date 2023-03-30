@@ -15,7 +15,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { clearErrorState } from '../../../store/actions/errorsActions';
 import Button from '../../../ui/Button/Button';
 import { GAME_VIEW_IID } from '../../../constants/interfaceIds';
-import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';

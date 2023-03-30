@@ -4,13 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateStageModal.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeCreateStageModal, updateCreateStage } from '../../../store/actions/gameFormEditorActions';
+import { closeCreateStageModal, updateCreateStage } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import {  STAGE_ID_PREFIX} from '../../constants';
-import { addLayersForArcadeGameStage } from '../../../store/actions/arcadeGameActions';
+import { addLayersForArcadeGameStage } from '../../../store/actions/game/arcadeGameActions';
 import CreateStage from '../CreateStage/CreateStage';
 
         // {/* <RadioGroupColumn

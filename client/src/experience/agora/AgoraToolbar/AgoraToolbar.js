@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './AgoraToolbar.scss';
 import Icon from '../../../ui/Icon/Icon';
 import AgoraVolumeMeter from '../AgoraVolumeMeter/AgoraVolumeMeter';
-import { setCutAudio, setCutVideo } from '../../../store/actions/videoActions';
+import { setCutAudio, setCutVideo } from '../../../store/actions/experience/videoActions';
 
 const AgoraToolbar = ({ tracks, video: { cutVideo, cutAudio }, setCutVideo, setCutAudio }) => {
   const audioTrack = tracks[0]

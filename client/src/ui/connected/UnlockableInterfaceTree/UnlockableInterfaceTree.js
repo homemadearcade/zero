@@ -15,11 +15,11 @@ import MenuIconButton from '../../MenuIconButton/MenuIconButton';
 import Icon from '../../Icon/Icon';
 import { DialogActions, DialogContent, DialogTitle,  List, ListItem, ListItemButton, ListItemText, MenuItem, TextField } from '@mui/material';
 import { connect } from 'react-redux';
-import { updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
-import { getUserById } from '../../../store/actions/userActions';
+import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
+import { getUserById } from '../../../store/actions/user/userActions';
 import Button from '../../Button/Button';
 import Loader from '../../Loader/Loader';
-import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/interfacePresetActions';
+import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/game/interfacePresetActions';
 import Dialog from '../../Dialog/Dialog';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 

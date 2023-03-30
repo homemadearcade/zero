@@ -7,7 +7,7 @@ import './GameList.scss';
 import { TextField } from '@mui/material';
 import Link from '../../../ui/Link/Link';
 import Loader from '../../../ui/Loader/Loader';
-import { getArcadeGames } from '../../../store/actions/arcadeGameActions';
+import { getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import GameCard from '../GameCard/GameCard';
 
 const GameList = ({ getArcadeGames, children, arcadeGames: { arcadeGames, isLoading }}) => {

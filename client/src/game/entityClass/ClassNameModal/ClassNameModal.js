@@ -6,10 +6,10 @@ import './ClassNameModal.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import ClassNameForm from '../ClassNameForm/ClassNameForm';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Button from '../../../ui/Button/Button';
 import ClassMemberTitle from '../ClassMemberTitle/ClassMemberTitle';
-import { closeClassNameModal, updateCreateClass } from '../../../store/actions/gameFormEditorActions';
+import { closeClassNameModal, updateCreateClass } from '../../../store/actions/game/gameFormEditorActions';
 import { classTypeToDisplayName } from '../../constants';
 
 const ClassNameModal = ({ closeClassNameModal, editGameModel, gameFormEditor: { entityClass }}) => {

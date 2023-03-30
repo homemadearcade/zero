@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import Icon from '../../../ui/Icon/Icon';
-import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 
 import './GameRoomPowerIndicator.scss'
 import Switch from '../../../ui/Switch/Switch';

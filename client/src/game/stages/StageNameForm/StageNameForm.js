@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './StageNameForm.scss';
 import { Alert, TextField } from '@mui/material';
-import { updateCreateStage } from '../../../store/actions/gameFormEditorActions';
+import { updateCreateStage } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const StageNameForm = ({ initialName, updateCreateStage, gameModel: { gameModel }, gameFormEditor: { stage } }) => {

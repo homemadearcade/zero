@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Link from '../../ui/Link/Link';
 import moment from 'moment';
 
-import { getUsers } from '../../store/actions/usersActions';
+import { getUsers } from '../../store/actions/user/usersActions';
 import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
@@ -14,7 +14,7 @@ import './styles.css';
 import Typography from '../../ui/Typography/Typography';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import Button from '../../ui/Button/Button';
-import { editUser } from '../../store/actions/userActions';
+import { editUser } from '../../store/actions/user/userActions';
 
 const UserListPage = ({ getUsers, editUser, users: { users, isLoading } }) => {
   useEffect(() => {

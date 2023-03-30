@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openGameMetadataModal, openLiveEditor } from '../../../store/actions/gameSelectorActions';
-import { toggleGridView, openSectionEditor, openSnapshotTaker, toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
+import { openGameMetadataModal, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import { toggleGridView, openSectionEditor, openSnapshotTaker, toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { STAGE_EDITOR } from '../../constants';
-import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/gameFormEditorActions';
+import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/game/gameFormEditorActions';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CONTEXT_MENU_CUTSCENES_IID, CONTEXT_MENU_PLAYTEST_IID, CONTEXT_MENU_STAGES_IID,CONTEXT_MENU_STAGE_GRAVITY_IID, CONTEXT_MENU_STAGE_SECTIONS_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
-import { openSelectStageColorModal } from '../../../store/actions/gameSelectorActions';
+import { openSelectStageColorModal } from '../../../store/actions/game/gameSelectorActions';
 
 const StageContextMenu = ({ 
   openLiveEditor,

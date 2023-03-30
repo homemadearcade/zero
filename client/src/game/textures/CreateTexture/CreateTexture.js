@@ -8,7 +8,7 @@ import FormLabel from '../../../ui/FormLabel/FormLabel';
 import DescriptorTextures from '../DescriptorTextures/DescriptorTextures';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Texture from '../Texture/Texture';
 import Button from '../../../ui/Button/Button';
 import CanvasImageModal from '../CanvasImageModal/CanvasImageModal';
@@ -19,7 +19,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { CHOOSE_TEXTURES_IID, DRAW_NEW_TEXTURE_IID } from '../../../constants/interfaceIds';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import TextureStage from '../TextureStage/TextureStage';
-import { openCreateCanvasImageModal, openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
+import { openCreateCanvasImageModal, openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
 
 const CreateTexture = ({
   textureIdSelected,

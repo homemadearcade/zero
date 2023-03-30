@@ -13,7 +13,7 @@ import GameRoomPowerIndicator from '../GameRoomPowerIndicator/GameRoomPowerIndic
 import Typography from '../../../ui/Typography/Typography';
 import Switch from '../../../ui/Switch/Switch';
 import './GameRoomDrawer.scss'
-import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import GameRoomOverview from '../GameRoomOverview/GameRoomOverview';
 import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobbyInstance/LobbyOverview/LobbyOverview';

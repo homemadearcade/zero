@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
-import { getExperienceModelById, clearExperienceModel } from '../store/actions/experienceModelActions';
+import { getExperienceModelById, clearExperienceModel } from '../store/actions/experience/experienceModelActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 class WithExperience extends Component {

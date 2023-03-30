@@ -2,11 +2,11 @@ import store from "../../store";
 import { Canvas } from "./Canvas";
 
 import { ON_CODRAWING_STROKE, ON_CODRAWING_SUBSCRIBED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, MARK_CANVAS_IMAGE_STROKES_PENDING } from "../../store/types";
-import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/codrawingActions";
+import { subscribeCodrawing, unsubscribeCodrawing } from "../../store/actions/media/codrawingActions";
 import { noCodrawingStrokeUpdateDelta} from "../constants";
 import { changeErrorState, clearErrorState } from "../../store/actions/errorsActions";
 import { CODRAWING_CONNECTION_LOST } from "../../constants";
-import { editCanvasImage, getCanvasImageByTextureId } from "../../store/actions/canvasImageActions";
+import { editCanvasImage, getCanvasImageByTextureId } from "../../store/actions/media/canvasImageActions";
 
 export class CodrawingCanvas extends Canvas {
   constructor(scene, props){

@@ -7,7 +7,7 @@ import Icon from '../../../ui/Icon/Icon';
 import './LobbyDashboardToggle.scss'
 import Switch from '../../../ui/Switch/Switch';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { toggleLobbyDashboard } from '../../../store/actions/lobbyInstanceActions';
+import { toggleLobbyDashboard } from '../../../store/actions/experience/lobbyInstanceActions';
 
 const LobbyDashboardToggle = ({
   lobbyInstance: { isLobbyDashboardOpen },

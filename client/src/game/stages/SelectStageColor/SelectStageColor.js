@@ -8,7 +8,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { LAYER_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import { STAGE_LAYER_ID } from '../../constants';
-import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
+import { toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import Button from '../../../ui/Button/Button';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import FormLabel from '../../../ui/FormLabel/FormLabel';

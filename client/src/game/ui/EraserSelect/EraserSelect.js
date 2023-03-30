@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './EraserSelect.scss';
 import classNames from 'classnames';
-import { clearClass, selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
+import { clearClass, selectBrush, clearBrush } from '../../../store/actions/game/gameSelectorActions';
 import { ERASER_BRUSH_ID } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';

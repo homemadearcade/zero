@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { Alert, TextField } from '@mui/material';
-import { updateCreateRelationTag } from '../../../store/actions/gameFormEditorActions';
+import { updateCreateRelationTag } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const RelationTagNameForm = ({ initialName, updateCreateRelationTag, gameModel: { gameModel }, gameFormEditor: { relationTag } }) => {

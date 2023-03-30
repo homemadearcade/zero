@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CutscenesMenu.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeCutscenesMenu, openCreateCutscene, updateCreateCutscene } from '../../../store/actions/gameFormEditorActions';
+import { closeCutscenesMenu, openCreateCutscene, updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';

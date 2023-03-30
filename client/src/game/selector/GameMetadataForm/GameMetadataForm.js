@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import './GameMetadataForm.scss';
 import { TextField } from '@mui/material';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
 import GameTexturesModal from '../../textures/GameTexturesModal/GameTexturesModal';
-import { closeGameTexturesModal, openGameTexturesModal } from '../../../store/actions/gameSelectorActions';
+import { closeGameTexturesModal, openGameTexturesModal } from '../../../store/actions/game/gameSelectorActions';
 import { getImageUrlFromTextureId } from '../../../utils';
 
 const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openGameTexturesModal, closeGameTexturesModal, gameSelector: { isGameTexturesModalOpen} }) => {

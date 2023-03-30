@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import './ClassNameForm.scss';
-import { updateCreateClass } from '../../../store/actions/gameFormEditorActions';
+import { updateCreateClass } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import IconButton from '../../../ui/IconButton/IconButton';

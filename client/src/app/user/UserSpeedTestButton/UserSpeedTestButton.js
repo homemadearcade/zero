@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Button from '../../../ui/Button/Button';
-import { addUserSpeedTest } from '../../../store/actions/userActions';
+import { addUserSpeedTest } from '../../../store/actions/user/userActions';
 import Icon from '../../../ui/Icon/Icon';
 
 const UserSpeedTestButton = ({

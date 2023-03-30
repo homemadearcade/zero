@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { handleCobrowsingUpdates } from './actions/cobrowsingActions';
+import { handleCobrowsingUpdates } from './actions/game/cobrowsingActions';
 import rootReducer from './reducers';
 
 const initialState = {};

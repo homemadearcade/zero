@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Icon from '../../../ui/Icon/Icon';
 import './UnlockableInterfaceLocksToggle.scss'
 import Switch from '../../../ui/Switch/Switch';
-import { toggleUnlockableInterfaceLocks } from '../../../store/actions/cobrowsingActions';
+import { toggleUnlockableInterfaceLocks } from '../../../store/actions/game/cobrowsingActions';
 
 const UnlockableInterfaceLocksToggle = ({
   cobrowsing: { showUnlockableInterfaceLocks, isSubscribedCobrowsing, isActivelyCobrowsing },

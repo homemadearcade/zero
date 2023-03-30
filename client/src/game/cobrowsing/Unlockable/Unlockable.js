@@ -7,8 +7,8 @@ import './Unlockable.scss';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
-import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
-import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
+import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
+import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
 import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 import { ADMIN_ROLE } from '../../../constants';
 import { confetti } from 'tsparticles-confetti'

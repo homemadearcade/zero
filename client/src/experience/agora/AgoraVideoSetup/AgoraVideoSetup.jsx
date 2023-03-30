@@ -3,8 +3,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoSetup.scss'
-import { bypassAgoraVideoCall, useChangeAgoraVideoAudio, useMicrophoneAndCameraTracks } from "../../../store/actions/videoActions";
-import { startAgoraVideoCall } from "../../../store/actions/videoActions";
+import { bypassAgoraVideoCall, useChangeAgoraVideoAudio, useMicrophoneAndCameraTracks } from "../../../store/actions/experience/videoActions";
+import { startAgoraVideoCall } from "../../../store/actions/experience/videoActions";
 import Button from "../../../ui/Button/Button";
 import Typography from "../../../ui/Typography/Typography";
 import { isLocalHost } from "../../../utils/webPageUtils";

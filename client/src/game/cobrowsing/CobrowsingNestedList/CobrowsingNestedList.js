@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { NestedListBody } from '../../../ui/NestedList/NestedList';
-import { updateOpenList } from '../../../store/actions/gameSelectorActions';
+import { updateOpenList } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 function CobrowsingNestedList({listId, id, children, onClick, updateOpenList, gameSelector, title, interfaceId}) {

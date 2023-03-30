@@ -4,14 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 // import './TagITem.scss';
-import { selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
-import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
+import { selectBrush, clearBrush } from '../../../store/actions/game/gameSelectorActions';
+import { openContextMenuFromClassId } from '../../../store/actions/game/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { changeRelationIdHovering } from '../../../store/actions/hoverPreviewActions';
+import { changeRelationIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { RELATION_SELECT_IID, RELATION_TAG_SELECT_IID } from '../../../constants/interfaceIds';
 import { NestedListItem } from '../../../ui/NestedList/NestedList';
-import { openCreateRelation } from '../../../store/actions/gameFormEditorActions';
+import { openCreateRelation } from '../../../store/actions/game/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import RelationShorthand from '../RelationShorthand/RelationShorthand';
 

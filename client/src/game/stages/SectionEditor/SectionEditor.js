@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Button from '../../../ui/Button/Button';
-import { closeSectionEditor } from '../../../store/actions/gameViewEditorActions';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { closeSectionEditor } from '../../../store/actions/game/gameViewEditorActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { FormLabel } from '@mui/material';
 
 import './SectionEditor.scss'

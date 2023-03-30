@@ -7,7 +7,7 @@ import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import AggregateColorSelect from '../AggregateColorSelect/AggregateColorSelect';
-import { closeSelectAggregateColor } from '../../../store/actions/gameSelectorActions';
+import { closeSelectAggregateColor } from '../../../store/actions/game/gameSelectorActions';
 
 const AggregateColorSelectModal = ({ closeSelectAggregateColor, onSelectColor, gameFormEditor: { isEyeDropping }}) => {
   function handleClose() {

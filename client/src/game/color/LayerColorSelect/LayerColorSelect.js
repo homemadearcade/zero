@@ -6,12 +6,12 @@ import { createPortal } from 'react-dom';
 
 import './LayerColorSelect.scss';
 import {  COLOR_BRUSH_ID } from '../../constants';
-import { openCreateColorFlow } from '../../../store/actions/gameFormEditorActions';
+import { openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../CreateColorFlow/CreateColorFlow';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
-import { clearBrush, closeSelectAggregateColor, openSelectAggregateColor, selectBrush } from '../../../store/actions/gameSelectorActions';
+import { clearBrush, closeSelectAggregateColor, openSelectAggregateColor, selectBrush } from '../../../store/actions/game/gameSelectorActions';
 import { getHexFromColorId, getLayerIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
 import AggregateColorSelectModal from '../AggregateColorSelectModal/AggregateColorSelectModal';
 

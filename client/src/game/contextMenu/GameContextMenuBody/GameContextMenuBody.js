@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { closeContextMenu } from '../../../store/actions/contextMenuActions';
+import { closeContextMenu } from '../../../store/actions/game/contextMenuActions';
 
 import EntityInstanceContextMenu from '../EntityInstanceContextMenu/EntityInstanceContextMenu';
 import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';

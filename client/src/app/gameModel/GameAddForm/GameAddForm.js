@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { addArcadeGame } from '../../../store/actions/arcadeGameActions';
+import { addArcadeGame } from '../../../store/actions/game/arcadeGameActions';
 
 import './styles.css';
 import Button from '../../../ui/Button/Button';

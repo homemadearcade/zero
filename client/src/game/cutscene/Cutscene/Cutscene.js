@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { progressActiveCutscene } from '../../../store/actions/playerInterfaceActions';
+import { progressActiveCutscene } from '../../../store/actions/game/playerInterfaceActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './Cutscene.scss';

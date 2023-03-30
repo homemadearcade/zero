@@ -7,7 +7,7 @@ import Icon from '../../../ui/Icon/Icon';
 
 import './GridToggle.scss'
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { toggleGridView } from '../../../store/actions/gameViewEditorActions';
+import { toggleGridView } from '../../../store/actions/game/gameViewEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Switch from '../../../ui/Switch/Switch';
 import { GRID_VIEW_TOGGLE_IID } from '../../../constants/interfaceIds';

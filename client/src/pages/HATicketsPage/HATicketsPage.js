@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './HATicketsPage.scss';
-import { playBackgroundMusic } from '../../store/actions/portfolioActions';
+import { playBackgroundMusic } from '../../store/actions/marketing/portfolioActions';
 import ProjectHeader from '../../marketing/wishLabs/ProjectHeader/ProjectHeader';
 import Typography from '../../ui/Typography/Typography';
 import Button from '../../ui/Button/Button';
@@ -13,9 +13,9 @@ import { Divider, IconButton } from '@mui/material';
 import EventDatePicker from '../../ticketing/EventDatePicker/EventDatePicker';
 import TicketTypePicker from '../../ticketing/TicketTypePicker/TicketTypePicker';
 import ScrollDialog from '../../ui/ScrollDialog/ScrollDialog';
-import { getTicketedEvents } from '../../store/actions/ticketedEventActions';
+import { getTicketedEvents } from '../../store/actions/ticketing/ticketedEventActions';
 import Loader from '../../ui/Loader/Loader';
-import { clearCartTicket, updateCartTicketCount } from '../../store/actions/checkoutActions';
+import { clearCartTicket, updateCartTicketCount } from '../../store/actions/ticketing/checkoutActions';
 import { getServiceFee, getTicketPurchaseInfo, getTotalWithFee } from '../../utils/ticketUtils';
 import { dollarizer } from '../../utils/utils';
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
+import { toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
 import {  stopPropagation } from '../../../utils/webPageUtils';

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './ArcadePage.scss';
 
 import Layout from '../../layout/Layout';
-import { getArcadeGames } from '../../store/actions/arcadeGameActions';
+import { getArcadeGames } from '../../store/actions/game/arcadeGameActions';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
 import GameList from '../../app/gameModel/GameList/GameList';
 

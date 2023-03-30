@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './GameTexturesModal.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeGameTexturesModal } from '../../../store/actions/gameSelectorActions';
+import { closeGameTexturesModal } from '../../../store/actions/game/gameSelectorActions';
 import GameTextures from '../GameTextures/GameTextures';
 import Typography from '../../../ui/Typography/Typography';
-import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
+import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import Button from '../../../ui/Button/Button';
 
 const GameTexturesModal = ({ openSnapshotTaker, closeGameTexturesModal, onClickTexture, gameViewEditor: { isSnapshotTakerOpen } }) => {

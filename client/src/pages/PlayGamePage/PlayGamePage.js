@@ -8,8 +8,8 @@ import { requestFullscreen } from '../../utils/webPageUtils';
 import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
 import GameView from '../../game/view/GameView/GameView';
-import { unloadArcadeGame } from '../../store/actions/arcadeGameActions';
-import { changeGameState } from '../../store/actions/gameRoomInstanceActions';
+import { unloadArcadeGame } from '../../store/actions/game/arcadeGameActions';
+import { changeGameState } from '../../store/actions/game/gameRoomInstanceActions';
 import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
 import { START_STATE } from '../../game/constants';
 

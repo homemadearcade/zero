@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
+import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 import { useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
 import InstructionForm from '../InstructionForm/InstructionForm';

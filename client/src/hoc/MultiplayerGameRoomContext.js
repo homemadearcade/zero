@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import GameRoomErrorStates from '../game/gameRoomInstance/GameRoomErrorStates/GameRoomErrorStates';
-import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/gameRoomInstanceActions';
+import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import Loader from '../ui/Loader/Loader';
 
 class MultiplayerGameRoomContext extends Component {

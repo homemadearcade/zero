@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import './BrushControl.scss';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
-import { updateBrushSize } from '../../../store/actions/gameSelectorActions';
+import { updateBrushSize } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { BRUSH_SIZE_IID } from '../../../constants/interfaceIds';

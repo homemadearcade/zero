@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateEvent.scss';
-import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/gameFormEditorActions';
+import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { defaultEvent, eventTypeInterfaces, playerRelationTagId, PLAYER_AND_RELATION_TAG_EVENT, PLAYER_RELATION_TAG_EVENT, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT } from '../../constants';

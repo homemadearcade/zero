@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import IconTree from '../../../../ui/IconTree/IconTree';
 import Icon from '../../../../ui/Icon/Icon';
 import ActivityAddForm from '../../activity/ActivityAddForm/ActivityAddForm';
-import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
+import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 import { activityToInterfaceData, defaultGuideRoleId, defaultParticipantRoleId, GAME_ROOM_ACTIVITY, instructionToInterfaceData, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, roleToInterfaceData } from '../../../../constants';
 import LobbyAddForm from '../../lobby/LobbyAddForm/LobbyAddForm';
 import RoleAddForm from '../../role/RoleAddForm/RoleAddForm';

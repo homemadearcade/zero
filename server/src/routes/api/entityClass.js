@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../utils/utils';
-import EntityClass from '../../models/EntityClass';
+import EntityClass from '../../models/library/EntityClass';
+import { ENTITY_CLASS_LIBRARY_ID_PREFIX } from '../../constants';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
   try {
-    const entityClassLibrary = await EntityClass.find().sort({ createdAt: 'desc' }).select('owner metadata isRemoved').populate('owner');
+    const entityClassLibrary = await EntityClass.find().sort({ createdAt: 'desc' })
 
     res.json({
       entityClassLibrary: entityClassLibrary.map((m) => {
@@ -39,6 +40,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let entityClass = await EntityClass.create({
       ...req.body,
+      // entityClassShortId: ENTITY_CLASS_LIBRARY_ID_PREFIX + generateUniqueId(),
       owner: req.body.userId,
     });
 

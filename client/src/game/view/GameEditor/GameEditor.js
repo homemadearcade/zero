@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import './GameEditor.scss';
 import ReactJson from 'react-json-view'
 
-import { clearEditor, closeJsonViewer } from '../../../store/actions/gameSelectorActions';
-import { clearGameFormEditor } from '../../../store/actions/gameFormEditorActions';
+import { clearEditor, closeJsonViewer } from '../../../store/actions/game/gameSelectorActions';
+import { clearGameFormEditor } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { clearGameViewEditor } from '../../../store/actions/gameViewEditorActions';
+import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
 import SelectStageColorModal from '../../stages/SelectStageColorModal/SelectStageColorModal';
@@ -27,7 +27,7 @@ import CreateStageModal from '../../stages/CreateStageModal/CreateStageModal';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
 import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
 import ClassBoxModal from '../../entityClass/ClassBoxModal/ClassBoxModal';

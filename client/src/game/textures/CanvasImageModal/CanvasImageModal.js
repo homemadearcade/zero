@@ -8,16 +8,16 @@ import { getCurrentGameScene } from '../../../utils/editorUtils';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import BrushControl from '../../brush/BrushControl/BrushControl';
-import { clearBrush, selectBrush } from '../../../store/actions/gameSelectorActions';
+import { clearBrush, selectBrush } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
-import { onCanvasImageModalUndo } from '../../../store/actions/lobbyInstanceActions';
+import { onCanvasImageModalUndo } from '../../../store/actions/experience/lobbyInstanceActions';
 import { setCanvasImageModalGameInstance } from '../../../store/actions/webPageActions';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import BrushItem from '../../brush/BrushItem/BrushItem';
-import { openCreateBrushFlow, updateCreateCanvasImage, closeCreateCanvasImageModal } from '../../../store/actions/gameFormEditorActions';
+import { openCreateBrushFlow, updateCreateCanvasImage, closeCreateCanvasImageModal } from '../../../store/actions/game/gameFormEditorActions';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 import { getImageUrlFromTextureId } from '../../../utils';
@@ -26,7 +26,7 @@ import { ADD_BRUSH_IID, CANVAS_IMAGE_VISUAL_TAGS_IID } from '../../../constants/
 import Loader from '../../../ui/Loader/Loader';
 import CanvasImageView from '../CanvasImageView/CanvasImageView';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
-import { editCanvasImage } from '../../../store/actions/canvasImageActions';
+import { editCanvasImage } from '../../../store/actions/media/canvasImageActions';
 
 const CanvasImageModal = ({
   clearBrush,

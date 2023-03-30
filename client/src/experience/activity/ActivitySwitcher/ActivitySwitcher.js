@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './ActivitySwitcher.scss';
 import SelectActivityCategory from '../../../ui/SelectActivityCategory/SelectActivityCategory';
-import { editLobby, toggleLobbyDashboard } from '../../../store/actions/lobbyInstanceActions';
+import { editLobby, toggleLobbyDashboard } from '../../../store/actions/experience/lobbyInstanceActions';
 import Button from '../../../ui/Button/Button';
 
 const ActivitySwitcher = ({

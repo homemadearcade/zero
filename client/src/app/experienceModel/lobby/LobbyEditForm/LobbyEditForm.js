@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './LobbyEditForm.scss';
 import { TextField } from '@mui/material';
-import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
+import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
 import { RoleChip } from '../../role/RoleChip/RoleChip';

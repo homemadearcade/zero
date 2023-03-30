@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { AccordionListBody } from '../../../ui/AccordianList/AccordianList';
-import { updateOpenList } from '../../../store/actions/gameSelectorActions';
+import { updateOpenList } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 function CobrowsingAccordianList({listId, accordians, updateOpenList, gameSelector}) {

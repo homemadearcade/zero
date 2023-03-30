@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './ClassList.scss';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import ClassItem from '../ClassItem/ClassItem';
 import EditClassGraphics from '../EditClassGraphics/EditClassGraphics';
-import { openEditClassGraphics, openCreateCutscene } from '../../../store/actions/gameFormEditorActions';
+import { openEditClassGraphics, openCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
@@ -18,7 +18,7 @@ import { PLAYER_CLASS, NPC_CLASS, BASIC_CLASS, ZONE_CLASS, stageDefaultTypePrope
 import Typography from '../../../ui/Typography/Typography';
 import { defaultZoneClass, defaultNpcClass, defaultPlayerClass, defaultBasicClass } from '../../constants';
 import { BASIC_CLASS_ADD_IID, BASIC_CLASS_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectClassFromClassType, NPC_CLASS_ADD_IID, NPC_CLASS_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_CLASS_ADD_IID, PLAYER_CLASS_CONTAINER_IID, ZONE_CLASS_ADD_IID, ZONE_CLASS_CONTAINER_IID } from '../../../constants/interfaceIds';
-import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
+import { openClassBoxModal } from '../../../store/actions/game/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
 import { getInterfaceIdData } from '../../../utils';
 

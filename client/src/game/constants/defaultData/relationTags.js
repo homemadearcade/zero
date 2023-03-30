@@ -25,7 +25,7 @@ export const defaultTag = {
   name: null,
   textureTint: null,
   textureId: null,
-  isInterfaceLocked: false,
+  isSelectorObscured: false,
   isAutoapplied: false
 }
 

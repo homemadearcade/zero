@@ -3,27 +3,27 @@ import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../../store/actions/lobbyInstanceActions';
+import { editLobby } from '../../../store/actions/experience/lobbyInstanceActions';
 
 import './ActivityInstructions.scss';
-import { copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
+import { copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../../lobbyInstance/LobbyChecklist/LobbyChecklist';
-import { unlockInterfaceId } from '../../../store/actions/unlockableInterfaceActions';
+import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
-import { openGameMetadataModal } from '../../../store/actions/gameSelectorActions';
+import { openGameMetadataModal } from '../../../store/actions/game/gameSelectorActions';
 import { CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, defaultStage, EVENT_SPAWN_CLASS_IN_CAMERA, initialStageId, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../../utils/cobrowsingUtils';
 import store from '../../../store';
-import { setCutAudio, setCutVideo } from '../../../store/actions/videoActions';
-import { openSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
+import { setCutAudio, setCutVideo } from '../../../store/actions/experience/videoActions';
+import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../../store/types';
-import { editGameModel } from '../../../store/actions/gameModelActions';
-import { updateLobbyUser } from '../../../store/actions/lobbyInstanceActions';
-import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
+import { updateLobbyUser } from '../../../store/actions/experience/lobbyInstanceActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import GameAddForm from '../../../app/gameModel/GameAddForm/GameAddForm';
 import Button from '../../../ui/Button/Button';
 import LobbySelectRoles from '../../lobbyInstance/LobbySelectRoles/LobbySelectRoles';
@@ -31,8 +31,8 @@ import Divider from '../../../ui/Divider/Divider';
 import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 import Switch from '../../../ui/Switch/Switch';
 import CreateStage from '../../../game/stages/CreateStage/CreateStage';
-import { openCreateStageModal } from '../../../store/actions/gameFormEditorActions';
-import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
+import { openCreateStageModal } from '../../../store/actions/game/gameFormEditorActions';
+import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 
 const ARCHIVE_USER_ID = isLocalHost() ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 

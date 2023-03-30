@@ -7,7 +7,7 @@ import './Chatroom.scss';
 import Typography from '../../ui/Typography/Typography';
 import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
-import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/lobbyInstanceActions';
+import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/experience/lobbyInstanceActions';
 import LobbyUsername from '../lobbyInstance/LobbyMember/LobbyMember';
 import { ADMIN_ROLE } from '../../constants';
 

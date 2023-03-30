@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from '../ui/Loader/Loader';
 import store from '../store';
-import { loadArcadeGame, unloadArcadeGame } from '../store/actions/arcadeGameActions';
-import { getSpritesheetData } from '../store/actions/gameModelActions';
-import { clearCutscenes } from '../store/actions/playerInterfaceActions';
-import { closeContextMenu } from '../store/actions/contextMenuActions';
-import { getEntityClassLibrary } from '../store/actions/entityClassLibraryActions';
+import { loadArcadeGame, unloadArcadeGame } from '../store/actions/game/arcadeGameActions';
+import { getSpritesheetData } from '../store/actions/game/gameModelActions';
+import { clearCutscenes } from '../store/actions/game/playerInterfaceActions';
+import { closeContextMenu } from '../store/actions/game/contextMenuActions';
+import { getEntityClassLibrary } from '../store/actions/library/entityClassLibraryActions';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {

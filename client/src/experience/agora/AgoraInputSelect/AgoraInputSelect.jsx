@@ -2,9 +2,9 @@ import React from "react";
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { useChangeAgoraVideoAudio } from "../../../store/actions/videoActions";
-import { setVideoTrackId, setAudioTrackId } from "../../../store/actions/videoActions";
-import { editUser } from "../../../store/actions/userActions";
+import { useChangeAgoraVideoAudio } from "../../../store/actions/experience/videoActions";
+import { setVideoTrackId, setAudioTrackId } from "../../../store/actions/experience/videoActions";
+import { editUser } from "../../../store/actions/user/userActions";
 import Select from "../../../ui/Select/Select";
 
 const AgoraInputSelect = ({ auth: { me }, tracks = null, editUser, setVideoTrackId, setAudioTrackId, video: { videoTrackId, audioTrackId } }) => {

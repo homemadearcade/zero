@@ -10,7 +10,7 @@ import Typography from '../../../ui/Typography/Typography';
 import './GameCard.scss';
 import { CardActions } from '@mui/material';
 import Link from '../../../ui/Link/Link';
-import { editArcadeGame, getArcadeGames } from '../../../store/actions/arcadeGameActions';
+import { editArcadeGame, getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import Button from '../../../ui/Button/Button';
 import { ADMIN_ROLE } from '../../../constants';
 

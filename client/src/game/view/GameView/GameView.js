@@ -22,7 +22,7 @@ import { changeErrorState, clearErrorState } from '../../../store/actions/errors
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { updateTheme } from '../../../store/actions/themeActions';
-import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 
 const config= {
   type: Phaser.WEBGL,

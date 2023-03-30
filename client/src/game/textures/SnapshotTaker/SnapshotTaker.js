@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Button from '../../../ui/Button/Button';
-import { closeSnapshotTaker } from '../../../store/actions/gameViewEditorActions';
+import { closeSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 
 import './SnapshotTaker.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';

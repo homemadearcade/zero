@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../../store/actions/lobbyInstanceActions';
+import { editLobby } from '../../../store/actions/experience/lobbyInstanceActions';
 
 import './LobbySelectRoles.scss';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';

@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import Button from '../../ui/Button/Button';
 import Typography from '../../ui/Typography/Typography';
-import { editTicketedEvent } from '../../store/actions/ticketedEventActions';
+import { editTicketedEvent } from '../../store/actions/ticketing/ticketedEventActions';
 import DatePickerInline from '../../ui/DatePickerInline/DatePickerInline';
 import TimePickerInline from '../../ui/TimePickerInline/TimePickerInline';
 import dayjs from 'dayjs';

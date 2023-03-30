@@ -24,8 +24,6 @@ STATE ORGANIZATION
 
 VALIDATION ON ALL FORMS
 
-Seperate more reducers?
-
 useHooks for Unlockable Data and other data... yes actually thats needed isnt it. Because right now like unlockable stuff gets a state.unlockableIntefrfaceIds thing at the bottom
 
 Game Model class? for like getting data from redux so we can get game data with functions

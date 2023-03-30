@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './BoundaryRelation.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeBoundaryRelation, updateBoundaryRelation } from '../../../store/actions/gameFormEditorActions';
+import { closeBoundaryRelation, updateBoundaryRelation } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import ClassMemberTitle from '../../entityClass/ClassMemberTitle/ClassMemberTitle';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 

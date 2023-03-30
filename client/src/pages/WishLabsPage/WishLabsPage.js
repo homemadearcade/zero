@@ -12,7 +12,7 @@ import JumboDescription from '../../marketing/wishLabs/JumboDescription/JumboDes
 import Typography from '../../ui/Typography/Typography';
 import Icon from '../../ui/Icon/Icon';
 import AudioPlayerMicro from '../../ui/AudioPlayerMicro/AudioPlayerMicro';
-import { playBackgroundMusic, unpauseBackgroundMusic } from '../../store/actions/portfolioActions';
+import { playBackgroundMusic, unpauseBackgroundMusic } from '../../store/actions/marketing/portfolioActions';
 import EmailListSignUp from '../../ui/EmailListSignUp/EmailListSignUp';
 
 const WishLabsPage = ({playBackgroundMusic, portfolio: { isVideoAudioUnmuted, isBackgroundMusicPlaying, isBackgroundMusicPaused }}) => {

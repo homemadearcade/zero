@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { editGameModel } from '../../../store/actions/gameModelActions';
-import { closeLiveEditor, openLiveEditor } from '../../../store/actions/gameSelectorActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
+import { closeLiveEditor, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 
 import './SideEditor.scss'
 import Button from '../../../ui/Button/Button';

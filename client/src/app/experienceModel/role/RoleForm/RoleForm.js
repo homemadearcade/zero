@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { TextField } from '@mui/material';
-import { editExperienceModel } from '../../../../store/actions/experienceModelActions';
+import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 import { Controller } from 'react-hook-form';
 import FormLabel from '../../../../ui/FormLabel/FormLabel';
 import SelectRoleCategory from '../../../../ui/SelectRoleCategory/SelectRoleCategory';

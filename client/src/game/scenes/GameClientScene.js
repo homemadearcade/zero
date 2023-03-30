@@ -6,7 +6,7 @@ import { ON_GAME_INSTANCE_EVENT, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDAT
 import { EditorScene } from './EditorScene';
 import store from '../../store';
 import { changeErrorState, clearErrorState } from '../../store/actions/errorsActions';
-import { changeCurrentStage } from '../../store/actions/gameModelActions';
+import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
 import { GAME_ROOM_CONNECTION_LOST } from '../../constants';
 
 export class GameClientScene extends EditorScene {

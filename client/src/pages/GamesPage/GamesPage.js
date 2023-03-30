@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './GamesPage.scss';
 
 import Layout from '../../layout/Layout';
-import { getArcadeGames } from '../../store/actions/arcadeGameActions';
+import { getArcadeGames } from '../../store/actions/game/arcadeGameActions';
 import GameForm from '../../app/gameModel/GameAddForm/GameAddForm';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import requireAdmin from '../../hoc/requireAdmin';

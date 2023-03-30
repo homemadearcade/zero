@@ -3,9 +3,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './AgoraVideoPreview.scss'
-import { bypassAgoraVideoCall, setAudioTrackId, setVideoTrackId } from "../../../store/actions/videoActions";
+import { bypassAgoraVideoCall, setAudioTrackId, setVideoTrackId } from "../../../store/actions/experience/videoActions";
 import AgoraInputSelect from "../AgoraInputSelect/AgoraInputSelect";
-import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from "../../../store/actions/videoActions";
+import { onStartAgoraVideoCallFail, onStartAgoraVideoCallSuccess, startAgoraVideoCall } from "../../../store/actions/experience/videoActions";
 import AgoraVideo from "../AgoraVideo/AgoraVideo";
 import AgoraVolumeMeter from "../AgoraVolumeMeter/AgoraVolumeMeter";
 import Typography from "../../../ui/Typography/Typography";

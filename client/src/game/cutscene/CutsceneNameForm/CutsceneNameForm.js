@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './CutsceneNameForm.scss';
 import { Alert, TextField } from '@mui/material';
-import { updateCreateCutscene } from '../../../store/actions/gameFormEditorActions';
+import { updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 const CutsceneNameForm = ({ initialName, updateCreateCutscene, gameModel: { gameModel }, gameFormEditor: { cutscene } }) => {

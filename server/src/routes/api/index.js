@@ -13,6 +13,8 @@ import gameRoomInstanceRoutes from './gameRoomInstance'
 import canvasImagesRoutes from './canvasImages'
 import experienceModelRoutes from './experienceModel'
 import entityClassRoutes from './entityClass'
+import relationRoutes from './relation'
+import relationTagRoutes from './relationTag'
 
 const router = Router();
 
@@ -29,6 +31,8 @@ router.use('/interfacePresets', interfacePresetRoutes);
 router.use('/experienceModel', experienceModelRoutes);
 router.use('/entityClass', entityClassRoutes);
 router.use('/aws', awsRoutes);
+router.use('/relation', relationRoutes);
+router.use('/relationTag', relationTagRoutes);
 router.use('/canvasImages', canvasImagesRoutes);
 
 'routes register', router.stack.map((router) => {

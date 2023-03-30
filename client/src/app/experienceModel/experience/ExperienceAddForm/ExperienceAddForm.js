@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { addExperienceModel } from '../../../../store/actions/experienceModelActions';
+import { addExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 
 import './ExperienceAddForm.scss';
 import Button from '../../../../ui/Button/Button';

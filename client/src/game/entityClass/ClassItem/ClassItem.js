@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 
 import './ClassItem.scss';
 import classNames from 'classnames';
-import { clearClass, selectClass } from '../../../store/actions/gameSelectorActions';
+import { clearClass, selectClass } from '../../../store/actions/game/gameSelectorActions';
 import { getCobrowsingState, mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
+import { openContextMenuFromClassId } from '../../../store/actions/game/contextMenuActions';
 import Texture from '../../textures/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
 import { PLAYER_CLASS } from '../../constants';
-import { toggleLayerVisibility } from '../../../store/actions/gameViewEditorActions';
-import { changeClassIdHovering } from '../../../store/actions/hoverPreviewActions';
+import { toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
+import { changeClassIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const ClassItem = ({

@@ -13,8 +13,8 @@ import { ADD_COLOR_IID, getColorSelectFromLayerId } from '../../../constants/int
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
-import { changeBrushIdHovering } from '../../../store/actions/hoverPreviewActions';
-import { updateBrushLastUsedDate } from '../../../store/actions/gameSelectorActions';
+import { changeBrushIdHovering } from '../../../store/actions/game/hoverPreviewActions';
+import { updateBrushLastUsedDate } from '../../../store/actions/game/gameSelectorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const ColorSelect = ({

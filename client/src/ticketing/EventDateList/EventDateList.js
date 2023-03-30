@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 
 import './EventDateList.scss';
 import Typography from '../../ui/Typography/Typography';
-import { getTicketedPurchaseByEventId } from '../../store/actions/ticketPurchaseActions';
+import { getTicketedPurchaseByEventId } from '../../store/actions/ticketing/ticketPurchaseActions';
 import { isDateSoldOut, isTicketSoldOut } from '../../utils/ticketUtils';
 import Loader from '../../ui/Loader/Loader';
 

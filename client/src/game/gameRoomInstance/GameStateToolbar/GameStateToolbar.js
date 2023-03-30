@@ -3,12 +3,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './GameStateToolbar.scss';
 import ToolbarIcon from '../../../ui/ToolbarIcon/ToolbarIcon';
-import { toggleGridView } from '../../../store/actions/gameViewEditorActions'
+import { toggleGridView } from '../../../store/actions/game/gameViewEditorActions'
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { PAUSED_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE } from '../../constants';
-import { onInstanceUndo } from '../../../store/actions/lobbyInstanceActions';
+import { onInstanceUndo } from '../../../store/actions/experience/lobbyInstanceActions';
 import { INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_RESET_IID } from '../../../constants/interfaceIds';
-import { changeGameState, editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { changeGameState, editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const GameStateToolbar = ({ editGameRoom, changeGameState, toggleGridView, gameRoomInstance: { gameRoomInstance: { gameState }, gameRoomInstance } }) => {

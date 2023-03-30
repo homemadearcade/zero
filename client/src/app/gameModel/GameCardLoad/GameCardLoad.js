@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import GameCard from '../GameCard/GameCard';
-import { getArcadeGame } from '../../../store/actions/arcadeGameActions';
+import { getArcadeGame } from '../../../store/actions/game/arcadeGameActions';
 import Loader from '../../../ui/Loader/Loader';
 
 

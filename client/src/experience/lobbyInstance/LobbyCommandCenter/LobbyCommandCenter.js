@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './LobbyCommandCenter.scss';
-import { updateArcadeGameCharacter } from '../../../store/actions/arcadeGameActions';
+import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
 import Button from '../../../ui/Button/Button';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Icon from '../../../ui/Icon/Icon';

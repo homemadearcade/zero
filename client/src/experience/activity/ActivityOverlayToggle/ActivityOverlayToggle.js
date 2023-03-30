@@ -7,8 +7,8 @@ import Icon from '../../../ui/Icon/Icon';
 import './ActivityOverlayToggle.scss'
 import Switch from '../../../ui/Switch/Switch';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { updateLobbyUser } from '../../../store/actions/lobbyInstanceActions';
-import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
+import { updateLobbyUser } from '../../../store/actions/experience/lobbyInstanceActions';
+import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 
 const ActivityOverlayToggle = ({
   lobbyInstance: { lobbyInstance: { id, members } },

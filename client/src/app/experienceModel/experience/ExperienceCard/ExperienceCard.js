@@ -10,7 +10,7 @@ import Typography from '../../../../ui/Typography/Typography';
 import './ExperienceCard.scss';
 import { CardActions } from '@mui/material';
 import Link from '../../../../ui/Link/Link';
-import { editExperienceModel, getExperienceModels } from '../../../../store/actions/experienceModelActions';
+import { editExperienceModel, getExperienceModels } from '../../../../store/actions/experience/experienceModelActions';
 import Button from '../../../../ui/Button/Button';
 import { ADMIN_ROLE } from '../../../../constants';
 

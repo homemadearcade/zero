@@ -5,7 +5,7 @@ import {
   CLEAR_ERROR_STATE,
   ON_CLEAR_COBROWSING_STATUS,
 } from '../types';
-import { subscribeCobrowsing, unsubscribeCobrowsing } from './cobrowsingActions';
+import { subscribeCobrowsing, unsubscribeCobrowsing } from './game/cobrowsingActions';
 
 export const clearError = (id) => (dispatch, getState) => {
   dispatch({

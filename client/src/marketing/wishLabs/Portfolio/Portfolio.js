@@ -9,7 +9,7 @@ import Grid from '../../../ui/Grid/Grid';
 import LightupImage from '../../../ui/LightupImage/LightupImage';
 import Blockquote from '../../../ui/Blockquote/Blockquote';
 import BlockText from '../../../ui/BlockText/BlockText';
-import { muteVideoAudio, unmuteVideoAudio } from '../../../store/actions/portfolioActions';
+import { muteVideoAudio, unmuteVideoAudio } from '../../../store/actions/marketing/portfolioActions';
 
 window.barofdreamsAws = "https://wishlabs.s3.us-west-2.amazonaws.com/barofdreams"
 window.supducksAws = "https://wishlabs.s3.us-west-2.amazonaws.com/supducks"

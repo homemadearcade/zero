@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './EditClassGraphics.scss';
 import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
-import { clearGameFormEditor, closeEditClassGraphics, updateCreateClass, openEditClassModal } from '../../../store/actions/gameFormEditorActions';
+import { clearGameFormEditor, closeEditClassGraphics, updateCreateClass, openEditClassModal } from '../../../store/actions/game/gameFormEditorActions';
 import CreateTexture from '../../textures/CreateTexture/CreateTexture';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';

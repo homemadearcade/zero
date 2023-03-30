@@ -3,11 +3,11 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { editLobby } from '../../../store/actions/lobbyInstanceActions';
+import { editLobby } from '../../../store/actions/experience/lobbyInstanceActions';
 
 import './LobbyChecklist.scss';
 import classNames from 'classnames';
-import { useAgoraVideoCallClient } from '../../../store/actions/videoActions';
+import { useAgoraVideoCallClient } from '../../../store/actions/experience/videoActions';
 import Icon from '../../../ui/Icon/Icon';
 import { isSpeedTestPassing } from '../../../utils/networkUtils';
 import { LOBBY_USER_PRESENT_DELTA } from '../../../constants';

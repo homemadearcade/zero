@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { closeClassBoxModal } from '../../../store/actions/gameSelectorActions';
+import { closeClassBoxModal } from '../../../store/actions/game/gameSelectorActions';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import ClassItem from '../ClassItem/ClassItem';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';

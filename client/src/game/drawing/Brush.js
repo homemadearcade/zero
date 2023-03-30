@@ -3,7 +3,7 @@ import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
 import { DEFAULT_TEXTURE_ID, STROKE_ID_PREFIX } from "../constants";
-import { publishCodrawingStrokes } from "../../store/actions/codrawingActions";
+import { publishCodrawingStrokes } from "../../store/actions/media/codrawingActions";
 import { generateUniqueId } from "../../utils/webPageUtils";
 
 export class Brush extends Phaser.GameObjects.Image {

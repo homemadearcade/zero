@@ -1,14 +1,14 @@
 import store from "../../../store"
 import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterfaces, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE, NO_RELATION_TAG_EFFECT, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_ID_PREFIX, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, SPAWN_ZONE_RANDOM_SELECT, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
-import { clearCutscenes, openCutscene } from "../../../store/actions/playerInterfaceActions";
+import { clearCutscenes, openCutscene } from "../../../store/actions/game/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../constants";
 import { isZoneClassId } from "../../../utils/gameUtils";
-import { changeCurrentStage } from "../../../store/actions/gameModelActions";
-import { changeGameState, editGameRoom } from "../../../store/actions/gameRoomInstanceActions";
+import { changeCurrentStage } from "../../../store/actions/game/gameModelActions";
+import { changeGameState, editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
 import _ from "lodash";
-import { updateLobbyUser } from "../../../store/actions/lobbyInstanceActions"
+import { updateLobbyUser } from "../../../store/actions/experience/lobbyInstanceActions"
 
 export class Effects {
   constructor(scene, entityInstance){

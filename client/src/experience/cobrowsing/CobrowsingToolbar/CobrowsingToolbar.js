@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './CobrowsingToolbar.scss';
-import { selectCobrowsingTool } from '../../../store/actions/cobrowsingActions';
+import { selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
 import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 import IconButton from '../../../ui/IconButton/IconButton';
 

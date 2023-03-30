@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { VerticalLinearStepperBody } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
-import { updateVerticalLinearStepper } from '../../../store/actions/gameSelectorActions';
+import { updateVerticalLinearStepper } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
 function CobrowsingVerticalLinearStepper({stepperId, steps, updateVerticalLinearStepper, gameSelector, completed}) {

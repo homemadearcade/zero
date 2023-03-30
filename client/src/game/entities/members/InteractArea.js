@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import Phaser from "phaser";
 import store from "../../../store";
-import { changeControlPopup } from "../../../store/actions/playerInterfaceActions";
+import { changeControlPopup } from "../../../store/actions/game/playerInterfaceActions";
 import { ARCADE_PHYSICS, DEFAULT_TEXTURE_ID, MATTER_PHYSICS, ON_INTERACT } from "../../constants";
 import { PhaserInstance } from "./PhaserInstance";
 

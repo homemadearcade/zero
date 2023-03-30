@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './SelectUsers.scss';
 
-import { getUsers } from '../../../store/actions/usersActions';
+import { getUsers } from '../../../store/actions/user/usersActions';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 import Loader from '../../Loader/Loader';
 

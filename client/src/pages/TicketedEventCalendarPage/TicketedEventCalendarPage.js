@@ -7,7 +7,7 @@ import './TicketedEventCalendarPage.scss';
 import Layout from '../../layout/Layout';
 import Typography from '../../ui/Typography/Typography';
 
-import { getTicketedEvents, editTicketedEvent } from '../../store/actions/ticketedEventActions';
+import { getTicketedEvents, editTicketedEvent } from '../../store/actions/ticketing/ticketedEventActions';
 import ProjectHeader from '../../marketing/wishLabs/ProjectHeader/ProjectHeader';
 import Loader from '../../ui/Loader/Loader';
 import AddEventDateForm from '../../ticketing/AddEventDateForm/AddEventDateForm';

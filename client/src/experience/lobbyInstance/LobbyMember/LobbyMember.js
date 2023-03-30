@@ -9,10 +9,10 @@ import UnlockableInterfaceTree from '../../../ui/connected/UnlockableInterfaceTr
 import { Divider } from '@mui/material';
 import Icon from '../../../ui/Icon/Icon';
 import Button from '../../../ui/Button/Button';
-import { closeInterfaceTree, openInterfaceTree } from '../../../store/actions/userActions';
+import { closeInterfaceTree, openInterfaceTree } from '../../../store/actions/user/userActions';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { setCutAudio, setCutVideo } from '../../../store/actions/videoActions';
+import { setCutAudio, setCutVideo } from '../../../store/actions/experience/videoActions';
 import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_MODEL_ID } from '../../../constants';

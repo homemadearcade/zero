@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import './SelectStageColorModal.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { closeSelectStageColorModal } from '../../../store/actions/gameSelectorActions';
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { closeSelectStageColorModal } from '../../../store/actions/game/gameSelectorActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import SelectStageColor from '../SelectStageColor/SelectStageColor';
 
 const SelectStageColorModal = ({ 

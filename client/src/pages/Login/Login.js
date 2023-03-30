@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { loginUserWithEmail } from '../../store/actions/authActions';
+import { loginUserWithEmail } from '../../store/actions/auth/authActions';
 import { loginSchema } from './validation';
 import './styles.css';
 import Button from '../../ui/Button/Button';

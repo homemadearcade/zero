@@ -3,7 +3,7 @@ import { DialogContent, DialogTitle } from '@mui/material';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { editGameRoom } from '../../../store/actions/gameRoomInstanceActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import Button from '../../../ui/Button/Button';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Dialog from '../../../ui/Dialog/Dialog';

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Icon from '../../../ui/Icon/Icon';
 import './CobrowsingIndicator.scss'
 import Switch from '../../../ui/Switch/Switch';
-import { toggleActiveCobrowsing } from '../../../store/actions/cobrowsingActions';
+import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 
 const CobrowsingIndicator = ({
   cobrowsing: { isSubscribedCobrowsing, isActivelyCobrowsing },

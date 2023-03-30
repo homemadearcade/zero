@@ -4,13 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './SelectorAbstractList.scss';
-import { editGameModel } from '../../../store/actions/gameModelActions';
-import { openEditClassGraphics, openCreateCutscene, openCreateEffect, openCreateEvent, openCreateRelation, openCreateRelationTag } from '../../../store/actions/gameFormEditorActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
+import { openEditClassGraphics, openCreateCutscene, openCreateEffect, openCreateEvent, openCreateRelation, openCreateRelationTag } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ADD_IID, EVENT_ADD_IID, EVENT_SELECT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
-import { openClassBoxModal } from '../../../store/actions/gameSelectorActions';
+import { openClassBoxModal } from '../../../store/actions/game/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import RelationItem from '../../relations/RelationItem/RelationItem';

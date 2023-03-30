@@ -13,7 +13,7 @@ import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import store from '../../../store';
 import useFitText from "use-fit-text";
-import { changeGameState } from '../../../store/actions/gameRoomInstanceActions';
+import { changeGameState } from '../../../store/actions/game/gameRoomInstanceActions';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
 function GameStateScreenBody({changeGameState, gameStateMessage, gameState, gameModel: { gameModel }}) {

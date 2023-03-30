@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { addGameRoom, editGameRoom, endGameRoom } from '../store/actions/gameRoomInstanceActions';
+import { addGameRoom, editGameRoom, endGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import Loader from '../ui/Loader/Loader';
 
 class LocalGameRoomContext extends Component {

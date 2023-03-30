@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { editGameModel } from '../../../store/actions/gameModelActions'
-import { openJsonViewer, openLiveEditor } from '../../../store/actions/gameSelectorActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions'
+import { openJsonViewer, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { openEditClassGraphics, openEditClassModal } from '../../../store/actions/gameFormEditorActions';
+import { openEditClassGraphics, openEditClassModal } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, OBJECT_CLASS_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, classTypeToPrefix, initialCameraZoneClassId } from '../../constants';
 import { classTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_EDIT_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID, CONTEXT_MENU_INSTANCE_JSON_IID } from '../../../constants/interfaceIds';
-import { addEntityClassToLibrary } from '../../../store/actions/entityClassLibraryActions';
+import { addEntityClassToLibrary } from '../../../store/actions/library/entityClassLibraryActions';
 
     // <Unlockable interfaceId={CONTEXT_MENU_CLASS_RELATIONS_IID}>
     //   <MenuItem onClick={() => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { editGameModel } from '../../../store/actions/gameModelActions';
+import { editGameModel } from '../../../store/actions/game/gameModelActions';
 
 import './JumpEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';

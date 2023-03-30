@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { editLobby } from '../../../store/actions/lobbyInstanceActions';
+import { editLobby } from '../../../store/actions/experience/lobbyInstanceActions';
 import { VerticalLinearStepperBody } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 

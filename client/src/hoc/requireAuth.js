@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Login from '../pages/Login/Login';
 import UnauthorizedPage from '../pages/UnauthorizedPage/UnauthorizedPage';
-import { setRedirect } from '../store/actions/authActions';
+import { setRedirect } from '../store/actions/auth/authActions';
 import Loader from '../ui/Loader/Loader';
 
 // eslint-disable-next-line import/no-anonymous-default-export

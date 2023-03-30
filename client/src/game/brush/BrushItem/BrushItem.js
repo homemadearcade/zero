@@ -4,12 +4,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './BrushItem.scss';
-import { selectBrush, clearBrush } from '../../../store/actions/gameSelectorActions';
-import { openContextMenuFromClassId } from '../../../store/actions/contextMenuActions';
+import { selectBrush, clearBrush } from '../../../store/actions/game/gameSelectorActions';
+import { openContextMenuFromClassId } from '../../../store/actions/game/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Texture from '../../textures/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
-import { changeBrushIdHovering } from '../../../store/actions/hoverPreviewActions';
+import { changeBrushIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
 const BrushItem = ({

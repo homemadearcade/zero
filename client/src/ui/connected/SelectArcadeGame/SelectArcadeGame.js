@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './SelectArcadeGame.scss';
 
-import { getArcadeGames } from '../../../store/actions/arcadeGameActions';
+import { getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import Loader from '../../Loader/Loader';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 

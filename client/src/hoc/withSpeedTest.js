@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateLobbyUser } from '../store/actions/lobbyInstanceActions';
-import { addUserSpeedTest } from '../store/actions/userActions';
+import { updateLobbyUser } from '../store/actions/experience/lobbyInstanceActions';
+import { addUserSpeedTest } from '../store/actions/user/userActions';
 import Loader from '../ui/Loader/Loader';
 import { inIframe, isLocalHost } from '../utils/webPageUtils';
 

@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 import { GameInstance } from './GameInstance';
 import store from '../../store';
-import { editGameModel } from '../../store/actions/gameModelActions';
-import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../store/actions/contextMenuActions';
+import { editGameModel } from '../../store/actions/game/gameModelActions';
+import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../store/actions/game/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
-import { clearBrush, clearClass } from '../../store/actions/gameSelectorActions';
-import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/gameViewEditorActions';
+import { clearBrush, clearClass } from '../../store/actions/game/gameSelectorActions';
+import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/game/gameViewEditorActions';
 import { PLAYER_INSTANCE_ID_PREFIX, OBJECT_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, initialStageZoneClassId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
@@ -20,10 +20,10 @@ import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
-import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/canvasImageActions';
+import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/media/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
-import { changeInstanceHovering } from '../../store/actions/hoverPreviewActions';
+import { changeInstanceHovering } from '../../store/actions/game/hoverPreviewActions';
 import { IMAGE_TYPE_SNAPSHOT } from '../../constants';
 
 export class EditorScene extends GameInstance {
