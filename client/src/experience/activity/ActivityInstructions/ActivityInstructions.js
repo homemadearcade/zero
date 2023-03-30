@@ -13,7 +13,7 @@ import LobbyChecklist from '../../lobbyInstance/LobbyChecklist/LobbyChecklist';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
 import { openGameMetadataModal } from '../../../store/actions/game/gameSelectorActions';
-import { CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
+import { ARCHIVE_USER_MONGO_ID, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, defaultStage, EVENT_SPAWN_CLASS_IN_CAMERA, initialStageId, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../../utils/cobrowsingUtils';
@@ -30,11 +30,8 @@ import LobbySelectRoles from '../../lobbyInstance/LobbySelectRoles/LobbySelectRo
 import Divider from '../../../ui/Divider/Divider';
 import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 import Switch from '../../../ui/Switch/Switch';
-import CreateStage from '../../../game/stages/CreateStage/CreateStage';
 import { openCreateStageModal } from '../../../store/actions/game/gameFormEditorActions';
 import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
-
-const ARCHIVE_USER_ID = isLocalHost() ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
 const GAME_IDS = {
   prologue1: isLocalHost() ? '63c3420b6a61ac00539b0dc5' : '63c3420b6a61ac00539b0dc5',
@@ -559,7 +556,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ userMongoId: ARCHIVE_USER_ID, arcadeGameMongoId: lobbyInstance.editingGameId, isArchived: true }))
+            store.dispatch(copyArcadeGameToUser({ userMongoId: ARCHIVE_USER_MONGO_ID, arcadeGameMongoId: lobbyInstance.editingGameId, isArchived: true }))
           },
           nextButtonText: 'Archive'
         },

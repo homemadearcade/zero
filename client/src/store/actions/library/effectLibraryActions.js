@@ -19,6 +19,8 @@ import {
   EDIT_EFFECT_FAIL,
   CLEAR_EFFECT,
 } from '../../types';
+import { CORE_LIBRARY_USER_MONGO_ID } from '../../../constants';
+import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_USER_LIBRARY } from '../../../game/constants';
 
 export const getEffectLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -97,7 +99,10 @@ export const addEffectToLibrary = (effect) => async (dispatch, getState) => {
   });
 
   try {
-    effect.userMongoId = getState().auth.me.id
+    const userMongoId = getState().auth.me.id
+    effect.userMongoId = userMongoId
+    effect.dataSource = userMongoId === CORE_LIBRARY_USER_MONGO_ID ? DATA_SOURCE_CORE_LIBRARY : DATA_SOURCE_USER_LIBRARY;
+    
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/effect', effect, options);
 

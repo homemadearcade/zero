@@ -6,7 +6,6 @@ import Phaser from 'phaser'
 import store from "../store";
 import { getCobrowsingState } from "./cobrowsingUtils";
 
-
 export function getCurrentGameScene(gameInstance) {
   const scenes = gameInstance?.scene?.scenes
   const currentStageId = store.getState().gameModel.currentStageId

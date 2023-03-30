@@ -19,6 +19,8 @@ import {
   EDIT_ENTITY_CLASS_FAIL,
   CLEAR_ENTITY_CLASS,
 } from '../../types';
+import { CORE_LIBRARY_USER_MONGO_ID } from '../../../constants';
+import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_USER_LIBRARY } from '../../../game/constants';
 
 export const getEntityClassLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -97,7 +99,10 @@ export const addEntityClassToLibrary = (entityClass) => async (dispatch, getStat
   });
 
   try {
-    entityClass.userMongoId = getState().auth.me.id
+    const userMongoId = getState().auth.me.id
+    entityClass.userMongoId = userMongoId
+    entityClass.dataSource = userMongoId === CORE_LIBRARY_USER_MONGO_ID ? DATA_SOURCE_CORE_LIBRARY : DATA_SOURCE_USER_LIBRARY;
+    
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/entityClass', entityClass, options);
 

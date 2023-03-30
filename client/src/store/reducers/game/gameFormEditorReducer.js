@@ -318,7 +318,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isBoundaryRelationOpen: true,
         entityClass: {
           ..._.cloneDeep(initialState.entityClass),
-          ...payload.initialObjectClass ? _.cloneDeep(payload.initialObjectClass) : {}
+          ...payload.initialEntityClass ? _.cloneDeep(payload.initialEntityClass) : {}
         },
       }
     case UPDATE_BOUNDARY_RELATION: 

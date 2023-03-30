@@ -32,5 +32,9 @@ export const TICKET_PURCHASE_ID_PREFIX = 'tp-';
 export const INTERFACE_PRESET_ID_PREFIX = 'ip-';
 export const GAME_ROOM_INSTANCE_ID_PREFIX = 'gri-';
 
+const isLocalHost = window.location.host.indexOf('localhost') !== -1;
+export const ARCHIVE_USER_MONGO_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
+export const CORE_LIBRARY_USER_MONGO_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
+
 export * from './experience'
 export * from './library'

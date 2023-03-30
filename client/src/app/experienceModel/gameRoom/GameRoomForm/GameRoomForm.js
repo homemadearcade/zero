@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import { Controller, useWatch } from 'react-hook-form';
 import SelectArcadeGame from '../../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Switch from '../../../../ui/Switch/Switch';
-import Typography from '../../../../ui/Typography/Typography';
 import GameCardLoad from '../../../gameModel/GameCardLoad/GameCardLoad';
-import SelectInstructions from '../../../../ui/connected/SelectInstructions/SelectInstructions';
-import { INSTRUCTION_GAME_ROOM } from '../../../../constants';
-import { RoleChip } from '../../role/RoleChip/RoleChip';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import GameAddForm from '../../../gameModel/GameAddForm/GameAddForm';
 

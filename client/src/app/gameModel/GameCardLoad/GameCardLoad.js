@@ -16,6 +16,7 @@ const GameCardLoad = (props) => {
     }
 
     goGetArcadeGame()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.arcadeGameMongoId])
 
   if(!game) return <Loader/>

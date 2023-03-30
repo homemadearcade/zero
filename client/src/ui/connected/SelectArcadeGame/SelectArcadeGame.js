@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useEffect} from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -11,6 +11,7 @@ import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 const SelectArcadeGame = ({ onSelect, label, userMongoId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if(isLoading) return <Loader></Loader>
@@ -37,6 +38,7 @@ const SelectArcadeGame = ({ onSelect, label, userMongoId, getArcadeGames, gamesS
       } else if(gamesSelected.indexOf(option.value) >= 0) {
         return true
       }
+      return false
     })
   }
   

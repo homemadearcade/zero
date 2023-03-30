@@ -31,6 +31,7 @@ const SelectUsers = ({ userMongoIds, label, onSelect, groupBy, usersSelected = [
   if(userMongoIds) {
     options = options.filter(({value}) => {
       if(userMongoIds.indexOf(value) >= 0) return true
+      return false
     })
   }
 

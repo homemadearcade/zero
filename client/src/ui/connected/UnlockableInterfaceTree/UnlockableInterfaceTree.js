@@ -19,7 +19,7 @@ import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGam
 import { getUserByMongoId } from '../../../store/actions/user/userActions';
 import Button from '../../Button/Button';
 import Loader from '../../Loader/Loader';
-import { addInterfacePreset, getInterfacePresets } from '../../../store/actions/library/interfacePresetLibraryActions';
+import { addInterfacePresetToLibrary, getInterfacePresetLibrary } from '../../../store/actions/library/interfacePresetLibraryActions';
 import Dialog from '../../Dialog/Dialog';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 
@@ -178,7 +178,7 @@ function getClassName(id, unlockableInterfaceIds) {
   if(isUnlocked) return 'TreeItem__unlocked'
 }
 
-function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, experienceModelMongoId, userMongoId, getUserByMongoId, user: { user }, interfacePresetLibrary: { interfacePresetLibrary }, updateArcadeGameCharacter}) {
+function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePresetToLibrary, experienceModelMongoId, userMongoId, getUserByMongoId, user: { user }, interfacePresetLibrary: { interfacePresetLibrary }, updateArcadeGameCharacter}) {
 
   const [presetName, setPresetName] = React.useState('');
   const [presetDescription, setPresetDescription] = React.useState('');
@@ -204,7 +204,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
   }, [userMongoId, user?.id])
 
   React.useEffect(() => {
-    getInterfacePresets()
+    getInterfacePresetLibrary()
   }, [])
 
   if(!user.unlockableInterfaceIds) return <Loader text="Loading User..."></Loader>
@@ -308,7 +308,7 @@ function UnlockableInterfaceTree({ getInterfacePresets, addInterfacePreset, expe
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={() => {
-            addInterfacePreset({
+            addInterfacePresetToLibrary({
               name: presetName,
               description: presetDescription,
               interfaceIds: unlockableInterfaceIds
@@ -392,4 +392,4 @@ const mapStateToProps = (state) => ({
   interfacePresetLibrary: state.interfacePresetLibrary
 })
 
-export default connect(mapStateToProps, { getUserByMongoId, updateArcadeGameCharacter, addInterfacePreset, getInterfacePresets })(UnlockableInterfaceTree);
+export default connect(mapStateToProps, { getUserByMongoId, updateArcadeGameCharacter, addInterfacePresetToLibrary, getInterfacePresetLibrary })(UnlockableInterfaceTree);

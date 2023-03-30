@@ -18,8 +18,10 @@ import {
   EDIT_INTERFACE_PRESET_SUCCESS,
   EDIT_INTERFACE_PRESET_FAIL,
 } from '../../types';
+import { CORE_LIBRARY_USER_MONGO_ID } from '../../../constants';
+import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_USER_LIBRARY } from '../../../game/constants';
 
-export const getInterfacePresets = () => async (dispatch, getState) => {
+export const getInterfacePresetLibrary = () => async (dispatch, getState) => {
   dispatch({
     type: GET_INTERFACE_PRESET_LIBRARY_LOADING,
   });
@@ -41,7 +43,7 @@ export const getInterfacePresets = () => async (dispatch, getState) => {
   }
 };
 
-export const getInterfacePresetByMongoId = (interfacePresetMongoId) => async (dispatch, getState) => {
+export const getInterfacePresetByMongoIdFromLibrary = (interfacePresetMongoId) => async (dispatch, getState) => {
   dispatch({
     type: GET_INTERFACE_PRESET_LOADING,
   });
@@ -65,7 +67,7 @@ export const getInterfacePresetByMongoId = (interfacePresetMongoId) => async (di
   }
 };
 
-export const getInterfacePresetById = (interfacePresetId) => async (dispatch, getState) => {
+export const getInterfacePresetByIdFromLibrary = (interfacePresetId) => async (dispatch, getState) => {
   dispatch({
     type: GET_INTERFACE_PRESET_LOADING,
   });
@@ -90,13 +92,18 @@ export const getInterfacePresetById = (interfacePresetId) => async (dispatch, ge
 };
 
 
-export const addInterfacePreset = (interfacePreset) => async (dispatch, getState) => {
+export const addInterfacePresetToLibrary = (interfacePreset) => async (dispatch, getState) => {
   dispatch({
     type: ADD_INTERFACE_PRESET_LOADING,
     payload: { me: { ...getState().auth.me } },
   });
 
+  
   try {
+    const userMongoId = getState().auth.me.id
+    interfacePreset.userMongoId = userMongoId
+    interfacePreset.dataSource = userMongoId === CORE_LIBRARY_USER_MONGO_ID ? DATA_SOURCE_CORE_LIBRARY : DATA_SOURCE_USER_LIBRARY;
+    
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/interfacePreset', interfacePreset, options);
 
@@ -116,7 +123,7 @@ export const addInterfacePreset = (interfacePreset) => async (dispatch, getState
   }
 };
 
-export const deleteInterfacePreset = (id) => async (dispatch, getState) => {
+export const deleteInterfacePresetFromLibrary = (id) => async (dispatch, getState) => {
   dispatch({
     type: DELETE_INTERFACE_PRESET_LOADING,
     payload: { id },
@@ -139,7 +146,7 @@ export const deleteInterfacePreset = (id) => async (dispatch, getState) => {
   }
 };
 
-export const editInterfacePreset = (id, interfacePreset) => async (dispatch, getState) => {
+export const editInterfacePresetInLibrary = (id, interfacePreset) => async (dispatch, getState) => {
   dispatch({
     type: EDIT_INTERFACE_PRESET_LOADING,
     payload: { id },

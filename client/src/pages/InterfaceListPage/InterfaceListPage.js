@@ -8,16 +8,16 @@ import Layout from '../../layout/Layout';
 import Loader from '../../ui/Loader/Loader';
 import requireAuth from '../../hoc/requireAuth';
 import requireAdmin from '../../hoc/requireAdmin';
-import { deleteInterfacePreset, getInterfacePresets } from '../../store/actions/library/interfacePresetLibraryActions';
+import { deleteInterfacePresetFromLibrary, getInterfacePresetLibrary } from '../../store/actions/library/interfacePresetLibraryActions';
 
 import './styles.css';
 import PageHeader from '../../ui/PageHeader/PageHeader';
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import Button from '../../ui/Button/Button';
 
-const InterfaceListPage = ({ getInterfacePresets, deleteInterfacePreset, interfacePresetLibrary: { interfacePresetLibrary, isLoading } }) => {
+const InterfaceListPage = ({ getInterfacePresetLibrary, deleteInterfacePresetFromLibrary, interfacePresetLibrary: { interfacePresetLibrary, isLoading } }) => {
   useEffect(() => {
-    getInterfacePresets();
+    getInterfacePresetLibrary();
   }, []);
 
   return (
@@ -33,8 +33,8 @@ const InterfaceListPage = ({ getInterfacePresets, deleteInterfacePreset, interfa
                 <ListItem divider  secondaryAction={<Button 
                     variant="contained" 
                     onClick={async () => {
-                      await deleteInterfacePreset(interfacePreset.id)
-                      await getInterfacePresets()
+                      await deleteInterfacePresetFromLibrary(interfacePreset.id)
+                      await getInterfacePresetLibrary()
                   }}>
                     Trash
                   </Button>
@@ -56,4 +56,4 @@ const mapStateToProps = (state) => ({
   interfacePresetLibrary: state.interfacePresetLibrary,
 });
 
-export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { deleteInterfacePreset, getInterfacePresets }))(InterfaceListPage);
+export default compose(requireAuth, requireAdmin, connect(mapStateToProps, { deleteInterfacePresetFromLibrary, getInterfacePresetLibrary }))(InterfaceListPage);

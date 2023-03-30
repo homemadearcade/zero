@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import './ExperienceMetadataForm.scss';
@@ -18,16 +18,16 @@ const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experi
 
   const { title, description, authorPseudonym } = metadata
 
-  const [isMyImagesModalOpen, setIsMyImagesModalOpen] = useState(metadata.imageUrl)
+  // const [isMyImagesModalOpen, setIsMyImagesModalOpen] = useState(metadata.imageUrl)
 
-  const [imageUrl, setImageUrl] = useState(metadata.imageUrl)
+  // const [imageUrl, setImageUrl] = useState(metadata.imageUrl)
 
-  const { handleSubmit, reset, control } = useForm({
+  const { handleSubmit, control } = useForm({
     defaultValues: {
       title,
       description,
       authorPseudonym : authorPseudonym ? authorPseudonym : experienceModel.owner?.username,
-      imageUrl
+      // imageUrl
     },
   });
 
@@ -35,21 +35,21 @@ const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experi
     editExperienceModel(experienceModel.id, {
       metadata: {
         ...data,
-        imageUrl
+        // imageUrl
       },
     })
     // reset();
     if(onSubmit) onSubmit()
   }
 
-  function renderImageSelect() {
-    return <>
-      {imageUrl  && <img className="ExperienceMetadataForm__image" alt={title + ' image'} src={imageUrl}/>}
-      <Button onClick={() => {
-        setIsMyImagesModalOpen(true)
-      }}>Select Image</Button>
-    </>
-  }
+  // function renderImageSelect() {
+  //   return <>
+  //     {imageUrl  && <img className="ExperienceMetadataForm__image" alt={title + ' image'} src={imageUrl}/>}
+  //     <Button onClick={() => {
+  //       setIsMyImagesModalOpen(true)
+  //     }}>Select Image</Button>
+  //   </>
+  // }
 
   return (
     <div className="GameMetadataForm">

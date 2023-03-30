@@ -349,11 +349,11 @@ export const updateCreateRelation = (relation) => (dispatch, getState) => {
 
 
 
-export const openBoundaryRelation = (initialObjectClass) => (dispatch, getState) => {
+export const openBoundaryRelation = (initialEntityClass) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_BOUNDARY_RELATION,
-    payload: { initialObjectClass }
+    payload: { initialEntityClass }
   });
 }
 

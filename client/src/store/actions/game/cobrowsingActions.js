@@ -30,8 +30,6 @@ import store from '../..';
 import { getRemoteStatePackage } from '../../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { updateArcadeGameCharacter } from './arcadeGameActions';
-import { mergeDeep } from '../../../utils/utils';
-import { OPEN_TOOL } from '../../../constants';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()

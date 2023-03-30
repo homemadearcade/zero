@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { classLibrary } from "../game/classLibrary"
-import { BRUSH_ID_PREFIX, defaultClass, defaultEntityInstance, defaultStage, effectBehaviorInterfaces, EFFECT_CUTSCENE, EFFECT_SPAWN, initialCameraZoneClassId, initialPlayerCameraZoneInstance, initialStageZoneClassId, initialTags, NON_LAYER_BRUSH_ID, playerRelationTagId, RELATION_TAG_TELEPORT, RELATION_TAG_TRANSFORM } from "../game/constants"
+import { BRUSH_ID_PREFIX, defaultClass, defaultEntityInstance, defaultStage, effectBehaviorInterfaces, EFFECT_CUTSCENE, EFFECT_SPAWN, initialStageZoneClassId, initialTags, NON_LAYER_BRUSH_ID, playerRelationTagId, RELATION_TAG_TELEPORT, RELATION_TAG_TRANSFORM } from "../game/constants"
 import { mergeDeep } from "./utils"
 import { defaultTag, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_TELEPORT,  ON_INTERACT, PLAYER_CLASS, RELATION_TAG_CLASS, RELATION_TAG_CUTSCENE, RELATION_TAG_DIALOGUE, RELATION_TAG_LIBRARY, ZONE_CLASS } from '../game/constants';
 import { libraryClassAugment } from '../game/constants';
@@ -46,11 +46,11 @@ export function addDefaultsToGameModel(gameData, oldGameData) {
 }
 
 export function addLibraryToGameModel(gameData) {
-  classLibrary.forEach((libraryObjectClass) => {
-    if(!gameData.entityClasses[libraryObjectClass.entityClassId]) {
-      gameData.entityClasses[libraryObjectClass.entityClassId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment))
+  classLibrary.forEach((libraryEntityClass) => {
+    if(!gameData.entityClasses[libraryEntityClass.entityClassId]) {
+      gameData.entityClasses[libraryEntityClass.entityClassId] = mergeDeep(_.cloneDeep(libraryEntityClass), _.cloneDeep(libraryClassAugment))
     } else {
-      gameData.entityClasses[libraryObjectClass.entityClassId] = mergeDeep(_.cloneDeep(libraryObjectClass), _.cloneDeep(libraryClassAugment), gameData.entityClasses[libraryObjectClass.entityClassId])
+      gameData.entityClasses[libraryEntityClass.entityClassId] = mergeDeep(_.cloneDeep(libraryEntityClass), _.cloneDeep(libraryClassAugment), gameData.entityClasses[libraryEntityClass.entityClassId])
     }
   })
 

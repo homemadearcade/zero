@@ -20,7 +20,7 @@ const TicketTypePicker = ({
     <div className="TicketTypePicker">
       {tickets.map(({ticketId, name, price}) => {
 
-        const { isSoldOut, isAtMax, unsold, remaining } = getTicketData({quantity: ticketCart.tickets[ticketId]?.quantity, ticketId, dateId, ticketPurchases, ticketedEvent})
+        const { isSoldOut, isAtMax } = getTicketData({quantity: ticketCart.tickets[ticketId]?.quantity, ticketId, dateId, ticketPurchases, ticketedEvent})
 
         return <div className="TicketTypePicker__ticket">
           <div className="TicketTypePicker__ticket-header">

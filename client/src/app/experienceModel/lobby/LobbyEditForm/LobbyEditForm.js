@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import './LobbyEditForm.scss';
-import { TextField } from '@mui/material';
 import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
@@ -17,7 +16,7 @@ const LobbyEditForm = ({ editExperienceModel, lobbyId, experienceModel: { experi
 
   const { name, instructionsByRoleId } = lobby
 
-  const { handleSubmit, reset, register, control } = useForm({
+  const { handleSubmit, register, control } = useForm({
     defaultValues: {
       name,
       instructionsByRoleId

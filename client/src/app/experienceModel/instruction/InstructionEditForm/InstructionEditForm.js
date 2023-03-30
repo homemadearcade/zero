@@ -9,7 +9,7 @@ import InstructionForm from '../InstructionForm/InstructionForm';
 const InstructionEditForm = ({ editExperienceModel, instructionId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const instruction = experienceModel.instructions[instructionId]
   
-  const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
+  const { handleSubmit, control, formState: { isValid }, register } = useForm({
     defaultValues: instruction
   });
   const submit = async (data) => {

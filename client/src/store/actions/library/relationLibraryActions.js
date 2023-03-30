@@ -19,6 +19,8 @@ import {
   EDIT_RELATION_FAIL,
   CLEAR_RELATION,
 } from '../../types';
+import { CORE_LIBRARY_USER_MONGO_ID } from '../../../constants';
+import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_USER_LIBRARY } from '../../../game/constants';
 
 export const getRelationLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -97,7 +99,10 @@ export const addRelationToLibrary = (relation) => async (dispatch, getState) => 
   });
 
   try {
-    relation.userMongoId = getState().auth.me.id
+    const userMongoId = getState().auth.me.id
+    relation.userMongoId = userMongoId
+    relation.dataSource = userMongoId === CORE_LIBRARY_USER_MONGO_ID ? DATA_SOURCE_CORE_LIBRARY : DATA_SOURCE_USER_LIBRARY;
+    
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/relation', relation, options);
 
