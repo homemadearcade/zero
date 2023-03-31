@@ -12,6 +12,7 @@ const ActivityOverlay = ({
   auth: { me },
   cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
 }) => {
+  console.log(members)
   const user = members.filter((member) => {
     if(cobrowsingUser?.id === member.userMongoId) {
       return true
@@ -19,9 +20,11 @@ const ActivityOverlay = ({
     return false;
   })[0]
 
+  console.log(cobrowsingUser)
+
   const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
 
-  if(gameEditorHeight && gameEditorWidth && user.inOverlayView && (isActivelyCobrowsing || cobrowsingUser.id === me.id)) {
+  if(gameEditorHeight && gameEditorWidth && user?.inOverlayView && (isActivelyCobrowsing || cobrowsingUser.id === me.id)) {
     return <ConstellationZoom width={gameEditorWidth} height={gameEditorHeight}/>
   }
 };

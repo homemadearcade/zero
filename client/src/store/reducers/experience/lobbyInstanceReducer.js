@@ -73,6 +73,8 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
         lobbyInstance: payload.lobbyInstance,
       };
     case JOIN_LOBBY_SUCCESS:
+              console.log(payload)
+
       return {
         ...state,
         isJoining: false,
@@ -87,6 +89,8 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
       lobbyInstance: initialState.lobbyInstance,
     };
     case EDIT_LOBBY_SUCCESS:
+              console.log(payload)
+
       return {
         ...state,
         isLoading: false,
@@ -121,6 +125,8 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
         error: payload.error,
       };
     case ON_LOBBY_INSTANCE_UPDATE:
+              console.log(payload)
+
       return {
         ...state,
         lobbyInstance: {...payload.lobbyInstance, members: payload.lobbyInstance.members.slice()}

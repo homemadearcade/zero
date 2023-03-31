@@ -131,7 +131,9 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
 
     lobbyInstance = lobbyInstance.toJSON()
 
+    console.log(lobbyInstance.invitedUsers)
     lobbyInstance.members = lobbyInstance.invitedUsers.map((user) => {
+      console.log(user)
       return {
         email: user.email,
         userMongoId: user.id,
