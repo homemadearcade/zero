@@ -33,9 +33,9 @@ export class Collider {
 
   update() {
     // if(this.lastCollidingWith) {
-    //   this.lastCollidingWith.forEach((entityClassId) => {
-    //     if(this.collidingWith.indexOf(entityClassId) === -1) {
-    //       const relevantRelations = this.onCollideEndRelations[entityClassId]
+    //   this.lastCollidingWith.forEach((entityModelId) => {
+    //     if(this.collidingWith.indexOf(entityModelId) === -1) {
+    //       const relevantRelations = this.onCollideEndRelations[entityModelId]
     //       if(relevantRelations) {
                 // I stopped here cuz the issue is I need.. to keep track of instance ids which makes these arrays WAY longer, so really I need to flag which instance ids to keep track of...
     //       }
@@ -151,7 +151,7 @@ export class Collider {
           if(isEventMatch({
             gameObject: gameObjectB,
             body: bodyB,
-            entityClassId: event.entityClassIdB,
+            entityModelId: event.entityModelIdB,
             event,
             world
           })){
@@ -168,7 +168,7 @@ export class Collider {
           if(isEventMatch({
             gameObject: gameObjectB,
             body: bodyB,
-            entityClassId: event.entityClassIdB,
+            entityModelId: event.entityModelIdB,
             event,
             world
           })){

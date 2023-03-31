@@ -83,8 +83,8 @@ TransitionComponent.propTypes = {
 
 const StyledTreeItem = styled((props) => {
   return (
-    <TreeItem entityClasses={{
-      content: props.contentClass,
+    <TreeItem classes={{
+      content: props.contentEntity,
     }} {...props} TransitionComponent={TransitionComponent} />
   )})(({ theme }) => ({
     [`& .${treeItemClasses.iconContainer}`]: {
@@ -169,11 +169,11 @@ function structureAllInterfaceIds() {
 }
 
 
-function getClassName(id, unlockableInterfaceIds) {
-  if(unlockableInterfaceIds[id]) return 'TreeItem__unlocked--specific'
+function getEntityName(interfaceId, unlockableInterfaceIds) {
+  if(unlockableInterfaceIds[interfaceId]) return 'TreeItem__unlocked--specific'
 
-  const idAliases = getInterfaceIdAliases(id)
-  const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
+  const interfaceIdAliases = getInterfaceIdAliases(interfaceId)
+  const isUnlocked = areIdAliasesUnlocked(interfaceIdAliases, unlockableInterfaceIds)
 
   if(isUnlocked) return 'TreeItem__unlocked'
 }
@@ -222,6 +222,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
 
       if(!isUnlocked) {
         idAliases.forEach(alias => alias.slice().reverse().forEach((id) => {
+
           list.push(<MenuItem key={id + alias} onClick={async () => {
             await updateArcadeGameCharacter({
               userMongoId: userMongoId,
@@ -267,7 +268,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
     if(nodes.children.length) nodeIdsWithChildren.push(nodes.id)
     return (
       <>
-        <StyledTreeItem contentClass={getClassName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+        <StyledTreeItem contentEntity={getEntityName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
           <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={unlockableInterfaceIds}></ToggleLockMenu>
           {Array.isArray(nodes.children)
             ? nodes.children.map((node) => renderTree(node))

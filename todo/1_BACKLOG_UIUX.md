@@ -11,7 +11,7 @@ When you copy a class, you should have to rename it at same time
 --------------------------------------------------------------------------------------
 
 EDIT CLASS MODAL
-  All Edit Class stuff in same place
+  All Edit Entity stuff in same place
   Dialogues
   Behavior -> Side Editor Stuff
 

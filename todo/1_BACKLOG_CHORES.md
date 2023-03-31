@@ -10,7 +10,10 @@ LOCK DATA
 in preloader
   only load spritesheets that are added for 'play game' mode
 
-Better tag generation data. the data is a bit strange now, perhaps an object defined what tags and relations are generated. I dont know the patterns yet
-
 EXPERIENCE CREATOR
   create reducer for experience creator so that we can at least change the selected is when we remove something
+
+Update all name forms 
+  Make the class name form thing into a reusable component and add to stage, cutscene, tag, etc
+
+Utils that use state should be hooks

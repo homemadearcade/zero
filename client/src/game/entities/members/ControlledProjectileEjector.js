@@ -11,18 +11,18 @@ export class ControlledProjectileEjector {
   }
 
   update(time, delta) {
-    const entityClassId = this.entityInstance.entityClassId
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    const entityModelId = this.entityInstance.entityModelId
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
 
-    if(this.cursors.space.isDown && entityClass.projectile?.entityClassId) {
+    if(this.cursors.space.isDown && entityModel.projectile?.entityModelId) {
       if(time < this.nextFire) { 
         return
       }
 
-      const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), entityClass.projectile?.entityClassId)
+      const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), entityModel.projectile?.entityModelId)
       projectile.fireControlled(this.entityInstance, time, this.cursors)
 
-      this.nextFire = time + entityClass.projectile.cooldown;
+      this.nextFire = time + entityModel.projectile.cooldown;
     }
   }
 }

@@ -1,6 +1,0 @@
-export * from './ClassItem'
-export * from './ClassList'
-export * from './ClassMemberTitle'
-export * from './ClassNameForm'
-export * from './EditClassModal'
-export * from './EditClassGraphics'

@@ -27,7 +27,7 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
-    entityClasses: {
+    entityModels: {
       type: Object,
       required: true,
       default: {}
@@ -43,6 +43,11 @@ const arcadeGameSchema = new Schema(
       default: {}
     },
     cutscenes: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    interfacePresets: {
       type: Object,
       required: true,
       default: {}
@@ -107,11 +112,12 @@ export const validateArcadeGame = (game) => {
     gameModelId: Joi.string(),
     nodeSize: Joi.number(),
     stages: Joi.object(),
-    entityClasses: Joi.object(),
+    entityModels: Joi.object(),
     brushes: Joi.object(),
     colors: Joi.object(),
     relations: Joi.object(),
     collisions: Joi.object(),
+    interfacePresets: Joi.object(),
     events: Joi.object(),
     effects: Joi.object(),
     cutscenes: Joi.object(),
@@ -129,11 +135,12 @@ arcadeGameSchema.methods.toJSON = function () {
     stages: this.stages,
     nodeSize: this.nodeSize,
     player: this.player,
-    entityClasses: this.entityClasses,
+    entityModels: this.entityModels,
     brushes: this.brushes,
     colors: this.colors,
     relations: this.relations,
     collisions: this.collisions,
+    interfacePresets: this.interfacePresets,
     events: this.events,
     effects: this.effects,
     cutscenes: this.cutscenes,

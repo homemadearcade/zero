@@ -1,23 +1,23 @@
-import { initialCameraZoneClassId, initialCameraZoneInstanceId, initialPlayerClassId, initialPlayerSpawnZoneClassId, initialPlayerSpawnZoneInstanceId, initialStageZoneClassId, initialStageZoneInstanceId, jumperPlayerClassId, STAGE_DEFAULT_OVERHEAD, STAGE_DEFAULT_PLATFORMER, STAGE_DEFAULT_SPACE, STAGE_DEFAULT_UNDERWATER, vehiclePlayerClassId } from "..";
+import { initialCameraZoneEntityId, initialCameraZoneInstanceId, initialPlayerEntityId, initialPlayerSpawnZoneEntityId, initialPlayerSpawnZoneInstanceId, initialStageZoneEntityId, initialStageZoneInstanceId } from "..";
 import { gameSize } from "../core/general";
 
 export const initialPlayerSpawnZoneInstance = {
   id: initialPlayerSpawnZoneInstanceId,
-  entityClassId: initialPlayerSpawnZoneClassId,
+  entityModelId: initialPlayerSpawnZoneEntityId,
   spawnX: gameSize/2,
   spawnY: gameSize/2,
 }
 
 export const initialPlayerCameraZoneInstance = {
   id: initialCameraZoneInstanceId,
-  entityClassId: initialCameraZoneClassId,
+  entityModelId: initialCameraZoneEntityId,
   spawnX: 0,
   spawnY: 0,
 }
 
 export const initialStageZoneInstance = {
   id: initialStageZoneInstanceId,
-  entityClassId: initialStageZoneClassId,
+  entityModelId: initialStageZoneEntityId,
   spawnX: gameSize/2,
   spawnY: gameSize/2,
 }
@@ -25,8 +25,8 @@ export const initialStageZoneInstance = {
 export const defaultStage = {
   name: '',
   color: '#000000',
-  "playerClassId": null,
-  'playerSpawnZoneClassId': null,
+  "playerEntityModelId": null,
+  'playerSpawnZoneEntityId': null,
   "imageUrl": "",
   stageId: null,
   layers: {},
@@ -59,6 +59,6 @@ export const defaultStage = {
 export const initialStage = {
   ...defaultStage,
   name: 'Stage # 1',
-  'playerClassId': initialPlayerClassId,
-  'playerSpawnZoneClassId': initialPlayerSpawnZoneClassId,
+  'playerEntityModelId': initialPlayerEntityId,
+  'playerSpawnZoneEntityId': initialPlayerSpawnZoneEntityId,
 }

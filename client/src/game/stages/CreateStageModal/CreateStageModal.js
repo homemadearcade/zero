@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateStageModal.scss';
@@ -15,18 +15,18 @@ import CreateStage from '../CreateStage/CreateStage';
 
         // {/* <RadioGroupColumn
         //   formLabel={"Perspective"}
-        //   value={stage.playerClassId}
+        //   value={stage.playerEntityModelId}
         //   onChange={(e, value) => {
         //     updateCreateStage({
-        //       playerClassId: value
+        //       playerEntityModelId: value
         //     })
         //   }}
         //   options={[{
-        //       value: directionalPlayerClassId,
+        //       value: directionalPlayerEntityId,
         //       label: 'Overhead'
         //     },
         //     {
-        //       value: jumperPlayerClassId,
+        //       value: jumperPlayerEntityId,
         //       label: 'Platformer'
         //     },
         //   ]}
@@ -44,7 +44,7 @@ const CreateStageModal = ({ closeCreateStageModal, editGameModel, updateCreateSt
 
   function isAutosaveDisabled() {
     if(stage.error) return false
-    if(!stage.playerSpawnZoneClassId) return true
+    if(!stage.playerSpawnZoneEntityId) return true
     return false 
   }
 

@@ -2,7 +2,7 @@ import store from "../../../store"
 import { getCobrowsingState } from "../../../utils/cobrowsingUtils"
 import { getHexIntFromHexString } from "../../../utils/editorUtils"
 import { getThemePrimaryColor } from "../../../utils/webPageUtils"
-import { editorHighlightDepthModifier, initialStageZoneClassId, invisibleIndicatorDepthModifer } from "../../constants"
+import { editorHighlightDepthModifier, initialStageZoneEntityId, invisibleIndicatorDepthModifer } from "../../constants"
 
 
 export class Graphics {
@@ -11,29 +11,29 @@ export class Graphics {
     this.scene = scene
 
     const gameModel = store.getState().gameModel.gameModel
-    const entityClass = gameModel.entityClasses[entityInstance.entityClassId]
+    const entityModel = gameModel.entityModels[entityInstance.entityModelId]
     const phaserInstance = this.entityInstance.phaserInstance
 
-    if(entityClass.entityClassId === initialStageZoneClassId) {
+    if(entityModel.entityModelId === initialStageZoneEntityId) {
       const boundaries = this.scene.getCurrentStage().boundaries
       this.entityInstance.setPosition(boundaries.x, boundaries.y)
       this.setSize(boundaries.width, boundaries.height)
       phaserInstance.setDisplaySize(boundaries.width, boundaries.height)
-      entityClass.graphics.width = boundaries.width 
-      entityClass.graphics.height = boundaries.height
+      entityModel.graphics.width = boundaries.width 
+      entityModel.graphics.height = boundaries.height
     }
 
-    entityInstance.isVisible = !entityClass.graphics.invisible
-    phaserInstance.setDisplaySize(entityClass.graphics.width, entityClass.graphics.height)
-    this.setSize(entityClass.graphics.width, entityClass.graphics.height)
+    entityInstance.isVisible = !entityModel.graphics.invisible
+    phaserInstance.setDisplaySize(entityModel.graphics.width, entityModel.graphics.height)
+    this.setSize(entityModel.graphics.width, entityModel.graphics.height)
 
-    if(entityClass.editorInterface.notSelectableInStage) return
+    if(entityModel.editorInterface.notSelectableInStage) return
 
-    if(entityClass.graphics.textureTint) entityInstance.setTint(entityClass.graphics.textureTint)
+    if(entityModel.graphics.textureTint) entityInstance.setTint(entityModel.graphics.textureTint)
     this.setDepth()
-    // scene.addSpriteToTypeGroup(entityInstance.entityClassId, phaserInstance)
+    // scene.addSpriteToTypeGroup(entityInstance.entityModelId, phaserInstance)
 
-    if(entityClass.graphics.glowing) {
+    if(entityModel.graphics.glowing) {
       this.setGlowing()
     }
 
@@ -51,10 +51,10 @@ export class Graphics {
       .setDisplaySize(this.entityInstance.width + 10, this.entityInstance.height + 10)
       .setVisible(false)
 
-      const depth = this.scene.getEntityClassDepth(entityInstance.entityClassId)
+      const depth = this.scene.getEntityModelDepth(entityInstance.entityModelId)
       phaserInstance.editorHighlight.setDepth(depth + editorHighlightDepthModifier)
     }
-    if(entityClass.graphics.invisible && this.scene.isEditor) {
+    if(entityModel.graphics.invisible && this.scene.isEditor) {
       this.createInvisiblilityIndicator()
       this.setInvisible()
     }
@@ -68,7 +68,7 @@ export class Graphics {
   }
 
   setDepth() {
-    const depth = this.scene.getEntityClassDepth(this.entityInstance.entityClassId)
+    const depth = this.scene.getEntityModelDepth(this.entityInstance.entityModelId)
     this.entityInstance.phaserInstance.setDepth(depth)
     this.entityInstance.phaserInstance.editorHighlight?.setDepth(depth + editorHighlightDepthModifier)
     this.entityInstance.phaserInstance.invisibleIndicator?.setDepth(depth + invisibleIndicatorDepthModifer)
@@ -95,7 +95,7 @@ export class Graphics {
 
   setSize(w, h) {
     const phaserInstance = this.entityInstance.phaserInstance
-    const entityClassId = this.entityInstance.entityClassId
+    const entityModelId = this.entityInstance.entityModelId
 
     if(phaserInstance.editorHighlight) {
       phaserInstance.editorHighlight.setDisplaySize(w + 10, h + 10)
@@ -103,8 +103,8 @@ export class Graphics {
 
     if(this.scene.isEditor) {
       const gameModel = store.getState().gameModel.gameModel
-      const entityClass = gameModel.entityClasses[entityClassId]
-      if(entityClass.graphics.invisible) {
+      const entityModel = gameModel.entityModels[entityModelId]
+      if(entityModel.graphics.invisible) {
         this.createInvisiblilityIndicator()
       }
     }
@@ -152,7 +152,7 @@ export class Graphics {
     const phaserInstance = this.entityInstance.phaserInstance
 
     const gameModel = store.getState().gameModel.gameModel
-    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
+    const entityModel = gameModel.entityModels[this.entityInstance.entityModelId]
 
     if(phaserInstance.invisibleIndicator) phaserInstance.invisibleIndicator.destroy()
     const width = phaserInstance.displayWidth
@@ -160,21 +160,21 @@ export class Graphics {
     const cornerX = -width/2
     const cornerY = -height/2
     phaserInstance.invisibleIndicator = this.scene.add.graphics();
-    const colorInt = getHexIntFromHexString(hexString || entityClass.graphics.textureTint || '#FFFFFF')
+    const colorInt = getHexIntFromHexString(hexString || entityModel.graphics.textureTint || '#FFFFFF')
     phaserInstance.invisibleIndicator.lineStyle(4, colorInt, 1);
     phaserInstance.invisibleIndicator.setAlpha(0.5)
     phaserInstance.invisibleIndicator.strokeRect(cornerX + 2, cornerY + 2, width - 4, height - 4);
-    const depth = this.scene.getEntityClassDepth(this.entityInstance.entityClassId)
+    const depth = this.scene.getEntityModelDepth(this.entityInstance.entityModelId)
     phaserInstance.invisibleIndicator.setDepth(depth + invisibleIndicatorDepthModifer)
   }
 
   update() {
     const phaserInstance = this.entityInstance.phaserInstance
-    const entityClassIdHovering = store.getState().gameViewEditor.entityClassIdHovering
+    const entityModelIdHovering = store.getState().gameViewEditor.entityModelIdHovering
     const gameModel = store.getState().gameModel.gameModel
-    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
+    const entityModel = gameModel.entityModels[this.entityInstance.entityModelId]
 
-    if(entityClass.editorInterface.notSelectableInStage) {
+    if(entityModel.editorInterface.notSelectableInStage) {
       phaserInstance.invisibleIndicator?.setVisible(false)
       phaserInstance.interactBorder?.setVisible(false)
       phaserInstance.editorHighlight?.setVisible(false)
@@ -184,7 +184,7 @@ export class Graphics {
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerInvisibility = gameViewEditor.layerInvisibility
-    const isLayerInvisible = layerInvisibility[entityClass.classInterfaceCategory]
+    const isLayerInvisible = layerInvisibility[entityModel.entityInterfaceId]
     if(isLayerInvisible) {
       this.entityInstance.setVisible(false)
     } else {
@@ -195,7 +195,7 @@ export class Graphics {
       phaserInstance.editorHighlight.setPosition(phaserInstance.x, phaserInstance.y)
       phaserInstance.editorHighlight.setRotation(phaserInstance.rotation)
       this.setEditorHighlightVisibility(
-        this.entityInstance.entityClassId === entityClassIdHovering ||
+        this.entityInstance.entityModelId === entityModelIdHovering ||
          phaserInstance.isMouseOver
       )
     }

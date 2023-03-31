@@ -1,4 +1,4 @@
-import { BOUNDARY_COLLIDE, BOUNDARY_WRAP, directionalPlayerClassId, jumperPlayerClassId, STAGE_DEFAULT_OVERHEAD, STAGE_DEFAULT_PLATFORMER, STAGE_DEFAULT_SPACE, STAGE_DEFAULT_UNDERWATER, vehiclePlayerClassId } from "../core"
+import { BOUNDARY_COLLIDE, BOUNDARY_WRAP, directionalPlayerEntityId, jumperPlayerEntityId, STAGE_DEFAULT_OVERHEAD, STAGE_DEFAULT_PLATFORMER, STAGE_DEFAULT_SPACE, STAGE_DEFAULT_UNDERWATER, vehiclePlayerEntityId } from "../core"
 
 export const stageDefaultTypeLabels= {
   [STAGE_DEFAULT_UNDERWATER]: 'Underwater',
@@ -10,22 +10,22 @@ export const stageDefaultTypeLabels= {
 export const stageDefaultTypeProperties = {
   [STAGE_DEFAULT_UNDERWATER]: {
     defaultType: STAGE_DEFAULT_UNDERWATER,
-    playerClassId: vehiclePlayerClassId,
+    playerEntityModelId: vehiclePlayerEntityId,
     gravityY: true
   },
   [STAGE_DEFAULT_SPACE]: {
     defaultType: STAGE_DEFAULT_SPACE,
-    playerClassId: vehiclePlayerClassId,
+    playerEntityModelId: vehiclePlayerEntityId,
     gravityY: false
   },
   [STAGE_DEFAULT_OVERHEAD]: {
     defaultType: STAGE_DEFAULT_OVERHEAD,
-    playerClassId: directionalPlayerClassId,
+    playerEntityModelId: directionalPlayerEntityId,
     gravityY: false
   },
   [STAGE_DEFAULT_PLATFORMER]: {
     defaultType: STAGE_DEFAULT_PLATFORMER,
-    playerClassId: jumperPlayerClassId,
+    playerEntityModelId: jumperPlayerEntityId,
     gravityY: true
   }
 }

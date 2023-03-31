@@ -76,25 +76,25 @@ export const SCENE_ID_PREFIX = 'scene-'
 export const CANVAS_IMAGE_ID_PREFIX = 'sprite-'
 export const STAGE_ID_PREFIX = 'stage-'
 export const GAME_INSTANCE_ID_PREFIX = 'gi-'
-export const ENTITY_CLASS_ID_PREFIX = 'oc-'
+export const ENTITY_MODEL_ID_PREFIX = 'oc-'
 export const RELATION_TAG_ID_PREFIX = 'relationTag-'
 export const EVENT_ID_PREFIX = 'event-'
 export const EFFECT_ID_PREFIX = 'effect-'
 export const LAYER_ID_PREFIX = 'layer-'
 
-export const vehiclePlayerClassId = ENTITY_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'vehicle'
-export const jumperPlayerClassId = ENTITY_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'jumper'
-export const directionalPlayerClassId = ENTITY_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'directional'
+export const vehiclePlayerEntityId = ENTITY_MODEL_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'vehicle'
+export const jumperPlayerEntityId = ENTITY_MODEL_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'jumper'
+export const directionalPlayerEntityId = ENTITY_MODEL_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX+'directional'
 
 export const initialStageId =  STAGE_ID_PREFIX+'default'
-export const initialPlayerSpawnZoneClassId = ENTITY_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playerspawnzone'
-export const initialPlayerSpawnZoneInstanceId = ENTITY_CLASS_ID_PREFIX+ENTITY_INSTANCE_ID_PREFIX+'playerspawnzone'
-export const initialCameraZoneClassId = ENTITY_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playercamerazone'
-export const initialCameraZoneInstanceId = ENTITY_CLASS_ID_PREFIX+ENTITY_INSTANCE_ID_PREFIX+'playercamerazone'
-export const initialStageZoneClassId = ENTITY_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'stagezone'
-export const initialStageZoneInstanceId = ENTITY_CLASS_ID_PREFIX+ENTITY_INSTANCE_ID_PREFIX+'stagezone'
+export const initialPlayerSpawnZoneEntityId = ENTITY_MODEL_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playerspawnzone'
+export const initialPlayerSpawnZoneInstanceId = ENTITY_MODEL_ID_PREFIX+ENTITY_INSTANCE_ID_PREFIX+'playerspawnzone'
+export const initialCameraZoneEntityId = ENTITY_MODEL_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'playercamerazone'
+export const initialCameraZoneInstanceId = ENTITY_MODEL_ID_PREFIX+ENTITY_INSTANCE_ID_PREFIX+'playercamerazone'
+export const initialStageZoneEntityId = ENTITY_MODEL_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX+'stagezone'
+export const initialStageZoneInstanceId = ENTITY_MODEL_ID_PREFIX+ENTITY_INSTANCE_ID_PREFIX+'stagezone'
 
-export const initialPlayerClassId = directionalPlayerClassId
+export const initialPlayerEntityId = directionalPlayerEntityId
 
 
 

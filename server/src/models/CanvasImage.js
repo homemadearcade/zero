@@ -9,6 +9,10 @@ const canvasImage = new Schema(
       default: [],
       required: true,
     },
+    imageData: {
+      type: Object,
+      required: true,
+    },
     textureId: {
       type: String,
       required: true,

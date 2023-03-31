@@ -7,8 +7,8 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { } from '../../constants';
 import { getBoundaryRelationLabel, boundaryRelationsDisplayNames } from '../../constants';
 
-const SelectBoundaryEffect = ({ entityClassId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
-  const entityClass = gameModel.entityClasses[entityClassId]
+const SelectBoundaryEffect = ({ entityModelId, onChange, value, formLabel, disabled, gameModel: { gameModel } }) => {
+  const entityModel = gameModel.entityModels[entityModelId]
 
   const mapEffectsToOption = (relation) => {
     return {

@@ -26,8 +26,5 @@ BETTER REDIRECT ( cuz its broken sometimes )
 Just have a thing that prevents it from spawning near the edge?
 Wtf is up with this spawning bs?? Why the corner??
 
-Lobby -> Lobby Instance
-Game Room -> Game Room instance
-
 SHORT URLS
   implement short Ids into the urls and other things. So like the game room url is like /game/1234 and the lobby url is like /lobby/1234. And so like... we dont use .id anymore unless we are doing a mongo edit. For lookup/mapping we can do short ids

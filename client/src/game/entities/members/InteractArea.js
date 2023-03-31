@@ -22,6 +22,9 @@ export class InteractArea extends PhaserInstance {
     this.setImmovable(true)
     this.setVisible(false)
 
+    this.entityInstanceId = 'interact area'
+    // this.phaserInstance.entityModelId = entityModelId
+
     this.overlaps = []
     this.interactables = []
     this.previousClosest = null
@@ -36,8 +39,8 @@ export class InteractArea extends PhaserInstance {
     // this.lineStyle(CAMERA_PREVIEW_BORDER_SIZE, this.color, 1);
     // this.strokeRect(-size/2, -size/2, size - (CAMERA_PREVIEW_BORDER_SIZE), size - (CAMERA_PREVIEW_BORDER_SIZE));
 
-    // this.lastInteractedWithClassId = null 
-    // this.interactedWithClassId = null
+    // this.lastInteractedWithEntityId = null 
+    // this.interactedWithEntityId = null
 
     return this
   }
@@ -92,7 +95,7 @@ export class InteractArea extends PhaserInstance {
             const { gameObjectB } = eventData;
             if(gameObjectB === this) return
             if(!gameObjectB) return
-            if(event.entityClassIdB === gameObjectB.entityClassId) {
+            if(event.entityModelIdB === gameObjectB.entityModelId) {
               this.interactables.push({gameObject: gameObjectB, relation})
             }
           }
@@ -103,7 +106,7 @@ export class InteractArea extends PhaserInstance {
             const { gameObjectB } = eventData;
             if(gameObjectB === this) return
             if(!gameObjectB) return
-            if(event.entityClassId === gameObjectB.entityClassId) {
+            if(event.entityModelId === gameObjectB.entityModelId) {
               gameObjectB.interactBorder.setVisible(false)
             }
           }
@@ -203,9 +206,9 @@ export class InteractArea extends PhaserInstance {
     }
 
     // const phaserInstance = this.entityInstance.phaserInstance
-    // this.lastInteractedWithClassId = this.interactedWithClassId
+    // this.lastInteractedWithEntityId = this.interactedWithEntityId
     // if(phaserInstance.body.touching.none && phaserInstance.body.blocked.none) {
-    //   this.interactedWithClassId = null
+    //   this.interactedWithEntityId = null
     // }
   }
 }

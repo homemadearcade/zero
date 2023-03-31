@@ -39,5 +39,5 @@ Show key/click info inside the Hover Preview. Is there where it goes??
   X - Interact 
   Spacebar - Shoot
 
-Class Detail View
+Entity Detail View
   Edit Collision/Camera/ -> Edit Behavior?

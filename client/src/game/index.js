@@ -1,5 +1,5 @@
 export * from './brush'
-export * from './entityClass'
+export * from './entityModel'
 export * from './gameRoomInstance'
 export * from './view'
 export * from './ui'

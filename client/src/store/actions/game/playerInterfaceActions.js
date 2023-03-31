@@ -11,11 +11,11 @@ import {
 } from '../../types';
 import { changeGameState } from './gameRoomInstanceActions';
 
-export const changePlayerClass = ({entityClassId}) => (dispatch, getState) => {
+export const changePlayerEntity = ({entityModelId}) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_PLAYER_CLASS,
     payload: {
-      playerClassId: entityClassId
+      playerEntityModelId: entityModelId
     }
   })
 };
@@ -30,7 +30,7 @@ export const changeControlPopup = (controlsToPress) => (dispatch, getState) => {
   })
 };
 
-export const openCutscene = (entityClassId, cutsceneId) => (dispatch, getState) => {
+export const openCutscene = (entityModelId, cutsceneId) => (dispatch, getState) => {
   dispatch(changeGameState(PAUSED_STATE))
 
   const scene = getCurrentGameScene(getState().webPage.gameInstance)
@@ -48,7 +48,7 @@ export const openCutscene = (entityClassId, cutsceneId) => (dispatch, getState) 
     type: OPEN_CUTSCENE,
     payload: {
       cutsceneId: cutsceneId,
-      entityClassId: entityClassId,
+      entityModelId: entityModelId,
     }
   });
 }

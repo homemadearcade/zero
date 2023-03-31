@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
-import { CANVAS_IMAGE_ID_PREFIX } from '../../../game/constants';
+import { CANVAS_IMAGE_ID_PREFIX, newTextureSize } from '../../../game/constants';
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 
 import { 
@@ -68,17 +68,17 @@ export const clearGameFormEditor = () => (dispatch, getState) => {
   });
 }
 
-export const openEditClassGraphics = (entityClass) => (dispatch, getState) => {
+export const openEditEntityGraphics = (entityModel) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CREATE_CLASS_FLOW,
-    payload: { entityClass: _.cloneDeep(entityClass) }
+    payload: { entityModel: _.cloneDeep(entityModel) }
   });
 }
 
-export const closeEditClassGraphics = () => (dispatch, getState) => {
+export const closeEditEntityGraphics = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CREATE_CLASS_FLOW,
@@ -86,12 +86,12 @@ export const closeEditClassGraphics = () => (dispatch, getState) => {
   });
 }
 
-export const updateCreateClass = (entityClass) => (dispatch, getState) => {
+export const updateCreateEntity = (entityModel) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     noCobrowsingToolNeeded: true,
     type: UPDATE_CREATE_CLASS,
-    payload: { entityClass }
+    payload: { entityModel }
   });
 }
 
@@ -108,7 +108,11 @@ export const openCreateCanvasImageModal= (textureId) => async (dispatch, getStat
     const canvasImage = await dispatch(addCanvasImage({
       textureId: newTextureId, 
       visualTags: [],
-      imageUrl: getImageUrlFromTextureId(textureId),
+      imageData: {
+        width: newTextureSize,
+        height: newTextureSize
+      },
+      imageUrl: getImageUrlFromTextureId(newTextureId),
       imageType: IMAGE_TYPE_SPRITE,
       userMongoId: state.gameModel.gameModel.owner.id,
     }))
@@ -161,15 +165,15 @@ export const openCreateColorFlow = (componentName, layerId) => (dispatch, getSta
   });
 }
 
-export const openEditClassModal = (entityClass) => (dispatch, getState) => {
+export const openEditEntityModal = (entityModel) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CLASS_EDIT_MODAL,
-    payload: { entityClass: _.cloneDeep(entityClass) }
+    payload: { entityModel: _.cloneDeep(entityModel) }
   });
 }
 
-export const closeEditClassModal = () => (dispatch, getState) => {
+export const closeEditEntityModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CLASS_EDIT_MODAL,
@@ -349,11 +353,11 @@ export const updateCreateRelation = (relation) => (dispatch, getState) => {
 
 
 
-export const openBoundaryRelation = (initialEntityClass) => (dispatch, getState) => {
+export const openBoundaryRelation = (initialEntityModel) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_BOUNDARY_RELATION,
-    payload: { initialEntityClass }
+    payload: { initialEntityModel }
   });
 }
 
@@ -365,11 +369,11 @@ export const closeBoundaryRelation= () => (dispatch, getState) => {
   });
 }
 
-export const updateBoundaryRelation = (entityClass) => (dispatch, getState) => {
+export const updateBoundaryRelation = (entityModel) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: UPDATE_BOUNDARY_RELATION,
-    payload: { entityClass }
+    payload: { entityModel }
   });
 }
 

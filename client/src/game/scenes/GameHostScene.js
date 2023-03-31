@@ -51,7 +51,7 @@ export class GameHostScene extends EditorScene {
       }
       const currentStageId = store.getState().gameModel.currentStageId
       if(this.stage.stageId !== currentStageId) return
-      const entityInstances = this.entityInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityClassId, entityClassId}) => {
+      const entityInstances = this.entityInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityModelId, entityModelId}) => {
         return {
           entityInstanceId,
           x,
@@ -59,22 +59,22 @@ export class GameHostScene extends EditorScene {
           rotation,
           isVisible,
           destroyAfterUpdate, 
-          transformEntityClassId,
-          entityClassId
+          transformEntityModelId,
+          entityModelId
         }
       })
 
-      const temporaryInstances = this.temporaryInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyTime, entityClassId, destroyAfterUpdate, transformEntityClassId}) => {
+      const temporaryInstances = this.temporaryInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyTime, entityModelId, destroyAfterUpdate, transformEntityModelId}) => {
         return {
           entityInstanceId,
           x,
           y,
           rotation,
           isVisible,
-          entityClassId,
+          entityModelId,
           destroyTime,
           destroyAfterUpdate, 
-          transformEntityClassId,
+          transformEntityModelId,
         }
       })
       
@@ -84,7 +84,7 @@ export class GameHostScene extends EditorScene {
         rotation: this.playerInstance.phaserInstance.rotation,
         isVisible: this.playerInstance.isVisible,
         destroyAfterUpdate: this.playerInstance.destroyAfterUpdate,
-        transformEntityClassId: this.playerInstance.transformEntityClassId
+        transformEntityModelId: this.playerInstance.transformEntityModelId
       }
       
       this.updateNetworkStatus()

@@ -25,7 +25,7 @@ const projectileValueToLabel = {
   [PROJECTILE_RIGHT]: 'Eject Right',
   [PROJECTILE_RANDOM_DIRECTION]: 'Eject Random Direction',
   [PROJECTILE_RANDOM_ANGLE]: 'Eject Random Angle',
-  [PROJECTILE_TARGET_CLASS]: 'Eject at Class',
+  [PROJECTILE_TARGET_CLASS]: 'Eject at Entity',
   [PROJECTILE_TARGET_PLAYER]: 'Eject at Player',
   [PROJECTILE_NONE]: 'Does not eject'
 }

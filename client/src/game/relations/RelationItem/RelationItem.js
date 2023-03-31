@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // import './TagITem.scss';
 import { selectBrush, clearBrush } from '../../../store/actions/game/gameSelectorActions';
-import { openContextMenuFromClassId } from '../../../store/actions/game/contextMenuActions';
+import { openContextMenuFromEntityId } from '../../../store/actions/game/contextMenuActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { changeRelationIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
@@ -54,5 +54,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { openContextMenuFromClassId, openCreateRelation, selectBrush, clearBrush, changeRelationIdHovering }),
+  connect(mapStateToProps, { openContextMenuFromEntityId, openCreateRelation, selectBrush, clearBrush, changeRelationIdHovering }),
 )(RelationItem);

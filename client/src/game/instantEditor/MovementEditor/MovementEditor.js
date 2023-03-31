@@ -17,11 +17,11 @@ import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DR
 import { movementControlsBehaviorToInterface } from '../../constants';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 
-const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
+const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
-  const classSelected = gameModel.entityClasses[entityClassId]
+  const entitySelected = gameModel.entityModels[entityModelId]
 
-  let movementParameters = classSelected.classInterfaceCategory === PLAYER_CLASS ? movementControlsBehaviorToInterface[classSelected.movement.movementControlsBehavior] : movementBehaviorToInterface[classSelected.movement.movementBehavior]
+  let movementParameters = entitySelected.entityInterfaceId === PLAYER_CLASS ? movementControlsBehaviorToInterface[entitySelected.movement.movementControlsBehavior] : movementBehaviorToInterface[entitySelected.movement.movementBehavior]
 
   if(seeAllParameters) {
     movementParameters = {
@@ -44,39 +44,39 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
 
   return (
     <div className="MovementEditor">
-      {classSelected.classInterfaceCategory === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
+      {entitySelected.entityInterfaceId === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
         <SelectMovementControlsBehavior
           formLabel="Controls"
-          value={classSelected.movement.movementControlsBehavior ? [classSelected.movement.movementControlsBehavior] : []}
+          value={entitySelected.movement.movementControlsBehavior ? [entitySelected.movement.movementControlsBehavior] : []}
           onChange={(event, controls) => {
-            editGameModel({ entityClasses: { [entityClassId]: { ...controls[controls.length-1] } }})    
+            editGameModel({ entityModels: { [entityModelId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
-      {classSelected.classInterfaceCategory !== PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
+      {entitySelected.entityInterfaceId !== PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
         <SelectMovementBehavior
           formLabel="Behavior"
-          value={classSelected.movement.movementBehavior ? [classSelected.movement.movementBehavior] : []}
+          value={entitySelected.movement.movementBehavior ? [entitySelected.movement.movementBehavior] : []}
           onChange={(event, movementBehavior) => {
-            editGameModel({ entityClasses: { [entityClassId]: { ...movementBehavior[movementBehavior.length-1] } }})    
+            editGameModel({ entityModels: { [entityModelId]: { ...movementBehavior[movementBehavior.length-1] } }})    
           }}/>
       </Unlockable>}
       {movementParameters.relationTag&& <SelectRelationTag
           formLabel="Following Tag"
-          value={classSelected.movement.relationTagId ? [classSelected.movement.relationTagId] : []}
+          value={entitySelected.movement.relationTagId ? [entitySelected.movement.relationTagId] : []}
           onChange={(event, relationTags) => {
             const newTagId = relationTags[relationTags.length-1]
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { relationTagId: newTagId ? newTagId : null  }}}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { relationTagId: newTagId ? newTagId : null  }}}})        
       }}/>}
-      {classSelected.movement.movementControlsBehavior && <ControlsCard entityClass={classSelected} controlScheme={classSelected.movement.movementControlsBehavior} jumpControlsBehavior={classSelected.jump.jumpControlsBehavior}></ControlsCard>}
+      {entitySelected.movement.movementControlsBehavior && <ControlsCard entityModel={entitySelected} controlScheme={entitySelected.movement.movementControlsBehavior} jumpControlsBehavior={entitySelected.jump.jumpControlsBehavior}></ControlsCard>}
       {movementParameters.speed &&<Unlockable interfaceId={MOVEMENT_SPEED_IID}>
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}
           options={[1, 5, 20, 100]}
           step={0.1}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { speed: value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { speed: value } }}})        
           }}
-          value={classSelected.movement.speed}
+          value={entitySelected.movement.speed}
         />
       </Unlockable>}
       {movementParameters.velocityY && <Unlockable interfaceId={MOVEMENT_VELOCITY_Y_IID}>
@@ -85,9 +85,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { velocityY: value} }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { velocityY: value} }}})        
           }}
-          value={classSelected.movement.velocityY}
+          value={entitySelected.movement.velocityY}
         />
       </Unlockable>}
       {movementParameters.velocityX && <Unlockable interfaceId={MOVEMENT_VELOCITY_X_IID}>
@@ -96,9 +96,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { velocityX: value} }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { velocityX: value} }}})        
           }}
-          value={classSelected.movement.velocityX}
+          value={entitySelected.movement.velocityX}
         />
       </Unlockable>}
       {movementParameters.speedAngular && <Unlockable isSlider interfaceId={MOVEMENT_SPEED_ANGULAR_IID}>
@@ -107,9 +107,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           options={[1, 20, 100, 200, 400]}
           step={0.1}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { speedAngular: value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { speedAngular: value } }}})        
           }}
-          value={classSelected.movement.speedAngular}
+          value={entitySelected.movement.speedAngular}
         />
        </Unlockable>}
       {movementParameters.dragAngular && <Unlockable isSlider interfaceId={MOVEMENT_DRAG_ANGULAR_IID}>
@@ -118,9 +118,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           step={0.01}
           options={[0, 20, 100, 200, 400]}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { dragAngular: value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { dragAngular: value } }}})        
           }}
-          value={classSelected.movement.dragAngular}
+          value={entitySelected.movement.dragAngular}
         />
        </Unlockable>}
       {movementParameters.dragY && <Unlockable isSlider interfaceId={MOVEMENT_DRAG_Y_IID}>
@@ -129,9 +129,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { dragY: 1 - value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { dragY: 1 - value } }}})        
           }}
-          value={1 - classSelected.movement.dragY}
+          value={1 - entitySelected.movement.dragY}
         />
        </Unlockable>}
        {movementParameters.dragX && <Unlockable isSlider interfaceId={MOVEMENT_DRAG_X_IID}>
@@ -140,9 +140,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { dragX: 1 - value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { dragX: 1 - value } }}})        
           }}
-          value={1 - classSelected.movement.dragX}
+          value={1 - entitySelected.movement.dragX}
         />
        </Unlockable>}
        {movementParameters.gravityY && <Unlockable isSlider interfaceId={MOVEMENT_GRAVITY_Y_IID}>
@@ -151,9 +151,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { gravityY: value} }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { gravityY: value} }}})        
           }}
-          value={classSelected.movement.gravityY}
+          value={entitySelected.movement.gravityY}
         />
       </Unlockable>}
       {movementParameters.gravityX && <Unlockable isSlider interfaceId={MOVEMENT_GRAVITY_X_IID}>
@@ -162,9 +162,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           options={[-100, -20, -5, 0, 1, 5, 20, 100]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { gravityX: value} }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { gravityX: value} }}})        
           }}
-          value={classSelected.movement.gravityX}
+          value={entitySelected.movement.gravityX}
         />
       </Unlockable>}
       {movementParameters.bounce && <Unlockable isSlider interfaceId={PHYSICS_BOUNCE_IID}>
@@ -173,9 +173,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           step={0.05}
           options={[0, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { collisionResponse: { bounciness: value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { collisionResponse: { bounciness: value } }}})        
           }}
-          value={classSelected.collisionResponse.bounciness}
+          value={entitySelected.collisionResponse.bounciness}
         />
       </Unlockable>}
       {movementParameters.ignoreGravity && <Unlockable interfaceId={MOVEMENT_IGNORE_GRAVITY_IID}>
@@ -183,9 +183,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           size="small"
           labels={['No Gravity', 'Gravity']}
           onChange={(e) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { ignoreGravity: !e.target.checked }}}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { ignoreGravity: !e.target.checked }}}})        
           }}
-          checked={!classSelected.movement.ignoreGravity}
+          checked={!entitySelected.movement.ignoreGravity}
          />
       </Unlockable>}
       {movementParameters.disableDownKey && <Unlockable interfaceId={MOVEMENT_CONTROLS_DOWN_IID}>
@@ -193,9 +193,9 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
           labels={['Enable Down', 'Disable Down']}
           size="small"
           onChange={(e) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { disableDownKey: e.target.checked }}}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { disableDownKey: e.target.checked }}}})        
           }}
-          checked={classSelected.movement.disableDownKey}
+          checked={entitySelected.movement.disableDownKey}
          />
       </Unlockable>}
       <Unlockable interfaceId={TOGGLE_ALL_PARAMS_IID}>

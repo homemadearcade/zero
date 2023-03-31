@@ -41,7 +41,7 @@ export const effectBehaviorToDisplayNames = {
 export const effectBehaviorInterfaces = {
   // Movement
   [EFFECT_TELEPORT]: {
-    zoneEntityClassId: 'Teleport to which zone?',
+    zoneEntityModelId: 'Teleport to which zone?',
     effectableType: TWO_RELATION_TAG_EFFECT,
   },
   [EFFECT_IGNORE_GRAVITY]: {
@@ -55,13 +55,13 @@ export const effectBehaviorInterfaces = {
 
   // Lifecycle
   [EFFECT_TRANSFORM]: {
-    entityClassId: 'Transform into which object?',
+    entityModelId: 'Transform into which object?',
     effectableType: TWO_RELATION_TAG_EFFECT,
   },
   [EFFECT_SPAWN]: {
-    zoneEntityClassId: 'Spawn in which Zone?',
+    zoneEntityModelId: 'Spawn in which Zone?',
     effectCooldown: true,
-    spawnEntityClassId: 'Which Class will be spawned?',
+    spawnEntityModelId: 'Which Entity will be spawned?',
     spawnZoneSelectorType: true,  
     effectableType: NO_RELATION_TAG_EFFECT,
     isCustomizeable: true,
@@ -102,8 +102,8 @@ export const effectBehaviorInterfaces = {
   // Meta
   [EFFECT_SWITCH_STAGE]: {
     stageId: 'Which stage?',
-    // zoneEntityClassId: 'Spawn in which Zone?',
-    // entityClassId: 'Transform into which object? (Optional)',
+    // zoneEntityModelId: 'Spawn in which Zone?',
+    // entityModelId: 'Transform into which object? (Optional)',
     effectableType: NO_RELATION_TAG_EFFECT,
     isCustomizeable: true
   },
@@ -180,20 +180,20 @@ export function getEffectShorthand(effect) {
   const effectBehavior = effect.effectBehavior 
   const displayName = effectBehaviorToDisplayNames[effectBehavior]
   const gameModel = store.getState().gameModel.gameModel
-  const entityClasses = gameModel.entityClasses 
+  const entityModels = gameModel.entityModels 
   const cutscenes = gameModel.cutscenes 
   const relationTags = gameModel.relationTags 
 
   if(effectBehavior === EFFECT_TELEPORT) {
-    return displayName + ` to  ${entityClasses[effect.zoneEntityClassId].name}` 
+    return displayName + ` to  ${entityModels[effect.zoneEntityModelId].name}` 
   }
 
   if(effectBehavior === EFFECT_TRANSFORM) {
-    return displayName + ` into  ${entityClasses[effect.entityClassId].name}`
+    return displayName + ` into  ${entityModels[effect.entityModelId].name}`
   }
 
   if(effectBehavior === EFFECT_SPAWN) {
-    return displayName + ` ${entityClasses[effect.spawnEntityClassId].name}  into  ${entityClasses[effect.zoneEntityClassId].name}`
+    return displayName + ` ${entityModels[effect.spawnEntityModelId].name}  onto  ${entityModels[effect.zoneEntityModelId].name}`
   }
 
   if(effectBehavior === EFFECT_CUTSCENE) {

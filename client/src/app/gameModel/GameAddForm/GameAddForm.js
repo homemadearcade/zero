@@ -21,7 +21,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       metadata: {},
       theme: {},
       relationTags: {},
-      entityClasses: {},
+      entityModels: {},
       brushes: {},
       colors: {},
       textures: {},

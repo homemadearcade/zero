@@ -61,7 +61,7 @@ export const validateLobbyInstance = (lobby) => {
 
   //   }),
   //   entityInstance: Joi.object(),
-  //   entityClasses: Joi.object(),
+  //   entityModels: Joi.object(),
   //   brushes: Joi.object(),
   //   textures: Joi.object(),
   // };

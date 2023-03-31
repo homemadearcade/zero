@@ -5,17 +5,17 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Sprite from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST} from '../../constants';
+import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
-import { classTypeToDisplayName } from '../../constants';
+import { entityModelTypeToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
 import { changeSelectorList, openGameMetadataModal, openSelectStageColorModal } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
-import { openEditClassModal } from '../../../store/actions/game/gameFormEditorActions';
+import { openEditEntityModal } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
+import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_CLASS_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
@@ -27,9 +27,9 @@ const HoverPreview = ({
   },
   hoverPreview: { 
     brushIdHovering, 
-    entityClassIdHovering,
+    entityModelIdHovering,
     entityInstanceIdHovering,
-    instanceClassIdHovering,
+    instanceEntityIdHovering,
     instanceDataHovering,
     effectIdHovering,
     relationIdHovering,
@@ -37,14 +37,14 @@ const HoverPreview = ({
   },
   gameSelector: {
     brushIdSelectedBrushList,
-    entityClassIdSelectedClassList,
-    currentSelectorList,
+    entityModelIdSelectedEntityList,
+    currentSelectorListInterfaceId,
   },
   gameModel: { 
     currentStageId,
     gameModel: { 
       metadata,
-      entityClasses,
+      entityModels,
       brushes,
       stages,
       effects,
@@ -56,27 +56,27 @@ const HoverPreview = ({
     gameRoomInstance
   },
   openGameMetadataModal,
-  openEditClassModal,
+  openEditEntityModal,
   openSelectStageColorModal,
   openSnapshotTaker,
   changeSelectorList,
 }) => {
   const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
   const theme = useWishTheme()
-  let entityClass
+  let entityModel
 
-  const entityClassId = instanceClassIdHovering || entityClassIdHovering || entityClassIdSelectedClassList 
-  if(entityClassId) {
-    entityClass = entityClasses[entityClassId]
+  const entityModelId = instanceEntityIdHovering || entityModelIdHovering || entityModelIdSelectedEntityList 
+  if(entityModelId) {
+    entityModel = entityModels[entityModelId]
   }
   
-  let brushClass
+  let brushModel
   let hex; 
   let isEraser;
 
   const brushId = brushIdHovering || brushIdSelectedBrushList
   if(brushId) {
-    brushClass = brushes[brushId]
+    brushModel = brushes[brushId]
     
     if(isBrushIdEraser(brushId)) {  
       isEraser = true
@@ -132,24 +132,24 @@ const HoverPreview = ({
     </>
   }
 
-  function renderClassDisplay() {
-    let title = entityClass.name + ' - ' + classTypeToDisplayName[entityClass.classInterfaceCategory]
+  function renderEntityDisplay() {
+    let title = entityModel.name + ' - ' + entityModelTypeToDisplayName[entityModel.entityInterfaceId]
     if(instanceDataHovering?.isSpawned) title += ' (Spawned)'
     return renderDisplayWithTexture({
-      textureTint: entityClass.graphics.textureTint,
-      textureId: entityClass.graphics.textureId,
+      textureTint: entityModel.graphics.textureTint,
+      textureId: entityModel.graphics.textureId,
       title,
       onEdit: () => {
-        openEditClassModal(entityClass)
+        openEditEntityModal(entityModel)
       }
     })
   }
 
   function renderBrushDisplay() {
     return renderDisplayWithTexture({
-      textureTint: brushClass.textureTint,
-      textureId: brushClass.textureId,
-      title: layerToDisplayName[brushClass.layerId]
+      textureTint: brushModel.textureTint,
+      textureId: brushModel.textureId,
+      title: layerToDisplayName[brushModel.layerId]
     })
   }
 
@@ -190,14 +190,14 @@ const HoverPreview = ({
    return  <>
     {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${imageBackground}"` : ''}}></div>}
     <div className="HoverPreview__title" onClick={() => {
-      // if(currentSelectorList === SELECTOR_MAP_LIST) changeSelectorList(SELECTOR_ABSTRACT_LIST)
+      // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_CLASS) changeSelectorList(SELECTOR_ABSTRACT_LIST)
     }}>
       <Typography font="2P" variant="subtitle2">
         {metadata.title}
        </Typography>
-       {currentSelectorList !== SELECTOR_MAP_LIST && <div className="HoverPreview__close">
+       {currentSelectorListInterfaceId !== SELECTOR_ENTITY_BY_CLASS_IID && <div className="HoverPreview__close">
         <IconButton icon="faClose" onClick={() => {
-          changeSelectorList(SELECTOR_MAP_LIST)
+          changeSelectorList(SELECTOR_ENTITY_BY_CLASS_IID)
         }}></IconButton>
       </div>}
       {(gameRoomInstance.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
@@ -211,9 +211,9 @@ const HoverPreview = ({
           <Unlockable interfaceId={GAME_METADATA_IID}>{renderEditableIcon(() => {
             openGameMetadataModal()
           })}</Unlockable>
-          {currentSelectorList === SELECTOR_MAP_LIST && <Unlockable interfaceId={CHANGE_SELECTOR_TAB_IID}>
+          {currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_CLASS_IID && <Unlockable interfaceId={CHANGE_SELECTOR_TAB_IID}>
             <Button size="xs" onClick={() => {
-              changeSelectorList(SELECTOR_ABSTRACT_LIST)
+              changeSelectorList(SELECTOR_ABSTRACT_LIST_IID)
             }}><Icon icon="faTableList"/></Button>
           </Unlockable>}
       </div>}
@@ -251,18 +251,18 @@ const HoverPreview = ({
       return renderTextOnlyDisplay({
         title: effectBehaviorToDisplayNames[effect.effectBehavior]
       })
-    } else if(instanceClassIdHovering) {
-      return renderClassDisplay()
-    } else if(entityClassIdHovering) {
-      return renderClassDisplay()
+    } else if(instanceEntityIdHovering) {
+      return renderEntityDisplay()
+    } else if(entityModelIdHovering) {
+      return renderEntityDisplay()
     } else if(brushIdHovering) {
       if(hex) return renderColorDisplay()
       return renderBrushDisplay()
     }
     
     // selected
-    if(entityClassIdSelectedClassList) {
-      return renderClassDisplay()
+    if(entityModelIdSelectedEntityList) {
+      return renderEntityDisplay()
     } else if(brushIdSelectedBrushList) {
       if(isEraser) return renderEraserDisplay()
       if(hex) return renderColorDisplay()
@@ -298,4 +298,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoomInstance: state.gameRoomInstance
 })
 
-export default connect(mapStateToProps, { openGameMetadataModal, openEditClassModal, openSelectStageColorModal, openSnapshotTaker, changeSelectorList })(HoverPreview);
+export default connect(mapStateToProps, { openGameMetadataModal, openEditEntityModal, openSelectStageColorModal, openSnapshotTaker, changeSelectorList })(HoverPreview);

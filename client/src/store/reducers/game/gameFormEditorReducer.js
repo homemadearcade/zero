@@ -56,9 +56,9 @@ const initialState = {
     visualTags: []
   },
 
-  isEditClassGraphicsOpen: false,
-  isEditClassModalOpen: false,
-  entityClass: {
+  isEditEntityGraphicsOpen: false,
+  isEditEntityModalOpen: false,
+  entityModel: {
     visualTags: [],
     graphics : {
       textureId: null,
@@ -68,7 +68,7 @@ const initialState = {
 
     },
     name: "",
-    classInterfaceCategory: null,
+    entityInterfaceId: null,
   },
 
   isCreateColorFlowOpen: false,
@@ -111,7 +111,7 @@ const initialState = {
 
   isBoundaryRelationMenuOpen: false,
   isCreateRelationOpen: false,
-  entityClassIdRelationsMenu: null,
+  entityModelIdRelationsMenu: null,
   relation: {
     ...defaultRelationship,
   },
@@ -144,14 +144,14 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case OPEN_CLASS_EDIT_MODAL: 
       return {
         ...state,
-        isEditClassModalOpen: true,
-        entityClass: payload.entityClass
+        isEditEntityModalOpen: true,
+        entityModel: payload.entityModel
       }
     case CLOSE_CLASS_EDIT_MODAL:
       return {
         ...state,
-        isEditClassModalOpen: false,
-        // entityClass: null
+        isEditEntityModalOpen: false,
+        // entityModel: null
       }
     case CLOSE_CREATE_COLOR_FLOW: 
       return {
@@ -162,21 +162,21 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case UPDATE_CREATE_CLASS: 
       return {
         ...state,
-        entityClass: mergeDeep(state.entityClass, payload.entityClass)
+        entityModel: mergeDeep(state.entityModel, payload.entityModel)
       }
     case OPEN_CREATE_CLASS_FLOW: 
       return {
         ...state,
-        entityClass: {
-          ..._.cloneDeep(initialState.entityClass),
-          ...payload.entityClass ? _.cloneDeep(payload.entityClass) : {}
+        entityModel: {
+          ..._.cloneDeep(initialState.entityModel),
+          ...payload.entityModel ? _.cloneDeep(payload.entityModel) : {}
         },
-        isEditClassGraphicsOpen: true
+        isEditEntityGraphicsOpen: true
       }
     case CLOSE_CREATE_CLASS_FLOW: 
       return {
         ...state,
-        isEditClassGraphicsOpen: false
+        isEditEntityGraphicsOpen: false
       }
     case UPDATE_CREATE_BRUSH_STEP: 
       return {
@@ -316,15 +316,15 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isBoundaryRelationOpen: true,
-        entityClass: {
-          ..._.cloneDeep(initialState.entityClass),
-          ...payload.initialEntityClass ? _.cloneDeep(payload.initialEntityClass) : {}
+        entityModel: {
+          ..._.cloneDeep(initialState.entityModel),
+          ...payload.initialEntityModel ? _.cloneDeep(payload.initialEntityModel) : {}
         },
       }
     case UPDATE_BOUNDARY_RELATION: 
       return {
         ...state,
-        entityClass: {...state.entityClass, ...payload.entityClass }
+        entityModel: {...state.entityModel, ...payload.entityModel }
       }
     case CLOSE_BOUNDARY_RELATION: 
       return {

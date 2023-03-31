@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_ID_PREFIX, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_CLASS_IN_CAMERA, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_ID_PREFIX, layerGroupIdToDepth } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_ID_PREFIX, layerGroupIdToDepth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
-import { changePlayerClass } from '../../store/actions/game/playerInterfaceActions';
+import { changePlayerEntity } from '../../store/actions/game/playerInterfaceActions';
 import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
 import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/game/gameRoomInstanceActions';
 import { EntityInstance } from '../entities/EntityInstance'
@@ -13,7 +13,7 @@ import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Stage } from '../entities/Stage';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import JSConfetti from 'js-confetti'
-import { directionalPlayerClassId } from '../constants';
+import { directionalPlayerEntityId } from '../constants';
 import { getLayerIdFromEraserId } from '../../utils';
 
 export class GameInstance extends Phaser.Scene {
@@ -58,24 +58,24 @@ export class GameInstance extends Phaser.Scene {
       const gameModel = this.getGameModel()
       const playerInterface = getCobrowsingState().playerInterface
       const currentStage = this.getCurrentStage()
-      const zoneId = gameModel.stages[currentStage.stageId].playerSpawnZoneClassId
-      const zone = this.getRandomInstanceOfClassId(zoneId)
+      const zoneId = gameModel.stages[currentStage.stageId].playerSpawnZoneEntityId
+      const zone = this.getRandomInstanceOfEntityId(zoneId)
 
-      const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.entityClasses[zoneId]))
+      const {x, y} = this.getRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.entityModels[zoneId]))
 
-      let lastPlayerClassId = playerInterface.playerClassId ? playerInterface.playerClassId : directionalPlayerClassId;
+      let lastPlayerEntityId = playerInterface.playerEntityModelId ? playerInterface.playerEntityModelId : directionalPlayerEntityId;
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
-        entityClassId: currentStage.playerClassId ? currentStage.playerClassId : lastPlayerClassId,
+        entityModelId: currentStage.playerEntityModelId ? currentStage.playerEntityModelId : lastPlayerEntityId,
         spawnX:x,
         spawnY: y
       });
     } else {
 
-      const {entityClassId, spawnX, spawnY} = classData
+      const {entityModelId, spawnX, spawnY} = classData
 
       this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
-        entityClassId,
+        entityModelId,
         spawnX,
         spawnY
       });
@@ -183,8 +183,8 @@ export class GameInstance extends Phaser.Scene {
     // all phaserInstances on playground layer collide with the player
     const gameModel = this.getGameModel()
     const releventInstances = this.entityInstances.filter((entityInstance) => {
-      const entityClass = gameModel.entityClasses[entityInstance.entityClassId]
-      return entityClass.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID
+      const entityModel = gameModel.entityModels[entityInstance.entityModelId]
+      return entityModel.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID
     }).map(({phaserInstance}) => phaserInstance)
 
     this.colliderRegistrations.push(
@@ -308,7 +308,7 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
-  // spawnEntityInstanceInsidePlayerCamera({entityClassId}) {
+  // spawnEntityInstanceInsidePlayerCamera({entityModelId}) {
   //   const [x, y, width, height] = this.playerInstance.getCameraBoundaries()
   //   const xMix = Math.random() * width;
   //   const yMix = Math.random() * height;
@@ -321,7 +321,7 @@ export class GameInstance extends Phaser.Scene {
   //     yMix,
   //     x,y,width,height
   //   })
-  //   this.addEntityInstance(ENTITY_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, entityClassId}, true)
+  //   this.addEntityInstance(ENTITY_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, entityModelId}, true)
   // }
   initializeEntityInstances() {
     const currentStage = this.getCurrentStage()
@@ -341,8 +341,8 @@ export class GameInstance extends Phaser.Scene {
       if(entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
         return console.error('hero got in?!')
       }
-      if(!entityInstanceData.entityClassId) {
-        return console.error('missing entityClassId!!', entityInstanceData)
+      if(!entityInstanceData.entityModelId) {
+        return console.error('missing entityModelId!!', entityInstanceData)
       }
 
       this.initializeEntityInstance(entityInstanceId, entityInstanceData)
@@ -356,13 +356,13 @@ export class GameInstance extends Phaser.Scene {
   
   sortInstancesIntoTags() {
     this.entityInstancesByTag = {}
-    const entityClasses = this.getGameModel().entityClasses
+    const entityModels = this.getGameModel().entityModels
     const allInstances = this.entityInstances.slice()
     allInstances.push(this.playerInstance)
     allInstances.forEach((entityInstance) => {
-      const entityClass = entityClasses[entityInstance.entityClassId]
-      Object.keys(entityClass.relationTags).forEach((relationTagId) => {
-        if(entityClass.relationTags[relationTagId]) {
+      const entityModel = entityModels[entityInstance.entityModelId]
+      Object.keys(entityModel.relationTags).forEach((relationTagId) => {
+        if(entityModel.relationTags[relationTagId]) {
           if(!this.entityInstancesByTag[relationTagId]) {
             this.entityInstancesByTag[relationTagId] = [entityInstance]
           } else {
@@ -380,8 +380,8 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
-  addTemporaryInstance(entityInstanceId, entityClassId) {
-    const temporaryInstance = new ProjectileInstance(this, entityInstanceId, { entityClassId })
+  addTemporaryInstance(entityInstanceId, entityModelId) {
+    const temporaryInstance = new ProjectileInstance(this, entityInstanceId, { entityModelId })
     this.temporaryInstances.push(temporaryInstance)
     this.temporaryInstancesById[entityInstanceId] = temporaryInstance
     // this.unregisterRelations()
@@ -418,14 +418,14 @@ export class GameInstance extends Phaser.Scene {
     this.reregisterRelationships()
   }
 
-  updateEntityInstance(entityInstance, {x, y, rotation, isVisible, destroyAfterUpdate, transformEntityClassId}) {
+  updateEntityInstance(entityInstance, {x, y, rotation, isVisible, destroyAfterUpdate, transformEntityModelId}) {
     if(x) entityInstance.phaserInstance.x = x;
     if(y) entityInstance.phaserInstance.y = y;
     if(rotation) entityInstance.phaserInstance.rotation = rotation;
     entityInstance.setVisible(isVisible);
     entityInstance.isVisible = isVisible
     entityInstance.destroyAfterUpdate = destroyAfterUpdate 
-    entityInstance.transformEntityClassId = transformEntityClassId
+    entityInstance.transformEntityModelId = transformEntityModelId
   }
 
   destroyInstances() {
@@ -453,14 +453,14 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
-  getEntityClassDepth(entityClassId) {
+  getEntityModelDepth(entityModelId) {
     const layers = this.getCurrentStage().layers
     const gameModel = this.getGameModel()
-    const entityClass = gameModel.entityClasses[entityClassId]
+    const entityModel = gameModel.entityModels[entityModelId]
 
-    if(entityClass.graphics.depthOverride) return entityClass.graphics.depthOverride
-    const layerGroupId =  layers[entityClass.graphics.layerId].layerGroupId
-    return layerGroupIdToDepth[layerGroupId] + entityClass.graphics.depthModifier
+    if(entityModel.graphics.depthOverride) return entityModel.graphics.depthOverride
+    const layerGroupId =  layers[entityModel.graphics.layerId].layerGroupId
+    return layerGroupIdToDepth[layerGroupId] + entityModel.graphics.depthModifier
   }
 
   getEntityInstance(entityInstanceId) {
@@ -471,33 +471,33 @@ export class GameInstance extends Phaser.Scene {
     return this.entityInstancesById[entityInstanceId]
   }
 
-  getAllEntityInstancesOfClassId(entityClassId) {
+  getAllEntityInstancesOfEntityId(entityModelId) {
     let instances = [...this.entityInstances]
-    if(entityClassId === this.playerInstance?.entityInstanceId || entityClassId === this.playerInstance?.entityClassId) {
+    if(entityModelId === this.playerInstance?.entityInstanceId || entityModelId === this.playerInstance?.entityModelId) {
       instances.push(this.playerInstance)
     }
     instances = instances.filter((instance) => {
-      return instance.entityClassId === entityClassId
+      return instance.entityModelId === entityModelId
     })
     
     const projectiles= this.temporaryInstances.filter((instance) => {
-      return instance.entityClassId === entityClassId
+      return instance.entityModelId === entityModelId
     })
 
     return instances.concat(projectiles)
   }
 
-  getRandomInstanceOfClassId(entityClassId) {
-    const instances = this.getAllEntityInstancesOfClassId(entityClassId)
+  getRandomInstanceOfEntityId(entityModelId) {
+    const instances = this.getAllEntityInstancesOfEntityId(entityModelId)
     const index = Math.floor(Math.random() * instances.length)
     return instances[index]
   }
 
-  forAllEntityInstancesMatchingClassId(entityClassId, fx) {
+  forAllEntityInstancesMatchingEntityId(entityModelId, fx) {
    [this.playerInstance, ...this.entityInstances, ...this.temporaryInstances].forEach((entityInstance) => {
-      if(entityInstance.entityClassId === entityClassId) {
+      if(entityInstance.entityModelId === entityModelId) {
         fx(entityInstance)
-      } else if(entityInstance.entityInstanceId === entityClassId) {
+      } else if(entityInstance.entityInstanceId === entityModelId) {
         //player class
         fx(entityInstance)
       }
@@ -572,7 +572,7 @@ export class GameInstance extends Phaser.Scene {
 
     this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight);
     this.cameras.main.pan(this.playerInstance.phaserInstance.x, this.playerInstance.phaserInstance.y, 0)
-    const playerCameraZone = gameModel.entityClasses[initialCameraZoneClassId]
+    const playerCameraZone = gameModel.entityModels[initialCameraZoneEntityId]
     this.setPlayerZoom({...playerCameraZone.graphics});
 
     this.startPlaythroughStartEffects()
@@ -592,10 +592,10 @@ export class GameInstance extends Phaser.Scene {
         const jsConfetti = new JSConfetti()
         jsConfetti.addConfetti();
         return
-      case EVENT_SPAWN_CLASS_IN_CAMERA: 
+      case EVENT_SPAWN_MODEL_IN_CAMERA: 
         this.spawnEntityInstanceInsidePlayerCamera(data)
         return
-      case EVENT_SPAWN_CLASS_DRAG_FINISH: 
+      case EVENT_SPAWN_MODEL_DRAG_FINISH: 
         const entityInstance = this.getEntityInstance(data.entityInstanceId)
         entityInstance.phaserInstance.x = data.x;
         entityInstance.phaserInstance.y = data.y;
@@ -648,9 +648,9 @@ export class GameInstance extends Phaser.Scene {
     }
 
     if(this.getState().cobrowsing.isActivelyCobrowsing === false) {
-      let currentPlayerClassId = this.getState().playerInterface.playerClassId
-      if(this.playerInstance.entityClassId !== currentPlayerClassId) {
-        store.dispatch(changePlayerClass({entityClassId: this.playerInstance.entityClassId}))
+      let currentPlayerEntityId = this.getState().playerInterface.playerEntityModelId
+      if(this.playerInstance.entityModelId !== currentPlayerEntityId) {
+        store.dispatch(changePlayerEntity({entityModelId: this.playerInstance.entityModelId}))
       }
     }
   }
@@ -667,15 +667,15 @@ export class GameInstance extends Phaser.Scene {
     });
     
     [...this.temporaryInstances, ...this.entityInstances].forEach((entityInstance) => {
-      if(entityInstance.transformEntityClassId && entityInstance.transformEntityClassId !== entityInstance.entityClassId) {
-        entityInstance.reclass(entityInstance.transformEntityClassId)
+      if(entityInstance.transformEntityModelId && entityInstance.transformEntityModelId !== entityInstance.entityModelId) {
+        entityInstance.reclass(entityInstance.transformEntityModelId)
       } else if(entityInstance.destroyAfterUpdate) {
         entityInstance.destroyInGame()
       }
     })
 
-    if(this.playerInstance.transformEntityClassId && this.playerInstance.entityClassId !== this.playerInstance.transformEntityClassId) {
-      this.playerInstance.reclass(this.playerInstance.transformEntityClassId)
+    if(this.playerInstance.transformEntityModelId && this.playerInstance.entityModelId !== this.playerInstance.transformEntityModelId) {
+      this.playerInstance.reclass(this.playerInstance.transformEntityModelId)
     }
   }
 
@@ -686,9 +686,9 @@ export class GameInstance extends Phaser.Scene {
     })
     const gameModel = this.getGameModel()
     this.stage.ensureSpawnZoneExists()
-    const zoneId = gameModel.stages[this.stage.stageId].playerSpawnZoneClassId
-    const zone = this.scene.getRandomInstanceOfClassId(zoneId)
-    this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.entityClasses[zoneId]))
+    const zoneId = gameModel.stages[this.stage.stageId].playerSpawnZoneEntityId
+    const zone = this.scene.getRandomInstanceOfEntityId(zoneId)
+    this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.entityModels[zoneId]))
   }
 
   reset = () => {
@@ -818,8 +818,8 @@ export class GameInstance extends Phaser.Scene {
     return store.getState().gameModel.gameModel
   }
 
-  getEntityClass(entityClassId) {
-    return this.getGameModel().entityClasses[entityClassId]
+  getEntityModel(entityModelId) {
+    return this.getGameModel().entityModels[entityModelId]
   }
 
   setPlayerGameLoaded(arcadeGameMongoId) {

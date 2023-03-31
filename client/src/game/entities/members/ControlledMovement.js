@@ -9,30 +9,30 @@ export class ControlledMovement {
   }
 
   update(time, delta) {
-    const entityClassId = this.entityInstance.entityClassId
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    const entityModelId = this.entityInstance.entityModelId
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     const phaserInstance = this.entityInstance.phaserInstance
 
-    const isJumpAllowed = !entityClass.movement.ignoreGravity && entityClass.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
+    const isJumpAllowed = !entityModel.movement.ignoreGravity && entityModel.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS
 
     const mod = (1/(delta * 5))
-    const speed = entityClass.movement.speed * 100 * mod
+    const speed = entityModel.movement.speed * 100 * mod
 
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE/CAR
-    // || entityClass.movement.movementControlsBehavior === CAR_CONTROLS
-    if(entityClass.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
+    // || entityModel.movement.movementControlsBehavior === CAR_CONTROLS
+    if(entityModel.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
       if(this.cursors.left.isDown) {
-        this.entityInstance.setAngularVelocity(-entityClass.movement.speedAngular);
+        this.entityInstance.setAngularVelocity(-entityModel.movement.speedAngular);
       } else if(this.cursors.right.isDown) {
-        this.entityInstance.setAngularVelocity(entityClass.movement.speedAngular);
+        this.entityInstance.setAngularVelocity(entityModel.movement.speedAngular);
       }
 
       if(this.cursors.up.isDown) {
           this.entityInstance.thrust(speed * 4);
       } else {
-        if(this.cursors.down.isDown && !entityClass.movement.disableDownKey) {
+        if(this.cursors.down.isDown && !entityModel.movement.disableDownKey) {
           this.entityInstance.thrust(-(speed * 4));
         } else {
           this.entityInstance.setAcceleration(0)
@@ -43,7 +43,7 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // DIRECTIONAL
-    if(entityClass.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
+    if(entityModel.movement.movementControlsBehavior === DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -74,7 +74,7 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // ADVANCED_DIRECTIONAL
-    if(entityClass.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS) {
+    if(entityModel.movement.movementControlsBehavior === ADVANCED_DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -88,7 +88,7 @@ export class ControlledMovement {
         xTouched = true
       }
       
-      if((entityClass.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && this.cursors.up.isDown) {
+      if((entityModel.jump.jumpControlsBehavior === JUMP_NONE || !isJumpAllowed) && this.cursors.up.isDown) {
         this.entityInstance.setAccelerationY(-speed * 4)
         yTouched = true
       }
@@ -107,23 +107,23 @@ export class ControlledMovement {
     //////////////////////////////////////////////////////////////
     // JUMP
     if(isJumpAllowed) {
-      if(entityClass.jump.jumpControlsBehavior === JUMP_GROUND) {
+      if(entityModel.jump.jumpControlsBehavior === JUMP_GROUND) {
         if(this.cursors.up.isDown) {
-          if(phaserInstance.body.touching.down || phaserInstance.body.blocked.down) {
-            this.entityInstance.setVelocityY(-entityClass.jump.ground)
+          if(phaserInstance.body.blocked.down) {
+            this.entityInstance.setVelocityY(-entityModel.jump.ground)
           }
         }
       }
 
-      if(entityClass.jump.jumpControlsBehavior === JUMP_COMBO) {
+      if(entityModel.jump.jumpControlsBehavior === JUMP_COMBO) {
         if(this.cursors.up.isDown) {
           if(this.cursors.up.isPressable) {
             this.cursors.up.isPressable = false
-            if(phaserInstance.body.touching.down || phaserInstance.body.blocked.down) {
-              this.entityInstance.setVelocityY(-entityClass.jump.ground * 5)
+            if(phaserInstance.body.blocked.down) {
+              this.entityInstance.setVelocityY(-entityModel.jump.ground * 5)
             } else if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
-              this.entityInstance.setVelocityY(-entityClass.jump.air * 5)
-              this.doubleJumpCoolDown = time + entityClass.jump.cooldown
+              this.entityInstance.setVelocityY(-entityModel.jump.air * 5)
+              this.doubleJumpCoolDown = time + entityModel.jump.cooldown
             }
           }
         } else {
@@ -131,21 +131,21 @@ export class ControlledMovement {
         }
       }
 
-      if(entityClass.jump.jumpControlsBehavior === JUMP_AIR) {
+      if(entityModel.jump.jumpControlsBehavior === JUMP_AIR) {
         if(this.cursors.up.isDown) {
           if((!this.doubleJumpCoolDown || time > this.doubleJumpCoolDown)) {
-            this.entityInstance.setVelocityY(-entityClass.jump.air * 5)
-            this.doubleJumpCoolDown = time + entityClass.jump.cooldown
+            this.entityInstance.setVelocityY(-entityModel.jump.air * 5)
+            this.doubleJumpCoolDown = time + entityModel.jump.cooldown
           }
         }
       }
 
-      if(entityClass.jump.jumpControlsBehavior === JUMP_CONSTANT) {
+      if(entityModel.jump.jumpControlsBehavior === JUMP_CONSTANT) {
         if(this.cursors.up.isDown) {
-            this.entityInstance.thrust(entityClass.jump.ground * 4);
+            this.entityInstance.thrust(entityModel.jump.ground * 4);
         } else {
-          // if(this.cursors.down.isDown && !entityClass.jump.disableDownKey) {
-          //   this.entityInstance.thrust(-(entityClass.jump.ground * 4));
+          // if(this.cursors.down.isDown && !entityModel.jump.disableDownKey) {
+          //   this.entityInstance.thrust(-(entityModel.jump.ground * 4));
           // } else {
           //   this.entityInstance.setAccelerationY(0)
           // }
@@ -153,7 +153,7 @@ export class ControlledMovement {
       }
     }
 
-    // if(entityClass.movement.rotationFollowKeys) {
+    // if(entityModel.movement.rotationFollowKeys) {
     //   if(this.cursors.left.isDown) {
     //     this.entityInstance.setAngle(270)
     //   } else if(this.cursors.right.isDown) {

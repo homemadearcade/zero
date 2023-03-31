@@ -8,10 +8,10 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { CAMERA_LERP_X_IID, CAMERA_LERP_Y_IID, CAMERA_ZOOM_IID } from '../../../constants/interfaceIds';
 
-const CameraEditor = ({ entityClassId, gameModel: { gameModel, currentStageId }, editGameModel }) => {
-  const classSelected = gameModel.entityClasses[entityClassId]
+const CameraEditor = ({ entityModelId, gameModel: { gameModel, currentStageId }, editGameModel }) => {
+  const entitySelected = gameModel.entityModels[entityModelId]
 
-  if(!classSelected?.camera) {
+  if(!entitySelected?.camera) {
     console.error('opened camera editor on a class with no camera')
     return null
   }
@@ -49,9 +49,9 @@ const CameraEditor = ({ entityClassId, gameModel: { gameModel, currentStageId },
           options={zooms}
           step={0.2}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { camera: { zoom: value }  }}})        
+            editGameModel({ entityModels: { [entityModelId]: { camera: { zoom: value }  }}})        
           }}
-          value={classSelected.camera.zoom}
+          value={entitySelected.camera.zoom}
       />}
       </Unlockable>
       <Unlockable isSlider interfaceId={CAMERA_LERP_X_IID}>
@@ -60,9 +60,9 @@ const CameraEditor = ({ entityClassId, gameModel: { gameModel, currentStageId },
           options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
           step={0.01}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { camera: { lerpX: value }  }}})        
+            editGameModel({ entityModels: { [entityModelId]: { camera: { lerpX: value }  }}})        
           }}
-          value={classSelected.camera.lerpX}
+          value={entitySelected.camera.lerpX}
       />
       </Unlockable>
       <Unlockable isSlider interfaceId={CAMERA_LERP_Y_IID}>
@@ -71,9 +71,9 @@ const CameraEditor = ({ entityClassId, gameModel: { gameModel, currentStageId },
           step={0.01}
           options={[0, 0.09, 0.2, 0.4, 0.7, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { camera: { lerpY: value }  }}})        
+            editGameModel({ entityModels: { [entityModelId]: { camera: { lerpY: value }  }}})        
           }}
-          value={classSelected.camera.lerpY}
+          value={entitySelected.camera.lerpY}
       />
       </Unlockable>
     </div>

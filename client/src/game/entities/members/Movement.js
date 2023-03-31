@@ -8,34 +8,34 @@ export class Movement {
     this.scene = scene
 
     const gameModel = store.getState().gameModel.gameModel
-    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
+    const entityModel = gameModel.entityModels[this.entityInstance.entityModelId]
 
-    this.entityInstance.setAngularDrag(entityClass.movement.dragAngular)
+    this.entityInstance.setAngularDrag(entityModel.movement.dragAngular)
     this.entityInstance.setDamping(true)
-    this.entityInstance.setDragX(entityClass.movement.dragX)
-    this.entityInstance.setDragY(entityClass.movement.dragY)
-    this.entityInstance.setGravityX(entityClass.movement.gravityX)
-    this.entityInstance.setGravityY(entityClass.movement.gravityY)
-    this.entityInstance.setIgnoreGravity(entityClass.movement.ignoreGravity)
-    this.entityInstance.setVelocity(entityClass.movement.velocityX, entityClass.movement.velocityY)
+    this.entityInstance.setDragX(entityModel.movement.dragX)
+    this.entityInstance.setDragY(entityModel.movement.dragY)
+    this.entityInstance.setGravityX(entityModel.movement.gravityX)
+    this.entityInstance.setGravityY(entityModel.movement.gravityY)
+    this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity)
+    this.entityInstance.setVelocity(entityModel.movement.velocityX, entityModel.movement.velocityY)
   }
 
   resetPhysics() {
     const gameModel = store.getState().gameModel.gameModel
-    const entityClass = gameModel.entityClasses[this.entityInstance.entityClassId]
+    const entityModel = gameModel.entityModels[this.entityInstance.entityModelId]
     this.entityInstance.setAcceleration(0,0)
-    this.entityInstance.setVelocity(entityClass.movement.velocityX, entityClass.movement.velocityY)
+    this.entityInstance.setVelocity(entityModel.movement.velocityX, entityModel.movement.velocityY)
     this.entityInstance.setRotation(0)
   }
 
   update(time, delta) {
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[this.entityInstance.entityClassId]
-    const movementBehavior = entityClass.movement.movementBehavior 
+    const entityModel = store.getState().gameModel.gameModel.entityModels[this.entityInstance.entityModelId]
+    const movementBehavior = entityModel.movement.movementBehavior 
     const phaserInstance = this.entityInstance.phaserInstance
 
     if(movementBehavior === MOVEMENT_TURN_ON_COLLIDE) {
       if(phaserInstance.body.blocked.none === false || phaserInstance.justCollided) {
-        const speed = entityClass.movement.speed
+        const speed = entityModel.movement.speed
         const check = Math.random()
     
         if(check < 0.25) {
@@ -51,7 +51,7 @@ export class Movement {
     }
 
     if(movementBehavior === MOVEMENT_TURN_RANDOMLY) {
-      const speed = entityClass.movement.speed
+      const speed = entityModel.movement.speed
 
       const check1 = Math.random()
 
@@ -78,11 +78,11 @@ export class Movement {
       }
     }
 
-    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && this.followingInstance.entityClassId !== entityClass.movement.relationTagId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.entityInstanceId) ) ) {
+    if(!this.followingInstance || this.followingInstance.destroyed || ( movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && this.followingInstance.entityModelId !== entityModel.movement.relationTagId ) || (movementBehavior === MOVEMENT_FOLLOW_PLAYER && !isPlayerId(this.followingInstance.entityInstanceId) ) ) {
       if(movementBehavior === MOVEMENT_FOLLOW_PLAYER) {
         this.followingInstance = this.scene.playerInstance
-      } else if(movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && entityClass.movement.relationTagId) {
-        const instances = this.scene.entityInstancesByTag[entityClass.movement.relationTagId]
+      } else if(movementBehavior === MOVEMENT_FOLLOW_RELATION_TAG && entityModel.movement.relationTagId) {
+        const instances = this.scene.entityInstancesByTag[entityModel.movement.relationTagId]
         if(instances.length) this.followingInstance = instances[0]
       } else {
         this.followingInstance = null
@@ -96,7 +96,7 @@ export class Movement {
     }
 
     if(this.followingInstance) {
-      const speed = entityClass.movement.speed
+      const speed = entityModel.movement.speed
       const followingPhaserInstance = this.followingInstance.phaserInstance
       if(Math.abs(phaserInstance.x - followingPhaserInstance.x) < (speed/4) + 10) {
 

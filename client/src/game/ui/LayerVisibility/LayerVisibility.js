@@ -18,13 +18,13 @@ const LayerVisibility = ({
 }) => {
   return <Unlockable isTiny interfaceId={LAYER_VISIBILITY_IID}><div
     onClick={(e) => {
-      stopPropagation(e)
+      // stopPropagation(e)
       toggleLayerVisibility(layerId)
     }}
   > 
-    <Button size="tiny">
-     {!layerInvisibility[layerId] && 'Hide'}
-     {layerInvisibility[layerId] && 'Show'}
+    <Button startIcon={<Icon icon="faMapLocation"></Icon>} size="tiny">
+      {!layerInvisibility[layerId] && 'Hide'}
+      {layerInvisibility[layerId] && 'Show'}
     </Button>
   </div></Unlockable>
 };

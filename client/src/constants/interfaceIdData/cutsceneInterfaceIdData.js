@@ -13,6 +13,9 @@ export default {
   [DIALOGUE_SHORTCUT_IID]: {
     adminOnly: true
   },
+  // [DIALOGUE_MORE_IID]: {
+
+  // },
   [CUTSCENE_CONTAINER_IID]: {
     ignoreTools: true
   },
@@ -20,4 +23,5 @@ export default {
     previewText: 'Add Cutscene'
   },
   [CUTSCENE_SELECT_IID]: {},
+  // [CUTSCENE_MORE_IID]: {},
 }

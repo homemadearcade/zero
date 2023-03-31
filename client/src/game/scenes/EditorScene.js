@@ -4,12 +4,12 @@ import store from '../../store';
 import { editGameModel } from '../../store/actions/game/gameModelActions';
 import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../store/actions/game/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
-import { clearBrush, clearClass } from '../../store/actions/game/gameSelectorActions';
+import { clearBrush, clearEntity } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/game/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, ENTITY_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_CLASS_DRAG_FINISH, initialCameraZoneClassId, initialStageZoneClassId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, ENTITY_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, initialStageZoneEntityId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
-import { ClassStamper } from '../drawing/ClassStamper';
+import { EntityStamper } from '../drawing/EntityStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
@@ -79,9 +79,9 @@ export class EditorScene extends GameInstance {
   }
 
   continueDrag(phaserInstance, {x, y}) {
-    const entityClassId = this.getEntityInstance(this.draggingEntityInstanceId).entityClassId
-    const entityClass= store.getState().gameModel.gameModel.entityClasses[entityClassId]
-    const { clampedX, clampedY } = snapObjectXY({x, y,  entityClass})
+    const entityModelId = this.getEntityInstance(this.draggingEntityInstanceId).entityModelId
+    const entityModel= store.getState().gameModel.gameModel.entityModels[entityModelId]
+    const { clampedX, clampedY } = snapObjectXY({x, y,  entityModel})
     phaserInstance.x = clampedX;
     phaserInstance.y = clampedY;
   }
@@ -91,7 +91,7 @@ export class EditorScene extends GameInstance {
     if(entitySprite.effectSpawned) {
       window.socket.emit(ON_GAME_INSTANCE_EVENT, {
         gameRoomInstanceMongoId: this.gameRoomInstance.id, 
-        gameInstanceEventType: EVENT_SPAWN_CLASS_DRAG_FINISH,
+        gameInstanceEventType: EVENT_SPAWN_MODEL_DRAG_FINISH,
         data: {
           x: entitySprite.x,
           y: entitySprite.y,
@@ -162,21 +162,21 @@ export class EditorScene extends GameInstance {
       height = Phaser.Math.Clamp(distanceH * 2, nodeSize, boundaries.height)
     }
 
-    const entityClass = this.getEntityClass(this.resizingEntityInstance.entityClassId)
-    if(entityClass.editorInterface.fixedAspectRatio) {
+    const entityModel = this.getEntityModel(this.resizingEntityInstance.entityModelId)
+    if(entityModel.editorInterface.fixedAspectRatio) {
       height = width
     }
 
-    this.forAllEntityInstancesMatchingClassId(phaserInstance.entityClassId, (object) => {
+    this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
       object.setSize(width, height)
     })
   }
 
   clearResize() {
     const phaserInstance = this.resizingEntityInstance.phaserInstance
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[phaserInstance.entityClassId];
-    this.forAllEntityInstancesMatchingClassId(phaserInstance.entityClassId, (object) => {
-      object.setSize(entityClass.graphics.width, entityClass.graphics.height)
+    const entityModel = store.getState().gameModel.gameModel.entityModels[phaserInstance.entityModelId];
+    this.forAllEntityInstancesMatchingEntityId(phaserInstance.entityModelId, (object) => {
+      object.setSize(entityModel.graphics.width, entityModel.graphics.height)
     })
     this.resizingEntityInstance = null
   }
@@ -189,8 +189,8 @@ export class EditorScene extends GameInstance {
         //   spawnX: phaserInstance.x,
         //   spawnY: phaserInstance.y
         // },
-        entityClasses: {
-          [phaserInstance.entityClassId]: {
+        entityModels: {
+          [phaserInstance.entityModelId]: {
             graphics: {
               width: phaserInstance.displayWidth,
               height: phaserInstance.displayHeight
@@ -210,8 +210,8 @@ export class EditorScene extends GameInstance {
             },
           }
         },
-        entityClasses: {
-          [phaserInstance.entityClassId]: {
+        entityModels: {
+          [phaserInstance.entityModelId]: {
             graphics: {
               width: phaserInstance.displayWidth,
               height: phaserInstance.displayHeight
@@ -236,7 +236,7 @@ export class EditorScene extends GameInstance {
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const gameSelector = getCobrowsingState().gameSelector
     const brushId = gameSelector.brushIdSelectedBrushList
-    const entityClassId = gameSelector.entityClassIdSelectedClassList
+    const entityModelId = gameSelector.entityModelIdSelectedEntityList
     const gameModel = store.getState().gameModel.gameModel
 
     if(this.resizingEntityInstance) {
@@ -292,12 +292,12 @@ export class EditorScene extends GameInstance {
     ////////////////////////////////////////////////////////////
     // STAMPERS
     ////////////////////////////////////////////////////////////
-    if((!entityClassId && this.stamper) || (this.stamper && (this.stamper.entityClassId !== entityClassId))) {
+    if((!entityModelId && this.stamper) || (this.stamper && (this.stamper.entityModelId !== entityModelId))) {
       this.destroyStamper()
     }
-    if(entityClassId && !this.stamper) {
-      const entityClass = gameModel.entityClasses[entityClassId]
-      this.stamper = new ClassStamper(this, entityClassId, entityClass)
+    if(entityModelId && !this.stamper) {
+      const entityModel = gameModel.entityModels[entityModelId]
+      this.stamper = new EntityStamper(this, entityModelId, entityModel)
     }
     if(this.stamper) {
       this.stamper.update(pointer)
@@ -309,14 +309,14 @@ export class EditorScene extends GameInstance {
     // const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
     //isObscured ||
 
-    // if(this.brush || this.stamper || this.snapshotSquare || this.getEntityClass(entitySprite[0].entityClassId).editorInterface.notSelectableInStage) {
+    // if(this.brush || this.stamper || this.snapshotSquare || this.getEntityModel(entitySprite[0].entityModelId).editorInterface.notSelectableInStage) {
     //   return
     // }
 
     const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
     const phaserInstance = entitySprite[0]
     if(phaserInstance.entityInstanceId !== entityInstanceIdHovering && phaserInstance.visible) {
-      store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityClassId, { isSpawned: phaserInstance.effectSpawned }))
+      store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityModelId, { isSpawned: phaserInstance.effectSpawned }))
     }
 
     phaserInstance.isMouseOver = true
@@ -372,11 +372,12 @@ export class EditorScene extends GameInstance {
     const snapCanvas =  new Phaser.GameObjects.RenderTexture(this, 0, 0, boundaries.maxWidth, boundaries.maxHeight);
 
     this.drawVisibleSceneToRenderTexture(snapCanvas)
-
+    const x= Math.floor(this.snapshotStartPos.x - 2)
+    const y= Math.floor(this.snapshotStartPos.y - 2) 
+    const xEnd = Math.floor((this.snapshotEndPos.x))
+    const yEnd = Math.floor((this.snapshotEndPos.y))
     snapCanvas.snapshotArea(
-      Math.floor(this.snapshotStartPos.x - 2), Math.floor(this.snapshotStartPos.y - 2), 
-      Math.floor((this.snapshotEndPos.x)), 
-      Math.floor((this.snapshotEndPos.y)), 
+      x,y,xEnd,yEnd,
       async function (image) {
         const textureId = gameViewEditor.snapshotTextureId
     
@@ -394,6 +395,10 @@ export class EditorScene extends GameInstance {
           imageType: IMAGE_TYPE_SNAPSHOT,
           imageUrl,
           visualTags: [],
+          imageData: {
+            width: Math.floor(xEnd - x),
+            height: Math.floor(yEnd - y)
+          },
           userMongoId: gameModel.owner.id,
         }))
 
@@ -528,7 +533,7 @@ export class EditorScene extends GameInstance {
       this.stamper.stamp(pointer)
       if(!pointer.event.shiftKey) {
         this.destroyStamper()
-        store.dispatch(clearClass())
+        store.dispatch(clearEntity())
       }
     }
     
@@ -633,11 +638,11 @@ export class EditorScene extends GameInstance {
     return gameModel.stages[this.stage.stageId].entityInstances[entityInstanceId]
   }
 
-  addEntityInstanceData(entityClassId, {spawnX, spawnY}) {
+  addEntityInstanceData(entityModelId, {spawnX, spawnY}) {
     const entityInstanceId = ENTITY_INSTANCE_ID_PREFIX+generateUniqueId()
 
     const entityInstanceData = {
-      entityClassId,
+      entityModelId,
       spawnX,
       spawnY,
     }
@@ -709,7 +714,7 @@ export class EditorScene extends GameInstance {
         const gameY = stageUpdate.boundaries.y
         this.cameras.main.setBounds(gameX, gameY, gameWidth, gameHeight)
         this.stage.setBoundaries(stageUpdate.boundaries)
-        this.forAllEntityInstancesMatchingClassId(initialStageZoneClassId, (entityInstance) => {
+        this.forAllEntityInstancesMatchingEntityId(initialStageZoneEntityId, (entityInstance) => {
           const entityInstanceData = this.getEntityInstanceData(entityInstance.entityInstanceId)
           this.removeEntityInstance(entityInstance.entityInstanceId)
           this.addEntityInstance(entityInstance.entityInstanceId, entityInstanceData)
@@ -737,8 +742,8 @@ export class EditorScene extends GameInstance {
         }
       })
 
-      if(stageUpdate?.playerClassId) {
-        this.playerInstance.transformEntityClassId = stageUpdate?.playerClassId
+      if(stageUpdate?.playerEntityModelId) {
+        this.playerInstance.transformEntityModelId = stageUpdate?.playerEntityModelId
       }
     }
 
@@ -763,118 +768,118 @@ export class EditorScene extends GameInstance {
       // }, 100)
     }
 
-    if(gameUpdate.entityClasses) Object.keys(gameUpdate.entityClasses).forEach((entityClassId) => {
-      const classUpdate = gameUpdate.entityClasses[entityClassId]
-      const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    if(gameUpdate.entityModels) Object.keys(gameUpdate.entityModels).forEach((entityModelId) => {
+      const entityModelUpdate = gameUpdate.entityModels[entityModelId]
+      const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
 
-      if(classUpdate.collisionResponse?.bounciness >= 0) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setBounce(classUpdate.collisionResponse.bounciness)
+      if(entityModelUpdate.collisionResponse?.bounciness >= 0) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setBounce(entityModelUpdate.collisionResponse.bounciness)
         })
       }
 
-      if(classUpdate.collisionResponse?.friction >= 0) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setFriction(classUpdate.collisionResponse.friction)
+      if(entityModelUpdate.collisionResponse?.friction >= 0) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setFriction(entityModelUpdate.collisionResponse.friction)
         })
       }
 
-      if(classUpdate.collisionResponse?.notPushable !== undefined) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setPushable(!classUpdate.collisionResponse.notPushable)
+      if(entityModelUpdate.collisionResponse?.notPushable !== undefined) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setPushable(!entityModelUpdate.collisionResponse.notPushable)
         })
       }
 
 
-      if(classUpdate.movement?.drag >= 0) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setDrag(classUpdate.movement.drag)
+      if(entityModelUpdate.movement?.drag >= 0) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setDrag(entityModelUpdate.movement.drag)
         })
       }
 
-      if(classUpdate.movement?.dragX >= 0) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setDragX(classUpdate.movement.dragX)
+      if(entityModelUpdate.movement?.dragX >= 0) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setDragX(entityModelUpdate.movement.dragX)
         })
       }
 
-      if(classUpdate.movement?.dragAngular >= 0) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setAngularDrag(classUpdate.movement.dragAngular)
+      if(entityModelUpdate.movement?.dragAngular >= 0) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setAngularDrag(entityModelUpdate.movement.dragAngular)
         })
       }
 
-      if(classUpdate.movement?.dragY >= 0) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setDragY(classUpdate.movement.dragY)
+      if(entityModelUpdate.movement?.dragY >= 0) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setDragY(entityModelUpdate.movement.dragY)
         })
       }
 
-      if(classUpdate.movement?.gravityY !== undefined) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setGravityY(classUpdate.movement?.gravityY)
+      if(entityModelUpdate.movement?.gravityY !== undefined) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setGravityY(entityModelUpdate.movement?.gravityY)
         })
       }
-      if(classUpdate.movement?.gravityX !== undefined) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setGravityX(classUpdate.movement?.gravityX)
+      if(entityModelUpdate.movement?.gravityX !== undefined) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setGravityX(entityModelUpdate.movement?.gravityX)
         })
       }
 
-      // if(classUpdate.frictionStatic >= 0) {
-      //   this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-      //     entityInstance.setFrictionStatic(classUpdate.frictionStatic)
+      // if(entityModelUpdate.frictionStatic >= 0) {
+      //   this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+      //     entityInstance.setFrictionStatic(entityModelUpdate.frictionStatic)
       //   })
       // }
 
-      // if(entityClass.collisionResponse.useMass && classUpdate.mass >= 0) {
-      //   this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-      //     entityInstance.setMass(classUpdate.mass)
+      // if(entityModel.collisionResponse.useMass && entityModelUpdate.mass >= 0) {
+      //   this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+      //     entityInstance.setMass(entityModelUpdate.mass)
       //   })
       // }
-      // if(!entityClass.collisionResponse.useMass && classUpdate.density >= 0) {
-      //   this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-      //     entityInstance.setDensity(classUpdate.density)
+      // if(!entityModel.collisionResponse.useMass && entityModelUpdate.density >= 0) {
+      //   this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+      //     entityInstance.setDensity(entityModelUpdate.density)
       //   })
       // }
 
-      if(classUpdate.movement?.movementControlsBehavior) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
+      if(entityModelUpdate.movement?.movementControlsBehavior) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
           entityInstance.resetPhysics()
         })
       }
 
-      if(classUpdate.movement?.ignoreGravity !== undefined) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setIgnoreGravity(classUpdate.movement?.ignoreGravity)
+      if(entityModelUpdate.movement?.ignoreGravity !== undefined) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setIgnoreGravity(entityModelUpdate.movement?.ignoreGravity)
         })
       }
 
-      if(classUpdate.collisionResponse?.ignoreSides) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setCollideIgnoreSides(classUpdate.collisionResponse?.ignoreSides)
+      if(entityModelUpdate.collisionResponse?.ignoreSides) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setCollideIgnoreSides(entityModelUpdate.collisionResponse?.ignoreSides)
         })
       }
 
-      if(classUpdate.graphics.layerId) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
+      if(entityModelUpdate.graphics?.layerId) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
           entityInstance.setDepth()
         })
       }
 
 
       if(
-        classUpdate.editor ||
-        classUpdate.graphics?.invisibile !== undefined ||
-        classUpdate.boundaryRelation || 
-        classUpdate.graphics?.textureId ||
-        classUpdate.movement?.movementBehavior !== undefined ||
-        classUpdate.movement?.velocityX !== undefined ||
-        classUpdate.movement?.velocityY !== undefined ||
-        classUpdate.collisionResponse?.ignoreStageBoundaries !== undefined
+        entityModelUpdate.editor ||
+        entityModelUpdate.graphics?.invisibile !== undefined ||
+        entityModelUpdate.boundaryRelation || 
+        entityModelUpdate.graphics?.textureId ||
+        entityModelUpdate.movement?.movementBehavior !== undefined ||
+        entityModelUpdate.movement?.velocityX !== undefined ||
+        entityModelUpdate.movement?.velocityY !== undefined ||
+        entityModelUpdate.collisionResponse?.ignoreStageBoundaries !== undefined
       ) {
         // setTimeout(() => {
-          this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
             if(entityInstance.entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
               this.removePlayerInstance()
               this.addPlayerInstance()
@@ -887,42 +892,42 @@ export class EditorScene extends GameInstance {
         // })
       }
 
-      if(classUpdate.graphics?.width && classUpdate.graphics?.height) {
-        if(entityClassId === initialCameraZoneClassId) {
-          this.setPlayerZoom({...classUpdate.graphics})
+      if(entityModelUpdate.graphics?.width && entityModelUpdate.graphics?.height) {
+        if(entityModelId === initialCameraZoneEntityId) {
+          this.setPlayerZoom({...entityModelUpdate.graphics})
         }
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setSize(classUpdate.graphics?.width, classUpdate.graphics?.height)
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setSize(entityModelUpdate.graphics?.width, entityModelUpdate.graphics?.height)
         })
-      } else if(classUpdate.graphics?.width) {
-        if(entityClassId === initialCameraZoneClassId) {
-          this.setPlayerZoom({width: classUpdate.graphics.width, height: entityClass.graphics?.height})
+      } else if(entityModelUpdate.graphics?.width) {
+        if(entityModelId === initialCameraZoneEntityId) {
+          this.setPlayerZoom({width: entityModelUpdate.graphics.width, height: entityModel.graphics?.height})
         }
 
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setSize(classUpdate.graphics?.width, entityClass.graphics?.height)
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setSize(entityModelUpdate.graphics?.width, entityModel.graphics?.height)
         })
-      } else if(classUpdate.graphics?.height) {
-        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
-          entityInstance.setSize(entityClass.graphics?.width, classUpdate.graphics?.height)
+      } else if(entityModelUpdate.graphics?.height) {
+        this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
+          entityInstance.setSize(entityModel.graphics?.width, entityModelUpdate.graphics?.height)
         })
       }
       
-      if(classUpdate.relationTags) {
+      if(entityModelUpdate.relationTags) {
         this.reregisterRelationships()
       }
 
-      if(classUpdate.camera !== undefined) {
-        if(this.playerInstance.entityClassId === entityClassId) {
-          // if(classUpdate.camera.zoom) {
-          //   this.cameras.main.setZoom(classUpdate.camera.zoom)
-          //   this.playerInstance.setZoom(classUpdate.camera.zoom)
+      if(entityModelUpdate.camera !== undefined) {
+        if(this.playerInstance.entityModelId === entityModelId) {
+          // if(entityModelUpdate.camera.zoom) {
+          //   this.cameras.main.setZoom(entityModelUpdate.camera.zoom)
+          //   this.playerInstance.setZoom(entityModelUpdate.camera.zoom)
           // }
-          if(classUpdate.camera.lerpX || classUpdate.camera.lerpY) {
-            let lerpX = classUpdate.camera.lerpX ? classUpdate.camera.lerpX : entityClass.camera.lerpX
-            let lerpY = classUpdate.camera.lerpY ? classUpdate.camera.lerpY : entityClass.camera.lerpY
+          if(entityModelUpdate.camera.lerpX || entityModelUpdate.camera.lerpY) {
+            let lerpX = entityModelUpdate.camera.lerpX ? entityModelUpdate.camera.lerpX : entityModel.camera.lerpX
+            let lerpY = entityModelUpdate.camera.lerpY ? entityModelUpdate.camera.lerpY : entityModel.camera.lerpY
             this.cameras.main.setLerp(lerpX, lerpY)
-            // this.cameras.main.startFollow(this.playerInstance.phaserInstance, false, classUpdate.camera.lerpX ? classUpdate.camera.lerpX : entityClass.camera.lerpX, classUpdate.camera.lerpY ? classUpdate.camera.lerpY : entityClass.camera.lerpY);
+            // this.cameras.main.startFollow(this.playerInstance.phaserInstance, false, entityModelUpdate.camera.lerpX ? entityModelUpdate.camera.lerpX : entityModel.camera.lerpX, entityModelUpdate.camera.lerpY ? entityModelUpdate.camera.lerpY : entityModel.camera.lerpY);
           }
         } 
       }
@@ -1025,7 +1030,7 @@ export class EditorScene extends GameInstance {
       if(this.readyForNextEscapeKey) {
         this.readyForNextEscapeKey = false
         store.dispatch(clearBrush())
-        store.dispatch(clearClass())
+        store.dispatch(clearEntity())
         if(this.draggingEntityInstanceId) {
           this.draggingEntityInstanceId = null
         } else if(this.brush) {

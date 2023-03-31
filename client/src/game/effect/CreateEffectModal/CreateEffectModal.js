@@ -10,7 +10,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { EFFECT_ID_PREFIX } from '../../constants';
-import useIsEffectSaveable from '../../../hooks/useIsEffectSaveable';
+import useIsEffectSaveable from '../../../hooks/relations/useIsEffectSaveable';
 import CreateEffect from '../CreateEffect/CreateEffect';
 
 const CreateEffectModal = ({ 

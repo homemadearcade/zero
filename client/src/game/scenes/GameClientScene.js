@@ -56,8 +56,8 @@ export class GameClientScene extends EditorScene {
       }
       const entityInstance = this.getEntityInstance(entityInstanceId)
       if(!entityInstance) {
-        const modifiedClassData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, entityClassId: instanceUpdate.entityClassId }
-        this.addEntityInstance(entityInstanceId, modifiedClassData, true)
+        const modifiedEntityData = { spawnX: instanceUpdate.x, spawnY: instanceUpdate.y, entityModelId: instanceUpdate.entityModelId }
+        this.addEntityInstance(entityInstanceId, modifiedEntityData, true)
         return
       };
       this.updateEntityInstance(entityInstance, instanceUpdate)
@@ -67,7 +67,7 @@ export class GameClientScene extends EditorScene {
       const entityInstanceId = instanceUpdate.entityInstanceId
       const temporaryInstance = this.temporaryInstancesById[entityInstanceId]
       if(!temporaryInstance) {
-        this.addTemporaryInstance(entityInstanceId, instanceUpdate.entityClassId)
+        this.addTemporaryInstance(entityInstanceId, instanceUpdate.entityModelId)
         return
       };
       this.updateEntityInstance(temporaryInstance, instanceUpdate)
@@ -82,7 +82,7 @@ export class GameClientScene extends EditorScene {
     this.playerInstance.setVisible(playerInstance.isVisible);
     this.playerInstance.isVisible = playerInstance.isVisible
     this.playerInstance.destroyAfterUpdate = playerInstance.destroyAfterUpdate 
-    this.playerInstance.transformEntityClassId = playerInstance.transformEntityClassId
+    this.playerInstance.transformEntityModelId = playerInstance.transformEntityModelId
 
     this.afterGameInstanceUpdateEffects() 
   }

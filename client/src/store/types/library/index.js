@@ -1,4 +1,4 @@
-export * from './entityClassLibrary'
+export * from './entityModelLibrary'
 export * from './effectLibrary'
 export * from './eventLibrary'
 export * from './relationLibrary'

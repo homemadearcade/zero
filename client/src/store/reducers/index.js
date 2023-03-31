@@ -31,7 +31,7 @@ import themeReducer from './themeReducer';
 import canvasImageReducer from './media/canvasImageReducer';
 import hoverPreviewReducer from './game/hoverPreviewReducer';
 import experienceModelReducer from './experience/experienceModelReducer';
-import entityClassLibraryReducer from './library/entityClassLibraryReducer';
+import entityModelLibraryReducer from './library/entityModelLibraryReducer';
 import relationLibraryReducer from './library/relationLibraryReducer';
 import relationTagLibraryReducer from './library/relationTagLibraryReducer';
 import effectLibraryReducer from './library/effectLibraryReducer';
@@ -70,7 +70,7 @@ export default combineReducers({
   canvasImage: canvasImageReducer,
   hoverPreview: hoverPreviewReducer,
   experienceModel: experienceModelReducer,
-  entityClassLibrary: entityClassLibraryReducer,
+  entityModelLibrary: entityModelLibraryReducer,
   relationLibrary: relationLibraryReducer,
   relationTagLibrary: relationTagLibraryReducer,
   effectLibrary: effectLibraryReducer,

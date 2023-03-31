@@ -11,15 +11,15 @@ import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorA
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
 import SelectStageColorModal from '../../stages/SelectStageColorModal/SelectStageColorModal';
-import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, SELECTOR_ABSTRACT_LIST, SELECTOR_MAP_LIST, START_STATE } from '../../constants';
+import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../../constants';
 import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModal';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
-import BoundaryRelation from '../../entityClass/BoundaryRelation/BoundaryRelation';
-import EditClassModal from '../../entityClass/EditClassModal/EditClassModal';
+import BoundaryRelation from '../../entityModel/BoundaryRelation/BoundaryRelation';
+import EditEntityModal from '../../entityModel/EditEntityModal/EditEntityModal';
 import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../../gameRoomInstance/GameStateToolbar/GameStateToolbar';
-import ClassList from '../../entityClass/ClassList/ClassList';
+import EntityList from '../../entityModel/EntityList/EntityList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
 import StagesMenu from '../../stages/StagesMenu/StagesMenu';
@@ -29,8 +29,8 @@ import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
-import { INSTANCE_TOOLBAR_CONTAINER_IID } from '../../../constants/interfaceIds';
-import ClassBoxModal from '../../entityClass/ClassBoxModal/ClassBoxModal';
+import { INSTANCE_TOOLBAR_CONTAINER_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
+import EntityBoxModal from '../../entityModel/EntityBoxModal/EntityBoxModal';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
@@ -46,18 +46,18 @@ import GameView from '../GameView/GameView';
 const GameEditor = ({ 
   classNames, 
   gameSelector: { 
-    isClassBoxModalOpen, 
+    isEntityBoxModalOpen, 
     isSelectStageColorModalOpen, 
     liveEditingCategory, 
     isGameMetadataModalOpen, 
-    currentSelectorList,
+    currentSelectorListInterfaceId,
     viewingJson }, 
   gameViewEditor: { 
     isSectionEditorOpen, 
     isSnapshotTakerOpen, 
     isGridViewOn }, 
   gameFormEditor: { 
-    isEditClassModalOpen, 
+    isEditEntityModalOpen, 
     isCreateRelationTagOpen, 
     isCreateRelationOpen,
     isCreateCutsceneOpen, 
@@ -103,11 +103,11 @@ const GameEditor = ({
   const showColumns = !cutsceneId && !isSectionEditorOpen && (gameState !== PLAYTHROUGH_PLAY_STATE && gameState !== START_STATE) && !isSnapshotTakerOpen
 
   function renderSelectorColumn() {
-    if(currentSelectorList === SELECTOR_ABSTRACT_LIST) {
+    if(currentSelectorListInterfaceId === SELECTOR_ABSTRACT_LIST_IID) {
       return <SelectorAbstractList/>
     } 
-    if(currentSelectorList === SELECTOR_MAP_LIST) {
-      return <ClassList/>
+    if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_CLASS_IID) {
+      return <EntityList/>
     } 
   }
 
@@ -151,9 +151,9 @@ const GameEditor = ({
         </>}
       </div>
       {liveEditingCategory && <LiveEditor></LiveEditor>}
-      {isClassBoxModalOpen && <ClassBoxModal/>}
+      {isEntityBoxModalOpen && <EntityBoxModal/>}
       {isGameMetadataModalOpen && <GameMetadataModal/>}
-      {isEditClassModalOpen && <EditClassModal/>}
+      {isEditEntityModalOpen && <EditEntityModal/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isBoundaryRelationOpen && <BoundaryRelation/>}

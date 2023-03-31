@@ -7,7 +7,7 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 
 const SelectCutscene = ({ onChange, value, formLabel, gameModel}) => {
 
-  const mapClassToOption = (cutsceneId) => {
+  const mapEntityToOption = (cutsceneId) => {
     const cutscene = gameModel.cutscenes[cutsceneId]
 
     return {
@@ -17,7 +17,7 @@ const SelectCutscene = ({ onChange, value, formLabel, gameModel}) => {
     }
   }
 
-  const options = Object.keys(gameModel.cutscenes).map(mapClassToOption)
+  const options = Object.keys(gameModel.cutscenes).map(mapEntityToOption)
 
   return <SelectChipsAuto 
     onChange={(event, cutscenes) => {

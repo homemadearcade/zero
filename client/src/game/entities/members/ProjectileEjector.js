@@ -10,16 +10,16 @@ export class ProjectileEjector {
   }
 
   update(time, delta) {
-    const entityClassId = this.entityInstance.entityClassId
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    const entityModelId = this.entityInstance.entityModelId
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
 
-    if(time < this.nextFire || !entityClass.projectile.entityClassId || entityClass.projectile.projectileBehavior === PROJECTILE_NONE) { 
+    if(time < this.nextFire || !entityModel.projectile.entityModelId || entityModel.projectile.projectileBehavior === PROJECTILE_NONE) { 
       return
     }
 
-    const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), entityClass.projectile?.entityClassId)
+    const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), entityModel.projectile?.entityModelId)
     projectile.fireAutomatic(this.entityInstance, time)
 
-    this.nextFire = time + (entityClass.projectile.cooldown * 6) + 200;
+    this.nextFire = time + (entityModel.projectile.cooldown * 6) + 200;
   }
 }

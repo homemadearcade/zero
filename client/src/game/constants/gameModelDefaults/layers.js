@@ -1,4 +1,4 @@
-import { LAYER_GROUP_ID_FOREGROUND } from "../core";
+import { DATA_SOURCE_GAME_MODEL, gameSize, LAYER_GROUP_ID_FOREGROUND } from "../core";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { LAYER_GROUP_ID_PLAYGROUND } from "../core";
 import { FOREGROUND_LAYER_GROUP_DEPTH } from "../core";
@@ -9,7 +9,10 @@ export const defaultLayer = {
   layerId: null,
   textureId: null,
   hasCollisionBody: false,
-  layerGroupId: null
+  layerGroupId: null,
+  width: gameSize,
+  height: gameSize,
+  dataSource: DATA_SOURCE_GAME_MODEL
 }
 
 export const layerGroupIdToDepth = {

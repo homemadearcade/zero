@@ -9,7 +9,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { EVENT_ID_PREFIX } from '../../constants';
-import useIsEventSaveable from '../../../hooks/useIsEventSaveable';
+import useIsEventSaveable from '../../../hooks/relations/useIsEventSaveable';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import CreateEvent from '../CreateEvent/CreateEvent';
 

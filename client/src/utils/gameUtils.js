@@ -1,4 +1,4 @@
-import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_CLASS_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX } from "../game/constants";
+import { BOUNDARY_DOWN_WALL_ID, BOUNDARY_LEFT_WALL_ID, BOUNDARY_RIGHT_WALL_ID, BOUNDARY_UP_WALL_ID, BOUNDARY_WALL_ID, PLAYER_INSTANCE_ID_PREFIX, SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, ENTITY_MODEL_ID_PREFIX, PLAYER_CLASS_TYPE_PREFIX, ZONE_CLASS_TYPE_PREFIX } from "../game/constants";
 import { GameClientScene } from "../game/scenes/GameClientScene";
 import { GameHostScene } from "../game/scenes/GameHostScene";
 import { GameLocalScene } from "../game/scenes/GameLocalScene";
@@ -7,6 +7,8 @@ import store from "../store";
 import { getCobrowsingState } from "./cobrowsingUtils";
 import { getCurrentGameScene } from "./editorUtils";
 import Phaser from 'phaser'
+
+
 
 export function isGameBoundaryWall(world, body) {
   if(body === world.walls.left || body === world.walls.right || body === world.walls.up || body === world.walls.down) {
@@ -37,12 +39,12 @@ export function getAngleBetweenInstances(obj1, obj2) {
     return Phaser.Math.DegToRad(angleDeg)
 }
 
-export function getClassAandB(entityClassIdA, entityClassIdB) {
+export function getEntityAandB(entityModelIdA, entityModelIdB) {
   const state = store.getState()
   const gameModel = state.gameModel.gameModel
 
-  let classA = gameModel.entityClasses[entityClassIdA] 
-  let classB = gameModel.entityClasses[entityClassIdB]
+  let classA = gameModel.entityModels[entityModelIdA] 
+  let classB = gameModel.entityModels[entityModelIdB]
 
   return {
     classA, 
@@ -54,20 +56,20 @@ export function getTextureIdForLayerId(arcadeGameMongoId, stageId, layerId) {
    return arcadeGameMongoId+'/' + stageId + '_' + layerId
 }
 
-export function isEventMatch({effect, entityClassId, world, entityClass, body}) {
+export function isEventMatch({effect, entityModelId, world, entityModel, body}) {
   if(
-    (entityClassId === BOUNDARY_DOWN_WALL_ID && body === world.walls.down) ||
-    (entityClassId === BOUNDARY_UP_WALL_ID && body === world.walls.up) ||
-    (entityClassId === BOUNDARY_LEFT_WALL_ID && body === world.walls.left) ||
-    (entityClassId === BOUNDARY_RIGHT_WALL_ID && body === world.walls.right) ||
-    (entityClassId === BOUNDARY_WALL_ID && isGameBoundaryWall(world, body))
+    (entityModelId === BOUNDARY_DOWN_WALL_ID && body === world.walls.down) ||
+    (entityModelId === BOUNDARY_UP_WALL_ID && body === world.walls.up) ||
+    (entityModelId === BOUNDARY_LEFT_WALL_ID && body === world.walls.left) ||
+    (entityModelId === BOUNDARY_RIGHT_WALL_ID && body === world.walls.right) ||
+    (entityModelId === BOUNDARY_WALL_ID && isGameBoundaryWall(world, body))
   ) {
     return true
   }
 
-  if(!entityClass) return false
+  if(!entityModel) return false
   
-  if(entityClass.entityClassId === entityClassId) {
+  if(entityModel.entityModelId === entityModelId) {
     return true
   }
 
@@ -100,8 +102,8 @@ export function areBSidesHit(sidesList, a, b) {
   return verdict
 }
 
-export function getClassDisplayName(visualTags, entityClassId) {
-  return visualTags ? visualTags[0] : entityClassId
+export function getEntityDisplayName(visualTags, entityModelId) {
+  return visualTags ? visualTags[0] : entityModelId
 }
 
 export function getOppositeColliderRelationTagId(relationTagId, collision) {
@@ -116,7 +118,7 @@ export function getOppositeColliderRelationTagId(relationTagId, collision) {
 }
 
 export function isPlayerId(id) {
-  if(id.indexOf(ENTITY_CLASS_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX) === 0) {
+  if(id.indexOf(ENTITY_MODEL_ID_PREFIX+PLAYER_CLASS_TYPE_PREFIX) === 0) {
     return true
   }
 
@@ -125,8 +127,8 @@ export function isPlayerId(id) {
   }
 }
 
-export function isZoneClassId(id) {
-  if(id.indexOf(ENTITY_CLASS_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX) === 0) {
+export function isZoneEntityId(id) {
+  if(id.indexOf(ENTITY_MODEL_ID_PREFIX+ZONE_CLASS_TYPE_PREFIX) === 0) {
     return true
   }
 }

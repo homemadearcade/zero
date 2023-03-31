@@ -102,12 +102,12 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
         disabled={event.relationTagIdA}
         formLabel="Tag A"
         value={event.relationTagIdA ? [event.relationTagIdA] : []}
-        onChange={(event, entityClasses) => {
-          const newClassId = entityClasses[entityClasses.length-1]
+        onChange={(event, entityModels) => {
+          const newEntityId = entityModels[entityModels.length-1]
           updateCreateEvent({
-            relationTagIdA: newClassId,
+            relationTagIdA: newEntityId,
           })
-          // handleEventChange('relationTagIdB', newClassId)
+          // handleEventChange('relationTagIdB', newEntityId)
       }}/>
     }
 
@@ -116,12 +116,12 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
         disabled={event.relationTagIdB}
         formLabel="Interactable Tag"
         value={event.relationTagIdB ? [event.relationTagIdB] : []}
-        onChange={(event, entityClasses) => {
-          const newClassId = entityClasses[entityClasses.length-1]
+        onChange={(event, entityModels) => {
+          const newEntityId = entityModels[entityModels.length-1]
           updateCreateEvent({
-            relationTagIdB: newClassId,
+            relationTagIdB: newEntityId,
           })
-          // handleEventChange('relationTagIdB', newClassId)
+          // handleEventChange('relationTagIdB', newEntityId)
       }}/>
     }
 
@@ -131,23 +131,23 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
           disabled={event.relationTagIdA}
           formLabel="Tag A"
           value={event.relationTagIdA ? [event.relationTagIdA] : []}
-          onChange={(event, entityClasses) => {
-            const newClassId = entityClasses[entityClasses.length-1]
+          onChange={(event, entityModels) => {
+            const newEntityId = entityModels[entityModels.length-1]
             updateCreateEvent({
-              relationTagIdA: newClassId,
+              relationTagIdA: newEntityId,
             })
-            // handleEventChange('relationTagIdB', newClassId)
+            // handleEventChange('relationTagIdB', newEntityId)
         }}/>
         <SelectRelationTag
           disabled={event.relationTagIdB}
           formLabel="Tag B"
           value={event.relationTagIdB ? [event.relationTagIdB] : []}
-          onChange={(event, entityClasses) => {
-            const newClassId = entityClasses[entityClasses.length-1]
+          onChange={(event, entityModels) => {
+            const newEntityId = entityModels[entityModels.length-1]
             updateCreateEvent({
-              relationTagIdB: newClassId
+              relationTagIdB: newEntityId
             })
-            // handleEventChange('relationTagIdB', newClassId)
+            // handleEventChange('relationTagIdB', newEntityId)
         }}/>
       </>
     }

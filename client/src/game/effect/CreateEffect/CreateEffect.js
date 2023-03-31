@@ -6,7 +6,7 @@ import './CreateEffect.scss';
 import { closeCreateEffect, updateCreateEffect} from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import SelectClass from '../../ui/SelectClass/SelectClass';
+import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import { defaultEffect, effectBehaviorInterfaces } from '../../constants';
 import { TextField } from '@mui/material';
 import { ZONE_CLASS } from '../../constants';
@@ -14,6 +14,7 @@ import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import SelectEffectBehavior from '../../ui/SelectEffectBehavior/SelectEffectBehavior';
+import { RELATION_SPAWN_ENTITY_MODEL_IID, RELATION_SPAWN_ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 
 const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) => {
   const handleEffectChange = (prop, value) => {
@@ -71,37 +72,39 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
       )
     }
 
-    // if(effectForms.entityClassId) {
-    //   forms.push(<SelectClass 
-    //     key={'entityClassId'}
-    //     formLabel={effectForms.entityClassId}
-    //     value={effect.entityClassId ? [effect.entityClassId] : []}
-    //     onChange={(event, entityClasses) => {
-    //       const newClassId = entityClasses[entityClasses.length-1]
-    //       handleEffectChange('entityClassId', newClassId)
-    //     }}/>
-    //   )
-    // }
+    if(effectForms.entityModelId) {
+      forms.push(<SelectEntity 
+        key={'entityModelId'}
+        formLabel={effectForms.entityModelId}
+        value={effect.entityModelId ? [effect.entityModelId] : []}
+        onChange={(event, entityModels) => {
+          const newEntityId = entityModels[entityModels.length-1]
+          handleEffectChange('entityModelId', newEntityId)
+        }}/>
+      )
+    }
 
-    if(effectForms.spawnEntityClassId) {
-      forms.push(<SelectClass
-        formLabel={effectForms.spawnEntityClassId}
-        value={effect.spawnEntityClassId ? [effect.spawnEntityClassId] : []}
-        onChange={(event, entityClasses) => {
-          const newClassId = entityClasses[entityClasses.length-1]
-          handleEffectChange('spawnEntityClassId', newClassId)
+    if(effectForms.spawnEntityModelId) {
+      forms.push(<SelectEntity
+        interfaceId={RELATION_SPAWN_ENTITY_MODEL_IID}
+        formLabel={effectForms.spawnEntityModelId}
+        value={effect.spawnEntityModelId ? [effect.spawnEntityModelId] : []}
+        onChange={(event, entityModels) => {
+          const newEntityId = entityModels[entityModels.length-1]
+          handleEffectChange('spawnEntityModelId', newEntityId)
       }}/>)
     }
 
-    if(effectForms.zoneEntityClassId) {
-      forms.push(<SelectClass 
-        key={'zoneEntityClassId'}
-        classType={ZONE_CLASS}
-        formLabel={effectForms.zoneEntityClassId}
-        value={effect.zoneEntityClassId ? [effect.zoneEntityClassId] : []}
-        onChange={(event, entityClasses) => {
-          const newClassId = entityClasses[entityClasses.length-1]
-          handleEffectChange('zoneEntityClassId', newClassId)
+    if(effectForms.zoneEntityModelId) {
+      forms.push(<SelectEntity 
+        key={'zoneEntityModelId'}
+        entityModelType={ZONE_CLASS}
+        interfaceId={RELATION_SPAWN_ZONE_ENTITY_IID}
+        formLabel={effectForms.zoneEntityModelId}
+        value={effect.zoneEntityModelId ? [effect.zoneEntityModelId] : []}
+        onChange={(event, entityModels) => {
+          const newEntityId = entityModels[entityModels.length-1]
+          handleEffectChange('zoneEntityModelId', newEntityId)
         }}/>
       )
     }

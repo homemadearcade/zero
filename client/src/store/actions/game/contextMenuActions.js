@@ -39,16 +39,16 @@ export const openContextMenuFromEntityInstance = (entityInstances, event) => (di
     // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      entityClassIdSelectedContextMenu: entityInstances[0].entityClassId, 
+      entityModelIdSelectedContextMenu: entityInstances[0].entityModelId, 
       entityInstanceIdSelectedContextMenu: entityInstances.length === 1 ? entityInstances[0].entityInstanceId : null, 
-      selectableEntityInstances: entityInstances.length > 1 ? entityInstances.map(({entityInstanceId, entityClassId}) => { return {objectId: entityInstanceId, entityClassId}}) : null, 
+      selectableEntityInstances: entityInstances.length > 1 ? entityInstances.map(({entityInstanceId, entityModelId}) => { return {objectId: entityInstanceId, entityModelId}}) : null, 
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
     }
   });
 }
 
-export const openContextMenuFromClassId= (entityClassId, event) => (dispatch, getState) => {
+export const openContextMenuFromEntityId= (entityModelId, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
@@ -56,7 +56,7 @@ export const openContextMenuFromClassId= (entityClassId, event) => (dispatch, ge
     // cobrowsingPublisherOnly: true,
     type: OPEN_CONTEXT_MENU,
     payload: {
-      entityClassIdSelectedContextMenu: entityClassId, 
+      entityModelIdSelectedContextMenu: entityModelId, 
       selectableEntityInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY
@@ -64,7 +64,7 @@ export const openContextMenuFromClassId= (entityClassId, event) => (dispatch, ge
   });
 }
 
-export const openContextMenuFromEntityInstanceId= (entityInstanceId, entityClassId, event) => (dispatch, getState) => {
+export const openContextMenuFromEntityInstanceId= (entityInstanceId, entityModelId, event) => (dispatch, getState) => {
   // if(getInterfaceIdData(CONTEXT_MENU_CONTAINER_IID).isObscured) return 
 
   dispatch({
@@ -73,7 +73,7 @@ export const openContextMenuFromEntityInstanceId= (entityInstanceId, entityClass
     type: OPEN_CONTEXT_MENU,
     payload: {
       entityInstanceIdSelectedContextMenu: entityInstanceId,
-      entityClassIdSelectedContextMenu: entityClassId,
+      entityModelIdSelectedContextMenu: entityModelId,
       selectableEntityInstances: null,
       contextMenuX: event.pageX,
       contextMenuY: event.pageY

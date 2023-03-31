@@ -5,7 +5,7 @@ import Effect from '../../../models/library/Effect';
 import Event from '../../../models/library/Event';
 import Relation from '../../../models/library/Relation';
 import RelationTag from '../../../models/library/RelationTag';
-import EntityClass from '../../../models/library/EntityClass';
+import EntityModel from '../../../models/library/EntityModel';
 import InterfacePreset from '../../../models/library/InterfacePreset';
 
 const router = Router();
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
       .map((m) => {
         return m.toJSON();
       })
-    const entityClassLibrary = (await EntityClass.find().sort({ createdAt: 'desc' }))
+    const entityModelLibrary = (await EntityModel.find().sort({ createdAt: 'desc' }))
      .map((m) => {
         return m.toJSON();
       })
@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
       eventLibrary: eventLibrary,
       relationLibrary: relationLibrary,
       relationTagLibrary: relationTagLibrary,
-      entityClassLibrary: entityClassLibrary,
+      entityModelLibrary: entityModelLibrary,
       interfacePresetLibrary: interfacePresetLibrary,
     });
   } catch (err) {

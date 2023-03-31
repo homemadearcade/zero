@@ -14,7 +14,7 @@ import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfa
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
 import { openGameMetadataModal } from '../../../store/actions/game/gameSelectorActions';
 import { ARCHIVE_USER_MONGO_ID, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
-import { ANIMATION_CONFETTI, defaultStage, EVENT_SPAWN_CLASS_IN_CAMERA, initialStageId, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
+import { ANIMATION_CONFETTI, defaultStage, EVENT_SPAWN_MODEL_IN_CAMERA, initialStageId, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
 import { forceCobrowsingUpdateDispatch } from '../../../utils/cobrowsingUtils';
 import store from '../../../store';
@@ -157,9 +157,9 @@ const ActivityInstructions = ({
     }
   }
 
-  function spawnThis({entityClassId, className, arcadeGameMongoId}) {
+  function spawnThis({entityModelId, className, arcadeGameMongoId}) {
     return {
-      id: entityClassId,
+      id: entityModelId,
       title: <Typography component="h5" variant="h5">Spawn {className}</Typography>,
       instructions: <>
         This will spawn {className} inside of the Players camera view
@@ -184,9 +184,9 @@ const ActivityInstructions = ({
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
           gameRoomInstanceMongoId: lobbyInstance.gameRoomInstanceMongoId, 
-          gameInstanceEventType: EVENT_SPAWN_CLASS_IN_CAMERA, 
+          gameInstanceEventType: EVENT_SPAWN_MODEL_IN_CAMERA, 
           data: {
-            entityClassId,
+            entityModelId,
             hostOnly: true
           }
         })
@@ -387,16 +387,16 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Unpause'
         },
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           What do you encounter? What could it be?
           You answer as You interact.
         `),
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           We repeat this answer, support and clarify it.
         `),
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           Another, larger block appears.
 
@@ -404,7 +404,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           You answer.  We affirm.
         `),
-        spawnThis({ entityClassId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           Another image appears…
 
@@ -433,10 +433,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
              As many worlds as there are imaginative moments in the universe.  
              You take a breath, and dive in again, to connect with another world…`),
         returnFromStarsStep(),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
-        spawnThis({ entityClassId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
         sayThis(`You encounter the world that loops, 
             adds color and individual powers, 
             naming those as You did before.`),

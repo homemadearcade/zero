@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import Phaser from 'phaser';
 
 import './CanvasImageView.scss';
-import { POPUP_SCENE } from '../../constants';
+import { newTextureSize, POPUP_SCENE } from '../../constants';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
-import { nodeSize } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { setCanvasImageModalGameInstance } from '../../../store/actions/webPageActions';
 
@@ -20,8 +19,6 @@ const CanvasImageView = ({
   useEffect(() => {
     let game;
 
-    const size = nodeSize * (3 * 10);
-
     setTimeout(() => {
       const config= {
         type: Phaser.WEBGL,
@@ -30,13 +27,13 @@ const CanvasImageView = ({
           mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
           parent: 'PhaserPopupGame',
           autoCenter: Phaser.Scale.CENTER_BOTH,
-          width: size,
-          height: size
+          width: newTextureSize,
+          height: newTextureSize
         },
       }
       
       game = new Phaser.Game(config);
-      game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId, textureId, textureTint, key: POPUP_SCENE, size }), true);
+      game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId, textureId, textureTint, key: POPUP_SCENE, size: newTextureSize }), true);
       setCanvasImageModalGameInstance(game)
     }, 100)
 

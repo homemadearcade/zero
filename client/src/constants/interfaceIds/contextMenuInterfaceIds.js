@@ -17,8 +17,8 @@ export const CONTEXT_MENU_STAGE_GRAVITY_IID = 'contextMenu/stage/gravity'
 export const CONTEXT_MENU_STAGE_SECTIONS_IID = 'contextMenu/stage/sections'
 
 export const CONTEXT_MENU_INSTANCE_MOVE_IID = 'contextMenu/instance/move'
-export const CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID = 'contextMenu/instance/resizeClass'
-export const CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID = 'contextMenu/instance/selectClass'
+export const CONTEXT_MENU_INSTANCE_RESIZE_CLASS_IID = 'contextMenu/instance/resizeEntity'
+export const CONTEXT_MENU_INSTANCE_SELECT_CLASS_IID = 'contextMenu/instance/selectEntity'
 export const CONTEXT_MENU_INSTANCE_DELETE_IID = 'contextMenu/instance/delete'
 export const CONTEXT_MENU_INSTANCE_JSON_IID = 'contextMenu/instance/json'
 

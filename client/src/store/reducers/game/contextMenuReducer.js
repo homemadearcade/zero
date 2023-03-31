@@ -7,7 +7,7 @@ const initialState = {
   contextMenuX: null,
   contextMenuY: null,
   entityInstanceIdSelectedContextMenu: null,
-  entityClassIdSelectedContextMenu: null,
+  entityModelIdSelectedContextMenu: null,
   selectableObjectIds: null,
   unlockableIds: null,
   isContextMenuOpen: false,
@@ -24,7 +24,7 @@ export default function contextMenuReducer(state = initialState, { type, payload
         contextMenuX: payload.contextMenuX,
         contextMenuY: payload.contextMenuY,
         isContextMenuOpen: true,
-        entityClassIdSelectedContextMenu: payload.entityClassIdSelectedContextMenu,
+        entityModelIdSelectedContextMenu: payload.entityModelIdSelectedContextMenu,
         entityInstanceIdSelectedContextMenu: payload.entityInstanceIdSelectedContextMenu,
         selectableEntityInstances: payload.selectableEntityInstances
       };
@@ -33,7 +33,7 @@ export default function contextMenuReducer(state = initialState, { type, payload
         ...state,
         contextMenuX: null,
         contextMenuY: null,
-        entityClassIdSelectedContextMenu: null,
+        entityModelIdSelectedContextMenu: null,
         entityInstanceIdSelectedContextMenu: null,
         selectableEntityInstances: null,
         isContextMenuOpen: false

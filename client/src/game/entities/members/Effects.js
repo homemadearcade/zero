@@ -4,7 +4,7 @@ import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/game/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
 import { nonRemoteEffects } from "../../constants";
-import { isZoneClassId } from "../../../utils/gameUtils";
+import { isZoneEntityId } from "../../../utils/gameUtils";
 import { changeCurrentStage } from "../../../store/actions/game/gameModelActions";
 import { changeGameState, editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
 import _ from "lodash";
@@ -24,22 +24,22 @@ export class Effects {
   }
 
   update() {
-    const entityClassId = this.entityInstance.entityClassId
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
+    const entityModelId = this.entityInstance.entityModelId
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     const phaserInstance = this.entityInstance.phaserInstance
 
     ////////////////////////////////////////
     ////////////////////////////////////////
     // VISIBLITY AND IGNORE GRAVITY EFFECTS
     if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
-      this.entityInstance.setIgnoreGravity(entityClass.movement.ignoreGravity)
+      this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity)
     }
 
     this.wasIgnoreGravityModified = this.isIgnoreGravityModified
     this.isIgnoreGravityModified = false
 
     if(this.wasVisibilityModified && !this.isVisibilityModified) {
-      this.entityInstance.isVisible = !entityClass.graphics.invisible
+      this.entityInstance.isVisible = !entityModel.graphics.invisible
     }
 
     this.wasVisibilityModified = this.isVisibilityModified
@@ -56,7 +56,7 @@ export class Effects {
     if (phaserInstance.lockedTo && this.fallenOff(phaserInstance, phaserInstance.lockedTo, phaserInstance.lockedReleaseSides)) {
       phaserInstance.lockedTo = null;   
       phaserInstance.lockedReleaseSides = null
-      this.entityInstance.setIgnoreGravity(entityClass.movement.ignoreGravity);
+      this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity);
     }
   }
 
@@ -206,34 +206,34 @@ export class Effects {
 
     // NARRATIVE
     if(effect.effectBehavior === EFFECT_CUTSCENE) {
-      if(effect.cutsceneId) store.dispatch(openCutscene(phaserInstanceB.entityClassId, effect.cutsceneId))
+      if(effect.cutsceneId) store.dispatch(openCutscene(phaserInstanceB.entityModelId, effect.cutsceneId))
     }
 
     if(effect.effectBehavior === EFFECT_SPAWN) {
-      const spawningClassId = effect.spawnEntityClassId
-      const modifiedClassData = { spawnX: null, spawnY: null, entityClassId: spawningClassId }
+      const spawningEntityId = effect.spawnEntityModelId
+      const modifiedEntityData = { spawnX: null, spawnY: null, entityModelId: spawningEntityId }
       let zone 
 
 
     if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT) {
-        if(isZoneClassId(phaserInstanceA.entityClassId)) {
+        if(isZoneEntityId(phaserInstanceA.entityModelId)) {
           zone = phaserInstanceA
         } 
       } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT) {
-        if(isZoneClassId(phaserInstanceB.entityClassId)) {
+        if(isZoneEntityId(phaserInstanceB.entityModelId)) {
           zone = phaserInstanceB
         } 
       } else {
           //  if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
-        zone = this.scene.getRandomInstanceOfClassId(effect.zoneEntityClassId)
+        zone = this.scene.getRandomInstanceOfEntityId(effect.zoneEntityModelId)
       // } else
       }
 
       if(!zone) return console.log('no zone exists for that')
       const gameModel = store.getState().gameModel.gameModel
-      const entityClass = gameModel.entityClasses[spawningClassId]
-      const spawnedEntityInstance =  this.scene.addEntityInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedClassData, true)
-      spawnedEntityInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityClass))
+      const entityModel = gameModel.entityModels[spawningEntityId]
+      const spawnedEntityInstance =  this.scene.addEntityInstance(SPAWNED_INSTANCE_ID_PREFIX+generateUniqueId(), modifiedEntityData, true)
+      spawnedEntityInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityModel))
     }
   }
 
@@ -307,10 +307,10 @@ export class Effects {
 
       if(effect.effectBehavior === EFFECT_TELEPORT) {
         const gameModel = store.getState().gameModel.gameModel
-        const entityClass = gameModel.entityClasses[phaserInstance.entityClassId]
-        const zone = scene.getRandomInstanceOfClassId(effect.zoneEntityClassId)
+        const entityModel = gameModel.entityModels[phaserInstance.entityModelId]
+        const zone = scene.getRandomInstanceOfEntityId(effect.zoneEntityModelId)
         if(!zone) return
-        phaserInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityClass))
+        phaserInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityModel))
       }
       
       if(effect.effectBehavior === EFFECT_DESTROY) {
@@ -318,7 +318,7 @@ export class Effects {
         entityInstance.destroyAfterUpdate = true
       } else if(effect.effectBehavior === EFFECT_TRANSFORM) {
         const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
-        entityInstance.transformEntityClassId = effect.entityClassId
+        entityInstance.transformEntityModelId = effect.entityModelId
       }
     }
   }

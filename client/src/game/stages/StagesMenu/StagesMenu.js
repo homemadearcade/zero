@@ -43,7 +43,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage,
               name: stage.name + 'copy'
             })
           }}>Copy</Button>
-          {gameModel.player.startingStageId !== stageId && stage.playerClassId && <Button onClick={() => {
+          {gameModel.player.startingStageId !== stageId && stage.playerEntityModelId && <Button onClick={() => {
             editGameModel({
               player: {
                 startingStageId: stageId

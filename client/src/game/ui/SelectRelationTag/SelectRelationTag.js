@@ -4,72 +4,92 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { classTypeToDisplayName, relationTagTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
+import { entityModelTypeToDisplayName, IS_DATA_REMOVED, relationTagTypeToDisplayName, RELATION_TAG_ABSTRACT_CLASS, RELATION_TAG_ENTITY } from '../../constants';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
-import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
+import { CLASS_UNLOCKABLE_IID, SELECTOR_MORE_IID } from '../../../constants/interfaceIds';
+import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
+import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
+import Icon from '../../../ui/Icon/Icon';
+import { MenuItem, MenuList } from '@mui/material';
+import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 
-const SelectRelationTag = ({ removeClassTags, isAddingToClass, onChange, disabled, value, formLabel, gameModel }) => {
+const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, value, formLabel, gameModel, gameSelector: { selectorClassInvisibility } }) => {
 
-  const mapTagToOption = (entityClassId) => {
-    const relationTag = gameModel.relationTags[entityClassId]
+  const mapTagToOption = (entityModelId) => {
+    const relationTag = gameModel.relationTags[entityModelId]
 
-    let relationTagInterfaceType = 'My Tags'
+    let relationTagInterfaceId = 'My Tags'
 
-    if(relationTag.relationTagInterfaceType) {
-      relationTagInterfaceType = relationTagTypeToDisplayName[relationTag.relationTagInterfaceType]
+    if(relationTag.relationTagInterfaceId) {
+      relationTagInterfaceId = relationTagTypeToDisplayName[relationTag.relationTagInterfaceId]
     }
+    
+    const isDataSourceInvisible = selectorClassInvisibility[RELATION_TAG_ABSTRACT_CLASS][relationTag.dataSource]
+    const isRemovedInvisible = relationTag.isRemoved && selectorClassInvisibility[RELATION_TAG_ABSTRACT_CLASS][IS_DATA_REMOVED]
 
-    const isRemoved = relationTag.isRemoved || (isAddingToClass && relationTag.hideIfAddingToClass)
+    const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromInterfaceIds[interfaceId]
 
-    if(relationTag.relationTagInterfaceType === RELATION_TAG_CLASS) {
-      const relationTagClass = gameModel.entityClasses[relationTag.relationTagId]
-      const interfaceId = relationTagClass.classInterfaceCategory + CLASS_UNLOCKABLE_IID + relationTag.relationTagId
+    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY) {
+      const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
+      const interfaceId = relationTagEntity.entityInterfaceId + CLASS_UNLOCKABLE_IID + relationTag.relationTagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
 
       return {
         label: relationTag.name,
-        value: entityClassId,
+        value: entityModelId,
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
-        isRemoved: (isObscured && relationTag.isSelectorObscured) || removeClassTags || isRemoved,
-        relationTagInterfaceType: classTypeToDisplayName[relationTagClass.classInterfaceCategory],
+        isRemoved: (isObscured && relationTag.editorInterface.requiresUnlocking) || removeEntityTags || isRemoved,
+        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityInterfaceId],
       }
     }
 
     return {
       label: relationTag.name,
-      value: entityClassId,
+      value: entityModelId,
       textureTint: relationTag.textureTint,
       isRemoved,
-      relationTagInterfaceType
+      relationTagInterfaceId
     }
   }
 
   const options = Object.keys(gameModel.relationTags).map(mapTagToOption)
 
   options.sort((a, b) => {
-
-    return  -b.relationTagInterfaceType.localeCompare(a.relationTagInterfaceType)
+    return  -b.relationTagInterfaceId.localeCompare(a.relationTagInterfaceId)
   })
 
-  return <SelectChipsAuto 
-    disabled={disabled}
-    onChange={(event, visualTags) => {
-      onChange(event,  visualTags)
-    }}
-    groupBy={option => {
-      return option.relationTagInterfaceType
-    }}
-    hideRemoved
-    formLabel={formLabel}
-    value={value}
-    options={options}
-  />
+  return <div className="SelectRelationTag">
+    <SelectChipsAuto 
+      disabled={disabled}
+      onChange={(event, visualTags) => {
+        onChange(event,  visualTags)
+      }}
+      groupBy={option => {
+        return option.relationTagInterfaceId
+      }}
+      hideRemoved
+      formLabel={formLabel}
+      value={value}
+      options={options}
+    />
+    <Unlockable interfaceId={SELECTOR_MORE_IID}>
+      <div className="SelectRelationTag__more-menu-icon"><MenuIconButton icon={<Icon icon='faEllipsis'/>} 
+        menu={() => {
+          return <MenuList>
+            <MenuItem key="visible in dropdown" dense divider>Visible in Dropdown:</MenuItem>
+            <DataSourceVisibilityMenu selectorClass={RELATION_TAG_ABSTRACT_CLASS} />
+          </MenuList>
+        }}/>
+      </div>
+    </Unlockable>
+  </div>
 }
 
 const mapStateToProps = (state) => {
   return {
     gameModel: state.gameModel.gameModel,
+    gameSelector: state.gameSelector,
   }
 };
 

@@ -1,0 +1,17 @@
+export const TOGGLE_ALL_PARAMS_IID = 'selector/toggleAllParams';
+export const LAYER_VISIBILITY_IID = 'selector/layerInvisibility';
+export const OPEN_CLASS_BOX_IID = "selector/openEntityBox";
+export const HOVER_PREVIEW_IID = "selector/hoverPreview";
+export const CHANGE_SELECTOR_TAB_IID = "selector/changeTab";
+export const SELECTOR_MORE_IID = "selector/more";
+
+export const SELECT_ENTITY_MODEL_IID = 'SELECT_ENTITY_MODEL'
+export const SELECT_RELATION_TAG_IID = 'SELECT_RELATION_TAG'
+
+export const SELECTOR_ENTITY_BY_CLASS_IID = 'SELECTOR_ENTITY_BY_CLASS'
+export const SELECTOR_ABSTRACT_LIST_IID = 'SELECTOR_ABSTRACT_LIST'
+export const SELECTOR_BRUSH_LIST_IID = 'SELECTOR_BRUSH_LIST'
+export const SELECTOR_MEDIA_LIST_IID = 'SELECTOR_MEDIA_LIST'
+export const SELECTOR_PROMPT_ENTRY_IID = 'SELECTOR_PROMPT_ENTRY'
+export const SELECTOR_ENTITY_BY_TAG_LIST_IID = 'SELECTOR_ENTITY_BY_TAG_LIST'
+export const SELECTOR_ENTITY_MODEL_DETAIL_IID = 'SELECTOR_ENTITY_MODEL_DETAIL'

@@ -1,5 +1,6 @@
 /////////////////////////////////////
 /////////////////////////////////////
+import { DATA_SOURCE_GAME_MODEL } from "../core";
 
 // WHEN, WHO, WHERE
 export const defaultEvent = {
@@ -7,7 +8,7 @@ export const defaultEvent = {
   eventId: null,
   relationTagIdA: null,
   relationTagIdB: null,
-
+  dataSource: DATA_SOURCE_GAME_MODEL,
   sidesA: [],
   sidesB: [],
 

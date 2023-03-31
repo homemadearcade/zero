@@ -1,8 +1,3 @@
-export const SELECTOR_MAP_LIST = 'SELECTOR_MAP_LIST'
-export const SELECTOR_ABSTRACT_LIST = 'SELECTOR_ABSTRACT_LIST'
-export const SELECTOR_CLASS_LIST = 'SELECTOR_CLASS_LIST'
-
-
 /////////////////////////////////////
 /////////////////////////////////////
 // LIVE EDITORS

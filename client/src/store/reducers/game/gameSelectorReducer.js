@@ -1,4 +1,5 @@
-import { SELECTOR_MAP_LIST } from '../../../game/constants';
+import { SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
+import { defaultSelectorClassDataSourceInvisibility } from '../../../game/constants/interfaceData';
 import {
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
@@ -23,16 +24,18 @@ import {
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
+  TOGGLE_SELECTOR_CLASS_INVISIBILITY,
   
 } from '../../types';
 
 const initialState = {
   error: null,
+  selectorClassInvisibility: defaultSelectorClassDataSourceInvisibility,
   colorIdSelected: null,
   brushIdSelectedBrushList: null,
-  entityClassIdSelectedClassList: null,
+  entityModelIdSelectedEntityList: null,
   brushSize: 3,
-  entityClassIdSelectedLiveEditor: null,
+  entityModelIdSelectedLiveEditor: null,
   liveEditingCategory: null,
   isSelectStageColorModalOpen: false,
   isGameMetadataModalOpen: false,
@@ -42,10 +45,10 @@ const initialState = {
     'EditingGameSetup': 0,
   },
 
-  isClassBoxModalOpen: false,
-  classBoxClassType: null,
+  isEntityBoxModalOpen: false,
+  classBoxEntityType: null,
   isSelectAggregateColorOpen: null,
-  currentSelectorList: SELECTOR_MAP_LIST,
+  currentSelectorListInterfaceId: SELECTOR_ENTITY_BY_CLASS_IID,
 };
 
 export const initialGameSelectorState = initialState
@@ -55,7 +58,7 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case CHANGE_SELECTOR_COLUMN: 
       return {
         ...state,
-        currentSelectorList: payload.currentSelectorList
+        currentSelectorListInterfaceId: payload.currentSelectorListInterfaceId
       }
     case UPDATE_BRUSH_SIZE: {
       return {
@@ -67,17 +70,17 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         brushIdSelectedBrushList: null,
-        entityClassIdSelectedClassList: payload.entityClassIdSelectedClassList
+        entityModelIdSelectedEntityList: payload.entityModelIdSelectedEntityList
       }
     case CLEAR_CLASS:
        return {
          ...state,
-          entityClassIdSelectedClassList: null
+          entityModelIdSelectedEntityList: null
        }
     case SELECT_BRUSH: 
       return {
         ...state,
-        entityClassIdSelectedClassList: null,
+        entityModelIdSelectedEntityList: null,
         brushIdSelectedBrushList: payload.brushIdSelectedBrushList
       }
     case CLEAR_BRUSH:
@@ -105,18 +108,37 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         liveEditingCategory: payload.type,
-        entityClassIdSelectedLiveEditor: payload.entityClassIdSelectedLiveEditor,
+        entityModelIdSelectedLiveEditor: payload.entityModelIdSelectedLiveEditor,
       };
     case CLOSE_LIVE_EDITOR:
       return {
           ...state,
-        entityClassIdSelectedLiveEditor: null,
+        entityModelIdSelectedLiveEditor: null,
         liveEditingCategory: null
       };
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {
         ...state,
         isSelectStageColorModalOpen: true
+      }
+    case TOGGLE_SELECTOR_CLASS_INVISIBILITY:
+      let newSelectorClassInvisibility
+      if(state.selectorClassInvisibility[payload.selectorClass]) {
+        newSelectorClassInvisibility = {
+          ...state.selectorClassInvisibility[payload.selectorClass],
+          [payload.dataSource]: !state.selectorClassInvisibility[payload.selectorClass][payload.dataSource],
+        }
+      } else {
+        newSelectorClassInvisibility = {
+          [payload.dataSource]: true,
+        }
+      }
+      return {
+        ...state,
+        selectorClassInvisibility: {
+          ...state.selectorClassInvisibility,
+          [payload.selectorClass]: newSelectorClassInvisibility
+        }
       }
     case CLOSE_SELECT_BACKGROUND_COLOR:
       return {
@@ -156,14 +178,14 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case OPEN_CLASS_BOX_MODAL: 
       return {
         ...state,
-        isClassBoxModalOpen: true,
-        classBoxClassType: payload.classType
+        isEntityBoxModalOpen: true,
+        classBoxEntityType: payload.entityModelType
       }
     case CLOSE_CLASS_BOX_MODAL:
       return {
         ...state,
-        isClassBoxModalOpen: false,
-        classBoxClassType: null
+        isEntityBoxModalOpen: false,
+        classBoxEntityType: null
       }
     case OPEN_JSON_VIEWER: 
       return {

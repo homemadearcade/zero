@@ -12,7 +12,7 @@ import codrawingRoutes from './codrawing'
 import gameRoomInstanceRoutes from './gameRoomInstance'
 import canvasImagesRoutes from './canvasImages'
 import experienceModelRoutes from './experienceModel'
-import entityClassRoutes from './library/entityClass'
+import entityModelRoutes from './library/entityModel'
 import relationRoutes from './library/relation'
 import relationTagRoutes from './library/relationTag'
 import effectRoutes from './library/effect'
@@ -32,7 +32,7 @@ router.use('/ticketedEvents', ticketedEventRoutes);
 router.use('/ticketPurchases', ticketPurchaseRoutes);
 router.use('/interfacePreset', interfacePresetRoutes);
 router.use('/experienceModel', experienceModelRoutes);
-router.use('/entityClass', entityClassRoutes);
+router.use('/entityModel', entityModelRoutes);
 router.use('/aws', awsRoutes);
 router.use('/relation', relationRoutes);
 router.use('/relationTag', relationTagRoutes);

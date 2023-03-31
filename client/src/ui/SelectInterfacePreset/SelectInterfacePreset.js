@@ -7,14 +7,14 @@ import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
 
 const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interfacePresetLibrary }) => {
 
-  const mapClassToOption = (interfacePreset) => {
+  const mapEntityToOption = (interfacePreset) => {
     return {
       label: interfacePreset.name,
       value: interfacePreset.id,
     }
   }
 
-  const options = interfacePresetLibrary.map(mapClassToOption)
+  const options = interfacePresetLibrary.map(mapEntityToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}

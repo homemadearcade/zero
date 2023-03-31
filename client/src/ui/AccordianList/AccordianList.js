@@ -5,6 +5,10 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
+import MenuIconButton from '../MenuIconButton/MenuIconButton';
+import Icon from '../Icon/Icon';
+import './AccordianList.scss'
+import { SELECTOR_MORE_IID } from '../../constants/interfaceIds';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -54,10 +58,20 @@ export default function AccordianList({accordians, initialExpandedId = null}) {
 }
 
 export function AccordionListBody({expanded, onChange, accordianList}) {
-
-  function renderSummary({title}) {
-
+  function renderSummary({title, moreMenu}) {
     const summaryEl = <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+      {moreMenu && <Unlockable interfaceId={SELECTOR_MORE_IID}><div className="AccordianList__more-menu-icon" onClick={(e) => {
+          e.stopPropagation()
+       }}>
+        <MenuIconButton 
+          icon={<Icon size="xs" icon="faEllipsis"/>}
+          menu={(onClose) => {
+            return moreMenu
+          }}
+        />
+      </div>
+      </Unlockable>
+    }
       {title}
     </AccordionSummary>
 
@@ -70,10 +84,9 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
     return bodyEl
   }
 
-  function renderAccordian({id, title, body, interfaceId, sx}) {
-
+  function renderAccordian({id, title, body, interfaceId, moreMenu, sx}) {
     const el = <Accordion sx={sx} key={id} expanded={expanded === id} onChange={onChange(id)}>
-      {renderSummary({title, interfaceId})}
+      {renderSummary({title, interfaceId, moreMenu})}
       {renderBody({body, interfaceId})}
     </Accordion>
     if(interfaceId) {

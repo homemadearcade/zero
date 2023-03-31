@@ -25,11 +25,11 @@ const effect = new Schema({
       type: String,
       default: null,
     },
-    spawnEntityClassId: {
+    spawnEntityModelId: {
       type: String,
       default: null,
     },
-    entityClassId: {
+    entityModelId: {
       type: String,
       default: null,
     },
@@ -37,7 +37,7 @@ const effect = new Schema({
       type: String,
       default: null,
     },
-    zoneEntityClassId: {
+    zoneEntityModelId: {
       type: String,
       default: null
     },
@@ -57,6 +57,9 @@ const effect = new Schema({
       type: Boolean,
       default: false,
     },
+    dataSource: {
+      type: String,
+    },
     isRemoved: {
       type: Boolean,
       default: false,
@@ -74,13 +77,14 @@ effect.methods.toJSON = function () {
     effectId: this.effectId,
     remoteEffectedRelationTagIds: this.remoteEffectedRelationTagIds,
     stageId: this.stageId,
-    spawnEntityClassId: this.spawnEntityClassId,
-    entityClassId: this.entityClassId,
+    spawnEntityModelId: this.spawnEntityModelId,
+    entityModelId: this.entityModelId,
     arcadeGameMongoId: this.arcadeGameMongoId,
-    zoneEntityClassId: this.zoneEntityClassId,
+    zoneEntityModelId: this.zoneEntityModelId,
     cutsceneId: this.cutsceneId,
     text: this.text,
     customSelectorCategory: this.customSelectorCategory,
+    dataSource: this.dataSource,
     isLocked: this.isLocked,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,

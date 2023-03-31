@@ -6,7 +6,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import './ProjectileEditor.scss'
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import SelectClass from '../../ui/SelectClass/SelectClass';
+import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
 import { PLAYER_CLASS, PROJECTILE_TARGET_CLASS } from '../../constants';
@@ -18,44 +18,44 @@ import SelectProjectileBehavior from '../../ui/SelectProjectileBehavior/SelectPr
         //     options={[1, 5, 10, 20, 50, 1000, 2000]}
         //     step={1}
         //     onChangeCommitted={(value) => {
-        //       editGameModel({ entityClasses: { [entityClassId]: { projectile: { ammo: value }}}})        
+        //       editGameModel({ entityModels: { [entityModelId]: { projectile: { ammo: value }}}})        
         //     }}
-        //     value={classSelected.projectile.ammo}
+        //     value={entitySelected.projectile.ammo}
         //   />
         // </Unlockable>}
 
-const ProjectileEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel }) => {
-  const classSelected = gameModel.entityClasses[entityClassId]
-  const projectileClass = gameModel.entityClasses[classSelected.projectile?.entityClassId]
+const ProjectileEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel }) => {
+  const entitySelected = gameModel.entityModels[entityModelId]
+  const projectileEntity = gameModel.entityModels[entitySelected.projectile?.entityModelId]
 
   return (
     <div className="ProjectileEditor">
       <Unlockable interfaceId={PROJECTILE_CLASS_IID}>
-        <SelectClass 
-          formLabel="Projectile Class"
-          value={classSelected.projectile.entityClassId ? [classSelected.projectile.entityClassId] : []}
-          onChange={(event, entityClasses) => {
-            const newClassId = entityClasses[entityClasses.length-1]
-            editGameModel({ entityClasses: { [entityClassId]: { projectile: { entityClassId: newClassId ? newClassId : null  }}}})        
+        <SelectEntity 
+          formLabel="Projectile Entity"
+          value={entitySelected.projectile.entityModelId ? [entitySelected.projectile.entityModelId] : []}
+          onChange={(event, entityModels) => {
+            const newEntityId = entityModels[entityModels.length-1]
+            editGameModel({ entityModels: { [entityModelId]: { projectile: { entityModelId: newEntityId ? newEntityId : null  }}}})        
          }}/>
       </Unlockable>
-      {classSelected.movement.movementControlsBehavior && <ControlsCard entityClass={classSelected} projectileClass={projectileClass}></ControlsCard>}
-      {projectileClass && <>
-        {classSelected.classInterfaceCategory !== PLAYER_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+      {entitySelected.movement.movementControlsBehavior && <ControlsCard entityModel={entitySelected} projectileEntity={projectileEntity}></ControlsCard>}
+      {projectileEntity && <>
+        {entitySelected.entityInterfaceId !== PLAYER_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
           <SelectProjectileBehavior
             formLabel="Behavior"
-            value={classSelected.projectile.projectileBehavior ? [classSelected.projectile.projectileBehavior] : []}
+            value={entitySelected.projectile.projectileBehavior ? [entitySelected.projectile.projectileBehavior] : []}
             onChange={(event, projectileBehavior) => {
-              editGameModel({ entityClasses: { [entityClassId]: { projectile: { projectileBehavior: projectileBehavior[projectileBehavior.length-1] } } }})    
+              editGameModel({ entityModels: { [entityModelId]: { projectile: { projectileBehavior: projectileBehavior[projectileBehavior.length-1] } } }})    
             }}/>
         </Unlockable>}
-        {classSelected.projectile.projectileBehavior === PROJECTILE_TARGET_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
-          <SelectClass
-            formLabel="Target Class"
-            value={classSelected.projectile.targetClassId ? [classSelected.projectile.targetClassId] : []}
-            onChange={(event, entityClasses) => {
-              const newClassId = entityClasses[entityClasses.length-1]
-              editGameModel({ entityClasses: { [entityClassId]: { projectile: { targetClassId: newClassId ? newClassId : null  }}}})        
+        {entitySelected.projectile.projectileBehavior === PROJECTILE_TARGET_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+          <SelectEntity
+            formLabel="Target Entity"
+            value={entitySelected.projectile.targetEntityId ? [entitySelected.projectile.targetEntityId] : []}
+            onChange={(event, entityModels) => {
+              const newEntityId = entityModels[entityModels.length-1]
+              editGameModel({ entityModels: { [entityModelId]: { projectile: { targetEntityId: newEntityId ? newEntityId : null  }}}})        
           }}/>
         </Unlockable>}
         <Unlockable isSlider interfaceId={PROJECTILE_SPEED_IID}>
@@ -64,9 +64,9 @@ const ProjectileEditor = ({ entityClassId, gameModel: { gameModel }, editGameMod
             options={[1, 10, 100, 200, 300, 500, 1000]}
             step={10}
             onChangeCommitted={(value) => {
-              editGameModel({ entityClasses: { [entityClassId]: { projectile: { speed: value }}}})        
+              editGameModel({ entityModels: { [entityModelId]: { projectile: { speed: value }}}})        
             }}
-            value={classSelected.projectile.speed}
+            value={entitySelected.projectile.speed}
           />
         </Unlockable>
         <Unlockable isSlider interfaceId={PROJECTILE_COOLDOWN_IID}>
@@ -75,9 +75,9 @@ const ProjectileEditor = ({ entityClassId, gameModel: { gameModel }, editGameMod
             options={[1, 5, 20, 50, 100, 200, 500]}
             step={1}
             onChangeCommitted={(value) => {
-              editGameModel({ entityClasses: { [entityClassId]: { projectile: { cooldown: value }}}})        
+              editGameModel({ entityModels: { [entityModelId]: { projectile: { cooldown: value }}}})        
             }}
-            value={classSelected.projectile.cooldown}
+            value={entitySelected.projectile.cooldown}
           />
         </Unlockable>
         <Unlockable isSlider interfaceId={PROJECTILE_LIFETIME_IID}>
@@ -86,9 +86,9 @@ const ProjectileEditor = ({ entityClassId, gameModel: { gameModel }, editGameMod
             step={10}
             options={[30, 100, 200, 500, 1000, 2000, 5000, 10000]}
             onChangeCommitted={(value) => {
-              editGameModel({ entityClasses: { [entityClassId]: { projectile: { lifetime: value }}}})        
+              editGameModel({ entityModels: { [entityModelId]: { projectile: { lifetime: value }}}})        
             }}
-            value={classSelected.projectile.lifetime}
+            value={entitySelected.projectile.lifetime}
           />
         </Unlockable>      
       </>}

@@ -5,11 +5,7 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-LIBRARY
-  Turn library on and off ( both in Selects and in the ClassList )
-  Easy system for saving library entityClasses and relations
-  Be able to open class library entityClasses from some sort of class bucket thing. Start with context menu?
-  When creating a class?, when selecting a class? From context menu?
+Easy system for saving library entityModels and relations
 
 STEPS UPDATE
   Prompts, Next Steps...
@@ -24,3 +20,6 @@ If the instructions could be smart and understand if the requirements of their c
 
 Edit Game inside Experience Editor
 COMBINE experienceModel with experience
+
+Maybe Effects -> Game Effects
+Maybe Events -> Game Events or Relation Events? Think on this...

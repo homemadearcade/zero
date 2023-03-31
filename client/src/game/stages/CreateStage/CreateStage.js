@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateStage.scss';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import SelectClass from '../../ui/SelectClass/SelectClass';
+import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import { ZONE_CLASS } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import StageNameForm from '../StageNameForm/StageNameForm';
@@ -16,18 +16,18 @@ import Switch from '../../../ui/Switch/Switch';
 
         // {/* <RadioGroupColumn
         //   formLabel={"Perspective"}
-        //   value={stage.playerClassId}
+        //   value={stage.playerEntityModelId}
         //   onChange={(e, value) => {
         //     onUpdate({
-        //       playerClassId: value
+        //       playerEntityModelId: value
         //     })
         //   }}
         //   options={[{
-        //       value: directionalPlayerClassId,
+        //       value: directionalPlayerEntityId,
         //       label: 'Overhead'
         //     },
         //     {
-        //       value: jumperPlayerClassId,
+        //       value: jumperPlayerEntityId,
         //       label: 'Platformer'
         //     },
         //   ]}
@@ -54,25 +54,25 @@ const CreateStage = ({ stage, onUpdate }) => {
               onUpdate({  ...defaultProperties[defaultProperties.length-1] })    
             }}/>
 
-          {false && <SelectClass 
-            classType={ZONE_CLASS}
+          {false && <SelectEntity 
+            entityModelType={ZONE_CLASS}
             formLabel={"Into which zone should the Player spawn?"}
-            value={stage.playerSpawnZoneClassId ? [stage.playerSpawnZoneClassId] : []}
-            onChange={(event, entityClasses) => {
-              const newClassId = entityClasses[entityClasses.length-1]
+            value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}
+            onChange={(event, entityModels) => {
+              const newEntityId = entityModels[entityModels.length-1]
               onUpdate({
-                playerSpawnZoneClassId: newClassId
+                playerSpawnZoneEntityId: newEntityId
               })
           }}/>}
         <CobrowsingNestedList id={'stage'} title="Customize" listId="StageCustomize">
           <>
-          {<SelectClass
+          {<SelectEntity
             formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
-            value={stage.playerClassId ? [stage.playerClassId] : []}
-            onChange={(event, entityClasses) => {
-              const newClassId = entityClasses[entityClasses.length-1]
+            value={stage.playerEntityModelId ? [stage.playerEntityModelId] : []}
+            onChange={(event, entityModels) => {
+              const newEntityId = entityModels[entityModels.length-1]
               onUpdate({
-                playerClassId: newClassId
+                playerEntityModelId: newEntityId
               })
             }}/>}
           </>

@@ -7,7 +7,7 @@ import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 
 const SelectStage = ({ onChange, value, formLabel, gameModel}) => {
 
-  const mapClassToOption = (stageId) => {
+  const mapEntityToOption = (stageId) => {
     const stage = gameModel.stages[stageId]
 
     return {
@@ -17,7 +17,7 @@ const SelectStage = ({ onChange, value, formLabel, gameModel}) => {
     }
   }
 
-  const options = Object.keys(gameModel.stages).map(mapClassToOption)
+  const options = Object.keys(gameModel.stages).map(mapEntityToOption)
 
   return <SelectChipsAuto 
     onChange={(event, stages) => {

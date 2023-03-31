@@ -125,12 +125,12 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // PROJECTILE
-    if(this.cursors.space.isDown && entityClass.projectile?.entityClassId) {
+    if(this.cursors.space.isDown && entityModel.projectile?.entityModelId) {
       if(this.scene.game.loop.time < this.nextFire) { 
         return
       }
 
-      const projectile = new TemporaryInstance(this.scene, 'hero-'+Math.random(), { entityClassId: entityClass.projectile?.entityClassId } )
+      const projectile = new TemporaryInstance(this.scene, 'hero-'+Math.random(), { entityModelId: entityModel.projectile?.entityModelId } )
       projectile.fire(this)
 
       this.nextFire = this.scene.game.loop.time + projectile.cooldown;
@@ -139,26 +139,26 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // VEHICLE
-    if(entityClass.controls.interfaceType === VEHICLE_CONTROLS) {
+    if(entityModel.controls.interfaceType === VEHICLE_CONTROLS) {
       let hasAngularMovement = false
       if(this.cursors.left.isDown) {
         hasAngularMovement = true
-        this.setAngularVelocity(-entityClass.speed);
+        this.setAngularVelocity(-entityModel.speed);
       } else if(this.cursors.right.isDown) {
         hasAngularMovement = true
-        this.setAngularVelocity(entityClass.speed);
+        this.setAngularVelocity(entityModel.speed);
       }
 
-      if(entityClass.controls.sticky && !hasAngularMovement) {
+      if(entityModel.controls.sticky && !hasAngularMovement) {
         this.setAngularVelocity(false)
       }
   
-      if(!entityClass.controls.ignoreUpKey) {
+      if(!entityModel.controls.ignoreUpKey) {
         if(this.cursors.up.isDown) {
-          this.thrust(entityClass.speed * 2);
+          this.thrust(entityModel.speed * 2);
         } else {
           this.setAcceleration(0)
-          // if(entityClass.controls.sticky) {
+          // if(entityModel.controls.sticky) {
           //   this.setVelocity(0, 0)
           // }
         }
@@ -168,7 +168,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // DIRECTIONAL
-    if(entityClass.controls.interfaceType === DIRECTIONAL_CONTROLS) {
+    if(entityModel.controls.interfaceType === DIRECTIONAL_CONTROLS) {
       let xTouched = false 
       let yTouched = false
 
@@ -176,54 +176,54 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
       let yVelocityTouched = false
 
       if(this.cursors.left.isDown) {
-        if(entityClass.controls.sticky) {
+        if(entityModel.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(-entityClass.speed)
+            this.setVelocityX(-entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x - entityClass.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.phaserInstance.x - entityModel.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(-entityClass.speed)
+        } else this.setAccelerationX(-entityModel.speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        if(entityClass.controls.sticky) {
+        if(entityModel.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(entityClass.speed)
+            this.setVelocityX(entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x + entityClass.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.phaserInstance.x + entityModel.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(entityClass.speed)
+        } else this.setAccelerationX(entityModel.speed)
         xTouched = true
       }
       
       if(this.cursors.up.isDown) {
-        if(entityClass.controls.sticky) {
+        if(entityModel.controls.sticky) {
           if(gravity.y === 0) {
-            this.setVelocityY(-entityClass.speed)
+            this.setVelocityY(-entityModel.speed)
             yVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x, this.phaserInstance.y - entityClass.speed * mod)
+            this.setPosition(this.phaserInstance.x, this.phaserInstance.y - entityModel.speed * mod)
           }
-        } else this.setAccelerationY(-entityClass.speed)
+        } else this.setAccelerationY(-entityModel.speed)
         yTouched = true
       }
 
       if(this.cursors.down.isDown) {
-        if(entityClass.controls.sticky) {
+        if(entityModel.controls.sticky) {
           if(gravity.y === 0) {
-            this.setVelocityY(entityClass.speed)
+            this.setVelocityY(entityModel.speed)
             yVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityClass.speed * mod)
+            this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityModel.speed * mod)
           }
-        } else this.setAccelerationY(entityClass.speed)
+        } else this.setAccelerationY(entityModel.speed)
         yTouched = true
       }
 
-      if(entityClass.controls.sticky) {
+      if(entityModel.controls.sticky) {
         console.log(gravity, xVelocityTouched, yVelocityTouched)
         if(gravity.y === 0 && !yVelocityTouched) this.setVelocityY(0)
         if(gravity.x === 0 && !xVelocityTouched) this.setVelocityX(0)
@@ -237,58 +237,58 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     // JUMPER
-    if(entityClass.controls.interfaceType === JUMP_GROUND) {
+    if(entityModel.controls.interfaceType === JUMP_GROUND) {
       let xTouched = false 
 
       let xVelocityTouched = false
       let yVelocityTouched = false
 
       if(this.cursors.left.isDown) {
-        if(entityClass.controls.sticky) {
+        if(entityModel.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(-entityClass.speed)
+            this.setVelocityX(-entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x - entityClass.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.phaserInstance.x - entityModel.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(-entityClass.speed)
+        } else this.setAccelerationX(-entityModel.speed)
         xTouched = true
       }
       
       if(this.cursors.right.isDown) {
-        if(entityClass.controls.sticky) {
+        if(entityModel.controls.sticky) {
           if(gravity.x === 0) {
-            this.setVelocityX(entityClass.speed)
+            this.setVelocityX(entityModel.speed)
             xVelocityTouched = true
           } else {
-            this.setPosition(this.phaserInstance.x + entityClass.speed * mod, this.phaserInstance.y)
+            this.setPosition(this.phaserInstance.x + entityModel.speed * mod, this.phaserInstance.y)
           }
-        } else this.setAccelerationX(entityClass.speed)
+        } else this.setAccelerationX(entityModel.speed)
         xTouched = true
       }
 
       if(this.cursors.down.isDown) {
         if(gravity.y === 0) {
-          this.setVelocityY(entityClass.speed)
+          this.setVelocityY(entityModel.speed)
           yVelocityTouched = true
         } else {
-          this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityClass.speed * mod)
+          this.setPosition(this.phaserInstance.x, this.phaserInstance.y +  entityModel.speed * mod)
         }
       }
 
       if(this.cursors.space.isDown && this.phaserInstance.body.touching.down) {
-        this.setVelocityY(-entityClass.ground)
+        this.setVelocityY(-entityModel.ground)
       }
 
-      if(entityClass.controls.sticky) {
+      if(entityModel.controls.sticky) {
         if(gravity.y === 0 && !yVelocityTouched) this.setVelocityY(0)
         if(gravity.x === 0 && !xVelocityTouched) this.setVelocityX(0)
       } else {
-        if(!xTouched && !entityClass.controls.sticky) this.setAccelerationX(0)
+        if(!xTouched && !entityModel.controls.sticky) this.setAccelerationX(0)
       }
     }
 
-    if(entityClass.attributes.rotationFollowKeys) {
+    if(entityModel.attributes.rotationFollowKeys) {
       if(this.cursors.left.isDown) {
         this.setAngle(270)
       } else if(this.cursors.right.isDown) {
@@ -305,8 +305,8 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
         if(pattern === MOVEMENT_JUMP_ON_COLLIDE) {
       if(this.phaserInstance.body.touching.none === false || this.phaserInstance.body.blocked.none === false) {
-        console.log('...', entityClass.movement.velocityX, entityClass.movement.velocityY)
-        this.setVelocity(entityClass.movement.velocityX, entityClass.movement.velocityY)
+        console.log('...', entityModel.movement.velocityX, entityModel.movement.velocityY)
+        this.setVelocity(entityModel.movement.velocityX, entityModel.movement.velocityY)
       }
     }
     export const jumpOnCollide = {
@@ -354,7 +354,7 @@ const gravity = store.getState().gameModel.gameModel.world.gravity
 
     // IF LOCKED UP THEN JUST SHOW A BLACK WALL
     return <div className={classNames("Unlockable__cover", {'Unlockable__cover--slider': isSlider})}>
-      <div className={customClassName + " Unlockable Unlockable--obscured"}>
+      <div className={customName + " Unlockable Unlockable--obscured"}>
         {children}
       </div>
       <div className="Unlockable__obscured-icon">

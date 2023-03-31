@@ -8,11 +8,11 @@ import { openContextMenuFromEntityInstanceId } from '../../../store/actions/game
 
 const EntityInstanceListContextMenu = ({ openContextMenuFromEntityInstanceId, onMenuItemClick, selectableEntityInstances, gameModel: { gameModel }}) => {
   return <>
-    {selectableEntityInstances.map(({objectId, entityClassId}) => {
-      const name = gameModel.entityClasses[entityClassId].name
+    {selectableEntityInstances.map(({objectId, entityModelId}) => {
+      const name = gameModel.entityModels[entityModelId].name
       return <MenuItem key={objectId} onClick={(event) => {
         onMenuItemClick()
-        openContextMenuFromEntityInstanceId(objectId, entityClassId, event)
+        openContextMenuFromEntityInstanceId(objectId, entityModelId, event)
       }}>
         {name}
       </MenuItem>

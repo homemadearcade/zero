@@ -28,18 +28,19 @@ import {
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
+  TOGGLE_SELECTOR_CLASS_INVISIBILITY,
 } from '../../types';
 
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
 import { editGameModel } from './gameModelActions';
 import { toggleLayerVisibility } from './gameViewEditorActions';
 
-export const selectClass = (entityClassId) => (dispatch, getState) => {
+export const selectEntity = (entityModelId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   // dispatch(editGameModel({
-  //   entityClasses: {
-  //     [entityClassId]: {
+  //   entityModels: {
+  //     [entityModelId]: {
   //       lastSelectedDate: Date.now()
   //     }
   //   }
@@ -49,7 +50,7 @@ export const selectClass = (entityClassId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: SELECT_CLASS,
     payload: {
-      entityClassIdSelectedClassList: entityClassId, 
+      entityModelIdSelectedEntityList: entityModelId, 
     }
   });
 }
@@ -64,17 +65,17 @@ export const updateBrushSize = (brushSize) => (dispatch, getState) => {
   });
 }
 
-export const changeSelectorList = (currentSelectorList) => (dispatch, getState) => {
+export const changeSelectorList = (currentSelectorListInterfaceId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CHANGE_SELECTOR_COLUMN,
     payload: {
-      currentSelectorList
+      currentSelectorListInterfaceId
     }
   });
 }
 
-export const clearClass = (entityClassId) => (dispatch, getState) => {
+export const clearEntity = (entityModelId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLEAR_CLASS,
@@ -126,7 +127,7 @@ export const clearBrush = (brushId) => (dispatch, getState) => {
   });
 }
 
-export const openLiveEditor = (type, entityClassId) => (dispatch, getState) => {
+export const openLiveEditor = (type, entityModelId) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
@@ -134,22 +135,22 @@ export const openLiveEditor = (type, entityClassId) => (dispatch, getState) => {
     type: OPEN_LIVE_EDITOR,
     payload: {
       type,
-      entityClassIdSelectedLiveEditor: entityClassId, 
+      entityModelIdSelectedLiveEditor: entityModelId, 
     }
   });
 }
 
-export const openClassBoxModal = (classType) => (dispatch, getState) => {
+export const openEntityBoxModal = (entityModelType) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_CLASS_BOX_MODAL,
     payload: {
-      classType
+      entityModelType
     }
   });
 }
 
-export const closeClassBoxModal = () => (dispatch, getState) => {
+export const closeEntityBoxModal = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CLASS_BOX_MODAL,
@@ -276,6 +277,17 @@ export const closeJsonViewer = () => (dispatch, getState) => {
     updateCobrowsing: true,
     type: CLOSE_JSON_VIEWER,
     payload: {
+    }
+  });
+}
+
+export const toggleSelectorClassInvisibility = (selectorClass, dataSource) => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: TOGGLE_SELECTOR_CLASS_INVISIBILITY,
+    payload: {
+      selectorClass,
+      dataSource
     }
   });
 }

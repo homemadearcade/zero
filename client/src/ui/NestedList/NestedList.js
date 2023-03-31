@@ -3,10 +3,14 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { ListItemButton, ListItemIcon, ListSubheader } from '@mui/material';
+import ChevronRight from '@mui/icons-material/ChevronRight';
+import { ListItemButton, ListItemIcon, ListSubheader, MenuItem } from '@mui/material';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
+import MenuIconButton from '../MenuIconButton/MenuIconButton';
+import Icon from '../Icon/Icon';
+import './NestedList.scss'
+import { SELECTOR_MORE_IID } from '../../constants/interfaceIds';
 
 export default function NestedList({listItems}) {
   const [expanded, setExpanded] = React.useState(true);
@@ -18,9 +22,10 @@ export default function NestedList({listItems}) {
   return <NestedListBody expanded={expanded} onChange={handleChange}></NestedListBody>
 }
 
-export function NestedListBody({expanded, onChange, title, children, id, interfaceId}) {
+export function NestedListBody({expanded, onChange, title, children, id, interfaceId, moreMenu }) {
     const isOpen = expanded === id
-    const el = <><ListItemButton dense onClick={onChange(id)}>
+    const el = <><ListItemButton  alignItems='start' onClick={onChange(id)}>
+      {isOpen ? <ExpandMore  sx={{ fontSize: '1.5' }} /> : <ChevronRight  sx={{ fontSize: '1.5' }} />}
       <ListItemText primaryTypographyProps={{
           variant:"subtitle2", 
           sx:{
@@ -31,7 +36,18 @@ export function NestedListBody({expanded, onChange, title, children, id, interfa
             letterSpacing: '0.00938em'
           }
       }} primary={title} />
-        {isOpen ? <ExpandLess  sx={{ fontSize: '1.5' }} /> : <ExpandMore  sx={{ fontSize: '1.5' }} />}
+       {moreMenu && <Unlockable interfaceId={SELECTOR_MORE_IID}>
+          <div className="NestedList__more-menu-icon" onClick={(e) => {
+            e.stopPropagation()
+        }}>
+          <MenuIconButton 
+            icon={<Icon size="xs" icon="faEllipsis"/>}
+            menu={(onClose) => {
+              return moreMenu
+            }}
+          />
+        </div>
+      </Unlockable>}
       </ListItemButton>
       <Collapse in={isOpen} unmountOnExit>
         <List component="div" disablePadding>

@@ -84,7 +84,7 @@ export default (ChildComponent) => {
     render() {
       const { 
         gameModel,
-        entityClassLibrary,
+        entityModelLibrary,
         relationLibrary,
         relationTagLibrary,
         effectLibrary,
@@ -94,7 +94,7 @@ export default (ChildComponent) => {
        } = this.props
 
       if(library.isLoading ||
-        !entityClassLibrary.entityClassLibrary
+        !entityModelLibrary.entityModelLibrary
         || !relationLibrary.relationLibrary
         || !relationTagLibrary.relationTagLibrary
         || !effectLibrary.effectLibrary
@@ -114,7 +114,7 @@ export default (ChildComponent) => {
 
   const mapStateToProps = (state) => ({
     gameModel: state.gameModel,
-    entityClassLibrary: state.entityClassLibrary,
+    entityModelLibrary: state.entityModelLibrary,
     relationLibrary: state.relationLibrary,
     relationTagLibrary: state.relationTagLibrary,
     effectLibrary: state.effectLibrary,

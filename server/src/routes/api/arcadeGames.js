@@ -74,7 +74,7 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
 
 router.get('/gameModelId/:gameModelId', async (req, res) => {
   try {
-    const gameModel = await EntityClass.findOne({ gameModelId: req.params.gameModelId }).populate('owner');
+    const gameModel = await EntityModel.findOne({ gameModelId: req.params.gameModelId }).populate('owner');
     if (!gameModel) return res.status(404).json({ message: 'No arcade game found.' });
     res.json({ gameModel: gameModel.toJSON() });
   } catch (err) {
@@ -97,13 +97,14 @@ router.post('/', requireJwtAuth, async (req, res) => {
       metadata: req.body.metadata, 
       theme: req.body.theme, 
       player: req.body.player, 
-      entityClasses: req.body.entityClasses,
+      entityModels: req.body.entityModels,
       brushes: req.body.brushes,
       colors: req.body.colors,
       relationTags: req.body.relationTags,
       cutscenes: req.body.cutscenes,
       relations: req.body.relations,
       collisions: req.body.collisions,
+      interfacePresets: req.body.interfacePresets,
       events: req.body.events,
       effects: req.body.effects,
       textures: req.body.textures,
@@ -168,10 +169,10 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       }
     });
 
-    Object.keys(updatedGame.entityClasses).forEach(key => {
-      if (updatedGame.entityClasses[key] === null || updatedGame.entityClasses[key] === undefined) {
+    Object.keys(updatedGame.entityModels).forEach(key => {
+      if (updatedGame.entityModels[key] === null || updatedGame.entityModels[key] === undefined) {
         console.log('deleting class', key)
-        delete updatedGame.entityClasses[key];
+        delete updatedGame.entityModels[key];
         return
       }
     });
@@ -218,7 +219,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       metadata: updatedGame.metadata, 
       theme: updatedGame.theme, 
       player: updatedGame.player, 
-      entityClasses: updatedGame.entityClasses,
+      entityModels: updatedGame.entityModels,
       brushes: updatedGame.brushes,
       colors: updatedGame.colors,
       relationTags: updatedGame.relationTags,
@@ -228,6 +229,7 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       relations: updatedGame.relations, 
       events: updatedGame.events, 
       collisions: updatedGame.collisions, 
+      interfacePresets: updatedGame.interfacePresets,
       effects: updatedGame.effects, 
       isRemoved: updatedGame.isRemoved,
       stages: updatedGame.stages

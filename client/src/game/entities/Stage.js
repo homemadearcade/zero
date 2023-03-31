@@ -53,9 +53,9 @@ export class Stage {
 
   ensureSpawnZoneExists() {
     const stage = this.scene.getCurrentStage()
-    const spawnZones = this.scene.getAllEntityInstancesOfClassId(stage.playerSpawnZoneClassId) 
+    const spawnZones = this.scene.getAllEntityInstancesOfEntityId(stage.playerSpawnZoneEntityId) 
     if(!spawnZones.length) {
-      this.scene.initializeEntityInstance(ENTITY_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityClassId: stage.playerSpawnZoneClassId}, true)
+      this.scene.initializeEntityInstance(ENTITY_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityModelId: stage.playerSpawnZoneEntityId}, true)
     }
   }
 

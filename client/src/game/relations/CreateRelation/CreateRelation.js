@@ -12,7 +12,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { effectBehaviorToDisplayNames, EFFECT_ID_PREFIX, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_RELATION_TAG_EFFECT, TWO_RELATION_TAG_EFFECT, effectBehaviorInterfaces, eventTypeInterfaces } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
-import { getClassAandB } from '../../../utils/gameUtils';
+import { getEntityAandB } from '../../../utils/gameUtils';
 import { EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
 import CreateEvent from '../../event/CreateEvent/CreateEvent';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
@@ -20,7 +20,7 @@ import Switch from '../../../ui/Switch/Switch';
 import Typography from '../../../ui/Typography/Typography';
 import Divider from '../../../ui/Divider/Divider';
 import Icon from '../../../ui/Icon/Icon';
-import useIsEventSaveable from '../../../hooks/useIsEventSaveable';
+import useIsEventSaveable from '../../../hooks/relations/useIsEventSaveable';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectEffect from '../../ui/SelectEffect/SelectEffect';
@@ -34,8 +34,8 @@ import SelectSpawnZoneSelectorType from '../../ui/SelectSpawnZoneSelectorType/Se
 //         formLabel={"What effects happen?"}
 //         value={relation.effects ? relation.eventIds : []}
 //         onChange={(event, effects) => {
-//           // const newClassId = entityClasses[entityClasses.length-1]
-//           // handleEffectChange('spawnEntityClassId', newClassId)
+//           // const newEntityId = entityModels[entityModels.length-1]
+//           // handleEffectChange('spawnEntityModelId', newEntityId)
 //       }}/>}
 
 const CreateRelation = ({
@@ -191,7 +191,7 @@ const CreateRelation = ({
   function renderOptionalRelationForms(effect) {
     if(!event || !effect.effectBehavior) return 
     
-    const { classA, classB } = getClassAandB(event.relationTagIdA, event.relationTagIdB)
+    const { classA, classB } = getEntityAandB(event.relationTagIdA, event.relationTagIdB)
 
     const effectBehaviorInterface = effectBehaviorInterfaces[effect.effectBehavior]
     const eventTypeInterface = eventTypeInterfaces[event.eventType]
@@ -199,8 +199,8 @@ const CreateRelation = ({
     const effectData = relation.effects[effect.effectId] ? relation.effects[effect.effectId] : {}
 
     const forms = []
-    const useA = effect.zoneEntityClassId && classA?.entityClassId === effect.zoneEntityClassId
-    const useB = effect.zoneEntityClassId && classB?.entityClassId === effect.zoneEntityClassId
+    const useA = effect.zoneEntityModelId && classA?.entityModelId === effect.zoneEntityModelId
+    const useB = effect.zoneEntityModelId && classB?.entityModelId === effect.zoneEntityModelId
 
     if(effectBehaviorInterface.spawnZoneSelectorType && (useA || useB)) {
       forms.push(<Unlockable

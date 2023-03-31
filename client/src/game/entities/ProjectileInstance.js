@@ -15,15 +15,15 @@ export class ProjectileInstance extends EntityInstance {
   constructor(scene, entityInstanceId, instanceData){
     super(scene, entityInstanceId, instanceData, true)
 
-    const { entityClassId } = instanceData
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
-    if(!entityClass) {
-      console.error('no class for id:' + entityClassId)
+    const { entityModelId } = instanceData
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
+    if(!entityModel) {
+      console.error('no class for id:' + entityModelId)
       return
     }
 
-    if(!entityClass.projectile) {
-      console.error('no projectile data in class id:' + entityClassId)
+    if(!entityModel.projectile) {
+      console.error('no projectile data in class id:' + entityModelId)
     }
 
     // scene.temporaryInstanceGroup.add(this.phaserInstance)
@@ -45,9 +45,9 @@ export class ProjectileInstance extends EntityInstance {
   }
 
   fireAutomatic(shooter, time) {
-    const shooterClass = store.getState().gameModel.gameModel.entityClasses[shooter.entityClassId]
-    const projectileBehavior = shooterClass.projectile.projectileBehavior
-    this.lifespan = shooterClass.projectile.lifespan;
+    const shooterEntity = store.getState().gameModel.gameModel.entityModels[shooter.entityModelId]
+    const projectileBehavior = shooterEntity.projectile.projectileBehavior
+    this.lifespan = shooterEntity.projectile.lifespan;
 
     let rotation
 
@@ -62,7 +62,7 @@ export class ProjectileInstance extends EntityInstance {
     }
 
     if(projectileBehavior === PROJECTILE_TARGET_CLASS) {
-      const entityInstances = this.scene.getAllEntityInstancesOfClassId(shooterClass.projectile.targetClassId)
+      const entityInstances = this.scene.getAllEntityInstancesOfEntityId(shooterEntity.projectile.targetEntityId)
       if(entityInstances.length) {
         rotation = getAngleBetweenInstances(shooter, entityInstances[0])
       }
@@ -86,33 +86,33 @@ export class ProjectileInstance extends EntityInstance {
       rotation = Phaser.Math.DegToRad(angle)
     }
 
-    this.fire(shooter, shooterClass, rotation)
+    this.fire(shooter, shooterEntity, rotation)
   }
 
   // update(time, delta) {
   //   super.update(time, delta) 
   // }
 
-  fire(shooter, shooterClass, rotation) {
+  fire(shooter, shooterEntity, rotation) {
     this.setRotation(rotation); // angle is in degree, rotation is in radian
     var offset = new Phaser.Geom.Point(shooter.height, 0);
     Phaser.Math.Rotate(offset, rotation); // you can only rotate with radian
     this.setPosition(shooter.phaserInstance.x + offset.x, shooter.phaserInstance.y + offset.y);    
-    this.eject(shooterClass.projectile.speed)
+    this.eject(shooterEntity.projectile.speed)
 
     this.isVisible = true;
     this.setActive(true)
 
-    this.destroyTime = Date.now() + shooterClass.projectile.lifetime
+    this.destroyTime = Date.now() + shooterEntity.projectile.lifetime
   }
 
   fireControlled(shooter, time, cursors) {
-    const shooterClass = store.getState().gameModel.gameModel.entityClasses[shooter.entityClassId]
-    this.lifespan = shooterClass.projectile.lifespan;
+    const shooterEntity = store.getState().gameModel.gameModel.entityModels[shooter.entityModelId]
+    this.lifespan = shooterEntity.projectile.lifespan;
 
     let rotation
 
-    if(shooterClass.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
+    if(shooterEntity.movement.movementControlsBehavior === VEHICLE_CONTROLS) {
       rotation = shooter.phaserInstance.rotation - Phaser.Math.DegToRad(90)
     } else {
       if(cursors.left.isDown) {
@@ -146,7 +146,7 @@ export class ProjectileInstance extends EntityInstance {
       }
     }
 
-    this.fire(shooter, shooterClass, rotation)
+    this.fire(shooter, shooterEntity, rotation)
   }
 
   destroyInGame() {

@@ -15,33 +15,33 @@ import SelectJumpControlsBehavior from '../../ui/SelectJumpControlsBehavior/Sele
 import { jumpControlsBehaviorToParemeters } from '../../constants';
 import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_BEHAVIOR_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 
-const JumpEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
+const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()
-  const classSelected = gameModel.entityClasses[entityClassId]
+  const entitySelected = gameModel.entityModels[entityModelId]
 
   const incompatibleErrors = []
 
-  if(classSelected.movement.movementControlsBehavior !== ADVANCED_DIRECTIONAL_CONTROLS) {
+  if(entitySelected.movement.movementControlsBehavior !== ADVANCED_DIRECTIONAL_CONTROLS) {
     incompatibleErrors.push('Movement control scheme must be the Advanced Directional scheme to use Jump')
     incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
         <Button
           onClick={(e) => {
-            editGameModel({ entityClasses: { [entityClassId]:  {...advancedDirectionalDefaults } }})        
+            editGameModel({ entityModels: { [entityModelId]:  {...advancedDirectionalDefaults } }})        
           }}
          >Set</Button>
       </Unlockable>)
   }
 
-  if(classSelected.movement.ignoreGravity) {
+  if(entitySelected.movement.ignoreGravity) {
     incompatibleErrors.push('Gravity must be turned on in order to use Jump')
     incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_IGNORE_GRAVITY_IID}>
         <Switch
           size="small"
           labels={['No Gravity', 'Gravity']}
           onChange={(e) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { ignoreGravity: !e.target.checked }}}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { ignoreGravity: !e.target.checked }}}})        
           }}
-          checked={!classSelected.movement.ignoreGravity}
+          checked={!entitySelected.movement.ignoreGravity}
          />
       </Unlockable>)
   }
@@ -54,7 +54,7 @@ const JumpEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, au
     </div>
   }
 
-  let jumpParameters = jumpControlsBehaviorToParemeters[classSelected.jump.jumpControlsBehavior]
+  let jumpParameters = jumpControlsBehaviorToParemeters[entitySelected.jump.jumpControlsBehavior]
 
   if(seeAllParameters) {
     jumpParameters = {
@@ -68,24 +68,24 @@ const JumpEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, au
 
   return (
     <div className="JumpEditor">
-      {classSelected.classInterfaceCategory === PLAYER_CLASS && <Unlockable interfaceId={JUMP_BEHAVIOR_IID}>
+      {entitySelected.entityInterfaceId === PLAYER_CLASS && <Unlockable interfaceId={JUMP_BEHAVIOR_IID}>
         <SelectJumpControlsBehavior
           formLabel="Behavior"
-          value={classSelected.jump.jumpControlsBehavior ? [classSelected.jump.jumpControlsBehavior] : []}
+          value={entitySelected.jump.jumpControlsBehavior ? [entitySelected.jump.jumpControlsBehavior] : []}
           onChange={(event, jumpControlsBehavior) => {
-            editGameModel({ entityClasses: { [entityClassId]: { ...jumpControlsBehavior[jumpControlsBehavior.length-1] } }})    
+            editGameModel({ entityModels: { [entityModelId]: { ...jumpControlsBehavior[jumpControlsBehavior.length-1] } }})    
           }}/>
       </Unlockable>}
-      {classSelected.movement.movementControlsBehavior && <ControlsCard entityClass={classSelected} jumpControlsBehavior={classSelected.jump.jumpControlsBehavior}></ControlsCard>}
+      {entitySelected.movement.movementControlsBehavior && <ControlsCard entityModel={entitySelected} jumpControlsBehavior={entitySelected.jump.jumpControlsBehavior}></ControlsCard>}
       {jumpParameters.ground && <Unlockable interfaceId={JUMP_GROUND_IID}>
         <SliderNotched
           formLabel={jumpParameters.ground.length ? jumpParameters.ground : "Ground Jump Speed"}
           options={[50, 100, 200, 300, 400, 500]}
           step={10}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { jump: { ground: value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { jump: { ground: value } }}})        
           }}
-          value={classSelected.jump.ground}
+          value={entitySelected.jump.ground}
         />
       </Unlockable>}
       {jumpParameters.air && <Unlockable  interfaceId={JUMP_AIR_IID}>
@@ -94,9 +94,9 @@ const JumpEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, au
           options={[10, 50, 100, 200, 300, 400, 500]}
           step={10}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { jump: { air: value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { jump: { air: value } }}})        
           }}
-          value={classSelected.jump.air}
+          value={entitySelected.jump.air}
         />
       </Unlockable>}
       {jumpParameters.cooldown && <Unlockable isSlider interfaceId={JUMP_COOLDOWN_IID}>
@@ -105,9 +105,9 @@ const JumpEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, au
           options={[50, 100, 200, 500, 1000, 2000, 5000]}
           step={1}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { jump: { cooldown: value} }}})        
+            editGameModel({ entityModels: { [entityModelId]: { jump: { cooldown: value} }}})        
           }}
-          value={classSelected.jump.cooldown}
+          value={entitySelected.jump.cooldown}
         />
       </Unlockable>}
       {jumpParameters.dragY && <Unlockable isSlider interfaceId={MOVEMENT_DRAG_Y_IID}>
@@ -116,9 +116,9 @@ const JumpEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel, au
           step={0.01}
           options={[0, .01, .25, .5, .75, 1]}
           onChangeCommitted={(value) => {
-            editGameModel({ entityClasses: { [entityClassId]: { movement: { dragY: 1 - value } }}})        
+            editGameModel({ entityModels: { [entityModelId]: { movement: { dragY: 1 - value } }}})        
           }}
-          value={1 - classSelected.movement.dragY}
+          value={1 - entitySelected.movement.dragY}
         />
        </Unlockable>}
       <Unlockable interfaceId={TOGGLE_ALL_PARAMS_IID}>

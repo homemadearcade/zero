@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
-import { classTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
+import { entityModelTypeToDisplayName, RELATION_TAG_ENTITY } from '../../constants';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 
@@ -13,15 +13,9 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
   const mapTagToOption = (collidingRelationTagId) => {
     const relationTag = gameModel.relationTags[collidingRelationTagId]
 
-    // let relationTagInterfaceType = 'My Tags'
-
-    // if(relationTag.relationTagInterfaceType) {
-    //   relationTagInterfaceType = relationTagTypeToDisplayName[relationTag.relationTagInterfaceType]
-    // }
-
-    if(relationTag.relationTagInterfaceType === RELATION_TAG_CLASS) {
-      const relationTagClass = gameModel.entityClasses[relationTag.relationTagId]
-      const interfaceId = relationTagClass.classInterfaceCategory + CLASS_UNLOCKABLE_IID + relationTag.relationTagId
+    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY) {
+      const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
+      const interfaceId = relationTagEntity.entityInterfaceId + CLASS_UNLOCKABLE_IID + relationTag.relationTagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
 
       return {
@@ -29,18 +23,10 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
         value: collidingRelationTagId,
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
-        isRemoved: relationTag.isRemoved || (isObscured && relationTag.isSelectorObscured),
-        relationTagInterfaceType: classTypeToDisplayName[relationTagClass.classInterfaceCategory]
+        isRemoved: relationTag.isRemoved || (isObscured && relationTag.editorInterface.requiresUnlocking),
+        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityInterfaceId]
       }
     }
-
-    // return {
-    //   label: tag.name,
-    //   value: collidingRelationTagId,
-    //   textureTint: tag.textureTint,
-    //   isRemoved: tag.isRemoved,
-    //   relationTagInterfaceType
-    // }
   }
   
   const value = Object.keys(gameModel.collisions).map((collisionId) => {
@@ -52,10 +38,13 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
     return !!relationTagId
   })
 
-  const options = Object.keys(gameModel.entityClasses).
-  map(mapTagToOption).
+
+  const options = Object.keys(gameModel.relationTags).
+  map(mapTagToOption).filter((option) => {
+    return !!option
+  }).
   sort((a, b) => {
-    return -b.relationTagInterfaceType.localeCompare(a.relationTagInterfaceType)
+    return -b.relationTagInterfaceId.localeCompare(a.relationTagInterfaceId)
   })
 
   return <SelectChipsAuto 
@@ -63,7 +52,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
       onChange(event,  relationTagIds)
     }}
     groupBy={option => {
-      return classTypeToDisplayName[option.relationTagInterfaceType]
+      return option.relationTagInterfaceId
     }}
     hideRemoved
     formLabel={formLabel}

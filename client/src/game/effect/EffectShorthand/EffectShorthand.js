@@ -15,12 +15,12 @@ function renderTag(tag) {
   </span>
 }
 
-function renderClass(entityClass) {
+function renderEntity(entityModel) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
     <span style={{width: '.6em', height: '.6em'}}>
-      <Sprite textureId={entityClass.graphics.textureId} textureTint={entityClass.graphics.textureTint}/>
+      <Sprite textureId={entityModel.graphics.textureId} textureTint={entityModel.graphics.textureTint}/>
     </span>
-    <span>{entityClass.name}</span>
+    <span>{entityModel.name}</span>
   </span>
 }
 
@@ -36,7 +36,7 @@ function renderText(text) {
 
 function EffectShorthand({effect, gameModel: { gameModel }, children}) {
   const effectBehavior = effect.effectBehavior 
-  const entityClasses = gameModel.entityClasses 
+  const entityModels = gameModel.entityModels 
   const cutscenes = gameModel.cutscenes 
   const relationTags = gameModel.relationTags 
 
@@ -45,7 +45,7 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       return <>
         {renderEffect(effect)}
         {/* {` to`}   */}
-        {renderClass(entityClasses[effect.zoneEntityClassId])}
+        {renderEntity(entityModels[effect.zoneEntityModelId])}
       </>
     }
 
@@ -53,16 +53,16 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
       return <>
         {renderEffect(effect)}
         {/* {` into`} */}
-        {renderClass(entityClasses[effect.entityClassId])}
+        {renderEntity(entityModels[effect.entityModelId])}
       </>
     }
 
     if(effectBehavior === EFFECT_SPAWN) {
       return <>
         {renderEffect(effect)}
-        {renderClass(entityClasses[effect.spawnEntityClassId])}
+        {renderEntity(entityModels[effect.spawnEntityModelId])}
         {/* {'into'} */}
-        {/* {renderClass(entityClasses[effect.zoneEntityClassId])} */}
+        {/* {renderEntity(entityModels[effect.zoneEntityModelId])} */}
       </>
     }
 

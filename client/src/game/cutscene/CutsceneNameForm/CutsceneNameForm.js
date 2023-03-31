@@ -46,7 +46,7 @@ const CutsceneNameForm = ({ initialName, updateCreateCutscene, gameModel: { game
 
   return (
     <div className="CutsceneNameForm">
-      <TextField onChange={handleChange} value={cutscene.name} label={"Name"} />
+      <TextField onChange={handleChange} value={cutscene.name} label={"Title"} />
       {cutscene.error && <Alert severity="error">{cutscene.error}</Alert>}
     </div>
   );

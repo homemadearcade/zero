@@ -70,10 +70,10 @@ export const editGameModel  = (gameUpdate) => async (dispatch, getState) => {
   const isAutosaveDisabled = gameRoomInstance?.isAutosaveDisabled
 
   try {
-    if(gameUpdate.entityClasses) {
-      Object.keys(gameUpdate.entityClasses).forEach((entityClassId) => {
-        const entityClass = gameUpdate.entityClasses[entityClassId]
-        entityClass.lastEditedDate = Date.now()
+    if(gameUpdate.entityModels) {
+      Object.keys(gameUpdate.entityModels).forEach((entityModelId) => {
+        const entityModel = gameUpdate.entityModels[entityModelId]
+        entityModel.lastEditedDate = Date.now()
       })
     }
 

@@ -18,7 +18,6 @@ PUSH UI STATE ( Envelope Icon )
 
 ENTITY INSTANCE UPGRADE
   Compound Static Body for Entities
-  Filter object instances that are not visible in the snapshot taker and eraser, and other snapshot thing?
 
 LOBBY UPDATE
   Lobby Join Sound
@@ -59,3 +58,7 @@ GAME ROOM EXPANSION
 .id -> ___mongoId. Finish my id cleanup
 
 EXPERIENCE ONLY EFFECTS ( such as overlay effect )
+
+TABS FOR the EDIT CLASS MODAL ( yes : )  
+  AUTOGENERATION FORM
+CLEAN UP UI in general

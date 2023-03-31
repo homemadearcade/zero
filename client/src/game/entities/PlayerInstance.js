@@ -42,15 +42,15 @@ export class PlayerInstance extends EntityInstance {
 
     this.scene = scene
 
-    const { entityClassId } = instanceData
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
-    if(!entityClass) {
-      console.error('no player class for entityClassId:' + entityClassId)
+    const { entityModelId } = instanceData
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
+    if(!entityModel) {
+      console.error('no player class for entityModelId:' + entityModelId)
     }
 
     this.cursors = scene.input.keyboard.createCursorKeys();
 
-    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityClass.graphics.width + (nodeSize * 4), height: entityClass.graphics.height + (nodeSize * 4) }) 
+    this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityModel.graphics.width + (nodeSize * 4), height: entityModel.graphics.height + (nodeSize * 4) }) 
 
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
@@ -84,20 +84,20 @@ export class PlayerInstance extends EntityInstance {
     this.interactArea.unregister()
   }
 
-  reclass(entityClassId) {
+  reclass(entityModelId) {
     const phaserInstance = this.phaserInstance
-    const modifiedClassData = { spawnX: phaserInstance.x, spawnY: phaserInstance.y, entityClassId }
+    const modifiedEntityData = { spawnX: phaserInstance.x, spawnY: phaserInstance.y, entityModelId }
 
     const scene = this.scene
     this.scene.removePlayerInstance()
-    scene.addPlayerInstance(modifiedClassData)
+    scene.addPlayerInstance(modifiedEntityData)
   }
 
   setLerp() {
-    const entityClassId = this.entityClassId
-    const entityClass = store.getState().gameModel.gameModel.entityClasses[entityClassId]
-    let lerpX = entityClass.camera.lerpX
-    let lerpY = entityClass.camera.lerpY
+    const entityModelId = this.entityModelId
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
+    let lerpX = entityModel.camera.lerpX
+    let lerpY = entityModel.camera.lerpY
     this.scene.cameras.main.startFollow(this.phaserInstance, false, lerpX, lerpY)
   }
 

@@ -6,7 +6,7 @@ const relationTag = new Schema({
     dataSource: {
       type: String,
     },
-    relationTagInterfaceType: {
+    relationTagInterfaceId: {
       type: String,
       required: true,
     },
@@ -26,9 +26,9 @@ const relationTag = new Schema({
     textureId: {
       type: String,
     },
-    isSelectorObscured: {
-      type: Boolean,
-      default: false,
+    editorInterface: {
+      type: Object,
+      default: {},
     },
     isLocked: {
       type: Boolean,
@@ -47,12 +47,12 @@ relationTag.methods.toJSON = function () {
   return {
     id: this._id,
     dataSource: this.dataSource,
-    relationTagInterfaceType: this.relationTagInterfaceType,
+    relationTagInterfaceId: this.relationTagInterfaceId,
     relationTagId: this.relationTagId,
     name: this.name,
     textureTint: this.textureTint,
     textureId: this.textureId,
-    isSelectorObscured: this.isSelectorObscured,
+    editorInterface: this.editorInterface,
     isLocked: this.isLocked,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,

@@ -16,7 +16,7 @@ ENTITY MEMBERS
 GAME MODEL
 
 Object ( Game Object )
-Class
+Entity
 Brush
 Stage
 
@@ -43,7 +43,7 @@ The back end only stores what’s different than the default model and will dele
 Never send an update with more data than you need! A deep merge takes place on the back end
 
 
-Default Class, Default Object get placed onto all entityClasses and instance entityInstance when loading the game model
+Default Entity, Default Object get placed onto all entityModels and instance entityInstance when loading the game model
 
 Default Game Model gets placed onto the game model when loading up, it has a default stage on it
 
@@ -143,7 +143,7 @@ ROOT LEVEL
   Background Color
   Defaults
 SECOND LEVEL
-  Class
+  Entity
   Brush
   My Images
 

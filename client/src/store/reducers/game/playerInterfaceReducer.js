@@ -12,13 +12,11 @@ import {
 // player interfaceReducer
 const initialState = {
   cutsceneId: null,
-  cutsceneClassId: null,
+  cutsceneEntityId: null,
   cutsceneIndex: 0,
   playerState: null,
   playerStateMessage: null,
-  player: {
-    entityClassId: null,
-  },
+  playerEntityModelId: null,
   controlsToPress: null
 };
 
@@ -30,7 +28,7 @@ export default function playerInterfaceReducer(state = initialState, { type, pay
       return {
         ...state,
         cutsceneId: payload.cutsceneId,
-        cutsceneClassId: payload.entityClassId,
+        cutsceneEntityId: payload.entityModelId,
         cutsceneIndex: 0
       };
     case PROGRESS_CUTSCENE:
@@ -42,7 +40,7 @@ export default function playerInterfaceReducer(state = initialState, { type, pay
       return {
         ...state,
         cutsceneId: null,
-        cutsceneClassId: null,
+        cutsceneEntityId: null,
         cutsceneIndex: 0,
       }
     case CHANGE_PLAYER_STATE: 
@@ -55,13 +53,13 @@ export default function playerInterfaceReducer(state = initialState, { type, pay
       return {
         ...state,
         cutsceneId: null,
-        cutsceneClassId: null,
+        cutsceneEntityId: null,
         cutsceneIndex: 0
       };
     case CHANGE_PLAYER_CLASS: 
       return {
         ...state,
-        playerClassId: payload.playerClassId
+        playerEntityModelId: payload.playerEntityModelId
       }
     case CHANGE_CONTROL_POPUP: 
       return {

@@ -4,18 +4,18 @@ import { connect } from 'react-redux';
 import { closeContextMenu } from '../../../store/actions/game/contextMenuActions';
 
 import EntityInstanceContextMenu from '../EntityInstanceContextMenu/EntityInstanceContextMenu';
-import ClassContextMenu from '../ClassContextMenu/ClassContextMenu';
+import EntityContextMenu from '../EntityContextMenu/EntityContextMenu';
 import StageContextMenu from '../StageContextMenu/StageContextMenu';
 import EntityInstanceListContextMenu from '../EntityInstanceListContextMenu/EntityInstanceListContextMenu';
 import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
 
-const GameContextMenuBody = ({ selectableEntityInstances, entityInstanceIdSelectedContextMenu, entityClassIdSelectedContextMenu, closeContextMenu }) => { 
+const GameContextMenuBody = ({ selectableEntityInstances, entityInstanceIdSelectedContextMenu, entityModelIdSelectedContextMenu, closeContextMenu }) => { 
   if(selectableEntityInstances) {
     return <EntityInstanceListContextMenu selectableEntityInstances={selectableEntityInstances} onMenuItemClick={closeContextMenu}/>
   } else if(entityInstanceIdSelectedContextMenu) {
-    return <EntityInstanceContextMenu onMenuItemClick={closeContextMenu} entityInstanceId={entityInstanceIdSelectedContextMenu} entityClassId={entityClassIdSelectedContextMenu} />
-  } else if(entityClassIdSelectedContextMenu || entityInstanceIdSelectedContextMenu === PLAYER_INSTANCE_ID_PREFIX) {
-    return <ClassContextMenu entityClassId={entityClassIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>
+    return <EntityInstanceContextMenu onMenuItemClick={closeContextMenu} entityInstanceId={entityInstanceIdSelectedContextMenu} entityModelId={entityModelIdSelectedContextMenu} />
+  } else if(entityModelIdSelectedContextMenu || entityInstanceIdSelectedContextMenu === PLAYER_INSTANCE_ID_PREFIX) {
+    return <EntityContextMenu entityModelId={entityModelIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>
   }
 
   return <StageContextMenu onMenuItemClick={closeContextMenu}/>
