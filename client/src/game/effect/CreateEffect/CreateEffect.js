@@ -9,7 +9,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import { defaultEffect, effectBehaviorInterfaces } from '../../constants';
 import { TextField } from '@mui/material';
-import { ZONE_CLASS } from '../../constants';
+import { ZONE_ENTITY_IID } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
@@ -98,7 +98,7 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
     if(effectForms.zoneEntityModelId) {
       forms.push(<SelectEntity 
         key={'zoneEntityModelId'}
-        entityModelType={ZONE_CLASS}
+        entityModelType={ZONE_ENTITY_IID}
         interfaceId={RELATION_SPAWN_ZONE_ENTITY_IID}
         formLabel={effectForms.zoneEntityModelId}
         value={effect.zoneEntityModelId ? [effect.zoneEntityModelId] : []}

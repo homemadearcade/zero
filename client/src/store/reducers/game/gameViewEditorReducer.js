@@ -1,4 +1,4 @@
-import { ZONE_CLASS } from '../../../game/constants';
+import { ZONE_ENTITY_IID } from '../../../game/constants';
 import {
   CLEAR_GAME_VIEW_EDITOR,
   TOGGLE_LAYER_VISIBILITY,
@@ -13,7 +13,7 @@ import {
 // these are editor things that take place within the game view
 const initialState = {
   layerInvisibility: {
-    [ZONE_CLASS]: true,
+    [ZONE_ENTITY_IID]: true,
   },
   cameraZoom: 3,
   isGridViewOn: false,

@@ -17,3 +17,6 @@ Update all name forms
   Make the class name form thing into a reusable component and add to stage, cutscene, tag, etc
 
 Utils that use state should be hooks
+
+Maybe Effects -> Game Effects
+Maybe Events -> Game Events or Relation Events? Think on this...

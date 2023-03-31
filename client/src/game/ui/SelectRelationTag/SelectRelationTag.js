@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { entityModelTypeToDisplayName, IS_DATA_REMOVED, relationTagTypeToDisplayName, RELATION_TAG_ABSTRACT_CLASS, RELATION_TAG_ENTITY } from '../../constants';
+import { entityModelTypeToDisplayName, IS_DATA_REMOVED, relationTagTypeToDisplayName, RELATION_TAG_ABSTRACT_CLASS, RELATION_TAG_ENTITY_IID } from '../../constants';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { CLASS_UNLOCKABLE_IID, SELECTOR_MORE_IID } from '../../../constants/interfaceIds';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
@@ -29,7 +29,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
 
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromInterfaceIds[interfaceId]
 
-    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY) {
+    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
       const interfaceId = relationTagEntity.entityInterfaceId + CLASS_UNLOCKABLE_IID + relationTag.relationTagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)

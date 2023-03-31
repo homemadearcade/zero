@@ -64,7 +64,7 @@ const entityModel = new Schema({
       default: [],
       required: true,
     },
-    isLocked: {
+    isReadOnly: {
       type: Boolean,
       default: false,
     },
@@ -95,7 +95,7 @@ entityModel.methods.toJSON = function () {
     camera: this.camera,
     relationTags: this.relationTags,
     visualTags: this.visualTags,
-    isLocked: this.isLocked,
+    isReadOnly: this.isReadOnly,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

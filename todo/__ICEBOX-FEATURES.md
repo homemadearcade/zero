@@ -34,3 +34,6 @@ MUTE/CUT VIDEO
   This should be the start of ON_LOBBY_INSTANCE_EVENT. Like the confetti....Also remove that confetti and use the ts particle version
 
 Remote Editors are all also zones too?
+
+SELECT FORMS
+  For items that are unable to be selected ( perhaps because they ARE NOT ALLOWED TO BE SELECTED ) tell the user why

@@ -7,13 +7,13 @@ import {
   OPEN_CUTSCENE,
   PROGRESS_CUTSCENE,
   CHANGE_CONTROL_POPUP,
-  CHANGE_PLAYER_CLASS,
+  CHANGE_PLAYER_ENTITY,
 } from '../../types';
 import { changeGameState } from './gameRoomInstanceActions';
 
 export const changePlayerEntity = ({entityModelId}) => (dispatch, getState) => {
   dispatch({
-    type: CHANGE_PLAYER_CLASS,
+    type: CHANGE_PLAYER_ENTITY,
     payload: {
       playerEntityModelId: entityModelId
     }

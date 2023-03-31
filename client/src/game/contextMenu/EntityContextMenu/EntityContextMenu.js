@@ -6,7 +6,7 @@ import { openJsonViewer, openLiveEditor } from '../../../store/actions/game/game
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openEditEntityGraphics, openEditEntityModal } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, ENTITY_MODEL_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, entityModelTypeToPrefix, initialCameraZoneEntityId, DATA_SOURCE_GAME_MODEL } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_ENTITY_IID, JUMP_EDITOR, MOVEMENT_EDITOR, ENTITY_MODEL_ID_PREFIX, PHYSICS_EDITOR, PROJECTILE_EDITOR, RELATION_ID_PREFIX, entityModelTypeToPrefix, initialCameraZoneEntityId, DATA_SOURCE_GAME_MODEL } from '../../constants';
 import { entityModelTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
@@ -48,7 +48,7 @@ const EntityContextMenu = ({
       openEditEntityModal(entityModel)
       onMenuItemClick()
     }}>{entityModel.name}</ContextMenuTitle>}
-    {entityModel.entityInterfaceId === PLAYER_CLASS && entityModelId !== playerEntityModelId && 
+    {entityModel.entityInterfaceId === PLAYER_ENTITY_IID && entityModelId !== playerEntityModelId && 
       <Unlockable interfaceId={CONTEXT_MENU_CLASS_SELECT_PLAYER_IID}>
           <MenuItem onClick={() => {
             editGameModel({
@@ -80,7 +80,7 @@ const EntityContextMenu = ({
         onMenuItemClick()
       }}>Edit Collisions</MenuItem>
     </Unlockable>
-    {entityModel.entityInterfaceId === PLAYER_CLASS &&
+    {entityModel.entityInterfaceId === PLAYER_ENTITY_IID &&
       <Unlockable interfaceId={CONTEXT_MENU_CLASS_CAMERA_IID}>
         <MenuItem onClick={() => {
           openLiveEditor(CAMERA_EDITOR, entityModelId)
@@ -94,7 +94,7 @@ const EntityContextMenu = ({
         onMenuItemClick()
       }}>Edit Projectile</MenuItem>
     </Unlockable>
-    {entityModel.entityInterfaceId === PLAYER_CLASS && <Unlockable interfaceId={CONTEXT_MENU_CLASS_JUMP_IID}>
+    {entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={CONTEXT_MENU_CLASS_JUMP_IID}>
       <MenuItem onClick={() => {
         openLiveEditor(JUMP_EDITOR, entityModelId)
         onMenuItemClick()

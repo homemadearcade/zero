@@ -1,4 +1,4 @@
-import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_GAME_MODEL, RELATION_TAG_ID_PREFIX, RELATION_TAG_LIBRARY } from ".."
+import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_GAME_MODEL, RELATION_TAG_ID_PREFIX, RELATION_TAG_GENERAL_IID } from ".."
 import { CLASS_RELATION_TAGS_IID } from "../../../constants/interfaceIds"
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
 
@@ -18,7 +18,7 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromInterfaceI
   return {
     ...defaultRelationTag,
     dataSource: DATA_SOURCE_CORE_LIBRARY,
-    relationTagInterfaceId: RELATION_TAG_LIBRARY,
+    relationTagInterfaceId: RELATION_TAG_GENERAL_IID,
     relationTagId,
     name,
     textureTint,

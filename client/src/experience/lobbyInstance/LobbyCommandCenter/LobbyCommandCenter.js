@@ -9,7 +9,7 @@ import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGam
 import Button from '../../../ui/Button/Button';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Icon from '../../../ui/Icon/Icon';
-import { ADD_BRUSH_IID, BASIC_CLASS_ADD_IID, CHOOSE_TEXTURES_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, DRAW_NEW_TEXTURE_IID, ERASER_IID, NPC_CLASS_ADD_IID, PLAYER_CLASS_ADD_IID } from '../../../constants/interfaceIds';
+import { ADD_BRUSH_IID, BASIC_ENTITY_ADD_IID, CHOOSE_TEXTURES_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, DRAW_NEW_TEXTURE_IID, ERASER_IID, NPC_ENTITY_ADD_IID, PLAYER_ENTITY_ADD_IID } from '../../../constants/interfaceIds';
 
 const LobbyCommandCenter = ({
   updateArcadeGameCharacter,
@@ -62,19 +62,19 @@ const LobbyCommandCenter = ({
           }),
         unlockThis('Add Object', 
           {
-            [BASIC_CLASS_ADD_IID]: true,
+            [BASIC_ENTITY_ADD_IID]: true,
             [CHOOSE_TEXTURES_IID]: true,
           }
         ),
         unlockThis('Add NPC', 
           {
-            [NPC_CLASS_ADD_IID]: true,
+            [NPC_ENTITY_ADD_IID]: true,
             [CHOOSE_TEXTURES_IID]: true,
           }
         ),
         unlockThis('Add Player', 
           {
-            [PLAYER_CLASS_ADD_IID]: true,
+            [PLAYER_ENTITY_ADD_IID]: true,
             [CHOOSE_TEXTURES_IID]: true,
           }
         )

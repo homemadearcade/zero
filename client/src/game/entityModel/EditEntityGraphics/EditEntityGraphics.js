@@ -18,7 +18,7 @@ import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { PLAYER_CLASS, ENTITY_MODEL_ID_PREFIX, PLAYGROUND_LAYER_ID, ZONE_CLASS, entityModelTypeToPrefix } from '../../constants';
+import { PLAYER_ENTITY_IID, ENTITY_MODEL_ID_PREFIX, PLAYGROUND_LAYER_ID, ZONE_ENTITY_IID, entityModelTypeToPrefix } from '../../constants';
 import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 
@@ -93,7 +93,7 @@ const EditEntityGraphics = ({
           textureIdSelected={entityModel.graphics.textureId}
         />
       </>}
-      {entityModel.entityInterfaceId === ZONE_CLASS && 
+      {entityModel.entityInterfaceId === ZONE_ENTITY_IID && 
         <AggregateColorSelect
           selectedColor={entityModel.graphics.textureTint}
           onSelectColor={(textureTint) => {
@@ -107,7 +107,7 @@ const EditEntityGraphics = ({
             }})
           }}
       />}
-      {entityModel.entityInterfaceId !== ZONE_CLASS && entityModel.entityInterfaceId !== PLAYER_CLASS && <Unlockable interfaceId={CLASS_LAYER_IID}>
+      {entityModel.entityInterfaceId !== ZONE_ENTITY_IID && entityModel.entityInterfaceId !== PLAYER_ENTITY_IID && <Unlockable interfaceId={CLASS_LAYER_IID}>
         <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerId ? [entityModel.graphics.layerId] : [LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateEntity({ graphics: {

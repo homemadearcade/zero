@@ -1,10 +1,10 @@
-import { DATA_SOURCE_CORE_LIBRARY, FOREGROUND_LAYER_ID, POWERUP_CLASS } from "../core";
+import { DATA_SOURCE_CORE_LIBRARY, FOREGROUND_LAYER_ID, POWERUP_ENTITY_IID } from "../core";
 import { playerDepthModifier } from "../core";
-import { BASIC_CLASS, DIRECTIONAL_CONTROLS, LAYER_ID_PREFIX, NPC_CLASS, PLAYER_CLASS, ZONE_CLASS } from "../core";
+import { BASIC_ENTITY_IID, DIRECTIONAL_CONTROLS, LAYER_ID_PREFIX, NPC_ENTITY_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from "../core";
 import { MOVEMENT_NONE } from "../entityModelPropertyDefaults";
 
 export const defaultPowerupEntity = { 
-  entityInterfaceId: BASIC_CLASS,
+  entityInterfaceId: BASIC_ENTITY_IID,
   graphics: {
     glowing: true
   },
@@ -28,7 +28,7 @@ export const defaultPowerupEntity = {
 }
 
 export const defaultNpcEntity = { 
-  entityInterfaceId: NPC_CLASS,
+  entityInterfaceId: NPC_ENTITY_IID,
   // autogeneration: {
 
   // }
@@ -42,7 +42,7 @@ export const defaultNpcEntity = {
 }
 
 export const defaultZoneEntity = {
-  entityInterfaceId: ZONE_CLASS, 
+  entityInterfaceId: ZONE_ENTITY_IID, 
   collisionResponse: {
     immovable: true,
   },
@@ -62,7 +62,7 @@ export const defaultZoneEntity = {
 }
 
 export const defaultPlayerEntity = {
-  entityInterfaceId: PLAYER_CLASS, 
+  entityInterfaceId: PLAYER_ENTITY_IID, 
   graphics: {
     depthModifier: playerDepthModifier
   },
@@ -90,7 +90,7 @@ export const libraryEntityAugment = {
 }
 
 export const defaultBasicEntity = { 
-  entityInterfaceId: BASIC_CLASS,
+  entityInterfaceId: BASIC_ENTITY_IID,
   movement: {
     movementBehavior: MOVEMENT_NONE,
   },
@@ -103,9 +103,9 @@ export const defaultBasicEntity = {
 
 //mapping from class type to default class  
 export const defaultEntityByCategory = {
-  [BASIC_CLASS]: defaultBasicEntity,
-  [PLAYER_CLASS]: defaultPlayerEntity,
-  [NPC_CLASS]: defaultNpcEntity,
-  [ZONE_CLASS]: defaultZoneEntity,
-  [POWERUP_CLASS]: defaultPowerupEntity
+  [BASIC_ENTITY_IID]: defaultBasicEntity,
+  [PLAYER_ENTITY_IID]: defaultPlayerEntity,
+  [NPC_ENTITY_IID]: defaultNpcEntity,
+  [ZONE_ENTITY_IID]: defaultZoneEntity,
+  [POWERUP_ENTITY_IID]: defaultPowerupEntity
 }

@@ -21,5 +21,3 @@ If the instructions could be smart and understand if the requirements of their c
 Edit Game inside Experience Editor
 COMBINE experienceModel with experience
 
-Maybe Effects -> Game Effects
-Maybe Events -> Game Events or Relation Events? Think on this...

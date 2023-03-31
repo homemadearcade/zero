@@ -30,7 +30,7 @@ const relationTag = new Schema({
       type: Object,
       default: {},
     },
-    isLocked: {
+    isReadOnly: {
       type: Boolean,
       default: false,
     },
@@ -53,7 +53,7 @@ relationTag.methods.toJSON = function () {
     textureTint: this.textureTint,
     textureId: this.textureId,
     editorInterface: this.editorInterface,
-    isLocked: this.isLocked,
+    isReadOnly: this.isReadOnly,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

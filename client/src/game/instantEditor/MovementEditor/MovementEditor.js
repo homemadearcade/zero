@@ -11,7 +11,7 @@ import SelectMovementBehavior from '../../ui/SelectMovementBehavior/SelectMoveme
 import SelectMovementControlsBehavior from '../../ui/SelectMovementControlsBehavior/SelectMovementControlsBehavior';
 import { movementBehaviorToInterface } from '../../constants';
 import Button from '../../../ui/Button/Button';
-import { PLAYER_CLASS } from '../../constants';
+import { PLAYER_ENTITY_IID } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_BEHAVIOR_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, PHYSICS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
 import { movementControlsBehaviorToInterface } from '../../constants';
@@ -21,7 +21,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
   const [seeAllParameters, setSeeAllParameters] = useState()
   const entitySelected = gameModel.entityModels[entityModelId]
 
-  let movementParameters = entitySelected.entityInterfaceId === PLAYER_CLASS ? movementControlsBehaviorToInterface[entitySelected.movement.movementControlsBehavior] : movementBehaviorToInterface[entitySelected.movement.movementBehavior]
+  let movementParameters = entitySelected.entityInterfaceId === PLAYER_ENTITY_IID ? movementControlsBehaviorToInterface[entitySelected.movement.movementControlsBehavior] : movementBehaviorToInterface[entitySelected.movement.movementBehavior]
 
   if(seeAllParameters) {
     movementParameters = {
@@ -44,7 +44,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
 
   return (
     <div className="MovementEditor">
-      {entitySelected.entityInterfaceId === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
+      {entitySelected.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>
         <SelectMovementControlsBehavior
           formLabel="Controls"
           value={entitySelected.movement.movementControlsBehavior ? [entitySelected.movement.movementControlsBehavior] : []}
@@ -52,7 +52,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
             editGameModel({ entityModels: { [entityModelId]: { ...controls[controls.length-1] } }})    
         }}/>
       </Unlockable>}
-      {entitySelected.entityInterfaceId !== PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
+      {entitySelected.entityInterfaceId !== PLAYER_ENTITY_IID && <Unlockable interfaceId={MOVEMENT_BEHAVIOR_IID}>
         <SelectMovementBehavior
           formLabel="Behavior"
           value={entitySelected.movement.movementBehavior ? [entitySelected.movement.movementBehavior] : []}

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
-import { entityModelTypeToDisplayName, RELATION_TAG_ENTITY } from '../../constants';
+import { entityModelTypeToDisplayName, RELATION_TAG_ENTITY_IID } from '../../constants';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 
@@ -13,7 +13,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
   const mapTagToOption = (collidingRelationTagId) => {
     const relationTag = gameModel.relationTags[collidingRelationTagId]
 
-    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY) {
+    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
       const interfaceId = relationTagEntity.entityInterfaceId + CLASS_UNLOCKABLE_IID + relationTag.relationTagId
       const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)

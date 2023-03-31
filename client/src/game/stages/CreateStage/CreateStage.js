@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './CreateStage.scss';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
-import { ZONE_CLASS } from '../../constants';
+import { ZONE_ENTITY_IID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import StageNameForm from '../StageNameForm/StageNameForm';
 import SelectStageColor from '../SelectStageColor/SelectStageColor';
@@ -55,7 +55,7 @@ const CreateStage = ({ stage, onUpdate }) => {
             }}/>
 
           {false && <SelectEntity 
-            entityModelType={ZONE_CLASS}
+            entityModelType={ZONE_ENTITY_IID}
             formLabel={"Into which zone should the Player spawn?"}
             value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}
             onChange={(event, entityModels) => {

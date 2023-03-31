@@ -27,7 +27,7 @@ const relation = new Schema({
       unique: true,
       index: true,
     },
-    isLocked: {
+    isReadOnly: {
       type: Boolean,
       default: false,
     },
@@ -48,7 +48,7 @@ relation.methods.toJSON = function () {
     effects: this.effects,
     effectIds: this.effectIds,
     relationId: this.relationId,
-    isLocked: this.isLocked,
+    isReadOnly: this.isReadOnly,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

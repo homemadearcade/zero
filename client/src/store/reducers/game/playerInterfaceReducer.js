@@ -5,7 +5,7 @@ import {
   OPEN_CUTSCENE, 
   PROGRESS_CUTSCENE,
   CHANGE_CONTROL_POPUP,
-  CHANGE_PLAYER_CLASS,
+  CHANGE_PLAYER_ENTITY,
 } from '../../types';
 
 // these are things that are only shared if you are cobrowsing!!, 
@@ -56,7 +56,7 @@ export default function playerInterfaceReducer(state = initialState, { type, pay
         cutsceneEntityId: null,
         cutsceneIndex: 0
       };
-    case CHANGE_PLAYER_CLASS: 
+    case CHANGE_PLAYER_ENTITY: 
       return {
         ...state,
         playerEntityModelId: payload.playerEntityModelId

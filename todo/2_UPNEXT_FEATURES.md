@@ -59,6 +59,10 @@ GAME ROOM EXPANSION
 
 EXPERIENCE ONLY EFFECTS ( such as overlay effect )
 
-TABS FOR the EDIT CLASS MODAL ( yes : )  
-  AUTOGENERATION FORM
-CLEAN UP UI in general
+EDIT CLASS MODAL
+  All Edit Entity stuff in same place
+  Dialogues
+  Behavior -> Side Editor Stuff
+  TABS FOR the EDIT CLASS MODAL ( yes : )  
+    AUTOGENERATION FORM
+  CLEAN UP UI in general

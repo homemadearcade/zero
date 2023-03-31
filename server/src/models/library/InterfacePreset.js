@@ -25,7 +25,7 @@ const interfacePreset = new Schema(
       type: Object,
       default: {}
     },
-    isLocked: Boolean,
+    isReadOnly: Boolean,
     isRemoved: Boolean,
   },
   { timestamps: true },
@@ -39,7 +39,7 @@ interfacePreset.methods.toJSON = function () {
     interfaceIds: this.interfaceIds,
     name: this.name,
     isRemoved: this.isRemoved,
-    isLocked: this.isLocked,
+    isReadOnly: this.isReadOnly,
     interfacePresetId: this.interfacePresetId,
   };
 };

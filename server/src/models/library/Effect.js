@@ -53,7 +53,7 @@ const effect = new Schema({
       type: String,
       default: null,
     },
-    isLocked: {
+    isReadOnly: {
       type: Boolean,
       default: false,
     },
@@ -85,7 +85,7 @@ effect.methods.toJSON = function () {
     text: this.text,
     customSelectorCategory: this.customSelectorCategory,
     dataSource: this.dataSource,
-    isLocked: this.isLocked,
+    isReadOnly: this.isReadOnly,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

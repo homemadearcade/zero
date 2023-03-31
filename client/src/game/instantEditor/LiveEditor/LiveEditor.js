@@ -16,7 +16,7 @@ import MovementEditor from '../MovementEditor/MovementEditor';
 import EntityMemberTitle from '../../entityModel/EntityMemberTitle/EntityMemberTitle';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
-import { CAMERA_EDITOR, PLAYER_CLASS, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, STAGE_EDITOR } from '../../constants';
+import { CAMERA_EDITOR, PLAYER_ENTITY_IID, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, STAGE_EDITOR } from '../../constants';
 import JumpEditor from '../JumpEditor/JumpEditor';
 
 const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityModelIdSelectedLiveEditor, liveEditingCategory }, gameModel: { gameModel } }) => {
@@ -57,11 +57,11 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityMod
                   openLiveEditor(PROJECTILE_EDITOR, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,
-                entityModel.entityInterfaceId === PLAYER_CLASS && <MenuItem key="Camera" onClick={() => {
+                entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <MenuItem key="Camera" onClick={() => {
                   openLiveEditor(CAMERA_EDITOR, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,
-                entityModel.entityInterfaceId === PLAYER_CLASS && <MenuItem key="Jump" onClick={() => {
+                entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <MenuItem key="Jump" onClick={() => {
                   openLiveEditor(JUMP_EDITOR, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Jump</MenuItem>,

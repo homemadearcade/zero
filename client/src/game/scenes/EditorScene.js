@@ -358,7 +358,7 @@ export class EditorScene extends GameInstance {
     this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_BACKGROUND, renderTexture)
     this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_PLAYGROUND, renderTexture)
 
-    // if(!gameViewEditor.layerInvisibility[PLAYER_INSTANCE_CANVAS_ID] && !gameViewEditor.layerInvisibility[BASIC_CLASS] && !gameViewEditor.layerInvisibility[NPC_CLASS] ) {
+    // if(!gameViewEditor.layerInvisibility[PLAYER_INSTANCE_CANVAS_ID] && !gameViewEditor.layerInvisibility[BASIC_ENTITY_IID] && !gameViewEditor.layerInvisibility[NPC_ENTITY_IID] ) {
       renderTexture.draw(this.entityInstanceGroup, 0,0)
     // }
     this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_FOREGROUND, renderTexture)

@@ -36,7 +36,7 @@ const event = new Schema({
       type: Boolean,
       default: false,
     },
-    isLocked: {
+    isReadOnly: {
       type: Boolean,
       default: false,
     },
@@ -57,7 +57,7 @@ event.methods.toJSON = function () {
     effects: this.effects,
     effectIds: this.effectIds,
     eventId: this.eventId,
-    isLocked: this.isLocked,
+    isReadOnly: this.isReadOnly,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,

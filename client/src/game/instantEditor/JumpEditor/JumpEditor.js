@@ -9,7 +9,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import { advancedDirectionalDefaults } from '../../constants';
 import Button from '../../../ui/Button/Button';
-import { PLAYER_CLASS, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
+import { PLAYER_ENTITY_IID, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumpControlsBehavior from '../../ui/SelectJumpControlsBehavior/SelectJumpControlsBehavior';
 import { jumpControlsBehaviorToParemeters } from '../../constants';
@@ -68,7 +68,7 @@ const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, au
 
   return (
     <div className="JumpEditor">
-      {entitySelected.entityInterfaceId === PLAYER_CLASS && <Unlockable interfaceId={JUMP_BEHAVIOR_IID}>
+      {entitySelected.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={JUMP_BEHAVIOR_IID}>
         <SelectJumpControlsBehavior
           formLabel="Behavior"
           value={entitySelected.jump.jumpControlsBehavior ? [entitySelected.jump.jumpControlsBehavior] : []}
