@@ -93,6 +93,7 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
     {!isEdit && <GameAddForm onSubmit={(game) => {
       setValue("arcadeGameMongoId", game.id)
       setValue("gameMetadata", game.metadata)
+      setValue("name", game.metadata.title)
       trigger("arcadeGameMongoId")
     }} defaultValues={{userMongoId: me.id}}></GameAddForm>}
     {arcadeGameMongoId && <GameCardLoad arcadeGameMongoId={arcadeGameMongoId} />}

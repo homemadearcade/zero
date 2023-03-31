@@ -110,11 +110,13 @@ export class EntityInstance extends PhaserInstance {
   }
 
   setSize(w, h) {
+    super.setSize(w, h)
     this.graphics.setSize(w, h)
   }
 
-  setDepth() {
-    this.graphics.setDepth()
+  setDepth(depth) {
+    super.setDepth(depth)
+    this.graphics.setDepth(depth)
   }
 
   update(time, delta) {

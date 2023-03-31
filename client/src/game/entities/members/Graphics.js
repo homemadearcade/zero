@@ -97,8 +97,6 @@ export class Graphics {
     const phaserInstance = this.entityInstance.phaserInstance
     const entityClassId = this.entityInstance.entityClassId
 
-    phaserInstance.setSize(w, h)
-
     if(phaserInstance.editorHighlight) {
       phaserInstance.editorHighlight.setDisplaySize(w + 10, h + 10)
     }

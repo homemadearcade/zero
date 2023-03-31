@@ -60,7 +60,9 @@ export function addDefaultsToGameModel(gameData, oldGameData) {
 
   if(gameData.entityClasses) {
     Object.keys(gameData.entityClasses).forEach((id) => {
-      gameData.entityClasses[id] = mergeDeep(_.cloneDeep(defaultClass), defaultClassByCategory[gameData.entityClasses[id].classInterfaceCategory], gameData.entityClasses[id])
+      console.log(_.cloneDeep(defaultClass), _.cloneDeep(defaultClassByCategory[gameData.entityClasses[id].classInterfaceCategory]), gameData.entityClasses[id])
+      console.log(mergeDeep(_.cloneDeep(defaultClass), _.cloneDeep(defaultClassByCategory[gameData.entityClasses[id].classInterfaceCategory]), gameData.entityClasses[id]))
+      gameData.entityClasses[id] = mergeDeep(_.cloneDeep(defaultClass), _.cloneDeep(defaultClassByCategory[gameData.entityClasses[id].classInterfaceCategory]), gameData.entityClasses[id])
     })
   }
 

@@ -138,6 +138,7 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   onResizeStart = (entityInstanceId) => {
     this.resizingEntityInstance = this.getEntityInstance(entityInstanceId)
+    console.log(this.resizingEntityInstance)
   }
 
   onResizeMove = (pointer) => {
