@@ -38,3 +38,4 @@ export const CORE_LIBRARY_USER_MONGO_ID = isLocalHost ? '62143b5618ac51461e5ecf6
 
 export * from './experience'
 export * from './library'
+export * from './mediaCreator'

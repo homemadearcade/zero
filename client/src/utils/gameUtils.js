@@ -105,11 +105,11 @@ export function getClassDisplayName(visualTags, entityClassId) {
 }
 
 export function getOppositeColliderRelationTagId(relationTagId, collision) {
-  if(relationTagId === collision.event.relationTagIdA) {
-    return collision.event.relationTagIdB
+  if(relationTagId === collision.relationTagIdA) {
+    return collision.relationTagIdB
   }
-  if(relationTagId === collision.event.relationTagIdB) {
-    return collision.event.relationTagIdA
+  if(relationTagId === collision.relationTagIdB) {
+    return collision.relationTagIdA
   }
 
   return null

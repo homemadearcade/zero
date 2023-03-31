@@ -3,7 +3,7 @@ import _ from "lodash"
 import { defaultClass } from "./entityClass"
 import { defaultPlayerClass } from "./category"
 import { directionalPlayerClassId, jumperPlayerClassId, vehiclePlayerClassId } from "../core"
-import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, vehicleDefaults } from "../entityClassProperties"
+import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, vehicleDefaults } from "../entityClassPropertyDefaults"
 
 const defaultProps = mergeDeep(
   _.cloneDeep(defaultClass),

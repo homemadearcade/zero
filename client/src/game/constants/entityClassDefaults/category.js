@@ -1,7 +1,7 @@
-import { FOREGROUND_LAYER_ID } from "../core";
+import { FOREGROUND_LAYER_ID, POWERUP_CLASS } from "../core";
 import { playerDepthModifier } from "../core";
 import { BASIC_CLASS, DIRECTIONAL_CONTROLS, LAYER_ID_PREFIX, NPC_CLASS, PLAYER_CLASS, ZONE_CLASS } from "../core";
-import { MOVEMENT_NONE } from "../entityClassProperties";
+import { MOVEMENT_NONE } from "../entityClassPropertyDefaults";
 
 export const defaultPowerupClass = { 
   classInterfaceCategory: BASIC_CLASS,
@@ -15,11 +15,20 @@ export const defaultPowerupClass = {
     notPushable: true,
     mass: 100,
     bounciness: 0,
+  },
+  autogeneration: {
+    teleportToEffect: false,
+    transformIntoEffect: false,
+    automaticClassTag: false,
+    spawnAnywhereEffect: false,
   }
 }
 
 export const defaultNpcClass = { 
   classInterfaceCategory: NPC_CLASS,
+  // autogeneration: {
+
+  // }
   // movement: {
   //   movementBehavior: MOVEMENT_TURN_ON_COLLIDE,
   //   velocityX: 50,
@@ -38,8 +47,11 @@ export const defaultZoneClass = {
     invisible: true,
     layerId: LAYER_ID_PREFIX+FOREGROUND_LAYER_ID
   },
-  editorInterface: {
-    noTransformEffect: true,
+  autogeneration: {
+    teleportToEffect: true,
+    playerTeleportToRelationTag: true,
+    transformIntoEffect: false,
+    spawnAnywhereEffect: false,
   }
 }
 
@@ -53,6 +65,11 @@ export const defaultPlayerClass = {
   },
   collisionResponse: {
     notPushable: false
+  },
+  autogeneration: {
+    teleportToEffect: false,
+    playerTransformIntoRelationTag: true,
+    spawnAnywhereEffect: false,
   }
 }
 
@@ -72,4 +89,13 @@ export const defaultBasicClass = {
     mass: 100,
     bounciness: 0,
   }
+}
+
+//mapping from class type to default class  
+export const defaultClassByCategory = {
+  [BASIC_CLASS]: defaultBasicClass,
+  [PLAYER_CLASS]: defaultPlayerClass,
+  [NPC_CLASS]: defaultNpcClass,
+  [ZONE_CLASS]: defaultZoneClass,
+  [POWERUP_CLASS]: defaultPowerupClass
 }

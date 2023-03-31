@@ -16,7 +16,7 @@ export const defaultDallESession = {
   interfaceCategory: DALL_E_SPRITE
 }
 
-export const defaultPrompt = {
+export const defaultGenerationPrompt = {
   artStyle: defaultStylePrompt,
   perspective: defaultPerspectivePrompt,
   promptText: '',

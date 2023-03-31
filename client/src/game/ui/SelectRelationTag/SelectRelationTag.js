@@ -16,7 +16,7 @@ const SelectRelationTag = ({ removeClassTags, isAddingToClass, onChange, disable
     let relationTagInterfaceType = 'My Tags'
 
     if(relationTag.relationTagInterfaceType) {
-    relationTagInterfaceType = relationTagTypeToDisplayName[relationTag.relationTagInterfaceType]
+      relationTagInterfaceType = relationTagTypeToDisplayName[relationTag.relationTagInterfaceType]
     }
 
     const isRemoved = relationTag.isRemoved || (isAddingToClass && relationTag.hideIfAddingToClass)
@@ -48,7 +48,8 @@ const SelectRelationTag = ({ removeClassTags, isAddingToClass, onChange, disable
   const options = Object.keys(gameModel.relationTags).map(mapTagToOption)
 
   options.sort((a, b) => {
-   return  -b.relationTagInterfaceType.localeCompare(a.relationTagInterfaceType)
+
+    return  -b.relationTagInterfaceType.localeCompare(a.relationTagInterfaceType)
   })
 
   return <SelectChipsAuto 

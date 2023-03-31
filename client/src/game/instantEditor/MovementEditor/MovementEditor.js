@@ -42,8 +42,6 @@ const MovementEditor = ({ entityClassId, gameModel: { gameModel }, editGameModel
     }
   }
 
-  console.log(movementParameters)
-
   return (
     <div className="MovementEditor">
       {classSelected.classInterfaceCategory === PLAYER_CLASS && <Unlockable interfaceId={MOVEMENT_CONTROLS_BEHAVIOR_IID}>

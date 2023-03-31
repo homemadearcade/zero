@@ -22,7 +22,7 @@ export class PhaserInstance {
           y: stage.boundaries.height
         }           
       }
-    }
+  }
 
     if(scene.physicsType === ARCADE_PHYSICS) {
       if(!spriteSheetName) {

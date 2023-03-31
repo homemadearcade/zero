@@ -3,7 +3,7 @@ import { nodeSize } from "../core"
 import { PLAYGROUND_LAYER_ID } from "../core"
 import { LAYER_ID_PREFIX } from "../core"
 import { DATA_SOURCE_GAME_MODEL } from "../core"
-import { defaultCollisionResponse, defaultJump, defaultMovement, defaultProjectile } from "../entityClassProperties"
+import { defaultCollisionResponse, defaultJump, defaultMovement, defaultProjectile } from "../entityClassPropertyDefaults"
 
 export const defaultClass = {
   dataSource: DATA_SOURCE_GAME_MODEL,
@@ -37,12 +37,16 @@ export const defaultClass = {
     fixedAspectRatio: false,
     notVisibleInSelector: false,
     notSelectableInStage: false,
-    noTeleportEffect: false,
-    noPlayerTeleportRelation: false,
-    noPlayerTransformRelation: false,
-    noDestroyAllEffect: false,
-    noTransformEffect: false,
-    noSpawnAnywhereEffect: false
+  },
+  autogeneration: {
+    teleportToEffect: true,
+    playerTeleportToRelationTag: false,
+    transformIntoEffect: true,
+    playerTransformIntoRelationTag: false,
+    destroyAllEffect: true,
+    automaticClassTag: true,
+    spawnAnywhereEffect: true,
+    // forEachPlayer: false
   },
   projectile: {
     ...defaultProjectile
@@ -55,4 +59,3 @@ export const defaultClass = {
   relationTags: {},
   visualTags: []
 }
-console.log(defaultClass)

@@ -42,6 +42,10 @@ const entityClass = new Schema({
       type: Object,
       default: {}
     },
+    autogeneration: {
+      type: Object,
+      default: {}
+    },
     projectile: {
       type: Object,
       default: {}
@@ -86,6 +90,7 @@ entityClass.methods.toJSON = function () {
     jump: this.jump,
     graphics: this.graphics,
     editorInterface: this.editorInterface,
+    autogeneration: this.autogeneration,
     projectile: this.projectile,
     camera: this.camera,
     relationTags: this.relationTags,

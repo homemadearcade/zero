@@ -19,7 +19,7 @@ export const defaultStep = {
 
 // WHAT ARE THE ROLES IN YOUR EXPERIENCE_MODEL
 
-export const defaultPrompt = {
+export const defaultConversationPrompt = {
   role: '',
   text: '',
   gameEvent: '',

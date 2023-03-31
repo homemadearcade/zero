@@ -30,8 +30,7 @@ export class Graphics {
     if(entityClass.editorInterface.notSelectableInStage) return
 
     if(entityClass.graphics.textureTint) entityInstance.setTint(entityClass.graphics.textureTint)
-    const depth = this.scene.getEntityClassDepth(entityInstance.entityClassId)
-    phaserInstance.setDepth(depth)
+    this.setDepth()
     // scene.addSpriteToTypeGroup(entityInstance.entityClassId, phaserInstance)
 
     if(entityClass.graphics.glowing) {
@@ -68,15 +67,16 @@ export class Graphics {
     this.entityInstance.setAlpha(0.02)
   }
 
-  setDepth(depth) {
-    this.entityInstance.setDepth(depth)
-    this.phaserInstance.editorHighlight?.setDepth(depth + editorHighlightDepthModifier)
-    this.phaserInstance.invisibleIndicator?.setDepth(depth + invisibleIndicatorDepthModifer)
+  setDepth() {
+    const depth = this.scene.getEntityClassDepth(this.entityInstance.entityClassId)
+    this.entityInstance.phaserInstance.setDepth(depth)
+    this.entityInstance.phaserInstance.editorHighlight?.setDepth(depth + editorHighlightDepthModifier)
+    this.entityInstance.phaserInstance.invisibleIndicator?.setDepth(depth + invisibleIndicatorDepthModifer)
   }
 
   setGlowing() {
-    if(this.phaserInstance.glowTask) return
-    const phaserInstance = this.phaserInstance
+    if(this.entityInstance.phaserInstance.glowTask) return
+    const phaserInstance = this.entityInstance.phaserInstance
     var pipeline = this.scene.plugins.get('rexglowfilterpipelineplugin').add(phaserInstance);
     phaserInstance.glowTask = phaserInstance.scene.tweens.add({
       targets: pipeline,
@@ -89,13 +89,15 @@ export class Graphics {
   }
 
   clearGlowing() {
-    if(!this.phaserInstance.glowTask) return 
-    this.phaserInstance.glowTask.destroy()
+    if(!this.entityInstance.phaserInstance.glowTask) return 
+    this.entityInstance.phaserInstance.glowTask.destroy()
   }
 
   setSize(w, h) {
     const phaserInstance = this.entityInstance.phaserInstance
     const entityClassId = this.entityInstance.entityClassId
+
+    phaserInstance.setSize(w, h)
 
     if(phaserInstance.editorHighlight) {
       phaserInstance.editorHighlight.setDisplaySize(w + 10, h + 10)

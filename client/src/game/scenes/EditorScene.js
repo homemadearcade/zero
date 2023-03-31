@@ -855,6 +855,12 @@ export class EditorScene extends GameInstance {
         })
       }
 
+      if(classUpdate.graphics.layerId) {
+        this.forAllEntityInstancesMatchingClassId(entityClassId, (entityInstance) => {
+          entityInstance.setDepth()
+        })
+      }
+
 
       if(
         classUpdate.editor ||

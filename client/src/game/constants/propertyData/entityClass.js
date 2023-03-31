@@ -40,6 +40,10 @@ export const defaultEntityClass = {
     displayName: 'Editor Interface',
     description: 'The editor interface behavior of this class'
   },
+  autogeneration: {
+    displayName: 'Autogeneration',
+    description: 'The autogeneration behavior of this class'
+  },
   projectile: {
     displayName: 'Projectile',
     description: 'The projectile behavior of this class'

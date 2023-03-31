@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './SelectColliders.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
-import { classTypeToDisplayName, tagTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
+import { classTypeToDisplayName, RELATION_TAG_CLASS } from '../../constants';
 import { CLASS_UNLOCKABLE_IID } from '../../../constants/interfaceIds';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 
@@ -54,7 +54,9 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
 
   const options = Object.keys(gameModel.entityClasses).
   map(mapTagToOption).
-  sort((a, b) => -b.relationTagInterfaceType.localeCompare(a.relationTagInterfaceType))
+  sort((a, b) => {
+    return -b.relationTagInterfaceType.localeCompare(a.relationTagInterfaceType)
+  })
 
   return <SelectChipsAuto 
     onChange={(event, relationTagIds) => {

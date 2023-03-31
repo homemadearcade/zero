@@ -1,35 +1,4 @@
-/////////////////////////////////////
-/////////////////////////////////////
-
-// EVENTS
-export const ON_TOUCH_START = 'ON_TOUCH_START'
-export const ON_COLLIDE_END = 'ON_COLLIDE_END'
-export const ON_TOUCH_ACTIVE = 'ON_TOUCH_ACTIVE'
-export const ON_SPAWN = 'ON_SPAWN'
-export const ON_PLAYTHROUGH = 'ON_PLAYTHROUGH'
-export const ON_DESTROY_ONE = 'ON_DESTROY_ONE'
-export const ON_DESTROY_ALL = 'ON_DESTROY_ALL'
-export const ON_INTERACT = 'ON_INTERACT'
-export const ON_CUTSCENE_END = 'ON_CUTSCENE_END'
-
-export const NO_RELATION_TAG_EVENT = 'NO_RELATION_TAG_EVENT'
-export const SINGLE_RELATION_TAG_EVENT = 'SINGLE_RELATION_TAG_EVENT'
-export const TWO_RELATION_TAG_EVENT = 'TWO_RELATION_TAG_EVENT'
-export const PLAYER_AND_RELATION_TAG_EVENT = 'PLAYER_AND_RELATION_TAG_EVENT'
-export const PLAYER_RELATION_TAG_EVENT = 'PLAYER_RELATION_TAG_EVENT'
-
-// WHEN, WHO, WHERE
-export const defaultEvent = {
-  eventType: '',
-  eventId: null,
-  relationTagIdA: null,
-  relationTagIdB: null,
-
-  sidesA: [],
-  sidesB: [],
-
-  onlyOnce: false,
-}
+import { ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN, ON_TOUCH_ACTIVE, ON_TOUCH_START, PLAYER_AND_RELATION_TAG_EVENT, PLAYER_RELATION_TAG_EVENT, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT } from "../core"
 
 export const eventShortNames = {
   [ON_TOUCH_START]: 'Touch Start',
@@ -100,36 +69,4 @@ export const eventTypeInterfaces = {
     onlyOnce: true,
     effectCooldown: true
   },
-}
-
-
-
-export const singleClassEvents = {
-  [ON_TOUCH_ACTIVE]: false,
-  [ON_TOUCH_START]: false,
-  // [ON_COLLIDE_END]: false,
-  //  [ON_TOUCH_START]: 'ON_TOUCH_START',
-  //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
-  //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
-  [ON_PLAYTHROUGH]: true,
-  [ON_SPAWN]: true,
-  [ON_DESTROY_ONE]: true,
-  [ON_DESTROY_ALL]: true,
-  [ON_INTERACT]: false,
-}
-
-export const eventPrefix = {
-  [ON_TOUCH_ACTIVE]: 'Class A And Class B',
-  [ON_TOUCH_START]: 'Class A And Class B',
-  // [ON_COLLIDE_END]: 'Class A And Class B',
-  //  [ON_TOUCH_START]: 'ON_TOUCH_START',
-  //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
-  //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
-  [ON_PLAYTHROUGH]: null,
-  [ON_SPAWN]: 'ClassB',
-  [ON_DESTROY_ONE]: 'ClassB',
-  [ON_DESTROY_ALL]: 'All ClassBs',
-  [ON_INTERACT]: 'ClassB',
-
-  // [ON_CUTSCENE_END]: 'Cutscene Ends'
 }

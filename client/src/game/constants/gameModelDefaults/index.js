@@ -1,4 +1,3 @@
-export * from './entityClass';
 export * from './brush';
 export * from './cutscene';
 export * from './effect'
@@ -9,7 +8,6 @@ export * from './relationship';
 export * from './relationTags'
 export * from './visualTags';
 export * from './stage';
-export * from './textures'
 export * from './visualTags'
 export * from './gameModel';
 
