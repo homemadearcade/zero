@@ -4,7 +4,7 @@ import { BASIC_ENTITY_IID, DIRECTIONAL_CONTROLS, LAYER_ID_PREFIX, NPC_ENTITY_IID
 import { MOVEMENT_NONE } from "../entityModelPropertyDefaults";
 
 export const defaultPowerupEntity = { 
-  entityInterfaceId: BASIC_ENTITY_IID,
+  entityInterfaceId: POWERUP_ENTITY_IID,
   graphics: {
     glowing: true
   },
