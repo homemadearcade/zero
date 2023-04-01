@@ -4,9 +4,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEntityModel.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { ALL_ENTITY_MODELS, entityModelTypeToDisplayName, IS_DATA_REMOVED } from '../../constants';
+import { entityModelTypeToDisplayName, IS_DATA_REMOVED } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { SELECTOR_MORE_IID } from '../../../constants/interfaceIds';
+import { SELECTOR_MORE_IID, SELECT_ENTITY_MODEL_IID } from '../../../constants/interfaceIds';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import Icon from '../../../ui/Icon/Icon';
 import { MenuItem, MenuList } from '@mui/material';
@@ -17,8 +17,8 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
   const mapEntityToOption = (entityModelId) => {
     const entityModel = gameModel.entityModels[entityModelId]
 
-    const isDataSourceInvisible = selectorClassInvisibility[ALL_ENTITY_MODELS][entityModel.dataSource]
-    const isRemovedInvisible = entityModel.isRemoved && selectorClassInvisibility[ALL_ENTITY_MODELS][IS_DATA_REMOVED]
+    const isDataSourceInvisible = selectorClassInvisibility[SELECT_ENTITY_MODEL_IID][entityModel.dataSource]
+    const isRemovedInvisible = entityModel.isRemoved && selectorClassInvisibility[SELECT_ENTITY_MODEL_IID][IS_DATA_REMOVED]
 
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromInterfaceIds[interfaceId]
 
@@ -57,15 +57,14 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
       value={value}
       options={options}
     />
-    <Unlockable interfaceId={SELECTOR_MORE_IID}>
-      <div className="SelectEntityModel__more-menu-icon"><MenuIconButton icon={<Icon icon='faEllipsis'/>} 
+    <Unlockable interfaceId={SELECTOR_MORE_IID} className="SelectEntityModel__more-menu-icon">
+      <MenuIconButton icon={<Icon icon='faEllipsis'/>} 
         menu={() => {
           return <MenuList>
             <MenuItem key="visible in dropdown" dense divider>Visible in Dropdown:</MenuItem>
-            <DataSourceVisibilityMenu selectorClass={ALL_ENTITY_MODELS} />
+            <DataSourceVisibilityMenu selectorClass={SELECT_ENTITY_MODEL_IID} />
           </MenuList>
         }}/>
-      </div>
     </Unlockable>
   </div>
 }

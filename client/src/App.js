@@ -57,6 +57,13 @@ const themeDefaults = {
       //     }
       //   }
     },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          minWidth: 'auto'
+        }
+      }
+    },
     MuiSvgIcon: {
       styleOverrides: {
         root: {

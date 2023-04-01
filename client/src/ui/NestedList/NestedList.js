@@ -36,8 +36,8 @@ export function NestedListBody({expanded, onChange, title, children, id, interfa
             letterSpacing: '0.00938em'
           }
       }} primary={title} />
-       {moreMenu && <Unlockable interfaceId={SELECTOR_MORE_IID}>
-          <div className="NestedList__more-menu-icon" onClick={(e) => {
+       {moreMenu && <Unlockable className="NestedList__more-menu-icon" interfaceId={SELECTOR_MORE_IID}>
+          <div onClick={(e) => {
             e.stopPropagation()
         }}>
           <MenuIconButton 

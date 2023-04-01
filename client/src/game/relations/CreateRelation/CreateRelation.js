@@ -61,7 +61,6 @@ const CreateRelation = ({
         effectIds: [],
         eventId: initialEventId
       })
-      console.log(initialEventId)
       updateCreateEvent({
         sidesA: [],
         sidesB: [],

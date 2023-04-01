@@ -10,7 +10,7 @@ export default (ChildComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        isChrome: window.chrome
+        isChrome: true// window.chrome
       }
     }
 

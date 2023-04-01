@@ -48,20 +48,20 @@ const EntityContextMenu = ({
       openEditEntityModal(entityModel)
       onMenuItemClick()
     }}>{entityModel.name}</ContextMenuTitle>}
-    {entityModel.entityInterfaceId === PLAYER_ENTITY_IID && entityModelId !== playerEntityModelId && 
-      <Unlockable interfaceId={CONTEXT_MENU_CLASS_SELECT_PLAYER_IID}>
-          <MenuItem onClick={() => {
-            editGameModel({
-              stages: {
-                [currentStageId] : {
-                  playerEntityModelId: entityModelId
-                }
-              }
-            })
-            onMenuItemClick()
-          }}>Set as Player</MenuItem>
-      </Unlockable>
-    }
+    {entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={CONTEXT_MENU_CLASS_SELECT_PLAYER_IID}>
+      <MenuItem disabled={entityModelId === playerEntityModelId} 
+      onClick={() => {
+        console.log('??')
+        editGameModel({
+          stages: {
+            [currentStageId] : {
+              playerEntityModelId: entityModelId
+            }
+          }
+        })
+        onMenuItemClick()
+      }}>Set as Player</MenuItem>
+    </Unlockable>}
     <Unlockable interfaceId={CONTEXT_MENU_CLASS_EDIT_IID}>
       <MenuItem onClick={() => {
         openEditEntityModal(entityModel)
@@ -142,12 +142,12 @@ const EntityContextMenu = ({
         onMenuItemClick()
       }}>View Json</MenuItem>
     </Unlockable>}
-    {!isInLibrary && <Unlockable interfaceId={CONTEXT_MENU_CLASS_GRAPHICS_IID}>
-      <MenuItem onClick={() => {
+     <Unlockable interfaceId={CONTEXT_MENU_CLASS_GRAPHICS_IID}>
+      <MenuItem disabled={isInLibrary} onClick={() => {
         addEntityModelToLibrary(entityModel)
         onMenuItemClick()
       }}>Add to Library</MenuItem>
-    </Unlockable>}
+    </Unlockable>
   </>
 };
 

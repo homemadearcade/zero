@@ -29,6 +29,15 @@ export const defaultPowerupEntity = {
 
 export const defaultNpcEntity = { 
   entityInterfaceId: NPC_ENTITY_IID,
+  autogeneration: {
+    teleportToEffect: false,
+      playerTeleportToRelationTag: false,
+    transformIntoEffect: false,
+      playerTransformIntoRelationTag: false,
+    destroyAllEffect: true,
+    automaticEntityTag: true,
+    spawnOntoStageEffect: true,
+  }
   // autogeneration: {
 
   // }
@@ -93,6 +102,15 @@ export const defaultBasicEntity = {
   entityInterfaceId: BASIC_ENTITY_IID,
   movement: {
     movementBehavior: MOVEMENT_NONE,
+  },
+  autogeneration: {
+    teleportToEffect: false,
+      playerTeleportToRelationTag: false,
+    transformIntoEffect: false,
+      playerTransformIntoRelationTag: false,
+    destroyAllEffect: true,
+    automaticEntityTag: true,
+    spawnOntoStageEffect: true,
   },
   collisionResponse: {
     notPushable: true,

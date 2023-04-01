@@ -35,6 +35,7 @@ const Root = styled('div')(
   };
   font-size: 1em;
   position: relative;
+  min-width: 70%;
 `,
 );
 

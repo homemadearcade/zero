@@ -60,7 +60,7 @@ export default function AccordianList({accordians, initialExpandedId = null}) {
 export function AccordionListBody({expanded, onChange, accordianList}) {
   function renderSummary({title, moreMenu}) {
     const summaryEl = <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-      {moreMenu && <Unlockable interfaceId={SELECTOR_MORE_IID}><div className="AccordianList__more-menu-icon" onClick={(e) => {
+      {moreMenu && <Unlockable className="AccordianList__more-menu-icon" interfaceId={SELECTOR_MORE_IID}><div onClick={(e) => {
           e.stopPropagation()
        }}>
         <MenuIconButton 

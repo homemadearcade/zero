@@ -22,7 +22,7 @@ function requireLobbyInstance(req, res, next) {
   req.lobbyInstances = lobbyInstances
 
   if(!lobbyInstances) {
-    res.status(400).json({ message: 'No lobbies found. Looking for lobbyInstance with userMongoId: ' + req.params.id });
+    res.status(400).json({ message: 'No lobbies found. Looking for lobbyInstance with lobbyInstanceId ' + req.params.id });
   }
 
   const lobbyInstanceFound = lobbyInstances?.filter((lobbyInstance, i) => {
@@ -35,7 +35,7 @@ function requireLobbyInstance(req, res, next) {
   })[0]
 
   if(!lobbyInstanceFound) {
-    res.status(400).json({ message: 'No lobbyInstance found with  userMongoId: ' + req.params.id });
+    res.status(400).json({ message: 'No lobbyInstance found with  lobbyInstanceId ' + req.params.id });
     return 
   }
 

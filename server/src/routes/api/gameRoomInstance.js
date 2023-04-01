@@ -20,7 +20,7 @@ function requireGameRoomInstance(req, res, next) {
   req.gameRoomInstances = gameRoomInstances
 
   if(!gameRoomInstances) {
-    res.status(400).json({ message: 'No game sessions found. Looking for gameRoomInstance with userMongoId: ' + req.params.id });
+    res.status(400).json({ message: 'No game sessions found. Looking for gameRoomInstance with gameRoomInstanceId ' + req.params.id });
   }
 
   const gameRoomInstanceFound = gameRoomInstances?.find((gameRoomInstance, i) => {
@@ -33,7 +33,7 @@ function requireGameRoomInstance(req, res, next) {
   })
 
   if(!gameRoomInstanceFound) {
-    res.status(400).json({ message: 'No gameRoomInstance found with userMongoId: ' + req.params.id });
+    res.status(400).json({ message: 'No gameRoomInstance found with gameRoomInstanceId ' + req.params.id });
     return 
   }
 

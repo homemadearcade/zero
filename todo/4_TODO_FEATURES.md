@@ -5,7 +5,18 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
-Easy system for saving library entityModels and relations
+
+LIBRARY
+  Easy system for saving library entityModels and relations
+
+  Add Tags, Effect, Relations, Events to library, 
+
+  Boot all that into the game!
+
+  Sends to Stars To Collide
+  Sends to Stars on Interact
+  Game Over on __
+  Win Game on __
 
 STEPS UPDATE
   Prompts, Next Steps...
@@ -21,3 +32,8 @@ If the instructions could be smart and understand if the requirements of their c
 Edit Game inside Experience Editor
 COMBINE experienceModel with experience
 
+INTERFACE IDS
+  Generate interfaceIds based on the game model
+  Interface Ids themselves may have to be auto generated, for dynamic lookup
+  Default unlocked interface ids need to be not shown in the unlockables tree
+  I think maybe the game room manages loading interface ids and what not? or do games do that? WHO manages that? why when a game is loaded? troubling. Its hard to manage both at the same time... You need both states

@@ -19,7 +19,7 @@ import EventShorthand from '../../event/EventShorthand/EventShorthand';
 import RelationTagItem from '../../tags/RelationTagItem/RelationTagItem';
 import EffectItem from '../../effect/EffectItem/EffectItem';
 import SelectorMoreMenu from '../SelectorMoreMenu/SelectorMoreMenu';
-import { EFFECT_ABSTRACT_CLASS, EVENT_ABSTRACT_CLASS, IS_DATA_REMOVED, RELATION_ABSTRACT_CLASS, RELATION_TAG_ABSTRACT_CLASS } from '../../constants';
+import { EFFECT_ABSTRACT_IID, EVENT_ABSTRACT_IID, IS_DATA_REMOVED, RELATION_ABSTRACT_IID, RELATION_TAG_ABSTRACT_IID } from '../../constants';
 
 const DATA_MAX = 16
 
@@ -72,7 +72,7 @@ const SelectorAbstractList = ({
     title: 'Cutscenes',
     id: 'Cutscenes',
     children: cutscenes,
-    // moreMenu: <SelectorMoreMenu selectorClass={CUTSCENE_ABSTRACT_CLASS}/>
+    // moreMenu: <SelectorMoreMenu selectorClass={CUTSCENE_ABSTRACT_IID}/>
   })
 
 
@@ -103,13 +103,13 @@ const SelectorAbstractList = ({
     title: 'Dialogues',
     id: 'Dialogues',
     children: dialogueScenes,
-    // moreMenu: <SelectorMoreMenu selectorClass={DIALOGUE_ABSTRACT_CLASS}/>
+    // moreMenu: <SelectorMoreMenu selectorClass={DIALOGUE_ABSTRACT_IID}/>
   })
 
   const relationTags = Object.keys(gameModel.relationTags).filter((currentRelationTagId) => {
     const currentTag = gameModel.relationTags[currentRelationTagId]
-    if(isRemovedDataInvisible(RELATION_TAG_ABSTRACT_CLASS, currentTag.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_TAG_ABSTRACT_CLASS, currentTag.dataSource)) return false
+    if(isRemovedDataInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.isRemoved)) return false
+    if(isDataSourceInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.dataSource)) return false
     return true
   }).map((currentRelationTagId, i) => {
     return <RelationTagItem relationTagId={currentRelationTagId}/>
@@ -129,13 +129,13 @@ const SelectorAbstractList = ({
     title: 'Relationship Tags',
     id: 'Relation Tags',
     children: relationTags,
-    moreMenu: <SelectorMoreMenu selectorClass={RELATION_TAG_ABSTRACT_CLASS}/>
+    moreMenu: <SelectorMoreMenu selectorClass={RELATION_TAG_ABSTRACT_IID}/>
   })
 
   const relations = Object.keys(gameModel.relations).filter((currentRelationId) => {
     const currentRelation = gameModel.relations[currentRelationId]
-    if(isRemovedDataInvisible(RELATION_ABSTRACT_CLASS, currentRelation.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_ABSTRACT_CLASS, currentRelation.dataSource)) return false
+    if(isRemovedDataInvisible(RELATION_ABSTRACT_IID, currentRelation.isRemoved)) return false
+    if(isDataSourceInvisible(RELATION_ABSTRACT_IID, currentRelation.dataSource)) return false
     return true
   }).map((currentRelationId, i) => {
     return <RelationItem relationId={currentRelationId}/>
@@ -155,13 +155,13 @@ const SelectorAbstractList = ({
     title: 'Relationships',
     id: 'Relations',
     children: relations,
-    moreMenu: <SelectorMoreMenu selectorClass={RELATION_ABSTRACT_CLASS}/>
+    moreMenu: <SelectorMoreMenu selectorClass={RELATION_ABSTRACT_IID}/>
   })
 
   const effects = Object.keys(gameModel.effects).filter((currentEffectId) => {
     const currentEffect = gameModel.effects[currentEffectId]
-    if(isRemovedDataInvisible(EFFECT_ABSTRACT_CLASS, currentEffect.isRemoved)) return false
-    if(isDataSourceInvisible(EFFECT_ABSTRACT_CLASS, currentEffect.dataSource)) return false
+    if(isRemovedDataInvisible(EFFECT_ABSTRACT_IID, currentEffect.isRemoved)) return false
+    if(isDataSourceInvisible(EFFECT_ABSTRACT_IID, currentEffect.dataSource)) return false
     return true
   }).map((effectId, i) => {
     return <EffectItem effectId={effectId}/>
@@ -181,14 +181,14 @@ const SelectorAbstractList = ({
     title: 'Effects',
     id: 'Effects',
     children: effects,
-    moreMenu: <SelectorMoreMenu selectorClass={EFFECT_ABSTRACT_CLASS}/>
+    moreMenu: <SelectorMoreMenu selectorClass={EFFECT_ABSTRACT_IID}/>
   })
 
 
   const events = Object.keys(gameModel.events).filter((currentEventId) => {
     const currentEvent = gameModel.events[currentEventId]
-    if(isRemovedDataInvisible(EVENT_ABSTRACT_CLASS, currentEvent.isRemoved)) return false
-    if(isDataSourceInvisible(EVENT_ABSTRACT_CLASS, currentEvent.dataSource)) return false
+    if(isRemovedDataInvisible(EVENT_ABSTRACT_IID, currentEvent.isRemoved)) return false
+    if(isDataSourceInvisible(EVENT_ABSTRACT_IID, currentEvent.dataSource)) return false
     return true
   }).map((currentEventId, i) => {
     const currentEvent = gameModel.events[currentEventId]
@@ -214,7 +214,7 @@ const SelectorAbstractList = ({
     title: 'Events',
     id: 'Events',
     children: events,
-    moreMenu: <SelectorMoreMenu selectorClass={EVENT_ABSTRACT_CLASS}/>
+    moreMenu: <SelectorMoreMenu selectorClass={EVENT_ABSTRACT_IID}/>
   })
 
   return <div className="SelectorAbstractList">

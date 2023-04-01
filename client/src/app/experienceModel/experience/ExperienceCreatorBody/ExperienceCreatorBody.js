@@ -26,7 +26,6 @@ const ExperienceCreatorBody = ({
 
   function renderBody() {
     if(isActivityId) {
-      console.log(idEditing)
       const activity = experienceModel.activitys[idEditing]
       if(!activity) return <Loader/>
       const activityInterfaceData = activityToInterfaceData[activity.activityCategory]

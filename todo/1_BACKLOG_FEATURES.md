@@ -10,3 +10,8 @@ UNDO
 
 EXPERIENCE CREATOR REDUCER
   create reducer for experience creator so that we can at least change the selected node id via an action when we remove something
+
+EXPERIENCE MODEL
+  Experience Thumbnail, Experience Image, etc
+
+TREASURE CHEST UNLOCKS

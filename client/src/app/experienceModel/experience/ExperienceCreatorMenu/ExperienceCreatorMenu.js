@@ -155,7 +155,6 @@ const ExperienceCreatorMenu = ({
   return (
     <div className="ExperienceCreatorMenu">
       <IconTree nodes={nodes} onNodeSelect={(e, nodeId) => {
-        console.log(nodeId)
         onNodeSelect(nodeId)
       }}>
       </IconTree>
