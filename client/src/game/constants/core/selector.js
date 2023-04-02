@@ -1,6 +1,9 @@
 /////////////////////////////////////
 /////////////////////////////////////
 // LIVE EDITORS
+export const IS_DATA_REMOVED = 'isRemoved'
+export const IS_DATA_LOCKED = 'isObscured'
+
 export const PHYSICS_EDITOR = 'PHYSICS_EDITOR'
 export const MOVEMENT_EDITOR = 'MOVEMENT_EDITOR'
 export const JUMP_EDITOR = 'JUMP_EDITOR'

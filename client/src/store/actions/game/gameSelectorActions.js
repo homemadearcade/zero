@@ -1,9 +1,5 @@
-import { IMAGE_TYPE_SPRITE } from '../../../constants';
-import { CANVAS_IMAGE_ID_PREFIX } from '../../../game/constants';
-import { getImageUrlFromTextureId } from '../../../utils';
 import { getCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getLayerIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { generateUniqueId } from '../../../utils/webPageUtils';
 import { 
   CLOSE_LIVE_EDITOR,
   SELECT_CLASS,
@@ -12,7 +8,7 @@ import {
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  UPDATE_OPEN_LIST,
+  UPDATE_OPEN_INTERFACE_ID,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
@@ -216,17 +212,17 @@ export const closeLiveEditor = () => (dispatch, getState) => {
   });
 }
 
-export const updateOpenList = (id, value) => (dispatch, getState) => {
+export const updateOpenInterfaceId = (interfaceIdGroup, interfaceId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: UPDATE_OPEN_LIST,
+    type: UPDATE_OPEN_INTERFACE_ID,
+    noCobrowsingToolNeeded: true,
     payload: {
-      openListId: id,
-      openListValue: value
+      interfaceIdGroup: interfaceIdGroup,
+      interfaceId: interfaceId
     }
   });
 }
-
 
 export const updateVerticalLinearStepper = (id, value) => (dispatch, getState) => {
   dispatch({

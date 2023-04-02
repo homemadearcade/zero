@@ -15,17 +15,16 @@ import { createPortal } from 'react-dom';
 
 const CobrowsingModal = ({ widthModifier, onClose, children, open, zIndexIncrease = 1, width, height, webPage: { gameInstance } }) => {
   useEffect(() => {
-    const scene = getCurrentGameScene(gameInstance)
-    
-    if(scene) {
-      if(scene.input.keyboard.manager.enabled) {
-        console.log('disable key capture')
+    const keyStop = setInterval(() => {
+      const scene = getCurrentGameScene(gameInstance)
+      if(scene) {
         scene.input.keyboard.disableGlobalCapture()
-        return () => {
-          console.log('enable key capture')
-          getCurrentGameScene(store.getState().webPage.gameInstance)?.input?.keyboard.enableGlobalCapture();
-        }
       }
+    }, 1000)
+
+    return () => {
+      clearInterval(keyStop)
+      getCurrentGameScene(store.getState().webPage.gameInstance)?.input?.keyboard.enableGlobalCapture();
     }
   }, [])
 

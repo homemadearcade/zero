@@ -25,7 +25,7 @@ import {
 import { mergeDeep } from '../../../utils/utils';
 import _ from 'lodash';
 import store from '../..';
-import {  BACKGROUND_LAYER_ID, DATA_SOURCE_CORE_LIBRARY, defaultGameModel, FOREGROUND_LAYER_ID, gameSize, initialStageId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_FOREGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_ID_PREFIX,  PLAYGROUND_LAYER_ID, UNDO_MEMORY_MAX } from '../../../game/constants';
+import {  BACKGROUND_LAYER_ID, DATA_SOURCE_CORE_LIBRARY, defaultGameModel, FOREGROUND_LAYER_ID, gameHeight, gameWidth, initialStageId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_FOREGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_ID_PREFIX,  PLAYGROUND_LAYER_ID, UNDO_MEMORY_MAX } from '../../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { getImageUrlFromTextureId, getTextureIdForLayerId } from '../../../utils';
 import { addCanvasImage } from '../media/canvasImageActions';
@@ -254,8 +254,8 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
     imageType: IMAGE_TYPE_LAYER,
     imageUrl: getImageUrlFromTextureId(backgroundTextureId),
     imageData: {
-      width: gameSize,
-      height: gameSize,
+      width: gameWidth,
+      height: gameHeight,
     },
     textureId: backgroundTextureId, 
     userMongoId,
@@ -264,8 +264,8 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageData: {
-      width: gameSize,
-      height: gameSize,
+      width: gameWidth,
+      height: gameHeight,
     },
     imageUrl: getImageUrlFromTextureId(playgroundTextureId),
     textureId: playgroundTextureId, 
@@ -275,8 +275,8 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
   await store.dispatch(addCanvasImage({
     imageType: IMAGE_TYPE_LAYER,
     imageData: {
-      width: gameSize,
-      height: gameSize,
+      width: gameWidth,
+      height: gameHeight,
     },
     imageUrl: getImageUrlFromTextureId(foregroundTextureId),
     textureId: foregroundTextureId,

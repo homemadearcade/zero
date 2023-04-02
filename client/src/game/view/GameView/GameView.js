@@ -6,10 +6,9 @@ import Phaser from 'phaser';
 import { PreloaderScene } from '../../scenes/PreloaderScene';
 
 import './GameView.scss';
-import { GAME_INSTANCE_ID_PREFIX, noPhaserUpdateDelta, PRELOADER_SCENE } from '../../constants';
+import { gameHeight, gameWidth, GAME_INSTANCE_ID_PREFIX, noPhaserUpdateDelta, PRELOADER_SCENE } from '../../constants';
 import { DEFAULT_THEME_COLOR, PHASER_ERROR } from '../../../constants';
 
-import { gameSize } from '../../constants';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { setGameInstance } from '../../../store/actions/webPageActions';
 
@@ -17,12 +16,10 @@ import Cutscene from '../../cutscene/Cutscene/Cutscene';
 import StateScreen from '../../gameRoomInstance/GameStateScreen/GameStateScreen';
 import store from '../../../store';
 import ControlsPopup from '../ControlsPopup/ControlsPopup';
-import Icon from '../../../ui/Icon/Icon';
 import { changeErrorState, clearErrorState } from '../../../store/actions/errorsActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { updateTheme } from '../../../store/actions/themeActions';
-import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 
 const config= {
   type: Phaser.WEBGL,
@@ -32,8 +29,8 @@ const config= {
     mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
     parent: 'PhaserGame',
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: gameSize,
-    height: gameSize
+    width: gameWidth,
+    height: gameHeight
   },
   physics: {
     default: 'arcade',

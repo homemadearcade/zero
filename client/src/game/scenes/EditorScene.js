@@ -6,14 +6,14 @@ import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../s
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearEntity } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/game/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, ENTITY_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, initialStageZoneEntityId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND } from '../constants';
+import { PLAYER_INSTANCE_ID_PREFIX, ENTITY_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, initialStageZoneEntityId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND, gameWidth, gameHeight } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { EntityStamper } from '../drawing/EntityStamper';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { RemoteEditor } from '../entities/RemoteEditor';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { gameSize, nodeSize } from '../constants';
+import { nodeSize } from '../constants';
 import { getImageUrlFromTextureId, urlToFile } from '../../utils/utils';
 import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils/webPageUtils';
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
@@ -970,8 +970,8 @@ export class EditorScene extends GameInstance {
     const editorCameraJSON = {
       x: 0,
       y: 0,
-      width: gameSize,
-      height: gameSize,
+      width: gameWidth,
+      height: gameHeight,
       zoom: 3,
       rotation: 0,
       scrollX: 0,

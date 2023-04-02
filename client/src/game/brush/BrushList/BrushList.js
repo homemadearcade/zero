@@ -78,7 +78,6 @@ const BrushList = ({
     </Unlockable>)
 
     accordians.push({
-      id: layerId,
       interfaceId: getLayerContainerId(layerId),
       sx:  layerInvisibility[layerId] ? {opacity: hiddenOpacity} : {},
       title: <>
@@ -105,7 +104,7 @@ const BrushList = ({
 
   return <div className="BrushList">
     <CobrowsingAccordianList
-      listId="LeftColumn"
+      interfaceGroupId="SelectorColumns"
       accordians={accordians}
     />
   </div>

@@ -1,11 +1,10 @@
-import { initialCameraZoneEntityId, initialCameraZoneInstanceId, initialPlayerEntityId, initialPlayerSpawnZoneEntityId, initialPlayerSpawnZoneInstanceId, initialStageZoneEntityId, initialStageZoneInstanceId } from "..";
-import { gameSize } from "../core/general";
+import { gameHeight, gameWidth, initialCameraZoneEntityId, initialCameraZoneInstanceId, initialPlayerEntityId, initialPlayerSpawnZoneEntityId, initialPlayerSpawnZoneInstanceId, initialStageZoneEntityId, initialStageZoneInstanceId } from "..";
 
 export const initialPlayerSpawnZoneInstance = {
   id: initialPlayerSpawnZoneInstanceId,
   entityModelId: initialPlayerSpawnZoneEntityId,
-  spawnX: gameSize/2,
-  spawnY: gameSize/2,
+  spawnX: gameWidth/2,
+  spawnY: gameHeight/2,
 }
 
 export const initialPlayerCameraZoneInstance = {
@@ -18,8 +17,8 @@ export const initialPlayerCameraZoneInstance = {
 export const initialStageZoneInstance = {
   id: initialStageZoneInstanceId,
   entityModelId: initialStageZoneEntityId,
-  spawnX: gameSize/2,
-  spawnY: gameSize/2,
+  spawnX: gameWidth/2,
+  spawnY: gameHeight/2,
 }
 
 export const defaultStage = {
@@ -43,12 +42,12 @@ export const defaultStage = {
   },
   "boundaries": {
     loop: false,
-    "maxWidth": gameSize,
-    "maxHeight": gameSize,
-    "height": (gameSize/3) * 1,
-    "width": (gameSize/3) * 1,
-    "x": gameSize/3,
-    "y": gameSize/3
+    "maxWidth": gameWidth,
+    "maxHeight": gameHeight,
+    "height": (gameHeight/3) * 1,
+    "width": (gameWidth/3) * 1,
+    "x": gameWidth/3,
+    "y": gameHeight/3
   },
   "gravity": {
     "y": 12,

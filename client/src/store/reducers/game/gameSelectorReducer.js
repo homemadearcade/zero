@@ -8,7 +8,7 @@ import {
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
   CLEAR_EDITOR,
-  UPDATE_OPEN_LIST,
+  UPDATE_OPEN_INTERFACE_ID,
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
@@ -39,7 +39,7 @@ const initialState = {
   liveEditingCategory: null,
   isSelectStageColorModalOpen: false,
   isGameMetadataModalOpen: false,
-  openLists: {
+  openInterfaceIdGroups: {
   },
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
@@ -88,12 +88,12 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         brushIdSelectedBrushList: null
       }
-    case UPDATE_OPEN_LIST:
+    case UPDATE_OPEN_INTERFACE_ID:
       return {
         ...state,
-        openLists: {
-          ...state.openLists,
-          [payload.openListId]: payload.openListValue
+        openInterfaceIdGroups: {
+          ...state.openInterfaceIdGroups,
+          [payload.interfaceIdGroup]: payload.interfaceId
         }
       };
     case UPDATE_VERTICAL_LINEAR_STEPPER:

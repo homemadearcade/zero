@@ -13,6 +13,7 @@ import Divider from '../../../ui/Divider/Divider';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import SelectStageDefaultType from '../../ui/SelectStageDefaultType/SelectStageDefaultType';
 import Switch from '../../../ui/Switch/Switch';
+import { STAGE_CUSTOMIZE_IID } from '../../../constants/interfaceIds';
 
         // {/* <RadioGroupColumn
         //   formLabel={"Perspective"}
@@ -64,7 +65,7 @@ const CreateStage = ({ stage, onUpdate }) => {
                 playerSpawnZoneEntityId: newEntityId
               })
           }}/>}
-        <CobrowsingNestedList id={'stage'} title="Customize" listId="StageCustomize">
+        <CobrowsingNestedList interfaceId={STAGE_CUSTOMIZE_IID} title="Customize" interfaceGroupId="StageCustomize">
           <>
           {<SelectEntity
             formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"

@@ -129,8 +129,6 @@ export const openCreateCanvasImageModal= (textureId) => async (dispatch, getStat
   } catch(e) {
     console.error(e)
   }
-
-
 }
 
 export const closeCreateCanvasImageModal = () => (dispatch, getState) => {
@@ -140,7 +138,6 @@ export const closeCreateCanvasImageModal = () => (dispatch, getState) => {
     payload: {}
   });
 }
-
 
 export const updateCreateCanvasImage = (canvasImage) => (dispatch, getState) => {
   dispatch({

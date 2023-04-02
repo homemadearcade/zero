@@ -2,11 +2,10 @@
 import { DEFAULT_THEME_COLOR } from "../../../constants";
 import { defaultZoneEntity, directionalEntity, jumperEntity, vehicleEntity } from "../entityModelDefaults";
 import { initialStage } from "./stage";
-import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpawnZoneEntityId, initialStageId, initialStageZoneEntityId, jumperPlayerEntityId, SELECTOR_ENTITY_BY_CLAS, DATA_SOURCE_CORE_LIBRARYS, vehiclePlayerEntityId, DATA_SOURCE_CORE_LIBRARY } from "../core";
+import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpawnZoneEntityId, initialStageId, initialStageZoneEntityId, jumperPlayerEntityId, SELECTOR_ENTITY_BY_CLAS, DATA_SOURCE_CORE_LIBRARYS, vehiclePlayerEntityId, DATA_SOURCE_CORE_LIBRARY, gameWidth, gameHeight } from "../core";
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
-import { gameSize } from "../core";
 import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_CLASS_IID } from "../../../constants/interfaceIds";
 
 export const defaultGameModel = {
@@ -76,7 +75,7 @@ export const defaultGameModel = {
           playerTeleportToRelationTag: true,
         spawnOntoStageEffect: true,
         destroyAllEffect: false,
-        automaticEntityTag: true,
+        // automaticEntityTag: true,
       },
       graphics: {
         ...defaultZoneEntity.graphics,
@@ -104,7 +103,7 @@ export const defaultGameModel = {
           playerTeleportToRelationTag: false,
         spawnOntoStageEffect: false,
         destroyAllEffect: false,
-        automaticEntityTag: true,
+        // automaticEntityTag: true,
       },
       collisionResponse: {
         ...mirrorPlayerDefaults.collisionResponse,
@@ -137,7 +136,7 @@ export const defaultGameModel = {
           playerTeleportToRelationTag: false,
         spawnOntoStageEffect: false,
         destroyAllEffect: false,
-        automaticEntityTag: true,
+        // automaticEntityTag: true,
       },
       collisionResponse: {
         ...mirrorPlayerDefaults.collisionResponse,
@@ -148,8 +147,8 @@ export const defaultGameModel = {
         ...defaultZoneEntity.graphics,
         textureTint: '#000000',
         depthOverride: 1,
-        width: gameSize,
-        height: gameSize
+        width: gameWidth,
+        height: gameHeight
       },
       dataSource: DATA_SOURCE_CORE_LIBRARY,
       isRemoved: true
@@ -157,6 +156,3 @@ export const defaultGameModel = {
   },
   isRemoved: false
 }
-
-  // spawnX: gameSize/2,
-  // spawnY: gameSize/2,

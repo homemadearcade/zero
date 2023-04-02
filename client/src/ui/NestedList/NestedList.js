@@ -22,9 +22,9 @@ export default function NestedList({listItems}) {
   return <NestedListBody expanded={expanded} onChange={handleChange}></NestedListBody>
 }
 
-export function NestedListBody({expanded, onChange, title, children, id, interfaceId, moreMenu }) {
-    const isOpen = expanded === id
-    const el = <><ListItemButton  alignItems='start' onClick={onChange(id)}>
+export function NestedListBody({expanded, onChange, title, children, interfaceId, moreMenu}) {
+    const isOpen = expanded === interfaceId
+    const el = <><ListItemButton  alignItems='start' onClick={onChange(interfaceId)}>
       {isOpen ? <ExpandMore  sx={{ fontSize: '1.5' }} /> : <ChevronRight  sx={{ fontSize: '1.5' }} />}
       <ListItemText primaryTypographyProps={{
           variant:"subtitle2", 
@@ -57,7 +57,7 @@ export function NestedListBody({expanded, onChange, title, children, id, interfa
     </>
 
     if(interfaceId) {
-      return <Unlockable key={id} interfaceId={interfaceId}>
+      return <Unlockable key={interfaceId} interfaceId={interfaceId}>
         {el}
       </Unlockable>
     } else {

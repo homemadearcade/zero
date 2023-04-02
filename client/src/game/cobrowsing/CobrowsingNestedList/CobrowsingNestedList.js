@@ -2,19 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { NestedListBody } from '../../../ui/NestedList/NestedList';
-import { updateOpenList } from '../../../store/actions/game/gameSelectorActions';
+import { updateOpenInterfaceId } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-function CobrowsingNestedList({listId, id, children, onClick, updateOpenList, gameSelector, title, interfaceId, moreMenu}) {
-  if(!gameSelector.openLists) return 
+function CobrowsingNestedList({interfaceGroupId, children, onClick, updateOpenInterfaceId, gameSelector, title, interfaceId, moreMenu}) {
+  if(!gameSelector.openInterfaceIdGroups) return 
 
-  const expanded = gameSelector.openLists[listId]
+  const expanded = gameSelector.openInterfaceIdGroups[interfaceGroupId]
 
   const handleChange = (panel) => (event) => {
-    updateOpenList(listId, expanded === id ? null : id);
+    updateOpenInterfaceId(interfaceGroupId, expanded === interfaceId ? null : interfaceId);
   };
 
-  return <NestedListBody listId={listId} id={id} onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange} moreMenu={moreMenu}/>
+  return <NestedListBody interfaceGroupId={interfaceGroupId} onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange} moreMenu={moreMenu}/>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
@@ -22,5 +22,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { updateOpenList }),
+  connect(mapStateToProps, { updateOpenInterfaceId }),
 )(CobrowsingNestedList);

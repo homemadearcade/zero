@@ -9,6 +9,7 @@ import MenuIconButton from '../MenuIconButton/MenuIconButton';
 import Icon from '../Icon/Icon';
 import './AccordianList.scss'
 import { SELECTOR_MORE_IID } from '../../constants/interfaceIds';
+import CobrowsingMenuIconButton from '../../game/cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -58,17 +59,25 @@ export default function AccordianList({accordians, initialExpandedId = null}) {
 }
 
 export function AccordionListBody({expanded, onChange, accordianList}) {
-  function renderSummary({title, moreMenu}) {
+  function renderSummary({title, moreMenu, moreMenuInterfaceId}) {
     const summaryEl = <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
       {moreMenu && <Unlockable className="AccordianList__more-menu-icon" interfaceId={SELECTOR_MORE_IID}><div onClick={(e) => {
           e.stopPropagation()
        }}>
-        <MenuIconButton 
+        {moreMenuInterfaceId ? <CobrowsingMenuIconButton
+          icon={<Icon size="xs" icon="faEllipsis"/>}
+          interfaceId={moreMenuInterfaceId}
+          interfaceIdGroup={SELECTOR_MORE_IID}
+          menu={(onClose) => {
+            return moreMenu
+          }}
+        ></CobrowsingMenuIconButton>
+        : <MenuIconButton 
           icon={<Icon size="xs" icon="faEllipsis"/>}
           menu={(onClose) => {
             return moreMenu
           }}
-        />
+        />}
       </div>
       </Unlockable>
     }
@@ -84,13 +93,13 @@ export function AccordionListBody({expanded, onChange, accordianList}) {
     return bodyEl
   }
 
-  function renderAccordian({id, title, body, interfaceId, moreMenu, sx}) {
-    const el = <Accordion sx={sx} key={id} expanded={expanded === id} onChange={onChange(id)}>
-      {renderSummary({title, interfaceId, moreMenu})}
+  function renderAccordian({title, body, interfaceId, moreMenu, moreMenuInterfaceId, sx}) {
+    const el = <Accordion sx={sx} key={interfaceId} expanded={expanded === interfaceId} onChange={onChange(interfaceId)}>
+      {renderSummary({title, interfaceId, moreMenu, moreMenuInterfaceId})}
       {renderBody({body, interfaceId})}
     </Accordion>
     if(interfaceId) {
-      return <Unlockable key={id} interfaceId={interfaceId}>
+      return <Unlockable key={interfaceId} interfaceId={interfaceId}>
         {el}
       </Unlockable>
     } else {

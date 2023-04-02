@@ -14,12 +14,13 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID, stageDefaultTypeProperties, POWERUP_ENTITY_IID, defaultPowerupEntity, defaultZoneEntity, defaultBasicEntity, defaultPlayerEntity, defaultNpcEntity, IS_DATA_REMOVED } from '../../constants';
+import { PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID, stageDefaultTypeProperties, POWERUP_ENTITY_IID, defaultPowerupEntity, defaultZoneEntity, defaultBasicEntity, defaultPlayerEntity, defaultNpcEntity, IS_DATA_REMOVED, IS_DATA_LOCKED } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import { BASIC_ENTITY_ADD_IID, BASIC_ENTITY_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectEntityFromEntityType, NPC_ENTITY_ADD_IID, NPC_ENTITY_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_ENTITY_ADD_IID, PLAYER_ENTITY_CONTAINER_IID, POWERUP_ENTITY_ADD_IID, POWERUP_ENTITY_CONTAINER_IID, SELECTOR_ENTITY_BY_CLASS_IID, ZONE_ENTITY_ADD_IID, ZONE_ENTITY_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxModal } from '../../../store/actions/game/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
 import SelectorMoreMenu from '../../selector/SelectorMoreMenu/SelectorMoreMenu';
+import { getInterfaceIdData } from '../../../utils';
 
 const CLASS_MAX = 16
 
@@ -53,13 +54,20 @@ const EntityList = ({
     const el = <EntityItem key={i} entityModelId={currentEntityModelId}/>
     const currentEntityModel = entityModels[currentEntityModelId]
     if(currentEntityModel.editorInterface.requiresUnlocking) {
-
       // if this is uncommented thats great but it has extra fireworks in cobrowsing...
 
       // const interfaceIdToUnlock = entityModelType + '/' + CLASS_UNLOCKABLE_IID + '/' + currentEntityModel.entityModelId
       // const {isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceIdToUnlock)
       // if(isObscured) return null
-      return <Unlockable interfaceIdPrefix={entityModelType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentEntityModel.entityModelId}>
+      const interfaceId = currentEntityModel.entityInterfaceId + '/' + CLASS_UNLOCKABLE_IID + '/' + currentEntityModel.entityModelId
+      const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
+      if(isObscured && selectorClassInvisibility[currentEntityModel.entityInterfaceId][IS_DATA_LOCKED]) {
+       return <Unlockable interfaceIdPrefix={entityModelType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentEntityModel.entityModelId}>
+          {el}
+        </Unlockable>
+      }
+
+      return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelType)}>
         {el}
       </Unlockable>
     } else {
@@ -144,7 +152,6 @@ const EntityList = ({
     sort(sortByLastEditedDate(entityModels)).
     map(renderEntityItem(POWERUP_ENTITY_IID)).filter((item) => !!item).slice(0, CLASS_MAX -1)
 
-
   powerupModels.push(<Unlockable interfaceId={POWERUP_ENTITY_ADD_IID}>
     <Button size="fit" className="EntityList__add" onClick={() => {
       openEditEntityGraphics(defaultPowerupEntity)
@@ -171,13 +178,13 @@ const EntityList = ({
 
   const hiddenOpacity = 0.5
   accordians.push({
-    id: 'players',
     interfaceId: PLAYER_ENTITY_CONTAINER_IID,
     sx: layerInvisibility[PLAYER_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">Players</Typography>
     </>,
     moreMenu: <SelectorMoreMenu selectorClass={PLAYER_ENTITY_IID} />,
+    moreMenuInterfaceId: PLAYER_ENTITY_IID,
     body: <>
       <BorderedGrid
         maxItems={CLASS_MAX} 
@@ -193,13 +200,13 @@ const EntityList = ({
   })
 
   accordians.push({
-    id: 'NPCs',
     interfaceId: NPC_ENTITY_CONTAINER_IID,
     sx: layerInvisibility[NPC_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">NPCs</Typography>
     </>,
     moreMenu: <SelectorMoreMenu selectorClass={NPC_ENTITY_IID} />,
+    moreMenuInterfaceId: NPC_ENTITY_IID,
     body: <>
       <BorderedGrid
       maxItems={CLASS_MAX} 
@@ -215,13 +222,13 @@ const EntityList = ({
   })
 
   accordians.push({
-    id: 'objects',
     interfaceId: BASIC_ENTITY_CONTAINER_IID,
     sx: layerInvisibility[BASIC_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">Objects</Typography>
     </>,
     moreMenu: <SelectorMoreMenu selectorClass={BASIC_ENTITY_IID} />,
+    moreMenuInterfaceId: BASIC_ENTITY_IID,
     body: <>
       <BorderedGrid
         maxItems={CLASS_MAX} 
@@ -237,13 +244,13 @@ const EntityList = ({
   })
 
   accordians.push({
-    id: 'powerups',
     interfaceId: POWERUP_ENTITY_CONTAINER_IID,
     sx: layerInvisibility[POWERUP_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">Power Ups</Typography>
     </>,
     moreMenu: <SelectorMoreMenu selectorClass={POWERUP_ENTITY_IID} />,
+    moreMenuInterfaceId: POWERUP_ENTITY_IID,
     body: <>
       <BorderedGrid
         maxItems={CLASS_MAX} 
@@ -259,9 +266,9 @@ const EntityList = ({
   })
 
   accordians.push({
-    id: 'zones',
     interfaceId: ZONE_ENTITY_CONTAINER_IID,
     moreMenu: <SelectorMoreMenu selectorClass={ZONE_ENTITY_IID} />,
+    moreMenuInterfaceId: ZONE_ENTITY_IID,
     sx: layerInvisibility[ZONE_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
     title: <>
       <Typography component="div" variant="subtitle1">Zones</Typography>
@@ -283,7 +290,7 @@ const EntityList = ({
 
   return <div className="EntityList">
     <CobrowsingAccordianList
-      listId="LeftColumn"
+      interfaceGroupId="SelectorColumns"
       accordians={accordians}
     />
     {isEditEntityGraphicsOpen && <EditEntityGraphics 

@@ -70,7 +70,6 @@ const SelectorAbstractList = ({
   nestedLists.push({
     interfaceId: CUTSCENE_CONTAINER_IID,
     title: 'Cutscenes',
-    id: 'Cutscenes',
     children: cutscenes,
     // moreMenu: <SelectorMoreMenu selectorClass={CUTSCENE_ABSTRACT_IID}/>
   })
@@ -101,7 +100,6 @@ const SelectorAbstractList = ({
   nestedLists.push({
     interfaceId: DIALOGUE_CONTAINER_IID,
     title: 'Dialogues',
-    id: 'Dialogues',
     children: dialogueScenes,
     // moreMenu: <SelectorMoreMenu selectorClass={DIALOGUE_ABSTRACT_IID}/>
   })
@@ -127,7 +125,6 @@ const SelectorAbstractList = ({
   nestedLists.push({
     interfaceId: RELATION_TAG_CONTAINER_IID,
     title: 'Relationship Tags',
-    id: 'Relation Tags',
     children: relationTags,
     moreMenu: <SelectorMoreMenu selectorClass={RELATION_TAG_ABSTRACT_IID}/>
   })
@@ -153,7 +150,6 @@ const SelectorAbstractList = ({
   nestedLists.push({
     interfaceId: RELATION_CONTAINER_IID,
     title: 'Relationships',
-    id: 'Relations',
     children: relations,
     moreMenu: <SelectorMoreMenu selectorClass={RELATION_ABSTRACT_IID}/>
   })
@@ -179,11 +175,9 @@ const SelectorAbstractList = ({
   nestedLists.push({
     interfaceId: EFFECT_CONTAINER_IID,
     title: 'Effects',
-    id: 'Effects',
     children: effects,
     moreMenu: <SelectorMoreMenu selectorClass={EFFECT_ABSTRACT_IID}/>
   })
-
 
   const events = Object.keys(gameModel.events).filter((currentEventId) => {
     const currentEvent = gameModel.events[currentEventId]
@@ -212,7 +206,6 @@ const SelectorAbstractList = ({
   nestedLists.push({
     interfaceId: EVENT_CONTAINER_IID,
     title: 'Events',
-    id: 'Events',
     children: events,
     moreMenu: <SelectorMoreMenu selectorClass={EVENT_ABSTRACT_IID}/>
   })
@@ -221,7 +214,7 @@ const SelectorAbstractList = ({
     <NestedListContainer>
       {nestedLists.map((props) => {
         return <CobrowsingNestedList
-          listId="LeftColumn"
+          interfaceGroupId="SelectorColumns"
           {...props}
         ></CobrowsingNestedList>
       })}

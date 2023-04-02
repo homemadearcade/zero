@@ -278,7 +278,7 @@ const CreateRelation = ({
         <AlertTitle>This Effect is not compatible with the Event. Change or remove it to save</AlertTitle>
       </Alert>}
       {effect.effectBehavior && renderSelectEffectedTagInstances(effect)}
-      {effect.effectBehavior &&<CobrowsingNestedList interfaceId={EFFECT_ADVANCED_CONTAINER_IID} id={effectId} title="More Options" listId={"Relation Effect Data"} >
+      {effect.effectBehavior &&<CobrowsingNestedList interfaceId={EFFECT_ADVANCED_CONTAINER_IID+effectId} title="More Options" interfaceGroupId={"Relation Effect Data"} >
         {renderOptionalRelationForms(effect)}
       </CobrowsingNestedList>}
     </>

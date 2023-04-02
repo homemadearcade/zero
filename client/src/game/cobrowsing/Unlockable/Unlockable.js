@@ -51,6 +51,7 @@ const Unlockable = ({
     if(wasComponentLockedUserMongoId === remoteStateUserMongoId && isUnlocked) {
       var rect = unlockableRef.current.getBoundingClientRect();
       if(noAnimInterfaces.includes(interfaceId)) return 
+      console.log('conffetti for', interfaceId)
       confetti({
         origin: {
           x: (rect.left + (rect.width/2))/window.innerWidth,

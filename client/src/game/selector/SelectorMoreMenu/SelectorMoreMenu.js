@@ -9,12 +9,13 @@ import { toggleSelectorClassInvisibility } from "../../../store/actions/game/gam
 import { entityModelTypeToDisplayName } from "../../constants";
 import LayerVisibility from "../../ui/LayerVisibility/LayerVisibility";
 import DataSourceVisibilityMenu from "../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu";
+import Divider from "../../../ui/Divider/Divider";
 
 function SelectorMoreMenu({  selectorClass}) {
   function getStageVisibility() {
     const menuItems = []
     if(entityModelTypeToDisplayName[selectorClass]) {
-      menuItems.push(<MenuItem key="visibile on stage" dense divider>Visible on Stage:</MenuItem>)
+      menuItems.push(<MenuItem className="MenuIconButton__title" gutters key="visibile on stage" dense>Visible on Stage</MenuItem>)
       menuItems.push(<MenuItem key={"visible on stage" + selectorClass} dense><LayerVisibility layerId={selectorClass} /></MenuItem>)
     }
 
@@ -22,9 +23,9 @@ function SelectorMoreMenu({  selectorClass}) {
   }
 
   return <MenuList dense={true}>
-    <MenuItem gutters dense divider>Visible in List:</MenuItem>
+    <MenuItem className="MenuIconButton__title" gutters dense>Visible in List</MenuItem>
     <DataSourceVisibilityMenu selectorClass={selectorClass} />
-    {getStageVisibility()}
+    {/* {getStageVisibility()} */}
     </MenuList>
 }
 

@@ -20,7 +20,7 @@ import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/Cobrowsi
 
 
           <CobrowsingAccordianList
-            listId="CreateEvent"
+            interfaceGroupId="CreateEvent"
             accordians={[{
                 id: 'Advanced',
                 title: <>
@@ -174,7 +174,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
         }
     }}/>
     {renderTagSelect()}
-    {event.eventType && <CobrowsingNestedList interfaceId={EVENT_ADVANCED_CONTAINER_IID} id={"CreateEvent"} title="More Options" listId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
+    {event.eventType && <CobrowsingNestedList interfaceId={EVENT_ADVANCED_CONTAINER_IID} title="More Options" interfaceGroupId="CreateEvent">{renderAdvancedOptions()}</CobrowsingNestedList>}
   </div>
 }
 

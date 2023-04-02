@@ -30,6 +30,7 @@ import store from '../..';
 import { getRemoteStatePackage } from '../../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { updateArcadeGameCharacter } from './arcadeGameActions';
+import { OPEN_TOOL } from '../../../constants';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()
@@ -97,7 +98,7 @@ const sendCobrowsingStatus = _.debounce((e) =>  {
   window.socket.emit(ON_COBROWSING_STATUS_UPDATE, cobrowsingStatus)
 }, 7)
 
-function onEditorKeyUp(event) {
+function onSubscriberKeyUp(event) {
   const state = store.getState()
 
   if(!state.cobrowsing.isSubscribedCobrowsing) return
@@ -112,18 +113,53 @@ function onEditorKeyUp(event) {
   }
 }
 
+function onSubscriberKeyDown(event) {
+  const state = store.getState()
+
+  if(state.cobrowsing.isActivelyCobrowsing) {
+    if(event.key.toLowerCase() === 'shift') {
+      if(!state.cobrowsing.selectedTool) {
+        store.dispatch({
+          type: SELECT_COBROWSING_TOOL,
+          payload: {
+            toolId: OPEN_TOOL
+          }
+        })
+      } else if(state.cobrowsing.selectedTool === OPEN_TOOL) {
+        store.dispatch({
+          type: SELECT_COBROWSING_TOOL,
+          payload: {
+            toolId: null
+          }
+        })
+      }
+    }
+
+    if(event.key.toLowerCase() === 'esc') {
+      store.dispatch({
+        type: SELECT_COBROWSING_TOOL,
+        payload: {
+          toolId: null
+        }
+      })
+    }
+
+  }
+
+}
+
 window.addEventListener('mouseup', (event) => {
   setTimeout(() => {
     window.didClick = false
   }, 300)
 })
 
-function onEditorClick(event) {
+function onPublisherClick(event) {
   window.didClick = true
   sendCobrowsingStatus(event)
 }
 
-function onCobrowsingKeyUp(event) {
+function onPublisherKeyUp(event) {
   let shouldUpdate = false
   if(event.key.toLowerCase() === 'w') {
     shouldUpdate = true
@@ -216,8 +252,8 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 
     // this event will send admins your mouse state to let them know you can be browsed
     window.addEventListener('mousemove', sendCobrowsingStatus)
-    window.addEventListener('keyup', onCobrowsingKeyUp)
-    window.addEventListener('mousedown', onEditorClick) 
+    window.addEventListener('keyup', onPublisherKeyUp)
+    window.addEventListener('mousedown', onPublisherClick) 
     window.addEventListener('wheel', sendCobrowsingStatus);
     window.cobrowsingStatusInterval = setInterval(sendCobrowsingStatus, 6000)
 
@@ -271,9 +307,9 @@ export const publishCobrowsing = () => (dispatch, getState) => {
 export const unpublishCobrowsing = () => (dispatch, getState) => {
   try {
     window.removeEventListener('mousemove', sendCobrowsingStatus);
-    window.removeEventListener('keyup', onCobrowsingKeyUp)
+    window.removeEventListener('keyup', onPublisherKeyUp)
     window.removeEventListener('wheel', sendCobrowsingStatus);
-    window.removeEventListener('mousedown', onEditorClick) 
+    window.removeEventListener('mousedown', onPublisherClick) 
     clearInterval(window.cobrowsingStatusInterval)
 
     window.socket.off(ON_COBROWSING_SUBSCRIBED);
@@ -327,7 +363,8 @@ export const subscribeCobrowsing = ({userMongoId}) => async (dispatch, getState)
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/cobrowsing/' + userMongoId, {}, options);
 
-    window.addEventListener('keyup', onEditorKeyUp)
+    window.addEventListener('keyup', onSubscriberKeyUp)
+    window.addEventListener('keydown', onSubscriberKeyDown)
 
     // event that is triggered if cobrowsing has been registered
     window.socket.on(ON_COBROWSING_UPDATE, ({userMongoId, remoteState}) => {
@@ -365,8 +402,8 @@ export const unsubscribeCobrowsing = ({userMongoId}) => async (dispatch, getStat
     const options = attachTokenToHeaders(getState);
     await axios.post('/api/cobrowsing/stop/' + userMongoId, {}, options);
 
-    window.removeEventListener('keyup', onEditorKeyUp)
-    window.removeEventListener('mousedown', onEditorClick) 
+    window.removeEventListener('keyup', onSubscriberKeyUp)
+    window.removeEventListener('keydown', onSubscriberKeyDown)
 
     window.socket.off(ON_COBROWSING_UPDATE);
 

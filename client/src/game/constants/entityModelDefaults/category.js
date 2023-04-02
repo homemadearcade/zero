@@ -21,7 +21,7 @@ export const defaultPowerupEntity = {
       playerTeleportToRelationTag: false,
     transformIntoEffect: false,
       playerTransformIntoRelationTag: false,
-    automaticEntityTag: false,
+    // automaticEntityTag: false,
     spawnOntoStageEffect: false,
     destroyAllEffect: true,
   }
@@ -35,7 +35,7 @@ export const defaultNpcEntity = {
     transformIntoEffect: false,
       playerTransformIntoRelationTag: false,
     destroyAllEffect: true,
-    automaticEntityTag: true,
+    // automaticEntityTag: true,
     spawnOntoStageEffect: true,
   }
   // autogeneration: {
@@ -65,7 +65,7 @@ export const defaultZoneEntity = {
     transformIntoEffect: false,
       playerTransformIntoRelationTag: false,
     destroyAllEffect: true,
-    automaticEntityTag: true,
+    // automaticEntityTag: true,
     spawnOntoStageEffect: false,
   }
 }
@@ -87,7 +87,7 @@ export const defaultPlayerEntity = {
     transformIntoEffect: true,
       playerTransformIntoRelationTag: true,
     destroyAllEffect: true,
-    automaticEntityTag: true,
+    // automaticEntityTag: true,
     spawnOntoStageEffect: false,
   }
 }
@@ -109,7 +109,7 @@ export const defaultBasicEntity = {
     transformIntoEffect: false,
       playerTransformIntoRelationTag: false,
     destroyAllEffect: true,
-    automaticEntityTag: true,
+    // automaticEntityTag: true,
     spawnOntoStageEffect: true,
   },
   collisionResponse: {

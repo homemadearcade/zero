@@ -4,13 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEntityModel.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { entityModelTypeToDisplayName, IS_DATA_REMOVED } from '../../constants';
+import { entityModelTypeToDisplayName, IS_DATA_LOCKED, IS_DATA_REMOVED } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { SELECTOR_MORE_IID, SELECT_ENTITY_MODEL_IID } from '../../../constants/interfaceIds';
-import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
+import { CLASS_UNLOCKABLE_IID, SELECTOR_MORE_IID, SELECT_ENTITY_MODEL_IID, SELECT_RELATION_TAG_IID } from '../../../constants/interfaceIds';
 import Icon from '../../../ui/Icon/Icon';
 import { MenuItem, MenuList } from '@mui/material';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
+import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
+import { getInterfaceIdData } from '../../../utils';
 
 const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameModel, entityModelType, gameSelector: { selectorClassInvisibility } }) => {
 
@@ -19,8 +20,11 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
 
     const isDataSourceInvisible = selectorClassInvisibility[SELECT_ENTITY_MODEL_IID][entityModel.dataSource]
     const isRemovedInvisible = entityModel.isRemoved && selectorClassInvisibility[SELECT_ENTITY_MODEL_IID][IS_DATA_REMOVED]
+    const interfaceId = entityModel.entityInterfaceId + '/' + CLASS_UNLOCKABLE_IID + '/' + entityModel.entityModelId
+    const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
+    const isLockedInvisible = entityModel.editorInterface.requiresUnlocking && isObscured && selectorClassInvisibility[SELECT_RELATION_TAG_IID][IS_DATA_LOCKED]
 
-    const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromInterfaceIds[interfaceId]
+    const isRemoved = isDataSourceInvisible || isLockedInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromInterfaceIds[interfaceId]
 
     return {
       label: entityModel.name,
@@ -40,7 +44,6 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
     return false
   }).map(mapEntityToOption)
 
-
   options.sort((a, b) => -b.entityInterfaceId.localeCompare(a.entityInterfaceId))
 
   return <div className="SelectEntityModel">
@@ -58,10 +61,10 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
       options={options}
     />
     <Unlockable interfaceId={SELECTOR_MORE_IID} className="SelectEntityModel__more-menu-icon">
-      <MenuIconButton icon={<Icon icon='faEllipsis'/>} 
+      <CobrowsingMenuIconButton interfaceId={SELECT_ENTITY_MODEL_IID} icon={<Icon icon='faEllipsis'/>} 
         menu={() => {
           return <MenuList>
-            <MenuItem key="visible in dropdown" dense divider>Visible in Dropdown:</MenuItem>
+            <MenuItem key="visible in dropdown" dense>Visible in Dropdown:</MenuItem>
             <DataSourceVisibilityMenu selectorClass={SELECT_ENTITY_MODEL_IID} />
           </MenuList>
         }}/>

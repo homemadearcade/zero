@@ -1,24 +1,46 @@
 import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import { IconButton } from '@mui/material';
+import './MenuIconButton.scss'
 
 export default function MenuIconButton({ icon, menu }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true)
   };
   const handleClose = () => {
-    setAnchorEl(null);
+    setOpen(false)
   };
+
+  return <MenuIconButtonBody onOpen={handleOpen} onClose={handleClose} icon={icon} menu={menu} open={open}/>;
+}
+
+export function MenuIconButtonBody({ icon, menu, open, onOpen, onClose }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const target = React.useRef()
+  const handleClick = (event) => {
+    onOpen(true)
+  };
+  const handleClose = () => {
+    onClose(false)
+  };
+
+  React.useEffect(() => {
+    if(open) {
+      setAnchorEl(target.current);
+    } else {
+      setAnchorEl(null);
+    }
+  }, [open])
 
   return (
     <>
       <IconButton
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
+        ref={target}
+        aria-controls={open && anchorEl  ? 'basic-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open && anchorEl  ? 'true' : undefined}
         onClick={handleClick}
         sx={{ padding: 0}}
       >
@@ -27,7 +49,7 @@ export default function MenuIconButton({ icon, menu }) {
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open}
+        open={open && anchorEl }
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
