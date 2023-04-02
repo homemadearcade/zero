@@ -30,7 +30,7 @@ import store from '../..';
 import { getRemoteStatePackage } from '../../../utils/cobrowsingUtils';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { updateArcadeGameCharacter } from './arcadeGameActions';
-import { OPEN_TOOL } from '../../../constants';
+import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 
 const sendCobrowsingStatus = _.debounce((e) =>  {
   const state = store.getState()
@@ -126,6 +126,13 @@ function onSubscriberKeyDown(event) {
           }
         })
       } else if(state.cobrowsing.selectedTool === OPEN_TOOL) {
+        store.dispatch({
+          type: SELECT_COBROWSING_TOOL,
+          payload: {
+            toolId: UNLOCK_TOOL
+          }
+        })
+      } else if(state.cobrowsing.selectedTool === UNLOCK_TOOL) {
         store.dispatch({
           type: SELECT_COBROWSING_TOOL,
           payload: {

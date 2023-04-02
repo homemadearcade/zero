@@ -6,5 +6,12 @@
     align-items: center;
     cursor: pointer;
   }
+
+  &__add {
+    height:3.3em;
+    width:3.95em;
+    min-width: auto !important;
+    padding: 0 !important;
+  }
   
 }

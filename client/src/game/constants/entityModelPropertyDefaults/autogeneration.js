@@ -4,7 +4,7 @@ export const defaultAutogeneration = {
   transformIntoEffect: false,
     playerTransformIntoRelationTag: false,
   destroyAllEffect: false,
-  // automaticEntityTag: true,
+  automaticEntityTag: true,
   spawnOntoStageEffect: false,
   forEachPlayer: false
 }

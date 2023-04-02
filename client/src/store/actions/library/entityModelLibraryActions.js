@@ -19,8 +19,7 @@ import {
   EDIT_ENTITY_MODEL_FAIL,
   CLEAR_ENTITY_MODEL,
 } from '../../types';
-import { CORE_LIBRARY_USER_MONGO_ID } from '../../../constants';
-import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_USER_LIBRARY } from '../../../game/constants';
+import { getDataSourceFromUserMongoId } from '../../../utils';
 
 export const getEntityModelLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -101,7 +100,7 @@ export const addEntityModelToLibrary = (entityModel) => async (dispatch, getStat
   try {
     const userMongoId = getState().auth.me.id
     entityModel.userMongoId = userMongoId
-    entityModel.dataSource = userMongoId === CORE_LIBRARY_USER_MONGO_ID ? DATA_SOURCE_CORE_LIBRARY : DATA_SOURCE_USER_LIBRARY;
+    entityModel.dataSource = getDataSourceFromUserMongoId(userMongoId);
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/entityModel', entityModel, options);

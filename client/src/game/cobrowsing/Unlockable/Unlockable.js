@@ -141,7 +141,7 @@ const Unlockable = ({
     return <div 
       onClick={(e) => {
         if(selectedTool === OPEN_TOOL && !e.shiftKey) {
-          selectCobrowsingTool(null)
+          // selectCobrowsingTool(null)
         }
       }}
       className={classNames(className, "Unlockable", { 'Unlockable--openable': selectedTool=== OPEN_TOOL })}

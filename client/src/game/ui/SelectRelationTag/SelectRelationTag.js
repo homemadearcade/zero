@@ -4,9 +4,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectRelationTag.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { entityModelTypeToDisplayName, IS_DATA_LOCKED, IS_DATA_REMOVED, relationTagTypeToDisplayName, RELATION_TAG_ABSTRACT_IID, RELATION_TAG_ENTITY_IID } from '../../constants';
-import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
-import { CLASS_UNLOCKABLE_IID, SELECTOR_MORE_IID, SELECT_RELATION_TAG_IID } from '../../../constants/interfaceIds';
+import { entityModelTypeToDisplayName, IS_DATA_REMOVED, relationTagTypeToDisplayName, RELATION_TAG_ENTITY_IID,} from '../../constants';
+import { SELECTOR_MORE_IID, SELECT_RELATION_TAG_IID } from '../../../constants/interfaceIds';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import Icon from '../../../ui/Icon/Icon';
 import { MenuItem, MenuList } from '@mui/material';
@@ -31,16 +30,13 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
 
     if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
-      const interfaceId = relationTagEntity.entityInterfaceId +'/'+ CLASS_UNLOCKABLE_IID +'/'+ relationTagId
-      const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
-      const isLockedInvisible = isObscured && relationTag.editorInterface.requiresUnlocking && selectorClassInvisibility[SELECT_RELATION_TAG_IID][IS_DATA_LOCKED]
 
       return {
         label: relationTag.name,
         value: relationTagId,
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
-        isRemoved: removeEntityTags || isRemoved || isLockedInvisible,
+        isRemoved: removeEntityTags || isRemoved,
         relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityInterfaceId],
       }
     }

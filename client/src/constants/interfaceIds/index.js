@@ -16,3 +16,4 @@ export * from "./relationTagInterfaceIds";
 export * from "./videoInterfaceIds";
 export * from "./selectorInterfaceIds";
 export * from "./hideableInterfaceIds";
+export * from "./dataSourceInterfaceIds";

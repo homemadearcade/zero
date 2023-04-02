@@ -20,19 +20,18 @@ export const PLAYER_ENTITY_ADD_IID = "PLAYER_ENTITY_IID/addPlayer";
 export const PLAYER_ENTITY_SELECT_IID = "PLAYER_ENTITY_IID/select";
 // export const PLAYER_ENTITY_MORE_IID = "PLAYER_ENTITY_IID/more";
 
-
 export const POWERUP_ENTITY_CONTAINER_IID = "POWERUP_ENTITY_IID/*";
 export const POWERUP_ENTITY_ADD_IID = "POWERUP_ENTITY_IID/addPowerup";
 export const POWERUP_ENTITY_SELECT_IID = "POWERUP_ENTITY_IID/select";
 // export const POWERUP_ENTITY_MORE_IID = "POWERUP_ENTITY_IID/more";
 
+export const ENTITY_LAYER_IID = 'entity/layer'
+export const ENTITY_VISIBILITY_IID = 'entity/visibility'
+export const ENTITY_DATA_SOURCE_IID = 'entity/lock'
+export const CHANGE_ENTITY_INTERFACE_IID = "entity/changeEntityInterface";
+export const ENTITY_RELATION_TAGS_IID = "entity/relationTags";
 
-export const CLASS_LAYER_IID = 'model/layer'
-export const CLASS_VISIBILITY_IID = 'model/visibility'
-export const CLASS_LOCK_IID = 'model/lock'
-export const CLASS_UNLOCKABLE_IID = 'model/unlockable'
-export const CHANGE_CLASS_TYPE_IID = "model/changeEntityType";
-export const CLASS_RELATION_TAGS_IID = "model/relationTags";
+export const ENTITY_BOX_IID = "entity/box";
 
 export function getSelectEntityFromEntityType(entityInterfaceId) {
   if(entityInterfaceId === PLAYER_ENTITY_IID) return PLAYER_ENTITY_SELECT_IID

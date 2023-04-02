@@ -4,12 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { closeEntityBoxModal } from '../../../store/actions/game/gameSelectorActions';
-import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
-import EntityItem from '../EntityItem/EntityItem';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import './EntityBoxModal.scss'
+import EntityBoxList from '../EntityBoxList/EntityBoxList';
 
-const EntityBoxModal = ({ closeEntityBoxModal, gameSelector: { classBoxEntityType }, gameModel : { gameModel : { entityModels }} }) => {
+const EntityBoxModal = ({ closeEntityBoxModal, gameSelector: { entityBoxModelType }, gameModel : { gameModel : { entityModels }} }) => {
   function handleClose() {
     closeEntityBoxModal()
   }
@@ -17,18 +16,12 @@ const EntityBoxModal = ({ closeEntityBoxModal, gameSelector: { classBoxEntityTyp
   const entityModelsToSelect = Object.keys(entityModels).map((entityModelId) => {
     return entityModels[entityModelId]
   }).filter((entityModel) => {
-    return entityModel.entityInterfaceId === classBoxEntityType
-  }).map((entityModel) => {
-    return <EntityItem onClick={handleClose} entityModelId={entityModel.entityModelId}></EntityItem>
+    return entityModel.entityInterfaceId === entityBoxModelType
   })
 
   return <CobrowsingModal open onClose={handleClose}>
     <div className="EntityBoxModal">
-      <BorderedGrid
-     height="3.3em"
-        width="3.95em"
-        items={entityModelsToSelect}
-      />
+      <EntityBoxList entityModels={entityModelsToSelect} onClose={handleClose}/>
     </div>
   </CobrowsingModal>
 }

@@ -4,14 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectEntityModel.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { entityModelTypeToDisplayName, IS_DATA_LOCKED, IS_DATA_REMOVED } from '../../constants';
+import { entityModelTypeToDisplayName, IS_DATA_REMOVED } from '../../constants';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CLASS_UNLOCKABLE_IID, SELECTOR_MORE_IID, SELECT_ENTITY_MODEL_IID, SELECT_RELATION_TAG_IID } from '../../../constants/interfaceIds';
+import { SELECTOR_MORE_IID, SELECT_ENTITY_MODEL_IID } from '../../../constants/interfaceIds';
 import Icon from '../../../ui/Icon/Icon';
 import { MenuItem, MenuList } from '@mui/material';
 import DataSourceVisibilityMenu from '../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu';
 import CobrowsingMenuIconButton from '../../cobrowsing/CobrowsingMenuIconButton/CobrowsingMenuIconButton';
-import { getInterfaceIdData } from '../../../utils';
 
 const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameModel, entityModelType, gameSelector: { selectorClassInvisibility } }) => {
 
@@ -20,11 +19,8 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
 
     const isDataSourceInvisible = selectorClassInvisibility[SELECT_ENTITY_MODEL_IID][entityModel.dataSource]
     const isRemovedInvisible = entityModel.isRemoved && selectorClassInvisibility[SELECT_ENTITY_MODEL_IID][IS_DATA_REMOVED]
-    const interfaceId = entityModel.entityInterfaceId + '/' + CLASS_UNLOCKABLE_IID + '/' + entityModel.entityModelId
-    const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
-    const isLockedInvisible = entityModel.editorInterface.requiresUnlocking && isObscured && selectorClassInvisibility[SELECT_RELATION_TAG_IID][IS_DATA_LOCKED]
 
-    const isRemoved = isDataSourceInvisible || isLockedInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromInterfaceIds[interfaceId]
+    const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromInterfaceIds[interfaceId]
 
     return {
       label: entityModel.name,

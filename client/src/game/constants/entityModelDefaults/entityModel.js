@@ -12,6 +12,7 @@ export const defaultEntity = {
   // lastSelectedDate: 0,
   lastEditedDate: 0,
   isRemoved: false,
+  isImported: false,
   boundaryRelation: BOUNDARY_COLLIDE,
   entityModelId: null,
   movement: {

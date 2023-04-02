@@ -4,7 +4,7 @@ import { CANVAS_IMAGE_ID_PREFIX, newTextureSize } from '../../../game/constants'
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 
 import { 
-  OPEN_CREATE_CLASS_FLOW,
+  OPEN_EDIT_ENTITY_GRAPHICS,
   CLOSE_CREATE_CLASS_FLOW,
   UPDATE_CREATE_CLASS,
   OPEN_CREATE_COLOR_FLOW,
@@ -68,13 +68,13 @@ export const clearGameFormEditor = () => (dispatch, getState) => {
   });
 }
 
-export const openEditEntityGraphics = (entityModel) => (dispatch, getState) => {
+export const openEditEntityGraphics = (interfaceId, entityModel) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_CREATE_CLASS_FLOW,
-    payload: { entityModel: _.cloneDeep(entityModel) }
+    type: OPEN_EDIT_ENTITY_GRAPHICS,
+    payload: { interfaceId, entityModel: _.cloneDeep(entityModel) }
   });
 }
 

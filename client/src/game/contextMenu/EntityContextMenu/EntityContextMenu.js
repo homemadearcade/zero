@@ -10,7 +10,7 @@ import { CAMERA_EDITOR, PLAYER_ENTITY_IID, JUMP_EDITOR, MOVEMENT_EDITOR, ENTITY_
 import { entityModelTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
-import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_EDIT_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID, CONTEXT_MENU_INSTANCE_JSON_IID } from '../../../constants/interfaceIds';
+import { CONTEXT_MENU_CLASS_CAMERA_IID, CONTEXT_MENU_CLASS_DUPLICATE_IID, CONTEXT_MENU_CLASS_GRAPHICS_IID, CONTEXT_MENU_CLASS_JUMP_IID, CONTEXT_MENU_CLASS_MOVEMENT_IID, CONTEXT_MENU_CLASS_EDIT_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, CONTEXT_MENU_CLASS_RELATIONS_IID, CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID, CONTEXT_MENU_INSTANCE_JSON_IID, SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
 import { addEntityModelToLibrary } from '../../../store/actions/library/entityModelLibraryActions';
 
     // <Unlockable interfaceId={CONTEXT_MENU_CLASS_RELATIONS_IID}>
@@ -48,10 +48,9 @@ const EntityContextMenu = ({
       openEditEntityModal(entityModel)
       onMenuItemClick()
     }}>{entityModel.name}</ContextMenuTitle>}
-    {entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={CONTEXT_MENU_CLASS_SELECT_PLAYER_IID}>
+    {!insideEntityInstanceContextMenu && entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={CONTEXT_MENU_CLASS_SELECT_PLAYER_IID}>
       <MenuItem disabled={entityModelId === playerEntityModelId} 
       onClick={() => {
-        console.log('??')
         editGameModel({
           stages: {
             [currentStageId] : {
@@ -70,7 +69,7 @@ const EntityContextMenu = ({
     </Unlockable>
     <Unlockable interfaceId={CONTEXT_MENU_CLASS_GRAPHICS_IID}>
       <MenuItem onClick={() => {
-        openEditEntityGraphics(entityModel)
+        openEditEntityGraphics(SELECTOR_ENTITY_BY_CLASS_IID, entityModel)
         onMenuItemClick()
       }}>Edit Graphics</MenuItem>
     </Unlockable>
@@ -136,7 +135,7 @@ const EntityContextMenu = ({
             onMenuItemClick()
           }}>Remove</MenuItem>
         </Unlockable>}
-        {<Unlockable interfaceId={CONTEXT_MENU_INSTANCE_JSON_IID}>
+        {!insideEntityInstanceContextMenu && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_JSON_IID}>
       <MenuItem onClick={() => {
         openJsonViewer(entityModel)
         onMenuItemClick()

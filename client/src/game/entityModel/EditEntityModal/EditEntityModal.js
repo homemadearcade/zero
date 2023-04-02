@@ -11,7 +11,7 @@ import Button from '../../../ui/Button/Button';
 import { closeEditEntityModal, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import SelectEntityModelInterfaceCategory from '../../ui/SelectEntityModelInterfaceCategory/SelectEntityModelInterfaceCategory';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_CLASS_TYPE_IID, CLASS_RELATION_TAGS_IID } from '../../../constants/interfaceIds';
+import { CHANGE_ENTITY_INTERFACE_IID, ENTITY_RELATION_TAGS_IID, SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 import { entityModelTypeToDisplayName, entityModelTypeToPrefix, ENTITY_MODEL_ID_PREFIX } from '../../constants';
@@ -47,8 +47,8 @@ const EditEntityModal = ({ openEditEntityGraphics, updateCreateEntity, closeEdit
   }
 
   function renderTagSelect() {
-    return <Unlockable interfaceId={CLASS_RELATION_TAGS_IID}>
-        <SelectRelationTag interfaceId={CLASS_RELATION_TAGS_IID} removeEntityTags formLabel="Relationship Tags" value={entityModel.relationTags ? Object.keys(entityModel.relationTags).filter((relationTagId) => {
+    return <Unlockable interfaceId={ENTITY_RELATION_TAGS_IID}>
+        <SelectRelationTag interfaceId={ENTITY_RELATION_TAGS_IID} removeEntityTags formLabel="Relationship Tags" value={entityModel.relationTags ? Object.keys(entityModel.relationTags).filter((relationTagId) => {
           return !!entityModel.relationTags[relationTagId]
         }) : []} onChange={(event, relationTags) => {
 
@@ -79,7 +79,7 @@ const EditEntityModal = ({ openEditEntityGraphics, updateCreateEntity, closeEdit
   }
 
   function renderSelectCategory() {
-    return <Unlockable interfaceId={CHANGE_CLASS_TYPE_IID}>
+    return <Unlockable interfaceId={CHANGE_ENTITY_INTERFACE_IID}>
         <SelectEntityModelInterfaceCategory formLabel="Category" value={entityModel.entityInterfaceId ? [entityModel.entityInterfaceId]: []} onChange={(event, entityInterfaceId) => {
           if(!entityInterfaceId.length) return
           updateCreateEntity({
@@ -104,7 +104,7 @@ const EditEntityModal = ({ openEditEntityGraphics, updateCreateEntity, closeEdit
       <div className="EditEntityModal__header">
         <div className="EditEntityModal__texture-stage">
           <TextureStage onClickIcon={() => {
-            openEditEntityGraphics(entityModel)
+            openEditEntityGraphics(SELECTOR_ENTITY_BY_CLASS_IID, entityModel)
             closeEditEntityModal()
           }} overlayIcon={'faPenToSquare'} textureId={entityModel.graphics.textureId} textureTint={entityModel.graphics.textureTint}>
               

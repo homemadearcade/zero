@@ -1,5 +1,5 @@
 import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_GAME_MODEL, RELATION_TAG_ID_PREFIX, RELATION_TAG_GENERAL_IID } from ".."
-import { CLASS_RELATION_TAGS_IID } from "../../../constants/interfaceIds"
+import { ENTITY_RELATION_TAGS_IID } from "../../../constants/interfaceIds"
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
 
 export const defaultRelationTag = {
@@ -52,7 +52,7 @@ export const winGameWhenAllDestroyedTagId = RELATION_TAG_ID_PREFIX+'winGameWhenA
 
 export const initialTags = {
   [playerRelationTagId]: createLibraryTag(playerRelationTagId, 'Player', '#FFFF00', {
-    [CLASS_RELATION_TAGS_IID]: true,
+    [ENTITY_RELATION_TAGS_IID]: true,
   }),
   [gameOverOnTouchTagId]: createLibraryTag(gameOverOnTouchTagId, 'Game Over on Touch', '#FF0000'),
   [gameOverWhenAllDestroyedTagId]: createLibraryTag(gameOverWhenAllDestroyedTagId, 'Game Over when all Destroyed', '#FF0000'),

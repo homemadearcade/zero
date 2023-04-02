@@ -3,7 +3,7 @@ import { defaultRelationship } from '../../../game/constants';
 import { mergeDeep } from '../../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,
-  OPEN_CREATE_CLASS_FLOW,
+  OPEN_EDIT_ENTITY_GRAPHICS,
   CLOSE_CREATE_CLASS_FLOW,
   UPDATE_CREATE_CLASS,
   OPEN_CREATE_COLOR_FLOW,
@@ -164,14 +164,14 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         ...state,
         entityModel: mergeDeep(state.entityModel, payload.entityModel)
       }
-    case OPEN_CREATE_CLASS_FLOW: 
+    case OPEN_EDIT_ENTITY_GRAPHICS: 
       return {
         ...state,
         entityModel: {
           ..._.cloneDeep(initialState.entityModel),
           ...payload.entityModel ? _.cloneDeep(payload.entityModel) : {}
         },
-        isEditEntityGraphicsOpen: true
+        isEditEntityGraphicsOpen: payload.interfaceId
       }
     case CLOSE_CREATE_CLASS_FLOW: 
       return {

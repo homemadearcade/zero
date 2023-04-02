@@ -21,7 +21,6 @@ export const vehicleEntity = {
   },
   editorInterface: {
     ...defaultProps.editorInterface,
-    requiresUnlocking: true,
   },
   "movement": {
     ...vehicleDefaults.movement
@@ -41,10 +40,6 @@ export const jumperEntity = {
 
     // "textureId": "oryx-lofi-scifi-creatures-8px-sprite141",
   },
-  editorInterface: {
-    ...defaultProps.editorInterface,
-    requiresUnlocking: true,
-  },
   movement: {
     ...advancedDirectionalDefaults.movement,
     ...jumpMovementDefaults.movement
@@ -63,10 +58,6 @@ export const directionalEntity = {
   graphics: {
     textureTint: '#FFFFFF',
     // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",
-  },
-  editorInterface: {
-    ...defaultProps.editorInterface,
-    requiresUnlocking: true,
   },
   movement: {
     ...directionalDefaults.movement

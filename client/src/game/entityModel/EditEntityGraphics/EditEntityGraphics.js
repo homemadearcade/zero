@@ -13,13 +13,13 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getEntityDisplayName } from '../../../utils/gameUtils';
 import EntityMemberTitle from '../EntityMemberTitle/EntityMemberTitle';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { entityModelTypeToDisplayName, LAYER_ID_PREFIX } from '../../constants';
+import { DATA_SOURCE_USER_LIBRARY, entityModelTypeToDisplayName, LAYER_ID_PREFIX } from '../../constants';
 import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { PLAYER_ENTITY_IID, ENTITY_MODEL_ID_PREFIX, PLAYGROUND_LAYER_ID, ZONE_ENTITY_IID, entityModelTypeToPrefix } from '../../constants';
-import { CLASS_LAYER_IID, CLASS_LOCK_IID, CLASS_VISIBILITY_IID } from '../../../constants/interfaceIds';
+import { ENTITY_LAYER_IID, ENTITY_DATA_SOURCE_IID, ENTITY_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 
 const EditEntityGraphics = ({ 
@@ -44,7 +44,7 @@ const EditEntityGraphics = ({
     <div className="EditEntityGraphics">
       {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelTypeToDisplayName[entityModel.entityInterfaceId]}</Typography>}
       {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Graphics"></EntityMemberTitle>}
-      <Unlockable interfaceId={CLASS_VISIBILITY_IID}>
+      <Unlockable interfaceId={ENTITY_VISIBILITY_IID}>
         <Switch
           labels={['Visible', 'Invisible']}
           size="small"
@@ -107,7 +107,7 @@ const EditEntityGraphics = ({
             }})
           }}
       />}
-      {entityModel.entityInterfaceId !== ZONE_ENTITY_IID && entityModel.entityInterfaceId !== PLAYER_ENTITY_IID && <Unlockable interfaceId={CLASS_LAYER_IID}>
+      {entityModel.entityInterfaceId !== ZONE_ENTITY_IID && entityModel.entityInterfaceId !== PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_LAYER_IID}>
         <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerId ? [entityModel.graphics.layerId] : [LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateEntity({ graphics: {
@@ -116,18 +116,6 @@ const EditEntityGraphics = ({
         }}/>
       </Unlockable>}
       {entityModel.isNew && <EntityNameForm isEditingInitially></EntityNameForm>}
-      {entityModel.isNew && <Unlockable interfaceId={CLASS_LOCK_IID}>
-        <Switch
-          labels={['Normal', 'Hide from UI unless unlocked']}
-          size="small"
-          onChange={(e) => {
-            updateCreateEntity({ editorInterface: {
-              requiresUnlocking: e.target.checked
-            } })          
-          }}
-          checked={entityModel.editorInterface.requiresUnlocking}
-         />
-      </Unlockable>}
       <Button
         disabled={!!entityModel.error || !entityModel.name.length}
         onClick={() => {

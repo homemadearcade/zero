@@ -14,13 +14,14 @@ import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
-import { PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID, stageDefaultTypeProperties, POWERUP_ENTITY_IID, defaultPowerupEntity, defaultZoneEntity, defaultBasicEntity, defaultPlayerEntity, defaultNpcEntity, IS_DATA_REMOVED, IS_DATA_LOCKED } from '../../constants';
+import { PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, ZONE_ENTITY_IID, stageDefaultTypeProperties, POWERUP_ENTITY_IID, defaultPowerupEntity, defaultZoneEntity, defaultBasicEntity, defaultPlayerEntity, defaultNpcEntity, IS_DATA_REMOVED, DATA_SOURCE_USER_LIBRARY, DATA_SOURCE_GAME_MODEL, entityModelTypeToDisplayName, entityModelTypeToContainerIID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import { BASIC_ENTITY_ADD_IID, BASIC_ENTITY_CONTAINER_IID, CLASS_UNLOCKABLE_IID, getSelectEntityFromEntityType, NPC_ENTITY_ADD_IID, NPC_ENTITY_CONTAINER_IID, OPEN_CLASS_BOX_IID, PLAYER_ENTITY_ADD_IID, PLAYER_ENTITY_CONTAINER_IID, POWERUP_ENTITY_ADD_IID, POWERUP_ENTITY_CONTAINER_IID, SELECTOR_ENTITY_BY_CLASS_IID, ZONE_ENTITY_ADD_IID, ZONE_ENTITY_CONTAINER_IID } from '../../../constants/interfaceIds';
+import { BASIC_ENTITY_ADD_IID, BASIC_ENTITY_CONTAINER_IID,  getSelectEntityFromEntityType, NPC_ENTITY_ADD_IID, NPC_ENTITY_CONTAINER_IID, OPEN_ENTITY_BOX_IID, PLAYER_ENTITY_ADD_IID, PLAYER_ENTITY_CONTAINER_IID, POWERUP_ENTITY_ADD_IID, POWERUP_ENTITY_CONTAINER_IID, SELECTOR_ENTITY_BY_CLASS_IID, ZONE_ENTITY_ADD_IID, ZONE_ENTITY_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxModal } from '../../../store/actions/game/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
-import SelectorMoreMenu from '../../selector/SelectorMoreMenu/SelectorMoreMenu';
-import { getInterfaceIdData } from '../../../utils';
+import { addEntityModelToLibrary } from '../../../store/actions/library/entityModelLibraryActions';
+import Icon from '../../../ui/Icon/Icon';
+import EntityModelAdd from '../EntityModelAdd/EntityModelAdd';
 
 const CLASS_MAX = 16
 
@@ -31,7 +32,8 @@ const EntityList = ({
   editGameModel,
   openEditEntityGraphics,
   gameViewEditor: {layerInvisibility},
-  openEntityBoxModal
+  openEntityBoxModal,
+  addEntityModelToLibrary, 
 }) => {
   const entityModels = gameModel?.entityModels
 
@@ -39,47 +41,16 @@ const EntityList = ({
     return null
   }
 
-  function isDataSourceInvisible(entityModel) {
-    const dataSource = entityModel.dataSource
-    const selectorClass = entityModel.entityInterfaceId
-    return selectorClassInvisibility[selectorClass][dataSource]
-  }
-  function isRemovedDataInvisible(entityModel) {
-    const isRemoved = entityModel.isRemoved
-    const selectorClass = entityModel.entityInterfaceId
-    return isRemoved && selectorClassInvisibility[selectorClass][IS_DATA_REMOVED]
-  }
-
   const renderEntityItem = (entityModelType) =>  (currentEntityModelId, i) => {
     const el = <EntityItem key={i} entityModelId={currentEntityModelId}/>
-    const currentEntityModel = entityModels[currentEntityModelId]
-    if(currentEntityModel.editorInterface.requiresUnlocking) {
-      // if this is uncommented thats great but it has extra fireworks in cobrowsing...
-
-      // const interfaceIdToUnlock = entityModelType + '/' + CLASS_UNLOCKABLE_IID + '/' + currentEntityModel.entityModelId
-      // const {isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceIdToUnlock)
-      // if(isObscured) return null
-      const interfaceId = currentEntityModel.entityInterfaceId + '/' + CLASS_UNLOCKABLE_IID + '/' + currentEntityModel.entityModelId
-      const { isObscured } = getInterfaceIdData(CLASS_UNLOCKABLE_IID, interfaceId)
-      if(isObscured && selectorClassInvisibility[currentEntityModel.entityInterfaceId][IS_DATA_LOCKED]) {
-       return <Unlockable interfaceIdPrefix={entityModelType} interfaceId={CLASS_UNLOCKABLE_IID} interfaceIdExtension={currentEntityModel.entityModelId}>
-          {el}
-        </Unlockable>
-      }
-
-      return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelType)}>
-        {el}
-      </Unlockable>
-    } else {
-      return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelType)}>
-        {el}
-      </Unlockable>
-    }
+    return <Unlockable interfaceId={getSelectEntityFromEntityType(entityModelType)}>
+      {el}
+    </Unlockable>
   }
 
   function renderEntityBoxButton(entityModelType){
-    return <Unlockable interfaceId={OPEN_CLASS_BOX_IID}>
-      <Button size="fit" className="EntityList__more" onClick={() => {
+    return <Unlockable interfaceId={OPEN_ENTITY_BOX_IID}>
+      <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
         openEntityBoxModal(entityModelType)
       }}>
         More
@@ -89,211 +60,61 @@ const EntityList = ({
 
   const filterEntityModels = (entityModelType) => (currentEntityModelId) => {
     const currentEntityModel = entityModels[currentEntityModelId]
+    if(currentEntityModel.isRemoved) return 
     if(currentEntityModel.editorInterface.hiddenFromInterfaceIds[SELECTOR_ENTITY_BY_CLASS_IID]) return false
+    if(currentEntityModel.dataSource !== DATA_SOURCE_GAME_MODEL && !currentEntityModel.isImported) return false 
     if(currentEntityModel.entityInterfaceId === entityModelType) {
-      if(isDataSourceInvisible(currentEntityModel)) return false
-      if(isRemovedDataInvisible(currentEntityModel)) return false
       return true
     }
     return false
   }
 
-  function addDefaultValuesToPlayerEntity(entityModel) {
-    const defaultType = gameModel.stages[currentStageId].defaultType
-    if(!defaultType) return entityModel
-    const defaultTypeProperties = stageDefaultTypeProperties[defaultType]
-    const defaultEntityModel = entityModels[defaultTypeProperties].playerEntityModelId
-    return {...entityModel, ...defaultEntityModel}
-  }
-
-  const playerEntityModels = Object.keys(entityModels).
-    filter(filterEntityModels(PLAYER_ENTITY_IID)).
-    sort(sortByLastEditedDate(entityModels)).
-    map(renderEntityItem(PLAYER_ENTITY_IID)).filter((item) => !!item).slice(0, CLASS_MAX -1)
-  
-  playerEntityModels.push(<Unlockable interfaceId={PLAYER_ENTITY_ADD_IID}>
-    <Button size="fit" 
-      onClick={() => {
-        openEditEntityGraphics(addDefaultValuesToPlayerEntity({...defaultPlayerEntity}))
-      }}>
-      +
-    </Button>
-  </Unlockable>)
-
-  const npcModels = Object.keys(entityModels).
-    filter(filterEntityModels(NPC_ENTITY_IID)).
-    sort(sortByLastEditedDate(entityModels)).
-    map(renderEntityItem(NPC_ENTITY_IID)).filter((item) => !!item).slice(0, CLASS_MAX -1)
-
-  npcModels.push(<Unlockable interfaceId={NPC_ENTITY_ADD_IID}>
-    <Button size="fit" className="EntityList__add" onClick={() => {
-      openEditEntityGraphics(defaultNpcEntity)
-    }}>
-      +
-    </Button>
-  </Unlockable>)
-
-  const basicModels = Object.keys(entityModels).
-    filter(filterEntityModels(BASIC_ENTITY_IID)).
-    sort(sortByLastEditedDate(entityModels)).
-    map(renderEntityItem(BASIC_ENTITY_IID)).filter((item) => !!item).slice(0, CLASS_MAX -1)
-
-
-  basicModels.push(<Unlockable interfaceId={BASIC_ENTITY_ADD_IID}>
-    <Button size="fit" className="EntityList__add" onClick={() => {
-      openEditEntityGraphics(defaultBasicEntity)
-    }}>
-      +
-    </Button>
-  </Unlockable>)
-
-  const powerupModels = Object.keys(entityModels).
-    filter(filterEntityModels(POWERUP_ENTITY_IID)).
-    sort(sortByLastEditedDate(entityModels)).
-    map(renderEntityItem(POWERUP_ENTITY_IID)).filter((item) => !!item).slice(0, CLASS_MAX -1)
-
-  powerupModels.push(<Unlockable interfaceId={POWERUP_ENTITY_ADD_IID}>
-    <Button size="fit" className="EntityList__add" onClick={() => {
-      openEditEntityGraphics(defaultPowerupEntity)
-    }}>
-      +
-    </Button>
-  </Unlockable>)
-
-  const zoneModels = Object.keys(entityModels).
-    filter(filterEntityModels(ZONE_ENTITY_IID)).
-    sort(sortByLastEditedDate(entityModels)).
-    map(renderEntityItem(ZONE_ENTITY_IID)).filter((item) => !!item).
-    slice(0, CLASS_MAX -1)
-
-  zoneModels.push(<Unlockable interfaceId={ZONE_ENTITY_ADD_IID}>
-    <Button size="fit" className="EntityList__add" onClick={() => {
-      openEditEntityGraphics(defaultZoneEntity)
-    }}>
-      +
-    </Button>
-  </Unlockable>)
-
   const accordians = []
-
   const hiddenOpacity = 0.5
-  accordians.push({
-    interfaceId: PLAYER_ENTITY_CONTAINER_IID,
-    sx: layerInvisibility[PLAYER_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography component="div" variant="subtitle1">Players</Typography>
-    </>,
-    moreMenu: <SelectorMoreMenu selectorClass={PLAYER_ENTITY_IID} />,
-    moreMenuInterfaceId: PLAYER_ENTITY_IID,
-    body: <>
-      <BorderedGrid
-        maxItems={CLASS_MAX} 
-        height="3.3em"
-        width="3.95em"
-        items={playerEntityModels}
-      />
-      <div className="EntityList__tools">
-        <LayerVisibility layerId={PLAYER_ENTITY_IID} />
-        {Object.keys(playerEntityModels).length >= CLASS_MAX && renderEntityBoxButton(PLAYER_ENTITY_IID)}
-      </div>
-    </>
-  })
 
-  accordians.push({
-    interfaceId: NPC_ENTITY_CONTAINER_IID,
-    sx: layerInvisibility[NPC_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography component="div" variant="subtitle1">NPCs</Typography>
-    </>,
-    moreMenu: <SelectorMoreMenu selectorClass={NPC_ENTITY_IID} />,
-    moreMenuInterfaceId: NPC_ENTITY_IID,
-    body: <>
-      <BorderedGrid
-      maxItems={CLASS_MAX} 
-      height="3.3em"
-        width="3.95em"
-      items={npcModels}
-      />
-      <div className="EntityList__tools">
-        <LayerVisibility layerId={NPC_ENTITY_IID} />
-        {Object.keys(npcModels).length >= CLASS_MAX && renderEntityBoxButton(NPC_ENTITY_IID)}
-      </div>
-    </>
-  })
+  const entityModelTypes = [PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, POWERUP_ENTITY_IID, ZONE_ENTITY_IID]
+  entityModelTypes.forEach((entityInterfaceId) => {
+    const releventEntityModels = Object.keys(entityModels).
+      filter(filterEntityModels(entityInterfaceId)).
+      sort(sortByLastEditedDate(entityModels)).
+      map(renderEntityItem(entityInterfaceId)).filter((item) => !!item).slice(0, CLASS_MAX -1)
+    
+    releventEntityModels.push(<EntityModelAdd parentInterfaceId={SELECTOR_ENTITY_BY_CLASS_IID} entityInterfaceId={entityInterfaceId}>
+      {(onClick) => {
+        return <Button className="EntityList__add" onClick={onClick}>
+          +
+        </Button>
+      }}
+    </EntityModelAdd>)
 
-  accordians.push({
-    interfaceId: BASIC_ENTITY_CONTAINER_IID,
-    sx: layerInvisibility[BASIC_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography component="div" variant="subtitle1">Objects</Typography>
-    </>,
-    moreMenu: <SelectorMoreMenu selectorClass={BASIC_ENTITY_IID} />,
-    moreMenuInterfaceId: BASIC_ENTITY_IID,
-    body: <>
-      <BorderedGrid
-        maxItems={CLASS_MAX} 
-        height="3.3em"
-        width="3.95em"
-        items={basicModels}
-      />
-      <div className="EntityList__tools">
-        <LayerVisibility layerId={BASIC_ENTITY_IID} />
-        {Object.keys(basicModels).length >= CLASS_MAX && renderEntityBoxButton(BASIC_ENTITY_IID)}
-      </div>
-    </>
-  })
+    accordians.push({
+      interfaceId: entityModelTypeToContainerIID[entityInterfaceId],
+      sx: layerInvisibility[entityInterfaceId] ? {opacity: hiddenOpacity} : {},
+      title: <>
+        <Typography component="div" variant="subtitle1">{entityModelTypeToDisplayName[entityInterfaceId]}</Typography>
+      </>,
+      body: <>
+        <BorderedGrid
+          maxItems={CLASS_MAX} 
+          height="3.3em"
+          width="3.95em"
+          items={releventEntityModels}
+        />
+        <div className="EntityList__tools">
+          <LayerVisibility layerId={entityInterfaceId} />
+          {renderEntityBoxButton(entityInterfaceId)}
+        </div>
+      </>
+    })
 
-  accordians.push({
-    interfaceId: POWERUP_ENTITY_CONTAINER_IID,
-    sx: layerInvisibility[POWERUP_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography component="div" variant="subtitle1">Power Ups</Typography>
-    </>,
-    moreMenu: <SelectorMoreMenu selectorClass={POWERUP_ENTITY_IID} />,
-    moreMenuInterfaceId: POWERUP_ENTITY_IID,
-    body: <>
-      <BorderedGrid
-        maxItems={CLASS_MAX} 
-        height="3.3em"
-        width="3.95em"
-        items={powerupModels}
-      />
-      <div className="EntityList__tools">
-        <LayerVisibility layerId={POWERUP_ENTITY_IID} />
-        {Object.keys(powerupModels).length >= CLASS_MAX && renderEntityBoxButton(POWERUP_ENTITY_IID)}
-      </div>
-    </>
   })
-
-  accordians.push({
-    interfaceId: ZONE_ENTITY_CONTAINER_IID,
-    moreMenu: <SelectorMoreMenu selectorClass={ZONE_ENTITY_IID} />,
-    moreMenuInterfaceId: ZONE_ENTITY_IID,
-    sx: layerInvisibility[ZONE_ENTITY_IID] ? {opacity: hiddenOpacity} : {},
-    title: <>
-      <Typography component="div" variant="subtitle1">Zones</Typography>
-    </>,
-    body: <>
-      <BorderedGrid
-        maxItems={CLASS_MAX} 
-        height="3.3em"
-        width="3.95em"
-        items={zoneModels}
-      />
-      <div className="EntityList__tools">
-        <LayerVisibility layerId={ZONE_ENTITY_IID} />
-        {Object.keys(zoneModels).length >= CLASS_MAX && renderEntityBoxButton(ZONE_ENTITY_IID)}
-      </div>
-    </>
-  })
-
 
   return <div className="EntityList">
     <CobrowsingAccordianList
       interfaceGroupId="SelectorColumns"
       accordians={accordians}
     />
-    {isEditEntityGraphicsOpen && <EditEntityGraphics 
+    {isEditEntityGraphicsOpen === SELECTOR_ENTITY_BY_CLASS_IID && <EditEntityGraphics 
       onComplete={(entityModel) => {
         editGameModel({
           entityModels: {
@@ -322,5 +143,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openEditEntityGraphics, openCreateCutscene, openEntityBoxModal }),
+  connect(mapStateToProps, { editGameModel, openEditEntityGraphics, openCreateCutscene, openEntityBoxModal, addEntityModelToLibrary }),
 )(EntityList);

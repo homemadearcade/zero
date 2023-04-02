@@ -75,7 +75,7 @@ export const defaultGameModel = {
           playerTeleportToRelationTag: true,
         spawnOntoStageEffect: true,
         destroyAllEffect: false,
-        // automaticEntityTag: true,
+        automaticEntityTag: true,
       },
       graphics: {
         ...defaultZoneEntity.graphics,
@@ -103,7 +103,7 @@ export const defaultGameModel = {
           playerTeleportToRelationTag: false,
         spawnOntoStageEffect: false,
         destroyAllEffect: false,
-        // automaticEntityTag: true,
+        automaticEntityTag: true,
       },
       collisionResponse: {
         ...mirrorPlayerDefaults.collisionResponse,
@@ -136,7 +136,7 @@ export const defaultGameModel = {
           playerTeleportToRelationTag: false,
         spawnOntoStageEffect: false,
         destroyAllEffect: false,
-        // automaticEntityTag: true,
+        automaticEntityTag: true,
       },
       collisionResponse: {
         ...mirrorPlayerDefaults.collisionResponse,

@@ -46,7 +46,7 @@ const initialState = {
   },
 
   isEntityBoxModalOpen: false,
-  classBoxEntityType: null,
+  entityBoxModelType: null,
   isSelectAggregateColorOpen: null,
   currentSelectorListInterfaceId: SELECTOR_ENTITY_BY_CLASS_IID,
 };
@@ -179,13 +179,13 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         isEntityBoxModalOpen: true,
-        classBoxEntityType: payload.entityModelType
+        entityBoxModelType: payload.entityModelType
       }
     case CLOSE_CLASS_BOX_MODAL:
       return {
         ...state,
         isEntityBoxModalOpen: false,
-        classBoxEntityType: null
+        entityBoxModelType: null
       }
     case OPEN_JSON_VIEWER: 
       return {

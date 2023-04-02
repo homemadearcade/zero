@@ -1,6 +1,6 @@
 export const TOGGLE_ALL_PARAMS_IID = 'selector/toggleAllParams';
 export const LAYER_VISIBILITY_IID = 'selector/layerInvisibility';
-export const OPEN_CLASS_BOX_IID = "selector/openEntityBox";
+export const OPEN_ENTITY_BOX_IID = "selector/openEntityBox";
 export const HOVER_PREVIEW_IID = "selector/hoverPreview";
 export const CHANGE_SELECTOR_TAB_IID = "selector/changeTab";
 export const SELECTOR_MORE_IID = "selector/more";
@@ -16,5 +16,5 @@ export const SELECTOR_PROMPT_ENTRY_IID = 'SELECTOR_PROMPT_ENTRY'
 export const SELECTOR_ENTITY_BY_TAG_LIST_IID = 'SELECTOR_ENTITY_BY_TAG_LIST'
 export const SELECTOR_ENTITY_MODEL_DETAIL_IID = 'SELECTOR_ENTITY_MODEL_DETAIL'
 
-export const IS_DATA_LOCKED_IID = 'IS_DATA_LOCKED_IID'
 export const IS_DATA_REMOVED_IID = 'IS_DATA_REMOVED_IID'
+export const IS_DATA_HIDDEN_IID = 'IS_DATA_HIDDEN_IID'
