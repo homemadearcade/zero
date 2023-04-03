@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { EntityInstance } from "./EntityInstance";
-import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, PROJECTILE_DOWN, PROJECTILE_LEFT, PROJECTILE_RANDOM_ANGLE, PROJECTILE_RANDOM_DIRECTION, PROJECTILE_RIGHT, PROJECTILE_TARGET_CLASS, PROJECTILE_TARGET_PLAYER, PROJECTILE_UP, VEHICLE_CONTROLS } from "../constants";
+import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP, PROJECTILE_DOWN, PROJECTILE_LEFT, PROJECTILE_RANDOM_ANGLE, PROJECTILE_RANDOM_DIRECTION, PROJECTILE_RIGHT, PROJECTILE_TARGET_ENTITY_MODEL, PROJECTILE_TARGET_PLAYER, PROJECTILE_UP, VEHICLE_CONTROLS } from "../constants";
 import store from "../../store";
 import { getAngleBetweenInstances } from "../../utils/gameUtils";
 
@@ -61,7 +61,7 @@ export class ProjectileInstance extends EntityInstance {
       rotation = directionToRadians[DIRECTION_LEFT]
     }
 
-    if(projectileBehavior === PROJECTILE_TARGET_CLASS) {
+    if(projectileBehavior === PROJECTILE_TARGET_ENTITY_MODEL) {
       const entityInstances = this.scene.getAllEntityInstancesOfEntityId(shooterEntity.projectile.targetEntityId)
       if(entityInstances.length) {
         rotation = getAngleBetweenInstances(shooter, entityInstances[0])

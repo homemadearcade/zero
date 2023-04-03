@@ -2,8 +2,8 @@ import { getCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getLayerIdFromColorId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { 
   CLOSE_LIVE_EDITOR,
-  SELECT_CLASS,
-  CLEAR_CLASS,
+  SELECT_ENTITY_MODEL,
+  CLEAR_SELECTED_ENTITY_MODEL,
   SELECT_BRUSH,
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
@@ -12,19 +12,19 @@ import {
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
-  OPEN_GAME_METADATA_MODAL,
-  CLOSE_GAME_METADATA_MODAL,
-  OPEN_GAME_TEXTURES_MODAL,
-  CLOSE_GAME_TEXTURES_MODAL,
+  OPEN_GAME_METADATA_DIALOG,
+  CLOSE_GAME_METADATA_DIALOG,
+  OPEN_GAME_TEXTURES_DIALOG,
+  CLOSE_GAME_TEXTURES_DIALOG,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   CLOSE_JSON_VIEWER,
   OPEN_JSON_VIEWER,
-  OPEN_CLASS_BOX_MODAL,
-  CLOSE_CLASS_BOX_MODAL,
+  OPEN_ENTITY_BOX_DIALOG,
+  CLOSE_ENTITY_BOX_DIALOG,
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
-  TOGGLE_SELECTOR_CLASS_INVISIBILITY,
+  TOGGLE_SELECTOR_ENTITY_INVISIBILITY,
 } from '../../types';
 
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
@@ -44,7 +44,7 @@ export const selectEntity = (entityModelId) => (dispatch, getState) => {
 
   dispatch({
     updateCobrowsing: true,
-    type: SELECT_CLASS,
+    type: SELECT_ENTITY_MODEL,
     payload: {
       entityModelIdSelectedEntityList: entityModelId, 
     }
@@ -74,7 +74,7 @@ export const changeSelectorList = (currentSelectorListInterfaceId) => (dispatch,
 export const clearEntity = (entityModelId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLEAR_CLASS,
+    type: CLEAR_SELECTED_ENTITY_MODEL,
   });
 }
 
@@ -136,41 +136,41 @@ export const openLiveEditor = (type, entityModelId) => (dispatch, getState) => {
   });
 }
 
-export const openEntityBoxModal = (entityModelType) => (dispatch, getState) => {
+export const openEntityBoxDialog = (entityModelType) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_CLASS_BOX_MODAL,
+    type: OPEN_ENTITY_BOX_DIALOG,
     payload: {
       entityModelType
     }
   });
 }
 
-export const closeEntityBoxModal = () => (dispatch, getState) => {
+export const closeEntityBoxDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_CLASS_BOX_MODAL,
+    type: CLOSE_ENTITY_BOX_DIALOG,
     payload: {}
   });
 }
 
-export const openGameMetadataModal = () => (dispatch, getState) => {
+export const openGameMetadataDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_GAME_METADATA_MODAL,
+    type: OPEN_GAME_METADATA_DIALOG,
     payload: {}
   });
 }
 
-export const closeGameMetadataModal = () => (dispatch, getState) => {
+export const closeGameMetadataDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_GAME_METADATA_MODAL,
+    type: CLOSE_GAME_METADATA_DIALOG,
     payload: {}
   });
 }
 
-export const openSelectStageColorModal= () => (dispatch, getState) => {
+export const openSelectStageColorDialog= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_SELECT_BACKGROUND_COLOR,
@@ -178,7 +178,7 @@ export const openSelectStageColorModal= () => (dispatch, getState) => {
   });
 }
 
-export const closeSelectStageColorModal= () => (dispatch, getState) => {
+export const closeSelectStageColorDialog= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_SELECT_BACKGROUND_COLOR,
@@ -242,18 +242,18 @@ export const clearEditor = () => (dispatch, getState) => {
   });
 }
 
-export const openGameTexturesModal = () => (dispatch, getState) => {
+export const openGameTexturesDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_GAME_TEXTURES_MODAL,
+    type: OPEN_GAME_TEXTURES_DIALOG,
     payload: {}
   });
 }
 
-export const closeGameTexturesModal = () => (dispatch, getState) => {
+export const closeGameTexturesDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_GAME_TEXTURES_MODAL,
+    type: CLOSE_GAME_TEXTURES_DIALOG,
     payload: {}
   });
 }
@@ -280,7 +280,7 @@ export const closeJsonViewer = () => (dispatch, getState) => {
 export const toggleSelectorClassInvisibility = (interfaceId, dataSourceId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: TOGGLE_SELECTOR_CLASS_INVISIBILITY,
+    type: TOGGLE_SELECTOR_ENTITY_INVISIBILITY,
     payload: {
       interfaceId,
       dataSourceId

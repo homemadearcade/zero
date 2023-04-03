@@ -1,0 +1,31 @@
+.CanvasImageDialog {
+  display: flex;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+
+  &__left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 30%;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__right-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1em;
+    align-items: center;
+    width: 30%;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+}

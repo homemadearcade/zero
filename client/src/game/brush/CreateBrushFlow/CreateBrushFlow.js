@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
-import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../../store/actions/game/gameFormEditorActions';
 import CreateTexture from '../../textures/CreateTexture/CreateTexture';
@@ -19,7 +19,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
     // clearGameFormEditor()
   }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
       <Unlockable interfaceId={CHOOSE_TEXTURES_IID}><SelectDescriptors 
@@ -56,7 +56,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
       </div>
     </div>
 
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

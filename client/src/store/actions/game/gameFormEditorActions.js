@@ -5,8 +5,8 @@ import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 
 import { 
   OPEN_EDIT_ENTITY_GRAPHICS,
-  CLOSE_CREATE_CLASS_FLOW,
-  UPDATE_CREATE_CLASS,
+  CLOSE_CREATE_ENTITY_FLOW,
+  UPDATE_CREATE_ENTITY_MODEL,
   OPEN_CREATE_COLOR_FLOW,
   CLOSE_CREATE_COLOR_FLOW,
   TOGGLE_EYE_DROPPER,
@@ -31,8 +31,8 @@ import {
   OPEN_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
-  OPEN_CLASS_EDIT_MODAL,
-  CLOSE_CLASS_EDIT_MODAL,
+  OPEN_ENTITY_EDIT_DIALOG,
+  CLOSE_ENTITY_EDIT_DIALOG,
   OPEN_CREATE_RELATION_TAG,
   CLOSE_CREATE_RELATION_TAG,
   UPDATE_CREATE_RELATION_TAG,
@@ -42,11 +42,10 @@ import {
   OPEN_CREATE_EVENT,
   CLOSE_CREATE_EVENT,
   UPDATE_CREATE_EVENT,
-  UPDATE_EDITING_EFFECT,
   UPDATE_CREATE_CANVAS_IMAGE,
-  OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING,
-  OPEN_CREATE_CANVAS_IMAGE_MODAL,
-  CLOSE_CREATE_CANVAS_IMAGE_MODAL,
+  OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING,
+  OPEN_CREATE_CANVAS_IMAGE_DIALOG,
+  CLOSE_CREATE_CANVAS_IMAGE_DIALOG,
 } from '../../types';
 import { addCanvasImage } from '../media/canvasImageActions';
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
@@ -81,7 +80,7 @@ export const openEditEntityGraphics = (interfaceId, entityModel) => (dispatch, g
 export const closeEditEntityGraphics = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_CREATE_CLASS_FLOW,
+    type: CLOSE_CREATE_ENTITY_FLOW,
     payload: {}
   });
 }
@@ -90,19 +89,19 @@ export const updateCreateEntity = (entityModel) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     noCobrowsingToolNeeded: true,
-    type: UPDATE_CREATE_CLASS,
+    type: UPDATE_CREATE_ENTITY_MODEL,
     payload: { entityModel }
   });
 }
 
-export const openCreateCanvasImageModal= (textureId) => async (dispatch, getState) => {
+export const openCreateCanvasImageDialog= (textureId) => async (dispatch, getState) => {
   const state = getState()
   const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_ID_PREFIX + generateUniqueId()
 
   try {
     dispatch({
       updateCobrowsing: true,
-      type: OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING,
+      type: OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING,
     });
 
     const canvasImage = await dispatch(addCanvasImage({
@@ -120,7 +119,7 @@ export const openCreateCanvasImageModal= (textureId) => async (dispatch, getStat
     dispatch({
       updateCobrowsing: true,
       noCobrowsingToolNeeded: true,
-      type: OPEN_CREATE_CANVAS_IMAGE_MODAL,
+      type: OPEN_CREATE_CANVAS_IMAGE_DIALOG,
       payload: {
         textureId: textureId,
         canvasImage,
@@ -131,10 +130,10 @@ export const openCreateCanvasImageModal= (textureId) => async (dispatch, getStat
   }
 }
 
-export const closeCreateCanvasImageModal = () => (dispatch, getState) => {
+export const closeCreateCanvasImageDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_CREATE_CANVAS_IMAGE_MODAL,
+    type: CLOSE_CREATE_CANVAS_IMAGE_DIALOG,
     payload: {}
   });
 }
@@ -162,18 +161,18 @@ export const openCreateColorFlow = (componentName, layerId) => (dispatch, getSta
   });
 }
 
-export const openEditEntityModal = (entityModel) => (dispatch, getState) => {
+export const openEditEntityDialog = (entityModel) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: OPEN_CLASS_EDIT_MODAL,
+    type: OPEN_ENTITY_EDIT_DIALOG,
     payload: { entityModel: _.cloneDeep(entityModel) }
   });
 }
 
-export const closeEditEntityModal = () => (dispatch, getState) => {
+export const closeEditEntityDialog = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
-    type: CLOSE_CLASS_EDIT_MODAL,
+    type: CLOSE_ENTITY_EDIT_DIALOG,
     payload: {}
   });
 }
@@ -261,7 +260,7 @@ export const closeStagesMenu= () => (dispatch, getState) => {
   });
 }
 
-export const openCreateStageModal = (initialStage) => (dispatch, getState) => {
+export const openCreateStageDialog = (initialStage) => (dispatch, getState) => {
   saveAllCurrentCanvases()
 
   dispatch({
@@ -271,7 +270,7 @@ export const openCreateStageModal = (initialStage) => (dispatch, getState) => {
   });
 }
 
-export const closeCreateStageModal= () => (dispatch, getState) => {
+export const closeCreateStageDialog= () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: CLOSE_CREATE_STAGE,

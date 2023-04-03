@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateRelationTag.scss';
-import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Button from '../../../ui/Button/Button';
@@ -45,7 +45,7 @@ const CreateRelationTag = ({ updateCreateRelationTag, closeCreateRelationTag, ed
     return <Button disabled={relationTag.error || !relationTag.textureTint || relationTag.isReadOnly} type="submit" onClick={handleSubmit}>Save</Button>
   }
 
-  return <CobrowsingModal open onClose={handleClose}>
+  return <CobrowsingDialog open onClose={handleClose}>
     <div className="CreateRelationTag">
       <RelationTagNameForm
         initialName={relationTag.name}
@@ -65,7 +65,7 @@ const CreateRelationTag = ({ updateCreateRelationTag, closeCreateRelationTag, ed
       />
       {renderButtons()}
     </div>
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

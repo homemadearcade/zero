@@ -1,9 +1,9 @@
-import { SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
+import { SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
 import { defaultSelectorClassDataSourceInvisibility } from '../../../game/constants/interfaceData';
 import {
   CLOSE_LIVE_EDITOR,
-  SELECT_CLASS,
-  CLEAR_CLASS,
+  SELECT_ENTITY_MODEL,
+  CLEAR_SELECTED_ENTITY_MODEL,
   SELECT_BRUSH,
   CLEAR_BRUSH,
   UPDATE_BRUSH_SIZE,
@@ -12,19 +12,19 @@ import {
   OPEN_SELECT_BACKGROUND_COLOR,
   CLOSE_SELECT_BACKGROUND_COLOR,
   OPEN_LIVE_EDITOR,
-  OPEN_GAME_METADATA_MODAL,
-  CLOSE_GAME_METADATA_MODAL,
-  OPEN_GAME_TEXTURES_MODAL,
-  CLOSE_GAME_TEXTURES_MODAL,
+  OPEN_GAME_METADATA_DIALOG,
+  CLOSE_GAME_METADATA_DIALOG,
+  OPEN_GAME_TEXTURES_DIALOG,
+  CLOSE_GAME_TEXTURES_DIALOG,
   UPDATE_VERTICAL_LINEAR_STEPPER,
   OPEN_JSON_VIEWER,
   CLOSE_JSON_VIEWER,
-  OPEN_CLASS_BOX_MODAL,
-  CLOSE_CLASS_BOX_MODAL,
+  OPEN_ENTITY_BOX_DIALOG,
+  CLOSE_ENTITY_BOX_DIALOG,
   OPEN_SELECT_AGGREGATE_COLOR,
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
-  TOGGLE_SELECTOR_CLASS_INVISIBILITY,
+  TOGGLE_SELECTOR_ENTITY_INVISIBILITY,
 } from '../../types';
 
 const initialState = {
@@ -36,18 +36,18 @@ const initialState = {
   brushSize: 3,
   entityModelIdSelectedLiveEditor: null,
   liveEditingCategory: null,
-  isSelectStageColorModalOpen: false,
-  isGameMetadataModalOpen: false,
+  isSelectStageColorDialogOpen: false,
+  isGameMetadataDialogOpen: false,
   openInterfaceIdGroups: {
   },
   verticalLinearSteppers: {
     'EditingGameSetup': 0,
   },
 
-  isEntityBoxModalOpen: false,
+  isEntityBoxDialogOpen: false,
   entityBoxModelType: null,
   isSelectAggregateColorOpen: null,
-  currentSelectorListInterfaceId: SELECTOR_ENTITY_BY_CLASS_IID,
+  currentSelectorListInterfaceId: SELECTOR_ENTITY_BY_INTERFACE_ID_IID,
 };
 
 export const initialGameSelectorState = initialState
@@ -65,13 +65,13 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         brushSize: payload.brushSize
       }
     }
-    case SELECT_CLASS: 
+    case SELECT_ENTITY_MODEL: 
       return {
         ...state,
         brushIdSelectedBrushList: null,
         entityModelIdSelectedEntityList: payload.entityModelIdSelectedEntityList
       }
-    case CLEAR_CLASS:
+    case CLEAR_SELECTED_ENTITY_MODEL:
        return {
          ...state,
           entityModelIdSelectedEntityList: null
@@ -118,9 +118,9 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case OPEN_SELECT_BACKGROUND_COLOR: 
       return {
         ...state,
-        isSelectStageColorModalOpen: true
+        isSelectStageColorDialogOpen: true
       }
-    case TOGGLE_SELECTOR_CLASS_INVISIBILITY:
+    case TOGGLE_SELECTOR_ENTITY_INVISIBILITY:
       let newSelectorClassInvisibility
       if(state.selectorInterfaceListInvisibility[payload.interfaceId]) {
         newSelectorClassInvisibility = {
@@ -142,7 +142,7 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
     case CLOSE_SELECT_BACKGROUND_COLOR:
       return {
         ...state,
-        isSelectStageColorModalOpen: false
+        isSelectStageColorDialogOpen: false
       }
     case OPEN_SELECT_AGGREGATE_COLOR: 
       return {
@@ -154,36 +154,36 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
         ...state,
         isSelectAggregateColorOpen: false
       }
-    case OPEN_GAME_TEXTURES_MODAL: 
+    case OPEN_GAME_TEXTURES_DIALOG: 
       return {
         ...state,
-        isGameTexturesModalOpen: true
+        isGameTexturesDialogOpen: true
       }
-    case CLOSE_GAME_TEXTURES_MODAL:
+    case CLOSE_GAME_TEXTURES_DIALOG:
       return {
         ...state,
-        isGameTexturesModalOpen: false
+        isGameTexturesDialogOpen: false
       }
-    case OPEN_GAME_METADATA_MODAL: 
+    case OPEN_GAME_METADATA_DIALOG: 
       return {
         ...state,
-        isGameMetadataModalOpen: true
+        isGameMetadataDialogOpen: true
       }
-    case CLOSE_GAME_METADATA_MODAL:
+    case CLOSE_GAME_METADATA_DIALOG:
       return {
         ...state,
-        isGameMetadataModalOpen: false
+        isGameMetadataDialogOpen: false
       }
-    case OPEN_CLASS_BOX_MODAL: 
+    case OPEN_ENTITY_BOX_DIALOG: 
       return {
         ...state,
-        isEntityBoxModalOpen: true,
+        isEntityBoxDialogOpen: true,
         entityBoxModelType: payload.entityModelType
       }
-    case CLOSE_CLASS_BOX_MODAL:
+    case CLOSE_ENTITY_BOX_DIALOG:
       return {
         ...state,
-        isEntityBoxModalOpen: false,
+        isEntityBoxDialogOpen: false,
         entityBoxModelType: null
       }
     case OPEN_JSON_VIEWER: 

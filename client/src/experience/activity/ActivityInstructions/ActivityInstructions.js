@@ -12,7 +12,7 @@ import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../../lobbyInstance/LobbyChecklist/LobbyChecklist';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
-import { openGameMetadataModal } from '../../../store/actions/game/gameSelectorActions';
+import { openGameMetadataDialog } from '../../../store/actions/game/gameSelectorActions';
 import { ARCHIVE_USER_MONGO_ID, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, defaultStage, EVENT_SPAWN_MODEL_IN_CAMERA, initialStageId, PAUSED_STATE, PLAY_STATE } from '../../../game/constants';
 import ActivityVerticalLinearStepper from '../ActivityVerticalLinearStepper/ActivityVerticalLinearStepper';
@@ -30,7 +30,7 @@ import LobbySelectRoles from '../../lobbyInstance/LobbySelectRoles/LobbySelectRo
 import Divider from '../../../ui/Divider/Divider';
 import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
 import Switch from '../../../ui/Switch/Switch';
-import { openCreateStageModal } from '../../../store/actions/game/gameFormEditorActions';
+import { openCreateStageDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 
 const GAME_IDS = {
@@ -38,14 +38,14 @@ const GAME_IDS = {
   prologue2: isLocalHost() ? '63c5e24c90a58a00531f4c1a' : '63c5e24c90a58a00531f4c1a',
 }
 
-const PROLOGUE_CLASS_IDS = {
+const PROLOGUE_ENTITY_IDS = {
   immoveablePixel: 'd39c037e-d7dd-47d0-8083-ef2edf98a573',
   movingPixel: '22098c1a-a6c4-448d-9e0d-5cc6a58c6d71',
   barPixel: '30e42315-88e0-4b75-b722-acd83069a879',
   byePixel: '5e1a3d02-ddfd-4df9-8a15-fb1dfe20b6da',
 }
 
-const PROLOGUE_2_CLASS_IDS = {
+const PROLOGUE_2_ENTITY_IDS = {
   barPixel2: 'd1a02b13-7636-49b9-b814-33629e6dac78',
   redJumpChanger: '72290fc4-67cc-4532-932b-b6f8c580701b',
   yellowFlyChanger: 'oc/n/0e6390fb-6e1c-41c7-8353-638d4669038c',
@@ -387,16 +387,16 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           },
           nextButtonText: 'Unpause'
         },
-        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.immoveablePixel, className: 'Immoveable Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_ENTITY_IDS.immoveablePixel, className: 'Immoveable Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           What do you encounter? What could it be?
           You answer as You interact.
         `),
-        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.movingPixel, className: 'Moving Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_ENTITY_IDS.movingPixel, className: 'Moving Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           We repeat this answer, support and clarify it.
         `),
-        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.barPixel, className: 'Platform Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_ENTITY_IDS.barPixel, className: 'Platform Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           Another, larger block appears.
 
@@ -404,7 +404,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
 
           You answer.  We affirm.
         `),
-        spawnThis({ entityModelId: PROLOGUE_CLASS_IDS.byePixel, className: 'Bye Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
+        spawnThis({ entityModelId: PROLOGUE_ENTITY_IDS.byePixel, className: 'Bye Pixel', arcadeGameMongoId:  GAME_IDS.prologue1}),
         sayThis(`
           Another image appears…
 
@@ -433,10 +433,10 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
              As many worlds as there are imaginative moments in the universe.  
              You take a breath, and dive in again, to connect with another world…`),
         returnFromStarsStep(),
-        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.barPixel2, className: 'Platform Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
-        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.redJumpChanger, className: 'Red Jump Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
-        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
-        spawnThis({ entityModelId: PROLOGUE_2_CLASS_IDS.byePixel2, className: 'Bye Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_ENTITY_IDS.barPixel2, className: 'Platform Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_ENTITY_IDS.redJumpChanger, className: 'Red Jump Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_ENTITY_IDS.yellowFlyChanger, className: 'Yellow Fly Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
+        spawnThis({ entityModelId: PROLOGUE_2_ENTITY_IDS.byePixel2, className: 'Bye Pixel', arcadeGameMongoId: GAME_IDS.prologue2}),
         sayThis(`You encounter the world that loops, 
             adds color and individual powers, 
             naming those as You did before.`),
@@ -463,7 +463,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           title: <Typography component="h5" variant="h5">Setup Stage</Typography>,
           onClickNext: () => {
             store.dispatch(toggleActiveCobrowsing(false))
-            store.dispatch(openCreateStageModal({...defaultStage, stageId: initialStageId}))
+            store.dispatch(openCreateStageDialog({...defaultStage, stageId: initialStageId}))
           },
           nextButtonText: 'Open',
           ...requireCobrowsingConnection,
@@ -505,14 +505,14 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           id: 'Fill Out Game Metadata',
           title: <Typography component="h5" variant="h5">Fill Out Game Metadata</Typography>,
           onClickNext: () => {
-            store.dispatch(forceCobrowsingUpdateDispatch(openGameMetadataModal()))
+            store.dispatch(forceCobrowsingUpdateDispatch(openGameMetadataDialog()))
             editGameModel({
               metadata: {
                 isPublished: true
               }
             })
           },
-          nextButtonText: 'Open Game Metadata Modal',
+          nextButtonText: 'Open Game Metadata Dialog',
           ...requireCobrowsingConnection,
         },
         {

@@ -31,7 +31,6 @@ const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editEx
     }
   });
 
-
   useEffect(() => {
     reset({...instruction, name: getValues('name')})
   }, [instruction])

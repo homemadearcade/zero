@@ -10,7 +10,7 @@ Games and CanvasImages that anyone in a lobby can edit!
 VIDEO CALL BLOCKING
   End Call for everyone in lobby, End call for self also
 
-PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A CLASS
+PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A ENTITY_MODEL
   Explode on Destroy Tag
 
 PUSH UI STATE ( Envelope Icon )

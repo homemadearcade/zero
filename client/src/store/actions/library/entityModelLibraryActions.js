@@ -17,10 +17,8 @@ import {
   EDIT_ENTITY_MODEL_LOADING,
   EDIT_ENTITY_MODEL_SUCCESS,
   EDIT_ENTITY_MODEL_FAIL,
-  CLEAR_ENTITY_MODEL,
+  CLEAR_ENTITY_MODEL_LIBRARY,
 } from '../../types';
-import { getDataSourceFromUserMongoId } from '../../../utils';
-import { getLibrary } from './libraryActions';
 import { DATA_SOURCE_IMPORTED_GAME_MODEL } from '../../../constants/interfaceIds';
 
 export const getEntityModelLibrary = () => async (dispatch, getState) => {
@@ -173,6 +171,6 @@ export const editEntityModelInLibrary = (id, entityModelData) => async (dispatch
 
 export const clearEntityModel = () =>  (dispatch, getState) => {
   dispatch({
-    type: CLEAR_ENTITY_MODEL,
+    type: CLEAR_ENTITY_MODEL_LIBRARY,
   });
 }

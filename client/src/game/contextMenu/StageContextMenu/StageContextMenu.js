@@ -1,21 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-import { openGameMetadataModal, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
+import { openGameMetadataDialog, openLiveEditor } from '../../../store/actions/game/gameSelectorActions';
 import { toggleGridView, openSectionEditor, openSnapshotTaker, toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/game/gameFormEditorActions';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { STAGE_EDITOR_IID, CONTEXT_MENU_PLAYTEST_IID, CONTEXT_MENU_STAGES_IID,CONTEXT_MENU_STAGE_GRAVITY_IID, CONTEXT_MENU_STAGE_SECTIONS_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
-import { openSelectStageColorModal } from '../../../store/actions/game/gameSelectorActions';
+import { openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
 
 const StageContextMenu = ({ 
   openLiveEditor,
   openSectionEditor, 
   onMenuItemClick, 
-  openSelectStageColorModal,
-  openGameMetadataModal, 
+  openSelectStageColorDialog,
+  openGameMetadataDialog, 
   openSnapshotTaker, 
   openCutscenesMenu, 
   openStagesMenu,
@@ -25,7 +25,7 @@ const StageContextMenu = ({
 }) => {
   return <>
     <ContextMenuTitle onClick={() => {
-        openGameMetadataModal()
+        openGameMetadataDialog()
         onMenuItemClick()
     }}>{gameModel?.metadata.title}</ContextMenuTitle>
     <Unlockable interfaceId={CONTEXT_MENU_STAGE_GRAVITY_IID}>
@@ -42,13 +42,13 @@ const StageContextMenu = ({
     </Unlockable>
     <Unlockable interfaceId={STAGE_COLOR_IID}>
       <MenuItem onClick={() => {
-        openSelectStageColorModal()
+        openSelectStageColorDialog()
         onMenuItemClick()
       }}>Edit Default Background Color</MenuItem>
     </Unlockable>
     <Unlockable interfaceId={GAME_METADATA_IID}>
       <MenuItem onClick={() => {
-        openGameMetadataModal()
+        openGameMetadataDialog()
         onMenuItemClick()
       }}>Edit Metadata</MenuItem>
     </Unlockable>
@@ -87,10 +87,10 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 export default connect(mapStateToProps, { 
   openLiveEditor, 
   openSectionEditor, 
-  openSelectStageColorModal, 
+  openSelectStageColorDialog, 
   openSnapshotTaker, 
   toggleGridView, 
-  openGameMetadataModal, 
+  openGameMetadataDialog, 
   openCutscenesMenu,
   openStagesMenu,
   toggleLayerVisibility,

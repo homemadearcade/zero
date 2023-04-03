@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './BoundaryRelation.scss';
-import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeBoundaryRelation, updateBoundaryRelation } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -16,7 +16,7 @@ const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundary
     closeBoundaryRelation()
   }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="BoundaryRelation">
       <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Boundary Relation"/>
         <SelectBoundaryEffect
@@ -46,7 +46,7 @@ const BoundaryRelation = ({ closeBoundaryRelation, editGameModel, updateBoundary
           </Button>
         </div>
     </div>
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

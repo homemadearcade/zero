@@ -6,11 +6,11 @@ import { TextField } from '@mui/material';
 import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
-// import MyImagesModal from '../../textures/MyImagesModal/MyImagesModal';
+// import MyImagesDialog from '../../textures/MyImagesDialog/MyImagesDialog';
 
-      // {isMyImagesModalOpen && <MyImagesModal onClickTexture={(textureId) => {
+      // {isMyImagesDialogOpen && <MyImagesDialog onClickTexture={(textureId) => {
       //   setImageUrl(getImageUrlFromTextureId(textureId))
-      //   setIsMyImagesModalOpen(false)
+      //   setIsMyImagesDialogOpen(false)
       // }}/>}
 
 const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
@@ -18,7 +18,7 @@ const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experi
 
   const { title, description, authorPseudonym } = metadata
 
-  // const [isMyImagesModalOpen, setIsMyImagesModalOpen] = useState(metadata.imageUrl)
+  // const [isMyImagesDialogOpen, setIsMyImagesDialogOpen] = useState(metadata.imageUrl)
 
   // const [imageUrl, setImageUrl] = useState(metadata.imageUrl)
 
@@ -46,7 +46,7 @@ const ExperienceMetadataForm = ({ editExperienceModel, experienceModel: { experi
   //   return <>
   //     {imageUrl  && <img className="ExperienceMetadataForm__image" alt={title + ' image'} src={imageUrl}/>}
   //     <Button onClick={() => {
-  //       setIsMyImagesModalOpen(true)
+  //       setIsMyImagesDialogOpen(true)
   //     }}>Select Image</Button>
   //   </>
   // }

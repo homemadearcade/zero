@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './StagesMenu.scss';
-import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
-import { closeStagesMenu, openCreateStageModal, updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
+import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
+import { closeStagesMenu, openCreateStageDialog, updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -15,7 +15,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { SHOW_REMOVED_IID } from '../../../constants/interfaceIds';
 import { initialStage } from '../../constants';
 
-const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
+const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
   function handleClose() {
     closeStagesMenu()
   }
@@ -24,7 +24,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage,
 
   const stages = gameModel.stages
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="StagesMenu">
       <Typography component="h2" variant="h2">Stages</Typography>
       {Object.keys(stages).map((stageId) => {
@@ -35,10 +35,10 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage,
         return <div key={stageId} className="StagesMenu__stage">
           <Typography component="h4" variant="h4">{stage.name}</Typography>
           <Button onClick={() => {
-            openCreateStageModal(stage)
+            openCreateStageDialog(stage)
           }}>Edit</Button>
           <Button onClick={() => {
-            openCreateStageModal({
+            openCreateStageDialog({
               ...stage,
               name: stage.name + 'copy'
             })
@@ -56,7 +56,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage,
         </div>
       })}
       <Button onClick={() => {
-        openCreateStageModal({
+        openCreateStageDialog({
           ...initialStage,
           name: 'Stage #' + (Object.keys(stages).length + 1).toString(),
         })
@@ -67,7 +67,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageModal, changeCurrentStage,
         }}>Show Removed Stages</Button>
       </Unlockable>}
     </div>
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
@@ -76,5 +76,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 
 
 export default compose(
-  connect(mapStateToProps, { updateCreateCutscene, closeStagesMenu, openCreateStageModal, editGameModel, changeCurrentStage }),
+  connect(mapStateToProps, { updateCreateCutscene, closeStagesMenu, openCreateStageDialog, editGameModel, changeCurrentStage }),
 )(StagesMenu);

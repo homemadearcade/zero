@@ -1,17 +1,15 @@
 export const defaultStep = {
   skippable: false,
-  promptOrder: [],
-  stepType: '',
-  clickToType: null,
-  clickToData: {},
-  stepBehavior: 'string',
+  stepBehavior: '',
   requirements: {
-    cobrowsing: false,
-    gameId: null,
+    cobrowsingRoleId: false,
+    stageId: null,
     gameIsPoweredOn: false,
   },
+  interfaceId: null,
   effectIds: [],
   stepId: null,
+  promptOrder: [],
 }
 
 export const STEP_EFFECT = 'STEP_EFFECT'

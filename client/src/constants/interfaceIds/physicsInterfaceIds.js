@@ -1,8 +1,0 @@
-export const PHYSICS_COLLIDERS_IID = 'physics/colliders'
-export const PHYSICS_IGNORE_SIDES_IID = 'physics/ignoreSides'
-export const PHYSICS_BOUNCE_IID = 'physics/bounce'
-export const PHYSICS_FRICTION_IID = 'physics/friction'
-export const PHYSICS_MASS_IID = 'physics/mass'
-export const PHYSICS_PUSHABLE_IID = 'physics/pushable'
-export const PHYSICS_IMMOVABLE_IID = 'physics/immovable'
-export const PHYSICS_IGNORE_BOUNDARIES_IID = 'physics/ignoreStageBoundaries'

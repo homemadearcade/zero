@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './EditEntityGraphics.scss';
-import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { clearGameFormEditor, closeEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import CreateTexture from '../../textures/CreateTexture/CreateTexture';
@@ -40,7 +40,7 @@ const EditEntityGraphics = ({
     }
   }, [])
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="EditEntityGraphics">
       {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelTypeToDisplayName[entityModel.entityInterfaceId]}</Typography>}
       {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Graphics"></EntityMemberTitle>}
@@ -128,7 +128,7 @@ const EditEntityGraphics = ({
         Cancel
       </Button>
     </div>
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

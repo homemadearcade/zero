@@ -1,5 +1,5 @@
 import {
-  CHANGE_CLASS_ID_HOVERING,
+  CHANGE_ENTITY_ID_HOVERING,
   CHANGE_BRUSH_ID_HOVERING,
   CHANGE_INSTANCE_HOVERING,
   CHANGE_RELATION_TAG_ID_HOVERING,
@@ -44,7 +44,7 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
         ...state,
         relationTagIdHovering: payload.relationTagId
       }
-    case CHANGE_CLASS_ID_HOVERING:
+    case CHANGE_ENTITY_ID_HOVERING:
       return {
         ...state,
         entityModelIdHovering: payload.entityModelId

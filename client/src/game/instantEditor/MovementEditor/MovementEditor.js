@@ -12,7 +12,7 @@ import SelectMovementControlsBehavior from '../../ui/SelectMovementControlsBehav
 import { movementBehaviorToInterface } from '../../constants';
 import Button from '../../../ui/Button/Button';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
-import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_BEHAVIOR_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, PHYSICS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID, PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
+import { MOVEMENT_CONTROLS_DOWN_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_ANGULAR_IID, MOVEMENT_DRAG_X_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_GRAVITY_X_IID, MOVEMENT_GRAVITY_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, MOVEMENT_BEHAVIOR_IID, MOVEMENT_SPEED_ANGULAR_IID, MOVEMENT_SPEED_IID, MOVEMENT_VELOCITY_X_IID, MOVEMENT_VELOCITY_Y_IID, COLLISIONS_BOUNCE_IID, TOGGLE_ALL_PARAMS_IID, PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
 import { movementControlsBehaviorToInterface } from '../../constants';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 
@@ -166,7 +166,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
           value={entitySelected.movement.gravityX}
         />
       </Unlockable>}
-      {movementParameters.bounce && <Unlockable isSlider interfaceId={PHYSICS_BOUNCE_IID}>
+      {movementParameters.bounce && <Unlockable isSlider interfaceId={COLLISIONS_BOUNCE_IID}>
         <SliderNotched
           formLabel="Bounce"
           step={0.05}

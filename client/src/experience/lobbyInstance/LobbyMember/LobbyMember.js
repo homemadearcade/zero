@@ -29,7 +29,7 @@ const LobbyMember = ({
   setCutAudio, 
   setCutVideo
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [showUnlockedUI, setShowUnlockedUI] = useState(false)
   const [isVideoOpen, setIsVideoOpen] = useState(false)
 
@@ -96,14 +96,14 @@ const LobbyMember = ({
 
   return <>
   <Button onClick={() => {
-    setIsModalOpen(true)
+    setIsDialogOpen(true)
   }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--left' : !user.joined, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
     {user.username}
   </Button>
-  {isModalOpen && <Dialog open onClose={() => {
-    setIsModalOpen(false)
+  {isDialogOpen && <Dialog open onClose={() => {
+    setIsDialogOpen(false)
   }}>
-    <div className="LobbyMember__modal">
+    <div className="LobbyMember__dialog">
       {renderConnectionInfo()}
       {false && lobbyInstance.currentActivity === GAME_ROOM_ACTIVITY && <>
         <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>

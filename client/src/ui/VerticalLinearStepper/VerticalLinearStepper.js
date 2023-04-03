@@ -87,7 +87,7 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
               onClick={() => {
                 if(canSkipStep) onChangeStep(index)
               }}
-              entityModels={{root: "VerticalLinearStepper__step-number"}} 
+              classes={{root: canSkipStep && "VerticalLinearStepper__step-number"}} 
               optional={
                 index === steps.length-1 ? (
                   <Typography variant="caption">Last step</Typography>

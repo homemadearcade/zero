@@ -27,7 +27,7 @@ export const ENTITY_LAYER_IID = 'entity/layer'
 export const ENTITY_VISIBILITY_IID = 'entity/visibility'
 export const ENTITY_DATA_SOURCE_IID = 'entity/lock'
 
-export const EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID = 'EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID'
+export const EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID = 'EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID'
 
 export const CHANGE_ENTITY_INTERFACE_IID = "entity/changeEntityInterface";
 export const ENTITY_RELATION_TAGS_IID = "entity/relationTags";
@@ -37,7 +37,7 @@ export const ENTITY_BOX_IID = "entity/box";
 
 /////////////////////////////////////
 /////////////////////////////////////
-// CLASSES
+// ENTITY_MODELES
 export const PLAYER_ENTITY_IID = 'PLAYER_ENTITY_IID'
 export const BASIC_ENTITY_IID = 'BASIC_ENTITY_IID'
 export const NPC_ENTITY_IID = 'NPC_ENTITY_IID'

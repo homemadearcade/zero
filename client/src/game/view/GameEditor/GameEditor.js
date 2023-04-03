@@ -10,35 +10,35 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
-import SelectStageColorModal from '../../stages/SelectStageColorModal/SelectStageColorModal';
+import SelectStageColorDialog from '../../stages/SelectStageColorDialog/SelectStageColorDialog';
 import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../../constants';
-import GameMetadataModal from '../../selector/GameMetadataModal/GameMetadataModal';
+import GameMetadataDialog from '../../selector/GameMetadataDialog/GameMetadataDialog';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
 import BoundaryRelation from '../../entityModel/BoundaryRelation/BoundaryRelation';
-import EditEntityModal from '../../entityModel/EditEntityModal/EditEntityModal';
+import EditEntityDialog from '../../entityModel/EditEntityDialog/EditEntityDialog';
 import GridToggle from '../GridToggle/GridToggle';
 import GameStateToolbar from '../../gameRoomInstance/GameStateToolbar/GameStateToolbar';
 import EntityList from '../../entityModel/EntityList/EntityList';
 import BrushList from '../../brush/BrushList/BrushList';
 import Dialog from '../../../ui/Dialog/Dialog';
 import StagesMenu from '../../stages/StagesMenu/StagesMenu';
-import CreateStageModal from '../../stages/CreateStageModal/CreateStageModal';
+import CreateStageDialog from '../../stages/CreateStageDialog/CreateStageDialog';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
-import { EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID, INSTANCE_TOOLBAR_CONTAINER_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
-import EntityBoxModal from '../../entityModel/EntityBoxModal/EntityBoxModal';
+import { EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, INSTANCE_TOOLBAR_CONTAINER_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID } from '../../../constants/interfaceIds';
+import EntityBoxDialog from '../../entityModel/EntityBoxDialog/EntityBoxDialog';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
 import Button from '../../../ui/Button/Button';
 import SelectorAbstractList from '../../selector/SelectorAbstractList/SelectorAbstractList';
 import CreateRelationTag from '../../tags/CreateRelationTag/CreateRelationTag';
 import CreateRelation from '../../relations/CreateRelation/CreateRelation';
-import CreateEffectModal from '../../effect/CreateEffectModal/CreateEffectModal';
-import CreateEventModal from '../../event/CreateEventModal/CreateEventModal';
+import CreateEffectDialog from '../../effect/CreateEffectDialog/CreateEffectDialog';
+import CreateEventDialog from '../../event/CreateEventDialog/CreateEventDialog';
 import GameViewObscured from '../GameViewObscured/GameViewObscured';
 import GameView from '../GameView/GameView';
 import EditEntityGraphics from '../../entityModel/EditEntityGraphics/EditEntityGraphics';
@@ -47,10 +47,10 @@ import EditEntityGraphics from '../../entityModel/EditEntityGraphics/EditEntityG
 const GameEditor = ({ 
   classNames, 
   gameSelector: { 
-    isEntityBoxModalOpen, 
-    isSelectStageColorModalOpen, 
+    isEntityBoxDialogOpen, 
+    isSelectStageColorDialogOpen, 
     liveEditingCategory, 
-    isGameMetadataModalOpen, 
+    isGameMetadataDialogOpen, 
     currentSelectorListInterfaceId,
     viewingJson }, 
   gameViewEditor: { 
@@ -59,12 +59,12 @@ const GameEditor = ({
     isGridViewOn }, 
   gameFormEditor: { 
     isEditEntityGraphicsOpen,
-    isEditEntityModalOpen, 
+    isEditEntityDialogOpen, 
     isCreateRelationTagOpen, 
     isCreateRelationOpen,
     isCreateCutsceneOpen, 
     isCreateBrushFlowOpen, 
-    isCreateStageModalOpen, 
+    isCreateStageDialogOpen, 
     isCutscenesMenuOpen, 
     isBoundaryRelationOpen, 
     isCreateEffectOpen,
@@ -108,7 +108,7 @@ const GameEditor = ({
     if(currentSelectorListInterfaceId === SELECTOR_ABSTRACT_LIST_IID) {
       return <SelectorAbstractList/>
     } 
-    if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_CLASS_IID) {
+    if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) {
       return <EntityList/>
     } 
   }
@@ -153,20 +153,20 @@ const GameEditor = ({
         </>}
       </div>
       {liveEditingCategory && <LiveEditor></LiveEditor>}
-      {isEntityBoxModalOpen && <EntityBoxModal/>}
-      {isGameMetadataModalOpen && <GameMetadataModal/>}
-      {isEditEntityModalOpen && <EditEntityModal/>}
+      {isEntityBoxDialogOpen && <EntityBoxDialog/>}
+      {isGameMetadataDialogOpen && <GameMetadataDialog/>}
+      {isEditEntityDialogOpen && <EditEntityDialog/>}
       {isCutscenesMenuOpen && <CutscenesMenu/>}
       {isCreateCutsceneOpen && <CreateCutscene/>}
       {isBoundaryRelationOpen && <BoundaryRelation/>}
       {isCreateRelationOpen && <CreateRelation/>}
-      {isCreateEffectOpen && <CreateEffectModal/>}
-      {isCreateEventOpen && <CreateEventModal/>}
+      {isCreateEffectOpen && <CreateEffectDialog/>}
+      {isCreateEventOpen && <CreateEventDialog/>}
       {isCreateRelationTagOpen && <CreateRelationTag/>}
       {isStagesMenuOpen && <StagesMenu/>}
-      {isCreateStageModalOpen && <CreateStageModal/>}
-      {isSelectStageColorModalOpen && <SelectStageColorModal/>}
-      {isEditEntityGraphicsOpen === EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID && <EditEntityGraphics 
+      {isCreateStageDialogOpen && <CreateStageDialog/>}
+      {isSelectStageColorDialogOpen && <SelectStageColorDialog/>}
+      {isEditEntityGraphicsOpen === EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID && <EditEntityGraphics 
           onComplete={(entityModel) => {
             editGameModel({
               entityModels: {
@@ -184,7 +184,7 @@ const GameEditor = ({
             })
           }}
       />}
-      <div id="CobrowsingModal"></div>
+      <div id="CobrowsingDialog"></div>
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {
           copyToClipboard(JSON.stringify(viewingJson))

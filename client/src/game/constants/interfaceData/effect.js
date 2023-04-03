@@ -1,7 +1,7 @@
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_SPAWN, 
-  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_WIN_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
+import { EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CLOSE_OVERLAY, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
+  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, EFFECT_WIN_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
 
@@ -33,8 +33,11 @@ export const effectBehaviorToDisplayNames = {
 
   // Meta
   [EFFECT_OPEN_OVERLAY]: 'Send to Stars',
+  [EFFECT_CLOSE_OVERLAY]: 'Return from Stars',
   [EFFECT_CHANGE_GAME]: 'Change Game',
   [EFFECT_SWITCH_STAGE]: 'Switch Stage',
+  [EFFECT_PAUSE_GAME]: 'Pause Game',
+  [EFFECT_UNPAUSE_GAME]: 'Unpause Game',
 }
 
 /////////////////////////////////////////////////////////////////
@@ -83,12 +86,14 @@ export const effectBehaviorInterfaces = {
   [EFFECT_GAME_OVER]: {
     text: 'Message',
     effectableType: NO_RELATION_TAG_EFFECT_IID,
-    isCustomizeable: true
+    isCustomizeable: true,
+    isStandalone: true
   },
   [EFFECT_WIN_GAME]: {
     text: 'Message',
     effectableType: NO_RELATION_TAG_EFFECT_IID,
-    isCustomizeable: true
+    isCustomizeable: true,
+    isStandalone: true
   },
 
   // Graphical
@@ -120,6 +125,18 @@ export const effectBehaviorInterfaces = {
     effectableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
+  [EFFECT_CLOSE_OVERLAY]: {
+    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    isStandalone: true
+  },
+  [EFFECT_PAUSE_GAME]: {
+    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    isStandalone: true
+  },
+  [EFFECT_UNPAUSE_GAME]: {
+    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    isStandalone: true
+  },
 }
 
 // EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
@@ -146,7 +163,10 @@ export const touchActiveEffects  = {
   // Meta
   [EFFECT_SWITCH_STAGE]: false,
   [EFFECT_CHANGE_GAME]: false,
-  [EFFECT_OPEN_OVERLAY]: false
+  [EFFECT_OPEN_OVERLAY]: false,
+  [EFFECT_CLOSE_OVERLAY]: false,
+  [EFFECT_PAUSE_GAME]: false,
+  [EFFECT_UNPAUSE_GAME]: false,
 }
 
 export const noRemoteEffectedTagEffects = {
@@ -172,7 +192,10 @@ export const noRemoteEffectedTagEffects = {
   // Meta
   [EFFECT_SWITCH_STAGE]: true,
   [EFFECT_CHANGE_GAME]: true,
-  [EFFECT_OPEN_OVERLAY]: true
+  [EFFECT_OPEN_OVERLAY]: true,
+  [EFFECT_CLOSE_OVERLAY]: true,
+  [EFFECT_PAUSE_GAME]: true,
+  [EFFECT_UNPAUSE_GAME]: true,
 }
 
 export const nonStepEffectBehaviors = {
@@ -198,7 +221,10 @@ export const nonStepEffectBehaviors = {
   // Meta
   [EFFECT_SWITCH_STAGE]: false,
   [EFFECT_CHANGE_GAME]: false,
-  [EFFECT_OPEN_OVERLAY]: false
+  [EFFECT_OPEN_OVERLAY]: false,
+  [EFFECT_CLOSE_OVERLAY]: false,
+  [EFFECT_PAUSE_GAME]: false,
+  [EFFECT_UNPAUSE_GAME]: false,
 }
 
 export function isUseableEffect(effect, effectBehavior, eventType) {
@@ -246,6 +272,10 @@ export function getEffectShorthand(effect) {
       const relationTagNames = effect.remoteEffectedRelationTagIds.map((relationTagId) => relationTags[relationTagId].name)
       return displayName + ` all ${relationTagNames}`
     }
+  }
+
+  if(effectBehavior === EFFECT_SWITCH_STAGE) {
+    return displayName + ` to  ${gameModel.stages[effect.stageId].name}`
   }
 
   return displayName

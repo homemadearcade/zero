@@ -1,0 +1,25 @@
+.CobrowsingDialog {
+  &__safe-area {
+    overflow-y: scroll;
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+  }
+
+  &__body {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 6em auto 0 auto;
+    background: #111;
+  }
+}

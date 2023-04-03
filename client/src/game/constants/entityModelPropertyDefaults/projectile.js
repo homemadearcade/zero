@@ -4,7 +4,7 @@
 export const PROJECTILE_RANDOM_DIRECTION = 'PROJECTILE_RANDOM_DIRECTION'
 export const PROJECTILE_RANDOM_ANGLE = 'PROJECTILE_RANDOM_ANGLE'
 export const PROJECTILE_TARGET_PLAYER = 'PROJECTILE_TARGET_PLAYER'
-export const PROJECTILE_TARGET_CLASS = 'PROJECTILE_TARGET_CLASS'
+export const PROJECTILE_TARGET_ENTITY_MODEL = 'PROJECTILE_TARGET_ENTITY_MODEL'
 export const PROJECTILE_LEFT = 'PROJECTILE_LEFT'
 export const PROJECTILE_RIGHT = 'PROJECTILE_RIGHT'
 export const PROJECTILE_DOWN = 'PROJECTILE_DOWN'
@@ -32,7 +32,7 @@ export const defaultProjectile = {
 //////////////////////////////////////////////////////////////////////////
 // PARAMETERS
 export const projectileToParemeters = {
-  [PROJECTILE_TARGET_CLASS]: {
+  [PROJECTILE_TARGET_ENTITY_MODEL]: {
     class: true,
   },
   [PROJECTILE_TARGET_PLAYER]: {

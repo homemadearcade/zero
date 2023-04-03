@@ -5,13 +5,13 @@ import contextMenuInterfaceIdData from "./contextMenuInterfaceIdData";
 import instanceToolbarInterfaceIdData from "./instanceToolbarInterfaceIdData";
 import jumpInterfaceIdData from "./jumpInterfaceIdData";
 import movementInterfaceIdData from "./movementInterfaceIdData";
-import physicsInterfaceIdData from "./physicsInterfaceIdData";
+import collisionsInterfaceIdData from "./collisionsInterfaceIdData";
 import projectileInterfaceIdData from "./projectileInterfaceIdData";
 import relationInterfaceIdData from "./relationInterfaceIdData";
 import rootInterfaceIdData from "./rootInterfaceIdData";
 import stageInterfaceIdData from "./stageInterfaceIdData";
 import cutsceneInterfaceIdData from "./cutsceneInterfaceIdData";
-import gameInterfaceIdData from "./gameInterfaceIdData";
+import gameInterfaceIdData from "./gameModelIdData";
 import relationTagInterfaceIdData from "./relationTagInterfaceIdData";
 import videoInterfaceIdData from "./videoInterfaceIdData";
 import selectorInterfaceIdData from "./selectorInterfaceIdData";
@@ -27,7 +27,7 @@ export const interfaceIdData = {
   ...instanceToolbarInterfaceIdData,
   ...brushInterfaceIdData,
   ...entityModelInterfaceIdData,
-  ...physicsInterfaceIdData,
+  ...collisionsInterfaceIdData,
   ...movementInterfaceIdData,
   ...projectileInterfaceIdData,
   ...contextMenuInterfaceIdData,

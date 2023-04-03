@@ -50,7 +50,7 @@ let pingInterval;
 
 const recentlyFocusedDelta = 3000
 
-export function onCanvasImageModalUndo() {
+export function onCanvasImageDialogUndo() {
   const state = store.getState()
   const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserMongoId
   

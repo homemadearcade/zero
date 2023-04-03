@@ -3,7 +3,7 @@ import { getLayerIdFromEraserId, isBrushIdColor, isBrushIdEraser } from '../../u
 import { TexturePencil } from '../drawing/TexturePencil';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
-import { CANVAS_IMAGE_MODAL_LAYER_DEPTH, CANVAS_IMAGE_LAYER_ID, nodeSize } from '../constants';
+import { CANVAS_IMAGE_DIALOG_LAYER_DEPTH, CANVAS_IMAGE_LAYER_ID, nodeSize } from '../constants';
 import { BACKGROUND_LAYER_DEPTH, DEFAULT_TEXTURE_ID, UI_LAYER_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
@@ -131,8 +131,8 @@ export class CodrawingScene extends Phaser.Scene {
   }
 
   getDepthFromLayerId(layerId) {
-    if(layerId === CANVAS_IMAGE_LAYER_ID) return CANVAS_IMAGE_MODAL_LAYER_DEPTH
-    else return CANVAS_IMAGE_MODAL_LAYER_DEPTH
+    if(layerId === CANVAS_IMAGE_LAYER_ID) return CANVAS_IMAGE_DIALOG_LAYER_DEPTH
+    else return CANVAS_IMAGE_DIALOG_LAYER_DEPTH
   }
 
   getDepthFromEraserId(eraserId) {

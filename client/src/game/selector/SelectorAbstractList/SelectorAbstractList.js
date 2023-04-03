@@ -10,7 +10,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ABSTRACT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_ABSTRACT_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_ABSTRACT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_ABSTRACT_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
-import { openEntityBoxModal } from '../../../store/actions/game/gameSelectorActions';
+import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import RelationItem from '../../relations/RelationItem/RelationItem';
@@ -226,5 +226,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openEditEntityGraphics, openCreateEvent, openCreateEffect, openCreateRelationTag, openCreateCutscene, openCreateRelation, openEntityBoxModal }),
+  connect(mapStateToProps, { editGameModel, openEditEntityGraphics, openCreateEvent, openCreateEffect, openCreateRelationTag, openCreateCutscene, openCreateRelation, openEntityBoxDialog }),
 )(SelectorAbstractList);

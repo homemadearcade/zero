@@ -11,11 +11,11 @@ import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
 import { entityModelTypeToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
-import { changeSelectorList, openGameMetadataModal, openSelectStageColorModal } from '../../../store/actions/game/gameSelectorActions';
+import { changeSelectorList, openGameMetadataDialog, openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
-import { openEditEntityModal } from '../../../store/actions/game/gameFormEditorActions';
+import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_CLASS_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
+import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
@@ -47,9 +47,9 @@ const HoverPreview = ({
   gameRoomInstance: {
     gameRoomInstance
   },
-  openGameMetadataModal,
-  openEditEntityModal,
-  openSelectStageColorModal,
+  openGameMetadataDialog,
+  openEditEntityDialog,
+  openSelectStageColorDialog,
   openSnapshotTaker,
   changeSelectorList,
 }) => {
@@ -144,7 +144,7 @@ const HoverPreview = ({
       textureId: entityModel.graphics.textureId,
       title,
       onEdit: () => {
-        openEditEntityModal(entityModel)
+        openEditEntityDialog(entityModel)
       }
     })
   }
@@ -194,14 +194,14 @@ const HoverPreview = ({
    return  <>
     {metadata.imageUrl && <div className="HoverPreview__image-background" style={{backgroundImage: imageBackground ? `url("${imageBackground}"` : ''}}></div>}
     <div className="HoverPreview__title" onClick={() => {
-      // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_CLASS) changeSelectorList(SELECTOR_ABSTRACT_LIST)
+      // if(currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID) changeSelectorList(SELECTOR_ABSTRACT_LIST)
     }}>
       <Typography font="2P" variant="subtitle2">
         {metadata.title}
        </Typography>
-       {currentSelectorListInterfaceId !== SELECTOR_ENTITY_BY_CLASS_IID && <div className="HoverPreview__close">
+       {currentSelectorListInterfaceId !== SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <div className="HoverPreview__close">
         <IconButton icon="faClose" onClick={() => {
-          changeSelectorList(SELECTOR_ENTITY_BY_CLASS_IID)
+          changeSelectorList(SELECTOR_ENTITY_BY_INTERFACE_ID_IID)
         }}></IconButton>
       </div>}
       {(gameRoomInstance.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
@@ -213,9 +213,9 @@ const HoverPreview = ({
             }}><Icon icon="faCameraRetro"/></Button>
           </Unlockable>
           <Unlockable interfaceId={GAME_METADATA_IID}>{renderEditableIcon(() => {
-            openGameMetadataModal()
+            openGameMetadataDialog()
           })}</Unlockable>
-          {currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_CLASS_IID && <Unlockable interfaceId={CHANGE_SELECTOR_TAB_IID}>
+          {currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <Unlockable interfaceId={CHANGE_SELECTOR_TAB_IID}>
             <Button size="xs" onClick={() => {
               changeSelectorList(SELECTOR_ABSTRACT_LIST_IID)
             }}><Icon icon="faTableList"/></Button>
@@ -227,7 +227,7 @@ const HoverPreview = ({
       {isHoveringOverTitle && <div className="HoverPreview__actions">
         <Unlockable interfaceId={STAGE_COLOR_IID}>
           <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
-            openSelectStageColorModal()
+            openSelectStageColorDialog()
           }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.color, height: '1.2em', width: '4em'}}/>
         </Unlockable>
       </div>}
@@ -301,4 +301,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoomInstance: state.gameRoomInstance
 })
 
-export default connect(mapStateToProps, { openGameMetadataModal, openEditEntityModal, openSelectStageColorModal, openSnapshotTaker, changeSelectorList })(HoverPreview);
+export default connect(mapStateToProps, { openGameMetadataDialog, openEditEntityDialog, openSelectStageColorDialog, openSnapshotTaker, changeSelectorList })(HoverPreview);

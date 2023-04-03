@@ -15,7 +15,7 @@ import _ from 'lodash';
 const EntityModelAdd = ({
   openEditEntityGraphics,
   entityInterfaceId,
-  addEntityModalInterfaceId,
+  addEntityDialogInterfaceId,
   children,
   defaultValues = {},
   gameModel: { gameModel, currentStageId, entityModels },
@@ -31,7 +31,7 @@ const EntityModelAdd = ({
   }
 
   function onOpenEditEntityGraphics(entityModel) {
-    openEditEntityGraphics(addEntityModalInterfaceId, mergeDeep(_.cloneDeep(entityModel), defaultValues))
+    openEditEntityGraphics(addEntityDialogInterfaceId, mergeDeep(_.cloneDeep(entityModel), defaultValues))
   }
 
   if(entityInterfaceId === PLAYER_ENTITY_IID) {

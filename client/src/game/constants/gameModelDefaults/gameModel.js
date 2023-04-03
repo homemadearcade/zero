@@ -7,7 +7,7 @@ import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpaw
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
-import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_CLASS_IID, DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds";
+import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds";
 
 export const defaultGameModel = {
   "metadata": {
@@ -67,7 +67,7 @@ export const defaultGameModel = {
       entityModelId: initialPlayerSpawnZoneEntityId,
       editorInterface: {
         hiddenFromInterfaceIds: {
-          [SELECTOR_ENTITY_BY_CLASS_IID]: true
+          [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true
         },
       },
       autogeneration: {
@@ -93,7 +93,7 @@ export const defaultGameModel = {
       },
       editorInterface: {
         hiddenFromInterfaceIds: {
-          [SELECTOR_ENTITY_BY_CLASS_IID]: true,
+          [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
           [RELATION_SPAWN_ENTITY_MODEL_IID]: true
         },
         fixedAspectRatio: true,
@@ -126,7 +126,7 @@ export const defaultGameModel = {
       ...defaultZoneEntity,
       editorInterface: {
         hiddenFromInterfaceIds: {
-          [SELECTOR_ENTITY_BY_CLASS_IID]: true,
+          [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
           [RELATION_SPAWN_ENTITY_MODEL_IID]: true
         },
         notSelectableInStage: true,

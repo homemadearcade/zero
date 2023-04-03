@@ -1,0 +1,13 @@
+export const BRUSH_IIG = 'BRUSH_IIG';
+export const CAMERA_IIG = 'CAMERA_IIG';
+export const CUTSCENE_IIG = 'CUTSCENE_IIG';
+export const EFFECT_IIG = 'EFFECT_IIG';
+export const GAME_MODEL_IIG = 'GAME_MODEL_IIG';
+export const ENTITY_MODEL_IIG = 'ENTITY_MODEL_IIG';
+export const RELATION_IIG = 'RELATION_IIG';
+export const STAGE_IIG = 'STAGE_IIG';
+export const JUMP_IIG = 'JUMP_IIG';
+export const VIDEO_IIG = 'VIDEO_IIG';
+export const MOVEMENT_IIG = 'MOVEMENT_IIG';
+export const COLLISIONS_IIG = 'COLLISIONS_IIG';
+export const GAME_VIEW_IIG = 'GAME_VIEW_IIG';

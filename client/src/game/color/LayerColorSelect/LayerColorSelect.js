@@ -13,7 +13,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import ColorSelect from '../ColorSelect/ColorSelect';
 import { clearBrush, closeSelectAggregateColor, openSelectAggregateColor, selectBrush } from '../../../store/actions/game/gameSelectorActions';
 import { getHexFromColorId, getLayerIdFromColorId, isBrushIdColor, sortColorByLastSelectedDate } from '../../../utils/editorUtils';
-import AggregateColorSelectModal from '../AggregateColorSelectModal/AggregateColorSelectModal';
+import AggregateColorSelectDialog from '../AggregateColorSelectDialog/AggregateColorSelectDialog';
 
 const LayerColorSelect = ({
   gameModel: { gameModel : { colors }},
@@ -100,7 +100,7 @@ const LayerColorSelect = ({
         selectBrush(COLOR_BRUSH_ID + '/' + color.layerId + '/' + color.hex, color.layerId)
       }}
     />}
-    {isSelectAggregateColorOpen === ('LayerColorSelect' + layerId) && <AggregateColorSelectModal
+    {isSelectAggregateColorOpen === ('LayerColorSelect' + layerId) && <AggregateColorSelectDialog
       onSelectColor={(hex) => {
         closeSelectAggregateColor()
         editGameModel({

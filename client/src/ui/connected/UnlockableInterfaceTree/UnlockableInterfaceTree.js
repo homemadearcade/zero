@@ -182,10 +182,10 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
 
   const [presetName, setPresetName] = React.useState('');
   const [presetDescription, setPresetDescription] = React.useState('');
-  const [isAddPresetModalOpen, setIsAddPresetModalOpen] = React.useState(false);
+  const [isAddPresetDialogOpen, setIsAddPresetDialogOpen] = React.useState(false);
   const [expanded, setExpanded] = React.useState([]);
   const [structuredInterfaceData] = React.useState(structureAllInterfaceIds())
-  const [isMorphPresetModalOpen, setIsMorphPresetModalOpen] = React.useState(false);
+  const [isMorphPresetDialogOpen, setIsMorphPresetDialogOpen] = React.useState(false);
 
   const handleToggle = (event, nodeIds) => {
     setExpanded(nodeIds);
@@ -279,7 +279,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
   }
 
   function renderAddPreset() {
-      return <Dialog open={isAddPresetModalOpen}>
+      return <Dialog open={isAddPresetDialogOpen}>
         <DialogTitle>Create New Interface Preset</DialogTitle>
         <DialogContent>
           <TextField
@@ -314,17 +314,17 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
               description: presetDescription,
               interfaceIds: unlockableInterfaceIds
             })
-            setIsAddPresetModalOpen(false)
+            setIsAddPresetDialogOpen(false)
           }}>Save</Button>
           <Button onClick={() => {
-            setIsAddPresetModalOpen(false)
+            setIsAddPresetDialogOpen(false)
           }}>Cancel</Button>
         </DialogActions>
       </Dialog>
   }
 
     function renderMorphPreset() {
-      return <Dialog open={isMorphPresetModalOpen}>
+      return <Dialog open={isMorphPresetDialogOpen}>
         <DialogTitle>Morph Tree to Preset</DialogTitle>
         <DialogContent>
           {interfacePresetLibrary.map((interfacePreset) => {
@@ -337,7 +337,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
                         userMongoId: userMongoId,
                         unlockableInterfaceIds : interfacePreset.interfaceIds
                       })
-                      setIsMorphPresetModalOpen(false)
+                      setIsMorphPresetDialogOpen(false)
                       await getUserByMongoId(userMongoId)
                   }}>
                     Morph
@@ -353,7 +353,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
         </DialogContent>
         <DialogActions>
           <Button onClick={() => {
-            setIsMorphPresetModalOpen(false)
+            setIsMorphPresetDialogOpen(false)
           }}>Cancel</Button>
         </DialogActions>
       </Dialog>
@@ -365,10 +365,10 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
         {expanded.length === 0 ? 'Expand all' : 'Collapse all'}
       </Button>
       {interfacePresetLibrary &&  <Button onClick={() => {
-        setIsMorphPresetModalOpen(true)
+        setIsMorphPresetDialogOpen(true)
       }}>Morph current tree to Preset</Button>}
       <Button onClick={() => {
-        setIsAddPresetModalOpen(true)
+        setIsAddPresetDialogOpen(true)
       }}>Save current tree to Preset</Button>
       <TreeView
         aria-label="customized"

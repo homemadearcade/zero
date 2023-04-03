@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CutscenesMenu.scss';
-import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeCutscenesMenu, openCreateCutscene, updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
@@ -30,7 +30,7 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { ga
     </div>
   }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CutscenesMenu">
       <Typography component="h2" variant="h2">Cutscenes</Typography>
       {Object.keys(cutscenes).map((cutsceneId) => {
@@ -49,7 +49,7 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { ga
         }}>Show Removed Cutscenes</Button>
       </Unlockable>}
     </div>
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

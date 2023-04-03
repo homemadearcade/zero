@@ -8,8 +8,8 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
-import { PLAYER_ENTITY_IID, PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
-import { PROJECTILE_TARGET_CLASS } from '../../constants';
+import { PLAYER_ENTITY_IID, PROJECTILE_ENTITY_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
+import { PROJECTILE_TARGET_ENTITY_MODEL } from '../../constants';
 import SelectProjectileBehavior from '../../ui/SelectProjectileBehavior/SelectProjectileBehavior';
 
         // {false && <Unlockable isSlider interfaceId={PROJECTILE_AMMO_IID}>
@@ -30,7 +30,7 @@ const ProjectileEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
 
   return (
     <div className="ProjectileEditor">
-      <Unlockable interfaceId={PROJECTILE_CLASS_IID}>
+      <Unlockable interfaceId={PROJECTILE_ENTITY_IID}>
         <SelectEntity 
           formLabel="Projectile Entity"
           value={entitySelected.projectile.entityModelId ? [entitySelected.projectile.entityModelId] : []}
@@ -49,7 +49,7 @@ const ProjectileEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
               editGameModel({ entityModels: { [entityModelId]: { projectile: { projectileBehavior: projectileBehavior[projectileBehavior.length-1] } } }})    
             }}/>
         </Unlockable>}
-        {entitySelected.projectile.projectileBehavior === PROJECTILE_TARGET_CLASS && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+        {entitySelected.projectile.projectileBehavior === PROJECTILE_TARGET_ENTITY_MODEL && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
           <SelectEntity
             formLabel="Target Entity"
             value={entitySelected.projectile.targetEntityId ? [entitySelected.projectile.targetEntityId] : []}

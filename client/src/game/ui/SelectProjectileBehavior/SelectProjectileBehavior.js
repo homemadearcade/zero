@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectProjectileBehavior.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { PROJECTILE_DOWN, PROJECTILE_UP, PROJECTILE_LEFT, PROJECTILE_RIGHT, PROJECTILE_RANDOM_DIRECTION, PROJECTILE_TARGET_CLASS, PROJECTILE_TARGET_PLAYER, PROJECTILE_NONE, PROJECTILE_RANDOM_ANGLE } from '../../constants';
+import { PROJECTILE_DOWN, PROJECTILE_UP, PROJECTILE_LEFT, PROJECTILE_RIGHT, PROJECTILE_RANDOM_DIRECTION, PROJECTILE_TARGET_ENTITY_MODEL, PROJECTILE_TARGET_PLAYER, PROJECTILE_NONE, PROJECTILE_RANDOM_ANGLE } from '../../constants';
 // import { defaultProjectile } from '../../constants';
 
 // const projectileValues = {
@@ -13,7 +13,7 @@ import { PROJECTILE_DOWN, PROJECTILE_UP, PROJECTILE_LEFT, PROJECTILE_RIGHT, PROJ
 //   [PROJECTILE_LEFT]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_LEFT } },
 //   [PROJECTILE_RIGHT]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_RIGHT } },
 //   [PROJECTILE_RANDOM_DIRECTION]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_RANDOM_DIRECTION } },
-//   [PROJECTILE_TARGET_CLASS]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_TARGET_CLASS } },
+//   [PROJECTILE_TARGET_ENTITY_MODEL]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_TARGET_ENTITY_MODEL } },
 //   [PROJECTILE_TARGET_PLAYER]: {...defaultProjectile, projectile: { ...defaultProjectile.projectile, projectileBehavior: PROJECTILE_TARGET_PLAYER } },
 //   [PROJECTILE_NONE]: {...defaultProjectile },
 // }
@@ -25,7 +25,7 @@ const projectileValueToLabel = {
   [PROJECTILE_RIGHT]: 'Eject Right',
   [PROJECTILE_RANDOM_DIRECTION]: 'Eject Random Direction',
   [PROJECTILE_RANDOM_ANGLE]: 'Eject Random Angle',
-  [PROJECTILE_TARGET_CLASS]: 'Eject at Entity',
+  [PROJECTILE_TARGET_ENTITY_MODEL]: 'Eject at Entity',
   [PROJECTILE_TARGET_PLAYER]: 'Eject at Player',
   [PROJECTILE_NONE]: 'Does not eject'
 }

@@ -142,8 +142,11 @@ const StepBuilder = ({
           editExperienceModel(experienceModel.id, {
             instructions: {
               [instructionId]: {
-                stepOrder:newStepOrder
-              }
+                stepOrder:newStepOrder,
+                steps: {
+                  [step.stepId]: null
+                }
+              },
             },
           })
       }}/>
@@ -201,8 +204,11 @@ const StepBuilder = ({
                 steps: {
                   [step.stepId]: {
                     promptOrder: newPromptOrder
-                  }
+                  },
                 },
+                prompts: {
+                  [prompt.promptId]: null
+                }
               }
             }
           })
@@ -216,7 +222,7 @@ const StepBuilder = ({
 
       // const title = step.title
 
-      const body = <div>
+      const body = <div className="StepBuilder__step-body">
         {renderStepButtons(step, index)}
         {renderStepBehavior(step)}
         {renderStepPrompts(step)}

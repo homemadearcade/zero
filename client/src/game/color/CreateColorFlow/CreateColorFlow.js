@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateColorFlow.scss';
 import { toggleEyeDropper } from '../../../store/actions/game/gameFormEditorActions';
-import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
@@ -18,7 +18,7 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, toggleEyeDropper, g
     closeCreateColorFlow()
   }
 
-  return <CobrowsingModal open={!isEyeDropping} onClose={handleClose}>
+  return <CobrowsingDialog open={!isEyeDropping} onClose={handleClose}>
     <div className="CreateColorFlow">
       <Typography component="h2" variant="h2">Add Color</Typography>
       <Icon icon="faEyeDropper" onClick={() => {
@@ -47,7 +47,7 @@ const CreateColorFlow = ({ onComplete, closeCreateColorFlow, toggleEyeDropper, g
         </Button>
       </div>
     </div>
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 {/* <Button onClick={() => {

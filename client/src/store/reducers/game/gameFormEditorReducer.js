@@ -4,8 +4,8 @@ import { mergeDeep } from '../../../utils/utils';
 import {
   CLEAR_EDITOR_FORMS,
   OPEN_EDIT_ENTITY_GRAPHICS,
-  CLOSE_CREATE_CLASS_FLOW,
-  UPDATE_CREATE_CLASS,
+  CLOSE_CREATE_ENTITY_FLOW,
+  UPDATE_CREATE_ENTITY_MODEL,
   OPEN_CREATE_COLOR_FLOW,
   CLOSE_CREATE_COLOR_FLOW,
   TOGGLE_EYE_DROPPER,
@@ -29,8 +29,8 @@ import {
   OPEN_CREATE_STAGE,
   UPDATE_CREATE_STAGE,
   CLOSE_CREATE_STAGE,
-  OPEN_CLASS_EDIT_MODAL,
-  CLOSE_CLASS_EDIT_MODAL,
+  OPEN_ENTITY_EDIT_DIALOG,
+  CLOSE_ENTITY_EDIT_DIALOG,
   OPEN_CREATE_EFFECT,
   UPDATE_CREATE_EFFECT,
   CLOSE_CREATE_EFFECT,
@@ -41,9 +41,9 @@ import {
   UPDATE_CREATE_EVENT,
   CLOSE_CREATE_EVENT,
   UPDATE_CREATE_CANVAS_IMAGE,
-  OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING,
-  CLOSE_CREATE_CANVAS_IMAGE_MODAL,
-  OPEN_CREATE_CANVAS_IMAGE_MODAL,
+  OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING,
+  CLOSE_CREATE_CANVAS_IMAGE_DIALOG,
+  OPEN_CREATE_CANVAS_IMAGE_DIALOG,
 } from '../../types';
 
 // game create editor
@@ -57,7 +57,7 @@ const initialState = {
   },
 
   isEditEntityGraphicsOpen: false,
-  isEditEntityModalOpen: false,
+  isEditEntityDialogOpen: false,
   entityModel: {
     visualTags: [],
     graphics : {
@@ -88,7 +88,7 @@ const initialState = {
   },
 
   isStagesMenuOpen: false,
-  isCreateStageModalOpen: false,
+  isCreateStageDialogOpen: false,
   stage: {
     name: '',
   },
@@ -116,8 +116,8 @@ const initialState = {
     ...defaultRelationship,
   },
 
-  isCanvasImageModalLoading: false,
-  isCanvasImageModalOpen: false,
+  isCanvasImageDialogLoading: false,
+  isCanvasImageDialogOpen: false,
   canvasImage: {
     visualTags: []
   }
@@ -141,16 +141,16 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
           layerId: payload.layerId
         },
       }
-    case OPEN_CLASS_EDIT_MODAL: 
+    case OPEN_ENTITY_EDIT_DIALOG: 
       return {
         ...state,
-        isEditEntityModalOpen: true,
+        isEditEntityDialogOpen: true,
         entityModel: payload.entityModel
       }
-    case CLOSE_CLASS_EDIT_MODAL:
+    case CLOSE_ENTITY_EDIT_DIALOG:
       return {
         ...state,
-        isEditEntityModalOpen: false,
+        isEditEntityDialogOpen: false,
         // entityModel: null
       }
     case CLOSE_CREATE_COLOR_FLOW: 
@@ -159,7 +159,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isCreateColorFlowOpen: null,
 
       }
-    case UPDATE_CREATE_CLASS: 
+    case UPDATE_CREATE_ENTITY_MODEL: 
       return {
         ...state,
         entityModel: mergeDeep(state.entityModel, payload.entityModel)
@@ -173,7 +173,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         },
         isEditEntityGraphicsOpen: payload.interfaceId
       }
-    case CLOSE_CREATE_CLASS_FLOW: 
+    case CLOSE_CREATE_ENTITY_FLOW: 
       return {
         ...state,
         isEditEntityGraphicsOpen: false
@@ -344,7 +344,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case OPEN_CREATE_STAGE: 
       return {
         ...state,
-        isCreateStageModalOpen: true,
+        isCreateStageDialogOpen: true,
         stage: {
           ..._.cloneDeep(initialState.stage),
           ...payload.initialStage ? _.cloneDeep(payload.initialStage) : {}
@@ -358,32 +358,32 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case CLOSE_CREATE_STAGE: 
       return {
         ...state,
-        isCreateStageModalOpen: false
+        isCreateStageDialogOpen: false
       }
     case UPDATE_CREATE_CANVAS_IMAGE: 
       return {
         ...state,
         canvasImage: mergeDeep(state.canvasImage, payload.canvasImage)
       }
-    case OPEN_CREATE_CANVAS_IMAGE_MODAL:
+    case OPEN_CREATE_CANVAS_IMAGE_DIALOG:
       return {
         ...state,
-        isCanvasImageModalOpen: true,
+        isCanvasImageDialogOpen: true,
         imageCanvasTextureId: payload.textureId,
         canvasImage: payload.canvasImage,
-        isCanvasImageModalLoading: false
+        isCanvasImageDialogLoading: false
       }
-    case CLOSE_CREATE_CANVAS_IMAGE_MODAL: 
+    case CLOSE_CREATE_CANVAS_IMAGE_DIALOG: 
       return {
         ...state,
-        isCanvasImageModalOpen: false,
+        isCanvasImageDialogOpen: false,
         imageCanvasTextureId: null,
-        isCanvasImageModalLoading: false
+        isCanvasImageDialogLoading: false
       }
-    case OPEN_CREATE_CANVAS_IMAGE_MODAL_LOADING: 
+    case OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING: 
       return {
         ...state,
-        isCanvasImageModalLoading: true
+        isCanvasImageDialogLoading: true
       }
     case CLEAR_EDITOR_FORMS:
       return initialState

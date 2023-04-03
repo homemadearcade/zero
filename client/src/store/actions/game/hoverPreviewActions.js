@@ -1,5 +1,5 @@
 import { 
-  CHANGE_CLASS_ID_HOVERING,
+  CHANGE_ENTITY_ID_HOVERING,
   CHANGE_BRUSH_ID_HOVERING,
   CHANGE_INSTANCE_HOVERING,
   CHANGE_EFFECT_ID_HOVERING,
@@ -11,7 +11,7 @@ import {
 
 export const changeEntityIdHovering = (entityModelId) => (dispatch, getState) => {
   dispatch({
-    type: CHANGE_CLASS_ID_HOVERING,
+    type: CHANGE_ENTITY_ID_HOVERING,
     updateCobrowsing: true,
     cobrowsingPublisherOnly: true,
     payload: {

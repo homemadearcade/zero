@@ -2,7 +2,7 @@ import { connect } from "react-redux"
 import { compose } from "redux"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectBehaviorToDisplayNames, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT,
+import { effectBehaviorToDisplayNames, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_SWITCH_STAGE,
 } from "../../constants"
 import Sprite from "../../textures/Texture/Texture"
 
@@ -24,6 +24,15 @@ function renderEntity(entityModel) {
   </span>
 }
 
+function renderStage(stage) {
+  return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
+    {stage.backgroundColor && <span style={{width: '.6em', height: '.6em'}}>
+      <Sprite textureTint={stage.backgroundColor}/>
+    </span>}
+    <span>{stage.name}</span>
+  </span>
+}
+
 function renderEffect(effect) {
   const displayName = effectBehaviorToDisplayNames[effect.effectBehavior]
   return  <Typography sx={{ fontWeight: 'bold' }} component="span">{displayName}</Typography>
@@ -39,6 +48,7 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
   const entityModels = gameModel.entityModels 
   const cutscenes = gameModel.cutscenes 
   const relationTags = gameModel.relationTags 
+  const stages = gameModel.stages 
 
   function renderBody() {
     if(effectBehavior === EFFECT_TELEPORT) {
@@ -81,6 +91,13 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
           {effect.remoteEffectedRelationTagIds.map((relationTagId) => relationTags[relationTagId]).map(renderRelationTag)}
         </>
       }
+    }
+
+    if(effectBehavior === EFFECT_SWITCH_STAGE) {
+      return <>
+        {renderEffect(effect)}
+        {renderStage(stages[effect.stageId])}
+      </>
     }
   
     return renderEffect(effect)

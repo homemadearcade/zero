@@ -1,8 +1,8 @@
-EDIT CLASS MODAL
+EDIT ENTITY_MODEL DIALOG
   All Edit Entity stuff in same place
   Dialogues
   Behavior -> Side Editor Stuff
-  TABS FOR the EDIT CLASS MODAL ( yes : )  
+  TABS FOR the EDIT ENTITY_MODEL DIALOG ( yes : )  
     AUTOGENERATION FORM
   CLEAN UP UI in general
   NEW UI

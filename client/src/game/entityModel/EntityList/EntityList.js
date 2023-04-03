@@ -14,20 +14,20 @@ import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/Co
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { entityModelTypeToDisplayName, entityModelTypeToContainerIID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import { BASIC_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID, getSelectEntityFromEntityType, NPC_ENTITY_IID, OPEN_ENTITY_BOX_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, SELECTOR_ENTITY_BY_CLASS_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
-import { openEntityBoxModal } from '../../../store/actions/game/gameSelectorActions';
+import { BASIC_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, getSelectEntityFromEntityType, NPC_ENTITY_IID, OPEN_ENTITY_BOX_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
 import Icon from '../../../ui/Icon/Icon';
 import EntityModelAdd from '../EntityModelAdd/EntityModelAdd';
 
-const CLASS_MAX = 16
+const ENTITY_MAX = 16
 
 const EntityList = ({
   gameModel: { gameModel },
   gameFormEditor: { isEditEntityGraphicsOpen },
   editGameModel,
   gameViewEditor: {layerInvisibility},
-  openEntityBoxModal,
+  openEntityBoxDialog,
 }) => {
   const entityModels = gameModel?.entityModels
 
@@ -45,7 +45,7 @@ const EntityList = ({
   function renderEntityBoxButton(entityModelType){
     return <Unlockable interfaceId={OPEN_ENTITY_BOX_IID}>
       <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
-        openEntityBoxModal(entityModelType)
+        openEntityBoxDialog(entityModelType)
       }}>
         More
       </Button>
@@ -55,7 +55,7 @@ const EntityList = ({
   const filterEntityModels = (entityModelType) => (currentEntityModelId) => {
     const currentEntityModel = entityModels[currentEntityModelId]
     if(currentEntityModel.isRemoved) return 
-    if(currentEntityModel.editorInterface.hiddenFromInterfaceIds[SELECTOR_ENTITY_BY_CLASS_IID]) return false
+    if(currentEntityModel.editorInterface.hiddenFromInterfaceIds[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]) return false
     if(!currentEntityModel.isImported) return false 
     if(currentEntityModel.entityInterfaceId === entityModelType) {
       return true
@@ -71,9 +71,9 @@ const EntityList = ({
     const releventEntityModels = Object.keys(entityModels).
       filter(filterEntityModels(entityInterfaceId)).
       sort(sortByLastEditedDate(entityModels)).
-      map(renderEntityItem(entityInterfaceId)).filter((item) => !!item).slice(0, CLASS_MAX -1)
+      map(renderEntityItem(entityInterfaceId)).filter((item) => !!item).slice(0, ENTITY_MAX -1)
     
-    releventEntityModels.push(<EntityModelAdd addEntityModalInterfaceId={EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID} entityInterfaceId={entityInterfaceId}>
+    releventEntityModels.push(<EntityModelAdd addEntityDialogInterfaceId={EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID} entityInterfaceId={entityInterfaceId}>
       {(onClick) => {
         return <Button className="EntityList__add" onClick={onClick}>
           +
@@ -89,7 +89,7 @@ const EntityList = ({
       </>,
       body: <>
         <BorderedGrid
-          maxItems={CLASS_MAX} 
+          maxItems={ENTITY_MAX} 
           height="3.3em"
           width="3.95em"
           items={releventEntityModels}
@@ -120,5 +120,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openEntityBoxModal }),
+  connect(mapStateToProps, { editGameModel, openEntityBoxDialog }),
 )(EntityList);

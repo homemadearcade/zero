@@ -7,11 +7,11 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
-import GameTexturesModal from '../../textures/GameTexturesModal/GameTexturesModal';
-import { closeGameTexturesModal, openGameTexturesModal } from '../../../store/actions/game/gameSelectorActions';
+import GameTexturesDialog from '../../textures/GameTexturesDialog/GameTexturesDialog';
+import { closeGameTexturesDialog, openGameTexturesDialog } from '../../../store/actions/game/gameSelectorActions';
 import { getImageUrlFromTextureId } from '../../../utils';
 
-const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openGameTexturesModal, closeGameTexturesModal, gameSelector: { isGameTexturesModalOpen} }) => {
+const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, openGameTexturesDialog, closeGameTexturesDialog, gameSelector: { isGameTexturesDialogOpen} }) => {
   const metadata = gameModel.metadata
 
   const { title, description, authorPseudonym } = metadata
@@ -42,7 +42,7 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
     return <>
       {imageUrl  && <img className="GameMetadataForm__image" alt={title + ' image'} src={imageUrl}/>}
       <Button onClick={() => {
-        openGameTexturesModal()
+        openGameTexturesDialog()
       }}>Select Image</Button>
     </>
   }
@@ -79,9 +79,9 @@ const GameMetadataForm = ({ editGameModel, gameModel: { gameModel }, onSubmit, o
           />
         </div>
       <Button type="submit" onClick={handleSubmit(submit)}>Save</Button>
-      {isGameTexturesModalOpen && <GameTexturesModal onClickTexture={(textureId) => {
+      {isGameTexturesDialogOpen && <GameTexturesDialog onClickTexture={(textureId) => {
         setImageUrl(getImageUrlFromTextureId(textureId))
-        closeGameTexturesModal()
+        closeGameTexturesDialog()
       }}/>}
     </div>
   )
@@ -92,4 +92,4 @@ const mapStateToProps = (state) => ({
   gameSelector: state.gameSelector
 });
 
-export default connect(mapStateToProps, { editGameModel, closeGameTexturesModal, openGameTexturesModal })(GameMetadataForm);
+export default connect(mapStateToProps, { editGameModel, closeGameTexturesDialog, openGameTexturesDialog })(GameMetadataForm);

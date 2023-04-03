@@ -132,7 +132,7 @@ GAME ROOMS
 
 ---
 
-MODALS 
+DIALOGS 
 
 ROOT LEVEL
   Sprite Editor

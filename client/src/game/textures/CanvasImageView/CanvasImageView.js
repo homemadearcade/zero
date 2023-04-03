@@ -8,11 +8,11 @@ import { newTextureSize, POPUP_SCENE } from '../../constants';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import { CodrawingScene } from '../../scenes/CodrawingScene';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { setCanvasImageModalGameInstance } from '../../../store/actions/webPageActions';
+import { setCanvasImageDialogGameInstance } from '../../../store/actions/webPageActions';
 
 const CanvasImageView = ({
   textureTint,
-  setCanvasImageModalGameInstance,
+  setCanvasImageDialogGameInstance,
   initialTextureId,
   textureId
  }) => {
@@ -34,7 +34,7 @@ const CanvasImageView = ({
       
       game = new Phaser.Game(config);
       game.scene.add(POPUP_SCENE, new CodrawingScene({ initialTextureId, textureId, textureTint, key: POPUP_SCENE, size: newTextureSize }), true);
-      setCanvasImageModalGameInstance(game)
+      setCanvasImageDialogGameInstance(game)
     }, 100)
 
     console.log('load sprite edit ')
@@ -54,4 +54,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 
 });
 
-export default connect(mapStateToProps, { setCanvasImageModalGameInstance })(CanvasImageView);
+export default connect(mapStateToProps, { setCanvasImageDialogGameInstance })(CanvasImageView);

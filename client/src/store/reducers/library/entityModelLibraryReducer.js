@@ -11,7 +11,7 @@ import {
   EDIT_ENTITY_MODEL_FAIL,
   EDIT_ENTITY_MODEL_SUCCESS,
   EDIT_ENTITY_MODEL_LOADING,
-  CLEAR_ENTITY_MODEL,
+  CLEAR_SELECTED_ENTITY_MODEL,
 } from '../../types';
 
 const initialState = {
@@ -55,7 +55,7 @@ export default function entityModelLibraryReducer(state = initialState, { type, 
         isLoading: false,
         entityModel: payload.entityModel,
       };
-    case CLEAR_ENTITY_MODEL: 
+    case CLEAR_SELECTED_ENTITY_MODEL: 
       return {
         ...state,
         entityModel: null,

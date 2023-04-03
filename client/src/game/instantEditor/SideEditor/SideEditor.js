@@ -6,7 +6,7 @@ import { closeLiveEditor, openLiveEditor } from '../../../store/actions/game/gam
 
 import './SideEditor.scss'
 import Button from '../../../ui/Button/Button';
-import PhysicsEditor from '../PhysicsEditor/PhysicsEditor';
+import CollisionsEditor from '../CollisionsEditor/CollisionsEditor';
 import GravityEditor from '../GravityEditor/GravityEditor';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
@@ -75,7 +75,7 @@ const SideEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityMod
       {liveEditingCategory === JUMP_EDITOR_IID && <JumpEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
       {liveEditingCategory === MOVEMENT_EDITOR_IID && <MovementEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
       {liveEditingCategory === PROJECTILE_EDITOR_IID && <ProjectileEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
-      {liveEditingCategory === COLLISION_EDITOR_IID && <PhysicsEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
+      {liveEditingCategory === COLLISION_EDITOR_IID && <CollisionsEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
       {liveEditingCategory === STAGE_EDITOR_IID && <GravityEditor/>}
       {liveEditingCategory === CAMERA_EDITOR_IID && <CameraEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
     </div>

@@ -11,7 +11,7 @@ import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Texture from '../Texture/Texture';
 import Button from '../../../ui/Button/Button';
-import CanvasImageModal from '../CanvasImageModal/CanvasImageModal';
+import CanvasImageDialog from '../CanvasImageDialog/CanvasImageDialog';
 import { NON_LAYER_COLOR_ID } from '../../constants';
 import GameTextures from '../GameTextures/GameTextures';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
@@ -19,7 +19,7 @@ import Icon from '../../../ui/Icon/Icon';
 import { CHOOSE_TEXTURES_IID, DRAW_NEW_TEXTURE_IID } from '../../../constants/interfaceIds';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import TextureStage from '../TextureStage/TextureStage';
-import { openCreateCanvasImageModal, openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
+import { openCreateCanvasImageDialog, openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
 
 const CreateTexture = ({
   textureIdSelected,
@@ -32,8 +32,8 @@ const CreateTexture = ({
   openCreateColorFlow,
   editGameModel,
   gameModel: { gameModel : { colors }},
-  openCreateCanvasImageModal,
-  gameFormEditor: { isCreateColorFlowOpen, isCanvasImageModalOpen }
+  openCreateCanvasImageDialog,
+  gameFormEditor: { isCreateColorFlowOpen, isCanvasImageDialogOpen }
 }) => {
   return <>
     <div className="CreateTexture">
@@ -49,9 +49,9 @@ const CreateTexture = ({
         </div>}
       </TextureStage></div>
 
-      { !isCanvasImageModalOpen && <Unlockable interfaceId={DRAW_NEW_TEXTURE_IID}>
+      { !isCanvasImageDialogOpen && <Unlockable interfaceId={DRAW_NEW_TEXTURE_IID}>
         <Button onClick={() => {
-          openCreateCanvasImageModal(textureIdSelected)
+          openCreateCanvasImageDialog(textureIdSelected)
         }}>
           Draw New Texture
         </Button>
@@ -83,7 +83,7 @@ const CreateTexture = ({
         })
       }}
     />}
-    {isCanvasImageModalOpen && <CanvasImageModal textureTintSelected={textureTintSelected} onSaveCanvasImage={onSelect} />}
+    {isCanvasImageDialogOpen && <CanvasImageDialog textureTintSelected={textureTintSelected} onSaveCanvasImage={onSelect} />}
   </>
 };
 
@@ -93,5 +93,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 });
 
 export default compose(
-  connect(mapStateToProps, { openCreateColorFlow, editGameModel, openCreateCanvasImageModal  }),
+  connect(mapStateToProps, { openCreateColorFlow, editGameModel, openCreateCanvasImageDialog  }),
 )(CreateTexture);

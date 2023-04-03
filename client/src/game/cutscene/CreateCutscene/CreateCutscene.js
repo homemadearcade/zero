@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateCutscene.scss';
-import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeCreateCutscene, updateCreateCutscene } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -11,8 +11,8 @@ import CutsceneNameForm from '../../cutscene/CutsceneNameForm/CutsceneNameForm';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import Typography from '../../../ui/Typography/Typography';
-import GameTexturesModal from '../../textures/GameTexturesModal/GameTexturesModal';
-import { closeGameTexturesModal, openGameTexturesModal } from '../../../store/actions/game/gameSelectorActions';
+import GameTexturesDialog from '../../textures/GameTexturesDialog/GameTexturesDialog';
+import { closeGameTexturesDialog, openGameTexturesDialog } from '../../../store/actions/game/gameSelectorActions';
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
@@ -23,11 +23,11 @@ import { CUTSCENE_ID_PREFIX, SCENE_ID_PREFIX } from '../../constants';
 const CreateCutscene = ({ 
   closeCreateCutscene, 
   editGameModel, 
-  openGameTexturesModal,
-  closeGameTexturesModal,
+  openGameTexturesDialog,
+  closeGameTexturesDialog,
   updateCreateCutscene, 
   gameFormEditor: { cutscene },
-  gameSelector: { isGameTexturesModalOpen },
+  gameSelector: { isGameTexturesDialogOpen },
   gameModel: { gameModel },
 }) => {
   const [editScene, setEditScene] = useState(null)
@@ -105,7 +105,7 @@ const CreateCutscene = ({
     </>
   }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CreateCutscene">
        <Unlockable interfaceId={DIALOGUE_SHORTCUT_IID}>
         <Switch
@@ -138,7 +138,7 @@ const CreateCutscene = ({
               setEditScene(null)
             }}
             onChooseNewImage={() => {
-              openGameTexturesModal()
+              openGameTexturesDialog()
               updateCreateCutscene({
                 indexSelected: index
               })
@@ -189,15 +189,15 @@ const CreateCutscene = ({
         }}>Restore</Button>}
       </div>
     </div>
-    {isGameTexturesModalOpen && <GameTexturesModal onClickTexture={(textureId) => {
+    {isGameTexturesDialogOpen && <GameTexturesDialog onClickTexture={(textureId) => {
       const scenes = cutscene.scenes.slice()
       scenes[cutscene.indexSelected].imageUrl = getImageUrlFromTextureId(textureId)
       updateCreateCutscene({
         scenes,
       })
-      closeGameTexturesModal()
+      closeGameTexturesDialog()
     }}/>}
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
@@ -207,5 +207,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateCutscene, closeCreateCutscene, editGameModel, openGameTexturesModal, closeGameTexturesModal }),
+  connect(mapStateToProps, { updateCreateCutscene, closeCreateCutscene, editGameModel, openGameTexturesDialog, closeGameTexturesDialog }),
 )(CreateCutscene);

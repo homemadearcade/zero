@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateRelation.scss';
-import CobrowsingModal from '../../../game/cobrowsing/CobrowsingModal/CobrowsingModal';
+import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeCreateRelation, openCreateEffect, updateCreateEvent, updateCreateRelation } from '../../../store/actions/game/gameFormEditorActions';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -347,7 +347,7 @@ const CreateRelation = ({
       </div>
   }
 
-  return <CobrowsingModal open={true} onClose={handleClose}>
+  return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CreateEvent">
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
@@ -375,7 +375,7 @@ const CreateRelation = ({
       }}>New Effect</Button>}
       {renderButtons()}
     </div>
-  </CobrowsingModal>
+  </CobrowsingDialog>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
