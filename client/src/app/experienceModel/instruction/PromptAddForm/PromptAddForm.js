@@ -50,7 +50,7 @@ const PromptAddForm = ({ onSubmit, defaultValues = {}}) => {
       <Button onClick={() => {
         setIsPromptAddOpen(true)
         setValue('promptId', PROMPT_ID_PREFIX + generateUniqueId())
-      }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Prompt</Button>
+      }} startIcon={<Icon icon="faPlus"/>} className="btn">New Prompt</Button>
       <Dialog onClose={() => {
         setIsPromptAddOpen(false)
       }} open={isPromptAddOpen}>

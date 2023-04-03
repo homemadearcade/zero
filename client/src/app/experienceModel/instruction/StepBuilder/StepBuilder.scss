@@ -1,0 +1,36 @@
+.StepBuilder {
+  max-width: 500px;
+
+  &__step-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__prompt-buttons {
+    position: absolute;
+    right: .2em;
+    top: .2em
+  }
+
+  &__prompts {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    flex-direction: column;
+  }
+
+  &__prompt {
+    position: relative;
+  }
+
+  &__prompt-text {
+    padding: 1em 2em;
+  }
+
+  &__prompt-role {
+        width: max-content;
+        padding: .4em;
+    background-color: #333;
+  }
+}

@@ -10,8 +10,8 @@ import { loadArcadeGameByMongoId, unloadArcadeGame } from '../../../../store/act
 import Loader from '../../../../ui/Loader/Loader';
 import StepAddForm from '../StepAddForm/StepAddForm';
 import GameCard from '../../../gameModel/GameCard/GameCard';
-import Typography from '../../../../ui/Typography/Typography';
 import { INSTRUCTION_GAME_ROOM } from '../../../../constants';
+import { Divider } from '@mui/material';
 
 const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editExperienceModel, instructionId, gameModel: { gameModel, isLoading }, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const instruction = experienceModel.instructions[instructionId]
@@ -25,9 +25,17 @@ const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editEx
     }
   }, [])
 
-  const { handleSubmit, control, formState: { isValid }, register } = useForm({
-    defaultValues: instruction
+  const { handleSubmit, control, reset, getValues, formState: { isValid }, register } = useForm({
+    defaultValues: {
+      ...instruction
+    }
   });
+
+
+  useEffect(() => {
+    reset({...instruction, name: getValues('name')})
+  }, [instruction])
+
   const submit = async (data) => {
     editExperienceModel(experienceModel.id, {
       instructions: {
@@ -39,8 +47,9 @@ const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editEx
     if(onSubmit) onSubmit()
   }
 
+  if(instruction.instructionCategory === INSTRUCTION_GAME_ROOM && (!gameModel || isLoading)) return <Loader/>
 
-  if(instruction.arcadeGameMongoId && (!gameModel || isLoading)) return <Loader/>
+          // <Typography variant="h2">{instruction.instructionCategory === INSTRUCTION_GAME_ROOM ? 'Game Room Steps': 'Lobby Steps'}</Typography>
 
   return (
     <div className="InstructionEditForm">
@@ -57,8 +66,16 @@ const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editEx
             }
           })
         }}>Remove</Button>
-        {gameModel && <GameCard game={gameModel} />}
-        <Typography variant="h2">{instruction.instructionCategory === INSTRUCTION_GAME_ROOM ? 'Game Room Steps': 'Lobby Steps'}</Typography>
+          <br/>
+          <br/>
+        {gameModel && <>
+          <Divider/>
+          <br/>
+          <GameCard game={gameModel} />
+          <br/>
+        </>}
+        <Divider/>
+        <br/>
         <StepBuilder control={control} register={register} instructionId={instructionId}/>
         <StepAddForm
           instructionCategory={instruction.instructionCategory}

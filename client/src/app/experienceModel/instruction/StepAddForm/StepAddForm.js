@@ -31,7 +31,7 @@ const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
       <Button onClick={() => {
         setIsStepAddOpen(true)
         setValue('stepId', STEP_ID_PREFIX + generateUniqueId())
-      }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Step</Button>
+      }} startIcon={<Icon icon="faPlus"/>} className="btn">New Step</Button>
       <Dialog onClose={() => {
         setIsStepAddOpen(false)
       }} open={isStepAddOpen}>
