@@ -277,13 +277,13 @@ export const closeJsonViewer = () => (dispatch, getState) => {
   });
 }
 
-export const toggleSelectorClassInvisibility = (interfaceId, dataSource) => (dispatch, getState) => {
+export const toggleSelectorClassInvisibility = (interfaceId, dataSourceId) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: TOGGLE_SELECTOR_CLASS_INVISIBILITY,
     payload: {
       interfaceId,
-      dataSource
+      dataSourceId
     }
   });
 }

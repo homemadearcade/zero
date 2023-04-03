@@ -80,13 +80,13 @@ const EditEntityModal = ({ openEditEntityGraphics, updateCreateEntity, closeEdit
 
   function renderSelectCategory() {
     return <Unlockable interfaceId={CHANGE_ENTITY_INTERFACE_IID}>
-        <SelectEntityModelInterfaceCategory formLabel="Category" value={entityModel.entityInterfaceId ? [entityModel.entityInterfaceId]: []} onChange={(event, entityInterfaceId) => {
-          if(!entityInterfaceId.length) return
-          updateCreateEntity({
-            entityInterfaceId: entityInterfaceId[entityInterfaceId.length-1]
-          })
-        }}/>
-      </Unlockable>
+      <SelectEntityModelInterfaceCategory formLabel="Category" value={entityModel.entityInterfaceId ? [entityModel.entityInterfaceId]: []} onChange={(event, entityInterfaceId) => {
+        if(!entityInterfaceId.length) return
+        updateCreateEntity({
+          entityInterfaceId: entityInterfaceId[entityInterfaceId.length-1]
+        })
+      }}/>
+    </Unlockable>
   }
 
   

@@ -8,7 +8,7 @@ import { getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import Loader from '../../Loader/Loader';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 
-const SelectArcadeGame = ({ onSelect, label, userMongoId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
+const SelectArcadeGame = ({ excludedIds, onSelect, label, userMongoId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,6 +33,10 @@ const SelectArcadeGame = ({ onSelect, label, userMongoId, getArcadeGames, gamesS
 
   if(userMongoId) {
     options = options.filter((option) => {
+      if(excludedIds && excludedIds.indexOf(option.value) === 0) {
+        return false
+      }
+
       if(option.owner && option.owner.id === userMongoId) {
         return true
       } else if(gamesSelected.indexOf(option.value) >= 0) {

@@ -7,9 +7,6 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 
 LIBRARY
-  Easy system for saving library entityModels and relations
-  Boot all that into the game!
-
   Sends to Stars To Collide
   Sends to Stars on Interact
   Game Over on __

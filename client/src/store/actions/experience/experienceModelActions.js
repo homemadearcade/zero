@@ -94,24 +94,13 @@ function addDefaultsToExperienceModel(experienceModel) {
     })
   }
 
-  if(experienceModel.instructions) {
-    Object.keys(experienceModel.instructions).forEach((id) => {
-      experienceModel.instructions[id] = mergeDeep(_.cloneDeep(defaultInstructions), experienceModel.instructions[id])
-    })
-  }
-
-  if(experienceModel.gameRooms) {
-    Object.keys(experienceModel.gameRooms).forEach((id) => {
-      experienceModel.gameRooms[id] = mergeDeep(_.cloneDeep(defaultGameRoom), experienceModel.gameRooms[id])
-    })
-  }
-
   if(experienceModel.activitys) {
     Object.keys(experienceModel.activitys).forEach((id) => {
       const presetActivity =  mergeDeep(_.cloneDeep(defaultActivity), _.cloneDeep(experienceModel.activitys[id]))
 
       if(presetActivity.activityCategory === GAME_ROOM_ACTIVITY) {
-        const gameRoomInstructionsId = INSTRUCTION_ID_PREFIX+presetActivity.presetActivityId
+        console.log(presetActivity.activityId)
+        const gameRoomInstructionsId = INSTRUCTION_ID_PREFIX+presetActivity.activityId
         experienceModel.instructions[gameRoomInstructionsId] = {
           instructionId: gameRoomInstructionsId,
           instructionCategory: INSTRUCTION_GAME_ROOM,
@@ -128,7 +117,20 @@ function addDefaultsToExperienceModel(experienceModel) {
     })
   }
 
+  if(experienceModel.instructions) {
+    Object.keys(experienceModel.instructions).forEach((id) => {
+      experienceModel.instructions[id] = mergeDeep(_.cloneDeep(defaultInstructions), experienceModel.instructions[id])
+    })
+  }
+
+  if(experienceModel.gameRooms) {
+    Object.keys(experienceModel.gameRooms).forEach((id) => {
+      experienceModel.gameRooms[id] = mergeDeep(_.cloneDeep(defaultGameRoom), experienceModel.gameRooms[id])
+    })
+  }
+
 }
+
 
 function enrichExperienceModel(experienceModel) {
   

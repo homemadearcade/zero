@@ -23,7 +23,7 @@ export const entityModelTypeToDisplayName = {
   [BASIC_ENTITY_IID]: 'Object',
   [ZONE_ENTITY_IID]: 'Zone',
   [NPC_ENTITY_IID]: 'NPC',
-  [POWERUP_ENTITY_IID]: 'Powerup',
+  [POWERUP_ENTITY_IID]: 'Power Up',
 }
   
 

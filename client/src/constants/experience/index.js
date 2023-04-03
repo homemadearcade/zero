@@ -5,3 +5,5 @@ export * from './lobbys'
 export * from './activitys'
 export * from './experienceModel'
 export * from './views'
+
+export * from './interfaceData'

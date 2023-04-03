@@ -13,18 +13,17 @@ import Button from '../../../ui/Button/Button';
 import { entityModelTypeToDisplayName } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import EditEntityGraphics from '../EditEntityGraphics/EditEntityGraphics';
-import { addEntityModelToLibrary } from '../../../store/actions/library/entityModelLibraryActions';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 
 const EntityBoxModal = ({ 
   closeEntityBoxModal, 
   gameSelector: { entityBoxModelType }, 
   gameFormEditor: { isEditEntityGraphicsOpen },
-  gameModel : { gameModel : { entityModels }},
-  addEntityModelToLibrary,
+  gameModel : { gameModel, gameModel : { entityModels }},
   editGameModel
  }) => {
-  function handleClose(entityModelId) {
+
+  function handleClose(e) {
     closeEntityBoxModal()
   }
 
@@ -36,7 +35,7 @@ const EntityBoxModal = ({
 
   return <><CobrowsingModal open onClose={handleClose}>
     <div className="EntityBoxModal">
-      <EntityModelAdd entityInterfaceId={entityBoxModelType} parentInterfaceId={ENTITY_BOX_IID}>
+      <EntityModelAdd entityInterfaceId={entityBoxModelType} addEntityModalInterfaceId={ENTITY_BOX_IID}>
       {(onClick) => {
         return <Button size="wide" startIcon={<Icon icon="faPlus"/>}onClick={onClick}>
           Add {entityModelTypeToDisplayName[entityBoxModelType]}
@@ -47,7 +46,8 @@ const EntityBoxModal = ({
         editGameModel({
           entityModels: {
             [entityModelId]: {
-              isImported: true
+              isImported: true,
+              entityModelId
             }
           }
         })
@@ -56,8 +56,16 @@ const EntityBoxModal = ({
     </div>
   </CobrowsingModal>
     {isEditEntityGraphicsOpen === ENTITY_BOX_IID && <EditEntityGraphics 
-      onComplete={(entityModel) => {
-        addEntityModelToLibrary(entityModel)
+      onComplete={async (entityModel) => {
+        editGameModel({
+          entityModels: {
+            [entityModel.entityModelId]: {
+              ...entityModel,
+              isNew: false,
+              isImported: false
+            }
+          }
+        })
       }}
   />}
   </>
@@ -70,5 +78,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { closeEntityBoxModal, addEntityModelToLibrary, editGameModel }),
+  connect(mapStateToProps, { closeEntityBoxModal, editGameModel }),
 )(EntityBoxModal);

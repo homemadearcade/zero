@@ -5,6 +5,9 @@ import { editExperienceModel } from '../../../../store/actions/experience/experi
 import { useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
 import InstructionForm from '../InstructionForm/InstructionForm';
+import Typography from '../../../../ui/Typography/Typography';
+import VerticalLinearStepper from '../../../../ui/VerticalLinearStepper/VerticalLinearStepper';
+import StepAddForm from '../StepAddForm/StepAddForm';
 
 const InstructionEditForm = ({ editExperienceModel, instructionId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const instruction = experienceModel.instructions[instructionId]
@@ -23,6 +26,19 @@ const InstructionEditForm = ({ editExperienceModel, instructionId, experienceMod
     if(onSubmit) onSubmit()
   }
 
+  function formatSteps() {
+    return Object.keys(instruction.steps).map((stepId) => {
+
+      const title = instruction.steps[stepId].title
+
+
+
+      return {
+        stepId,
+      }
+    })
+  }
+
   return (
     <div className="InstructionEditForm">
       <form>
@@ -38,6 +54,21 @@ const InstructionEditForm = ({ editExperienceModel, instructionId, experienceMod
             }
           })
         }}>Remove</Button>
+        <Typography variant="h2">Steps</Typography>
+        <VerticalLinearStepper steps={formatSteps(instruction.steps)} />
+        <StepAddForm 
+          instructionCategory={instruction.instructionCategory}
+          onSubmit={(step) => {
+            editExperienceModel(experienceModel.id, {
+            instructions: {
+              [instructionId]: {
+                steps: {
+                  [step.stepId]: step
+                }
+              }
+            }
+          })
+        }}/>
       </form>
     </div>
   )

@@ -7,11 +7,11 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { ROLE_ID_PREFIX } from '../../../../constants';
-import RoleForm from '../RoleForm/RoleForm';
+import { STEP_ID_PREFIX } from '../../../../constants';
+import StepForm from '../StepForm/StepForm';
 
-const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
-  const [isRoleAddOpen, setIsRoleAddOpen] = useState(false)
+const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
+  const [isStepAddOpen, setIsStepAddOpen] = useState(false)
 
   const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
@@ -23,24 +23,24 @@ const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
   const submit = async (data) => {
     if(onSubmit) onSubmit(data)
     reset();
-    setIsRoleAddOpen(false)
+    setIsStepAddOpen(false)
   }
 
   return (
-    <div className="RoleAddForm">
+    <div className="StepAddForm">
       <Button onClick={() => {
-        setIsRoleAddOpen(true)
-        setValue('roleId', ROLE_ID_PREFIX + generateUniqueId())
-      }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Role</Button>
+        setIsStepAddOpen(true)
+        setValue('stepId', STEP_ID_PREFIX + generateUniqueId())
+      }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Step</Button>
       <Dialog onClose={() => {
-        setIsRoleAddOpen(false)
-      }} open={isRoleAddOpen}>
-        <DialogTitle>New Role</DialogTitle>
+        setIsStepAddOpen(false)
+      }} open={isStepAddOpen}>
+        <DialogTitle>New Step</DialogTitle>
         <DialogContent>
-          <RoleForm control={control} register={register} />
+          <StepForm instructionCategory={instructionCategory} control={control} register={register} />
         </DialogContent>
         <DialogActions>
-          <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Role</Button>
+          <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Step</Button>
         </DialogActions>
       </Dialog>
     </div>
@@ -51,4 +51,4 @@ const mapStateToProps = (state) => ({
 
 });
 
-export default connect(mapStateToProps, { })(RoleAddForm);
+export default connect(mapStateToProps, { })(StepAddForm);

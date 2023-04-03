@@ -18,7 +18,7 @@ export const defaultEffect = {
   cutsceneId: null,
   text: '',
   
-  dataSource: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceId: DATA_SOURCE_GAME_MODEL_IID,
   isRemoved: false,
   isReadOnly: false,
 

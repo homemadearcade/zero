@@ -31,7 +31,6 @@ const EntityItem = ({
   const entityModel = entityModels[entityModelId]
   const [isHovering, setIsHovering] = useState(false)
   const isSelected = entityModelIdSelectedEntityList === entityModelId
-
   
   const border = '1px solid ' + useWishTheme().primaryColor.hexString
   return <div

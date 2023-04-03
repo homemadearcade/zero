@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 import './VerticalLinearStepper.scss';
-import { Alert, AlertTitle, Divider } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/material';
 
 export default function VerticalLinearStepper({initialStep = 0, steps, completed, onStepChange, canSkipStep}) {
 
@@ -64,7 +64,7 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
             disabled = !!disabledEl
           }
 
-          if(step.break) return <Step key={step.id} >
+          if(step.break) return <Step key={step.stepId} >
             {step.title}
             <StepContent>
               <Button
@@ -82,7 +82,7 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
             </StepContent>
           </Step>
 
-          return <Step key={step.id} >
+          return <Step key={step.stepId} >
             <StepLabel
               onClick={() => {
                 if(canSkipStep) onChangeStep(index)

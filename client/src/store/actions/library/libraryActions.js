@@ -44,6 +44,8 @@ export const getLibrary = () => async (dispatch, getState) => {
       type: GET_LIBRARY_SUCCESS,
       payload: {},
     });
+
+    return response.data;
   } catch (err) {
     console.error(err)
 

@@ -31,4 +31,6 @@ DALL E GENERATOR
 
 EXPERIENCE ONLY EFFECTS ( such as overlay effect )
 
-User Speed Test Feature
+USER SPEED TESTS FULL FEATURE
+
+---

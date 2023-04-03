@@ -19,8 +19,7 @@ import {
   EDIT_RELATION_TAG_FAIL,
   CLEAR_RELATION_TAG,
 } from '../../types';
-import { CORE_LIBRARY_USER_MONGO_ID } from '../../../constants';
-import { DATA_SOURCE_CORE_LIBRARY_IID, DATA_SOURCE_USER_LIBRARY_IID } from '../../../game/constants';
+import { DATA_SOURCE_IMPORTED_GAME_MODEL } from '../../../game/constants';
 
 export const getRelationTagLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -101,7 +100,7 @@ export const addRelationTagToLibrary = (relationTag) => async (dispatch, getStat
   try {
     const userMongoId = getState().auth.me.id
     relationTag.userMongoId = userMongoId
-    relationTag.dataSource = userMongoId === CORE_LIBRARY_USER_MONGO_ID ? DATA_SOURCE_CORE_LIBRARY_IID: DATA_SOURCE_USER_LIBRARY_IID;
+    relationTag.dataSourceId = DATA_SOURCE_IMPORTED_GAME_MODEL
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/relationTag', relationTag, options);

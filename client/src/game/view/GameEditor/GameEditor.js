@@ -174,6 +174,7 @@ const GameEditor = ({
                   // must be a spread operator here because when this is opened it has a lot of properties brought in from some defaults
                   ...entityModel,
                   isNew: false,
+                  isImported: true
                   // graphics: entityModel.graphics,
                   // editorInterface: entityModel.editorInterface,
                   // visualTags: entityModel.visualTags,

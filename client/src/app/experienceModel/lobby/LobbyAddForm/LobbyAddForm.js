@@ -31,7 +31,7 @@ const LobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
       <Button onClick={() => {
         setIsLobbyAddOpen(true)
         setValue('lobbyId', LOBBY_ID_PREFIX + generateUniqueId())
-      }} startIcon={<Icon icon="faPlus"/>} type="submit" size="wide" className="btn">New Lobby</Button>
+      }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Lobby</Button>
       <Dialog onClose={() => {
         setIsLobbyAddOpen(false)
       }} open={isLobbyAddOpen}>

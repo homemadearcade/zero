@@ -125,11 +125,11 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       if(state.selectorInterfaceListInvisibility[payload.interfaceId]) {
         newSelectorClassInvisibility = {
           ...state.selectorInterfaceListInvisibility[payload.interfaceId],
-          [payload.dataSource]: !state.selectorInterfaceListInvisibility[payload.interfaceId][payload.dataSource],
+          [payload.dataSourceId]: !state.selectorInterfaceListInvisibility[payload.interfaceId][payload.dataSourceId],
         }
       } else {
         newSelectorClassInvisibility = {
-          [payload.dataSource]: true,
+          [payload.dataSourceId]: true,
         }
       }
       return {

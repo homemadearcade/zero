@@ -9,7 +9,7 @@ export const defaultEvent = {
   eventId: null,
   relationTagIdA: null,
   relationTagIdB: null,
-  dataSource: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceId: DATA_SOURCE_GAME_MODEL_IID,
   sidesA: [],
   sidesB: [],
 

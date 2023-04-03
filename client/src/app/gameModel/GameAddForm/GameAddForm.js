@@ -22,6 +22,8 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
       theme: {},
       relationTags: {},
       entityModels: {},
+      colliisions: {},
+      importedArcadeGames: [],
       brushes: {},
       colors: {},
       textures: {},
@@ -31,6 +33,7 @@ const GameAddForm = ({ addArcadeGame, onSubmit, auth: { me }, defaultValues = {}
   });
 
   const submit = async (data) => {
+    console.log(data)
     const gameResponse = await addArcadeGame(data);
 
     const game = gameResponse.data.game

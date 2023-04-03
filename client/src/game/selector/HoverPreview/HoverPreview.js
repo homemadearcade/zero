@@ -42,15 +42,7 @@ const HoverPreview = ({
   },
   gameModel: { 
     currentStageId,
-    gameModel: { 
-      metadata,
-      entityModels,
-      brushes,
-      stages,
-      effects,
-      relations,
-      relationTags
-    }
+    gameModel,
   },
   gameRoomInstance: {
     gameRoomInstance
@@ -63,6 +55,18 @@ const HoverPreview = ({
 }) => {
   const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
   const theme = useWishTheme()
+  const { gameEditorHeight } = useGameEditorSize()
+
+  if(!gameModel) return 
+
+  const { metadata,
+      entityModels,
+      brushes,
+      stages,
+      effects,
+      relations,
+      relationTags} = gameModel
+
   let entityModel
 
   const entityModelId = instanceEntityIdHovering || entityModelIdHovering || entityModelIdSelectedEntityList 
@@ -273,7 +277,6 @@ const HoverPreview = ({
     return renderGameTitleDisplay()
   }
 
-    const { gameEditorHeight } = useGameEditorSize()
 
   return <Unlockable interfaceId={HOVER_PREVIEW_IID}>
     <div className="HoverPreview"

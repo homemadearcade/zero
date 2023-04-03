@@ -13,7 +13,7 @@ export const defaultLayer = {
   layerGroupId: null,
   width: gameWidth,
   height: gameHeight,
-  dataSource: DATA_SOURCE_GAME_MODEL_IID
+  dataSourceId: DATA_SOURCE_GAME_MODEL_IID
 }
 
 export const layerGroupIdToDepth = {

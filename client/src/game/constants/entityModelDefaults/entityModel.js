@@ -8,7 +8,7 @@ import { defaultAutogeneration } from "../entityModelPropertyDefaults/autogenera
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
 
 export const defaultEntity = {
-  dataSource: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceId: DATA_SOURCE_GAME_MODEL_IID,
   // lastSelectedDate: 0,
   lastEditedDate: 0,
   isRemoved: false,

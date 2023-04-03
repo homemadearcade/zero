@@ -16,9 +16,8 @@ import { CONTEXT_MENU_CLASS_CAMERA_IID,
   CONTEXT_MENU_CLASS_EDIT_IID, CONTEXT_MENU_CLASS_PHYSICS_IID, CONTEXT_MENU_CLASS_PROJECTILE_IID, 
   CONTEXT_MENU_CLASS_REMOVE_IID, CONTEXT_MENU_CLASS_SELECT_PLAYER_IID, CONTEXT_MENU_INSTANCE_JSON_IID, 
   EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID, PLAYER_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID,
-  CAMERA_EDITOR_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID,
+  CAMERA_EDITOR_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID
 } from '../../../constants/interfaceIds';
-import { addEntityModelToLibrary } from '../../../store/actions/library/entityModelLibraryActions';
 
     // <Unlockable interfaceId={CONTEXT_MENU_CLASS_RELATIONS_IID}>
     //   <MenuItem onClick={() => {
@@ -38,13 +37,8 @@ const EntityContextMenu = ({
   entityModelId, 
   insideEntityInstanceContextMenu,
   openJsonViewer,
-  addEntityModelToLibrary,
-  entityModelLibrary: {
-    entityModelLibrary
-  }
 }) => {
   const entityModel = gameModel.entityModels[entityModelId]
-  const isInLibrary = entityModelLibrary.find(entityModel => entityModel.entityModelId === entityModelId)
 
   if(entityModelId === initialCameraZoneEntityId) {
     return null
@@ -119,7 +113,7 @@ const EntityContextMenu = ({
           entityModels: {
             [newEntityId]: {
               ...entityModel,
-              dataSource: DATA_SOURCE_GAME_MODEL_IID,
+              dataSourceId: DATA_SOURCE_GAME_MODEL_IID,
               entityModelId: newEntityId,
               name: entityModel.name + ' Duplicate',
               isNew: false
@@ -148,18 +142,11 @@ const EntityContextMenu = ({
         onMenuItemClick()
       }}>View Json</MenuItem>
     </Unlockable>}
-     <Unlockable interfaceId={CONTEXT_MENU_CLASS_GRAPHICS_IID}>
-      <MenuItem disabled={isInLibrary} onClick={() => {
-        addEntityModelToLibrary(entityModel)
-        onMenuItemClick()
-      }}>Add to Library</MenuItem>
-    </Unlockable>
   </>
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
-  entityModelLibrary: state.entityModelLibrary,
   playerInterface: state.playerInterface
 })
 
@@ -169,5 +156,4 @@ export default connect(mapStateToProps, {
   openEditEntityGraphics, 
   openLiveEditor, 
   openEditEntityModal,
-  addEntityModelToLibrary
 })(EntityContextMenu);

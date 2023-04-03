@@ -40,7 +40,7 @@ const ExperienceAddForm = ({ addExperienceModel, onSubmit, auth: { me }, default
     <div className="ExperienceAddForm">
       <Button onClick={() => {
         setIsExperienceAddOpen(true)
-      }} startIcon={<Icon icon="faPlus"/>} type="submit" className="btn">New Experience</Button>
+      }} startIcon={<Icon icon="faPlus"/>} className="btn">New Experience</Button>
       <Dialog onClose={() => {
         setIsExperienceAddOpen(false)
       }} open={isExperienceAddOpen}>

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loader from '../ui/Loader/Loader';
 import store from '../store';
 import { loadArcadeGameByMongoId, unloadArcadeGame } from '../store/actions/game/arcadeGameActions';
 import { getSpritesheetData } from '../store/actions/game/gameModelActions';
 import { clearCutscenes } from '../store/actions/game/playerInterfaceActions';
 import { closeContextMenu } from '../store/actions/game/contextMenuActions';
-import { getLibrary } from '../store/actions/library/libraryActions';
 import ArcadeGameLoader from '../game/ui/ArcadeGameLoader/ArcadeGameLoader';
 import { Fade } from '@mui/material';
 
@@ -31,10 +29,7 @@ export default (ChildComponent) => {
         loadArcadeGameByMongoId,
         gameModel,
         getSpritesheetData,
-        getLibrary,
       } = this.props
-
-      await getLibrary()
 
       if(arcadeGameMongoId) {
         await loadArcadeGameByMongoId(arcadeGameMongoId)
@@ -59,8 +54,15 @@ export default (ChildComponent) => {
     async switchGame(oldProps, newProps) {
       this.checkIfGameIsLoaded(newProps)
       if(oldProps.arcadeGameMongoId !== newProps.arcadeGameMongoId) {
+          this.setState({
+            isLoaded: false,
+            isShowingGame: false,
+            hideFadeout: false
+        })
+
         await this.unloadGame()
 
+      
         setTimeout(() => {
           this.loadGame(newProps.arcadeGameMongoId)
         }, 100)
@@ -101,7 +103,12 @@ export default (ChildComponent) => {
           this.setState({
             isShowingGame: true,
           })
-        }, 10)
+        }, 200)
+        setTimeout(() => {
+          this.setState({
+            hideFadeout: true,
+          })
+        }, 1000)
       }
     }
 
@@ -128,9 +135,9 @@ export default (ChildComponent) => {
     render() {
       return <>
         {this.state.isLoaded && <ChildComponent {...this.props} />}
-        <Fade in={!this.state.isShowingGame}>
+        {!this.state.hideFadeout && <Fade in={!this.state.isShowingGame}>
           <div><ArcadeGameLoader text="Loading..."/></div>
-        </Fade>
+        </Fade>}
       </>
     }
   }
@@ -146,5 +153,5 @@ export default (ChildComponent) => {
     library: state.library,
   });
 
-  return connect(mapStateToProps, { closeContextMenu, loadArcadeGameByMongoId, unloadArcadeGame, getSpritesheetData, clearCutscenes, getLibrary })(WithGame)
+  return connect(mapStateToProps, { closeContextMenu, loadArcadeGameByMongoId, unloadArcadeGame, getSpritesheetData, clearCutscenes})(WithGame)
 };

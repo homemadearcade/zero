@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const game = await ArcadeGame.findById(req.params.id).populate('owner');
+    const game = await ArcadeGame.findById(req.params.id).populate('owner importedArcadeGames');
     if (!game) return res.status(404).json({ message: 'No game found.' });
     res.json({ game: game.toJSON() });
   } catch (err) {
@@ -74,7 +74,7 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
 
 router.get('/gameModelId/:gameModelId', async (req, res) => {
   try {
-    const gameModel = await EntityModel.findOne({ gameModelId: req.params.gameModelId }).populate('owner');
+    const gameModel = await ArcadeGame.findOne({ gameModelId: req.params.gameModelId }).populate('owner importedArcadeGames');
     if (!gameModel) return res.status(404).json({ message: 'No arcade game found.' });
     res.json({ gameModel: gameModel.toJSON() });
   } catch (err) {
@@ -104,6 +104,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       cutscenes: req.body.cutscenes,
       relations: req.body.relations,
       collisions: req.body.collisions,
+      importedArcadeGames: req.body.importedArcadeGames,
       interfacePresets: req.body.interfacePresets,
       events: req.body.events,
       effects: req.body.effects,
@@ -113,7 +114,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       gameModelId: GAME_MODEL_ID_PREFIX + generateUniqueId()
     });
 
-    game = await game.populate('owner').execPopulate();
+    game = await game.populate('owner importedArcadeGames').execPopulate();
 
     res.status(200).json({ game: game.toJSON() });
   } catch (err) {
@@ -136,10 +137,28 @@ router.post('/', requireJwtAuth, async (req, res) => {
 //     res.status(500).json({ game: 'Something went wrong.' });
 //   }
 // });
+router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, async (req, res) => {
+  try{
+    const tempGame = await ArcadeGame.findById(req.params.id).populate('owner')
+    if (!tempGame) return res.status(404).json({ message: 'No such Game.' });
+    if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN'))
+      return res.status(400).json({ message: 'You do not have privelages to edit this Game.' });
+
+    tempGame.importedArcadeGames.push(req.body.arcadeGameId)
+
+    const game = await ArcadeGame.findByIdAndUpdate(tempGame.id, { $set: tempGame }, { new: true }).populate('owner importedArcadeGames');
+
+    res.status(200).json({ game });
+
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: 'Something went wrong.' });
+  }
+});
 
 router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
   try {
-    const tempGame = await ArcadeGame.findById(req.params.id).populate('owner');
+    const tempGame = await ArcadeGame.findById(req.params.id).populate('owner importedArcadeGames');
     if (!tempGame) return res.status(404).json({ message: 'No game found.' });
     if (!(tempGame.owner?.id === req.user.id || req.user.role === 'ADMIN'))
       return res.status(400).json({ message: 'Not updated by the game owner or admin.' });
@@ -236,12 +255,14 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 
+
+
     if(!req.body.isAutosaveDisabled) {
       await ArcadeGame.findByIdAndUpdate(
         req.params.id,
         update,
         { new: true },
-      );
+      )
     }
 
     if(req.body.gameRoomInstanceMongoId) {

@@ -31,7 +31,7 @@ const GameRoomAddForm = ({ onSubmit, defaultValues = {}}) => {
       <Button onClick={() => {
         setIsGameRoomAddOpen(true)
         setValue('gameRoomId', GAME_ROOM_ID_PREFIX + generateUniqueId())
-      }} startIcon={<Icon icon="faPlus"/>} type="submit" size="wide" className="btn">New GameRoom</Button>
+      }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New GameRoom</Button>
       <Dialog onClose={() => {
         setIsGameRoomAddOpen(false)
       }} open={isGameRoomAddOpen}>

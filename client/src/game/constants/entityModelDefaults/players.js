@@ -4,7 +4,7 @@ import _ from "lodash"
 import { defaultPlayerEntity } from "./category"
 import { directionalPlayerEntityId, jumperPlayerEntityId, vehiclePlayerEntityId } from "../core"
 import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, vehicleDefaults } from "../entityModelPropertyDefaults"
-import { DATA_SOURCE_CORE_LIBRARY_IID } from "../../../constants/interfaceIds"
+import {  DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds"
 
 const defaultProps = mergeDeep(
   // _.cloneDeep(defaultEntity),
@@ -13,7 +13,7 @@ const defaultProps = mergeDeep(
 
 export const vehicleEntity = {
   ...defaultProps,
-  dataSource: DATA_SOURCE_CORE_LIBRARY_IID,
+  dataSourceId: DATA_SOURCE_SYSTEM_IID,
   entityModelId: vehiclePlayerEntityId,
   name: 'vehicle',
   graphics: {
@@ -33,7 +33,7 @@ export const vehicleEntity = {
 
 export const jumperEntity = {
   ...defaultProps,
-  dataSource: DATA_SOURCE_CORE_LIBRARY_IID,
+  dataSourceId: DATA_SOURCE_SYSTEM_IID,
   entityModelId: jumperPlayerEntityId,
   name: 'jumper',
   graphics: {
@@ -53,7 +53,7 @@ export const jumperEntity = {
 
 export const directionalEntity = {
   ...defaultProps,
-  dataSource: DATA_SOURCE_CORE_LIBRARY_IID,
+  dataSourceId: DATA_SOURCE_SYSTEM_IID,
   entityModelId: directionalPlayerEntityId,
   name: 'directional',
   graphics: {

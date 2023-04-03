@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const relation = new Schema({
-    dataSource: {
+    dataSourceId: {
       type: String,
     },
     event: {
@@ -43,7 +43,7 @@ const relation = new Schema({
 relation.methods.toJSON = function () {
   return {
     id: this._id,
-    dataSource: this.dataSource,
+    dataSourceId: this.dataSourceId,
     event: this.event,
     effects: this.effects,
     effectIds: this.effectIds,

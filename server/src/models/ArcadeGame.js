@@ -72,6 +72,10 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
+    importedArcadeGames : [{
+      type: mongoose.Schema.Types.ObjectId, ref: 'ArcadeGame',
+      default: []
+    }],
     relationTags: {
       type: Object,
       required: true,
@@ -116,6 +120,7 @@ export const validateArcadeGame = (game) => {
     brushes: Joi.object(),
     colors: Joi.object(),
     relations: Joi.object(),
+    importedArcadeGames: Joi.array(),
     collisions: Joi.object(),
     interfacePresets: Joi.object(),
     events: Joi.object(),
@@ -138,6 +143,9 @@ arcadeGameSchema.methods.toJSON = function () {
     entityModels: this.entityModels,
     brushes: this.brushes,
     colors: this.colors,
+    importedArcadeGames: this.importedArcadeGames?.map((arcadeGame) => {
+      return arcadeGame.toJSON()
+    }),
     relations: this.relations,
     collisions: this.collisions,
     interfacePresets: this.interfacePresets,

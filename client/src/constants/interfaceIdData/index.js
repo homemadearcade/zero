@@ -15,6 +15,8 @@ import gameInterfaceIdData from "./gameInterfaceIdData";
 import relationTagInterfaceIdData from "./relationTagInterfaceIdData";
 import videoInterfaceIdData from "./videoInterfaceIdData";
 import selectorInterfaceIdData from "./selectorInterfaceIdData";
+import dataSourceInterfaceIdData from "./dataSourceInterfaceIdData";
+
 
 export const interfaceIdData = {
   ...rootInterfaceIdData,
@@ -34,4 +36,5 @@ export const interfaceIdData = {
   ...relationTagInterfaceIdData,
   ...videoInterfaceIdData,
   ...selectorInterfaceIdData,
+  ...dataSourceInterfaceIdData
 }

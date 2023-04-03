@@ -31,7 +31,7 @@ const InstructionAddForm = ({ onSubmit, defaultValues = {}}) => {
       <Button onClick={() => {
         setIsInstructionAddOpen(true)
         setValue('instructionId', INSTRUCTION_ID_PREFIX + generateUniqueId())
-      }} startIcon={<Icon icon="faPlus"/>} type="submit" size="wide" className="btn">New Instruction</Button>
+      }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Instruction</Button>
       <Dialog onClose={() => {
         setIsInstructionAddOpen(false)
       }} open={isInstructionAddOpen}>

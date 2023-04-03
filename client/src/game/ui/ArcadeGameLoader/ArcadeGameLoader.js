@@ -12,7 +12,7 @@ const ArcadeGameLoader = (props) => {
           <div className="GameEditor__left-column"/>
           <div className="ArcadeGameLoader__game-view-empty">
             <GameViewEmpty>
-            <Typography component="h3" font="2P" variant="body1">{props.text || 'Loading..'}</Typography>
+            <Typography font="2P" variant="body2">{props.text || 'Loading..'}</Typography>
           </GameViewEmpty>
           </div>
     

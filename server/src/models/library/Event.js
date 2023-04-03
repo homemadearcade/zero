@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const event = new Schema({
-    dataSource: {
+    dataSourceId: {
       type: String,
     },
     eventType: {
@@ -52,7 +52,7 @@ const event = new Schema({
 event.methods.toJSON = function () {
   return {
     id: this._id,
-    dataSource: this.dataSource,
+    dataSourceId: this.dataSourceId,
     event: this.event,
     effects: this.effects,
     effectIds: this.effectIds,

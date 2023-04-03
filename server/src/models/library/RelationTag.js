@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const relationTag = new Schema({
-    dataSource: {
+    dataSourceId: {
       type: String,
     },
     relationTagInterfaceId: {
@@ -46,7 +46,7 @@ const relationTag = new Schema({
 relationTag.methods.toJSON = function () {
   return {
     id: this._id,
-    dataSource: this.dataSource,
+    dataSourceId: this.dataSourceId,
     relationTagInterfaceId: this.relationTagInterfaceId,
     relationTagId: this.relationTagId,
     name: this.name,

@@ -7,7 +7,7 @@ import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpaw
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
-import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_CLASS_IID, DATA_SOURCE_CORE_LIBRARY_IID } from "../../../constants/interfaceIds";
+import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_CLASS_IID, DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds";
 
 export const defaultGameModel = {
   "metadata": {
@@ -19,6 +19,7 @@ export const defaultGameModel = {
     isFeatured: false,
     isPublished: false,
   },
+  importedArcadeGames: [],
   theme: {
     primaryColor: DEFAULT_THEME_COLOR
   },
@@ -82,7 +83,7 @@ export const defaultGameModel = {
         ...defaultZoneEntity.graphics,
         textureTint: '#FFFFFF',
       },
-      dataSource: DATA_SOURCE_CORE_LIBRARY_IID
+      dataSourceId: DATA_SOURCE_SYSTEM_IID
     },
     [initialCameraZoneEntityId]: {
       name: 'Player Camera',
@@ -118,7 +119,7 @@ export const defaultGameModel = {
         width: nodeSize * 30,
         height: nodeSize * 30
       },
-      dataSource: DATA_SOURCE_CORE_LIBRARY_IID
+      dataSourceId: DATA_SOURCE_SYSTEM_IID
     },
     [initialStageZoneEntityId]: {
       name: 'Stage',
@@ -151,7 +152,7 @@ export const defaultGameModel = {
         width: gameWidth,
         height: gameHeight
       },
-      dataSource: DATA_SOURCE_CORE_LIBRARY_IID,
+      dataSourceId: DATA_SOURCE_SYSTEM_IID,
     }
   },
   isRemoved: false

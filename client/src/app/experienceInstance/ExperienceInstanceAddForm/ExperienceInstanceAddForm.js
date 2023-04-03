@@ -31,6 +31,7 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
       cutscenes: {},
       relations: {},
       collisions: {},
+      importedArcadeGames: [],
       interfacePreset: {},
       relationTags: {},
       events: {},

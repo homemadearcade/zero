@@ -45,7 +45,7 @@ CHOICE EVENT
   An Object  can hold inside of it 'pre recorded changes' that when a choice is made or reversed, it will switch back and forth these properties, choice tree?
   How to resolve state change conflits? Does one change take priority? Do you go through conflict by conflict to determine the priority? Like swipe left, swipe right? Is there a better way?
 
-  Jump, Movement, Collisions, Projectile property librarys
+  Jump, Movement, Collisions, Projectile property importedArcadeGames
     or Perhaps just add it to the interface system that already exists? Add a property object to it?
     The thing is that also properties themselelves. The very .zoneEntityModelId, .speed will need to be gamified eventually. We will want a way of expressing how this property can be gamified, who can change it, etc
     This is related to the CHOICE EVENT THING. "CHOICES HAVE PERMENANT CONSEQUENCES"
