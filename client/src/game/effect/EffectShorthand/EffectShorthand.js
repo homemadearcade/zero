@@ -6,12 +6,12 @@ import { effectBehaviorToDisplayNames, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_T
 } from "../../constants"
 import Sprite from "../../textures/Texture/Texture"
 
-function renderTag(tag) {
+function renderRelationTag(relationTag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2em'}}>
     <span style={{width: '.6em', height: '.6em'}}>
-      <Sprite textureId={tag.textureId} textureTint={tag.textureTint}/>
+      <Sprite textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>
-    <span>{tag.name}</span>
+    <span>{relationTag.name}</span>
   </span>
 }
 
@@ -78,7 +78,7 @@ function EffectShorthand({effect, gameModel: { gameModel }, children}) {
         return <>
           {renderEffect(effect)}
           {/* {` all`} */}
-          {effect.remoteEffectedRelationTagIds.map((relationTagId) => relationTags[relationTagId]).map(renderTag)}
+          {effect.remoteEffectedRelationTagIds.map((relationTagId) => relationTags[relationTagId]).map(renderRelationTag)}
         </>
       }
     }

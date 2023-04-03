@@ -1,6 +1,7 @@
 /////////////////////////////////////
 /////////////////////////////////////
-import { DATA_SOURCE_GAME_MODEL } from "../core";
+
+import { DATA_SOURCE_GAME_MODEL_IID } from "../../../constants/interfaceIds";
 
 // WHEN, WHO, WHERE
 export const defaultEvent = {
@@ -8,9 +9,11 @@ export const defaultEvent = {
   eventId: null,
   relationTagIdA: null,
   relationTagIdB: null,
-  dataSource: DATA_SOURCE_GAME_MODEL,
+  dataSource: DATA_SOURCE_GAME_MODEL_IID,
   sidesA: [],
   sidesB: [],
 
+  isRemoved: false,
+  isReadOnly: false,
   onlyOnce: false,
 }

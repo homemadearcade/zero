@@ -24,10 +24,12 @@ BRUSH UPGRADE
   Layers as a Radio Button Select
 
 SELECT FORMS
-  Hide unused categories inside the select form. If theres a length of 0 that are not removed
   Also For Select Relation Tag. Switch between visibility for Tag Interface Id vs Data Source
   For Select Entity, Switch between Data Source vs Entity Interface Id
 
 (more) MORE MENUS
 like 'fine tune size' for brushes, grid mode for the view, other things. This should be expected and common
 
+Icons for each Event type
+Icons for each Effect type?
+Then use tooltips for the shorthand???

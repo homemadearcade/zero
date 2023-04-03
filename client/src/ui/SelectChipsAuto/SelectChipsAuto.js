@@ -35,7 +35,7 @@ const Root = styled('div')(
   };
   font-size: 1em;
   position: relative;
-  min-width: 70%;
+  min-width: 85%;
 `,
 );
 
@@ -332,10 +332,18 @@ function SelectChipsAutoForm({
   }
 
   function renderGroup(group, groupIndex) {
-      const previousIndextotal = groupedOptions.reduce((prev, current, index) => {
+    const previousIndextotal = groupedOptions.reduce((prev, current, index) => {
       if(index >= groupIndex) return prev
       return current.options.length + prev
     }, 0)
+
+    if(group.options.filter((option) => {
+      if(hideRemoved) {
+        if(option.isRemoved) return false
+      }
+      return true
+    }).length === 0) return null
+
     return <GroupContainer>
       <GroupHeader>{group.group}</GroupHeader>
       {group.options.map((option, optionIndex) => {

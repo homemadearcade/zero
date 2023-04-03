@@ -12,6 +12,7 @@ import { EVENT_ID_PREFIX } from '../../constants';
 import useIsEventSaveable from '../../../hooks/relations/useIsEventSaveable';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import CreateEvent from '../CreateEvent/CreateEvent';
+import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
 
 const CreateEventModal = ({ closeCreateEvent, editGameModel, updateCreateEvent, gameFormEditor: { event }}) => {
   function handleClose() {
@@ -25,10 +26,11 @@ const CreateEventModal = ({ closeCreateEvent, editGameModel, updateCreateEvent, 
   }, [])
 
   const isEventSaveable = useIsEventSaveable(event)
-  
-  return <CobrowsingModal open={true} onClose={handleClose}>
-        <CreateEvent/>
-        <div className="CreateEvent__buttons">
+
+  function renderButtons() {
+    if(event.isReadOnly) return <ReadOnlyWarning text={'This Event is Read only'} />
+    
+     return <div className="CreateEvent__buttons">
           <Button 
             disabled={!isEventSaveable}
             onClick={() => {
@@ -56,6 +58,11 @@ const CreateEventModal = ({ closeCreateEvent, editGameModel, updateCreateEvent, 
             handleClose()
           }}>Delete</Button>}
       </div>
+  }
+  
+  return <CobrowsingModal open={true} onClose={handleClose}>
+        <CreateEvent/>
+        {renderButtons()}
     </CobrowsingModal>
 }
 

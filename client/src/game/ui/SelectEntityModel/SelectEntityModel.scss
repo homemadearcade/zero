@@ -1,22 +1,22 @@
 .SelectEntityModel {
   display: flex;
   &__more-menu-icon {
-      width: 2em;
-      height: 2em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.2;
-      position: relative;
-      top: 1em;
-  
-      &:hover {
-        opacity: 1;
-      }
-  
-      // position: absolute;
-      // right: .5em;
-      // top: 0em;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.2;
+    position: relative;
+    top: 1em;
+
+    &:hover {
+      opacity: 1;
     }
+
+    // position: absolute;
+    // right: .5em;
+    // top: 0em;
+  }
 
 }

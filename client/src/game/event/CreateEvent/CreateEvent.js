@@ -6,11 +6,11 @@ import './CreateEvent.scss';
 import { closeCreateEvent, updateCreateEvent } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { defaultEvent, eventTypeInterfaces, playerRelationTagId, PLAYER_AND_RELATION_TAG_EVENT, PLAYER_RELATION_TAG_EVENT, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT } from '../../constants';
+import { defaultEvent, eventTypeInterfaces, playerRelationTagId } from '../../constants';
 import { ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START } from '../../constants';
 import SelectSides from '../../ui/SelectSides/SelectSides';
 import Switch from '../../../ui/Switch/Switch';
-import { EVENT_ADVANCED_CONTAINER_IID, EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID } from '../../../constants/interfaceIds';
+import { EVENT_ADD_RELATION_TAG_A_IID, EVENT_ADD_RELATION_TAG_B_IID, EVENT_ADVANCED_CONTAINER_IID, EVENT_IGNORE_SIDES_IID, EVENT_ONLY_ONCE_IID,  PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectEventType from '../../ui/SelectEventType/SelectEventType';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
@@ -55,7 +55,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       </Unlockable>)
     }
 
-    if(event.relationTagIdA && correctEvent && !eventTypeInterface.relationTagSelectType != PLAYER_RELATION_TAG_EVENT) {
+    if(event.relationTagIdA && correctEvent && !eventTypeInterface.relationTagSelectType != PLAYER_RELATION_TAG_EVENT_IID) {
       advancedOptions.push(
         <Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
           <SelectSides
@@ -72,7 +72,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       )
     }
 
-    if(event.relationTagIdB && correctEvent && !eventTypeInterface.relationTagSelectType != SINGLE_RELATION_TAG_EVENT && !eventTypeInterface.relationTagSelectType != PLAYER_RELATION_TAG_EVENT) {
+    if(event.relationTagIdB && correctEvent && !eventTypeInterface.relationTagSelectType != SINGLE_RELATION_TAG_EVENT_IID && !eventTypeInterface.relationTagSelectType != PLAYER_RELATION_TAG_EVENT_IID) {
       advancedOptions.push(<Unlockable interfaceId={EVENT_IGNORE_SIDES_IID}>
         <SelectSides
           key="event/sidesB"
@@ -93,14 +93,15 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
     if(!event.eventType) return
     const eventTypeInterface = eventTypeInterfaces[event.eventType]
 
-    if(eventTypeInterface.relationTagSelectType === PLAYER_RELATION_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === PLAYER_RELATION_TAG_EVENT_IID) {
       return null
     }
 
-    if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT_IID) {
       return <SelectRelationTag
         disabled={event.relationTagIdA}
         formLabel="Tag A"
+        interfaceId={EVENT_ADD_RELATION_TAG_A_IID}
         value={event.relationTagIdA ? [event.relationTagIdA] : []}
         onChange={(event, entityModels) => {
           const newEntityId = entityModels[entityModels.length-1]
@@ -111,9 +112,10 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       }}/>
     }
 
-    if(eventTypeInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID) {
       return <SelectRelationTag
         disabled={event.relationTagIdB}
+        interfaceId={EVENT_ADD_RELATION_TAG_B_IID}
         formLabel="Interactable Tag"
         value={event.relationTagIdB ? [event.relationTagIdB] : []}
         onChange={(event, entityModels) => {
@@ -125,10 +127,11 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       }}/>
     }
 
-    if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT_IID) {
       return <>
         <SelectRelationTag
           disabled={event.relationTagIdA}
+          interfaceId={EVENT_ADD_RELATION_TAG_A_IID}
           formLabel="Tag A"
           value={event.relationTagIdA ? [event.relationTagIdA] : []}
           onChange={(event, entityModels) => {
@@ -140,6 +143,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
         }}/>
         <SelectRelationTag
           disabled={event.relationTagIdB}
+          interfaceId={EVENT_ADD_RELATION_TAG_B_IID}
           formLabel="Tag B"
           value={event.relationTagIdB ? [event.relationTagIdB] : []}
           onChange={(event, entityModels) => {
@@ -160,7 +164,7 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
       onChange={(event, eventTypes) => {
         const eventType = eventTypes[eventTypes.length-1]
         const { relationTagSelectType } = eventTypeInterfaces[eventType]
-        if(relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT || relationTagSelectType === PLAYER_RELATION_TAG_EVENT) {
+        if(relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID || relationTagSelectType === PLAYER_RELATION_TAG_EVENT_IID) {
           updateCreateEvent({
             ...defaultEvent,
             eventType: eventType,

@@ -1,0 +1,20 @@
+.ArcadeGameLoader {
+  position: absolute;
+  top: 0;
+  left: 0;
+width: 100vw;
+  height: 100vh;
+
+  &__body {
+    width: 165vh;
+    height: 100vh;
+    margin: 0 auto;
+  }
+
+  &__game-view-empty {
+    position: relative;
+      width: 100vh;
+        height: 100%;
+  }
+}
+

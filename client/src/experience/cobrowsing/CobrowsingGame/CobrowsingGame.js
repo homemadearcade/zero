@@ -16,7 +16,7 @@ import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
 const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance: { guideId } }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
   return <GameEditor 
     rootFontSize={rootFontSize}
-    isObscured
+    isObscurable
     classNames={classNames({'GameEditor--cobrowsing': isActivelyCobrowsing && !selectedTool, 'GameEditor--cobrowsing-border': isActivelyCobrowsing})}
     leftColumn={<>
      <AgoraUserVideo

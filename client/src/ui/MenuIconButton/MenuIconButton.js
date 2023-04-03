@@ -49,7 +49,7 @@ export function MenuIconButtonBody({ icon, menu, open, onOpen, onClose }) {
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open && anchorEl }
+        open={open && anchorEl  ? true : false}
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',

@@ -11,7 +11,7 @@ import Button from '../../../ui/Button/Button';
 import { closeEditEntityModal, openEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import SelectEntityModelInterfaceCategory from '../../ui/SelectEntityModelInterfaceCategory/SelectEntityModelInterfaceCategory';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_ENTITY_INTERFACE_IID, ENTITY_RELATION_TAGS_IID, SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
+import { CHANGE_ENTITY_INTERFACE_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID, ENTITY_RELATION_TAGS_IID } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
 import { entityModelTypeToDisplayName, entityModelTypeToPrefix, ENTITY_MODEL_ID_PREFIX } from '../../constants';
@@ -56,9 +56,9 @@ const EditEntityModal = ({ openEditEntityGraphics, updateCreateEntity, closeEdit
             const relationTag = entityModel.relationTags[relationTagId]
             // this purely helps with the UI so that it doesnt APPEAR delated at the end.
             // these relationTags will always come back through the game model update event
-            if(relationTag.wasAutoapplied) {
+            if(relationTag.isReadOnly) {
               prev[relationTagId] = {
-                wasAutoapplied: true
+                isReadOnly: true
               }
             } else {
               prev[relationTagId] = null
@@ -104,7 +104,7 @@ const EditEntityModal = ({ openEditEntityGraphics, updateCreateEntity, closeEdit
       <div className="EditEntityModal__header">
         <div className="EditEntityModal__texture-stage">
           <TextureStage onClickIcon={() => {
-            openEditEntityGraphics(SELECTOR_ENTITY_BY_CLASS_IID, entityModel)
+            openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID, entityModel)
             closeEditEntityModal()
           }} overlayIcon={'faPenToSquare'} textureId={entityModel.graphics.textureId} textureTint={entityModel.graphics.textureTint}>
               

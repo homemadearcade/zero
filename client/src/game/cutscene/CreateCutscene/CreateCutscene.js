@@ -10,15 +10,15 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CutsceneNameForm from '../../cutscene/CutsceneNameForm/CutsceneNameForm';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { generateUniqueId } from '../../../utils/webPageUtils';
-import { CUTSCENE_ID_PREFIX, IMAGE_AND_TEXT_CUTSCENE, IMAGE_CUTSCENE, SCENE_ID_PREFIX, TEXT_CUTSCENE } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
 import GameTexturesModal from '../../textures/GameTexturesModal/GameTexturesModal';
 import { closeGameTexturesModal, openGameTexturesModal } from '../../../store/actions/game/gameSelectorActions';
 import SceneCard from '../SceneCard/SceneCard';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
-import { DIALOGUE_SHORTCUT_IID } from '../../../constants/interfaceIds';
+import { DIALOGUE_SHORTCUT_IID, IMAGE_AND_TEXT_CUTSCENE_IID, IMAGE_CUTSCENE_IID, TEXT_CUTSCENE_IID } from '../../../constants/interfaceIds';
 import { getImageUrlFromTextureId } from '../../../utils';
+import { CUTSCENE_ID_PREFIX, SCENE_ID_PREFIX } from '../../constants';
 
 const CreateCutscene = ({ 
   closeCreateCutscene, 
@@ -80,7 +80,7 @@ const CreateCutscene = ({
 
     if(cutscene.inDialogueMenu) {
       return <Button onClick={() => {
-        addScene(TEXT_CUTSCENE)
+        addScene(TEXT_CUTSCENE_IID)
       }}>
         Add Line
       </Button>
@@ -88,17 +88,17 @@ const CreateCutscene = ({
 
     return <>
       <Button onClick={() => {
-        addScene(TEXT_CUTSCENE)
+        addScene(TEXT_CUTSCENE_IID)
       }}>
         Add Text Scene
       </Button>
       <Button onClick={() => {
-        addScene(IMAGE_CUTSCENE)
+        addScene(IMAGE_CUTSCENE_IID)
       }}>
         Add Image Scene
       </Button>
       <Button onClick={() => {
-        addScene(IMAGE_AND_TEXT_CUTSCENE)
+        addScene(IMAGE_AND_TEXT_CUTSCENE_IID)
       }}>
         Add Image and Text Scene
       </Button>

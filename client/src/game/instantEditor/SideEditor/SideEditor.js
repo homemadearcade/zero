@@ -16,7 +16,7 @@ import MovementEditor from '../MovementEditor/MovementEditor';
 import EntityMemberTitle from '../../entityModel/EntityMemberTitle/EntityMemberTitle';
 import MenuIconButton from '../../../ui/MenuIconButton/MenuIconButton';
 import { MenuItem } from '@mui/material';
-import { CAMERA_EDITOR, PLAYER_ENTITY_IID, JUMP_EDITOR, MOVEMENT_EDITOR, PHYSICS_EDITOR, PROJECTILE_EDITOR, STAGE_EDITOR } from '../../constants';
+import { CAMERA_EDITOR_IID, PLAYER_ENTITY_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID, COLLISION_EDITOR_IID, PROJECTILE_EDITOR_IID, STAGE_EDITOR_IID } from '../../constants';
 import JumpEditor from '../JumpEditor/JumpEditor';
 
 const SideEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityModelIdSelectedLiveEditor, liveEditingCategory }, gameModel: { gameModel } }) => {
@@ -24,15 +24,15 @@ const SideEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityMod
 
   let title = null
 
-  if(liveEditingCategory === MOVEMENT_EDITOR) {
+  if(liveEditingCategory === MOVEMENT_EDITOR_IID) {
     title = 'Movement'
-  } else if(liveEditingCategory === PHYSICS_EDITOR) {
+  } else if(liveEditingCategory === COLLISION_EDITOR_IID) {
     title = 'Collisions'
-  } else if(liveEditingCategory === PROJECTILE_EDITOR) {
+  } else if(liveEditingCategory === PROJECTILE_EDITOR_IID) {
     title = 'Projectile'
-  } else if(liveEditingCategory === CAMERA_EDITOR) {
+  } else if(liveEditingCategory === CAMERA_EDITOR_IID) {
     title = 'Camera'
-  } else if(liveEditingCategory === JUMP_EDITOR) {
+  } else if(liveEditingCategory === JUMP_EDITOR_IID) {
     title = 'Jump'
   }
 
@@ -48,23 +48,23 @@ const SideEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityMod
             menu={(closeMenu) => {
               return [
                 <MenuItem key="Movement" onClick={() => {
-                  openLiveEditor(MOVEMENT_EDITOR, entityModelIdSelectedLiveEditor)
+                  openLiveEditor(MOVEMENT_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Movement</MenuItem>,
                 <MenuItem key="Collisions" onClick={() => {
-                  openLiveEditor(PHYSICS_EDITOR, entityModelIdSelectedLiveEditor)
+                  openLiveEditor(COLLISION_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Collisions</MenuItem>,
                 <MenuItem key="Projectile" onClick={() => {
-                  openLiveEditor(PROJECTILE_EDITOR, entityModelIdSelectedLiveEditor)
+                  openLiveEditor(PROJECTILE_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,
                 entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <MenuItem key="Camera" onClick={() => {
-                  openLiveEditor(CAMERA_EDITOR, entityModelIdSelectedLiveEditor)
+                  openLiveEditor(CAMERA_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,
                 entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <MenuItem key="Jump" onClick={() => {
-                  openLiveEditor(JUMP_EDITOR, entityModelIdSelectedLiveEditor)
+                  openLiveEditor(JUMP_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Jump</MenuItem>,
               ]
@@ -72,12 +72,12 @@ const SideEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityMod
           />
       </>} 
     />}
-      {liveEditingCategory === JUMP_EDITOR && <JumpEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
-      {liveEditingCategory === MOVEMENT_EDITOR && <MovementEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
-      {liveEditingCategory === PROJECTILE_EDITOR && <ProjectileEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
-      {liveEditingCategory === PHYSICS_EDITOR && <PhysicsEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
-      {liveEditingCategory === STAGE_EDITOR && <GravityEditor/>}
-      {liveEditingCategory === CAMERA_EDITOR && <CameraEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
+      {liveEditingCategory === JUMP_EDITOR_IID && <JumpEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
+      {liveEditingCategory === MOVEMENT_EDITOR_IID && <MovementEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
+      {liveEditingCategory === PROJECTILE_EDITOR_IID && <ProjectileEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
+      {liveEditingCategory === COLLISION_EDITOR_IID && <PhysicsEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
+      {liveEditingCategory === STAGE_EDITOR_IID && <GravityEditor/>}
+      {liveEditingCategory === CAMERA_EDITOR_IID && <CameraEditor entityModelId={entityModelIdSelectedLiveEditor}/>}
     </div>
   );
 };

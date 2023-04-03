@@ -18,12 +18,13 @@ const SelectEffectBehavior = ({ onChange, value, eventType, formLabel, disabled,
   }
 
   const options = Object.keys(effectBehaviorToDisplayNames).filter((effectBehavior) => {
-    if(isUseableEffect(effectBehavior, eventType)) return true
-    return false
+    if(eventType && !isUseableEffect(effectBehavior, eventType)) return false
+    return true
   }).map(mapEffectsToOption)
 
   const useableValue = value.filter((effectBehavior) => {
-    return isUseableEffect(effectBehavior, eventType)
+    if(eventType && !isUseableEffect(effectBehavior, eventType)) return false 
+    return true
   })
 
   return <SelectChipsAuto 

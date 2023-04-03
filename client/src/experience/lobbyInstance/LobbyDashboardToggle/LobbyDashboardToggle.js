@@ -16,7 +16,7 @@ const LobbyDashboardToggle = ({
   return <div
     className="LobbyDashboardToggle"
   > 
-    <Icon icon="faListOl"/>
+    <Icon icon="faPersonBooth"/>
     <Switch
       size="small"
       checked={isLobbyDashboardOpen}

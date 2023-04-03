@@ -18,8 +18,7 @@ import {
   EDIT_INTERFACE_PRESET_SUCCESS,
   EDIT_INTERFACE_PRESET_FAIL,
 } from '../../types';
-import { CORE_LIBRARY_USER_MONGO_ID } from '../../../constants';
-import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_USER_LIBRARY } from '../../../game/constants';
+import { getDataSourceFromUserMongoId } from '../../../utils';
 
 export const getInterfacePresetLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -102,7 +101,7 @@ export const addInterfacePresetToLibrary = (interfacePreset) => async (dispatch,
   try {
     const userMongoId = getState().auth.me.id
     interfacePreset.userMongoId = userMongoId
-    interfacePreset.dataSource = userMongoId === CORE_LIBRARY_USER_MONGO_ID ? DATA_SOURCE_CORE_LIBRARY : DATA_SOURCE_USER_LIBRARY;
+    interfacePreset.dataSource = getDataSourceFromUserMongoId(userMongoId)
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/interfacePreset', interfacePreset, options);

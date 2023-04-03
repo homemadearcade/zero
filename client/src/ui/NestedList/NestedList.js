@@ -5,21 +5,22 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ChevronRight from '@mui/icons-material/ChevronRight';
-import { ListItemButton, ListItemIcon, ListSubheader, MenuItem } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListSubheader } from '@mui/material';
 import Unlockable from '../../game/cobrowsing/Unlockable/Unlockable';
 import MenuIconButton from '../MenuIconButton/MenuIconButton';
 import Icon from '../Icon/Icon';
 import './NestedList.scss'
 import { SELECTOR_MORE_IID } from '../../constants/interfaceIds';
+import Texture from '../../game/textures/Texture/Texture';
 
-export default function NestedList({listItems}) {
+export default function NestedList({ children, onClick, title, interfaceId, moreMenu}) {
   const [expanded, setExpanded] = React.useState(true);
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
+  const handleChange = (interfaceId) => (event) => {
+    setExpanded(expanded === interfaceId ? null : interfaceId);
   };
 
-  return <NestedListBody expanded={expanded} onChange={handleChange}></NestedListBody>
+  return <NestedListBody onClick={onClick} title={title} interfaceId={interfaceId} children={children} expanded={expanded} onChange={handleChange} moreMenu={moreMenu}/>
 }
 
 export function NestedListBody({expanded, onChange, title, children, interfaceId, moreMenu}) {
@@ -77,25 +78,28 @@ export function NestedListContainer({children, title}) {
   >{children}</List>
 }
 
-function ColorSquare({color}) {
-  if(!color) {
-    return <ListItemIcon><div style={{width: '.5em', height:'.5em', border: '1px solid white'}}/></ListItemIcon> 
-  } else {
-    return <ListItemIcon><div style={{width: '.5em', height:'.5em', backgroundColor: color}}/></ListItemIcon> 
-  }
+function TextureSquare({textureId, textureTint}) {
+  return  <span style={{width: '.6em', height: '.6em'}}>
+      <Texture textureId={textureId} textureTint={textureTint}/>
+    </span>
 }
 
-export function NestedListItem({children, title, onClick, color, useColor}) {
+  // if(!color) {
+  //   return <ListItemIcon><div style={{width: '.5em', height:'.5em', border: '1px solid white'}}/></ListItemIcon> 
+  // } else {
+  //   return <ListItemIcon><div style={{width: '.5em', height:'.5em', backgroundColor: color}}/></ListItemIcon> 
+  // }
+export function NestedListItem({children, title, onClick, textureId, textureTint, useTexture}) {
   return <ListItemButton dense onClick={onClick} sx={{ pl: '2em' }}>
-    {useColor && <ColorSquare color={color}></ColorSquare>}
+    {useTexture && <TextureSquare textureId={textureId} textureTint={textureTint}></TextureSquare>}
     {title && <ListItemText primary={title} />}
     {children}
   </ListItemButton>
 }
 
-export function NestedListItemButton({children, title, onClick, useColor, color}) {
+export function NestedListItemButton({children, title, onClick, useTexture, textureId, textureTint}) {
   return <ListItem dense onClick={onClick} sx={{ pl: '2em' }}>
-    {useColor && <ColorSquare color={color}></ColorSquare>}
+    {useTexture && <TextureSquare textureId={textureId} textureTint={textureTint}></TextureSquare>}
     {title && <ListItemText primary={title} />}
     {children}
   </ListItem>

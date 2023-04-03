@@ -29,7 +29,7 @@ import CreateBrushFlow from '../../brush/CreateBrushFlow/CreateBrushFlow';
 import { copyToClipboard, generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import GridViewArrows from '../GridViewArrows/GridViewArrows';
-import { INSTANCE_TOOLBAR_CONTAINER_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
+import { EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID, INSTANCE_TOOLBAR_CONTAINER_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_CLASS_IID } from '../../../constants/interfaceIds';
 import EntityBoxModal from '../../entityModel/EntityBoxModal/EntityBoxModal';
 import HoverPreview from '../../selector/HoverPreview/HoverPreview';
 import LiveEditor from '../../instantEditor/LiveEditor/LiveEditor';
@@ -41,6 +41,7 @@ import CreateEffectModal from '../../effect/CreateEffectModal/CreateEffectModal'
 import CreateEventModal from '../../event/CreateEventModal/CreateEventModal';
 import GameViewObscured from '../GameViewObscured/GameViewObscured';
 import GameView from '../GameView/GameView';
+import EditEntityGraphics from '../../entityModel/EditEntityGraphics/EditEntityGraphics';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -57,6 +58,7 @@ const GameEditor = ({
     isSnapshotTakerOpen, 
     isGridViewOn }, 
   gameFormEditor: { 
+    isEditEntityGraphicsOpen,
     isEditEntityModalOpen, 
     isCreateRelationTagOpen, 
     isCreateRelationOpen,
@@ -78,11 +80,11 @@ const GameEditor = ({
   clearGameFormEditor, 
   clearGameViewEditor,
   closeJsonViewer,
-  isObscured,
+  isObscurable,
   rootFontSize,
   children,
   gameRoomInstance: { gameRoomInstance: { gameState } },
-  gameModel: { gameModel, isLoading },
+  gameModel: { gameModel },
   playerInterface: { cutsceneId }
 }) => {
   useEffect(() => {   
@@ -137,7 +139,7 @@ const GameEditor = ({
           <BrushList/>
         </>}
       </div>
-      {isObscured ? <GameViewObscured>
+      {isObscurable ? <GameViewObscured>
         {renderOverlay()}
       </GameViewObscured> : <GameView>
         {renderOverlay()}
@@ -145,8 +147,8 @@ const GameEditor = ({
       {children}
       <div id="GameEditor__right-column" ref={rightColumnRef} className="GameEditor__right-column">
         <Unlockable interfaceId={INSTANCE_TOOLBAR_CONTAINER_IID}><GameStateToolbar/></Unlockable>
+        <HoverPreview></HoverPreview>
         {showColumns && gameModel && <>
-          <HoverPreview></HoverPreview>
           {renderSelectorColumn()}
         </>}
       </div>
@@ -164,6 +166,23 @@ const GameEditor = ({
       {isStagesMenuOpen && <StagesMenu/>}
       {isCreateStageModalOpen && <CreateStageModal/>}
       {isSelectStageColorModalOpen && <SelectStageColorModal/>}
+      {isEditEntityGraphicsOpen === EDIT_ENTITY_GRAPHICS_PRIMARY_MODAL_IID && <EditEntityGraphics 
+          onComplete={(entityModel) => {
+            editGameModel({
+              entityModels: {
+                [entityModel.entityModelId] : {
+                  // must be a spread operator here because when this is opened it has a lot of properties brought in from some defaults
+                  ...entityModel,
+                  isNew: false,
+                  // graphics: entityModel.graphics,
+                  // editorInterface: entityModel.editorInterface,
+                  // visualTags: entityModel.visualTags,
+                  // name: entityModel.name,
+                }
+              }
+            })
+          }}
+      />}
       <div id="CobrowsingModal"></div>
       {viewingJson && <Dialog onClose={closeJsonViewer} open>
         <Button onClick={() => {

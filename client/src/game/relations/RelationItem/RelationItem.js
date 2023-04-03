@@ -35,15 +35,9 @@ const RelationItem = ({
     onMouseLeave={() => {
       changeRelationIdHovering(null)
     }}>
-      <NestedListItem
-        onClick={() => {
+        <RelationShorthand onClickEvent={() => {
           openCreateRelation(relation)
-        }}
-      >
-        <Typography variant="body2">
-          <RelationShorthand relation={relation}/>
-        </Typography>
-      </NestedListItem>
+        }} relation={relation}/>
     </div>
   </Unlockable>
 };

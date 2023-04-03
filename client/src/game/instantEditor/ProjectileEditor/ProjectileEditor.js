@@ -8,8 +8,8 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
-import { PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
-import { PLAYER_ENTITY_IID, PROJECTILE_TARGET_CLASS } from '../../constants';
+import { PLAYER_ENTITY_IID, PROJECTILE_CLASS_IID, PROJECTILE_COOLDOWN_IID, PROJECTILE_LIFETIME_IID, PROJECTILE_SPEED_IID } from '../../../constants/interfaceIds';
+import { PROJECTILE_TARGET_CLASS } from '../../constants';
 import SelectProjectileBehavior from '../../ui/SelectProjectileBehavior/SelectProjectileBehavior';
 
         // {false && <Unlockable isSlider interfaceId={PROJECTILE_AMMO_IID}>

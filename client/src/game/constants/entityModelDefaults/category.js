@@ -1,6 +1,7 @@
-import { DATA_SOURCE_CORE_LIBRARY, FOREGROUND_LAYER_ID, POWERUP_ENTITY_IID } from "../core";
+import { BASIC_ENTITY_IID, NPC_ENTITY_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, ZONE_ENTITY_IID } from "../../../constants/interfaceIds";
+import { FOREGROUND_LAYER_ID } from "../core";
 import { playerDepthModifier } from "../core";
-import { BASIC_ENTITY_IID, DIRECTIONAL_CONTROLS, LAYER_ID_PREFIX, NPC_ENTITY_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from "../core";
+import { DIRECTIONAL_CONTROLS, LAYER_ID_PREFIX } from "../core";
 import { MOVEMENT_NONE } from "../entityModelPropertyDefaults";
 
 export const defaultPowerupEntity = { 

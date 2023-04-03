@@ -19,6 +19,7 @@ import { withRouter } from 'react-router-dom';
 import Dialog from '../../ui/Dialog/Dialog';
 import UserSpeedTestRequest from '../../app/user/UserSpeedTestRequest/UserSpeedTestRequest';
 import { inIframe } from '../../utils/webPageUtils';
+import LinearIndeterminateLoader from '../../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 
 const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
   const [needsSpeedTest, setNeedsSpeedTest] = useState()
@@ -62,7 +63,7 @@ const AppPage = ({ auth, loadMe, children, history, logInUserWithOauth }) => {
     if(auth.appLoaded) {
       return children
     } else {
-      return <Loader text="App Loading..."/>
+      return <LinearIndeterminateLoader/>
     }
   }
 

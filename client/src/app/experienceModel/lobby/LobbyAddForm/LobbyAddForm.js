@@ -10,7 +10,7 @@ import { generateUniqueId } from '../../../../utils';
 import { LOBBY_ID_PREFIX } from '../../../../constants';
 import LobbyForm from '../LobbyForm/LobbyForm';
 
-const ExperienceLobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
+const LobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isLobbyAddOpen, setIsLobbyAddOpen] = useState(false)
 
   const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
@@ -27,7 +27,7 @@ const ExperienceLobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
   }
 
   return (
-    <div className="ExperienceLobbyAddForm">
+    <div className="LobbyAddForm">
       <Button onClick={() => {
         setIsLobbyAddOpen(true)
         setValue('lobbyId', LOBBY_ID_PREFIX + generateUniqueId())
@@ -51,4 +51,4 @@ const mapStateToProps = (state) => ({
 
 });
 
-export default connect(mapStateToProps, { })(ExperienceLobbyAddForm);
+export default connect(mapStateToProps, { })(LobbyAddForm);

@@ -1,13 +1,15 @@
-import { DATA_SOURCE_CORE_LIBRARY, DATA_SOURCE_GAME_MODEL, RELATION_TAG_ID_PREFIX, RELATION_TAG_GENERAL_IID } from ".."
-import { ENTITY_RELATION_TAGS_IID } from "../../../constants/interfaceIds"
+import {  RELATION_TAG_ID_PREFIX, } from ".."
+import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID ,  DATA_SOURCE_CORE_LIBRARY_IID,DATA_SOURCE_GAME_MODEL_IID } from "../../../constants/interfaceIds"
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
 
 export const defaultRelationTag = {
   relationTagInterfaceId: null,
-  dataSource: DATA_SOURCE_GAME_MODEL,
+  isRemoved: false,
+  isReadOnly: false,
+  dataSource: DATA_SOURCE_GAME_MODEL_IID,
   relationTagId: null,
   name: null,
-  textureTint: null,
+  textureTint: '#AAAAAA',
   textureId: null,
   editorInterface: {
     ...defaultEditorInterface
@@ -17,7 +19,8 @@ export const defaultRelationTag = {
 function createLibraryTag(relationTagId, name, textureTint, hiddenFromInterfaceIds = {}) {
   return {
     ...defaultRelationTag,
-    dataSource: DATA_SOURCE_CORE_LIBRARY,
+    isReadOnly: true,
+    dataSource: DATA_SOURCE_CORE_LIBRARY_IID,
     relationTagInterfaceId: RELATION_TAG_GENERAL_IID,
     relationTagId,
     name,

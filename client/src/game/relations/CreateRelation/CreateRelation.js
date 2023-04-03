@@ -10,10 +10,15 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { effectBehaviorToDisplayNames, EFFECT_ID_PREFIX, EVENT_ID_PREFIX, initialEffectRelation, isUseableEffect, nonRemoteEffects, SINGLE_RELATION_TAG_EFFECT, TWO_RELATION_TAG_EFFECT, effectBehaviorInterfaces, eventTypeInterfaces } from '../../constants';
+import { 
+  effectBehaviorToDisplayNames, 
+  EFFECT_ID_PREFIX, EVENT_ID_PREFIX, isUseableEffect, nonRemoteEffects, 
+  effectBehaviorInterfaces, eventTypeInterfaces } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getEntityAandB } from '../../../utils/gameUtils';
-import { EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
+import {SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID, 
+   EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, 
+   EFFECT_PICK_RANDOM_ZONE_IID, EFFECT_REMOTE_IID } from '../../../constants/interfaceIds';
 import CreateEvent from '../../event/CreateEvent/CreateEvent';
 import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Switch from '../../../ui/Switch/Switch';
@@ -28,6 +33,7 @@ import EffectShorthand from '../../effect/EffectShorthand/EffectShorthand';
 import { AlertTitle } from '@mui/material';
 import Alert from '../../../ui/Alert/Alert';
 import SelectSpawnZoneSelectorType from '../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
+import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
 
 // {event && <SelectEffect
 //         event={event}
@@ -129,7 +135,7 @@ const CreateRelation = ({
 
     const effectShortName = effectBehaviorToDisplayNames[effect.effectBehavior]
 
-    if(effectBehaviorInterface.effectableType === SINGLE_RELATION_TAG_EFFECT) {
+    if(effectBehaviorInterface.effectableType === SINGLE_RELATION_TAG_EFFECT_IID) {
       if(event.relationTagIdA && event.relationTagIdB) {
         forms.push(<Switch
             labels={[`${effectShortName} ${relationTagA.name}`, `${effectShortName} ${relationTagB.name}`]}
@@ -164,7 +170,7 @@ const CreateRelation = ({
       }
     }
 
-    if(effectBehaviorInterface.effectableType === TWO_RELATION_TAG_EFFECT) {
+    if(effectBehaviorInterface.effectableType === TWO_RELATION_TAG_EFFECT_IID) {
       if(event.relationTagIdA) forms.push(<Switch
           labels={['', `${effectShortName} ${relationTagA.name}`]}
           size="small"
@@ -221,6 +227,7 @@ const CreateRelation = ({
     if(!nonRemoteEffects[effect.effectBehavior] && !effect.remoteEffectedRelationTagIds?.length) {
       forms.push(<Unlockable interfaceId={EFFECT_REMOTE_IID}>
         <SelectRelationTag
+          interfaceId={EFFECT_REMOTE_IID}
           key="effect/remoteTag"
           formLabel={"What other Tags are effected?"}
           value={effectData.remoteEffectedRelationTagIdsExtension ? effectData.remoteEffectedRelationTagIdsExtension : []}
@@ -301,6 +308,45 @@ const CreateRelation = ({
     })
   }
 
+  function renderButtons() {
+    if(relation.isReadOnly) return <ReadOnlyWarning text={"This Relation is Read Only"}/>
+
+    return <div className="CreateRelation__buttons">
+      <Button 
+          disabled={isSaveDisabled()}
+          onClick={() => {
+          relation.effectIds = relation.effectIds.filter((effectId) => {
+            return !!gameModel.effects[effectId]
+          })
+          editGameModel({
+            relations: {
+              [relation.relationId] : {
+                ...relation,
+                isNew: false,
+              }
+            },
+            events: {
+              [relation.eventId]: event
+            },
+          })
+          handleClose()
+        }}>
+          Save
+        </Button>
+        <Button onClick={handleClose}>
+          Cancel
+        </Button>
+        {!relation.isNew && relation.isRemoved && <Button onClick={() => {
+          editGameModel({
+            relations: {
+              [relation.relationId]: null
+            }
+          })
+          handleClose()
+        }}>Delete</Button>}
+      </div>
+  }
+
   return <CobrowsingModal open={true} onClose={handleClose}>
     <div className="CreateEvent">
       <Typography variant="h4">{'Relationship'}</Typography>
@@ -327,40 +373,7 @@ const CreateRelation = ({
         })
         handleAddEffectId(effectId)
       }}>New Effect</Button>}
-      <div className="CreateRelation__buttons">
-        <Button 
-          disabled={isSaveDisabled()}
-          onClick={() => {
-          relation.effectIds = relation.effectIds.filter((effectId) => {
-            return !!gameModel.effects[effectId]
-          })
-          editGameModel({
-            relations: {
-              [relation.relationId] : {
-                ...relation,
-                isNew: false,
-              }
-            },
-            events: {
-              [relation.eventId]: event
-            },
-          })
-          handleClose()
-        }}>
-          Save
-        </Button>
-        <Button onClick={handleClose}>
-          Cancel
-        </Button>
-        {!relation.isNew && <Button onClick={() => {
-          editGameModel({
-            relations: {
-              [relation.relationId]: null
-            }
-          })
-          handleClose()
-        }}>Delete</Button>}
-      </div>
+      {renderButtons()}
     </div>
   </CobrowsingModal>
 }

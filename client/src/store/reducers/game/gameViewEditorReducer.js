@@ -1,4 +1,4 @@
-import { ZONE_ENTITY_IID } from '../../../game/constants';
+import { ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import {
   CLEAR_GAME_VIEW_EDITOR,
   TOGGLE_LAYER_VISIBILITY,

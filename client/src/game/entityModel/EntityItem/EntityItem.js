@@ -10,10 +10,10 @@ import { getCobrowsingState, mapCobrowsingState } from '../../../utils/cobrowsin
 import { openContextMenuFromEntityId } from '../../../store/actions/game/contextMenuActions';
 import Texture from '../../textures/Texture/Texture';
 import Icon from '../../../ui/Icon/Icon';
-import { PLAYER_ENTITY_IID } from '../../constants';
 import { toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import { changeEntityIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
+import { PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
 
 const EntityItem = ({
   gameModel: { gameModel: { entityModels } },

@@ -30,7 +30,7 @@ const RelationTagItem = ({
       changeRelationTagIdHovering(null)
     }}>
       <NestedListItem
-        useColor color={relationTag.textureTint}
+        useTexture textureTint={relationTag.textureTint} textureId={relationTag.textureId}
         onClick={() => {openCreateRelationTag(relationTag)}}
       >
         <Typography variant="body2">

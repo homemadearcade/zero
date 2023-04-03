@@ -1,13 +1,15 @@
 import { connect } from "react-redux"
 import { compose } from "redux"
+import { PLAYER_AND_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID,
+ } from "../../../constants/interfaceIds"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { eventShortNames, PLAYER_AND_RELATION_TAG_EVENT, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT, eventTypeInterfaces } from "../../constants"
+import { eventShortNames, eventTypeInterfaces } from "../../constants"
 import Sprite from "../../textures/Texture/Texture"
 
 function renderRelationTag(relationTag) {
   return <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', paddingLeft: '.2rem'}}>
-    <span style={{width: '10px', height: '10px'}}>
+    <span style={{width: '.6em', height: '.6em'}}>
       <Sprite textureId={relationTag.textureId} textureTint={relationTag.textureTint}/>
     </span>
     <span>{relationTag.name}</span>
@@ -19,7 +21,7 @@ function renderEventName(event) {
   return  <Typography sx={{ fontWeight: 'bold' }} component="span">{displayName}</Typography>
 }
 
-function EventShorthand({event, gameModel: { gameModel }}) {
+function EventShorthand({event, onClick, gameModel: { gameModel }}) {
   const eventType = event.eventType 
   const relationTags = gameModel.relationTags 
   const relationTagA = relationTags[event.relationTagIdA]
@@ -28,7 +30,7 @@ function EventShorthand({event, gameModel: { gameModel }}) {
   const eventTypeInterface = eventTypeInterfaces[eventType]
 
   function renderBody() {
-    if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT_IID) {
       return <>
         {renderEventName(event)}
         {renderRelationTag(relationTagA)}
@@ -36,7 +38,7 @@ function EventShorthand({event, gameModel: { gameModel }}) {
       </>
     }
 
-    if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT_IID) {
       return <>
         {renderEventName(event)}
         <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -46,7 +48,7 @@ function EventShorthand({event, gameModel: { gameModel }}) {
       </>
     }
     
-    if(eventTypeInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT) {
+    if(eventTypeInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID) {
       return <>
         {renderEventName(event)}
         <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -59,7 +61,7 @@ function EventShorthand({event, gameModel: { gameModel }}) {
     return renderEventName(event)
   }
 
-  return <span style={{display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'row'}}>
+  return <span onClick={onClick} style={{display: 'flex', alignItems: 'center', width: '100%', flexDirection: 'row'}}>
     {renderBody()}
   </span>
 }

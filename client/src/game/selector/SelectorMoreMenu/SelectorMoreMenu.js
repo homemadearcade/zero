@@ -11,12 +11,12 @@ import LayerVisibility from "../../ui/LayerVisibility/LayerVisibility";
 import DataSourceVisibilityMenu from "../../../ui/connected/DataSourceVisibilityMenu/DataSourceVisibilityMenu";
 import Divider from "../../../ui/Divider/Divider";
 
-function SelectorMoreMenu({  selectorClass}) {
+function SelectorMoreMenu({  interfaceId}) {
   function getStageVisibility() {
     const menuItems = []
-    if(entityModelTypeToDisplayName[selectorClass]) {
+    if(entityModelTypeToDisplayName[interfaceId]) {
       menuItems.push(<MenuItem className="MenuIconButton__title" gutters key="visibile on stage" dense>Visible on Stage</MenuItem>)
-      menuItems.push(<MenuItem key={"visible on stage" + selectorClass} dense><LayerVisibility layerId={selectorClass} /></MenuItem>)
+      menuItems.push(<MenuItem key={"visible on stage" + interfaceId} dense><LayerVisibility layerId={interfaceId} /></MenuItem>)
     }
 
     return menuItems
@@ -24,7 +24,7 @@ function SelectorMoreMenu({  selectorClass}) {
 
   return <MenuList dense={true}>
     <MenuItem className="MenuIconButton__title" gutters dense>Visible in List</MenuItem>
-    <DataSourceVisibilityMenu selectorClass={selectorClass} />
+    <DataSourceVisibilityMenu interfaceId={interfaceId} />
     {/* {getStageVisibility()} */}
     </MenuList>
 }

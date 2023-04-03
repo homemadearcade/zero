@@ -8,9 +8,6 @@ FEATURES TODO
 
 LIBRARY
   Easy system for saving library entityModels and relations
-
-  Add Tags, Effect, Relations, Events to library, 
-
   Boot all that into the game!
 
   Sends to Stars To Collide
@@ -29,7 +26,6 @@ STEPS UPDATE
 
 If the instructions could be smart and understand if the requirements of their context has been and have a checkmark if it is, and a check mark if it isnt, and also it would really cool if it could really understand previous steps and what to do to match context menu
 
-Edit Game inside Experience Editor
 COMBINE experienceModel with experience
 
 INTERFACE IDS
@@ -37,3 +33,7 @@ INTERFACE IDS
   Interface Ids themselves may have to be auto generated, for dynamic lookup
   Default unlocked interface ids need to be not shown in the unlockables tree
   I think maybe the game room manages loading interface ids and what not? or do games do that? WHO manages that? why when a game is loaded? troubling. Its hard to manage both at the same time... You need both states
+
+  What is up with these...Borders for the cobrowsing open tool. It seems as if Layers have a border around them, classes do not, and also only effects and events have around it in abstract menu?
+
+  

@@ -1,9 +1,10 @@
-import { DATA_SOURCE_GAME_MODEL, DEFAULT_TEXTURE_ID } from "..";
+import { DATA_SOURCE_GAME_MODEL_IID } from "../../../constants/interfaceIds";
+import { DEFAULT_TEXTURE_ID } from "../core";
 
 export const defaultBrush = {
   lastSelectedDate: 0,
   "layerId": null,
   'textureTint': '#FFFFFF',
   'textureId': DEFAULT_TEXTURE_ID,
-  dataSource: DATA_SOURCE_GAME_MODEL
+  dataSource: DATA_SOURCE_GAME_MODEL_IID
 }

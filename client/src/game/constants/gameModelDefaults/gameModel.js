@@ -2,11 +2,12 @@
 import { DEFAULT_THEME_COLOR } from "../../../constants";
 import { defaultZoneEntity, directionalEntity, jumperEntity, vehicleEntity } from "../entityModelDefaults";
 import { initialStage } from "./stage";
-import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpawnZoneEntityId, initialStageId, initialStageZoneEntityId, jumperPlayerEntityId, SELECTOR_ENTITY_BY_CLAS, DATA_SOURCE_CORE_LIBRARYS, vehiclePlayerEntityId, DATA_SOURCE_CORE_LIBRARY, gameWidth, gameHeight } from "../core";
+import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpawnZoneEntityId, initialStageId, initialStageZoneEntityId, jumperPlayerEntityId, 
+  vehiclePlayerEntityId, gameWidth, gameHeight } from "../core";
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
-import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_CLASS_IID } from "../../../constants/interfaceIds";
+import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_CLASS_IID, DATA_SOURCE_CORE_LIBRARY_IID } from "../../../constants/interfaceIds";
 
 export const defaultGameModel = {
   "metadata": {
@@ -81,7 +82,7 @@ export const defaultGameModel = {
         ...defaultZoneEntity.graphics,
         textureTint: '#FFFFFF',
       },
-      dataSource: DATA_SOURCE_CORE_LIBRARY
+      dataSource: DATA_SOURCE_CORE_LIBRARY_IID
     },
     [initialCameraZoneEntityId]: {
       name: 'Player Camera',
@@ -117,7 +118,7 @@ export const defaultGameModel = {
         width: nodeSize * 30,
         height: nodeSize * 30
       },
-      dataSource: DATA_SOURCE_CORE_LIBRARY
+      dataSource: DATA_SOURCE_CORE_LIBRARY_IID
     },
     [initialStageZoneEntityId]: {
       name: 'Stage',
@@ -150,8 +151,7 @@ export const defaultGameModel = {
         width: gameWidth,
         height: gameHeight
       },
-      dataSource: DATA_SOURCE_CORE_LIBRARY,
-      isRemoved: true
+      dataSource: DATA_SOURCE_CORE_LIBRARY_IID,
     }
   },
   isRemoved: false

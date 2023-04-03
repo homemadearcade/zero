@@ -1,4 +1,5 @@
-import { DATA_SOURCE_GAME_MODEL, gameHeight, gameWidth, LAYER_GROUP_ID_FOREGROUND } from "../core";
+import { DATA_SOURCE_GAME_MODEL_IID } from "../../../constants/interfaceIds";
+import {  gameHeight, gameWidth, LAYER_GROUP_ID_FOREGROUND } from "../core";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { LAYER_GROUP_ID_PLAYGROUND } from "../core";
 import { FOREGROUND_LAYER_GROUP_DEPTH } from "../core";
@@ -12,7 +13,7 @@ export const defaultLayer = {
   layerGroupId: null,
   width: gameWidth,
   height: gameHeight,
-  dataSource: DATA_SOURCE_GAME_MODEL
+  dataSource: DATA_SOURCE_GAME_MODEL_IID
 }
 
 export const layerGroupIdToDepth = {

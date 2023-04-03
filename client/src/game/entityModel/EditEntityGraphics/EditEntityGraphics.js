@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './EditEntityGraphics.scss';
 import CobrowsingModal from '../../cobrowsing/CobrowsingModal/CobrowsingModal';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
-import { clearGameFormEditor, closeEditEntityGraphics, updateCreateEntity, openEditEntityModal } from '../../../store/actions/game/gameFormEditorActions';
+import { clearGameFormEditor, closeEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import CreateTexture from '../../textures/CreateTexture/CreateTexture';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
@@ -13,13 +13,13 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getEntityDisplayName } from '../../../utils/gameUtils';
 import EntityMemberTitle from '../EntityMemberTitle/EntityMemberTitle';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { DATA_SOURCE_USER_LIBRARY, entityModelTypeToDisplayName, LAYER_ID_PREFIX } from '../../constants';
+import { entityModelTypeToDisplayName, LAYER_ID_PREFIX } from '../../constants';
 import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { PLAYER_ENTITY_IID, ENTITY_MODEL_ID_PREFIX, PLAYGROUND_LAYER_ID, ZONE_ENTITY_IID, entityModelTypeToPrefix } from '../../constants';
-import { ENTITY_LAYER_IID, ENTITY_DATA_SOURCE_IID, ENTITY_VISIBILITY_IID } from '../../../constants/interfaceIds';
+import { ENTITY_MODEL_ID_PREFIX, PLAYGROUND_LAYER_ID, entityModelTypeToPrefix } from '../../constants';
+import { ENTITY_LAYER_IID, ENTITY_VISIBILITY_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 
 const EditEntityGraphics = ({ 

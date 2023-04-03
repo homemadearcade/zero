@@ -16,6 +16,8 @@ export const defaultRelationship = {
   effects: {},
   effectIds: [],
   relationId: '',
+  isRemoved: false,
+  isReadOnly: false
 }
 
 // export const effectIgnoreEvent = {

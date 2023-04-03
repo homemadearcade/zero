@@ -1,7 +1,7 @@
 /////////////////////////////////////
 /////////////////////////////////////
 
-import { DATA_SOURCE_GAME_MODEL } from "../core";
+import { DATA_SOURCE_GAME_MODEL_IID } from "../../../constants/interfaceIds";
 
 // WHAT HAPPENS
 export const defaultEffect = {
@@ -18,8 +18,9 @@ export const defaultEffect = {
   cutsceneId: null,
   text: '',
   
-  dataSource: DATA_SOURCE_GAME_MODEL,
+  dataSource: DATA_SOURCE_GAME_MODEL_IID,
   isRemoved: false,
+  isReadOnly: false,
 
   customSelectorCategory: null
 }

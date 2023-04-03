@@ -1,4 +1,4 @@
-import { IMAGE_AND_TEXT_CUTSCENE } from "..";
+import { IMAGE_AND_TEXT_CUTSCENE_IID } from "../../../constants/interfaceIds";
 
 export const defaultCutscene = {
   // pauseGame: true,
@@ -6,7 +6,7 @@ export const defaultCutscene = {
   cutsceneId: null,
   scenes: [{
     id: null,
-    sceneInterfaceType: IMAGE_AND_TEXT_CUTSCENE, 
+    sceneInterfaceType: IMAGE_AND_TEXT_CUTSCENE_IID, 
     imageUrl: null,
     text: null 
   }]

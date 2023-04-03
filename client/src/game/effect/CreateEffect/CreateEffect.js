@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateEffect.scss';
@@ -9,12 +9,11 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
 import { defaultEffect, effectBehaviorInterfaces } from '../../constants';
 import { TextField } from '@mui/material';
-import { ZONE_ENTITY_IID } from '../../constants';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import SelectEffectBehavior from '../../ui/SelectEffectBehavior/SelectEffectBehavior';
-import { RELATION_SPAWN_ENTITY_MODEL_IID, RELATION_SPAWN_ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+import { ZONE_ENTITY_IID , RELATION_ENTITY_MODEL_IID, RELATION_SPAWN_ENTITY_MODEL_IID, RELATION_SPAWN_ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 
 const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) => {
   const handleEffectChange = (prop, value) => {
@@ -75,6 +74,7 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
     if(effectForms.entityModelId) {
       forms.push(<SelectEntity 
         key={'entityModelId'}
+        interfaceId={RELATION_ENTITY_MODEL_IID}
         formLabel={effectForms.entityModelId}
         value={effect.entityModelId ? [effect.entityModelId] : []}
         onChange={(event, entityModels) => {

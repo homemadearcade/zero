@@ -12,6 +12,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { EFFECT_ID_PREFIX } from '../../constants';
 import useIsEffectSaveable from '../../../hooks/relations/useIsEffectSaveable';
 import CreateEffect from '../CreateEffect/CreateEffect';
+import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
 
 const CreateEffectModal = ({ 
   closeCreateEffect, editGameModel, 
@@ -33,38 +34,44 @@ const CreateEffectModal = ({
 
   if(!effect) return
 
+  function renderButtons() {
+    if(effect.isReadOnly) return <ReadOnlyWarning text={'This Effect is Read only'} />
+
+    return <div className="CreateEffect__buttons">
+      <Button 
+        disabled={!effect.effectBehavior || !isEffectSaveable}
+        onClick={() => {
+          editGameModel({
+            effects: {
+              [effect.effectId] : {
+                ...effect,
+                isNew: false,
+              }
+            }
+          })
+          handleClose()
+      }}>
+        Save
+      </Button>
+      <Button onClick={handleClose}>
+        Cancel
+      </Button>
+      {!effect.isNew && <Button onClick={() => {
+        editGameModel({
+          effects: {
+            [effect.effectId]: {
+              isRemoved: true
+            }
+          }
+        })
+        handleClose()
+      }}>Remove</Button>}
+      </div>
+  }
+
   return <CobrowsingModal open={true} onClose={handleClose}>
         <CreateEffect/>
-        <div className="CreateEffect__buttons">
-          <Button 
-            disabled={!effect.effectBehavior || !isEffectSaveable}
-            onClick={() => {
-              editGameModel({
-                effects: {
-                  [effect.effectId] : {
-                    ...effect,
-                    isNew: false,
-                  }
-                }
-              })
-              handleClose()
-          }}>
-            Save
-          </Button>
-          <Button onClick={handleClose}>
-            Cancel
-          </Button>
-          {!effect.isNew && <Button onClick={() => {
-            editGameModel({
-              effects: {
-                [effect.effectId]: {
-                  isRemoved: true
-                }
-              }
-            })
-            handleClose()
-          }}>Remove</Button>}
-      </div>
+        {renderButtons()}
     </CobrowsingModal>
 }
 

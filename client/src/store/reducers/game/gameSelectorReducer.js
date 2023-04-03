@@ -25,12 +25,11 @@ import {
   CLOSE_SELECT_AGGREGATE_COLOR,
   CHANGE_SELECTOR_COLUMN,
   TOGGLE_SELECTOR_CLASS_INVISIBILITY,
-  
 } from '../../types';
 
 const initialState = {
   error: null,
-  selectorClassInvisibility: defaultSelectorClassDataSourceInvisibility,
+  selectorInterfaceListInvisibility: defaultSelectorClassDataSourceInvisibility,
   colorIdSelected: null,
   brushIdSelectedBrushList: null,
   entityModelIdSelectedEntityList: null,
@@ -123,10 +122,10 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       }
     case TOGGLE_SELECTOR_CLASS_INVISIBILITY:
       let newSelectorClassInvisibility
-      if(state.selectorClassInvisibility[payload.selectorClass]) {
+      if(state.selectorInterfaceListInvisibility[payload.interfaceId]) {
         newSelectorClassInvisibility = {
-          ...state.selectorClassInvisibility[payload.selectorClass],
-          [payload.dataSource]: !state.selectorClassInvisibility[payload.selectorClass][payload.dataSource],
+          ...state.selectorInterfaceListInvisibility[payload.interfaceId],
+          [payload.dataSource]: !state.selectorInterfaceListInvisibility[payload.interfaceId][payload.dataSource],
         }
       } else {
         newSelectorClassInvisibility = {
@@ -135,9 +134,9 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       }
       return {
         ...state,
-        selectorClassInvisibility: {
-          ...state.selectorClassInvisibility,
-          [payload.selectorClass]: newSelectorClassInvisibility
+        selectorInterfaceListInvisibility: {
+          ...state.selectorInterfaceListInvisibility,
+          [payload.interfaceId]: newSelectorClassInvisibility
         }
       }
     case CLOSE_SELECT_BACKGROUND_COLOR:

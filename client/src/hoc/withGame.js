@@ -7,10 +7,13 @@ import { getSpritesheetData } from '../store/actions/game/gameModelActions';
 import { clearCutscenes } from '../store/actions/game/playerInterfaceActions';
 import { closeContextMenu } from '../store/actions/game/contextMenuActions';
 import { getLibrary } from '../store/actions/library/libraryActions';
+import ArcadeGameLoader from '../game/ui/ArcadeGameLoader/ArcadeGameLoader';
+import { Fade } from '@mui/material';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
   class WithGame extends Component {
+    state = {}
 
     componentDidMount() {
       this.loadGame()
@@ -47,20 +50,61 @@ export default (ChildComponent) => {
 
     async unloadGame() {
       const { unloadArcadeGame, clearCutscenes, closeContextMenu } = this.props
-     
+    
       unloadArcadeGame()
       clearCutscenes()
       closeContextMenu()
     }
 
     async switchGame(oldProps, newProps) {
+      this.checkIfGameIsLoaded(newProps)
       if(oldProps.arcadeGameMongoId !== newProps.arcadeGameMongoId) {
         await this.unloadGame()
+
         setTimeout(() => {
           this.loadGame(newProps.arcadeGameMongoId)
         }, 100)
       }
     }
+
+    checkIfGameIsLoaded(newProps) {
+      const { 
+        gameModel,
+        entityModelLibrary,
+        relationLibrary,
+        relationTagLibrary,
+        effectLibrary,
+        eventLibrary,
+        interfacePresetLibrary,
+        library
+       } = this.props
+
+      const isLibraryLoading = (library.isLoading ||
+        !entityModelLibrary.entityModelLibrary
+        || !relationLibrary.relationLibrary
+        || !relationTagLibrary.relationTagLibrary
+        || !effectLibrary.effectLibrary
+        || !eventLibrary.eventLibrary
+        || !interfacePresetLibrary.interfacePresetLibrary)
+
+      const isSpriteSheetsLoading = !gameModel.isSpriteSheetDataLoaded
+
+      const isGameModelLoading = !gameModel.gameModel
+
+      const isLoaded = !isLibraryLoading && !isSpriteSheetsLoading && !isGameModelLoading
+
+      if(isLoaded && !this.state.isLoaded) {
+        this.setState({
+          isLoaded: true,
+        })
+        setTimeout(() => {
+          this.setState({
+            isShowingGame: true,
+          })
+        }, 10)
+      }
+    }
+
 
     askBeforeClosing = (e) => {
       const gameInstance = store.getState().webPage.gameInstance
@@ -82,33 +126,12 @@ export default (ChildComponent) => {
     }
 
     render() {
-      const { 
-        gameModel,
-        entityModelLibrary,
-        relationLibrary,
-        relationTagLibrary,
-        effectLibrary,
-        eventLibrary,
-        interfacePresetLibrary,
-        library
-       } = this.props
-
-      if(library.isLoading ||
-        !entityModelLibrary.entityModelLibrary
-        || !relationLibrary.relationLibrary
-        || !relationTagLibrary.relationTagLibrary
-        || !effectLibrary.effectLibrary
-        || !eventLibrary.eventLibrary
-        || !interfacePresetLibrary.interfacePresetLibrary
-      ) {
-        return <Loader text="Loading Library..."/>
-      }
-
-      if(!gameModel.isSpriteSheetDataLoaded) {
-        return <Loader text="Loading Sprites..."/>
-      }
-
-      return <ChildComponent {...this.props} />
+      return <>
+        {this.state.isLoaded && <ChildComponent {...this.props} />}
+        <Fade in={!this.state.isShowingGame}>
+          <div><ArcadeGameLoader text="Loading..."/></div>
+        </Fade>
+      </>
     }
   }
 

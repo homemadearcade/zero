@@ -1,7 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,14 +10,14 @@ import CardMedia from '@mui/material/CardMedia';
 import { CardActions, TextField } from '@mui/material';
 import Button from '../../../ui/Button/Button';
 import Typography from '../../../ui/Typography/Typography';
-import { IMAGE_CUTSCENE, TEXT_CUTSCENE } from '../../constants';
+import { IMAGE_CUTSCENE_IID, TEXT_CUTSCENE_IID } from '../../../constants/interfaceIds';
 
 const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeText, onRemoveScene, onEditScene, index}) => {
  return <Card sx={{ width: 200 }}>
       <Typography gutterBottom variant="h5" component="div">
       #{index+1}
     </Typography>
-    {scene.sceneInterfaceType != TEXT_CUTSCENE && 
+    {scene.sceneInterfaceType != TEXT_CUTSCENE_IID && 
       <>
       <CardMedia
         component="img"
@@ -27,7 +26,7 @@ const SceneCard = ({isEditing, scene, onDoneEditing, onChooseNewImage, onChangeT
       />
       {isEditing && <Button onClick={onChooseNewImage}>Choose Image</Button>}
     </>}
-    {scene.sceneInterfaceType != IMAGE_CUTSCENE && <CardContent>
+    {scene.sceneInterfaceType != IMAGE_CUTSCENE_IID && <CardContent>
       {scene.text && !isEditing && <Typography variant="body2" color="text.secondary">
         {scene.text}
       </Typography>}

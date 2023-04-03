@@ -8,7 +8,6 @@ import './EditGamePage.scss';
 
 import withGame from '../../hoc/withGame';
 import requireChrome from '../../hoc/requireChrome';
-import GameView from '../../game/view/GameView/GameView';
 import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
 import { PLAY_STATE } from '../../game/constants';
 import requireAuth from '../../hoc/requireAuth';

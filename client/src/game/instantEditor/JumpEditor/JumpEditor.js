@@ -9,11 +9,11 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import { advancedDirectionalDefaults } from '../../constants';
 import Button from '../../../ui/Button/Button';
-import { PLAYER_ENTITY_IID, ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
+import { ADVANCED_DIRECTIONAL_CONTROLS } from '../../constants';
 import ControlsCard from '../../ui/ControlsCard/ControlsCard';
 import SelectJumpControlsBehavior from '../../ui/SelectJumpControlsBehavior/SelectJumpControlsBehavior';
 import { jumpControlsBehaviorToParemeters } from '../../constants';
-import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_BEHAVIOR_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID } from '../../../constants/interfaceIds';
+import { JUMP_AIR_IID, JUMP_COOLDOWN_IID, JUMP_GROUND_IID, JUMP_BEHAVIOR_IID, MOVEMENT_CONTROLS_BEHAVIOR_IID, MOVEMENT_DRAG_Y_IID, MOVEMENT_IGNORE_GRAVITY_IID, TOGGLE_ALL_PARAMS_IID, PLAYER_ENTITY_IID } from '../../../constants/interfaceIds';
 
 const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, auth: { me } }) => {
   const [seeAllParameters, setSeeAllParameters] = useState()

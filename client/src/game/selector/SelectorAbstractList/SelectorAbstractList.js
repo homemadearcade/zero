@@ -9,7 +9,7 @@ import { openEditEntityGraphics, openCreateCutscene, openCreateEffect, openCreat
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
+import {  DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, EFFECT_ABSTRACT_IID, EFFECT_ADD_IID, EFFECT_CONTAINER_IID, EVENT_ABSTRACT_IID, EVENT_ADD_IID, EVENT_CONTAINER_IID, EVENT_SELECT_IID, IS_DATA_REMOVED_IID, RELATION_ABSTRACT_IID, RELATION_ADD_IID, RELATION_CONTAINER_IID, RELATION_TAG_ABSTRACT_IID, RELATION_TAG_ADD_IID, RELATION_TAG_CONTAINER_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxModal } from '../../../store/actions/game/gameSelectorActions';
 import { NestedListContainer, NestedListItem, NestedListItemButton } from '../../../ui/NestedList/NestedList';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
@@ -19,9 +19,6 @@ import EventShorthand from '../../event/EventShorthand/EventShorthand';
 import RelationTagItem from '../../tags/RelationTagItem/RelationTagItem';
 import EffectItem from '../../effect/EffectItem/EffectItem';
 import SelectorMoreMenu from '../SelectorMoreMenu/SelectorMoreMenu';
-import { EFFECT_ABSTRACT_IID, EVENT_ABSTRACT_IID, IS_DATA_REMOVED, RELATION_ABSTRACT_IID, RELATION_TAG_ABSTRACT_IID } from '../../constants';
-
-const DATA_MAX = 16
 
 const SelectorAbstractList = ({
   gameModel: { gameModel },
@@ -30,17 +27,17 @@ const SelectorAbstractList = ({
   openCreateEffect,
   openCreateEvent,
   openCreateRelation,
-  gameSelector: { selectorClassInvisibility },
+  gameSelector: { selectorInterfaceListInvisibility },
 }) => {
   if(!gameModel.cutscenes) {
     return null
   }
 
-  function isDataSourceInvisible(selectorClass, dataSource) {
-    return selectorClassInvisibility[selectorClass][dataSource]
+  function isDataSourceInvisible(interfaceId, dataSource) {
+    return selectorInterfaceListInvisibility[interfaceId][dataSource]
   }
-  function isRemovedDataInvisible(selectorClass, isRemoved) {
-    return isRemoved && selectorClassInvisibility[selectorClass][IS_DATA_REMOVED]
+  function isRemovedDataInvisible(interfaceId, isRemoved) {
+    return isRemoved && selectorInterfaceListInvisibility[interfaceId][IS_DATA_REMOVED_IID]
   }
 
   const nestedLists = []
@@ -71,7 +68,7 @@ const SelectorAbstractList = ({
     interfaceId: CUTSCENE_CONTAINER_IID,
     title: 'Cutscenes',
     children: cutscenes,
-    // moreMenu: <SelectorMoreMenu selectorClass={CUTSCENE_ABSTRACT_IID}/>
+    // moreMenu: <SelectorMoreMenu interfaceId={CUTSCENE_ABSTRACT_IID}/>
   })
 
 
@@ -101,7 +98,7 @@ const SelectorAbstractList = ({
     interfaceId: DIALOGUE_CONTAINER_IID,
     title: 'Dialogues',
     children: dialogueScenes,
-    // moreMenu: <SelectorMoreMenu selectorClass={DIALOGUE_ABSTRACT_IID}/>
+    // moreMenu: <SelectorMoreMenu interfaceId={DIALOGUE_ABSTRACT_IID}/>
   })
 
   const relationTags = Object.keys(gameModel.relationTags).filter((currentRelationTagId) => {
@@ -126,7 +123,7 @@ const SelectorAbstractList = ({
     interfaceId: RELATION_TAG_CONTAINER_IID,
     title: 'Relationship Tags',
     children: relationTags,
-    moreMenu: <SelectorMoreMenu selectorClass={RELATION_TAG_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={RELATION_TAG_ABSTRACT_IID}/>
   })
 
   const relations = Object.keys(gameModel.relations).filter((currentRelationId) => {
@@ -151,7 +148,7 @@ const SelectorAbstractList = ({
     interfaceId: RELATION_CONTAINER_IID,
     title: 'Relationships',
     children: relations,
-    moreMenu: <SelectorMoreMenu selectorClass={RELATION_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={RELATION_ABSTRACT_IID}/>
   })
 
   const effects = Object.keys(gameModel.effects).filter((currentEffectId) => {
@@ -176,7 +173,7 @@ const SelectorAbstractList = ({
     interfaceId: EFFECT_CONTAINER_IID,
     title: 'Effects',
     children: effects,
-    moreMenu: <SelectorMoreMenu selectorClass={EFFECT_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={EFFECT_ABSTRACT_IID}/>
   })
 
   const events = Object.keys(gameModel.events).filter((currentEventId) => {
@@ -207,7 +204,7 @@ const SelectorAbstractList = ({
     interfaceId: EVENT_CONTAINER_IID,
     title: 'Events',
     children: events,
-    moreMenu: <SelectorMoreMenu selectorClass={EVENT_ABSTRACT_IID}/>
+    moreMenu: <SelectorMoreMenu interfaceId={EVENT_ABSTRACT_IID}/>
   })
 
   return <div className="SelectorAbstractList">

@@ -4,8 +4,17 @@ import { Provider } from 'react-redux';
 import './localStorage.js'
 import './events.js'
 import './index.css';
+
+// load interfacts ids first
+import './constants/interfaceIds'
+// then load game core constants and structures that rely on game core constants
 import './game/constants'
+// then load interface id DATA which may rely on game constants and structures
+import './constants/interfaceIdData'
+// load the rest of the constants, the order they will be loaded in is unknown
 import './constants'
+
+// then the components can import in any data as they see fit
 import App from './App';
 import store from './store'
 

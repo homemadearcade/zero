@@ -1,4 +1,6 @@
-import { ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN, ON_TOUCH_ACTIVE, ON_TOUCH_START, PLAYER_AND_RELATION_TAG_EVENT, PLAYER_RELATION_TAG_EVENT, SINGLE_RELATION_TAG_EVENT, TWO_RELATION_TAG_EVENT } from "../core"
+import {  PLAYER_AND_RELATION_TAG_EVENT_IID, PLAYER_RELATION_TAG_EVENT_IID, SINGLE_RELATION_TAG_EVENT_IID, TWO_RELATION_TAG_EVENT_IID  } from "../../../constants/interfaceIds"
+import { ON_DESTROY_ALL, ON_DESTROY_ONE, ON_INTERACT, ON_PLAYTHROUGH, ON_SPAWN, ON_TOUCH_ACTIVE, ON_TOUCH_START,
+   } from "../core"
 
 export const eventShortNames = {
   [ON_TOUCH_START]: 'Touch Start',
@@ -34,10 +36,10 @@ export const eventTypeToDisplayNames = {
 
 export const eventTypeInterfaces = {
   [ON_TOUCH_ACTIVE]: {
-    relationTagSelectType: TWO_RELATION_TAG_EVENT
+    relationTagSelectType: TWO_RELATION_TAG_EVENT_IID
   },
   [ON_TOUCH_START]: {
-    relationTagSelectType: TWO_RELATION_TAG_EVENT,
+    relationTagSelectType: TWO_RELATION_TAG_EVENT_IID,
     effectDelay: true,
     onlyOnce: true,
     effectCooldown: true,
@@ -47,25 +49,25 @@ export const eventTypeInterfaces = {
   //  [ON_COLLIDE_END]: 'ON_COLLIDE_END',
   //  [ON_TOUCH_ACTIVE]: 'ON_TOUCH_ACTIVE',
   [ON_PLAYTHROUGH]: {
-    relationTagSelectType: PLAYER_RELATION_TAG_EVENT,
+    relationTagSelectType: PLAYER_RELATION_TAG_EVENT_IID,
     effectDelay: true
   },
   [ON_SPAWN]: {
-    relationTagSelectType: SINGLE_RELATION_TAG_EVENT,
+    relationTagSelectType: SINGLE_RELATION_TAG_EVENT_IID,
     effectDelay: true,
     onlyOnce: true
   },
   [ON_DESTROY_ONE]: {
-    relationTagSelectType: SINGLE_RELATION_TAG_EVENT,
+    relationTagSelectType: SINGLE_RELATION_TAG_EVENT_IID,
     effectDelay: true,
     onlyOnce: true
   },
   [ON_DESTROY_ALL]: {
-    relationTagSelectType: SINGLE_RELATION_TAG_EVENT,
+    relationTagSelectType: SINGLE_RELATION_TAG_EVENT_IID,
     effectDelay: true,
   },
   [ON_INTERACT]: {
-    relationTagSelectType: PLAYER_AND_RELATION_TAG_EVENT,
+    relationTagSelectType: PLAYER_AND_RELATION_TAG_EVENT_IID,
     onlyOnce: true,
     effectCooldown: true
   },

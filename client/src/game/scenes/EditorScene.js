@@ -254,16 +254,17 @@ export class EditorScene extends GameInstance {
     ////////////////////////////////////////////////////////////
     // SNAPSHOT
     ////////////////////////////////////////////////////////////
-    if(this.snapshotSquare && !this.snapshotSquare.finalized) {
+    if(this.snapshotSquare) {
       if(!gameViewEditor.isSnapshotTakerOpen) {
         this.clearSnapshotSquare()
-       } else {
+      } 
+      if(!this.snapshotSquare.finalized) {
         this.snapshotSquare.clear()
         this.snapshotSquare.lineStyle(2, getThemePrimaryColor().hexCode);
         this.snapshotEndPos.x = (pointer.worldX - this.snapshotStartPos.x) + 2
         this.snapshotEndPos.y = (pointer.worldY - this.snapshotStartPos.y) + 2
         this.snapshotSquare.strokeRect(this.snapshotStartPos.x - 2, this.snapshotStartPos.y - 2, this.snapshotEndPos.x, this.snapshotEndPos.y);
-       }
+      }
     }
 
     ////////////////////////////////////////////////////////////
