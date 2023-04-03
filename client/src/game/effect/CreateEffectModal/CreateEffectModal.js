@@ -16,7 +16,7 @@ import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
 
 const CreateEffectModal = ({ 
   closeCreateEffect, editGameModel, 
-  gameFormEditor: { effect },
+  gameFormEditor: { effect, event },
   updateCreateEffect,
 }) => {
   function handleClose() {
@@ -70,7 +70,7 @@ const CreateEffectModal = ({
   }
 
   return <CobrowsingModal open={true} onClose={handleClose}>
-        <CreateEffect/>
+        <CreateEffect onUpdateEffect={updateCreateEffect} effect={effect} eventType={event.eventType}/>
         {renderButtons()}
     </CobrowsingModal>
 }

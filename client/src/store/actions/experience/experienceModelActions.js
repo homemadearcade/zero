@@ -20,8 +20,8 @@ import {
   CLEAR_EXPERIENCE_MODEL,
 } from '../../types';
 import { mergeDeep } from '../../../utils';
-import _ from 'lodash';
-import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import _, { merge } from 'lodash';
+import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
 
@@ -99,14 +99,17 @@ function addDefaultsToExperienceModel(experienceModel) {
       const presetActivity =  mergeDeep(_.cloneDeep(defaultActivity), _.cloneDeep(experienceModel.activitys[id]))
 
       if(presetActivity.activityCategory === GAME_ROOM_ACTIVITY) {
-        console.log(presetActivity.activityId)
         const gameRoomInstructionsId = INSTRUCTION_ID_PREFIX+presetActivity.activityId
-        experienceModel.instructions[gameRoomInstructionsId] = {
+        const presetInstructions = {
           instructionId: gameRoomInstructionsId,
           instructionCategory: INSTRUCTION_GAME_ROOM,
           name: `${presetActivity.name} Guide Instructions`,
           arcadeGameMongoId: presetActivity.gameRoom.arcadeGameMongoId,
         }
+        
+        if(!experienceModel.instructions[gameRoomInstructionsId]) experienceModel.instructions[gameRoomInstructionsId] = presetInstructions
+        else experienceModel.instructions[gameRoomInstructionsId] = mergeDeep(presetInstructions, experienceModel.instructions[gameRoomInstructionsId])
+
         if(!presetActivity.instructionsByRoleId) { 
           presetActivity.instructionsByRoleId = {}
         }
@@ -120,6 +123,10 @@ function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.instructions) {
     Object.keys(experienceModel.instructions).forEach((id) => {
       experienceModel.instructions[id] = mergeDeep(_.cloneDeep(defaultInstructions), experienceModel.instructions[id])
+      const steps = experienceModel.instructions[id].steps
+      Object.keys(steps).forEach((stepId) => {
+        steps[stepId] = mergeDeep(_.cloneDeep(defaultStep), steps[stepId])
+      })
     })
   }
 

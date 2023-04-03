@@ -29,6 +29,7 @@ export const INSTRUCTION_ID_PREFIX = 'instruction-'
 export const defaultInstructions = {
   name: null,
   steps: {},
+  prompts: {},
   stepOrder: [],
   instructionId: null,
   instructionCategory: null,

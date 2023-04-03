@@ -18,12 +18,12 @@ const SelectEffectBehavior = ({ onChange, value, eventType, formLabel, disabled,
   }
 
   const options = Object.keys(effectBehaviorToDisplayNames).filter((effectBehavior) => {
-    if(eventType && !isUseableEffect(effectBehavior, eventType)) return false
+    if(eventType && !isUseableEffect(null, effectBehavior, eventType)) return false
     return true
   }).map(mapEffectsToOption)
 
   const useableValue = value.filter((effectBehavior) => {
-    if(eventType && !isUseableEffect(effectBehavior, eventType)) return false 
+    if(eventType && !isUseableEffect(null, effectBehavior, eventType)) return false 
     return true
   })
 

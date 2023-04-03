@@ -11,4 +11,6 @@ export const stepBehaviorToDisplayName = {
   [STEP_GAME_INSTANCE_EVENT]: 'Game Animation',
   [STEP_LOBBY_EVENT]: 'Lobby Animation',
   [STEP_CHANGE_ACTIVITY]: 'Change Activity',
+  [STEP_OPEN_INTERFACE]: 'Open Interface',
+  [STEP_UNLOCK_INTERFACE]: 'Unlock Interface',
 }

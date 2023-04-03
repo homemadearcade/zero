@@ -9,6 +9,7 @@ FEATURES TODO
 LIBRARY
   Sends to Stars To Collide
   Sends to Stars on Interact
+  Send to Stars
   Game Over on __
   Win Game on __
 

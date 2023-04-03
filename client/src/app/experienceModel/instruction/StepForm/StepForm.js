@@ -7,15 +7,16 @@ import SelectStepBehavior from '../../../../ui/SelectStepBehavior/SelectStepBeha
 const StepForm = ({ isEdit, register, control, instructionCategory }) => {
   return <>
     {!isEdit && <Controller
-      {...register("stepCategory", {
+      {...register("stepBehavior", {
         required: true
       })}
-      name={"stepCategory"}
+      name={"stepBehavior"}
       control={control}
       render={({ field: { onChange, value } }) => (
         <SelectStepBehavior instructionCategory={instructionCategory} onChange={(e) => {
+          console.log(e, e.target.value)
           onChange(e.target.value)
-        }} value={value ? [value] : []} label={"Category"} />
+        }} value={value ? [value] : []} label={"Behavior"} />
       )}
     />}
   </>

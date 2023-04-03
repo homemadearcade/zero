@@ -12,7 +12,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { 
   effectBehaviorToDisplayNames, 
-  EFFECT_ID_PREFIX, EVENT_ID_PREFIX, isUseableEffect, nonRemoteEffects, 
+  EFFECT_ID_PREFIX, EVENT_ID_PREFIX, isUseableEffect, noRemoteEffectedTagEffects, 
   effectBehaviorInterfaces, eventTypeInterfaces } from '../../constants';
 import { RELATION_ID_PREFIX } from '../../constants';
 import { getEntityAandB } from '../../../utils/gameUtils';
@@ -88,7 +88,7 @@ const CreateRelation = ({
     const isAnEffectNotUseable = relation.effectIds.some((effectId) => {
       const effect = gameModel.effects[effectId]
       if(!effect) return false
-      return !isUseableEffect(effect.effectBehavior, event.eventType)
+      return !isUseableEffect(effect, effect.effectBehavior, event.eventType)
     })
 
     if(isAnEffectNotUseable) return true
@@ -224,7 +224,7 @@ const CreateRelation = ({
       </Unlockable>)
     }
 
-    if(!nonRemoteEffects[effect.effectBehavior] && !effect.remoteEffectedRelationTagIds?.length) {
+    if(!noRemoteEffectedTagEffects[effect.effectBehavior] && !effect.remoteEffectedRelationTagIds?.length) {
       forms.push(<Unlockable interfaceId={EFFECT_REMOTE_IID}>
         <SelectRelationTag
           interfaceId={EFFECT_REMOTE_IID}
@@ -281,7 +281,7 @@ const CreateRelation = ({
     return <>
       <Divider/>
       <EffectShorthand effect={effect}/>
-      {!isUseableEffect(effect.effectBehavior, event.eventType) && <Alert severity='error'>
+      {!isUseableEffect(effect, effect.effectBehavior, event.eventType) && <Alert severity='error'>
         <AlertTitle>This Effect is not compatible with the Event. Change or remove it to save</AlertTitle>
       </Alert>}
       {effect.effectBehavior && renderSelectEffectedTagInstances(effect)}

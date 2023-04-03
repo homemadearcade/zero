@@ -1,10 +1,16 @@
 export const defaultStep = {
   skippable: false,
-  prompts: {},
+  promptOrder: [],
   stepType: '',
   clickToType: null,
   clickToData: {},
-  requirements: {},
+  stepBehavior: 'string',
+  requirements: {
+    cobrowsing: false,
+    gameId: null,
+    gameIsPoweredOn: false,
+  },
+  effectIds: [],
   stepId: null,
 }
 
@@ -30,10 +36,10 @@ export const STEP_ID_PREFIX = 'step-'
 // WHAT ARE THE ROLES IN YOUR EXPERIENCE_MODEL
 
 export const defaultConversationPrompt = {
-  role: '',
+  roleId: '',
   text: '',
-  gameEvent: '',
-  lobbyEvent: '',
+  // gameEvent: '',
+  // lobbyEvent: '',
 }
 
 

@@ -169,7 +169,7 @@ export const getArcadeGame = (id) => async (dispatch, getState) => {
   }
 };
 
-export const addImportedArcadeGame = (arcadeGameId) => async (dispatch, getState) => {
+export const addImportedArcadeGame = (arcadeGameMongoId) => async (dispatch, getState) => {
   dispatch({
     type: ADD_IMPORTED_ARCADE_GAME_LOADING,
     payload: { },
@@ -177,7 +177,7 @@ export const addImportedArcadeGame = (arcadeGameId) => async (dispatch, getState
   try {
     const gameId = getState().gameModel.gameModel.id
     const options = attachTokenToHeaders(getState);
-    const response = await axios.post(`/api/arcadeGames/${gameId}/importedArcadeGame`, {arcadeGameId}, options);
+    const response = await axios.post(`/api/arcadeGames/${gameId}/importedArcadeGame`, {arcadeGameMongoId}, options);
 
     dispatch({
       type: ADD_IMPORTED_ARCADE_GAME_SUCCESS,

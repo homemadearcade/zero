@@ -6,29 +6,19 @@ import './SelectEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { effectBehaviorInterfaces, effectBehaviorToDisplayNames, getEffectShorthand, isUseableEffect} from '../../constants'
 
-const SelectEffect = ({ eventType, onChange, value, formLabel, disabled, gameModel}) => {
+const SelectEffect = ({ onChange, value, eventType, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effectId) => {
     const effect = gameModel.effects[effectId]
 
     return {
       label: getEffectShorthand(effect),
       value: effectId,
-      isRemoved: effect.isRemoved,
+      isRemoved: effect.isRemoved || !isUseableEffect(effect, effect.effectBehavior, eventType),
       group: effect.customSelectorCategory || effectBehaviorToDisplayNames[effect.effectBehavior]
     }
   }
 
-  const options = Object.keys(gameModel.effects).filter((effectId) => {
-    // const effect = gameModel.effects[effectId]
-    // if(isUseableEffect(effect.effectBehavior, eventType)) return true
-    // return false
-    return true
-  }).map(mapControlsToOption)
-
-  // const useableValue = value.filter((effectId) => {
-  //   const effect = gameModel.effects[effectId]
-  //   return isUseableEffect(effect.effectBehavior, eventType)
-  // })
+  const options = Object.keys(gameModel.effects).map(mapControlsToOption)
 
   options.sort((a, b) => {
     return -b.group.localeCompare(a.group)

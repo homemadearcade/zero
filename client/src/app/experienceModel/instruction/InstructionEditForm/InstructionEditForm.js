@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
 import { useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
 import InstructionForm from '../InstructionForm/InstructionForm';
-import Typography from '../../../../ui/Typography/Typography';
-import VerticalLinearStepper from '../../../../ui/VerticalLinearStepper/VerticalLinearStepper';
+import StepBuilder from '../StepBuilder/StepBuilder';
+import { loadArcadeGameByMongoId, unloadArcadeGame } from '../../../../store/actions/game/arcadeGameActions';
+import Loader from '../../../../ui/Loader/Loader';
 import StepAddForm from '../StepAddForm/StepAddForm';
+import GameCard from '../../../gameModel/GameCard/GameCard';
+import Typography from '../../../../ui/Typography/Typography';
+import { INSTRUCTION_GAME_ROOM } from '../../../../constants';
 
-const InstructionEditForm = ({ editExperienceModel, instructionId, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
+const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editExperienceModel, instructionId, gameModel: { gameModel, isLoading }, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const instruction = experienceModel.instructions[instructionId]
   
+  useEffect(() => {
+    if(instruction.arcadeGameMongoId) {
+      loadArcadeGameByMongoId(instruction.arcadeGameMongoId)
+    }
+    return () => {
+      unloadArcadeGame()
+    }
+  }, [])
+
   const { handleSubmit, control, formState: { isValid }, register } = useForm({
     defaultValues: instruction
   });
@@ -26,18 +39,8 @@ const InstructionEditForm = ({ editExperienceModel, instructionId, experienceMod
     if(onSubmit) onSubmit()
   }
 
-  function formatSteps() {
-    return Object.keys(instruction.steps).map((stepId) => {
 
-      const title = instruction.steps[stepId].title
-
-
-
-      return {
-        stepId,
-      }
-    })
-  }
+  if(instruction.arcadeGameMongoId && (!gameModel || isLoading)) return <Loader/>
 
   return (
     <div className="InstructionEditForm">
@@ -54,21 +57,26 @@ const InstructionEditForm = ({ editExperienceModel, instructionId, experienceMod
             }
           })
         }}>Remove</Button>
-        <Typography variant="h2">Steps</Typography>
-        <VerticalLinearStepper steps={formatSteps(instruction.steps)} />
-        <StepAddForm 
+        {gameModel && <GameCard game={gameModel} />}
+        <Typography variant="h2">{instruction.instructionCategory === INSTRUCTION_GAME_ROOM ? 'Game Room Steps': 'Lobby Steps'}</Typography>
+        <StepBuilder control={control} register={register} instructionId={instructionId}/>
+        <StepAddForm
           instructionCategory={instruction.instructionCategory}
           onSubmit={(step) => {
             editExperienceModel(experienceModel.id, {
-            instructions: {
-              [instructionId]: {
-                steps: {
-                  [step.stepId]: step
+              instructions: {
+                [instructionId]: {
+                  steps: {
+                    [step.stepId]: step
+                  },
+                  stepOrder: [
+                    ...instruction.stepOrder,
+                    step.stepId
+                  ]
                 }
-              }
-            }
-          })
-        }}/>
+              },
+            })
+          }}/>
       </form>
     </div>
   )
@@ -76,6 +84,7 @@ const InstructionEditForm = ({ editExperienceModel, instructionId, experienceMod
 
 const mapStateToProps = (state) => ({
   experienceModel: state.experienceModel,
+  gameModel: state.gameModel
 });
 
-export default connect(mapStateToProps, { editExperienceModel })(InstructionEditForm);
+export default connect(mapStateToProps, { loadArcadeGameByMongoId, unloadArcadeGame, editExperienceModel })(InstructionEditForm);

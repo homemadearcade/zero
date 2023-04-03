@@ -1,7 +1,7 @@
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
 import { EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_OPEN_OVERLAY, EFFECT_SPAWN, 
-  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_WIN_GAME, ON_TOUCH_ACTIVE,
+  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_WIN_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
 
@@ -123,7 +123,7 @@ export const effectBehaviorInterfaces = {
 }
 
 // EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
-export const persistentEffects  = {
+export const touchActiveEffects  = {
   // Movement
   [EFFECT_TELEPORT]: false,
   [EFFECT_IGNORE_GRAVITY]: true,
@@ -149,7 +149,7 @@ export const persistentEffects  = {
   [EFFECT_OPEN_OVERLAY]: false
 }
 
-export const nonRemoteEffects  = {
+export const noRemoteEffectedTagEffects = {
   // Movement
   [EFFECT_TELEPORT]: false,
   [EFFECT_IGNORE_GRAVITY]: false,
@@ -169,14 +169,51 @@ export const nonRemoteEffects  = {
   [EFFECT_CAMERA_SHAKE]: true,
   [EFFECT_INVISIBLE]: false,
 
+  // Meta
   [EFFECT_SWITCH_STAGE]: true,
   [EFFECT_CHANGE_GAME]: true,
   [EFFECT_OPEN_OVERLAY]: true
 }
 
-export function isUseableEffect(effectBehavior, eventType) {
-  if(eventType !== ON_TOUCH_ACTIVE && persistentEffects[effectBehavior]) return false
-  if(!persistentEffects[effectBehavior] && (eventType === ON_TOUCH_ACTIVE)) return false
+export const nonStepEffectBehaviors = {
+    // Movement
+  [EFFECT_TELEPORT]: false,
+  [EFFECT_IGNORE_GRAVITY]: true,
+  [EFFECT_STICK_TO]: true,
+
+  // Lifecycle
+  [EFFECT_TRANSFORM]: false,
+  [EFFECT_SPAWN]: false,
+  [EFFECT_DESTROY]: false,
+
+  // Narrative
+  [EFFECT_CUTSCENE]: false,
+  [EFFECT_GAME_OVER]: false,
+  [EFFECT_WIN_GAME]: false,
+
+  // Graphical
+  [EFFECT_CAMERA_SHAKE]: false,
+  [EFFECT_INVISIBLE]: true,
+
+  // Meta
+  [EFFECT_SWITCH_STAGE]: false,
+  [EFFECT_CHANGE_GAME]: false,
+  [EFFECT_OPEN_OVERLAY]: false
+}
+
+export function isUseableEffect(effect, effectBehavior, eventType) {
+  if(eventType === ON_STEP_BEGINS) {
+    if((!effect.remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effectBehavior]) || nonStepEffectBehaviors[effectBehavior]) {
+      return false
+    }
+  } else {
+    if(eventType !== ON_TOUCH_ACTIVE) {
+      if(touchActiveEffects[effectBehavior]) return false
+    }
+    if(eventType === ON_TOUCH_ACTIVE) {
+      if(!touchActiveEffects[effectBehavior]) return false
+    }
+  }
   return true
 }
 

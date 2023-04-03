@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateEffect.scss';
-import { closeCreateEffect, updateCreateEffect} from '../../../store/actions/game/gameFormEditorActions';
+import { closeCreateEffect } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
@@ -15,10 +15,10 @@ import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcad
 import SelectEffectBehavior from '../../ui/SelectEffectBehavior/SelectEffectBehavior';
 import { ZONE_ENTITY_IID , RELATION_ENTITY_MODEL_IID, RELATION_SPAWN_ENTITY_MODEL_IID, RELATION_SPAWN_ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 
-const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) => {
+const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
   const handleEffectChange = (prop, value) => {
     effect[prop] = value
-    updateCreateEffect(effect)
+    onUpdateEffect(effect)
   }
   
   function renderEffectForms() {
@@ -115,12 +115,12 @@ const CreateEffect = ({ updateCreateEffect, gameFormEditor: { effect, event }}) 
   return  <div className="CreateEffect">
     <SelectEffectBehavior
       effect={effect}
-      eventType={event.eventType}
+      eventType={eventType}
       formLabel={`What is the effect?`}
       value={effect.effectBehavior ? [effect.effectBehavior] : []}
       onChange={(event, effectBehaviors) => {
         const effectBehavior = effectBehaviors[effectBehaviors.length-1]
-        updateCreateEffect({
+        onUpdateEffect({
           ...defaultEffect,
           effectBehavior: effectBehavior,
           effectId: effect.effectId,
@@ -136,5 +136,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 })
 
 export default compose(
-  connect(mapStateToProps, { updateCreateEffect, closeCreateEffect, editGameModel }),
+  connect(mapStateToProps, { closeCreateEffect, editGameModel }),
 )(CreateEffect);

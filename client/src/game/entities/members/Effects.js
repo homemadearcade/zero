@@ -4,7 +4,7 @@ import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterfaces, EFFECT_CAMERA_SHAKE, 
 import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/game/playerInterfaceActions";
 import { generateUniqueId } from "../../../utils/webPageUtils";
-import { nonRemoteEffects } from "../../constants";
+import { noRemoteEffectedTagEffects } from "../../constants";
 import { isZoneEntityId } from "../../../utils/gameUtils";
 import { changeCurrentStage } from "../../../store/actions/game/gameModelActions";
 import { changeGameState, editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
@@ -115,7 +115,7 @@ export class Effects {
       remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIdsExtension)
     }
 
-    if(remoteEffectedRelationTagIds && !nonRemoteEffects[effect.effectBehavior]) {
+    if(remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effect.effectBehavior]) {
       remoteEffectedRelationTagIds?.forEach((relationTagId) => {
         this.scene.entityInstancesByTag[relationTagId]?.forEach((entityInstance) => {
           phaserInstances.push(entityInstance.phaserInstance)

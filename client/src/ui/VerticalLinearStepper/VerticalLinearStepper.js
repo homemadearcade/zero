@@ -17,22 +17,22 @@ export default function VerticalLinearStepper({initialStep = 0, steps, completed
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    onStepChange(activeStep + 1)
+    if(onStepChange) onStepChange(activeStep + 1)
   };
 
   const handlePrev = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    onStepChange(activeStep - 1)
+    if(onStepChange) onStepChange(activeStep - 1)
   };
 
   const handleReset = () => {
     setActiveStep(0);
-    onStepChange(0)
+    if(onStepChange) onStepChange(0)
   };
 
   return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} canSkipStep={canSkipStep} onClickPrev={handlePrev} onClickReset={handleReset} onChangeStep={(step) => {
     setActiveStep(step);
-    onStepChange(step)
+    if(onStepChange) onStepChange(step)
   }} />
 }
 
@@ -97,7 +97,7 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
               {step.title}
             </StepLabel>
             <StepContent>
-             {step.instructions}
+             {step.body}
               <Box sx={{ mb: 2 }}>
                 <div>
                   <Button
