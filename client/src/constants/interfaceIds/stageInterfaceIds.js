@@ -12,3 +12,8 @@ export const STAGE_DEFAULT_UNDERWATER_IID = 'STAGE_DEFAULT_UNDERWATER_IID'
 export const STAGE_DEFAULT_SPACE_IID = 'STAGE_DEFAULT_SPACE_IID'
 export const STAGE_DEFAULT_OVERHEAD_IID = 'STAGE_DEFAULT_OVERHEAD_IID'
 export const STAGE_DEFAULT_PLATFORMER_IID = 'STAGE_DEFAULT_PLATFORMER_IID'
+
+export const STAGE_OPEN_GRAVITY_IID = 'contextMenu/stage/gravity'
+export const STAGE_OPEN_SECTIONS_IID = 'contextMenu/stage/sections'
+export const STAGES_OPEN_IID = 'contextMenu/stage'
+export const STAGE_OPEN_EDIT_IID = 'contextMenu/stage/edit'

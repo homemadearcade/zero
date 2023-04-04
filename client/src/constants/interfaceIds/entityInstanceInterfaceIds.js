@@ -1,0 +1,5 @@
+export const ENTITY_INSTANCE_MOVE_IID = 'contextMenu/instance/move'
+export const ENTITY_INSTANCE_RESIZE_ENTITY_IID = 'contextMenu/instance/resizeEntity'
+export const ENTITY_INSTANCE_SELECT_ENTITY_IID = 'contextMenu/instance/selectEntity'
+export const ENTITY_INSTANCE_DELETE_IID = 'contextMenu/instance/delete'
+export const ENTITY_INSTANCE_JSON_IID = 'contextMenu/instance/json'

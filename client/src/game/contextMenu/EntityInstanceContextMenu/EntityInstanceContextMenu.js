@@ -10,12 +10,12 @@ import { initialCameraZoneEntityId, PLAYER_INSTANCE_ID_PREFIX } from '../../cons
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { selectEntity, openJsonViewer } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { CONTEXT_MENU_INSTANCE_DELETE_IID, CONTEXT_MENU_INSTANCE_JSON_IID, CONTEXT_MENU_INSTANCE_MOVE_IID, CONTEXT_MENU_INSTANCE_RESIZE_ENTITY_IID, CONTEXT_MENU_INSTANCE_SELECT_ENTITY_IID } from '../../../constants/interfaceIds';
+import { ENTITY_INSTANCE_DELETE_IID, ENTITY_INSTANCE_JSON_IID, ENTITY_INSTANCE_MOVE_IID, ENTITY_INSTANCE_RESIZE_ENTITY_IID, ENTITY_INSTANCE_SELECT_ENTITY_IID } from '../../../constants/interfaceIds';
 import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
 
 const EntityInstanceContextMenu = ({ editGameModel, entityModelId, onMenuItemClick, entityInstanceId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openEditEntityDialog, selectEntity, openJsonViewer }) => {
   if(entityModelId === initialCameraZoneEntityId) {
-    return <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_RESIZE_ENTITY_IID}>
+    return <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
         onMenuItemClick()
@@ -28,25 +28,25 @@ const EntityInstanceContextMenu = ({ editGameModel, entityModelId, onMenuItemCli
       openEditEntityDialog(gameModel.entityModels[entityModelId])
       onMenuItemClick()
     }}>{gameModel.entityModels[entityModelId].name}</ContextMenuTitle>
-    <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_MOVE_IID}>
+    <Unlockable interfaceId={ENTITY_INSTANCE_MOVE_IID}>
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onDragStartContextMenu(entityInstanceId)
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>
-    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_SELECT_ENTITY_IID}>
+    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={ENTITY_INSTANCE_SELECT_ENTITY_IID}>
       <MenuItem onClick={() => {
         selectEntity(entityModelId)
         onMenuItemClick()
       }}>Copy</MenuItem>
     </Unlockable>}
-    <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_RESIZE_ENTITY_IID}>
+    <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
         onMenuItemClick()
       }}>Resize{entityInstanceId === PLAYER_INSTANCE_ID_PREFIX ? '' : ' All'}</MenuItem>
     </Unlockable>
-    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={CONTEXT_MENU_INSTANCE_DELETE_IID}>
+    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={ENTITY_INSTANCE_DELETE_IID}>
       <MenuItem onClick={() => {
         editGameModel({ 
           stages: {
@@ -58,7 +58,7 @@ const EntityInstanceContextMenu = ({ editGameModel, entityModelId, onMenuItemCli
         onMenuItemClick()
       }}>Delete</MenuItem>
     </Unlockable>}
-    {<Unlockable interfaceId={CONTEXT_MENU_INSTANCE_JSON_IID}>
+    {<Unlockable interfaceId={ENTITY_INSTANCE_JSON_IID}>
       <MenuItem onClick={() => {
         const entityInstance = getCurrentGameScene(gameInstance).getEntityInstance(entityInstanceId)
         const json = {

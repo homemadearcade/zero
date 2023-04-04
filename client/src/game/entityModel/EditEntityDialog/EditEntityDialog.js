@@ -78,7 +78,7 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
       </Unlockable>
   }
 
-  function renderSelectCategory() {
+  function renderSelectInterfaceId() {
     return <Unlockable interfaceId={CHANGE_ENTITY_INTERFACE_IID}>
       <SelectEntityModelInterfaceCategory formLabel="Category" value={entityModel.entityInterfaceId ? [entityModel.entityInterfaceId]: []} onChange={(event, entityInterfaceId) => {
         if(!entityInterfaceId.length) return
@@ -113,7 +113,7 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
         <div className="EditEntityDialog__primary-options">
  
           {renderTagSelect()}
-          {renderSelectCategory()}
+          {renderSelectInterfaceId()}
         </div>
       </div>
       <SelectBoundaryEffect

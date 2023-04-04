@@ -19,7 +19,7 @@ import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
-import { CONTEXT_MENU_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
+import { ENTITY_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
 import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/media/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
@@ -61,7 +61,7 @@ export class EditorScene extends GameInstance {
   }
 
   onDragStart = (pointer, entitySprite, dragX, dragY) => {
-    const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
+    const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
     if(isObscured) {
       return
     }
@@ -306,7 +306,7 @@ export class EditorScene extends GameInstance {
 
   onPointerOver = (pointer, entitySprite) => {
     if(this.draggingEntityInstanceId) return
-    // const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
+    // const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
     //isObscured ||
 
     // if(this.brush || this.stamper || this.snapshotSquare || this.getEntityModel(entitySprite[0].entityModelId).editorInterface.notSelectableInStage) {
@@ -560,7 +560,7 @@ export class EditorScene extends GameInstance {
     const phaserInstance = entitySprite[0]
     phaserInstance.isMouseOver = false
     store.dispatch(changeInstanceHovering(null, null))
-    const { isObscured } = getInterfaceIdData(CONTEXT_MENU_INSTANCE_MOVE_IID)
+    const { isObscured } = getInterfaceIdData(ENTITY_INSTANCE_MOVE_IID)
     if(isObscured) {
       return
     }

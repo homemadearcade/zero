@@ -1,8 +1,10 @@
 export const TOGGLE_ALL_PARAMS_IID = 'selector/toggleAllParams';
 export const LAYER_VISIBILITY_IID = 'selector/layerInvisibility';
-export const OPEN_ENTITY_BOX_IID = "selector/openEntityBox";
 export const HOVER_PREVIEW_IID = "selector/hoverPreview";
 export const CHANGE_SELECTOR_TAB_IID = "selector/changeTab";
+
+
+// NO DATA BELOW HERE 
 export const SELECTOR_MORE_IID = "selector/more";
 
 export const SELECT_ENTITY_MODEL_IID = 'SELECT_ENTITY_MODEL'
@@ -19,7 +21,6 @@ export const SELECTOR_ENTITY_MODEL_DETAIL_IID = 'SELECTOR_ENTITY_MODEL_DETAIL'
 export const IS_DATA_REMOVED_IID = 'IS_DATA_REMOVED_IID'
 export const IS_DATA_HIDDEN_IID = 'IS_DATA_HIDDEN_IID'
 
-
 export const EFFECT_ABSTRACT_IID = 'EFFECT_ABSTRACT_IID'
 export const EVENT_ABSTRACT_IID = 'EVENT_ABSTRACT_IID'
 export const RELATION_ABSTRACT_IID = 'RELATION_ABSTRACT_IID'
@@ -29,12 +30,3 @@ export const DIALOGUE_ABSTRACT_IID = 'DIALOGUE_ABSTRACT_IID'
 export const STAGE_ABSTRACT_IID = 'STAGE_ABSTRACT_IID'
 
 
-/////////////////////////////////////
-/////////////////////////////////////
-// LIVE EDITORS
-export const COLLISION_EDITOR_IID = 'COLLISION_EDITOR_IID'
-export const MOVEMENT_EDITOR_IID = 'MOVEMENT_EDITOR_IID'
-export const JUMP_EDITOR_IID = 'JUMP_EDITOR_IID'
-export const CAMERA_EDITOR_IID = 'CAMERA_EDITOR_IID'
-export const STAGE_EDITOR_IID = 'STAGE_EDITOR_IID'
-export const PROJECTILE_EDITOR_IID = 'PROJECTILE_EDITOR_IID'

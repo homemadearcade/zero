@@ -1,6 +1,9 @@
 export const BRUSH_SIZE_IID = 'brushSize';
 export const ADD_BRUSH_IID = 'addBrush';
+export const ERASER_IID = 'eraser'
 
+
+// NO DATA YET
 export const BRUSH_SELECT_IID = 'brushSelect'
 export const COLOR_SELECT_IID = 'colorSelect'
 

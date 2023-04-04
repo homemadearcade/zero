@@ -27,6 +27,9 @@ export const RELATION_SELECT_IID = 'relation/select'
 export const RELATION_CONTAINER_IID = 'relation/*'
 // export const RELATION_MORE_IID = 'relation/more'
 
+
+
+// NO DATA
 export const EVENT_ADD_RELATION_TAG_A_IID = 'event/addRelationTagA'
 export const EVENT_ADD_RELATION_TAG_B_IID = 'event/addRelationTagB'
 

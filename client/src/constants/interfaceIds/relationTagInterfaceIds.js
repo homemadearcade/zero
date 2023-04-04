@@ -2,6 +2,7 @@ export const RELATION_TAG_ADD_IID = 'relationTag/add'
 export const RELATION_TAG_SELECT_IID = 'relationTag/select'
 export const RELATION_TAG_CONTAINER_IID = 'relationTag/*'
 
+// NO DATA
 export const RELATION_TAG_GENERAL_IID = 'RELATION_TAG_GENERAL_IID';
 export const RELATION_TAG_DIALOGUE_IID = 'RELATION_TAG_DIALOGUE_IID';
 export const RELATION_TAG_CUTSCENE_IID = 'RELATION_TAG_CUTSCENE_IID';

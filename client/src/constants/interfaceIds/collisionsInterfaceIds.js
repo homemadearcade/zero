@@ -6,4 +6,6 @@ export const COLLISIONS_MASS_IID = 'physics/mass'
 export const COLLISIONS_PUSHABLE_IID = 'physics/pushable'
 export const COLLISIONS_IMMOVABLE_IID = 'physics/immovable'
 export const COLLISIONS_IGNORE_BOUNDARIES_IID = 'physics/ignoreStageBoundaries'
+
+// NO DATA
 export const COLLIDER_RELATION_TAG_IID = "COLLIDER_RELATION_TAG_IID";

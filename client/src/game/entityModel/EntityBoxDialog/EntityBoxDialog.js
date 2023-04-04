@@ -8,7 +8,7 @@ import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog
 import './EntityBoxDialog.scss'
 import EntityBoxList from '../EntityBoxList/EntityBoxList';
 import EntityModelAdd from '../EntityModelAdd/EntityModelAdd';
-import { ENTITY_BOX_IID } from '../../../constants/interfaceIds';
+import { ENTITY_BOX_DIALOG_IID } from '../../../constants/interfaceIds';
 import Button from '../../../ui/Button/Button';
 import { entityModelTypeToDisplayName } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
@@ -35,7 +35,7 @@ const EntityBoxDialog = ({
 
   return <><CobrowsingDialog open onClose={handleClose}>
     <div className="EntityBoxDialog">
-      <EntityModelAdd entityInterfaceId={entityBoxModelType} addEntityDialogInterfaceId={ENTITY_BOX_IID}>
+      <EntityModelAdd entityInterfaceId={entityBoxModelType} addEntityDialogInterfaceId={ENTITY_BOX_DIALOG_IID}>
       {(onClick) => {
         return <Button size="wide" startIcon={<Icon icon="faPlus"/>}onClick={onClick}>
           Add {entityModelTypeToDisplayName[entityBoxModelType]}
@@ -55,7 +55,7 @@ const EntityBoxDialog = ({
       }}/>
     </div>
   </CobrowsingDialog>
-    {isEditEntityGraphicsOpen === ENTITY_BOX_IID && <EditEntityGraphics 
+    {isEditEntityGraphicsOpen === ENTITY_BOX_DIALOG_IID && <EditEntityGraphics 
       onComplete={async (entityModel) => {
         editGameModel({
           entityModels: {

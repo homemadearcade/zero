@@ -12,7 +12,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { changeCurrentStage } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { SHOW_REMOVED_IID } from '../../../constants/interfaceIds';
+import { SHOW_REMOVED_DATA_IID } from '../../../constants/interfaceIds';
 import { initialStage } from '../../constants';
 
 const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
@@ -55,13 +55,15 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage
           }}>Switch to this Stage</Button>}
         </div>
       })}
-      <Button onClick={() => {
-        openCreateStageDialog({
-          ...initialStage,
-          name: 'Stage #' + (Object.keys(stages).length + 1).toString(),
-        })
-      }}><Icon icon="faPlus"/> New Stage</Button>
-      {!showRemovedStages && <Unlockable interfaceId={SHOW_REMOVED_IID}>
+      <Unlockable interfaceId={SHOW_REMOVED_DATA_IID}>
+        <Button onClick={() => {
+          openCreateStageDialog({
+            ...initialStage,
+            name: 'Stage #' + (Object.keys(stages).length + 1).toString(),
+          })
+        }}><Icon icon="faPlus"/> New Stage</Button>
+      </Unlockable>
+      {!showRemovedStages && <Unlockable interfaceId={SHOW_REMOVED_DATA_IID}>
         <Button onClick={() => {
           setShowRemovedStages(true)
         }}>Show Removed Stages</Button>

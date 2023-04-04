@@ -7,7 +7,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/game/gameFormEditorActions';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { STAGE_EDITOR_IID, CONTEXT_MENU_PLAYTEST_IID, CONTEXT_MENU_STAGES_IID,CONTEXT_MENU_STAGE_GRAVITY_IID, CONTEXT_MENU_STAGE_SECTIONS_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
+import { STAGE_EDITOR_IID, OPEN_PLAYTEST_IID, STAGES_OPEN_IID,STAGE_OPEN_GRAVITY_IID, STAGE_OPEN_SECTIONS_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
 import { openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
 
 const StageContextMenu = ({ 
@@ -28,13 +28,13 @@ const StageContextMenu = ({
         openGameMetadataDialog()
         onMenuItemClick()
     }}>{gameModel?.metadata.title}</ContextMenuTitle>
-    <Unlockable interfaceId={CONTEXT_MENU_STAGE_GRAVITY_IID}>
+    <Unlockable interfaceId={STAGE_OPEN_GRAVITY_IID}>
       <MenuItem onClick={() => {
         openLiveEditor(STAGE_EDITOR_IID)
         onMenuItemClick()
       }}>Edit Gravity</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_STAGE_SECTIONS_IID}>
+    <Unlockable interfaceId={STAGE_OPEN_SECTIONS_IID}>
       <MenuItem onClick={() => {
         openSectionEditor()
         onMenuItemClick()
@@ -52,7 +52,7 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Metadata</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_STAGES_IID}>
+    <Unlockable interfaceId={STAGES_OPEN_IID}>
       <MenuItem onClick={() => {
         openStagesMenu()
         onMenuItemClick()
@@ -64,7 +64,7 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Take Snapshot</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={CONTEXT_MENU_PLAYTEST_IID}>
+    <Unlockable interfaceId={OPEN_PLAYTEST_IID}>
       <MenuItem onClick={() => {
         window.open(window.location.origin + '/play/' + gameModel.id, '_blank');
         onMenuItemClick()

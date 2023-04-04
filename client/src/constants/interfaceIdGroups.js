@@ -1,13 +1,34 @@
-export const BRUSH_IIG = 'BRUSH_IIG';
-export const CAMERA_IIG = 'CAMERA_IIG';
-export const CUTSCENE_IIG = 'CUTSCENE_IIG';
-export const EFFECT_IIG = 'EFFECT_IIG';
-export const GAME_MODEL_IIG = 'GAME_MODEL_IIG';
-export const ENTITY_MODEL_IIG = 'ENTITY_MODEL_IIG';
-export const RELATION_IIG = 'RELATION_IIG';
-export const STAGE_IIG = 'STAGE_IIG';
-export const JUMP_IIG = 'JUMP_IIG';
-export const VIDEO_IIG = 'VIDEO_IIG';
-export const MOVEMENT_IIG = 'MOVEMENT_IIG';
-export const COLLISIONS_IIG = 'COLLISIONS_IIG';
-export const GAME_VIEW_IIG = 'GAME_VIEW_IIG';
+
+export const CUTSCENE_IGID = 'CUTSCENE_IGID';
+export const DIALOGUE_IGID = 'DIALOGUE_IGID';
+export const EFFECT_IGID = 'EFFECT_IGID';
+export const RELATION_IGID = 'RELATION_IGID';
+export const RELATION_TAG_IGID = 'RELATION_TAG_IGID';
+export const EVENT_IGID = 'EVENT_IGID';
+
+export const VIDEO_IGID = 'VIDEO_IGID';
+
+export const GRAPHICS_IGID = 'GRAPHICS_IGID';
+export const CAMERA_IGID = 'CAMERA_IGID';
+export const JUMP_IGID = 'JUMP_IGID';
+export const MOVEMENT_IGID = 'MOVEMENT_IGID';
+export const COLLISIONS_IGID = 'COLLISIONS_IGID';
+export const PROJECTILE_IGID = 'PROJECTILE_IGID';
+
+export const CANVAS_IMAGE_IGID = 'CANVAS_IMAGE_IGID';
+export const BRUSH_IGID = 'BRUSH_IGID';
+
+export const ENTITY_MODEL_IGID = 'ENTITY_MODEL_IGID';
+export const ENTITY_MODEL_MEMBER_IGID = 'ENTITY_MODEL_MEMBER_IGID';
+export const ENTITY_INSTANCE_IGID = 'ENTITY_INSTANCE_IGID';
+
+export const STAGE_IGID = 'STAGE_IGID';
+
+export const CONTEXT_MENU_IGID = 'CONTEXT_MENU_IGID';
+export const GAME_MODEL_IGID = 'GAME_MODEL_IGID';
+export const GAME_FORM_EDITOR_IGID = 'GAME_FORM_EDITOR_IGID';
+export const GAME_INSTANCE_IGID = 'GAME_INSTANCE_IGID';
+export const GAME_VIEW_IGID = 'GAME_VIEW_IGID';
+export const GAME_SELECTOR_IGID = 'GAME_SELECTOR_IGID';
+
+

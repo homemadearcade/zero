@@ -8,7 +8,7 @@ import movementInterfaceIdData from "./movementInterfaceIdData";
 import collisionsInterfaceIdData from "./collisionsInterfaceIdData";
 import projectileInterfaceIdData from "./projectileInterfaceIdData";
 import relationInterfaceIdData from "./relationInterfaceIdData";
-import rootInterfaceIdData from "./rootInterfaceIdData";
+import gameViewInterfaceIdData from "./gameViewInterfaceIdData";
 import stageInterfaceIdData from "./stageInterfaceIdData";
 import cutsceneInterfaceIdData from "./cutsceneInterfaceIdData";
 import gameInterfaceIdData from "./gameModelIdData";
@@ -16,10 +16,14 @@ import relationTagInterfaceIdData from "./relationTagInterfaceIdData";
 import videoInterfaceIdData from "./videoInterfaceIdData";
 import selectorInterfaceIdData from "./selectorInterfaceIdData";
 import dataSourceInterfaceIdData from "./dataSourceInterfaceIdData";
+import graphicsInterfaceIdData from "./graphicsInterfaceIdData";
+import entityModelMemberInterfaceIdData from "./entityModelMemberInterfaceIdData";
+import dialogInterfaceIdData from "./dialogInterfaceIdData";
 
+export * from './hideableInterfaceIds'
 
 export const interfaceIdData = {
-  ...rootInterfaceIdData,
+  ...gameViewInterfaceIdData,
   ...jumpInterfaceIdData,
   ...cameraInterfaceIdData,
   ...stageInterfaceIdData,
@@ -36,5 +40,8 @@ export const interfaceIdData = {
   ...relationTagInterfaceIdData,
   ...videoInterfaceIdData,
   ...selectorInterfaceIdData,
-  ...dataSourceInterfaceIdData
+  ...dataSourceInterfaceIdData,
+  ...graphicsInterfaceIdData,
+  ...entityModelMemberInterfaceIdData,
+  ...dialogInterfaceIdData
 }

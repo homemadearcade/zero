@@ -22,29 +22,8 @@ export const POWERUP_ENTITY_CONTAINER_IID = "POWERUP_ENTITY_IID/*";
 export const POWERUP_ENTITY_ADD_IID = "POWERUP_ENTITY_IID/addPowerup";
 export const POWERUP_ENTITY_SELECT_IID = "POWERUP_ENTITY_IID/select";
 // export const POWERUP_ENTITY_MORE_IID = "POWERUP_ENTITY_IID/more";
-
-export const ENTITY_LAYER_IID = 'entity/layer'
-export const ENTITY_VISIBILITY_IID = 'entity/visibility'
-export const ENTITY_DATA_SOURCE_IID = 'entity/lock'
-
-export const EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID = 'EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID'
-
 export const CHANGE_ENTITY_INTERFACE_IID = "entity/changeEntityInterface";
-export const ENTITY_RELATION_TAGS_IID = "entity/relationTags";
-
-export const ENTITY_BOX_IID = "entity/box";
-
-
-/////////////////////////////////////
-/////////////////////////////////////
-// ENTITY_MODELES
-export const PLAYER_ENTITY_IID = 'PLAYER_ENTITY_IID'
-export const BASIC_ENTITY_IID = 'BASIC_ENTITY_IID'
-export const NPC_ENTITY_IID = 'NPC_ENTITY_IID'
-export const ZONE_ENTITY_IID = 'ZONE_ENTITY_IID'
-export const POWERUP_ENTITY_IID = 'POWERUP_ENTITY_IID'
-
-
+export const ENTITY_MODEL_REMOVE_IID= 'contextMenu/entity/remove'
 
 export function getSelectEntityFromEntityType(entityInterfaceId) {
   if(entityInterfaceId === PLAYER_ENTITY_IID) return PLAYER_ENTITY_SELECT_IID
@@ -53,3 +32,13 @@ export function getSelectEntityFromEntityType(entityInterfaceId) {
   if(entityInterfaceId === NPC_ENTITY_IID) return NPC_ENTITY_SELECT_IID
   if(entityInterfaceId === POWERUP_ENTITY_IID) return POWERUP_ENTITY_SELECT_IID
 }
+
+/////////////////////////////////////
+/////////////////////////////////////
+// ENTITY_MODELES
+// NO DATA
+export const PLAYER_ENTITY_IID = 'PLAYER_ENTITY_IID'
+export const BASIC_ENTITY_IID = 'BASIC_ENTITY_IID'
+export const NPC_ENTITY_IID = 'NPC_ENTITY_IID'
+export const ZONE_ENTITY_IID = 'ZONE_ENTITY_IID'
+export const POWERUP_ENTITY_IID = 'POWERUP_ENTITY_IID'

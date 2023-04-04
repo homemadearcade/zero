@@ -9,11 +9,14 @@ export * from "./projectileInterfaceIds";
 export * from "./relationInterfaceIds";
 export * from "./stageInterfaceIds";
 export * from "./brushInterfaceIds";
-export * from "./rootInterfaceIds";
+export * from "./gameViewInterfaceIds";
 export * from "./cutsceneInterfaceIds";
 export * from "./gameModelIds";
 export * from "./relationTagInterfaceIds";
 export * from "./videoInterfaceIds";
 export * from "./selectorInterfaceIds";
-export * from "../interfaceIdData/hideableInterfaceIds";
 export * from "./dataSourceInterfaceIds";
+export * from './graphicsInterfaceIds'
+export * from './entityInstanceInterfaceIds'
+export * from './entityModelMemberInterfaceIds'
+export * from './dialogInterfaceIds'
