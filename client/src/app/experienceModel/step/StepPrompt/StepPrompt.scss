@@ -1,0 +1,13 @@
+.StepPrompt {
+  position: relative;
+    
+  &__text {
+    padding: 1em 2em;
+  }
+
+  &__role {
+    width: max-content;
+    padding: .4em;
+    background-color: #333;
+  }
+}  

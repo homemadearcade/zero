@@ -5,13 +5,13 @@ import { editExperienceModel } from '../../../../store/actions/experience/experi
 import { useForm } from 'react-hook-form';
 import Button from '../../../../ui/Button/Button';
 import InstructionForm from '../InstructionForm/InstructionForm';
-import StepBuilder from '../StepBuilder/StepBuilder';
 import { loadArcadeGameByMongoId, unloadArcadeGame } from '../../../../store/actions/game/arcadeGameActions';
 import Loader from '../../../../ui/Loader/Loader';
-import StepAddForm from '../StepAddForm/StepAddForm';
 import GameCard from '../../../gameModel/GameCard/GameCard';
 import { INSTRUCTION_GAME_ROOM } from '../../../../constants';
 import { Divider } from '@mui/material';
+import StepAddForm from '../../step/StepAddForm/StepAddForm';
+import StepBuilder from '../../step/StepBuilder/StepBuilder';
 
 const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editExperienceModel, instructionId, gameModel: { gameModel, isLoading }, experienceModel: { experienceModel, isSaving }, onSubmit}) => {
   const instruction = experienceModel.instructions[instructionId]

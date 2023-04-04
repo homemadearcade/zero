@@ -1,29 +1,25 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { actionIdData, stepBehaviorToAction, STEP_EFFECT, STEP_OPEN_INTERFACE, STEP_UNLOCK_INTERFACE } from '../../../../constants';
-import { getEffectShorthand, ON_STEP_BEGINS } from '../../../../game/constants';
+import { stepBehaviorToAction, STEP_EFFECT, STEP_OPEN_INTERFACE, STEP_UNLOCK_INTERFACE } from '../../../../constants';
+import { ON_STEP_BEGINS } from '../../../../game/constants';
 import SelectEffect from '../../../../game/ui/SelectEffect/SelectEffect';
 
-import Typography from '../../../../ui/Typography/Typography';
-import VerticalLinearStepper from '../../../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import { RoleChip } from '../../role/RoleChip/RoleChip';
-import PromptAddForm from '../PromptAddForm/PromptAddForm';
 import { editExperienceModel } from '../../../../store/actions/experience/experienceModelActions';
-import {  Paper } from '@mui/material';
-import './StepBuilder.scss';
+import './StepEditBody.scss';
 import IconButton from '../../../../ui/IconButton/IconButton';
 import SelectInterface from '../../../../ui/SelectInterface/SelectInterface';
 import SelectAction from '../../../../ui/SelectAction/SelectAction';
-import { interfaceIdData } from '../../../../constants/interfaceIdData';
+import StepPrompt from '../StepPrompt/StepPrompt';
+import PromptAddForm from '../PromptAddForm/PromptAddForm';
 
-const StepBuilder = ({  
+const StepEditBody = ({  
   register, control, instructionId, 
   experienceModel: { experienceModel }, 
-  gameModel: { gameModel },
   editExperienceModel,
+  step, index,
 }) => {
-
   const instruction = experienceModel.instructions[instructionId]
   
   function renderStepBehaviorForm(step) {
@@ -88,7 +84,6 @@ const StepBuilder = ({
         />
       </>
     }
-
     if(step.stepBehavior === STEP_OPEN_INTERFACE) {
       return <>
         <RoleChip role={experienceModel.roles[step.actionRoleId]} suffix="'s Interface" />
@@ -123,42 +118,13 @@ const StepBuilder = ({
     }
   }
 
-  function renderStepTitle(step) {
-    if(step.stepBehavior === STEP_EFFECT) {
-      if(!step.effectIds || step.effectIds.length === 0) return 'Game Effect'
-      const effect = gameModel.effects[step.effectIds[0]]
-      return getEffectShorthand(effect)
-    } else if(step.stepBehavior === STEP_OPEN_INTERFACE) {
-      if(!step.actionIds || step.actionIds.length === 0) return 'Open Interface'
-      const actionData = actionIdData[step.actionIds[0]]
-      return actionData.name
-    } else if(step.stepBehavior === STEP_UNLOCK_INTERFACE) {
-      if(!step.interfaceIds || step.interfaceIds.length === 0) return 'Unlock Interface'
-      const interfaceData = interfaceIdData[step.interfaceIds[0]]
-      return 'Unlock ' + (interfaceData.name || interfaceData.previewText)
-    }
-  }
-
-  function renderStepBehavior(step) {
-    return <div>
-      {renderStepBehaviorForm(step)}
-    </div>
-  }
-
   function renderStepPrompts(step) {
-    return <div className="StepBuilder__prompts">
-        {step.promptOrder.map((promptId, index) => {
-          const prompt = instruction.prompts[promptId]
-          const role = experienceModel.roles[prompt.roleId]
-          return <div className="StepBuilder__prompt" style={{
-            border: '1px solid' + role.color
-        }}>
-          <Paper elevation={1}>
+    return <div className="StepEditBody__prompts">
+      {step.promptOrder.map((promptId, index) => {
+        const prompt = instruction.prompts[promptId]
+        return <StepPrompt prompt={prompt}>
             {renderPromptButtons(step, prompt, index)}
-            <RoleChip className="StepBuilder__prompt-role" role={role} />
-            <Typography className="StepBuilder__prompt-text" variant="body1">{prompt.text}</Typography>
-          </Paper>
-        </div>
+          </StepPrompt>
       })}
       <PromptAddForm onSubmit={(prompt) => {
         editExperienceModel(experienceModel.id, {
@@ -180,7 +146,7 @@ const StepBuilder = ({
   }
 
   function renderStepButtons(step, index) {
-    return <div className='StepBuilder__step-buttons'>
+    return <div className='StepEditBody__buttons'>
       {index !== 0 && <IconButton icon="faArrowUp" color="primary" onClick={() => {
         // reorder step to one index higher
         const stepIndex = instruction.stepOrder.indexOf(step.stepId)
@@ -272,57 +238,36 @@ const StepBuilder = ({
           }
         })
       }}/>}
-        <IconButton size="small" icon="faClose" color="primary" onClick={() => {
-          const newPromptOrder = step.promptOrder.filter((promptId) => promptId !== prompt.promptId)
-          editExperienceModel(experienceModel.id, {
-            instructions: {
-              [instructionId]: {
-                steps: {
-                  [step.stepId]: {
-                    promptOrder: newPromptOrder
-                  },
+      
+      <IconButton size="small" icon="faClose" color="primary" onClick={() => {
+        const newPromptOrder = step.promptOrder.filter((promptId) => promptId !== prompt.promptId)
+        editExperienceModel(experienceModel.id, {
+          instructions: {
+            [instructionId]: {
+              steps: {
+                [step.stepId]: {
+                  promptOrder: newPromptOrder
                 },
-                prompts: {
-                  [prompt.promptId]: null
-                }
+              },
+              prompts: {
+                [prompt.promptId]: null
               }
             }
-          })
+          }
+        })
       }}/>
     </div>      
-  }   
-  
-  function renderSteps() {
-    return instruction.stepOrder.map((stepId, index) => {
-      const step = instruction.steps[stepId]
-
-      // const title = step.title
-
-      const body = <div className="StepBuilder__step-body">
-        {renderStepButtons(step, index)}
-        {renderStepBehavior(step)}
-        {renderStepPrompts(step)}
-      </div>
-      return {
-        title: <Typography variant="h5">{renderStepTitle(step)}</Typography>,
-        nextButtonText: (index !== (instruction.stepOrder.length - 1)) &&  ('Run ' + renderStepTitle(instruction.steps[instruction.stepOrder[index+1]])),
-        stepId,
-        body
-      }
-    })
   }
 
-  return (
-    <div className="StepBuilder">
-      {instruction.stepOrder.length === 0 && <Typography variant="h5">No steps yet</Typography>}
-      {instruction.stepOrder.length > 0 && <VerticalLinearStepper canSkipStep steps={renderSteps(instruction.steps)} />}
-    </div>
-  )
+  return<div className="StepEditBody">
+    {renderStepButtons(step, index)}
+    {renderStepBehaviorForm(step)}
+    {renderStepPrompts(step)}
+  </div>
 };
 
 const mapStateToProps = (state) => ({
   experienceModel: state.experienceModel,
-  gameModel: state.gameModel
 });
 
-export default connect(mapStateToProps, { editExperienceModel })(StepBuilder);
+export default connect(mapStateToProps, { editExperienceModel })(StepEditBody);

@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './GameTexturesDialog.scss';
-import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
+import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import { closeGameTexturesDialog } from '../../../store/actions/game/gameSelectorActions';
 import GameTextures from '../GameTextures/GameTextures';
 import Typography from '../../../ui/Typography/Typography';
