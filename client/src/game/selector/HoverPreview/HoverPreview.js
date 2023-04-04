@@ -15,7 +15,7 @@ import { changeSelectorList, openGameMetadataDialog, openSelectStageColorDialog 
 import Button from '../../../ui/Button/Button';
 import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_SELECTOR_TAB_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
+import { CHANGE_SELECTOR_TABS_IID, GAME_OPEN_METADATA_IID, GAME_OPEN_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, STAGE_OPEN_BACKGROUND_COLOR_IID } from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
@@ -207,15 +207,15 @@ const HoverPreview = ({
       {(gameRoomInstance.gameState === PAUSED_STATE) && renderDisplayTitle('(Paused)')}
       {isHoveringOverTitle && 
         <div className="HoverPreview__actions">
-          <Unlockable interfaceId={GAME_SNAPSHOT_IID}>
+          <Unlockable interfaceId={GAME_OPEN_SNAPSHOT_IID}>
             <Button size="xs" onClick={() => {
               openSnapshotTaker()
             }}><Icon icon="faCameraRetro"/></Button>
           </Unlockable>
-          <Unlockable interfaceId={GAME_METADATA_IID}>{renderEditableIcon(() => {
+          <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>{renderEditableIcon(() => {
             openGameMetadataDialog()
           })}</Unlockable>
-          {currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <Unlockable interfaceId={CHANGE_SELECTOR_TAB_IID}>
+          {currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
             <Button size="xs" onClick={() => {
               changeSelectorList(SELECTOR_ABSTRACT_LIST_IID)
             }}><Icon icon="faTableList"/></Button>
@@ -225,7 +225,7 @@ const HoverPreview = ({
         <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5em'}} >{currentStage.name}</Typography>
       </>}
       {isHoveringOverTitle && <div className="HoverPreview__actions">
-        <Unlockable interfaceId={STAGE_COLOR_IID}>
+        <Unlockable interfaceId={STAGE_OPEN_BACKGROUND_COLOR_IID}>
           <Button size="xs" className="HoverPreview__actions-color" onClick={() => {
             openSelectStageColorDialog()
           }} style={{borderColor: theme.primaryColor.hexString, backgroundColor: currentStage.color, height: '1.2em', width: '4em'}}/>

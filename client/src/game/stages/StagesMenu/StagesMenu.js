@@ -12,7 +12,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { changeCurrentStage } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { SHOW_REMOVED_DATA_IID } from '../../../constants/interfaceIds';
+import { SHOW_REMOVED_DATA_IID, STAGE_OPEN_EDIT_IID } from '../../../constants/interfaceIds';
 import { initialStage } from '../../constants';
 
 const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
@@ -55,7 +55,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage
           }}>Switch to this Stage</Button>}
         </div>
       })}
-      <Unlockable interfaceId={SHOW_REMOVED_DATA_IID}>
+      <Unlockable interfaceId={STAGE_OPEN_EDIT_IID}>
         <Button onClick={() => {
           openCreateStageDialog({
             ...initialStage,

@@ -7,7 +7,7 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { STEP_ID_PREFIX } from '../../../../constants';
+import { defaultParticipantRoleId, STEP_ID_PREFIX } from '../../../../constants';
 import StepForm from '../StepForm/StepForm';
 
 const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
@@ -15,8 +15,8 @@ const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
 
   const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
-      name: '',
-      ...defaultValues
+      ...defaultValues,
+      actionRoleId: defaultParticipantRoleId,
     },
   });
 

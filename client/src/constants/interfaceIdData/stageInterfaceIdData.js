@@ -1,4 +1,7 @@
-import { STAGES_OPEN_IID, STAGE_ADD_IID, STAGE_COLOR_IID, STAGE_CONTAINER_IID, STAGE_GRAVITY_X_IID, STAGE_GRAVITY_Y_IID, STAGE_MORE_IID, STAGE_OPEN_EDIT_IID, STAGE_OPEN_GRAVITY_IID, STAGE_OPEN_SECTIONS_IID, STAGE_SELECT_IID } from "../interfaceIds";
+import { openCreateStageDialog } from "../../store/actions/game/gameFormEditorActions";
+import { ACTION_OPEN } from "../actionIds";
+import { STAGE_IGID } from "../interfaceIdGroups";
+import { STAGES_OPEN_IID, STAGE_ADD_IID, STAGE_OPEN_BACKGROUND_COLOR_IID, STAGE_CONTAINER_IID, STAGE_GRAVITY_X_IID, STAGE_GRAVITY_Y_IID, STAGE_MORE_IID, STAGE_OPEN_EDIT_IID, STAGE_OPEN_GRAVITY_IID, STAGE_OPEN_SECTIONS_IID, STAGE_SELECT_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -6,7 +9,7 @@ export default {
   [STAGE_GRAVITY_Y_IID]: {
      isDefaultUnlocked: true
   },
-  [STAGE_COLOR_IID]: {
+  [STAGE_OPEN_BACKGROUND_COLOR_IID]: {
     
   },
   [STAGE_ADD_IID]: {},
@@ -16,6 +19,17 @@ export default {
   [STAGE_OPEN_GRAVITY_IID]: {},
   [STAGE_OPEN_SECTIONS_IID]: {},
   [STAGES_OPEN_IID]: {},
-  [STAGE_OPEN_EDIT_IID]: {},
+  [STAGE_OPEN_EDIT_IID]: {
+    interfaceGroup: STAGE_IGID,
+    previewText: 'Edit Stage',
+    clickType: ACTION_OPEN,
+    onClickArguments: [
+      'stageId', []
+    ],
+    onClick: (stageId) => (gameModel, dispatch) => {
+      const stage = gameModel.stages[stageId]
+      dispatch(openCreateStageDialog(stage))
+    }
+  },
   // [STAGE_MORE_IID]: {},
 }

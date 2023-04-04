@@ -13,7 +13,7 @@ export default {
     previewText:  'Reset'
   },
   [INSTANCE_TOOLBAR_PLAY_IID]: {
-    previewText:  'Play'
+    previewText:  'Play',
   },
   [INSTANCE_TOOLBAR_PLAYTHROUGH_IID]: {
     previewText:  'Start Game'

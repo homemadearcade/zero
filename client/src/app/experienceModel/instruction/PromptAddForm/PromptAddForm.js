@@ -10,6 +10,7 @@ import { generateUniqueId } from '../../../../utils';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import TextField from '../../../../ui/TextField/TextField';
 import { PROMPT_ID_PREFIX } from '../../../../constants/experience/prompt';
+import './PromptAddForm.scss';
 
 const PromptAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isPromptAddOpen, setIsPromptAddOpen] = useState(false)
@@ -54,6 +55,7 @@ const PromptAddForm = ({ onSubmit, defaultValues = {}}) => {
       <Dialog onClose={() => {
         setIsPromptAddOpen(false)
       }} open={isPromptAddOpen}>
+        <div className='PromptAddForm__dialog'>
         <DialogTitle>New Prompt</DialogTitle>
         <DialogContent>
           {renderPromptRoleSelect()}
@@ -64,13 +66,14 @@ const PromptAddForm = ({ onSubmit, defaultValues = {}}) => {
               required: true
             })}
             render={({ field: { onChange, value } }) => (
-              <TextField onChange={onChange} value={value} label={"Prompt"} />
+              <TextField multiline fullWidth minRows={4} onChange={onChange} value={value} label={"Prompt"} />
             )}
           />
         </DialogContent>
         <DialogActions>
           <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Prompt</Button>
         </DialogActions>
+        </div>
       </Dialog>
     </div>
   );

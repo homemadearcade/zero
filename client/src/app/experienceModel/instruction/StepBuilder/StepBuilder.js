@@ -1,7 +1,7 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
-import { STEP_EFFECT } from '../../../../constants';
+import { actionIdData, stepBehaviorToAction, STEP_EFFECT, STEP_OPEN_INTERFACE, STEP_UNLOCK_INTERFACE } from '../../../../constants';
 import { getEffectShorthand, ON_STEP_BEGINS } from '../../../../game/constants';
 import SelectEffect from '../../../../game/ui/SelectEffect/SelectEffect';
 
@@ -13,6 +13,9 @@ import { editExperienceModel } from '../../../../store/actions/experience/experi
 import {  Paper } from '@mui/material';
 import './StepBuilder.scss';
 import IconButton from '../../../../ui/IconButton/IconButton';
+import SelectInterface from '../../../../ui/SelectInterface/SelectInterface';
+import SelectAction from '../../../../ui/SelectAction/SelectAction';
+import { interfaceIdData } from '../../../../constants/interfaceIdData';
 
 const StepBuilder = ({  
   register, control, instructionId, 
@@ -53,6 +56,71 @@ const StepBuilder = ({
         }}
       />
     }
+    if(step.stepBehavior === STEP_UNLOCK_INTERFACE) {
+      return <>
+        <RoleChip role={experienceModel.roles[step.actionRoleId]} suffix="'s Interface" />
+        <Controller
+          {...register(`steps.${step.stepId}.interfaceIds`, {
+            // required: true,
+          })}
+          name={`steps.${step.stepId}.interfaceIds`}
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return <SelectInterface
+              formLabel={"Interface sections to UNLOCK when this step begins"}
+              actionType={stepBehaviorToAction[step.stepBehavior]}
+              value={value}
+              onChange={(event, interfaceIds) => {
+                onChange(interfaceIds)
+                editExperienceModel(experienceModel.id, {
+                  instructions: {
+                    [instructionId]: {
+                      steps: {
+                        [step.stepId]: {
+                          interfaceIds
+                        }
+                      }
+                    }
+                  }
+                })
+            }}/>
+          }}
+        />
+      </>
+    }
+
+    if(step.stepBehavior === STEP_OPEN_INTERFACE) {
+      return <>
+        <RoleChip role={experienceModel.roles[step.actionRoleId]} suffix="'s Interface" />
+        <Controller
+          {...register(`steps.${step.stepId}.actionIds`, {
+            // required: true,
+          })}
+          name={`steps.${step.stepId}.actionIds`}
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return <SelectAction
+              formLabel={"Interface sections to OPEN when this step begins"}
+              actionType={stepBehaviorToAction[step.stepBehavior]}
+              value={value}
+              onChange={(event, actionIds) => {
+                onChange(actionIds)
+                editExperienceModel(experienceModel.id, {
+                  instructions: {
+                    [instructionId]: {
+                      steps: {
+                        [step.stepId]: {
+                          actionIds
+                        }
+                      }
+                    }
+                  }
+                })
+            }}/>
+          }}
+        />
+      </>
+    }
   }
 
   function renderStepTitle(step) {
@@ -60,6 +128,14 @@ const StepBuilder = ({
       if(!step.effectIds || step.effectIds.length === 0) return 'Game Effect'
       const effect = gameModel.effects[step.effectIds[0]]
       return getEffectShorthand(effect)
+    } else if(step.stepBehavior === STEP_OPEN_INTERFACE) {
+      if(!step.actionIds || step.actionIds.length === 0) return 'Open Interface'
+      const actionData = actionIdData[step.actionIds[0]]
+      return actionData.name
+    } else if(step.stepBehavior === STEP_UNLOCK_INTERFACE) {
+      if(!step.interfaceIds || step.interfaceIds.length === 0) return 'Unlock Interface'
+      const interfaceData = interfaceIdData[step.interfaceIds[0]]
+      return 'Unlock ' + (interfaceData.name || interfaceData.previewText)
     }
   }
 

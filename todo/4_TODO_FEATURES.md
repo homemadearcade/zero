@@ -9,6 +9,7 @@ FEATURES TODO
 LIBRARY
   DATA_SOURCE_SYSTEM needs to be elimnated or made read only. Because it will make library imports not work
   If THERE IS A CORE library, it DOES in fact need to be used in a special way. This is where my library api thing can be used
+  Maybe I should wait to complete the interface stuff because I want to like make a special library interface but the truth is we dont want one
 
 IMPLEMENT THESE EFFECTS
   Return from Stars
@@ -28,4 +29,7 @@ INTERFACE IDS
 
   What is up with these...Borders for the cobrowsing open tool. It seems as if Layers have a border around them, classes do not, and also only effects and events have around it in abstract menu?
 
-  
+What are interface types? Are they specific parts of the interface? Are they just a generalized format for doing actions?
+Is there a difference between interfaceId and actionId??
+
+to really clear this up I need to.. make sure all interface types dont include an 'action word' in them. But maybe they can! I mean... OPEN ___ is definitely an interface section. Differece I think actions starts with the VERB, and interfaces start with the NOUN

@@ -9,13 +9,6 @@ export default {
   [ENTITY_MODEL_OPEN_COLLISIONS_IID]: {},
   [ENTITY_MODEL_OPEN_MOVEMENT_IID]: {},
   [ENTITY_MODEL_OPEN_EDIT_IID]: {},
-  [ENTITY_LAYER_IID]: {
-    
-  },
-  [ENTITY_VISIBILITY_IID]: {
-    adminOnly: true,
-    previewText: 'Hide/Show'
-  },
   [ENTITY_DATA_SOURCE_IID]: {
     adminOnly: true
   },

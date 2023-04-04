@@ -7,7 +7,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openCutscenesMenu, openStagesMenu } from '../../../store/actions/game/gameFormEditorActions';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { STAGE_EDITOR_IID, OPEN_PLAYTEST_IID, STAGES_OPEN_IID,STAGE_OPEN_GRAVITY_IID, STAGE_OPEN_SECTIONS_IID, GAME_METADATA_IID, GAME_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_COLOR_IID } from '../../../constants/interfaceIds';
+import { STAGE_EDITOR_IID, OPEN_PLAYTEST_IID, STAGES_OPEN_IID,STAGE_OPEN_GRAVITY_IID, STAGE_OPEN_SECTIONS_IID, GAME_OPEN_METADATA_IID, GAME_OPEN_SNAPSHOT_IID, GRID_VIEW_TOGGLE_IID, STAGE_OPEN_BACKGROUND_COLOR_IID } from '../../../constants/interfaceIds';
 import { openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
 
 const StageContextMenu = ({ 
@@ -17,11 +17,8 @@ const StageContextMenu = ({
   openSelectStageColorDialog,
   openGameMetadataDialog, 
   openSnapshotTaker, 
-  openCutscenesMenu, 
   openStagesMenu,
-  toggleGridView, 
   gameModel: { gameModel }, 
-  gameViewEditor: { isGridViewOn }
 }) => {
   return <>
     <ContextMenuTitle onClick={() => {
@@ -40,13 +37,13 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Boundaries</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={STAGE_COLOR_IID}>
+    <Unlockable interfaceId={STAGE_OPEN_BACKGROUND_COLOR_IID}>
       <MenuItem onClick={() => {
         openSelectStageColorDialog()
         onMenuItemClick()
-      }}>Edit Default Background Color</MenuItem>
+      }}>Edit Background Color</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={GAME_METADATA_IID}>
+    <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>
       <MenuItem onClick={() => {
         openGameMetadataDialog()
         onMenuItemClick()
@@ -58,7 +55,7 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Edit Stages</MenuItem>
     </Unlockable>
-    <Unlockable interfaceId={GAME_SNAPSHOT_IID}>
+    <Unlockable interfaceId={GAME_OPEN_SNAPSHOT_IID}>
       <MenuItem onClick={() => {
         openSnapshotTaker()
         onMenuItemClick()
@@ -70,12 +67,6 @@ const StageContextMenu = ({
         onMenuItemClick()
       }}>Playtest Game</MenuItem>
     </Unlockable>
-    {false && <Unlockable interfaceId={GRID_VIEW_TOGGLE_IID}>
-      <MenuItem onClick={() => {
-        toggleGridView()
-        onMenuItemClick()
-      }}>{isGridViewOn ? 'Turn Off Grid View' : 'Turn On Grid View'}</MenuItem>
-    </Unlockable>}
   </>
 };
 

@@ -7,6 +7,8 @@ export const RELATION_TAG_IGID = 'RELATION_TAG_IGID';
 export const EVENT_IGID = 'EVENT_IGID';
 
 export const VIDEO_IGID = 'VIDEO_IGID';
+export const DIALOG_IGID = 'DIALOG_IGID';
+export const WEB_PAGE_IGID = 'WEB_PAGE_IGID';
 
 export const GRAPHICS_IGID = 'GRAPHICS_IGID';
 export const CAMERA_IGID = 'CAMERA_IGID';

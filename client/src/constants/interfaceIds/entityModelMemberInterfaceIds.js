@@ -7,8 +7,6 @@ export const ENTITY_MODEL_OPEN_CAMERA_IID = 'contextMenu/entity/camera'
 export const ENTITY_MODEL_OPEN_PROJECTILE_IID = 'contextMenu/entity/projectile'
 
 export const ENTITY_RELATION_TAGS_IID = "entity/relationTags";
-export const ENTITY_LAYER_IID = 'entity/layer'
-export const ENTITY_VISIBILITY_IID = 'entity/visibility'
 export const ENTITY_DATA_SOURCE_IID = 'entity/lock'
 
 /////////////////////////////////////

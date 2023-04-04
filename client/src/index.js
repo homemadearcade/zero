@@ -4,8 +4,9 @@ import { Provider } from 'react-redux';
 import './localStorage.js'
 import './events.js'
 import './index.css';
-
-// load interfacts ids first
+// load action ids first
+import './constants/actionIds'
+// load interfacts ids second
 import './constants/interfaceIds'
 // then load game core constants and structures that rely on game core constants
 import './game/constants'

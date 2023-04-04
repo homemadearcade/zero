@@ -1,3 +1,6 @@
+import { ACTION_OPEN, ACTION_UNLOCK } from "../actionIds"
+import { defaultParticipantRoleId } from "./experienceModel"
+
 export const defaultStep = {
   skippable: false,
   stepBehavior: '',
@@ -6,7 +9,9 @@ export const defaultStep = {
     stageId: null,
     gameIsPoweredOn: false,
   },
-  interfaceId: null,
+  actionIds: [],
+  actionRoleId: defaultParticipantRoleId,
+  interfaceIds: [],
   effectIds: [],
   stepId: null,
   promptOrder: [],
@@ -18,6 +23,11 @@ export const STEP_LOBBY_EVENT = 'STEP_LOBBY_EVENT'
 export const STEP_CHANGE_ACTIVITY = 'STEP_CHANGE_ACTIVITY'
 export const STEP_OPEN_INTERFACE = 'STEP_OPEN_INTERFACE'
 export const STEP_UNLOCK_INTERFACE = 'STEP_UNLOCK_INTERFACE'
+
+export const stepBehaviorToAction = {
+  [STEP_OPEN_INTERFACE]: ACTION_OPEN,
+  [STEP_UNLOCK_INTERFACE]: ACTION_UNLOCK,
+}
 
 export const STEP_ID_PREFIX = 'step-'
 

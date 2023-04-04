@@ -1,7 +1,7 @@
 export const TOGGLE_ALL_PARAMS_IID = 'selector/toggleAllParams';
 export const LAYER_VISIBILITY_IID = 'selector/layerInvisibility';
 export const HOVER_PREVIEW_IID = "selector/hoverPreview";
-export const CHANGE_SELECTOR_TAB_IID = "selector/changeTab";
+export const CHANGE_SELECTOR_TABS_IID = "selector/changeTab";
 
 
 // NO DATA BELOW HERE 

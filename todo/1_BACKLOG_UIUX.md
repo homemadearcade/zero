@@ -4,7 +4,7 @@
 
 UIUX TOUCHUPS
 
-When you copy a class, you should have to rename it at same time 
+When you copy a class. It should open edit Graphics with IsNew triggered
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
