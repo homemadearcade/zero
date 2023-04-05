@@ -1,4 +1,4 @@
-import { ACTION_OPEN, ACTION_UNLOCK } from "../actionIds"
+import { ACTION_OPEN, ACTION_UNLOCK } from "../action"
 import { defaultParticipantRoleId } from "./experienceModel"
 
 export const defaultStep = {

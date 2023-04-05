@@ -2,6 +2,29 @@ export function centsToDollars(cents) {
   return (cents / 100).toLocaleString("en-US", {style:"currency", currency:"USD"});
 }
 
+export function deepDiff(obj1, obj2) {
+  const diffs = {};
+
+  function compare(obj1, obj2, path = '') {
+    for (let key in obj1) {
+      if (obj1.hasOwnProperty(key)) {
+        let val1 = obj1[key];
+        let val2 = obj2[key];
+
+        if (typeof val1 === 'object' && typeof val2 === 'object') {
+          compare(val1, val2, `${path}.${key}`);
+        } else if (val1 !== val2) {
+          diffs[`${path}.${key}`] = { before: val1, after: val2 };
+        }
+      }
+    }
+  }
+
+  compare(obj1, obj2);
+
+  return diffs;
+}
+
 export function getUrlParameter(name, url) {
   if (!url) url = global.location.href;
   name = name.replace(/[[\]]/g, '\\$&');

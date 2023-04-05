@@ -3,8 +3,8 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectStageDefaultType.scss';
-import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { stageDefaultTypeLabels, stageDefaultTypeProperties } from '../../constants';
+import RadioGroupColumn from '../../../ui/RadioGroupColumn/RadioGroupColumn';
 
 const SelectStageDefaultType = ({ onChange, value, formLabel }) => {
   const mapControlsToOption = (stageDefaultType) => {
@@ -16,11 +16,9 @@ const SelectStageDefaultType = ({ onChange, value, formLabel }) => {
 
   const options = Object.keys(stageDefaultTypeLabels).map(mapControlsToOption)
 
-  return <SelectChipsAuto 
-    onChange={(event, visualTags) => {
-      onChange(event, visualTags.map((stageDefaultType) => {
-        return stageDefaultTypeProperties[stageDefaultType]
-      }))
+  return <RadioGroupColumn
+    onChange={(event) => {
+      onChange(stageDefaultTypeProperties[event.target.value])
     }}
     formLabel={formLabel}
     value={value}

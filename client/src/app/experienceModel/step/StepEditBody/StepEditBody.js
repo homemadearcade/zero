@@ -13,6 +13,7 @@ import SelectInterface from '../../../../ui/SelectInterface/SelectInterface';
 import SelectAction from '../../../../ui/SelectAction/SelectAction';
 import StepPrompt from '../StepPrompt/StepPrompt';
 import PromptAddForm from '../PromptAddForm/PromptAddForm';
+import StepEditPrompts from '../StepEditPrompts/StepEditPrompts';
 
 const StepEditBody = ({  
   register, control, instructionId, 
@@ -116,33 +117,6 @@ const StepEditBody = ({
         />
       </>
     }
-  }
-
-  function renderStepPrompts(step) {
-    return <div className="StepEditBody__prompts">
-      {step.promptOrder.map((promptId, index) => {
-        const prompt = instruction.prompts[promptId]
-        return <StepPrompt prompt={prompt}>
-            {renderPromptButtons(step, prompt, index)}
-          </StepPrompt>
-      })}
-      <PromptAddForm onSubmit={(prompt) => {
-        editExperienceModel(experienceModel.id, {
-            instructions: {
-              [instructionId]: {
-                prompts: {
-                  [prompt.promptId]: prompt
-                },
-                steps: {
-                  [step.stepId]: {
-                    promptOrder: [...step.promptOrder, prompt.promptId]
-                  }
-                }
-              }
-            },
-          })
-      }}/>
-    </div>
   }
 
   function renderStepButtons(step, index) {
@@ -262,7 +236,7 @@ const StepEditBody = ({
   return<div className="StepEditBody">
     {renderStepButtons(step, index)}
     {renderStepBehaviorForm(step)}
-    {renderStepPrompts(step)}
+    <StepEditPrompts instructionId={instructionId} step={step}/>
   </div>
 };
 

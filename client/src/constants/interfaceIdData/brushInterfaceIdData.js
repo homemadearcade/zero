@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { openCreateBrushFlow } from "../../store/actions/game/gameFormEditorActions";
-import { ACTION_OPEN, ACTION_SELECT } from "../actionIds";
+import { ACTION_OPEN, ACTION_SELECT } from "../action";
 import { INTERFACE_FORM_SLIDER } from "../interface";
 import { BRUSH_IGID } from "../interfaceIdGroups";
 import { ADD_BRUSH_IID, BRUSH_SIZE_IID, ERASER_IID  } from "../interfaceIds";

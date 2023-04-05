@@ -70,7 +70,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
       {movementParameters.speed &&<Unlockable interfaceId={MOVEMENT_SPEED_IID}>
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}
-          options={[1, 5, 20, 100]}
+          options={[1, 5, 20, 100, 200]}
           step={0.1}
           onChangeCommitted={(value) => {
             editGameModel({ entityModels: { [entityModelId]: { movement: { speed: value } }}})        

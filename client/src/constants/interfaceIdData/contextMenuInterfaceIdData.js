@@ -1,4 +1,4 @@
-import { ACTION_OPEN } from "../actionIds";
+import { ACTION_OPEN } from "../";
 import { WEB_PAGE_IGID } from "../interfaceIdGroups";
 import { DUPLICATE_ENTITY_MODEL_IID, 
   SELECT_PLAYER_ENTITY_MODEL_IID, CONTEXT_MENU_CONTAINER_IID,

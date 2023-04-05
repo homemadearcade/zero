@@ -136,11 +136,12 @@ export const openLiveEditor = (type, entityModelId) => (dispatch, getState) => {
   });
 }
 
-export const openEntityBoxDialog = (entityModelType) => (dispatch, getState) => {
+export const openEntityBoxDialog = (actionId, entityModelType) => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
     type: OPEN_ENTITY_BOX_DIALOG,
     payload: {
+      actionId,
       entityModelType
     }
   });

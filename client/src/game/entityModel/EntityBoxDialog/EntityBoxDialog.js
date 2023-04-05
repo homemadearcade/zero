@@ -14,10 +14,11 @@ import { entityModelTypeToDisplayName } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import EditEntityGraphics from '../EditEntityGraphics/EditEntityGraphics';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
+import { DATA_SOURCE_IMPORT_AID } from '../../../constants/actionIds';
 
 const EntityBoxDialog = ({ 
   closeEntityBoxDialog, 
-  gameSelector: { entityBoxModelType }, 
+  gameSelector: { entityBoxDialogType, entityBoxDialogActionId }, 
   gameFormEditor: { isEditEntityGraphicsOpen },
   gameModel : { gameModel, gameModel : { entityModels }},
   editGameModel
@@ -30,27 +31,29 @@ const EntityBoxDialog = ({
   const entityModelsToSelect = Object.keys(entityModels).map((entityModelId) => {
     return entityModels[entityModelId]
   }).filter((entityModel) => {
-    return entityModel.entityInterfaceId === entityBoxModelType
+    return entityModel.entityInterfaceId === entityBoxDialogType
   })
 
   return <><CobrowsingDialog open onClose={handleClose}>
     <div className="EntityBoxDialog">
-      <EntityModelAdd entityInterfaceId={entityBoxModelType} addEntityDialogInterfaceId={ENTITY_BOX_DIALOG_IID}>
+      <EntityModelAdd entityInterfaceId={entityBoxDialogType} addEntityDialogInterfaceId={ENTITY_BOX_DIALOG_IID}>
       {(onClick) => {
         return <Button size="wide" startIcon={<Icon icon="faPlus"/>}onClick={onClick}>
-          Add {entityModelTypeToDisplayName[entityBoxModelType]}
+          Add {entityModelTypeToDisplayName[entityBoxDialogType]}
         </Button>
       }}
       </EntityModelAdd>
       <EntityBoxList entityModels={entityModelsToSelect} onSelectEntity={(entityModelId) => {
-        editGameModel({
-          entityModels: {
-            [entityModelId]: {
-              isImported: true,
-              entityModelId
+        if(entityBoxDialogActionId === DATA_SOURCE_IMPORT_AID) {  
+          editGameModel({
+            entityModels: {
+              [entityModelId]: {
+                isImported: true,
+                entityModelId
+              }
             }
-          }
-        })
+          })
+        } 
         handleClose()
       }}/>
     </div>

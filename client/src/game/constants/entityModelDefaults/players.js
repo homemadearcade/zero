@@ -2,9 +2,9 @@ import { mergeDeep } from "../../../utils/utils"
 import _ from "lodash"
 // import { defaultEntity } from "./entityModel"
 import { defaultPlayerEntity } from "./category"
-import { directionalPlayerEntityId, jumperPlayerEntityId, vehiclePlayerEntityId } from "../core"
-import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, vehicleDefaults } from "../entityModelPropertyDefaults"
-import {  DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds"
+import { directionalPlayerEntityId, jumperPlayerEntityId, swimmerPlayerEntityId, vehiclePlayerEntityId } from "../core"
+import { advancedDirectionalDefaults, directionalDefaults, groundJumpDefaults, jumpMovementDefaults, noJumpDefaults, swimmerDefaults, vehicleDefaults } from "../entityModelPropertyDefaults"
+import { DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds"
 
 const defaultProps = mergeDeep(
   // _.cloneDeep(defaultEntity),
@@ -15,19 +15,33 @@ export const vehicleEntity = {
   ...defaultProps,
   dataSourceId: DATA_SOURCE_SYSTEM_IID,
   entityModelId: vehiclePlayerEntityId,
-  name: 'vehicle',
+  name: 'Vehicle',
   graphics: {
     textureTint: '#FFFFFF',
     // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
-  },
-  editorInterface: {
-    ...defaultProps.editorInterface,
   },
   "movement": {
     ...vehicleDefaults.movement
   },
   'jump': {
-    ...noJumpDefaults.jump
+    ...vehicleDefaults.jump
+  }
+}
+
+export const swimmerEntity = {
+  ...defaultProps,
+  dataSourceId: DATA_SOURCE_SYSTEM_IID,
+  entityModelId: swimmerPlayerEntityId,
+  name: 'Swimmer',
+  graphics: {
+    textureTint: '#FFFFFF',
+    // "textureId": "oryx-lofi-scifi-vehicles-8px-sprite12",
+  },
+  "movement": {
+    ...swimmerDefaults.movement,
+  },
+  'jump': {
+    ...swimmerDefaults.jump,
   }
 }
 
@@ -35,7 +49,7 @@ export const jumperEntity = {
   ...defaultProps,
   dataSourceId: DATA_SOURCE_SYSTEM_IID,
   entityModelId: jumperPlayerEntityId,
-  name: 'jumper',
+  name: 'Jumper',
   graphics: {
     textureTint: '#FFFFFF',
 
@@ -55,7 +69,7 @@ export const directionalEntity = {
   ...defaultProps,
   dataSourceId: DATA_SOURCE_SYSTEM_IID,
   entityModelId: directionalPlayerEntityId,
-  name: 'directional',
+  name: 'Directional',
   graphics: {
     textureTint: '#FFFFFF',
     // "textureId": "oryx-lofi-fantasy-characters-creatures-8px-sprite2",

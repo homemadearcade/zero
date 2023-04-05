@@ -1,4 +1,4 @@
-import { ACTION_OPEN } from "../actionIds";
+import { ACTION_OPEN } from "../action";
 import { ADD_COLOR_IID, CANVAS_IMAGE_VISUAL_TAGS_IID, CHOOSE_TEXTURES_IID, DRAW_NEW_TEXTURE_IID, ENTITY_LAYER_IID, ENTITY_VISIBILITY_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export

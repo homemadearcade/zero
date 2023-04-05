@@ -1,9 +1,9 @@
 // import { BACKGROUND_LAYER_ID } from "../constants";
 import { DEFAULT_THEME_COLOR } from "../../../constants";
-import { defaultZoneEntity, directionalEntity, jumperEntity, vehicleEntity } from "../entityModelDefaults";
+import { defaultZoneEntity, directionalEntity, jumperEntity, swimmerEntity, vehicleEntity } from "../entityModelDefaults";
 import { initialStage } from "./stage";
 import { directionalPlayerEntityId, initialCameraZoneEntityId, initialPlayerSpawnZoneEntityId, initialStageId, initialStageZoneEntityId, jumperPlayerEntityId, 
-  vehiclePlayerEntityId, gameWidth, gameHeight } from "../core";
+  vehiclePlayerEntityId, gameWidth, gameHeight, swimmerPlayerEntityId } from "../core";
 import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
@@ -61,6 +61,7 @@ export const defaultGameModel = {
     [vehiclePlayerEntityId]: vehicleEntity,
     [jumperPlayerEntityId]: jumperEntity,
     [directionalPlayerEntityId]: directionalEntity,
+    [swimmerPlayerEntityId]: swimmerEntity,
     [initialPlayerSpawnZoneEntityId]: {
       name: 'Player Spawn',
       ...defaultZoneEntity,

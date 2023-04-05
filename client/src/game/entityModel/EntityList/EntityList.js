@@ -14,11 +14,12 @@ import CobrowsingAccordianList from '../../cobrowsing/CobrowsingAccordianList/Co
 import LayerVisibility from '../../ui/LayerVisibility/LayerVisibility';
 import { entityModelTypeToDisplayName, entityModelTypeToContainerIID } from '../../constants';
 import Typography from '../../../ui/Typography/Typography';
-import { BASIC_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, getSelectEntityFromEntityType, NPC_ENTITY_IID, OPEN_ENTITY_BOX_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+import { BASIC_ENTITY_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, getSelectEntityFromEntityType, NPC_ENTITY_IID, OPEN_ENTITY_BOX_IID, PLAYER_ENTITY_IID, POWERUP_ENTITY_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorActions';
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
 import Icon from '../../../ui/Icon/Icon';
 import EntityModelAdd from '../EntityModelAdd/EntityModelAdd';
+import { DATA_SOURCE_IMPORT_AID, DATA_SOURCE_SELECT_AID } from '../../../constants/actionIds';
 
 const ENTITY_MAX = 16
 
@@ -43,13 +44,22 @@ const EntityList = ({
   }
 
   function renderEntityBoxButton(entityModelType){
-    return <Unlockable interfaceId={OPEN_ENTITY_BOX_IID}>
-      <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
-        openEntityBoxDialog(entityModelType)
+    return <>
+      <Unlockable interfaceId={OPEN_ENTITY_BOX_IID}>
+      <Button size="fit" startIcon={<Icon icon='faArrowPointer'/>} className="EntityList__more" onClick={() => {
+        openEntityBoxDialog(DATA_SOURCE_SELECT_AID, entityModelType)
       }}>
         More
       </Button>
     </Unlockable>
+    <Unlockable interfaceId={OPEN_ENTITY_BOX_IID}>
+      <Button size="fit" startIcon={<Icon icon='faBoxArchive'/>} className="EntityList__more" onClick={() => {
+        openEntityBoxDialog(DATA_SOURCE_IMPORT_AID, entityModelType)
+      }}>
+        Import
+      </Button>
+      </Unlockable>
+   </>
   }
 
   const filterEntityModels = (entityModelType) => (currentEntityModelId) => {

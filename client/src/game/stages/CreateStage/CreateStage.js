@@ -35,60 +35,61 @@ import { STAGE_CUSTOMIZE_IID } from '../../../constants/interfaceIds';
         // /> */}
 const CreateStage = ({ stage, onUpdate }) => {
   return <div className='CreateStage'>
-        <Typography component="h2" variant="h2">{stage.name}</Typography>
-        <StageNameForm initialName={stage.name}/>
-      
-         <Divider></Divider>
+      <Typography component="h2" variant="h2">{stage.name}</Typography>
+      <StageNameForm initialName={stage.name}/>
+    
+        <Divider></Divider>
 
-         <SelectStageColor selectedColor={stage.color} onSelectColor={(hex) => {
+        <SelectStageColor selectedColor={stage.color} onSelectColor={(hex) => {
+          onUpdate({
+            color: hex
+          })
+        }}/>
+
+        <Divider></Divider>
+
+        <SelectStageDefaultType
+          formLabel="Stage Default"
+          value={stage.defaultType ? [stage.defaultType] : []}
+          onChange={(defaultProperties) => {
+            onUpdate({  ...defaultProperties })    
+          }}/>
+
+        {false && <SelectEntity 
+          entityModelType={ZONE_ENTITY_IID}
+          formLabel={"Into which zone should the Player spawn?"}
+          value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}
+          onChange={(event, entityModels) => {
+            const newEntityId = entityModels[entityModels.length-1]
             onUpdate({
-              color: hex
+              playerSpawnZoneEntityId: newEntityId
             })
-         }}/>
-
-         <Divider></Divider>
-
-         <SelectStageDefaultType
-            formLabel="Stage Default"
-            value={stage.defaultType ? [stage.defaultType] : []}
-            onChange={(event, defaultProperties) => {
-              onUpdate({  ...defaultProperties[defaultProperties.length-1] })    
-            }}/>
-
-          {false && <SelectEntity 
-            entityModelType={ZONE_ENTITY_IID}
-            formLabel={"Into which zone should the Player spawn?"}
-            value={stage.playerSpawnZoneEntityId ? [stage.playerSpawnZoneEntityId] : []}
-            onChange={(event, entityModels) => {
-              const newEntityId = entityModels[entityModels.length-1]
-              onUpdate({
-                playerSpawnZoneEntityId: newEntityId
-              })
+        }}/>}
+      <CobrowsingNestedList interfaceId={STAGE_CUSTOMIZE_IID} title="Customize" interfaceGroupId="StageCustomize">
+        <>
+        {<SelectEntity
+          formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
+          interfaceId={STAGE_CUSTOMIZE_IID}
+          value={stage.playerEntityModelId ? [stage.playerEntityModelId] : []}
+          onChange={(event, entityModels) => {
+            const newEntityId = entityModels[entityModels.length-1]
+            onUpdate({
+              playerEntityModelId: newEntityId
+            })
           }}/>}
-        <CobrowsingNestedList interfaceId={STAGE_CUSTOMIZE_IID} title="Customize" interfaceGroupId="StageCustomize">
-          <>
-          {<SelectEntity
-            formLabel="Should the player spawn as a new class? ( Leave blank to keep the same hero )"
-            value={stage.playerEntityModelId ? [stage.playerEntityModelId] : []}
-            onChange={(event, entityModels) => {
-              const newEntityId = entityModels[entityModels.length-1]
-              onUpdate({
-                playerEntityModelId: newEntityId
-              })
-            }}/>}
-          </>
-          {<Switch
-            labels={["No Gravity", "Gravity"]}
-            checked={stage.gravityY}
-            onChange={(e) => {
-              onUpdate({
-                gravityY: e.target.checked
-              })
-            }}
-          >
-          </Switch>}
-        </CobrowsingNestedList>
-    </div>
+        </>
+        {<Switch
+          labels={["No Gravity", "Gravity"]}
+          checked={stage.gravityY}
+          onChange={(e) => {
+            onUpdate({
+              gravityY: e.target.checked
+            })
+          }}
+        >
+        </Switch>}
+      </CobrowsingNestedList>
+  </div>
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {

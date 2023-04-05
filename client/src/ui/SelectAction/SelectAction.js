@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectAction.scss';
 import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
-import { actionIdData } from '../../constants';
+import { actionIdData } from '../../constants/actionIdData';
 
 const SelectAction = ({ onChange, disabled, value, formLabel, actionType }) => {
 

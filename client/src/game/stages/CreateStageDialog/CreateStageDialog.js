@@ -31,7 +31,7 @@ import CreateStage from '../CreateStage/CreateStage';
         //     },
         //   ]}
         // /> */}
-const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreateStage, gameFormEditor: { stage }, gameModel: { gameModel} }) => {
+const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreateStage, gameFormEditor: { stage }, gameModel: { gameModel, currentStageId } }) => {
   function handleClose() {
     closeCreateStageDialog()
   }
@@ -50,8 +50,18 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CreateStageDialog">
-        <CreateStage stage={stage} onUpdate={(props) => {
-          updateCreateStage(props)
+        <CreateStage stage={stage} onUpdate={(stageUpdate) => {
+          if(stage.stageId === currentStageId) {
+            editGameModel({
+              stages: {
+                [stage.stageId] : {
+                  ...stageUpdate,
+                  isNew: false,
+                }
+              }
+            })
+          }
+          updateCreateStage(stageUpdate)
         }}/>
         <div className="CreateStageDialog__buttons">
           <Button 

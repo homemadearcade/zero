@@ -7,3 +7,5 @@ EDIT ENTITY_MODEL DIALOG
   CLEAN UP UI in general
   NEW UI
     Add the Edit _, Edit _ underneath the Hover Preview when an object is selected, maybe also give that a border
+
+  

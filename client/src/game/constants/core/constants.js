@@ -85,6 +85,7 @@ export const LAYER_ID_PREFIX = 'layer-'
 export const vehiclePlayerEntityId = ENTITY_MODEL_ID_PREFIX+PLAYER_ENTITY_TYPE_PREFIX+'vehicle'
 export const jumperPlayerEntityId = ENTITY_MODEL_ID_PREFIX+PLAYER_ENTITY_TYPE_PREFIX+'jumper'
 export const directionalPlayerEntityId = ENTITY_MODEL_ID_PREFIX+PLAYER_ENTITY_TYPE_PREFIX+'directional'
+export const swimmerPlayerEntityId = ENTITY_MODEL_ID_PREFIX+PLAYER_ENTITY_TYPE_PREFIX+'swimmer'
 
 export const initialStageId =  STAGE_ID_PREFIX+'default'
 export const initialPlayerSpawnZoneEntityId = ENTITY_MODEL_ID_PREFIX+ZONE_ENTITY_TYPE_PREFIX+'playerspawnzone'

@@ -45,7 +45,7 @@ const initialState = {
   },
 
   isEntityBoxDialogOpen: false,
-  entityBoxModelType: null,
+  entityBoxDialogType: null,
   isSelectAggregateColorOpen: null,
   currentSelectorListInterfaceId: SELECTOR_ENTITY_BY_INTERFACE_ID_IID,
 };
@@ -178,13 +178,14 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         isEntityBoxDialogOpen: true,
-        entityBoxModelType: payload.entityModelType
+        entityBoxDialogActionId: payload.actionId,
+        entityBoxDialogType: payload.entityModelType
       }
     case CLOSE_ENTITY_BOX_DIALOG:
       return {
         ...state,
         isEntityBoxDialogOpen: false,
-        entityBoxModelType: null
+        entityBoxDialogType: null
       }
     case OPEN_JSON_VIEWER: 
       return {

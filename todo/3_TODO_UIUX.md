@@ -1,3 +1,15 @@
+EDIT ENTITY_MODEL DIALOG
+  All Edit Entity stuff in same place
+  Dialogues
+  Behavior -> Side Editor Stuff
+  TABS FOR the EDIT ENTITY_MODEL DIALOG ( yes : )  
+    AUTOGENERATION FORM
+  CLEAN UP UI in general
+  NEW UI
+    Add the Edit _, Edit _ underneath the Hover Preview when an object is selected, maybe also give that a border
+
+  
+
 CREDITS VIEW
   Add the other arcade games below theirs
   Credits Links are broken 
@@ -18,7 +30,10 @@ STEPS UI
 
   There should be a steps preview when you arent in the control booth. And like the option to go to the next step
 
-Better lobby ui... Basically you the drawer should of course be tab-based but you should be able to open starting with any tab
+
+
+
+Better lobby instance ui... Basically you the drawer should of course be tab-based but you should be able to open starting with any tab
  the tabs
   Log
   Chat room?

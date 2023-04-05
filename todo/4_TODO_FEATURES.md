@@ -10,14 +10,20 @@ LIBRARY
   DATA_SOURCE_SYSTEM needs to be elimnated or made read only. Because it will make library imports not work
   If THERE IS A CORE library, it DOES in fact need to be used in a special way. This is where my library api thing can be used
   Maybe I should wait to complete the interface stuff because I want to like make a special library interface but the truth is we dont want one
+  perhaps 'REPLACE_ID_1', REPLACE_ID_2, etc
 
 IMPLEMENT THESE EFFECTS
   Return from Stars
   Pause Game. Unpause Game
+  Also transform while touching 
 
 STEPS UPDATE
-  Skippable option in a step
-  If the instructions could be smart and understand if the requirements of their context has been and have a checkmark if it is, and a check mark if it isnt, 
+  Use map for interface Ids
+  Optional Actions List ( near button or ?? what ) OR Skippable option in a step
+  If the instructions could be smart and understand if the requirements of their context has been and have a checkmark if it is, and a check mark if it isnt
+  WHEN ADDING INSTRUCTIONS MANUALLY
+    You have to select a game room or lobby! Right now u can just skip them!
+  Mark down for prompts?? Rich Text please https://draftjs.org/docs/getting-started
 
 COMBINE experienceModel with experience
 

@@ -11,5 +11,7 @@ export default {
     previewText: 'Import Game Model'
   },
   [SHOW_REMOVED_DATA_IID]: {},
-  [OPEN_ENTITY_BOX_IID]: {},
+  [OPEN_ENTITY_BOX_IID]: {
+    previewText: 'More'
+  },
 }

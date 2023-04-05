@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { actionIdData, STEP_EFFECT, STEP_OPEN_INTERFACE, STEP_UNLOCK_INTERFACE } from '../../../../constants';
+import { STEP_EFFECT, STEP_OPEN_INTERFACE, STEP_UNLOCK_INTERFACE } from '../../../../constants';
 import { getEffectShorthand, } from '../../../../game/constants';
 
 import { interfaceIdData } from '../../../../constants/interfaceIdData';
+import { actionIdData } from '../../../../constants/actionIdData';
 
 const StepTitle = ({  
   step,

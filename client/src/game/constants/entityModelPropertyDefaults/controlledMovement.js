@@ -4,7 +4,7 @@
 
 import { JUMP_GROUND } from "../core"
 import { JUMP_NONE } from "../core"
-import { ADVANCED_DIRECTIONAL_CONTROLS, CAR_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../core"
+import { ADVANCED_DIRECTIONAL_CONTROLS, DIRECTIONAL_CONTROLS, VEHICLE_CONTROLS } from "../core"
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -57,6 +57,22 @@ export const vehicleDefaults = {
   }
 }
 
+export const swimmerDefaults = {
+  movement: {
+    movementControlsBehavior: VEHICLE_CONTROLS,
+    dragX: 0.75,
+    dragY: 0.75,
+    disableDownKey: false,
+    dragAngular: 40,
+    speedAngular: 40,
+    speed: 150,
+    ignoreGravity: false
+  },
+  jump: {
+    jumpControlsBehavior: JUMP_NONE
+  }
+}
+
 export const directionalDefaults = {
   movement: {
     movementControlsBehavior: DIRECTIONAL_CONTROLS,
@@ -80,18 +96,6 @@ export const advancedDirectionalDefaults = {
   jump: {
     jumpControlsBehavior: JUMP_GROUND
   },
-}
-
-export const carDefaults = {
-  movement: {
-    movementControlsBehavior: CAR_CONTROLS,
-    disableDownKey: false,
-    dragX: 0.25,
-    dragY: 0.25,
-  },
-  jump: {
-    jumpControlsBehavior: JUMP_NONE
-  }
 }
 
 export const movementControlsToKeys = {
