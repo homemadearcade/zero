@@ -101,13 +101,19 @@ EDIT
 
 honestly i dont know what any of these mean...
 
+---
+
+Actions 
+  starts with the VERB
+Interfaces 
+  start with the NOUN
+
 --
 
 MONGOOSE 
 
 remove for hidding entityInstance from UI, 
 delete for actuallt removing from atlasDB
-
 
 ---
 

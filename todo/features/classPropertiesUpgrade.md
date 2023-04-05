@@ -1,6 +1,8 @@
 Try this with lighting
 ( more than 1 light on a class, you like 'add' it to the class, etc )
 
+Also remember I think this is just that you are adding the idea of STATE to an entity. An entity model becomes less representative of what instance we create. Basically EntityState checks the EntityModel to see what data should be used to create the EntityInstance - YES
+
 --
 SPAWNING
 

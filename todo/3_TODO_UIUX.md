@@ -8,7 +8,6 @@ EDIT ENTITY_MODEL DIALOG
   NEW UI
     Add the Edit _, Edit _ underneath the Hover Preview when an object is selected, maybe also give that a border
 
-  
 
 CREDITS VIEW
   Add the other arcade games below theirs
@@ -25,13 +24,14 @@ Better Keyboard UI
 
 HoverPreview should not dissapear during map actions it should actually tell you what you need to do on the map
 
-STEPS UI
+---
+
+STEPS PREVIEW UI
   So like when a step is completed or like an effect occurs, we might want a snackbar?? or a log?
 
   There should be a steps preview when you arent in the control booth. And like the option to go to the next step
 
-
-
+--
 
 Better lobby instance ui... Basically you the drawer should of course be tab-based but you should be able to open starting with any tab
  the tabs

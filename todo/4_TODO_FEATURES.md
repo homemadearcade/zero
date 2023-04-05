@@ -6,6 +6,9 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
+GAME
+-------------
+
 LIBRARY
   DATA_SOURCE_SYSTEM needs to be elimnated or made read only. Because it will make library imports not work
   If THERE IS A CORE library, it DOES in fact need to be used in a special way. This is where my library api thing can be used
@@ -16,26 +19,55 @@ IMPLEMENT THESE EFFECTS
   Return from Stars
   Pause Game. Unpause Game
   Also transform while touching 
+    auto generate zones for this effect
+  Should go to stars, return to stars be an EXPERIENCE EFFECT not a game effect?
+    Yes I think so
 
-STEPS UPDATE
-  Use map for interface Ids
-  Optional Actions List ( near button or ?? what ) OR Skippable option in a step
-  If the instructions could be smart and understand if the requirements of their context has been and have a checkmark if it is, and a check mark if it isnt
-  WHEN ADDING INSTRUCTIONS MANUALLY
-    You have to select a game room or lobby! Right now u can just skip them!
+INSTRUCTIONS
+------------------
+PROMPT UPGRADE
+  step requirements, perhaps 
   Mark down for prompts?? Rich Text please https://draftjs.org/docs/getting-started
+  Optional Actions List for prompts
 
-COMBINE experienceModel with experience
+EXPERIENCE EFFECTS
+  Return to Control Booth view experienceEffect
+
+WHEN ADDING INSTRUCTIONS MANUALLY
+  You have to select a game room or lobby! Right now u can just skip them!
+
+COMBINE 
+  experienceModel with experience
+      GAME HOST ACTIONS instructions need to be run by the GAME HOST
+  ROLE
+    Have this update the cobrowsing color
 
 INTERFACE IDS
-  Generate interfaceIds based on the game model
-  Interface Ids themselves may have to be auto generated, for dynamic lookup
-  Default unlocked interface ids need to be not shown in the unlockables tree
-  I think maybe the game room manages loading interface ids and what not? or do games do that? WHO manages that? why when a game is loaded? troubling. Its hard to manage both at the same time... You need both states
+--------------------
+INTERFACE IDS
+  Generate interfaceIds based on the game model. 
 
-  What is up with these...Borders for the cobrowsing open tool. It seems as if Layers have a border around them, classes do not, and also only effects and events have around it in abstract menu?
+  Then...generate action ids for the game model based off the interfaceIds 
 
-What are interface types? Are they specific parts of the interface? Are they just a generalized format for doing actions?
-Is there a difference between interfaceId and actionId??
+  Add effects to the game model for each of the actions and interfaceIds..
 
-to really clear this up I need to.. make sure all interface types dont include an 'action word' in them. But maybe they can! I mean... OPEN ___ is definitely an interface section. Differece I think actions starts with the VERB, and interfaces start with the NOUN
+  Then have the experience model generate experienceEffects based on the effects of the game model 
+
+  interfaceIds[userId] === their default interfaceId... for us to use?
+
+  Interface Ids should not have on click
+
+  UIUX ISSUE
+    What is up with these...Borders for the cobrowsing open tool. It seems as if Layers have a border around them, classes do not, and also only effects and events have around it in abstract menu?
+
+RENAME
+---
+  Effect -> GameEffects
+  actions -> interfaceActions
+
+BUGS
+  Add Player defaults are broken in EntityAdd
+  Change Stages was broken 
+
+UI
+  Change autogeneration inside of EDIT ENTITY MODAL

@@ -200,7 +200,7 @@ async function loadArcadeGame(response, dispatch) {
   window.socket.on(ON_GAME_MODEL_UPDATE, onArcadeGameModelUpdate)
   window.socket.on(ON_GAME_CHARACTER_UPDATE, onArcadeGameCharacterUpdate)
 
-  console.log('raw', _.cloneDeep(response.data.game))
+  console.log('raw game data', _.cloneDeep(response.data.game))
   const gameData = mergeDeep(_.cloneDeep(defaultGameModel), response.data.game)
 
   dispatch(changeCurrentStage(gameData.player.startingStageId))
@@ -210,7 +210,7 @@ async function loadArcadeGame(response, dispatch) {
   addDefaultsToGameModel(gameData) 
   enrichGameModel(gameData)
 
-  console.log('fully enriched', gameData)
+  console.log('enriched game data', gameData)
 
   return gameData
 }

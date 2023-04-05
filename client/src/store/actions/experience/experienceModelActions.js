@@ -373,11 +373,13 @@ export const deleteExperienceModel = (id) => async (dispatch, getState) => {
 };
 
 function loadExperienceModel(response) {
+  console.log('raw experience model', response.data.experienceModel)
   const experienceModel = mergeDeep(defaultExperienceModel, response.data.experienceModel)
   // addLibraryToExperience(experienceModel)
+  
   addDefaultsToExperienceModel(experienceModel) 
   enrichExperienceModel(experienceModel)
-    console.log('fully enriched', experienceModel)
+  console.log('enriched experience model', experienceModel)
 
   return experienceModel
 }
