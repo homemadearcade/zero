@@ -20,6 +20,4 @@ KEYBOARD MODE FOR GAME?
 
 KEYBOARD MODE FOR STEPS
 
-Step Creation
-  Record Steps, 
-  Use game for effects.. Like go from Entity to create Step instead of starting with making a step. Choose entity and its effect FIRST
+Record experience effects and add to step??
