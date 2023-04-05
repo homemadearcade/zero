@@ -20,10 +20,11 @@ import {
   CLEAR_EXPERIENCE_MODEL,
 } from '../../types';
 import { mergeDeep } from '../../../utils';
-import _, { merge } from 'lodash';
-import { ACTIVITY_ID_PREFIX, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import _ from 'lodash';
+import { activityToInterfaceData, ACTIVITY_ID_PREFIX, allActivityUsersRoleId, allExperienceUsersRoleId, allLobbyUsersRoleId, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, EXPERIENCE_ROLE_FACILITATOR, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
+import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_ID_PREFIX } from '../../../constants/experience/experienceEffect';
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
@@ -134,13 +135,87 @@ function addDefaultsToExperienceModel(experienceModel) {
     Object.keys(experienceModel.gameRooms).forEach((id) => {
       experienceModel.gameRooms[id] = mergeDeep(_.cloneDeep(defaultGameRoom), experienceModel.gameRooms[id])
     })
-  }
 
+  }
 }
 
-
 function enrichExperienceModel(experienceModel) {
-  
+  if(experienceModel.activitys) {
+    Object.keys(experienceModel.activitys).forEach((activityId) => {
+      const activity = experienceModel.activitys[activityId]
+
+      const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+activityId
+      experienceModel.experienceEffects[experienceEffectId] = {
+        experienceEffectId,
+        activityId: activityId,
+        roleId: allActivityUsersRoleId,
+        experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
+        name: 'Change Activity to '+ activity.name,
+      }
+        
+      // Object.keys(experienceModel.roles).forEach((roleId) => {
+      //   const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+activityId+roleId
+      //   experienceModel.experienceEffects[experienceEffectId] = {
+      //     experienceEffectId,
+      //     activityId: activityId,
+      //     roleId,
+      //     experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
+      //     name: 'Change Activity to '+ activity.name,
+      //   }
+      // })
+
+    })
+  }
+
+  // if(experienceModel.lobbys) {
+  //   Object.keys(experienceModel.lobbys).forEach((lobbyId) => {
+  //     const lobby = experienceModel.lobbys[lobbyId]
+
+  //     [allLobbyUsersRoleId, allExperienceUsersRoleId].forEach((roleId) => {
+  //       const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+lobbyId+roleId
+  //       experienceModel.experienceEffects[experienceEffectId] = {
+  //         experienceEffectId,
+  //         lobbyId: lobbyId,
+  //         roleId: roleId,
+  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_LOBBY,
+  //         icon: 'faDoorOpen',
+  //         name: 'Change Lobby to '+ lobby.name,
+  //       }
+  //     })
+
+  //     // for each role
+  //     Object.keys(experienceModel.roles).forEach((roleId) => {
+  //       const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+lobbyId+roleId
+  //       experienceModel.experienceEffects[experienceEffectId] = {
+  //         experienceEffectId,
+  //         lobbyId: lobbyId,
+  //         roleId,
+  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_LOBBY,
+  //         icon: 'faDoorOpen',
+  //         name: 'Change Lobby to '+ lobby.name,
+  //       }
+  //    })
+  //   })
+  // }
+
+  // if(experienceModel.instructions) {
+  //   Object.keys(experienceModel.instructions).forEach((instructionId) => {
+  //     const instruction = experienceModel.instructions[instructionId]
+
+  //     Object.keys(experienceModel.roles).forEach((roleId) => {
+  //       // for each role
+  //       const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+instructionId+roleId
+  //       experienceModel.experienceEffects[instructionId] = {
+  //         experienceEffectId,
+  //         instructionId: instructionId,
+  //         roleId,
+  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_INSTRUCTION,
+  //         icon: 'faDoorOpen',
+  //         name: 'Change Instruction to '+ instruction.name,
+  //       }
+  //     })
+  //   })
+  // }
 }
 
 function cleanExperienceModel(experienceModel) {

@@ -1,49 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Controller, useWatch } from 'react-hook-form';
-import SelectStepBehavior from '../../../../ui/SelectStepBehavior/SelectStepBehavior';
-import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
-import { STEP_EFFECT } from '../../../../constants';
+import { Controller } from 'react-hook-form';
+import SelectExperienceEffect from '../../../../ui/SelectExperienceEffect/SelectExperienceEffect';
 
 const StepForm = ({ isEdit, register, control, instructionCategory }) => {
-  const stepBehavior = useWatch({
-    control,
-    name: "stepBehavior",
-  });
-
-  function renderActionRoleSelect() {
-    return <Controller
-      {...register("actionRoleId", {
-        required: true,
-      })}
-      name={`actionRoleId`}
-      control={control}
-      render={({ field: { onChange, value } }) => (
-        <SelectRole 
-        formLabel="For Which Roles?"
-        onSelect={(roleIds) => {
-          if(!roleIds || roleIds.length === 0) return
-          onChange(roleIds[roleIds.length - 1])
-        }} value={value ? [value] : []} />
-      )}
-    />
-  }
-
   return <>
     {!isEdit && <Controller
-      {...register("stepBehavior", {
+      {...register("experienceEffectIds", {
         required: true
       })}
-      name={"stepBehavior"}
+      name={"experienceEffectIds"}
       control={control}
       render={({ field: { onChange, value } }) => (
-        <SelectStepBehavior instructionCategory={instructionCategory} onChange={(e) => {
-          onChange(e.target.value)
-        }} value={value ? [value] : []} label={"Behavior"} />
+        <SelectExperienceEffect 
+          instructionCategory={instructionCategory}
+          formLabel="What changes occur when this step is loaded?" onChange={(experienceEffectIds) => {
+          onChange(experienceEffectIds)
+        }} value={value ? value : []} />
       )}
     />}
-    {!isEdit && stepBehavior && stepBehavior !== STEP_EFFECT && renderActionRoleSelect()}
   </>
 };
 

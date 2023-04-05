@@ -1,5 +1,5 @@
 import { LOBBY_ID_PREFIX } from "./lobbys";
-import { ROLE_ID_PREFIX, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_TEAM } from "./roles";
+import { ROLE_ID_PREFIX, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_FACILITATOR } from "./roles";
 
 export const defaultLobbyId = LOBBY_ID_PREFIX + 'default';
 export const defaultParticipantRoleId = ROLE_ID_PREFIX+ 'participant';
@@ -24,6 +24,7 @@ export const defaultExperienceModel = {
       isNotRemoveable: true
     }
   },
+  experienceEffects: {},
   activitys: {},
   roles: {
     [defaultParticipantRoleId]: {
@@ -38,7 +39,7 @@ export const defaultExperienceModel = {
       roleId: defaultGuideRoleId,
       color: '#0000FF',
       isNotRemoveable: true,
-      roleCategory: EXPERIENCE_ROLE_TEAM
+      roleCategory: EXPERIENCE_ROLE_FACILITATOR
     }
   },
   gameRooms: {},

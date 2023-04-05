@@ -6,8 +6,9 @@
   flex-direction: column;
 
   &__buttons {
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    right: .2em;
+    top: .2em
   }
 
   &__prompts {

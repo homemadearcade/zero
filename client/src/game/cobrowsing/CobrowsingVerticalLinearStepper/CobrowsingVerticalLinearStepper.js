@@ -5,25 +5,25 @@ import { VerticalLinearStepperBody } from '../../../ui/VerticalLinearStepper/Ver
 import { updateVerticalLinearStepper } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 
-function CobrowsingVerticalLinearStepper({stepperId, steps, updateVerticalLinearStepper, gameSelector, completed}) {
+function CobrowsingVerticalLinearStepper({interfaceId, steps, updateVerticalLinearStepper, gameSelector, completed}) {
   if(!gameSelector.verticalLinearSteppers) return 
 
-  const activeStep = gameSelector.verticalLinearSteppers[stepperId]
+  const activeStep = gameSelector.verticalLinearSteppers[interfaceId]
 
   const handleNext = () => {
-    updateVerticalLinearStepper(stepperId, activeStep + 1);
+    updateVerticalLinearStepper(interfaceId, activeStep + 1);
   };
 
   const handlePrev = () => {
-    updateVerticalLinearStepper(stepperId, activeStep - 1);
+    updateVerticalLinearStepper(interfaceId, activeStep - 1);
   };
 
   const handleReset = () => {
-    updateVerticalLinearStepper(stepperId, 0);
+    updateVerticalLinearStepper(interfaceId, 0);
   };
 
   return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={activeStep} onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} onChangeStep={(step) => {
-    updateVerticalLinearStepper(stepperId, step);
+    updateVerticalLinearStepper(interfaceId, step);
   }} />
 }
 

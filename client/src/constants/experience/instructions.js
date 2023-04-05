@@ -8,11 +8,6 @@ export const instructionToInterfaceData = {
     icon: 'faGamepad',
     // isCreateable: true,
   },
-  // [INSTRUCTION_NEW_GAME]: {
-  //   displayName: 'New Game',
-  //   icon: 'faGamepad',
-  //   isCreateable: false,
-  // },
   [INSTRUCTION_LOBBY]: {
     displayName: 'Lobby',
     icon: 'faDoorOpen',
@@ -36,30 +31,3 @@ export const defaultInstructions = {
   arcadeGameMongoId: null,
   isRemoved: false
 }
-  // {
-  //   name: {
-  //     type: String,
-  //     required: true,
-  //     default: 'New Activity',
-  //   },
-  //   steps: {
-  //     type: Object,
-  //     required: true,
-  //     default: {}
-  //   },
-  //   stepOrder: {
-  //     type: Array,
-  //     required: true,
-  //     default: []
-  //   },
-  //   arcadeGameMongoId: {
-  //     type: String,
-  //     required: false,
-  //   },
-  //   instructionId: {
-  //     required: true,
-  //     immuteable: true,
-  //     type: String,
-  //     unique: true,
-  //   },
-  //   instructionType: { type: String, required: true },

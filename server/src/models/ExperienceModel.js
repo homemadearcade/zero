@@ -17,6 +17,11 @@ const experienceModel = new Schema(
       required: true,
       default: {}
     },
+    experienceEffects: {
+      type: Object,
+      // required: true,
+      default: {}
+    },
     canvasRooms: {
       type: Object,
       required: true,

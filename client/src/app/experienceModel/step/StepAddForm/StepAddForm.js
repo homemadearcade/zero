@@ -7,8 +7,9 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { defaultParticipantRoleId, STEP_ID_PREFIX } from '../../../../constants';
+import { STEP_ID_PREFIX } from '../../../../constants';
 import StepForm from '../StepForm/StepForm';
+import './StepAddForm.scss'
 
 const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
   const [isStepAddOpen, setIsStepAddOpen] = useState(false)
@@ -16,7 +17,7 @@ const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
   const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
       ...defaultValues,
-      actionRoleId: defaultParticipantRoleId,
+      experienceEffectIds: [],
     },
   });
 
@@ -36,12 +37,14 @@ const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
         setIsStepAddOpen(false)
       }} open={isStepAddOpen}>
         <DialogTitle>New Step</DialogTitle>
-        <DialogContent>
-          <StepForm instructionCategory={instructionCategory} control={control} register={register} />
-        </DialogContent>
-        <DialogActions>
-          <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Step</Button>
-        </DialogActions>
+          <DialogContent>
+             <div className="StepAddForm__dialog">
+              <StepForm instructionCategory={instructionCategory} control={control} register={register} />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button type="submit" disabled={!isValid} onClick={handleSubmit(submit)}>Add Step</Button>
+          </DialogActions>
       </Dialog>
     </div>
   );
