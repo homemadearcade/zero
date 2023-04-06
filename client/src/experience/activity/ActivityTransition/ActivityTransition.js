@@ -7,7 +7,7 @@ import { clearErrorState } from '../../../store/actions/errorsActions';
 import ConstellationZoom from '../../../marketing/homemadeArcade/ConstellationZoom/ConstellationZoom';
 import useGameEditorSize from '../../../hooks/useGameEditorSize';
 
-const ActivityOverlay = ({
+const ActivityTransition = ({
   lobbyInstance: { lobbyInstance: { members }},
   auth: { me },
   cobrowsing: { cobrowsingUser, isActivelyCobrowsing }
@@ -21,7 +21,7 @@ const ActivityOverlay = ({
 
   const { gameEditorWidth, gameEditorHeight } = useGameEditorSize()
 
-  if(gameEditorHeight && gameEditorWidth && user?.inOverlayView && (isActivelyCobrowsing || cobrowsingUser.id === me.id)) {
+  if(gameEditorHeight && gameEditorWidth && user?.inTransitionView && (isActivelyCobrowsing || cobrowsingUser.id === me.id)) {
     return <ConstellationZoom width={gameEditorWidth} height={gameEditorHeight}/>
   }
 };
@@ -34,4 +34,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { clearErrorState }),
-)(ActivityOverlay);
+)(ActivityTransition);

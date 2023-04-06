@@ -6,7 +6,7 @@ export const defaultRelationTag = {
   relationTagInterfaceId: null,
   isRemoved: false,
   isReadOnly: false,
-  dataSourceId: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
   relationTagId: null,
   name: null,
   textureTint: '#AAAAAA',
@@ -20,7 +20,7 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromInterfaceI
   return {
     ...defaultRelationTag,
     isReadOnly: true,
-    dataSourceId: DATA_SOURCE_SYSTEM_IID,
+    dataSourceIID: DATA_SOURCE_SYSTEM_IID,
     relationTagInterfaceId: RELATION_TAG_GENERAL_IID,
     relationTagId,
     name,

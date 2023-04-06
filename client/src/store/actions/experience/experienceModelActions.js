@@ -24,7 +24,7 @@ import _ from 'lodash';
 import { activityToInterfaceData, ACTIVITY_DID, allActivityUsersRoleId, allExperienceUsersRoleId, allLobbyUsersRoleId, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
-import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_OVERLAY, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_OPEN_OVERLAY } from '../../../constants/experience/experienceEffect';
+import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH, EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION } from '../../../constants/experience/experienceEffect';
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
@@ -222,23 +222,41 @@ function enrichExperienceModel(experienceModel) {
 
       if(role.roleCategory === EXPERIENCE_ROLE_PARTICIPANT) {
         // add an experience effect for close overlay and open overlay 
-        const openOverlayId = EXPERIENCE_EFFECT_DID+'close-overlay'+roleId
-        const closeOverlayId = EXPERIENCE_EFFECT_DID+'open-overlay'+roleId
+        const openTransitionId = EXPERIENCE_EFFECT_DID+'close-overlay'+roleId
+        const closeTransitionId = EXPERIENCE_EFFECT_DID+'open-overlay'+roleId
 
-        experienceModel.experienceEffects[openOverlayId] = {
-          experienceEffectId: openOverlayId,
+        experienceModel.experienceEffects[openTransitionId] = {
+          experienceEffectId: openTransitionId,
           roleId,
-          experienceEffectBehavior: EXPERIENCE_EFFECT_OPEN_OVERLAY,
+          experienceEffectBehavior: EXPERIENCE_EFFECT_OPEN_TRANSITION,
           name: 'Send to Stars',
-          customSelectorCategory: 'Stars'
+          customSelectorCategory: 'Transition'
         }
 
-        experienceModel.experienceEffects[closeOverlayId] = {
-          experienceEffectId: closeOverlayId,
+        experienceModel.experienceEffects[closeTransitionId] = {
+          experienceEffectId: closeTransitionId,
           roleId,
-          experienceEffectBehavior: EXPERIENCE_EFFECT_CLOSE_OVERLAY,
+          experienceEffectBehavior: EXPERIENCE_EFFECT_CLOSE_TRANSITION,
           name: 'Return from Stars',
-          customSelectorCategory: 'Stars'
+          customSelectorCategory: 'Transition'
+        }
+      }
+
+      if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
+        const openControlBoothId = EXPERIENCE_EFFECT_DID+'close-booth'+roleId
+        const closeControlBoothId = EXPERIENCE_EFFECT_DID+'open-booth'+roleId
+        experienceModel.experienceEffects[openControlBoothId] = {
+          experienceEffectId: openControlBoothId,
+          roleId,
+          experienceEffectBehavior: EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH,
+          customSelectorCategory: 'Control Booth'
+        }
+
+        experienceModel.experienceEffects[closeControlBoothId] = {
+          experienceEffectId: closeControlBoothId,
+          roleId,
+          experienceEffectBehavior: EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH,
+          customSelectorCategory: 'Control Booth'
         }
       }
       

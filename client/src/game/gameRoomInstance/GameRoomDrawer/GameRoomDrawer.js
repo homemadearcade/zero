@@ -17,7 +17,7 @@ import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceAction
 import GameRoomOverview from '../GameRoomOverview/GameRoomOverview';
 import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobbyInstance/LobbyOverview/LobbyOverview';
-import ActivityOverlayToggle from '../../../experience/activity/ActivityOverlayToggle/ActivityOverlayToggle';
+import ActivityTransitionToggle from '../../../experience/activity/ActivityTransitionToggle/ActivityTransitionToggle';
 import LobbyDashboardToggle from '../../../experience/lobbyInstance/LobbyDashboardToggle/LobbyDashboardToggle';
 
 const GameRoomDrawer = ({
@@ -39,7 +39,7 @@ const GameRoomDrawer = ({
         <LobbyDashboardToggle/>
         <CobrowsingIndicator/>
         <GameRoomPowerIndicator/>
-        <ActivityOverlayToggle/>
+        <ActivityTransitionToggle/>
         {currentActivity === GAME_ROOM_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Autosave Disabled</Typography>

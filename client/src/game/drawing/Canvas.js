@@ -11,14 +11,14 @@ window.instanceUndoStack = []
 window.imageCanvasUndoStack = []
 
 export class Canvas extends Phaser.GameObjects.RenderTexture {
-  constructor(scene, { textureId, boundaries, autoSave, layerGroupId, layerId }){
+  constructor(scene, { textureId, boundaries, autoSave, layerGroupIID, layerId }){
     super(scene, 0, 0, boundaries.maxWidth, boundaries.maxHeight)
 
     this.scene = scene
     this.scene.add.existing(this)
 
     this.textureId = textureId
-    this.layerGroupId = layerGroupId
+    this.layerGroupIID = layerGroupIID
     this.layerId = layerId
     this.canvasImageMongoId = null
 

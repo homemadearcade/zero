@@ -6,7 +6,10 @@ import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../s
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearEntity } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/game/gameViewEditorActions';
-import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, initialStageZoneEntityId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND, gameWidth, gameHeight } from '../constants';
+import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
+  STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH,
+   initialCameraZoneEntityId, initialStageZoneEntityId, 
+   gameWidth, gameHeight } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { EntityStamper } from '../drawing/EntityStamper';
@@ -19,7 +22,7 @@ import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils
 import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
-import { ENTITY_INSTANCE_MOVE_IID } from '../../constants/interfaceIds';
+import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
 import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/actions/media/canvasImageActions';
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
@@ -339,9 +342,9 @@ export class EditorScene extends GameInstance {
     this.snapshotStartPos = null
   }
 
-  drawVisibleLayerGroupToRenderTexture(layerGroupId, renderTexture) {
+  drawVisibleLayerGroupToRenderTexture(layerGroupIID, renderTexture) {
     const gameViewEditor = getCobrowsingState().gameViewEditor
-    this.layerInstancesByLayerGroupId[layerGroupId].forEach((layerInstance) => {
+    this.layerInstancesByLayerGroupId[layerGroupIID].forEach((layerInstance) => {
       if(!gameViewEditor.layerInvisibility[layerInstance.layerId]) {
         renderTexture.draw(layerInstance, 0,0)
       }
@@ -355,13 +358,13 @@ export class EditorScene extends GameInstance {
       renderTexture.draw(this.stage.colorLayer, 0,0)
     }
 
-    this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_BACKGROUND, renderTexture)
-    this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_PLAYGROUND, renderTexture)
+    this.drawVisibleLayerGroupToRenderTexture(BACKGROUND_LAYER_GROUP_IID, renderTexture)
+    this.drawVisibleLayerGroupToRenderTexture(PLAYGROUND_LAYER_GROUP_IID, renderTexture)
 
     // if(!gameViewEditor.layerInvisibility[PLAYER_INSTANCE_CANVAS_ID] && !gameViewEditor.layerInvisibility[BASIC_ENTITY_IID] && !gameViewEditor.layerInvisibility[NPC_ENTITY_IID] ) {
       renderTexture.draw(this.entityInstanceGroup, 0,0)
     // }
-    this.drawVisibleLayerGroupToRenderTexture(LAYER_GROUP_ID_FOREGROUND, renderTexture)
+    this.drawVisibleLayerGroupToRenderTexture(FOREGROUND_LAYER_GROUP_IID, renderTexture)
   }
 
   takeSnapshotWithSquare() {

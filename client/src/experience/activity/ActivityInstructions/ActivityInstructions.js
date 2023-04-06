@@ -119,7 +119,7 @@ const ActivityInstructions = ({
           lobbyInstanceMongoId: lobbyInstance.id,
           userMongoId: lobbyInstance.participantId, 
           member: {
-            inOverlayView: false
+            inTransitionView: false
           }
         })
       },
@@ -137,7 +137,7 @@ const ActivityInstructions = ({
           lobbyInstanceMongoId: lobbyInstance.id,
           userMongoId: lobbyInstance.participantId, 
           member: {
-            inOverlayView: true
+            inTransitionView: true
           }
         })
       },

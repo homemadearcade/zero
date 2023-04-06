@@ -1,5 +1,5 @@
 import store from "../../../store"
-import { ANIMATION_CAMERA_SHAKE, effectBehaviorInterfaces, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE,
+import { ANIMATION_CAMERA_SHAKE, effectEditInterfacess, EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_WIN_GAME, GAME_OVER_STATE,
      SIDE_DOWN, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, WIN_GAME_STATE } from "../../constants"
 import Phaser from "phaser";
 import { clearCutscenes, openCutscene } from "../../../store/actions/game/playerInterfaceActions";
@@ -191,20 +191,22 @@ export class Effects {
     } else if(effect.effectBehavior === EFFECT_SWITCH_STAGE) {
       store.dispatch(changeCurrentStage(effect.stageId))
       store.dispatch(clearCutscenes())
-    } else if(effect.effectBehavior === EFFECT_CHANGE_GAME) {
-      store.dispatch(editGameRoom(this.scene.gameRoomInstance.id, {
-        arcadeGameMongoId: effect.arcadeGameMongoId
-      }))
     }
     
+    // if(effect.effectBehavior === EFFECT_CHANGE_GAME) {
+    //   store.dispatch(editGameRoom(this.scene.gameRoomInstance.id, {
+    //     arcadeGameMongoId: effect.arcadeGameMongoId
+    //   }))
+    // }
     
-    // if(effect.effectBehavior === EFFECT_OPEN_OVERLAY) {
+    
+    // if(effect.effectBehavior === EFFECT_OPEN_TRANSITION) {
     //   const state = store.getState()
     //   store.dispatch(updateLobbyMember({
     //     lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
     //     userMongoId: state.auth.me?.id, 
     //     member: {
-    //       inOverlayView: true
+    //       inTransitionView: true
     //     }
     //   }))
     // }
@@ -284,7 +286,7 @@ export class Effects {
       return
     }
 
-    if(effectBehaviorInterfaces[effect.effectBehavior].effectableType === NO_RELATION_TAG_EFFECT_IID) {
+    if(effectEditInterfacess[effect.effectBehavior].effectableType === NO_RELATION_TAG_EFFECT_IID) {
       return this.runTargetlessAccuteEffect({
         relation,
         phaserInstanceA,

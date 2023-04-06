@@ -36,13 +36,13 @@ const EditEntityGraphics = ({
   
   useEffect(() => {
     if(!entityModel.entityModelId) {
-      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId(), isNew: true })
+      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityIID]+generateUniqueId(), isNew: true })
     }
   }, [])
 
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="EditEntityGraphics">
-      {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelTypeToDisplayName[entityModel.entityInterfaceId]}</Typography>}
+      {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelTypeToDisplayName[entityModel.entityIID]}</Typography>}
       {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Graphics"></EntityMemberTitle>}
       <Unlockable interfaceId={ENTITY_VISIBILITY_IID}>
         <Switch
@@ -93,7 +93,7 @@ const EditEntityGraphics = ({
           textureIdSelected={entityModel.graphics.textureId}
         />
       </>}
-      {entityModel.entityInterfaceId === ZONE_ENTITY_IID && 
+      {entityModel.entityIID === ZONE_ENTITY_IID && 
         <AggregateColorSelect
           selectedColor={entityModel.graphics.textureTint}
           onSelectColor={(textureTint) => {
@@ -107,7 +107,7 @@ const EditEntityGraphics = ({
             }})
           }}
       />}
-      {entityModel.entityInterfaceId !== ZONE_ENTITY_IID && entityModel.entityInterfaceId !== PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_LAYER_IID}>
+      {entityModel.entityIID !== ZONE_ENTITY_IID && entityModel.entityIID !== PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_LAYER_IID}>
         <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerId ? [entityModel.graphics.layerId] : [LAYER_DID+PLAYGROUND_LAYER_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateEntity({ graphics: {

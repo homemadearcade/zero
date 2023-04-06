@@ -1,6 +1,6 @@
 // mapping for every property on defaultEntityModel to an object with a displayName and a description
 export const defaultEntityModel = {
-  dataSourceId: {
+  dataSourceIID: {
     displayName: 'Data Source',
     description: 'Where this class was created'
   },

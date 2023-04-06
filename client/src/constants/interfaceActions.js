@@ -6,11 +6,20 @@ export const INTERFACE_ACTION_CAMERA = 'INTERFACE_ACTION_CAMERA'
 export const INTERFACE_ACTION_DRAW = 'INTERFACE_ACTION_DRAW'
 export const INTERFACE_ACTION_IMPORT = 'INTERFACE_ACTION_IMPORT'
 export const INTERFACE_ACTION_SCRIPT = 'INTERFACE_ACTION_SCRIPT'
+export const INTERFACE_ACTION_PLAY = 'INTERFACE_ACTION_PLAY'
+export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
 
 export const INTERFACE_ACTION_UNLOCK = 'INTERFACE_ACTION_UNLOCK'
 
-
 export const interfaceActionInterfaceData = {
+  [INTERFACE_ACTION_LOAD]: {
+    displayName: 'Load',
+    icon: 'faDownload'
+  },
+  [INTERFACE_ACTION_PLAY]: {
+    displayName: 'Play',
+    icon: 'faPlay'
+  },
   [INTERFACE_ACTION_DRAW]: {
     displayName: 'Draw',
     icon: 'faPaintbrush'

@@ -1,6 +1,6 @@
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CHANGE_GAME, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INVISIBLE, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
+import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_EXPERIENCE_EFFECT, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INVISIBLE, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
   EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, EFFECT_WIN_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
@@ -11,31 +11,79 @@ export const spawnZoneSelectorTypeToDisplayName = {
   [SPAWN_ZONE_RANDOM_SELECT]: 'Spawn in Random Instance of Zone',
 }
 
-export const effectBehaviorToDisplayNames = {
+export const effectInterfaceDatas = {
   // Movement
-  [EFFECT_TELEPORT]: 'Teleport',
-  [EFFECT_IGNORE_GRAVITY]: 'Remove gravity',
-  [EFFECT_STICK_TO]: 'Hold',
+  [EFFECT_TELEPORT]: {
+    displayName: 'Teleport',
+    // icon: 'faPersonToPortal',
+    icon: 'faBullseye',
+  },
+  [EFFECT_IGNORE_GRAVITY]: {
+    displayName: 'Remove gravity',
+    icon: 'faUpLong'
+  },
+  [EFFECT_STICK_TO]: {
+    displayName: 'Hold',
+    icon: 'faLink'
+  },
 
   // Lifecycle
-  [EFFECT_TRANSFORM]: 'Transform',
-  [EFFECT_SPAWN]: 'Spawn',
-  [EFFECT_DESTROY]: 'Destroy',
+  [EFFECT_TRANSFORM]: {
+    displayName: 'Transform',
+    icon: 'faRightLeft'
+  },
+  [EFFECT_SPAWN]: {
+    displayName: 'Spawn',
+    icon: 'faPlus'
+  },
+  [EFFECT_DESTROY]: {
+    displayName: 'Destroy',
+    icon: 'faSkullCrossbones'
+  },
 
-  // Narrative
-  [EFFECT_CUTSCENE]: 'Play Dialog/Cutscene',
-  [EFFECT_GAME_OVER]: 'Game Over',
-  [EFFECT_WIN_GAME]: 'Win Game',
+  // Game State
+  [EFFECT_GAME_OVER]: {
+    displayName: 'Game Over',
+    icon: 'faAward'
+  },
+  [EFFECT_WIN_GAME]: {
+    displayName: 'Win Game',
+    icon: 'faAward'
+  },
 
   // Graphical
-  [EFFECT_CAMERA_SHAKE]: 'Shake Camera',
-  [EFFECT_INVISIBLE]: 'Hide',
+  [EFFECT_CAMERA_SHAKE]: {
+    displayName: 'Shake Camera',
+    icon: 'faBurst'
+  },
+  [EFFECT_INVISIBLE]: {
+   displayName: 'Hide',
+   icon: 'faEyeSlash'
+  },
 
   // Meta
-  [EFFECT_CHANGE_GAME]: 'Change Game',
-  [EFFECT_SWITCH_STAGE]: 'Switch Stage',
-  [EFFECT_PAUSE_GAME]: 'Pause Game',
-  [EFFECT_UNPAUSE_GAME]: 'Unpause Game',
+  [EFFECT_SWITCH_STAGE]: {
+    displayName: 'Switch Stage',
+    icon: 'faShuffle'
+  },
+  [EFFECT_PAUSE_GAME]: {
+    displayName: 'Pause Game',
+    icon: 'faPause'
+  },
+  [EFFECT_UNPAUSE_GAME]: {
+    displayName: 'Unpause Game',
+    icon: 'faPlay'
+  },
+
+
+  // INTERFACE
+  [EFFECT_INTERFACE_ACTION]: {
+    displayName: 'Interface Action',
+  },
+  [EFFECT_CUTSCENE]: {
+    displayName: 'Play Dialog/Cutscene',
+    icon: 'faScript'
+  },
 }
 
 /////////////////////////////////////////////////////////////////
@@ -43,7 +91,7 @@ export const effectBehaviorToDisplayNames = {
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 //// EFFECT
-export const effectBehaviorInterfaces = {
+export const effectEditInterfacess = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneEntityModelId: 'Teleport to which zone?',
@@ -76,11 +124,7 @@ export const effectBehaviorInterfaces = {
     isStandalone: true
   },
 
-  // Narrative
-  [EFFECT_CUTSCENE]: {
-    cutsceneId: 'Which cutscene?',
-    effectableType: NO_RELATION_TAG_EFFECT_IID
-  },
+  // Game State
   [EFFECT_GAME_OVER]: {
     text: 'Message',
     effectableType: NO_RELATION_TAG_EFFECT_IID,
@@ -114,11 +158,6 @@ export const effectBehaviorInterfaces = {
     effectableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true
   },
-  [EFFECT_CHANGE_GAME]: {
-    arcadeGameMongoId: 'Which game?',
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
-    isCustomizeable: true
-  },
   [EFFECT_PAUSE_GAME]: {
     effectableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
@@ -126,6 +165,17 @@ export const effectBehaviorInterfaces = {
   [EFFECT_UNPAUSE_GAME]: {
     effectableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
+  },
+
+  // INTERFACE
+  [EFFECT_INTERFACE_ACTION]: {
+    interfaceActionId: 'Which interface action?',
+    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    isCustomizeable: true
+  },
+  [EFFECT_CUTSCENE]: {
+    cutsceneId: 'Which cutscene?',
+    effectableType: NO_RELATION_TAG_EFFECT_IID
   },
 }
 
@@ -141,8 +191,7 @@ export const touchActiveEffects  = {
   [EFFECT_SPAWN]: false,
   [EFFECT_DESTROY]: false,
 
-  // Narrative
-  [EFFECT_CUTSCENE]: false,
+  // Game State
   [EFFECT_GAME_OVER]: false,
   [EFFECT_WIN_GAME]: false,
 
@@ -152,9 +201,12 @@ export const touchActiveEffects  = {
 
   // Meta
   [EFFECT_SWITCH_STAGE]: false,
-  [EFFECT_CHANGE_GAME]: false,
   [EFFECT_PAUSE_GAME]: false,
   [EFFECT_UNPAUSE_GAME]: false,
+
+  // Interface
+  [EFFECT_CUTSCENE]: false,
+  [EFFECT_INTERFACE_ACTION]: false,
 }
 
 export const noRemoteEffectedTagEffects = {
@@ -168,8 +220,7 @@ export const noRemoteEffectedTagEffects = {
   [EFFECT_SPAWN]: true,
   [EFFECT_DESTROY]: false,
 
-  // Narrative
-  [EFFECT_CUTSCENE]: true,
+  // Game State
   [EFFECT_GAME_OVER]: true,
   [EFFECT_WIN_GAME]: true,
 
@@ -179,9 +230,12 @@ export const noRemoteEffectedTagEffects = {
 
   // Meta
   [EFFECT_SWITCH_STAGE]: true,
-  [EFFECT_CHANGE_GAME]: true,
   [EFFECT_PAUSE_GAME]: true,
   [EFFECT_UNPAUSE_GAME]: true,
+
+  // Interface
+  [EFFECT_CUTSCENE]: true,
+  [EFFECT_INTERFACE_ACTION]: true,
 }
 
 export const nonStepEffectBehaviors = {
@@ -195,8 +249,7 @@ export const nonStepEffectBehaviors = {
   [EFFECT_SPAWN]: false,
   [EFFECT_DESTROY]: false,
 
-  // Narrative
-  [EFFECT_CUTSCENE]: false,
+  // Game State
   [EFFECT_GAME_OVER]: false,
   [EFFECT_WIN_GAME]: false,
 
@@ -206,9 +259,12 @@ export const nonStepEffectBehaviors = {
 
   // Meta
   [EFFECT_SWITCH_STAGE]: false,
-  [EFFECT_CHANGE_GAME]: false,
   [EFFECT_PAUSE_GAME]: false,
   [EFFECT_UNPAUSE_GAME]: false,
+
+  // Interface
+  [EFFECT_CUTSCENE]: false,
+  [EFFECT_INTERFACE_ACTION]: false,
 }
 
 export function isUseableEffect(effect, effectBehavior, eventType) {
@@ -229,7 +285,7 @@ export function isUseableEffect(effect, effectBehavior, eventType) {
 
 export function getEffectShorthand(effect) {
   const effectBehavior = effect.effectBehavior 
-  const displayName = effectBehaviorToDisplayNames[effectBehavior]
+  const displayName = effectInterfaceDatas[effectBehavior].displayName
   const gameModel = store.getState().gameModel.gameModel
   const entityModels = gameModel.entityModels 
   const cutscenes = gameModel.cutscenes 

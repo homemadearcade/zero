@@ -4,13 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import Icon from '../../../ui/Icon/Icon';
-import './ActivityOverlayToggle.scss'
+import './ActivityTransitionToggle.scss'
 import Switch from '../../../ui/Switch/Switch';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { updateLobbyMember } from '../../../store/actions/experience/lobbyInstanceActions';
 import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 
-const ActivityOverlayToggle = ({
+const ActivityTransitionToggle = ({
   lobbyInstance: { lobbyInstance: { id, members } },
   cobrowsing: { cobrowsingUser },
   gameRoomInstance: { gameRoomInstance: { isPoweredOn } },
@@ -26,23 +26,23 @@ const ActivityOverlayToggle = ({
 
   if(!user) return
 
-  const inOverlayView = user.inOverlayView
+  const inTransitionView = user.inTransitionView
 
   return <div
-    className="ActivityOverlayToggle"
+    className="ActivityTransitionToggle"
   > 
     <Icon icon="faStar"/>
     <Switch
       disabled={!isPoweredOn}
       size="small"
-      checked={inOverlayView}
+      checked={inTransitionView}
       onChange={async () => {
-        if(!inOverlayView) toggleActiveCobrowsing(true)
+        if(!inTransitionView) toggleActiveCobrowsing(true)
         updateLobbyMember({
           lobbyInstanceMongoId: id,
           userMongoId: cobrowsingUser.id, 
           member: {
-            inOverlayView: !inOverlayView
+            inTransitionView: !inTransitionView
           }
         })
       }}
@@ -58,4 +58,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
 
 export default compose(
   connect(mapStateToProps, { updateLobbyMember, toggleActiveCobrowsing }),
-)(ActivityOverlayToggle);
+)(ActivityTransitionToggle);

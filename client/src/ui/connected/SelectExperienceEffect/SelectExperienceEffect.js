@@ -9,8 +9,8 @@ const SelectExperienceEffect = ({ instructionCategory, onChange, disabled, value
 
   const mapEffectToOption = (experienceEffectId) => {
     const experienceEffect = experienceModel.experienceEffects[experienceEffectId]
-    const name = experienceEffect.name
     const experienceEffectInterfaceData = experienceEffectInterfaceIdData[experienceEffect.experienceEffectBehavior]
+    const name = experienceEffect.name || experienceEffectInterfaceData.displayName
 
     if(instructionCategoryToExperienceEffects[instructionCategory].indexOf(experienceEffect.experienceEffectBehavior) === -1) return null
 

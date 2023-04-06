@@ -84,7 +84,7 @@ export const defaultGameModel = {
         ...defaultZoneEntity.graphics,
         textureTint: '#FFFFFF',
       },
-      dataSourceId: DATA_SOURCE_SYSTEM_IID
+      dataSourceIID: DATA_SOURCE_SYSTEM_IID
     },
     [initialCameraZoneEntityId]: {
       name: 'Player Camera',
@@ -120,7 +120,7 @@ export const defaultGameModel = {
         width: nodeSize * 30,
         height: nodeSize * 30
       },
-      dataSourceId: DATA_SOURCE_SYSTEM_IID
+      dataSourceIID: DATA_SOURCE_SYSTEM_IID
     },
     [initialStageZoneEntityId]: {
       name: 'Stage',
@@ -153,7 +153,7 @@ export const defaultGameModel = {
         width: gameWidth,
         height: gameHeight
       },
-      dataSourceId: DATA_SOURCE_SYSTEM_IID,
+      dataSourceIID: DATA_SOURCE_SYSTEM_IID,
     }
   },
   isRemoved: false

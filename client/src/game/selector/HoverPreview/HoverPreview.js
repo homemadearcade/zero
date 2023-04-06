@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Sprite from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { effectBehaviorToDisplayNames, layerToDisplayName, PAUSED_STATE } from '../../constants';
+import { effectInterfaceDatas, layerToDisplayName, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
@@ -137,7 +137,7 @@ const HoverPreview = ({
   }
 
   function renderEntityDisplay() {
-    let title = entityModel.name + ' - ' + entityModelTypeToDisplayName[entityModel.entityInterfaceId]
+    let title = entityModel.name + ' - ' + entityModelTypeToDisplayName[entityModel.entityIID]
     if(instanceDataHovering?.isSpawned) title += ' (Spawned)'
     return renderDisplayWithTexture({
       textureTint: entityModel.graphics.textureTint,
@@ -253,7 +253,7 @@ const HoverPreview = ({
     } else if(effectIdHovering) {
       const effect = effects[effectIdHovering]
       return renderTextOnlyDisplay({
-        title: effectBehaviorToDisplayNames[effect.effectBehavior]
+        title: effectInterfaceDatas[effect.effectBehavior].displayName
       })
     } else if(instanceEntityIdHovering) {
       return renderEntityDisplay()

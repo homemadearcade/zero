@@ -19,7 +19,7 @@ import {
   EDIT_RELATION_FAIL,
   CLEAR_RELATION,
 } from '../../types';
-import { DATA_SOURCE_IMPORTED_GAME_MODEL } from '../../../game/constants';
+import { DATA_SOURCE_IMPORTED_GAME_MODE_IID } from '../../../game/constants';
 
 export const getRelationLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -100,7 +100,7 @@ export const addRelationToLibrary = (relation) => async (dispatch, getState) => 
   try {
     const userMongoId = getState().auth.me.id
     relation.userMongoId = userMongoId
-    relation.dataSourceId = DATA_SOURCE_IMPORTED_GAME_MODEL
+    relation.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODE_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/relation', relation, options);

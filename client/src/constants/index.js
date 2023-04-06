@@ -3,10 +3,11 @@ export const GOOGLE_AUTH_LINK = 'https://homemadearcade.herokuapp.com/auth/googl
 export const DEFAULT_THEME_COLOR = '#90CAF9';
 
 export const ADMIN_ROLE = 'ADMIN'
-export const ENGINEER_ADMIN_ROLE = 'ENGINEER_ADMIN'
+export const TECH_ADMIN_ROLE = 'TECH_ADMIN'
 
 export const USER_ROLE = 'USER'
 export const PRO_USER_ROLE = 'PRO_USER'
+export const TECH_USER_ROLE = 'TECH_USER'
 
 export const CREATOR_ROLE = 'CREATOR'
 export const PRO_CREATOR_ROLE = 'PRO_CREATOR'

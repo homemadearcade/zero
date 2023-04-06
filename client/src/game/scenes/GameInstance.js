@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_DID, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_DID, layerGroupIdToDepth } from '../constants';
+import { PLAYER_INSTANCE_DID, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_DID, layerGroupIIDToDepth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity } from '../../store/actions/game/playerInterfaceActions';
@@ -243,7 +243,7 @@ export class GameInstance extends Phaser.Scene {
           this, 
           {
             layerId: layerId,
-            layerGroupId: layer.layerGroupId,
+            layerGroupIID: layer.layerGroupIID,
             isCodrawingHost: this.gameRoomInstance.isHost,
             textureId: layer.textureId,
             boundaries: currentStage.boundaries,
@@ -255,7 +255,7 @@ export class GameInstance extends Phaser.Scene {
           this, 
           {
             layerId: layerId,
-            layerGroupId: layer.layerGroupId,
+            layerGroupIID: layer.layerGroupIID,
             isCodrawingHost: this.gameRoomInstance.isHost, 
             textureId: layer.textureId,
             boundaries: currentStage.boundaries, 
@@ -265,8 +265,8 @@ export class GameInstance extends Phaser.Scene {
       }
       const depth = this.getDepthFromLayerId(layerId)
       this.layerInstancesById[layerId].setDepth(depth)
-      if(!this.layerInstancesByLayerGroupId[layer.layerGroupId]) this.layerInstancesByLayerGroupId[layer.layerGroupId] = [this.layerInstancesById[layerId]]
-      else this.layerInstancesByLayerGroupId[layer.layerGroupId].push(this.layerInstancesById[layerId])
+      if(!this.layerInstancesByLayerGroupId[layer.layerGroupIID]) this.layerInstancesByLayerGroupId[layer.layerGroupIID] = [this.layerInstancesById[layerId]]
+      else this.layerInstancesByLayerGroupId[layer.layerGroupIID].push(this.layerInstancesById[layerId])
     })
 
     this.entityInstanceGroup = this.add.group()
@@ -297,7 +297,7 @@ export class GameInstance extends Phaser.Scene {
     if(layerId === UI_LAYER_ID) return UI_LAYER_DEPTH
     if(layerId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
     const layer = this.getCurrentStage().layers[layerId]
-    return layerGroupIdToDepth[layer.layerGroupId]
+    return layerGroupIIDToDepth[layer.layerGroupIID]
   }
 
 
@@ -459,8 +459,8 @@ export class GameInstance extends Phaser.Scene {
     const entityModel = gameModel.entityModels[entityModelId]
 
     if(entityModel.graphics.depthOverride) return entityModel.graphics.depthOverride
-    const layerGroupId =  layers[entityModel.graphics.layerId].layerGroupId
-    return layerGroupIdToDepth[layerGroupId] + entityModel.graphics.depthModifier
+    const layerGroupIID =  layers[entityModel.graphics.layerId].layerGroupIID
+    return layerGroupIIDToDepth[layerGroupIID] + entityModel.graphics.depthModifier
   }
 
   getEntityInstance(entityInstanceId) {

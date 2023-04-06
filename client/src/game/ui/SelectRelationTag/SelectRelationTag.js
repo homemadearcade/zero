@@ -23,14 +23,14 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
       relationTagInterfaceId = relationTagTypeToDisplayName[relationTag.relationTagInterfaceId]
     }
     
-    const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][relationTag.dataSourceId]
+    const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][relationTag.dataSourceIID]
     const isRemovedInvisible = relationTag.isRemoved && selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][IS_DATA_REMOVED_IID]
 
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromInterfaceIds[interfaceId]
 
     if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
-      const isImportInvisible = relationTagEntity.isImported && relationTagEntity.dataSourceId !== DATA_SOURCE_GAME_MODEL_IID
+      const isImportInvisible = relationTagEntity.isImported && relationTagEntity.dataSourceIID !== DATA_SOURCE_GAME_MODEL_IID
 
       return {
         label: relationTag.name,
@@ -38,7 +38,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
         isRemoved: removeEntityTags || isRemoved || isImportInvisible,
-        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityInterfaceId],
+        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityIID],
       }
     }
 

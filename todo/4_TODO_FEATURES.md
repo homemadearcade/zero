@@ -6,39 +6,12 @@ FEATURES TODO
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 
-GAME
--------------
-
-LIBRARY
-  DATA_SOURCE_SYSTEM needs to be elimnated or made read only. Because it will make library imports not work
-  If THERE IS A CORE library, it DOES in fact need to be used in a special way. This is where my library api thing can be used
-  Maybe I should wait to complete the interface stuff because I want to like make a special library interface but the truth is we dont want one
-  perhaps 'REPLACE_ID_1', REPLACE_ID_2, etc
-
-IMPLEMENT THESE EFFECTS
-  EXPERIENCE EFFECTS - Go to Stars, Return from Stars
-  Pause Game. Unpause Game
-  Also transform while touching 
-    auto generate zones for this effect
-
 INSTRUCTIONS
 ------------------
 PROMPT UPGRADE
   step requirements, perhaps 
   Mark down for prompts?? Rich Text please https://draftjs.org/docs/getting-started
   Optional Actions List for prompts
-
-EXPERIENCE EFFECTS
-  Return to Control Booth view experienceEffect
-
-WHEN ADDING INSTRUCTIONS MANUALLY
-  You have to select a game room or lobby! Right now u can just skip them!
-
-COMBINE 
-  experienceModel with experience
-      GAME HOST ACTIONS instructions need to be run by the GAME HOST
-  ROLE
-    Have this update the cobrowsing color
 
 INTERFACE IDS
 --------------------
@@ -62,9 +35,6 @@ INTERFACE IDS
 
 RENAME
 ---
-  Effect -> GameEffects
-  actions -> interfaceActions
-
 BUGS
   Add Player defaults are broken in EntityAdd
   Change Stages was broken 

@@ -37,14 +37,14 @@ const EntityItem = ({
     style={{width: width? width: null, height: height? height: null, border: isSelected ? border : null}}
     onClick={(e) => {
       if(onClick) onClick(e)
-      if(entityModel.entityInterfaceId === PLAYER_ENTITY_IID) return
+      if(entityModel.entityIID === PLAYER_ENTITY_IID) return
 
       if(entityModelId === entityModelIdSelectedEntityList) {
         clearEntity()
       } else {
         selectEntity(entityModelId)
-        if(getCobrowsingState().gameViewEditor.layerInvisibility[entityModel.entityInterfaceId]) {
-          toggleLayerVisibility(entityModel.entityInterfaceId)
+        if(getCobrowsingState().gameViewEditor.layerInvisibility[entityModel.entityIID]) {
+          toggleLayerVisibility(entityModel.entityIID)
         }
       }
     }}

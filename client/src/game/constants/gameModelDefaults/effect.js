@@ -16,9 +16,12 @@ export const defaultEffect = {
   arcadeGameMongoId: null,
   zoneEntityModelId: null,
   cutsceneId: null,
+
+  interfaceActionId: null,
+
   text: '',
   
-  dataSourceId: DATA_SOURCE_GAME_MODEL_IID,
+  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
   isRemoved: false,
   isReadOnly: false,
 

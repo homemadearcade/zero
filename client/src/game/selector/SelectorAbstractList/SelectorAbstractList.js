@@ -33,8 +33,8 @@ const SelectorAbstractList = ({
     return null
   }
 
-  function isDataSourceInvisible(interfaceId, dataSourceId) {
-    return selectorInterfaceListInvisibility[interfaceId][dataSourceId]
+  function isDataSourceInvisible(interfaceId, dataSourceIID) {
+    return selectorInterfaceListInvisibility[interfaceId][dataSourceIID]
   }
   function isRemovedDataInvisible(interfaceId, isRemoved) {
     return isRemoved && selectorInterfaceListInvisibility[interfaceId][IS_DATA_REMOVED_IID]
@@ -104,7 +104,7 @@ const SelectorAbstractList = ({
   const relationTags = Object.keys(gameModel.relationTags).filter((currentRelationTagId) => {
     const currentTag = gameModel.relationTags[currentRelationTagId]
     if(isRemovedDataInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.dataSourceId)) return false
+    if(isDataSourceInvisible(RELATION_TAG_ABSTRACT_IID, currentTag.dataSourceIID)) return false
     return true
   }).map((currentRelationTagId, i) => {
     return <RelationTagItem relationTagId={currentRelationTagId}/>
@@ -129,7 +129,7 @@ const SelectorAbstractList = ({
   const relations = Object.keys(gameModel.relations).filter((currentRelationId) => {
     const currentRelation = gameModel.relations[currentRelationId]
     if(isRemovedDataInvisible(RELATION_ABSTRACT_IID, currentRelation.isRemoved)) return false
-    if(isDataSourceInvisible(RELATION_ABSTRACT_IID, currentRelation.dataSourceId)) return false
+    if(isDataSourceInvisible(RELATION_ABSTRACT_IID, currentRelation.dataSourceIID)) return false
     return true
   }).map((currentRelationId, i) => {
     return <RelationItem relationId={currentRelationId}/>
@@ -154,7 +154,7 @@ const SelectorAbstractList = ({
   const effects = Object.keys(gameModel.effects).filter((currentEffectId) => {
     const currentEffect = gameModel.effects[currentEffectId]
     if(isRemovedDataInvisible(EFFECT_ABSTRACT_IID, currentEffect.isRemoved)) return false
-    if(isDataSourceInvisible(EFFECT_ABSTRACT_IID, currentEffect.dataSourceId)) return false
+    if(isDataSourceInvisible(EFFECT_ABSTRACT_IID, currentEffect.dataSourceIID)) return false
     return true
   }).map((effectId, i) => {
     return <EffectItem effectId={effectId}/>
@@ -179,7 +179,7 @@ const SelectorAbstractList = ({
   const events = Object.keys(gameModel.events).filter((currentEventId) => {
     const currentEvent = gameModel.events[currentEventId]
     if(isRemovedDataInvisible(EVENT_ABSTRACT_IID, currentEvent.isRemoved)) return false
-    if(isDataSourceInvisible(EVENT_ABSTRACT_IID, currentEvent.dataSourceId)) return false
+    if(isDataSourceInvisible(EVENT_ABSTRACT_IID, currentEvent.dataSourceIID)) return false
     return true
   }).map((currentEventId, i) => {
     const currentEvent = gameModel.events[currentEventId]

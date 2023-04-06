@@ -2,7 +2,7 @@ import { connect } from "react-redux"
 import { compose } from "redux"
 import Typography from "../../../ui/Typography/Typography"
 import { mapCobrowsingState } from "../../../utils/cobrowsingUtils"
-import { effectBehaviorToDisplayNames, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_SWITCH_STAGE,
+import { effectInterfaceDatas, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_TELEPORT, EFFECT_SWITCH_STAGE,
 } from "../../constants"
 import Sprite from "../../textures/Texture/Texture"
 
@@ -34,7 +34,7 @@ function renderStage(stage) {
 }
 
 function renderEffect(effect) {
-  const displayName = effectBehaviorToDisplayNames[effect.effectBehavior]
+  const displayName = effectInterfaceDatas[effect.effectBehavior].displayName
   return  <Typography sx={{ fontWeight: 'bold' }} component="span">{displayName}</Typography>
 }
 

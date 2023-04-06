@@ -41,7 +41,7 @@ const ProjectileEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
       </Unlockable>
       {entitySelected.movement.movementControlsBehavior && <ControlsCard entityModel={entitySelected} projectileEntity={projectileEntity}></ControlsCard>}
       {projectileEntity && <>
-        {entitySelected.entityInterfaceId !== PLAYER_ENTITY_IID && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
+        {entitySelected.entityIID !== PLAYER_ENTITY_IID && <Unlockable interfaceId={PROJECTILE_SPEED_IID}>
           <SelectProjectileBehavior
             formLabel="Behavior"
             value={entitySelected.projectile.projectileBehavior ? [entitySelected.projectile.projectileBehavior] : []}

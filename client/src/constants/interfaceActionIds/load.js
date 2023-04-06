@@ -1,0 +1,1 @@
+export const LOAD_GAME_AID = 'LOAD_GAME_AID'

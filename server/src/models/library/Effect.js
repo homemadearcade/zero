@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const effect = new Schema({
-    dataSourceId: {
+    dataSourceIID: {
       type: String,
     },
     effectBehavior: {
@@ -57,7 +57,7 @@ const effect = new Schema({
       type: Boolean,
       default: false,
     },
-    dataSourceId: {
+    dataSourceIID: {
       type: String,
     },
     isRemoved: {
@@ -72,7 +72,7 @@ const effect = new Schema({
 effect.methods.toJSON = function () {
   return {
     id: this._id,
-    dataSourceId: this.dataSourceId,
+    dataSourceIID: this.dataSourceIID,
     effectBehavior: this.effectBehavior,
     effectId: this.effectId,
     remoteEffectedRelationTagIds: this.remoteEffectedRelationTagIds,
@@ -84,7 +84,7 @@ effect.methods.toJSON = function () {
     cutsceneId: this.cutsceneId,
     text: this.text,
     customSelectorCategory: this.customSelectorCategory,
-    dataSourceId: this.dataSourceId,
+    dataSourceIID: this.dataSourceIID,
     isReadOnly: this.isReadOnly,
     isRemoved: this.isRemoved,
     createdAt: this.createdAt,

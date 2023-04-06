@@ -13,7 +13,7 @@ const defaultProps = mergeDeep(
 
 export const vehicleEntity = {
   ...defaultProps,
-  dataSourceId: DATA_SOURCE_SYSTEM_IID,
+  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
   entityModelId: vehiclePlayerEntityId,
   name: 'Vehicle',
   graphics: {
@@ -30,7 +30,7 @@ export const vehicleEntity = {
 
 export const swimmerEntity = {
   ...defaultProps,
-  dataSourceId: DATA_SOURCE_SYSTEM_IID,
+  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
   entityModelId: swimmerPlayerEntityId,
   name: 'Swimmer',
   graphics: {
@@ -47,7 +47,7 @@ export const swimmerEntity = {
 
 export const jumperEntity = {
   ...defaultProps,
-  dataSourceId: DATA_SOURCE_SYSTEM_IID,
+  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
   entityModelId: jumperPlayerEntityId,
   name: 'Jumper',
   graphics: {
@@ -67,7 +67,7 @@ export const jumperEntity = {
 
 export const directionalEntity = {
   ...defaultProps,
-  dataSourceId: DATA_SOURCE_SYSTEM_IID,
+  dataSourceIID: DATA_SOURCE_SYSTEM_IID,
   entityModelId: directionalPlayerEntityId,
   name: 'Directional',
   graphics: {

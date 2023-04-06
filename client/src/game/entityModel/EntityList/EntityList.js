@@ -64,7 +64,7 @@ const EntityList = ({
     if(currentEntityModel.isRemoved) return 
     if(currentEntityModel.editorInterface.hiddenFromInterfaceIds[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]) return false
     if(!currentEntityModel.isImported) return false 
-    if(currentEntityModel.entityInterfaceId === entityModelType) {
+    if(currentEntityModel.entityIID === entityModelType) {
       return true
     }
     return false
@@ -74,13 +74,13 @@ const EntityList = ({
   const hiddenOpacity = 0.5
 
   const entityModelTypes = [PLAYER_ENTITY_IID, NPC_ENTITY_IID, BASIC_ENTITY_IID, POWERUP_ENTITY_IID, ZONE_ENTITY_IID]
-  entityModelTypes.forEach((entityInterfaceId) => {
+  entityModelTypes.forEach((entityIID) => {
     const releventEntityModels = Object.keys(entityModels).
-      filter(filterEntityModels(entityInterfaceId)).
+      filter(filterEntityModels(entityIID)).
       sort(sortByLastEditedDate(entityModels)).
-      map(renderEntityItem(entityInterfaceId)).filter((item) => !!item).slice(0, ENTITY_MAX -1)
+      map(renderEntityItem(entityIID)).filter((item) => !!item).slice(0, ENTITY_MAX -1)
     
-    releventEntityModels.push(<EntityModelAdd addEntityDialogInterfaceId={EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID} entityInterfaceId={entityInterfaceId}>
+    releventEntityModels.push(<EntityModelAdd addEntityDialogInterfaceId={EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID} entityIID={entityIID}>
       {(onClick) => {
         return <Button className="EntityList__add" onClick={onClick}>
           +
@@ -89,10 +89,10 @@ const EntityList = ({
     </EntityModelAdd>)
 
     accordians.push({
-      interfaceId: entityModelTypeToContainerIID[entityInterfaceId],
-      sx: layerInvisibility[entityInterfaceId] ? {opacity: hiddenOpacity} : {},
+      interfaceId: entityModelTypeToContainerIID[entityIID],
+      sx: layerInvisibility[entityIID] ? {opacity: hiddenOpacity} : {},
       title: <>
-        <Typography component="div" variant="subtitle1">{entityModelTypeToDisplayName[entityInterfaceId]}</Typography>
+        <Typography component="div" variant="subtitle1">{entityModelTypeToDisplayName[entityIID]}</Typography>
       </>,
       body: <>
         <BorderedGrid
@@ -102,8 +102,8 @@ const EntityList = ({
           items={releventEntityModels}
         />
         <div className="EntityList__tools">
-          <LayerVisibility layerId={entityInterfaceId} />
-          {renderEntityBoxButton(entityInterfaceId)}
+          <LayerVisibility layerId={entityIID} />
+          {renderEntityBoxButton(entityIID)}
         </div>
       </>
     })

@@ -6,7 +6,7 @@ export default {
   [SCRIPT_CUTSCENE_AID]: {
     name: 'Script Cutscene',
     getName: (gameModel, [cutsceneId]) => {
-      return 'Script Cutscene ' + gameModel.cutscenes[cutsceneId].name
+      return 'Script ' + gameModel.cutscenes[cutsceneId].name
     },
     arguments: ['cutsceneId'],
     actionType: INTERFACE_ACTION_SCRIPT
@@ -15,14 +15,6 @@ export default {
     name: 'Script New Cutscene',
     actionType: INTERFACE_ACTION_SCRIPT,
     higherPriority: true
-  },
-  [SCRIPT_DIALOGUE_AID]: {
-    name: 'Script Dialogue',
-    arguments: ['dialogueId'],
-    getName: (gameModel, [dialogueId]) => {
-      return 'Script Dialogue ' + gameModel.cutscenes[dialogueId].name
-    },
-    actionType: INTERFACE_ACTION_SCRIPT
   },
   [SCRIPT_DIALOGUE_NEW_AID]: {
     name: 'Script New Dialogue',

@@ -7,5 +7,5 @@ export const defaultBrush = {
   name: null,
   textureTint: '#FFFFFF',
   textureId: DEFAULT_TEXTURE_ID,
-  dataSourceId: DATA_SOURCE_GAME_MODEL_IID
+  dataSourceIID: DATA_SOURCE_GAME_MODEL_IID
 }

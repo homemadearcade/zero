@@ -4,7 +4,7 @@ import { TexturePencil } from '../drawing/TexturePencil';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import { ColorPencil } from '../drawing/ColorPencil';
 import { CANVAS_IMAGE_DIALOG_LAYER_DEPTH, CANVAS_IMAGE_LAYER_ID, nodeSize } from '../constants';
-import { BACKGROUND_LAYER_DEPTH, DEFAULT_TEXTURE_ID, UI_LAYER_DEPTH } from '../constants';
+import { BACKGROUND_LAYER_GROUP_DEPTH, DEFAULT_TEXTURE_ID, UI_LAYER_DEPTH } from '../constants';
 import { CodrawingCanvas } from '../drawing/CodrawingCanvas';
 import { Brush } from '../drawing/Brush';
 import { getImageUrlFromTextureId, getTextureMetadata } from '../../utils/utils';
@@ -221,7 +221,7 @@ export class CodrawingScene extends Phaser.Scene {
       textureId: this.textureId,
       boundaries: this.boundaries
     })
-    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_DEPTH)
+    this.backgroundCanvasLayer.setDepth(BACKGROUND_LAYER_GROUP_DEPTH)
 
     this.input.on('pointerdown', this.onPointerDown, this);
     this.input.on('pointerup', this.onPointerUp);

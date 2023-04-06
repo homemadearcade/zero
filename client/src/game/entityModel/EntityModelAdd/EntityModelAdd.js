@@ -14,7 +14,7 @@ import _ from 'lodash';
 
 const EntityModelAdd = ({
   openEditEntityGraphics,
-  entityInterfaceId,
+  entityIID,
   addEntityDialogInterfaceId,
   children,
   defaultValues = {},
@@ -34,7 +34,7 @@ const EntityModelAdd = ({
     openEditEntityGraphics(addEntityDialogInterfaceId, mergeDeep(_.cloneDeep(entityModel), defaultValues))
   }
 
-  if(entityInterfaceId === PLAYER_ENTITY_IID) {
+  if(entityIID === PLAYER_ENTITY_IID) {
     return <Unlockable interfaceId={PLAYER_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(addDefaultValuesToPlayerEntity({...defaultPlayerEntity}))
@@ -42,7 +42,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityInterfaceId === NPC_ENTITY_IID) {
+  if(entityIID === NPC_ENTITY_IID) {
     return <Unlockable interfaceId={NPC_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultNpcEntity)
@@ -50,7 +50,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityInterfaceId === BASIC_ENTITY_IID) {
+  if(entityIID === BASIC_ENTITY_IID) {
     return <Unlockable interfaceId={BASIC_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultBasicEntity)
@@ -58,7 +58,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityInterfaceId === ZONE_ENTITY_IID) {
+  if(entityIID === ZONE_ENTITY_IID) {
     return <Unlockable interfaceId={ZONE_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultZoneEntity)
@@ -66,7 +66,7 @@ const EntityModelAdd = ({
     </Unlockable>
   }
 
-  if(entityInterfaceId === POWERUP_ENTITY_IID) {
+  if(entityIID === POWERUP_ENTITY_IID) {
     return <Unlockable interfaceId={POWERUP_ENTITY_ADD_IID}>
       {children(() => {
         onOpenEditEntityGraphics(defaultPowerupEntity)

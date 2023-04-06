@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const entityModel = new Schema({
-    dataSourceId: {
+    dataSourceIID: {
       type: String,
     },
     boundaryRelation: {
       type: String,
     },
-    entityInterfaceId: {
+    entityIID: {
       type: String,
     },
     name: {
@@ -83,8 +83,8 @@ entityModel.methods.toJSON = function () {
     name: this.name,  
     boundaryRelation: this.boundaryRelation,
     entityModelId: this.entityModelId,
-    dataSourceId: this.dataSourceId,
-    entityInterfaceId: this.entityInterfaceId,
+    dataSourceIID: this.dataSourceIID,
+    entityIID: this.entityIID,
     movement: this.movement,
     collisionResponse: this.collisionResponse,
     jump: this.jump,

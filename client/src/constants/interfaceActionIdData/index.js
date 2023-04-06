@@ -5,6 +5,8 @@ import editData from './edit'
 import drawData from './draw'
 import placeData from './place'
 import scriptData from './script'
+import loadData from './load'
+import playData from './play'
 
 export const interfaceActionIdData = {
   ...snapshotData,
@@ -13,5 +15,7 @@ export const interfaceActionIdData = {
   ...editData,
   ...drawData,
   ...placeData,
-  ...scriptData
+  ...scriptData,
+  ...loadData,
+  ...playData
 }

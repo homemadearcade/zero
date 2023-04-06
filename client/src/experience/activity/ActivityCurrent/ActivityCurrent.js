@@ -13,7 +13,7 @@ import './ActivityCurrent.scss'
 import { Container } from '@mui/system';
 import AgoraVideoPreview from '../../agora/AgoraVideoPreview/AgoraVideoPreview';
 import ExperienceCredits from '../ExperienceCredits/ExperienceCredits';
-import ActivityOverlay from '../ActivityOverlay/ActivityOverlay';
+import ActivityTransition from '../ActivityTransition/ActivityTransition';
 import { MONOLOGUE_ACTIVITY_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const ActivityCurrent = ({
@@ -56,7 +56,7 @@ const ActivityCurrent = ({
   }
 
   return <div className="ActivityCurrent">
-    <ActivityOverlay/>
+    <ActivityTransition/>
     {currentActivity !== GAME_ROOM_ACTIVITY && <div className="ActivityCurrent__activity">{renderCurrentActivity()}</div>}
     <CobrowsingGame rootFontSize={rootFontSize} arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId} myTracks={myTracks} userTracks={userTracks}/>
   </div>

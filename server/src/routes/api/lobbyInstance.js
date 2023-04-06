@@ -290,7 +290,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       role: req.user.role,
       joined: true,
       connected: true,
-      inOverlayView: false
+      inTransitionView: false
     }
 
     req.lobbyInstance.messages.push({

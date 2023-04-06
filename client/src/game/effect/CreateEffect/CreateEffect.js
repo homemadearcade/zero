@@ -7,7 +7,7 @@ import { closeCreateEffect } from '../../../store/actions/game/gameFormEditorAct
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import SelectEntity from '../../ui/SelectEntityModel/SelectEntityModel';
-import { defaultEffect, effectBehaviorInterfaces } from '../../constants';
+import { defaultEffect, effectEditInterfacess } from '../../constants';
 import { TextField } from '@mui/material';
 import SelectCutscene from '../../ui/SelectCutscene/SelectCutscene';
 import SelectStage from '../../ui/SelectStage/SelectStage';
@@ -22,7 +22,7 @@ const CreateEffect = ({ onUpdateEffect, eventType, effect}) => {
   }
   
   function renderEffectForms() {
-    const effectForms = effectBehaviorInterfaces[effect.effectBehavior]
+    const effectForms = effectEditInterfacess[effect.effectBehavior]
 
     const forms = []
 

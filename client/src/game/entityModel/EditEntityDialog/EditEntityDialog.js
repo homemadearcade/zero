@@ -26,7 +26,7 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
 
   useEffect(() => {
     if(!entityModel.entityModelId) {
-      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId(), isNew: true })
+      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityIID]+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -38,7 +38,7 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
         [entityModel.entityModelId] : {
           name: entityModel.name,
           relationTags: entityModel.relationTags,
-          entityInterfaceId: entityModel.entityInterfaceId,
+          entityIID: entityModel.entityIID,
           boundaryRelation: entityModel.boundaryRelation
         }
       }
@@ -80,10 +80,10 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
 
   function renderSelectInterfaceId() {
     return <Unlockable interfaceId={CHANGE_ENTITY_INTERFACE_IID}>
-      <SelectEntityModelInterfaceCategory formLabel="Category" value={entityModel.entityInterfaceId ? [entityModel.entityInterfaceId]: []} onChange={(event, entityInterfaceId) => {
-        if(!entityInterfaceId.length) return
+      <SelectEntityModelInterfaceCategory formLabel="Category" value={entityModel.entityIID ? [entityModel.entityIID]: []} onChange={(event, entityIID) => {
+        if(!entityIID.length) return
         updateCreateEntity({
-          entityInterfaceId: entityInterfaceId[entityInterfaceId.length-1]
+          entityIID: entityIID[entityIID.length-1]
         })
       }}/>
     </Unlockable>
@@ -93,7 +93,7 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
   return <CobrowsingDialog open onClose={handleClose}>
     <div className="EditEntityDialog">
        <div className="EditEntityDialog__name"><Typography variant="h5">
-        {entityModel.isNew && 'New ' + entityModelTypeToDisplayName[entityModel.entityInterfaceId]}
+        {entityModel.isNew && 'New ' + entityModelTypeToDisplayName[entityModel.entityIID]}
         {!entityModel.isNew && <div>
           <EntityNameForm
             initialName={entityModel.name}

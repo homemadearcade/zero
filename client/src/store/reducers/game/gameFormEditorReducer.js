@@ -68,7 +68,7 @@ const initialState = {
 
     },
     name: "",
-    entityInterfaceId: null,
+    entityIID: null,
   },
 
   isCreateColorFlowOpen: false,

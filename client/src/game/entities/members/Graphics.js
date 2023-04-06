@@ -184,7 +184,7 @@ export class Graphics {
 
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerInvisibility = gameViewEditor.layerInvisibility
-    const isLayerInvisible = layerInvisibility[entityModel.entityInterfaceId]
+    const isLayerInvisible = layerInvisibility[entityModel.entityIID]
     if(isLayerInvisible) {
       this.entityInstance.setVisible(false)
     } else {

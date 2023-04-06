@@ -17,7 +17,7 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
   const mapEntityToOption = (entityModelId) => {
     const entityModel = gameModel.entityModels[entityModelId]
 
-    const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_ENTITY_MODEL_IID][entityModel.dataSourceId]
+    const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_ENTITY_MODEL_IID][entityModel.dataSourceIID]
     const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[SELECT_ENTITY_MODEL_IID][IS_DATA_REMOVED_IID]
 
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromInterfaceIds[interfaceId]
@@ -28,7 +28,7 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
       textureId: entityModel.graphics.textureId,
       textureTint: entityModel.graphics.textureTint,
       isRemoved,
-      entityInterfaceId: entityModel.entityInterfaceId
+      entityIID: entityModel.entityIID
     }
   }
 
@@ -36,11 +36,11 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
     const entityModel = gameModel.entityModels[entityModelId]
     // if(entityModel.isRemoved) return false
     if(!entityModelType) return true
-    if(entityModelType === entityModel.entityInterfaceId) return true
+    if(entityModelType === entityModel.entityIID) return true
     return false
   }).map(mapEntityToOption)
 
-  options.sort((a, b) => -b.entityInterfaceId.localeCompare(a.entityInterfaceId))
+  options.sort((a, b) => -b.entityIID.localeCompare(a.entityIID))
 
   return <div className="SelectEntityModel">
     <SelectChipsAuto 
@@ -49,7 +49,7 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
         onChange(event,  visualTags)
       }}
       groupBy={option => {
-        return entityModelTypeToDisplayName[option.entityInterfaceId]
+        return entityModelTypeToDisplayName[option.entityIID]
       }}
       hideRemoved
       formLabel={formLabel}

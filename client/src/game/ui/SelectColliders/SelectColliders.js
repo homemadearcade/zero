@@ -21,7 +21,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
         isRemoved: relationTag.isRemoved,
-        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityInterfaceId]
+        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityIID]
       }
     }
   }

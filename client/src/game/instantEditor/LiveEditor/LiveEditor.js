@@ -57,11 +57,11 @@ const LiveEditor = ({ closeLiveEditor, openLiveEditor, gameSelector: { entityMod
                   openLiveEditor(PROJECTILE_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Projectile</MenuItem>,
-                entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <MenuItem key="Camera" onClick={() => {
+                entityModel.entityIID === PLAYER_ENTITY_IID && <MenuItem key="Camera" onClick={() => {
                   openLiveEditor(CAMERA_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Camera</MenuItem>,
-                entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <MenuItem key="Jump" onClick={() => {
+                entityModel.entityIID === PLAYER_ENTITY_IID && <MenuItem key="Jump" onClick={() => {
                   openLiveEditor(JUMP_EDITOR_IID, entityModelIdSelectedLiveEditor)
                   closeMenu()
                 }}>Jump</MenuItem>,

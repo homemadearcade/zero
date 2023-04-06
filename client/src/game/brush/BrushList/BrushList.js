@@ -15,7 +15,7 @@ import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { BRUSH_ADD_IID, getBrushSelectFromLayerId, getLayerContainerId } from '../../../constants/interfaceIds';
+import { BRUSH_ADD_IID, BRUSH_SELECT_IID } from '../../../constants/interfaceIds';
 import { sortByLastSelectedDate } from '../../../utils/editorUtils';
 
 const BrushList = ({
@@ -47,7 +47,7 @@ const BrushList = ({
 
   const renderBrushItem = (layerId) =>  (brushId, i) => {
     const el = <BrushItem key={i} brushId={brushId}/>
-    return <Unlockable interfaceId={getBrushSelectFromLayerId(layerId)}>
+    return <Unlockable interfaceId={BRUSH_SELECT_IID}>
       {el}
     </Unlockable>
   }
@@ -78,7 +78,7 @@ const BrushList = ({
     </Unlockable>)
 
     accordians.push({
-      interfaceId: getLayerContainerId(layerId),
+      interfaceId: layer.layerGroupIID || layer.layerGroupId,
       sx:  layerInvisibility[layerId] ? {opacity: hiddenOpacity} : {},
       title: <>
         <Typography  component="div" variant="subtitle1">{layer.name}</Typography>

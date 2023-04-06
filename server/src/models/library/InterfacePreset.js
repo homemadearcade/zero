@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const interfacePreset = new Schema(
   {
-    dataSourceId: {
+    dataSourceIID: {
       type: String,
       required: true
     },
@@ -34,7 +34,7 @@ const interfacePreset = new Schema(
 interfacePreset.methods.toJSON = function () {
   return {
     id: this._id.toString(),
-    dataSourceId: this.dataSourceId,
+    dataSourceIID: this.dataSourceIID,
     description: this.description,
     interfaceIds: this.interfaceIds,
     name: this.name,

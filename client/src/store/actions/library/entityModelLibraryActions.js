@@ -19,7 +19,7 @@ import {
   EDIT_ENTITY_MODEL_FAIL,
   CLEAR_ENTITY_MODEL_LIBRARY,
 } from '../../types';
-import { DATA_SOURCE_IMPORTED_GAME_MODEL } from '../../../constants/interfaceIds';
+import { DATA_SOURCE_IMPORTED_GAME_MODE_IID } from '../../../constants/interfaceIds';
 
 export const getEntityModelLibrary = () => async (dispatch, getState) => {
   dispatch({
@@ -100,7 +100,7 @@ export const addEntityModelToLibrary = (entityModel) => async (dispatch, getStat
   try {
     const userMongoId = getState().auth.me.id
     entityModel.userMongoId = userMongoId
-    entityModel.dataSourceId = DATA_SOURCE_IMPORTED_GAME_MODEL
+    entityModel.dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODE_IID
     
     const options = attachTokenToHeaders(getState);
     const response = await axios.post('/api/entityModel', entityModel, options);
