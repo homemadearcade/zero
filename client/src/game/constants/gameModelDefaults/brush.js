@@ -3,8 +3,9 @@ import { DEFAULT_TEXTURE_ID } from "../core";
 
 export const defaultBrush = {
   lastSelectedDate: 0,
-  "layerId": null,
-  'textureTint': '#FFFFFF',
-  'textureId': DEFAULT_TEXTURE_ID,
+  layerId: null,
+  name: null,
+  textureTint: '#FFFFFF',
+  textureId: DEFAULT_TEXTURE_ID,
   dataSourceId: DATA_SOURCE_GAME_MODEL_IID
 }

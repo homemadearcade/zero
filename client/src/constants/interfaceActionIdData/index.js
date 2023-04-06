@@ -1,13 +1,17 @@
 import snapshotData from "./snapshot";
-import dataSourceData from "./dataSource";
-import selectData from "./select";
-import addData from './add'
+import importData from "./import";
+import selectData from "./place";
 import editData from './edit'
+import drawData from './draw'
+import placeData from './place'
+import scriptData from './script'
 
 export const interfaceActionIdData = {
   ...snapshotData,
-  ...dataSourceData,
+  ...importData,
   ...selectData,
-  ...addData,
-  ...editData
+  ...editData,
+  ...drawData,
+  ...placeData,
+  ...scriptData
 }

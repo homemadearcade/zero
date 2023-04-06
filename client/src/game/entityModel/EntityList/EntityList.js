@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import './EntityList.scss';
-import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import EntityItem from '../EntityItem/EntityItem';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -19,14 +18,12 @@ import { openEntityBoxDialog } from '../../../store/actions/game/gameSelectorAct
 import { sortByLastEditedDate } from '../../../utils/editorUtils';
 import Icon from '../../../ui/Icon/Icon';
 import EntityModelAdd from '../EntityModelAdd/EntityModelAdd';
-import { IMPORT_DATA_SOURCE_AID, SELECT_ENTITY_AID } from '../../../constants/interfaceActionIds';
+import { IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from '../../../constants/interfaceActionIds';
 
 const ENTITY_MAX = 16
 
 const EntityList = ({
   gameModel: { gameModel },
-  gameFormEditor: { isEditEntityGraphicsOpen },
-  editGameModel,
   gameViewEditor: {layerInvisibility},
   openEntityBoxDialog,
 }) => {
@@ -47,7 +44,7 @@ const EntityList = ({
     return <>
       <Unlockable interfaceId={ENTITY_BOX_OPEN_IID}>
       <Button size="fit" startIcon={<Icon icon='faArrowPointer'/>} className="EntityList__more" onClick={() => {
-        openEntityBoxDialog(SELECT_ENTITY_AID, entityModelType)
+        openEntityBoxDialog(PLACE_ENTITY_AID, entityModelType)
       }}>
         More
       </Button>
@@ -130,5 +127,5 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   cobrowsing: state.cobrowsing
 })
 export default compose(
-  connect(mapStateToProps, { editGameModel, openEntityBoxDialog }),
+  connect(mapStateToProps, { openEntityBoxDialog }),
 )(EntityList);

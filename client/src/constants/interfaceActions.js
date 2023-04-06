@@ -1,14 +1,19 @@
 export const INTERFACE_ACTION_EDIT = 'INTERFACE_ACTION_EDIT'
 export const INTERFACE_ACTION_CLOSE = 'INTERFACE_ACTION_CLOSE'
-export const INTERFACE_ACTION_SELECT = 'INTERFACE_ACTION_SELECT'
-export const INTERFACE_ACTION_UNLOCK = 'INTERFACE_ACTION_UNLOCK'
+export const INTERFACE_ACTION_PLACE = 'INTERFACE_ACTION_PLACE'
 export const INTERFACE_ACTION_ADD = 'INTERFACE_ACTION_ADD'
 export const INTERFACE_ACTION_CAMERA = 'INTERFACE_ACTION_CAMERA'
+export const INTERFACE_ACTION_DRAW = 'INTERFACE_ACTION_DRAW'
+export const INTERFACE_ACTION_IMPORT = 'INTERFACE_ACTION_IMPORT'
+export const INTERFACE_ACTION_SCRIPT = 'INTERFACE_ACTION_SCRIPT'
+
+export const INTERFACE_ACTION_UNLOCK = 'INTERFACE_ACTION_UNLOCK'
+
 
 export const interfaceActionInterfaceData = {
-  [INTERFACE_ACTION_ADD]: {
-    displayName: 'Add',
-    icon: 'faPlus'
+  [INTERFACE_ACTION_DRAW]: {
+    displayName: 'Draw',
+    icon: 'faPaintbrush'
   },
   [INTERFACE_ACTION_EDIT]: {
     displayName: 'Edit',
@@ -18,12 +23,24 @@ export const interfaceActionInterfaceData = {
     displayName: 'Close',
     icon: 'faClose'
   },
-  [INTERFACE_ACTION_SELECT]: {
-    displayName: 'Select',
-    icon: 'faArrowPointer'
+  [INTERFACE_ACTION_PLACE]: {
+    displayName: 'Place',
+    icon: 'faChessPawn'
   },
   [INTERFACE_ACTION_CAMERA]: {
     displayName: 'Snapshot',
     icon: 'faCamera'
+  },
+  [INTERFACE_ACTION_IMPORT]: {
+    displayName: 'Import',
+    icon: 'faBoxArchive'
+  },
+  [INTERFACE_ACTION_UNLOCK]: {
+    displayName: 'Unlock',
+    icon: 'faUnlock'
+  },
+  [INTERFACE_ACTION_SCRIPT]: {
+    displayName: 'Script',
+    icon: 'faScroll'
   }
 }

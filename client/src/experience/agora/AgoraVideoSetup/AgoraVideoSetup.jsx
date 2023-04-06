@@ -32,7 +32,7 @@ const AgoraVideoSetup = ({ auth: { me }, startAgoraVideoCall, bypassAgoraVideoCa
     </div>}
     {ready && <div className="AgoraVideoSetup__preview">
       <AgoraVideoPreview tracks={tracks}/>
-      <Button onClick={() => {
+      <Button variant="contained" onClick={() => {
         startAgoraVideoCall(tracks)
       }}>
         Enter Lobby with Video

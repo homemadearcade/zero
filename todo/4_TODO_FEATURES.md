@@ -47,6 +47,8 @@ INTERFACE IDS
 
   Then...generate action ids for the game model based off the interfaceIds 
 
+  ( also generate interface ids for interface action ids ... )?
+
   Add effects to the game model for each of the actions and interfaceIds..
 
   Then have the experience model generate experienceEffects based on the effects of the game model 
