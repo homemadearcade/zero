@@ -14,7 +14,8 @@ export default {
   [PLAYTEST_OPEN_IID]: {
     adminOnly: true ,
     notCobrowseCompatible: true,
-    interfaceGroup: WEB_PAGE_IGID,
+    interfaceGroupId: WEB_PAGE_IGID,
+    name: 'Playtest Button',
     previewText: 'Open Playtest Window'
   }
 }

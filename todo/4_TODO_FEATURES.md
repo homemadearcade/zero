@@ -16,7 +16,7 @@ PROMPT UPGRADE
 INTERFACE IDS
 --------------------
 INTERFACE IDS
-  Add effects to the game model for the interfaceIds..
+  Add actions to the game model for the interfaceIds..
 
   Then have the experience model generate experienceEffects based on the effects of the game model 
 

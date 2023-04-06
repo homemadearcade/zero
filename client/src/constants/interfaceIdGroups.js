@@ -10,18 +10,9 @@ export const VIDEO_IGID = 'VIDEO_IGID';
 export const DIALOG_IGID = 'DIALOG_IGID';
 export const WEB_PAGE_IGID = 'WEB_PAGE_IGID';
 
-export const GRAPHICS_IGID = 'GRAPHICS_IGID';
-export const CAMERA_IGID = 'CAMERA_IGID';
-export const JUMP_IGID = 'JUMP_IGID';
-export const MOVEMENT_IGID = 'MOVEMENT_IGID';
-export const COLLISIONS_IGID = 'COLLISIONS_IGID';
-export const PROJECTILE_IGID = 'PROJECTILE_IGID';
-
-export const CANVAS_IMAGE_IGID = 'CANVAS_IMAGE_IGID';
-export const BRUSH_IGID = 'BRUSH_IGID';
+export const DRAW_IGID = 'DRAW_IGID';
 
 export const ENTITY_MODEL_IGID = 'ENTITY_MODEL_IGID';
-export const ENTITY_MODEL_MEMBER_IGID = 'ENTITY_MODEL_MEMBER_IGID';
 export const ENTITY_INSTANCE_IGID = 'ENTITY_INSTANCE_IGID';
 
 export const STAGE_IGID = 'STAGE_IGID';
@@ -32,5 +23,88 @@ export const GAME_FORM_EDITOR_IGID = 'GAME_FORM_EDITOR_IGID';
 export const GAME_INSTANCE_IGID = 'GAME_INSTANCE_IGID';
 export const GAME_VIEW_IGID = 'GAME_VIEW_IGID';
 export const GAME_SELECTOR_IGID = 'GAME_SELECTOR_IGID';
+
+//mapping of interface group id to object with display name and icon 
+export const interfaceGroupData = {
+  [CUTSCENE_IGID]: {
+    name: 'Cutscene',
+    icon: 'cutscene'
+  },
+  [DIALOGUE_IGID]: {
+    name: 'Dialogue',
+    icon: 'dialogue'
+  },
+  [EFFECT_IGID]: {
+    name: 'Relation',
+    icon: 'effect'
+  },
+  [RELATION_IGID]: {
+    name: 'Relation',
+    icon: 'relation'
+  },
+  [RELATION_TAG_IGID]: {
+    name: 'Relation',
+    icon: 'relation-tag'
+  }, 
+  [EVENT_IGID]: {
+    name: 'Relation',
+    icon: 'event'
+  },
+  [VIDEO_IGID]: {
+    name: 'Video',
+    icon: 'video'
+  },
+  [DIALOG_IGID]: {
+    name: 'Cutscene',
+    icon: 'dialog'
+  },
+  [WEB_PAGE_IGID]: {
+    name: '',
+    icon: 'web-page'
+  },
+  [DRAW_IGID]: {
+    name: 'Draw',
+  },
+  [ENTITY_MODEL_IGID]: {
+    name: 'Class',
+    icon: 'entity-model'
+  },
+  [ENTITY_INSTANCE_IGID]: {
+    name: 'Class',
+    icon: 'entity-instance'
+  },
+  [STAGE_IGID]: {
+    name: 'Stage',
+    icon: 'stage'
+  },
+  [CONTEXT_MENU_IGID]: {
+    name: 'Context Menu',
+    icon: 'context-menu'
+  },
+  [GAME_MODEL_IGID]: {
+    name: 'Game',
+    icon: 'game-model'
+  },
+  [GAME_FORM_EDITOR_IGID]: {
+    name: 'Game Form Editor',
+    icon: 'game-form-editor'
+  },
+  [GAME_INSTANCE_IGID]: {
+    name: 'Pause/Play',
+    icon: 'game-instance'
+  },
+  [GAME_VIEW_IGID]: {
+    name: 'Game',
+    icon: 'game-view'
+  },
+  [GAME_SELECTOR_IGID]: {
+    name: '',
+    icon: 'game-selector'
+  },
+  [STAGE_IGID]: {
+    name: '',
+    icon: 'stage'
+  }
+};
 
 

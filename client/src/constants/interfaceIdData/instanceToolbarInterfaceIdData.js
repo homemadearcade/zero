@@ -1,3 +1,4 @@
+import { GAME_INSTANCE_IGID } from "../interfaceIdGroups";
 import { INSTANCE_TOOLBAR_CONTAINER_IID, INSTANCE_TOOLBAR_PAUSE_IID, INSTANCE_TOOLBAR_PLAYTHROUGH_IID, INSTANCE_TOOLBAR_PLAY_IID, INSTANCE_TOOLBAR_RESET_IID, INSTANCE_TOOLBAR_UNDO_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -6,16 +7,25 @@ export default {
     ignoreTools: true
   },
   [INSTANCE_TOOLBAR_PAUSE_IID]: {
-    previewText:  'Pause'
+    previewText:  'Pause',
+    name: 'Pause Game Button',
+    interfaceGroupId: GAME_INSTANCE_IGID
   },
   [INSTANCE_TOOLBAR_UNDO_IID]: {},
   [INSTANCE_TOOLBAR_RESET_IID]: {
-    previewText:  'Reset'
+    previewText:  'Reset',
+    name: 'Reset Game Button',
+    interfaceGroupId: GAME_INSTANCE_IGID
   },
   [INSTANCE_TOOLBAR_PLAY_IID]: {
     previewText:  'Play',
+    name: 'Unpause Game Button',
+
+    interfaceGroupId: GAME_INSTANCE_IGID
   },
   [INSTANCE_TOOLBAR_PLAYTHROUGH_IID]: {
-    previewText:  'Start Game'
+    previewText:  'Start Game',
+    name: 'Start Game Button',
+    interfaceGroupId: GAME_INSTANCE_IGID
   },
 }

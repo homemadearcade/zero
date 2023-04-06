@@ -8,15 +8,36 @@ import { defaultEntity, defaultEntityInstance, defaultPowerupEntity, defaultStag
   initialTags, ON_INTERACT, playerRelationTagId, 
  } from "../game/constants"
  import { classLibrary } from "../game/classLibrary"
-import { BRUSH_DID, EFFECT_DID, EFFECT_INTERFACE_ACTION, EFFECT_SWITCH_STAGE, ON_TOUCH_START } from "../game/constants/core"
+import { BRUSH_DID, EFFECT_DID, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_SWITCH_STAGE, ON_TOUCH_START } from "../game/constants/core"
 import { NON_LAYER_BRUSH_ID } from "../game/constants/core"
 import { initialStageZoneEntityId } from "../game/constants/core"
 import { mergeDeep } from "../utils/utils"
 import { getPlayerPowerupEntityId } from "./utils"
 import { interfaceActionIdData } from "../constants/interfaceActionIdData"
-import { interfaceActionsUIData } from "../constants"
+import { interfaceActionsUIData, interfaceGroupData } from "../constants"
+import { interfaceIdData } from "../constants/interfaceIdData"
 
 export function generateActionEffects(gameModel) {
+  Object.keys(interfaceIdData).forEach((interfaceId) => {
+    const interfaceData = interfaceIdData[interfaceId]
+    const name = interfaceData.name || interfaceData.previewText
+
+    if(!name) return
+    if(interfaceData.isDefaultUnlocked) return
+
+    const effectId = EFFECT_DID + interfaceId
+    console.log(interfaceData)
+    gameModel.effects[effectId] = {
+      effectId,
+      effectBehavior: EFFECT_INTERFACE_UNLOCK,
+      interfaceId: interfaceId,
+      dataSourceIID: DATA_SOURCE_ACTION_IID,
+      customSelectorCategory: 'Unlock ' + interfaceGroupData[interfaceData.interfaceGroupId].name + ' UI',
+      name,
+      isReadOnly: true
+    }
+  })
+
 
    Object.keys(interfaceActionIdData).forEach((interfaceActionId) => {
     const interfaceActionData = interfaceActionIdData[interfaceActionId]

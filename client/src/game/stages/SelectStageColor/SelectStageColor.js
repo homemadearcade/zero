@@ -6,7 +6,7 @@ import './SelectStageColor.scss';
 import Typography from '../../../ui/Typography/Typography';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
-import { LAYER_VISIBILITY_IID } from '../../../constants/interfaceIds';
+import { GAME_VIEW_INSTANCE_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import { STAGE_LAYER_ID } from '../../constants';
 import { toggleLayerVisibility } from '../../../store/actions/game/gameViewEditorActions';
 import Button from '../../../ui/Button/Button';
@@ -22,7 +22,7 @@ const SelectStageColor = ({
   return <>
       <FormLabel>Background Color</FormLabel>
       <AggregateColorSelect selectedColor={selectedColor} onSelectColor={onSelectColor}/>
-      {<Unlockable interfaceId={LAYER_VISIBILITY_IID}>
+      {<Unlockable interfaceId={GAME_VIEW_INSTANCE_VISIBILITY_IID}>
       <Button onClick={() => {
         toggleLayerVisibility(STAGE_LAYER_ID)
       }}>{!layerInvisibility[STAGE_LAYER_ID] ? 'Hide Default Background Layer' : 'Show Default Background Layer'}</Button>

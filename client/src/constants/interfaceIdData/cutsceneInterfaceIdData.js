@@ -9,7 +9,8 @@ export default {
   },
   [DIALOGUE_ADD_IID]: {
     previewText: 'Add Dialogue',
-    interfaceGroup: DIALOGUE_IGID
+    name: 'Add Dialogue Button',
+    interfaceGroupId: DIALOGUE_IGID
   },
   [DIALOGUE_SELECT_IID]: {},
   [DIALOGUE_SHORTCUT_IID]: {
@@ -22,8 +23,9 @@ export default {
     ignoreTools: true
   },
   [CUTSCENE_ADD_IID]: {
+    name: 'Add Cutscene Button',
     previewText: 'Add Cutscene',
-    interfaceGroup: CUTSCENE_IGID
+    interfaceGroupId: CUTSCENE_IGID
   },
   [CUTSCENE_SELECT_IID]: {},
   // [CUTSCENE_MORE_IID]: {},

@@ -8,7 +8,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
 import {  stopPropagation } from '../../../utils/webPageUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { LAYER_VISIBILITY_IID } from '../../../constants/interfaceIds';
+import { GAME_VIEW_INSTANCE_VISIBILITY_IID } from '../../../constants/interfaceIds';
 import Button from '../../../ui/Button/Button';
 
 const LayerVisibility = ({
@@ -16,7 +16,7 @@ const LayerVisibility = ({
   toggleLayerVisibility,
   layerId
 }) => {
-  return <Unlockable isTiny interfaceId={LAYER_VISIBILITY_IID}><div
+  return <Unlockable isTiny interfaceId={GAME_VIEW_INSTANCE_VISIBILITY_IID}><div
     onClick={(e) => {
       // stopPropagation(e)
       toggleLayerVisibility(layerId)

@@ -9,8 +9,6 @@ export const INTERFACE_ACTION_SCRIPT = 'INTERFACE_ACTION_SCRIPT'
 export const INTERFACE_ACTION_PLAY = 'INTERFACE_ACTION_PLAY'
 export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
 
-export const INTERFACE_ACTION_UNLOCK = 'INTERFACE_ACTION_UNLOCK'
-
 export const interfaceActionsUIData = {
   [INTERFACE_ACTION_LOAD]: {
     displayName: 'Load',
@@ -43,10 +41,6 @@ export const interfaceActionsUIData = {
   [INTERFACE_ACTION_IMPORT]: {
     displayName: 'Import',
     icon: 'faBoxArchive'
-  },
-  [INTERFACE_ACTION_UNLOCK]: {
-    displayName: 'Unlock',
-    icon: 'faUnlock'
   },
   [INTERFACE_ACTION_SCRIPT]: {
     displayName: 'Script',

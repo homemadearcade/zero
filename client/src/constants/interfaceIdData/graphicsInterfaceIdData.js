@@ -1,22 +1,33 @@
-import { COLOR_ADD_IID, CANVAS_IMAGE_VISUAL_TAGS_IID, CHOOSE_TEXTURES_IID, TEXTURE_EDITOR_OPEN_IID, ENTITY_LAYER_IID, ENTITY_VISIBILITY_IID } from "../interfaceIds";
+import { 
+  COLOR_ADD_IID, CANVAS_IMAGE_VISUAL_TAGS_IID, 
+  CHOOSE_TEXTURES_IID, TEXTURE_EDITOR_OPEN_IID, 
+  ENTITY_LAYER_IID, ENTITY_INVISIBLE_IID,
+ } from "../interfaceIds";
+ import { DRAW_IGID } from "../interfaceIdGroups";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [TEXTURE_EDITOR_OPEN_IID]: {
     previewText: 'Draw New Sprite',
+    name: 'Draw New Sprite Button',
+    interfaceGroupId: DRAW_IGID
   },
   [COLOR_ADD_IID]: {
-    previewText: 'Add Color'
+    previewText: 'Add Color',
+    name: 'Add Color Button',
+    interfaceGroupId: DRAW_IGID
   },
   [CHOOSE_TEXTURES_IID]: {
-    previewText: 'Choose Sprites'
+    previewText: 'Choose Sprites',
+    name: 'Select Sprites Area',
+    interfaceGroupId: DRAW_IGID
   },
   [CANVAS_IMAGE_VISUAL_TAGS_IID]: {},
   [ENTITY_LAYER_IID]: {
     
   },
-  [ENTITY_VISIBILITY_IID]: {
+  [ENTITY_INVISIBLE_IID]: {
     adminOnly: true,
-    previewText: 'Hide/Show'
+    // previewText: ''
   },
 }

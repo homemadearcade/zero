@@ -18,8 +18,9 @@ export default {
   [STAGE_OPEN_SECTIONS_IID]: {},
   [STAGES_OPEN_IID]: {},
   [STAGE_OPEN_EDIT_IID]: {
-    interfaceGroup: STAGE_IGID,
+    interfaceGroupId: STAGE_IGID,
     previewText: 'Edit Stage',
+    name: 'Edit Stage Button'
   },
   // [STAGE_MORE_IID]: {},
 }

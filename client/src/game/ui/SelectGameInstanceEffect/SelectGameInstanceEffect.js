@@ -4,14 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectGameInstanceEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION, getEffectShorthand, isUseableEffect } from '../../constants'
+import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION,  EFFECT_INTERFACE_UNLOCK, getEffectShorthand, isUseableEffect } from '../../constants'
 
 const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effectId) => {
     const effect = gameModel.effects[effectId]
     const effectInterfaceData = effectInterfaceDatas[effect.effectBehavior]
 
-    if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) return 
+    // if(effect.effectBehavior === EFFECT_INTERFACE_ACTION || effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) return 
 
     return {
       label: effect.name || getEffectShorthand(effect),

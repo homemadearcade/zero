@@ -19,7 +19,7 @@ import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColo
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { ENTITY_MODEL_DID, entityModelTypeToPrefix } from '../../constants';
-import { ENTITY_LAYER_IID, ENTITY_VISIBILITY_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+import { ENTITY_LAYER_IID, ENTITY_INVISIBLE_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 
 const EditEntityGraphics = ({ 
@@ -44,7 +44,7 @@ const EditEntityGraphics = ({
     <div className="EditEntityGraphics">
       {entityModel.isNew === true && <Typography component="h2" variant="h2">New {entityModelTypeToDisplayName[entityModel.entityIID]}</Typography>}
       {entityModel.isNew === false && <EntityMemberTitle entityModelId={entityModel.entityModelId} title="Graphics"></EntityMemberTitle>}
-      <Unlockable interfaceId={ENTITY_VISIBILITY_IID}>
+      <Unlockable interfaceId={ENTITY_INVISIBLE_IID}>
         <Switch
           labels={['Visible', 'Invisible']}
           size="small"

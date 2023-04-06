@@ -1,6 +1,6 @@
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_EXPERIENCE_EFFECT, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INVISIBLE, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
+import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY, EFFECT_EXPERIENCE_EFFECT, EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
   EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, EFFECT_WIN_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
@@ -83,6 +83,10 @@ export const effectInterfaceDatas = {
   [EFFECT_CUTSCENE]: {
     displayName: 'Play Dialog/Cutscene',
     icon: 'faScript'
+  },
+  [EFFECT_INTERFACE_UNLOCK]: {
+    displayName: 'Unlock Interface',
+    icon: 'faLockOpen'
   },
 }
 
@@ -177,6 +181,10 @@ export const effectEditInterfacess = {
     cutsceneId: 'Which cutscene?',
     effectableType: NO_RELATION_TAG_EFFECT_IID
   },
+  [EFFECT_INTERFACE_UNLOCK]: {
+    interfaceId: 'Which interface?',
+    effectableType: NO_RELATION_TAG_EFFECT_IID
+  },
 }
 
 // EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
@@ -207,6 +215,7 @@ export const touchActiveEffects  = {
   // Interface
   [EFFECT_CUTSCENE]: false,
   [EFFECT_INTERFACE_ACTION]: false,
+  [EFFECT_INTERFACE_UNLOCK]: false,
 }
 
 export const noRemoteEffectedTagEffects = {
@@ -236,6 +245,7 @@ export const noRemoteEffectedTagEffects = {
   // Interface
   [EFFECT_CUTSCENE]: true,
   [EFFECT_INTERFACE_ACTION]: true,
+  [EFFECT_INTERFACE_UNLOCK]: true,
 }
 
 export const nonStepEffectBehaviors = {
@@ -265,6 +275,7 @@ export const nonStepEffectBehaviors = {
   // Interface
   [EFFECT_CUTSCENE]: false,
   [EFFECT_INTERFACE_ACTION]: false,
+  [EFFECT_INTERFACE_UNLOCK]: false,
 }
 
 export function isUseableEffect(effect, effectBehavior, eventType) {
