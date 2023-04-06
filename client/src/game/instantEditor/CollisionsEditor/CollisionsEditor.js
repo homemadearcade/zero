@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { LAYER_DID, PLAYGROUND_LAYER_ID, RELATION_DID } from '../../constants';
+import { RELATION_DID } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
@@ -96,9 +96,6 @@ const CollisionsEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
             editGameModel({ collisions })        
          }}/>
       </Unlockable>
-      {false && entitySelected.graphics.layerId === LAYER_DID+PLAYGROUND_LAYER_ID && <div>
-        also collides with Player because this is on the Playground Layer
-      </div>}
       <Unlockable isSlider interfaceId={COLLISIONS_BOUNCE_IID}>
         <SliderNotched
           formLabel="Bounce"

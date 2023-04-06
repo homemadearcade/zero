@@ -42,6 +42,8 @@ export class PlayerInstance extends EntityInstance {
 
     this.scene = scene
 
+    console.log('PlayerInstance', instanceData)
+
     const { entityModelId } = instanceData
     const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
     if(!entityModel) {

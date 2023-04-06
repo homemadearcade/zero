@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_DID, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_DID, layerGroupIIDToDepth } from '../constants';
+import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity } from '../../store/actions/game/playerInterfaceActions';
@@ -15,6 +15,7 @@ import { ProjectileInstance } from '../entities/ProjectileInstance';
 import JSConfetti from 'js-confetti'
 import { directionalPlayerEntityId } from '../constants';
 import { getLayerIdFromEraserId } from '../../utils';
+import { PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -182,9 +183,11 @@ export class GameInstance extends Phaser.Scene {
 
     // all phaserInstances on playground layer collide with the player
     const gameModel = this.getGameModel()
+    const currentStage = this.getCurrentStage()
     const releventInstances = this.entityInstances.filter((entityInstance) => {
       const entityModel = gameModel.entityModels[entityInstance.entityModelId]
-      return entityModel.graphics.layerId === LAYER_DID+PLAYGROUND_LAYER_ID
+      const layerGroupIID = currentStage.layers[entityModel.graphics.layerId].layerGroupIID
+      return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
     }).map(({phaserInstance}) => phaserInstance)
 
     this.colliderRegistrations.push(

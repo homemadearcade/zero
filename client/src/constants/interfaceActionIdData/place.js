@@ -5,8 +5,8 @@ import { INTERFACE_ACTION_PLACE } from "../interfaceActions";
 export default {
   [PLACE_ENTITY_AID]: {
     arguments: ['entityModelId'],
-    getName: (gameModel, [brushId]) => {
-      return 'Place ' + gameModel.brushes[brushId].name
+    getName: ([entityModelId], gameModel) => {
+      return 'Place ' + gameModel.entityModels[entityModelId].name
     },
     actionType: INTERFACE_ACTION_PLACE
   },

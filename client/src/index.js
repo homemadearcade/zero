@@ -10,9 +10,9 @@ import './constants/interfaceActionIds'
 import './constants/interfaceIds'
 // then load game core constants and structures that rely on game core constants
 import './game/constants'
-// then load interface id DATA which may rely on game constants and structures
+// then load interface action DATA which may rely on game constants and structures
 import './constants/interfaceActionIdData'
-// then load interface id DATA which may rely on game constants and structures
+// then load interface id DATA which may rely on game constants and structures, and may rely on interface actions 
 import './constants/interfaceIdData'
 // load the rest of the constants, the order they will be loaded in is unknown
 import './constants'

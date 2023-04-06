@@ -28,14 +28,14 @@ import Icon from '../../../ui/Icon/Icon';
 import useIsEventSaveable from '../../../hooks/relations/useIsEventSaveable';
 import CobrowsingNestedList from '../../cobrowsing/CobrowsingNestedList/CobrowsingNestedList';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
-import SelectEffect from '../../ui/SelectEffect/SelectEffect';
+import SelectGameInstanceEffect from '../../ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
 import EffectShorthand from '../../effect/EffectShorthand/EffectShorthand';
 import { AlertTitle } from '@mui/material';
 import Alert from '../../../ui/Alert/Alert';
 import SelectSpawnZoneSelectorType from '../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
 import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
 
-// {event && <SelectEffect
+// {event && <SelectGameInstanceEffect
 //         event={event}
 //         formLabel={"What effects happen?"}
 //         value={relation.effects ? relation.eventIds : []}
@@ -119,7 +119,7 @@ const CreateRelation = ({
 
   }
 
-  function renderSelectEffectedTagInstances(effect) {
+  function renderSelectGameInstanceEffectedTagInstances(effect) {
     if(!event || !effect.effectBehavior) return 
     
     const effectEditInterfaces = effectEditInterfacess[effect.effectBehavior]
@@ -284,7 +284,7 @@ const CreateRelation = ({
       {!isUseableEffect(effect, effect.effectBehavior, event.eventType) && <Alert severity='error'>
         <AlertTitle>This Effect is not compatible with the Event. Change or remove it to save</AlertTitle>
       </Alert>}
-      {effect.effectBehavior && renderSelectEffectedTagInstances(effect)}
+      {effect.effectBehavior && renderSelectGameInstanceEffectedTagInstances(effect)}
       {effect.effectBehavior &&<CobrowsingNestedList interfaceId={EFFECT_ADVANCED_CONTAINER_IID+effectId} title="More Options" interfaceGroupId={"Relation Effect Data"} >
         {renderOptionalRelationForms(effect)}
       </CobrowsingNestedList>}
@@ -351,7 +351,8 @@ const CreateRelation = ({
     <div className="CreateEvent">
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
-      {event.eventType && <SelectEffect
+      {event.eventType && <SelectGameInstanceEffect
+        removeInterfaceActions
         eventType={event.eventType}
         formLabel={"Effects"}
         value={relation.effectIds.filter((effectId) => {

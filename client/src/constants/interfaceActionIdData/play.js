@@ -5,7 +5,7 @@ import { INTERFACE_ACTION_PLAY } from "../interfaceActions"
 export default {
   [PLAY_CUTSCENE_AID]: {
     arguments: ['cutsceneId'],
-    getName: (gameModel, [cutsceneId]) => {
+    getName: ([cutsceneId], gameModel) => {
       return 'Play ' + gameModel.cutscenes[cutsceneId].name
     },
     actionType: INTERFACE_ACTION_PLAY

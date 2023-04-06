@@ -5,6 +5,10 @@ const { Schema } = mongoose;
 
 const arcadeGameSchema = new Schema(
   {
+    version: { 
+      type: String,
+      default: '0.0.1',
+    },
     stages: {
       type: Object,
       required: true,

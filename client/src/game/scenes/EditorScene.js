@@ -677,7 +677,6 @@ export class EditorScene extends GameInstance {
     }
 
     if(gameUpdate.stages) {
-
       Object.keys(gameUpdate.stages).forEach((stageId) => {
         const sceneKeys = this.scene.manager.keys
         if(stageId && !sceneKeys[stageId]) {
@@ -867,7 +866,6 @@ export class EditorScene extends GameInstance {
           entityInstance.setDepth()
         })
       }
-
 
       if(
         entityModelUpdate.editor ||

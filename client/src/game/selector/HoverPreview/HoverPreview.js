@@ -5,7 +5,7 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
 import Sprite from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
-import { effectInterfaceDatas, layerToDisplayName, PAUSED_STATE } from '../../constants';
+import { effectInterfaceDatas, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import ColorNameFit from '../../color/ColorNameFit/ColorNameFit';
 import { interfaceIdData } from '../../../constants/interfaceIdData';
@@ -58,6 +58,7 @@ const HoverPreview = ({
   const { gameEditorHeight } = useGameEditorSize()
 
   if(!gameModel) return 
+  
 
   const { metadata,
       entityModels,
@@ -65,7 +66,9 @@ const HoverPreview = ({
       stages,
       effects,
       relations,
-      relationTags} = gameModel
+      relationTags } = gameModel
+
+  const currentStage = stages[currentStageId]
 
   let entityModel
 
@@ -77,6 +80,7 @@ const HoverPreview = ({
   let brushModel
   let hex; 
   let isEraser;
+  
 
   const brushId = brushIdHovering || brushIdSelectedBrushList
   if(brushId) {
@@ -150,39 +154,39 @@ const HoverPreview = ({
   }
 
   function renderBrushDisplay() {
+    const layer = currentStage.layers[brushModel.layerId]
     return renderDisplayWithTexture({
       textureTint: brushModel.textureTint,
       textureId: brushModel.textureId,
-      title: layerToDisplayName[brushModel.layerId]
+      title: layer.name
     })
   }
 
   function renderColorDisplay() {
-    const layerName = layerToDisplayName[getLayerIdFromColorId(brushId)]
+    const layer = currentStage.layers[getLayerIdFromColorId(brushId)]
     return renderDisplayWithTexture({
       textureTint: hex,
       spriteOverlay: <ColorNameFit hex={hex}/>,
       title:<>
-        {layerName && <>
-          <br/>{layerName}
+        {layer && <>
+          <br/>{layer.name}
         </>}
       </> 
     })
   }
 
   function renderEraserDisplay() {
-    const layerName = layerToDisplayName[getLayerIdFromEraserId(brushId)]
+    const layer = currentStage.layers[getLayerIdFromEraserId(brushId)]
     return <><div className="HoverPreview__display">
         <div className="HoverPreview__display-item">
           <Icon icon="faEraser"/>
         </div>
-        {renderDisplayTitle(layerName)}
+        {renderDisplayTitle(layer.name)}
       </div>
     </>
   }
 
   function renderGameTitleDisplay() {
-    const currentStage = stages[currentStageId]
     const imageBackground = metadata.imageUrl;
 
     // <Unlockable interfaceId={CONTEXT_MENU_SNAPSHOT_IID}>

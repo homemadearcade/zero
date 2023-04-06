@@ -5,6 +5,10 @@ const { Schema } = mongoose;
 
 const experienceModel = new Schema(
   {
+    version: {
+      type: String,
+      default: '0.0.1',
+    },
     metadata: {
       type: Object,
       required: true,

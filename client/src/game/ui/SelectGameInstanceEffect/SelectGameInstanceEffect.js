@@ -2,14 +2,16 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectEffect.scss';
+import './SelectGameInstanceEffect.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION, getEffectShorthand, isUseableEffect } from '../../constants'
 
-const SelectEffect = ({ onChange, value, eventType, formLabel, disabled, gameModel}) => {
+const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disabled, gameModel}) => {
   const mapControlsToOption = (effectId) => {
     const effect = gameModel.effects[effectId]
     const effectInterfaceData = effectInterfaceDatas[effect.effectBehavior]
+
+    if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) return 
 
     return {
       label: effect.name || getEffectShorthand(effect),
@@ -20,7 +22,7 @@ const SelectEffect = ({ onChange, value, eventType, formLabel, disabled, gameMod
     }
   }
 
-  const options = Object.keys(gameModel.effects).map(mapControlsToOption)
+  const options = Object.keys(gameModel.effects).map(mapControlsToOption).filter((option) => !!option)
 
   options.sort((a, b) => {
     return -b.group.localeCompare(a.group)
@@ -47,4 +49,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectEffect);
+)(SelectGameInstanceEffect);

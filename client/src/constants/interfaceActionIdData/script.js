@@ -1,11 +1,10 @@
-import { SCRIPT_CUTSCENE_AID, SCRIPT_CUTSCENE_NEW_AID, SCRIPT_DIALOGUE_AID, SCRIPT_DIALOGUE_NEW_AID } from "../interfaceActionIds/script";
+import { SCRIPT_CUTSCENE_AID, SCRIPT_CUTSCENE_NEW_AID, SCRIPT_DIALOGUE_NEW_AID } from "../interfaceActionIds/script";
 import { INTERFACE_ACTION_SCRIPT } from "../interfaceActions";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [SCRIPT_CUTSCENE_AID]: {
-    name: 'Script Cutscene',
-    getName: (gameModel, [cutsceneId]) => {
+    getName: ([cutsceneId], gameModel) => {
       return 'Script ' + gameModel.cutscenes[cutsceneId].name
     },
     arguments: ['cutsceneId'],

@@ -2,7 +2,7 @@ import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
 import { splitIntoSubarrays } from "../../utils/arrayUtils";
 import { CodrawingCanvas } from "./CodrawingCanvas";
-import { LAYER_DID, PLAYGROUND_LAYER_ID } from "../constants";
+import { PLAYGROUND_LAYER_GROUP_IID } from "../../constants/interfaceIds";
 
 export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
@@ -81,11 +81,13 @@ export class CollisionCanvas extends CodrawingCanvas {
     if(this.collisionBody) {
       // console.log('body arrived')
 
-      const entityModels = store.getState().gameModel.gameModel.entityModels
+      const layers = this.scene.getCurrentStage().layers
+      const entityModels = this.scene.getGameModel().entityModels
 
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.phaserInstance)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.entityInstances.filter(({entityModelId}) => {
-        return entityModels[entityModelId].graphics.layerId === LAYER_DID+PLAYGROUND_LAYER_ID
+        const layer = layers[entityModels[entityModelId].graphics.layerId]
+        return layer.layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
       }).map(({phaserInstance}) => {
         return phaserInstance
       }))

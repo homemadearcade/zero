@@ -4,17 +4,18 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectLayer.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
-import { BACKGROUND_LAYER_ID, FOREGROUND_LAYER_ID, layerToDisplayName, LAYER_DID, PLAYGROUND_LAYER_ID } from '../../constants';
 
-const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
+const SelectLayer = ({ formLabel, onChange, value, disabled, gameModel: { gameModel, currentStageId }}) => {
+  const currentStage = gameModel.stages[currentStageId]
   const mapControlsToOption = (layerId) => {
+    const layer = currentStage.layers[layerId]
     return {
-      label: layerToDisplayName[layerId],
+      label: layer.name,
       value: layerId
     }
   }
 
-  const options = [LAYER_DID + BACKGROUND_LAYER_ID, LAYER_DID+PLAYGROUND_LAYER_ID, LAYER_DID + FOREGROUND_LAYER_ID].map(mapControlsToOption)
+  const options = Object.keys(currentStage.layers).map(mapControlsToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}
@@ -27,6 +28,7 @@ const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
 
 const mapStateToProps = (state) => {
   return {
+    gameModel: state.gameModel
   }
 };
 

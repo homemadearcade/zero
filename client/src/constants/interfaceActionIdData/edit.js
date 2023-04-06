@@ -5,7 +5,7 @@ import { INTERFACE_ACTION_EDIT } from "../interfaceActions";
  // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [EDIT_ENTITY_AID]: {
-    getName(gameModel, [entityModelId]) {
+    getName( [entityModelId], gameModel) {
       return 'Edit ' + gameModel.entityModels[entityModelId].name
     },
     arguments: ['entityModelId'],
@@ -21,7 +21,7 @@ export default {
     actionType: INTERFACE_ACTION_EDIT
   },
   [EDIT_ENTITY_GRAPHICS_AID]: {
-    getName(gameModel, [entityModelId]) {
+    getName([entityModelId], gameModel) {
       return 'Edit Graphics for ' + gameModel.entityModels[entityModelId].name
     },
     actionType: INTERFACE_ACTION_EDIT,

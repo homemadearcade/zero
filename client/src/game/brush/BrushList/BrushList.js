@@ -78,7 +78,7 @@ const BrushList = ({
     </Unlockable>)
 
     accordians.push({
-      interfaceId: layer.layerGroupIID || layer.layerGroupId,
+      interfaceId: layer.layerGroupIID,
       sx:  layerInvisibility[layerId] ? {opacity: hiddenOpacity} : {},
       title: <>
         <Typography  component="div" variant="subtitle1">{layer.name}</Typography>

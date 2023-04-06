@@ -16,19 +16,11 @@ PROMPT UPGRADE
 INTERFACE IDS
 --------------------
 INTERFACE IDS
-  Generate interfaceIds based on the game model. 
-
-  Then...generate action ids for the game model based off the interfaceIds 
-
-  ( also generate interface ids for interface action ids ... )?
-
-  Add effects to the game model for each of the actions and interfaceIds..
+  Add effects to the game model for the interfaceIds..
 
   Then have the experience model generate experienceEffects based on the effects of the game model 
 
   interfaceIds[userId] === their default interfaceId... for us to use?
-
-  Interface Ids should not have on click
 
   UIUX ISSUE
     What is up with these...Borders for the cobrowsing open tool. It seems as if Layers have a border around them, classes do not, and also only effects and events have around it in abstract menu?
@@ -38,6 +30,9 @@ RENAME
 BUGS
   Add Player defaults are broken in EntityAdd
   Change Stages was broken 
+
+  First Copy the game that spencer made! 
+  I think I need do... move layers to the root level of the Arcade Game Model. But also no. I cant... yes I can. If you can do that tommorow DO IT
 
 UI
   Change autogeneration inside of EDIT ENTITY MODAL

@@ -11,7 +11,7 @@ export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
 
 export const INTERFACE_ACTION_UNLOCK = 'INTERFACE_ACTION_UNLOCK'
 
-export const interfaceActionInterfaceData = {
+export const interfaceActionsUIData = {
   [INTERFACE_ACTION_LOAD]: {
     displayName: 'Load',
     icon: 'faDownload'
@@ -38,7 +38,7 @@ export const interfaceActionInterfaceData = {
   },
   [INTERFACE_ACTION_CAMERA]: {
     displayName: 'Snapshot',
-    icon: 'faCamera'
+    icon: 'faCameraRetro'
   },
   [INTERFACE_ACTION_IMPORT]: {
     displayName: 'Import',

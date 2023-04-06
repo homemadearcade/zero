@@ -1,8 +1,6 @@
 import { DATA_SOURCE_GAME_MODEL_IID } from "../../../constants/interfaceIds"
-import { BOUNDARY_COLLIDE } from "../core"
+import { BOUNDARY_COLLIDE, initialPlaygroundLayerId } from "../core"
 import { nodeSize } from "../core"
-import { PLAYGROUND_LAYER_ID } from "../core"
-import { LAYER_DID } from "../core"
 import { defaultCollisionResponse, defaultJump, defaultMovement, defaultProjectile } from "../entityModelPropertyDefaults"
 import { defaultAutogeneration } from "../entityModelPropertyDefaults/autogeneration"
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
@@ -31,7 +29,7 @@ export const defaultEntity = {
     textureTint: null,
     invisible: false,
     glowing: false,
-    layerId: LAYER_DID+PLAYGROUND_LAYER_ID,
+    layerId: initialPlaygroundLayerId,
     depthOverride: 0,
     depthModifier: 0,
   },
