@@ -12,7 +12,7 @@ import { TextField } from '@mui/material';
 import { addArcadeGame } from '../../../store/actions/game/arcadeGameActions';
 import { addGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import moment from 'moment';
-import { EXPERIENCE_INSTANCE_ID_PREFIX } from '../../../constants/experience/experienceInstance';
+import { EXPERIENCE_INSTANCE_DID } from '../../../constants/experience/experienceInstance';
 import { generateUniqueId } from '../../../utils';
 
 const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameRoom }) => {
@@ -54,7 +54,7 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
     });
     const gameRoomInstance = gameRoomInstanceResponse.data.gameRoomInstance
     const participantId = data.invitedUsers
-    const experienceInstanceId = EXPERIENCE_INSTANCE_ID_PREFIX + generateUniqueId()
+    const experienceInstanceId = EXPERIENCE_INSTANCE_DID + generateUniqueId()
     await addLobby({ 
       editingGameId: game.id,
       invitedUsers: [data.invitedUsers],

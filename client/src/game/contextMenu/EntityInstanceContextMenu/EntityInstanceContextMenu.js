@@ -6,7 +6,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import EntityContextMenu from '../EntityContextMenu/EntityContextMenu';
 import { getCurrentGameScene } from '../../../utils/editorUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { initialCameraZoneEntityId, PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
+import { initialCameraZoneEntityId, PLAYER_INSTANCE_DID } from '../../constants';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { selectEntity, openJsonViewer } from '../../../store/actions/game/gameSelectorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
@@ -34,7 +34,7 @@ const EntityInstanceContextMenu = ({ editGameModel, entityModelId, onMenuItemCli
         onMenuItemClick()
       }}>Move</MenuItem>
     </Unlockable>
-    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={ENTITY_INSTANCE_SELECT_ENTITY_IID}>
+    {entityInstanceId !== PLAYER_INSTANCE_DID && <Unlockable interfaceId={ENTITY_INSTANCE_SELECT_ENTITY_IID}>
       <MenuItem onClick={() => {
         selectEntity(entityModelId)
         onMenuItemClick()
@@ -44,9 +44,9 @@ const EntityInstanceContextMenu = ({ editGameModel, entityModelId, onMenuItemCli
       <MenuItem onClick={() => {
         getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
         onMenuItemClick()
-      }}>Resize{entityInstanceId === PLAYER_INSTANCE_ID_PREFIX ? '' : ' All'}</MenuItem>
+      }}>Resize{entityInstanceId === PLAYER_INSTANCE_DID ? '' : ' All'}</MenuItem>
     </Unlockable>
-    {entityInstanceId !== PLAYER_INSTANCE_ID_PREFIX && <Unlockable interfaceId={ENTITY_INSTANCE_DELETE_IID}>
+    {entityInstanceId !== PLAYER_INSTANCE_DID && <Unlockable interfaceId={ENTITY_INSTANCE_DELETE_IID}>
       <MenuItem onClick={() => {
         editGameModel({ 
           stages: {

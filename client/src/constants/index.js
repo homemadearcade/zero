@@ -3,6 +3,15 @@ export const GOOGLE_AUTH_LINK = 'https://homemadearcade.herokuapp.com/auth/googl
 export const DEFAULT_THEME_COLOR = '#90CAF9';
 
 export const ADMIN_ROLE = 'ADMIN'
+export const ENGINEER_ADMIN_ROLE = 'ENGINEER_ADMIN'
+
+export const USER_ROLE = 'USER'
+export const PRO_USER_ROLE = 'PRO_USER'
+
+export const CREATOR_ROLE = 'CREATOR'
+export const PRO_CREATOR_ROLE = 'PRO_CREATOR'
+
+
 export const ON_MY_VIDEO_QUALITY_STATUS_UPDATE = 'ON_MY_VIDEO_QUALITY_STATUS_UPDATE'
 export const ARCADE_EXPERIENCE_MODEL_ID = 'homemadeArcade'
 
@@ -22,21 +31,21 @@ export const noCobrowsingUpdateDelta = 15000
 export const UNLOCK_TOOL = 'UNLOCK_TOOL'
 export const OPEN_TOOL = 'OPEN_TOOL'
 
-export const GAME_MODEL_ID_PREFIX = 'gm-';
-export const LOBBY_INSTANCE_ID_PREFIX = 'li-';
-export const EXPERIENCE_MODEL_ID_PREFIX = 'em-';
-export const USER_ID_PREFIX = 'u-';
-export const DALLE_SESSION_ID_PREFIX = 'dallE-';
-export const TICKETED_EVENT_ID_PREFIX = 'te-';
-export const TICKET_PURCHASE_ID_PREFIX = 'tp-';
-export const INTERFACE_PRESET_ID_PREFIX = 'ip-';
-export const GAME_ROOM_INSTANCE_ID_PREFIX = 'gri-';
+export const GAME_MODEL_DID = 'gm-';
+export const LOBBY_INSTANCE_DID = 'li-';
+export const EXPERIENCE_MODEL_DID = 'em-';
+export const USER_DID = 'u-';
+export const DALLE_SESSION_DID = 'dallE-';
+export const TICKETED_EVENT_DID = 'te-';
+export const TICKET_PURCHASE_DID = 'tp-';
+export const INTERFACE_PRESET_DID = 'ip-';
+export const GAME_ROOM_INSTANCE_DID = 'gri-';
 
 const isLocalHost = window.location.host.indexOf('localhost') !== -1;
 export const ARCHIVE_USER_MONGO_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 export const LIBRARY_USER_MONGO_ID = isLocalHost ? '62143b5618ac51461e5ecf6b' : '61cf70be02f76000536708ee'
 
-export * from './action'
+export * from './interfaceActions'
 export * from './interface'
 export * from './interfaceIdGroups'
 

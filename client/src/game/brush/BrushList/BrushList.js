@@ -15,7 +15,7 @@ import LayerColorSelect from '../../color/LayerColorSelect/LayerColorSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import CobrowsingAccordianList from '../../../game/cobrowsing/CobrowsingAccordianList/CobrowsingAccordianList';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ADD_BRUSH_IID, getBrushSelectFromLayerId, getLayerContainerId } from '../../../constants/interfaceIds';
+import { BRUSH_ADD_IID, getBrushSelectFromLayerId, getLayerContainerId } from '../../../constants/interfaceIds';
 import { sortByLastSelectedDate } from '../../../utils/editorUtils';
 
 const BrushList = ({
@@ -69,7 +69,7 @@ const BrushList = ({
     map(renderBrushItem(layerId)).
     slice(0, 14) || []
   
-    layerBrushes.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
+    layerBrushes.push(<Unlockable isTiny interfaceId={BRUSH_ADD_IID}>
       <Button size="fit" onClick={() => {
         openCreateBrushFlow(layerId)
       }}>

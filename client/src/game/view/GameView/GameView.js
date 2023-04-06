@@ -6,7 +6,7 @@ import Phaser from 'phaser';
 import { PreloaderScene } from '../../scenes/PreloaderScene';
 
 import './GameView.scss';
-import { gameHeight, gameWidth, GAME_INSTANCE_ID_PREFIX, noPhaserUpdateDelta, PRELOADER_SCENE } from '../../constants';
+import { gameHeight, gameWidth, GAME_INSTANCE_DID, noPhaserUpdateDelta, PRELOADER_SCENE } from '../../constants';
 import { DEFAULT_THEME_COLOR, PHASER_ERROR } from '../../../constants';
 
 import { getCurrentGameScene } from '../../../utils/editorUtils';
@@ -93,7 +93,7 @@ const PhaserGame = ({
 }) => {
   useEffect(() => {
     const game = new Phaser.Game(config);
-    const gameInstanceId =  GAME_INSTANCE_ID_PREFIX + generateUniqueId()
+    const gameInstanceId =  GAME_INSTANCE_DID + generateUniqueId()
     game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameRoomInstance, gameInstanceId}), true);
     setGameInstance(game, gameInstanceId)
     return () => {

@@ -1,17 +1,17 @@
-import { IMPORT_GAME_MODEL_SELECT_IID, OPEN_ENTITY_BOX_IID, REMOVE_ENTITY_MODEL_FROM_LIBRARY_IID, SHOW_REMOVED_DATA_IID } from "../interfaceIds";
+import { GAME_MODEL_IMPORT_IID, ENTITY_BOX_OPEN_IID, LIBRARY_REMOVE_IID, REMOVED_DATA_SHOW_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  [REMOVE_ENTITY_MODEL_FROM_LIBRARY_IID]: {
+  [LIBRARY_REMOVE_IID]: {
     adminOnly: true,
     previewText: 'Remove from Library'
   },
-  [IMPORT_GAME_MODEL_SELECT_IID]: {
+  [GAME_MODEL_IMPORT_IID]: {
     adminOnly: true,
     previewText: 'Import Game Model'
   },
-  [SHOW_REMOVED_DATA_IID]: {},
-  [OPEN_ENTITY_BOX_IID]: {
+  [REMOVED_DATA_SHOW_IID]: {},
+  [ENTITY_BOX_OPEN_IID]: {
     previewText: 'More'
   },
 }

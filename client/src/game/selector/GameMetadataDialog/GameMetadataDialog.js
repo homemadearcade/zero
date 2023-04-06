@@ -10,7 +10,7 @@ import GameMetadataForm from '../GameMetadataForm/GameMetadataForm';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { IMPORT_GAME_MODEL_SELECT_IID, GAME_INTERFACE_COLOR_IID } from '../../../constants/interfaceIds';
+import { GAME_MODEL_IMPORT_IID, GAME_INTERFACE_COLOR_IID } from '../../../constants/interfaceIds';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
 import Divider from '../../../ui/Divider/Divider';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
@@ -44,7 +44,7 @@ const GameMetadataDialog = ({
           }}
         />
       </Unlockable>
-      <Unlockable interfaceId={IMPORT_GAME_MODEL_SELECT_IID}>
+      <Unlockable interfaceId={GAME_MODEL_IMPORT_IID}>
         <Divider/>
         <SelectArcadeGame excludedIds={gameModel.id} label="Import a Game" userMongoId={gameModel.owner.id} onSelect={(games) => {
         if(games[0]) {

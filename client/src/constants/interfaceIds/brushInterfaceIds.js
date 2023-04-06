@@ -1,6 +1,6 @@
 export const BRUSH_SIZE_IID = 'brushSize';
-export const ADD_BRUSH_IID = 'addBrush';
-export const ERASER_IID = 'eraser'
+export const BRUSH_ADD_IID = 'addBrush';
+export const ERASER_SELECT_IID = 'eraser'
 
 
 // NO DATA YET

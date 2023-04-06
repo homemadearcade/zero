@@ -18,7 +18,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import { DIALOGUE_SHORTCUT_IID, IMAGE_AND_TEXT_CUTSCENE_IID, IMAGE_CUTSCENE_IID, TEXT_CUTSCENE_IID } from '../../../constants/interfaceIds';
 import { getImageUrlFromTextureId } from '../../../utils';
-import { CUTSCENE_ID_PREFIX, SCENE_ID_PREFIX } from '../../constants';
+import { CUTSCENE_DID, SCENE_DID } from '../../constants';
 
 const CreateCutscene = ({ 
   closeCreateCutscene, 
@@ -37,7 +37,7 @@ const CreateCutscene = ({
   
   useEffect(() => {
     if(!cutscene.cutsceneId) {
-      updateCreateCutscene({ cutsceneId: CUTSCENE_ID_PREFIX+generateUniqueId(), isNew: true })
+      updateCreateCutscene({ cutsceneId: CUTSCENE_DID+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -53,7 +53,7 @@ const CreateCutscene = ({
   function addScene(sceneInterfaceType) {
     const scenes = cutscene.scenes.slice()
     scenes.push({
-      sceneId: SCENE_ID_PREFIX+generateUniqueId(),
+      sceneId: SCENE_DID+generateUniqueId(),
       sceneInterfaceType,
       text: null,
       imageUrl: null,

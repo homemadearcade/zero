@@ -2,7 +2,7 @@ import store from "../../store";
 import { CompoundStaticBody } from "./CompoundStaticBody";
 import { splitIntoSubarrays } from "../../utils/arrayUtils";
 import { CodrawingCanvas } from "./CodrawingCanvas";
-import { LAYER_ID_PREFIX, PLAYGROUND_LAYER_ID } from "../constants";
+import { LAYER_DID, PLAYGROUND_LAYER_ID } from "../constants";
 
 export class CollisionCanvas extends CodrawingCanvas {
   constructor(scene, props){
@@ -85,7 +85,7 @@ export class CollisionCanvas extends CodrawingCanvas {
 
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.phaserInstance)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.entityInstances.filter(({entityModelId}) => {
-        return entityModels[entityModelId].graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID
+        return entityModels[entityModelId].graphics.layerId === LAYER_DID+PLAYGROUND_LAYER_ID
       }).map(({phaserInstance}) => {
         return phaserInstance
       }))

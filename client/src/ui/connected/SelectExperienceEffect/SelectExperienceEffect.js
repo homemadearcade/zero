@@ -2,8 +2,8 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
-import { experienceEffectInterfaceIdData, instructionCategoryToExperienceEffects } from '../../constants/experience/experienceEffect';
+import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
+import { experienceEffectInterfaceIdData, instructionCategoryToExperienceEffects } from '../../../constants/experience/experienceEffect';
 
 const SelectExperienceEffect = ({ instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel } }) => {
 
@@ -16,6 +16,7 @@ const SelectExperienceEffect = ({ instructionCategory, onChange, disabled, value
 
     return {
       label: name,
+      icon: experienceEffectInterfaceData.icon || experienceEffectInterfaceData.icon,
       value: experienceEffectId,
       group: experienceEffect.customSelectorCategory || experienceEffectInterfaceData.displayName
     }
@@ -34,6 +35,7 @@ const SelectExperienceEffect = ({ instructionCategory, onChange, disabled, value
     onChange={(event, experienceEffectIds) => {
       onChange(experienceEffectIds)
     }}
+    groupBy={(option) => option.group}
     formLabel={formLabel}
     value={value}
     options={options}

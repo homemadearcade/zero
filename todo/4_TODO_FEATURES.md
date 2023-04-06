@@ -16,12 +16,10 @@ LIBRARY
   perhaps 'REPLACE_ID_1', REPLACE_ID_2, etc
 
 IMPLEMENT THESE EFFECTS
-  Return from Stars
+  EXPERIENCE EFFECTS - Go to Stars, Return from Stars
   Pause Game. Unpause Game
   Also transform while touching 
     auto generate zones for this effect
-  Should go to stars, return to stars be an EXPERIENCE EFFECT not a game effect?
-    Yes I think so
 
 INSTRUCTIONS
 ------------------

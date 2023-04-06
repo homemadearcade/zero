@@ -5,7 +5,7 @@ import faker from 'faker';
 import User from '../models/User';
 import requireLocalAuth from '../middleware/requireLocalAuth';
 import { registerSchema } from '../services/validators';
-import { USER_ID_PREFIX } from '../constants';
+import { USER_DID } from '../constants';
 import { generateUniqueId } from '../utils/utils';
 
 const router = Router();
@@ -41,7 +41,7 @@ router.post('/register', async (req, res, next) => {
       const newUser = await new User({
         provider: 'email',
         email,
-        userId: USER_ID_PREFIX + generateUniqueId(),
+        userId: USER_DID + generateUniqueId(),
         password,
         username,
         name,

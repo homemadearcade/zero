@@ -3,7 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../utils/utils';
 import TicketedEvent from '../../models/TicketedEvent';
 import { generateUniqueId } from '../../utils/utils';
-import { TICKETED_EVENT_ID_PREFIX } from '../../constants';
+import { TICKETED_EVENT_DID } from '../../constants';
 
 const router = Router();
 
@@ -53,7 +53,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
     let ticketedEvent = await TicketedEvent.create({
       ...req.body,
       user: req.body.userMongoId,
-      ticketedEventId: TICKETED_EVENT_ID_PREFIX + generateUniqueId(),
+      ticketedEventId: TICKETED_EVENT_DID + generateUniqueId(),
     });
 
     ticketedEvent = await ticketedEvent.populate('user').execPopulate();

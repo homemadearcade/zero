@@ -11,7 +11,7 @@ export const defaultStep = {
   promptOrder: [],
 }
 
-export const STEP_ID_PREFIX = 'step-'
+export const STEP_DID = 'step-'
 
 // UMM like so all interfaceIds should get like 'how to click' 
 // thing and whether or not to open cobrowsing

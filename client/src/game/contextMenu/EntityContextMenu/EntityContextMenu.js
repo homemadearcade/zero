@@ -6,15 +6,15 @@ import { openJsonViewer, openLiveEditor } from '../../../store/actions/game/game
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { openEditEntityGraphics, openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
-import { ENTITY_MODEL_ID_PREFIX, entityModelTypeToPrefix, initialCameraZoneEntityId } from '../../constants';
+import { ENTITY_MODEL_DID, entityModelTypeToPrefix, initialCameraZoneEntityId } from '../../constants';
 import { entityModelTypeToDisplayName } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import ContextMenuTitle from '../../../ui/ContextMenuTitle/ContextMenuTitle';
 import { ENTITY_MODEL_OPEN_CAMERA_IID, 
   COLLISION_EDITOR_IID, PROJECTILE_EDITOR_IID,
-  DUPLICATE_ENTITY_MODEL_IID, ENTITY_MODEL_OPEN_GRAPHICS_IID, ENTITY_MODEL_OPEN_JUMP_IID, ENTITY_MODEL_OPEN_MOVEMENT_IID, 
+  ENTITY_MODEL_DUPLICATE_IID, ENTITY_MODEL_OPEN_GRAPHICS_IID, ENTITY_MODEL_OPEN_JUMP_IID, ENTITY_MODEL_OPEN_MOVEMENT_IID, 
   ENTITY_MODEL_OPEN_EDIT_IID, ENTITY_MODEL_OPEN_COLLISIONS_IID, ENTITY_MODEL_OPEN_PROJECTILE_IID, 
-  ENTITY_MODEL_REMOVE_IID, SELECT_PLAYER_ENTITY_MODEL_IID, ENTITY_INSTANCE_JSON_IID, 
+  ENTITY_MODEL_REMOVE_IID, PLAYER_ENTITY_TRANSFORM_IID, ENTITY_INSTANCE_JSON_IID, 
   EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, PLAYER_ENTITY_IID, DATA_SOURCE_GAME_MODEL_IID,
   CAMERA_EDITOR_IID, JUMP_EDITOR_IID, MOVEMENT_EDITOR_IID
 } from '../../../constants/interfaceIds';
@@ -42,7 +42,7 @@ const EntityContextMenu = ({
       openEditEntityDialog(entityModel)
       onMenuItemClick()
     }}>{entityModel.name}</ContextMenuTitle>}
-    {!insideEntityInstanceContextMenu && entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={SELECT_PLAYER_ENTITY_MODEL_IID}>
+    {!insideEntityInstanceContextMenu && entityModel.entityInterfaceId === PLAYER_ENTITY_IID && <Unlockable interfaceId={PLAYER_ENTITY_TRANSFORM_IID}>
       <MenuItem disabled={entityModelId === playerEntityModelId} 
       onClick={() => {
         editGameModel({
@@ -99,9 +99,9 @@ const EntityContextMenu = ({
         onMenuItemClick()
       }}>Edit Movement</MenuItem>
     </Unlockable>
-    {!insideEntityInstanceContextMenu && <Unlockable interfaceId={DUPLICATE_ENTITY_MODEL_IID}>
+    {!insideEntityInstanceContextMenu && <Unlockable interfaceId={ENTITY_MODEL_DUPLICATE_IID}>
       <MenuItem onClick={() => {  
-        const newEntityId = ENTITY_MODEL_ID_PREFIX+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId()
+        const newEntityId = ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId()
         editGameModel({
           entityModels: {
             [newEntityId]: {

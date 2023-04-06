@@ -9,7 +9,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import { EFFECT_ID_PREFIX } from '../../constants';
+import { EFFECT_DID } from '../../constants';
 import useIsEffectSaveable from '../../../hooks/relations/useIsEffectSaveable';
 import CreateEffect from '../CreateEffect/CreateEffect';
 import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
@@ -25,7 +25,7 @@ const CreateEffectDialog = ({
 
   useEffect(() => {
     if(!effect || !effect.effectId) {
-      const effectId = EFFECT_ID_PREFIX+generateUniqueId()
+      const effectId = EFFECT_DID+generateUniqueId()
       updateCreateEffect({ effectId, isNew: true })
     }
   }, [])

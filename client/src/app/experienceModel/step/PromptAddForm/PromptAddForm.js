@@ -9,7 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import TextField from '../../../../ui/TextField/TextField';
-import { PROMPT_ID_PREFIX } from '../../../../constants/experience/prompt';
+import { PROMPT_DID } from '../../../../constants/experience/prompt';
 import './PromptAddForm.scss';
 
 const PromptAddForm = ({ onSubmit, defaultValues = {}}) => {
@@ -50,7 +50,7 @@ const PromptAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="PromptAddForm">
       <Button onClick={() => {
         setIsPromptAddOpen(true)
-        setValue('promptId', PROMPT_ID_PREFIX + generateUniqueId())
+        setValue('promptId', PROMPT_DID + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} className="btn">New Prompt</Button>
       <Dialog onClose={() => {
         setIsPromptAddOpen(false)

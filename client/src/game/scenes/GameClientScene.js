@@ -1,6 +1,6 @@
 import {
   gameInstanceDisconnectedDelta,
-  PLAYER_INSTANCE_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, PLAY_STATE,
+  PLAYER_INSTANCE_DID, PLAYTHROUGH_PLAY_STATE, PLAY_STATE,
 } from '../constants';
 import { ON_GAME_INSTANCE_EVENT, ON_GAME_INSTANCE_UPDATE, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_GAME_MODEL_UPDATE } from '../../store/types';
 import { EditorScene } from './EditorScene';
@@ -74,7 +74,7 @@ export class GameClientScene extends EditorScene {
       temporaryInstance.destroyTime = instanceUpdate.destroyTime
     })
 
-    if(this.draggingEntityInstanceId === PLAYER_INSTANCE_ID_PREFIX) return
+    if(this.draggingEntityInstanceId === PLAYER_INSTANCE_DID) return
 
     this.playerInstance.phaserInstance.x = playerInstance.x 
     this.playerInstance.phaserInstance.y = playerInstance.y

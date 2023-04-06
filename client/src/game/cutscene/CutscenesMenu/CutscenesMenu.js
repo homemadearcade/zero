@@ -10,7 +10,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { SHOW_REMOVED_DATA_IID } from '../../../constants/interfaceIds';
+import { REMOVED_DATA_SHOW_IID } from '../../../constants/interfaceIds';
 
 const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { gameModel }}) => {
   const [showRemovedCutscenes, setShowRemovedCutscenes] = useState()
@@ -43,7 +43,7 @@ const CutscenesMenu = ({ closeCutscenesMenu, openCreateCutscene, gameModel: { ga
           name: 'Cutscene #' + (Object.keys(cutscenes).length + 1).toString()
         })
       }}><Icon icon="faPlus"/> New Cutscene</Button>
-      {!showRemovedCutscenes && <Unlockable interfaceId={SHOW_REMOVED_DATA_IID}>
+      {!showRemovedCutscenes && <Unlockable interfaceId={REMOVED_DATA_SHOW_IID}>
         <Button onClick={() => {
           setShowRemovedCutscenes(true)
         }}>Show Removed Cutscenes</Button>

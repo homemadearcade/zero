@@ -3,7 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import { mergeDeep } from '../../utils/utils';
 import TicketPurchase from '../../models/TicketPurchase';
 import { generateUniqueId } from '../../utils/utils';
-import { TICKET_PURCHASE_ID_PREFIX } from '../../constants';
+import { TICKET_PURCHASE_DID } from '../../constants';
 
 const router = Router();
 
@@ -63,7 +63,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let ticketPurchase = await TicketPurchase.create({
       ...req.body,
-      ticketPurchaseId: TICKET_PURCHASE_ID_PREFIX + generateUniqueId(),
+      ticketPurchaseId: TICKET_PURCHASE_DID + generateUniqueId(),
       user: req.body.userMongoId,
     });
 

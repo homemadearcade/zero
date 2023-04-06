@@ -7,14 +7,14 @@ import EntityInstanceContextMenu from '../EntityInstanceContextMenu/EntityInstan
 import EntityContextMenu from '../EntityContextMenu/EntityContextMenu';
 import StageContextMenu from '../StageContextMenu/StageContextMenu';
 import EntityInstanceListContextMenu from '../EntityInstanceListContextMenu/EntityInstanceListContextMenu';
-import { PLAYER_INSTANCE_ID_PREFIX } from '../../constants';
+import { PLAYER_INSTANCE_DID } from '../../constants';
 
 const GameContextMenuBody = ({ selectableEntityInstances, entityInstanceIdSelectedContextMenu, entityModelIdSelectedContextMenu, closeContextMenu }) => { 
   if(selectableEntityInstances) {
     return <EntityInstanceListContextMenu selectableEntityInstances={selectableEntityInstances} onMenuItemClick={closeContextMenu}/>
   } else if(entityInstanceIdSelectedContextMenu) {
     return <EntityInstanceContextMenu onMenuItemClick={closeContextMenu} entityInstanceId={entityInstanceIdSelectedContextMenu} entityModelId={entityModelIdSelectedContextMenu} />
-  } else if(entityModelIdSelectedContextMenu || entityInstanceIdSelectedContextMenu === PLAYER_INSTANCE_ID_PREFIX) {
+  } else if(entityModelIdSelectedContextMenu || entityInstanceIdSelectedContextMenu === PLAYER_INSTANCE_DID) {
     return <EntityContextMenu entityModelId={entityModelIdSelectedContextMenu} onMenuItemClick={closeContextMenu}/>
   }
 

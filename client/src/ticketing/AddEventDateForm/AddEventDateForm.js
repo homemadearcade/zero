@@ -9,7 +9,7 @@ import DatePickerInline from '../../ui/DatePickerInline/DatePickerInline';
 import TimePickerInline from '../../ui/TimePickerInline/TimePickerInline';
 import dayjs from 'dayjs';
 import { generateUniqueId } from '../../utils/webPageUtils';
-import { DATE_ID_PREFIX } from '../../game/constants';
+import { DATE_DID } from '../../game/constants';
 
 const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticketedEvent } }) => {
   const { handleSubmit, control } = useForm({
@@ -23,7 +23,7 @@ const AddEventDateForm = ({ onSubmit, editTicketedEvent, ticketedEvent: { ticket
     
     const startDate = dayjs(data.day.format('YYYY-MM-DD') + data.time.format('THH:mm:ssZ'))
     ticketedEvent.dates.push({
-      dateId: DATE_ID_PREFIX+generateUniqueId(),
+      dateId: DATE_DID+generateUniqueId(),
       startDate: startDate.toDate(),
       // endDate: 
     })

@@ -1,4 +1,4 @@
-export const LOBBY_ID_PREFIX = 'lobby-'
+export const LOBBY_DID = 'lobby-'
 
 export const LOBBY_VISIBILITY_PUBLIC = 'LOBBY_VISIBILITY_PUBLIC'
 export const LOBBY_VISIBILITY_INVITE_ONLY = 'LOBBY_VISIBILITY_INVITE_ONLY'

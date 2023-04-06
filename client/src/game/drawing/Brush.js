@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { getCobrowsingState } from "../../utils/cobrowsingUtils";
-import { DEFAULT_TEXTURE_ID, STROKE_ID_PREFIX } from "../constants";
+import { DEFAULT_TEXTURE_ID, STROKE_DID } from "../constants";
 import { publishCodrawingStrokes } from "../../store/actions/media/codrawingActions";
 import { generateUniqueId } from "../../utils/webPageUtils";
 
@@ -88,7 +88,7 @@ export class Brush extends Phaser.GameObjects.Image {
 
   releaseStroke() {
     const strokeData = { 
-      strokeId: STROKE_ID_PREFIX + generateUniqueId(),
+      strokeId: STROKE_DID + generateUniqueId(),
       textureId: this.canvas.textureId,
       time: Date.now(),
       brushId: this.brushId,

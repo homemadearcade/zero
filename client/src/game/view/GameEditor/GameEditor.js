@@ -11,7 +11,7 @@ import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorA
 import SectionEditor from '../../stages/SectionEditor/SectionEditor';
 import SnapshotTaker from '../../textures/SnapshotTaker/SnapshotTaker';
 import SelectStageColorDialog from '../../stages/SelectStageColorDialog/SelectStageColorDialog';
-import { BRUSH_ID_PREFIX, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../../constants';
+import { BRUSH_DID, PLAYTHROUGH_PLAY_STATE, START_STATE } from '../../constants';
 import GameMetadataDialog from '../../selector/GameMetadataDialog/GameMetadataDialog';
 import CutscenesMenu from '../../cutscene/CutscenesMenu/CutscenesMenu';
 import CreateCutscene from '../../cutscene/CreateCutscene/CreateCutscene';
@@ -204,7 +204,7 @@ const GameEditor = ({
               })
             }
           } else {
-            const brushId = BRUSH_ID_PREFIX+generateUniqueId()
+            const brushId = BRUSH_DID+generateUniqueId()
             editGameModel({
               brushes: {
                 [brushId] : brush

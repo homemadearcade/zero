@@ -1,4 +1,4 @@
-import { SNAPSHOT_ID_PREFIX } from '../../../game/constants';
+import { SNAPSHOT_DID } from '../../../game/constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { 
   TOGGLE_LAYER_VISIBILITY,
@@ -32,7 +32,7 @@ export const openSnapshotTaker = (fileId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: OPEN_SNAPSHOT_TAKER,
     payload: {
-      snapshotTextureId: SNAPSHOT_ID_PREFIX+generateUniqueId()
+      snapshotTextureId: SNAPSHOT_DID+generateUniqueId()
     }
   });
 }

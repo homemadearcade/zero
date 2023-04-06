@@ -21,17 +21,17 @@ import {
 } from '../../types';
 import { mergeDeep } from '../../../utils';
 import _ from 'lodash';
-import { activityToInterfaceData, ACTIVITY_ID_PREFIX, allActivityUsersRoleId, allExperienceUsersRoleId, allLobbyUsersRoleId, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, EXPERIENCE_ROLE_FACILITATOR, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_ID_PREFIX, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import { activityToInterfaceData, ACTIVITY_DID, allActivityUsersRoleId, allExperienceUsersRoleId, allLobbyUsersRoleId, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
-import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_ID_PREFIX } from '../../../constants/experience/experienceEffect';
+import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_OVERLAY, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_OPEN_OVERLAY } from '../../../constants/experience/experienceEffect';
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
   
     Object.keys(experienceModel.lobbys).forEach((id) => {
       const presetLobby =  mergeDeep(_.cloneDeep(defaultLobby), _.cloneDeep(experienceModel.lobbys[id]))
-      const waitingRoomId = ACTIVITY_ID_PREFIX+'_waiting'+id
+      const waitingRoomId = ACTIVITY_DID+'_waiting'+id
       presetLobby.activitys[waitingRoomId] = {
         activityId: waitingRoomId,
       }
@@ -47,7 +47,7 @@ function addDefaultsToExperienceModel(experienceModel) {
       if(!experienceModel.activitys[waitingRoomId]) experienceModel.activitys[waitingRoomId] = presetWaitingRoom
       else experienceModel.activitys[waitingRoomId] = mergeDeep(presetWaitingRoom, experienceModel.activitys[waitingRoomId])
       
-      const videoRoomId = ACTIVITY_ID_PREFIX+'_video'+id
+      const videoRoomId = ACTIVITY_DID+'_video'+id
       presetLobby.activitys[videoRoomId] = {
         activityId: videoRoomId,
       }
@@ -61,7 +61,7 @@ function addDefaultsToExperienceModel(experienceModel) {
       if(!experienceModel.activitys[videoRoomId]) experienceModel.activitys[videoRoomId] = presetVideoRoom
       else experienceModel.activitys[videoRoomId] = mergeDeep(presetVideoRoom, experienceModel.activitys[videoRoomId])
 
-      const creditsRoomId = ACTIVITY_ID_PREFIX+'_credits'+id
+      const creditsRoomId = ACTIVITY_DID+'_credits'+id
       presetLobby.activitys[creditsRoomId] = {
         activityId: creditsRoomId,
       }
@@ -75,7 +75,7 @@ function addDefaultsToExperienceModel(experienceModel) {
       if(!experienceModel.activitys[creditsRoomId]) experienceModel.activitys[creditsRoomId] = presetCredits
       else experienceModel.activitys[creditsRoomId] = mergeDeep(presetCredits, experienceModel.activitys[creditsRoomId])
 
-      const lobbyInstructionsId = INSTRUCTION_ID_PREFIX+id
+      const lobbyInstructionsId = INSTRUCTION_DID+id
       const presetLobbyInstruction = {
         instructionId: lobbyInstructionsId,
         instructionCategory: INSTRUCTION_LOBBY,
@@ -100,7 +100,7 @@ function addDefaultsToExperienceModel(experienceModel) {
       const presetActivity =  mergeDeep(_.cloneDeep(defaultActivity), _.cloneDeep(experienceModel.activitys[id]))
 
       if(presetActivity.activityCategory === GAME_ROOM_ACTIVITY) {
-        const gameRoomInstructionsId = INSTRUCTION_ID_PREFIX+presetActivity.activityId
+        const gameRoomInstructionsId = INSTRUCTION_DID+presetActivity.activityId
         const presetInstructions = {
           instructionId: gameRoomInstructionsId,
           instructionCategory: INSTRUCTION_GAME_ROOM,
@@ -144,7 +144,7 @@ function enrichExperienceModel(experienceModel) {
     Object.keys(experienceModel.activitys).forEach((activityId) => {
       const activity = experienceModel.activitys[activityId]
 
-      const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+activityId
+      const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId
       experienceModel.experienceEffects[experienceEffectId] = {
         experienceEffectId,
         activityId: activityId,
@@ -154,7 +154,7 @@ function enrichExperienceModel(experienceModel) {
       }
         
       // Object.keys(experienceModel.roles).forEach((roleId) => {
-      //   const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+activityId+roleId
+      //   const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId+roleId
       //   experienceModel.experienceEffects[experienceEffectId] = {
       //     experienceEffectId,
       //     activityId: activityId,
@@ -172,7 +172,7 @@ function enrichExperienceModel(experienceModel) {
   //     const lobby = experienceModel.lobbys[lobbyId]
 
   //     [allLobbyUsersRoleId, allExperienceUsersRoleId].forEach((roleId) => {
-  //       const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+lobbyId+roleId
+  //       const experienceEffectId = EXPERIENCE_EFFECT_DID+lobbyId+roleId
   //       experienceModel.experienceEffects[experienceEffectId] = {
   //         experienceEffectId,
   //         lobbyId: lobbyId,
@@ -185,7 +185,7 @@ function enrichExperienceModel(experienceModel) {
 
   //     // for each role
   //     Object.keys(experienceModel.roles).forEach((roleId) => {
-  //       const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+lobbyId+roleId
+  //       const experienceEffectId = EXPERIENCE_EFFECT_DID+lobbyId+roleId
   //       experienceModel.experienceEffects[experienceEffectId] = {
   //         experienceEffectId,
   //         lobbyId: lobbyId,
@@ -204,7 +204,7 @@ function enrichExperienceModel(experienceModel) {
 
   //     Object.keys(experienceModel.roles).forEach((roleId) => {
   //       // for each role
-  //       const experienceEffectId = EXPERIENCE_EFFECT_ID_PREFIX+instructionId+roleId
+  //       const experienceEffectId = EXPERIENCE_EFFECT_DID+instructionId+roleId
   //       experienceModel.experienceEffects[instructionId] = {
   //         experienceEffectId,
   //         instructionId: instructionId,
@@ -216,6 +216,34 @@ function enrichExperienceModel(experienceModel) {
   //     })
   //   })
   // }
+
+  Object.keys(experienceModel.roles).forEach(roleId => {
+      const role = experienceModel.roles[roleId]
+
+      if(role.roleCategory === EXPERIENCE_ROLE_PARTICIPANT) {
+        // add an experience effect for close overlay and open overlay 
+        const openOverlayId = EXPERIENCE_EFFECT_DID+'close-overlay'+roleId
+        const closeOverlayId = EXPERIENCE_EFFECT_DID+'open-overlay'+roleId
+
+        experienceModel.experienceEffects[openOverlayId] = {
+          experienceEffectId: openOverlayId,
+          roleId,
+          experienceEffectBehavior: EXPERIENCE_EFFECT_OPEN_OVERLAY,
+          name: 'Send to Stars',
+          customSelectorCategory: 'Stars'
+        }
+
+        experienceModel.experienceEffects[closeOverlayId] = {
+          experienceEffectId: closeOverlayId,
+          roleId,
+          experienceEffectBehavior: EXPERIENCE_EFFECT_CLOSE_OVERLAY,
+          name: 'Return from Stars',
+          customSelectorCategory: 'Stars'
+        }
+      }
+      
+
+  });
 }
 
 function cleanExperienceModel(experienceModel) {

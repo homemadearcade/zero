@@ -7,7 +7,7 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { INSTRUCTION_ID_PREFIX } from '../../../../constants';
+import { INSTRUCTION_DID } from '../../../../constants';
 import InstructionForm from '../InstructionForm/InstructionForm';
 
 const InstructionAddForm = ({ onSubmit, defaultValues = {}}) => {
@@ -30,7 +30,7 @@ const InstructionAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="InstructionAddForm">
       <Button onClick={() => {
         setIsInstructionAddOpen(true)
-        setValue('instructionId', INSTRUCTION_ID_PREFIX + generateUniqueId())
+        setValue('instructionId', INSTRUCTION_DID + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Instruction</Button>
       <Dialog onClose={() => {
         setIsInstructionAddOpen(false)

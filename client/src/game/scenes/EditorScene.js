@@ -6,7 +6,7 @@ import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../s
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearEntity } from '../../store/actions/game/gameSelectorActions';
 import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/game/gameViewEditorActions';
-import { PLAYER_INSTANCE_ID_PREFIX, ENTITY_INSTANCE_ID_PREFIX, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, initialStageZoneEntityId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND, gameWidth, gameHeight } from '../constants';
+import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, initialStageZoneEntityId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_GROUP_ID_FOREGROUND, gameWidth, gameHeight } from '../constants';
 import { TexturePencil } from '../drawing/TexturePencil';
 import { Eraser } from '../drawing/Eraser';
 import { EntityStamper } from '../drawing/EntityStamper';
@@ -103,7 +103,7 @@ export class EditorScene extends GameInstance {
       return
     }
 
-    if(entitySprite.entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
+    if(entitySprite.entityInstanceId === PLAYER_INSTANCE_DID) {
       // store.dispatch(editGameModel({ 
       //   player: {
       //     spawnX: entitySprite.x,
@@ -182,7 +182,7 @@ export class EditorScene extends GameInstance {
 
   onResizeEnd = (pointer) => {
     const phaserInstance = this.resizingEntityInstance.phaserInstance
-    if(phaserInstance.entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
+    if(phaserInstance.entityInstanceId === PLAYER_INSTANCE_DID) {
       store.dispatch(editGameModel({ 
         // player: {
         //   spawnX: phaserInstance.x,
@@ -632,14 +632,14 @@ export class EditorScene extends GameInstance {
   getEntityInstanceData(entityInstanceId) {
     const gameModel = store.getState().gameModel.gameModel
 
-    if(entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
+    if(entityInstanceId === PLAYER_INSTANCE_DID) {
       return gameModel.player
     }
     return gameModel.stages[this.stage.stageId].entityInstances[entityInstanceId]
   }
 
   addEntityInstanceData(entityModelId, {spawnX, spawnY}) {
-    const entityInstanceId = ENTITY_INSTANCE_ID_PREFIX+generateUniqueId()
+    const entityInstanceId = ENTITY_INSTANCE_DID+generateUniqueId()
 
     const entityInstanceData = {
       entityModelId,
@@ -878,7 +878,7 @@ export class EditorScene extends GameInstance {
       ) {
         // setTimeout(() => {
           this.forAllEntityInstancesMatchingEntityId(entityModelId, (entityInstance) => {
-            if(entityInstance.entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
+            if(entityInstance.entityInstanceId === PLAYER_INSTANCE_DID) {
               this.removePlayerInstance()
               this.addPlayerInstance()
               return

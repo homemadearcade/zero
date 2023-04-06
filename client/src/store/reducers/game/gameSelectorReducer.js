@@ -178,7 +178,7 @@ export default function gameSelectorReducer(state = initialState, { type, payloa
       return {
         ...state,
         isEntityBoxDialogOpen: true,
-        entityBoxDialogActionId: payload.actionId,
+        entityBoxDialogActionId: payload.interfaceActionId,
         entityBoxDialogType: payload.entityModelType
       }
     case CLOSE_ENTITY_BOX_DIALOG:

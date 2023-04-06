@@ -1,6 +1,6 @@
 import { defaultParticipantRoleId } from "./experienceModel";
 
-export const GAME_ROOM_ID_PREFIX = 'gr-';
+export const GAME_ROOM_DID = 'gr-';
 
 export const defaultGameRoom = {
   copyGame: false,

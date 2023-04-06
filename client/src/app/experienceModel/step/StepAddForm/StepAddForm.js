@@ -7,7 +7,7 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { STEP_ID_PREFIX } from '../../../../constants';
+import { STEP_DID } from '../../../../constants';
 import StepForm from '../StepForm/StepForm';
 import './StepAddForm.scss'
 
@@ -31,7 +31,7 @@ const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
     <div className="StepAddForm">
       <Button onClick={() => {
         setIsStepAddOpen(true)
-        setValue('stepId', STEP_ID_PREFIX + generateUniqueId())
+        setValue('stepId', STEP_DID + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} className="btn">New Step</Button>
       <Dialog onClose={() => {
         setIsStepAddOpen(false)

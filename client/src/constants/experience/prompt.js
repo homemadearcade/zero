@@ -1,4 +1,4 @@
-export const PROMPT_ID_PREFIX = 'step-'
+export const PROMPT_DID = 'step-'
 
 export const defaultPrompt = {
   roleId: '',

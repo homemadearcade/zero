@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_ID_PREFIX, STAGE_LAYER_DEPTH, STAGE_LAYER_ID } from "../constants";
+import { ARCADE_PHYSICS, MATTER_PHYSICS, ENTITY_INSTANCE_DID, STAGE_LAYER_DEPTH, STAGE_LAYER_ID } from "../constants";
 import store from "../../store";
 import { getHexIntFromHexString } from "../../utils/editorUtils";
 import { generateUniqueId } from "../../utils/webPageUtils";
@@ -55,7 +55,7 @@ export class Stage {
     const stage = this.scene.getCurrentStage()
     const spawnZones = this.scene.getAllEntityInstancesOfEntityId(stage.playerSpawnZoneEntityId) 
     if(!spawnZones.length) {
-      this.scene.initializeEntityInstance(ENTITY_INSTANCE_ID_PREFIX + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityModelId: stage.playerSpawnZoneEntityId}, true)
+      this.scene.initializeEntityInstance(ENTITY_INSTANCE_DID + generateUniqueId(), { spawnX: stage.boundaries.width/2, spawnY: stage.boundaries.height/2, entityModelId: stage.playerSpawnZoneEntityId}, true)
     }
   }
 

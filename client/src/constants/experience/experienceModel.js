@@ -1,9 +1,9 @@
-import { LOBBY_ID_PREFIX } from "./lobbys";
-import { ROLE_ID_PREFIX, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_FACILITATOR } from "./roles";
+import { LOBBY_DID } from "./lobbys";
+import { ROLE_DID, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_FACILITATOR } from "./roles";
 
-export const defaultLobbyId = LOBBY_ID_PREFIX + 'default';
-export const defaultParticipantRoleId = ROLE_ID_PREFIX+ 'participant';
-export const defaultGuideRoleId = ROLE_ID_PREFIX+ 'guide';
+export const defaultLobbyId = LOBBY_DID + 'default';
+export const defaultParticipantRoleId = ROLE_DID+ 'participant';
+export const defaultGuideRoleId = ROLE_DID+ 'guide';
 
 export const EXPERIENCE_PRESET_CONVEYER_BELT = 'EXPERIENCE_PRESET_CONVEYER_BELT';
 export const EXPERIENCE_PRESET_CREATE_GAME = 'EXPERIENCE_PRESET_CREATE_GAME';

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { IMAGE_TYPE_SPRITE } from '../../../constants';
-import { CANVAS_IMAGE_ID_PREFIX, newTextureSize } from '../../../game/constants';
+import { CANVAS_IMAGE_DID, newTextureSize } from '../../../game/constants';
 import { generateUniqueId, getImageUrlFromTextureId } from '../../../utils';
 
 import { 
@@ -96,7 +96,7 @@ export const updateCreateEntity = (entityModel) => (dispatch, getState) => {
 
 export const openCreateCanvasImageDialog= (textureId) => async (dispatch, getState) => {
   const state = getState()
-  const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_ID_PREFIX + generateUniqueId()
+  const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_DID + generateUniqueId()
 
   try {
     dispatch({

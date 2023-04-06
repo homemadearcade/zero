@@ -1,4 +1,3 @@
-import { ACTION_OPEN } from "../action";
 import { CUTSCENE_IGID, DIALOGUE_IGID } from "../interfaceIdGroups";
 import { DIALOGUE_ADD_IID, DIALOGUE_CONTAINER_IID, DIALOGUE_SELECT_IID, DIALOGUE_SHORTCUT_IID } from "../interfaceIds";
 import { CUTSCENE_ADD_IID, CUTSCENE_CONTAINER_IID, CUTSCENE_SELECT_IID } from "../interfaceIds/cutsceneInterfaceIds";
@@ -10,7 +9,6 @@ export default {
   },
   [DIALOGUE_ADD_IID]: {
     previewText: 'Add Dialogue',
-    clickType: ACTION_OPEN,
     interfaceGroup: DIALOGUE_IGID
   },
   [DIALOGUE_SELECT_IID]: {},
@@ -25,7 +23,6 @@ export default {
   },
   [CUTSCENE_ADD_IID]: {
     previewText: 'Add Cutscene',
-    clickType: ACTION_OPEN,
     interfaceGroup: CUTSCENE_IGID
   },
   [CUTSCENE_SELECT_IID]: {},

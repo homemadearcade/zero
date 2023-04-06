@@ -12,7 +12,7 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import { changeCurrentStage } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { SHOW_REMOVED_DATA_IID, STAGE_OPEN_EDIT_IID } from '../../../constants/interfaceIds';
+import { REMOVED_DATA_SHOW_IID, STAGE_OPEN_EDIT_IID } from '../../../constants/interfaceIds';
 import { initialStage } from '../../constants';
 
 const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage, gameModel: { gameModel, currentStageId }, editGameModel}) => {
@@ -63,7 +63,7 @@ const StagesMenu = ({ closeStagesMenu, openCreateStageDialog, changeCurrentStage
           })
         }}><Icon icon="faPlus"/> New Stage</Button>
       </Unlockable>
-      {!showRemovedStages && <Unlockable interfaceId={SHOW_REMOVED_DATA_IID}>
+      {!showRemovedStages && <Unlockable interfaceId={REMOVED_DATA_SHOW_IID}>
         <Button onClick={() => {
           setShowRemovedStages(true)
         }}>Show Removed Stages</Button>

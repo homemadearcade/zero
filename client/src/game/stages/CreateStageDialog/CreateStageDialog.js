@@ -9,7 +9,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import {  STAGE_ID_PREFIX} from '../../constants';
+import {  STAGE_DID} from '../../constants';
 import { addLayersForArcadeGameStage } from '../../../store/actions/game/arcadeGameActions';
 import CreateStage from '../CreateStage/CreateStage';
 
@@ -38,7 +38,7 @@ const CreateStageDialog = ({ closeCreateStageDialog, editGameModel, updateCreate
 
   useEffect(() => {
     if(!stage.stageId) {
-      updateCreateStage({ stageId: STAGE_ID_PREFIX+generateUniqueId(), isNew: true })
+      updateCreateStage({ stageId: STAGE_DID+generateUniqueId(), isNew: true })
     }
   }, [])
 

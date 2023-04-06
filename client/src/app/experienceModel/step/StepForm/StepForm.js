@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Controller } from 'react-hook-form';
-import SelectExperienceEffect from '../../../../ui/SelectExperienceEffect/SelectExperienceEffect';
+import SelectExperienceEffect from '../../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect';
 
 const StepForm = ({ isEdit, register, control, instructionCategory }) => {
   return <>

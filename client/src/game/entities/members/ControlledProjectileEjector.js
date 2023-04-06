@@ -1,6 +1,6 @@
 import store from "../../../store"
 import { generateUniqueId } from "../../../utils/webPageUtils"
-import { PROJECTILE_INSTANCE_ID_PREFIX } from "../../constants"
+import { PROJECTILE_INSTANCE_DID } from "../../constants"
 
 export class ControlledProjectileEjector {
   constructor(scene, entityInstance){
@@ -19,7 +19,7 @@ export class ControlledProjectileEjector {
         return
       }
 
-      const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_ID_PREFIX+generateUniqueId(), entityModel.projectile?.entityModelId)
+      const projectile = this.scene.addTemporaryInstance(PROJECTILE_INSTANCE_DID+generateUniqueId(), entityModel.projectile?.entityModelId)
       projectile.fireControlled(this.entityInstance, time, this.cursors)
 
       this.nextFire = time + entityModel.projectile.cooldown;

@@ -8,7 +8,7 @@ import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import { EVENT_ID_PREFIX } from '../../constants';
+import { EVENT_DID } from '../../constants';
 import useIsEventSaveable from '../../../hooks/relations/useIsEventSaveable';
 import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
 import CreateEvent from '../CreateEvent/CreateEvent';
@@ -21,7 +21,7 @@ const CreateEventDialog = ({ closeCreateEvent, editGameModel, updateCreateEvent,
 
   useEffect(() => {
     if(!event.eventId) {
-      updateCreateEvent({ eventId: EVENT_ID_PREFIX+generateUniqueId(), isNew: true })
+      updateCreateEvent({ eventId: EVENT_DID+generateUniqueId(), isNew: true })
     }
   }, [])
 

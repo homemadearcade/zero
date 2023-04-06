@@ -1,15 +1,15 @@
 export const ARCADE_EXPERIENCE_MODEL_ID = 'homemadeArcade'
 
-export const GAME_MODEL_ID_PREFIX = 'gm-';
-export const LOBBY_INSTANCE_ID_PREFIX = 'li-';
-export const EXPERIENCE_MODEL_ID_PREFIX = 'em-';
+export const GAME_MODEL_DID = 'gm-';
+export const LOBBY_INSTANCE_DID = 'li-';
+export const EXPERIENCE_MODEL_DID = 'em-';
 
-export const USER_ID_PREFIX = 'u-';
-export const DALLE_SESSION_ID_PREFIX = 'dallE-';
-export const TICKETED_EVENT_ID_PREFIX = 'te-';
-export const TICKET_PURCHASE_ID_PREFIX = 'tp-';
-export const INTERFACE_PRESET_ID_PREFIX = 'ip-';
-export const GAME_ROOM_INSTANCE_ID_PREFIX = 'gr-';
+export const USER_DID = 'u-';
+export const DALLE_SESSION_DID = 'dallE-';
+export const TICKETED_EVENT_DID = 'te-';
+export const TICKET_PURCHASE_DID = 'tp-';
+export const INTERFACE_PRESET_DID = 'ip-';
+export const GAME_ROOM_INSTANCE_DID = 'gr-';
 
 export const ON_SOCKET_CONNECT = 'connect';
 export const ON_SOCKET_DISCONNECT = 'ON_SOCKET_DISCONNECT';

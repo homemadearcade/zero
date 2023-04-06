@@ -8,7 +8,7 @@ import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
 import GameRoomForm from '../GameRoomForm/GameRoomForm';
-import { GAME_ROOM_ID_PREFIX } from '../../../../constants/experience/gameRoom';
+import { GAME_ROOM_DID } from '../../../../constants/experience/gameRoom';
 
 const GameRoomAddForm = ({ onSubmit, defaultValues = {}}) => {
   const [isGameRoomAddOpen, setIsGameRoomAddOpen] = useState(false)
@@ -30,7 +30,7 @@ const GameRoomAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="GameRoomAddForm">
       <Button onClick={() => {
         setIsGameRoomAddOpen(true)
-        setValue('gameRoomId', GAME_ROOM_ID_PREFIX + generateUniqueId())
+        setValue('gameRoomId', GAME_ROOM_DID + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New GameRoom</Button>
       <Dialog onClose={() => {
         setIsGameRoomAddOpen(false)

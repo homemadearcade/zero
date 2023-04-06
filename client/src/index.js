@@ -5,13 +5,13 @@ import './localStorage.js'
 import './events.js'
 import './index.css';
 // load action ids first
-import './constants/actionIds'
+import './constants/interfaceActionIds'
 // load interfacts ids second
 import './constants/interfaceIds'
 // then load game core constants and structures that rely on game core constants
 import './game/constants'
 // then load interface id DATA which may rely on game constants and structures
-import './constants/actionIdData'
+import './constants/interfaceActionIdData'
 // then load interface id DATA which may rely on game constants and structures
 import './constants/interfaceIdData'
 // load the rest of the constants, the order they will be loaded in is unknown

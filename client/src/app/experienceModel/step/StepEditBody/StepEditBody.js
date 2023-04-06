@@ -7,7 +7,7 @@ import { editExperienceModel } from '../../../../store/actions/experience/experi
 import './StepEditBody.scss';
 import IconButton from '../../../../ui/IconButton/IconButton';
 import StepEditPrompts from '../StepEditPrompts/StepEditPrompts';
-import SelectExperienceEffect from '../../../../ui/SelectExperienceEffect/SelectExperienceEffect';
+import SelectExperienceEffect from '../../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect';
 
 const StepEditBody = ({  
   register, control, instructionId, 

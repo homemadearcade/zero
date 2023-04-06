@@ -5,7 +5,7 @@ import { defaultEntity, defaultEntityInstance, defaultPowerupEntity, defaultStag
   initialTags, ON_INTERACT, playerRelationTagId, 
  } from "../game/constants"
  import { classLibrary } from "../game/classLibrary"
-import { BRUSH_ID_PREFIX, EFFECT_SWITCH_STAGE, ON_TOUCH_START } from "../game/constants/core"
+import { BRUSH_DID, EFFECT_SWITCH_STAGE, ON_TOUCH_START } from "../game/constants/core"
 import { NON_LAYER_BRUSH_ID } from "../game/constants/core"
 import { initialStageZoneEntityId } from "../game/constants/core"
 import { mergeDeep } from "../utils/utils"
@@ -342,7 +342,7 @@ export function enrichGameModel(gameData) {
     }
 
     if(entityModel.graphics.textureId) {
-      gameData.brushes[BRUSH_ID_PREFIX + entityModel.entityModelId] = {
+      gameData.brushes[BRUSH_DID + entityModel.entityModelId] = {
         layerId: NON_LAYER_BRUSH_ID,
         textureId: entityModel.graphics.textureId,
         textureTint: entityModel.graphics.textureTint,

@@ -8,7 +8,7 @@ import SliderNotched from '../../../ui/SliderNotched/SliderNotched';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import Switch from '../../../ui/Switch/Switch';
 import SelectColliders from '../../ui/SelectColliders/SelectColliders';
-import { LAYER_ID_PREFIX, PLAYGROUND_LAYER_ID, RELATION_ID_PREFIX } from '../../constants';
+import { LAYER_DID, PLAYGROUND_LAYER_ID, RELATION_DID } from '../../constants';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import _ from 'lodash';
 import { getOppositeColliderRelationTagId } from '../../../utils/gameUtils';
@@ -66,7 +66,7 @@ const CollisionsEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
               })
   
               newColliderTags.forEach((relationTagIdB) => {
-                const newId = RELATION_ID_PREFIX+generateUniqueId()
+                const newId = RELATION_DID+generateUniqueId()
                 collisions[newId] = {
                   collisionId: newId,
                   relationTagIdA: relationTagId,
@@ -96,7 +96,7 @@ const CollisionsEditor = ({ entityModelId, gameModel: { gameModel }, editGameMod
             editGameModel({ collisions })        
          }}/>
       </Unlockable>
-      {false && entitySelected.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID && <div>
+      {false && entitySelected.graphics.layerId === LAYER_DID+PLAYGROUND_LAYER_ID && <div>
         also collides with Player because this is on the Playground Layer
       </div>}
       <Unlockable isSlider interfaceId={COLLISIONS_BOUNCE_IID}>

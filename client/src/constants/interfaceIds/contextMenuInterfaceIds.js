@@ -1,6 +1,6 @@
 export const CONTEXT_MENU_CONTAINER_IID = 'contextMenu/*'
 
-export const DUPLICATE_ENTITY_MODEL_IID = 'contextMenu/entity/duplicate'
-export const SELECT_PLAYER_ENTITY_MODEL_IID= 'contextMenu/entity/selectPlayer'
+export const ENTITY_MODEL_DUPLICATE_IID = 'contextMenu/entity/duplicate'
+export const PLAYER_ENTITY_TRANSFORM_IID= 'contextMenu/entity/selectPlayer'
 
-export const OPEN_PLAYTEST_IID = 'contextMenu/playTest'
+export const PLAYTEST_OPEN_IID = 'contextMenu/playTest'

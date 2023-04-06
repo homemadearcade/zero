@@ -19,7 +19,7 @@ export const instructionToInterfaceData = {
   // },
 }
 
-export const INSTRUCTION_ID_PREFIX = 'instruction-'
+export const INSTRUCTION_DID = 'instruction-'
 
 export const defaultInstructions = {
   name: null,

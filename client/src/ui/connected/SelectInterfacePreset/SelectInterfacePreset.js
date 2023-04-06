@@ -3,9 +3,9 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectInterfacePreset.scss';
-import SelectChipsAuto from '../SelectChipsAuto/SelectChipsAuto';
+import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 
-const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interfacePresetLibrary }) => {
+const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interfacePresetLibrary : { interfacePresetLibrary} }) => {
 
   const mapEntityToOption = (interfacePreset) => {
     return {
@@ -28,7 +28,9 @@ const SelectInterfacePreset = ({ onChange, disabled, value, formLabel, interface
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    interfacePresetLibrary: state.interfacePresetLibrary
+  }
 };
 
 export default compose(

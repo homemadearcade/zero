@@ -16,7 +16,7 @@ import { NON_LAYER_COLOR_ID } from '../../constants';
 import GameTextures from '../GameTextures/GameTextures';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { CHOOSE_TEXTURES_IID, DRAW_NEW_TEXTURE_IID } from '../../../constants/interfaceIds';
+import { CHOOSE_TEXTURES_IID, TEXTURE_EDITOR_OPEN_IID } from '../../../constants/interfaceIds';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import TextureStage from '../TextureStage/TextureStage';
 import { openCreateCanvasImageDialog, openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
@@ -49,7 +49,7 @@ const CreateTexture = ({
         </div>}
       </TextureStage></div>
 
-      { !isCanvasImageDialogOpen && <Unlockable interfaceId={DRAW_NEW_TEXTURE_IID}>
+      { !isCanvasImageDialogOpen && <Unlockable interfaceId={TEXTURE_EDITOR_OPEN_IID}>
         <Button onClick={() => {
           openCreateCanvasImageDialog(textureIdSelected)
         }}>

@@ -9,7 +9,7 @@ import _ from 'lodash';
 import Icon from '../../../ui/Icon/Icon';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ADD_COLOR_IID, getColorSelectFromLayerId } from '../../../constants/interfaceIds';
+import { COLOR_ADD_IID, getColorSelectFromLayerId } from '../../../constants/interfaceIds';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { COLOR_BRUSH_ID, NON_LAYER_COLOR_ID } from '../../constants';
@@ -94,7 +94,7 @@ const ColorSelect = ({
     return el
   }).slice(0, maxColors - 1)
 
-  items.push(<Unlockable isTiny interfaceId={ADD_COLOR_IID}><Button size="fit" onClick={onAddColor}>
+  items.push(<Unlockable isTiny interfaceId={COLOR_ADD_IID}><Button size="fit" onClick={onAddColor}>
     +
   </Button></Unlockable>)
 

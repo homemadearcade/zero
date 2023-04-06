@@ -1,1 +1,1 @@
-export const EXPERIENCE_INSTANCE_ID_PREFIX = 'ei-';
+export const EXPERIENCE_INSTANCE_DID = 'ei-';

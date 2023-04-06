@@ -14,7 +14,8 @@ import { entityModelTypeToDisplayName } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import EditEntityGraphics from '../EditEntityGraphics/EditEntityGraphics';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import { DATA_SOURCE_IMPORT_AID } from '../../../constants/actionIds';
+import { IMPORT_DATA_SOURCE_AID } from '../../../constants/interfaceActionIds';
+import { changeEntityIdHovering } from '../../../store/actions/game/hoverPreviewActions';
 
 const EntityBoxDialog = ({ 
   closeEntityBoxDialog, 
@@ -26,6 +27,7 @@ const EntityBoxDialog = ({
 
   function handleClose(e) {
     closeEntityBoxDialog()
+    changeEntityIdHovering(null)
   }
 
   const entityModelsToSelect = Object.keys(entityModels).map((entityModelId) => {
@@ -44,7 +46,7 @@ const EntityBoxDialog = ({
       }}
       </EntityModelAdd>
       <EntityBoxList entityModels={entityModelsToSelect} onSelectEntity={(entityModelId) => {
-        if(entityBoxDialogActionId === DATA_SOURCE_IMPORT_AID) {  
+        if(entityBoxDialogActionId === IMPORT_DATA_SOURCE_AID) {  
           editGameModel({
             entityModels: {
               [entityModelId]: {

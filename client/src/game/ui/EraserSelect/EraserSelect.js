@@ -10,7 +10,7 @@ import { ERASER_BRUSH_ID } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Icon from '../../../ui/Icon/Icon';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { ERASER_IID } from '../../../constants/interfaceIds';
+import { ERASER_SELECT_IID } from '../../../constants/interfaceIds';
 import { getThemePrimaryColor } from '../../../utils/webPageUtils';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 
@@ -28,7 +28,7 @@ const EraserSelect = ({
   const isSelected = brushIdSelectedBrushList === eraserId
   const border = '1px solid ' + useWishTheme().primaryColor.hexString
   
-  return <Unlockable isTiny interfaceId={ERASER_IID}><div
+  return <Unlockable isTiny interfaceId={ERASER_SELECT_IID}><div
     onClick={() => {
       if(eraserId === brushIdSelectedBrushList) {
         clearBrush()

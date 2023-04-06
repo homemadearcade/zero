@@ -12,9 +12,9 @@ import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import { 
   effectBehaviorToDisplayNames, 
-  EFFECT_ID_PREFIX, EVENT_ID_PREFIX, isUseableEffect, noRemoteEffectedTagEffects, 
+  EFFECT_DID, EVENT_DID, isUseableEffect, noRemoteEffectedTagEffects, 
   effectBehaviorInterfaces, eventTypeInterfaces } from '../../constants';
-import { RELATION_ID_PREFIX } from '../../constants';
+import { RELATION_DID } from '../../constants';
 import { getEntityAandB } from '../../../utils/gameUtils';
 import {SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID, 
    EFFECT_ADVANCED_CONTAINER_IID, EFFECT_COOLDOWN_IID, EFFECT_DELAY_IID, 
@@ -59,9 +59,9 @@ const CreateRelation = ({
   
   useEffect(() => {
     if(!relation.relationId) {
-      const initialEventId = EVENT_ID_PREFIX +generateUniqueId()
+      const initialEventId = EVENT_DID +generateUniqueId()
       updateCreateRelation({ 
-        relationId: RELATION_ID_PREFIX+generateUniqueId(), 
+        relationId: RELATION_DID+generateUniqueId(), 
         isNew: true,
         effects: {},
         effectIds: [],
@@ -366,7 +366,7 @@ const CreateRelation = ({
       {event.eventType && relation.effectIds?.map(renderEffect)}
       <Divider/>
       {event.eventType && <Button startIcon={<Icon icon="faPlus"/>} onClick={() => {
-        const effectId = EFFECT_ID_PREFIX+generateUniqueId()
+        const effectId = EFFECT_DID+generateUniqueId()
         openCreateEffect({
           effectId,
           isNew: true,

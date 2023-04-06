@@ -14,7 +14,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CHANGE_ENTITY_INTERFACE_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ENTITY_RELATION_TAGS_IID } from '../../../constants/interfaceIds';
 import SelectRelationTag from '../../ui/SelectRelationTag/SelectRelationTag';
 import SelectBoundaryEffect from '../../ui/SelectBoundaryEffect/SelectBoundaryEffect';
-import { entityModelTypeToDisplayName, entityModelTypeToPrefix, ENTITY_MODEL_ID_PREFIX } from '../../constants';
+import { entityModelTypeToDisplayName, entityModelTypeToPrefix, ENTITY_MODEL_DID } from '../../constants';
 import { generateUniqueId } from '../../../utils';
 import Typography from '../../../ui/Typography/Typography';
 import TextureStage from '../../textures/TextureStage/TextureStage';
@@ -26,7 +26,7 @@ const EditEntityDialog = ({ openEditEntityGraphics, updateCreateEntity, closeEdi
 
   useEffect(() => {
     if(!entityModel.entityModelId) {
-      updateCreateEntity({ entityModelId: ENTITY_MODEL_ID_PREFIX+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId(), isNew: true })
+      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId(), isNew: true })
     }
   }, [])
 

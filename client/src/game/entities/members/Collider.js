@@ -1,4 +1,4 @@
-import { ARCADE_PHYSICS, EFFECT_STICK_TO, PLAYER_INSTANCE_ID_PREFIX, MATTER_PHYSICS, ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, EFFECT_TRANSFORM } from "../../constants";
+import { ARCADE_PHYSICS, EFFECT_STICK_TO, PLAYER_INSTANCE_DID, MATTER_PHYSICS, ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, EFFECT_TRANSFORM } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
 
 export class Collider {

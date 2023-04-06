@@ -28,7 +28,7 @@ import {
 import { mergeDeep } from '../../../utils/utils';
 import _ from 'lodash';
 import store from '../..';
-import {  BACKGROUND_LAYER_ID, defaultGameModel, FOREGROUND_LAYER_ID, gameHeight, gameWidth, initialStageId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_FOREGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_ID_PREFIX,  PLAYGROUND_LAYER_ID, UNDO_MEMORY_MAX } from '../../../game/constants';
+import {  BACKGROUND_LAYER_ID, defaultGameModel, FOREGROUND_LAYER_ID, gameHeight, gameWidth, initialStageId, LAYER_GROUP_ID_BACKGROUND, LAYER_GROUP_ID_FOREGROUND, LAYER_GROUP_ID_PLAYGROUND, LAYER_DID,  PLAYGROUND_LAYER_ID, UNDO_MEMORY_MAX } from '../../../game/constants';
 import { changeCurrentStage } from './gameModelActions';
 import { getImageUrlFromTextureId, getTextureIdForLayerId } from '../../../utils';
 import { addCanvasImage } from '../media/canvasImageActions';
@@ -319,20 +319,20 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
     stages: {
       [stageId] : {
         layers: {
-          [LAYER_ID_PREFIX+BACKGROUND_LAYER_ID]: {
+          [LAYER_DID+BACKGROUND_LAYER_ID]: {
             textureId: backgroundTextureId,
             name: 'Background',
             layerGroupId: LAYER_GROUP_ID_BACKGROUND,
             dataSourceId: DATA_SOURCE_SYSTEM_IID
           },
-          [LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID]: {
+          [LAYER_DID+PLAYGROUND_LAYER_ID]: {
             textureId: playgroundTextureId,
             hasCollisionBody: true,
             layerGroupId: LAYER_GROUP_ID_PLAYGROUND,
             name: 'Playground',
             dataSourceId: DATA_SOURCE_SYSTEM_IID
           },
-          [LAYER_ID_PREFIX+FOREGROUND_LAYER_ID]: {
+          [LAYER_DID+FOREGROUND_LAYER_ID]: {
             layerGroupId: LAYER_GROUP_ID_FOREGROUND,
             textureId: foregroundTextureId,
             name: 'Foreground',

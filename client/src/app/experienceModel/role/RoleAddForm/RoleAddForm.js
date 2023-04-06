@@ -7,7 +7,7 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { ROLE_ID_PREFIX } from '../../../../constants';
+import { ROLE_DID } from '../../../../constants';
 import RoleForm from '../RoleForm/RoleForm';
 
 const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
@@ -30,7 +30,7 @@ const RoleAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="RoleAddForm">
       <Button onClick={() => {
         setIsRoleAddOpen(true)
-        setValue('roleId', ROLE_ID_PREFIX + generateUniqueId())
+        setValue('roleId', ROLE_DID + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Role</Button>
       <Dialog onClose={() => {
         setIsRoleAddOpen(false)

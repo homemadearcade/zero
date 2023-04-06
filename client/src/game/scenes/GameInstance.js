@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_ID_PREFIX, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_ID_PREFIX, layerGroupIdToDepth } from '../constants';
+import { PLAYER_INSTANCE_DID, PLAYGROUND_LAYER_ID, UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, LAYER_DID, layerGroupIdToDepth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity } from '../../store/actions/game/playerInterfaceActions';
@@ -65,7 +65,7 @@ export class GameInstance extends Phaser.Scene {
 
       let lastPlayerEntityId = playerInterface.playerEntityModelId ? playerInterface.playerEntityModelId : directionalPlayerEntityId;
 
-      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
+      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, {
         entityModelId: currentStage.playerEntityModelId ? currentStage.playerEntityModelId : lastPlayerEntityId,
         spawnX:x,
         spawnY: y
@@ -74,7 +74,7 @@ export class GameInstance extends Phaser.Scene {
 
       const {entityModelId, spawnX, spawnY} = classData
 
-      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_ID_PREFIX, {
+      this.playerInstance = new PlayerInstance(this, PLAYER_INSTANCE_DID, {
         entityModelId,
         spawnX,
         spawnY
@@ -184,7 +184,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = this.getGameModel()
     const releventInstances = this.entityInstances.filter((entityInstance) => {
       const entityModel = gameModel.entityModels[entityInstance.entityModelId]
-      return entityModel.graphics.layerId === LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID
+      return entityModel.graphics.layerId === LAYER_DID+PLAYGROUND_LAYER_ID
     }).map(({phaserInstance}) => phaserInstance)
 
     this.colliderRegistrations.push(
@@ -321,7 +321,7 @@ export class GameInstance extends Phaser.Scene {
   //     yMix,
   //     x,y,width,height
   //   })
-  //   this.addEntityInstance(ENTITY_INSTANCE_ID_PREFIX+generateUniqueId(), { spawnX, spawnY, entityModelId}, true)
+  //   this.addEntityInstance(ENTITY_INSTANCE_DID+generateUniqueId(), { spawnX, spawnY, entityModelId}, true)
   // }
   initializeEntityInstances() {
     const currentStage = this.getCurrentStage()
@@ -338,7 +338,7 @@ export class GameInstance extends Phaser.Scene {
           return console.error('Object missing!', entityInstanceId)
         // }
       } 
-      if(entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
+      if(entityInstanceId === PLAYER_INSTANCE_DID) {
         return console.error('hero got in?!')
       }
       if(!entityInstanceData.entityModelId) {
@@ -464,7 +464,7 @@ export class GameInstance extends Phaser.Scene {
   }
 
   getEntityInstance(entityInstanceId) {
-    if(entityInstanceId === PLAYER_INSTANCE_ID_PREFIX) {
+    if(entityInstanceId === PLAYER_INSTANCE_DID) {
       return this.playerInstance
     }
     

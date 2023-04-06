@@ -6,14 +6,14 @@ export const defaultExperienceEffect = {
   interfaceId: null,
   activityId: null,
   roleId: null,
-  actionId: null,
+  interfaceActionId: null,
   effectId: null,
   name: '',
   customSelectorGroup: '',
   isRemoved: false,
 }
 
-export const EXPERIENCE_EFFECT_ID_PREFIX = 'ee-'
+export const EXPERIENCE_EFFECT_DID = 'ee-'
 
 export const EXPERIENCE_EFFECT_GAME_EFFECT = 'EXPERIENCE_EFFECT_GAME_EFFECT';
 
@@ -25,6 +25,11 @@ export const EXPERIENCE_EFFECT_UNLOCK_INTERFACE = 'EXPERIENCE_EFFECT_UNLOCK_INTE
 export const EXPERIENCE_EFFECT_LOCK_INTERFACE = 'EXPERIENCE_EFFECT_LOCK_INTERFACE';
 export const EXPERIENCE_EFFECT_ACTION = 'EXPERIENCE_EFFECT_ACTION';
 
+export const EXPERIENCE_EFFECT_OPEN_OVERLAY = 'EXPERIENCE_EFFECT_OPEN_OVERLAY'
+export const EXPERIENCE_EFFECT_CLOSE_OVERLAY = 'EXPERIENCE_EFFECT_CLOSE_OVERLAY'
+export const EXPERIENCE_EFFECT_GO_TO_ACTIVITY_VIEW = 'EXPERIENCE_EFFECT_GO_TO_ACTIVITY_VIEW'
+export const EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH = 'EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH'
+
 export const experienceEffectInterfaceIdData = {
   [EXPERIENCE_EFFECT_GAME_EFFECT]: {
     displayName: 'Game Effect',
@@ -32,11 +37,11 @@ export const experienceEffectInterfaceIdData = {
   },
   [EXPERIENCE_EFFECT_CHANGE_ACTIVITY]: {
     displayName: 'Change Activity',
-    icon: 'faDoorOpen',
+    icon: 'faShuffle',
   },
   [EXPERIENCE_EFFECT_CHANGE_INSTRUCTION]: {
     displayName: 'Change Instruction',
-    icon: 'faDoorOpen',
+    icon: 'faListOl',
   },
   [EXPERIENCE_EFFECT_CHANGE_LOBBY]: {
     displayName: 'Change Lobby',
@@ -52,11 +57,32 @@ export const experienceEffectInterfaceIdData = {
   },
   [EXPERIENCE_EFFECT_ACTION]: {
     displayName: 'Action',
-    icon: 'faHandPointUp',
+    icon: 'faArrowPointer',
+  },
+  [EXPERIENCE_EFFECT_OPEN_OVERLAY]: {
+    displayName: 'Send to Stars',
+    icon: 'faStar',
+  },
+  [EXPERIENCE_EFFECT_CLOSE_OVERLAY]: {
+    displayName: 'Return from Stars',
+    icon: 'faStar',
+    icon2: 'faArrowsDownToLine'
   },
 }
 
 export const instructionCategoryToExperienceEffects = {
-  [INSTRUCTION_GAME_ROOM]: [EXPERIENCE_EFFECT_ACTION, EXPERIENCE_EFFECT_GAME_EFFECT, EXPERIENCE_EFFECT_UNLOCK_INTERFACE],
-  [INSTRUCTION_LOBBY]: [EXPERIENCE_EFFECT_CHANGE_ACTIVITY],
+  [INSTRUCTION_GAME_ROOM]: [
+    EXPERIENCE_EFFECT_ACTION,
+    EXPERIENCE_EFFECT_GAME_EFFECT,
+    EXPERIENCE_EFFECT_UNLOCK_INTERFACE,
+    EXPERIENCE_EFFECT_CLOSE_OVERLAY,
+    EXPERIENCE_EFFECT_OPEN_OVERLAY,
+    EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH
+  ],
+  [INSTRUCTION_LOBBY]: [
+    EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
+    EXPERIENCE_EFFECT_GO_TO_ACTIVITY_VIEW,
+    EXPERIENCE_EFFECT_CLOSE_OVERLAY,
+    EXPERIENCE_EFFECT_OPEN_OVERLAY,
+  ],
 }

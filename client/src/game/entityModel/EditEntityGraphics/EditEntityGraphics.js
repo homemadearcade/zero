@@ -13,12 +13,12 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getEntityDisplayName } from '../../../utils/gameUtils';
 import EntityMemberTitle from '../EntityMemberTitle/EntityMemberTitle';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { entityModelTypeToDisplayName, LAYER_ID_PREFIX } from '../../constants';
+import { entityModelTypeToDisplayName, LAYER_DID } from '../../constants';
 import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
-import { ENTITY_MODEL_ID_PREFIX, PLAYGROUND_LAYER_ID, entityModelTypeToPrefix } from '../../constants';
+import { ENTITY_MODEL_DID, PLAYGROUND_LAYER_ID, entityModelTypeToPrefix } from '../../constants';
 import { ENTITY_LAYER_IID, ENTITY_VISIBILITY_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 
@@ -36,7 +36,7 @@ const EditEntityGraphics = ({
   
   useEffect(() => {
     if(!entityModel.entityModelId) {
-      updateCreateEntity({ entityModelId: ENTITY_MODEL_ID_PREFIX+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId(), isNew: true })
+      updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityInterfaceId]+generateUniqueId(), isNew: true })
     }
   }, [])
 
@@ -108,7 +108,7 @@ const EditEntityGraphics = ({
           }}
       />}
       {entityModel.entityInterfaceId !== ZONE_ENTITY_IID && entityModel.entityInterfaceId !== PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_LAYER_IID}>
-        <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerId ? [entityModel.graphics.layerId] : [LAYER_ID_PREFIX+PLAYGROUND_LAYER_ID]} onChange={(e, value) => {
+        <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerId ? [entityModel.graphics.layerId] : [LAYER_DID+PLAYGROUND_LAYER_ID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateEntity({ graphics: {
             layerId: newValue

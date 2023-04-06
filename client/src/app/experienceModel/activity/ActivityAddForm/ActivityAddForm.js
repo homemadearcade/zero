@@ -7,7 +7,7 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { ACTIVITY_ID_PREFIX } from '../../../../constants';
+import { ACTIVITY_DID } from '../../../../constants';
 import ActivityForm from '../ActivityForm/ActivityForm';
 
 const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
@@ -29,7 +29,7 @@ const ActivityAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="ActivityAddForm">
       <Button onClick={() => {
         setIsActivityAddOpen(true)
-        setValue('activityId', ACTIVITY_ID_PREFIX + generateUniqueId())
+        setValue('activityId', ACTIVITY_DID + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} type="submit" size="wide" className="btn">New Activity</Button>
       <Dialog onClose={() => {
         setIsActivityAddOpen(false)

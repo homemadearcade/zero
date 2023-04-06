@@ -1,4 +1,4 @@
-import {  RELATION_TAG_ID_PREFIX, } from ".."
+import {  RELATION_TAG_DID, } from ".."
 import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID , DATA_SOURCE_GAME_MODEL_IID, DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds"
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
 
@@ -35,23 +35,23 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromInterfaceI
   }
 }
 
-export const playerRelationTagId = RELATION_TAG_ID_PREFIX+'player'
+export const playerRelationTagId = RELATION_TAG_DID+'player'
 
-// export const playgroundRelationTagId = RELATION_TAG_ID_PREFIX+'playground'
+// export const playgroundRelationTagId = RELATION_TAG_DID+'playground'
 
-// export const enemyRelationTagId = RELATION_TAG_ID_PREFIX+'enemy'
-// export const keyRelationTagId = RELATION_TAG_ID_PREFIX+'key'
-// export const doorRelationTagId = RELATION_TAG_ID_PREFIX+'door'
-// export const towerRelationTagId = RELATION_TAG_ID_PREFIX+'tower'
-// export const movingPlatformRelationTagId = RELATION_TAG_ID_PREFIX+'movingPlatform'
-// export const transformIntoRelationTagId = RELATION_TAG_ID_PREFIX+'transformInto'
-// export const transformBackRelationTagId = RELATION_TAG_ID_PREFIX+'transformBack'
-// export const explodeOnDestroyRelationTagId = RELATION_TAG_ID_PREFIX+'explodeOnDestroy'
+// export const enemyRelationTagId = RELATION_TAG_DID+'enemy'
+// export const keyRelationTagId = RELATION_TAG_DID+'key'
+// export const doorRelationTagId = RELATION_TAG_DID+'door'
+// export const towerRelationTagId = RELATION_TAG_DID+'tower'
+// export const movingPlatformRelationTagId = RELATION_TAG_DID+'movingPlatform'
+// export const transformIntoRelationTagId = RELATION_TAG_DID+'transformInto'
+// export const transformBackRelationTagId = RELATION_TAG_DID+'transformBack'
+// export const explodeOnDestroyRelationTagId = RELATION_TAG_DID+'explodeOnDestroy'
 
-export const gameOverOnTouchTagId = RELATION_TAG_ID_PREFIX+'gameOverOnTouch'
-export const gameOverWhenAllDestroyedTagId = RELATION_TAG_ID_PREFIX+'gameOverWhenAllDestroyed'
-export const winGameOnTouchTagId = RELATION_TAG_ID_PREFIX+'winGameOnTouch'
-export const winGameWhenAllDestroyedTagId = RELATION_TAG_ID_PREFIX+'winGameWhenAllDestroyed'
+export const gameOverOnTouchTagId = RELATION_TAG_DID+'gameOverOnTouch'
+export const gameOverWhenAllDestroyedTagId = RELATION_TAG_DID+'gameOverWhenAllDestroyed'
+export const winGameOnTouchTagId = RELATION_TAG_DID+'winGameOnTouch'
+export const winGameWhenAllDestroyedTagId = RELATION_TAG_DID+'winGameWhenAllDestroyed'
 
 export const initialTags = {
   [playerRelationTagId]: createLibraryTag(playerRelationTagId, 'Player', '#FFFF00', {

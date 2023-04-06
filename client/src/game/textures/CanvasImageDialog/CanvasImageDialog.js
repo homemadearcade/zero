@@ -66,7 +66,7 @@ const CanvasImageDialog = ({
     return <BrushItem key={i} brushId={brushId}/>
   })
 
-  // brushList.push(<Unlockable isTiny interfaceId={ADD_BRUSH_IID}>
+  // brushList.push(<Unlockable isTiny interfaceId={BRUSH_ADD_IID}>
   //     <Button size="fit" onClick={() => {
   //       openCreateBrushFlow(CANVAS_IMAGE_LAYER_ID)
   //     }}>

@@ -7,7 +7,7 @@ import Dialog from '../../../../ui/Dialog/Dialog';
 import { DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { generateUniqueId } from '../../../../utils';
-import { LOBBY_ID_PREFIX } from '../../../../constants';
+import { LOBBY_DID } from '../../../../constants';
 import LobbyForm from '../LobbyForm/LobbyForm';
 
 const LobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
@@ -30,7 +30,7 @@ const LobbyAddForm = ({ onSubmit, defaultValues = {}}) => {
     <div className="LobbyAddForm">
       <Button onClick={() => {
         setIsLobbyAddOpen(true)
-        setValue('lobbyId', LOBBY_ID_PREFIX + generateUniqueId())
+        setValue('lobbyId', LOBBY_DID + generateUniqueId())
       }} startIcon={<Icon icon="faPlus"/>} size="wide" className="btn">New Lobby</Button>
       <Dialog onClose={() => {
         setIsLobbyAddOpen(false)
