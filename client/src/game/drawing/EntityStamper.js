@@ -23,7 +23,6 @@ export class EntityStamper extends Phaser.GameObjects.Image {
     
     this.setDisplaySize(this.entityModel.graphics.width, this.entityModel.graphics.height)
     const depth = this.scene.getEntityModelDepth(entityModelId)
-    console.log(depth)
     this.setDepth(depth)
 
     if(entityModel.graphics.textureTint) {
@@ -47,9 +46,6 @@ export class EntityStamper extends Phaser.GameObjects.Image {
       spawnY: clampedY
     })
   }
-
-  getLayerId() {
-    return this.entityModel.graphics.layerId
-  }
 }
+
 

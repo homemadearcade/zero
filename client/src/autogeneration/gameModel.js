@@ -8,7 +8,7 @@ import { defaultEntity, defaultEntityInstance, defaultPowerupEntity, defaultStag
   initialTags, ON_INTERACT, playerRelationTagId, 
  } from "../game/constants"
  import { classLibrary } from "../game/classLibrary"
-import { BRUSH_DID, EFFECT_DID, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_SWITCH_STAGE, ON_TOUCH_START } from "../game/constants/core"
+import { BRUSH_DID, CANVAS_IMAGE_LAYER_ID, EFFECT_DID, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_SWITCH_STAGE, NON_LAYER_COLOR_ID, ON_TOUCH_START } from "../game/constants/core"
 import { NON_LAYER_BRUSH_ID } from "../game/constants/core"
 import { initialStageZoneEntityId } from "../game/constants/core"
 import { mergeDeep } from "../utils/utils"
@@ -18,6 +18,8 @@ import { interfaceActionsUIData, interfaceGroupData } from "../constants"
 import { interfaceIdData } from "../constants/interfaceIdData"
 
 export function generateActionEffects(gameModel) {
+  if(!gameModel.effects) gameModel.effects = {}
+
   Object.keys(interfaceIdData).forEach((interfaceId) => {
     const interfaceData = interfaceIdData[interfaceId]
     const name = interfaceData.name || interfaceData.previewText
@@ -26,18 +28,16 @@ export function generateActionEffects(gameModel) {
     if(interfaceData.isDefaultUnlocked) return
 
     const effectId = EFFECT_DID + interfaceId
-    console.log(interfaceData)
     gameModel.effects[effectId] = {
       effectId,
       effectBehavior: EFFECT_INTERFACE_UNLOCK,
       interfaceId: interfaceId,
       dataSourceIID: DATA_SOURCE_ACTION_IID,
       customSelectorCategory: 'Unlock ' + interfaceGroupData[interfaceData.interfaceGroupId].name + ' UI',
-      name,
+      title: 'Unlock ' + name,
       isReadOnly: true
     }
   })
-
 
    Object.keys(interfaceActionIdData).forEach((interfaceActionId) => {
     const interfaceActionData = interfaceActionIdData[interfaceActionId]
@@ -51,7 +51,8 @@ export function generateActionEffects(gameModel) {
         interfaceActionId,
         dataSourceIID: DATA_SOURCE_ACTION_IID,
         customSelectorCategory: interfaceActionUIData.displayName,
-        name: interfaceActionData.name,
+        title: interfaceActionData.title,
+        subTitle: interfaceActionData.subTitle,
         icon: interfaceActionUIData.icon,
         isReadOnly: true
       }
@@ -59,9 +60,35 @@ export function generateActionEffects(gameModel) {
       interfaceActionData.arguments.forEach((arg1, arg2) => {
         if(arg1 && arg2) return console.error('we cannot do this yet')
         if(arg1 === 'entityModelId') {
-          // create an action for each entity model and pass in the entity model into the getName method to get the name
+          // create an action for each entity model and pass in the entity model into the getSubtitle method to get the name
           if(gameModel.entityModels) Object.keys(gameModel.entityModels).forEach((entityModelId) => {
             const effectId = EFFECT_DID + interfaceActionId + entityModelId
+            const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+            const entityModel = gameModel.entityModels[entityModelId]
+            
+            let isActionRemoved = false
+            if(interfaceActionData.isRemoved) {
+              isActionRemoved = interfaceActionData.isRemoved([entityModelId], gameModel)
+            }
+
+            gameModel.effects[effectId] = {
+              effectId,
+              effectBehavior: EFFECT_INTERFACE_ACTION,
+              interfaceActionId,
+              textureId: entityModel.textureId,
+              textureTint: entityModel.textureTint,
+              dataSourceIID: DATA_SOURCE_ACTION_IID,
+              customSelectorCategory: interfaceActionUIData.displayName,
+              subTitle: interfaceActionData.getSubtitle([entityModelId], gameModel),
+              title: interfaceActionData.title || interfaceActionData.getTitle([entityModelId], gameModel),
+              icon: interfaceActionUIData.icon,
+              isReadOnly: true,
+              isRemoved: entityModel.isReadOnly || entityModel.isRemoved || isActionRemoved
+            }
+          })
+        } else if(arg1 === 'layerId') {
+          if(gameModel.layers) Object.keys(gameModel.layers).forEach((layerId) => {
+            const effectId = EFFECT_DID + interfaceActionId + layerId
             const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
             gameModel.effects[effectId] = {
               effectId,
@@ -69,40 +96,30 @@ export function generateActionEffects(gameModel) {
               interfaceActionId,
               dataSourceIID: DATA_SOURCE_ACTION_IID,
               customSelectorCategory: interfaceActionUIData.displayName,
-              name: interfaceActionData.getName([entityModelId], gameModel),
+              subTitle: interfaceActionData.getSubtitle([layerId], gameModel),
+              title: interfaceActionData.title || interfaceActionData.getTitle([layerId], gameModel),
               icon: interfaceActionUIData.icon,
               isReadOnly: true
             }
-          })
-        } else if(arg1 === 'layerId') {
-          if(gameModel.stages) Object.keys(gameModel.stages).forEach((stageId) => {
-            const stage = gameModel.stages[stageId]
-            if(stage.layers) Object.keys(stage.layers).forEach((layerId) => {
-              const effectId = EFFECT_DID + interfaceActionId + stageId +  layerId
-              const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
-              gameModel.effects[effectId] = {
-                effectId,
-                effectBehavior: EFFECT_INTERFACE_ACTION,
-                interfaceActionId,
-                dataSourceIID: DATA_SOURCE_ACTION_IID,
-                customSelectorCategory: interfaceActionUIData.displayName,
-                name: interfaceActionData.getName([stageId, layerId], gameModel),
-                icon: interfaceActionUIData.icon,
-                isReadOnly: true
-              }
-            })
           })
         } else if(arg1 === 'brushId') {
           if(gameModel.brushes) Object.keys(gameModel.brushes).forEach((brushId) => {
             const effectId = EFFECT_DID + interfaceActionId + brushId
             const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+            const brush = gameModel.brushes[brushId]
+
+            if(brush.layerId === NON_LAYER_BRUSH_ID || brush.layerId === CANVAS_IMAGE_LAYER_ID) return
+
             gameModel.effects[effectId] = {
               effectId,
               effectBehavior: EFFECT_INTERFACE_ACTION,
               interfaceActionId,
+              textureId: brush.textureId,
+              textureTint: brush.textureTint,
               dataSourceIID: DATA_SOURCE_ACTION_IID,
               customSelectorCategory: interfaceActionUIData.displayName,
-              name: interfaceActionData.getName([brushId], gameModel),
+              subTitle: interfaceActionData.getSubtitle([brushId], gameModel),
+              title:  interfaceActionData.title || interfaceActionData.getTitle([brushId], gameModel),
               icon: interfaceActionUIData.icon,
               isReadOnly: true
             }
@@ -110,16 +127,20 @@ export function generateActionEffects(gameModel) {
         } else if(arg1 === 'colorId') {
           if(gameModel.colors) Object.keys(gameModel.colors).forEach((colorId) => {
             const color = gameModel.colors[colorId]
+
             Object.keys(color).forEach((layerId) => {
               const effectId = EFFECT_DID + interfaceActionId + colorId + layerId
+              if(layerId === NON_LAYER_COLOR_ID || layerId === CANVAS_IMAGE_LAYER_ID) return
               const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
               gameModel.effects[effectId] = {
                 effectId,
                 effectBehavior: EFFECT_INTERFACE_ACTION,
                 interfaceActionId,
+                textureTint: colorId,
                 dataSourceIID: DATA_SOURCE_ACTION_IID,
                 customSelectorCategory: interfaceActionUIData.displayName,
-                name: interfaceActionData.getName([colorId, layerId], gameModel),
+                subTitle: interfaceActionData.getSubtitle([colorId, layerId], gameModel) ,
+                title: interfaceActionData.title || interfaceActionData.getTitle([colorId, layerId], gameModel),
                 icon: interfaceActionUIData.icon,
                 isReadOnly: true
               }
@@ -137,7 +158,8 @@ export function generateActionEffects(gameModel) {
                 interfaceActionId,
                 dataSourceIID: DATA_SOURCE_ACTION_IID,
                 customSelectorCategory: interfaceActionUIData.displayName,
-                name: interfaceActionData.getName([stageId], gameModel),
+                subTitle:  interfaceActionData.getSubtitle([stageId], gameModel),
+                title: interfaceActionData.title || interfaceActionData.getTitle([stageId], gameModel),
                 icon: interfaceActionUIData.icon,
                 isReadOnly: true
               }
@@ -204,8 +226,35 @@ export function addDefaultsToGameModel(gameData, oldGameData) {
       if(!oldGameData.entityModels[id]) gameData.entityModels[id] = mergeDeep(_.cloneDeep(defaultEntity), gameData.entityModels[id])
     })
 
-    return 
+    return
   }
+
+  const colors = {
+    '#FFFFFF': {
+
+    }, '#000000': {
+
+    }, '#EE4035': {
+
+    }, '#F37736': {
+
+    }, '#FDF498': {
+
+    }, '#7BC043': {
+
+    }, '#0392CF':{
+
+    }}
+    if(gameData.layers) Object.keys(gameData.layers).forEach((layerId) => {
+      Object.keys(colors).forEach((colorId) => {
+        colors[colorId][layerId] = 0
+      })
+    })
+    if(!gameData.colors) {
+      gameData.colors = {}
+    }
+    gameData.colors = mergeDeep(colors, gameData.colors)
+  
 
   if(gameData.entityModels) {
     Object.keys(gameData.entityModels).forEach((id) => {
@@ -230,13 +279,13 @@ export function addDefaultsToGameModel(gameData, oldGameData) {
 }
 
 export function addImportedGamesToGameModel(gameData) {
-  classLibrary.forEach((entityModel) => {
-    if(gameData.entityModels[entityModel.entityModelId]) {
-      gameData.entityModels[entityModel.entityModelId] = mergeDeep(_.cloneDeep(entityModel), gameData.entityModels[entityModel.entityModelId])
-    } else {
-      gameData.entityModels[entityModel.entityModelId] = _.cloneDeep(entityModel)
-    }
-  })
+  // classLibrary.forEach((entityModel) => {
+  //   if(gameData.entityModels[entityModel.entityModelId]) {
+  //     gameData.entityModels[entityModel.entityModelId] = mergeDeep(_.cloneDeep(entityModel), gameData.entityModels[entityModel.entityModelId])
+  //   } else {
+  //     gameData.entityModels[entityModel.entityModelId] = _.cloneDeep(entityModel)
+  //   }
+  // })
 
   gameData.importedArcadeGames.forEach((importedGame) => {
     if(importedGame.entityModels) {

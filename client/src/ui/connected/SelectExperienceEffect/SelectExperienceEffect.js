@@ -3,19 +3,25 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
-import { experienceEffectInterfaceIdData, instructionCategoryToExperienceEffects } from '../../../constants/experience/experienceEffect';
+import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_GAME_EFFECT, instructionCategoryToExperienceEffects } from '../../../constants/experience/experienceEffect';
 
-const SelectExperienceEffect = ({ instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel } }) => {
+const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel } }) => {
 
   const mapEffectToOption = (experienceEffectId) => {
     const experienceEffect = experienceModel.experienceEffects[experienceEffectId]
     const experienceEffectInterfaceData = experienceEffectInterfaceIdData[experienceEffect.experienceEffectBehavior]
-    const name = experienceEffect.name || experienceEffectInterfaceData.displayName
+    const title = experienceEffect.title || experienceEffectInterfaceData.displayName
+    const subTitle = experienceEffect.subTitle || experienceEffectInterfaceData.subTitle
 
     if(instructionCategoryToExperienceEffects[instructionCategory].indexOf(experienceEffect.experienceEffectBehavior) === -1) return null
 
+    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_EFFECT && (!arcadeGameMongoId ||  experienceEffect.arcadeGameMongoId !== arcadeGameMongoId)) {
+      return null
+    }
+
     return {
-      label: name,
+      labelTitle: title,
+      label: subTitle,
       icon: experienceEffectInterfaceData.icon || experienceEffectInterfaceData.icon,
       value: experienceEffectId,
       group: experienceEffect.customSelectorCategory || experienceEffectInterfaceData.displayName

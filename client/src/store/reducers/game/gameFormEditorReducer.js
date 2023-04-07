@@ -44,6 +44,8 @@ import {
   OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING,
   CLOSE_CREATE_CANVAS_IMAGE_DIALOG,
   OPEN_CREATE_CANVAS_IMAGE_DIALOG,
+  CLOSE_EFFECT_PROMPT_DIALOG,
+  OPEN_EFFECT_PROMPT_DIALOG,
 } from '../../types';
 
 // game create editor
@@ -120,7 +122,10 @@ const initialState = {
   isCanvasImageDialogOpen: false,
   canvasImage: {
     visualTags: []
-  }
+  },
+
+
+  isEffectPromptDialogOpen: false,
 };
 
 export const initialGameFormEditorState = initialState
@@ -384,6 +389,16 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCanvasImageDialogLoading: true
+      }
+    case CLOSE_EFFECT_PROMPT_DIALOG: 
+      return {
+        ...state,
+        isEffectPromptDialogOpen: false
+      }
+    case OPEN_EFFECT_PROMPT_DIALOG:
+      return {
+        ...state,
+        isEffectPromptDialogOpen: true
       }
     case CLEAR_EDITOR_FORMS:
       return initialState

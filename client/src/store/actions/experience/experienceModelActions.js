@@ -24,7 +24,31 @@ import _ from 'lodash';
 import { activityToInterfaceData, ACTIVITY_DID, allActivityUsersRoleId, allExperienceUsersRoleId, allLobbyUsersRoleId, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
-import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH, EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION } from '../../../constants/experience/experienceEffect';
+import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH, EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION, EXPERIENCE_EFFECT_GAME_EFFECT } from '../../../constants/experience/experienceEffect';
+import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK } from '../../../game/constants';
+
+export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
+  Object.keys(gameModel.effects).forEach((effectId) => {
+    //mapp game model effects to experience model effects 
+    const effect = gameModel.effects[effectId]
+    const experienceEffectId = EXPERIENCE_EFFECT_DID+effectId+gameModel.id
+    if(effect.effectBehavior !== EFFECT_INTERFACE_ACTION && effect.effectBehavior !== EFFECT_INTERFACE_UNLOCK) {
+      return
+    }
+
+    experienceModel.experienceEffects[experienceEffectId] = {
+      effectId: effectId,
+      experienceEffectId,
+      icon: effect.icon,
+      experienceEffectBehavior: EXPERIENCE_EFFECT_GAME_EFFECT,
+      title: effect.title,
+      subTitle: effect.subTitle,
+      arcadeGameMongoId: gameModel.id,
+      customSelectorCategory: effect.customSelectorCategory,
+    }
+  })
+
+}
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
@@ -150,7 +174,7 @@ function enrichExperienceModel(experienceModel) {
         activityId: activityId,
         roleId: allActivityUsersRoleId,
         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
-        name: 'Change Activity to '+ activity.name,
+        title: 'Change Activity to '+ activity.name,
       }
         
       // Object.keys(experienceModel.roles).forEach((roleId) => {
@@ -160,7 +184,7 @@ function enrichExperienceModel(experienceModel) {
       //     activityId: activityId,
       //     roleId,
       //     experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
-      //     name: 'Change Activity to '+ activity.name,
+      //     title: 'Change Activity to '+ activity.name,
       //   }
       // })
 
@@ -179,7 +203,7 @@ function enrichExperienceModel(experienceModel) {
   //         roleId: roleId,
   //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_LOBBY,
   //         icon: 'faDoorOpen',
-  //         name: 'Change Lobby to '+ lobby.name,
+  //         title: 'Change Lobby to '+ lobby.name,
   //       }
   //     })
 
@@ -192,7 +216,7 @@ function enrichExperienceModel(experienceModel) {
   //         roleId,
   //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_LOBBY,
   //         icon: 'faDoorOpen',
-  //         name: 'Change Lobby to '+ lobby.name,
+  //         title: 'Change Lobby to '+ lobby.name,
   //       }
   //    })
   //   })
@@ -211,7 +235,7 @@ function enrichExperienceModel(experienceModel) {
   //         roleId,
   //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_INSTRUCTION,
   //         icon: 'faDoorOpen',
-  //         name: 'Change Instruction to '+ instruction.name,
+  //         title: 'Change Instruction to '+ instruction.name,
   //       }
   //     })
   //   })
@@ -229,7 +253,7 @@ function enrichExperienceModel(experienceModel) {
           experienceEffectId: openTransitionId,
           roleId,
           experienceEffectBehavior: EXPERIENCE_EFFECT_OPEN_TRANSITION,
-          name: 'Send to Stars',
+          title: 'Send to Stars',
           customSelectorCategory: 'Transition'
         }
 
@@ -237,7 +261,7 @@ function enrichExperienceModel(experienceModel) {
           experienceEffectId: closeTransitionId,
           roleId,
           experienceEffectBehavior: EXPERIENCE_EFFECT_CLOSE_TRANSITION,
-          name: 'Return from Stars',
+          title: 'Return from Stars',
           customSelectorCategory: 'Transition'
         }
       }

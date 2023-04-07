@@ -34,6 +34,7 @@ import { AlertTitle } from '@mui/material';
 import Alert from '../../../ui/Alert/Alert';
 import SelectSpawnZoneSelectorType from '../../ui/SelectSpawnZoneSelectorType/SelectSpawnZoneSelectorType';
 import ReadOnlyWarning from '../../ui/ReadOnlyWarning/ReadOnlyWarning';
+import SelectEffect from '../../ui/SelectEffect/SelectEffect';
 
 // {event && <SelectGameInstanceEffect
 //         event={event}
@@ -351,8 +352,7 @@ const CreateRelation = ({
     <div className="CreateEvent">
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
-      {event.eventType && <SelectGameInstanceEffect
-        removeInterfaceActions
+      {event.eventType && <SelectEffect
         eventType={event.eventType}
         formLabel={"Effects"}
         value={relation.effectIds.filter((effectId) => {

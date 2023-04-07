@@ -8,6 +8,9 @@ export const defaultEffect = {
   effectBehavior: '',
   effectId: null,
 
+  title: '',
+  subTitle: '',
+
   remoteEffectedRelationTagIds: [],
 
   stageId: null,

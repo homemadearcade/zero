@@ -84,9 +84,10 @@ export class Eraser extends Brush {
   throttledUpdatePreviews = throttle(this.updatePreviews, 100)
 
   createPreviewLayers() {
-    const stage = this.scene.getCurrentStage()
+    const gameModel = this.scene.getGameModel()
+    const stage = this.getCurrentStage()
     const eraserLayerId = getLayerIdFromEraserId(this.brushId)
-    const eraserLayerGroupId = stage.layers[eraserLayerId].layerGroupIID
+    const eraserLayerGroupId = gameModel.layers[eraserLayerId].layerGroupIID
 
     const previewWidth = stage.boundaries.maxWidth
     const previewHeight = stage.boundaries.maxHeight

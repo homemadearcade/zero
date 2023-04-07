@@ -183,10 +183,9 @@ export class GameInstance extends Phaser.Scene {
 
     // all phaserInstances on playground layer collide with the player
     const gameModel = this.getGameModel()
-    const currentStage = this.getCurrentStage()
     const releventInstances = this.entityInstances.filter((entityInstance) => {
       const entityModel = gameModel.entityModels[entityInstance.entityModelId]
-      const layerGroupIID = currentStage.layers[entityModel.graphics.layerId].layerGroupIID
+      const layerGroupIID = entityModel.graphics.layerGroupIID
       return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
     }).map(({phaserInstance}) => phaserInstance)
 
@@ -235,12 +234,14 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
   initializeLayers = () => {
-    const currentStage = this.getCurrentStage()
-    const layers = currentStage.layers
+    const gameModel = this.getGameModel()
+    const stage = this.getCurrentStage()
+    const layers = gameModel.layers
 
     this.layerInstancesById = {}
     Object.keys(layers).forEach((layerId) => {
       const layer = layers[layerId]
+      if(layer.stageId !== stage.stageId) return
       if(layer.hasCollisionBody) {
         this.layerInstancesById[layerId] = new CollisionCanvas(
           this, 
@@ -249,7 +250,7 @@ export class GameInstance extends Phaser.Scene {
             layerGroupIID: layer.layerGroupIID,
             isCodrawingHost: this.gameRoomInstance.isHost,
             textureId: layer.textureId,
-            boundaries: currentStage.boundaries,
+            boundaries: stage.boundaries,
             autoSave: true
           }
         )
@@ -261,7 +262,7 @@ export class GameInstance extends Phaser.Scene {
             layerGroupIID: layer.layerGroupIID,
             isCodrawingHost: this.gameRoomInstance.isHost, 
             textureId: layer.textureId,
-            boundaries: currentStage.boundaries, 
+            boundaries: stage.boundaries, 
             autoSave: true
           }
         )
@@ -299,7 +300,7 @@ export class GameInstance extends Phaser.Scene {
   getDepthFromLayerId(layerId) {
     if(layerId === UI_LAYER_ID) return UI_LAYER_DEPTH
     if(layerId === NON_LAYER_BRUSH_ID) return NON_LAYER_BRUSH_DEPTH
-    const layer = this.getCurrentStage().layers[layerId]
+    const layer = this.getGameModel().layers[layerId]
     return layerGroupIIDToDepth[layer.layerGroupIID]
   }
 
@@ -457,12 +458,10 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
   getEntityModelDepth(entityModelId) {
-    const layers = this.getCurrentStage().layers
     const gameModel = this.getGameModel()
     const entityModel = gameModel.entityModels[entityModelId]
 
-    if(entityModel.graphics.depthOverride) return entityModel.graphics.depthOverride
-    const layerGroupIID =  layers[entityModel.graphics.layerId].layerGroupIID
+    const layerGroupIID =  entityModel.graphics.layerGroupIID
     return layerGroupIIDToDepth[layerGroupIID] + entityModel.graphics.depthModifier
   }
 

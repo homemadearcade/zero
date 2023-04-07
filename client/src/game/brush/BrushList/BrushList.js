@@ -61,8 +61,9 @@ const BrushList = ({
 
   const accordians = []
   const hiddenOpacity = 0.5
-  Object.keys(stage.layers).forEach((layerId) => {
-    const layer = stage.layers[layerId]
+  Object.keys(gameModel.layers).forEach((layerId) => {
+    const layer = gameModel.layers[layerId]
+    if(layer.stageId !== currentStageId) return
 
     const layerBrushes = brushesByLayer[layerId]?.
     sort(sortByLastSelectedDate(brushes)).

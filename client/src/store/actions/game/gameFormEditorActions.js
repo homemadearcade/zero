@@ -46,6 +46,8 @@ import {
   OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING,
   OPEN_CREATE_CANVAS_IMAGE_DIALOG,
   CLOSE_CREATE_CANVAS_IMAGE_DIALOG,
+  OPEN_EFFECT_PROMPT_DIALOG,
+  CLOSE_EFFECT_PROMPT_DIALOG,
 } from '../../types';
 import { addCanvasImage } from '../media/canvasImageActions';
 import { saveAllCurrentCanvases } from '../media/codrawingActions';
@@ -396,7 +398,20 @@ export const updateCreateRelationTag = (relationTag) => (dispatch, getState) => 
   });
 }
 
-
+export const openEffectPromptDialog = () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: OPEN_EFFECT_PROMPT_DIALOG,
+    payload: {}
+  });
+}
+export const closeEffectPromptDialog= () => (dispatch, getState) => {
+  dispatch({
+    updateCobrowsing: true,
+    type: CLOSE_EFFECT_PROMPT_DIALOG,
+    payload: {}
+  });
+}
 
 
 

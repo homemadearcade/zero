@@ -8,6 +8,7 @@ import { mirrorPlayerDefaults } from "../entityModelPropertyDefaults";
 import { PLAYGROUND_LAYER_GROUP_DEPTH } from "../core";
 import { nodeSize } from "../core";
 import { RELATION_SPAWN_ENTITY_MODEL_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, DATA_SOURCE_SYSTEM_IID } from "../../../constants/interfaceIds";
+import { DRAW_NEW_SPRITE_FOR_ENTITY_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, IMPORT_DATA_SOURCE_AID, PLACE_ENTITY_AID } from "../../../constants/interfaceActionIds";
 
 export const defaultGameModel = {
   "metadata": {
@@ -57,6 +58,7 @@ export const defaultGameModel = {
   interfacePresets: {
 
   },
+  layers: {},
   "entityModels": {
     [vehiclePlayerEntityId]: vehicleEntity,
     [jumperPlayerEntityId]: jumperEntity,
@@ -67,8 +69,9 @@ export const defaultGameModel = {
       ...defaultZoneEntity,
       entityModelId: initialPlayerSpawnZoneEntityId,
       editorInterface: {
-        hiddenFromInterfaceIds: {
-          [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true
+        hiddenFromIDs: {
+          [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
+          [EDIT_ENTITY_AID]: true,
         },
       },
       autogeneration: {
@@ -76,7 +79,7 @@ export const defaultGameModel = {
           playerTransformIntoRelationTag: false,
         teleportToEffect: true,
           playerTeleportToRelationTag: true,
-        spawnOntoStageEffect: true,
+        spawnOntoStageEffect: false,
         destroyAllEffect: false,
         automaticEntityTag: true,
       },
@@ -93,9 +96,11 @@ export const defaultGameModel = {
         ...mirrorPlayerDefaults.movement
       },
       editorInterface: {
-        hiddenFromInterfaceIds: {
+        hiddenFromIDs: {
           [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
-          [RELATION_SPAWN_ENTITY_MODEL_IID]: true
+          [RELATION_SPAWN_ENTITY_MODEL_IID]: true,
+          [IMPORT_DATA_SOURCE_AID]: true,
+          [PLACE_ENTITY_AID]: true,
         },
         fixedAspectRatio: true,
       },
@@ -126,9 +131,12 @@ export const defaultGameModel = {
       name: 'Stage',
       ...defaultZoneEntity,
       editorInterface: {
-        hiddenFromInterfaceIds: {
+        hiddenFromIDs: {
           [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
-          [RELATION_SPAWN_ENTITY_MODEL_IID]: true
+          [RELATION_SPAWN_ENTITY_MODEL_IID]: true,
+          [EDIT_ENTITY_AID]: true,
+          [IMPORT_DATA_SOURCE_AID]: true,
+          [PLACE_ENTITY_AID]: true,
         },
         notSelectableInStage: true,
       },

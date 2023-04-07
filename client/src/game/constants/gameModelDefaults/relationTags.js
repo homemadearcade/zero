@@ -16,7 +16,7 @@ export const defaultRelationTag = {
   },
 }
 
-function createLibraryTag(relationTagId, name, textureTint, hiddenFromInterfaceIds = {}) {
+function createLibraryTag(relationTagId, name, textureTint, hiddenFromIDs = {}) {
   return {
     ...defaultRelationTag,
     isReadOnly: true,
@@ -27,9 +27,9 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromInterfaceI
     textureTint,
     editorInterface: {
       ...defaultRelationTag.editorInterface,
-      hiddenFromInterfaceIds: {
-        ...defaultRelationTag.editorInterface.hiddenFromInterfaceIds,
-        ...hiddenFromInterfaceIds
+      hiddenFromIDs: {
+        ...defaultRelationTag.editorInterface.hiddenFromIDs,
+        ...hiddenFromIDs
       }
     }
   }

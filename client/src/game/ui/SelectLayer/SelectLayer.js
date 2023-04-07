@@ -4,18 +4,24 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './SelectLayer.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
+import { BACKGROUND_LAYER_GROUP_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../../constants/interfaceIds';
 
-const SelectLayer = ({ formLabel, onChange, value, disabled, gameModel: { gameModel, currentStageId }}) => {
-  const currentStage = gameModel.stages[currentStageId]
-  const mapControlsToOption = (layerId) => {
-    const layer = currentStage.layers[layerId]
+const layerGroupIIDtoName = {
+  [BACKGROUND_LAYER_GROUP_IID]: 'Background',
+  [FOREGROUND_LAYER_GROUP_IID]: 'Foreground',
+  [PLAYGROUND_LAYER_GROUP_IID]: 'Playground'
+}
+
+const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
+  const mapControlsToOption = (layerGroupId) => {
+
     return {
-      label: layer.name,
-      value: layerId
+      label: layerGroupIIDtoName[layerGroupId],
+      value: layerGroupId
     }
   }
 
-  const options = Object.keys(currentStage.layers).map(mapControlsToOption)
+  const options = [BACKGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID, FOREGROUND_LAYER_GROUP_IID].map(mapControlsToOption)
 
   return <SelectChipsAuto 
     disabled={disabled}

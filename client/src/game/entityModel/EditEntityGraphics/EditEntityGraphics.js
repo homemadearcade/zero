@@ -13,13 +13,13 @@ import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { getEntityDisplayName } from '../../../utils/gameUtils';
 import EntityMemberTitle from '../EntityMemberTitle/EntityMemberTitle';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { entityModelTypeToDisplayName, initialPlaygroundLayerId } from '../../constants';
+import { entityModelTypeToDisplayName } from '../../constants';
 import Switch from '../../../ui/Switch/Switch';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { ENTITY_MODEL_DID, entityModelTypeToPrefix } from '../../constants';
-import { ENTITY_LAYER_IID, ENTITY_INVISIBLE_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID } from '../../../constants/interfaceIds';
+import { ENTITY_LAYER_IID, ENTITY_INVISIBLE_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../../constants/interfaceIds';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 
 const EditEntityGraphics = ({ 
@@ -108,7 +108,7 @@ const EditEntityGraphics = ({
           }}
       />}
       {entityModel.entityIID !== ZONE_ENTITY_IID && entityModel.entityIID !== PLAYER_ENTITY_IID && <Unlockable interfaceId={ENTITY_LAYER_IID}>
-        <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerId ? [entityModel.graphics.layerId] : [initialPlaygroundLayerId]} onChange={(e, value) => {
+        <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerGroupIID ? [entityModel.graphics.layerGroupIID] : [PLAYGROUND_LAYER_GROUP_IID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateEntity({ graphics: {
             layerId: newValue

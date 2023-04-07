@@ -13,9 +13,9 @@ import { entityModelTypeToDisplayName } from '../../constants';
 import { initialStageId } from '../../constants';
 import { changeSelectorList, openGameMetadataDialog, openSelectStageColorDialog } from '../../../store/actions/game/gameSelectorActions';
 import Button from '../../../ui/Button/Button';
-import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
+import { openEditEntityDialog, openEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { CHANGE_SELECTOR_TABS_IID, GAME_OPEN_METADATA_IID, GAME_OPEN_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, STAGE_OPEN_BACKGROUND_COLOR_IID } from '../../../constants/interfaceIds';
+import { CHANGE_SELECTOR_TABS_IID, GAME_OPEN_METADATA_IID, GAME_OPEN_SNAPSHOT_IID, HOVER_PREVIEW_IID, SELECTOR_ABSTRACT_LIST_IID, SELECTOR_ENTITY_BY_INTERFACE_ID_IID, SELECTOR_PROMPT_ENTRY_IID, STAGE_OPEN_BACKGROUND_COLOR_IID } from '../../../constants/interfaceIds';
 import { openSnapshotTaker } from '../../../store/actions/game/gameViewEditorActions';
 import { useWishTheme } from '../../../hooks/useWishTheme';
 import IconButton from '../../../ui/IconButton/IconButton';
@@ -52,6 +52,7 @@ const HoverPreview = ({
   openSelectStageColorDialog,
   openSnapshotTaker,
   changeSelectorList,
+  openEffectPromptDialog
 }) => {
   const [isHoveringOverTitle, setIsHoveringOverTitle] = useState(false)
   const theme = useWishTheme()
@@ -80,7 +81,6 @@ const HoverPreview = ({
   let brushModel
   let hex; 
   let isEraser;
-  
 
   const brushId = brushIdHovering || brushIdSelectedBrushList
   if(brushId) {
@@ -154,7 +154,7 @@ const HoverPreview = ({
   }
 
   function renderBrushDisplay() {
-    const layer = currentStage.layers[brushModel.layerId]
+    const layer = gameModel.layers[brushModel.layerId]
     return renderDisplayWithTexture({
       textureTint: brushModel.textureTint,
       textureId: brushModel.textureId,
@@ -163,7 +163,7 @@ const HoverPreview = ({
   }
 
   function renderColorDisplay() {
-    const layer = currentStage.layers[getLayerIdFromColorId(brushId)]
+    const layer = gameModel.layers[getLayerIdFromColorId(brushId)]
     return renderDisplayWithTexture({
       textureTint: hex,
       spriteOverlay: <ColorNameFit hex={hex}/>,
@@ -176,7 +176,7 @@ const HoverPreview = ({
   }
 
   function renderEraserDisplay() {
-    const layer = currentStage.layers[getLayerIdFromEraserId(brushId)]
+    const layer = gameModel.layers[getLayerIdFromEraserId(brushId)]
     return <><div className="HoverPreview__display">
         <div className="HoverPreview__display-item">
           <Icon icon="faEraser"/>
@@ -219,11 +219,17 @@ const HoverPreview = ({
           <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>{renderEditableIcon(() => {
             openGameMetadataDialog()
           })}</Unlockable>
+          {<Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
+            <Button size="xs" onClick={() => {
+              openEffectPromptDialog()
+            }}><Icon icon="faTerminal"/></Button>
+          </Unlockable>}
           {currentSelectorListInterfaceId === SELECTOR_ENTITY_BY_INTERFACE_ID_IID && <Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
             <Button size="xs" onClick={() => {
               changeSelectorList(SELECTOR_ABSTRACT_LIST_IID)
             }}><Icon icon="faTableList"/></Button>
           </Unlockable>}
+
       </div>}
       {currentStageId === initialStageId ? null : <>
         <Typography font="2P" variant="subtitle2" sx={{fontSize: '0.5em'}} >{currentStage.name}</Typography>
@@ -305,4 +311,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameRoomInstance: state.gameRoomInstance
 })
 
-export default connect(mapStateToProps, { openGameMetadataDialog, openEditEntityDialog, openSelectStageColorDialog, openSnapshotTaker, changeSelectorList })(HoverPreview);
+export default connect(mapStateToProps, { openEffectPromptDialog, openGameMetadataDialog, openEditEntityDialog, openSelectStageColorDialog, openSnapshotTaker, changeSelectorList })(HoverPreview);

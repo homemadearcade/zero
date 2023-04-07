@@ -5,13 +5,17 @@ import { INTERFACE_ACTION_PLAY } from "../interfaceActions"
 export default {
   [PLAY_CUTSCENE_AID]: {
     arguments: ['cutsceneId'],
-    getName: ([cutsceneId], gameModel) => {
+    getTitle: ([cutsceneId], gameModel) => {
       return 'Play ' + gameModel.cutscenes[cutsceneId].name
+    },
+    getSubtitle: ([cutsceneId], gameModel) => {
+      return gameModel.cutscenes[cutsceneId].name
     },
     actionType: INTERFACE_ACTION_PLAY
   },
   [PLAY_TEST_GAME_AID]: {
-    name: 'Playtest Game in new window',
+    title: 'Playtest Game',
     actionType: INTERFACE_ACTION_PLAY,
+    subTitle: 'This will open a new window'
   },
 }

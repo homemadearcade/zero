@@ -1,5 +1,5 @@
 export const defaultEditorInterface = {
-  hiddenFromInterfaceIds: {},
+  hiddenFromIDs: {},
   fixedAspectRatio: false,
   notSelectableInStage: false,
 }

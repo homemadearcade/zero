@@ -67,7 +67,7 @@ const EntityBoxList = ({
       const relevantEntityModels = entityModels.filter((entityModel) => {
         return !!importedGameModel.entityModels[entityModel.entityModelId]
       })
-      renderAccordian(importedGameModel.metadata.title, DATA_SOURCE_IMPORTED_GAME_MODE_IID, relevantEntityModels)
+      renderAccordian(DATA_SOURCE_IMPORTED_GAME_MODE_IID, importedGameModel.metadata.title, relevantEntityModels)
     })
 
     renderAccordian(IS_DATA_HIDDEN_IID, dataSourceIIDToDisplayName[IS_DATA_HIDDEN_IID], entityModels)
@@ -97,7 +97,7 @@ const EntityBoxList = ({
     }
     if(currentEntityModel.isRemoved) return 
 
-    const isHidden = currentEntityModel.editorInterface.hiddenFromInterfaceIds[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]
+    const isHidden = currentEntityModel.editorInterface.hiddenFromIDs[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]
     if(dataSourceIID === IS_DATA_HIDDEN_IID) {
       if(isHidden) return true
       return false

@@ -27,6 +27,7 @@ const ExperienceInstanceAddForm = ({ addLobby, onSubmit, addArcadeGame, addGameR
     const gameResponse = await addArcadeGame({
       userMongoId: data.invitedUsers,
       stages: {},
+      layers: {},
       entityModels: {},
       cutscenes: {},
       relations: {},

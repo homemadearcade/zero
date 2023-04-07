@@ -20,7 +20,7 @@ const SelectEntity = ({ onChange, disabled, value, interfaceId, formLabel, gameM
     const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_ENTITY_MODEL_IID][entityModel.dataSourceIID]
     const isRemovedInvisible = entityModel.isRemoved && selectorInterfaceListInvisibility[SELECT_ENTITY_MODEL_IID][IS_DATA_REMOVED_IID]
 
-    const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromInterfaceIds[interfaceId]
+    const isRemoved = isDataSourceInvisible || isRemovedInvisible || entityModel.editorInterface.hiddenFromIDs[interfaceId]
 
     return {
       label: entityModel.name,

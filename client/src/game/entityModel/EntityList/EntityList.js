@@ -62,7 +62,7 @@ const EntityList = ({
   const filterEntityModels = (entityModelType) => (currentEntityModelId) => {
     const currentEntityModel = entityModels[currentEntityModelId]
     if(currentEntityModel.isRemoved) return 
-    if(currentEntityModel.editorInterface.hiddenFromInterfaceIds[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]) return false
+    if(currentEntityModel.editorInterface.hiddenFromIDs[SELECTOR_ENTITY_BY_INTERFACE_ID_IID]) return false
     if(!currentEntityModel.isImported) return false 
     if(currentEntityModel.entityIID === entityModelType) {
       return true

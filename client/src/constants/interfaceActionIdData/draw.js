@@ -1,14 +1,18 @@
+import React from "react";
 import { DRAW_BRUSH_AID, DRAW_COLOR_AID, DRAW_NEW_BRUSH_AID, DRAW_NEW_COLOR_AID, DRAW_NEW_SPRITE_AID, DRAW_NEW_SPRITE_FOR_ENTITY_AID } from "../interfaceActionIds";
 import { findColorNameByHex, getLayerIdFromColorId } from "../../utils";
 import { INTERFACE_ACTION_DRAW } from "../interfaceActions";
 import { openCreateBrushFlow, openCreateColorFlow } from "../../store/actions/game/gameFormEditorActions";
+import { ZONE_ENTITY_IID } from "../interfaceIds";
+import Texture from "../../game/textures/Texture/Texture";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [DRAW_NEW_COLOR_AID]: {
     arguments: ['layerId'],
-    getName: ([stageId, layerId], gameModel) => {
-      return 'Draw new Color on ' + gameModel.stages[stageId].layers[layerId].name + ' Layer'
+    title: 'Draw New Color',
+    getSubtitle: ([layerId], gameModel) => {
+      return gameModel.layers[layerId].name + ' Layer'
     },
     actionType: INTERFACE_ACTION_DRAW,
     onClick: (layerId) => (dispatch) => {
@@ -18,8 +22,9 @@ export default {
     higherPriority: true
   },
   [DRAW_NEW_BRUSH_AID]: {
-    getName: ([stageId, layerId], gameModel) => {
-      return 'Draw new Brush on ' + gameModel.stages[stageId].layers[layerId].name + ' Layer'
+    title: 'Draw New Brush',
+    getSubtitle: ([layerId], gameModel) => {
+      return gameModel.layers[layerId].name + ' Layer'
     },
     arguments: ['layerId'],
     actionType: INTERFACE_ACTION_DRAW,
@@ -29,33 +34,52 @@ export default {
     higherPriority: true
   },
   [DRAW_BRUSH_AID]: {
-    getName: ([brushId], gameModel) => {
-      const layerId = gameModel.brushes[brushId]
-      const layer = gameModel.stages[gameModel.currentStageId].layers[layerId]
-      return 'Draw ' + gameModel.brushes[brushId].name + ' on ' + layer.name + ' Layer'
+    getTitle: ([brushId], gameModel) => {
+      const brush = gameModel.brushes[brushId]
+      return 'Draw Brush'
+      // return <>
+      //  {'Draw Brush '}
+      //  <Texture tint={brush.textureTint} textureId={brush.textureId} />
+      // </>
+      // + gameModel.brushes[brushId].name
+    },
+    getSubtitle: ([brushId], gameModel) => {
+      const layerId = gameModel.brushes[brushId].layerId
+      const layer = gameModel.layers[layerId]
+      return layer.name + ' Layer'
     },
     arguments: ['brushId'],
     icon: 'faPaintbrush',
     actionType: INTERFACE_ACTION_DRAW
   },
   [DRAW_COLOR_AID]: {
-    getName: ([colorId, layerId], gameModel) => {
-      // const layerId = getLayerIdFromColorId(colorId)
-      
-      // const layer = gameModel.stages[gameModel.currentStageId].layers[layerId]
-      return 'Draw ' + findColorNameByHex(colorId) + ' on ' + layerId
+    getTitle: ([colorId], gameModel) => {
+      return 'Draw ' + findColorNameByHex(colorId)
+      // return <div style={{display: 'flex', gap: '.2em'}}>
+      //  {'Draw '}{
+      //  findColorNameByHex(colorId)}
+      //  <Texture textureTint={colorId} />
+      // </div>
+    },
+    getSubtitle: ([colorId, layerId], gameModel) => {
+      const layer = gameModel.layers[layerId]
+      return layer.name + ' Layer'
     },
     arguments: ['colorId'],
     icon: 'faPaintbrush',
     actionType: INTERFACE_ACTION_DRAW
   },
-  [DRAW_NEW_SPRITE_AID]: {
-    name: 'Draw New Sprite',
-    actionType: INTERFACE_ACTION_DRAW
-  },
+  // [DRAW_NEW_SPRITE_AID]: {
+  //   title: 'Draw New Sprite',
+  //   actionType: INTERFACE_ACTION_DRAW
+  // },
   [DRAW_NEW_SPRITE_FOR_ENTITY_AID]: {
-    getName: ([entityModelId], gameModel) => {
-      return 'Draw New Sprite for ' + gameModel.entityModels[entityModelId].name
+    title: 'Draw New Sprite',
+    getSubtitle: ([entityModelId], gameModel) => {
+      return gameModel.entityModels[entityModelId].name
+    },
+    isRemoved: ([entityModelId], gameModel) => {
+      return gameModel.entityModels[entityModelId].entityIID === ZONE_ENTITY_IID
     },
     arguments: ['entityModelId'],
     actionType: INTERFACE_ACTION_DRAW

@@ -17,6 +17,7 @@ const StepEditBody = ({
 }) => {
   const instruction = experienceModel.instructions[instructionId]
   
+  console.log(instruction.arcadeGameMongoId)
   function renderStepBehaviorForm(step) {
     return <Controller
       {...register(`steps.${step.stepId}.experienceEffectIds`, {
@@ -26,6 +27,7 @@ const StepEditBody = ({
       control={control}
       render={({ field: { onChange, value } }) => {
         return <SelectExperienceEffect
+          arcadeGameMongoId={instruction.arcadeGameMongoId}
           formLabel={"Changes that occur when this step begins"}
           eventType={ON_STEP_BEGINS}
           value={value}

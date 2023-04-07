@@ -7,4 +7,4 @@ Changing Game host requires you to reload the game doesnt it. Because host is de
 Just have a thing that prevents it from spawning near the edge?
 Wtf is up with this spawning bs?? Why the corner??
 
-I think projects dont do anything right now, register relations with them please :)
+I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING

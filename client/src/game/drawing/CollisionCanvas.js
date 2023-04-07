@@ -81,13 +81,11 @@ export class CollisionCanvas extends CodrawingCanvas {
     if(this.collisionBody) {
       // console.log('body arrived')
 
-      const layers = this.scene.getCurrentStage().layers
       const entityModels = this.scene.getGameModel().entityModels
-
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.phaserInstance)
       this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.entityInstances.filter(({entityModelId}) => {
-        const layer = layers[entityModels[entityModelId].graphics.layerId]
-        return layer.layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
+        const layerGroupIID = entityModels[entityModelId].graphics.layerGroupIID
+        return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
       }).map(({phaserInstance}) => {
         return phaserInstance
       }))

@@ -8,7 +8,7 @@ export const defaultExperienceEffect = {
   roleId: null,
   interfaceActionId: null,
   effectId: null,
-  name: '',
+  title: '',
   customSelectorGroup: '',
   isRemoved: false,
 }

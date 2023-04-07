@@ -234,9 +234,9 @@ export default function SelectChipsAuto({
     onChange={onChange} 
     disabled={disabled} 
     inheritedValue={inheritedValue} 
-    options={options.filter(({label}) => {
-      return !!label
-    })} 
+    options={options.filter(({label, labelTitle}) => {
+      return  !!labelTitle || !!label
+    })}
     formLabel={formLabel}
   />
 }
@@ -249,8 +249,10 @@ function SelectChipsAutoForm({
   disabled,
   options,
   formLabel,
-  freeSolo
+  freeSolo,
+  domId
 }) {
+  console.log(domId)
   const {
     getRootProps,
     getInputLabelProps,
@@ -262,7 +264,7 @@ function SelectChipsAutoForm({
     focused,
     setAnchorEl,
   } = useAutocomplete({ 
-    id: formLabel,
+    id: domId,
     value: inheritedValue,
     multiple: true,
     options,
@@ -273,7 +275,7 @@ function SelectChipsAutoForm({
     // disableClearable: !!disabled,
     // disableListWrap: !!disabled,
     // disabledItemsFocusable: !!disabled,
-    getOptionLabel: (option) => option.label,
+    getOptionLabel: (option) => option.labelTitle || option.label,
     onChange: (event, selected) => {
       document.activeElement.blur();
       onChange(event, selected.map((option) => {
@@ -304,10 +306,10 @@ function SelectChipsAutoForm({
   }
 
   function renderLabelText(option) {
-    if(option.shortLabel) {
+    if(option.labelTitle) {
       return <div>
-        <Typography sx={{ fontWeight: 'bold', fontSize: '1.25em' }} component="div" varient="subtitle2">{option.shortLabel}</Typography>
-        <Typography sx={{ fontSize: '1em' }} component="div">{option.label}</Typography>
+        <Typography sx={{ fontWeight: 'bold', fontSize: '1.25em' }} component="div" varient="subtitle2">{option.labelTitle}</Typography>
+        {option.label && <Typography sx={{ fontSize: '1em' }} component="div">{option.label}</Typography>}
       </div>
     } else {
       return option.label
@@ -367,7 +369,7 @@ function SelectChipsAutoForm({
               {...getTagProps({ index })}
             />
           })}
-          <input {...getInputProps()}/>
+          <input id={domId} {...getInputProps()}/>
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (

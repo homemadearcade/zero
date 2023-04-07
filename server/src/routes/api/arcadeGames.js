@@ -94,6 +94,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
   try {
     let game = await ArcadeGame.create({
       stages: req.body.stages, 
+      layers: req.body.layers,
       metadata: req.body.metadata, 
       theme: req.body.theme, 
       player: req.body.player, 
@@ -251,7 +252,8 @@ router.put('/:id', requireJwtAuth, requireSocketAuth, async (req, res) => {
       interfacePresets: updatedGame.interfacePresets,
       effects: updatedGame.effects, 
       isRemoved: updatedGame.isRemoved,
-      stages: updatedGame.stages
+      stages: updatedGame.stages,
+      layers: updatedGame.layers,
       // user: tempGame.owner ? tempGame.owner.id : Math.random()
     }
 

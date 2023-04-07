@@ -14,6 +14,11 @@ const arcadeGameSchema = new Schema(
       required: true,
       default: {}
     },
+    layers: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     metadata: {
       type: Object,
       required: true,
@@ -120,6 +125,7 @@ export const validateArcadeGame = (game) => {
     gameModelId: Joi.string(),
     nodeSize: Joi.number(),
     stages: Joi.object(),
+    layers: Joi.object(),
     entityModels: Joi.object(),
     brushes: Joi.object(),
     colors: Joi.object(),
@@ -142,6 +148,7 @@ arcadeGameSchema.methods.toJSON = function () {
     id: this._id.toString(),
     metadata: this.metadata,
     stages: this.stages,
+    layers: this.layers,
     nodeSize: this.nodeSize,
     player: this.player,
     entityModels: this.entityModels,

@@ -26,7 +26,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
     const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][relationTag.dataSourceIID]
     const isRemovedInvisible = relationTag.isRemoved && selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][IS_DATA_REMOVED_IID]
 
-    const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromInterfaceIds[interfaceId]
+    const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromIDs[interfaceId]
 
     if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
