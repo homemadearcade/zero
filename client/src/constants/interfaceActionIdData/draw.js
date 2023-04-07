@@ -1,5 +1,5 @@
 import React from "react";
-import { DRAW_BRUSH_AID, DRAW_COLOR_AID, DRAW_NEW_BRUSH_AID, DRAW_NEW_COLOR_AID, DRAW_NEW_SPRITE_AID, DRAW_NEW_SPRITE_FOR_ENTITY_AID } from "../interfaceActionIds";
+import { DRAW_BRUSH_AID, DRAW_COLOR_AID, DRAW_NEW_BRUSH_AID, DRAW_NEW_SPRITE_FOR_CURRENT_PLAYER_AID, DRAW_NEW_COLOR_AID, DRAW_NEW_SPRITE_AID, DRAW_NEW_SPRITE_FOR_ENTITY_AID } from "../interfaceActionIds";
 import { findColorNameByHex, getLayerIdFromColorId } from "../../utils";
 import { INTERFACE_ACTION_DRAW } from "../interfaceActions";
 import { openCreateBrushFlow, openCreateColorFlow } from "../../store/actions/game/gameFormEditorActions";
@@ -83,5 +83,10 @@ export default {
     },
     arguments: ['entityModelId'],
     actionType: INTERFACE_ACTION_DRAW
+  },
+  [DRAW_NEW_SPRITE_FOR_CURRENT_PLAYER_AID]: {
+    title: 'Draw New Sprite For Current Player',
+    actionType: INTERFACE_ACTION_DRAW,
+    higherPriority: true
   }
 }

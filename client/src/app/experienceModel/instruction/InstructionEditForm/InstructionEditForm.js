@@ -78,6 +78,7 @@ const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editEx
         <StepBuilder control={control} register={register} instructionId={instructionId}/>
         <StepAddForm
           instructionCategory={instruction.instructionCategory}
+          instruction={instruction}
           onSubmit={(step) => {
             editExperienceModel(experienceModel.id, {
               instructions: {

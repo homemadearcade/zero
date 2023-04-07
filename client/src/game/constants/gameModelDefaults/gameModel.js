@@ -70,7 +70,7 @@ export const defaultGameModel = {
       entityModelId: initialPlayerSpawnZoneEntityId,
       editorInterface: {
         hiddenFromIDs: {
-          [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
+          // [SELECTOR_ENTITY_BY_INTERFACE_ID_IID]: true,
           [EDIT_ENTITY_AID]: true,
         },
       },

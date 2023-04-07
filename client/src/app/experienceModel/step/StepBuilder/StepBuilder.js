@@ -18,7 +18,7 @@ const StepBuilder = ({
       const step = instruction.steps[stepId]
       return {
         title: <StepEditTitle instructionId={instructionId} step={step}/>,
-        nextButtonText: (index !== (instruction.stepOrder.length - 1)) &&  <StepTitle prefix="Run " step={instruction.steps[instruction.stepOrder[index+1]]}/>,
+        nextButtonText: (index !== (instruction.stepOrder.length - 1)) &&  <StepTitle step={instruction.steps[instruction.stepOrder[index+1]]}/>,
         stepId,
         body: <StepEditBody step={step} index={index} instructionId={instructionId} register={register} control={control} />,
       }

@@ -14,7 +14,7 @@ const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disab
     if(effect.effectBehavior === EFFECT_INTERFACE_ACTION || effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) return 
 
     return {
-      label: effect.title|| getEffectShorthand(effect),
+      labelTitle: effect.title || getEffectShorthand(effect),
       value: effectId,
       icon: effect.icon || effectInterfaceData.icon,
       isRemoved: effect.isRemoved || !isUseableEffect(effect, effect.effectBehavior, eventType),

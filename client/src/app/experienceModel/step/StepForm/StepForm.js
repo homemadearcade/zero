@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Controller } from 'react-hook-form';
 import SelectExperienceEffect from '../../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect';
 
-const StepForm = ({ isEdit, register, control, instructionCategory, step }) => {
+const StepForm = ({ isEdit, register, control, instruction, step }) => {
   return <>
     {!isEdit && <Controller
       {...register("experienceEffectIds", {
@@ -14,8 +14,8 @@ const StepForm = ({ isEdit, register, control, instructionCategory, step }) => {
       control={control}
       render={({ field: { onChange, value } }) => (
         <SelectExperienceEffect 
-          
-          instructionCategory={instructionCategory}
+          instructionCategory={instruction.instructionCategory}
+          arcadeGameMongoId={instruction.arcadeGameMongoId}
           formLabel="What changes occur when this step is loaded?" onChange={(experienceEffectIds) => {
           onChange(experienceEffectIds)
         }} value={value ? value : []} />

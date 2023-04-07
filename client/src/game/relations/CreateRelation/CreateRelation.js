@@ -352,7 +352,7 @@ const CreateRelation = ({
     <div className="CreateEvent">
       <Typography variant="h4">{'Relationship'}</Typography>
       <CreateEvent/>
-      {event.eventType && <SelectEffect
+      {event.eventType && <SelectGameInstanceEffect
         eventType={event.eventType}
         formLabel={"Effects"}
         value={relation.effectIds.filter((effectId) => {

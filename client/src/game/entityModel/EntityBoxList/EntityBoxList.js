@@ -70,7 +70,7 @@ const EntityBoxList = ({
       renderAccordian(DATA_SOURCE_IMPORTED_GAME_MODE_IID, importedGameModel.metadata.title, relevantEntityModels)
     })
 
-    renderAccordian(IS_DATA_HIDDEN_IID, dataSourceIIDToDisplayName[IS_DATA_HIDDEN_IID], entityModels)
+    // renderAccordian(IS_DATA_HIDDEN_IID, dataSourceIIDToDisplayName[IS_DATA_HIDDEN_IID], entityModels)
     renderAccordian(IS_DATA_REMOVED_IID, dataSourceIIDToDisplayName[IS_DATA_REMOVED_IID], entityModels)
 
     setAccordians(accordians.filter((accordian) => !!accordian))

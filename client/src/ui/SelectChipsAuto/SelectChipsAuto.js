@@ -200,7 +200,8 @@ export default function SelectChipsAuto({
   options,
   disabled,
   formLabel,
-  freeSolo
+  freeSolo,
+  domId
 }) {
   const [inheritedValue, setInheritedValue] = useState([])
 
@@ -233,6 +234,7 @@ export default function SelectChipsAuto({
     freeSolo={freeSolo} 
     onChange={onChange} 
     disabled={disabled} 
+    domId={domId}
     inheritedValue={inheritedValue} 
     options={options.filter(({label, labelTitle}) => {
       return  !!labelTitle || !!label
@@ -252,7 +254,6 @@ function SelectChipsAutoForm({
   freeSolo,
   domId
 }) {
-  console.log(domId)
   const {
     getRootProps,
     getInputLabelProps,
@@ -317,7 +318,7 @@ function SelectChipsAutoForm({
   }
 
   function renderLabel(option, index) {
-    return <li {...getOptionProps({ option, index })}>
+    return <li {...getOptionProps({ option, index })} key={option.label + option.labelTitle}>
         <span>
           {renderSprite(option)}
           {renderLabelText(option)}
@@ -346,7 +347,7 @@ function SelectChipsAutoForm({
       return true
     }).length === 0) return null
 
-    return <GroupContainer>
+    return <GroupContainer key={group.group}>
       <GroupHeader>{group.group}</GroupHeader>
       {group.options.map((option, optionIndex) => {
         return renderOption(option, previousIndextotal + optionIndex)

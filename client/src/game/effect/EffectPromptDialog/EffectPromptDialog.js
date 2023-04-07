@@ -41,7 +41,6 @@ const EffectPromptDialog = ({
     const el = document.getElementById("SelectInterfaceAction")
     // console.log(el)
     if(el) {
-      console.log('focusing')
       el.focus();
     }
       clearInterval(focusInterval)
@@ -64,13 +63,14 @@ const EffectPromptDialog = ({
           value={value}
           onChange={(event, effectIds) => {
             setValue(effectIds)
+            handleClose()
             // updateCreateRelation({
             //   effectIds: effectIds,
             // })
           }}/> 
-        <Button variant="contained" onClick={handleClose} disabled={!value.length}>
+        {/* <Button variant="contained" onClick={handleClose} disabled={!value.length}>
           Go
-        </Button>
+        </Button> */}
       </div>
   </div>
   </Fade>

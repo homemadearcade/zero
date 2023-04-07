@@ -35,9 +35,6 @@ const ColorSelect = ({
     }
   }, [])
 
-  const defaultColors = [
-    '#FFFFFF', '#000000', '#EE4035', '#F37736', '#FDF498', '#7BC043', '#0392CF'
-  ]
 
   const border = '1px solid ' + useWishTheme().primaryColor.hexString
   function ColorItem({width, height, hex, onClick}) {
@@ -80,7 +77,7 @@ const ColorSelect = ({
     </div>
   }
 
-  const suggestedColors = _.uniq([...[...colors].reverse(), ...defaultColors]).slice(0, maxColors)
+  const suggestedColors = _.uniq([...[...colors].reverse()]).slice(0, maxColors)
   const items = suggestedColors.map((hex) => {
 
     const el = <ColorItem key={hex} hex={hex}></ColorItem>

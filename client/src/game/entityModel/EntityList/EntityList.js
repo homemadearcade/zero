@@ -80,7 +80,7 @@ const EntityList = ({
       sort(sortByLastEditedDate(entityModels)).
       map(renderEntityItem(entityIID)).filter((item) => !!item).slice(0, ENTITY_MAX -1)
     
-    releventEntityModels.push(<EntityModelAdd addEntityDialogInterfaceId={EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID} entityIID={entityIID}>
+    releventEntityModels.push(<EntityModelAdd addEntityDialogIID={EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID} entityIID={entityIID}>
       {(onClick) => {
         return <Button className="EntityList__add" onClick={onClick}>
           +

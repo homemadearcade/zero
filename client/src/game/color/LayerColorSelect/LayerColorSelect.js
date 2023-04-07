@@ -37,7 +37,7 @@ const LayerColorSelect = ({
     })
     return prev
   }, {})
-
+  
   function onAddColor() {
     if(Object.keys(colors).length) {
       openSelectAggregateColor('LayerColorSelect' + layerId)

@@ -12,11 +12,9 @@ const SelectEffect = ({ onChange, value, eventType, formLabel, disabled, gameMod
     const effectInterfaceData = effectInterfaceDatas[effect.effectBehavior]
 
     return {
-      label: effect.subTitle || getEffectShorthand(effect),
+      label: effect.subTitle,
       value: effectId,
-      labelTitle: effect.title,
-      subTextureId: effect.textureId,
-      subTextureTint: effect.textureTint,
+      labelTitle: effect.title || getEffectShorthand(effect),
       icon: effect.icon || effectInterfaceData.icon,
       isRemoved: effect.isRemoved || !isUseableEffect(effect, effect.effectBehavior, eventType),
       group: effect.customSelectorCategory || effectInterfaceData.displayName

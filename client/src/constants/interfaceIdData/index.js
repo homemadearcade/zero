@@ -12,7 +12,7 @@ import gameViewInterfaceIdData from "./gameViewInterfaceIdData";
 import stageInterfaceIdData from "./stageInterfaceIdData";
 import cutsceneInterfaceIdData from "./cutsceneInterfaceIdData";
 import gameInterfaceIdData from "./gameModelIdData";
-import relationTagInterfaceIdData from "./relationTagInterfaceIdData";
+import relationTagIIDData from "./relationTagInterfaceIdData";
 import videoInterfaceIdData from "./videoInterfaceIdData";
 import selectorInterfaceIdData from "./selectorInterfaceIdData";
 import dataSourceInterfaceIdData from "./dataSourceInterfaceIdData";
@@ -37,7 +37,7 @@ export const interfaceIdData = {
   ...contextMenuInterfaceIdData,
   ...cutsceneInterfaceIdData,
   ...gameInterfaceIdData,
-  ...relationTagInterfaceIdData,
+  ...relationTagIIDData,
   ...videoInterfaceIdData,
   ...selectorInterfaceIdData,
   ...dataSourceInterfaceIdData,

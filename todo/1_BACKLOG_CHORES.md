@@ -18,7 +18,7 @@ Update all name forms
 
 Utils that use state should be hooks
 
-Maybe Effects -> Game Effects
-Maybe Events -> Game Events or Relation Events? Think on this...
-
 Only Once should be on relation model
+
+Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
+

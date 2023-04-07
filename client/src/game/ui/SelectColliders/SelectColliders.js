@@ -12,7 +12,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
   const mapTagToOption = (collidingRelationTagId) => {
     const relationTag = gameModel.relationTags[collidingRelationTagId]
 
-    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY_IID) {
+    if(relationTag.relationTagIID === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
 
       return {
@@ -21,7 +21,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
         isRemoved: relationTag.isRemoved,
-        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityIID]
+        relationTagIID: entityModelTypeToDisplayName[relationTagEntity.entityIID]
       }
     }
   }
@@ -41,7 +41,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
     return !!option
   }).
   sort((a, b) => {
-    return -b.relationTagInterfaceId.localeCompare(a.relationTagInterfaceId)
+    return -b.relationTagIID.localeCompare(a.relationTagIID)
   })
 
   return <SelectChipsAuto 
@@ -49,7 +49,7 @@ const SelectColliders = ({ onChange, relationTagId, formLabel, gameModel }) => {
       onChange(event,  relationTagIds)
     }}
     groupBy={option => {
-      return option.relationTagInterfaceId
+      return option.relationTagIID
     }}
     hideRemoved
     formLabel={formLabel}

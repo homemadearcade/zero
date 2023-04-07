@@ -15,23 +15,25 @@ import _ from 'lodash';
 const EntityModelAdd = ({
   openEditEntityGraphics,
   entityIID,
-  addEntityDialogInterfaceId,
+  addEntityDialogIID,
   children,
   defaultValues = {},
-  gameModel: { gameModel, currentStageId, entityModels },
+  gameModel: { gameModel, currentStageId },
 }) => {
   function addDefaultValuesToPlayerEntity(entityModel) {
     const defaultType = gameModel.stages[currentStageId].defaultType
-    console.log('???', defaultType)
     if(!defaultType) return entityModel
     const defaultTypeProperties = stageDefaultTypeProperties[defaultType]
-    const defaultEntityModel = entityModels[defaultTypeProperties].playerEntityModelId
-    console.log(defaultEntityModel, defaultTypeProperties, entityModels[defaultTypeProperties])
-    return {...entityModel, ...defaultEntityModel}
+    const entityModels = gameModel.entityModels
+    const defaultEntityModel = _.cloneDeep(entityModels[defaultTypeProperties.playerEntityModelId])
+    defaultEntityModel.entityModelId = null
+    defaultEntityModel.isNew = true
+    const newModel = mergeDeep(defaultEntityModel, entityModel)
+    return newModel
   }
 
   function onOpenEditEntityGraphics(entityModel) {
-    openEditEntityGraphics(addEntityDialogInterfaceId, mergeDeep(_.cloneDeep(entityModel), defaultValues))
+    openEditEntityGraphics(addEntityDialogIID, mergeDeep(_.cloneDeep(entityModel), defaultValues))
   }
 
   if(entityIID === PLAYER_ENTITY_IID) {

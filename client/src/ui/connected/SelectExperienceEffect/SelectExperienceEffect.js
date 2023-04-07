@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_GAME_EFFECT, instructionCategoryToExperienceEffects } from '../../../constants/experience/experienceEffect';
-import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, getEffectShorthand } from '../../../game/constants';
+import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, getEffectShorthand, isUseableEffect, ON_STEP_BEGINS } from '../../../game/constants';
 
 const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel }, gameModel }) => {
 
@@ -29,6 +29,7 @@ const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChan
           const effectInterfaceData = effectInterfaceDatas[effect.effectBehavior]
           icon = effect.icon || effectInterfaceData.icon
           group = effect.customSelectorCategory || effectInterfaceData.displayName
+          isRemoved = effect.isRemoved || !isUseableEffect(effect, effect.effectBehavior, ON_STEP_BEGINS)
         }
       }
     }

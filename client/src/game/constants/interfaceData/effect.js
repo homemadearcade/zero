@@ -161,7 +161,7 @@ export const effectEditInterfaces = {
     // zoneEntityModelId: 'Spawn in which Zone?',
     // entityModelId: 'Transform into which object? (Optional)',
     effectableType: NO_RELATION_TAG_EFFECT_IID,
-    isCustomizeable: true
+    isCustomizeable: false
   },
   [EFFECT_PAUSE_GAME]: {
     effectableType: NO_RELATION_TAG_EFFECT_IID,
@@ -174,9 +174,9 @@ export const effectEditInterfaces = {
 
   // INTERFACE
   [EFFECT_INTERFACE_ACTION]: {
-    interfaceActionId: 'Which interface action?',
+    // interfaceActionId: 'Which interface action?',
     effectableType: NO_RELATION_TAG_EFFECT_IID,
-    isCustomizeable: true
+    // isCustomizeable: true
   },
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',

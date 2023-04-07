@@ -6,7 +6,7 @@ const relationTag = new Schema({
     dataSourceIID: {
       type: String,
     },
-    relationTagInterfaceId: {
+    relationTagIID: {
       type: String,
       required: true,
     },
@@ -47,7 +47,7 @@ relationTag.methods.toJSON = function () {
   return {
     id: this._id,
     dataSourceIID: this.dataSourceIID,
-    relationTagInterfaceId: this.relationTagInterfaceId,
+    relationTagIID: this.relationTagIID,
     relationTagId: this.relationTagId,
     name: this.name,
     textureTint: this.textureTint,

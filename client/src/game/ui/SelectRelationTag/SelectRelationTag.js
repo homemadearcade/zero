@@ -17,10 +17,10 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
   const mapTagToOption = (relationTagId) => {
     const relationTag = gameModel.relationTags[relationTagId]
 
-    let relationTagInterfaceId = 'My Tags'
+    let relationTagIID = 'My Tags'
 
-    if(relationTag.relationTagInterfaceId) {
-      relationTagInterfaceId = relationTagTypeToDisplayName[relationTag.relationTagInterfaceId]
+    if(relationTag.relationTagIID) {
+      relationTagIID = relationTagTypeToDisplayName[relationTag.relationTagIID]
     }
     
     const isDataSourceInvisible = selectorInterfaceListInvisibility[SELECT_RELATION_TAG_IID][relationTag.dataSourceIID]
@@ -28,7 +28,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
 
     const isRemoved = isDataSourceInvisible || isRemovedInvisible || relationTag.editorInterface.hiddenFromIDs[interfaceId]
 
-    if(relationTag.relationTagInterfaceId === RELATION_TAG_ENTITY_IID) {
+    if(relationTag.relationTagIID === RELATION_TAG_ENTITY_IID) {
       const relationTagEntity = gameModel.entityModels[relationTag.relationTagId]
       const isImportInvisible = relationTagEntity.isImported && relationTagEntity.dataSourceIID !== DATA_SOURCE_GAME_MODEL_IID
 
@@ -38,7 +38,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
         textureId: relationTag.textureId,
         textureTint: relationTag.textureTint,
         isRemoved: removeEntityTags || isRemoved || isImportInvisible,
-        relationTagInterfaceId: entityModelTypeToDisplayName[relationTagEntity.entityIID],
+        relationTagIID: entityModelTypeToDisplayName[relationTagEntity.entityIID],
       }
     }
 
@@ -47,14 +47,14 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
       value: relationTagId,
       textureTint: relationTag.textureTint,
       isRemoved,
-      relationTagInterfaceId
+      relationTagIID
     }
   }
 
   const options = Object.keys(gameModel.relationTags).map(mapTagToOption)
 
   options.sort((a, b) => {
-    return  -b.relationTagInterfaceId.localeCompare(a.relationTagInterfaceId)
+    return  -b.relationTagIID.localeCompare(a.relationTagIID)
   })
 
   return <div className="SelectRelationTag">
@@ -64,7 +64,7 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
         onChange(event,  visualTags)
       }}
       groupBy={option => {
-        return option.relationTagInterfaceId
+        return option.relationTagIID
       }}
       hideRemoved
       formLabel={formLabel}

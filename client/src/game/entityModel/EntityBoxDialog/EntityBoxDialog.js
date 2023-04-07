@@ -38,7 +38,7 @@ const EntityBoxDialog = ({
 
   return <><CobrowsingDialog open onClose={handleClose}>
     <div className="EntityBoxDialog">
-      <EntityModelAdd entityIID={entityBoxDialogType} addEntityDialogInterfaceId={ENTITY_BOX_DIALOG_IID}>
+      <EntityModelAdd entityIID={entityBoxDialogType} addEntityDialogIID={ENTITY_BOX_DIALOG_IID}>
       {(onClick) => {
         return <Button size="wide" startIcon={<Icon icon="faPlus"/>}onClick={onClick}>
           Add {entityModelTypeToDisplayName[entityBoxDialogType]}

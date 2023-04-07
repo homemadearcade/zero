@@ -1,9 +1,10 @@
 import { LOBBY_DID } from "./lobbys";
-import { ROLE_DID, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_FACILITATOR } from "./roles";
+import { ROLE_DID, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_AUDIENCE } from "./roles";
 
 export const defaultLobbyId = LOBBY_DID + 'default';
 export const defaultParticipantRoleId = ROLE_DID+ 'participant';
 export const defaultGuideRoleId = ROLE_DID+ 'guide';
+export const defaultAudienceRoleId = ROLE_DID+ 'audience';
 
 export const EXPERIENCE_PRESET_CONVEYER_BELT = 'EXPERIENCE_PRESET_CONVEYER_BELT';
 export const EXPERIENCE_PRESET_CREATE_GAME = 'EXPERIENCE_PRESET_CREATE_GAME';
@@ -27,6 +28,13 @@ export const defaultExperienceModel = {
   experienceEffects: {},
   activitys: {},
   roles: {
+    [defaultAudienceRoleId]: {
+      name: 'Audience',
+      roleId: defaultAudienceRoleId,
+      color: '#FF0000',
+      isNotRemoveable: true,
+      roleCategory: EXPERIENCE_ROLE_AUDIENCE
+    },
     [defaultParticipantRoleId]: {
       name: 'Participant',
       roleId: defaultParticipantRoleId,

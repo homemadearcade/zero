@@ -3,7 +3,7 @@ import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID , DATA_SOURCE_GAME_M
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
 
 export const defaultRelationTag = {
-  relationTagInterfaceId: null,
+  relationTagIID: null,
   isRemoved: false,
   isReadOnly: false,
   dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,
@@ -21,7 +21,7 @@ function createLibraryTag(relationTagId, name, textureTint, hiddenFromIDs = {}) 
     ...defaultRelationTag,
     isReadOnly: true,
     dataSourceIID: DATA_SOURCE_SYSTEM_IID,
-    relationTagInterfaceId: RELATION_TAG_GENERAL_IID,
+    relationTagIID: RELATION_TAG_GENERAL_IID,
     relationTagId,
     name,
     textureTint,
@@ -70,6 +70,6 @@ export const initialTags = {
   // [movingPlatformRelationTagId]: createLibraryTag(movingPlatformRelationTagId, 'Moving Platform', '#FFFFFF'),
 }
 
-// Object.keys(entityModelTypeToDisplayName).forEach((relationTagInterfaceId) => {
-//   initialTags[relationTagInterfaceId] = createLibraryTag(relationTagInterfaceId, entityModelTypeToDisplayName[relationTagInterfaceId], '#FFFF00')
+// Object.keys(entityModelTypeToDisplayName).forEach((relationTagIID) => {
+//   initialTags[relationTagIID] = createLibraryTag(relationTagIID, entityModelTypeToDisplayName[relationTagIID], '#FFFF00')
 // })

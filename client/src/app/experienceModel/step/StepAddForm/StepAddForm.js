@@ -11,7 +11,7 @@ import { STEP_DID } from '../../../../constants';
 import StepForm from '../StepForm/StepForm';
 import './StepAddForm.scss'
 
-const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
+const StepAddForm = ({ onSubmit, instruction, defaultValues = {}}) => {
   const [isStepAddOpen, setIsStepAddOpen] = useState(false)
 
   const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
@@ -39,7 +39,7 @@ const StepAddForm = ({ onSubmit, instructionCategory, defaultValues = {}}) => {
         <DialogTitle>New Step</DialogTitle>
           <DialogContent>
              <div className="StepAddForm__dialog">
-              <StepForm instructionCategory={instructionCategory} control={control} register={register} />
+              <StepForm instruction={instruction} control={control} register={register} />
             </div>
           </DialogContent>
           <DialogActions>
