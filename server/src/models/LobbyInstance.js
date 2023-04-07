@@ -6,26 +6,25 @@ const { Schema } = mongoose;
 const lobbyInstanceSchema = new Schema(
   {
     invitedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    participantId: {
-      type: String,
-      // required: true,
-    },
-    guideId: {
-      type: String,
-      // required: true,
-    },
-    gameRoomInstanceMongoId: {
-      type: String
-    },
-    editingGameId: {
-      type: String
-    },
     experienceInstanceId: {
       type: String,
       required: true,
     },
+    roleUserMongoIds: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    hostUserMongoId: {
+      type: 'String',
+      required: true,
+    },
+    activitys: {
+      type: Object,
+      required: true,
+      default: {}
+    },
     experienceModel: { type: mongoose.Schema.Types.ObjectId, ref: 'ExperienceModel' },
-    activitys: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Activity' }],
     // guideId: {
     //   type: String,
     //   required: true,
@@ -75,13 +74,8 @@ lobbyInstanceSchema.methods.toJSON = function () {
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
-    activitys: this.activitys ? this.activitys.map((activity) => {
-      return activity?.toJSON()
-    }) : [],
-    editingGameId: this.editingGameId,
-    participantId: this.participantId,
+    activitys: this.activitys,
     experienceModel: this.experienceModel?.toJSON(),
-    gameRoomInstanceMongoId: this.gameRoomInstanceMongoId,
     lobbyInstanceId: this.lobbyInstanceId,
     // guideId: this.guideId
   };

@@ -1,6 +1,5 @@
-export const INSTRUCTION_GAME_ROOM = 'INSTRUCTION_GAME_ROOM'
-export const INSTRUCTION_LOBBY = 'INSTRUCTION_LOBBY'
-export const INSTRUCTION_DRAWING_ROOM = 'INSTRUCTION_DRAWING_ROOM'
+import { INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from "./constants/instructions"
+
 
 export const instructionToInterfaceData = {
   [INSTRUCTION_GAME_ROOM]: {
@@ -19,7 +18,6 @@ export const instructionToInterfaceData = {
   // },
 }
 
-export const INSTRUCTION_DID = 'instruction-'
 
 export const defaultInstructions = {
   name: null,

@@ -10,17 +10,7 @@ export const INTERFACE_ACTION_PLAY = 'INTERFACE_ACTION_PLAY'
 export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
 
 export const interfaceActionsUIData = {
-  [INTERFACE_ACTION_LOAD]: {
-    displayName: 'Load',
-    icon: 'faDownload',
-    //descrion of what load actions will do
-    description: 'Load a different game, or a stage'
-  },
-  [INTERFACE_ACTION_PLAY]: {
-    displayName: 'Play',
-    icon: 'faPlay',
-    description: 'Play cutscenes, dialogues, audio, and other game content'
-  },
+
   [INTERFACE_ACTION_DRAW]: {
     displayName: 'Draw',
     icon: 'faPaintbrush',
@@ -55,5 +45,16 @@ export const interfaceActionsUIData = {
     displayName: 'Script',
     icon: 'faScroll',
     description: 'Write dialogues and cutscenes'
-  }
+  },
+  [INTERFACE_ACTION_LOAD]: {
+    displayName: 'Load',
+    icon: 'faDownload',
+    //descrion of what load actions will do
+    description: 'Load a different game, or a stage'
+  },
+  [INTERFACE_ACTION_PLAY]: {
+    displayName: 'Play',
+    icon: 'faPlay',
+    description: 'Play cutscenes, dialogues, audio, and other game content'
+  },
 }

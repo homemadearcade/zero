@@ -117,13 +117,11 @@ router.post('/:id/clearMessages', requireJwtAuth, requireLobbyInstance, requireS
 router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
   try {
     let lobbyInstance = await LobbyInstance.create({
-      invitedUsers: req.body.invitedUsers,
       startTime: req.body.startTime,
-      participantId: req.body.participantId,
-      guideId: req.body.guideId,
-      editingGameId: req.body.editingGameId,
-      gameRoomInstanceMongoId: req.body.gameRoomInstanceMongoId,
+      activitys: req.body.activitys,
+      roleUserMongoIds: req.body.roleUserMongoIds,
       experienceInstanceId: req.body.experienceInstanceId,
+      hostUserMongoId: req.body.hostUserMongoId,
       lobbyInstanceId: LOBBY_INSTANCE_DID + generateUniqueId()
     });
 
@@ -199,40 +197,13 @@ router.post('/assign/:id', requireJwtAuth, requireLobbyInstance, requireSocketAu
     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
   }
 
-  const userFound = req.lobbyInstance.members.filter((u, i) => {
-    if(u.userMongoId === req.body.userMongoId) {
-      return true
-    } else {
-      return false
-    }
-  })[0]
-
-  if(req.body.role === 'participant') {
-    if(req.body.userMongoId === 'unassigned') {
-      req.lobbyInstance.participantId = null
-    } else {
-      req.lobbyInstance.participantId = req.body.userMongoId
-    }
-  }
-
-  if(req.body.role === 'guide') {
-    if(req.body.userMongoId === 'unassigned') {
-      req.lobbyInstance.guideId = null
-    } else {
-      const user = await User.findById(req.body.userMongoId)
-      if(user.role == 'ADMIN') {
-        req.lobbyInstance.guideId = req.body.userMongoId
-      } else {
-        return res.status(400).json({ message: 'Guide must be admin role' });
-      }
-    }
-  }
+  if(!req.body.roleUserMongoIds[req.body.roleId]) req.body.roleUserMongoIds[req.body.roleId] = []
+  req.body.roleUserMongoIds[req.body.roleId].push(req.body.userMongoId)
 
   const updatedLobbyInstance = await LobbyInstance.findByIdAndUpdate(
     req.params.id,
     { 
-      participantId: req.lobbyInstance.participantId,
-      guideId: req.lobbyInstance.guideId,
+      roleUserMongoIds: req.body.roleUserMongoIds
     },
     { new: true },
   );
@@ -241,7 +212,7 @@ router.post('/assign/:id', requireJwtAuth, requireLobbyInstance, requireSocketAu
   //   return res.status(400).json({ message: 'You are not a member of this lobbyInstance' });
   // }
 
-  req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
+  req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: updatedLobbyInstance});
   return res.status(200).json({ lobbyInstance: req.lobbyInstance });
 })
 
@@ -438,11 +409,10 @@ router.put('/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, asyn
         invitedUsers: req.lobbyInstance.invitedUsers.map(({id}) => {
           return id
         }),
+        hostUserMongoId: req.lobbyInstance.hostUserMongoId,
         startTime: req.lobbyInstance.startTime,
-        participantId: req.lobbyInstance.participantId,
-        guideId: req.lobbyInstance.guideId,
-        editingGameId: req.lobbyInstance.editingGameId,
-        gameRoomInstanceMongoId: req.lobbyInstance.gameRoomInstanceMongoId
+        roleUserMongoIds: req.lobbyInstance.roleUserMongoIds,
+        activitys: req.lobbyInstance.activitys,
       },
       { new: true },
     );

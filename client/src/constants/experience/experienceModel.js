@@ -1,20 +1,5 @@
-import { LOBBY_DID } from "./lobbys";
-import { ROLE_DID, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_AUDIENCE } from "./roles";
-
-export const defaultLobbyId = LOBBY_DID + 'default';
-export const defaultParticipantRoleId = ROLE_DID+ 'participant';
-export const defaultGuideRoleId = ROLE_DID+ 'guide';
-export const defaultAudienceRoleId = ROLE_DID+ 'audience';
-
-export const EXPERIENCE_PRESET_CONVEYER_BELT = 'EXPERIENCE_PRESET_CONVEYER_BELT';
-export const EXPERIENCE_PRESET_CREATE_GAME = 'EXPERIENCE_PRESET_CREATE_GAME';
-export const EXPERIENCE_PRESET_CONVERGING_TRACKS = 'EXPERIENCE_PRESET_CONVERGING_TRACKS';
-export const EXPERIENCE_PRESET_BATTLE_ROYALE = 'EXPERIENCE_PRESET_BATTLE_ROYALE';
-export const EXPERIENCE_PRESET_ADVENTURE_GAME = 'EXPERIENCE_PRESET_ADVENTURE_GAME';
-
-export const SINGLE_LOBBY_EXPERIENCE = 'SINGLE_LOBBY_EXPERIENCE';
-export const MULTI_LOBBY_EXPERIENCE = 'MULTI_LOBBY_EXPERIENCE';
-export const DYNAMIC_LOBBY_EXPERIENCE = 'DYNAMIC_LOBBY_EXPERIENCE';
+import { EXPERIENCE_ROLE_AUDIENCE, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT } from "./constants";
+import { defaultAudienceRoleId, defaultGuideRoleId, defaultLobbyId, defaultParticipantRoleId } from "./constants";
 
 export const defaultExperienceModel = {
   lobbys: {

@@ -1,12 +1,4 @@
-export const ROLE_DID = 'role-'
-
-export const EXPERIENCE_ROLE_FACILITATOR = 'EXPERIENCE_ROLE_FACILITATOR'
-export const EXPERIENCE_ROLE_PARTICIPANT = 'EXPERIENCE_ROLE_PARTICIPANT'
-export const EXPERIENCE_ROLE_AUDIENCE = 'EXPERIENCE_ROLE_AUDIENCE'
-
-export const allLobbyUsersRoleId = ROLE_DID + 'allLobbyUsers'
-export const allActivityUsersRoleId = ROLE_DID + 'allActivityUsers'
-export const allExperienceUsersRoleId = ROLE_DID + 'allExperienceUsers'
+import { EXPERIENCE_ROLE_AUDIENCE, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT } from "./constants/roles"
 
 export const roleToInterfaceData = {
   [EXPERIENCE_ROLE_FACILITATOR]: {

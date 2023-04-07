@@ -14,9 +14,33 @@
 
   &__body {
       display: flex;
-        gap: 2em;
           flex-direction: column;
     min-width: 300px;
     width: 60%;
+  }
+
+  &__actions {
+        margin-top: 2em;
+          margin-bottom: 2em;
+                display: flex;
+                  flex-direction: column;
+                  gap: .2em
+
+  }
+
+  &__action {
+    font-size: .8em;
+    display: flex;
+    gap: 2em;
+    // flex-direction: column;
+    align-items: center;
+
+  }
+
+  &__action-displayName {
+    background: #222;
+    font-family: 'Press Start 2P';
+    padding: .5em;
+
   }
 }

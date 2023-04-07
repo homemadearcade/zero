@@ -11,10 +11,6 @@ EDIT ENTITY_MODEL DIALOG
   NEW UI
     Add the Edit _, Edit _ underneath the Hover Preview when an object is selected, maybe also give that a border
 
-CREDITS VIEW
-  Add the other arcade games below theirs
-  Credits Links are broken 
-
 HOVER PREVIEW
   Layer on the top right
   Color name on bottom

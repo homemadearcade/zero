@@ -1,12 +1,13 @@
-export const LOBBY_DID = 'lobby-'
-
-export const LOBBY_VISIBILITY_PUBLIC = 'LOBBY_VISIBILITY_PUBLIC'
-export const LOBBY_VISIBILITY_INVITE_ONLY = 'LOBBY_VISIBILITY_INVITE_ONLY'
-export const LOBBY_VISIBILITY_UNLISTED = 'LOBBY_VISIBILITY_UNLISTED'
+import { defaultAudienceRoleId, defaultGuideRoleId, defaultParticipantRoleId } from "./constants"
+import { SECURITY_SCOPE_INVITE_ONLY, SECURITY_SCOPE_PUBLIC, SECURITY_SCOPE_UNLISTED } from "./constants/lobbys"
 
 export const defaultLobby = {
   name: null,
-  visibility: LOBBY_VISIBILITY_INVITE_ONLY,
+  securityScopeByRoleId: {
+    [defaultGuideRoleId]: SECURITY_SCOPE_UNLISTED,
+    [defaultParticipantRoleId]: SECURITY_SCOPE_INVITE_ONLY,
+    [defaultAudienceRoleId]: SECURITY_SCOPE_PUBLIC,
+  },
   activitys: {},
   initialActivityId: null,
   instructionsByRoleId: {},

@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
-import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_GAME_EFFECT, instructionCategoryToExperienceEffects } from '../../../constants/experience/experienceEffect';
+import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_GAME_EFFECT, instructionCategoryToExperienceEffects } from '../../../constants/experience';
 import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, getEffectShorthand, isUseableEffect, ON_STEP_BEGINS } from '../../../game/constants';
 
 const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel }, gameModel }) => {

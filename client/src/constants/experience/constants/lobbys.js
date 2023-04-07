@@ -1,0 +1,7 @@
+export const LOBBY_DID = 'lobby-'
+
+export const defaultLobbyId = LOBBY_DID + 'default';
+
+export const SECURITY_SCOPE_PUBLIC = 'SECURITY_SCOPE_PUBLIC'
+export const SECURITY_SCOPE_INVITE_ONLY = 'SECURITY_SCOPE_INVITE_ONLY'
+export const SECURITY_SCOPE_UNLISTED = 'SECURITY_SCOPE_UNLISTED'

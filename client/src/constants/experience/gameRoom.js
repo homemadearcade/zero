@@ -1,4 +1,4 @@
-import { defaultParticipantRoleId } from "./experienceModel";
+import { defaultParticipantRoleId } from "./constants";
 
 export const GAME_ROOM_DID = 'gr-';
 
