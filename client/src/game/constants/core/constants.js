@@ -95,9 +95,9 @@ export const initialCameraZoneInstanceId = ENTITY_MODEL_DID+ENTITY_INSTANCE_DID+
 export const initialStageZoneEntityId = ENTITY_MODEL_DID+ZONE_ENTITY_TYPE_PREFIX+'stagezone'
 export const initialStageZoneInstanceId = ENTITY_MODEL_DID+ENTITY_INSTANCE_DID+'stagezone'
 
-export const initialBackgroundLayerId = LAYER_DID+'-background-default-{stageId}'
-export const initialPlaygroundLayerId = LAYER_DID+'-playground-default-{stageId}'
-export const initialForegroundLayerId = LAYER_DID+'-foreground-default-{stageId}'
+export const initialBackgroundLayerId = LAYER_DID+'-background-default'
+export const initialPlaygroundLayerId = LAYER_DID+'-playground-default'
+export const initialForegroundLayerId = LAYER_DID+'-foreground-default'
 
 export const initialPlayerEntityId = directionalPlayerEntityId
 

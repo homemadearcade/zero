@@ -96,7 +96,7 @@ export const effectInterfaceDatas = {
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 //// EFFECT
-export const effectEditInterfacess = {
+export const effectEditInterfaces = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneEntityModelId: 'Teleport to which zone?',

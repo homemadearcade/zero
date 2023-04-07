@@ -25,17 +25,16 @@ import { activityToInterfaceData, ACTIVITY_DID, allActivityUsersRoleId, allExper
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
 import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH, EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION, EXPERIENCE_EFFECT_GAME_EFFECT } from '../../../constants/experience/experienceEffect';
-import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK } from '../../../game/constants';
+import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, getEffectShorthand } from '../../../game/constants';
 
 export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
   Object.keys(gameModel.effects).forEach((effectId) => {
     //mapp game model effects to experience model effects 
     const effect = gameModel.effects[effectId]
     const experienceEffectId = EXPERIENCE_EFFECT_DID+effectId+gameModel.id
-    if(effect.effectBehavior !== EFFECT_INTERFACE_ACTION && effect.effectBehavior !== EFFECT_INTERFACE_UNLOCK) {
-      return
-    }
-
+    // if(effect.effectBehavior !== EFFECT_INTERFACE_ACTION && effect.effectBehavior !== EFFECT_INTERFACE_UNLOCK) {
+    //   return
+    // }
     experienceModel.experienceEffects[experienceEffectId] = {
       effectId: effectId,
       experienceEffectId,
@@ -45,6 +44,7 @@ export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
       subTitle: effect.subTitle,
       arcadeGameMongoId: gameModel.id,
       customSelectorCategory: effect.customSelectorCategory,
+      isRemoved: effect.isRemoved,
     }
   })
 

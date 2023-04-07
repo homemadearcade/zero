@@ -333,34 +333,30 @@ export async function addLayersForArcadeGameStage(arcadeGameMongoId, userMongoId
     visualTags: ['Layer'],
   }))
 
-  const backgroundLayerId = initialBackgroundLayerId.replace('{stageId}', stageId)
-  const playgroundLayerId = initialPlaygroundLayerId.replace('{stageId}', stageId)
-  const foregroundLayerId = initialForegroundLayerId.replace('{stageId}', stageId)
-
   store.dispatch(editArcadeGame(arcadeGameMongoId, {
     layers: {
-      [backgroundLayerId]: {
+      [backgroundTextureId]: {
         textureId: backgroundTextureId,
         name: 'Background',
         stageId: stageId,
-        layerId: backgroundLayerId,
+        layerId: backgroundTextureId,
         layerGroupIID: BACKGROUND_LAYER_GROUP_IID,
         dataSourceIID: DATA_SOURCE_SYSTEM_IID
       },
-      [playgroundLayerId]: {
+      [playgroundTextureId]: {
         textureId: playgroundTextureId,
         hasCollisionBody: true,
         stageId: stageId,
         layerGroupIID: PLAYGROUND_LAYER_GROUP_IID,
-        layerId: playgroundLayerId,
+        layerId: playgroundTextureId,
         name: 'Playground',
         dataSourceIID: DATA_SOURCE_SYSTEM_IID
       },
-      [foregroundLayerId]: {
+      [foregroundTextureId]: {
         layerGroupIID: FOREGROUND_LAYER_GROUP_IID,
         textureId: foregroundTextureId,
         stageId: stageId,
-        layerId: foregroundLayerId,
+        layerId: foregroundTextureId,
         name: 'Foreground',
         dataSourceIID: DATA_SOURCE_SYSTEM_IID
       }

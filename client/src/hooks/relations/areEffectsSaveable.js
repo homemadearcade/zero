@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { effectEditInterfaces, effectEditInterfacess } from "../../game/constants"
+import {  effectEditInterfaces } from "../../game/constants"
 
  export default function useAreEffectsSaveable(effects) {
   const [isSaveable, setIsSaveable] = useState();
@@ -8,7 +8,7 @@ import { effectEditInterfaces, effectEditInterfacess } from "../../game/constant
     function isSaveDisabled(effect) {
       if(!effect) return
       
-      const effectForms = effectEditInterfacess[effect.effectBehavior]
+      const effectForms = effectEditInterfaces[effect.effectBehavior]
 
       if(effectForms?.entityModelId) {
         if(!effect.entityModelId) return true

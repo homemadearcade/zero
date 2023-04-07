@@ -4,27 +4,42 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_GAME_EFFECT, instructionCategoryToExperienceEffects } from '../../../constants/experience/experienceEffect';
+import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, getEffectShorthand } from '../../../game/constants';
 
-const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel } }) => {
+const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel }, gameModel }) => {
 
   const mapEffectToOption = (experienceEffectId) => {
     const experienceEffect = experienceModel.experienceEffects[experienceEffectId]
     const experienceEffectInterfaceData = experienceEffectInterfaceIdData[experienceEffect.experienceEffectBehavior]
-    const title = experienceEffect.title || experienceEffectInterfaceData.displayName
+    let title = experienceEffect.title || experienceEffectInterfaceData.displayName
     const subTitle = experienceEffect.subTitle || experienceEffectInterfaceData.subTitle
-
+    let group = experienceEffect.customSelectorCategory || experienceEffectInterfaceData.displayName
+    let icon = experienceEffect.icon || experienceEffectInterfaceData.icon
+    let isRemoved = experienceEffect.isRemoved
+    
     if(instructionCategoryToExperienceEffects[instructionCategory].indexOf(experienceEffect.experienceEffectBehavior) === -1) return null
 
     if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_EFFECT && (!arcadeGameMongoId ||  experienceEffect.arcadeGameMongoId !== arcadeGameMongoId)) {
       return null
+    } else {
+      if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_EFFECT) {
+        const effect = gameModel.gameModel.effects[experienceEffect.effectId]
+        if(effect.effectBehavior !== EFFECT_INTERFACE_ACTION && effect.effectBehavior !== EFFECT_INTERFACE_UNLOCK) {
+          title = getEffectShorthand(effect)
+          const effectInterfaceData = effectInterfaceDatas[effect.effectBehavior]
+          icon = effect.icon || effectInterfaceData.icon
+          group = effect.customSelectorCategory || effectInterfaceData.displayName
+        }
+      }
     }
 
     return {
       labelTitle: title,
       label: subTitle,
-      icon: experienceEffectInterfaceData.icon || experienceEffectInterfaceData.icon,
+      icon: icon,
       value: experienceEffectId,
-      group: experienceEffect.customSelectorCategory || experienceEffectInterfaceData.displayName
+      group: group,
+      isRemoved: isRemoved
     }
   }
 
@@ -44,6 +59,7 @@ const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChan
     groupBy={(option) => option.group}
     formLabel={formLabel}
     value={value}
+    hideRemoved
     options={options}
   />
 }
@@ -51,6 +67,7 @@ const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChan
 const mapStateToProps = (state) => {
   return {
     experienceModel: state.experienceModel,
+    gameModel: state.gameModel
   }
 };
 
