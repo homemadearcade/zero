@@ -34,8 +34,6 @@ const EditEntityGraphics = ({
     clearGameFormEditor()
   }
   
-console.log('entityModel', entityModel)
-
   useEffect(() => {
     if(!entityModel.entityModelId) {
       updateCreateEntity({ entityModelId: ENTITY_MODEL_DID+entityModelTypeToPrefix[entityModel.entityIID]+generateUniqueId(), isNew: true })

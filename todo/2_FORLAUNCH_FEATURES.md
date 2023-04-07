@@ -1,17 +1,3 @@
-IMPLEMENT THESE EFFECTS
-  EXPERIENCE EFFECTS - Go to Stars, Return from Stars
-  Pause Game. Unpause Game
-  Also transform while touching 
-    auto generate zones for this effect
-
-WHEN ADDING INSTRUCTIONS MANUALLY
-  You have to select a game room or lobby! Right now u can just skip them!
-
-COMBINE 
-  experienceModel with experience
-      GAME HOST ACTIONS instructions need to be run by the GAME HOST
-ROLE
-    Have this update the cobrowsing color
 
 ---
 

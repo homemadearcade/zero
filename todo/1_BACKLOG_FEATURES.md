@@ -1,5 +1,8 @@
 Resize by hovering over the edges of the instance...?
 
+WHEN ADDING INSTRUCTIONS MANUALLY
+  You have to select a game room or lobby! Right now u can just skip them!
+
 BOUNDARIES UPDATE
   Change boundaries through the stage zone instead of stage zone being determined by the boundaries
   Boundary size increase by a few blocks option 
