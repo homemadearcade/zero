@@ -105,10 +105,6 @@ const LobbyMember = ({
   }}>
     <div className="LobbyMember__dialog">
       {renderConnectionInfo()}
-      {false && lobbyInstance.currentActivity === GAME_ROOM_ACTIVITY && <>
-        <Button onClick={() => { setCutVideo(true, true)}}>Cut Video</Button>
-        <Button onClick={() => { setCutAudio(true, true)}}>Cut Audio</Button>
-      </>}
       <Divider></Divider>
       {!showUnlockedUI && <Button onClick={() => {
         setShowUnlockedUI(true)

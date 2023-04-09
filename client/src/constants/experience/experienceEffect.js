@@ -14,11 +14,10 @@ export const defaultExperienceEffect = {
   isRemoved: false,
 }
 
-
 export const experienceEffectInterfaceIdData = {
   [EXPERIENCE_EFFECT_GAME_EFFECT]: {
     displayName: 'Game Effect',
-    icon: 'faGamepad',
+    // icon: 'faGamepad',
   },
   [EXPERIENCE_EFFECT_CHANGE_ACTIVITY]: {
     displayName: 'Change Activity',

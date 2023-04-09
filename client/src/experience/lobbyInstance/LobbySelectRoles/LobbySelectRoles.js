@@ -10,32 +10,41 @@ import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import Typography from '../../../ui/Typography/Typography';
 import LobbyUsername from '../LobbyMember/LobbyMember';
 import Divider from '../../../ui/Divider/Divider';
+import { RoleChip } from '../../../app/experienceModel/role/RoleChip/RoleChip';
 
 const LobbySelectRoles = ({
   editLobby,
   lobbyInstance: { lobbyInstance },
   myTracks, userTracks,
 }) => {  
+  const roles = lobbyInstance.roles
+  const roleIdToUserMongoIds = lobbyInstance.roleIdToUserMongoIds
+
   return <>
-      <Typography component="span" variant="subtitle1">Participant:</Typography>
-      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={lobbyInstance.participantId}></LobbyUsername>
-      {lobbyInstance.participantId && <SelectUsers userMongoIds={lobbyInstance.members.map((member) => member.userMongoId)} label="Select Participant" onSelect={(users) => {
-        if(users[0]) {
-          editLobby(lobbyInstance.id, {
-            participantId: users[users.length - 1]
-          })
-        }
-      }}/>}
-    <Divider></Divider>
-      <Typography component="span" variant="subtitle1">Guide:</Typography>
-      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={lobbyInstance.guideId}></LobbyUsername>
-      {lobbyInstance.guideId && <SelectUsers userMongoIds={lobbyInstance.members.map((member) => member.userMongoId)} label="Select Guide" onSelect={(users) => {
-        if(users[0]) {
-          editLobby(lobbyInstance.id, {
-            guideId: users[users.length - 1]
-          })
-        }
-      }}/>}
+    {Object.keys(roleIdToUserMongoIds).map((roleId) => {
+      const userMongoIds = roleIdToUserMongoIds[roleId]
+      const role = roles[roleId]
+      return <>
+        <Divider></Divider>
+        <RoleChip role={role}/>
+        {userMongoIds.map((userMongoId, index) => {
+          return <>
+            {'#' + index + 1}
+            <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={userMongoId}></LobbyUsername>
+          </>
+        })}
+        <SelectUsers usersSelected={userMongoIds} onSelect={(users) => {
+          if(users[0]) {
+            editLobby(lobbyInstance.id, {
+              roleIdToUserMongoIds: {
+                [roleId]: users
+              }
+            })
+          }
+        }}/>
+      </>
+    })}
+    
   </>
 };
 

@@ -318,15 +318,13 @@ async function onMongoDBConnected() {
   
   // await TicketPurchase.create(ticketPurchase)
 
-  let lobbyInstances = await LobbyInstance.find().populate('invitedUsers')
+  let lobbyInstances = await LobbyInstance.find().populate('invitedUsers gameRoomInstances')
   
   if(lobbyInstances) {
     lobbyInstances =  lobbyInstances.map((lob) => {
       const lobbyInstance = lob.toJSON()
       return {
         ...lobbyInstance,
-        currentActivity: 'WAITING_ACTIVITY',
-        currentStep: 2,
         messages: [],
         members: lobbyInstance.invitedUsers.map((user) => {
           return {

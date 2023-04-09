@@ -34,6 +34,7 @@ const initialState = {
   isJoining: false,
   joinError: null,
   isUndoing: false,
+  myRoleId: null
 };
 
 export default function lobbyInstanceReducer(state = initialState, { type, payload }) {
@@ -77,13 +78,15 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
         ...state,
         isJoining: false,
         isInsideLobby: true,
-        lobbyInstance: {...payload.lobbyInstance, members: payload.lobbyInstance.members.slice()}
+        lobbyInstance: {...payload.lobbyInstance, members: payload.lobbyInstance.members.slice()},
+        myRoleId: payload.myRoleId
       };
     case LEAVE_LOBBY_SUCCESS:
     return {
       ...state,
       isJoining: false,
       isInsideLobby: false,
+      myRoleId: null,
       lobbyInstance: initialState.lobbyInstance,
     };
     case EDIT_LOBBY_SUCCESS:

@@ -50,7 +50,6 @@ const SelectExperienceModel = ({ excludedIds, onSelect, label, userMongoId, getE
     <div className="SelectExperienceModel">
       <SelectChipsAuto
         onChange={(event, experienceModelMongoId) => {
-          console.log(experienceModelMongoId)
           const experiences = experienceModels.filter((experienceModel) => experienceModelMongoId.indexOf(experienceModel.id) >= 0)
           onSelect(experiences)
         }}

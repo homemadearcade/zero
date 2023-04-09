@@ -7,7 +7,7 @@ import { Switch as RouterSwitch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
 
-import { assignLobbyRole, editLobby, toggleLobbyDashboard} from '../../store/actions/experience/lobbyInstanceActions';
+import { editLobby, toggleLobbyDashboard} from '../../store/actions/experience/lobbyInstanceActions';
 import requireAuth from '../../hoc/requireAuth';
 import requireChrome from '../../hoc/requireChrome';
 
@@ -20,43 +20,37 @@ import LobbyErrorStates from '../../experience/lobbyInstance/LobbyErrorStates/Lo
 import GameRoomDrawer from '../../game/gameRoomInstance/GameRoomDrawer/GameRoomDrawer';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
-import MultiplayerGameRoomContext from '../../hoc/MultiplayerGameRoomContext';
 import { ADMIN_ROLE, WAITING_ACTIVITY } from '../../constants';
 
 const LobbyPage = ({
   lobbyInstance: { lobbyInstance },
   auth: { me },
-  gameRoomInstance: { gameRoomInstance },
   myTracks,
   userTracks,
-  assignLobbyRole,
   toggleLobbyDashboard
 }) => {
   let { path } = useRouteMatch();
 
   useEffect(() => {
     if(me.role === ADMIN_ROLE) toggleLobbyDashboard(true)
-
-    if(gameRoomInstance.isPoweredOn) return 
-    
-    if(me.role === ADMIN_ROLE && (!lobbyInstance.guideId)) {
-      assignLobbyRole(lobbyInstance.id, {
-        userMongoId: me.id, 
-        role: 'guide'
-      });
-    }
   }, [])
+
+  // console.log(lobbyInstance)
+
+  // return null
+
+      //    <MultiplayerGameRoomContext gameRoomInstanceMongoId={lobbyInstance.gameRoomInstanceMongoId}>
+      //  </MultiplayerGameRoomContext>
+          // <CobrowsingSession userMongoId={null}>
+          // </CobrowsingSession>
+  const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].currentActivityCategory
 
   return <RouterSwitch>
       <Route exact path={path}>
         {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
-        <MultiplayerGameRoomContext gameRoomInstanceMongoId={lobbyInstance.gameRoomInstanceMongoId}>
-          <CobrowsingSession userMongoId={lobbyInstance.participantId}>
-            <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
-          </CobrowsingSession>
-        </MultiplayerGameRoomContext>
+          <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
         <LobbyErrorStates/>
-        {lobbyInstance.currentActivity !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
+        {currentActivityCategory !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
       </Route>
     </RouterSwitch>
 };
@@ -73,5 +67,5 @@ export default compose(
   withLobby,
   withSpeedTest,
   withAgoraVideoCall,
-  connect(mapStateToProps, { assignLobbyRole, editLobby, toggleLobbyDashboard }),
+  connect(mapStateToProps, { editLobby, toggleLobbyDashboard }),
 )(LobbyPage);

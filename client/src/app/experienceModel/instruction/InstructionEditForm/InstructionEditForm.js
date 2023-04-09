@@ -70,7 +70,7 @@ const InstructionEditForm = ({ loadArcadeGameByMongoId, unloadArcadeGame, editEx
         {gameModel && <>
           <Divider/>
           <br/>
-          <GameCard game={gameModel} />
+          <GameCard canEdit canPlay game={gameModel} />
           <br/>
         </>}
         <Divider/>

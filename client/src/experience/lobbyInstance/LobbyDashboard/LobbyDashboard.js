@@ -13,6 +13,7 @@ import LobbyOverview from '../LobbyOverview/LobbyOverview';
 import ActivityView from '../../activity/ActivityView/ActivityView';
 import classNames from 'classnames';
 import { PARTICIPANT_VIDEO_IID } from '../../../constants/interfaceIds';
+import LobbyInstructions from '../LobbyInstructions/LobbyInstructions';
 
 const LobbyDashboard = ({
   lobbyInstance: { lobbyInstance, isLobbyDashboardOpen },
@@ -32,7 +33,7 @@ const LobbyDashboard = ({
         <Tabs tabs={[
           {
             label: 'Instructions',
-            body: <ActivityInstructions myTracks={myTracks} userTracks={userTracks}/>
+            body: <LobbyInstructions myTracks={myTracks} userTracks={userTracks}/>
           },
           {
             label: 'Chatlog',

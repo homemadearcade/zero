@@ -411,7 +411,7 @@ export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, isArchived
   gameData.metadata.isPublished = false
   gameData.userMongoId = userMongoId
 
-  dispatch(addArcadeGame(gameData))
+  return await dispatch(addArcadeGame(gameData))
 };
 
 

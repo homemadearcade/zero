@@ -5,6 +5,7 @@ import { generateUniqueId } from '../../utils/utils';
 
 import { ON_GAME_ROOM_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, GAME_ROOMS_STORE, GAME_ROOM_INSTANCE_DID } from '../../constants';
 import GameRoomInstance from '../../models/GameRoomInstance';
+import { mergeDeep } from '../../utils/utils';
 
 const router = Router();
 
@@ -100,6 +101,8 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
       isAutosaveDisabled: req.body.isAutosaveDisabled,
       isEdit: req.body.isEdit,
       isNetworked: req.body.isNetworked,
+      name: req.body.name,
+      experienceInstanceId: req.body.experienceInstanceId,
       gameRoomInstanceId: GAME_ROOM_INSTANCE_DID + generateUniqueId(),
     });
 
@@ -418,7 +421,7 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
       return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
     }
 
-    Object.assign(req.gameRoomInstance,req.body)
+    mergeDeep(req.gameRoomInstance,req.body)
 
     const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
       req.params.id,

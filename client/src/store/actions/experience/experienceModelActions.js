@@ -24,7 +24,11 @@ import _ from 'lodash';
 import { activityToInterfaceData, ACTIVITY_DID, allActivityUsersRoleId, allExperienceUsersRoleId, allLobbyUsersRoleId, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
-import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH, EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION, EXPERIENCE_EFFECT_GAME_EFFECT } from '../../../constants/experience';
+import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY, 
+  EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, 
+  EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH,
+   EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION,
+    EXPERIENCE_EFFECT_GAME_EFFECT } from '../../../constants/experience';
 
 export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
   Object.keys(gameModel.effects).forEach((effectId) => {
@@ -37,7 +41,7 @@ export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
     experienceModel.experienceEffects[experienceEffectId] = {
       effectId: effectId,
       experienceEffectId,
-      icon: effect.icon,
+      icon: effect.icon || 'faLockOpen',
       experienceEffectBehavior: EXPERIENCE_EFFECT_GAME_EFFECT,
       title: effect.title,
       subTitle: effect.subTitle,
@@ -63,7 +67,7 @@ function addDefaultsToExperienceModel(experienceModel) {
        const presetWaitingRoom = {
         activityId: waitingRoomId,
         activityCategory: WAITING_ACTIVITY,
-        name: `${presetLobby.name} Waiting Room`,
+        name: `Waiting Room`,
         isNotRemoveable: true,
         isRemoved: presetLobby.isRemoved
       }
@@ -77,7 +81,7 @@ function addDefaultsToExperienceModel(experienceModel) {
       const presetVideoRoom  = {
         activityId: videoRoomId,
         activityCategory: VIDEO_ACTIVITY,
-        name: `${presetLobby.name} Video Room`,
+        name: `Video Room`,
         isNotRemoveable: true,
         isRemoved: presetLobby.isRemoved
       }
@@ -91,7 +95,7 @@ function addDefaultsToExperienceModel(experienceModel) {
       const presetCredits = {
         activityId: creditsRoomId,
         activityCategory: CREDITS_ACTIVITY,
-        name: `${presetLobby.name} Credits`,
+        name: `Credits`,
         isNotRemoveable: true,
         isRemoved: presetLobby.isRemoved
       }

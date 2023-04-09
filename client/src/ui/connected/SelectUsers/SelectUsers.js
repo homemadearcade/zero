@@ -43,7 +43,7 @@ const SelectUsers = ({ userMongoIds, label, onSelect, groupBy, usersSelected = [
         }}
         groupBy={groupBy}
         hideRemoved
-        formLabel={label ? label : "Users"}
+        formLabel={label}
         value={usersSelected}
         options={options}
       />

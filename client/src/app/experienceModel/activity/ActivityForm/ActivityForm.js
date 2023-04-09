@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { TextField } from '@mui/material';
 import { Controller, useWatch } from 'react-hook-form';
 import SelectActivityCategory from '../../../../ui/SelectActivityCategory/SelectActivityCategory';
-import { GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM } from '../../../../constants';
+import { activityToInterfaceData, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM } from '../../../../constants';
 import Typography from '../../../../ui/Typography/Typography';
 import { RoleChip } from '../../role/RoleChip/RoleChip';
 import SelectInstructions from '../../../../ui/connected/SelectInstructions/SelectInstructions';
 import GameCardLoad from '../../../gameModel/GameCardLoad/GameCardLoad';
 import SelectGameRoom from '../../../../ui/connected/SelectGameRoom/SelectGameRoom';
+import SelectViewCategory from '../../../../ui/SelectViewCategory/SelectViewCategory';
 
 const ActivityForm = ({ control, register, setValue, trigger, isEdit, experienceModel: { experienceModel } }) => {
   const activityCategory = useWatch({
@@ -64,10 +65,31 @@ const ActivityForm = ({ control, register, setValue, trigger, isEdit, experience
       control={control}
       render={({ field: { onChange, value } }) => (
         <SelectActivityCategory onChange={(e) => {
-          onChange(e.target.value)
+          const activityCategory = e.target.value
+          onChange(activityCategory)
+          setValue("initialViewCategory", activityToInterfaceData[activityCategory].initialViewCategory)
+          trigger("activityCategory")
         }} value={value ? [value] : []} label={"Category"} />
       )}
     />}
+    <br/>
+    {isEdit && <Controller
+        {...register("initialViewCategory", {
+          required: true
+        })}
+        name={"initialViewCategory"}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <SelectViewCategory 
+            formLabel={"Initial View"}
+            activityCategory={activityCategory}
+            onChange={(e) => {
+              console.log(e.target.value)
+              onChange(e.target.value)
+            // setValue("gameRoom.gameMetadata", experienceModel.gameRooms[newGameRoomId].gameMetadata)
+          }} value={value} />
+        )}
+      />}
     <br/>
     {activityCategory === GAME_ROOM_ACTIVITY && <>
       {!isEdit && <Controller
@@ -87,7 +109,7 @@ const ActivityForm = ({ control, register, setValue, trigger, isEdit, experience
           }} value={value ? [value] : []} />
         )}
       />}
-      {arcadeGameMongoId && <GameCardLoad arcadeGameMongoId={arcadeGameMongoId} />}
+      {arcadeGameMongoId && <GameCardLoad canEdit canPlay arcadeGameMongoId={arcadeGameMongoId} />}
       {isEdit && renderGameRoomRoleInstructionSelect()}
     </>}
   </>

@@ -8,5 +8,3 @@ export * from './prompt'
 export * from './experienceEffect'
 export * from './experienceModel'
 export * from './lobbys'
-
-export * from './interfaceData'

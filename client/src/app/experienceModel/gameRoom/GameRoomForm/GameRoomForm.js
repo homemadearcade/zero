@@ -31,7 +31,7 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
           if(games[0]) {
             const game = games[games.length - 1]
             onChange(game.id)
-            setValue("gameMetadata", game.metadata)
+            // setValue("gameMetadata", game.metadata)
             setValue("name", game.metadata.title)
             trigger("arcadeGameMongoId")
           }
@@ -92,11 +92,11 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
     {renderGameSelect()}
     {!isEdit && <GameAddForm onSubmit={(game) => {
       setValue("arcadeGameMongoId", game.id)
-      setValue("gameMetadata", game.metadata)
+      // setValue("gameMetadata", game.metadata)
       setValue("name", game.metadata.title)
       trigger("arcadeGameMongoId")
     }} defaultValues={{userMongoId: me.id}}></GameAddForm>}
-    {arcadeGameMongoId && <GameCardLoad arcadeGameMongoId={arcadeGameMongoId} />}
+    {arcadeGameMongoId && <GameCardLoad canEdit canPlay arcadeGameMongoId={arcadeGameMongoId} />}
     {renderCopyGame()}
     {isEdit && <Controller
       {...register("isAutosaveDisabled", {

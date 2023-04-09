@@ -34,6 +34,10 @@ const gameRoomInstanceSchema = new Schema(
       type: String,
       required: true,
     },
+    experienceInstanceId: {
+      type: String,
+      required: true,
+    },
     invitedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true },
@@ -50,6 +54,7 @@ gameRoomInstanceSchema.methods.toJSON = function () {
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
+    experienceInstanceId: this.experienceInstanceId,
     arcadeGameMongoId: this.arcadeGameMongoId,
     gameRoomInstanceId: this.gameRoomInstanceId,
   };

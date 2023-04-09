@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { clearErrorState } from '../../../store/actions/errorsActions';
-import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, MONOLOGUE_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import CobrowsingGame from '../../cobrowsing/CobrowsingGame/CobrowsingGame';
 import Typography from '../../../ui/Typography/Typography';
 import Chatroom from '../../Chatroom/Chatroom';
@@ -14,7 +14,7 @@ import { Container } from '@mui/system';
 import AgoraVideoPreview from '../../agora/AgoraVideoPreview/AgoraVideoPreview';
 import ExperienceCredits from '../ExperienceCredits/ExperienceCredits';
 import ActivityTransition from '../ActivityTransition/ActivityTransition';
-import { MONOLOGUE_ACTIVITY_VIDEO_IID } from '../../../constants/interfaceIds';
+import { VIDEO_ACTIVITY_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const ActivityCurrent = ({
   lobbyInstance: { lobbyInstance: { currentActivity, guideId }},
@@ -41,10 +41,10 @@ const ActivityCurrent = ({
       return <ExperienceCredits/>
     }
 
-    if(currentActivity === MONOLOGUE_ACTIVITY) {
+    if(currentActivity === VIDEO_ACTIVITY) {
       return <div className="MonologueExperience">
         <AgoraUserVideo
-          interfaceId={MONOLOGUE_ACTIVITY_VIDEO_IID} 
+          interfaceId={VIDEO_ACTIVITY_VIDEO_IID} 
           hideOverlay
           className="MonologueExperience__speaker"
           myTracks={myTracks}

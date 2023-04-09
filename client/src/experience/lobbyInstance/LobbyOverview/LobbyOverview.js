@@ -31,7 +31,7 @@ const LobbyOverview = ({
       <LobbySelectRoles myTracks={myTracks} userTracks={userTracks}></LobbySelectRoles>
       <Divider></Divider>
       {otherMembers.length > 0 && <div className="LobbyOverview__others">
-        <Typography component="div" variant="subtitle1">Others:</Typography>
+        <Typography component="div" variant="subtitle1">Audience:</Typography>
         <div>{otherMembers.map((user) => {
           return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={user.userMongoId}></LobbyUsername>
         })}</div>

@@ -6,20 +6,12 @@ export const defaultExperienceModel = {
     [defaultLobbyId]: {
       name: 'Welcome',
       lobbyId: defaultLobbyId,
-      activitys: {},
       isNotRemoveable: true
     }
   },
   experienceEffects: {},
   activitys: {},
   roles: {
-    [defaultAudienceRoleId]: {
-      name: 'Audience',
-      roleId: defaultAudienceRoleId,
-      color: '#FF0000',
-      isNotRemoveable: true,
-      roleCategory: EXPERIENCE_ROLE_AUDIENCE
-    },
     [defaultParticipantRoleId]: {
       name: 'Participant',
       roleId: defaultParticipantRoleId,
@@ -33,7 +25,14 @@ export const defaultExperienceModel = {
       color: '#0000FF',
       isNotRemoveable: true,
       roleCategory: EXPERIENCE_ROLE_FACILITATOR
-    }
+    },
+    [defaultAudienceRoleId]: {
+      name: 'Audience',
+      roleId: defaultAudienceRoleId,
+      color: '#FF0000',
+      isNotRemoveable: true,
+      roleCategory: EXPERIENCE_ROLE_AUDIENCE
+    },
   },
   gameRooms: {},
   canvasRooms: {},

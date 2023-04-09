@@ -21,7 +21,7 @@ import ActivityTransitionToggle from '../../../experience/activity/ActivityTrans
 import LobbyDashboardToggle from '../../../experience/lobbyInstance/LobbyDashboardToggle/LobbyDashboardToggle';
 
 const GameRoomDrawer = ({
-  lobbyInstance: { lobbyInstance, lobbyInstance: { currentActivity } },
+  lobbyInstance: { lobbyInstance },
   gameRoomInstance: { gameRoomInstance, gameRoomInstance: { isPoweredOn, isAutosaveDisabled }},
   myTracks,
   userTracks,
@@ -29,6 +29,7 @@ const GameRoomDrawer = ({
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
+    const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].currentActivityCategory
     return <>
       <div className="GameRoomDrawer">
         {!inIframe() && <div className="GameRoomDrawer__toggle" onClick={() => {
@@ -40,7 +41,7 @@ const GameRoomDrawer = ({
         <CobrowsingIndicator/>
         <GameRoomPowerIndicator/>
         <ActivityTransitionToggle/>
-        {currentActivity === GAME_ROOM_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
+        {currentActivityCategory === GAME_ROOM_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>
           <Typography variant="subtitle2">Autosave Disabled</Typography>
           <Switch

@@ -2,4 +2,11 @@
   &__lobby {
     padding: 1em;
   }
+
+  &__roles {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
 }

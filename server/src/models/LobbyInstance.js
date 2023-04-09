@@ -10,7 +10,17 @@ const lobbyInstanceSchema = new Schema(
       type: String,
       required: true,
     },
-    roleUserMongoIds: {
+    instructions: {
+      type: Object,
+      default: {},
+      required: true,
+    },
+    roles: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    roleIdToUserMongoIds: {
       type: Object,
       required: true,
       default: {}
@@ -24,11 +34,21 @@ const lobbyInstanceSchema = new Schema(
       required: true,
       default: {}
     },
+    currentActivityId: {
+      type: String,
+    },
+    instructionsByRoleId: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    instructionCurrentSteps: {
+      type: Object,
+      required: true,
+      default: {}
+    },
+    gameRoomInstances: [{ type: mongoose.Schema.Types.ObjectId, ref: 'GameRoomInstance'  }],
     experienceModel: { type: mongoose.Schema.Types.ObjectId, ref: 'ExperienceModel' },
-    // guideId: {
-    //   type: String,
-    //   required: true,
-    // },
     startTime: {
       type: String,
       // required: true,
@@ -74,7 +94,18 @@ lobbyInstanceSchema.methods.toJSON = function () {
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()
     }) : [],
+    gameRoomInstances: this.gameRoomInstances ? this.gameRoomInstances.map((gameRoomInstance) => {
+      return gameRoomInstance?.toJSON()
+    }) : [],
     activitys: this.activitys,
+    currentActivityId: this.currentActivityId,
+    roleIdToUserMongoIds: this.roleIdToUserMongoIds,
+    roles: this.roles,
+    hostUserMongoId: this.hostUserMongoId,
+    instructions: this.instructions,
+    instructionsByRoleId: this.instructionsByRoleId,
+    instructionCurrentSteps: this.instructionCurrentSteps,
+    experienceInstanceId: this.experienceInstanceId,
     experienceModel: this.experienceModel?.toJSON(),
     lobbyInstanceId: this.lobbyInstanceId,
     // guideId: this.guideId

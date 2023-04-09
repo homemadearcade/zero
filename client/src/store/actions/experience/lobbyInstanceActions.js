@@ -45,6 +45,7 @@ import { BACKGROUND_LAYER_ID, CANVAS_IMAGE_LAYER_ID, FOREGROUND_LAYER_ID, PLAYGR
 import { editGameModel } from '../game/gameModelActions';
 import store from '../..';
 import { setRecentlyFocused } from '../webPageActions';
+import { defaultAudienceRoleId } from '../../../constants';
 
 let pingInterval;
 
@@ -437,9 +438,18 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
       });
     });
 
+    const lobbyInstance = response.data.lobbyInstance
+    const auth = getState().auth
+    let myRoleId = defaultAudienceRoleId
+    Object.keys(lobbyInstance.roleIdToUserMongoIds).forEach(roleId => {
+      if(lobbyInstance.roleIdToUserMongoIds[roleId].indexOf(auth.me.id) >= 0) {
+        myRoleId = roleId
+      }
+    })
+
     dispatch({
       type: JOIN_LOBBY_SUCCESS,
-      payload: { lobbyInstance: response.data.lobbyInstance },
+      payload: { lobbyInstance: response.data.lobbyInstance, myRoleId },
     });
   } catch (err) {
     dispatch({

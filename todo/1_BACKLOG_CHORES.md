@@ -22,3 +22,9 @@ Only Once should be on relation model
 
 Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
 
+MIGRATE TO TYPESCRIPT?
+  https://github.com/airbnb/ts-migrate
+
+RENAME ACTIVITYS?
+  brew install rename
+

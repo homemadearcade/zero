@@ -8,6 +8,7 @@ export const defaultLobby = {
     [defaultParticipantRoleId]: SECURITY_SCOPE_INVITE_ONLY,
     [defaultAudienceRoleId]: SECURITY_SCOPE_PUBLIC,
   },
+  hostRoleId: defaultGuideRoleId,
   activitys: {},
   initialActivityId: null,
   instructionsByRoleId: {},

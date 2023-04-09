@@ -6,7 +6,7 @@ import User from '../../models/User';
 
 import { ON_LOBBY_INSTANCE_UPDATE, ON_LOBBY_INSTANCE_UNDO, ADMIN_ROOM_PREFIX, LOBBY_INSTANCE_STORE, LOBBY_INSTANCE_DID } from '../../constants';
 import LobbyInstance from '../../models/LobbyInstance';
-import { generateUniqueId } from '../../utils/utils';
+import { generateUniqueId, mergeDeep } from '../../utils/utils';
 
 const router = Router();
 
@@ -64,7 +64,7 @@ router.get('/:id', requireLobbyInstance, async (req, res) => {
 
 router.get('/lobbyInstanceId/:lobbyInstanceId', async (req, res) => {
   try {
-    const lobbyInstance = await LobbyInstance.findOne({ lobbyInstanceId: req.params.lobbyInstanceId }).populate('owner');
+    const lobbyInstance = await LobbyInstance.findOne({ lobbyInstanceId: req.params.lobbyInstanceId }).populate('owner invitedUsers gameRoomInstances');
     if (!lobbyInstance) return res.status(404).json({ message: 'No lobbyInstance found.' });
     res.json({ lobbyInstance: lobbyInstance.toJSON() });
   } catch (err) {
@@ -117,15 +117,23 @@ router.post('/:id/clearMessages', requireJwtAuth, requireLobbyInstance, requireS
 router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
   try {
     let lobbyInstance = await LobbyInstance.create({
+      name: req.body.name,
       startTime: req.body.startTime,
       activitys: req.body.activitys,
-      roleUserMongoIds: req.body.roleUserMongoIds,
+      roleIdToUserMongoIds: req.body.roleIdToUserMongoIds,
+      roles: req.body.roles,
+      currentActivityId: req.body.currentActivityId,
       experienceInstanceId: req.body.experienceInstanceId,
+      gameRoomInstances: req.body.gameRoomInstances,
+      instructionCurrentSteps: req.body.instructionCurrentSteps,
+      instructions: req.body.instructions,
+      instructionsByRoleId: req.body.instructionsByRoleId,
+      invitedUsers: req.body.invitedUsers,
       hostUserMongoId: req.body.hostUserMongoId,
       lobbyInstanceId: LOBBY_INSTANCE_DID + generateUniqueId()
     });
 
-    lobbyInstance = await lobbyInstance.populate('invitedUsers').execPopulate();
+    lobbyInstance = await lobbyInstance.populate('invitedUsers gameRoomInstances').execPopulate();
 
     lobbyInstance = lobbyInstance.toJSON()
 
@@ -140,8 +148,6 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
       }
     })
 
-    lobbyInstance.currentStep = 2
-    lobbyInstance.currentActivity = 'WAITING_ACTIVITY'
     lobbyInstance.messages = []
 
     req.lobbyInstances.push(lobbyInstance)
@@ -197,13 +203,13 @@ router.post('/assign/:id', requireJwtAuth, requireLobbyInstance, requireSocketAu
     return res.status(400).json({ message: 'You do not have privelages to assign that role.' });
   }
 
-  if(!req.body.roleUserMongoIds[req.body.roleId]) req.body.roleUserMongoIds[req.body.roleId] = []
-  req.body.roleUserMongoIds[req.body.roleId].push(req.body.userMongoId)
+  if(!req.body.roleIdToUserMongoIds[req.body.roleId]) req.body.roleIdToUserMongoIds[req.body.roleId] = []
+  req.body.roleIdToUserMongoIds[req.body.roleId].push(req.body.userMongoId)
 
   const updatedLobbyInstance = await LobbyInstance.findByIdAndUpdate(
     req.params.id,
     { 
-      roleUserMongoIds: req.body.roleUserMongoIds
+      roleIdToUserMongoIds: req.body.roleIdToUserMongoIds
     },
     { new: true },
   );
@@ -326,7 +332,7 @@ router.delete('/:id', requireJwtAuth, requireLobbyInstance, async (req, res) => 
     }
 
     try {
-      const lobbyInstance = await LobbyInstance.findByIdAndRemove(req.params.id).populate('invitedUsers');
+      const lobbyInstance = await LobbyInstance.findByIdAndRemove(req.params.id);
       req.lobbyInstances.splice(req.lobbyInstanceIndex, 1);
       if (!lobbyInstance) return res.status(404).json({ lobbyInstance: 'No lobbyInstance found.' });
     } catch (err) {
@@ -401,17 +407,20 @@ router.put('/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, asyn
     //   return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
     // }
 
-    Object.assign(req.lobbyInstance,req.body)
+    mergeDeep(req.lobbyInstance,req.body)
 
     const updatedLobbyInstance = await LobbyInstance.findByIdAndUpdate(
       req.params.id,
       { 
-        invitedUsers: req.lobbyInstance.invitedUsers.map(({id}) => {
-          return id
-        }),
+        // invitedUsers: req.lobbyInstance.invitedUsers.map(({id}) => {
+        //   return id
+        // }),
         hostUserMongoId: req.lobbyInstance.hostUserMongoId,
         startTime: req.lobbyInstance.startTime,
-        roleUserMongoIds: req.lobbyInstance.roleUserMongoIds,
+        instructionCurrentSteps: req.lobbyInstance.instructionCurrentSteps,
+        currentActivityId: req.lobbyInstance.currentActivityId,
+        // gameRoomInstances: req.lobbyInstance.gameRoomInstances,
+        roleIdToUserMongoIds: req.lobbyInstance.roleIdToUserMongoIds,
         activitys: req.lobbyInstance.activitys,
       },
       { new: true },
