@@ -10,7 +10,7 @@ import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcad
 import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import Divider from '../../../ui/Divider/Divider';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
-import LobbyUsername from '../../../experience/lobbyInstance/LobbyMember/LobbyMember';
+import LobbyMember from '../../../experience/lobbyInstance/LobbyMember/LobbyMember';
 
 const GameRoomOverview = ({
   gameRoomInstance: { gameRoomInstance },
@@ -32,7 +32,7 @@ const GameRoomOverview = ({
       }}/>
       <Divider></Divider>
       <Typography component="span" variant="subtitle1">Game Host:</Typography>
-      <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={gameRoomInstance.hostUserMongoId}></LobbyUsername>
+      <LobbyMember myTracks={myTracks} userTracks={userTracks} userMongoId={gameRoomInstance.hostUserMongoId}></LobbyMember>
       {<SelectUsers userMongoIds={lobbyInstance.members.map((member) => member.userMongoId)} label="Select Host" onSelect={(users) => {
         if(users[0]) {
           editGameRoom(gameRoomInstance.id, {

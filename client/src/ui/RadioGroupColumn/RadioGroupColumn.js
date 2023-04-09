@@ -9,7 +9,7 @@ import Icon from '../Icon/Icon';
 
 export default function RadioGroupColumn({formLabel, options, value, onChange}) {
   return (
-    <FormControl>
+    <FormControl key={formLabel}>
       {formLabel && <FormLabel>{formLabel}</FormLabel>}
       <RadioGroup
         row
@@ -17,12 +17,10 @@ export default function RadioGroupColumn({formLabel, options, value, onChange}) 
         onChange={onChange}
       >
         {options.map(({label, value, icon}) => {
-          return <>
-            <FormControlLabel value={value} key={label} control={<Radio />} label={<>
-              {icon && <div className="RadioGroupColumn__icon"><Icon icon={icon}></Icon></div>}
-              {label}
-            </>} />
-          </>
+          return <FormControlLabel value={value} key={label+value} control={<Radio />} label={<>
+            {icon && <div className="RadioGroupColumn__icon"><Icon icon={icon}></Icon></div>}
+            {label}
+          </>} />
         })}
       </RadioGroup>
     </FormControl>

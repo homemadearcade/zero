@@ -8,7 +8,7 @@ import Typography from '../../ui/Typography/Typography';
 import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
 import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/experience/lobbyInstanceActions';
-import LobbyUsername from '../lobbyInstance/LobbyMember/LobbyMember';
+import LobbyMember from '../lobbyInstance/LobbyMember/LobbyMember';
 import { ADMIN_ROLE } from '../../constants';
 
 const Chatroom = ({
@@ -41,7 +41,7 @@ const Chatroom = ({
     const {user, automated} = messageData
 
     if(me?.role === ADMIN_ROLE) {
-      return <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={messageData.user.userMongoId}></LobbyUsername>
+      return <LobbyMember myTracks={myTracks} userTracks={userTracks} userMongoId={messageData.user.userMongoId}></LobbyMember>
     }
 
     if(automated) return user.username

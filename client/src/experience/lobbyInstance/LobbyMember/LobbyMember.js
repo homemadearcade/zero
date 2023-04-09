@@ -12,7 +12,6 @@ import Button from '../../../ui/Button/Button';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { setCutAudio, setCutVideo } from '../../../store/actions/experience/videoActions';
-import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { ADMIN_ROLE, ARCADE_EXPERIENCE_MODEL_ID } from '../../../constants';
 import { LOBBY_MEMBER_VIDEO_IID } from '../../../constants/interfaceIds';
@@ -43,7 +42,7 @@ const LobbyMember = ({
   })[0]
 
   if(!user) {
-    return null
+    return <Button disabled>(Not Present)</Button>
   }
 
   let userTracksById = {}
@@ -56,10 +55,6 @@ const LobbyMember = ({
   }
   
   const isMe = me?.id === userMongoId
-
-      //   {userMongoId === lobbyInstance.participantId && <Link to ={`/lobby/${lobbyInstance.id}/join/${user.userMongoId}`}>
-      //   <Button variant="contained">{isMe ? 'Play' : 'Join'}</Button>
-      // </Link>}
   function renderConnectionInfo() {
     return <div className="LobbyMember__connection">
       <div className="LobbyMember__title">
@@ -94,7 +89,7 @@ const LobbyMember = ({
 
   const isNavigatedToCobrowse = params.cobrowsingUserMongoId === userMongoId
 
-  return <>
+  return <span key={userMongoId}>
   <Button onClick={() => {
     setIsDialogOpen(true)
   }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--left' : !user.joined, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
@@ -112,7 +107,7 @@ const LobbyMember = ({
       {showUnlockedUI && <UnlockableInterfaceTree experienceModelMongoId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={userMongoId}></UnlockableInterfaceTree>}
     </div>
   </Dialog>}
-  </>
+  </span>
 };
 
 const mapStateToProps = (state) => ({

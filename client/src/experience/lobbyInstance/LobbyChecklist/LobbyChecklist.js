@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { useAgoraVideoCallClient } from '../../../store/actions/experience/videoActions';
 import Icon from '../../../ui/Icon/Icon';
 import { isSpeedTestPassing } from '../../../utils/networkUtils';
-import { LOBBY_USER_PRESENT_DELTA } from '../../../constants';
+import { EXPERIENCE_ROLE_AUDIENCE, LOBBY_USER_PRESENT_DELTA } from '../../../constants';
 
 // {<Button
 //   type="button"
@@ -40,102 +40,72 @@ const LobbyChecklist = ({
 
   const client = useAgoraVideoCallClient()
 
+  const userMongoIdToRole = lobbyInstance.members.reduce((prev, next) => {
+    const roleId = Object.keys(lobbyInstance.roleIdToUserMongoIds).find((roleId) => {
+      return lobbyInstance.roleIdToUserMongoIds[roleId].includes(next.userMongoId)
+    })
+    prev[next.userMongoId] = lobbyInstance.roles[roleId]
+    return prev
+  }, {})
+
+  const presenceChecklist = lobbyInstance.members.map((member) => {
+    if(userMongoIdToRole[member.userMongoId]?.roleCategory === EXPERIENCE_ROLE_AUDIENCE) return null
+    return {
+      text: `${member.username} is present`,
+      test: () => {
+        const userStatus = lobbyInstanceUserStatuses[member.userMongoId]
+        return userStatus?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && userStatus?.isFocused
+      },
+      required: true,
+    }
+  })
+
+  const internetSpeedTestChecklist = lobbyInstance.members.map((member) => {
+    if(userMongoIdToRole[member.userMongoId]?.roleCategory === EXPERIENCE_ROLE_AUDIENCE) return null
+    return {
+      text: `${member.username} has a tested internet and has a good connection`,
+      test: () => {
+        if(!membersById[member.userMongoId]?.speedTest) return false
+        return isSpeedTestPassing(membersById[member.userMongoId]?.speedTest)
+      },
+      required: false,
+    }
+  })
+
+  const isVideoConnectedChecklist = lobbyInstance.members.map((member) => {
+    if(userMongoIdToRole[member.userMongoId]?.roleCategory === EXPERIENCE_ROLE_AUDIENCE) return null
+
+    return {
+      text: `${member.username} is connected to video`,
+      test: () => {
+        if(me.id === member.userMongoId) {
+          return window.uplinkNetworkQuality
+        } else if(client) {
+          return client.getRemoteNetworkQuality()[member.userMongoId]?.uplinkNetworkQuality;
+        }
+      },
+      required: false,
+    }
+  })
+
+  const requireRolesSetChecklist = Object.keys(lobbyInstance.roleIdToUserMongoIds).map((roleId) => {
+    if(lobbyInstance.roles[roleId].roleCategory === EXPERIENCE_ROLE_AUDIENCE) return null
+    const role = lobbyInstance.roles[roleId]
+    return {
+      text: `${role.name} users have been set`,
+      test: () => {
+        return lobbyInstance.roleIdToUserMongoIds[roleId].length
+      },
+      required: true,
+    }
+  })
+
   const checklist = [
-    {
-      text: 'Participant role is set',
-      test: () => {
-        return lobbyInstance.participantId
-      },
-      required: true,
-    },
-    {
-      text: 'Participant is present',
-      test: () => {
-        return lobbyInstanceUserStatuses[lobbyInstance.participantId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyInstanceUserStatuses[lobbyInstance.participantId]?.isFocused
-      },
-      required: true,
-    },
-    {
-      text: 'Guide role is set',
-      test: () => {
-        return lobbyInstance.guideId
-      },
-      required: true,
-    },
-    {
-      text: 'Guide is present',
-      test: () => {
-        return lobbyInstanceUserStatuses[lobbyInstance.guideId]?.lastSeen + LOBBY_USER_PRESENT_DELTA > Date.now() && lobbyInstanceUserStatuses[lobbyInstance.guideId]?.isFocused
-      },
-      required: true,
-    },
-    {
-      text: 'Participant role is set to different user than guide',
-      test: () => {
-        return lobbyInstance.participantId !== lobbyInstance.guideId
-      },
-      required: true,
-    },
-    {
-      text: 'Game has been selected',
-      test: () => {
-        return !!lobbyInstance.editingGameId
-      },
-      required: true
-    },
-    {
-      text: 'Participant has interacted with experience',
-      test: () => {
-        return !!remoteStateUserMongoId
-      },
-      required: true,
-    },
-    {
-      text: 'Participant has connected camera',
-      test: () => {
-        if(me.id === lobbyInstance.participantId) {
-          return window.uplinkNetworkQuality
-        } else if(client) {
-          return client.getRemoteNetworkQuality()[lobbyInstance.participantId]?.uplinkNetworkQuality;
-        }
-      },
-      required: false,
-    },
-    {
-      text: 'Guide has connected camera',
-      test: () => {
-        if(me.id === lobbyInstance.guideId) {
-          return window.uplinkNetworkQuality
-        } else if(client) {
-          return client.getRemoteNetworkQuality()[lobbyInstance.guideId]?.uplinkNetworkQuality;
-        }
-      },
-      required: false,
-    },
-    {
-      text: 'Participant is fullscreen',
-      test: () => {
-        return lobbyInstanceUserStatuses[lobbyInstance.participantId]?.isFullscreen
-      },
-      required: false,
-    },
-    {
-      text: 'Participant has passed internet speed test',
-      test: () => {
-        const speedTest = membersById[lobbyInstance.participantId]?.internetSpeedTestResults
-        return speedTest && isSpeedTestPassing(membersById[lobbyInstance.participantId]?.internetSpeedTestResults)
-      },
-      required: false,
-    },
-    {
-      text: 'Guide has passed internet speed test',
-      test: () => {
-        const speedTest = membersById[lobbyInstance.guideId]?.internetSpeedTestResults
-        return speedTest && isSpeedTestPassing(membersById[lobbyInstance.guideId]?.internetSpeedTestResults)
-      },
-      required: false,
-    },
-  ]
+    ...presenceChecklist,
+    ...internetSpeedTestChecklist,
+    ...isVideoConnectedChecklist,
+    ...requireRolesSetChecklist,
+  ].filter((item) => !!item)
 
   // const isAllRequiredPassing = checklist.every((item, i) => {
   //   if(!item.required) return true

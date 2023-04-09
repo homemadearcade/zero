@@ -21,6 +21,7 @@ const SelectActivity = ({ onChange, value, formLabel, disabled, lobbyInstance: {
   const options = Object.keys(lobbyInstance.activitys).map(mapActivitysToOption)
 
   return <RadioGroupColumn
+    key={formLabel}
     disabled={disabled}
     onChange={onChange}
     formLabel={formLabel}

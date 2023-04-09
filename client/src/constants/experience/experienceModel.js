@@ -1,4 +1,4 @@
-import { EXPERIENCE_ROLE_AUDIENCE, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT } from "./constants";
+import { defaultPerformerRoleId, EXPERIENCE_ROLE_AUDIENCE, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT, EXPERIENCE_ROLE_PERFORMER } from "./constants";
 import { defaultAudienceRoleId, defaultGuideRoleId, defaultLobbyId, defaultParticipantRoleId } from "./constants";
 
 export const defaultExperienceModel = {
@@ -26,10 +26,17 @@ export const defaultExperienceModel = {
       isNotRemoveable: true,
       roleCategory: EXPERIENCE_ROLE_FACILITATOR
     },
+    // [defaultPerformerRoleId]: {
+    //   name: 'Performer',
+    //   roleId: defaultPerformerRoleId,
+    //   color: '#FFFF00',
+    //   isRemoved: true,
+    //   roleCategory: EXPERIENCE_ROLE_PERFORMER
+    // },
     [defaultAudienceRoleId]: {
       name: 'Audience',
       roleId: defaultAudienceRoleId,
-      color: '#FF0000',
+      color: '#FFFFFF',
       isNotRemoveable: true,
       roleCategory: EXPERIENCE_ROLE_AUDIENCE
     },

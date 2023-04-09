@@ -447,6 +447,8 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
       }
     })
 
+    console.log('joined lobbyInstance', lobbyInstance)
+
     dispatch({
       type: JOIN_LOBBY_SUCCESS,
       payload: { lobbyInstance: response.data.lobbyInstance, myRoleId },

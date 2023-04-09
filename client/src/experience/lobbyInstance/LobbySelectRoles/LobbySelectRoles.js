@@ -8,9 +8,10 @@ import { editLobby } from '../../../store/actions/experience/lobbyInstanceAction
 import './LobbySelectRoles.scss';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import Typography from '../../../ui/Typography/Typography';
-import LobbyUsername from '../LobbyMember/LobbyMember';
+import LobbyMember from '../LobbyMember/LobbyMember';
 import Divider from '../../../ui/Divider/Divider';
 import { RoleChip } from '../../../app/experienceModel/role/RoleChip/RoleChip';
+import { isLobbyInstanceUserAlreadyAssignedRoles } from '../../../utils';
 
 const LobbySelectRoles = ({
   editLobby,
@@ -24,27 +25,27 @@ const LobbySelectRoles = ({
     {Object.keys(roleIdToUserMongoIds).map((roleId) => {
       const userMongoIds = roleIdToUserMongoIds[roleId]
       const role = roles[roleId]
-      return <>
+      return <div key={roleId}>
         <Divider></Divider>
         <RoleChip role={role}/>
         {userMongoIds.map((userMongoId, index) => {
-          return <>
-            {'#' + index + 1}
-            <LobbyUsername myTracks={myTracks} userTracks={userTracks} userMongoId={userMongoId}></LobbyUsername>
-          </>
+          return <div key={userMongoId}>
+            {'#' + (index + 1)}
+            <LobbyMember key={userMongoId + roleId} myTracks={myTracks} userTracks={userTracks} userMongoId={userMongoId}></LobbyMember>
+          </div>
         })}
-        <SelectUsers usersSelected={userMongoIds} onSelect={(users) => {
-          if(users[0]) {
+        <SelectUsers key={roleId+'select'} usersSelected={userMongoIds} onSelect={(users) => {
+          // if(users[0]) {
+            if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')
             editLobby(lobbyInstance.id, {
               roleIdToUserMongoIds: {
                 [roleId]: users
               }
             })
-          }
+          // }
         }}/>
-      </>
+      </div>
     })}
-    
   </>
 };
 

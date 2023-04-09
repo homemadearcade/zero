@@ -2,12 +2,13 @@ import Phaser from "phaser";
 import { nodeSize } from "../constants";
 import store from "../../store";
 import { CameraPreview } from "./members/CameraPreview";
+import { getHexIntFromHexString } from "../../utils";
 
 export class RemoteEditor extends Phaser.GameObjects.Container {
   constructor(scene, {userMongoId, color}){
     super(scene, 0, 0)
     this.userMongoId = userMongoId
-    this.color = color
+    this.color = getHexIntFromHexString(color)
 
     scene.add.existing(this)
     this.scene = scene

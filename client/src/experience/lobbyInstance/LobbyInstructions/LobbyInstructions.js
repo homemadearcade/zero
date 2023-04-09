@@ -9,15 +9,14 @@ import './LobbyInstructions.scss';
 import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import Switch from '../../../ui/Switch/Switch';
-import VerticalLinearStepper from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
+import { VerticalLinearStepperControlled } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
+import { EXPERIENCE_ROLE_PARTICIPANT } from '../../../constants';
 
 const LobbyInstructions = ({
   editLobby,
   updateArcadeGameCharacter,
   lobbyInstance: { lobbyInstance, myRoleId },
-  myTracks,
-  userTracks,
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
 
@@ -28,7 +27,7 @@ const LobbyInstructions = ({
 
   const defaultSteps = [
         {
-          id: 'Share Participant Links',
+          stepId: 'Share Participant Links',
           title: <Typography component="h5" variant="h5">Share Participant link</Typography>,
           body: <>
             The participant will automatically have recieved this link in the email for their ticket. You may also manually share this link with them if needed
@@ -37,22 +36,30 @@ const LobbyInstructions = ({
           </>
         },
         {
-          id: 'UI - Lock All',
+          stepId: 'UI - Lock All',
           title: <Typography component="h5" variant="h5">UI - Lock All</Typography>,
           body: <>
             This will set the participants UI to not see any thing including the Game View
           </>,
 
           onClickNext: () => {
-            updateArcadeGameCharacter({
-              userMongoId: lobbyInstance.participantId,
-              unlockableInterfaceIds: {}
+            Object.keys(lobbyInstance.roleIdToUserMongoIds).forEach((roleId) => {
+              const userMongoIds = lobbyInstance.roleIdToUserMongoIds[roleId]
+              const role = lobbyInstance.roles[roleId]
+              if(role.roleCategory === EXPERIENCE_ROLE_PARTICIPANT) {
+                userMongoIds.forEach((userMongoId) => {
+                  updateArcadeGameCharacter({
+                    userMongoId,
+                    unlockableInterfaceIds: {}
+                  })
+                })
+              }
             })
           },
           nextButtonText: 'Lock All'
         },
         {
-          id: 'Review Launch Checklist',
+          stepId: 'Review Launch Checklist',
           title: <Typography component="h5" variant="h5">Review Launch Checklist </Typography>,
           body: <>
             <LobbyChecklist/>
@@ -78,7 +85,7 @@ const LobbyInstructions = ({
           }}
           checked={canSkipStep}
       ></Switch>
-      <VerticalLinearStepper
+      <VerticalLinearStepperControlled
       canSkipStep={canSkipStep}
       currentStep={lobbyInstance.instructionCurrentSteps[instructionId]}
       onStepChange={(stepNumber) => {

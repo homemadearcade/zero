@@ -36,6 +36,25 @@ export default function VerticalLinearStepper({initialStep = 0, steps, completed
   }} />
 }
 
+export function VerticalLinearStepperControlled({currentStep = 0, steps, completed, onStepChange, canSkipStep}) {
+  const handleNext = () => {
+    if(onStepChange) onStepChange(currentStep + 1)
+  };
+
+  const handlePrev = () => {
+    if(onStepChange) onStepChange(currentStep - 1)
+  };
+
+  const handleReset = () => {
+    if(onStepChange) onStepChange(0)
+  };
+
+  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={currentStep} canSkipStep={canSkipStep} onChangeStep={(step) => {
+    if(onStepChange) onStepChange(step)
+  }
+  } onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} />
+}
+
 export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed, steps, activeStep, onClickNext, onClickPrev, onClickReset }) {
 
   function renderStepText(step, index) {

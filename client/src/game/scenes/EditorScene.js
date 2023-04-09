@@ -27,7 +27,7 @@ import { addCanvasImage, uploadCanvasImageAndAddToGameModel } from '../../store/
 import { updateTheme } from '../../store/actions/themeActions';
 import { ON_GAME_INSTANCE_EVENT } from '../../store/types';
 import { changeInstanceHovering } from '../../store/actions/game/hoverPreviewActions';
-import { IMAGE_TYPE_SNAPSHOT } from '../../constants';
+import { EXPERIENCE_ROLE_PARTICIPANT, IMAGE_TYPE_SNAPSHOT } from '../../constants';
 
 export class EditorScene extends GameInstance {
   constructor(props) {
@@ -1010,12 +1010,22 @@ export class EditorScene extends GameInstance {
     const lobbyInstance = store.getState().lobbyInstance.lobbyInstance
     if(lobbyInstance.id) {
       const me = store.getState().auth.me
-      lobbyInstance.members.forEach((member) => {
-        if(member.userMongoId !== me.id && lobbyInstance.participantId === member.userMongoId) {
-          this.remoteEditors.push(
-            new RemoteEditor(this, { userMongoId: member.userMongoId, color: 0xFF0000})
-          )
+      const participantRoleIds = Object.keys(lobbyInstance.roles).reduce((roleIds, key) => {
+        if(lobbyInstance.roles[key].roleCategory  === EXPERIENCE_ROLE_PARTICIPANT) {
+          roleIds.push(key)
         }
+        return roleIds
+      }, [])
+      participantRoleIds.forEach((participantRoleId) => {
+        const userMongoIds = lobbyInstance.roleIdToUserMongoIds[participantRoleId]
+        const role = lobbyInstance.roles[participantRoleId]
+        userMongoIds.forEach((userMongoId) => {
+          if(userMongoId !== me.id) {
+            this.remoteEditors.push(
+              new RemoteEditor(this, { userMongoId, role: role, color: role.color})
+            )
+          }
+        })
       })
     }
   }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addLobby } from '../../../store/actions/experience/lobbyInstanceActions';
 // import { lobbyInstanceFormSchema } from './validation';
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 
 import './styles.css';
 import Button from '../../../ui/Button/Button';
@@ -12,21 +12,26 @@ import { Paper, TextField } from '@mui/material';
 import { addArcadeGame, copyArcadeGameToUser } from '../../../store/actions/game/arcadeGameActions';
 import { addGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import moment from 'moment';
-import { generateUniqueId } from '../../../utils';
+import { generateUniqueId, isLobbyInstanceUserAlreadyAssignedRoles } from '../../../utils';
 import './ExperienceInstanceForm.scss';
 import Icon from '../../../ui/Icon/Icon';
 import { EXPERIENCE_ROLE_AUDIENCE, roleToInterfaceData, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY } from '../../../constants';
 
-// function convertExperienceModelToLobbyInstance(experienceModel) {
-//   const lobbyInstance = {
-//     roleIdToUserMongoIds: Object.keys(experienceModel.roles).reduce((prev, next) => {
-//       prev[next] = []
-//       return prev
-//     }, {}),
-//   }
+function convertExperienceModelToLobbyInstance(experienceModel) {
+  return {
+    lobbyInstances: Object.keys(experienceModel.lobbys).reduce((prev, lobbyId) => {    
+      const lobbyInstance = {
+          roleIdToUserMongoIds: Object.keys(experienceModel.roles).reduce((prev, next) => {
+            prev[next] = []
+            return prev
+          }, {}),
+        }
 
-//   return lobbyInstance
-// }
+        prev[lobbyId] = lobbyInstance
+        return prev
+    }, {})
+  }
+}
 
 const ExperienceInstanceForm = ({ 
   addLobby, onSubmit, 
@@ -36,8 +41,13 @@ const ExperienceInstanceForm = ({
 }) => {
 
   const { handleSubmit, reset, control, formState: { isValid }, register } = useForm({
-    defaultValues: {}// convertExperienceModelToLobbyInstance(experienceModel)
+    defaultValues: convertExperienceModelToLobbyInstance(experienceModel)
   });
+
+  const lobbyInstances = useWatch({
+    control,
+    name: 'lobbyInstances'
+  })
 
   const submit = async (data) => {
     const experienceInstanceId = EXPERIENCE_INSTANCE_DID + generateUniqueId()
@@ -154,13 +164,13 @@ const ExperienceInstanceForm = ({
               const lobby = experienceModel.lobbys[lobbyId]
               return <Paper><div className="ExperienceInstanceForm__lobby">
                   <Icon icon="faDoorOpen" />
-                  <Typography variant="subtitle2" component="subtitle2">{' ' + lobby.name}</Typography>
+                  <Typography variant="subtitle2">{' ' + lobby.name}</Typography>
                   <div className="ExperienceInstanceForm__roles">{Object.keys(experienceModel.roles).map((roleId) => {
                     const role = experienceModel.roles[roleId]
                     const roleData = roleToInterfaceData[role.roleCategory]
                     return <div className="ExperienceInstanceForm__role">
                       <Icon icon={roleData.icon} color={role.color}/>
-                      <Typography variant="subtitle2" component="subtitle2">{role.name}</Typography>
+                      <Typography variant="subtitle2">{role.name}</Typography>
                       {role.roleCategory === EXPERIENCE_ROLE_AUDIENCE && <Controller
                         name={`lobbyInstances.${lobbyId}.roleIdToUserMongoIds.${roleId}`}
                         control={control}
@@ -168,6 +178,8 @@ const ExperienceInstanceForm = ({
                           return <SelectUsers
                             usersSelected={value} 
                             onSelect={(users) => {
+                              const lobbyInstance = lobbyInstances[lobbyId]
+                              if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')
                               onChange(users)
                             }}
                           />
@@ -183,6 +195,8 @@ const ExperienceInstanceForm = ({
                           return <SelectUsers
                             usersSelected={value} 
                             onSelect={(users) => {
+                               const lobbyInstance = lobbyInstances[lobbyId]
+                              if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')
                               onChange([users[users.length-1]])
                             }}
                           />

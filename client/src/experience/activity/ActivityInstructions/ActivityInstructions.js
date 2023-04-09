@@ -9,13 +9,11 @@ import './ActivityInstructions.scss';
 import Typography from '../../../ui/Typography/Typography';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Switch from '../../../ui/Switch/Switch';
-import VerticalLinearStepper from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
+import { VerticalLinearStepperControlled } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
 
 const ActivityInstructions = ({
   editLobby,
   lobbyInstance: { lobbyInstance, myRoleId },
-  myTracks,
-  userTracks,
   activityId
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
@@ -39,7 +37,7 @@ const ActivityInstructions = ({
           }}
           checked={canSkipStep}
         ></Switch>
-        <VerticalLinearStepper
+        <VerticalLinearStepperControlled
           canSkipStep={canSkipStep}
           currentStep={activity.instructionCurrentSteps[instructionId]}
           onStepChange={(stepNumber) => {
@@ -65,9 +63,6 @@ const ActivityInstructions = ({
 
 const mapStateToProps = (state) => ({
   lobbyInstance: state.lobbyInstance,
-  gameRoomInstance: state.gameRoomInstance,
-  gameModel: state.gameModel,
-  cobrowsing: state.cobrowsing,
 });
 
 export default compose(

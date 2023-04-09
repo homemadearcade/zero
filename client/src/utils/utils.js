@@ -261,3 +261,14 @@ export function closestToZero(numbers)
 export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+
+
+export const isLobbyInstanceUserAlreadyAssignedRoles = (lobbyInstance, roleId, userId) => {
+  const alreadyAddedUsers = Object.keys(lobbyInstance.roleIdToUserMongoIds).reduce((prev, next) => {
+      if(roleId === next) return prev
+      const userMongoIds = lobbyInstance.roleIdToUserMongoIds[next]
+      return prev.concat(userMongoIds)
+    }, [])
+    if(alreadyAddedUsers.includes(userId)) return true
+}

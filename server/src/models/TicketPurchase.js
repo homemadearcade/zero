@@ -3,14 +3,6 @@ import Joi from 'joi';
 
 const { Schema } = mongoose;
 
-    // const gameResponse = await addArcadeGame({
-    //   userMongoId: data.participants
-    // });
-    // const game = gameResponse.data.game
-    // const participantId = data.participants
-    // const lobbyInstanceResponse = await addLobbyInstance({ game: game.id, participants: [data.participants], participantId: participantId,  startTime: data.startTime });
-    // const lobbyInstance =lobbyInstanceResponse.data.lobbyInstance
-
 const ticketPurchase = new Schema(
   {
     ticketPurchaseId: {
