@@ -87,7 +87,7 @@ const LobbyMember = ({
     </div>
   }
 
-  const isNavigatedToCobrowse = params.cobrowsingUserMongoId === userMongoId
+  const isNavigatedToCobrowse = lobbyInstance.cobrowsingUserMongoId === userMongoId
 
   return <span key={userMongoId}>
   <Button onClick={() => {

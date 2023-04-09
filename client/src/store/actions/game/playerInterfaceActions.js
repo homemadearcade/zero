@@ -93,8 +93,9 @@ export const closeActiveCutscene = () => (dispatch, getState) => {
 
 export const clearCutscenes = () => (dispatch, getState) => {
   dispatch({
-    updateCobrowsing: true,
+    // updateCobrowsing: true,
     type: CLEAR_CUTSCENES,
+    // noCobrowsingToolNeeded: true,
     payload: {}
   });
 }

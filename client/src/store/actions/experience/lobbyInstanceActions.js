@@ -46,6 +46,7 @@ import { editGameModel } from '../game/gameModelActions';
 import store from '../..';
 import { setRecentlyFocused } from '../webPageActions';
 import { defaultAudienceRoleId } from '../../../constants';
+import { getUserRoleIdFromLobbyInstance } from '../../../utils';
 
 let pingInterval;
 
@@ -440,12 +441,8 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
 
     const lobbyInstance = response.data.lobbyInstance
     const auth = getState().auth
-    let myRoleId = defaultAudienceRoleId
-    Object.keys(lobbyInstance.roleIdToUserMongoIds).forEach(roleId => {
-      if(lobbyInstance.roleIdToUserMongoIds[roleId].indexOf(auth.me.id) >= 0) {
-        myRoleId = roleId
-      }
-    })
+    let myRoleId = getUserRoleIdFromLobbyInstance(lobbyInstance, auth.me.id)
+    if(!myRoleId) myRoleId = defaultAudienceRoleId
 
     console.log('joined lobbyInstance', lobbyInstance)
 

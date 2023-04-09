@@ -5,7 +5,7 @@ import React from "react";
 
 const Link = props => {
   return (
-    <MuiLink {...props} target={props.newTab && '_blank'} rel={props.newTab && 'noreferrer'} component={ReactRouterLink} href={props.href ?? "#"} to={props.to ? props.to : (props.href ?? "#")} />
+    <MuiLink {...props} target={(props.newTab || props.href) && '_blank'} rel={(props.newTab || props.href) && 'noreferrer'} component={ReactRouterLink} to={props.href ? { pathname: props.href } : props.to} />
   );
 };
 

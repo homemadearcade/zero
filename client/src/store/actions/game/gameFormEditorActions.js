@@ -64,6 +64,7 @@ export const changeEditorCameraZoom = (zoom) => (dispatch, getState) => {
 export const clearGameFormEditor = () => (dispatch, getState) => {
   dispatch({
     updateCobrowsing: true,
+    noCobrowsingToolNeeded: true,
     type: CLEAR_EDITOR_FORMS,
     payload: {}
   });

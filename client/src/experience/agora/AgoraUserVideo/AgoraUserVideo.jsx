@@ -50,8 +50,8 @@ const AgoraUserVideo = ({
   }, [userMongoId])
 
   function renderPlaceholder() {
-    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
-      {user && <div style={{position: 'relative', backgroundColor: stringToColour(user.id), padding: '1em'}}>
+    return <div style={{position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
+      {user && <div style={{position: 'absolute', fontSize: '.5em', top: 0, left: 0, backgroundColor: stringToColour(user.id), padding: '1em'}}>
        <div style={{opacity: 0}}>{user.username}</div>
         <div style={{position: 'absolute', top: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', display: 'flex', alignItems: 'center', width: '100%', height: '100%'}}>
           {user.username}

@@ -20,39 +20,47 @@ import LobbyErrorStates from '../../experience/lobbyInstance/LobbyErrorStates/Lo
 import GameRoomDrawer from '../../game/gameRoomInstance/GameRoomDrawer/GameRoomDrawer';
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
-import { ADMIN_ROLE, WAITING_ACTIVITY } from '../../constants';
+import { ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ACTIVITY } from '../../constants';
 
 const LobbyPage = ({
-  lobbyInstance: { lobbyInstance },
+  lobbyInstance: { lobbyInstance, myRoleId },
   auth: { me },
   myTracks,
   userTracks,
   toggleLobbyDashboard
 }) => {
-  let { path } = useRouteMatch();
+  // let { path } = useRouteMatch();
 
   useEffect(() => {
     if(me.role === ADMIN_ROLE) toggleLobbyDashboard(true)
   }, [])
 
-  // console.log(lobbyInstance)
-
-  // return null
-
-      //    <MultiplayerGameRoomContext gameRoomInstanceMongoId={lobbyInstance.gameRoomInstanceMongoId}>
-      //  </MultiplayerGameRoomContext>
-          // <CobrowsingSession userMongoId={null}>
-          // </CobrowsingSession>
   const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].currentActivityCategory
 
-  return <RouterSwitch>
-      <Route exact path={path}>
-        {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
-          <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
-        <LobbyErrorStates/>
-        {currentActivityCategory !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
-      </Route>
-    </RouterSwitch>
+  function renderBody() {
+    return <>
+      <LobbyDashboard userTracks={userTracks} myTracks={myTracks}/>
+      <LobbyErrorStates/>
+      {currentActivityCategory !== WAITING_ACTIVITY && <AgoraVideoPeek myTracks={myTracks} userTracks={userTracks}></AgoraVideoPeek>}
+    </>
+  }
+
+  const role = lobbyInstance.roles[myRoleId]
+  if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
+    return <CobrowsingSession userMongoId={lobbyInstance.cobrowsingUserMongoId}>
+      {me.role === ADMIN_ROLE && <GameRoomDrawer myTracks={myTracks} userTracks={userTracks}/>}
+      {renderBody()}
+    </CobrowsingSession>
+
+  } else {
+    return renderBody()
+  }
+
+  // return <RouterSwitch>
+  //     <Route exact path={path}>
+
+  //     </Route>
+  //   </RouterSwitch>
 };
 
 const mapStateToProps = (state) => ({

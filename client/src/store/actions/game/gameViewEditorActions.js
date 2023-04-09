@@ -75,7 +75,8 @@ export const toggleGridView = (value) => (dispatch, getState) => {
 
 export const clearGameViewEditor = () => (dispatch, getState) => {
   dispatch({
-    updateCobrowsing: true,
+    // updateCobrowsing: true,
+    // noCobrowsingToolNeeded: true,
     type: CLEAR_GAME_VIEW_EDITOR,
     payload: {}
   });

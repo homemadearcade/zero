@@ -263,6 +263,15 @@ export function capitalize(str) {
 }
 
 
+export function getUserRoleIdFromLobbyInstance(lobbyInstance, userId) {
+  let userRoleId
+  Object.keys(lobbyInstance.roleIdToUserMongoIds).forEach(roleId => {
+    if(lobbyInstance.roleIdToUserMongoIds[roleId].indexOf(userId) >= 0) {
+      userRoleId = roleId
+    }
+  })
+  return userRoleId
+}
 
 export const isLobbyInstanceUserAlreadyAssignedRoles = (lobbyInstance, roleId, userId) => {
   const alreadyAddedUsers = Object.keys(lobbyInstance.roleIdToUserMongoIds).reduce((prev, next) => {

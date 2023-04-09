@@ -9,7 +9,8 @@ import { List, ListItem, TextField } from '@mui/material';
 import Button from '../../ui/Button/Button';
 import { clearLobbyMessages, sendLobbyMessage } from '../../store/actions/experience/lobbyInstanceActions';
 import LobbyMember from '../lobbyInstance/LobbyMember/LobbyMember';
-import { ADMIN_ROLE } from '../../constants';
+import { ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR } from '../../constants';
+import { getUserRoleIdFromLobbyInstance } from '../../utils';
 
 const Chatroom = ({
   lobbyInstance: { lobbyInstance },
@@ -40,14 +41,17 @@ const Chatroom = ({
   function getChatroomName(messageData) {
     const {user, automated} = messageData
 
+    const roleId = getUserRoleIdFromLobbyInstance(lobbyInstance, user.userMongoId)
+    const role = lobbyInstance.roles[roleId]
+
     if(me?.role === ADMIN_ROLE) {
       return <LobbyMember myTracks={myTracks} userTracks={userTracks} userMongoId={messageData.user.userMongoId}></LobbyMember>
     }
 
     if(automated) return user.username
 
-    if(lobbyInstance.guideId === user.userMongoId) {
-      return <>Your Guide<br/></>
+    if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
+      return <>Your Guide + {user.username}<br/></>
     }
 
     return <>

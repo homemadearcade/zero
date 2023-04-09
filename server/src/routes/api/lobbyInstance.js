@@ -123,6 +123,7 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
       roleIdToUserMongoIds: req.body.roleIdToUserMongoIds,
       roles: req.body.roles,
       currentActivityId: req.body.currentActivityId,
+      cobrowsingUserMongoId: req.body.cobrowsingUserMongoId,
       experienceInstanceId: req.body.experienceInstanceId,
       gameRoomInstances: req.body.gameRoomInstances,
       instructionCurrentSteps: req.body.instructionCurrentSteps,

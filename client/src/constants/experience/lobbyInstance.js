@@ -22,6 +22,7 @@ export const defaultLobbyInstance = {
   gameRoomInstances: [],
   hostUserMongoId: null,
   currentActivityId: null,
+  cobrowsingUserMongoId: null,
   name:  null,
 }
 

@@ -238,7 +238,8 @@ export const updateVerticalLinearStepper = (id, value) => (dispatch, getState) =
 
 export const clearEditor = () => (dispatch, getState) => {
   dispatch({
-    updateCobrowsing: true,
+    // updateCobrowsing: true,
+    // noCobrowsingToolNeeded: true,
     type: CLEAR_EDITOR
   });
 }

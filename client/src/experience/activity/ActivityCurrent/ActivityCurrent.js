@@ -5,60 +5,53 @@ import { connect } from 'react-redux';
 
 import { clearErrorState } from '../../../store/actions/errorsActions';
 import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
-import CobrowsingGame from '../../cobrowsing/CobrowsingGame/CobrowsingGame';
-import Typography from '../../../ui/Typography/Typography';
 import Chatroom from '../../Chatroom/Chatroom';
-import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import './ActivityCurrent.scss'
 import { Container } from '@mui/system';
-import AgoraVideoPreview from '../../agora/AgoraVideoPreview/AgoraVideoPreview';
-import ExperienceCredits from '../ExperienceCredits/ExperienceCredits';
+import CreditsActivity from '../CreditsActivity/CreditsActivity';
 import ActivityTransition from '../ActivityTransition/ActivityTransition';
-import { VIDEO_ACTIVITY_VIDEO_IID } from '../../../constants/interfaceIds';
+import GameRoomActivity from '../GameRoomActivity/GameRoomActivity';
+import MultiplayerGameRoomContext from '../../../hoc/MultiplayerGameRoomContext';
+import VideoActivity from '../VideoActivity/VideoActivity';
+import WaitingActivity from '../WaitingActivity/WaitingActivity';
 
 const ActivityCurrent = ({
-  lobbyInstance: { lobbyInstance: { currentActivity, guideId }},
-  gameRoomInstance: { gameRoomInstance },
+  lobbyInstance: { lobbyInstance, lobbyInstance: { currentActivityId  }},
   myTracks,
   userTracks,
   video: { isInsideVideoCall},
-  rootFontSize,
 }) => {
+  const activity = lobbyInstance.activitys[currentActivityId]
+  const activityCategory = activity.activityCategory
+  const currentViewCategory = activity.currentViewCategory
 
   function renderCurrentActivity() {
-    if(currentActivity === WAITING_ACTIVITY) {
-      return <Container><div className="LobbyWaiting">
-        <Typography variant="h4">Your experience will start shortly. For the best experience please spend this time closing all other browser tabs, closing other applications, and putting your notifications on quiet.</Typography>
-        {isInsideVideoCall && <AgoraVideoPreview tracks={myTracks}/>}
-      </div></Container>
+    if(activityCategory === WAITING_ACTIVITY) {
+      return <WaitingActivity currentViewCategory={currentViewCategory} myTracks={myTracks} />
     }
 
-    if(currentActivity === CHATROOM_ACTIVITY) {
+    if(activityCategory === CHATROOM_ACTIVITY) {
       return <Container><Chatroom hideAutomated></Chatroom></Container>
     }
 
-    if(currentActivity === CREDITS_ACTIVITY) {
-      return <ExperienceCredits/>
+    if(activityCategory === CREDITS_ACTIVITY) {
+      return <CreditsActivity currentViewCategory={currentViewCategory}/>
     }
 
-    if(currentActivity === VIDEO_ACTIVITY) {
-      return <div className="MonologueExperience">
-        <AgoraUserVideo
-          interfaceId={VIDEO_ACTIVITY_VIDEO_IID} 
-          hideOverlay
-          className="MonologueExperience__speaker"
-          myTracks={myTracks}
-          userTracks={userTracks}
-          userMongoId={guideId}
-        ></AgoraUserVideo>
-      </div>
+    if(activityCategory === VIDEO_ACTIVITY) {
+      return <VideoActivity currentViewCategory={currentViewCategory} myTracks={myTracks} userTracks={userTracks} />
+    }
+
+    if(activityCategory === GAME_ROOM_ACTIVITY) {
+      return <MultiplayerGameRoomContext gameRoomInstanceMongoId={activity.gameRoomInstanceMongoId}>
+        <GameRoomActivity currentViewCategory={currentViewCategory}  myTracks={myTracks} userTracks={userTracks}/>
+      </MultiplayerGameRoomContext>
     }
   }
 
   return <div className="ActivityCurrent">
     <ActivityTransition/>
-    {currentActivity !== GAME_ROOM_ACTIVITY && <div className="ActivityCurrent__activity">{renderCurrentActivity()}</div>}
-    <CobrowsingGame rootFontSize={rootFontSize} arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId} myTracks={myTracks} userTracks={userTracks}/>
+    {renderCurrentActivity()}
   </div>
 };
 

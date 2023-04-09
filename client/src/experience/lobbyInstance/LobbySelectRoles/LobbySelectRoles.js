@@ -34,7 +34,7 @@ const LobbySelectRoles = ({
             <LobbyMember key={userMongoId + roleId} myTracks={myTracks} userTracks={userTracks} userMongoId={userMongoId}></LobbyMember>
           </div>
         })}
-        <SelectUsers key={roleId+'select'} usersSelected={userMongoIds} onSelect={(users) => {
+        {false && <SelectUsers key={roleId+'select'} usersSelected={userMongoIds} onSelect={(users) => {
           // if(users[0]) {
             if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')
             editLobby(lobbyInstance.id, {
@@ -43,7 +43,7 @@ const LobbySelectRoles = ({
               }
             })
           // }
-        }}/>
+        }}/>}
       </div>
     })}
   </>

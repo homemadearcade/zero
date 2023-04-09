@@ -13,7 +13,7 @@ import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingAc
 const ActivityTransitionToggle = ({
   lobbyInstance: { lobbyInstance: { id, members } },
   cobrowsing: { cobrowsingUser },
-  gameRoomInstance: { gameRoomInstance: { isPoweredOn } },
+  gameRoomInstance: { gameRoomInstance, gameRoomInstance: { isPoweredOn } },
   updateLobbyMember,
   toggleActiveCobrowsing
 }) => {

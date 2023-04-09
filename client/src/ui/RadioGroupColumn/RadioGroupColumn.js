@@ -8,6 +8,28 @@ import './RadioGroupColumn.scss';
 import Icon from '../Icon/Icon';
 
 export default function RadioGroupColumn({formLabel, options, value, onChange}) {
+  React.useEffect(() => {
+    // $('input[type="radio"]').keydown(function(e)
+    // {
+    //     var arrowKeys = [37, 38, 39, 40];
+    //     if (arrowKeys.indexOf(e.which) !== -1)
+    //     {
+    //         $(this).blur();
+    //         if (e.which == 38)
+    //         {
+    //             var y = $(window).scrollTop();
+    //             $(window).scrollTop(y - 10);
+    //         }
+    //         else if (e.which == 40)
+    //         {
+    //             var y = $(window).scrollTop();
+    //             $(window).scrollTop(y + 10);
+    //         }
+    //         return false;
+    //     }
+    // });
+  }, [])
+
   return (
     <FormControl key={formLabel}>
       {formLabel && <FormLabel>{formLabel}</FormLabel>}

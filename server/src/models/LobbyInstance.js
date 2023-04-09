@@ -5,6 +5,9 @@ const { Schema } = mongoose;
 
 const lobbyInstanceSchema = new Schema(
   {
+    cobrowsingUserMongoId: {
+      type: String,
+    },
     invitedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     experienceInstanceId: {
       type: String,
@@ -99,6 +102,7 @@ lobbyInstanceSchema.methods.toJSON = function () {
     }) : [],
     activitys: this.activitys,
     currentActivityId: this.currentActivityId,
+    cobrowsingUserMongoId: this.cobrowsingUserMongoId,
     roleIdToUserMongoIds: this.roleIdToUserMongoIds,
     roles: this.roles,
     hostUserMongoId: this.hostUserMongoId,

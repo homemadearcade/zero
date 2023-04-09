@@ -1,5 +1,5 @@
 import { CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from "./constants/activitys"
-import { ACTIVITY_VIEW_BROWSE, ACTIVITY_VIEW_CHATROOM, ACTIVITY_VIEW_MONOLOGUE, ACTIVITY_VIEW_MY_VIDEO, ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_TEXT } from "./constants/views"
+import { ACTIVITY_VIEW_BROWSE, ACTIVITY_VIEW_CHATROOM, ACTIVITY_VIEW_FACILITATORS, ACTIVITY_VIEW_MY_INFORMATION, ACTIVITY_VIEW_PARTICIPANTS, ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_TEXT } from "./constants/views"
 
 export const activityToInterfaceData = {
   [CHATROOM_ACTIVITY]: {
@@ -12,14 +12,14 @@ export const activityToInterfaceData = {
     displayName: 'Waiting Room',
     icon: 'faHourglassStart',
     initialViewCategory: ACTIVITY_VIEW_TEXT,
-    viewOptions:[ACTIVITY_VIEW_TEXT, ACTIVITY_VIEW_MY_VIDEO],
+    viewOptions:[ACTIVITY_VIEW_TEXT, ACTIVITY_VIEW_MY_INFORMATION],
   },
   [GAME_ROOM_ACTIVITY]: {
     displayName: 'Game',
     isCreateable: true,
     icon: 'faGamepad',
     initialViewCategory: ACTIVITY_VIEW_PLAY_GAME,
-    viewOptions: [ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_MONOLOGUE],
+    viewOptions: [ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_FACILITATORS],
   },
   [CREDITS_ACTIVITY]: {
     displayName: 'Credits',
@@ -31,8 +31,8 @@ export const activityToInterfaceData = {
     displayName: 'Video',
     isCreateable: true,
     icon: 'faVideo',
-    initialViewCategory: ACTIVITY_VIEW_MONOLOGUE,
-    viewOptions: [ACTIVITY_VIEW_MONOLOGUE]
+    initialViewCategory: ACTIVITY_VIEW_FACILITATORS,
+    viewOptions: [ACTIVITY_VIEW_FACILITATORS, ACTIVITY_VIEW_PARTICIPANTS]
   },
   // [DRAWING_ACTIVITY]: {
   //   displayName: 'Drawing',

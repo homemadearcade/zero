@@ -12,8 +12,10 @@ import Typography from '../../../ui/Typography/Typography';
 import CobrowsingToolbar from '../CobrowsingToolbar/CobrowsingToolbar';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
+import { defaultGuideRoleId } from '../../../constants';
 
-const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance: { guideId } }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
+const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
+  const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]
   return <GameEditor 
     rootFontSize={rootFontSize}
     isObscurable
@@ -21,7 +23,7 @@ const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance: { guideI
     leftColumn={<>
      <AgoraUserVideo
         interfaceId={GAME_ROOM_VIDEO_IID}
-        userMongoId={guideId}
+        userMongoId={gameFacilitatorUserMongoId}
         className="AgoraVideo__guide"
         label="Guide"
         myTracks={myTracks}

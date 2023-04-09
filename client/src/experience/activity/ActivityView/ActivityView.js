@@ -14,7 +14,7 @@ const ActivityView = ({
   lobbyInstance: { isLobbyDashboardOpen }
 }) => {
   return <div id="ActivityView" className={classNames("ActivityView", {'ActivityView--preview': isLobbyDashboardOpen})}>
-    <ActivityCurrent rootFontSize={isLobbyDashboardOpen ? '1vh' : "2vh"}  myTracks={myTracks} userTracks={userTracks}/>
+    <ActivityCurrent myTracks={myTracks} userTracks={userTracks}/>
   </div>
 };
 

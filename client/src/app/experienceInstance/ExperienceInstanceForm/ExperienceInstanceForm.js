@@ -15,7 +15,8 @@ import moment from 'moment';
 import { generateUniqueId, isLobbyInstanceUserAlreadyAssignedRoles } from '../../../utils';
 import './ExperienceInstanceForm.scss';
 import Icon from '../../../ui/Icon/Icon';
-import { EXPERIENCE_ROLE_AUDIENCE, roleToInterfaceData, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY } from '../../../constants';
+import { EXPERIENCE_ROLE_AUDIENCE, roleToInterfaceData, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, defaultParticipantRoleId } from '../../../constants';
+import { RoleChip } from '../../experienceModel/role/RoleChip/RoleChip';
 
 function convertExperienceModelToLobbyInstance(experienceModel) {
   return {
@@ -131,6 +132,7 @@ const ExperienceInstanceForm = ({
       }
 
       const hostUserMongoId = lobbyInstance.roleIdToUserMongoIds[lobby.hostRoleId][0]
+      const cobrowsingUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultParticipantRoleId][0]
       const completeLobbyInstance = {
         instructionsByRoleId: lobby.instructionsByRoleId,
         invitedUsers,
@@ -142,6 +144,7 @@ const ExperienceInstanceForm = ({
         roles: experienceModel.roles,
         experienceModel: experienceModel.id,
         currentActivityId: lobby.initialActivityId,
+        cobrowsingUserMongoId,
         gameRoomInstances: gameRoomInstanceMongoIds,
         instructionCurrentSteps: Object.keys(lobby.instructionsByRoleId).reduce((prev, roleId) => {
           const instructionId = lobby.instructionsByRoleId[roleId]
@@ -164,19 +167,17 @@ const ExperienceInstanceForm = ({
               const lobby = experienceModel.lobbys[lobbyId]
               return <Paper><div className="ExperienceInstanceForm__lobby">
                   <Icon icon="faDoorOpen" />
-                  <Typography variant="subtitle2">{' ' + lobby.name}</Typography>
+                  <Typography variant="subtitle1" component="span">{' ' + lobby.name}</Typography>
                   <div className="ExperienceInstanceForm__roles">{Object.keys(experienceModel.roles).map((roleId) => {
                     const role = experienceModel.roles[roleId]
-                    const roleData = roleToInterfaceData[role.roleCategory]
                     return <div className="ExperienceInstanceForm__role">
-                      <Icon icon={roleData.icon} color={role.color}/>
-                      <Typography variant="subtitle2">{role.name}</Typography>
+                      <RoleChip role={role} />
                       {role.roleCategory === EXPERIENCE_ROLE_AUDIENCE && <Controller
                         name={`lobbyInstances.${lobbyId}.roleIdToUserMongoIds.${roleId}`}
                         control={control}
                         render={({ field: { onChange, value } }) => {
                           return <SelectUsers
-                            usersSelected={value} 
+                            usersSelected={value ? value : []} 
                             onSelect={(users) => {
                               const lobbyInstance = lobbyInstances[lobbyId]
                               if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')
@@ -193,7 +194,7 @@ const ExperienceInstanceForm = ({
                         control={control}
                         render={({ field: { onChange, value } }) => {
                           return <SelectUsers
-                            usersSelected={value} 
+                            usersSelected={value ? value : []} 
                             onSelect={(users) => {
                                const lobbyInstance = lobbyInstances[lobbyId]
                               if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')

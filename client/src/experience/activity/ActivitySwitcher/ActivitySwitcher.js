@@ -30,18 +30,18 @@ const ActivitySwitcher = ({
       </div>
       <div className="ActivitySwitcher__state">
       <SelectViewCategory
-            formLabel={"Activity View"}
-            activityCategory={activity.activityCategory}
-            onChange={(e) => {
-              editLobby(lobbyInstance.id, {
-                activitys: {
-                  [lobbyInstance.currentActivityId]: {
-                    currentViewCategory: e.target.value
-                  }
-                }
-              })
-            // setValue("gameRoom.gameMetadata", experienceModel.gameRooms[newGameRoomId].gameMetadata)
-          }} value={activity.currentViewCategory} />
+        formLabel={activity.name + " View"}
+        activityCategory={activity.activityCategory}
+        onChange={(e) => {
+          editLobby(lobbyInstance.id, {
+            activitys: {
+              [lobbyInstance.currentActivityId]: {
+                currentViewCategory: e.target.value
+              }
+            }
+          })
+        // setValue("gameRoom.gameMetadata", experienceModel.gameRooms[newGameRoomId].gameMetadata)
+      }} value={activity.currentViewCategory} />
       </div>
       <div className="ActivitySwitcher__user">
           <Button variant="contained" onClick={() => {
