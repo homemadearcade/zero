@@ -102,16 +102,17 @@ function onArcadeGameCharacterUpdate({ userMongoId, data }) {
   }
 }
 
-export const updateArcadeGameCharacter = ({userMongoId, unlockableInterfaceIds, merge}) => async (dispatch, getState) => {
+export const updateArcadeGameCharacter = ({userMongoId, unlockableInterfaceIds, experienceModelMongoId, merge}) => async (dispatch, getState) => {
   // dispatch({
   //   type: GET_SPRITESHEET_DATA_LOADING,
   // });
   try {
     const state = store.getState()
-    const gameRoomInstanceMongoId = state.lobbyInstance.lobbyInstance?.gameRoomInstanceMongoId
+    const gameRoomInstanceMongoId = state.gameRoomInstance?.gameRoomInstance?.id
 
     const options = attachTokenToHeaders(getState);
     const response = await axios.put('/api/arcadeGames/character', {
+      experienceModelMongoId,
       gameRoomInstanceMongoId,
       userMongoId,
       unlockableInterfaceIds,

@@ -17,7 +17,6 @@ const StepEditBody = ({
 }) => {
   const instruction = experienceModel.instructions[instructionId]
   
-  console.log(instruction.arcadeGameMongoId)
   function renderStepBehaviorForm(step) {
     return <Controller
       {...register(`steps.${step.stepId}.experienceEffectIds`, {

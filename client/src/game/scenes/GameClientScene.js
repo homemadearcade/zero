@@ -104,9 +104,9 @@ export class GameClientScene extends EditorScene {
     })
   }
 
-  onGameInstanceEvent = ({gameInstanceEventType, data}) => {
+  onGameInstanceEvent = ({gameRoomInstanceEventType, data}) => {
     if(data.hostOnly) return
-    this.runGameInstanceEvent({gameInstanceEventType, data})
+    this.runGameInstanceEvent({gameRoomInstanceEventType, data})
   }
 
   unregisterEvents() {

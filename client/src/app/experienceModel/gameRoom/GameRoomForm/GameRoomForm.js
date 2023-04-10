@@ -27,7 +27,7 @@ const GameRoomForm = ({ isEdit, setValue, register, control, trigger, auth: { me
       name={"arcadeGameMongoId"}
       control={control}
       render={({ field: { onChange, value } }) => (
-        <SelectArcadeGame disabled={isEdit} label="My Games" userMongoId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
+        <SelectArcadeGame label="My Games" userMongoId={me.id} gamesSelected={value ? [value] : []} onSelect={(games) => {
           if(games[0]) {
             const game = games[games.length - 1]
             onChange(game.id)

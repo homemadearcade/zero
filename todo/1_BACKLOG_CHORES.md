@@ -20,6 +20,8 @@ Utils that use state should be hooks
 
 Only Once should be on relation model
 
+Better way of getting arcade game actions onto the experience model....Experience model when laoding should search all arcade game and add the actions to itself
+
 Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
 
 MIGRATE TO TYPESCRIPT?
@@ -28,3 +30,4 @@ MIGRATE TO TYPESCRIPT?
 RENAME ACTIVITYS?
   brew install rename
 
+  Asynchronous and FreeSolo MUI Autocomplete is now in the docs

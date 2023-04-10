@@ -43,6 +43,7 @@ import GameViewObscured from '../GameViewObscured/GameViewObscured';
 import GameView from '../GameView/GameView';
 import EditEntityGraphics from '../../entityModel/EditEntityGraphics/EditEntityGraphics';
 import EffectPromptDialog from '../../effect/EffectPromptDialog/EffectPromptDialog';
+import CanvasImageDialog from '../../textures/CanvasImageDialog/CanvasImageDialog';
 // import ParticlesTest from '../../../experience/particles/ParticlesTest/ParticlesTest';
 
 const GameEditor = ({ 
@@ -59,6 +60,7 @@ const GameEditor = ({
     isSnapshotTakerOpen, 
     isGridViewOn }, 
   gameFormEditor: { 
+    isCanvasImageDialogOpen,
     isEffectPromptDialogOpen,
     isEditEntityGraphicsOpen,
     isEditEntityDialogOpen, 
@@ -169,6 +171,7 @@ const GameEditor = ({
       {isCreateStageDialogOpen && <CreateStageDialog/>}
       {isSelectStageColorDialogOpen && <SelectStageColorDialog/>}
       {isEffectPromptDialogOpen && <EffectPromptDialog/>}
+      {isCanvasImageDialogOpen === 'InterfaceAction' && <CanvasImageDialog onSaveCanvasImage={() => {}} />}
       {isEditEntityGraphicsOpen === EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID && <EditEntityGraphics 
           onComplete={(entityModel) => {
             editGameModel({

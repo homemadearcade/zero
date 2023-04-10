@@ -99,7 +99,6 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
 
     if(eventTypeInterface.relationTagSelectType === SINGLE_RELATION_TAG_EVENT_IID) {
       return <SelectRelationTag
-        disabled={event.relationTagIdA}
         formLabel="Tag A"
         interfaceId={EVENT_ADD_RELATION_TAG_A_IID}
         value={event.relationTagIdA ? [event.relationTagIdA] : []}
@@ -114,7 +113,6 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
 
     if(eventTypeInterface.relationTagSelectType === PLAYER_AND_RELATION_TAG_EVENT_IID) {
       return <SelectRelationTag
-        disabled={event.relationTagIdB}
         interfaceId={EVENT_ADD_RELATION_TAG_B_IID}
         formLabel="Interactable Tag"
         value={event.relationTagIdB ? [event.relationTagIdB] : []}
@@ -130,7 +128,6 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
     if(eventTypeInterface.relationTagSelectType === TWO_RELATION_TAG_EVENT_IID) {
       return <>
         <SelectRelationTag
-          disabled={event.relationTagIdA}
           interfaceId={EVENT_ADD_RELATION_TAG_A_IID}
           formLabel="Tag A"
           value={event.relationTagIdA ? [event.relationTagIdA] : []}
@@ -142,7 +139,6 @@ const CreateEvent = ({ updateCreateEvent, gameFormEditor: { event }}) => {
             // handleEventChange('relationTagIdB', newEntityId)
         }}/>
         <SelectRelationTag
-          disabled={event.relationTagIdB}
           interfaceId={EVENT_ADD_RELATION_TAG_B_IID}
           formLabel="Tag B"
           value={event.relationTagIdB ? [event.relationTagIdB] : []}

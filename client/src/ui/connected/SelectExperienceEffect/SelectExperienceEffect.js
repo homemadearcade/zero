@@ -3,7 +3,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
-import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_GAME_EFFECT, instructionCategoryToExperienceEffects } from '../../../constants/experience';
+import { experienceEffectInterfaceIdData, EXPERIENCE_EFFECT_GAME_ACTION, instructionCategoryToExperienceEffects } from '../../../constants/experience';
 import { effectInterfaceDatas, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, getEffectShorthand, isUseableEffect, ON_STEP_BEGINS } from '../../../game/constants';
 
 const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChange, disabled, value, formLabel, experienceModel: { experienceModel }, gameModel }) => {
@@ -19,10 +19,10 @@ const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChan
     
     if(instructionCategoryToExperienceEffects[instructionCategory].indexOf(experienceEffect.experienceEffectBehavior) === -1) return null
 
-    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_EFFECT && (!arcadeGameMongoId ||  experienceEffect.arcadeGameMongoId !== arcadeGameMongoId)) {
+    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_ACTION && (!arcadeGameMongoId ||  experienceEffect.arcadeGameMongoId !== arcadeGameMongoId)) {
       return null
     } else {
-      if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_EFFECT) {
+      if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_ACTION) {
         const effect = gameModel.gameModel.effects[experienceEffect.effectId]
         if(effect.effectBehavior !== EFFECT_INTERFACE_ACTION && effect.effectBehavior !== EFFECT_INTERFACE_UNLOCK) {
           title = getEffectShorthand(effect)

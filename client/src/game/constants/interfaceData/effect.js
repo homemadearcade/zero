@@ -1,7 +1,7 @@
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
-import { EFFECT_CAMERA_SHAKE, EFFECT_CUTSCENE, EFFECT_DESTROY,
-    EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
+import { EFFECT_CAMERA_SHAKE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
+    EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
   EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, EFFECT_WIN_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
@@ -89,6 +89,14 @@ export const effectInterfaceDatas = {
     // displayName: 'Unlock Interface',
     icon: 'faLockOpen'
   },
+  // [EFFECT_OPEN_TRANSITION]: {
+  //   displayName: 'Open Transition',
+  //   icon: 'faStar'
+  // },
+  // [EFFECT_CLOSE_TRANSITION]: {
+  //   displayName: 'Close Transition',
+  //   icon: 'faArrowsDownToLine'
+  // },
 }
 
 /////////////////////////////////////////////////////////////////
@@ -186,6 +194,14 @@ export const effectEditInterfaces = {
     interfaceId: 'Which interface?',
     effectableType: NO_RELATION_TAG_EFFECT_IID
   },
+  // [EFFECT_OPEN_TRANSITION]: {
+  //   effectableType: NO_RELATION_TAG_EFFECT_IID,
+  //   isStandalone: true
+  // },
+  // [EFFECT_CLOSE_TRANSITION]: {
+  //   effectableType: NO_RELATION_TAG_EFFECT_IID,
+  //   isStandalone: true
+  // },
 }
 
 // EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
@@ -217,6 +233,8 @@ export const touchActiveEffects  = {
   [EFFECT_CUTSCENE]: false,
   [EFFECT_INTERFACE_ACTION]: false,
   [EFFECT_INTERFACE_UNLOCK]: false,
+  // [EFFECT_OPEN_TRANSITION]: false,
+  // [EFFECT_CLOSE_TRANSITION]: false,
 }
 
 export const noRemoteEffectedTagEffects = {
@@ -247,6 +265,8 @@ export const noRemoteEffectedTagEffects = {
   [EFFECT_CUTSCENE]: true,
   [EFFECT_INTERFACE_ACTION]: true,
   [EFFECT_INTERFACE_UNLOCK]: true,
+  // [EFFECT_OPEN_TRANSITION]: true,
+  // [EFFECT_CLOSE_TRANSITION]: true,
 }
 
 export const nonStepEffectBehaviors = {
@@ -277,6 +297,8 @@ export const nonStepEffectBehaviors = {
   [EFFECT_CUTSCENE]: false,
   [EFFECT_INTERFACE_ACTION]: false,
   [EFFECT_INTERFACE_UNLOCK]: false,
+  // [EFFECT_OPEN_TRANSITION]: true,
+  // [EFFECT_CLOSE_TRANSITION]: true,
 }
 
 export function isUseableEffect(effect, effectBehavior, eventType) {

@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth } from '../constants';
+import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION, ON_STEP_BEGINS, defaultEvent } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
-import { changePlayerEntity } from '../../store/actions/game/playerInterfaceActions';
+import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
 import { changeCurrentStage } from '../../store/actions/game/gameModelActions';
-import { editGameRoom, updateGameRoomPlayer } from '../../store/actions/game/gameRoomInstanceActions';
+import { changeGameState, editGameRoom, updateGameRoomPlayer } from '../../store/actions/game/gameRoomInstanceActions';
 import { EntityInstance } from '../entities/EntityInstance'
 import { PlayerInstance } from '../entities/PlayerInstance';
 import { CollisionCanvas } from '../drawing/CollisionCanvas';
@@ -14,8 +14,9 @@ import { Stage } from '../entities/Stage';
 import { ProjectileInstance } from '../entities/ProjectileInstance';
 import JSConfetti from 'js-confetti'
 import { directionalPlayerEntityId } from '../constants';
-import { getLayerIdFromEraserId } from '../../utils';
-import { PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
+import { generateUniqueId, getLayerIdFromEraserId, isZoneEntityId } from '../../utils';
+import { NO_RELATION_TAG_EFFECT_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
+import _ from 'lodash';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -44,6 +45,8 @@ export class GameInstance extends Phaser.Scene {
     this.gameRoomInstance = props.gameRoomInstance
 
     this.lastUpdate = null
+
+    this.timeToTriggerAgain = {}
   }
 
 
@@ -585,8 +588,8 @@ export class GameInstance extends Phaser.Scene {
     })
   }
 
-  runGameInstanceEvent({gameInstanceEventType, data}) {
-    switch(gameInstanceEventType) {
+  runGameInstanceEvent({gameRoomInstanceEventType, data}) {
+    switch(gameRoomInstanceEventType) {
       case ANIMATION_CAMERA_SHAKE: 
         this.cameras.main.shake(data.intensity)
         return
@@ -602,6 +605,23 @@ export class GameInstance extends Phaser.Scene {
         entityInstance.phaserInstance.x = data.x;
         entityInstance.phaserInstance.y = data.y;
         return
+        // this.runGameEffect(data)
+        return 
+      case RUN_GAME_INSTANCE_ACTION: 
+        const effect = this.getGameModel().effects[data.effectId]
+        const event = {
+          ...defaultEvent,
+          eventType: ON_STEP_BEGINS
+        }
+
+        this.runAccuteEffect({
+          relation: {
+            effect,
+            event,
+            relationId: generateUniqueId()
+          },
+        })
+
       default: 
         return
     }
@@ -689,7 +709,7 @@ export class GameInstance extends Phaser.Scene {
     const gameModel = this.getGameModel()
     this.stage.ensureSpawnZoneExists()
     const zoneId = gameModel.stages[this.stage.stageId].playerSpawnZoneEntityId
-    const zone = this.scene.getRandomInstanceOfEntityId(zoneId)
+    const zone = this.getRandomInstanceOfEntityId(zoneId)
     this.playerInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(gameModel.entityModels[zoneId]))
   }
 
@@ -832,5 +852,216 @@ export class GameInstance extends Phaser.Scene {
         loadedGameId: arcadeGameMongoId
       }
     }))
+  }
+
+
+
+
+
+  /////////
+  //// EFFECTS
+
+  getEffectedPhaserInstances({phaserInstanceA, phaserInstanceB, sidesA, sidesB, effect}) {
+    const phaserInstances = []
+    const alternatePhaserInstanceData = {}
+
+    if(effect.effectTagA) {
+      phaserInstances.push(phaserInstanceA)
+      alternatePhaserInstanceData.phaserInstance = phaserInstanceB
+      alternatePhaserInstanceData.sides = sidesB
+    }
+
+    if(effect.effectTagB) {
+      phaserInstances.push(phaserInstanceB)
+      alternatePhaserInstanceData.phaserInstance = phaserInstanceA
+      alternatePhaserInstanceData.sides = sidesA
+    }
+
+    let remoteEffectedRelationTagIds = effect.remoteEffectedRelationTagIds?.slice()
+    if(effect.remoteEffectedRelationTagIdsExtension) {
+      remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIdsExtension)
+    }
+
+    if(remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effect.effectBehavior]) {
+      remoteEffectedRelationTagIds?.forEach((relationTagId) => {
+        this.entityInstancesByTag[relationTagId]?.forEach((entityInstance) => {
+          phaserInstances.push(entityInstance.phaserInstance)
+        })
+      })
+    }
+
+    return [phaserInstances, alternatePhaserInstanceData]
+  }
+
+  runTargetlessAccuteEffect({relation, phaserInstanceA, phaserInstanceB}) {
+    const effect = relation.effect
+
+    if(effect.effectBehavior === EFFECT_CAMERA_SHAKE) {
+      this.callGameInstanceEvent({
+        gameRoomInstanceEventType: ANIMATION_CAMERA_SHAKE,
+        data: {
+          intensity: 200,
+        }
+      })
+    }
+
+    if(effect.effectBehavior === EFFECT_WIN_GAME) {
+      store.dispatch(changeGameState(WIN_GAME_STATE, effect.text))
+      this.sendResetGameEvent()
+    } else if(effect.effectBehavior === EFFECT_GAME_OVER) {
+      store.dispatch(changeGameState(GAME_OVER_STATE, effect.text))
+      this.sendResetGameEvent()
+    } else if(effect.effectBehavior === EFFECT_SWITCH_STAGE) {
+      store.dispatch(changeCurrentStage(effect.stageId))
+      store.dispatch(clearCutscenes())
+    }
+    
+    // if(effect.effectBehavior === EFFECT_CHANGE_GAME) {
+    //   store.dispatch(editGameRoom(this.scene.gameRoomInstance.id, {
+    //     arcadeGameMongoId: effect.arcadeGameMongoId
+    //   }))
+    // }
+    
+    // if(effect.effectBehavior === EFFECT_OPEN_TRANSITION) {
+    //   const state = store.getState()
+    //   store.dispatch(updateLobbyMember({
+    //     lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
+    //     userMongoId: state.auth.me?.id, 
+    //     member: {
+    //       inTransitionView: true
+    //     }
+    //   }))
+    // }
+
+    // if(effect.effectBehavior === EFFECT_CLOSE_TRANSITION) {
+    //   const state = store.getState()
+    //   store.dispatch(updateLobbyMember({
+    //     lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
+    //     userMongoId: state.auth.me?.id, 
+    //     member: {
+    //       inTransitionView: false
+    //     }
+    //   }))
+    // }
+
+    // NARRATIVE
+    if(effect.effectBehavior === EFFECT_CUTSCENE) {
+      if(effect.cutsceneId) store.dispatch(openCutscene(phaserInstanceB?.entityModelId, effect.cutsceneId))
+    }
+
+    if(effect.effectBehavior === EFFECT_SPAWN) {
+      const spawningEntityId = effect.spawnEntityModelId
+      const modifiedEntityData = { spawnX: null, spawnY: null, entityModelId: spawningEntityId }
+      let zone 
+
+
+    if(effect.spawnZoneSelectorType === SPAWN_ZONE_A_SELECT && phaserInstanceA) {
+        if(isZoneEntityId(phaserInstanceA.entityModelId)) {
+          zone = phaserInstanceA
+        } 
+      } else if(effect.spawnZoneSelectorType === SPAWN_ZONE_B_SELECT && phaserInstanceB) {
+        if(isZoneEntityId(phaserInstanceB.entityModelId)) {
+          zone = phaserInstanceB
+        } 
+      } else {
+          //  if(effect.spawnZoneSelectorType === SPAWN_ZONE_RANDOM_SELECT) {
+        zone = this.getRandomInstanceOfEntityId(effect.zoneEntityModelId)
+      // } else
+      }
+
+      if(!zone) return console.log('no zone exists for that')
+      const gameModel = store.getState().gameModel.gameModel
+      const entityModel = gameModel.entityModels[spawningEntityId]
+      const spawnedEntityInstance =  this.addEntityInstance(SPAWNED_INSTANCE_DID+generateUniqueId(), modifiedEntityData, true)
+      spawnedEntityInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityModel))
+    }
+  }
+
+  runAccuteEffect({
+    relation,
+    phaserInstanceA,
+    phaserInstanceB,
+    sidesA = [],
+    sidesB = []
+  }) {
+    const effect = relation.effect
+    const scene = this
+
+    if(this.timeToTriggerAgain[relation.relationId]) {
+      if(this.timeToTriggerAgain[relation.relationId] > Date.now()) {
+        return
+      }
+    }
+
+    if(relation.event.onlyOnce) {
+      this.timeToTriggerAgain[relation.relationId] = Date.now() + 10000000000000
+    } else {
+      if(relation.effect.effectCooldown) {
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + relation.effect.effectCooldown
+      } else if(relation.effect === EFFECT_SPAWN) {
+        this.timeToTriggerAgain[relation.relationId] = Date.now() + 200
+      }
+    }
+    
+
+    if(relation.effect.effectDelay) {
+      setTimeout(() => {
+        const delayedRelation = _.cloneDeep(relation)
+        delayedRelation.effect.effectDelay = null
+        this.runAccuteEffect({
+          relation: delayedRelation,
+          phaserInstanceA,
+          phaserInstanceB,
+          sidesA,
+          sidesB
+        })
+      }, relation.effect.effectDelay)
+      return
+    }
+
+    if(effectEditInterfaces[effect.effectBehavior].effectableType === NO_RELATION_TAG_EFFECT_IID) {
+      return this.runTargetlessAccuteEffect({
+        relation,
+        phaserInstanceA,
+        phaserInstanceB,
+      })
+    }
+
+    const [phaserInstances] = this.getEffectedPhaserInstances({
+      phaserInstanceA,
+      phaserInstanceB,
+      sidesA,
+      sidesB,
+      effect
+    })
+
+    console.log(phaserInstances)
+
+    phaserInstances.forEach((phaserInstance) => {
+      runEffect(phaserInstance)
+    })
+
+    function runEffect(phaserInstance) {
+      if(effect.effectBehavior === EFFECT_STICK_TO) {
+        phaserInstance.body.setVelocityY(0)
+        phaserInstance.body.setVelocityX(0)
+      }
+
+      if(effect.effectBehavior === EFFECT_TELEPORT) {
+        const gameModel = store.getState().gameModel.gameModel
+        const entityModel = gameModel.entityModels[phaserInstance.entityModelId]
+        const zone = scene.getRandomInstanceOfEntityId(effect.zoneEntityModelId)
+        if(!zone) return
+        phaserInstance.setRandomPosition(...zone.getInnerCoordinateBoundaries(entityModel))
+      }
+      
+      if(effect.effectBehavior === EFFECT_DESTROY) {
+        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        entityInstance.destroyAfterUpdate = true
+      } else if(effect.effectBehavior === EFFECT_TRANSFORM) {
+        const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+        entityInstance.transformEntityModelId = effect.entityModelId
+      }
+    }
   }
 }

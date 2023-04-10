@@ -10,21 +10,31 @@ import Typography from '../../../ui/Typography/Typography';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
 import Switch from '../../../ui/Switch/Switch';
 import { VerticalLinearStepperControlled } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
+import { instructionSteps } from '../../instruction/instructionSteps/instructionSteps';
+import { GAME_ROOM_ACTIVITY } from '../../../constants';
+import { ON_GAME_INSTANCE_EVENT } from '../../../store/types';
+import { runExperienceEffects } from '../../../store/actions/experience/experienceModelActions';
+import { EVENT_GAME_ROOM_STEP_INITIALIZED } from '../../../game/constants';
 
 const ActivityInstructions = ({
   editLobby,
   lobbyInstance: { lobbyInstance, myRoleId },
+  gameRoomInstance: { gameRoomInstance },
+  runExperienceEffects,
   activityId
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
 
-  const activity = lobbyInstance.activities[activityId]
+  const activity = lobbyInstance.activitys[activityId]
   const instructionId = activity.instructionsByRoleId[myRoleId]
-  if(!instructionId) return <div className="ActivityInstructions">No Instructions for Role</div>
+  if(!instructionId) return <div className="ActivityInstructions">No Instructions for Role for Activity: {activity.name}</div>
   const instruction = lobbyInstance.instructions[instructionId]
-  const steps = instruction.stepOrder.map((stepId) => {
-    return instruction.steps[stepId]
-  })
+
+  const steps = [{
+      stepId: activity.name+ 'Begins',
+      title: <Typography component="h3" variant="h3">{activity.name+ ' begins'}</Typography>,
+      break: true
+  }].concat(instructionSteps({instruction}))
 
   return (
     <div className="ActivityInstructions">
@@ -40,7 +50,13 @@ const ActivityInstructions = ({
         <VerticalLinearStepperControlled
           canSkipStep={canSkipStep}
           currentStep={activity.instructionCurrentSteps[instructionId]}
-          onStepChange={(stepNumber) => {
+          onStepChange={async (stepNumber, stepId) => {
+            const step = instruction.steps[stepId]
+            if(step) {
+              await runExperienceEffects({
+                experienceEffectIds: step.experienceEffectIds
+              })
+            }
             editLobby(lobbyInstance.id, {
               activitys: {
                 [activityId]: {
@@ -63,8 +79,9 @@ const ActivityInstructions = ({
 
 const mapStateToProps = (state) => ({
   lobbyInstance: state.lobbyInstance,
+  gameRoomInstance: state.gameRoomInstance,
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby, editGameModel }),
+  connect(mapStateToProps, { editLobby, editGameModel, runExperienceEffects }),
 )(ActivityInstructions);

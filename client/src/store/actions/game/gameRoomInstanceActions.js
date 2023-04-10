@@ -28,11 +28,95 @@ import {
   SEND_GAME_ROOM_MESSAGE_LOADING,
   SEND_GAME_ROOM_MESSAGE_SUCCESS,
   SEND_GAME_ROOM_MESSAGE_FAIL,
-  END_GAME_ROOM
+  END_GAME_ROOM,
+  GAME_INSTANCE_UNDO_LOADING,
+  GAME_INSTANCE_UNDO_SUCCESS,
+  GAME_INSTANCE_UNDO_FAIL,
+  ON_GAME_ROOM_INSTANCE_UNDO
 } from '../../types';
 
 import { clearErrorState } from '../errorsActions';
 import { PHASER_ERROR } from '../../../constants';
+import store from '../..';
+import { getCurrentGameScene } from '../../../utils';
+import { editGameModel } from './gameModelActions';
+
+export function onCanvasImageDialogUndo() {
+  const state = store.getState()
+  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserMongoId
+  
+  if(!window.imageCanvasUndoStack.length) return
+
+  const undoAction = window.imageCanvasUndoStack.pop()
+
+  if(!isHost && state.gameRoomInstance.gameRoomInstance.id) return
+
+  getCurrentGameScene(state.webPage.imageCanvasGameInstance).backgroundCanvasLayer.undo()
+}
+
+export function onInstanceUndo() {
+  const state = store.getState()
+  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserMongoId
+  
+  if(!window.instanceUndoStack.length) return
+
+  const undoAction = window.instanceUndoStack.pop()
+  window.nextGameModelUpdateIsUndo = !!undoAction.data
+
+  if(!isHost && state.lobbyInstance.id) return
+  
+  // const scene = getCurrentGameScene(state.webPage.gameInstance)
+  // if(undoAction === BACKGROUND_LAYER_) {
+  //   scene.backgroundCanvasLayer.undo()
+  // } else if(undoAction === PLAYGROUND_LAYER_ID) {
+  //   scene.playgroundCanvasLayer.undo()
+  // } else if(undoAction === FOREGROUND_LAYER_ID) {
+  //   scene.foregroundCanvasLayer.undo()
+  // } else if(undoAction === CANVAS_IMAGE_LAYER_ID) {
+  //   console.log('BASE CANVAS oddly got into undo there...')
+  // } else { 
+  //   if(undoAction.entityInstanceId) {
+  //     store.dispatch(editGameModel({
+  //       stages: {
+  //         [undoAction.entityInstanceStageId]: {
+  //           entityInstance: {
+  //           [undoAction.entityInstanceId]: undoAction.data
+  //           }
+  //         }
+  //       }
+  //     }))
+  //   } else {
+  //     console.error('undo action', undoAction)
+  //   }
+  // }
+}
+
+export const gameRoomInstanceUndo = () => async (dispatch, getState) => {
+  dispatch({
+    type: GAME_INSTANCE_UNDO_LOADING,
+  });
+  
+  const state = store.getState()
+  const gameRoomInstanceMongoId = state.gameRoomInstance.gameRoomInstance.id
+  
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/gameInstance/undo/' + gameRoomInstanceMongoId, {}, options);
+
+    setTimeout(() => {
+      dispatch({
+        type: GAME_INSTANCE_UNDO_SUCCESS,
+      });
+    }, 3000)
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: GAME_INSTANCE_UNDO_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
 
 export const changeGameState = (gameState, message) => (dispatch, getState) => {
   // saveAllCurrentCanvases()
@@ -261,6 +345,8 @@ export const joinGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async 
       });
     });
 
+    window.socket.on(ON_GAME_ROOM_INSTANCE_UNDO, onInstanceUndo)
+
     // event is triggered to all members in this gameRoomInstance when gameRoomInstance is updated
     window.socket.on(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, (payload) => {
       dispatch({
@@ -270,6 +356,8 @@ export const joinGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async 
     });
 
     const response = await axios.post(`/api/gameRoomInstance/join/${gameRoomInstanceMongoId}`, { userMongoId }, options);
+
+    console.log('this game instance loaded', response.data.gameRoomInstance)
 
     dispatch({
       type: JOIN_GAME_ROOM_SUCCESS,
@@ -295,6 +383,7 @@ export const leaveGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async
 
     window.socket.off(ON_GAME_ROOM_INSTANCE_UPDATE);
     window.socket.off(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE);
+    window.socket.off(ON_GAME_ROOM_INSTANCE_UNDO)
 
     dispatch({
       type: LEAVE_GAME_ROOM_SUCCESS,

@@ -10,7 +10,6 @@ import { copyArcadeGameToUser, unloadArcadeGame, updateArcadeGameCharacter } fro
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import Typography from '../../../ui/Typography/Typography';
 import LobbyChecklist from '../../lobbyInstance/LobbyChecklist/LobbyChecklist';
-import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
 import { isLocalHost, requestFullscreen } from '../../../utils/webPageUtils';
 import { openGameMetadataDialog } from '../../../store/actions/game/gameSelectorActions';
 import { ARCHIVE_USER_MONGO_ID, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY } from '../../../constants';
@@ -184,7 +183,7 @@ const ActivityInstructions = ({
       onClickNext: () => {
         window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
           gameRoomInstanceMongoId: lobbyInstance.gameRoomInstanceMongoId, 
-          gameInstanceEventType: EVENT_SPAWN_MODEL_IN_CAMERA, 
+          gameRoomInstanceEventType: EVENT_SPAWN_MODEL_IN_CAMERA, 
           data: {
             entityModelId,
             hostOnly: true
@@ -522,7 +521,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             They finished making a game! Congrats to both of you
           </>,
           onClickNext: () => {
-            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomInstanceMongoId: lobbyInstance.gameRoomInstanceMongoId, gameInstanceEventType: ANIMATION_CONFETTI, data: {}})
+            window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomInstanceMongoId: lobbyInstance.gameRoomInstanceMongoId, gameRoomInstanceEventType: ANIMATION_CONFETTI, data: {}})
           },
           nextButtonText: 'Blow Confetti'
         },
@@ -578,5 +577,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editGameRoom, editLobby, editGameModel, unloadArcadeGame, unlockInterfaceId, updateArcadeGameCharacter, updateLobbyMember, setCutAudio, setCutVideo }),
+  connect(mapStateToProps, { editGameRoom, editLobby, editGameModel, unloadArcadeGame, updateArcadeGameCharacter, updateLobbyMember, setCutAudio, setCutVideo }),
 )(ActivityInstructions);

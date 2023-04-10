@@ -29,10 +29,6 @@ import {
   ON_LOBBY_INSTANCE_UPDATE,
   ON_LOBBY_INSTANCE_USER_STATUS_UPDATE,
   ON_COBROWSING_STATUS_UPDATE,
-  LOBBY_UNDO_LOADING,
-  LOBBY_UNDO_SUCCESS,
-  LOBBY_UNDO_FAIL,
-  ON_LOBBY_INSTANCE_UNDO,
   SEND_LOBBY_MESSAGE_LOADING,
   SEND_LOBBY_MESSAGE_SUCCESS,
   SEND_LOBBY_MESSAGE_FAIL,
@@ -40,94 +36,15 @@ import {
 } from '../../types';
 
 import ping from 'web-pingjs';
-import { getCurrentGameScene } from '../../../utils/editorUtils';
-import { BACKGROUND_LAYER_ID, CANVAS_IMAGE_LAYER_ID, FOREGROUND_LAYER_ID, PLAYGROUND_LAYER_ID } from '../../../game/constants';
-import { editGameModel } from '../game/gameModelActions';
-import store from '../..';
+
 import { setRecentlyFocused } from '../webPageActions';
 import { defaultAudienceRoleId } from '../../../constants';
 import { getUserRoleIdFromLobbyInstance } from '../../../utils';
+import { getExperienceModelByMongoId } from './experienceModelActions';
 
 let pingInterval;
 
 const recentlyFocusedDelta = 3000
-
-export function onCanvasImageDialogUndo() {
-  const state = store.getState()
-  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserMongoId
-  
-  if(!window.imageCanvasUndoStack.length) return
-
-  const undoAction = window.imageCanvasUndoStack.pop()
-
-  if(!isHost && state.lobbyInstance.id) return
-
-  getCurrentGameScene(state.webPage.imageCanvasGameInstance).backgroundCanvasLayer.undo()
-}
-
-export function onInstanceUndo() {
-  const state = store.getState()
-  const isHost = state.auth.me.id === state.gameRoomInstance.gameRoomInstance.hostUserMongoId
-  
-  if(!window.instanceUndoStack.length) return
-
-  const undoAction = window.instanceUndoStack.pop()
-  window.nextGameModelUpdateIsUndo = !!undoAction.data
-
-  if(!isHost && state.lobbyInstance.id) return
-  
-  const scene = getCurrentGameScene(state.webPage.gameInstance)
-  if(undoAction === BACKGROUND_LAYER_ID) {
-    scene.backgroundCanvasLayer.undo()
-  } else if(undoAction === PLAYGROUND_LAYER_ID) {
-    scene.playgroundCanvasLayer.undo()
-  } else if(undoAction === FOREGROUND_LAYER_ID) {
-    scene.foregroundCanvasLayer.undo()
-  } else if(undoAction === CANVAS_IMAGE_LAYER_ID) {
-    console.log('BASE CANVAS oddly got into undo there...')
-  } else { 
-    if(undoAction.entityInstanceId) {
-      store.dispatch(editGameModel({
-        stages: {
-          [undoAction.entityInstanceStageId]: {
-            entityInstance: {
-            [undoAction.entityInstanceId]: undoAction.data
-            }
-          }
-        }
-      }))
-    } else {
-      console.error('undo action', undoAction)
-    }
-  }
-}
-
-export const lobbyInstanceUndo = () => async (dispatch, getState) => {
-  dispatch({
-    type: LOBBY_UNDO_LOADING,
-  });
-  
-  const state = store.getState()
-  const lobbyInstanceMongoId = state.lobbyInstance.lobbyInstance.id
-  
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.post('/api/lobbyInstance/undo/' + lobbyInstanceMongoId, {}, options);
-
-    setTimeout(() => {
-      dispatch({
-        type: LOBBY_UNDO_SUCCESS,
-      });
-    }, 3000)
-  } catch (err) {
-    console.error(err)
-
-    dispatch({
-      type: LOBBY_UNDO_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-};
 
 export const assignLobbyRole = (lobbyInstanceMongoId, formData) => async (dispatch, getState) => {
   dispatch({
@@ -421,7 +338,6 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
       }
     });
 
-    window.socket.on(ON_LOBBY_INSTANCE_UNDO, onInstanceUndo)
 
     // event is triggered to all members in this lobbyInstance when lobbyInstance is updated
     window.socket.on(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, (payload) => {
@@ -443,6 +359,8 @@ export const joinLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }) => asy
     const auth = getState().auth
     let myRoleId = getUserRoleIdFromLobbyInstance(lobbyInstance, auth.me.id)
     if(!myRoleId) myRoleId = defaultAudienceRoleId
+
+    await dispatch(getExperienceModelByMongoId(lobbyInstance.experienceModelMongoId))
 
     console.log('joined lobbyInstance', lobbyInstance)
 
@@ -498,7 +416,6 @@ export const leaveLobbyByMongoId = ({ lobbyInstanceMongoId, userMongoId }, histo
     window.socket.off(ON_LOBBY_INSTANCE_UPDATE);
     window.socket.off(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE);
     window.socket.off(ON_COBROWSING_STATUS_UPDATE);
-    window.socket.off(ON_LOBBY_INSTANCE_UNDO)
     window.clearInterval(pingInterval);
 
     if(history) history.push('/');

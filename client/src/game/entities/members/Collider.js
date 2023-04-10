@@ -1,5 +1,7 @@
-import { ARCADE_PHYSICS, EFFECT_STICK_TO, PLAYER_INSTANCE_DID, MATTER_PHYSICS, ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, EFFECT_TRANSFORM } from "../../constants";
+import Phaser from "phaser";
+import { ARCADE_PHYSICS, EFFECT_STICK_TO, PLAYER_INSTANCE_DID, MATTER_PHYSICS, ON_TOUCH_ACTIVE, ON_COLLIDE_END, ON_TOUCH_START, EFFECT_TRANSFORM, SIDE_LEFT, SIDE_RIGHT, SIDE_UP, SIDE_DOWN, EFFECT_INVISIBLE, EFFECT_IGNORE_GRAVITY } from "../../constants";
 import { areBSidesHit, isEventMatch } from "../../../utils/gameUtils";
+import store from "../../../store";
 
 export class Collider {
   constructor(scene, entityInstance, sensor){
@@ -11,27 +13,54 @@ export class Collider {
 
     this.collidingWith = []
     this.lastCollidingWith = null
+
+
+    this.isVisibilityModified = null
+    this.isIgnoreGravityModified = null
+    this.wasIgnoreGravityModified = null 
+    this.wasVisibilityModified = null
+
     // this.onCollideEndRelations = {}
 
     // this.testRelationsList = []
   }
 
-  registerRelations(relations) {
-    if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.registerArcadeRelations(relations)
-    } 
-    if(this.scene.physicsType === MATTER_PHYSICS) {
-      this.registerMatter(relations)
-    } 
-  }
-
-  registerColliders(colliders) {
-    if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.registerArcadeColliders(colliders)
-    } 
-  }
-
   update() {
+    const entityModelId = this.entityInstance.entityModelId
+    const entityModel = store.getState().gameModel.gameModel.entityModels[entityModelId]
+    const phaserInstance = this.entityInstance.phaserInstance
+
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // VISIBLITY AND IGNORE GRAVITY EFFECTS
+    if(this.wasIgnoreGravityModified && !this.isIgnoreGravityModified) {
+      this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity)
+    }
+
+    this.wasIgnoreGravityModified = this.isIgnoreGravityModified
+    this.isIgnoreGravityModified = false
+
+    if(this.wasVisibilityModified && !this.isVisibilityModified) {
+      this.entityInstance.isVisible = !entityModel.graphics.invisible
+    }
+
+    this.wasVisibilityModified = this.isVisibilityModified
+    this.isVisibilityModified = false
+
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+    // STICK TO EFFECT
+    if (phaserInstance.lockedTo) {
+      phaserInstance.body.position.x += phaserInstance.lockedTo.body.deltaX();
+      phaserInstance.body.position.y += phaserInstance.lockedTo.body.deltaY();   
+    }
+    
+    if (phaserInstance.lockedTo && this.fallenOff(phaserInstance, phaserInstance.lockedTo, phaserInstance.lockedReleaseSides)) {
+      phaserInstance.lockedTo = null;   
+      phaserInstance.lockedReleaseSides = null
+      this.entityInstance.setIgnoreGravity(entityModel.movement.ignoreGravity);
+    }
+
     // if(this.lastCollidingWith) {
     //   this.lastCollidingWith.forEach((entityModelId) => {
     //     if(this.collidingWith.indexOf(entityModelId) === -1) {
@@ -49,6 +78,93 @@ export class Collider {
 
     this.lastCollidingWith = this.collidingWith
     this.collidingWith = []
+  }
+
+  fallenOff(player, platform, sides) {
+    // if turns out to be annoying
+    if(Phaser.Math.Distance.Between(player.body.x, player.body.y, platform.body.x, platform.body.y) > 100) {
+      return true
+    }
+
+    if(sides[SIDE_LEFT] || sides[SIDE_RIGHT]) {
+      return (
+        player.body.bottom <= platform.body.position.y ||
+        player.body.position.y >= platform.body.bottom 
+      );
+    } else if(sides[SIDE_UP] >= 0 || sides[SIDE_DOWN] >= 0) {
+      return (
+        player.body.right <= platform.body.position.x ||
+        player.body.position.x >= platform.body.right 
+      );
+    } else {
+      return (
+        (player.body.right <= platform.body.position.x ||
+        player.body.position.x >= platform.body.right) && (
+          player.body.bottom <= platform.body.position.y ||
+          player.body.position.y >= platform.body.bottom 
+        )
+      );
+    }
+  }
+  
+  runCollideActiveEffect({
+    relation,
+    phaserInstanceA,
+    phaserInstanceB,
+    sidesA = [],
+    sidesB = []
+  }) {
+    const effect = relation.effect
+    const scene = this.scene
+
+    const [phaserInstances, alternatePhaserInstanceData] = this.scene.getEffectedPhaserInstances({
+      phaserInstanceA,
+      phaserInstanceB,
+      sidesA,
+      sidesB,
+      effect: relation.effect
+    })
+
+    phaserInstances.forEach((phaserInstance) => {
+      runEffect(phaserInstance)
+    })
+
+    function runEffect(phaserInstance) {
+      const entityInstance = scene.getEntityInstance(phaserInstance.entityInstanceId)
+      if(effect.effectBehavior === EFFECT_INVISIBLE && !this.isVisibilityModified) {
+        this.isVisibilityModified = true
+        entityInstance.isVisible = false
+      }
+
+      if(effect.effectBehavior === EFFECT_IGNORE_GRAVITY && !this.isIgnoreGravityModified) {
+        this.isIgnoreGravityModified = true
+        entityInstance.setIgnoreGravity(true)
+      }
+
+      if(effect.effectBehavior === EFFECT_STICK_TO) {
+        if(!alternatePhaserInstanceData.phaserInstance) console.error('bad!, stick to will not work here')
+        phaserInstance.lockedTo = alternatePhaserInstanceData.phaserInstance;   
+        phaserInstance.lockedReleaseSides = alternatePhaserInstanceData.sides
+        this.isIgnoreGravityModified = true
+        entityInstance.setIgnoreGravity(true)
+      }
+    }
+  }
+
+
+  registerRelations(relations) {
+    if(this.scene.physicsType === ARCADE_PHYSICS) {
+      this.registerArcadeRelations(relations)
+    } 
+    if(this.scene.physicsType === MATTER_PHYSICS) {
+      this.registerMatter(relations)
+    } 
+  }
+
+  registerColliders(colliders) {
+    if(this.scene.physicsType === ARCADE_PHYSICS) {
+      this.registerArcadeColliders(colliders)
+    } 
   }
 
   startRunCollideEffects({
@@ -75,7 +191,7 @@ export class Collider {
       }
       
       if(event.eventType === ON_TOUCH_ACTIVE) {
-        this.entityInstance.effects.runCollideActiveEffect({
+        this.runCollideActiveEffect({
           relation: newRelation,
           phaserInstanceA,
           phaserInstanceB,
@@ -85,7 +201,7 @@ export class Collider {
       }
 
       if(isOnEnter && (event.eventType === ON_TOUCH_START || effect.effectBehavior === EFFECT_STICK_TO)) {
-        this.entityInstance.runAccuteEffect({
+        this.scene.runAccuteEffect({
           relation: newRelation,
           phaserInstanceA,
           phaserInstanceB,
@@ -201,6 +317,8 @@ export class Collider {
       })
       this.colliders = []
 
+      const phaserInstance = this.entityInstance.phaserInstance
+      phaserInstance.lockedTo = null
       // this.onCollideEndRelations = {}
     } 
 

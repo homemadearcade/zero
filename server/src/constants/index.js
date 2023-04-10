@@ -1,4 +1,3 @@
-export const ARCADE_EXPERIENCE_MODEL_ID = 'homemadeArcade'
 
 export const GAME_MODEL_DID = 'gm-';
 export const LOBBY_INSTANCE_DID = 'li-';
@@ -27,28 +26,32 @@ export const ON_AUTHENTICATE_SOCKET_FAIL = 'ON_AUTHENTICATE_SOCKET_FAIL';
 // calls ON_GAME_CHARACTER_UPDATE locally to update Redux gameModel and Phaser GameInstance on all machines 
 export const ON_GAME_CHARACTER_UPDATE = 'ON_GAME_CHARACTER_UPDATE';
 
-//////////////////////////////////////////////
-//////////////////////////////////////////////
-//////////////////////////////////////////////
-///// LOBBY/GAME
 
-// POST /lobbys/undo/:id
-// FROM: Lobby User 
-// TO: Game Host
-// Pops undo state, sometimes saving Phaser Canvas. sometimes calling ON_GAME_MODEL_UPDATE
-export const ON_LOBBY_INSTANCE_UNDO = 'ON_LOBBY_INSTANCE_UNDO';
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+///// LOBBY
 
-// PUT /game/:id 
-// FROM: Game Client or Game Host 
-// TO: Game Clients and Game Host
-// calls ON_GAME_MODEL_UPDATE locally to update Redux gameModel and Phaser GameInstance on all machines 
-export const ON_GAME_MODEL_UPDATE = 'ON_GAME_MODEL_UPDATE';
 
 // PUT /lobby/:id, Many Other Places
 // FROM: Lobby Member 
 // TO: Lobby Members
 //  Updates Redux Lobby state
 export const ON_LOBBY_INSTANCE_UPDATE = 'ON_LOBBY_INSTANCE_UPDATE';
+
+
+// PUT /lobby/step/:id,
+// FROM: Lobby Member 
+// TO: Lobby Host
+//  Updates Redux Lobby state
+export const ON_LOBBY_INSTANCE_STEP_CHANGE = 'ON_LOBBY_INSTANCE_STEP_CHANGE';
+
+
+// Socket ON_LOBBY_INSTANCE_EVENT
+// FROM: Lobby Member 
+// TO: Lobby Members
+//  Updates Redux Lobby state
+export const ON_LOBBY_INSTANCE_EVENT = 'ON_LOBBY_INSTANCE_EVENT';
 
 
 // // PUT /lobby/:id, Many Other Places
@@ -62,6 +65,17 @@ export const ON_LOBBY_INSTANCE_UPDATE = 'ON_LOBBY_INSTANCE_UPDATE';
 // TO: Lobby Members.
 // Update Redux LobbyStatus State
 export const ON_LOBBY_INSTANCE_USER_STATUS_UPDATE = 'ON_LOBBY_INSTANCE_USER_STATUS_UPDATE';
+
+
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+///// GAME ROOM INSTANCE 
+// PUT /game/:id 
+// FROM: Game Client or Game Host 
+// TO: Game Clients and Game Host
+// calls ON_GAME_MODEL_UPDATE locally to update Redux gameModel and Phaser GameInstance on all machines 
+export const ON_GAME_MODEL_UPDATE = 'ON_GAME_MODEL_UPDATE';
 
 // Socket ON_GAME_INSTANCE_UPDATE
 // FROM: Game Host 
@@ -80,6 +94,15 @@ export const ON_GAME_INSTANCE_EVENT = 'ON_GAME_INSTANCE_EVENT';
 // TO: Game Host
 // Checks to make sure connection is still established
 export const ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED = 'ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED';
+
+// POST /gameInstance/undo/:id
+// FROM: Game Instance Member
+// TO: Game Host
+// Pops undo state, sometimes saving Phaser Canvas. sometimes calling ON_GAME_MODEL_UPDATE
+export const ON_GAME_ROOM_INSTANCE_UNDO = 'ON_GAME_ROOM_INSTANCE_UNDO';
+
+export const ON_GAME_ROOM_INSTANCE_UPDATE = 'ON_GAME_ROOM_INSTANCE_UPDATE';
+export const ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE = 'ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE';
 
 //////////////////////////////////////////////
 //////////////////////////////////////////////
@@ -146,12 +169,8 @@ export const ON_COBROWSING_STATUS_UPDATE = 'ON_COBROWSING_STATUS_UPDATE';
 
 
 
-//////////////////////////////////////////////
-//////////////////////////////////////////////
-//////////////////////////////////////////////
-//// GAME SESSION
-export const ON_GAME_ROOM_INSTANCE_UPDATE = 'ON_GAME_ROOM_INSTANCE_UPDATE';
-export const ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE = 'ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE';
+
+
 
 export const CODRAWING_ROOM_PREFIX = 'codrawing@'
 export const COBROWSING_ROOM_PREFIX = 'cobrowsing@'

@@ -1,4 +1,4 @@
-import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_INSTRUCTION, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_GAME_EFFECT, EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_GO_TO_INSTRUCTION_STEP, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION } from "./constants/experienceEffect"
+import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY, EXPERIENCE_EFFECT_CHANGE_LOBBY, EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_GAME_ACTION, EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_GO_TO_INSTRUCTION_STEP, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION } from "./constants/experienceEffect"
 import { INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from "./constants/instructions"
 
 export const defaultExperienceEffect = {
@@ -15,7 +15,7 @@ export const defaultExperienceEffect = {
 }
 
 export const experienceEffectInterfaceIdData = {
-  [EXPERIENCE_EFFECT_GAME_EFFECT]: {
+  [EXPERIENCE_EFFECT_GAME_ACTION]: {
     displayName: 'Game Effect',
     // icon: 'faGamepad',
   },
@@ -23,14 +23,14 @@ export const experienceEffectInterfaceIdData = {
     displayName: 'Change Activity',
     icon: 'faShuffle',
   },
-  [EXPERIENCE_EFFECT_CHANGE_INSTRUCTION]: {
-    displayName: 'Change Instruction',
-    icon: 'faListOl',
-  },
-  [EXPERIENCE_EFFECT_CHANGE_LOBBY]: {
-    displayName: 'Change Lobby',
-    icon: 'faDoorOpen',
-  },
+  // [EXPERIENCE_EFFECT_CHANGE_INSTRUCTION]: {
+  //   displayName: 'Change Instruction',
+  //   icon: 'faListOl',
+  // },
+  // [EXPERIENCE_EFFECT_CHANGE_LOBBY]: {
+  //   displayName: 'Change Lobby',
+  //   icon: 'faDoorOpen',
+  // },
   [EXPERIENCE_EFFECT_OPEN_TRANSITION]: {
     displayName: 'Open Transition',
     icon: 'faStar',
@@ -45,14 +45,14 @@ export const experienceEffectInterfaceIdData = {
     icon: 'faPersonBooth',
   },
   [EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH]: {
-    displayName: 'Go to Control Booth',
+    displayName: 'Go back to Control Booth',
     icon: 'faPersonBooth',
   },
 }
 
 export const instructionCategoryToExperienceEffects = {
   [INSTRUCTION_GAME_ROOM]: [
-    EXPERIENCE_EFFECT_GAME_EFFECT,
+    EXPERIENCE_EFFECT_GAME_ACTION,
     EXPERIENCE_EFFECT_CLOSE_TRANSITION,
     EXPERIENCE_EFFECT_OPEN_TRANSITION,
     EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH,
@@ -61,8 +61,8 @@ export const instructionCategoryToExperienceEffects = {
   [INSTRUCTION_LOBBY]: [
     EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
     EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH,
-    EXPERIENCE_EFFECT_CLOSE_TRANSITION,
-    EXPERIENCE_EFFECT_OPEN_TRANSITION,
+    // EXPERIENCE_EFFECT_CLOSE_TRANSITION,
+    // EXPERIENCE_EFFECT_OPEN_TRANSITION,
     EXPERIENCE_EFFECT_GO_TO_INSTRUCTION_STEP
   ],
 }

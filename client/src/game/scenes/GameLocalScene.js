@@ -10,8 +10,8 @@ export class GameLocalScene extends EditorScene {
 
   }
 
-  callGameInstanceEvent({gameInstanceEventType, data}) {
-    this.runGameInstanceEvent({gameInstanceEventType, data})
+  callGameInstanceEvent({gameRoomInstanceEventType, data}) {
+    this.runGameInstanceEvent({gameRoomInstanceEventType, data})
   }
 
   create() {

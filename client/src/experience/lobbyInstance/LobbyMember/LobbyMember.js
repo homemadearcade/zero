@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { setCutAudio, setCutVideo } from '../../../store/actions/experience/videoActions';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { ADMIN_ROLE, ARCADE_EXPERIENCE_MODEL_ID } from '../../../constants';
+import { ADMIN_ROLE } from '../../../constants';
 import { LOBBY_MEMBER_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const LobbyMember = ({ 
@@ -104,7 +104,7 @@ const LobbyMember = ({
       {!showUnlockedUI && <Button onClick={() => {
         setShowUnlockedUI(true)
       }}>Show Unlocked UI Tree</Button>}
-      {showUnlockedUI && <UnlockableInterfaceTree experienceModelMongoId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={userMongoId}></UnlockableInterfaceTree>}
+      {showUnlockedUI && <UnlockableInterfaceTree experienceModelMongoId={lobbyInstance.experienceModelMongoId} userMongoId={userMongoId}></UnlockableInterfaceTree>}
     </div>
   </Dialog>}
   </span>

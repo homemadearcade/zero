@@ -94,7 +94,7 @@ export class EditorScene extends GameInstance {
     if(entitySprite.effectSpawned) {
       window.socket.emit(ON_GAME_INSTANCE_EVENT, {
         gameRoomInstanceMongoId: this.gameRoomInstance.id, 
-        gameInstanceEventType: EVENT_SPAWN_MODEL_DRAG_FINISH,
+        gameRoomInstanceEventType: EVENT_SPAWN_MODEL_DRAG_FINISH,
         data: {
           x: entitySprite.x,
           y: entitySprite.y,

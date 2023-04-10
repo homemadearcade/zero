@@ -17,9 +17,9 @@ import {
   DELETE_LOBBY_FAIL,
   ASSIGN_LOBBY_ROLE_FAIL,
   ON_LOBBY_INSTANCE_UPDATE,
-  LOBBY_UNDO_LOADING,
-  LOBBY_UNDO_SUCCESS,
-  LOBBY_UNDO_FAIL,
+  GAME_INSTANCE_UNDO_LOADING,
+  GAME_INSTANCE_UNDO_SUCCESS,
+  GAME_INSTANCE_UNDO_FAIL,
   SEND_LOBBY_MESSAGE_FAIL,
   TOGGLE_LOBBY_DASHBOARD
 } from '../../types';
@@ -44,13 +44,13 @@ export default function lobbyInstanceReducer(state = initialState, { type, paylo
         ...state,
         isLobbyDashboardOpen: payload.value
       }
-    case LOBBY_UNDO_LOADING: 
+    case GAME_INSTANCE_UNDO_LOADING: 
       return {
         ...state,
         isUndoing: true
       }
-    case LOBBY_UNDO_SUCCESS: 
-    case LOBBY_UNDO_FAIL: 
+    case GAME_INSTANCE_UNDO_SUCCESS: 
+    case GAME_INSTANCE_UNDO_FAIL: 
       return {
         ...state,
         isUndoing: false

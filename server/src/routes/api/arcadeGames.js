@@ -3,7 +3,7 @@ import requireJwtAuth from '../../middleware/requireJwtAuth';
 import requireSocketAuth from '../../middleware/requireSocketAuth';
 import ArcadeGame, { validateArcadeGame } from '../../models/ArcadeGame';
 import { mergeDeep } from '../../utils/utils';
-import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, ARCADE_EXPERIENCE_MODEL_ID, GAME_MODEL_DID } from '../../constants';
+import { ON_GAME_CHARACTER_UPDATE, ON_GAME_MODEL_UPDATE, GAME_MODEL_DID } from '../../constants';
 import User from '../../models/User';
 import { generateUniqueId } from '../../utils/utils';
 
@@ -49,9 +49,9 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
       }
     };
     if(req.body.merge) {
-      updatedUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_MODEL_ID] = { ...tempUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_MODEL_ID], ...req.body.unlockableInterfaceIds }
+      updatedUser.unlockableInterfaceIds[req.body.experienceModelMongoId] = { ...tempUser.unlockableInterfaceIds[req.body.experienceModelMongoId], ...req.body.unlockableInterfaceIds }
     } else {
-      updatedUser.unlockableInterfaceIds[ARCADE_EXPERIENCE_MODEL_ID]= req.body.unlockableInterfaceIds
+      updatedUser.unlockableInterfaceIds[req.body.experienceModelMongoId]= req.body.unlockableInterfaceIds
     }
 
     const user = await User.findByIdAndUpdate(req.body.userMongoId, { $set: updatedUser }, { new: true });
@@ -60,7 +60,7 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
       req.io.to(req.body.gameRoomInstanceMongoId).emit(ON_GAME_CHARACTER_UPDATE, {
         userMongoId: req.body.userMongoId,
         data: {
-          unlockableInterfaceIds: user.unlockableInterfaceIds[ARCADE_EXPERIENCE_MODEL_ID]
+          unlockableInterfaceIds: user.unlockableInterfaceIds[req.body.experienceModelMongoId]
         }
       })
     }

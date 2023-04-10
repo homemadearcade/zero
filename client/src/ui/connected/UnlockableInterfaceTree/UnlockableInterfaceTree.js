@@ -225,6 +225,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
 
           list.push(<MenuItem key={id + alias} onClick={async () => {
             await updateArcadeGameCharacter({
+              experienceModelMongoId,
               userMongoId: userMongoId,
               unlockableInterfaceIds : {
                 ...unlockableInterfaceIds,
@@ -240,6 +241,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
           if(unlockableInterfaceIds[id]) {
             list.push(<MenuItem key={id + alias} onClick={async () => {
               await updateArcadeGameCharacter({
+                experienceModelMongoId,
                 userMongoId: userMongoId,
                 unlockableInterfaceIds : {
                   ...unlockableInterfaceIds,
@@ -334,6 +336,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
                     variant="contained" 
                     onClick={async () => {
                       await updateArcadeGameCharacter({
+                        experienceModelMongoId,
                         userMongoId: userMongoId,
                         unlockableInterfaceIds : interfacePreset.interfaceIds
                       })

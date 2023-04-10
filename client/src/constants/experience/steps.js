@@ -1,11 +1,6 @@
 export const defaultStep = {
   skippable: false,
   title: '',
-  requirements: {
-    cobrowsingRoleId: false,
-    stageId: null,
-    gameIsPoweredOn: false,
-  },
   experienceEffectIds: [],
   stepId: null,
   promptOrder: [],

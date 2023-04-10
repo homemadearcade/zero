@@ -19,6 +19,7 @@ import Tabs from '../../../ui/Tabs/Tabs';
 import LobbyOverview from '../../../experience/lobbyInstance/LobbyOverview/LobbyOverview';
 import ActivityTransitionToggle from '../../../experience/activity/ActivityTransitionToggle/ActivityTransitionToggle';
 import LobbyDashboardToggle from '../../../experience/lobbyInstance/LobbyDashboardToggle/LobbyDashboardToggle';
+import Chatroom from '../../../experience/Chatroom/Chatroom';
 
 const GameRoomDrawer = ({
   lobbyInstance: { lobbyInstance },
@@ -29,7 +30,7 @@ const GameRoomDrawer = ({
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-    const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].currentActivityCategory
+    const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].activityCategory
     return <>
       <div className="GameRoomDrawer">
         {!inIframe() && <div className="GameRoomDrawer__toggle" onClick={() => {
@@ -65,7 +66,13 @@ const GameRoomDrawer = ({
               body: <GameRoomOverview myTracks={myTracks} userTracks={userTracks}/>
             },
             {
-              label: 'Lobby',
+            label: 'Chatlog',
+              body: <div className="LobbyDashboard__chatroom">
+                <Chatroom myTracks={myTracks} userTracks={userTracks} />
+              </div>
+            },
+            {
+              label: 'Roles',
               body: <>
                 <LobbyOverview myTracks={myTracks} userTracks={userTracks}></LobbyOverview>
                 <Link to="/lobbys">Exit Lobby</Link>

@@ -76,7 +76,7 @@ export class InteractArea extends PhaserInstance {
       this.overlaps.push(
         this.scene.physics.add.overlap(this.phaserInstance, releventPhaserInstances, (a, b) => {
           if(this.paused) return
-          if(this.entityInstance.effects.timeToTriggerAgain[relation.relationId] > Date.now()) return
+          if(this.scene.timeToTriggerAgain[relation.relationId] > Date.now()) return
           // console.log('event triggered')
           this.interactables.push({entitySprite: b, relation})
         })

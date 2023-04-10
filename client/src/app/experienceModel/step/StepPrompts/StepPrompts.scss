@@ -1,0 +1,21 @@
+.StepPrompts {
+  display: flex;
+  gap: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  flex-direction: column;
+
+  &__buttons {
+    position: absolute;
+    right: .2em;
+    top: .2em
+  }
+
+  &__prompts {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    flex-direction: column;
+  }
+}

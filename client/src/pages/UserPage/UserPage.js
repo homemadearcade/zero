@@ -23,7 +23,9 @@ import GameList from '../../app/gameModel/GameList/GameList';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
 import { Divider } from '@mui/material';
 import UserSpeedTestList from '../../app/user/UserSpeedTestList/UserSpeedTestList';
-import { ADMIN_ROLE, ARCADE_EXPERIENCE_MODEL_ID } from '../../constants';
+import { ADMIN_ROLE } from '../../constants';
+import SelectExperienceModel from '../../ui/connected/SelectExperienceModel/SelectExperienceModel';
+import { getExperienceModelByMongoId } from '../../store/actions/experience/experienceModelActions';
 
 const UserPage = ({
   getUserByUsername,
@@ -34,6 +36,7 @@ const UserPage = ({
   logOutUser,
   history,
   match,
+  experienceModel: { experienceModel },
   addUserSpeedTest
 }) => {
 
@@ -255,7 +258,13 @@ const UserPage = ({
       {user.role === ADMIN_ROLE && <>
         <Divider sx={{my: '2rem'}}></Divider>
         <Typography component="h5" variant="h5">Unlockable Interface Ids</Typography>
-        {user.id && <UnlockableInterfaceTree experienceModelMongoId={ARCADE_EXPERIENCE_MODEL_ID} userMongoId={user.id}></UnlockableInterfaceTree>}
+        <SelectExperienceModel value={experienceModel?.id ? [experienceModel.id] : []} onSelect={(experienceModels) => {
+          if(experienceModels[0]) {
+            const id = experienceModels[experienceModels.length -1].id
+            getExperienceModelByMongoId(id)
+          }
+        }}/>
+        {user.id && experienceModel.id && <UnlockableInterfaceTree experienceModelMongoId={experienceModel.id} userMongoId={user.id}></UnlockableInterfaceTree>}
       </>}
 
       <Divider sx={{my: '2rem'}}></Divider>
@@ -277,6 +286,7 @@ const UserPage = ({
 const mapStateToProps = (state) => ({
   user: state.user,
   auth: state.auth,
+  experienceModel: state.experienceModel,
 });
 
 export default compose(

@@ -1,7 +1,7 @@
 export const defaultLobbyInstance = {
   lobbyInstanceId: null,
   experienceInstanceId: null,
-  activities: {
+  activitys: {
 
   },
   instructions: {

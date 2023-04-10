@@ -53,6 +53,7 @@ export function generateActionEffects(gameModel) {
         customSelectorCategory: interfaceActionUIData.displayName,
         title: interfaceActionData.title,
         subTitle: interfaceActionData.subTitle,
+        onClick: interfaceActionData.onClick(),
         icon: interfaceActionUIData.icon,
         isReadOnly: true
       }
@@ -81,6 +82,7 @@ export function generateActionEffects(gameModel) {
               customSelectorCategory: interfaceActionUIData.displayName,
               subTitle: interfaceActionData.getSubtitle([entityModelId], gameModel),
               title: interfaceActionData.title || interfaceActionData.getTitle([entityModelId], gameModel),
+              onClick: interfaceActionData.onClick([entityModelId]),
               icon: interfaceActionUIData.icon,
               isReadOnly: true,
               isRemoved: entityModel.isReadOnly || entityModel.isRemoved || isActionRemoved
@@ -98,6 +100,7 @@ export function generateActionEffects(gameModel) {
               customSelectorCategory: interfaceActionUIData.displayName,
               subTitle: interfaceActionData.getSubtitle([layerId], gameModel),
               title: interfaceActionData.title || interfaceActionData.getTitle([layerId], gameModel),
+              onClick: interfaceActionData.onClick([layerId]),
               icon: interfaceActionUIData.icon,
               isReadOnly: true
             }
@@ -120,6 +123,7 @@ export function generateActionEffects(gameModel) {
               customSelectorCategory: interfaceActionUIData.displayName,
               subTitle: interfaceActionData.getSubtitle([brushId], gameModel),
               title:  interfaceActionData.title || interfaceActionData.getTitle([brushId], gameModel),
+              onClick: interfaceActionData([brushId]),
               icon: interfaceActionUIData.icon,
               isReadOnly: true
             }
@@ -141,6 +145,7 @@ export function generateActionEffects(gameModel) {
                 customSelectorCategory: interfaceActionUIData.displayName,
                 subTitle: interfaceActionData.getSubtitle([colorId, layerId], gameModel) ,
                 title: interfaceActionData.title || interfaceActionData.getTitle([colorId, layerId], gameModel),
+                onClick: interfaceActionData.onClick([colorId, layerId]),
                 icon: interfaceActionUIData.icon,
                 isReadOnly: true
               }
@@ -160,6 +165,7 @@ export function generateActionEffects(gameModel) {
                 customSelectorCategory: interfaceActionUIData.displayName,
                 subTitle:  interfaceActionData.getSubtitle([stageId], gameModel),
                 title: interfaceActionData.title || interfaceActionData.getTitle([stageId], gameModel),
+                onClick: interfaceActionData.onClick([stageId]),
                 icon: interfaceActionUIData.icon,
                 isReadOnly: true
               }

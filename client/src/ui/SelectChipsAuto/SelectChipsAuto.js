@@ -40,7 +40,8 @@ const Root = styled('div')(
 );
 
 const InputWrapper = styled('div')(
-  ({ theme }) => `
+  ({ theme }) => {
+  return `
   width: calc(100% - 2px);
   border: 1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.23)' : '#d9d9d9'};
   background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
@@ -72,7 +73,7 @@ const InputWrapper = styled('div')(
     margin: 0;
     outline: 0;
   }
-`,
+`}
 );
 
 function Tag(props) {
@@ -359,7 +360,7 @@ function SelectChipsAutoForm({
     <Root>
       <div {...getRootProps()}>
         {formLabel && <FormLabel {...getInputLabelProps()}>{formLabel}</FormLabel>}
-        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+        <InputWrapper disabled={disabled} ref={setAnchorEl} className={focused && !disabled ? 'focused' : ''}>
           {inheritedValue.map((option, index) => {
             return <StyledTag 
               key={option.value}
@@ -370,7 +371,7 @@ function SelectChipsAutoForm({
               {...getTagProps({ index })}
             />
           })}
-          <input id={domId} {...getInputProps()}/>
+          <input disabled={disabled} id={domId} {...getInputProps()}/>
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (

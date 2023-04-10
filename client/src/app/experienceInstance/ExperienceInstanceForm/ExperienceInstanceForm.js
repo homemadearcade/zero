@@ -128,6 +128,7 @@ const ExperienceInstanceForm = ({
               return prev
             }, {})
           }
+          console.log('activitys', activitys[activityId])
         }
       }
 
@@ -142,7 +143,7 @@ const ExperienceInstanceForm = ({
         instructions: experienceModel.instructions,
         experienceInstanceId,
         roles: experienceModel.roles,
-        experienceModel: experienceModel.id,
+        experienceModelMongoId: experienceModel.id,
         currentActivityId: lobby.initialActivityId,
         cobrowsingUserMongoId,
         gameRoomInstances: gameRoomInstanceMongoIds,
@@ -176,6 +177,7 @@ const ExperienceInstanceForm = ({
                         name={`lobbyInstances.${lobbyId}.roleIdToUserMongoIds.${roleId}`}
                         control={control}
                         render={({ field: { onChange, value } }) => {
+                          console.log('value', value)
                           return <SelectUsers
                             usersSelected={value ? value : []} 
                             onSelect={(users) => {
@@ -193,12 +195,17 @@ const ExperienceInstanceForm = ({
                         name={`lobbyInstances.${lobbyId}.roleIdToUserMongoIds.${roleId}`}
                         control={control}
                         render={({ field: { onChange, value } }) => {
+                          console.log(value)
                           return <SelectUsers
                             usersSelected={value ? value : []} 
                             onSelect={(users) => {
-                               const lobbyInstance = lobbyInstances[lobbyId]
-                              if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')
-                              onChange([users[users.length-1]])
+                              if(users.length) {
+                                const lobbyInstance = lobbyInstances[lobbyId]
+                                if(isLobbyInstanceUserAlreadyAssignedRoles(lobbyInstance, roleId, users[users.length-1])) return alert('this user is already assigned a role')
+                                onChange([users[users.length-1]])
+                              } else {
+                                onChange([])
+                              }
                             }}
                           />
                         }}

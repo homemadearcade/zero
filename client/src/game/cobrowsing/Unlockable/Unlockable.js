@@ -7,23 +7,23 @@ import './Unlockable.scss';
 import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
-import { lockInterfaceId, unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
 import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
 import { OPEN_TOOL, UNLOCK_TOOL } from '../../../constants';
 import { ADMIN_ROLE } from '../../../constants';
 import { confetti } from 'tsparticles-confetti'
 import { useWishTheme } from '../../../hooks/useWishTheme';
+import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
 
 const noAnimInterfaces = ['contextMenu/*']
 const Unlockable = ({
   auth: { me },
   className,
   setMouseOverInterfaceId,
-  lockInterfaceId,
   interfaceIdPrefix,
   interfaceIdExtension,
   selectCobrowsingTool,
-  unlockInterfaceId,
+  experienceModel: { experienceModel },
+  updateArcadeGameCharacter,
   interfaceId,
   children,
   isSlider,
@@ -108,7 +108,14 @@ const Unlockable = ({
       }
       onClick={(e) => {
         if(selectedTool === UNLOCK_TOOL) {
-          unlockInterfaceId(interfaceIdToUnlock)
+          updateArcadeGameCharacter({
+            experienceModelMongoId: experienceModel.id,
+            userMongoId: remoteStateUserMongoId,
+            unlockableInterfaceIds: {
+              [interfaceIdToUnlock]: true
+            },
+            merge: true
+          })
         }
 
         if(!e.shiftKey) {
@@ -157,9 +164,10 @@ const Unlockable = ({
 const mapStateToProps = (state) => mapCobrowsingState(state, {
   unlockableInterfaceIds: state.unlockableInterfaceIds,
   auth: state.auth,
-  cobrowsing: state.cobrowsing
+  cobrowsing: state.cobrowsing,
+  experienceModel: state.experienceModel
 });
 
 export default compose(
-  connect(mapStateToProps, { unlockInterfaceId, lockInterfaceId, setMouseOverInterfaceId, selectCobrowsingTool  }),
+  connect(mapStateToProps, { setMouseOverInterfaceId, selectCobrowsingTool, updateArcadeGameCharacter  }),
 )(Unlockable);

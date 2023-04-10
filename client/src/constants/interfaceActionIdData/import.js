@@ -1,3 +1,4 @@
+import { editGameModel } from "../../store/actions/game/gameModelActions";
 import { IMPORT_DATA_SOURCE_AID } from "../interfaceActionIds";
 import { INTERFACE_ACTION_IMPORT } from "../interfaceActions";
 
@@ -12,6 +13,15 @@ export default {
     },
     isRemoved: ([entityModelId], gameModel) => {
       return gameModel.entityModels[entityModelId].isImported || gameModel.entityModels[entityModelId].editorInterface.hiddenFromIDs[IMPORT_DATA_SOURCE_AID]
+    },
+    onClick: ([entityModelId]) => (dispatch, gameModel) => {
+      dispatch(editGameModel({
+        entityModels: {
+          [entityModelId]: {
+            isImported: true
+          }
+        }
+      }))
     },
     arguments: ['entityModelId'],
     actionType: INTERFACE_ACTION_IMPORT

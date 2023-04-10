@@ -212,10 +212,10 @@ export const handleCobrowsingUpdates = store => next => action => {
       // this means you are cobrowsing but you dont have a tool selected
       // without this, the local users state will be updated silently behind the cobrowsing view
       if(state.cobrowsing.isActivelyCobrowsing) {
-        // if this action is meant to just be for the publisher to do, dont throw an alert, its not expected
-        if(action.cobrowsingPublisherOnly) return 
-        alert('When cobrowsing you must select the mouse tool before clicking the interface. Action:' + action.type)
-        throw new Error(action.type)
+        // // if this action is meant to just be for the publisher to do, dont throw an alert, its not expected
+        // if(action.cobrowsingPublisherOnly) return 
+        // alert('When cobrowsing you must select the mouse tool before clicking the interface. Action:' + action.type)
+        // throw new Error(action.type)
       }
 
       // NORMAL ACTION
@@ -275,24 +275,25 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     window.socket.on(ON_COBROWSING_REMOTE_DISPATCH, ({dispatchData}) => {
       dispatch(dispatchData);
 
-      if(dispatchData.type === UNLOCK_INTERFACE) {
-        dispatch(updateArcadeGameCharacter({
-          userMongoId: user.id,
-          unlockableInterfaceIds: {
-            [dispatchData.payload.interfaceId]: true
-          },
-          merge: true
-        }))
-      }
-      if(dispatchData.type === LOCK_INTERFACE) {
-        dispatch(updateArcadeGameCharacter({
-          userMongoId: user.id,
-          unlockableInterfaceIds: {
-            [dispatchData.payload.interfaceId]: false
-          },
-          merge: true
-        }))
-      }
+      // if(dispatchData.type === UNLOCK_INTERFACE) {
+      //   dispatch(updateArcadeGameCharacter({
+      //     userMongoId: user.id,
+      //     unlockableInterfaceIds: {
+      //       [dispatchData.payload.interfaceId]: true
+      //     },
+      //     merge: true
+      //   }))
+      // }
+
+      // if(dispatchData.type === LOCK_INTERFACE) {
+      //   dispatch(updateArcadeGameCharacter({
+      //     userMongoId: user.id,
+      //     unlockableInterfaceIds: {
+      //       [dispatchData.payload.interfaceId]: false
+      //     },
+      //     merge: true
+      //   }))
+      // }
     });
 
     // event that is triggered if another user has subscribed to your cobrowsingu, sends the initial state out

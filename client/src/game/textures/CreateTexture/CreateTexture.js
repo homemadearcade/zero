@@ -51,7 +51,7 @@ const CreateTexture = ({
 
       { !isCanvasImageDialogOpen && <Unlockable interfaceId={TEXTURE_EDITOR_OPEN_IID}>
         <Button onClick={() => {
-          openCreateCanvasImageDialog(textureIdSelected)
+          openCreateCanvasImageDialog(textureIdSelected, 'CreateTexture')
         }}>
           Draw New Texture
         </Button>
@@ -83,7 +83,7 @@ const CreateTexture = ({
         })
       }}
     />}
-    {isCanvasImageDialogOpen && <CanvasImageDialog textureTintSelected={textureTintSelected} onSaveCanvasImage={onSelect} />}
+    {isCanvasImageDialogOpen === 'CreateTexture' && <CanvasImageDialog textureTintSelected={textureTintSelected} onSaveCanvasImage={onSelect} />}
   </>
 };
 

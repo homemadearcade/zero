@@ -401,19 +401,20 @@ router.put('/user/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAu
   }
 });
 
-// router.post('/undo/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
-//   const isParticipant = req.gameRoomInstance.invitedUsers.some((user) => {
-//     return user.id === req.user.id
-//   })
+router.post('/undo/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
+  const isParticipant = req.gameRoomInstance.invitedUsers.some((user) => {
+    return user.id === req.user.id
+  })
 
-//   if (!(req.user.role === 'ADMIN' || isParticipant)) {
-//     return res.status(400).json({ message: 'You do not have permission to undo in that gameRoomInstance.' });
-//   }
+  if (!(req.user.role === 'ADMIN' || isParticipant)) {
+    return res.status(400).json({ message: 'You do not have permission to undo in that gameRoomInstance.' });
+  }
 
-//   req.io.to(req.gameRoomInstance.id).emit(ON_LOBBY_INSTANCE_UNDO);
+  req.io.to(req.gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UNDO);
   
-//   res.status(200).json({});
-// })
+  res.status(200).json({});
+})
+
 
 router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {

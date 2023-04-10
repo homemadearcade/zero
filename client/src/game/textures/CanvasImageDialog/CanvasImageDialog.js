@@ -12,7 +12,6 @@ import { clearBrush, selectBrush } from '../../../store/actions/game/gameSelecto
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import UndoButton from '../../ui/UndoButton/UndoButton';
-import { onCanvasImageDialogUndo } from '../../../store/actions/experience/lobbyInstanceActions';
 import { setCanvasImageDialogGameInstance } from '../../../store/actions/webPageActions';
 import EraserSelect from '../../ui/EraserSelect/EraserSelect';
 import BorderedGrid from '../../../ui/BorderedGrid/BorderedGrid';
@@ -26,6 +25,7 @@ import Loader from '../../../ui/Loader/Loader';
 import CanvasImageView from '../CanvasImageView/CanvasImageView';
 import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
 import { editCanvasImage } from '../../../store/actions/media/canvasImageActions';
+import { onCanvasImageDialogUndo } from '../../../store/actions/game/gameRoomInstanceActions';
 
 const CanvasImageDialog = ({
   clearBrush,
@@ -94,7 +94,7 @@ const CanvasImageDialog = ({
           maxItems={42} 
           size="1.75em"
           items={brushList}/>
-        <UndoButton onClick={onCanvasImageDialogUndo}></UndoButton>
+        {false && <UndoButton onClick={onCanvasImageDialogUndo}></UndoButton>}
         <Unlockable interfaceId={CANVAS_IMAGE_VISUAL_TAGS_IID}><SelectDescriptors 
           onChange={(event, visualTags) => {
             updateCreateCanvasImage({ visualTags })

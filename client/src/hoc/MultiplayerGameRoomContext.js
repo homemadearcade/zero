@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import GameRoomErrorStates from '../game/gameRoomInstance/GameRoomErrorStates/GameRoomErrorStates';
 import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/game/gameRoomInstanceActions';
+import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockableInterfaceActions';
 import Loader from '../ui/Loader/Loader';
 
 class MultiplayerGameRoomContext extends Component {
@@ -12,11 +13,20 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   joinMultiplayerGameRoom(gameRoomInstanceMongoId) {
-    const {joinGameRoom, auth: { me }} = this.props
+    const {joinGameRoom, auth: { me }, experienceModel : { experienceModel }, initializeUnlockableInterfaceIds} = this.props
     
     const doJoinMultiPlayerGameRoom = async () => {   
       try {
         await joinGameRoom({gameRoomInstanceMongoId, userMongoId: me?.id});
+
+        if(experienceModel?.id) {
+          console.log(me.unlockableInterfaceIds)
+          const interfaceIds = me.unlockableInterfaceIds[experienceModel.id]
+          initializeUnlockableInterfaceIds(interfaceIds ? interfaceIds: {})
+        } else {
+          initializeUnlockableInterfaceIds({all: true})
+        }
+
       } catch(error) {
         console.log(error)
       }
@@ -61,10 +71,11 @@ class MultiplayerGameRoomContext extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  gameRoomInstance: state.gameRoomInstance
+  gameRoomInstance: state.gameRoomInstance,
+  experienceModel: state.experienceModel,
   // cobrowsing: state.cobrowsing
 });
 
 export default compose( 
-  connect(mapStateToProps, { joinGameRoom, leaveGameRoom, addGameRoom, endGameRoom })
+  connect(mapStateToProps, { joinGameRoom, leaveGameRoom, addGameRoom, endGameRoom, initializeUnlockableInterfaceIds })
 )(MultiplayerGameRoomContext)

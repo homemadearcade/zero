@@ -38,19 +38,25 @@ export default function VerticalLinearStepper({initialStep = 0, steps, completed
 
 export function VerticalLinearStepperControlled({currentStep = 0, steps, completed, onStepChange, canSkipStep}) {
   const handleNext = () => {
-    if(onStepChange) onStepChange(currentStep + 1)
+    const nextStepIndex = currentStep+1
+    let nextStepId; 
+    if(nextStepIndex < steps.length) nextStepId = steps[nextStepIndex].stepId
+    if(onStepChange) onStepChange(nextStepIndex, nextStepId)
   };
 
   const handlePrev = () => {
-    if(onStepChange) onStepChange(currentStep - 1)
+    const nextStepIndex = currentStep-1
+    let nextStepId; 
+    if(nextStepIndex >= 0) nextStepId = steps[nextStepIndex].stepId
+    if(onStepChange) onStepChange(nextStepIndex, nextStepId)
   };
 
   const handleReset = () => {
     if(onStepChange) onStepChange(0)
   };
 
-  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={currentStep} canSkipStep={canSkipStep} onChangeStep={(step) => {
-    if(onStepChange) onStepChange(step)
+  return <VerticalLinearStepperBody steps={steps} completed={completed} activeStep={currentStep} canSkipStep={canSkipStep} onChangeStep={(stepIndex) => {
+    if(onStepChange) onStepChange(stepIndex, steps[stepIndex].stepId)
   }
   } onClickNext={handleNext} onClickPrev={handlePrev} onClickReset={handleReset} />
 }
@@ -132,13 +138,13 @@ export function VerticalLinearStepperBody({ canSkipStep, onChangeStep, completed
                   >
                     {renderStepText(step, index)}
                   </Button>
-                  <Button
+                 {false && <Button
                     disabled={index === 0}
                     onClick={onClickPrev}
                     sx={{ mt: 1, mr: 1 }}
                   >
                     Back
-                  </Button>
+                  </Button>}
                 </div>
                 {disabled && renderContinueError(disabledEl)}
               </Box>

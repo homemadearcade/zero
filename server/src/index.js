@@ -16,7 +16,15 @@ import routes from './routes';
 
 import User from './models/User';
 import { InMemorySessionStore } from './utils/sessionStore';
-import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_INSTANCE_UPDATE, ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, ON_GAME_INSTANCE_UPDATE, ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, ON_GAME_INSTANCE_EVENT, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT, ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, ON_CODRAWING_INITIALIZE, ON_GAME_ROOM_INSTANCE_UPDATE, SOCKET_IO_STORE, SOCKET_SESSIONS_STORE, LOBBY_INSTANCE_STORE, CODRAWING_ROOM_PREFIX, GAME_ROOMS_STORE, ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE } from './constants';
+import { ON_AUTHENTICATE_SOCKET_FAIL, ON_LOBBY_INSTANCE_UPDATE, 
+  ON_AUTHENTICATE_SOCKET_SUCCESS, ON_COBROWSING_STATUS_UPDATE, 
+  ON_GAME_INSTANCE_UPDATE, ON_LOBBY_INSTANCE_USER_STATUS_UPDATE,
+   ON_GAME_INSTANCE_EVENT, ON_GAME_CHARACTER_UPDATE, ON_SOCKET_DISCONNECT,
+    ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, ON_CODRAWING_STROKE_ACKNOWLEDGED, 
+    ON_CODRAWING_INITIALIZE, ON_GAME_ROOM_INSTANCE_UPDATE, SOCKET_IO_STORE, 
+    SOCKET_SESSIONS_STORE, LOBBY_INSTANCE_STORE, CODRAWING_ROOM_PREFIX, 
+    GAME_ROOMS_STORE, ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, 
+    ON_LOBBY_INSTANCE_EVENT } from './constants';
 import LobbyInstance from './models/LobbyInstance';
 import TicketedEvent from './models/TicketedEvent';
 import TicketPurchase from './models/TicketPurchase';
@@ -227,11 +235,41 @@ io.on("connection", (socket) => {
     io.to(payload.lobbyInstanceMongoId).emit(ON_LOBBY_INSTANCE_USER_STATUS_UPDATE, payload)
   })
 
+  socket.on(ON_LOBBY_INSTANCE_EVENT, (payload) => {
+    if(payload.hostOnly) {
+      const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
+      const lobbyInstanceFound = lobbyInstances?.filter((lobbyInstance, i) => {
+        return lobbyInstance.id.toString() === payload.lobbyInstanceMongoId
+      })[0]
+      if(lobbyInstanceFound) {
+        const hostSocket = socketSessions.findSession(lobbyInstanceFound.hostUserMongoId);
+        if(!hostSocket) return console.log('host socket not found')
+        hostSocket.emit(ON_LOBBY_INSTANCE_EVENT, payload)
+      }
+      return
+    }
+    io.to(payload.lobbyInstanceMongoId).emit(ON_LOBBY_INSTANCE_EVENT, payload)
+  })
+
   socket.on(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, (payload) => {
     io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_ROOM_INSTANCE_USER_STATUS_UPDATE, payload)
   })
 
   socket.on(ON_GAME_INSTANCE_EVENT, (payload) => {
+    if(payload.hostOnly) {
+      const gameRoomInstances = app.get(GAME_ROOMS_STORE)
+      
+      const gameRoomInstanceFound = gameRoomInstances?.filter((gameRoomInstance, i) => {
+        return gameRoomInstance.id.toString() === payload.gameRoomInstanceMongoId
+      })[0]
+      if(gameRoomInstanceFound) {
+        const hostSocket = socketSessions.findSession(gameRoomInstanceFound.hostUserMongoId);
+        if(!hostSocket) return console.log('host socket not found')
+        hostSocket.emit(ON_GAME_INSTANCE_EVENT, payload)
+      }
+      return
+    }
+
     io.to(payload.gameRoomInstanceMongoId).emit(ON_GAME_INSTANCE_EVENT, payload)
   })
 
@@ -329,7 +367,7 @@ async function onMongoDBConnected() {
         members: lobbyInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
-            userMongoId: user.userMongoId,
+            userMongoId: user.id,
             username: user.username,
             role: user.role,
             joined: false,
@@ -359,7 +397,7 @@ async function onMongoDBConnected() {
         members: gameRoomInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
-            userMongoId: user.userMongoId,
+            userMongoId: user.id,
             username: user.username,
             role: user.role,
             joined: false,

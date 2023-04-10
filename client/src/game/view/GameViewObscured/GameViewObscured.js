@@ -82,7 +82,7 @@ const GameViewObscured = ({
     Not Powered On
     {me.role === ADMIN_ROLE && <>
       <Button onClick={async () => {
-          await editGameRoom(gameRoomInstance.id, {
+        await editGameRoom(gameRoomInstance.id, {
           isPoweredOn: true
         })
       }}>Power On</Button>

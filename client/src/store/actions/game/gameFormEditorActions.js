@@ -97,7 +97,7 @@ export const updateCreateEntity = (entityModel) => (dispatch, getState) => {
   });
 }
 
-export const openCreateCanvasImageDialog= (textureId) => async (dispatch, getState) => {
+export const openCreateCanvasImageDialog= (textureId, componentId) => async (dispatch, getState) => {
   const state = getState()
   const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_DID + generateUniqueId()
 
@@ -125,6 +125,7 @@ export const openCreateCanvasImageDialog= (textureId) => async (dispatch, getSta
       type: OPEN_CREATE_CANVAS_IMAGE_DIALOG,
       payload: {
         textureId: textureId,
+        componentId,
         canvasImage,
       }
     });

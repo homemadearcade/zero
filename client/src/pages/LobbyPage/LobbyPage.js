@@ -3,9 +3,6 @@
 import React, { useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Switch as RouterSwitch } from 'react-router-dom';
-import { Route } from 'react-router-dom';
-import { useRouteMatch } from 'react-router-dom';
 
 import { editLobby, toggleLobbyDashboard} from '../../store/actions/experience/lobbyInstanceActions';
 import requireAuth from '../../hoc/requireAuth';
@@ -21,18 +18,55 @@ import GameRoomDrawer from '../../game/gameRoomInstance/GameRoomDrawer/GameRoomD
 import withAgoraVideoCall from '../../hoc/withAgoraVideoCall';
 import AgoraVideoPeek from '../../experience/agora/AgoraVideoPeek/AgoraVideoPeek';
 import { ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ACTIVITY } from '../../constants';
+import { ANIMATION_CONFETTI, EVENT_LOBBY_STEP_INITIALIZED } from '../../game/constants';
+import JSConfetti from 'js-confetti';
+import { ON_LOBBY_INSTANCE_EVENT } from '../../store/types';
+import { runExperienceEffects } from '../../store/actions/experience/experienceModelActions';
 
 const LobbyPage = ({
   lobbyInstance: { lobbyInstance, myRoleId },
   auth: { me },
   myTracks,
   userTracks,
-  toggleLobbyDashboard
+  editLobby,
+  toggleLobbyDashboard,
+  runExperienceEffects
 }) => {
   // let { path } = useRouteMatch();
 
   useEffect(() => {
     if(me.role === ADMIN_ROLE) toggleLobbyDashboard(true)
+
+    window.socket.on(ON_LOBBY_INSTANCE_EVENT, async ({lobbyInstanceEventType, data}) => {
+      console.log('lobbyInstanceEventType', lobbyInstanceEventType, data)
+      switch(lobbyInstanceEventType) {
+        case ANIMATION_CONFETTI:
+          const jsConfetti = new JSConfetti()
+          jsConfetti.addConfetti();
+          return
+        case EVENT_LOBBY_STEP_INITIALIZED:
+          const instruction = lobbyInstance.instructions[data.instructionId]
+          
+          const step = instruction.steps[data.stepId]
+            if(step) {
+              await runExperienceEffects({
+              experienceEffectIds: step.experienceEffectIds
+            })
+          }
+          editLobby(lobbyInstance.id, {
+            instructionCurrentSteps: {
+              [data.instructionId]: data.stepNumber
+            }
+          })
+          return
+        default: 
+          return
+      }
+    })
+
+    return () => {
+      window.socket.off(ON_LOBBY_INSTANCE_EVENT)
+    }
   }, [])
 
   const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].currentActivityCategory
@@ -53,7 +87,9 @@ const LobbyPage = ({
     </CobrowsingSession>
 
   } else {
-    return renderBody()
+    return <CobrowsingSession userMongoId={me.id}>
+      {renderBody()}
+    </CobrowsingSession>
   }
 
   // return <RouterSwitch>
@@ -75,5 +111,5 @@ export default compose(
   withLobby,
   withSpeedTest,
   withAgoraVideoCall,
-  connect(mapStateToProps, { editLobby, toggleLobbyDashboard }),
+  connect(mapStateToProps, { editLobby, toggleLobbyDashboard, runExperienceEffects }),
 )(LobbyPage);

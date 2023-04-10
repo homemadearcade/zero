@@ -13,6 +13,7 @@ import ActivityView from '../../activity/ActivityView/ActivityView';
 import classNames from 'classnames';
 import { CURRENT_COBROWSING_VIDEO_IID } from '../../../constants/interfaceIds';
 import LobbyInstructions from '../LobbyInstructions/LobbyInstructions';
+import ActivityInstructions from '../../activity/ActivityInstructions/ActivityInstructions';
 
 const LobbyDashboard = ({
   lobbyInstance: { lobbyInstance, isLobbyDashboardOpen },
@@ -33,18 +34,12 @@ const LobbyDashboard = ({
         </div>
         <Tabs tabs={[
           {
-            label: 'Instructions',
+            label: 'Lobby Instructions',
             body: <LobbyInstructions myTracks={myTracks} userTracks={userTracks}/>
           },
           {
-            label: 'Chatlog',
-            body: <div className="LobbyDashboard__chatroom">
-              <Chatroom myTracks={myTracks} userTracks={userTracks} />
-            </div>
-          },
-          {
-            label: 'Users',
-            body: <LobbyOverview myTracks={myTracks} userTracks={userTracks} ></LobbyOverview>
+            label: 'Activity Instructions',
+            body: <ActivityInstructions activityId={lobbyInstance.currentActivityId} myTracks={myTracks} userTracks={userTracks}/>
           },
         ]}></Tabs>
       </div>

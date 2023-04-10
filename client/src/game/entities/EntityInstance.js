@@ -4,7 +4,6 @@ import { getTextureMetadata } from "../../utils/utils";
 import { PhaserInstance } from "./members/PhaserInstance";
 import { Collider } from "./members/Collider";
 import { Graphics } from "./members/Graphics";
-import { Effects } from "./members/Effects";
 import { Movement } from "./members/Movement";
 import { ProjectileEjector } from "./members/ProjectileEjector";
 
@@ -57,7 +56,6 @@ export class EntityInstance extends PhaserInstance {
     //////////////////////////////////////////////////////////////
     // RELATIONS
     this.collider = new Collider(scene, this, this)
-    this.effects = new Effects(scene, this)
 
     setTimeout(() => {
       this.scene.relationsByEventType[ON_SPAWN]?.forEach(this.runRelation)
@@ -100,7 +98,7 @@ export class EntityInstance extends PhaserInstance {
     sidesA =[],
     sidesB = []
   }) {
-    this.effects.runAccuteEffect({
+    this.scene.runAccuteEffect({
       relation,
       phaserInstanceA,
       phaserInstanceB,
@@ -135,7 +133,6 @@ export class EntityInstance extends PhaserInstance {
 
     this.collider.update()
     this.projectileEjector.update(time, delta)
-    this.effects.update()
     this.movement.update(time, delta)
   }
 
@@ -172,7 +169,6 @@ export class EntityInstance extends PhaserInstance {
 
   unregister() {
     this.collider.unregister()
-    this.effects.unregister()
   }
 
   getInnerCoordinateBoundaries(entityModel) {

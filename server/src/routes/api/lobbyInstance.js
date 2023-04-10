@@ -4,7 +4,7 @@ import requireSocketAuth from '../../middleware/requireSocketAuth';
 
 import User from '../../models/User';
 
-import { ON_LOBBY_INSTANCE_UPDATE, ON_LOBBY_INSTANCE_UNDO, ADMIN_ROOM_PREFIX, LOBBY_INSTANCE_STORE, LOBBY_INSTANCE_DID } from '../../constants';
+import { ON_LOBBY_INSTANCE_UPDATE, ADMIN_ROOM_PREFIX, LOBBY_INSTANCE_STORE, LOBBY_INSTANCE_DID } from '../../constants';
 import LobbyInstance from '../../models/LobbyInstance';
 import { generateUniqueId, mergeDeep } from '../../utils/utils';
 
@@ -125,6 +125,7 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
       currentActivityId: req.body.currentActivityId,
       cobrowsingUserMongoId: req.body.cobrowsingUserMongoId,
       experienceInstanceId: req.body.experienceInstanceId,
+      experienceModelMongoId: req.body.experienceModelMongoId,
       gameRoomInstances: req.body.gameRoomInstances,
       instructionCurrentSteps: req.body.instructionCurrentSteps,
       instructions: req.body.instructions,
@@ -376,20 +377,6 @@ router.put('/user/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth,
     res.status(500).json({ message: 'Something went wrong. ' + err });
   }
 });
-
-router.post('/undo/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {
-  const isParticipant = req.lobbyInstance.invitedUsers.some((user) => {
-    return user.id === req.user.id
-  })
-
-  if (!(req.user.role === 'ADMIN' || isParticipant)) {
-    return res.status(400).json({ message: 'You do not have permission to undo in that lobbyInstance.' });
-  }
-
-  req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UNDO);
-  
-  res.status(200).json({});
-})
 
 
 router.put('/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth, async (req, res) => {

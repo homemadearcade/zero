@@ -51,7 +51,10 @@ const lobbyInstanceSchema = new Schema(
       default: {}
     },
     gameRoomInstances: [{ type: mongoose.Schema.Types.ObjectId, ref: 'GameRoomInstance'  }],
-    experienceModel: { type: mongoose.Schema.Types.ObjectId, ref: 'ExperienceModel' },
+    experienceModelMongoId: {
+      type: String,
+      required: true,
+    },
     startTime: {
       type: String,
       // required: true,
@@ -110,7 +113,7 @@ lobbyInstanceSchema.methods.toJSON = function () {
     instructionsByRoleId: this.instructionsByRoleId,
     instructionCurrentSteps: this.instructionCurrentSteps,
     experienceInstanceId: this.experienceInstanceId,
-    experienceModel: this.experienceModel?.toJSON(),
+    experienceModelMongoId: this.experienceModelMongoId,
     lobbyInstanceId: this.lobbyInstanceId,
     // guideId: this.guideId
   };
