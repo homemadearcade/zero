@@ -32,7 +32,7 @@ import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
 import store from '../..';
 import { editLobby, toggleLobbyDashboard, updateLobbyMember } from './lobbyInstanceActions';
 import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, RUN_GAME_INSTANCE_ACTION } from '../../../game/constants';
-import { updateArcadeGameCharacter } from '../game/arcadeGameActions';
+import { loadArcadeGame, loadArcadeGameByMongoId, updateArcadeGameCharacter } from '../game/arcadeGameActions';
 
 export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
   Object.keys(gameModel.effects).forEach((effectId) => {
@@ -332,7 +332,7 @@ export const runExperienceEffects = ({experienceEffectIds}) => async (dispatch, 
   const experienceModel = getState().experienceModel.experienceModel
   const experienceEffects = experienceEffectIds.map(experienceEffectId => experienceModel.experienceEffects[experienceEffectId])
 
-  const lobbyInstanceMongoId = getState().lobbyInstance.lobbyInstance?.id
+  // const lobbyInstanceMongoId = getState().lobbyInstance.lobbyInstance?.id
   const cobrowsingUserMongoId = getState().cobrowsing.cobrowsingUser?.id
 
   experienceEffects.forEach(experienceEffect => {
@@ -358,39 +358,39 @@ export const runExperienceEffects = ({experienceEffectIds}) => async (dispatch, 
 
     }
 
-    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_CHANGE_ACTIVITY) {
-      store.dispatch(editLobby(lobbyInstanceMongoId, {
-        currentActivityId: experienceEffect.activityId
-      }))
-    }
+    // if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_CHANGE_ACTIVITY) {
+    //   store.dispatch(editLobby(lobbyInstanceMongoId, {
+    //     currentActivityId: experienceEffect.activityId
+    //   }))
+    // }
 
-    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH) {
-      store.dispatch(toggleLobbyDashboard(false))
-    }
+    // if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH) {
+    //   store.dispatch(toggleLobbyDashboard(false))
+    // }
 
-    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH) {
-      store.dispatch(toggleLobbyDashboard(true))
-    }
+    // if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH) {
+    //   store.dispatch(toggleLobbyDashboard(true))
+    // }
 
-    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_OPEN_TRANSITION) {
-      store.dispatch(updateLobbyMember({
-        lobbyInstanceMongoId: lobbyInstanceMongoId,
-        userMongoId: cobrowsingUserMongoId, 
-        member: {
-          inTransitionView: true
-        }
-      }))
-    }
+    // if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_OPEN_TRANSITION) {
+    //   store.dispatch(updateLobbyMember({
+    //     lobbyInstanceMongoId: lobbyInstanceMongoId,
+    //     userMongoId: cobrowsingUserMongoId, 
+    //     member: {
+    //       inTransitionView: true
+    //     }
+    //   }))
+    // }
 
-    if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_CLOSE_TRANSITION) {
-      store.dispatch(updateLobbyMember({
-        lobbyInstanceMongoId: lobbyInstanceMongoId,
-        userMongoId: cobrowsingUserMongoId, 
-        member: {
-          inTransitionView: false
-        }
-      }))
-    }
+    // if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_CLOSE_TRANSITION) {
+    //   store.dispatch(updateLobbyMember({
+    //     lobbyInstanceMongoId: lobbyInstanceMongoId,
+    //     userMongoId: cobrowsingUserMongoId, 
+    //     member: {
+    //       inTransitionView: false
+    //     }
+    //   }))
+    // }
   })
 
 }
@@ -426,7 +426,7 @@ export const getExperienceModelById = (experienceModelId) => async (dispatch, ge
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/experienceModel/experienceModelId/' + experienceModelId, options);
 
-    const experienceModel = loadExperienceModel(response)
+    const experienceModel = await loadExperienceModel(response)
 
     dispatch({
       type: GET_EXPERIENCE_MODEL_SUCCESS,
@@ -452,7 +452,7 @@ export const getExperienceModelByMongoId = (experienceModelMongoId) => async (di
     const options = attachTokenToHeaders(getState);
     const response = await axios.get('/api/experienceModel/' + experienceModelMongoId, options);
 
-    const experienceModel = loadExperienceModel(response)
+    const experienceModel = await loadExperienceModel(response)
 
     dispatch({
       type: GET_EXPERIENCE_MODEL_SUCCESS,
@@ -519,7 +519,8 @@ export const deleteExperienceModel = (id) => async (dispatch, getState) => {
   }
 };
 
-function loadExperienceModel(response) {
+
+async function loadExperienceModel(response) {
   console.log('raw experience model', response.data.experienceModel)
   const experienceModel = mergeDeep(defaultExperienceModel, response.data.experienceModel)
   // addLibraryToExperience(experienceModel)
@@ -527,6 +528,17 @@ function loadExperienceModel(response) {
   addDefaultsToExperienceModel(experienceModel) 
   enrichExperienceModel(experienceModel)
   console.log('enriched experience model', experienceModel)
+
+  const gameRoomIds = Object.keys(experienceModel.gameRooms)
+  for(let i = 0; i < gameRoomIds.length; i++) {
+    const gameRoomId = gameRoomIds[i]
+    const gameRoom = experienceModel.gameRooms[gameRoomId]
+    const options = attachTokenToHeaders(store.getState);
+    const response = await axios.get('/api/arcadeGames/' + gameRoom.arcadeGameMongoId, options);
+    const gameData = await loadArcadeGame(response)
+    addGameEffectsToExperienceModel(gameData, experienceModel)
+    console.log('game effects added', experienceModel)
+  }
 
   return experienceModel
 }
@@ -541,7 +553,7 @@ export const editExperienceModel = (id, experienceModelData) => async (dispatch,
     const options = attachTokenToHeaders(getState);
     const response = await axios.put(`/api/experienceModel/${id}`, experienceModelData, options);
 
-    const experienceModel = loadExperienceModel(response)
+    const experienceModel =  await loadExperienceModel(response)
 
     dispatch({
       type: EDIT_EXPERIENCE_MODEL_SUCCESS,

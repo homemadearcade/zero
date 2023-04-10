@@ -34,13 +34,13 @@ const LobbyDashboard = ({
         </div>
         <Tabs tabs={[
           {
-            label: 'Lobby Instructions',
+            label: 'Instructions',
             body: <LobbyInstructions myTracks={myTracks} userTracks={userTracks}/>
           },
-          {
-            label: 'Activity Instructions',
-            body: <ActivityInstructions activityId={lobbyInstance.currentActivityId} myTracks={myTracks} userTracks={userTracks}/>
-          },
+          // {
+          //   label: 'Activity Instructions',
+          //   body: <ActivityInstructions activityId={lobbyInstance.currentActivityId} myTracks={myTracks} userTracks={userTracks}/>
+          // },
         ]}></Tabs>
       </div>
 

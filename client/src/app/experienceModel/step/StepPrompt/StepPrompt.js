@@ -15,7 +15,7 @@ const StepPrompt = ({
       }}>
       <Paper key={prompt.promptId} elevation={1}>
         {children}
-        <RoleChip className="StepPrompt__role" role={role} />
+        <RoleChip role={role} />
         <Typography className="StepPrompt__text" variant="body1">{prompt.text}</Typography>
       </Paper>
   </div>

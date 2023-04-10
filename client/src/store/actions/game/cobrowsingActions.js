@@ -202,6 +202,8 @@ export const handleCobrowsingUpdates = store => next => action => {
     if(state.cobrowsing.isSubscribedCobrowsing) {
       // is the cobrowsing currently active and you have a tool selected - we send the action to the publishers computer
       // some actions can bypass this (forceCobrowsingUpdate) and some actions ignore this (cobrowsingPublisherOnly)
+        console.log(state.cobrowsing.isActivelyCobrowsing, state.cobrowsing.selectedTool, action.noCobrowsingToolNeeded, action.forceCobrowsingUpdate, action.cobrowsingPublisherOnly)
+
       if(((state.cobrowsing.isActivelyCobrowsing && (state.cobrowsing.selectedTool || action.noCobrowsingToolNeeded)) || action.forceCobrowsingUpdate) && !action.cobrowsingPublisherOnly) {
         // UPDATE PUBLISHER
         const options = attachTokenToHeaders(store.getState);

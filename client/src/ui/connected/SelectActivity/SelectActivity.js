@@ -7,9 +7,9 @@ import './SelectActivity.scss';
 import { activityToInterfaceData } from '../../../constants';
 import RadioGroupColumn from '../../RadioGroupColumn/RadioGroupColumn';
 
-const SelectActivity = ({ onChange, value, formLabel, disabled, lobbyInstance: { lobbyInstance } }) => {
+const SelectActivity = ({ onChange, value, formLabel, disabled, activitys}) => {
   const mapActivitysToOption = (activityId) => {
-    const activity = lobbyInstance.activitys[activityId]
+    const activity = activitys[activityId]
     const activityData = activityToInterfaceData[activity.activityCategory]
     return {
       icon: activityData.icon,
@@ -18,7 +18,7 @@ const SelectActivity = ({ onChange, value, formLabel, disabled, lobbyInstance: {
     }
   }
 
-  const options = Object.keys(lobbyInstance.activitys).map(mapActivitysToOption)
+  const options = Object.keys(activitys).map(mapActivitysToOption)
 
   return <RadioGroupColumn
     key={formLabel}
@@ -32,7 +32,7 @@ const SelectActivity = ({ onChange, value, formLabel, disabled, lobbyInstance: {
 
 const mapStateToProps = (state) => {
   return {
-    lobbyInstance: state.lobbyInstance,
+
   }
 };
 

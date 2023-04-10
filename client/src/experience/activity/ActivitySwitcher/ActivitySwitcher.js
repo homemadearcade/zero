@@ -20,6 +20,7 @@ const ActivitySwitcher = ({
     <div className="ActivitySwitcher">
       <div className="ActivitySwitcher__state">
         <SelectActivity
+          activitys={lobbyInstance.activitys}
           formLabel={"Current Activity"}
           value={[lobbyInstance.currentActivityId]}
           onChange={(event, activityId) => {

@@ -22,15 +22,16 @@ import { ANIMATION_CONFETTI, EVENT_LOBBY_STEP_INITIALIZED } from '../../game/con
 import JSConfetti from 'js-confetti';
 import { ON_LOBBY_INSTANCE_EVENT } from '../../store/types';
 import { runExperienceEffects } from '../../store/actions/experience/experienceModelActions';
+import { toggleActiveCobrowsing } from '../../store/actions/game/cobrowsingActions';
 
 const LobbyPage = ({
   lobbyInstance: { lobbyInstance, myRoleId },
   auth: { me },
   myTracks,
   userTracks,
-  editLobby,
+  toggleActiveCobrowsing,
   toggleLobbyDashboard,
-  runExperienceEffects
+  cobrowsing: { cobrowsingUser },
 }) => {
   // let { path } = useRouteMatch();
 
@@ -45,19 +46,11 @@ const LobbyPage = ({
           jsConfetti.addConfetti();
           return
         case EVENT_LOBBY_STEP_INITIALIZED:
-          const instruction = lobbyInstance.instructions[data.instructionId]
-          
-          const step = instruction.steps[data.stepId]
-            if(step) {
-              await runExperienceEffects({
-              experienceEffectIds: step.experienceEffectIds
-            })
-          }
-          editLobby(lobbyInstance.id, {
-            instructionCurrentSteps: {
-              [data.instructionId]: data.stepNumber
-            }
-          })
+          toggleActiveCobrowsing(true)
+
+          // await runExperienceEffects({
+          //   experienceEffectIds: step.experienceEffectIds
+          // })
           return
         default: 
           return
@@ -69,7 +62,7 @@ const LobbyPage = ({
     }
   }, [])
 
-  const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].currentActivityCategory
+  const currentActivityCategory = lobbyInstance.activitys[lobbyInstance.currentActivityId].activityCategory
 
   function renderBody() {
     return <>
@@ -102,7 +95,8 @@ const LobbyPage = ({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   lobbyInstance: state.lobbyInstance,
-  gameRoomInstance: state.gameRoomInstance
+  gameRoomInstance: state.gameRoomInstance,
+  cobrowsing: state.cobrowsing,
 });
 
 export default compose(
@@ -111,5 +105,5 @@ export default compose(
   withLobby,
   withSpeedTest,
   withAgoraVideoCall,
-  connect(mapStateToProps, { editLobby, toggleLobbyDashboard, runExperienceEffects }),
+  connect(mapStateToProps, { editLobby, toggleLobbyDashboard, runExperienceEffects, toggleActiveCobrowsing }),
 )(LobbyPage);

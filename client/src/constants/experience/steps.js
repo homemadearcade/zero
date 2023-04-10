@@ -4,6 +4,8 @@ export const defaultStep = {
   experienceEffectIds: [],
   stepId: null,
   promptOrder: [],
+  cobrowsingRoleId: null,
+  activityId: null,
 }
 
 export const STEP_DID = 'step-'

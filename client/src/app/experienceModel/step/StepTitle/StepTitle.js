@@ -10,6 +10,7 @@ const StepTitle = ({
     if(step.title) return step.title
     if(!step.experienceEffectIds || step.experienceEffectIds.length === 0) return 'Step'
     const experienceEffect = experienceModel.experienceEffects[step.experienceEffectIds[0]]
+    if(!experienceEffect) return 'Missing Effect'
     return experienceEffect.name || experienceEffectInterfaceIdData[experienceEffect.experienceEffectBehavior].displayName
   }
 

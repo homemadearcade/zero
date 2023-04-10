@@ -31,9 +31,9 @@ const ActivityInstructions = ({
   const instruction = lobbyInstance.instructions[instructionId]
 
   const steps = [{
-      stepId: activity.name+ 'Begins',
-      title: <Typography component="h3" variant="h3">{activity.name+ ' begins'}</Typography>,
-      break: true
+    stepId: activity.name+ 'Begins',
+    title: <Typography component="h3" variant="h3">{activity.name+ ' begins'}</Typography>,
+    break: true
   }].concat(instructionSteps({instruction}))
 
   return (

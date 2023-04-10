@@ -31,4 +31,8 @@ I think that the reregistration of relations is causing a problem with collision
 
 Open Create Entity Model is a little messy. Should it accept an entity optonally? Or like a seperate action for that? Dont pass in textureTint the way I was doing it. Pass that in... via the action
 
+I have to deal with game power on / power off
+
+across lobby problems. Two game instances were getting mixed up. Do I have the same problem I had with lobbys before with game instances?? sockets listening to game instances even tho they are in anotehr lobby?
+
 ---

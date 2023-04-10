@@ -8,6 +8,13 @@ import './StepEditBody.scss';
 import IconButton from '../../../../ui/IconButton/IconButton';
 import StepEditPrompts from '../StepEditPrompts/StepEditPrompts';
 import SelectExperienceEffect from '../../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect';
+import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
+import Divider from '../../../../ui/Divider/Divider';
+import { activityToInterfaceData, INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from '../../../../constants';
+import Icon from '../../../../ui/Icon/Icon';
+import FormLabel from '../../../../ui/FormLabel/FormLabel';
+import { Paper } from '@mui/material';
+import ActivityChip from '../../activity/ActivityChip/ActivityChip';
 
 const StepEditBody = ({  
   register, control, instructionId, 
@@ -16,6 +23,7 @@ const StepEditBody = ({
   step, index,
 }) => {
   const instruction = experienceModel.instructions[instructionId]
+  const activity = experienceModel.activitys[step.activityId]
   
   function renderStepBehaviorForm(step) {
     return <Controller
@@ -97,76 +105,50 @@ const StepEditBody = ({
           })
       }}/>
     </div>      
-  }   
-
-
-  function renderPromptButtons(step, prompt, index) {
-    return <div className='StepBuilder__prompt-buttons'>
-      {index !== 0 && <IconButton size="small" icon="faArrowUp" color="primary" onClick={() => {
-        // reorder step to one index higher
-        const promptIndex = step.promptOrder.indexOf(prompt.promptId)
-        if(promptIndex === 0) return
-        const newPromptOrder = [...step.promptOrder]
-        newPromptOrder[promptIndex] = newPromptOrder[promptIndex - 1]
-        newPromptOrder[promptIndex - 1] = prompt.promptId
-
-        editExperienceModel(experienceModel.id, {
-          instructions: {
-            [instructionId]: {
-              steps: {
-                  [step.stepId]: {
-                    promptOrder: newPromptOrder
-                  }
-              },
-            }
-          }
-        })
-      }}/>}
-      {index !== step.promptOrder.length - 1 && <IconButton size="small" icon="faArrowDown" color="primary" onClick={() => {
-        // reorder prompt to one index lower
-        const promptIndex = step.promptOrder.indexOf(prompt.promptId)
-        if(promptIndex === step.promptOrder.length - 1) return
-        const newPromptOrder = [...step.promptOrder]
-        newPromptOrder[promptIndex] = newPromptOrder[promptIndex + 1]
-        newPromptOrder[promptIndex + 1] = prompt.promptId
-
-        editExperienceModel(experienceModel.id, {
-          instructions: {
-            [instructionId]: {
-              steps: {
-                [step.stepId]: {
-                  promptOrder: newPromptOrder
-                }
-              },
-            }
-          }
-        })
-      }}/>}
-      
-      <IconButton size="small" icon="faClose" color="primary" onClick={() => {
-        const newPromptOrder = step.promptOrder.filter((promptId) => promptId !== prompt.promptId)
-        editExperienceModel(experienceModel.id, {
-          instructions: {
-            [instructionId]: {
-              steps: {
-                [step.stepId]: {
-                  promptOrder: newPromptOrder
-                },
-              },
-              prompts: {
-                [prompt.promptId]: null
-              }
-            }
-          }
-        })
-      }}/>
-    </div>      
   }
 
   return<div className="StepEditBody">
     {renderStepButtons(step, index)}
-    {renderStepBehaviorForm(step)}
+    <Divider/>
+    <Controller
+      {...register(`steps.${step.stepId}.cobrowsingRoleId`, {
+        required: true,
+      })}
+      name={`steps.${step.stepId}.cobrowsingRoleId`}
+      control={control}
+      render={({ field: { onChange, value } }) => (
+        <SelectRole
+        formLabel="Browsing Role:"
+        onSelect={(roleIds) => {
+          if(!roleIds || roleIds.length === 0) return
+          const roleId = roleIds[roleIds.length - 1]
+          onChange(roleId)
+          editExperienceModel(experienceModel.id, {
+            instructions: {
+              [instructionId]: {
+                steps: {
+                  [step.stepId]: {
+                    cobrowsingRoleId: roleId
+                  }
+                }
+              }
+            }
+          })
+        }} value={value ? [value] : []} />
+      )}
+    />
+    {instruction.instructionCategory === INSTRUCTION_LOBBY && activity && <>
+      <Divider/>
+      <FormLabel>Activity</FormLabel>
+      <ActivityChip activity={activity} />
+    </>}
+    {instruction.instructionCategory === INSTRUCTION_GAME_ROOM && <>
+      <Divider/>
+      {renderStepBehaviorForm(step)}
+    </>}
+    <Divider/>
     <StepEditPrompts instructionId={instructionId} step={step}/>
+    <Divider/>
   </div>
 };
 
