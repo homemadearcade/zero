@@ -189,6 +189,7 @@ const LobbyInstructions = ({
                 const effect = gameModel.effects[effectId]
 
                 if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+                  console.log(step.cobrowsingRoleId, myRoleId, step)
                   if(step.cobrowsingRoleId !== myRoleId) {
                     toggleActiveCobrowsing(true)
                     effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)

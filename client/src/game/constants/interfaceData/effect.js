@@ -90,12 +90,12 @@ export const effectInterfaceDatas = {
     icon: 'faLockOpen'
   },
   [EFFECT_OPEN_TRANSITION]: {
-    displayName: 'Open Transition',
+    displayName: 'Go to stars',
     icon: 'faStar'
   },
   [EFFECT_CLOSE_TRANSITION]: {
-    displayName: 'Close Transition',
-    icon: 'faArrowsDownToLine'
+    displayName: 'Return from stars',
+    icon: 'faStar'
   },
 }
 
@@ -297,8 +297,8 @@ export const nonStepEffectBehaviors = {
   [EFFECT_CUTSCENE]: false,
   [EFFECT_INTERFACE_ACTION]: false,
   [EFFECT_INTERFACE_UNLOCK]: false,
-  [EFFECT_OPEN_TRANSITION]: true,
-  [EFFECT_CLOSE_TRANSITION]: true,
+  [EFFECT_OPEN_TRANSITION]: false,
+  [EFFECT_CLOSE_TRANSITION]: false,
 }
 
 export function isUseableEffect(effect, effectBehavior, eventType) {
