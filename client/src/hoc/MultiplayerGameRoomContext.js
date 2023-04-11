@@ -43,7 +43,6 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   async switchGameRoom(oldProps, newProps) {
-    this.checkIfGameIsLoaded(newProps)
     if(oldProps.gameRoomInstanceMongoId !== newProps.gameRoomInstanceMongoId) {
       await this.leaveMultiplayerGameRoom()
 
