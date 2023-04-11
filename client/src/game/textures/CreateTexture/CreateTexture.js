@@ -21,6 +21,8 @@ import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColo
 import TextureStage from '../TextureStage/TextureStage';
 import { openCreateCanvasImageDialog, openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
 
+    // {isCanvasImageDialogOpen === 'CreateTexture' && <CanvasImageDialog onSaveCanvasImage={onSelect} />}
+
 const CreateTexture = ({
   textureIdSelected,
   textureTintSelected,
@@ -33,7 +35,7 @@ const CreateTexture = ({
   editGameModel,
   gameModel: { gameModel : { colors }},
   openCreateCanvasImageDialog,
-  gameFormEditor: { isCreateColorFlowOpen, isCanvasImageDialogOpen }
+  gameFormEditor: { isCreateColorFlowOpen, isCanvasImageDialogOpen, entityModel }
 }) => {
   return <>
     <div className="CreateTexture">
@@ -51,7 +53,7 @@ const CreateTexture = ({
 
       { !isCanvasImageDialogOpen && <Unlockable interfaceId={TEXTURE_EDITOR_OPEN_IID}>
         <Button onClick={() => {
-          openCreateCanvasImageDialog(textureIdSelected, textureTintSelected, 'CreateTexture')
+          openCreateCanvasImageDialog(entityModel.entityModelId, textureIdSelected, textureTintSelected)
         }}>
           Draw New Texture
         </Button>
@@ -83,7 +85,6 @@ const CreateTexture = ({
         })
       }}
     />}
-    {isCanvasImageDialogOpen === 'CreateTexture' && <CanvasImageDialog onSaveCanvasImage={onSelect} />}
   </>
 };
 

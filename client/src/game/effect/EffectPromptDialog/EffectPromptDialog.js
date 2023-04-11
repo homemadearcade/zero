@@ -14,10 +14,15 @@ import { getCurrentGameScene } from '../../../utils';
 import store from '../../../store';
 import { interfaceActionsUIData } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
+import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, RUN_GAME_INSTANCE_ACTION } from '../../constants';
+import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
+import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
+import SelectGameInstanceEffect from '../../ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
 
 const EffectPromptDialog = ({ 
   closeEffectPromptDialog, 
-  webPage: { gameInstance }
+  webPage: { gameInstance },
+  gameModel: { gameModel },
 }) => {
   function handleClose() {
     closeEffectPromptDialog()
@@ -47,7 +52,7 @@ const EffectPromptDialog = ({
 
   useEffect(() => {
     const focusInterval = setInterval(() => {
-    const el = document.getElementById("SelectInterfaceAction")
+    const el = document.getElementById("SelectGameInstanceEffect")
     // console.log(el)
     if(el) {
       el.focus();
@@ -96,11 +101,21 @@ const EffectPromptDialog = ({
           </div>
         </div>
         </div>
-        <SelectInterfaceAction
+        <SelectGameInstanceEffect
           value={value}
           onChange={(event, effectIds) => {
             setValue(effectIds)
             handleClose()
+            const effectId = effectIds[effectIds.length-1]
+            const effect = gameModel.effects[effectId]
+            if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+               effect.onClick(store.dispatch, gameModel, store.getState)
+            } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+              store.dispatch(unlockInterfaceId(effect.interfaceId))
+            } else {
+              const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
+              gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
+            }
             // updateCreateRelation({
             //   effectIds: effectIds,
             // })
@@ -114,7 +129,8 @@ const EffectPromptDialog = ({
 }
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  webPage: state.webPage
+  webPage: state.webPage,
+  gameModel: state.gameModel,
 })
 
 export default compose(

@@ -123,7 +123,9 @@ const initialState = {
   canvasImage: {
     visualTags: []
   },
-
+  canvasImageEntityModelId: null,
+  canvasImageTextureId: null,
+  canvasImageTextureTint: null,
 
   isEffectPromptDialogOpen: false,
 };
@@ -373,9 +375,10 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
     case OPEN_CREATE_CANVAS_IMAGE_DIALOG:
       return {
         ...state,
-        isCanvasImageDialogOpen: payload.componentId,
+        isCanvasImageDialogOpen: true,
         canvasImageTextureId: payload.textureId,
-        canvasImageTextureTintColor: payload.textureTint,
+        canvasImageTextureTint: payload.textureTint,
+        canvasImageEntityModelId: payload.entityModelId,
         canvasImage: payload.canvasImage,
         isCanvasImageDialogLoading: false
       }
@@ -383,7 +386,10 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCanvasImageDialogOpen: false,
+        canvasImage: initialState.canvasImage,
         canvasImageTextureId: null,
+        canvasImageTextureTint: null,
+        canvasImageEntityModelId: null,
         isCanvasImageDialogLoading: false
       }
     case OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING: 

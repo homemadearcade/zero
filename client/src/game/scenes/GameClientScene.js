@@ -104,6 +104,16 @@ export class GameClientScene extends EditorScene {
     })
   }
 
+  callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {
+    window.socket.emit(ON_GAME_INSTANCE_EVENT, { 
+      gameRoomInstanceMongoId: this.gameRoomInstance.id,
+      gameRoomInstanceEventType, 
+      data,
+      hostOnly
+    })
+    if(!hostOnly) this.runGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly})
+  }
+
   onGameInstanceEvent = ({gameRoomInstanceEventType, data}) => {
     if(data.hostOnly) return
     this.runGameInstanceEvent({gameRoomInstanceEventType, data})

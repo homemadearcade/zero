@@ -97,7 +97,7 @@ export const updateCreateEntity = (entityModel) => (dispatch, getState) => {
   });
 }
 
-export const openCreateCanvasImageDialog= (textureId, textureTint, componentId) => async (dispatch, getState) => {
+export const openCreateCanvasImageDialog= (entityModelId, textureId, textureTint) => async (dispatch, getState) => {
   const state = getState()
   const newTextureId = state.gameModel.gameModel.id + '/' +CANVAS_IMAGE_DID + generateUniqueId()
 
@@ -124,9 +124,9 @@ export const openCreateCanvasImageDialog= (textureId, textureTint, componentId) 
       noCobrowsingToolNeeded: true,
       type: OPEN_CREATE_CANVAS_IMAGE_DIALOG,
       payload: {
-        textureId: textureId,
-        textureTint: textureTint,
-        componentId,
+        entityModelId,
+        textureId,
+        textureTint,
         canvasImage,
       }
     });

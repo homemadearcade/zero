@@ -92,8 +92,7 @@ export class EditorScene extends GameInstance {
   finishDrag(entitySprite) {
     document.body.style.cursor = null
     if(entitySprite.effectSpawned) {
-      window.socket.emit(ON_GAME_INSTANCE_EVENT, {
-        gameRoomInstanceMongoId: this.gameRoomInstance.id, 
+      this.callGameInstanceEvent({
         gameRoomInstanceEventType: EVENT_SPAWN_MODEL_DRAG_FINISH,
         data: {
           x: entitySprite.x,

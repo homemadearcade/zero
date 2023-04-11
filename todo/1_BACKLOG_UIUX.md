@@ -31,5 +31,3 @@ SELECT FORMS
 like 'fine tune size' for brushes, grid mode for the view, other things. This should be expected and common
 
 Icons for each Event type
-Icons for each Effect type?
-Then use tooltips for the shorthand???

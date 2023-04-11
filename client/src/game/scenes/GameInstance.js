@@ -160,7 +160,7 @@ export class GameInstance extends Phaser.Scene {
   reregisterRelationships() {
     this.unregisterRelations()
     this.populateAndSortRelations()
-    this.entityInstancesById = this.sortInstancesIntoTags()
+    this.entityInstancesByTag = this.sortInstancesIntoTags()
     this.registerRelations()
   }
 
@@ -415,12 +415,23 @@ export class GameInstance extends Phaser.Scene {
     const newPhaserObject = new EntityInstance(this, entityInstanceId, entityInstanceData, effectSpawned)
     this.entityInstances.push(newPhaserObject)
     this.entityInstancesById[entityInstanceId] = newPhaserObject
-
     return newPhaserObject
   }
   addEntityInstance(entityInstanceId, entityInstanceData, effectSpawned) {
     const instance = this.initializeEntityInstance(entityInstanceId, entityInstanceData, effectSpawned)
+
+    // this is written the way it is because spawning causes issues when you rereregister ALL of the relations
     this.registerRelations([instance])
+    const entityModel = this.getGameModel().entityModels[instance.entityModelId]
+    Object.keys(entityModel.relationTags).forEach((relationTagId) => {
+      if(this.entityInstancesByTag[relationTagId]) {
+        if(!this.entityInstancesByTag[relationTagId].includes(instance)) {
+          this.entityInstancesByTag[relationTagId].push(instance)
+        }
+      } else {
+        this.entityInstancesByTag[relationTagId] = [instance]
+      }
+    })
     return instance
   }
 
@@ -569,7 +580,7 @@ export class GameInstance extends Phaser.Scene {
     // PLAYER
     ////////////////////////////////////////////////////////////
     this.initializePlayerInstance()
-    this.entityInstancesById = this.sortInstancesIntoTags()
+    this.entityInstancesByTag = this.sortInstancesIntoTags()
 
     this.registerRelations()
 
@@ -616,6 +627,7 @@ export class GameInstance extends Phaser.Scene {
         // this.runGameEffect(data)
         return 
       case RUN_GAME_INSTANCE_ACTION: 
+      console.log('RUN_GAME_INSTANCE_ACTION', data)
         const effect = this.getGameModel().effects[data.effectId]
         const event = {
           ...defaultEvent,
@@ -869,15 +881,15 @@ export class GameInstance extends Phaser.Scene {
   /////////
   //// EFFECTS
 
-  getEffectedPhaserInstances({phaserInstanceA, phaserInstanceB, sidesA, sidesB, effect}) {
+  getEffectedPhaserInstances = ({phaserInstanceA, phaserInstanceB, sidesA, sidesB, effect}) => {
     const phaserInstances = []
     const alternatePhaserInstanceData = {}
-
     if(effect.effectTagA) {
       phaserInstances.push(phaserInstanceA)
       alternatePhaserInstanceData.phaserInstance = phaserInstanceB
       alternatePhaserInstanceData.sides = sidesB
     }
+
 
     if(effect.effectTagB) {
       phaserInstances.push(phaserInstanceB)
@@ -889,6 +901,7 @@ export class GameInstance extends Phaser.Scene {
     if(effect.remoteEffectedRelationTagIdsExtension) {
       remoteEffectedRelationTagIds.push(...effect.remoteEffectedRelationTagIdsExtension)
     }
+    
 
     if(remoteEffectedRelationTagIds && !noRemoteEffectedTagEffects[effect.effectBehavior]) {
       remoteEffectedRelationTagIds?.forEach((relationTagId) => {
@@ -1043,6 +1056,8 @@ export class GameInstance extends Phaser.Scene {
       sidesB,
       effect
     })
+
+    console.log('phaser instances', phaserInstances, effect)
 
     phaserInstances.forEach((phaserInstance) => {
       runEffect(phaserInstance)

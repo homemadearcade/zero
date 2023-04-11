@@ -33,6 +33,7 @@ const SelectGameInstanceEffect = ({ onChange, value, eventType, formLabel, disab
     onChange={onChange}
     formLabel={formLabel}
     value={value}
+    domId={'SelectGameInstanceEffect'}
     groupBy={option => {
       return option.group
     }}

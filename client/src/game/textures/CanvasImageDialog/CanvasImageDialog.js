@@ -40,8 +40,6 @@ const CanvasImageDialog = ({
   updateCreateCanvasImage,
   editCanvasImage
  }) => {
-
-
   function handleClose(){
     closeCreateCanvasImageDialog()
     clearBrush()

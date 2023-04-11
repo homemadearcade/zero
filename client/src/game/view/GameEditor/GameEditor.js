@@ -60,6 +60,7 @@ const GameEditor = ({
     isSnapshotTakerOpen, 
     isGridViewOn }, 
   gameFormEditor: { 
+    canvasImageEntityModelId,
     isCanvasImageDialogOpen,
     isEffectPromptDialogOpen,
     isEditEntityGraphicsOpen,
@@ -171,7 +172,19 @@ const GameEditor = ({
       {isCreateStageDialogOpen && <CreateStageDialog/>}
       {isSelectStageColorDialogOpen && <SelectStageColorDialog/>}
       {isEffectPromptDialogOpen && <EffectPromptDialog/>}
-      {isCanvasImageDialogOpen === 'InterfaceAction' && <CanvasImageDialog onSaveCanvasImage={() => {}} />}
+      {isCanvasImageDialogOpen && <CanvasImageDialog onSaveCanvasImage={(textureId) => {
+        clearGameFormEditor()
+        editGameModel({
+          entityModels: {
+            [canvasImageEntityModelId] : {
+              graphics: {
+                textureId,
+                textureTint: null
+              }
+            }
+          }
+        })
+      }} />}
       {isEditEntityGraphicsOpen === EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID && <EditEntityGraphics 
           onComplete={(entityModel) => {
             editGameModel({

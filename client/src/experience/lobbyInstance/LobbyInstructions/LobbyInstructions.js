@@ -16,7 +16,7 @@ import { ANIMATION_CONFETTI, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, E
 import { ON_GAME_INSTANCE_EVENT, ON_LOBBY_INSTANCE_EVENT } from '../../../store/types';
 import { instructionSteps } from '../../instruction/instructionSteps/instructionSteps';
 import store from '../../../store';
-import { forceCobrowsingUpdateDispatch } from '../../../utils';
+import { forceCobrowsingUpdateDispatch, getCurrentGameScene } from '../../../utils';
 import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 
@@ -206,7 +206,8 @@ const LobbyInstructions = ({
                     experienceModelMongoId: experienceModel.id,
                   }))
                 } else {
-                  window.socket.emit(ON_GAME_INSTANCE_EVENT, { gameRoomInstanceMongoId, gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
+                  const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
+                  gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
                 }
 
               }
