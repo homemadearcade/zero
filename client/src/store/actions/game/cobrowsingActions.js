@@ -220,6 +220,7 @@ export const handleCobrowsingUpdates = store => next => action => {
       }
 
       // NORMAL ACTION
+      console.log(action)
       return next(action)
     }
 

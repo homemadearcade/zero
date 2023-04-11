@@ -47,7 +47,7 @@ class MultiplayerGameRoomContext extends Component {
       await this.leaveMultiplayerGameRoom()
 
       setTimeout(() => {
-        this.joinMultiplayerGameRoom(newProps.arcadeGameMongoId)
+        this.joinMultiplayerGameRoom(newProps.gameRoomInstanceMongoId)
       }, 100)
     }
   }
