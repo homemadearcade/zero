@@ -202,7 +202,6 @@ export const handleCobrowsingUpdates = store => next => action => {
     if(state.cobrowsing.isSubscribedCobrowsing) {
       // is the cobrowsing currently active and you have a tool selected - we send the action to the publishers computer
       // some actions can bypass this (forceCobrowsingUpdate) and some actions ignore this (cobrowsingPublisherOnly)
-        console.log(state.cobrowsing.isActivelyCobrowsing, state.cobrowsing.selectedTool, action.noCobrowsingToolNeeded, action.forceCobrowsingUpdate, action.cobrowsingPublisherOnly)
 
       if(((state.cobrowsing.isActivelyCobrowsing && (state.cobrowsing.selectedTool || action.noCobrowsingToolNeeded)) || action.forceCobrowsingUpdate) && !action.cobrowsingPublisherOnly) {
         // UPDATE PUBLISHER
@@ -302,8 +301,6 @@ export const publishCobrowsing = () => (dispatch, getState) => {
     window.socket.on(ON_COBROWSING_SUBSCRIBED, () => {
       dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
     });
-    
-    dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
   } catch (err) {
     console.error(err)
 
@@ -387,10 +384,14 @@ export const subscribeCobrowsing = ({userMongoId}) => async (dispatch, getState)
       });
     });
 
+    const experienceModel = getState().experienceModel.experienceModel
+    const unlockableInterfaceIds = response.data.cobrowsingUser.unlockableInterfaceIds[experienceModel.id]
+
     dispatch({
       type: SUBSCRIBE_COBROWSING_SUCCESS,
       payload: { 
         cobrowsingUser: response.data.cobrowsingUser, 
+        unlockableInterfaceIds: unlockableInterfaceIds || {}
       },
     });
   } catch (err) {

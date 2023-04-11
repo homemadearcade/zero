@@ -13,14 +13,12 @@ import { VerticalLinearStepperControlled } from '../../../ui/VerticalLinearStepp
 import { instructionSteps } from '../../instruction/instructionSteps/instructionSteps';
 import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import { ON_GAME_INSTANCE_EVENT } from '../../../store/types';
-import { runExperienceEffects } from '../../../store/actions/experience/experienceModelActions';
 import { EVENT_GAME_ROOM_STEP_INITIALIZED } from '../../../game/constants';
 
 const ActivityInstructions = ({
   editLobby,
   lobbyInstance: { lobbyInstance, myRoleId },
   gameRoomInstance: { gameRoomInstance },
-  runExperienceEffects,
   activityId
 }) => {  
   const [canSkipStep, setCanSkipStep] = useState()
@@ -52,11 +50,11 @@ const ActivityInstructions = ({
           currentStep={activity.instructionCurrentSteps[instructionId]}
           onStepChange={async (stepNumber, stepId) => {
             const step = instruction.steps[stepId]
-            if(step) {
-              await runExperienceEffects({
-                experienceEffectIds: step.experienceEffectIds
-              })
-            }
+            // if(step) {
+            //   await runExperienceEffects({
+            //     experienceEffectIds: step.experienceEffectIds
+            //   })
+            // }
             editLobby(lobbyInstance.id, {
               activitys: {
                 [activityId]: {
@@ -83,5 +81,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby, editGameModel, runExperienceEffects }),
+  connect(mapStateToProps, { editLobby, editGameModel }),
 )(ActivityInstructions);

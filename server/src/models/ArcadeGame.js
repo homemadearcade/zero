@@ -155,8 +155,8 @@ arcadeGameSchema.methods.toJSON = function () {
     brushes: this.brushes,
     colors: this.colors,
     importedArcadeGames: this.importedArcadeGames?.map((arcadeGame) => {
-      return arcadeGame.toJSON()
-    }),
+      return arcadeGame?.toJSON()
+    }).filter((arcadeGame) => !!arcadeGame),
     relations: this.relations,
     collisions: this.collisions,
     interfacePresets: this.interfacePresets,

@@ -33,4 +33,7 @@ EFFECTS
 DALL E GENERATOR
 
 USER SPEED TESTS FULL FEATURE
+
+GAME VIEW OBSCURED
+  Switch game view unlock to just a black screen view
 ---

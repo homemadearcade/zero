@@ -3,7 +3,7 @@ import { ENTITY_RELATION_TAGS_IID, RELATION_TAG_GENERAL_IID , DATA_SOURCE_GAME_M
 import { defaultEditorInterface } from "../entityModelPropertyDefaults/editorInterface"
 
 export const defaultRelationTag = {
-  relationTagIID: null,
+  relationTagIID: RELATION_TAG_GENERAL_IID,
   isRemoved: false,
   isReadOnly: false,
   dataSourceIID: DATA_SOURCE_GAME_MODEL_IID,

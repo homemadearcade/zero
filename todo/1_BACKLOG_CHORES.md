@@ -1,3 +1,17 @@
+BUGS
+
+ROLES
+  If you switch roles the camera breaks 
+
+  When I switched participant with admin things got messed up when trying to join
+
+  ( currently you are not allowed to switch roles mid lobby )
+
+GAME HOST CHANGE
+  Changing Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
+
+-----
+
 Look up x, y, on phaser instance should be... getPosition(). Overall use Get Methods instead of .x, .y, .rotation
 
 Try to remove getState() and getCobrowsingState() from inside of game... standardize this better
@@ -20,14 +34,16 @@ Utils that use state should be hooks
 
 Only Once should be on relation model
 
-Better way of getting arcade game actions onto the experience model....Experience model when laoding should search all arcade game and add the actions to itself
-
 Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
+
+SELECT CHIPS AUTO 
+Asynchronous and FreeSolo MUI Autocomplete is now in the docs
+
+IMPORTED GAMES
+  Mark an imported game as just like a 'library' in order to be able to import it. I just cant trust users to handle this on their own. 
 
 MIGRATE TO TYPESCRIPT?
   https://github.com/airbnb/ts-migrate
 
 RENAME ACTIVITYS?
   brew install rename
-
-  Asynchronous and FreeSolo MUI Autocomplete is now in the docs

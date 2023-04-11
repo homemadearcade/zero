@@ -145,7 +145,7 @@ router.post('/', requireJwtAuth, requireLobbyInstances, async (req, res) => {
         userMongoId: user.id,
         username: user.username,
         role: user.role,
-        joined: false,
+        joinedLobbyInstanceMongoId: null,
         connected: false,
       }
     })
@@ -180,7 +180,7 @@ router.post('/leave/:id', requireJwtAuth, requireLobbyInstance, requireSocketAut
       return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in lobbyInstance' });
     }
 
-    userFound.joined = false
+    userFound.joinedLobbyInstanceMongoId = false
 
     req.lobbyInstance.messages.push({
       user: {
@@ -248,7 +248,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       
       req.socket.join(req.lobbyInstance.id);
       if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
-      userFound.joined = true;
+      userFound.joinedLobbyInstanceMongoId = true;
       req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
       return res.status(200).json({ lobbyInstance: req.lobbyInstance });
     }
@@ -267,7 +267,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       userMongoId: req.user.id,
       username: req.user.username,
       role: req.user.role,
-      joined: true,
+      joinedLobbyInstanceMongoId: true,
       connected: true,
       inTransitionView: false
     }
@@ -302,7 +302,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       if(index >= -1) {
         // lobbyInstance.members.splice(index, 1)
         const member = lobbyInstance.members[index]
-        member.joined = false
+        member.joinedLobbyInstanceMongoId = false
         lobbyInstance.messages.push({
           user: {
             userMongoId: member.userMongoId,

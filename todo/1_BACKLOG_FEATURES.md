@@ -3,11 +3,6 @@ Resize by hovering over the edges of the instance...?
 ROLE
   Have this update the cobrowsing color
 
-WHEN ADDING INSTRUCTIONS MANUALLY
-  You have to select a game room or lobby! Right now u can just skip them!
-  Also lets not allow Some roles to have instructions at all
-  Roles need to have permissions like - is it a facilitator role, is it a participant role, etc. Do we require video?? etc
-
 BOUNDARIES UPDATE
   Change boundaries through the stage zone instead of stage zone being determined by the boundaries
   Boundary size increase by a few blocks option 
@@ -24,10 +19,6 @@ EXPERIENCE IMAGES
   Experience Thumbnail, Experience Image, etc
 
 TREASURE CHEST UNLOCKS
-
-INSTRUCTION EDITOR
-  Edit Game inside Experience Editor
-
   --
 
 EMAILS

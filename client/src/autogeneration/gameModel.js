@@ -292,8 +292,16 @@ export function addImportedGamesToGameModel(gameData) {
   //     gameData.entityModels[entityModel.entityModelId] = _.cloneDeep(entityModel)
   //   }
   // })
+  gameData.relationTags = {
+    ..._.cloneDeep(initialTags),
+    ...gameData.relationTags
+  }
 
   gameData.importedArcadeGames.forEach((importedGame) => {
+    if(importedGame.importedArcadeGames?.length) {
+      return 
+    }
+
     if(importedGame.entityModels) {
       Object.keys(importedGame.entityModels).forEach((entityModelId) => {
         const importedEntityModel = importedGame.entityModels[entityModelId]
@@ -346,19 +354,11 @@ export function addImportedGamesToGameModel(gameData) {
       })
     }
   })
-  
-
-  gameData.relationTags = {
-    ..._.cloneDeep(initialTags),
-    ...gameData.relationTags
-  }
-
 }
 
 export function enrichGameModel(gameData) {
   if(!gameData.brushes) gameData.brushes = {}
   if(!gameData.relationTags) gameData.relationTags = {}
-
 
   Object.keys(effectEditInterfaces).forEach((effectBehavior) => {
     const effectEditInterface = effectEditInterfaces[effectBehavior]

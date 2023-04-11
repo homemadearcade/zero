@@ -116,13 +116,14 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
         userMongoId: user.id,
         username: user.username,
         role: user.role,
-        joined: false,
+        joinedGameRoomInstanceMongoId: null,
         connected: false,
       }
     })
 
     gameRoomInstance.resetDate = Date.now()
     gameRoomInstance.messages = []
+    gameRoomInstance.isPoweredOn = true
     gameRoomInstance.gameState = 'PLAY_STATE'
 
     req.gameRoomInstances.push(gameRoomInstance)
@@ -153,7 +154,8 @@ router.post('/leave/:id', requireJwtAuth, requireGameRoomInstance, requireSocket
       return res.status(400).json({ message: 'No user with id ' + req.body.userMongoId + ' found in gameRoomInstance' });
     }
 
-    userFound.joined = false
+    userFound.joinedGameRoomInstanceMongoId = null
+    userFound.loadedGameMongoId = null
 
     req.gameRoomInstance.messages.push({
       user: {
@@ -267,7 +269,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       
       req.socket.join(req.gameRoomInstance.id);
       if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX + req.gameRoomInstance.id);
-      userFound.joined = true;
+      userFound.joinedGameRoomInstanceMongoId = req.gameRoomInstance.id;
       req.io.to(req.gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance: req.gameRoomInstance});
       return res.status(200).json({ gameRoomInstance: req.gameRoomInstance });
     }
@@ -289,7 +291,7 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       userMongoId: req.user.id,
       username: req.user.username,
       role: req.user.role,
-      joined: true,
+      joinedGameRoomInstanceMongoId: req.gameRoomInstance.id,
       connected: true
     }
 
@@ -327,7 +329,8 @@ router.post('/join/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
       if(index >= -1) {
         // gameRoomInstance.members.splice(index, 1)
         const member = gameRoomInstance.members[index]
-        member.joined = false
+        member.joinedGameRoomInstanceMongoId = null
+        member.loadedGameMongoId = null
         gameRoomInstance.messages.push({
           user: {
             userMongoId: member.userMongoId,
@@ -422,7 +425,7 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
       return res.status(400).json({ message: 'You do not have privelages to power on this game.' });
     }
 
-    mergeDeep(req.gameRoomInstance,req.body)
+    mergeDeep(req.gameRoomInstance, req.body)
 
     const updatedGameRoomInstance = await GameRoomInstance.findByIdAndUpdate(
       req.params.id,

@@ -45,9 +45,9 @@ export class InteractArea extends PhaserInstance {
     return this
   }
   
-  register(relations) {
+  register(relations, entityInstancesByTag) {
     if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.registerArcade(relations)
+      this.registerArcade(relations, entityInstancesByTag)
     } 
     if(this.scene.physicsType === MATTER_PHYSICS) {
       this.registerMatter(relations)
@@ -67,10 +67,11 @@ export class InteractArea extends PhaserInstance {
     }
   }
 
-  registerArcade(relations) {
+  registerArcade(relations, entityInstancesByTag) {
+
     relations?.forEach((relation) => {
       const {event} = relation
-      const releventEntityInstances = this.scene.entityInstancesByTag[event.relationTagIdB]
+      const releventEntityInstances = entityInstancesByTag[event.relationTagIdB]
       if(!releventEntityInstances || !releventEntityInstances.length) return
       const releventPhaserInstances = releventEntityInstances.map(({phaserInstance}) => phaserInstance)
       this.overlaps.push(

@@ -16,7 +16,7 @@ export class Graphics {
 
     if(entityModel.entityModelId === initialStageZoneEntityId) {
       const boundaries = this.scene.getCurrentStage().boundaries
-      this.entityInstance.setPosition(boundaries.x, boundaries.y)
+      this.entityInstance.setPosition(boundaries.x + (boundaries.width/2), boundaries.y + (boundaries.height/2))
       this.setSize(boundaries.width, boundaries.height)
       phaserInstance.setDisplaySize(boundaries.width, boundaries.height)
       entityModel.graphics.width = boundaries.width 

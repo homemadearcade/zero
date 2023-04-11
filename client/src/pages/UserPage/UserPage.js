@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 
-import { getUserByUsername, editUser, deleteUser, addUserSpeedTest } from '../../store/actions/user/userActions';
+import { getUserByUsername, editUser, deleteUser } from '../../store/actions/user/userActions';
 import { logOutUser } from '../../store/actions/user/authActions';
 
 import Layout from '../../layout/Layout';
@@ -37,7 +37,7 @@ const UserPage = ({
   history,
   match,
   experienceModel: { experienceModel },
-  addUserSpeedTest
+  getExperienceModelByMongoId,
 }) => {
 
   const onLogOut = (event) => {
@@ -264,7 +264,7 @@ const UserPage = ({
             getExperienceModelByMongoId(id)
           }
         }}/>
-        {user.id && experienceModel.id && <UnlockableInterfaceTree experienceModelMongoId={experienceModel.id} userMongoId={user.id}></UnlockableInterfaceTree>}
+        {user.id && experienceModel?.id && <UnlockableInterfaceTree experienceModelMongoId={experienceModel.id} userMongoId={user.id}></UnlockableInterfaceTree>}
       </>}
 
       <Divider sx={{my: '2rem'}}></Divider>
@@ -292,5 +292,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   requireAuth,
   withRouter,
-  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, logOutUser, addUserSpeedTest }),
+  connect(mapStateToProps, { getUserByUsername, editUser, deleteUser, logOutUser, getExperienceModelByMongoId }),
 )(UserPage);

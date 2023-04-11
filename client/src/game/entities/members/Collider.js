@@ -152,18 +152,18 @@ export class Collider {
   }
 
 
-  registerRelations(relations) {
+  registerRelations(relations, entityInstancesByTag) {
     if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.registerArcadeRelations(relations)
+      this.registerArcadeRelations(relations, entityInstancesByTag)
     } 
     if(this.scene.physicsType === MATTER_PHYSICS) {
       this.registerMatter(relations)
     } 
   }
 
-  registerColliders(colliders) {
+  registerColliders(colliders, entityInstancesByTag) {
     if(this.scene.physicsType === ARCADE_PHYSICS) {
-      this.registerArcadeColliders(colliders)
+      this.registerArcadeColliders(colliders, entityInstancesByTag)
     } 
   }
 
@@ -212,10 +212,10 @@ export class Collider {
     })
   }
 
-  registerArcadeColliders(colliders) {
+  registerArcadeColliders(colliders, entityInstancesByTag) {
     colliders.forEach((collider) => {
       const { relationTagIdB } = collider
-      const releventInstances = this.scene.entityInstancesByTag[relationTagIdB]
+      const releventInstances = entityInstancesByTag[relationTagIdB]
       if(!releventInstances || !releventInstances.length) return
       const releventSprites = releventInstances.map(({phaserInstance}) => phaserInstance)
       this.colliders.push(
@@ -227,10 +227,10 @@ export class Collider {
     })
   }
 
-  registerArcadeRelations(relations) {
+  registerArcadeRelations(relations, entityInstancesByTag) {
     relations?.forEach((relation) => {
       const {event, sidesA, sidesB} = relation
-      const releventInstances = this.scene.entityInstancesByTag[event.relationTagIdB]
+      const releventInstances = entityInstancesByTag[event.relationTagIdB]
       if(!releventInstances || !releventInstances.length) return
       const releventSprites = releventInstances.map(({phaserInstance}) => phaserInstance)
       this.overlaps.push(

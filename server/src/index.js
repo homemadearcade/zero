@@ -161,6 +161,7 @@ app.set(SOCKET_SESSIONS_STORE, socketSessions);
 server.listen(port, () => console.log(`Server started on port ${port}`));
 
 io.on("connection", (socket) => {  
+  console.log('socket connected: ' + socket.id)
   // this event is called after a user is logged in and also after a socket is reconnected
   socket.on('authenticate', async ({token}) => {
     if (token) {
@@ -191,7 +192,7 @@ io.on("connection", (socket) => {
                 message: 'has connected',
                 automated: true
               })
-              if(user.joined) socket.join(lobbyInstance.id);
+              if(user.joinedLobbyInstanceMongoId === lobbyInstance.id) socket.join(lobbyInstance.id);
               io.to(lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance});
             }
           })
@@ -210,7 +211,9 @@ io.on("connection", (socket) => {
                 message: 'has connected',
                 automated: true
               })
-              if(user.joined) socket.join(gameRoomInstance.id);
+              if(user.joinedGameRoomInstanceMongoId === gameRoomInstance.id) {
+                socket.join(gameRoomInstance.id);
+              }
               io.to(gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance});
             }
           })
@@ -320,8 +323,11 @@ io.on("connection", (socket) => {
     socketSession.emit(ON_CODRAWING_INITIALIZE, payload);
   })
 
-  socket.on("disconnect", async () => {
-    if(socket.user?.id) {
+  socket.on("disconnect", (reason) => {
+    console.log('disconnecting', socket.id, socket.user, reason)
+  });
+  socket.on("disconnect", async (reason) => {
+    if(socket.user?.userMongoId) {
       const lobbyInstances = app.get(LOBBY_INSTANCE_STORE)
       lobbyInstances.forEach((lobbyInstance) => {
         lobbyInstance.members.forEach((user) => {
@@ -337,6 +343,27 @@ io.on("connection", (socket) => {
               automated: true
             })
             io.to(lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance});
+          }
+        })
+      })
+      
+      const gameRoomInstances = app.get(GAME_ROOMS_STORE)
+
+      gameRoomInstances.forEach((gameRoomInstance) => {
+        gameRoomInstance.members.forEach((user) => {
+          if(user.userMongoId === socket.user.userMongoId) {
+            user.connected = false
+            // if(reason === 'ping timeout') user.loadedGameMongoId = null
+            socket.emit(ON_SOCKET_DISCONNECT)
+            gameRoomInstance.messages.push({
+              user: {
+                userMongoId: user.userMongoId,
+                username: user.username
+              },
+              message: 'has disconnected',
+              automated: true
+            })
+            io.to(gameRoomInstance.id).emit(ON_GAME_ROOM_INSTANCE_UPDATE, {gameRoomInstance});
           }
         })
       })
@@ -370,7 +397,7 @@ async function onMongoDBConnected() {
             userMongoId: user.id,
             username: user.username,
             role: user.role,
-            joined: false,
+            joinedLobbyInstanceMongoId: null,
             connected: false,
             inTransitionView: false,
           }
@@ -393,14 +420,16 @@ async function onMongoDBConnected() {
         ...gameRoomInstance,
         gameState: 'PLAY_STATE',
         messages: [],
+        isPoweredOn: true,
         resetDate: Date.now(),
         members: gameRoomInstance.invitedUsers.map((user) => {
           return {
             email: user.email,
             userMongoId: user.id,
             username: user.username,
+            loadedGameMongoId: null,
             role: user.role,
-            joined: false,
+            joinedGameRoomInstanceMongoId: null,
             connected: false,
           }
         })

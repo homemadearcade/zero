@@ -102,7 +102,7 @@ const ActivityInstructions = ({
 
   const requireGameLoaded = {
     shouldContinueBeDisabledCheck: () => {
-      if(!hostPlayer?.loadedGameId) return <>
+      if(!hostPlayer?.loadedGameMongoId) return <>
         Game Host is not present or is still loading Game
       </>
     }
@@ -174,7 +174,7 @@ const ActivityInstructions = ({
             }}>Load Correct Game</Button>
           </>
         }
-        if(hostPlayer?.loadedGameId !== arcadeGameMongoId) {
+        if(hostPlayer?.loadedGameMongoId !== arcadeGameMongoId) {
           return <>
             Game Host is not present or is still loading Game
           </>

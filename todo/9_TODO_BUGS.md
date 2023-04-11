@@ -1,12 +1,10 @@
-If you switch roles the camera breaks 
+I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING. Perhaps actually put them on the object instances?? hmm?
 
-When I switched participant with admin things got messed up when trying to join
+I think user just needs to have a current lobby Id and current game room id, cuz right now its on a member and that doesnt really do anything
 
-Changing Game host requires you to reload the game doesnt it. Because host is decided in PreloaderScene
+SETTINGS
 
-Just have a thing that prevents it from spawning near the edge?
-Wtf is up with this spawning bs?? Why the corner??
-
-I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING
-
-Arrow keys should not change radio buttons
+SUPER ADMINS
+editorExperienceMongoId
+libraryArcadeGamaMongoId
+archiveUserId

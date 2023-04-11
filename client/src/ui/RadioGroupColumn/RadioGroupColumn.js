@@ -9,31 +9,42 @@ import Icon from '../Icon/Icon';
 
 export default function RadioGroupColumn({formLabel, options, value, onChange}) {
   React.useEffect(() => {
-    // $('input[type="radio"]').keydown(function(e)
-    // {
-    //     var arrowKeys = [37, 38, 39, 40];
-    //     if (arrowKeys.indexOf(e.which) !== -1)
-    //     {
-    //         $(this).blur();
-    //         if (e.which == 38)
-    //         {
-    //             var y = $(window).scrollTop();
-    //             $(window).scrollTop(y - 10);
-    //         }
-    //         else if (e.which == 40)
-    //         {
-    //             var y = $(window).scrollTop();
-    //             $(window).scrollTop(y + 10);
-    //         }
-    //         return false;
-    //     }
-    // });
+    const el = document.getElementById(formLabel)
+    function handleKeyDown(e) {
+        var arrowKeys = [37, 38, 39, 40];
+        if (arrowKeys.indexOf(e.which) !== -1)
+        {
+            e.target.blur();
+            e.preventDefault();
+            // if (e.which == 38)
+            // {
+            //     var y = $(window).scrollTop();
+            //     $(window).scrollTop(y - 10);
+            // }
+            // else if (e.which == 40)
+            // {
+            //     var y = $(window).scrollTop();
+            //     $(window).scrollTop(y + 10);
+            // }
+            return false;
+        }
+    }
+
+    if(el) {
+      el.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        el.removeEventListener('keydown', handleKeyDown);
+      }
+    }
+
   }, [])
 
   return (
     <FormControl key={formLabel}>
       {formLabel && <FormLabel>{formLabel}</FormLabel>}
       <RadioGroup
+        id={formLabel}
         row
         value={value}
         onChange={onChange}

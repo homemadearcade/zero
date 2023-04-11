@@ -9,7 +9,6 @@ import Icon from '../../../ui/Icon/Icon';
 import Link from '../../../ui/Link/Link';
 import { GAME_ROOM_ACTIVITY } from '../../../constants';
 import CobrowsingIndicator from '../../../experience/cobrowsing/CobrowsingIndicator/CobrowsingIndicator';
-import GameRoomPowerIndicator from '../GameRoomPowerIndicator/GameRoomPowerIndicator';
 import Typography from '../../../ui/Typography/Typography';
 import Switch from '../../../ui/Switch/Switch';
 import './GameRoomDrawer.scss'
@@ -40,7 +39,6 @@ const GameRoomDrawer = ({
         </div>}
         <LobbyDashboardToggle/>
         <CobrowsingIndicator/>
-        <GameRoomPowerIndicator/>
         <ActivityTransitionToggle/>
         {currentActivityCategory === GAME_ROOM_ACTIVITY && isAutosaveDisabled && <div className="GameRoomDrawer__not-saving-stage">
           <Icon icon="faFloppyDisk"></Icon>

@@ -26,7 +26,6 @@ import {
   CLEAR_REDIRECT,
   SOCKET_DISCONNECTED,
 } from '../../types';
-import { initializeUnlockableInterfaceIds } from '../game/unlockableInterfaceActions';
 
 export const authenticateSocket = (values) => async (dispatch, getState) => {
   dispatch({ type: AUTHENTICATE_SOCKET_LOADING });

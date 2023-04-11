@@ -51,6 +51,7 @@ export class PlayerInstance extends EntityInstance {
     this.cursors = scene.input.keyboard.createCursorKeys();
 
     this.interactArea = new InteractArea(this.scene, this, {color: '0000FF', width: entityModel.graphics.width + (nodeSize * 4), height: entityModel.graphics.height + (nodeSize * 4) }) 
+    this.lastInteractAreaUpdate = 0
 
     this.controlledMovement = new ControlledMovement(scene, this)
     this.controlledProjectileEjector = new ControlledProjectileEjector(scene, this)
@@ -67,16 +68,19 @@ export class PlayerInstance extends EntityInstance {
   update(time, delta) {  
     super.update()
     
-    this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle})
+    if(!this.lastInteractAreaUpdate || this.lastInteractAreaUpdate + 50 < time) {
+      this.lastInteractAreaUpdate = time
+      this.interactArea.update({x: this.phaserInstance.x, y: this.phaserInstance.y, angle: this.phaserInstance.angle})
+    }
 
     if(this.scene.isPaused) return
     this.controlledMovement.update(time, delta)
     this.controlledProjectileEjector.update(time, delta)
   }
 
-  registerRelations() {
-    super.registerRelations()
-    this.interactArea.register(this.scene.relationsByEventType[ON_INTERACT])
+  registerRelations(entityInstancesByTag) {
+    super.registerRelations(entityInstancesByTag)
+    this.interactArea.register(this.scene.relationsByEventType[ON_INTERACT], entityInstancesByTag)
   }
 
   unregister() {

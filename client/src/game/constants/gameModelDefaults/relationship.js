@@ -12,7 +12,6 @@ export const initialEffectRelation = {
 }
 
 export const defaultRelationship = {
-  event: null,
   effects: {},
   effectIds: [],
   relationId: '',

@@ -67,6 +67,7 @@ export class CollisionCanvas extends CodrawingCanvas {
       }
     }
     
+    this.unregisterColliders()
     this.collisionBody = new CompoundStaticBody(this.scene, { 
       parts: collisionGridNodes,
       width: stage.boundaries.maxWidth, 
@@ -77,13 +78,14 @@ export class CollisionCanvas extends CodrawingCanvas {
     this.registerColliders()
   }
 
-  registerColliders() {
+  registerColliders(entityInstances) {
     if(this.collisionBody) {
+      if(!entityInstances) entityInstances = this.scene.entityInstances
       // console.log('body arrived')
 
       const entityModels = this.scene.getGameModel().entityModels
       this.unregisterPlayerCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.playerInstance.phaserInstance)
-      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, this.scene.entityInstances.filter(({entityModelId}) => {
+      this.unregisterObjectCollisions = this.scene.physics.add.collider(this.collisionBody.group, entityInstances.filter(({entityModelId}) => {
         const layerGroupIID = entityModels[entityModelId].graphics.layerGroupIID
         return layerGroupIID === PLAYGROUND_LAYER_GROUP_IID
       }).map(({phaserInstance}) => {

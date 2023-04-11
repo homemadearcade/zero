@@ -12,7 +12,6 @@ import {
   ON_COBROWSING_UPDATE,
   TOGGLE_COBROWSING,
   TOGGLE_UNLOCKABLE_INTERFACE_LOCKS,
-  INITIALIZE_COBROWSING_STATE,
   SET_MOUSE_OVER_INTERFACE_ID,
   SELECT_COBROWSING_TOOL,
   ON_CLEAR_COBROWSING_STATUS,
@@ -74,17 +73,6 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         remoteStateUserMongoId: null,
         cobrowsingUser: false,
       };
-    case INITIALIZE_COBROWSING_STATE: 
-      return {
-        ...state,
-       remoteState: {
-          ...state.remoteState,
-          ...payload.initialCobrowsingState,
-          unlockableInterfaceIds: {
-            ...state.remoteState.unlockableInterfaceIds
-          }
-        }
-      }
     case SUBSCRIBE_COBROWSING_SUCCESS:
       return {
         ...state,
@@ -92,6 +80,10 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         isActivelyCobrowsing: getDefaultIsActiveCobrowsing(),
         isSubscribing: false,
         cobrowsingUser: payload.cobrowsingUser,
+        remoteState: {
+          ...state.remoteState,
+          unlockableInterfaceIds: payload.unlockableInterfaceIds
+        }
       };
     case UNSUBSCRIBE_COBROWSING_LOADING:
     case UNSUBSCRIBE_COBROWSING_SUCCESS:

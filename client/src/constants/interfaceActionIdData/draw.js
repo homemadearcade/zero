@@ -92,7 +92,8 @@ export default {
     },
     onClick: ([entityModelId]) => (dispatch, gameModel) => {
       const entityModel = gameModel.entityModels[entityModelId]
-      dispatch(openCreateCanvasImageDialog(entityModel.graphics.textureId), 'InterfaceAction')
+      const graphics = entityModel.graphics
+      dispatch(openCreateCanvasImageDialog(graphics.textureId, graphics.textureTint, 'InterfaceAction'))
     },
     arguments: ['entityModelId'],
     actionType: INTERFACE_ACTION_DRAW
@@ -103,7 +104,8 @@ export default {
     onClick: () => (dispatch, gameModel, getState) => {
       const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
       const currentPlayerEntityModel = gameModel.entityModels[currentPlayerEntityId]
-      dispatch(openCreateCanvasImageDialog(currentPlayerEntityModel.graphics.textureId, 'InterfaceAction'))
+      const graphics = currentPlayerEntityModel.graphics
+      dispatch(openCreateCanvasImageDialog(graphics.textureId, graphics.textureTint, 'InterfaceAction'))
     },
     higherPriority: true
   }

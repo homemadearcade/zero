@@ -54,6 +54,14 @@ const SelectRelationTag = ({ removeEntityTags, interfaceId, onChange, disabled, 
   const options = Object.keys(gameModel.relationTags).map(mapTagToOption)
 
   options.sort((a, b) => {
+    if(!a.relationTagIID) {
+      console.log(a, b)
+      return 1
+    }
+    if(!b.relationTagIID) {
+      console.log(a, b)
+      return -1
+    }
     return  -b.relationTagIID.localeCompare(a.relationTagIID)
   })
 

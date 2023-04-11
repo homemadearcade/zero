@@ -1,9 +1,11 @@
 import store from '../..';
+import { getRemoteStatePackage } from '../../../utils';
 import {
   UNLOCK_INTERFACE,
   LOCK_INTERFACE,
   INITIALIZE_UNLOCKABLE_INTERFACE_IDS
 } from '../../types';
+import { updateCobrowsing } from './cobrowsingActions';
 
 export const initializeUnlockableInterfaceIds = (unlockableInterfaceIds = {}) => async (dispatch, getState) => {
   dispatch({
@@ -12,6 +14,10 @@ export const initializeUnlockableInterfaceIds = (unlockableInterfaceIds = {}) =>
       unlockableInterfaceIds,
      },
   });
+
+  if(getState().cobrowsing.cobrowsingUser === getState().auth.me?.id) {
+    dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
+  }
 };
 
 export const unlockInterfaceId = (id) => async (dispatch, getState) => {

@@ -92,7 +92,7 @@ const LobbyMember = ({
   return <span key={userMongoId}>
   <Button onClick={() => {
     setIsDialogOpen(true)
-  }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--left' : !user.joined, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
+  }} size="small" key={key} className={classnames("LobbyMember", {'LobbyMember--left' : !user.joinedLobbyInstanceMongoId !== lobbyInstance.id, 'LobbyMember--cobrowser': isNavigatedToCobrowse})}>
     {user.username}
   </Button>
   {isDialogOpen && <Dialog open onClose={() => {

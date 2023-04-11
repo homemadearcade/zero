@@ -11,20 +11,20 @@ import LobbyChecklist from '../LobbyChecklist/LobbyChecklist';
 import Switch from '../../../ui/Switch/Switch';
 import { VerticalLinearStepperControlled } from '../../../ui/VerticalLinearStepper/VerticalLinearStepper';
 import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
-import { EXPERIENCE_EFFECT_GAME_ACTION, EXPERIENCE_ROLE_PARTICIPANT } from '../../../constants';
-import StepPrompts from '../../../app/experienceModel/step/StepPrompts/StepPrompts';
-import StepTitle from '../../../app/experienceModel/step/StepTitle/StepTitle';
+import { EXPERIENCE_EFFECT_GAME_ACTION, EXPERIENCE_ROLE_PARTICIPANT, GAME_ROOM_ACTIVITY } from '../../../constants';
 import { ANIMATION_CONFETTI, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EVENT_LOBBY_STEP_INITIALIZED, RUN_GAME_INSTANCE_ACTION } from '../../../game/constants';
 import { ON_GAME_INSTANCE_EVENT, ON_LOBBY_INSTANCE_EVENT } from '../../../store/types';
-import SelectExperienceEffect from '../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect';
 import { instructionSteps } from '../../instruction/instructionSteps/instructionSteps';
-import { runExperienceEffects } from '../../../store/actions/experience/experienceModelActions';
 import store from '../../../store';
+import { forceCobrowsingUpdateDispatch } from '../../../utils';
+import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
+import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 
 const LobbyInstructions = ({
   editLobby,
   updateArcadeGameCharacter,
-  runExperienceEffects,
+  toggleActiveCobrowsing,
+  editGameRoom,
   experienceModel: { experienceModel },
   gameRoomInstance: { gameRoomInstance },
   gameModel: { gameModel },
@@ -97,7 +97,7 @@ const LobbyInstructions = ({
     }
   ]
 
-  let steps = beginningSteps.concat(instructionSteps({instruction, lobbyInstance, myRoleId, gameModel}))
+  let steps = beginningSteps.concat(instructionSteps({instruction, lobbyInstance, myRoleId, gameModel, gameRoomInstance}))
 
   const endingSteps = [
     {
@@ -146,17 +146,28 @@ const LobbyInstructions = ({
         canSkipStep={canSkipStep}
         currentStep={lobbyInstance.instructionCurrentSteps[instructionId]}
         onStepChange={async (stepNumber, stepId) => {
-      
           const step = allSteps[stepId]
           if(step) {
             const updatedLobby = {}
-            if(step.activityId) updatedLobby.currentActivityId = step.activityId
-            if(step.cobrowsingRoleId) {
-              const cobrowsingUserMongoId = lobbyInstance.roleIdToUserMongoIds[step.cobrowsingRoleId][0]
-              updatedLobby.cobrowsingUserMongoId = cobrowsingUserMongoId
-              await editLobby(lobbyInstance.id, updatedLobby)
-              window.socket.emit(ON_LOBBY_INSTANCE_EVENT, { lobbyInstanceMongoId: lobbyInstance.id, lobbyInstanceEventType: EVENT_LOBBY_STEP_INITIALIZED, data: { instructionId, stepId, stepNumber, cobrowsingUserMongoId }})
+            if(step.activityId) {
+              updatedLobby.currentActivityId = step.activityId
+              // const activity = lobbyInstance.activitys[step.activityId]
+              // // if(activity.activityCategory === GAME_ROOM_ACTIVITY) {
+              // //   await editGameRoom(gameRoomInstance.id, {
+              // //     isPoweredOn: true
+              // //   })
+              // // }
             }
+            if(step.cobrowsingRoleId) {
+              if(step.cobrowsingRoleId !== myRoleId) {
+                const cobrowsingUserMongoId = lobbyInstance.roleIdToUserMongoIds[step.cobrowsingRoleId][0]
+                updatedLobby.cobrowsingUserMongoId = cobrowsingUserMongoId
+              }
+              // if(step.cobrowsingRoleId !== myRoleId) {
+              //   window.socket.emit(ON_LOBBY_INSTANCE_EVENT, { lobbyInstanceMongoId: lobbyInstance.id, lobbyInstanceEventType: EVENT_LOBBY_STEP_INITIALIZED, data: { instructionId, stepId, roleId: myRoleId, stepNumber, cobrowsingUserMongoId }})
+              // }
+            }
+            await editLobby(lobbyInstance.id, updatedLobby)
           }
 
           await editLobby(lobbyInstance.id, {
@@ -178,7 +189,13 @@ const LobbyInstructions = ({
                 const effect = gameModel.effects[effectId]
 
                 if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
-                  effect.onClick(store.dispatch, gameModel, store.getState)
+                  if(step.cobrowsingRoleId !== myRoleId) {
+                    toggleActiveCobrowsing(true)
+                    effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
+                  } else {
+                    toggleActiveCobrowsing(false)
+                    effect.onClick(store.dispatch, gameModel, store.getState)
+                  }
                 } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
                   store.dispatch(updateArcadeGameCharacter({
                     userMongoId: lobbyInstance.cobrowsingUserMongoId,
@@ -215,5 +232,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps, { editLobby, updateArcadeGameCharacter, runExperienceEffects }),
+  connect(mapStateToProps, { editLobby, updateArcadeGameCharacter, editGameRoom, toggleActiveCobrowsing }),
 )(LobbyInstructions);

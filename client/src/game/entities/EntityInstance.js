@@ -159,12 +159,12 @@ export class EntityInstance extends PhaserInstance {
     })
   }
 
-  registerRelations() {
-    this.collider.registerRelations(this.getTouchRelations())
+  registerRelations(entityInstancesByTag) {
+    this.collider.registerRelations(this.getTouchRelations(), entityInstancesByTag)
   }
 
-  registerColliders() {
-    this.collider.registerColliders(this.getColliders())
+  registerColliders(entityInstancesByTag) {
+    this.collider.registerColliders(this.getColliders(), entityInstancesByTag)
   }
 
   unregister() {

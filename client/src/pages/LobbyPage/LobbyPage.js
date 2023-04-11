@@ -21,17 +21,13 @@ import { ADMIN_ROLE, EXPERIENCE_ROLE_FACILITATOR, WAITING_ACTIVITY } from '../..
 import { ANIMATION_CONFETTI, EVENT_LOBBY_STEP_INITIALIZED } from '../../game/constants';
 import JSConfetti from 'js-confetti';
 import { ON_LOBBY_INSTANCE_EVENT } from '../../store/types';
-import { runExperienceEffects } from '../../store/actions/experience/experienceModelActions';
-import { toggleActiveCobrowsing } from '../../store/actions/game/cobrowsingActions';
 
 const LobbyPage = ({
   lobbyInstance: { lobbyInstance, myRoleId },
   auth: { me },
   myTracks,
   userTracks,
-  toggleActiveCobrowsing,
   toggleLobbyDashboard,
-  cobrowsing: { cobrowsingUser },
 }) => {
   // let { path } = useRouteMatch();
 
@@ -46,7 +42,9 @@ const LobbyPage = ({
           jsConfetti.addConfetti();
           return
         case EVENT_LOBBY_STEP_INITIALIZED:
-          toggleActiveCobrowsing(true)
+          // if(data.roleId === myRoleId) {
+          //   toggleActiveCobrowsing(true)
+          // }
 
           // await runExperienceEffects({
           //   experienceEffectIds: step.experienceEffectIds
@@ -105,5 +103,5 @@ export default compose(
   withLobby,
   withSpeedTest,
   withAgoraVideoCall,
-  connect(mapStateToProps, { editLobby, toggleLobbyDashboard, runExperienceEffects, toggleActiveCobrowsing }),
+  connect(mapStateToProps, { editLobby, toggleLobbyDashboard }),
 )(LobbyPage);

@@ -91,6 +91,15 @@ router.post('/', requireJwtAuth, async (req, res) => {
     return res.status(400).json({ message: 'Not created by the game owner or admin.' });
   }
 
+  let importedArcadeGames = []
+  if(req.body.importedArcadeGames?.length) {
+    if(typeof req.body.importedArcadeGames[0] === 'string') {
+      importedArcadeGames = req.body.importedArcadeGames
+    } else {
+      importedArcadeGames = req.body.importedArcadeGames.map((m) => m.id)
+    }
+  }
+
   try {
     let game = await ArcadeGame.create({
       stages: req.body.stages, 
@@ -105,7 +114,7 @@ router.post('/', requireJwtAuth, async (req, res) => {
       cutscenes: req.body.cutscenes,
       relations: req.body.relations,
       collisions: req.body.collisions,
-      importedArcadeGames: req.body.importedArcadeGames,
+      importedArcadeGames: importedArcadeGames,
       interfacePresets: req.body.interfacePresets,
       events: req.body.events,
       effects: req.body.effects,
@@ -145,7 +154,7 @@ router.post('/:id/importedArcadeGame', requireJwtAuth, requireSocketAuth, async 
     if (!(tempGame.owner.id === req.user.id || req.user.role === 'ADMIN'))
       return res.status(400).json({ message: 'You do not have privelages to edit this Game.' });
 
-    tempGame.importedArcadeGames.push(req.body.arcadeGameId)
+    tempGame.importedArcadeGames.push(req.body.arcadeGameMongoId)
 
     const game = await ArcadeGame.findByIdAndUpdate(tempGame.id, { $set: tempGame }, { new: true }).populate('owner importedArcadeGames');
 

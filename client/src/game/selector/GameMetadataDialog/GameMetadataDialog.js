@@ -16,6 +16,7 @@ import Divider from '../../../ui/Divider/Divider';
 import SelectArcadeGame from '../../../ui/connected/SelectArcadeGame/SelectArcadeGame';
 import GameCard from '../../../app/gameModel/GameCard/GameCard';
 import { addImportedArcadeGame } from '../../../store/actions/game/arcadeGameActions';
+import Alert from '../../../ui/Alert/Alert';
 
 const GameMetadataDialog = ({ 
   editGameModel, closeGameMetadataDialog, 
@@ -46,13 +47,21 @@ const GameMetadataDialog = ({
       </Unlockable>
       <Unlockable interfaceId={GAME_MODEL_IMPORT_IID}>
         <Divider/>
-        <SelectArcadeGame excludedIds={gameModel.id} label="Import a Game" userMongoId={gameModel.owner.id} onSelect={(games) => {
+        <SelectArcadeGame excludedIds={gameModel.id} removeFilter = {(game) => {
+          if(!game.importedArcadeGames || game.importedArcadeGames?.length) return false 
+          return true 
+        }} label="Import a Game" userMongoId={gameModel.owner.id} onSelect={(games) => {
         if(games[0]) {
           addImportedArcadeGame(games[0].id)
         }
         }}/>
         <FormLabel>Imported Games</FormLabel>
         <div className="GameMetadataDialog__imported-games">{gameModel.importedArcadeGames?.map((gameModel) => {
+          if(gameModel.importedArcadeGames?.length) return <>
+            <Alert severity="error">
+              {gameModel.metadata.title + ' also has imported games and cannot be imported'}
+            </Alert>
+          </>
           return <GameCard game={gameModel}/>
         })}
         </div>

@@ -11,6 +11,7 @@ import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceAction
 import Divider from '../../../ui/Divider/Divider';
 import SelectUsers from '../../../ui/connected/SelectUsers/SelectUsers';
 import LobbyMember from '../../../experience/lobbyInstance/LobbyMember/LobbyMember';
+import GameRoomPowerIndicator from '../GameRoomPowerIndicator/GameRoomPowerIndicator';
 
 const GameRoomOverview = ({
   gameRoomInstance: { gameRoomInstance },
@@ -22,6 +23,8 @@ const GameRoomOverview = ({
     <div className="GameRoomOverview">
       <Typography component="div" variant="subtitle1">Game:</Typography>
       <GameStatus/>
+      <Divider></Divider>
+        <GameRoomPowerIndicator/>
       <Divider></Divider>
       <SelectArcadeGame label="Select from games owned by host" userMongoId={gameRoomInstance.hostUserMongoId} onSelect={(games) => {
         if(games[0]) {

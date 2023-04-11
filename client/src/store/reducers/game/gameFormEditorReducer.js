@@ -374,7 +374,8 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCanvasImageDialogOpen: payload.componentId,
-        imageCanvasTextureId: payload.textureId,
+        canvasImageTextureId: payload.textureId,
+        canvasImageTextureTintColor: payload.textureTint,
         canvasImage: payload.canvasImage,
         isCanvasImageDialogLoading: false
       }
@@ -382,7 +383,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isCanvasImageDialogOpen: false,
-        imageCanvasTextureId: null,
+        canvasImageTextureId: null,
         isCanvasImageDialogLoading: false
       }
     case OPEN_CREATE_CANVAS_IMAGE_DIALOG_LOADING: 

@@ -8,7 +8,7 @@ import { getArcadeGames } from '../../../store/actions/game/arcadeGameActions';
 import Loader from '../../Loader/Loader';
 import SelectChipsAuto from '../../SelectChipsAuto/SelectChipsAuto';
 
-const SelectArcadeGame = ({ excludedIds, onSelect, label, userMongoId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
+const SelectArcadeGame = ({ excludedIds, removeFilter, onSelect, label, userMongoId, getArcadeGames, gamesSelected = [], arcadeGames: { arcadeGames, isLoading }}) => {
   useEffect(() => {
     getArcadeGames();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -20,12 +20,17 @@ const SelectArcadeGame = ({ excludedIds, onSelect, label, userMongoId, getArcade
 
    const mapGameToOption = (game) => {
     const firstLetter = game.owner ? game.owner.username[0].toUpperCase() : 'fromprod'
+    let isRemoved = game.isRemoved
+    if(removeFilter && !isRemoved) {
+      isRemoved = removeFilter(game)
+    }
+
     return {
       owner: game.owner,
       firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
       label: game.metadata.title,
       value: game.id,
-      isRemoved: game.isRemoved
+      isRemoved
     }
   }
 

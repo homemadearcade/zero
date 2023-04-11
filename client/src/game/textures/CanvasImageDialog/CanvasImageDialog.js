@@ -31,16 +31,16 @@ const CanvasImageDialog = ({
   clearBrush,
   selectBrush,
   gameModel: { gameModel, gameModel: { brushes } },
-  textureTintSelected,
   webPage: { gameInstance, imageCanvasGameInstance },
   closeCreateCanvasImageDialog,
   onSaveCanvasImage,
   openCreateBrushFlow,
-  gameFormEditor: { isCreateBrushFlowOpen, canvasImage, imageCanvasTextureId, isCanvasImageDialogLoading },
+  gameFormEditor: { isCreateBrushFlowOpen, canvasImage, canvasImageTextureId, canvasImageTextureTint, isCanvasImageDialogLoading },
   canvasImage: { textureIdSaving },
   updateCreateCanvasImage,
   editCanvasImage
  }) => {
+
 
   function handleClose(){
     closeCreateCanvasImageDialog()
@@ -85,8 +85,8 @@ const CanvasImageDialog = ({
         <AggregateColorSelect onSelectColor={onSelectColor} onUnselectColor={onUnselectColor}/>
       </div>
       <CanvasImageView 
-        textureTint={textureTintSelected}
-        initialTextureId={imageCanvasTextureId}
+        textureTint={canvasImageTextureTint}
+        initialTextureId={canvasImageTextureId}
         textureId={canvasImage.textureId}
       />
       <div className="CanvasImageDialog__right-column">
