@@ -35,7 +35,7 @@ const ActivityCurrent = ({
     }
 
     if(activityCategory === CREDITS_ACTIVITY) {
-      return <CreditsActivity currentViewCategory={currentViewCategory}/>
+      return <CreditsActivity myTracks={myTracks} userTracks={userTracks} currentViewCategory={currentViewCategory}/>
     }
 
     if(activityCategory === VIDEO_ACTIVITY) {

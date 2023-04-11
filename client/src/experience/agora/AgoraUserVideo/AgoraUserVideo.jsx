@@ -12,6 +12,7 @@ import { attachTokenToHeaders } from "../../../store/actions/user/authActions";
 import store from "../../../store";
 import { stringToColour } from "../../../utils/colorUtils";
 import Alert from "../../../ui/Alert/Alert";
+import { ADMIN_ROLE } from "../../../constants";
 
 const AgoraUserVideo = ({ 
   video: { isInsideVideoCall, currentVideoTrackInterfaceId }, 
@@ -58,7 +59,7 @@ const AgoraUserVideo = ({
           {user.username}
         </div>
       </div>}
-      {reason && <Alert severity="warning">
+      {reason && me.role === ADMIN_ROLE &&  <Alert severity="warning">
         {reason}
       </Alert>}
     </div>

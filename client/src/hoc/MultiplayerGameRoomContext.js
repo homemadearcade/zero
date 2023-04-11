@@ -39,7 +39,7 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   componentDidUpdate(oldProps) {
-    this.switchGame(oldProps, this.props)
+    this.switchGameRoom(oldProps, this.props)
   }
 
   async switchGameRoom(oldProps, newProps) {
