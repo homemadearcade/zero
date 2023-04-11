@@ -53,11 +53,11 @@ class MultiplayerGameRoomContext extends Component {
     }
   }
 
-  leaveMultiplayerGameRoom() {
+  async leaveMultiplayerGameRoom() {
     const { auth: { me }, leaveGameRoom, gameRoomInstance: { gameRoomInstance }} = this.props
 
     if(gameRoomInstance.id) {
-      leaveGameRoom({gameRoomInstanceMongoId: gameRoomInstance.id, userMongoId: me?.id})
+      await leaveGameRoom({gameRoomInstanceMongoId: gameRoomInstance.id, userMongoId: me?.id})
     }
   }
 
