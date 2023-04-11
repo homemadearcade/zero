@@ -101,7 +101,7 @@ const PhaserGame = ({
       setGameInstance(null, null)
       game.destroy()
     }
-  }, []);
+  }, [gameRoomInstance.id]);
 
   useEffect(() => {
     const connectionInterval = setInterval(() => {

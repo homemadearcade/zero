@@ -76,19 +76,22 @@ const GameViewObscured = ({
     </GameViewEmpty>
   }
 
-  if(!gameRoomInstance.isPoweredOn && !gameModel.isLoading) return <GameViewEmpty>
-    <GameCardLoad width="30%" arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId}/>
-    <Icon icon="faPowerOff"></Icon>
-    Not Powered On
-    {me.role === ADMIN_ROLE && <>
-      <Button onClick={async () => {
-        await editGameRoom(gameRoomInstance.id, {
-          isPoweredOn: true
-        })
-      }}>Power On</Button>
-      <GameLoadButton></GameLoadButton>
-    </>}
-  </GameViewEmpty>
+  if(!gameRoomInstance.isPoweredOn && !gameModel.isLoading) {
+    console.log(gameRoomInstance)
+    return <GameViewEmpty>
+      {gameRoomInstance.arcadeGameMongoId && <GameCardLoad width="30%" arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId}/>}
+      <Icon icon="faPowerOff"></Icon>
+      Not Powered On
+      {me.role === ADMIN_ROLE && <>
+        <Button onClick={async () => {
+          await editGameRoom(gameRoomInstance.id, {
+            isPoweredOn: true
+          })
+        }}>Power On</Button>
+        <GameLoadButton></GameLoadButton>
+      </>}
+    </GameViewEmpty>
+  }
 
   if(gameRoomInstance.isPoweredOn) {
     return <>

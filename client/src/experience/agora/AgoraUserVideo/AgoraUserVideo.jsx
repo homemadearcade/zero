@@ -59,9 +59,9 @@ const AgoraUserVideo = ({
           {user.username}
         </div>
       </div>}
-      {reason && me.role === ADMIN_ROLE &&  <Alert severity="warning">
+      {reason && me.role === ADMIN_ROLE && <div style={{position: 'absolute', top: 0, left: 0}}> <Alert severity="warning">
         {reason}
-      </Alert>}
+      </Alert></div>}
     </div>
   }
 
