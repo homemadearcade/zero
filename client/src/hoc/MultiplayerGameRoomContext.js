@@ -38,6 +38,21 @@ class MultiplayerGameRoomContext extends Component {
     this.leaveMultiplayerGameRoom()
   }
 
+  componentDidUpdate(oldProps) {
+    this.switchGame(oldProps, this.props)
+  }
+
+  async switchGameRoom(oldProps, newProps) {
+    this.checkIfGameIsLoaded(newProps)
+    if(oldProps.gameRoomInstanceMongoId !== newProps.gameRoomInstanceMongoId) {
+      await this.leaveMultiplayerGameRoom()
+
+      setTimeout(() => {
+        this.joinMultiplayerGameRoom(newProps.arcadeGameMongoId)
+      }, 100)
+    }
+  }
+
   leaveMultiplayerGameRoom() {
     const { auth: { me }, leaveGameRoom, gameRoomInstance: { gameRoomInstance }} = this.props
 

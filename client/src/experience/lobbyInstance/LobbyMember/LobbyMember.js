@@ -53,6 +53,7 @@ const LobbyMember = ({
       return prev
     }, {})
   }
+
   
   const isMe = me?.id === userMongoId
   function renderConnectionInfo() {

@@ -11,6 +11,7 @@ import axios from "axios";
 import { attachTokenToHeaders } from "../../../store/actions/user/authActions";
 import store from "../../../store";
 import { stringToColour } from "../../../utils/colorUtils";
+import Alert from "../../../ui/Alert/Alert";
 
 const AgoraUserVideo = ({ 
   video: { isInsideVideoCall, currentVideoTrackInterfaceId }, 
@@ -49,7 +50,7 @@ const AgoraUserVideo = ({
     }
   }, [userMongoId])
 
-  function renderPlaceholder() {
+  function renderPlaceholder(reason) {
     return <div style={{position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
       {user && <div style={{position: 'absolute', fontSize: '.5em', top: 0, left: 0, backgroundColor: stringToColour(user.id), padding: '1em'}}>
        <div style={{opacity: 0}}>{user.username}</div>
@@ -57,6 +58,9 @@ const AgoraUserVideo = ({
           {user.username}
         </div>
       </div>}
+      {reason && <Alert severity="warning">
+        {reason}
+      </Alert>}
     </div>
   }
 
@@ -65,10 +69,10 @@ const AgoraUserVideo = ({
   }
 
   if(!isInsideVideoCall) {
-    return renderPlaceholder()
+    return renderPlaceholder('You are not in video call')
   }
   if(!myTracks || !userTracks) {
-    return <div style={{width, height}} className={className}/>
+    return renderPlaceholder('no tracks')
   }
 
   const tracks = [...userTracks]
@@ -80,7 +84,7 @@ const AgoraUserVideo = ({
   }, {})
 
   if(!userTracksById[userMongoId]) {
-    return renderPlaceholder()
+    return renderPlaceholder('No Video for this users')
   }
 
   return <div className={className} style={{width, height}}>

@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION, ON_STEP_BEGINS, defaultEvent } from '../constants';
+import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION, ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -17,6 +17,7 @@ import { directionalPlayerEntityId } from '../constants';
 import { generateUniqueId, getLayerIdFromEraserId, isZoneEntityId } from '../../utils';
 import { NO_RELATION_TAG_EFFECT_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';
 import _ from 'lodash';
+import { updateLobbyMember } from '../../store/actions/experience/lobbyInstanceActions';
 
 export class GameInstance extends Phaser.Scene {
   constructor(props) {
@@ -943,27 +944,27 @@ export class GameInstance extends Phaser.Scene {
     //   }))
     // }
     
-    // if(effect.effectBehavior === EFFECT_OPEN_TRANSITION) {
-    //   const state = store.getState()
-    //   store.dispatch(updateLobbyMember({
-    //     lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
-    //     userMongoId: state.auth.me?.id, 
-    //     member: {
-    //       inTransitionView: true
-    //     }
-    //   }))
-    // }
+    if(effect.effectBehavior === EFFECT_OPEN_TRANSITION) {
+      const state = store.getState()
+      store.dispatch(updateLobbyMember({
+        lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
+        userMongoId: state.auth.me?.id, 
+        member: {
+          inTransitionView: true
+        }
+      }))
+    }
 
-    // if(effect.effectBehavior === EFFECT_CLOSE_TRANSITION) {
-    //   const state = store.getState()
-    //   store.dispatch(updateLobbyMember({
-    //     lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
-    //     userMongoId: state.auth.me?.id, 
-    //     member: {
-    //       inTransitionView: false
-    //     }
-    //   }))
-    // }
+    if(effect.effectBehavior === EFFECT_CLOSE_TRANSITION) {
+      const state = store.getState()
+      store.dispatch(updateLobbyMember({
+        lobbyInstanceMongoId: state.lobbyInstance.lobbyInstance?.id,
+        userMongoId: state.auth.me?.id, 
+        member: {
+          inTransitionView: false
+        }
+      }))
+    }
 
     // NARRATIVE
     if(effect.effectBehavior === EFFECT_CUTSCENE) {

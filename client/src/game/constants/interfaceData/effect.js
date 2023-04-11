@@ -89,14 +89,14 @@ export const effectInterfaceDatas = {
     // displayName: 'Unlock Interface',
     icon: 'faLockOpen'
   },
-  // [EFFECT_OPEN_TRANSITION]: {
-  //   displayName: 'Open Transition',
-  //   icon: 'faStar'
-  // },
-  // [EFFECT_CLOSE_TRANSITION]: {
-  //   displayName: 'Close Transition',
-  //   icon: 'faArrowsDownToLine'
-  // },
+  [EFFECT_OPEN_TRANSITION]: {
+    displayName: 'Open Transition',
+    icon: 'faStar'
+  },
+  [EFFECT_CLOSE_TRANSITION]: {
+    displayName: 'Close Transition',
+    icon: 'faArrowsDownToLine'
+  },
 }
 
 /////////////////////////////////////////////////////////////////
@@ -194,14 +194,14 @@ export const effectEditInterfaces = {
     interfaceId: 'Which interface?',
     effectableType: NO_RELATION_TAG_EFFECT_IID
   },
-  // [EFFECT_OPEN_TRANSITION]: {
-  //   effectableType: NO_RELATION_TAG_EFFECT_IID,
-  //   isStandalone: true
-  // },
-  // [EFFECT_CLOSE_TRANSITION]: {
-  //   effectableType: NO_RELATION_TAG_EFFECT_IID,
-  //   isStandalone: true
-  // },
+  [EFFECT_OPEN_TRANSITION]: {
+    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    isStandalone: true
+  },
+  [EFFECT_CLOSE_TRANSITION]: {
+    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    isStandalone: true
+  },
 }
 
 // EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
@@ -233,8 +233,8 @@ export const touchActiveEffects  = {
   [EFFECT_CUTSCENE]: false,
   [EFFECT_INTERFACE_ACTION]: false,
   [EFFECT_INTERFACE_UNLOCK]: false,
-  // [EFFECT_OPEN_TRANSITION]: false,
-  // [EFFECT_CLOSE_TRANSITION]: false,
+  [EFFECT_OPEN_TRANSITION]: false,
+  [EFFECT_CLOSE_TRANSITION]: false,
 }
 
 export const noRemoteEffectedTagEffects = {
@@ -265,8 +265,8 @@ export const noRemoteEffectedTagEffects = {
   [EFFECT_CUTSCENE]: true,
   [EFFECT_INTERFACE_ACTION]: true,
   [EFFECT_INTERFACE_UNLOCK]: true,
-  // [EFFECT_OPEN_TRANSITION]: true,
-  // [EFFECT_CLOSE_TRANSITION]: true,
+  [EFFECT_OPEN_TRANSITION]: true,
+  [EFFECT_CLOSE_TRANSITION]: true,
 }
 
 export const nonStepEffectBehaviors = {
@@ -297,8 +297,8 @@ export const nonStepEffectBehaviors = {
   [EFFECT_CUTSCENE]: false,
   [EFFECT_INTERFACE_ACTION]: false,
   [EFFECT_INTERFACE_UNLOCK]: false,
-  // [EFFECT_OPEN_TRANSITION]: true,
-  // [EFFECT_CLOSE_TRANSITION]: true,
+  [EFFECT_OPEN_TRANSITION]: true,
+  [EFFECT_CLOSE_TRANSITION]: true,
 }
 
 export function isUseableEffect(effect, effectBehavior, eventType) {

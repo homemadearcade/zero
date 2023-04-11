@@ -43,7 +43,7 @@ export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameMod
             return <>
               Incorrect game loaded!
               <Button onClick={async () => {
-                await editGameRoom(lobbyInstance.gameRoomInstance.id, {
+                await editGameRoom(gameRoomInstance.id, {
                   arcadeGameMongoId: instruction.arcadeGameMongoId,
                 })
               }}>Load Correct Game</Button>
