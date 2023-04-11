@@ -17,8 +17,9 @@ const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChan
     let icon = experienceEffect.icon || experienceEffectInterfaceData.icon
     let isRemoved = experienceEffect.isRemoved
     
-    if(instructionCategoryToExperienceEffects[instructionCategory].indexOf(experienceEffect.experienceEffectBehavior) === -1) return null
+    // if(instructionCategoryToExperienceEffects[instructionCategory].indexOf(experienceEffect.experienceEffectBehavior) === -1) return null
 
+    console.log('SelectExperienceEffect', experienceEffect.arcadeGameMongoId, arcadeGameMongoId, experienceEffect.arcadeGameMongoId !== arcadeGameMongoId)
     if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_ACTION && (!arcadeGameMongoId ||  experienceEffect.arcadeGameMongoId !== arcadeGameMongoId)) {
       return null
     } else {
@@ -43,6 +44,8 @@ const SelectExperienceEffect = ({ arcadeGameMongoId, instructionCategory, onChan
       isRemoved: isRemoved
     }
   }
+
+  console.log('SelectExperienceEffect', experienceModel.experienceEffects, value)
 
   const options = Object.keys(experienceModel.experienceEffects).map(mapEffectToOption).filter((o) => {
     return !!o

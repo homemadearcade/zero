@@ -77,7 +77,6 @@ const GameViewObscured = ({
   }
 
   if(!gameRoomInstance.isPoweredOn && !gameModel.isLoading) {
-    console.log(gameRoomInstance)
     return <GameViewEmpty>
       {gameRoomInstance.arcadeGameMongoId && <GameCardLoad width="30%" arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId}/>}
       <Icon icon="faPowerOff"></Icon>

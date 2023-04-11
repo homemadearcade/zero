@@ -19,35 +19,35 @@ export const experienceEffectInterfaceIdData = {
     displayName: 'Game Effect',
     // icon: 'faGamepad',
   },
-  [EXPERIENCE_EFFECT_CHANGE_ACTIVITY]: {
-    displayName: 'Change Activity',
-    icon: 'faShuffle',
-  },
-  // [EXPERIENCE_EFFECT_CHANGE_INSTRUCTION]: {
-  //   displayName: 'Change Instruction',
-  //   icon: 'faListOl',
+  // [EXPERIENCE_EFFECT_CHANGE_ACTIVITY]: {
+  //   displayName: 'Change Activity',
+  //   icon: 'faShuffle',
   // },
-  // [EXPERIENCE_EFFECT_CHANGE_LOBBY]: {
-  //   displayName: 'Change Lobby',
-  //   icon: 'faDoorOpen',
+  // // [EXPERIENCE_EFFECT_CHANGE_INSTRUCTION]: {
+  // //   displayName: 'Change Instruction',
+  // //   icon: 'faListOl',
+  // // },
+  // // [EXPERIENCE_EFFECT_CHANGE_LOBBY]: {
+  // //   displayName: 'Change Lobby',
+  // //   icon: 'faDoorOpen',
+  // // },
+  // [EXPERIENCE_EFFECT_OPEN_TRANSITION]: {
+  //   displayName: 'Open Transition',
+  //   icon: 'faStar',
   // },
-  [EXPERIENCE_EFFECT_OPEN_TRANSITION]: {
-    displayName: 'Open Transition',
-    icon: 'faStar',
-  },
-  [EXPERIENCE_EFFECT_CLOSE_TRANSITION]: {
-    displayName: 'Close Transition',
-    icon: 'faStar',
-    icon2: 'faArrowsDownToLine'
-  },
-  [EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH]: {
-    displayName: 'Leave Control Booth and go to current Activity',
-    icon: 'faPersonBooth',
-  },
-  [EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH]: {
-    displayName: 'Go back to Control Booth',
-    icon: 'faPersonBooth',
-  },
+  // [EXPERIENCE_EFFECT_CLOSE_TRANSITION]: {
+  //   displayName: 'Close Transition',
+  //   icon: 'faStar',
+  //   icon2: 'faArrowsDownToLine'
+  // },
+  // [EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH]: {
+  //   displayName: 'Leave Control Booth and go to current Activity',
+  //   icon: 'faPersonBooth',
+  // },
+  // [EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH]: {
+  //   displayName: 'Go back to Control Booth',
+  //   icon: 'faPersonBooth',
+  // },
 }
 
 export const instructionCategoryToExperienceEffects = {

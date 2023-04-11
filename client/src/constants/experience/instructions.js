@@ -27,5 +27,6 @@ export const defaultInstructions = {
   instructionId: null,
   instructionCategory: null,
   arcadeGameMongoId: null,
+  activityId: null,
   isRemoved: false
 }

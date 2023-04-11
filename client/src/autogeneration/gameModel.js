@@ -379,7 +379,6 @@ export function enrichGameModel(gameData) {
     const effectEditInterface = effectEditInterfaces[effectBehavior]
     
     if(effectEditInterface.isStandalone) {
-      console.log(effectBehavior)
       gameData.effects[effectBehavior] = {
         effectId: effectBehavior,
         effectBehavior: effectBehavior,

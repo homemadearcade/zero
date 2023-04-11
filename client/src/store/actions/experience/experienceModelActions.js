@@ -35,6 +35,7 @@ import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, RUN_GAME_INSTANCE_ACT
 import { loadArcadeGame, loadArcadeGameByMongoId, updateArcadeGameCharacter } from '../game/arcadeGameActions';
 
 export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
+  console.log('addGameEffectsToExperienceModel', gameModel, experienceModel)
   Object.keys(gameModel.effects).forEach((effectId) => {
     //mapp game model effects to experience model effects 
     const effect = gameModel.effects[effectId]
@@ -139,6 +140,7 @@ function addDefaultsToExperienceModel(experienceModel) {
           instructionId: gameRoomInstructionsId,
           instructionCategory: INSTRUCTION_GAME_ROOM,
           name: `${presetActivity.name} Guide Instructions`,
+          activityId: id,
           arcadeGameMongoId: presetActivity.gameRoom.arcadeGameMongoId,
         }
         
@@ -174,32 +176,32 @@ function addDefaultsToExperienceModel(experienceModel) {
 }
 
 function enrichExperienceModel(experienceModel) {
-  if(experienceModel.activitys) {
-    Object.keys(experienceModel.activitys).forEach((activityId) => {
-      const activity = experienceModel.activitys[activityId]
+  // if(experienceModel.activitys) {
+  //   Object.keys(experienceModel.activitys).forEach((activityId) => {
+  //     const activity = experienceModel.activitys[activityId]
 
-      const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId
-      experienceModel.experienceEffects[experienceEffectId] = {
-        experienceEffectId,
-        activityId: activityId,
-        roleId: allActivityUsersRoleId,
-        experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
-        title: 'Change Activity to '+ activity.name,
-      }
+  //     const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId
+  //     experienceModel.experienceEffects[experienceEffectId] = {
+  //       experienceEffectId,
+  //       activityId: activityId,
+  //       roleId: allActivityUsersRoleId,
+  //       experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
+  //       title: 'Change Activity to '+ activity.name,
+  //     }
         
-      // Object.keys(experienceModel.roles).forEach((roleId) => {
-      //   const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId+roleId
-      //   experienceModel.experienceEffects[experienceEffectId] = {
-      //     experienceEffectId,
-      //     activityId: activityId,
-      //     roleId,
-      //     experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
-      //     title: 'Change Activity to '+ activity.name,
-      //   }
-      // })
+  //     // Object.keys(experienceModel.roles).forEach((roleId) => {
+  //     //   const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId+roleId
+  //     //   experienceModel.experienceEffects[experienceEffectId] = {
+  //     //     experienceEffectId,
+  //     //     activityId: activityId,
+  //     //     roleId,
+  //     //     experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
+  //     //     title: 'Change Activity to '+ activity.name,
+  //     //   }
+  //     // })
 
-    })
-  }
+  //   })
+  // }
 
   // if(experienceModel.lobbys) {
   //   Object.keys(experienceModel.lobbys).forEach((lobbyId) => {
@@ -251,51 +253,49 @@ function enrichExperienceModel(experienceModel) {
   //   })
   // }
 
-  Object.keys(experienceModel.roles).forEach(roleId => {
-      const role = experienceModel.roles[roleId]
+  // Object.keys(experienceModel.roles).forEach(roleId => {
+  //     const role = experienceModel.roles[roleId]
 
-      if(role.roleCategory === EXPERIENCE_ROLE_PARTICIPANT) {
-        // add an experience effect for close overlay and open overlay 
-        const openTransitionId = EXPERIENCE_EFFECT_DID+'close-overlay'+roleId
-        const closeTransitionId = EXPERIENCE_EFFECT_DID+'open-overlay'+roleId
+  //     if(role.roleCategory === EXPERIENCE_ROLE_PARTICIPANT) {
+  //       // add an experience effect for close overlay and open overlay 
+  //       const openTransitionId = EXPERIENCE_EFFECT_DID+'close-overlay'+roleId
+  //       const closeTransitionId = EXPERIENCE_EFFECT_DID+'open-overlay'+roleId
 
-        experienceModel.experienceEffects[openTransitionId] = {
-          experienceEffectId: openTransitionId,
-          roleId,
-          experienceEffectBehavior: EXPERIENCE_EFFECT_OPEN_TRANSITION,
-          title: 'Send to Stars',
-          customSelectorCategory: 'Transition'
-        }
+  //       experienceModel.experienceEffects[openTransitionId] = {
+  //         experienceEffectId: openTransitionId,
+  //         roleId,
+  //         experienceEffectBehavior: EXPERIENCE_EFFECT_OPEN_TRANSITION,
+  //         title: 'Send to Stars',
+  //         customSelectorCategory: 'Transition'
+  //       }
 
-        experienceModel.experienceEffects[closeTransitionId] = {
-          experienceEffectId: closeTransitionId,
-          roleId,
-          experienceEffectBehavior: EXPERIENCE_EFFECT_CLOSE_TRANSITION,
-          title: 'Return from Stars',
-          customSelectorCategory: 'Transition'
-        }
-      }
+  //       experienceModel.experienceEffects[closeTransitionId] = {
+  //         experienceEffectId: closeTransitionId,
+  //         roleId,
+  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CLOSE_TRANSITION,
+  //         title: 'Return from Stars',
+  //         customSelectorCategory: 'Transition'
+  //       }
+  //     }
 
-      if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
-        const openControlBoothId = EXPERIENCE_EFFECT_DID+'close-booth'+roleId
-        const closeControlBoothId = EXPERIENCE_EFFECT_DID+'open-booth'+roleId
-        experienceModel.experienceEffects[openControlBoothId] = {
-          experienceEffectId: openControlBoothId,
-          roleId,
-          experienceEffectBehavior: EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH,
-          customSelectorCategory: 'Control Booth'
-        }
+  //     if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
+  //       const openControlBoothId = EXPERIENCE_EFFECT_DID+'close-booth'+roleId
+  //       const closeControlBoothId = EXPERIENCE_EFFECT_DID+'open-booth'+roleId
+  //       experienceModel.experienceEffects[openControlBoothId] = {
+  //         experienceEffectId: openControlBoothId,
+  //         roleId,
+  //         experienceEffectBehavior: EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH,
+  //         customSelectorCategory: 'Control Booth'
+  //       }
 
-        experienceModel.experienceEffects[closeControlBoothId] = {
-          experienceEffectId: closeControlBoothId,
-          roleId,
-          experienceEffectBehavior: EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH,
-          customSelectorCategory: 'Control Booth'
-        }
-      }
-      
-
-  });
+  //       experienceModel.experienceEffects[closeControlBoothId] = {
+  //         experienceEffectId: closeControlBoothId,
+  //         roleId,
+  //         experienceEffectBehavior: EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH,
+  //         customSelectorCategory: 'Control Booth'
+  //       }
+  //     }
+  // });
 }
 
 function cleanExperienceModel(experienceModel) {

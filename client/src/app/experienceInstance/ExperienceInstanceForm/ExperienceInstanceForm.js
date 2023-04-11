@@ -17,6 +17,7 @@ import './ExperienceInstanceForm.scss';
 import Icon from '../../../ui/Icon/Icon';
 import { EXPERIENCE_ROLE_AUDIENCE, roleToInterfaceData, EXPERIENCE_INSTANCE_DID, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, defaultParticipantRoleId } from '../../../constants';
 import { RoleChip } from '../../experienceModel/role/RoleChip/RoleChip';
+import _ from 'lodash';
 
 function convertExperienceModelToLobbyInstance(experienceModel) {
   return {
@@ -67,6 +68,7 @@ const ExperienceInstanceForm = ({
       }, []).filter((userId) => !!userId)
       
       const activityIds = Object.keys(experienceModel.activitys)
+      const instructions = _.cloneDeep(experienceModel.instructions)
       for(let i = 0; i < activityIds.length; i++) {
         const activityId = activityIds[i]
         const activity = experienceModel.activitys[activityId]
@@ -85,6 +87,19 @@ const ExperienceInstanceForm = ({
             })
 
             arcadeGameMongoId = arcadeGameResponse.data.game.id
+            Object.keys(instructions).forEach((instructionId) => {
+              const instruction = instructions[instructionId]
+              if(instruction.activityId === activityId) {
+                instruction.arcadeGameMongoId = arcadeGameMongoId
+                Object.keys(instruction.steps).forEach((stepId) => {
+                  const step = instruction.steps[stepId]
+                  const experienceEffectIds = step.experienceEffectIds
+                  step.experienceEffectIds = experienceEffectIds.map((experienceEffectId) => {
+                    return experienceEffectId.replaceAll(gameRoom.arcadeGameMongoId, arcadeGameMongoId)
+                  })
+                })
+              }
+            })
           }
 
           const gameRoomInstance = {
@@ -128,7 +143,6 @@ const ExperienceInstanceForm = ({
               return prev
             }, {})
           }
-          console.log('activitys', activitys[activityId])
         }
       }
 
@@ -140,7 +154,7 @@ const ExperienceInstanceForm = ({
         hostUserMongoId,
         activitys,
         roleIdToUserMongoIds: lobbyInstance.roleIdToUserMongoIds,
-        instructions: experienceModel.instructions,
+        instructions,
         experienceInstanceId,
         roles: experienceModel.roles,
         experienceModelMongoId: experienceModel.id,
@@ -177,7 +191,6 @@ const ExperienceInstanceForm = ({
                         name={`lobbyInstances.${lobbyId}.roleIdToUserMongoIds.${roleId}`}
                         control={control}
                         render={({ field: { onChange, value } }) => {
-                          console.log('value', value)
                           return <SelectUsers
                             usersSelected={value ? value : []} 
                             onSelect={(users) => {
@@ -195,7 +208,6 @@ const ExperienceInstanceForm = ({
                         name={`lobbyInstances.${lobbyId}.roleIdToUserMongoIds.${roleId}`}
                         control={control}
                         render={({ field: { onChange, value } }) => {
-                          console.log(value)
                           return <SelectUsers
                             usersSelected={value ? value : []} 
                             onSelect={(users) => {
