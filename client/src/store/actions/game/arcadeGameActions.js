@@ -90,7 +90,9 @@ function onArcadeGameCharacterUpdate({ userMongoId, data }) {
   const me = store.getState().auth.me 
   const cobrowsing = store.getState().cobrowsing
 
+  console.log('onArcadeGameCharacterUpdate', userMongoId, data)
   if(me.id === userMongoId || (cobrowsing.isSubscribedCobrowsing)) {  
+    console.log('merging', data.unlockableInterfaceIds)
     // needs to do update cobrowsing or else ur just locking ur own...
     store.dispatch({
       type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
@@ -385,7 +387,7 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
 
     const arcadeGameMongoId = response.data.game.id
 
-    await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
+      await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
 
     dispatch({
       type: ADD_ARCADE_GAME_SUCCESS,
@@ -403,16 +405,39 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
   }
 };
 
-export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, isArchived}) => async (dispatch, getState) => {
+export const copyArcadeGameToUser = ({arcadeGameMongoId, userMongoId, gameDataUpdate = {}}) => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_ARCADE_GAME_LOADING,
+    payload: { me: { ...getState().auth.me } },
+  });
   const options = attachTokenToHeaders(getState);
   const response = await axios.get('/api/arcadeGames/' + arcadeGameMongoId, options);
   const gameData = response.data.game
   gameData.owner = null
-  gameData.metadata.isArchived = isArchived
   gameData.metadata.isPublished = false
   gameData.userMongoId = userMongoId
+  mergeDeep(gameData, gameDataUpdate)
 
-  return await dispatch(addArcadeGame(gameData))
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post('/api/arcadeGames', gameData, options);
+
+    const arcadeGameMongoId = response.data.game.id
+
+    dispatch({
+      type: ADD_ARCADE_GAME_SUCCESS,
+      payload: { arcadeGame: response.data.game },
+    });
+
+    return response
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: ADD_ARCADE_GAME_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
 };
 
 

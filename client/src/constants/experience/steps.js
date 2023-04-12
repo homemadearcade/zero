@@ -1,7 +1,7 @@
 export const defaultStep = {
   skippable: false,
   title: '',
-  experienceEffectIds: [],
+  effectIds: [],
   stepId: null,
   promptOrder: [],
   cobrowsingRoleId: null,

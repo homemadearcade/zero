@@ -91,13 +91,6 @@ const ExperienceInstanceForm = ({
               const instruction = instructions[instructionId]
               if(instruction.activityId === activityId) {
                 instruction.arcadeGameMongoId = arcadeGameMongoId
-                Object.keys(instruction.steps).forEach((stepId) => {
-                  const step = instruction.steps[stepId]
-                  const experienceEffectIds = step.experienceEffectIds
-                  step.experienceEffectIds = experienceEffectIds.map((experienceEffectId) => {
-                    return experienceEffectId.replaceAll(gameRoom.arcadeGameMongoId, arcadeGameMongoId)
-                  })
-                })
               }
             })
           }

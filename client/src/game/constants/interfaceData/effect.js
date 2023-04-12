@@ -1,3 +1,4 @@
+import { interfaceIdData } from "../../../constants/interfaceIdData";
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
 import { EFFECT_CAMERA_SHAKE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
@@ -86,7 +87,7 @@ export const effectInterfaceDatas = {
     icon: 'faScript'
   },
   [EFFECT_INTERFACE_UNLOCK]: {
-    // displayName: 'Unlock Interface',
+    displayName: 'Unlock Interface',
     icon: 'faLockOpen'
   },
   [EFFECT_OPEN_TRANSITION]: {
@@ -346,6 +347,10 @@ export function getEffectShorthand(effect) {
       const relationTagNames = effect.remoteEffectedRelationTagIds.map((relationTagId) => relationTags[relationTagId].name)
       return displayName + ` all ${relationTagNames}`
     }
+  }
+
+  if(effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+    return 'Unlock ' + interfaceIdData[effect.interfaceId].name
   }
 
   if(effectBehavior === EFFECT_SWITCH_STAGE) {

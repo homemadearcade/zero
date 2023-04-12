@@ -15,7 +15,7 @@ export const initializeUnlockableInterfaceIds = (unlockableInterfaceIds = {}) =>
      },
   });
 
-  if(getState().cobrowsing.cobrowsingUser === getState().auth.me?.id) {
+  if(getState().cobrowsing.cobrowsingUser.id === getState().auth.me?.id) {
     dispatch(updateCobrowsing(getRemoteStatePackage(getState())))
   }
 };

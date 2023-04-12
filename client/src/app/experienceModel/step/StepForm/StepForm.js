@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Controller, useWatch } from 'react-hook-form';
-import SelectExperienceEffect from '../../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect';
-import { GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from '../../../../constants';
+import {  INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from '../../../../constants';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import SelectActivity from '../../../../ui/connected/SelectActivity/SelectActivity';
 import Divider from '../../../../ui/Divider/Divider';
+import SelectGameInstanceEffect from '../../../../game/ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
 
 const StepForm = ({ register, control, instruction, experienceModel : { experienceModel }, step }) => { 
 
@@ -54,17 +54,16 @@ const StepForm = ({ register, control, instruction, experienceModel : { experien
       />
     </>}
     {instruction.instructionCategory === INSTRUCTION_GAME_ROOM &&  <Controller
-      {...register("experienceEffectIds", {
+      {...register("effectIds", {
         required: true
       })}
-      name={"experienceEffectIds"}
+      name={"effectIds"}
       control={control}
       render={({ field: { onChange, value } }) => (
-        <SelectExperienceEffect 
-          instructionCategory={instruction.instructionCategory}
-          arcadeGameMongoId={instruction.arcadeGameMongoId}
-          formLabel="What changes occur when this step is loaded?" onChange={(experienceEffectIds) => {
-          onChange(experienceEffectIds)
+        <SelectGameInstanceEffect
+          formLabel="What changes occur when this step is loaded?" onChange={(event, effectIds) => {
+            console.log("effectIds", effectIds)
+          onChange(effectIds)
         }} value={value ? value : []} />
       )}
     />}

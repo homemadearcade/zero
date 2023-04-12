@@ -41,15 +41,6 @@ const LobbyPage = ({
           const jsConfetti = new JSConfetti()
           jsConfetti.addConfetti();
           return
-        case EVENT_LOBBY_STEP_INITIALIZED:
-          // if(data.roleId === myRoleId) {
-          //   toggleActiveCobrowsing(true)
-          // }
-
-          // await runExperienceEffects({
-          //   experienceEffectIds: step.experienceEffectIds
-          // })
-          return
         default: 
           return
       }

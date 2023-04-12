@@ -555,7 +555,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
             We preserve a copy of each game after a session for demonstration and archival purposes
           </>,
           onClickNext: () => {
-            store.dispatch(copyArcadeGameToUser({ userMongoId: ARCHIVE_USER_MONGO_ID, arcadeGameMongoId: lobbyInstance.editingGameId, isArchived: true }))
+            store.dispatch(copyArcadeGameToUser({ userMongoId: ARCHIVE_USER_MONGO_ID, arcadeGameMongoId: lobbyInstance.editingGameId, gameDataUpdate: { metadata: { isArchived: true }  }}))
           },
           nextButtonText: 'Archive'
         },

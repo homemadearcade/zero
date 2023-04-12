@@ -7,7 +7,6 @@ import { editExperienceModel } from '../../../../store/actions/experience/experi
 import './StepEditBody.scss';
 import IconButton from '../../../../ui/IconButton/IconButton';
 import StepEditPrompts from '../StepEditPrompts/StepEditPrompts';
-import SelectExperienceEffect from '../../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import Divider from '../../../../ui/Divider/Divider';
 import { activityToInterfaceData, INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from '../../../../constants';
@@ -15,6 +14,7 @@ import Icon from '../../../../ui/Icon/Icon';
 import FormLabel from '../../../../ui/FormLabel/FormLabel';
 import { Paper } from '@mui/material';
 import ActivityChip from '../../activity/ActivityChip/ActivityChip';
+import SelectGameInstanceEffect from '../../../../game/ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
 
 const StepEditBody = ({  
   register, control, instructionId, 
@@ -27,26 +27,24 @@ const StepEditBody = ({
   
   function renderStepBehaviorForm(step) {
     return <Controller
-      {...register(`steps.${step.stepId}.experienceEffectIds`, {
+      {...register(`steps.${step.stepId}.effectIds`, {
         // required: true,
       })}
-      name={`steps.${step.stepId}.experienceEffectIds`}
+      name={`steps.${step.stepId}.effectIds`}
       control={control}
       render={({ field: { onChange, value } }) => {
-        return <SelectExperienceEffect
-          arcadeGameMongoId={instruction.arcadeGameMongoId}
+        return <SelectGameInstanceEffect
           formLabel={"Changes that occur when this step begins"}
           eventType={ON_STEP_BEGINS}
           value={value}
-          instructionCategory={instruction.instructionCategory}
-          onChange={(experienceEffectIds) => {
-            onChange(experienceEffectIds)
+          onChange={(event, effectIds) => {
+            onChange(effectIds)
             editExperienceModel(experienceModel.id, {
               instructions: {
                 [instructionId]: {
                   steps: {
                     [step.stepId]: {
-                      experienceEffectIds
+                      effectIds
                     }
                   }
                 }

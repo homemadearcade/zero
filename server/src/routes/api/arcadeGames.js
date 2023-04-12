@@ -48,6 +48,7 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
         ...tempUser.unlockableInterfaceIds
       }
     };
+    console.log(updatedUser.unlockableInterfaceIds[req.body.experienceModelMongoId])
     if(req.body.merge) {
       updatedUser.unlockableInterfaceIds[req.body.experienceModelMongoId] = { ...tempUser.unlockableInterfaceIds[req.body.experienceModelMongoId], ...req.body.unlockableInterfaceIds }
     } else {

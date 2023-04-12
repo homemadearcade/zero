@@ -8,14 +8,12 @@ import './EffectPromptDialog.scss';
 import { closeEffectPromptDialog } from '../../../store/actions/game/gameFormEditorActions';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
-import SelectInterfaceAction from '../../ui/SelectInterfaceAction/SelectInterfaceAction';
 import { Fade } from '@mui/material';
 import { getCurrentGameScene } from '../../../utils';
 import store from '../../../store';
 import { interfaceActionsUIData } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, RUN_GAME_INSTANCE_ACTION } from '../../constants';
-import { updateArcadeGameCharacter } from '../../../store/actions/game/arcadeGameActions';
 import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
 import SelectGameInstanceEffect from '../../ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
 

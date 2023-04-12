@@ -20,10 +20,11 @@ import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
 import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
+import Alert from '../../../ui/Alert/Alert';
 
 const GameViewObscured = ({
   auth: { me },
-  cobrowsing: { cobrowsingUser, selectedTool, isActivelyCobrowsing },
+  cobrowsing: { cobrowsingUser, selectedTool, isActivelyCobrowsing, remoteStateUserMongoId },
   gameModel,
   errors: { errorStates },
   editGameRoom,
@@ -55,9 +56,9 @@ const GameViewObscured = ({
 
     if(isObscured) {
       return <GameViewEmpty>
-        {me.role === ADMIN_ROLE && < div style={{color: 'red'}}>
-          <Icon icon="faLock"></Icon>
-          Game View Locked<br/> ( Participant only sees a black box )
+        {me.role === ADMIN_ROLE && < div style={{color: 'red', fontSize: '3em'}}>
+          <Icon icon="faLock" size="large"></Icon>
+          {' '} Game View Locked<br/> ( Participant only sees a black box )
         </div>}
       </GameViewEmpty>
     } else if(selectedTool === UNLOCK_TOOL && !isUnlocked) {
@@ -73,6 +74,14 @@ const GameViewObscured = ({
       <Icon icon="faCircleQuestion"></Icon>
       No Game Loaded
       <GameLoadButton></GameLoadButton>
+    </GameViewEmpty>
+  }
+
+  if(!remoteStateUserMongoId && cobrowsingUser.id !== me.id && isActivelyCobrowsing) {
+    return <GameViewEmpty>
+     <Alert severity="warning">
+      {cobrowsingUser.username + ' has not interacted with the experience yet'}
+     </Alert>
     </GameViewEmpty>
   }
 

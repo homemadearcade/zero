@@ -5,7 +5,9 @@ import { CUTSCENE_ADD_IID, CUTSCENE_CONTAINER_IID, CUTSCENE_SELECT_IID } from ".
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [DIALOGUE_CONTAINER_IID]: {
-    ignoreTools: true
+    // ignoreTools: true
+    name: 'Dialogue Container',
+    interfaceGroupId: DIALOGUE_IGID
   },
   [DIALOGUE_ADD_IID]: {
     previewText: 'Add Dialogue',
@@ -16,11 +18,11 @@ export default {
   [DIALOGUE_SHORTCUT_IID]: {
     adminOnly: true
   },
-  // [DIALOGUE_MORE_IID]: {
-
-  // },
   [CUTSCENE_CONTAINER_IID]: {
-    ignoreTools: true
+    name: 'Cutscene Container',
+    interfaceGroupId: CUTSCENE_IGID
+
+    // ignoreTools: true
   },
   [CUTSCENE_ADD_IID]: {
     name: 'Add Cutscene Button',
@@ -28,5 +30,4 @@ export default {
     interfaceGroupId: CUTSCENE_IGID
   },
   [CUTSCENE_SELECT_IID]: {},
-  // [CUTSCENE_MORE_IID]: {},
 }

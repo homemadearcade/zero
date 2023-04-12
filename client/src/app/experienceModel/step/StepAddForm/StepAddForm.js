@@ -17,7 +17,7 @@ const StepAddForm = ({ onSubmit, instruction, defaultValues = {}}) => {
   const { handleSubmit, reset, control, formState: { isValid }, register, setValue } = useForm({
     defaultValues: {
       ...defaultValues,
-      experienceEffectIds: [],
+      effectIds: [],
     },
   });
 

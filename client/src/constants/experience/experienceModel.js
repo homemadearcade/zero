@@ -9,7 +9,6 @@ export const defaultExperienceModel = {
       isNotRemoveable: true
     }
   },
-  experienceEffects: {},
   activitys: {},
   roles: {
     [defaultParticipantRoleId]: {

@@ -24,6 +24,7 @@ export function generateActionEffects(gameModel) {
     const interfaceData = interfaceIdData[interfaceId]
     const name = interfaceData.name || interfaceData.previewText
 
+    const interfaceGroup = interfaceGroupData[interfaceData.interfaceGroupId]
     if(!name) return
     if(interfaceData.isDefaultUnlocked) return
 
@@ -33,7 +34,7 @@ export function generateActionEffects(gameModel) {
       effectBehavior: EFFECT_INTERFACE_UNLOCK,
       interfaceId: interfaceId,
       dataSourceIID: DATA_SOURCE_ACTION_IID,
-      customSelectorCategory: 'Unlock ' + interfaceGroupData[interfaceData.interfaceGroupId].name + ' UI',
+      customSelectorCategory: 'Unlock ' + interfaceGroup.name + ' UI',
       title: 'Unlock ' + name,
       isReadOnly: true,
     }

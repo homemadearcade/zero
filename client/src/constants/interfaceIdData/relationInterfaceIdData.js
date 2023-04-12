@@ -42,7 +42,7 @@ export default {
   }, 
   [RELATION_SELECT_IID]: {},
   [RELATION_CONTAINER_IID]: {
-    ignoreTools: true
+    // ignoreTools: true
 
   }, 
 

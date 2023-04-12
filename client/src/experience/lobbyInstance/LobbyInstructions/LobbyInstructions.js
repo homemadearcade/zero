@@ -176,44 +176,39 @@ const LobbyInstructions = ({
             }
           })
 
-          if(step && step.experienceEffectIds?.length) {
-            const experienceEffectIds = step.experienceEffectIds
-            const experienceEffects = experienceEffectIds.map(experienceEffectId => experienceModel.experienceEffects[experienceEffectId])
+          if(step && step.effectIds?.length) {
+            const effectIds = step.effectIds
 
             // const lobbyInstanceMongoId = getState().lobbyInstance.lobbyInstance?.id
-            experienceEffects.forEach(experienceEffect => {
+            effectIds.forEach(effectId => {
+              const effect = gameModel.effects[effectId]
 
-              if(experienceEffect.experienceEffectBehavior === EXPERIENCE_EFFECT_GAME_ACTION) {
-                const effectId = experienceEffect.effectId
-                const effect = gameModel.effects[effectId]
-
-                if(step.cobrowsingRoleId === myRoleId) {
-                  toggleActiveCobrowsing(false)
-                } else {
-                  toggleActiveCobrowsing(true)
-                }
-
-                if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
-                  // if(step.cobrowsingRoleId !== myRoleId) {
-                  //   effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
-                  // } else {
-                    effect.onClick(store.dispatch, gameModel, store.getState)
-                  // }
-                } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
-                  updateArcadeGameCharacter({
-                    userMongoId: lobbyInstance.cobrowsingUserMongoId,
-                    unlockableInterfaceIds: {
-                      [effect.interfaceId]: true
-                    },
-                    merge: true,
-                    experienceModelMongoId: experienceModel.id,
-                  })
-                } else {
-                  const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
-                  gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
-                }
-
+              if(step.cobrowsingRoleId === myRoleId) {
+                toggleActiveCobrowsing(false)
+              } else {
+                toggleActiveCobrowsing(true)
               }
+
+              if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+                // if(step.cobrowsingRoleId !== myRoleId) {
+                //   effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
+                // } else {
+                  effect.onClick(store.dispatch, gameModel, store.getState)
+                // }
+              } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
+                updateArcadeGameCharacter({
+                  userMongoId: lobbyInstance.cobrowsingUserMongoId,
+                  unlockableInterfaceIds: {
+                    [effect.interfaceId]: true
+                  },
+                  merge: true,
+                  experienceModelMongoId: experienceModel.id,
+                })
+              } else {
+                const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
+                gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
+              }
+
             })
           }
           

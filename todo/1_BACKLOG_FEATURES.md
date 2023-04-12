@@ -11,10 +11,6 @@ UNDO
   undo canvas stuff doesnt work now between stages
   undo doent work at all really Need to undo by textureId
 
-EXPERIENCE CREATOR REDUCER
-  create reducer for experience creator so that we can at least change the selected node id via an action when we remove something
-  Experiences should actually be registerd on cobrowsing going forward
-
 EXPERIENCE IMAGES
   Experience Thumbnail, Experience Image, etc
 

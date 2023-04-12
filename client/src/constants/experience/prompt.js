@@ -4,7 +4,7 @@ export const defaultPrompt = {
   roleId: '',
   text: '',
   promptId: null,
-  experienceEffectIds: [],
+  effectIds: [],
   // gameEvent: '',
   // lobbyEvent: '',
 }

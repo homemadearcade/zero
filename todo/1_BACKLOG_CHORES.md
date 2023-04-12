@@ -16,11 +16,6 @@ Look up x, y, on phaser instance should be... getPosition(). Overall use Get Met
 
 Try to remove getState() and getCobrowsingState() from inside of game... standardize this better
 
-LOCK DATA
-  ArcadeGame.currentEditingSessionId == LobbyId/UserMongoId
-  if(lobbyid !== currentEditingSessionId) not allowed to load
-  Same with Classes, and all these other global data objects
-
 in preloader
   only load spritesheets that are added for 'play game' mode
 
@@ -34,15 +29,8 @@ Utils that use state should be hooks
 
 Only Once should be on relation model
 
-Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
-
 SELECT CHIPS AUTO 
   Asynchronous and FreeSolo MUI Autocomplete is now in the docs
-
-IMPORTED GAMES
-  Mark an imported game as just like a 'library' in order to be able to import it. I just cant trust users to handle this on their own. 
-
-  It seems to be easiest all around for importing from system or from library that we COPY everything. but I think thats not REALLY true for this. WE want INTEROPABLE game in the future... INTEROPABLE so like a version of a tag with the same name in one game shouldnt be different than another version of a tag
 
 REMOVE ENTITY INSTANCE
   Dont redo ALL relations when this happens, just relevant ones. Same with player, etc

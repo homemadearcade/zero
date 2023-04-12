@@ -1,28 +1,25 @@
 import { connect } from 'react-redux';
-import { experienceEffectInterfaceIdData } from '../../../../constants/experience/experienceEffect';
+import { effectInterfaceDatas, getEffectShorthand } from '../../../../game/constants';
 
 const StepTitle = ({  
   step,
   prefix = '',
-  experienceModel: { experienceModel },
+  gameModel: { gameModel },
 }) => {
   function renderText() {
     if(step.title) return step.title
-    if(!step.experienceEffectIds || step.experienceEffectIds.length === 0) return 'Step'
-    const experienceEffect = experienceModel.experienceEffects[step.experienceEffectIds[0]]
-    if(!experienceEffect) return 'Missing Effect'
-    if(experienceEffect.name) return experienceEffect.name
-    const interfaceData = experienceEffectInterfaceIdData[experienceEffect.experienceEffectBehavior]
-    if(!interfaceData) return 'Missing Interface Data'
-    return experienceEffectInterfaceIdData[experienceEffect.experienceEffectBehavior].displayName
+    if(!step.effectIds || step.effectIds.length === 0) return 'Step'
+    if(gameModel) {
+      const effect = gameModel?.effects[step.effectIds[0]]
+      return getEffectShorthand(effect)
+    }
   }
 
   return prefix  + renderText()
-
 };
 
 const mapStateToProps = (state) => ({
-  experienceModel: state.experienceModel,
+  gameModel: state.gameModel,
 });
 
 export default connect(mapStateToProps, { })(StepTitle);

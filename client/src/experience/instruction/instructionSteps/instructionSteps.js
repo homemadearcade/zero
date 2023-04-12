@@ -5,9 +5,9 @@ import { RoleChip } from "../../../app/experienceModel/role/RoleChip/RoleChip";
 import StepPrompts from "../../../app/experienceModel/step/StepPrompts/StepPrompts";
 import StepTitle from "../../../app/experienceModel/step/StepTitle/StepTitle";
 import { GAME_ROOM_ACTIVITY } from "../../../constants";
+import SelectGameInstanceEffect from "../../../game/ui/SelectGameInstanceEffect/SelectGameInstanceEffect";
 import { editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
 import Button from "../../../ui/Button/Button";
-import SelectExperienceEffect from "../../../ui/connected/SelectExperienceEffect/SelectExperienceEffect";
 import Divider from "../../../ui/Divider/Divider";
 import Typography from "../../../ui/Typography/Typography";
 
@@ -82,11 +82,9 @@ export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameMod
               <RoleChip role={lobbyInstance.roles[step.cobrowsingRoleId]} />
               {gameModel?.id === instruction.arcadeGameMongoId && <>
                 <Divider/>
-                  <SelectExperienceEffect
-                    instructionCategory={instruction.instructionCategory}
-                    arcadeGameMongoId={instruction.arcadeGameMongoId}
+                  <SelectGameInstanceEffect
                     disabled
-                    formLabel="These changes occured when this step was loaded" value={step.experienceEffectIds} />
+                    formLabel="These changes occured when this step was loaded" value={step.effectIds} />
                 <Divider/>
               </>}
               <StepPrompts instructionId={instruction.instructionId} step={step} />

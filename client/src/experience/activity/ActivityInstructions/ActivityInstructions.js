@@ -49,12 +49,6 @@ const ActivityInstructions = ({
           canSkipStep={canSkipStep}
           currentStep={activity.instructionCurrentSteps[instructionId]}
           onStepChange={async (stepNumber, stepId) => {
-            const step = instruction.steps[stepId]
-            // if(step) {
-            //   await runExperienceEffects({
-            //     experienceEffectIds: step.experienceEffectIds
-            //   })
-            // }
             editLobby(lobbyInstance.id, {
               activitys: {
                 [activityId]: {

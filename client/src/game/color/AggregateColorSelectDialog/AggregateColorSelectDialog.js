@@ -16,7 +16,6 @@ const AggregateColorSelectDialog = ({ closeSelectAggregateColor, onSelectColor, 
 
   return <CobrowsingDialog open={!isEyeDropping} onClose={handleClose}>
     <div className="AggregateColorSelectDialog">
-      <Typography component="h2" variant="h2">Background Color</Typography>
       <AggregateColorSelect onSelectColor={onSelectColor}/>
     </div>
   </CobrowsingDialog>

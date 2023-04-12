@@ -18,45 +18,14 @@ import {
   EDIT_EXPERIENCE_MODEL_SUCCESS,
   EDIT_EXPERIENCE_MODEL_FAIL,
   CLEAR_EXPERIENCE_MODEL,
-  ON_GAME_INSTANCE_EVENT,
 } from '../../types';
-import { getCurrentGameScene, mergeDeep } from '../../../utils';
+import {  mergeDeep } from '../../../utils';
 import _ from 'lodash';
-import { activityToInterfaceData, ACTIVITY_DID, allActivityUsersRoleId, allExperienceUsersRoleId, allLobbyUsersRoleId, CREDITS_ACTIVITY, defaultActivity, defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep, EXPERIENCE_ROLE_FACILITATOR, EXPERIENCE_ROLE_PARTICIPANT, GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import { activityToInterfaceData, ACTIVITY_DID, CREDITS_ACTIVITY, defaultActivity, 
+  defaultGuideRoleId, defaultInstructions, defaultLobby, defaultStep,
+   GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_DID, INSTRUCTION_LOBBY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import { defaultExperienceModel } from '../../../constants';
 import { defaultGameRoom } from '../../../constants/experience/gameRoom';
-import { EXPERIENCE_EFFECT_CHANGE_ACTIVITY, 
-  EXPERIENCE_EFFECT_CLOSE_TRANSITION, EXPERIENCE_EFFECT_DID, EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH,
-   EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH, EXPERIENCE_EFFECT_OPEN_TRANSITION,
-    EXPERIENCE_EFFECT_GAME_ACTION } from '../../../constants/experience';
-import store from '../..';
-import { editLobby, toggleLobbyDashboard, updateLobbyMember } from './lobbyInstanceActions';
-import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, RUN_GAME_INSTANCE_ACTION } from '../../../game/constants';
-import { loadArcadeGame, loadArcadeGameByMongoId, updateArcadeGameCharacter } from '../game/arcadeGameActions';
-
-export function addGameEffectsToExperienceModel(gameModel, experienceModel) {
-  console.log('addGameEffectsToExperienceModel', gameModel, experienceModel)
-  Object.keys(gameModel.effects).forEach((effectId) => {
-    //mapp game model effects to experience model effects 
-    const effect = gameModel.effects[effectId]
-    const experienceEffectId = EXPERIENCE_EFFECT_DID+effectId+gameModel.id
-    // if(effect.effectBehavior !== EFFECT_INTERFACE_ACTION && effect.effectBehavior !== EFFECT_INTERFACE_UNLOCK) {
-    //   return
-    // }
-    experienceModel.experienceEffects[experienceEffectId] = {
-      effectId: effectId,
-      experienceEffectId,
-      icon: effect.icon || 'faLockOpen',
-      experienceEffectBehavior: EXPERIENCE_EFFECT_GAME_ACTION,
-      title: effect.title,
-      subTitle: effect.subTitle,
-      arcadeGameMongoId: gameModel.id,
-      customSelectorCategory: effect.customSelectorCategory,
-      isRemoved: effect.isRemoved,
-    }
-  })
-
-}
 
 function addDefaultsToExperienceModel(experienceModel) {
   if(experienceModel.lobbys) {
@@ -176,126 +145,7 @@ function addDefaultsToExperienceModel(experienceModel) {
 }
 
 function enrichExperienceModel(experienceModel) {
-  // if(experienceModel.activitys) {
-  //   Object.keys(experienceModel.activitys).forEach((activityId) => {
-  //     const activity = experienceModel.activitys[activityId]
 
-  //     const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId
-  //     experienceModel.experienceEffects[experienceEffectId] = {
-  //       experienceEffectId,
-  //       activityId: activityId,
-  //       roleId: allActivityUsersRoleId,
-  //       experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
-  //       title: 'Change Activity to '+ activity.name,
-  //     }
-        
-  //     // Object.keys(experienceModel.roles).forEach((roleId) => {
-  //     //   const experienceEffectId = EXPERIENCE_EFFECT_DID+activityId+roleId
-  //     //   experienceModel.experienceEffects[experienceEffectId] = {
-  //     //     experienceEffectId,
-  //     //     activityId: activityId,
-  //     //     roleId,
-  //     //     experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_ACTIVITY,
-  //     //     title: 'Change Activity to '+ activity.name,
-  //     //   }
-  //     // })
-
-  //   })
-  // }
-
-  // if(experienceModel.lobbys) {
-  //   Object.keys(experienceModel.lobbys).forEach((lobbyId) => {
-  //     const lobby = experienceModel.lobbys[lobbyId]
-
-  //     [allLobbyUsersRoleId, allExperienceUsersRoleId].forEach((roleId) => {
-  //       const experienceEffectId = EXPERIENCE_EFFECT_DID+lobbyId+roleId
-  //       experienceModel.experienceEffects[experienceEffectId] = {
-  //         experienceEffectId,
-  //         lobbyId: lobbyId,
-  //         roleId: roleId,
-  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_LOBBY,
-  //         icon: 'faDoorOpen',
-  //         title: 'Change Lobby to '+ lobby.name,
-  //       }
-  //     })
-
-  //     // for each role
-  //     Object.keys(experienceModel.roles).forEach((roleId) => {
-  //       const experienceEffectId = EXPERIENCE_EFFECT_DID+lobbyId+roleId
-  //       experienceModel.experienceEffects[experienceEffectId] = {
-  //         experienceEffectId,
-  //         lobbyId: lobbyId,
-  //         roleId,
-  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_LOBBY,
-  //         icon: 'faDoorOpen',
-  //         title: 'Change Lobby to '+ lobby.name,
-  //       }
-  //    })
-  //   })
-  // }
-
-  // if(experienceModel.instructions) {
-  //   Object.keys(experienceModel.instructions).forEach((instructionId) => {
-  //     const instruction = experienceModel.instructions[instructionId]
-
-  //     Object.keys(experienceModel.roles).forEach((roleId) => {
-  //       // for each role
-  //       const experienceEffectId = EXPERIENCE_EFFECT_DID+instructionId+roleId
-  //       experienceModel.experienceEffects[instructionId] = {
-  //         experienceEffectId,
-  //         instructionId: instructionId,
-  //         roleId,
-  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CHANGE_INSTRUCTION,
-  //         icon: 'faDoorOpen',
-  //         title: 'Change Instruction to '+ instruction.name,
-  //       }
-  //     })
-  //   })
-  // }
-
-  // Object.keys(experienceModel.roles).forEach(roleId => {
-  //     const role = experienceModel.roles[roleId]
-
-  //     if(role.roleCategory === EXPERIENCE_ROLE_PARTICIPANT) {
-  //       // add an experience effect for close overlay and open overlay 
-  //       const openTransitionId = EXPERIENCE_EFFECT_DID+'close-overlay'+roleId
-  //       const closeTransitionId = EXPERIENCE_EFFECT_DID+'open-overlay'+roleId
-
-  //       experienceModel.experienceEffects[openTransitionId] = {
-  //         experienceEffectId: openTransitionId,
-  //         roleId,
-  //         experienceEffectBehavior: EXPERIENCE_EFFECT_OPEN_TRANSITION,
-  //         title: 'Send to Stars',
-  //         customSelectorCategory: 'Transition'
-  //       }
-
-  //       experienceModel.experienceEffects[closeTransitionId] = {
-  //         experienceEffectId: closeTransitionId,
-  //         roleId,
-  //         experienceEffectBehavior: EXPERIENCE_EFFECT_CLOSE_TRANSITION,
-  //         title: 'Return from Stars',
-  //         customSelectorCategory: 'Transition'
-  //       }
-  //     }
-
-  //     if(role.roleCategory === EXPERIENCE_ROLE_FACILITATOR) {
-  //       const openControlBoothId = EXPERIENCE_EFFECT_DID+'close-booth'+roleId
-  //       const closeControlBoothId = EXPERIENCE_EFFECT_DID+'open-booth'+roleId
-  //       experienceModel.experienceEffects[openControlBoothId] = {
-  //         experienceEffectId: openControlBoothId,
-  //         roleId,
-  //         experienceEffectBehavior: EXPERIENCE_EFFECT_GO_TO_CONTROL_BOOTH,
-  //         customSelectorCategory: 'Control Booth'
-  //       }
-
-  //       experienceModel.experienceEffects[closeControlBoothId] = {
-  //         experienceEffectId: closeControlBoothId,
-  //         roleId,
-  //         experienceEffectBehavior: EXPERIENCE_EFFECT_LEAVE_CONTROL_BOOTH,
-  //         customSelectorCategory: 'Control Booth'
-  //       }
-  //     }
-  // });
 }
 
 function cleanExperienceModel(experienceModel) {
@@ -462,16 +312,16 @@ async function loadExperienceModel(response) {
   enrichExperienceModel(experienceModel)
   console.log('enriched experience model', experienceModel)
 
-  const gameRoomIds = Object.keys(experienceModel.gameRooms)
-  for(let i = 0; i < gameRoomIds.length; i++) {
-    const gameRoomId = gameRoomIds[i]
-    const gameRoom = experienceModel.gameRooms[gameRoomId]
-    const options = attachTokenToHeaders(store.getState);
-    const response = await axios.get('/api/arcadeGames/' + gameRoom.arcadeGameMongoId, options);
-    const gameData = await loadArcadeGame(response)
-    addGameEffectsToExperienceModel(gameData, experienceModel)
-    console.log('game effects added', experienceModel)
-  }
+  // const gameRoomIds = Object.keys(experienceModel.gameRooms)
+  // for(let i = 0; i < gameRoomIds.length; i++) {
+  //   const gameRoomId = gameRoomIds[i]
+  //   const gameRoom = experienceModel.gameRooms[gameRoomId]
+  //   const options = attachTokenToHeaders(store.getState);
+  //   const response = await axios.get('/api/arcadeGames/' + gameRoom.arcadeGameMongoId, options);
+  //   const gameData = await loadArcadeGame(response)
+  //   addGameEffectsToExperienceModel(gameData, experienceModel)
+  //   console.log('game effects added', experienceModel)
+  // }
 
   return experienceModel
 }

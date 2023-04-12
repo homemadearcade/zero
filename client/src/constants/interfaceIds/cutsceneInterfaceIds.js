@@ -9,10 +9,6 @@ export const CUTSCENE_CONTAINER_IID = 'cutscene/*'
 
 
 // NO DATA YET
-export const DIALOGUE_MORE_IID = 'dialogue/more'
-
-export const CUTSCENE_MORE_IID = 'cutscene/more'
-
 export const TEXT_CUTSCENE_IID = 'TEXT_CUTSCENE_IID'
 export const IMAGE_CUTSCENE_IID = 'IMAGE_CUTSCENE_IID'
 export const IMAGE_AND_TEXT_CUTSCENE_IID = 'IMAGE_AND_TEXT_CUTSCENE_IID'
