@@ -10,6 +10,7 @@ import {
   CLOSE_SECTION_EDITOR,
   OPEN_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
+  SET_RESIZING_ENTITY_INSTANCE_ID,
   // UNDO_INSTANCE_CHANGE_FAIL,
   // UNDO_INSTANCE_CHANGE_SUCCESS
 } from '../../types';
@@ -87,6 +88,13 @@ export const toggleLayerVisibility = (layerId) => (dispatch, getState) => {
     updateCobrowsing: true,
     type: TOGGLE_LAYER_VISIBILITY,
     payload: { layerId }
+  });
+}
+
+export const setResizingEntityInstance = (entityInstanceId) => (dispatch, getState) => {
+  dispatch({
+    type: SET_RESIZING_ENTITY_INSTANCE_ID,
+    payload: { entityInstanceId }
   });
 }
 

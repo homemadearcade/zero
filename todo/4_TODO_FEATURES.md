@@ -18,17 +18,7 @@ IMPLEMENT THESE EFFECTS
     auto generate zones for this effect
   EFFECTS 
     Remove Tag, Add Tag Effect
-    Camera Shake is bad because of the size of the map. it works best when zoomed out, why is that?
-
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
-EXPERIENCE
---------------------------------------------------------------------------------------
-
-unload experience model ( With Experience )
-
-Open Resize Player Camera, Open Resize Stage
+  Game over tags
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -55,6 +45,8 @@ IMPORTING/COPYING/SYSTEM
   get original entity id so that things inherit
   I have to decide what Ids mean and I have to decide fast
   Copying, importing, etc how tf do I do it!
+
+  When you copy a class. It should open edit Graphics with IsNew triggered
 
   IMPORTED GAMES
     Mark an imported game as just like a 'library' in order to be able to import it. I just cant trust users to handle this on their own. 

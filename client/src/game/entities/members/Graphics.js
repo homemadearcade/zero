@@ -173,6 +173,9 @@ export class Graphics {
     const entityModelIdHovering = store.getState().gameViewEditor.entityModelIdHovering
     const gameModel = store.getState().gameModel.gameModel
     const entityModel = gameModel.entityModels[this.entityInstance.entityModelId]
+    
+    // if the instance can be hovered over and then selected
+    phaserInstance.isSelectable = false
 
     if(entityModel.editorInterface.notSelectableInStage) {
       phaserInstance.invisibleIndicator?.setVisible(false)
@@ -185,10 +188,12 @@ export class Graphics {
     const gameViewEditor = getCobrowsingState().gameViewEditor
     const layerInvisibility = gameViewEditor.layerInvisibility
     const isLayerInvisible = layerInvisibility[entityModel.entityIID]
-    if(isLayerInvisible) {
-      this.entityInstance.setVisible(false)
+    // sets visible to false if layer is invisible, but if the layer is visible, then visibility is determined by the entitys visibility state
+    if(!isLayerInvisible && this.entityInstance.isVisible) {
+      this.entityInstance.setVisible(true)
+      phaserInstance.isSelectable = true
     } else {
-      this.entityInstance.setVisible(this.entityInstance.isVisible)
+      this.entityInstance.setVisible(false)
     }
 
     if(phaserInstance.editorHighlight) {
@@ -200,6 +205,7 @@ export class Graphics {
       )
     }
 
+    // if an invisibility indicator is set on an entity -  we want to show/update the invisible indicator
     if(phaserInstance.invisibleIndicator) {
       if(this.scene.isPlaythrough) {
         phaserInstance.invisibleIndicator.setVisible(false)
@@ -207,7 +213,13 @@ export class Graphics {
       } else {
         phaserInstance.invisibleIndicator.setPosition(phaserInstance.x, phaserInstance.y)
         phaserInstance.invisibleIndicator.setRotation(phaserInstance.rotation)
-        phaserInstance.invisibleIndicator.setVisible(!isLayerInvisible)
+
+        // for invisible entity instances, we want to show the invisible indicator when they are being resized
+        // if theres no special action like resizing, we will show the indicator if the layer is visible
+        const isResizing = store.getState().gameViewEditor.resizingEntityInstanceId === this.entityInstance.entityInstanceId
+        const isVisible =  isResizing || !isLayerInvisible
+        if(isVisible) phaserInstance.isSelectable = true 
+        phaserInstance.invisibleIndicator.setVisible(isVisible)
         this.setInvisible()
       }
     }

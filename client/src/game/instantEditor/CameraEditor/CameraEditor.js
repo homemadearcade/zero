@@ -43,8 +43,8 @@ const CameraEditor = ({ entityModelId, gameModel: { gameModel, currentStageId },
 
   return (
     <div className="CameraEditor">
-      <Unlockable isSlider interfaceId={CAMERA_ZOOM_IID}>
-        {false && <SliderNotched
+      {false && <Unlockable isSlider interfaceId={CAMERA_ZOOM_IID}>
+        <SliderNotched
           formLabel="Zoom -/+"
           options={zooms}
           step={0.2}
@@ -52,8 +52,8 @@ const CameraEditor = ({ entityModelId, gameModel: { gameModel, currentStageId },
             editGameModel({ entityModels: { [entityModelId]: { camera: { zoom: value }  }}})        
           }}
           value={entitySelected.camera.zoom}
-      />}
-      </Unlockable>
+      />
+      </Unlockable>}
       <Unlockable isSlider interfaceId={CAMERA_LERP_X_IID}>
         <SliderNotched
           formLabel="Lerp ⇆"

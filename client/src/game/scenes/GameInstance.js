@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION, ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION } from '../constants';
+import { PLAYER_INSTANCE_DID,  UI_LAYER_DEPTH, MATTER_PHYSICS, ARCADE_PHYSICS, ON_PLAYTHROUGH, START_STATE, PAUSED_STATE, PLAY_STATE, PLAYTHROUGH_PLAY_STATE, GAME_OVER_STATE, WIN_GAME_STATE, PLAYTHROUGH_PAUSED_STATE, ANIMATION_CAMERA_SHAKE, ANIMATION_CONFETTI, EVENT_SPAWN_MODEL_IN_CAMERA, EVENT_SPAWN_MODEL_DRAG_FINISH, initialCameraZoneEntityId, UI_LAYER_ID, NON_LAYER_BRUSH_ID,  NON_LAYER_BRUSH_DEPTH, layerGroupIIDToDepth, noRemoteEffectedTagEffects, EFFECT_SPAWN, effectEditInterfaces, EFFECT_STICK_TO, EFFECT_TELEPORT, EFFECT_DESTROY, EFFECT_TRANSFORM, SPAWNED_INSTANCE_DID, SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, EFFECT_CUTSCENE, EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_SWITCH_STAGE, RUN_GAME_INSTANCE_ACTION, ON_STEP_BEGINS, defaultEvent, EFFECT_OPEN_TRANSITION, EFFECT_CLOSE_TRANSITION, gameWidth } from '../constants';
 import { getCobrowsingState } from '../../utils/cobrowsingUtils';
 import store from '../../store';
 import { changePlayerEntity, clearCutscenes, openCutscene } from '../../store/actions/game/playerInterfaceActions';
@@ -321,21 +321,7 @@ export class GameInstance extends Phaser.Scene {
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------
-  // spawnEntityInstanceInsidePlayerCamera({entityModelId}) {
-  //   const [x, y, width, height] = this.playerInstance.getCameraBoundaries()
-  //   const xMix = Math.random() * width;
-  //   const yMix = Math.random() * height;
-  //   const spawnX = x + (yMix);
-  //   const spawnY = y + (xMix);
-  //   console.log({
-  //     spawnX,
-  //     spawnY,
-  //     xMix,
-  //     yMix,
-  //     x,y,width,height
-  //   })
-  //   this.addEntityInstance(ENTITY_INSTANCE_DID+generateUniqueId(), { spawnX, spawnY, entityModelId}, true)
-  // }
+
   initializeEntityInstances() {
     const currentStage = this.getCurrentStage()
     const entityInstances = currentStage.entityInstances
@@ -611,24 +597,32 @@ export class GameInstance extends Phaser.Scene {
   runGameInstanceEvent({gameRoomInstanceEventType, data}) {
     switch(gameRoomInstanceEventType) {
       case ANIMATION_CAMERA_SHAKE: 
-        this.cameras.main.shake(data.intensity)
+        let intensity = data.intensity/333
+        const gameBoundaryWidth = this.getCurrentStage().boundaries.width
+
+        const gameSizePercent = gameBoundaryWidth/gameWidth
+        
+        intensity = intensity * gameSizePercent
+
+        console.log('intensity', intensity)
+
+        const isGridViewOn = store.getState().gameViewEditor.isGridViewOn
+        if(isGridViewOn) {
+          this.editorCamera.shake(data.duration, intensity);
+        } else {
+          this.cameras.main.shake(data.duration, intensity);
+        }
         return
       case ANIMATION_CONFETTI:
         const jsConfetti = new JSConfetti()
         jsConfetti.addConfetti();
-        return
-      case EVENT_SPAWN_MODEL_IN_CAMERA: 
-        this.spawnEntityInstanceInsidePlayerCamera(data)
         return
       case EVENT_SPAWN_MODEL_DRAG_FINISH: 
         const entityInstance = this.getEntityInstance(data.entityInstanceId)
         entityInstance.phaserInstance.x = data.x;
         entityInstance.phaserInstance.y = data.y;
         return
-        // this.runGameEffect(data)
-        return 
       case RUN_GAME_INSTANCE_ACTION: 
-      console.log('RUN_GAME_INSTANCE_ACTION', data)
         const effect = this.getGameModel().effects[data.effectId]
         const event = {
           ...defaultEvent,
@@ -922,7 +916,8 @@ export class GameInstance extends Phaser.Scene {
       this.callGameInstanceEvent({
         gameRoomInstanceEventType: ANIMATION_CAMERA_SHAKE,
         data: {
-          intensity: 200,
+          duration: 1000,
+          intensity: 1,
         }
       })
     }
@@ -1042,7 +1037,7 @@ export class GameInstance extends Phaser.Scene {
       return
     }
 
-    if(effectEditInterfaces[effect.effectBehavior].effectableType === NO_RELATION_TAG_EFFECT_IID) {
+    if(effectEditInterfaces[effect.effectBehavior].targetableType === NO_RELATION_TAG_EFFECT_IID) {
       return this.runTargetlessAccuteEffect({
         relation,
         phaserInstanceA,

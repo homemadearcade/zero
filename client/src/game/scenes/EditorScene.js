@@ -5,7 +5,7 @@ import { editGameModel } from '../../store/actions/game/gameModelActions';
 import { openContextMenuFromEntityInstance, openStageContextMenu } from '../../store/actions/game/contextMenuActions';
 import { isBrushIdColor, isBrushIdEraser, snapObjectXY } from '../../utils/editorUtils';
 import { clearBrush, clearEntity } from '../../store/actions/game/gameSelectorActions';
-import { closeSnapshotTaker, changeEditorCameraZoom } from '../../store/actions/game/gameViewEditorActions';
+import { closeSnapshotTaker, changeEditorCameraZoom, setResizingEntityInstance } from '../../store/actions/game/gameViewEditorActions';
 import { PLAYER_INSTANCE_DID, ENTITY_INSTANCE_DID, UI_LAYER_DEPTH, 
   STAGE_LAYER_ID, PAUSED_STATE, EVENT_SPAWN_MODEL_DRAG_FINISH,
    initialCameraZoneEntityId, initialStageZoneEntityId, 
@@ -223,6 +223,7 @@ export class EditorScene extends GameInstance {
     }
 
     this.resizingEntityInstance = null
+    store.dispatch(setResizingEntityInstance(null))
   }
 
 
@@ -317,7 +318,8 @@ export class EditorScene extends GameInstance {
 
     const entityInstanceIdHovering = store.getState().hoverPreview.entityInstanceIdHovering
     const phaserInstance = entitySprite[0]
-    if(phaserInstance.entityInstanceId !== entityInstanceIdHovering && phaserInstance.visible) {
+
+    if(phaserInstance.entityInstanceId !== entityInstanceIdHovering && phaserInstance?.isSelectable) {
       store.dispatch(changeInstanceHovering(phaserInstance.entityInstanceId, phaserInstance.entityModelId, { isSpawned: phaserInstance.effectSpawned }))
     }
 
@@ -443,7 +445,7 @@ export class EditorScene extends GameInstance {
       })
 
       const hoveringInstances = phaserInstances.filter((phaserInstance) => {
-        return !!phaserInstance.visible
+        return phaserInstance.isSelectable
       })
       
       if(hoveringInstances.length) {
@@ -1048,7 +1050,7 @@ export class EditorScene extends GameInstance {
         } else if(this.snapshotSquare) {
           this.clearSnapshotSquare()
         } else if(this.resizingEntityInstance) {
-          this.clearResize()
+          store.dispatch(setResizingEntityInstance(null))
         } else {
           // store.dispatch(editGameRoom(this.gameRoomInstance.id, {
           //   gameState: PAUSED_STATE
@@ -1087,11 +1089,11 @@ export class EditorScene extends GameInstance {
       // this.editorCamera.zoomTo(cameraZoom, 100, 'Linear', true)
     }
 
-    const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
-    if(isGridViewOn) {
-      this.isGridViewOn = true
-    } else {
-      this.isGridViewOn = false
+    const resizingEntityInstanceId = getCobrowsingState().gameViewEditor.resizingEntityInstanceId
+    if(resizingEntityInstanceId && !this.resizingEntityInstance) {
+      this.onResizeStart(resizingEntityInstanceId)
+    } else if(!resizingEntityInstanceId && this.resizingEntityInstance) {
+      this.clearResize()
     }
 
     // const gameSelector = getCobrowsingState().gameSelector
@@ -1107,6 +1109,13 @@ export class EditorScene extends GameInstance {
     //     brush.destroy()
     //   }
     // }
+
+    const isGridViewOn = getCobrowsingState().gameViewEditor.isGridViewOn
+    if(isGridViewOn) {
+      this.isGridViewOn = true
+    } else {
+      this.isGridViewOn = false
+    }
 
     if(this.isGridViewOn) {
       this.grid.setVisible(true)

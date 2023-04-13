@@ -65,13 +65,9 @@ const EffectPromptDialog = ({
 
   const [value, setValue] = useState([])
 
-  return<Fade in>
-    <div className="EffectPromptDialog">
-      <div className="EffectPromptDialog__body">
-        <Typography variant="h5" font="2P">
-          What would you like to do?
-        </Typography>
-        <div className="EffectPromptDialog__actions">
+  function renderActionData() {
+    return null
+    return <div className="EffectPromptDialog__actions">
         {Object.keys(interfaceActionsUIData).map((key) => {
           const { displayName, icon, description } = interfaceActionsUIData[key]
           return <div className="EffectPromptDialog__action" key={key}>
@@ -98,7 +94,16 @@ const EffectPromptDialog = ({
             Unlock a section, button for the current user
           </div>
         </div>
-        </div>
+      </div>
+  }
+
+  return<Fade in>
+    <div className="EffectPromptDialog">
+      <div className="EffectPromptDialog__body">
+        <Typography variant="h5" font="2P">
+          What would you like to do?
+        </Typography>
+        {renderActionData()}
         <SelectGameInstanceEffect
           value={value}
           onChange={(event, effectIds) => {

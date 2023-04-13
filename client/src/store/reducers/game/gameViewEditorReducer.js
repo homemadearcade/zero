@@ -8,6 +8,7 @@ import {
   OPEN_SNAPSHOT_TAKER,
   CLOSE_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
+  SET_RESIZING_ENTITY_INSTANCE_ID,
 } from '../../types';
 
 // these are editor things that take place within the game view
@@ -72,6 +73,11 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
       return {
         ...state,
         isGridViewOn: !state.isGridViewOn,
+      }
+    case SET_RESIZING_ENTITY_INSTANCE_ID: 
+      return {
+        ...state,
+        resizingEntityInstanceId: payload.entityInstanceId
       }
     case TOGGLE_LAYER_VISIBILITY:
       return {

@@ -46,6 +46,7 @@ export function generateActionEffects(gameModel) {
     if(!interfaceActionData.arguments) {
       const effectId = EFFECT_DID + interfaceActionId
       const interfaceActionUIData = interfaceActionsUIData[interfaceActionData.actionType]
+      if(!interfaceActionUIData) return console.error('no interface action ui data for ' + interfaceActionId)
       gameModel.effects[effectId] = {
         effectId,
         effectBehavior: EFFECT_INTERFACE_ACTION,

@@ -12,12 +12,22 @@ import { selectEntity, openJsonViewer } from '../../../store/actions/game/gameSe
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { ENTITY_INSTANCE_DELETE_IID, ENTITY_INSTANCE_JSON_IID, ENTITY_INSTANCE_MOVE_IID, ENTITY_INSTANCE_RESIZE_ENTITY_IID, ENTITY_INSTANCE_SELECT_ENTITY_IID } from '../../../constants/interfaceIds';
 import { openEditEntityDialog } from '../../../store/actions/game/gameFormEditorActions';
+import { setResizingEntityInstance } from '../../../store/actions/game/gameViewEditorActions';
 
-const EntityInstanceContextMenu = ({ editGameModel, entityModelId, onMenuItemClick, entityInstanceId, webPage: { gameInstance }, gameModel: { gameModel, currentStageId }, openEditEntityDialog, selectEntity, openJsonViewer }) => {
+const EntityInstanceContextMenu = ({ 
+  editGameModel, entityModelId, onMenuItemClick,
+  entityInstanceId, webPage: { gameInstance }, 
+  gameModel: { gameModel, currentStageId }, 
+  openEditEntityDialog, 
+  selectEntity, 
+  openJsonViewer,
+  setResizingEntityInstance
+}) => {
   if(entityModelId === initialCameraZoneEntityId) {
     return <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
       <MenuItem onClick={() => {
-        getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
+        setResizingEntityInstance(entityInstanceId)
+        // getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
         onMenuItemClick()
       }}>Resize</MenuItem>
     </Unlockable>
@@ -42,7 +52,7 @@ const EntityInstanceContextMenu = ({ editGameModel, entityModelId, onMenuItemCli
     </Unlockable>}
     <Unlockable interfaceId={ENTITY_INSTANCE_RESIZE_ENTITY_IID}>
       <MenuItem onClick={() => {
-        getCurrentGameScene(gameInstance).onResizeStart(entityInstanceId)
+        setResizingEntityInstance(entityInstanceId)
         onMenuItemClick()
       }}>Resize{entityInstanceId === PLAYER_INSTANCE_DID ? '' : ' All'}</MenuItem>
     </Unlockable>
@@ -83,4 +93,4 @@ const mapStateToProps = (state) => mapCobrowsingState(state, {
   gameModel: state.gameModel,
 })
 
-export default connect(mapStateToProps, { editGameModel, openEditEntityDialog, selectEntity, openJsonViewer })(EntityInstanceContextMenu);
+export default connect(mapStateToProps, { editGameModel, openEditEntityDialog, selectEntity, openJsonViewer, setResizingEntityInstance })(EntityInstanceContextMenu);

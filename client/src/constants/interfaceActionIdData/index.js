@@ -7,6 +7,8 @@ import placeData from './place'
 import scriptData from './script'
 import loadData from './load'
 import playData from './play'
+import resizeData from './resize'
+import gridData from './grid'
 
 export const interfaceActionIdData = {
   ...snapshotData,
@@ -17,5 +19,7 @@ export const interfaceActionIdData = {
   ...placeData,
   ...scriptData,
   ...loadData,
-  ...playData
+  ...playData,
+  ...resizeData,
+  ...gridData
 }

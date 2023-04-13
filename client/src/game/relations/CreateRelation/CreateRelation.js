@@ -136,7 +136,7 @@ const CreateRelation = ({
 
     const effectShortName = effectInterfaceDatas[effect.effectBehavior].displayName
 
-    if(effectEditInterface.effectableType === SINGLE_RELATION_TAG_EFFECT_IID) {
+    if(effectEditInterface.targetableType === SINGLE_RELATION_TAG_EFFECT_IID) {
       if(event.relationTagIdA && event.relationTagIdB) {
         forms.push(<Switch
             labels={[`${effectShortName} ${relationTagA.name}`, `${effectShortName} ${relationTagB.name}`]}
@@ -171,7 +171,7 @@ const CreateRelation = ({
       }
     }
 
-    if(effectEditInterface.effectableType === TWO_RELATION_TAG_EFFECT_IID) {
+    if(effectEditInterface.targetableType === TWO_RELATION_TAG_EFFECT_IID) {
       if(event.relationTagIdA) forms.push(<Switch
           labels={['', `${effectShortName} ${relationTagA.name}`]}
           size="small"

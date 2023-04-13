@@ -1,16 +1,25 @@
 export const INTERFACE_ACTION_EDIT = 'INTERFACE_ACTION_EDIT'
-export const INTERFACE_ACTION_CLOSE = 'INTERFACE_ACTION_CLOSE'
 export const INTERFACE_ACTION_PLACE = 'INTERFACE_ACTION_PLACE'
-export const INTERFACE_ACTION_ADD = 'INTERFACE_ACTION_ADD'
 export const INTERFACE_ACTION_CAMERA = 'INTERFACE_ACTION_CAMERA'
 export const INTERFACE_ACTION_DRAW = 'INTERFACE_ACTION_DRAW'
 export const INTERFACE_ACTION_IMPORT = 'INTERFACE_ACTION_IMPORT'
 export const INTERFACE_ACTION_SCRIPT = 'INTERFACE_ACTION_SCRIPT'
 export const INTERFACE_ACTION_PLAY = 'INTERFACE_ACTION_PLAY'
 export const INTERFACE_ACTION_LOAD = 'INTERFACE_ACTION_LOAD'
+export const INTERFACE_ACTION_RESIZE = 'INTERFACE_ACTION_RESIZE'
+export const INTERFACE_ACTION_GRID = 'INTERFACE_ACTION_GRID'
 
 export const interfaceActionsUIData = {
-
+  [INTERFACE_ACTION_GRID]: {
+    displayName: 'Grid',
+    icon: 'faTableCellsLarge',
+    description: 'Do actions to the game grid'
+  },
+  [INTERFACE_ACTION_RESIZE]: {
+    displayName: 'Resize',
+    icon: 'faExpand',
+    description: 'Resize game objects'
+  },
   [INTERFACE_ACTION_DRAW]: {
     displayName: 'Draw',
     icon: 'faPaintbrush',
@@ -21,11 +30,6 @@ export const interfaceActionsUIData = {
     icon: 'faPen',
     description: 'Edit game objects'
   },
-  // [INTERFACE_ACTION_CLOSE]: {
-  //   displayName: 'Close',
-  //   icon: 'faClose',
-  //   description: 'Close the current window'
-  // },
   [INTERFACE_ACTION_PLACE]: {
     displayName: 'Place',
     icon: 'faChessPawn',

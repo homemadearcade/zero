@@ -109,45 +109,45 @@ export const effectEditInterfaces = {
   // Movement
   [EFFECT_TELEPORT]: {
     zoneEntityModelId: 'Teleport to which zone?',
-    effectableType: TWO_RELATION_TAG_EFFECT_IID,
+    targetableType: TWO_RELATION_TAG_EFFECT_IID,
   },
   [EFFECT_IGNORE_GRAVITY]: {
-    effectableType: TWO_RELATION_TAG_EFFECT_IID,
+    targetableType: TWO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
   [EFFECT_STICK_TO]: {
-    effectableType: SINGLE_RELATION_TAG_EFFECT_IID,
+    targetableType: SINGLE_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
 
   // Lifecycle
   [EFFECT_TRANSFORM]: {
     entityModelId: 'Transform into which object?',
-    effectableType: TWO_RELATION_TAG_EFFECT_IID,
+    targetableType: TWO_RELATION_TAG_EFFECT_IID,
   },
   [EFFECT_SPAWN]: {
     zoneEntityModelId: 'Spawn in which Zone?',
     effectCooldown: true,
     spawnEntityModelId: 'Which Entity will be spawned?',
     spawnZoneSelectorType: true,  
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
   },
   [EFFECT_DESTROY]: {
-    effectableType: TWO_RELATION_TAG_EFFECT_IID,
+    targetableType: TWO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
 
   // Game State
   [EFFECT_GAME_OVER]: {
     text: 'Message',
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
     isStandalone: true
   },
   [EFFECT_WIN_GAME]: {
     text: 'Message',
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
     isStandalone: true
   },
@@ -156,11 +156,11 @@ export const effectEditInterfaces = {
   [EFFECT_CAMERA_SHAKE]: {
     // number: 'How intense is the camera shake?',
     // effectCooldown: true,
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
   [EFFECT_INVISIBLE]: {
-    effectableType: TWO_RELATION_TAG_EFFECT_IID,
+    targetableType: TWO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
 
@@ -169,38 +169,38 @@ export const effectEditInterfaces = {
     stageId: 'Which stage?',
     // zoneEntityModelId: 'Spawn in which Zone?',
     // entityModelId: 'Transform into which object? (Optional)',
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: false
   },
   [EFFECT_PAUSE_GAME]: {
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
   [EFFECT_UNPAUSE_GAME]: {
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
 
   // INTERFACE
   [EFFECT_INTERFACE_ACTION]: {
     // interfaceActionId: 'Which interface action?',
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     // isCustomizeable: true
   },
   [EFFECT_CUTSCENE]: {
     cutsceneId: 'Which cutscene?',
-    effectableType: NO_RELATION_TAG_EFFECT_IID
+    targetableType: NO_RELATION_TAG_EFFECT_IID
   },
   [EFFECT_INTERFACE_UNLOCK]: {
     interfaceId: 'Which interface?',
-    effectableType: NO_RELATION_TAG_EFFECT_IID
+    targetableType: NO_RELATION_TAG_EFFECT_IID
   },
   [EFFECT_OPEN_TRANSITION]: {
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
   [EFFECT_CLOSE_TRANSITION]: {
-    effectableType: NO_RELATION_TAG_EFFECT_IID,
+    targetableType: NO_RELATION_TAG_EFFECT_IID,
     isStandalone: true
   },
 }

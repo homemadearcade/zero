@@ -30,7 +30,7 @@ function RelationShorthand({relation, onClickEvent, useListForEffects = true, ga
     const relationTagA = relationTags[event.relationTagIdA]
     const relationTagB = relationTags[event.relationTagIdB]
 
-    if(effectEditInterface.effectableType === SINGLE_RELATION_TAG_EFFECT_IID) {
+    if(effectEditInterface.targetableType === SINGLE_RELATION_TAG_EFFECT_IID) {
       if(relationEffect.effectTagA) {
         return renderRelationTag(relationTagA)
       } else {
@@ -38,7 +38,7 @@ function RelationShorthand({relation, onClickEvent, useListForEffects = true, ga
       }
     }
 
-    if(effectEditInterface.effectableType === TWO_RELATION_TAG_EFFECT_IID) {
+    if(effectEditInterface.targetableType === TWO_RELATION_TAG_EFFECT_IID) {
       return <>
         {relationEffect.effectTagA && renderRelationTag(relationTagA)}
         {relationEffect.effectTagB && renderRelationTag(relationTagB)}
