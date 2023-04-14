@@ -98,6 +98,7 @@ const PhaserGame = ({
     const gameInstanceId =  GAME_INSTANCE_DID + generateUniqueId()
     gameInstance.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameRoomInstance, gameInstanceId}), true);
     setGameInstance(gameInstance, gameInstanceId)
+    console.log('setting game instance id', gameInstanceId)
     return () => {
       console.log('destroyed game', gameInstanceId, gameInstance)
       getCurrentGameScene(gameInstance)?.unload()

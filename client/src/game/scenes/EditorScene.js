@@ -668,6 +668,11 @@ export class EditorScene extends GameInstance {
   // NETWORK UPDATE
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
+    if(!this.scene)  {
+      console.error('update we dont want')
+      console.log(this)
+      return
+    }
     if(!this.scene.isActive(this.scene.key)) return 
 
     if(gameUpdate.theme?.primaryColor) {
