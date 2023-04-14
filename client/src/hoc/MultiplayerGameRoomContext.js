@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import GameRoomErrorStates from '../game/gameRoomInstance/GameRoomErrorStates/GameRoomErrorStates';
 import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockableInterfaceActions';
-import { getUserById } from '../store/actions/user/userActions';
+import { getUserByMongoId } from '../store/actions/user/userActions';
 import Loader from '../ui/Loader/Loader';
 
 class MultiplayerGameRoomContext extends Component {
@@ -14,14 +14,14 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   joinMultiplayerGameRoom(gameRoomInstanceMongoId) {
-    const {joinGameRoom, getUserById,  auth: { me }, experienceModel : { experienceModel }, initializeUnlockableInterfaceIds} = this.props
+    const {joinGameRoom, getUserByMongoId,  auth: { me }, experienceModel : { experienceModel }, initializeUnlockableInterfaceIds} = this.props
     
     const doJoinMultiPlayerGameRoom = async () => {   
       try {
         await joinGameRoom({gameRoomInstanceMongoId, userMongoId: me?.id});
 
         if(experienceModel?.id) {
-          const interfaceIds = await getUserById(me.id).unlockableInterfaceIds[experienceModel.id]
+          const interfaceIds = await getUserByMongoId(me.id).unlockableInterfaceIds[experienceModel.id]
           initializeUnlockableInterfaceIds(interfaceIds ? interfaceIds: {})
         } else {
           initializeUnlockableInterfaceIds({all: true})
@@ -91,5 +91,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose( 
-  connect(mapStateToProps, { joinGameRoom, leaveGameRoom, addGameRoom, endGameRoom, initializeUnlockableInterfaceIds, getUserById })
+  connect(mapStateToProps, { joinGameRoom, leaveGameRoom, addGameRoom, endGameRoom, initializeUnlockableInterfaceIds, getUserByMongoId })
 )(MultiplayerGameRoomContext)
