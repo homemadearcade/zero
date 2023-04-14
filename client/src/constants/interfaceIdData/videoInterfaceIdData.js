@@ -3,7 +3,7 @@ import { GAME_ROOM_VIDEO_IID, LOBBY_MEMBER_VIDEO_IID, VIDEO_ACTIVITY_VIDEO_IID, 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [GAME_ROOM_VIDEO_IID]: {
-    contentPriority: 0,
+    contentPriority: 1,
     isDefaultUnlocked: true
   },
   [PEEK_VIDEO_IID] : {
@@ -15,7 +15,7 @@ export default {
     isDefaultUnlocked: true
   },
   [CURRENT_COBROWSING_VIDEO_IID]: {
-    contentPriority: 1,
+    contentPriority: 2,
     isDefaultUnlocked: true
   },
   [LOBBY_MEMBER_VIDEO_IID] : {

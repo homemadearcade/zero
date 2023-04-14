@@ -55,7 +55,7 @@ const CreateTexture = ({
         <Button onClick={() => {
           openCreateCanvasImageDialog(entityModel.entityModelId, textureIdSelected, textureTintSelected)
         }}>
-          Draw New Texture
+          Draw New Sprite
         </Button>
       </Unlockable>}
       <AggregateColorSelect

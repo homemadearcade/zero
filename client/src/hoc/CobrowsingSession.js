@@ -36,6 +36,7 @@ class CobrowsingSession extends Component {
       await publishCobrowsing({lobbyInstanceMongoId: lobbyInstance.id})
     } else {
       await subscribeCobrowsing({lobbyInstanceMongoId: lobbyInstance.id, userMongoId: userMongoId})
+      console.log('subscribed', userMongoId, 'me', me.id)
     }
   }
 

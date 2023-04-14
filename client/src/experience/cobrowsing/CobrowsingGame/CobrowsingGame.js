@@ -17,6 +17,7 @@ import { defaultGuideRoleId } from '../../../constants';
 const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
   const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]
 
+  console.log(gameFacilitatorUserMongoId)
     //   {isActivelyCobrowsing && !remoteStateUserMongoId && <div className="CobrowsingGame__no-state">
     //   <Typography variant="h5">{cobrowsingUser.username} has not interacted with the experience yet.</Typography> 
     // </div>}

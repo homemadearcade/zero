@@ -13,11 +13,11 @@ const layerGroupIIDtoName = {
 }
 
 const SelectLayer = ({ formLabel, onChange, value, disabled}) => {
-  const mapControlsToOption = (layerGroupId) => {
+  const mapControlsToOption = (layerGroupIID) => {
 
     return {
-      label: layerGroupIIDtoName[layerGroupId],
-      value: layerGroupId
+      label: layerGroupIIDtoName[layerGroupIID],
+      value: layerGroupIID
     }
   }
 

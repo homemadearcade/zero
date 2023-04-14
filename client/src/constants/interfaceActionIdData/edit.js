@@ -3,7 +3,7 @@ import { openGameMetadataDialog, openSelectStageColorDialog } from "../../store/
 import { openSectionEditor } from "../../store/actions/game/gameViewEditorActions";
 import { EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
 import { INTERFACE_ACTION_EDIT } from "../interfaceActions";
-import { ZONE_ENTITY_IID } from "../interfaceIds";
+import { EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ZONE_ENTITY_IID } from "../interfaceIds";
 
  // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -52,7 +52,7 @@ export default {
     },
     onClick: ([entityModelId]) => (dispatch, gameModel) => {
       const entityModel = gameModel.entityModels[entityModelId]
-      dispatch(openEditEntityGraphics(entityModel))
+      dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, entityModel))
     },
     actionType: INTERFACE_ACTION_EDIT,
     arguments: ['entityModelId']

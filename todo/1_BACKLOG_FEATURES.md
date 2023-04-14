@@ -3,6 +3,10 @@ Resize by hovering over the edges of the instance...?
 ROLE
   Have this update the cobrowsing color
 
+SPRITE EDITOR
+  Flip sides Horizontal/Vertical in sprite editor 
+
+
 BOUNDARIES UPDATE
   Change boundaries through the stage zone instead of stage zone being determined by the boundaries
   Boundary size increase by a few blocks option 

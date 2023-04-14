@@ -32,8 +32,11 @@ export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, image
     }
   });
 
+  console.log('uploadCanvasImageAndAddToGameModel', imageFile, textureId, imageType)
+
   try {
-    await addAwsImage(imageFile, textureId)
+    const awsResponse = await addAwsImage(imageFile, textureId)
+    console.log('awsResponse', awsResponse)
 
     // this is good here because it sends an event out to update this image/load it
     // but do we need that anymore?

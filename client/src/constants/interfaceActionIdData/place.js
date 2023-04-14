@@ -4,6 +4,7 @@ import { openEditEntityGraphics } from "../../store/actions/game/gameFormEditorA
 import { selectEntity } from "../../store/actions/game/gameSelectorActions";
 import { PLACE_BASIC_ENTITY_AID, PLACE_ENTITY_AID, PLACE_NPC_ENTITY_AID, PLACE_PLAYER_ENTITY_AID, PLACE_ZONE_ENTITY_AID } from "../interfaceActionIds/place";
 import { INTERFACE_ACTION_PLACE } from "../interfaceActions";
+import { EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ENTITY_BOX_DIALOG_IID } from "../interfaceIds";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -29,7 +30,7 @@ export default {
     higherPriority: true,
     actionType: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
-      dispatch(openEditEntityGraphics(_.cloneDeep(defaultPlayerEntity)))
+      dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultPlayerEntity)))
     }
   },
   [PLACE_NPC_ENTITY_AID]: {
@@ -38,7 +39,7 @@ export default {
     higherPriority: true,
     actionType: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
-      dispatch(openEditEntityGraphics(_.cloneDeep(defaultNpcEntity)))
+      dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultNpcEntity)))
     }
   },
   [PLACE_ZONE_ENTITY_AID]: {
@@ -47,7 +48,7 @@ export default {
     higherPriority: true,
     actionType: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
-      dispatch(openEditEntityGraphics(_.cloneDeep(defaultZoneEntity)))
+      dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultZoneEntity)))
     }
   },
   [PLACE_BASIC_ENTITY_AID]: {
@@ -56,7 +57,7 @@ export default {
     higherPriority: true,
     actionType: INTERFACE_ACTION_PLACE,
     onClick: () => (dispatch, gameModel) => {
-      dispatch(openEditEntityGraphics(_.cloneDeep(defaultBasicEntity)))
+      dispatch(openEditEntityGraphics(EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, _.cloneDeep(defaultBasicEntity)))
     }
   },
 }

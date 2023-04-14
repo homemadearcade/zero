@@ -90,7 +90,6 @@ function onArcadeGameCharacterUpdate({ userMongoId, data }) {
   const me = store.getState().auth.me 
   const cobrowsing = store.getState().cobrowsing
 
-  console.log('onArcadeGameCharacterUpdate', userMongoId, data)
   if(me.id === userMongoId || (cobrowsing.isSubscribedCobrowsing)) {  
     console.log('merging', data.unlockableInterfaceIds)
     // needs to do update cobrowsing or else ur just locking ur own...

@@ -85,7 +85,7 @@ export class Eraser extends Brush {
 
   createPreviewLayers() {
     const gameModel = this.scene.getGameModel()
-    const stage = this.getCurrentStage()
+    const stage = this.scene.getCurrentStage()
     const eraserLayerId = getLayerIdFromEraserId(this.brushId)
     const eraserLayerGroupId = gameModel.layers[eraserLayerId].layerGroupIID
 

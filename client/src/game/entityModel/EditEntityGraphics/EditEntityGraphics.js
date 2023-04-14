@@ -111,7 +111,7 @@ const EditEntityGraphics = ({
         <SelectLayer formLabel={"Layer"} value={entityModel.graphics.layerGroupIID ? [entityModel.graphics.layerGroupIID] : [PLAYGROUND_LAYER_GROUP_IID]} onChange={(e, value) => {
           const newValue = value[value.length-1]
           if(newValue) updateCreateEntity({ graphics: {
-            layerId: newValue
+            layerGroupIID: newValue
           }})
         }}/>
       </Unlockable>}

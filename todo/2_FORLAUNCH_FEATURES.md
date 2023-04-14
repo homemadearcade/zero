@@ -1,8 +1,10 @@
 
 ---
 
-VIDEO CALL BLOCKING
+VIDEO CALL FEATURES
   End Call for everyone in lobby, End call for self also
+  You lost your video please refresh page 
+  Popup when someone loses video 
 
 PARTICLE EFFECT ON INSTANCES WHEN YOU CHANGE A ENTITY_MODEL
   Explode on Destroy Tag
