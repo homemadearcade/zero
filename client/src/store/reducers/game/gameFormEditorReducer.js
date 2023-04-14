@@ -46,6 +46,7 @@ import {
   OPEN_CREATE_CANVAS_IMAGE_DIALOG,
   CLOSE_EFFECT_PROMPT_DIALOG,
   OPEN_EFFECT_PROMPT_DIALOG,
+  CLEAR_EDITOR,
 } from '../../types';
 
 // game create editor
@@ -408,6 +409,7 @@ export default function gameFormEditorReducer(state = initialState, { type, payl
         isEffectPromptDialogOpen: true
       }
     case CLEAR_EDITOR_FORMS:
+    case CLEAR_EDITOR:
       return initialState
     default:
       return state;

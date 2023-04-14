@@ -43,6 +43,7 @@ EventEmitter.prototype.on = function (event, listener) {
           idx = indexOf(this.events[event], listener);
 
           if (idx > -1) {
+            console.log('removing listener', event, listener)
               this.events[event].splice(idx, 1);
           }
       }

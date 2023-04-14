@@ -49,7 +49,7 @@ export class GameHostScene extends EditorScene {
       if(this.gameInstanceId !== gameInstanceId) {
         console.error('host has incorrect game instance id', this.gameInstanceId, 'should be', gameInstanceId)
         // this.unload()
-        // return
+        return
       }
       const currentStageId = store.getState().gameModel.currentStageId
       if(this.stage.stageId !== currentStageId) return
@@ -133,9 +133,10 @@ export class GameHostScene extends EditorScene {
   }
 
   unregisterEvents() {
-    window.socket.off(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
+    window.socket.removeAllListeners(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     this.clearGameModelUpdate()
-    window.socket.off(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
+    console.log('unregistering events', this.gameInstanceId)
+    window.socket.removeAllListeners(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 

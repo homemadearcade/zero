@@ -34,8 +34,8 @@ export class GameClientScene extends EditorScene {
     if(gameInstanceId !== this.gameInstanceId) {
       console.error('Incorrect game instance', gameInstanceId, 'should be', this.gameInstanceId)
       // this.unload()
-      // return
-      this.gameInstanceId = gameInstanceId
+      return
+      // this.gameInstanceId = gameInstanceId
     }
 
     this.updateNetworkStatus()
@@ -120,9 +120,9 @@ export class GameClientScene extends EditorScene {
   }
 
   unregisterEvents() {
-    window.socket.off(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
-    window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
-    console.log('unregistering events')
+    window.socket.removeAllListeners(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
+    window.socket.removeAllListeners(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
+    console.log('unregistering events', this.gameInstanceId)
     this.clearGameModelUpdate()
   }
 
@@ -130,6 +130,7 @@ export class GameClientScene extends EditorScene {
     super.create()
     this.pause()
     this.isPaused = true
+    console.log('creating', this.gameInstanceId)
     window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
     this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
