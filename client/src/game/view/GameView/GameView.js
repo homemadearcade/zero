@@ -81,6 +81,8 @@ const GameView = (props) => {
     return <GameViewEmpty></GameViewEmpty>
   }
 
+  if(!props.gameRoomInstance.gameRoomInstance.id) return <GameViewEmpty/>
+
   return <PhaserGame {...props}></PhaserGame>
 }
 
@@ -105,7 +107,7 @@ const PhaserGame = ({
       setGameInstance(null, null)
       gameInstance.destroy()
     }
-  }, [gameRoomInstance.id, gameRoomInstance.arcadeGameMongoId]);
+  }, []);
 
   useEffect(() => {
     const connectionInterval = setInterval(() => {

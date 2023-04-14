@@ -21,7 +21,9 @@ class MultiplayerGameRoomContext extends Component {
         await joinGameRoom({gameRoomInstanceMongoId, userMongoId: me?.id});
 
         if(experienceModel?.id) {
-          const interfaceIds = await getUserByMongoId(me.id).unlockableInterfaceIds[experienceModel.id]
+          const response = await getUserByMongoId(me.id).unlockableInterfaceIds[experienceModel.id]
+          const interfaceIds = response.data.user.interfaceIds
+          console.log(interfaceIds)
           initializeUnlockableInterfaceIds(interfaceIds ? interfaceIds: {})
         } else {
           initializeUnlockableInterfaceIds({all: true})
