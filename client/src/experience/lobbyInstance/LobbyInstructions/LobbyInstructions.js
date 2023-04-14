@@ -197,7 +197,7 @@ const LobbyInstructions = ({
               if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
                 
                 if(step.cobrowsingRoleId !== myRoleId) {
-                  forceCobrowsingUpdateDispatch(clearEditor)
+                  forceCobrowsingUpdateDispatch(clearEditor())
                   effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
                 } else {
                   store.dispatch(clearEditor())
