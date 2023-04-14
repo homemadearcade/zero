@@ -9,6 +9,7 @@ import {
   CLOSE_SNAPSHOT_TAKER,
   CHANGE_EDITOR_CAMERA_ZOOM,
   SET_RESIZING_ENTITY_INSTANCE_ID,
+  CLEAR_EDITOR,
 } from '../../types';
 
 // these are editor things that take place within the game view
@@ -88,6 +89,7 @@ export default function gameViewEditorReducer(state = initialState, { type, payl
         }
       }
     case CLEAR_GAME_VIEW_EDITOR:
+    case CLEAR_EDITOR:
       return initialState
     default:
       return state;

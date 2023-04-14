@@ -1134,6 +1134,18 @@ export class EditorScene extends GameInstance {
 
   unload() {
     super.unload()
+    this.input.off('pointerover', this.onPointerOver);
+    this.input.off('pointerout', this.onPointerOut);
+    this.input.off('pointerdown', this.onPointerDown, this);
+    this.input.off('pointerup', this.onPointerUp);
+    this.input.off('pointerupoutside', this.onPointerUpOutside);
+    this.input.off('pointerdownoutside', this.onPointerDownOutside);
+    this.input.off('pointermove', this.onPointerMove, this);
+    this.input.off('gameout', this.onPointerLeaveGame, this);
+    this.input.off('gameover', this.onPointerOverGame, this);
+    this.input.off('drag', this.onDragStart);
+    this.input.off('dragend', this.onDragEnd);
+    this.input.off('wheel', this.onMouseWheel);
     this.remoteEditors.forEach((remoteEditor) => {
       remoteEditor.destroy()
     })

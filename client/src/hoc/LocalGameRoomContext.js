@@ -3,20 +3,26 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { addGameRoom, editGameRoom, endGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockableInterfaceActions';
+import { getUserById } from '../store/actions/user/userActions';
 import Loader from '../ui/Loader/Loader';
 
 class LocalGameRoomContext extends Component {
   componentWillMount() {
-    const { room, editGameRoom, experienceModel : { experienceModel }, auth : { me }, initializeUnlockableInterfaceIds } = this.props
+    const { room, editGameRoom } = this.props
     editGameRoom(null, room)
 
+    this.joinGameRoom()
+  }
+
+  async joinGameRoom() {
+    const { getUserById, experienceModel : { experienceModel }, auth : { me }, initializeUnlockableInterfaceIds } = this.props
+
     if(experienceModel?.id) {
-      const interfaceIds = me.unlockableInterfaceIds[experienceModel.id]
+      const interfaceIds = await getUserById(me.id).unlockableInterfaceIds[experienceModel.id]
       initializeUnlockableInterfaceIds(interfaceIds ? interfaceIds: {})
     } else {
       initializeUnlockableInterfaceIds({all: true})
     }
-
   }
 
   componentWillUnmount() {
@@ -24,7 +30,6 @@ class LocalGameRoomContext extends Component {
     endGameRoom()
   }
 
-  
 
   render() {
     const { children, gameRoomInstance: { isLoading, isJoining }} = this.props;
@@ -45,5 +50,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose( 
-  connect(mapStateToProps, { editGameRoom,  addGameRoom, endGameRoom, initializeUnlockableInterfaceIds })
+  connect(mapStateToProps, { editGameRoom,  addGameRoom, endGameRoom, initializeUnlockableInterfaceIds, getUserById })
 )(LocalGameRoomContext)

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Phaser from 'phaser';
@@ -91,17 +91,20 @@ const PhaserGame = ({
   children,
   gameRoomInstance: { gameRoomInstance },
 }) => {
+  // const [gameInstance, setComponentGameInstance] = useState()
+
   useEffect(() => {
-    const game = new Phaser.Game(config);
+    const gameInstance = new Phaser.Game(config);
     const gameInstanceId =  GAME_INSTANCE_DID + generateUniqueId()
-    game.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameRoomInstance, gameInstanceId}), true);
-    setGameInstance(game, gameInstanceId)
+    gameInstance.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameRoomInstance, gameInstanceId}), true);
+    setGameInstance(gameInstance, gameInstanceId)
     return () => {
-      getCurrentGameScene(game)?.unload()
+      console.log('destroyed game', gameInstanceId, gameInstance)
+      getCurrentGameScene(gameInstance)?.unload()
       setGameInstance(null, null)
-      game.destroy()
+      gameInstance.destroy()
     }
-  }, [gameRoomInstance.id]);
+  }, [gameRoomInstance.id, gameRoomInstance.arcadeGameMongoId]);
 
   useEffect(() => {
     const connectionInterval = setInterval(() => {

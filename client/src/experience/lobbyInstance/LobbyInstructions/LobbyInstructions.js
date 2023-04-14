@@ -19,6 +19,8 @@ import store from '../../../store';
 import { forceCobrowsingUpdateDispatch, getCurrentGameScene } from '../../../utils';
 import { toggleActiveCobrowsing } from '../../../store/actions/game/cobrowsingActions';
 import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
+import { clearEditor } from '../../../store/actions/game/gameSelectorActions';
+import { clearGameViewEditor } from '../../../store/actions/game/gameViewEditorActions';
 
 const LobbyInstructions = ({
   editLobby,
@@ -193,9 +195,12 @@ const LobbyInstructions = ({
               }
 
               if(effect.effectBehavior === EFFECT_INTERFACE_ACTION) {
+                
                 if(step.cobrowsingRoleId !== myRoleId) {
+                  forceCobrowsingUpdateDispatch(clearEditor)
                   effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
                 } else {
+                  store.dispatch(clearEditor())
                   effect.onClick(store.dispatch, gameModel, store.getState)
                 }
               } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {

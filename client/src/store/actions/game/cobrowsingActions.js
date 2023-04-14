@@ -436,7 +436,7 @@ export const toggleActiveCobrowsing = (value) => (dispatch, getState) => {
   store.dispatch({
     type: TOGGLE_COBROWSING,
     payload: {
-      value: value? value : !getState().cobrowsing.isActivelyCobrowsing
+      value: value !== undefined ? value : !getState().cobrowsing.isActivelyCobrowsing
     }
   })
 }
