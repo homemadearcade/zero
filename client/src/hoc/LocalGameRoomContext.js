@@ -18,7 +18,7 @@ class LocalGameRoomContext extends Component {
     const { getUserByMongoId, experienceModel : { experienceModel }, auth : { me }, initializeUnlockableInterfaceIds } = this.props
 
     if(experienceModel?.id) {
-      const response = await getUserByMongoId(me.id).unlockableInterfaceIds[experienceModel.id]
+      const response = await getUserByMongoId(me.id)
       const interfaceIds = response.data.user.interfaceIds
       initializeUnlockableInterfaceIds(interfaceIds ? interfaceIds: {})
     } else {

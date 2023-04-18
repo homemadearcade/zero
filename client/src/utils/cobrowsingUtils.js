@@ -90,6 +90,7 @@ export function getCobrowsingState(options) {
 export const forceCobrowsingUpdateDispatch = (fx) => {
   fx((dispatchData) => {
     dispatchData.forceCobrowsingUpdate = true
+    dispatchData.updateCobrowsing = true
     store.dispatch(dispatchData)
   }, store.getState)
 }

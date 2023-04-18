@@ -751,7 +751,16 @@ export class GameInstance extends Phaser.Scene {
     })
     this.layerInstancesById = {}
     this.layerInstancesByLayerGroupId = {}
+    this.destroyScenes()
     this.setPlayerGameLoaded(null)
+  }
+
+  destroyScenes() {
+    const scenes = this.scene.scenes
+
+    scenes.forEach((scene) => {
+      scene.unload()
+    })
   }
 
   pause() {
