@@ -166,6 +166,8 @@ export const getUserByMongoId = (userMongoId) => async (dispatch, getState) => {
       type: GET_USER_SUCCESS,
       payload: { user: response.data.user },
     });
+
+    return response
   } catch (err) {
     console.error(err)
 

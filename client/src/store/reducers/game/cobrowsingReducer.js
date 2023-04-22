@@ -23,7 +23,7 @@ import { initialGameViewEditorState } from './gameViewEditorReducer';
 import { initialGameSelectorState } from './gameSelectorReducer';
 import { initialErrorState } from '../errorsReducer';
 import { initialPlayerInterfaceState } from './playerInterfaceReducer';
-import { initialUnlockableInterfaceState } from './unlockableInterfaceReducer';
+import { initialUnlockableInterfaceState } from './unlockedInterfaceReducer';
 import { initialVideoState } from '../experience/videoReducer';
 import { inIframe } from '../../../utils/webPageUtils';
 import { initialSnackbarState } from '../snackbarReducer';
@@ -49,7 +49,7 @@ const initialState = {
     gameViewEditor: initialGameViewEditorState,
     playerInterface: initialPlayerInterfaceState,
     contextMenu: initialContextMenuState,
-    unlockableInterfaceIds: initialUnlockableInterfaceState,
+    unlockedInterfaceIds: initialUnlockableInterfaceState,
     errors: initialErrorState,
     snackbar: initialSnackbarState
   },
@@ -82,7 +82,7 @@ export default function cobrowsingReducer(state = initialState, { type, payload 
         cobrowsingUser: payload.cobrowsingUser,
         remoteState: {
           ...state.remoteState,
-          unlockableInterfaceIds: payload.unlockableInterfaceIds
+          unlockedInterfaceIds: payload.unlockedInterfaceIds
         }
       };
     case UNSUBSCRIBE_COBROWSING_LOADING:

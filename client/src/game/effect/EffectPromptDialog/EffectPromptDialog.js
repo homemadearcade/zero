@@ -14,7 +14,7 @@ import store from '../../../store';
 import { interfaceActionsUIData } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, RUN_GAME_INSTANCE_ACTION } from '../../constants';
-import { unlockInterfaceId } from '../../../store/actions/game/unlockableInterfaceActions';
+import { unlockInterfaceId } from '../../../store/actions/game/unlockedInterfaceActions';
 import SelectGameInstanceEffect from '../../ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
 
 const EffectPromptDialog = ({ 

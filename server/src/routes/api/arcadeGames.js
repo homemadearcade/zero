@@ -44,15 +44,15 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
 
   try {
     const updatedUser = {
-      unlockableInterfaceIds: {
-        ...tempUser.unlockableInterfaceIds
+      unlockedInterfaceIds: {
+        ...tempUser.unlockedInterfaceIds
       }
     };
-    console.log(updatedUser.unlockableInterfaceIds[req.body.experienceModelMongoId])
+    console.log(updatedUser.unlockedInterfaceIds[req.body.experienceModelMongoId])
     if(req.body.merge) {
-      updatedUser.unlockableInterfaceIds[req.body.experienceModelMongoId] = { ...tempUser.unlockableInterfaceIds[req.body.experienceModelMongoId], ...req.body.unlockableInterfaceIds }
+      updatedUser.unlockedInterfaceIds[req.body.experienceModelMongoId] = { ...tempUser.unlockedInterfaceIds[req.body.experienceModelMongoId], ...req.body.unlockedInterfaceIds }
     } else {
-      updatedUser.unlockableInterfaceIds[req.body.experienceModelMongoId]= req.body.unlockableInterfaceIds
+      updatedUser.unlockedInterfaceIds[req.body.experienceModelMongoId]= req.body.unlockedInterfaceIds
     }
 
     const user = await User.findByIdAndUpdate(req.body.userMongoId, { $set: updatedUser }, { new: true });
@@ -61,7 +61,7 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
       req.io.to(req.body.gameRoomInstanceMongoId).emit(ON_GAME_CHARACTER_UPDATE, {
         userMongoId: req.body.userMongoId,
         data: {
-          unlockableInterfaceIds: user.unlockableInterfaceIds[req.body.experienceModelMongoId]
+          unlockedInterfaceIds: user.unlockedInterfaceIds[req.body.experienceModelMongoId]
         }
       })
     }

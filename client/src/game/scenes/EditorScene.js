@@ -19,7 +19,7 @@ import { ColorPencil } from '../drawing/ColorPencil';
 import { nodeSize } from '../constants';
 import { getImageUrlFromTextureId, urlToFile } from '../../utils/utils';
 import { generateUniqueId, getThemePrimaryColor, isLocalHost } from '../../utils/webPageUtils';
-import { getInterfaceIdData } from '../../utils/unlockableInterfaceUtils';
+import { getInterfaceIdData } from '../../utils/unlockedInterfaceUtils';
 import { createGameSceneInstance } from '../../utils/gameUtils';
 import { addSnackbar } from '../../store/actions/snackbarActions';
 import { BACKGROUND_LAYER_GROUP_IID, ENTITY_INSTANCE_MOVE_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../constants/interfaceIds';

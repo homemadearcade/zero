@@ -296,6 +296,8 @@ export const setCurrentVideoTrackId = (userMongoId, openIds) => (dispatch, getSt
     }
   })
 
+  console.log('highestPriorityId', highestPriorityId, userMongoId, typeof userMongoId)
+
   setTimeout(() => {
     dispatch({
       type: SET_CURRENT_VIDEO_TRACK_INTERFACE_ID,

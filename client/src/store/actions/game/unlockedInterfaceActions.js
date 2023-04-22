@@ -7,11 +7,11 @@ import {
 } from '../../types';
 import { updateCobrowsing } from './cobrowsingActions';
 
-export const initializeUnlockableInterfaceIds = (unlockableInterfaceIds = {}) => async (dispatch, getState) => {
+export const initializeUnlockableInterfaceIds = (unlockedInterfaceIds = {}) => async (dispatch, getState) => {
   dispatch({
     type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
     payload: { 
-      unlockableInterfaceIds,
+      unlockedInterfaceIds,
      },
   });
 

@@ -204,7 +204,7 @@ const ActivityInstructions = ({
       onClickNext: () => {
         updateArcadeGameCharacter({
           userMongoId: lobbyInstance.participantId,
-          unlockableInterfaceIds: interfaceIds,
+          unlockedInterfaceIds: interfaceIds,
           merge: true
         })
       },
@@ -303,7 +303,7 @@ const ActivityInstructions = ({
           onClickNext: () => {
             updateArcadeGameCharacter({
               userMongoId: lobbyInstance.participantId,
-              unlockableInterfaceIds: {}
+              unlockedInterfaceIds: {}
             })
           },
           nextButtonText: 'Lock All'
@@ -359,7 +359,7 @@ We’ll use it to create - a story, a piece of art, a game… however You feel i
           onClickNext: () => {
             updateArcadeGameCharacter({
               userMongoId: lobbyInstance.participantId,
-              unlockableInterfaceIds: {
+              unlockedInterfaceIds: {
                 gameView: true,
               },
               merge: true

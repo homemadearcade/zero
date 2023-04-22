@@ -53,7 +53,7 @@ const userSchema = new Schema(
       type: Object,
       default: {}
     },
-    unlockableInterfaceIds: {
+    unlockedInterfaceIds: {
       type: Object,
       default: {}
     },
@@ -99,7 +99,7 @@ userSchema.methods.toJSON = function () {
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     preferences: this.preferences,
-    unlockableInterfaceIds: this.unlockableInterfaceIds,
+    unlockedInterfaceIds: this.unlockedInterfaceIds,
     isRemoved: this.isRemoved
   };
 };

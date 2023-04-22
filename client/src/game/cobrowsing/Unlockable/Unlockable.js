@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import './Unlockable.scss';
-import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
+import { getInterfaceIdData } from '../../../utils/unlockedInterfaceUtils';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import { Fade } from '@mui/material';
 import { setMouseOverInterfaceId, selectCobrowsingTool } from '../../../store/actions/game/cobrowsingActions';
@@ -111,7 +111,7 @@ const Unlockable = ({
           updateArcadeGameCharacter({
             experienceModelMongoId: experienceModel.id,
             userMongoId: remoteStateUserMongoId,
-            unlockableInterfaceIds: {
+            unlockedInterfaceIds: {
               [interfaceIdToUnlock]: true
             },
             merge: true
@@ -162,7 +162,7 @@ const Unlockable = ({
 };
 
 const mapStateToProps = (state) => mapCobrowsingState(state, {
-  unlockableInterfaceIds: state.unlockableInterfaceIds,
+  unlockedInterfaceIds: state.unlockedInterfaceIds,
   auth: state.auth,
   cobrowsing: state.cobrowsing,
   experienceModel: state.experienceModel

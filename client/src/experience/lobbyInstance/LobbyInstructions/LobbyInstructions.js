@@ -42,10 +42,12 @@ const LobbyInstructions = ({
   const allSteps = {}
   Object.keys(lobbyInstance.instructions).forEach((instructionId) => {
     const instruction = lobbyInstance.instructions[instructionId]
-    Object.keys(instruction.steps).forEach((stepId) => {
-      const step = instruction.steps[stepId]
-      allSteps[step.stepId] = step
-    })
+    if(instruction.steps) {
+      Object.keys(instruction.steps).forEach((stepId) => {
+        const step = instruction.steps[stepId]
+        allSteps[step.stepId] = step
+      })
+    }
   })
 
   const beginningSteps = [
@@ -74,7 +76,7 @@ const LobbyInstructions = ({
               updateArcadeGameCharacter({
                 experienceModelMongoId: lobbyInstance.experienceModelMongoId,
                 userMongoId,
-                unlockableInterfaceIds: {}
+                unlockedInterfaceIds: {}
               })
             })
           }
@@ -204,7 +206,7 @@ const LobbyInstructions = ({
               } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
                 updateArcadeGameCharacter({
                   userMongoId: lobbyInstance.cobrowsingUserMongoId,
-                  unlockableInterfaceIds: {
+                  unlockedInterfaceIds: {
                     [effect.interfaceId]: true
                   },
                   merge: true,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import GameRoomErrorStates from '../game/gameRoomInstance/GameRoomErrorStates/GameRoomErrorStates';
 import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/game/gameRoomInstanceActions';
-import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockableInterfaceActions';
+import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockedInterfaceActions';
 import { getUserByMongoId } from '../store/actions/user/userActions';
 import Loader from '../ui/Loader/Loader';
 
@@ -22,8 +22,8 @@ class MultiplayerGameRoomContext extends Component {
 
         if(experienceModel?.id) {
           const response = await getUserByMongoId(me.id)
-          const interfaceIds = response.data.user.interfaceIds[experienceModel.id]
-          initializeUnlockableInterfaceIds(interfaceIds ? interfaceIds: { all: true })
+          const unlockedInterfaceIds = response.data.user.unlockedInterfaceIds[experienceModel.id]
+          initializeUnlockableInterfaceIds(unlockedInterfaceIds ? unlockedInterfaceIds: { all: true })
         } else {
           initializeUnlockableInterfaceIds({all: true})
         }

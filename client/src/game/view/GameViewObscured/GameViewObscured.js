@@ -9,7 +9,7 @@ import requireAuth from '../../../hoc/requireAuth';
 import './GameViewObscured.scss';
 import GameView from '../GameView/GameView';
 import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { getInterfaceIdData } from '../../../utils/unlockableInterfaceUtils';
+import { getInterfaceIdData } from '../../../utils/unlockedInterfaceUtils';
 import { UNLOCK_TOOL } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { clearErrorState } from '../../../store/actions/errorsActions';
@@ -107,7 +107,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   cobrowsing: state.cobrowsing,
   gameModel: state.gameModel,
-  unlockableInterfaceIds: state.unlockableInterfaceIds,
+  unlockedInterfaceIds: state.unlockedInterfaceIds,
   errors: state.errors,
   webPage: state.webPage,
   gameRoomInstance: state.gameRoomInstance

@@ -16,7 +16,7 @@ import {
 } from '../../types';
 
 function defaultBypass() {
-  return inIframe() || isLocalHost()// || 
+  return false// inIframe() || isLocalHost()// || 
 }
 
 const initialState = {

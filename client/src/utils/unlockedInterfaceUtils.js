@@ -48,20 +48,20 @@ export function getInterfaceIdAliases(interfaceId) {
   return idAliases
 }
 
-export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
-  return unlockableInterfaceIds['all'] || idAliases.some((aliases) => {
+export function areIdAliasesUnlocked(idAliases, unlockedInterfaceIds) {
+  return unlockedInterfaceIds['all'] || idAliases.some((aliases) => {
     const starAlias = aliases.find((alias) => {
       return alias.indexOf('*') >= 0
     })
     if(starAlias) {
-      return Object.keys(unlockableInterfaceIds).some((id) => {
-        if(!unlockableInterfaceIds[id]) return false
+      return Object.keys(unlockedInterfaceIds).some((id) => {
+        if(!unlockedInterfaceIds[id]) return false
         return id.indexOf(starAlias.slice(0, -2)) === 0
       })
     }
 
     return aliases.some((alias) => {
-      return unlockableInterfaceIds[alias]
+      return unlockedInterfaceIds[alias]
     })
   })
 }
@@ -69,7 +69,7 @@ export function areIdAliasesUnlocked(idAliases, unlockableInterfaceIds) {
 export function getInterfaceIdData(interfaceId, interfaceIdToUnlock) {
   if(!interfaceIdToUnlock) interfaceIdToUnlock = interfaceId
   const state = getCobrowsingState()
-  const unlockableInterfaceIds = state.unlockableInterfaceIds
+  const unlockedInterfaceIds = state.unlockedInterfaceIds
   const idAliases = getInterfaceIdAliases(interfaceIdToUnlock)
   const me = state.auth.me
 
@@ -86,7 +86,7 @@ export function getInterfaceIdData(interfaceId, interfaceIdToUnlock) {
 
   const isToolOpen = !!store.getState().cobrowsing.selectedTool
 
-  const isUnlocked = isDefaultUnlocked || areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
+  const isUnlocked = isDefaultUnlocked || areIdAliasesUnlocked(idAliases, unlockedInterfaceIds)
   const isObscured = !isToolOpen && isObscuringInterfaces() && !isUnlocked
 
   const isSubscribedCobrowsing = state.cobrowsing.isSubscribedCobrowsing

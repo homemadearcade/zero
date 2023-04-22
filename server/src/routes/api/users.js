@@ -106,8 +106,8 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       return res.status(400).json({ message: 'Email already taken.' });
     }
 
-    if(!tempUser.unlockableInterfaceIds) {
-      tempUser.unlockableInterfaceIds = {}
+    if(!tempUser.unlockedInterfaceIds) {
+      tempUser.unlockedInterfaceIds = {}
     }
 
     if(!tempUser.preferences) {
@@ -121,8 +121,8 @@ router.put('/:id', [requireJwtAuth, upload.single('avatar')], async (req, res, n
       updatedUser.preferences = { ...tempUser.preferences, ...req.body.preferences }
     }
 
-    if(req.body.unlockableInterfaceIds) {
-      updatedUser.unlockableInterfaceIds = { ...tempUser.unlockableInterfaceIds, ...req.body.unlockableInterfaceIds }
+    if(req.body.unlockedInterfaceIds) {
+      updatedUser.unlockedInterfaceIds = { ...tempUser.unlockedInterfaceIds, ...req.body.unlockedInterfaceIds }
     }
 
     // remove '', null, undefined

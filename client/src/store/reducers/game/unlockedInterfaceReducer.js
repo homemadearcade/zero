@@ -10,10 +10,10 @@ const initialState = {
 
 export const initialUnlockableInterfaceState = initialState
 
-export default function unlockableInterfaceReducer(state = initialState, { type, payload }) {
+export default function unlockedInterfaceReducer(state = initialState, { type, payload }) {
   switch (type) {
     case INITIALIZE_UNLOCKABLE_INTERFACE_IDS: 
-      return payload.unlockableInterfaceIds
+      return payload.unlockedInterfaceIds
     case LOCK_INTERFACE:
       return {
         ...state,

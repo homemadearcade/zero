@@ -279,7 +279,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
       // if(dispatchData.type === UNLOCK_INTERFACE) {
       //   dispatch(updateArcadeGameCharacter({
       //     userMongoId: user.id,
-      //     unlockableInterfaceIds: {
+      //     unlockedInterfaceIds: {
       //       [dispatchData.payload.interfaceId]: true
       //     },
       //     merge: true
@@ -289,7 +289,7 @@ export const publishCobrowsing = () => (dispatch, getState) => {
       // if(dispatchData.type === LOCK_INTERFACE) {
       //   dispatch(updateArcadeGameCharacter({
       //     userMongoId: user.id,
-      //     unlockableInterfaceIds: {
+      //     unlockedInterfaceIds: {
       //       [dispatchData.payload.interfaceId]: false
       //     },
       //     merge: true
@@ -385,13 +385,13 @@ export const subscribeCobrowsing = ({userMongoId}) => async (dispatch, getState)
     });
 
     const experienceModel = getState().experienceModel.experienceModel
-    const unlockableInterfaceIds = response.data.cobrowsingUser.unlockableInterfaceIds[experienceModel.id]
+    const unlockedInterfaceIds = response.data.cobrowsingUser.unlockedInterfaceIds[experienceModel.id]
 
     dispatch({
       type: SUBSCRIBE_COBROWSING_SUCCESS,
       payload: { 
         cobrowsingUser: response.data.cobrowsingUser, 
-        unlockableInterfaceIds: unlockableInterfaceIds || {}
+        unlockedInterfaceIds: unlockedInterfaceIds || {}
       },
     });
   } catch (err) {

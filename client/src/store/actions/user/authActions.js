@@ -106,7 +106,7 @@ export const loadMe = () => async (dispatch, getState) => {
 
     const me = response.data.me
     // if(!me.preferences) me.preferences = {}
-    // if(!me.preferences.unlockableInterfaceIds) me.preferences.unlockableInterfaceIds = {}
+    // if(!me.preferences.unlockedInterfaceIds) me.preferences.unlockedInterfaceIds = {}
 
     dispatch({
       type: ME_SUCCESS,

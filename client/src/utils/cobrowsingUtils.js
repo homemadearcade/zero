@@ -6,7 +6,7 @@ export function getRemoteStatePackage(state) {
     gameSelector: state.gameSelector,
     gameFormEditor: state.gameFormEditor,
     gameViewEditor: state.gameViewEditor,
-    unlockableInterfaceIds: state.unlockableInterfaceIds,
+    unlockedInterfaceIds: state.unlockedInterfaceIds,
     // contextMenu: state.contextMenu,
     errors: state.errors,
     playerInterface: state.playerInterface,
@@ -29,8 +29,8 @@ export function mapCobrowsingState(state, props, options) {
         // prev[propName] = remoteState.video
       } else if(propName === 'gameViewEditor') {
         prev[propName] = remoteState.gameViewEditor
-      } else if(propName === 'unlockableInterfaceIds') {
-        prev[propName] = remoteState.unlockableInterfaceIds
+      } else if(propName === 'unlockedInterfaceIds') {
+        prev[propName] = remoteState.unlockedInterfaceIds
       } else if(propName === 'errors') {
         prev[propName] = remoteState.errors
       } else if(propName === 'playerInterface') {
@@ -56,7 +56,7 @@ export function mapCobrowsingState(state, props, options) {
 
   return {
     ...props,
-    // unlockableInterfaceIds: isSubscribed ? state.cobrowsing.remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
+    // unlockedInterfaceIds: isSubscribed ? state.cobrowsing.remoteState.unlockedInterfaceIds : state.unlockedInterfaceIds
   }
 }
 
@@ -75,7 +75,7 @@ export function getCobrowsingState(options) {
       gameFormEditor: remoteState.gameFormEditor,
       // video: remoteState.video,
       playerInterface: remoteState.playerInterface,
-      unlockableInterfaceIds: remoteState.unlockableInterfaceIds,
+      unlockedInterfaceIds: remoteState.unlockedInterfaceIds,
       errors: remoteState.errors,
       snackbar: remoteState.snackbar
     }
@@ -83,7 +83,7 @@ export function getCobrowsingState(options) {
 
   return {
     ...state,
-    unlockableInterfaceIds: isSubscribed ? remoteState.unlockableInterfaceIds : state.unlockableInterfaceIds
+    unlockedInterfaceIds: isSubscribed ? remoteState.unlockedInterfaceIds : state.unlockedInterfaceIds
   }
 }
 

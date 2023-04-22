@@ -9,7 +9,7 @@ const initialState = {
   entityInstanceIdSelectedContextMenu: null,
   entityModelIdSelectedContextMenu: null,
   selectableObjectIds: null,
-  unlockableIds: null,
+  // unlockableIds: null,
   isContextMenuOpen: false,
 };
 
@@ -20,7 +20,7 @@ export default function contextMenuReducer(state = initialState, { type, payload
     case OPEN_CONTEXT_MENU:
       return {
         ...state,
-        unlockableIds: payload.unlockableIds,
+        // unlockableIds: payload.unlockableIds,
         contextMenuX: payload.contextMenuX,
         contextMenuY: payload.contextMenuY,
         isContextMenuOpen: true,

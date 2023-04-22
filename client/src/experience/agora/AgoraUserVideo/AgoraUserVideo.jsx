@@ -33,6 +33,7 @@ const AgoraUserVideo = ({
 
   useEffect(() => {
     setTimeout(() => {
+      console.log('setting interface id', interfaceId, userMongoId)
       setVideoTrackInterfaceIdOpen({interfaceId, userMongoId})
     },100)
     return () => {

@@ -10,7 +10,7 @@ import Collapse from '@mui/material/Collapse';
 import { useSpring, animated } from '@react-spring/web';
 
 import './UnlockableInterfaceTree.scss'
-import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../../utils/unlockableInterfaceUtils';
+import { areIdAliasesUnlocked, getInterfaceIdAliases } from '../../../utils/unlockedInterfaceUtils';
 import MenuIconButton from '../../MenuIconButton/MenuIconButton';
 import Icon from '../../Icon/Icon';
 import { DialogActions, DialogContent, DialogTitle,  List, ListItem, ListItemButton, ListItemText, MenuItem, TextField } from '@mui/material';
@@ -169,11 +169,11 @@ function structureAllInterfaceIds() {
 }
 
 
-function getEntityName(interfaceId, unlockableInterfaceIds) {
-  if(unlockableInterfaceIds[interfaceId]) return 'TreeItem__unlocked--specific'
+function getEntityName(interfaceId, unlockedInterfaceIds) {
+  if(unlockedInterfaceIds[interfaceId]) return 'TreeItem__unlocked--specific'
 
   const interfaceIdAliases = getInterfaceIdAliases(interfaceId)
-  const isUnlocked = areIdAliasesUnlocked(interfaceIdAliases, unlockableInterfaceIds)
+  const isUnlocked = areIdAliasesUnlocked(interfaceIdAliases, unlockedInterfaceIds)
 
   if(isUnlocked) return 'TreeItem__unlocked'
 }
@@ -207,15 +207,15 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
     getInterfacePresetLibrary()
   }, [])
 
-  if(!user.unlockableInterfaceIds) return <Loader text="Loading User..."></Loader>
+  if(!user.unlockedInterfaceIds) return <Loader text="Loading User..."></Loader>
 
-  let unlockableInterfaceIds = user.unlockableInterfaceIds[experienceModelMongoId]
+  let unlockedInterfaceIds = user.unlockedInterfaceIds[experienceModelMongoId]
 
-  if(!unlockableInterfaceIds) unlockableInterfaceIds = {}
+  if(!unlockedInterfaceIds) unlockedInterfaceIds = {}
 
-  function ToggleLockMenu({interfaceId, unlockableInterfaceIds}) {
+  function ToggleLockMenu({interfaceId, unlockedInterfaceIds}) {
     const idAliases = getInterfaceIdAliases(interfaceId)
-    const isUnlocked = areIdAliasesUnlocked(idAliases, unlockableInterfaceIds)
+    const isUnlocked = areIdAliasesUnlocked(idAliases, unlockedInterfaceIds)
 
     function mapIdsToMenuItems(closeMenu) {
       const list = []
@@ -227,8 +227,8 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
             await updateArcadeGameCharacter({
               experienceModelMongoId,
               userMongoId: userMongoId,
-              unlockableInterfaceIds : {
-                ...unlockableInterfaceIds,
+              unlockedInterfaceIds : {
+                ...unlockedInterfaceIds,
                 [id]: true
               }
             })
@@ -238,13 +238,13 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
         }))
       } else {
         idAliases.forEach(alias => alias.forEach((id) => {
-          if(unlockableInterfaceIds[id]) {
+          if(unlockedInterfaceIds[id]) {
             list.push(<MenuItem key={id + alias} onClick={async () => {
               await updateArcadeGameCharacter({
                 experienceModelMongoId,
                 userMongoId: userMongoId,
-                unlockableInterfaceIds : {
-                  ...unlockableInterfaceIds,
+                unlockedInterfaceIds : {
+                  ...unlockedInterfaceIds,
                   [id]: false
                 }
               })
@@ -270,8 +270,8 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
     if(nodes.children.length) nodeIdsWithChildren.push(nodes.id)
     return (
       <>
-        <StyledTreeItem contentEntity={getEntityName(nodes.id, unlockableInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
-          <ToggleLockMenu interfaceId={nodes.id} unlockableInterfaceIds={unlockableInterfaceIds}></ToggleLockMenu>
+        <StyledTreeItem contentEntity={getEntityName(nodes.id, unlockedInterfaceIds) + ' TreeItem'} key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+          <ToggleLockMenu interfaceId={nodes.id} unlockedInterfaceIds={unlockedInterfaceIds}></ToggleLockMenu>
           {Array.isArray(nodes.children)
             ? nodes.children.map((node) => renderTree(node))
             : null}
@@ -314,7 +314,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
             addInterfacePresetToLibrary({
               name: presetName,
               description: presetDescription,
-              interfaceIds: unlockableInterfaceIds
+              unlockedInterfaceIds: unlockedInterfaceIds
             })
             setIsAddPresetDialogOpen(false)
           }}>Save</Button>
@@ -338,7 +338,7 @@ function UnlockableInterfaceTree({ getInterfacePresetLibrary, addInterfacePreset
                       await updateArcadeGameCharacter({
                         experienceModelMongoId,
                         userMongoId: userMongoId,
-                        unlockableInterfaceIds : interfacePreset.interfaceIds
+                        unlockedInterfaceIds : interfacePreset.unlockedInterfaceIds
                       })
                       setIsMorphPresetDialogOpen(false)
                       await getUserByMongoId(userMongoId)

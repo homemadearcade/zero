@@ -11,9 +11,9 @@ import classNames from 'classnames';
 import Typography from '../../../ui/Typography/Typography';
 import CobrowsingToolbar from '../CobrowsingToolbar/CobrowsingToolbar';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
-import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
 import { defaultGuideRoleId } from '../../../constants';
 import Alert from '../../../ui/Alert/Alert';
+import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
 
 const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
   const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]

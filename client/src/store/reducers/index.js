@@ -16,7 +16,7 @@ import gameSelectorReducer from './game/gameSelectorReducer';
 import gameFormEditorReducer from './game/gameFormEditorReducer';
 import gameViewEditorReducer from './game/gameViewEditorReducer';
 import gameRoomInstanceReducer from './game/gameRoomInstanceReducer';
-import unlockableInterfaceReducer from './game/unlockableInterfaceReducer';
+import unlockedInterfaceReducer from './game/unlockedInterfaceReducer';
 import contextMenuReducer from './game/contextMenuReducer';
 import codrawingReducer from './media/codrawingReducer';
 import errorsReducer from './errorsReducer';
@@ -55,7 +55,7 @@ export default combineReducers({
   gameFormEditor: gameFormEditorReducer,
   gameViewEditor: gameViewEditorReducer,
   contextMenu: contextMenuReducer,
-  unlockableInterfaceIds: unlockableInterfaceReducer,
+  unlockedInterfaceIds: unlockedInterfaceReducer,
   playerInterface: playerInterfaceReducer,
   codrawing: codrawingReducer,
   errors: errorsReducer,
