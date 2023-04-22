@@ -2,19 +2,20 @@
   position: absolute;
   top: 0;
   left: 0;
-width: 100vw;
+  width: 100vw;
   height: 100vh;
-
+    background-color: black;
   &__body {
     width: 165vh;
     height: 100vh;
     margin: 0 auto;
+    background-color: black;
   }
 
   &__game-view-empty {
     position: relative;
-      width: 100vh;
-        height: 100%;
+    width: 100vh;
+    height: 100%;
   }
 }
 

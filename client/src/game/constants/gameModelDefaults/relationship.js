@@ -42,10 +42,7 @@ export const defaultRelationship = {
 
 //   // Narrative
 //   [EFFECT_CUTSCENE]: {},
-//   [EFFECT_GAME_OVER]: {
-//     // [ON_SPAWN]: true,
-//   },
-//   [EFFECT_WIN_GAME]: {
+//   [EFFECT_END_GAME]: {
 //     // [ON_SPAWN]: true,
 //   },
 

@@ -11,7 +11,7 @@ const gameRoomInstanceSchema = new Schema(
       unique: true,
       index: true,
     },
-    isNetworked: {
+    isOnlineMultiplayer: {
       type: Boolean,
       required: false,
       default: false
@@ -49,7 +49,7 @@ gameRoomInstanceSchema.methods.toJSON = function () {
     id: this._id.toString(),
     hostUserMongoId: this.hostUserMongoId,
     isEdit: this.isEdit,
-    isNetworked: this.isNetworked,
+    isOnlineMultiplayer: this.isOnlineMultiplayer,
     isAutosaveDisabled: this.isAutosaveDisabled,
     invitedUsers: this.invitedUsers ? this.invitedUsers.map((user) => {
       return user?.toJSON()

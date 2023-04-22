@@ -15,6 +15,7 @@ import FormLabel from '../../../../ui/FormLabel/FormLabel';
 import { Paper } from '@mui/material';
 import ActivityChip from '../../activity/ActivityChip/ActivityChip';
 import SelectGameInstanceEffect from '../../../../game/ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
+import ViewChip from '../../activity/ViewChip/ViewChip';
 
 const StepEditBody = ({  
   register, control, instructionId, 
@@ -140,10 +141,16 @@ const StepEditBody = ({
       <FormLabel>Activity</FormLabel>
       <ActivityChip activity={activity} />
     </>}
+    {step.changeViewCategory && <>
+      <Divider/>
+      <FormLabel>View</FormLabel>
+      <ViewChip viewCategory={step.viewCategory} />
+    </>}
     {instruction.instructionCategory === INSTRUCTION_GAME_ROOM && <>
       <Divider/>
       {renderStepBehaviorForm(step)}
     </>}
+
     <Divider/>
     <StepEditPrompts instructionId={instructionId} step={step}/>
     <Divider/>

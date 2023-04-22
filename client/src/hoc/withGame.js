@@ -103,7 +103,7 @@ export default (ChildComponent) => {
           this.setState({
             isShowingGame: true,
           })
-        }, 200)
+        }, 800)
         setTimeout(() => {
           this.setState({
             hideFadeout: true,

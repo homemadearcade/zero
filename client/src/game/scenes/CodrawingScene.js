@@ -24,7 +24,7 @@ export class CodrawingScene extends Phaser.Scene {
     this.textureTint = textureTint
 
     this.gameRoomInstance = {
-      isNetworked: true
+      isOnlineMultiplayer: true
     }
 
     if(initialTextureId) {

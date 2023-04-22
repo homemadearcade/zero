@@ -5,6 +5,7 @@ import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
 import { publishCobrowsing, unpublishCobrowsing, subscribeCobrowsing, unsubscribeCobrowsing } from '../store/actions/game/cobrowsingActions';
 import CobrowsingErrorStates from '../experience/cobrowsing/CobrowsingErrorStates/CobrowsingErrorStates';
+import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 class CobrowsingSession extends Component {
@@ -58,7 +59,9 @@ class CobrowsingSession extends Component {
       </>
     }
 
-    return <Loader text="Joining User..."/>
+    return <LinearIndeterminateLoader/>
+
+    // return <Loader text="Joining User..."/>
   }
 
   render() {

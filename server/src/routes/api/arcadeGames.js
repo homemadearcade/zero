@@ -48,7 +48,6 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
         ...tempUser.unlockedInterfaceIds
       }
     };
-    console.log(updatedUser.unlockedInterfaceIds[req.body.experienceModelMongoId])
     if(req.body.merge) {
       updatedUser.unlockedInterfaceIds[req.body.experienceModelMongoId] = { ...tempUser.unlockedInterfaceIds[req.body.experienceModelMongoId], ...req.body.unlockedInterfaceIds }
     } else {
@@ -60,9 +59,7 @@ router.put('/character', requireJwtAuth, requireSocketAuth, async (req, res) => 
     if(req.body.gameRoomInstanceMongoId) {
       req.io.to(req.body.gameRoomInstanceMongoId).emit(ON_GAME_CHARACTER_UPDATE, {
         userMongoId: req.body.userMongoId,
-        data: {
-          unlockedInterfaceIds: user.unlockedInterfaceIds[req.body.experienceModelMongoId]
-        }
+        unlockedInterfaceIds: user.unlockedInterfaceIds[req.body.experienceModelMongoId]
       })
     }
 

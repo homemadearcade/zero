@@ -100,7 +100,7 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
       arcadeGameMongoId: req.body.arcadeGameMongoId,
       isAutosaveDisabled: req.body.isAutosaveDisabled,
       isEdit: req.body.isEdit,
-      isNetworked: req.body.isNetworked,
+      isOnlineMultiplayer: req.body.isOnlineMultiplayer,
       name: req.body.name,
       experienceInstanceId: req.body.experienceInstanceId,
       gameRoomInstanceId: GAME_ROOM_INSTANCE_DID + generateUniqueId(),

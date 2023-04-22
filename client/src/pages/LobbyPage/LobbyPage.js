@@ -32,7 +32,9 @@ const LobbyPage = ({
   // let { path } = useRouteMatch();
 
   useEffect(() => {
-    if(me.role === ADMIN_ROLE) toggleLobbyDashboard(true)
+    if(me.role === ADMIN_ROLE) {
+      toggleLobbyDashboard(true)
+    }
 
     window.socket.on(ON_LOBBY_INSTANCE_EVENT, async ({lobbyInstanceEventType, data}) => {
       console.log('lobbyInstanceEventType', lobbyInstanceEventType, data)

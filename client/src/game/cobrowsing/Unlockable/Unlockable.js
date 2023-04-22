@@ -19,8 +19,6 @@ const Unlockable = ({
   auth: { me },
   className,
   setMouseOverInterfaceId,
-  interfaceIdPrefix,
-  interfaceIdExtension,
   selectCobrowsingTool,
   experienceModel: { experienceModel },
   updateArcadeGameCharacter,
@@ -35,15 +33,12 @@ const Unlockable = ({
   const unlockableRef = useRef()
   const theme = useWishTheme()
 
-  let interfaceIdToUnlock = interfaceIdExtension ? interfaceId + '/' + interfaceIdExtension : interfaceId
-  interfaceIdToUnlock = interfaceIdPrefix ? interfaceIdPrefix + '/' + interfaceIdToUnlock : interfaceIdToUnlock
-
   const { 
     isUnlocked, 
     isObscured,
     isToolInteractable,
     adminOnly 
-  } = getInterfaceIdData(interfaceId, interfaceIdToUnlock)
+  } = getInterfaceIdData(interfaceId)
 
   useEffect(() => {
     if(!remoteStateUserMongoId && isSubscribedCobrowsing) return 
@@ -86,7 +81,7 @@ const Unlockable = ({
     return <div 
       className={classNames(className)}
       onMouseEnter={() => {
-        setMouseOverInterfaceId(interfaceIdToUnlock)
+        setMouseOverInterfaceId(interfaceId)
       }}
       onMouseLeave={() => {
         setMouseOverInterfaceId(null)
@@ -101,7 +96,7 @@ const Unlockable = ({
         classNames(
           "Unlockable__unlock-cover", 
           { 
-            'Unlockable__unlock-cover--mouse-over': mouseOverInterfaceId === interfaceIdToUnlock, 
+            'Unlockable__unlock-cover--mouse-over': mouseOverInterfaceId === interfaceId, 
             'Unlockable__unlock-cover--slider': isSlider 
           }
         )
@@ -112,7 +107,7 @@ const Unlockable = ({
             experienceModelMongoId: experienceModel.id,
             userMongoId: remoteStateUserMongoId,
             unlockedInterfaceIds: {
-              [interfaceIdToUnlock]: true
+              [interfaceId]: true
             },
             merge: true
           })
@@ -123,7 +118,7 @@ const Unlockable = ({
         }
       }}
       onMouseEnter={() => {
-        setMouseOverInterfaceId(interfaceIdToUnlock)
+        setMouseOverInterfaceId(interfaceId)
       }}
       onMouseLeave={() => {
         setMouseOverInterfaceId(null)

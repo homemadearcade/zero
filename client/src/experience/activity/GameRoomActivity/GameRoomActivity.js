@@ -4,10 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { clearErrorState } from '../../../store/actions/errorsActions';
-import { activityViewToInterfaceData, ACTIVITY_VIEW_FACILITATORS, ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_WATCH_GAME, CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
+import { activityViewToInterfaceData, ACTIVITY_VIEW_FACILITATORS, ACTIVITY_VIEW_GAME_HIDDEN, ACTIVITY_VIEW_PLAY_GAME, ACTIVITY_VIEW_WATCH_GAME, CHATROOM_ACTIVITY, CREDITS_ACTIVITY, GAME_ROOM_ACTIVITY, VIDEO_ACTIVITY, WAITING_ACTIVITY } from '../../../constants';
 import CobrowsingGame from '../../cobrowsing/CobrowsingGame/CobrowsingGame';
 import './GameRoomActivity.scss'
 import VideoActivity from '../VideoActivity/VideoActivity';
+import GameViewEmpty from '../../../game/view/GameViewEmpty/GameViewEmpty';
 
 const GameRoomActivity = ({
   lobbyInstance: { isLobbyDashboardOpen },
@@ -26,6 +27,10 @@ const GameRoomActivity = ({
       return <div className="GameRoomActivity__view-overlay">
         <VideoActivity currentViewCategory={ACTIVITY_VIEW_FACILITATORS} myTracks={myTracks} userTracks={userTracks} />
       </div>
+    }
+
+    if(currentViewCategory === ACTIVITY_VIEW_GAME_HIDDEN) {
+      return <GameViewEmpty/>
     }
   }
 

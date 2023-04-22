@@ -97,7 +97,7 @@ const ExperienceInstanceForm = ({
 
           const gameRoomInstance = {
             invitedUsers: invitedUsers,
-            isNetworked: true,
+            isOnlineMultiplayer: true,
             isEdit: true,
             isAutosaveDisabled: gameRoom.isAutosaveDisabled,
             experienceInstanceId,

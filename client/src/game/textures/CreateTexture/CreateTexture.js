@@ -5,23 +5,19 @@ import { connect } from 'react-redux';
 
 import './CreateTexture.scss';
 import FormLabel from '../../../ui/FormLabel/FormLabel';
-import DescriptorTextures from '../DescriptorTextures/DescriptorTextures';
+import TaggedTextures from '../TaggedTextures/TaggedTextures';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import CreateColorFlow from '../../color/CreateColorFlow/CreateColorFlow';
 import { editGameModel } from '../../../store/actions/game/gameModelActions';
-import Texture from '../Texture/Texture';
 import Button from '../../../ui/Button/Button';
-import CanvasImageDialog from '../CanvasImageDialog/CanvasImageDialog';
 import { NON_LAYER_COLOR_ID } from '../../constants';
 import GameTextures from '../GameTextures/GameTextures';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
 import Icon from '../../../ui/Icon/Icon';
-import { CHOOSE_TEXTURES_IID, TEXTURE_EDITOR_OPEN_IID } from '../../../constants/interfaceIds';
+import { CHOOSE_GAME_TEXTURES_IID, CHOOSE_SYSTEM_TEXTURES_IID, TEXTURE_EDITOR_OPEN_IID } from '../../../constants/interfaceIds';
 import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColorSelect';
 import TextureStage from '../TextureStage/TextureStage';
 import { openCreateCanvasImageDialog, openCreateColorFlow } from '../../../store/actions/game/gameFormEditorActions';
-
-    // {isCanvasImageDialogOpen === 'CreateTexture' && <CanvasImageDialog onSaveCanvasImage={onSelect} />}
 
 const CreateTexture = ({
   textureIdSelected,
@@ -51,7 +47,7 @@ const CreateTexture = ({
         </div>}
       </TextureStage></div>
 
-      { !isCanvasImageDialogOpen && <Unlockable interfaceId={TEXTURE_EDITOR_OPEN_IID}>
+      {!isCanvasImageDialogOpen && <Unlockable interfaceId={TEXTURE_EDITOR_OPEN_IID}>
         <Button onClick={() => {
           openCreateCanvasImageDialog(entityModel.entityModelId, textureIdSelected, textureTintSelected)
         }}>
@@ -66,12 +62,14 @@ const CreateTexture = ({
           openCreateColorFlow('CreateTexture')
         }}
       />
-      <Unlockable interfaceId={CHOOSE_TEXTURES_IID}>
         <div className="CreateTexture__texture-list">
-          <DescriptorTextures onClickTexture={onSelect} visualTags={visualTags}/>
-          <GameTextures onClickTexture={onSelect} visualTags={visualTags}/>
+          <Unlockable interfaceId={CHOOSE_SYSTEM_TEXTURES_IID}>
+            <TaggedTextures onClickTexture={onSelect} visualTags={visualTags}/>
+          </Unlockable>
+          <Unlockable interfaceId={CHOOSE_GAME_TEXTURES_IID}>
+            <GameTextures onClickTexture={onSelect} visualTags={visualTags}/>
+          </Unlockable>
         </div>
-      </Unlockable>
     </div>
 
     {isCreateColorFlowOpen === 'CreateTexture' && <CreateColorFlow

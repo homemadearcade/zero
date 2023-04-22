@@ -248,7 +248,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       
       req.socket.join(req.lobbyInstance.id);
       if(req.user.role === 'ADMIN') req.socket.join(ADMIN_ROOM_PREFIX+req.lobbyInstance.id);
-      userFound.joinedLobbyInstanceMongoId = true;
+      userFound.joinedLobbyInstanceMongoId = req.lobbyInstance.id;
       req.io.to(req.lobbyInstance.id).emit(ON_LOBBY_INSTANCE_UPDATE, {lobbyInstance: req.lobbyInstance});
       return res.status(200).json({ lobbyInstance: req.lobbyInstance });
     }
@@ -267,7 +267,7 @@ router.post('/join/:id', requireJwtAuth, requireLobbyInstance, requireSocketAuth
       userMongoId: req.user.id,
       username: req.user.username,
       role: req.user.role,
-      joinedLobbyInstanceMongoId: true,
+      joinedLobbyInstanceMongoId: req.lobbyInstance.id,
       connected: true,
       inTransitionView: false
     }

@@ -4,14 +4,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './CreateBrushFlow.scss';
 import CobrowsingDialog from '../../../game/cobrowsing/CobrowsingDialog/CobrowsingDialog';
-import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
+import SelectVisualTags from '../../ui/SelectVisualTags/SelectVisualTags';
 import { updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow } from '../../../store/actions/game/gameFormEditorActions';
 import CreateTexture from '../../textures/CreateTexture/CreateTexture';
 import Typography from '../../../ui/Typography/Typography';
 import Button from '../../../ui/Button/Button';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Unlockable from '../../../game/cobrowsing/Unlockable/Unlockable';
-import { CHOOSE_TEXTURES_IID } from '../../../constants/interfaceIds';
+import { ENTITY_VISUAL_TAGS_IID } from '../../../constants/interfaceIds';
 
 const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, closeCreateBrushFlow,  gameFormEditor: { brush }}) => {
   function handleClose() {
@@ -22,7 +22,7 @@ const CreateBrushFlow = ({ onComplete, updateCreateBrush, clearGameFormEditor, c
   return <CobrowsingDialog open={true} onClose={handleClose}>
     <div className="CreateBrushFlow">
       <Typography component="h2" variant="h2">Create Brush</Typography>
-      <Unlockable interfaceId={CHOOSE_TEXTURES_IID}><SelectDescriptors 
+      <Unlockable interfaceId={ENTITY_VISUAL_TAGS_IID}><SelectVisualTags 
         onChange={(event, visualTags) => {
           updateCreateBrush({ visualTags })
         }}

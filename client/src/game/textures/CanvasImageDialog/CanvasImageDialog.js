@@ -23,7 +23,7 @@ import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
 import { CANVAS_IMAGE_VISUAL_TAGS_IID } from '../../../constants/interfaceIds';
 import Loader from '../../../ui/Loader/Loader';
 import CanvasImageView from '../CanvasImageView/CanvasImageView';
-import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
+import SelectVisualTags from '../../ui/SelectVisualTags/SelectVisualTags';
 import { editCanvasImage } from '../../../store/actions/media/canvasImageActions';
 import { onCanvasImageDialogUndo } from '../../../store/actions/game/gameRoomInstanceActions';
 
@@ -93,7 +93,7 @@ const CanvasImageDialog = ({
           size="1.75em"
           items={brushList}/>
         {false && <UndoButton onClick={onCanvasImageDialogUndo}></UndoButton>}
-        <Unlockable interfaceId={CANVAS_IMAGE_VISUAL_TAGS_IID}><SelectDescriptors 
+        <Unlockable interfaceId={CANVAS_IMAGE_VISUAL_TAGS_IID}><SelectVisualTags 
           onChange={(event, visualTags) => {
             updateCreateCanvasImage({ visualTags })
           }}

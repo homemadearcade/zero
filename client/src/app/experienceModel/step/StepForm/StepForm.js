@@ -2,11 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Controller, useWatch } from 'react-hook-form';
-import {  INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from '../../../../constants';
+import {  GAME_ROOM_ACTIVITY, INSTRUCTION_GAME_ROOM, INSTRUCTION_LOBBY } from '../../../../constants';
 import SelectRole from '../../../../ui/connected/SelectRole/SelectRole';
 import SelectActivity from '../../../../ui/connected/SelectActivity/SelectActivity';
 import Divider from '../../../../ui/Divider/Divider';
 import SelectGameInstanceEffect from '../../../../game/ui/SelectGameInstanceEffect/SelectGameInstanceEffect';
+import Switch from '../../../../ui/Switch/Switch';
+import SelectViewCategory from '../../../../ui/SelectViewCategory/SelectViewCategory';
 
 const StepForm = ({ register, control, instruction, experienceModel : { experienceModel }, step }) => { 
 
@@ -15,7 +17,97 @@ const StepForm = ({ register, control, instruction, experienceModel : { experien
     name: "activityId",
   })
 
+
+  const changeViewCategory = useWatch({
+    control,
+    name: "changeViewCategory",
+  })
+
   const activity = experienceModel.activitys[activityId]
+
+  function renderChangeView() {
+    if(instruction.instructionCategory === INSTRUCTION_LOBBY) {
+      return <>
+        {activity && <>
+            <Divider/>
+            <Controller
+              {...register("changeViewCategory", {
+                // required: true,
+              })}
+            name={`changeViewCategory`}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Switch 
+                labels={["Keep previous view", "Change View"]}
+                onChange={(event) => {
+                  onChange(event.target.checked)
+                }} checked={value} />
+            )}
+          />
+        </>}
+
+        {changeViewCategory && activity && <>
+          <br/>
+          <Controller
+            {...register("viewCategory", {
+              required: true
+            })}
+            name={"viewCategory"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SelectViewCategory
+                activityCategory={activity.activityCategory}
+                formLabel={"Which view will this step switch to"}
+                value={[value]}
+                onChange={(event, viewCategory) => {
+                  onChange(viewCategory)
+                }}/>
+            )}
+          />
+        </>}
+      </>
+    }
+
+    if(instruction.instructionCategory === INSTRUCTION_GAME_ROOM) {
+      return <>
+        <Divider/>
+        <Controller
+            {...register("changeViewCategory", {
+              // required: true,
+            })}
+          name={`changeViewCategory`}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Switch 
+              labels={["Keep previous view", "Change View"]}
+              onChange={(event) => {
+                onChange(event.target.checked)
+              }} checked={value} />
+          )}
+        />
+
+        {changeViewCategory && <>
+          <br/>
+          <Controller
+            {...register("viewCategory", {
+              required: true
+            })}
+            name={"viewCategory"}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SelectViewCategory
+                activityCategory={GAME_ROOM_ACTIVITY}
+                formLabel={"Which view will this step switch to"}
+                value={[value]}
+                onChange={(event, viewCategory) => {
+                  onChange(viewCategory)
+                }}/>
+            )}
+          />
+        </>}
+      </>
+    }
+  }
 
   return <>
     <Controller
@@ -66,6 +158,9 @@ const StepForm = ({ register, control, instruction, experienceModel : { experien
         }} value={value ? value : []} />
       )}
     />}
+
+    {renderChangeView()}
+
   </>
 };
 

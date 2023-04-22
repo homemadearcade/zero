@@ -5,6 +5,7 @@ import { joinLobbyByMongoId, leaveLobbyByMongoId } from '../store/actions/experi
 import Loader from '../ui/Loader/Loader';
 import { withRouter } from 'react-router-dom';
 import { leaveAgoraVideoCall } from '../store/actions/experience/videoActions';
+import LinearIndeterminateLoader from '../ui/LinearIndeterminateLoader/LinearIndeterminateLoader';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (ChildComponent) => {
@@ -38,11 +39,13 @@ export default (ChildComponent) => {
     render() {
       const { lobbyInstance: { isLoading, isJoining, lobbyInstance } } = this.props;
       if(isLoading) {
-        return <Loader text="Loading Lobby..."/>
+        return <LinearIndeterminateLoader/>
+        // return <Loader text="Loading Lobby..."/>
       }
     
       if(isJoining || !lobbyInstance.id) {
-        return <Loader text="Joining Lobby..."/>
+        return <LinearIndeterminateLoader/>
+        // return <Loader text="Joining Lobby..."/>
       }
 
       return <ChildComponent {...this.props} />

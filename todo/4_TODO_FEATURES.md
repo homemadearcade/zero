@@ -24,16 +24,8 @@ IMPLEMENT THESE EFFECTS
 CUTSCENES
   A default cutscene runs at the beginning
 
-  The End. The test can be customized. 
+  The End. The text can be customized. 
   Default Ending cutscene 
-
-UNLOCKABLES 
-  Make Choose Descriptors an Unlockable
-  
-  Differentiate Unlockables between Choose my Sprites Vs Choose System Sprites. Choose my Sprites is always unlocked 
-
-BLANK GAME VIEW IS A VIEW
-  Select view in ALL kinds of steps
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -68,6 +60,8 @@ IMPORTING/COPYING/SYSTEM
 
     It seems to be easiest all around for importing from system or from library that we COPY everything. but I think thats not REALLY true for this. WE want INTEROPABLE game in the future... INTEROPABLE so like a version of a tag with the same name in one game shouldnt be different than another version of a tag
 
+    Problem is that... We want a lot of classes baked into the game data 
+
   remove system data
 
   Aggregate all SelectGameInstanceEffect -> SelectInterfaceAction -> into one thing and just have a visibility toggle take care of this...
@@ -96,7 +90,6 @@ SETTINGS
 
 KEYBOARD MODE
 
-
 SHIFT -> turn on grid view
 
 CAPS LOCK - Grid View 
@@ -106,9 +99,21 @@ MMO-esque toolbar on the bottom
 ---------------------------------------------------------------------------------------------------- 
 
 
-GAME VISIBILITY
+GAME VISIBILITY SCOPE
 ——
 Private
 Unlisted
-Published
-Featured
+Arcade
+Featured ( Admin Only )
+
+--
+
+GAME SECURITY SCOPE
+
+Only Me
+UserList
+Public
+
+Current Lobby? This overrides?
+
+---

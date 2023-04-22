@@ -2,8 +2,8 @@ import { interfaceIdData } from "../../../constants/interfaceIdData";
 import { NO_RELATION_TAG_EFFECT_IID, SINGLE_RELATION_TAG_EFFECT_IID, TWO_RELATION_TAG_EFFECT_IID } from "../../../constants/interfaceIds";
 import store from "../../../store"
 import { EFFECT_CAMERA_SHAKE, EFFECT_CLOSE_TRANSITION, EFFECT_CUTSCENE, EFFECT_DESTROY,
-    EFFECT_GAME_OVER, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
-  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, EFFECT_WIN_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
+    EFFECT_END_GAME, EFFECT_IGNORE_GRAVITY, EFFECT_INTERFACE_ACTION, EFFECT_INTERFACE_UNLOCK, EFFECT_INVISIBLE, EFFECT_OPEN_TRANSITION, EFFECT_PAUSE_GAME, EFFECT_SPAWN, 
+  EFFECT_STICK_TO, EFFECT_SWITCH_STAGE, EFFECT_TELEPORT, EFFECT_TRANSFORM, EFFECT_UNPAUSE_GAME, ON_STEP_BEGINS, ON_TOUCH_ACTIVE,
  SPAWN_ZONE_A_SELECT, SPAWN_ZONE_B_SELECT, 
    SPAWN_ZONE_RANDOM_SELECT } from "../core";
 
@@ -44,15 +44,10 @@ export const effectInterfaceDatas = {
   },
 
   // Game State
-  [EFFECT_GAME_OVER]: {
-    displayName: 'Game Over',
+  [EFFECT_END_GAME]: {
+    displayName: 'End Game',
     icon: 'faAward'
   },
-  [EFFECT_WIN_GAME]: {
-    displayName: 'Win Game',
-    icon: 'faAward'
-  },
-
   // Graphical
   [EFFECT_CAMERA_SHAKE]: {
     displayName: 'Shake Camera',
@@ -139,13 +134,7 @@ export const effectEditInterfaces = {
   },
 
   // Game State
-  [EFFECT_GAME_OVER]: {
-    text: 'Message',
-    targetableType: NO_RELATION_TAG_EFFECT_IID,
-    isCustomizeable: true,
-    isStandalone: true
-  },
-  [EFFECT_WIN_GAME]: {
+  [EFFECT_END_GAME]: {
     text: 'Message',
     targetableType: NO_RELATION_TAG_EFFECT_IID,
     isCustomizeable: true,
@@ -205,7 +194,7 @@ export const effectEditInterfaces = {
   },
 }
 
-// EFFECT_CAMERA_SHAKE, EFFECT_WIN_GAME, EFFECT_GAME_OVER, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
+// EFFECT_CAMERA_SHAKE,  EFFECT_END_GAME, EFFECT_DESTROY, EFFECT_DESTROY, EFFECT_TRANSFORM, EFFECT_SPAWN, EFFECT_CUTSCENE
 export const touchActiveEffects  = {
   // Movement
   [EFFECT_TELEPORT]: false,
@@ -218,8 +207,7 @@ export const touchActiveEffects  = {
   [EFFECT_DESTROY]: false,
 
   // Game State
-  [EFFECT_GAME_OVER]: false,
-  [EFFECT_WIN_GAME]: false,
+  [EFFECT_END_GAME]: false,
 
   // Graphical
   [EFFECT_CAMERA_SHAKE]: false,
@@ -250,8 +238,7 @@ export const noRemoteEffectedTagEffects = {
   [EFFECT_DESTROY]: false,
 
   // Game State
-  [EFFECT_GAME_OVER]: true,
-  [EFFECT_WIN_GAME]: true,
+  [EFFECT_END_GAME]: true,
 
   // Graphical
   [EFFECT_CAMERA_SHAKE]: true,
@@ -282,8 +269,7 @@ export const nonStepEffectBehaviors = {
   [EFFECT_DESTROY]: false,
 
   // Game State
-  [EFFECT_GAME_OVER]: false,
-  [EFFECT_WIN_GAME]: false,
+  [EFFECT_END_GAME]: false,
 
   // Graphical
   [EFFECT_CAMERA_SHAKE]: false,

@@ -8,23 +8,17 @@ import requireAuth from '../../../hoc/requireAuth';
 
 import './GameViewObscured.scss';
 import GameView from '../GameView/GameView';
-import Unlockable from '../../cobrowsing/Unlockable/Unlockable';
-import { getInterfaceIdData } from '../../../utils/unlockedInterfaceUtils';
-import { UNLOCK_TOOL } from '../../../constants';
 import Icon from '../../../ui/Icon/Icon';
 import { clearErrorState } from '../../../store/actions/errorsActions';
 import Button from '../../../ui/Button/Button';
-import { GAME_VIEW_IID } from '../../../constants/interfaceIds';
 import { editGameRoom } from '../../../store/actions/game/gameRoomInstanceActions';
 import GameViewEmpty from '../GameViewEmpty/GameViewEmpty';
 import { ADMIN_ROLE, PHASER_ERROR } from '../../../constants';
 import GameLoadButton from '../../ui/GameLoadButton/GameLoadButton';
 import GameCardLoad from '../../../app/gameModel/GameCardLoad/GameCardLoad';
-import Alert from '../../../ui/Alert/Alert';
 
 const GameViewObscured = ({
   auth: { me },
-  cobrowsing: { cobrowsingUser, selectedTool, isActivelyCobrowsing, remoteStateUserMongoId },
   gameModel,
   errors: { errorStates },
   editGameRoom,
@@ -33,8 +27,6 @@ const GameViewObscured = ({
   children,
   webPage: { recentlyFocused }
 }) => {
-  const { isObscured, isUnlocked } = getInterfaceIdData(GAME_VIEW_IID)
-
   function renderOverlay() {
     // if(cobrowsingUser.role === ADMIN_ROLE) return
 
@@ -54,19 +46,6 @@ const GameViewObscured = ({
       }}>Restart Game</Button>}
     </GameViewEmpty>
 
-    if(isObscured) {
-      return <GameViewEmpty>
-        {me.role === ADMIN_ROLE && < div style={{color: 'red', fontSize: '3em'}}>
-          <Icon icon="faLock" size="large"></Icon>
-          {' '} Game View Locked<br/> ( Participant only sees a black box )
-        </div>}
-      </GameViewEmpty>
-    } else if(selectedTool === UNLOCK_TOOL && !isUnlocked) {
-      return <GameViewEmpty>
-        <Unlockable className="GameViewObscured__unlock" interfaceId={GAME_VIEW_IID}>
-        </Unlockable>
-      </GameViewEmpty>
-    }
   }
 
   if(!gameModel.gameModel && !gameModel.isLoading) {
@@ -107,7 +86,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   cobrowsing: state.cobrowsing,
   gameModel: state.gameModel,
-  unlockedInterfaceIds: state.unlockedInterfaceIds,
   errors: state.errors,
   webPage: state.webPage,
   gameRoomInstance: state.gameRoomInstance

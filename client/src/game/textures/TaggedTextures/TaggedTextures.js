@@ -3,10 +3,10 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import './DescriptorTextures.scss';
-import Texture from '../../textures/Texture/Texture';
+import './TaggedTextures.scss';
+import Texture from '../Texture/Texture';
 
-const DescriptorTextures = ({
+const TaggedTextures = ({
   visualTags,
   spritesByDescriptor,
   onClickTexture
@@ -18,7 +18,7 @@ const DescriptorTextures = ({
     return prev
   }, [])
 
-  return <div className="DescriptorTextures">
+  return <div className="TaggedTextures">
     {sprites.map((sprite) => {
       return <Texture onClick={onClickTexture} textureId={sprite.textureId}/>
     })}
@@ -31,4 +31,4 @@ const mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, {  }),
-)(DescriptorTextures);
+)(TaggedTextures);

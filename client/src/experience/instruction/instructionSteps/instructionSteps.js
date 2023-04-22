@@ -1,6 +1,7 @@
 // import { connect } from "react-redux";
 // import { compose } from "redux";
 import ActivityChip from "../../../app/experienceModel/activity/ActivityChip/ActivityChip";
+import ViewChip from "../../../app/experienceModel/activity/ViewChip/ViewChip";
 import { RoleChip } from "../../../app/experienceModel/role/RoleChip/RoleChip";
 import StepPrompts from "../../../app/experienceModel/step/StepPrompts/StepPrompts";
 import StepTitle from "../../../app/experienceModel/step/StepTitle/StepTitle";
@@ -9,6 +10,7 @@ import SelectGameInstanceEffect from "../../../game/ui/SelectGameInstanceEffect/
 import { editGameRoom } from "../../../store/actions/game/gameRoomInstanceActions";
 import Button from "../../../ui/Button/Button";
 import Divider from "../../../ui/Divider/Divider";
+import FormLabel from "../../../ui/FormLabel/FormLabel";
 import Typography from "../../../ui/Typography/Typography";
 
 export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameModel, gameRoomInstance }) {
@@ -80,6 +82,11 @@ export function instructionSteps({ instruction, lobbyInstance, myRoleId, gameMod
             title: <Typography variant="h5"><StepTitle instructionId={instruction.instructionId} step={step}/></Typography>,
             body: <div className="LobbyInstructions">
               <RoleChip role={lobbyInstance.roles[step.cobrowsingRoleId]} />
+              {step.changeViewCategory && <>
+                <Divider/>
+                <FormLabel>View</FormLabel>
+                <ViewChip viewCategory={step.viewCategory}/>
+              </>}
               {gameModel?.id === instruction.arcadeGameMongoId && <>
                 <Divider/>
                   <SelectGameInstanceEffect

@@ -6,6 +6,8 @@ export const defaultStep = {
   promptOrder: [],
   cobrowsingRoleId: null,
   activityId: null,
+  changeViewCategory: false,
+  viewCategory: null,
 }
 
 export const STEP_DID = 'step-'

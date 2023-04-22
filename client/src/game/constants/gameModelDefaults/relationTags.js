@@ -48,19 +48,15 @@ export const playerRelationTagId = RELATION_TAG_DID+'player'
 // export const transformBackRelationTagId = RELATION_TAG_DID+'transformBack'
 // export const explodeOnDestroyRelationTagId = RELATION_TAG_DID+'explodeOnDestroy'
 
-export const gameOverOnTouchTagId = RELATION_TAG_DID+'gameOverOnTouch'
-export const gameOverWhenAllDestroyedTagId = RELATION_TAG_DID+'gameOverWhenAllDestroyed'
-export const winGameOnTouchTagId = RELATION_TAG_DID+'winGameOnTouch'
-export const winGameWhenAllDestroyedTagId = RELATION_TAG_DID+'winGameWhenAllDestroyed'
+export const endGameOnTouchTagId = RELATION_TAG_DID+'endGameOnTouch'
+export const endGameWhenAllDestroyedTagId = RELATION_TAG_DID+'endGameWhenAllDestroyed'
 
 export const initialTags = {
   [playerRelationTagId]: createLibraryTag(playerRelationTagId, 'Player', '#FFFF00', {
     [ENTITY_RELATION_TAGS_IID]: true,
   }),
-  [gameOverOnTouchTagId]: createLibraryTag(gameOverOnTouchTagId, 'Game Over on Touch', '#FF0000'),
-  [gameOverWhenAllDestroyedTagId]: createLibraryTag(gameOverWhenAllDestroyedTagId, 'Game Over when all Destroyed', '#FF0000'),
-  [winGameOnTouchTagId]: createLibraryTag(winGameOnTouchTagId, 'Win Game on Touch', '#FF0000'),
-  [winGameWhenAllDestroyedTagId]: createLibraryTag(winGameWhenAllDestroyedTagId, 'Win Game when all Destroyed', '#FF0000'),
+  [endGameOnTouchTagId]: createLibraryTag(endGameOnTouchTagId, 'End Game on Touch', '#FF0000'),
+  [endGameWhenAllDestroyedTagId]: createLibraryTag(endGameWhenAllDestroyedTagId, 'End Game when all Destroyed', '#FF0000'),
 
   // [playgroundRelationTagId]: createLibraryTag(playgroundRelationTagId, 'Playground Layer', '#FFFF00', true),
   // [enemyRelationTagId]: createLibraryTag(enemyRelationTagId, 'Enemy', '#FF0000'),

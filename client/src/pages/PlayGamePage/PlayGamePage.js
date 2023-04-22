@@ -11,12 +11,12 @@ import GameView from '../../game/view/GameView/GameView';
 import { unloadArcadeGame } from '../../store/actions/game/arcadeGameActions';
 import { changeGameState } from '../../store/actions/game/gameRoomInstanceActions';
 import LocalGameRoomContext from '../../hoc/LocalGameRoomContext';
-import { START_STATE } from '../../game/constants';
+import { GAME_START_STATE } from '../../game/constants';
 
 const PlayGamePage = () => {
   return (
     <div className="PlayGamePage">
-      <LocalGameRoomContext room={{gameState: START_STATE}}>
+      <LocalGameRoomContext room={{gameState: GAME_START_STATE}}>
         <GameView/>
       </LocalGameRoomContext>
     </div>

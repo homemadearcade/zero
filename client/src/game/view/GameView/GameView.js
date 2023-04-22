@@ -81,7 +81,7 @@ const GameView = (props) => {
     return <GameViewEmpty></GameViewEmpty>
   }
 
-  if(props.gameRoomInstance.gameRoomInstance.isNetworked === true) {
+  if(props.gameRoomInstance.gameRoomInstance.isOnlineMultiplayer === true) {
     if(!props.gameRoomInstance.gameRoomInstance.id) return <GameViewEmpty/>
   }
 

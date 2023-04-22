@@ -134,9 +134,9 @@ export function isZoneEntityId(id) {
 }
 
 export function createGameSceneInstance(key, gameRoomInstance) {
-  const { isEdit, isNetworked, isHost } = gameRoomInstance
+  const { isEdit, isOnlineMultiplayer, isHost } = gameRoomInstance
   if(isEdit) {
-    if(isNetworked) {
+    if(isOnlineMultiplayer) {
       if(isHost) {
         return new GameHostScene({ gameRoomInstance: gameRoomInstance, key})
       } else {

@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import './SelectDescriptors.scss';
+import './SelectVisualTags.scss';
 import SelectChipsAuto from '../../../ui/SelectChipsAuto/SelectChipsAuto';
 import { shuffleArray } from '../../../utils/arrayUtils';
 
-const SelectDescriptors = ({ onChange, value, formLabel, visualTagOptions}) => {
+const SelectVisualTags = ({ onChange, value, formLabel, visualTagOptions}) => {
   const [options, setOptions] = useState()
 
   useEffect(() => {
@@ -32,4 +32,4 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { }),
-)(SelectDescriptors);
+)(SelectVisualTags);

@@ -40,7 +40,7 @@ export const DIRECTION_UP = 'DIRECTION_UP'
 /////////////////////////////////////
 /////////////////////////////////////
 // GAME STATE
-export const START_STATE = 'START_STATE'
+export const GAME_START_STATE = 'GAME_START_STATE'
 
 export const PAUSED_STATE = 'PAUSED_STATE'
 export const PLAYTHROUGH_PAUSED_STATE = 'PLAYTHROUGH_PAUSED_STATE'
@@ -49,8 +49,7 @@ export const EDIT_STATE = 'EDIT_STATE'
 export const PLAY_STATE = 'PLAY_STATE'
 export const PLAYTHROUGH_PLAY_STATE = 'PLAYTHROUGH_PLAY_STATE'
 
-export const GAME_OVER_STATE = 'GAME_OVER_STATE'
-export const WIN_GAME_STATE = 'WIN_GAME_STATE'
+export const GAME_END_STATE = 'GAME_END_STATE'
 
 ////----
 

@@ -123,7 +123,7 @@ export const changeGameState = (gameState, message) => (dispatch, getState) => {
 
   const gameRoomInstance = getState().gameRoomInstance.gameRoomInstance
 
-  if(gameRoomInstance.isNetworked) {
+  if(gameRoomInstance.isOnlineMultiplayer) {
     dispatch(editGameRoom(gameRoomInstance.id, {
       gameState,
       gameStateMessage: message
@@ -227,7 +227,7 @@ export const editGameRoom = (id, data) => async (dispatch, getState) => {
 
     const gameRoomInstance = getState().gameRoomInstance.gameRoomInstance
 
-    if(gameRoomInstance.isNetworked) {
+    if(gameRoomInstance.isOnlineMultiplayer) {
       const options = attachTokenToHeaders(getState);
       const response = await axios.put(`/api/gameRoomInstance/${id}`, data, options);
     } else {

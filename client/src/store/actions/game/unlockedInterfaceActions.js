@@ -3,13 +3,13 @@ import { getRemoteStatePackage } from '../../../utils';
 import {
   UNLOCK_INTERFACE,
   LOCK_INTERFACE,
-  INITIALIZE_UNLOCKABLE_INTERFACE_IDS
+  INITIALIZE_UNLOCKED_INTERFACE_IDS
 } from '../../types';
 import { updateCobrowsing } from './cobrowsingActions';
 
 export const initializeUnlockableInterfaceIds = (unlockedInterfaceIds = {}) => async (dispatch, getState) => {
   dispatch({
-    type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+    type: INITIALIZE_UNLOCKED_INTERFACE_IDS,
     payload: { 
       unlockedInterfaceIds,
      },

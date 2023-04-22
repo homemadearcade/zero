@@ -76,7 +76,7 @@ const LobbyInstructions = ({
               updateArcadeGameCharacter({
                 experienceModelMongoId: lobbyInstance.experienceModelMongoId,
                 userMongoId,
-                unlockedInterfaceIds: {}
+                unlockedInterfaceIds: { full: false }
               })
             })
           }
@@ -162,6 +162,15 @@ const LobbyInstructions = ({
               // //   })
               // // }
             }
+
+            if(step.changeViewCategory) {
+              updatedLobby.activitys = {
+                [lobbyInstance.currentActivityId]: {
+                  currentViewCategory: step.viewCategory
+                }
+              }
+            }
+            
             if(step.cobrowsingRoleId) {
               if(step.cobrowsingRoleId !== myRoleId) {
                 const cobrowsingUserMongoId = lobbyInstance.roleIdToUserMongoIds[step.cobrowsingRoleId][0]
@@ -180,6 +189,7 @@ const LobbyInstructions = ({
               [instructionId]: stepNumber
             }
           })
+          
 
           if(step && step.effectIds?.length) {
             const effectIds = step.effectIds

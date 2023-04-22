@@ -20,7 +20,7 @@ export class CodrawingCanvas extends Canvas {
 
     this.strokeHistory = null
     this.initializeStrokeHistory()
-    if(!this.scene.gameRoomInstance.isNetworked) return
+    if(!this.scene.gameRoomInstance.isOnlineMultiplayer) return
 
     this.strokesPending = []
     if(!this.isCodrawingHost) {
@@ -152,7 +152,7 @@ export class CodrawingCanvas extends Canvas {
   }
 
   destroy() {
-    if(!this.scene.gameRoomInstance.isNetworked) return
+    if(!this.scene.gameRoomInstance.isOnlineMultiplayer) return
     
     super.destroy()
 

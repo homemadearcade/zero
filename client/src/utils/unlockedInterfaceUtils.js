@@ -66,13 +66,13 @@ export function areIdAliasesUnlocked(idAliases, unlockedInterfaceIds) {
   })
 }
 
-export function getInterfaceIdData(interfaceId, interfaceIdToUnlock) {
-  if(!interfaceIdToUnlock) interfaceIdToUnlock = interfaceId
+export function getInterfaceIdData(interfaceId) {
   const state = getCobrowsingState()
-  const unlockedInterfaceIds = state.unlockedInterfaceIds
-  const idAliases = getInterfaceIdAliases(interfaceIdToUnlock)
-  const me = state.auth.me
 
+  if(!state.unlockedInterfaceIds) console.error(interfaceId, 'no unlocked again')
+  const unlockedInterfaceIds = state.unlockedInterfaceIds || {}
+  const idAliases = getInterfaceIdAliases(interfaceId)
+  const me = state.auth.me
   
   const data = interfaceIdData[interfaceId]
   let isDefaultUnlocked = false

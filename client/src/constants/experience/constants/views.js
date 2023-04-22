@@ -8,6 +8,7 @@ export const ACTIVITY_VIEW_BROWSE = 'ACTIVITY_VIEW_BROWSE'
 export const ACTIVITY_VIEW_CHATROOM = 'ACTIVITY_VIEW_CHATROOM'
 export const ACTIVITY_VIEW_PLAY_GAME = 'ACTIVITY_VIEW_PLAY_GAME'
 export const ACTIVITY_VIEW_WATCH_GAME = 'ACTIVITY_VIEW_WATCH_GAME'
+export const ACTIVITY_VIEW_GAME_HIDDEN = 'ACTIVITY_VIEW_GAME_HIDDEN'
 export const ACTIVITY_VIEW_DRAWING = 'ACTIVITY_VIEW_DRAWING'
 export const ACTIVITY_VIEW_TEXT = 'ACTIVITY_VIEW_TEXT'
 export const ACTIVITY_VIEW_MY_INFORMATION = 'ACTIVITY_VIEW_MY_INFORMATION'
@@ -41,6 +42,10 @@ export const activityViewToInterfaceData = {
   [ACTIVITY_VIEW_PLAY_GAME]: {
     displayName: 'Play',
     icon: 'faGamepad',
+  },
+  [ACTIVITY_VIEW_GAME_HIDDEN]: {
+    displayName: 'Hidden Game',
+    icon: 'faEyeSlash',
   },
   [ACTIVITY_VIEW_WATCH_GAME]: {
     displayName: 'Watch',

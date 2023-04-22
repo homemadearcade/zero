@@ -35,7 +35,7 @@ export class GameLocalScene extends EditorScene {
 
     const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
     if(this.gameState !== gameState) {
-      this.onStateChange(this.gameState, gameState)
+      // this.onStateChange(this.gameState, gameState)
     }
 
     if(this.isPaused) {

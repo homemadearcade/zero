@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './EditEntityGraphics.scss';
 import CobrowsingDialog from '../../cobrowsing/CobrowsingDialog/CobrowsingDialog';
-import SelectDescriptors from '../../ui/SelectDescriptors/SelectDescriptors';
+import SelectVisualTags from '../../ui/SelectVisualTags/SelectVisualTags';
 import { clearGameFormEditor, closeEditEntityGraphics, updateCreateEntity } from '../../../store/actions/game/gameFormEditorActions';
 import CreateTexture from '../../textures/CreateTexture/CreateTexture';
 import Button from '../../../ui/Button/Button';
@@ -19,7 +19,7 @@ import AggregateColorSelect from '../../color/AggregateColorSelect/AggregateColo
 import { generateUniqueId } from '../../../utils/webPageUtils';
 import SelectLayer from '../../ui/SelectLayer/SelectLayer';
 import { ENTITY_MODEL_DID, entityModelTypeToPrefix } from '../../constants';
-import { ENTITY_LAYER_IID, ENTITY_INVISIBLE_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID, PLAYGROUND_LAYER_GROUP_IID } from '../../../constants/interfaceIds';
+import { ENTITY_LAYER_IID, ENTITY_INVISIBLE_IID, PLAYER_ENTITY_IID, ZONE_ENTITY_IID, PLAYGROUND_LAYER_GROUP_IID, ENTITY_VISUAL_TAGS_IID } from '../../../constants/interfaceIds';
 import EntityNameForm from '../EntityNameForm/EntityNameForm';
 
 const EditEntityGraphics = ({ 
@@ -57,7 +57,7 @@ const EditEntityGraphics = ({
          />
       </Unlockable>
       {!entityModel.graphics.invisible && <>
-        <SelectDescriptors
+        <Unlockable interfaceId={ENTITY_VISUAL_TAGS_IID}><SelectVisualTags
           onChange={(event, visualTags) => {
             let newName = entityModel.name || ''
             const nameFromDesc = getEntityDisplayName(visualTags)
@@ -70,7 +70,7 @@ const EditEntityGraphics = ({
           }}
           formLabel="Descriptors"
           value={entityModel.visualTags}
-        />
+        /></Unlockable> 
         <CreateTexture
           onSelect={(textureId) => {
             updateCreateEntity({ graphics: {

@@ -17,7 +17,7 @@ import {
   UNLOAD_GAME_MODEL,
   ON_GAME_MODEL_UPDATE,
   ON_GAME_CHARACTER_UPDATE,
-  INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+  INITIALIZE_UNLOCKED_INTERFACE_IDS,
   GET_ARCADE_GAME_LOADING,
   GET_ARCADE_GAME_SUCCESS,
   GET_ARCADE_GAME_FAIL,
@@ -86,28 +86,28 @@ export function onArcadeGameModelUpdate(gameUpdate) {
   window.events.emit(ON_GAME_MODEL_UPDATE, gameUpdate)
 }
 
-function onArcadeGameCharacterUpdate({ userMongoId, data }) {
+function onArcadeGameCharacterUpdate({ userMongoId, unlockedInterfaceIds }) {
   const me = store.getState().auth.me 
   const cobrowsing = store.getState().cobrowsing
 
   if(me.id === userMongoId || (cobrowsing.isSubscribedCobrowsing)) {  
-    console.log('merging', data.unlockedInterfaceIds)
     // needs to do update cobrowsing or else ur just locking ur own...
     store.dispatch({
-      type: INITIALIZE_UNLOCKABLE_INTERFACE_IDS,
+      type: INITIALIZE_UNLOCKED_INTERFACE_IDS,
       updateCobrowsing: true,
       noCobrowsingToolNeeded: true,
       payload: {
-        unlockedInterfaceIds: data.unlockedInterfaceIds
+        unlockedInterfaceIds: unlockedInterfaceIds
       }
     })
   }
 }
 
-export const updateArcadeGameCharacter = ({userMongoId, interfaceIds, experienceModelMongoId, merge}) => async (dispatch, getState) => {
+export const updateArcadeGameCharacter = ({userMongoId, unlockedInterfaceIds, experienceModelMongoId, merge}) => async (dispatch, getState) => {
   // dispatch({
   //   type: GET_SPRITESHEET_DATA_LOADING,
   // });
+
   try {
     const state = store.getState()
     const gameRoomInstanceMongoId = state.gameRoomInstance?.gameRoomInstance?.id
@@ -117,7 +117,7 @@ export const updateArcadeGameCharacter = ({userMongoId, interfaceIds, experience
       experienceModelMongoId,
       gameRoomInstanceMongoId,
       userMongoId,
-      interfaceIds,
+      unlockedInterfaceIds,
       merge
     }, options);
 

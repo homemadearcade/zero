@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { Constellation } from '../../../marketing/homemadeArcade/Constellation/Constellation';
 import Link from '../../../ui/Link/Link';
 import Typography from '../../../ui/Typography/Typography';
-import { GAME_OVER_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, START_STATE, WIN_GAME_STATE } from '../../constants';
+import { GAME_END_STATE, PLAYTHROUGH_PLAY_STATE, PLAY_STATE, GAME_START_STATE } from '../../constants';
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import KeyIndicator from '../../ui/KeyIndicator/KeyIndicator';
 import './GameStateScreen.scss';
@@ -40,7 +40,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
   }
 
   function renderGameStateScreen() {
-    if(gameState === START_STATE) {
+    if(gameState === GAME_START_STATE) {
       const playerEntityModel = gameModel.entityModels[gameModel.stages[gameModel.player.startingStageId].playerEntityModelId]
       return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
         <Fade in><div className="GameStateScreen__content">
@@ -58,7 +58,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
       </Constellation>
     }
 
-    if(gameState === GAME_OVER_STATE) {
+    if(gameState === GAME_END_STATE) {
       return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
         <Fade in><div className="GameStateScreen__content">
           <Typography font="2P" component="h2" variant="h2">Game Over</Typography>
@@ -66,23 +66,9 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
           {gameStateMessage}
         </div></Typography>}
           <div className="GameStateScreen__press">
-            <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Try Again</Typography>
-          </div>
-          {!store.getState().gameRoomInstance.gameRoomInstance.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
-        </div></Fade>
-      </Constellation>
-    }
-    if(gameState === WIN_GAME_STATE) {
-      return <Constellation width={gameEditorWidth} height={gameEditorHeight} notInteractive>
-        <Fade in><div className="GameStateScreen__content">
-          <Typography font="2P" component="h2" variant="h2">You won!</Typography>
-          {gameStateMessage && <Typography component="h3" variant="h3"><div ref={ref} style={{fontSize}} className='GameStateScreen__title'>
-          {gameStateMessage}
-        </div></Typography>}
-          <div className="GameStateScreen__press">
             <Typography component="h5" variant="h5">Press</Typography><KeyIndicator keyName="x"></KeyIndicator> <Typography component="h3" variant="h3">To Play Again</Typography>
           </div>
-          {!store.getState().gameRoomInstance.gameRoomInstance.isNetworked && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
+          {!store.getState().gameRoomInstance.gameRoomInstance.isOnlineMultiplayer && <Link to="/arcade"><Typography component="h5" variant="h5">Return to Arcade</Typography></Link>}
         </div></Fade>
       </Constellation>
     }
@@ -96,7 +82,7 @@ function GameStateScreenBody({changeGameState, gameStateMessage, gameState, game
 }
 
 function GameStateScreen({gameRoomInstance: { gameRoomInstance: { gameState, gameStateMessage }}, changeGameState, gameModel}) {
-  if(gameState !== START_STATE && gameState !== WIN_GAME_STATE && gameState !== GAME_OVER_STATE) {
+  if(gameState !== GAME_START_STATE && gameState !== GAME_END_STATE) {
     return null
   }
 
