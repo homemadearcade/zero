@@ -84,7 +84,6 @@ const ActivityForm = ({ control, register, setValue, trigger, isEdit, experience
             formLabel={"Initial View"}
             activityCategory={activityCategory}
             onChange={(e) => {
-              console.log(e.target.value)
               onChange(e.target.value)
             // setValue("gameRoom.gameMetadata", experienceModel.gameRooms[newGameRoomId].gameMetadata)
           }} value={value} />

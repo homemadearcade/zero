@@ -98,7 +98,7 @@ export class Canvas extends Phaser.GameObjects.RenderTexture {
     
           resolve({ bufferCanvas, bufferCanvasContext })
         } catch(e) {
-          console.log(e)
+          console.error(e)
           reject(e)
         }
       })

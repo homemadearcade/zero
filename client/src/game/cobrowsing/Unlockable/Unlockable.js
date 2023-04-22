@@ -78,7 +78,7 @@ const Unlockable = ({
 
   function renderChildren() {
     return React.Children.map(children, (child, index) => {
-      return <Fade in><div ref={unlockableRef}>{React.cloneElement(child, {width, height})}</div></Fade>
+      return <Fade in><div ref={unlockableRef}>{React.cloneElement(child, {width: width ? width: null, height: height ? height : null})}</div></Fade>
     })
   }
 

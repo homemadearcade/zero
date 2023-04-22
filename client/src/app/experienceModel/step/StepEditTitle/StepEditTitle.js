@@ -20,7 +20,6 @@ const StepEditTitle = ({
   if(isEditing) {
     return <div className='StepEditTitle'>
     <TextField onChange={(e) => {
-      console.log(e.target.value)
       setTitle(e.target.value)
     }} label="Step Title" value={title} />
     {<IconButton color="primary" icon="faCheck" onClick={() => {

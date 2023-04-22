@@ -761,7 +761,7 @@ export class EditorScene extends GameInstance {
         } else {
           this.load.image(textureId, getImageUrlFromTextureId(textureId));
           this.load.once('complete', (textureIdk) => {
-            console.log('loaded', textureId)
+            // console.log('loaded', textureId)
           });
           this.load.start();
         }

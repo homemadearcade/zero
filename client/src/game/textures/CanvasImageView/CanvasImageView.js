@@ -37,10 +37,8 @@ const CanvasImageView = ({
       setCanvasImageDialogGameInstance(game)
     }, 100)
 
-    console.log('load sprite edit ')
     return () => {
       if(!game) return
-      console.log('unload sprite edit ')
       getCurrentGameScene(game).unload()
       game.destroy()
     }

@@ -178,7 +178,7 @@ const ExperienceInstanceForm = ({
                   <Typography variant="subtitle1" component="span">{' ' + lobby.name}</Typography>
                   <div className="ExperienceInstanceForm__roles">{Object.keys(experienceModel.roles).map((roleId) => {
                     const role = experienceModel.roles[roleId]
-                    return <div className="ExperienceInstanceForm__role">
+                    return <div key={roleId} className="ExperienceInstanceForm__role">
                       <RoleChip role={role} />
                       {role.roleCategory === EXPERIENCE_ROLE_AUDIENCE && <Controller
                         name={`lobbyInstances.${lobbyId}.roleIdToUserMongoIds.${roleId}`}

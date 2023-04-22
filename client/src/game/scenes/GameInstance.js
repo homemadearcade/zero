@@ -604,8 +604,6 @@ export class GameInstance extends Phaser.Scene {
         
         intensity = intensity * gameSizePercent
 
-        console.log('intensity', intensity)
-
         const isGridViewOn = store.getState().gameViewEditor.isGridViewOn
         if(isGridViewOn) {
           this.editorCamera.shake(data.duration, intensity);
@@ -742,6 +740,10 @@ export class GameInstance extends Phaser.Scene {
   }
 
   unload() {
+    this.destroyed = true 
+    if(this.destroyed) return
+    this.destroyScenes()
+
     // We want to keep the assets in the cache and leave the renderer for reuse.
     this.game.destroy(true);
     this.destroyInstances()
@@ -751,12 +753,11 @@ export class GameInstance extends Phaser.Scene {
     })
     this.layerInstancesById = {}
     this.layerInstancesByLayerGroupId = {}
-    this.destroyScenes()
     this.setPlayerGameLoaded(null)
   }
 
   destroyScenes() {
-    const scenes = this.scene.scenes
+    const scenes = this.game.scene.scenes
 
     scenes.forEach((scene) => {
       scene.unload()
@@ -1061,8 +1062,6 @@ export class GameInstance extends Phaser.Scene {
       sidesB,
       effect
     })
-
-    console.log('phaser instances', phaserInstances, effect)
 
     phaserInstances.forEach((phaserInstance) => {
       runEffect(phaserInstance)

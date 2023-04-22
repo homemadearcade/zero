@@ -17,7 +17,6 @@ import Alert from '../../../ui/Alert/Alert';
 
 const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
   const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]
-  console.log(gameFacilitatorUserMongoId)
 
   return <GameEditor 
     rootFontSize={rootFontSize}

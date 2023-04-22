@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './HoverPreview.scss'
 import { mapCobrowsingState } from '../../../utils/cobrowsingUtils';
 import Typography from '../../../ui/Typography/Typography';
-import Sprite from '../../textures/Texture/Texture';
+import Texture from '../../textures/Texture/Texture';
 import { getLayerIdFromColorId, getLayerIdFromEraserId, getHexFromColorId, isBrushIdColor, isBrushIdEraser } from '../../../utils/editorUtils';
 import { effectInterfaceDatas, PAUSED_STATE } from '../../constants';
 import Icon from '../../../ui/Icon/Icon';
@@ -129,8 +129,8 @@ const HoverPreview = ({
     return <>
       <div className="HoverPreview__display">
         <div className="HoverPreview__display-item">
-          <Sprite textureTint={textureTint} textureId={textureId}>
-          </Sprite>
+          <Texture textureTint={textureTint} textureId={textureId}>
+          </Texture>
           {spriteOverlay && <div className="HoverPreview__display-item-overlay">
             {spriteOverlay}
           </div>}
@@ -216,9 +216,11 @@ const HoverPreview = ({
               openSnapshotTaker()
             }}><Icon icon="faCameraRetro"/></Button>
           </Unlockable>
-          <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>{renderEditableIcon(() => {
-            openGameMetadataDialog()
-          })}</Unlockable>
+          <Unlockable interfaceId={GAME_OPEN_METADATA_IID}>
+            {renderEditableIcon(() => {
+              openGameMetadataDialog()
+            })}
+          </Unlockable>
           {<Unlockable interfaceId={CHANGE_SELECTOR_TABS_IID}>
             <Button size="xs" onClick={() => {
               openEffectPromptDialog()
@@ -290,7 +292,7 @@ const HoverPreview = ({
 
   return <Unlockable interfaceId={HOVER_PREVIEW_IID}>
     <div className="HoverPreview"
-      style={{backgroundColor: '#222', color: 'white', height: gameEditorHeight * 0.2}}
+      style={{backgroundColor: '#222', color: 'white', height: gameEditorHeight ? gameEditorHeight * 0.2 : 0}}
       onMouseEnter={() => {
         setIsHoveringOverTitle(true)
       }} 

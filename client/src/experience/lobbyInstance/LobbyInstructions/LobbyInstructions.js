@@ -169,7 +169,7 @@ const LobbyInstructions = ({
               //   window.socket.emit(ON_LOBBY_INSTANCE_EVENT, { lobbyInstanceMongoId: lobbyInstance.id, lobbyInstanceEventType: EVENT_LOBBY_STEP_INITIALIZED, data: { instructionId, stepId, roleId: myRoleId, stepNumber, cobrowsingUserMongoId }})
               // }
             }
-            console.log('updatedLobby', updatedLobby)
+
             await editLobby(lobbyInstance.id, updatedLobby)
           }
 
@@ -187,10 +187,8 @@ const LobbyInstructions = ({
               const effect = gameModel.effects[effectId]
 
               if(step.cobrowsingRoleId === myRoleId) {
-                console.log('turn off cobrowsing')
                 toggleActiveCobrowsing(false)
               } else {
-                console.log('turn on cobrowsing')
                 toggleActiveCobrowsing(true)
               }
 

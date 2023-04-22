@@ -62,7 +62,6 @@ const StepForm = ({ register, control, instruction, experienceModel : { experien
       render={({ field: { onChange, value } }) => (
         <SelectGameInstanceEffect
           formLabel="What changes occur when this step is loaded?" onChange={(event, effectIds) => {
-            console.log("effectIds", effectIds)
           onChange(effectIds)
         }} value={value ? value : []} />
       )}
