@@ -4,7 +4,8 @@ import { ENTITY_INSTANCE_DELETE_IID, ENTITY_INSTANCE_JSON_IID, ENTITY_INSTANCE_M
   // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   [ENTITY_INSTANCE_MOVE_IID]: {
-    interfaceGroupId: ENTITY_INSTANCE_IGID
+    interfaceGroupId: ENTITY_INSTANCE_IGID,
+    name: 'Move Class Instance'
   },
   [ENTITY_INSTANCE_RESIZE_ENTITY_IID]: {
     interfaceGroupId: ENTITY_INSTANCE_IGID,

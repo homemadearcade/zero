@@ -22,7 +22,6 @@ IMPLEMENT THESE EFFECTS
   Interact to Destroy Tag
 
 CUTSCENES
-
   A default cutscene runs at the beginning
 
   The End. The test can be customized. 
@@ -33,14 +32,8 @@ UNLOCKABLES
   
   Differentiate Unlockables between Choose my Sprites Vs Choose System Sprites. Choose my Sprites is always unlocked 
 
-  Add Unlock Move 
-  Add Unlock Select Color
-  Add Unlock Brush
-  Edit Camera For Player
-
 BLANK GAME VIEW IS A VIEW
   Select view in ALL kinds of steps
-
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------

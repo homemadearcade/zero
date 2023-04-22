@@ -1,9 +1,9 @@
 import { openCreateStageDialog, openEditEntityDialog, openEditEntityGraphics } from "../../store/actions/game/gameFormEditorActions";
-import { openGameMetadataDialog, openSelectStageColorDialog } from "../../store/actions/game/gameSelectorActions";
+import { openGameMetadataDialog, openLiveEditor, openSelectStageColorDialog } from "../../store/actions/game/gameSelectorActions";
 import { openSectionEditor } from "../../store/actions/game/gameViewEditorActions";
-import { EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
+import { EDIT_CURRENT_PLAYER_CAMERA_AID, EDIT_CURRENT_STAGE_AID, EDIT_CURRENT_STAGE_BACKGROUND_COLOR_AID, EDIT_CURRENT_STAGE_BOUNDARIES_AID, EDIT_ENTITY_AID, EDIT_ENTITY_GRAPHICS_AID, EDIT_GAME_METADATA_AID } from "../interfaceActionIds/edit";
 import { INTERFACE_ACTION_EDIT } from "../interfaceActions";
-import { EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ZONE_ENTITY_IID } from "../interfaceIds";
+import { CAMERA_EDITOR_IID, EDIT_ENTITY_GRAPHICS_PRIMARY_DIALOG_IID, ZONE_ENTITY_IID } from "../interfaceIds";
 
  // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -73,6 +73,15 @@ export default {
       const currentStageId = getState().gameModel.currentStageId
       const currentStage = gameModel.stages[currentStageId]
       dispatch(openCreateStageDialog(currentStage))
+    }
+  },
+  [EDIT_CURRENT_PLAYER_CAMERA_AID]: {
+    title: 'Edit Current Player Camera',
+    subTitle: 'This will open a popup to edit the player camera',
+    actionType: INTERFACE_ACTION_EDIT,
+    onClick: () => (dispatch, gameModel, getState) => {
+      const currentPlayerEntityId = getState().playerInterface.playerEntityModelId
+      dispatch(openLiveEditor(CAMERA_EDITOR_IID, currentPlayerEntityId))
     }
   }
 }

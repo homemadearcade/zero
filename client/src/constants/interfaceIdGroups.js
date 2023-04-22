@@ -67,11 +67,11 @@ export const interfaceGroupData = {
   },
   [ENTITY_MODEL_IGID]: {
     name: 'Class',
-    icon: 'entity-model'
+    icon: 'faChessPawn'
   },
   [ENTITY_INSTANCE_IGID]: {
-    name: 'Class',
-    icon: 'entity-instance'
+    name: 'Class Instance',
+    icon: 'faChessPawn'
   },
   [STAGE_IGID]: {
     name: 'Stage',

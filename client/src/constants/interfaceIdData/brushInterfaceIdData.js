@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { INTERFACE_FORM_SLIDER } from "../interface";
 import { DRAW_IGID } from "../interfaceIdGroups";
-import { BACKGROUND_LAYER_GROUP_IID, BRUSH_ADD_IID, BRUSH_SIZE_IID, ERASER_SELECT_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID  } from "../interfaceIds";
+import { BACKGROUND_LAYER_GROUP_IID, BRUSH_ADD_IID, BRUSH_SELECT_IID, BRUSH_SIZE_IID, COLOR_SELECT_IID, ERASER_SELECT_IID, FOREGROUND_LAYER_GROUP_IID, PLAYGROUND_LAYER_GROUP_IID  } from "../interfaceIds";
 
 // export const BRUSH_SELECT_IID = 'brushSelect'
 // export const COLOR_SELECT_IID = 'colorSelect'
@@ -14,8 +14,15 @@ import { BACKGROUND_LAYER_GROUP_IID, BRUSH_ADD_IID, BRUSH_SIZE_IID, ERASER_SELEC
 // export const BRUSH_ADD_IID = 'addBrush';
 // export const ERASER_SELECT_IID = 'eraser'
 
-
 export default {
+  [BRUSH_SELECT_IID]: {
+    name: 'Select Brush Area',
+    isDefaultUnlocked: true
+  },
+  [COLOR_SELECT_IID]: {
+    name: 'Select Color Area',
+    isDefaultUnlocked: true
+  },
   [BRUSH_SIZE_IID]: {
     formType: INTERFACE_FORM_SLIDER,
     interfaceGroupId: DRAW_IGID,

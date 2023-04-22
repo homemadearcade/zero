@@ -2,7 +2,8 @@ import { ENTITY_DATA_SOURCE_IID, ENTITY_LAYER_IID, ENTITY_MODEL_OPEN_CAMERA_IID,
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  [ENTITY_MODEL_OPEN_CAMERA_IID]: {},
+  [ENTITY_MODEL_OPEN_CAMERA_IID]: {
+  },
   [ENTITY_MODEL_OPEN_PROJECTILE_IID]: {},
   [ENTITY_MODEL_OPEN_JUMP_IID]: {},
   [ENTITY_MODEL_OPEN_GRAPHICS_IID]: {},
