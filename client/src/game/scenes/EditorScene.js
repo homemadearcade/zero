@@ -669,8 +669,6 @@ export class EditorScene extends GameInstance {
   ////////////////////////////////////////////////////////////
   onGameModelUpdate = (gameUpdate) => {
     if(!this.scene)  {
-      console.error('update we dont want')
-      console.log(this)
       return
     }
     if(!this.scene.isActive(this.scene.key)) return 
@@ -1139,7 +1137,6 @@ export class EditorScene extends GameInstance {
 
   unload() {
     super.unload()
-    console.log('unloading all events', this)
     this.input.off('pointerover', this.onPointerOver);
     this.input.off('pointerout', this.onPointerOut);
     this.input.off('pointerdown', this.onPointerDown, this);

@@ -34,7 +34,7 @@ function Video({setShowInfo, setShowChangeInput, showChangeInput, showInfo, hide
       </div>}
       {isMe && controls}
     </div>}
-    <AgoraVideoPlayer className="AgoraVideo__video" videoTrack={tracks.videoTrack}/>
+    <AgoraVideoPlayer className="AgoraVideo__video" style={{height: '100%', width: '100%', position: 'static'}} videoTrack={tracks.videoTrack}/>
   </div>
 }
 

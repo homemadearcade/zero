@@ -43,7 +43,7 @@ export const defaultGameModel = {
   relationTags: {},
   effects: {},
   events: {},
-  "canvasImages": {
+  "textures": {
     // "url": "xxx",
     // "name": 'name'
     // "type": "layer"

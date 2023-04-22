@@ -32,14 +32,12 @@ export const uploadCanvasImageAndAddToGameModel  = ({imageFile, textureId, image
     }
   });
 
-  console.log('uploadCanvasImageAndAddToGameModel', imageFile, textureId, imageType)
-
   try {
     const awsResponse = await addAwsImage(imageFile, textureId)
-    console.log('awsResponse', awsResponse)
 
     // this is good here because it sends an event out to update this image/load it
     // but do we need that anymore?
+    // yes we need it because the game does not check which assets to load
     dispatch(editGameModel({
       textures: { 
         [textureId] : {

@@ -23,10 +23,10 @@ IMPLEMENT THESE EFFECTS
 
 CUTSCENES
 
-A default cutscene runs at the beginning
+  A default cutscene runs at the beginning
 
-The End. The test can be customized. 
-Default Ending cutscene 
+  The End. The test can be customized. 
+  Default Ending cutscene 
 
 UNLOCKABLES 
   Make Choose Descriptors an Unlockable
@@ -111,7 +111,6 @@ CAPS LOCK - Grid View
 MMO-esque toolbar on the bottom
 
 ---------------------------------------------------------------------------------------------------- 
-
 
 
 GAME VISIBILITY

@@ -33,7 +33,6 @@ const AgoraUserVideo = ({
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('setting interface id', interfaceId, userMongoId)
       setVideoTrackInterfaceIdOpen({interfaceId, userMongoId})
     },100)
     return () => {
@@ -53,7 +52,7 @@ const AgoraUserVideo = ({
   }, [userMongoId])
 
   function renderPlaceholder(reason) {
-    return <div style={{position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
+    return <div style={{width: '100%', paddingBottom: '77.7%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.1)'}} className={className}>
       {user && <div style={{position: 'absolute', fontSize: '.5em', top: 0, left: 0, backgroundColor: stringToColour(user.id), padding: '1em'}}>
        <div style={{opacity: 0}}>{user.username}</div>
         <div style={{position: 'absolute', top: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', display: 'flex', alignItems: 'center', width: '100%', height: '100%'}}>
@@ -86,7 +85,7 @@ const AgoraUserVideo = ({
   }, {})
 
   if(!userTracksById[userMongoId]) {
-    return renderPlaceholder('No Video for this users')
+    return renderPlaceholder('No Video for this user')
   }
 
   return <div className={className} style={{width, height}}>

@@ -155,6 +155,7 @@ const HoverPreview = ({
 
   function renderBrushDisplay() {
     const layer = gameModel.layers[brushModel.layerId]
+    if(!layer) return null
     return renderDisplayWithTexture({
       textureTint: brushModel.textureTint,
       textureId: brushModel.textureId,
@@ -164,6 +165,7 @@ const HoverPreview = ({
 
   function renderColorDisplay() {
     const layer = gameModel.layers[getLayerIdFromColorId(brushId)]
+    if(!layer) return null
     return renderDisplayWithTexture({
       textureTint: hex,
       spriteOverlay: <ColorNameFit hex={hex}/>,
