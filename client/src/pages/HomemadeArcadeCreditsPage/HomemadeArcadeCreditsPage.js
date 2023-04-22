@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 
 import './HomemadeArcadeCreditsPage.scss';
 import GameList from '../../app/gameModel/GameList/GameList';
-import Button from '../../ui/Button/Button';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
-import Navbar from '../../layout/Navbar/Navbar';
 import ConstellationHero from '../../marketing/homemadeArcade/ConstellationHero/ConstellationHero';
 import { Container } from '@mui/material';
 import Typography from '../../ui/Typography/Typography';
@@ -54,7 +52,7 @@ const HomemadeArcadeCreditsPage = () => {
       </ConstellationHero>
       <Container><div ref={gameListRef}><GameList>{(game) => {
         if(game.isRemoved) return
-        return <GameCard canPlay game={game}/>
+        return <GameCard key={game.id} canPlay game={game}/>
       }}</GameList></div></Container>
     </div>
   </>

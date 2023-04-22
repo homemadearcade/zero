@@ -13,14 +13,12 @@ import CobrowsingToolbar from '../CobrowsingToolbar/CobrowsingToolbar';
 import AgoraUserVideo from '../../agora/AgoraUserVideo/AgoraUserVideo';
 import { GAME_ROOM_VIDEO_IID } from '../../../constants/interfaceIds';
 import { defaultGuideRoleId } from '../../../constants';
+import Alert from '../../../ui/Alert/Alert';
 
 const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrowsing: { cobrowsingUser, selectedTool, isSubscribedCobrowsing, isActivelyCobrowsing, remoteStateUserMongoId }, video: { isInsideVideoCall }, myTracks, userTracks}) => { 
   const gameFacilitatorUserMongoId = lobbyInstance.roleIdToUserMongoIds[defaultGuideRoleId][0]
-
   console.log(gameFacilitatorUserMongoId)
-    //   {isActivelyCobrowsing && !remoteStateUserMongoId && <div className="CobrowsingGame__no-state">
-    //   <Typography variant="h5">{cobrowsingUser.username} has not interacted with the experience yet.</Typography> 
-    // </div>}
+
   return <GameEditor 
     rootFontSize={rootFontSize}
     isObscurable
@@ -40,7 +38,13 @@ const CobrowsingGame = ({ rootFontSize, lobbyInstance: { lobbyInstance }, cobrow
   >
     {isActivelyCobrowsing && remoteStateUserMongoId && <CobrowsingToolbar/>}
     {isActivelyCobrowsing && remoteStateUserMongoId && <RemoteMouse userMongoId={cobrowsingUser.id}/>}
+    {isActivelyCobrowsing && !remoteStateUserMongoId && <div className="CobrowsingGame__no-state">
+      <Alert severity="warning">
+        {cobrowsingUser.username + ' has not interacted with the experience yet'}
+      </Alert>
+    </div>}
   </GameEditor>
+  
 };
 
 const mapStateToProps = (state) => {

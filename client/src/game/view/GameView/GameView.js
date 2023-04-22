@@ -81,7 +81,9 @@ const GameView = (props) => {
     return <GameViewEmpty></GameViewEmpty>
   }
 
-  if(!props.gameRoomInstance.gameRoomInstance.id) return <GameViewEmpty/>
+  if(props.gameRoomInstance.gameRoomInstance.isNetworked === true) {
+    if(!props.gameRoomInstance.gameRoomInstance.id) return <GameViewEmpty/>
+  }
 
   return <PhaserGame {...props}></PhaserGame>
 }

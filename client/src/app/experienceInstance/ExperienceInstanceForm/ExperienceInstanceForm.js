@@ -173,7 +173,7 @@ const ExperienceInstanceForm = ({
           <Typography variant="h3" component="h3">{experienceModel.metadata.title}</Typography>
           {Object.keys(experienceModel.lobbys).map((lobbyId) => {
               const lobby = experienceModel.lobbys[lobbyId]
-              return <Paper><div className="ExperienceInstanceForm__lobby">
+              return <Paper key={lobby.id}><div className="ExperienceInstanceForm__lobby">
                   <Icon icon="faDoorOpen" />
                   <Typography variant="subtitle1" component="span">{' ' + lobby.name}</Typography>
                   <div className="ExperienceInstanceForm__roles">{Object.keys(experienceModel.roles).map((roleId) => {

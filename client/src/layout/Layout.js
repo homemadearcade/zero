@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Navbar from './Navbar/Navbar';
 import Footer from './Footer/Footer';
 import './Layout.scss';
-import AdminNavbar from './AdminNavbar/AdminNavbar';
 import { Container } from '@mui/material';
+import AppBar from './AppBar/AppBar';
 
 const Layout = ({ children }) => {
   return (
     <>
-      <Navbar />
+      <AppBar />
         <Container><div className="Layout__container">{children}</div></Container>
       <Footer />
     </>

@@ -18,8 +18,29 @@ IMPLEMENT THESE EFFECTS
     auto generate zones for this effect
   EFFECTS 
     Remove Tag, Add Tag Effect
-  Game over tags
+  Game End Tags
   Interact to Destroy Tag
+
+CUTSCENES
+
+A default cutscene runs at the beginning
+
+The End. The test can be customized. 
+Default Ending cutscene 
+
+UNLOCKABLES 
+  Make Choose Descriptors an Unlockable
+  
+  Differentiate Unlockables between Choose my Sprites Vs Choose System Sprites. Choose my Sprites is always unlocked 
+
+  Add Unlock Move 
+  Add Unlock Select Color
+  Add Unlock Brush
+  Edit Camera For Player
+
+BLANK GAME VIEW IS A VIEW
+  Select view in ALL kinds of steps
+
 
 --------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
@@ -77,3 +98,25 @@ SETTINGS
   libraryArcadeGamaMongoId
   archiveUserId
 
+---------------------------------------------------------------------------------------------------- 
+
+
+KEYBOARD MODE
+
+
+SHIFT -> turn on grid view
+
+CAPS LOCK - Grid View 
+
+MMO-esque toolbar on the bottom
+
+---------------------------------------------------------------------------------------------------- 
+
+
+
+GAME VISIBILITY
+——
+Private
+Unlisted
+Published
+Featured

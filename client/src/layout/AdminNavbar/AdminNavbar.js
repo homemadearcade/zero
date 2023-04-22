@@ -14,22 +14,22 @@ const AdminNavbar = ({ auth, history }) => {
     <nav className="Navbar">
       <ul className="nav-links flex-1">
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/users">Users</Link>
+          <Link className="Navbar__link" to="/users">Users</Link>
         </li>
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/lobbys">Lobbies</Link>
+          <Link className="Navbar__link" to="/lobbys">Lobbies</Link>
         </li>
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/games">Games</Link>
+          <Link className="Navbar__link" to="/games">Games</Link>
         </li>
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/experiences">Experiences</Link>
+          <Link className="Navbar__link" to="/experiences">Experiences</Link>
         </li>
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/calendar">Calendar</Link>
+          <Link className="Navbar__link" to="/calendar">Calendar</Link>
         </li>
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/interface">Interface</Link>
+          <Link className="Navbar__link" to="/interface">Interface</Link>
         </li>
       </ul>
     </nav>

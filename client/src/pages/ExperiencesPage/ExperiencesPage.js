@@ -30,7 +30,7 @@ const ExperiencesPage = ({getExperienceModels}) => {
         <div className="ExperiencesPage__list">
           <ExperienceList>{(experienceModel) => {
             if(experienceModel.isRemoved && !showRemovedExperiences) return
-            return <ExperienceCard width={300} experienceModel={experienceModel} canPlay canEdit canPublish canRemove></ExperienceCard>
+            return <ExperienceCard key={experienceModel.id} width={300} experienceModel={experienceModel} canPlay canEdit canPublish canRemove></ExperienceCard>
           }}</ExperienceList>
         </div>
       </div>

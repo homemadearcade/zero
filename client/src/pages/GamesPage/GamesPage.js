@@ -32,7 +32,7 @@ const GamesPage = ({ getArcadeGames}) => {
         <div className="GamesPage__list">
           <GameList>{(game) => {
             if(game.isRemoved && !showRemovedGames) return
-            return <GameCard width={300} game={game} canPlay canEdit canPublish canRemove></GameCard>
+            return <GameCard key={game.id} width={300} game={game} canPlay canEdit canPublish canRemove></GameCard>
           }}</GameList>
         </div>
       </div>

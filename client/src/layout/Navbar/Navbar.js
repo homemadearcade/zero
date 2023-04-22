@@ -24,16 +24,16 @@ const Navbar = ({ auth, logOutUser, history }) => {
     <nav className="Navbar">
       <ul className="nav-links flex-1">
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/">Home</Link>
+          <Link className="Navbar__link" to="/">Home</Link>
         </li>
         <li className="nav-item">
-          <Link ignoreDefaultStyle to="/buy-tickets">Buy Tickets</Link>
+          <Link className="Navbar__link" to="/buy-tickets">Buy Tickets</Link>
         </li>
         {auth.isAuthenticated && auth.isSocketAuthenticated ? (
           <>
             <li className="flex-1" />
             <li className="nav-item">
-              <Link ignoreDefaultStyle to={`/user/${auth.me.username}`}>My Account</Link>
+              <Link className="Navbar__link" to={`/user/${auth.me.username}`}>My Account</Link>
             </li>
           </>
         ) : (
@@ -41,7 +41,7 @@ const Navbar = ({ auth, logOutUser, history }) => {
             <li className="flex-1" />
 
             <li className="nav-item">
-              <Link ignoreDefaultStyle to="/login">Login</Link>
+              <Link className="Navbar__link" to="/login">Login</Link>
             </li>
           </>
         )}

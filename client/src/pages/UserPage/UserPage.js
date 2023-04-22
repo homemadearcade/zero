@@ -272,7 +272,7 @@ const UserPage = ({
       <GameList>
         {(game) => {
           if(game.owner?.id !== user.id) return null
-          return <GameCard game={game} canPlay canPublish canEdit></GameCard>
+          return <GameCard key={game.id} game={game} canPlay canPublish canEdit></GameCard>
         }}
       </GameList>
 

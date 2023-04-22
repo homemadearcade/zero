@@ -6,8 +6,8 @@ import './HomemadeArcadePage.scss';
 import GameList from '../../app/gameModel/GameList/GameList';
 import Button from '../../ui/Button/Button';
 import GameCard from '../../app/gameModel/GameCard/GameCard';
-import Navbar from '../../layout/Navbar/Navbar';
 import ConstellationHero from '../../marketing/homemadeArcade/ConstellationHero/ConstellationHero';
+import AppBar from '../../layout/AppBar/AppBar';
 import { Container } from '@mui/material';
 
 // {!auth.isAuthenticated ? (
@@ -31,7 +31,7 @@ const HomemadeArcadePage = () => {
   const gameListRef = useRef()
   
   return <>
-    <Navbar></Navbar>
+    <AppBar/>
     <div className="HomemadeArcadePage">
       <ConstellationHero>
         <Button variant="contained" onClick={() => {
@@ -41,7 +41,7 @@ const HomemadeArcadePage = () => {
       <Container><div ref={gameListRef}><GameList>{(game) => {
         if(!game.metadata.isPublished) return
         if(game.isRemoved) return
-        return <GameCard canPlay game={game}/>
+        return <GameCard key={game.id} canPlay game={game}/>
       }}</GameList></div></Container>
     </div>
   </>

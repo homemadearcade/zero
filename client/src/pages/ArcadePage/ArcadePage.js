@@ -29,7 +29,7 @@ const ArcadePage = () => {
           <GameList>{(game) => {
             const { visible } = getGameData(game)
             if(!visible) return
-            return <GameCard game={game} canPlay canEdit></GameCard>
+            return <GameCard id={game.id} game={game} canPlay canEdit></GameCard>
           }}</GameList>
         </div>
       </div>

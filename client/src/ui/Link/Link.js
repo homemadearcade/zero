@@ -3,9 +3,9 @@ import { Link as ReactRouterLink } from "react-router-dom";
 
 import React from "react";
 
-const Link = props => {
+const Link = ({newTab, href, to, className, children}) => {
   return (
-    <MuiLink {...props} target={(props.newTab || props.href) && '_blank'} rel={(props.newTab || props.href) && 'noreferrer'} component={ReactRouterLink} to={props.href ? { pathname: props.href } : props.to} />
+    <MuiLink className={className} target={(newTab || href) && '_blank'} rel={(newTab || href) && 'noreferrer'} component={ReactRouterLink} children={children} to={href ? { pathname: href } : to} />
   );
 };
 

@@ -77,14 +77,6 @@ const GameViewObscured = ({
     </GameViewEmpty>
   }
 
-  if(!remoteStateUserMongoId && cobrowsingUser.id !== me.id && isActivelyCobrowsing) {
-    return <GameViewEmpty>
-     <Alert severity="warning">
-      {cobrowsingUser.username + ' has not interacted with the experience yet'}
-     </Alert>
-    </GameViewEmpty>
-  }
-
   if(!gameRoomInstance.isPoweredOn && !gameModel.isLoading) {
     return <GameViewEmpty>
       {gameRoomInstance.arcadeGameMongoId && <GameCardLoad width="30%" arcadeGameMongoId={gameRoomInstance.arcadeGameMongoId}/>}
