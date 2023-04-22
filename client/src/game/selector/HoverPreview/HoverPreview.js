@@ -179,6 +179,7 @@ const HoverPreview = ({
 
   function renderEraserDisplay() {
     const layer = gameModel.layers[getLayerIdFromEraserId(brushId)]
+    if(!layer) return null
     return <><div className="HoverPreview__display">
         <div className="HoverPreview__display-item">
           <Icon icon="faEraser"/>
