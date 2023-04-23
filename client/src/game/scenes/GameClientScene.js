@@ -122,7 +122,7 @@ export class GameClientScene extends EditorScene {
   unregisterEvents() {
     window.socket.off(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     window.socket.off(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
-    this.clearGameModelUpdate()
+    if(this.clearGameModelUpdate) this.clearGameModelUpdate()
   }
 
   create() {

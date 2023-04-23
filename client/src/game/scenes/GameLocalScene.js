@@ -21,7 +21,7 @@ export class GameLocalScene extends EditorScene {
   }
 
   unregisterEvents() {
-    this.clearGameModelUpdate()
+    if(this.clearGameModelUpdate) this.clearGameModelUpdate()
   }
 
   unload() {
