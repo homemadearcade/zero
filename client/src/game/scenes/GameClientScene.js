@@ -23,14 +23,10 @@ export class GameClientScene extends EditorScene {
     this.upsHost = 0
     this.upsServer = 0
 
-    this.gameInstanceId = null
+    this.gameInstanceId = props.gameRoomInstance.gameInstanceId
   }
 
   onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer}) => {
-    if(!this.gameInstanceId) {
-      this.gameInstanceId = gameInstanceId
-    }
-    
     if(gameInstanceId !== this.gameInstanceId) {
       console.error('Incorrect game instance', gameInstanceId, 'should be', this.gameInstanceId)
       // this.unload()

@@ -2,7 +2,6 @@ import { CLOSE_CREATE_CANVAS_IMAGE_DIALOG, SET_GAME_INSTANCE, SET_RECENTLY_FOCUS
 
 const initialState = {
   gameInstance: null,
-  gameInstanceId: null,
   imageCanvasGameInstance: null,
   recentlyFocused: null
 };
@@ -13,7 +12,6 @@ export default function pageReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         gameInstance: payload.gameInstance,
-        gameInstanceId: payload.gameInstanceId
       };
     case CLOSE_CREATE_CANVAS_IMAGE_DIALOG: 
       return {

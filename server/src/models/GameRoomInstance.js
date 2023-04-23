@@ -16,6 +16,11 @@ const gameRoomInstanceSchema = new Schema(
       required: false,
       default: false
     },
+    gameInstanceIds: {
+      type: Object, 
+      required: false,
+      default: {}
+    },
     isEdit: {
       type: Boolean,
       required: false,
@@ -57,6 +62,7 @@ gameRoomInstanceSchema.methods.toJSON = function () {
     experienceInstanceId: this.experienceInstanceId,
     arcadeGameMongoId: this.arcadeGameMongoId,
     gameRoomInstanceId: this.gameRoomInstanceId,
+    gameInstanceIds: this.gameInstanceIds,
   };
 };
 

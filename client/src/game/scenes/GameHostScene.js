@@ -45,9 +45,9 @@ export class GameHostScene extends EditorScene {
     let updateInterval = 1000/12
     this.remoteClientUpdateInterval = setInterval(() => {
 
-      const gameInstanceId = store.getState().webPage.gameInstanceId
-      if(this.gameInstanceId !== gameInstanceId) {
-        console.error('host has incorrect game instance id', this.gameInstanceId, 'should be', gameInstanceId)
+      const gameModelId = store.getState().gameModel.gameModel.id
+      if(this.gameRoomInstance.arcadeGameMongoId !== gameModelId) {
+        console.error('host is sending updates for incorrect game model id', this.gameRoomInstance.arcadeGameMongoId, 'should be', gameModelId)
         // this.unload()
         return
       }
@@ -124,7 +124,7 @@ export class GameHostScene extends EditorScene {
   create() {
     super.create()
 
-    console.error('creating again...', this.gameInstanceId)
+    console.log('creating game instance with id:', this.gameInstanceId)
     
     this.startRemoteClientUpdateLoop()
     window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
@@ -135,9 +135,7 @@ export class GameHostScene extends EditorScene {
   unregisterEvents() {
     window.socket.off(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     if(this.clearGameModelUpdate) this.clearGameModelUpdate()
-    console.log('unregistering events', this.gameInstanceId, this.game)
     window.socket.off(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
-    console.log('clearing interval', this.stage.stageId, this.remoteClientUpdateInterval)
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 

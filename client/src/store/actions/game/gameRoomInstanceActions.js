@@ -363,6 +363,8 @@ export const joinGameRoom = ({ gameRoomInstanceMongoId, userMongoId }) => async 
       type: JOIN_GAME_ROOM_SUCCESS,
       payload: { gameRoomInstance: response.data.gameRoomInstance },
     });
+
+    return response
   } catch (err) {
     dispatch({
       type: JOIN_GAME_ROOM_FAIL,

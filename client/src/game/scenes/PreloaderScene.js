@@ -11,26 +11,24 @@ import { updateTheme } from '../../store/actions/themeActions';
 import { getImageUrlFromTextureId } from '../../utils';
 
 export class PreloaderScene extends Phaser.Scene {
-  constructor({ isOnlineMultiplayer, isEdit, hostUserMongoId, gameInstanceId, id, arcadeGameMongoId}) {
+  constructor({ isOnlineMultiplayer, isEdit, hostUserMongoId, gameInstanceIds, id, arcadeGameMongoId}) {
     super({
       key: PRELOADER_SCENE,
     });
 
+    const gameInstanceId = gameInstanceIds[arcadeGameMongoId]
     this.gameRoomInstance = {
       isHost: isOnlineMultiplayer ? hostUserMongoId === store.getState().auth.me?.id : true,
       isOnlineMultiplayer,
       isEdit,
-      gameInstanceId,
       arcadeGameMongoId,
+      gameInstanceId,
       id: id
     }
 
     store.dispatch(updateTheme({
       primaryColor: store.getState().gameModel.gameModel.theme.primaryColor
     }))
-    if(store.getState().webPage.gameInstanceId) {
-      console.error('a new game has been loaded for some reason with id', this.gameRoomInstance.gameInstanceId, 'should be', store.getState().webPage.gameInstanceId)
-    }
   }
 
   create() {

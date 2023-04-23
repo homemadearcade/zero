@@ -102,21 +102,15 @@ const PhaserGame = ({
 
   useEffect(() => {
     const gameInstance = new Phaser.Game(config);
-    const gameInstanceId =  GAME_INSTANCE_DID + generateUniqueId()
-    gameInstance.scene.add(PRELOADER_SCENE, new PreloaderScene({...gameRoomInstance, gameInstanceId}), true);
-    setGameInstance(gameInstance, gameInstanceId)
-    console.log('setting game instance id', gameInstanceId)
+    gameInstance.scene.add(PRELOADER_SCENE, new PreloaderScene(gameRoomInstance), true);
+    setGameInstance(gameInstance)
     return () => {
-      console.log('destroyed game', gameInstanceId, gameInstance)
-
-      gameInstance.destroy(true);      
       const scene = getCurrentGameScene(gameInstance)
       scene.setPlayerGameLoaded(null)
       gameInstance.scene.scenes.forEach(scene => {
-        console.log('destroying scene', scene)
         scene.unload()
       })
-
+      gameInstance.destroy(true);      
       setGameInstance(null, null)
     }
   }, []);

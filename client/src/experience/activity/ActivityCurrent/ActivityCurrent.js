@@ -43,7 +43,6 @@ const ActivityCurrent = ({
     }
 
     if(activityCategory === GAME_ROOM_ACTIVITY) {
-      console.log('activity.gameRoomInstanceMongoId', activity.gameRoomInstanceMongoId)
       return <MultiplayerGameRoomContext gameRoomInstanceMongoId={activity.gameRoomInstanceMongoId}>
         <GameRoomActivity currentViewCategory={currentViewCategory}  myTracks={myTracks} userTracks={userTracks}/>
       </MultiplayerGameRoomContext>

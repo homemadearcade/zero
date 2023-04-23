@@ -102,6 +102,7 @@ router.post('/', requireJwtAuth, requireGameRoomInstances, async (req, res) => {
       isEdit: req.body.isEdit,
       isOnlineMultiplayer: req.body.isOnlineMultiplayer,
       name: req.body.name,
+      gameInstanceIds: req.body.gameInstanceIds,
       experienceInstanceId: req.body.experienceInstanceId,
       gameRoomInstanceId: GAME_ROOM_INSTANCE_DID + generateUniqueId(),
     });
@@ -418,7 +419,6 @@ router.post('/undo/:id', requireJwtAuth, requireGameRoomInstance, requireSocketA
   res.status(200).json({});
 })
 
-
 router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, async (req, res) => {
   try {
     if(req.body.isPoweredOn && req.user.role !== 'ADMIN') {
@@ -433,6 +433,7 @@ router.put('/:id', requireJwtAuth, requireGameRoomInstance, requireSocketAuth, a
         invitedUsers: req.gameRoomInstance.invitedUsers.map(({id}) => {
           return id
         }),
+        gameInstanceIds: req.gameRoomInstance.gameInstanceIds,
         gameState: req.gameRoomInstance.gameState,
         hostUserMongoId: req.gameRoomInstance.hostUserMongoId,
       },

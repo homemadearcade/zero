@@ -9,12 +9,11 @@ export const setCanvasImageDialogGameInstance = (gameInstance) => (dispatch, get
   })
 };
 
-export const setGameInstance = (gameInstance, id) => (dispatch, getState) => {
+export const setGameInstance = (gameInstance) => (dispatch, getState) => {
   dispatch({
     type: SET_GAME_INSTANCE,
     payload: {
       gameInstance,
-      gameInstanceId: id
     }
   })
 };

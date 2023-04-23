@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { GAME_INSTANCE_DID } from '../game/constants';
 import GameRoomErrorStates from '../game/gameRoomInstance/GameRoomErrorStates/GameRoomErrorStates';
-import { addGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/game/gameRoomInstanceActions';
+import { addGameRoom, editGameRoom, endGameRoom, joinGameRoom, leaveGameRoom } from '../store/actions/game/gameRoomInstanceActions';
 import { initializeUnlockableInterfaceIds } from '../store/actions/game/unlockedInterfaceActions';
 import { getUserByMongoId } from '../store/actions/user/userActions';
 import Loader from '../ui/Loader/Loader';
+import { generateUniqueId } from '../utils';
 
 class MultiplayerGameRoomContext extends Component {
   componentWillMount() {
@@ -14,11 +16,22 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   joinMultiplayerGameRoom(gameRoomInstanceMongoId) {
-    const {joinGameRoom, getUserByMongoId,  auth: { me }, experienceModel : { experienceModel }, initializeUnlockableInterfaceIds} = this.props
+    const {joinGameRoom, getUserByMongoId, editGameRoom, auth: { me }, experienceModel : { experienceModel }, initializeUnlockableInterfaceIds} = this.props
     
     const doJoinMultiPlayerGameRoom = async () => {   
       try {
-        await joinGameRoom({gameRoomInstanceMongoId, userMongoId: me?.id});
+        const response = await joinGameRoom({gameRoomInstanceMongoId, userMongoId: me?.id});
+
+        const gameRoomInstance = response.data.gameRoomInstance
+        const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
+        if(!gameInstanceId && gameRoomInstance.hostUserMongoId === me.id) {
+          const gameInstanceId =  GAME_INSTANCE_DID + generateUniqueId()
+          editGameRoom(gameRoomInstanceMongoId, {
+            gameInstanceIds: {
+              [gameRoomInstance.arcadeGameMongoId]: gameInstanceId
+            }
+          })
+        }
 
         if(experienceModel?.id) {
           const response = await getUserByMongoId(me.id)
@@ -63,14 +76,21 @@ class MultiplayerGameRoomContext extends Component {
   }
 
   renderBody() {
-    const { children, gameRoomInstance: { isLoading, isJoining }, gameRoomInstance} = this.props;
+    const { children, gameRoomInstance: { isLoading, isJoining, gameRoomInstance}} = this.props;
     
     if(isLoading) {
       return <Loader text="Loading Game Session..."/>
     }
   
-    if(isJoining && gameRoomInstance.id) {
+    if(isJoining && !gameRoomInstance.id) {
       return <Loader text="Joining Game Session..."/>
+    }
+
+    if(gameRoomInstance.gameRoomInstanceIds) {
+      const gameInstanceId = gameRoomInstance.gameInstanceIds[gameRoomInstance.arcadeGameMongoId]
+      if(!gameInstanceId) {
+        return <Loader text="Creating Game Instance..."/>
+      }
     }
 
     return children instanceof Function ? children(this.props) : children
@@ -92,5 +112,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose( 
-  connect(mapStateToProps, { joinGameRoom, leaveGameRoom, addGameRoom, endGameRoom, initializeUnlockableInterfaceIds, getUserByMongoId })
+  connect(mapStateToProps, { joinGameRoom, editGameRoom, leaveGameRoom, addGameRoom, endGameRoom, initializeUnlockableInterfaceIds, getUserByMongoId })
 )(MultiplayerGameRoomContext)
