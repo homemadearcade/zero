@@ -218,6 +218,8 @@ export class EntityInstance extends PhaserInstance {
 
   destroy() {
     this.destroyed = true
+
+    // this check is in here because sometimes the children array is undefined for a scene that is not loaded anymore
     if(this.scene.entityInstanceGroup.children) {
       this.scene.entityInstanceGroup.remove(this.phaserInstance, true)
     }

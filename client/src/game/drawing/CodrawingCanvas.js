@@ -12,15 +12,14 @@ export class CodrawingCanvas extends Canvas {
   constructor(scene, props){
     super(scene, props)
 
-    
     // if you are the host all that means is that you get to save the image and if there are any discrepencies then yours is the true one
     this.isCodrawingHost = props.isCodrawingHost
-    this.scene = scene
+    this.isOnlineMultiplayer = scene.gameRoomInstance.isOnlineMultiplayer
     this.imageType = null
 
     this.strokeHistory = null
     this.initializeStrokeHistory()
-    if(!this.scene.gameRoomInstance.isOnlineMultiplayer) return
+    if(!this.isOnlineMultiplayer) return
 
     this.strokesPending = []
     if(!this.isCodrawingHost) {
@@ -152,7 +151,8 @@ export class CodrawingCanvas extends Canvas {
   }
 
   destroy() {
-    if(!this.scene.gameRoomInstance.isOnlineMultiplayer) return
+    console.log('destroying codrawing canvas', this)
+    if(!this.isOnlineMultiplayer) return
     
     super.destroy()
 
