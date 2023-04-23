@@ -455,7 +455,7 @@ export class GameInstance extends Phaser.Scene {
     this.entityInstances= []
     this.entityInstancesById = {}
     this.entityInstancesByTag = {}
-    this.playerInstance.destroy()
+    this.playerInstance?.destroy()
     this.playerInstance = null
 }
 
