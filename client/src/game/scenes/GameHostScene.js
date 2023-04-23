@@ -137,6 +137,7 @@ export class GameHostScene extends EditorScene {
     this.clearGameModelUpdate()
     console.log('unregistering events', this.gameInstanceId, this.game)
     window.socket.off(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
+    console.log('clearing interval', this.stage.stageId, this.remoteClientUpdateInterval)
     window.clearInterval(this.remoteClientUpdateInterval)
   }
 

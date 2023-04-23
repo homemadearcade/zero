@@ -14,6 +14,7 @@ const ControlsCard = ({
   showInteract,
   entityModel
 }) => {
+
   const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpControlsBehavior] }
 
   const list = []

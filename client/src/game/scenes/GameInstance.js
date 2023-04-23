@@ -740,12 +740,11 @@ export class GameInstance extends Phaser.Scene {
   }
 
   unload() {
-    this.destroyed = true 
-    if(this.destroyed) return
-    this.destroyScenes()
+    // this.destroyed = true 
+    // if(this.destroyed) return
+    // this.destroyScenes()
 
     // We want to keep the assets in the cache and leave the renderer for reuse.
-    this.game.destroy(true);
     this.destroyInstances()
     Object.keys(this.layerInstancesById).forEach((layerId) => {
       const layerInstance = this.layerInstancesById[layerId]
@@ -753,17 +752,16 @@ export class GameInstance extends Phaser.Scene {
     })
     this.layerInstancesById = {}
     this.layerInstancesByLayerGroupId = {}
-    this.setPlayerGameLoaded(null)
   }
 
-  destroyScenes() {
-    const scenes = this.game.scene.scenes
+  // destroyScenes() {
+  //   const scenes = this.game.scene.scenes
 
-    scenes.forEach((scene) => {
-      console.log('destroying scene', scene.key)
-      scene.unload()
-    })
-  }
+  //   scenes.forEach((scene) => {
+  //     console.log('destroying scene', scene.key)
+  //     scene.unload()
+  //   })
+  // }
 
   pause() {
     if(this.physicsType === MATTER_PHYSICS) {

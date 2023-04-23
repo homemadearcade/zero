@@ -124,6 +124,10 @@ export const jumpControlsToKeys = {
   },
   [JUMP_CONSTANT]: {
     up: 'Thrust',
+  },
+  [JUMP_NONE]: {
+    up: false,
+    up2: false,
   }
 }
 

@@ -34,8 +34,8 @@ export class GameClientScene extends EditorScene {
     if(gameInstanceId !== this.gameInstanceId) {
       console.error('Incorrect game instance', gameInstanceId, 'should be', this.gameInstanceId)
       // this.unload()
-      return
       // this.gameInstanceId = gameInstanceId
+      return
     }
 
     this.updateNetworkStatus()

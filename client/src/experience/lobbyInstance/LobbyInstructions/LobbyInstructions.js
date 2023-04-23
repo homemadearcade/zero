@@ -150,6 +150,7 @@ const LobbyInstructions = ({
         canSkipStep={canSkipStep}
         currentStep={lobbyInstance.instructionCurrentSteps[instructionId]}
         onStepChange={async (stepNumber, stepId) => {
+          const interfaceIdsToUnlock = []
           const step = allSteps[stepId]
           if(step) {
             const updatedLobby = {}
@@ -208,25 +209,33 @@ const LobbyInstructions = ({
                 
                 if(step.cobrowsingRoleId !== myRoleId) {
                   forceCobrowsingUpdateDispatch(clearEditor())
-                  effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
+                  setTimeout(() => {
+                    effect.onClick(forceCobrowsingUpdateDispatch, gameModel, store.getState)
+                  }, 100)
                 } else {
                   store.dispatch(clearEditor())
                   effect.onClick(store.dispatch, gameModel, store.getState)
                 }
               } else if(effect.effectBehavior === EFFECT_INTERFACE_UNLOCK) {
-                updateArcadeGameCharacter({
-                  userMongoId: lobbyInstance.cobrowsingUserMongoId,
-                  unlockedInterfaceIds: {
-                    [effect.interfaceId]: true
-                  },
-                  merge: true,
-                  experienceModelMongoId: experienceModel.id,
-                })
+                interfaceIdsToUnlock.push(effect.interfaceId)
               } else {
                 const gameInstance = getCurrentGameScene(store.getState().webPage.gameInstance)
                 gameInstance.callGameInstanceEvent({gameRoomInstanceEventType: RUN_GAME_INSTANCE_ACTION, data: { effectId } , hostOnly: true })
               }
 
+            })
+          }
+
+          if(interfaceIdsToUnlock.length) {
+            const unlockedInterfaceIds = interfaceIdsToUnlock.reduce((acc, interfaceId) => {
+              acc[interfaceId] = true
+              return acc
+            }, {})
+            updateArcadeGameCharacter({
+              userMongoId: lobbyInstance.cobrowsingUserMongoId,
+              unlockedInterfaceIds,
+              merge: true,
+              experienceModelMongoId: experienceModel.id,
             })
           }
           
