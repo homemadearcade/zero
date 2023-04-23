@@ -218,7 +218,9 @@ export class EntityInstance extends PhaserInstance {
 
   destroy() {
     this.destroyed = true
-    this.scene.entityInstanceGroup.remove(this.phaserInstance)
+    if(this.scene.entityInstanceGroup.children) {
+      this.scene.entityInstanceGroup.remove(this.phaserInstance, true)
+    }
     // this.scene.removeInstanceFromPhaserInstanceGroup(this.entityModelId, this.phaserInstance)
     this.graphics.destroy()
     super.destroy()
