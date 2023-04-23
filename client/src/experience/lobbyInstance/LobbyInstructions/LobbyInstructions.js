@@ -76,7 +76,7 @@ const LobbyInstructions = ({
               updateArcadeGameCharacter({
                 experienceModelMongoId: lobbyInstance.experienceModelMongoId,
                 userMongoId,
-                unlockedInterfaceIds: { full: false }
+                unlockedInterfaceIds: {}
               })
             })
           }
