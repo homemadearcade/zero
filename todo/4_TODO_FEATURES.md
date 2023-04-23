@@ -20,6 +20,7 @@ IMPLEMENT THESE EFFECTS
     Remove Tag, Add Tag Effect
   Game End Tags
   Interact to Destroy Tag
+  Touch to Start Transition
 
 CUTSCENES
   A default cutscene runs at the beginning

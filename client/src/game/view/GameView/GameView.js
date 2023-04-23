@@ -82,7 +82,10 @@ const GameView = (props) => {
   }
 
   if(props.gameRoomInstance.gameRoomInstance.isOnlineMultiplayer === true) {
-    if(!props.gameRoomInstance.gameRoomInstance.id) return <GameViewEmpty/>
+    if(!props.gameRoomInstance.gameRoomInstance.id) {
+      console.log('game room instance id is null', props.gameRoomInstance)
+      return <GameViewEmpty/>
+    }
   }
 
   return <PhaserGame {...props}></PhaserGame>

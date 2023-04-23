@@ -760,6 +760,7 @@ export class GameInstance extends Phaser.Scene {
     const scenes = this.game.scene.scenes
 
     scenes.forEach((scene) => {
+      console.log('destroying scene', scene.key)
       scene.unload()
     })
   }
@@ -876,10 +877,6 @@ export class GameInstance extends Phaser.Scene {
     }))
   }
 
-
-
-
-
   /////////
   //// EFFECTS
 
@@ -930,13 +927,13 @@ export class GameInstance extends Phaser.Scene {
     }
 
     if(effect.effectBehavior === EFFECT_UNPAUSE_GAME) {
-      if(this.isPlaythrough) {
-        store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
-      } else {
-        store.dispatch(changeGameState(PLAY_STATE))
-      }
+      // if(this.isPlaythrough) {
+      //   store.dispatch(changeGameState(PLAYTHROUGH_PLAY_STATE))
+      // } else {
+      //   store.dispatch(changeGameState(PLAY_STATE))
+      // }
     } else if(effect.effectBehavior === EFFECT_PAUSE_GAME) {
-      store.dispatch(changeGameState(PAUSED_STATE))
+      // store.dispatch(changeGameState(PAUSED_STATE))
       console.log('pause game')
     } else if(effect.effectBehavior === EFFECT_END_GAME) {
       store.dispatch(changeGameState(GAME_END_STATE, effect.text))
