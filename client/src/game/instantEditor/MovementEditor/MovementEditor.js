@@ -66,7 +66,7 @@ const MovementEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel
             const newTagId = relationTags[relationTags.length-1]
             editGameModel({ entityModels: { [entityModelId]: { movement: { relationTagId: newTagId ? newTagId : null  }}}})        
       }}/>}
-      {entitySelected.movement.movementControlsBehavior && <ControlsCard entityModel={entitySelected} controlScheme={entitySelected.movement.movementControlsBehavior} jumpControlsBehavior={entitySelected.jump.jumpControlsBehavior}></ControlsCard>}
+      {entitySelected.movement.movementControlsBehavior && <ControlsCard entityModel={entitySelected} movementControlBehavior={entitySelected.movement.movementControlsBehavior} jumpControlsBehavior={entitySelected.jump.jumpControlsBehavior}></ControlsCard>}
       {movementParameters.speed &&<Unlockable interfaceId={MOVEMENT_SPEED_IID}>
         <SliderNotched
           formLabel={movementParameters.speed.length ? movementParameters.speed : "Speed"}

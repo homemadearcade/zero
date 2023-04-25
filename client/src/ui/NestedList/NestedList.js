@@ -25,7 +25,7 @@ export default function NestedList({ children, onClick, title, interfaceId, more
 
 export function NestedListBody({expanded, onChange, title, children, interfaceId, moreMenu}) {
     const isOpen = expanded === interfaceId
-    const el = <><ListItemButton  alignItems='start' onClick={onChange(interfaceId)}>
+    const el = <><ListItemButton  onClick={onChange(interfaceId)}>
       {isOpen ? <ExpandMore  sx={{ fontSize: '1.5' }} /> : <ChevronRight  sx={{ fontSize: '1.5' }} />}
       <ListItemText primaryTypographyProps={{
           variant:"subtitle2", 

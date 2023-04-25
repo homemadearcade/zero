@@ -22,6 +22,8 @@ export class GameHostScene extends EditorScene {
     this.upsServer = 0
 
     this.gameInstanceId = props.gameRoomInstance.gameInstanceId
+
+    this.registerEvents()
   }
   
 
@@ -52,6 +54,8 @@ export class GameHostScene extends EditorScene {
         return
       }
       const currentStageId = store.getState().gameModel.currentStageId
+
+      if(!this.stage) return
       if(this.stage.stageId !== currentStageId) return
       const entityInstances = this.entityInstances.map(({phaserInstance: { entityInstanceId, x, y, rotation}, isVisible, destroyAfterUpdate, transformEntityModelId, entityModelId}) => {
         return {
@@ -121,22 +125,19 @@ export class GameHostScene extends EditorScene {
     this.upsServer = upsServer
   }
 
-  create() {
-    super.create()
-
-    console.log('creating game instance with id:', this.gameInstanceId)
-    
-    this.startRemoteClientUpdateLoop()
-    window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
-    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
-    window.socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
-  }
-
   unregisterEvents() {
     window.socket.off(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
     if(this.clearGameModelUpdate) this.clearGameModelUpdate()
     window.socket.off(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
     window.clearInterval(this.remoteClientUpdateInterval)
+  }
+
+  registerEvents() {
+    console.log('creating game instance with id:', this.gameInstanceId)
+    this.startRemoteClientUpdateLoop()
+    window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
+    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+    window.socket.on(ON_GAME_INSTANCE_UPDATE_ACKNOWLEDGED, this.onGameInstanceUpdateAcknowledged)
   }
 
   unload() {

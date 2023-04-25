@@ -13,6 +13,7 @@ export const defaultEntity = {
   isImported: false,
   boundaryRelation: BOUNDARY_COLLIDE,
   entityModelId: null,
+  spawnZoneEntityModelId: null,
   movement: {
     ...defaultMovement
   },

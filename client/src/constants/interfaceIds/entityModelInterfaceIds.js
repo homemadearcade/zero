@@ -24,6 +24,7 @@ export const POWERUP_ENTITY_SELECT_IID = "POWERUP_ENTITY_IID/select";
 // export const POWERUP_ENTITY_MORE_IID = "POWERUP_ENTITY_IID/more";
 export const CHANGE_ENTITY_INTERFACE_IID = "entity/changeEntityInterface";
 export const ENTITY_MODEL_REMOVE_IID= 'contextMenu/entity/remove'
+export const ENTITY_MODEL_IMPORT_IID= 'contextMenu/entity/import'
 
 export function getSelectEntityFromEntityType(entityIID) {
   if(entityIID === PLAYER_ENTITY_IID) return PLAYER_ENTITY_SELECT_IID

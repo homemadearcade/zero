@@ -106,8 +106,8 @@ const PhaserGame = ({
     setGameInstance(gameInstance)
     return () => {
       const scene = getCurrentGameScene(gameInstance)
-      scene.setPlayerGameLoaded(null)
-      gameInstance.scene.scenes.forEach(scene => {
+      if(scene.setPlayerGameLoaded) scene.setPlayerGameLoaded(null)
+      gameInstance.scene?.scenes?.forEach(scene => {
         scene.unload()
       })
       gameInstance.destroy(true);      

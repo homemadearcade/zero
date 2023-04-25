@@ -731,15 +731,16 @@ export class EditorScene extends GameInstance {
       if(entityInstances) Object.keys(entityInstances).forEach((entityInstanceId) => {
         const objectUpdate = entityInstances[entityInstanceId]
         const entityInstance = this.getEntityInstance(entityInstanceId)
-        if(!entityInstance) {
-          this.addEntityInstance(entityInstanceId, objectUpdate)
-          return
-        }
-        if(objectUpdate === null) {
+
+        if(objectUpdate === null && entityInstance) {
           this.removeEntityInstance(entityInstanceId)
           return
         }
-        
+        if(!entityInstance && objectUpdate) {
+          this.addEntityInstance(entityInstanceId, objectUpdate)
+          return
+        }
+
         if(typeof objectUpdate.spawnX === 'number' || typeof objectUpdate.spawnY === 'number') {
           entityInstance.phaserInstance.x = objectUpdate.spawnX
           entityInstance.phaserInstance.y = objectUpdate.spawnY

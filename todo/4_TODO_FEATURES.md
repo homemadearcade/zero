@@ -10,6 +10,8 @@ FEATURES TODO
 GAME
 --------------------------------------------------------------------------------------
 
+Classes can have a spawn zone by default instead of a relation spawning
+
 I think projectiles dont do anything right now, register relations with them please :) or SOEMTHING. Perhaps actually put them on the object instances?? hmm?
 
 IMPLEMENT THESE EFFECTS

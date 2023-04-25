@@ -333,7 +333,6 @@ export function addImportedGamesToGameModel(gameData) {
       })
     }
 
-
     if(importedGame.textures) {
       Object.keys(importedGame.textures).forEach((textureId) => {
         const importedTexture = importedGame.textures[textureId]
@@ -358,6 +357,14 @@ export function addImportedGamesToGameModel(gameData) {
         gameData.events[effectId] = _.cloneDeep(importedEffect)
         gameData.events[effectId].dataSourceIID = DATA_SOURCE_IMPORTED_GAME_MODE_IID
         gameData.events[effectId].isReadOnly = true
+      })
+    }
+
+    if(importedGame.cutscenes) {
+      Object.keys(importedGame.cutscenes).forEach((cutsceneId) => {
+        const importedCutscene = importedGame.cutscenes[cutsceneId]
+        gameData.cutscenes[cutsceneId] = _.cloneDeep(importedCutscene)
+        gameData.cutscenes[cutsceneId].isReadOnly = true
       })
     }
 

@@ -24,6 +24,8 @@ export class GameClientScene extends EditorScene {
     this.upsServer = 0
 
     this.gameInstanceId = props.gameRoomInstance.gameInstanceId
+
+    this.registerEvents()
   }
 
   onGameInstanceUpdate = ({gameInstanceId, entityInstances, playerInstance, temporaryInstances, stageId, upsHost, upsServer}) => {
@@ -38,6 +40,7 @@ export class GameClientScene extends EditorScene {
     this.upsHost = upsHost
     this.upsServer = upsServer
 
+    if(!this.stage) return 
     if(this.stage.stageId !== stageId) {
       if(store.getState().cobrowsing.isActivelyCobrowsing)  {
         store.dispatch(changeCurrentStage(stageId))
@@ -121,13 +124,16 @@ export class GameClientScene extends EditorScene {
     if(this.clearGameModelUpdate) this.clearGameModelUpdate()
   }
 
+  registerEvents() {
+    window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
+    window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
+    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
+  }
+
   create() {
     super.create()
     this.pause()
     this.isPaused = true
-    window.socket.on(ON_GAME_INSTANCE_EVENT, this.onGameInstanceEvent)
-    window.socket.on(ON_GAME_INSTANCE_UPDATE, this.onGameInstanceUpdate)
-    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
 
   unload() {

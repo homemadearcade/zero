@@ -151,7 +151,6 @@ export class CodrawingCanvas extends Canvas {
   }
 
   destroy() {
-    console.log('destroying codrawing canvas', this)
     if(!this.isOnlineMultiplayer) return
     
     super.destroy()

@@ -679,6 +679,7 @@ export class GameInstance extends Phaser.Scene {
 
     const currentStageId = this.getCurrentStage().stageId
     if(this.stage.stageId !== currentStageId) {
+      console.log('changing stage', Date.now())
       this.scene.start(currentStageId, this.props)
     }
 
@@ -834,7 +835,7 @@ export class GameInstance extends Phaser.Scene {
     }
 
     this.startPlaythroughStartEffects()
-  }   
+  } 
 
   getRandomPosition(x, y, w, h) {
     const xPlus = Math.random() * w

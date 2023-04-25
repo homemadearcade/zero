@@ -29,20 +29,22 @@ const CobrowsingDialog = ({ widthModifier, onClose, children, open, zIndexIncrea
   }, [])
 
   const { gameEditorHeight, gameEditorWidth } = useGameEditorSize()
-  //z-index
-  return createPortal(<Backdrop
-    sx={{ color: '#fff', zIndex: 1000 + zIndexIncrease}}
-    open={open}
-  >
-    <div className="CobrowsingDialog__safe-area" style={{width: gameEditorHeight * (widthModifier ? widthModifier : .7) }}>
-      <div className="CobrowsingDialog__body" style={{width: width, height: height}} onClick={stopPropagation}>
-        {children}
-        <div className="CobrowsingDialog__close" onClick={onClose}>
-          <Button><Icon icon="faClose"/></Button>
+  if(gameEditorHeight) {
+    //z-index
+    return createPortal(<Backdrop
+      sx={{ color: '#fff', zIndex: 1000 + zIndexIncrease}}
+      open={open}
+    >
+      <div className="CobrowsingDialog__safe-area" style={{width: gameEditorHeight * (widthModifier ? widthModifier : .7) }}>
+        <div className="CobrowsingDialog__body" style={{width: width, height: height}} onClick={stopPropagation}>
+          {children}
+          <div className="CobrowsingDialog__close" onClick={onClose}>
+            <Button><Icon icon="faClose"/></Button>
+          </div>
         </div>
       </div>
-    </div>
-  </Backdrop>, document.getElementById('CobrowsingDialog'))
+    </Backdrop>, document.getElementById('CobrowsingDialog'))
+  }
 };
 
 const mapStateToProps = (state) => ({

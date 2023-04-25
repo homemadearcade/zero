@@ -34,7 +34,7 @@ const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, au
 
   if(entitySelected.movement.ignoreGravity) {
     incompatibleErrors.push('Gravity must be turned on in order to use Jump')
-    incompatibleErrors.push(<Unlockable interfaceId={MOVEMENT_IGNORE_GRAVITY_IID}>
+    incompatibleErrors.push(<Unlockable key="gravity" interfaceId={MOVEMENT_IGNORE_GRAVITY_IID}>
         <Switch
           size="small"
           labels={['No Gravity', 'Gravity']}
@@ -48,8 +48,8 @@ const JumpEditor = ({ entityModelId, gameModel: { gameModel }, editGameModel, au
 
   if(incompatibleErrors.length) {
     return <div className="JumpEditor">
-      {incompatibleErrors.map((error) => {
-        return <div><br></br><br></br>{error}</div>
+      {incompatibleErrors.map((error, index) => {
+        return <div key={index}><br></br><br></br>{error}</div>
       })}
     </div>
   }

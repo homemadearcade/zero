@@ -1,21 +1,27 @@
-import classnames from 'classnames'
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { jumpControlsToKeys } from '../../constants'
+import { ADVANCED_DIRECTIONAL_CONTROLS, jumpControlsToKeys } from '../../constants'
 import { movementControlsToKeys } from '../../constants'
 import KeyIndicator from '../KeyIndicator/KeyIndicator'
 import './ControlsCard.scss'
 
 const ControlsCard = ({
-  controlScheme,
-  jumpControlsBehavior,
+  movementControlBehavior = {},
+  jumpControlsBehavior = {},
   projectileEntity,
   showInteract,
   entityModel
 }) => {
 
-  const keys = {...movementControlsToKeys[controlScheme], ...jumpControlsToKeys[jumpControlsBehavior] }
+  let keys = {}
+
+  if(entityModel.movement.movementControlsBehavior !== ADVANCED_DIRECTIONAL_CONTROLS || entityModel.movement.ignoreGravity) {
+    keys = {...movementControlsToKeys[movementControlBehavior] }
+  } else {
+    keys = {...movementControlsToKeys[movementControlBehavior], ...jumpControlsToKeys[jumpControlsBehavior] }
+  }
+  
 
   const list = []
 

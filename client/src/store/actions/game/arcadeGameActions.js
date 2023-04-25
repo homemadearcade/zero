@@ -83,6 +83,8 @@ export function onArcadeGameModelUpdate(gameUpdate) {
     payload: { gameModel: gameData },
   })
 
+
+  console.log('gameUpdate', gameUpdate)
   window.events.emit(ON_GAME_MODEL_UPDATE, gameUpdate)
 }
 
@@ -386,7 +388,7 @@ export const addArcadeGame = (gameData) => async (dispatch, getState) => {
 
     const arcadeGameMongoId = response.data.game.id
 
-      await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
+    await addLayersForArcadeGameStage(arcadeGameMongoId, response.data.game.owner.id, initialStageId)
 
     dispatch({
       type: ADD_ARCADE_GAME_SUCCESS,

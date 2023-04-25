@@ -1,4 +1,4 @@
 
 export * from './entityModel'
-export * from './category'
+export * from './entityClass'
 export * from './players'

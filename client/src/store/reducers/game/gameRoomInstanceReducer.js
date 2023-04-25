@@ -20,7 +20,8 @@ import {
 
 const initialState = {
   gameRoomInstance: {
-    members: []
+    members: [],
+    gameInstanceIds: {},
   },
   isLoading: false,
   error: null,

@@ -8,20 +8,20 @@ export class GameLocalScene extends EditorScene {
 
     this.gameRoomInstance = props.gameRoomInstance
 
+    this.registerEvents()
+    //game.loop.actualFps
   }
 
   callGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly}) {
     this.runGameInstanceEvent({gameRoomInstanceEventType, data, hostOnly})
   }
 
-  create() {
-    super.create()
-    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
-    //game.loop.actualFps
-  }
-
   unregisterEvents() {
     if(this.clearGameModelUpdate) this.clearGameModelUpdate()
+  }
+
+  registerEvents() {
+    this.clearGameModelUpdate = window.events.on(ON_GAME_MODEL_UPDATE, this.onGameModelUpdate)
   }
 
   unload() {
@@ -35,7 +35,7 @@ export class GameLocalScene extends EditorScene {
 
     const gameState = store.getState().gameRoomInstance.gameRoomInstance.gameState
     if(this.gameState !== gameState) {
-      // this.onStateChange(this.gameState, gameState)
+      this.onStateChange(this.gameState, gameState)
     }
 
     if(this.isPaused) {
