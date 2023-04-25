@@ -182,6 +182,8 @@ const LobbyInstructions = ({
       effectIds.forEach(effectId => {
         const effect = gameModel.effects[effectId]
 
+        console.log('effect', effect, effectId, gameModel)
+
         if(step.cobrowsingRoleId === myRoleId) {
           toggleActiveCobrowsing(false)
         } else {
